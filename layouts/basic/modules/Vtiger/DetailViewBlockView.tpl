@@ -18,7 +18,7 @@
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{if $BLOCKS_HIDE}
 	
-	<div class="detailview-table detailViewTable">
+	<div class="detailViewTable">
 		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">					
 			<div class="row blockHeader panel-heading no-margin">
 				<div class="iconCollapse">

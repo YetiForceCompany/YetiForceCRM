@@ -1768,6 +1768,18 @@ class Vtiger_Module_Model extends Vtiger_Module
 		return $modules;
 	}
 
+	public static function accessModulesByParent($parent, $actionName = 'EditView')
+	{
+		self::initModulesHierarchy();
+		$modules = [];
+		foreach (self::$modulesHierarchy as $module => &$details) {
+			if (Users_Privileges_Model::isPermitted($module, $actionName)) {
+				$modules[$details['parentModule']][$module] = $details;
+			}
+		}
+		return $modules[$parent];
+	}
+
 	public function getMappingRelatedField($moduleName, $field = false)
 	{
 		self::initModulesHierarchy();
@@ -1794,11 +1806,13 @@ class Vtiger_Module_Model extends Vtiger_Module
 			foreach ($modelFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
-					foreach ($referenceList as $referenceModule) {
-						$fieldMap[$referenceModule] = $fieldName;
-					}
-					if (in_array($sourceModule, $referenceList)) {
-						$relationField = $fieldName;
+					if (!empty($referenceList)) {
+						foreach ($referenceList as $referenceModule) {
+							$fieldMap[$referenceModule] = $fieldName;
+						}
+						if (in_array($sourceModule, $referenceList)) {
+							$relationField = $fieldName;
+						}
 					}
 				}
 			}
@@ -1806,11 +1820,13 @@ class Vtiger_Module_Model extends Vtiger_Module
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
-					foreach ($referenceList as $referenceModule) {
-						if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
-							$fieldValue = $recordModel->get($fieldName);
-							if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
-								$data[$fieldMap[$referenceModule]] = $fieldValue;
+					if (!empty($referenceList)) {
+						foreach ($referenceList as $referenceModule) {
+							if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
+								$fieldValue = $recordModel->get($fieldName);
+								if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
+									$data[$fieldMap[$referenceModule]] = $fieldValue;
+							}
 						}
 					}
 				}

@@ -157,9 +157,9 @@
 						<option value="{$_PICKLIST_DETAILS.value}">{$_PICKLIST_DETAILS.label|@vtranslate:$REL_MODULE_MODEL->getName()}</option>
 					{/foreach}
 				</select>
-			{elseif $_FIELD_TYPE eq 'owner' || $_FIELD_UITYPE eq '52'}
-				<select id="{$_FIELD_ID}_defaultvalue" name="{$_FIELD_ID}_defaultvalue" class="" disabled>
-					<option value="0">{'LBL_NONE'|@vtranslate:$QUALIFIED_MODULE}</option>
+			{elseif in_array($_FIELD_TYPE, ['owner', 'sharedOwner']) || $_FIELD_UITYPE eq '52'}
+				<select id="{$_FIELD_ID}_defaultvalue" name="{$_FIELD_ID}_defaultvalue" class="" disabled {if $_FIELD_TYPE eq 'sharedOwner'} multiple {/if}>
+					{if $_FIELD_TYPE neq 'sharedOwner'} <option value="0">{'LBL_NONE'|@vtranslate:$QUALIFIED_MODULE}</option> {/if}
 					{foreach key=BLOCK_NAME item=ITEM from=$USERS_LIST}
 						{if $_FIELD_UITYPE eq '52'} continue {/if}
 						<optgroup label="{$BLOCK_NAME|@vtranslate:$QUALIFIED_MODULE}">

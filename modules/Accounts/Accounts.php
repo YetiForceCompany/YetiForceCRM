@@ -1037,7 +1037,7 @@ class Accounts extends CRMEntity
 					$fieldModel->$properName = $propertyValue;
 				}
 				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
-				if (in_array($currentModule, $moduleList)) {
+				if (!empty($moduleList) && in_array($currentModule, $moduleList)) {
 					$row = $rowProc;
 					break;
 				}

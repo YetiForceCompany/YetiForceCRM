@@ -151,7 +151,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			if (count($polaEmail) > 0) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($id, $module);
 				foreach ($polaEmail as $em) {
-					$email = $recordModel->get($em[2]);
+					$email = $recordModel->get($em['columnname']);
 					if (!empty($email)) {
 						$returnEmail = $email;
 					}

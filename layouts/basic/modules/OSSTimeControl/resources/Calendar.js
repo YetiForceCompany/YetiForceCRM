@@ -122,6 +122,9 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 					title: event.title,
 					placement: 'top',
 					html: true,
+					trigger: 'hover',
+					delay: 500,
+					container: 'body',
 					content: '<i class="icon-time"></i> ' + app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat)
 				});
 			},

@@ -27,13 +27,13 @@ class OSSMail_getContactMail_Action extends Vtiger_Action_Controller
 		$ids = $request->get('ids');
 		$mod = $request->get('mod');
 		$emailFields = [];
-		$EmailSearchList = OSSMailScanner_Record_Model::getEmailSearch($mod);
+		$searchList = OSSMailScanner_Record_Model::getEmailSearch($mod);
 		$recordModel = Vtiger_Record_Model::getInstanceById($ids, $mod);
 		$name = $recordModel->getName();
-		foreach ($EmailSearchList as $emailField) {
-			$email = $recordModel->get($emailField[5]);
+		foreach ($searchList as &$emailField) {
+			$email = $recordModel->get($emailField['fieldname']);
 			if ($email != '') {
-				$fieldlabel = vtranslate($emailField[0], $emailField[3]);
+				$fieldlabel = vtranslate($emailField['fieldlabel'], $emailField['name']);
 				$emailFields[] = array('name' => $name, 'fieldlabel' => $fieldlabel, 'email' => $email);
 			}
 		}

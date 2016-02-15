@@ -34,7 +34,9 @@
 									{* Assuming most of the related link label would be module name - we perform dual translation *}
 									{assign var="DETAILVIEWRELATEDLINKLBL" value= vtranslate($RELATED_LINK->getLabel(), $RELATED_LINK->getRelatedModuleName())}
 									<a href="javascript:void(0);" class="textOverflowEllipsis moduleColor_{$RELATED_LINK->getLabel()}" style="width:auto" title="{$DETAILVIEWRELATEDLINKLBL}">
-										<span class="iconModule userIcon-{$RELATED_LINK->get('relatedModuleName')} pull-left">&nbsp;&nbsp;</span>
+										{if AppConfig::relation('SHOW_RELATED_ICON')}
+											<span class="iconModule userIcon-{$RELATED_LINK->get('relatedModuleName')} pull-left">&nbsp;&nbsp;</span>
+										{/if}
 										<strong class="pull-left">{$DETAILVIEWRELATEDLINKLBL}</strong>
 										{if AppConfig::relation('SHOW_RECORDS_COUNT')}
 											<span class="count badge pull-right">0</span>
@@ -49,7 +51,9 @@
 							<li {if !AppConfig::relation('SHOW_RELATED_MODULE_NAME')}data-content="{$DETAILVIEWRELATEDLINKLBL}" data-placement="top"{/if} class="hide pull-left relatedNav {if !AppConfig::relation('SHOW_RELATED_MODULE_NAME')}popoverTooltip{/if}{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-reference="{$RELATED_LINK->get('relatedModuleName')}" data-count="{AppConfig::relation('SHOW_RECORDS_COUNT')}">
 							{* Assuming most of the related link label would be module name - we perform dual translation *}
 							<a href="javascript:void(0);"  class="textOverflowEllipsis moduleColor_{$RELATED_LINK->getLabel()}">
-								<span class="iconModule userIcon-{$RELATED_LINK->get('relatedModuleName')} pull-left">&nbsp;</span>
+								{if AppConfig::relation('SHOW_RELATED_ICON')}
+									<span class="iconModule userIcon-{$RELATED_LINK->get('relatedModuleName')} pull-left">&nbsp;</span>
+								{/if}
 								{if AppConfig::relation('SHOW_RELATED_MODULE_NAME')}
 									<strong class="pull-left">{$DETAILVIEWRELATEDLINKLBL}</strong>
 								{/if}

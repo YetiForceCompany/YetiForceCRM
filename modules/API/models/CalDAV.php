@@ -249,77 +249,77 @@ class API_CalDAV_Model
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if (in_array($component->name, ['VTODO', 'VEVENT'])) {
 				$dates = $this->getEventDates($component);
-				$rekord = Vtiger_Record_Model::getCleanInstance('Calendar');
-				$rekord->set('assigned_user_id', $this->user->get('id'));
-				$rekord->set('subject', $component->SUMMARY);
-				$rekord->set('location', $component->LOCATION);
-				$rekord->set('description', $component->DESCRIPTION);
-				$rekord->set('allday', $dates['allday']);
-				$rekord->set('date_start', $dates['date_start']);
-				$rekord->set('due_date', $dates['due_date']);
-				$rekord->set('time_start', $dates['time_start']);
-				$rekord->set('time_end', $dates['time_end']);
-				$rekord->set('activitystatus', $this->getStatus($component));
+				$record = Vtiger_Record_Model::getCleanInstance('Calendar');
+				$record->set('assigned_user_id', $this->user->get('id'));
+				$record->set('subject', $component->SUMMARY);
+				$record->set('location', $component->LOCATION);
+				$record->set('description', $component->DESCRIPTION);
+				$record->set('allday', $dates['allday']);
+				$record->set('date_start', $dates['date_start']);
+				$record->set('due_date', $dates['due_date']);
+				$record->set('time_start', $dates['time_start']);
+				$record->set('time_end', $dates['time_end']);
+				$record->set('activitystatus', $this->getStatus($component));
 				if ($component->name == 'VTODO') {
-					$rekord->set('activitytype', 'Task');
+					$record->set('activitytype', 'Task');
 				} else {
-					$rekord->set('activitytype', 'Meeting');
+					$record->set('activitytype', 'Meeting');
 				}
-				$rekord->set('taskpriority', $this->getPriority($component));
-				$rekord->set('visibility', $this->getVisibility($component));
-				$rekord->set('state', $this->getState($component));
-				$rekord->save();
+				$record->set('taskpriority', $this->getPriority($component));
+				$record->set('visibility', $this->getVisibility($component));
+				$record->set('state', $this->getState($component));
+				$record->save();
 				$stmt = $this->pdo->prepare('UPDATE dav_calendarobjects SET crmid = ? WHERE id = ?;');
 				$stmt->execute([
-					$rekord->getId(),
+					$record->getId(),
 					$cal['id']
 				]);
 				$stmt = $this->pdo->prepare('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?;');
 				$stmt->execute([
 					date('Y-m-d H:i:s', $cal['lastmodified']),
-					$rekord->getId()
+					$record->getId()
 				]);
 			}
 		}
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
-	public function updateRecord($rekord, $cal)
+	public function updateRecord($record, $cal)
 	{
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Cal ID:' . $card['id']);
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if (in_array($component->name, ['VTODO', 'VEVENT'])) {
 				$dates = $this->getEventDates($component);
-				$rekord->set('mode', 'edit');
-				$rekord->set('assigned_user_id', $this->user->get('id'));
-				$rekord->set('subject', $component->SUMMARY);
-				$rekord->set('location', $component->LOCATION);
-				$rekord->set('description', $component->DESCRIPTION);
-				$rekord->set('allday', $dates['allday']);
-				$rekord->set('date_start', $dates['date_start']);
-				$rekord->set('due_date', $dates['due_date']);
-				$rekord->set('time_start', $dates['time_start']);
-				$rekord->set('time_end', $dates['time_end']);
-				$rekord->set('activitystatus', $this->getStatus($component));
+				$record->set('mode', 'edit');
+				$record->set('assigned_user_id', $this->user->get('id'));
+				$record->set('subject', $component->SUMMARY);
+				$record->set('location', $component->LOCATION);
+				$record->set('description', $component->DESCRIPTION);
+				$record->set('allday', $dates['allday']);
+				$record->set('date_start', $dates['date_start']);
+				$record->set('due_date', $dates['due_date']);
+				$record->set('time_start', $dates['time_start']);
+				$record->set('time_end', $dates['time_end']);
+				$record->set('activitystatus', $this->getStatus($component));
 				if ($component->name == 'VTODO') {
-					$rekord->set('activitytype', 'Task');
+					$record->set('activitytype', 'Task');
 				} else {
-					$rekord->set('activitytype', 'Meeting');
+					$record->set('activitytype', 'Meeting');
 				}
-				$rekord->set('taskpriority', $this->getPriority($component));
-				$rekord->set('visibility', $this->getVisibility($component));
-				$rekord->set('state', $this->getState($component));
-				$rekord->save();
+				$record->set('taskpriority', $this->getPriority($component));
+				$record->set('visibility', $this->getVisibility($component));
+				$record->set('state', $this->getState($component));
+				$record->save();
 				$stmt = $this->pdo->prepare('UPDATE dav_calendarobjects SET crmid = ? WHERE id = ?;');
 				$stmt->execute([
-					$rekord->getId(),
+					$record->getId(),
 					$cal['id']
 				]);
 				$stmt = $this->pdo->prepare('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?;');
 				$stmt->execute([
 					date('Y-m-d H:i:s', $cal['lastmodified']),
-					$rekord->getId()
+					$record->getId()
 				]);
 			}
 		}

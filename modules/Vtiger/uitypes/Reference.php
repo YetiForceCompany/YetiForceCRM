@@ -31,9 +31,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$fieldModel = $this->get('field');
 		$referenceModuleList = $fieldModel->getReferenceList();
 		$referenceEntityType = getSalesEntityType($value);
-		if (in_array($referenceEntityType, $referenceModuleList)) {
+		if (!empty($referenceModuleList) && in_array($referenceEntityType, $referenceModuleList)) {
 			return Vtiger_Module_Model::getInstance($referenceEntityType);
-		} elseif (in_array('Users', $referenceModuleList)) {
+		} elseif (!empty($referenceModuleList) && in_array('Users', $referenceModuleList)) {
 			return Vtiger_Module_Model::getInstance('Users');
 		}
 		return null;

@@ -76,10 +76,17 @@
 							{assign var="ACCESS_LEVEL_2" value=Vtiger_Module_Model::accessModulesByLevel(2)}
 							{if $ACCESS_LEVEL_2}
 								<select class="module">
-									{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_2}
-										<option value="{$MODULE}">
-											{vtranslate($MODULE, $MODULE)}
-										</option>
+									{foreach item="ITEM" key="MODULE" from=Vtiger_Module_Model::accessModulesByLevel(1)}
+										{assign var="ACCESS_PARENT" value=Vtiger_Module_Model::accessModulesByParent($MODULE)}
+										{if $ACCESS_PARENT}
+											<optgroup label="{vtranslate($MODULE,$MODULE)}">
+												{foreach item="PARENT_ITEM" key="PARENT_MODULE" from=$ACCESS_PARENT}
+													<option value="{$PARENT_MODULE}">
+														{vtranslate($PARENT_MODULE, $PARENT_MODULE)}
+													</option>
+												{/foreach}
+											</optgroup>
+										{/if}
 									{/foreach}
 								</select>
 								<button class="addRecord" title="{vtranslate('LBL_ADD_RECORD',$MODULE_NAME)}">

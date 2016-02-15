@@ -14,7 +14,7 @@ function loadActionBar() {
 	};
 	window.crm.AppConnector.request(params).then(function (response) {
 		content.find('.ytHeader').html(response);
-		$('#messagecontent').css('top', (content.outerHeight() + $('#messageheader').outerHeight() + 1) + 'px');
+		$('#messagecontent').css('top', (content.outerHeight() + $('#messageheader').outerHeight()) + 'px');
 		registerEvents(content);
 	});
 }

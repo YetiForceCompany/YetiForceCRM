@@ -32,11 +32,14 @@
 	<div class="row" >
 		<div class="col-sm-6">
 			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
-				<select class="widgetFilter form-control status input-sm" name="status" title="{vtranslate('LBL_OWNER')}">
-					{assign var=ACTIVITY_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel()}
-					<option value="all" {if $CURRENT_ACTIVITY_STATUS eq 'all'} selected {/if}>{vtranslate('LBL_ALL')}</option>
-					{foreach item=STATUS from=$ACTIVITY_STATUS}
-						<option value="{$STATUS}" {if $CURRENT_ACTIVITY_STATUS eq $STATUS} selected {/if}>{vtranslate($STATUS,'Calendar')}</option>
+				<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{vtranslate('LBL_CUSTOM_FILTER')}">
+					{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
+					{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+						<optgroup label='{vtranslate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
+							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
+								<option value="{$CUSTOM_VIEW->get('cvid')}" {if $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{vtranslate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
+							{/foreach}
+						</optgroup>
 					{/foreach}
 				</select>
 			{/if}

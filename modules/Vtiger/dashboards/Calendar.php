@@ -32,7 +32,6 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 
-		$status = $data['status'] ? $data['status'] : 'all';
 		$defaultDate = $data['start'] ? $data['start'] : date('Y-m-d');
 		$owner = $owner ? $owner : 'all';
 		$viewer->assign('WIDGET', $widget);
@@ -44,7 +43,7 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NAMELENGHT', $title_max_length);
 		$viewer->assign('HREFNAMELENGHT', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
-		$viewer->assign('CURRENT_ACTIVITY_STATUS', $status);
+		$viewer->assign('DATA', $data);
 		$viewer->assign('DEFAULTDATE', $defaultDate);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('VIEW', $request->get('view'));

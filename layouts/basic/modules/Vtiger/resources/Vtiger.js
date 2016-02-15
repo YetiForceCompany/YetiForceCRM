@@ -227,6 +227,10 @@ var Vtiger_Index_Js = {
 		badge.removeClass('hide');
 		if (count > 0) {
 			$(".remindersNotice").effect("pulsate", 1500);
+			if(app.cacheGet('countRemindersNotice') != count){
+				app.playSound('REMINDERS');
+				app.cacheSet('countRemindersNotice',count);
+			}
 		} else {
 			badge.addClass('hide');
 		}

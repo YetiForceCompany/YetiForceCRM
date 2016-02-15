@@ -601,10 +601,14 @@ li.ui-timepicker-selected,
 #reportDetails {
 	overflow-x: auto !important;
 	overflow-y: visible;
+	z-index: 10;
+	background: #fff;
 }
 .bottomscroll-div,
 .topscroll-div {
 	min-width: 100%;
+	display: table;
+	height: 1px;
 }
 .contents-bottomscroll {
 	overflow-x: auto !important;
@@ -3359,7 +3363,7 @@ span[name=existingImages] img{
 	word-wrap: break-word;
 }
 .baseContainer .leftPanel .menuContainer .subMenu  a {
-	font-size: 14px;
+	font-size: 16px;
 }
 .baseContainer .leftPanel .menuContainer .subMenu  button {
 	border-width: 0;
@@ -3381,7 +3385,7 @@ span[name=existingImages] img{
 }
 .baseContainer .leftPanel .menuContainer .subMenu  a.hasIcon,
 .baseContainer .leftPanel .menuContainer .subMenu  button .hasIcon {
-	padding: 6px 10px;
+	padding: 8px 10px;
 }
 .baseContainer .leftPanel .menuContainer .subMenu a .menuName,
 .baseContainer .leftPanel .menuContainer .subMenu button .menuName{
@@ -3935,17 +3939,17 @@ html,body,.baseContainer
 }
 .iconContainer{
 	padding-top:2px;
-	height:30px;
+	height:33px;
 	min-width: 40px;
 	display: table;
-	float:left
+	float:left;
 }
 .iconContainer .iconImage{
 	display: table-cell;
 	vertical-align: middle;
 }
 .labelConstainer{
-	height:30px;
+	height:33px;
 	display: table;
 	width: 145px;
 }
@@ -5026,3 +5030,9 @@ select.form-control {
 	padding-top: 0;
 	padding-bottom: 0;
  }
+.table .chosen-container{
+	height: auto;
+}
+.addCommentBlock .commentcontent{
+	resize: vertical;
+}

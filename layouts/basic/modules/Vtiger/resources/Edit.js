@@ -1329,6 +1329,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var placeholder = fieldDisplay.attr('placeholderDisabled');
 		fieldDisplay.removeAttr('placeholderDisabled');
 		fieldDisplay.attr('placeholder', placeholder);
+		fieldValue.find('.referenceModulesList').attr('required','required');
 	},
 	setDisabledFields: function (element) {
 		var fieldValue = element.closest('.fieldValue');
@@ -1340,6 +1341,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var placeholder = fieldDisplay.attr('placeholder');
 		fieldDisplay.removeAttr('placeholder');
 		fieldDisplay.attr('placeholderDisabled', placeholder);
+		fieldValue.find('.referenceModulesList').removeAttr('required');
 	},
 	getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
 		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();

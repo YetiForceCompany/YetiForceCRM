@@ -29,11 +29,9 @@
         <div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
             <strong><a id="deSelectAllMsg">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
         </div>
-        <div class="contents-topscroll noprint">
-            <div class="topscroll-div">
-                &nbsp;
-             </div>
-        </div>
+        <div class="contents-topscroll noprint stick" data-position="top">
+			<div class="topscroll-div"></div>
+		</div>
         <div class="listViewContentDiv" id="listViewContents">
             <div class="listViewEntriesDiv contents-bottomscroll">
                 <div class="bottomscroll-div">

@@ -14,9 +14,59 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 		}
 		app.showSelect2ElementView(field, params);
 	},
+	registerEditFolders: function (container) {
+		var url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders';
+		container.find('.editFolders').on('click', function () {
+			url += '&record=' + $(this).data('user');
+			var progressIndicatorElement = jQuery.progressIndicator();
+			app.showModalWindow("", url, function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+
+				data.find('[name="saveButton"]').click(function (e) {
+					var folder = {};
+					data.find('select').each(function () {
+						var select = $(this);
+						var val = select.val();
+						if (val == null) {
+							val = [];
+						}
+						folder[select.attr('name')] = val;
+					})
+					var params = {
+						module: 'OSSMailScanner',
+						parent: 'Settings',
+						action: 'SaveAjax',
+						mode: 'updateFolders',
+						user: data.find('.modal-body').data('user'),
+						folders: folder
+					}
+					AppConnector.request(params).then(function (data) {
+						var response = data['result'];
+						if (response['success']) {
+							var params = {
+								text: response['message'],
+								type: 'info',
+								animation: 'show'
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+						} else {
+							var params = {
+								text: response['message'],
+								animation: 'show'
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+						}
+						app.hideModalWindow();
+					});
+				});
+			});
+		});
+	},
 	registerEvents: function () {
 		var thisIstance = this;
+		var container = jQuery('.contentsDiv');
 		thisIstance.registerColorField($('#exceptions select'));
+		thisIstance.registerEditFolders(container);
 		$('#exceptions select').on('select2:select', function (e) {
 			var value = e.params.data.id;
 			if (!!thisIstance.domainValidateToExceptions(value) || !!thisIstance.email_validate(value)) {
@@ -126,21 +176,6 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 		jQuery("select[id^='user_list_']").change(function () {
 			thisIstance.saveCRMuser(jQuery(this).data('user'), jQuery(this).val());
 		});
-		jQuery("#folder_inputReceived").change(function () {
-			thisIstance.saveFolderList('Received', jQuery('#folder_inputReceived').val());
-		});
-		jQuery("#folder_inputSent").change(function () {
-			thisIstance.saveFolderList('Sent', jQuery('#folder_inputSent').val());
-		});
-		jQuery("#folder_inputAll").change(function () {
-			thisIstance.saveFolderList('All', jQuery('#folder_inputAll').val());
-		});
-		jQuery("#folder_inputSpam").change(function () {
-			thisIstance.saveFolderList('Spam', jQuery('#folder_inputSpam').val());
-		});
-		jQuery("#folder_inputTrash").change(function () {
-			thisIstance.saveFolderList('Trash', jQuery('#folder_inputTrash').val());
-		});
 		jQuery("#email_search").change(function () {
 			thisIstance.saveEmailSearchList(jQuery('#email_search').val());
 		});
@@ -246,36 +281,6 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 		}
 
 		return '';
-	},
-	saveFolderList: function (type, vale) {
-		var params = {
-			'module': 'OSSMailScanner',
-			'action': "saveFolderList",
-			'type': type,
-			'vale': vale
-		}
-		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (response['success']) {
-						var params = {
-							text: response['data'],
-							type: 'info',
-							animation: 'show'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-					} else {
-						var params = {
-							text: response['data'],
-							animation: 'show'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-					}
-				},
-				function (data, err) {
-
-				}
-		);
 	},
 	saveEmailSearchList: function (vale) {
 		var params = {

@@ -306,7 +306,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			foreach ($relatedModelFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
-					if (in_array($parentModule->getName(), $referenceList)) {
+					if (!empty($referenceList) && in_array($parentModule->getName(), $referenceList)) {
 						$this->set('relationField', $fieldModel);
 						$relationField = $fieldModel;
 						break;

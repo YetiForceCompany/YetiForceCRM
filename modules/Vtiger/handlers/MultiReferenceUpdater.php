@@ -27,6 +27,7 @@ class Vtiger_MultiReferenceUpdater_Handler extends VTEventHandler
 		} else if ($eventName == 'vtiger.entity.aftersave.final') {
 			$db = PearDatabase::getInstance();
 			$moduleName = $entityData->getModuleName();
+			/*
 			$modules = Vtiger_MultiReferenceValue_UIType::getRelatedModules($moduleName);
 			foreach ($modules as $module) {
 				$db->insert('s_yf_multireference', [
@@ -36,6 +37,7 @@ class Vtiger_MultiReferenceUpdater_Handler extends VTEventHandler
 					'type' => 1,
 				]);
 			}
+			 */
 		}
 	}
 }

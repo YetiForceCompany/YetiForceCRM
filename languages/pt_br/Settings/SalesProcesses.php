@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Sales',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => ' ',
-	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Limit the choice of products/services only to the ones related to currently selected Opportunity. Applies to modules: Quote Enquiries, Requirements Cards, Calculations, Quotes, Single Orders, Periodically recurring orders.',
+	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Limit the choice of products/services only to the ones related to currently selected Opportunity. Applies to modules: Quote Enquiries, Sales requirements, Calculations, Quotes, Sales Orders, Recurring Sales Orders.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Lista de seleção de Produtos e Serviços',
 	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Atualizar permissões compartilhadas do Produto/Serviço na Oportunidade quando a relação entre Produto/Serviço for criada.',
 	'LBL_STATUSES_CLOSED_CALCULATION' => 'Selecione os Status que indicam que o Cálculo esta fechado',
@@ -22,14 +22,14 @@ $languageStrings = [
 	'LBL_CREATE_POTENTIALS' => 'A criação de Oportunidades para Contas/Organizações, na qual o Responsável não é um Usuário, está bloqueada',
 	'SalesProcesses' => 'Processo de Vendas',
 	
-	'LBL_SQUOTEENQUIRIES' => 'Quote enquiries',
-	'LBL_SREQUIREMENTSCARD' => 'Requirements Card',
+	'LBL_SQUOTEENQUIRIES' => 'Sales enquiries',
+	'LBL_SREQUIREMENTSCARD' => 'Sales Requirements',
 	'LBL_SCALCULATIONS' => 'Cálculos',
 	'LBL_SQUOTES' => 'Quotes',
 	'LBL_SSALESORDER' => 'Sales Order',
 	
 	'LBL_STATUSES_CLOSED_SSALESORDER' => 'Statuses that define closing a sales order',
 	'LBL_STATUSES_CLOSED_SQUOTEENQUIRIES' => 'Statuses that define closing a quote enquiry',
-	'LBL_STATUSES_CLOSED_SREQUIREMENTSCARD' => 'Statuses that define closing a requirements card',
+	'LBL_STATUSES_CLOSED_SREQUIREMENTSCARD' => 'Statuses that define closing a sales requirements',
 	'LBL_STATUSES_CLOSED_SQUOTES' => 'Statuses that define closing a quote',
 ];
