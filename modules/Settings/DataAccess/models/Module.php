@@ -63,12 +63,14 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			$result = $db->pquery($sql, [1]);
 		}
 		$output = [];
+		$i = 0;
 		while ($row = $db->getRow($result)) {
 			$output[$i]['actions'] = $row['actions'];
 			$output[$i]['module'] = $row['module_name'];
 			$output[$i]['summary'] = $row['summary'];
 			$output[$i]['data'] = unserialize($row['data']);
 			$output[$i]['id'] = $row['dataaccessid'];
+			$i++;
 		}
 		return $output;
 	}
