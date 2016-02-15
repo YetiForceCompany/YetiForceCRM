@@ -11,13 +11,13 @@
 			<div class="panel-body" style="display: none;">
 				<div>
 					<p>
-						{vtranslate('LBL_DISCOUNT_FOR_ACCOUNT', $MODULE)} {$ACCOUNT_NAME}:
+						{vtranslate('LBL_DISCOUNT_FOR_ACCOUNT', $MODULE)} {$ACCOUNT_NAME}
 					</p>
 					<div class="input-group">
 						<span class="input-group-addon">
 							<input type="checkbox" name="groupCheckbox" value="on" class="groupCheckbox">
 						</span>
-						<input type="text" class="form-control groupValue" name="groupDiscount" value="{$GROUP_DISCOUNT}" readonly>
+						<input type="text" class="form-control groupValue" name="groupDiscount" value="{$GROUP_DISCOUNT}" readonly="true">
 						<span class="input-group-addon">%</span>
 					</div>
 				</div>

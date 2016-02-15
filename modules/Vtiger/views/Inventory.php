@@ -21,14 +21,13 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$discountType = $request->get('discountType');
 		$currency = $request->get('currency');
-		$sourceModule = $request->get('sourceModule');
-		$sourceRecord = $request->get('sourceRecord');
+		$relatedRecord = $request->get('relatedRecord');
 		$isIndividual = $request->get('isIndividual');
 		$totalPrice = $request->get('totalPrice');
 
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
 		$config = $inventoryModel->getDiscountsConfig();
-		$groupDiscount = $inventoryModel->getAccountDiscount($sourceModule, $sourceRecord);
+		$groupDiscount = $inventoryModel->getAccountDiscount($relatedRecord);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
@@ -56,7 +55,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
 		$accountTaxs = $inventoryModel->getAccountTax($moduleName, $sourceRecord);
-		
+
 		$config = $inventoryModel->getTaxesConfig();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);

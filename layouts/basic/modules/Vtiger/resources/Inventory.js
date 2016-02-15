@@ -1043,8 +1043,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				view: 'Inventory',
 				mode: 'showDiscounts',
 				currency: thisInstance.getCurrency(),
-				sourceModule: app.getModuleName(),
-				sourceRecord: app.getRecordId(),
+				relatedRecord: thisInstance.getAccountId()
 			}
 			if (element.hasClass('groupDiscount')) {
 				var parentRow = thisInstance.getInventoryItemsContainer();
