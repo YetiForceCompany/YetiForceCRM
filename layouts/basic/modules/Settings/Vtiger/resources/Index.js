@@ -386,16 +386,19 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 		AppConnector.request(params).then(function(data){
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			container.html(data);
-			thisInstance.registerEventsForGithub(container);
+			if(mode == 'Index'){
+				thisInstance.registerSettingsShortcutClickEvent();
+				thisInstance.registerDeleteShortCutEvent();
+				thisInstance.registerWidgetsEvents();
+				thisInstance.registerPinUnpinShortCutEvent();
+				thisInstance.registerAddShortcutDragDropEvent();
+				thisInstance.registerSettingShortCutAlignmentEvent();
+			} else {
+				thisInstance.registerEventsForGithub(container);
+			}
 		});
 	},
 	registerEvents: function() {
-		this.registerSettingsShortcutClickEvent();
-		this.registerDeleteShortCutEvent();
-		this.registerWidgetsEvents();
-		this.registerPinUnpinShortCutEvent();
-		this.registerAddShortcutDragDropEvent();
-		this.registerSettingShortCutAlignmentEvent();
 		this.registerTabEvents();
 		this.reloadContent();
 	}
