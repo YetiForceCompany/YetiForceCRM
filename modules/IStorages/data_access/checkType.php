@@ -13,12 +13,17 @@ class DataAccess_checkType
 
 	public function process($moduleName, $id, $recordData, $config)
 	{
-		$db = PearDatabase::getInstance();
-		if (empty($recordData['parentid'])) {
-			$query = "SELECT 1 FROM u_yf_istorages WHERE parentid='0'";
+		if ((empty($recordData['storage_type']) || $recordData['storage_type'] == 'PLL_INTERNAL') && empty($recordData['parentid'])) {
+			$db = PearDatabase::getInstance();
+			$query = "SELECT istorageid FROM u_yf_istorages WHERE parentid='0'";
 			$result = $db->query($query);
 			if ($db->getRowCount($result) > 0) {
-				$saveRecord = false;
+				$row = $db->getSingleValue($result);
+				if (!empty($id) && $row == $id) {
+					$saveRecord = true;
+				} else {
+					$saveRecord = false;
+				}
 			} else {
 				$saveRecord = true;
 			}
