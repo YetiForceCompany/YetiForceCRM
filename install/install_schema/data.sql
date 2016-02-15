@@ -319,13 +319,14 @@ insert  into `u_yf_github`(`github_id`,`client_id`,`token`,`username`) values (1
 
 /*Data for the table `u_yf_igdn_invfield` */
 
-insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',40);
-insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',2,1,0,'{}',20);
-insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',4,1,0,'{}',20);
-insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',5,1,0,'{}',20);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',3,1,0,'{}',15);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
 insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
-insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,3);
-insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'picklistfield1','LBL_UNIT','PicklistField',0,'',3,1,0,'{\"Products\":\"usageunit\"}',10);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,5);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'picklistfield1','LBL_UNIT','PicklistField',0,'',4,1,0,'{\"Products\":\"usageunit\"}',12);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'ean','LBL_EAN','Value',0,'',2,1,10,NULL,15);
 
 /*Data for the table `u_yf_igdn_invmap` */
 
@@ -337,13 +338,14 @@ insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`
 
 /*Data for the table `u_yf_igin_invfield` */
 
-insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',40);
-insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'qty','LBL_QUANTITY','Quantity',0,'1',2,1,0,'{}',20);
-insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',4,1,0,'{}',20);
-insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',5,1,0,'{}',20);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'qty','LBL_QUANTITY','Quantity',0,'1',3,1,0,'{}',15);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
 insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (10,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
-insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (11,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,3);
-insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (12,'picklistfield1','LBL_UNIT','PicklistField',0,'',3,1,0,'{\"Products\":\"usageunit\"}',10);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (11,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,5);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (12,'picklistfield1','LBL_UNIT','PicklistField',0,'',4,1,0,'{\"Products\":\"usageunit\"}',12);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (13,'ean','LBL_EAN','Value',0,'',2,1,10,NULL,15);
 
 /*Data for the table `u_yf_igin_invmap` */
 
@@ -355,13 +357,14 @@ insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`
 
 /*Data for the table `u_yf_igrn_invfield` */
 
-insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',40);
-insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',2,1,0,'{}',20);
-insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',4,1,0,'{}',20);
-insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',5,1,0,'{}',20);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',3,1,0,'{}',15);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
 insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
-insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,3);
-insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'picklistfield1','LBL_UNIT','PicklistField',0,'',3,1,0,'{\"Products\":\"usageunit\"}',10);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,5);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'picklistfield1','LBL_UNIT','PicklistField',0,'',4,1,0,'{\"Products\":\"usageunit\"}',12);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'ean','LBL_EAN','Value',0,'',2,1,10,NULL,15);
 
 /*Data for the table `u_yf_igrn_invmap` */
 
@@ -373,13 +376,14 @@ insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`
 
 /*Data for the table `u_yf_iidn_invfield` */
 
-insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{}',40);
-insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',2,1,0,'{}',20);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',3,1,0,'{}',15);
 insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
-insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,3);
-insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'picklistfield1','LBL_UNIT','PicklistField',0,'',6,1,0,'{\"Products\":\"usageunit\"}',10);
-insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',7,1,0,'{}',20);
-insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',8,1,0,'{}',20);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,5);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'picklistfield1','LBL_UNIT','PicklistField',0,'',4,1,0,'{\"Products\":\"usageunit\"}',12);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'ean','LBL_EAN','Value',0,'',2,1,10,NULL,15);
 
 /*Data for the table `u_yf_iidn_invmap` */
 

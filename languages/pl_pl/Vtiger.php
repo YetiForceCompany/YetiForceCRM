@@ -1033,6 +1033,7 @@ $languageStrings = [
 	'LBL_NO_DISCOUNTS' => 'Nie znaleziono dostępnych rabatów',
 	'LBL_ITEM_NUMBER' => 'Lp.',
 	'LBL_UNIT'=>'Jednostka',
+	'LBL_EAN'=>'EAN',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Eksportuj do PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Generowanie pliku PDF',
