@@ -579,21 +579,21 @@ class ReportRun extends CRMEntity
 		$params = array();
 		if ($module == "Calendar") {
 			if (count($profileList) > 0) {
-				$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype in (1,2,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0
+				$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0
 								and vtiger_field.presence IN (0,2) and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ") group by vtiger_field.fieldid order by block,sequence";
 				array_push($params, $profileList);
 			} else {
-				$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype in (1,2,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0
+				$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0
 								and vtiger_field.presence IN (0,2) group by vtiger_field.fieldid order by block,sequence";
 			}
 		} else {
 			array_push($params, $module);
 			if (count($profileList) > 0) {
-				$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?)) and vtiger_field.displaytype in (1,2,3,5) and vtiger_profile2field.visible=0
+				$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?)) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0
 								and vtiger_field.presence IN (0,2) and vtiger_def_org_field.visible=0 and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ") group by vtiger_field.fieldid order by block,sequence";
 				array_push($params, $profileList);
 			} else {
-				$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?)) and vtiger_field.displaytype in (1,2,3,5) and vtiger_profile2field.visible=0
+				$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?)) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0
 								and vtiger_field.presence IN (0,2) and vtiger_def_org_field.visible=0 group by vtiger_field.fieldid order by block,sequence";
 			}
 		}

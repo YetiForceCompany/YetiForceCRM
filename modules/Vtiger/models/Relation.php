@@ -143,7 +143,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$sourceModuleName = $sourceModule->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
 		$sourceModuleFocus = CRMEntity::getInstance($sourceModuleName);
-		relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId);
+		relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
 	}
 
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
@@ -168,7 +168,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			}
 		} else {
 			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
-			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId);
+			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			return true;
 		}
 	}
@@ -529,7 +529,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	{
 		$temp = [$moduleName, $refModuleName];
 		sort($temp);
-		$tableName = 'vtiger_' . strtolower($temp[0]) . '_' . strtolower($temp[1]);
+		$tableName = 'u_yf_' . strtolower($temp[0]) . '_' . strtolower($temp[1]);
 
 		if ($temp[0] == $moduleName) {
 			$baseColumn = 'relcrmid';

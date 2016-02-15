@@ -43,7 +43,7 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 					<tr><td>'.vtranslate('LBL_NR').'</td>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
-					$html .= '<th colspan="' . $field->get('colspan') . '" class="textAlignCenter tBorder tHeader">' . vtranslate($field->get('label'), $module) . '</th>';
+					$html .= '<th class="textAlignCenter tBorder tHeader">' . vtranslate($field->get('label'), $module) . '</th>';
 				}
 			}
 			$html .= '</tr>
@@ -55,7 +55,7 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 				foreach ($fields[1] as $field) {
 					if ($field->isVisible($inventoryRows)) {
 						$itemValue = $inventoryRow[$field->get('columnname')];
-						$html .= '<td ' . ($field->getName() == 'Name' ? 'width="40%;" ' : '') . ' class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
+						$html .= '<td ' . ($field->getName() == 'Name' ? 'width="30%" ' : '') . ' class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
 						switch ($field->getTemplateName('DetailView', $module)) {
 							case 'DetailViewName.tpl':
 								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
@@ -79,7 +79,7 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 						<tr><td></td>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
-					$html .= '<td colspan="' . $field->get('colspan') . '" class="textAlignRight ';
+					$html .= '<td class="textAlignRight ';
 					if ($field->isSummary()) {
 						$html .= 'summaryContainer';
 					}

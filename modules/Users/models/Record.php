@@ -756,7 +756,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return getFullNameFromArray($this->getModuleName(), $this->getData());
 	}
 
-	public function getUsersAndGroupForModuleList($module, $view)
+	public function getUsersAndGroupForModuleList($module, $view = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
@@ -765,7 +765,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$columnsName = explode(',', $userEntityInfo['fieldname']);
 
 		$queryGenerator = new QueryGenerator($module, $currentUser);
-		$queryGenerator->initForCustomViewById($view);
+		if ($view) {
+			$queryGenerator->initForCustomViewById($view);
+		}
 		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->setCustomColumn('vtiger_groups.groupname');
 		foreach ($columnsName as &$column) {
@@ -774,7 +776,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
 		$listQuery .= ' ORDER BY last_name ASC, first_name ASC';
 		$result = $db->query($listQuery);
-
+		
 		$users = $group = [];
 		while ($row = $db->fetch_array($result)) {
 			if (isset($row['groupname'])) {
@@ -829,6 +831,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		return '';
 	}
+
 	public function getHeadLocks()
 	{
 		$return = 'function lockFunction() {return false;}';

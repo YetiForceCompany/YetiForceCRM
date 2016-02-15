@@ -413,7 +413,6 @@ function getColumnFields($module)
 {
 	$log = vglobal('log');
 	$log->debug("Entering getColumnFields(" . $module . ") method ...");
-	$log->debug("in getColumnFields " . $module);
 
 	// Lookup in cache for information
 	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
@@ -1368,7 +1367,7 @@ function getRelationTables($module, $secmodule)
  * This function returns no value but handles the delete functionality of each entity.
  * Input Parameter are $module - module name, $return_module - return module name, $focus - module object, $record - entity id, $return_id - return entity id.
  */
-function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId)
+function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
 {
 	$adb = PearDatabase::getInstance();
 	$log = LoggerManager::getInstance();
@@ -1387,7 +1386,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 		$data['destinationRecordId'] = $destinationRecordId;
 		$em->triggerEvent('vtiger.entity.unlink.before', $data);
 
-		$focus->unlinkRelationship($destinationRecordId, $sourceModule, $sourceRecordId);
+		$focus->unlinkRelationship($destinationRecordId, $sourceModule, $sourceRecordId, $relatedName);
 		$focus->trackUnLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 
 		if ($em) {
@@ -1407,7 +1406,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 /**
  * Function to related two records of different entity types
  */
-function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)
+function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
 {
 	$adb = PearDatabase::getInstance();
 	$log = vglobal('log');
@@ -1429,8 +1428,7 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 	foreach ($destinationRecordIds as $destinationRecordId) {
 		$data['destinationRecordId'] = $destinationRecordId;
 		$em->triggerEvent('vtiger.entity.link.before', $data);
-
-		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
+		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
 		$focus->trackLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 		/*
 		  $wfs = new VTWorkflowManager($adb);

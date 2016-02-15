@@ -538,7 +538,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewContainer = listInstance.getListViewContentContainer();
 		listViewContainer.find('[data-trigger="listSearch"]').trigger("click");
 	},
-	getSelectedRecordsParams: function (checkList) {
+	getSelectedRecordsParams: function (checkList, urlSearchParams) {
 		var listInstance = Vtiger_List_Js.getInstance();
 		if (checkList == false || listInstance.checkListRecordSelected() != true) {
 			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
@@ -558,7 +558,7 @@ jQuery.Class("Vtiger_List_Js", {
 				postData['operator'] = "s";
 			}
 
-			postData.search_params = JSON.stringify(listInstance.getListSearchParams());
+			postData.search_params = JSON.stringify(listInstance.getListSearchParams(urlSearchParams));
 			return postData;
 		} else {
 			listInstance.noRecordSelectedAlert();
@@ -1979,9 +1979,17 @@ jQuery.Class("Vtiger_List_Js", {
 			var select = $(domElement);
 			app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
 		});
+
 		if (app.getMainParams('autoRefreshListOnChange') == '1') {
 			listViewContainer.find('.listViewEntriesTable select').on("change", function (e) {
 				Vtiger_List_Js.triggerListSearch();
+			});
+			listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
+				var prevVal = $(this).data('prevVal');
+				var value = $(this).val();
+				if(prevVal != value){
+					Vtiger_List_Js.triggerListSearch();
+				}
 			});
 		}
 	},
@@ -2018,7 +2026,7 @@ jQuery.Class("Vtiger_List_Js", {
 		jQuery('#recordsCount').val('');
 		return aDeferred.promise();
 	},
-	getListSearchParams: function () {
+	getListSearchParams: function (urlSearchParams) {
 		var listViewPageDiv = this.getListViewContainer();
 		var listViewTable = listViewPageDiv.find('.listViewEntriesTable');
 		var searchParams = new Array();
@@ -2074,25 +2082,27 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			searchParams.push(searchInfo);
 		});
-		var url = app.getUrlVar('search_params');
-		if (url != undefined && url.length) {
-			url = jQuery.parseJSON(decodeURIComponent(url));
-			$.each(url[0], function (index, value) {
-				var exist = false;
-				$.each(searchParams, function (index, searchParam) {
-					if (searchParam[0] == value[0]) {
-						exist = true;
+		if (urlSearchParams) {
+			var url = app.getUrlVar('search_params');
+			if (url != undefined && url.length) {
+				url = jQuery.parseJSON(decodeURIComponent(url));
+				$.each(url[0], function (index, value) {
+					var exist = false;
+					console.log(value);
+					$.each(searchParams, function (index, searchParam) {
+						if (searchParam[0] == value[0]) {
+							exist = true;
+						}
+					});
+					if (exist == false) {
+						searchParams.push(value);
 					}
 				});
-				if (exist == false) {
-					searchParams.push(value);
-				}
-			});
+			}
 		}
 		return new Array(searchParams);
 	},
 	registerListSearch: function () {
-
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
 		listViewPageDiv.on('click', '[data-trigger="listSearch"]', function (e) {
@@ -2132,7 +2142,11 @@ jQuery.Class("Vtiger_List_Js", {
 				mode: 'range',
 				className: 'rangeCalendar',
 				onChange: function (formated) {
+					dateElement.data('prevVal',dateElement.val());
 					dateElement.val(formated.join(','));
+				},
+				onHide: function (formated) {
+					dateElement.trigger(jQuery.Event('DatePicker.onHide'), formated);
 				}
 			}
 			app.registerEventForDatePickerFields(dateElement, false, customParams);

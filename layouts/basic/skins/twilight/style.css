@@ -2721,7 +2721,6 @@ td.listViewEntryValue .row input {
 	text-align: right;
 }
 .cut-string {
-	width: 285px;
 	white-space: nowrap;
 	overflow: hidden;
 }
@@ -2794,9 +2793,7 @@ table.listViewEntriesTable {
 .marginBottom5 {
 	margin-bottom: 5px;
 }
-.editViewContainer .recordEditView table.blockContainer tr td.fieldValue {
-	width: 45%;
-}
+
 .recordEditView[name=QuickCreate] .quickCreateContent table tr td.fieldValue,
 #massEditContainer .massEditContent table tr td.fieldValue,
 #tab_accounts td.functionList{
@@ -3421,12 +3418,12 @@ span[name=existingImages] img{
 	font-size: 20px;
 }
 
-.leftPanel  .slimScrollDiv{
-	overflow: unset !important;
+.leftPanel li.menuLabel .slimScrollDiv{
 	position: static !important;
 }
-.leftPanel .slimScrollBar{
-	display: none !important;
+.leftPanel  .slimScrollDiv{
+	overflow: visible !important;
+	height: calc(100% - 50px) ! important;
 }
 .baseContainer .leftPanel:after {
 	content: "";
@@ -3495,7 +3492,7 @@ span[name=existingImages] img{
 	display: block;
 	position: absolute;
 	left: 230px;
-	top: 50px;
+	top: 0px;
 	height: calc(100% - 50px);
 }
 .nav li:hover > .slimScrollDiv >.subMenu > li > .slimScrollDiv >.subMenu{
@@ -4991,8 +4988,11 @@ html,body,.baseContainer
 .tagInputs .form-control{
 	height: 20px !important;
 }
+.inventoryItems{
+	table-layout: fixed;
+}
 .inventoryItems .colName {
-	min-width: 250px;
+	width: 25%;
 }
 .modal-full{
 	width: 95% !important;
@@ -5088,6 +5088,31 @@ select.form-control {
 	padding: 3px 10px !important;
 	margin: 2px 0px;
 }
+#calendarview .listViewButton{
+	padding-left: 0.8em !important;
+	padding-right: 0.8em !important;
+}
+.width1per7{
+	width: 14.28%;
+	float: left;
+}
+.quickCreateContent .addedNearCalendarEvent td{
+	padding: 4px;
+}
+#cur_events td,
+#cur_events .table th{
+	background: #E1FFE5;
+}
+.quickCreateContent #Calendar_editView_fieldName_date_start{
+	background-color : #E1FFE5; 
+}
+.eventsTable table th{
+	border-bottom: 3px solid #000;
+}
+.quickCreateContent .weekend,
+.quickCreateContent .weekend:hover{
+	background: #D7EEFF !important;
+}
 .knowledgePresentationContent {
 	color: #000;
 	min-height: 450px;
@@ -5111,7 +5136,6 @@ select.form-control {
 	list-style: none;
 	font-size: 12px;
 	padding-bottom: 10px;
-	
 }
 .listLastDocuments li span{
 	padding-right: 5px;

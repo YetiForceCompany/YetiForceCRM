@@ -87,7 +87,7 @@ class HelpDesk extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'modifiedtime';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'ticket_title';
@@ -123,13 +123,15 @@ class HelpDesk extends CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmid)
+	function save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName = false)
 	{
-		parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 		if ($with_module == 'ServiceContracts') {
+			parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 			$serviceContract = CRMEntity::getInstance("ServiceContracts");
 			$serviceContract->updateHelpDeskRelatedTo($with_crmid, $crmid);
 			$serviceContract->updateServiceContractState($with_crmid);
+		} else {
+			parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
 		}
 	}
 
@@ -476,18 +478,21 @@ class HelpDesk extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_troubletickets" => "ticketid"),
-			"Products" => array("vtiger_troubletickets" => array("ticketid", "product_id")),
-			"Services" => array("vtiger_crmentityrel" => array("crmid", "relcrmid"), "vtiger_troubletickets" => "ticketid"),
+		$relTables = array(
+			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_troubletickets' => 'ticketid'),
+			'Products' => array('vtiger_troubletickets' => array('ticketid', 'product_id')),
+			'Services' => array('vtiger_crmentityrel' => array('crmid', 'relcrmid'), 'vtiger_troubletickets' => 'ticketid'),
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))
@@ -506,8 +511,10 @@ class HelpDesk extends CRMEntity
 		} elseif ($return_module == 'Products') {
 			$sql = 'UPDATE vtiger_troubletickets SET product_id=? WHERE ticketid=?';
 			$this->db->pquery($sql, array(null, $id));
-		} else {
+		} elseif ($return_module == 'ServiceContracts' && $relatedName != 'get_many_to_many') {
 			parent::unlinkRelationship($id, $return_module, $return_id);
+		} else {
+			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
 	}
 

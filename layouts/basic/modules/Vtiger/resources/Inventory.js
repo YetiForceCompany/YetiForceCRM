@@ -261,6 +261,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.getInventoryItemsContainer().find(thisInstance.rowClass).each(function (index) {
 			thisInstance.quantityChangeActions($(this));
 		});
+		thisInstance.calculateItemNumbers();
 	},
 	summaryCalculations: function () {
 		var thisInstance = this;
@@ -270,6 +271,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.calculatDiscountSummary();
 		thisInstance.calculatTaxSummary();
 		thisInstance.calculatCurrenciesSummary();
+		thisInstance.calculatMarginPSummary();
 	},
 	calculatSummary: function (element, field) {
 		var thisInstance = this;
@@ -277,7 +279,22 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.getInventoryItemsContainer().find(thisInstance.rowClass).each(function (index) {
 			sum += app.parseNumberToFloat($(this).find('.' + field).val());
 		});
-		element.text(app.parseNumberToShow(sum));
+		if (element) {
+			element.text(app.parseNumberToShow(sum));
+		} else {
+			return sum;
+		}
+	},
+	calculatMarginPSummary: function () {
+		var thisInstance = this;
+		var sumPurchase = thisInstance.calculatSummary(false, 'purchase');
+		var sumMargin = thisInstance.calculatSummary(false, 'margin');
+		var sumMarginP = '0';
+		if (sumPurchase !== 0) {
+			sumMarginP = (sumMargin / sumPurchase) * 100;
+		}
+		var summaryMarginP = thisInstance.getInventoryItemsContainer().find('tfoot .wisableTd[data-sumfield="marginP"]');
+		summaryMarginP.text(app.parseNumberToShow(sumMarginP));
 	},
 	calculatDiscountSummary: function () {
 		var thisInstance = this;
@@ -383,10 +400,13 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.setTotalPrice(row, netPriceBeforeDiscount);
 	},
 	calculateMargin: function (row) {
-		var netPrice = this.getNetPrice(row);
+		if (jQuery('.netPrice', row).length) {
+			var netPrice = this.getNetPrice(row);
+		} else {
+			var netPrice = this.getTotalPrice(row);
+		}
 		var purchase = this.getPurchase(row);
 		var margin = netPrice - purchase;
-
 		this.setMargin(row, margin);
 		var marginp = '0';
 		if (purchase !== 0) {
@@ -609,6 +629,9 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 			for (var field in recordData['autoFields']) {
 				parentRow.find('input.' + field).val(recordData['autoFields'][field]);
+				if (recordData['autoFields'][field + 'Text']){
+					parentRow.find('.' + field + 'Text').text(recordData['autoFields'][field + 'Text']);
+				}
 			}
 
 			var currencyId = thisInstance.getCurrency();
@@ -874,7 +897,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	registerAddItem: function (container) {
 		var thisInstance = this;
 		var items = this.getInventoryItemsContainer();
-		container.find('.btn-toolbar .addButton').on('click', function (e, data) {
+		container.find('.btn-toolbar .addItem').on('click', function (e, data) {
 			var table = container.find('#blackIthemTable');
 			var newRow = thisInstance.getBasicRow();
 			var sequenceNumber = thisInstance.getNextLineItemRowNumber();
@@ -887,6 +910,16 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			newRow = newRow.find('tr').appendTo(items.find('tbody'));
 
 			newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', field);
+			newRow.find('select').each(function (index, select) {
+				select = $(select);
+				select.find('option').each(function (index, option) {
+					option = $(option);
+					if (option.data('module') != module) {
+						option.remove();
+					}
+				});
+				app.showSelect2ElementView(select);
+			})
 			thisInstance.initItem(newRow);
 		});
 	},
@@ -987,7 +1020,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var row = thisInstance.getClosestRow(element)
 			thisInstance.removeSubProducts(row);
 			row.find('.unitPrice,.tax,.discount,.margin,.purchase').val('0');
-			row.find('textarea').val('');
+			row.find('textarea,.valueVal').val('');
+			row.find('.valueText').text('');
 			thisInstance.quantityChangeActions(row);
 		});
 	},
@@ -997,6 +1031,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var element = $(e.currentTarget);
 			thisInstance.getClosestRow(element).remove();
 			thisInstance.checkDeleteIcon();
+			thisInstance.rowsCalculations();
 		});
 	},
 	registerChangeDiscount: function (container) {
@@ -1070,7 +1105,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		modal.on('click', '.saveDiscount', function (e) {
 			thisInstance.saveDiscountsParameters(parentRow, modal);
 			if (params.discountType == 0) {
-				thisInstance.setDiscount(parentRow, modal.find('.valueDiscount').text());
+				thisInstance.setDiscount(parentRow, app.parseNumberToFloat(modal.find('.valueDiscount').text()));
 				thisInstance.quantityChangeActions(parentRow);
 			} else {
 				var rate = app.parseNumberToFloat(modal.find('.valueDiscount').text()) / app.parseNumberToFloat(modal.find('.valueTotalPrice').text());
@@ -1167,7 +1202,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		modal.on('click', '.saveTaxs', function (e) {
 			thisInstance.saveTaxsParameters(parentRow, modal);
 			if (params.taxType == '0') {
-				thisInstance.setTax(parentRow, modal.find('.valueTax').text());
+				thisInstance.setTax(parentRow, app.parseNumberToFloat(modal.find('.valueTax').text()));
 				thisInstance.quantityChangeActions(parentRow);
 			} else {
 				var rate = app.parseNumberToFloat(modal.find('.valueTax').text()) / app.parseNumberToFloat(modal.find('.valueNetPrice').text());
@@ -1216,6 +1251,15 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			);
 		});
 	},
+	calculateItemNumbers: function () {
+		var thisInstance = this;
+		var items = this.getInventoryItemsContainer();
+		var i = 1;
+		items.find(thisInstance.rowClass).each(function (index) {
+			$(this).find('.itemNumberText').text(i);
+			i++;
+		});
+	},
 	initItem: function (container) {
 		var thisInstance = this;
 		if (typeof container == 'undefined') {
@@ -1226,7 +1270,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.registerRowChangeEvent(container);
 		thisInstance.registerRowAutoComplete(container);
 		thisInstance.checkDeleteIcon();
-		thisInstance.summaryCalculations();
+		thisInstance.rowsCalculations();
 	},
 	/**
 	 * Function which will register all the events

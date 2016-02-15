@@ -55,7 +55,7 @@ class Products extends CRMEntity
 	var $sortby_fields = Array();
 	var $def_basicsearch_col = 'productname';
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'productname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
@@ -847,19 +847,22 @@ class Products extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
-			"HelpDesk" => array("vtiger_troubletickets" => array("product_id", "ticketid"), "vtiger_products" => "productid"),
-			"Quotes" => array("vtiger_inventoryproductrel" => array("productid", "id"), "vtiger_products" => "productid"),
-			"Leads" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
-			"Accounts" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
-			"Contacts" => array("vtiger_seproductsrel" => array("productid", "crmid"), "vtiger_products" => "productid"),
-			"Products" => array("vtiger_products" => array("productid", "product_id"), "vtiger_products" => "productid"),
-			"PriceBooks" => array("vtiger_pricebookproductrel" => array("productid", "pricebookid"), "vtiger_products" => "productid"),
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_products" => "productid"),
+		$relTables = array(
+			'HelpDesk' => array('vtiger_troubletickets' => array('product_id', 'ticketid'), 'vtiger_products' => 'productid'),
+			'Quotes' => array('vtiger_inventoryproductrel' => array('productid', 'id'), 'vtiger_products' => 'productid'),
+			'Leads' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
+			'Accounts' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
+			'Contacts' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
+			'Products' => array('vtiger_products' => array('productid', 'product_id'), 'vtiger_products' => 'productid'),
+			'PriceBooks' => array('vtiger_pricebookproductrel' => array('productid', 'pricebookid'), 'vtiger_products' => 'productid'),
+			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_products' => 'productid'),
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	function deleteProduct2ProductRelation($record, $return_id, $is_parent)
@@ -898,7 +901,7 @@ class Products extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))
@@ -915,11 +918,11 @@ class Products extends CRMEntity
 			$param = array($id, $return_id, $return_id);
 			$this->db->pquery($sql, $param);
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id);
+			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids)
+	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -940,7 +943,7 @@ class Products extends CRMEntity
 					]);
 				}
 			} else {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
+				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
 			}
 		}
 	}

@@ -28,7 +28,7 @@ $languageStrings = [
 	'LBL_HOTKEY' => 'Skrót klawiaturowy',
 	'LBL_NAME' => 'Nazwa',
 	'LBL_TEST_IT' => 'Sprawdź',
-	'LBL_MENU_TYPE' => 'Rodzja menu',
+	'LBL_MENU_TYPE' => 'Rodzaj menu',
 	'LBL_AVAILABLE_FILTERS' => 'Dostępne filtry',
 	'LBL_ICON_NAME' => 'Ikona',
 	//Menu types

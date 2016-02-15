@@ -54,7 +54,7 @@ class Pdf_TableDiscountSummary extends Vtiger_SpecialFunction_Pdf
 		if (count($fields[0]) != 0) {
 			$discount = 0;
 			foreach ($inventoryRows as $key => &$inventoryRow) {
-				$taxes = $inventoryField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
+				$discount += $inventoryRow['discount'];
 			}
 			if (in_array('discount', $columns) && in_array('discountmode', $columns)) {
 				$html .= '<table class="productTable colapseBorder">

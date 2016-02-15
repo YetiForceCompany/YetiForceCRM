@@ -38,6 +38,9 @@
 				<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 				<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 			{/if}
+			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
+				<input type="hidden" name="{$FIELD_NAME}" value="{$RECORD->get($FIELD_NAME)}" />
+			{/foreach}
 			<div class="widget_header row">
 				<div class="col-md-8">
 					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}

@@ -86,7 +86,7 @@ class ModCommentsCore extends CRMEntity {
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
 
-	var $default_order_by = 'modcommentsid';
+	var $default_order_by = '';
 	var $default_sort_order='DESC';
 
 	// Used when enabling/disabling the mandatory fields for the module.

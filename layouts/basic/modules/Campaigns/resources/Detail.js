@@ -179,44 +179,46 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 		var detailContainer = detailContentsHolder.closest('div.detailViewInfo');
 		jQuery('.related', detailContainer).on('click', 'li', function (e, urlAttributes) {
 			var tabElement = jQuery(e.currentTarget);
-			var element = jQuery('<div></div>');
-			element.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true,
-					'elementToBlock': detailContainer
-				}
-			});
-			var url = tabElement.data('url');
-			if (typeof urlAttributes != 'undefined') {
-				var callBack = urlAttributes.callback;
-				delete urlAttributes.callback;
-			}
-			thisInstance.loadContents(url, urlAttributes).then(
-					function (data) {
-						thisInstance.deSelectAllrelatedTabs();
-						thisInstance.markTabAsSelected(tabElement);
-						element.progressIndicator({'mode': 'hide'});
-						var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
-						if (emailEnabledModule) {
-							var listInstance = new Campaigns_List_Js();
-							listInstance.registerEvents();
-							thisInstance.registerRelatedListEvents();
-						}
-						if (typeof callBack == 'function') {
-							callBack(data);
-						}
-						//Summary tab is clicked
-						if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-							thisInstance.loadWidgets();
-						}
-						thisInstance.registerBasicEvents();
-					},
-					function () {
-						//TODO : handle error
-						element.progressIndicator({'mode': 'hide'});
+			if (!tabElement.hasClass('dropdown')) {
+				var element = jQuery('<div></div>');
+				element.progressIndicator({
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true,
+						'elementToBlock': detailContainer
 					}
-			);
+				});
+				var url = tabElement.data('url');
+				if (typeof urlAttributes != 'undefined') {
+					var callBack = urlAttributes.callback;
+					delete urlAttributes.callback;
+				}
+				thisInstance.loadContents(url, urlAttributes).then(
+						function (data) {
+							thisInstance.deSelectAllrelatedTabs();
+							thisInstance.markTabAsSelected(tabElement);
+							element.progressIndicator({'mode': 'hide'});
+							var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
+							if (emailEnabledModule) {
+								var listInstance = new Campaigns_List_Js();
+								listInstance.registerEvents();
+								thisInstance.registerRelatedListEvents();
+							}
+							if (typeof callBack == 'function') {
+								callBack(data);
+							}
+							//Summary tab is clicked
+							if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+								thisInstance.loadWidgets();
+							}
+							thisInstance.registerBasicEvents();
+						},
+						function () {
+							//TODO : handle error
+							element.progressIndicator({'mode': 'hide'});
+						}
+				);
+			}
 		});
 	},
 	/**

@@ -51,7 +51,7 @@ $languageStrings = [
 	'LBL_RAW_TEXT' => 'Czysty tekst',
 	'LBL_RECEPIENTS' => 'Odbiorcy',
 	'LBL_RECREATE_CONDITIONS' => 'Ponowne tworzenie warunków',
-	'LBL_SAVE_AND_CONTINUE' => 'Zapisz i kontynuuj',
+	'LBL_SAVE_AND_CONTINUE' => 'Zapisz i kontynuj',
 	'LBL_SELECT_OPTIONS' => 'Wybór opcji',
 	'LBL_SEND_NOTIFICATION' => 'Wyślij powiadomienie',
 	'LBL_SET_FIELD_VALUES' => 'Ustaw wartość pola',
@@ -147,11 +147,11 @@ $languageStrings = [
 	'LBL_VALUE_OF_SERVER' => 'Wartość z serwera',
 	'LBL_WORKFLOWS_RUN_TIME' => 'Data i czas uruchomienia obiegu informacji',
 	'Sales stage - Negotiations' => 'Proces sprzedażowy - Negocjacje',
-	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Aktualizuj daty wygenrowaneych wydarzeń kiedy data bazowa ulegnia zmianie',
+	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Aktualizuj daty wygenrowanych wydarzeń kiedy data bazowa ulegnie zmianie',
 	'LBL_CURRENT_USER' => 'Aktualnie zalogowany użytkownik',
 	//workflow task
 	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',
-	'Do you send all attachments' => 'Czy wysłać wszystkie załączniki ?',
+	'Do you send all attachments' => 'Czy wysłać wszystkie załączniki?',
 	'Select e-mail address' => 'Wybierz adres mail',
 	'Send a copy to email' => 'Kopia na adres',
 	//workflow task types
@@ -199,7 +199,7 @@ $languageStrings = [
 	'LBL_UPLOAD_OK' => 'Pomyślnie zaimportowano plik automatyzacji.',
 	'LBL_RETURN' => 'Wróć',
 	'LBL_GO_TO_TEMPLATE' => 'Kliknij aby przejść do zaimportowanego rekordu.',
-	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Skrypt fizycznie istnieje ale nie zawiera importowanej funkcji. Ręcznie skopiuj %s do %s.',
+	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Skrypt fizycznie istnieje, ale nie zawiera importowanej funkcji. Ręcznie skopiuj %s do %s.',
 	'LBL_FAILED_TO_SAVE_SCRIPT' => 'Nie udało się zapisać importowanego skryptu z funkcją obiegu informacji. Ręcznie skopiuj %s do %s.',
 ];
 $jsLanguageStrings = [

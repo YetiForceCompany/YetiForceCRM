@@ -82,6 +82,16 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		if ($this->get('restrict') && is_array($this->get('restrict'))) {
 			$query .= " AND vtiger_activity.activityid IN ('" . implode("','", $this->get('restrict')) . "')";
 		}
+		if ($this->has('filters')) {
+			foreach ($this->get('filters') as $filter) {
+				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar');
+				$filterInstance = new $filterClassName();
+				$condition = $filterInstance->getCondition($filter['value']);
+				if (!empty($condition)) {
+					$query .= ' '.$condition;
+				}
+			}
+		}
 		if ($this->get('user')) {
 			if (is_array($this->get('user'))) {
 				$query.= ' AND vtiger_crmentity.smownerid IN (' . implode(",", $this->get('user')) . ')';

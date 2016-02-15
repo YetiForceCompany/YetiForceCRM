@@ -29,7 +29,12 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
 		switch ($clendarallorecords) {
 			case 3:
-				$users = $currentUser->getAccessibleUsers();
+				if (AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+					$usersAndGroup = $currentUser->getUsersAndGroupForModuleList($moduleName);
+					$users = $usersAndGroup['users'];
+				} else {
+					$users = $currentUser->getAccessibleUsers();
+				}
 				break;
 			case 1:
 			case 2:
@@ -51,14 +56,21 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
+		
 		switch ($clendarallorecords) {
 			case 1:
 				$groups = [];
 				break;
 			case 2:
-			case 3:
-			default:
 				$groups = $currentUser->getAccessibleGroups();
+				break;
+			case 3:
+				if (AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+					$usersAndGroup = $currentUser->getUsersAndGroupForModuleList($moduleName);
+					$groups = $usersAndGroup['group'];
+				} else {
+					$groups = $currentUser->getAccessibleGroups();
+				}
 				break;
 		}
 		$viewer->assign('MODULE', $moduleName);

@@ -75,11 +75,15 @@ $languageStrings = [
 	'Action_test' => 'Test akcji',
 	'Action_Desc_test' => 'Opis testu akcji.',
 	//
+	'Action_check_day_tasks' => 'Sprawdź ilości wydarzeń dla zapisywanego dnia',
+	'Action_Desc_check_day_tasks' => 'Akcja sprawdza ilość wydarzeń dla daty rozpoczęcia wydarzenia i jeśli przekracza limit system blokuje/informuje użytkownika.',
+	'LBL_MAXIMUM_NUMBER_EVENTS_PER_DAY' => 'Maksymalna ilość wydarzeń w jednym dniu',
+	//
 	'Action_unique_account' => 'Sprawdź czy istnieje duplikat dla kontrahenta',
 	'Action_Desc_unique_account' => 'Sprawdź czy kontrahent jest unikatowy w module.',
 	'LBL_DUPLICATED_FOUND' => 'Znaleziono duplikaty',
 	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Wykryto duplikat. Czy na pewno chcesz dokonać zapisu?',
-	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Dokonano próbę zmiany wartości w rekordzie w trybie szybkiej edycji.<br>Chcąc dokonać zmiany w tym widoku zaznacz poniższe pole checkbox i zatwierdź wybór.<br><strong>Uwaga!</strong><br>Należy ponownie wprowadzić zamierzone modyfikacje na rekordzie.',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Dokonano próby zmiany wartości w rekordzie w trybie szybkiej edycji.<br>Chcąc dokonać zmiany w tym widoku zaznacz poniższe pole wyboru i zatwierdź wybór.<br><strong>Uwaga!</strong><br>Należy ponownie wprowadzić zamierzone modyfikacje na rekordzie.',
 	'LBL_DONT_ASK_AGAIN' => 'Nie pytaj ponownie dla tego rekordu.',
 	'LBL_SEARCH_TRASH' => 'Przeszukaj kosz',
 ];

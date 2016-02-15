@@ -70,7 +70,7 @@ class PBXManager extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 //    var $mandatory_fields = Array('assigned_user_id');
 	var $column_fields = Array();
-	var $default_order_by = 'customernumber';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
 	function PBXManager()

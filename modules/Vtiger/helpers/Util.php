@@ -328,7 +328,7 @@ class Vtiger_Util_Helper
                       INNER JOIN vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$fieldName.picklist_valueid
                   WHERE roleid=? and picklistid in (select picklistid from vtiger_picklist) order by sortorderid";
 		$result = $db->pquery($query, array($roleId));
-		$picklistValues = Array();
+		$picklistValues = [];
 		if ($db->num_rows($result) > 0) {
 			while ($row = $db->fetch_array($result)) {
 				//Need to decode the picklist values twice which are saved from old ui

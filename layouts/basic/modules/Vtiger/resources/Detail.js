@@ -1147,6 +1147,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					currentTdElement.progressIndicator();
 					editElement.addClass('hide');
 					var fieldNameValueMap = {};
+					//The same values must be in the file SummaryViewContents.tpl
 					if (fieldInfo.getType() == 'multipicklist' || fieldInfo.getType() == 'sharedOwner' || fieldInfo.getType() == 'taxes') {
 						var multiPicklistFieldName = fieldName.split('[]');
 						fieldName = multiPicklistFieldName[0];

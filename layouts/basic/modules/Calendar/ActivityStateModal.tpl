@@ -3,8 +3,6 @@
 -->*}
 <div id="activityStateModal" class="modal fade modalEditStatus" tabindex="-1">
 	{assign var=ID value=$RECORD->get('id')}
-	{assign var=EDITVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'EditView', $ID)}
-	{assign var=DETAILVIEW_PERMITTED value=isPermitted('Calendar', 'DetailView', $ID)}
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
@@ -17,10 +15,10 @@
 							<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 						</a>
 					{/if}
-					{if $EDITVIEW_PERMITTED}
+					{if $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default"><span class="glyphicon glyphicon-pencil summaryViewEdit" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></a>
 					{/if}
-					{if $DETAILVIEW_PERMITTED == 'yes'}
+					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
 					{/if}
 						{*<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD->getId()}"></a>*}
@@ -116,7 +114,7 @@
 			</div>
 			</div>
 			<div class="modal-footer">
-				{if $EDITVIEW_PERMITTED}
+				{if $RECORD->isEditable()}
 					<div class="pull-left">
 						{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
 						{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}

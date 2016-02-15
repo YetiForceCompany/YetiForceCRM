@@ -3,27 +3,24 @@
 -->*}
 {strip}
 	{assign var=ID value=$RECORD->get('id')}
-	{assign var=EDITVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'EditView', $ID)}
-	{assign var=DETAILVIEW_PERMITTED value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'DetailView', $ID)}
 	{assign var=OPENSINGLEORDERS value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'OpenRecord', $ID)}
 	{assign var=CLOSESINGLEORDERS value=Users_Privileges_Model::isPermitted($MODULE_NAME, 'CloseRecord', $ID)}
-	{assign var=LOCKEDIT value=Users_Privileges_Model::checkLockEdit($MODULE_NAME, $ID)}
 	<div class="modal-header">
 		<div class="pull-left">
 			<h3 class="modal-title">{vtranslate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
 		</div>
 		<div class="pull-right btn-group">
-			{if $EDITVIEW_PERMITTED && !$LOCKEDIT}
+			{if $RECORD->isEditable()}
 				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
 			{/if}
-			{if $DETAILVIEW_PERMITTED}
+			{if $RECORD->isViewable()}
 				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
 			{/if}
 		</div>
 		<div class="clearfix"></div>
 	</div>
 	<div class="modal-body">
-		{if $DETAILVIEW_PERMITTED}
+		{if $RECORD->isViewable()}
 			<div class="form-horizontal">
 				{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 					{if $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
@@ -51,7 +48,7 @@
 <div class="modal-footer">
 	<div class="pull-left">
 		<div class="btn-toolbar">
-			{if $OPENSINGLEORDERS || ($EDITVIEW_PERMITTED && !$LOCKEDIT)}
+			{if $OPENSINGLEORDERS || $RECORD->isEditable()}
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{vtranslate('LBL_CHANGE_STATUS',$MODULE_NAME)} <span class="caret"></span>
@@ -64,7 +61,7 @@
 					</ul>
 				</div>
 			{/if}
-			{assign var=ITEM value='PLL_UNREALIZED'}
+			{assign var=ITEM value='PLL_CANCELLED'}
 			{if $CLOSESINGLEORDERS && $RECORD->get('ssingleorders_status') neq $ITEM}
 				<div class="btn-group">
 					<button type="button" class="btn btn-danger changeStatus" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>

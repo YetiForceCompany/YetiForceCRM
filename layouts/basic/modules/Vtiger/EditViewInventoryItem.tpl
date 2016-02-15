@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{if isset($ITEM_DATA['name']) && $ITEM_DATA['name'] != 0}
+	{if !empty($ITEM_DATA['name'])}
 		{assign var="REFERENCE_MODULE" value=Vtiger_Functions::getCRMRecordType($ITEM_DATA['name'])}
 	{elseif $MAIN_PARAMS}
 		{assign var="REFERENCE_MODULE" value=reset($MAIN_PARAMS['modules'])}
@@ -18,7 +18,7 @@
 			{/if}
 		</td>
 		{foreach item=FIELD from=$FIELDS[1]}
-			<td class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight fieldValue" colspan="{$FIELD->get('colspan')}">
+			<td class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight fieldValue">
 				{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 				{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
 			</td>

@@ -90,7 +90,7 @@ class ServiceContracts extends CRMEntity
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = 'subject';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
 	function __construct()
@@ -413,16 +413,17 @@ class ServiceContracts extends CRMEntity
 	 * NOTE: This function has been added to CRMEntity (base class).
 	 * You can override the behavior by re-defining it here.
 	 */
-	function save_related_module($module, $crmid, $with_module, $with_crmids)
+	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
-
 		if (!is_array($with_crmids))
 			$with_crmids = Array($with_crmids);
 		foreach ($with_crmids as $with_crmid) {
-			parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 			if ($with_module == 'HelpDesk') {
+				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 				$this->updateHelpDeskRelatedTo($crmid, $with_crmid);
 				$this->updateServiceContractState($crmid);
+			}else{
+				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
 			}
 		}
 	}
@@ -603,7 +604,7 @@ class ServiceContracts extends CRMEntity
 	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 
 	/** Function to unlink an entity with given Id from another entity */
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		global $log, $currentModule;
 
@@ -617,23 +618,26 @@ class ServiceContracts extends CRMEntity
 			$entityIds = $return_id;
 			$return_modules = "'" . $return_module . "'";
 		}
+		if ($relatedName == 'get_many_to_many') {
+			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+		} else {
+			$query = 'DELETE FROM vtiger_crmentityrel WHERE (relcrmid=' . $id . ' AND module IN (' . $return_modules . ') AND crmid IN (' . $entityIds . ')) OR (crmid=' . $id . ' AND relmodule IN (' . $return_modules . ') AND relcrmid IN (' . $entityIds . '))';
+			$this->db->pquery($query, array());
 
-		$query = 'DELETE FROM vtiger_crmentityrel WHERE (relcrmid=' . $id . ' AND module IN (' . $return_modules . ') AND crmid IN (' . $entityIds . ')) OR (crmid=' . $id . ' AND relmodule IN (' . $return_modules . ') AND relcrmid IN (' . $entityIds . '))';
-		$this->db->pquery($query, array());
+			$sql = 'SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN (' . $return_modules . '))';
+			$fieldRes = $this->db->pquery($sql, array($currentModule));
+			$numOfFields = $this->db->num_rows($fieldRes);
+			for ($i = 0; $i < $numOfFields; $i++) {
+				$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
+				$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
+				$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
+				$relatedModule = vtlib_getModuleNameById($tabId);
+				$focusObj = CRMEntity::getInstance($relatedModule);
 
-		$sql = 'SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN (' . $return_modules . '))';
-		$fieldRes = $this->db->pquery($sql, array($currentModule));
-		$numOfFields = $this->db->num_rows($fieldRes);
-		for ($i = 0; $i < $numOfFields; $i++) {
-			$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
-			$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
-			$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
-			$relatedModule = vtlib_getModuleNameById($tabId);
-			$focusObj = CRMEntity::getInstance($relatedModule);
-
-			$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) AND $focusObj->table_index=?";
-			$updateParams = array(null, $id);
-			$this->db->pquery($updateQuery, $updateParams);
+				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) AND $focusObj->table_index=?";
+				$updateParams = array(null, $id);
+				$this->db->pquery($updateQuery, $updateParams);
+			}
 		}
 	}
 

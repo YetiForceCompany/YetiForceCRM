@@ -236,24 +236,33 @@ class Users_Privileges_Model extends Users_Record_Model
 	/**
 	 * Function to set Shared Owner
 	 */
-	public static function setSharedOwner($recordModel)
+	public static function setSharedOwner(Vtiger_Record_Model $recordModel)
 	{
+		$saveFull = true;
+
 		$db = PearDatabase::getInstance();
 		$userIds = $recordModel->get('shownerid');
 		$record = $recordModel->getId();
+		$moduleName = $recordModel->getModuleName();
 
-		$db->delete('u_yf_crmentity_showners', 'crmid = ?', [$record]);
-		if (empty($userIds)) {
-			return false;
+		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		if ($request->get('action') == 'SaveAjax' && $request->get('field') != 'shownerid') {
+			$saveFull = false;
 		}
-		if (!is_array($userIds) && $userIds) {
-			$userIds = [$userIds];
-		}
-		foreach ($userIds as $userId) {
-			$db->insert('u_yf_crmentity_showners', [
-				'crmid' => $record,
-				'userid' => $userId,
-			]);
+		if ($saveFull) {
+			$db->delete('u_yf_crmentity_showners', 'crmid = ?', [$record]);
+			if (empty($userIds)) {
+				return false;
+			}
+			if (!is_array($userIds) && $userIds) {
+				$userIds = [$userIds];
+			}
+			foreach ($userIds as $userId) {
+				$db->insert('u_yf_crmentity_showners', [
+					'crmid' => $record,
+					'userid' => $userId,
+				]);
+			}
 		}
 	}
 
@@ -355,6 +364,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		if (isset(self::$parentRecordCache[$record])) {
 			return self::$parentRecordCache[$record];
 		}
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$moduleName) {
 			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
@@ -386,13 +396,12 @@ class Users_Privileges_Model extends Users_Record_Model
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
 		} else if (in_array($moduleName, Vtiger_Module_Model::getModulesMapMMBase())) {
-			$currentUser = vglobal('current_user');
 			$db = PearDatabase::getInstance();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? OR relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
-				if ($currentUser->id == $recordMetaData['smownerid']) {
+				if ($recordMetaData['smownerid'] == $userPrivilegesModel->getId() || in_array($recordMetaData['smownerid'], $userPrivilegesModel->get('groups'))) {
 					$parentRecord = $id;
 					break;
 				} else if ($type == 2) {
@@ -403,13 +412,12 @@ class Users_Privileges_Model extends Users_Record_Model
 				}
 			}
 		} else if ($relationInfo = Vtiger_Module_Model::getModulesMapMMCustom($moduleName)) {
-			$currentUser = vglobal('current_user');
 			$db = PearDatabase::getInstance();
 			$query = 'SELECT ' . $relationInfo['rel'] . ' AS crmid FROM `' . $relationInfo['table'] . '` WHERE ' . $relationInfo['base'] . ' = ?';
 			$result = $db->pquery($query, [$record]);
 			while ($row = $db->getRow($result)) {
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($row['crmid']);
-				if ($currentUser->id == $recordMetaData['smownerid']) {
+				if ($recordMetaData['smownerid'] == $userPrivilegesModel->getId() || in_array($recordMetaData['smownerid'], $userPrivilegesModel->get('groups'))) {
 					$parentRecord = $row['crmid'];
 					break;
 				} else if ($type == 2) {
