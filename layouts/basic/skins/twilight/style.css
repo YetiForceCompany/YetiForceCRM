@@ -4429,6 +4429,10 @@ html,body,.baseContainer
 		background: none;
 		margin-bottom: 35px;
 	}
+	.responsiveVideo {
+		width: 100% !important;
+		height: auto !important;
+	}
 }
 @media screen and (min-width: 960px) {
 	.detailViewTable .fieldsLabelValue{
@@ -4547,6 +4551,13 @@ html,body,.baseContainer
 		-moz-transition: all 0.5s ease;
 		-o-transition: all 0.5s ease;
 		transition: all 0.5s ease;
+	}
+	.knowledgePresentationText {
+		font-size: 2em;
+	}
+	.responsiveVideo {
+		width: 50% !important;
+		height: auto !important;
 	}
 }
 @media only screen and (min-width: 767px) {
@@ -5101,4 +5112,31 @@ select.form-control {
 .quickCreateContent .weekend,
 .quickCreateContent .weekend:hover{
 	background: #D7EEFF !important;
+}
+.knowledgePresentationContent {
+	color: #000;
+	min-height: 450px;
+}
+.knowledgePresentationControl {
+	width: 10%;
+}
+.knowledgePresentationInner {
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+	width: 80%;
+	margin-left: 10%;
+	float: left;
+}
+.panelTree{
+	border-right: 1px solid #eee;
+}
+.listLastDocuments li{
+	list-style: none;
+	font-size: 12px;
+	padding-bottom: 10px;
+}
+.listLastDocuments li span{
+	padding-right: 5px;
 }

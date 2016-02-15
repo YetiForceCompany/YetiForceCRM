@@ -1059,6 +1059,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var saveTriggred = false;
 			var preventDefault = false;
 			var saveHandler = function (e) {
+				console.log('saveHandler');
 				var element = jQuery(e.target);
 				if ((element.closest('.fieldValue').is(currentTdElement))) {
 					return;
@@ -1118,7 +1119,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						saveTriggred = false;
 						preventDefault = true;
 						readRecord.prop('disabled', false);
-						return
+						return;
 					}
 					preventDefault = false;
 					jQuery(document).off('click', '*', saveHandler);
@@ -1199,6 +1200,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					)
 				}
 			}
+			
 			jQuery('body :not(.popover *)').click(saveHandler);
 		})
 	},
@@ -1521,7 +1523,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentDiv = currentTarget.closest('.activityDescription');
 			var editElement = currentDiv.find('.edit');
 			var detailViewElement = currentDiv.find('.value');
-
+			
 			currentTarget.hide();
 			detailViewElement.addClass('hide');
 			editElement.removeClass('hide').show();
