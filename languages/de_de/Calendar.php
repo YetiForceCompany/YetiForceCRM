@@ -8,8 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
-	'Not Held'	=>	'Nicht stattgefunden',
-	'Held'	=>	'Stattgefunden',
+	'Not Held' => 'Nicht stattgefunden',
+	'Held' => 'Stattgefunden',
 	'Activity Type'=>'Aktivitätsart',
 	'Call' => 'Anruf',
 	'Completed' => 'abgeschlossen',
