@@ -1077,6 +1077,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		app.showPopoverElementView(form.find('.HelpInfoPopover'));
 	},
 	registerBlockAnimationEvent: function () {
+		var thisInstance = this;
 		var detailContentsHolder = this.getForm();
 		detailContentsHolder.on('click', '.blockHeader', function (e) {
 			if (jQuery(e.target).is('input') || jQuery(e.target).is('button') || jQuery(e.target).parents().is('button')) {
@@ -1094,6 +1095,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			}
 			var showHandler = function () {
 				bodyContents.removeClass('hide');
+				thisInstance.registerEventForCkEditor(bodyContents);
 				app.cacheSet(module + '.' + blockId, 1)
 			}
 			if (data.mode == 'show') {
