@@ -14,7 +14,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $defaultLabel = '';
 	protected $defaultValue = '';
 	protected $columnName = '-';
-	protected $colSpan = 1;
+	protected $colSpan = 10;
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
 	protected $summationValue = false;
