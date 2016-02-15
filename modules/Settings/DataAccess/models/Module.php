@@ -59,7 +59,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			$sql .= "WHERE module_name IN ('All', ?)";
 			$result = $db->pquery($sql, [$module]);
 		} else {
-			$sql = "WHERE presence = ?;";
+			$sql .= "WHERE presence = ?;";
 			$result = $db->pquery($sql, [1]);
 		}
 		$output = [];
