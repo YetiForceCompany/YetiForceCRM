@@ -3989,10 +3989,12 @@ html,body,.baseContainer
 .quickCreateContent .addedNearCalendarEvent .popover-content{
 	font-size: 12px;
 }
-.modalEditStatus .form-horizontal .form-group{
+.modalEditStatus .form-horizontal .form-group,
+#modalEditStatus .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
-.modalEditStatus .form-horizontal .form-group .control-label{
+.modalEditStatus .form-horizontal .form-group .control-label,
+#modalEditStatus .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
 .pageNumber.active.disabled a{
@@ -4104,7 +4106,8 @@ html,body,.baseContainer
 #mappingToGenerate .actionsHeader{
 	width: 8%;
 }
-.modalEditStatus .popover.fade
+.modalEditStatus .popover.fade,
+#modalEditStatus .popover.fade
 {
 	min-width: 400px;
 }

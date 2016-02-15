@@ -1122,7 +1122,7 @@ var app = {
 		var toTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
 		return Math.floor(((toTime - fromTime) / (1000 * 60 * 60 * 24))) + 1;
 	},
-	saveAjax: function (mode, param) {
+	saveAjax: function (mode, param, addToParams) {
 		var aDeferred = jQuery.Deferred();
 		var params = {};
 		params['module'] = app.getModuleName();
@@ -1130,6 +1130,11 @@ var app = {
 		params['action'] = 'SaveAjax';
 		params['mode'] = mode;
 		params['param'] = param;
+		if(addToParams != undefined){
+			for(var i in addToParams){
+				params[i] = addToParams[i];
+			}
+		}
 		AppConnector.request(params).then(
 				function (data) {
 					aDeferred.resolve(data);

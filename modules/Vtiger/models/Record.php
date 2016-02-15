@@ -437,44 +437,52 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 			$isPermitted = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId);
 			$checkLockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
-			$focus = $this->getEntity();
-			if (!$focus) {
-				$focus = CRMEntity::getInstance($moduleName);
-				$this->setEntity($focus);
-			}
-			$lockFields = $focus->getLockFields();
-			if ($lockFields) {
-				$loadData = false;
-				foreach ($lockFields as $fieldName => $values) {
-					if (!$this->has($fieldName)) {
-						$loadData = true;
-					}
-				}
-				if ($loadData && $recordId) {
-					$focus->id = $recordId;
-					$focus->retrieve_entity_info($recordId, $moduleName);
-					$this->setEntity($focus);
-				}
-				foreach ($lockFields as $fieldName => $values) {
-					foreach ($values as $value) {
-						if ($this->get($fieldName) == $value) {
-							$isPermitted = false;
-						}
-						if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] == $value) {
-							$isPermitted = false;
-						}
-					}
-				}
-			}
-			$this->privileges['isEditable'] = $isPermitted && $checkLockEdit == false;
+
+			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit == false;
 		}
 		return $this->privileges['isEditable'];
+	}
+
+	public function checkLockFields()
+	{
+		$moduleName = $this->getModuleName();
+		$recordId = $this->getId();
+		$focus = $this->getEntity();
+		if (!$focus) {
+			$focus = CRMEntity::getInstance($moduleName);
+			$this->setEntity($focus);
+		}
+		$lockFields = $focus->getLockFields();
+		if ($lockFields) {
+			$loadData = false;
+			foreach ($lockFields as $fieldName => $values) {
+				if (!$this->has($fieldName)) {
+					$loadData = true;
+				}
+			}
+			if ($loadData && $recordId) {
+				$focus->id = $recordId;
+				$focus->retrieve_entity_info($recordId, $moduleName);
+				$this->setEntity($focus);
+			}
+			foreach ($lockFields as $fieldName => $values) {
+				foreach ($values as $value) {
+					if ($this->get($fieldName) == $value) {
+						return false;
+					}
+					if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] == $value) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	public function isDeletable()
 	{
 		if (!isset($this->privileges['isDeletable'])) {
-			$this->privileges['isDeletable'] = Users_Privileges_Model::isPermitted($this->getModuleName(), 'Delete', $this->getId());
+			$this->privileges['isDeletable'] = Users_Privileges_Model::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
 		}
 		return $this->privileges['isDeletable'];
 	}
