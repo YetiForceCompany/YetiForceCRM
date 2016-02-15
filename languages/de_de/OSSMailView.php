@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	// Basic Strings
-	'OSSMailView'        => 'Unternehmens-E-Mails',
+	'OSSMailView' => 'Unternehmens-E-Mails',
 	'SINGLE_OSSMailView' => 'Unternehmens-E-Mail',
 	'LBL_ADD_RECORD' => 'E-Mail hinzufügen',
 	'LBL_RECORDS_LIST' => 'Liste E-Mails',
