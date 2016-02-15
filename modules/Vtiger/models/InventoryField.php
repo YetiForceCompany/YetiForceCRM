@@ -121,7 +121,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$columns = [];
 		foreach ($this->getFields() as $key => $field) {
 			$column = $field->getColumnName();
-			if ($column != '')
+			if (!empty($column) && $column != '-')
 				$columns[] = $column;
 			foreach ($field->getCustomColumn() as $name => $field) {
 				$columns[] = $name;
