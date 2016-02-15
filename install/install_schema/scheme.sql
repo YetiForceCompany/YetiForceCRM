@@ -1483,6 +1483,7 @@ CREATE TABLE `u_yf_knowledgebase` (
   `number` varchar(32) DEFAULT NULL,
   `content` text,
   `category` varchar(200) DEFAULT NULL,
+  `knowledgebase_view` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`knowledgebaseid`),
   CONSTRAINT `fk_1_vtiger_knowledgebase` FOREIGN KEY (`knowledgebaseid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4076,7 +4077,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2210 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2211 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4614,6 +4615,16 @@ CREATE TABLE `vtiger_ipreorder_status` (
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ipreorder_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_knowledgebase_view` */
+
+CREATE TABLE `vtiger_knowledgebase_view` (
+  `knowledgebase_viewid` int(11) NOT NULL AUTO_INCREMENT,
+  `knowledgebase_view` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`knowledgebase_viewid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_language` */
 

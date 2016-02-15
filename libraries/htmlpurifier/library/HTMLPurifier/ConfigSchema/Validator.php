@@ -12,82 +12,79 @@ class HTMLPurifier_ConfigSchema_Validator
 {
 
     /**
-     * Easy to access global objects.
+     * @type HTMLPurifier_ConfigSchema_Interchange
      */
-    protected $interchange, $aliases;
+    protected $interchange;
+
+    /**
+     * @type array
+     */
+    protected $aliases;
 
     /**
      * Context-stack to provide easy to read error messages.
+     * @type array
      */
     protected $context = array();
 
     /**
-     * HTMLPurifier_VarParser to test default's type.
+     * to test default's type.
+     * @type HTMLPurifier_VarParser
      */
     protected $parser;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->parser = new HTMLPurifier_VarParser();
     }
 
     /**
-     * Validates a fully-formed interchange object. Throws an
-     * HTMLPurifier_ConfigSchema_Exception if there's a problem.
+     * Validates a fully-formed interchange object.
+     * @param HTMLPurifier_ConfigSchema_Interchange $interchange
+     * @return bool
      */
-    public function validate($interchange) {
+    public function validate($interchange)
+    {
         $this->interchange = $interchange;
         $this->aliases = array();
         // PHP is a bit lax with integer <=> string conversions in
         // arrays, so we don't use the identical !== comparison
-        foreach ($interchange->namespaces as $i => $namespace) {
-            if ($i != $namespace->namespace) $this->error(false, "Integrity violation: key '$i' does not match internal id '{$namespace->namespace}'");
-            $this->validateNamespace($namespace);
-        }
         foreach ($interchange->directives as $i => $directive) {
             $id = $directive->id->toString();
-            if ($i != $id) $this->error(false, "Integrity violation: key '$i' does not match internal id '$id'");
+            if ($i != $id) {
+                $this->error(false, "Integrity violation: key '$i' does not match internal id '$id'");
+            }
             $this->validateDirective($directive);
         }
         return true;
     }
 
     /**
-     * Validates a HTMLPurifier_ConfigSchema_Interchange_Namespace object.
-     */
-    public function validateNamespace($n) {
-        $this->context[] = "namespace '{$n->namespace}'";
-        $this->with($n, 'namespace')
-            ->assertNotEmpty()
-            ->assertAlnum(); // implicit assertIsString handled by InterchangeBuilder
-        $this->with($n, 'description')
-            ->assertNotEmpty()
-            ->assertIsString(); // handled by InterchangeBuilder
-        array_pop($this->context);
-    }
-
-    /**
      * Validates a HTMLPurifier_ConfigSchema_Interchange_Id object.
+     * @param HTMLPurifier_ConfigSchema_Interchange_Id $id
      */
-    public function validateId($id) {
+    public function validateId($id)
+    {
         $id_string = $id->toString();
         $this->context[] = "id '$id_string'";
         if (!$id instanceof HTMLPurifier_ConfigSchema_Interchange_Id) {
             // handled by InterchangeBuilder
             $this->error(false, 'is not an instance of HTMLPurifier_ConfigSchema_Interchange_Id');
         }
-        if (!isset($this->interchange->namespaces[$id->namespace])) {
-            $this->error('namespace', 'does not exist'); // assumes that the namespace was validated already
-        }
-        $this->with($id, 'directive')
+        // keys are now unconstrained (we might want to narrow down to A-Za-z0-9.)
+        // we probably should check that it has at least one namespace
+        $this->with($id, 'key')
             ->assertNotEmpty()
-            ->assertAlnum(); // implicit assertIsString handled by InterchangeBuilder
+            ->assertIsString(); // implicit assertIsString handled by InterchangeBuilder
         array_pop($this->context);
     }
 
     /**
      * Validates a HTMLPurifier_ConfigSchema_Interchange_Directive object.
+     * @param HTMLPurifier_ConfigSchema_Interchange_Directive $d
      */
-    public function validateDirective($d) {
+    public function validateDirective($d)
+    {
         $id = $d->id->toString();
         $this->context[] = "directive '$id'";
         $this->validateId($d->id);
@@ -127,9 +124,13 @@ class HTMLPurifier_ConfigSchema_Validator
     /**
      * Extra validation if $allowed member variable of
      * HTMLPurifier_ConfigSchema_Interchange_Directive is defined.
+     * @param HTMLPurifier_ConfigSchema_Interchange_Directive $d
      */
-    public function validateDirectiveAllowed($d) {
-        if (is_null($d->allowed)) return;
+    public function validateDirectiveAllowed($d)
+    {
+        if (is_null($d->allowed)) {
+            return;
+        }
         $this->with($d, 'allowed')
             ->assertNotEmpty()
             ->assertIsLookup(); // handled by InterchangeBuilder
@@ -138,7 +139,9 @@ class HTMLPurifier_ConfigSchema_Validator
         }
         $this->context[] = 'allowed';
         foreach ($d->allowed as $val => $x) {
-            if (!is_string($val)) $this->error("value $val", 'must be a string');
+            if (!is_string($val)) {
+                $this->error("value $val", 'must be a string');
+            }
         }
         array_pop($this->context);
     }
@@ -146,15 +149,23 @@ class HTMLPurifier_ConfigSchema_Validator
     /**
      * Extra validation if $valueAliases member variable of
      * HTMLPurifier_ConfigSchema_Interchange_Directive is defined.
+     * @param HTMLPurifier_ConfigSchema_Interchange_Directive $d
      */
-    public function validateDirectiveValueAliases($d) {
-        if (is_null($d->valueAliases)) return;
+    public function validateDirectiveValueAliases($d)
+    {
+        if (is_null($d->valueAliases)) {
+            return;
+        }
         $this->with($d, 'valueAliases')
             ->assertIsArray(); // handled by InterchangeBuilder
         $this->context[] = 'valueAliases';
         foreach ($d->valueAliases as $alias => $real) {
-            if (!is_string($alias)) $this->error("alias $alias", 'must be a string');
-            if (!is_string($real))  $this->error("alias target $real from alias '$alias'",  'must be a string');
+            if (!is_string($alias)) {
+                $this->error("alias $alias", 'must be a string');
+            }
+            if (!is_string($real)) {
+                $this->error("alias target $real from alias '$alias'", 'must be a string');
+            }
             if ($alias === $real) {
                 $this->error("alias '$alias'", "must not be an alias to itself");
             }
@@ -174,8 +185,10 @@ class HTMLPurifier_ConfigSchema_Validator
     /**
      * Extra validation if $aliases member variable of
      * HTMLPurifier_ConfigSchema_Interchange_Directive is defined.
+     * @param HTMLPurifier_ConfigSchema_Interchange_Directive $d
      */
-    public function validateDirectiveAliases($d) {
+    public function validateDirectiveAliases($d)
+    {
         $this->with($d, 'aliases')
             ->assertIsArray(); // handled by InterchangeBuilder
         $this->context[] = 'aliases';
@@ -199,27 +212,37 @@ class HTMLPurifier_ConfigSchema_Validator
     /**
      * Convenience function for generating HTMLPurifier_ConfigSchema_ValidatorAtom
      * for validating simple member variables of objects.
+     * @param $obj
+     * @param $member
+     * @return HTMLPurifier_ConfigSchema_ValidatorAtom
      */
-    protected function with($obj, $member) {
+    protected function with($obj, $member)
+    {
         return new HTMLPurifier_ConfigSchema_ValidatorAtom($this->getFormattedContext(), $obj, $member);
     }
 
     /**
      * Emits an error, providing helpful context.
+     * @throws HTMLPurifier_ConfigSchema_Exception
      */
-    protected function error($target, $msg) {
-        if ($target !== false) $prefix = ucfirst($target) . ' in ' .  $this->getFormattedContext();
-        else $prefix = ucfirst($this->getFormattedContext());
+    protected function error($target, $msg)
+    {
+        if ($target !== false) {
+            $prefix = ucfirst($target) . ' in ' . $this->getFormattedContext();
+        } else {
+            $prefix = ucfirst($this->getFormattedContext());
+        }
         throw new HTMLPurifier_ConfigSchema_Exception(trim($prefix . ' ' . $msg));
     }
 
     /**
      * Returns a formatted context string.
+     * @return string
      */
-    protected function getFormattedContext() {
+    protected function getFormattedContext()
+    {
         return implode(' in ', array_reverse($this->context));
     }
-
 }
 
 // vim: et sw=4 sts=4
