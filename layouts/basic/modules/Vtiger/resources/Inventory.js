@@ -629,6 +629,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 			for (var field in recordData['autoFields']) {
 				parentRow.find('input.' + field).val(recordData['autoFields'][field]);
+				parentRow.find('.' + field + 'Text').text(recordData['autoFields'][field]);
 			}
 
 			var currencyId = thisInstance.getCurrency();
@@ -1017,7 +1018,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var row = thisInstance.getClosestRow(element)
 			thisInstance.removeSubProducts(row);
 			row.find('.unitPrice,.tax,.discount,.margin,.purchase').val('0');
-			row.find('textarea').val('');
+			row.find('textarea,.valueVal').val('');
+			row.find('.valueText').text('');
 			thisInstance.quantityChangeActions(row);
 		});
 	},

@@ -4,7 +4,7 @@
 	{assign var="INPUT_TYPE" value='text'}
 	{if $FIELD->get('displaytype') == 10}
 		{assign var="INPUT_TYPE" value='hidden'}
-		<span class="{$FIELD->getColumnName()}">{$ITEM_VALUE}</span>
+		<span class="{$FIELD->getColumnName()}Text valueText">{$ITEM_VALUE}</span>
 	{/if}
-	<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="{$INPUT_TYPE}" class="form-control {$FIELD->getColumnName()}" value="{$FIELD->getEditValue($VALUE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
+	<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="{$INPUT_TYPE}" class="form-control {$FIELD->getColumnName()} valueVal" value="{$FIELD->getEditValue($VALUE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 {/strip}

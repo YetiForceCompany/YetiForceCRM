@@ -1139,7 +1139,7 @@ CREATE TABLE `u_yf_igdn_inventory` (
   `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `comment1` varchar(500) DEFAULT NULL,
-  `picklistfield1` varchar(200) DEFAULT NULL,
+  `unit` varchar(200) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_igdn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igdn` (`igdnid`) ON DELETE CASCADE
@@ -1203,7 +1203,7 @@ CREATE TABLE `u_yf_igin_inventory` (
   `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `comment1` varchar(500) DEFAULT NULL,
-  `picklistfield1` varchar(200) DEFAULT NULL,
+  `unit` varchar(200) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_igin_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igin` (`iginid`) ON DELETE CASCADE
@@ -1272,7 +1272,7 @@ CREATE TABLE `u_yf_igrn_inventory` (
   `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `comment1` varchar(500) DEFAULT NULL,
-  `picklistfield1` varchar(200) DEFAULT NULL,
+  `unit` varchar(200) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_igrn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igrn` (`igrnid`) ON DELETE CASCADE
@@ -1334,7 +1334,7 @@ CREATE TABLE `u_yf_iidn_inventory` (
   `name` int(19) NOT NULL DEFAULT '0',
   `qty` decimal(25,3) NOT NULL DEFAULT '0.000',
   `comment1` varchar(500) DEFAULT NULL,
-  `picklistfield1` varchar(200) DEFAULT NULL,
+  `unit` varchar(200) DEFAULT NULL,
   `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `ean` varchar(255) DEFAULT NULL,
