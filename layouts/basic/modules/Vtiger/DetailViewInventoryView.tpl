@@ -25,7 +25,7 @@
 					<tr>
 						<th style="width: 40%;"></th>
 						{foreach item=FIELD from=$FIELDS[0]}
-							<th colspan="{$FIELD->get('colspan')}">
+							<th>
 								<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE_NAME)}:</span>&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
 								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
@@ -40,7 +40,7 @@
 			<thead>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<th colspan="{$FIELD->get('colspan')}" class="textAlignCenter">
+						<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if} class="textAlignCenter">
 							{vtranslate($FIELD->get('label'), $MODULE_NAME)}
 						</th>
 					{/foreach}
@@ -49,6 +49,9 @@
 			<tbody>
 				{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 					{assign var="ROW_NO" value=$KEY+1}
+					{if $INVENTORY_ROW['name']}
+						{assign var="ROW_MODULE" value=Vtiger_Functions::getCRMRecordType($INVENTORY_ROW['name'])}
+					{/if}
 					<tr>
 						{foreach item=FIELD from=$FIELDS[1]}
 							<td {if in_array($FIELD->getName(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight"{/if}>
@@ -62,12 +65,9 @@
 			<tfoot>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
+						<td {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if}  class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
 							{if $FIELD->isSummary()}
-								{assign var="SUM" value=0}
-								{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
-									{assign var="SUM" value=($SUM + $INVENTORY_ROW[$FIELD->get('columnname')])}
-								{/foreach}
+								{assign var="SUM" value=$FIELD->getSummaryValuesFromData($INVENTORY_ROWS)}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
 							{/if}
 						</td>

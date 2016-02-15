@@ -47,7 +47,7 @@ class Campaigns extends CRMEntity
 	);
 	var $list_link_field = 'campaignname';
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'crmid';
+	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 
 	var $search_fields = Array(
@@ -283,7 +283,7 @@ class Campaigns extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $returnModule, $returnId)
+	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($returnModule) || empty($returnId))
@@ -296,18 +296,20 @@ class Campaigns extends CRMEntity
 			$sql = 'DELETE FROM vtiger_campaign_records WHERE campaignid=? AND crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE accountid=?)';
 			$this->db->pquery($sql, array($id, $returnId));
 		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId);
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
 
-	function save_related_module($module, $crmid, $withModule, $withCrmids)
+	function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 
 		if (!is_array($withCrmids))
 			$withCrmids = [$withCrmids];
-		foreach ($withCrmids as $withCrmid) {
-			if (in_array($withModule, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
+		if (!in_array($withModule, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
+			parent::save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName);
+		} else {
+			foreach ($withCrmids as $withCrmid) {
 				$checkResult = $adb->pquery('SELECT 1 FROM vtiger_campaign_records WHERE campaignid = ? AND crmid = ?', array($crmid, $withCrmid));
 				if ($checkResult && $adb->num_rows($checkResult) > 0) {
 					continue;
@@ -317,8 +319,6 @@ class Campaigns extends CRMEntity
 					'crmid' => $withCrmid,
 					'campaignrelstatusid' => 0
 				]);
-			} else {
-				parent::save_related_module($module, $crmid, $withModule, $withCrmid);
 			}
 		}
 	}

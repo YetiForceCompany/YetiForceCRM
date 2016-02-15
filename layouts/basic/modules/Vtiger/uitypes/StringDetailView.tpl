@@ -11,8 +11,4 @@
 -->*}
 
 {* TODO: Review the order of parameters - good to eliminate $RECORD->getId, $RECORD should be used *}
-{if $FIELD_MODEL->get('uitype') eq '300'}
-    {$FIELD_MODEL->getDisplayValue(decode_html($FIELD_MODEL->get('fieldvalue')), $RECORD->getId(), $RECORD)}
-{else}
-	{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
-{/if}
+{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}

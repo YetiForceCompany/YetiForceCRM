@@ -94,7 +94,7 @@
 												{if $FIELD_VALUE eq '' || $CONVERSION_CONFIG['change_owner'] == 'true'}
 													{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 												{/if}
-												<select class="chzn-select {$ASSIGNED_USER_ID} form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}>
+												<select class="chzn-select {$ASSIGNED_USER_ID} form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
 													<optgroup label="{vtranslate('LBL_USERS')}">
 														{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 

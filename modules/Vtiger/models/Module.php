@@ -506,6 +506,19 @@ class Vtiger_Module_Model extends Vtiger_Module
 		return $fieldList;
 	}
 
+	public function getFieldsByDisplayType($type)
+	{
+		$fields = $this->getFields();
+		$fieldList = [];
+		foreach ($fields as $field) {
+			$displayType = $field->get('displaytype');
+			if ($displayType == $type) {
+				$fieldList[$field->getName()] = $field;
+			}
+		}
+		return $fieldList;
+	}
+
 	/**
 	 * Function returns all the relation models
 	 * @return <Array of Vtiger_Relation_Model>
@@ -1874,6 +1887,21 @@ class Vtiger_Module_Model extends Vtiger_Module
 								$fieldValue = $recordModel->get($fieldName);
 								if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
 									$data[$fieldMap[$referenceModule]] = $fieldValue;
+							}
+						}
+					}
+				}
+			}
+			$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
+			if (!empty($mappingRelatedField)) {
+				foreach ($mappingRelatedField as $relatedModules) {
+					foreach ($relatedModules as $relatedModule => $relatedFields) {
+						if ($relatedModule == $sourceModule) {
+							foreach ($relatedFields as $to => $from) {
+								$fieldValue = $recordModel->get($from[0]);
+								if (!empty($fieldValue)) {
+									$data[$to] = $fieldValue;
+								}
 							}
 						}
 					}

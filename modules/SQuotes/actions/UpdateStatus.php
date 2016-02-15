@@ -29,7 +29,7 @@ class SQuotes_UpdateStatus_Action extends Vtiger_Action_Controller
 		$recordModel->set('id', $recordId);
 		$recordModel->set('squotes_status', $state);
 		$recordModel->set('mode', 'edit');
-		if (in_array($state, ['PLL_DISCARDED', 'PLL_ACCEPTED'])) {
+		if (in_array($state, ['PLL_CANCELLED', 'PLL_ACCEPTED'])) {
 			$currentTime = date('Y-m-d H:i:s');
 			$responseTime = strtotime($currentTime) - strtotime($recordModel->get('createdtime'));
 			$recordModel->set('response_time', $responseTime / 60 / 60);

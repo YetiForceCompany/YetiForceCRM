@@ -14,6 +14,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'name';
 	protected $dbType = 'int(19) NOT NULL DEFAULT 0';
 	protected $params = ['modules', 'limit'];
+	protected $colSpan = 30;
 
 	/**
 	 * Getting value to display

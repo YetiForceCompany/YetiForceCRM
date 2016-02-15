@@ -20,6 +20,7 @@
 <input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 <input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
+<input type="hidden" id="showListButtonInCalendar" value="{AppConfig::module($MODULE_NAME, 'SHOW_LIST_BUTTON')}" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
 	.calCol_{$ITEM.label}{ border: 1px solid {$ITEM.value}!important; }

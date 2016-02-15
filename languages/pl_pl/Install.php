@@ -61,7 +61,7 @@ $languageStrings = [
 	'LBL_WELCOME_TO_VTIGER6_SETUP_WIZARD' => 'Witamy w kreatorze instalacji',
 	'LBL_WELCOME' => 'Witamy',
 	'LBL_ZLIB_SUPPORT' => 'Wsparcie dla Zlib',
-	'MSG_DB_PARAMETERS_INVALID' => 'Określony użytkownik bazy danych, hasło, nazwa hosta, typ bazy danych, lub port jest nieprawidłowy',
+	'MSG_DB_PARAMETERS_INVALID' => 'Określony użytkownik bazy danych, hasło, nazwa hosta, typ bazy danych lub port jest nieprawidłowy',
 	'MSG_DB_ROOT_USER_NOT_AUTHORIZED' => 'Wiadomość: Określony użytkownik root bazy danych nie ma uprawnień do tworzenia bazy danych lub nazwy bazy danych zawiera znaki specjalne. Spróbuj zmienić ustawienia bazy danych',
 	'MSG_DB_USER_NOT_AUTHORIZED' => 'Określony użytkownik bazy danych nie ma dostępu, aby połączyć się z serwerem bazy danych z hosta',
 	'MSG_LIST_REASONS' => 'Może to wynikać z następujących powodów',
@@ -100,7 +100,7 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'LBL_PASS_TO_SHORT' => 'hasło jest zbyt krótkie - minimalna długość to 8 znaków',
+	'LBL_PASS_TO_SHORT' => 'Hasło jest zbyt krótkie - minimalna długość to 8 znaków',
 	'LBL_PASS_TO_LONG' => 'Hasło jest zbyt długie - maksymalna długość to 32 znaki',
 	'LBL_PASS_NO_NUM' => 'Hasło musi zawierać cyfry',
 	'LBL_PASS_LACK_OF_CAPITAL_LETTERS' => 'Hasło musi zawierać duże litery',

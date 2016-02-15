@@ -142,12 +142,16 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 			$unitPrice = (float) $recordModel->get('unit_price') * (float) $conversionRate;
 		}
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$autoCompleteField = $inventoryField->getAutoCompleteField($recordModuleName);
+		$autoCompleteField = $inventoryField->getAutoCompleteFieldsByModule($recordModuleName);
 		$autoFields = [];
 		if ($autoCompleteField) {
 			foreach ($autoCompleteField as $field) {
-				if ($recordModel->has($field['field']) && $recordModel->get($field['field']) != '') {
-					$autoFields[$field['tofield']] = $recordModel->get($field['field']);
+				$moduleModel = Vtiger_Module_Model::getInstance($field['module']);
+				$fieldModel = Vtiger_Field_Model::getInstance($field['field'], $moduleModel);
+				$fieldValue = $recordModel->get($field['field']);
+				if (!empty($fieldValue)) {
+					$autoFields[$field['tofield']] = $fieldValue;
+					$autoFields[$field['tofield'] . 'Text'] = $fieldModel->getDisplayValue($fieldValue, $recordId, $recordModel, true);
 				}
 			}
 		}

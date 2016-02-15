@@ -2,9 +2,9 @@
 <div class="form-group">
 	<label class="col-md-4 control-label">{vtranslate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
-		{assign var='LABEL' value=$MODULE_MODEL->getDefaultLabel()}
-		{if $MODULE_MODEL->get('label') }
-			{assign var='LABEL' value=$MODULE_MODEL->get('label')}
+		{assign var='LABEL' value=$FIELD_INSTANCE->getDefaultLabel()}
+		{if $FIELD_INSTANCE->get('label') }
+			{assign var='LABEL' value=$FIELD_INSTANCE->get('label')}
 		{/if}
 		<input name="label" class="form-control" type="text" value="{$LABEL}" data-validation-engine="validate[required]" />
 	</div>
@@ -13,8 +13,8 @@
 	<label class="col-md-4 control-label">{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<select class='form-control select2' name="displayType" data-validation-engine="validate[required]">
-			{foreach from=$MODULE_MODEL->displayTypeBase() item=ITEM key=KEY}
-				<option value="{$ITEM}" {if $ITEM eq $MODULE_MODEL->get('displaytype')} selected {/if}>{vtranslate($KEY, $QUALIFIED_MODULE)}</option>
+			{foreach from=$FIELD_INSTANCE->displayTypeBase() item=ITEM key=KEY}
+				<option value="{$ITEM}" {if $ITEM eq $FIELD_INSTANCE->get('displaytype')} selected {/if}>{vtranslate($KEY, $QUALIFIED_MODULE)}</option>
 			{/foreach}
 		</select>
 	</div>
@@ -22,21 +22,21 @@
 <div class="form-group">
 	<label class="col-md-4 control-label">{vtranslate('LBL_COLSPAN', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
-		<input name="colSpan" class="form-control" type="text" value="{$MODULE_MODEL->getColSpan()}" data-validation-engine="validate[required]" />
+		<input name="colSpan" class="form-control" type="text" value="{$FIELD_INSTANCE->getColSpan()}" data-validation-engine="validate[required]" />
 	</div>
 </div>
-{if $MODULE_MODEL->getParams()}
+{if $FIELD_INSTANCE->getParams()}
 	<div class="paramsJson">
-		<input id="params" class="" type="hidden" value='{ZEND_JSON::encode($MODULE_MODEL->getParams())}'/>
-		{assign var='PARAMS' value=ZEND_JSON::decode($MODULE_MODEL->get('params'))}
-		{foreach from=$MODULE_MODEL->getParams() item=ITEM key=KEY}
+		<input id="params" class="" type="hidden" value='{ZEND_JSON::encode($FIELD_INSTANCE->getParams())}'/>
+		{assign var='PARAMS' value=ZEND_JSON::decode($FIELD_INSTANCE->get('params'))}
+		{foreach from=$FIELD_INSTANCE->getParams() item=ITEM key=KEY}
 			<div class="form-group paramsJson">
 				<label class="col-md-4 control-label">{vtranslate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}:</label>
 				{assign var='functionName' value=$ITEM|cat:'Values'}
 				<div class="col-md-7">
 					<select class='form-control select2' name="{$ITEM}"  {if $ITEM eq 'modules'} data-validation-engine="validate[required]" multiple {/if}>
 						{if $ITEM neq 'modules'}<option value=" ">{vtranslate('LBL_SELECT_OPTION', $ITEMS.module)}</option>{/if}
-						{foreach from=$MODULE_MODEL->$functionName() item=ITEMS key=KEY}
+						{foreach from=$FIELD_INSTANCE->$functionName() item=ITEMS key=KEY}
 							{assign var='CONDITION' value=0}
 							{if $PARAMS[$ITEM]|is_array && in_array($ITEMS.id,$PARAMS[$ITEM])}
 								{assign var='CONDITION' value=1}

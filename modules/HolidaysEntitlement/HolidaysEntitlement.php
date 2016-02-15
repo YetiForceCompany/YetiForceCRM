@@ -82,7 +82,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity {
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('ossemployeesid','assigned_user_id','holidaysentitlement_year','days');
 
-	var $default_order_by = 'holidaysentitlement_year';
+	var $default_order_by = '';
 	var $default_sort_order='ASC';
 
 	/**

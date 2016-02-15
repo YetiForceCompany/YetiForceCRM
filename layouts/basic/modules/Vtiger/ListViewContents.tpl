@@ -98,7 +98,7 @@
 						</style>
 					{/if}
 					<td class="{$WIDTHTYPE}">
-						{if $LISTVIEW_ENTRY->lockEditView eq false}
+						{if $LISTVIEW_ENTRY->isEditable()}
 							<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}"/>
 						{/if}
 					</td>

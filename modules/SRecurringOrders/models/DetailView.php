@@ -14,9 +14,9 @@ class SRecurringOrders_DetailView_Model extends Vtiger_DetailView_Model
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
-		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
+
 		$openRecord = Users_Privileges_Model::isPermitted($moduleName, 'OpenRecord', $recordId);
-		if ((Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && !$lockEdit) || $openRecord) {
+		if ($recordModel->isEditable() || $openRecord) {
 			$basicActionLink = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_SET_RECORD_STATUS',

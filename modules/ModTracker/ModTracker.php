@@ -131,10 +131,6 @@ class ModTracker
 			$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 1 WHERE tabid = ?", array($tabid));
 			self::updateCache($tabid, 1);
 		}
-		if (!self::isModTrackerLinkPresent($tabid)) {
-			$moduleInstance = Vtiger_Module::getInstance($tabid);
-			$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
-		}
 		$adb->pquery("UPDATE vtiger_field SET presence = 2 WHERE tabid = ? AND fieldname = ?", array($tabid, 'was_read'));
 	}
 

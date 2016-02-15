@@ -87,7 +87,7 @@ class Activity extends CRMEntity
 		'End Time' => 'time_end');
 	var $list_link_field = 'subject';
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'date_start';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
 	function Activity()
@@ -928,47 +928,33 @@ class Activity extends CRMEntity
 		return $shared_ids;
 	}
 
-	/** Function to unlink an entity with given Id from another entity */
-	// TODO This function was placed here because uitype fields (67, 68, 69) exist in this module. Once the way of getting modules for these fields is improved, you should correct the parent::unlinkRelationship() function, and remove this one.
-	function unlinkRelationship($id, $returnModule, $returnId)
+	function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
-		global $log, $currentModule;
-		$results = [];
-
-		$where = '(crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
-		$params = [$id, $returnModule, $returnId, $id, $returnModule, $returnId];
-		$this->db->delete('vtiger_crmentityrel', $where, $params);
-
-		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
-			SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$currentModule, $returnModule]);
-		$numOfFields = $this->db->num_rows($fieldRes);
+		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$module, $withModule]);
 		if ($fieldRes->rowCount()) {
 			$results = $this->db->getArray($fieldRes);
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [Vtiger_Functions::getModuleId($currentModule)]);
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [Vtiger_Functions::getModuleId($module)]);
 			while ($row = $this->db->getRow($fieldRes)) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
+				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
 				}
 				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
-				if (!empty($moduleList) && in_array($returnModule, $moduleList)) {
+				if (!empty($moduleList) && in_array($withModule, $moduleList)) {
+					$row['name'] = $module;
 					$results[] = $row;
 					break;
 				}
 			}
 		}
 		foreach ($results as $result) {
-			$columnName = $result['columnname'];
-
-			$relatedModule = vtlib_getModuleNameById($result['tabid']);
-			$focusObj = CRMEntity::getInstance($relatedModule);
-
+			$focusObj = CRMEntity::getInstance($row['name']);
+			$columnName = $row['columnname'];
 			$columns = [$columnName => null];
 			$where = "$columnName = ? AND $focusObj->table_index = ?";
-			$params = [$returnId, $id];
-			$this->db->update($result['tablename'], $columns, $where, $params);
+			$this->db->update($row['tablename'], $columns, $where, [$withCrmid, $crmid]);
 		}
 	}
 }

@@ -16,6 +16,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	protected $parentRecordModel = false;
 	protected $relatedModuleModel = false;
 	protected $query = false;
+	protected $addRelatedFieldToEntries = [
+		'Calendar' => ['visibility' => 'visibility'], 
+		'PriceBooks' => ['unit_price' => 'unit_price', 'listprice' => 'listprice', 'currency_id' => 'currency_id'], 
+		'Documents' => ['filelocationtype' => 'filelocationtype', 'filestatus' => 'filestatus']
+		];
 
 	public function setRelationModel($relation)
 	{
@@ -206,19 +211,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$relatedColumnFields = $relationModule->getRelatedListFields();
 		}
 
-		if ($relationModuleName == 'Calendar') {
-			//Adding visibility in the related list, showing records based on the visibility
-			$relatedColumnFields['visibility'] = 'visibility';
-		}
-		if ($relationModuleName == 'PriceBooks') {
-			//Adding fields in the related list
-			$relatedColumnFields['unit_price'] = 'unit_price';
-			$relatedColumnFields['listprice'] = 'listprice';
-			$relatedColumnFields['currency_id'] = 'currency_id';
-		}
-		if ($relationModuleName == 'Documents') {
-			$relatedColumnFields['filelocationtype'] = 'filelocationtype';
-			$relatedColumnFields['filestatus'] = 'filestatus';
+		if (!empty($this->addRelatedFieldToEntries[$relationModuleName])) {
+			foreach ($this->addRelatedFieldToEntries[$relationModuleName] as $col => $name) {
+				$relatedColumnFields[$col] = $name;
+			}
 		}
 
 		$query = $this->getRelationQuery();

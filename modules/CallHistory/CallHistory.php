@@ -88,7 +88,7 @@ class CallHistory extends Vtiger_CRMEntity {
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('to_number','assigned_user_id');
 
-	var $default_order_by = 'vtiger_callhistory.callhistoryid';
+	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 
 	/**

@@ -384,7 +384,7 @@ function isPermitted($module, $actionname, $record_id = '')
 				return $permission;
 			}
 		}
-
+		
 		$role = getRoleInformation($current_user->roleid);
 		if ((($actionid == 3 || $actionid == 4) && $role['previewrelatedrecord'] != 0 ) || (($actionid == 0 || $actionid == 1) && $role['editrelatedrecord'] != 0 )) {
 			$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role['previewrelatedrecord']);
@@ -441,11 +441,7 @@ function isPermitted($module, $actionname, $record_id = '')
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			} elseif ($actionid == 0 || $actionid == 1) {
-				if ($module == 'Calendar') {
-					$permission = 'no';
-				} else {
-					$permission = isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
-				}
+				$permission = isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
 				$log->debug("Exiting isPermitted method ...");
 				return $permission;
 			} elseif ($actionid == 2) {
@@ -1572,13 +1568,7 @@ function getListViewSecurityParameter($module)
 	} elseif ($module == 'Emails') {
 		$sec_query .= " and vtiger_crmentity.smownerid=" . $current_user->id . " ";
 	} elseif ($module == 'Calendar') {
-		require_once('modules/Calendar/CalendarCommon.php');
-		$shared_ids = getSharedCalendarId($current_user->id);
-		if (isset($shared_ids) && $shared_ids != '')
-			$condition = " or (vtiger_crmentity.smownerid in($shared_ids) and vtiger_activity.visibility = 'Public')";
-		else
-			$condition = null;
-		$sec_query .= " and (vtiger_crmentity.smownerid in($current_user->id) $condition or vtiger_crmentity.smownerid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%')";
+		$sec_query .= " and (vtiger_crmentity.smownerid in($current_user->id) or vtiger_crmentity.smownerid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%')";
 
 		if (sizeof($current_user_groups) > 0) {
 			$sec_query .= " or ((vtiger_groups.groupid in (" . implode(",", $current_user_groups) . ")))";
@@ -1847,28 +1837,20 @@ function RecalculateSharingRules()
  */
 function getSharingModuleList($eliminateModules = false)
 {
-	$log = vglobal('log');
-
-	$sharingModuleArray = Array();
-
+	$log = LoggerManager::getInstance();
 	$adb = PearDatabase::getInstance();
+	$sharingModuleArray = [];
+
 	if (empty($eliminateModules))
-		$eliminateModules = Array();
+		$eliminateModules = [];
 
-	// Module that needs to be eliminated explicitly
-	if (!in_array('Calendar', $eliminateModules))
-		$eliminateModules[] = 'Calendar';
-	if (!in_array('Events', $eliminateModules))
-		$eliminateModules[] = 'Events';
-
-	$query = "SELECT name FROM vtiger_tab WHERE presence=0 AND ownedby = 0 AND isentitytype = 1";
+	$query = 'SELECT name FROM vtiger_tab WHERE presence=0 AND ownedby = 0 AND isentitytype = 1';
 	$query .= " AND name NOT IN('" . implode("','", $eliminateModules) . "')";
 
 	$result = $adb->query($query);
 	while ($resrow = $adb->fetch_array($result)) {
 		$sharingModuleArray[] = $resrow['name'];
 	}
-
 	return $sharingModuleArray;
 }
 

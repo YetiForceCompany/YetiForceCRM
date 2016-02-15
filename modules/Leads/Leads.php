@@ -62,7 +62,7 @@ class Leads extends CRMEntity
 	//Default Fields for Email Templates -- Pavani
 	var $emailTemplate_defaultFields = array('leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue', 'designation', 'salutation');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'modifiedtime';
+	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'company';
@@ -396,7 +396,7 @@ class Leads extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = LoggerManager::getInstance();
 		if (empty($return_module) || empty($return_id))
@@ -408,7 +408,7 @@ class Leads extends CRMEntity
 			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? AND productid=?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id);
+			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
 	}
 
@@ -430,7 +430,7 @@ class Leads extends CRMEntity
 		return $list_buttons;
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids)
+	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -453,7 +453,7 @@ class Leads extends CRMEntity
 					'campaignrelstatusid' => 0
 				]);
 			} else {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
+				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
 			}
 		}
 	}

@@ -55,7 +55,7 @@ class Products extends CRMEntity
 	var $sortby_fields = Array();
 	var $def_basicsearch_col = 'productname';
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'productname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
@@ -901,7 +901,7 @@ class Products extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))
@@ -918,11 +918,11 @@ class Products extends CRMEntity
 			$param = array($id, $return_id, $return_id);
 			$this->db->pquery($sql, $param);
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id);
+			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids)
+	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -943,7 +943,7 @@ class Products extends CRMEntity
 					]);
 				}
 			} else {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
+				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
 			}
 		}
 	}

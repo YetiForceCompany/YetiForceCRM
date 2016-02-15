@@ -110,7 +110,7 @@ class Contacts extends CRMEntity
 	//Default Fields for Email Templates -- Pavani
 	var $emailTemplate_defaultFields = array('firstname', 'lastname', 'salutation', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'lastname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'lastname';
@@ -901,7 +901,7 @@ class Contacts extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))
@@ -919,39 +919,41 @@ class Contacts extends CRMEntity
 			$sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=? AND contactid=?';
 			$this->db->pquery($sql, array($return_id, $id));
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id);
+			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids)
+	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName)
 	{
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
-		foreach ($with_crmids as $with_crmid) {
-			if ($with_module == 'Products') {
-				$adb->insert('vtiger_seproductsrel', [
-					'crmid' => $crmid,
-					'productid' => $with_crmid,
-					'setype' => 'Contacts',
-					'rel_created_user' => $currentUser->getId(),
-					'rel_created_time' => date('Y-m-d H:i:s')
-				]);
-			} else if ($with_module == 'Campaigns') {
-				$adb->insert('vtiger_campaign_records', [
-					'campaignid' => $with_crmid,
-					'crmid' => $crmid,
-					'campaignrelstatusid' => 0
-				]);
-			} else if ($with_module == 'Vendors') {
-				$adb->insert('vtiger_vendorcontactrel', [
-					'vendorid' => $with_crmid,
-					'contactid' => $crmid
-				]);
-			} else {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
+		if (!in_array($with_module, ['Products', 'Campaigns', 'Vendors'])) {
+			parent::save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName);
+		} else {
+			foreach ($with_crmids as $with_crmid) {
+				if ($with_module == 'Products') {
+					$adb->insert('vtiger_seproductsrel', [
+						'crmid' => $crmid,
+						'productid' => $with_crmid,
+						'setype' => 'Contacts',
+						'rel_created_user' => $currentUser->getId(),
+						'rel_created_time' => date('Y-m-d H:i:s')
+					]);
+				} else if ($with_module == 'Campaigns') {
+					$adb->insert('vtiger_campaign_records', [
+						'campaignid' => $with_crmid,
+						'crmid' => $crmid,
+						'campaignrelstatusid' => 0
+					]);
+				} else if ($with_module == 'Vendors') {
+					$adb->insert('vtiger_vendorcontactrel', [
+						'vendorid' => $with_crmid,
+						'contactid' => $crmid
+					]);
+				}
 			}
 		}
 	}

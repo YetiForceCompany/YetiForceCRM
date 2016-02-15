@@ -160,6 +160,10 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		//sent to server
 		textAreaElement.val(CKEDITOR.instances['content'].getData());
 	},
+	preSaveVTUpdateRelatedFieldTask: function (tasktype) {
+		var values = this.getValues(tasktype);
+		jQuery('[name="field_value_mapping"]').val(JSON.stringify(values));
+	},
 	/**
 	 * Function to check if the field selected is empty field
 	 * @params : select element which represents the field
@@ -177,6 +181,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		return new Array('fieldname', 'value', 'valuetype', 'modulename');
 	},
 	getVTUpdateFieldsTaskFieldList: function () {
+		return new Array('fieldname', 'value', 'valuetype');
+	},
+	getVTUpdateRelatedFieldTaskFieldList: function () {
 		return new Array('fieldname', 'value', 'valuetype');
 	},
 	getValues: function (tasktype) {
@@ -383,6 +390,21 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		app.registerEventForTimeFields(jQuery('#saveTask'));
 	},
 	registerVTUpdateFieldsTaskEvents: function () {
+		var thisInstance = this;
+		this.registerAddFieldEvent();
+		this.registerDeleteConditionEvent();
+		this.registerFieldChange();
+		this.fieldValueMap = false;
+		if (jQuery('#fieldValueMapping').val() != '') {
+			this.fieldValueReMapping();
+		}
+		var fields = jQuery('#save_fieldvaluemapping').find('select[name="fieldname"]');
+		jQuery.each(fields, function (i, field) {
+			thisInstance.loadFieldSpecificUi(jQuery(field));
+		});
+		this.getPopUp(jQuery('#saveTask'));
+	},
+	registerVTUpdateRelatedFieldTaskEvents: function () {
 		var thisInstance = this;
 		this.registerAddFieldEvent();
 		this.registerDeleteConditionEvent();

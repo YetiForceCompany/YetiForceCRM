@@ -86,4 +86,5 @@ $languageStrings = [
 	'Team Selling' => 'Vendas',
 	'LBL_TAXES' => 'Taxes',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'A lista de registros está limitada aos Produtos e Serviços associados com a Oportunidade de venda',
+	'FL_EAN_13' => 'EAN-13',
 ];

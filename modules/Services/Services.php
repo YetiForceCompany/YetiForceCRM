@@ -87,7 +87,7 @@ class Services extends CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('servicename', 'assigned_user_id');
-	var $default_order_by = 'servicename';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	var $unit_price;
 
@@ -802,7 +802,7 @@ class Services extends CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		global $log, $currentModule;
 		$log->fatal('id:--' . $id);
@@ -818,9 +818,12 @@ class Services extends CRMEntity
 			$entityIds = $return_id;
 			$return_modules = "'" . $return_module . "'";
 		}
-
-		$query = 'DELETE FROM vtiger_crmentityrel WHERE (relcrmid=' . $id . ' AND module IN (' . $return_modules . ') AND crmid IN (' . $entityIds . ')) OR (crmid=' . $id . ' AND relmodule IN (' . $return_modules . ') AND relcrmid IN (' . $entityIds . '))';
-		$this->db->pquery($query, array());
+		if ($relatedName && $relatedName != 'get_related_list') {
+			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+		} else {
+			$query = 'DELETE FROM vtiger_crmentityrel WHERE (relcrmid=' . $id . ' AND module IN (' . $return_modules . ') AND crmid IN (' . $entityIds . ')) OR (crmid=' . $id . ' AND relmodule IN (' . $return_modules . ') AND relcrmid IN (' . $entityIds . '))';
+			$this->db->pquery($query, array());
+		}
 	}
 
 	/**

@@ -5,6 +5,7 @@
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 {
@@ -14,6 +15,8 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultValue = 0;
 	protected $columnName = 'marginp';
 	protected $dbType = 'decimal(27,8) DEFAULT 0';
+	protected $summationValue = true;
+	protected $colSpan = 15;
 
 	/**
 	 * Getting value to display
@@ -23,5 +26,20 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	public function getDisplayValue($value)
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
+	}
+	
+	public function getSummaryValuesFromData($data)
+	{
+		$sum = 0;
+		if (is_array($data)) {
+			foreach ($data as $row) {
+				$purchase += $row['purchase'];
+				$margin += $row['margin'];
+			}
+			if (!empty($purchase)) {
+				$sum = ($margin / $purchase) * 100;
+			}
+		}
+		return $sum;
 	}
 }

@@ -59,7 +59,7 @@ class Vendors extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'vendorname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'vendorname';
@@ -465,31 +465,32 @@ class Vendors extends CRMEntity
 		parent::unlinkDependencies($module, $id);
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids)
+	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
-
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
-		foreach ($with_crmids as $with_crmid) {
-			if ($with_module == 'Contacts') {
-				$adb->pquery("insert into vtiger_vendorcontactrel values (?,?)", array($crmid, $with_crmid));
-			} elseif ($with_module == 'Products') {
-				$adb->pquery("update vtiger_products set vendor_id=? where productid=?", array($crmid, $with_crmid));
-			} elseif ($with_module == 'Campaigns') {
-				$adb->insert('vtiger_campaign_records', [
-					'campaignid' => $with_crmid,
-					'crmid' => $crmid,
-					'campaignrelstatusid' => 0
-				]);
-			} else {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
+		if (!in_array($with_module, ['Contacts', 'Products', 'Campaigns'])) {
+			parent::save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName);
+		} else {
+			foreach ($with_crmids as $with_crmid) {
+				if ($with_module == 'Contacts') {
+					$adb->pquery("insert into vtiger_vendorcontactrel values (?,?)", array($crmid, $with_crmid));
+				} elseif ($with_module == 'Products') {
+					$adb->pquery("update vtiger_products set vendor_id=? where productid=?", array($crmid, $with_crmid));
+				} elseif ($with_module == 'Campaigns') {
+					$adb->insert('vtiger_campaign_records', [
+						'campaignid' => $with_crmid,
+						'crmid' => $crmid,
+						'campaignrelstatusid' => 0
+					]);
+				}
 			}
 		}
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))
@@ -500,7 +501,7 @@ class Vendors extends CRMEntity
 			$sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=? AND contactid=?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id);
+			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
 	}
 }

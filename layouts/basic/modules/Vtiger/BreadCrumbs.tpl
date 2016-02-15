@@ -2,7 +2,7 @@
 {strip}
 	<div class="breadCrumbs" >
 		{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs($BREADCRUMB_TITLE)}
-		{assign var=HOMEICON value='userIcon-Home2'}
+		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
 			<div class="breadcrumbsContainer">
 				<h2 class="breadcrumbsLinks">

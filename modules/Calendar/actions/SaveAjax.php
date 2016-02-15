@@ -24,7 +24,14 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = array();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			$fieldValue = Vtiger_Util_Helper::toSafeHTML($recordModel->get($fieldName));
+			$value = $recordModel->get($fieldName);
+			if(!is_array($recordModel->get($fieldName))) {
+				$fieldValue = Vtiger_Util_Helper::toSafeHTML($value);
+			} else {
+				foreach ($value as $key => $item){
+					$fieldValue[$key] = Vtiger_Util_Helper::toSafeHTML($item);
+				}
+			}
 			$result[$fieldName] = array();
 			if ($fieldName == 'date_start') {
 				$timeStart = $recordModel->get('time_start');

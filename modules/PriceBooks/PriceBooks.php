@@ -44,7 +44,7 @@ class PriceBooks extends CRMEntity {
                                      );
 
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'bookname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
 	var $mandatory_fields = Array('bookname','currency_id','pricebook_no','createdtime' ,'modifiedtime');

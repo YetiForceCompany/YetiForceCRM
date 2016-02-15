@@ -53,6 +53,11 @@ class CRMEntity
 			$modName = 'Activity';
 		}
 
+		$instance = Vtiger_Cache::get('CRMEntity', $module);
+		if ($instance) {
+			return clone $instance;
+		}
+
 		// File access security check
 		if (!class_exists($modName)) {
 			if (file_exists("custom/modules/$module/$modName.php")) {
@@ -65,7 +70,7 @@ class CRMEntity
 		}
 		$focus = new $modName();
 		$focus->moduleName = $module;
-
+		Vtiger_Cache::set('CRMEntity', $module, $focus);
 		return $focus;
 	}
 
@@ -145,7 +150,7 @@ class CRMEntity
 		$mimeType = Vtiger_Functions::getMimeContentType($file_details['tmp_name']);
 		$mimeTypeContents = explode('/', $mimeType);
 		// For contacts and products we are sending attachmentType as value 
-		if ($attachmentType == 'Image' || ($file_details['size'] && $mimeTypeContents[0] == 'image')) {
+		if ($attachmentType == 'Image' || ($file_details['size'] && $mimeTypeContents[0] == 'image') || ($module == 'Contacts' || $module == 'Products')) {
 			$saveFile = validateImageFile($file_details);
 		}
 		if ($saveFile == 'false') {
@@ -167,13 +172,7 @@ class CRMEntity
 		//upload the file in server
 		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . '_' . $binFile);
 
-		$save_file = 'true';
-		//only images are allowed for these modules
-		if ($module == 'Contacts' || $module == 'Products') {
-			$save_file = validateImageFile($file_details);
-		}
-
-		if ($save_file == 'true' && $upload_status == 'true') {
+		if ($saveFile == 'true' && $upload_status == 'true') {
 			//This is only to update the attached filename in the vtiger_notes vtiger_table for the Notes module
 			$params = [
 				'crmid' => $current_id,
@@ -238,7 +237,7 @@ class CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 
 		if ($fileid != '') {
 			$this->id = $fileid;
@@ -359,7 +358,7 @@ class CRMEntity
 	 */
 	function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		global $current_user, $app_strings;
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
@@ -388,13 +387,13 @@ class CRMEntity
 			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-				$sql = "select * from vtiger_field where tabid in (" . generateQuestionMarks($tabid) . ") and tablename=? and displaytype <> '2' and presence in (0,2) group by columnname";
+				$sql = "select * from vtiger_field where tabid in (" . generateQuestionMarks($tabid) . ") and tablename=? and presence in (0,2) group by columnname";
 				$params = array($tabid, $table_name);
 			} else {
 				$profileList = getCurrentUserProfileList();
 
 				if (count($profileList) > 0) {
-					$sql = "SELECT *
+					$sql = 'SELECT *
 			  			FROM vtiger_field
 			  			INNER JOIN vtiger_profile2field
 			  			ON vtiger_profile2field.fieldid = vtiger_field.fieldid
@@ -402,12 +401,12 @@ class CRMEntity
 			  			ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
 			  			WHERE vtiger_field.tabid = ?
 			  			AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0
-			  			AND vtiger_profile2field.profileid IN (" . generateQuestionMarks($profileList) . ")
-			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.displaytype <> '2' and vtiger_field.presence in (0,2) group by columnname";
+			  			AND vtiger_profile2field.profileid IN (' . generateQuestionMarks($profileList) . ')
+			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname';
 
 					$params = array($tabid, $profileList, $table_name);
 				} else {
-					$sql = "SELECT *
+					$sql = 'SELECT *
 			  			FROM vtiger_field
 			  			INNER JOIN vtiger_profile2field
 			  			ON vtiger_profile2field.fieldid = vtiger_field.fieldid
@@ -415,7 +414,7 @@ class CRMEntity
 			  			ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
 			  			WHERE vtiger_field.tabid = ?
 			  			AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0
-			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.displaytype <> '2' and vtiger_field.presence in (0,2) group by columnname";
+			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname';
 
 					$params = array($tabid, $table_name);
 				}
@@ -428,7 +427,7 @@ class CRMEntity
 			}
 			$column = array($table_index_column);
 			$value = array($this->id);
-			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype <> '2' and vtiger_field.presence in (0,2)";
+			$sql = 'select * from vtiger_field where tabid=? and tablename=? and vtiger_field.presence in (0,2)';
 			$params = array($tabid, $table_name);
 		}
 
@@ -455,12 +454,11 @@ class CRMEntity
 		}
 
 		for ($i = 0; $i < $noofrows; $i++) {
-
-			$fieldname = $this->resolve_query_result_value($result, $i, "fieldname");
-			$columname = $this->resolve_query_result_value($result, $i, "columnname");
-			$uitype = $this->resolve_query_result_value($result, $i, "uitype");
-			$generatedtype = $this->resolve_query_result_value($result, $i, "generatedtype");
-			$typeofdata = $this->resolve_query_result_value($result, $i, "typeofdata");
+			$fieldname = $this->resolve_query_result_value($result, $i, 'fieldname');
+			$columname = $this->resolve_query_result_value($result, $i, 'columnname');
+			$uitype = $this->resolve_query_result_value($result, $i, 'uitype');
+			$generatedtype = $this->resolve_query_result_value($result, $i, 'generatedtype');
+			$typeofdata = $this->resolve_query_result_value($result, $i, 'typeofdata');
 
 			$typeofdata_array = explode("~", $typeofdata);
 			$datatype = $typeofdata_array[0];
@@ -628,7 +626,7 @@ class CRMEntity
 	 */
 	function getOldFileName($notesid)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->info("in getOldFileName  " . $notesid);
 		$adb = PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
@@ -661,7 +659,7 @@ class CRMEntity
 	function retrieve_entity_info($record, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$app_strings = vglobal('app_strings');
 
 		if (!isset($record)) {
@@ -774,8 +772,11 @@ class CRMEntity
 					if (isset($resultrow[$fieldkey])) {
 						$fieldvalue = $resultrow[$fieldkey];
 					}
-					if (in_array($fieldinfo['uitype'], array('10', '51', '73'))) {
+					if (in_array($fieldinfo['uitype'], array(10, 51, 73))) {
 						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getCRMRecordLabel($fieldvalue);
+					}
+					if (in_array($fieldinfo['uitype'], [52, 53])) {
+						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getOwnerRecordLabel($fieldvalue);
 					}
 					$this->column_fields[$fieldinfo['fieldname']] = $fieldvalue;
 				}
@@ -791,7 +792,7 @@ class CRMEntity
 	 */
 	function save($module_name, $fileid = '')
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("module name is " . $module_name);
 
 		//Event triggering code
@@ -991,7 +992,7 @@ class CRMEntity
 	 */
 	function get_column_value($columnname, $fldvalue, $fieldname, $uitype, $datatype = '')
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function get_column_value ($columnname, $fldvalue, $fieldname, $uitype, $datatype='')");
 
 		// Added for the fields of uitype '57' which has datatype mismatch in crmentity table and particular entity table
@@ -1138,7 +1139,7 @@ class CRMEntity
 	/** Function to unlink all the dependent entities of the given Entity by Id */
 	function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 
 		$result = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
 			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', [$module]);
@@ -1179,30 +1180,51 @@ class CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $log, $currentModule;
+		switch ($relatedName) {
+			case 'get_many_to_many':
+				$this->deleteRelatedM2M($currentModule, $id, $returnModule, $returnId);
+				break;
+			case 'get_dependents_list':
+				$this->deleteRelatedDependent($currentModule, $id, $returnModule, $returnId);
+				break;
+			case 'get_related_list':
+				$this->deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
+				break;
+			default:
+				$this->deleteRelatedDependent($currentModule, $id, $returnModule, $returnId);
+				$this->deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
+				break;
+		}
+	}
 
-		$where = '(crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
-		$params = [$id, $return_module, $return_id, $id, $return_module, $return_id];
-		$this->db->delete('vtiger_crmentityrel', $where, $params);
-
-		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
-			SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', array($currentModule, $return_module));
-		$numOfFields = $this->db->num_rows($fieldRes);
-		for ($i = 0; $i < $numOfFields; $i++) {
-			$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
-			$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
-			$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
-
-			$relatedModule = vtlib_getModuleNameById($tabId);
-			$focusObj = CRMEntity::getInstance($relatedModule);
-
+	function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
+	{
+		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$module, $withModule]);
+		$numOfFields = $this->db->getRowCount($fieldRes);
+		while ($row = $this->db->getRow($fieldRes)) {
+			$focusObj = CRMEntity::getInstance($row['name']);
+			$columnName = $row['columnname'];
 			$columns = [$columnName => null];
 			$where = "$columnName = ? AND $focusObj->table_index = ?";
-			$params = [$return_id, $id];
-			$this->db->update($tableName, $columns, $where, $params);
+			$this->db->update($row['tablename'], $columns, $where, [$withCrmid, $crmid]);
 		}
+	}
+
+	function deleteRelatedM2M($module, $crmid, $withModule, $withCrmid)
+	{
+		$db = PearDatabase::getInstance();
+		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
+		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? AND ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
+	}
+
+	function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
+	{
+		$where = '(crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+		$params = [$crmid, $withModule, $withCrmid, $crmid, $withModule, $withCrmid];
+		$this->db->delete('vtiger_crmentityrel', $where, $params);
 	}
 
 	/** Function to restore a deleted record of specified module with given crmid
@@ -1282,7 +1304,7 @@ class CRMEntity
 	function initSortByField($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function initSortByField ($module)");
 		// Define the columnname's and uitype's which needs to be excluded
 		$exclude_columns = Array('parent_id', 'vendorid', 'access_count');
@@ -1418,7 +1440,7 @@ class CRMEntity
 	function updateMissingSeqNumber($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entered updateMissingSeqNumber function");
 
 		vtlib_setup_modulevars($module, $this);
@@ -1595,19 +1617,51 @@ class CRMEntity
 	 * @param Integer This module record number
 	 * @param String Related module name
 	 * @param mixed Integer or Array of related module record number
+	 * @param String function name
 	 */
-	function save_related_module($module, $crmid, $withModule, $withCrmid)
+	function save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName = false)
+	{
+		if (!is_array($withCrmid))
+			$withCrmid = [$withCrmid];
+		switch ($relatedName) {
+			case 'get_many_to_many':
+				$this->saveRelatedM2M($module, $crmid, $withModule, $withCrmid);
+				break;
+			case 'get_dependents_list':
+				break;
+			default:
+				$this->saveRelatedToDB($module, $crmid, $withModule, $withCrmid);
+				break;
+		}
+	}
+
+	function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
 
-		if (!is_array($withCrmid))
-			$withCrmid = [$withCrmid];
+		foreach ($withCrmid as $relcrmid) {
+			$check = $db->pquery('SELECT 1 FROM `' . $referenceInfo['table'] . '` WHERE ' . $referenceInfo['base'] . ' = ? AND ' . $referenceInfo['rel'] . ' = ?', [$relcrmid, $crmid]);
+			// Relation already exists? No need to add again
+			if ($check && $db->getRowCount($check))
+				continue;
+			$db->insert($referenceInfo['table'], [
+				$referenceInfo['base'] => $relcrmid,
+				$referenceInfo['rel'] => $crmid
+			]);
+		}
+	}
+
+	function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
+	{
+		$db = PearDatabase::getInstance();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		foreach ($withCrmid as $relcrmid) {
 			if ($withModule == 'Documents') {
 				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? AND notesid = ?', [$crmid, $relcrmid]);
 				// Relation already exists? No need to add again
-				if ($checkpresence && $db->num_rows($checkpresence))
+				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
 
 				$db->insert('vtiger_senotesrel', [
@@ -1618,7 +1672,7 @@ class CRMEntity
 				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
 				);
 				// Relation already exists? No need to add again
-				if ($checkpresence && $db->num_rows($checkpresence))
+				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
 
 				$db->insert('vtiger_crmentityrel', [
@@ -2657,7 +2711,7 @@ class CRMEntity
 	 */
 	function getSortOrder()
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering getSortOrder() method ...");
 		if (isset($_REQUEST['sorder']))
@@ -2795,5 +2849,13 @@ class CRMEntity
 			$whereClause .
 			" ORDER BY $tableColumnsString," . $this->table_name . "." . $this->table_index . " ASC";
 		return $query;
+	}
+
+	function getLockFields()
+	{
+		if (isset($this->lockFields)) {
+			return $this->lockFields;
+		}
+		return false;
 	}
 }

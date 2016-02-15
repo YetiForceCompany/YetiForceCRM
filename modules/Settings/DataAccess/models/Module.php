@@ -56,19 +56,21 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_dataaccess ";
 		if ($module) {
-			$sql .= " WHERE module_name IN ('All', ?) ";
-			$result = $db->pquery($sql, array($module), true);
+			$sql .= "WHERE module_name IN ('All', ?)";
+			$result = $db->pquery($sql, [$module]);
 		} else {
-			$result = $db->pquery($sql, array(), true);
+			$sql .= "WHERE presence = ?;";
+			$result = $db->pquery($sql, [1]);
 		}
-		$output = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$row = $db->raw_query_result_rowdata($result, $i);
+		$output = [];
+		$i = 0;
+		while ($row = $db->getRow($result)) {
 			$output[$i]['actions'] = $row['actions'];
 			$output[$i]['module'] = $row['module_name'];
 			$output[$i]['summary'] = $row['summary'];
 			$output[$i]['data'] = unserialize($row['data']);
 			$output[$i]['id'] = $row['dataaccessid'];
+			$i++;
 		}
 		return $output;
 	}

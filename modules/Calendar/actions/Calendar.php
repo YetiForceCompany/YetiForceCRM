@@ -42,7 +42,6 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 
 	public function getEvents(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
 		$id = $request->get('id');
 
 		$record = Calendar_Calendar_Model::getInstance();
@@ -52,6 +51,9 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		if ($request->get('start') && $request->get('end')) {
 			$record->set('start', $request->get('start'));
 			$record->set('end', $request->get('end'));
+		}
+		if ($request->has('filters')) {
+			$record->set('filters', $request->get('filters'));
 		}
 		if ($request->get('widget')) {
 			$record->set('customFilter', $request->get('customFilter'));

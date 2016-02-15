@@ -17,14 +17,16 @@ $languageStrings = [
 	'LBL_CLOSED_TIME' => 'Closed Time',
 	'LBL_RESPONSE_TIME' => 'Respone time',
 	'SINGLE_SSalesProcesses' => 'Opportunity',
+	'FL_TOTAL_PRICE' => 'Net Total',
+	'FL_MARGINP' => 'Total margin Percentage',
+	'FL_MARGIN' => 'Total margin',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Draft',
-	'PLL_ACCEPTED' => 'Accepted',
-	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Requires to be complemented',
-	'PLL_REQUIRES_CONSULTATION' => 'Requires consultation',
-	'PLL_WAITING_FOR_APPROVAL' => 'Waiting for approval',
-	'PLL_DISCARDED' => 'Discarded',
+	'PLL_IN_REALIZATION' => 'In realization',
+	'PLL_FOR_VERIFICATION' => 'For verification',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_COMPLETED' => 'Completed',
 
 	'LBL_CHANGE_STATUS' => 'Change Status',
 	'LBL_PREVIEW' => 'Preview',
