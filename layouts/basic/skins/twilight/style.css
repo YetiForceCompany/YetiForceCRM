@@ -3445,6 +3445,7 @@ span[name=existingImages] img{
 	transition: left ease-in-out 0.3s;
 	background: #ffffff;
 	min-height: 100%;
+	transition-delay: 0.35s;
 }
 .baseContainer .basePanel:after {
 	content: "";
@@ -3537,6 +3538,7 @@ span[name=existingImages] img{
 	z-index: 1030;
 	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+	transition-delay: 0.35s;
 }
 .noSpaces{
 	padding: 0;
