@@ -41,7 +41,7 @@
 							{/foreach}
 						</th>
 						{foreach item=FIELD from=$FIELDS[0]}
-							<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}" {/if} {if !$FIELD->isEditable()}class="hide"{/if}>
+							<th {if !$FIELD->isEditable()}class="hide"{/if}>
 								<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
@@ -58,7 +58,7 @@
 						<tr>
 							<th style="width: 5%;">&nbsp;&nbsp;</th>
 							{foreach item=FIELD from=$FIELDS[1]}
-								<th colspan="1" {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan') * 0.95}%"{/if} class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
+								<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan') * 0.95}%"{/if} class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
 									{vtranslate($FIELD->get('label'), $MODULE)}
 								</th>
 							{/foreach}

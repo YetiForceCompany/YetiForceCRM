@@ -25,7 +25,7 @@
 					<tr>
 						<th style="width: 40%;"></th>
 						{foreach item=FIELD from=$FIELDS[0]}
-							<th colspan="{$FIELD->get('colspan')}">
+							<th>
 								<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE_NAME)}:</span>&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
 								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
@@ -40,7 +40,7 @@
 			<thead>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<th colspan="{$FIELD->get('colspan')}" class="textAlignCenter">
+						<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if} class="textAlignCenter">
 							{vtranslate($FIELD->get('label'), $MODULE_NAME)}
 						</th>
 					{/foreach}
@@ -65,7 +65,7 @@
 			<tfoot>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
+						<td {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if}  class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
 							{if $FIELD->isSummary()}
 								{assign var="SUM" value=$FIELD->getSummaryValuesFromData($INVENTORY_ROWS)}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
