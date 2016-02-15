@@ -116,19 +116,4 @@ class Products_Module_Model extends Vtiger_Module_Model {
 					
 		return $query;
 	}
-	public function getRelationQueryM2M($recordId, $relatedModule, $relationModel)
-	{
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->getName(), $relatedModule->getName());
-		$basetable = $relatedModule->get('basetable');
-		if($relatedModule->getName() == 'IStorages'){
-			$field = ','.$referenceInfo['table'].'.qtyinstock';
-		}
-		$query = 'SELECT vtiger_crmentity.*, ' . $basetable . '.*' .$field. ' FROM ' . $basetable;
-		$query .= ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $basetable . '.' . $relatedModule->get('basetableid');
-		$query .= ' INNER JOIN ' . $referenceInfo['table'] . ' ON ' . $referenceInfo['table'] . '.' . $referenceInfo['base'] . ' = vtiger_crmentity.crmid';
-		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
-		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= ' WHERE vtiger_crmentity.deleted = 0 AND ' . $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = ' . $recordId;
-		return $query;
-	}
 }
