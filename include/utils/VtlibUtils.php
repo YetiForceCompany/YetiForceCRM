@@ -615,6 +615,61 @@ function vtlib_purify($input, $ignore = false)
 
 			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 
+			$config = HTMLPurifier_Config::createDefault();
+			$config->set('Core.Encoding', $use_charset);
+			$config->set('Cache.SerializerPath', "$use_root_directory/cache/vtlib");
+			
+			$__htmlpurifier_instance = new HTMLPurifier($config);
+		}
+		if ($__htmlpurifier_instance) {
+			// Composite type
+			if (is_array($input)) {
+				$value = array();
+				foreach ($input as $k => $v) {
+					$value[$k] = vtlib_purify($v, $ignore);
+				}
+			} else { // Simple type
+				$value = $__htmlpurifier_instance->purify($input);
+			}
+		}
+		$purified_cache[$md5OfInput] = $value;
+	}
+
+	$value = str_replace('&amp;', '&', $value);
+	return $value;
+}
+
+function vtlib_purifyForHtml($input, $ignore = false)
+{
+	global $__htmlpurifier_instance, $root_directory, $default_charset;
+
+	static $purified_cache = array();
+	$value = $input;
+
+	if (!is_array($input)) {
+		$md5OfInput = md5($input);
+		if (array_key_exists($md5OfInput, $purified_cache)) {
+			$value = $purified_cache[$md5OfInput];
+			//to escape cleaning up again
+			$ignore = true;
+		}
+	} else {
+		$md5OfInput = md5(json_encode($input));
+	}
+	$use_charset = $default_charset;
+	$use_root_directory = $root_directory;
+
+
+	if (!$ignore) {
+		// Initialize the instance if it has not yet done
+		if ($__htmlpurifier_instance == false) {
+			if (empty($use_charset))
+				$use_charset = 'UTF-8';
+			if (empty($use_root_directory))
+				$use_root_directory = dirname(__FILE__) . '/../..';
+
+			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
+
 			$allowed = array(
 				'img[src|alt|title|width|height|style|data-mce-src|data-mce-json]',
 				'figure', 'figcaption',
@@ -706,7 +761,7 @@ function vtlib_purify($input, $ignore = false)
 			if (is_array($input)) {
 				$value = array();
 				foreach ($input as $k => $v) {
-					$value[$k] = vtlib_purify($v, $ignore);
+					$value[$k] = vtlib_purifyForHtml($v, $ignore);
 				}
 			} else { // Simple type
 				$value = $__htmlpurifier_instance->purify($input);
