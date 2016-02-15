@@ -756,12 +756,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$moduleName = $this->getModuleName();
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
-		if ($this->has('inventoryData')) {
-			$request = $this->get('inventoryData');
-		} else {
-			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		}
-		$numRow = $request->get('inventoryItemsNo');
 
 		//In Bulk mode stop triggering events
 		if (!CRMEntity::isBulkSaveMode()) {

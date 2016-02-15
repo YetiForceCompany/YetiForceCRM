@@ -175,6 +175,9 @@ class Vtiger_Module_Model extends Vtiger_Module
 				$focus->column_fields[$fieldName] = decode_html($fieldValue);
 			}
 		}
+		if($this->isInventory()){
+			$focus->inventoryData = $recordModel->getInventoryData();
+		}
 		$focus->mode = $recordModel->get('mode');
 		$focus->id = $recordModel->getId();
 		$focus->newRecord = $recordModel->get('newRecord');
