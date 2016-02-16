@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Detail
- * @package YetiForce.Models
+ * Detail View for KnowledgeBase
+ * @package YetiForce.View
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
