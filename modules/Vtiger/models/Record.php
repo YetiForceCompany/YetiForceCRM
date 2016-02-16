@@ -314,12 +314,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
-		$cacheName = $recordId . ':' . is_object($module) ? $module->get('name') : $module;
-		$instance = Vtiger_Cache::get('Vtiger_Record_Model', $cacheName);
-		if ($instance) {
-			return $instance;
-		}
-
 		//TODO: Handle permissions
 		if (is_object($module) && is_a($module, 'Vtiger_Module_Model')) {
 			$moduleName = $module->get('name');
@@ -329,6 +323,11 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		} elseif (empty($module)) {
 			$moduleName = getSalesEntityType($recordId);
 			$module = Vtiger_Module_Model::getInstance($moduleName);
+		}
+		$cacheName = $recordId . ':' . $moduleName;
+		$instance = Vtiger_Cache::get('Vtiger_Record_Model', $cacheName);
+		if ($instance) {
+			return $instance;
 		}
 
 		$focus = CRMEntity::getInstance($moduleName);
