@@ -23,6 +23,27 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.userIcon-IPreOrder:before {
+    content: "\e94d";
+}
+.userIcon-IStorages:before {
+    content: "\e94e";
+}
+.userIcon-IGDN:before {
+    content: "\e94f";
+}
+.userIcon-IGIN:before {
+    content: "\e950";
+}
+.userIcon-IGRN:before {
+    content: "\e951";
+}
+.userIcon-IIDN:before {
+    content: "\e952";
+}
+.userIcon-KnowledgeBase:before {
+    content: "\e953";
+}
 .userIcon-ShoppingCart:before {
     content: "\e94a";
 }
