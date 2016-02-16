@@ -72,4 +72,58 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		}
 		return $response;
 	}
+
+	/**
+	 * Function to get relation query for particular module with function name
+	 * @param <record> $recordId
+	 * @param <String> $functionName
+	 * @param Vtiger_Module_Model $relatedModule
+	 * @return <String>
+	 */
+	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false)
+	{
+		if ($functionName === 'get_record2mails') {
+			$query = $this->reletedQueryRecords2Mail($recordId, $relatedModule, $relationModel);
+		} else {
+			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
+		}
+
+		return $query;
+	}
+
+	public function reletedQueryRecords2Mail($recordId, $relatedModule, $relationModel)
+	{
+		$relatedModuleName = $relatedModule->getName();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$queryGenerator = new QueryGenerator($relatedModuleName, $currentUser);
+		$relatedListFields = [];
+		if ($relationModel)
+			$relatedListFields = $relationModel->getRelationFields(true, true);
+		if (count($relatedListFields) == 0) {
+			$relatedListFields = $relatedModule->getConfigureRelatedListFields();
+		}
+		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
+		$queryGenerator->setFields($relatedListFields);//ossmailviewid
+		$queryGenerator->setCustomFrom([
+			'joinType' => 'INNER',
+			'relatedTable' => 'vtiger_ossmailview_relation',
+			'relatedIndex' => 'crmid',
+			'baseTable' => 'vtiger_crmentity',
+			'baseIndex' => 'crmid',
+		]);
+		$query = $queryGenerator->getQuery();
+		return $query;
+	}
+	public function reletedQueryMail2Records($recordId, $relatedModule, $relationModel)
+	{
+		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$query = "SELECT vtiger_ossmailview.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name FROM vtiger_ossmailview 
+			INNER JOIN vtiger_ossmailview_relation ON vtiger_ossmailview_relation.ossmailviewid = vtiger_ossmailview.ossmailviewid
+			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid 
+			LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid 
+			LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_ossmailview_relation.crmid = " . $recordId . " ";
+		return $query;
+	}
 }

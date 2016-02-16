@@ -5029,10 +5029,15 @@ select.form-control {
 	padding-right: 0;
 	padding-top: 0;
 	padding-bottom: 0;
- }
+}
 .table .chosen-container{
 	height: auto;
 }
 .addCommentBlock .commentcontent{
 	resize: vertical;
+}
+.detailViewTitle .hierarchy{
+	position: absolute;
+	top: -10px;
+	left: 55px;
 }

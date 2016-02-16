@@ -15,29 +15,25 @@
 							<div class='pull-right'>
 								<div class="btn-toolbar" >
 									{if AppConfig::main('isActiveSendingMails')}
-										<span class="btn-group">
-											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
-											<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
-												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}">&nbsp;&nbsp;
-												<strong>{vtranslate('LBL_REPLYALLL',$MODULE)}</strong>
-											</a>
-										</span>
-										<span class="btn-group">
-											<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=reply{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
-												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" >&nbsp;&nbsp;
-												<strong>{vtranslate('LBL_REPLY',$MODULE)}</strong>
-											</a>
-										</span>
-										<span class="btn-group">
-											<a class="btn btn-default" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=forward{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no'{/if})">
-												<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;&nbsp;
-												<strong>{vtranslate('LBL_FORWARD',$MODULE)}</strong>
-											</a>
-										</span>
+										{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}	
+										{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl()}
+										{assign var=POPUP value=$CONFIG['popup']}
+										<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
+											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
+											&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLYALLL',$MODULE)}</strong>
+										</button>
+										<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=replyAll" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+											&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLYALLL',$MODULE)}</strong>
+										</button>
+										<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=forward" data-popup="{$POPUP}" title="{vtranslate('LBL_FORWARD','OSSMailView')}">
+											<span class="glyphicon glyphicon-share-alt"></span>
+											&nbsp;&nbsp;<strong>{vtranslate('LBL_FORWARD',$MODULE)}</strong>
+										</button>
 									{/if}
 									{if Users_Privileges_Model::isPermitted($MODULE, 'PrintMail')}
 										<span class="btn-group">
-											<button id="previewPrint" onclick="printMail();" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
+											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-default" data-mode="previewPrint">
 												<span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;
 												<strong>{vtranslate('LBL_PRINT',$MODULE)}</strong>
 											</button>
@@ -160,22 +156,6 @@
 {/strip}
 {if !$ISMODAL}
 	<script>
-				$('#emailPreview_Content').css('height', document.documentElement.clientHeight - 267);	</script>
-{/if}
-{literal}
-	<script>
-				var params = {};
-				function printMail(){
-				var content = window.open();
-						$(".emailPreview > div").each(function(index) {
-				if ($(this).hasClass('content')){
-				var inframe = $("#emailPreview_Content").contents();
-						content.document.write(inframe.find('body').html() + "<br>");
-				} else{
-				content.document.write($.trim($(this).text()) + "<br>");
-				}
-				});
-						content.print();
-				}
+		$('#emailPreview_Content').css('height', document.documentElement.clientHeight - 267);
 	</script>
-{/literal}
+{/if}

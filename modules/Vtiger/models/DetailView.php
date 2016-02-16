@@ -84,18 +84,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linkurl' => 'Vtiger_Detail_Js.showWorkflowTriggerView(this)',
 				'linkicon' => 'glyphicon glyphicon-plus-sign',
 				'linkhint' => 'BTN_WORKFLOW_TRIGGER',
-			);
-		}
-		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && !$lockEdit) {
-			$detailViewLinks[] = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkurl' => $recordModel->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
-				'linkclass' => 'btn',
-				'linkhint' => 'BTN_RECORD_EDIT',
+				'linkclass' => 'btn-warning',
 			);
 		}
 		if (Users_Privileges_Model::isPermitted($moduleName, 'RecordMapping')) {
@@ -121,6 +110,20 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$detailViewBasiclinks = $linkModelListDetails['DETAILVIEWBASIC'];
 		unset($linkModelListDetails['DETAILVIEWBASIC']);
 
+		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && !$lockEdit) {
+			$editViewLinks = array(
+				'linktype' => 'DETAILVIEW',
+				'linklabel' => '',
+				'linkurl' => $recordModel->getEditViewUrl(),
+				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkclass' => 'btn',
+				'linkhint' => 'BTN_RECORD_EDIT',
+			);
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
+		}
+		
 		if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
 			$deletelinkModel = array(
 				'linktype' => 'DETAILVIEW',
@@ -137,7 +140,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_DUPLICATE',
 				'linkurl' => $recordModel->getDuplicateRecordUrl(),
-				'linkicon' => 'glyphicon glyphicon-retweet',
+				'linkicon' => 'glyphicon glyphicon-duplicate',
 				'title' => vtranslate('LBL_DUPLICATE_RECORD')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);

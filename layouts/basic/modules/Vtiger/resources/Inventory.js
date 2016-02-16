@@ -924,7 +924,6 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				thisInstance.updateRowSequence();
 			}
 		});
-		items.disableSelection();
 	},
 	registerShowHideExpanded: function (container) {
 		var thisInstance = this;

@@ -465,7 +465,6 @@ class PearDatabase
 	 */
 	public function update($table, array $columns, $where = false, array $params = [])
 	{
-		$this->log('Update | table: ' . $table . ',columns:' . implode(',', $columns) . ',where:' . $where . ',params:' . implode(',', $params));
 		$query = "UPDATE $table SET ";
 		foreach ($columns as $column => $value) {
 			$query .= $this->quote($column, false) . ' = ?,';

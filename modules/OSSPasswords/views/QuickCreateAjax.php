@@ -14,7 +14,7 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$result = $adb->query("SELECT * FROM vtiger_passwords_config WHERE 1 LIMIT 1", true);
 		$min = $adb->query_result($result, 0, 'pass_length_min');
 		$max = $adb->query_result($result, 0, 'pass_length_max');
-		$allow_chars = $adb->query_result($result, 0, 'pass_allow_chars');
+		$allowChars = $adb->query_result($result, 0, 'pass_allow_chars');
 
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
@@ -50,7 +50,6 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('RELATEDMODULE', $relatedModule);
 		$viewer->assign('GENERATEPASS', 'Generate Password');
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('GENERATEONCLICK', 'generate_password(' . $min . ',' . $max . ',\'' . $allow_chars . '\'); return false;');
 		$viewer->assign('VALIDATE_STRINGS', vtranslate('Very Weak', $relatedModule) . ',' . vtranslate('Weak', $relatedModule) . ',' . vtranslate('Better', $relatedModule) . ',' .
 			vtranslate('Medium', $relatedModule) . ',' . vtranslate('Strong', $relatedModule) . ',' . vtranslate('Very Strong', $relatedModule));
 		$viewer->assign('Very Weak', 'Very Weak');
@@ -66,10 +65,13 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('SINGLE_MODULE', 'SINGLE_' . $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
+		$viewer->assign('passLengthMin', $min);
+		$viewer->assign('passLengthMax', $max);
+		$viewer->assign('allowChars', $allowChars);
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);

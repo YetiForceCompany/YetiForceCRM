@@ -15,15 +15,16 @@
 					</div>
 					<div class="pull-right">
 						{if AppConfig::main('isActiveSendingMails')}
-							<a title="{vtranslate('LBL_FORWARD','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=forward{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
-								<span title="{vtranslate('LBL_FORWARD','OSSMailView')}" class="glyphicon glyphicon-share-alt"></span>
-							</a>
-							<a title="{vtranslate('LBL_REPLYALLL','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=replyAll{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
-								<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
-							</a>
-							<a title="{vtranslate('LBL_REPLY','OSSMailView')}" onclick="window.open('index.php?module=OSSMail&view=compose&id={$ROW['id']}&type=reply{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-sm btn-default">
-								<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
-							</a>
+							{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
+							<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
+								<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
+							</button>
+							<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+								<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+							</button>
+							<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}" title="{vtranslate('LBL_FORWARD','OSSMailView')}">
+								<span class="glyphicon glyphicon-share-alt"></span>
+							</button>
 						{/if}
 					</div>
 					<div class="clearfix"></div>

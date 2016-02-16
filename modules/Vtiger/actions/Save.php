@@ -21,6 +21,28 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	public function preProcess(Vtiger_Request $request)
+	{
+		parent::preProcess($request);
+		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
+			$baseUserId = Vtiger_Session::get('baseUserId');
+			$user = new Users();
+			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
+			vglobal('current_user', $currentUser);
+		}
+	}
+
+	public function preProcessAjax(Vtiger_Request $request)
+	{
+		parent::preProcessAjax($request);
+		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
+			$baseUserId = Vtiger_Session::get('baseUserId');
+			$user = new Users();
+			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
+			vglobal('current_user', $currentUser);
+		}
+	}
+
 	public function process(Vtiger_Request $request)
 	{
 		$recordModel = $this->saveRecord($request);

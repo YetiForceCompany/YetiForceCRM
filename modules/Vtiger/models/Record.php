@@ -263,7 +263,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if ($this->getModule()->isInventory()) {
 			$this->initInventoryData();
 		}
-
+		
 		$this->getModule()->saveRecord($this);
 
 		if ($this->getModule()->isInventory() && count($this->inventoryData) > 0) {
@@ -279,9 +279,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$db->startTransaction();
-		
+
 		$this->getModule()->deleteRecord($this);
-		
+
 		$db->completeTransaction();
 	}
 

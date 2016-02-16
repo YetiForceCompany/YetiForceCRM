@@ -11,7 +11,7 @@ jQuery.Class("Vtiger_PDF_Js", {
 		});
 		if (templateIds.length > 0) {
 			container.find('#generate_pdf').attr('disabled', false);
-			if (templateIds.length > 1 || (app.getUrlVar('view').replace('#','') === 'List' && JSON.parse(container.find('[name="validRecords"]').val()).length > 0)) {
+			if (templateIds.length > 1 || (app.getUrlVar('view').replace('#', '') === 'List' && JSON.parse(container.find('[name="validRecords"]').val()).length > 0)) {
 				container.find('#single_pdf').show();
 			} else {
 				container.find('#single_pdf').hide();
@@ -41,21 +41,26 @@ jQuery.Class("Vtiger_PDF_Js", {
 					i++;
 				}
 			});
-			var url = jQuery(this).data('url');
-			if (app.getUrlVar('view').replace('#','') === 'List') {
-				url = url.replace('&record=&', '&record=' + container.find('[name="validRecords"]').val() + '&');
+
+			if (app.getUrlVar('view').replace('#', '') === 'List') {
+				container.find('[name="record"]').val(container.find('[name="validRecords"]').val());
 			}
 
-			var win = window.open(url + JSON.stringify(templateIds), '_blank');
-			if (jQuery(this).attr('id') === 'generate_pdf') {
-				document.progressLoader.progressIndicator({'mode': 'hide'});
-				app.hideModalWindow();
-			} else {
-				win.onload = function () {
-					document.progressLoader.progressIndicator({'mode': 'hide'});
-					app.hideModalWindow();
-				};
-			};
+			container.find('[name="template"]').val(templateIds);
+			switch (jQuery(this).attr('id')) {
+				case 'generate_pdf':
+					break;
+				case 'single_pdf':
+					container.find('[name="single_pdf"]').val(1);
+					container.find('#pdfExportModal').submit();
+					break;
+				case 'email_pdf':
+					container.find('[name="email_pdf"]').val(1);
+					container.find('#pdfExportModal').submit();
+					break;
+			}
+			document.progressLoader.progressIndicator({'mode': 'hide'});
+			app.hideModalWindow();
 		});
 	},
 	registerValidateSubmit: function (container) {

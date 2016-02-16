@@ -68,7 +68,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $rcUser;
 	}
 
-	function getComposeUrl($moduleName = false, $record = false, $view = false, $popup = false)
+	public static function getComposeUrl($moduleName = false, $record = false, $view = false, $type = false)
 	{
 		$url = 'index.php?module=OSSMail&view=compose';
 		if ($moduleName) {
@@ -80,30 +80,47 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if ($view) {
 			$url .= '&crmView=' . $view;
 		}
-		if ($popup) {
-			$url .= '&popup=1';
+		if ($type) {
+			$url .= '&type=' . $type;
 		}
 		return $url;
 	}
 
-	function getComposeUrlParam($moduleName = false, $record = false, $view = false)
+	function getComposeUrlParam($moduleName = false, $record = false, $type = false, $view = false)
 	{
 		$url = '';
-		if (!empty($record) && isRecordExists($record)) {
+		if (!empty($record) && isRecordExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {
 			$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
-			if ($email) {
+			if (!empty($email)) {
 				$url = '&to=' . $email;
 			}
+
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			if ($moduleName == 'HelpDesk') {
-				$urldata = '&subject=' . $recordModel->get('ticket_no') . ' - ' . $recordModel->get('ticket_title');
-			} elseif ($moduleName == 'SSalesProcesses') {
-				$urldata = '&subject=' . $recordModel->get('ssalesprocesses_no') . ' - ' . $recordModel->get('subject');
-			} elseif ($moduleName == 'Project') {
-				$urldata = '&subject=' . $recordModel->get('project_no') . ' - ' . $recordModel->get('projectname');
+			$moduleModel = $recordModel->getModule();
+
+			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
+			if (!in_array($moduleName, array_keys($modulesLevel1))) {
+				$db = PearDatabase::getInstance();
+				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);
+				if ($db->getRowCount($result) > 0) {
+					$subject = '&subject=' . $recordModel->get($db->getSingleValue($result));
+					if ($type == 'new') {
+						switch ($moduleName) {
+							case 'HelpDesk':
+								$subject .= ' - ' . $recordModel->get('ticket_title');
+								break;
+							case 'SSalesProcesses':
+								$subject .= ' - ' . $recordModel->get('subject');
+								break;
+							case 'Project':
+								$subject .= ' - ' . $recordModel->get('projectname');
+								break;
+						}
+					}
+					$url .= $subject;
+				}
 			}
-			$url .= $urldata;
 		}
 		if (!empty($moduleName)) {
 			$url .= '&crmmodule=' . $moduleName;
@@ -119,7 +136,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 	protected static $composeParam = false;
 
-	function getComposeParameters()
+	public static function getComposeParameters()
 	{
 		if (!self::$composeParam) {
 			$db = PearDatabase::getInstance();

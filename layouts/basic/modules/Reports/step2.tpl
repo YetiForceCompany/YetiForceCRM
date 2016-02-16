@@ -23,6 +23,7 @@
 		<input type="hidden" name="selected_fields" id="seleted_fields" value='{ZEND_JSON::encode($SELECTED_FIELDS)}' />
 		<input type="hidden" name="selected_sort_fields" id="selected_sort_fields" value="" />
 		<input type="hidden" name="calculation_fields" id="calculation_fields" value="" />
+		<input type="hidden" id="maxReportColumn" value="{AppConfig::module('Reports','MAX_REPORT_COLUMN')}" />
 		<input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
 
 		<input type="hidden" name="enable_schedule" value="{$REPORT_MODEL->get('enable_schedule')}">
@@ -38,7 +39,7 @@
 		<input type="hidden" class="step" value="2" />
 		<div class="well contentsBackground col-xs-12">
 			<div class="block marginBottom10px col-xs-12 paddingLRZero">
-				<div class="col-xs-12 marginBottom10px"><span class="redColor">*</span><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</strong></div>
+				<div class="col-xs-12 marginBottom10px"><span class="redColor">*</span><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)} ({vtranslate('LBL_MAX',$MODULE)} {AppConfig::module('Reports','MAX_REPORT_COLUMN')})</strong></div>
 				<div class="col-xs-12">
 					<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" data-validation-engine="validate[required]" title="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" class="form-control columns" multiple="">
 						{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}

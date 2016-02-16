@@ -47,24 +47,6 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get relation query for particular module with function name
-	 * @param <record> $recordId
-	 * @param <String> $functionName
-	 * @param Vtiger_Module_Model $relatedModule
-	 * @return <String>
-	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false)
-	{
-		if ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
-			$query = OSSMailView_Record_Model::getMailsQuery($recordId, $relatedModule->getName());
-		} else {
-			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
-		}
-
-		return $query;
-	}
-
-	/**
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
 	 * @param <String> $searchValue - Search value

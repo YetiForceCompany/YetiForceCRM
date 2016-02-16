@@ -21,6 +21,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$this->modules_email_actions_widgets['Leads'] = true;
 		$this->modules_email_actions_widgets['HelpDesk'] = true;
 		$this->modules_email_actions_widgets['Project'] = true;
+		$this->modules_email_actions_widgets['SSalesProcesses'] = true;
 		parent::__construct();
 	}
 
@@ -141,41 +142,39 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		return trim($return, ',');
 	}
 
-	public function findEmail($id, $module)
+	public function findEmail($record, $module)
 	{
-		if (!isRecordExists($id))
+		if (!isRecordExists($record))
 			return false;
 		$returnEmail = '';
-		if (strcmp($module, 'HelpDesk') != 0 && strcmp($module, 'Project') != 0) {
-			$polaEmail = OSSMailScanner_Record_Model::getEmailSearch($module);
-			if (count($polaEmail) > 0) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($id, $module);
-				foreach ($polaEmail as $em) {
-					$email = $recordModel->get($em['columnname']);
+		if (in_array($module, ['HelpDesk', 'Project', 'SSalesProcesses'])) {
+			$accountId = '';
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $module);
+			switch ($module) {
+				case 'HelpDesk':
+					$accountId = $recordModel->get('parent_id');
+					break;
+				case 'Project':
+					$accountId = $recordModel->get('linktoaccountscontacts');
+					break;
+				case 'SSalesProcesses':
+					$accountId = $recordModel->get('related_to');
+					break;
+			}
+			if (isRecordExists($accountId)) {
+				$setype = Vtiger_Functions::getCRMRecordType($accountId);
+				$returnEmail = $this->findEmail($accountId, $setype);
+			}
+		} else {
+			$emailFields = OSSMailScanner_Record_Model::getEmailSearch($module);
+			if (count($emailFields) > 0) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($record, $module);
+				foreach ($emailFields as $emailField) {
+					$email = $recordModel->get($emailField['columnname']);
 					if (!empty($email)) {
 						$returnEmail = $email;
 					}
 				}
-			}
-		} else {
-			$kontrahentId = '';
-			$kontaktId = '';
-			if (strcmp($module, 'HelpDesk') == 0) {
-				$helpdeskRecord = Vtiger_Record_Model::getInstanceById($id, $module);
-				$kontrahentId = $helpdeskRecord->get('parent_id');
-				$kontaktId = $helpdeskRecord->get('contact_id');
-			} else if (strcmp($module, 'Project') == 0) {
-				$helpdeskRecord = Vtiger_Record_Model::getInstanceById($id, $module);
-				$kontrahentId = $helpdeskRecord->get('linktoaccountscontacts');
-			}
-			// czy kontrahent istnieje
-			if (isRecordExists($kontrahentId)) {
-				$nazwaModulu = Vtiger_Functions::getCRMRecordType($kontrahentId);
-				$returnEmail = $this->findEmail($kontrahentId, $nazwaModulu);
-			}
-			if (isRecordExists($kontaktId)) {
-				$nazwaModulu = Vtiger_Functions::getCRMRecordType($kontaktId);
-				$returnEmail = $this->findEmail($kontaktId, $nazwaModulu);
 			}
 		}
 		return $returnEmail;
@@ -317,14 +316,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'relmodule' => $newModule
 			]);
 		} else {
-			$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?';
-			$result = $db->pquery($query, [$mailId, $newCrmId]);
-			if ($db->getRowCount($result) == 0) {
-				$db->insert('vtiger_ossmailview_relation', [
-					'ossmailviewid' => $mailId,
-					'crmid' => $newCrmId
-				]);
-			}
+			OSSMailView_Relation_Model::addRelation($mailId, $newCrmId);
 		}
 		return vtranslate('Add relationship', 'OSSMail');
 	}

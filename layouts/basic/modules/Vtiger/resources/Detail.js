@@ -533,7 +533,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	/**
 	 * Function to save comment
 	 */
-	saveCommentAjax: function(element, commentMode, commentContentValue, editCommentReason,  commentId, parentCommentId, aDeferred){
+	saveCommentAjax: function (element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred) {
 		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({});
 		var postData = {
@@ -587,7 +587,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var commentInfoHeader = closestCommentBlock.closest('.commentDetails').find('.commentInfoHeader');
 		var commentId = commentInfoHeader.data('commentid');
 		var parentCommentId = commentInfoHeader.data('parentcommentid');
-		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId,aDeferred);
+		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred);
 		return aDeferred.promise();
 	},
 	/**
@@ -1198,8 +1198,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					)
 				}
 			}
-
-			jQuery(document).on('click', '*', saveHandler);
+			jQuery('body :not(.popover *)').click(saveHandler);
 		})
 	},
 	triggerDisplayTypeEvent: function () {
@@ -2248,7 +2247,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 	},
-	saveCommentModal: function(element, moreBtn){
+	saveCommentModal: function (element, moreBtn) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var currentTarget = element;
@@ -2270,10 +2269,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var commentInfoHeader = moreBtn.closest('.commentDetails').find('.commentInfoHeader');
 		var commentId = commentInfoHeader.data('commentid');
 		var parentCommentId = commentInfoHeader.data('parentcommentid');
-		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId,aDeferred);
+		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred);
 		return aDeferred.promise();
 	},
-	registerCommentModalEvents: function(detailContentsHolder){
+	registerCommentModalEvents: function (detailContentsHolder) {
 		var thisInstance = this;
 		detailContentsHolder.on('click', '.detailViewCommentModalBtn', function (e) {
 			var moreBtn = jQuery(e.currentTarget);
@@ -2284,13 +2283,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var commentModal = $('.commentModalContent');
 				commentModal.find('.commentcontent').html(commentValue);
 				commentModal.find('[name="reasonToEdit"]').val(reasonValue);
-				if(moreBtn.data('mode') == 'edit'){
+				if (moreBtn.data('mode') == 'edit') {
 					commentModal.find('.reason').removeClass('hide');
 				}
-				else{
+				else {
 					commentModal.find('.reason').addClass('hide');
 				}
-				$('.modalSaveComment').on('click', function(e){
+				$('.modalSaveComment').on('click', function (e) {
 					var element = jQuery(e.currentTarget);
 					if (!element.is(":disabled")) {
 						var dataObj = thisInstance.saveCommentModal(element, moreBtn);
@@ -2306,7 +2305,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			});
 		});
-		
+
 		detailContentsHolder.on('click', '.commentModalBtn', function (e) {
 			var moreBtn = jQuery(e.currentTarget);
 			var blockComment = moreBtn.closest('.addCommentBlock');
@@ -2316,20 +2315,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var commentModal = $('.commentModalContent');
 				commentModal.find('.commentcontent').html(commentValue);
 				commentModal.find('[name="reasonToEdit"]').val(reasonValue);
-				if(moreBtn.data('mode') == 'edit'){
+				if (moreBtn.data('mode') == 'edit') {
 					commentModal.find('.reason').removeClass('hide');
 				}
-				else{
+				else {
 					commentModal.find('.reason').addClass('hide');
 				}
-				$('.modalSaveComment').on('click', function(e){
+				$('.modalSaveComment').on('click', function (e) {
 					var element = jQuery(e.currentTarget);
 					if (!element.is(":disabled")) {
 						var dataObj = thisInstance.saveCommentModal(element, moreBtn);
 						dataObj.then(function (data) {
 							var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 							thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
-							thisInstance.addComment(moreBtn,data);
+							thisInstance.addComment(moreBtn, data);
 							app.hideModalWindow();
 						});
 					}
@@ -2340,7 +2339,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	/**
 	 * Function to display a new comments
 	 */
-	addComment: function(currentTarget, data){
+	addComment: function (currentTarget, data) {
 		var thisInstance = this;
 		var mode = currentTarget.data('mode');
 		var closestAddCommentBlock = currentTarget.closest('.addCommentBlock');
@@ -2493,7 +2492,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				dataObj.then(function (data) {
 					var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 					thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
-					thisInstance.addComment(currentTarget,data);
+					thisInstance.addComment(currentTarget, data);
 					element.removeAttr('disabled');
 				});
 			}
@@ -2549,6 +2548,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			app.showModalWindow("", url, function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.registerMailPreviewWidget(data);
+				Vtiger_Index_Js.registerMailButtons(data);
 				data.find('.expandAllMails').click();
 				data.find('.showMailModal').click(function (e) {
 					var progressIndicatorElement = jQuery.progressIndicator();
@@ -2569,6 +2569,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 		});
 		container.find('.widget_contents').on(thisInstance.widgetPostLoad, function (e, widgetName) {
+			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
 				app.showModalWindow("", $(e.currentTarget).data('url'), function () {
@@ -2576,62 +2577,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			});
 		});
-		container.find('.sendMailBtn').click(function (e) {
-			var sendButton = jQuery(e.currentTarget);
-			var url = sendButton.data("url");
-			var mod = sendButton.data("mod");
-			var record = sendButton.data("record");
-			var popup = sendButton.data("popup");
-			if (mod == 'Contacts' || mod == 'Leads' || mod == 'Accounts') {
-				var params = {};
-				var resp = {};
-				params.data = {module: 'OSSMail', action: 'getContactMail', mod: mod, ids: record}
-				params.async = false;
-				params.dataType = 'json';
-				AppConnector.request(params).then(
-						function (response) {
-							resp = response['result'];
-							if (resp.length > 1) {
-								var getConfig = jQuery.ajax({
-									type: "GET",
-									async: false,
-									url: 'index.php?module=OSSMail&view=selectEmail',
-									data: {resp: resp}
-								});
-								var callback = function (container) {
-									$('#sendEmailContainer #selectEmail').click(function (e) {
-										url += '&to=' + $('input[name=selectedFields]:checked').val();
-										thisInstance.sendMailWindow(url, popup);
-									});
-								}
-								getConfig.done(function (cfg) {
-									var data = {}
-									data.css = {'width': '700px'};
-									data.cb = callback;
-									data.data = cfg;
-									app.showModalWindow(data);
-								});
-							}
-							if (resp.length == 1) {
-								url += '&to=' + resp[0].email;
-								thisInstance.sendMailWindow(url, popup);
-							}
-							if (resp.length == 0) {
-								thisInstance.sendMailWindow(url, popup);
-							}
-						}
-				);
-			} else {
-				thisInstance.sendMailWindow(url, popup);
-			}
-		});
-	},
-	sendMailWindow: function (url, popup) {
-		if (popup) {
-			window.open(url, '_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no');
-		} else {
-			window.location.href = url;
-		}
 	},
 	loadMailPreviewWidget: function (widgetContent) {
 		var thisInstance = this;
@@ -2663,7 +2608,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerCommentEvents(detailContentsHolder);
 		app.registerEventForDatePickerFields(detailContentsHolder);
 		//Attach time picker event to time fields
-		app.registerEventForTimeFields(detailContentsHolder);
+		app.registerEventForClockPicker();
 
 		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
 			var url = selectedTabElement.data('url');
@@ -2964,14 +2909,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		);
 	},
-	registerKeyEvents: function (detailContentsHolder) {
-		detailContentsHolder.on('keypress', '.commentcontent', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			if (e.which == 13) {
-				currentTarget.closest('.addCommentBlock ').find('.saveComment, .detailViewSaveComment').trigger('click');
-			}
-		});
-	},
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.refreshRelatedList();
@@ -2997,7 +2934,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		this.registerBasicEvents();
 		this.registerSetReadRecord(detailViewContainer);
-		this.registerKeyEvents(detailViewContainer);
 		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 
 		thisInstance.getForm().validationEngine(app.validationEngineOptionsForRecord);

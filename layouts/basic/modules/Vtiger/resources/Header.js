@@ -686,6 +686,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		var progress = jQuery.progressIndicator();
 		thisInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
 			thisInstance.handleQuickCreateData(data, params);
+			app.registerEventForClockPicker();
 			progress.progressIndicator({
 				'mode': 'hide'
 			});

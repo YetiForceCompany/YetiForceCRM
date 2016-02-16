@@ -14,6 +14,9 @@
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 {/foreach}
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+<input type="hidden" id="allowedLetters" value="{$allowChars}">
+<input type="hidden" id="maxChars" value="{$passLengthMax}">
+<input type="hidden" id="minChars" value="{$passLengthMin}">
 <div class="modelContainer modal fade" tabindex="-1">
 	<div class="modal-dialog modal-full">
 		<div class="modal-content">
@@ -24,7 +27,7 @@
 					</div>
 					<div class="pull-right quickCreateActions">
 						{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
-						<button class="btn btn-success" name="save" type="submit" onclick="{$GENERATEONCLICK}"><strong>{vtranslate('Generate Password', $RELATEDMODULE)}</strong></button>&nbsp;
+						<button class="btn btn-success generatePass" name="save" type="button"><strong>{vtranslate('Generate Password', $RELATEDMODULE)}</strong></button>&nbsp;
 						<button class="btn btn-default" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
 						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>

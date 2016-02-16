@@ -1,7 +1,6 @@
 {strip}
-	{assign var=EMAIL_MODULE_MODEL value=Vtiger_Module_Model::getInstance('OSSMail')}
-	{assign var=CONFIG value=$EMAIL_MODULE_MODEL->getComposeParameters()}
-	{assign var=URLDATA value=$EMAIL_MODULE_MODEL->getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', $CONFIG['popup'])}
+	{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
+	{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 	<div class="summaryWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="widget_header">
@@ -17,9 +16,9 @@
 								</button>
 								&nbsp;
 								{if AppConfig::main('isActiveSendingMails')}
-									<a title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}" data-url="{$URLDATA}" data-popup="{$CONFIG['popup']}" class="btn btn-default btn-sm addButton sendMailBtn">
-										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-									</a>
+									<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$URLDATA}" data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" data-popup="{$CONFIG['popup']}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
+										<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+									</button>
 								{/if}
 							</div>
 						</div>

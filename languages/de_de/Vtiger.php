@@ -1104,6 +1104,7 @@ $languageStrings = [
 	'FL_SUB_PROCESS' => 'Subprocess',
 	'LBL_VIEW_DUPLICATE' => 'Duplicate',
 	'LBL_VIEW_INDEX' => 'Start',
+	'LBL_SU_UPDATED' => 'Record updated by a different user',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

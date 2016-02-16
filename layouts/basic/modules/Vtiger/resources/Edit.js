@@ -1472,7 +1472,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerReferenceSelectionEvent(container);
 		this.registerMaskFields(container);
 		this.registerHelpInfo();
-		app.registerEventForDatePickerFields(container);
+		app.registerEventForClockPicker();
 		this.registerReferenceFields(container);
 	},
 	registerEvents: function () {

@@ -67,7 +67,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		$templateIds = $request->get('template');
+		$templateIds = explode(',', $request->get('template'));
 		$singlePdf = $request->get('single_pdf') == 1 ? true : false;
 		$emailPdf = $request->get('email_pdf') == 1 ? true : false;
 

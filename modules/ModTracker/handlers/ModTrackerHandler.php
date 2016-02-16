@@ -59,8 +59,7 @@ class ModTrackerHandler extends VTEventHandler
 									'module' => $moduleName,
 									'whodid' => $current_user->id,
 									'changedon' => $newerColumnFields['modifiedtime'],
-									'status' => $status,
-									'whodidsu' => Vtiger_Session::get('baseUserId'),
+									'status' => $status
 								]);
 								$inserted = true;
 							}
@@ -83,8 +82,7 @@ class ModTrackerHandler extends VTEventHandler
 					'module' => $moduleName,
 					'whodid' => $current_user->id,
 					'changedon' => date('Y-m-d H:i:s', time()),
-					'status' => ModTracker::$DELETED,
-					'whodidsu' => Vtiger_Session::get('baseUserId'),
+					'status' => ModTracker::$DELETED
 				]);
 				$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
 				if ($adb->num_rows($isMyRecord) > 0)
@@ -101,8 +99,7 @@ class ModTrackerHandler extends VTEventHandler
 					'module' => $moduleName,
 					'whodid' => $current_user->id,
 					'changedon' => date('Y-m-d H:i:s', time()),
-					'status' => ModTracker::$RESTORED,
-					'whodidsu' => Vtiger_Session::get('baseUserId'),
+					'status' => ModTracker::$RESTORED
 				]);
 				$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
 				if ($adb->num_rows($isMyRecord) > 0)

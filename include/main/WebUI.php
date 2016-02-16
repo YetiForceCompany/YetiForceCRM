@@ -76,6 +76,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	protected function triggerPreProcess($handler, $request)
 	{
 		if ($request->isAjax()) {
+			$handler->preProcessAjax($request);
 			return true;
 		}
 		$handler->preProcess($request);

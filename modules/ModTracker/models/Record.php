@@ -172,8 +172,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			'module' => $sourceModule,
 			'whodid' => $current_user,
 			'changedon' => date('Y-m-d H:i:s'),
-			'status' => 6,
-			'whodidsu' => Vtiger_Session::get('baseUserId'),
+			'status' => 6
 		]);
 	}
 }

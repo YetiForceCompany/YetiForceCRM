@@ -7,68 +7,50 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-Vtiger_Detail_Js("Accounts_Detail_Js",{
-	
+Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 	//It stores the Account Hierarchy response data
-	accountHierarchyResponseCache : {},
-	
-	/*
-	 * function to trigger Account Hierarchy action
-	 * @param: Account Hierarchy Url.
-	 */
-	triggerAccountHierarchy : function(accountHierarchyUrl) {
-		Accounts_Detail_Js.getAccountHierarchyResponseData(accountHierarchyUrl).then(
-			function(data) {
-				Accounts_Detail_Js.displayAccountHierarchyResponseData(data);
-			}
-		);
-		
-	},
-	
+	accountHierarchyResponseCache: {},
 	/*
 	 * function to get the AccountHierarchy response data
 	 */
-	getAccountHierarchyResponseData : function(params) {
+	getAccountHierarchyResponseData: function (params) {
+		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
-		
+
 		//Check in the cache
-		if(!(jQuery.isEmptyObject(Accounts_Detail_Js.accountHierarchyResponseCache))) {
-			aDeferred.resolve(Accounts_Detail_Js.accountHierarchyResponseCache);
+		if (!(jQuery.isEmptyObject(thisInstance.accountHierarchyResponseCache))) {
+			aDeferred.resolve(thisInstance.accountHierarchyResponseCache);
 		} else {
 			AppConnector.request(params).then(
-				function(data) {
-					//store it in the cache, so that we dont do multiple request
-					Accounts_Detail_Js.accountHierarchyResponseCache = data;
-					aDeferred.resolve(Accounts_Detail_Js.accountHierarchyResponseCache);
-				}
+					function (data) {
+						//store it in the cache, so that we dont do multiple request
+						thisInstance.accountHierarchyResponseCache = data;
+						aDeferred.resolve(thisInstance.accountHierarchyResponseCache);
+					}
 			);
 		}
 		return aDeferred.promise();
 	},
-	
 	/*
 	 * function to display the AccountHierarchy response data
 	 */
-	displayAccountHierarchyResponseData : function(data) {
-        var callbackFunction = function(data) {
-            app.showScrollBar(jQuery('#hierarchyScroll'), {
-                height: '300px',
-                railVisible: true,
-                size: '6px'
-            });
-        }
-        app.showModalWindow(data, function(data){
-            
-            if(typeof callbackFunction == 'function' && jQuery('#hierarchyScroll').height() > 300){
-                callbackFunction(data);
-            }
-        });
-        }
-},{
-	getDeleteMessageKey : function() {
+	displayAccountHierarchyResponseData: function (data) {
+		var callbackFunction = function (data) {
+			app.showScrollBar(jQuery('#hierarchyScroll'), {
+				height: '300px',
+				railVisible: true,
+				size: '6px'
+			});
+		}
+		app.showModalWindow(data, function (data) {
+			if (typeof callbackFunction == 'function' && jQuery('#hierarchyScroll').height() > 300) {
+				callbackFunction(data);
+			}
+		});
+	},
+	getDeleteMessageKey: function () {
 		return 'LBL_RELATED_RECORD_DELETE_CONFIRMATION';
 	},
-	
 	/**
 	 * Number of records in hierarchy
 	 * @license licenses/License.html
@@ -76,24 +58,34 @@ Vtiger_Detail_Js("Accounts_Detail_Js",{
 	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
 	 */
 	registerHierarchyRecordCount: function () {
-		var hierarchyButton = $('.detailViewToolbar .hierarchy');
-		if(hierarchyButton.length){
-			var thisInstance = new Vtiger_Detail_Js();
+		var hierarchyButton = $('.detailViewTitle .hierarchy');
+		if (hierarchyButton.length) {
 			var params = {
 				module: app.getModuleName(),
 				action: 'RelationAjax',
-				record: thisInstance.getRecordId(),
+				record: app.getRecordId(),
 				mode: 'getHierarchyCount',
 			}
 			AppConnector.request(params).then(function (response) {
 				if (response.success) {
-					$('.detailViewToolbar .hierarchy').append(' <span class="badge">' + response.result + '</span>');
+					$('.detailViewTitle .hierarchy').append(' <span class="badge">' + response.result + '</span>');
 				}
 			});
 		}
 	},
+	registerShowHierarchy: function () {
+		var thisInstance = this;
+		var hierarchyButton = $('.detailViewTitle');
+		var url = "index.php?module=Accounts&view=AccountHierarchy&record=" + app.getRecordId();
+		hierarchyButton.on('click', '.detailViewIcon', function (e) {
+			thisInstance.getAccountHierarchyResponseData(url).then(function (data) {
+				thisInstance.displayAccountHierarchyResponseData(data);
+			});
+		});
+	},
 	registerEvents: function () {
 		this._super();
 		this.registerHierarchyRecordCount();
+		this.registerShowHierarchy();
 	}
 });
