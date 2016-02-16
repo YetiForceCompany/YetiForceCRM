@@ -641,7 +641,7 @@ function vtlib_purify($input, $ignore = false)
 
 function vtlib_purifyForHtml($input, $ignore = false)
 {
-	global $__htmlpurifier_instance, $root_directory, $default_charset;
+	global $htmlPurifierForHtml, $root_directory, $default_charset;
 
 	static $purified_cache = array();
 	$value = $input;
@@ -662,7 +662,7 @@ function vtlib_purifyForHtml($input, $ignore = false)
 
 	if (!$ignore) {
 		// Initialize the instance if it has not yet done
-		if ($__htmlpurifier_instance == false) {
+		if ($htmlPurifierForHtml == false) {
 			if (empty($use_charset))
 				$use_charset = 'UTF-8';
 			if (empty($use_root_directory))
@@ -673,7 +673,7 @@ function vtlib_purifyForHtml($input, $ignore = false)
 			$allowed = array(
 				'img[src|alt|title|width|height|style|data-mce-src|data-mce-json]',
 				'figure', 'figcaption',
-				'video[src|type|width|height|poster|preload|controls]', 'source[src|type]',
+				'video[src|type|width|height|poster|preload|controls|style|class]', 'source[src|type]',
 				'audio[src|type|preload|controls]',
 				'a[href|target]',
 				'iframe[width|height|src|frameborder|allowfullscreen]',
@@ -754,9 +754,9 @@ function vtlib_purifyForHtml($input, $ignore = false)
 				$def->addAttribute('tr', 'border', 'Text');
 			}
 
-			$__htmlpurifier_instance = new HTMLPurifier($config);
+			$htmlPurifierForHtml = new HTMLPurifier($config);
 		}
-		if ($__htmlpurifier_instance) {
+		if ($htmlPurifierForHtml) {
 			// Composite type
 			if (is_array($input)) {
 				$value = array();
@@ -764,7 +764,7 @@ function vtlib_purifyForHtml($input, $ignore = false)
 					$value[$k] = vtlib_purifyForHtml($v, $ignore);
 				}
 			} else { // Simple type
-				$value = $__htmlpurifier_instance->purify($input);
+				$value = $htmlPurifierForHtml->purify($input);
 			}
 		}
 		$purified_cache[$md5OfInput] = $value;
