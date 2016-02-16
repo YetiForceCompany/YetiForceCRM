@@ -819,7 +819,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		AppConnector.request(params).then(
 				function (data) {
 					progressInstace.hide();
-					var editViewForm = thisInstance.getForm();
+					var editViewForm = Vtiger_Edit_Js.getInstance().getForm();
 					if (data.result.status == false) {
 						app.showModalWindow(data.result.html, function (data) {
 							data.find('.enableSave').on('click', function (e, data) {
