@@ -1059,7 +1059,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var saveTriggred = false;
 			var preventDefault = false;
 			var saveHandler = function (e) {
-				console.log('saveHandler');
 				var element = jQuery(e.target);
 				if ((element.closest('.fieldValue').is(currentTdElement))) {
 					return;
