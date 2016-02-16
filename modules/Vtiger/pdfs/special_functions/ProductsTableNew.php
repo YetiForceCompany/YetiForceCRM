@@ -40,27 +40,28 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
 				<thead>
-					<tr><td>'.vtranslate('LBL_NR').'</td>';
+					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
-					$html .= '<th class="textAlignCenter tBorder tHeader">' . vtranslate($field->get('label'), $module) . '</th>';
+					$html .= '<th style="width:' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . vtranslate($field->get('label'), $module) . '</th>';
 				}
 			}
 			$html .= '</tr>
 				</thead>
 				<tbody>';
 			foreach ($inventoryRows as $key => &$inventoryRow) {
-				$rowNo = $key + 1;
-				$html .= '<tr><td><strong>'.$rowNo.'</strong></td>';
+				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
-					if ($field->isVisible($inventoryRows)) {
+					if ($field->getName() == 'ItemNumber') {
+						$html .= '<td><strong>'.$inventoryRow['seq'].'</strong></td>';
+					} else if ($field->isVisible($inventoryRows)) {
 						$itemValue = $inventoryRow[$field->get('columnname')];
-						$html .= '<td ' . ($field->getName() == 'Name' ? 'width="30%" ' : '') . ' class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
+						$html .= '<td class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
 						switch ($field->getTemplateName('DetailView', $module)) {
 							case 'DetailViewName.tpl':
 								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
-								if (isset($fields[2]['comment' . $rowNo])) {
-									$COMMENT_FIELD = $fields[2]['comment' . $rowNo];
+								if (isset($fields[2]['comment' . $inventoryRow['seq']])) {
+									$COMMENT_FIELD = $fields[2]['comment' . $inventoryRow['seq']];
 									$html .= '<br/>' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
 								}
 								break;
@@ -76,7 +77,7 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 			}
 			$html .= '</tbody>
 					<tfoot>
-						<tr><td></td>';
+						<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
 					$html .= '<td class="textAlignRight ';
