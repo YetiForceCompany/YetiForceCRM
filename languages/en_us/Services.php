@@ -6,10 +6,6 @@ $languageStrings = [
 	'Software' => 'Software',
 	'Hardware' => 'Hardware',
 	'LBL_SUMMARY' => 'Work time summary',
-	'Total time [Tickets]' => 'Total time [Tickets]',
-	'Total time [Sum]' => 'Total time [Sum]',
-	'Total time [Project Task]' => 'Total time [Project Task]',
-	'Total time [Project]' => 'Total time [Project]',
 	// Basic Strings
 	'Services' => 'Services',
 	'SINGLE_Services' => 'Service',

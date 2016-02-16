@@ -60,10 +60,6 @@ $languageStrings = [
 	'LBL_DOWNLOAD_FILE' => 'Pobierz plik',
 	
 	//YetiForce
-	'Total time [Project]' => 'Łączny czas<br />[Projekt]',
-	'Total time [Project Task]' => 'Łączny czas<br />[Zadania]',
-	'Total time [Sum]' => 'Suma<br />[globalna]',
-	'Total time [Tickets]' => 'Łączny czas<br />[Zgłoszenia]',
 	'LBL_SUMMARY' => 'Podsumowanie czasu pracy',
 	'LBL_PROJECTS_LIST' => 'Lista projektów',
 	'Add Project Task' => 'Dodaj zadanie projektu',

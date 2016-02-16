@@ -62,11 +62,6 @@ $languageStrings = [
 
 
 	//YetiForce
-	'Total time [Project]' => 'Tempo total [Projeto]',
-	'Total time [Project Task]' => 'Tempo total [Tarefa Projeto]',
-	'Total time [Sum]' => 'Tempo total [Soma]',
-	'Total time [Tickets]' => 'Tempo total [Chamados]',
-
 	'LBL_CHARTS'=>'Gráficos',
 	'Add Project Task' => 'Adicionar Tarefa Projeto',
 	'LBL_GANTT'=>'Gantt',

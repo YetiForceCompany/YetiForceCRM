@@ -1,10 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'Total time [Project]' => 'Общее время (Проекты)',
-	'Total time [Project Task]' => 'Общее время (Проектные задачи)',
-	'Total time [Sum]' => 'Общее время',
-	'Total time [Tickets]' => 'Общее время (Заявки)',
 	'LBL_SUMMARY' => 'Всего рабочего времени',
 	'Hardware' => 'Оборудование',
 	'Software' => 'Программное обечпечение',

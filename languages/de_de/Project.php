@@ -60,13 +60,6 @@ $languageStrings = [
 	//Summary View Widgets
 	'LBL_DOWNLOAD_FILE' => 'Datei herunterladen',
     
-    
-	//YetiForce
-	'Total time [Project]' => 'Gesamtzeit [Projekt]',
-	'Total time [Project Task]' => 'Gesamtzeit [Projekt Aufgabe]',
-	'Total time [Sum]' => 'Gesamtzeit [Summe]',
-	'Total time [Tickets]' => 'Gesamtzeit [Tickets]',
-    
 	'LBL_CHARTS'=>'Diagramme',
 	'LBL_GANTT'=>'Gantt',
 	

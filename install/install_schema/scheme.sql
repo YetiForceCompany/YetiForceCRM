@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -6344,9 +6345,6 @@ CREATE TABLE `vtiger_project` (
   `progress` varchar(100) DEFAULT NULL,
   `linktoaccountscontacts` int(19) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
-  `sum_time_pt` decimal(10,2) DEFAULT '0.00',
-  `sum_time_h` decimal(10,2) DEFAULT '0.00',
-  `sum_time_all` decimal(10,2) DEFAULT '0.00',
   `servicecontractsid` int(19) DEFAULT NULL,
   PRIMARY KEY (`projectid`),
   KEY `servicecontractsid` (`servicecontractsid`),
@@ -7937,7 +7935,6 @@ CREATE TABLE `vtiger_troubletickets` (
   `update_log` text,
   `version_id` int(11) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
-  `projectid` int(19) DEFAULT NULL,
   `servicecontractsid` int(19) DEFAULT NULL,
   `attention` text,
   `pssold_id` int(19) DEFAULT NULL,
@@ -7949,7 +7946,6 @@ CREATE TABLE `vtiger_troubletickets` (
   KEY `parent_id` (`parent_id`),
   KEY `product_id` (`product_id`),
   KEY `servicecontractsid` (`servicecontractsid`),
-  KEY `projectid` (`projectid`),
   KEY `pssold_id` (`pssold_id`),
   CONSTRAINT `fk_1_vtiger_troubletickets` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
