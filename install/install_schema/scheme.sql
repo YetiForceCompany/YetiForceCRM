@@ -1125,8 +1125,11 @@ CREATE TABLE `u_yf_igdn` (
   `subject` varchar(255) DEFAULT NULL,
   `storageid` int(19) DEFAULT NULL,
   `igdn_status` varchar(255) DEFAULT NULL,
+  `acceptance_date` date DEFAULT NULL,
+  `accountid` int(19) DEFAULT NULL,
   PRIMARY KEY (`igdnid`),
   KEY `storageid` (`storageid`),
+  KEY `accountid` (`accountid`),
   CONSTRAINT `u_yf_igdn_ibfk_1` FOREIGN KEY (`igdnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1254,12 +1257,10 @@ CREATE TABLE `u_yf_igrn` (
   `igrn_status` varchar(255) DEFAULT NULL,
   `vendorid` int(19) DEFAULT NULL,
   `acceptance_date` date DEFAULT NULL,
-  `accountid` int(19) DEFAULT NULL,
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   PRIMARY KEY (`igrnid`),
   KEY `storageid` (`storageid`),
   KEY `vendorid` (`vendorid`),
-  KEY `accountid` (`accountid`),
   CONSTRAINT `u_yf_igrn_ibfk_1` FOREIGN KEY (`igrnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
