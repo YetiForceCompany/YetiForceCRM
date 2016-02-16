@@ -63,26 +63,44 @@ var Vtiger_Index_Js = {
 			var record = sendButton.data("record");
 			var popup = sendButton.data("popup");
 
-			if (module != undefined && record != undefined ){
+			if (module != undefined && record != undefined) {
 				thisInstance.getEmailFromRecord(record, module).then(function (data) {
 					if (data != '') {
 						url += '&to=' + data;
 					}
 					thisInstance.sendMailWindow(url, popup);
 				});
-			}else{
+			} else {
 				thisInstance.sendMailWindow(url, popup);
 			}
 		});
 	},
-	sendMailWindow: function (url, popup) {
+	sendMailWindow: function (url, popup, postData) {
 		if (popup) {
 			var width = screen.width - 15;
 			var height = screen.height - 150;
 			var left = 0;
 			var top = 30;
-			var params = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
-			window.open(url, '_blank', params + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no');
+			var popupParams = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
+			if (postData == undefined){
+				window.open(url, '_blank', popupParams + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no');
+				return;
+			}
+			var actionParams = {
+				type: "POST",
+				url: url,
+				dataType: "html",
+				data: postData
+			};
+			AppConnector.request(actionParams).then(function (appData) {
+				var win = window.open('about:blank', '_blank', popupParams + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no');
+				with (win.document)
+				{
+					open();
+					write(appData);
+					close();
+				}
+			});
 		} else {
 			window.location.href = url;
 		}

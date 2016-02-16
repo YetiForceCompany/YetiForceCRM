@@ -20,7 +20,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_ssalesprocesses', 'u_yf_ssalesprocessescf');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_ssalesprocesses', 'u_yf_ssalesprocessescf', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -28,7 +28,8 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_ssalesprocesses' => 'ssalesprocessesid',
-		'u_yf_ssalesprocessescf' => 'ssalesprocessesid');
+		'u_yf_ssalesprocessescf' => 'ssalesprocessesid',
+		'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory for Listing (Related listview)

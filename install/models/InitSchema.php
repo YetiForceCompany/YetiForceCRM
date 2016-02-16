@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,35 +8,39 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Install_InitSchema_Model {
+class Install_InitSchema_Model
+{
 
 	protected $sql_directory = 'install/install_schema/';
 	protected $migration_schema = 'install/migrate_schema/';
 	protected $db = false;
 
-	function __construct($db = '') {
+	function __construct($db = '')
+	{
 		$this->db = $db;
 	}
 
 	/**
 	 * Function starts applying schema changes
 	 */
-	public function initialize() {
+	public function initialize()
+	{
 		global $YetiForce_current_version;
 		$this->initializeDatabase($this->sql_directory, array('scheme', 'data'));
 		$this->setDefaultUsersAccess();
 		$currencyName = $_SESSION['config_file_info']['currency_name'];
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
 		$currencySymbol = $_SESSION['config_file_info']['currency_symbol'];
-		$this->db->pquery("UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ?", [$currencyName, $currencyCode, $currencySymbol]);
-		$this->db->pquery("UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;", [$YetiForce_current_version, $YetiForce_current_version]);
+		$this->db->pquery('UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ?', [$currencyName, $currencyCode, $currencySymbol]);
+		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [$YetiForce_current_version, $YetiForce_current_version]);
 
 		// recalculate all sharing rules for users
 		vimport('~include/utils/UserInfoUtil.php');
 		RecalculateSharingRules();
 	}
 
-	public function initializeDatabase($location, $filesName = array()) {
+	public function initializeDatabase($location, $filesName = array())
+	{
 		$this->db->query('SET FOREIGN_KEY_CHECKS = 0;');
 		if (!$filesName) {
 			echo 'No files';
@@ -79,17 +82,19 @@ class Install_InitSchema_Model {
 	/**
 	 * Function creates default user's Role, Profiles
 	 */
-	public function setDefaultUsersAccess() {
+	public function setDefaultUsersAccess()
+	{
 		$adminPassword = $_SESSION['config_file_info']['password'];
-		$userDateFormat = $_SESSION['config_file_info']['dateformat'];
-		$userTimeZone = $_SESSION['config_file_info']['timezone'];
-		$userFirstName = $_SESSION['config_file_info']['firstname'];
-		$userLastName = $_SESSION['config_file_info']['lastname'];
-		$adminEmail = $_SESSION['config_file_info']['admin_email'];
-
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_users SET date_format = ?, time_zone = ?, first_name = ?, last_name = ?, email1 = ?, accesskey = ?, language = ?", array($userDateFormat, $userTimeZone, $userFirstName, $userLastName, $adminEmail, vtws_generateRandomAccessKey(16), $_SESSION['default_language']));
-
+		$this->db->update('vtiger_users', [
+			'date_format' => $_SESSION['config_file_info']['dateformat'],
+			'time_zone' => $_SESSION['config_file_info']['timezone'],
+			'first_name' => $_SESSION['config_file_info']['firstname'],
+			'last_name' => $_SESSION['config_file_info']['lastname'],
+			'email1' => $_SESSION['config_file_info']['admin_email'],
+			'accesskey' => vtws_generateRandomAccessKey(16),
+			'language' => $_SESSION['default_language']
+			]
+		);
 		$newUser = new Users();
 		$newUser->retrieve_entity_info(1, 'Users');
 		$newUser->change_password('admin', $adminPassword, false);
@@ -97,7 +102,8 @@ class Install_InitSchema_Model {
 		createUserPrivilegesfile(1);
 	}
 
-	public function _splitQueries($query) {
+	public function _splitQueries($query)
+	{
 		$buffer = array();
 		$queries = array();
 		$in_string = false;
@@ -141,7 +147,8 @@ class Install_InitSchema_Model {
 		return $queries;
 	}
 
-	public function getMigrationSchemaList() {
+	public function getMigrationSchemaList()
+	{
 		$dir = $this->migration_schema;
 		$schemaList = array();
 		$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
@@ -156,7 +163,8 @@ class Install_InitSchema_Model {
 		return $schemaList;
 	}
 
-	public function executeMigrationSchema($system, $userName, $source) {
+	public function executeMigrationSchema($system, $userName, $source)
+	{
 		include_once $this->migration_schema . $system . '.php';
 		$migrationObject = new $system;
 		Vtiger_Access::syncSharingAccess();
@@ -168,19 +176,22 @@ class Install_InitSchema_Model {
 		return $return;
 	}
 
-	public function addMigrationLog($text, $type = 'success') {
+	public function addMigrationLog($text, $type = 'success')
+	{
 		$logUrl = 'install/models/logs.txt';
 		$logText = "$type - $text";
 		file_put_contents($logUrl, $logText . PHP_EOL, FILE_APPEND | LOCK_EX);
 	}
 
-	public function setProgressBar($num) {
+	public function setProgressBar($num)
+	{
 		$logUrl = 'install/models/progressbar.php';
 		$content = "<?php $progress = $num;";
 		file_put_contents($logUrl, $content);
 	}
 
-	public function createConfig($source_directory, $username, $password, $system) {
+	public function createConfig($source_directory, $username, $password, $system)
+	{
 		if (substr($source_directory, -1) != '/') {
 			$source_directory = $source_directory . '/';
 		}
@@ -233,7 +244,8 @@ class Install_InitSchema_Model {
 		return array('result' => true);
 	}
 
-	public function copyFiles($source, $dest) {
+	public function copyFiles($source, $dest)
+	{
 		mkdir($dest, 0755);
 		foreach (
 		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST) as $item
@@ -246,7 +258,8 @@ class Install_InitSchema_Model {
 		}
 	}
 
-	public function deleteFiles($files = array()) {
+	public function deleteFiles($files = array())
+	{
 		if (!is_array($files)) {
 			$files = array($files);
 		}
@@ -255,7 +268,8 @@ class Install_InitSchema_Model {
 		}
 	}
 
-	public function deleteDirFile($src) {
+	public function deleteDirFile($src)
+	{
 		global $root_directory, $log;
 		if ($root_directory && strpos($src, $root_directory) === FALSE) {
 			$src = $root_directory . $src;
@@ -281,5 +295,4 @@ class Install_InitSchema_Model {
 			unlink($src);
 		}
 	}
-
 }

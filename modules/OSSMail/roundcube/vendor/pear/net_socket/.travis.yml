@@ -1,5 +1,0 @@
-language: php
-install:
-  - pear install package.xml
-php:
-  - 5.4

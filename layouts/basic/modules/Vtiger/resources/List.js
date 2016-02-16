@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 jQuery.Class("Vtiger_List_Js", {
 	listInstance: false,
 	getRelatedModulesContainer: false,
@@ -43,7 +42,7 @@ jQuery.Class("Vtiger_List_Js", {
 	 * function to trigger send Email
 	 * @params: send email url , module name.
 	 */
-	triggerSendEmail: function (massActionUrl, module, params) {
+	triggerSendEmail: function (params) {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
@@ -57,18 +56,27 @@ jQuery.Class("Vtiger_List_Js", {
 			delete postData.parent;
 			postData.selected_ids = selectedIds;
 			postData.excluded_ids = excludedIds;
-			postData.viewname = cvId;
+			postData.cvid = cvId;
+			postData.sourceModule = app.getModuleName();
 			if (params) {
 				jQuery.extend(postData, params);
 			}
 			var actionParams = {
 				"type": "POST",
-				"url": massActionUrl,
+				"url": 'index.php?module=OSSMail&view=SendMailModal',
 				"dataType": "html",
 				"data": postData
 			};
-
-			Vtiger_Index_Js.showComposeEmailPopup(actionParams);
+			AppConnector.request(actionParams).then(function (appData) {
+				app.showModalWindow(appData, function (data) {
+					data.find('[name="saveButton"]').click(function (e) {
+						var emails = data.find('#emails').val();
+						emails = $.parseJSON(emails);
+						app.hideModalWindow(data);
+						Vtiger_Index_Js.sendMailWindow(data.find('#url').val(), 1, {emails: emails});
+					});
+				});
+			});
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
@@ -2066,9 +2074,25 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			searchParams.push(searchInfo);
 		});
+		var url = app.getUrlVar('search_params');
+		if (url != undefined) {
+			url = jQuery.parseJSON(decodeURIComponent(url));
+			$.each(url[0], function (index, value) {
+				var exist = false;
+				$.each(searchParams, function (index, searchParam) {
+					if (searchParam[0] == value[0]) {
+						exist = true;
+					}
+				});
+				if (exist == false) {
+					searchParams.push(value);
+				}
+			});
+		}
 		return new Array(searchParams);
 	},
 	registerListSearch: function () {
+
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
 		listViewPageDiv.on('click', '[data-trigger="listSearch"]', function (e) {
@@ -2113,7 +2137,6 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			app.registerEventForDatePickerFields(dateElement, false, customParams);
 		});
-
 	},
 	registerTimeListSearch: function (container) {
 		app.registerEventForTimeFields(container, false);

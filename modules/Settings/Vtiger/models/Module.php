@@ -167,17 +167,30 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 					'moduleName' => Vtiger_Menu_Model::getModuleNameFromUrl($menuItem->getUrl()),
 				];
 			}
-
-			$menu[] = [
-				'id' => $blockId,
-				'active' => ($selectedMenu && $selectedMenu->get('blockid') == $blockId) ? true : false,
-				'name' => $menuModel->getLabel(),
-				'type' => 'Label',
-				'sequence' => $menuModel->get('sequence'),
-				'childs' => $childs,
-				'icon' => $menuModel->get('icon'),
-				'moduleName' => 'Settings::Vtiger',
-			];
+			if ($menuModel->getType() != 1) {
+				$menu[] = [
+					'id' => $blockId,
+					'active' => ($selectedMenu && $selectedMenu->get('blockid') == $blockId) ? true : false,
+					'name' => $menuModel->getLabel(),
+					'type' => 'Label',
+					'sequence' => $menuModel->get('sequence'),
+					'childs' => $childs,
+					'icon' => $menuModel->get('icon'),
+					'moduleName' => 'Settings::Vtiger',
+				];
+			} else {
+				$menu[] = [
+					'id' => $blockId,
+					'active' => ($selectedMenu && $selectedMenu->get('blockid') == $blockId) ? true : false,
+					'name' => $menuModel->getLabel(),
+					'type' => 'Shortcut',
+					'sequence' => $menuModel->get('sequence'),
+					'newwindow' => '0',
+					'icon' => $menuModel->get('icon'),
+					'dataurl' => $menuModel->getUrl(),
+					'moduleName' => 'Settings::Vtiger',
+				];
+			}
 		}
 		return $menu;
 	}

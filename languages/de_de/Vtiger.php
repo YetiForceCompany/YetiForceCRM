@@ -1105,6 +1105,7 @@ $languageStrings = [
 	'LBL_VIEW_DUPLICATE' => 'Duplicate',
 	'LBL_VIEW_INDEX' => 'Start',
 	'LBL_SU_UPDATED' => 'Record updated by a different user',
+	'LBL_CRMACTIVITY' => 'Calendar activity',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

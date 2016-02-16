@@ -50,67 +50,6 @@ class Project_Module_Model extends Vtiger_Module_Model
 		return $milestoneModel->getListViewUrl();
 	}
 
-	public function getTimeEmployee($id)
-	{
-		$db = PearDatabase::getInstance();
-		$moduleModel = Vtiger_Record_Model::getCleanInstance('OSSTimeControl');
-		$Ids = $moduleModel->getProjectRelatedIDS($id);
-		foreach ($Ids as $module) {
-			foreach ($module as $moduleId) {
-				$idArray .= $moduleId . ',';
-			}
-		}
-
-		if (null == $idArray)
-			$response = false;
-		else {
-			$idArray = substr($idArray, 0, -1);
-			$addSql = ' WHERE vtiger_osstimecontrol.osstimecontrolid IN (' . $idArray . ') ';
-			$userSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-
-			//TODO need to handle security
-			$result = $db->query('SELECT count(*) AS count, ' . $userSqlFullName . ' as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time  FROM vtiger_osstimecontrol
-							INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
-							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
-							AND vtiger_crmentity.deleted = 0' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . $addSql
-				. ' GROUP BY smownerid');
-
-			$data = array();
-			$numRows = $db->num_rows($result);
-			for ($i = 0; $i < $numRows; $i++) {
-				$row = $db->query_result_rowdata($result, $i);
-				$data[$i]['label'] = $row['name'];
-				$ticks[$i][0] = $i;
-				$ticks[$i][1] = $row['name'];
-				$data[$i]['data'][0][0] = $i;
-				$data[$i]['data'][0][1] = $row['time'];
-			}
-
-			$response['ticks'] = $ticks;
-			$response['chart'] = $data;
-		}
-		return $response;
-	}
-
-	public function getTimeProject($id)
-	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
-		$response = array();
-		$response[0]['data'][0][0] = 0;
-		$response[0]['data'][0][1] = $recordModel->get('sum_time');
-		$response[0]['label'] = vtranslate('Total time [Project]', $this->getName());
-		$response[1]['data'][0][0] = 1;
-		$response[1]['data'][0][1] = $recordModel->get('sum_time_pt');
-		$response[1]['label'] = vtranslate('Total time [Project Task]', $this->getName());
-		$response[2]['data'][0][0] = 2;
-		$response[2]['data'][0][1] = $recordModel->get('sum_time_h');
-		$response[2]['label'] = vtranslate('Total time [Tickets]', $this->getName());
-		$response[3]['data'][0][0] = 3;
-		$response[3]['data'][0][1] = $recordModel->get('sum_time_all');
-		$response[3]['label'] = vtranslate('Total time [Sum]', $this->getName());
-		return $response;
-	}
-
 	public function getGanttProject($id)
 	{
 		$adb = PearDatabase::getInstance();

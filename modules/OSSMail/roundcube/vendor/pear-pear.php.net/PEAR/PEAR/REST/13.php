@@ -9,7 +9,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a12
  */
@@ -28,7 +27,7 @@ require_once 'PEAR/REST/10.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a12
  */
@@ -295,5 +294,103 @@ class PEAR_REST_13 extends PEAR_REST_10
         }
 
         return $this->_returnDownloadURL($base, $package, $release, $info, $found, $skippedphp, $channel);
+    }
+
+    /**
+     * List package upgrades but take the PHP version into account.
+     */
+    function listLatestUpgrades($base, $pref_state, $installed, $channel, &$reg)
+    {
+        $packagelist = $this->_rest->retrieveData($base . 'p/packages.xml', false, false, $channel);
+        if (PEAR::isError($packagelist)) {
+            return $packagelist;
+        }
+
+        $ret = array();
+        if (!is_array($packagelist) || !isset($packagelist['p'])) {
+            return $ret;
+        }
+
+        if (!is_array($packagelist['p'])) {
+            $packagelist['p'] = array($packagelist['p']);
+        }
+
+        foreach ($packagelist['p'] as $package) {
+            if (!isset($installed[strtolower($package)])) {
+                continue;
+            }
+
+            $inst_version = $reg->packageInfo($package, 'version', $channel);
+            $inst_state   = $reg->packageInfo($package, 'release_state', $channel);
+            PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
+            $info = $this->_rest->retrieveData($base . 'r/' . strtolower($package) .
+                '/allreleases2.xml', false, false, $channel);
+            PEAR::popErrorHandling();
+            if (PEAR::isError($info)) {
+                continue; // no remote releases
+            }
+
+            if (!isset($info['r'])) {
+                continue;
+            }
+
+            $release = $found = false;
+            if (!is_array($info['r']) || !isset($info['r'][0])) {
+                $info['r'] = array($info['r']);
+            }
+
+            // $info['r'] is sorted by version number
+            usort($info['r'], array($this, '_sortReleasesByVersionNumber'));
+            foreach ($info['r'] as $release) {
+                if ($inst_version && version_compare($release['v'], $inst_version, '<=')) {
+                    // not newer than the one installed
+                    break;
+                }
+                if (version_compare($release['m'], phpversion(), '>')) {
+                    // skip dependency releases that require a PHP version
+                    // newer than our PHP version
+                    continue;
+                }
+
+                // new version > installed version
+                if (!$pref_state) {
+                    // every state is a good state
+                    $found = true;
+                    break;
+                } else {
+                    $new_state = $release['s'];
+                    // if new state >= installed state: go
+                    if (in_array($new_state, $this->betterStates($inst_state, true))) {
+                        $found = true;
+                        break;
+                    } else {
+                        // only allow to lower the state of package,
+                        // if new state >= preferred state: go
+                        if (in_array($new_state, $this->betterStates($pref_state, true))) {
+                            $found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!$found) {
+                continue;
+            }
+
+            $relinfo = $this->_rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
+                $release['v'] . '.xml', false, false, $channel);
+            if (PEAR::isError($relinfo)) {
+                return $relinfo;
+            }
+
+            $ret[$package] = array(
+                'version'  => $release['v'],
+                'state'    => $release['s'],
+                'filesize' => $relinfo['f'],
+            );
+        }
+
+        return $ret;
     }
 }

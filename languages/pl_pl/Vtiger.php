@@ -1050,7 +1050,7 @@ $languageStrings = [
 	'Sales' => 'Sprzedaż',
 	'BTN_READ_RECORD' => 'Za pomocą tego przycisku oznaczysz, że zapoznałeś się ze wszystkimi zmianami na rekordzie',
 	'LBL_MARK_AS_HELD' => 'Oznacz jako wykonane',
-	'LBL_DEFAULT' => 'Default',
+	'LBL_DEFAULT' => 'Domyślny',
 	'BTN_GENERATE_RECORD' => 'Generuj rekord',
 	'LBL_GENERATE_RECORD_FOR_MODULE' => 'Generuj rekord dla modułu',
 	'LBL_REMOVE_SEARCH_OPTION_INFO' => 'Wyczyść parametry wyszukiwań',
@@ -1099,6 +1099,7 @@ $languageStrings = [
 	'LBL_VIEW_DUPLICATE' => 'Duplikat',
 	'LBL_VIEW_INDEX' => 'Start',
 	'LBL_SU_UPDATED' => 'Record zaktualizowany przez innego użytkownika',
+	'LBL_CRMACTIVITY' => 'Aktywność kalendarza',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

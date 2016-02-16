@@ -157,8 +157,8 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	{
 		if (in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails'))) {
 			switch ($sourceModule) {
-				case 'Campaigns' : $tableName = 'vtiger_campaignleadrel';
-					$fieldName = 'leadid';
+				case 'Campaigns' : $tableName = 'vtiger_campaign_records';
+					$fieldName = 'crmid';
 					$relatedFieldName = 'campaignid';
 					break;
 				case 'Products' : $tableName = 'vtiger_seproductsrel';

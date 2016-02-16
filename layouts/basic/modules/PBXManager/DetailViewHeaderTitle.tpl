@@ -91,6 +91,6 @@
 			</span>
 		</span>
     </span>
-
+	{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 {/strip}
 

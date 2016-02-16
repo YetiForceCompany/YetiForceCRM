@@ -48,7 +48,7 @@
 <div id="composeheaders" role="region" aria-labelledby="aria-label-composeheaders">
 <h2 id="aria-label-composeheaders" class="voice"><roundcube:label name="arialabelmessageheaders" /></h2>
 
-<a href="#options" id="composeoptionstoggle" class="moreheaderstoggle" title="<roundcube:label name='togglecomposeoptions' />" aria-exapnded="false"><span class="iconlink"></span></a>
+<a href="#options" id="composeoptionstoggle" class="moreheaderstoggle" title="<roundcube:label name='togglecomposeoptions' />" aria-expanded="false"><span class="iconlink"></span></a>
 
 <table class="headers-table compose-headers">
 <tbody>
@@ -183,10 +183,10 @@
 	</tr><tr>
 		<td></td>
 		<td class="formlinks">
-			<a href="#cc" onclick="return UI.show_header_row('cc')" id="cc-link" class="iconlink add" tabindex="3"><roundcube:label name="cc" /></a>
-			<a href="#bcc" onclick="return UI.show_header_row('bcc')" id="bcc-link" class="iconlink add" tabindex="3"><roundcube:label name="bcc" /></a>
-			<a href="#reply-to" onclick="return UI.show_header_row('replyto')" id="replyto-link" class="iconlink add" tabindex="3"><roundcube:label name="replyto" /></a>
-			<a href="#followup-to" onclick="return UI.show_header_row('followupto')" id="followupto-link" class="iconlink add" tabindex="3"><roundcube:label name="followupto" /></a>
+			<a href="#cc" onclick="return UI.show_header_row('cc')" id="cc-link" class="iconlink add" tabindex="3"><roundcube:label name="addcc" /></a>
+			<a href="#bcc" onclick="return UI.show_header_row('bcc')" id="bcc-link" class="iconlink add" tabindex="3"><roundcube:label name="addbcc" /></a>
+			<a href="#reply-to" onclick="return UI.show_header_row('replyto')" id="replyto-link" class="iconlink add" tabindex="3"><roundcube:label name="addreplyto" /></a>
+			<a href="#followup-to" onclick="return UI.show_header_row('followupto')" id="followupto-link" class="iconlink add" tabindex="3"><roundcube:label name="addfollowupto" /></a>
 		</td>
 	</tr><tr>
 		<td class="title"><label for="compose-subject"><roundcube:label name="subject" /></label></td>
@@ -241,7 +241,7 @@
 	<div id="compose-attachments" class="rightcol" role="region" aria-labelledby="aria-label-composeattachments">
 		<h2 id="aria-label-composeattachments" class="voice"><roundcube:label name="attachments" /></h2>
 		<div style="text-align:center; margin-bottom:20px">
-			<roundcube:button name="addattachment" type="input" class="button" classSel="button pressed" label="FileFromDesktop" domain="yetiforce" onclick="UI.show_uploadform(event);return false" tabindex="1" />
+			<roundcube:button name="addattachment" type="input" class="button" classSel="button pressed" label="addattachment" onclick="UI.show_uploadform(event);return false" tabindex="1" />
 			<roundcube:button type="input" class="button" classSel="button pressed" label="FileFromCRM" domain="yetiforce" command="yetiforce.addFilesFromCRM" tabindex="1" />
 		</div>
 		<roundcube:object name="composeAttachmentList" id="attachment-list" class="attachmentslist" tabindex="1" />

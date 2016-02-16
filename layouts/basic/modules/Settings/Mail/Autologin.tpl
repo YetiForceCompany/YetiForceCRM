@@ -1,7 +1,12 @@
-<div class=" autologinContainer">
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	&nbsp;{vtranslate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}
-	<hr>
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+
+<div class="autologinContainer">
+	<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			&nbsp;{vtranslate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}
+		</div>
+	</div>
 	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
 		<li class="active"><a href="#user_list" data-toggle="tab">{vtranslate('LBL_USER_LIST', $QUALIFIED_MODULE)} </a></li>
@@ -9,7 +14,7 @@
 	</ul>
 	<br />
 	<div class="tab-content">
-		<div class='editViewContainer tab-pane active' id="user_list">
+		<div class="editViewContainer tab-pane active" id="user_list">
 			<table class="table table-bordered table-condensed themeTableColor userTable">
 				<thead>
 					<tr class="blockHeader" >

@@ -9,7 +9,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -146,7 +145,7 @@ $GLOBALS['_PEAR_CHANNELS_MIRROR_TYPES'] =  array('server');
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -194,9 +193,9 @@ class PEAR_ChannelFile
      */
     var $_isValid = false;
 
-    function PEAR_ChannelFile()
+    function __construct()
     {
-        $this->_stack = &new PEAR_ErrorStack('PEAR_ChannelFile');
+        $this->_stack = new PEAR_ErrorStack('PEAR_ChannelFile');
         $this->_stack->setErrorMessageTemplate($this->_getErrorMessage());
         $this->_isValid = false;
     }
@@ -306,11 +305,12 @@ class PEAR_ChannelFile
 
     /**
      * @param array
-     * @static
+     *
      * @return PEAR_ChannelFile|false false if invalid
      */
-    function &fromArray($data, $compatibility = false, $stackClass = 'PEAR_ErrorStack')
-    {
+    public static function &fromArray(
+        $data, $compatibility = false, $stackClass = 'PEAR_ErrorStack'
+    ) {
         $a = new PEAR_ChannelFile($compatibility, $stackClass);
         $a->_fromArray($data);
         if (!$a->validate()) {
@@ -322,13 +322,14 @@ class PEAR_ChannelFile
 
     /**
      * Unlike {@link fromArray()} this does not do any validation
+     *
      * @param array
-     * @static
+     *
      * @return PEAR_ChannelFile
      */
-    function &fromArrayWithErrors($data, $compatibility = false,
-                                  $stackClass = 'PEAR_ErrorStack')
-    {
+    public static function &fromArrayWithErrors(
+        $data, $compatibility = false, $stackClass = 'PEAR_ErrorStack'
+    ) {
         $a = new PEAR_ChannelFile($compatibility, $stackClass);
         $a->_fromArray($data);
         return $a;
@@ -1501,7 +1502,7 @@ class PEAR_ChannelFile
         if (isset($this->_channelInfo['validatepackage'])) {
             if ($package == $this->_channelInfo['validatepackage']) {
                 // channel validation packages are always validated by PEAR_Validate
-                $val = &new PEAR_Validate;
+                $val = new PEAR_Validate;
                 return $val;
             }
 
@@ -1513,7 +1514,7 @@ class PEAR_ChannelFile
                         $this->_channelInfo['validatepackage']['_content']) . '.php';
                     $vclass = str_replace('.', '_',
                         $this->_channelInfo['validatepackage']['_content']);
-                    $val = &new $vclass;
+                    $val = new $vclass;
                 } else {
                     $a = false;
                     return $a;
@@ -1521,10 +1522,10 @@ class PEAR_ChannelFile
             } else {
                 $vclass = str_replace('.', '_',
                     $this->_channelInfo['validatepackage']['_content']);
-                $val = &new $vclass;
+                $val = new $vclass;
             }
         } else {
-            $val = &new PEAR_Validate;
+            $val = new PEAR_Validate;
         }
 
         return $val;

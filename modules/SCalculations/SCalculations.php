@@ -20,7 +20,7 @@ class SCalculations extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_scalculations', 'u_yf_scalculationscf');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_scalculations', 'u_yf_scalculationscf', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -28,7 +28,8 @@ class SCalculations extends Vtiger_CRMEntity
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_scalculations' => 'scalculationsid',
-		'u_yf_scalculationscf' => 'scalculationsid');
+		'u_yf_scalculationscf' => 'scalculationsid',
+		'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory for Listing (Related listview)

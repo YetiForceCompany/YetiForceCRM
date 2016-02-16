@@ -38,17 +38,17 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View {
 		return $headerScriptInstances;
 	}
 
-	function showCharts(Vtiger_Request $request) {
-	
+	function showCharts(Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $moduleModel->getTimeEmployee($recordId);
+		$moduleModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
+		if ($moduleModel)
+			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->view('charts/ShowTimeHelpDesk.tpl', $moduleName);
 	}
-
 }

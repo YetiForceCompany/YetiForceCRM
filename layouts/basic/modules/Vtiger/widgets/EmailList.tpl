@@ -1,6 +1,5 @@
 {strip}
 	{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
-	{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 	<div class="summaryWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="widget_header">
@@ -16,9 +15,19 @@
 								</button>
 								&nbsp;
 								{if AppConfig::main('isActiveSendingMails')}
-									<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$URLDATA}" data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" data-popup="{$CONFIG['popup']}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
-										<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
-									</button>
+									{if $USER_MODEL->get('internal_mailer') == 1}
+										{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
+										<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$URLDATA}" data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" data-popup="{$CONFIG['popup']}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
+											<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										</button>
+									{else}
+										{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
+										{if $URLDATA}
+											<a class="btn btn-sm btn-default" href="{$URLDATA}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
+												<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+											</a>
+										{/if}
+									{/if}
 								{/if}
 							</div>
 						</div>

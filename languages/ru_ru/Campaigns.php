@@ -54,6 +54,7 @@ $languageStrings = [
 	'TargetSize' => 'Размер аудитории',
 	'Telemarketing' => 'Теле маркетинг',
 	'Webinar' => 'Семинар',
+	'Message sent' => 'Message sent',
 	'Completed' => 'Завершена',
 	'Partners' => 'Партнеры',
 ];

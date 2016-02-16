@@ -1,5 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ *
+ * @package YetiForce.models
+ * @license licenses/License.html
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 class OSSMail_Record_Model extends Vtiger_Record_Model
 {
@@ -39,7 +45,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	function ComposeEmail($params, $ModuleName)
 	{
-		$_SESSION['POST'] = $params;
 		header('Location: ' . self::GetSite_URL() . 'index.php?module=OSSMail&view=compose');
 	}
 
@@ -392,7 +397,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 					$record->set('filename', $filename);
 					$record->set('filestatus', 1);
 					$record->set('filelocationtype', 'I');
-					$record->set('folderid', 1);
+					$record->set('folderid', 'T2');
 					$record->set('mode', 'new');
 					$record->set('id', '');
 					$record->save();

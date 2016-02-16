@@ -1,263 +1,34 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): YetiForce.com.
- * *********************************************************************************************************************************** */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 {
 
 	const recalculateStatus = 'Accepted';
 
-	public static function recalculateTimeOldValues($record_id, $data)
-	{
-		require_once 'include/events/VTEntityDelta.php';
-		$relatedField = array('accountid', 'contactid', 'ticketid', 'projectid', 'projecttaskid', 'servicecontractsid', 'assetsid');
-		$vtEntityDelta = new VTEntityDelta();
-		$delta = $vtEntityDelta->getEntityDelta('OSSTimeControl', $record_id, true);
-		$recalculateOldValue = false;
-		foreach ($relatedField as $key => $val) {
-			if (array_key_exists($val, $delta) && $delta[$val]['oldValue'] != 0 && $delta[$val]['currentValue'] == 0) {
-				$data->set($val, $delta[$val]['oldValue']);
-				$recalculateOldValue = true;
-			}
-		}
-		if ($recalculateOldValue) {
-			OSSTimeControl_Record_Model::recalculateTimeControl($data);
-		}
-	}
+	public static $referenceFieldsToTime = ['link', 'process', 'subprocess'];
 
-	public static function recalculateTimeControl($data)
+	public static function recalculateTimeControl($id, $name)
 	{
 		$db = PearDatabase::getInstance();
-		//$assetsid = $data->get('assetsid');
-		$accountid = $data->get('accountid');
-		$ticketid = $data->get('ticketid');
-		$projectid = $data->get('projectid');
-		$projecttaskid = $data->get('projecttaskid');
-		$servicecontractsid = $data->get('servicecontractsid');
-		
-		self::recalculateAccounts($accountid);
-		self::recalculateProjectTask($projecttaskid);
-		self::recalculateHelpDesk($ticketid);
-		self::recalculateProject($projectid);
-		self::recalculateServiceContracts($servicecontractsid);
-
-		if (self::checkID($projecttaskid)) {
-			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($projecttaskid, 'ProjectTask');
-			$projectid = $ModuleNameInstance->get('projectid');
-			if (self::checkID($projectid)) {
-				self::recalculateProject($projectid);
-				$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($projectid, 'Project');
-				self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
-			}
-		}
-		if (self::checkID($ticketid)) {
-			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($ticketid, 'HelpDesk');
-			$projectid = $ModuleNameInstance->get('projectid');
-			if (self::checkID($projectid)) {
-				self::recalculateProject($projectid);
-				$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($projectid, 'Project');
-				self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
-			}
-		}
-		if (self::checkID($ticketid)) {
-			$ModuleNameInstance = Vtiger_Record_Model::getInstanceById($ticketid, 'HelpDesk');
-			self::recalculateServiceContracts($ModuleNameInstance->get('servicecontractsid'));
+		$result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid WHERE vtiger_crmentity.deleted = ? AND osstimecontrol_status = ? AND `$name` = ?;", [0, self::recalculateStatus, $id]);
+		$sumTime = number_format($db->getSingleValue($result), 2);
+		$metaData = Vtiger_Functions::getCRMRecordMetadata($id);
+		$focus = CRMEntity::getInstance($metaData['setype']);
+		$table = $focus->table_name;
+		$result = $db->pquery("SHOW COLUMNS FROM `$table` LIKE 'sum_time';");
+		if ($result->rowCount()) {
+			$db->update($table, ['sum_time' => $sumTime], '`' . $focus->table_index . '` = ?', [$id]);
 		}
 	}
 
-	public function recalculateProjectTask($ProjectTaskID)
+	public static function setSumTime($data)
 	{
-		if (!self::checkID($ProjectTaskID)) {
-			return false;
-		}
 		$db = PearDatabase::getInstance();
-		$sum_time = 0;
-		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND projecttaskid = ?;", array(0, self::recalculateStatus, $ProjectTaskID), true);
-		$sum_time = number_format($db->query_result($sum_result, 0, 'sum'), 2);
-		$db->pquery("UPDATE vtiger_projecttask SET sum_time = ? WHERE projecttaskid = ?;", array($sum_time, $ProjectTaskID), true);
-		return $sum_time;
-	}
-
-	public static function recalculateServiceContracts($ServiceContractsID)
-	{
-		if (!self::checkID($ServiceContractsID)) {
-			return false;
-		}
-		$db = PearDatabase::getInstance();
-		$sum_time = 0;
-		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND servicecontractsid = ? AND projecttaskid = ? AND ticketid = ? AND projectid = ?;", array(0, self::recalculateStatus, $ServiceContractsID, 0, 0, 0), true);
-		$sum_time = number_format($db->query_result($sum_result, 0, 'sum'), 2);
-		//////// sum_time_h
-		$sql_sum_time_h = 'SELECT SUM(vtiger_osstimecontrol.sum_time) AS sum 
-			FROM vtiger_osstimecontrol 
-			INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_osstimecontrol.ticketid
-			WHERE vtiger_osstimecontrol.deleted = ? 
-			AND vtiger_osstimecontrol.ticketid <> ? 
-			AND vtiger_osstimecontrol.projectid = ?
-			AND osstimecontrol_status = ?
-			AND vtiger_troubletickets.servicecontractsid = ?;';
-		$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, 0, self::recalculateStatus, $ServiceContractsID), true);
-		$sum_time_h = number_format($db->query_result($sum_time_h_result, 0, 'sum'), 2);
-		//////// sum_time_p
-		$project_result = $db->pquery("SELECT projectid 
-			FROM vtiger_project
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_project.projectid
-			WHERE deleted = ? AND servicecontractsid = ?;", array(0, $ServiceContractsID), true);
-		for ($i = 0; $i < $db->num_rows($project_result); $i++) {
-			$ProjectID = $db->query_result($project_result, $i, 'projectid');
-			$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND projectid = ? AND projecttaskid = ? AND ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
-			$sum_time_p += number_format($db->query_result($sum_time_result, 0, 'sum'), 2);
-			$sql_sum_time_h = 'SELECT SUM(vtiger_osstimecontrol.sum_time) AS sum 
-							FROM vtiger_osstimecontrol 
-							INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_osstimecontrol.ticketid
-							WHERE vtiger_osstimecontrol.deleted = ? 
-							AND vtiger_osstimecontrol.ticketid <> ? 
-							AND vtiger_osstimecontrol.projectid = ?
-							AND vtiger_osstimecontrol.servicecontractsid = ?
-							AND osstimecontrol_status = ?
-							AND vtiger_troubletickets.projectid = ?;';
-			$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, 0, 0, self::recalculateStatus, $ProjectID), true);
-			$sum_time_p += number_format($db->query_result($sum_time_h_result, 0, 'sum'), 2);
-			$sql_sum_time_pt = 'SELECT SUM(vtiger_osstimecontrol.sum_time) AS sum 
-							FROM vtiger_osstimecontrol 
-							INNER JOIN vtiger_projecttask ON vtiger_projecttask.projecttaskid = vtiger_osstimecontrol.projecttaskid
-							WHERE vtiger_osstimecontrol.deleted = ? 
-							AND vtiger_osstimecontrol.projecttaskid <> ? 
-							AND vtiger_osstimecontrol.ticketid = ? 
-							AND vtiger_osstimecontrol.projectid = ?
-							AND vtiger_osstimecontrol.servicecontractsid = ?
-							AND vtiger_osstimecontrol.osstimecontrol_status = ?
-							AND vtiger_projecttask.projectid = ?;';
-			$sum_time_pt_result = $db->pquery($sql_sum_time_pt, array(0, 0, 0, 0, 0, self::recalculateStatus, $ProjectID), true);
-			$sum_time_p += number_format($db->query_result($sum_time_pt_result, 0, 'sum'), 2);
-		}
-		//////////////////
-		//////// Sum
-		$sum_time_all = $sum_time + $sum_time_h + $sum_time_p;
-		$db->pquery("UPDATE vtiger_servicecontracts SET sum_time = ?,sum_time_h = ?,sum_time_p = ?,sum_time_all = ? WHERE servicecontractsid = ?;", array($sum_time, $sum_time_h, $sum_time_p, $sum_time_all, $ServiceContractsID), true);
-		return array($sum_time, $sum_time_h, $sum_time_p, $sum_time_all);
-	}
-
-	public static function recalculateProject($ProjectID)
-	{
-		if (!self::checkID($ProjectID)) {
-			return false;
-		}
-		$db = PearDatabase::getInstance();
-		$sum_time = 0;
-		//////// sum_time
-		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND projectid = ? AND projecttaskid = ? AND ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
-		$sum_time = number_format($db->query_result($sum_time_result, 0, 'sum'), 2);
-		//////// sum_time_h
-		$sql_sum_time_h = 'SELECT SUM(vtiger_osstimecontrol.sum_time) AS sum 
-						FROM vtiger_osstimecontrol 
-						INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_osstimecontrol.ticketid
-						WHERE vtiger_osstimecontrol.deleted = ? 
-						AND vtiger_osstimecontrol.ticketid <> ? 
-						AND osstimecontrol_status = ?
-						AND vtiger_troubletickets.projectid = ?;';
-		$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, self::recalculateStatus, $ProjectID), true);
-		$sum_time_h = number_format($db->query_result($sum_time_h_result, 0, 'sum'), 2);
-		//////// sum_time_pt
-		$sql_sum_time_pt = 'SELECT SUM(vtiger_osstimecontrol.sum_time) AS sum 
-						FROM vtiger_osstimecontrol 
-						INNER JOIN vtiger_projecttask ON vtiger_projecttask.projecttaskid = vtiger_osstimecontrol.projecttaskid
-						WHERE vtiger_osstimecontrol.deleted = ? 
-						AND vtiger_osstimecontrol.projecttaskid <> ? 
-						AND vtiger_osstimecontrol.ticketid = ? 
-						AND vtiger_osstimecontrol.osstimecontrol_status = ?
-						AND vtiger_projecttask.projectid = ?;';
-		$sum_time_pt_result = $db->pquery($sql_sum_time_pt, array(0, 0, 0, self::recalculateStatus, $ProjectID), true);
-		$sum_time_pt = number_format($db->query_result($sum_time_pt_result, 0, 'sum'), 2);
-		//////// Sum
-		$sum_time_all = $sum_time + $sum_time_h + $sum_time_pt;
-		$db->pquery("UPDATE vtiger_project SET sum_time = ?,sum_time_h = ?,sum_time_pt = ?,sum_time_all = ? WHERE projectid = ?;", array($sum_time, $sum_time_h, $sum_time_pt, $sum_time_all, $ProjectID), true);
-		return array($sum_time, $sum_time_h, $sum_time_pt, $sum_time_all);
-	}
-
-	public function recalculateHelpDesk($HelpDeskID)
-	{
-		if (!self::checkID($HelpDeskID)) {
-			return false;
-		}
-		$db = PearDatabase::getInstance();
-		$sum_time = 0;
-		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND ticketid = ?;", array(0, self::recalculateStatus, $HelpDeskID), true);
-		$sum_time = number_format($db->query_result($sum_result, 0, 'sum'), 2);
-		$db->pquery('UPDATE vtiger_troubletickets SET sum_time = ? WHERE ticketid = ?;', array($sum_time, $HelpDeskID), true);
-		return $sum_time;
-	}
-
-	public static function recalculateAccounts($accountsID)
-	{
-		if (!self::checkID($accountsID)) {
-			return false;
-		}
-		$db = PearDatabase::getInstance();
-		$sumTime = 0;
-		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND accountid = ?;", [0, self::recalculateStatus, $accountsID]);
-		$sumTime = number_format($db->query_result($sum_result, 0, 'sum'), 2);
-		$db->pquery('UPDATE vtiger_account SET sum_time = ? WHERE accountid = ?;', [$sumTime, $accountsID]);
-		return $sumTime;
-	}
-
-	public function getProjectRelatedIDS($ProjectID)
-	{
-		if (!self::checkID($ProjectID)) {
-			return false;
-		}
-		$db = PearDatabase::getInstance();
-		//////// sum_time
-		$projectIDS = array();
-		$sum_time_result = $db->pquery("SELECT osstimecontrolid FROM vtiger_osstimecontrol WHERE deleted = ? AND osstimecontrol_status = ? AND projectid = ? AND projecttaskid = ? AND ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
-		for ($i = 0; $i < $db->num_rows($sum_time_result); $i++) {
-			$projectIDS[] = $db->query_result($sum_time_result, $i, 'osstimecontrolid');
-		}
-		//////// sum_time_h
-		$ticketsIDS = array();
-		$sql_sum_time_h = 'SELECT osstimecontrolid 
-						FROM vtiger_osstimecontrol 
-						INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_osstimecontrol.ticketid
-						WHERE vtiger_osstimecontrol.deleted = ? 
-						AND vtiger_osstimecontrol.ticketid <> ? 
-						AND osstimecontrol_status = ?
-						AND vtiger_troubletickets.projectid = ?;';
-		$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, self::recalculateStatus, $ProjectID), true);
-		for ($i = 0; $i < $db->num_rows($sum_time_h_result); $i++) {
-			$ticketsIDS[] = $db->query_result($sum_time_h_result, $i, 'osstimecontrolid');
-		}
-		//////// sum_time_pt
-		$taskIDS = array();
-		$sql_sum_time_pt = 'SELECT osstimecontrolid 
-						FROM vtiger_osstimecontrol 
-						INNER JOIN vtiger_projecttask ON vtiger_projecttask.projecttaskid = vtiger_osstimecontrol.projecttaskid
-						WHERE vtiger_osstimecontrol.deleted = ? 
-						AND vtiger_osstimecontrol.projecttaskid <> ? 
-						AND vtiger_osstimecontrol.ticketid = ? 
-						AND vtiger_osstimecontrol.projectid = ?
-						AND vtiger_osstimecontrol.osstimecontrol_status = ?
-						AND vtiger_projecttask.projectid = ?;';
-		$sum_time_pt_result = $db->pquery($sql_sum_time_pt, array(0, 0, 0, 0, self::recalculateStatus, $ProjectID), true);
-		for ($i = 0; $i < $db->num_rows($sum_time_pt_result); $i++) {
-			$taskIDS[] = $db->query_result($sum_time_pt_result, $i, 'osstimecontrolid');
-		}
-		return array($taskIDS, $ticketsIDS, $projectIDS);
-	}
-
-	public static function checkID($ID)
-	{
-		if ($ID == 0 || $ID == '') {
-			return false;
-		}
-		return true;
+		$start = strtotime(DateTimeField::convertToDBFormat($data->get('date_start')) . ' ' . $data->get('time_start'));
+		$end = strtotime(DateTimeField::convertToDBFormat($data->get('due_date')) . ' ' . $data->get('time_end'));
+		$time = round(abs($end - $start) / 3600, 2);
+		$db->update('vtiger_osstimecontrol', ['sum_time' => $time], '`osstimecontrolid` = ?', [$data->getId()]);
 	}
 
 	public function getDuplicateRecordUrl()

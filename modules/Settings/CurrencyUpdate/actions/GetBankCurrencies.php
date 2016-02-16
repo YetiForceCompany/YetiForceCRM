@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * @package YetiForce.actions
+ * @license licenses/License.html
+ * @author Maciej Stencel <m.stencel@yetiforce.com>
+ */
+ 
 class Settings_CurrencyUpdate_GetBankCurrencies_Action extends Vtiger_Action_Controller
 {
 

@@ -159,7 +159,7 @@ class Net_LDAP3
         if (array_keys($entries) == range(0, count($entries) - 1)) {
             // $entries is sequential
             if (count($entries) !== count($attributes)) {
-                $this->_error("Wrong entry/attribute count in " . __FUNCTION__);
+                $this->_error("LDAP: Wrong entry/attribute count in " . __FUNCTION__);
                 return false;
             }
 
@@ -199,19 +199,21 @@ class Net_LDAP3
         foreach ($attributes as $attr_name => $attr_value) {
             if (empty($attr_value)) {
                 unset($attributes[$attr_name]);
+            } else if (is_array($attr_value)) {
+                $attributes[$attr_name] = array_values($attr_value);
             }
         }
 
         $this->_debug("C: Add $entry_dn: " . json_encode($attributes));
 
-        if (($add_result = ldap_add($this->conn, $entry_dn, $attributes)) == false) {
+        if (!ldap_add($this->conn, $entry_dn, $attributes)) {
             $this->_debug("S: " . ldap_error($this->conn));
-            $this->_debug("S: Adding entry $entry_dn failed. " . ldap_error($this->conn));
+            $this->_warning("LDAP: Adding entry $entry_dn failed. " . ldap_error($this->conn));
 
             return false;
         }
 
-        $this->_debug("LDAP: S: OK");
+        $this->_debug("S: OK");
 
         return true;
     }
@@ -294,14 +296,14 @@ class Net_LDAP3
             $result = $ldap->add_entry($new_replica_dn, $replica_attrs);
 
             if (!$result) {
-                $this->_error("Could not add replication configuration to database for $domain_root_dn on $replica_host");
+                $this->_error("LDAP: Could not add replication configuration to database for $domain_root_dn on $replica_host");
                 continue;
             }
 
             $result = $ldap->search($replica_dn, "(objectclass=nsDS5ReplicationAgreement)", "sub");
 
             if (!$result) {
-                $this->_error("Host $replica_host does not have any replication agreements");
+                $this->_error("LDAP: Host $replica_host does not have any replication agreements");
                 continue;
             }
 
@@ -338,7 +340,7 @@ class Net_LDAP3
                 $result = $ldap->add_entry($replica_agreement_dn, $replica_agreement_attrs);
 
                 if (!$result) {
-                    $this->_error("Failed adding $replica_agreement_dn");
+                    $this->_error("LDAP: Failed adding $replica_agreement_dn");
                 }
             }
         }
@@ -503,7 +505,7 @@ class Net_LDAP3
         }
 
         $this->_debug("S: ".ldap_error($this->conn));
-        $this->_error("Bind failed for dn=$bind_dn: ".ldap_error($this->conn));
+        $this->_error("LDAP: Bind failed for dn=$bind_dn. ".ldap_error($this->conn));
 
         return false;
     }
@@ -647,14 +649,15 @@ class Net_LDAP3
      */
     public function delete_entry($entry_dn)
     {
-        $this->_debug("LDAP: C: Delete $entry_dn");
+        $this->_debug("C: Delete $entry_dn");
 
         if (ldap_delete($this->conn, $entry_dn) === false) {
-            $this->_debug("LDAP: S: " . ldap_error($this->conn));
+            $this->_debug("S: " . ldap_error($this->conn));
+            $this->_warning("LDAP: Removing entry $entry_dn failed. " . ldap_error($this->conn));
             return false;
         }
 
-        $this->_debug("LDAP: S: OK");
+        $this->_debug("S: OK");
 
         return true;
     }
@@ -665,7 +668,7 @@ class Net_LDAP3
     public function delete_entry_recursive($entry_dn)
     {
         // searching for sub entries, but not scope sub, just one level
-        $result = $this->search($entry_dn, '(objectclass=*)', 'one');
+        $result = $this->search($entry_dn, '(|(objectclass=*)(objectclass=ldapsubentry))', 'one');
 
         if ($result) {
             $entries = $result->entries(true);
@@ -1004,6 +1007,7 @@ class Net_LDAP3
             }
             else {
                 $this->_debug("S: ".ldap_error($this->conn));
+                $this->_warning("LDAP: Failed to read $dn. " . ldap_error($this->conn));
             }
 
             if (!empty($rec)) {
@@ -1109,7 +1113,7 @@ class Net_LDAP3
             $bound = $this->bind($entry_dn, $password);
 
             if (!$bound) {
-                $this->_error("Could not bind with " . $entry_dn);
+                $this->_error("LDAP: Could not bind with " . $entry_dn);
                 return null;
             }
 
@@ -1516,7 +1520,7 @@ class Net_LDAP3
         }
 
         if (!function_exists('ldap_sasl_bind')) {
-            $this->_error("Unable to bind: ldap_sasl_bind() not exists");
+            $this->_error("LDAP: Unable to bind. ldap_sasl_bind() not exists");
             return false;
         }
 
@@ -1537,7 +1541,7 @@ class Net_LDAP3
         }
 
         $this->_debug("S: ".ldap_error($this->conn));
-        $this->_error("Bind failed for authcid=$authc ".ldap_error($this->conn));
+        $this->_error("LDAP: Bind failed for authcid=$authc. ".ldap_error($this->conn));
 
         return false;
     }
@@ -1634,7 +1638,7 @@ class Net_LDAP3
         $ldap_result = @$function($this->conn, $base_dn, $filter, $attrs, 0, $sizelimit, $timelimit);
 
         if (!$ldap_result) {
-            $this->_warning("$function failed for dn=$base_dn: ".ldap_error($this->conn));
+            $this->_warning("LDAP: $function failed for dn=$base_dn. " . ldap_error($this->conn));
             return false;
         }
 
@@ -1950,7 +1954,8 @@ class Net_LDAP3
 
         $this->_debug("Existing vlv index and search information", $vlv_indexes);
 
-        $filter = strtolower($filter);
+        $filter  = strtolower($filter);
+        $base_dn = self::unified_dn($base_dn);
 
         foreach ($vlv_indexes as $vlv_index) {
             if (!empty($vlv_index[$base_dn])) {
@@ -2079,7 +2084,7 @@ class Net_LDAP3
 
         foreach ($vlv_searches->entries(true) as $vlv_search_dn => $vlv_search_attrs) {
             // The attributes we are interested in are as follows:
-            $_vlv_base_dn = $vlv_search_attrs['vlvbase'];
+            $_vlv_base_dn = self::unified_dn($vlv_search_attrs['vlvbase']);
             $_vlv_scope   = $vlv_search_attrs['vlvscope'];
             $_vlv_filter  = $vlv_search_attrs['vlvfilter'];
 
@@ -2293,7 +2298,7 @@ class Net_LDAP3
             $newrdn     = $attributes['rename']['new_rdn'];
             $new_parent = $attributes['rename']['new_parent'];
 
-            $this->_debug("LDAP: C: Rename $olddn to $newrdn,$new_parent");
+            $this->_debug("C: Rename $olddn to $newrdn,$new_parent");
 
             // Note: for some reason the operation fails if RDN contains special characters
             // and last argument of ldap_rename() is set to TRUE. That's why we use FALSE.
@@ -2307,7 +2312,7 @@ class Net_LDAP3
             }
 
             if ($result) {
-                $this->_debug("LDAP: S: OK");
+                $this->_debug("S: OK");
 
                 if ($new_parent) {
                     $subject_dn = $newrdn . ',' . $new_parent;
@@ -2327,52 +2332,52 @@ class Net_LDAP3
                 }
             }
             else {
-                $this->_debug("LDAP: S: " . ldap_error($this->conn));
-                $this->_warning("LDAP: Failed to rename $olddn to $newrdn,$new_parent");
+                $this->_debug("S: " . ldap_error($this->conn));
+                $this->_warning("LDAP: Failed to rename $olddn to $newrdn,$new_parent. " . ldap_error($this->conn));
                 return false;
             }
         }
 
         if (is_array($attributes['replace']) && !empty($attributes['replace'])) {
-            $this->_debug("LDAP: C: Mod-Replace $subject_dn: " . json_encode($attributes['replace']));
+            $this->_debug("C: Mod-Replace $subject_dn: " . json_encode($attributes['replace']));
 
             $result = ldap_mod_replace($this->conn, $subject_dn, $attributes['replace']);
 
             if ($result) {
-                $this->_debug("LDAP: S: OK");
+                $this->_debug("S: OK");
             }
             else {
-                $this->_debug("LDAP: S: " . ldap_error($this->conn));
+                $this->_debug("S: " . ldap_error($this->conn));
                 $this->_warning("LDAP: Failed to replace attributes on $subject_dn: " . json_encode($attributes['replace']));
                 return false;
             }
         }
 
         if (is_array($attributes['del']) && !empty($attributes['del'])) {
-            $this->_debug("LDAP: C: Mod-Delete $subject_dn: " . json_encode($attributes['del']));
+            $this->_debug("C: Mod-Delete $subject_dn: " . json_encode($attributes['del']));
 
             $result = ldap_mod_del($this->conn, $subject_dn, $attributes['del']);
 
             if ($result) {
-                $this->_debug("LDAP: S: OK");
+                $this->_debug("S: OK");
             }
             else {
-                $this->_debug("LDAP: S: " . ldap_error($this->conn));
+                $this->_debug("S: " . ldap_error($this->conn));
                 $this->_warning("LDAP: Failed to delete attributes on $subject_dn: " . json_encode($attributes['del']));
                 return false;
             }
         }
 
         if (is_array($attributes['add']) && !empty($attributes['add'])) {
-            $this->_debug("LDAP: C: Mod-Add $subject_dn: " . json_encode($attributes['add']));
+            $this->_debug("C: Mod-Add $subject_dn: " . json_encode($attributes['add']));
 
             $result = ldap_mod_add($this->conn, $subject_dn, $attributes['add']);
 
             if ($result) {
-                $this->_debug("LDAP: S: OK");
+                $this->_debug("S: OK");
             }
             else {
-                $this->_debug("LDAP: S: " . ldap_error($this->conn));
+                $this->_debug("S: " . ldap_error($this->conn));
                 $this->_warning("LDAP: Failed to add attributes on $subject_dn: " . json_encode($attributes['add']));
                 return false;
             }
@@ -2932,7 +2937,7 @@ class Net_LDAP3
         // only report once
         if (!$seen["$host:$port"]++) {
             $this->mc_available--;
-            $this->_error("Memcache failure on host $host:$port");
+            $this->_error("LDAP: Memcache failure on host $host:$port");
         }
     }
 
@@ -3059,25 +3064,35 @@ class Net_LDAP3
                 $result = false;
             }
         }
-        else {
-            $domain_base_dn = $this->config_get('domain_base_dn');
+        else if ($domain_base_dn = $this->config_get('domain_base_dn')) {
             $domain_filter  = $this->config_get('domain_filter');
-            $name_attribute = $this->config_get('domain_name_attribute');
 
-            if (empty($name_attribute)) {
-                $name_attribute = 'associateddomain';
+            if (strpos($domain_filter, '%s') !== false) {
+                $domain_filter = str_replace('%s', self::quote_string($domain), $domain_filter);
             }
+            else {
+                $name_attribute = $this->config_get('domain_name_attribute');
+                if (empty($name_attribute)) {
+                    $name_attribute = 'associateddomain';
+                }
 
-            $domain_filter = "(&" . $domain_filter . "(" . $name_attribute . "=" . self::quote_string($domain) . "))";
+                $domain_filter = "(&" . $domain_filter . "(" . $name_attribute . "=" . self::quote_string($domain) . "))";
+            }
 
             if ($result = $this->search($domain_base_dn, $domain_filter, 'sub', $attributes)) {
                 $result       = $result->entries(true);
                 $domain_dn    = key($result);
-                $result       = $result[$domain_dn];
-                $result['dn'] = $domain_dn;
 
-                // cache domain DN
-                $this->set_cache_data($ckey, $domain_dn);
+                if (empty($domain_dn)) {
+                    $result = false;
+                }
+                else {
+                    $result       = $result[$domain_dn];
+                    $result['dn'] = $domain_dn;
+
+                    // cache domain DN
+                    $this->set_cache_data($ckey, $domain_dn);
+                }
             }
         }
 

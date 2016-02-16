@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ *
+ * @package YetiForce.views
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 Class OSSMailView_widget_View extends Vtiger_Edit_View
 {
@@ -52,6 +57,7 @@ Class OSSMailView_widget_View extends Vtiger_Edit_View
 		$viewer->assign('SRECORD', $srecord);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('POPUP', $config['popup']);
+		$viewer->assign('PRIVILEGESMODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
 		$viewer->view('widgets.tpl', 'OSSMailView');
 	}
 }

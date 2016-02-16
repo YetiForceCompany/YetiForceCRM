@@ -34,8 +34,8 @@
 									<div class="pull-right-md pull-left-sm pull-right-lg">
 										<div class="btn-toolbar">
 											<span class="btn-group ">
-											{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}												
-													<button {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_BASIC_LINK->linkhint, $MODULE_NAME)}" {/if} class="btn btn-default {$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())} {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''} popoverTooltip {/if} {$DETAIL_VIEW_BASIC_LINK->getClassName()}" 
+											{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}											
+													{if $DETAIL_VIEW_BASIC_LINK->linkhref}<a{else}<button{/if} {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_BASIC_LINK->linkhint, $MODULE_NAME)}" {/if} class="btn btn-default {$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())} {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''} popoverTooltip {/if} {$DETAIL_VIEW_BASIC_LINK->getClassName()}" 
 																										 {if $DETAIL_VIEW_BASIC_LINK->linkdata && is_array($DETAIL_VIEW_BASIC_LINK->linkdata)}
 																											 {foreach item=DATA_VALUE key=DATA_NAME from=$DETAIL_VIEW_BASIC_LINK->linkdata}
 																												 data-{$DATA_NAME}="{$DATA_VALUE}" 
@@ -46,7 +46,7 @@
 																										 {if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink() || $DETAIL_VIEW_BASIC_LINK->linkPopup}
 																											 onclick="window.open('{$DETAIL_VIEW_BASIC_LINK->getUrl()}', '{if $DETAIL_VIEW_BASIC_LINK->linktarget}{$DETAIL_VIEW_BASIC_LINK->linktarget}{else}_self{/if}'{if $DETAIL_VIEW_BASIC_LINK->linkPopup}, 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" 
 																										 {else}
-																											 onclick="{$DETAIL_VIEW_BASIC_LINK->getUrl()}"
+																											 {if $DETAIL_VIEW_BASIC_LINK->linkhref} href="{$DETAIL_VIEW_BASIC_LINK->getUrl()}"{else}onclick="{$DETAIL_VIEW_BASIC_LINK->getUrl()}"{/if}
 																										 {/if}
 																										 >
 															{if $DETAIL_VIEW_BASIC_LINK->linkimg neq ''}
@@ -55,8 +55,7 @@
 														{if $LABEL neq ''}
 															<strong>{vtranslate($LABEL, $MODULE_NAME)}</strong>
 														{/if}
-													</button>
-												
+													{if $DETAIL_VIEW_BASIC_LINK->linkhref}</a>{else}</button>{/if}
 											{/foreach}
 											</span>
 											{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}

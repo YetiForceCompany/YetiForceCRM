@@ -38,4 +38,5 @@
 			</span>
 		</div>
 	</div>
+	{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 {/strip}

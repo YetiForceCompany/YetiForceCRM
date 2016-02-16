@@ -1,6 +1,9 @@
 <?php
-/* OpenSaaS 
- * Rules: http://opensaas.pl/rules.html
+/**
+ * @package YetiForce.views
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View

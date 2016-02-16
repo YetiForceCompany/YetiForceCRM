@@ -11,11 +11,20 @@
 -->*}
 
 {strip}
-	<div class='editViewContainer'>
-		<div class='col-md-8 row'>
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-		</div>
+	<div class="editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
+			<div class="widget_header row">
+				<div class="col-md-8">
+					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				</div>
+				<div class=" col-md-4 contentHeader">
+					<span class="pull-right">
+						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+					</span>
+					<div class="clearfix"></div>
+				</div>
+			</div>	
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 				<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
@@ -41,13 +50,6 @@
 				<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 				<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 			{/if}
-			<div class="contentHeader ">
-				<span class="pull-right">
-					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-					<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</button>
-				</span>
-				<div class="clearfix"></div>
-			</div>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
 			{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}

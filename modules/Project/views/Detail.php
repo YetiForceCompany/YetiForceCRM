@@ -17,21 +17,20 @@ class Project_Detail_View extends Vtiger_Detail_View {
 		$this->exposeMethod('showGantt');
 	}
 
-	function showCharts(Vtiger_Request $request) {
-	
+	function showCharts(Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $moduleModel->getTimeEmployee($recordId);
-		$response = $moduleModel->getTimeProject($recordId);
+		$moduleModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
+		if ($moduleModel)
+			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('DATA2', $response);
-		$viewer->view('charts/ShowTimeProjectEmployees.tpl', $moduleName);
-		$viewer->view('charts/ShowTimeProject.tpl', $moduleName);
+		$viewer->view('charts/ShowTimeProjectUsers.tpl', $moduleName);
 	}
+
 	function showGantt(Vtiger_Request $request) {
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

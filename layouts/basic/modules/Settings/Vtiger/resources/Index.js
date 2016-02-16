@@ -214,7 +214,181 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
                                                 
                                                 });
         },
-
+	loadCkEditorElement: function () {
+		var customConfig = {};
+		var noteContentElement = jQuery('.ckEditorSource');
+		var ckEditorInstance = new Vtiger_CkEditor_Js();
+		ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
+	},
+	registerSaveIssues: function(){
+		var container = jQuery('.addIssuesModal');
+		container.validationEngine(app.validationEngineOptions);
+		var title = jQuery('#titleIssues');
+		var CKEditorInstance = CKEDITOR.instances['bodyIssues'];
+		var thisInstance = this;
+		var saveBtn = container.find('.saveIssues');
+		saveBtn.click(function(){
+			if (container.validationEngine('validate')) {
+				var body = jQuery.trim(CKEditorInstance.document.getBody().getText());
+				var params = {
+					module  : 'Github',
+					parent : app.getParentModuleName(),
+					action : 'SaveIssuesAJAX',
+					title: title.val(),
+					body: body
+				};
+				AppConnector.request(params).then(function(data){
+					app.hideModalWindow();
+					thisInstance.reloadContent();
+					if(data.result.success == true){
+						var params = {
+							title : app.vtranslate('JS_LBL_PERMISSION'),
+							text: app.vtranslate('JS_ADDED_ISSUE_COMPLETE'),
+							type: 'success',
+							animation: 'show'
+						};
+						Vtiger_Helper_Js.showMessage(params);
+					}
+				});
+			}
+		});
+		jQuery('[name="confirmRegulations"]').on('click', function(){
+			var currentTarget = jQuery(this);
+			if(currentTarget.is(':checked')){
+				saveBtn.removeAttr('disabled');	
+			}
+			else{
+				saveBtn.attr('disabled','disabled');
+			}
+		});
+	},
+	reloadContent: function(){
+		jQuery('.massEditTabs li.active').trigger('click');
+	},
+	resisterSaveKeys: function(){
+		var thisInstance = this;
+		var container = jQuery('#globalmodal .authModalContent');
+		container.validationEngine(app.validationEngineOptions);
+		container.find('.saveKeys').click(function(){
+			if (container.validationEngine('validate')) {
+				var params = {
+					module : 'Github',
+					parent : app.getParentModuleName(),
+					action : 'SaveKeysAJAX',
+					username : $('[name="username"]').val(), 
+					client_id : $('[name="client_id"]').val(),
+					token: $('[name="token"]').val()
+				};
+				container.progressIndicator({});
+				AppConnector.request(params).then(function(data){
+					container.progressIndicator({mode: 'hide'});
+					if(data.result.success == false){
+						var errorDiv = container.find('.errorMsg');
+						errorDiv.removeClass('hide');
+						errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
+					}
+					else{
+						app.hideModalWindow();
+						thisInstance.reloadContent();
+						var params = {
+							title : app.vtranslate('JS_LBL_PERMISSION'),
+							text: app.vtranslate('JS_AUTHORIZATION_COMPLETE'),
+							type: 'success',
+							animation: 'show'
+						};
+						Vtiger_Helper_Js.showMessage(params);
+					}
+				},
+				function (error, err) {
+					container.progressIndicator({mode: 'hide'});
+					app.hideModalWindow();
+				});
+			}
+		
+		});
+	},
+	registerTabEvents: function(){
+		var thisInstance = this;
+		jQuery('.massEditTabs li').on('click', function(){
+			thisInstance.loadContent(jQuery(this).data('mode'));
+		});
+	},
+	registerPagination: function(){
+		var page = jQuery('.pagination .pageNumber');
+		var thisInstance = this;
+		page.click(function(){
+			thisInstance.loadContent('Github', $(this).data('id'));
+		});
+	},
+	registerAuthorizedEvent: function(){
+		var thisInstance = this;
+		jQuery('.showModal').on('click', function(){
+			app.showModalWindow(jQuery('.authModal'),function(){
+				thisInstance.resisterSaveKeys();
+			});
+		});
+	},
+	registerEventsForGithub: function (container){
+		var thisInstance = this;
+		thisInstance.registerAuthorizedEvent();
+		thisInstance.registerPagination();
+		app.showBtnSwitch(container.find('.switchBtn'));
+		container.find('.switchAuthor').on('switchChange.bootstrapSwitch', function (e, state) {
+			thisInstance.loadContent('Github', 1);
+		});
+		container.find('.switchState').on('switchChange.bootstrapSwitch', function (e, state) {
+			thisInstance.loadContent('Github', 1);
+		});
+		
+		$('.addIssuesBtn').on('click', function(){
+			var params = {
+				module  : 'Github',
+				parent : app.getParentModuleName(),
+				view : 'AddIssueAJAX'
+			};
+			container.progressIndicator({});
+			AppConnector.request(params).then(function(data){
+				container.progressIndicator({mode: 'hide'});
+				app.showModalWindow(data, function(){
+					thisInstance.loadCkEditorElement();
+					thisInstance.registerSaveIssues();
+				});
+			});
+		});
+	},
+	loadContent: function(mode, page){
+		var thisInstance = this;
+		var container = jQuery('.indexContainer');
+		var state = container.find('.switchState');
+		var author = container.find('.switchAuthor');
+		
+		var params = {
+			mode  : mode,
+			module  : app.getModuleName(),
+			parent : app.getParentModuleName(),
+			view : 'Index',
+			page : page
+		};
+		if(state.is(':checked')){
+			params.state = 'closed';
+		}
+		else{
+			params.state = 'open';
+		}
+		params.author = author.is(':checked');
+		var progressIndicatorElement = jQuery.progressIndicator({
+			position: 'html',
+			'blockInfo': {
+				'enabled': true,
+				'elementToBlock': container
+			}
+		});
+		AppConnector.request(params).then(function(data){
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			container.html(data);
+			thisInstance.registerEventsForGithub(container);
+		});
+	},
 	registerEvents: function() {
 		this.registerSettingsShortcutClickEvent();
 		this.registerDeleteShortCutEvent();
@@ -222,6 +396,8 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 		this.registerPinUnpinShortCutEvent();
 		this.registerAddShortcutDragDropEvent();
 		this.registerSettingShortCutAlignmentEvent();
+		this.registerTabEvents();
+		this.reloadContent();
 	}
 
 });

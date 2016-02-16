@@ -12,8 +12,10 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!Users_Privileges_Model::isPermitted($moduleName, $actionName)) {
-			throw new NoPermittedException(vtranslate('LBL_PERMISSION_DENIED'));
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 

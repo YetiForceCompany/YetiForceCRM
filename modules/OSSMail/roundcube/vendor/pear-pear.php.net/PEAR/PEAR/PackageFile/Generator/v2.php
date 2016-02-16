@@ -10,7 +10,6 @@
  * @author     Stephan Schmidt (original XML_Serializer code)
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -31,7 +30,7 @@ require_once 'XML/Util.php';
  * @author     Stephan Schmidt (original XML_Serializer code)
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -100,7 +99,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
     /**
      * @param PEAR_PackageFile_v2
      */
-    function PEAR_PackageFile_Generator_v2(&$packagefile)
+    function __construct(&$packagefile)
     {
         $this->_packagefile = &$packagefile;
         if (isset($this->_packagefile->encoding)) {
@@ -113,7 +112,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
      */
     function getPackagerVersion()
     {
-        return '1.9.5';
+        return '1.10.1';
     }
 
     /**
@@ -232,7 +231,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
                             array($this->_packagefile->getTasksNs() . ':', '-'),
                             array('', '_'), $tag);
                         $task = "PEAR_Task_$tag";
-                        $task = &new $task($this->_packagefile->_config,
+                        $task = new $task($this->_packagefile->_config,
                             $this->_packagefile->_logger,
                             PEAR_TASK_PACKAGE);
                         $task->init($raw, $atts, null);
@@ -269,7 +268,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
         $name       = $pf1 !== null ? 'package2.xml' : 'package.xml';
         $packagexml = $this->toPackageFile($where, PEAR_VALIDATE_PACKAGING, $name);
         if ($packagexml) {
-            $tar =& new Archive_Tar($dest_package, $compress);
+            $tar = new Archive_Tar($dest_package, $compress);
             $tar->setErrorHandling(PEAR_ERROR_RETURN); // XXX Don't print errors
             // ----- Creates with the package.xml file
             $ok = $tar->createModify(array($packagexml), '', $where);
@@ -398,7 +397,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
             $this->options['beautifyFilelist'] = true;
         }
 
-        $arr['attribs']['packagerversion'] = '1.9.5';
+        $arr['attribs']['packagerversion'] = '1.10.1';
         if ($this->serialize($arr, $options)) {
             return $this->_serializedData . "\n";
         }
@@ -869,12 +868,6 @@ http://pear.php.net/dtd/package-2.0.xsd',
         }
 
         if (is_scalar($tag['content']) || is_null($tag['content'])) {
-            if ($this->options['encoding'] == 'UTF-8' &&
-                  version_compare(phpversion(), '5.0.0', 'lt')
-            ) {
-                $tag['content'] = utf8_encode($tag['content']);
-            }
-
             if ($replaceEntities === true) {
                 $replaceEntities = XML_UTIL_ENTITIES_XML;
             }

@@ -1344,6 +1344,7 @@ $languageStrings = [
 	'FL_SUB_PROCESS' => 'Subprocess',
 	'LBL_VIEW_DUPLICATE' => 'Duplicate',
 	'LBL_SU_UPDATED' => 'Record updated by a different user',
+	'LBL_CRMACTIVITY' => 'Calendar activity',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

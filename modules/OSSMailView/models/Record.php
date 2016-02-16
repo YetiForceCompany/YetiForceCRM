@@ -91,7 +91,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
 			if ($securityParameter != '')
 				$query .= $securityParameter;
-			$query .= ' ORDER BY ossmailviewid DESC';
+			$query .= ' ORDER BY date DESC';
 			if ($config['widget_limit'] != '') {
 				$query .= ' LIMIT ' . $config['widget_limit'];
 			}
@@ -108,14 +108,19 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 					'id' => $row['ossmailviewid'],
 					'date' => $row['date'],
 					'firstLetter' => strtoupper(Vtiger_Functions::textLength(trim(strip_tags($from)), 1, false)),
+					'subjectRaw' => $row['subject'],
 					'subject' => '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>',
 					'attachments' => $row['attachments_exist'],
 					'from' => $from,
+					'fromRaw' => $row['from_email'],
+					'toRaw' => $row['to_email'],
+					'ccRaw' => $row['cc_email'],
 					'to' => $to,
 					'url' => 'index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'],
 					'type' => $row['type'],
 					'teaser' => Vtiger_Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
 					'body' => $content,
+					'bodyRaw' => $row['content'],
 				];
 			}
 		}
@@ -173,6 +178,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 					$email = $recordModel->get($emailField['columnname']);
 					if (!empty($email)) {
 						$returnEmail = $email;
+						break;
 					}
 				}
 			}

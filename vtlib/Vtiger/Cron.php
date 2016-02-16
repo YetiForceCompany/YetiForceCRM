@@ -18,6 +18,7 @@ require_once('include/database/PearDatabase.php');
 class Vtiger_Cron
 {
 
+	protected static $cronAction = false;
 	protected static $schemaInitialized = false;
 	protected static $instanceCache = array();
 	static $STATUS_DISABLED = 0;
@@ -433,5 +434,15 @@ class Vtiger_Cron
 	{
 		$db = PearDatabase::getInstance();
 		$db->delete('vtiger_cron_task', 'module = ?', [$moduleInstance->name]);
+	}
+
+	static function setCronAction($status)
+	{
+		self::$cronAction = $status;
+	}
+
+	static function isCronAction()
+	{
+		return self::$cronAction;
 	}
 }

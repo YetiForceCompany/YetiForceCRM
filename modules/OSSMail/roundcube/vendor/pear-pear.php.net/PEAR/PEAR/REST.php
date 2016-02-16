@@ -9,7 +9,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -28,7 +27,7 @@ require_once 'PEAR/XMLParser.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -37,7 +36,7 @@ class PEAR_REST
     var $config;
     var $_options;
 
-    function PEAR_REST(&$config, $options = array())
+    function __construct(&$config, $options = array())
     {
         $this->config   = &$config;
         $this->_options = $options;
@@ -236,6 +235,13 @@ class PEAR_REST
             }
         }
 
+        if (!is_writeable($cache_dir)) {
+            // If writing to the cache dir is not going to work, silently do nothing.
+            // An ugly hack, but retains compat with PEAR 1.9.1 where many commands
+            // work fine as non-root user (w/out write access to default cache dir).
+            return true;
+        }
+
         if ($cacheid === null && $nochange) {
             $cacheid = unserialize(implode('', file($cacheidfile)));
         }
@@ -390,7 +396,7 @@ class PEAR_REST
         }
 
         $request .= $ifmodifiedsince .
-            "User-Agent: PEAR/1.9.5/PHP/" . PHP_VERSION . "\r\n";
+            "User-Agent: PEAR/1.10.1/PHP/" . PHP_VERSION . "\r\n";
 
         $username = $this->config->get('username', null, $channel);
         $password = $this->config->get('password', null, $channel);

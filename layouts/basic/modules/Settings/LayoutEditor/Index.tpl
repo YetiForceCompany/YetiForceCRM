@@ -164,6 +164,14 @@
 																								   {if $FIELD_MODEL->isSummaryFieldOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} value="1" />&nbsp;
 																							{vtranslate('LBL_SUMMARY_FIELD', $QUALIFIED_MODULE)}
 																						</label>
+																					</span>	
+																					<span>
+																						<input type="hidden" name="header_field" value="0"/>
+																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
+																							<input type="checkbox" name="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if}
+																								value="btn-default" />&nbsp;
+																								{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
+																						</label>
 																					</span>
 																					<span>
 																						<input type="hidden" name="masseditable" value="2" />
@@ -360,6 +368,14 @@
 																							<input type="checkbox" name="summaryfield" {if $FIELD_MODEL->isSummaryField()} checked {/if}
 																								   {if $FIELD_MODEL->isSummaryFieldOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} value="1" />&nbsp;
 																							{vtranslate('LBL_SUMMARY_FIELD', $QUALIFIED_MODULE)}
+																						</label>
+																					</span>
+																					<span>
+																						<input type="hidden" name="header_field" value="0"/>
+																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
+																							<input type="checkbox" name="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if}
+																								value="btn-default" />&nbsp;
+																								{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
 																					<span>
@@ -582,6 +598,12 @@
 															<input type="hidden" name="summaryfield" value="0"/>
 															<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																<input type="checkbox" name="summaryfield" value="1" />&nbsp;{vtranslate('LBL_SUMMARY_FIELD', $QUALIFIED_MODULE)}
+															</label>
+														</span>
+														<span>
+															<input type="hidden" name="header_field" value="0" />
+															<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
+																<input type="checkbox" name="header_field" value="btn-default" />&nbsp;{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 															</label>
 														</span>
 														<span>

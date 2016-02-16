@@ -22,10 +22,8 @@
         "ext-mbstring": "Use Mbstring for best performance"
     },
     "autoload": {
-        "psr-0": {
-            "Patchwork": "class/",
-            "Normalizer": "class/"
-        }
+        "psr-4": {"Patchwork\\": "src/Patchwork/"},
+        "classmap": ["src/Normalizer.php"]
     },
     "extra": {
         "branch-alias": {

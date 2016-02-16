@@ -48,14 +48,10 @@ class RelatedModuleMeta
 
 	private function getRelationMetaInfo($relationId)
 	{
-		switch ($relationId) {
-			case $this->CAMPAIGNCONTACTREL: return array(
-					'relationTable' => 'vtiger_campaigncontrel',
-					'Campaigns' => 'campaignid',
-					'Contacts' => 'contactid'
-				);
-		}
+		return [
+		'relationTable' => 'vtiger_campaign_records',
+		'Campaigns' => 'campaignid',
+		'Contacts' => 'crmid'
+		];
 	}
 }
-
-?>

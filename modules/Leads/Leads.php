@@ -20,8 +20,8 @@ class Leads extends CRMEntity
 	var $db;
 	var $table_name = "vtiger_leaddetails";
 	var $table_index = 'leadid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_leaddetails', 'vtiger_leadsubdetails', 'vtiger_leadaddress', 'vtiger_leadscf');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_leaddetails' => 'leadid', 'vtiger_leadsubdetails' => 'leadsubscriptionid', 'vtiger_leadaddress' => 'leadaddressid', 'vtiger_leadscf' => 'leadid');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_leaddetails', 'vtiger_leadsubdetails', 'vtiger_leadaddress', 'vtiger_leadscf', 'vtiger_entity_stats');
+	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_leaddetails' => 'leadid', 'vtiger_leadsubdetails' => 'leadsubscriptionid', 'vtiger_leadaddress' => 'leadaddressid', 'vtiger_leadscf' => 'leadid', 'vtiger_entity_stats' => 'crmid');
 	var $entity_table = "vtiger_crmentity";
 
 	/**
@@ -92,7 +92,7 @@ class Leads extends CRMEntity
 	 */
 	function create_export_query($where)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $where . ") method ...");
 
@@ -138,7 +138,7 @@ class Leads extends CRMEntity
 	 */
 	function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -174,12 +174,12 @@ class Leads extends CRMEntity
 				vtiger_campaign.campaignid, vtiger_campaign.campaignname, vtiger_campaign.campaigntype, vtiger_campaign.campaignstatus,
 				vtiger_campaign.expectedrevenue, vtiger_campaign.closingdate, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
 				vtiger_crmentity.modifiedtime from vtiger_campaign
-				inner join vtiger_campaignleadrel on vtiger_campaignleadrel.campaignid=vtiger_campaign.campaignid
+				inner join vtiger_campaign_records on vtiger_campaign_records.campaignid=vtiger_campaign.campaignid
 				inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_campaign.campaignid
 				inner join vtiger_campaignscf ON vtiger_campaignscf.campaignid = vtiger_campaign.campaignid
 				left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
 				left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-				where vtiger_campaignleadrel.leadid=" . $id . " and vtiger_crmentity.deleted=0";
+				where vtiger_campaign_records.crmid=" . $id . " and vtiger_crmentity.deleted=0";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -198,7 +198,7 @@ class Leads extends CRMEntity
 	 */
 	function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -262,7 +262,7 @@ class Leads extends CRMEntity
 	 */
 	function getColumnNames_Lead()
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$log->debug("Entering getColumnNames_Lead() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -299,17 +299,17 @@ class Leads extends CRMEntity
 	function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel",
-			"Products" => "vtiger_seproductsrel", "Campaigns" => "vtiger_campaignleadrel");
+		$rel_table_arr = Array('Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel',
+			'Products' => 'vtiger_seproductsrel', 'Campaigns' => 'vtiger_campaign_records');
 
-		$tbl_field_arr = Array("vtiger_senotesrel" => "notesid", "vtiger_seattachmentsrel" => "attachmentsid",
-			"vtiger_seproductsrel" => "productid", "vtiger_campaignleadrel" => "campaignid");
+		$tbl_field_arr = Array('vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid',
+			'vtiger_seproductsrel' => 'productid', 'vtiger_campaign_records' => 'campaignid');
 
-		$entity_tbl_field_arr = Array("vtiger_senotesrel" => "crmid", "vtiger_seattachmentsrel" => "crmid",
-			"vtiger_seproductsrel" => "crmid", "vtiger_campaignleadrel" => "leadid");
+		$entity_tbl_field_arr = Array('vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid',
+			'vtiger_seproductsrel' => 'crmid', 'vtiger_campaign_records' => 'crmid');
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {
@@ -386,10 +386,10 @@ class Leads extends CRMEntity
 	function setRelationTables($secmodule)
 	{
 		$rel_tables = array(
-			"Products" => array("vtiger_seproductsrel" => array("crmid", "productid"), "vtiger_leaddetails" => "leadid"),
-			"Campaigns" => array("vtiger_campaignleadrel" => array("leadid", "campaignid"), "vtiger_leaddetails" => "leadid"),
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_leaddetails" => "leadid"),
-			"Services" => array("vtiger_crmentityrel" => array("crmid", "relcrmid"), "vtiger_leaddetails" => "leadid"),
+			'Products' => array('vtiger_seproductsrel' => array('crmid', 'productid'), 'vtiger_leaddetails' => 'leadid'),
+			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'vtiger_leaddetails' => 'leadid'],
+			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_leaddetails' => 'leadid'),
+			'Services' => array('vtiger_crmentityrel' => array('crmid', 'relcrmid'), 'vtiger_leaddetails' => 'leadid'),
 		);
 		return $rel_tables[$secmodule];
 	}
@@ -397,13 +397,12 @@ class Leads extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		if (empty($return_module) || empty($return_id))
 			return;
 
 		if ($return_module == 'Campaigns') {
-			$sql = 'DELETE FROM vtiger_campaignleadrel WHERE leadid=? AND campaignid=?';
-			$this->db->pquery($sql, array($id, $return_id));
+			$this->db->delete('vtiger_campaign_records', 'crmid=? AND campaignid=?', [$id, $return_id]);
 		} elseif ($return_module == 'Products') {
 			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? AND productid=?';
 			$this->db->pquery($sql, array($id, $return_id));
@@ -447,10 +446,10 @@ class Leads extends CRMEntity
 					'rel_created_time' => date('Y-m-d H:i:s')
 				]);
 			} elseif ($with_module == 'Campaigns') {
-				$adb->insert('vtiger_campaignleadrel', [
+				$adb->insert('vtiger_campaign_records', [
 					'campaignid' => $with_crmid,
-					'leadid' => $crmid,
-					'campaignrelstatusid' => 1
+					'crmid' => $crmid,
+					'campaignrelstatusid' => 0
 				]);
 			} else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid);

@@ -28,8 +28,8 @@ class Accounts extends CRMEntity
 	var $db;
 	var $table_name = "vtiger_account";
 	var $table_index = 'accountid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_account', 'vtiger_accountaddress', 'vtiger_accountscf');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_account' => 'accountid', 'vtiger_accountaddress' => 'accountaddressid', 'vtiger_accountscf' => 'accountid');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_account', 'vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_entity_stats');
+	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_account' => 'accountid', 'vtiger_accountaddress' => 'accountaddressid', 'vtiger_accountscf' => 'accountid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
@@ -125,6 +125,7 @@ class Accounts extends CRMEntity
 		}
 
 		$entityIds = $this->getRelatedContactsIds();
+		$entityIds[] = $id;
 		$entityIds = implode(',', $entityIds);
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -136,17 +137,10 @@ class Accounts extends CRMEntity
 				from vtiger_campaign
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_campaign.campaignid
 				INNER JOIN vtiger_campaignscf ON vtiger_campaignscf.campaignid = vtiger_campaign.campaignid
-				LEFT JOIN vtiger_campaignaccountrel ON vtiger_campaignaccountrel.campaignid=vtiger_campaign.campaignid
-				LEFT JOIN vtiger_campaigncontrel ON vtiger_campaigncontrel.campaignid=vtiger_campaign.campaignid
+				LEFT JOIN vtiger_campaign_records ON vtiger_campaign_records.campaignid=vtiger_campaign.campaignid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted=0 AND (vtiger_campaignaccountrel.accountid=$id";
-
-		if (!empty($entityIds)) {
-			$query .= " OR vtiger_campaigncontrel.contactid IN (" . $entityIds . "))";
-		} else {
-			$query .= ")";
-		}
+				WHERE vtiger_crmentity.deleted=0 AND vtiger_campaign_records.crmid IN (" . $entityIds . ")";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -438,23 +432,23 @@ class Accounts extends CRMEntity
 	function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Contacts" => "vtiger_contactdetails",
-			"Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel", "HelpDesk" => "vtiger_troubletickets",
-			"Products" => "vtiger_seproductsrel", "ServiceContracts" => "vtiger_servicecontracts", "Campaigns" => "vtiger_campaignaccountrel",
-			"Assets" => "vtiger_assets", "Project" => "vtiger_project");
+		$rel_table_arr = Array('Contacts' => 'vtiger_contactdetails',
+			'Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel', 'HelpDesk' => 'vtiger_troubletickets',
+			'Products' => 'vtiger_seproductsrel', 'ServiceContracts' => 'vtiger_servicecontracts', 'Campaigns' => 'vtiger_campaign_records',
+			'Assets' => 'vtiger_assets', 'Project' => 'vtiger_project');
 
-		$tbl_field_arr = Array("vtiger_contactdetails" => "contactid",
-			"vtiger_senotesrel" => "notesid", "vtiger_seattachmentsrel" => "attachmentsid", "vtiger_troubletickets" => "ticketid",
-			"vtiger_seproductsrel" => "productid", "vtiger_servicecontracts" => "servicecontractsid", "vtiger_campaignaccountrel" => "campaignid",
-			"vtiger_assets" => "assetsid", "vtiger_project" => "projectid", "vtiger_payments" => "paymentsid");
+		$tbl_field_arr = Array('vtiger_contactdetails' => 'contactid',
+			'vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid', 'vtiger_troubletickets' => 'ticketid',
+			'vtiger_seproductsrel' => 'productid', 'vtiger_servicecontracts' => 'servicecontractsid', 'vtiger_campaign_records' => 'campaignid',
+			'vtiger_assets' => 'assetsid', 'vtiger_project' => 'projectid', 'vtiger_payments' => 'paymentsid');
 
-		$entity_tbl_field_arr = Array("vtiger_contactdetails" => "parentid",
-			"vtiger_senotesrel" => "crmid", "vtiger_seattachmentsrel" => "crmid", "vtiger_troubletickets" => "parent_id",
-			"vtiger_seproductsrel" => "crmid", "vtiger_servicecontracts" => "sc_related_to", "vtiger_campaignaccountrel" => "accountid",
-			"vtiger_assets" => "parent_id", "vtiger_project" => "linktoaccountscontacts", "vtiger_payments" => "relatedorganization");
+		$entity_tbl_field_arr = Array('vtiger_contactdetails' => 'parentid',
+			'vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid', 'vtiger_troubletickets' => 'parent_id',
+			'vtiger_seproductsrel' => 'crmid', 'vtiger_servicecontracts' => 'sc_related_to', 'vtiger_campaign_records' => 'crmid',
+			'vtiger_assets' => 'parent_id', 'vtiger_project' => 'linktoaccountscontacts', 'vtiger_payments' => 'relatedorganization');
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {
@@ -484,11 +478,11 @@ class Accounts extends CRMEntity
 	function setRelationTables($secmodule)
 	{
 		$rel_tables = array(
-			"Contacts" => array("vtiger_contactdetails" => array("parentid", "contactid"), "vtiger_account" => "accountid"),
-			"HelpDesk" => array("vtiger_troubletickets" => array("parent_id", "ticketid"), "vtiger_account" => "accountid"),
-			"Products" => array("vtiger_seproductsrel" => array("crmid", "productid"), "vtiger_account" => "accountid"),
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_account" => "accountid"),
-			"Campaigns" => array("vtiger_campaignaccountrel" => array("accountid", "campaignid"), "vtiger_account" => "accountid"),
+			'Contacts' => array('vtiger_contactdetails' => array('parentid', 'contactid'), 'vtiger_account' => 'accountid'),
+			'HelpDesk' => array('vtiger_troubletickets' => array('parent_id', 'ticketid'), 'vtiger_account' => 'accountid'),
+			'Products' => array('vtiger_seproductsrel' => array('crmid', 'productid'), 'vtiger_account' => 'accountid'),
+			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_account' => 'accountid'),
+			'Campaigns' => array('vtiger_campaign_records' => array('crmid', 'campaignid'), 'vtiger_account' => 'accountid'),
 		);
 		return $rel_tables[$secmodule];
 	}
@@ -813,8 +807,7 @@ class Accounts extends CRMEntity
 			return;
 
 		if ($return_module == 'Campaigns') {
-			$sql = 'DELETE FROM vtiger_campaignaccountrel WHERE accountid=? AND campaignid=?';
-			$this->db->pquery($sql, array($id, $return_id));
+			$this->db->delete('vtiger_campaign_records', 'crmid=? AND campaignid=?', [$id, $return_id]);
 		} else if ($return_module == 'Products') {
 			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? AND productid=?';
 			$this->db->pquery($sql, array($id, $return_id));
@@ -840,13 +833,13 @@ class Accounts extends CRMEntity
 					'rel_created_time' => date('Y-m-d H:i:s')
 				]);
 			} elseif ($with_module == 'Campaigns') {
-				$checkResult = $db->pquery('SELECT 1 FROM vtiger_campaignaccountrel WHERE campaignid = ? AND accountid = ?', [$with_crmid, $crmid]);
+				$checkResult = $db->pquery('SELECT 1 FROM vtiger_campaign_records WHERE campaignid = ? AND crmid = ?', [$with_crmid, $crmid]);
 				if ($db->getRowCount($checkResult) > 0) {
 					continue;
 				}
-				$db->insert('vtiger_campaignaccountrel', [
+				$db->insert('vtiger_campaign_records', [
 					'campaignid' => $with_crmid,
-					'accountid' => $crmid,
+					'crmid' => $crmid,
 					'campaignrelstatusid' => 1
 				]);
 			} else {
@@ -953,7 +946,7 @@ class Accounts extends CRMEntity
 		$app_strings = vglobal('app_strings');
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
-		
+
 		$currentModule = vtlib_getModuleNameById($cur_tab_id);
 		$relatedModule = vtlib_getModuleNameById($relTabId);
 		$other = CRMEntity::getInstance($relatedModule);

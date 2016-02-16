@@ -91,6 +91,8 @@ $languageStrings = [
 	'Alert_ChangeType_desc' => 'Все виды выбранный адрес электронной почты будет изменен, без возможности отменить изменения.',
 	'LBL_ChangeTypeOK' => 'Изменен статус сообщения',
 	'Configuration' => 'Настройка просмотра почты',
+	'LBL_MAIL_REPLY_INTRO' => 'On the %s, %s wrote:',
+	'LBL_MAIL_FORWARD_INTRO' => '-------- Original message --------',
 	'Date of receipt' => 'Дата поступления',
 	'LBL_NO_MAILS' => 'Не указан адрес электронной почты',
 	//dashboards

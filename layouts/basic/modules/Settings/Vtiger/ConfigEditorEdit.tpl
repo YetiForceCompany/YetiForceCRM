@@ -17,7 +17,7 @@
 						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 						{vtranslate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 					</div>
-					<div class="col-md-4 btn-toolbar paddingRightZero">
+					<div class="col-md-4 btn-toolbar no-margin">
 						<div class="pull-right">
 							<button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 							<button type="reset" class="cancelLink btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>

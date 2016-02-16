@@ -12,31 +12,16 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 {
 
 	/**
-	 * Function to get Email enabled modules list for detail view of record
-	 * @return <array> List of modules
-	 */
-	public function getEmailEnabledModulesInfoForDetailView()
-	{
-		return array(
-			'Leads' => array('fieldName' => 'leadid', 'tableName' => 'vtiger_campaignleadrel'),
-			'Accounts' => array('fieldName' => 'accountid', 'tableName' => 'vtiger_campaignaccountrel'),
-			'Contacts' => array('fieldName' => 'contactid', 'tableName' => 'vtiger_campaigncontrel')
-		);
-	}
-
-	/**
 	 * Function to get Campaigns Relation status values
 	 * @return <array> List of status values
 	 */
 	public function getCampaignRelationStatusValues()
 	{
-		$statusValues = array();
+		$statusValues = [];
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT campaignrelstatusid, campaignrelstatus FROM vtiger_campaignrelstatus", array());
-		$numOfRows = $db->num_rows($result);
-
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$statusValues[$db->query_result($result, $i, 'campaignrelstatusid')] = $db->query_result($result, $i, 'campaignrelstatus');
+		$result = $db->pquery('SELECT campaignrelstatusid, campaignrelstatus FROM vtiger_campaignrelstatus WHERE presence = ?', [1]);
+		while ($row = $db->getRow($result)) {
+			$statusValues[$row['campaignrelstatusid']] = $row['campaignrelstatus'];
 		}
 		return $statusValues;
 	}
@@ -46,22 +31,19 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 	 * @param <Number> Campaign record id
 	 * @param <array> $statusDetails
 	 */
-	public function updateStatus($sourceRecordId, $statusDetails = array())
+	public function updateStatus($sourceRecordId, $statusDetails = [])
 	{
 		if ($sourceRecordId && $statusDetails) {
 			$relatedModuleName = $this->getRelationModuleModel()->getName();
-			$emailEnabledModulesInfo = $this->getEmailEnabledModulesInfoForDetailView();
 
-			if (array_key_exists($relatedModuleName, $emailEnabledModulesInfo)) {
-				$fieldName = $emailEnabledModulesInfo[$relatedModuleName]['fieldName'];
-				$tableName = $emailEnabledModulesInfo[$relatedModuleName]['tableName'];
+			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 				$db = PearDatabase::getInstance();
 
-				$updateQuery = "UPDATE $tableName SET campaignrelstatusid = CASE $fieldName ";
+				$updateQuery = 'UPDATE vtiger_campaign_records SET campaignrelstatusid = CASE crmid ';
 				foreach ($statusDetails as $relatedRecordId => $status) {
 					$updateQuery .= " WHEN $relatedRecordId THEN $status ";
 				}
-				$updateQuery .= "ELSE campaignrelstatusid END WHERE campaignid = ?";
+				$updateQuery .= 'ELSE campaignrelstatusid END WHERE campaignid = ?';
 				$db->pquery($updateQuery, array($sourceRecordId));
 			}
 		}

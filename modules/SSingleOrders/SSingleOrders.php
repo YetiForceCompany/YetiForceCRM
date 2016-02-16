@@ -20,7 +20,7 @@ class SSingleOrders extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_ssingleorders', 'u_yf_ssingleorderscf', 'u_yf_ssingleorders_address');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_ssingleorders', 'u_yf_ssingleorderscf', 'u_yf_ssingleorders_address', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -29,7 +29,8 @@ class SSingleOrders extends Vtiger_CRMEntity
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_ssingleorders' => 'ssingleordersid',
 		'u_yf_ssingleorderscf' => 'ssingleordersid',
-		'u_yf_ssingleorders_address' => 'ssingleordersaddressid');
+		'u_yf_ssingleorders_address' => 'ssingleordersaddressid',
+		'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory for Listing (Related listview)

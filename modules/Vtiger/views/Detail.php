@@ -65,6 +65,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$summaryInfo = array();
 		// Take first block information as summary information
 		$stucturedValues = $recordStrucure->getStructure();
+		$fieldsInHeader = $recordStrucure->getFieldInHeader();
 		foreach ($stucturedValues as $blockLabel => $fieldList) {
 			$summaryInfo[$blockLabel] = $fieldList;
 			break;
@@ -134,6 +135,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
+		$viewer->assign('FIELDS_HEADER', $fieldsInHeader);
 
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));

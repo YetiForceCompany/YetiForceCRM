@@ -10,7 +10,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -87,6 +86,13 @@ if (getenv('PHP_PEAR_INSTALL_DIR')) {
     }
 }
 
+// Default for metadata_dir
+if (getenv('PHP_PEAR_METADATA_DIR')) {
+    define('PEAR_CONFIG_DEFAULT_METADATA_DIR', getenv('PHP_PEAR_METADATA_DIR'));
+} else {
+    define('PEAR_CONFIG_DEFAULT_METADATA_DIR', '');
+}
+
 // Default for ext_dir
 if (getenv('PHP_PEAR_EXTENSION_DIR')) {
     define('PEAR_CONFIG_DEFAULT_EXT_DIR', getenv('PHP_PEAR_EXTENSION_DIR'));
@@ -140,6 +146,18 @@ if (getenv('PHP_PEAR_WWW_DIR')) {
 } else {
     define('PEAR_CONFIG_DEFAULT_WWW_DIR',
            $PEAR_INSTALL_DIR.DIRECTORY_SEPARATOR.'www');
+}
+
+// Default for man_dir
+if (getenv('PHP_PEAR_MAN_DIR')) {
+    define('PEAR_CONFIG_DEFAULT_MAN_DIR', getenv('PHP_PEAR_MAN_DIR'));
+} else {
+    if (defined('PHP_MANDIR')) { // Added in PHP5.3.7
+        define('PEAR_CONFIG_DEFAULT_MAN_DIR', PHP_MANDIR);
+    } else {
+        define('PEAR_CONFIG_DEFAULT_MAN_DIR', PHP_PREFIX . DIRECTORY_SEPARATOR .
+           'local' . DIRECTORY_SEPARATOR .'man');
+    }
 }
 
 // Default for test_dir
@@ -246,7 +264,7 @@ if (getenv('PHP_PEAR_SIG_KEYDIR')) {
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -440,6 +458,13 @@ class PEAR_Config extends PEAR
             'prompt' => 'PEAR www files directory',
             'group' => 'File Locations (Advanced)',
             ),
+        'man_dir' => array(
+            'type' => 'directory',
+            'default' => PEAR_CONFIG_DEFAULT_MAN_DIR,
+            'doc' => 'directory where unix manual pages are installed',
+            'prompt' => 'Systems manpage files directory',
+            'group' => 'File Locations (Advanced)',
+            ),
         'test_dir' => array(
             'type' => 'directory',
             'default' => PEAR_CONFIG_DEFAULT_TEST_DIR,
@@ -494,6 +519,13 @@ class PEAR_Config extends PEAR
             'default' => '',
             'doc' => 'location of php.ini in which to enable PECL extensions on install',
             'prompt' => 'php.ini location',
+            'group' => 'File Locations (Advanced)',
+            ),
+        'metadata_dir' => array(
+            'type' => 'directory',
+            'default' => PEAR_CONFIG_DEFAULT_METADATA_DIR,
+            'doc' => 'directory where metadata files are installed (registry, filemap, channels, ...)',
+            'prompt' => 'PEAR metadata directory',
             'group' => 'File Locations (Advanced)',
             ),
         // Maintainers
@@ -592,10 +624,10 @@ class PEAR_Config extends PEAR
      *
      * @see PEAR_Config::singleton
      */
-    function PEAR_Config($user_file = '', $system_file = '', $ftp_file = false,
+    function __construct($user_file = '', $system_file = '', $ftp_file = false,
                          $strict = true)
     {
-        $this->PEAR();
+        parent::__construct();
         PEAR_Installer_Role::initializeConfig($this);
         $sl = DIRECTORY_SEPARATOR;
         if (empty($user_file)) {
@@ -647,7 +679,9 @@ class PEAR_Config extends PEAR
             $this->configuration['default'][$key] = $info['default'];
         }
 
-        $this->_registry['default'] = &new PEAR_Registry($this->configuration['default']['php_dir']);
+        $this->_registry['default'] = new PEAR_Registry(
+            $this->configuration['default']['php_dir'], false, false,
+            $this->configuration['default']['metadata_dir']);
         $this->_registry['default']->setConfig($this, false);
         $this->_regInitialized['default'] = false;
         //$GLOBALS['_PEAR_Config_instance'] = &$this;
@@ -655,9 +689,8 @@ class PEAR_Config extends PEAR
 
     /**
      * Return the default locations of user and system configuration files
-     * @static
      */
-    function getDefaultConfigFiles()
+    public static function getDefaultConfigFiles()
     {
         $sl = DIRECTORY_SEPARATOR;
         if (OS_WINDOWS) {
@@ -684,17 +717,15 @@ class PEAR_Config extends PEAR
      *
      * @return object an existing or new PEAR_Config instance
      *
-     * @access public
-     *
      * @see PEAR_Config::PEAR_Config
      */
-    function &singleton($user_file = '', $system_file = '', $strict = true)
+    public static function &singleton($user_file = '', $system_file = '', $strict = true)
     {
         if (is_object($GLOBALS['_PEAR_Config_instance'])) {
             return $GLOBALS['_PEAR_Config_instance'];
         }
 
-        $t_conf = &new PEAR_Config($user_file, $system_file, false, $strict);
+        $t_conf = new PEAR_Config($user_file, $system_file, false, $strict);
         if ($t_conf->_errorsFound > 0) {
              return $t_conf->lastError;
         }
@@ -754,7 +785,9 @@ class PEAR_Config extends PEAR
         $this->configuration[$layer] = $data;
         $this->_setupChannels();
         if (!$this->_noRegistry && ($phpdir = $this->get('php_dir', $layer, 'pear.php.net'))) {
-            $this->_registry[$layer] = &new PEAR_Registry($phpdir);
+            $this->_registry[$layer] = new PEAR_Registry(
+                $phpdir, false, false,
+                $this->get('metadata_dir', $layer, 'pear.php.net'));
             $this->_registry[$layer]->setConfig($this, false);
             $this->_regInitialized[$layer] = false;
         } else {
@@ -783,7 +816,7 @@ class PEAR_Config extends PEAR
                 return PEAR::raiseError('PEAR_RemoteInstaller must be installed to use remote config');
             }
 
-            $this->_ftp = &new PEAR_FTP;
+            $this->_ftp = new PEAR_FTP;
             $this->_ftp->pushErrorHandling(PEAR_ERROR_RETURN);
             $e = $this->_ftp->init($path);
             if (PEAR::isError($e)) {
@@ -911,7 +944,9 @@ class PEAR_Config extends PEAR
 
         $this->_setupChannels();
         if (!$this->_noRegistry && ($phpdir = $this->get('php_dir', $layer, 'pear.php.net'))) {
-            $this->_registry[$layer] = &new PEAR_Registry($phpdir);
+            $this->_registry[$layer] = new PEAR_Registry(
+                $phpdir, false, false,
+                $this->get('metadata_dir', $layer, 'pear.php.net'));
             $this->_registry[$layer]->setConfig($this, false);
             $this->_regInitialized[$layer] = false;
         } else {
@@ -924,9 +959,8 @@ class PEAR_Config extends PEAR
      * @param array
      * @param array
      * @return array
-     * @static
      */
-    function arrayMergeRecursive($arr2, $arr1)
+    public static function arrayMergeRecursive($arr2, $arr1)
     {
         $ret = array();
         foreach ($arr2 as $key => $data) {
@@ -1022,15 +1056,11 @@ class PEAR_Config extends PEAR
         }
 
         $size = filesize($file);
-        $rt = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
         fclose($fp);
         $contents = file_get_contents($file);
         if (empty($contents)) {
             return $this->raiseError('Configuration file "' . $file . '" is empty');
         }
-
-        set_magic_quotes_runtime($rt);
 
         $version = false;
         if (preg_match('/^#PEAR_Config\s+(\S+)\s+/si', $contents, $matches)) {
@@ -1357,7 +1387,7 @@ class PEAR_Config extends PEAR
                     if ($key == 'preferred_mirror') {
                         $reg = &$this->getRegistry();
                         if (is_object($reg)) {
-                            $chan = &$reg->getChannel($channel);
+                            $chan = $reg->getChannel($channel);
                             if (PEAR::isError($chan)) {
                                 return $channel;
                             }
@@ -1383,7 +1413,7 @@ class PEAR_Config extends PEAR
             if ($key == 'preferred_mirror') {
                 $reg = &$this->getRegistry();
                 if (is_object($reg)) {
-                    $chan = &$reg->getChannel($channel);
+                    $chan = $reg->getChannel($channel);
                     if (PEAR::isError($chan)) {
                         return $channel;
                     }
@@ -1434,7 +1464,7 @@ class PEAR_Config extends PEAR
         if ($ret !== null) {
             $reg = &$this->getRegistry($layer);
             if (is_object($reg)) {
-                $chan = &$reg->getChannel($channel);
+                $chan = $reg->getChannel($channel);
                 if (PEAR::isError($chan)) {
                     return $channel;
                 }
@@ -1492,7 +1522,7 @@ class PEAR_Config extends PEAR
 
             $reg = &$this->getRegistry($layer);
             if (is_object($reg)) {
-                $chan = &$reg->getChannel($channel ? $channel : 'pear.php.net');
+                $chan = $reg->getChannel($channel ? $channel : 'pear.php.net');
                 if (PEAR::isError($chan)) {
                     return false;
                 }
@@ -1574,7 +1604,7 @@ class PEAR_Config extends PEAR
         if ($key == 'php_dir' && !$this->_noRegistry) {
             if (!isset($this->_registry[$layer]) ||
                   $value != $this->_registry[$layer]->install_dir) {
-                $this->_registry[$layer] = &new PEAR_Registry($value);
+                $this->_registry[$layer] = new PEAR_Registry($value);
                 $this->_regInitialized[$layer] = false;
                 $this->_registry[$layer]->setConfig($this, false);
             }
@@ -1604,7 +1634,9 @@ class PEAR_Config extends PEAR
 
                 if (!is_object($this->_registry[$layer])) {
                     if ($phpdir = $this->get('php_dir', $layer, 'pear.php.net')) {
-                        $this->_registry[$layer] = &new PEAR_Registry($phpdir);
+                        $this->_registry[$layer] = new PEAR_Registry(
+                            $phpdir, false, false,
+                            $this->get('metadata_dir', $layer, 'pear.php.net'));
                         $this->_registry[$layer]->setConfig($this, false);
                         $this->_regInitialized[$layer] = false;
                     } else {
@@ -2035,7 +2067,7 @@ class PEAR_Config extends PEAR
             require_once 'PEAR/REST/' . $version . '.php';
         }
 
-        $remote = &new $class($this, $options);
+        $remote = new $class($this, $options);
         return $remote;
     }
 
@@ -2088,7 +2120,9 @@ class PEAR_Config extends PEAR
                     continue;
                 }
                 $this->_registry[$layer] =
-                    &new PEAR_Registry($this->get('php_dir', $layer, 'pear.php.net'));
+                    new PEAR_Registry(
+                        $this->get('php_dir', $layer, 'pear.php.net'), false, false,
+                        $this->get('metadata_dir', $layer, 'pear.php.net'));
                 $this->_registry[$layer]->setConfig($this, false);
                 $this->_regInitialized[$layer] = false;
             }

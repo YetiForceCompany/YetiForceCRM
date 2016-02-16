@@ -1,8 +1,4 @@
-/**
- * @license licenses/License.html
- * @package YetiForce.Edit
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 Settings_Vtiger_Edit_Js("Settings_MappedFields_Edit_Js", {
 	instance: {}
 

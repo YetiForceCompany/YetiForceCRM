@@ -579,4 +579,15 @@ $labels['helplistkeyboardnavmessages'] = "Стрелки вправо/влево
 Enter: Открыть выделенное сообщение.
 Delete: Переместить выбранные сообщения в Корзину.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Открыть выбранный контакт.";
+// <--------   YetiForce Sp. z o.o.   -------->
+$labels['selectmodule'] = 'Select the module for the template';
+$labels['selecttemplate'] = 'Templates';
+$labels['tpl'] = 'Template';
+$labels['vtmodule'] = 'Module';
+$labels['module_Contacts'] = 'Contacts';
+$labels['module_Accounts'] = 'Accounts';
+$labels['module_Leads'] = 'Leads';
+$labels['module_Vendors'] = 'Vendors';
+$labels['module_OSSEmployees'] = 'Employees';
+// <--------   YetiForce Sp. z o.o.   -------->
 ?>

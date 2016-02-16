@@ -12,7 +12,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -36,7 +35,7 @@ define('PEAR_INSTALLER_NOBINARY', -240);
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -116,9 +115,9 @@ class PEAR_Installer extends PEAR_Downloader
      *
      * @access public
      */
-    function PEAR_Installer(&$ui)
+    function __construct(&$ui)
     {
-        parent::PEAR_Common();
+        parent::__construct($ui, array(), null);
         $this->setFrontendObject($ui);
         $this->debug = $this->config->get('verbose');
     }
@@ -589,7 +588,7 @@ class PEAR_Installer extends PEAR_Downloader
                 foreach ($atts as $tag => $raw) {
                     $tag = str_replace(array($pkg->getTasksNs() . ':', '-'), array('', '_'), $tag);
                     $task = "PEAR_Task_$tag";
-                    $task = &new $task($this->config, $this, PEAR_TASK_INSTALL);
+                    $task = new $task($this->config, $this, PEAR_TASK_INSTALL);
                     if (!$task->isScript()) { // scripts are only handled after installation
                         $task->init($raw, $attribs, $pkg->getLastInstalledVersion());
                         $res = $task->startSession($pkg, $contents, $final_dest_file);
@@ -1021,42 +1020,6 @@ class PEAR_Installer extends PEAR_Downloader
     }
 
     // }}}
-    // {{{ download()
-
-    /**
-     * Download any files and their dependencies, if necessary
-     *
-     * @param array a mixed list of package names, local files, or package.xml
-     * @param PEAR_Config
-     * @param array options from the command line
-     * @param array this is the array that will be populated with packages to
-     *              install.  Format of each entry:
-     *
-     * <code>
-     * array('pkg' => 'package_name', 'file' => '/path/to/local/file',
-     *    'info' => array() // parsed package.xml
-     * );
-     * </code>
-     * @param array this will be populated with any error messages
-     * @param false private recursion variable
-     * @param false private recursion variable
-     * @param false private recursion variable
-     * @deprecated in favor of PEAR_Downloader
-     */
-    function download($packages, $options, &$config, &$installpackages,
-                      &$errors, $installed = false, $willinstall = false, $state = false)
-    {
-        // trickiness: initialize here
-        parent::PEAR_Downloader($this->ui, $options, $config);
-        $ret             = parent::download($packages);
-        $errors          = $this->getErrorMsgs();
-        $installpackages = $this->getDownloadedPackages();
-        trigger_error("PEAR Warning: PEAR_Installer::download() is deprecated " .
-                      "in favor of PEAR_Downloader class", E_USER_WARNING);
-        return $ret;
-    }
-
-    // }}}
     // {{{ _parsePackageXml()
 
     function _parsePackageXml(&$descfile)
@@ -1165,15 +1128,6 @@ class PEAR_Installer extends PEAR_Downloader
 
         $pkgname = $pkg->getName();
         $channel = $pkg->getChannel();
-        if (isset($this->_options['packagingroot'])) {
-            $regdir = $this->_prependPath(
-                $this->config->get('php_dir', null, 'pear.php.net'),
-                $this->_options['packagingroot']);
-
-            $packrootphp_dir = $this->_prependPath(
-                $this->config->get('php_dir', null, $channel),
-                $this->_options['packagingroot']);
-        }
 
         if (isset($options['installroot'])) {
             $this->config->setInstallRoot($options['installroot']);
@@ -1185,7 +1139,21 @@ class PEAR_Installer extends PEAR_Downloader
             $this->config->setInstallRoot(false);
             $this->_registry = &$this->config->getRegistry();
             if (isset($this->_options['packagingroot'])) {
-                $installregistry = &new PEAR_Registry($regdir);
+                $regdir = $this->_prependPath(
+                    $this->config->get('php_dir', null, 'pear.php.net'),
+                    $this->_options['packagingroot']);
+
+                $metadata_dir = $this->config->get('metadata_dir', null, 'pear.php.net');
+                if ($metadata_dir) {
+                    $metadata_dir = $this->_prependPath(
+                        $metadata_dir,
+                        $this->_options['packagingroot']);
+                }
+                $packrootphp_dir = $this->_prependPath(
+                    $this->config->get('php_dir', null, $channel),
+                    $this->_options['packagingroot']);
+
+                $installregistry = new PEAR_Registry($regdir, false, false, $metadata_dir);
                 if (!$installregistry->channelExists($channel, true)) {
                     // we need to fake a channel-discover of this channel
                     $chanobj = $this->_registry->getChannel($channel, true);
@@ -1274,7 +1242,7 @@ class PEAR_Installer extends PEAR_Downloader
                         }
                     }
 
-                    $pfk = &new PEAR_PackageFile($this->config);
+                    $pfk = new PEAR_PackageFile($this->config);
                     $parentpkg = &$pfk->fromArray($parentreg);
                     $installregistry->updatePackage2($parentpkg);
                 }
@@ -1538,7 +1506,7 @@ class PEAR_Installer extends PEAR_Downloader
     {
         require_once 'PEAR/Builder.php';
         $this->log(1, "$this->source_files source files, building");
-        $bob = &new PEAR_Builder($this->ui);
+        $bob = new PEAR_Builder($this->ui);
         $bob->debug = $this->debug;
         $built = $bob->build($filelist, array(&$this, '_buildCallback'));
         if (PEAR::isError($built)) {
@@ -1682,7 +1650,7 @@ class PEAR_Installer extends PEAR_Downloader
             require_once 'PEAR/Dependency2.php';
         }
 
-        $depchecker = &new PEAR_Dependency2($this->config, $options,
+        $depchecker = new PEAR_Dependency2($this->config, $options,
             array('channel' => $channel, 'package' => $package),
             PEAR_VALIDATE_UNINSTALLING);
         $e = $depchecker->validatePackageUninstall($this);

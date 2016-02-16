@@ -82,6 +82,8 @@ $languageStrings = [
 	'Alert_ChangeType_desc' => 'Wszystkie typy zaznaczonych wiadomości e-mail zostaną zmienione, bez możliwości cofnięcia zmian.',
 	'LBL_ChangeTypeOK' => 'Zmieniono typ wiadomości',
 	'Configuration' => 'Konfiguracja',
+	'LBL_MAIL_REPLY_INTRO' => 'W dniu %s, %s napisał(a):',
+	'LBL_MAIL_FORWARD_INTRO' => '-------- Wiadomość oryginalna --------',
 	
 	//dashboards
 	'Graf' => 'Maile Firmowe wg typu',

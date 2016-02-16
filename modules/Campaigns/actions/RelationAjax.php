@@ -1,16 +1,18 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action {
+class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
+{
 
-	public function __construct() {
+	public function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('addRelationsFromRelatedModuleViewId');
 		$this->exposeMethod('updateStatus');
@@ -20,7 +22,8 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 	 * Function to add relations using related module viewid
 	 * @param Vtiger_Request $request
 	 */
-	public function addRelationsFromRelatedModuleViewId(Vtiger_Request $request) {
+	public function addRelationsFromRelatedModuleViewId(Vtiger_Request $request)
+	{
 		$sourceRecordId = $request->get('sourceRecord');
 		$relatedModuleName = $request->get('relatedModule');
 
@@ -30,10 +33,9 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
 
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-			$emailEnabledModulesInfo = $relationModel->getEmailEnabledModulesInfoForDetailView();
 
-			if (array_key_exists($relatedModuleName, $emailEnabledModulesInfo)) {
-				$fieldName = $emailEnabledModulesInfo[$relatedModuleName]['fieldName'];
+			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
+				$fieldName = $relatedModuleModel->get('basetableid');
 
 				$db = PearDatabase::getInstance();
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -42,18 +44,17 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 				$queryGenerator->initForCustomViewById($viewId);
 
 				$query = $queryGenerator->getQuery();
-				$result = $db->pquery($query, array());
+				$result = $db->query($query);
 
-				$numOfRows = $db->num_rows($result);
-				for ($i=0; $i<$numOfRows; $i++) {
-					$relatedRecordIdsList[] = $db->query_result($result, $i, $fieldName);
+				while ($row = $db->getRow($result)) {
+					$relatedRecordIdsList[] = $row[$fieldName];
 				}
-				if(empty($relatedRecordIdsList)){
+				if (empty($relatedRecordIdsList)) {
 					$response = new Vtiger_Response();
 					$response->setResult(array(false));
 					$response->emit();
-				} else{
-					foreach($relatedRecordIdsList as $relatedRecordId) {
+				} else {
+					foreach ($relatedRecordIdsList as $relatedRecordId) {
 						$relationModel->addRelation($sourceRecordId, $relatedRecordId);
 					}
 				}
@@ -65,7 +66,8 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 	 * Function to update Relation status
 	 * @param Vtiger_Request $request
 	 */
-	public function updateStatus(Vtiger_Request $request) {
+	public function updateStatus(Vtiger_Request $request)
+	{
 		$relatedModuleName = $request->get('relatedModule');
 		$relatedRecordId = $request->get('relatedRecord');
 		$status = $request->get('status');

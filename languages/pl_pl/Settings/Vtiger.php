@@ -287,6 +287,7 @@ $languageStrings = [
 	'LBL_LOGS' => 'Logi',
 	'LBL_AUTOMATION' => 'Automatyzacja',
 	'LBL_TIMECONTROL_PROCESSES' => 'Procesy czasu pracy',
+	'LBL_MENU_SUMMARRY' => 'Podsumowanie',
 	/* Role */
 	'Board of Management' => 'Zarząd',
 	'Sales Department' => 'Dział sprzedaży',
@@ -313,6 +314,7 @@ $languageStrings = [
 	// history
 	'LBL_VIEW_LICENSE' => 'Licencja',
 	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Ustawienia',
+	'LBL_VIEW_CONFIGEDITOREDIT' => 'Edycja ustawień',
 	'LBL_VIEW_TAXINDEX' => 'Podatki',
 	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Dostosowanie prefiksów dla rekordów',
 	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Warunki i ustalenia',
@@ -345,10 +347,18 @@ $languageStrings = [
 	'LBL_CV_YEAR' => 'Rok (np. 15)',
 	'LBL_CV_MONTH' => 'Miesiąc (np. 1, 5, 12)',
 	'LBL_CV_DAY' => 'Dzień (np. 1, 5, 25)',
+	'LBL_DONATE_US' => 'Wspieraj nas',
+	'LBL_START' => 'Start',
+	'LBL_GITHUB' => 'Github',
 	// end of custom record numbering variables
+	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Pokaż wybór języka na stronie logowania',
+	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Pokaż wybór layout-u na stronie logowania',
 ];
 
 $jsLanguageStrings = [
+	'JS_AUTHORIZATION_COMPLETE' => 'Autoryzacja zakończona pomyślnie',
+	'JS_ADDED_ISSUE_COMPLETE' => 'Poprawnie dodano problem.',
+	'JS_ERROR_KEY' => 'Wystąpił błąd podczas autoryzacji. Sprawdź czy wszystkie klucze są poprawne.',
 	'JS_ANNOUNCEMENT_SAVED' => 'Ogłoszenie systemowe zapisano',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Szczegóły konfiguracji zostały zapisane',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Czy jesteś pewien, że chcesz zmienić dane serwera do wartości domyślnych serwera',

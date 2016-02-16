@@ -904,56 +904,54 @@ class Vtiger_Functions
 
 	static function transformFieldTypeOfData($table_name, $column_name, $type_of_data)
 	{
-		$field = $table_name . ":" . $column_name;
+		$field = $table_name . ':' . $column_name;
 		//Add the field details in this array if you want to change the advance filter field details
 
 		static $new_field_details = Array(
 			//Contacts Related Fields
-			"vtiger_contactdetails:parentid" => "V",
-			"vtiger_contactsubdetails:birthday" => "D",
-			"vtiger_contactdetails:email" => "V",
-			"vtiger_contactdetails:secondaryemail" => "V",
+			'vtiger_contactdetails:parentid' => 'V',
+			'vtiger_contactsubdetails:birthday' => 'D',
+			'vtiger_contactdetails:email' => 'V',
+			'vtiger_contactdetails:secondaryemail' => 'V',
 			//Account Related Fields
-			"vtiger_account:parentid" => "V",
-			"vtiger_account:email1" => "V",
-			"vtiger_account:email2" => "V",
+			'vtiger_account:parentid' => 'V',
+			'vtiger_account:email1' => 'V',
+			'vtiger_account:email2' => 'V',
 			//Lead Related Fields
-			"vtiger_leaddetails:email" => "V",
-			"vtiger_leaddetails:secondaryemail" => "V",
+			'vtiger_leaddetails:email' => 'V',
+			'vtiger_leaddetails:secondaryemail' => 'V',
 			//Documents Related Fields
-			"vtiger_senotesrel:crmid" => "V",
-			"vtiger_recurringevents:recurringtype" => "V",
+			'vtiger_senotesrel:crmid' => 'V',
+			'vtiger_recurringevents:recurringtype' => 'V',
 			//HelpDesk Related Fields
-			"vtiger_troubletickets:parent_id" => "V",
-			"vtiger_troubletickets:product_id" => "V",
+			'vtiger_troubletickets:parent_id' => 'V',
+			'vtiger_troubletickets:product_id' => 'V',
 			//Product Related Fields
-			"vtiger_products:discontinued" => "C",
-			"vtiger_products:vendor_id" => "V",
-			"vtiger_products:parentid" => "V",
+			'vtiger_products:discontinued' => 'C',
+			'vtiger_products:vendor_id' => 'V',
+			'vtiger_products:parentid' => 'V',
 			//Faq Related Fields
-			"vtiger_faq:product_id" => "V",
+			'vtiger_faq:product_id' => 'V',
 			//Vendor Related Fields
-			"vtiger_vendor:email" => "V",
+			'vtiger_vendor:email' => 'V',
 			//Campaign Related Fields
-			"vtiger_campaign:product_id" => "V",
+			'vtiger_campaign:product_id' => 'V',
 			//Related List Entries(For Report Module)
-			"vtiger_activityproductrel:activityid" => "V",
-			"vtiger_activityproductrel:productid" => "V",
-			"vtiger_campaigncontrel:campaignid" => "V",
-			"vtiger_campaigncontrel:contactid" => "V",
-			"vtiger_campaignleadrel:campaignid" => "V",
-			"vtiger_campaignleadrel:leadid" => "V",
-			"vtiger_pricebookproductrel:pricebookid" => "V",
-			"vtiger_pricebookproductrel:productid" => "V",
-			"vtiger_senotesrel:crmid" => "V",
-			"vtiger_senotesrel:notesid" => "V",
-			"vtiger_seproductsrel:crmid" => "V",
-			"vtiger_seproductsrel:productid" => "V",
-			"vtiger_seticketsrel:crmid" => "V",
-			"vtiger_seticketsrel:ticketid" => "V",
-			"vtiger_vendorcontactrel:vendorid" => "V",
-			"vtiger_vendorcontactrel:contactid" => "V",
-			"vtiger_pricebook:currency_id" => "V",
+			'vtiger_activityproductrel:activityid' => 'V',
+			'vtiger_activityproductrel:productid' => 'V',
+			'vtiger_campaign_records:campaignid' => 'V',
+			'vtiger_campaign_records:crmid' => 'V',
+			'vtiger_pricebookproductrel:pricebookid' => 'V',
+			'vtiger_pricebookproductrel:productid' => 'V',
+			'vtiger_senotesrel:crmid' => 'V',
+			'vtiger_senotesrel:notesid' => 'V',
+			'vtiger_seproductsrel:crmid' => 'V',
+			'vtiger_seproductsrel:productid' => 'V',
+			'vtiger_seticketsrel:crmid' => 'V',
+			'vtiger_seticketsrel:ticketid' => 'V',
+			'vtiger_vendorcontactrel:vendorid' => 'V',
+			'vtiger_vendorcontactrel:contactid' => 'V',
+			'vtiger_pricebook:currency_id' => 'V',
 		);
 
 		//If the Fields details does not match with the array, then we return the same typeofdata

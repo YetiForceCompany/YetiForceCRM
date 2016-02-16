@@ -19,8 +19,11 @@
     }
 </style>
     <div class='editViewContainer ' id="tab_cron">
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	<hr>
+		<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+	</div>
         <table class="">
             <tr>
                 <td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{vtranslate('RunCron', 'OSSMailScanner')}</button></td>

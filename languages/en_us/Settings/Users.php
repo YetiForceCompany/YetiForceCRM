@@ -45,14 +45,14 @@ $languageStrings = [
 	'LBL_SU_BASE_ACCESS' => 'User',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Is allowed to log in',
 	// Locks
-	'LBL_LOCKS' => '__UNTRANSLATED__',
-	'LBL_LOCKS_DESCRIPTION' => '__UNTRANSLATED__',
-	'LBL_LOCK_COPY' => '__UNTRANSLATED__',
-	'LBL_LOCK_CUT' => '__UNTRANSLATED__',
-	'LBL_LOCK_PASTE' => '__UNTRANSLATED__',
-	'LBL_LOCK_RIGHT_MENU' => '__UNTRANSLATED__',
-	'LBL_LOCK_SELECT_TEXT' => '__UNTRANSLATED__',
-	'LBL_LOCK_DRAG' => '__UNTRANSLATED__',
+	'LBL_LOCKS' => 'Locks',
+	'LBL_LOCKS_DESCRIPTION' => 'Tool to block browser actions (copy, cut, etc)',
+	'LBL_LOCK_COPY' => 'Lock copying',
+	'LBL_LOCK_CUT' => 'Lock cutting',
+	'LBL_LOCK_PASTE' => 'Lock pasting',
+	'LBL_LOCK_RIGHT_MENU' => 'Lock right mouse button',
+	'LBL_LOCK_SELECT_TEXT' => 'Lock selecting',
+	'LBL_LOCK_DRAG' => 'Lock dragging',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'User with this e-mail address exists',

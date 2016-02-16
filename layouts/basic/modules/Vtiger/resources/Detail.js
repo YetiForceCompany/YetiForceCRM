@@ -2572,7 +2572,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
-				app.showModalWindow("", $(e.currentTarget).data('url'), function () {
+				app.showModalWindow("", $(e.currentTarget).data('url'), function (data) {
+					Vtiger_Index_Js.registerMailButtons(data);
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				});
 			});

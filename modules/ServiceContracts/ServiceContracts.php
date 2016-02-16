@@ -27,7 +27,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_servicecontracts', 'vtiger_servicecontractscf');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_servicecontracts', 'vtiger_servicecontractscf', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -35,7 +35,8 @@ class ServiceContracts extends CRMEntity
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_servicecontracts' => 'servicecontractsid',
-		'vtiger_servicecontractscf' => 'servicecontractsid');
+		'vtiger_servicecontractscf' => 'servicecontractsid',
+		'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory for Listing (Related listview)

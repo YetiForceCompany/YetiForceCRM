@@ -42,16 +42,29 @@
 										</div>
 										<div class="pull-right">
 											{if AppConfig::main('isActiveSendingMails')}
-												{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
-												<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
-													<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
-												</button>
-												<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
-													<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
-												</button>
-												<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}" title="{vtranslate('LBL_FORWARD','OSSMailView')}">
-													<span class="glyphicon glyphicon-share-alt"></span>
-												</button>
+												{if $USER_MODEL->get('internal_mailer') == 1}
+													{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
+													<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
+														<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
+													</button>
+													<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+														<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+													</button>
+													<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}" title="{vtranslate('LBL_FORWARD','OSSMailView')}">
+														<span class="glyphicon glyphicon-share-alt"></span>
+													</button>
+												{else}
+													<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply')}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
+														<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
+													</a>
+													<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll')}" title="{vtranslate('LBL_REPLYALLL', 'OSSMailView')}">
+														<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+													</a>
+													<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward')}" title="{vtranslate('LBL_FORWARD', 'OSSMailView')}">
+														<span class="glyphicon glyphicon-share-alt"></span>
+													</a>
+												{/if}
+
 											{/if}
 										</div>
 										<div class="clearfix"></div>

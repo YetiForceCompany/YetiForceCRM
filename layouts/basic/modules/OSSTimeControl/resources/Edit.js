@@ -1,12 +1,4 @@
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+/*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*/
 Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
 
 
@@ -17,7 +9,6 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
 		var hours = (Math.round( (sumeTime/3600000) * 100 ) / 100).toFixed(2);
 
 		jQuery('input[name="sum_time"]').val(hours);
-
 		jQuery('.dateField').change(function(){
 			sumeTime = thisInstance.differenceDays();
 			if(sumeTime == 'Error'){
@@ -26,7 +17,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
 			hours = (Math.round( (sumeTime/3600000) * 100 ) / 100).toFixed(2);
 			jQuery('input[name="sum_time"]').val(hours);
 		});
-		jQuery('.ui-timepicker-input').change(function(){
+		jQuery('.clockPicker').change(function(){
 			sumeTime = thisInstance.differenceDays();
 			if(sumeTime == 'Error'){
 				return false;

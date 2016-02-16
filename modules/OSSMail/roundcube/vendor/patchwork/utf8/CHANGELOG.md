@@ -1,3 +1,33 @@
+## v1.2.6 (2015-12-15)
+
+- fix compat with symfony-polyfill
+
+## v1.2.5 (2015-10-14)
+
+- handle the third argument of mb_convert_encoding() being an array
+- add license files
+
+## v1.2.4 (2015-06-29)
+
+- trigger silenced deprecation notices when shims are in use
+- fix mb_strrpos() shim registration
+- fix .gitattributes
+
+## v1.2.3 (2015-06-25)
+
+- fix mb_strrpos shim with negative offset
+- sync tests with latest PHP/HHVM behaviors
+- remove PHP7/HHVM from allowed failures
+- move to PSR-1+2+4
+- mv class/ src/
+
+## v1.2.2 (2015-04-26)
+
+- Fix ucwords to be functionally the same as in-built PHP version
+- Fix iconv_set_encoding deprecation notice in PHP 5.6.0
+- remove legacy test for HHVM/PHP7
+- mb_parse_str() should have no return value
+
 ## v1.2.1 (2015-01-28)
 
 - fix double declaration in mbstring shim
@@ -14,6 +44,20 @@
 
 - add best-fit mappings for UTF-8 to Code Page approximations
 - add portable Unicode filesystem access under Windows and other OSes
+
+## v1.1.31 (2015-12-15)
+
+- fix compat with symfony-polyfill
+
+## v1.1.30 (2015-06-29)
+
+- fix mb_strrpos shim with negative offset
+
+## v1.1.29 (2015-04-26)
+
+- fix ucwords to be functionally the same as in-built PHP version
+- fix iconv_set_encoding deprecation notice in PHP 5.6.0
+- remove legacy test for HHVM/PHP7
 
 ## v1.1.28 (2015-01-12)
 

@@ -162,10 +162,10 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$listViewContoller = $this->get('listview_controller');
 		$module = $this->getModule();
-		$headerFieldModels = array();
+		$headerFieldModels = [];
 		$headerFields = $listViewContoller->getListViewHeaderFields();
 		foreach ($headerFields as $fieldName => $webserviceField) {
-			if ($webserviceField && !in_array($webserviceField->getPresence(), array(0, 2)))
+			if ($webserviceField && !in_array($webserviceField->getPresence(), [0, 2]))
 				continue;
 			$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstance($fieldName, $module);
 		}
@@ -192,7 +192,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if ($moduleName == $this->get('src_module') && !empty($srcRecord)) {
 			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
-		
+
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
 			$searchParams = array();
@@ -245,7 +245,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		
+
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 
@@ -559,7 +559,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			];
 		}
-		
+
 		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();

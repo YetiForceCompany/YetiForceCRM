@@ -288,6 +288,7 @@ $languageStrings = [
 	'Mail Logs' => 'Mail – Download history',
 	'LBL_LOGS' => 'Logs',
 	'LBL_AUTOMATION' => 'Automation',
+	'LBL_MENU_SUMMARRY' => 'Summary',
 	/* Role */
 	'Board of Management' => 'Board of Management',
 	'Sales Department' => 'Sales Department',
@@ -312,6 +313,7 @@ $languageStrings = [
 	'LBL_SAVE_CONFIG' => 'Changes have been saved',
 	'LBL_VIEW_LICENSE' => 'License',
 	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Configuration Editor',
+	'LBL_VIEW_CONFIGEDITOREDIT' => 'Configuration Editor',
 	'LBL_VIEW_TAXINDEX' => 'Tax Calculations',
 	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Customize Record Numbering',
 	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Terms and Conditions',
@@ -345,10 +347,18 @@ $languageStrings = [
 	'LBL_CV_YEAR' => 'Year (ex. 15)',
 	'LBL_CV_MONTH' => 'Month (exp. 1, 5, 12)',
 	'LBL_CV_DAY' => 'Day (ex. 1, 5, 25)',
+	'LBL_DONATE_US' => 'Donate to YetiForce',
+	'LBL_START' => 'Start',
+	'LBL_GITHUB' => 'Github',
 	// end of custom record numbering variables
+	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Show language selection on the login page',
+	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Show layout selection on the login page',
 ];
 
 $jsLanguageStrings = [
+	'JS_AUTHORIZATION_COMPLETE' => 'Authorization successful',
+	'JS_ADDED_ISSUE_COMPLETE' => 'New issue added successfully',
+	'JS_ERROR_KEY' => 'Authorization error. Check if all keys are valid.',
 	'JS_ANNOUNCEMENT_SAVED' => 'Announcement Saved',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Configuration Details Saved',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Are you sure that you want to change the server details to the default server values',

@@ -64,7 +64,11 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 				return $selectedIds;
 			}
 		}
-
+		if (!empty($cvId) && $cvId == 'undefined') {
+			$sourceModule = $request->get('sourceModule');
+			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
+		}
+		
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
 			$searchKey = $request->get('search_key');
@@ -74,6 +78,9 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 				$customViewModel->set('operator', $operator);
 				$customViewModel->set('search_key', $searchKey);
 				$customViewModel->set('search_value', $searchValue);
+			}
+			if ($request->has('search_params')) {
+				$customViewModel->set('search_params', $request->get('search_params'));
 			}
 			return $customViewModel->getRecordIds($excludedIds);
 		}

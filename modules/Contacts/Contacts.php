@@ -28,8 +28,8 @@ class Contacts extends CRMEntity
 	var $db;
 	var $table_name = "vtiger_contactdetails";
 	var $table_index = 'contactid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_contactdetails', 'vtiger_contactaddress', 'vtiger_contactsubdetails', 'vtiger_contactscf', 'vtiger_customerdetails');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_contactdetails' => 'contactid', 'vtiger_contactaddress' => 'contactaddressid', 'vtiger_contactsubdetails' => 'contactsubscriptionid', 'vtiger_contactscf' => 'contactid', 'vtiger_customerdetails' => 'customerid');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_contactdetails', 'vtiger_contactaddress', 'vtiger_contactsubdetails', 'vtiger_contactscf', 'vtiger_customerdetails', 'vtiger_entity_stats');
+	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_contactdetails' => 'contactid', 'vtiger_contactaddress' => 'contactaddressid', 'vtiger_contactsubdetails' => 'contactsubscriptionid', 'vtiger_contactscf' => 'contactid', 'vtiger_customerdetails' => 'customerid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
@@ -437,12 +437,12 @@ class Contacts extends CRMEntity
 					vtiger_campaign.campaignid, vtiger_campaign.campaignname, vtiger_campaign.campaigntype, vtiger_campaign.campaignstatus,
 					vtiger_campaign.expectedrevenue, vtiger_campaign.closingdate, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
 					vtiger_crmentity.modifiedtime from vtiger_campaign
-					inner join vtiger_campaigncontrel on vtiger_campaigncontrel.campaignid=vtiger_campaign.campaignid
+					inner JOIN vtiger_campaign_records ON vtiger_campaign_records.campaignid=vtiger_campaign.campaignid
 					inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_campaign.campaignid
 					inner join vtiger_campaignscf ON vtiger_campaignscf.campaignid = vtiger_campaign.campaignid
 					left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
 					left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-					where vtiger_campaigncontrel.contactid=" . $id . " and vtiger_crmentity.deleted=0";
+					where vtiger_campaign_records.crmid=$id and vtiger_crmentity.deleted=0";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -688,8 +688,8 @@ class Contacts extends CRMEntity
 						left join vtiger_account on vtiger_account.accountid=vtiger_contactdetails.parentid
 						left join vtiger_contactaddress on vtiger_contactaddress.contactaddressid=vtiger_contactdetails.contactid
 						left join vtiger_contactsubdetails on vtiger_contactsubdetails.contactsubscriptionid = vtiger_contactdetails.contactid
-                        left join vtiger_campaigncontrel on vtiger_contactdetails.contactid = vtiger_campaigncontrel.contactid
-                        left join vtiger_campaignrelstatus on vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaigncontrel.campaignrelstatusid
+                        left join vtiger_campaign_records on vtiger_contactdetails.contactid = vtiger_campaign_records.crmid
+                        left join vtiger_campaignrelstatus on vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid
 			      LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 						where vtiger_crmentity.deleted=0 and vtiger_users.user_name='" . $user_name . "'";
 		$log->debug("Exiting get_contactsforol method ...");
@@ -716,7 +716,7 @@ class Contacts extends CRMEntity
 		$file_saved = false;
 		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
 		$old_attachmentid = $adb->query_result($adb->pquery("select vtiger_crmentity.crmid from vtiger_seattachmentsrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.attachmentsid where  vtiger_seattachmentsrel.crmid=?", array($id)), 0, 'crmid');
-		if($_FILES) {
+		if ($_FILES) {
 			foreach ($_FILES as $fileindex => $files) {
 				if ($files['name'] != '' && $files['size'] > 0) {
 					$files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
@@ -762,16 +762,16 @@ class Contacts extends CRMEntity
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Products" => "vtiger_seproductsrel", "Documents" => "vtiger_senotesrel",
-			"Attachments" => "vtiger_seattachmentsrel", "Campaigns" => "vtiger_campaigncontrel",
+			"Attachments" => "vtiger_seattachmentsrel", "Campaigns" => "vtiger_campaign_records",
 			'ServiceContracts' => 'vtiger_servicecontracts', 'Project' => 'vtiger_project');
 
 		$tbl_field_arr = Array("vtiger_seproductsrel" => "productid", "vtiger_senotesrel" => "notesid",
-			"vtiger_seattachmentsrel" => "attachmentsid", "vtiger_campaigncontrel" => "campaignid",
+			"vtiger_seattachmentsrel" => "attachmentsid", "vtiger_campaign_records" => "campaignid",
 			'vtiger_servicecontracts' => 'servicecontractsid', 'vtiger_project' => 'projectid',
 			'vtiger_payments' => 'paymentsid');
 
 		$entity_tbl_field_arr = Array("vtiger_seproductsrel" => "crmid", "vtiger_senotesrel" => "crmid",
-			"vtiger_seattachmentsrel" => "crmid", "vtiger_campaigncontrel" => "contactid",
+			"vtiger_seattachmentsrel" => "crmid", "vtiger_campaign_records" => "crmid",
 			'vtiger_servicecontracts' => 'sc_related_to', 'vtiger_project' => 'linktoaccountscontacts',
 			'vtiger_payments' => 'relatedcontact');
 
@@ -864,7 +864,7 @@ class Contacts extends CRMEntity
 		$rel_tables = array(
 			//"HelpDesk" => array("vtiger_troubletickets"=>array("contact_id","ticketid"),"vtiger_contactdetails"=>"contactid"),
 			"Products" => array("vtiger_seproductsrel" => array("crmid", "productid"), "vtiger_contactdetails" => "contactid"),
-			"Campaigns" => array("vtiger_campaigncontrel" => array("contactid", "campaignid"), "vtiger_contactdetails" => "contactid"),
+			"Campaigns" => array("vtiger_campaign_records" => array("crmid", "campaignid"), "vtiger_contactdetails" => "contactid"),
 			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"), "vtiger_contactdetails" => "contactid"),
 			"Accounts" => array("vtiger_contactdetails" => array("contactid", "accountid"))
 		);
@@ -908,8 +908,7 @@ class Contacts extends CRMEntity
 			$sql = 'UPDATE vtiger_contactdetails SET parentid = ? WHERE contactid = ?';
 			$this->db->pquery($sql, array(null, $id));
 		} elseif ($return_module == 'Campaigns') {
-			$sql = 'DELETE FROM vtiger_campaigncontrel WHERE contactid=? AND campaignid=?';
-			$this->db->pquery($sql, array($id, $return_id));
+			$this->db->delete('vtiger_campaign_records', 'crmid=? AND campaignid=?', [$id, $return_id]);
 		} elseif ($return_module == 'Products') {
 			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? AND productid=?';
 			$this->db->pquery($sql, array($id, $return_id));
@@ -938,10 +937,10 @@ class Contacts extends CRMEntity
 					'rel_created_time' => date('Y-m-d H:i:s')
 				]);
 			} else if ($with_module == 'Campaigns') {
-				$adb->insert('vtiger_campaigncontrel', [
+				$adb->insert('vtiger_campaign_records', [
 					'campaignid' => $with_crmid,
-					'contactid' => $crmid,
-					'campaignrelstatusid' => 1
+					'crmid' => $crmid,
+					'campaignrelstatusid' => 0
 				]);
 			} else if ($with_module == 'Vendors') {
 				$adb->insert('vtiger_vendorcontactrel', [

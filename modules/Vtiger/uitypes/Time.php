@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Time_UIType extends Vtiger_Base_UIType
@@ -113,9 +114,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
-		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
-		$value = $value->format('H:i:s');
-		return self::getTimeValueInAMorPM($value);
+		return $this->getDisplayValue($value);
 	}
 
 	public function getListSearchTemplateName()

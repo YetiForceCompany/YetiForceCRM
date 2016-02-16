@@ -1,8 +1,4 @@
-/**
- * @license licenses/License.html
- * @package YetiForce.Edit
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 jQuery.Class("SSingleOrders_Modal_Js", {}, {
 	registerChangeStatus: function () {
 		var thisInstance = this;

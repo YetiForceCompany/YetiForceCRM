@@ -2452,6 +2452,10 @@ i {
 	cursor: pointer;
 	text-decoration: none !important;
 }
+.marginTB3{
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
 .marginLeft10{
 	margin-left:10px;
 }
@@ -2864,6 +2868,10 @@ table.dataTable .form-control {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+.paddingLR10{
+	padding-left:10px !important;
+	padding-right: 10px !important;
+}
 .paddingLeft5px{
 	padding-left: 5px;
 }
@@ -3020,8 +3028,14 @@ span[name=existingImages] img{
 .paddingLeftMd{
 	padding-left: 15px;
 }
+.marginRight10{
+	margin-right: 10px;
+}
 .marginRightMinus20{
 	margin-right:-20px;
+}
+.marginTopMinus10{
+	margin-top:-10px;
 }
 .fieldLabel .referenceMandatory{
 	margin-right: -12px;
@@ -4906,6 +4920,9 @@ html,body,.baseContainer
 	top: 0;
 	vertical-align: middle;
 }
+.jstree-node input{
+	color: #000;
+}
 .widgetContainer select[multiple]{
 	height: 0px;
 }
@@ -5040,4 +5057,23 @@ select.form-control {
 	position: absolute;
 	top: -10px;
 	left: 55px;
+}
+.indexContainer{
+	padding-top:10px;
+	border-top: 4px solid #404952;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsContent{
+	max-width: 300px;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsName{
+	display: inline-block;
+	float: left;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsValue{
+	display: inline-block;
+	float: right;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsValue .badge{
+	padding: 3px 10px !important;
+	margin: 2px 0px;
 }

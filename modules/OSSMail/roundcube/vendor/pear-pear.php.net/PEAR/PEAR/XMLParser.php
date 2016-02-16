@@ -10,7 +10,6 @@
  * @author     Stephan Schmidt (original XML_Unserializer code)
  * @copyright  1997-2009 The Authors
  * @license   http://opensource.org/licenses/bsd-license New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -23,7 +22,7 @@
  * @author    Stephan Schmidt (original XML_Unserializer code)
  * @copyright 1997-2009 The Authors
  * @license   http://opensource.org/licenses/bsd-license New BSD License
- * @version   Release: 1.9.5
+ * @version   Release: 1.10.1
  * @link      http://pear.php.net/package/PEAR
  * @since     Class available since Release 1.4.0a1
  */
@@ -93,11 +92,6 @@ class PEAR_XMLParser
             || strpos($data, "encoding='utf-8'")
         ) {
             $this->encoding = 'UTF-8';
-        }
-
-        if (version_compare(phpversion(), '5.0.0', 'lt') && $this->encoding == 'UTF-8') {
-            $data = utf8_decode($data);
-            $this->encoding = 'ISO-8859-1';
         }
 
         $xp = xml_parser_create($this->encoding);

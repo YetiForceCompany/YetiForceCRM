@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,13 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Groups' => 'Группы',
 	'Roles' => 'Роли',
 	'RoleAndSubordinates' => 'Роли и Подчиненные',
-	'SharingAccess'	=>	'Совместный доступ',
-	'Sharing Rules'	=>	'Совместный доступ',
+	'SharingAccess' => 'Совместный доступ',
+	'Sharing Rules' => 'Совместный доступ',
 	'Accounts' => 'Контрагенты и Контакты',
 	'LBL_ADD_CUSTOM_RULE' => 'Добавить правило',
 	'LBL_ADD_CUSTOM_RULE_TO' => 'Добавить правило для',
@@ -26,7 +26,7 @@ $languageStrings = [
 	'LBL_READ' => 'Чтение',
 	'LBL_READ_WRITE' => 'Чтение и Запись',
 	'LBL_RULE_NO' => 'Правило №',
-	'LBL_SHARING_RULE' =>  'Совместный доступ',
+	'LBL_SHARING_RULE' => 'Совместный доступ',
 	'LBL_WITH_PERMISSIONS' => 'С разрешениями на',
 	'Read Only' => 'Только чтение',
 	'Read Write' => 'Чтение и Запись',

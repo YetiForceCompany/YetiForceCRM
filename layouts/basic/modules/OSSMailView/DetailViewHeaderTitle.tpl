@@ -17,7 +17,7 @@
 	<input id="subject" type="hidden" value="{$RECORD->get('subject')}" />
 	<input id="createdtime" type="hidden" value="{$RECORD->get('createdtime')}" />
 	<div id="content" style="display: none;">{$RECORD->get('content')}</div>
-	<div class="col-xs-10 col-sm-9 col-md-8 margin0px">
+	<div class="col-xs-10 col-sm-9 col-md-4 margin0px">
 		<div class="moduleIcon">
 			<span class="detailViewIcon userIcon-{$MODULE}"></span>
 		</div>
@@ -39,4 +39,5 @@
 			</div>
 		</div>
 	</div>
+	{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 {/strip}

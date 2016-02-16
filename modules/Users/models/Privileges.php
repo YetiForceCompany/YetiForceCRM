@@ -319,7 +319,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$modulesSchema[$moduleName] = [];
 		$modulesSchema['Accounts'] = [
 			'Contacts' => ['key' => 'contactid', 'table' => 'vtiger_contactdetails', 'relfield' => 'parentid'],
-			'Campaigns' => ['key' => 'campaignid', 'table' => 'vtiger_campaignaccountrel', 'relfield' => 'accountid'],
+			'Campaigns' => ['key' => 'campaignid', 'table' => 'vtiger_campaign_records', 'relfield' => 'crmid'],
 			'Project' => ['key' => 'projectid', 'table' => 'vtiger_project', 'relfield' => 'linktoaccountscontacts'],
 			'HelpDesk' => ['key' => 'ticketid', 'table' => 'vtiger_troubletickets', 'relfield' => 'parent_id']
 		];
@@ -364,9 +364,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 
 		$parentRecord = false;
-		include('user_privileges/moduleHierarchy.php');
-		if (key_exists($moduleName, $modulesMap1M)) {
-			$parentModule = $modulesMap1M[$moduleName];
+		if ($parentModule = Vtiger_Module_Model::getModulesMap1M($moduleName)) {
 			$parentModuleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$parentModelFields = $parentModuleModel->getFields();
 
@@ -386,12 +384,12 @@ class Users_Privileges_Model extends Users_Record_Model
 					$parentRecord = $rparentRecord;
 				}
 			}
-			return $record != $parentRecord ? $parentRecord : false;
-		} else if (in_array($moduleName, $modulesMapMMBase)) {
+			$parentRecord = $record != $parentRecord ? $parentRecord : false;
+		} else if (in_array($moduleName, Vtiger_Module_Model::getModulesMapMMBase())) {
 			$currentUser = vglobal('current_user');
 			$db = PearDatabase::getInstance();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? OR relcrmid =?', [$record, $record]);
-			while ($row = $db->fetch_array($result)) {
+			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
 				if ($currentUser->id == $recordMetaData['smownerid']) {
@@ -404,13 +402,12 @@ class Users_Privileges_Model extends Users_Record_Model
 					}
 				}
 			}
-		} else if (key_exists($moduleName, $modulesMapMMCustom)) {
+		} else if ($relationInfo = Vtiger_Module_Model::getModulesMapMMCustom($moduleName)) {
 			$currentUser = vglobal('current_user');
-			$relationInfo = $modulesMapMMCustom[$moduleName];
 			$db = PearDatabase::getInstance();
 			$query = 'SELECT ' . $relationInfo['rel'] . ' AS crmid FROM `' . $relationInfo['table'] . '` WHERE ' . $relationInfo['base'] . ' = ?';
 			$result = $db->pquery($query, [$record]);
-			while ($row = $db->fetch_array($result)) {
+			while ($row = $db->getRow($result)) {
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($row['crmid']);
 				if ($currentUser->id == $recordMetaData['smownerid']) {
 					$parentRecord = $row['crmid'];

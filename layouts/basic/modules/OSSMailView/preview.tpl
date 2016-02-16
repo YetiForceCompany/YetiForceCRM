@@ -15,21 +15,36 @@
 							<div class='pull-right'>
 								<div class="btn-toolbar" >
 									{if AppConfig::main('isActiveSendingMails')}
-										{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}	
-										{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl()}
-										{assign var=POPUP value=$CONFIG['popup']}
-										<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
-											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
-											&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLYALLL',$MODULE)}</strong>
-										</button>
-										<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=replyAll" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
-											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
-											&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLYALLL',$MODULE)}</strong>
-										</button>
-										<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=forward" data-popup="{$POPUP}" title="{vtranslate('LBL_FORWARD','OSSMailView')}">
-											<span class="glyphicon glyphicon-share-alt"></span>
-											&nbsp;&nbsp;<strong>{vtranslate('LBL_FORWARD',$MODULE)}</strong>
-										</button>
+										{if $USER_MODEL->get('internal_mailer') == 1}
+											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}	
+											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl()}
+											{assign var=POPUP value=$CONFIG['popup']}
+											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
+												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
+												&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
+											</button>
+											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=replyAll" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+												&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
+											</button>
+											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=forward" data-popup="{$POPUP}" title="{vtranslate('LBL_FORWARD','OSSMailView')}">
+												<span class="glyphicon glyphicon-share-alt"></span>
+												&nbsp;&nbsp;<strong>{vtranslate('LBL_FORWARD','OSSMailView')}</strong>
+											</button>
+										{else}
+											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'reply')}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
+												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
+												&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
+											</a>
+											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'replyAll')}" title="{vtranslate('LBL_REPLYALLL', 'OSSMailView')}">
+												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
+												&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
+											</a>
+											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'forward')}" title="{vtranslate('LBL_FORWARD', 'OSSMailView')}">
+												<span class="glyphicon glyphicon-share-alt"></span>
+												&nbsp;&nbsp;<strong>{vtranslate('LBL_FORWARD','OSSMailView')}</strong>
+											</a>
+										{/if}
 									{/if}
 									{if Users_Privileges_Model::isPermitted($MODULE, 'PrintMail')}
 										<span class="btn-group">

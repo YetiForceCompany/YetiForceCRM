@@ -19,7 +19,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 	public function getSideBarLinks($linkParams)
 	{
-		$linkTypes =['SIDEBARLINK', 'SIDEBARWIDGET'];
+		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = [];
 
 		$quickLinks = [
@@ -103,5 +103,40 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			$count++;
 		}
 		return ['totalTime' => $totalTime, 'userTime' => $userTime];
+	}
+
+	public function getTimeUsers($id, $moduleName)
+	{
+		$db = PearDatabase::getInstance();
+		$fieldName = $this->getMappingRelatedField($moduleName);
+
+		if (empty($id) || empty($fieldName))
+			$response = false;
+		else {
+			$instance = CRMEntity::getInstance($this->getName());
+			$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getName(), false);
+			$userSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+
+			$sql = 'SELECT count(*) AS count, ' . $userSqlFullName . ' as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time FROM vtiger_osstimecontrol
+							INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
+							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
+							AND vtiger_crmentity.deleted = 0'
+				. ' WHERE vtiger_osstimecontrol.' . $fieldName . ' = ? AND vtiger_osstimecontrol.osstimecontrol_status = ? ' . $securityParameter . ' GROUP BY smownerid';
+			$result = $db->pquery($sql, [$id, OSSTimeControl_Record_Model::recalculateStatus]);
+
+			$data = [];
+			$i = 0;
+			while ($row = $db->getRow($result)) {
+				$data[$i]['label'] = $row['name'];
+				$ticks[$i][0] = $i;
+				$ticks[$i][1] = $row['name'];
+				$data[$i]['data'][0][0] = $i;
+				$data[$i]['data'][0][1] = $row['time'];
+				++$i;
+			}
+			$response['ticks'] = $ticks;
+			$response['chart'] = $data;
+		}
+		return $response;
 	}
 }

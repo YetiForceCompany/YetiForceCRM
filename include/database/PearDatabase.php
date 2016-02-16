@@ -146,6 +146,12 @@ class PearDatabase
 		$this->port = $port;
 	}
 
+	public function setDBCache($type = 'base')
+	{
+		self::$dbCache[$type] = $this;
+		vglobal('adb', $this);
+	}
+
 	public function getDatabaseName()
 	{
 		return $this->dbName;

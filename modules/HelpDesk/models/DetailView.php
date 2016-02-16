@@ -36,24 +36,25 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
 		return $linkModelList;
 	}
 
-	function getDetailViewRelatedLinks() {
+	function getDetailViewRelatedLinks()
+	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
-		$parentModuleModel = $this->getModule();
-		$relatedLinks = array();
-		
-		$relatedLinks = Vtiger_DetailView_Model::getDetailViewRelatedLinks();
+		$relatedLinks = [];
 
-		$relatedLinks[] = array(
+		$relatedLinks = Vtiger_DetailView_Model::getDetailViewRelatedLinks();
+		$parentModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
+		if ($parentModel->isActive()) {
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => vtranslate('LBL_CHARTS', $moduleName),
-				'linkurl' => $recordModel->getDetailViewUrl().'&mode=showCharts&requestMode=charts',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showCharts&requestMode=charts',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'Charts'
-				);
+			];
+		}
 
 		return $relatedLinks;
-	 }
-
+	}
 }

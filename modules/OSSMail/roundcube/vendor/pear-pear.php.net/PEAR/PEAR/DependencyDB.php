@@ -10,7 +10,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -30,7 +29,7 @@ $GLOBALS['_PEAR_DEPENDENCYDB_INSTANCE'] = array();
  * @author     Tomas V.V.Cox <cox@idec.net.com>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.5
+ * @version    Release: 1.10.1
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -89,9 +88,8 @@ class PEAR_DependencyDB
      * @param PEAR_Config
      * @param string|false full path to the dependency database, or false to use default
      * @return PEAR_DependencyDB|PEAR_Error
-     * @static
      */
-    function &singleton(&$config, $depdb = false)
+    public static function &singleton(&$config, $depdb = false)
     {
         $phpdir = $config->get('php_dir', null, 'pear.php.net');
         if (!isset($GLOBALS['_PEAR_DEPENDENCYDB_INSTANCE'][$phpdir])) {
@@ -122,8 +120,11 @@ class PEAR_DependencyDB
 
         $this->_registry = &$this->_config->getRegistry();
         if (!$depdb) {
-            $this->_depdb = $this->_config->get('php_dir', null, 'pear.php.net') .
-                DIRECTORY_SEPARATOR . '.depdb';
+            $dir = $this->_config->get('metadata_dir', null, 'pear.php.net');
+            if (!$dir) {
+                $dir = $this->_config->get('php_dir', null, 'pear.php.net');
+            }
+            $this->_depdb =  $dir . DIRECTORY_SEPARATOR . '.depdb';
         } else {
             $this->_depdb = $depdb;
         }
@@ -550,12 +551,9 @@ class PEAR_DependencyDB
             return $err;
         }
 
-        $rt = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
         clearstatcache();
         fclose($fp);
         $data = unserialize(file_get_contents($this->_depdb));
-        set_magic_quotes_runtime($rt);
         $this->_cache = $data;
         return $data;
     }
@@ -577,10 +575,7 @@ class PEAR_DependencyDB
             return PEAR::raiseError("Could not open dependencies file `".$this->_depdb."' for writing");
         }
 
-        $rt = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
         fwrite($fp, serialize($deps));
-        set_magic_quotes_runtime($rt);
         fclose($fp);
         $this->_unlock();
         $this->_cache = $deps;

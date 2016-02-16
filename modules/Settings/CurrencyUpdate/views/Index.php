@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * @package YetiForce.Views
+ * @license licenses/License.html
+ * @author Maciej Stencel <m.stencel@yetiforce.com>
+ */
+ 
 class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 {
 

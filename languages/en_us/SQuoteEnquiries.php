@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'SQuoteEnquiries' => 'Sales enquiries',
-	'SINGLE_SQuoteEnquiries' => 'Sales enquirie',
+	'SINGLE_SQuoteEnquiries' => 'Sales enquiry',
 	
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',

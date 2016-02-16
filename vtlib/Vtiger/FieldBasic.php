@@ -25,6 +25,7 @@ class Vtiger_FieldBasic
 	var $columntype = false;
 	var $helpinfo = '';
 	var $summaryfield = 0;
+	var $header_field = false;
 	var $masseditable = 1; // Default: Enable massedit for field
 	var $uitype = 1;
 	var $typeofdata = 'V~O';
@@ -67,6 +68,7 @@ class Vtiger_FieldBasic
 		$this->typeofdata = $valuemap['typeofdata'];
 		$this->helpinfo = $valuemap['helpinfo'];
 		$this->masseditable = $valuemap['masseditable'];
+		$this->header_field = $valuemap['header_field'];
 		$this->displaytype = $valuemap['displaytype'];
 		$this->generatedtype = $valuemap['generatedtype'];
 		$this->readonly = $valuemap['readonly'];

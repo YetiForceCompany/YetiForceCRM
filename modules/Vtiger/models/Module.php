@@ -1736,20 +1736,50 @@ class Vtiger_Module_Model extends Vtiger_Module
 	protected static $modulesHierarchy = [];
 	protected static $modulesByLevels = [];
 	protected static $modulesMapRelatedFields = [];
+	protected static $modulesMap1M = [];
+	protected static $modulesMapMMBase = [];
+	protected static $modulesMapMMCustom = [];
 
 	public static function initModulesHierarchy()
 	{
-		if (!empty(self::$modulesByLevels)) {
+		if (!empty(self::$modulesHierarchy)) {
 			return true;
 		}
 		include('user_privileges/moduleHierarchy.php');
 		self::$modulesHierarchy = $modulesHierarchy;
 		self::$modulesMapRelatedFields = $modulesMapRelatedFields;
+		self::$modulesMap1M = $modulesMap1M;
+		self::$modulesMapMMBase = $modulesMapMMBase;
+		self::$modulesMapMMCustom = $modulesMapMMCustom;
 		foreach (self::$modulesHierarchy as $module => &$details) {
 			if (vtlib_isModuleActive($module)) {
 				self::$modulesByLevels[$details['level']][$module] = $details;
 			}
 		}
+	}
+
+	public static function getModulesHierarchy()
+	{
+		self::initModulesHierarchy();
+		return self::$modulesHierarchy;
+	}
+
+	public static function getModulesMap1M($moduleName)
+	{
+		self::initModulesHierarchy();
+		return self::$modulesMap1M[$moduleName];
+	}
+
+	public static function getModulesMapMMBase()
+	{
+		self::initModulesHierarchy();
+		return self::$modulesMapMMBase;
+	}
+
+	public static function getModulesMapMMCustom($moduleName)
+	{
+		self::initModulesHierarchy();
+		return self::$modulesMapMMCustom[$moduleName];
 	}
 
 	public static function getModulesByLevel($level = 0)
@@ -1783,6 +1813,21 @@ class Vtiger_Module_Model extends Vtiger_Module
 	}
 
 	public function getMappingRelatedField($moduleName, $field = false)
+	{
+		self::initModulesHierarchy();
+		$module = self::$modulesHierarchy[$moduleName];
+		switch ($module['level']) {
+			case 0: $return = 'link';
+				break;
+			case 1: $return = 'process';
+				break;
+			case 2: $return = 'subprocess';
+				break;
+		}
+		return $return;
+	}
+
+	public function getRelationFieldByHierarchy($moduleName)
 	{
 		self::initModulesHierarchy();
 		if ($field != false && isset(self::$modulesMapRelatedFields[$moduleName][$field])) {

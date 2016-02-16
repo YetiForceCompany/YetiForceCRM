@@ -148,6 +148,7 @@ $languageStrings = [
 	'LBL_MARGIN_PERCENT_DESC' => 'Не редактируется поле рассчитывается автоматически, содержит значение прибыли, выраженное в процентах.',
 	'LBL_DEACTIVATE_FAVORITES' => 'Deactivate function: Add to favorites',
 	'LBL_ACTIVATE_FAVORITES' => 'Activate function: Add to favorites',
+	'LBL_HEADER_FIELD' => 'Visible in preview header',
 ];
 
 $jsLanguageStrings = [

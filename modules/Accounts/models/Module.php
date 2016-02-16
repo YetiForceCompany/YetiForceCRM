@@ -25,7 +25,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 		if (($sourceModule == 'Accounts' && $field == 'account_id' && $record) || in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails'))) {
 
 			if ($sourceModule === 'Campaigns') {
-				$condition = " vtiger_account.accountid NOT IN (SELECT accountid FROM vtiger_campaignaccountrel WHERE campaignid = '$record')";
+				$condition = " vtiger_account.accountid NOT IN (SELECT crmid FROM vtiger_campaign_records WHERE campaignid = '$record')";
 			} elseif ($sourceModule === 'Products') {
 				$condition = " vtiger_account.accountid NOT IN (SELECT crmid FROM vtiger_seproductsrel WHERE productid = '$record')";
 			} elseif ($sourceModule === 'Services') {

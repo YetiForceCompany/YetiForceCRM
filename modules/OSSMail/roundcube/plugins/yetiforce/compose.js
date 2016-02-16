@@ -38,8 +38,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 			var prePopupOpenEvent = jQuery.Event(crm.Vtiger_Edit_Js.preReferencePopUpOpenEvent);
 			sourceFieldElement.trigger(prePopupOpenEvent);
 			var data = {};
-			var popupInstance = crm.Vtiger_Popup_Js.getInstance();
-			crm.show(params, function (data) {
+			show(params, function (data) {
 				var responseData = JSON.parse(data);
 				var ids = [];
 				for (var id in responseData) {
@@ -131,7 +130,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 				success: function (data) {
 					var oldSubject = jQuery('[name="_subject"]').val();
 					var html = jQuery("<div/>").html(data.result['content']).html();
-					jQuery('[name="_subject"]').val(oldSubject + data.result['subject']);
+					jQuery('[name="_subject"]').val(oldSubject + ' ' + data.result['subject']);
 					if (window.tinyMCE && (ed = tinyMCE.get(rcmail.env.composebody))) {
 						var oldBody = tinyMCE.activeEditor.getContent();
 						tinymce.activeEditor.setContent(html + oldBody);

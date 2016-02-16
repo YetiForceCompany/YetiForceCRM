@@ -146,6 +146,7 @@ $languageStrings = [
 	'LBL_MARGIN_PERCENT_DESC' => 'Non-editable field calculated automatically, contains the profit value, expressed as a percentage.',
 	'LBL_DEACTIVATE_FAVORITES' => 'Deactivate function: Add to favorites',
 	'LBL_ACTIVATE_FAVORITES' => 'Activate function: Add to favorites',
+	'LBL_HEADER_FIELD' => 'Visible in preview header',
 ];
 
 $jsLanguageStrings = [
