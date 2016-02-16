@@ -78,7 +78,8 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			}
 		});
 		container.find('[name="saveButton"]').on('click', function (e) {
-			$(this).attr('disabled', 'disabled');
+			var saveButton = $(this);
+			saveButton.attr('disabled', 'disabled');
 			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
 				if (jQuery.inArray(value.original.record_id, ord) == -1 && value.original.type == "record") {
 					recordsToAdd.push(value.original.record_id);
@@ -103,7 +104,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 					}
 				});
 			}
-			AppConnector.request({
+			var params = {
 				module: app.getModuleName(),
 				action: 'RelationAjax',
 				mode: 'updateRelation',
@@ -113,11 +114,38 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				categoryToRemove: categoryToRemove,
 				src_record: app.getRecordId(),
 				related_module: container.find('#relatedModule').val(),
-			}).then(function (res) {
-				Vtiger_Detail_Js.getInstance().reloadTabContent();
-				app.hideModalWindow();
-			})
+			};
+			if (recordsToAdd.length > 4) {
+				bootbox.dialog({
+					title: app.vtranslate('JS_INFORMATION'),
+					message: app.vtranslate('JS_SAVE_SELECTED_ITEMS_ALERT').replace('__LENGTH__', recordsToAdd.length),
+					buttons: {
+						success: {
+							label: app.vtranslate('JS_LBL_SAVE'),
+							className: "btn-success",
+							callback: function () {
+								thisInstance.saveRecordsEvent(params);
+							}
+						},
+						danger: {
+							label: app.vtranslate('JS_LBL_CANCEL'),
+							className: "btn-warning",
+							callback: function () {
+								saveButton.removeAttr('disabled');
+							}
+						}
+					}
+				});
+			}else{
+				thisInstance.saveRecordsEvent(params);
+			}
 		});
+	},
+	saveRecordsEvent: function (params) {
+		AppConnector.request(params).then(function (res) {
+			Vtiger_Detail_Js.getInstance().reloadTabContent();
+			app.hideModalWindow();
+		})
 	},
 	registerCounterSelected: function () {
 		var thisInstance = this;

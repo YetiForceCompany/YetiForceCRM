@@ -1364,4 +1364,5 @@ $jsLanguageStrings = [
 	'JS_RELATION' => 'Firma/Kontakt',
 	'JS_PROCESS' => 'Proces',
 	'JS_SUB_PROCESS' => 'Podproces',
+	'JS_SAVE_SELECTED_ITEMS_ALERT' => 'Wybrałeś __LENGTH__ pozycji czy jesteś pewien czy chcesz zapisać?',
 ];

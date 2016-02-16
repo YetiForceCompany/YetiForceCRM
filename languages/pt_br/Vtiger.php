@@ -1350,4 +1350,5 @@ $jsLanguageStrings = [
 	'JS_RELATION' => 'Relação',
 	'JS_PROCESS' => 'Processo',
 	'JS_SUB_PROCESS' => 'Subprocess',
+	'JS_SAVE_SELECTED_ITEMS_ALERT' => 'You selected __LENGTH__ items. Are you sure you want to save?',
 ];
