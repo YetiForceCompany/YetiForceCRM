@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	// Basic Strings
-	'OutsourcedProducts'        => 'Produkty obce',
+	'OutsourcedProducts' => 'Produkty obce',
 	'SINGLE_OutsourcedProducts' => 'Produkt obcy',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
