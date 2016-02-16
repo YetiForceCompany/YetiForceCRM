@@ -68,7 +68,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 	},
 	registerSaveRecords: function (container) {
 		var thisInstance = this;
-		var ord = [], ocd = [], rSelected = [], cSelected = [], recordsToAdd = [], recordsToRemove = [], categoryToAdd = [], categoryToRemove = [];
+		var ord = [], ocd = [];
 		$.each(thisInstance.getRecords(), function (index, value) {
 			if (value.state && value.state.selected && value.type == "record") {
 				ord.push(value.record_id);
@@ -78,6 +78,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			}
 		});
 		container.find('[name="saveButton"]').on('click', function (e) {
+			var rSelected = [], cSelected = [], recordsToAdd = [], recordsToRemove = [], categoryToAdd = [], categoryToRemove = []
 			var saveButton = $(this);
 			saveButton.attr('disabled', 'disabled');
 			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
