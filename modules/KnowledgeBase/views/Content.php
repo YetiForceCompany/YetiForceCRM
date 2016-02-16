@@ -5,7 +5,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class KnowledgeBase_ContentAJAX_View extends Vtiger_IndexAjax_View
+class KnowledgeBase_Content_View extends Vtiger_IndexAjax_View
 {
 	public function process(Vtiger_Request $request)
 	{

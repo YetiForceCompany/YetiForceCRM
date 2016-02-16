@@ -30,7 +30,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 		var container = $('.treeContainer');
 		var params = {
 			module  : app.getModuleName(),
-			action : 'TreeAjax',
+			action : 'DataTreeAjax',
 		};
 		var progressIndicatorElement = jQuery.progressIndicator({
 			position: 'html',
@@ -68,7 +68,7 @@ jQuery.Class("KnowledgeBase_Tree_Js", {},
 		var contentData = thisInstance.getContent();
 		var params = {
 			module: app.getModuleName(),
-			view: 'ContentAJAX',
+			view: 'Content',
 		};
 		if(typeof recordId != 'undefined'){
 			params['record'] = recordId;

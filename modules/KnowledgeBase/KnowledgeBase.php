@@ -1,5 +1,5 @@
 <?php
-/**
+/** KnowledgeBase CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
