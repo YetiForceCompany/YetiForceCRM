@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 Vtiger_Edit_Js("KnowledgeBase_Edit_Js", {}, {
-	setCKEDTIOR: function() {
+	setCkeditor: function() {
 		var editor = $('.ckEditorSource').attr('id');
 		CKEDITOR.instances[editor].removeAllListeners();
 		delete CKEDITOR.instances[editor];
@@ -13,6 +13,6 @@ Vtiger_Edit_Js("KnowledgeBase_Edit_Js", {}, {
 	},
 	registerEvents: function () {
 		this._super();
-		this.setCKEDTIOR();
+		this.setCkeditor();
 	}
 })
