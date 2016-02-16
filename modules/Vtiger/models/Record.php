@@ -314,7 +314,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
-		$cacheName = $recordId . ':' . $module;
+		$cacheName = $recordId . ':' . is_object($module) ? $module->get('name') : $module;
 		$instance = Vtiger_Cache::get('Vtiger_Record_Model', $cacheName);
 		if ($instance) {
 			return $instance;
