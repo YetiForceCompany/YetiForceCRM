@@ -63,7 +63,6 @@ class Documents extends CRMEntity {
 	);
 	var $list_link_field= 'notes_title';
 	var $old_filename = '';
-	//var $groupTable = Array('vtiger_notegrouprelation','notesid');
 
 	var $mandatory_fields = Array('notes_title','createdtime' ,'modifiedtime','filename','filesize','filetype','filedownloadcount','assigned_user_id');
 

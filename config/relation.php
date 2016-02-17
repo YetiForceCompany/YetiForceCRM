@@ -11,5 +11,5 @@ $RELATION_CONFIG = [
 	// show icon related modules
 	'SHOW_RELATED_ICON' => true,
 	// show record count in tabs related modules
-	'SHOW_RECORDS_COUNT' => true,
+	'SHOW_RECORDS_COUNT' => false,
 ];

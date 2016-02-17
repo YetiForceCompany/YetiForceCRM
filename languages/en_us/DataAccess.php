@@ -62,7 +62,7 @@ $languageStrings = [
 	'Action_Desc_validate_mandatory' => 'Checking whether all mandatory fields in quick edit are filled in.',
 	//
 	'Action_check_assigneduser' => 'Restriction change of ownership record',
-	'Action_Desc_check_assigneduser' => 'Action restriction the ability to change owner to a specific list.',
+	'Action_Desc_check_assigneduser' => 'Action limits the ability to change owner to a specific list.',
 	'LBL_SELECT_USER_OR_GROUP' => 'Select users or groups allowed',
 	'LBL_CURRENT_USER' => 'Current user',
 	//
@@ -81,6 +81,7 @@ $languageStrings = [
 	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Duplicate found. Are you sure you want to save?',
 	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'An attempt was made to change values in a record in Quick Edition mode.<br>Select the checkbox field below and accept in order to apply changes in this view.<br>Attention!<br>Re-enter the modifications in the record.',
 	'LBL_DONT_ASK_AGAIN' => 'Don\'t ask again for this record.',
+	'LBL_SEARCH_TRASH' => 'Search trash',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',

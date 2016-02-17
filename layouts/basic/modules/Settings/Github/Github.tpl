@@ -85,7 +85,7 @@
 				<input class="switchBtn switchState" {if $ISSUES_STATE eq 'closed'}checked {/if}type="checkbox" data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{vtranslate('LBL_OPEN', $QUALIFIED_MODULE)}" data-on-text="{vtranslate('LBL_CLOSED', $QUALIFIED_MODULE)}">
 			</div>
 		</div>
-		<table class="table">
+		<table class="table listViewEntriesTable">
 			<thead>
 				<th>{vtranslate('LBL_TITLE', $QUALIFIED_MODULE)}</th>
 				<th>{vtranslate('LBL_AUTHOR', $QUALIFIED_MODULE)}</th>
@@ -94,7 +94,7 @@
 			</thead>
 			<tbody>
 				{foreach from=$GITHUB_ISSUES item=ISSUE}
-					<tr>
+					<tr class="">
 						<td>
 							{$ISSUE->get('title')}
 						</td>
@@ -102,13 +102,16 @@
 							{$ISSUE->get('user')->login}
 						</td>
 						<td>
-							{$ISSUE->get('state')}
+							{vtranslate($ISSUE->get('state'), $QUALIFIED_MODULE)}
+							
 						</td>
 						<td>
 							<div class="pull-right actions">
-								<a href="{$ISSUE->get('html_url')}">
-									<span title="" class="glyphicon glyphicon-pencil alignMiddle"></span>
-								</a>
+								<span class="actionImages">
+									<a href="{$ISSUE->get('html_url')}">
+										<span title="" class="glyphicon glyphicon-th-list alignMiddle"></span>
+									</a>
+								</span>
 							</div>
 						</td>
 					</tr>	

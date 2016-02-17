@@ -10,6 +10,8 @@ $languageStrings = [
 	'LBL_ADD_ISSUE' => 'Dodaj problem',
 	'LBL_CLOSED' => 'Zamknięte',
 	'LBL_OPEN' => 'Otwarte',
+	'closed' => 'Zamknięty',
+	'open' => 'Otwarty',
 	'LBL_ME' => 'Tylko ja',
 	'LBL_ERROR_CONNECTED' => 'Wystąpił błąd podczas komunikacji z adresem www.api.github.com, zalecamy sprawdzenie dostępu do internetu oraz sprawdzenie ustawień firewalla',
 	'LBL_CONFIRM_REGULATIONS' => 'Zapoznałem się z regulaminem dodawania problemów: <a href="https://yetiforce.com/pl/dokumentacja-programisty/b%C5%82%C4%99dy/125-issues.html">link</a>',

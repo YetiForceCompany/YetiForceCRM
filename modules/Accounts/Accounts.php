@@ -38,7 +38,7 @@ class Accounts extends CRMEntity
 	var $entity_table = "vtiger_crmentity";
 	var $column_fields = Array();
 	var $sortby_fields = Array('accountname', 'bill_city', 'website', 'phone', 'smownerid');
-	//var $groupTable = Array('vtiger_accountgrouprelation','accountid');
+
 	// This is the list of vtiger_fields that are in the lists.
 	var $list_fields = Array(
 		'Account Name' => Array('vtiger_account' => 'accountname'),

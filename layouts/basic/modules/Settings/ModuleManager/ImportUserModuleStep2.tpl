@@ -51,6 +51,10 @@
 										</td>
 									</tr>
 									<tr>
+										<td><b>{vtranslate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}</b></td>
+										<td>{vtranslate($MODULEIMPORT_PACKAGE->getTypeName(), $QUALIFIED_MODULE)}</td>
+									</tr>
+									<tr>
 										<td><b>{vtranslate('LBL_REQ_YETIFORCE_VERSION', $QUALIFIED_MODULE)}</b></td>
 										<td>{$MODULEIMPORT_DEP_VTVERSION}</td>
 									</tr>

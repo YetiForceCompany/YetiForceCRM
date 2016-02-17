@@ -1100,6 +1100,9 @@ $languageStrings = [
 	'LBL_VIEW_INDEX' => 'Start',
 	'LBL_SU_UPDATED' => 'Record zaktualizowany przez innego użytkownika',
 	'LBL_CRMACTIVITY' => 'Aktywność kalendarza',
+	'FL_NUMBER' => 'Numer rekordu',
+	'DW_SUMMATION_BY_MONTHS' => 'Porównanie sprzedaży po miesiącach',
+	'DW_SUMMATION_BY_USER' => 'Porównanie sprzedaży po użytkownikach',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

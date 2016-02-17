@@ -74,6 +74,28 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	}
 
 	/**
+	 * Get type of package (as specified in manifest)
+	 */
+	function getTypeName()
+	{
+		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
+			$packageType = strtolower($this->_modulexml->type);
+			switch ($packageType) {
+				case 'extension': $packageType = 'LBL_EXTENSION_MODULE';
+					break;
+				case 'entity': $packageType = 'LBL_BASE_MODULE';
+					break;
+				case 'inventory': $packageType = 'LBL_INVENTORY_MODULE';
+					break;
+				case 'language': $packageType = 'LBL_LANGUAGE_MODULE';
+					break;
+			}
+			return $packageType;
+		}
+		return '';
+	}
+
+	/**
 	 * XPath evaluation on the root module node.
 	 * @param String Path expression
 	 */
@@ -576,14 +598,19 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	function import_Module()
 	{
 		$tabname = $this->_modulexml->name;
-		$tablabel = $this->_modulexml->label;
-		$tabversion = $this->_modulexml->version;
+		$tabLabel = $this->_modulexml->label;
+		$tabVersion = $this->_modulexml->version;
 
 		$isextension = false;
+		$moduleType = 0;
 		if (!empty($this->_modulexml->type)) {
 			$this->packageType = strtolower($this->_modulexml->type);
-			if ($this->packageType == 'extension' || $this->packageType == 'language')
+			if ($this->packageType == 'extension' || $this->packageType == 'language') {
 				$isextension = true;
+			}
+			if ($this->packageType == 'inventory') {
+				$moduleType = 1;
+			}
 		}
 
 		$vtigerMinVersion = $this->_modulexml->dependencies->vtiger_version;
@@ -591,17 +618,21 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 
 		$moduleInstance = new Vtiger_Module();
 		$moduleInstance->name = $tabname;
-		$moduleInstance->label = $tablabel;
+		$moduleInstance->label = $tabLabel;
 		$moduleInstance->isentitytype = ($isextension != true);
-		$moduleInstance->version = (!$tabversion) ? 0 : $tabversion;
+		$moduleInstance->version = (!$tabVersion) ? 0 : $tabVersion;
 		$moduleInstance->minversion = (!$vtigerMinVersion) ? false : $vtigerMinVersion;
 		$moduleInstance->maxversion = (!$vtigerMaxVersion) ? false : $vtigerMaxVersion;
+		$moduleInstance->type = $moduleType;
 
 		if ($this->packageType != 'update') {
 			$moduleInstance->save();
 			$moduleInstance->initWebservice();
+			$this->moduleInstance = $moduleInstance;
+
 			$this->import_Tables($this->_modulexml);
 			$this->import_Blocks($this->_modulexml, $moduleInstance);
+			$this->importInventory();
 			$this->import_CustomViews($this->_modulexml, $moduleInstance);
 			$this->import_SharingAccess($this->_modulexml, $moduleInstance);
 			$this->import_Events($this->_modulexml, $moduleInstance);
@@ -625,52 +656,27 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 			return;
 		$adb = PearDatabase::getInstance();
 		$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
-		/**
-		 * Record the changes in schema file
-		 */
-		if (file_exists("modules/$modulenode->name")) {
-			$fileToOpen = "modules/$modulenode->name/schema.xml";
-		} else if (file_exists("modules/Settings/$modulenode->name")) {
-			$fileToOpen = "modules/Settings/$modulenode->name/schema.xml";
-		}
-		$schemafile = fopen($fileToOpen, 'w');
-		if ($schemafile) {
-			fwrite($schemafile, "<?xml version='1.0'?>\n");
-			fwrite($schemafile, "<schema>\n");
-			fwrite($schemafile, "\t<tables>\n");
-		}
 
 		// Import the table via queries
 		foreach ($modulenode->tables->table as $tablenode) {
-			$tablename = $tablenode->name;
-			$tablesql = "$tablenode->sql"; // Convert to string format
-			// Save the information in the schema file.
-			fwrite($schemafile, "\t\t<table>\n");
-			fwrite($schemafile, "\t\t\t<name>$tablename</name>\n");
-			fwrite($schemafile, "\t\t\t<sql><![CDATA[$tablesql]]></sql>\n");
-			fwrite($schemafile, "\t\t</table>\n");
-
+			$tableName = $tablenode->name;
+			$sql = (string) $tablenode->sql; // Convert to string format
 			// Avoid executing SQL that will DELETE or DROP table data
-			if (Vtiger_Utils::IsCreateSql($tablesql)) {
-				if (!Vtiger_Utils::checkTable($tablename)) {
-					self::log("SQL: $tablesql ... ", false);
-					Vtiger_Utils::ExecuteQuery($tablesql);
+			if (Vtiger_Utils::IsCreateSql($sql)) {
+				if (!Vtiger_Utils::checkTable($tableName)) {
+					self::log("SQL: $sql ... ", false);
+					Vtiger_Utils::ExecuteQuery($sql);
 					self::log("DONE");
 				}
 			} else {
-				if (Vtiger_Utils::IsDestructiveSql($tablesql)) {
-					self::log("SQL: $tablesql ... SKIPPED");
+				if (Vtiger_Utils::IsDestructiveSql($sql)) {
+					self::log("SQL: $sql ... SKIPPED");
 				} else {
-					self::log("SQL: $tablesql ... ", false);
-					Vtiger_Utils::ExecuteQuery($tablesql);
+					self::log("SQL: $sql ... ", false);
+					Vtiger_Utils::ExecuteQuery($sql);
 					self::log("DONE");
 				}
 			}
-		}
-		if ($schemafile) {
-			fwrite($schemafile, "\t</tables>\n");
-			fwrite($schemafile, "</schema>\n");
-			fclose($schemafile);
 		}
 		$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
 	}
@@ -739,7 +745,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	function import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode)
 	{
 		$fieldInstance = new Vtiger_Field();
-		$fieldInstance->name = (string)$fieldnode->fieldname;
+		$fieldInstance->name = (string) $fieldnode->fieldname;
 		$fieldInstance->label = $fieldnode->fieldlabel;
 		$fieldInstance->table = $fieldnode->tablename;
 		$fieldInstance->column = $fieldnode->columnname;
@@ -1056,5 +1062,46 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		Vtiger_Functions::recurseDelete($dirName . '/files');
 		Vtiger_Functions::recurseDelete($dirName . '/init.php');
 		Vtiger_Functions::recurseDelete('cache/templates_c');
+	}
+
+	/**
+	 * Import inventory fields of the module
+	 * @access private
+	 */
+	function importInventory()
+	{
+		if (empty($this->_modulexml->inventory) || empty($this->_modulexml->inventory->fields->field))
+			return false;
+		$module = (string) $this->moduleInstance->name;
+
+		$inventoryInstance = Vtiger_Inventory_Model::getInstance($module);
+		$inventoryInstance->setInventoryTable(true);
+		$inventoryFieldInstance = Vtiger_InventoryField_Model::getInstance($module);
+		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
+			$this->importInventoryField($inventoryFieldInstance, $fieldNode);
+		}
+	}
+
+	function importInventoryField($inventoryFieldInstance, $fieldNode)
+	{
+		$instance = Vtiger_InventoryField_Model::getFieldInstance($inventoryFieldInstance->get('module'), $fieldNode->invtype);
+		$table = $inventoryFieldInstance->getTableName();
+
+		Vtiger_Utils::AddColumn($table, $fieldNode->columnname, $instance->getDBType());
+		foreach ($instance->getCustomColumn() as $column => $criteria) {
+			Vtiger_Utils::AddColumn($table, $column, $criteria);
+		}
+		$db = PearDatabase::getInstance();
+		return $db->insert($inventoryFieldInstance->getTableName('fields'), [
+				'columnname' => $fieldNode->columnname,
+				'label' => $fieldNode->label,
+				'invtype' => $fieldNode->invtype,
+				'defaultvalue' => $fieldNode->defaultvalue,
+				'sequence' => $fieldNode->sequence,
+				'block' => $fieldNode->block,
+				'displaytype' => $fieldNode->displaytype,
+				'params' => $fieldNode->params,
+				'colspan' => $fieldNode->colspan,
+		]);
 	}
 }

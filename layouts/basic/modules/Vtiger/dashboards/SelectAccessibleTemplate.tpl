@@ -19,7 +19,7 @@
 		<option value="{$CURRENTUSER->getId()}" data-name="{$CURRENTUSER->getName()}" title="{vtranslate('LBL_MINE')}" {if $OWNER eq $CURRENTUSER->getId()} selected {/if}>{vtranslate('LBL_MINE')}</option>
 	{/if}
 	{if array_key_exists( $CURRENTUSER->getId(), $ACCESSIBLE_USERS ) && in_array('all', $ACCESS_OPTIONS.available)}
-		<option value="all" {if $OWNER eq 'all'} data-name="" title="{vtranslate('LBL_ALL')}" selected {/if}>{vtranslate('LBL_ALL')}</option>
+		<option value="all" {if $OWNER eq 'all' || $ACCESS_OPTIONS['default'] eq 'all'} data-name="" title="{vtranslate('LBL_ALL')}" selected {/if}>{vtranslate('LBL_ALL')}</option>
 	{/if}
 	{if !empty($ACCESSIBLE_USERS) && in_array('users', $ACCESS_OPTIONS.available)}
 		<optgroup label="{vtranslate('LBL_USERS')}">

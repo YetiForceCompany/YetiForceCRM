@@ -16,7 +16,7 @@ Class DataAccess_unique_value
 
 	var $config = true;
 
-	public function process($moduleName, $iD, $record_form, $config)
+	public function process($moduleName, $ID, $record_form, $config)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleNameID = Vtiger_Functions::getModuleId($moduleName);
@@ -27,16 +27,17 @@ Class DataAccess_unique_value
 		$type = 0;
 		$typeInfo = 'info';
 		$info = false;
-		if ($iD != 0 && $iD != '' && !array_key_exists($config['what1'], $record_form)) {
-			$Record_Model = Vtiger_Record_Model::getInstanceById($iD, $moduleName);
+		$searchTrash = ['query' => '', 'params' => ''];
+		if ($ID != 0 && $ID != '' && !array_key_exists($config['what1'], $record_form)) {
+			$Record_Model = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
 			$value1 = $Record_Model->get($config['what1']);
 		} else {
 			if (array_key_exists($config['what1'], $record_form))
 				$value1 = $record_form[$config['what1']];
 		}
 
-		if ($iD != 0 && $iD != '' && !array_key_exists($config['what2'], $record_form)) {
-			$Record_Model = Vtiger_Record_Model::getInstanceById($iD, $moduleName);
+		if ($ID != 0 && $ID != '' && !array_key_exists($config['what2'], $record_form)) {
+			$Record_Model = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
 			$value2 = $Record_Model->get($config['what2']);
 		} else {
 			if (array_key_exists($config['what2'], $record_form))
@@ -62,9 +63,16 @@ Class DataAccess_unique_value
 				$sql_ext = '';
 				$spacialCondition = '';
 				$sqlSpecial = '';
-				if ($moduleNameID == $where[2] && $iD != 0 && $iD != '') {
-					$sql_param[] = $iD;
+				if ($moduleNameID == $where[2] && $ID != 0 && $ID != '') {
+					$sql_param[] = $ID;
 					$sql_ext = 'AND ' . $index . ' <> ?';
+				}
+				if (empty($config['searchTrash'])) {
+					if ($where[0] != 'vtiger_crmentity')
+						$searchTrash = ['query' => " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $where[0].$index ", 'params' => ' AND vtiger_crmentity.deleted = 0 '];
+					else {
+						$searchTrash = ['query' => '', 'params' => ' vtiger_crmentity.delete = 0 '];
+					}
 				}
 				if ($DestModuleName == 'Leads') {
 					$spacialCondition = ' AND `converted` = 0';
@@ -72,7 +80,7 @@ Class DataAccess_unique_value
 						$sqlSpecial = 'INNER JOIN vtiger_leaddetails ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid ';
 					}
 				}
-				$result = $db->pquery("SELECT $index FROM {$where[0]} $sqlSpecial WHERE {$where[1]} = ? $sql_ext $spacialCondition;", $sql_param, true);
+				$result = $db->pquery("SELECT $index FROM {$where[0]} $sqlSpecial " . $searchTrash['query'] . " WHERE {$where[1]} = ? $sql_ext $spacialCondition " . $searchTrash['params'] . ";", $sql_param, true);
 				$num = $db->num_rows($result);
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
@@ -96,8 +104,8 @@ Class DataAccess_unique_value
 				$sql_ext = '';
 				$spacialCondition = '';
 				$sqlSpecial = '';
-				if ($moduleNameID == $where[2] && $iD != 0 && $iD != '') {
-					$sql_param[] = $iD;
+				if ($moduleNameID == $where[2] && $ID != 0 && $ID != '') {
+					$sql_param[] = $ID;
 					$sql_ext = 'AND ' . $index . ' <> ?';
 				}
 				if ($DestModuleName == 'Leads') {
@@ -106,7 +114,14 @@ Class DataAccess_unique_value
 						$sqlSpecial = 'INNER JOIN vtiger_leaddetails ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid ';
 					}
 				}
-				$result = $db->pquery("SELECT $index FROM {$where[0]} WHERE {$where[1]} = ? $sql_ext;", $sql_param, true);
+				if (empty($config['searchTrash'])) {
+					if ($where[0] != 'vtiger_crmentity')
+						$searchTrash = ['query' => " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $where[0].$index ", 'params' => ' AND vtiger_crmentity.deleted = 0 '];
+					else {
+						$searchTrash = ['query' => '', 'params' => ' vtiger_crmentity.delete = 0 '];
+					}
+				}
+				$result = $db->pquery("SELECT $index FROM {$where[0]} " . $searchTrash['query'] . " WHERE {$where[1]} = ? $sql_ext " . $searchTrash['params'] . ";", $sql_param, true);
 				$num = $db->num_rows($result);
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
@@ -139,7 +154,7 @@ Class DataAccess_unique_value
 
 			if ($permission) {
 				$title = '<strong>' . vtranslate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
-				if (!empty($iD)) {
+				if (!empty($ID)) {
 					$text .= '<form class="form-horizontal"><div class="checkbox">
 							<label>
 								<input type="checkbox" name="cache"> ' . vtranslate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
@@ -155,11 +170,11 @@ Class DataAccess_unique_value
 				'type' => $permission ? 1 : 0];
 		}
 
-		if (!$save_record || $info)
+		if (!$save_record)
 			return Array(
 				'save_record' => $save_record,
 				'type' => $type,
-				'info' => $info ? $info : [
+				'info' => is_array($info) ? $info : [
 					'text' => vtranslate($info, 'DataAccess') . ' <br/ >' . trim($fieldlabel, ','),
 					'ntype' => $typeInfo,
 					'hide' => false,

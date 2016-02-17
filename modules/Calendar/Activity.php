@@ -90,8 +90,6 @@ class Activity extends CRMEntity
 	var $default_order_by = 'date_start';
 	var $default_sort_order = 'ASC';
 
-	//var $groupTable = Array('vtiger_activitygrouprelation','activityid');
-
 	function Activity()
 	{
 		$this->log = LoggerManager::getLogger('Calendar');

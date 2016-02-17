@@ -2075,7 +2075,7 @@ jQuery.Class("Vtiger_List_Js", {
 			searchParams.push(searchInfo);
 		});
 		var url = app.getUrlVar('search_params');
-		if (url != undefined) {
+		if (url != undefined && url.length) {
 			url = jQuery.parseJSON(decodeURIComponent(url));
 			$.each(url[0], function (index, value) {
 				var exist = false;

@@ -54,6 +54,13 @@
 				<input type="text" name="info2" id="info2" class="form-control" value="{$INFO2}">
 			</div>
 			<div class="form-group marginLeftZero marginRightZero">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" id="searchTrash"  name="searchTrash" value="1"{if $SAVED_DATA['searchTrash'] eq 1}checked{/if}><strong>{vtranslate('LBL_SEARCH_TRASH', 'DataAccess')}</strong>
+				</label>
+			</div>
+			</div>
+			<div class="form-group marginLeftZero marginRightZero">
 				<label  class="">{vtranslate('LBL_LOCKS_SAVE', 'DataAccess')}:</label >
 				<div class="radio">
 					<label>

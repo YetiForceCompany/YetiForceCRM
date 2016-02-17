@@ -2,7 +2,7 @@
 
 /**
  * Mail Scanner bind email action 
- * @package YetiForce.MailScanner
+ * @package YetiForce.models
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */

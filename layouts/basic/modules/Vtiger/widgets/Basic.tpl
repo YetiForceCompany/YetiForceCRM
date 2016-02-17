@@ -4,7 +4,15 @@
 			<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 			<div class="row">
 				<div class="col-xs-9">
-					<div class="widgetTitle textOverflowEllipsis"><h4 class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></div>
+					<div class="widgetTitle textOverflowEllipsis">
+						<h4 class="moduleColor_{$WIDGET['label']}">
+							{if $WIDGET['label'] eq ''}
+								{vtranslate(Vtiger_Functions::getModuleName($WIDGET['data']['relatedmodule']),Vtiger_Functions::getModuleName($WIDGET['data']['relatedmodule']))}
+							{else}	
+								{vtranslate($WIDGET['label'],$MODULE_NAME)}
+							{/if}
+						</h4>
+					</div>
 				</div>
 				<div class="col-xs-3">
 					<div class="pull-right">

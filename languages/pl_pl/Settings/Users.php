@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'Users' => 'Użytkownicy',
-	'USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
+	'USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
 	'LBL_COLORS' => 'Kolory',
 	'LBL_COLORS_DESCRIPTION' => ' ',
 	'LBL_UPDATE_COLOR' => 'Zmień kolor',
@@ -33,7 +33,7 @@ $languageStrings = [
 	'LBL_ACTIVE_LDAP_AUTH' => 'Autoryzacja za pomocą LDAP',
 	'LBL_LDAP_SERVER' => 'Adres serwera',
 	'LBL_LDAP_PORT' => 'Port',
-	'LBL_LDAP_USERS' => 'Autlogowanie aktywne dla użytkowników',
+	'LBL_LDAP_USERS' => 'Autologowanie aktywne dla użytkowników',
 	'LBL_SAVE_CONFIG' => 'Zapisano konfigurację',
 	'LBL_LDAP_DOMAIN' => 'Domena (automatycznie dodawana do loginu)',
 	
@@ -54,7 +54,7 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Blokada przeciągania elementów strony',
 ];
 $jsLanguageStrings = [
-    'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
+    'JS_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 	'Changed password successfully' => 'Hasło zmienione poprawnie',
 ];

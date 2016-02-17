@@ -201,6 +201,14 @@ function OSSProjectTemplatesEdit() {
                     return false;
                 }
             },
+			this.registerButtonEvents = function(){
+				$('.addButton').click(function(){
+					app.showModalWindow($('#add_project_modal'));
+				});
+				$('.edit_tpl').click(function(){
+					app.showModalWindow($('#edit_project_modal'));
+				});
+			},
             this.registerEvents = function() {
                 this.getNextStep();
                 this.validProjectForm('project_form'); //validation after save
@@ -209,6 +217,7 @@ function OSSProjectTemplatesEdit() {
                 this.isNumber('project_form'); // input verification in dates (amount of days)
                 this.selectDateEvent(); // input and checkbox active or not	
                 this.enableUninstallButton();
+				this.registerButtonEvents();
             }
 }
 

@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,22 +8,24 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Services_Detail_View extends Products_Detail_View {
-	
-	public function getFooterScripts(Vtiger_Request $request) {
+class Services_Detail_View extends Products_Detail_View
+{
+
+	public function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-		$modulePopUpFile = 'modules.'.$moduleName.'.resources.Edit';
-		$moduleDetailFile = 'modules.'.$moduleName.'.resources.Detail';
-		$moduleRelatedListFile = 'modules.'.$moduleName.'.resources.RelatedList';
+		$modulePopUpFile = 'modules.' . $moduleName . '.resources.Edit';
+		$moduleDetailFile = 'modules.' . $moduleName . '.resources.Detail';
+		$moduleRelatedListFile = 'modules.' . $moduleName . '.resources.RelatedList';
 		unset($headerScriptInstances[$modulePopUpFile]);
 		unset($headerScriptInstances[$moduleDetailFile]);
 		unset($headerScriptInstances[$moduleRelatedListFile]);
 
 		$jsFileNames = array(
-				'modules.Products.resources.Edit',
-				'modules.Products.resources.Detail',
-				'modules.Products.resources.RelatedList',
+			'modules.Products.resources.Edit',
+			'modules.Products.resources.Detail',
+			'modules.Products.resources.RelatedList',
 		);
 		$jsFileNames[] = $modulePopUpFile;
 		$jsFileNames[] = $moduleDetailFile;
