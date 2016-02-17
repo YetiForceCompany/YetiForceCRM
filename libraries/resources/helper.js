@@ -289,9 +289,9 @@ jQuery.Class("Vtiger_Helper_Js", {
 			} else {
 				newDate.setDate(dateInstance.getDate() - 1);
 			}
-		} else if ('+1' == modDay) {
+		} else {
 			if ('Calendar' != type) {
-				newDate.setDate(dateInstance.getDate() + 1);
+				newDate.setDate(dateInstance.getDate() + parseInt(modDay));
 			}
 		}
 		return app.getStringDate(newDate);

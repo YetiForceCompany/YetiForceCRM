@@ -43,14 +43,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
-		$this->viewName = $request->get('viewname');
-		if (empty($this->viewName)) {
-			//If not view name exits then get it from custom view
-			//This can return default view id or view id present in session
-			$customView = new CustomView();
-			$this->viewName = $customView->getViewId($moduleName);
-		}
-
+		$this->viewName = CustomView_Record_Model::getViewId($request);
 		$quickLinkModels = $listViewModel->getSideBarLinks($linkParams);
 		$viewer->assign('QUICK_LINKS', $quickLinkModels);
 		$this->initializeListViewContents($request, $viewer);
@@ -84,9 +77,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEW', $request->get('view'));
-		if ($request->has('viewname')) {
-			$this->viewName = $request->get('viewname');
-			$viewer->assign('VIEWID', $this->viewName);
+		$viewName = CustomView_Record_Model::getViewId($request);
+		if ($viewName) {
+			$viewer->assign('VIEWID', $viewName);
 		}
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		if ($request->isAjax()) {
@@ -135,7 +128,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $this->viewName;
 		$pageNumber = $request->get('page');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
@@ -157,15 +149,15 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$pageNumber = '1';
 		}
 
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $cvId);
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $this->viewName, 'CVID' => $this->viewName);
 		$linkModels = $listViewModel->getListViewMassActions($linkParams);
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('viewid', $request->get('viewname'));
+		$pagingModel->set('viewid', $this->viewName);
 
 		if (!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
@@ -257,7 +249,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	function getRecordsCount(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $request->get('viewname');
+		$cvId = CustomView_Record_Model::getViewId($request);
 		$count = $this->getListViewCount($request);
 
 		$result = array();
@@ -278,8 +270,8 @@ class Vtiger_List_View extends Vtiger_Index_View
 	function getListViewCount(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $request->get('viewname');
-		if (empty($cvId)) {
+		$cvId = CustomView_Record_Model::getViewId($request);
+		if (!$cvId) {
 			$cvId = '0';
 		}
 

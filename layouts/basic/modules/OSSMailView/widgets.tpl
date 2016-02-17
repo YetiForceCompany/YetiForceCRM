@@ -27,13 +27,13 @@
 									<span class="glyphicon glyphicon-share-alt"></span>
 								</button>
 							{else}
-								<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply')}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
+								<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
 									<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
 								</a>
-								<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll')}" title="{vtranslate('LBL_REPLYALLL', 'OSSMailView')}">
+								<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll',$SRECORD,$SMODULENAME)}" title="{vtranslate('LBL_REPLYALLL', 'OSSMailView')}">
 									<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
 								</a>
-								<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward')}" title="{vtranslate('LBL_FORWARD', 'OSSMailView')}">
+								<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}" title="{vtranslate('LBL_FORWARD', 'OSSMailView')}">
 									<span class="glyphicon glyphicon-share-alt"></span>
 								</a>
 							{/if}

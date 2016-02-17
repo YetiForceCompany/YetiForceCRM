@@ -259,11 +259,17 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function save()
 	{
 		$db = PearDatabase::getInstance();
+		//Disabled generating record ID in transaction  in order to maintain data integrity
+		if ($this->get('mode') != 'edit') {
+			$recordId = $db->getUniqueID('vtiger_crmentity');
+			$this->set('newRecord', $recordId);
+		}
+
 		$db->startTransaction();
 		if ($this->getModule()->isInventory()) {
 			$this->initInventoryData();
 		}
-		
+
 		$this->getModule()->saveRecord($this);
 
 		if ($this->getModule()->isInventory() && count($this->inventoryData) > 0) {
@@ -482,7 +488,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 * @param <Array> $recordIds
 	 * @return <Boolean> true/false
 	 */
-	public function transferRelationInfoOfRecords($recordIds = array())
+	public function transferRelationInfoOfRecords($recordIds = [])
 	{
 		if ($recordIds) {
 			$moduleName = $this->getModuleName();

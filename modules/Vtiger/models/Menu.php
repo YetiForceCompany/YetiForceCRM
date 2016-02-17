@@ -194,10 +194,10 @@ class Vtiger_Menu_Model
 		}
 
 		if (!empty($menu['icon'])) {
-			if (strpos($menu['icon'], 'adminIcon-') !== false || strpos($menu['icon'], 'userIcon-') !== false) {
-				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
-			} else if (strpos($menu['icon'], 'glyphicon-') !== false) {
+			if (strpos($menu['icon'], 'glyphicon-') !== false) {
 				return '<span class="glyphicon ' . $menu['icon'] . '" aria-hidden="true"></span>';
+			} elseif (strpos($menu['icon'], 'adminIcon-') !== false || strpos($menu['icon'], 'userIcon-') !== false || strpos($menu['icon'], 'AdditionalIcon-') !== false) {
+				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
 			}
 
 			$icon = vimage_path($menu['icon']);

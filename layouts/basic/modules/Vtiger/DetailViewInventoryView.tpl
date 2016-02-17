@@ -64,10 +64,7 @@
 					{foreach item=FIELD from=$FIELDS[1]}
 						<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
 							{if $FIELD->isSummary()}
-								{assign var="SUM" value=0}
-								{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
-									{assign var="SUM" value=($SUM + $INVENTORY_ROW[$FIELD->get('columnname')])}
-								{/foreach}
+								{assign var="SUM" value=$FIELD->getSummaryValuesFromData($INVENTORY_ROWS)}
 								{CurrencyField::convertToUserFormat($SUM, null, true)}
 							{/if}
 						</td>

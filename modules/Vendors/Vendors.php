@@ -59,7 +59,7 @@ class Vendors extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'vendorname';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'vendorname';
@@ -415,14 +415,17 @@ class Vendors extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
+		$relTables = array(
 			'Products' => array('vtiger_products' => array('vendor_id', 'productid'), 'vtiger_vendor' => 'vendorid'),
 			'Contacts' => array('vtiger_vendorcontactrel' => array('vendorid', 'contactid'), 'vtiger_vendor' => 'vendorid'),
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'vtiger_vendor' => 'vendorid'],
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	// Function to unlink all the dependent entities of the given Entity by Id

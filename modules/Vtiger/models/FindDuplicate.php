@@ -46,9 +46,13 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		$fields = $this->get('fields');
 		$fieldModels = $moduleModel->getFields();
 		if (is_array($fields)) {
-			foreach ($fields as $fieldName) {
-				$fieldModel = $fieldModels[$fieldName];
-				$tableColumns[] = $fieldModel->get('table') . '.' . $fieldModel->get('column');
+			foreach ($fieldModels as $fieldName => $fieldModel) {
+				if (in_array($fieldName, $fields)) {
+					$tableColumns[] = $fieldModel->get('table') . '.' . $fieldModel->get('column');
+					$diffColumns[] = $fieldModel->get('column');
+				} elseif ($fieldModel->isMandatory()) {
+					$additionalColumns[] = $fieldModel->get('table') . '.' . $fieldModel->get('column');
+				}
 			}
 		}
 
@@ -57,11 +61,11 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		$ignoreEmpty = $this->get('ignoreEmpty');
 
 		$focus = CRMEntity::getInstance($module);
-		$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty);
+		$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $additionalColumns);
 
 		$query .= " LIMIT $startIndex, " . ($pageLimit + 1);
 
-		$result = $db->pquery($query, array());
+		$result = $db->query($query);
 		$rows = $db->num_rows($result);
 		$this->result = $result;
 
@@ -87,7 +91,10 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $entries[$i];
 			if ($i != 0) {
-				$slicedArray = array_slice($row, 1);
+				$slicedArray = [];
+				foreach ($diffColumns as $diffColumn) {
+					$slicedArray[$diffColumn] = $row[$diffColumn];
+				}
 				array_walk($temp, 'lower_array');
 				array_walk($slicedArray, 'lower_array');
 				$arrDiff = array_diff($temp, $slicedArray);
@@ -96,15 +103,17 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 					$temp = $slicedArray;
 					$groupRecordCount = 0;
 				}
-				$group = "group" . $groupCount;
+				$group = 'group' . $groupCount;
 			}
 			$fieldValues[$group][$groupRecordCount]['recordid'] = $row['recordid'];
 			foreach ($row as $field => $value) {
-				if ($i == 0 && $field != 'recordid')
+				if (in_array($field, $diffColumns)) {
 					$temp[$field] = $value;
+				}
 				$fieldModel = $fieldModels[$field];
 				$resultRow[$field] = $value;
 			}
+
 			$fieldValues[$group][$groupRecordCount++] = $resultRow;
 		}
 
@@ -131,14 +140,18 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 			$fields = $this->get('fields');
 			$fieldModels = $moduleModel->getFields();
 			if (is_array($fields)) {
-				foreach ($fields as $fieldName) {
-					$fieldModel = $fieldModels[$fieldName];
-					$tableColumns[] = $fieldModel->get('table') . '.' . $fieldModel->get('column');
+				foreach ($fieldModels as $fieldName => $fieldModel) {
+					if (in_array($fieldName, $fields)) {
+						$tableColumns[] = $fieldModel->get('table') . '.' . $fieldModel->get('column');
+					}
+					if ($fieldModel->isMandatory()) {
+						$additionalColumns[] = $fieldModel->get('table') . '.' . $fieldModel->get('column');
+					}
 				}
 			}
 			$focus = CRMEntity::getInstance($module);
 			$ignoreEmpty = $this->get('ignoreEmpty');
-			$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty);
+			$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $additionalColumns);
 
 			$position = stripos($query, 'from');
 			if ($position) {
@@ -149,7 +162,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 					$query = $query . ' FROM ' . $split[$i];
 				}
 			}
-			$result = $db->pquery($query, array());
+			$result = $db->query($query);
 			$rows = $db->query_result($result, 0, 'count');
 		}
 		return $rows;

@@ -1033,4 +1033,28 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		}
 		return self::getInstanceById($viewId);
 	}
+
+	protected static $moduleViewIdCache = false;
+
+	public static function getViewId(Vtiger_Request $request)
+	{
+		if (self::$moduleViewIdCache) {
+			return self::$moduleViewIdCache;
+		}
+
+		$moduleName = $request->getModule();
+		$viewName = $request->get('viewname');
+		if (empty($viewName)) {
+			//If not view name exits then get it from custom view
+			//This can return default view id or view id present in session
+			$customView = new CustomView();
+			$viewName = $customView->getViewId($moduleName);
+		} elseif ($viewName == 'All') {
+			$db = PearDatabase::getInstance();
+			$result = $db->pquery('SELECT cvid FROM vtiger_customview WHERE setdefault = 1 AND entitytype=?', [$moduleName]);
+			$viewName = $db->getSingleValue($result);
+		}
+		self::$moduleViewIdCache = $viewName;
+		return $viewName;
+	}
 }

@@ -24,20 +24,6 @@ class Vtiger_MultiReferenceUpdater_Handler extends VTEventHandler
 					$UITypeModel->removeValue(CRMEntity::getInstance($entityData['sourceModule']), $entityData['sourceRecordId'], $entityData['destinationRecordId']);
 				}
 			}
-		} else if ($eventName == 'vtiger.entity.aftersave.final') {
-			$db = PearDatabase::getInstance();
-			$moduleName = $entityData->getModuleName();
-			/*
-			$modules = Vtiger_MultiReferenceValue_UIType::getRelatedModules($moduleName);
-			foreach ($modules as $module) {
-				$db->insert('s_yf_multireference', [
-					'source_module' => $module,
-					'dest_module' => $moduleName,
-					'lastid' => $entityData->getId(),
-					'type' => 1,
-				]);
-			}
-			 */
 		}
 	}
 }

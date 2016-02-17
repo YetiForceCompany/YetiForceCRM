@@ -62,7 +62,7 @@ class Leads extends CRMEntity
 	//Default Fields for Email Templates -- Pavani
 	var $emailTemplate_defaultFields = array('leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue', 'designation', 'salutation');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'modifiedtime';
+	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'company';
@@ -381,15 +381,18 @@ class Leads extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
+		$relTables = array(
 			'Products' => array('vtiger_seproductsrel' => array('crmid', 'productid'), 'vtiger_leaddetails' => 'leadid'),
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'vtiger_leaddetails' => 'leadid'],
 			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_leaddetails' => 'leadid'),
 			'Services' => array('vtiger_crmentityrel' => array('crmid', 'relcrmid'), 'vtiger_leaddetails' => 'leadid'),
 		);
-		return $rel_tables[$secmodule];
+		if($secmodule === false){
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	// Function to unlink an entity with given Id from another entity
@@ -431,7 +434,7 @@ class Leads extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		
+
 		if (!is_array($with_crmids))
 			$with_crmids = Array($with_crmids);
 		foreach ($with_crmids as $with_crmid) {
@@ -455,12 +458,15 @@ class Leads extends CRMEntity
 		}
 	}
 
-	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false)
+	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false, $additionalColumns = '')
 	{
 		if (is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
-		$selectClause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid," . $tableColumnsString;
+		if (!empty($additionalColumns)) {
+			$additionalColumns = ',' . implode(',', $additionalColumns);
+		}
+		$selectClause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid," . $tableColumnsString . $additionalColumns;
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
@@ -501,7 +507,7 @@ class Leads extends CRMEntity
 			}
 			$sub_query .= " WHERE crm.deleted=0 GROUP BY $selectedColumns HAVING COUNT(*)>1";
 		} else {
-			$sub_query = "SELECT $tableColumnsString $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
+			$sub_query = "SELECT $tableColumnsString $additionalColumns $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
 		}
 
 		$i = 1;

@@ -314,7 +314,9 @@ class Vtiger_PackageExport
 		$this->export_CustomViews($this->moduleInstance);
 
 		// Export module inventory fields
-		$this->exportInventory();
+		if ($tabInfo['type'] == 1) {
+			$this->exportInventory();
+		}
 
 		// Export Sharing Access
 		$this->export_SharingAccess($this->moduleInstance);

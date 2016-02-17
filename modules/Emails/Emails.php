@@ -57,7 +57,7 @@ class Emails extends CRMEntity {
 	var $column_fields = Array();
 	var $sortby_fields = Array('subject', 'date_start', 'saved_toid');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'date_start';
+	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.

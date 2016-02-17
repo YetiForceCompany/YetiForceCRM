@@ -520,7 +520,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$i = 1;
 		foreach ($whereCondition as $fieldName => $fieldValue) {
-			$condition .= " $fieldName = '$fieldValue' ";
+			if (is_array($fieldValue) && $fieldValue['comparison'] && in_array(strtoupper($fieldValue['comparison']), ['IN', 'NOT IN'])) {
+				$condition .= " $fieldName " . $fieldValue['comparison'] . ' (' . $fieldValue['value'] . ') ';
+			} else {
+				$condition .= " $fieldName = '$fieldValue' ";
+			}
 			if ($appendAndCondition && ($i++ != $count)) {
 				$condition .= " AND ";
 			}
@@ -568,16 +572,12 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relModuleName = $this->getRelatedModuleModel()->getName();
 		$moduleName = $this->getParentRecordModel()->getModuleName();
 
-		$query = 'SELECT * FROM `u_yf_favorites` WHERE u_yf_favorites.module = "' . $moduleName . '" 
+		$query = 'SELECT `relcrmid` FROM `u_yf_favorites` WHERE u_yf_favorites.module = "' . $moduleName . '" 
 		AND u_yf_favorites.relmodule = "' . $relModuleName . '" 
 		AND u_yf_favorites.crmid = ' . $recordId . '
 		AND u_yf_favorites.userid = ' . $currentUser->getId();
 		$result = $db->query($query);
-		$favorites = [];
-		while ($row = $db->getRow($result)) {
-			$favorites[$row['relcrmid']] = $row;
-		}
-		return $favorites;
+		return $db->getArrayColumn($result, 'relcrmid');
 	}
 
 	public function getTreeViewModel()

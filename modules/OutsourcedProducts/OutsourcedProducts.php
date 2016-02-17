@@ -99,7 +99,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity {
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
 
-	var $default_order_by = 'productname';
+	var $default_order_by = '';
 	var $default_sort_order='ASC';
 
 	var $unit_price;
