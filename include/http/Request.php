@@ -96,6 +96,41 @@ class Vtiger_Request
 		return Vtiger_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
 	}
 
+	function getForHtml($key, $defvalue = '')
+	{
+		$value = $defvalue;
+		if (isset($this->valuemap[$key])) {
+			$value = $this->valuemap[$key];
+		}
+		if ($value === '' && isset($this->defaultmap[$key])) {
+			$value = $this->defaultmap[$key];
+		}
+
+		$isJSON = false;
+		if (is_string($value)) {
+			// NOTE: Zend_Json or json_decode gets confused with big-integers (when passed as string)
+			// and convert them to ugly exponential format - to overcome this we are performin a pre-check
+			if (strpos($value, "[") === 0 || strpos($value, "{") === 0) {
+				$isJSON = true;
+			}
+		}
+		if ($isJSON) {
+			$oldValue = Zend_Json::$useBuiltinEncoderDecoder;
+			Zend_Json::$useBuiltinEncoderDecoder = false;
+			$decodeValue = Zend_Json::decode($value);
+			if (isset($decodeValue)) {
+				$value = $decodeValue;
+			}
+			Zend_Json::$useBuiltinEncoderDecoder = $oldValue;
+		}
+
+		//Handled for null because vtlib_purifyForHtml returns empty string
+		if (!empty($value)) {
+			$value = vtlib_purifyForHtml($value);
+		}
+		return $value;
+	}
+	
 	/**
 	 * Get data map
 	 */
