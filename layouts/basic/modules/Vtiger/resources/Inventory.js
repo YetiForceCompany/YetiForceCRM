@@ -278,22 +278,24 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.getInventoryItemsContainer().find(thisInstance.rowClass).each(function (index) {
 			sum += app.parseNumberToFloat($(this).find('.' + field).val());
 		});
-		if(element){
-			element.text(app.parseNumberToShow(sum));
-		}else{
-			return sum;
-		}
+		element.text(app.parseNumberToShow(sum));
 	},
 	calculatMarginPSummary: function () {
 		var thisInstance = this;
-		var sumPurchase = thisInstance.calculatSummary(false, 'purchase');
-		var sumMargin = thisInstance.calculatSummary(false, 'margin');
-		var sumMarginP = '0';
-		if (sumPurchase !== 0) {
-			sumMarginP = (sumMargin / sumPurchase) * 100;
+		var sumRow = thisInstance.getInventoryItemsContainer().find('tfoot');
+		if (jQuery('[data-sumfield="netPrice"]', sumRow).length) {
+			var netPrice = sumRow.find('[data-sumfield="netPrice"]').text();
+		} else {
+			var netPrice = sumRow.find('[data-sumfield="totalPrice"]').text();
 		}
-		var summaryMarginP = thisInstance.getInventoryItemsContainer().find('tfoot .wisableTd[data-sumfield="marginP"]');
-		summaryMarginP.text(app.parseNumberToShow(sumMarginP));
+		netPrice = app.parseNumberToFloat(netPrice);
+		var purchase = app.parseNumberToFloat(sumRow.find('[data-sumfield="purchase"]').text());
+		var margin = netPrice - purchase;
+		var marginp = '0';
+		if (purchase !== 0) {
+			marginp = (margin / purchase) * 100;
+		}
+		sumRow.find('[data-sumfield="marginP"]').text(app.parseNumberToShow(marginp))
 	},
 	calculatDiscountSummary: function () {
 		var thisInstance = this;
