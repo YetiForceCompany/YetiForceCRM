@@ -9,19 +9,19 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'CustomView'	=> 'Filtry - konfiguracja',
-	'LBL_MODULE_DESC'	=> 'Narzędzie pozwala zarządzać filtrami dla modułów, które mają rekordy i obsługują standardowe filtrowanie w systemie YetiForce.',
-	'Module'	=> 'Moduł',
-	'ViewName'	=> 'Nazwa widoku',
-	'SetDefault'	=> 'Domyślny',
-	'Privileges'	=> 'Możliwa edycja',
-	'Delete'	=> 'Usuń',
-	'Delete CustomView'	=> 'Widok został usunięty',
-	'Saving CustomView'	=> 'Widok został zapisany',
-	'Actions'	=> 'Akcje',
-	'Edit'	=> 'Edycja',
+	'CustomView' => 'Filtry - konfiguracja',
+	'LBL_MODULE_DESC' => 'Narzędzie pozwala zarządzać filtrami dla modułów, które mają rekordy i obsługują standardowe filtrowanie w systemie YetiForce.',
+	'Module' => 'Moduł',
+	'ViewName' => 'Nazwa widoku',
+	'SetDefault' => 'Domyślny',
+	'Privileges' => 'Możliwa edycja',
+	'Delete' => 'Usuń',
+	'Delete CustomView' => 'Widok został usunięty',
+	'Saving CustomView' => 'Widok został zapisany',
+	'Actions' => 'Akcje',
+	'Edit' => 'Edycja',
 ];
 $jsLanguageStrings = [
-	'Saving changes'	=> 'Trwa aktualizacja w systemie...',
+	'Saving changes' => 'Trwa aktualizacja w systemie...',
 	'Update labels'	=> 'Aktualizuj',
 ];

@@ -501,7 +501,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function delete($param)
 	{
 		$db = PearDatabase::getInstance();
-		$db->delete($this->getTableName('fields'), '`id` = ?', [$param['id']]);
+		$status = $db->delete($this->getTableName('fields'), '`id` = ?', [$param['id']]);
 		if ($status) {
 			$query = 'ALTER TABLE `' . $this->getTableName('data') . '` DROP COLUMN `' . $param['column'] . '`;';
 			return $db->query($query);
