@@ -29,8 +29,7 @@ class KnowledgeBase_Save_Action extends Vtiger_Save_Action
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			if ($request->has($fieldName)) {
-				$value = $request->getRaw($fieldName, null);
-				$fieldValue = vtlib_purifyForHtml($value);
+				$fieldValue = $request->getForHtml($fieldName, null);
 			} else if ($fieldModel->getDisplayType() == 5) {
 				$fieldValue = $recordModel->get($fieldName);
 			} else {
