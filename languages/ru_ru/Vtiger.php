@@ -588,7 +588,7 @@ $languageStrings = [
 	'LBL_MERGE' => 'Объединить',
 	'LBL_MERGE_RECORDS_DESCRIPTION' => 'Основная запись будет сохранена после слияния. Вы можете выбрать столбец для сохранения значений.<br/>Другая запись будет удалена, но соответствующая информация будет объединена.',
 	'LBL_MERGE_RECORDS_IN' => 'Объединение записей в',
-	'LBL_MERGE_SELECT' => 'Объединить выбранные',
+	'LBL_MERGE_SELECT' => 'Select for merging',
 	'LBL_MERGING_CRITERIA_SELECTION' => 'Критерии поиска',
 	'LBL_MINE' => 'Мои',
 	'LBL_MINI_LIST' => 'Виджет по фильтрам',
@@ -1289,6 +1289,7 @@ $languageStrings = [
 	'LBL_SET_RECORD_STATUS' => 'Установить статус',
 	'LBL_SELECT_SOME_OPTIONS' => 'Выберите опцию',
 	'LBL_NO_DISCOUNTS' => 'Нет доступных скидок',
+	'LBL_ITEM_NUMBER' => 'No.',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Экспорт в PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Создать PDF',
@@ -1682,4 +1683,5 @@ $jsLanguageStrings = [
 	'JS_RELATION' => 'Отношение',
 	'JS_PROCESS' => 'Процесс',
 	'JS_SUB_PROCESS' => 'Subprocess',
+	'JS_SAVE_SELECTED_ITEMS_ALERT' => 'You selected __LENGTH__ items. Are you sure you want to save?',
 ];

@@ -16,6 +16,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'marginp';
 	protected $dbType = 'decimal(27,8) DEFAULT 0';
 	protected $summationValue = true;
+	protected $colSpan = 15;
 
 	/**
 	 * Getting value to display

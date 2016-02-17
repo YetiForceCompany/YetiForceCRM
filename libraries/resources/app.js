@@ -734,7 +734,17 @@ var app = {
 			minutestep: 5,
 			ampmSubmit: false,
 		};
-		$('.clockPicker').clockpicker(params);
+		var elementClockBtn = $('.clockPicker')
+		var parentTimeElem = elementClockBtn.closest('.time');
+		jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
+			var elem = jQuery(e.currentTarget);
+			e.stopPropagation();
+			var tempElement = elem.closest('.time').find('input.clockPicker');
+			if(tempElement.attr('disabled') != 'disabled'){
+				tempElement.clockpicker('show');
+			}
+		});
+		elementClockBtn.clockpicker(params);
 	},
 	/**
 	 * Function which will register time fields
@@ -1112,7 +1122,7 @@ var app = {
 		var toTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
 		return Math.floor(((toTime - fromTime) / (1000 * 60 * 60 * 24))) + 1;
 	},
-	saveAjax: function (mode, param) {
+	saveAjax: function (mode, param, addToParams) {
 		var aDeferred = jQuery.Deferred();
 		var params = {};
 		params['module'] = app.getModuleName();
@@ -1120,6 +1130,11 @@ var app = {
 		params['action'] = 'SaveAjax';
 		params['mode'] = mode;
 		params['param'] = param;
+		if(addToParams != undefined){
+			for(var i in addToParams){
+				params[i] = addToParams[i];
+			}
+		}
 		AppConnector.request(params).then(
 				function (data) {
 					aDeferred.resolve(data);
@@ -1168,15 +1183,14 @@ var app = {
 	},
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
-		var groupingSeparator = app.getMainParams('currencyGroupingSeparator');
-		if (val == undefined) {
+		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
+		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
+		if (val == undefined || val == '') {
 			val = 0;
 		}
 		val = val.toString();
-		if (app.getMainParams('currencyDecimalSeparator') == ',') {
-			val = val.replace(/\s/g, "").replace(",", ".");
-		}
-		val = val.split(groupingSeparator).join("");
+		val = val.split(groupSeparator).join("");
+		val = val.replace(/\s/g, "").replace(decimalSeparator, ".");
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {

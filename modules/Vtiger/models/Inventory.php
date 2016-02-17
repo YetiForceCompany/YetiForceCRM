@@ -124,23 +124,16 @@ class Vtiger_Inventory_Model
 	 * @param int $record Record ID
 	 * @return array
 	 */
-	public function getAccountDiscount($moduleName, $record)
+	public function getAccountDiscount($relatedRecord)
 	{
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$accountField = $inventoryField->getReferenceField();
 		$discount = 0;
 		$discountField = 'discount';
 		$name = '';
-		if ($accountField) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$relationFieldValue = $recordModel->get($accountField);
-			if ($relationFieldValue != 0) {
-				$accountRecordModel = Vtiger_Record_Model::getInstanceById($relationFieldValue);
-				$discount = $accountRecordModel->get($discountField);
-				$name = $accountRecordModel->getName();
-			}
+		if (!empty($relatedRecord)) {
+			$accountRecordModel = Vtiger_Record_Model::getInstanceById($relatedRecord);
+			$discount = $accountRecordModel->get($discountField);
+			$name = $accountRecordModel->getName();
 		}
-
 		return ['discount' => $discount, 'name' => $name];
 	}
 
@@ -203,7 +196,7 @@ class Vtiger_Inventory_Model
 					defaultvalue varchar(255),sequence int(10) unsigned NOT NULL, block tinyint(1) unsigned NOT NULL,displaytype tinyint(1) unsigned NOT NULL DEFAULT '1', params text, colspan tinyint(1) unsigned NOT NULL DEFAULT '1')";
 					break;
 				case '_invmap':
-					$sql = '(module varchar(50) PRIMARY KEY,field varchar(50),tofield varchar(50))';
+					$sql = '(module varchar(50) NOT NULL,field varchar(50) NOT NULL,tofield varchar(50) NOT NULL,PRIMARY KEY (`module`,`field`,`tofield`))';
 					break;
 			}
 			if (!Vtiger_Utils::CheckTable($basetable . $ends)) {

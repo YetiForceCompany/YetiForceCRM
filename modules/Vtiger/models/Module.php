@@ -175,6 +175,9 @@ class Vtiger_Module_Model extends Vtiger_Module
 				$focus->column_fields[$fieldName] = decode_html($fieldValue);
 			}
 		}
+		if($this->isInventory()){
+			$focus->inventoryData = $recordModel->getInventoryData();
+		}
 		$focus->mode = $recordModel->get('mode');
 		$focus->id = $recordModel->getId();
 		$focus->newRecord = $recordModel->get('newRecord');
@@ -502,6 +505,19 @@ class Vtiger_Module_Model extends Vtiger_Module
 		foreach ($fields as $field) {
 			$fieldId = $field->getId();
 			$fieldList[$fieldId] = $field;
+		}
+		return $fieldList;
+	}
+
+	public function getFieldsByDisplayType($type)
+	{
+		$fields = $this->getFields();
+		$fieldList = [];
+		foreach ($fields as $field) {
+			$displayType = $field->get('displaytype');
+			if ($displayType == $type) {
+				$fieldList[$field->getName()] = $field;
+			}
 		}
 		return $fieldList;
 	}
@@ -1874,6 +1890,21 @@ class Vtiger_Module_Model extends Vtiger_Module
 								$fieldValue = $recordModel->get($fieldName);
 								if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
 									$data[$fieldMap[$referenceModule]] = $fieldValue;
+							}
+						}
+					}
+				}
+			}
+			$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
+			if (!empty($mappingRelatedField)) {
+				foreach ($mappingRelatedField as $relatedModules) {
+					foreach ($relatedModules as $relatedModule => $relatedFields) {
+						if ($relatedModule == $sourceModule) {
+							foreach ($relatedFields as $to => $from) {
+								$fieldValue = $recordModel->get($from[0]);
+								if (!empty($fieldValue)) {
+									$data[$to] = $fieldValue;
+								}
 							}
 						}
 					}

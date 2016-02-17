@@ -39,7 +39,7 @@ class SCalculations_Modal_View extends Vtiger_BasicModal_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
-		$viewer->assign('RESTRICTS_ITEM', ['PLL_DISCARDED', 'PLL_ACCEPTED']);
+		$viewer->assign('RESTRICTS_ITEM', ['PLL_CANCELLED', 'PLL_COMPLETED']);
 		$this->preProcess($request);
 		$viewer->view('Modal.tpl', $moduleName);
 		$this->postProcess($request);

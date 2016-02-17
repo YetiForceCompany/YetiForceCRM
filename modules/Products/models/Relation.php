@@ -30,8 +30,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		if (method_exists($parentModuleModel, $functionName)) {
 			$query = $parentModuleModel->$functionName($recordModel, $relatedModuleModel);
 		} else {
-			$result = $focus->$functionName($recordModel->getId(), $parentModuleModel->getId(), $relatedModuleModel->getId(), $actions);
-			$query = $result['query'];
+			$query = $parentModuleModel->getRelationQuery($recordModel->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
 		}
 
 		//modify query if any module has summary fields, those fields we are displayed in related list of that module
@@ -49,9 +48,11 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		}
 		if ($functionName == 'get_product_pricebooks') {
 			$selectColumnSql = $selectColumnSql . ' ,vtiger_pricebookproductrel.listprice, vtiger_pricebook.currency_id, vtiger_products.unit_price';
-		}
-		if ($functionName == 'get_service_pricebooks') {
+		} elseif ($functionName == 'get_service_pricebooks') {
 			$selectColumnSql = $selectColumnSql . ' ,vtiger_pricebookproductrel.listprice, vtiger_pricebook.currency_id, vtiger_service.unit_price';
+		} elseif ($functionName == 'get_many_to_many' && $relatedModuleName == 'IStorages') {
+			$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $parentModuleName);
+			$selectColumnSql = $selectColumnSql . ' ,' . $referenceInfo['table'] . '.qtyinstock';
 		}
 		if ($selectColumnSql && $newQuery[1])
 			$query = $selectColumnSql . ' FROM ' . $newQuery[1];

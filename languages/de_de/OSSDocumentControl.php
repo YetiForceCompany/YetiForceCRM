@@ -3,7 +3,7 @@
 
 $languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Konditionen hinzufügen',
-	'OSSProjectTemplates_manual'	=>	'OSS Projekt Vorlagen',
+	'OSSProjectTemplates_manual' => 'OSS Projekt Vorlagen',
     'LBL_NEW_TPL' => 'Neues Dokument',
 	 'OSSDocumentControl' => 'Dokumentenkontrolle',
     'LBL_MODULE_NAME' => 'Modulname',

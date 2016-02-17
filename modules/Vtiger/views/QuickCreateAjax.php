@@ -45,21 +45,25 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
 		$recordStructure = $recordStructureInstance->getStructure();
-		$mappingRelatedField = $moduleModel->getMappingRelatedField($moduleName);
+		$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
 
+		$fieldValues = [];
 		$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
-		foreach ($sourceRelatedField as $field => &$value) {
-			if (isset($recordStructure[$field])) {
-				$fieldvalue = $recordStructure[$field]->get('fieldvalue');
+		foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
+			if (isset($recordStructure[$fieldName])) {
+				$fieldvalue = $recordStructure[$fieldName]->get('fieldvalue');
 				if (empty($fieldvalue)) {
-					$recordStructure[$field]->set('fieldvalue', $value);
-					unset($sourceRelatedField[$field]);
+					$recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
 				}
+			} else {
+				$fieldModel = $fieldList[$fieldName];
+				$fieldModel->set('fieldvalue', $fieldValue);
+				$fieldValues[$fieldName] = $fieldModel;
 			}
 		}
 
 		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($mappingRelatedField));
-		$viewer->assign('SOURCE_RELATED_FIELD', $sourceRelatedField);
+		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('SINGLE_MODULE', 'SINGLE_' . $moduleName);

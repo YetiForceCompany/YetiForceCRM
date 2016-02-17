@@ -23,7 +23,7 @@
 			{assign var="CURRENCY_SYMBOLAND" value=Vtiger_Functions::getCurrencySymbolandRate($CURRENCY)}
 		{/if}
 		<input name="inventoryItemsNo" id="inventoryItemsNo" type="hidden" value="{count($INVENTORY_ROWS)}" />
-		<input id="accountReferenceField" type="hidden" value="{$ACCOUNT_REFERENCE_FIELD}" />
+		<input id="accountReferenceField" type="hidden" value="{$INVENTORY_FIELD->getReferenceField()}" />
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}" />
 		<div class="table-responsive">
 			<table class="table table-bordered inventoryHeader blockContainer">
@@ -34,14 +34,14 @@
 								{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
 								<span class="btn-group">
 									<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
-											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addButton">
+											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addItem">
 										<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD',$MODULE)} {vtranslate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 									</button>
 								</span>
 							{/foreach}
 						</th>
 						{foreach item=FIELD from=$FIELDS[0]}
-							<th colspan="{$FIELD->get('colspan')}" {if !$FIELD->isEditable()}class="hide"{/if}>
+							<th {if !$FIELD->isEditable()}class="hide"{/if}>
 								<span class="inventoryLineItemHeader">{vtranslate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
@@ -56,9 +56,9 @@
 				{if count($FIELDS[1]) neq 0}
 					<thead>
 						<tr>
-							<th style="min-width: 50px">&nbsp;&nbsp;</th>
+							<th style="width: 5%;">&nbsp;&nbsp;</th>
 							{foreach item=FIELD from=$FIELDS[1]}
-								<th colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
+								<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan') * 0.95}%"{/if} class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
 									{vtranslate($FIELD->get('label'), $MODULE)}
 								</th>
 							{/foreach}
@@ -73,9 +73,9 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td class="hideTd" style="min-width: 50px">&nbsp;&nbsp;</td>
+						<td colspan="1" class="hideTd" style="min-width: 50px">&nbsp;&nbsp;</td>
 						{foreach item=FIELD from=$FIELDS[1]}
-							<td colspan="{$FIELD->get('colspan')}" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight 
+							<td colspan="1" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight 
 								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
 								{if $FIELD->isSummary()}
 									{assign var="SUM" value=0}

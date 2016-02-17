@@ -16,7 +16,7 @@
 <div class="checkbox">
 	<label>
 		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=0 />
-		<input {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if} title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox" name="{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+		<input {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox" name="{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 		{if $FIELD_MODEL->get('fieldvalue') eq true} checked
 		{/if} data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} />
 	</label>

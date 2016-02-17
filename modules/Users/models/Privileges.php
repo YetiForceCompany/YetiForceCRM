@@ -236,24 +236,33 @@ class Users_Privileges_Model extends Users_Record_Model
 	/**
 	 * Function to set Shared Owner
 	 */
-	public static function setSharedOwner($recordModel)
+	public static function setSharedOwner(Vtiger_Record_Model $recordModel)
 	{
+		$saveFull = true;
+
 		$db = PearDatabase::getInstance();
 		$userIds = $recordModel->get('shownerid');
 		$record = $recordModel->getId();
+		$moduleName = $recordModel->getModuleName();
 
-		$db->delete('u_yf_crmentity_showners', 'crmid = ?', [$record]);
-		if (empty($userIds)) {
-			return false;
+		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		if ($request->get('action') == 'SaveAjax' && $request->get('field') != 'shownerid') {
+			$saveFull = false;
 		}
-		if (!is_array($userIds) && $userIds) {
-			$userIds = [$userIds];
-		}
-		foreach ($userIds as $userId) {
-			$db->insert('u_yf_crmentity_showners', [
-				'crmid' => $record,
-				'userid' => $userId,
-			]);
+		if ($saveFull) {
+			$db->delete('u_yf_crmentity_showners', 'crmid = ?', [$record]);
+			if (empty($userIds)) {
+				return false;
+			}
+			if (!is_array($userIds) && $userIds) {
+				$userIds = [$userIds];
+			}
+			foreach ($userIds as $userId) {
+				$db->insert('u_yf_crmentity_showners', [
+					'crmid' => $record,
+					'userid' => $userId,
+				]);
+			}
 		}
 	}
 

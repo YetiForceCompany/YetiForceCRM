@@ -180,6 +180,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				}
 				$componentName = $view;
 			}
+			define('_PROCESS_TYPE',$componentType);
+			define('_PROCESS_NAME',$componentName);
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
 			$handler = new $handlerClass();
 			if ($handler) {

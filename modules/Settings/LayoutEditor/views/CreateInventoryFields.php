@@ -21,8 +21,9 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('type');
 		$block = $request->get('block');
-		$models = Vtiger_InventoryField_Model::getAllFields($moduleName);
 		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$models = $instance->getAllFields();
+		
 		$fieldsName = [];
 		foreach ($instance->getFields(1) AS $fields) {
 			$fieldsName = array_merge(array_keys($fields), $fieldsName);
@@ -41,15 +42,16 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 		$type = $request->get('mtype');
 		$moduleName = $request->get('type');
 		$id = $request->get('id');
+		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
 		if ($id) {
-			$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
 			$fieldInstance = $instance->getFields(false, [$id]);
 		} else {
-			$models = Vtiger_InventoryField_Model::getAllFields($moduleName);
+			$models = $instance->getAllFields();
 			$fieldInstance = $models[$type];
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_MODEL', $fieldInstance);
+		$viewer->assign('INVENTORY_MODEL', $instance);
+		$viewer->assign('FIELD_INSTANCE', $fieldInstance);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ID', $request->get('id'));

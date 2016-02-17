@@ -110,9 +110,8 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$detailViewBasiclinks = $linkModelListDetails['DETAILVIEWBASIC'];
 		unset($linkModelListDetails['DETAILVIEWBASIC']);
 
-		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && !$lockEdit) {
+		if ($recordModel->isEditable()) {
 			$editViewLinks = array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
@@ -124,7 +123,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
 		}
 		
-		if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
+		if ($recordModel->isDeletable()) {
 			$deletelinkModel = array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => sprintf("%s %s", getTranslatedString('LBL_DELETE', $moduleName), vtranslate('SINGLE_' . $moduleName, $moduleName)),

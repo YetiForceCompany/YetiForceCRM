@@ -45,5 +45,5 @@ $languageStrings = [
 	'Incoming' => 'Przychodząca odebrana',
 	'Missed' => 'Przychodząca nieodebrana',
 	'Voicemail' => 'Przychodząca poczta głosowa',
-	'Call history'	=>	'Call History',
+	'Call history'	=> 'Call History',
 ];

@@ -17,21 +17,16 @@
 					{if $SHOW_CREATOR_DETAIL}
 						<th>{vtranslate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
 						<th>{vtranslate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
-					{/if}
-					{if $SHOW_COMMENT}
+						{/if}
+						{if $SHOW_COMMENT}
 						<th>{vtranslate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
-					{/if}
+						{/if}
 				</tr>
 			</thead>
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 				<tr class="listViewEntries" data-id="{$RELATED_RECORD->getId()}"
-					{if $RELATED_MODULE_NAME eq 'Calendar'}
-						{assign var=DETAILVIEWPERMITTED value=isPermitted($RELATED_MODULE->get('name'), 'DetailView', $RELATED_RECORD->getId())}
-						{if $DETAILVIEWPERMITTED eq 'yes'}
-							data-recordUrl="{$RELATED_RECORD->getDetailViewUrl()}"
-						{/if}
-					{else}
-						data-recordUrl="{$RELATED_RECORD->getDetailViewUrl()}"
+					{if $RELATED_RECORD->isViewable()}
+						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 					{/if}>
 					{assign var=COUNT value=0}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
@@ -61,37 +56,50 @@
 										{if $RELATED_MODULE_NAME eq 'Calendar'}
 											{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
 											{if $IS_EDITABLE && in_array($RELATED_RECORD->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
-												<a class="showModal" data-url="{$RELATED_RECORD->getActivityStateModalUrl()}"><span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;
-												{/if}
-												{if $DETAILVIEWPERMITTED eq 'yes'}
-												<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
-												{/if}
-											{else}
-											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
+												<a class="showModal" data-url="{$RELATED_RECORD->getActivityStateModalUrl()}">
+													<span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span>
+												</a>&nbsp;
 											{/if}
-											{if $IS_EDITABLE}
-												{if $RELATED_MODULE_NAME eq 'PriceBooks'}
+											{if $RELATED_RECORD->isViewable()}
+												<a href="{$RELATED_RECORD->getFullDetailViewUrl()}">
+													<span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span>
+												</a>&nbsp;
+											{/if}
+										{else}
+											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}">
+												<span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span>
+											</a>&nbsp;
+										{/if}
+										{if $IS_EDITABLE}
+											{if $RELATED_MODULE_NAME eq 'PriceBooks'}
 												<a data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"
 												   class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
 													<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>
 												</a>
 											{elseif $RELATED_MODULE_NAME eq 'Calendar'}
-												{if isPermitted($RELATED_MODULE->get('name'), 'EditView', $RELATED_RECORD->getId()) eq 'yes'}
-													<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
-													{/if}
-												{else}
-												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
+												{if $RELATED_MODULE->isEditable()}
+													<a href='{$RELATED_RECORD->getEditViewUrl()}'>
+														<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
+													</a>
 												{/if}
+											{else}
+												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
+												</a>
 											{/if}
-											{if $IS_DELETABLE}
-												{if $RELATED_MODULE_NAME eq 'Calendar'}
-													{if isPermitted($RELATED_MODULE->get('name'), 'Delete', $RELATED_RECORD->getId()) eq 'yes'}
-													<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
-													{/if}
-												{else}
-												<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+										{/if}
+										{if $IS_DELETABLE}
+											{if $RELATED_MODULE_NAME eq 'Calendar'}
+												{if $RELATED_MODULE->isDeletable()}
+													<a class="relationDelete">
+														<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
+													</a>
 												{/if}
+											{else}
+												<a class="relationDelete">
+													<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
+												</a>
 											{/if}
+										{/if}
 									</span>
 								</div>
 							</td>

@@ -70,14 +70,13 @@ class Faq_Edit_View extends Vtiger_Edit_View {
 						$fieldvalue = $block[$field]->get('fieldvalue');
 						if (empty($fieldvalue)) {
 							$block[$field]->set('fieldvalue', $value);
-							unset($sourceRelatedField[$field]);
 						}
 					}
 				}
 			}
 		}
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',Zend_Json::encode($picklistDependencyDatasource));
-		$viewer->assign('MAPPING_RELATED_FIELD',Zend_Json::encode($moduleModel->getMappingRelatedField($moduleName)));
+		$viewer->assign('MAPPING_RELATED_FIELD',Zend_Json::encode($moduleModel->getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);

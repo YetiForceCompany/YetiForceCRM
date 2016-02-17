@@ -15,8 +15,9 @@
 					</p>
 					<select class="select2 regionalTax" name="regionalTax">
 						{foreach item=TAX from=$GROUP_TAXS}
-							<option value="{$TAX['value']}">
-								{$TAX['value']}% - {vtranslate({$TAX['name']}, $MODULE)}
+							{assign var=VALUE value=CurrencyField::convertToUserFormat($TAX['value'], null, true)}
+							<option value="{$VALUE}">
+								{$VALUE}% - {vtranslate({$TAX['name']}, $MODULE)}
 							</option>
 						{/foreach}
 					</select>

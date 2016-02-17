@@ -13,8 +13,8 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $name = '';
 	protected $defaultLabel = '';
 	protected $defaultValue = '';
-	protected $columnName = '';
-	protected $colSpan = 1;
+	protected $columnName = '-';
+	protected $colSpan = 10;
 	protected $dbType = 'varchar(100)';
 	protected $customColumn = [];
 	protected $summationValue = false;
@@ -52,6 +52,11 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	public function getParams()
 	{
 		return $this->params;
+	}
+
+	public function getParamsConfig()
+	{
+		return Zend_Json::decode($this->get('params'));
 	}
 
 	/**
@@ -219,6 +224,18 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Function to check whether the current field is editable
+	 * @return <Boolean> - true/false
+	 */
+	public function isColumnType()
+	{
+		if (empty($this->columnName) || $this->columnName == '-') {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Getting value to display
 	 * @return array
 	 */
@@ -230,7 +247,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 		}
 		return $modulesNames;
 	}
-	
+
 	public function getSummaryValuesFromData($data)
 	{
 		$sum = 0;
@@ -240,5 +257,22 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 			}
 		}
 		return $sum;
+	}
+
+	public function getMapDetail($returInstance = false)
+	{
+		$inventoryField = Vtiger_InventoryField_Model::getInstance($this->get('module'));
+		$fields = $inventoryField->getAutoCompleteFields();
+		$name = $this->getColumnName();
+		if (isset($fields[$name])) {
+			$mapDetail = $fields[$name];
+			if ($returInstance) {
+				$moduleModel = Vtiger_Module_Model::getInstance($mapDetail['module']);
+				return Vtiger_Field_Model::getInstance($mapDetail['field'], $moduleModel);
+			} else {
+				return $mapDetail;
+			}
+		}
+		return false;
 	}
 }

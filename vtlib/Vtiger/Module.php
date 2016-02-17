@@ -92,7 +92,9 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 			$refTableName = Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
 			if (!Vtiger_Utils::CheckTable($refTableName['table'])) {
 				Vtiger_Utils::CreateTable(
-					$refTableName['table'], '(crmid INT(19) ,relcrmid INT(19),KEY crmid (crmid),KEY relcrmid (relcrmid))', true);
+					$refTableName['table'], '(crmid INT(19) ,relcrmid INT(19),KEY crmid (crmid),KEY relcrmid (relcrmid),'
+					. ' CONSTRAINT `'.$refTableName['table'].'_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,'
+					. ' CONSTRAINT `'.$refTableName['table'].'_ibfk_2` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)', true);
 			}
 		}
 		self::log("Setting relation with $moduleInstance->name [$useactions_text] ... DONE");

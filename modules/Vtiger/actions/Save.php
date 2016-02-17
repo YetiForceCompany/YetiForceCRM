@@ -11,12 +11,20 @@
 class Vtiger_Save_Action extends Vtiger_Action_Controller
 {
 
+	protected $record = false;
+
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record)) {
+		if (!empty($record)) {
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		} else {
+			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		}
+
+		if (!$recordModel->isEditable()) {
 			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -103,13 +111,11 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$modelData = $recordModel->getData();
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$modelData = $recordModel->getData();
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getCleanInstance($moduleName);
 			$recordModel->set('mode', '');
 		}
 

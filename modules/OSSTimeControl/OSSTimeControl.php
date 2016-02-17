@@ -147,7 +147,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 
 	/** Function to unlink an entity with given Id from another entity */
 	// TODO This function was placed here because uitype fields (67, 68, 69) exist in this module. Once the way of getting modules for these fields is improved, you should correct the parent::unlinkRelationship() function, and remove this one.
-	function unlinkRelationship($id, $returnModule, $returnId)
+	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $log, $currentModule;
 		$results = [];
@@ -186,6 +186,35 @@ class OSSTimeControl extends Vtiger_CRMEntity
 			$where = "$columnName = ? AND $focusObj->table_index = ?";
 			$params = [$returnId, $id];
 			$this->db->update($result['tablename'], $columns, $where, $params);
+		}
+	}
+	function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
+	{
+		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$module, $withModule]);
+		if ($fieldRes->rowCount()) {
+			$results = $this->db->getArray($fieldRes);
+		} else {
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [Vtiger_Functions::getModuleId($module)]);
+			while ($row = $this->db->getRow($fieldRes)) {
+				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
+				$fieldModel = new $className();
+				foreach ($row as $properName => $propertyValue) {
+					$fieldModel->$properName = $propertyValue;
+				}
+				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
+				if (!empty($moduleList) && in_array($withModule, $moduleList)) {
+					$row['name'] = $module;
+					$results[] = $row;
+					break;
+				}
+			}
+		}
+		foreach ($results as $result) {
+			$focusObj = CRMEntity::getInstance($row['name']);
+			$columnName = $row['columnname'];
+			$columns = [$columnName => null];
+			$where = "$columnName = ? AND $focusObj->table_index = ?";
+			$this->db->update($row['tablename'], $columns, $where, [$withCrmid, $crmid]);
 		}
 	}
 }

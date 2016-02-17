@@ -2,8 +2,8 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 $languageStrings = [
-	'Inactive'	=>	'Inaktiv',
-	'Active'	=>	'Aktiv',
+	'Inactive' => 'Inaktiv',
+	'Active' => 'Aktiv',
 	'OSSOutsourcedServices' => 'Outsourcing-Dienste',
 	'SINGLE_OSSOutsourcedServices' => 'Outsourcing-Dienst',
 	'LBL_INFORMATION' => 'Informationsblock',

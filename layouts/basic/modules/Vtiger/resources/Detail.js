@@ -1118,7 +1118,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						saveTriggred = false;
 						preventDefault = true;
 						readRecord.prop('disabled', false);
-						return
+						return;
 					}
 					preventDefault = false;
 					jQuery(document).off('click', '*', saveHandler);
@@ -1146,6 +1146,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					currentTdElement.progressIndicator();
 					editElement.addClass('hide');
 					var fieldNameValueMap = {};
+					//The same values must be in the file SummaryViewContents.tpl
 					if (fieldInfo.getType() == 'multipicklist' || fieldInfo.getType() == 'sharedOwner' || fieldInfo.getType() == 'taxes') {
 						var multiPicklistFieldName = fieldName.split('[]');
 						fieldName = multiPicklistFieldName[0];
@@ -1198,6 +1199,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					)
 				}
 			}
+			
 			jQuery('body :not(.popover *)').click(saveHandler);
 		})
 	},
@@ -1520,7 +1522,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentDiv = currentTarget.closest('.activityDescription');
 			var editElement = currentDiv.find('.edit');
 			var detailViewElement = currentDiv.find('.value');
-
+			
 			currentTarget.hide();
 			detailViewElement.addClass('hide');
 			editElement.removeClass('hide').show();

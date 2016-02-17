@@ -148,6 +148,7 @@ $languageStrings = [
 	'LBL_RELATED_TO' => 'Relacionado à',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 	'LBL_INVITE_USER_BLOCK' => 'Convite',
+	'LBL_CALENDAR_FILTERS' => 'Filters',
 ];
 
 $jsLanguageStrings = [

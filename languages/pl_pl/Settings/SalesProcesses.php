@@ -19,7 +19,7 @@ $languageStrings = [
 	'LBL_STATUSES_CLOSED_POTENTIAL' => 'Statusy określające zamknięcie szansy sprzedaży',
 	'LBL_ASSETS' => 'Produkty sprzedane',
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Statusy określające zamknięcie produktu sprzedanego',
-	'LBL_CREATE_POTENTIALS' => 'Blokowanie tworzenia Szansy sprzedaży dla niepisanego kontrahenta',
+	'LBL_CREATE_POTENTIALS' => 'Blokowanie tworzenia Szansy sprzedaży dla nieprzypisanego kontrahenta',
 	'SalesProcesses' => 'Procesy sprzedażowe',
 	
 	'LBL_SQUOTEENQUIRIES' => 'Zapytania ofertowe',

@@ -10,7 +10,7 @@
  ************************************************************************************/
 $languageStrings = [
 	// Basic Strings
-	'Assets'        => 'Ativos',
+	'Assets' => 'Ativos',
 	'SINGLE_Assets' => 'Ativo',
 	'LBL_ADD_RECORD' => 'Adicionar registro',
 	'LBL_RECORDS_LIST' => 'Lista Ativos',
@@ -19,7 +19,7 @@ $languageStrings = [
 	'LBL_ASSET_INFORMATION' => 'Detalhes Ativo',
 
 	//Field Labels
-    'Asset No' => 'No. Ativo',
+    	'Asset No' => 'No. Ativo',
 	'Serial Number' => 'Número Série',
 	'Date Sold' => 'Data Venda',
 	'Date in Service' => 'Data Validade',

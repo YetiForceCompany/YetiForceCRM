@@ -103,37 +103,51 @@
 								<div class="row noSpaces col-xs-12 eventsTable" style="margin-top: 5px;">
 									<div class="width1per7 paddingLRZero" id="threeDaysAgo">
 										<table class="table">
-											<tr><th class="taskPrevThreeDaysAgo">{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSAGO)}</th></tr>
+											<tr>
+												<th class="padding5">
+													<button type="button" class="btn btn-xs btn-primary previousDayBtn"><</button>
+												</th>
+												<th class="text-center taskPrevThreeDaysAgo">
+													{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSAGO)}
+												</th>
+											</tr>
 										</table>
 									</div>
 									<div class="width1per7 paddingLRZero" id="twoDaysAgo">
 										<table class="table">
-											<tr><th class="taskPrevTwoDaysAgo">{Vtiger_Date_UIType::getDisplayDateValue($TWODAYSAGO)}</th></tr>
+											<tr><th class="text-center taskPrevTwoDaysAgo">{Vtiger_Date_UIType::getDisplayDateValue($TWODAYSAGO)}</th></tr>
 										</table>
 									</div>
 									<div class="width1per7 paddingLRZero" id="oneDaysAgo">
 										<table class="table">
-											<tr><th class="taskPrevOneDayAgo">{Vtiger_Date_UIType::getDisplayDateValue($ONEDAYAGO)}</th></tr>
+											<tr><th class="text-center taskPrevOneDayAgo">{Vtiger_Date_UIType::getDisplayDateValue($ONEDAYAGO)}</th></tr>
 										</table>
 									</div>
 									<div class="width1per7 paddingLRZero" id="cur_events">
 										 <table class="table">
-											<tr><th class="taskCur">{Vtiger_Date_UIType::getDisplayDateValue($CURRENTDATE)}</th></tr>
+											<tr><th class="text-center taskCur">{Vtiger_Date_UIType::getDisplayDateValue($CURRENTDATE)}</th></tr>
 										</table>
 									</div>
 									<div class="width1per7 paddingLRZero" id="oneDaysLater">
 										<table class="table">
-											<tr><th class="taskNextOneDayLater">{Vtiger_Date_UIType::getDisplayDateValue($ONEDAYLATER)}</th></tr>
+											<tr><th class="text-center taskNextOneDayLater">{Vtiger_Date_UIType::getDisplayDateValue($ONEDAYLATER)}</th></tr>
 										</table>
 									</div>
 									<div class="width1per7 paddingLRZero" id="twoDaysLater">
 										<table class="table">
-											<tr><th class="taskNextTwoDaysLater">{Vtiger_Date_UIType::getDisplayDateValue($TWODAYLATER)}</th></tr>
+											<tr><th class="text-center taskNextTwoDaysLater">{Vtiger_Date_UIType::getDisplayDateValue($TWODAYLATER)}</th></tr>
 										</table>
 									</div>
 									<div class="width1per7 paddingLRZero" id="threeDaysLater">
 										<table class="table">
-											<tr><th class="taskNextThreeDaysLater">{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSLATER)}</th></tr>
+											<tr>
+												<th class="text-center taskNextThreeDaysLater">
+													{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSLATER)}
+												</th>
+												<th class="padding5">
+													<button type="button" class="btn btn-xs btn-primary nextDayBtn">></button>
+												</th>
+											</tr>
 										</table>
 									</div>
 								</div>
@@ -146,8 +160,8 @@
 				</div>
 				</div>
 				{if !empty($SOURCE_RELATED_FIELD)}
-					{foreach key=RELATED_FIELD_NAME item=RELATED_FIELD_VALUE from=$SOURCE_RELATED_FIELD}
-						<input type="hidden" name="{$RELATED_FIELD_NAME}" value='{$RELATED_FIELD_VALUE}' />
+					{foreach key=RELATED_FIELD_NAME item=RELATED_FIELD_MODEL from=$SOURCE_RELATED_FIELD}
+						<input type="hidden" name="{$RELATED_FIELD_NAME}" value="{$RELATED_FIELD_MODEL->get('fieldvalue')}" data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}" />
 					{/foreach}
 				{/if}
 			</form>

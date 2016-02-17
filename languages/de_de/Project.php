@@ -10,7 +10,7 @@
 $languageStrings = [
 	'LBL_PROJECTS_LIST' => 'Projektliste',
 	'LBL_SUMMARY' => 'Zusammenfassung der Arbeitszeit',
-	'Add Project Task'	=>	'Projekt Aufgabe hinzufügen',
+	'Add Project Task' => 'Projekt Aufgabe hinzufügen',
 	// Basic Strings
 	'SINGLE_Project' => 'Projekt',
 	'LBL_ADD_RECORD' => 'Projekt hinzufügen',
@@ -28,12 +28,12 @@ $languageStrings = [
 	'Target Budget' => 'Ziel Budget',
 	'Project Url' => 'Projekt URL',
 	'Progress' => 'Fortschritt',
-   'LBL_MILESTONES_LIST'          => 'Meilenstein Liste', 
-   'LBL_TASKS_HIGH'               => 'Hohe Priorität', 
-   'LBL_TASKS_NORMAL'             => 'Normale Priorität', 
-   'LBL_TASKS_LOW'                => 'Niedrige Priorität', 
-   'LBL_TASKS_OTHER'              => 'Andere Prioritäten', 
-   'LBL_SELECT_PROGRESS'          => 'Wähle Fortschritt', 
+   'LBL_MILESTONES_LIST' => 'Meilenstein Liste', 
+   'LBL_TASKS_HIGH' => 'Hohe Priorität', 
+   'LBL_TASKS_NORMAL' => 'Normale Priorität', 
+   'LBL_TASKS_LOW' => 'Niedrige Priorität', 
+   'LBL_TASKS_OTHER' => 'Andere Prioritäten', 
+   'LBL_SELECT_PROGRESS' => 'Wähle Fortschritt', 
 	'description' => 'Beschreibung',
 	'Related to' => 'Bezogen auf',
 	//Summary Information
@@ -59,13 +59,6 @@ $languageStrings = [
 	
 	//Summary View Widgets
 	'LBL_DOWNLOAD_FILE' => 'Datei herunterladen',
-    
-    
-	//YetiForce
-	'Total time [Project]' => 'Gesamtzeit [Projekt]',
-	'Total time [Project Task]' => 'Gesamtzeit [Projekt Aufgabe]',
-	'Total time [Sum]' => 'Gesamtzeit [Summe]',
-	'Total time [Tickets]' => 'Gesamtzeit [Tickets]',
     
 	'LBL_CHARTS'=>'Diagramme',
 	'LBL_GANTT'=>'Gantt',
