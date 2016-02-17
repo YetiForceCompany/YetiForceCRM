@@ -121,7 +121,7 @@ class API
 
 	public function initHeaders()
 	{
-		$headers = apache_request_headers();
+		$headers = $this->request->getHeaders();
 		foreach ($this->acceptableHeaders as $value) {
 			if (!isset($headers[$value])) {
 				throw new APIException('No parameter: ' . $value, 401);

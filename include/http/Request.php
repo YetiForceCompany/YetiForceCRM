@@ -218,6 +218,23 @@ class Vtiger_Request
 		return $this->get('mode');
 	}
 
+	function getHeaders()
+	{
+		if (!function_exists('apache_request_headers')) {
+			foreach ($_SERVER as $key => $value) {
+				if (substr($key, 0, 5) == 'HTTP_') {
+					$key = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))));
+					$out[$key] = $value;
+				} else {
+					$out[$key] = $value;
+				}
+			}
+			return $out;
+		} else {
+			return apache_request_headers();
+		}
+	}
+
 	function getModule($raw = true)
 	{
 		$moduleName = $this->get('module');
