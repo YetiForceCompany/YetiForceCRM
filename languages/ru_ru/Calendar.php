@@ -294,4 +294,7 @@ $jsLanguageStrings = [
 	'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR'	=>	'Задача добавлена в Ваш календарь',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Изменить статус Календаря: В работе - В ожидании',
 	'JS_ASSIGNED_TO' => 'Ответственный',
+	'JS_SWITCHING_DAYS' => 'Switch days ',
+	'JS_ALL' => 'All',
+	'JS_WORK_DAYS' => 'Work days',
 ];
