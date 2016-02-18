@@ -1171,6 +1171,10 @@ var app = {
 		}
 		return value;
 	},
+	setMainParams: function (param, value) {
+		app.cacheParams[param] = value;
+		$('#' + param).val(value);
+	},
 	parseNumberToShow: function (val) {
 		if (val == undefined) {
 			val = 0;
