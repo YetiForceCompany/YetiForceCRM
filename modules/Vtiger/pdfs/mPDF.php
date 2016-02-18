@@ -314,10 +314,10 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 				$pageOrientation,
 				$template->get('margin_left'), 
 				$template->get('margin_right'),
-				$template->get('margin_top'),
-				$template->get('margin_bottom'),
 				$template->get('margin_top'), 
-				$template->get('margin_bottom')
+				$template->get('margin_bottom'),
+				$template->get('header_height'),
+				$template->get('footer_height')
 			);
 		}
 		$pdf->setTemplateId($templateId);

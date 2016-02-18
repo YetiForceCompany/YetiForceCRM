@@ -93,6 +93,8 @@ CREATE TABLE `a_yf_pdf` (
   `margin_bottom` smallint(2) unsigned NOT NULL,
   `margin_left` smallint(2) unsigned NOT NULL,
   `margin_right` smallint(2) unsigned NOT NULL,
+  `header_height` smallint(2) unsigned NOT NULL,
+  `footer_height` smallint(2) unsigned NOT NULL,
   `page_orientation` set('PLL_PORTRAIT','PLL_LANDSCAPE') NOT NULL,
   `language` varchar(7) NOT NULL,
   `filename` varchar(255) NOT NULL,
