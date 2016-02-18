@@ -723,16 +723,14 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$insertData = ['seq' => $request->get('seq' . $i)];
 				foreach ($fields as $field) {
 					$value = $insertData[$field] = $inventory->getValueForSave($request, $field, $i);
-					if (in_array($field, $summaryFields)) {
-						$summary[$field] += $value;
-					}
 				}
 				$inventoryData[] = $insertData;
 			}
-
-			foreach ($summary as $fieldName => $fieldValue) {
-				if ($this->has($fieldName)) {
-					$this->set($fieldName, CurrencyField::convertToUserFormat($fieldValue, null, true));
+			$prefix = 'sum_';
+			$inventoryFields = $inventory->getFields();
+			foreach ($summaryFields as $fieldName) {
+				if ($this->has($prefix . $fieldName)) {
+					$this->set($prefix . $fieldName, $inventoryFields[$fieldName]->getSummaryValuesFromData($inventoryData));
 				}
 			}
 		}
