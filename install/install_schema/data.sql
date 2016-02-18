@@ -5417,8 +5417,8 @@ insert  into `vtiger_ipreorder_status`(`ipreorder_statusid`,`ipreorder_status`,`
 
 /*Data for the table `vtiger_knowledgebase_view` */
 
-insert  into `vtiger_knowledgebase_view`(`knowledgebase_viewid`,`knowledgebase_view`,`sortorderid`,`presence`) values (1,'PLL_PAGE',1,1);
-insert  into `vtiger_knowledgebase_view`(`knowledgebase_viewid`,`knowledgebase_view`,`sortorderid`,`presence`) values (2,'PLL_PRESENTATION',2,1);
+insert  into `vtiger_knowledgebase_view`(`knowledgebase_viewid`,`knowledgebase_view`,`sortorderid`,`presence`) values (1,'PLL_PAGE',1,0);
+insert  into `vtiger_knowledgebase_view`(`knowledgebase_viewid`,`knowledgebase_view`,`sortorderid`,`presence`) values (2,'PLL_PRESENTATION',2,0);
 
 /*Data for the table `vtiger_language` */
 
