@@ -66,7 +66,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	calendarView: false,
 	calendarCreateView: false,
 	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
-	registerCalendar: function () {
+	renderCalendar: function () {
 		var thisInstance = this;
 
 		var eventLimit = app.getMainParams('eventLimit');
@@ -100,14 +100,19 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			userDefaultTimeFormat = 'h:mmt';
 			popoverTimeFormat = 'hh:mm A';
 		}
-		
+
 		//Default first day of the week
 		var defaultFirstDay = app.getMainParams('start_day');
 		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
 
 		//Default first hour of the day
 		var defaultFirstHour = app.getMainParams('start_hour') + ':00';
-
+		if (app.getMainParams('switchingDays') == 'workDays') {
+			var hiddenDays = app.getMainParams('hiddenDays', true);
+		} else {
+			var hiddenDays = [];
+		}
+		thisInstance.getCalendarView().fullCalendar('destroy');
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: 'month,' + weekView + ',' + dayView,
@@ -127,7 +132,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			eventLimit: eventLimit,
 			selectable: true,
 			selectHelper: true,
-			hiddenDays: app.getMainParams('hiddenDays',true),
+			hiddenDays: hiddenDays,
 			views: {
 				basic: {
 					eventLimit: false,
@@ -208,6 +213,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 			eventLimitText: app.vtranslate('JS_MORE')
 		});
+		thisInstance.createAddSwitch();
+		thisInstance.registerListViewButton();
 	},
 	getValuesFromSelect2: function (element, data, text) {
 		if (element.hasClass('select2-hidden-accessible')) {
@@ -256,10 +263,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var user = [];
 		user = thisInstance.getValuesFromSelect2($("#calendarUserList"), user);
 		if (user.length == 0) {
-			user = [jQuery('#current_user_id').val()];
+			user = [app.getMainParams('current_user_id')];
 		}
 		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user);
-		var time = jQuery('#showType').val();
 		var filters = [];
 		$(".calendarFilters .filterField").each(function (index) {
 			var element = $(this);
@@ -280,7 +286,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				start: start_date,
 				end: end_date,
 				user: user,
-				time: time,
+				time: app.getMainParams('showType'),
 				types: types,
 				filters: filters
 			}
@@ -376,14 +382,10 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
 		var eventObject = {};
 
-		var taskstatus = $.inArray(calendarDetails.activitystatus, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
-		if (state == true && taskstatus >= 0) {
+		var taskstatus = $.inArray(calendarDetails.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
+		if (state == true && taskstatus >= 0 || state != true && taskstatus == -1) {
 			return false;
 		}
-		if (state != true && taskstatus == -1) {
-			return false;
-		}
-
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.subject.display_value;
 		var startDate = Date.parse(calendarDetails.date_start.display_value + 'T' + calendarDetails.time_start.display_value);
@@ -492,13 +494,30 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	createAddSwitch: function () {
 		var thisInstance = this;
 		var calendarview = this.getCalendarView();
-		var switchBtn = jQuery('<span class=""><input class="switchBtn" type="checkbox" title="' + app.vtranslate('JS_CHANGE_ACTIVITY_TIME') + '" checked data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_TO_REALIZE') + '" data-off-text="' + app.vtranslate('JS_HISTORY') + '"></span>')
+		var switchBtn = jQuery('<span class=""><input class="switchBtn showType" type="checkbox" title="' + app.vtranslate('JS_CHANGE_ACTIVITY_TIME') + '" checked data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_TO_REALIZE') + '" data-off-text="' + app.vtranslate('JS_HISTORY') + '"></span>')
 				.prependTo(calendarview.find('.fc-toolbar .fc-right'))
 				.on('switchChange.bootstrapSwitch', function (e, state) {
-					if (state)
-						jQuery('#showType').val('current');
-					else
-						jQuery('#showType').val('history');
+					if (state) {
+						app.setMainParams('showType', 'current');
+					} else {
+						app.setMainParams('showType', 'history');
+					}
+					thisInstance.loadCalendarData();
+				})
+		app.showBtnSwitch(switchBtn.find('.switchBtn'));
+		var checked = '';
+		if (app.getMainParams('switchingDays') == 'workDays') {
+			checked = ' checked ';
+		}
+		var switchBtn = jQuery('<span class=""><input class="switchBtn switchingDays" type="checkbox" title="' + app.vtranslate('JS_SWITCHING_DAYS') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_WORK_DAYS') + '" data-off-text="' + app.vtranslate('JS_ALL') + '"></span>')
+				.prependTo(calendarview.find('.fc-toolbar .fc-right'))
+				.on('switchChange.bootstrapSwitch', function (e, state) {
+					if (state) {
+						app.setMainParams('switchingDays', 'workDays');
+					} else {
+						app.setMainParams('switchingDays', 'all');
+					}
+					thisInstance.renderCalendar();
 					thisInstance.loadCalendarData();
 				})
 		app.showBtnSwitch(switchBtn.find('.switchBtn'));
@@ -512,13 +531,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		});
 	},
 	registerEvents: function () {
-		this.registerCalendar();
+		this.renderCalendar();
 		this.registerAddButton();
-		this.createAddSwitch();
 		this.loadCalendarData(true);
 		this.registerButtonSelectAll();
 		this.registerChangeView();
-		this.registerListViewButton();
 	}
 });
 jQuery(document).ready(function () {
