@@ -438,6 +438,9 @@
 
 	// Show popover
 	ClockPicker.prototype.show = function(e){
+		if ($(this.element).is('[readonly]')) {
+			return;
+		}
 		// Not show again
 		if (this.isShown) {
 			return;
