@@ -181,4 +181,7 @@ $jsLanguageStrings = [
 	'Mobile Call' => 'Mobile Call',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
 	'JS_ASSIGNED_TO' => 'Assigned To',
+	'JS_SWITCHING_DAYS' => 'Switch days ',
+	'JS_ALL' => 'All',
+	'JS_WORK_DAYS' => 'Work days',
 ];
