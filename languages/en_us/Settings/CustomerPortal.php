@@ -9,22 +9,22 @@
  *************************************************************************************/
 $languageStrings = [
 	'CustomerPortal' => 'Customer Portal',
-	'LBL_PORTAL_DESCRIPTION' => 'Setup Privileges of Portal User',
+	'LBL_PORTAL_DESCRIPTION' => 'Setup privileges of Portal User',
 
 	'LBL_PRIVILEGES' => 'Privileges',
-	'LBL_DEFAULT_ASSIGNEE' => 'Default Assignee',
-	'LBL_PORTAL_URL' => 'Portal Url',
+	'LBL_DEFAULT_ASSIGNEE' => 'Default assignee',
+	'LBL_PORTAL_URL' => 'Portal URL',
 
 	//Fields
-	'LBL_MODULE_NAME' => 'Module Name',
-	'LBL_ENABLE_MODULE' => 'Enable Module',
-	'LBL_VIEW_ALL_RECORDS' => 'See Records across Account',
+	'LBL_MODULE_NAME' => 'Module name',
+	'LBL_ENABLE_MODULE' => 'Enable module',
+	'LBL_VIEW_ALL_RECORDS' => 'See records across Account',
 
 	//Messages
 	'LBL_PRIVILEGES_MESSAGE' => "This Role's privileges will be applied to the Portal User.",
-	'LBL_DEFAULT_ASSIGNEE_MESSAGE' => 'Tickets will be Assigned to the selected Assignee by the default Group/User from the Customer Portal.',
-	'LBL_PORTAL_URL_MESSAGE' => 'This is URL for the Portal where your contacts can login to submit/track tickets, access knowledge base and do more. Contacts will be sent the login details when Portal access is enabled from Contact details page.',
-	'LBL_DRAG_AND_DROP_MESSAGE' => 'Drag and Drop modules to reorder in the Customer Portal',
+	'LBL_DEFAULT_ASSIGNEE_MESSAGE' => 'Tickets will be assigned to the selected assignee by the default Group/User from the Customer Portal.',
+	'LBL_PORTAL_URL_MESSAGE' => 'This is URL for the Portal where your contacts can login to submit/track tickets, access Knowledge Base and do more. Contacts will be sent the login details when Portal access is enabled from Contact details page.',
+	'LBL_DRAG_AND_DROP_MESSAGE' => 'Drag and drop modules to reorder in the Customer Portal',
 ];
 
 $jsLanguageStrings = [

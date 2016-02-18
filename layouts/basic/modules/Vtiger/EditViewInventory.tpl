@@ -69,6 +69,9 @@
 					{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
 						{assign var="ROW_NO" value=$KEY+1}
 						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+					{foreachelse}
+						{assign var="ROW_NO" value=1}
+						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
 					{/foreach}
 				</tbody>
 				<tfoot>
