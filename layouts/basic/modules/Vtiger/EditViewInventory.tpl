@@ -70,7 +70,7 @@
 						{assign var="ROW_NO" value=$KEY+1}
 						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
 					{foreachelse}
-						{assign var="ROW_NO" value='_NUM_'}
+						{assign var="ROW_NO" value=1}
 						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
 					{/foreach}
 				</tbody>
