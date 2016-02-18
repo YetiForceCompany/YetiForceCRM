@@ -459,14 +459,21 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), []);
 		var user = thisInstance.getValuesFromSelect2($("#calendarUserList"), [], true);
 		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user, true);
-		var url = 'index.php?module=Calendar&view=List&viewname=All&search_params=[[';
+		var searchParams = '';
 		if (types.length) {
-			url += '["activitytype","e","' + types + '"]';
+			searchParams += '["activitytype","e","' + types + '"]';
 		}
 		if (user.length) {
-			url += (types.length ? ',' : '') + '["assigned_user_id","c","' + user + '"]';
+			searchParams += (searchParams != '' ? ',' : '') + '["assigned_user_id","c","' + user + '"]';
 		}
-		url += ']]';
+		$(".calendarFilters .filterField").each(function () {
+			var type = $(this).attr('type');
+			if (type == 'checkbox' && $(this).prop('checked')) {
+				searchParams += (searchParams != '' ? ',[' : '[') + $(this).data('search')+']';
+			}
+			
+		});
+		var url = 'index.php?module=Calendar&view=List&viewname=All&search_params=[[' + searchParams + ']]';
 		return url;
 	},
 	registerAddButton: function () {
