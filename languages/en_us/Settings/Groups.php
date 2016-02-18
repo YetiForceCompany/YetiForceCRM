@@ -10,15 +10,15 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_ADD_USERS_ROLES' => 'Add Users, Roles...',
-	'LBL_DUPLICATES_EXIST' => 'Group Name already Exists',
-	'LBL_GROUP_MEMBERS' => 'Group Members',
-	'LBL_GROUP_NAME' => 'Group Name',
-	'LBL_ROLEANDSUBORDINATE' => 'Role and Subordinates',
-	'LBL_TO_OTHER_GROUP' => 'To Other Group ',
+	'LBL_DUPLICATES_EXIST' => 'Group name already exists',
+	'LBL_GROUP_MEMBERS' => 'Group members',
+	'LBL_GROUP_NAME' => 'Group name',
+	'LBL_ROLEANDSUBORDINATE' => 'Role and subordinates',
+	'LBL_TO_OTHER_GROUP' => 'To other group ',
 	'LBL_TRANSFORM_OWNERSHIP' => 'Transfer ownership',
 	'SINGLE_Groups' => 'Group',
 	'Users' => 'Users',
-	'Name' => 'Group Name',
+	'Name' => 'Group name',
 	'Description' => 'Description',
 ];
 
