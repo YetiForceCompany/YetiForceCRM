@@ -164,33 +164,29 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		return currency.find('option:selected').val();
 	},
 	getTax: function (row) {
-		return app.parseNumberToFloat($('.tax', row).val());
+		return $('.tax', row).getNumberFromValue();
 	},
 	getQuantityValue: function (row) {
-		return app.parseNumberToFloat($('.qty', row).val());
+		return $('.qty', row).getNumberFromValue();
 	},
 	getUnitPriceValue: function (row) {
-		return app.parseNumberToFloat($('.unitPrice', row).val());
+		return $('.unitPrice', row).getNumberFromValue();
 	},
 	getDiscount: function (row) {
-		var discount = $('.discount', row).val();
-		if (discount == undefined) {
-			discount = 0;
-		}
-		return app.parseNumberToFloat(discount);
+		return $('.discount', row).getNumberFromValue();
 	},
 	getNetPrice: function (row) {
-		return app.parseNumberToFloat($('.netPrice', row).val());
+		return $('.netPrice', row).getNumberFromValue();
 	},
 	getTotalPrice: function (row) {
 		if ($('.totalPrice', row).length != 0) {
-			return app.parseNumberToFloat($('.totalPrice', row).val())
+			return $('.totalPrice', row).getNumberFromValue();
 		} else {
 			return 0;
 		}
 	},
 	getGrossPrice: function (row) {
-		return app.parseNumberToFloat($('.grossPrice', row).val());
+		return $('.grossPrice', row).getNumberFromValue();
 	},
 	getPurchase: function (row) {
 		var qty = this.getQuantityValue(row);

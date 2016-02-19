@@ -1181,11 +1181,25 @@ var app = {
 		}
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
 		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
+		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
+		var groupingPattern = app.getMainParams('currencyGroupingPattern');
 		val = parseFloat(val).toFixed(numberOfDecimal);
-		if (decimalSeparator != '.') {
-			val = val.toString().replace('.', decimalSeparator);
+		var a = val.toString().split('.');
+		var integer = a[0];
+		var decimal = a[1];
+
+		if (groupingPattern == '123,456,789') {
+			integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
+		} else if (groupingPattern == '123456,789') {
+			var t = integer.slice(-3);
+			var o = integer.slice(0, -3);
+			integer = o + groupSeparator + t;
+		} else if (groupingPattern == '12,34,56,789') {
+			var t = integer.slice(-3);
+			var o = integer.slice(0, -3);
+			integer = o.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + t;
 		}
-		return val;
+		return integer + decimalSeparator + decimal;
 	},
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
@@ -1300,3 +1314,9 @@ jQuery(document).ready(function () {
 	if (pageController)
 		pageController.registerEvents();
 });
+$.fn.getNumberFromValue = function () {
+	return app.parseNumberToFloat($(this).val());
+}
+$.fn.getNumberFromText = function () {
+	return app.parseNumberToFloat($(this).text());
+}
