@@ -748,6 +748,10 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
 		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
 		fieldValue = fieldValue.split(groupSeparator).join("");
+		
+		var spacePattern = /\s/;
+		if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator))
+			fieldValue = fieldValue.replace(/ /g, '');
 
 		var strippedValue = fieldValue.replace(decimalSeparator, '.');
 		var errorInfo;
