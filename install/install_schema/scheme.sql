@@ -6919,7 +6919,7 @@ CREATE TABLE `vtiger_role` (
   `listrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `previewrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `editrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `permissionsrelatedfield` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `permissionsrelatedfield` varchar(10) NOT NULL DEFAULT '0',
   `globalsearchadv` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),

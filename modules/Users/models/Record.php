@@ -281,6 +281,11 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	function getRoleDetail()
 	{
+		$instance = Vtiger_Cache::get('Users_Record_Model_Role_Detail', $this->getId());
+		if ($instance) {
+			return $instance;
+		}
+
 		$roleDetail = $this->get('roleDetail');
 		if (!empty($roleDetail)) {
 			return $this->get('roleDetail');
@@ -292,8 +297,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_role WHERE roleid = ?', [$this->get('privileges')->get('roleid')]);
-		$this->set('roleDetail', $db->fetch_array($result));
-		return $this->get('roleDetail');
+		$roleDetail = $db->getRow($result);
+		$this->set('roleDetail', $roleDetail);
+		Vtiger_Cache::set('Users_Record_Model_Role_Detail', $this->getId(), $roleDetail);
+		return $roleDetail;
 	}
 
 	/**
@@ -776,7 +783,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
 		$listQuery .= ' ORDER BY last_name ASC, first_name ASC';
 		$result = $db->query($listQuery);
-		
+
 		$users = $group = [];
 		while ($row = $db->fetch_array($result)) {
 			if (isset($row['groupname'])) {
