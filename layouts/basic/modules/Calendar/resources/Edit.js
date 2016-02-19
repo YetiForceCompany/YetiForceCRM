@@ -168,7 +168,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			var end = thisInstance.getDateInstance(container, 'end');
 			var dateFormat = $('#userDateFormat').val();
 			var timeFormat = $('#userTimeFormat').val();
-			container.find('.autofill').trigger('change');
+			container.find('.autofill:visible').trigger('change');
 			if (start > end) {
 				end = start;
 				var endDateString = app.getDateInVtigerFormat(dateFormat, end);

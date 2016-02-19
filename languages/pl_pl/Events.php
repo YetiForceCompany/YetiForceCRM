@@ -104,6 +104,6 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Przełożone',
 	'PLL_CANCELLED' => 'Anulowane',
 	'PLL_COMPLETED' => 'Wykonane',
-	
+	'LBL_AUTO_FILL_DESCRIPTION' => 'Wypełnienie daty rozpoczęcia na podstawie pierwszego wolnego terminu',
 ];
 

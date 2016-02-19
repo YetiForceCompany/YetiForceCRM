@@ -380,8 +380,6 @@ jQuery.Class("Vtiger_Header_Js", {
 			dateStartEl.val(element.html());
 			data.find('[name="due_date"]').val(element.html());
 			data.find('[name="date_start"]').trigger('change');
-			data.find('.addedNearCalendarEvent').remove();
-			thisInstance.getNearCalendarEvent(data, module);
 		});
 	},
 	registerChangeNearCalendarEvent: function (data, module) {
