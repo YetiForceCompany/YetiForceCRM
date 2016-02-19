@@ -278,6 +278,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var allDay = container.find('[name="allday"]');
 		var timeStart = container.find('[name="time_start"]');
 		var timeEnd = container.find('[name="time_end"]');
+		var dateEnd = container.find('[name="due_date"]');
 		container.find('.autofill').on('change', function(e){
 			var currentTarget = $(e.currentTarget);
 			if(currentTarget.is(':checked')){
@@ -287,11 +288,13 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				allDay.attr('disabled','disabled');
 				allDay.removeAttr('checked');
 				allDay.trigger('change');
+				dateEnd.attr('readonly','readonly');
 			}
 			else{
 				allDay.removeAttr('disabled');
 				timeStart.removeAttr('readonly');
 				timeEnd.removeAttr('readonly');
+				dateEnd.removeAttr('readonly');
 			}
 		});
 	},
