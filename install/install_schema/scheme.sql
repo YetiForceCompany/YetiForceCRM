@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1403,9 +1404,10 @@ CREATE TABLE `u_yf_ipreorder_inventory` (
   `name` int(19) NOT NULL DEFAULT '0',
   `qty` decimal(25,3) NOT NULL DEFAULT '0.000',
   `comment1` varchar(500) DEFAULT NULL,
-  `picklistfield1` varchar(200) DEFAULT NULL,
   `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `unit` varchar(255) DEFAULT NULL,
+  `ean` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_ipreorder_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_ipreorder` (`ipreorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1425,7 +1427,7 @@ CREATE TABLE `u_yf_ipreorder_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ipreorder_invmap` */
 
