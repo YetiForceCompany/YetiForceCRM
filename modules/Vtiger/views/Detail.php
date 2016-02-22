@@ -75,11 +75,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
-		$navigationInfo = ListViewSession::getListViewNavigation($recordId);
+		$navigationInfo = false; //ListViewSession::getListViewNavigation($recordId);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
+		$viewer->assign('NO_PAGINATION', true);
 		$viewer->assign('COLORLISTHANDLERS', Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, false));
 
 		//Intially make the prev and next records as null
