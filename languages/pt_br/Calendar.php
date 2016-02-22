@@ -149,6 +149,7 @@ $languageStrings = [
 	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
 	'LBL_INVITE_USER_BLOCK' => 'Convite',
 	'LBL_CALENDAR_FILTERS' => 'Filters',
+	'LBL_AUTO_FILL_DESCRIPTION' => 'Fill the start date based on the first available date',
 ];
 
 $jsLanguageStrings = [
