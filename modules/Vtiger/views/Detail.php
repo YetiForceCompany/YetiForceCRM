@@ -614,7 +614,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
-				$whereCondition[] = ['crmid'=>['comparison' => 'IN', 'value' => implode(', ', $favorites)]];
+				$whereCondition[] = ['crmid' => ['comparison' => 'IN', 'value' => implode(', ', $favorites)]];
 			}
 		}
 		if (!empty($whereCondition)) {
@@ -624,7 +624,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
-		
+
 		if ($request->get('showAll')) {
 			$relationListView->noPermissions = true;
 		}

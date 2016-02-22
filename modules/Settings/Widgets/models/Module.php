@@ -83,7 +83,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_relatedlists.*,vtiger_tab.name FROM vtiger_relatedlists
-				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? AND vtiger_relatedlists.related_tabid != 0' ;
+				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? AND vtiger_relatedlists.related_tabid != 0';
 		$result = $adb->pquery($sql, array($tabid));
 		$relation = array();
 		while ($row = $adb->fetch_array($result)) {
@@ -231,15 +231,15 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		return $field;
 	}
-	
+
 	public static function getHeaderSwitch($index = [])
 	{
 		// type: 1-field, TODO 2-label
 		$data = [
-			getTabid('SSalesProcesses') => [ 0=>
+			getTabid('SSalesProcesses') => [ 0 =>
 				[
 					'type' => 1,
-					'label' =>  vtranslate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
+					'label' => vtranslate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
 					'value' => ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']]
 				]
 			]

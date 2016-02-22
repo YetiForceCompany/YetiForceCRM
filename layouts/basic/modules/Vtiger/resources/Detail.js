@@ -353,7 +353,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				data: urlParams
 			};
 		}
-		
+
 		contentContainer.progressIndicator({});
 		AppConnector.request(params).then(
 				function (data) {
@@ -1202,7 +1202,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					)
 				}
 			}
-			
+
 			jQuery('body :not(.popover *)').click(saveHandler);
 		})
 	},
@@ -1509,7 +1509,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentDiv = currentTarget.closest('.activityDescription');
 			var editElement = currentDiv.find('.edit');
 			var detailViewElement = currentDiv.find('.value');
-			
+
 			currentTarget.hide();
 			detailViewElement.addClass('hide');
 			editElement.removeClass('hide').show();

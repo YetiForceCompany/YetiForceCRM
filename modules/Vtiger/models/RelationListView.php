@@ -17,10 +17,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	protected $relatedModuleModel = false;
 	protected $query = false;
 	protected $addRelatedFieldToEntries = [
-		'Calendar' => ['visibility' => 'visibility'], 
-		'PriceBooks' => ['unit_price' => 'unit_price', 'listprice' => 'listprice', 'currency_id' => 'currency_id'], 
+		'Calendar' => ['visibility' => 'visibility'],
+		'PriceBooks' => ['unit_price' => 'unit_price', 'listprice' => 'listprice', 'currency_id' => 'currency_id'],
 		'Documents' => ['filelocationtype' => 'filelocationtype', 'filestatus' => 'filestatus']
-		];
+	];
 
 	public function setRelationModel($relation)
 	{

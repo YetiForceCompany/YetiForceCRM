@@ -722,7 +722,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				}
 				$insertData = ['seq' => $request->get('seq' . $i)];
 				foreach ($fields as $field) {
-					$value = $insertData[$field] = $inventory->getValueForSave($request, $field, $i);
+					$insertData[$field] = $inventory->getValueForSave($request, $field, $i);
 				}
 				$inventoryData[] = $insertData;
 			}

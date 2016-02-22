@@ -159,7 +159,6 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			}
 		}
 	},
-
 	changeRelatedModule: function (e) {
 		var thisInstance = this;
 		var form = jQuery('.form-modalAddWidget');
