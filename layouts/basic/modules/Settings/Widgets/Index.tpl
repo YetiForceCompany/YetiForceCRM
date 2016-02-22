@@ -10,9 +10,10 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<input type="hidden" id="filters" name="filters" value='{$FILTERS}'>
-<input type="hidden" id="checkboxs" name="checkboxs" value='{$CHECKBOXS}'>
-<div class=" WidgetsManage">
+<input type="hidden" id="filterAll" value='{$FILTERS}'>
+<input type="hidden" id="checkboxAll" value='{$CHECKBOXS}'>
+<input type="hidden" id="switchHeaderAll" value='{$SWITCHES_HEADER}'>
+<div class="WidgetsManage">
 	<input type="hidden" name="tabid" value="{$SOURCE}">
 	<div class="widget_header row">
 		<div class="col-md-8">

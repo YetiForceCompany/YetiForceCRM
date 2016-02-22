@@ -338,19 +338,22 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		thisInstance.registerRelatedModulesRecordCount();
 	},
-	loadWidget: function (widgetContainer) {
+	loadWidget: function (widgetContainer, params) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var contentHeader = jQuery('.widget_header,.widgetHeader', widgetContainer);
 		var contentContainer = jQuery('.widget_contents', widgetContainer);
-		var urlParams = widgetContainer.data('url');
 		var relatedModuleName = contentHeader.find('[name="relatedModule"]').val();
 
-		var params = {
-			type: 'GET',
-			dataType: 'html',
-			data: urlParams
-		};
+		if (params == undefined) {
+			var urlParams = widgetContainer.data('url');
+			var params = {
+				type: 'GET',
+				dataType: 'html',
+				data: urlParams
+			};
+		}
+		
 		contentContainer.progressIndicator({});
 		AppConnector.request(params).then(
 				function (data) {
@@ -1373,71 +1376,55 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		})
 	},
-	/**
-	 * Function to get records according to ticket status
-	 */
+	getFiltersDataAndLoad: function (e, stan) {
+		var currentElement = jQuery(e.currentTarget);
+		var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
+		var widget = summaryWidgetContainer.find('.widgetContentBlock');
+		var url = '&' + widget.data('url');
+		var urlParams = {};
+		var parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+			urlParams[key] = value;
+		});
+		var urlNewParams = [];
+		summaryWidgetContainer.find('.widget_header .filterField').each(function (n, item) {
+			var value = '';
+			var element = jQuery(item);
+			var name = element.data('urlparams');
+			if (element.attr('type') == 'checkbox') {
+				if (element.prop('checked')) {
+					value = element.data('on-val');
+				} else {
+					value = element.data('off-val');
+				}
+			} else {
+				var selectedFilter = element.find('option:selected').val();
+				var fieldlable = element.data('fieldlable');
+				var filter = element.data('filter');
+				value = {};
+				if (selectedFilter != fieldlable) {
+					value[filter] = selectedFilter;
+				} else {
+					return;
+				}
+			}
+			if (name in urlNewParams) {
+				urlNewParams[name].push(value);
+			} else {
+				urlNewParams[name] = [value];
+			}
+		});
+		this.loadWidget($(widget), $.extend(urlParams, urlNewParams));
+	},
 	registerChangeFilterForWidget: function () {
 		var thisInstance = this;
-		jQuery('.widget_header .filterField').on('change', function (e) {
-			var picklistName = this.name;
-			var statusCondition = {};
-			var params = {};
-			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-			var widgetDataContainer = summaryWidgetContainer.find('.widget_contents');
-			widgetDataContainer.progressIndicator();
-			var referenceModuleName = widgetDataContainer.find('[name="relatedModule"]').val();
-			var recordId = thisInstance.getRecordId();
-			var module = app.getModuleName();
-			var selectedFilter = currentElement.find('option:selected').val();
-			var fieldlable = currentElement.data('fieldlable');
-			var filter_data = summaryWidgetContainer.find('[name="filter_data"]').val()
-			if (selectedFilter != fieldlable) {
-				statusCondition[filter_data] = selectedFilter;
-				params['whereCondition'] = statusCondition;
-			}
-			params['record'] = recordId;
-			params['view'] = 'Detail';
-			params['module'] = module;
-			params['page'] = widgetDataContainer.find('[name="page"]').val();
-			params['limit'] = widgetDataContainer.find('[name="pageLimit"]').val();
-			params['col'] = widgetDataContainer.find('[name="col"]').val();
-			params['relatedModule'] = referenceModuleName;
-			params['mode'] = 'showRelatedRecords';
-			AppConnector.request(params).then(
-					function (data) {
-						widgetDataContainer.html(data);
-						currentDiv.progressIndicator({'mode': 'hide'});
-					}
-			);
-		})
+		jQuery('.widget_header .filterField').on('change', function (e, state) {
+			thisInstance.getFiltersDataAndLoad(e);
+		}).on('switchChange.bootstrapSwitch', function (e, state) {
+			thisInstance.getFiltersDataAndLoad(e);
+		});
 	},
 	registerChangeSwitchForWidget: function () {
 		var thisInstance = this;
-		$('.summaryWidgetContainer .widget_header .switchBtnReload').on('switchChange.bootstrapSwitch', function (e, state) {
-			var currentElement = jQuery(e.currentTarget);
-			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
-			var widget = summaryWidgetContainer.find('.widgetContentBlock');
-			var url = widget.data('url');
-			var urlparams = currentElement.data('urlparams');
-			if (urlparams != '') {
-				var onval = currentElement.data('on-val');
-				var offval = currentElement.data('off-val');
-
-				url = url.replace('&' + urlparams + '=' + onval, '');
-				url = url.replace('&' + urlparams + '=' + offval, '');
-
-				if (state)
-					var newUrl = onval;
-				else
-					var newUrl = offval;
-				if (newUrl != '') {
-					url += '&' + urlparams + '=' + newUrl;
-				}
-				widget.data('url', url);
-				thisInstance.loadWidget($(widget));
-			}
-		});
 		$('.activityWidgetContainer .switchBtn').on('switchChange.bootstrapSwitch', function (e, state) {
 			var currentElement = jQuery(e.currentTarget);
 			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');

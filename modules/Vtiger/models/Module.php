@@ -1562,7 +1562,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	 * @param Vtiger_Module_Model $relatedModule
 	 * @return <String>
 	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false)
+	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false, $relationListViewModel = false)
 	{
 		$relatedModuleName = $relatedModule->getName();
 
@@ -1616,7 +1616,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 
 		$instance = CRMEntity::getInstance($relatedModuleName);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName, false, $recordId);
-		if ($securityParameter != '')
+		if ($securityParameter != '' && !($relationListViewModel && $relationListViewModel->noPermissions === true))
 			$query .= $securityParameter;
 
 		return $query;

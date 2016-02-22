@@ -13,9 +13,10 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget {
 		return 'module='.$this->Module.'&view=Detail&record='.$this->Record.'&mode=showRelatedRecords&relatedModule='.$this->Data['relatedmodule'].'&page=1&limit='.$this->Data['limit'].'&col='.$this->Data['columns'].'&r='.$this->Data['no_result_text'];
 	}
 	public function getWidget() {
-		$widget = array();
+		$widget = [];
 		$model = Vtiger_Module_Model::getInstance($this->Data['relatedmodule']);
 		if( $model->isPermitted('DetailView') ) {
+			$whereCondition = [];
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'Basic.tpl';
 			if($this->Data['action'] == 1){
@@ -23,29 +24,59 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget {
 				$this->Config['action'] = ($createPermission == true) ? 1 : 0;
 				$this->Config['actionURL'] = $model->getQuickCreateUrl();
 			}
-			if(isset($this->Data['filter'])){
-				$filterArray = explode('::',$this->Data['filter']);
-				$this->Config['field_name'] = $filterArray[2];
+			if($this->Data['showAll']){
+				$this->Config['url'] .= '&showAll='.$this->Data['showAll'];
 			}
-			if(isset($this->Data['checkbox']) && $this->Data['checkbox'] != '-'){
-				$this->Config['url'] .= '&whereCondition['.getTableNameForField(getTabModuleName($this->Data['relatedmodule']), $this->Data['checkbox']).'.'.$this->Data['checkbox'].']=1';
-				$on = 'LBL_SWITCH_ON_'.strtoupper($this->Data['checkbox']);
-				$translateOn = vtranslate($on,$model->getName());
-				if($on == $translateOn){
-					$translateOn = vtranslate('LBL_YES',$model->getName());
+			if (isset($this->Data['switchHeader']) && $this->Data['switchHeader'] != '-') {
+				$switchHeaderData = Settings_Widgets_Module_Model::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
+				if ($switchHeaderData) {
+					switch ($switchHeaderData['type']) {
+						case 1:
+							$whereConditionOff = [];
+							foreach ($switchHeaderData['value'] as $name => $value) {
+								$whereCondition[$name] = ['comparison' => 'NOT IN', 'value' => $value];
+								$whereConditionOff[$name] = ['comparison' => 'IN', 'value' => $value];
+							}
+							$this->getCheckboxLables($model, 'switchHeader', 'LBL_SWITCHHEADER_');
+							$this->Config['switchHeader']['on'] = Zend_Json::encode($whereCondition);
+							$this->Config['switchHeader']['off'] = Zend_Json::encode($whereConditionOff);
+							$whereCondition = [$whereCondition];
+							break;
+						default:
+							break;
+					}
 				}
-				$off = 'LBL_SWITCH_OFF_'.strtoupper($this->Data['checkbox']);
-				$translateOff = vtranslate($off,$model->getName());
-				
-				if($off == $translateOff){
-					$translateOff = vtranslate('LBL_NO',$model->getName());
-				}
-				$this->Config['checkboxLables'] = ['on' => $translateOn, 'off' => $translateOff];
+			}
+			if (isset($this->Data['checkbox']) && $this->Data['checkbox'] != '-') {
+				$whereCondition[][$this->Data['checkbox']] = 1;
+				$this->Config['checkbox']['on'] = Zend_Json::encode([$this->Data['checkbox'] => 1]);
+				$this->Config['checkbox']['off'] = Zend_Json::encode([$this->Data['checkbox'] => 0]);
+				$this->getCheckboxLables($model, 'checkbox', 'LBL_SWITCH_');
+			}
+			if (!empty($whereCondition)) {
+				$this->Config['url'] .= '&whereCondition=' . Zend_Json::encode($whereCondition);
 			}
 			$widget = $this->Config;
 		}
 		return $widget;
 	}
+	
+	public function getCheckboxLables($model, $type, $prefix)
+	{
+		$on = $prefix . 'ON_' . strtoupper($this->Data[$type]);
+		$translateOn = vtranslate($on, $model->getName());
+		if ($on == $translateOn) {
+			$translateOn = vtranslate('LBL_YES', $model->getName());
+		}
+		$off = $prefix . 'OFF_' . strtoupper($this->Data[$type]);
+		$translateOff = vtranslate($off, $model->getName());
+
+		if ($off == $translateOff) {
+			$translateOff = vtranslate('LBL_NO', $model->getName());
+		}
+		$this->Config[$type . 'Lables'] = ['on' => $translateOn, 'off' => $translateOff];
+	}
+
 	public function getConfigTplName() {
 		return 'RelatedModuleConfig';
 	}

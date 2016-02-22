@@ -32,7 +32,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RELATEDMODULES', $RelatedModule);
 		$viewer->assign('FILTERS', json_encode($moduleModel->getFiletrs($RelatedModule)));
 		$viewer->assign('CHECKBOXS', json_encode($moduleModel->getCheckboxs($RelatedModule)));
-		//$viewer->assign('EXCLUDEDTYPES', $moduleModel->excludedTypes($source) );
+		$viewer->assign('SWITCHES_HEADER', json_encode($moduleModel->getHeaderSwitch()));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);

@@ -516,8 +516,16 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$i = 1;
 		foreach ($whereCondition as $fieldName => $fieldValue) {
-			if (is_array($fieldValue) && $fieldValue['comparison'] && in_array(strtoupper($fieldValue['comparison']), ['IN', 'NOT IN'])) {
-				$condition .= " $fieldName " . $fieldValue['comparison'] . ' (' . $fieldValue['value'] . ') ';
+			if (is_array($fieldValue)) {
+				$fieldName = key($fieldValue);
+				$fieldValue = current($fieldValue);
+				if (is_array($fieldValue) && $fieldValue['comparison'] && in_array(strtoupper($fieldValue['comparison']), ['IN', 'NOT IN'])) {
+					if (is_array($fieldValue['value']))
+						$fieldValue['value'] = '"' . implode('","', $fieldValue['value']) . '"';
+					$condition .= " $fieldName " . $fieldValue['comparison'] . ' (' . $fieldValue['value'] . ') ';
+				} else {
+					$condition .= " $fieldName = '$fieldValue' ";
+				}
 			} else {
 				$condition .= " $fieldName = '$fieldValue' ";
 			}
@@ -525,7 +533,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$condition .= " AND ";
 			}
 		}
-
 		$relationQuery = str_replace('where', 'WHERE', $relationQuery);
 		$pos = stripos($relationQuery, 'WHERE');
 		if ($pos) {
