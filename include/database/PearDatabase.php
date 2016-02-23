@@ -871,6 +871,6 @@ class PearDatabase
 			$data[] = 'CALLER: (' . $callers[$calleridx]['line'] . ') ' . $callers[$calleridx]['file'] . $callerfunc;
 		}
 		$stmt = $db->database->prepare($logQuery);
-		$stmt->execute([$this->logSqlTimeID, $type, NULL, implode('\n', $data), $now]);
+		$stmt->execute([$this->logSqlTimeID, $type, NULL, implode(PHP_EOL, $data), $now]);
 	}
 }

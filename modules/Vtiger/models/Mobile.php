@@ -14,13 +14,21 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 
 	public static function checkPermissionForOutgoingCall()
 	{
-		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$result = $adb->pquery('SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', array($currentUser->getId(), 'pushcall'));
-		if ($adb->num_rows($result) > 0) {
-			return true;
+		$userId = $currentUser->getId();
+		$return = Vtiger_Cache::get('checkPermissionForOutgoingCall', $userId);
+		if ($return !== false) {
+			return $return;
 		}
-		return false;
+		$return = 0;
+
+		$adb = PearDatabase::getInstance();
+		$result = $adb->pquery('SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', [$userId, 'pushcall']);
+		if ($adb->getRowCount($result)) {
+			$return = true;
+		}
+		Vtiger_Cache::set('checkPermissionForOutgoingCall', $userId, $return);
+		return $return;
 	}
 
 	public function performCall($record = false, $phoneNumber = false, $user = false)

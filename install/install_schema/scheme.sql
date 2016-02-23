@@ -2278,7 +2278,8 @@ CREATE TABLE `vtiger_actionmapping` (
   `actionid` int(19) NOT NULL,
   `actionname` varchar(200) NOT NULL,
   `securitycheck` int(19) DEFAULT NULL,
-  PRIMARY KEY (`actionid`,`actionname`)
+  PRIMARY KEY (`actionid`,`actionname`),
+  KEY `actionname` (`actionname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activity` */

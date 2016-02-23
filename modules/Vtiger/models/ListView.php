@@ -397,6 +397,12 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance($moduleName, $viewId = '0')
 	{
+		$cacheName = $viewId . ':' . $moduleName;
+		$instance = Vtiger_Cache::get('ListView_Model', $cacheName);
+		if ($instance) {
+			return $instance;
+		}
+		
 		$db = PearDatabase::getInstance();
 		$currentUser = vglobal('current_user');
 
@@ -422,8 +428,9 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			}
 		}
 		$controller = new ListViewController($db, $currentUser, $queryGenerator);
-
-		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator)->set('listview_controller', $controller);
+		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator)->set('listview_controller', $controller);
+		Vtiger_Cache::set('ListView_Model', $cacheName, $instance);
+		return $instance;
 	}
 
 	/**

@@ -40,10 +40,12 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$mid = $request->get('mid');
 		}
 
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
+		
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = CustomView_Record_Model::getViewId($request);
+		
+		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		$quickLinkModels = $listViewModel->getSideBarLinks($linkParams);
 		$viewer->assign('QUICK_LINKS', $quickLinkModels);
 		$this->initializeListViewContents($request, $viewer);
@@ -75,17 +77,19 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$this->initializeListViewContents($request, $viewer);
+		
+		if ($request->isAjax()) {
+			$this->initializeListViewContents($request, $viewer);
+			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+			$viewer->assign('MODULE_NAME', $moduleName);
+		}
+		
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewName = CustomView_Record_Model::getViewId($request);
 		if ($viewName) {
 			$viewer->assign('VIEWID', $viewName);
 		}
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		if ($request->isAjax()) {
-			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-			$viewer->assign('MODULE_NAME', $moduleName);
-		}
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
@@ -113,8 +117,8 @@ class Vtiger_List_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			"modules.Emails.resources.MassEdit",
-			"modules.Vtiger.resources.CkEditor"
+			'modules.Emails.resources.MassEdit',
+			'modules.Vtiger.resources.CkEditor'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -137,12 +141,12 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "glyphicon glyphicon-chevron-down";
+		if ($sortOrder == 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'glyphicon glyphicon-chevron-down';
 		} else {
-			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
+			$nextSortOrder = 'ASC';
+			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 
 		if (empty($pageNumber)) {
