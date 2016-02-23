@@ -334,8 +334,12 @@ $toHtml = array(
  */
 function to_html($string, $encode = true)
 {
+	$oginalString = $string;
+	$instance = Vtiger_Cache::get('to_html', $oginalString);
+	if ($instance) {
+		return $instance;
+	}
 	$default_charset = vglobal('default_charset');
-	$toHtml = vglobal('toHtml');
 
 	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : false;
 	$search = isset($_REQUEST['search']) ? $_REQUEST['search'] : false;
@@ -367,6 +371,7 @@ function to_html($string, $encode = true)
 				$string = preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $string);
 		}
 	}
+	Vtiger_Cache::set('Vtiger_Record_Model', $oginalString, $string);
 	return $string;
 }
 
