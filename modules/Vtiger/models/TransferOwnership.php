@@ -96,14 +96,14 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 		if ($flag) {
 			foreach ($relatedModuleRecordIds as $record) {
 				$id = $db->getUniqueID('vtiger_modtracker_basic');
-				$adb->insert('vtiger_modtracker_basic', [
+				$db->insert('vtiger_modtracker_basic', [
 					'id' => $id,
 					'crmid' => $record,
 					'module' => $module,
 					'whodid' => $currentUser->id,
 					'changedon' => date('Y-m-d H:i:s', time())
 				]);
-				$adb->insert('vtiger_modtracker_detail', [
+				$db->insert('vtiger_modtracker_detail', [
 					'id' => $id,
 					'fieldname' => 'assigned_user_id',
 					'postvalue' => $currentUser->id,
