@@ -6,15 +6,15 @@ $languageStrings = [
 	
 	//BLOCKS
 	'LBL_SSALESPROCESSES_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description Details',
+	'LBL_CUSTOM_INFORMATION' => 'System information',
+	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
 	'LBL_ATTENTION' => 'Attention',
 	'LBL_FINANCES' => 'Finances',
 	
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
 	'LBL_NUMBER' => 'Number',
-	'LBL_CLOSED_TIME' => 'Closed Time',
+	'LBL_CLOSED_TIME' => 'Closed time',
 	'FL_ESTIMATED' => 'Estimated value',
 	'FL_ACTUAL_SALE' => 'Actual sale',
 	'FL_ESTIMATED_DATE' => 'Estimated date',
