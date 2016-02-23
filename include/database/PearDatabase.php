@@ -827,8 +827,9 @@ class PearDatabase
 		}
 		$db = PearDatabase::getInstance('log');
 		$now = date('Y-m-d H:i:s');
+		$group = rand(0, 99999999);
 		$logTable = 'l_yf_sqltime';
-		$logQuery = 'INSERT INTO ' . $logTable . '(id, type, qtime, data, date) VALUES (?,?,?,?,?)';
+		$logQuery = 'INSERT INTO ' . $logTable . '(id, type, qtime, content, date, group) VALUES (?,?,?,?,?,?)';
 
 		if ($this->logSqlTimeID === false) {
 			$stmt = $db->database->query('SELECT MAX(id) FROM ' . $logTable);
@@ -844,7 +845,7 @@ class PearDatabase
 				$data = $uri . '?' . http_build_query($_SERVER['REQUEST_METHOD'] == 'GET' ? $_GET : $_POST);
 			}
 			$stmt = $db->database->prepare($logQuery);
-			$stmt->execute([$this->logSqlTimeID, $type, NULL, $data, $now]);
+			$stmt->execute([$this->logSqlTimeID, $type, NULL, $data, $now,$group]);
 		}
 
 		$type = 'SQL';
@@ -854,7 +855,7 @@ class PearDatabase
 		}
 		$qtime = round(($endat - $startat) * 1000) / 1000;
 		$stmt = $db->database->prepare($logQuery);
-		$stmt->execute([$this->logSqlTimeID, $type, $qtime, $data, $now]);
+		$stmt->execute([$this->logSqlTimeID, $type, $qtime, $data, $now,$group]);
 
 		$type = 'CALLERS';
 		$data = [];
@@ -871,6 +872,6 @@ class PearDatabase
 			$data[] = 'CALLER: (' . $callers[$calleridx]['line'] . ') ' . $callers[$calleridx]['file'] . $callerfunc;
 		}
 		$stmt = $db->database->prepare($logQuery);
-		$stmt->execute([$this->logSqlTimeID, $type, NULL, implode(PHP_EOL, $data), $now]);
+		$stmt->execute([$this->logSqlTimeID, $type, NULL, implode(PHP_EOL, $data), $now,$group]);
 	}
 }

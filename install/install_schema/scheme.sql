@@ -451,12 +451,15 @@ CREATE TABLE `dav_users` (
 /*Table structure for table `l_yf_sqltime` */
 
 CREATE TABLE `l_yf_sqltime` (
-  `id` int(19) DEFAULT NULL,
+  `id` int(19) NOT NULL,
   `type` varchar(20) DEFAULT NULL,
-  `data` text,
+  `content` text,
   `date` datetime DEFAULT NULL,
-  `qtime` decimal(20,3) DEFAULT NULL,
-  KEY `id` (`id`)
+  `qtime` decimal(20,4) DEFAULT NULL,
+  `group` int(19) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `type` (`type`),
+  KEY `group` (`group`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `l_yf_switch_users` */
