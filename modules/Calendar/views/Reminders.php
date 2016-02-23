@@ -27,7 +27,7 @@ class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 		foreach ($recordModels as $record) {
 			$record->updateReminderStatus(2);
 		}
-		$permissionToSendEmail = vtlib_isModuleActive('OSSMail') && Users_Privileges_Model::isPermitted('OSSMail');
+		$permissionToSendEmail = vtlib_isModuleActive('OSSMail') && Users_Privileges_Model::isPermitted('OSSMail','compose');
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORDS', $recordModels);
