@@ -455,9 +455,9 @@ CREATE TABLE `l_yf_sqltime` (
   `type` varchar(20) DEFAULT NULL,
   `content` text,
   `date` datetime DEFAULT NULL,
-  `qtime` decimal(20,4) DEFAULT NULL,
+  `qtime` decimal(20,3) DEFAULT NULL,
   `group` int(19) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  KEY `id` (`id`),
   KEY `type` (`type`),
   KEY `group` (`group`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4103,6 +4103,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_block_idx` (`block`),
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
+  KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2222 DEFAULT CHARSET=utf8;
 
@@ -7626,7 +7627,8 @@ CREATE TABLE `vtiger_tab` (
   PRIMARY KEY (`tabid`),
   UNIQUE KEY `tab_name_idx` (`name`),
   KEY `tab_modifiedby_idx` (`modifiedby`),
-  KEY `tab_tabid_idx` (`tabid`)
+  KEY `tab_tabid_idx` (`tabid`),
+  KEY `name` (`name`,`presence`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_tab_info` */

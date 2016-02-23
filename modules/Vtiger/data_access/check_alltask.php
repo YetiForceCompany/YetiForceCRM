@@ -41,8 +41,8 @@ Class DataAccess_check_alltask{
 
 	public function getConfig( $id,$module,$baseModule ) {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery( "SELECT * FROM vtiger_activitystatus ORDER BY sortorderid", array() ,true);
-		$fields = array();
+		$result = $db->pquery( "SELECT * FROM vtiger_activitystatus ORDER BY sortorderid", [] ,true);
+		$fields = [];
 		while ($row = $db->fetch_array($result)) {
 			array_push($fields, $row['activitystatus'] );
 		}

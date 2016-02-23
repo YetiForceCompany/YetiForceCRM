@@ -38,7 +38,7 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$pagingModel->set('sortorder', $sortOrder);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$calendarActivities = ($owner === false) ? array() : $moduleModel->getCalendarActivities('assigned_over', $pagingModel, $owner);
+		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_over', $pagingModel, $owner);
 
 
 		$viewer->assign('WIDGET', $widget);

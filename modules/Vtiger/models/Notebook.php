@@ -31,7 +31,7 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 		$date_var = date("Y-m-d H:i:s");
 		$date = $db->formatDate($date_var, true);
 
-		$dataValue = array();
+		$dataValue = [];
 		$dataValue['contents'] = strip_tags($content);
 		$dataValue['lastSavedOn'] = $date;
 

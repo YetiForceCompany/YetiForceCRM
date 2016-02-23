@@ -41,7 +41,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_MASSEDIT);
-		$fieldInfo = array();
+		$fieldInfo = [];
 		$fieldList = $moduleModel->getFields();
 		foreach ($fieldList as $fieldName => $fieldModel) {
 			$fieldInfo[$fieldName] = $fieldModel->getFieldInfo();
@@ -129,9 +129,9 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
 
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$emailFields = $moduleModel->getFieldsByType('email');
-        $accesibleEmailFields = array();
-        $emailColumnNames = array();
-        $emailColumnModelMapping = array();
+        $accesibleEmailFields = [];
+        $emailColumnNames = [];
+        $emailColumnModelMapping = [];
 
         foreach($emailFields as $index=>$emailField) {
             $fieldName = $emailField->getName();
@@ -144,7 +144,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
         $emailFields = $accesibleEmailFields;
 
         $emailFieldCount = count($emailFields);
-        $tableJoined = array();
+        $tableJoined = [];
         if($emailFieldCount > 1) {
             $recordIds = $this->getRecordsListFromRequest($request);
 
@@ -238,7 +238,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
 
 		$to = $request->get('to');
 		if (!$to) {
-			$to = array();
+			$to = [];
 		}
 		$viewer->assign('TO', $to);
 

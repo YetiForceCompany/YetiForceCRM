@@ -45,7 +45,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('sortorder', $sortOrder);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$calendarActivities = ($owner === false) ? array() : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
+		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 
 		$switchLabels = [];
 		$switchLabels[] = ['label' => vtranslate($stateActivityLabels['in_realization'], 'Calendar'), 'name' => $stateActivityLabels['in_realization']];

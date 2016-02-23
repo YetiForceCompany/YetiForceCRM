@@ -83,7 +83,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	{
 		$template = $this->get('field')->getFieldParams();
 		$adb = PearDatabase::getInstance();
-		$values = array();
+		$values = [];
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', array($template));
 		for ($i = 0; $i < $adb->num_rows($result); $i++) {
 			$tree = $adb->query_result_raw($result, $i, 'tree');

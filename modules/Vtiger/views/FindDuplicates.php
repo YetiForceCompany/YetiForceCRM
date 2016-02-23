@@ -143,7 +143,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 		$dataModelInstance->set('fields', $duplicateSearchFields);
 		$count = $dataModelInstance->getRecordCount();
 
-		$result = array();
+		$result = [];
 		$result['module'] = $moduleName;
 		$result['count'] = $count;
 

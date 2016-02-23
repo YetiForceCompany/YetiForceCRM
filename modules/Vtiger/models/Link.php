@@ -17,7 +17,7 @@ class Vtiger_Link_Model extends Vtiger_Link
 {
 
 	// Class variable to store the child links
-	protected $childlinks = array();
+	protected $childlinks = [];
 
 	/**
 	 * Function to get the value of a given property
@@ -320,7 +320,7 @@ class Vtiger_Link_Model extends Vtiger_Link
 			Vtiger_Cache::set('links-' . $tabid, $type, $links);
 		}
 
-		$linkModels = array();
+		$linkModels = [];
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
 				$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
@@ -333,7 +333,7 @@ class Vtiger_Link_Model extends Vtiger_Link
 
 		$diffTypes = array_diff($type, array_keys($linkModels));
 		foreach ($diffTypes as $linkType) {
-			$linkModels[$linkType] = array();
+			$linkModels[$linkType] = [];
 		}
 
 		return $linkModels;

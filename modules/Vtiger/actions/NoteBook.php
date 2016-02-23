@@ -41,7 +41,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		$date_var = date("Y-m-d H:i:s");
 		$date = $adb->formatDate($date_var, true);
 
-		$dataValue = array();
+		$dataValue = [];
 		$dataValue['contents'] = $noteBookContent;
 		$dataValue['lastSavedOn'] = $date;
 
@@ -52,7 +52,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		$adb->pquery($query, $params);
 		$id = $adb->getLastInsertID();
 
-		$result = array();
+		$result = [];
 		$result['success'] = TRUE;
 		$result['widgetId'] = $id;
 		$response = new Vtiger_Response();

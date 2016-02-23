@@ -245,7 +245,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getDisplayableValues()
 	{
-		$displayableValues = array();
+		$displayableValues = [];
 		$data = $this->getData();
 		foreach ($data as $fieldName => $value) {
 			$fieldValue = $this->getDisplayValue($fieldName);
@@ -374,7 +374,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
 
-		$moduleModels = $matchingRecords = $leadIdsList = array();
+		$moduleModels = $matchingRecords = $leadIdsList = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			if ($row['setype'] === 'Leads') {
@@ -561,9 +561,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$moduleName = $this->getModuleName();
 		$path = "modules/$moduleName/summary_blocks";
 		if (!is_dir($path)) {
-			return array();
+			return [];
 		}
-		$summaryBlocks = array();
+		$summaryBlocks = [];
 		$dir = new DirectoryIterator($path);
 		$blockCount = 0;
 
@@ -660,7 +660,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	function getListFieldsToGenerate($parentModuleName, $moduleName)
 	{
 		$module = CRMEntity::getInstance($parentModuleName);
-		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : array();
+		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
 	}
 
 	/**

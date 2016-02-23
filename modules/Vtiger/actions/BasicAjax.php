@@ -28,7 +28,7 @@ class Vtiger_BasicAjax_Action extends Vtiger_Action_Controller
 		$searchModuleModel = Vtiger_Module_Model::getInstance($searchModule);
 		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName, $relatedModule);
 
-		$result = array();
+		$result = [];
 		if (is_array($records)) {
 			foreach ($records as $moduleName => $recordModels) {
 				foreach ($recordModels as $recordModel) {

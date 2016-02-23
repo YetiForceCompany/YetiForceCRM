@@ -25,7 +25,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
-		$listViewHeaders = array();
+		$listViewHeaders = [];
 		$listViewHeaders[] = new Vtiger_Base_Model(array('name' => 'recordid', 'label' => 'ID'));
 		$headers = $db->getFieldsArray($this->result);
 		foreach ($headers as $header) {
@@ -70,10 +70,10 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		$this->result = $result;
 
 		$group = 'group0';
-		$temp = $fieldValues = array();
+		$temp = $fieldValues = [];
 		$groupCount = 0;
 		$groupRecordCount = 0;
-		$entries = array();
+		$entries = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$entries[] = $db->query_result_rowdata($result, $i);
 		}

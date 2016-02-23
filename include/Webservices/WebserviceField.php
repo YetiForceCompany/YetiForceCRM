@@ -39,8 +39,8 @@ class WebserviceField
 	private $typeOfData;
 	private $fieldDataType;
 	private $dataFromMeta;
-	private static $tableMeta = array();
-	private static $fieldTypeMapping = array();
+	private static $tableMeta = [];
+	private static $fieldTypeMapping = [];
 	private $referenceList;
 	private $defaultValuePresent;
 	private $explicitDefaultValue;
@@ -231,7 +231,7 @@ class WebserviceField
 			$tableFields = WebserviceField::$tableMeta[$this->getTableName()];
 		} else {
 			$dbMetaColumns = $this->pearDB->getColumnsMeta($this->getTableName());
-			$tableFields = array();
+			$tableFields = [];
 			foreach ($dbMetaColumns as $key => $dbField) {
 				$tableFields[$dbField->name] = $dbField;
 			}
@@ -275,7 +275,7 @@ class WebserviceField
 
 	public function getReferenceList()
 	{
-		static $referenceList = array();
+		static $referenceList = [];
 		if ($this->referenceList === null) {
 			if (isset($referenceList[$this->getFieldId()])) {
 				$this->referenceList = $referenceList[$this->getFieldId()];
@@ -294,7 +294,7 @@ class WebserviceField
 				array_push($accessibleTypes, 'Users');
 			}
 
-			$referenceTypes = array();
+			$referenceTypes = [];
 			if (!in_array($this->getUIType(), [66, 67, 68])) {
 				if ($this->getUIType() != $this->genericUIType) {
 					$sql = "select vtiger_ws_referencetype.`type` from vtiger_ws_referencetype INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_ws_referencetype.`type` where fieldtypeid=? AND vtiger_tab.`presence` NOT IN (?)";
@@ -316,7 +316,7 @@ class WebserviceField
 			}
 			$referenceTypesUnsorted = array_values(array_intersect($accessibleTypes, $referenceTypes));
 
-			$referenceTypesSorted = array();
+			$referenceTypesSorted = [];
 			foreach ($referenceTypesUnsorted as $key => $reference) {
 				$keySort = array_search($reference, $referenceTypes);
 				$referenceTypesSorted[$keySort] = $reference;
@@ -362,7 +362,7 @@ class WebserviceField
 
 		// Cache all the information for futher re-use
 		if (empty(self::$fieldTypeMapping)) {
-			$result = $this->pearDB->pquery('select * from vtiger_ws_fieldtype', array());
+			$result = $this->pearDB->pquery('select * from vtiger_ws_fieldtype', []);
 			while ($resultrow = $this->pearDB->fetch_array($result)) {
 				self::$fieldTypeMapping[$resultrow['uitype']] = $resultrow;
 			}
@@ -412,16 +412,16 @@ class WebserviceField
 		$fieldName = $this->getFieldName();
 
 		$default_charset = VTWS_PreserveGlobal::getGlobal('default_charset');
-		$options = array();
+		$options = [];
 		$sql = "select * from vtiger_picklist where name=?";
 		$result = $this->pearDB->pquery($sql, array($fieldName));
 		$numRows = $this->pearDB->num_rows($result);
 		if ($numRows == 0) {
 			$sql = "select * from vtiger_$fieldName";
-			$result = $this->pearDB->pquery($sql, array());
+			$result = $this->pearDB->pquery($sql, []);
 			$numRows = $this->pearDB->num_rows($result);
 			for ($i = 0; $i < $numRows; ++$i) {
-				$elem = array();
+				$elem = [];
 				$picklistValue = $this->pearDB->query_result($result, $i, $fieldName);
 				$picklistValue = decode_html($picklistValue);
 				$moduleName = getTabModuleName($this->getTabId());
@@ -435,7 +435,7 @@ class WebserviceField
 			$user = VTWS_PreserveGlobal::getGlobal('current_user');
 			$details = getPickListValues($fieldName, $user->roleid);
 			for ($i = 0; $i < sizeof($details); ++$i) {
-				$elem = array();
+				$elem = [];
 				$picklistValue = decode_html($details[$i]);
 				$moduleName = getTabModuleName($this->getTabId());
 				if ($moduleName == 'Events')

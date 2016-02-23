@@ -70,7 +70,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 			$keys[$row['id']] = $row;
 			$keys[$row['id']]['name'] = 'LBL_MOBILE_' . strtoupper($row['service']);
 			$privileges_users = unserialize($row['privileges_users']);
-			$keys[$row['id']]['privileges_users'] = $privileges_users != '' ? $privileges_users : array();
+			$keys[$row['id']]['privileges_users'] = $privileges_users != '' ? $privileges_users : [];
 		}
 		return $keys;
 	}
@@ -78,7 +78,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 	public function getPrivilegesUsers()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$users = array();
+		$users = [];
 		$keys = self::getAllMobileKeys('pushcall', $currentUser->getId());
 		foreach ($keys as $id => $key) {
 			if (in_array($currentUser->getId(), $key['privileges_users']))

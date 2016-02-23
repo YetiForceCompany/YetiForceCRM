@@ -121,7 +121,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$addLinks = $this->getAddRelationLinks();
 
 		$links = array_merge($selectLinks, $addLinks);
-		$relatedLink = array();
+		$relatedLink = [];
 		$relatedLink['LISTVIEWBASIC'] = $links;
 		return $relatedLink;
 	}
@@ -129,7 +129,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	public function getSelectRelationLinks()
 	{
 		$relationModel = $this->getRelationModel();
-		$selectLinkModel = array();
+		$selectLinkModel = [];
 
 		if (!$relationModel->isSelectActionSupported()) {
 			return $selectLinkModel;
@@ -338,7 +338,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$pagingModel->calculatePageRange($relatedRecordList);
 
 		$nextLimitQuery = $query . ' LIMIT ' . ($startIndex + $pageLimit) . ' , 1';
-		$nextPageLimitResult = $db->pquery($nextLimitQuery, array());
+		$nextPageLimitResult = $db->pquery($nextLimitQuery, []);
 		if ($db->num_rows($nextPageLimitResult) > 0) {
 			$pagingModel->set('nextPageExists', true);
 		} else {
@@ -353,7 +353,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationFields = $relationModel->getRelationFields(true);
 
-		$headerFields = array();
+		$headerFields = [];
 		if (count($relationFields) > 0) {
 			foreach ($relationFields as $fieldName) {
 				$headerFields[$fieldName] = $relatedModuleModel->getField($fieldName);
@@ -495,7 +495,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$parts = explode(' GROUP BY ', $relationQuery);
 			$relationQuery = $parts[0];
 		}
-		$result = $db->pquery($relationQuery, array());
+		$result = $db->pquery($relationQuery, []);
 		return $db->query_result($result, 0, 'count');
 	}
 

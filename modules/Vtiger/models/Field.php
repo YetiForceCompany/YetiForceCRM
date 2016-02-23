@@ -129,7 +129,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		if ($this->webserviceField == false) {
 			$db = PearDatabase::getInstance();
 
-			$row = array();
+			$row = [];
 			$row['uitype'] = $this->get('uitype');
 			$row['block'] = $this->get('block');
 			$row['tablename'] = $this->get('table');
@@ -238,7 +238,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 			if (!empty($moduleModel)) {
 				$moduleEntityNameFields = $moduleModel->getNameFields();
 			} else {
-				$moduleEntityNameFields = array();
+				$moduleEntityNameFields = [];
 			}
 		} else {
 			$moduleEntityNameFields = explode(',', $nameFieldObject->fieldname);
@@ -320,8 +320,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 	public function getModulesListValues($onlyActive = true)
 	{
 		$adb = PearDatabase::getInstance();
-		$modules = array();
-		$params = array();
+		$modules = [];
+		$params = [];
 		if ($onlyActive) {
 			$where .= ' WHERE presence = ? AND isentitytype = ?';
 			array_push($params, 0);
@@ -814,10 +814,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 		if (!$fieldModelList) {
 			$fieldObjects = parent::getAllForModule($moduleModel);
 
-			$fieldModelList = array();
+			$fieldModelList = [];
 			//if module dont have any fields
 			if (!is_array($fieldObjects)) {
-				$fieldObjects = array();
+				$fieldObjects = [];
 			}
 
 			foreach ($fieldObjects as $fieldObject) {
@@ -871,7 +871,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 			WHERE `vtiger_field`.`columnname` = ? 
 				AND `vtiger_field`.`tablename` = ?;", array('folderid', 'vtiger_notes'));
 		$rows = $adb->num_rows($result);
-		$folders = array();
+		$folders = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$folderId = $adb->query_result($result, $i, 'tree');
 			$folderName = $adb->query_result($result, $i, 'name');
@@ -896,7 +896,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	/*	 * TODO: field validator need to be handled in specific module getValidator api  * */
 	function getValidator()
 	{
-		$validator = array();
+		$validator = [];
 		$fieldName = $this->getName();
 		switch ($fieldName) {
 			case 'birthday' : $funcName = array('name' => 'lessThanToday');
@@ -1094,7 +1094,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		}
 
 		$result = $adb->pquery($query, $params);
-		$modulePermission = array();
+		$modulePermission = [];
 		$noOfFields = $adb->num_rows($result);
 		for ($i = 0; $i < $noOfFields; ++$i) {
 			$row = $adb->query_result_rowdata($result, $i);

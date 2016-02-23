@@ -17,7 +17,7 @@ class Vtiger_EmailList_Widget extends Vtiger_Basic_Widget {
 		return 'EmailListConfig';
 	}
 	public function getWidget() {
-		$widget = array();
+		$widget = [];
 		$model = Vtiger_Module_Model::getInstance('OSSMailView');
 		if( $model->isPermitted('DetailView') ) {
 			$this->Config['tpl'] = 'EmailList.tpl';

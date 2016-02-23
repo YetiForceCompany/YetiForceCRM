@@ -49,8 +49,8 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 		$moduleName = $this->module->getName();
 
 		// Preparation to pull required tool-tip field values.
-		$referenceFields = array();
-		$fieldNames = array();
+		$referenceFields = [];
+		$fieldNames = [];
 		foreach ($this->fields as $fieldModel) {
 			$fieldType = $fieldModel->getFieldDataType();
 			$fieldName = $fieldModel->get('name');
@@ -94,7 +94,7 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 		if (!$this->structuredValues) {
 			$tooltipFieldsList = $this->fields;
 			$recordModel = $this->getRecord();
-			$this->structuredValues = array('TOOLTIP_FIELDS' => array());
+			$this->structuredValues = array('TOOLTIP_FIELDS' => []);
 			if ($tooltipFieldsList) {
 				foreach ($tooltipFieldsList as $fieldModel) {
 					$fieldName = $fieldModel->get('name');

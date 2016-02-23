@@ -153,7 +153,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		}
         $searchParmams = $request->get('search_params');
         if(empty($searchParmams)) {
-            $searchParmams = array();
+            $searchParmams = [];
         }
         $transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParmams, $moduleModel);
         $listViewModel->set('search_params',$transformedSearchParams);
@@ -335,7 +335,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		if($pageCount == 0){
 			$pageCount = 1;
 		}
-		$result = array();
+		$result = [];
 		$result['page'] = $pageCount;
 		$result['numberOfRecords'] = $listViewCount;
 		$response = new Vtiger_Response();

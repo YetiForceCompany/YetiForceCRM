@@ -187,9 +187,9 @@ Class DataAccess_unique_value
 	public function getConfig($id, $module, $baseModule)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE vtiger_field.presence <> '1' AND vtiger_field.displaytype IN ('1','10') ORDER BY name", array(), true);
-		$fields = array();
-		$ModuleFields = array();
+		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE vtiger_field.presence <> '1' AND vtiger_field.displaytype IN ('1','10') ORDER BY name", [], true);
+		$fields = [];
+		$ModuleFields = [];
 		while ($row = $db->fetch_array($result)) {
 			array_push($fields, array($row['fieldlabel'], $row['tablename'], $row['columnname'], $row['name'], $row['tabid'], $row['fieldname']));
 			if ($row['name'] == $baseModule) {

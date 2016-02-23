@@ -17,7 +17,7 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget {
 		return 'CommentsConfig';
 	}
 	public function getWidget() {
-		$widget = array();
+		$widget = [];
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if( $this->moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView') ) {
 			$this->Config['url'] = $this->getUrl();

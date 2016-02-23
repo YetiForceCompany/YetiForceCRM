@@ -117,6 +117,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 	}
 
 	function getGuiderModels(Vtiger_Request $request) {
-		return array();
+		return [];
 	}
 }
