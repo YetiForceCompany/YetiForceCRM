@@ -933,7 +933,7 @@ class Products extends CRMEntity
 			if ($with_module == 'Leads' || $with_module == 'Accounts' ||
 				$with_module == 'Contacts' || $with_module == 'Products') {
 				$query = $db->pquery("SELECT * from vtiger_seproductsrel WHERE crmid=? and productid=?", array($crmid, $with_crmid));
-				if ($db->getRowCount($result) == 0) {
+				if ($db->getRowCount($query) == 0) {
 					$db->insert('vtiger_seproductsrel', [
 						'crmid' => $with_crmid,
 						'productid' => $crmid,
