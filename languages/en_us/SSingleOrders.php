@@ -6,23 +6,23 @@ $languageStrings = [
 	
 	//BLOCKS
 	'LBL_SSINGLEORDERS_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description Details',
+	'LBL_CUSTOM_INFORMATION' => 'System information',
+	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
 	'LBL_STATISTICS' => 'Statistics',
 	
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
 	'LBL_NUMBER' => 'Number',
 	'LBL_STATUS' => 'Status',
-	'LBL_CLOSED_TIME' => 'Closed Time',
+	'LBL_CLOSED_TIME' => 'Closed time',
 	'LBL_RESPONSE_TIME' => 'Respone time',
 	'LBL_REALIZATION_START_DATE' => 'Realization start date',
 	'LBL_REALIZATION_COMPLETION_DATE' => 'Realization completion date',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Actual completion date',
 	'LBL_COMPANY_NAME' => 'Company name',
 	'SINGLE_SSalesProcesses' => 'Opportunity',
-	'FL_TOTAL_PRICE' => 'Net Total',
-	'FL_MARGINP' => 'Total margin Percentage',
+	'FL_TOTAL_PRICE' => 'Net total',
+	'FL_MARGINP' => 'Total margin percentage',
 	'FL_MARGIN' => 'Total margin',
 	'FL_SUM_GROSS' => 'Gross amount',
 	'FL_SUM_DISCOUNT' => 'Discount amount',
@@ -35,6 +35,6 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_ACCEPTED' => 'Accepted',
 
-	'LBL_CHANGE_STATUS' => 'Change Status',
+	'LBL_CHANGE_STATUS' => 'Change status',
 	'LBL_PREVIEW' => 'Preview',
 ];
