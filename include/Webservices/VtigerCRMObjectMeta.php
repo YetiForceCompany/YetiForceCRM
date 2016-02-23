@@ -32,7 +32,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$this->emailFields = null;
 		$this->referenceFieldDetails = null;
 		$this->ownerFields = null;
-		$this->moduleFields = array();
+		$this->moduleFields = [];
 		$this->hasAccess = false;
 		$this->hasReadAccess = false;
 		$this->hasWriteAccess = false;
@@ -45,7 +45,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		if (in_array('vtiger_crmentity', $instance->tab_name)) {
 			$this->defaultTableList = array('vtiger_crmentity');
 		} else {
-			$this->defaultTableList = array();
+			$this->defaultTableList = [];
 		}
 		$this->tabId = null;
 	}
@@ -291,7 +291,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 			$this->retrieveMeta();
 		}
 		if ($this->fieldColumnMapping === null) {
-			$this->fieldColumnMapping = array();
+			$this->fieldColumnMapping = [];
 			foreach ($this->moduleFields as $fieldName => $webserviceField) {
 				if (strcasecmp($webserviceField->getFieldDataType(), 'file') !== 0) {
 					$this->fieldColumnMapping[$fieldName] = $webserviceField->getColumnName();
@@ -373,7 +373,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		$cv = new CustomView();
 		$module_info = $cv->getCustomViewModuleInfo($this->getTabName());
-		$blockArray = array();
+		$blockArray = [];
 		foreach ($cv->module_list[$this->getTabName()] as $label => $blockList) {
 			$blockArray = array_merge($blockArray, explode(',', $blockList));
 		}
@@ -439,8 +439,8 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$result = $adb->pquery($sql, $params);
 
 		$noofrows = $adb->num_rows($result);
-		$referenceArray = array();
-		$knownFieldArray = array();
+		$referenceArray = [];
+		$knownFieldArray = [];
 		for ($i = 0; $i < $noofrows; $i++) {
 			$webserviceField = WebserviceField::fromQueryResult($adb, $result, $i);
 			$this->moduleFields[$webserviceField->getFieldName()] = $webserviceField;
@@ -487,7 +487,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		// 
 		// NOTE: We are not caching the record existence 
 		// to ensure only latest state from DB is sent.
-		static $user_exists_cache = array();
+		static $user_exists_cache = [];
 
 		$exists = false;
 		$sql = '';

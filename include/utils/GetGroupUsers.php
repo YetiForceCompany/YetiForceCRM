@@ -19,8 +19,8 @@ require_once('include/utils/GetParentGroups.php');
 class GetGroupUsers
 {
 
-	var $group_users = array();
-	var $group_subgroups = array();
+	var $group_users = [];
+	var $group_subgroups = [];
 
 	/** to get all the vtiger_users and vtiger_groups of the specified group
 	 * @params $groupId --> Group Id :: Type Integer
@@ -50,7 +50,7 @@ class GetGroupUsers
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$now_role_id = $adb->query_result($result, $i, 'roleid');
-			$now_role_users = array();
+			$now_role_users = [];
 			$now_role_users = getRoleUsers($now_role_id);
 
 			foreach ($now_role_users as $now_role_userid => $now_role_username) {

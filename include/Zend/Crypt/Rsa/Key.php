@@ -38,7 +38,7 @@ class Zend_Crypt_Rsa_Key implements Countable
      *
      * @var array
      */
-    protected $_details = array();
+    protected $_details = [];
 
     /**
      * Key Resource

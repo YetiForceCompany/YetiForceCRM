@@ -44,7 +44,7 @@ class Zend_Gdata_Extension_When extends Zend_Gdata_Extension
 {
 
     protected $_rootElement = 'when';
-    protected $_reminders = array();
+    protected $_reminders = [];
     protected $_startTime = null;
     protected $_valueString = null;
     protected $_endTime = null;

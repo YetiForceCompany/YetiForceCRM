@@ -119,12 +119,12 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 
 	if ($adb->isPostgres())
 		$list_result = $adb->pquery($query .
-			" OFFSET $limit_start_rec LIMIT $list_max_entries_per_page", array());
+			" OFFSET $limit_start_rec LIMIT $list_max_entries_per_page", []);
 	else
 		$list_result = $adb->pquery($query .
-			" LIMIT $limit_start_rec, $list_max_entries_per_page", array());
+			" LIMIT $limit_start_rec, $list_max_entries_per_page", []);
 
-	$header = array();
+	$header = [];
 	$header[] = $mod_strings['LBL_LIST_PRODUCT_NAME'];
 	if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
 		$header[] = $mod_strings['LBL_PRODUCT_CODE'];
@@ -146,7 +146,7 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 		$listprice = $adb->query_result($list_result, $i, "listprice");
 		$field_name = $entity_id . "_listprice";
 
-		$entries = Array();
+		$entries = [];
 		$entries[] = textlength_check($adb->query_result($list_result, $i, "productname"));
 		if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
 			$entries[] = $adb->query_result($list_result, $i, "productcode");
@@ -195,7 +195,7 @@ function CheckColumnPermission($tablename, $columnname, $module)
 {
 	$adb = PearDatabase::getInstance();
 
-	static $cache = array();
+	static $cache = [];
 
 	$cachekey = $module . ":" . $tablename . ":" . $columnname;
 	if (!array_key_exists($cachekey, $cache)) {

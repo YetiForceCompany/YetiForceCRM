@@ -37,7 +37,7 @@ function vtws_getUsersInTheSameGroup($id)
 
 	$groupUsers = new GetGroupUsers();
 	$userGroups = new GetUserGroups();
-	$allUsers = Array();
+	$allUsers = [];
 	$userGroups->getAllUserGroups($id);
 	$groups = $userGroups->user_groups;
 
@@ -71,7 +71,7 @@ function vtws_getVtigerVersion()
 {
 	$adb = PearDatabase::getInstance();
 	$query = 'select * from vtiger_version';
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	$version = '';
 	while ($row = $adb->fetch_array($result)) {
 		$version = $row['current_version'];
@@ -92,7 +92,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 		$result = get_group_options();
 	}
 
-	$groups = array();
+	$groups = [];
 	if ($result != null && $result != '' && is_object($result)) {
 		$rowCount = $adb->num_rows($result);
 		for ($i = 0; $i < $rowCount; $i++) {
@@ -169,7 +169,7 @@ function vtws_getEntityNameFields($moduleName)
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
 	$result = $adb->pquery($query, array($moduleName));
 	$rowCount = $adb->num_rows($result);
-	$nameFields = array();
+	$nameFields = [];
 	if ($rowCount > 0) {
 		$fieldsname = $adb->query_result($result, 0, 'fieldname');
 		if (!(strpos($fieldsname, ',') === false)) {
@@ -190,8 +190,8 @@ function vtws_getModuleNameList()
 
 	$sql = "select name from vtiger_tab where isentitytype=1 and name not in ('Rss'," .
 		"'Recyclebin','Events') order by tabsequence";
-	$res = $adb->pquery($sql, array());
-	$mod_array = Array();
+	$res = $adb->pquery($sql, []);
+	$mod_array = [];
 	while ($row = $adb->fetchByAssoc($res)) {
 		array_push($mod_array, $row['name']);
 	}
@@ -203,9 +203,9 @@ function vtws_getWebserviceEntities()
 	$adb = PearDatabase::getInstance();
 
 	$sql = "select name,id,ismodule from vtiger_ws_entity";
-	$res = $adb->pquery($sql, array());
-	$moduleArray = Array();
-	$entityArray = Array();
+	$res = $adb->pquery($sql, []);
+	$moduleArray = [];
+	$entityArray = [];
 	while ($row = $adb->fetchByAssoc($res)) {
 		if ($row['ismodule'] == '1') {
 			array_push($moduleArray, $row['name']);
@@ -231,7 +231,7 @@ function vtws_isRecordOwnerUser($ownerId)
 {
 	$adb = PearDatabase::getInstance();
 
-	static $cache = array();
+	static $cache = [];
 	if (!array_key_exists($ownerId, $cache)) {
 		$result = $adb->pquery("select first_name from vtiger_users where id = ?", array($ownerId));
 		$rowCount = $adb->num_rows($result);
@@ -248,7 +248,7 @@ function vtws_isRecordOwnerGroup($ownerId)
 {
 	$adb = PearDatabase::getInstance();
 
-	static $cache = array();
+	static $cache = [];
 	if (!array_key_exists($ownerId, $cache)) {
 		$result = $adb->pquery("select groupname from vtiger_groups where groupid = ?", array($ownerId));
 		$rowCount = $adb->num_rows($result);
@@ -519,7 +519,7 @@ function vtws_getActorEntityName($name, $idList)
 {
 	$db = PearDatabase::getInstance();
 	if (!is_array($idList) && count($idList) == 0) {
-		return array();
+		return [];
 	}
 	$entity = VtigerWebserviceObject::fromName($db, $name);
 	return vtws_getActorEntityNameById($entity->getEntityId(), $idList);
@@ -529,9 +529,9 @@ function vtws_getActorEntityNameById($entityId, $idList)
 {
 	$db = PearDatabase::getInstance();
 	if (!is_array($idList) && count($idList) == 0) {
-		return array();
+		return [];
 	}
-	$nameList = array();
+	$nameList = [];
 	$webserviceObject = VtigerWebserviceObject::fromId($db, $entityId);
 	$query = "select * from vtiger_ws_entity_name where entity_id = ?";
 	$result = $db->pquery($query, array($entityId));
@@ -562,7 +562,7 @@ function vtws_getActorEntityNameById($entityId, $idList)
 			}
 		}
 	}
-	return array();
+	return [];
 }
 
 function vtws_isRoleBasedPicklist($name)
@@ -577,11 +577,11 @@ function vtws_getConvertLeadFieldMapping()
 {
 	$adb = PearDatabase::getInstance();
 	$sql = "select * from vtiger_convertleadmapping";
-	$result = $adb->pquery($sql, array());
+	$result = $adb->pquery($sql, []);
 	if ($result === false) {
 		return null;
 	}
-	$mapping = array();
+	$mapping = [];
 	$rowCount = $adb->num_rows($result);
 	for ($i = 0; $i < $rowCount; ++$i) {
 		$row = $adb->query_result_rowdata($result, $i);
@@ -864,9 +864,9 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	$sql = "select tabid,fieldname,tablename,columnname from vtiger_field left join " .
 		"vtiger_fieldmodulerel on vtiger_field.fieldid=vtiger_fieldmodulerel.fieldid where uitype " .
 		"in (52,53,77,101) or (uitype=10 and relmodule='Users')";
-	$result = $db->pquery($sql, array());
+	$result = $db->pquery($sql, []);
 	$it = new SqlResultIterator($db, $result);
-	$columnList = array();
+	$columnList = [];
 	foreach ($it as $row) {
 		$column = $row->tablename . '.' . $row->columnname;
 		if (!in_array($column, $columnList)) {
@@ -893,7 +893,7 @@ function vtws_updateWebformsRoundrobinUsersLists($ownerId, $newOwnerId)
 {
 	$db = PearDatabase::getInstance();
 	$sql = 'SELECT id,roundrobin_userid FROM vtiger_webforms;';
-	$result = $db->pquery($sql, array());
+	$result = $db->pquery($sql, []);
 	$numOfRows = $db->num_rows($result);
 	for ($i = 0; $i < $numOfRows; $i++) {
 		$rowdata = $db->query_result_rowdata($result, $i);
@@ -907,7 +907,7 @@ function vtws_updateWebformsRoundrobinUsersLists($ownerId, $newOwnerId)
 					$usersList[$key] = $newOwnerId;
 				} else {
 					unset($usersList[$key]);
-					$revisedUsersList = array();
+					$revisedUsersList = [];
 					$j = 0;
 					foreach ($usersList as $uid) {
 						$revisedUsersList[$j++] = $uid;
@@ -947,7 +947,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 	$fieldSearchValue = 's:16:"assigned_user_id"';
 	$query = "SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE '%" . $nameSearchValue . "%' OR task LIKE '%" . $idSearchValue .
 		"%' OR task LIKE '%" . $fieldSearchValue . "%'";
-	$result = $db->pquery($query, array());
+	$result = $db->pquery($query, []);
 
 	$num_rows = $db->num_rows($result);
 	for ($i = 0; $i < $num_rows; $i++) {
@@ -997,7 +997,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 
 function vtws_getWebserviceTranslatedStringForLanguage($label, $currentLanguage)
 {
-	static $translations = array();
+	static $translations = [];
 	$currentLanguage = vtws_getWebserviceCurrentLanguage();
 	if (empty($translations[$currentLanguage])) {
 		include 'languages/' . $currentLanguage . '/Webservices.php';

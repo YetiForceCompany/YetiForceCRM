@@ -147,7 +147,7 @@ class Zend_Http_Client
      *
      * @var array
      */
-    protected $headers = array();
+    protected $headers = [];
 
     /**
      * HTTP request method
@@ -161,14 +161,14 @@ class Zend_Http_Client
      *
      * @var array
      */
-    protected $paramsGet = array();
+    protected $paramsGet = [];
 
     /**
      * Associative array of POST parameters
      *
      * @var array
      */
-    protected $paramsPost = array();
+    protected $paramsPost = [];
 
     /**
      * Request body content type (for POST requests)
@@ -206,7 +206,7 @@ class Zend_Http_Client
      *
      * @var array
      */
-    protected $files = array();
+    protected $files = [];
 
     /**
      * Ordered list of keys from key/value pair data to include in body
@@ -216,7 +216,7 @@ class Zend_Http_Client
      *
      * @var array
      */
-    protected $body_field_order = array();
+    protected $body_field_order = [];
 
     /**
      * The client's cookie jar
@@ -348,7 +348,7 @@ class Zend_Http_Client
      * @return Zend_Http_Client
      * @throws Zend_Http_Client_Exception
      */
-    public function setConfig($config = array())
+    public function setConfig($config = [])
     {
         if ($config instanceof Zend_Config) {
             $config = $config->toArray();
@@ -528,7 +528,7 @@ class Zend_Http_Client
      */
     protected function _setParameter($type, $name, $value)
     {
-        $parray = array();
+        $parray = [];
         $type = strtolower($type);
         switch ($type) {
             case 'get':
@@ -850,14 +850,14 @@ class Zend_Http_Client
     public function resetParameters($clearAll = false)
     {
         // Reset parameter data
-        $this->paramsGet     = array();
-        $this->paramsPost    = array();
-        $this->files         = array();
+        $this->paramsGet     = [];
+        $this->paramsPost    = [];
+        $this->files         = [];
         $this->raw_post_data = null;
         $this->enctype       = null;
 
         if($clearAll) {
-            $this->headers = array();
+            $this->headers = [];
             $this->last_request = null;
             $this->last_response = null;
         } else {
@@ -1168,7 +1168,7 @@ class Zend_Http_Client
      */
     protected function _prepareHeaders()
     {
-        $headers = array();
+        $headers = [];
 
         // Set the host header
         if (! isset($this->headers['host'])) {
@@ -1377,7 +1377,7 @@ class Zend_Http_Client
         if (! is_array($parray)) {
             return $parray;
         }
-        $parameters = array();
+        $parameters = [];
 
         foreach ($parray as $name => $value) {
             if ($urlencode) {
@@ -1454,7 +1454,7 @@ class Zend_Http_Client
      * @param array $headers Associative array of optional headers @example ("Content-Transfer-Encoding" => "binary")
      * @return string
      */
-    public static function encodeFormData($boundary, $name, $value, $filename = null, $headers = array()) {
+    public static function encodeFormData($boundary, $name, $value, $filename = null, $headers = []) {
         $ret = "--{$boundary}\r\n" .
             'Content-Disposition: form-data; name="' . $name .'"';
 
@@ -1535,7 +1535,7 @@ class Zend_Http_Client
             return $parray;
         }
 
-        $parameters = array();
+        $parameters = [];
 
         foreach($parray as $name => $value) {
 

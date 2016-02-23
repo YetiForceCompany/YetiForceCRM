@@ -79,8 +79,8 @@ function getTabsUtilityActionPermission($profileid)
 	$log->debug("Entering getTabsUtilityActionPermission(" . $profileid . ") method ...");
 
 	$adb = PearDatabase::getInstance();
-	$check = Array();
-	$temp_tabid = Array();
+	$check = [];
+	$temp_tabid = [];
 	$sql1 = "select * from vtiger_profile2utility where profileid=? order by(tabid)";
 	$result1 = $adb->pquery($sql1, array($profileid));
 	$num_rows1 = $adb->num_rows($result1);
@@ -88,7 +88,7 @@ function getTabsUtilityActionPermission($profileid)
 		$tab_id = $adb->query_result($result1, $i, 'tabid');
 		if (!in_array($tab_id, $temp_tabid)) {
 			$temp_tabid[] = $tab_id;
-			$access = Array();
+			$access = [];
 		}
 
 		$action_id = $adb->query_result($result1, $i, 'activityid');
@@ -117,7 +117,7 @@ function getDefaultSharingEditAction()
 	$adb = PearDatabase::getInstance();
 	//retreiving the standard permissions
 	$sql = "select * from vtiger_def_org_share where editstatus=0";
-	$result = $adb->pquery($sql, array());
+	$result = $adb->pquery($sql, []);
 	$permissionRow = $adb->fetch_array($result);
 	do {
 		for ($j = 0; $j < count($permissionRow); $j++) {
@@ -145,7 +145,7 @@ function getDefaultSharingAction()
 	$adb = PearDatabase::getInstance();
 	//retreivin the standard permissions
 	$sql = "select * from vtiger_def_org_share where editstatus in(0,1)";
-	$result = $adb->pquery($sql, array());
+	$result = $adb->pquery($sql, []);
 	$permissionRow = $adb->fetch_array($result);
 	do {
 		for ($j = 0; $j < count($permissionRow); $j++) {
@@ -170,10 +170,10 @@ function getAllDefaultSharingAction()
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering getAllDefaultSharingAction() method ...");
 	$adb = PearDatabase::getInstance();
-	$copy = Array();
+	$copy = [];
 	//retreiving the standard permissions
 	$sql = "select * from vtiger_def_org_share";
-	$result = $adb->pquery($sql, array());
+	$result = $adb->pquery($sql, []);
 	$num_rows = $adb->num_rows($result);
 
 	for ($i = 0; $i < $num_rows; $i++) {
@@ -716,7 +716,7 @@ function getProfileTabsPermission($profileid)
 	$result = $adb->pquery($sql, array($profileid));
 	$num_rows = $adb->num_rows($result);
 
-	$copy = array();
+	$copy = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$tab_id = $adb->query_result($result, $i, "tabid");
 		$per_id = $adb->query_result($result, $i, "permissions");
@@ -740,8 +740,8 @@ function getProfileActionPermission($profileid)
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering getProfileActionPermission(" . $profileid . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$check = Array();
-	$temp_tabid = Array();
+	$check = [];
+	$temp_tabid = [];
 	$sql1 = "select * from vtiger_profile2standardpermissions where profileid=?";
 	$result1 = $adb->pquery($sql1, array($profileid));
 	$num_rows1 = $adb->num_rows($result1);
@@ -749,7 +749,7 @@ function getProfileActionPermission($profileid)
 		$tab_id = $adb->query_result($result1, $i, 'tabid');
 		if (!in_array($tab_id, $temp_tabid)) {
 			$temp_tabid[] = $tab_id;
-			$access = Array();
+			$access = [];
 		}
 
 		$action_id = $adb->query_result($result1, $i, 'operation');
@@ -797,12 +797,12 @@ function getAllRoleDetails()
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering getAllRoleDetails() method ...");
 	$adb = PearDatabase::getInstance();
-	$role_det = Array();
+	$role_det = [];
 	$query = "select * from vtiger_role";
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
 	for ($i = 0; $i < $num_rows; $i++) {
-		$each_role_det = Array();
+		$each_role_det = [];
 		$roleid = $adb->query_result($result, $i, 'roleid');
 		$rolename = $adb->query_result($result, $i, 'rolename');
 		$roledepth = $adb->query_result($result, $i, 'depth');
@@ -870,7 +870,7 @@ function getRoleUsers($roleId)
 	$query = "select vtiger_user2role.*,vtiger_users.* from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?";
 	$result = $adb->pquery($query, array($roleId));
 	$num_rows = $adb->num_rows($result);
-	$roleRelatedUsers = Array();
+	$roleRelatedUsers = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = getFullNameFromQResult($result, $i, 'Users');
 	}
@@ -891,7 +891,7 @@ function getRoleUserIds($roleId)
 	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?";
 	$result = $adb->pquery($query, array($roleId));
 	$num_rows = $adb->num_rows($result);
-	$roleRelatedUsers = Array();
+	$roleRelatedUsers = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleRelatedUsers[] = $adb->query_result($result, $i, 'userid');
 	}
@@ -914,7 +914,7 @@ function getRoleAndSubordinateUsers($roleId)
 	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?";
 	$result = $adb->pquery($query, array($parentRole . "%"));
 	$num_rows = $adb->num_rows($result);
-	$roleRelatedUsers = Array();
+	$roleRelatedUsers = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = $adb->query_result($result, $i, 'user_name');
 	}
@@ -932,7 +932,7 @@ function getRoleAndSubordinatesInformation($roleId)
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering getRoleAndSubordinatesInformation(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	static $roleInfoCache = array();
+	static $roleInfoCache = [];
 	if (!empty($roleInfoCache[$roleId])) {
 		return $roleInfoCache[$roleId];
 	}
@@ -942,13 +942,13 @@ function getRoleAndSubordinatesInformation($roleId)
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 	$result = $adb->pquery($query, array($roleParentSeq . "%"));
 	$num_rows = $adb->num_rows($result);
-	$roleInfo = Array();
+	$roleInfo = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleid = $adb->query_result($result, $i, 'roleid');
 		$rolename = $adb->query_result($result, $i, 'rolename');
 		$roledepth = $adb->query_result($result, $i, 'depth');
 		$parentrole = $adb->query_result($result, $i, 'parentrole');
-		$roleDet = Array();
+		$roleDet = [];
 		$roleDet[] = $rolename;
 		$roleDet[] = $parentrole;
 		$roleDet[] = $roledepth;
@@ -975,7 +975,7 @@ function getRoleAndSubordinatesRoleIds($roleId)
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 	$result = $adb->pquery($query, array($roleParentSeq . "%"));
 	$num_rows = $adb->num_rows($result);
-	$roleInfo = Array();
+	$roleInfo = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleid = $adb->query_result($result, $i, 'roleid');
 		$roleInfo[] = $roleid;
@@ -1110,9 +1110,9 @@ function getAllUserName()
 	$log->debug("Entering getAllUserName() method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select * from vtiger_users where deleted=0";
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
-	$user_details = Array();
+	$user_details = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$userid = $adb->query_result($result, $i, 'id');
 		$username = getFullNameFromQResult($result, $i, 'Users');
@@ -1132,9 +1132,9 @@ function getAllGroupName()
 	$log->debug("Entering getAllGroupName() method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select * from vtiger_groups";
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
-	$group_details = Array();
+	$group_details = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$grpid = $adb->query_result($result, $i, 'groupid');
 		$grpname = $adb->query_result($result, $i, 'groupname');
@@ -1233,7 +1233,7 @@ function getUserProfile($userId)
 	$log->debug("Entering getUserProfile(" . $userId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$roleId = fetchUserRole($userId);
-	$profArr = Array();
+	$profArr = [];
 	$sql1 = "select profileid from vtiger_role2profile where roleid=?";
 	$result1 = $adb->pquery($sql1, array($roleId));
 	$num_rows = $adb->num_rows($result1);
@@ -1259,7 +1259,7 @@ function getCombinedUserGlobalPermissions($userId)
 	$adb = PearDatabase::getInstance();
 	$profArr = getUserProfile($userId);
 	$no_of_profiles = sizeof($profArr);
-	$userGlobalPerrArr = Array();
+	$userGlobalPerrArr = [];
 
 	$userGlobalPerrArr = getProfileGlobalPermission($profArr[0]);
 	if ($no_of_profiles != 1) {
@@ -1294,7 +1294,7 @@ function getCombinedUserTabsPermissions($userId)
 	$adb = PearDatabase::getInstance();
 	$profArr = getUserProfile($userId);
 	$no_of_profiles = sizeof($profArr);
-	$userTabPerrArr = Array();
+	$userTabPerrArr = [];
 
 	$userTabPerrArr = getProfileTabsPermission($profArr[0]);
 	if ($no_of_profiles != 1) {
@@ -1333,7 +1333,7 @@ function getCombinedUserActionPermissions($userId)
 	$adb = PearDatabase::getInstance();
 	$profArr = getUserProfile($userId);
 	$no_of_profiles = sizeof($profArr);
-	$actionPerrArr = Array();
+	$actionPerrArr = [];
 
 	$actionPerrArr = getProfileAllActionPermission($profArr[0]);
 	if ($no_of_profiles != 1) {
@@ -1368,7 +1368,7 @@ function getParentRole($roleId)
 	$roleInfo = getRoleInformation($roleId);
 	$parentRole = $roleInfo['parentrole'];
 	$tempParentRoleArr = explode('::', $parentRole);
-	$parentRoleArr = Array();
+	$parentRoleArr = [];
 	foreach ($tempParentRoleArr as $role_id) {
 		if ($role_id != $roleId) {
 			$parentRoleArr[] = $role_id;
@@ -1399,7 +1399,7 @@ function getRoleSubordinates($roleId)
 		$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 		$result = $adb->pquery($query, array($roleParentSeq . "::%"));
 		$num_rows = $adb->num_rows($result);
-		$roleSubordinates = Array();
+		$roleSubordinates = [];
 		for ($i = 0; $i < $num_rows; $i++) {
 			$roleid = $adb->query_result($result, $i, 'roleid');
 
@@ -1427,7 +1427,7 @@ function getSubordinateRoleAndUsers($roleId)
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$subRoleAndUsers = Array();
+	$subRoleAndUsers = [];
 	$subordinateRoles = getRoleSubordinates($roleId);
 	foreach ($subordinateRoles as $subRoleId) {
 		$userArray = getRoleUsers($subRoleId);
@@ -1443,7 +1443,7 @@ function getCurrentUserProfileList()
 	$log->debug("Entering getCurrentUserProfileList() method ...");
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	$profList = array();
+	$profList = [];
 	$i = 0;
 	foreach ($current_user_profiles as $profid) {
 		array_push($profList, $profid);
@@ -1459,7 +1459,7 @@ function getCurrentUserGroupList()
 	$log->debug("Entering getCurrentUserGroupList() method ...");
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	$grpList = array();
+	$grpList = [];
 	if (sizeof($current_user_groups) > 0) {
 		$i = 0;
 		foreach ($current_user_groups as $grpid) {
@@ -1477,7 +1477,7 @@ function getWriteSharingGroupsList($module)
 	$log->debug("Entering getWriteSharingGroupsList(" . $module . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
-	$grp_array = Array();
+	$grp_array = [];
 	$tabid = getTabid($module);
 	$query = "select sharedgroupid from vtiger_tmp_write_group_sharing_per where userid=? and tabid=?";
 	$result = $adb->pquery($query, array($current_user->id, $tabid));
@@ -1495,7 +1495,7 @@ function constructList($array, $data_type)
 {
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering constructList(" . $array . "," . $data_type . ") method ...");
-	$list = array();
+	$list = [];
 	if (sizeof($array) > 0) {
 		$i = 0;
 		foreach ($array as $value) {
@@ -1611,7 +1611,7 @@ function get_current_user_access_groups($module)
 	$current_user_group_list = getCurrentUserGroupList();
 	$sharing_write_group_list = getWriteSharingGroupsList($module);
 	$query = "select groupname,groupid from vtiger_groups";
-	$params = array();
+	$params = [];
 	if (count($current_user_group_list) > 0 && count($sharing_write_group_list) > 0) {
 		$query .= " where (groupid in (" . generateQuestionMarks($current_user_group_list) . ") or groupid in (" . generateQuestionMarks($sharing_write_group_list) . "))";
 		array_push($params, $current_user_group_list, $sharing_write_group_list);
@@ -1751,7 +1751,7 @@ function getPermittedModuleNames()
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering getPermittedModuleNames() method ...");
 	$current_user = vglobal('current_user');
-	$permittedModules = Array();
+	$permittedModules = [];
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	include('user_privileges/tabdata.php');
 
@@ -1780,7 +1780,7 @@ function getPermittedModuleNames()
 function getPermittedModuleIdList()
 {
 	$current_user = vglobal('current_user');
-	$permittedModules = Array();
+	$permittedModules = [];
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	include('user_privileges/tabdata.php');
 
@@ -1816,7 +1816,7 @@ function RecalculateSharingRules()
 	$adb = PearDatabase::getInstance();
 	require_once('modules/Users/CreateUserPrivilegeFile.php');
 	$query = "select id from vtiger_users where deleted=0";
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
 	for ($i = 0; $i < $num_rows; $i++) {
 		$id = $adb->query_result($result, $i, 'id');

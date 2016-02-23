@@ -79,7 +79,7 @@ function color_generator($count = 1, $start = '33CCFF', $step = '221133')
 	$colors = array(hexdec(substr($start, 0, 2)), hexdec(substr($start, 2, 2)), hexdec(substr($start, 4, 2)));
 	$steps = array(hexdec(substr($step, 0, 2)), hexdec(substr($step, 2, 2)), hexdec(substr($step, 4, 2)));
 	// buils $count colours adding $step to $start
-	$result = array();
+	$result = [];
 	for ($i = 1; $i <= $count; $i++) {
 		array_push($result, "#" . dechex($colors[0]) . dechex($colors[1]) . dechex($colors[2]));
 		for ($j = 0; $j < 3; $j++) {

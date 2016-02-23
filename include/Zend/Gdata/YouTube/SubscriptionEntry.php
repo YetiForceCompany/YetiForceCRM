@@ -85,7 +85,7 @@ class Zend_Gdata_YouTube_SubscriptionEntry extends Zend_Gdata_Entry
      *
      * @var array
      */
-    protected $_feedLink = array();
+    protected $_feedLink = [];
 
     /**
      * The username of this entry.

@@ -10,7 +10,7 @@
 
 function GetRelatedList($module, $relatedmodule, $focus, $query, $button, $returnset, $id = '', $edit_val = '', $del_val = '', $skipActions = false)
 {
-	return array('query' => $query, 'entries' => array());
+	return array('query' => $query, 'entries' => []);
 }
 
 /**

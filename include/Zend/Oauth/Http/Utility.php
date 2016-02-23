@@ -94,7 +94,7 @@ class Zend_Oauth_Http_Utility
                 }
             }
         }
-        $encodedParams = array();
+        $encodedParams = [];
         foreach ($params as $key => $value) {
             $encodedParams[] = self::urlEncode($key)
                              . '='
@@ -167,9 +167,9 @@ class Zend_Oauth_Http_Utility
      */
     public function parseQueryString($query)
     {
-        $params = array();
+        $params = [];
         if (empty($query)) {
-            return array();
+            return [];
         }
 
         // Not remotely perfect but beats parse_str() which converts

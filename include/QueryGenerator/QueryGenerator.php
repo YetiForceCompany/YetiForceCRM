@@ -270,7 +270,7 @@ class QueryGenerator
 		$this->advFilterList = $customView->getAdvFilterByCvid($viewId);
 
 		if (is_array($this->stdFilterList)) {
-			$value = array();
+			$value = [];
 			if (!empty($this->stdFilterList['columnname'])) {
 				$this->startGroup('');
 				$name = explode(':', $this->stdFilterList['columnname']);
@@ -341,7 +341,7 @@ class QueryGenerator
 								$enddate[1] = '23:59:59';
 							$dateFilterResolvedList['enddate'] = $enddate[0] . ' ' . $enddate[1];
 						}
-						$value = array();
+						$value = [];
 						$value[] = $this->fixDateTimeValue($name, $dateFilterResolvedList['startdate']);
 						$value[] = $this->fixDateTimeValue($name, $dateFilterResolvedList['enddate'], false);
 						$this->addCondition($name, $value, 'BETWEEN');
@@ -354,7 +354,7 @@ class QueryGenerator
 						$startDate = $this->fixDateTimeValue($name, $filter['startdate']);
 						$endDate = $this->fixDateTimeValue($name, $filter['enddate'], false);
 
-						$value = array();
+						$value = [];
 						$start = explode(' ', $startDate);
 						if ($start[1] == "")
 							$startDate = $start[0] . ' ' . '00:00:00';
@@ -373,7 +373,7 @@ class QueryGenerator
 					} elseif ($nameComponents[4] == 'DT' && ($filter['comparator'] == 'a' || $filter['comparator'] == 'b')) {
 						$dateTime = explode(' ', $filter['value']);
 						$date = DateTimeField::convertToDBFormat($dateTime[0]);
-						$value = array();
+						$value = [];
 						$value[] = $this->fixDateTimeValue($name, $date, false);
 						// Still fixDateTimeValue returns only date value, we need to append time because it is DT type
 						for ($i = 0; $i < count($value); $i++) {
@@ -409,7 +409,7 @@ class QueryGenerator
 	public function getQuery($statement = 'SELECT')
 	{
 		if (empty($this->query)) {
-			$conditionedReferenceFields = array();
+			$conditionedReferenceFields = [];
 			$allFields = array_merge($this->whereFields, $this->fields);
 			foreach ($allFields as $fieldName) {
 				if (in_array($fieldName, $this->referenceFieldList)) {
@@ -456,7 +456,7 @@ class QueryGenerator
 
 	public function getSelectClauseColumnSQL()
 	{
-		$columns = array();
+		$columns = [];
 		$moduleFields = $this->getModuleFields();
 		$accessibleFieldList = array_keys($moduleFields);
 		$accessibleFieldList[] = 'id';
@@ -492,9 +492,9 @@ class QueryGenerator
 		}
 		$baseModule = $this->getModule();
 		$moduleFields = $this->getModuleFields();
-		$tableList = array();
-		$tableJoinMapping = array();
-		$tableJoinCondition = array();
+		$tableList = [];
+		$tableJoinMapping = [];
+		$tableJoinCondition = [];
 		$i = 1;
 
 		$moduleTableIndexList = $this->meta->getEntityTableIndexList();
@@ -656,7 +656,7 @@ class QueryGenerator
 
 		// Adding support for conditions on reference module fields
 		if ($this->referenceModuleField) {
-			$referenceFieldTableList = array();
+			$referenceFieldTableList = [];
 			foreach ($this->referenceModuleField as $index => $conditionInfo) {
 				$handler = vtws_getModuleHandlerFromName($conditionInfo['relatedModule'], $current_user);
 				$meta = $handler->getMeta();
@@ -763,7 +763,7 @@ class QueryGenerator
 							$nameFields = $this->moduleNameFields[$module];
 							$nameFieldList = explode(',', $nameFields);
 							$meta = $this->getMeta($module);
-							$columnList = array();
+							$columnList = [];
 							foreach ($nameFieldList as $column) {
 								if ($module == 'Users') {
 									$instance = CRMEntity::getInstance($module);
@@ -999,7 +999,7 @@ class QueryGenerator
 		} else {
 			$valueArray = [$value];
 		}
-		$sql = array();
+		$sql = [];
 		if ($operator == 'between' || $operator == 'bw' || $operator == 'notequal') {
 			if ($field->getFieldName() == 'birthday') {
 				$valueArray[0] = getValidDBInsertDateTimeValue($valueArray[0]);
@@ -1456,7 +1456,7 @@ class QueryGenerator
 			$campaignId = vtlib_purify($_REQUEST['campaignid']);
 		}
 
-		$conditionList = array();
+		$conditionList = [];
 		if (!empty($dateClosedStart) && !empty($dateClosedEnd)) {
 
 			$conditionList[] = array('fieldname' => 'closingdate', 'value' => $dateClosedStart,
@@ -1487,7 +1487,7 @@ class QueryGenerator
 			$conditionList[] = array('fieldname' => 'assigned_user_id', 'value' => $owner,
 				'operator' => 'e');
 		}
-		$relatedConditionList = array();
+		$relatedConditionList = [];
 		if (!empty($campaignId)) {
 			$relatedConditionList[] = array('relatedModule' => 'Campaigns', 'conditionModule' =>
 				'Campaigns', 'finalValue' => $campaignId, 'SQLOperator' => '=');

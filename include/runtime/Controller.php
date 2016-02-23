@@ -49,7 +49,7 @@ abstract class Vtiger_Controller
 	}
 
 	// Control the exposure of methods to be invoked from client (kind-of RPC)
-	protected $exposedMethods = array();
+	protected $exposedMethods = [];
 
 	/**
 	 * Function that will expose methods for external access

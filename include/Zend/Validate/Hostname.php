@@ -333,7 +333,7 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
      * @return void
      * @see http://www.iana.org/cctld/specifications-policies-cctlds-01apr02.htm  Technical Specifications for ccTLDs
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         if ($options instanceof Zend_Config) {
             $options = $options->toArray();
@@ -553,7 +553,7 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
             iconv_set_encoding('internal_encoding', 'UTF-8');
             do {
                 // First check TLD
-                $matches = array();
+                $matches = [];
                 if (preg_match('/([^.]{2,10})$/i', end($domainParts), $matches) ||
                     (end($domainParts) == 'ایران') || (end($domainParts) == '中国') ||
                     (end($domainParts) == '公司') || (end($domainParts) == '网络')) {

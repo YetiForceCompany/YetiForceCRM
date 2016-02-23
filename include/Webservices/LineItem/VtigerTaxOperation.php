@@ -46,7 +46,7 @@ class VtigerTaxOperation extends VtigerActorOperation
 		$element['deleted'] = 0;
 		$createdElement = parent::create($elementType, $element);
 		$sql = "alter table vtiger_inventoryproductrel add column $taxName decimal(7,3)";
-		$result = $this->pearDB->pquery($sql, array());
+		$result = $this->pearDB->pquery($sql, []);
 		if (!is_object($result)) {
 			list($typeId, $id) = vtws_getIdComponents($element['id']);
 			$this->dropRow($id);
@@ -85,7 +85,7 @@ class VtigerTaxOperation extends VtigerActorOperation
 	private function getCurrentTaxName()
 	{
 		$sql = 'select taxname from vtiger_inventorytaxinfo order by taxid desc limit 1';
-		$params = array();
+		$params = [];
 		$result = $this->pearDB->pquery($sql, $params);
 		$it = new SqlResultIterator($this->pearDB, $result);
 		$currentTaxName = null;

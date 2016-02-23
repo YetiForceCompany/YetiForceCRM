@@ -79,7 +79,7 @@ class Tracker
 			if (!(strpos($fieldsname, ',') === false)) {
 				// concatenate multiple fields with an whitespace between them
 				$fieldlists = explode(',', $fieldsname);
-				$fl = array();
+				$fl = [];
 				foreach ($fieldlists as $w => $c) {
 					if (count($fl))
 						$fl[] = "' '";
@@ -125,7 +125,7 @@ class Tracker
 		$query = "SELECT * from $this->table_name inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_tracker.item_id WHERE user_id=? and vtiger_crmentity.deleted=0 ORDER BY id DESC";
 		$this->log->debug("About to retrieve list: $query");
 		$result = $this->db->pquery($query, array($user_id), true);
-		$list = Array();
+		$list = [];
 		while ($row = $this->db->fetchByAssoc($result, -1, false)) {
 			//echo "while loppp";
 			//echo '<BR>';

@@ -125,7 +125,7 @@ function export($type)
 			$query .= ' and ' . $advfiltersql;
 		}
 	}
-	$params = array();
+	$params = [];
 
 	list($idstring, $export_data) = split("#@@#", getExportRecordIds($type, $viewid, $_REQUEST));
 
@@ -192,7 +192,7 @@ function export($type)
 	$__processor = new ExportUtils($type, $fields_array);
 
 	// Translated the field names based on the language used.
-	$translated_fields_array = array();
+	$translated_fields_array = [];
 	for ($i = 0; $i < count($fields_array); $i++) {
 		$translated_fields_array[$i] = getTranslatedString($fields_array[$i], $type);
 	}
@@ -206,7 +206,7 @@ function export($type)
 	$column_list = implode(",", array_values($fields_array));
 
 	while ($val = $adb->fetchByAssoc($result, -1, false)) {
-		$new_arr = array();
+		$new_arr = [];
 		$val = $__processor->sanitizeValues($val);
 		foreach ($val as $key => $value) {
 			if ($type == 'Documents' && $key == 'description') {
@@ -251,8 +251,8 @@ exit;
 class ExportUtils
 {
 
-	var $fieldsArr = array();
-	var $picklistValues = array();
+	var $fieldsArr = [];
+	var $picklistValues = [];
 
 	function ExportUtils($module, $fields_array)
 	{
@@ -332,8 +332,8 @@ class ExportUtils
 
 		$result = $adb->pquery("select * from vtiger_field where tabid=?", array($tabid));
 		$count = $adb->num_rows($result);
-		$arr = array();
-		$data = array();
+		$arr = [];
+		$data = [];
 
 		for ($i = 0; $i < $count; $i++) {
 			$arr['uitype'] = $adb->query_result($result, $i, "uitype");

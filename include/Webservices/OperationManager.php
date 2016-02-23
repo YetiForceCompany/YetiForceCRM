@@ -44,7 +44,7 @@ class OperationManager
 
 		$this->format = strtolower($format);
 		$this->sessionManager = $sessionManager;
-		$this->formatObjects = array();
+		$this->formatObjects = [];
 
 		foreach ($this->formatsData as $frmt => $frmtData) {
 			require_once($frmtData["includePath"]);
@@ -58,7 +58,7 @@ class OperationManager
 
 		$this->pearDB = $adb;
 		$this->operationName = $operationName;
-		$this->inParamProcess = array();
+		$this->inParamProcess = [];
 		$this->inParamProcess["encoded"] = &$this->formatObjects[$this->format]["decode"];
 		$this->fillOperationDetails($operationName);
 	}
@@ -93,7 +93,7 @@ class OperationManager
 	{
 		$sql = "select * from vtiger_ws_operation_parameters where operationid=? order by sequence";
 		$result = $this->pearDB->pquery($sql, array($this->operationId));
-		$this->operationParams = array();
+		$this->operationParams = [];
 		if ($result) {
 			$rowCount = $this->pearDB->num_rows($result);
 			if ($rowCount > 0) {
@@ -126,7 +126,7 @@ class OperationManager
 	function sanitizeInputForType($input)
 	{
 
-		$sanitizedInput = array();
+		$sanitizedInput = [];
 		foreach ($this->operationParams as $ind => $columnDetails) {
 			foreach ($columnDetails as $columnName => $type) {
 				$sanitizedInput[$columnName] = $this->handleType($type, vtws_getParameter($input, $columnName));
@@ -185,7 +185,7 @@ class OperationManager
 
 	function getOperationIncludes()
 	{
-		$includes = array();
+		$includes = [];
 		array_push($includes, $this->handlerPath);
 		return $includes;
 	}

@@ -103,7 +103,7 @@ class Zend_Uri_Http extends Zend_Uri
      *
      * @var array
      */
-    protected $_regex = array();
+    protected $_regex = [];
 
     /**
      * Constructor accepts a string $scheme (e.g., http, https) and a scheme-specific part of the URI
@@ -597,7 +597,7 @@ class Zend_Uri_Http extends Zend_Uri
     public function getQueryAsArray()
     {
         $query = $this->getQuery();
-        $querryArray = array();
+        $querryArray = [];
         if ($query !== false) {
             parse_str($query, $querryArray);
         }

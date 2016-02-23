@@ -17,7 +17,7 @@ class VtigerLineItemMeta extends VtigerCRMActorMeta
 
 	protected function getTableFieldList($tableName)
 	{
-		$tableFieldList = array();
+		$tableFieldList = [];
 
 		$factory = WebserviceField::fromArray($this->pearDB, array('tablename' => $tableName));
 		$dbTableFields = $factory->getTableFields();
@@ -70,7 +70,7 @@ class VtigerLineItemMeta extends VtigerCRMActorMeta
 	protected function getFieldArrayFromDBField($dbField, $tableName)
 	{
 		$mandatoryFieldList = array('parent_id', 'productid', 'quantity');
-		$field = array();
+		$field = [];
 		$field['fieldname'] = $dbField->name;
 		$field['columnname'] = $dbField->name;
 		$field['tablename'] = $tableName;

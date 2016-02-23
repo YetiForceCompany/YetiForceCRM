@@ -15,12 +15,12 @@ class Vtiger_Request
 	// Datastore
 	private $valuemap;
 	private $rawvaluemap;
-	private $defaultmap = array();
+	private $defaultmap = [];
 
 	/**
 	 * Default constructor
 	 */
-	function __construct($values, $rawvalues = array(), $stripifgpc = true)
+	function __construct($values, $rawvalues = [], $stripifgpc = true)
 	{
 		$this->valuemap = $values;
 		$this->rawvaluemap = $rawvalues;

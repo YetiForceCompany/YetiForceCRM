@@ -40,6 +40,6 @@ Class DataAccess_check_taskdate{
 		}
     }
     public function getConfig( $id,$module,$baseModule ) {
-		return Array();
+		return [];
     }
 }

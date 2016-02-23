@@ -433,7 +433,7 @@ class CRMEntity
 
 		// Attempt to re-use the quer-result to avoid reading for every save operation
 		// TODO Need careful analysis on impact ... MEMORY requirement might be more
-		static $_privatecache = array();
+		static $_privatecache = [];
 
 		$cachekey = "{$insertion_mode}-" . implode(',', $params);
 
@@ -442,7 +442,7 @@ class CRMEntity
 			$noofrows = $adb->num_rows($result);
 
 			if (CRMEntity::isBulkSaveMode()) {
-				$cacheresult = array();
+				$cacheresult = [];
 				for ($i = 0; $i < $noofrows; ++$i) {
 					$cacheresult[] = $adb->raw_query_result_rowdata($result, $i);
 				}
@@ -689,7 +689,7 @@ class CRMEntity
 			if (VTCacheUtils::lookupFieldInfo_Module('Events'))
 				$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
 			else
-				$cachedEventsFields = array();
+				$cachedEventsFields = [];
 			$cachedCalendarFields = VTCacheUtils::lookupFieldInfo_Module('Calendar');
 			$cachedModuleFields = array_merge($cachedEventsFields, $cachedCalendarFields);
 			$module = 'Calendar';
@@ -721,7 +721,7 @@ class CRMEntity
 			$where_clause = '';
 			$limit_clause = ' LIMIT 1'; // to eliminate multi-records due to table joins.
 
-			$params = array();
+			$params = [];
 			$required_tables = $this->tab_name_index; // copies-on-write
 
 			foreach ($cachedModuleFields as $fieldinfo) {
@@ -916,7 +916,7 @@ class CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$query = "select * from " . $adb->sql_escape_string($tablename);
-		$result = $this->db->pquery($query, array());
+		$result = $this->db->pquery($query, []);
 		$testrow = $this->db->getFieldsCount($result);
 		if ($testrow > 1) {
 			$exists = true;
@@ -1068,7 +1068,7 @@ class CRMEntity
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		}
 
-		$colf = Array();
+		$colf = [];
 
 		if ($cachedModuleFields) {
 			foreach ($cachedModuleFields as $fieldinfo) {
@@ -1162,7 +1162,7 @@ class CRMEntity
 			$relResult = $this->db->pquery($relQuery, array($id));
 			$numOfRelRecords = $this->db->num_rows($relResult);
 			if ($numOfRelRecords > 0) {
-				$recordIdsList = array();
+				$recordIdsList = [];
 				for ($k = 0; $k < $numOfRelRecords; $k++) {
 					$recordIdsList[] = $this->db->query_result($relResult, $k, $focusObj->table_index);
 				}
@@ -1308,7 +1308,7 @@ class CRMEntity
 		$log->debug("Entering function initSortByField ($module)");
 		// Define the columnname's and uitype's which needs to be excluded
 		$exclude_columns = Array('parent_id', 'vendorid', 'access_count');
-		$exclude_uitypes = Array();
+		$exclude_uitypes = [];
 
 		$tabid = getTabId($module);
 		if ($module == 'Calendar') {
@@ -1451,7 +1451,7 @@ class CRMEntity
 		$tabid = getTabid($module);
 		$fieldinfo = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? AND uitype = 4", Array($tabid));
 
-		$returninfo = Array();
+		$returninfo = [];
 
 		if ($fieldinfo && $adb->num_rows($fieldinfo)) {
 			// TODO: We assume the following for module sequencing field
@@ -1547,7 +1547,7 @@ class CRMEntity
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 		return $return_value;
 	}
@@ -1783,7 +1783,7 @@ class CRMEntity
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		return $return_value;
@@ -1892,7 +1892,7 @@ class CRMEntity
 			$return_value = GetRelatedList($currentModule, $relatedModule, $other, $query, $button, $returnset);
 		}
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		return $return_value;
@@ -1999,7 +1999,7 @@ class CRMEntity
 					// Capture the forward table dependencies due to dynamic related-field
 					$crmentityRelModuleFieldTable = "vtiger_crmentityRel$module$field_id";
 
-					$crmentityRelModuleFieldTableDeps = array();
+					$crmentityRelModuleFieldTableDeps = [];
 					for ($j = 0; $j < $adb->num_rows($ui10_modules_query); $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
@@ -2104,7 +2104,7 @@ class CRMEntity
 					// Capture the forward table dependencies due to dynamic related-field
 					$crmentityRelSecModuleTable = "vtiger_crmentityRel$secmodule$field_id";
 
-					$crmentityRelSecModuleTableDeps = array();
+					$crmentityRelSecModuleTableDeps = [];
 					for ($j = 0; $j < $adb->num_rows($ui10_modules_query); $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
@@ -2289,7 +2289,7 @@ class CRMEntity
 			$value = $related_to;
 		} else {
 			//check the module of the field
-			$arr = array();
+			$arr = [];
 			$arr = explode("::::", $related_to);
 			$module = $arr[0];
 			$value = $arr[1];
@@ -2366,7 +2366,7 @@ class CRMEntity
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
 		}
 
-		$hiddenFields = array();
+		$hiddenFields = [];
 
 		if ($cachedModuleFields) {
 			foreach ($cachedModuleFields as $fieldinfo) {
@@ -2406,8 +2406,8 @@ class CRMEntity
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		}
 
-		$lookuptables = array();
-		$lookupcolumns = array();
+		$lookuptables = [];
+		$lookupcolumns = [];
 		foreach ($cachedModuleFields as $fieldinfo) {
 			if (in_array($fieldinfo['uitype'], $uitypes)) {
 				$lookuptables[] = $fieldinfo['tablename'];
@@ -2613,7 +2613,7 @@ class CRMEntity
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key) ignore " .
 			$query;
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery($query, array());
+		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			return true;
 		}
@@ -2751,7 +2751,7 @@ class CRMEntity
 	 */
 	function getListButtons($app_strings, $mod_strings = false)
 	{
-		$list_buttons = Array();
+		$list_buttons = [];
 
 		if (isPermitted($currentModule, 'Delete', '') == 'yes')
 			$list_buttons['del'] = $app_strings[LBL_MASS_DELETE];

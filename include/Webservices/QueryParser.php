@@ -24,7 +24,7 @@ class Parser
 	function Parser($user, $q)
 	{
 		$this->query = $q;
-		$this->out = array();
+		$this->out = [];
 		$this->hasError = false;
 		$this->user = $user;
 	}

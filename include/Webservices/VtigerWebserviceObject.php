@@ -31,7 +31,7 @@ class VtigerWebserviceObject
 	}
 
 	// Cache variables to enable result re-use
-	private static $_fromNameCache = array();
+	private static $_fromNameCache = [];
 
 	static function fromName($adb, $entityName)
 	{
@@ -47,7 +47,7 @@ class VtigerWebserviceObject
 				$result = $adb->pquery("select * from vtiger_ws_entity where name=?", array($entityName));
 			} else {
 				// Could repeat more number of times...so let us pull rest of details into cache.
-				$result = $adb->pquery("select * from vtiger_ws_entity", array());
+				$result = $adb->pquery("select * from vtiger_ws_entity", []);
 			}
 
 			if ($result) {
@@ -69,7 +69,7 @@ class VtigerWebserviceObject
 	}
 
 	// Cache variables to enable result re-use
-	private static $_fromIdCache = array();
+	private static $_fromIdCache = [];
 
 	static function fromId($adb, $entityId)
 	{
@@ -99,7 +99,7 @@ class VtigerWebserviceObject
 	static function fromQuery($adb, $query)
 	{
 		$moduleRegex = "/[fF][rR][Oo][Mm]\s+([^\s;]+)/";
-		$matches = array();
+		$matches = [];
 		$found = preg_match($moduleRegex, $query, $matches);
 		if ($found === 1) {
 			return VtigerWebserviceObject::fromName($adb, trim($matches[1]));

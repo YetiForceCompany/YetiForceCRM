@@ -151,14 +151,14 @@ function getAllTaxes($available = 'all', $sh = '', $mode = '', $id = '')
 	$adb = PearDatabase::getInstance();
 	$log = vglobal('log');
 	$log->debug("Entering into the function getAllTaxes($available,$sh,$mode,$id)");
-	$taxtypes = Array();
+	$taxtypes = [];
 
 	$tablename = 'vtiger_inventorytaxinfo';
 	$value_table = 'vtiger_inventoryproductrel';
 	if ($mode == 'edit' && $id != '') {
 		//Getting total no of taxes
-		$result_ids = array();
-		$result = $adb->pquery("select taxname,taxid from $tablename", array());
+		$result_ids = [];
+		$result = $adb->pquery("select taxname,taxid from $tablename", []);
 		$noofrows = $adb->num_rows($result);
 		$inventory_tax_val_result = $adb->pquery("select * from $value_table where id=?", array($id));
 		//Finding which taxes are associated with this (PO,Invoice) and getting its taxid.
@@ -183,7 +183,7 @@ function getAllTaxes($available = 'all', $sh = '', $mode = '', $id = '')
 		if ($available != 'all' && $available == 'available') {
 			$where = " where $tablename.deleted=0";
 		}
-		$res = $adb->pquery("select * from $tablename $where order by deleted", array());
+		$res = $adb->pquery("select * from $tablename $where order by deleted", []);
 	}
 
 	$noofrows = $adb->num_rows($res);
@@ -364,7 +364,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 		$id = vtlib_purify($_REQUEST['duplicate_from']);
 	}
 
-	$ext_prod_arr = Array();
+	$ext_prod_arr = [];
 	if ($focus->mode == 'edit') {
 		if ($_REQUEST['taxtype'] == 'group')
 			$all_available_taxes = getAllTaxes('available', '', 'edit', $id);
@@ -430,7 +430,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 
 		//we should update discount and tax details
 		$updatequery = "update vtiger_inventoryproductrel set ";
-		$updateparams = array();
+		$updateparams = [];
 
 		//set the discount percentage or discount amount in update query, then set the tax values
 		if ($_REQUEST['discount_type' . $i] == 'percentage') {
@@ -480,7 +480,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock = 'fal
 	//netprice, group discount, taxtype, total to entity table
 
 	$updatequery = " update $focus->table_name set ";
-	$updateparams = array();
+	$updateparams = [];
 	$subtotal = $_REQUEST['subtotal'];
 	$updatequery .= " subtotal=?,";
 	array_push($updateparams, $subtotal);
@@ -570,7 +570,7 @@ function getInventoryCurrencyInfo($module, $id)
 	$res = $adb->pquery("select currency_id, {$focus->table_name}.conversion_rate as conv_rate, vtiger_currency_info.* from {$focus->table_name} "
 		. "inner join vtiger_currency_info on {$focus->table_name}.currency_id = vtiger_currency_info.id where {$focus->table_index}=?", array($id), true);
 
-	$currency_info = array();
+	$currency_info = [];
 	$currency_info['currency_id'] = $adb->query_result($res, 0, 'currency_id');
 	$currency_info['conversion_rate'] = $adb->query_result($res, 0, 'conv_rate');
 	$currency_info['currency_name'] = $adb->query_result($res, 0, 'currency_name');
@@ -619,7 +619,7 @@ function getAllCurrencies($available = 'available')
 	if ($available != 'all') {
 		$sql .= " where currency_status='Active' and deleted=0";
 	}
-	$res = $adb->pquery($sql, array());
+	$res = $adb->pquery($sql, []);
 	$noofrows = $adb->num_rows($res);
 
 	for ($i = 0; $i < $noofrows; $i++) {
@@ -714,7 +714,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 
 			$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
-			$params = array();
+			$params = [];
 
 			$res = $adb->pquery($query, $params);
 			for ($i = 0; $i < $adb->num_rows($res); $i++) {
@@ -810,7 +810,7 @@ function getPricesForProducts($currencyid, $product_ids, $module = 'Products')
 	$adb = PearDatabase::getInstance();
 	$log = vglobal('log');
 	$current_user = vglobal('current_user');
-	$price_list = array();
+	$price_list = [];
 	if (count($product_ids) > 0) {
 		if ($module == 'Services') {
 			$query = "SELECT vtiger_currency_info.id, vtiger_currency_info.conversion_rate, " .
@@ -957,22 +957,22 @@ function createRecords($obj)
 		$row = $adb->raw_query_result_rowdata($result, $i);
 		$rowId = $row['id'];
 		$entityInfo = null;
-		$fieldData = array();
-		$lineItems = array();
+		$fieldData = [];
+		$lineItems = [];
 		$subject = $row['subject'];
 		$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE;
 		if (!empty($subject))
 			$sql .= ' AND subject = "' . str_replace("\"", "\\\"", $subject) . '"';
 		$subjectResult = $adb->query($sql);
 		$count = $adb->num_rows($subjectResult);
-		$subjectRowIDs = array();
+		$subjectRowIDs = [];
 		for ($j = 0; $j < $count; ++$j) {
 			$subjectRow = $adb->raw_query_result_rowdata($subjectResult, $j);
 			array_push($subjectRowIDs, $subjectRow['id']);
 			if ($subjectRow['productid'] == '' || $subjectRow['quantity'] == '' || $subjectRow['listprice'] == '') {
 				continue;
 			} else {
-				$lineItemData = array();
+				$lineItemData = [];
 				foreach ($fieldMapping as $fieldName => $index) {
 					if ($moduleFields[$fieldName]->getTableName() == 'vtiger_inventoryproductrel' || $moduleFields[$fieldName]->getTableName() == 'vtiger_calculationsproductrel') {
 						$lineItemData[$fieldName] = $subjectRow[$fieldName];
@@ -1069,12 +1069,12 @@ function importRecord($obj, $inventoryFieldData, $lineItemDetails)
 	$lineItemHandler = vtws_getModuleHandlerFromName('LineItem', $obj->user);
 	$lineItemMeta = $lineItemHandler->getMeta();
 
-	$lineItems = array();
+	$lineItems = [];
 	foreach ($lineItemDetails as $index => $lineItemFieldData) {
 		$isLineItemExist = isRecordExistInDB($lineItemFieldData, $lineItemMeta, $obj->user);
 		if ($isLineItemExist) {
 			$count = $index;
-			$lineItemData = array();
+			$lineItemData = [];
 			$lineItemFieldData = $obj->transformForImport($lineItemFieldData, $lineItemMeta);
 			foreach ($fieldMapping as $fieldName => $index) {
 				if ($moduleFields[$fieldName]->getTableName() == 'vtiger_inventoryproductrel') {
@@ -1219,7 +1219,7 @@ function getLineItemFields()
 
 	$sql = 'SELECT DISTINCT columnname FROM vtiger_field WHERE tablename=?';
 	$result = $adb->pquery($sql, array('vtiger_inventoryproductrel'));
-	$lineItemdFields = array();
+	$lineItemdFields = [];
 	$num_rows = $adb->num_rows($result);
 	for ($i = 0; $i < $num_rows; $i++) {
 		$lineItemdFields[] = $adb->query_result($result, $i, 'columnname');

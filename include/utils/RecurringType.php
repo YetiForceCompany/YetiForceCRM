@@ -19,11 +19,11 @@ class RecurringType
 	var $startdate;
 	var $enddate;
 	var $recur_freq;
-	var $dayofweek_to_rpt = array();
+	var $dayofweek_to_rpt = [];
 	var $repeat_monthby;
 	var $rptmonth_datevalue;
 	var $rptmonth_daytype;
-	var $recurringdates = array();
+	var $recurringdates = [];
 	var $reminder;
 	var $recurringenddate;
 
@@ -118,7 +118,7 @@ class RecurringType
 			if ($requestArray['dayofweek_to_repeat'] != null) {
 				$userStartDateTime = DateTimeField::convertToUserTimeZone($startDate . ' ' . $startTime);
 				$dayOfWeek = $requestArray['dayofweek_to_repeat'];
-				$dbDaysOfWeek = array();
+				$dbDaysOfWeek = [];
 				for ($i = 0; $i < count($dayOfWeek); ++$i) {
 					$selectedDayOfWeek = $dayOfWeek[$i];
 					$currentDayOfWeek = $userStartDateTime->format('w');
@@ -168,7 +168,7 @@ class RecurringType
 	{
 		// All the information from the database is received in DB Time zone
 
-		$repeatInfo = array();
+		$repeatInfo = [];
 
 		$repeatInfo['startdate'] = $startDate = $resultRow['date_start'];
 		$repeatInfo['starttime'] = $startTime = $resultRow['time_start'];
@@ -244,7 +244,7 @@ class RecurringType
 	function getUserRecurringInfo()
 	{
 		$recurringType = $this->getRecurringType();
-		$recurringInfo = array();
+		$recurringInfo = [];
 
 		if ($recurringType == 'Weekly') {
 			if ($this->dayofweek_to_rpt != null) {
@@ -291,7 +291,7 @@ class RecurringType
 	{
 		$currentModule = vglobal('currentModule');
 
-		$displayRecurringData = array();
+		$displayRecurringData = [];
 
 		$recurringInfo = $this->getUserRecurringInfo();
 
@@ -301,14 +301,14 @@ class RecurringType
 
 		if ($this->getRecurringType() == 'Weekly') {
 			$noOfDays = count($recurringInfo['dayofweek_to_repeat']);
-			$translatedRepeatDays = array();
+			$translatedRepeatDays = [];
 			for ($i = 0; $i < $noOfDays; ++$i) {
 				$translatedRepeatDays[] = getTranslatedString('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][$i], $currentModule);
 			}
 			$displayRecurringData['repeat_str'] = getTranslatedString('On', $currentModule) . ' ' . implode(',', $translatedRepeatDays);
 		} elseif ($this->getRecurringType() == 'Monthly') {
 
-			$translatedRepeatDays = array();
+			$translatedRepeatDays = [];
 			$displayRecurringData['repeatMonth'] = $recurringInfo['repeatmonth_type'];
 			if ($recurringInfo['repeatmonth_type'] == 'date') {
 				$displayRecurringData['repeatMonth_date'] = $recurringInfo['repeatmonth_date'];

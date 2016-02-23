@@ -21,7 +21,7 @@ abstract class WebserviceEntityOperation
 	 * @var PearDatabase
 	 */
 	protected $pearDB;
-	protected static $metaCache = array();
+	protected static $metaCache = [];
 
 	protected function WebserviceEntityOperation($webserviceObject, $user, $adb, $log)
 	{
@@ -74,7 +74,7 @@ abstract class WebserviceEntityOperation
 	function getFieldTypeDetails($webserviceField)
 	{
 		global $upload_maxsize;
-		$typeDetails = array();
+		$typeDetails = [];
 		switch ($webserviceField->getFieldDataType()) {
 			case 'reference': $typeDetails['refersTo'] = $webserviceField->getReferenceList();
 				break;

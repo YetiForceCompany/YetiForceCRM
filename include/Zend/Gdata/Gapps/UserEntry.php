@@ -98,7 +98,7 @@ class Zend_Gdata_Gapps_UserEntry extends Zend_Gdata_Entry
      *
      * @var Zend_Gdata_Extension_FeedLink
      */
-    protected $_feedLink = array();
+    protected $_feedLink = [];
 
     /**
      * Create a new instance.

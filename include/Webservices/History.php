@@ -46,7 +46,7 @@ function vtws_history($element, $user)
 
 	// Per-condition has been met, perform the operation
 	$sql = '';
-	$params = array();
+	$params = [];
 
 	// REFER: modules/ModTracker/ModTracker.php
 	// Two split phases for data extraction - so we can apply limit of retrieveal at record level.
@@ -77,8 +77,8 @@ function vtws_history($element, $user)
 
 	$result = $adb->pquery($sql, $params);
 
-	$recordValuesMap = array();
-	$orderedIds = array();
+	$recordValuesMap = [];
+	$orderedIds = [];
 
 	while ($row = $adb->fetch_array($result)) {
 		$orderedIds[] = $row['id'];
@@ -106,12 +106,12 @@ function vtws_history($element, $user)
 		$item['modifiedtime'] = $row['changedon'];
 		$item['status'] = $status;
 		$item['statuslabel'] = $statuslabel;
-		$item['values'] = array();
+		$item['values'] = [];
 
 		$recordValuesMap[$row['id']] = $item;
 	}
 
-	$historyItems = array();
+	$historyItems = [];
 
 	// Minor optimizatin to avoid 2nd query run when there is nothing to expect.
 	if (!empty($orderedIds)) {
@@ -149,7 +149,7 @@ function vtws_history_entityIdHelper($moduleName, $id)
 {
 	static $wsEntityIdCache = NULL;
 	if ($wsEntityIdCache === NULL) {
-		$wsEntityIdCache = array('users' => array(), 'records' => array());
+		$wsEntityIdCache = array('users' => [], 'records' => []);
 	}
 
 	if (!isset($wsEntityIdCache[$moduleName][$id])) {

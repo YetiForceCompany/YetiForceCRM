@@ -190,7 +190,7 @@ class Zend_Registry extends ArrayObject
      * @param array $array data array
      * @param integer $flags ArrayObject flags
      */
-    public function __construct($array = array(), $flags = parent::ARRAY_AS_PROPS)
+    public function __construct($array = [], $flags = parent::ARRAY_AS_PROPS)
     {
         parent::__construct($array, $flags);
     }

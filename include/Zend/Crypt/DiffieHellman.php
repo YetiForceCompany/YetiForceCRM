@@ -123,7 +123,7 @@ class Zend_Crypt_DiffieHellman
     public function generateKeys()
     {
         if (function_exists('openssl_dh_compute_key') && self::$useOpenssl !== false) {
-            $details = array();
+            $details = [];
             $details['p'] = $this->getPrime();
             $details['g'] = $this->getGenerator();
             if ($this->hasPrivateKey()) {

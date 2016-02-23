@@ -18,7 +18,7 @@ require_once('include/utils/GetParentGroups.php');
 class GetUserGroups
 {
 
-	var $user_groups = Array();
+	var $user_groups = [];
 
 	//var $userRole='';
 
@@ -57,7 +57,7 @@ class GetUserGroups
 
 		//Retreiving from the user2rs
 		$parentRoles = getParentRole($userRole);
-		$parentRolelist = array();
+		$parentRolelist = [];
 		foreach ($parentRoles as $par_rol_id) {
 			array_push($parentRolelist, $par_rol_id);
 		}

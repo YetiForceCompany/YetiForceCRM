@@ -21,14 +21,14 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 	$typed = true;
 	$dformat = "Y-m-d H:i:s";
 	$datetime = date($dformat, $mtime);
-	$setypeArray = array();
-	$setypeData = array();
-	$setypeHandler = array();
-	$setypeNoAccessArray = array();
+	$setypeArray = [];
+	$setypeData = [];
+	$setypeHandler = [];
+	$setypeNoAccessArray = [];
 
-	$output = array();
-	$output["updated"] = array();
-	$output["deleted"] = array();
+	$output = [];
+	$output["updated"] = [];
+	$output["deleted"] = [];
 
 	$applicationSync = false;
 	if (is_object($syncType) && ($syncType instanceof Users)) {
@@ -65,8 +65,8 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 
 	$adb->startTransaction();
 
-	$accessableModules = array();
-	$entityModules = array();
+	$accessableModules = [];
+	$entityModules = [];
 	$modulesDetails = vtws_listtypes(null, $user);
 	$moduleTypes = $modulesDetails['types'];
 	$modulesInformation = $modulesDetails["information"];
@@ -119,7 +119,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 	$q .=" order by modifiedtime limit $numRecordsLimit";
 	$result = $adb->pquery($q, $params);
 
-	$modTime = array();
+	$modTime = [];
 	for ($i = 0; $i < $adb->num_rows($result); $i++) {
 		$modTime[] = $adb->query_result($result, $i, 'modifiedtime');
 	}
@@ -136,7 +136,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		preg_match_all("/(?:\s+\w+[ \t\n\r]+)?([^=]+)\s*=([^\s]+|'[^']+')/", $deletedQueryCondition, $deletedFieldDetails);
 		$fieldNameDetails = $deletedFieldDetails[1];
 		$deleteFieldValues = $deletedFieldDetails[2];
-		$deleteColumnNames = array();
+		$deleteColumnNames = [];
 		foreach ($fieldNameDetails as $tableName_fieldName) {
 			$fieldComp = explode(".", $tableName_fieldName);
 			$deleteColumnNames[$tableName_fieldName] = $fieldComp[1];
@@ -145,7 +145,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 
 
 		$queryGenerator = new QueryGenerator($elementType, $user);
-		$fields = array();
+		$fields = [];
 		$moduleFields = $moduleMeta->getModuleFields();
 		$moduleFieldNames = getSelectClauseFields($elementType, $moduleMeta, $user);
 		$moduleFieldNames[] = 'id';
@@ -171,8 +171,8 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$fromClause.= ' ) vtiger_ws_sync ON (vtiger_crmentity.crmid = vtiger_ws_sync.crmid)';
 		$q = $selectClause . " " . $fromClause;
 		$result = $adb->pquery($q, $params);
-		$recordDetails = array();
-		$deleteRecordDetails = array();
+		$recordDetails = [];
+		$deleteRecordDetails = [];
 		while ($arre = $adb->fetchByAssoc($result)) {
 			$key = $arre[$moduleMeta->getIdColumn()];
 			if (vtws_isRecordDeleted($arre, $deleteColumnNames, $deleteFieldValues)) {

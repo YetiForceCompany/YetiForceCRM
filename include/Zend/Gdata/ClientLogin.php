@@ -143,7 +143,7 @@ class Zend_Gdata_ClientLogin
         ob_end_clean();
 
         // Parse Google's response
-        $goog_resp = array();
+        $goog_resp = [];
         foreach (explode("\n", $response->getBody()) as $l) {
             $l = chop($l);
             if ($l) {

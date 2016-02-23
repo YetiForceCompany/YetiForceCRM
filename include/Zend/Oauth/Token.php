@@ -43,7 +43,7 @@ abstract class Zend_Oauth_Token
      *
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
     /**
      * OAuth response object
@@ -250,7 +250,7 @@ abstract class Zend_Oauth_Token
      */
     protected function _parseParameters(Zend_Http_Response $response)
     {
-        $params = array();
+        $params = [];
         $body   = $response->getBody();
         if (empty($body)) {
             return;

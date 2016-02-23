@@ -60,7 +60,7 @@ class Zend_Gdata_Gapps_OwnerEntry extends Zend_Gdata_Entry
      *
      * @var Zend_Gdata_Gapps_Extension_Property
      */
-    protected $_property = array();
+    protected $_property = [];
 
     /**
      * Create a new instance.

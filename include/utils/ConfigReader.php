@@ -11,9 +11,9 @@
 class ConfigReader
 {
 
-	protected $properties = array();
+	protected $properties = [];
 	protected $name;
-	static $propertiesCache = array();
+	static $propertiesCache = [];
 
 	//TODO - Instead of path to file, we may have to support sending the array/map directly
 	// which might be fetched from database or some other source. In that case, we will check

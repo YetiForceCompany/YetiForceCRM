@@ -201,7 +201,7 @@ class Zend_Json_Decoder
      */
     protected function _decodeObject()
     {
-        $members = array();
+        $members = [];
         $tok = $this->_getNextToken();
 
         while ($tok && $tok != self::RBRACE) {
@@ -257,7 +257,7 @@ class Zend_Json_Decoder
      */
     protected function _decodeArray()
     {
-        $result = array();
+        $result = [];
         $starttok = $tok = $this->_getNextToken(); // Move past the '['
         $index  = 0;
 

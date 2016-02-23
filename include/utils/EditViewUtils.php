@@ -42,7 +42,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 	$no_of_decimal_places = getCurrencyDecimalPlaces();
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
-	$product_Detail = Array();
+	$product_Detail = [];
 
 	// DG 15 Aug 2006
 	// Add "ORDER BY sequence_no" to retain add order on all inventoryproductrel items
@@ -131,7 +131,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		}
 		$subprodid_str = '';
 		$subprodname_str = '';
-		$subProductArray = array();
+		$subProductArray = [];
 		if ($adb->num_rows($sub_prod_query) > 0) {
 			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
 				$sprod_id = $adb->query_result($sub_prod_query, $j, 'prod_id');

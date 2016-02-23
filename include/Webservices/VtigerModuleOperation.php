@@ -93,8 +93,8 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 		$sqlFromPart = substr($sql, stripos($sql, ' FROM ') + 6);
 		$sql = sprintf("SELECT DISTINCT concat('%sx',vtiger_crmentity.crmid) as wsid FROM %s", $relatedModuleWSId, $sqlFromPart);
 
-		$rs = $this->pearDB->pquery($sql, array());
-		$relatedIds = array();
+		$rs = $this->pearDB->pquery($sql, []);
+		$relatedIds = [];
 		while ($row = $this->pearDB->fetch_array($rs)) {
 			$relatedIds[] = $row['wsid'];
 		}
@@ -177,7 +177,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 		$mysql_query = $parser->getSql();
 		$meta = $parser->getObjectMetaData();
 		$this->pearDB->startTransaction();
-		$result = $this->pearDB->pquery($mysql_query, array());
+		$result = $this->pearDB->pquery($mysql_query, []);
 		$error = $this->pearDB->hasFailedTransaction();
 		$this->pearDB->completeTransaction();
 
@@ -187,7 +187,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 		}
 
 		$noofrows = $this->pearDB->num_rows($result);
-		$output = array();
+		$output = [];
 		for ($i = 0; $i < $noofrows; $i++) {
 			$row = $this->pearDB->fetchByAssoc($result, $i);
 			if (!$meta->hasPermission(EntityMeta::$RETRIEVE, $row["crmid"])) {
@@ -227,7 +227,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 	function getModuleFields()
 	{
 
-		$fields = array();
+		$fields = [];
 		$moduleFields = $this->meta->getModuleFields();
 		foreach ($moduleFields as $fieldName => $webserviceField) {
 			if (((int) $webserviceField->getPresence()) == 1) {
@@ -246,7 +246,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 
 		$fieldLabel = getTranslatedString($webserviceField->getFieldLabelKey(), $this->meta->getTabName());
 
-		$typeDetails = array();
+		$typeDetails = [];
 		if (!is_array($this->partialDescribeFields)) {
 			$typeDetails = $this->getFieldTypeDetails($webserviceField);
 		} else if (in_array($webserviceField->getFieldName(), $this->partialDescribeFields)) {

@@ -28,13 +28,13 @@ require_once 'include/utils/InventoryUtils.php';
 class VtigerLineItemOperation extends VtigerActorOperation
 {
 
-	private static $lineItemCache = array();
+	private static $lineItemCache = [];
 	private $taxType = null;
 	private $Individual = 'Individual';
 	private $Group = 'Group';
 	private $newId = null;
 	private $taxList = null;
-	private static $parentCache = array();
+	private static $parentCache = [];
 
 	public function __construct($webserviceObject, $user, $adb, $log)
 	{
@@ -48,13 +48,13 @@ class VtigerLineItemOperation extends VtigerActorOperation
 		}
 		$this->meta = new VtigerLineItemMeta($this->entityTableName, $webserviceObject, $adb, $user);
 		$this->moduleFields = null;
-		$this->taxList = array();
+		$this->taxList = [];
 	}
 
 	protected function getNextId($elementType, $element)
 	{
 		$sql = 'SELECT MAX(' . $this->meta->getIdColumn() . ') as maxvalue_lineitem_id FROM ' . $this->entityTableName;
-		$result = $this->pearDB->pquery($sql, array());
+		$result = $this->pearDB->pquery($sql, []);
 		$numOfRows = $this->pearDB->num_rows($result);
 
 		for ($i = 0; $i < $numOfRows; $i++) {
@@ -89,7 +89,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 			if (!$transactionSuccessful) {
 				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, "Database error while performing required operation");
 			}
-			$lineItemList = array();
+			$lineItemList = [];
 			if ($result) {
 				$rowCount = $this->pearDB->num_rows($result);
 				for ($i = 0; $i < $rowCount; ++$i) {
@@ -106,7 +106,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 			if (!$transactionSuccessful) {
 				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, "Database error while performing required operation");
 			}
-			$lineItemList = array();
+			$lineItemList = [];
 			if ($result) {
 				$rowCount = $this->pearDB->num_rows($result);
 				for ($i = 0; $i < $rowCount; ++$i) {
@@ -129,7 +129,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 		$parentTypeMeta = $parentTypeHandler->getMeta();
 		$parentType = $parentTypeMeta->getEntityName();
 		$parent = $this->getParentById($element['parent_id']);
-		updateStk($productId, $element['quantity'], '', array(), $parentType);
+		updateStk($productId, $element['quantity'], '', [], $parentType);
 
 		$this->initTax($element, $parent);
 		$this->updateTaxes($createdElement);
@@ -158,7 +158,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 
 	private function resetTaxInfo($element, $parent)
 	{
-		$productTaxInfo = array();
+		$productTaxInfo = [];
 		if (empty($this->taxType)) {
 			list($typeId, $recordId) = vtws_getIdComponents($element['productid']);
 			$productTaxInfo = $this->getProductTaxList($recordId);
@@ -184,7 +184,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 			$sql = 'UPDATE vtiger_inventoryproductrel set ';
 			$sql .= implode('=?,', array_keys($this->taxList));
 			$sql .= '=? WHERE lineitem_id = ?';
-			$params = array();
+			$params = [];
 			foreach ($this->taxList as $taxInfo) {
 				$params[] = $taxInfo['percentage'];
 			}
@@ -332,7 +332,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 		$lineItemList[$location] = $element;
 		deleteInventoryProductDetails($parentObject);
 		$this->resetInventoryStock($element, $parent);
-		$updatedLineItemList = array();
+		$updatedLineItemList = [];
 		foreach ($lineItemList as $lineItem) {
 			$id = vtws_getIdComponents($lineItem['id']);
 			$this->newId = $id[1];
@@ -387,7 +387,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 		$this->cleanLineItemList($element['parent_id']);
 		$this->initTax($element, $parent);
 		$result = parent::delete($id);
-		$updatedList = array();
+		$updatedList = [];
 		$element = null;
 		foreach ($lineItemList as $lineItem) {
 			if ($id != $lineItem['id']) {
@@ -471,14 +471,14 @@ class VtigerLineItemOperation extends VtigerActorOperation
 	{
 		$db = PearDatabase::getInstance();
 		$sql = 'select * from vtiger_inventorytaxinfo where deleted=0';
-		$params = array();
+		$params = [];
 		$result = null;
 		$transactionSuccessful = vtws_runQueryAsTransaction($sql, $params, $result);
 		if (!$transactionSuccessful) {
 			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, "Database error while performing required operation");
 		}
 		$it = new SqlResultIterator($db, $result);
-		$this->taxList = array();
+		$this->taxList = [];
 		foreach ($it as $row) {
 			$this->taxList[$row->taxname] = array('label' => $row->taxlabel,
 				'percentage' => $row->percentage);
@@ -499,7 +499,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, "Database error while performing required operation");
 		}
 		$it = new SqlResultIterator($db, $result);
-		$this->taxList = array();
+		$this->taxList = [];
 		foreach ($it as $row) {
 			$this->taxList[$row->taxname] = array('label' => $row->taxlabel,
 				'percentage' => $row->taxpercentage);
@@ -510,7 +510,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 	private function updateInventoryStock($element, $parent)
 	{
 		global $updateInventoryProductRel_update_product_array;
-		$updateInventoryProductRel_update_product_array = array();
+		$updateInventoryProductRel_update_product_array = [];
 		$entityCache = new VTEntityCache($this->user);
 		$entityData = $entityCache->forId($element['parent_id']);
 		updateInventoryProductRel($entityData);

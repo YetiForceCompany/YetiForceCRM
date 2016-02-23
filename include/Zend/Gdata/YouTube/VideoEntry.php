@@ -149,7 +149,7 @@ class Zend_Gdata_YouTube_VideoEntry extends Zend_Gdata_YouTube_MediaEntry
      *
      * @var array
      */
-    protected $_feedLink = array();
+    protected $_feedLink = [];
 
     /**
      * Geo location for the video
@@ -733,10 +733,10 @@ class Zend_Gdata_YouTube_VideoEntry extends Zend_Gdata_YouTube_MediaEntry
         $this->ensureMediaGroupIsNotNull();
         if ($this->getMediaGroup()->getThumbnail() != null) {
 
-            $thumbnailArray = array();
+            $thumbnailArray = [];
 
             foreach ($this->getMediaGroup()->getThumbnail() as $thumbnailObj) {
-                $thumbnail = array();
+                $thumbnail = [];
                 $thumbnail['time'] = $thumbnailObj->time;
                 $thumbnail['height'] = $thumbnailObj->height;
                 $thumbnail['width'] = $thumbnailObj->width;
@@ -745,7 +745,7 @@ class Zend_Gdata_YouTube_VideoEntry extends Zend_Gdata_YouTube_MediaEntry
             }
             return $thumbnailArray;
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -839,7 +839,7 @@ class Zend_Gdata_YouTube_VideoEntry extends Zend_Gdata_YouTube_MediaEntry
                 return preg_split('/(, *)|,/', $keywordsString);
             }
         }
-        return array();
+        return [];
     }
 
     /**
@@ -894,7 +894,7 @@ class Zend_Gdata_YouTube_VideoEntry extends Zend_Gdata_YouTube_MediaEntry
             if (strlen(trim($positionString)) > 0) {
                 $positionArray = explode(' ', trim($positionString));
                 if (count($positionArray) == 2) {
-                    $returnArray = array();
+                    $returnArray = [];
                     $returnArray['latitude'] = $positionArray[0];
                     $returnArray['longitude'] = $positionArray[1];
                     return $returnArray;
@@ -914,7 +914,7 @@ class Zend_Gdata_YouTube_VideoEntry extends Zend_Gdata_YouTube_MediaEntry
     public function getVideoRatingInfo()
     {
         if ($this->getRating() != null) {
-            $returnArray = array();
+            $returnArray = [];
             $returnArray['average'] = $this->getRating()->getAverage();
             $returnArray['numRaters'] = $this->getRating()->getNumRaters();
             return $returnArray;

@@ -15,7 +15,7 @@
  */
 // Let us create cache to improve performance
 if (!isset($__cache_vtiger_imagepath)) {
-	$__cache_vtiger_imagepath = Array();
+	$__cache_vtiger_imagepath = [];
 }
 
 function vtiger_imageurl($imagename, $themename)
@@ -67,7 +67,7 @@ function vtlib_getModuleNameForSharing()
 /**
  * Cache the module active information for performance
  */
-$__cache_module_activeinfo = Array();
+$__cache_module_activeinfo = [];
 
 /**
  * Fetch module active information at one shot, but return all the information fetched.
@@ -83,7 +83,7 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 	if ($tabrows === false || $force) {
 		$adb = PearDatabase::getInstance();
 		$tabres = $adb->query("SELECT * FROM vtiger_tab");
-		$tabrows = array();
+		$tabrows = [];
 		if ($tabres) {
 			while ($tabresrow = $adb->fetch_array($tabres)) {
 				$tabrows[] = $tabresrow;
@@ -186,7 +186,7 @@ function vtlib_getToggleModuleInfo()
 {
 	$adb = PearDatabase::getInstance();
 
-	$modinfo = Array();
+	$modinfo = [];
 
 	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM vtiger_tab WHERE name NOT IN ('Users','Home') AND presence IN (0,1) ORDER BY name");
 	$num_rows = $adb->num_rows($sqlresult);
@@ -213,7 +213,7 @@ function vtlib_getToggleLanguageInfo()
 	$old_dieOnError = $adb->dieOnError;
 	$adb->dieOnError = false;
 
-	$langinfo = Array();
+	$langinfo = [];
 	$sqlresult = $adb->query("SELECT * FROM vtiger_language");
 	if ($sqlresult) {
 		for ($idx = 0; $idx < $adb->num_rows($sqlresult); ++$idx) {
@@ -251,7 +251,7 @@ function vtlib_toggleLanguageAccess($langprefix, $enable_disable)
 /*
   function vtlib_getFieldHelpInfo($module) {
   $adb = PearDatabase::getInstance();
-  $fieldhelpinfo = Array();
+  $fieldhelpinfo = [];
   if(in_array('helpinfo', $adb->getColumnNames('vtiger_field'))) {
   $result = $adb->pquery('SELECT fieldname,helpinfo FROM vtiger_field WHERE tabid=?', Array(getTabid($module)));
   if($result && $adb->num_rows($result)) {
@@ -471,7 +471,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 
 	$picklistresCount = $adb->num_rows($picklistres);
 
-	$picklistval_roles = Array();
+	$picklistval_roles = [];
 	if ($picklistresCount) {
 		for ($index = 0; $index < $picklistresCount; ++$index) {
 			$picklistval = $adb->query_result($picklistres, $index, 'pickvalue');
@@ -480,7 +480,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 		}
 	}
 	// Collect picklist value which is associated to all the roles.
-	$allrolevalues = Array();
+	$allrolevalues = [];
 	foreach ($picklistval_roles as $picklistval => $pickvalroles) {
 		sort($pickvalroles);
 		$diff = array_diff($pickvalroles, $allroles);
@@ -505,7 +505,7 @@ function vtlib_getPicklistValues($columnname)
 	$picklistres = $adb->query("SELECT $columnname as pickvalue FROM $tablename");
 	$picklistresCount = $adb->num_rows($picklistres);
 
-	$picklistvalues = Array();
+	$picklistvalues = [];
 	if ($picklistresCount) {
 		for ($index = 0; $index < $picklistresCount; ++$index) {
 			$picklistvalues[] = $adb->query_result($picklistres, $index, 'pickvalue');
@@ -588,7 +588,7 @@ function vtlib_purify($input, $ignore = false)
 {
 	global $__htmlpurifier_instance, $root_directory, $default_charset;
 
-	static $purified_cache = array();
+	static $purified_cache = [];
 	$value = $input;
 
 	if (!is_array($input)) {
@@ -624,7 +624,7 @@ function vtlib_purify($input, $ignore = false)
 		if ($__htmlpurifier_instance) {
 			// Composite type
 			if (is_array($input)) {
-				$value = array();
+				$value = [];
 				foreach ($input as $k => $v) {
 					$value[$k] = vtlib_purify($v, $ignore);
 				}
@@ -643,7 +643,7 @@ function vtlib_purifyForHtml($input, $ignore = false)
 {
 	global $htmlPurifierForHtml, $root_directory, $default_charset;
 
-	static $purified_cache = array();
+	static $purified_cache = [];
 	$value = $input;
 
 	if (!is_array($input)) {
@@ -759,7 +759,7 @@ function vtlib_purifyForHtml($input, $ignore = false)
 		if ($htmlPurifierForHtml) {
 			// Composite type
 			if (is_array($input)) {
-				$value = array();
+				$value = [];
 				foreach ($input as $k => $v) {
 					$value[$k] = vtlib_purifyForHtml($v, $ignore);
 				}
