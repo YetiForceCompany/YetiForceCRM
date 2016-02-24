@@ -103,4 +103,17 @@ class Settings_Webforms_Module_Model extends Settings_Vtiger_Module_Model
 		$db->pquery("DELETE from vtiger_webforms WHERE id = ?", array($recordId));
 		return true;
 	}
+	
+	public function getFieldsByDisplayType($type)
+	{
+		$fields = $this->getFields();
+		$fieldList = [];
+		foreach ($fields as $field) {
+			$displayType = $field->get('displaytype');
+			if ($displayType == $type) {
+				$fieldList[$field->getName()] = $field;
+			}
+		}
+		return $fieldList;
+	}
 }

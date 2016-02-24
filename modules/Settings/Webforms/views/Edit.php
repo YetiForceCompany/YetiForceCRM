@@ -60,7 +60,7 @@ Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODE', $mode);
 		$viewer->assign('RECORD_ID', $recordId);
-		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PARENT_MODULE', $parentModuleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
