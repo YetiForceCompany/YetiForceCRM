@@ -382,12 +382,12 @@ function isPermitted($module, $actionname, $record_id = '')
 			}
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$roleDetail = $userPrivilegesModel->getRoleDetail();
-		if ((($actionid == 3 || $actionid == 4) && $roleDetail['previewrelatedrecord'] != 0 ) || (($actionid == 0 || $actionid == 1) && $roleDetail['editrelatedrecord'] != 0 )) {
-			$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $roleDetail['previewrelatedrecord'], $actionid);
+		$role = $userPrivilegesModel->getRoleDetail();
+		if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
+			$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role->get('previewrelatedrecord'), $actionid);
 			if ($parentRecord) {
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
-				$permissionsRelatedField = empty($roleDetail['permissionsrelatedfield'])? [] : explode(',', $roleDetail['permissionsrelatedfield']);
+				$permissionsRelatedField = empty($role->get('permissionsrelatedfield'))? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as &$row) {
 					switch ($row) {

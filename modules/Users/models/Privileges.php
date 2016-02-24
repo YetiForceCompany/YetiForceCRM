@@ -406,12 +406,12 @@ class Users_Privileges_Model extends Users_Record_Model
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
 		} else if (in_array($moduleName, Vtiger_Module_Model::getModulesMapMMBase())) {
 			$db = PearDatabase::getInstance();
-			$roleDetail = $userPrivilegesModel->getRoleDetail();
+			$role = $userPrivilegesModel->getRoleDetail();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? OR relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
-				$permissionsRelatedField = empty($roleDetail['permissionsrelatedfield']) ? [] : explode(',', $roleDetail['permissionsrelatedfield']);
+				$permissionsRelatedField = empty($role->get('permissionsrelatedfield')) ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as &$row) {
 					if (!$relatedPermission) {
@@ -441,13 +441,13 @@ class Users_Privileges_Model extends Users_Record_Model
 			}
 		} else if ($relationInfo = Vtiger_Module_Model::getModulesMapMMCustom($moduleName)) {
 			$db = PearDatabase::getInstance();
-			$roleDetail = $userPrivilegesModel->getRoleDetail();
+			$role = $userPrivilegesModel->getRoleDetail();
 			$query = 'SELECT ' . $relationInfo['rel'] . ' AS crmid FROM `' . $relationInfo['table'] . '` WHERE ' . $relationInfo['base'] . ' = ?';
 			$result = $db->pquery($query, [$record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'];
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
-				$permissionsRelatedField = empty($roleDetail['permissionsrelatedfield']) ? [] : explode(',', $roleDetail['permissionsrelatedfield']);
+				$permissionsRelatedField = empty($role->get('permissionsrelatedfield')) ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as &$row) {
 					if (!$relatedPermission) {

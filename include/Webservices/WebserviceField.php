@@ -275,11 +275,10 @@ class WebserviceField
 
 	public function getReferenceList()
 	{
-		static $referenceList = [];
 		if ($this->referenceList === null) {
-			if (isset($referenceList[$this->getFieldId()])) {
-				$this->referenceList = $referenceList[$this->getFieldId()];
-				return $referenceList[$this->getFieldId()];
+			$referenceList = Vtiger_Cache::get('getReferenceList', $this->getFieldId());
+			if ($referenceList !== false) {
+				return $referenceList;
 			}
 			if (!isset(WebserviceField::$fieldTypeMapping[$this->getUIType()])) {
 				$this->getFieldTypeFromUIType();
@@ -322,7 +321,7 @@ class WebserviceField
 				$referenceTypesSorted[$keySort] = $reference;
 			}
 			ksort($referenceTypesSorted);
-			$referenceList[$this->getFieldId()] = $referenceTypesSorted;
+			Vtiger_Cache::set('getReferenceList', $this->getFieldId(), $referenceTypesSorted);
 			$this->referenceList = $referenceTypesSorted;
 			return $referenceTypesSorted;
 		}

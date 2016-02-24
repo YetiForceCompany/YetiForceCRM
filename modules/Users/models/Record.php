@@ -281,11 +281,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	function getRoleDetail()
 	{
-		$instance = Vtiger_Cache::get('Users_Record_Model_Role_Detail', $this->getId());
-		if ($instance) {
-			return $instance;
-		}
-
 		$roleDetail = $this->get('roleDetail');
 		if (!empty($roleDetail)) {
 			return $this->get('roleDetail');
@@ -295,12 +290,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_role WHERE roleid = ?', [$this->get('privileges')->get('roleid')]);
-		$roleDetail = $db->getRow($result);
-		$this->set('roleDetail', $roleDetail);
-		Vtiger_Cache::set('Users_Record_Model_Role_Detail', $this->getId(), $roleDetail);
-		return $roleDetail;
+		$roleModel = Settings_Roles_Record_Model::getInstanceById($this->get('privileges')->get('roleid'));
+		$this->set('roleDetail', $roleModel);
+		return $roleModel;
 	}
 
 	/**

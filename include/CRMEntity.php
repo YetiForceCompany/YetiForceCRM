@@ -2494,18 +2494,21 @@ class CRMEntity
 	{
 		if ($current_user == false)
 			$current_user = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+		
+		$userid = $current_user->id;
+		require('user_privileges/user_privileges_' . $userid . '.php');
+		require('user_privileges/sharing_privileges_' . $userid . '.php');
 
-		$is_admin = is_admin($current_user);
 		$sharedParameter = $securityParameter = '';
 		$query = '';
 		$tabId = getTabid($module);
 
 		if ($relatedRecord) {
-			$role = getRoleInformation($current_user->roleid);
-			if ($role['listrelatedrecord'] != 0) {
-				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role['listrelatedrecord']);
+			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$role = $userModel->getRoleDetail();
+			
+			if ($role->get('listrelatedrecord') != 0) {
+				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
 				if ($rparentRecord) {
 					$relatedRecord = $rparentRecord;
 				}
@@ -2520,7 +2523,7 @@ class CRMEntity
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$securityParameter = $this->getUserAccessConditionsQuery($module, $current_user);
-			$shownerid = array_merge([$current_user->id], $current_user_groups);
+			$shownerid = array_merge([$userid], $current_user_groups);
 			$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN (' . implode(',', $shownerid) . '))';
 		}
 		if (AppConfig::main('shared_owners') == true) {
