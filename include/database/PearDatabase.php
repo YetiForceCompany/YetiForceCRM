@@ -678,7 +678,7 @@ class PearDatabase
 			$tablePresent = 0;
 		}
 		$this->dieOnError = $dieOnError;
-		Vtiger_Cache::set('get_group_array', $tableName, $tablePresent);
+		Vtiger_Cache::set('checkExistTable', $tableName, $tablePresent);
 		return $tablePresent;
 	}
 
