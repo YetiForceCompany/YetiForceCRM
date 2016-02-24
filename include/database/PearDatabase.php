@@ -647,12 +647,11 @@ class PearDatabase
 
 	public function getUniqueID($seqname)
 	{
-		$table = $seqname . '_seq';
-		$result = $this->query("SHOW TABLES LIKE '$table'");
-		if ($result->rowCount() > 0) {
-			$result = $this->query('SELECT id FROM ' . $table);
+		$tableName = $seqname . '_seq';
+		if ($this->checkExistTable($tableName)) {
+			$result = $this->query('SELECT id FROM ' . $tableName);
 			$id = ((int) $this->getSingleValue($result)) + 1;
-			$this->database->query("update $table set id = $id");
+			$this->database->query("update $tableName set id = $id");
 		} else {
 			$result = $this->query('SHOW COLUMNS FROM ' . $this->quote($seqname, false));
 			$column = $this->getSingleValue($result);
@@ -660,6 +659,27 @@ class PearDatabase
 			$id = ((int) $this->getSingleValue($result)) + 1;
 		}
 		return $id;
+	}
+
+	public function checkExistTable($tableName, $cache = true)
+	{
+		$tablePresent = Vtiger_Cache::get('checkExistTable', $tableName);
+		if ($tablePresent !== false && $cache) {
+			return $tablePresent;
+		}
+
+		$dieOnError = $this->dieOnError;
+		$this->dieOnError = false;
+
+		$tablename = $this->sql_escape_string($tableName);
+		$tableCheck = $this->query("SHOW TABLES LIKE $tablename");
+		$tablePresent = 1;
+		if (empty($tableCheck) || $this->getRowCount($tableCheck) === 0) {
+			$tablePresent = 0;
+		}
+		$this->dieOnError = $dieOnError;
+		Vtiger_Cache::set('get_group_array', $tableName, $tablePresent);
+		return $tablePresent;
 	}
 
 	// Function to get the last insert id based on the type of database
