@@ -656,6 +656,12 @@ class Accounts extends CRMEntity
 			foreach ($listColumns as $fieldname => $columnname) {
 				if ($columnname == 'assigned_user_id') {
 					$parent_account_info[$columnname] = $row['user_name'];
+				} elseif ($columnname == 'shownerid') {
+					$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($row['accountid']);
+					if (!empty($sharedOwners)) {
+						$sharedOwners = implode(',', array_map('Vtiger_Functions::getOwnerRecordLabel', $sharedOwners));
+						$parent_account_info[$columnname] = $sharedOwners;
+					}
 				} else {
 					$parent_account_info[$columnname] = $row[$columnname];
 				}
@@ -708,6 +714,12 @@ class Accounts extends CRMEntity
 				foreach ($listColumns as $fieldname => $columnname) {
 					if ($columnname == 'assigned_user_id') {
 						$child_account_info[$columnname] = $row['user_name'];
+					} elseif ($columnname == 'shownerid') {
+						$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($child_acc_id);
+						if (!empty($sharedOwners)) {
+							$sharedOwners = implode(',', array_map('Vtiger_Functions::getOwnerRecordLabel', $sharedOwners));
+							$child_account_info[$columnname] = $sharedOwners;
+						}
 					} else {
 						$child_account_info[$columnname] = $row[$columnname];
 					}
