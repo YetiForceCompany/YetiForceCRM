@@ -389,11 +389,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function to get all the accessible users
 	 * @return <Array>
 	 */
-	public function getAccessibleUsers($private = "", $module = false)
+	public function getAccessibleUsers($private = '', $module = false)
 	{
-		$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
-		$accessibleUser = Vtiger_Cache::get('vtiger-' . $this->getRole() . '-' . $currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers');
-		if (empty($accessibleUser)) {
+		$name = $private.$module;
+		$accessibleUser = Vtiger_Cache::get('getAccessibleUsers', $name);
+		if ($accessibleUser !== false) {
+			$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
 			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
 				$accessibleUser = get_user_array(false, 'ACTIVE', '', $private, $module);
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '2') {
@@ -403,7 +404,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '4') {
 				$accessibleUser[$this->getId()] = $this->getName();
 			}
-			Vtiger_Cache::set('vtiger-' . $this->getRole() . '-' . $currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers', $accessibleUser);
+			Vtiger_Cache::set('getAccessibleUsers', $name, $accessibleUser);
 		}
 		return $accessibleUser;
 	}

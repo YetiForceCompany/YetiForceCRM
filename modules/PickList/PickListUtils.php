@@ -33,9 +33,9 @@ function getUserFldArray($fld_module,$roleid){
 	$noofrows = $adb->num_rows($result);
 
     if($noofrows > 0){
-		$fieldlist = array();
+		$fieldlist = [];
     	for($i=0; $i<$noofrows; $i++){
-			$user_fld = array();
+			$user_fld = [];
 			$fld_name = $adb->query_result($result,$i,"fieldname");
 
 			$user_fld['fieldlabel'] = $adb->query_result($result,$i,"fieldlabel");
@@ -60,7 +60,7 @@ function getPickListModules(){
 	// vtlib customization: Ignore disabled modules.
 	$query = 'select distinct vtiger_field.fieldname,vtiger_field.tabid,vtiger_tab.tablabel, vtiger_tab.name as tabname,uitype from vtiger_field inner join vtiger_tab on vtiger_tab.tabid=vtiger_field.tabid where uitype IN (15,33) and vtiger_field.tabid != 29 and vtiger_tab.presence != 1 and vtiger_field.presence in (0,2) order by vtiger_field.tabid ASC';
 	// END
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	while($row = $adb->fetch_array($result)){
 		$modules[$row['tablabel']] = $row['tabname'];
 	}
@@ -74,7 +74,7 @@ function getPickListModules(){
 function getrole2picklist(){
 	$adb = PearDatabase::getInstance();
 	$query = "select rolename,roleid from vtiger_role where roleid not in('H1') order by roleid";
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	while($row = $adb->fetch_array($result)){
 		$role[$row['roleid']] = $row['rolename'];
 	}
@@ -125,8 +125,8 @@ function getAllPickListValues($fieldName,$lang = Array() ){
  * @param object $adb - the peardatabase object
  * @return array $pick - the editable picklist values
  */
-function getEditablePicklistValues($fieldName, $lang= array(), $adb){
-	$values = array();
+function getEditablePicklistValues($fieldName, $lang= [], $adb){
+	$values = [];
 	$fieldName = $adb->sql_escape_string($fieldName);
 	$sql="select $fieldName from vtiger_$fieldName where presence=1 and $fieldName <> '--None--'";
 	$res = $adb->query($sql);
@@ -151,8 +151,8 @@ function getEditablePicklistValues($fieldName, $lang= array(), $adb){
  * @param object $adb - the peardatabase object
  * @return array $pick - the no-editable picklist values
  */
-function getNonEditablePicklistValues($fieldName, $lang=array(), $adb){
-	$values = array();
+function getNonEditablePicklistValues($fieldName, $lang=[], $adb){
+	$values = [];
 	$fieldName = $adb->sql_escape_string($fieldName);
 	$sql = "select $fieldName from vtiger_$fieldName where presence=0";
 	$result = $adb->query($sql);
@@ -178,12 +178,12 @@ function getNonEditablePicklistValues($fieldName, $lang=array(), $adb){
  * @param object $adb - the peardatabase object
  * @return array $val - the assigned picklist values in array format
  */
-function getAssignedPicklistValues($tableName, $roleid, $adb, $lang=array()){
+function getAssignedPicklistValues($tableName, $roleid, $adb, $lang=[]){
 	$cache = Vtiger_Cache::getInstance();
 	if($cache->hasAssignedPicklistValues($tableName,$roleid)) {
 		return $cache->getAssignedPicklistValues($tableName,$roleid);
 	} else {
-	$arr = array();
+	$arr = [];
 
 	$sql = "select picklistid from vtiger_picklist where name = ?";
 	$result = $adb->pquery($sql, array($tableName));
@@ -194,7 +194,7 @@ function getAssignedPicklistValues($tableName, $roleid, $adb, $lang=array()){
 		$subRoles = array($roleid);
 		$subRoles = array_merge($subRoles, array_keys($sub));
 
-		$roleids = array();
+		$roleids = [];
 		foreach($subRoles as $role){
 			$roleids[] = $role;
 		}
@@ -208,7 +208,7 @@ function getAssignedPicklistValues($tableName, $roleid, $adb, $lang=array()){
 		if($count) {
 			while($resultrow = $adb->fetch_array($result)) {
                 /** Earlier we used to save picklist values by encoding it. Now, we are directly saving those(getRaw()).
-                 *  If value in DB is like "test1 &amp; test2" then $abd->fetch_array() is giving it as
+                 *  If value in DB is like "test1 &amp; test2" then $abd->fetch_[] is giving it as
                  *  "test1 &amp;$amp; test2" which we should decode two time to get result
                  */
 				$pick_val = decode_html(decode_html($resultrow[$tableName]));

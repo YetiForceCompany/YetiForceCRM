@@ -795,7 +795,7 @@ function getProfileAllActionPermission($profileid)
 function getAllRoleDetails()
 {
 	$log = LoggerManager::getInstance();
-	$log->debug("Entering getAllRoleDetails() method ...");
+	$log->debug('Entering getAllRoleDetails() method ...');
 	$adb = PearDatabase::getInstance();
 	$role_det = [];
 	$query = "select * from vtiger_role";
@@ -830,7 +830,7 @@ function getAllRoleDetails()
 		$each_role_det[] = $sub_role;
 		$role_det[$roleid] = $each_role_det;
 	}
-	$log->debug("Exiting getAllRoleDetails method ...");
+	$log->debug('Exiting getAllRoleDetails method ...');
 	return $role_det;
 }
 
@@ -845,6 +845,11 @@ function getRoleInformation($roleid)
 	$log->debug('Entering getRoleInformation(' . $roleid . ') method ...');
 	$adb = PearDatabase::getInstance();
 
+	$row = Vtiger_Cache::get('getRoleInformation', $roleid);
+	if ($row !== false) {
+		return $row;
+	}
+	
 	$result = $adb->pquery('select * from vtiger_role where roleid=?', [$roleid]);
 	$row = $adb->fetch_array($result);
 
@@ -853,6 +858,7 @@ function getRoleInformation($roleid)
 	$immediateParent = $parentRoleArr[sizeof($parentRoleArr) - 2];
 	$row['immediateParent'] = $immediateParent;
 
+	Vtiger_Cache::set('getRoleInformation', $roleid, $row);
 	$log->debug('Exiting getRoleInformation method ...');
 	return $row;
 }
@@ -865,16 +871,24 @@ function getRoleInformation($roleid)
 function getRoleUsers($roleId)
 {
 	$log = LoggerManager::getInstance();
-	$log->debug("Entering getRoleUsers(" . $roleId . ") method ...");
+	$log->debug('Entering getRoleUsers(' . $roleId . ') method ...');
+	
+	$roleRelatedUsers = Vtiger_Cache::get('getRoleUsers', $roleId);
+	if ($roleRelatedUsers !== false) {
+		return $roleRelatedUsers;
+	}
+	
 	$adb = PearDatabase::getInstance();
-	$query = "select vtiger_user2role.*,vtiger_users.* from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?";
+	$query = 'select vtiger_user2role.*,vtiger_users.* from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?';
 	$result = $adb->pquery($query, array($roleId));
 	$num_rows = $adb->num_rows($result);
 	$roleRelatedUsers = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = getFullNameFromQResult($result, $i, 'Users');
 	}
-	$log->debug("Exiting getRoleUsers method ...");
+	
+	Vtiger_Cache::set('getRoleUsers', $roleId, $roleRelatedUsers);
+	$log->debug('Exiting getRoleUsers method ...');
 	return $roleRelatedUsers;
 }
 
