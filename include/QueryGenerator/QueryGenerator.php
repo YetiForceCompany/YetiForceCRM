@@ -61,6 +61,7 @@ class QueryGenerator
 	private $columnsCustom;
 	private $fromClauseCustom;
 	private $whereClauseCustom;
+	private $customTable;
 
 	/**
 	 * Import Feature
@@ -99,6 +100,7 @@ class QueryGenerator
 		$this->columnsCustom = [];
 		$this->fromClauseCustom = [];
 		$this->whereClauseCustom = [];
+		$this->customTable = [];
 		$this->sourceRecord = false;
 	}
 
@@ -150,6 +152,11 @@ class QueryGenerator
 	public function setCustomColumn($columns)
 	{
 		$this->columnsCustom[] = $columns;
+	}
+
+	public function setCustomTable($table)
+	{
+		$this->customTable[] = $table;
 	}
 
 	public function setCustomFrom($from)
@@ -522,10 +529,13 @@ class QueryGenerator
 					}
 				}
 			} elseif ($field->getFieldDataType() == 'owner') {
-				$tableList['vtiger_users'] = 'vtiger_users';
-				$tableList['vtiger_groups'] = 'vtiger_groups';
-				$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
-				$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+				/*
+				 * Removed unnecessary join tables
+				  $tableList['vtiger_users'] = 'vtiger_users';
+				  $tableList['vtiger_groups'] = 'vtiger_groups';
+				  $tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
+				  $tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+				 */
 				if ($fieldName == "created_user_id") {
 					$tableJoinCondition[$fieldName]['vtiger_users' . $fieldName] = $field->getTableName() .
 						"." . $field->getColumnName() . " = vtiger_users" . $fieldName . ".id";
@@ -611,14 +621,19 @@ class QueryGenerator
 				"$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]";
 			unset($tableList[$tableName]);
 		}
+		foreach ($this->customTable as $table) {
+			$tableName = $table['name'];
+			$tableList[$tableName] = $tableName;
+			$tableJoinMapping[$tableName] = $table['join'];
+		}
 		foreach ($tableList as $tableName) {
 			if ($tableName == 'vtiger_users') {
 				$field = $moduleFields[$ownerField];
-				$sql .= " $tableJoinMapping[$tableName] $tableName ON " . $field->getTableName() . "." .
+				$sql .= " $tableJoinMapping[$tableName] $tableName ON " . $field->getTableName() . '.' .
 					$field->getColumnName() . " = $tableName.id";
 			} elseif ($tableName == 'vtiger_groups') {
 				$field = $moduleFields[$ownerField];
-				$sql .= " $tableJoinMapping[$tableName] $tableName ON " . $field->getTableName() . "." .
+				$sql .= " $tableJoinMapping[$tableName] $tableName ON " . $field->getTableName() . '.' .
 					$field->getColumnName() . " = $tableName.groupid";
 			} else {
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable." .
@@ -649,7 +664,7 @@ class QueryGenerator
 			$relatedModuleMeta = RelatedModuleMeta::getInstance($this->meta->getTabName(), $conditionInfo['relatedModule']);
 			$relationInfo = $relatedModuleMeta->getRelationMeta();
 			$relatedModule = $this->meta->getTabName();
-			$sql .= ' INNER JOIN ' . $relationInfo['relationTable'] . " ON " .
+			$sql .= ' INNER JOIN ' . $relationInfo['relationTable'] . ' ON ' .
 				$relationInfo['relationTable'] . ".$relationInfo[$relatedModule]=" .
 				"$baseTable.$baseTableIndex";
 		}
@@ -1530,16 +1545,16 @@ class QueryGenerator
 			case 'n': $sqlOperator = '<>';
 				break;
 			case 's': $sqlOperator = 'LIKE';
-				$value = $value.'%';
+				$value = $value . '%';
 				break;
 			case 'ew': $sqlOperator = 'LIKE';
-				$value = '%'.$value;
+				$value = '%' . $value;
 				break;
 			case 'c': $sqlOperator = 'LIKE';
-				$value = '%'.$value.'%';
+				$value = '%' . $value . '%';
 				break;
 			case 'k': $sqlOperator = 'NOT LIKE';
-				$value = '%'.$value.'%';
+				$value = '%' . $value . '%';
 				break;
 			case 'l': $sqlOperator = '<';
 				break;

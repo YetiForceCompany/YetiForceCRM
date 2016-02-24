@@ -767,36 +767,23 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
-		$userEntityInfo = Vtiger_Functions::getEntityModuleInfo('Users');
-		$table = $userEntityInfo['tablename'];
-		$columnsName = explode(',', $userEntityInfo['fieldname']);
 
 		$queryGenerator = new QueryGenerator($module, $currentUser);
 		if ($view) {
 			$queryGenerator->initForCustomViewById($view);
 		}
 		$queryGenerator->setFields(['assigned_user_id']);
-		$queryGenerator->setCustomColumn('vtiger_groups.groupname');
-		foreach ($columnsName as &$column) {
-			$queryGenerator->setCustomColumn($table . '.' . $column);
-		}
 		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
-		$listQuery .= ' ORDER BY last_name ASC, first_name ASC';
 		$result = $db->query($listQuery);
-
-		$users = $group = [];
-		while ($row = $db->fetch_array($result)) {
-			if (isset($row['groupname'])) {
-				$group[$row['smownerid']] = $row['groupname'];
-			} else {
-				$name = '';
-				foreach ($columnsName as &$column) {
-					$name .= $row[$column] . ' ';
-				}
-				$users[$row['smownerid']] = trim($name);
-			}
+		$ids = $db->getArrayColumn($result);
+		
+		$users = $groups = [];
+		$users = Vtiger_Functions::getCRMRecordLabels('Users', $ids);
+		$diffIds = array_diff($ids, array_keys($users));
+		if ($diffIds) {
+			$groups = Vtiger_Functions::getCRMRecordLabels('Groups', array_values($diffIds));
 		}
-		return [ 'users' => $users, 'group' => $group];
+		return [ 'users' => $users, 'group' => $groups];
 	}
 
 	public function getSwitchUsersUrl()

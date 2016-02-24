@@ -378,9 +378,6 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 	public static function executeColorListHandlers($moduleName, $record, $recordModelObiect)
 	{
-		if (!isRecordExists($record))
-			return false;
-
 		if (self::$colorListCache !== false) {
 			return self::$colorListCache;
 		}
