@@ -285,19 +285,24 @@ function vtws_runQueryAsTransaction($query, $params, &$result)
 
 function vtws_getCalendarEntityType($id)
 {
+	$seType = Vtiger_Cache::get('vtws_getCalendarEntityType', $id);
+	if ($seType !== false) {
+		return $seType;
+	}
 	$adb = PearDatabase::getInstance();
 
-	$sql = "select activitytype from vtiger_activity where activityid=?";
+	$sql = 'select activitytype from vtiger_activity where activityid=?';
 	$result = $adb->pquery($sql, array($id));
 	$seType = 'Calendar';
 	if ($result != null && isset($result)) {
 		if ($adb->num_rows($result) > 0) {
-			$activityType = $adb->query_result($result, 0, "activitytype");
-			if ($activityType !== "Task") {
-				$seType = "Events";
+			$activityType = $adb->query_result($result, 0, 'activitytype');
+			if ($activityType !== 'Task') {
+				$seType = 'Events';
 			}
 		}
 	}
+	Vtiger_Cache::set('vtws_getCalendarEntityType', $id, $seType);
 	return $seType;
 }
 /* * *

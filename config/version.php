@@ -9,5 +9,5 @@
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 $patch_version = '20160224';
-$YetiForce_current_version = '2.3.1311';
+$YetiForce_current_version = '2.3.1312';
 $_SESSION['yetiforce_version'] = $YetiForce_current_version;

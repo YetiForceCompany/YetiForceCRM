@@ -433,11 +433,10 @@ class CRMEntity
 
 		// Attempt to re-use the quer-result to avoid reading for every save operation
 		// TODO Need careful analysis on impact ... MEMORY requirement might be more
-		static $_privatecache = [];
 
 		$cachekey = "{$insertion_mode}-" . implode(',', $params);
-
-		if (!isset($_privatecache[$cachekey])) {
+		$insertField = Vtiger_Cache::get('getInsertField', $cachekey);
+		if ($insertField === false) {
 			$result = $adb->pquery($sql, $params);
 			$noofrows = $adb->num_rows($result);
 
@@ -446,10 +445,10 @@ class CRMEntity
 				for ($i = 0; $i < $noofrows; ++$i) {
 					$cacheresult[] = $adb->raw_query_result_rowdata($result, $i);
 				}
-				$_privatecache[$cachekey] = $cacheresult;
+				Vtiger_Cache::set('getInsertField', $cachekey, $cacheresult);
 			}
 		} else { // Useful when doing bulk save
-			$result = $_privatecache[$cachekey];
+			$result = $insertField;
 			$noofrows = count($result);
 		}
 
@@ -1149,7 +1148,7 @@ class CRMEntity
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
 
-			$relatedModule = vtlib_getModuleNameById($tabId);
+			$relatedModule = Vtiger_Functions::getModuleName($tabId);
 			$focusObj = CRMEntity::getInstance($relatedModule);
 
 			//Backup Field Relations for the deleted entity
@@ -1497,7 +1496,7 @@ class CRMEntity
 		global $currentModule, $app_strings, $singlepane_view;
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
@@ -1719,8 +1718,8 @@ class CRMEntity
 	{
 		global $currentModule, $app_strings, $singlepane_view;
 
-		$current_module = vtlib_getModuleNameById($cur_tab_id);
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$current_module = Vtiger_Functions::getModuleName($cur_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
@@ -1802,8 +1801,8 @@ class CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 
-		$currentModule = vtlib_getModuleNameById($cur_tab_id);
-		$relatedModule = vtlib_getModuleNameById($relTabId);
+		$currentModule = Vtiger_Functions::getModuleName($cur_tab_id);
+		$relatedModule = Vtiger_Functions::getModuleName($relTabId);
 		$other = CRMEntity::getInstance($relatedModule);
 
 		// Some standard module class doesn't have required variables

@@ -41,18 +41,6 @@ function vtiger_imageurl($imagename, $themename)
 }
 
 /**
- * Get module name by id.
- */
-function vtlib_getModuleNameById($tabid)
-{
-	$adb = PearDatabase::getInstance();
-	$sqlresult = $adb->pquery("SELECT name FROM vtiger_tab WHERE tabid = ?", array($tabid));
-	if ($adb->num_rows($sqlresult))
-		return $adb->query_result($sqlresult, 0, 'name');
-	return null;
-}
-
-/**
  * Get module names for which sharing access can be controlled.
  * NOTE: Ignore the standard modules which is already handled.
  */

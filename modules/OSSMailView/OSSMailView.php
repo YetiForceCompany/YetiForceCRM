@@ -398,7 +398,7 @@ class OSSMailView extends CRMEntity
 		global $currentModule, $app_strings, $singlepane_view;
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);

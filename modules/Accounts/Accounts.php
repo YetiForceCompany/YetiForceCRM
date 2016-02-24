@@ -100,7 +100,7 @@ class Accounts extends CRMEntity
 		$log->debug("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -164,7 +164,7 @@ class Accounts extends CRMEntity
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -232,7 +232,7 @@ class Accounts extends CRMEntity
 		$log->debug("Entering get_tickets(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -293,7 +293,7 @@ class Accounts extends CRMEntity
 		$log->debug("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -848,7 +848,7 @@ class Accounts extends CRMEntity
 
 		global $currentModule, $app_strings, $singlepane_view;
 		$this_module = $currentModule;
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
@@ -919,8 +919,8 @@ class Accounts extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 
-		$currentModule = vtlib_getModuleNameById($cur_tab_id);
-		$relatedModule = vtlib_getModuleNameById($relTabId);
+		$currentModule = Vtiger_Functions::getModuleName($cur_tab_id);
+		$relatedModule = Vtiger_Functions::getModuleName($relTabId);
 		$other = CRMEntity::getInstance($relatedModule);
 
 		// Some standard module class doesn't have required variables
@@ -1022,8 +1022,8 @@ class Accounts extends CRMEntity
 	{
 		global $currentModule, $app_strings, $singlepane_view;
 
-		$current_module = vtlib_getModuleNameById($cur_tab_id);
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$current_module = Vtiger_Functions::getModuleName($cur_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
