@@ -393,7 +393,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$name = $private.$module;
 		$accessibleUser = Vtiger_Cache::get('getAccessibleUsers', $name);
-		if ($accessibleUser !== false) {
+		if ($accessibleUser === false) {
 			$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
 			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
 				$accessibleUser = get_user_array(false, 'ACTIVE', '', $private, $module);
