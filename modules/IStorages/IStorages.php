@@ -121,13 +121,13 @@ class IStorages extends Vtiger_CRMEntity
 
 		// Get the iStorages hierarchy from the top most iStorage in the hierarch of the current iStorage, including the current iStorage
 		$encounteredIStorages = array($id);
-		$iStoragesList = $this->__getParentIStorages($id, $iStoragesList, $encounteredIStorages);
+		$iStoragesList = $this->getParentIStorages($id, $iStoragesList, $encounteredIStorages);
 
 		$baseId = current(array_keys($iStoragesList));
 		$iStoragesList = [$baseId => $iStoragesList[$baseId]];
 
 		// Get the iStorages hierarchy (list of child iStorages) based on the current iStorage
-		$iStoragesList[$baseId] = $this->__getChildIStorages($baseId, $iStoragesList[$baseId], $iStoragesList[$baseId]['depth']);
+		$iStoragesList[$baseId] = $this->getChildIStorages($baseId, $iStoragesList[$baseId], $iStoragesList[$baseId]['depth']);
 
 		// Create array of all the iStorages in the hierarchy
 		$iStorageHierarchy = $this->getHierarchyData($id, $iStoragesList[$baseId], $baseId, $listviewEntries);
@@ -199,14 +199,14 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param array $parentIStorages - Array of all the parent storages
 	 * returns All the parent Storages of the given istorageid in array format
 	 */
-	function __getParentIStorages($id, &$parentIStorages, &$encounteredIStorages, $depthBase = 0)
+	function getParentIStorages($id, &$parentIStorages, &$encounteredIStorages, $depthBase = 0)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
-		$log->debug('Entering __getParentIStorages(' . $id . ') method ...');
+		$log->debug('Entering getParentIStorages(' . $id . ') method ...');
 
 		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
-			$log->error('Exiting __getParentIStorages method ... - exceeded maximum depth of hierarchy');
+			$log->error('Exiting getParentIStorages method ... - exceeded maximum depth of hierarchy');
 			return $parentIStorages;
 		}
 
@@ -228,7 +228,7 @@ class IStorages extends Vtiger_CRMEntity
 			
 			if ($parentid != '' && $parentid != 0 && !in_array($parentid, $encounteredIStorages)) {
 				$encounteredIStorages[] = $parentid;
-				$this->__getParentIStorages($parentid, $parentIStorages, $encounteredIStorages, $depthBase + 1);
+				$this->getParentIStorages($parentid, $parentIStorages, $encounteredIStorages, $depthBase + 1);
 			}
 			
 			$parentIStorageInfo = [];
@@ -266,14 +266,14 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param integer $depth - Depth at which the particular storage has to be placed in the hierarchy
 	 * returns All the child storages of the given istorageid in array format
 	 */
-	function __getChildIStorages($id, &$childIStorages, $depthBase)
+	function getChildIStorages($id, &$childIStorages, $depthBase)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
-		$log->debug('Entering __getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
+		$log->debug('Entering getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
 
 		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
-			$log->error('Exiting __getChildIStorages method ... - exceeded maximum depth of hierarchy');
+			$log->error('Exiting getChildIStorages method ... - exceeded maximum depth of hierarchy');
 			return $childIStorages;
 		}
 
@@ -311,11 +311,11 @@ class IStorages extends Vtiger_CRMEntity
 				}
 				
 				$childIStorages[$childAccId] = $childIStorageInfo;
-				$this->__getChildIStorages($childAccId, $childIStorages[$childAccId], $depth);
+				$this->getChildIStorages($childAccId, $childIStorages[$childAccId], $depth);
 			}
 		}
 		
-		$log->debug('Exiting __getChildIStorages method ...');
+		$log->debug('Exiting getChildIStorages method ...');
 		return $childIStorages;
 	}
 }

@@ -1916,6 +1916,7 @@ insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`,`
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`,`presence`) values (11,'Accounts','Check for duplicates','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:24:\"Accounts!!unique_account\";}}',1);
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`,`presence`) values (12,'Leads','Check for duplicates','a:1:{i:0;a:8:{s:2:\"an\";s:20:\"Vtiger!!unique_value\";s:5:\"what1\";s:6:\"vat_id\";s:6:\"where1\";a:2:{i:0;s:23:\"vtiger_account=vat_id=6\";i:1;s:27:\"vtiger_leaddetails=vat_id=7\";}s:5:\"info0\";s:0:\"\";s:5:\"info1\";s:0:\"\";s:5:\"info2\";s:0:\"\";s:8:\"locksave\";s:1:\"3\";s:2:\"cf\";b:1;}}',1);
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`,`presence`) values (14,'IStorages','Check for parent storage','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:20:\"IStorages!!checkType\";}}',0);
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`,`presence`) values (15,'IStorages','Prevents parents loop','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:25:\"IStorages!!checkHierarchy\";}}',0);
 
 /*Data for the table `vtiger_dataaccess_cnd` */
 
