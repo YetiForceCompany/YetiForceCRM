@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	// Basic Strings
-	'Assets'        => 'Produkty sprzedane',
+	'Assets' => 'Produkty sprzedane',
 	'SINGLE_Assets' => 'Produkt sprzedany',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',

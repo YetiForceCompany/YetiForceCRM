@@ -31,7 +31,7 @@ class VtigerInventoryMeta extends VtigerCRMObjectMeta
 		$db = PearDatabase::getInstance();
 		foreach ($this->metaTableList as $tableName) {
 			$sql = "SELECT * FROM $tableName WHERE deleted=0";
-			$params = array();
+			$params = [];
 			$result = $db->pquery($sql, $params);
 			if (!empty($result)) {
 				$it = new SqlResultIterator($db, $result);
@@ -47,7 +47,7 @@ class VtigerInventoryMeta extends VtigerCRMObjectMeta
 
 	function getFieldArrayFromTaxRow($row, $tableName, $prefix)
 	{
-		$field = array();
+		$field = [];
 		$field['fieldname'] = $row->taxname;
 		$field['columnname'] = $row->taxname;
 		$field['tablename'] = $tableName;

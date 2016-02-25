@@ -42,13 +42,13 @@ class VtigerActorOperation extends WebserviceEntityOperation
 
 	protected function getActorTables()
 	{
-		static $actorTables = array();
+		static $actorTables = [];
 
 		if (isset($actorTables[$this->webserviceObject->getEntityId()])) {
 			return $actorTables[$this->webserviceObject->getEntityId()];
 		}
 		$sql = 'select table_name, webservice_entity_id from vtiger_ws_entity_tables';
-		$result = $this->pearDB->pquery($sql, array());
+		$result = $this->pearDB->pquery($sql, []);
 		if ($result) {
 			$rowCount = $this->pearDB->num_rows($result);
 			for ($i = 0; $i < $rowCount; ++$i) {
@@ -78,7 +78,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 		if (strcasecmp($elementType, 'Groups') !== 0 && strcasecmp($elementType, 'Users') !== 0) {
 			$sql = "update $tableName" . "_seq set id=(select max(" . $meta->getIdColumn() . ")
 				from $tableName)";
-			$this->pearDB->pquery($sql, array());
+			$this->pearDB->pquery($sql, []);
 		}
 		$id = $this->pearDB->getUniqueId($tableName);
 		return $id;
@@ -118,7 +118,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 	protected function restrictFields($element, $selectedOnly = false)
 	{
 		$fields = $this->getModuleFields();
-		$newElement = array();
+		$newElement = [];
 		foreach ($fields as $field) {
 			if (isset($element[$field['name']])) {
 				$newElement[$field['name']] = $element[$field['name']];
@@ -270,7 +270,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 	{
 		$app_strings = VTWS_PreserveGlobal::getGlobal('app_strings');
 		if ($this->moduleFields === null) {
-			$fields = array();
+			$fields = [];
 			$moduleFields = $this->meta->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
 				array_push($fields, $this->getDescribeFieldArray($webserviceField));
@@ -321,7 +321,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 		$mysql_query = $parser->getSql();
 		$meta = $parser->getObjectMetaData();
 		$this->pearDB->startTransaction();
-		$result = $this->pearDB->pquery($mysql_query, array());
+		$result = $this->pearDB->pquery($mysql_query, []);
 		$error = $this->pearDB->hasFailedTransaction();
 		$this->pearDB->completeTransaction();
 
@@ -331,7 +331,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 		}
 
 		$noofrows = $this->pearDB->num_rows($result);
-		$output = array();
+		$output = [];
 		for ($i = 0; $i < $noofrows; $i++) {
 			$row = $this->pearDB->fetchByAssoc($result, $i);
 			if (!$meta->hasPermission(EntityMeta::$RETRIEVE, $row["crmid"])) {

@@ -102,6 +102,10 @@ $languageStrings = [
 	'LBL_INSERT' => 'Wstaw',
 	'PAGENO' => 'Liczba stron',
 	'PAGENUM' => 'Numer strony',
+	'LBL_HEADER_HEIGHT' => 'Margines nagłówka',
+	'LBL_FOOTER_HEIGHT' => 'Margines stopki',
+	'LBL_HEADER_IN_MILIMETERS' => 'Margines nagłówka od górnej krawędzi strony w milimetrach',
+	'LBL_FOOTER_IN_MILIMETERS' => 'Margines stopki od górnej krawędzi strony w milimetrach',
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',

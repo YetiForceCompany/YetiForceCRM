@@ -53,7 +53,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordIds = $this->getRecordsListFromRequest($request);
-		$recordModels = array();
+		$recordModels = [];
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($recordIds as $recordId) {

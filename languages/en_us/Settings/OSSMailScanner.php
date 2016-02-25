@@ -14,12 +14,12 @@ $languageStrings = [
 	'OSSMailScanner' => 'Mail Scanner',
 	'Mail Scanner' => 'Mail – Scanner',
 	
-	'LBL_VIEW_LOGS' => 'Mail Logs',
-	'LBL_VIEW_LOGS' => 'Mail Protokolle',
-	'CRM Archive' => 'CRM Archive',
-	'CRM Archive Sent' => 'CRM Archive Sent',
+	'LBL_VIEW_LOGS' => 'Mail logs',
+	'LBL_VIEW_LOGS' => 'Mail protocol',
+	'CRM Archive' => 'CRM archive',
+	'CRM Archive Sent' => 'CRM archive sent',
 	'Drafts' => 'Drafts',
-    'INBOX' => 'INBOX',
+    	'INBOX' => 'INBOX',
 	'Junk' => 'JUNK',
 	'Sent' => "SENT",
 ];

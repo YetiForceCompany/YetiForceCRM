@@ -22,7 +22,7 @@ class Vtiger_SummaryRecordStructure_Model extends Vtiger_DetailRecordStructure_M
 	{
 		$summaryFieldsList = $this->getModule()->getSummaryViewFieldsList();
 		$recordModel = $this->getRecord();
-		$blockSeqSortSummaryFields = array();
+		$blockSeqSortSummaryFields = [];
 		if ($summaryFieldsList) {
 			foreach ($summaryFieldsList as $fieldName => $fieldModel) {
 				if ($fieldModel->isViewableInDetailView()) {
@@ -32,7 +32,7 @@ class Vtiger_SummaryRecordStructure_Model extends Vtiger_DetailRecordStructure_M
 				}
 			}
 		}
-		$summaryFieldModelsList = array();
+		$summaryFieldModelsList = [];
 		ksort($blockSeqSortSummaryFields);
 		foreach ($blockSeqSortSummaryFields as $blockSequence => $summaryFields) {
 			$summaryFieldModelsList = array_merge_recursive($summaryFieldModelsList, $summaryFields);

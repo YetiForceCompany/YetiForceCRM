@@ -12,9 +12,9 @@ class VTQL_ParseryyToken implements ArrayAccess
 {
 
 	public $string = '';
-	public $metadata = array();
+	public $metadata = [];
 
-	function __construct($s, $m = array())
+	function __construct($s, $m = [])
 	{
 		if ($s instanceof VTQL_ParseryyToken) {
 			$this->string = $s->string;
@@ -162,7 +162,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	function __construct($user, $lex, $out)
 	{
 		if (!is_array($out)) {
-			$out = array();
+			$out = [];
 		}
 		$this->out = &$out;
 		$this->lex = $lex;
@@ -334,7 +334,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	{
 		$meta = $sqlDump['meta'];
 		$coltable = $meta->getColumnTableMapping();
-		$tables = array();
+		$tables = [];
 		foreach ($columns as $ind => $col) {
 			$tables[$coltable[$col]] = $coltable[$col];
 		}
@@ -507,10 +507,10 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	static public $yyExpectedTokens = array(
 		/* 0 */ array(1,),
 		/* 1 */ array(6,),
-		/* 2 */ array(),
+		/* 2 */ [],
 		/* 3 */ array(4, 5,),
-		/* 4 */ array(),
-		/* 5 */ array(),
+		/* 4 */ [],
+		/* 5 */ [],
 		/* 6 */ array(14, 15, 16, 17, 18, 19, 20, 21,),
 		/* 7 */ array(23, 24,),
 		/* 8 */ array(13,),
@@ -533,36 +533,36 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		/* 25 */ array(6,),
 		/* 26 */ array(8,),
 		/* 27 */ array(8,),
-		/* 28 */ array(),
-		/* 29 */ array(),
-		/* 30 */ array(),
-		/* 31 */ array(),
-		/* 32 */ array(),
-		/* 33 */ array(),
-		/* 34 */ array(),
-		/* 35 */ array(),
-		/* 36 */ array(),
-		/* 37 */ array(),
-		/* 38 */ array(),
-		/* 39 */ array(),
-		/* 40 */ array(),
-		/* 41 */ array(),
-		/* 42 */ array(),
-		/* 43 */ array(),
-		/* 44 */ array(),
-		/* 45 */ array(),
-		/* 46 */ array(),
-		/* 47 */ array(),
-		/* 48 */ array(),
-		/* 49 */ array(),
-		/* 50 */ array(),
-		/* 51 */ array(),
-		/* 52 */ array(),
-		/* 53 */ array(),
-		/* 54 */ array(),
-		/* 55 */ array(),
-		/* 56 */ array(),
-		/* 57 */ array(),
+		/* 28 */ [],
+		/* 29 */ [],
+		/* 30 */ [],
+		/* 31 */ [],
+		/* 32 */ [],
+		/* 33 */ [],
+		/* 34 */ [],
+		/* 35 */ [],
+		/* 36 */ [],
+		/* 37 */ [],
+		/* 38 */ [],
+		/* 39 */ [],
+		/* 40 */ [],
+		/* 41 */ [],
+		/* 42 */ [],
+		/* 43 */ [],
+		/* 44 */ [],
+		/* 45 */ [],
+		/* 46 */ [],
+		/* 47 */ [],
+		/* 48 */ [],
+		/* 49 */ [],
+		/* 50 */ [],
+		/* 51 */ [],
+		/* 52 */ [],
+		/* 53 */ [],
+		/* 54 */ [],
+		/* 55 */ [],
+		/* 56 */ [],
+		/* 57 */ [],
 	);
 	static public $yy_default = array(
 		/*     0 */ 100, 77, 91, 64, 77, 71, 100, 94, 100, 100,
@@ -673,7 +673,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	/**
 	 * @var array
 	 */
-	public $yystack = array();  /* The parser's stack */
+	public $yystack = [];  /* The parser's stack */
 
 	/**
 	 * For tracing shifts, the names of all terminals and nonterminals
@@ -1260,7 +1260,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		if (strcmp($this->yystack[$this->yyidx + -2]->minor, 'id') === 0) {
 			$prev = $this->out['where_condition']['column_values'][sizeof($this->out['where_condition']['column_values']) - 1];
 			if (is_array($prev)) {
-				$new = array();
+				$new = [];
 				foreach ($prev as $ind => $val) {
 					$val = trim($val, '\'"');
 					$value = vtws_getIdComponents($val);
@@ -1291,7 +1291,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			!empty($this->out['where_condition']['column_values'][$pos]) && !$this->out['columnDone']) {
 			if (!is_array($this->out['where_condition']['column_values'][$pos])) {
 				$prev = $this->out['where_condition']['column_values'][$pos];
-				$this->out['where_condition']['column_values'][$pos] = array();
+				$this->out['where_condition']['column_values'][$pos] = [];
 				$this->out['where_condition']['column_values'][$pos][] = $prev;
 			}
 			$this->out['where_condition']['column_values'][$pos][] = $this->yystack[$this->yyidx + 0]->minor;
@@ -1405,7 +1405,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			$this->out['meta'] = $objectMeta;
 			$meta = $this->out['meta'];
 			$fieldcol = $meta->getFieldColumnMapping();
-			$columns = array();
+			$columns = [];
 			if (in_array('*', $this->out['column_list'])) {
 				$columns = array_values($fieldcol);
 			} elseif (!in_array('count(*)', array_map(strtolower, $this->out['column_list']))) {
@@ -1562,7 +1562,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 #line 466 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
 		$synMsg = "Syntax Error on line " . $this->lex->linenum . ": token '" . $this->lex->value . "' ";
-		$expect = array();
+		$expect = [];
 		foreach ($this->yy_get_expected_tokens($yymajor) as $token) {
 			$expect[] = self::$yyTokenName[$token];
 		}
@@ -1618,7 +1618,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			$x = new VTQL_ParseryyStackEntry;
 			$x->stateno = 0;
 			$x->major = 0;
-			$this->yystack = array();
+			$this->yystack = [];
 			array_push($this->yystack, $x);
 		}
 		$yyendofinput = ($yymajor == 0);

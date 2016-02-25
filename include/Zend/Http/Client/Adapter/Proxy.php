@@ -123,7 +123,7 @@ class Zend_Http_Client_Adapter_Proxy extends Zend_Http_Client_Adapter_Socket
      * @param string        $body
      * @return string Request as string
      */
-    public function write($method, $uri, $http_ver = '1.1', $headers = array(), $body = '')
+    public function write($method, $uri, $http_ver = '1.1', $headers = [], $body = '')
     {
         // If no proxy is set, fall back to default Socket adapter
         if (! $this->config['proxy_host']) return parent::write($method, $uri, $http_ver, $headers, $body);
@@ -216,7 +216,7 @@ class Zend_Http_Client_Adapter_Proxy extends Zend_Http_Client_Adapter_Socket
      * @param string  $http_ver
      * @param array   $headers
      */
-    protected function connectHandshake($host, $port = 443, $http_ver = '1.1', array &$headers = array())
+    protected function connectHandshake($host, $port = 443, $http_ver = '1.1', array &$headers = [])
     {
         $request = "CONNECT $host:$port HTTP/$http_ver\r\n" .
                    "Host: " . $this->config['proxy_host'] . "\r\n";

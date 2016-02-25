@@ -61,7 +61,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 		$params = array($currentUser->getId(), 'DASHBOARDWIDGET', $moduleModel->getId(), $action);
 		$result = $db->pquery($sql, $params);
 
-		$widgets = array();
+		$widgets = [];
 
 		while ($row = $db->fetch_array($result)) {
 			$row['linkid'] = $row['id'];
@@ -119,7 +119,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	{
 		//TODO: Need to review this API is needed?
 		$moduleModel = $this->getModule();
-		$widgets = array();
+		$widgets = [];
 
 		return $widgets;
 	}

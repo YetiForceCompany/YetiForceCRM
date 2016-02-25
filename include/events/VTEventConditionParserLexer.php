@@ -38,7 +38,7 @@ function VTEventConditionParserLexer_DFA9_static()
 		"",
 		""
 	);
-	$arr = array();
+	$arr = [];
 	$arr['eot'] = DFA::unpackEncodedString($eotS);
 	$arr['eof'] = DFA::unpackEncodedString($eofS);
 	$arr['min'] = DFA::unpackEncodedString($minS);
@@ -48,7 +48,7 @@ function VTEventConditionParserLexer_DFA9_static()
 
 
 	$numStates = sizeof($transitionS);
-	$arr['transition'] = array();
+	$arr['transition'] = [];
 	for ($i = 0; $i < $numStates; $i++) {
 		$arr['transition'][$i] = DFA::unpackEncodedString($transitionS[$i]);
 	}

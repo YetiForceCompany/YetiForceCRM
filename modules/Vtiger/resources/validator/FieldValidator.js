@@ -744,23 +744,18 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 		if (response != true) {
 			return response;
 		}
-		var field = this.getElement();
 		var fieldValue = this.getFieldValue();
-		var decimalSeperator = $('#currencyDecimalSeparator').val();
-		var groupSeperator = $('#currencyGroupingSeparator').val();
-
-		var strippedValue = fieldValue.replace(decimalSeperator, '');
+		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
+		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
+		fieldValue = fieldValue.split(groupSeparator).join("");
+		
 		var spacePattern = /\s/;
-		if (spacePattern.test(decimalSeperator) || spacePattern.test(groupSeperator))
-			strippedValue = strippedValue.replace(/ /g, '');
+		if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator))
+			fieldValue = fieldValue.replace(/ /g, '');
+
+		var strippedValue = fieldValue.replace(decimalSeparator, '.');
 		var errorInfo;
 
-		if (groupSeperator == "$") {
-			groupSeperator = "\\$"
-		}
-
-		var regex = new RegExp(groupSeperator, 'g');
-		strippedValue = strippedValue.replace(regex, '');
 		if (isNaN(strippedValue)) {
 			errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 			this.setError(errorInfo);
@@ -771,7 +766,8 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 			this.setError(errorInfo);
 			return false;
 		}
-		if (parseFloat(strippedValue) != parseInt(strippedValue)) {
+		strippedValue = parseFloat(strippedValue);
+		if (strippedValue != strippedValue.toString()) {
 			errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 			this.setError(errorInfo);
 			return false;

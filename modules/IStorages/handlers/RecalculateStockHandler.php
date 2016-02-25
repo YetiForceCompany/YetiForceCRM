@@ -29,9 +29,13 @@ class RecalculateStockHandler extends VTEventHandler
 	function getInventoryDataAndSend($data, $action)
 	{
 		$moduleName = $data->getModuleName();
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-		$recordModel->set('id', $data->getId());
-		$inventoryData = $recordModel->getInventoryData();
+		if($data->focus->inventoryData){
+			$inventoryData = $data->focus->inventoryData;
+		}else{
+			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel->set('id', $data->getId());
+			$inventoryData = $recordModel->getInventoryData();
+		}
 		if (!empty($inventoryData)) {
 			IStorages_Module_Model::RecalculateStock($moduleName, $inventoryData, $data->get('storageid'), $action);
 		}

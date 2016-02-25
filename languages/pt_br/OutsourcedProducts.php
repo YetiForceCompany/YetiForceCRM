@@ -12,7 +12,7 @@
 $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Lista de Registros',
 	// Basic Strings
-	'OutsourcedProducts'        => 'Produtos Terceirizados',
+	'OutsourcedProducts' => 'Produtos Terceirizados',
 	'SINGLE_OutsourcedProducts' => 'Produto Terceirizado',
 	'LBL_ADD_RECORD' => 'Adicionar registro',
 

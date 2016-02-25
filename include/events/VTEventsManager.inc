@@ -153,7 +153,7 @@ class VTEventsManager
 		$adb = $this->adb;
 		$result = $adb->pquery('SELECT handler_class FROM vtiger_eventhandler_module WHERE module_name=?', array($moduleName));
 		$it = new SqlResultIterator($adb, $result);
-		$arr = array();
+		$arr = [];
 		foreach ($it as $row) {
 			$arr[] = $row->handler_class;
 		}
@@ -168,14 +168,14 @@ class VTEventsManager
 	function listActiveEventHandlers()
 	{
 		$adb = $this->adb;
-		$result = $adb->pquery("select * from vtiger_eventhandlers where is_active=true", array());
+		$result = $adb->pquery("select * from vtiger_eventhandlers where is_active=true", []);
 		return $this->listEventHandlers($result);
 	}
 
 	function listAllEventHandlers()
 	{
 		$adb = $this->adb;
-		$result = $adb->pquery("select * from vtiger_eventhandlers", array());
+		$result = $adb->pquery("select * from vtiger_eventhandlers", []);
 		return $this->listEventHandlers($result);
 	}
 
@@ -183,9 +183,9 @@ class VTEventsManager
 	{
 		$adb = $this->adb;
 		$it = new SQLResultIterator($adb, $result);
-		$out = array();
+		$out = [];
 		foreach ($it as $row) {
-			$el = array();
+			$el = [];
 			$el['eventName'] = $row->event_name;
 			$el['handlerPath'] = $row->handler_path;
 			$el['handlerClass'] = $row->handler_class;

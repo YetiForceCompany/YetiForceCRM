@@ -189,7 +189,7 @@ class Vtiger_Cache
 	}
 
 	//cache for the module Instance
-	private static $_module_name = array();
+	private static $_module_name = [];
 
 	public function getModuleName($moduleId)
 	{
@@ -207,7 +207,7 @@ class Vtiger_Cache
 	}
 
 	//cache for the module Instance
-	private static $_workflow_for_module = array();
+	private static $_workflow_for_module = [];
 
 	public function getWorkflowForModule($module)
 	{
@@ -225,7 +225,7 @@ class Vtiger_Cache
 	}
 
 	//cache for the module Instance
-	private static $_workflow_for_module_supporting_comments = array();
+	private static $_workflow_for_module_supporting_comments = [];
 
 	public function getWorkflowForModuleSupportingComments($module)
 	{

@@ -8,8 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
-	'Not Held'	=>	'Nicht stattgefunden',
-	'Held'	=>	'Stattgefunden',
+	'Not Held' => 'Nicht stattgefunden',
+	'Held' => 'Stattgefunden',
 	'Activity Type'=>'Aktivitätsart',
 	'Call' => 'Anruf',
 	'Completed' => 'abgeschlossen',
@@ -137,6 +137,7 @@ $languageStrings = [
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Keine verfügbaren Aktionen',
 	'LBL_INVITE_USER_BLOCK' => 'Einladen',
 	'LBL_CALENDAR_FILTERS' => 'Filters',
+	'LBL_AUTO_FILL_DESCRIPTION' => 'Fill the start date based on the first available date',
 ];
 $jsLanguageStrings = [
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',
@@ -180,4 +181,7 @@ $jsLanguageStrings = [
 	'Mobile Call' => 'Mobiler Anruf',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Ändere Status zu: anstehend oder historisch',
 	'JS_ASSIGNED_TO' => 'zuständig',
+	'JS_SWITCHING_DAYS' => 'Switch days ',
+	'JS_ALL' => 'All',
+	'JS_WORK_DAYS' => 'Work days',
 ];

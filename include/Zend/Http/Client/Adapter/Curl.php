@@ -52,7 +52,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
      *
      * @var array
      */
-    protected $_config = array();
+    protected $_config = [];
 
     /**
      * What host/port are we connected to?
@@ -129,7 +129,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
      * @param  Zend_Config | array $config
      * @return Zend_Http_Client_Adapter_Curl
      */
-    public function setConfig($config = array())
+    public function setConfig($config = [])
     {
         if ($config instanceof Zend_Config) {
             $config = $config->toArray();
@@ -184,7 +184,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
     public function setCurlOption($option, $value)
     {
         if (!isset($this->_config['curloptions'])) {
-            $this->_config['curloptions'] = array();
+            $this->_config['curloptions'] = [];
         }
         $this->_config['curloptions'][$option] = $value;
         return $this;
@@ -259,7 +259,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
      * @return string        $request
      * @throws Zend_Http_Client_Adapter_Exception If connection fails, connected to wrong host, no PUT file defined, unsupported method, or unsupported cURL option
      */
-    public function write($method, $uri, $httpVersion = 1.1, $headers = array(), $body = '')
+    public function write($method, $uri, $httpVersion = 1.1, $headers = [], $body = '')
     {
         // Make sure we're properly connected
         if (!$this->_curl) {

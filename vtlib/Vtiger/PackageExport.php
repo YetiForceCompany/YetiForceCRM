@@ -187,6 +187,11 @@ class Vtiger_PackageExport
 		if (file_exists('layouts/' . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
 			$zip->copyFileFromDisk('layouts/' . Vtiger_Viewer::getDefaultLayoutName() . '/skins/images', '', "$module.png");
 		}
+		
+		// Copty config files
+		if (file_exists("config/modules/$module.php")) {
+			$zip->copyFileFromDisk("config/modules/", 'config/', "$module.php");
+		}
 
 		$zip->save();
 

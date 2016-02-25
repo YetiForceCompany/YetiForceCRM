@@ -52,7 +52,7 @@ class Vtiger_Tag_Model extends Vtiger_Base_Model
 
 	public static function getTaggedRecords($tagId)
 	{
-		$recordModels = array();
+		$recordModels = [];
 		if (!empty($tagId)) {
 			$db = PearDatabase::getInstance();
 			$result = $db->pquery("SELECT vtiger_crmentity.* FROM vtiger_freetags 

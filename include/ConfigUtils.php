@@ -30,17 +30,38 @@ class AppConfig
 		return $value;
 	}
 
-	public static function module($module, $key, $defvalue = false)
+	public static function module()
 	{
-		if (key_exists($module, self::$modules)) {
-			return self::$modules[$module][$key];
+		$argsLength = func_num_args();
+		$args = func_get_args();
+		$module = $args[0];
+		if($argsLength == 2){
+			$key = $args[1];
 		}
+		if (key_exists($module, self::$modules)) {
+			switch ($argsLength) {
+				case 1:
+					return self::$modules[$module];
+					break;
+				case 2:
+					return self::$modules[$module][$key];
+					break;
+			}
+		}
+
 		require_once 'config/modules/' . $module . '.php';
-		if(empty($CONFIG)){
+		if (empty($CONFIG)) {
 			return false;
 		}
 		self::$modules[$module] = $CONFIG;
-		return $CONFIG[$key];
+		switch ($argsLength) {
+			case 2:
+				return $CONFIG[$key];
+				break;
+			default:
+				return $CONFIG;
+				break;
+		}
 	}
 
 	public static function debug($key, $defvalue = false)
@@ -72,15 +93,16 @@ class AppConfig
 	{
 		return self::$relation[$key];
 	}
+
 	public static function sounds()
 	{
-		if (func_num_args() == 0){
+		if (func_num_args() == 0) {
 			return self::$sounds;
 		}
 		$key = func_get_args(1);
 		return self::$sounds[$key];
 	}
-	
+
 	public static function iniSet($key, $value)
 	{
 		@ini_set($key, $value);

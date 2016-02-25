@@ -3445,6 +3445,7 @@ span[name=existingImages] img{
 	transition: left ease-in-out 0.3s;
 	background: #ffffff;
 	min-height: 100%;
+	transition-delay: 0.5s;
 }
 .baseContainer .basePanel:after {
 	content: "";
@@ -3458,15 +3459,15 @@ span[name=existingImages] img{
 
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
 	left: 230px;
-	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
-	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 }
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
 .baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
 	left: 180px;
 	z-index: 0;
-	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
-	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 }
 .bodyHeader.open,.footerContainer.open{
 	left: 210px;
@@ -3537,6 +3538,7 @@ span[name=existingImages] img{
 	z-index: 1030;
 	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+	transition-delay: 0.5s;
 }
 .noSpaces{
 	padding: 0;
@@ -3989,10 +3991,12 @@ html,body,.baseContainer
 .quickCreateContent .addedNearCalendarEvent .popover-content{
 	font-size: 12px;
 }
-.modalEditStatus .form-horizontal .form-group{
+.modalEditStatus .form-horizontal .form-group,
+#modalEditStatus .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
-.modalEditStatus .form-horizontal .form-group .control-label{
+.modalEditStatus .form-horizontal .form-group .control-label,
+#modalEditStatus .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
 .pageNumber.active.disabled a{
@@ -4104,7 +4108,8 @@ html,body,.baseContainer
 #mappingToGenerate .actionsHeader{
 	width: 8%;
 }
-.modalEditStatus .popover.fade
+.modalEditStatus .popover.fade,
+#modalEditStatus .popover.fade
 {
 	min-width: 400px;
 }
@@ -4429,6 +4434,10 @@ html,body,.baseContainer
 		background: none;
 		margin-bottom: 35px;
 	}
+	.responsiveVideo {
+		width: 100% !important;
+		height: auto !important;
+	}
 }
 @media screen and (min-width: 960px) {
 	.detailViewTable .fieldsLabelValue{
@@ -4547,6 +4556,13 @@ html,body,.baseContainer
 		-moz-transition: all 0.5s ease;
 		-o-transition: all 0.5s ease;
 		transition: all 0.5s ease;
+	}
+	.knowledgePresentationText {
+		font-size: 2em;
+	}
+	.responsiveVideo {
+		width: 50% !important;
+		height: auto !important;
 	}
 }
 @media only screen and (min-width: 767px) {
@@ -5101,4 +5117,31 @@ select.form-control {
 .quickCreateContent .weekend,
 .quickCreateContent .weekend:hover{
 	background: #D7EEFF !important;
+}
+.knowledgePresentationContent {
+	color: #000;
+	min-height: 450px;
+}
+.knowledgePresentationControl {
+	width: 10%;
+}
+.knowledgePresentationInner {
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+	width: 80%;
+	margin-left: 10%;
+	float: left;
+}
+.panelTree{
+	border-right: 1px solid #eee;
+}
+.listLastDocuments li{
+	list-style: none;
+	font-size: 12px;
+	padding-bottom: 10px;
+}
+.listLastDocuments li span{
+	padding-right: 5px;
 }

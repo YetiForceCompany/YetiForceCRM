@@ -32,7 +32,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View {
 			$dashBoardModel->verifyDashboard($moduleName);
 			$widgets = $dashBoardModel->getDashboards('Header');
 		} else {
-			$widgets = array();
+			$widgets = [];
 		}
 		
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);

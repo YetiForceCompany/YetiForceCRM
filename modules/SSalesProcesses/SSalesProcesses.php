@@ -11,6 +11,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 
 	var $table_name = 'u_yf_ssalesprocesses';
 	var $table_index = 'ssalesprocessesid';
+	protected $lockFields = ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

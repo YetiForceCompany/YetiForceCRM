@@ -168,7 +168,14 @@ class Users_Privileges_Model extends Users_Record_Model
 		//TODO : Remove the global dependency
 		$currentUser = vglobal('current_user');
 		$currentUserId = $currentUser->id;
-		return self::getInstanceById($currentUserId);
+
+		$instance = Vtiger_Cache::get('CurrentUserPrivilegesModel', $currentUserId);
+		if ($instance) {
+			return $instance;
+		}
+		$instance = self::getInstanceById($currentUserId);
+		Vtiger_Cache::set('CurrentUserPrivilegesModel', $currentUserId, $instance);
+		return $instance;
 	}
 
 	/**
@@ -359,12 +366,14 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	protected static $parentRecordCache = [];
 
-	public function getParentRecord($record, $moduleName = false, $type = 1)
+	public function getParentRecord($record, $moduleName = false, $type = 1, $actionid = false)
 	{
 		if (isset(self::$parentRecordCache[$record])) {
 			return self::$parentRecordCache[$record];
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserId = $userPrivilegesModel->getId();
+		$currentUserGroups = $userPrivilegesModel->get('groups');
 		if (!$moduleName) {
 			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
@@ -389,7 +398,7 @@ class Users_Privileges_Model extends Users_Record_Model
 				}
 			}
 			if ($parentRecord && $type == 2) {
-				$rparentRecord = self::getParentRecord($parentRecord, false, $type);
+				$rparentRecord = self::getParentRecord($parentRecord, false, $type, $actionid);
 				if ($rparentRecord) {
 					$parentRecord = $rparentRecord;
 				}
@@ -397,15 +406,34 @@ class Users_Privileges_Model extends Users_Record_Model
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
 		} else if (in_array($moduleName, Vtiger_Module_Model::getModulesMapMMBase())) {
 			$db = PearDatabase::getInstance();
+			$role = $userPrivilegesModel->getRoleDetail();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? OR relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
-				if ($recordMetaData['smownerid'] == $userPrivilegesModel->getId() || in_array($recordMetaData['smownerid'], $userPrivilegesModel->get('groups'))) {
+				$permissionsRelatedField = empty($role->get('permissionsrelatedfield')) ? [] : explode(',', $role->get('permissionsrelatedfield'));
+				$relatedPermission = false;
+				foreach ($permissionsRelatedField as &$row) {
+					if (!$relatedPermission) {
+						switch ($row) {
+							case 0:
+								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
+								break;
+							case 1:
+								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
+								break;
+							case 2:
+								$permission = isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $id);
+								$relatedPermission = $permission == 'yes' ? true : false;
+								break;
+						}
+					}
+				}
+				if ($relatedPermission) {
 					$parentRecord = $id;
 					break;
 				} else if ($type == 2) {
-					$rparentRecord = self::getParentRecord($id, $recordMetaData['setype'], $type);
+					$rparentRecord = self::getParentRecord($id, $recordMetaData['setype'], $type, $actionid);
 					if ($rparentRecord) {
 						$parentRecord = $rparentRecord;
 					}
@@ -413,15 +441,35 @@ class Users_Privileges_Model extends Users_Record_Model
 			}
 		} else if ($relationInfo = Vtiger_Module_Model::getModulesMapMMCustom($moduleName)) {
 			$db = PearDatabase::getInstance();
+			$role = $userPrivilegesModel->getRoleDetail();
 			$query = 'SELECT ' . $relationInfo['rel'] . ' AS crmid FROM `' . $relationInfo['table'] . '` WHERE ' . $relationInfo['base'] . ' = ?';
 			$result = $db->pquery($query, [$record]);
 			while ($row = $db->getRow($result)) {
-				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($row['crmid']);
-				if ($recordMetaData['smownerid'] == $userPrivilegesModel->getId() || in_array($recordMetaData['smownerid'], $userPrivilegesModel->get('groups'))) {
-					$parentRecord = $row['crmid'];
+				$id = $row['crmid'];
+				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
+				$permissionsRelatedField = empty($role->get('permissionsrelatedfield')) ? [] : explode(',', $role->get('permissionsrelatedfield'));
+				$relatedPermission = false;
+				foreach ($permissionsRelatedField as &$row) {
+					if (!$relatedPermission) {
+						switch ($row) {
+							case 0:
+								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
+								break;
+							case 1:
+								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
+								break;
+							case 2:
+								$permission = isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $id);
+								$relatedPermission = $permission == 'yes' ? true : false;
+								break;
+						}
+					}
+				}
+				if ($relatedPermission) {
+					$parentRecord = $id;
 					break;
 				} else if ($type == 2) {
-					$rparentRecord = self::getParentRecord($row['crmid'], $recordMetaData['setype'], $type);
+					$rparentRecord = self::getParentRecord($id, $recordMetaData['setype'], $type, $actionid);
 					if ($rparentRecord) {
 						$parentRecord = $rparentRecord;
 					}

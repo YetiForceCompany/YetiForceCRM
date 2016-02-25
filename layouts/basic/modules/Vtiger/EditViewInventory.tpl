@@ -22,8 +22,9 @@
 			{/if}
 			{assign var="CURRENCY_SYMBOLAND" value=Vtiger_Functions::getCurrencySymbolandRate($CURRENCY)}
 		{/if}
-		<input name="inventoryItemsNo" id="inventoryItemsNo" type="hidden" value="{count($INVENTORY_ROWS)}" />
-		<input id="accountReferenceField" type="hidden" value="{$ACCOUNT_REFERENCE_FIELD}" />
+		{assign var="INVENTORY_ITEMS_NO" value=count($INVENTORY_ROWS)}
+		<input name="inventoryItemsNo" id="inventoryItemsNo" type="hidden" value="{if $INVENTORY_ITEMS_NO}{$INVENTORY_ITEMS_NO}{else}1{/if}" />
+		<input id="accountReferenceField" type="hidden" value="{$INVENTORY_FIELD->getReferenceField()}" />
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}" />
 		<div class="table-responsive">
 			<table class="table table-bordered inventoryHeader blockContainer">
@@ -68,6 +69,9 @@
 				<tbody>
 					{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
 						{assign var="ROW_NO" value=$KEY+1}
+						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+					{foreachelse}
+						{assign var="ROW_NO" value=1}
 						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
 					{/foreach}
 				</tbody>

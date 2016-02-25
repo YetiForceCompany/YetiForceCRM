@@ -207,7 +207,7 @@ class Zend_Gdata extends Zend_Gdata_App
      *                                if requests results in one
      * @return Zend_Http_Response The response object
      */
-    public function performHttpRequest($method, $url, $headers = array(), $body = null, $contentType = null, $remainingRedirects = null)
+    public function performHttpRequest($method, $url, $headers = [], $body = null, $contentType = null, $remainingRedirects = null)
     {
         if ($this->_httpClient instanceof Zend_Gdata_HttpClient) {
             $filterResult = $this->_httpClient->filterHttpRequest($method, $url, $headers, $body, $contentType);

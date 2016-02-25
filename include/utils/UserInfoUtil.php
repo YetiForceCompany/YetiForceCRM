@@ -21,7 +21,7 @@ require_once 'include/runtime/Cache.php';
  */
 function getMailServerInfo($user)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getMailServerInfo(" . $user->user_name . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$sql = "select * from vtiger_mail_accounts where status=1 and user_id=?";
@@ -36,7 +36,7 @@ function getMailServerInfo($user)
  */
 function fetchUserRole($userid)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering fetchUserRole(" . $userid . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$sql = "select roleid from vtiger_user2role where userid=?";
@@ -53,7 +53,7 @@ function fetchUserRole($userid)
  */
 function fetchUserGroupids($userid)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering fetchUserGroupids(" . $userid . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$focus = new GetUserGroups();
@@ -75,12 +75,12 @@ function fetchUserGroupids($userid)
  */
 function getTabsUtilityActionPermission($profileid)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getTabsUtilityActionPermission(" . $profileid . ") method ...");
 
 	$adb = PearDatabase::getInstance();
-	$check = Array();
-	$temp_tabid = Array();
+	$check = [];
+	$temp_tabid = [];
 	$sql1 = "select * from vtiger_profile2utility where profileid=? order by(tabid)";
 	$result1 = $adb->pquery($sql1, array($profileid));
 	$num_rows1 = $adb->num_rows($result1);
@@ -88,7 +88,7 @@ function getTabsUtilityActionPermission($profileid)
 		$tab_id = $adb->query_result($result1, $i, 'tabid');
 		if (!in_array($tab_id, $temp_tabid)) {
 			$temp_tabid[] = $tab_id;
-			$access = Array();
+			$access = [];
 		}
 
 		$action_id = $adb->query_result($result1, $i, 'activityid');
@@ -112,12 +112,12 @@ function getTabsUtilityActionPermission($profileid)
 
 function getDefaultSharingEditAction()
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getDefaultSharingEditAction() method ...");
 	$adb = PearDatabase::getInstance();
 	//retreiving the standard permissions
 	$sql = "select * from vtiger_def_org_share where editstatus=0";
-	$result = $adb->pquery($sql, array());
+	$result = $adb->pquery($sql, []);
 	$permissionRow = $adb->fetch_array($result);
 	do {
 		for ($j = 0; $j < count($permissionRow); $j++) {
@@ -140,12 +140,12 @@ function getDefaultSharingEditAction()
 
 function getDefaultSharingAction()
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getDefaultSharingAction() method ...");
 	$adb = PearDatabase::getInstance();
 	//retreivin the standard permissions
 	$sql = "select * from vtiger_def_org_share where editstatus in(0,1)";
-	$result = $adb->pquery($sql, array());
+	$result = $adb->pquery($sql, []);
 	$permissionRow = $adb->fetch_array($result);
 	do {
 		for ($j = 0; $j < count($permissionRow); $j++) {
@@ -167,13 +167,13 @@ function getDefaultSharingAction()
 
 function getAllDefaultSharingAction()
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getAllDefaultSharingAction() method ...");
 	$adb = PearDatabase::getInstance();
-	$copy = Array();
+	$copy = [];
 	//retreiving the standard permissions
 	$sql = "select * from vtiger_def_org_share";
-	$result = $adb->pquery($sql, array());
+	$result = $adb->pquery($sql, []);
 	$num_rows = $adb->num_rows($result);
 
 	for ($i = 0; $i < $num_rows; $i++) {
@@ -193,7 +193,7 @@ function getAllDefaultSharingAction()
  */
 function updateUser2RoleMapping($roleid, $userid)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering updateUser2RoleMapping(" . $roleid . "," . $userid . ") method ...");
 	$adb = PearDatabase::getInstance();
 	//Check if row already exists
@@ -217,7 +217,7 @@ function updateUser2RoleMapping($roleid, $userid)
  */
 function getRoleName($roleid)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getRoleName(" . $roleid . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$sql1 = "select * from vtiger_role where roleid=?";
@@ -236,12 +236,12 @@ function getRoleName($roleid)
  */
 function isPermitted($module, $actionname, $record_id = '')
 {
-	$log = vglobal('log');
-	$log->debug("Entering isPermitted(" . $module . "," . $actionname . "," . $record_id . ") method ...");
+	$log = LoggerManager::getInstance();
+	$log->debug('Entering isPermitted(' . $module . ',' . $actionname . ',' . $record_id . ') method ...');
 
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
-	global $seclog;
+
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 	$permission = 'no';
@@ -352,9 +352,6 @@ function isPermitted($module, $actionname, $record_id = '')
 			$recOwnType = $type;
 			$recOwnId = $id;
 		}
-
-		//Retreiving the default Organisation sharing Access
-		$others_permission_id = $defaultOrgSharingPermission[$tabid];
 		if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $current_user_groups)) > 0) {
 			$permission = 'yes';
 			$log->debug('Exiting isPermitted method ... - Shared Owner');
@@ -384,83 +381,81 @@ function isPermitted($module, $actionname, $record_id = '')
 				return $permission;
 			}
 		}
-		
-		$role = getRoleInformation($current_user->roleid);
-		if ((($actionid == 3 || $actionid == 4) && $role['previewrelatedrecord'] != 0 ) || (($actionid == 0 || $actionid == 1) && $role['editrelatedrecord'] != 0 )) {
-			$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role['previewrelatedrecord']);
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$role = $userPrivilegesModel->getRoleDetail();
+		if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
+			$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role->get('previewrelatedrecord'), $actionid);
 			if ($parentRecord) {
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
-				if ($role['permissionsrelatedfield'] == 0) {
-					$relatedPermission = $recordMetaData['smownerid'] == $current_user->id || in_array($recordMetaData['smownerid'], $current_user_groups);
-				} else if ($role['permissionsrelatedfield'] == 1) {
-					$relatedPermission = in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
-				} else if ($role['permissionsrelatedfield'] == 2) {
-					$relatedPermission = $current_user->id == $recordMetaData['smownerid'] || in_array($recordMetaData['smownerid'], $current_user_groups) || in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
-				}
-
-				if ($relatedPermission) {
-					$permission = 'yes';
-					$log->debug('Exiting isPermitted method ... - Parent Record Owner');
-					return $permission;
+				$permissionsRelatedField = empty($role->get('permissionsrelatedfield'))? [] : explode(',', $role->get('permissionsrelatedfield'));
+				$relatedPermission = false;
+				foreach ($permissionsRelatedField as &$row) {
+					switch ($row) {
+						case 0:
+							$relatedPermission = $recordMetaData['smownerid'] == $current_user->id || in_array($recordMetaData['smownerid'], $current_user_groups);
+							break;
+						case 1:
+							$relatedPermission = in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
+							break;
+						case 2:
+							$permission = isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord);
+							$relatedPermission = $permission == 'yes' ? true : false;
+							break;
+					}
+					if ($relatedPermission) {
+						$log->debug('Exiting isPermitted method ... - Parent Record Owner');
+						return 'yes';
+					}
 				}
 			}
 		}
-
-		//Checking for Default Org Sharing permission
-		if ($others_permission_id == 0) {
-			if ($actionid == 1 || $actionid == 0) {
-				$permission = isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
-				$log->debug("Exiting isPermitted method ...");
-				return $permission;
-			} elseif ($actionid == 2) {
-				$permission = 'no';
-				$log->debug("Exiting isPermitted method ...");
-				return $permission;
-			} else {
-				$permission = 'yes';
-				$log->debug("Exiting isPermitted method ...");
-				return $permission;
-			}
-		} elseif ($others_permission_id == 1) {
-			if ($actionid == 2) {
-				$permission = 'no';
-				$log->debug("Exiting isPermitted method ...");
-				return $permission;
-			} else {
-				$permission = 'yes';
-				$log->debug("Exiting isPermitted method ...");
-				return $permission;
-			}
-		} elseif ($others_permission_id == 2) {
-			$permission = 'yes';
-			$log->debug("Exiting isPermitted method ...");
-			return $permission;
-		} elseif ($others_permission_id == 3) {
-			if ($actionid == 3 || $actionid == 4) {
-				$permission = isReadPermittedBySharing($module, $tabid, $actionid, $record_id);
-				$log->debug("Exiting isPermitted method ...");
-				return $permission;
-			} elseif ($actionid == 0 || $actionid == 1) {
-				$permission = isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
-				$log->debug("Exiting isPermitted method ...");
-				return $permission;
-			} elseif ($actionid == 2) {
-				$permission = 'no';
-				return $permission;
-			} else {
-				$permission = 'yes';
-				$log->debug("Exiting isPermitted method ...");
-				return $permission;
-			}
-		} else {
-			$permission = 'yes';
-		}
+		$permission = isPermittedBySharing($module, $tabid, $actionid, $record_id);
+		$log->debug('Exiting isPermitted method ... - isPermittedBySharing');
 	} else {
 		$permission = 'no';
 	}
 
-	$log->debug("Exiting isPermitted method ...");
+	$log->debug('Exiting isPermitted method ...');
 	return $permission;
+}
+
+function isPermittedBySharing($module, $tabid, $actionid, $record_id)
+{
+	$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+	$defaultOrgSharingPermission = $userPrivilegesModel->get('defaultOrgSharingPermission');
+	//Retreiving the default Organisation sharing Access
+	$othersPermissionId = $defaultOrgSharingPermission[$tabid];
+	//Checking for Default Org Sharing permission
+	if ($othersPermissionId == 0) {
+		if ($actionid == 1 || $actionid == 0) {
+			return isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
+		} elseif ($actionid == 2) {
+			return 'no';
+		} else {
+			return 'yes';
+		}
+	} elseif ($othersPermissionId == 1) {
+		if ($actionid == 2) {
+			return 'no';
+		} else {
+			return 'yes';
+		}
+	} elseif ($othersPermissionId == 2) {
+		return 'yes';
+	} elseif ($othersPermissionId == 3) {
+		if ($actionid == 3 || $actionid == 4) {
+			return isReadPermittedBySharing($module, $tabid, $actionid, $record_id);
+		} elseif ($actionid == 0 || $actionid == 1) {
+			return isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id);
+		} elseif ($actionid == 2) {
+			return 'no';
+		} else {
+			return 'yes';
+		}
+	} else {
+		return 'yes';
+	}
+	return 'no';
 }
 
 /** Function to check if the currently logged in user has Read Access due to Sharing for the specified record
@@ -472,7 +467,7 @@ function isPermitted($module, $actionname, $record_id = '')
  */
 function isReadPermittedBySharing($module, $tabid, $actionid, $record_id)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering isReadPermittedBySharing(" . $module . "," . $tabid . "," . $actionid . "," . $record_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
@@ -582,7 +577,7 @@ function isReadPermittedBySharing($module, $tabid, $actionid, $record_id)
  */
 function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering isReadWritePermittedBySharing(" . $module . "," . $tabid . "," . $actionid . "," . $record_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
@@ -690,7 +685,7 @@ function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
  */
 function getProfileGlobalPermission($profileid)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getProfileGlobalPermission(" . $profileid . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$sql = "select * from vtiger_profile2globalpermissions where profileid=?";
@@ -714,14 +709,14 @@ function getProfileGlobalPermission($profileid)
  */
 function getProfileTabsPermission($profileid)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getProfileTabsPermission(" . $profileid . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$sql = "select * from vtiger_profile2tab where profileid=?";
 	$result = $adb->pquery($sql, array($profileid));
 	$num_rows = $adb->num_rows($result);
 
-	$copy = array();
+	$copy = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$tab_id = $adb->query_result($result, $i, "tabid");
 		$per_id = $adb->query_result($result, $i, "permissions");
@@ -742,11 +737,11 @@ function getProfileTabsPermission($profileid)
  */
 function getProfileActionPermission($profileid)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getProfileActionPermission(" . $profileid . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$check = Array();
-	$temp_tabid = Array();
+	$check = [];
+	$temp_tabid = [];
 	$sql1 = "select * from vtiger_profile2standardpermissions where profileid=?";
 	$result1 = $adb->pquery($sql1, array($profileid));
 	$num_rows1 = $adb->num_rows($result1);
@@ -754,7 +749,7 @@ function getProfileActionPermission($profileid)
 		$tab_id = $adb->query_result($result1, $i, 'tabid');
 		if (!in_array($tab_id, $temp_tabid)) {
 			$temp_tabid[] = $tab_id;
-			$access = Array();
+			$access = [];
 		}
 
 		$action_id = $adb->query_result($result1, $i, 'operation');
@@ -778,7 +773,7 @@ function getProfileActionPermission($profileid)
  */
 function getProfileAllActionPermission($profileid)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getProfileAllActionPermission(" . $profileid . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$actionArr = getProfileActionPermission($profileid);
@@ -799,15 +794,15 @@ function getProfileAllActionPermission($profileid)
  */
 function getAllRoleDetails()
 {
-	$log = vglobal('log');
-	$log->debug("Entering getAllRoleDetails() method ...");
+	$log = LoggerManager::getInstance();
+	$log->debug('Entering getAllRoleDetails() method ...');
 	$adb = PearDatabase::getInstance();
-	$role_det = Array();
+	$role_det = [];
 	$query = "select * from vtiger_role";
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
 	for ($i = 0; $i < $num_rows; $i++) {
-		$each_role_det = Array();
+		$each_role_det = [];
 		$roleid = $adb->query_result($result, $i, 'roleid');
 		$rolename = $adb->query_result($result, $i, 'rolename');
 		$roledepth = $adb->query_result($result, $i, 'depth');
@@ -835,7 +830,7 @@ function getAllRoleDetails()
 		$each_role_det[] = $sub_role;
 		$role_det[$roleid] = $each_role_det;
 	}
-	$log->debug("Exiting getAllRoleDetails method ...");
+	$log->debug('Exiting getAllRoleDetails method ...');
 	return $role_det;
 }
 
@@ -846,10 +841,15 @@ function getAllRoleDetails()
  */
 function getRoleInformation($roleid)
 {
-	$log = vglobal('log');
-	$log->debug("Entering getRoleInformation(" . $roleid . ") method ...");
+	$log = LoggerManager::getInstance();
+	$log->debug('Entering getRoleInformation(' . $roleid . ') method ...');
 	$adb = PearDatabase::getInstance();
 
+	$row = Vtiger_Cache::get('getRoleInformation', $roleid);
+	if ($row !== false) {
+		return $row;
+	}
+	
 	$result = $adb->pquery('select * from vtiger_role where roleid=?', [$roleid]);
 	$row = $adb->fetch_array($result);
 
@@ -858,7 +858,8 @@ function getRoleInformation($roleid)
 	$immediateParent = $parentRoleArr[sizeof($parentRoleArr) - 2];
 	$row['immediateParent'] = $immediateParent;
 
-	$log->debug("Exiting getRoleInformation method ...");
+	Vtiger_Cache::set('getRoleInformation', $roleid, $row);
+	$log->debug('Exiting getRoleInformation method ...');
 	return $row;
 }
 
@@ -869,17 +870,25 @@ function getRoleInformation($roleid)
  */
 function getRoleUsers($roleId)
 {
-	$log = vglobal('log');
-	$log->debug("Entering getRoleUsers(" . $roleId . ") method ...");
+	$log = LoggerManager::getInstance();
+	$log->debug('Entering getRoleUsers(' . $roleId . ') method ...');
+	
+	$roleRelatedUsers = Vtiger_Cache::get('getRoleUsers', $roleId);
+	if ($roleRelatedUsers !== false) {
+		return $roleRelatedUsers;
+	}
+	
 	$adb = PearDatabase::getInstance();
-	$query = "select vtiger_user2role.*,vtiger_users.* from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?";
+	$query = 'select vtiger_user2role.*,vtiger_users.* from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?';
 	$result = $adb->pquery($query, array($roleId));
 	$num_rows = $adb->num_rows($result);
-	$roleRelatedUsers = Array();
+	$roleRelatedUsers = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = getFullNameFromQResult($result, $i, 'Users');
 	}
-	$log->debug("Exiting getRoleUsers method ...");
+	
+	Vtiger_Cache::set('getRoleUsers', $roleId, $roleRelatedUsers);
+	$log->debug('Exiting getRoleUsers method ...');
 	return $roleRelatedUsers;
 }
 
@@ -890,13 +899,13 @@ function getRoleUsers($roleId)
  */
 function getRoleUserIds($roleId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getRoleUserIds(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?";
 	$result = $adb->pquery($query, array($roleId));
 	$num_rows = $adb->num_rows($result);
-	$roleRelatedUsers = Array();
+	$roleRelatedUsers = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleRelatedUsers[] = $adb->query_result($result, $i, 'userid');
 	}
@@ -911,7 +920,7 @@ function getRoleUserIds($roleId)
  */
 function getRoleAndSubordinateUsers($roleId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getRoleAndSubordinateUsers(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$roleInfoArr = getRoleInformation($roleId);
@@ -919,7 +928,7 @@ function getRoleAndSubordinateUsers($roleId)
 	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?";
 	$result = $adb->pquery($query, array($parentRole . "%"));
 	$num_rows = $adb->num_rows($result);
-	$roleRelatedUsers = Array();
+	$roleRelatedUsers = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = $adb->query_result($result, $i, 'user_name');
 	}
@@ -934,10 +943,10 @@ function getRoleAndSubordinateUsers($roleId)
  */
 function getRoleAndSubordinatesInformation($roleId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getRoleAndSubordinatesInformation(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	static $roleInfoCache = array();
+	static $roleInfoCache = [];
 	if (!empty($roleInfoCache[$roleId])) {
 		return $roleInfoCache[$roleId];
 	}
@@ -947,13 +956,13 @@ function getRoleAndSubordinatesInformation($roleId)
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 	$result = $adb->pquery($query, array($roleParentSeq . "%"));
 	$num_rows = $adb->num_rows($result);
-	$roleInfo = Array();
+	$roleInfo = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleid = $adb->query_result($result, $i, 'roleid');
 		$rolename = $adb->query_result($result, $i, 'rolename');
 		$roledepth = $adb->query_result($result, $i, 'depth');
 		$parentrole = $adb->query_result($result, $i, 'parentrole');
-		$roleDet = Array();
+		$roleDet = [];
 		$roleDet[] = $rolename;
 		$roleDet[] = $parentrole;
 		$roleDet[] = $roledepth;
@@ -971,7 +980,7 @@ function getRoleAndSubordinatesInformation($roleId)
  */
 function getRoleAndSubordinatesRoleIds($roleId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getRoleAndSubordinatesRoleIds(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$roleDetails = getRoleInformation($roleId);
@@ -980,7 +989,7 @@ function getRoleAndSubordinatesRoleIds($roleId)
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 	$result = $adb->pquery($query, array($roleParentSeq . "%"));
 	$num_rows = $adb->num_rows($result);
-	$roleInfo = Array();
+	$roleInfo = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleid = $adb->query_result($result, $i, 'roleid');
 		$roleInfo[] = $roleid;
@@ -994,7 +1003,7 @@ function getRoleAndSubordinatesRoleIds($roleId)
  */
 function deleteRoleRelatedSharingRules($roleId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug('Entering deleteRoleRelatedSharingRules(' . $roleId . ') method ...');
 	$adb = PearDatabase::getInstance();
 	$dataShareTableColArr = [
@@ -1036,7 +1045,7 @@ function deleteRoleRelatedSharingRules($roleId)
  */
 function deleteGroupRelatedSharingRules($grpId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering deleteGroupRelatedSharingRules(" . $grpId . ") method ...");
 
 	$adb = PearDatabase::getInstance();
@@ -1071,7 +1080,7 @@ function deleteGroupRelatedSharingRules($grpId)
 
 function deleteUserRelatedSharingRules($usId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering deleteGroupRelatedSharingRules(" . $usId . ") method ...");
 
 	$adb = PearDatabase::getInstance();
@@ -1111,13 +1120,13 @@ function deleteUserRelatedSharingRules($usId)
  */
 function getAllUserName()
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getAllUserName() method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select * from vtiger_users where deleted=0";
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
-	$user_details = Array();
+	$user_details = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$userid = $adb->query_result($result, $i, 'id');
 		$username = getFullNameFromQResult($result, $i, 'Users');
@@ -1133,13 +1142,13 @@ function getAllUserName()
  */
 function getAllGroupName()
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getAllGroupName() method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select * from vtiger_groups";
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
-	$group_details = Array();
+	$group_details = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$grpid = $adb->query_result($result, $i, 'groupid');
 		$grpname = $adb->query_result($result, $i, 'groupname');
@@ -1155,7 +1164,7 @@ function getAllGroupName()
  */
 function deleteSharingRule($shareid)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering deleteSharingRule(" . $shareid . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query2 = "select * from vtiger_datashare_module_rel where shareid=?";
@@ -1187,7 +1196,7 @@ function deleteSharingRule($shareid)
  */
 function getDataShareTableName()
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug('Entering getDataShareTableName() method ...');
 	$dataShareTableColArr = [
 		'US::GRP' => 'vtiger_datashare_us2grp',
@@ -1218,7 +1227,7 @@ function getDataShareTableName()
  */
 function getDSTableNameForType($typeString)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getDSTableNameForType(" . $typeString . ") method ...");
 	$dataShareTableColArr = getDataShareTableName();
 	$tableName = $dataShareTableColArr[$typeString];
@@ -1234,11 +1243,11 @@ function getDSTableNameForType($typeString)
  */
 function getUserProfile($userId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getUserProfile(" . $userId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$roleId = fetchUserRole($userId);
-	$profArr = Array();
+	$profArr = [];
 	$sql1 = "select profileid from vtiger_role2profile where roleid=?";
 	$result1 = $adb->pquery($sql1, array($roleId));
 	$num_rows = $adb->num_rows($result1);
@@ -1259,12 +1268,12 @@ function getUserProfile($userId)
  */
 function getCombinedUserGlobalPermissions($userId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getCombinedUserGlobalPermissions(" . $userId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$profArr = getUserProfile($userId);
 	$no_of_profiles = sizeof($profArr);
-	$userGlobalPerrArr = Array();
+	$userGlobalPerrArr = [];
 
 	$userGlobalPerrArr = getProfileGlobalPermission($profArr[0]);
 	if ($no_of_profiles != 1) {
@@ -1294,12 +1303,12 @@ function getCombinedUserGlobalPermissions($userId)
  */
 function getCombinedUserTabsPermissions($userId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getCombinedUserTabsPermissions(" . $userId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$profArr = getUserProfile($userId);
 	$no_of_profiles = sizeof($profArr);
-	$userTabPerrArr = Array();
+	$userTabPerrArr = [];
 
 	$userTabPerrArr = getProfileTabsPermission($profArr[0]);
 	if ($no_of_profiles != 1) {
@@ -1333,12 +1342,12 @@ function getCombinedUserTabsPermissions($userId)
  */
 function getCombinedUserActionPermissions($userId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getCombinedUserActionPermissions(" . $userId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$profArr = getUserProfile($userId);
 	$no_of_profiles = sizeof($profArr);
-	$actionPerrArr = Array();
+	$actionPerrArr = [];
 
 	$actionPerrArr = getProfileAllActionPermission($profArr[0]);
 	if ($no_of_profiles != 1) {
@@ -1368,12 +1377,12 @@ function getCombinedUserActionPermissions($userId)
  */
 function getParentRole($roleId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getParentRole(" . $roleId . ") method ...");
 	$roleInfo = getRoleInformation($roleId);
 	$parentRole = $roleInfo['parentrole'];
 	$tempParentRoleArr = explode('::', $parentRole);
-	$parentRoleArr = Array();
+	$parentRoleArr = [];
 	foreach ($tempParentRoleArr as $role_id) {
 		if ($role_id != $roleId) {
 			$parentRoleArr[] = $role_id;
@@ -1390,7 +1399,7 @@ function getParentRole($roleId)
  */
 function getRoleSubordinates($roleId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getRoleSubordinates(" . $roleId . ") method ...");
 
 	// Look at cache first for information
@@ -1404,7 +1413,7 @@ function getRoleSubordinates($roleId)
 		$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 		$result = $adb->pquery($query, array($roleParentSeq . "::%"));
 		$num_rows = $adb->num_rows($result);
-		$roleSubordinates = Array();
+		$roleSubordinates = [];
 		for ($i = 0; $i < $num_rows; $i++) {
 			$roleid = $adb->query_result($result, $i, 'roleid');
 
@@ -1429,10 +1438,10 @@ function getRoleSubordinates($roleId)
  */
 function getSubordinateRoleAndUsers($roleId)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$subRoleAndUsers = Array();
+	$subRoleAndUsers = [];
 	$subordinateRoles = getRoleSubordinates($roleId);
 	foreach ($subordinateRoles as $subRoleId) {
 		$userArray = getRoleUsers($subRoleId);
@@ -1444,11 +1453,11 @@ function getSubordinateRoleAndUsers($roleId)
 
 function getCurrentUserProfileList()
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getCurrentUserProfileList() method ...");
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	$profList = array();
+	$profList = [];
 	$i = 0;
 	foreach ($current_user_profiles as $profid) {
 		array_push($profList, $profid);
@@ -1460,11 +1469,11 @@ function getCurrentUserProfileList()
 
 function getCurrentUserGroupList()
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getCurrentUserGroupList() method ...");
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	$grpList = array();
+	$grpList = [];
 	if (sizeof($current_user_groups) > 0) {
 		$i = 0;
 		foreach ($current_user_groups as $grpid) {
@@ -1478,11 +1487,11 @@ function getCurrentUserGroupList()
 
 function getWriteSharingGroupsList($module)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getWriteSharingGroupsList(" . $module . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
-	$grp_array = Array();
+	$grp_array = [];
 	$tabid = getTabid($module);
 	$query = "select sharedgroupid from vtiger_tmp_write_group_sharing_per where userid=? and tabid=?";
 	$result = $adb->pquery($query, array($current_user->id, $tabid));
@@ -1498,9 +1507,9 @@ function getWriteSharingGroupsList($module)
 
 function constructList($array, $data_type)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering constructList(" . $array . "," . $data_type . ") method ...");
-	$list = array();
+	$list = [];
 	if (sizeof($array) > 0) {
 		$i = 0;
 		foreach ($array as $value) {
@@ -1518,7 +1527,7 @@ function constructList($array, $data_type)
 
 function getListViewSecurityParameter($module)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getListViewSecurityParameter(" . $module . ") method ...");
 	$adb = PearDatabase::getInstance();
 
@@ -1610,13 +1619,13 @@ function getListViewSecurityParameter($module)
 
 function get_current_user_access_groups($module)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering get_current_user_access_groups(" . $module . ") method ...");
 	global $adb, $noof_group_rows;
 	$current_user_group_list = getCurrentUserGroupList();
 	$sharing_write_group_list = getWriteSharingGroupsList($module);
 	$query = "select groupname,groupid from vtiger_groups";
-	$params = array();
+	$params = [];
 	if (count($current_user_group_list) > 0 && count($sharing_write_group_list) > 0) {
 		$query .= " where (groupid in (" . generateQuestionMarks($current_user_group_list) . ") or groupid in (" . generateQuestionMarks($sharing_write_group_list) . "))";
 		array_push($params, $current_user_group_list, $sharing_write_group_list);
@@ -1643,7 +1652,7 @@ function get_current_user_access_groups($module)
  */
 function getGrpId($groupname)
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getGrpId(" . $groupname . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$groupid = Vtiger_Cache::get('group', $groupname);
@@ -1665,7 +1674,7 @@ function getGrpId($groupname)
  */
 function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessmode = 'readonly')
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getFieldVisibilityPermission(" . $fld_module . "," . $userid . "," . $fieldname . ") method ...");
 
 	$adb = PearDatabase::getInstance();
@@ -1730,7 +1739,7 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
 function getColumnVisibilityPermission($userid, $columnname, $module, $accessmode = 'readonly')
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("in function getcolumnvisibilitypermission $columnname -$userid");
 	$tabid = getTabid($module);
 
@@ -1753,10 +1762,10 @@ function getColumnVisibilityPermission($userid, $columnname, $module, $accessmod
  */
 function getPermittedModuleNames()
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering getPermittedModuleNames() method ...");
 	$current_user = vglobal('current_user');
-	$permittedModules = Array();
+	$permittedModules = [];
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	include('user_privileges/tabdata.php');
 
@@ -1785,7 +1794,7 @@ function getPermittedModuleNames()
 function getPermittedModuleIdList()
 {
 	$current_user = vglobal('current_user');
-	$permittedModules = Array();
+	$permittedModules = [];
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	include('user_privileges/tabdata.php');
 
@@ -1816,12 +1825,12 @@ function getPermittedModuleIdList()
  */
 function RecalculateSharingRules()
 {
-	$log = vglobal('log');
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering RecalculateSharingRules() method ...");
 	$adb = PearDatabase::getInstance();
 	require_once('modules/Users/CreateUserPrivilegeFile.php');
 	$query = "select id from vtiger_users where deleted=0";
-	$result = $adb->pquery($query, array());
+	$result = $adb->pquery($query, []);
 	$num_rows = $adb->num_rows($result);
 	for ($i = 0; $i < $num_rows; $i++) {
 		$id = $adb->query_result($result, $i, 'id');

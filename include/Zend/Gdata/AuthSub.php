@@ -124,7 +124,7 @@ class Zend_Gdata_AuthSub
 
         // Parse Google's response
         if ($response->isSuccessful()) {
-            $goog_resp = array();
+            $goog_resp = [];
             foreach (explode("\n", $response->getBody()) as $l) {
                 $l = chop($l);
                 if ($l) {

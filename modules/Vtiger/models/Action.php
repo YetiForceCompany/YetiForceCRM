@@ -116,14 +116,14 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 			$db = PearDatabase::getInstance();
 
 			$sql = 'SELECT * FROM vtiger_actionmapping';
-			$params = array();
+			$params = [];
 			if ($configurable) {
 				$sql .= ' WHERE actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
 				array_push($params, self::$nonConfigurableActions);
 			}
 			$result = $db->pquery($sql, $params);
 			$noOfRows = $db->num_rows($result);
-			$actionModels = array();
+			$actionModels = [];
 			for ($i = 0; $i < $noOfRows; ++$i) {
 				$actionModels[] = self::getInstanceFromQResult($result, $i);
 			}
@@ -145,7 +145,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		}
 		$result = $db->pquery($sql, $params);
 		$noOfRows = $db->num_rows($result);
-		$actionModels = array();
+		$actionModels = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
 			$actionModels[] = self::getInstanceFromQResult($result, $i);
 		}
@@ -165,7 +165,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		}
 		$result = $db->pquery($sql, $params);
 		$noOfRows = $db->num_rows($result);
-		$actionModels = array();
+		$actionModels = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
 			$actionModels[] = self::getInstanceFromQResult($result, $i);
 		}

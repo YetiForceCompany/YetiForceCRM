@@ -15,7 +15,7 @@
  */
 // Let us create cache to improve performance
 if (!isset($__cache_vtiger_imagepath)) {
-	$__cache_vtiger_imagepath = Array();
+	$__cache_vtiger_imagepath = [];
 }
 
 function vtiger_imageurl($imagename, $themename)
@@ -41,18 +41,6 @@ function vtiger_imageurl($imagename, $themename)
 }
 
 /**
- * Get module name by id.
- */
-function vtlib_getModuleNameById($tabid)
-{
-	$adb = PearDatabase::getInstance();
-	$sqlresult = $adb->pquery("SELECT name FROM vtiger_tab WHERE tabid = ?", array($tabid));
-	if ($adb->num_rows($sqlresult))
-		return $adb->query_result($sqlresult, 0, 'name');
-	return null;
-}
-
-/**
  * Get module names for which sharing access can be controlled.
  * NOTE: Ignore the standard modules which is already handled.
  */
@@ -67,7 +55,7 @@ function vtlib_getModuleNameForSharing()
 /**
  * Cache the module active information for performance
  */
-$__cache_module_activeinfo = Array();
+$__cache_module_activeinfo = [];
 
 /**
  * Fetch module active information at one shot, but return all the information fetched.
@@ -83,7 +71,7 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 	if ($tabrows === false || $force) {
 		$adb = PearDatabase::getInstance();
 		$tabres = $adb->query("SELECT * FROM vtiger_tab");
-		$tabrows = array();
+		$tabrows = [];
 		if ($tabres) {
 			while ($tabresrow = $adb->fetch_array($tabres)) {
 				$tabrows[] = $tabresrow;
@@ -186,7 +174,7 @@ function vtlib_getToggleModuleInfo()
 {
 	$adb = PearDatabase::getInstance();
 
-	$modinfo = Array();
+	$modinfo = [];
 
 	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM vtiger_tab WHERE name NOT IN ('Users','Home') AND presence IN (0,1) ORDER BY name");
 	$num_rows = $adb->num_rows($sqlresult);
@@ -213,7 +201,7 @@ function vtlib_getToggleLanguageInfo()
 	$old_dieOnError = $adb->dieOnError;
 	$adb->dieOnError = false;
 
-	$langinfo = Array();
+	$langinfo = [];
 	$sqlresult = $adb->query("SELECT * FROM vtiger_language");
 	if ($sqlresult) {
 		for ($idx = 0; $idx < $adb->num_rows($sqlresult); ++$idx) {
@@ -251,7 +239,7 @@ function vtlib_toggleLanguageAccess($langprefix, $enable_disable)
 /*
   function vtlib_getFieldHelpInfo($module) {
   $adb = PearDatabase::getInstance();
-  $fieldhelpinfo = Array();
+  $fieldhelpinfo = [];
   if(in_array('helpinfo', $adb->getColumnNames('vtiger_field'))) {
   $result = $adb->pquery('SELECT fieldname,helpinfo FROM vtiger_field WHERE tabid=?', Array(getTabid($module)));
   if($result && $adb->num_rows($result)) {
@@ -471,7 +459,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 
 	$picklistresCount = $adb->num_rows($picklistres);
 
-	$picklistval_roles = Array();
+	$picklistval_roles = [];
 	if ($picklistresCount) {
 		for ($index = 0; $index < $picklistresCount; ++$index) {
 			$picklistval = $adb->query_result($picklistres, $index, 'pickvalue');
@@ -480,7 +468,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 		}
 	}
 	// Collect picklist value which is associated to all the roles.
-	$allrolevalues = Array();
+	$allrolevalues = [];
 	foreach ($picklistval_roles as $picklistval => $pickvalroles) {
 		sort($pickvalroles);
 		$diff = array_diff($pickvalroles, $allroles);
@@ -505,7 +493,7 @@ function vtlib_getPicklistValues($columnname)
 	$picklistres = $adb->query("SELECT $columnname as pickvalue FROM $tablename");
 	$picklistresCount = $adb->num_rows($picklistres);
 
-	$picklistvalues = Array();
+	$picklistvalues = [];
 	if ($picklistresCount) {
 		for ($index = 0; $index < $picklistresCount; ++$index) {
 			$picklistvalues[] = $adb->query_result($picklistres, $index, 'pickvalue');
@@ -588,7 +576,7 @@ function vtlib_purify($input, $ignore = false)
 {
 	global $__htmlpurifier_instance, $root_directory, $default_charset;
 
-	static $purified_cache = array();
+	static $purified_cache = [];
 	$value = $input;
 
 	if (!is_array($input)) {
@@ -616,15 +604,15 @@ function vtlib_purify($input, $ignore = false)
 			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 
 			$config = HTMLPurifier_Config::createDefault();
-			$config->set('Core', 'Encoding', $use_charset);
-			$config->set('Cache', 'SerializerPath', "$use_root_directory/cache/vtlib");
-
+			$config->set('Core.Encoding', $use_charset);
+			$config->set('Cache.SerializerPath', "$use_root_directory/cache/vtlib");
+			
 			$__htmlpurifier_instance = new HTMLPurifier($config);
 		}
 		if ($__htmlpurifier_instance) {
 			// Composite type
 			if (is_array($input)) {
-				$value = array();
+				$value = [];
 				foreach ($input as $k => $v) {
 					$value[$k] = vtlib_purify($v, $ignore);
 				}
@@ -635,6 +623,141 @@ function vtlib_purify($input, $ignore = false)
 		$purified_cache[$md5OfInput] = $value;
 	}
 
+	$value = str_replace('&amp;', '&', $value);
+	return $value;
+}
+
+function vtlib_purifyForHtml($input, $ignore = false)
+{
+	global $htmlPurifierForHtml, $root_directory, $default_charset;
+
+	static $purified_cache = [];
+	$value = $input;
+
+	if (!is_array($input)) {
+		$md5OfInput = md5($input);
+		if (array_key_exists($md5OfInput, $purified_cache)) {
+			$value = $purified_cache[$md5OfInput];
+			//to escape cleaning up again
+			$ignore = true;
+		}
+	} else {
+		$md5OfInput = md5(json_encode($input));
+	}
+	$use_charset = $default_charset;
+	$use_root_directory = $root_directory;
+
+
+	if (!$ignore) {
+		// Initialize the instance if it has not yet done
+		if ($htmlPurifierForHtml == false) {
+			if (empty($use_charset))
+				$use_charset = 'UTF-8';
+			if (empty($use_root_directory))
+				$use_root_directory = dirname(__FILE__) . '/../..';
+
+			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
+
+			$allowed = array(
+				'img[src|alt|title|width|height|style|data-mce-src|data-mce-json]',
+				'figure', 'figcaption',
+				'video[src|type|width|height|poster|preload|controls|style|class]', 'source[src|type]',
+				'audio[src|type|preload|controls]',
+				'a[href|target]',
+				'iframe[width|height|src|frameborder|allowfullscreen]',
+				'strong', 'b', 'i', 'u', 'em', 'br', 'font',
+				'h1[style]', 'h2[style]', 'h3[style]', 'h4[style]', 'h5[style]', 'h6[style]',
+				'p[style]', 'div[style]', 'center', 'address[style]',
+				'span[style]', 'pre[style]',
+				'ul', 'ol', 'li',
+				'table[width|height|border|style]', 'th[width|height|border|style]',
+				'tr[width|height|border|style]', 'td[width|height|border|style]',
+				'hr'
+			);
+			$config = HTMLPurifier_Config::createDefault();
+			$config->set('Core.Encoding', $use_charset);
+			$config->set('Cache.SerializerPath', "$use_root_directory/cache/vtlib");
+			$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
+			$config->set('CSS.AllowTricky', true);
+			$config->set('HTML.SafeIframe', true);
+			$config->set('HTML.SafeEmbed', true);
+			$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www.youtube(?:-nocookie)?.com/embed/|player.vimeo.com/video/)%');
+			$config->set('HTML.Allowed', implode(',', $allowed));
+			$config->set('HTML.DefinitionID', 'html5-definitions'); // unqiue id
+			$config->set('HTML.DefinitionRev', 1);
+			if ($def = $config->maybeGetRawHTMLDefinition()) {
+				// http://developers.whatwg.org/sections.html
+				$def->addElement('section', 'Block', 'Flow', 'Common');
+				$def->addElement('nav', 'Block', 'Flow', 'Common');
+				$def->addElement('article', 'Block', 'Flow', 'Common');
+				$def->addElement('aside', 'Block', 'Flow', 'Common');
+				$def->addElement('header', 'Block', 'Flow', 'Common');
+				$def->addElement('footer', 'Block', 'Flow', 'Common');
+				// Content model actually excludes several tags, not modelled here
+				$def->addElement('address', 'Block', 'Flow', 'Common');
+				$def->addElement('hgroup', 'Block', 'Required: h1 | h2 | h3 | h4 | h5 | h6', 'Common');
+				// http://developers.whatwg.org/grouping-content.html
+				$def->addElement('figure', 'Block', 'Optional: (figcaption, Flow) | (Flow, figcaption) | Flow', 'Common');
+				$def->addElement('figcaption', 'Inline', 'Flow', 'Common');
+				// http://developers.whatwg.org/the-video-element.html#the-video-element
+				$def->addElement('video', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
+					'src' => 'URI',
+					'type' => 'Text',
+					'width' => 'Length',
+					'height' => 'Length',
+					'poster' => 'URI',
+					'preload' => 'Enum#auto,metadata,none',
+					'controls' => 'Bool',
+				));
+				$def->addElement('audio', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
+					'src' => 'URI',
+					'type' => 'Text',
+					'preload' => 'Enum#auto,metadata,none',
+					'controls' => 'Bool',
+				));
+				$def->addElement('source', 'Block', 'Flow', 'Common', array(
+					'src' => 'URI',
+					'type' => 'Text',
+				));
+				// http://developers.whatwg.org/text-level-semantics.html
+				$def->addElement('s', 'Inline', 'Inline', 'Common');
+				$def->addElement('var', 'Inline', 'Inline', 'Common');
+				$def->addElement('sub', 'Inline', 'Inline', 'Common');
+				$def->addElement('sup', 'Inline', 'Inline', 'Common');
+				$def->addElement('mark', 'Inline', 'Inline', 'Common');
+				$def->addElement('wbr', 'Inline', 'Empty', 'Core');
+				// http://developers.whatwg.org/edits.html
+				$def->addElement('ins', 'Block', 'Flow', 'Common', array('cite' => 'URI', 'datetime' => 'CDATA'));
+				$def->addElement('del', 'Block', 'Flow', 'Common', array('cite' => 'URI', 'datetime' => 'CDATA'));
+				// TinyMCE
+				$def->addAttribute('img', 'data-mce-src', 'Text');
+				$def->addAttribute('img', 'data-mce-json', 'Text');
+				// Others
+				$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
+				$def->addAttribute('table', 'height', 'Text');
+				$def->addAttribute('td', 'border', 'Text');
+				$def->addAttribute('th', 'border', 'Text');
+				$def->addAttribute('tr', 'width', 'Text');
+				$def->addAttribute('tr', 'height', 'Text');
+				$def->addAttribute('tr', 'border', 'Text');
+			}
+
+			$htmlPurifierForHtml = new HTMLPurifier($config);
+		}
+		if ($htmlPurifierForHtml) {
+			// Composite type
+			if (is_array($input)) {
+				$value = [];
+				foreach ($input as $k => $v) {
+					$value[$k] = vtlib_purifyForHtml($v, $ignore);
+				}
+			} else { // Simple type
+				$value = $htmlPurifierForHtml->purify($input);
+			}
+		}
+		$purified_cache[$md5OfInput] = $value;
+	}
+	
 	$value = str_replace('&amp;', '&', $value);
 	return $value;
 }

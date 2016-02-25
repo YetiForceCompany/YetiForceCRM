@@ -156,20 +156,10 @@ class Vtiger_Utils
 	 * Check if table is present in database
 	 * @param String tablename to check
 	 */
-	static function CheckTable($tablename)
+	static function CheckTable($tableName)
 	{
 		$adb = PearDatabase::getInstance();
-		$old_dieOnError = $adb->dieOnError;
-		$adb->dieOnError = false;
-
-		$tablename = $adb->sql_escape_string($tablename);
-		$tablecheck = $adb->query("SHOW TABLES LIKE $tablename");
-		$tablePresent = true;
-		if (empty($tablecheck) || $adb->num_rows($tablecheck) === 0)
-			$tablePresent = false;
-
-		$adb->dieOnError = $old_dieOnError;
-		return $tablePresent;
+		return $adb->checkExistTable($tableName);
 	}
 
 	/**

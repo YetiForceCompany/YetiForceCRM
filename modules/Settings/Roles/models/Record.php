@@ -319,6 +319,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$searchunpriv = $this->get('searchunpriv');
 		$searchunpriv = implode(',', empty($searchunpriv) ? [] : $searchunpriv);
+		$permissionsRelatedField = $this->get('permissionsrelatedfield');
+		$permissionsRelatedField = implode(',', empty($permissionsRelatedField) ? [] : $permissionsRelatedField);
 		$values = [
 			'rolename' => $this->getName(),
 			'parentrole' => $this->getParentRoleString(),
@@ -330,7 +332,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'listrelatedrecord' => $this->get('listrelatedrecord'),
 			'previewrelatedrecord' => $this->get('previewrelatedrecord'),
 			'editrelatedrecord' => $this->get('editrelatedrecord'),
-			'permissionsrelatedfield' => $this->get('permissionsrelatedfield'),
+			'permissionsrelatedfield' => $permissionsRelatedField,
 			'globalsearchadv' => $this->get('globalsearchadv')
 		];
 
@@ -495,15 +497,20 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($roleId)
 	{
+		$instance = Vtiger_Cache::get('Settings_Roles_Record_Model', $roleId);
+		if ($instance !== false) {
+			return $instance;
+		}
+		$instance = null;
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
-		$params = array($roleId);
-		$result = $db->pquery($sql, $params);
+		$result = $db->pquery($sql, [$roleId]);
 		if ($db->num_rows($result) > 0) {
-			return self::getInstanceFromQResult($result, 0);
+			$instance = self::getInstanceFromQResult($result, 0);
 		}
-		return null;
+		Vtiger_Cache::set('Settings_Roles_Record_Model', $roleId, $instance);
+		return $instance;
 	}
 
 	/**

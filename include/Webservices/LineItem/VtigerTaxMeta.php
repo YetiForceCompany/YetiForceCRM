@@ -17,7 +17,7 @@ class VtigerTaxMeta extends VtigerCRMActorMeta
 
 	protected function getTableFieldList($tableName)
 	{
-		$tableFieldList = array();
+		$tableFieldList = [];
 
 		$factory = WebserviceField::fromArray($this->pearDB, array('tablename' => $tableName));
 		$dbTableFields = $factory->getTableFields();

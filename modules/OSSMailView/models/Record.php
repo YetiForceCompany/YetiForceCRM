@@ -29,7 +29,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	{
 		$value = parent::get($key);
 		if ($key === 'content' && $_REQUEST['view'] == 'Detail') {
-			return Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), decode_html($value));
+			return Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), Vtiger_Functions::getHtmlOrPlainText($value));
 		}
 		if ($key === 'uid' || $key === 'content') {
 			return decode_html($value);
@@ -103,7 +103,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				$from = ($from && $from != '') ? $from : $row['from_email'];
 				$to = $this->findRecordsById($row['to_id']);
 				$to = ($to && $to != '') ? $to : $row['to_email'];
-				$content = Vtiger_Functions::removeHtmlTags(['link', 'style', 'a', 'img', 'script', 'base'], decode_html($row['content']));
+				$content = Vtiger_Functions::removeHtmlTags(['link', 'style', 'a', 'img', 'script', 'base'], Vtiger_Functions::getHtmlOrPlainText($row['content']));
 				$return[] = [
 					'id' => $row['ossmailviewid'],
 					'date' => $row['date'],

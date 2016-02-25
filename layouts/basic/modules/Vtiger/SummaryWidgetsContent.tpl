@@ -4,12 +4,7 @@
 		<table class="table noStyle">
 			<thead>
 				<tr class="">
-					{assign var=COUNT value=0}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-						{if $COLUMNS != '' && $COUNT == $COLUMNS }
-							{break}
-						{/if}
-						{assign var=COUNT value=$COUNT+1}
 						<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap>
 							{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
 						</th>
@@ -28,12 +23,7 @@
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 					{/if}>
-					{assign var=COUNT value=0}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-						{if $COLUMNS != '' && $COUNT == $COLUMNS }
-							{break}
-						{/if}
-						{assign var=COUNT value=$COUNT+1}
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
 							{if $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
@@ -82,7 +72,7 @@
 														<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
 													</a>
 												{/if}
-											{else}
+											{elseif $RELATED_RECORD->isEditable()}
 												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
 												</a>
 											{/if}
@@ -94,7 +84,7 @@
 														<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
 													</a>
 												{/if}
-											{else}
+											{elseif $RELATED_RECORD->isViewable()}
 												<a class="relationDelete">
 													<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
 												</a>

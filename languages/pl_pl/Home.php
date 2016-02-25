@@ -22,6 +22,8 @@ $languageStrings = [
 	'PLVT' => 'Najlepsze szanse sprzedaży',
 	'QLTQ' => 'Najlepsze oferty',
 	'UA' => 'Nadchodzące zdarzenia',
+	'LBL_MARK_AS_READ' => 'Oznacz jako przeczytane',
 ];
 $jsLanguageStrings = [
+	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',
 ];

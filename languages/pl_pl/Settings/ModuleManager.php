@@ -49,7 +49,6 @@ $languageStrings = [
 	'LBL_VERIFY_IMPORT_DETAILS' => 'Weryfikacja szczegółów importu',
 	'LBL_VERSION_NOT_SUPPORTED' => 'Wersja modułu nie jest kompatybilna z wersją systemu YetiForce.',
 	'LBL_VERSION' => 'Wersja',
-	'LBL_VTIGER_EXTENSION_STORE' => 'Oficjalny sklep z modułami od Vtiger',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Importuj pakiet z pliku',
 	'LBL_DELETE_EXIST_DIRECTORY' => 'Instalacja niemożliwa ponieważ istnieje katalog o nazwie modułu, aby kontynuować prosimy usunąć katalog o nazwie instalowanego modułu.',
 	'LBL_ERROR_VERSION' => 'Błędna wersja modułu, wersja modułu __MODULEVERSION__ a powinna być większa niż __CRMVERSION__',

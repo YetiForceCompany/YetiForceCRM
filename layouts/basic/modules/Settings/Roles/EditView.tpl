@@ -30,7 +30,7 @@
 						<label class=""><span class="redColor">*</span><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}: </strong></label>
 					</div>
 					<div class=" col-md-7 ">
-						<input type="text" class="fieldValue form-control" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine='validate[required]'  />
+						<input type="text" class="fieldValue form-control" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]"/>
 					</div>
 				</div><br>
 				<div class="row">
@@ -100,10 +100,11 @@
 				<div class="row">
 					<label class="col-md-4"><strong>{vtranslate('LBL_PERMISSIONS_FIELD_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<select id="previewRelatedRecord" class="row select2 form-control" name="permissionsRelatedField">
-							<option value="0" {if $RECORD_MODEL->get('permissionsrelatedfield') == '0'}selected="true"{/if}>{vtranslate('Assigned To', $QUALIFIED_MODULE)}</option>
-							<option value="1" {if $RECORD_MODEL->get('permissionsrelatedfield') == '1'}selected="true"{/if}>{vtranslate('Share with users', $QUALIFIED_MODULE)}</option>
-							<option value="2" {if $RECORD_MODEL->get('permissionsrelatedfield') == '2'}selected="true"{/if}>{vtranslate('LBL_ASSIGNED_AND_SHARE_USERS', $QUALIFIED_MODULE)}</option>
+						{assign var="PERMISSIONS_RELATED_FIELD" value=explode(',',$RECORD_MODEL->get('permissionsrelatedfield'))}
+						<select id="previewRelatedRecord" class="row select2 form-control" name="permissionsRelatedField[]" multiple >
+							<option value="0" {if in_array('0', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('Assigned To', $QUALIFIED_MODULE)}</option>
+							<option value="1" {if in_array('1', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('Share with users', $QUALIFIED_MODULE)}</option>
+							<option value="2" {if in_array('2', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('LBL_PERMITTED_BY_SHARING', $QUALIFIED_MODULE)}</option>
 						</select>
 					</div>
 				</div>

@@ -24,4 +24,8 @@ $CONFIG = [
 	'SHOW_LIST_BUTTON' => true, // Boolean
 	// Show companies and processes in quickcreate 
 	'SHOW_COMPANIES_IN_QUICKCREATE' => false, // Boolean
+	// Exclude certain days-of-the-week from being displayed.
+	// The value is an array of day-of-week indices to hide. Each index is zero-base (Sunday=0) and ranges from 0-6.
+	// By default, no days are hidden
+	'HIDDEN_DAYS_IN_CALENDAR_VIEW' => [0,6],
 ];

@@ -83,7 +83,7 @@ function vtws_convertlead($entityvalues, $user)
 
 			$entityHandler = new $handlerClass($entityObject, $user, $adb, $log);
 
-			$entityObjectValues = array();
+			$entityObjectValues = [];
 			$entityObjectValues['assigned_user_id'] = $entityvalues['assignedTo'];
 			$entityObjectValues = vtws_populateConvertLeadEntities($entityvalue, $entityObjectValues, $entityHandler, $leadHandler, $leadInfo);
 
@@ -150,7 +150,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler,
 	$column;
 	$entityName = $entityvalue['name'];
 	$sql = "SELECT * FROM vtiger_convertleadmapping";
-	$result = $adb->pquery($sql, array());
+	$result = $adb->pquery($sql, []);
 	if ($adb->num_rows($result)) {
 		switch ($entityName) {
 			case 'Accounts':$column = 'accountfid';

@@ -24,7 +24,7 @@ class Vtiger_EditRecordStructure_Model extends Vtiger_RecordStructure_Model
 			return $this->structuredValues;
 		}
 
-		$values = array();
+		$values = [];
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 		$moduleModel = $this->getModule();
@@ -32,7 +32,7 @@ class Vtiger_EditRecordStructure_Model extends Vtiger_RecordStructure_Model
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty($fieldModelList)) {
-				$values[$blockLabel] = array();
+				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->isEditable()) {
 						if ($recordModel->get($fieldName) != '') {

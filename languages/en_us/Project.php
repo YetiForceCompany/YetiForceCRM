@@ -28,12 +28,12 @@ $languageStrings = [
 	'Target Budget' => 'Target Budget',
 	'Project Url' => 'Project Url',
 	'Progress' => 'Progress',
-        'LBL_MILESTONES_LIST'          => 'Milestones List'             , 
-        'LBL_TASKS_HIGH'               => 'High Priority'               , 
-        'LBL_TASKS_NORMAL'             => 'Normal Priority'             , 
-        'LBL_TASKS_LOW'                => 'Low Priority'                , 
-        'LBL_TASKS_OTHER'              => 'Other Priorities'            , 
-        'LBL_SELECT_PROGRESS'          => 'Select Progress'             , 
+        'LBL_MILESTONES_LIST' => 'Milestones List', 
+        'LBL_TASKS_HIGH' => 'High Priority', 
+        'LBL_TASKS_NORMAL' => 'Normal Priority', 
+        'LBL_TASKS_LOW' => 'Low Priority', 
+        'LBL_TASKS_OTHER' => 'Other Priorities', 
+        'LBL_SELECT_PROGRESS' => 'Select Progress', 
 	'description' => 'Description',
 	'Related to' => 'Related to',
 	//Summary Information
@@ -59,13 +59,6 @@ $languageStrings = [
 	
 	//Summary View Widgets
 	'LBL_DOWNLOAD_FILE' => 'Download File',
-    
-    
-	//YetiForce
-	'Total time [Project]' => 'Total time [Project]',
-	'Total time [Project Task]' => 'Total time [Project Task]',
-	'Total time [Sum]' => 'Total time [Sum]',
-	'Total time [Tickets]' => 'Total time [Tickets]',
     
 	'LBL_CHARTS'=>'Charts',
 	'Add Project Task' => 'Add Project Task',

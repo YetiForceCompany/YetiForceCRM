@@ -17,17 +17,17 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Assets List',
 
 	// Blocks
-	'LBL_ASSET_INFORMATION' => 'Asset Details',
+	'LBL_ASSET_INFORMATION' => 'Asset details',
 
 	//Field Labels
-    'Asset No' => 'Asset No',
-	'Serial Number' => 'Serial Number',
-	'Date Sold' => 'Date Sold',
+    	'Asset No' => 'Asset no.',
+	'Serial Number' => 'Serial number',
+	'Date Sold' => 'Date sold',
 	'Date in Service' => 'Expiry date',
-	'Invoice Name' => 'Invoice Number',
-	'Shipping Tracking Number' => 'Shipping Tracking Number',
+	'Invoice Name' => 'Invoice number',
+	'Shipping Tracking Number' => 'Shipping tracking number',
 	'Asset Name' => 'Name',
-	'Customer Name' => 'Customer Name',
+	'Customer Name' => 'Customer name',
 	'Notes' => 'Notes',
 
 	/*picklist values*/

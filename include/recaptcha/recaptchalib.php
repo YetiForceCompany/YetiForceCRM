@@ -146,7 +146,7 @@ class ReCaptchaResponse
  * @param array $extra_params an array of extra variables to post to the server
  * @return ReCaptchaResponse
  */
-function recaptcha_check_answer($privkey, $remoteip, $challenge, $response, $extra_params = array())
+function recaptcha_check_answer($privkey, $remoteip, $challenge, $response, $extra_params = [])
 {
 	if ($privkey == null || $privkey == '') {
 		die("To use reCAPTCHA you must get an API key from <a href='https://www.google.com/recaptcha/admin/create'>https://www.google.com/recaptcha/admin/create</a>");

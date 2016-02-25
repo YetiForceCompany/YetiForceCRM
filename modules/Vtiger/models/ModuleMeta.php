@@ -68,7 +68,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 
 		$meta = self::$_cached_module_meta[$this->moduleName][$this->user->id];
 		$moduleFields = $meta->getModuleFields();
-		$accessibleFields = array();
+		$accessibleFields = [];
 		foreach ($moduleFields as $fieldName => $fieldInstance) {
 			if ($fieldInstance->getPresence() === 1) {
 				continue;
@@ -85,7 +85,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 	public function getMergableFields()
 	{
 		$accessibleFields = $this->getAccessibleFields($this->moduleName);
-		$mergableFields = array();
+		$mergableFields = [];
 		foreach ($accessibleFields as $fieldName => $fieldInstance) {
 			if ($fieldInstance->getPresence() === 1) {
 				continue;
@@ -119,7 +119,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 			$mandatoryFields = $focus->getMandatoryImportableFields();
 		} else {
 			$moduleFields = $this->getAccessibleFields($this->moduleName);
-			$mandatoryFields = array();
+			$mandatoryFields = [];
 			foreach ($moduleFields as $fieldName => $fieldInstance) {
 				if ($fieldInstance->isMandatory() && $fieldInstance->getFieldDataType() != 'owner' && $this->isEditableField($fieldInstance)) {
 					$mandatoryFields[$fieldName] = $fieldInstance->getFieldLabelKey();
@@ -140,7 +140,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 			$importableFields = $focus->getImportableFields();
 		} else {
 			$moduleFields = $this->getAccessibleFields($moduleName);
-			$importableFields = array();
+			$importableFields = [];
 			foreach ($moduleFields as $fieldName => $fieldInstance) {
 				if (($this->isEditableField($fieldInstance) && ($fieldInstance->getTableName() != 'vtiger_crmentity' || $fieldInstance->getColumnName() != 'modifiedby')
 					) || ($fieldInstance->getUIType() == '70' && $fieldName != 'modifiedtime')) {
@@ -159,7 +159,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 	{
 		$moduleFields = $this->getAccessibleFields($this->moduleName);
 		$entityColumnNames = vtws_getEntityNameFields($this->moduleName);
-		$entityNameFields = array();
+		$entityNameFields = [];
 		foreach ($moduleFields as $fieldName => $fieldInstance) {
 			$fieldColumnName = $fieldInstance->getColumnName();
 			if (in_array($fieldColumnName, $entityColumnNames)) {
@@ -200,7 +200,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 			$mandatoryFields = $focus->getMandatoryImportableFields();
 		} else {
 			$moduleFields = $this->getAccessibleFields($this->moduleName);
-			$mandatoryFields = array();
+			$mandatoryFields = [];
 			foreach ($moduleFields as $fieldName => $fieldInstance) {
 				if ($fieldInstance->isMandatory() && $fieldInstance->getFieldDataType() != 'owner' && $this->isEditableField($fieldInstance)) {
 					$mandatoryFields[$fieldName] = vtranslate($fieldInstance->getFieldLabelKey(), $this->moduleName);

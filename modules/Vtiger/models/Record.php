@@ -245,7 +245,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getDisplayableValues()
 	{
-		$displayableValues = array();
+		$displayableValues = [];
 		$data = $this->getData();
 		foreach ($data as $fieldName => $value) {
 			$fieldValue = $this->getDisplayValue($fieldName);
@@ -314,12 +314,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
-		$cacheName = $recordId . ':' . $module;
-		$instance = Vtiger_Cache::get('Vtiger_Record_Model', $cacheName);
-		if ($instance) {
-			return $instance;
-		}
-
 		//TODO: Handle permissions
 		if (is_object($module) && is_a($module, 'Vtiger_Module_Model')) {
 			$moduleName = $module->get('name');
@@ -329,6 +323,11 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		} elseif (empty($module)) {
 			$moduleName = getSalesEntityType($recordId);
 			$module = Vtiger_Module_Model::getInstance($moduleName);
+		}
+		$cacheName = $recordId . ':' . $moduleName;
+		$instance = Vtiger_Cache::get('Vtiger_Record_Model', $cacheName);
+		if ($instance) {
+			return $instance;
 		}
 
 		$focus = CRMEntity::getInstance($moduleName);
@@ -375,7 +374,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
 
-		$moduleModels = $matchingRecords = $leadIdsList = array();
+		$moduleModels = $matchingRecords = $leadIdsList = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			if ($row['setype'] === 'Leads') {
@@ -437,44 +436,52 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 			$isPermitted = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId);
 			$checkLockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
-			$focus = $this->getEntity();
-			if (!$focus) {
-				$focus = CRMEntity::getInstance($moduleName);
-				$this->setEntity($focus);
-			}
-			$lockFields = $focus->getLockFields();
-			if ($lockFields) {
-				$loadData = false;
-				foreach ($lockFields as $fieldName => $values) {
-					if (!$this->has($fieldName)) {
-						$loadData = true;
-					}
-				}
-				if ($loadData && $recordId) {
-					$focus->id = $recordId;
-					$focus->retrieve_entity_info($recordId, $moduleName);
-					$this->setEntity($focus);
-				}
-				foreach ($lockFields as $fieldName => $values) {
-					foreach ($values as $value) {
-						if ($this->get($fieldName) == $value) {
-							$isPermitted = false;
-						}
-						if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] == $value) {
-							$isPermitted = false;
-						}
-					}
-				}
-			}
-			$this->privileges['isEditable'] = $isPermitted && $checkLockEdit == false;
+
+			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit == false;
 		}
 		return $this->privileges['isEditable'];
+	}
+
+	public function checkLockFields()
+	{
+		$moduleName = $this->getModuleName();
+		$recordId = $this->getId();
+		$focus = $this->getEntity();
+		if (!$focus) {
+			$focus = CRMEntity::getInstance($moduleName);
+			$this->setEntity($focus);
+		}
+		$lockFields = $focus->getLockFields();
+		if ($lockFields) {
+			$loadData = false;
+			foreach ($lockFields as $fieldName => $values) {
+				if (!$this->has($fieldName)) {
+					$loadData = true;
+				}
+			}
+			if ($loadData && $recordId) {
+				$focus->id = $recordId;
+				$focus->retrieve_entity_info($recordId, $moduleName);
+				$this->setEntity($focus);
+			}
+			foreach ($lockFields as $fieldName => $values) {
+				foreach ($values as $value) {
+					if ($this->get($fieldName) == $value) {
+						return false;
+					}
+					if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] == $value) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	public function isDeletable()
 	{
 		if (!isset($this->privileges['isDeletable'])) {
-			$this->privileges['isDeletable'] = Users_Privileges_Model::isPermitted($this->getModuleName(), 'Delete', $this->getId());
+			$this->privileges['isDeletable'] = Users_Privileges_Model::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
 		}
 		return $this->privileges['isDeletable'];
 	}
@@ -554,9 +561,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$moduleName = $this->getModuleName();
 		$path = "modules/$moduleName/summary_blocks";
 		if (!is_dir($path)) {
-			return array();
+			return [];
 		}
-		$summaryBlocks = array();
+		$summaryBlocks = [];
 		$dir = new DirectoryIterator($path);
 		$blockCount = 0;
 
@@ -653,7 +660,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	function getListFieldsToGenerate($parentModuleName, $moduleName)
 	{
 		$module = CRMEntity::getInstance($parentModuleName);
-		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : array();
+		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
 	}
 
 	/**
@@ -715,17 +722,15 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				}
 				$insertData = ['seq' => $request->get('seq' . $i)];
 				foreach ($fields as $field) {
-					$value = $insertData[$field] = $inventory->getValueForSave($request, $field, $i);
-					if (in_array($field, $summaryFields)) {
-						$summary[$field] += $value;
-					}
+					$insertData[$field] = $inventory->getValueForSave($request, $field, $i);
 				}
 				$inventoryData[] = $insertData;
 			}
-
-			foreach ($summary as $fieldName => $fieldValue) {
-				if ($this->has($fieldName)) {
-					$this->set($fieldName, CurrencyField::convertToUserFormat($fieldValue, null, true));
+			$prefix = 'sum_';
+			$inventoryFields = $inventory->getFields();
+			foreach ($summaryFields as $fieldName) {
+				if ($this->has($prefix . $fieldName)) {
+					$this->set($prefix . $fieldName, $inventoryFields[$fieldName]->getSummaryValuesFromData($inventoryData));
 				}
 			}
 		}
@@ -748,12 +753,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$moduleName = $this->getModuleName();
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
-		if ($this->has('inventoryData')) {
-			$request = $this->get('inventoryData');
-		} else {
-			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		}
-		$numRow = $request->get('inventoryItemsNo');
 
 		//In Bulk mode stop triggering events
 		if (!CRMEntity::isBulkSaveMode()) {

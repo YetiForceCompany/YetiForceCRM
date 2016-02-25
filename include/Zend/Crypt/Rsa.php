@@ -322,7 +322,7 @@ class Zend_Crypt_Rsa
 
     protected function _parseConfigArgs(array $config = null)
     {
-        $configs = array();
+        $configs = [];
         if (isset($config['private_key_bits'])) {
             $configs['private_key_bits'] = $config['private_key_bits'];
         }

@@ -18,7 +18,7 @@ class Vtiger_Activities_Widget extends Vtiger_Basic_Widget {
 		return 'ActivitiesConfig';
 	}
 	public function getWidget() {
-		$widget = array();
+		$widget = [];
 		$model = Vtiger_Module_Model::getInstance('Calendar');
 		if( $model->isPermitted('DetailView') ) {
 			$this->Config['url'] = $this->getUrl();

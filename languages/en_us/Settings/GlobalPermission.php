@@ -10,10 +10,10 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'Access to record' => 'Access to records',
-	'GlobalPermission' => 'Special Access',
+	'GlobalPermission' => 'Special access',
 	'LBL_Module_desc' => 'Here you can define which profiles have access to all records regardless of roles.',
-	'LBL_PROFILE_NAME' => 'Profile Name',
-	'LBL_DESCRIPTION' => 'Profile Description',
+	'LBL_PROFILE_NAME' => 'Profile name',
+	'LBL_DESCRIPTION' => 'Profile description',
 	'LBL_VIEW_ALL_DESC' => 'If you tick this option, all the modules will have a marked option of: Browsing',
 	'LBL_VIEW_ALL' => 'Enable preview of all records',
 	'LBL_EDIT_ALL_DESC' => 'If you tick this option, all the modules will have a marked option of: Create/Edit.',

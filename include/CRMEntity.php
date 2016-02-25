@@ -433,23 +433,22 @@ class CRMEntity
 
 		// Attempt to re-use the quer-result to avoid reading for every save operation
 		// TODO Need careful analysis on impact ... MEMORY requirement might be more
-		static $_privatecache = array();
 
 		$cachekey = "{$insertion_mode}-" . implode(',', $params);
-
-		if (!isset($_privatecache[$cachekey])) {
+		$insertField = Vtiger_Cache::get('getInsertField', $cachekey);
+		if ($insertField === false) {
 			$result = $adb->pquery($sql, $params);
 			$noofrows = $adb->num_rows($result);
 
 			if (CRMEntity::isBulkSaveMode()) {
-				$cacheresult = array();
+				$cacheresult = [];
 				for ($i = 0; $i < $noofrows; ++$i) {
 					$cacheresult[] = $adb->raw_query_result_rowdata($result, $i);
 				}
-				$_privatecache[$cachekey] = $cacheresult;
+				Vtiger_Cache::set('getInsertField', $cachekey, $cacheresult);
 			}
 		} else { // Useful when doing bulk save
-			$result = $_privatecache[$cachekey];
+			$result = $insertField;
 			$noofrows = count($result);
 		}
 
@@ -689,7 +688,7 @@ class CRMEntity
 			if (VTCacheUtils::lookupFieldInfo_Module('Events'))
 				$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
 			else
-				$cachedEventsFields = array();
+				$cachedEventsFields = [];
 			$cachedCalendarFields = VTCacheUtils::lookupFieldInfo_Module('Calendar');
 			$cachedModuleFields = array_merge($cachedEventsFields, $cachedCalendarFields);
 			$module = 'Calendar';
@@ -721,7 +720,7 @@ class CRMEntity
 			$where_clause = '';
 			$limit_clause = ' LIMIT 1'; // to eliminate multi-records due to table joins.
 
-			$params = array();
+			$params = [];
 			$required_tables = $this->tab_name_index; // copies-on-write
 
 			foreach ($cachedModuleFields as $fieldinfo) {
@@ -916,7 +915,7 @@ class CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$query = "select * from " . $adb->sql_escape_string($tablename);
-		$result = $this->db->pquery($query, array());
+		$result = $this->db->pquery($query, []);
 		$testrow = $this->db->getFieldsCount($result);
 		if ($testrow > 1) {
 			$exists = true;
@@ -1068,7 +1067,7 @@ class CRMEntity
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		}
 
-		$colf = Array();
+		$colf = [];
 
 		if ($cachedModuleFields) {
 			foreach ($cachedModuleFields as $fieldinfo) {
@@ -1149,7 +1148,7 @@ class CRMEntity
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
 
-			$relatedModule = vtlib_getModuleNameById($tabId);
+			$relatedModule = Vtiger_Functions::getModuleName($tabId);
 			$focusObj = CRMEntity::getInstance($relatedModule);
 
 			//Backup Field Relations for the deleted entity
@@ -1162,7 +1161,7 @@ class CRMEntity
 			$relResult = $this->db->pquery($relQuery, array($id));
 			$numOfRelRecords = $this->db->num_rows($relResult);
 			if ($numOfRelRecords > 0) {
-				$recordIdsList = array();
+				$recordIdsList = [];
 				for ($k = 0; $k < $numOfRelRecords; $k++) {
 					$recordIdsList[] = $this->db->query_result($relResult, $k, $focusObj->table_index);
 				}
@@ -1308,7 +1307,7 @@ class CRMEntity
 		$log->debug("Entering function initSortByField ($module)");
 		// Define the columnname's and uitype's which needs to be excluded
 		$exclude_columns = Array('parent_id', 'vendorid', 'access_count');
-		$exclude_uitypes = Array();
+		$exclude_uitypes = [];
 
 		$tabid = getTabId($module);
 		if ($module == 'Calendar') {
@@ -1451,7 +1450,7 @@ class CRMEntity
 		$tabid = getTabid($module);
 		$fieldinfo = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? AND uitype = 4", Array($tabid));
 
-		$returninfo = Array();
+		$returninfo = [];
 
 		if ($fieldinfo && $adb->num_rows($fieldinfo)) {
 			// TODO: We assume the following for module sequencing field
@@ -1497,7 +1496,7 @@ class CRMEntity
 		global $currentModule, $app_strings, $singlepane_view;
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
@@ -1547,7 +1546,7 @@ class CRMEntity
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 		return $return_value;
 	}
@@ -1719,8 +1718,8 @@ class CRMEntity
 	{
 		global $currentModule, $app_strings, $singlepane_view;
 
-		$current_module = vtlib_getModuleNameById($cur_tab_id);
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$current_module = Vtiger_Functions::getModuleName($cur_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
@@ -1783,7 +1782,7 @@ class CRMEntity
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		return $return_value;
@@ -1802,8 +1801,8 @@ class CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 
-		$currentModule = vtlib_getModuleNameById($cur_tab_id);
-		$relatedModule = vtlib_getModuleNameById($relTabId);
+		$currentModule = Vtiger_Functions::getModuleName($cur_tab_id);
+		$relatedModule = Vtiger_Functions::getModuleName($relTabId);
 		$other = CRMEntity::getInstance($relatedModule);
 
 		// Some standard module class doesn't have required variables
@@ -1892,7 +1891,7 @@ class CRMEntity
 			$return_value = GetRelatedList($currentModule, $relatedModule, $other, $query, $button, $returnset);
 		}
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		return $return_value;
@@ -1999,7 +1998,7 @@ class CRMEntity
 					// Capture the forward table dependencies due to dynamic related-field
 					$crmentityRelModuleFieldTable = "vtiger_crmentityRel$module$field_id";
 
-					$crmentityRelModuleFieldTableDeps = array();
+					$crmentityRelModuleFieldTableDeps = [];
 					for ($j = 0; $j < $adb->num_rows($ui10_modules_query); $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
@@ -2104,7 +2103,7 @@ class CRMEntity
 					// Capture the forward table dependencies due to dynamic related-field
 					$crmentityRelSecModuleTable = "vtiger_crmentityRel$secmodule$field_id";
 
-					$crmentityRelSecModuleTableDeps = array();
+					$crmentityRelSecModuleTableDeps = [];
 					for ($j = 0; $j < $adb->num_rows($ui10_modules_query); $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
@@ -2289,7 +2288,7 @@ class CRMEntity
 			$value = $related_to;
 		} else {
 			//check the module of the field
-			$arr = array();
+			$arr = [];
 			$arr = explode("::::", $related_to);
 			$module = $arr[0];
 			$value = $arr[1];
@@ -2366,7 +2365,7 @@ class CRMEntity
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
 		}
 
-		$hiddenFields = array();
+		$hiddenFields = [];
 
 		if ($cachedModuleFields) {
 			foreach ($cachedModuleFields as $fieldinfo) {
@@ -2406,8 +2405,8 @@ class CRMEntity
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		}
 
-		$lookuptables = array();
-		$lookupcolumns = array();
+		$lookuptables = [];
+		$lookupcolumns = [];
 		foreach ($cachedModuleFields as $fieldinfo) {
 			if (in_array($fieldinfo['uitype'], $uitypes)) {
 				$lookuptables[] = $fieldinfo['tablename'];
@@ -2494,18 +2493,21 @@ class CRMEntity
 	{
 		if ($current_user == false)
 			$current_user = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+		
+		$userid = $current_user->id;
+		require('user_privileges/user_privileges_' . $userid . '.php');
+		require('user_privileges/sharing_privileges_' . $userid . '.php');
 
-		$is_admin = is_admin($current_user);
 		$sharedParameter = $securityParameter = '';
 		$query = '';
 		$tabId = getTabid($module);
 
 		if ($relatedRecord) {
-			$role = getRoleInformation($current_user->roleid);
-			if ($role['listrelatedrecord'] != 0) {
-				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role['listrelatedrecord']);
+			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$role = $userModel->getRoleDetail();
+			
+			if ($role->get('listrelatedrecord') != 0) {
+				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
 				if ($rparentRecord) {
 					$relatedRecord = $rparentRecord;
 				}
@@ -2520,7 +2522,7 @@ class CRMEntity
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$securityParameter = $this->getUserAccessConditionsQuery($module, $current_user);
-			$shownerid = array_merge([$current_user->id], $current_user_groups);
+			$shownerid = array_merge([$userid], $current_user_groups);
 			$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN (' . implode(',', $shownerid) . '))';
 		}
 		if (AppConfig::main('shared_owners') == true) {
@@ -2613,7 +2615,7 @@ class CRMEntity
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key) ignore " .
 			$query;
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery($query, array());
+		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			return true;
 		}
@@ -2751,7 +2753,7 @@ class CRMEntity
 	 */
 	function getListButtons($app_strings, $mod_strings = false)
 	{
-		$list_buttons = Array();
+		$list_buttons = [];
 
 		if (isPermitted($currentModule, 'Delete', '') == 'yes')
 			$list_buttons['del'] = $app_strings[LBL_MASS_DELETE];

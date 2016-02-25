@@ -88,8 +88,8 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$scripts = [
 			'~libraries/jquery/jstree/jstree.js',
 			'~libraries/jquery/jstree/jstree.category.js',
-			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js',
+			'~libraries/jquery/datatables/media/js/jquery.dataTables.js',
+			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
 		];
 		$viewInstances = $this->checkAndConvertJsScripts($scripts);
 		$scriptInstances = array_merge($parentScriptInstances, $viewInstances);

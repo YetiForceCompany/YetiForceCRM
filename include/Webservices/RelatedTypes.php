@@ -30,7 +30,7 @@ function vtws_relatedtypes($elementType, $user)
 	$params = array($tabid);
 	$rs = $adb->pquery($sql, $params);
 
-	$return = array('types' => array(), 'information' => array());
+	$return = array('types' => [], 'information' => []);
 
 	while ($row = $adb->fetch_array($rs)) {
 		if (in_array($row['name'], $allowedTypes['types'])) {

@@ -54,7 +54,7 @@ function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = n
 	$relatedIds = $handler->relatedIds($id, $relatedType, $relatedLabel, $relatedHandler);
 
 	// Initialize return value
-	$relatedRecords = array();
+	$relatedRecords = [];
 
 	// Rewrite query and extract related records if there at least one.
 	if (!empty($relatedIds)) {

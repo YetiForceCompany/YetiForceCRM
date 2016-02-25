@@ -17,11 +17,11 @@ class ListUpdatedRecord
 	{
 		$db = PearDatabase::getInstance();
 
-		$moduleList = array();
+		$moduleList = [];
 
 		if (!$module) {
 			$getListModuleSql = "SELECT name FROM vtiger_tab WHERE isentitytype = 1 AND vtiger_tab.presence != 1";
-			$getListModuleResult = $db->pquery($getListModuleSql, array(), TRUE);
+			$getListModuleResult = $db->pquery($getListModuleSql, [], TRUE);
 
 			for ($i = 0; $i < $db->getFieldsCount($getListModuleResult); $i++) {
 				$moduleList[] = $db->query_result($getListModuleResult, $i, 'name');
@@ -30,7 +30,7 @@ class ListUpdatedRecord
 			$moduleList[] = $module;
 		}
 
-		$recordList = array();
+		$recordList = [];
 
 		if (!in_array('smownerid', $columnList)) {
 			$columnList[] = 'smownerid';
@@ -47,7 +47,7 @@ class ListUpdatedRecord
 
 			for ($k = 0; $k < $db->num_rows($getRecordListResult); $k++) {
 
-				$singelRecord = array();
+				$singelRecord = [];
 
 				foreach ($columnList as $col) {
 					$singelRecord[$col] = $db->query_result($getRecordListResult, $k, $col);

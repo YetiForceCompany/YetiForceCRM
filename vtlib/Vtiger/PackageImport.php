@@ -432,7 +432,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 			// Unzip selectively
 			$unzip->unzipAllEx(".", [
 				// Include only file/folders that need to be extracted
-				'include' => Array('templates', "modules/$module", 'cron', 'languages',
+				'include' => Array('templates', "modules/$module", 'cron', 'config', 'languages',
 					'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries',
 					"$module.png", 'updates', 'layouts'),
 				// NOTE: If excludes is not given then by those not mentioned in include are ignored.
@@ -440,9 +440,11 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 				// What files needs to be renamed?
 				[
 				// Templates folder
-				'templates' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
+				'templates' => 'layouts/' . Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
+				// Config
+				'config' => 'config/modules',
 				// Settings folder
 				'settings/actions' => "modules/Settings/$module/actions",
 				'settings/views' => "modules/Settings/$module/views",
@@ -450,11 +452,11 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 				'settings/connectors' => "modules/Settings/$module/connectors",
 				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
-				'settings/templates' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
+				'settings/templates' => 'layouts/' . Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
-				'images' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
-				'settings' => "modules/Settings",
-				'updates' => "cache/updates",
+				'images' => 'layouts/' . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
+				'settings' => 'modules/Settings',
+				'updates' => 'cache/updates',
 				'layouts' => 'layouts'
 				]
 			);

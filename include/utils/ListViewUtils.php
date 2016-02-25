@@ -639,7 +639,7 @@ function getUsersPasswordInfo()
 	$adb = PearDatabase::getInstance();
 	$sql = "SELECT user_name, user_hash FROM vtiger_users WHERE deleted=?";
 	$result = $adb->pquery($sql, array(0));
-	$usersList = array();
+	$usersList = [];
 	for ($i = 0; $i < $adb->num_rows($result); $i++) {
 		$userList['name'] = $adb->query_result($result, $i, "user_name");
 		$userList['hash'] = $adb->query_result($result, $i, "user_hash");

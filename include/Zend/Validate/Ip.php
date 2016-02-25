@@ -59,7 +59,7 @@ class Zend_Validate_Ip extends Zend_Validate_Abstract
      * @param array $options OPTIONAL Options to set, see the manual for all available options
      * @return void
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         if ($options instanceof Zend_Config) {
             $options = $options->toArray();

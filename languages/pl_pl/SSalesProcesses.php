@@ -54,4 +54,8 @@ $languageStrings = [
 	'PLL_SALE_COMPLETED' => 'Sprzedaż zakończona',
 	'PLL_SALE_FAILED' => 'Sprzedaż nieudana',
 	'PLL_SALE_CANCELLED' => 'Sprzedaż anulowana',
+	
+	'LBL_SWITCHHEADER_ON_0' => 'Otwarte',
+	'LBL_SWITCHHEADER_OFF_0' => 'Zamknięte',
+	'LBL_HEADERSWITCH_OPEN_CLOSED' => 'Otwarte/Zamknięte',
 ];

@@ -10,7 +10,7 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = [
-	'DataAccess'	=>	'Редактор условий',
+	'DataAccess' => 'Редактор условий',
 	'LBL_NONE' => '--Нет--',
 	'Message' => 'Сообщение',
 	//
@@ -89,5 +89,5 @@ $languageStrings = [
 	'LBL_SEARCH_TRASH' => 'Search trash',
 ];
 $jsLanguageStrings = [
-	'DataAccess'	=>	'Редактор условий',
+	'DataAccess' => 'Редактор условий',
 ];

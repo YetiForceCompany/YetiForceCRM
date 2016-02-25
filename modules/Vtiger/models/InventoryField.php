@@ -5,6 +5,7 @@
  * @package YetiForce.Inventory
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 {
@@ -493,17 +494,20 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Delete fields
-	 * @param array $ids
+	 * Delete inventory field
+	 * @param array $param
 	 * @return string/false
 	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
 	 */
 	public function delete($param)
 	{
 		$db = PearDatabase::getInstance();
-		$db->delete($this->getTableName('fields'), '`id` = ?', [$param['id']]);
+		$fieldInstance = self::getFieldInstance($param['module'], $param['name']);
+		$status = $db->delete($this->getTableName('fields'), '`id` = ?', [$param['id']]);
 		if ($status) {
-			$query = 'ALTER TABLE `' . $this->getTableName('data') . '` DROP COLUMN `' . $param['column'] . '`;';
+			$columns = array_keys($fieldInstance->getCustomColumn());
+			$columns[] = $param['column'];
+			$query = 'ALTER TABLE ' . $this->getTableName('data') . ' DROP COLUMN `' . implode('`, DROP COLUMN `', $columns) . '`;';
 			return $db->query($query);
 		}
 		return false;

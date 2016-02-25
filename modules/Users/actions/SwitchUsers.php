@@ -14,10 +14,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 		$userId = $request->get('id');
 		require('user_privileges/switchUsers.php');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$baseUserId = $currentUserModel->getId();
-		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
-			$baseUserId = Vtiger_Session::get('baseUserId');
-		}
+		$baseUserId = $currentUserModel->getRealId();
 		if (!key_exists($baseUserId, $switchUsers) || !key_exists($userId, $switchUsers[$baseUserId])) {
 			$dbLog = PearDatabase::getInstance('log');
 			$dbLog->insert('l_yf_switch_users', [

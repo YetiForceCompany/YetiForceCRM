@@ -201,7 +201,7 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
      * @return Zend_Gdata_App_Entry The updated entry.
      * @throws Zend_Gdata_App_Exception
      */
-    public function save($uri = null, $className = null, $extraHeaders = array())
+    public function save($uri = null, $className = null, $extraHeaders = [])
     {
         return $this->getService()->updateEntry($this,
                                                 $uri,
@@ -238,7 +238,7 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
      *         null if the server reports that no changes have been made.
      * @throws Zend_Gdata_App_Exception
      */
-    public function reload($uri = null, $className = null, $extraHeaders = array())
+    public function reload($uri = null, $className = null, $extraHeaders = [])
     {
         // Get URI
         $editLink = $this->getEditLink();

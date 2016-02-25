@@ -14,13 +14,21 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 
 	public static function checkPermissionForOutgoingCall()
 	{
-		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$result = $adb->pquery('SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', array($currentUser->getId(), 'pushcall'));
-		if ($adb->num_rows($result) > 0) {
-			return true;
+		$userId = $currentUser->getId();
+		$return = Vtiger_Cache::get('checkPermissionForOutgoingCall', $userId);
+		if ($return !== false) {
+			return $return;
 		}
-		return false;
+		$return = 0;
+
+		$adb = PearDatabase::getInstance();
+		$result = $adb->pquery('SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', [$userId, 'pushcall']);
+		if ($adb->getRowCount($result)) {
+			$return = true;
+		}
+		Vtiger_Cache::set('checkPermissionForOutgoingCall', $userId, $return);
+		return $return;
 	}
 
 	public function performCall($record = false, $phoneNumber = false, $user = false)
@@ -56,13 +64,13 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 		}
 		$result = $adb->pquery('SELECT yetiforce_mobile_keys.*, vtiger_users.user_name,' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ' as fullusername, vtiger_users.id AS userid FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE vtiger_users.status = ? ' . $sql, $params);
 		$rows = $adb->num_rows($result);
-		$keys = Array();
+		$keys = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $adb->raw_query_result_rowdata($result, $i);
 			$keys[$row['id']] = $row;
 			$keys[$row['id']]['name'] = 'LBL_MOBILE_' . strtoupper($row['service']);
 			$privileges_users = unserialize($row['privileges_users']);
-			$keys[$row['id']]['privileges_users'] = $privileges_users != '' ? $privileges_users : array();
+			$keys[$row['id']]['privileges_users'] = $privileges_users != '' ? $privileges_users : [];
 		}
 		return $keys;
 	}
@@ -70,7 +78,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 	public function getPrivilegesUsers()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$users = array();
+		$users = [];
 		$keys = self::getAllMobileKeys('pushcall', $currentUser->getId());
 		foreach ($keys as $id => $key) {
 			if (in_array($currentUser->getId(), $key['privileges_users']))

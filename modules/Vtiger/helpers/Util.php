@@ -24,7 +24,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function transformUploadedFiles(array $_files, $top = TRUE)
 	{
-		$files = array();
+		$files = [];
 		foreach ($_files as $name => $file) {
 			if ($top)
 				$subName = $file['name'];
@@ -308,7 +308,7 @@ class Vtiger_Util_Helper
 	public static function getBaseCurrency()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE defaultid < 0', array());
+		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE defaultid < 0', []);
 		if ($db->num_rows($result))
 			return $db->query_result_rowdata($result, 0);
 	}
@@ -542,20 +542,20 @@ class Vtiger_Util_Helper
 	public static function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
 	{
 		if (empty($listSearchParams)) {
-			$listSearchParams = array();
+			$listSearchParams = [];
 		}
-		$advFilterConditionFormat = array();
+		$advFilterConditionFormat = [];
 		$glueOrder = array('and', 'or');
 		$groupIterator = 0;
 		foreach ($listSearchParams as $groupInfo) {
 			if (empty($groupInfo)) {
 				continue;
 			}
-			$groupConditionInfo = array();
-			$groupColumnsInfo = array();
+			$groupConditionInfo = [];
+			$groupColumnsInfo = [];
 			$groupConditionGlue = $glueOrder[$groupIterator];
 			foreach ($groupInfo as $fieldSearchInfo) {
-				$advFilterFieldInfoFormat = array();
+				$advFilterFieldInfoFormat = [];
 				$fieldName = $fieldSearchInfo[0];
 				$operator = $fieldSearchInfo[1];
 				$fieldValue = $fieldSearchInfo[2];
@@ -621,9 +621,9 @@ class Vtiger_Util_Helper
 	{
 		$db = PearDatabase::getInstance();
 		$userEntries = $db->pquery('SELECT 1 FROM vtiger_calendar_user_activitytypes WHERE userid=?', array($userId));
-		$activityIds = array();
+		$activityIds = [];
 		if ($db->num_rows($userEntries) <= 0) {
-			$queryResult = $db->pquery('SELECT id, defaultcolor FROM vtiger_calendar_default_activitytypes', array());
+			$queryResult = $db->pquery('SELECT id, defaultcolor FROM vtiger_calendar_default_activitytypes', []);
 			$numRows = $db->num_rows($queryResult);
 			for ($i = 0; $i < $numRows; $i++) {
 				$row = $db->query_result_rowdata($queryResult, $i);
@@ -632,7 +632,7 @@ class Vtiger_Util_Helper
 
 			foreach ($activityIds as $activityId => $color) {
 				$insertActivityTypesSql = '';
-				$insertActivityTypesParams = array();
+				$insertActivityTypesParams = [];
 
 				if (in_array($activityId, array(1, 2))) {
 					$insertActivityTypesSql = 'INSERT INTO vtiger_calendar_user_activitytypes (id, defaultid, userid, color, visible) VALUES (?,?,?,?,?)';

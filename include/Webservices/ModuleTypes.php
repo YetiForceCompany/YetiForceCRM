@@ -14,7 +14,7 @@ function vtws_listtypes($fieldTypeList, $user)
 	static $webserviceEntities = false;
 	// END
 
-	static $types = array();
+	static $types = [];
 	if (!empty($fieldTypeList)) {
 		$fieldTypeList = array_map(strtolower, $fieldTypeList);
 		sort($fieldTypeList);
@@ -50,13 +50,13 @@ function vtws_listtypes($fieldTypeList, $user)
 				 and vtiger_field.presence in (0,2)
 				 and vtiger_user2role.userid=? and fieldtype in (" .
 				generateQuestionMarks($fieldTypeList) . ')';
-			$params = array();
+			$params = [];
 			$params[] = $user->id;
 			foreach ($fieldTypeList as $fieldType)
 				$params[] = $fieldType;
 			$result = $db->pquery($sql, $params);
 			$it = new SqlResultIterator($db, $result);
-			$moduleList = array();
+			$moduleList = [];
 			foreach ($it as $row) {
 				$moduleList[] = getTabModuleName($row->tabid);
 			}
@@ -71,7 +71,7 @@ function vtws_listtypes($fieldTypeList, $user)
 				generateQuestionMarks($fieldTypeList) . ')';
 			$result = $db->pquery($sql, $params);
 			$it = new SqlResultIterator($db, $result);
-			$entityList = array();
+			$entityList = [];
 			foreach ($it as $row) {
 				$entityList[] = $row->name;
 			}
@@ -84,7 +84,7 @@ function vtws_listtypes($fieldTypeList, $user)
 
 		$accessibleModules = array_values(array_intersect($webserviceEntities['module'], $allModuleNames));
 		$entities = $webserviceEntities['entity'];
-		$accessibleEntities = array();
+		$accessibleEntities = [];
 		if (empty($fieldTypeList)) {
 			foreach ($entities as $entity) {
 				$webserviceObject = VtigerWebserviceObject::fromName($db, $entity);
@@ -116,7 +116,7 @@ function vtws_listtypes($fieldTypeList, $user)
 	vtws_preserveGlobal('app_strings', $appStrings);
 	vtws_preserveGlobal('app_list_strings', $appListString);
 
-	$informationArray = array();
+	$informationArray = [];
 	foreach ($accessibleModules as $module) {
 		$vtigerModule = ($module == 'Events') ? 'Calendar' : $module;
 		$informationArray[$module] = array('isEntity' => true, 'label' => getTranslatedString($module, $vtigerModule),

@@ -13,7 +13,7 @@ require_once("include/Webservices/QueryParser.php");
 function vtws_query($q, $user)
 {
 
-	static $vtws_query_cache = array();
+	static $vtws_query_cache = [];
 
 	$adb = PearDatabase::getInstance();
 	$log = vglobal('log');

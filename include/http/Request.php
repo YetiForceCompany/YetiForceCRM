@@ -15,12 +15,12 @@ class Vtiger_Request
 	// Datastore
 	private $valuemap;
 	private $rawvaluemap;
-	private $defaultmap = array();
+	private $defaultmap = [];
 
 	/**
 	 * Default constructor
 	 */
-	function __construct($values, $rawvalues = array(), $stripifgpc = true)
+	function __construct($values, $rawvalues = [], $stripifgpc = true)
 	{
 		$this->valuemap = $values;
 		$this->rawvaluemap = $rawvalues;
@@ -96,6 +96,41 @@ class Vtiger_Request
 		return Vtiger_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
 	}
 
+	function getForHtml($key, $defvalue = '')
+	{
+		$value = $defvalue;
+		if (isset($this->valuemap[$key])) {
+			$value = $this->valuemap[$key];
+		}
+		if ($value === '' && isset($this->defaultmap[$key])) {
+			$value = $this->defaultmap[$key];
+		}
+
+		$isJSON = false;
+		if (is_string($value)) {
+			// NOTE: Zend_Json or json_decode gets confused with big-integers (when passed as string)
+			// and convert them to ugly exponential format - to overcome this we are performin a pre-check
+			if (strpos($value, "[") === 0 || strpos($value, "{") === 0) {
+				$isJSON = true;
+			}
+		}
+		if ($isJSON) {
+			$oldValue = Zend_Json::$useBuiltinEncoderDecoder;
+			Zend_Json::$useBuiltinEncoderDecoder = false;
+			$decodeValue = Zend_Json::decode($value);
+			if (isset($decodeValue)) {
+				$value = $decodeValue;
+			}
+			Zend_Json::$useBuiltinEncoderDecoder = $oldValue;
+		}
+
+		//Handled for null because vtlib_purifyForHtml returns empty string
+		if (!empty($value)) {
+			$value = vtlib_purifyForHtml($value);
+		}
+		return $value;
+	}
+	
 	/**
 	 * Get data map
 	 */
@@ -181,6 +216,23 @@ class Vtiger_Request
 	function getMode()
 	{
 		return $this->get('mode');
+	}
+
+	function getHeaders()
+	{
+		if (!function_exists('apache_request_headers')) {
+			foreach ($_SERVER as $key => $value) {
+				if (substr($key, 0, 5) == 'HTTP_') {
+					$key = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))));
+					$out[$key] = $value;
+				} else {
+					$out[$key] = $value;
+				}
+			}
+			return $out;
+		} else {
+			return apache_request_headers();
+		}
 	}
 
 	function getModule($raw = true)

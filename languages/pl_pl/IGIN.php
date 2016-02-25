@@ -11,10 +11,13 @@ $languageStrings = [
 	'FL_STORAGE' => 'Magazyn',
 	'FL_STATUS' => 'Status',
 	
-	'PLL_DRAFT' => 'Draft',
-	'PLL_IN_REALIZATION' => 'In realization',
-	'PLL_OBJECTIONS' => 'Objections',
-	'PLL_FOR_APPROVAL' => 'For approval',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_ACCEPTED' => 'Accepted',
+	'PLL_DRAFT' => 'Wersja robocza',
+	'PLL_IN_REALIZATION' => 'W realizacji',
+	'PLL_OBJECTIONS' => 'Zastrzeżenia',
+	'PLL_FOR_APPROVAL' => 'Do akceptacji',
+	'PLL_CANCELLED' => 'Anulowano',
+	'PLL_ACCEPTED' => 'Zaakceptowano',
+	
+	'LBL_CHANGE_STATUS' => 'Zmień status',
+	'LBL_PREVIEW' => 'Podgląd',
 ];

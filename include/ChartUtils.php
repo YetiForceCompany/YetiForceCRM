@@ -36,12 +36,12 @@ Class ChartUtils
 		if (empty($height))
 			$height = '300';
 		if ($target === false)
-			$target = array();
+			$target = [];
 		if (empty($color))
 			$color = 'black';
 
-		$alts = array();
-		$temp = array();
+		$alts = [];
+		$temp = [];
 		for ($i = 0; $i < count($xaxisData); $i++) {
 			$name = html_entity_decode($xaxisData[$i], ENT_QUOTES, $default_charset);
 			$pos = substr_count($name, " ");
@@ -89,9 +89,9 @@ Class ChartUtils
 		// Now create a bar plot
 		$max = 0;
 		// To create unique lables we need to keep track of lable name and its count
-		$uniquex = array();
+		$uniquex = [];
 
-		$xlabels = array();
+		$xlabels = [];
 		$dataset = & Image_Graph::factory('dataset');
 		if ($charttype == 'horizontal') {
 			$fill = & Image_Graph::factory('gradient', array(IMAGE_GRAPH_GRAD_VERTICAL_MIRRORED, $color, 'white'));
@@ -222,10 +222,10 @@ Class ChartUtils
 		if (empty($height))
 			$height = '400';
 		if ($target === false)
-			$target = array();
+			$target = [];
 
-		$alts = array();
-		$temp = array();
+		$alts = [];
+		$temp = [];
 		for ($i = 0; $i < count($xaxisData); $i++) {
 			$name = html_entity_decode($xaxisData[$i], ENT_QUOTES, $default_charset);
 			$pos = substr_count($name, " ");
@@ -267,13 +267,13 @@ Class ChartUtils
 		));
 		$graph->add(Image_Graph::vertical($title, $plotarea, 5));
 		// To create unique lables we need to keep track of lable name and its count
-		$uniquex = array();
+		$uniquex = [];
 		// Generate colours
 		$colors = color_generator(count($yaxisData), '#33DDFF', '#3322FF');
 		$dataset = & Image_Graph::factory('dataset');
 		$fills = & Image_Graph::factory('Image_Graph_Fill_Array');
 		$sum = 0;
-		$pcvalues = array();
+		$pcvalues = [];
 		for ($i = 0; $i < count($yaxisData); $i++) {
 			$sum += $yaxisData[$i];
 		}
@@ -340,17 +340,17 @@ Class ChartUtils
 		$rows = $adb->num_rows($queryResult);
 		$condition = "is";
 		$current_theme = $theme;
-		$groupByFields = array();
-		$yaxisArray = array();
-		$ChartDataArray = array();
-		$target_val = array();
+		$groupByFields = [];
+		$yaxisArray = [];
+		$ChartDataArray = [];
+		$target_val = [];
 
 		$report = new ReportRun($reportid);
-		$restrictedModules = array();
+		$restrictedModules = [];
 		if ($report->secondarymodule != '') {
 			$reportModules = explode(":", $report->secondarymodule);
 		} else {
-			$reportModules = array();
+			$reportModules = [];
 		}
 		array_push($reportModules, $report->primarymodule);
 
@@ -358,7 +358,7 @@ Class ChartUtils
 		foreach ($reportModules as $mod) {
 			if (isPermitted($mod, 'index') != "yes" || vtlib_isModuleActive($mod) == false) {
 				if (!is_array($restrictedModules))
-					$restrictedModules = array();
+					$restrictedModules = [];
 				$restrictedModules[] = $mod;
 			}
 		}

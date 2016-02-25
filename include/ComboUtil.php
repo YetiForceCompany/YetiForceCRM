@@ -22,13 +22,13 @@ function getComboArray($combofieldNames)
 	global $adb;
 	$current_user = vglobal('current_user');
 	$roleid = $current_user->roleid;
-	$comboFieldArray = Array();
+	$comboFieldArray = [];
 	foreach ($combofieldNames as $tableName => $arrayName) {
 		$fldArrName = $arrayName;
-		$arrayName = Array();
+		$arrayName = [];
 
 		$sql = "select $tableName from vtiger_$tableName";
-		$params = array();
+		$params = [];
 		if (!is_admin($current_user)) {
 			$subrole = getRoleSubordinates($roleid);
 			if (count($subrole) > 0) {
@@ -55,7 +55,7 @@ function getUniquePicklistID()
 {
 	$adb = PearDatabase::getInstance();
 	/* $sql="select id from vtiger_picklistvalues_seq";
-	  $picklistvalue_id = $adb->query_result($adb->pquery($sql, array()),0,'id');
+	  $picklistvalue_id = $adb->query_result($adb->pquery($sql, []),0,'id');
 
 	  $qry = "update vtiger_picklistvalues_seq set id =?";
 	  $adb->pquery($qry, array(++$picklistvalue_id)); */

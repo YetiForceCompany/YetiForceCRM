@@ -15,7 +15,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$id = $request->get('record');
 		$recordInstance = Vtiger_Record_Model::getInstanceById($id, $moduleName);
-		$permissionToSendEmail = vtlib_isModuleActive('OSSMail') && Users_Privileges_Model::isPermitted('OSSMail', 'compose');
+		$permissionToSendEmail = vtlib_isModuleActive('OSSMail') && Users_Privileges_Model::isPermitted('OSSMail');
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);

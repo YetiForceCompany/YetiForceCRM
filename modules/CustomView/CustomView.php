@@ -13,19 +13,20 @@ require_once('include/utils/utils.php');
 require_once 'include/Webservices/Utils.php';
 global $adv_filter_options;
 
-$adv_filter_options = array("e" => 'equals',
-	"n" => 'not equal to',
-	"s" => 'starts with',
-	"ew" => 'ends with',
-	"c" => 'contains',
-	"k" => 'does not contain',
-	"l" => 'less than',
-	"g" => 'greater than',
-	"m" => 'less or equal',
-	"h" => 'greater or equal',
-	"b" => 'before',
-	"a" => 'after',
-	"bw" => 'between',
+$adv_filter_options = array(
+	'e' => 'equals',
+	'n' => 'not equal to',
+	's' => 'starts with',
+	'ew' => 'ends with',
+	'c' => 'contains',
+	'k' => 'does not contain',
+	'l' => 'less than',
+	'g' => 'greater than',
+	'm' => 'less or equal',
+	'h' => 'greater or equal',
+	'b' => 'before',
+	'a' => 'after',
+	'bw' => 'between',
 );
 
 class CustomView extends CRMEntity
@@ -587,12 +588,14 @@ class CustomView extends CRMEntity
 	 */
 	function getStdFilterByCvid($cvid)
 	{
+		$stdFilter = Vtiger_Cache::get('getStdFilterByCvid', $cvid);
+		if ($stdFilter !== false) {
+			return $stdFilter;
+		}
+
 		if (is_numeric($cvid)) {
 			$adb = PearDatabase::getInstance();
-
-			$sSQL = "select vtiger_cvstdfilter.* from vtiger_cvstdfilter inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvstdfilter.cvid";
-			$sSQL .= " where vtiger_cvstdfilter.cvid=?";
-
+			$sSQL = 'select vtiger_cvstdfilter.* from vtiger_cvstdfilter inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvstdfilter.cvid where vtiger_cvstdfilter.cvid=?';
 			$result = $adb->pquery($sSQL, array($cvid));
 			$stdfilterrow = $adb->fetch_array($result);
 		} else {
@@ -605,30 +608,32 @@ class CustomView extends CRMEntity
 				}
 			}
 		}
-		return $this->resolveDateFilterValue($stdfilterrow);
+		$stdFilter = $this->resolveDateFilterValue($stdfilterrow);
+		Vtiger_Cache::set('getStdFilterByCvid', $cvid, $stdFilter);
+		return $stdFilter;
 	}
 
 	function resolveDateFilterValue($dateFilterRow)
 	{
 		$stdfilterlist = array();
-		$stdfilterlist["columnname"] = $dateFilterRow["columnname"];
-		$stdfilterlist["stdfilter"] = $dateFilterRow["stdfilter"];
+		$stdfilterlist['columnname'] = $dateFilterRow['columnname'];
+		$stdfilterlist['stdfilter'] = $dateFilterRow['stdfilter'];
 
-		if ($dateFilterRow["stdfilter"] == "custom" || $dateFilterRow["stdfilter"] == "" || $dateFilterRow["stdfilter"] == "e" || $dateFilterRow["stdfilter"] == "n") {
-			if ($dateFilterRow["startdate"] != "0000-00-00" && $dateFilterRow["startdate"] != "") {
-				$startDateTime = new DateTimeField($dateFilterRow["startdate"] . ' ' . date('H:i:s'));
-				$stdfilterlist["startdate"] = $startDateTime->getDisplayDate();
+		if ($dateFilterRow['stdfilter'] == 'custom' || $dateFilterRow['stdfilter'] == '' || $dateFilterRow['stdfilter'] == 'e' || $dateFilterRow['stdfilter'] == 'n') {
+			if ($dateFilterRow['startdate'] != '0000-00-00' && $dateFilterRow['startdate'] != '') {
+				$startDateTime = new DateTimeField($dateFilterRow['startdate'] . ' ' . date('H:i:s'));
+				$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
 			}
-			if ($dateFilterRow["enddate"] != "0000-00-00" && $dateFilterRow["enddate"] != "") {
-				$endDateTime = new DateTimeField($dateFilterRow["enddate"] . ' ' . date('H:i:s'));
-				$stdfilterlist["enddate"] = $endDateTime->getDisplayDate();
+			if ($dateFilterRow['enddate'] != '0000-00-00' && $dateFilterRow['enddate'] != '') {
+				$endDateTime = new DateTimeField($dateFilterRow['enddate'] . ' ' . date('H:i:s'));
+				$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
 			}
 		} else { //if it is not custom get the date according to the selected duration
-			$datefilter = $this->getDateforStdFilterBytype($dateFilterRow["stdfilter"]);
+			$datefilter = $this->getDateforStdFilterBytype($dateFilterRow['stdfilter']);
 			$startDateTime = new DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
-			$stdfilterlist["startdate"] = $startDateTime->getDisplayDate();
+			$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
 			$endDateTime = new DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
-			$stdfilterlist["enddate"] = $endDateTime->getDisplayDate();
+			$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
 		}
 		return $stdfilterlist;
 	}

@@ -13,8 +13,8 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	protected $module = false;
 	protected $record = false;
-	public $widgetsList = array();
-	public $widgets = array();
+	public $widgetsList = [];
+	public $widgets = [];
 
 	/**
 	 * Function to get Module instance
@@ -198,7 +198,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
-		$relatedLinks = array();
+		$relatedLinks = [];
 
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = array(array(

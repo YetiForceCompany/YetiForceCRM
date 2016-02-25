@@ -82,13 +82,13 @@ class Vtiger_Functions
 	}
 
 	// CURRENCY
-	protected static $userIdCurrencyIdCache = array();
+	protected static $userIdCurrencyIdCache = [];
 
 	static function userCurrencyId($userid)
 	{
 		$adb = PearDatabase::getInstance();
 		if (!isset(self::$userIdCurrencyIdCache[$userid])) {
-			$result = $adb->pquery('SELECT id,currency_id FROM vtiger_users', array());
+			$result = $adb->pquery('SELECT id,currency_id FROM vtiger_users', []);
 			while ($row = $adb->fetch_array($result)) {
 				self::$userIdCurrencyIdCache[$row['id']] = $row['currency_id'];
 			}
@@ -152,9 +152,9 @@ class Vtiger_Functions
 	}
 
 	// MODULE
-	protected static $moduleIdNameCache = array();
-	protected static $moduleNameIdCache = array();
-	protected static $moduleIdDataCache = array();
+	protected static $moduleIdNameCache = [];
+	protected static $moduleNameIdCache = [];
+	protected static $moduleIdDataCache = [];
 
 	protected static function getBasicModuleInfo($mixed)
 	{
@@ -175,7 +175,7 @@ class Vtiger_Functions
 		}
 		if ($reload) {
 			$adb = PearDatabase::getInstance();
-			$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab', array());
+			$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab', []);
 			while ($row = $adb->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
 				self::$moduleNameIdCache[$row['name']] = $row;
@@ -207,7 +207,7 @@ class Vtiger_Functions
 
 		if ($reload) {
 			$adb = PearDatabase::getInstance();
-			$result = $adb->pquery('SELECT * FROM vtiger_tab', array());
+			$result = $adb->query('SELECT * FROM vtiger_tab');
 			while ($row = $adb->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
 				self::$moduleNameIdCache[$row['name']] = $row;
@@ -222,23 +222,23 @@ class Vtiger_Functions
 
 	static function getModuleId($name)
 	{
-		$moduleInfo = self::getBasicModuleInfo($name);
+		$moduleInfo = self::getModuleData($name);
 		return $moduleInfo ? $moduleInfo['tabid'] : NULL;
 	}
 
 	static function getModuleName($id)
 	{
-		$moduleInfo = self::getBasicModuleInfo($id);
+		$moduleInfo = self::getModuleData($id);
 		return $moduleInfo ? $moduleInfo['name'] : NULL;
 	}
 
 	static function getModuleOwner($name)
 	{
-		$moduleInfo = self::getBasicModuleInfo($name);
+		$moduleInfo = self::getModuleData($name);
 		return $moduleInfo ? $moduleInfo['ownedby'] : NULL;
 	}
 
-	protected static $moduleEntityCache = array();
+	protected static $moduleEntityCache = [];
 
 	static function getEntityModuleInfo($mixed)
 	{
@@ -250,7 +250,7 @@ class Vtiger_Functions
 
 		if ($name && !isset(self::$moduleEntityCache[$name])) {
 			$adb = PearDatabase::getInstance();
-			$result = $adb->pquery('SELECT fieldname,modulename,tablename,entityidfield,entityidcolumn,searchcolumn from vtiger_entityname', array());
+			$result = $adb->query('SELECT fieldname,modulename,tablename,entityidfield,entityidcolumn,searchcolumn from vtiger_entityname');
 			while ($row = $adb->fetch_array($result)) {
 				self::$moduleEntityCache[$row['modulename']] = $row;
 			}
@@ -292,7 +292,7 @@ class Vtiger_Functions
 	}
 
 	// MODULE RECORD
-	protected static $crmRecordIdMetadataCache = array();
+	protected static $crmRecordIdMetadataCache = [];
 
 	public static function getCRMRecordMetadata($mixedid)
 	{
@@ -301,7 +301,7 @@ class Vtiger_Functions
 		$multimode = is_array($mixedid);
 
 		$ids = $multimode ? $mixedid : array($mixedid);
-		$missing = array();
+		$missing = [];
 		foreach ($ids as $id) {
 			if ($id && !isset(self::$crmRecordIdMetadataCache[$id])) {
 				$missing[] = $id;
@@ -316,7 +316,7 @@ class Vtiger_Functions
 			}
 		}
 
-		$result = array();
+		$result = [];
 		foreach ($ids as $id) {
 			if (isset(self::$crmRecordIdMetadataCache[$id])) {
 				$result[$id] = self::$crmRecordIdMetadataCache[$id];
@@ -362,7 +362,7 @@ class Vtiger_Functions
 			return self::computeCRMRecordLabels($module, $ids);
 		} else {
 			$metadatas = self::getCRMRecordMetadata($ids);
-			$result = array();
+			$result = [];
 			foreach ($metadatas as $data) {
 				$result[$data['crmid']] = $data['label'];
 			}
@@ -474,6 +474,7 @@ class Vtiger_Functions
 					$paramsCol = $columnsName;
 				}
 				$paramsCol[] = $idcolumn;
+				$ids = array_unique($ids);
 				$sql = sprintf('SELECT ' . implode(',', $paramsCol) . ' AS id FROM %s ' . $leftJoin . ' WHERE %s IN (%s)', $table, $idcolumn, generateQuestionMarks($ids));
 				$result = $adb->pquery($sql, $ids);
 
@@ -504,7 +505,7 @@ class Vtiger_Functions
 		}
 	}
 
-	protected static $groupIdNameCache = array();
+	protected static $groupIdNameCache = [];
 
 	static function getGroupName($id)
 	{
@@ -515,7 +516,7 @@ class Vtiger_Functions
 				self::$groupIdNameCache[$row['groupid']] = $row['groupname'];
 			}
 		}
-		$result = array();
+		$result = [];
 		if (isset(self::$groupIdNameCache[$id])) {
 			$result[] = decode_html(self::$groupIdNameCache[$id]);
 			$result[] = $id;
@@ -523,7 +524,7 @@ class Vtiger_Functions
 		return $result;
 	}
 
-	protected static $userIdNameCache = array();
+	protected static $userIdNameCache = [];
 
 	static function getUserName($id)
 	{
@@ -537,27 +538,22 @@ class Vtiger_Functions
 		return (isset(self::$userIdNameCache[$id])) ? self::$userIdNameCache[$id] : NULL;
 	}
 
-	protected static $moduleFieldInfoByNameCache = array();
+	protected static $moduleFieldInfoByNameCache = [];
 
 	static function getModuleFieldInfos($mixed)
 	{
 		$adb = PearDatabase::getInstance();
 
-		$moduleInfo = self::getBasicModuleInfo($mixed);
+		$moduleInfo = self::getModuleData($mixed);
 		$module = $moduleInfo['name'];
 
-		$no_of_fields = $adb->pquery('SELECT COUNT(fieldname) AS count FROM vtiger_field WHERE tabid=?', array(self::getModuleId($module)));
-		$fields_count = $adb->query_result($no_of_fields, 0, 'count');
-
-		$cached_fields_count = isset(self::$moduleFieldInfoByNameCache[$module]) ? count(self::$moduleFieldInfoByNameCache[$module]) : NULL;
-
-		if ($module && (!isset(self::$moduleFieldInfoByNameCache[$module]) || ((int) $fields_count != (int) $cached_fields_count))) {
+		if ($module && (!isset(self::$moduleFieldInfoByNameCache[$module]))) {
 			$result = ($module == 'Calendar') ?
 				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? OR tabid=?', array(9, 16)) :
 				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=?', array(self::getModuleId($module)));
 
-			self::$moduleFieldInfoByNameCache[$module] = array();
-			while ($row = $adb->fetch_array($result)) {
+			self::$moduleFieldInfoByNameCache[$module] = [];
+			while ($row = $adb->getRow($result)) {
 				self::$moduleFieldInfoByNameCache[$module][$row['fieldname']] = $row;
 			}
 		}
@@ -667,7 +663,7 @@ class Vtiger_Functions
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = "select tandc from vtiger_inventory_tandc";
-		$result = $adb->pquery($sql, array());
+		$result = $adb->pquery($sql, []);
 		$tandc = $adb->query_result($result, 0, "tandc");
 		return $tandc;
 	}
@@ -768,7 +764,7 @@ class Vtiger_Functions
 
 	static function getRecurringObjValue()
 	{
-		$recurring_data = array();
+		$recurring_data = [];
 		if (isset($_REQUEST['recurringtype']) && $_REQUEST['recurringtype'] != null && $_REQUEST['recurringtype'] != '--None--') {
 			if (!empty($_REQUEST['date_start'])) {
 				$startDate = $_REQUEST['date_start'];
@@ -1120,7 +1116,7 @@ class Vtiger_Functions
 	{
 		global $adb, $noof_group_rows;
 		$sql = "select groupname,groupid from vtiger_groups";
-		$result = $adb->pquery($sql, array());
+		$result = $adb->pquery($sql, []);
 		$noof_group_rows = $adb->num_rows($result);
 		return $result;
 	}

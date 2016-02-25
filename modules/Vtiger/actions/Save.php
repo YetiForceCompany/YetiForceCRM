@@ -112,12 +112,10 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 		if (!empty($recordId)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$modelData = $recordModel->getData();
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
 		} else {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getCleanInstance($moduleName);
-			$modelData = $recordModel->getData();
 			$recordModel->set('mode', '');
 		}
 

@@ -114,18 +114,18 @@ class Zend_Gdata_Books_VolumeEntry extends Zend_Gdata_Entry
     const ANNOTATION_LINK_REL = 'http://schemas.google.com/books/2008/annotation';
 
     protected $_comments = null;
-    protected $_creators = array();
-    protected $_dates = array();
-    protected $_descriptions = array();
+    protected $_creators = [];
+    protected $_dates = [];
+    protected $_descriptions = [];
     protected $_embeddability = null;
-    protected $_formats = array();
-    protected $_identifiers = array();
-    protected $_languages = array();
-    protected $_publishers = array();
+    protected $_formats = [];
+    protected $_identifiers = [];
+    protected $_languages = [];
+    protected $_publishers = [];
     protected $_rating = null;
     protected $_review = null;
-    protected $_subjects = array();
-    protected $_titles = array();
+    protected $_subjects = [];
+    protected $_titles = [];
     protected $_viewability = null;
 
     /**

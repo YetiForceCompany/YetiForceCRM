@@ -16,7 +16,6 @@ $languageStrings = [
 	'LBL_IMPORTED_UPDATE' => 'System wurde erfolgreich aktualisiert.',
 	'LBL_IMPORTED_EXTENSION' => 'Erweiterung wurde erfolgreich installiert.',
 	'LBL_IMPORTED_LANGUAGE' => 'Sprache wude erfolgreich installiert.',
-	'LBL_VTIGER_EXTENSION_STORE' => 'Vtiger Erweiterungs-Shop',
 	'LBL_PUBLISHER' => 'Hersteller',
 	'LBL_LICENSE' => 'Lizenz',
 	'LBL_PUBLISHED_ON' => 'Veröffentlicht am',

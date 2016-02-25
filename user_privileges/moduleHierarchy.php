@@ -11,6 +11,7 @@ $modulesHierarchy = [
 	'Project' => ['level' => 1],
 	'ServiceContracts' => ['level' => 1],
 	'Campaigns' => ['level' => 1],
+	'FBookkeeping' => ['level' => 1],
 	'HelpDesk' => ['level' => 2, 'parentModule' => 'ServiceContracts'],
 	'ProjectTask' => ['level' => 2, 'parentModule' => 'Project'],
 	'ProjectMilestone' => ['level' => 2, 'parentModule' => 'Project'],
@@ -19,7 +20,8 @@ $modulesHierarchy = [
 	'SCalculations' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 	'SQuotes' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 	'SSingleOrders' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
-	'SRecurringOrders' => ['level' => 2, 'parentModule' => 'SSalesProcesses']
+	'SRecurringOrders' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
+	'FInvoice' => ['level' => 2, 'parentModule' => 'FBookkeeping']
 ];
 /*
  * Map links between modules
@@ -60,7 +62,7 @@ $modulesMapRelatedFields = [
 	],
 	'SSalesProcesses' => [
 		'projectid' => ['Project' => ['accountid' => ['linktoaccountscontacts']]]
-	],
+	]
 ];
 
 // Base => Parent

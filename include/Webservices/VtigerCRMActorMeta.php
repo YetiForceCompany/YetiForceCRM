@@ -12,8 +12,8 @@ class VtigerCRMActorMeta extends EntityMeta
 {
 
 	protected $pearDB;
-	protected static $fieldTypeMapping = array();
-	protected static $referenceTypeMapping = array();
+	protected static $fieldTypeMapping = [];
+	protected static $referenceTypeMapping = [];
 
 	function VtigerCRMActorMeta($tableName, $webserviceObject, $adb, $user)
 	{
@@ -24,7 +24,7 @@ class VtigerCRMActorMeta extends EntityMeta
 		$this->pearDB = $adb;
 		$this->tableList = array($this->baseTable);
 		$this->tableIndexList = null;
-		$this->defaultTableList = array();
+		$this->defaultTableList = [];
 	}
 
 	public function getIdColumn()
@@ -53,7 +53,7 @@ class VtigerCRMActorMeta extends EntityMeta
 	{
 		if ($this->moduleFields === null) {
 			$fieldList = $this->getTableFieldList($this->baseTable);
-			$this->moduleFields = array();
+			$this->moduleFields = [];
 			foreach ($fieldList as $field) {
 				$this->moduleFields[$field->getFieldName()] = $field;
 			}
@@ -63,7 +63,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	protected function getTableFieldList($tableName)
 	{
-		$tableFieldList = array();
+		$tableFieldList = [];
 
 		$factory = WebserviceField::fromArray($this->pearDB, array('tablename' => $tableName));
 		$dbTableFields = $factory->getTableFields();
@@ -92,7 +92,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	protected function getFieldArrayFromDBField($dbField, $tableName)
 	{
-		$field = array();
+		$field = [];
 		$field['fieldname'] = $dbField->name;
 		$field['columnname'] = $dbField->name;
 		$field['tablename'] = $tableName;
@@ -121,7 +121,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	protected function getReferenceList($dbField, $tableName)
 	{
-		static $referenceList = array();
+		static $referenceList = [];
 		if (isset($referenceList[$dbField->name])) {
 			return $referenceList[$dbField->name];
 		}
@@ -132,14 +132,14 @@ class VtigerCRMActorMeta extends EntityMeta
 
 		if (empty(VtigerCRMActorMeta::$referenceTypeMapping)) {
 			$sql = "SELECT * FROM vtiger_ws_entity_referencetype";
-			$result = $this->pearDB->pquery($sql, array());
+			$result = $this->pearDB->pquery($sql, []);
 			for ($index = 0, $count = $this->pearDB->num_rows($result); $index < $count; ++$index) {
 				$row = $this->pearDB->query_result_rowdata($result, $index);
 				VtigerCRMActorMeta::$referenceTypeMapping[$row['fieldtypeid']][] = $row['type'];
 			}
 		}
 
-		$referenceTypes = array();
+		$referenceTypes = [];
 		if (isset(VtigerCRMActorMeta::$referenceTypeMapping[$fieldTypeData['fieldtypeid']])) {
 			$referenceTypes = VtigerCRMActorMeta::$referenceTypeMapping[$fieldTypeData['fieldtypeid']];
 		}
@@ -163,7 +163,7 @@ class VtigerCRMActorMeta extends EntityMeta
 		if (empty(VtigerCRMActorMeta::$fieldTypeMapping)) {
 			// Optimization to avoid repeated initialization
 			$sql = "select * from vtiger_ws_entity_fieldtype";
-			$result = $this->pearDB->pquery($sql, array());
+			$result = $this->pearDB->pquery($sql, []);
 			$rowCount = $this->pearDB->num_rows($result);
 			while ($rowCount) {
 				$row = $this->pearDB->query_result_rowdata($result, $rowCount - 1);

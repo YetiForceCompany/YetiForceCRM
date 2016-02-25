@@ -89,8 +89,8 @@ class ListViewSession
 					}
 				}
 			} else {
-				$recordList = array();
-				$recordPageMapping = array();
+				$recordList = [];
+				$recordPageMapping = [];
 				foreach ($recordNavigationInfo as $start => $recordIdList) {
 					foreach ($recordIdList as $index => $recordId) {
 						$recordList[] = $recordId;
@@ -110,7 +110,7 @@ class ListViewSession
 		$list_query = $_SESSION[$currentModule . '_listquery'];
 
 		if ($reUseData === false && !empty($list_query)) {
-			$recordNavigationInfo = array();
+			$recordNavigationInfo = [];
 			if (!empty($_REQUEST['start'])) {
 				$start = ListViewSession::getRequestStartPage();
 			} else {
@@ -152,8 +152,8 @@ class ListViewSession
 				$list_query .= " LIMIT $startRecord, $recordCount";
 			}
 
-			$resultAllCRMIDlist_query = $adb->pquery($list_query, array());
-			$navigationRecordList = array();
+			$resultAllCRMIDlist_query = $adb->pquery($list_query, []);
+			$navigationRecordList = [];
 			while ($forAllCRMID = $adb->fetch_array($resultAllCRMIDlist_query)) {
 				$navigationRecordList[] = $forAllCRMID[$instance->table_index];
 			}
@@ -168,11 +168,11 @@ class ListViewSession
 			}
 
 			$searchKey = array_search($currentRecordId, $navigationRecordList);
-			$recordNavigationInfo = array();
+			$recordNavigationInfo = [];
 			if ($searchKey !== false) {
 				foreach ($navigationRecordList as $index => $recordId) {
 					if (!is_array($recordNavigationInfo[$current])) {
-						$recordNavigationInfo[$current] = array();
+						$recordNavigationInfo[$current] = [];
 					}
 					if ($index == $firstPageRecordCount || $index == ($firstPageRecordCount + $pageCount * $list_max_entries_per_page)) {
 						$current++;

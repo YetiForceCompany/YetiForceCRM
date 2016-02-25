@@ -428,7 +428,7 @@ class Services extends CRMEntity
 		global $currentModule, $log, $singlepane_view, $mod_strings;
 		$log->debug("Entering get_service_pricebooks(" . $id . ") method ...");
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 		require_once("modules/$related_module/$related_module.php");
 		$focus = new $related_module();
@@ -840,7 +840,7 @@ class Services extends CRMEntity
 		$log->debug("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);

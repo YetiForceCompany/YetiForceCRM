@@ -62,7 +62,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$recordModel = $this->record->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
-		$summaryInfo = array();
+		$summaryInfo = [];
 		// Take first block information as summary information
 		$stucturedValues = $recordStrucure->getStructure();
 		$fieldsInHeader = $recordStrucure->getFieldInHeader();
@@ -75,11 +75,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
-		$navigationInfo = ListViewSession::getListViewNavigation($recordId);
+		$navigationInfo = false; //ListViewSession::getListViewNavigation($recordId);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
+		$viewer->assign('NO_PAGINATION', true);
 		$viewer->assign('COLORLISTHANDLERS', Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, false));
 
 		//Intially make the prev and next records as null
@@ -307,7 +308,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
@@ -615,7 +615,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
-				$whereCondition['crmid'] = ['comparison' => 'IN', 'value' => implode(', ', $favorites)];
+				$whereCondition[] = ['crmid' => ['comparison' => 'IN', 'value' => implode(', ', $favorites)]];
 			}
 		}
 		if (!empty($whereCondition)) {
@@ -626,18 +626,23 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relationListView->set('sortorder', $sortOrder);
 		}
 
+		if ($request->get('showAll')) {
+			$relationListView->noPermissions = true;
+		}
+
 		$models = $relationListView->getEntries($pagingModel);
-		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
+		$links = $relationListView->getLinks();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
 
-
+		if ($request->get('col')) {
+			$header = array_splice($header, 0, $request->get('col'));
+		}
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('COLUMNS', $request->get('col'));
 		$viewer->assign('LIMIT', $request->get('limit'));
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);

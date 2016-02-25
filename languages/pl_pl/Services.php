@@ -45,10 +45,6 @@ $languageStrings = [
 	'LBL_ADD_TO_PRICEBOOKS' => 'Dodaj do cennika',
 	
 	//YetiForce
-	'Total time [Project]' => 'Łączny czas [Projekt]',
-	'Total time [Project Task]' => 'Łączny czas [Zadania]',
-	'Total time [Sum]' => 'Suma globalna',
-	'Total time [Tickets]' => 'Łączny czas [Zgłoszenia]',
 	'LBL_SUMMARY' => 'Podsumowanie czasu pracy',    
 	'Hours' => 'Godziny',
 	'Days' => 'Dni',

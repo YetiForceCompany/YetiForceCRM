@@ -16,7 +16,6 @@ $languageStrings = [
 	'LBL_IMPORTED_UPDATE' => 'O Sistema foi atualizado com sucesso.',
 	'LBL_IMPORTED_EXTENSION' => 'A Extensão foi instalada com sucesso.',
 	'LBL_IMPORTED_LANGUAGE' => 'O Idoma foi estalado com sucesso.',
-	'LBL_VTIGER_EXTENSION_STORE' => 'Loja de Extensões do Vtiger',
 	'LBL_PUBLISHER' => 'Editor',
 	'LBL_LICENSE' => 'Licença',
 	'LBL_PUBLISHED_ON' => 'Publicado em',

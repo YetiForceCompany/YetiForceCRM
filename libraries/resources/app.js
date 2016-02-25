@@ -350,8 +350,7 @@ var app = {
 			}
 			cb = url;
 			url = false;
-		}
-		else if (typeof url == 'object') {
+		} else if (typeof url == 'object') {
 			cb = function () {
 			};
 			paramsObject = url;
@@ -636,7 +635,7 @@ var app = {
 		}
 		if (registerForAddon == true) {
 			var parentDateElem = element.closest('.date');
-			jQuery('.input-group-addon', parentDateElem).on('click', function (e) {
+			jQuery('.input-group-addon:not(.notEvent)', parentDateElem).on('click', function (e) {
 				var elem = jQuery(e.currentTarget);
 				//Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 				//which is stopping from getting focus to input element
@@ -672,7 +671,7 @@ var app = {
 					element.DatePickerHide();
 					element.blur();
 				}
-				element.data('prevVal',element.val());
+				element.data('prevVal', element.val());
 				element.val(formated).trigger('change').focusout();
 			},
 			onBeforeShow: function (formated) {
@@ -699,7 +698,7 @@ var app = {
 			}
 			params.date = selectedDate;
 			params.current = selectedDate;
-			jQelement.data('prevVal',jQelement.val());
+			jQelement.data('prevVal', jQelement.val());
 			jQelement.DatePicker(params)
 		});
 
@@ -740,7 +739,7 @@ var app = {
 			var elem = jQuery(e.currentTarget);
 			e.stopPropagation();
 			var tempElement = elem.closest('.time').find('input.clockPicker');
-			if(tempElement.attr('disabled') != 'disabled'){
+			if (tempElement.attr('disabled') != 'disabled') {
 				tempElement.clockpicker('show');
 			}
 		});
@@ -1065,8 +1064,7 @@ var app = {
 		if (c_start == -1)
 		{
 			c_value = null;
-		}
-		else
+		} else
 		{
 			c_start = c_value.indexOf("=", c_start) + 1;
 			var c_end = c_value.indexOf(";", c_start);
@@ -1122,7 +1120,7 @@ var app = {
 		var toTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
 		return Math.floor(((toTime - fromTime) / (1000 * 60 * 60 * 24))) + 1;
 	},
-	saveAjax: function (mode, param) {
+	saveAjax: function (mode, param, addToParams) {
 		var aDeferred = jQuery.Deferred();
 		var params = {};
 		params['module'] = app.getModuleName();
@@ -1130,6 +1128,11 @@ var app = {
 		params['action'] = 'SaveAjax';
 		params['mode'] = mode;
 		params['param'] = param;
+		if (addToParams != undefined) {
+			for (var i in addToParams) {
+				params[i] = addToParams[i];
+			}
+		}
 		AppConnector.request(params).then(
 				function (data) {
 					aDeferred.resolve(data);
@@ -1160,9 +1163,17 @@ var app = {
 		}
 		var value = app.cacheParams[param];
 		if (json) {
-			value = $.parseJSON(value);
+			if (value != '') {
+				value = $.parseJSON(value);
+			} else {
+				value = [];
+			}
 		}
 		return value;
+	},
+	setMainParams: function (param, value) {
+		app.cacheParams[param] = value;
+		$('#' + param).val(value);
 	},
 	parseNumberToShow: function (val) {
 		if (val == undefined) {
@@ -1170,23 +1181,36 @@ var app = {
 		}
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
 		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
+		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
+		var groupingPattern = app.getMainParams('currencyGroupingPattern');
 		val = parseFloat(val).toFixed(numberOfDecimal);
-		if (decimalSeparator != '.') {
-			val = val.toString().replace('.', decimalSeparator);
+		var a = val.toString().split('.');
+		var integer = a[0];
+		var decimal = a[1];
+
+		if (groupingPattern == '123,456,789') {
+			integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
+		} else if (groupingPattern == '123456,789') {
+			var t = integer.slice(-3);
+			var o = integer.slice(0, -3);
+			integer = o + groupSeparator + t;
+		} else if (groupingPattern == '12,34,56,789') {
+			var t = integer.slice(-3);
+			var o = integer.slice(0, -3);
+			integer = o.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + t;
 		}
-		return val;
+		return integer + decimalSeparator + decimal;
 	},
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(app.getMainParams('numberOfCurrencyDecimal'));
-		var groupingSeparator = app.getMainParams('currencyGroupingSeparator');
+		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
+		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
 		if (val == undefined || val == '') {
 			val = 0;
 		}
 		val = val.toString();
-		if (app.getMainParams('currencyDecimalSeparator') == ',') {
-			val = val.replace(/\s/g, "").replace(",", ".");
-		}
-		val = val.split(groupingSeparator).join("");
+		val = val.split(groupSeparator).join("");
+		val = val.replace(/\s/g, "").replace(decimalSeparator, ".");
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {
@@ -1290,3 +1314,9 @@ jQuery(document).ready(function () {
 	if (pageController)
 		pageController.registerEvents();
 });
+$.fn.getNumberFromValue = function () {
+	return app.parseNumberToFloat($(this).val());
+}
+$.fn.getNumberFromText = function () {
+	return app.parseNumberToFloat($(this).text());
+}

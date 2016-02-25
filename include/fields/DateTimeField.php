@@ -15,7 +15,7 @@ class DateTimeField
 
 	static protected $databaseTimeZone = null;
 	protected $datetime;
-	private static $cache = array();
+	private static $cache = [];
 
 	/**
 	 *

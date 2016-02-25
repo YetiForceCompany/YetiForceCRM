@@ -11,7 +11,7 @@
 class VTWS_PreserveGlobal
 {
 
-	private static $globalData = array();
+	private static $globalData = [];
 
 	static function preserveGlobal($name, $value)
 	{
@@ -21,7 +21,7 @@ class VTWS_PreserveGlobal
 		//But current user null is dangerous so we are checking for only current user
 		if (!empty($$name) || $name != 'current_user') {
 			if (!is_array(VTWS_PreserveGlobal::$globalData[$name])) {
-				VTWS_PreserveGlobal::$globalData[$name] = array();
+				VTWS_PreserveGlobal::$globalData[$name] = [];
 			}
 
 			VTWS_PreserveGlobal::$globalData[$name][] = $$name;

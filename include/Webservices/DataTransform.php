@@ -17,7 +17,7 @@ class DataTransform
 	function sanitizeDataWithColumn($row, $meta)
 	{
 
-		$newRow = array();
+		$newRow = [];
 		if (isset($row['count(*)'])) {
 			return DataTransform::sanitizeDataWithCountColumn($row, $meta);
 		}
@@ -33,7 +33,7 @@ class DataTransform
 
 	function sanitizeDataWithCountColumn($row, $meta)
 	{
-		$newRow = array();
+		$newRow = [];
 		foreach ($row as $col => $val) {
 			$newRow['count'] = $val;
 		}
@@ -147,7 +147,7 @@ class DataTransform
 		$recordString = DataTransform::$recordString;
 
 		$allFields = $meta->getFieldColumnMapping();
-		$newRow = array();
+		$newRow = [];
 		foreach ($allFields as $field => $col) {
 			$newRow[$field] = $row[$field];
 		}

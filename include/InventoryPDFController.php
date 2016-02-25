@@ -101,7 +101,7 @@ class Vtiger_InventoryPDFController
 	function buildContentModels()
 	{
 		$associated_products = $this->associated_products;
-		$contentModels = array();
+		$contentModels = [];
 		$productLineItemIndex = 0;
 		$totaltaxes = 0;
 		$no_of_decimal_places = getCurrencyDecimalPlaces();
@@ -249,12 +249,12 @@ class Vtiger_InventoryPDFController
 		$adb = PearDatabase::getInstance();
 
 		// Company information
-		$result = $adb->pquery("SELECT * FROM vtiger_organizationdetails", array());
+		$result = $adb->pquery("SELECT * FROM vtiger_organizationdetails", []);
 		$num_rows = $adb->num_rows($result);
 		if ($num_rows) {
 			$resultrow = $adb->fetch_array($result);
 
-			$addressValues = array();
+			$addressValues = [];
 			$addressValues[] = $resultrow['address'];
 			if (!empty($resultrow['city']))
 				$addressValues[] = "\n" . $resultrow['city'];
@@ -265,7 +265,7 @@ class Vtiger_InventoryPDFController
 			if (!empty($resultrow['country']))
 				$addressValues[] = "\n" . $resultrow['country'];
 
-			$additionalCompanyInfo = array();
+			$additionalCompanyInfo = [];
 			if (!empty($resultrow['phone']))
 				$additionalCompanyInfo[] = "\n" . getTranslatedString("Phone: ", $this->moduleName) . $resultrow['phone'];
 			if (!empty($resultrow['fax']))
@@ -395,7 +395,7 @@ class Vtiger_InventoryPDFController
 		if (!is_array($names)) {
 			$names = array($names);
 		}
-		$values = array();
+		$values = [];
 		foreach ($names as $name) {
 			$value = $this->focusColumnValue($name, false);
 			if ($value !== false) {
