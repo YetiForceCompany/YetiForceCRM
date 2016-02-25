@@ -194,6 +194,10 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 
 /*Data for the table `dav_users` */
 
+/*Data for the table `l_yf_notification` */
+
+/*Data for the table `l_yf_notification_archive` */
+
 /*Data for the table `l_yf_sqltime` */
 
 /*Data for the table `l_yf_switch_users` */
@@ -425,6 +429,10 @@ insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`pres
 
 /*Data for the table `u_yf_ipreordercf` */
 
+/*Data for the table `u_yf_istdn` */
+
+/*Data for the table `u_yf_istdn_inventory` */
+
 /*Data for the table `u_yf_istdn_invfield` */
 
 insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
@@ -437,6 +445,8 @@ insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence
 insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'ean','LBL_EAN','Value',0,'',2,1,10,'',15);
 
 /*Data for the table `u_yf_istdn_invmap` */
+
+/*Data for the table `u_yf_istdncf` */
 
 /*Data for the table `u_yf_istorages` */
 

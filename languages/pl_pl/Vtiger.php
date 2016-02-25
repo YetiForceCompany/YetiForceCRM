@@ -1106,6 +1106,7 @@ $languageStrings = [
 	'FL_NUMBER' => 'Numer rekordu',
 	'DW_SUMMATION_BY_MONTHS' => 'Porównanie sprzedaży po miesiącach',
 	'DW_SUMMATION_BY_USER' => 'Porównanie sprzedaży po użytkownikach',
+	'LBL_NOTIFICATIONS' => 'Powiadomienia',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
