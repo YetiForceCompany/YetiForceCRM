@@ -58,8 +58,8 @@ $languageStrings = [
 	'LBL_CONDITION_INFO' => 'Select condition for showing records',
 	'LBL_SHOW_ALL_RECORDS' => 'Show all records',
 	'LBL_SHOW_ALL_RECORDS_INFO' => 'No - Permissions are taken into account <br> Yes - Searching for records excluding permissions',
-	'LBL_SHITCH_HEADER' => '__UNTRANSLATED__',
-	'LBL_SHITCH_HEADER_INFO' => '__UNTRANSLATED__',
+	'LBL_SHITCH_HEADER' => 'Switch in header',
+	'LBL_SHITCH_HEADER_INFO' => 'Switch can be found in the widget\'s header.',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Loading...',
