@@ -11,6 +11,14 @@
 class Users_Record_Model extends Vtiger_Record_Model
 {
 
+	public function getRealId()
+	{
+		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
+			return Vtiger_Session::get('baseUserId');
+		}
+		return $this->getId();
+	}
+
 	/**
 	 * Gets the value of the key . First it will check whether specified key is a property if not it
 	 *  will get from normal data attribure from base class
@@ -150,7 +158,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Static Function to get the instance of the User Record model for the current user
 	 * @return Users_Record_Model instance
 	 */
-	protected static $currentUserModels = array();
+	protected static $currentUserModels = [];
 
 	public static function getCurrentUserModel()
 	{
@@ -199,7 +207,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT id FROM vtiger_users';
-		$params = array();
+		$params = [];
 		if ($onlyActive) {
 			$sql .= ' WHERE status = ?';
 			$params[] = 'Active';
@@ -207,7 +215,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery($sql, $params);
 
 		$noOfUsers = $db->num_rows($result);
-		$users = array();
+		$users = [];
 		if ($noOfUsers > 0) {
 			$focus = new Users();
 			for ($i = 0; $i < $noOfUsers; ++$i) {
@@ -235,7 +243,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$this->set('privileges', $privilegesModel);
 		}
 
-		$subordinateUsers = array();
+		$subordinateUsers = [];
 		$subordinateRoleUsers = $privilegesModel->get('subordinate_roles_users');
 		if ($subordinateRoleUsers) {
 			foreach ($subordinateRoleUsers as $role => $users) {
@@ -347,16 +355,15 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getImageDetails()
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
 
-		$imageDetails = array();
+		$imageDetails = [];
 		$recordId = $this->getId();
 
 		if ($recordId) {
-			$query = "SELECT vtiger_attachments.* FROM vtiger_attachments
+			$query = 'SELECT vtiger_attachments.* FROM vtiger_attachments
             LEFT JOIN vtiger_salesmanattachmentsrel ON vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-            WHERE vtiger_salesmanattachmentsrel.smid=?";
+            WHERE vtiger_salesmanattachmentsrel.smid=?';
 
 			$result = $db->pquery($query, array($recordId));
 
@@ -377,13 +384,25 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $imageDetails;
 	}
 
+	public function getImagePath()
+	{
+		$image = $this->getImageDetails();
+		$image = reset($image);
+		if (empty($image) || empty($image['path'])) {
+			$imagePath = vimage_path('DefaultUserIcon.png');
+		} else {
+			$imagePath = $image['path'] . '_' . $image['orgname'];
+		}
+		return $imagePath;
+	}
+
 	/**
 	 * Function to get all the accessible users
 	 * @return <Array>
 	 */
 	public function getAccessibleUsers($private = '', $module = false)
 	{
-		$name = $private.$module;
+		$name = $private . $module;
 		$accessibleUser = Vtiger_Cache::get('getAccessibleUsers', $name);
 		if ($accessibleUser === false) {
 			$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
@@ -439,20 +458,20 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function getAllUsersOnRoles($roles)
 	{
 		$db = PearDatabase::getInstance();
-		$roleIds = array();
+		$roleIds = [];
 		foreach ($roles as $key => $role) {
 			$roleIds[] = $role->getId();
 		}
 
 		if (empty($roleIds)) {
-			return array();
+			return [];
 		}
 
 		$sql = 'SELECT userid FROM vtiger_user2role WHERE roleid IN (' . generateQuestionMarks($roleIds) . ')';
 		$result = $db->pquery($sql, $roleIds);
 		$noOfUsers = $db->num_rows($result);
-		$userIds = array();
-		$subUsers = array();
+		$userIds = [];
+		$subUsers = [];
 		if ($noOfUsers > 0) {
 			for ($i = 0; $i < $noOfUsers; ++$i) {
 				$userIds[] = $db->query_result($result, $i, 'userid');
@@ -547,7 +566,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			'13:00' => '01:00 PM', '14:00' => '02:00 PM', '15:00' => '03:00 PM', '16:00' => '04:00 PM', '17:00' => '05:00 PM', '18:00' => '06:00 PM', '19:00' => '07:00 PM',
 			'20:00' => '08:00 PM', '21:00' => '09:00 PM', '22:00' => '10:00 PM', '23:00' => '11:00 PM');
 
-		$picklistDependencyData = array();
+		$picklistDependencyData = [];
 		foreach ($hour_format as $value) {
 			if ($value == 24) {
 				$picklistDependencyData['hour_format'][$value]['start_hour'] = $start_hour;
@@ -569,7 +588,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public static function getUserGroups($userId)
 	{
 		$db = PearDatabase::getInstance();
-		$groupIds = array();
+		$groupIds = [];
 		$query = "SELECT groupid FROM vtiger_users2group WHERE userid=?";
 		$result = $db->pquery($query, array($userId));
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
@@ -622,7 +641,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT 1 FROM vtiger_users ';
-		$params = array();
+		$params = [];
 
 		if ($onlyActive) {
 			$query.= ' WHERE status=? ';
@@ -688,7 +707,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery($sql, array('ACTIVE', 'on'));
 
 		$noOfUsers = $db->num_rows($result);
-		$users = array();
+		$users = [];
 		if ($noOfUsers > 0) {
 			$focus = new Users();
 			for ($i = 0; $i < $noOfUsers; ++$i) {
@@ -769,7 +788,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
 		$result = $db->query($listQuery);
 		$ids = $db->getArrayColumn($result);
-		
+
 		$users = $groups = [];
 		$users = Vtiger_Functions::getCRMRecordLabels('Users', $ids);
 		$diffIds = array_diff($ids, array_keys($users));

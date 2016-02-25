@@ -296,10 +296,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		require('user_privileges/switchUsers.php');
-		$baseUserId = $userModel->getId();
-		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
-			$baseUserId = Vtiger_Session::get('baseUserId');
-		}
+		$baseUserId = $userModel->getRealId();
 		$users = [];
 		if (array_key_exists($baseUserId, $switchUsers)) {
 			foreach ($switchUsers[$baseUserId] as $userid => $userName) {
