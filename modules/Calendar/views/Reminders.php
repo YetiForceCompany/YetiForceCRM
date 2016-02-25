@@ -16,6 +16,7 @@ class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		if ('true' == $request->get('type_remainder')) {
@@ -27,7 +28,9 @@ class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 		foreach ($recordModels as $record) {
 			$record->updateReminderStatus(2);
 		}
-		$permissionToSendEmail = vtlib_isModuleActive('OSSMail') && Users_Privileges_Model::isPermitted('OSSMail');
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails');
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORDS', $recordModels);
