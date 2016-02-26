@@ -1107,6 +1107,8 @@ $languageStrings = [
 	'DW_SUMMATION_BY_MONTHS' => 'Porównanie sprzedaży po miesiącach',
 	'DW_SUMMATION_BY_USER' => 'Porównanie sprzedaży po użytkownikach',
 	'LBL_NOTIFICATIONS' => 'Powiadomienia',
+	'BTN_WATCHING_RECORD' => 'Śledzenie zmian w rekordzie',
+	'BTN_WATCHING_MODULE' => 'Śledzenie zmian w module',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1366,4 +1368,7 @@ $jsLanguageStrings = [
 	'JS_PROCESS' => 'Proces',
 	'JS_SUB_PROCESS' => 'Podproces',
 	'JS_SAVE_SELECTED_ITEMS_ALERT' => 'Wybrałeś __LENGTH__ pozycji czy jesteś pewien czy chcesz zapisać?',
+	'JS_WATCHING_TITLE' => 'Śledzenie zmian',
+	'JS_WATCHING_MESSAGE0' => 'Czy jesteś pewien że chcesz wyłączyć śledzenie zmian?',
+	'JS_WATCHING_MESSAGE1' => 'Czy jesteś pewien że chcesz włączyć śledzenie zmian?',
 ];
