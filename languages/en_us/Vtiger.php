@@ -1098,6 +1098,8 @@ $languageStrings = [
 	'FL_NUMBER' => 'Record number',
 	'DW_SUMMATION_BY_MONTHS' => 'Sales comparison by month',
 	'DW_SUMMATION_BY_USER' => 'Sales comparison by user',
+	'BTN_WATCHING_RECORD' => 'Track changes in record',
+	'BTN_WATCHING_MODULE' => 'Track changes in module',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
@@ -1401,4 +1403,8 @@ $jsLanguageStrings = [
 	'JS_PROCESS' => 'Process',
 	'JS_SUB_PROCESS' => 'Subprocess',
 	'JS_SAVE_SELECTED_ITEMS_ALERT' => 'You selected __LENGTH__ items. Are you sure you want to save?',
+	'JS_WATCHING_TITLE' => 'Track changes',
+	'JS_WATCHING_MESSAGE0' => 'Are you sure you want to disable tracking changes?',
+	'JS_WATCHING_MESSAGE1' => 'Are you sure you want to enable tracking changes?',
+	
 ];
