@@ -568,7 +568,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'DetailView')) {
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
 			$class = 'btn-default';
 			if ($watchdog->isWatchingRecord()) {

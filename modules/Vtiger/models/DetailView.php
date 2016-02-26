@@ -101,7 +101,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				];
 			}
 		}
-		if (Users_Privileges_Model::isPermitted($moduleName, 'DetailView')) {
+		if (Users_Privileges_Model::isPermitted($moduleName, 'WatchingRecords')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 			$class = 'btn-default';
 			if ($watchdog->isWatchingRecord()) {

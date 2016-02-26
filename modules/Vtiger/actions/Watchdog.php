@@ -21,8 +21,15 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
-		if (!$recordPermission) {
+		if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId)) {
+			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		$mode = $request->getMode();
+		if ($mode == 'updateRecord' && !Users_Privileges_Model::isPermitted($moduleName, 'WatchingRecords')) {
+			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+
+		if ($mode == 'updateModule' && !Users_Privileges_Model::isPermitted($moduleName, 'WatchingModule')) {
 			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
@@ -42,7 +49,7 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$state = $request->get('state');
-		
+
 		$watchdog = Vtiger_Watchdog_Model::getInstanceById($record, $moduleName);
 		$watchdog->changeRecordState($state);
 
@@ -50,12 +57,12 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 		$response->setResult($state);
 		$response->emit();
 	}
-	
+
 	public function updateModule(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$state = $request->get('state');
-		
+
 		$watchdog = Vtiger_Watchdog_Model::getInstance($moduleName);
 		$watchdog->changeModuleState($state);
 
