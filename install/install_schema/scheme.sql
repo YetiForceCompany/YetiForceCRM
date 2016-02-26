@@ -1614,6 +1614,74 @@ CREATE TABLE `u_yf_istoragescf` (
   CONSTRAINT `u_yf_istoragescf_ibfk_1` FOREIGN KEY (`istorageid`) REFERENCES `u_yf_istorages` (`istorageid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_istrn` */
+
+CREATE TABLE `u_yf_istrn` (
+  `istrnid` int(19) NOT NULL,
+  `number` varchar(32) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `storageid` int(19) DEFAULT NULL,
+  `istrn_status` varchar(255) DEFAULT NULL,
+  `vendorid` int(19) DEFAULT NULL,
+  `acceptance_date` date DEFAULT NULL,
+  `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  PRIMARY KEY (`istrnid`),
+  KEY `storageid` (`storageid`),
+  KEY `vendorid` (`vendorid`),
+  CONSTRAINT `u_yf_istrn_ibfk_1` FOREIGN KEY (`istrnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_istrn_inventory` */
+
+CREATE TABLE `u_yf_istrn_inventory` (
+  `id` int(19) DEFAULT NULL,
+  `seq` int(10) DEFAULT NULL,
+  `name` int(19) NOT NULL DEFAULT '0',
+  `qty` decimal(25,3) NOT NULL DEFAULT '0.000',
+  `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `comment1` varchar(500) DEFAULT NULL,
+  `-` varchar(100) DEFAULT NULL,
+  `unit` varchar(255) DEFAULT NULL,
+  `ean` varchar(255) DEFAULT NULL,
+  KEY `id` (`id`),
+  CONSTRAINT `fk_1_u_yf_istrn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_istrn` (`istrnid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_istrn_invfield` */
+
+CREATE TABLE `u_yf_istrn_invfield` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `columnname` varchar(30) NOT NULL,
+  `label` varchar(50) NOT NULL,
+  `invtype` varchar(30) NOT NULL,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `defaultvalue` varchar(255) DEFAULT NULL,
+  `sequence` int(10) unsigned NOT NULL,
+  `block` tinyint(1) unsigned NOT NULL,
+  `displaytype` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `params` text,
+  `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_istrn_invmap` */
+
+CREATE TABLE `u_yf_istrn_invmap` (
+  `module` varchar(50) NOT NULL,
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_istrncf` */
+
+CREATE TABLE `u_yf_istrncf` (
+  `istrnid` int(19) NOT NULL,
+  PRIMARY KEY (`istrnid`),
+  CONSTRAINT `u_yf_istrncf_ibfk_1` FOREIGN KEY (`istrnid`) REFERENCES `u_yf_istrn` (`istrnid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_knowledgebase` */
 
 CREATE TABLE `u_yf_knowledgebase` (
@@ -3843,7 +3911,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_share_seq` */
 
@@ -4218,7 +4286,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2246 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2259 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4786,6 +4854,16 @@ CREATE TABLE `vtiger_istn_type` (
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`istn_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_istrn_status` */
+
+CREATE TABLE `vtiger_istrn_status` (
+  `istrn_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `istrn_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`istrn_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_knowledgebase_view` */
 
@@ -8470,7 +8548,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 
@@ -8481,7 +8559,7 @@ CREATE TABLE `vtiger_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
 
@@ -8725,7 +8803,7 @@ CREATE TABLE `yetiforce_menu` (
   KEY `role` (`role`),
   KEY `module` (`module`),
   CONSTRAINT `yetiforce_menu_ibfk_1` FOREIGN KEY (`module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mobile_keys` */
 
