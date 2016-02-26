@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'LBL_SUPPORT_PROCESSES' => 'Support',
-	'LBL_GENERAL_CONFIGURATION' => 'General Configuration',
+	'LBL_GENERAL_CONFIGURATION' => 'General configuration',
 	'LBL_OTHER' => 'Other',
 	'LBL_INFO' => 'Info',
 	'LBL_TYPE' => 'Type',
