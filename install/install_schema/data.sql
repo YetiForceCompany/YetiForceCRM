@@ -75,10 +75,11 @@ insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classn
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (13,'VTUpdateCalendarDates','LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY','VTUpdateCalendarDates','modules/com_vtiger_workflow/tasks/VTUpdateCalendarDates.inc','com_vtiger_workflow/taskforms/VTUpdateCalendarDates.tpl','{\"include\":[\"Accounts\",\"Contacts\",\"Leads\",\"OSSEmployees\",\"Vendors\",\"Campaigns\",\"HelpDesk\",\"Project\",\"ServiceContracts\"],\"exclude\":[\"Calendar\",\"FAQ\",\"Events\"]}',NULL);
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (14,'VTUpdateWorkTime','LBL_UPDATE_WORK_TIME_AUTOMATICALLY','VTUpdateWorkTime','modules/com_vtiger_workflow/tasks/VTUpdateWorkTime.inc','com_vtiger_workflow/taskforms/VTUpdateWorkTime.tpl','{\"include\":[\"OSSTimeControl\"],\"exclude\":[]}',NULL);
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (15,'VTUpdateRelatedFieldTask','LBL_UPDATE_RELATED_FIELD','VTUpdateRelatedFieldTask','modules/com_vtiger_workflow/tasks/VTUpdateRelatedFieldTask.inc','com_vtiger_workflow/taskforms/VTUpdateRelatedFieldTask.tpl','{\"include\":[],\"exclude\":[]}','');
+insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (16,'VTWatchdog','LBL_NOTIFICATIONS','VTWatchdog','modules/com_vtiger_workflow/tasks/VTWatchdog.inc','com_vtiger_workflow/taskforms/VTWatchdog.tpl','{\"include\":[],\"exclude\":[]}',NULL);
 
 /*Data for the table `com_vtiger_workflow_tasktypes_seq` */
 
-insert  into `com_vtiger_workflow_tasktypes_seq`(`id`) values (15);
+insert  into `com_vtiger_workflow_tasktypes_seq`(`id`) values (16);
 
 /*Data for the table `com_vtiger_workflows` */
 

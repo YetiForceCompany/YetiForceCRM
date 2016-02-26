@@ -1,26 +1,26 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Email Template Task Class
+ * @package YetiForce.WorkflowTask
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
-class VTEmailTemplateTask extends VTTask {
+class VTEmailTemplateTask extends VTTask
+{
 
 	// Sending email takes more time, this should be handled via queue all the time.
 	public $executeImmediately = true;
 
-	public function getFieldNames() {
+	public function getFieldNames()
+	{
 		return array("template", "attachments", "email", "copy_email");
 	}
 
-	public function doTask($entity) {
+	public function doTask($entity)
+	{
 		global $adb, $site_URL, $current_user, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID;
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
@@ -61,5 +61,4 @@ class VTEmailTemplateTask extends VTTask {
 			}
 		}
 	}
-
 }
