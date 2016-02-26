@@ -8,7 +8,11 @@
  */
 class Home_Notification_Model extends Vtiger_Base_Model
 {
-
+	protected $types = [
+		0 => 'LBL_MESSAGE1',
+		1 => 'LBL_MESSAGE2',
+		2 => 'LBL_MESSAGE3',
+	];
 	/**
 	 * Function to get the instance
 	 * @return <Home_Notification_Model>
@@ -18,6 +22,11 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		return new self();
 	}
 
+	public function getTypes()
+	{
+		return $this->types;
+	}
+	
 	public function getEntries()
 	{
 		$db = PearDatabase::getInstance();
@@ -30,5 +39,16 @@ class Home_Notification_Model extends Vtiger_Base_Model
 			$entries[] = Home_NoticeEntries_Model::getInstanceByRow($row);
 		}
 		return $entries;
+	}
+
+	public function save()
+	{
+		$db = PearDatabase::getInstance();
+		$db->insert('l_yf_notification', [
+			'userid' => $this->get('userid'),
+			'type' => $this->get('type'),
+			'message' => $this->get('message'),
+			'reletedid' => $this->get('reletedid')
+		]);
 	}
 }

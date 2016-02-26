@@ -80,6 +80,14 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 					'class' => '',
 				];
 				break;
+			default:
+				$icon = [
+					'type' => 'glyphicon',
+					'title' => 'glyphicon',
+					'class' => 'glyphicon glyphicon-exclamation-sign',
+				];
+				
+				break;
 		}
 		return $icon;
 	}
