@@ -1480,12 +1480,12 @@ CREATE TABLE `u_yf_istdn` (
   `subject` varchar(255) DEFAULT NULL,
   `storageid` int(19) DEFAULT NULL,
   `istdn_status` varchar(255) DEFAULT NULL,
-  `vendorid` int(19) DEFAULT NULL,
+  `acountid` int(19) DEFAULT NULL,
   `acceptance_date` date DEFAULT NULL,
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   PRIMARY KEY (`istdnid`),
   KEY `storageid` (`storageid`),
-  KEY `vendorid` (`vendorid`),
+  KEY `acountid` (`acountid`),
   CONSTRAINT `u_yf_istdn_ibfk_1` FOREIGN KEY (`istdnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

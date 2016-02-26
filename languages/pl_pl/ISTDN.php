@@ -1,12 +1,12 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'ISTDN' => 'Wydanie przesunięcia międzymagazynowego',
-	'SINGLE_ISTDN' => 'Wydanie przesunięcia międzymagazynowego',
+	'ISTDN' => 'Wydanie przesunięcia',
+	'SINGLE_ISTDN' => 'Wydanie przesunięcia',
 	'LBL_DESCRIPTION_BLOCK' => 'Opis',
 	'LBL_ATTENTION_BLOCK' => 'Uwagi',
 	'FL_ACCEPTANCE_DATE' => 'Data przyjęcia',
-	'FL_VENDOR' => 'Dostawca',
+	'FL_ACCOUNT' => 'Kontrahent',
 	'FL_SUBJECT' => 'Nazwa',
 	'FL_NUMBER' => 'Numer',
 	'FL_STORAGE' => 'Magazyn',
