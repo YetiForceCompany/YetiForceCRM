@@ -13,13 +13,17 @@
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {if $FIELD_MODEL->get('uitype') eq '53'}
-	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
+	{assign var=ROLE_RECORD_MODEL value=$USER_MODEL->getRoleDetail()}
+	{assign var="SHOW_ALL" value=''}
+	{if $FIELD_MODEL->isEditableReadOnly() || ($USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0)}
+		{assign var="SHOW_ALL" value='Public'}
+	{/if}
+	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers($SHOW_ALL)}
 	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('',$MODULE)}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
     {assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-	{assign var=ROLE_RECORD_MODEL value=Settings_Roles_Record_Model::getInstanceById($USER_MODEL->get('roleid'))}
-
+	
 	{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 	{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
 
