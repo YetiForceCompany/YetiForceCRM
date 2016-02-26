@@ -618,6 +618,10 @@ insert  into `u_yf_ssingleorders_invfield`(`id`,`columnname`,`label`,`invtype`,`
 
 /*Data for the table `u_yf_ssingleorderscf` */
 
+/*Data for the table `u_yf_watchdog_module` */
+
+/*Data for the table `u_yf_watchdog_record` */
+
 /*Data for the table `vtiger_account` */
 
 /*Data for the table `vtiger_accountaddress` */
