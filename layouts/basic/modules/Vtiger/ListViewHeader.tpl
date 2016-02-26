@@ -82,7 +82,8 @@
 									{foreach from=$LISTVIEW_BASICACTION->get('linkdata') key=NAME item=DATA}
 										data-{$NAME}="{$DATA}" 
 									{/foreach}
-								{else}
+								{/if}
+								{if $LISTVIEW_BASICACTION->getUrl() neq ''}
 									{if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}
 										onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
 									{else}
