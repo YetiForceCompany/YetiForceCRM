@@ -79,7 +79,6 @@ class IStorages extends Vtiger_CRMEntity
 	 */
 	function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 		// TODO Handle actions after this module is installed.
 		} else if ($eventType == 'module.disabled') {
@@ -120,7 +119,7 @@ class IStorages extends Vtiger_CRMEntity
 		$iStoragesList = [];
 
 		// Get the iStorages hierarchy from the top most iStorage in the hierarch of the current iStorage, including the current iStorage
-		$encounteredIStorages = array($id);
+		$encounteredIStorages = [$id];
 		$iStoragesList = $this->getParentIStorages($id, $iStoragesList, $encounteredIStorages);
 
 		$baseId = current(array_keys($iStoragesList));
@@ -277,8 +276,8 @@ class IStorages extends Vtiger_CRMEntity
 			return $childIStorages;
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = getSqlForNameInDisplayFormat(['first_name' =>
+			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = "SELECT u_yf_istorages.*, u_yf_istorages_address.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			' FROM u_yf_istorages' .

@@ -9,11 +9,6 @@
 class Settings_MappedFields_Import_View extends Vtiger_BasicModal_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
-	{
-		true;
-	}
-
 	public function preProcess(Vtiger_Request $request)
 	{
 		echo '<div class="modal fade" id="mfImport"><div class="modal-dialog"><div class="modal-content">';

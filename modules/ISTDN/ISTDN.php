@@ -79,7 +79,6 @@ class ISTDN extends Vtiger_CRMEntity
 	 */
 	function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 // TODO Handle actions after this module is installed.
 		} else if ($eventType == 'module.disabled') {

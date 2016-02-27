@@ -36,18 +36,4 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 		
 	}
 
-	function getFooterScripts(Vtiger_Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = array(
-			"modules.Settings.$moduleName.resources.CustomView",
-			"modules.CustomView.resources.CustomView"
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
 }
