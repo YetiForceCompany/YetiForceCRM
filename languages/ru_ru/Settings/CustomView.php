@@ -12,8 +12,7 @@
 $languageStrings = [
 	'Saving CustomView' => 'Фильтр успешно сохранен',
 	'CustomView' => 'Фильтры - Настройка',
-	'LBL_MODULE_DESC' => 'Модуль позволяет редактировать системные и пользовательские фильтры.',
-	'Module' => 'Модуль',
+	'LBL_CUSTOMVIEW_DESC' => 'Модуль позволяет редактировать системные и пользовательские фильтры.',
 	'ViewName' => 'Фильтр',
 	'SetDefault' => 'По умолчанию',
 	'Privileges' => 'Привилегии',
@@ -21,6 +20,16 @@ $languageStrings = [
 	'Delete CustomView' => 'Фильтр удален',
 	'Actions' => 'Действия',
 	'Edit' => 'Редактировать',
+	'LBL_FEATURED_LABELS' => '_UNTRANSLATED_',
+	'LBL_CREATED_BY' => '_UNTRANSLATED_',
+	'LBL_ADD_FILTER' => '_UNTRANSLATED_',
+	'LBL_MANAGE_PERMISSIONS' => '_UNTRANSLATED_',
+	'LBL_ALL_GROUP_LIST' => '_UNTRANSLATED_',
+	'LBL_GROUP_MEMBERS' => '_UNTRANSLATED_',
+	'LBL_ADD_PERMISSIONS' => '_UNTRANSLATED_',
+	'LBL_RECEIVE_PERMISSION' => '_UNTRANSLATED_',
+	'LBL_SAVE_SEQUENCES' => '_UNTRANSLATED_',
+	'LBL_EXISTS_PERMISSION_IN_CONFIG' => '_UNTRANSLATED_',
 ];
 $jsLanguageStrings = [
 	'Saving changes' => 'Сохранение изменений...',

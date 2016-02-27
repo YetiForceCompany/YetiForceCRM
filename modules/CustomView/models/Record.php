@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 /**
@@ -20,6 +21,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	const CV_STATUS_PENDING = 2;
 	const CV_STATUS_PUBLIC = 3;
 	const CV_STATUS_SYSTEM = 4;
+	
+	protected $isFeatured = false;
+	protected $isDefault = false;
 
 	/**
 	 * Function to get the Id
@@ -87,18 +91,17 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function isDefault()
 	{
-		$db = PearDatabase::getInstance();
-		$userPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$result = $db->pquery('SELECT default_cvid FROM vtiger_user_module_preferences WHERE userid = ? AND tabid = ?', array($userPrivilegeModel->getId(), $this->getModule()->getId()));
-		if ($db->num_rows($result)) {
-			$cvId = $db->query_result($result, 0, 'default_cvid');
-			if ($cvId === $this->getId()) {
-				return true;
-			} else {
-				return false;
-			}
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		if ($this->isDefault === false) {
+			$db = PearDatabase::getInstance();
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$sql = 'SELECT 1 FROM vtiger_user_module_preferences WHERE userid = ? AND `tabid` = ? LIMIT 1';
+			$result = $db->pquery($sql, ['Users:'.$currentUser->getId(), $this->getModule()->getId()]);
+			$this->isDefault = $result->rowCount();
 		}
-		return ($this->get('setdefault') == 1);
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		return $this->isDefault;
 	}
 
 	public function isSystem()
@@ -160,6 +163,62 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	{
 		return ($this->get('status') == self::CV_STATUS_PUBLIC || $this->get('status') == self::CV_STATUS_PENDING);
 	}
+	
+	public function isFeatured($editView = false)
+	{
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		if ($this->isFeatured === false) {
+			if (empty($editView)) {
+				if (!empty($this->get('featured'))) {
+					$this->isFeatured = true;
+				} else {
+					$this->isFeatured = $this->checkPermissionToFeatured();
+				}
+			} else {
+				$this->isFeatured = $this->checkFeaturedInEditView();
+			}
+		}
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		return $this->isFeatured;
+	}
+
+	public function checkFeaturedInEditView()
+	{
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$sql = 'SELECT `user` FROM a_yf_featured_filter WHERE `cvid` = ? AND `user` = ?';
+		$result = $db->pquery($sql, [$this->getId(), 'Users:' . $currentUser->getId()]);
+		return (bool)$result->rowCount();
+	}
+
+	public function checkPermissionToFeatured($editView = false)
+	{
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$userId = 'Users:' . $currentUser->getId();
+		$roleId = 'Roles:' . $currentUser->getRole();
+		$sql = 'SELECT 1 FROM a_yf_featured_filter WHERE (a_yf_featured_filter.user = ? OR a_yf_featured_filter.user = ? ';
+		$params = [$userId, $roleId];
+		if ($currentUser->isAdminUser()) {
+			$userGroups = $currentUser->getUserGroups($currentUser->getId());
+			$parentRoles = getRoleInformation($currentUser->getRole());
+			$parentRoles = $parentRoles['parentrole'] ? $parentRoles['parentrole'] : [];
+		} else {
+			$parentRoles = $currentUser->getParentRoleSequence();
+			$userGroups = $currentUser->get('privileges')->get('groups');
+		}
+		foreach ($userGroups as $groupId) {
+			$sql .= ' OR a_yf_featured_filter.user = "Groups:' . $groupId . '"';
+		}
+		foreach (explode('::', $parentRoles) as $role) {
+			$sql .= ' OR a_yf_featured_filter.user = "RoleAndSubordinates:' . $role . '"';
+		}
+		$sql .= ') AND a_yf_featured_filter.cvid = ?;';
+		$params[] = $this->getId();
+		$result = $db->pquery($sql, $params);
+		return $result->rowCount();
+	}
 
 	public function isEditable()
 	{
@@ -185,7 +244,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function isDeletable()
 	{
-		return $this->isEditable() && $this->get('viewname') != 'All';
+		return $this->isEditable() && $this->get('presence') != 0;
 	}
 
 	/**
@@ -244,97 +303,95 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
-		$cvId = $this->getId();
-		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->get('name');
-		$viewName = $this->get('viewname');
+		$cvIdOrg = $cvId = $this->getId();
 		$setDefault = $this->get('setdefault');
-		$setMetrics = $this->get('setmetrics');
 		$status = $this->get('status');
+		$featured = $this->get('featured');
 
 		if ($status == self::CV_STATUS_PENDING) {
 			if ($currentUserModel->isAdminUser()) {
 				$status = self::CV_STATUS_PUBLIC;
+				$this->set('status', $status);
 			}
 		}
-
+		$db->startTransaction();
 		if (!$cvId) {
-			$cvId = $db->getUniqueID("vtiger_customview");
+			$cvId = $db->getUniqueID('vtiger_customview');
 			$this->set('cvid', $cvId);
-
-			$sql = 'INSERT INTO vtiger_customview(cvid, viewname, setdefault, setmetrics, entitytype, status, userid) VALUES (?,?,?,?,?,?,?)';
-			$params = array($cvId, $viewName, $setDefault, $setMetrics, $moduleName, $status, $currentUserModel->getId());
-			$db->pquery($sql, $params);
+			$this->addCustomView();
 		} else {
-
-			$sql = 'UPDATE vtiger_customview SET viewname=?, setdefault=?, setmetrics=?, status=? WHERE cvid=?';
-			$params = array($viewName, $setDefault, $setMetrics, $status, $cvId);
-			$db->pquery($sql, $params);
-
-			$db->pquery('DELETE FROM vtiger_cvcolumnlist WHERE cvid = ?', array($cvId));
-			$db->pquery('DELETE FROM vtiger_cvstdfilter WHERE cvid = ?', array($cvId));
-			$db->pquery('DELETE FROM vtiger_cvadvfilter WHERE cvid = ?', array($cvId));
-			$db->pquery('DELETE FROM vtiger_cvadvfilter_grouping WHERE cvid = ?', array($cvId));
+			$this->updateCustomView();
 		}
 
-		if ($setDefault == 1) {
-			$query = 'SELECT 1 FROM vtiger_user_module_preferences WHERE userid = ? AND tabid = ?';
-			$queryParams = array($currentUserModel->getId(), $moduleModel->getId());
-			$queryResult = $db->pquery($query, $queryParams);
-			if ($db->num_rows($queryResult) > 0) {
-				$updateSql = 'UPDATE vtiger_user_module_preferences SET default_cvid = ? WHERE userid = ? AND tabid = ?';
-				$updateParams = array($cvId, $currentUserModel->getId(), $moduleModel->getId());
-				$db->pquery($updateSql, $updateParams);
-			} else {
-				$insertSql = 'INSERT INTO vtiger_user_module_preferences(userid, tabid, default_cvid) VALUES (?,?,?)';
-				$insertParams = array($currentUserModel->getId(), $moduleModel->getId(), $cvId);
-				$db->pquery($insertSql, $insertParams);
+		if (!empty($featured) && empty($cvIdOrg)) {
+			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, 'Users:' . $currentUserModel->getId(), 'add');
+		} elseif (empty($featured) && !empty($cvIdOrg)) {
+			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, 'Users:' . $currentUserModel->getId(), 'remove');
+		} elseif (!empty($featured)) {
+			$result = $db->pquery('SELECT 1 FROM a_yf_featured_filter WHERE a_yf_featured_filter.cvid = ? AND a_yf_featured_filter.user = ?;', [$cvId, 'Users:' . $currentUserModel->getId()]);
+			if (empty($result->rowCount())) {
+				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, 'Users:' . $currentUserModel->getId(), 'add');
 			}
-		} else {
-			$deleteSql = 'DELETE FROM vtiger_user_module_preferences WHERE userid = ? AND tabid = ? AND default_cvid = ?';
-			$deleteParams = array($currentUserModel->getId(), $moduleModel->getId(), $cvId);
-			$db->pquery($deleteSql, $deleteParams);
 		}
 
-		$selectedColumnsList = $this->get('columnslist');
-		if (!empty($selectedColumnsList)) {
-			$noOfColumns = count($selectedColumnsList);
-			for ($i = 0; $i < $noOfColumns; $i++) {
-				$columnSql = 'INSERT INTO vtiger_cvcolumnlist (cvid, columnindex, columnname) VALUES (?,?,?)';
-				$columnParams = array($cvId, $i, $selectedColumnsList[$i]);
-				$db->pquery($columnSql, $columnParams);
-			}
-		} else {
-			//no fields were sent so add default All filter columns
-			$defaultModuleFilter = $db->pquery('SELECT cvid FROM vtiger_customview WHERE setdefault = 1 AND entitytype = ?', array($moduleName));
-			$defaultViewId = $db->query_result($defaultModuleFilter, 0, 'cvid');
-
-			//User Specific filterId
-			if (empty($defaultViewId)) {
-				$userDefaultModuleFilter = $db->pquery('SELECT default_cvid FROM vtiger_user_module_preferences WHERE
-											userid = ? AND tabid = ?', array($currentUserModel->id, $moduleModel->getId()));
-				$defaultViewId = $db->query_result($userDefaultModuleFilter, 0, 'default_cvid');
-			}
-
-			//First filterid of module
-			if (empty($defaultViewId)) {
-				$firstDefaultFilter = $db->pquery('SELECT cvid FROM vtiger_customview WHERE entitytype = ?', array($moduleName));
-				$defaultViewId = $db->query_result($firstDefaultFilter, 0, 'cvid');
-			}
-
-			// Get the defaults filters columnlist
-			$columnSql = "INSERT INTO vtiger_cvcolumnlist (cvid, columnindex, columnname)
-							SELECT ?, columnindex, columnname FROM vtiger_cvcolumnlist WHERE cvid = ?";
-			$db->pquery($columnSql, array($cvId, $defaultViewId));
+		if (empty($setDefault) && !empty($cvIdOrg)) {
+			$db->delete('vtiger_user_module_preferences', 'userid = ? AND tabid = ? AND default_cvid = ?', [$userId, $this->getModule()->getId(), $cvId]);
+		} elseif (!empty($setDefault)) {
+			$this->setDefaultFilter();
 		}
+		$db->completeTransaction();
+	}
 
+	/**
+	 * Function to delete the custom view record
+	 */
+	public function delete()
+	{
+		$db = PearDatabase::getInstance();
+		$cvId = $this->getId();
+
+		$db->pquery('DELETE FROM vtiger_customview WHERE cvid = ?', [$cvId]);
+		$db->pquery('DELETE FROM vtiger_cvcolumnlist WHERE cvid = ?', [$cvId]);
+		$db->pquery('DELETE FROM vtiger_cvstdfilter WHERE cvid = ?', [$cvId]);
+		$db->pquery('DELETE FROM vtiger_cvadvfilter WHERE cvid = ?', [$cvId]);
+		$db->pquery('DELETE FROM vtiger_cvadvfilter_grouping WHERE cvid = ?', [$cvId]);
+		$db->delete('vtiger_user_module_preferences', 'default_cvid = ?', [$cvId]);
+
+		// To Delete the mini list widget associated with the filter 
+		$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE filterid = ?', [$cvId]);
+	}
+	/**
+	 * Function to delete the custom view record
+	 */
+	public function setDefaultFilter()
+	{
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$userId = 'Users:' . $currentUser->getId();
+		$tabId = $this->getModule()->getId();
+		$db->delete('vtiger_user_module_preferences', 'userid = ? AND tabid = ?', [$userId, $tabId]);
+		$db->insert('vtiger_user_module_preferences', [
+			'userid' => $userId,
+			'tabid' => $tabId,
+			'default_cvid' => $this->getId()
+		]);
+	}
+
+	public function setConditionsForFilter()
+	{
+		$db = PearDatabase::getInstance();
+		$moduleModel = $this->getModule();
+		$cvId = $this->getId();
+		
 		$stdFilterList = $this->get('stdfilterlist');
 		if (!empty($stdFilterList) && !empty($stdFilterList['columnname'])) {
-			$stdFilterSql = 'INSERT INTO vtiger_cvstdfilter(cvid,columnname,stdfilter,startdate,enddate) VALUES (?,?,?,?,?)';
-			$stdFilterParams = array($cvId, $stdFilterList['columnname'], $stdFilterList['stdfilter'],
-				$db->formatDate($stdFilterList['startdate'], true),
-				$db->formatDate($stdFilterList['enddate'], true));
-			$db->pquery($stdFilterSql, $stdFilterParams);
+			$db->insert('vtiger_cvstdfilter', [
+				'cvid' => $cvId,
+				'columnname' => $stdFilterList['columnname'],
+				'stdfilter' => $stdFilterList['stdfilter'],
+				'startdate' => $db->formatDate($stdFilterList['startdate'], true),
+				'enddate' => $db->formatDate($stdFilterList['enddate'], true)
+			]);
 		}
 
 		$advFilterList = $this->get('advfilterlist');
@@ -401,10 +458,15 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 					if (in_array($advFilterComparator, ['om'])) {
 						$advFitlerValue = '';
 					}
-					$advCriteriaSql = 'INSERT INTO vtiger_cvadvfilter(cvid,columnindex,columnname,comparator,value,groupid,column_condition)
-											values (?,?,?,?,?,?,?)';
-					$advCriteriaParams = array($cvId, $columnIndex, $advFilterColumn, $advFilterComparator, $advFitlerValue, $groupIndex, $advFilterColumnCondition);
-					$db->pquery($advCriteriaSql, $advCriteriaParams);
+					$db->insert('vtiger_cvadvfilter', [
+						'cvid' => $cvId,
+						'columnindex' => $columnIndex,
+						'columnname' => $advFilterColumn,
+						'comparator' => $advFilterComparator,
+						'value' => $advFitlerValue,
+						'groupid' => $groupIndex,
+						'column_condition' => $advFilterColumnCondition
+					]);
 
 					// Update the condition expression for the group to which the condition column belongs
 					$groupConditionExpression = '';
@@ -419,29 +481,82 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				if (empty($groupConditionExpression))
 					continue; // Case when the group doesn't have any column criteria
 
-				$advGroupSql = 'INSERT INTO vtiger_cvadvfilter_grouping(groupid,cvid,group_condition,condition_expression) VALUES (?,?,?,?)';
-				$advGroupParams = array($groupIndex, $cvId, $groupCondition, $groupConditionExpression);
-				$db->pquery($advGroupSql, $advGroupParams);
+				$db->insert('vtiger_cvadvfilter_grouping', [
+					'groupid' => $groupIndex,
+					'cvid' => $cvId,
+					'group_condition' => $groupCondition,
+					'condition_expression' => $groupConditionExpression
+				]);
 			}
 		}
 	}
 
-	/**
-	 * Function to delete the custom view record
-	 */
-	public function delete()
+	public function setColumnlist()
 	{
 		$db = PearDatabase::getInstance();
 		$cvId = $this->getId();
+		foreach ($this->get('columnslist') as $index => $columnName) {
+			$db->insert('vtiger_cvcolumnlist', [
+				'cvid' => $cvId,
+				'columnindex' => $index,
+				'columnname' => $columnName
+			]);
+		}
+	}
 
-		$db->pquery('DELETE FROM vtiger_customview WHERE cvid = ?', array($cvId));
-		$db->pquery('DELETE FROM vtiger_cvcolumnlist WHERE cvid = ?', array($cvId));
-		$db->pquery('DELETE FROM vtiger_cvstdfilter WHERE cvid = ?', array($cvId));
-		$db->pquery('DELETE FROM vtiger_cvadvfilter WHERE cvid = ?', array($cvId));
-		$db->pquery('DELETE FROM vtiger_cvadvfilter_grouping WHERE cvid = ?', array($cvId));
+	/**
+	 * Function to add the custom view record in db
+	 */
+	public function addCustomView()
+	{
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$moduleName = $this->getModule()->get('name');
+		$seq = $this->getNextSeq($moduleName);
+		$db->insert('vtiger_customview', [
+			'cvid' => $this->getId(),
+			'viewname' => $this->get('viewname'),
+			'setmetrics' => $this->get('setmetrics'),
+			'entitytype' => $moduleName,
+			'status' => $this->get('status'),
+			'userid' => $currentUser->getId(),
+			'sequence' => $seq,
+			'featured' => null,
+			'description' => $this->get('description')
+		]);
+		$this->setColumnlist();
+		$this->setConditionsForFilter();
+	}
 
-		// To Delete the mini list widget associated with the filter 
-		$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE filterid = ?', array($cvId));
+	public function getNextSeq($moduleName)
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT MAX(sequence) AS max  FROM vtiger_customview WHERE entitytype = ?;', [$moduleName]);
+		$id = (int) $db->getSingleValue($result) + 1;
+		return $id;
+	}
+
+	/**
+	 * Function to update the custom view record in db
+	 */
+	public function updateCustomView()
+	{
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$cvId = $this->getId();
+		$db->update('vtiger_customview', [
+			'viewname' => $this->get('viewname'),
+			'setmetrics' => $this->get('setmetrics'),
+			'status' => $this->get('status'),
+			'description' => $this->get('description')
+			], 'cvid = ?', [$cvId]
+		);
+		$db->delete('vtiger_cvcolumnlist', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvstdfilter', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvadvfilter', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvadvfilter_grouping', 'cvid = ?', [$cvId]);
+		$this->setColumnlist();
+		$this->setConditionsForFilter();
 	}
 
 	/**
@@ -455,11 +570,11 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$query = 'SELECT vtiger_cvcolumnlist.* FROM vtiger_cvcolumnlist
 					INNER JOIN vtiger_customview ON vtiger_customview.cvid = vtiger_cvcolumnlist.cvid
 				WHERE vtiger_customview.cvid  = ? ORDER BY vtiger_cvcolumnlist.columnindex';
-		$params = array($this->getId());
+		$params = [$this->getId()];
 
 		$result = $db->pquery($query, $params);
 		$noOfFields = $db->num_rows($result);
-		$selectedFields = array();
+		$selectedFields = [];
 		for ($i = 0; $i < $noOfFields; ++$i) {
 			$columnIndex = $db->query_result($result, $i, 'columnindex');
 			$columnName = $db->query_result($result, $i, 'columnname');
@@ -789,8 +904,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getAll($moduleName = '')
 	{
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($moduleName) method ...");
 		$db = PearDatabase::getInstance();
-		$userPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$sql = 'SELECT * FROM vtiger_customview';
@@ -800,8 +916,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$sql .= ' WHERE entitytype=?';
 			$params[] = $moduleName;
 		}
-		if (!$userPrivilegeModel->isAdminUser()) {
-			$userParentRoleSeq = $userPrivilegeModel->get('parent_role_seq');
+		if (!$currentUser->isAdminUser()) {
+			$userParentRoleSeq = $currentUser->getParentRoleSequence();
 			$sql .= " AND ( vtiger_customview.userid = ? OR vtiger_customview.status = 0 OR vtiger_customview.status = 3
 							OR vtiger_customview.userid IN (
 								SELECT vtiger_user2role.userid FROM vtiger_user2role
@@ -811,7 +927,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 						)";
 			$params[] = $currentUser->getId();
 		}
-		$sql .= ' ORDER BY setdefault ASC';
+		$sql .= ' ORDER BY sequence ASC';
 
 		$result = $db->pquery($sql, $params);
 		$customViews = [];
@@ -840,7 +956,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $customViews;
 	}
 

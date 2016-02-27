@@ -1328,35 +1328,30 @@ jQuery.Class("Vtiger_List_Js", {
 	 */
 	registerChangeCustomFilterEvent: function () {
 		var thisInstance = this;
-		var listViewFilterBlock = this.getFilterBlock();
-		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li[role="treeitem"]', function (event) {
-				jQuery('#pageNumber').val("1");
-				jQuery('#pageToJump').val('1');
-				jQuery('#orderBy').val('');
-				jQuery("#sortOrder").val('');
-				var cvId = thisInstance.getCurrentCvId();
-				selectedIds = new Array();
-				excludedIds = new Array();
-
-				var urlParams = {
-					"viewname": cvId,
-					//to make alphabetic search empty
-					"search_key": thisInstance.getAlphabetSearchField(),
-					"search_value": "",
-					"search_params": ""
-				}
-				//Make the select all count as empty
-				jQuery('#recordsCount').val('');
-				//Make total number of pages as empty
-				jQuery('#totalPageCount').text("");
-				thisInstance.getListViewRecords(urlParams).then(function () {
-					thisInstance.ListViewPostOperation();
-					thisInstance.updatePagination(1);
-				});
-				event.stopPropagation();
+		this.getFilterSelectElement().on('change', function (event) {
+			jQuery('#pageNumber').val("1");
+			jQuery('#pageToJump').val('1');
+			jQuery('#orderBy').val('');
+			jQuery("#sortOrder").val('');
+			selectedIds = new Array();
+			excludedIds = new Array();
+			var urlParams = {
+				"viewname": jQuery(this).val(),
+				//to make alphabetic search empty
+				"search_key": thisInstance.getAlphabetSearchField(),
+				"search_value": "",
+				"search_params": ""
+			}
+			//Make the select all count as empty
+			jQuery('#recordsCount').val('');
+			//Make total number of pages as empty
+			jQuery('#totalPageCount').text("");
+			thisInstance.getListViewRecords(urlParams).then(function () {
+				thisInstance.ListViewPostOperation();
+				thisInstance.updatePagination(1);
 			});
-		}
+			event.stopPropagation();
+		});
 	},
 	//Fix for empty Recycle bin 
 	ListViewPostOperation: function () {
@@ -1882,6 +1877,24 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		}
 	},
+	registerFeaturedElementsEvent: function () {
+		var thisInstance = this;
+		var listViewTopMenuDiv = this.getListViewTopMenuContainer();
+		listViewTopMenuDiv.on('click', '.featuredLabel', function (e) {
+			var cvId = jQuery(this).data('cvid');
+			thisInstance.getFilterSelectElement().val(cvId).trigger('change')
+		})
+		var elemente = app.showPopoverElementView(listViewTopMenuDiv.find('.featuredInfoPopover'), {trigger: 'click', html: true});
+		elemente.trigger('click').trigger('click');
+		elemente.on('shown.bs.popover', function (e, i) {
+			var element = jQuery(e.currentTarget);
+			var popover = element.next();
+			app.showScrollBar(popover.find('.popover-content'), {
+				height: '200px',
+				railVisible: true,
+			});
+		});
+	},
 	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');
 		if (widthType) {
@@ -2017,6 +2030,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerTimeListSearch(listViewContainer);
 		this.registerListViewSelect();
 		this.registerListViewSpecialOptiopn();
+		this.registerFeaturedElementsEvent();
 	},
 	registerListViewSelect: function () {
 		var listViewContainer = this.getListViewContentContainer();

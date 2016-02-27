@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -28,6 +29,16 @@ CREATE TABLE `a_yf_discounts_global` (
   `value` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_featured_filter` */
+
+CREATE TABLE `a_yf_featured_filter` (
+  `user` varchar(30) NOT NULL,
+  `cvid` int(19) NOT NULL,
+  PRIMARY KEY (`user`,`cvid`),
+  KEY `cvid` (`cvid`),
+  CONSTRAINT `a_yf_featured_filter_ibfk_1` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_inventory_limits` */
@@ -3551,6 +3562,10 @@ CREATE TABLE `vtiger_customview` (
   `status` int(1) DEFAULT '1',
   `userid` int(19) DEFAULT '1',
   `privileges` tinyint(2) DEFAULT '1',
+  `featured` tinyint(1) DEFAULT '0',
+  `sequence` int(11) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT '1',
+  `description` text,
   PRIMARY KEY (`cvid`),
   KEY `customview_entitytype_idx` (`entitytype`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
@@ -8261,7 +8276,7 @@ CREATE TABLE `vtiger_user2role` (
 /*Table structure for table `vtiger_user_module_preferences` */
 
 CREATE TABLE `vtiger_user_module_preferences` (
-  `userid` int(19) NOT NULL,
+  `userid` varchar(30) NOT NULL,
   `tabid` int(19) NOT NULL,
   `default_cvid` int(19) NOT NULL,
   PRIMARY KEY (`userid`,`tabid`),

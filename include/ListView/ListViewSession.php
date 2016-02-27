@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
 require_once('include/logging.php');
@@ -243,9 +243,13 @@ class ListViewSession
 	 * @param <String> $module - module name
 	 * @param <Integer> $viewId - filter id
 	 */
-	public static function setCurrentView($module, $viewId)
+	public static function setCurrentView($module, $viewId, $pjax = true)
 	{
-		$_SESSION['lvs'][$module]['viewname'] = $viewId;
+		if($pjax && isset($_REQUEST['_pjax'])){
+			$_SESSION['lvs'][$module]['viewname'] = $viewId;
+		}elseif(empty($pjax)){
+			$_SESSION['lvs'][$module]['viewname'] = $viewId;
+		}
 	}
 
 	/**

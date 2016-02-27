@@ -1,46 +1,38 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<div class=" CustomViewList">
-	<div class="widget_header row">
-		<div class="col-md-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}
-		</div>		
+	<div class="customViewList">
+		<div class="widget_header row">
+			<div class="col-md-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{vtranslate('LBL_'|cat:$MODULE|upper|cat:'_DESC', $QUALIFIED_MODULE)}
+			</div>		
+		</div>
+		<hr>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-6">
+						{if empty($SOURCE_MODULE_ID)}{$SOURCE_MODULE_ID = key($SUPPORTED_MODULE_MODELS)}{/if}
+						<select class="chzn-select" id="moduleFilter" name="moduleFilter">
+							{foreach item=SUPPORTED_MODULE_NAME key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
+								<option {if $SOURCE_MODULE_ID eq $TAB_ID} selected="" {/if} value="{$TAB_ID}">
+									{vtranslate($SUPPORTED_MODULE_NAME,$SUPPORTED_MODULE_NAME)}
+								</option>
+							{/foreach}
+						</select>
+					</div>
+					<div class="col-md-8 col-sm-8 col-xs-6">
+						<button class="btn btn-success pull-right createFilter" type="button" data-editurl="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"><span class="glyphicon glyphicon-plus"></span> {vtranslate('LBL_ADD_FILTER',$QUALIFIED_MODULE)}</button>
+					</div>
+					
+				</div>
+			</div>
+			<div class="panel-body padding5">
+				<div class="indexContents">
+					{include file='IndexContents.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
 	</div>
-	<hr>
-	<div class="contents tabbable">
-		<table class="table table-striped table-bordered table-condensed listViewEntriesTable">
-			<thead>
-				<tr class="blockHeader">
-					<th><strong>{vtranslate('Module',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{vtranslate('ViewName',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{vtranslate('SetDefault',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{vtranslate('Privileges',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{vtranslate('Actions',$QUALIFIED_MODULE)}</strong></th>
-				</tr>
-			</thead>
-			<tbody>
-				{foreach from=$MODULE_MODEL->getCustomViews() item=item key=key}
-					<tr data-cvid="{$key}" data-mod="{$item['entitytype']}">
-						<td>{vtranslate($item['entitytype'],$item['entitytype'])}</td>
-						{if $item['viewname'] eq 'All'}
-							<td>{vtranslate('All',$item['entitytype'])}</td>
-						{else}
-							<td>{$item['viewname']}</td>
-						{/if}
-						<td><input class="updateField" type="checkbox" name="setdefault" {if $item['cn'] eq 1}readonly{/if} {if $item['setdefault']}checked{/if}></td>
-						<td><input class="updateField" type="checkbox" name="privileges" {if $item['privileges']}checked{/if}></td>
-						<td>
-							<button class="btn btn-primary marginLeftZero btn-sm update" data-cvid="{$key}" data-editurl="{$MODULE_MODEL->GetUrlToEdit($item['entitytype'],$key)}">{vtranslate('Edit',$QUALIFIED_MODULE)}</button>
-							&nbsp;&nbsp;
-							{if $item['cn'] neq 1}
-								<button class="btn btn-danger marginLeftZero delete" data-cvid="{$key}">{vtranslate('Delete',$QUALIFIED_MODULE)}</button>
-							{/if}
-						</td>
-					</tr>
-				{/foreach}
-			</tbody>
-		</table>
-	</div>
-	<div class="clearfix"></div>
 {/strip}

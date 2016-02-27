@@ -10,8 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'CustomView' => 'Filtry - konfiguracja',
-	'LBL_MODULE_DESC' => 'Narzędzie pozwala zarządzać filtrami dla modułów, które mają rekordy i obsługują standardowe filtrowanie w systemie YetiForce.',
-	'Module' => 'Moduł',
+	'LBL_CUSTOMVIEW_DESC' => 'Narzędzie pozwala zarządzać filtrami dla modułów, które mają rekordy i obsługują standardowe filtrowanie w systemie YetiForce.',
 	'ViewName' => 'Nazwa widoku',
 	'SetDefault' => 'Domyślny',
 	'Privileges' => 'Możliwa edycja',
@@ -20,6 +19,16 @@ $languageStrings = [
 	'Saving CustomView' => 'Widok został zapisany',
 	'Actions' => 'Akcje',
 	'Edit' => 'Edycja',
+	'LBL_FEATURED_LABELS' => 'W ulubionych',
+	'LBL_CREATED_BY' => 'Utworzył',
+	'LBL_ADD_FILTER' => 'Dodaj filtr',
+	'LBL_MANAGE_PERMISSIONS' => 'Zarządzaj uprawnieniami',
+	'LBL_ALL_GROUP_LIST' => 'Lista dostępnych opcji',
+	'LBL_GROUP_MEMBERS' => 'Lista uwzględnionych w akcji',
+	'LBL_ADD_PERMISSIONS' => 'Dodaj uprawnienia',
+	'LBL_RECEIVE_PERMISSION' => 'Odbierz uprawnienia',
+	'LBL_SAVE_SEQUENCES' => 'Pomyślnie zapisano sekwencje',
+	'LBL_EXISTS_PERMISSION_IN_CONFIG' => 'Konflikt z %s <br> Wybrane uprawnienie nie może występować w więcej nić jednym filtrze.',
 ];
 $jsLanguageStrings = [
 	'Saving changes' => 'Trwa aktualizacja w systemie...',

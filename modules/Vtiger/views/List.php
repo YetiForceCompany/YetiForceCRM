@@ -44,7 +44,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = CustomView_Record_Model::getViewId($request);
-		
+		ListViewSession::setCurrentView($moduleName, $this->viewName, false);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		$quickLinkModels = $listViewModel->getSideBarLinks($linkParams);
 		$viewer->assign('QUICK_LINKS', $quickLinkModels);
@@ -79,16 +79,15 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		
 		if ($request->isAjax()) {
+			$this->viewName = CustomView_Record_Model::getViewId($request);
+			ListViewSession::setCurrentView($moduleName, $this->viewName);
 			$this->initializeListViewContents($request, $viewer);
 			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 			$viewer->assign('MODULE_NAME', $moduleName);
+			$viewer->assign('VIEWID', $this->viewName);
 		}
 		
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewName = CustomView_Record_Model::getViewId($request);
-		if ($viewName) {
-			$viewer->assign('VIEWID', $viewName);
-		}
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
@@ -156,7 +155,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $this->viewName, 'CVID' => $this->viewName);
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $this->viewName);
 		$linkModels = $listViewModel->getListViewMassActions($linkParams);
 
 		$pagingModel = new Vtiger_Paging_Model();

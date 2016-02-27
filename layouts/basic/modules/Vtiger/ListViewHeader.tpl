@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -151,6 +151,17 @@
 					<span title="{vtranslate('LBL_DUPLICATE', $MODULE)}" data-value="duplicate" class="glyphicon glyphicon-retweet alignMiddle duplicateFilter filterActionImage pull-right"></span>
 				</span>
 			</div>
+			{if $CUSTOM_VIEWS|@count gt 0}
+				<div class="row">
+					<div class="col-xs-12 btn-toolbar">
+						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
+								{if $CUSTOM_VIEW->isFeatured()}<h5 class="btn-group resetButton cursorPointer"><span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}">{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}</span>{if $CUSTOM_VIEW->get('description')}<a href="#" class="featuredInfoPopover" title="" data-placement="auto right" data-content="{Vtiger_Util_Helper::toSafeHTML($CUSTOM_VIEW->get('description'))}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}</h5>{/if}
+							{/foreach}
+						{/foreach}
+					</div>
+				</div>
+			{/if}
 		</div>
 		<div class="listViewContentDiv" id="listViewContents">
 		{/strip}
