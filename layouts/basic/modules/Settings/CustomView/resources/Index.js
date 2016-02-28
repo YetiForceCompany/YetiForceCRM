@@ -6,7 +6,7 @@ jQuery.Class('Settings_CustomView_Index_Js', {
 	initEvants: function (container) {
 		var thisInstance = this;
 		container.on('click', '.delete', function (e) {
-			thisInstance.delete(e);
+			thisInstance.deleteFilter(e);
 		});
 		container.on('switchChange.bootstrapSwitch', '.updateField', function (e, state) {
 			thisInstance.updateField(e, state);
@@ -43,7 +43,7 @@ jQuery.Class('Settings_CustomView_Index_Js', {
 			thisInstance.getContainer().find('#moduleFilter').trigger('change');
 		});
 	},
-	delete: function (e) {
+	deleteFilter: function (e) {
 		var thisInstance = this;
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');

@@ -16,7 +16,7 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULE_MODELS', Settings_CustomView_Module_Model::getSupportedModules());
 	}
-	
+
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -28,12 +28,24 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		if($request->isAjax()){
+		if ($request->isAjax()) {
 			$viewer->view('IndexContents.tpl', $qualifiedModuleName);
-		}else{
+		} else {
 			$viewer->view('Index.tpl', $qualifiedModuleName);
 		}
-		
 	}
 
+	function getFooterScripts(Vtiger_Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
+		$moduleName = $request->getModule();
+
+		$jsFileNames = array(
+			'modules.CustomView.resources.CustomView'
+		);
+
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+		return $headerScriptInstances;
+	}
 }
