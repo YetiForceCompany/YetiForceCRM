@@ -2,8 +2,7 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1494,9 +1493,11 @@ CREATE TABLE `u_yf_istdn` (
   `acountid` int(19) DEFAULT NULL,
   `acceptance_date` date DEFAULT NULL,
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `process` int(19) DEFAULT NULL,
   PRIMARY KEY (`istdnid`),
   KEY `storageid` (`storageid`),
   KEY `acountid` (`acountid`),
+  KEY `process` (`process`),
   CONSTRAINT `u_yf_istdn_ibfk_1` FOREIGN KEY (`istdnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1636,9 +1637,11 @@ CREATE TABLE `u_yf_istrn` (
   `vendorid` int(19) DEFAULT NULL,
   `acceptance_date` date DEFAULT NULL,
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `process` int(19) DEFAULT NULL,
   PRIMARY KEY (`istrnid`),
   KEY `storageid` (`storageid`),
   KEY `vendorid` (`vendorid`),
+  KEY `process` (`process`),
   CONSTRAINT `u_yf_istrn_ibfk_1` FOREIGN KEY (`istrnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4322,7 +4325,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2259 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2261 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
