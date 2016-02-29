@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -26,7 +27,19 @@ insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2
 
 /*Data for the table `a_yf_mapped_config` */
 
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (1,104,106,'active','[]','','{\"autofill\":\"on\"}');
+
 /*Data for the table `a_yf_mapped_fields` */
+
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (1,1,'INVENTORY','name','name','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (2,1,'INVENTORY','ean','ean','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (3,1,'INVENTORY','unit','unit','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (4,1,'INVENTORY','qty','qty','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (5,1,'INVENTORY','price','price','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (6,1,'INVENTORY','comment1','comment1','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (7,1,'INVENTORY','total','total','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (8,1,'V','2226','2250','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (9,1,'SELF','id','2262','');
 
 /*Data for the table `a_yf_pdf` */
 
@@ -452,6 +465,9 @@ insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence
 
 /*Data for the table `u_yf_istdn_invmap` */
 
+insert  into `u_yf_istdn_invmap`(`module`,`field`,`tofield`) values ('Products','ean','ean');
+insert  into `u_yf_istdn_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
+
 /*Data for the table `u_yf_istdncf` */
 
 /*Data for the table `u_yf_istn` */
@@ -482,6 +498,9 @@ insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence
 insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'ean','LBL_EAN','Value',0,'',2,1,10,'',15);
 
 /*Data for the table `u_yf_istrn_invmap` */
+
+insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products','','');
+insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
 
 /*Data for the table `u_yf_istrncf` */
 
