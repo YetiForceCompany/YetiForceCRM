@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Settings_MappedFields_Import_View extends Vtiger_BasicModal_View
+class Settings_MappedFields_Import_View extends Settings_Vtiger_BasicModal_View
 {
 
 	public function preProcess(Vtiger_Request $request)
