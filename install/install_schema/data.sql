@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -5627,7 +5628,7 @@ insert  into `vtiger_istdn_status`(`istdn_statusid`,`istdn_status`,`sortorderid`
 insert  into `vtiger_istdn_status`(`istdn_statusid`,`istdn_status`,`sortorderid`,`presence`) values (3,'PLL_OBJECTIONS',3,1);
 insert  into `vtiger_istdn_status`(`istdn_statusid`,`istdn_status`,`sortorderid`,`presence`) values (4,'PLL_FOR_APPROVAL',4,1);
 insert  into `vtiger_istdn_status`(`istdn_statusid`,`istdn_status`,`sortorderid`,`presence`) values (5,'PLL_CANCELLED',5,1);
-insert  into `vtiger_istdn_status`(`istdn_statusid`,`istdn_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,1);
+insert  into `vtiger_istdn_status`(`istdn_statusid`,`istdn_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,0);
 
 /*Data for the table `vtiger_istn_status` */
 
@@ -5651,7 +5652,7 @@ insert  into `vtiger_istrn_status`(`istrn_statusid`,`istrn_status`,`sortorderid`
 insert  into `vtiger_istrn_status`(`istrn_statusid`,`istrn_status`,`sortorderid`,`presence`) values (3,'PLL_OBJECTIONS',3,1);
 insert  into `vtiger_istrn_status`(`istrn_statusid`,`istrn_status`,`sortorderid`,`presence`) values (4,'PLL_FOR_APPROVAL',4,1);
 insert  into `vtiger_istrn_status`(`istrn_statusid`,`istrn_status`,`sortorderid`,`presence`) values (5,'PLL_CANCELLED',5,1);
-insert  into `vtiger_istrn_status`(`istrn_statusid`,`istrn_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,1);
+insert  into `vtiger_istrn_status`(`istrn_statusid`,`istrn_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,0);
 
 /*Data for the table `vtiger_knowledgebase_view` */
 
@@ -22033,9 +22034,9 @@ insert  into `vtiger_ssalesprocesses_status`(`ssalesprocesses_statusid`,`ssalesp
 insert  into `vtiger_ssalesprocesses_status`(`ssalesprocesses_statusid`,`ssalesprocesses_status`,`sortorderid`,`presence`) values (11,'PLL_REALIZATION',11,1);
 insert  into `vtiger_ssalesprocesses_status`(`ssalesprocesses_statusid`,`ssalesprocesses_status`,`sortorderid`,`presence`) values (12,'PLL_AWAITING_PAYMENT',12,1);
 insert  into `vtiger_ssalesprocesses_status`(`ssalesprocesses_statusid`,`ssalesprocesses_status`,`sortorderid`,`presence`) values (13,'PLL_INVOICING',13,1);
-insert  into `vtiger_ssalesprocesses_status`(`ssalesprocesses_statusid`,`ssalesprocesses_status`,`sortorderid`,`presence`) values (14,'PLL_SALE_COMPLETED',14,1);
-insert  into `vtiger_ssalesprocesses_status`(`ssalesprocesses_statusid`,`ssalesprocesses_status`,`sortorderid`,`presence`) values (15,'PLL_SALE_FAILED',15,1);
-insert  into `vtiger_ssalesprocesses_status`(`ssalesprocesses_statusid`,`ssalesprocesses_status`,`sortorderid`,`presence`) values (16,'PLL_SALE_CANCELLED',16,1);
+insert  into `vtiger_ssalesprocesses_status`(`ssalesprocesses_statusid`,`ssalesprocesses_status`,`sortorderid`,`presence`) values (14,'PLL_SALE_COMPLETED',14,0);
+insert  into `vtiger_ssalesprocesses_status`(`ssalesprocesses_statusid`,`ssalesprocesses_status`,`sortorderid`,`presence`) values (15,'PLL_SALE_FAILED',15,0);
+insert  into `vtiger_ssalesprocesses_status`(`ssalesprocesses_statusid`,`ssalesprocesses_status`,`sortorderid`,`presence`) values (16,'PLL_SALE_CANCELLED',16,0);
 
 /*Data for the table `vtiger_ssalesprocesses_type` */
 
