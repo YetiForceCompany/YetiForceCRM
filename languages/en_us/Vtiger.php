@@ -1100,6 +1100,7 @@ $languageStrings = [
 	'DW_SUMMATION_BY_USER' => 'Sales comparison by user',
 	'BTN_WATCHING_RECORD' => 'Track changes in record',
 	'BTN_WATCHING_MODULE' => 'Track changes in module',
+	'LBL_PRODUCTS_SOLD_TO_RENEW' => 'Products sold - to renew',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',

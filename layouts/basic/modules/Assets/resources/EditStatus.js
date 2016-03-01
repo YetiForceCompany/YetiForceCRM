@@ -39,6 +39,11 @@ jQuery.Class("Assets_EditStatus_Js", {}, {
 							var listInstance = new Vtiger_List_Js();
 							listInstance.getListViewRecords();
 						}
+						if (viewName == 'DashBoard') {
+							var instance = new Vtiger_DashBoard_Js();
+							instance.getContainer().find('a[name="drefresh"]').trigger('click');
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						}
 					} else {
 						return false;
 					}

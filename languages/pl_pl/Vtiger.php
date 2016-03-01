@@ -1109,6 +1109,7 @@ $languageStrings = [
 	'LBL_NOTIFICATIONS' => 'Powiadomienia',
 	'BTN_WATCHING_RECORD' => 'Śledzenie zmian w rekordzie',
 	'BTN_WATCHING_MODULE' => 'Śledzenie zmian w module',
+	'LBL_PRODUCTS_SOLD_TO_RENEW' => 'Produkty sprzedane - do odnowienia',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

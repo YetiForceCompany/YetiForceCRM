@@ -54,9 +54,9 @@
 					</button>
 					<ul class="dropdown-menu">
 						{assign var=FIELD_MODEL value=Vtiger_Field_Model::getInstance('assetstatus', $RECORD->getModule())}
-						{foreach  item=ITEM from=$FIELD_MODEL->getPicklistValues()}
-							{if in_array($ITEM, $RESTRICTS_ITEM) || $ITEM eq $RECORD->get('assetstatus')} {continue} {/if}
-							<li><a href="#" class="changeStatus" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM,$MODULE_NAME)}</a></li>
+						{foreach  key=KEY item=ITEM from=$FIELD_MODEL->getPicklistValues()}
+							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get('assetstatus')} {continue} {/if}
+							<li><a href="#" class="changeStatus" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
 							{/foreach}
 					</ul>
 				</div>
