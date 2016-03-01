@@ -797,8 +797,8 @@ insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`pick
 insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_SOLD',1,510,5);
 insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_TO_RENEW',1,511,6);
 insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_RENEWAL_ACCEPTANCE',1,672,7);
-insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'PLL_RENEWED',1,673,8);
-insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'PLL_CANCELLED',1,674,9);
+insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'PLL_RENEWED',0,673,8);
+insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'PLL_CANCELLED',0,674,9);
 
 /*Data for the table `vtiger_assetstatus_seq` */
 

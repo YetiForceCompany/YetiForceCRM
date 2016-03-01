@@ -45,4 +45,7 @@ $languageStrings = [
 	'BLOCK_INFORMATION_TIME'=>'Informacje czasowe',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Wygasające produkty sprzedane',
+	
+	'LBL_CHANGE_STATUS' => 'Zmień status',
+	'LBL_PREVIEW' => 'Podgląd',
 ];

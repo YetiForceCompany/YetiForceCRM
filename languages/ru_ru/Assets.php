@@ -36,4 +36,7 @@ $languageStrings = [
 	'description' => 'Описание',
 	'LBL_ORDER_TIME' => 'Время Заказа',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Товары с истекающим сроком',
+	
+	'LBL_CHANGE_STATUS' => 'Change Status',
+	'LBL_PREVIEW' => 'Preview',
 ];

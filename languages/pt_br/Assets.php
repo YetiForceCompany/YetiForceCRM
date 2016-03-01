@@ -45,4 +45,7 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
 	'LBL_ORDER_TIME'=>'Hora Pedido',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Produtos vendidos expirando',
+	
+	'LBL_CHANGE_STATUS' => 'Change Status',
+	'LBL_PREVIEW' => 'Preview',
 ];
