@@ -32,9 +32,12 @@ $languageStrings = [
 
 	/*picklist values*/
 	'PLL_DRAFT'=>'Wersja robocza',
-	'PLL_NO_SUPPORT'=>'Brak wsparcia',
-	'PLL_POST_WARRANTY_SUPPORT'=>'Wsparcie pogwarancyjne',
-	'PLL_WARRANTY_SUPPORT'=>'Wsparcie gwarancyjne',
+	'PLL_SALES_ACCEPTANCE'=>'Akceptacja sprzedaży',
+	'PLL_SOLD'=>'Sprzedano',
+	'PLL_TO_RENEW'=>'Do odnowienia',
+	'PLL_RENEWAL_ACCEPTANCE'=>'Akceptacja odnowienia',
+	'PLL_RENEWED'=>'Odnowiono',
+	'PLL_CANCELLED'=>'Anulowane',
 	
 	//YetiForce
 	'description'=>'Opis',

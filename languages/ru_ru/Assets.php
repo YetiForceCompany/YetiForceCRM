@@ -9,9 +9,12 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
-	'PLL_POST_WARRANTY_SUPPORT' => 'Послегарантийное обслуживание',
-	'PLL_WARRANTY_SUPPORT' => 'Гарантийное обслуживание',
-	'PLL_NO_SUPPORT' => 'Нет обслуживания',
+	'PLL_SALES_ACCEPTANCE'=>'Sales acceptance',
+	'PLL_SOLD'=>'Sold',
+	'PLL_TO_RENEW'=>'To renew',
+	'PLL_RENEWAL_ACCEPTANCE'=>'Renewal acceptance ',
+	'PLL_RENEWED'=>'Renewed',
+	'PLL_CANCELLED'=>'Cancelled',
 	'PLL_DRAFT' => 'Черновик',
 	'Asset Name' => 'Название Актива',
 	'Asset No' => 'Актив №',
