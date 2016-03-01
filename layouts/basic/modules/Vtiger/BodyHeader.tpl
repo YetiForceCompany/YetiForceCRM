@@ -11,14 +11,16 @@
 						</a>
 					</div>
 				</div>
-				<div class="pull-right rightHeaderBtn">
-					<div class="remindersNotice quickAction">
-						<a class="btn btn-default btn-sm" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
-							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-							<span class="badge hide">0</span>
-						</a>
+				{if $REMINDER_ACTIVE}
+					<div class="pull-right rightHeaderBtn">
+						<div class="remindersNotice quickAction">
+							<a class="btn btn-default btn-sm" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
+								<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+								<span class="badge hide">0</span>
+							</a>
+						</div>
 					</div>
-				</div>
+				{/if}
 				{if $CHAT_ACTIVE}
 					<div class="pull-right rightHeaderBtn">
 						<div class="headerLinksAJAXChat quickAction">

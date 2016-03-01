@@ -44,6 +44,11 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View {
 	public function preProcess(Vtiger_Request $request, $display=true) {
 		if($this->checkPermission($request)) {
 			$viewer = $this->getViewer($request);
+			if($activeReminder = vtlib_isModuleActive('Calendar')){
+				$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+				$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
+			}
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$selectedModule = $request->getModule();
 			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
@@ -65,6 +70,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View {
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
+			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 
 			//Additional parameters

@@ -42,7 +42,11 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		if ($this->checkPermission($request)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
-
+			if($activeReminder = vtlib_isModuleActive('Calendar')){
+				$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+				$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
+			}
 			$selectedModule = $request->getModule();
 			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
 			$companyLogo = $companyDetails->getLogo();
@@ -63,6 +67,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
+			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 			//Additional parameters
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
