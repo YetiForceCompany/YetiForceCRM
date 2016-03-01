@@ -37,9 +37,9 @@ jQuery.Class('Settings_CustomView_Index_Js', {
 			'cvid': closestTrElement.data('cvid'),
 			'mod': closestTrElement.data('mod'),
 			'name': target.attr('name'),
-			'checked': target.prop('checked'),
+			'value': target.prop('checked') ? 1 : 0,
 		};
-		app.saveAjax('UpdateField', params).then(function (data) {
+		app.saveAjax('updateField', params).then(function (data) {
 			thisInstance.getContainer().find('#moduleFilter').trigger('change');
 		});
 	},

@@ -10,6 +10,7 @@
 					<th><strong>{vtranslate('SetDefault',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{vtranslate('Privileges',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{vtranslate('LBL_FEATURED_LABELS',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('LBL_SORTING',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{vtranslate('LBL_CREATED_BY',$QUALIFIED_MODULE)}</strong></th>
 					<th><strong>{vtranslate('Actions',$QUALIFIED_MODULE)}</strong></th>
 				</tr>
@@ -37,6 +38,9 @@
 							<input class="switchBtn updateField" type="checkbox" name="featured" {if $item['featured']}checked{/if} data-size="small" data-label-width="5" data-on-text="{vtranslate('LBL_YES')}" data-off-text="{vtranslate('LBL_NO')}" value="1">
 							&nbsp;&nbsp;
 							<button type="button" class="btn btn-default btn-sm showModal" data-url="{$MODULE_MODEL->getFeaturedFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="glyphicon glyphicon-user"></span></button>
+						</td>
+						<td>
+							<button type="button" id="sort" name="sort" class="btn btn-default btn-sm showModal" data-url="{$MODULE_MODEL->getSortingFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="glyphicon glyphicon-sort"></span></button>
 						</td>
 						<td>{Vtiger_Functions::getOwnerRecordLabel($item['userid'])}</td>
 						<td>

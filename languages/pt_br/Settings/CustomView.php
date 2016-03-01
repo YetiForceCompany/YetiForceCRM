@@ -3,7 +3,7 @@
 
 $languageStrings = [
 	'CustomView' => 'Filters - Configuration',
-	'LBL_CUSTOMVIEW_DESC' => 'Esta ferramenta permite configurar visualizações customizadas para os módulos. Estes módulos devem conter registros e utilizar filtros padrões do YetiForce CRM.',
+	'LBL_CUSTOMVIEW_DESCRIPTION' => 'Esta ferramenta permite configurar visualizações customizadas para os módulos. Estes módulos devem conter registros e utilizar filtros padrões do YetiForce CRM.',
 	'ViewName' => 'Nome da Visualização',
 	'SetDefault' => 'Padrão',
 	'Privileges' => 'Privilégios',
@@ -22,6 +22,12 @@ $languageStrings = [
 	'LBL_RECEIVE_PERMISSION' => 'Receive permissions',
 	'LBL_SAVE_SEQUENCES' => 'Sequences saved successfully',
 	'LBL_EXISTS_PERMISSION_IN_CONFIG' => 'Conflict with %s <br> Selected permission cannot be used in more than one filter.',
+	'LBL_SORTING' => 'Sorting',
+	'LBL_SORTING_SETTINGS' => 'Sorting settings',
+	'LBL_SORTING_SETTINGS_WORNING' => '<strong>Warning!<strong><br>Record sorting might significantly increase the page loading time.',
+	'LBL_SELECT_FIELD_TO_SORT_RECORDS' => 'Select a field to sort records',
+	'LBL_SORT_ASCENDING_ORDER' => 'Sort ascending order',
+	'LBL_SORT_DESCENDING_ORDER' => 'Sort sescending order',
 ];
 $jsLanguageStrings = [
 	'Saving changes' => 'Savando as alterações...',

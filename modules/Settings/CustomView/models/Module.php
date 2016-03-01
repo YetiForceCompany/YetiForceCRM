@@ -21,13 +21,13 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		return $moduleEntity;
 	}
-	
+
 	public function getFilterPermissionsView($cvId, $action)
 	{
 		$db = PearDatabase::getInstance();
-		if($action == 'default'){
+		if ($action == 'default') {
 			$sql = 'SELECT `userid` FROM vtiger_user_module_preferences WHERE `default_cvid` = ? ORDER BY userid';
-		}elseif($action == 'featured'){
+		} elseif ($action == 'featured') {
 			$sql = 'SELECT `user` FROM a_yf_featured_filter WHERE `cvid` = ? ORDER BY user';
 		}
 		$result = $db->pquery($sql, [$cvId]);
@@ -84,24 +84,24 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		}
 	}
 
-	public function UpdateField($params)
+	public static function updateField($params)
 	{
-		$authorized_actions = ['setdefault', 'privileges', 'featured'];
-		$adb = PearDatabase::getInstance();
+		$authorizedFields = ['setdefault', 'privileges', 'featured', 'sort'];
+		$db = PearDatabase::getInstance();
 		$cvid = $params['cvid'];
 		$name = $params['name'];
 		$mod = $params['mod'];
-		$checked = $params['checked'] == 'true' ? 1 : 0;
-		if (is_numeric($cvid) && in_array($name, $authorized_actions)) {
-			if ($name == 'setdefault' && $checked == 1)
-				$adb->pquery("UPDATE vtiger_customview SET `setdefault` = ? WHERE entitytype = ?", array(0, $mod));
-			$adb->pquery("UPDATE vtiger_customview SET `$name` = ? WHERE cvid = ?", array($checked, $cvid));
+		if (is_numeric($cvid) && in_array($name, $authorizedFields)) {
+			if ($name == 'setdefault' && $params['value'] == 1) {
+				$db->update('vtiger_customview', ['setdefault' => 0], 'entitytype = ?', [$mod]);
+			}
+			$db->update('vtiger_customview', [$name => $params['value']], 'cvid = ?', [$cvid]);
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
+
 	public static function upadteSequences($params)
 	{
 		$db = PearDatabase::getInstance();
@@ -131,6 +131,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	public function getFeaturedFilterUrl($module, $cvid)
 	{
 		return 'index.php?module=CustomView&parent=Settings&view=FilterPermissions&type=featured&sourceModule=' . $module . '&cvid=' . $cvid;
+	}
+
+	public function getSortingFilterUrl($module, $cvid)
+	{
+		return 'index.php?module=CustomView&parent=Settings&view=Sorting&type=featured&sourceModule=' . $module . '&cvid=' . $cvid;
 	}
 
 	public static function getSupportedModules()

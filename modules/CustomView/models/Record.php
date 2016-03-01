@@ -24,6 +24,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	
 	protected $isFeatured = false;
 	protected $isDefault = false;
+	protected $sortOrderBy = false;
 
 	/**
 	 * Function to get the Id
@@ -1172,5 +1173,25 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		}
 		self::$moduleViewIdCache = $viewName;
 		return $viewName;
+	}
+	
+	public function getSortOrderBy($name = '')
+	{	
+		if ($this->sortOrderBy === false) {
+			$this->sortOrderBy = explode(',', $this->get('sort'));
+		}
+		$return = $this->sortOrderBy;
+		switch ($name) {
+			case 'orderBy':
+				$return = $return[0];
+				break;
+			case 'sortOrder':
+				$return = $return[1];
+				break;
+
+			default:
+				break;
+		}
+		return $return;
 	}
 }

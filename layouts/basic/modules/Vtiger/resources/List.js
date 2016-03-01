@@ -1329,10 +1329,12 @@ jQuery.Class("Vtiger_List_Js", {
 	registerChangeCustomFilterEvent: function () {
 		var thisInstance = this;
 		this.getFilterSelectElement().on('change', function (event) {
+			var currentTarget = jQuery(event.currentTarget);
+			var selectOption = currentTarget.find(':selected');
 			jQuery('#pageNumber').val("1");
 			jQuery('#pageToJump').val('1');
-			jQuery('#orderBy').val('');
-			jQuery("#sortOrder").val('');
+			jQuery('#orderBy').val(selectOption.data('orderby'));
+			jQuery("#sortOrder").val(selectOption.data('sortorder'));
 			selectedIds = new Array();
 			excludedIds = new Array();
 			var urlParams = {

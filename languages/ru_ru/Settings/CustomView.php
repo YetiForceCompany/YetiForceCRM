@@ -12,7 +12,7 @@
 $languageStrings = [
 	'Saving CustomView' => 'Фильтр успешно сохранен',
 	'CustomView' => 'Фильтры - Настройка',
-	'LBL_CUSTOMVIEW_DESC' => 'Модуль позволяет редактировать системные и пользовательские фильтры.',
+	'LBL_CUSTOMVIEW_DESCRIPTION' => 'Модуль позволяет редактировать системные и пользовательские фильтры.',
 	'ViewName' => 'Фильтр',
 	'SetDefault' => 'По умолчанию',
 	'Privileges' => 'Привилегии',
@@ -30,6 +30,12 @@ $languageStrings = [
 	'LBL_RECEIVE_PERMISSION' => 'Receive permissions',
 	'LBL_SAVE_SEQUENCES' => 'Sequences saved successfully',
 	'LBL_EXISTS_PERMISSION_IN_CONFIG' => 'Conflict with %s <br> Selected permission cannot be used in more than one filter.',
+	'LBL_SORTING' => 'Sorting',
+	'LBL_SORTING_SETTINGS' => 'Sorting settings',
+	'LBL_SORTING_SETTINGS_WORNING' => '<strong>Warning!<strong><br>Record sorting might significantly increase the page loading time.',
+	'LBL_SELECT_FIELD_TO_SORT_RECORDS' => 'Select a field to sort records',
+	'LBL_SORT_ASCENDING_ORDER' => 'Sort ascending order',
+	'LBL_SORT_DESCENDING_ORDER' => 'Sort sescending order',
 ];
 $jsLanguageStrings = [
 	'Saving changes' => 'Сохранение изменений...',

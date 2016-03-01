@@ -227,13 +227,13 @@ class ListViewSession
 		Vtiger_Session::set($currentModule . '_listquery', $query);
 	}
 
-	function hasViewChanged($currentModule)
+	function hasViewChanged($currentModule, $viewId = false)
 	{
 		if (empty($_SESSION['lvs'][$currentModule]['viewname']))
 			return true;
-		if (empty($_REQUEST['viewname']))
-			return false;
-		if ($_REQUEST['viewname'] != $_SESSION['lvs'][$currentModule]['viewname'])
+		if (!empty($_REQUEST['viewname']) && ($_REQUEST['viewname'] != $_SESSION['lvs'][$currentModule]['viewname']))
+			return true;
+		if (!empty($viewId) && ($viewId != $_SESSION['lvs'][$currentModule]['viewname']))
 			return true;
 		return false;
 	}
@@ -261,6 +261,36 @@ class ListViewSession
 	{
 		if (!empty($_SESSION['lvs'][$module]['viewname'])) {
 			return $_SESSION['lvs'][$module]['viewname'];
+		}
+	}
+
+	public static function getSorder($module)
+	{
+		if (!empty($_SESSION['lvs'][$module]['sorder'])) {
+			return $_SESSION['lvs'][$module]['sorder'];
+		}
+	}
+
+	public static function getSortby($module)
+	{
+		if (!empty($_SESSION['lvs'][$module]['sortby'])) {
+			return $_SESSION['lvs'][$module]['sortby'];
+		}
+	}
+
+	public static function setDefaultSortOrderBy($module, $defaultSortOrderBy = [])
+	{
+		if (isset($_REQUEST['orderby'])) {
+			$_SESSION['lvs'][$module]['sortby'] = $_REQUEST['orderby'];
+		}
+		if (isset($_REQUEST['sortorder'])) {
+			$_SESSION['lvs'][$module]['sorder'] = $_REQUEST['sortorder'];
+		}
+		if (isset($defaultSortOrderBy['orderBy'])) {
+			$_SESSION['lvs'][$module]['sortby'] = $defaultSortOrderBy['orderBy'];
+		}
+		if (isset($defaultSortOrderBy['sortOrder'])) {
+			$_SESSION['lvs'][$module]['sorder'] = $defaultSortOrderBy['sortOrder'];
 		}
 	}
 }
