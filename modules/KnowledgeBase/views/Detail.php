@@ -9,7 +9,13 @@
 class KnowledgeBase_Detail_View extends Vtiger_Detail_View
 {
 
-	function showModuleSummaryView($request)
+	function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('showPreview');
+	}
+
+	function showPreview($request)
 	{
 		$previewContent = new KnowledgeBase_PreviewContent_View();
 		$previewContent->process($request);
