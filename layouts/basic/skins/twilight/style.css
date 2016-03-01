@@ -5145,3 +5145,6 @@ select.form-control {
 .customViewList .ui-sortable-helper{
 	background-color: #dff0d8 !important;
 }
+.knowledgeBaseDetails {
+	padding: 15px;
+}
