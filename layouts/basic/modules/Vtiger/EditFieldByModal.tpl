@@ -59,7 +59,7 @@
 					</button>
 					<ul class="dropdown-menu">
 						{foreach  key=KEY item=ITEM from=$FIELD_MODEL->getPicklistValues()}
-							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get('assetstatus')} {continue} {/if}
+							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
 							<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
 							{/foreach}
 					</ul>
