@@ -30,6 +30,7 @@ $languageStrings = [
 	'Notes' => 'Opis',
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
 	'FL_RENEWAL' => 'Odnowienie',
+	'LBL_SET_RENEWAL' => 'Ustaw odnowienie',
 
 	/*picklist values*/
 	'PLL_DRAFT'=>'Wersja robocza',

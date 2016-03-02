@@ -29,6 +29,7 @@ $languageStrings = [
 	'Customer Name' => 'Nome Cliente',
 	'Notes' => 'Notas',
 	'FL_RENEWAL' => 'Renewal',
+	'LBL_SET_RENEWAL' => 'Set renewal',
 
 	/*picklist values*/
 	'PLL_DRAFT'=>'Projeto',

@@ -24,6 +24,7 @@ $languageStrings = [
 	
 	'PLL_DRAFT' => 'Черновик',
 	'FL_RENEWAL' => 'Renewal',
+	'LBL_SET_RENEWAL' => 'Set renewal',
 	'Asset Name' => 'Название Актива',
 	'Asset No' => 'Актив №',
 	'Assets' => 'Активы',

@@ -13,6 +13,9 @@ class Assets_Record_Model extends Vtiger_Record_Model
 
 	public function getFieldToEditByModal()
 	{
+		if($this->has('changeEditFieldByModal')){
+			return $this->get('changeEditFieldByModal');
+		}
 		return 'assetstatus';
 	}
 }
