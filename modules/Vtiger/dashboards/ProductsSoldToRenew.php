@@ -161,6 +161,11 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		return $this->listviewRecords;
 	}
 
+	public function getFieldNameToSecondButton()
+	{
+		return 'assets_renew';
+	}
+
 	public function getConditions()
 	{
 		$where = ' AND assetstatus = ? AND assets_renew NOT IN (?, ?)';

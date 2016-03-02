@@ -1109,6 +1109,7 @@ $languageStrings = [
 	'BTN_WATCHING_RECORD' => 'Track changes in record',
 	'BTN_WATCHING_MODULE' => 'Track changes in module',
 	'LBL_PRODUCTS_SOLD_TO_RENEW' => 'Products sold - to renew',
+	'LBL_SOLD_SERVICES_TO_RENEW' => 'Sold Services - to renew',
 	'LBL_SET' => 'Set',
 	'LBL_SELECT_ACTION' => 'Select action',
 	'LBL_CHANGE_VALUE_FOR_FIELD' => '_UNTRANSLATED_',

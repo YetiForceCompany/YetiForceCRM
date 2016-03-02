@@ -36,10 +36,11 @@
 								<button class="showModal btn btn-danger btn-lg" title="{vtranslate('LBL_SET_RECORD_STATUS', $BASE_MODULE)}" data-url="{$RECORD->getEditFieldByModalUrl()}">
 									<span class="glyphicon glyphicon-modal-window"></span>
 								</button>&nbsp;
-								<button class="showModal btn-lg btn btn-primary" title="{vtranslate('LBL_SET_RENEWAL', $BASE_MODULE)}" data-url="{$RECORD->getEditFieldByModalUrl()|cat:'&changeEditFieldByModal=assets_renew'}">
+								<button class="showModal btn-lg btn btn-primary" title="{vtranslate('LBL_SET_RENEWAL', $BASE_MODULE)}" data-url="{$RECORD->getEditFieldByModalUrl()|cat:'&changeEditFieldByModal='|cat:$WIDGET_MODEL->getFieldNameToSecondButton()}">
 									<span class="glyphicon glyphicon-repeat"></span>
 								</button>&nbsp;
-							{elseif $RECORD->isViewable()}
+							{/if}
+							{if $RECORD->isViewable()}
 								<a href="{$RECORD->getDetailViewUrl()}" title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS',$BASE_MODULE)}" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-th-list"></span></a>
 							{/if}
 						</div>
