@@ -1243,13 +1243,10 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
 		container.find('.goToListView').on('click', function () {
-			var status = container.find('.status').prop('checked');
 			if (container.data('name') == 'OverdueActivities') {
-				status = 'PLL_OVERDUE';
-			} else if (status) {
-				status = 'PLL_IN_REALIZATION';
+				var status = 'PLL_OVERDUE';
 			} else {
-				status = 'PLL_PLANNED';
+				var status = 'PLL_IN_REALIZATION,PLL_PLANNED';
 			}
 			var url = 'index.php?module=Calendar&view=List&viewname=All';
 			url += '&search_params=[[';
