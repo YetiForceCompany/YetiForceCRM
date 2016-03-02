@@ -1110,6 +1110,7 @@ $languageStrings = [
 	'BTN_WATCHING_MODULE' => 'Track changes in module',
 	'LBL_PRODUCTS_SOLD_TO_RENEW' => 'Products sold - to renew',
 	'LBL_SET' => 'Set',
+	'LBL_SELECT_ACTION' => 'Select action',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',

@@ -5151,3 +5151,6 @@ select.form-control {
 .detailViewContainer .contents .knowledgeBaseDetails {
 	padding: 15px;
 }
+.dashboardWidgetContent .rowAction:nth-of-type(even) {
+    background-color: #f9f9f9;
+}

@@ -1260,4 +1260,50 @@ YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Creatednotmineactivities_Widget_Js', {}, {});
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Overdueactivities_Widget_Js', {}, {});
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedoverduecalendartasks_Widget_Js', {}, {});
+Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
+	modalView: false,
+	postLoadWidget: function () {
+		this._super();
+		this.registerAction();
+		this.registerListViewButton();
+	},
+	postRefreshWidget: function () {
+		this._super();
+		this.registerAction();
+	},
+	registerAction: function () {
+		var thisInstance = this;
+		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
+		refreshContainer.find('.rowAction').on('click', function (e) {
+			if (jQuery(e.target).is('a') || thisInstance.modalView) {
+				return;
+			}
+			var modalId = jQuery(this).data('modalid');
+			var modalContainer = jQuery('#' + modalId).clone(true, true);
+			if (modalContainer.length) {
+				var callbackFunction = function () {
+					thisInstance.modalView = false;
+				};
+				thisInstance.modalView = true;
+				app.showModalWindow(modalContainer, callbackFunction);
+			}
+		})
+	},
+	registerListViewButton: function () {
+		var thisInstance = this;
+		var container = thisInstance.getContainer();
+		container.find('.goToListView').on('click', function () {
+			var url = jQuery(this).data('url');
+			var orderBy = container.find('.orderby');
+			var sortOrder = container.find('.changeRecordSort');
+			if (orderBy.length) {
+				url += '&orderby=' + orderBy.val();
+			}
+			if (sortOrder.length) {
+				url += '&sortorder=' + sortOrder.data('sort').toUpperCase();
+			}
+			window.location.href = url;
+		});
+	}
+});
 
