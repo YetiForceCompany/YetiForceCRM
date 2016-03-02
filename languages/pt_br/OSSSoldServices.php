@@ -35,6 +35,7 @@ $languageStrings = [
 	'Number' => 'Número',
 	'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
 	'LBL_ORDER_TIME' => 'Hora Pedido',
+	'FL_RENEWAL' => 'Renewal',
 	'PLL_DRAFT' => 'Draft',
 	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
 	'PLL_WAITING_FOR_ACCEPTANCE' => 'Waiting for acceptance',

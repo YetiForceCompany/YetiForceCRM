@@ -23,6 +23,7 @@ $languageStrings = [
 	'PLL_NOT_APPLICABLE'=>'Not applicable',
 	
 	'PLL_DRAFT' => 'Черновик',
+	'FL_RENEWAL' => 'Renewal',
 	'Asset Name' => 'Название Актива',
 	'Asset No' => 'Актив №',
 	'Assets' => 'Активы',

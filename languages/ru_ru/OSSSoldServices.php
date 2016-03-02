@@ -35,6 +35,7 @@ $languageStrings = [
 	'Number' => '№',
 	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'LBL_ORDER_TIME' => 'Время Заказа',
+	'FL_RENEWAL' => 'Renewal',
 	
 	'PLL_DRAFT'=>'Draft',
 	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',

@@ -29,6 +29,7 @@ $languageStrings = [
 	'Customer Name' => 'Kontrahent',
 	'Notes' => 'Opis',
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
+	'FL_RENEWAL' => 'Odnowienie',
 
 	/*picklist values*/
 	'PLL_DRAFT'=>'Wersja robocza',

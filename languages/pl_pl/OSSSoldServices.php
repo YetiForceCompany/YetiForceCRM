@@ -36,6 +36,7 @@ $languageStrings = [
 	'Services' => 'Nazwa usługi',
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
+	'FL_RENEWAL' => 'Odnowienie',
 	'PLL_DRAFT'=>'Wersja robocza',
 	'PLL_WAITING_FOR_VERIFICATION'=>'Oczekuje na weryfikacje',
 	'PLL_WAITING_FOR_ACCEPTANCE'=>'Oczekuje na akceptacje',

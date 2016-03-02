@@ -29,6 +29,7 @@ $languageStrings = [
 	'Asset Name' => 'Name',
 	'Customer Name' => 'Customer name',
 	'Notes' => 'Notes',
+	'FL_RENEWAL' => 'Renewal',
 
 	/*picklist values*/
 	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
