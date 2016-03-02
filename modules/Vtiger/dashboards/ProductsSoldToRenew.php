@@ -87,12 +87,12 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getTargetFields()
 	{
-		return ['id', 'assetname', 'parent_id', 'dateinservice', 'assetstatus', 'assets_renew'];
+		return ['id', 'assetname', 'parent_id', 'dateinservice'];
 	}
 
 	public function getRestrictFields()
 	{
-		return ['assetstatus', 'assets_renew'];
+		return [];
 	}
 
 	protected function initListViewController()

@@ -2,11 +2,12 @@
 {strip}
 	{assign var=ID value=$RECORD->get('id')}
 	{assign var=FIELD_TO_EDIT value=$RECORD->getFieldToEditByModal()}
+	{assign var=BASIC_FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
 	<input type="hidden" class="fieldToEdit" id="fieldToEdit" value="{$FIELD_TO_EDIT}">
 	<div class="modal-header">
-		<div class="pull-left">
-			<h3 class="modal-title">{vtranslate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
+		<div class="col-xs-10">
+			<h3 class="modal-title">{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}: {vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} </h3>
 		</div>
 		<div class="pull-right btn-group">
 			{if $RECORD->isEditable()}
@@ -52,16 +53,15 @@
 	<div class="pull-left">
 		<div class="btn-toolbar">
 			{if $RECORD->isViewable()}
-				{assign var=FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{vtranslate('LBL_SET',$MODULE_NAME)} {vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
+						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						{foreach  key=KEY item=ITEM from=$FIELD_MODEL->getPicklistValues()}
+						{foreach  key=KEY item=ITEM from=$BASIC_FIELD_MODEL->getPicklistValues()}
 							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
 							<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
-							{/foreach}
+						{/foreach}
 					</ul>
 				</div>
 			{/if}

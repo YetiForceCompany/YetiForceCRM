@@ -1112,6 +1112,7 @@ $languageStrings = [
 	'LBL_PRODUCTS_SOLD_TO_RENEW' => 'Produkty sprzedane - do odnowienia',
 	'LBL_SET' => 'Ustaw',
 	'LBL_SELECT_ACTION' => 'Wybierz akcję',
+	'LBL_CHANGE_VALUE_FOR_FIELD' => 'Zmień wartość pola',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
