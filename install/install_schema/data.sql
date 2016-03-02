@@ -2,8 +2,7 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -499,7 +498,7 @@ insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence
 
 /*Data for the table `u_yf_istrn_invmap` */
 
-insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products','','');
+insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products','ean','ean');
 insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
 
 /*Data for the table `u_yf_istrncf` */
@@ -6105,10 +6104,11 @@ insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`star
 insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`start_id`,`cur_id`,`active`) values (69,'KnowledgeBase','KB','','1','1','1');
 insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`start_id`,`cur_id`,`active`) values (70,'ISTDN','I-TD','','1','1','1');
 insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`start_id`,`cur_id`,`active`) values (71,'ISTN','I-SN','','1','1','1');
+insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`start_id`,`cur_id`,`active`) values (72,'ISTRN','I-TR','','1','1','1');
 
 /*Data for the table `vtiger_modentity_num_seq` */
 
-insert  into `vtiger_modentity_num_seq`(`id`) values (71);
+insert  into `vtiger_modentity_num_seq`(`id`) values (72);
 
 /*Data for the table `vtiger_modtracker_basic` */
 
