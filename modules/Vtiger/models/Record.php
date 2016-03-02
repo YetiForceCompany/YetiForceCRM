@@ -775,4 +775,26 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 	}
+
+	/**
+	 * Function to get EditFieldByModal view url for the record
+	 * @return <String> - EditFieldByModal View Url
+	 */
+	public function getEditFieldByModalUrl()
+	{
+		return 'index.php?module=' . $this->getModuleName() . '&view=EditFieldByModal&record=' . $this->getId();
+	}
+
+	public function getFieldToEditByModal()
+	{
+		return;
+	}
+
+	public function editFieldByModalPermission($profileAction = false)
+	{
+		if ($this->privileges['editFieldByModal'] === true && $profileAction) {
+			return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
+		}
+		return (bool) $this->privileges['editFieldByModal'];
+	}
 }

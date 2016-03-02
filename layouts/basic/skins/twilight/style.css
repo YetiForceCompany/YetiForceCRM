@@ -3986,10 +3986,12 @@ html,body,.baseContainer
 	font-size: 12px;
 }
 .modalEditStatus .form-horizontal .form-group,
+#modalEditFieldByModal .form-horizontal .form-group,
 #modalEditStatus .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
 .modalEditStatus .form-horizontal .form-group .control-label,
+#modalEditFieldByModal .form-horizontal .form-group .control-label,
 #modalEditStatus .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
@@ -4103,6 +4105,7 @@ html,body,.baseContainer
 	width: 8%;
 }
 .modalEditStatus .popover.fade,
+#modalEditFieldByModal .popover.fade,
 #modalEditStatus .popover.fade
 {
 	min-width: 400px;

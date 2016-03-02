@@ -12,6 +12,11 @@
 					<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
 				</a>&nbsp;
 			{/if}
+			{if ($IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->isEditable() && $LISTVIEW_ENTRY->editFieldByModalPermission()) || $LISTVIEW_ENTRY->editFieldByModalPermission(true)}
+				<a class="showModal" data-url="{$LISTVIEW_ENTRY->getEditFieldByModalUrl()}">
+					<span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-modal-window alignMiddle"></span>
+				</a>&nbsp;
+			{/if}
 			{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->isDeletable()}
 				<a class="deleteRecordButton">
 					<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
