@@ -1,8 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'IPreOrder' => 'Rezerwacje',
-	'SINGLE_IPreOrder' => 'Rezerwacja',
+	'IPreOrder' => '[MR] Rezerwacje magazynowe',
+	'SINGLE_IPreOrder' => '[MR] Rezerwacja magazynowa',
 	'LBL_DESCRIPTION_BLOCK' => 'Opis',
 	'LBL_ATTENTION_BLOCK' => 'Uwagi',
 	'FL_ACCEPTANCE_DATE' => 'Data przyjęcia',
