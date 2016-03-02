@@ -3491,7 +3491,7 @@ span[name=existingImages] img{
 	height: calc(100% - 50px);
 }
 .nav li:hover > .slimScrollDiv >.subMenu > li > .slimScrollDiv >.subMenu{
-	left: 280px;
+	left: 300px;
 	top: 0;
 }
 .nav li:hover .subMenu a{
@@ -3505,12 +3505,12 @@ span[name=existingImages] img{
 	bottom: 33px;
 	top: 50px;
 	z-index: -1;
-	width: 280px; 
+	width: 300px; 
 	background: #f0f1f1;
 	border-right: 1px solid #dddddd;
 }
 .leftPanel .nav .subMenu li {
-	width: 280px;
+	width: 300px;
 }
 .leftPanel .nav .subMenu li.menuLabel > a {
 	font-weight: 600;
