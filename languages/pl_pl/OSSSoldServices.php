@@ -23,9 +23,6 @@ $languageStrings = [
 	'Assigned To' => 'Właściciel rekordu',
 	'LBL_RODZAJUMOWY' => 'Rodzaj umowy',
 	'LBL_ssservicesstatus' => 'Status',
-	'Individual Agreement' => 'Umowa Indywidualna',
-	'In service' => 'W serwisie',
-	'Finished support' => 'Zakończone Wsparcie',
 	'Product Name' => 'Nazwa',
 	'Sub Category' => 'Podkategoria',
 	'Category' => 'Kategoria',
@@ -39,5 +36,18 @@ $languageStrings = [
 	'Services' => 'Nazwa usługi',
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
+	'PLL_DRAFT'=>'Wersja robocza',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Oczekuje na weryfikacje',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Oczekuje na akceptacje',
+	'PLL_ACCEPTED'=>'Zaakceptowano',
+	'PLL_CANCELLED'=>'Anulowano',
+	
+	'PLL_PLANNED'=>'Planowane',
+	'PLL_WAITING_FOR_RENEWAL'=>'Oczekuje na odnowienie',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Oczekuje na weryfikacje',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Oczekuje na akceptacje',
+	'PLL_RENEWED'=>'Odnowiono',
+	'PLL_NOT_RENEWED'=>'Nie odnowiono',
+	'PLL_NOT_APPLICABLE'=>'Nie dotyczy',
 ];
 ?>

@@ -9,12 +9,19 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
-	'PLL_SALES_ACCEPTANCE'=>'Sales acceptance',
-	'PLL_SOLD'=>'Sold',
-	'PLL_TO_RENEW'=>'To renew',
-	'PLL_RENEWAL_ACCEPTANCE'=>'Renewal acceptance ',
-	'PLL_RENEWED'=>'Renewed',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_ACCEPTED'=>'Accepted',
 	'PLL_CANCELLED'=>'Cancelled',
+	
+	'PLL_PLANNED'=>'Planned',
+	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_RENEWED'=>'Renewed',
+	'PLL_NOT_RENEWED'=>'Not renewed',
+	'PLL_NOT_APPLICABLE'=>'Not applicable',
+	
 	'PLL_DRAFT' => 'Черновик',
 	'Asset Name' => 'Название Актива',
 	'Asset No' => 'Актив №',

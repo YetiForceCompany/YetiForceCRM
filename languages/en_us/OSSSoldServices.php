@@ -24,9 +24,6 @@ $languageStrings = [
 'Assigned To' => 'Assigned to',
 'LBL_RODZAJUMOWY' => 'Type of agreement',
 'LBL_ssservicesstatus' => 'Status',
-'Individual Agreement' => 'Individual agreement',
-'In service' => 'Is supported',
-'Finished support' => 'Support terminated',
 'Product Name' => 'Product name',
 'Sub Category' => 'Subcategory',
 'Category' => 'Category',
@@ -39,5 +36,18 @@ $languageStrings = [
 'Number' => 'Number',
 'LBL_GENERATE_EXTENSION' => 'Generate extension',
 'LBL_ORDER_TIME'=>'Order time',
+	'PLL_DRAFT'=>'Draft',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_ACCEPTED'=>'Accepted',
+	'PLL_CANCELLED'=>'Cancelled',
+	
+	'PLL_PLANNED'=>'Planned',
+	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_RENEWED'=>'Renewed',
+	'PLL_NOT_RENEWED'=>'Not renewed',
+	'PLL_NOT_APPLICABLE'=>'Not applicable',
 ];
 ?>
