@@ -7,7 +7,7 @@ $languageStrings = [
 	//BLOCKS
 	'LBL_COMPETITION_INFORMATION' => 'Informacje podstawowe',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
-	'LBL_DESCRIPTION_INFORMATION' => 'Informacje Opisowe',
+	'LBL_DESCRIPTION_INFORMATION' => 'Informacje opisowe',
 	
 	//FIELDS
 	'LBL_SUBJECT' => 'Temat',
