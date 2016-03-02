@@ -9,7 +9,7 @@
 class Pdf_ShowDescription extends Vtiger_SpecialFunction_Pdf
 {
 
-	public $permittedModules = ['all'];
+	public $permittedModules = ['IIDN','IGRN','IGDN','IGIN','ISTDN','ISTRN','IPreOrder'];
 
 	public function process($module, $id, Vtiger_PDF_Model $pdf)
 	{

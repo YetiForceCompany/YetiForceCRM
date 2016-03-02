@@ -9,7 +9,7 @@
 class Pdf_IStoragesProductsTable extends Vtiger_SpecialFunction_Pdf
 {
 
-	public $permittedModules = ['all'];
+	public $permittedModules = ['IStorages'];
 
 	public function process($module, $id, Vtiger_PDF_Model $pdf)
 	{
