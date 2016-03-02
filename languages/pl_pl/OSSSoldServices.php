@@ -50,5 +50,6 @@ $languageStrings = [
 	'PLL_RENEWED'=>'Odnowiono',
 	'PLL_NOT_RENEWED'=>'Nie odnowiono',
 	'PLL_NOT_APPLICABLE'=>'Nie dotyczy',
+	'LBL_SET_RENEWAL' => 'Ustaw odnowienie',
 ];
 ?>

@@ -40,4 +40,5 @@ $languageStrings = [
 	'PLL_RENEWED' => 'Renewed',
 	'PLL_NOT_RENEWED' => 'Not renewed',
 	'PLL_NOT_APPLICABLE' => 'Not applicable',
+	'LBL_SET_RENEWAL' => 'Set renewal',
 ];
