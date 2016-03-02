@@ -110,15 +110,12 @@ class Home_Module_Model extends Vtiger_Module_Model
 			WHERE vtiger_crmentity.deleted=0 ';
 		$query .= $userAccessConditions;
 		if ($mode === 'upcoming') {
-			if(is_array($paramsMore['status'])){
-				$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
-				AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($paramsMore['status']) ."))";
-				$params = array_merge($params, $paramsMore['status']);
-			} else {
-				$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
-				AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?))";
-				array_push($params, $paramsMore['status']);
+			if(!is_array($paramsMore['status'])){
+				$paramsMore['status'] = [$paramsMore['status']];
 			}
+			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
+			AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($paramsMore['status']) ."))";
+			$params = array_merge($params, $paramsMore['status']);
 		} elseif ($mode === 'overdue') {
 			$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
 			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
