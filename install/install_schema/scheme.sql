@@ -2700,12 +2700,24 @@ CREATE TABLE `vtiger_assets` (
   `ordertime` decimal(10,2) DEFAULT NULL,
   `pscategory` varchar(255) DEFAULT '',
   `ssalesprocessesid` int(19) DEFAULT NULL,
+  `assets_renew` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`assetsid`),
   KEY `parent_id` (`parent_id`),
   KEY `product` (`product`),
   KEY `ssalesprocessesid` (`ssalesprocessesid`),
   CONSTRAINT `fk_1_vtiger_assets` FOREIGN KEY (`assetsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_assets_renew` */
+
+CREATE TABLE `vtiger_assets_renew` (
+  `assets_renewid` int(11) NOT NULL AUTO_INCREMENT,
+  `assets_renew` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`assets_renewid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_assetscf` */
 
@@ -4332,7 +4344,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2267 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2269 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6095,12 +6107,24 @@ CREATE TABLE `vtiger_osssoldservices` (
   `serviceid` int(19) DEFAULT NULL,
   `ordertime` decimal(10,2) DEFAULT NULL,
   `ssalesprocessesid` int(19) DEFAULT NULL,
+  `osssoldservices_renew` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`osssoldservicesid`),
   KEY `parent_id` (`parent_id`),
   KEY `serviceid` (`serviceid`),
   KEY `ssalesprocessesid` (`ssalesprocessesid`),
   CONSTRAINT `fk_1_vtiger_osssoldservices` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_osssoldservices_renew` */
+
+CREATE TABLE `vtiger_osssoldservices_renew` (
+  `osssoldservices_renewid` int(11) NOT NULL AUTO_INCREMENT,
+  `osssoldservices_renew` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`osssoldservices_renewid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osssoldservicescf` */
 
@@ -6364,7 +6388,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -7768,7 +7792,7 @@ CREATE TABLE `vtiger_ssservicesstatus` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`ssservicesstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssservicesstatus_seq` */
 
