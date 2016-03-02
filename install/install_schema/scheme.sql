@@ -118,7 +118,7 @@ CREATE TABLE `a_yf_pdf` (
   `template_members` varchar(255) NOT NULL,
   PRIMARY KEY (`pdfid`),
   KEY `module_name` (`module_name`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_taxes_config` */
 
