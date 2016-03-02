@@ -11,15 +11,15 @@
 $languageStrings = [
     'LBL_ADD_FEED_SOURCE' => 'Add Feed Source',
     'LBL_ENTER_FEED_SOURCE' => 'Enter Feed Source',
-    'LBL_FEEDS_LIST_FROM' => 'Feeds List From',
+    'LBL_FEEDS_LIST_FROM' => 'Feeds list from',
     'LBL_FEED_SOURCE' => 'Feed Source',
 	'LBL_RSS_FEED_SOURCES' => 'Rss Feed Sources',
     'LBL_SENDER' => 'Sender',
-    'LBL_SET_AS_DEFAULT' => 'Set As Default',
+    'LBL_SET_AS_DEFAULT' => 'Set as default',
     'SINGLE_Rss' => 'Rss Feed',
 ];
 $jsLanguageStrings = [
-    'JS_INVALID_RSS_URL' => 'Invalid Rss Url',
-    'JS_RSS_MADE_AS_DEFAULT' => 'Rss Made as Default',
-	'JS_RSS_SUCCESSFULLY_SAVED' => 'Rss Successfully saved',
+    'JS_INVALID_RSS_URL' => 'Invalid Rss URL',
+    'JS_RSS_MADE_AS_DEFAULT' => 'Rss made as default',
+	'JS_RSS_SUCCESSFULLY_SAVED' => 'Rss successfully saved',
 ];
