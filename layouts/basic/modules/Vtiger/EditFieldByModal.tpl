@@ -52,12 +52,12 @@
 	<div class="pull-left">
 		<div class="btn-toolbar">
 			{if $RECORD->isViewable()}
+				{assign var=FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{vtranslate('LBL_CHANGE_STATUS',$MODULE_NAME)} <span class="caret"></span>
+						{vtranslate('LBL_SET',$MODULE_NAME)} {vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						{assign var=FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 						{foreach  key=KEY item=ITEM from=$FIELD_MODEL->getPicklistValues()}
 							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get('assetstatus')} {continue} {/if}
 							<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
