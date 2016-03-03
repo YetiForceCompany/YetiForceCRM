@@ -28,4 +28,5 @@ $languageStrings = [
 	'LBL_ARTICLE' => 'Article',
 	'LBL_DESCRIPTION_BLOCK' => 'Description',
 	'LBL_ATTENTION_BLOCK' => 'Comments',
+	'LBL_FULL_SCREEN' => 'Full screen'
 ];

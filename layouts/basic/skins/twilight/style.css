@@ -5158,3 +5158,10 @@ select.form-control {
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 }
+.knowledgePopoutContainer .knowledgePopoutSubject,
+.knowledgePopoutContainer .knowledgePopoutContent {
+	padding: 20px 50px;
+}
+.knowledgePopoutContainer .knowledgePopoutSubject {
+	text-align: center;
+}
