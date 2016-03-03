@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+	<input type="hidden" id="popupValue" value="{$POPUP}" />
 	<div class="{if $POPUP === false}col-xs-12 {/if}knowledgePresentation">
 		<div id="carouselPresentation" class="carousel slide" data-interval="false">
 			<div class="row{if $POPUP === true} knowledgePresentationRow{/if}">

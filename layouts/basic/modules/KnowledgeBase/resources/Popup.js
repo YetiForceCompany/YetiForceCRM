@@ -1,6 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 Vtiger_Popup_Js("KnowledgeBase_Popup_Js", {}, {
-	test : true,
 	showPresentationContent : function(recordId) {
 		var url = 'index.php?module=KnowledgeBase&view=Popup&record=' + recordId;
 		var sW = screen.width;
@@ -13,12 +12,20 @@ Vtiger_Popup_Js("KnowledgeBase_Popup_Js", {}, {
 		}
 		jQuery.initWindowMsg();
 		return popupWinRef;
+	},
+	setSlidesHeight : function () {
+		$(function () {
+			var slides = [];
+			var highestSlideHeight = $('#page').height();
+			$('#carouselPresentation .knowledgePresentationContent').each(function () {
+				$(this).css('height', highestSlideHeight + 'px');
+			});
+		});
+	},
+	registerEvents : function () {
+		if ($('#popupValue').val() == 1) {
+			this.setSlidesHeight();
+		}
 	}
 });
-$(function () {
-	var slides = [];
-	var highestSlideHeight = $('#page').height();
-	$('#carouselPresentation .knowledgePresentationContent').each(function () {
-		$(this).css('height', highestSlideHeight + 'px');
-	});
-});
+
