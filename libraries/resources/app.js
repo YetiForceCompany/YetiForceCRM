@@ -54,12 +54,6 @@ var app = {
 		return jQuery('body').data('language');
 	},
 	/**
-	 * Function to get height of window
-	 */
-	getHeightWindow: function () {
-		return jQuery(window).height();
-	},
-	/**
 	 * Function to get path to layout
 	 */
 	getLayoutPath: function () {
@@ -1245,8 +1239,10 @@ var app = {
 	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
 		soundsConfig = JSON.parse(soundsConfig);
-		var audio = new Audio(app.getLayoutPath() + '/sounds/' + soundsConfig[action]);
-		audio.play();
+		if(soundsConfig['IS_ENABLED']){
+			var audio = new Audio(app.getLayoutPath() + '/sounds/' + soundsConfig[action]);
+			audio.play();
+		}
 	},
 	registerSticky: function () {
 		var elements = jQuery('.stick');
@@ -1271,7 +1267,7 @@ var app = {
 				});
 			}
 			if (position == 'bottom') {
-				var offsetTop = currentElement.offset().top - app.getHeightWindow();
+				var offsetTop = currentElement.offset().top - jQuery(window).height();
 				jQuery('.mainBody').scroll(function () {
 					if ($(this).scrollTop() < offsetTop)
 						currentElement.css({

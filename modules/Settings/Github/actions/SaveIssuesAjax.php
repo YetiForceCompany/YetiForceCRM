@@ -6,7 +6,7 @@
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-class Settings_Github_SaveIssuesAJAX_Action extends Settings_Vtiger_Basic_Action
+class Settings_Github_SaveIssuesAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
 	public function process(Vtiger_Request $request)

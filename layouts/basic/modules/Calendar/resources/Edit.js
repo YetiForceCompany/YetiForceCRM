@@ -203,7 +203,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 					element.timepicker('hide');
 					list = element.data('timepicker-list');
 				}
-				;
 				e = jQuery.Event("keydown");
 				e.which = 13;
 				e.keyCode = 13;

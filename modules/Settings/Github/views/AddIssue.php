@@ -2,11 +2,11 @@
 
 /**
  * Show modal to add issue 
- * @package YetiForce.Github
+ * @package YetiForce.View
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Settings_Github_AddIssueAJAX_View extends Vtiger_BasicModal_View
+class Settings_Github_AddIssue_View extends Vtiger_BasicModal_View
 {
 	public function checkPermission(Vtiger_Request $request)
 	{

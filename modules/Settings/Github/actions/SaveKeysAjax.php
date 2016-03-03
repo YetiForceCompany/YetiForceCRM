@@ -5,7 +5,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Settings_Github_SaveKeysAJAX_Action extends Settings_Vtiger_Basic_Action
+class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
 	public function process(Vtiger_Request $request)
