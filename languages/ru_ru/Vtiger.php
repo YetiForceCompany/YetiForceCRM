@@ -1355,7 +1355,7 @@ $languageStrings = [
 	'LBL_SOLD_SERVICES_TO_RENEW' => 'Sold Services - to renew',
 	'LBL_SET' => 'Set',
 	'LBL_SELECT_ACTION' => 'Select action',
-	'LBL_CHANGE_VALUE_FOR_FIELD' => '_UNTRANSLATED_',
+	'LBL_CHANGE_VALUE_FOR_FIELD' => 'Change field value',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
