@@ -5165,3 +5165,6 @@ select.form-control {
 .knowledgePopoutContainer .knowledgePopoutSubject {
 	text-align: center;
 }
+.knowledgePresentation .knowledgePresentationRow {
+	margin: 0 !important;
+}

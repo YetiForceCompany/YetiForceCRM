@@ -28,6 +28,6 @@ class KnowledgeBase_Popup_View extends Vtiger_Popup_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->view('ContentsView.tpl', $moduleName);
+		$viewer->view($template, $moduleName);
 	}
 }
