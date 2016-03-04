@@ -787,7 +787,13 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function getFieldToEditByModal()
 	{
-		return;
+		return [
+			'addClass' => '',
+			'iconClass' => '',
+			'listViewClass' => '',
+			'titleTag' => '',
+			'name' => '',
+		];
 	}
 
 	public function editFieldByModalPermission($profileAction = false)

@@ -5168,3 +5168,6 @@ select.form-control {
 .knowledgePresentation .knowledgePresentationRow {
 	margin: 0 !important;
 }
+.danger-color{
+	color: #d9534f !important;
+}

@@ -9,7 +9,7 @@
 class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 {
 
-	protected $showFields = ['assetname', 'parent_id', 'serialnumber', 'datesold', 'assetstatus', 'dateinservice', 'assigned_user_id', 'created_user_id', 'shownerid'];
+	protected $showFields = ['assetname', 'parent_id', 'serialnumber', 'datesold', 'assetstatus', 'dateinservice', 'assigned_user_id', 'created_user_id', 'shownerid', 'assets_renew'];
 
 	function process(Vtiger_Request $request)
 	{

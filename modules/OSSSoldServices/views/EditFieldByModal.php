@@ -9,7 +9,7 @@
 class OSSSoldServices_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 {
 
-	protected $showFields = ['productname', 'ssservicesstatus','pscategory', 'datesold', 'dateinservice', 'parent_id', 'assigned_user_id', 'shownerid', 'serviceid'];
+	protected $showFields = ['productname', 'ssservicesstatus','pscategory', 'datesold', 'dateinservice', 'parent_id', 'assigned_user_id', 'shownerid', 'serviceid', 'osssoldservices_renew'];
 
 	function process(Vtiger_Request $request)
 	{

@@ -1,7 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
 	{assign var=ID value=$RECORD->get('id')}
-	{assign var=FIELD_TO_EDIT value=$RECORD->getFieldToEditByModal()}
+	{assign var=FIELD_DATA value=$RECORD->getFieldToEditByModal()}
+	{assign var=FIELD_TO_EDIT value=$FIELD_DATA['name']}
 	{assign var=BASIC_FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
 	<input type="hidden" class="fieldToEdit" id="fieldToEdit" value="{$FIELD_TO_EDIT}">
