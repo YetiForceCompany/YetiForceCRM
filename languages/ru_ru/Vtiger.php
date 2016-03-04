@@ -1356,6 +1356,7 @@ $languageStrings = [
 	'LBL_SET' => 'Set',
 	'LBL_SELECT_ACTION' => 'Select action',
 	'LBL_CHANGE_VALUE_FOR_FIELD' => 'Change field value',
+	'SINGLE_SSalesProcesses' => 'Сделка',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
