@@ -1471,7 +1471,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerClearReferenceSelectionEvent(container);
 		this.registerPreventingEnterSubmitEvent(container);
 		this.registerTimeFields(container);
-		this.registerRecordAccessCheckEvent(container);
+//		this.registerRecordAccessCheckEvent(container); // TODO Remove, when permissions verification is not possible
 		this.registerEventForPicklistDependencySetup(container);
 		this.registerRecordPreSaveEventEvent(container);
 		this.registerReferenceSelectionEvent(container);
