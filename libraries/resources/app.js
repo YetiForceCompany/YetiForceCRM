@@ -120,6 +120,24 @@ var app = {
 
 		selectElement.each(function () {
 			var select = $(this);
+			// hide selected items in the chosen instance when item is hidden.
+			if(select.hasClass('hideSelected')){
+				var ns = [];
+				select.find('optgroup,option').each(function(n, e){
+					if(jQuery(this).hasClass('hide')){
+						ns.push(n);
+					}
+				});
+				if(ns.length){
+					select.next().find('.search-choice-close').each(function(n,e){
+						var element = jQuery(this);
+						var index = element.data('option-array-index');
+						if(jQuery.inArray(index, ns) != -1){
+							element.closest('li').remove();
+						}
+					})
+				}
+			}
 			if (select.attr('readonly') == 'readonly') {
 				select.on('chosen:updated', function () {
 					if (select.attr('readonly')) {
