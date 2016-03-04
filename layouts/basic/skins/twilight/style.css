@@ -5120,15 +5120,15 @@ select.form-control {
 	min-height: 450px;
 }
 .knowledgePresentationControl {
-	width: 10%;
+	width: 5%;
 }
 .knowledgePresentationInner {
 	position: relative;
 	min-height: 1px;
 	padding-right: 15px;
 	padding-left: 15px;
-	width: 80%;
-	margin-left: 10%;
+	width: 90%;
+	margin-left: 5%;
 	float: left;
 }
 .panelTree{
@@ -5174,4 +5174,8 @@ select.form-control {
 .detailViewContainer .chosen-container,
 .editViewContainer .chosen-container{
 	height: auto;
+}
+.knowledgePresentationControl.carousel-control{
+	background: #fff;
+	color:#000;
 }

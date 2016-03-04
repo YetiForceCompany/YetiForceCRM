@@ -8,7 +8,7 @@
 class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request, $display = true)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -25,12 +25,14 @@ class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View
 		}
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('POPUP', false);
+		$viewer->assign('IS_POPUP', false);
 		$viewer->assign('TEMPLATE', $template);
 		$viewer->assign('CONTENT', $content);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->view('ContentsView.tpl', $moduleName);
+		if ($display) {
+			$viewer->view('ContentsView.tpl', $moduleName);
+		}
 	}
 }

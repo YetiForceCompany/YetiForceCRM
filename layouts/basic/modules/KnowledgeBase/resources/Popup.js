@@ -2,9 +2,9 @@
 Vtiger_Popup_Js("KnowledgeBase_Popup_Js", {}, {
 	showPresentationContent : function(recordId) {
 		var url = 'index.php?module=KnowledgeBase&view=Popup&record=' + recordId;
-		var sW = screen.width;
-		var sH = screen.height;
-		var popupWinRef =  window.open(url, '' ,'width=' + sW + ',height=' + sH);
+		var screenWidth = screen.width;
+		var screenHeight = screen.height;
+		var popupWinRef =  window.open(url, '' ,'width=' + screenWidth + ',height=' + screenHeight);
 		popupWinRef.moveTo(0,0);
 		if (typeof this.destroy == 'function') {
 			// To remove form elements that have created earlier
@@ -15,7 +15,6 @@ Vtiger_Popup_Js("KnowledgeBase_Popup_Js", {}, {
 	},
 	setSlidesHeight : function () {
 		$(function () {
-			var slides = [];
 			var highestSlideHeight = $('#page').height();
 			$('#carouselPresentation .knowledgePresentationContent').each(function () {
 				$(this).css('height', highestSlideHeight + 'px');
