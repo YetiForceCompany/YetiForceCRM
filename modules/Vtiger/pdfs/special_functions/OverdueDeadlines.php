@@ -38,7 +38,7 @@ class Pdf_OverdueDeadlines extends Vtiger_SpecialFunction_Pdf
 			'glue' => 'AND'
 		]);
 		$listQuery = $queryGenerator->getQuery('SELECT');
-		$listQuery .= ' LIMIT 200;';
+		$listQuery .= ' LIMIT 500;';
 		$result = $db->query($listQuery);
 		$html = '<br><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
