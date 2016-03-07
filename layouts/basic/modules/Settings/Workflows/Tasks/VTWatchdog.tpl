@@ -1,23 +1,34 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="well" id="VtVTEmailTemplateTaskContainer">
-		<div class="">
-			<div class="row padding-bottom1per">
-				<span class="col-md-4">{vtranslate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
-				<div class="col-md-4">
-					<select class="chzn-select form-control" name="type" data-validation-engine='validate[required]'>
-						{foreach from=[1,2,3,4] key=KEY item=ITEM}
-							<option {if $TASK_OBJECT->type eq $key}selected{/if} value="{$ITEM}">{$ITEM}</option>
-						{/foreach}	
-					</select>
-				</div>
-			</div>
-			<div class="row padding-bottom1per">
-				<span class="col-md-4">{vtranslate('LBL_MESSAGE', $QUALIFIED_MODULE)}</span>
-				<div class="col-md-4">
-					<input class="form-control" name="message" value="{$TASK_OBJECT->massage}">
-				</div>
+	<div class="row padding-bottom1per">
+		<span class="col-md-3">{vtranslate('LBL_SELECT_ACTION_TYPE', $QUALIFIED_MODULE)}</span>
+		<div class="col-md-9">
+			<select class="chzn-select form-control" name="type" data-validation-engine="validate[required]">
+				{foreach from=$TASK_OBJECT->getAllTypes() key=KEY item=ITEM}
+					<option {if $TASK_OBJECT->type eq $KEY}selected{/if} value="{$KEY}">{$ITEM['name']}</option>
+				{/foreach}	
+			</select>
+		</div>
+	</div>
+	<div class="row padding-bottom1per">
+		<span class="col-md-3">{vtranslate('LBL_SELECT_RECIPIENTS', $QUALIFIED_MODULE)}</span>
+		<div class="col-md-9">
+			<select class="chzn-select form-control" name="recipients" data-validation-engine="validate[required]">
+				<option {if $TASK_OBJECT->recipients eq 'watchdog'}selected{/if} value="watchdog">
+					{vtranslate('LBL_WATCHING_USERS', $QUALIFIED_MODULE)}
+				</option>
+			</select>
+		</div>
+	</div>
+	<div class="row padding-bottom1per">
+		<span class="col-md-3">{vtranslate('LBL_MESSAGE', $QUALIFIED_MODULE)}</span>
+		<div class="col-md-9">
+			<div class="input-group popoverTooltip" data-content="{Vtiger_Util_Helper::toSafeHTML(vtranslate('LBL_MESSAGE_INFO', $QUALIFIED_MODULE))}" data-placement="right">
+				<input type="text" class="form-control" name="message" value="{$TASK_OBJECT->message}" aria-describedby="messageaddon">
+				<span class="input-group-addon" id="messageaddon">
+					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+				</span>
 			</div>
 		</div>
-	</div>	
+	</div>
 {/strip}	

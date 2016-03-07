@@ -137,4 +137,25 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			$db->delete('u_yf_watchdog_module', 'userid = ? AND module = ?', [$userModel->getId(), $moduleId]);
 		}
 	}
+
+	public function getWatchingUsers()
+	{
+		$users = [];
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT userid FROM u_yf_watchdog_module WHERE module = ?', [Vtiger_Functions::getModuleId($this->get('module'))]);
+		while (($userId = $db->getSingleValue($result)) !== false) {
+			$users[$userId] = $userId;
+		}
+		if ($this->has('record')) {
+			$result = $db->pquery('SELECT * FROM u_yf_watchdog_record WHERE record = ?', [$this->get('record')]);
+			while ($row = $db->getRow($result)) {
+				if ($row['state'] == 1) {
+					$users[$row['userid']] = $row['userid'];
+				} else {
+					unset($users[$row['userid']]);
+				}
+			}
+		}
+		return $users;
+	}
 }

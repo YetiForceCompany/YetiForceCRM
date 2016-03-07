@@ -5179,3 +5179,11 @@ select.form-control {
 	background: #fff;
 	color:#000;
 }
+.notificationContainer .panel-body{
+	padding: 0;
+}
+.notificationContainer .noticeRow{
+	margin-top: 0;
+	padding: 5px 10px;
+	border-bottom: 1px solid #ddd;
+}
