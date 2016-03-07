@@ -16,7 +16,6 @@ Vtiger_List_Js("Calendar_List_Js",{
 			massEditForm.validationEngine(app.validationEngineOptions);
 			var listInstance = Vtiger_List_Js.getInstance();
 			var editInstance = Vtiger_Edit_Js.getInstance();
-			listInstance.registerRecordAccessCheckEvent(massEditForm);
 			editInstance.registerBasicEvents(jQuery(container));
 			listInstance.postMassEdit(container);
 		});
