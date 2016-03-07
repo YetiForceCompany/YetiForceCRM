@@ -90,7 +90,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		if (items.find('thead .taxMode').length > 0) {
 			return $('.taxMode');
 		}
-		return row.find('.taxMode');
+		if(row){
+			return row.find('.taxMode');
+		} else {
+			return false;
+		}
 	},
 	isIndividualTaxMode: function (row) {
 		var taxModeElement = this.getTaxModeSelectElement(row);
@@ -102,9 +106,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	isGroupTaxMode: function () {
 		var taxTypeElement = this.getTaxModeSelectElement();
-		var selectedOption = taxTypeElement.find('option:selected');
-		if (selectedOption.val() == '0') {
-			return true;
+		if(taxTypeElement){
+			var selectedOption = taxTypeElement.find('option:selected');
+			if (selectedOption.val() == '0') {
+				return true;
+			}
 		}
 		return false;
 	},
