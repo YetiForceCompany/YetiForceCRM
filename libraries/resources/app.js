@@ -121,18 +121,18 @@ var app = {
 		selectElement.each(function () {
 			var select = $(this);
 			// hide selected items in the chosen instance when item is hidden.
-			if(select.hasClass('hideSelected')){
+			if (select.hasClass('hideSelected')) {
 				var ns = [];
-				select.find('optgroup,option').each(function(n, e){
-					if(jQuery(this).hasClass('hide')){
+				select.find('optgroup,option').each(function (n, e) {
+					if (jQuery(this).hasClass('hide')) {
 						ns.push(n);
 					}
 				});
-				if(ns.length){
-					select.next().find('.search-choice-close').each(function(n,e){
+				if (ns.length) {
+					select.next().find('.search-choice-close').each(function (n, e) {
 						var element = jQuery(this);
 						var index = element.data('option-array-index');
-						if(jQuery.inArray(index, ns) != -1){
+						if (jQuery.inArray(index, ns) != -1) {
 							element.closest('li').remove();
 						}
 					})
@@ -291,6 +291,7 @@ var app = {
 		if (selectElement.hasClass('delay0')) {
 			params.delay = {show: 0, hide: 0}
 		}
+		params.container = 'body';
 		var data = selectElement.data();
 		if (data != null) {
 			params = jQuery.extend(data, params);
@@ -1257,7 +1258,7 @@ var app = {
 	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
 		soundsConfig = JSON.parse(soundsConfig);
-		if(soundsConfig['IS_ENABLED']){
+		if (soundsConfig['IS_ENABLED']) {
 			var audio = new Audio(app.getLayoutPath() + '/sounds/' + soundsConfig[action]);
 			audio.play();
 		}
