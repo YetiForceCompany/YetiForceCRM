@@ -193,6 +193,12 @@ class RoundcubeLogin
 	 * @var array
 	 */
 	private $debugStack;
+	private $connOptions = [
+		'ssl' => [
+			'verify_peer' => false,
+			'verfify_peer_name' => false,
+		],
+	];
 
 	/**
 	 * Create a new RoundcubeLogin class.
@@ -478,20 +484,13 @@ class RoundcubeLogin
 		}
 
 		// Send request
-		$fp = fsockopen($host, $port);
-		/*
-		  $timeout = 10;
-		  $socketOptions = [
-		  'ssl' => [
-		  'verify_peer' => false,
-		  'verfify_peer_name' => false,
-		  ],
-		  ];
-		  $context  = stream_context_create($socketOptions);
-		  $fp = stream_socket_client($host. ':' . $port, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $context);
-		 */
-
-
+		$timeout = 5;
+		if (!empty($this->connOptions)) {
+			$context = stream_context_create($this->connOptions);
+			$fp = stream_socket_client($host . ':' . $port, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $context);
+		} else {
+			$fp = @fsockopen($host, $port, $errno, $errstr, $timeout);
+		}
 		if (!$fp) {
 			$this->addDebug("UNABLE TO OPEN SOCKET", "Could not open socket for $host at port $port");
 			throw new RoundcubeLoginException("Could not open socket for $host at port $port");
