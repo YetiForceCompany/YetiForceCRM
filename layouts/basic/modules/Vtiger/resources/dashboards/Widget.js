@@ -1278,14 +1278,13 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 			if (jQuery(e.target).is('a') || thisInstance.modalView) {
 				return;
 			}
-			var modalId = jQuery(this).data('modalid');
-			var modalContainer = jQuery('#' + modalId).clone(true, true);
-			if (modalContainer.length) {
+			var url = jQuery(this).data('url');
+			if (typeof url != 'undefined') {
 				var callbackFunction = function () {
 					thisInstance.modalView = false;
 				};
 				thisInstance.modalView = true;
-				app.showModalWindow(modalContainer, callbackFunction);
+				app.showModalWindow(null, url, callbackFunction);
 			}
 		})
 	},
