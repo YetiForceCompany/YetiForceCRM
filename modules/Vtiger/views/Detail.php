@@ -187,12 +187,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}		
 		$defaultMode = $this->defaultMode;
-		if(empty($defaultMode)){
+		if($defaultMode == 'showDetailViewByMode'){
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
-			if ($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList) {
-				$defaultMode = 'showModuleBasicView';
-			} else {
+			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
 				$defaultMode = 'showModuleDetailView';
 			}
 		}
