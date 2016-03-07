@@ -395,7 +395,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	calculateGrossPrice: function (row) {
 		var netPrice = this.getNetPrice(row);
-		if (this.isIndividualTaxMode(row)) {
+		if (this.isIndividualTaxMode(row) || this.isGroupTaxMode(row)) {
 			var tax = this.getTax(row);
 			netPrice += tax;
 		}
