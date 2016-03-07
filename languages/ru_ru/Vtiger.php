@@ -1290,6 +1290,7 @@ $languageStrings = [
 	'LBL_SELECT_SOME_OPTIONS' => 'Выберите опцию',
 	'LBL_NO_DISCOUNTS' => 'Нет доступных скидок',
 	'LBL_ITEM_NUMBER' => 'No.',
+	'LBL_EAN'=>'EAN',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Экспорт в PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Создать PDF',
