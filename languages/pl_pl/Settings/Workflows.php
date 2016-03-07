@@ -170,6 +170,7 @@ $languageStrings = [
 	'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY' => 'Aktualizuj daty automatycznie utworzonych wydarzeń',
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Automatycznie aktualizuj czas pracy',
 	'LBL_UPDATE_WORK_TIME' => 'Aktualizacja czasu pracy',
+	'LBL_UPDATE_RELATED_FIELD' => 'Aktualizuj rekord powiązany',
 	//workflow add time
 	'Current Date' => 'Aktualna data',
 	'Current Time' => 'Aktualny czas',
@@ -201,6 +202,11 @@ $languageStrings = [
 	'LBL_GO_TO_TEMPLATE' => 'Kliknij aby przejść do zaimportowanego rekordu.',
 	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Skrypt fizycznie istnieje, ale nie zawiera importowanej funkcji. Ręcznie skopiuj %s do %s.',
 	'LBL_FAILED_TO_SAVE_SCRIPT' => 'Nie udało się zapisać importowanego skryptu z funkcją obiegu informacji. Ręcznie skopiuj %s do %s.',
+	'LBL_SELECT_ACTION_TYPE' => 'Wybierz typ powiadomienia',
+	'LBL_SELECT_RECIPIENTS' => 'Odbiorcy',
+	'LBL_MESSAGE' => 'Wiadomość',
+	'LBL_MESSAGE_INFO' => 'Treść widomości obsługuje zmienne, nazwa zmiennej może być taka jak nazwa systemowa pola lub funkcje specjalne.<br/><br/>Przykładowe zmienne dla pól:<br/><strong>$accountname$</strong> - Nazwa kontrahenta<br/><strong>$email1$</strong> - Mail kontrahenta<br/><br/>Funkcje specjalne:<br/><strong>$_RecordLabel_$</strong> - Etykieta rekordu',
+	'LBL_WATCHING_USERS' => 'Użytkownicy obserwujący',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',
