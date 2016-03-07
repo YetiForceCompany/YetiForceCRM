@@ -19,7 +19,7 @@ jQuery.Class("Vtiger_EditFieldByModal_Js", {}, {
 			'param': {
 				'record': currentTarget.data('id'),
 				'state': currentTarget.data('state'),
-				'fieldName': this.getForm().find('.fieldToEdit').val()
+				'fieldName': currentTarget.closest('.fieldButton').data('name')
 			}
 		}
 		app.hideModalWindow();

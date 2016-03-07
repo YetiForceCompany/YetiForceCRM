@@ -5,7 +5,6 @@
 	{assign var=FIELD_TO_EDIT value=$FIELD_DATA['name']}
 	{assign var=BASIC_FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
-	<input type="hidden" class="fieldToEdit" id="fieldToEdit" value="{$FIELD_TO_EDIT}">
 	<div class="modal-header">
 		<div class="col-xs-10">
 			<h3 class="modal-title">{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}: {vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} </h3>
@@ -54,7 +53,7 @@
 	<div class="pull-left">
 		<div class="btn-toolbar">
 			{if $RECORD->isViewable()}
-				<div class="btn-group">
+				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
 					</button>
@@ -68,7 +67,7 @@
 			{/if}
 			{foreach from=$RESTRICTS_ITEM item=ITEM}
 				{if $RECORD->get($FIELD_TO_EDIT) neq $ITEM}
-					<div class="btn-group">
+					<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
 						<button type="button" class="btn btn-success editState" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
 					</div>
 				{/if}

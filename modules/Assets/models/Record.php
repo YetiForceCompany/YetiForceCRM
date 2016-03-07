@@ -13,16 +13,12 @@ class Assets_Record_Model extends Vtiger_Record_Model
 
 	public function getFieldToEditByModal()
 	{
-		$data = [
+		return [
 			'addClass' => 'btn-danger',
 			'iconClass' => 'glyphicon-modal-window',
 			'listViewClass' => 'danger-color',
 			'titleTag' => 'LBL_SET_RECORD_STATUS',
 			'name' => 'assetstatus',
 		];
-		if ($this->has('changeEditFieldByModal')) {
-			$data['name'] = $this->get('changeEditFieldByModal');
-		}
-		return $data;
 	}
 }
