@@ -2,8 +2,7 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -79,6 +78,17 @@ CREATE TABLE `a_yf_mapped_fields` (
   KEY `a_yf_mapped_fields_ibfk_1` (`mappedid`),
   CONSTRAINT `a_yf_mapped_fields_ibfk_1` FOREIGN KEY (`mappedid`) REFERENCES `a_yf_mapped_config` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_notification_type` */
+
+CREATE TABLE `a_yf_notification_type` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `role` tinyint(5) unsigned NOT NULL DEFAULT '0',
+  `size` varchar(10) DEFAULT NULL,
+  `icon` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_pdf` */
 
