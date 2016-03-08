@@ -65,8 +65,9 @@ class Pdf_OverdueDeadlines extends Vtiger_SpecialFunction_Pdf
 				}
 				$fieldModel = $fields[$column];
 				if ($column == 'link') {
-					if (!empty($recordModel->get('link'))) {
-						$processRecordModel = Vtiger_Record_Model::getInstanceById($recordModel->get('link'));
+					$linkId = $recordModel->get('link');
+					if (!empty($linkId) && isRecordExists($linkId)) {
+						$processRecordModel = Vtiger_Record_Model::getInstanceById($linkId);
 						$value = $processRecordModel->getName();
 					} else {
 						$value = '';
