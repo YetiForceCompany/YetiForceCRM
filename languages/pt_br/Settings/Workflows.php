@@ -183,6 +183,7 @@ $languageStrings = [
 	'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY' => 'Update the dates of created events automatically',
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Automatically update working time',
 	'LBL_UPDATE_WORK_TIME' => 'Update working time',
+	'LBL_UPDATE_RELATED_FIELD' => 'Update related record',
 	//workflow add time
 	'Current Date' => 'Data Atual',
 	'Current Time' => 'Hora Atual',
@@ -213,6 +214,11 @@ $languageStrings = [
 	'LBL_GO_TO_TEMPLATE' => 'Click to go to imported record.',
 	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Script physically exists but doesn\'t contain imported function name. Manually add %s to %s.',
 	'LBL_FAILED_TO_SAVE_SCRIPT' => 'Failed to save workflow methods script file. Manually copy %s to %s.',
+	'LBL_SELECT_ACTION_TYPE' => 'Select notification type',
+	'LBL_SELECT_RECIPIENTS' => 'Recipients',
+	'LBL_MESSAGE' => 'Message',
+	'LBL_MESSAGE_INFO' => 'The text of the message supports variables, the name of the variable can be equal to a system field name or special functions.<br/><br/>Examples of variables for fields:<br/><strong>$accountname$</strong> - Account name<br/><strong>$email1$</strong> - Account E-mail<br/><br/>Special functions:<br/><strong>$_RecordLabel_$</strong> - Record label',
+	'LBL_WATCHING_USERS' => 'Users watching',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Os mesmos campos escolhidos mais de uma vez',
