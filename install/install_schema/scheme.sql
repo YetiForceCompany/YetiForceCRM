@@ -85,10 +85,11 @@ CREATE TABLE `a_yf_notification_type` (
   `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `role` tinyint(5) unsigned NOT NULL DEFAULT '0',
-  `size` varchar(10) DEFAULT NULL,
+  `width` tinyint(2) NOT NULL DEFAULT '3',
+  `height` tinyint(2) NOT NULL DEFAULT '3',
   `icon` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_pdf` */
 

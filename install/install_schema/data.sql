@@ -22056,7 +22056,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (14,3,'LBL_COMPANY_DETAILS','adminIcon-company-detlis','LBL_COMPANY_DESCRIPTION','index.php?parent=Settings&module=Vtiger&view=CompanyDetails',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (15,8,'LBL_MAIL_SERVER_SETTINGS','adminIcon-mail-configuration','LBL_MAIL_SERVER_DESCRIPTION','index.php?parent=Settings&module=Vtiger&view=OutgoingServerDetail',5,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (16,4,'LBL_CURRENCY_SETTINGS','adminIcon-currencies','LBL_CURRENCY_DESCRIPTION','index.php?parent=Settings&module=Currency&view=List',4,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (17,4,'LBL_SWITCH_USERS','adminIcon-users','LBL_SWITCH_USERS_DESCRIPTION','index.php?module=Users&view=SwitchUsers&parent=Settings',34,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (17,4,'LBL_SWITCH_USERS','adminIcon-users','LBL_SWITCH_USERS_DESCRIPTION','index.php?module=Users&view=SwitchUsers&parent=Settings',11,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (18,4,'LBL_SYSTEM_INFO','adminIcon-server-configuration','LBL_SYSTEM_DESCRIPTION','index.php?module=Settings&submodule=Server&view=ProxyConfig',6,1,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (19,4,'LBL_ANNOUNCEMENT','adminIcon-company-information','LBL_ANNOUNCEMENT_DESCRIPTION','index.php?parent=Settings&module=Vtiger&view=AnnouncementEdit',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (20,4,'LBL_DEFAULT_MODULE_VIEW','adminIcon-standard-modules','LBL_DEFAULT_MODULE_VIEW_DESC','index.php?module=Settings&action=DefModuleView&parenttab=Settings',2,0,0);
@@ -22071,7 +22071,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (30,5,'LBL_CUSTOMER_PORTAL','adminIcon-customer-portal','PORTAL_EXTENSION_DESCRIPTION','index.php?module=CustomerPortal&action=index&parenttab=Settings',3,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (31,5,'Webforms','adminIcon-online-forms','LBL_WEBFORMS_DESCRIPTION','index.php?module=Webforms&action=index&parenttab=Settings',4,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (33,2,'LBL_EDIT_FIELDS','adminIcon-modules-fields','LBL_LAYOUT_EDITOR_DESCRIPTION','index.php?module=LayoutEditor&parent=Settings&view=Index',2,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (35,4,'LBL_PDF','adminIcon-modules-pdf-templates','LBL_PDF_DESCRIPTION','index.php?module=PDF&parent=Settings&view=List',27,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (35,4,'LBL_PDF','adminIcon-modules-pdf-templates','LBL_PDF_DESCRIPTION','index.php?module=PDF&parent=Settings&view=List',10,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (38,7,'LBL_PASSWORD_CONF','adminIcon-passwords-configuration','LBL_PASSWORD_DESCRIPTION','index.php?module=Password&parent=Settings&view=Index',1,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (40,2,'LBL_MENU_BUILDER','adminIcon-menu-configuration','LBL_MENU_BUILDER_DESCRIPTION','index.php?module=Menu&view=Index&parent=Settings',14,0,1);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (41,2,'LBL_ARRANGE_RELATED_TABS','adminIcon-modules-relations','LBL_ARRANGE_RELATED_TABS','index.php?module=LayoutEditor&parent=Settings&view=Index&mode=showRelatedListLayout',4,0,1);
@@ -22124,10 +22124,11 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (94,8,'Mail','adminIcon-mail-download-history','LBL_OSSMAIL_DESCRIPTION','index.php?module=OSSMail&parent=Settings&view=index',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (95,2,'LBL_MAPPEDFIELDS','adminIcon-mapped-fields','LBL_MAPPEDFIELDS_DESCRIPTION','index.php?module=MappedFields&parent=Settings&view=List',16,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (96,1,'LBL_LOCKS','adminIcon-locks','LBL_LOCKS_DESCRIPTION','index.php?module=Users&view=Locks&parent=Settings',8,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (97,4,'LBL_NOTIFICATIONS',NULL,NULL,'index.php?module=Notifications&view=List&parent=Settings',12,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (96);
+insert  into `vtiger_settings_field_seq`(`id`) values (97);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
