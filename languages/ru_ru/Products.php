@@ -90,4 +90,5 @@ $languageStrings = [
 	'LBL_TAXES' => 'Taxes',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Ограниченный список продуктов и услуг, связанных с возможностью продажи',
 	'FL_EAN_13' => 'EAN-13',
+	'FL_SUBUNIT' => 'Subunit',
 ];

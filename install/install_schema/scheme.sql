@@ -4355,7 +4355,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2269 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2270 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6561,6 +6561,7 @@ CREATE TABLE `vtiger_products` (
   `currency_id` int(19) NOT NULL DEFAULT '1',
   `taxes` varchar(50) DEFAULT NULL,
   `ean` varchar(30) DEFAULT NULL,
+  `subunit` varchar(255) DEFAULT '',
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -7895,6 +7896,16 @@ CREATE TABLE `vtiger_subindustry` (
 CREATE TABLE `vtiger_subindustry_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_subunit` */
+
+CREATE TABLE `vtiger_subunit` (
+  `subunitid` int(11) NOT NULL AUTO_INCREMENT,
+  `subunit` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`subunitid`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_support_processes` */
 

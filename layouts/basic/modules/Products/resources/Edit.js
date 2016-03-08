@@ -430,19 +430,20 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 		});
 	},
 	
-	registerEvantForUsageunit: function () {
+	registerEventForUsageunit: function () {
+		this.checkUsageUnit();
+		$('select[name="usageunit"]').on('change', this.checkUsageUnit);
+	},
+	
+	checkUsageUnit: function () {
 		var selectUsageunit = $('select[name="usageunit"]');
 		var inputQtyPerUnit = $('input[name="qty_per_unit"]');
-		inputQtyPerUnit.prop('disabled', true);
-		
-		selectUsageunit.on('change', function () {
-			var value = $(this).val();
-			if (value === 'pack') {
-				inputQtyPerUnit.prop('disabled', false);
-			} else {
-				inputQtyPerUnit.prop('disabled', true);
-			}
-		});
+		var value = selectUsageunit.val();
+		if (value === 'pack') {
+			inputQtyPerUnit.prop('disabled', false);
+		} else {
+			inputQtyPerUnit.prop('disabled', true);
+		}
 	},
 	
 	registerEvents : function(){
@@ -451,6 +452,6 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 		this.registerEventForTaxes();
 		this.registerEventForUnitPrice();
 		this.registerRecordPreSaveEvent();
-		this.registerEvantForUsageunit();
+		this.registerEventForUsageunit();
 	}
 })

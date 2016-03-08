@@ -3495,6 +3495,7 @@ insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) valu
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (96,2263,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (58,2267,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (37,2268,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (14,2269,0,0);
 
 /*Data for the table `vtiger_def_org_share` */
 
@@ -5265,10 +5266,11 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (96,2266,'shownerid','vtiger_crmentity',1,'120','shownerid','Share with users',1,2,NULL,100,10,314,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,2267,'osssoldservices_renew','vtiger_osssoldservices',1,'15','osssoldservices_renew','FL_RENEWAL',1,0,'',100,11,141,2,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,2268,'assets_renew','vtiger_assets',1,'15','assets_renew','FL_RENEWAL',1,0,'',100,19,95,2,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (14,2269,'subunit','vtiger_products',2,'16','subunit','FL_SUBUNIT',1,2,'',100,7,33,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 
 /*Data for the table `vtiger_field_seq` */
 
-insert  into `vtiger_field_seq`(`id`) values (2268);
+insert  into `vtiger_field_seq`(`id`) values (2269);
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -6825,10 +6827,15 @@ insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfiel
 insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (10,7,'industry','subindustry','Uniformed Services','[\"Army\",\"Police\"]',NULL);
 insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (11,7,'industry','subindustry','Transport & Logistics','[\"\"]',NULL);
 insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (12,7,'industry','subindustry','Technologies','[\"Other\",\"Information Technology\",\"Telecommunication\",\"Media\"]',NULL);
+insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (13,14,'usageunit','subunit','pcs','[\"\"]',NULL);
+insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (14,14,'usageunit','subunit','pack','[\"\"]',NULL);
+insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (15,14,'usageunit','subunit','kg','[\"50g\",\"100g\",\"300g\",\"500g\"]',NULL);
+insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (16,14,'usageunit','subunit','m','[\"\"]',NULL);
+insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (17,14,'usageunit','subunit','l','[\"100ml\",\"250ml\",\"330ml\",\"500ml\"]',NULL);
 
 /*Data for the table `vtiger_picklist_dependency_seq` */
 
-insert  into `vtiger_picklist_dependency_seq`(`id`) values (12);
+insert  into `vtiger_picklist_dependency_seq`(`id`) values (17);
 
 /*Data for the table `vtiger_picklist_seq` */
 
@@ -8255,6 +8262,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,96,2263,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,58,2267,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,37,2268,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,14,2269,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,3,0,0);
@@ -9643,6 +9651,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,96,2263,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,58,2267,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,37,2268,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,14,2269,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,3,0,0);
@@ -11031,6 +11040,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,96,2263,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,58,2267,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,37,2268,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,14,2269,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,3,0,0);
@@ -12419,6 +12429,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,96,2263,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,58,2267,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,37,2268,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,14,2269,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -22351,6 +22362,17 @@ insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`p
 /*Data for the table `vtiger_subindustry_seq` */
 
 insert  into `vtiger_subindustry_seq`(`id`) values (43);
+
+/*Data for the table `vtiger_subunit` */
+
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (1,'50g',1,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (2,'100g',2,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (3,'300g',3,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (4,'500g',4,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (5,'100ml',5,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (6,'250ml',6,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (7,'330ml',7,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (8,'500ml',8,1);
 
 /*Data for the table `vtiger_support_processes` */
 

@@ -87,4 +87,5 @@ $languageStrings = [
 	'pack' => 'pack',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufschance verknüpft sind',
 	'FL_EAN_13' => 'EAN-13',
+	'FL_SUBUNIT' => 'Subunit',
 ];
