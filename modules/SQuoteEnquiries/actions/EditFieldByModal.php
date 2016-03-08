@@ -1,41 +1,31 @@
 <?php
 
 /**
- * SaveAjax IGRN Action Class
+ * EditFieldByModal Class
  * @package YetiForce.Action
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class IGRN_SaveAjax_Action extends Vtiger_SaveAjax_Action
+class SQuoteEnquiries_EditFieldByModal_Action extends Vtiger_EditFieldByModal_Action
 {
 
-	function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('updateStatus');
-	}
-
 	public function process(Vtiger_Request $request)
-	{
-		$mode = $request->get('mode');
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-		parent::process($request);
-	}
-
-	public function updateStatus(Vtiger_Request $request)
 	{
 		$params = $request->get('param');
 		$moduleName = $request->getModule();
 		$recordId = $params['record'];
 		$state = $params['state'];
+		$fieldName = $params['fieldName'];
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->set('id', $recordId);
-		$recordModel->set('igrn_status', $state);
+		$recordModel->set($fieldName, $state);
 		$recordModel->set('mode', 'edit');
+		if (in_array($state, ['PLL_CANCELLED', 'PLL_COMPLETED'])) {
+			$currentTime = date('Y-m-d H:i:s');
+			$responseTime = strtotime($currentTime) - strtotime($recordModel->get('createdtime'));
+			$recordModel->set('response_time', $responseTime / 60 / 60);
+		}
 		$recordModel->save();
 
 		$response = new Vtiger_Response();

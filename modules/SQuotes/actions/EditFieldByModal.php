@@ -1,33 +1,25 @@
 <?php
 
 /**
- * UpdateStatus SQuotes Action Class
+ * EditFieldByModal Class
  * @package YetiForce.Action
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SQuotes_UpdateStatus_Action extends Vtiger_Action_Controller
+class SQuotes_EditFieldByModal_Action extends Vtiger_EditFieldByModal_Action
 {
-
-	public function checkPermission(Vtiger_Request $request)
-	{
-		$moduleName = $request->getModule();
-		$record = $request->get('record');
-
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record)) {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	public function process(Vtiger_Request $request)
 	{
+		$params = $request->get('param');
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$state = $request->get('state');
+		$recordId = $params['record'];
+		$state = $params['state'];
+		$fieldName = $params['fieldName'];
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->set('id', $recordId);
-		$recordModel->set('squotes_status', $state);
+		$recordModel->set($fieldName, $state);
 		$recordModel->set('mode', 'edit');
 		if (in_array($state, ['PLL_CANCELLED', 'PLL_ACCEPTED'])) {
 			$currentTime = date('Y-m-d H:i:s');
@@ -40,10 +32,5 @@ class SQuotes_UpdateStatus_Action extends Vtiger_Action_Controller
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();
-	}
-
-	public function validateRequest(Vtiger_Request $request)
-	{
-		return $request->validateWriteAccess();
 	}
 }

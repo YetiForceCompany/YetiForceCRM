@@ -59,16 +59,16 @@
 					</button>
 					<ul class="dropdown-menu">
 						{foreach  key=KEY item=ITEM from=$BASIC_FIELD_MODEL->getPicklistValues()}
-							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
+							{if array_key_exists($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
 							<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
 						{/foreach}
 					</ul>
 				</div>
 			{/if}
-			{foreach from=$RESTRICTS_ITEM item=ITEM}
-				{if $RECORD->get($FIELD_TO_EDIT) neq $ITEM}
+			{foreach from=$RESTRICTS_ITEM item=CLASS key=ITEM}
+				{if $CONDITION_TO_RESTRICTS && $RECORD->get($FIELD_TO_EDIT) neq $ITEM}
 					<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
-						<button type="button" class="btn btn-success editState" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
+						<button type="button" class="btn {$CLASS} editState" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
 					</div>
 				{/if}
 			{/foreach}
