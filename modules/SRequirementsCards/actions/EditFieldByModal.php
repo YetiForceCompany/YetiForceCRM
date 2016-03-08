@@ -1,35 +1,25 @@
 <?php
 
 /**
- * UpdateStatus SRequirementsCards Action Class
+ * EditFieldByModal Class
  * @package YetiForce.Action
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class SRequirementsCards_UpdateStatus_Action extends Vtiger_Action_Controller
+class SRequirementsCards_EditFieldByModal_Action extends Vtiger_EditFieldByModal_Action
 {
-
-	function checkPermission(Vtiger_Request $request)
-	{
-		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
-		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
-		return true;
-	}
 
 	public function process(Vtiger_Request $request)
 	{
+		$params = $request->get('param');
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$state = $request->get('state');
+		$recordId = $params['record'];
+		$state = $params['state'];
+		$fieldName = $params['fieldName'];
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->set('id', $recordId);
-		$recordModel->set('srequirementscards_status', $state);
+		$recordModel->set($fieldName, $state);
 		$recordModel->set('mode', 'edit');
 		if (in_array($state, ['PLL_CANCELLED', 'PLL_COMPLETED'])) {
 			$currentTime = date('Y-m-d H:i:s');
@@ -42,10 +32,5 @@ class SRequirementsCards_UpdateStatus_Action extends Vtiger_Action_Controller
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();
-	}
-
-	public function validateRequest(Vtiger_Request $request)
-	{
-		return $request->validateWriteAccess();
 	}
 }
