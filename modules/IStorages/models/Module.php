@@ -39,8 +39,23 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 	public static function setQtyInStock($moduleName, $data, $storageId, $action)
 	{
 		$db = PearDatabase::getInstance();
+		$productRecords = [];
+		
 		foreach ($data as $product) {
-			$qtyInStock[$product['name']] += $product['qty'];
+			if ($product['qtyparam'] == '1') {
+				// If product was added with diffrent units (pcs not packs)
+				// it will calculate it to packs
+				if (isset($productRecords[$product['name']]) === false) {
+					$productRecords[$product['name']] = Vtiger_Record_Model::getCleanInstance('Products');
+					$productRecords[$product['name']] = Vtiger_Record_Model::getInstanceById($product['name']);
+				}
+				$qtyPerUnit = $productRecords[$product['name']]->get('qty_per_unit');
+				$productQty = $product['qty'] / $qtyPerUnit;
+				$productQty = round($productQty, 3, PHP_ROUND_HALF_UP);
+			} else {
+				$productQty = $product['qty'];
+			}
+			$qtyInStock[$product['name']] += $productQty;
 		}
 		$operator = self::getOperator($moduleName, $action);
 		$qty = '(qtyinstock ' . $operator . ' ?)';

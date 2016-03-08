@@ -656,6 +656,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
 			$('textarea.commentTextarea', parentRow).val(description);
+
+			if (typeof recordData['autoFields']['unit'] !== 'undefined' && recordData['autoFields']['unit'] === 'pack') {
+				$('.qtyparamButton', parentRow).removeClass('hidden');
+			}
 		}
 		if (referenceModule === 'Products') {
 			thisInstance.loadSubProducts(parentRow, true);
@@ -1283,6 +1287,21 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.checkDeleteIcon();
 		thisInstance.rowsCalculations();
 	},
+	registerChangeQtyparam: function (container) {
+		var thisInstance = this;
+		container.on('click', '.qtyparamButton', function (e) {
+			var element = $(e.currentTarget);
+			var rowNum = element.data('rownum');
+			var qtyParamInput = $('input[name="qtyparam' + rowNum + '"]');
+			if (qtyParamInput.is(':checked')) {
+				element.removeClass('active');
+				qtyParamInput.prop('checked', false);
+			} else {
+				element.addClass('active');
+				qtyParamInput.prop('checked', true);
+			}
+		});
+	},
 	/**
 	 * Function which will register all the events
 	 */
@@ -1298,6 +1317,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.registerClearReferenceSelection(container);
 		this.registerShowHideExpanded(container);
 		this.registerChangeCurrency(container);
+		this.registerChangeQtyparam(container);
 	},
 });
 jQuery(document).ready(function () {

@@ -1303,6 +1303,7 @@ CREATE TABLE `u_yf_igdn_inventory` (
   `comment1` varchar(500) DEFAULT NULL,
   `unit` varchar(200) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_igdn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igdn` (`igdnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1367,6 +1368,7 @@ CREATE TABLE `u_yf_igin_inventory` (
   `comment1` varchar(500) DEFAULT NULL,
   `unit` varchar(200) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_igin_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igin` (`iginid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1434,6 +1436,7 @@ CREATE TABLE `u_yf_igrn_inventory` (
   `comment1` varchar(500) DEFAULT NULL,
   `unit` varchar(200) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_igrn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igrn` (`igrnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1498,6 +1501,7 @@ CREATE TABLE `u_yf_iidn_inventory` (
   `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `ean` varchar(255) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_iidn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_iidn` (`iidnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1564,6 +1568,7 @@ CREATE TABLE `u_yf_ipreorder_inventory` (
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `unit` varchar(255) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_ipreorder_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_ipreorder` (`ipreorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1636,6 +1641,7 @@ CREATE TABLE `u_yf_istdn_inventory` (
   `-` varchar(100) DEFAULT NULL,
   `unit` varchar(255) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_istdn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_istdn` (`istdnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1782,6 +1788,7 @@ CREATE TABLE `u_yf_istrn_inventory` (
   `-` varchar(100) DEFAULT NULL,
   `unit` varchar(255) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_istrn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_istrn` (`istrnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
