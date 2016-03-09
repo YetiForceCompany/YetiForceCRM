@@ -203,7 +203,7 @@ $languageStrings = [
 	'LBL_SELECT_ACTION_TYPE' => 'Select notification type',
 	'LBL_SELECT_RECIPIENTS' => 'Recipients',
 	'LBL_MESSAGE' => 'Message',
-	'LBL_MESSAGE_INFO' => 'The text of the message supports variables, the name of the variable can be equal to a system field name or special functions.<br/><br/>Examples of variables for fields:<br/><strong>$accountname$</strong> - Account name<br/><strong>$email1$</strong> - Account E-mail<br/><br/>Special functions:<br/><strong>$_RecordLabel_$</strong> - Record label',
+	'LBL_MESSAGE_INFO' => 'The text of the message supports variables, the name of the variable can be equal to a system field name or special functions.<br/><br/>Examples of variables for fields:<br/><strong>$accountname$</strong> - Value from field<br/><strong>%accountname%</strong> - Field label<br/><br/>Special functions:',
 	'LBL_WATCHING_USERS' => 'Users watching',
 ];
 
