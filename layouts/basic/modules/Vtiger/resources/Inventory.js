@@ -657,8 +657,26 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
 			$('textarea.commentTextarea', parentRow).val(description);
 
-			if (typeof recordData['autoFields']['unit'] !== 'undefined' && recordData['autoFields']['unit'] === 'pack') {
-				$('.qtyparamButton', parentRow).removeClass('hidden');
+			if (typeof recordData['autoFields']['unit'] !== 'undefined') {
+				$('input.qtyparam', parentRow).prop('checked', false);
+				switch (recordData['autoFields']['unit']) {
+					default:
+						$('.qtyparamButton', parentRow).addClass('hidden');
+						var validationEngine = 'validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]';
+						$('input.qty', parentRow).attr('data-validation-engine', validationEngine);
+						break;
+					case 'pack':
+						$('.qtyparamButton', parentRow).removeClass('hidden');
+						$('.qtyparamButton', parentRow).removeClass('active');
+						var validationEngine = 'validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]';
+						$('input.qty', parentRow).attr('data-validation-engine', validationEngine);
+						break;
+					case 'pcs':
+						$('.qtyparamButton', parentRow).addClass('hidden');
+						var validationEngine = 'validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]';
+						$('input.qty', parentRow).attr('data-validation-engine', validationEngine);
+						break;
+				}
 			}
 		}
 		if (referenceModule === 'Products') {
@@ -1038,6 +1056,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			row.find('.unitPrice,.tax,.discount,.margin,.purchase').val('0');
 			row.find('textarea,.valueVal').val('');
 			row.find('.valueText').text('');
+			row.find('.qtyparamButton').addClass('hidden');
+			row.find('input.qtyparam').prop('checked', false);
 			thisInstance.quantityChangeActions(row);
 		});
 	},

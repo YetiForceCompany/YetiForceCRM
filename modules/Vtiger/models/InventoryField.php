@@ -388,7 +388,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		if (in_array($field, $this->jsonFields) && $value != '') {
 			$value = json_encode($value);
 		}
-		if (in_array($field, ['price', 'gross', 'net', 'discount', 'purchase', 'margin', 'marginp', 'tax', 'total'])) {
+		if (in_array($field, ['qty', 'price', 'gross', 'net', 'discount', 'purchase', 'margin', 'marginp', 'tax', 'total'])) {
 			$value = CurrencyField::convertToDBFormat($value, null, true);
 		}
 		return $value;
