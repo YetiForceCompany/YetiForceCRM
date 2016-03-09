@@ -294,12 +294,14 @@ class Vtiger_Field_Model extends Vtiger_Field
 			if ($this->isRoleBased()) {
 				$userModel = Users_Record_Model::getCurrentUserModel();
 				$picklistValues = Vtiger_Util_Helper::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
-				if (!empty($this->get('fieldvalue')) && !in_array($this->get('fieldvalue'), $picklistValues)) {
-					$picklistValues[] = $this->get('fieldvalue');
-					$this->set('isEditableReadOnly', true);
-				}
 			} else {
 				$picklistValues = Vtiger_Util_Helper::getPickListValues($this->getName());
+			}
+
+			// Protection against deleting a value that does not exist on the list
+			if (!empty($this->get('fieldvalue')) && !in_array($this->get('fieldvalue'), $picklistValues)) {
+				$picklistValues[] = $this->get('fieldvalue');
+				$this->set('isEditableReadOnly', true);
 			}
 
 			$fieldPickListValues = [];
