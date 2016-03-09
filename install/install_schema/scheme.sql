@@ -1306,6 +1306,7 @@ CREATE TABLE `u_yf_igdn_inventory` (
   `unit` varchar(200) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_igdn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igdn` (`igdnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1325,7 +1326,7 @@ CREATE TABLE `u_yf_igdn_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igdn_invmap` */
 
@@ -1371,6 +1372,7 @@ CREATE TABLE `u_yf_igin_inventory` (
   `unit` varchar(200) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_igin_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igin` (`iginid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1390,7 +1392,7 @@ CREATE TABLE `u_yf_igin_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igin_invmap` */
 
@@ -1439,6 +1441,7 @@ CREATE TABLE `u_yf_igrn_inventory` (
   `unit` varchar(200) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_igrn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_igrn` (`igrnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1458,7 +1461,7 @@ CREATE TABLE `u_yf_igrn_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igrn_invmap` */
 
@@ -1504,6 +1507,7 @@ CREATE TABLE `u_yf_iidn_inventory` (
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_iidn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_iidn` (`iidnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1523,7 +1527,7 @@ CREATE TABLE `u_yf_iidn_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_iidn_invmap` */
 
@@ -1571,6 +1575,7 @@ CREATE TABLE `u_yf_ipreorder_inventory` (
   `unit` varchar(255) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_ipreorder_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_ipreorder` (`ipreorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1590,7 +1595,7 @@ CREATE TABLE `u_yf_ipreorder_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ipreorder_invmap` */
 
@@ -1644,6 +1649,7 @@ CREATE TABLE `u_yf_istdn_inventory` (
   `unit` varchar(255) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_istdn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_istdn` (`istdnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1663,7 +1669,7 @@ CREATE TABLE `u_yf_istdn_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_istdn_invmap` */
 
@@ -1791,6 +1797,7 @@ CREATE TABLE `u_yf_istrn_inventory` (
   `unit` varchar(255) DEFAULT NULL,
   `ean` varchar(255) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_istrn_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_istrn` (`istrnid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1810,7 +1817,7 @@ CREATE TABLE `u_yf_istrn_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_istrn_invmap` */
 
