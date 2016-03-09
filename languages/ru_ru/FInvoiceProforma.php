@@ -11,6 +11,7 @@ $languageStrings = [
 	'FL_PAYMENT_DATE' => 'Due date',
 	'FL_SALE_DATE' => 'Sale date',
 	'FL_FORM_PAYMENT' => 'Payment method',
+	'FL_STATUS' => 'Status',
 	'FL_BANK_ACCOUNT' => 'Bank account number',
 	'FL_NUMBER' => 'Invoice number',
 	'FL_ACCOUNT' => 'Account',
