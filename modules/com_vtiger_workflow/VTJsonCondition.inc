@@ -413,6 +413,20 @@ class VTJsonCondition
 			case 'is added':
 				//This condition was used only for comments. It should not execute from not from workflows, So it was always "FALSE"
 				return false;
+			case 'is Watching Record':
+				$idParts = vtws_getIdComponents($entityData->getId());
+				$watchdog = Vtiger_Watchdog_Model::getInstanceById($idParts[1], $entityData->getModuleName());
+				if ($watchdog->isWatchingRecord()) {
+					return true;
+				}
+				return false;
+			case 'is Not Watching Record':
+				$idParts = vtws_getIdComponents($entityData->getId());
+				$watchdog = Vtiger_Watchdog_Model::getInstanceById($idParts[1], $entityData->getModuleName());
+				if ($watchdog->isWatchingRecord()) {
+					return false;
+				}
+				return true;
 			default:
 				//Unexpected condition
 				throw new Exception('Found an unexpected condition: ' . $condition);
