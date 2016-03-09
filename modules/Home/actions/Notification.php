@@ -23,7 +23,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 	{
 		parent::__construct();
 		$this->exposeMethod('setMark');
-		$this->exposeMethod('updateEvent');
+		$this->exposeMethod('getNumberOfNotifications');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -41,6 +41,14 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 		$notice = Home_NoticeEntries_Model::getInstanceById($request->get('id'));
 		$response = new Vtiger_Response();
 		$response->setResult($notice->setMarked());
+		$response->emit();
+	}
+	
+	public function getNumberOfNotifications(Vtiger_Request $request)
+	{
+		$notice = Home_Notification_Model::getInstance();
+		$response = new Vtiger_Response();
+		$response->setResult($notice->getNumberOfEntries());
 		$response->emit();
 	}
 }

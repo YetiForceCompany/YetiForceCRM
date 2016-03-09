@@ -32,7 +32,7 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Function to get the instance
+	 * Function to get the instance by id
 	 * @return <Home_Notification_Model>
 	 */
 	public static function getInstanceById($id)
@@ -86,7 +86,7 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 					'title' => 'glyphicon',
 					'class' => 'glyphicon glyphicon-exclamation-sign',
 				];
-				
+
 				break;
 		}
 		return $icon;

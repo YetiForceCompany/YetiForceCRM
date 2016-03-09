@@ -25,6 +25,9 @@
 										</div>
 										<div class="media-body media-middle">
 											{$ENTRY->getMassage()}
+											<div class="pull-right">
+												{Vtiger_Util_Helper::formatDateDiffInStrings($ENTRY->get('time'))}
+											</div>
 										</div>
 										<div class="media-right media-middle">
 											{foreach from=$ENTRY->getActions() item=ACTION}

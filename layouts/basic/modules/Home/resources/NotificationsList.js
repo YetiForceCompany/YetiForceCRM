@@ -20,7 +20,7 @@ jQuery.Class("Home_NotificationsList_Js", {
 					row.remove(); 
 				});
 			}
-			
+			Vtiger_Index_Js.requestNotifications();
 		});
 	},
 }, {

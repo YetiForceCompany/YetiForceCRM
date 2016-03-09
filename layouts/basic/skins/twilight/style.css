@@ -1041,6 +1041,11 @@ td.fieldValue .input-group {
 .conditionGroup .contents .conditionRow {
 	margin-bottom: 10px;
 }
+.conditionGroup .contents .conditionRow:after {
+	clear: both;
+	display: table;
+    content: " ";
+}
 .conditionGroup .contents .conditionRow select{
 	width: 100%;
 }

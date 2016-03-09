@@ -45,14 +45,27 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		return $entries;
 	}
 
+	public function getNumberOfEntries()
+	{
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+
+		$result = $db->pquery('SELECT count(*) FROM l_yf_notification WHERE userid = ?', [$currentUser->getId()]);
+		return $db->getSingleValue($result);
+	}
+
 	public function save()
 	{
+		if (!$this->has('time')) {
+			$this->set('time', date('Y-m-d H:i:s'));
+		}
 		$db = PearDatabase::getInstance();
 		$db->insert('l_yf_notification', [
 			'userid' => $this->get('userid'),
 			'type' => $this->get('type'),
 			'message' => $this->get('message'),
-			'reletedid' => $this->get('record')
+			'reletedid' => $this->get('record'),
+			'time' => $this->get('time')
 		]);
 	}
 
@@ -64,31 +77,12 @@ class Home_Notification_Model extends Vtiger_Base_Model
 			return $message;
 		}
 		$message = $this->get('message');
-		if (preg_match_all('/\$[a-zA-Z_]+\$/', $message, $matches)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($this->get('record'), $this->get('moduleName'));
-			$matches = $matches[0];
-			foreach ($matches as $matche) {
-				$name = substr($matche, 1, -1);
-				if ($recordModel->has($name)) {
-					$value = $recordModel->getDisplayValue($name, $this->get('record'), true);
-				} else {
-					$value = $this->getSpecialFunction($name, $recordModel);
-				}
-				$message = str_replace($matche, $value, $message);
-			}
-		}
+
+		$notification = Vtiger_TextParser_Helper::getInstanceById($this->get('record'), $this->get('moduleName'));
+		$notification->setContent($message);
+		$message = $notification->parse();
+
 		$this->set('message', $message);
 		Vtiger_Cache::set('NotificationParseContent', $this->get('message') . $this->get('record'), $message);
-	}
-
-	public function getSpecialFunction($name, Vtiger_Record_Model $recordModel)
-	{
-		$value = '';
-		switch ($name) {
-			case '_RecordLabel_':
-				$value = $recordModel->getName();
-				break;
-		}
-		return $value;
 	}
 }
