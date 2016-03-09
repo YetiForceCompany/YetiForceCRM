@@ -8,6 +8,6 @@ $languageStrings = [
 	'LBL_HEIGHT' => 'Wysokość',
 ];
 $jsLanguageStrings = [
-	'JS_DELETE_CONFIRMATION' => 'Na pewno chcesz usunąć element?',
+	'JS_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć element?',
 ];
 
