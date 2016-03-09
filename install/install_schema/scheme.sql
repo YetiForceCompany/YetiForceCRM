@@ -478,6 +478,7 @@ CREATE TABLE `l_yf_notification` (
   `userid` int(11) unsigned NOT NULL,
   `message` varchar(300) DEFAULT NULL,
   `reletedid` int(11) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -489,6 +490,7 @@ CREATE TABLE `l_yf_notification_archive` (
   `userid` int(11) unsigned NOT NULL,
   `message` varchar(300) DEFAULT NULL,
   `reletedid` int(11) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
   `mark_user` int(11) DEFAULT '0',
   `mark_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -2498,6 +2500,7 @@ CREATE TABLE `u_yf_watchdog_record` (
   PRIMARY KEY (`userid`,`record`),
   KEY `userid` (`userid`),
   KEY `record` (`record`),
+  KEY `userid_2` (`userid`,`record`,`state`),
   CONSTRAINT `u_yf_watchdog_record_ibfk_1` FOREIGN KEY (`record`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
