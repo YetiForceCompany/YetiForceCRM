@@ -21,4 +21,5 @@ $languageStrings = [
 	
 	'LBL_CHANGE_STATUS' => 'Change Status',
 	'LBL_PREVIEW' => 'Preview',
+	'FL_SUBUNIT' => 'Subunit',
 ];
