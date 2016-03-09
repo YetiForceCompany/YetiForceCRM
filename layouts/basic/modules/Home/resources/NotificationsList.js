@@ -28,12 +28,31 @@ jQuery.Class("Home_NotificationsList_Js", {
 		var thisInstance = this;
 		$(".notificationEntries").each(function (index) {
 			var block = $(this);
-			if(block.find(".noticeRow").length == 0){
+			if (block.find(".noticeRow").length == 0) {
 				block.closest('.panel').hide();
 			}
 		});
 	},
 }, {
+	gridster: false,
+	getGridster: function(){
+		if(!this.gridster){
+			this.gridster = $("ul.gridster");
+		}
+		return this.gridster;
+	},
+	registerGridster: function () {
+		var thisInstance = this;
+		var gridsterObj = this.getGridster().gridster({
+			widget_base_dimensions: [thisInstance.getGridster().width() / 12 - 14 , 100],
+			widget_margins: [7, 7],
+			min_cols: 6,
+			min_rows: 20,
+			max_size_x: 12
+		});
+		gridsterObj.gridster().data('gridster').disable()
+	},
 	registerEvents: function () {
+		this.registerGridster();
 	}
 });

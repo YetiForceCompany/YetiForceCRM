@@ -5184,11 +5184,24 @@ select.form-control {
 	background: #fff;
 	color:#000;
 }
-.notificationContainer .panel-body{
+.notificationContainer {
 	padding: 0;
+}
+.notificationContainer .panel-body{
+	position: absolute;
+	top: 38px;
+	bottom:0;
+	padding: 0;
+	overflow: auto;
 }
 .notificationContainer .noticeRow{
 	margin-top: 0;
 	padding: 5px 10px;
 	border-bottom: 1px solid #ddd;
+}
+.notificationContainer li{
+	list-style: none;
+}
+.notificationContainer .panel{
+	height: 100%;
 }
