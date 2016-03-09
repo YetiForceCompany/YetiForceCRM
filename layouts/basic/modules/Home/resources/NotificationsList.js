@@ -16,15 +16,24 @@ jQuery.Class("Home_NotificationsList_Js", {
 				type: 'info'
 			});
 			if (data.result == 'hide') {
-				row.fadeOut(300, function() { 
-					row.remove(); 
+				row.fadeOut(300, function () {
+					row.remove();
+					thisInstance.checkHiddenBlock();
 				});
 			}
 			Vtiger_Index_Js.requestNotifications();
 		});
 	},
+	checkHiddenBlock: function () {
+		var thisInstance = this;
+		$(".notificationEntries").each(function (index) {
+			var block = $(this);
+			if(block.find(".noticeRow").length == 0){
+				block.closest('.panel').hide();
+			}
+		});
+	},
 }, {
 	registerEvents: function () {
-
 	}
 });
