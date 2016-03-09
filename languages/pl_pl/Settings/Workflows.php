@@ -205,7 +205,7 @@ $languageStrings = [
 	'LBL_SELECT_ACTION_TYPE' => 'Wybierz typ powiadomienia',
 	'LBL_SELECT_RECIPIENTS' => 'Odbiorcy',
 	'LBL_MESSAGE' => 'Wiadomość',
-	'LBL_MESSAGE_INFO' => 'Treść widomości obsługuje zmienne, nazwa zmiennej może być taka jak nazwa systemowa pola lub funkcje specjalne.<br/><br/>Przykładowe zmienne dla pól:<br/><strong>$accountname$</strong> - Nazwa kontrahenta<br/><strong>$email1$</strong> - Mail kontrahenta<br/><br/>Funkcje specjalne:<br/><strong>$_RecordLabel_$</strong> - Etykieta rekordu',
+	'LBL_MESSAGE_INFO' => 'Treść widomości obsługuje zmienne, nazwa zmiennej może być taka jak nazwa systemowa pola lub funkcje specjalne.<br/><br/>Przykładowe zmienne dla pól:<br/><strong>$accountname$</strong> - Wartość z pola<br/><strong>%accountname%</strong> - Etykieta pola<br/><br/>Funkcje specjalne:',
 	'LBL_WATCHING_USERS' => 'Użytkownicy obserwujący',
 ];
 $jsLanguageStrings = [
