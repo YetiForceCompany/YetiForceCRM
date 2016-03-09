@@ -568,7 +568,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
 			$class = 'btn-default';
-			if ($watchdog->isWatchingRecord()) {
+			if ($watchdog->isWatchingModule()) {
 				$class = 'btn-info';
 			}
 			$basicLinks[] = [
@@ -577,7 +577,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
 				'linkclass' => $class,
 				'linkicon' => 'glyphicon glyphicon-eye-open',
-				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1],
+				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
 			];
 		}
 
