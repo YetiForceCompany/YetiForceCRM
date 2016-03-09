@@ -38,7 +38,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 		'height_panellogo' => 'text',
 	);
 	var $heights = array(
-		'256','192','128','96','64','32','16'
+		'256', '192', '128', '96', '64', '32', '16'
 	);
 
 	/**
@@ -78,13 +78,16 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	{
 		return $this->fields;
 	}
+
 	/**
 	 * Function to get heights
 	 * @return <Array>
 	 */
-	public function getHeights(){
+	public function getHeights()
+	{
 		return $this->heights;
 	}
+
 	/**
 	 * Function to get Logo path to display
 	 * @return <String> path
@@ -92,7 +95,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	public function getLogoPath($name)
 	{
 		$logoPath = $this->logoPath;
-		$handler = @opendir($logoPath);	
+		$handler = @opendir($logoPath);
 		$logoName = $this->get($name);
 		if ($logoName && $handler) {
 			while ($file = readdir($handler)) {
@@ -174,7 +177,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * @var array(string => string) 
 	 */
-	private static $settings = array();
+	private static $settings = [];
 
 	/**
 	 * @param string $fieldname 
@@ -182,9 +185,9 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getSetting($fieldname)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		if (!self::$settings) {
-			self::$settings = $adb->database->GetRow("SELECT * FROM vtiger_organizationdetails");
+			self::$settings = $db->getRow($db->query('SELECT * FROM vtiger_organizationdetails'));
 		}
 		return self::$settings[$fieldname];
 	}

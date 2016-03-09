@@ -6,7 +6,7 @@
 			<select class="chzn-select form-control" name="type" data-validation-engine="validate[required]">
 				{foreach from=$TASK_OBJECT->getAllTypes() key=KEY item=ITEM}
 					<option {if $TASK_OBJECT->type eq $KEY}selected{/if} value="{$KEY}">{$ITEM['name']}</option>
-				{/foreach}	
+				{/foreach}
 			</select>
 		</div>
 	</div>
@@ -23,7 +23,11 @@
 	<div class="row padding-bottom1per">
 		<span class="col-md-3">{vtranslate('LBL_MESSAGE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
-			<div class="input-group popoverTooltip" data-content="{Vtiger_Util_Helper::toSafeHTML(vtranslate('LBL_MESSAGE_INFO', $QUALIFIED_MODULE))}" data-placement="right">
+			{assign var=POPOVER value=vtranslate('LBL_MESSAGE_INFO', $QUALIFIED_MODULE)}
+			{foreach from=Vtiger_TextParser_Helper::getFunctionVariables() key=KEY item=ITEM}
+				{assign var=POPOVER value=$POPOVER|cat:'<br><strong>'|cat:$ITEM|cat:'</strong> - '|cat:vtranslate($KEY, $QUALIFIED_MODULE)}
+			{/foreach}
+			<div class="input-group popoverTooltip" data-content="{Vtiger_Util_Helper::toSafeHTML($POPOVER)}" data-placement="right">
 				<input type="text" class="form-control" name="message" value="{$TASK_OBJECT->message}" aria-describedby="messageaddon">
 				<span class="input-group-addon" id="messageaddon">
 					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
