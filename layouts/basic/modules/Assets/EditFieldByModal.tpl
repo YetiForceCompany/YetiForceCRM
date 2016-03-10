@@ -48,12 +48,13 @@
 	<div class="pull-left">
 		<div class="btn-toolbar">
 			{if $RECORD->isViewable()}
+				{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
 				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
-					<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="btn btn-danger dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						{foreach  key=KEY item=ITEM from=$BASIC_FIELD_MODEL->getPicklistValues()}
+						{foreach  key=KEY item=ITEM from=$PICKLIST}
 							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
 							<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
 						{/foreach}
@@ -61,12 +62,13 @@
 				</div>
 				{if $RECORD->get($FIELD_TO_EDIT) eq 'PLL_ACCEPTED'}
 					{assign var=RENEW_FIELD_MODEL value=Vtiger_Field_Model::getInstance('assets_renew', $RECORD->getModule())}
+					{assign var=PICKLIST value=$RENEW_FIELD_MODEL->getPicklistValues()}
 					<div class="btn-group fieldButton" data-name="assets_renew">
-						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<button type="button" class="btn btn-primary dropdown-toggle{if $RENEW_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							{vtranslate($RENEW_FIELD_MODEL->get('label'), $MODULE_NAME)} <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu">
-							{foreach  key=KEY item=ITEM from=$RENEW_FIELD_MODEL->getPicklistValues()}
+							{foreach  key=KEY item=ITEM from=$PICKLIST}
 								{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
 								<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
 							{/foreach}

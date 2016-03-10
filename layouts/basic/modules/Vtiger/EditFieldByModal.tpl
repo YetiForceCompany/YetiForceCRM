@@ -52,13 +52,14 @@
 <div class="modal-footer">
 	<div class="pull-left">
 		<div class="btn-toolbar">
+			{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
 			{if $RECORD->isViewable()}
 				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
-					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="btn btn-primary dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						{foreach  key=KEY item=ITEM from=$BASIC_FIELD_MODEL->getPicklistValues()}
+						{foreach  key=KEY item=ITEM from=$PICKLIST}
 							{if array_key_exists($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
 							<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
 						{/foreach}
@@ -66,9 +67,9 @@
 				</div>
 			{/if}
 			{foreach from=$RESTRICTS_ITEM item=CLASS key=ITEM}
-				{if $CONDITION_TO_RESTRICTS && $RECORD->get($FIELD_TO_EDIT) neq $ITEM}
+				{if $CONDITION_TO_RESTRICTS && array_key_exists($RECORD->get($FIELD_TO_EDIT), $PICKLIST) && $RECORD->get($FIELD_TO_EDIT) neq $ITEM}
 					<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
-						<button type="button" class="btn {$CLASS} editState" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
+						<button type="button" class="btn {$CLASS} editState{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
 					</div>
 				{/if}
 			{/foreach}
