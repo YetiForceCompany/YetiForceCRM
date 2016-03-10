@@ -21,7 +21,13 @@ jQuery.Class("Home_NotificationsList_Js", {
 					thisInstance.checkHiddenBlock();
 				});
 			}
-			Vtiger_Index_Js.requestNotifications();
+			var badge = $(".notificationsNotice .badge");
+			var number = parseInt(badge.text()) - 1;
+			if (number > 0) {
+				badge.text(number);
+			} else {
+				badge.text('');
+			}
 		});
 	},
 	checkHiddenBlock: function () {
@@ -35,8 +41,8 @@ jQuery.Class("Home_NotificationsList_Js", {
 	},
 }, {
 	gridster: false,
-	getGridster: function(){
-		if(!this.gridster){
+	getGridster: function () {
+		if (!this.gridster) {
 			this.gridster = $("ul.gridster");
 		}
 		return this.gridster;
@@ -44,7 +50,7 @@ jQuery.Class("Home_NotificationsList_Js", {
 	registerGridster: function () {
 		var thisInstance = this;
 		var gridsterObj = this.getGridster().gridster({
-			widget_base_dimensions: [thisInstance.getGridster().width() / 12 - 14 , 100],
+			widget_base_dimensions: [thisInstance.getGridster().width() / 12 - 14, 100],
 			widget_margins: [7, 7],
 			min_cols: 6,
 			min_rows: 20,

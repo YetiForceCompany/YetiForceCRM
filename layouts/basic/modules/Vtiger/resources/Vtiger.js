@@ -260,22 +260,27 @@ var Vtiger_Index_Js = {
 
 	},
 	registerNotifications: function () {
-		var delay = 6000;
+		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
+
 		var currentTime = new Date().getTime();
 		var nextActivityReminderCheck = app.cacheGet('nextNotificationsCheckTime', 0);
 
 		if ((currentTime + delay) > nextActivityReminderCheck) {
 			Vtiger_Index_Js.requestNotifications();
-			setTimeout('Vtiger_Index_Js.requestNotifications()', delay);
+			setTimeout('Vtiger_Index_Js.registerNotifications()', delay);
 			app.cacheSet('nextNotificationsCheckTime', currentTime + parseInt(delay));
 		}
 	},
 	requestNotifications: function () {
 		var thisInstance = this;
 		AppConnector.request({
-			module: 'Home',
-			action: 'Notification',
-			mode: 'getNumberOfNotifications'
+			async: false,
+			dataType: 'json',
+			data: {
+				module: 'Home',
+				action: 'Notification',
+				mode: 'getNumberOfNotifications'
+			}
 		}).then(function (data) {
 			var badge = $(".notificationsNotice .badge");
 			badge.text(data.result);
