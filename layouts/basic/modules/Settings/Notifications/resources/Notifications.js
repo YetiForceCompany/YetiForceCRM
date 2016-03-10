@@ -11,6 +11,7 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
 					action: 'SaveAjax',
+					mode: 'saveType',
 					name: container.find('[name="name"]').val(),
 					width: container.find('[name="width"]').val(),
 					height: container.find('[name="height"]').val(),

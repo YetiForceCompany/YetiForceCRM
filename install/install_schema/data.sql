@@ -22498,11 +22498,12 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (94,8,'Mail','adminIcon-mail-download-history','LBL_OSSMAIL_DESCRIPTION','index.php?module=OSSMail&parent=Settings&view=index',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (95,2,'LBL_MAPPEDFIELDS','adminIcon-mapped-fields','LBL_MAPPEDFIELDS_DESCRIPTION','index.php?module=MappedFields&parent=Settings&view=List',16,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (96,1,'LBL_LOCKS','adminIcon-locks','LBL_LOCKS_DESCRIPTION','index.php?module=Users&view=Locks&parent=Settings',8,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (97,4,'LBL_NOTIFICATIONS',NULL,NULL,'index.php?module=Notifications&view=List&parent=Settings',12,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (97,4,'LBL_TYPE_NOTIFICATIONS',NULL,NULL,'index.php?module=Notifications&view=List&parent=Settings',12,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (98,4,'LBL_NOTIFICATIONS_CONFIGURATION',NULL,NULL,'index.php?module=Notifications&view=Configuration&parent=Settings',13,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (97);
+insert  into `vtiger_settings_field_seq`(`id`) values (98);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
