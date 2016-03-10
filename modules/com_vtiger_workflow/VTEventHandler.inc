@@ -90,7 +90,13 @@ class VTWorkflowEventHandler extends VTEventHandler
 						break;
 					}
 				case VTWorkflowManager::$ON_MODIFY: {
-						$doEvaluate = !($isNew);
+						$entityId = vtws_getIdComponents($entityData->getId());
+						$entityId = $entityId[1];
+						$vtEntityDelta = new VTEntityDelta();
+						
+						$delta = $vtEntityDelta->getEntityDelta($wsModuleName, $entityId);
+						unset($delta['modifiedtime']);
+						$doEvaluate = !empty($delta);
 						break;
 					}
 				case VTWorkflowManager::$MANUAL: {
