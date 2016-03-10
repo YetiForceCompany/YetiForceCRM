@@ -52,6 +52,7 @@
 <div class="modal-footer">
 	<div class="pull-left">
 		<div class="btn-toolbar">
+			{assign var=IS_EDITABLE_READONLY value=$BASIC_FIELD_MODEL->set('isEditableReadOnly', false)}
 			{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
 			{if $RECORD->isViewable()}
 				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">

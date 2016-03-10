@@ -48,6 +48,7 @@
 	<div class="pull-left">
 		<div class="btn-toolbar">
 			{if $RECORD->isViewable()}
+				{assign var=IS_EDITABLE_READONLY value=$BASIC_FIELD_MODEL->set('isEditableReadOnly', false)}
 				{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
 				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
 					<button type="button" class="btn btn-danger dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,6 +63,7 @@
 				</div>
 				{if $RECORD->get($FIELD_TO_EDIT) eq 'PLL_ACCEPTED'}
 					{assign var=RENEW_FIELD_MODEL value=Vtiger_Field_Model::getInstance('assets_renew', $RECORD->getModule())}
+					{assign var=IS_EDITABLE_READONLY value=$RENEW_FIELD_MODEL->set('isEditableReadOnly', false)}
 					{assign var=PICKLIST value=$RENEW_FIELD_MODEL->getPicklistValues()}
 					<div class="btn-group fieldButton" data-name="assets_renew">
 						<button type="button" class="btn btn-primary dropdown-toggle{if $RENEW_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
