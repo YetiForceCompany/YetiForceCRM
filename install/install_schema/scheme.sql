@@ -1018,6 +1018,7 @@ CREATE TABLE `u_yf_fcorectinginvoice_inventory` (
   `tax` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `taxparam` varchar(255) NOT NULL,
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_fcorectinginvoice_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_fcorectinginvoice` (`fcorectinginvoiceid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1124,6 +1125,7 @@ CREATE TABLE `u_yf_finvoice_inventory` (
   `comment1` varchar(500) DEFAULT NULL,
   `currency` int(10) DEFAULT NULL,
   `currencyparam` varchar(200) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_finvoice_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_finvoice` (`finvoiceid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1229,6 +1231,7 @@ CREATE TABLE `u_yf_finvoiceproforma_inventory` (
   `taxparam` varchar(255) NOT NULL,
   `gross` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `comment1` varchar(500) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_finvoiceproforma_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_finvoiceproforma` (`finvoiceproformaid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1948,6 +1951,7 @@ CREATE TABLE `u_yf_scalculations_inventory` (
   `purchase` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `marginp` decimal(27,8) DEFAULT '0.00000000',
   `margin` decimal(27,8) DEFAULT '0.00000000',
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_scalculations_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2012,6 +2016,7 @@ CREATE TABLE `u_yf_squoteenquiries_inventory` (
   `name` int(19) NOT NULL DEFAULT '0',
   `qty` decimal(25,3) NOT NULL DEFAULT '0.000',
   `comment1` varchar(500) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_squoteenquiries_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_squoteenquiries` (`squoteenquiriesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2129,6 +2134,7 @@ CREATE TABLE `u_yf_squotes_inventory` (
   `currency` int(10) DEFAULT NULL,
   `currencyparam` varchar(200) DEFAULT NULL,
   `net` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_squotes_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_squotes` (`squotesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2235,6 +2241,7 @@ CREATE TABLE `u_yf_srecurringorders_inventory` (
   `tax` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `taxparam` varchar(255) NOT NULL,
   `comment1` varchar(500) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_srecurringorders_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_srecurringorders` (`srecurringordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2301,6 +2308,7 @@ CREATE TABLE `u_yf_srequirementscards_inventory` (
   `name` int(19) NOT NULL DEFAULT '0',
   `qty` decimal(25,3) NOT NULL DEFAULT '0.000',
   `comment1` varchar(500) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_srequirementscards_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_srequirementscards` (`srequirementscardsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2451,6 +2459,7 @@ CREATE TABLE `u_yf_ssingleorders_inventory` (
   `taxmode` tinyint(1) NOT NULL DEFAULT '0',
   `currency` int(10) DEFAULT NULL,
   `currencyparam` varchar(200) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_ssingleorders_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4985,6 +4994,7 @@ CREATE TABLE `vtiger_inventoryproductrel` (
   `purchase` decimal(10,2) DEFAULT NULL,
   `margin` decimal(10,2) DEFAULT NULL,
   `marginp` decimal(10,2) DEFAULT NULL,
+  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`lineitem_id`),
   KEY `inventoryproductrel_id_idx` (`id`),
   KEY `inventoryproductrel_productid_idx` (`productid`)
