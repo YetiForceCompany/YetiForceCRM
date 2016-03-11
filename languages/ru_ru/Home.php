@@ -21,7 +21,7 @@ $languageStrings = [
 	'UA' => 'Ближайшие События',
 	'Home' => 'Главная',
 	'OLTPO' => 'Последние Закупки',
-	'LBL_WATCHING_MODULES' => '__UNSTRANSLATED__',
+	'LBL_WATCHING_MODULES' => 'Watched modules',
 ];
 
 $jsLanguageStrings = [
