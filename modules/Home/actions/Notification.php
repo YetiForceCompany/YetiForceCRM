@@ -57,9 +57,13 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 	{
 		$selectedModules = $request->get('selctedModules');
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
-		foreach ($selectedModules as $moduleName) {
-			$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
-			$watchdogModel->changeModuleState(1);
+		if (!empty($selectedModules)) {
+			foreach ($selectedModules as $moduleName) {
+				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
+				$watchdogModel->changeModuleState(1);
+			}
+		} else {
+			$selectedModules = [];
 		}
 		foreach ($watchingModules as $moduleId) {
 			$moduleName = Vtiger_Functions::getModuleName($moduleId);
