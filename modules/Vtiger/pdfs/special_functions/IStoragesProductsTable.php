@@ -23,6 +23,16 @@ class Pdf_IStoragesProductsTable extends Vtiger_SpecialFunction_Pdf
 		$entries = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
+		$db = PearDatabase::getInstance();
+		// Gets sum of products quantity in current storage
+		$productsQty = [];
+		$query = 'SELECT SUM(qtyinstock) AS qtyinstock, relcrmid FROM u_yf_istorages_products WHERE crmid = ? GROUP BY relcrmid';
+		$result = $db->pquery($query, [$recordId]);
+		while ($row = $db->getRow($result)) {
+			if ($row['qtyinstock'] > 0) {
+				$productsQty[$row['relcrmid']] = $row['qtyinstock'];
+			}
+		}
 
 		$html .='<style>' .
 			'.productTable {color:#000; font-size:10px; width:100%}' .
@@ -65,22 +75,24 @@ class Pdf_IStoragesProductsTable extends Vtiger_SpecialFunction_Pdf
 				</thead>
 				<tbody>';
 			foreach ($entries as $entry) {
-				$html .= '<tr>';
 				$entryId = $entry->getId();
 				$entryRecordModel = Vtiger_Record_Model::getInstanceById($entryId, $relationModuleName);
-				$qtyInStock = $entryRecordModel->get('qtyinstock');
-				$qtyPerUnit = $entryRecordModel->get('qty_per_unit');
-				foreach ($headers as $header) {
-					$label = $header->get('label');
-					$colName = $header->get('name');
-					if (in_array($label, $columns)) {
-						$html .= '<td>' . $entry->getDisplayValue($colName) . '</td>';
+				$productId = $entryRecordModel->get('id');
+				if (isset($productsQty[$productId])) {
+					$html .= '<tr>';
+					$qtyInStock = $productsQty[$productId];
+					$qtyPerUnit = $entryRecordModel->get('qty_per_unit');
+					foreach ($headers as $header) {
+						$label = $header->get('label');
+						$colName = $header->get('name');
+						if (in_array($label, $columns)) {
+							$html .= '<td>' . $entry->getDisplayValue($colName) . '</td>';
+						}
 					}
+					$html .= '<td>' . $qtyInStock . '</td>';
+					$html .= '<td>' . $qtyPerUnit . '</td>';
+					$html .= '</tr>';
 				}
-
-				$html .= '<td>' . $qtyInStock . '</td>';
-				$html .= '<td>' . $qtyPerUnit . '</td>';
-				$html .= '</tr>';
 			}
 			$html .= '</tbody>
 					</table>';
