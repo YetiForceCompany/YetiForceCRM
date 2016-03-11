@@ -23,6 +23,7 @@ $languageStrings = [
 	'QLTQ' => 'Najlepsze oferty',
 	'UA' => 'Nadchodzące zdarzenia',
 	'LBL_MARK_AS_READ' => 'Oznacz jako przeczytane',
+	'LBL_WATCHING_MODULES' => 'Obserwowane moduły',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',

@@ -22,6 +22,7 @@ $languageStrings = [
 	'PLVT' => 'Top Opportunities',
 	'QLTQ' => 'Top Quotes',
 	'UA' => 'Upcoming Activities',
+	'LBL_WATCHING_MODULES' => '__UNSTRANSLATED__',
 ];
 
 $jsLanguageStrings = [

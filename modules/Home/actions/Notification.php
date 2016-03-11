@@ -24,6 +24,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 		parent::__construct();
 		$this->exposeMethod('setMark');
 		$this->exposeMethod('getNumberOfNotifications');
+		$this->exposeMethod('saveWatchingModules');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -43,12 +44,29 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 		$response->setResult($notice->setMarked());
 		$response->emit();
 	}
-	
+
 	public function getNumberOfNotifications(Vtiger_Request $request)
 	{
 		$notice = Home_Notification_Model::getInstance();
 		$response = new Vtiger_Response();
 		$response->setResult($notice->getNumberOfEntries());
 		$response->emit();
+	}
+
+	public function saveWatchingModules(Vtiger_Request $request)
+	{
+		$selectedModules = $request->get('selctedModules');
+		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
+		foreach ($selectedModules as $moduleName) {
+			$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
+			$watchdogModel->changeModuleState(1);
+		}
+		foreach ($watchingModules as $moduleId) {
+			$moduleName = Vtiger_Functions::getModuleName($moduleId);
+			if (!in_array($moduleName, $selectedModules)) {
+				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
+				$watchdogModel->changeModuleState(0);
+			}
+		}
 	}
 }

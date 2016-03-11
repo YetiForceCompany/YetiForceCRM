@@ -5208,3 +5208,6 @@ select.form-control {
 	-moz-hyphens: auto;
 	hyphens: auto;
 }
+.modalNotificationConfig .checkbox{
+	margin: 5px 0;
+}

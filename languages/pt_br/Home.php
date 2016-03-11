@@ -22,6 +22,7 @@ $languageStrings = [
 	'PLVT' => 'Principais Oportunidades',
 	'QLTQ' => 'Principais Cotações',
 	'UA' => 'Atividades Programadas',
+	'LBL_WATCHING_MODULES' => '__UNSTRANSLATED__',
 ];
 
 $jsLanguageStrings = [
