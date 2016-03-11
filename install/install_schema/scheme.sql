@@ -476,7 +476,7 @@ CREATE TABLE `l_yf_notification` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `type` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `userid` int(11) unsigned NOT NULL,
-  `message` varchar(300) DEFAULT NULL,
+  `message` text,
   `reletedid` int(11) DEFAULT NULL,
   `time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -488,7 +488,7 @@ CREATE TABLE `l_yf_notification_archive` (
   `id` int(11) unsigned NOT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `userid` int(11) unsigned NOT NULL,
-  `message` varchar(300) DEFAULT NULL,
+  `message` text,
   `reletedid` int(11) DEFAULT NULL,
   `time` datetime DEFAULT NULL,
   `mark_user` int(11) DEFAULT '0',
