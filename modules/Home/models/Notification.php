@@ -36,7 +36,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$sql = 'SELECT * FROM l_yf_notification WHERE userid = ?';
+		$sql = 'SELECT * FROM l_yf_notification WHERE userid = ?'; //ORDER BY id DESC
 		$result = $db->pquery($sql, [$currentUser->getId()]);
 		$entries = [];
 		while ($row = $db->getRow($result)) {
@@ -54,8 +54,26 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		return $db->getSingleValue($result);
 	}
 
-	public function save()
+	public function save($parseContent = true)
 	{
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
+
+		$currentUser = vglobal('current_user');
+		$user = CRMEntity::getInstance('Users');
+		$user->retrieveCurrentUserInfoFromFile($this->get('userid'));
+		vglobal('current_user', $user);
+		if (!Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
+			$log->error('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) .
+				' does not have permission for this record ' . $this->get('record'));
+			vglobal('current_user', $currentUser);
+			return false;
+		}
+		if ($parseContent) {
+			$this->parseContent();
+		}
+		vglobal('current_user', $currentUser);
+
 		if (!$this->has('time')) {
 			$this->set('time', date('Y-m-d H:i:s'));
 		}
@@ -67,6 +85,9 @@ class Home_Notification_Model extends Vtiger_Base_Model
 			'reletedid' => $this->get('record'),
 			'time' => $this->get('time')
 		]);
+
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+		return true;
 	}
 
 	public function parseContent()
@@ -78,9 +99,10 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		}
 		$message = $this->get('message');
 
-		$notification = Vtiger_TextParser_Helper::getInstanceById($this->get('record'), $this->get('moduleName'));
-		$notification->setContent($message);
-		$message = $notification->parse();
+		$textParser = Vtiger_TextParser_Helper::getInstanceById($this->get('record'), $this->get('moduleName'));
+		$textParser->set('withoutTranslations', true);
+		$textParser->setContent($message);
+		$message = $textParser->parse();
 
 		$this->set('message', $message);
 		Vtiger_Cache::set('NotificationParseContent', $this->get('message') . $this->get('record'), $message);
