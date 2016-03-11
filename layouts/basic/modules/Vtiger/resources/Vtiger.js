@@ -260,18 +260,23 @@ var Vtiger_Index_Js = {
 
 	},
 	registerNotifications: function () {
+		var thisInstance = this;
 		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
 
 		var currentTime = new Date().getTime();
 		var nextActivityReminderCheck = app.cacheGet('nextNotificationsCheckTime', 0);
 
 		if ((currentTime + delay) > nextActivityReminderCheck) {
-			Vtiger_Index_Js.requestNotifications();
-			setTimeout('Vtiger_Index_Js.registerNotifications()', delay);
-			app.cacheSet('nextNotificationsCheckTime', currentTime + parseInt(delay));
+			Vtiger_Index_Js.requestNotification();
+
+			var currentTime = new Date().getTime();
+			app.cacheSet('nextNotificationsCheckTime', (currentTime + delay));
+		} else {
+			thisInstance.setNotification(app.cacheGet('notificationsCount', 0));
 		}
+		setTimeout('Vtiger_Index_Js.registerNotifications()', delay);
 	},
-	requestNotifications: function () {
+	requestNotification: function () {
 		var thisInstance = this;
 		AppConnector.request({
 			async: false,
@@ -282,15 +287,20 @@ var Vtiger_Index_Js = {
 				mode: 'getNumberOfNotifications'
 			}
 		}).then(function (data) {
-			var badge = $(".notificationsNotice .badge");
-			badge.text(data.result);
-			badge.removeClass('hide');
-			if (data.result > 0) {
-				$(".notificationsNotice").effect("pulsate", 1500);
-			} else {
-				badge.addClass('hide');
-			}
+			var notificationsCount = data.result;
+			app.cacheSet('notificationsCount', notificationsCount);
+			thisInstance.setNotification(notificationsCount);
 		})
+	},
+	setNotification: function (notificationsCount) {
+		var badge = $(".notificationsNotice .badge");
+		badge.text(notificationsCount);
+		badge.removeClass('hide');
+		if (notificationsCount > 0) {
+			$(".notificationsNotice").effect("pulsate", 1500);
+		} else {
+			badge.addClass('hide');
+		}
 	},
 	/**
 	 * Function registers event for Calendar Reminder popups
