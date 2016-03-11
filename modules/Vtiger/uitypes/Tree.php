@@ -41,19 +41,20 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		$parentName = '';
 		$module = $this->get('field')->getModuleName();
 		$name = false;
-		if ($adb->num_rows($result)) {
-			if ($adb->query_result_raw($result, 0, 'depth') > 0) {
-				$parenttrre = $adb->query_result_raw($result, 0, 'parenttrre');
+		if ($adb->getRowCount($result)) {
+			$row = $adb->getRow($result);
+			if ($row['depth'] > 0) {
+				$parenttrre = $row['parenttrre'];
 				$pieces = explode('::', $parenttrre);
 				end($pieces);
 				$parent = prev($pieces);
 
 				$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
-				$parentName = $adb->query_result_raw($result2, 0, 'name');
+				$parentName = $adb->getSingleValue($result2);
 
 				$parentName = '(' . vtranslate($parentName, $module) . ') ';
 			}
-			$name = $parentName . vtranslate($adb->query_result($result, 0, 'name'), $module);
+			$name = $parentName . vtranslate($row['name'], $module);
 		}
 		Vtiger_Cache::set('TreeData' . $template, $tree, $name);
 		return $name;

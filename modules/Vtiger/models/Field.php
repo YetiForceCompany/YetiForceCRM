@@ -74,6 +74,11 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return $this->name;
 	}
 
+	public function getFieldLabel()
+	{
+		return $this->label;
+	}
+	
 	/**
 	 * Function to retrieve full data
 	 * @return <array>
