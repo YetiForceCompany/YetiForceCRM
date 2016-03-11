@@ -13,21 +13,21 @@
 							<div class="notificationEntries">
 								{foreach from=$ENTRIES[$TYPE_ID] item=ENTRY}
 									<div class="media noticeRow" data-id="{$ENTRY->getId()}" data-type="{$ENTRY->get('type')}">
-										<div class="media-left media-middle">
-											{assign var=ICON value=$ENTRY->getIcon()}
-											{if $ICON}
+										{assign var=ICON value=$ENTRY->getIcon()}
+										{if $ICON}
+											<div class="media-left media-middle">
 												{if $ICON['type'] == 'image'}
 													<img width="30px" class="{$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}"/>
 												{else}
 													<span class="{$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" aria-hidden="true"></span>
 												{/if}
-											{/if}
-										</div>
-										<div class="media-body media-middle">
-											{$ENTRY->getMassage()}
+											</div>
+										{/if}
+										<div class="media-body media-middle wordBreakAll">
 											<div class="pull-right">
 												{Vtiger_Util_Helper::formatDateDiffInStrings($ENTRY->get('time'))}
 											</div>
+											{nl2br($ENTRY->getMassage())}
 										</div>
 										<div class="media-right media-middle">
 											{foreach from=$ENTRY->getActions() item=ACTION}
