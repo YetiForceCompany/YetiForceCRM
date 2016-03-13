@@ -12,10 +12,10 @@ class Vtiger_ServicesSoldToRenew_Dashboard extends Vtiger_ProductsSoldToRenew_Da
 	public function setData($data)
 	{
 		if (empty($data['orderby'])) {
-			$data['orderby'] = 'productname';
+			$data['orderby'] = 'dateinservice';
 			$data['sortorder'] = 'asc';
 		}
-		$this->data = $data;
+		return $this->data = $data;
 	}
 
 	public function getTargetModule()
@@ -35,8 +35,8 @@ class Vtiger_ServicesSoldToRenew_Dashboard extends Vtiger_ProductsSoldToRenew_Da
 
 	public function getConditions()
 	{
-		$where = ' AND ssservicesstatus = ? AND osssoldservices_renew NOT IN (?, ?)';
-		$params = ['PLL_ACCEPTED', 'PLL_RENEWED', 'PLL_NOT_RENEWED'];
+		$where = ' AND ssservicesstatus = ? AND osssoldservices_renew NOT IN (?, ?, ?)';
+		$params = ['PLL_ACCEPTED', 'PLL_RENEWED', 'PLL_NOT_RENEWED', 'PLL_NOT_APPLICABLE'];
 		return ['where' => $where, 'params' => $params];
 	}
 }

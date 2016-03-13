@@ -26,7 +26,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 
 		$this->setWidgetModel($widget);
-		$this->setData($data);
+		$data = $this->setData($data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('OWNER', $currentUser->getId());
@@ -47,10 +47,10 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 	public function setData($data)
 	{
 		if (empty($data['orderby'])) {
-			$data['orderby'] = 'assetname';
+			$data['orderby'] = 'dateinservice';
 			$data['sortorder'] = 'asc';
 		}
-		$this->data = $data;
+		return $this->data = $data;
 	}
 
 	public function getFromData($key)
@@ -168,8 +168,8 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getConditions()
 	{
-		$where = ' AND assetstatus = ? AND assets_renew NOT IN (?, ?)';
-		$params = ['PLL_ACCEPTED', 'PLL_RENEWED', 'PLL_NOT_RENEWED'];
+		$where = ' AND assetstatus = ? AND assets_renew NOT IN (?, ?, ?)';
+		$params = ['PLL_ACCEPTED', 'PLL_RENEWED', 'PLL_NOT_RENEWED', 'PLL_NOT_APPLICABLE'];
 		return ['where' => $where, 'params' => $params];
 	}
 }
