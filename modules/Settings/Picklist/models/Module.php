@@ -24,7 +24,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$fieldModels = parent::getFieldsByType($type);
 		$fields = array();
 		foreach ($fieldModels as $fieldName => $fieldModel) {
-			if (($fieldModel->get('displaytype') != '1' && $fieldName != 'salutationtype') || !in_array($fieldModel->get('presence'), $presence)) {
+			if ((!in_array($fieldModel->get('displaytype'), [1, 10]) && $fieldName != 'salutationtype') || !in_array($fieldModel->get('presence'), $presence)) {
 				continue;
 			}
 			$fields[$fieldName] = Settings_Picklist_Field_Model::getInstanceFromFieldObject($fieldModel);
