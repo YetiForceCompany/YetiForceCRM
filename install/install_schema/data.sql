@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -862,7 +863,7 @@ insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`pick
 
 /*Data for the table `vtiger_assetstatus_seq` */
 
-insert  into `vtiger_assetstatus_seq`(`id`) values (9);
+insert  into `vtiger_assetstatus_seq`(`id`) values (7);
 
 /*Data for the table `vtiger_asterisk` */
 
@@ -2030,7 +2031,7 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (97
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (97,3,'vtiger_crmentity:smownerid:assigned_user_id:IPreOrder_Assigned_To:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (97,4,'vtiger_crmentity:createdtime:createdtime:IPreOrder_Created_Time:DT');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (98,0,'u_yf_istdn:subject:subject:ISTDN_FL_SUBJECT:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (98,1,'u_yf_istdn:vendorid:vendorid:ISTDN_FL_VENDOR:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (98,1,'u_yf_istdn:accountid:accountid:ISTDN_FL_ACCOUNT:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (98,2,'u_yf_istdn:number:number:ISTDN_FL_NUMBER:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (98,3,'vtiger_crmentity:smownerid:assigned_user_id:ISTDN_Assigned_To:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (98,4,'u_yf_istdn:acceptance_date:acceptance_date:ISTDN_FL_ACCEPTANCE_DATE:D');

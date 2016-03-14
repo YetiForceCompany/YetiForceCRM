@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -2154,7 +2155,7 @@ CREATE TABLE `u_yf_squotes_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squotes_invmap` */
 
@@ -2881,7 +2882,7 @@ CREATE TABLE `vtiger_assetstatus` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`assetstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_assetstatus_seq` */
 
@@ -3817,7 +3818,7 @@ CREATE TABLE `vtiger_dataaccess_cnd` (
   `required` tinyint(19) NOT NULL,
   `field_type` varchar(100) NOT NULL,
   PRIMARY KEY (`dataaccess_cndid`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_datashare_grp2grp` */
 
