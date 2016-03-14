@@ -23,6 +23,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.userIcon-FCorectingInvoice:before {
+    content: "\e957";
+}
 .userIcon-ISTN:before {
     content: "\e954";
 }
