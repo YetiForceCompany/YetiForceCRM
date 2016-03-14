@@ -381,14 +381,8 @@ var app = {
 		if (container.length) {
 			container.remove();
 		}
-		// modal-backdrop
-		var backdrop = jQuery('.modal-backdrop');
-		if (backdrop.length) {
-			backdrop.remove();
-		}
-
 		container = jQuery('<div></div>');
-		container.attr('id', id);
+		container.attr('id', id).addClass('modalContainer');
 
 		var showModalData = function (data) {
 			var params = {
@@ -435,6 +429,9 @@ var app = {
 				showModalData(response);
 			});
 		}
+		container.one('hidden.bs.modal', function () {
+			container.remove();
+		});
 		return container;
 	},
 	/**
