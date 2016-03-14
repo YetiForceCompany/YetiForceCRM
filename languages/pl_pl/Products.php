@@ -63,7 +63,7 @@ $languageStrings = [
 	'Product Sheet'=>'Dane techniczne',
 	'Products' => 'Produkty',
 	'Qty In Demand'=>'Wymagana ilość w magazynie',
-	'Qty In Stock'=>'Ilość na magazynie',
+	'Qty In Stock'=>'Ilość produktu',
 	'Qty/Unit'=>'Szt. w opakowaniu',
 	'Reams'=>'Ryza',
 	'Reorder Level'=>'Minimalny stan magazynowy', //Duplicated key-value pairs
@@ -90,4 +90,5 @@ $languageStrings = [
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Lista rekordów jest ograniczona do produktów i usług powiązanych z szansą sprzedaży',
 	'FL_EAN_13' => 'Kod EAN-13',
 	'FL_SUBUNIT' => 'Podjednostka',
+	'FL_QTY_IN_STOCK' => 'Ilość produktu na magazynie',
 ];

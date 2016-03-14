@@ -64,7 +64,7 @@ $languageStrings = [
 	'Product Sheet'                => 'Характеристики', 
 	'Products'                     => 'Товары'                , 
 	'Qty In Demand'                => 'Минимальный заказ', 
-	'Qty In Stock'                 => 'Кол-во на складе', 
+	'Qty In Stock'                 => 'Product quantity', 
 	'Qty/Unit'                     => 'Кол-во/Ед.'           , 
 	'Reams'                        => 'Стопка'                , 
 	'Reorder Level'                => 'Пороговый остаток для заказа', 
@@ -91,4 +91,5 @@ $languageStrings = [
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Ограниченный список продуктов и услуг, связанных с возможностью продажи',
 	'FL_EAN_13' => 'EAN-13',
 	'FL_SUBUNIT' => 'Subunit',
+	'FL_QTY_IN_STOCK' => 'Quantity of product in stock',
 ];

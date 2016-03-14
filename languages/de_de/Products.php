@@ -61,7 +61,7 @@ $languageStrings = [
 	'Product Sheet'=>'Produktblatt',
 	'Products' => 'Produkte',
 	'Qty In Demand'=>'Anzahl Nachgefragt',
-	'Qty In Stock'=>'Anzahl auf Lager',
+	'Qty In Stock'=>'Product quantity',
 	'Qty/Unit'=>'Anzahl/Einheit',
 	'Reams' => 'Unzählige',
 	'Reorder Level'=>'Meldebestand', //Duplicated key-value pairs
@@ -88,4 +88,5 @@ $languageStrings = [
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufschance verknüpft sind',
 	'FL_EAN_13' => 'EAN-13',
 	'FL_SUBUNIT' => 'Subunit',
+	'FL_QTY_IN_STOCK' => 'Quantity of product in stock',
 ];

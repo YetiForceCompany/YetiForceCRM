@@ -57,6 +57,8 @@
 						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
 							{if $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
 								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
+							{elseif $HEADER_FIELD->fromOutsideList eq true}
+								{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
 							{elseif $RELATED_HEADERNAME eq 'access_count'}
 								{$RELATED_RECORD->getAccessCountValue($PARENT_RECORD->getId())}
 							{elseif $RELATED_HEADERNAME eq 'time_start'}
