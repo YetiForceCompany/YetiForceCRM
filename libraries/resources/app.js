@@ -349,13 +349,16 @@ var app = {
 		return keyValueMap;
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
+		var id = 'globalmodal';
 		//null is also an object
 		if (typeof data == 'object' && data != null && !(data instanceof jQuery)) {
+			if (data.id != undefined) {
+				id = data.id;
+			}
 			paramsObject = data.css;
 			cb = data.cb;
 			url = data.url;
-			data = data.data
-
+			data = data.data;
 		}
 		if (typeof url == 'function') {
 			if (typeof cb == 'object') {
@@ -374,8 +377,6 @@ var app = {
 			cb = function () {
 			}
 		}
-
-		var id = 'globalmodal';
 		var container = jQuery('#' + id);
 		if (container.length) {
 			container.remove();
@@ -440,8 +441,10 @@ var app = {
 	 * Function which you can use to hide the modal
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
-	hideModalWindow: function (callback) {
-		var id = 'globalmodal';
+	hideModalWindow: function (callback, id) {
+		if (id == undefined) {
+			id = 'globalmodal';
+		}
 		var container = jQuery('#' + id);
 		if (container.length <= 0) {
 			return;
