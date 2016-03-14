@@ -24,10 +24,10 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('LBL_Password_Header', $QUALIFIED_MODULE)}</label></td>
+						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Minimum password length', $QUALIFIED_MODULE)}</label></td>
 						<td style="border-left: none;">
 							<div class="col-xs-5">
-								<input class="form-control" type="text" name="min_length" id="min_length"  title="{vtranslate('Maximum password length', $QUALIFIED_MODULE)}" value="{$DETAIL['min_length']}" />
+								<input class="form-control" type="text" name="min_length" id="min_length"  title="{vtranslate('Minimum password length', $QUALIFIED_MODULE)}" value="{$DETAIL['min_length']}" />
 							</div>
 						</td>
 					</tr>
