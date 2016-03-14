@@ -427,7 +427,13 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 		return $this->privileges['isViewable'];
 	}
-
+	public function isCreateable(){
+		if (!isset($this->privileges['isCreateable'])) {
+			$moduleName = $this->getModuleName();
+			$this->privileges['isCreateable'] = Users_Privileges_Model::isPermitted($moduleName, 'CreateView');
+		}
+		return $this->privileges['isCreateable'];
+	}
 	public function isEditable()
 	{
 		if (!isset($this->privileges['isEditable'])) {

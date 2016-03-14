@@ -24,7 +24,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
+		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
 		if ($createPermission) {
 			$basicLinks = [
 				[

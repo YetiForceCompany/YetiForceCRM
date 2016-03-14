@@ -19,7 +19,7 @@
 		</div>
 		<div class="col-xs-4">
 			<div class="box pull-right">
-				{if Users_Privileges_Model::isPermitted('Calendar', 'EditView')}
+				{if Users_Privileges_Model::isPermitted('Calendar', 'CreateView')}
 					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar'); return false;">
 						<span class='glyphicon glyphicon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
 					</a>

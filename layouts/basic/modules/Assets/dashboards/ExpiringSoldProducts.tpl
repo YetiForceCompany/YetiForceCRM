@@ -16,7 +16,7 @@
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
-				{if Users_Privileges_Model::isPermitted($MODULE_NAME, 'EditView')}
+				{if Users_Privileges_Model::isPermitted($MODULE_NAME, 'CreateView')}
 					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}'); return false;">
 						<i class='glyphicon glyphicon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"/>
 					</a>

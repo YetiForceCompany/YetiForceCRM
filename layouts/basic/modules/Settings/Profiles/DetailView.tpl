@@ -58,20 +58,22 @@
             </div>
 				<table class="table customTableRWD table-striped table-bordered">
 					<thead>
-
 						<tr>
 							<th width="27%" style="border-left: 1px solid #DDD !important;">
 								{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
 							</th>
 							<th data-hide="phone" width="11%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter">
-
 									&nbsp;{'LBL_VIEW_PRIVILEGE'|vtranslate:$QUALIFIED_MODULE}
 								</span>
 							</th>
 							<th data-hide="phone" width="12%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter" >
-
+									&nbsp;{'LBL_CREATE_PRIVILIGE'|vtranslate:$QUALIFIED_MODULE}
+								</span>
+							</th>
+							<th data-hide="phone" width="12%" style="border-left: 1px solid #DDD !important;">
+								<span class="horizontalAlignCenter" >
 									&nbsp;{'LBL_EDIT_PRIVILIGE'|vtranslate:$QUALIFIED_MODULE}
 								</span>
 							</th>
@@ -88,7 +90,7 @@
 								<td>
 									<img src="{if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" class="alignMiddle" />&nbsp;{$PROFILE_MODULE->get('label')|vtranslate:$PROFILE_MODULE->getName()}
 								</td>
-								{assign var="BASIC_ACTION_ORDER" value=array(2,0,1)}
+								{assign var="BASIC_ACTION_ORDER" value=array(2,3,0,1)}
 								{foreach from=$BASIC_ACTION_ORDER item=ACTION_ID}
 									<td style="border-left: 1px solid #DDD !important;">
 										{assign var="ACTION_MODEL" value=$ALL_BASIC_ACTIONS[$ACTION_ID]}

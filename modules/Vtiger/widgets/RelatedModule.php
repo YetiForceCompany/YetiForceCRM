@@ -26,7 +26,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'Basic.tpl';
 			if ($this->Data['action'] == 1) {
-				$createPermission = $model->isPermitted('EditView');
+				$createPermission = $model->isPermitted('CreateView');
 				$this->Config['action'] = ($createPermission == true) ? 1 : 0;
 				$this->Config['actionURL'] = $model->getQuickCreateUrl();
 			}

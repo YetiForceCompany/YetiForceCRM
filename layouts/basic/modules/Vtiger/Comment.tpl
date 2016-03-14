@@ -58,7 +58,7 @@
 						{if $CHILDS_ROOT_PARENT_MODEL}
 							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 						{/if}
-						{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
+						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 							<span>
 								<a class="cursorPointer replyComment"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_REPLY',$MODULE_NAME)}</a>
 									{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}

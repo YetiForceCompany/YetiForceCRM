@@ -898,7 +898,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 
 		$quickCreateModules = [];
 		while ($row = $db->getRow($result)) {
-			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'EditView')) {
+			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'CreateView')) {
 				$moduleModel = self::getInstanceFromArray($row);
 				$quickCreateModules[$row['name']] = $moduleModel;
 			}
