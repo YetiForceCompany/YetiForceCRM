@@ -850,7 +850,7 @@ insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`p
 insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_WAITING_FOR_ACCEPTANCE',1,685,4);
 insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',0,686,5);
 insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',0,687,6);
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',1,688,7);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',0,688,7);
 
 /*Data for the table `vtiger_assetscf` */
 
@@ -5842,7 +5842,7 @@ insert  into `vtiger_istn_status`(`istn_statusid`,`istn_status`,`sortorderid`,`p
 insert  into `vtiger_istn_status`(`istn_statusid`,`istn_status`,`sortorderid`,`presence`) values (3,'PLL_OBJECTIONS',3,1);
 insert  into `vtiger_istn_status`(`istn_statusid`,`istn_status`,`sortorderid`,`presence`) values (4,'PLL_FOR_APPROVAL',4,1);
 insert  into `vtiger_istn_status`(`istn_statusid`,`istn_status`,`sortorderid`,`presence`) values (5,'PLL_CANCELLED',5,1);
-insert  into `vtiger_istn_status`(`istn_statusid`,`istn_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,1);
+insert  into `vtiger_istn_status`(`istn_statusid`,`istn_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,0);
 
 /*Data for the table `vtiger_istn_type` */
 
@@ -5865,9 +5865,9 @@ insert  into `vtiger_knowledgebase_status`(`knowledgebase_statusid`,`knowledgeba
 insert  into `vtiger_knowledgebase_status`(`knowledgebase_statusid`,`knowledgebase_status`,`sortorderid`,`presence`) values (2,'PLL_IN_REALIZATION',2,1);
 insert  into `vtiger_knowledgebase_status`(`knowledgebase_statusid`,`knowledgebase_status`,`sortorderid`,`presence`) values (3,'PLL_OBJECTIONS',3,1);
 insert  into `vtiger_knowledgebase_status`(`knowledgebase_statusid`,`knowledgebase_status`,`sortorderid`,`presence`) values (4,'PLL_FOR_APPROVAL',4,1);
-insert  into `vtiger_knowledgebase_status`(`knowledgebase_statusid`,`knowledgebase_status`,`sortorderid`,`presence`) values (5,'PLL_CANCELLED',5,1);
-insert  into `vtiger_knowledgebase_status`(`knowledgebase_statusid`,`knowledgebase_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,1);
-insert  into `vtiger_knowledgebase_status`(`knowledgebase_statusid`,`knowledgebase_status`,`sortorderid`,`presence`) values (7,'PLL_ARCHIVES',7,1);
+insert  into `vtiger_knowledgebase_status`(`knowledgebase_statusid`,`knowledgebase_status`,`sortorderid`,`presence`) values (5,'PLL_CANCELLED',5,0);
+insert  into `vtiger_knowledgebase_status`(`knowledgebase_statusid`,`knowledgebase_status`,`sortorderid`,`presence`) values (6,'PLL_ACCEPTED',6,0);
+insert  into `vtiger_knowledgebase_status`(`knowledgebase_statusid`,`knowledgebase_status`,`sortorderid`,`presence`) values (7,'PLL_ARCHIVES',7,0);
 
 /*Data for the table `vtiger_knowledgebase_view` */
 
@@ -6823,7 +6823,7 @@ insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldse
 insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_WAITING_FOR_ACCEPTANCE',1,678,4);
 insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',0,679,5);
 insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',0,680,6);
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',1,681,7);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',0,681,7);
 
 /*Data for the table `vtiger_osssoldservicescf` */
 
