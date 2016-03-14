@@ -23563,7 +23563,6 @@ insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (2
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (24,'73','reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (25,'75','reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (26,'76','reference');
-insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (27,'78','reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (28,'80','reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (29,'81','reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (30,'101','reference');
@@ -23692,7 +23691,6 @@ insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (22,'Contact
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (23,'Campaigns');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (24,'Accounts');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (25,'Vendors');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (27,'Quotes');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (29,'Vendors');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (30,'Users');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (31,'Users');
