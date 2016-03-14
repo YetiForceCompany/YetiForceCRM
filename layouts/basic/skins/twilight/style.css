@@ -4049,7 +4049,7 @@ html,body,.baseContainer
 	padding: 5px;
 }
 .chosen-container{
-	height: 34px;
+	min-height: 34px;
 	line-height: 34px;
 }
 .chosen-container-multi .chosen-choices li.search-choice{
