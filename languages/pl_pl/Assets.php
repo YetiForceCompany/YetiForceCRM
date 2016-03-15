@@ -55,5 +55,4 @@ $languageStrings = [
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Wygasające produkty sprzedane',
 	
 	'LBL_CHANGE_STATUS' => 'Zmień status',
-	'LBL_PREVIEW' => 'Podgląd',
 ];

@@ -1111,6 +1111,7 @@ $languageStrings = [
 	'LBL_CHANGE_VALUE_FOR_FIELD' => 'Change field value',
 	'SINGLE_SSalesProcesses' => 'Opportunity',
 	'LBL_RELATION' => 'Relation',
+	'LBL_PREVIEW' => 'Preview',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
