@@ -5217,3 +5217,7 @@ select.form-control {
 .dispaly-inline{
 	display: inline;
 }
+.narrow.fieldValue .referenceGroup button.btn{
+	height: 27px;
+	padding: 4px 12px;
+}

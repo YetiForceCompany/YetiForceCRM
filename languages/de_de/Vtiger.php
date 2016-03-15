@@ -1122,6 +1122,7 @@ $languageStrings = [
 	'LBL_SELECT_ACTION' => 'Select action',
 	'LBL_CHANGE_VALUE_FOR_FIELD' => 'Change field value',
 	'SINGLE_SSalesProcesses' => 'Verkaufschance',
+	'LBL_RELATION' => 'Relation',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

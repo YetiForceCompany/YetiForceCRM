@@ -17,18 +17,18 @@
 					<div class="modal-body row">
 						<div class="col-xs-12 form-horizontal">
 							<div class="form-group">
-								<div class="col-md-5 control-label">
+								<div class="col-sm-3 control-label">
 									<label>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}</label>
 								</div>
-								<div class="col-md-7">
+								<div class="col-sm-8">
 									<input name="name" value="{$RECORD->getName()}" data-validation-engine="validate[required]" class="form-control"> 
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-5 control-label">
+								<div class="col-sm-3 control-label">
 									<label>{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}</label>
 								</div>
-								<div class="col-md-7">
+								<div class="col-sm-8">
 									{assign var=WIDTH value=$RECORD->get('width')}
 									<select class="width form-control pull-left" name="width">
 										{foreach from=$LIST_SIZE item=SIZE}
@@ -38,10 +38,10 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-5 control-label">
+								<div class="col-sm-3 control-label">
 									<label>{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}</label>
 								</div>
-								<div class="col-md-7">
+								<div class="col-sm-8">
 									{assign var=HEIGHT value=$RECORD->get('height')}
 									<select class="width form-control pull-left" name="height">
 										{foreach from=$LIST_SIZE item=SIZE}
