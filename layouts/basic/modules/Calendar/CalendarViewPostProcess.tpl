@@ -10,13 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="siteBarRight calendarRightPanel col-xs-12 {if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}hideSiteBar{/if}" id="rightPanel">
-		<div class="btn btn-block toggleSiteBarRightButton {if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}hideToggleSiteBarRightButton {/if}hidden-xs hidden-sm" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
-			{if AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}
-				<span class="glyphicon glyphicon-chevron-right"></span>
-			{else}
-				<span class="glyphicon glyphicon-chevron-left"></span>	
-			{/if}
+	<div class="siteBarRight calendarRightPanel col-xs-12 hideSiteBar" data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel">
+		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton hidden-xs hidden-sm" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
+			<span class="glyphicon glyphicon-chevron-left"></span>
 		</div>
 		<div class="siteBarContent paddingTop10">
 			{if $CALENDAR_FILTERS->isActive()}

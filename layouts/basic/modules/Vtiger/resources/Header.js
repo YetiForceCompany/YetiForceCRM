@@ -894,23 +894,49 @@ jQuery.Class("Vtiger_Header_Js", {
 		records.find('.footable-toggle').css("display", "none");
 	},
 	registerShowHideRightPanelEvent: function (container) {
+		var thisInstance = this;
+		var key = 'ShowHideRightPanel' + app.getModuleName();
+		if (app.cacheGet(key) == 'show') {
+			thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
+		}
+		
+		if (app.cacheGet(key) == null) {
+			if (container.find('.siteBarRight').data('showpanel') == 1) {
+				thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
+			}
+		}
 		container.find('.toggleSiteBarRightButton').click(function (e) {
 			var toogleButton = $(this);
-			var siteBarRight = $(this).closest('.siteBarRight');
-			var content = container.find('.rowContent');
-			var buttonImage = $(this).find('.glyphicon');
-			if (siteBarRight.hasClass('hideSiteBar')) {
-				siteBarRight.removeClass('hideSiteBar');
-				content.removeClass('col-md-12').addClass('col-md-9');
-				buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
-				toogleButton.removeClass('hideToggleSiteBarRightButton');
+			if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
+				app.cacheSet(key, 'show');
+				thisInstance.showSiteBar(container, toogleButton);
 			} else {
-				siteBarRight.addClass('hideSiteBar');
-				content.removeClass('col-md-9').addClass('col-md-12');
-				buttonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
-				toogleButton.addClass('hideToggleSiteBarRightButton');
+				app.cacheSet(key, 'hide');
+				thisInstance.hideSiteBar(container, toogleButton);
 			}
 		});
+	},
+	hideSiteBar: function (container, toogleButton) {
+		var key, toogleButton, siteBarRight, content, buttonImage;
+		siteBarRight = toogleButton.closest('.siteBarRight');
+		content = container.find('.rowContent');
+		buttonImage = toogleButton.find('.glyphicon');
+
+		siteBarRight.addClass('hideSiteBar');
+		content.removeClass('col-md-9').addClass('col-md-12');
+		buttonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
+		toogleButton.addClass('hideToggleSiteBarRightButton');
+	},
+	showSiteBar: function (container, toogleButton) {
+		var key, toogleButton, siteBarRight, content, buttonImage;
+		siteBarRight = toogleButton.closest('.siteBarRight');
+		content = container.find('.rowContent');
+		buttonImage = toogleButton.find('.glyphicon');
+
+		siteBarRight.removeClass('hideSiteBar');
+		content.removeClass('col-md-12').addClass('col-md-9');
+		buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
+		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
 	registerScrollForMenu: function () {
 		app.showScrollBar($(".slimScrollMenu"),
