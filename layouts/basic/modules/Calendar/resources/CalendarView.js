@@ -534,10 +534,14 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	registerSelect2Event: function () {
 		var thisInstance = this;
-		$('#calendarUserList,#calendarActivityTypeList,#calendarGroupList').each(function (index) {
+		$('.siteBarRight .select2').each(function (index) {
 			var name = $(this).attr('id');
-			if (app.cacheGet('Calendar_' + name) != null) {
-				$('#' + name).val(app.cacheGet('Calendar_' + name));
+			var value = app.cacheGet('Calendar_' + name);
+			var element = $('#' + name);
+			if (element.length > 0 && value != null) {
+				if (element.prop('tagName') == 'SELECT') {
+					element.val(value);
+				}
 			}
 		});
 		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
@@ -545,12 +549,30 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		app.showSelect2ElementView($('#calendarActivityTypeList'));
 		app.showSelect2ElementView($('#calendarGroupList'));
 		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
+			var element = $(this);
+			var value = element.val();
 			thisInstance.loadCalendarData();
-			app.cacheSet('Calendar_' + $(this).attr('id'), $(this).val());
+			if (element.attr('type') == 'checkbox') {
+				value = element.is(':checked');
+			}
+			app.cacheSet('Calendar_' + element.attr('id'), value);
+		});
+	},
+	registerCacheSettings: function () {
+		$('.siteBarRight .filterField').each(function (index) {
+			var name = $(this).attr('id');
+			var value = app.cacheGet('Calendar_' + name);
+			var element = $('#' + name);
+			if (element.length > 0 && value != null) {
+				if (element.attr('type') == 'checkbox') {
+					element.prop("checked", value);
+				}
+			}
 		});
 	},
 	registerEvents: function () {
 		this.renderCalendar();
+		this.registerCacheSettings();
 		this.registerAddButton();
 		this.loadCalendarData(true);
 		this.registerButtonSelectAll();
