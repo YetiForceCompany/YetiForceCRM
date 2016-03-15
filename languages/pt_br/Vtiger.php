@@ -1045,6 +1045,7 @@ $languageStrings = [
 	'LBL_NO_DISCOUNTS' => 'Available discounts not found',
 	'LBL_ITEM_NUMBER' => 'No.',
 	'LBL_EAN'=>'EAN',
+	'FL_SUBUNIT' => 'Subunit',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Export to PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Generate PDF file',

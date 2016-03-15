@@ -1036,6 +1036,7 @@ $languageStrings = [
 	'LBL_ITEM_NUMBER' => 'Lp.',
 	'LBL_UNIT'=>'Jednostka',
 	'LBL_EAN'=>'EAN',
+	'FL_SUBUNIT' => 'Podjednostka',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Eksportuj do PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Generowanie pliku PDF',
