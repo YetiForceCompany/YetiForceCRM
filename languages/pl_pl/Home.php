@@ -24,6 +24,11 @@ $languageStrings = [
 	'UA' => 'Nadchodzące zdarzenia',
 	'LBL_MARK_AS_READ' => 'Oznacz jako przeczytane',
 	'LBL_WATCHING_MODULES' => 'Obserwowane moduły',
+	'LBL_NO_NOTIFICATIONS' => 'Brak powiadomień',
+	'Notifications' => 'Powiadomienia',
+	'LBL_CREATING_NOTIFICATION' => 'Wysyłanie powiadomienia',
+	'LBL_TITLE' => 'Tytuł',
+	'LBL_MESSAGE' => 'Wiadomość',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',
