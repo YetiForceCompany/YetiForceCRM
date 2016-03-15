@@ -1806,11 +1806,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
 			var progress = jQuery.progressIndicator();
-			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule + "&block=" + blockId, function (container) {
-				app.showScrollBar(container.find('.well'), {
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule + "&block=" + blockId, function (modalContainer) {
+				app.showScrollBar(modalContainer.find('.well'), {
 					height: '300px'
 				});
-				thisInstance.registerStep1(container, blockId);
+				thisInstance.registerStep1(modalContainer, blockId);
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		});
@@ -1841,10 +1841,17 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	registerStep1: function (container, blockId) {
 		var thisInstance = this;
 		container.find('.nextButton').click(function (e) {
-			var progress = jQuery.progressIndicator();
 			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
-			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + container.find('select.type').val(), function (container) {
-				thisInstance.registerStep2(container, blockId);
+			var type = container.find('select.type').val();
+			app.hideModalWindow();
+			var progress = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + type, function (modalContainer) {
+				thisInstance.registerStep2(modalContainer, blockId);
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		});
