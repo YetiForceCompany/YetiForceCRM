@@ -349,6 +349,7 @@ var app = {
 		return keyValueMap;
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
+		var thisInstance = this;
 		var id = 'globalmodal';
 		//null is also an object
 		if (typeof data == 'object' && data != null && !(data instanceof jQuery)) {
@@ -419,6 +420,7 @@ var app = {
 			app.showSelectizeElementView(container.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
 			app.registerEventForDatePickerFields(container);
+			thisInstance.registerModalEvents(container);
 			cb(container);
 		}
 		if (data) {
@@ -461,6 +463,31 @@ var app = {
 			backdrop.remove();
 		}
 		modalContainer.one('hidden.bs.modal', callback);
+	},
+	registerModalEvents: function (container) {
+		var form = container.find('form');
+		var validationForm = false;
+		if (form.hasClass("validateForm")) {
+			form.validationEngine(app.validationEngineOptions);
+			validationForm = true;
+		}
+		if (form.hasClass("sendByAjax")) {
+			form.submit(function (e) {
+				var save = true;
+				e.preventDefault();
+				if (validationForm && form.data('jqv').InvalidFields.length > 0) {
+					app.formAlignmentAfterValidation(form);
+					save = false;
+				}
+				if (save) {
+					var formData = form.serializeFormData();
+					console.log(formData);
+					AppConnector.request(formData).then(function (data) {
+						app.hideModalWindow();
+					})
+				}
+			});
+		}
 	},
 	isHidden: function (element) {
 		if (element.css('display') == 'none') {
