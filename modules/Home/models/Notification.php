@@ -20,6 +20,11 @@ class Home_Notification_Model extends Vtiger_Base_Model
 
 	public function getTypes()
 	{
+		$instance = Vtiger_Cache::get('Home_Notification_Model', 'Types');
+		if ($instance) {
+			return $instance;
+		}
+
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$role = str_replace('H', '', $currentUser->get('roleid'));
 		$db = PearDatabase::getInstance();
@@ -28,19 +33,23 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		while ($row = $db->getRow($result)) {
 			$types[$row['id']] = $row;
 		}
+		Vtiger_Cache::set('NotificationTypes', 'Types', $types);
 		return $types;
 	}
 
-	public function getEntries()
+	public function getEntries($limit = false)
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$sql = 'SELECT * FROM l_yf_notification WHERE userid = ?'; //ORDER BY id DESC
+		if ($limit) {
+			$sql .= ' LIMIT ' . $limit;
+		}
 		$result = $db->pquery($sql, [$currentUser->getId()]);
 		$entries = [];
 		while ($row = $db->getRow($result)) {
-			$entries[$row['type']][] = Home_NoticeEntries_Model::getInstanceByRow($row);
+			$entries[$row['type']][] = Home_NoticeEntries_Model::getInstanceByRow($row, $this);
 		}
 		return $entries;
 	}
@@ -81,6 +90,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$db->insert('l_yf_notification', [
 			'userid' => $this->get('userid'),
 			'type' => $this->get('type'),
+			'title' => $this->get('title'),
 			'message' => $this->get('message'),
 			'reletedid' => $this->get('record'),
 			'time' => $this->get('time')
@@ -92,19 +102,34 @@ class Home_Notification_Model extends Vtiger_Base_Model
 
 	public function parseContent()
 	{
-		$message = Vtiger_Cache::get('NotificationParseContent', $this->get('message') . $this->get('record'));
-		if ($message !== false) {
+		$message = Vtiger_Cache::get('NotificationParseContentM', $this->get('message') . $this->get('record'));
+		if ($message === false) {
+			$message = $this->get('message');
+
+			$textParser = Vtiger_TextParser_Helper::getInstanceById($this->get('record'), $this->get('moduleName'));
+			$textParser->set('withoutTranslations', true);
+			$textParser->setContent($message);
+			$message = $textParser->parse();
+
 			$this->set('message', $message);
-			return $message;
+			Vtiger_Cache::set('NotificationParseContentM', $this->get('message') . $this->get('record'), $message);
+		} else {
+			$this->set('message', $message);
 		}
-		$message = $this->get('message');
 
-		$textParser = Vtiger_TextParser_Helper::getInstanceById($this->get('record'), $this->get('moduleName'));
-		$textParser->set('withoutTranslations', true);
-		$textParser->setContent($message);
-		$message = $textParser->parse();
+		$title = Vtiger_Cache::get('NotificationParseContentT', $this->get('title') . $this->get('record'));
+		if ($title === false) {
+			$title = $this->get('title');
 
-		$this->set('message', $message);
-		Vtiger_Cache::set('NotificationParseContent', $this->get('message') . $this->get('record'), $message);
+			$textParser = Vtiger_TextParser_Helper::getInstanceById($this->get('record'), $this->get('moduleName'));
+			$textParser->set('withoutTranslations', true);
+			$textParser->setContent($title);
+			$title = $textParser->parse();
+
+			$this->set('title', $title);
+			Vtiger_Cache::set('NotificationParseContentT', $this->get('title') . $this->get('record'), $title);
+		} else {
+			$this->set('title', $title);
+		}
 	}
 }

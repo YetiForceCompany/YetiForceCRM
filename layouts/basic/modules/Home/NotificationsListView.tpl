@@ -11,37 +11,8 @@
 						</div>
 						<div class="panel-body">
 							<div class="notificationEntries">
-								{foreach from=$ENTRIES[$TYPE_ID] item=ENTRY}
-									<div class="media noticeRow" data-id="{$ENTRY->getId()}" data-type="{$ENTRY->get('type')}">
-										{assign var=ICON value=$ENTRY->getIcon()}
-										{if $ICON}
-											<div class="media-left media-middle">
-												{if $ICON['type'] == 'image'}
-													<img width="30px" class="{$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}"/>
-												{else}
-													<span class="{$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" aria-hidden="true"></span>
-												{/if}
-											</div>
-										{/if}
-										<div class="media-body media-middle wordBreakAll">
-											<div class="pull-right">
-												{Vtiger_Util_Helper::formatDateDiffInStrings($ENTRY->get('time'))}
-											</div>
-											{nl2br($ENTRY->getMassage())}
-										</div>
-										<div class="media-right media-middle">
-											{foreach from=$ENTRY->getActions() item=ACTION}
-												<button class="btn {$ACTION['class']}" {if $ACTION['action']}onclick="{$ACTION['action']}"{/if} type="button">
-													{if $ACTION['name']}
-														{vtranslate($ACTION['name'], $MODULE)}
-													{/if}
-													{if $ACTION['icon']}
-														<span class="{$ACTION['icon']}" title="{{vtranslate($ACTION['title'], $MODULE)}}" aria-hidden="true"></span>
-													{/if}
-												</button>
-											{/foreach}
-										</div>
-									</div>
+								{foreach from=$ENTRIES[$TYPE_ID] item=ROW}
+									{include file='NotificationsItem.tpl'|@vtemplate_path:$MODULE}
 								{/foreach}
 							</div>
 						</div>
