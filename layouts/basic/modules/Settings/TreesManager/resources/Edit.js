@@ -87,6 +87,15 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 								inst.edit(obj);
 							}
 						},
+						changeIcon: {
+							"label": app.vtranslate('JS_JSTREE_CHANGE_ICON'),
+							"action": function (data) {
+								$.when(Settings_Vtiger_Index_Js.selectIcon()).then(function(data){
+									// TODO: Change folder icon
+									// data['name'] - icon
+								});
+							}
+						},
 						remove: {
 							"label": app.vtranslate('JS_JSTREE_REMOVE'),
 							action: function (data) {

@@ -32,6 +32,7 @@ $jsLanguageStrings = [
 	'JS_JSTREE_CUT' => 'Cut',
 	'JS_JSTREE_COPY' => 'Copy',
 	'JS_JSTREE_PASTE' => 'Paste',
+	'JS_JSTREE_CHANGE_ICON' => 'Change icon',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Field cannot be empty',
 	'JS_NO_ITEM_SELECTED' => 'No item has been selected',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'You cannot delete all items',

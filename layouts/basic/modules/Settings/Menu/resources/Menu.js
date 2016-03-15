@@ -183,23 +183,13 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	},
 
 	registerSelectIcons: function (container) {
-		var iconSelect = container.find('.iconSelect');
+		var iconSelect = container.find('#selectIconButton');
 		var icon = container.find('[name="icon"]');
-		var formatState = function (state) {
-			if (!state.id) {
-				return state.text;
-			}
-			var $state = $(
-					'<span class="menuIcon font-larger ' + state.element.value + '" aria-hidden="true"> ' + state.text + '</span>'
-					);
-			return $state;
-		}
-		var params = {};
-		var params = {templateResult: formatState, templateSelection: formatState};
-		app.showSelect2ElementView(iconSelect, params);
-		iconSelect.on('change', function () {
-			icon.val(jQuery(this).val());
-		})
+		iconSelect.on('click', function(){
+			$.when(Settings_Vtiger_Index_Js.selectIcon()).then(function(data){
+				icon.val(data['name']);
+			});
+		});
 	},
 	registerStep2: function (container) {
 		var thisInstance = this;
