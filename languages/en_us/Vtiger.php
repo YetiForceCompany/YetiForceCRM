@@ -1113,6 +1113,10 @@ $languageStrings = [
 	'SINGLE_SSalesProcesses' => 'Opportunity',
 	'LBL_RELATION' => 'Relation',
 	'LBL_PREVIEW' => 'Preview',
+	'Admin Profile' => 'Admin Profile',
+	'Support Profile' => 'Support Profile',
+	'Sales Profile' => 'Sales Profile',
+	'Guest Profile' => 'Guest',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',

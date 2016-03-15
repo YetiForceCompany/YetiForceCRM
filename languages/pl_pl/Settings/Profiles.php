@@ -73,10 +73,6 @@ $languageStrings = [
 	'WatchingRecords' => 'Śledznie zmian w rekordzie',
 	'WatchingModule' => 'Śledznie zmian w module',
 	//end actions
-	'Admin Profile' => 'Profil administratora',
-	'Support Profile' => 'Profil wsparcia',
-	'Sales Profile' => 'Profil sprzedaży',
-	'Guest Profile' => 'Gość',
 	'Profile Related to Sales' => 'Profil powiązany ze sprzedażą',
 	'Profile Related to Support' => 'Profil związany ze wsparciem',
 	'Guest Profile for Test Users' => 'Profil Gość dla Uzytkowników Testowych',

@@ -1120,6 +1120,10 @@ $languageStrings = [
 	'SINGLE_SSalesProcesses' => 'Szansa sprzedaży',
 	'LBL_RELATION' => 'Realacja',
 	'LBL_PREVIEW' => 'Podgląd',
+	'Admin Profile' => 'Profil administratora',
+	'Support Profile' => 'Profil wsparcia',
+	'Sales Profile' => 'Profil sprzedaży',
+	'Guest Profile' => 'Gość',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

@@ -293,17 +293,12 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 					jQuery(this).closest('.modal').removeClass('in').css('display', 'none');
 				})
 			}
-			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
-			console.log(conditionsContainer);
-			console.log(clonedPopupUi);
+			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);	
 			jQuery('.clonedPopupUi').on('shown.bs.modal', function () {
-				console.log('shown.bs.modal');
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(jQuery('.clonedPopupUi', conditionsContainer));
 				}
 			});
-			console.log(jQuery('.clonedPopUp', conditionsContainer));
-			console.log(jQuery('.clonedPopUp', conditionsContainer).find('.clonedPopupUi'));
 			jQuery('.clonedPopUp', conditionsContainer).find('.clonedPopupUi').modal();
 		});
 	},

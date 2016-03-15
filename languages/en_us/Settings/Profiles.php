@@ -72,10 +72,6 @@ $languageStrings = [
 	'WatchingRecords' => 'Track changes in record',
 	'WatchingModule' => 'Track changes in module',
 	//end Actions
-	'Admin Profile' => 'Admin profile',
-	'Support Profile' => 'Support profile',
-	'Sales Profile' => 'Sales profile',
-	'Guest Profile' => 'Guest',
 	'Profile Related to Sales' => 'Profile related to sales',
 	'Profile Related to Support' => 'Profile related to support',
 	'Guest Profile for Test Users' => 'Guest profile for test users',
