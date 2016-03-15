@@ -481,7 +481,6 @@ var app = {
 				}
 				if (save) {
 					var formData = form.serializeFormData();
-					console.log(formData);
 					AppConnector.request(formData).then(function (data) {
 						app.hideModalWindow();
 					})

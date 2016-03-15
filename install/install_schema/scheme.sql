@@ -82,12 +82,13 @@ CREATE TABLE `a_yf_mapped_fields` (
 /*Table structure for table `a_yf_notification_type` */
 
 CREATE TABLE `a_yf_notification_type` (
-  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(19) unsigned NOT NULL,
   `name` varchar(50) NOT NULL,
   `role` tinyint(5) unsigned NOT NULL DEFAULT '0',
   `width` tinyint(2) NOT NULL DEFAULT '3',
   `height` tinyint(2) NOT NULL DEFAULT '3',
   `icon` varchar(20) DEFAULT NULL,
+  `presence` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -479,9 +480,10 @@ CREATE TABLE `l_yf_notification` (
   `title` varchar(255) DEFAULT NULL,
   `message` text,
   `reletedid` int(11) DEFAULT NULL,
+  `reletedmodule` varchar(30) DEFAULT NULL,
   `time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `l_yf_notification_archive` */
 
@@ -492,6 +494,7 @@ CREATE TABLE `l_yf_notification_archive` (
   `title` varchar(255) DEFAULT NULL,
   `message` text,
   `reletedid` int(11) DEFAULT NULL,
+  `reletedmodule` varchar(30) DEFAULT NULL,
   `time` datetime DEFAULT NULL,
   `mark_user` int(11) DEFAULT '0',
   `mark_time` datetime DEFAULT NULL,
@@ -8468,7 +8471,7 @@ CREATE TABLE `vtiger_usageunit` (
   `sortorderid` int(11) DEFAULT NULL,
   PRIMARY KEY (`usageunitid`),
   UNIQUE KEY `usageunit_usageunit_idx` (`usageunit`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_usageunit_seq` */
 
