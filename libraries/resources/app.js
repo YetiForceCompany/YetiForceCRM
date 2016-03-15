@@ -936,7 +936,7 @@ var app = {
 	 * Cache API on client-side
 	 */
 	cacheNSKey: function (key) { // Namespace in client-storage
-		return 'vtiger6.' + key;
+		return 'yf.' + key;
 	},
 	cacheGet: function (key, defvalue) {
 		key = this.cacheNSKey(key);
