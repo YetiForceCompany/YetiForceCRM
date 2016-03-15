@@ -431,6 +431,10 @@ var app = {
 		}
 		container.one('hidden.bs.modal', function () {
 			container.remove();
+			var backdrop = jQuery('.modal-backdrop:first');
+			if (backdrop.length) {
+				backdrop.remove();
+			}
 		});
 		return container;
 	},
@@ -452,6 +456,10 @@ var app = {
 		}
 		var modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
+		var backdrop = jQuery('.modal-backdrop:first');
+		if (backdrop.length) {
+			backdrop.remove();
+		}
 		modalContainer.one('hidden.bs.modal', callback);
 	},
 	isHidden: function (element) {
