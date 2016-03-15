@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
 include_once('vtlib/Vtiger/PackageExport.php');
 include_once('vtlib/Vtiger/Unzip.php');
@@ -1089,9 +1090,11 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		$instance = Vtiger_InventoryField_Model::getFieldInstance($inventoryFieldInstance->get('module'), $fieldNode->invtype);
 		$table = $inventoryFieldInstance->getTableName();
 
-		Vtiger_Utils::AddColumn($table, $fieldNode->columnname, $instance->getDBType());
-		foreach ($instance->getCustomColumn() as $column => $criteria) {
-			Vtiger_Utils::AddColumn($table, $column, $criteria);
+		if ($instance->isColumnType()) {
+			Vtiger_Utils::AddColumn($table, $fieldNode->columnname, $instance->getDBType());
+			foreach ($instance->getCustomColumn() as $column => $criteria) {
+				Vtiger_Utils::AddColumn($table, $column, $criteria);
+			}
 		}
 		$db = PearDatabase::getInstance();
 		return $db->insert($inventoryFieldInstance->getTableName('fields'), [
