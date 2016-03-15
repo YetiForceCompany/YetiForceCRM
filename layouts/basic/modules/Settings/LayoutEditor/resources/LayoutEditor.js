@@ -2032,7 +2032,9 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	 * Register label copy
 	 */
 	registerCopyClipboard : function (element) {
-		var clip = new ZeroClipboard(element, {moviePath: "libraries/jquery/ZeroClipboard/ZeroClipboard.swf"});
+		var clip = new ZeroClipboard(element, {
+			moviePath: 'libraries/jquery/ZeroClipboard/ZeroClipboard.swf',
+		});
 		clip.on('complete', function (client, args) {
 			// notification about copy to clipboard
 			var params = {
