@@ -120,7 +120,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 	public function parseTranslations()
 	{
 		if ($this->get('withoutTranslations') === true) {
-			return false;
+			return $this->get('content');
 		}
 		$content = preg_replace_callback('/\((\w+): \[([\w\s]+)\]\)/', function ($matches) {
 			$value = $matches[0];

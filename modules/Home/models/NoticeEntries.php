@@ -26,8 +26,8 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 	public static function getInstanceByRow($row, Home_Notification_Model $notificationModel)
 	{
 		$instance = new self();
-		if (isset($row['reletedid'])) {
-			$textParser = Vtiger_TextParser_Helper::getInstanceByModel(Vtiger_Record_Model::getInstanceById($row['reletedid']));
+		if (isset($row['reletedid']) && $row['reletedmodule'] != 'Users') {
+			$textParser = Vtiger_TextParser_Helper::getInstanceByModel(Vtiger_Record_Model::getInstanceById($row['reletedid'], $row['reletedmodule']));
 		} else {
 			$textParser = Vtiger_TextParser_Helper::getCleanInstance();
 		}

@@ -68,21 +68,24 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 
-		$currentUser = vglobal('current_user');
-		$user = CRMEntity::getInstance('Users');
-		$user->retrieveCurrentUserInfoFromFile($this->get('userid'));
-		vglobal('current_user', $user);
-		if (!Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
-			$log->error('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) .
-				' does not have permission for this record ' . $this->get('record'));
-			vglobal('current_user', $currentUser);
-			return false;
+		if ($this->get('moduleName') != 'Users') {
+			$currentUser = vglobal('current_user');
+			$user = CRMEntity::getInstance('Users');
+			$user->retrieveCurrentUserInfoFromFile($this->get('userid'));
+			vglobal('current_user', $user);
+			if (!Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
+				$log->error('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) .
+					' does not have permission for this record ' . $this->get('record'));
+				vglobal('current_user', $currentUser);
+				return false;
+			}
 		}
 		if ($parseContent) {
 			$this->parseContent();
 		}
-		vglobal('current_user', $currentUser);
-
+		if ($this->get('moduleName') != 'Users') {
+			vglobal('current_user', $currentUser);
+		}
 		if (!$this->has('time')) {
 			$this->set('time', date('Y-m-d H:i:s'));
 		}
@@ -93,6 +96,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 			'title' => $this->get('title'),
 			'message' => $this->get('message'),
 			'reletedid' => $this->get('record'),
+			'reletedmodule' => $this->get('moduleName'),
 			'time' => $this->get('time')
 		]);
 
