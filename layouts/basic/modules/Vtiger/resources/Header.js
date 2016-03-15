@@ -739,7 +739,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	getHistoryLabel: function () {
 		var label = "";
-		$(".breadcrumbsLinks span").each(function (index) {
+		$(".breadcrumbsLinks span:not(.hideToHistory)").each(function (index) {
 			label += $(this).text();
 		});
 		return label;

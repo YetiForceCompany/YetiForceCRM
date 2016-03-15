@@ -1309,11 +1309,27 @@ jQuery.Class("Vtiger_List_Js", {
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text("");
 			thisInstance.getListViewRecords(urlParams).then(function () {
+				thisInstance.breadCrumbsFilter(selectOption.text());
 				thisInstance.ListViewPostOperation();
 				thisInstance.updatePagination(1);
 			});
 			event.stopPropagation();
 		});
+	},
+	breadCrumbsFilter: function (text) {
+		var breadCrumbs = jQuery('.breadcrumbsContainer .breadcrumbsLinks');
+		var breadCrumbsLastSpan = breadCrumbs.last('span');
+		var filterExist = breadCrumbsLastSpan.find('.breadCrumbsFilter');
+		if (filterExist.length && text != undefined) {
+			filterExist.text(' :' + text);
+		} else if (filterExist.length < 1) {
+			text = (text == undefined) ? this.getFilterSelectElement().find(':selected').text() : text;
+			if (breadCrumbsLastSpan.hasClass('breadCrumbsFilter')) {
+				breadCrumbsLastSpan.text(' :' + text);
+			} else {
+				breadCrumbs.append('<span class="font-small breadCrumbsFilter hideToHistory"> :' + text + '</span>');
+			}
+		}
 	},
 	//Fix for empty Recycle bin 
 	ListViewPostOperation: function () {
@@ -1957,7 +1973,7 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 	},
 	registerEvents: function () {
-
+		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
 		this.registerPageNavigationEvents();
 		this.registerMainCheckBoxClickEvent();

@@ -907,6 +907,11 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($moduleName) method ...");
+		$cacheName = 'getAll:' . $moduleName;
+		$customViews = Vtiger_Cache::get('CustomViews', $cacheName);
+		if ($customViews) {
+			return $customViews;
+		}
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
@@ -937,7 +942,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			if (strlen(decode_html($row['viewname'])) > 40) {
 				$row['viewname'] = substr(decode_html($row['viewname']), 0, 36) . '...';
 			}
-			$customViews[] = $customView->setData($row)->setModule($row['entitytype']);
+			$customViews[$row['cvid']] = $customView->setData($row)->setModule($row['entitytype']);
 		}
 
 		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters';
@@ -953,10 +958,11 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 					$view['cvid'] = $name;
 					$view['status'] = self::CV_STATUS_SYSTEM;
 					$customView = new self();
-					$customViews[] = $customView->setData($view)->setModule($moduleName);
+					$customViews[$name] = $customView->setData($view)->setModule($moduleName);
 				}
 			}
 		}
+		Vtiger_Cache::set('CustomViews', $cacheName, $customViews);
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $customViews;
 	}

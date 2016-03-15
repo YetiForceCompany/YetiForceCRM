@@ -25,7 +25,16 @@ class Vtiger_List_View extends Vtiger_Index_View
 	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		return vtranslate('LBL_VIEW_LIST', $moduleName);
+		$title = vtranslate('LBL_VIEW_LIST', $moduleName);
+		if ($request->has('viewname')) {
+			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
+			if (empty($customView)) {
+				return $title;
+			}
+			$viewName = $customView->get('viewname');
+			$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> :' . ($viewName == 'All' ? vtranslate('All', $moduleName) : $viewName ) . '</div>';
+		}
+		return $title;
 	}
 
 	function preProcess(Vtiger_Request $request, $display = true)

@@ -5211,3 +5211,9 @@ select.form-control {
 .modalNotificationConfig .checkbox{
 	margin: 5px 0;
 }
+.font-small{
+	font-size: small;
+}
+.dispaly-inline{
+	display: inline;
+}
