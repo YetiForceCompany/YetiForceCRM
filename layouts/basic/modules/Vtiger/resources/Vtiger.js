@@ -302,6 +302,42 @@ var Vtiger_Index_Js = {
 			badge.addClass('hide');
 		}
 	},
+	markNotifications: function (id) {
+		var thisInstance = this;
+		var params = {
+			module: 'Home',
+			action: 'Notification',
+			mode: 'setMark',
+			id: id
+		}
+		AppConnector.request(params).then(function (data) {
+			var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
+			Vtiger_Helper_Js.showPnotify({
+				title: app.vtranslate('JS_MESSAGE'),
+				text: app.vtranslate('JS_MARKED_AS_READ'),
+				type: 'info'
+			});
+			if (data.result == 'hide') {
+				row.fadeOut(300, function () {
+					var entries = row.closest('.notificationEntries')
+					row.remove();
+					entries.each(function (index) {
+						var block = $(this);
+						if (block.find(".noticeRow").length == 0) {
+							block.closest('.panel').hide();
+						}
+					});
+				});
+			}
+			var badge = $(".notificationsNotice .badge");
+			var number = parseInt(badge.text()) - 1;
+			if (number > 0) {
+				badge.text(number);
+			} else {
+				badge.text('');
+			}
+		});
+	},
 	/**
 	 * Function registers event for Calendar Reminder popups
 	 */

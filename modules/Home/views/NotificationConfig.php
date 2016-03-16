@@ -17,9 +17,9 @@ class Home_NotificationConfig_View extends Vtiger_BasicModal_View
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleList = Vtiger_Functions::getAllModules();
-		foreach($moduleList as $tabId => &$module){
-			if(!Users_Privileges_Model::isPermitted($module['name'], 'WatchingModule')){
+		$moduleList = Vtiger_Functions::getAllModules(true, true);
+		foreach ($moduleList as $tabId => &$module) {
+			if (!Users_Privileges_Model::isPermitted($module['name'], 'WatchingModule')) {
 				unset($moduleList[$tabId]);
 			}
 		}

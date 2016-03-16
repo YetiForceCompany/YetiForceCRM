@@ -96,7 +96,7 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 	public function getActions()
 	{
 		return [[
-			'action' => 'Vtiger_Header_Js.getInstance().markNotifications(' . $this->getId() . ')',
+			'action' => 'Vtiger_Index_Js.markNotifications(' . $this->getId() . ')',
 			'title' => 'LBL_MARK_AS_READ',
 			'class' => 'btn-success btn-sm',
 			'icon' => 'glyphicon glyphicon-ok'
