@@ -23664,6 +23664,7 @@ insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`) val
 insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`) values (14,'Category',91,0);
 insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`) values (15,'Category',37,1);
 insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`) values (16,'Category',96,1);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`) values (17,'Category',13,1);
 
 /*Data for the table `vtiger_trees_templates_data` */
 
@@ -23706,6 +23707,7 @@ insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrr
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (1,'Default','T1','T1',0,'Default','',NULL);
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (1,'Mails','T2','T2',0,'Mails','',NULL);
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (16,'none','T1','T1',0,'none','',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`,`icon`) values (17,'none','T1','T1',0,'none','','');
 
 /*Data for the table `vtiger_troubletickets` */
 
