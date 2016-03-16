@@ -63,6 +63,9 @@ $modulesMapRelatedFields = [
 	],
 	'SSalesProcesses' => [
 		'projectid' => ['Project' => ['accountid' => ['linktoaccountscontacts']]]
+	],
+	'IGRNC' => [
+		'igrnid' => ['IGRN' => ['vendorid' => ['vendorid'], 'storageid' => ['storageid']]]
 	]
 ];
 

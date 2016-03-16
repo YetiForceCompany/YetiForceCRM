@@ -10,14 +10,14 @@ class Pdf_ProductsTableRelatedModule extends Vtiger_SpecialFunction_Pdf
 {
 
 	public $permittedModules = ['IGRNC'];
+	public $relatedModulesFields = ['IGRNC' => 'igrnid'];
 
 	public function process($module, $id, Vtiger_PDF_Model $pdf)
 	{
 		$html = '';
 		$recordId = $id;
 		$record = Vtiger_Record_Model::getInstanceById($recordId);
-		$relatedModuleField = $record->entity->relatedModuleFieldName;
-		$relatedModuleRecordId = $record->get($relatedModuleField);
+		$relatedModuleRecordId = $record->get($this->relatedModulesFields[$module]);
 		$relatedModuleRecordModel = Vtiger_Record_Model::getInstanceById($relatedModuleRecordId);
 		$moduleModel = $relatedModuleRecordModel->getModule();
 		if (!$moduleModel->isInventory()) {
