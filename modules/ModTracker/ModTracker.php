@@ -25,6 +25,17 @@ class ModTracker
 	public static $UNLINK = '5';
 	public static $CONVERTTOACCOUNT = '6';
 
+	static function getAllActions()
+	{
+		$listActions [self::$UPDATED] = 'UPDATED';
+		$listActions [self::$DELETED] = 'DELETED';
+		$listActions [self::$CREATED] = 'CREATED';
+		$listActions [self::$RESTORED] = 'RESTORED';
+		$listActions [self::$LINK] = 'LINK';
+		$listActions [self::$UNLINK] = 'UNLINK';
+		$listActions [self::$CONVERTTOACCOUNT] = 'CONVERTTOACCOUNT';
+		return $listActions;
+	}
 	/* Entry point will invoke this function no need to act on */
 
 	function track_view($user_id, $current_module, $id = '')
