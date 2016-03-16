@@ -23,6 +23,7 @@
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 <input type="hidden" id="showListButtonInCalendar" value="{AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')}" />
 <input type="hidden" id="hiddenDays" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
+<input type="hidden" id="activityStateLabels" value="{Vtiger_Util_Helper::toSafeHTML($ACTIVITY_STATE_LABELS)}" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
 	.calCol_{$ITEM.label}{ border: 1px solid {$ITEM.value}!important; }

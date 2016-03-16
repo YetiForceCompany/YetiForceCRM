@@ -454,12 +454,17 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), []);
 		var user = thisInstance.getValuesFromSelect2($("#calendarUserList"), [], true);
 		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user, true);
-		var searchParams = '';
+		var view = thisInstance.getCalendarView().fullCalendar('getView');
+		var start_date = view.start.format();
+		var end_date = view.end.format();
+		var status = app.getMainParams('activityStateLabels', true);
+		var searchParams = '["activitystatus","c","' + status[app.getMainParams('showType')].join() + '"]';
+		searchParams += ',["date_start","bw","' + start_date + ',' + end_date + '"]';
 		if (types.length) {
-			searchParams += '["activitytype","e","' + types + '"]';
+			searchParams += ',["activitytype","e","' + types + '"]';
 		}
 		if (user.length) {
-			searchParams += (searchParams != '' ? ',' : '') + '["assigned_user_id","c","' + user + '"]';
+			searchParams += ',["assigned_user_id","c","' + user + '"]';
 		}
 		$(".calendarFilters .filterField").each(function () {
 			var type = $(this).attr('type');
@@ -468,7 +473,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			}
 
 		});
-		var url = 'index.php?module=Calendar&view=List&viewname=All&search_params=[[' + searchParams + ']]';
+		var url = 'index.php?module=Calendar&view=List&search_params=[[' + searchParams + ']]';
 		return url;
 	},
 	registerAddButton: function () {
