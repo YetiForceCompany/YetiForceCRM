@@ -25,15 +25,15 @@ class ModTracker
 	public static $UNLINK = '5';
 	public static $CONVERTTOACCOUNT = '6';
 
-	static function getAllActions()
+	static function getAllActionsTypes()
 	{
-		$listActions [self::$UPDATED] = 'UPDATED';
-		$listActions [self::$DELETED] = 'DELETED';
-		$listActions [self::$CREATED] = 'CREATED';
-		$listActions [self::$RESTORED] = 'RESTORED';
-		$listActions [self::$LINK] = 'LINK';
-		$listActions [self::$UNLINK] = 'UNLINK';
-		$listActions [self::$CONVERTTOACCOUNT] = 'CONVERTTOACCOUNT';
+		$listActions [self::$UPDATED] = 'LBL_AT_UPDATED';
+		$listActions [self::$DELETED] = 'LBL_AT_DELETED';
+		$listActions [self::$CREATED] = 'LBL_AT_CREATED';
+		$listActions [self::$RESTORED] = 'LBL_AT_RESTORED';
+		$listActions [self::$LINK] = 'LBL_AT_LINK';
+		$listActions [self::$UNLINK] = 'LBL_AT_UNLINK';
+		$listActions [self::$CONVERTTOACCOUNT] = 'LBL_AT_CONVERTTOACCOUNT';
 		return $listActions;
 	}
 	/* Entry point will invoke this function no need to act on */
