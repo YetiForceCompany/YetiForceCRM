@@ -1117,6 +1117,14 @@ $languageStrings = [
 	'Support Profile' => 'Support Profile',
 	'Sales Profile' => 'Sales Profile',
 	'Guest Profile' => 'Guest',
+	// Action types - AT
+	'LBL_AT_UPDATED' => 'Modify',
+	'LBL_AT_DELETED' => 'Delete',
+	'LBL_AT_CREATED' => 'Create',
+	'LBL_AT_RESTORED' => 'Restored',
+	'LBL_AT_LINK' => 'Linked',
+	'LBL_AT_UNLINK' => 'Unlinked',
+	'LBL_AT_CONVERTTOACCOUNT' => 'Lead converted',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
