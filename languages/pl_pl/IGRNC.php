@@ -1,8 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'IGRNC' => '[PZK] Korekcje przyjęć z zewnątrz',
-	'SINGLE_IGRNC' => '[PZK] Korekcja przyjęcia z zewnątrz',
+	'IGRNC' => '[PZK] Korekty przyjęć z zewnątrz',
+	'SINGLE_IGRNC' => '[PZK] Korekta przyjęcia z zewnątrz',
 	'LBL_DESCRIPTION_BLOCK' => 'Opis',
 	'LBL_ATTENTION_BLOCK' => 'Uwagi',
 	'FL_ACCEPTANCE_DATE' => 'Data przyjęcia',
