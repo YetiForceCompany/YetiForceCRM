@@ -66,6 +66,9 @@ $modulesMapRelatedFields = [
 	],
 	'IGRNC' => [
 		'igrnid' => ['IGRN' => ['vendorid' => ['vendorid'], 'storageid' => ['storageid']]]
+	],
+	'IGDNC' => [
+		'igdnid' => ['IGDN' => ['storageid' => ['storageid'], 'accountid' => ['accountid']]]
 	]
 ];
 

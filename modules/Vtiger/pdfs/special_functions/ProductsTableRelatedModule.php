@@ -10,7 +10,7 @@ class Pdf_ProductsTableRelatedModule extends Vtiger_SpecialFunction_Pdf
 {
 
 	public $permittedModules = ['IGRNC'];
-	public $relatedModulesFields = ['IGRNC' => 'igrnid'];
+	public $relatedModulesFields = ['IGRNC' => 'igrnid','IGDNC' => 'igdnid'];
 
 	public function process($module, $id, Vtiger_PDF_Model $pdf)
 	{
