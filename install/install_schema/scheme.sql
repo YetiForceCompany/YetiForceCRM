@@ -8239,23 +8239,6 @@ CREATE TABLE `vtiger_taxclass_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_ticketcategories` */
-
-CREATE TABLE `vtiger_ticketcategories` (
-  `ticketcategories_id` int(19) NOT NULL AUTO_INCREMENT,
-  `ticketcategories` varchar(200) DEFAULT NULL,
-  `presence` int(1) NOT NULL DEFAULT '0',
-  `picklist_valueid` int(19) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ticketcategories_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ticketcategories_seq` */
-
-CREATE TABLE `vtiger_ticketcategories_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ticketcf` */
 
 CREATE TABLE `vtiger_ticketcf` (
