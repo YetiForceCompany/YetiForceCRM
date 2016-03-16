@@ -33,6 +33,7 @@ $languageStrings = [
 	'LBL_VIEW_CONFIGURATION' => 'Konfigurationssicht',
 	'LBL_WIDGET_ADDED' => 'Widget wurde dem Block erfolgreich hinzugefügt ',
 	'LBL_CACHE_WIDGET' => 'Cache',
+	'LBL_SHOW_USERS' => 'Display username',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Block wurde erfolgreich hinzugefügt',
