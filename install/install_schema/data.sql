@@ -467,6 +467,10 @@ insert  into `u_yf_igrnc_invfield`(`id`,`columnname`,`label`,`invtype`,`presence
 
 /*Data for the table `u_yf_igrnc_invmap` */
 
+insert  into `u_yf_igrnc_invmap`(`module`,`field`,`tofield`) values ('Products','ean','ean');
+insert  into `u_yf_igrnc_invmap`(`module`,`field`,`tofield`) values ('Products','subunit','subunit');
+insert  into `u_yf_igrnc_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
+
 /*Data for the table `u_yf_igrnccf` */
 
 /*Data for the table `u_yf_igrncf` */
@@ -5478,7 +5482,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (108,2315,'total','u_yf_igrnc',2,'7','total','LBL_TOTAL_PRICE',1,2,'',100,4,366,2,'NN~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (108,2316,'description','vtiger_crmentity',1,'300','description','Description',1,2,'',100,1,367,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (108,2317,'attention','vtiger_crmentity',1,'300','attention','Attention',1,2,'',100,1,368,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (108,2318,'igrnid','u_yf_igrnc',1,'10','igrn','FL_IGRN',1,2,'',100,8,365,1,'I~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (108,2318,'igrnid','u_yf_igrnc',1,'10','igrn','FL_IGRN',1,2,'',100,8,365,1,'I~M',1,NULL,'BAS',1,'',0,'','0');
 
 /*Data for the table `vtiger_field_seq` */
 

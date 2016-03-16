@@ -12,6 +12,7 @@ class IGRNC extends Vtiger_CRMEntity
 
 	var $table_name = 'u_yf_igrnc';
 	var $table_index = 'igrncid';
+	var $relatedModuleFieldName = 'igrn';
 	protected $lockFields = ['igrnc_status' => ['PLL_ACCEPTED']];
 
 	/**
