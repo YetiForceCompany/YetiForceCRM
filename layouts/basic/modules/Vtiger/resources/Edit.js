@@ -171,8 +171,11 @@ jQuery.Class("Vtiger_Edit_Js", {
 						var response = data['result']['data'];
 						$.each(mappingRelatedField, function (key, value) {
 							if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
-								var mapFieldElement = formElement.find('input[name="' + key + '"]');
-								if (mapFieldElement.length == 0) {
+								var mapFieldElement = formElement.find('[name="' + key + '"]');
+								if (mapFieldElement.is('select')) {
+									if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length)
+										mapFieldElement.val(response[value[0]]).trigger("chosen:updated");
+								} else if (mapFieldElement.length == 0) {
 									$("<input type='hidden'/>").attr("name", key).attr("value", response[value[0]]).appendTo(formElement);
 								} else {
 									mapFieldElement.val(response[value[0]]);

@@ -34,7 +34,8 @@ $modulesMapRelatedFields = [
 	'HelpDesk' => [
 		'projectid' => ['Project' => ['parent_id' => ['linktoaccountscontacts']]],
 		'contact_id' => ['Contacts' => ['parent_id' => ['parent_id']]],
-		'pssold_id' => ['Assets' => ['product_id' => ['product', 'Products']], 'OSSSoldServices' => ['product_id' => ['serviceid', 'Services']]]
+		'pssold_id' => ['Assets' => ['product_id' => ['product', 'Products']], 'OSSSoldServices' => ['product_id' => ['serviceid', 'Services']]],
+		'servicecontractsid' => ['ServiceContracts' => ['ticketpriorities' => ['contract_priority']]]
 	],
 	'OSSTimeControl' => [
 		'projectid' => ['Project' => ['accountid' => ['linktoaccountscontacts']]]
