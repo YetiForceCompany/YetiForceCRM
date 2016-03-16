@@ -12,7 +12,7 @@ class RecalculateStockHandler extends VTEventHandler
 	function handleEvent($eventName, $data)
 	{
 		$moduleName = $data->getModuleName();
-		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN', 'IPreOrder'])) {
+		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN', 'IPreOrder', 'ISTDN', 'ISTRN'])) {
 			$status = strtolower($moduleName) . '_status';
 			if ($data->get($status) == 'PLL_ACCEPTED') {
 				$this->getInventoryDataAndSend($data, 'add');
@@ -29,9 +29,9 @@ class RecalculateStockHandler extends VTEventHandler
 	function getInventoryDataAndSend($data, $action)
 	{
 		$moduleName = $data->getModuleName();
-		if($data->focus->inventoryData){
+		if ($data->focus->inventoryData) {
 			$inventoryData = $data->focus->inventoryData;
-		}else{
+		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$recordModel->set('id', $data->getId());
 			$inventoryData = $recordModel->getInventoryData();

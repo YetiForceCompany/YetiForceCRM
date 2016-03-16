@@ -26,11 +26,12 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 
 		if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$isPermited = $recordModel->isEditable() || ($request->get('isDuplicate') == 'true' && $recordModel->isCreateable() && $recordModel->isViewable());
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$isPermited = $recordModel->isCreateable();
 		}
-
-		if (!$recordModel->isEditable() && $recordModel->isViewable() && $request->get('isDuplicate') != 'true') {
+		if (!$isPermited) {
 			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}

@@ -9,10 +9,22 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
-	'PLL_POST_WARRANTY_SUPPORT' => 'Послегарантийное обслуживание',
-	'PLL_WARRANTY_SUPPORT' => 'Гарантийное обслуживание',
-	'PLL_NO_SUPPORT' => 'Нет обслуживания',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_ACCEPTED'=>'Accepted',
+	'PLL_CANCELLED'=>'Cancelled',
+	
+	'PLL_PLANNED'=>'Planned',
+	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_RENEWED'=>'Renewed',
+	'PLL_NOT_RENEWED'=>'Not renewed',
+	'PLL_NOT_APPLICABLE'=>'Not applicable',
+	
 	'PLL_DRAFT' => 'Черновик',
+	'FL_RENEWAL' => 'Renewal',
+	'LBL_SET_RENEWAL' => 'Set renewal',
 	'Asset Name' => 'Название Актива',
 	'Asset No' => 'Актив №',
 	'Assets' => 'Активы',
@@ -33,4 +45,6 @@ $languageStrings = [
 	'description' => 'Описание',
 	'LBL_ORDER_TIME' => 'Время Заказа',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Товары с истекающим сроком',
+	
+	'LBL_CHANGE_STATUS' => 'Change Status',
 ];

@@ -6,8 +6,8 @@ $languageStrings = [
 	
 	//BLOCKS
 	'LBL_SRECURRINGORDERS_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description Details',
+	'LBL_CUSTOM_INFORMATION' => 'System information',
+	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
 	'LBL_STATISTICS' => 'Statistics',
 	'LBL_PERIODIC_GENERATION' => 'Periodic generation',
 	
@@ -15,7 +15,7 @@ $languageStrings = [
 	'LBL_SUBJECT' => 'Subject',
 	'LBL_NUMBER' => 'Number',
 	'LBL_STATUS' => 'Status',
-	'LBL_CLOSED_TIME' => 'Closed Time',
+	'LBL_CLOSED_TIME' => 'Closed time',
 	'LBL_RESPONSE_TIME' => 'Respone time',
 	'LBL_REALIZATION_START_DATE' => 'Realization start date',
 	'LBL_REALIZATION_COMPLETION_DATE' => 'Realization completion date',
@@ -23,9 +23,9 @@ $languageStrings = [
 	'LBL_COMPANY_NAME' => 'Company name',
 	'SINGLE_SSalesProcesses' => 'Opportunity',
 	
-	'LBL_END_PERIOD' => 'End Period',
+	'LBL_END_PERIOD' => 'End period',
 	'LBL_FREQUENCY' => 'Frequency',
-	'LBL_START_PERIOD' => 'Start Period',
+	'LBL_START_PERIOD' => 'Start period',
 	'LBL_TARGET_MODULE' => 'Target module',
 	
 	//PICKLIST VALUES
@@ -59,6 +59,5 @@ $languageStrings = [
 	'first day of +3 months' => 'First day of next quarter',
 	'last day of +3 months' => 'Last day of next quarter',
 
-	'LBL_CHANGE_STATUS' => 'Change Status',
-	'LBL_PREVIEW' => 'Preview',
+	'LBL_CHANGE_STATUS' => 'Change status',
 ];

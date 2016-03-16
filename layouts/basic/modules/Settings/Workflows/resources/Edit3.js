@@ -50,34 +50,30 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			var currentElement = jQuery(e.currentTarget);
 			var params = currentElement.data('url');
 			var progressIndicatorElement = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
 			});
-			AppConnector.request(params).then(function (data) {
-				var callBackFunction = function (data) {
-					app.showScrollBar(jQuery('#addTaskContainer').find('#scrollContainer'), {
-						height: '450px'
-					});
-					thisInstance.registerVTCreateTodoTaskEvents();
-					var taskType = jQuery('#taskType').val();
-					var functionName = 'register' + taskType + 'Events';
-					if (typeof thisInstance[functionName] != 'undefined') {
-						thisInstance[functionName].apply(thisInstance);
-					}
-					thisInstance.registerSaveTaskSubmitEvent(taskType);
-					jQuery('#saveTask').validationEngine(app.validationEngineOptions);
-					thisInstance.registerFillTaskFieldsEvent();
-					thisInstance.registerCheckSelectDateEvent();
-				}
+			app.showModalWindow(null, params, function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'})
-				app.showModalWindow(data, function () {
-					if (typeof callBackFunction == 'function') {
-						callBackFunction(data)
-					}
-				}, {'min-width': '900px'});
-			});
+				app.showScrollBar(jQuery('#addTaskContainer').find('#scrollContainer'), {
+					height: '450px'
+				});
+				thisInstance.registerVTCreateTodoTaskEvents();
+				var taskType = jQuery('#taskType').val();
+				var functionName = 'register' + taskType + 'Events';
+				if (typeof thisInstance[functionName] != 'undefined') {
+					thisInstance[functionName].apply(thisInstance);
+				}
+				thisInstance.registerSaveTaskSubmitEvent(taskType);
+				jQuery('#saveTask').validationEngine(app.validationEngineOptions);
+				thisInstance.registerFillTaskFieldsEvent();
+				thisInstance.registerCheckSelectDateEvent();
+
+				app.showPopoverElementView($(data).find('.popoverTooltip'));
+			}, {'min-width': '900px'});
+
 		});
 	},
 	registerCheckSelectDateEvent: function () {

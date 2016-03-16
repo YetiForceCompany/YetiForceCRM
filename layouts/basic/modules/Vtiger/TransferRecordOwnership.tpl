@@ -31,7 +31,6 @@
 								<optgroup label="{vtranslate('LBL_USERS')}">
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 										<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
-										{if array_key_exists($OWNER_ID, $ACCESSIBLE_USER_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if}
 										data-userId="{$CURRENT_USER_ID}">
 										{$OWNER_NAME}
 										</option>
@@ -39,8 +38,7 @@
 								</optgroup>
 								<optgroup label="{vtranslate('LBL_GROUPS')}">
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-										<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}'
-									{if array_key_exists($OWNER_ID, $ACCESSIBLE_GROUP_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if} >
+										<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}'>
 									{$OWNER_NAME}
 										</option>
 									{/foreach}

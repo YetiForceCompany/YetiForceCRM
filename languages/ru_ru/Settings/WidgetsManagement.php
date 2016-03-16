@@ -32,6 +32,7 @@ $languageStrings = [
 	'LBL_VIEW_CONFIGURATION' => 'Настройка вида',
 	'LBL_WIDGET_ADDED' => 'Виджет успешно добавлен',
 	'LBL_CACHE_WIDGET' => 'Кэш',
+	'LBL_SHOW_USERS' => 'Display username',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Блок Виджетов успешно добавлен',

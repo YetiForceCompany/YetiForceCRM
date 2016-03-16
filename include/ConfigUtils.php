@@ -48,8 +48,11 @@ class AppConfig
 					break;
 			}
 		}
-
-		require_once 'config/modules/' . $module . '.php';
+		$fileName = 'config/modules/' . $module . '.php';
+		if(!file_exists($fileName)){
+			return false;
+		}
+		require_once $fileName;
 		if (empty($CONFIG)) {
 			return false;
 		}

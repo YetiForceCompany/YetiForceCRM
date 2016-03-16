@@ -90,7 +90,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		if (items.find('thead .taxMode').length > 0) {
 			return $('.taxMode');
 		}
-		return row.find('.taxMode');
+		if(row){
+			return row.find('.taxMode');
+		} else {
+			return false;
+		}
 	},
 	isIndividualTaxMode: function (row) {
 		var taxModeElement = this.getTaxModeSelectElement(row);
@@ -102,9 +106,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	isGroupTaxMode: function () {
 		var taxTypeElement = this.getTaxModeSelectElement();
-		var selectedOption = taxTypeElement.find('option:selected');
-		if (selectedOption.val() == '0') {
-			return true;
+		if(taxTypeElement){
+			var selectedOption = taxTypeElement.find('option:selected');
+			if (selectedOption.val() == '0') {
+				return true;
+			}
 		}
 		return false;
 	},
@@ -395,7 +401,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	calculateGrossPrice: function (row) {
 		var netPrice = this.getNetPrice(row);
-		if (this.isIndividualTaxMode(row)) {
+		if (this.isIndividualTaxMode(row) || this.isGroupTaxMode(row)) {
 			var tax = this.getTax(row);
 			netPrice += tax;
 		}
@@ -650,6 +656,28 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
 			$('textarea.commentTextarea', parentRow).val(description);
+
+			if (typeof recordData['autoFields']['unit'] !== 'undefined') {
+				$('input.qtyparam', parentRow).prop('checked', false);
+				switch (recordData['autoFields']['unit']) {
+					default:
+						$('.qtyparamButton', parentRow).addClass('hidden');
+						var validationEngine = 'validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]';
+						$('input.qty', parentRow).attr('data-validation-engine', validationEngine);
+						break;
+					case 'pack':
+						$('.qtyparamButton', parentRow).removeClass('hidden');
+						$('.qtyparamButton', parentRow).removeClass('active');
+						var validationEngine = 'validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]';
+						$('input.qty', parentRow).attr('data-validation-engine', validationEngine);
+						break;
+					case 'pcs':
+						$('.qtyparamButton', parentRow).addClass('hidden');
+						var validationEngine = 'validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]';
+						$('input.qty', parentRow).attr('data-validation-engine', validationEngine);
+						break;
+				}
+			}
 		}
 		if (referenceModule === 'Products') {
 			thisInstance.loadSubProducts(parentRow, true);
@@ -1028,6 +1056,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			row.find('.unitPrice,.tax,.discount,.margin,.purchase').val('0');
 			row.find('textarea,.valueVal').val('');
 			row.find('.valueText').text('');
+			row.find('.qtyparamButton').addClass('hidden');
+			row.find('input.qtyparam').prop('checked', false);
 			thisInstance.quantityChangeActions(row);
 		});
 	},
@@ -1277,6 +1307,21 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.checkDeleteIcon();
 		thisInstance.rowsCalculations();
 	},
+	registerChangeQtyparam: function (container) {
+		var thisInstance = this;
+		container.on('click', '.qtyparamButton', function (e) {
+			var element = $(e.currentTarget);
+			var rowNum = element.data('rownum');
+			var qtyParamInput = $('input[name="qtyparam' + rowNum + '"]');
+			if (qtyParamInput.is(':checked')) {
+				element.removeClass('active');
+				qtyParamInput.prop('checked', false);
+			} else {
+				element.addClass('active');
+				qtyParamInput.prop('checked', true);
+			}
+		});
+	},
 	/**
 	 * Function which will register all the events
 	 */
@@ -1292,6 +1337,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.registerClearReferenceSelection(container);
 		this.registerShowHideExpanded(container);
 		this.registerChangeCurrency(container);
+		this.registerChangeQtyparam(container);
 	},
 });
 jQuery(document).ready(function () {

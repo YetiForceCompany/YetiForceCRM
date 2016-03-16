@@ -11,19 +11,19 @@
 $languageStrings = [
 	// Basic Strings
 	'SINGLE_ModComments' => 'Comment',
-	'LBL_RECORDS_LIST' => 'Comments List',
+	'LBL_RECORDS_LIST' => 'Comments list',
 	// Blocks
 	'LBL_MODCOMMENTS_INFORMATION' => 'Comments',
-	'LBL_OTHER_INFORMATION' => 'Other Information',
-	'LBL_ADDING_COMMENT' => 'Add Comment',
+	'LBL_OTHER_INFORMATION' => 'Other information',
+	'LBL_ADDING_COMMENT' => 'Add comment',
 	'LBL_WRITE_YOUR_COMMENT_HERE' => 'Enter comments here',
 	//Field Labels
 	'Comment' => 'Comment',
 	'Creator' => 'Creator',
-	'Related To Comments' => 'Related To',
+	'Related To Comments' => 'Related to',
 	'UserId' => 'UserId',
 	'Customer' => 'Customer',
-	'ReasonToEdit' => 'Reason To Edit',
+	'ReasonToEdit' => 'Reason to edit',
 	//Email notifications
 	'LBL_ADDED_COMMENT_TO_TICKET' => 'Added a comment to the ticket',
 	'LBL_NEW_COMMENT_FOR_TICKET' => 'A comment was added to the ticket, the content of the comment can be found below',

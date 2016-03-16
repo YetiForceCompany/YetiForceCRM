@@ -430,11 +430,28 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 		});
 	},
 	
+	registerEventForUsageunit: function () {
+		this.checkUsageUnit();
+		$('select[name="usageunit"]').on('change', this.checkUsageUnit);
+	},
+	
+	checkUsageUnit: function () {
+		var selectUsageunit = $('select[name="usageunit"]');
+		var inputQtyPerUnit = $('input[name="qty_per_unit"]');
+		var value = selectUsageunit.val();
+		if (value === 'pack') {
+			inputQtyPerUnit.prop('disabled', false);
+		} else {
+			inputQtyPerUnit.prop('disabled', true);
+		}
+	},
+	
 	registerEvents : function(){
 		this._super();
 		this.registerEventForMoreCurrencies();
 		this.registerEventForTaxes();
 		this.registerEventForUnitPrice();
 		this.registerRecordPreSaveEvent();
+		this.registerEventForUsageunit();
 	}
 })

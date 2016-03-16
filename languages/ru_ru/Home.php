@@ -21,6 +21,12 @@ $languageStrings = [
 	'UA' => 'Ближайшие События',
 	'Home' => 'Главная',
 	'OLTPO' => 'Последние Закупки',
+	'LBL_WATCHING_MODULES' => 'Watched modules',
+	'LBL_NO_NOTIFICATIONS' => 'No notifications',
+	'Notifications' => 'Notifications',
+	'LBL_CREATING_NOTIFICATION' => 'Send notification',
+	'LBL_TITLE' => 'Title',
+	'LBL_MESSAGE' => 'Message',
 ];
 
 $jsLanguageStrings = [

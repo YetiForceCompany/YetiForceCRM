@@ -778,7 +778,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
 		fieldContainer.addClass('opacity editFields').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
-		fieldContainer.find('.fieldLabel').html(result['label']);
+		fieldContainer.find('.fieldLabel').html(result['label'] + ' [' + result['name'] + ']');
+		fieldContainer.find('#relatedFieldValue').val(result['name']).prop('id', 'relatedFieldValue' + result['id']);
+		fieldContainer.find('.copyFieldLabel').attr('data-clipboard-target', 'relatedFieldValue' + result['id']);
+		thisInstance.registerCopyClipboard(fieldContainer.find('.copyFieldLabel'));
 		if (!result['customField']) {
 			fieldContainer.find('.deleteCustomField').remove();
 		}
@@ -1803,11 +1806,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 			var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
 			var progress = jQuery.progressIndicator();
-			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule + "&block=" + blockId, function (container) {
-				app.showScrollBar(container.find('.well'), {
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule + "&block=" + blockId, function (modalContainer) {
+				app.showScrollBar(modalContainer.find('.well'), {
 					height: '300px'
 				});
-				thisInstance.registerStep1(container, blockId);
+				thisInstance.registerStep1(modalContainer, blockId);
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		});
@@ -1838,10 +1841,17 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	registerStep1: function (container, blockId) {
 		var thisInstance = this;
 		container.find('.nextButton').click(function (e) {
-			var progress = jQuery.progressIndicator();
 			var selectedModule = jQuery('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
-			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + container.find('select.type').val(), function (container) {
-				thisInstance.registerStep2(container, blockId);
+			var type = container.find('select.type').val();
+			app.hideModalWindow();
+			var progress = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + type, function (modalContainer) {
+				thisInstance.registerStep2(modalContainer, blockId);
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		});
@@ -2026,10 +2036,29 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		});
 	},
 	/**
+	 * Register label copy
+	 */
+	registerCopyClipboard : function (element) {
+		var clip = new ZeroClipboard(element, {
+			moviePath: 'libraries/jquery/ZeroClipboard/ZeroClipboard.swf',
+		});
+		clip.on('complete', function (client, args) {
+			// notification about copy to clipboard
+			var params = {
+				text: app.vtranslate('LBL_NOTIFY_COPY_TEXT'),
+				animation: 'show',
+				title: app.vtranslate('LBL_NOTIFY_COPY_TITLE'),
+				type: 'success'
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+		});
+	},
+	/**
 	 * register events for layout editor
 	 */
 	registerEvents: function () {
 		var thisInstance = this;
+		var container = $('#layoutEditorContainer');
 
 		thisInstance.registerBlockEvents();
 		thisInstance.registerFieldEvents();
@@ -2051,6 +2080,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		thisInstance.registerEditInventoryField();
 		thisInstance.registerInventoryFieldSequenceSaveClick();
 		thisInstance.registerDeleteInventoryField();
+		thisInstance.registerCopyClipboard(container.find('.copyFieldLabel'));
 	}
 
 });

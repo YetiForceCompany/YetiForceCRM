@@ -8,21 +8,21 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
-	'Conversion Rate' => 'Conversion Rate',
+	'Conversion Rate' => 'Conversion rate',
 	'Currency' => 'Currency',
 	'Symbol' => 'Symbol',
-	'Currency Code' => 'Currency Code',
-	'Currency Name' => 'Currency Name',
-	'LBL_ADD_NEW_CURRENCY' => 'Add New Currency',
+	'Currency Code' => 'Currency code',
+	'Currency Name' => 'Currency name',
+	'LBL_ADD_NEW_CURRENCY' => 'Add new currency',
 	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_CURRENCY_CODE' => 'Currency Code',
-	'LBL_CURRENCY_NAME' => 'Currency Name',
-	'LBL_CURRENCY_STATUS_DESC' => 'Enable checkbox to make currency Active',
+	'LBL_CURRENCY_CODE' => 'Currency code',
+	'LBL_CURRENCY_NAME' => 'Currency name',
+	'LBL_CURRENCY_STATUS_DESC' => 'Enable checkbox to make currency active',
 	'LBL_CURRENCY_SYMBOL' => 'Symbol',
-	'LBL_CURRENT_CURRENCY' => 'Current Currency',
-	'LBL_EDIT_CURRENCY' => 'Edit Currency',
-	'LBL_ENTER_CONVERSION_RATE' => 'Enter Conversion Rate',
-	'LBL_TRANSFER_CURRENCY' => 'Transfer Currency',
+	'LBL_CURRENT_CURRENCY' => 'Current currency',
+	'LBL_EDIT_CURRENCY' => 'Edit currency',
+	'LBL_ENTER_CONVERSION_RATE' => 'Enter conversion rate',
+	'LBL_TRANSFER_CURRENCY' => 'Transfer currency',
 	
 	//currency names
 	'Afghanistan, Afghanis' => 'Afghanistan, Afghanis',
@@ -160,6 +160,6 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Currency Deleted Successfully',
-	'JS_CURRENCY_DETAILS_SAVED' => 'Currency Details Saved',
+	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Currency deleted successfully.',
+	'JS_CURRENCY_DETAILS_SAVED' => 'Currency details saved.',
 ];

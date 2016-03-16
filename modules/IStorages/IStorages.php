@@ -79,7 +79,6 @@ class IStorages extends Vtiger_CRMEntity
 	 */
 	function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 		// TODO Handle actions after this module is installed.
 		} else if ($eventType == 'module.disabled') {
@@ -120,7 +119,7 @@ class IStorages extends Vtiger_CRMEntity
 		$iStoragesList = [];
 
 		// Get the iStorages hierarchy from the top most iStorage in the hierarch of the current iStorage, including the current iStorage
-		$encounteredIStorages = array($id);
+		$encounteredIStorages = [$id];
 		$iStoragesList = $this->getParentIStorages($id, $iStoragesList, $encounteredIStorages);
 
 		$baseId = current(array_keys($iStoragesList));
@@ -145,7 +144,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param array $listviewEntries 
 	 * returns All the parent storages of the given Storage in array format
 	 */
-	function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries)
+	function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries, $getRawData = false)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
@@ -163,19 +162,21 @@ class IStorages extends Vtiger_CRMEntity
 			// Permission to view storage is restricted, avoid showing field values (except storage name)
 			if (getFieldVisibilityPermission('IStorages', $currentUser->id, $colname) == '0') {
 				$data = $iStorageInfoBase[$colname];
-				if ($colname == 'subject') {
-					if ($iStorageId != $id) {
-						if ($hasRecordViewAccess) {
-							$data = '<a href="index.php?module=IStorages&action=DetailView&record=' . $iStorageId . '">' . $data . '</a>';
+				if ($getRawData === false) {
+					if ($colname == 'subject') {
+						if ($iStorageId != $id) {
+							if ($hasRecordViewAccess) {
+								$data = '<a href="index.php?module=IStorages&action=DetailView&record=' . $iStorageId . '">' . $data . '</a>';
+							} else {
+								$data = '<span>' . $data . '&nbsp;<span class="glyphicon glyphicon-warning-sign"></span></span>';
+							}
 						} else {
-							$data = '<span>' . $data . '&nbsp;<span class="glyphicon glyphicon-warning-sign"></span></span>';
+							$data = '<strong>' . $data . '</strong>';
 						}
-					} else {
-						$data = '<strong>' . $data . '</strong>';
+						// - to show the hierarchy of the Storages
+						$iStorageDepth = str_repeat(" .. ", $iStorageInfoBase['depth']);
+						$data = $iStorageDepth . $data;
 					}
-					// - to show the hierarchy of the Storages
-					$iStorageDepth = str_repeat(" .. ", $iStorageInfoBase['depth']);
-					$data = $iStorageDepth . $data;
 				}
 				$iStorageInfoData[] = $data;
 			}
@@ -185,7 +186,7 @@ class IStorages extends Vtiger_CRMEntity
 		
 		foreach ($iStorageInfoBase as $accId => $iStorageInfo) {
 			if (is_array($iStorageInfo) && intval($accId)) {
-				$listviewEntries = $this->getHierarchyData($id, $iStorageInfo, $accId, $listviewEntries);
+				$listviewEntries = $this->getHierarchyData($id, $iStorageInfo, $accId, $listviewEntries, $getRawData);
 			}
 		}
 		
@@ -277,8 +278,8 @@ class IStorages extends Vtiger_CRMEntity
 			return $childIStorages;
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = getSqlForNameInDisplayFormat(['first_name' =>
+			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = "SELECT u_yf_istorages.*, u_yf_istorages_address.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			' FROM u_yf_istorages' .

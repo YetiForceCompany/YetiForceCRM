@@ -521,7 +521,7 @@ function getActionid($action)
 	$log = LoggerManager::getInstance();
 	$log->debug('Entering getActionid(' . $action . ') method ...');
 
-	if (empty($actionid)) {
+	if (empty($action)) {
 		return null;
 	}
 	$actionid = Vtiger_Cache::get('getActionid', $action);

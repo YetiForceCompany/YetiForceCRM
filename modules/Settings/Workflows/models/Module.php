@@ -33,7 +33,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		'nexttrigger_time'
 	];
 	var $name = 'Workflows';
-	static $metaVariables = array(
+	static $metaVariables = [
 		'Current Date' => '(general : (__VtigerMeta__) date) ($_DATE_FORMAT_)',
 		'Current Time' => '(general : (__VtigerMeta__) time)',
 		'System Timezone' => '(general : (__VtigerMeta__) dbtimezone)',
@@ -45,19 +45,19 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		'Record Id' => '(general : (__VtigerMeta__) recordId)',
 		'LBL_HELPDESK_SUPPORT_NAME' => '(general : (__VtigerMeta__) supportName)',
 		'LBL_HELPDESK_SUPPORT_EMAILID' => '(general : (__VtigerMeta__) supportEmailid)',
-	);
-	static $triggerTypes = array(
+	];
+	static $triggerTypes = [
 		1 => 'ON_FIRST_SAVE',
-		2 => 'ONCE',
-		3 => 'ON_EVERY_SAVE',
 		4 => 'ON_MODIFY',
+		3 => 'ON_EVERY_SAVE',
+		2 => 'ONCE',
 		5 => 'ON_DELETE',
 		6 => 'ON_SCHEDULE',
 		7 => 'MANUAL',
 		8 => 'TRIGGER',
 		9 => 'BLOCK_EDIT',
 		//10 => 'ON_RELATED',
-	);
+	];
 
 	/**
 	 * Function to get the url for default view of the module

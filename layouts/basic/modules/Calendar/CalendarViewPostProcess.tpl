@@ -10,30 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="siteBarRight calendarRightPanel col-xs-12 {if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}hideSiteBar{/if}" id="rightPanel">
-		<div class="btn btn-block toggleSiteBarRightButton {if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}hideToggleSiteBarRightButton {/if}hidden-xs hidden-sm" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
-			{if AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}
-				<span class="glyphicon glyphicon-chevron-right"></span>
-			{else}
-				<span class="glyphicon glyphicon-chevron-left"></span>	
-			{/if}
+	<div class="siteBarRight calendarRightPanel col-xs-12 hideSiteBar" data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel">
+		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton hidden-xs hidden-sm" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
+			<span class="glyphicon glyphicon-chevron-left"></span>
 		</div>
 		<div class="siteBarContent paddingTop10">
-			<div class="alert alert-danger refreshHeader hide" role="alert">
-				<div class="quickWidgetHeader calendarRightPanel clearfix">
-					<div class="col-xs-12 paddingLRZero">
-						<div class="col-lg-6 col-md-12 paddingLRZero pull-left">
-							<h5 class="noSpaces">{vtranslate('LBL_INFO_REFRESH', $MODULE)}</h5>
-						</div>
-						<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero pull-right">
-							<button name="drefresh" class="btn btn-danger btn-xs pull-left-md pull-right-lg pull-right-xs pull-right-sm refreshCalendar cursorPointer">
-								<span class="glyphicon glyphicon-refresh icon-white" hspace="0" border="0" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
-								&nbsp;{vtranslate('LBL_REFRESH')}
-							</button>
-						</div>
-					</div> 
-				</div>
-			</div>
 			{if $CALENDAR_FILTERS->isActive()}
 				<div class="panel panel-primary calendarFilters">
 					<div class="panel-heading quickWidgetHeader calendarRightPanel clearfix ">
@@ -47,7 +28,7 @@
 								{if $FILTER->type == 'checkbox'}
 									<div class="checkbox margin0px">
 										<label>
-											<input type="checkbox" value="{$FILTER->value}" data-search="{Vtiger_Util_Helper::toSafeHTML($FILTER->searchParams)}" class="filterField">{vtranslate($FILTER->name, $MODULE)}
+											<input type="checkbox" value="{$FILTER->value}" id="filterField_{$FILTER->name}"  data-search="{Vtiger_Util_Helper::toSafeHTML($FILTER->searchParams)}" class="filterField">{vtranslate($FILTER->name, $MODULE)}
 										</label>
 									</div>
 								{/if}

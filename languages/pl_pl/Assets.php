@@ -29,12 +29,23 @@ $languageStrings = [
 	'Customer Name' => 'Kontrahent',
 	'Notes' => 'Opis',
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
+	'FL_RENEWAL' => 'Odnowienie',
+	'LBL_SET_RENEWAL' => 'Ustaw odnowienie',
 
 	/*picklist values*/
 	'PLL_DRAFT'=>'Wersja robocza',
-	'PLL_NO_SUPPORT'=>'Brak wsparcia',
-	'PLL_POST_WARRANTY_SUPPORT'=>'Wsparcie pogwarancyjne',
-	'PLL_WARRANTY_SUPPORT'=>'Wsparcie gwarancyjne',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Oczekuje na weryfikacje',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Oczekuje na akceptacje',
+	'PLL_ACCEPTED'=>'Zaakceptowano',
+	'PLL_CANCELLED'=>'Anulowano',
+	
+	'PLL_PLANNED'=>'Planowane',
+	'PLL_WAITING_FOR_RENEWAL'=>'Oczekuje na odnowienie',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Oczekuje na weryfikacje',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Oczekuje na akceptacje',
+	'PLL_RENEWED'=>'Odnowiono',
+	'PLL_NOT_RENEWED'=>'Nie odnowiono',
+	'PLL_NOT_APPLICABLE'=>'Nie dotyczy',
 	
 	//YetiForce
 	'description'=>'Opis',
@@ -42,4 +53,6 @@ $languageStrings = [
 	'BLOCK_INFORMATION_TIME'=>'Informacje czasowe',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Wygasające produkty sprzedane',
+	
+	'LBL_CHANGE_STATUS' => 'Zmień status',
 ];

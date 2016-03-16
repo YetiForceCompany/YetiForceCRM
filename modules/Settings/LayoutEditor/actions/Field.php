@@ -31,7 +31,11 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		try {
 			$fieldModel = $moduleModel->addField($type, $blockId, $request->getAll());
 			$fieldInfo = $fieldModel->getFieldInfo();
-			$responseData = array_merge(array('id' => $fieldModel->getId(), 'blockid' => $blockId, 'customField' => $fieldModel->isCustomField()), $fieldInfo);
+			$responseData = array_merge([
+				'id' => $fieldModel->getId(),
+				'name' => $fieldModel->get('name'), 
+				'blockid' => $blockId, 
+				'customField' => $fieldModel->isCustomField()], $fieldInfo);
 			$response->setResult($responseData);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -67,8 +71,11 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response = new Vtiger_Response();
 		try {
 			$fieldInstance->save();
-			$response->setResult(array('success' => true, 'presence' => $request->get('presence'), 'mandatory' => $fieldInstance->isMandatory(),
-				'label' => vtranslate($fieldInstance->get('label'), $request->get('sourceModule'))));
+			$response->setResult([
+				'success' => true, 
+				'presence' => $request->get('presence'), 
+				'mandatory' => $fieldInstance->isMandatory(),
+				'label' => vtranslate($fieldInstance->get('label'), $request->get('sourceModule'))]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

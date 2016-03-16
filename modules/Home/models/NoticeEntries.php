@@ -23,16 +23,23 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 	 * Function to get the instance
 	 * @return <Home_Notification_Model>
 	 */
-	public static function getInstanceByRow($row)
+	public static function getInstanceByRow($row, Home_Notification_Model $notificationModel)
 	{
 		$instance = new self();
+		if (isset($row['reletedid']) && $row['reletedmodule'] != 'Users') {
+			$textParser = Vtiger_TextParser_Helper::getInstanceByModel(Vtiger_Record_Model::getInstanceById($row['reletedid'], $row['reletedmodule']));
+		} else {
+			$textParser = Vtiger_TextParser_Helper::getCleanInstance();
+		}
+		$textParser->setContent($row['message']);
+		$row['message'] = $textParser->parseTranslations();
 		$instance->setData($row);
-		Vtiger_Cache::set('Home_NotifiEntries_Model', $row['id'], $instance);
+		$instance->set('notificationModel', $notificationModel);
 		return $instance;
 	}
 
 	/**
-	 * Function to get the instance
+	 * Function to get the instance by id
 	 * @return <Home_Notification_Model>
 	 */
 	public static function getInstanceById($id)
@@ -80,6 +87,8 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 					'class' => '',
 				];
 				break;
+			default:
+				break;
 		}
 		return $icon;
 	}
@@ -87,7 +96,7 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 	public function getActions()
 	{
 		return [[
-			'action' => 'Home_NotificationsList_Js.setAsMarked(' . $this->getId() . ')',
+			'action' => 'Vtiger_Index_Js.markNotifications(' . $this->getId() . ')',
 			'title' => 'LBL_MARK_AS_READ',
 			'class' => 'btn-success btn-sm',
 			'icon' => 'glyphicon glyphicon-ok'
@@ -96,6 +105,17 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 
 	public function getMassage()
 	{
-		return $this->get('message');
+		return nl2br($this->get('message'));
+	}
+
+	public function getTitle()
+	{
+		return $this->get('title');
+	}
+
+	public function getTypeName()
+	{
+		$types = $this->get('notificationModel')->getTypes();
+		return $types[$this->get('type')]['name'];
 	}
 }

@@ -83,7 +83,8 @@ var Vtiger_CustomView_Js = {
 		var formElement = jQuery("#CustomView");
 		var formData = formElement.serializeFormData();
 
-		var progressIndicatorInstance = jQuery.progressIndicator({
+		var progress = $.progressIndicator({
+			'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
 			'blockInfo': {
 				'enabled': true
 			}
@@ -91,15 +92,9 @@ var Vtiger_CustomView_Js = {
 
 		AppConnector.request(formData).then(
 				function (data) {
-					progressIndicatorInstance.progressIndicator({
-						'mode': 'hide'
-					})
 					aDeferred.resolve(data);
 				},
 				function (error) {
-					progressIndicatorInstance.progressIndicator({
-						'mode': 'hide'
-					})
 					aDeferred.reject(error);
 				}
 		)
@@ -116,6 +111,7 @@ var Vtiger_CustomView_Js = {
 						}
 						window.location.href = url;
 					} else {
+						$.unblockUI()
 						var params = {
 							title: app.vtranslate('JS_DUPLICATE_RECORD'),
 							text: response.error['message']
@@ -135,7 +131,50 @@ var Vtiger_CustomView_Js = {
 		var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
 		return app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop', 'remove_button'], maxItems: 12});
 	},
+	registerIconEvents: function () {
+		var container = this.getContentsContainer();
+		container.on('change', '.iconPreferences input', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var buttonElement = currentTarget.closest('.btn');
+			var iconElement = currentTarget.next();
+			if (currentTarget.prop('checked')) {
+				buttonElement.removeClass('btn-default').addClass('btn-primary');
+				iconElement.removeClass(iconElement.data('unchecked')).addClass(iconElement.data('check'));
+			} else {
+				buttonElement.removeClass('btn-primary').addClass('btn-default');
+				iconElement.removeClass(iconElement.data('check')).addClass(iconElement.data('unchecked'));
+			}
+		});
+		container.find('.iconPreferences input').each(function (e) {
+			jQuery(this).trigger('change');
+		})
+	},
+	registerCkEditorElement: function () {
+		var container = this.getContentsContainer();
+		container.find('.ckEditorSource').each(function (e) {
+			var ckEditorInstance = new Vtiger_CkEditor_Js();
+			ckEditorInstance.loadCkEditor(jQuery(this)); //{toolbar: 'Basic'}
+		})
+	},
+	registerBlockToggleEvent: function () {
+		var container = this.getContentsContainer();
+		container.on('click', '.blockHeader', function (e) {
+			var blockHeader = jQuery(e.currentTarget);
+			var blockContents = blockHeader.next();
+			var iconToggle = blockHeader.find('.iconToggle');
+			if (blockContents.hasClass('hide')) {
+				blockContents.removeClass('hide');
+				iconToggle.removeClass(iconToggle.data('hide')).addClass(iconToggle.data('show'));
+			} else {
+				blockContents.addClass('hide');
+				iconToggle.removeClass(iconToggle.data('show')).addClass(iconToggle.data('hide'));
+			}
+		});
+	},
 	registerEvents: function () {
+		this.registerIconEvents();
+		this.registerCkEditorElement();
+		this.registerBlockToggleEvent();
 		var select2Element = Vtiger_CustomView_Js.columnListSelect2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
 		var contentsContainer = Vtiger_CustomView_Js.getContentsContainer();
 		jQuery('.stndrdFilterDateSelect').datepicker();
@@ -168,10 +207,12 @@ var Vtiger_CustomView_Js = {
 			var mandatoryFieldsList = JSON.parse(jQuery('#mandatoryFieldsList').val());
 			var selectedOptions = selectElement.val();
 			var mandatoryFieldsMissing = true;
-			for (var i = 0; i < selectedOptions.length; i++) {
-				if (jQuery.inArray(selectedOptions[i], mandatoryFieldsList) >= 0) {
-					mandatoryFieldsMissing = false;
-					break;
+			if(selectedOptions){
+				for (var i = 0; i < selectedOptions.length; i++) {
+					if (jQuery.inArray(selectedOptions[i], mandatoryFieldsList) >= 0) {
+						mandatoryFieldsMissing = false;
+						break;
+					}
 				}
 			}
 			if (mandatoryFieldsMissing) {

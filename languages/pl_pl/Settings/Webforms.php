@@ -51,7 +51,7 @@ $jsLanguageStrings = [
 	'JS_SELECT_AN_OPTION' => 'Wybierz wartość',
 	'JS_LABEL' => 'etykieta',
 	'JS_MANDATORY_FIELDS_WITHOUT_OVERRIDE_VALUE_CANT_BE_HIDDEN' => 'Pola obowiązkowe, bez nadpisanej wartości nie mogą być ukryte',
-	'JS_REFERENCE_FIELDS_CANT_BE_MANDATORY_WITHOUT_OVERRIDE_VALUE' => 'Pola referencyjne mogę być obowiązkowe bez nadpisanej wartości',
+	'JS_REFERENCE_FIELDS_CANT_BE_MANDATORY_WITHOUT_OVERRIDE_VALUE' => 'Pola referencyjne mogą być obowiązkowe bez nadpisanej wartości',
 	'JS_TYPE_TO_SEARCH' => 'Typ wyszukiwania',
 	'JS_WEBFORM_WITH_THIS_NAME_ALREADY_EXISTS' => 'Webform o tej nazwie już istnieje',
 ];

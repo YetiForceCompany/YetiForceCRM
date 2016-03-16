@@ -27,12 +27,23 @@ $languageStrings = [
 	'Asset Name' => 'Bestandsname',
 	'Customer Name' => 'Organisation',
 	'Notes' => 'Beschreibung',
+	'FL_RENEWAL' => 'Renewal',
+	'LBL_SET_RENEWAL' => 'Set renewal',
 
 	/*picklist values*/
 	'PLL_DRAFT'=>'Entwurf',
-	'PLL_WARRANTY_SUPPORT'=>'Gewährleistung',
-	'PLL_POST_WARRANTY_SUPPORT'=>'verlängerte Garantie',
-	'PLL_NO_SUPPORT'=>'Kein Support',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_ACCEPTED'=>'Accepted',
+	'PLL_CANCELLED'=>'Cancelled',
+	
+	'PLL_PLANNED'=>'Planned',
+	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_RENEWED'=>'Renewed',
+	'PLL_NOT_RENEWED'=>'Not renewed',
+	'PLL_NOT_APPLICABLE'=>'Not applicable',
 	
 	//YetiForce
 	'description'=>'Beschreibung',
@@ -41,4 +52,6 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',
 	'LBL_ORDER_TIME'=>'Bestellzeit',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'abverkaufte Produkte',
+	
+	'LBL_CHANGE_STATUS' => 'Change Status',
 ];

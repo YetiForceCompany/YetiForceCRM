@@ -189,6 +189,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$filter1 = new Vtiger_Filter();
 		$filter1->name = 'All';
 		$filter1->isdefault = true;
+		$filter1->presence = 0;
 		$module->addFilter($filter1);
 		// Add fields to the filter created
 		$filter1->addField($field1)->addField($field2, 1)->addField($field3, 2)->addField($field4, 2);

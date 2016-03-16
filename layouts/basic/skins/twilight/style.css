@@ -1031,11 +1031,6 @@ td.fieldValue .input-group {
 .CustomFilterViewTitle {
 	padding-top: 1%;
 }
-#CustomView .filterActions {
-	padding-bottom: 20px;
-	overflow: hidden;
-}
-
 .filterConditionsDiv {
 	padding-bottom: 0;
 }
@@ -1045,6 +1040,11 @@ td.fieldValue .input-group {
 }
 .conditionGroup .contents .conditionRow {
 	margin-bottom: 10px;
+}
+.conditionGroup .contents .conditionRow:after {
+	clear: both;
+	display: table;
+    content: " ";
 }
 .conditionGroup .contents .conditionRow select{
 	width: 100%;
@@ -2456,6 +2456,9 @@ i {
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
+.marginLeft5{
+	margin-left:5px;
+}
 .marginLeft10{
 	margin-left:10px;
 }
@@ -2764,7 +2767,6 @@ tr.summaryViewEntries, #detailView table {
 }
 table.listViewEntriesTable {
 	font-size: 13px;
-	margin-top: 5px;
 }
 .no-margin{
 	margin: 0;
@@ -3497,7 +3499,7 @@ span[name=existingImages] img{
 	height: calc(100% - 50px);
 }
 .nav li:hover > .slimScrollDiv >.subMenu > li > .slimScrollDiv >.subMenu{
-	left: 280px;
+	left: 300px;
 	top: 0;
 }
 .nav li:hover .subMenu a{
@@ -3511,12 +3513,12 @@ span[name=existingImages] img{
 	bottom: 33px;
 	top: 50px;
 	z-index: -1;
-	width: 280px; 
+	width: 300px; 
 	background: #f0f1f1;
 	border-right: 1px solid #dddddd;
 }
 .leftPanel .nav .subMenu li {
-	width: 280px;
+	width: 300px;
 }
 .leftPanel .nav .subMenu li.menuLabel > a {
 	font-weight: 600;
@@ -3992,10 +3994,12 @@ html,body,.baseContainer
 	font-size: 12px;
 }
 .modalEditStatus .form-horizontal .form-group,
+#modalEditFieldByModal .form-horizontal .form-group,
 #modalEditStatus .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
 .modalEditStatus .form-horizontal .form-group .control-label,
+#modalEditFieldByModal .form-horizontal .form-group .control-label,
 #modalEditStatus .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
@@ -4048,7 +4052,7 @@ html,body,.baseContainer
 	padding: 5px;
 }
 .chosen-container{
-	height: 34px;
+	min-height: 34px;
 	line-height: 34px;
 }
 .chosen-container-multi .chosen-choices li.search-choice{
@@ -4109,6 +4113,7 @@ html,body,.baseContainer
 	width: 8%;
 }
 .modalEditStatus .popover.fade,
+#modalEditFieldByModal .popover.fade,
 #modalEditStatus .popover.fade
 {
 	min-width: 400px;
@@ -4650,7 +4655,7 @@ html,body,.baseContainer
 		float: right; 
 	}
 	.pull-left-xs{
-		float: left;
+		float: left !important;
 	}
 	.layoutBlockHeader .pull-right,
 	.relatedContainer .paginationDiv.pull-right{
@@ -5123,15 +5128,15 @@ select.form-control {
 	min-height: 450px;
 }
 .knowledgePresentationControl {
-	width: 10%;
+	width: 5%;
 }
 .knowledgePresentationInner {
 	position: relative;
 	min-height: 1px;
 	padding-right: 15px;
 	padding-left: 15px;
-	width: 80%;
-	margin-left: 10%;
+	width: 90%;
+	margin-left: 5%;
 	float: left;
 }
 .panelTree{
@@ -5144,4 +5149,78 @@ select.form-control {
 }
 .listLastDocuments li span{
 	padding-right: 5px;
+}
+.customViewList table td{
+	vertical-align: middle !important;
+}
+.customViewList .ui-sortable-helper{
+	background-color: #dff0d8 !important;
+}
+.detailViewContainer .contents .knowledgeBaseDetails {
+	padding: 15px;
+}
+.dashboardWidgetContent .rowAction:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+.knowledgePopoutContainer .knowledgePopoutSubject,
+.knowledgePopoutContainer .knowledgePopoutContent {
+	padding: 20px 50px;
+}
+.knowledgePopoutContainer .knowledgePopoutSubject {
+	text-align: center;
+}
+.knowledgePresentation .knowledgePresentationRow {
+	margin: 0 !important;
+}
+.danger-color{
+	color: #d9534f !important;
+}
+.detailViewContainer .chosen-container,
+.editViewContainer .chosen-container{
+	height: auto;
+}
+.knowledgePresentationControl.carousel-control{
+	background: #fff;
+	color:#000;
+}
+.notificationContainer {
+	padding: 0;
+}
+.notificationContainer .panel-body{
+	position: absolute;
+	top: 38px;
+	bottom:0;
+	padding: 0;
+	overflow: auto;
+}
+.notificationContainer .noticeRow{
+	margin-top: 0;
+	padding: 5px 10px;
+	border-bottom: 1px solid #ddd;
+}
+.notificationContainer li{
+	list-style: none;
+}
+.notificationContainer .panel{
+	height: 100%;
+}
+.wordBreakAll {
+	-ms-word-break: break-all;
+	word-break: break-all;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+}
+.modalNotificationConfig .checkbox{
+	margin: 5px 0;
+}
+.font-small{
+	font-size: small;
+}
+.dispaly-inline{
+	display: inline;
+}
+.narrow.fieldValue .referenceGroup button.btn{
+	height: 27px;
+	padding: 4px 12px;
 }

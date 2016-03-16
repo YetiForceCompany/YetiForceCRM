@@ -18,4 +18,5 @@ $languageStrings = [
 	'LBL_NOT_PARENT_STORAGE' => 'Musisz uzupełnić magazyn nadrzędny',
 	'LBL_SHOW_HIERARCHY' => 'Hierarchia',
 	'LBL_PARENT_IS_CHILD' => 'Wybrany magazyn nadrzędny nie może być podrzędnym tego magazynu',
+	'LBL_SECONDARY_STORAGES' => 'Magazyny podrzędne',
 ];

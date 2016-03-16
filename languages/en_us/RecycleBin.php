@@ -10,12 +10,12 @@
  ************************************************************************************/
 $languageStrings = [
 	'RecycleBin' => 'Recycle Bin',
-	'LBL_SELECT_MODULE' => 'Select Module',
-	'LBL_EMPTY_RECYCLEBIN' => 'Empty Recycle Bin',
+	'LBL_SELECT_MODULE' => 'Select module',
+	'LBL_EMPTY_RECYCLEBIN' => 'Empty recycle bin',
 	'LBL_RESTORE' => 'Restore',
 	'LBL_NO_PERMITTED_MODULES' => 'No permitted modules available',
-	'LBL_RECORDS_LIST' => 'Recycle Bin List',
-	'LBL_NO_RECORDS_FOUND' => 'No records found to Restore in module',
+	'LBL_RECORDS_LIST' => 'Recycle Bin list',
+	'LBL_NO_RECORDS_FOUND' => 'No records found to restore in module',
 ];
 $jsLanguageStrings = [
 	'JS_DELETE_CONFIRMATION_RB' => 'Are you sure you want to permanently remove all the deleted records from your database?',

@@ -44,6 +44,7 @@ $languageStrings = [
 	//OpenSaaS
 	'LBL_CREATING_NEW' => 'New',
 	'Fax' => 'Fax',
+	'LBL_PARENT_IS_CHILD' => 'The selected parent account cannot be secondary to current account',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Private individual',

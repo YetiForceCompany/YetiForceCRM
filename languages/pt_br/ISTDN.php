@@ -6,7 +6,7 @@ $languageStrings = [
 	'LBL_DESCRIPTION_BLOCK' => 'Description',
 	'LBL_ATTENTION_BLOCK' => 'Comments',
 	'FL_ACCEPTANCE_DATE' => 'Date of acceptance',
-	'FL_VENDOR' => 'Vendor',
+	'FL_ACCOUNT' => 'Account',
 	'FL_NUMBER' => 'Number',
 	'FL_SUBJECT' => 'Subject',
 	'FL_STORAGE' => 'Storage',
@@ -20,5 +20,4 @@ $languageStrings = [
 	'PLL_ACCEPTED' => 'Accepted',
 	
 	'LBL_CHANGE_STATUS' => 'Change Status',
-	'LBL_PREVIEW' => 'Preview',
 ];

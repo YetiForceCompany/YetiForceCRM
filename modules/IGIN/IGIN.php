@@ -1,7 +1,7 @@
 <?php
 /**
  * IGIN CRMEntity Class
- * @package YetiForce.Model
+ * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -69,7 +69,7 @@ class IGIN extends Vtiger_CRMEntity
 // Used when enabling/disabling the mandatory fields for the module.
 // Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
-	var $default_order_by = 'subject';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
 	/**
@@ -79,7 +79,6 @@ class IGIN extends Vtiger_CRMEntity
 	 */
 	function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 // TODO Handle actions after this module is installed.
 		} else if ($eventType == 'module.disabled') {

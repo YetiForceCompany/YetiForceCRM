@@ -1,3 +1,5 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
+{strip}
 <div class="row">
 	<div class="col-md-8">
 		<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
@@ -16,3 +18,4 @@
 		</div>
 	</div>
 </div>
+{/strip}

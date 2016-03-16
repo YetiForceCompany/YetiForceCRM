@@ -63,7 +63,7 @@
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
-				{if Users_Privileges_Model::isPermitted('OSSTimeControl', 'EditView')}
+				{if Users_Privileges_Model::isPermitted('OSSTimeControl', 'CreateView')}
 					<a class="btn btn-xs btn-default" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl'); return false;">
 						<span class='glyphicon glyphicon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
 					</a>

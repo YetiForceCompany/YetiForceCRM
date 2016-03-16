@@ -29,11 +29,22 @@ $languageStrings = [
 	'Asset Name' => 'Name',
 	'Customer Name' => 'Customer name',
 	'Notes' => 'Notes',
+	'FL_RENEWAL' => 'Renewal',
+	'LBL_SET_RENEWAL' => 'Set renewal',
 
 	/*picklist values*/
-	'PLL_WARRANTY_SUPPORT'=>'Warranty support',
-	'PLL_POST_WARRANTY_SUPPORT'=>'Post-warranty support',
-	'PLL_NO_SUPPORT'=>'No support',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_ACCEPTED'=>'Accepted',
+	'PLL_CANCELLED'=>'Cancelled',
+	
+	'PLL_PLANNED'=>'Planned',
+	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_RENEWED'=>'Renewed',
+	'PLL_NOT_RENEWED'=>'Not renewed',
+	'PLL_NOT_APPLICABLE'=>'Not applicable',
 	
 	//YetiForce
 	'description'=>'Description',
@@ -42,4 +53,6 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',
 	'LBL_ORDER_TIME'=>'Order time',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Expiring sold products',
+	
+	'LBL_CHANGE_STATUS' => 'Change Status',
 ];

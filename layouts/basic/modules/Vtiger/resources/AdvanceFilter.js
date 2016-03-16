@@ -206,8 +206,11 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules', 'tree']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
 				continue;
 			}
+			if (jQuery.inArray(conditionList[key], ['om', 'wr', 'nwr']) != -1 && jQuery.inArray(fieldInfo.type, ['owner','sharedOwner']) == -1 ) {
+				continue;
+			}
 			//IE Browser consider the prototype properties also, it should consider has own properties only.
-			if (conditionList.hasOwnProperty(key) && !(conditionList[key] == 'om' && (fieldName != 'assigned_user_id' && fieldName != 'shownerid'))) {
+			if (conditionList.hasOwnProperty(key)) {
 				var conditionValue = conditionList[key];
 				var conditionLabel = this.getConditionLabel(conditionValue);
 				options += '<option value="' + conditionValue + '"';
@@ -334,7 +337,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		// Is Empty, today, tomorrow, yesterday conditions does not need any field input value - hide the UI
 		// re-enable if condition element is chosen.
-		var specialConditions = ["y", "today", "tomorrow", "yesterday", "ny", "om"];
+		var specialConditions = ["y", "today", "tomorrow", "yesterday", "ny", "om", "wr", "nwr"];
 		if (specialConditions.indexOf(conditionSelectElement.val()) != -1) {
 			fieldUiHolder.hide();
 		} else {
@@ -714,8 +717,7 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 				}
 			}
 			return this.addValidationToElement(element);
-		}
-		else if (comparatorSelectedOptionVal in dateSpecificConditions) {
+		} else if (comparatorSelectedOptionVal in dateSpecificConditions) {
 			var startValue = dateSpecificConditions[comparatorSelectedOptionVal]['startdate'];
 			var endValue = dateSpecificConditions[comparatorSelectedOptionVal]['enddate'];
 			if (comparatorSelectedOptionVal == 'today' || comparatorSelectedOptionVal == 'tomorrow' || comparatorSelectedOptionVal == 'yesterday') {
@@ -724,15 +726,13 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 				var html = '<input name="' + this.getName() + '" type="text" ReadOnly="true" value="' + startValue + ',' + endValue + '">';
 			}
 			return jQuery(html);
-		}
-		else {
+		} else {
 			var fieldUi = this._super();
 			var dateTimeFieldValue = fieldUi.find('.dateField').val();
 			var dateValue = dateTimeFieldValue.split(' ');
 			if (dateValue[1] == '00:00:00') {
 				dateTimeFieldValue = dateValue[0];
-			}
-			else if (comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n' ||
+			} else if (comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n' ||
 					comparatorSelectedOptionVal == 'b' || comparatorSelectedOptionVal == 'a') {
 				var dateTimeArray = dateTimeFieldValue.split(' ');
 				dateTimeFieldValue = dateTimeArray[0];

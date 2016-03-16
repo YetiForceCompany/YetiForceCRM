@@ -25,7 +25,7 @@
 					<input type="hidden" name='parent' value="Settings" />
 					<input type="hidden" name='back_view' value="Index" />
 						<div class="col-md-12">
-							<div class="col-md-5 fieldLabel"><span class="redColor">*</span>{vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</div>
+							<div class="col-md-5 fieldLabel"><span class="redColor">*</span> {vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</div>
 							<div class="col-md-7 paddingBottom10"><input class="required form-control input-sm" name="tpl_name" value="" type="text" /></div>
 						{assign var=FIRST_ROW value=0}
 						{assign var=COUNTER value=0}

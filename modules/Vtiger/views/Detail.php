@@ -13,7 +13,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 {
 
 	protected $record = false;
-
+	public $defaultMode = false;
 	function __construct()
 	{
 		parent::__construct();
@@ -122,16 +122,31 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$selectedTabLabel = $request->get('tab_label');
 		if (empty($selectedTabLabel)) {
-			if ($currentUserModel->get('default_record_view') === 'Detail') {
-				$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
-			} else {
-				if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
-					$selectedTabLabel = vtranslate('LBL_RECORD_SUMMARY', $moduleName);
-				} else {
+			$selectedTabLabel = AppConfig::module($moduleName, 'DEFAULT_VIEW_RECORD');
+			if(empty($selectedTabLabel)){
+				if ($currentUserModel->get('default_record_view') === 'Detail') {
 					$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
+				} else {
+					if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
+						$selectedTabLabel = vtranslate('LBL_RECORD_SUMMARY', $moduleName);
+					} else {
+						$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
+					}
 				}
+			} else {
+				$selectedTabLabel = vtranslate($selectedTabLabel, $moduleName);
+			}
+			
+		}
+		foreach($detailViewLinks['DETAILVIEWTAB'] as $link){
+			if($link->getLabel() == $selectedTabLabel){
+				$queryStr = parse_url(htmlspecialchars_decode($link->getUrl()), PHP_URL_QUERY);
+				parse_str($queryStr, $queryParams);
+				$this->defaultMode = $queryParams['mode'];
+				break;
 			}
 		}
+		
 		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
@@ -166,19 +181,22 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
-
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+		}		
+		$defaultMode = $this->defaultMode;
+		if($defaultMode == 'showDetailViewByMode'){
+			$currentUserModel = Users_Record_Model::getCurrentUserModel();
+			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
+			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
+				$defaultMode = 'showModuleDetailView';
+			}
+		} else if ($defaultMode === false) {
+			$defaultMode = 'showDetailViewByMode';
 		}
-		$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
-		if ($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList) {
-			echo $this->showModuleBasicView($request);
-		} else {
-			echo $this->showModuleDetailView($request);
-		}
+		echo $this->$defaultMode($request);
 	}
 
 	public function postProcess(Vtiger_Request $request)

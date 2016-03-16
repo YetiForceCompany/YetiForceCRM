@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class CustomView_Save_Action extends Vtiger_Action_Controller {
@@ -46,7 +47,9 @@ class CustomView_Save_Action extends Vtiger_Action_Controller {
 					'viewname' => $request->get('viewname'),
 					'setdefault' => $request->get('setdefault'),
 					'setmetrics' => $request->get('setmetrics'),
-					'status' => $request->get('status')
+					'status' => $request->get('status'),
+					'featured' => $request->get('featured'),
+					'description' => $request->get('description')
 		);
 		$selectedColumnsList = $request->get('columnslist');
 		if(!empty($selectedColumnsList)) {

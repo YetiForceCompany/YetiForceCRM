@@ -112,12 +112,13 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$id = $tree['id'];
 		$state = ''; //$tree['state'];
 		$treeID = 'T' . $id;
+		$icon =$tree['icon'] == 1 ? '' : $tree['icon'];
 		if ($parenttrre != '')
 			$parenttrre = $parenttrre . '::';
 		$parenttrre = $parenttrre . $treeID;
 
-		$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label, state) VALUES (?,?,?,?,?,?,?)';
-		$params = array($this->getId(), $label, $treeID, $parenttrre, $depth, $label, $state);
+		$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label, state, icon) VALUES (?,?,?,?,?,?,?,?)';
+		$params = array($this->getId(), $label, $treeID, $parenttrre, $depth, $label, $state,$icon);
 		$adb->pquery($sql, $params);
 		if (!empty($tree['children'])) {
 			foreach ($tree['children'] as $tree) {
@@ -153,7 +154,8 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				'id' => $treeID,
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => vtranslate($row['name'], $module),
-				'state' => ($row['state']) ? $row['state'] : ''
+				'state' => ($row['state']) ? $row['state'] : '',
+				'icon' => $row['icon']
 			];
 			if ($treeID > $lastId)
 				$lastId = $treeID;

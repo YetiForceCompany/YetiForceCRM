@@ -14,7 +14,7 @@
 class Vtiger_Action_Model extends Vtiger_Base_Model
 {
 
-	static $standardActions = array('0' => 'Save', '1' => 'EditView', '2' => 'Delete', '3' => 'index', '4' => 'DetailView');
+	static $standardActions = array('0' => 'Save', '1' => 'EditView', '2' => 'Delete', '3' => 'index', '4' => 'DetailView','7' => 'CreateView');
 	static $nonConfigurableActions = array('Save', 'index', 'SavePriceBook', 'SaveVendor',
 		'DetailViewAjax', 'PriceBookEditView', 'QuickCreate', 'VendorEditView',
 		'DeletePriceBook', 'DeleteVendor', 'Popup', 'PriceBookDetailView',

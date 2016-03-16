@@ -27,7 +27,7 @@ class PBXManager_Module_Model extends Vtiger_Module_Model {
 	 * Overided to make editview=false for this module
 	 */
 	public function isPermitted($actionName) {
-        if($actionName == 'EditView')
+        if($actionName == 'EditView' || $actionName == 'CreateView')
             return false;
         else
             return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));

@@ -22,6 +22,12 @@ $languageStrings = [
 	'PLVT' => 'Top Opportunities',
 	'QLTQ' => 'Top Quotes',
 	'UA' => 'Upcoming Activities',
+	'LBL_WATCHING_MODULES' => 'Watched modules',
+	'LBL_NO_NOTIFICATIONS' => 'No notifications',
+	'Notifications' => 'Notifications',
+	'LBL_CREATING_NOTIFICATION' => 'Send notification',
+	'LBL_TITLE' => 'Title',
+	'LBL_MESSAGE' => 'Message',
 ];
 
 $jsLanguageStrings = [

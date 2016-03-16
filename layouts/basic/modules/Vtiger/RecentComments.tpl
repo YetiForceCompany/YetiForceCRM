@@ -14,7 +14,7 @@
 	{include file='CommentModal.tpl'|@vtemplate_path}
 	<div class="commentContainer recentComments">
 		<div class="commentTitle">
-			{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
+			{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 				<div class="addCommentBlock">
 					<div class="input-group">
 						<span class="input-group-addon" >
@@ -87,7 +87,7 @@
 										{/if}
 									</div>
 									<div class="pull-right commentActions">
-										{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
+										{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 											<span>
 												<a class="cursorPointer replyComment feedback">
 													<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;

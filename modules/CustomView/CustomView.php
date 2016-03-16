@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com.
+ * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 require_once('include/CRMEntity.php');
 require_once('include/utils/utils.php');
@@ -87,65 +87,103 @@ class CustomView extends CRMEntity
 	 */
 	function getViewId($module)
 	{
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$now_action = vtlib_purify($_REQUEST['view']);
 		if (empty($_REQUEST['viewname'])) {
-			if (isset($_SESSION['lvs'][$module]["viewname"]) && $_SESSION['lvs'][$module]["viewname"] != '') {
-				$viewid = $_SESSION['lvs'][$module]["viewname"];
-			} elseif ($this->setdefaultviewid != "") {
+			if (isset($_SESSION['lvs'][$module]['viewname']) && $_SESSION['lvs'][$module]['viewname'] != '') {
+				$viewid = $_SESSION['lvs'][$module]['viewname'];
+			} elseif ($this->setdefaultviewid != '') {
 				$viewid = $this->setdefaultviewid;
 			} else {
-				$defcv_result = $adb->pquery("select default_cvid from vtiger_user_module_preferences where userid = ? and tabid =?", array($current_user->id, getTabid($module)));
-				if ($adb->num_rows($defcv_result) > 0) {
-					$viewid = $adb->query_result($defcv_result, 0, 'default_cvid');
-				} else {
-					$query = "select cvid from vtiger_customview where setdefault=1 and entitytype=?";
-					$cvresult = $adb->pquery($query, array($module));
-					if ($adb->num_rows($cvresult) > 0) {
-						$viewid = $adb->query_result($cvresult, 0, 'cvid');
-					} else
-						$viewid = '';
-				}
+				$viewid = $this->getDefaultCvId($module);
 			}
-
-			if ($viewid == '' || $viewid == 0 || $this->isPermittedCustomView($viewid, $now_action, $module) != 'yes') {
-				$query = "select cvid from vtiger_customview where viewname='All' and entitytype=?";
-				$cvresult = $adb->pquery($query, array($module));
-				$viewid = $adb->query_result($cvresult, 0, 'cvid');
+			if (empty($viewid) || $this->isPermittedCustomView($viewid, $now_action, $module) != 'yes') {
+				$viewid = $this->getMandatoryFilter($module);
 			}
 		} else {
 			$viewname = vtlib_purify($_REQUEST['viewname']);
 			if (!is_numeric($viewname)) {
-				if (strtolower($viewname) == 'all' || $viewname == 0) {
-					$viewid = $this->getViewIdByName('All', $module);
-				} else {
-					$viewid = $this->getViewIdByName($viewname, $module);
-				}
+				$viewid = $this->getViewIdByName($viewname, $module);
 			} else {
 				$viewid = $viewname;
 			}
-			if ($this->isPermittedCustomView($viewid, $now_action, $this->customviewmodule) != 'yes')
+			if ($this->isPermittedCustomView($viewid, $now_action, $module) != 'yes')
 				$viewid = 0;
 		}
-		if (isset($_REQUEST['_pjax'])) {
-			$_SESSION['lvs'][$module]["viewname"] = $viewid;
-		}
+		ListViewSession::setCurrentView($module, $viewid);
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $viewid;
+	}
+
+	function getMandatoryFilter($module)
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT cvid FROM vtiger_customview WHERE presence = ? and entitytype = ?;', [0, $module]);
+		return $db->getSingleValue($result);
+	}
+
+	function getDefaultCvId($module)
+	{
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$tabId = Vtiger_Functions::getModuleId($module);
+		
+		$sql = 'SELECT userid, default_cvid FROM vtiger_user_module_preferences WHERE `tabid` = ?';
+		$result = $db->pquery($sql, [$tabId]);
+		$data = $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
+		$user = 'Users:' . $currentUser->getId();
+		if (array_key_exists($user, $data)) {
+			return $data[$user][0];
+		}
+		if ($currentUser->isAdminUser()) {
+			$userGroups = $currentUser->getUserGroups($currentUser->getId());
+			$parentRoles = getRoleInformation($currentUser->getRole());
+			$parentRoles = $parentRoles['parentrole'] ? $parentRoles['parentrole'] : [];
+		} else {
+			$parentRoles = $currentUser->getParentRoleSequence();
+			$userGroups = $currentUser->get('privileges')->get('groups');
+		}
+		foreach ($userGroups as $groupId) {
+			$group = 'Groups:' . $groupId;
+			if (array_key_exists($group, $data)) {
+				return $data[$group][0];
+			}
+		}
+		$role = 'Roles:' . $currentUser->getRole();
+		if (array_key_exists($role, $data)) {
+			return $data[$role][0];
+		}
+		foreach (explode('::', $parentRoles) as $roleId) {
+			$role = 'RoleAndSubordinates:' . $roleId;
+			if (array_key_exists($role, $data)) {
+				return $data[$role][0];
+			}
+		}
+		$query = 'select cvid from vtiger_customview where setdefault = ? and entitytype = ?';
+		$result = $db->pquery($query, [1, $module]);
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		return $db->getSingleValue($result);
 	}
 
 	function getViewIdByName($viewname, $module)
 	{
-		$adb = PearDatabase::getInstance();
-		if (isset($viewname)) {
-			$query = "select cvid from vtiger_customview where viewname=? and entitytype=?";
-			$cvresult = $adb->pquery($query, array($viewname, $module));
-			$viewid = $adb->query_result($cvresult, 0, 'cvid');
-			;
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		$db = PearDatabase::getInstance();
+		if (!empty($viewname)) {
+			$query = "select cvid from vtiger_customview where viewname = ? and entitytype = ?";
+			$result = $db->pquery($query, [$viewname, $module]);
+			$viewid = $db->getSingleValue($result);
 			return $viewid;
 		} else {
 			return 0;
 		}
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 	}
 
 	// return type array
@@ -421,8 +459,8 @@ class CustomView extends CRMEntity
 	function getColumnsListByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering getColumnsListByCvid($cvid) method ...");
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 
 		$sSQL = 'select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist';
 		$sSQL .= ' inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvcolumnlist.cvid';
@@ -449,8 +487,7 @@ class CustomView extends CRMEntity
 				$columnlist[$columnrow['columnindex']] = $columnrow['columnname'];
 			}
 		}
-
-		$log->debug("Exiting getColumnsListByCvid() method ...");
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $columnlist;
 	}
 
@@ -645,7 +682,6 @@ class CustomView extends CRMEntity
 	function getAdvFilterByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
 		$default_charset = vglobal('default_charset');
 		$advft_criteria = [];
 

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View {
@@ -16,7 +17,10 @@ Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View {
 		$module = $request->getModule();
 		$record = $request->get('record');
 		$duplicate = $request->get('duplicate');
-                
+
+		if(is_numeric($moduleName)){
+			$moduleName = Vtiger_Functions::getModuleName($moduleName);
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 

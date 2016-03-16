@@ -10,9 +10,9 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Add',
-	'TreesManager' => 'Tree Manager',
+	'TreesManager' => 'Tree manager',
 	'LBL_TREES_MANAGER' => 'Fields – Folders',
-	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree Template Manager',
+	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree template manager',
 	'LBL_NO_RECORDS_FOUND' => 'No tree templates',
 	'LBL_EDIT_TEMPLATE_TREES' => 'Edit tree template',
 	'LBL_CREATING_TEMPLATE_TREES' => 'Create tree template',
@@ -32,6 +32,7 @@ $jsLanguageStrings = [
 	'JS_JSTREE_CUT' => 'Cut',
 	'JS_JSTREE_COPY' => 'Copy',
 	'JS_JSTREE_PASTE' => 'Paste',
+	'JS_JSTREE_CHANGE_ICON' => 'Change icon',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Field cannot be empty',
 	'JS_NO_ITEM_SELECTED' => 'No item has been selected',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'You cannot delete all items',

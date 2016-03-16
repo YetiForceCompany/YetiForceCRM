@@ -13,6 +13,7 @@ $languageStrings = [
 	'LBL_ACTION' => 'Action',
 	'LBL_FTP_SAVE_CONFIG' => 'Save configuration',
 	'LBL_HOST' => 'Host',
+	'LBL_PORT' => 'Port',
 	'LBL_LOGIN' => 'Login',
 	'LBL_PASSWORD' => 'Password',
 	'LBL_CONNECTION_STATUS' => 'Connection status',

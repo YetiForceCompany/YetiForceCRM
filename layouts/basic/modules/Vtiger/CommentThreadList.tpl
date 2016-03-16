@@ -59,7 +59,7 @@
 				{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
 					<span class="pull-right commentActions">
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
-						{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
+						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 							<span>
 								<a class="cursorPointer replyComment">&nbsp;
 									<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;

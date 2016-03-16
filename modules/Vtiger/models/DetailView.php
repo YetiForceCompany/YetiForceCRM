@@ -101,6 +101,22 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				];
 			}
 		}
+		if (Users_Privileges_Model::isPermitted($moduleName, 'WatchingRecords')) {
+			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
+			$class = 'btn-default';
+			if ($watchdog->isWatchingRecord()) {
+				$class = 'btn-info';
+			}
+			$detailViewLinks[] = [
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => '',
+				'linkurl' => 'Vtiger_Detail_Js.changeWatchingRecord(this,' . $recordId . ')',
+				'linkicon' => 'glyphicon glyphicon-eye-open',
+				'linkhint' => 'BTN_WATCHING_RECORD',
+				'linkclass' => $class,
+				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1],
+			];
+		}
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
@@ -114,7 +130,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		if ($recordModel->isEditable()) {
 			$editViewLinks = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => '',
+				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil',
 				'linkclass' => 'btn',
@@ -122,7 +138,20 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
 		}
-		
+
+		if (($recordModel->isEditable() && $recordModel->editFieldByModalPermission() ) || $recordModel->editFieldByModalPermission(true)) {
+			$fieldByEditData = $recordModel->getFieldToEditByModal();
+			$basicActionLink = [
+				'linktype' => 'DETAILVIEW',
+				'linklabel' => $fieldByEditData['titleTag'],
+				'linkurl' => '#',
+				'linkdata' => ['url' => $recordModel->getEditFieldByModalUrl()],
+				'linkicon' => 'glyphicon ' . $fieldByEditData['iconClass'],
+				'linkclass' => 'showModal ' . $fieldByEditData['addClass']
+			];
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+		}
+
 		if ($recordModel->isDeletable()) {
 			$deletelinkModel = array(
 				'linktype' => 'DETAILVIEW',
@@ -225,7 +254,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type='.$modCommentsModel::getDefaultViewComments(),
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type=' . $modCommentsModel::getDefaultViewComments(),
 				'linkicon' => '',
 				'related' => 'Comments',
 				'countRelated' => true

@@ -58,6 +58,14 @@ $languageStrings = [
 	'email' => 'Pole mailowe',
 	'integer' => 'Pole liczbowe (całkowite)',
 	'inventory' => 'Pole zaawansowane',
+	'LBL_RAW_TEXT' => 'Czysty tekst',
+	'LBL_EXPRESSION' => 'Wyrażenie',
+	'LBL_USE_FIELD' => 'Użyj pola',
+	'LBL_USE_FUNCTION' => 'Użyj funkcji',
+	'LBL_VTIGER' => 'Vtiger',
+	'LBL_EXAMPLE_EXPRESSION' => 'Wyrażenie',
+	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
+	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
 ];
 $jsLanguageStrings = [
 	'JS_IS_ALREADY_BEEN_MAPPED' => 'To pole jest już mapowane.',

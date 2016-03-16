@@ -273,6 +273,54 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		);
 	},
+	changeWatchingRecord: function (instance, record) {
+		var value, module, state, className;
+		if (instance != undefined) {
+			instance = $(instance);
+			value = instance.data('value');
+			if (record == undefined) {
+				record = instance.data('record');
+			}
+			if (instance.data('module') != undefined) {
+				module = instance.data('module');
+			} else {
+				module = app.getModuleName();
+			}
+		}
+		bootbox.dialog({
+			message: app.vtranslate('JS_WATCHING_MESSAGE'+value),
+			title: app.vtranslate('JS_WATCHING_TITLE'),
+			buttons: {
+				success: {
+					label: app.vtranslate('LBL_YES'),
+					className: "btn-success",
+					callback: function () {
+						Vtiger_Index_Js.updateWatchingRecord(module, record, value).then(function (data) {
+							if (instance != undefined) {
+								state = data.result == 1 ? 0 : 1;
+								instance.data('value', state);
+								if (state == 1) {
+									className = instance.data('off');
+								} else {
+									className = instance.data('on');
+								}
+								instance.removeClass(function (index, css) {
+									return (css.match(/(^|\s)btn-\S+/g) || []).join(' ');
+								});
+								instance.addClass(className);
+							}
+						});
+					}
+				},
+				danger: {
+					label: app.vtranslate('LBL_NO'),
+					className: "btn-warning",
+					callback: function () {
+					}
+				}
+			}
+		});
+	}
 }, {
 	targetPicklistChange: false,
 	targetPicklist: false,
@@ -2274,8 +2322,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				commentModal.find('[name="reasonToEdit"]').val(reasonValue);
 				if (moreBtn.data('mode') == 'edit') {
 					commentModal.find('.reason').removeClass('hide');
-				}
-				else {
+				} else {
 					commentModal.find('.reason').addClass('hide');
 				}
 				$('.modalSaveComment').on('click', function (e) {
@@ -2306,8 +2353,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				commentModal.find('[name="reasonToEdit"]').val(reasonValue);
 				if (moreBtn.data('mode') == 'edit') {
 					commentModal.find('.reason').removeClass('hide');
-				}
-				else {
+				} else {
 					commentModal.find('.reason').addClass('hide');
 				}
 				$('.modalSaveComment').on('click', function (e) {
@@ -2492,8 +2538,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (state) {
 				addressUrl = addressUrl.replace("type=List", "type=Timeline");
 				selectedTab.data('url', addressUrl);
-			}
-			else {
+			} else {
 				addressUrl = addressUrl.replace("type=Timeline", "type=List");
 				selectedTab.data('url', addressUrl);
 			}
@@ -2747,8 +2792,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (freeSpace > jQuery(this).width()) {
 				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').addClass('hide');
 				freeSpace -= Math.ceil(jQuery(this).width()) + margin;
-			}
-			else {
+			} else {
 				jQuery(this).addClass('hide');
 				moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('hide');
 				freeSpace = 0;
@@ -2758,16 +2802,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 			moreList.find('.relatedNav').removeClass('hide');
 			container.find('.spaceRelatedList').addClass('hide');
 			moreBtn.removeClass('hide');
-		}
-		else {
+		} else {
 			freeSpace -= container.find('.spaceRelatedList').removeClass('hide').width() + margin;
 			container.find('.nav > .relatedNav').each(function () {
 				jQuery(this).removeClass('hide');
 				if (freeSpace > jQuery(this).width()) {
 					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').addClass('hide');
 					freeSpace -= Math.ceil(jQuery(this).width()) + margin;
-				}
-				else {
+				} else {
 					freeSpace = 0;
 					jQuery(this).addClass('hide');
 					moreList.find('[data-reference="' + jQuery(this).data('reference') + '"]').removeClass('hide');
@@ -2849,19 +2891,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 					if (allComments.events.length == 1) {
 						var uniqueId = allComments.events[0].unique_id;
 						thisInstance.refreshCommentContainer(uniqueId.substr(2, uniqueId.length - 2));
-					}
-					else {
+					} else {
 						timeline.goToEnd();
 					}
-				}
-				else if (allComments.events[allComments.events.length - 1].unique_id == 'Id' + currentComment) {
+				} else if (allComments.events[allComments.events.length - 1].unique_id == 'Id' + currentComment) {
 					thisInstance.refreshCommentContainer(currentComment);
-				}
-				else {
+				} else {
 					timeline.goToId('Id' + currentComment);
 				}
-			}
-			else {
+			} else {
 				thisInstance.refreshCommentContainer();
 			}
 		});

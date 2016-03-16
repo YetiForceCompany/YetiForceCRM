@@ -24,16 +24,33 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
+		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
 		if ($createPermission) {
-			$basicLinks = array(
-				array(
+			$basicLinks = [
+				[
 					'linktype' => 'LISTVIEWBASIC',
 					'linklabel' => 'LBL_ADD_RECORD',
 					'linkurl' => $moduleModel->getCreateRecordUrl(),
 					'linkicon' => ''
-				)
-			);
+				]
+			];
+		}
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
+			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
+			$class = 'btn-default';
+			if ($watchdog->isWatchingModule()) {
+				$class = 'btn-info';
+			}
+			$basicLinks[] = [
+				'linktype' => 'LISTVIEWBASIC',
+				'linkhint' => 'BTN_WATCHING_MODULE',
+				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
+				'linkclass' => $class,
+				'linkicon' => 'glyphicon glyphicon-eye-open',
+				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
+			];
+		}
+		if (!empty($basicLinks)) {
 			foreach ($basicLinks as $basicLink) {
 				$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
 			}
@@ -126,7 +143,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		if (!empty($folderValue)) {
 			$queryGenerator->addCondition($folderKey, $folderValue, 'e');
 		}
-		
+
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
 			$searchParams = [];

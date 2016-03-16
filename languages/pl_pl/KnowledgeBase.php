@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'KnowledgeBase' => 'Baza wiedzy',
-	'SINGLE_KnowledgeBase' => 'KnowledgeBase',
+	'SINGLE_KnowledgeBase' => 'Baza wiedzy',
 	'KnowledgeBase ID' => 'KnowledgeBase ID',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje opisowe',
 	'FL_SUBJECT' => 'Tytuł',
@@ -16,5 +16,17 @@ $languageStrings = [
 	'LBL_PREVIOUS' => 'Poprzedni',
 	'LBL_NEXT' => 'Następny',
 	'LBL_LIST_RECORDS' => 'Lista dokumentów',
-	'LBL_RECORD_PREVIEW' => 'Podgląd'
+	'FL_STATUS' => 'Status',
+	'LBL_RECORD_PREVIEW' => 'Podgląd',
+	'PLL_DRAFT' => 'Wersja robocza',
+	'PLL_IN_REALIZATION' => 'W realizacji',
+	'PLL_OBJECTIONS' => 'Zastrzeżenia',
+	'PLL_FOR_APPROVAL' => 'Do akceptacji',
+	'PLL_CANCELLED' => 'Anulowane',
+	'PLL_ACCEPTED' => 'Zaakceptowano',
+	'PLL_ARCHIVES' => 'Archiwum',
+	'LBL_ARTICLE' => 'Artykuł',
+	'LBL_DESCRIPTION_BLOCK' => 'Opis',
+	'LBL_ATTENTION_BLOCK' => 'Uwagi',
+	'LBL_FULL_SCREEN' => 'Pełny ekran'
 ];

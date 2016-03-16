@@ -44,11 +44,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', false);
 			}
 		});
-		jQuery('#rightPanel .refreshCalendar').on('click', function () {
-			$(this).closest('.refreshHeader').addClass('hide');
-			thisInstance.loadCalendarData();
-			return false;
-		});
 	},
 	registerColorField: function (field, fieldClass) {
 		var params = {};
@@ -469,9 +464,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		$(".calendarFilters .filterField").each(function () {
 			var type = $(this).attr('type');
 			if (type == 'checkbox' && $(this).prop('checked')) {
-				searchParams += (searchParams != '' ? ',[' : '[') + $(this).data('search')+']';
+				searchParams += (searchParams != '' ? ',[' : '[') + $(this).data('search') + ']';
 			}
-			
+
 		});
 		var url = 'index.php?module=Calendar&view=List&viewname=All&search_params=[[' + searchParams + ']]';
 		return url;
@@ -502,7 +497,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var thisInstance = this;
 		var calendarview = this.getCalendarView();
 		var checked = '';
-		if (app.getMainParams('showType') == 'current') {
+		if (app.getMainParams('showType') == 'current' && app.cacheGet('Calendar_showType') != 'history') {
 			checked = ' checked ';
 		}
 		var switchBtn = jQuery('<span class=""><input class="switchBtn showType" type="checkbox" title="' + app.vtranslate('JS_CHANGE_ACTIVITY_TIME') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_TO_REALIZE') + '" data-off-text="' + app.vtranslate('JS_HISTORY') + '"></span>')
@@ -510,14 +505,16 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				.on('switchChange.bootstrapSwitch', function (e, state) {
 					if (state) {
 						app.setMainParams('showType', 'current');
+						app.cacheSet('Calendar_showType', 'current');
 					} else {
 						app.setMainParams('showType', 'history');
+						app.cacheSet('Calendar_showType', 'history');
 					}
 					thisInstance.loadCalendarData();
 				})
 		app.showBtnSwitch(switchBtn.find('.switchBtn'));
 		var checked = '';
-		if (app.getMainParams('switchingDays') == 'workDays') {
+		if (app.getMainParams('switchingDays') == 'workDays' && app.cacheGet('Calendar_switchingDays') != 'all') {
 			checked = ' checked ';
 		}
 		var switchBtn = jQuery('<span class=""><input class="switchBtn switchingDays" type="checkbox" title="' + app.vtranslate('JS_SWITCHING_DAYS') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_WORK_DAYS') + '" data-off-text="' + app.vtranslate('JS_ALL') + '"></span>')
@@ -525,8 +522,10 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				.on('switchChange.bootstrapSwitch', function (e, state) {
 					if (state) {
 						app.setMainParams('switchingDays', 'workDays');
+						app.cacheSet('Calendar_switchingDays', 'workDays');
 					} else {
 						app.setMainParams('switchingDays', 'all');
+						app.cacheSet('Calendar_switchingDays', 'all');
 					}
 					thisInstance.renderCalendar();
 					thisInstance.loadCalendarData();
@@ -534,15 +533,46 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		app.showBtnSwitch(switchBtn.find('.switchBtn'));
 	},
 	registerSelect2Event: function () {
+		var thisInstance = this;
+		$('.siteBarRight .select2').each(function (index) {
+			var name = $(this).attr('id');
+			var value = app.cacheGet('Calendar_' + name);
+			var element = $('#' + name);
+			if (element.length > 0 && value != null) {
+				if (element.prop('tagName') == 'SELECT') {
+					element.val(value);
+				}
+			}
+		});
+		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
 		app.showSelect2ElementView($('#calendarUserList'));
 		app.showSelect2ElementView($('#calendarActivityTypeList'));
 		app.showSelect2ElementView($('#calendarGroupList'));
-		$('.select2,.filterField').on('change', function () {
-			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('hide');
+		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
+			var element = $(this);
+			var value = element.val();
+			thisInstance.loadCalendarData();
+			if (element.attr('type') == 'checkbox') {
+				value = element.is(':checked');
+			}
+			app.cacheSet('Calendar_' + element.attr('id'), value);
+		});
+	},
+	registerCacheSettings: function () {
+		$('.siteBarRight .filterField').each(function (index) {
+			var name = $(this).attr('id');
+			var value = app.cacheGet('Calendar_' + name);
+			var element = $('#' + name);
+			if (element.length > 0 && value != null) {
+				if (element.attr('type') == 'checkbox') {
+					element.prop("checked", value);
+				}
+			}
 		});
 	},
 	registerEvents: function () {
 		this.renderCalendar();
+		this.registerCacheSettings();
 		this.registerAddButton();
 		this.loadCalendarData(true);
 		this.registerButtonSelectAll();

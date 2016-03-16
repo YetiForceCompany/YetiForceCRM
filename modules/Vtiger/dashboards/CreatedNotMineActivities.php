@@ -15,13 +15,6 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$orderBy = $request->get('orderby');
 		$data = $request->getAll();
 
-		$params = ['activitesType' => 'upcoming'];
-		if ($request->get('activitesType')) {
-			$params = ['activitesType' => $request->get('activitesType')];
-		} else {
-			$data['activitesType'] = 'upcoming';
-			$params = ['activitesType' => 'upcoming'];
-		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
@@ -35,7 +28,7 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('sortorder', $sortOrder);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMine', $pagingModel, $owner, false, $params);
+		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMine', $pagingModel, $owner, false);
 
 		$viewer = $this->getViewer($request);
 

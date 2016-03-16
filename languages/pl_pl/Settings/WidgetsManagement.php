@@ -34,6 +34,7 @@ $languageStrings = [
 	'LBL_CACHE_WIDGET' => 'Pamięć podręczna',
 	'LBL_TICK_SIZE' => 'Wartość przeskoku (y)',
 	'LBL_MAXIMUM_VALUE' => 'Maksymalna wartość (y)',
+	'LBL_SHOW_USERS' => 'Wyswietl nazwę użytkownika',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',

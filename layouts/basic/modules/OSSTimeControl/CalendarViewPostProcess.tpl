@@ -1,12 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<div class="siteBarRight calendarRightPanel {if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}hideSiteBar{/if} col-xs-12" id="rightPanel">
-	<div class="btn btn-block toggleSiteBarRightButton hidden-xs hidden-sm" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
-		{if AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}
-			<span class="glyphicon glyphicon-chevron-right"></span>
-		{else}
-			<span class="glyphicon glyphicon-chevron-left"></span>	
-		{/if}
+<div class="siteBarRight calendarRightPanel hideSiteBar col-xs-12" data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel">
+	<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton hidden-xs hidden-sm" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
+		<span class="glyphicon glyphicon-chevron-left"></span>
 	</div>
 	<div class="siteBarContent paddingTop10">
 		<div class="alert alert-danger refreshHeader hide" role="alert">

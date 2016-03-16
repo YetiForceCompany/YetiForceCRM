@@ -22,8 +22,10 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->exposeMethod('create');
 		$this->exposeMethod('setMark');
-		$this->exposeMethod('updateEvent');
+		$this->exposeMethod('getNumberOfNotifications');
+		$this->exposeMethod('saveWatchingModules');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -41,6 +43,61 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 		$notice = Home_NoticeEntries_Model::getInstanceById($request->get('id'));
 		$response = new Vtiger_Response();
 		$response->setResult($notice->setMarked());
+		$response->emit();
+	}
+
+	public function getNumberOfNotifications(Vtiger_Request $request)
+	{
+		$notice = Home_Notification_Model::getInstance();
+		$response = new Vtiger_Response();
+		$response->setResult($notice->getNumberOfEntries());
+		$response->emit();
+	}
+
+	public function saveWatchingModules(Vtiger_Request $request)
+	{
+		$selectedModules = $request->get('selctedModules');
+		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
+		if (!empty($selectedModules)) {
+			foreach ($selectedModules as $moduleName) {
+				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
+				$watchdogModel->changeModuleState(1);
+			}
+		} else {
+			$selectedModules = [];
+		}
+		foreach ($watchingModules as $moduleId) {
+			$moduleName = Vtiger_Functions::getModuleName($moduleId);
+			if (!in_array($moduleName, $selectedModules)) {
+				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
+				$watchdogModel->changeModuleState(0);
+			}
+		}
+	}
+
+	public function create(Vtiger_Request $request)
+	{
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$message = $request->get('message');
+		$title = $request->get('title');
+		$users = $request->get('users');
+		if(!is_array($users)) {
+			$users = [$users];
+		}
+		if (count($users)) {
+			foreach ($users as $user) {
+				$notification = Home_Notification_Model::getInstance();
+				$notification->set('moduleName', 'Users');
+				$notification->set('record', $userPrivilegesModel->getId());
+				$notification->set('title', $title);
+				$notification->set('message', $message);
+				$notification->set('type', 0);
+				$notification->set('userid', $user);
+				$notification->save();
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($users);
 		$response->emit();
 	}
 }

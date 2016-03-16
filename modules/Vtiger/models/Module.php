@@ -52,7 +52,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	 */
 	public function isQuickCreateSupported()
 	{
-		return $this->isEntityModule();
+		return $this->isEntityModule() && !$this->isInventory();
 	}
 
 	/**
@@ -890,7 +890,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		self::preModuleInitialize2();
 
 		$sql = 'SELECT DISTINCT vtiger_tab.* FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
-				 WHERE (quickcreate=0 OR quickcreate=2) AND vtiger_tab.presence != 1';
+				 WHERE (quickcreate=0 OR quickcreate=2) AND vtiger_tab.presence != 1 AND vtiger_tab.type <> 1';
 		if ($restrictList) {
 			$sql .= " AND vtiger_tab.name NOT IN ('ModComments','PriceBooks','Events')";
 		}
@@ -898,7 +898,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 
 		$quickCreateModules = [];
 		while ($row = $db->getRow($result)) {
-			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'EditView')) {
+			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'CreateView')) {
 				$moduleModel = self::getInstanceFromArray($row);
 				$quickCreateModules[$row['name']] = $moduleModel;
 			}

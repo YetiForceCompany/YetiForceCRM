@@ -456,7 +456,6 @@ jQuery.Class("Vtiger_List_Js", {
 			listInstance.registerReferenceFieldsForValidation(massEditForm);
 			listInstance.registerFieldsForValidation(massEditForm);
 			listInstance.registerEventForTabClick(massEditForm);
-			listInstance.registerRecordAccessCheckEvent(massEditForm);
 			var editInstance = Vtiger_Edit_Js.getInstance();
 			editInstance.registerBasicEvents(massEditForm);
 			//To remove the change happended for select elements due to picklist dependency
@@ -583,6 +582,51 @@ jQuery.Class("Vtiger_List_Js", {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'})
 		});
 	},
+	changeWatchingModule: function (instance) {
+		var value, module, state, className;
+		if (instance != undefined) {
+			instance = $(instance);
+			value = instance.data('value');
+			if (instance.data('module') != undefined) {
+				module = instance.data('module');
+			} else {
+				module = app.getModuleName();
+			}
+		}
+		bootbox.dialog({
+			message: app.vtranslate('JS_WATCHING_MESSAGE' + value),
+			title: app.vtranslate('JS_WATCHING_TITLE'),
+			buttons: {
+				success: {
+					label: app.vtranslate('LBL_YES'),
+					className: "btn-success",
+					callback: function () {
+						Vtiger_Index_Js.updateWatchingModule(module, value).then(function (data) {
+							if (instance != undefined) {
+								state = data.result == 1 ? 0 : 1;
+								instance.data('value', state);
+								if (state == 1) {
+									className = instance.data('off');
+								} else {
+									className = instance.data('on');
+								}
+								instance.removeClass(function (index, css) {
+									return (css.match(/(^|\s)btn-\S+/g) || []).join(' ');
+								});
+								instance.addClass(className);
+							}
+						});
+					}
+				},
+				danger: {
+					label: app.vtranslate('LBL_NO'),
+					className: "btn-warning",
+					callback: function () {
+					}
+				}
+			}
+		});
+	}
 }, {
 	//contains the List View element.
 	listViewContainer: false,
@@ -854,45 +898,6 @@ jQuery.Class("Vtiger_List_Js", {
 				}
 		);
 		return aDeferred.promise();
-	},
-	/*
-	 * Function to check the view permission of a record after save
-	 */
-	registerRecordAccessCheckEvent: function (form) {
-
-		form.on(Vtiger_List_Js.massEditPreSave, function (e) {
-			var assignedToSelectElement = form.find('[name="assigned_user_id"][data-validation-engine]');
-			if (assignedToSelectElement.length > 0) {
-				if (assignedToSelectElement.data('recordaccessconfirmation') == true) {
-					return;
-				} else {
-					if (assignedToSelectElement.data('recordaccessconfirmationprogress') != true) {
-						var recordAccess = assignedToSelectElement.find('option:selected').data('recordaccess');
-						if (recordAccess == false) {
-							var message = app.vtranslate('JS_NO_VIEW_PERMISSION_AFTER_SAVE');
-							Vtiger_Helper_Js.showConfirmationBox({
-								'message': message
-							}).then(
-									function (e) {
-										assignedToSelectElement.data('recordaccessconfirmation', true);
-										assignedToSelectElement.removeData('recordaccessconfirmationprogress');
-										form.submit();
-									},
-									function (error, err) {
-										assignedToSelectElement.removeData('recordaccessconfirmationprogress');
-										e.preventDefault();
-									});
-							assignedToSelectElement.data('recordaccessconfirmationprogress', true);
-						} else {
-							return true;
-						}
-					}
-				}
-			} else {
-				return true;
-			}
-			e.preventDefault();
-		});
 	},
 	checkSelectAll: function () {
 		var state = true;
@@ -1283,34 +1288,47 @@ jQuery.Class("Vtiger_List_Js", {
 	 */
 	registerChangeCustomFilterEvent: function () {
 		var thisInstance = this;
-		var listViewFilterBlock = this.getFilterBlock();
-		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li[role="treeitem"]', function (event) {
-				jQuery('#pageNumber').val("1");
-				jQuery('#pageToJump').val('1');
-				jQuery('#orderBy').val('');
-				jQuery("#sortOrder").val('');
-				var cvId = thisInstance.getCurrentCvId();
-				selectedIds = new Array();
-				excludedIds = new Array();
-
-				var urlParams = {
-					"viewname": cvId,
-					//to make alphabetic search empty
-					"search_key": thisInstance.getAlphabetSearchField(),
-					"search_value": "",
-					"search_params": ""
-				}
-				//Make the select all count as empty
-				jQuery('#recordsCount').val('');
-				//Make total number of pages as empty
-				jQuery('#totalPageCount').text("");
-				thisInstance.getListViewRecords(urlParams).then(function () {
-					thisInstance.ListViewPostOperation();
-					thisInstance.updatePagination(1);
-				});
-				event.stopPropagation();
+		this.getFilterSelectElement().on('change', function (event) {
+			var currentTarget = jQuery(event.currentTarget);
+			var selectOption = currentTarget.find(':selected');
+			jQuery('#pageNumber').val("1");
+			jQuery('#pageToJump').val('1');
+			jQuery('#orderBy').val(selectOption.data('orderby'));
+			jQuery("#sortOrder").val(selectOption.data('sortorder'));
+			selectedIds = new Array();
+			excludedIds = new Array();
+			var urlParams = {
+				"viewname": jQuery(this).val(),
+				//to make alphabetic search empty
+				"search_key": thisInstance.getAlphabetSearchField(),
+				"search_value": "",
+				"search_params": ""
+			}
+			//Make the select all count as empty
+			jQuery('#recordsCount').val('');
+			//Make total number of pages as empty
+			jQuery('#totalPageCount').text("");
+			thisInstance.getListViewRecords(urlParams).then(function () {
+				thisInstance.breadCrumbsFilter(selectOption.text());
+				thisInstance.ListViewPostOperation();
+				thisInstance.updatePagination(1);
 			});
+			event.stopPropagation();
+		});
+	},
+	breadCrumbsFilter: function (text) {
+		var breadCrumbs = jQuery('.breadcrumbsContainer .breadcrumbsLinks');
+		var breadCrumbsLastSpan = breadCrumbs.last('span');
+		var filterExist = breadCrumbsLastSpan.find('.breadCrumbsFilter');
+		if (filterExist.length && text != undefined) {
+			filterExist.text(' :' + text);
+		} else if (filterExist.length < 1) {
+			text = (text == undefined) ? this.getFilterSelectElement().find(':selected').text() : text;
+			if (breadCrumbsLastSpan.hasClass('breadCrumbsFilter')) {
+				breadCrumbsLastSpan.text(' :' + text);
+			} else {
+				breadCrumbs.append('<span class="font-small breadCrumbsFilter hideToHistory"> :' + text + '</span>');
+			}
 		}
 	},
 	//Fix for empty Recycle bin 
@@ -1837,6 +1855,24 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		}
 	},
+	registerFeaturedElementsEvent: function () {
+		var thisInstance = this;
+		var listViewTopMenuDiv = this.getListViewTopMenuContainer();
+		listViewTopMenuDiv.on('click', '.featuredLabel', function (e) {
+			var cvId = jQuery(this).data('cvid');
+			thisInstance.getFilterSelectElement().val(cvId).trigger('change')
+		})
+		var elemente = app.showPopoverElementView(listViewTopMenuDiv.find('.featuredInfoPopover'), {trigger: 'click', html: true});
+		elemente.trigger('click').trigger('click');
+		elemente.on('shown.bs.popover', function (e, i) {
+			var element = jQuery(e.currentTarget);
+			var popover = element.next();
+			app.showScrollBar(popover.find('.popover-content'), {
+				height: '200px',
+				railVisible: true,
+			});
+		});
+	},
 	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');
 		if (widthType) {
@@ -1937,7 +1973,7 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 	},
 	registerEvents: function () {
-
+		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
 		this.registerPageNavigationEvents();
 		this.registerMainCheckBoxClickEvent();
@@ -1972,6 +2008,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerTimeListSearch(listViewContainer);
 		this.registerListViewSelect();
 		this.registerListViewSpecialOptiopn();
+		this.registerFeaturedElementsEvent();
 	},
 	registerListViewSelect: function () {
 		var listViewContainer = this.getListViewContentContainer();
@@ -1987,7 +2024,7 @@ jQuery.Class("Vtiger_List_Js", {
 			listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
 				var prevVal = $(this).data('prevVal');
 				var value = $(this).val();
-				if(prevVal != value){
+				if (prevVal != value) {
 					Vtiger_List_Js.triggerListSearch();
 				}
 			});
@@ -2142,7 +2179,7 @@ jQuery.Class("Vtiger_List_Js", {
 				mode: 'range',
 				className: 'rangeCalendar',
 				onChange: function (formated) {
-					dateElement.data('prevVal',dateElement.val());
+					dateElement.data('prevVal', dateElement.val());
 					dateElement.val(formated.join(','));
 				},
 				onHide: function (formated) {

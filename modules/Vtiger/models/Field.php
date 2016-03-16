@@ -74,6 +74,11 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return $this->name;
 	}
 
+	public function getFieldLabel()
+	{
+		return $this->label;
+	}
+	
 	/**
 	 * Function to retrieve full data
 	 * @return <array>
@@ -294,12 +299,14 @@ class Vtiger_Field_Model extends Vtiger_Field
 			if ($this->isRoleBased()) {
 				$userModel = Users_Record_Model::getCurrentUserModel();
 				$picklistValues = Vtiger_Util_Helper::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
-				if (!empty($this->get('fieldvalue')) && !in_array($this->get('fieldvalue'), $picklistValues)) {
-					$picklistValues[] = $this->get('fieldvalue');
-					$this->set('isEditableReadOnly', true);
-				}
 			} else {
 				$picklistValues = Vtiger_Util_Helper::getPickListValues($this->getName());
+			}
+
+			// Protection against deleting a value that does not exist on the list
+			if (!empty($this->get('fieldvalue')) && !in_array($this->get('fieldvalue'), $picklistValues)) {
+				$picklistValues[] = $this->get('fieldvalue');
+				$this->set('isEditableReadOnly', true);
 			}
 
 			$fieldPickListValues = [];
@@ -723,32 +730,33 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public static function getDateFilterTypes()
 	{
-		$dateFilters = Array('custom' => array('label' => 'LBL_CUSTOM'),
-			'prevfy' => array('label' => 'LBL_PREVIOUS_FY'),
-			'thisfy' => array('label' => 'LBL_CURRENT_FY'),
-			'nextfy' => array('label' => 'LBL_NEXT_FY'),
-			'prevfq' => array('label' => 'LBL_PREVIOUS_FQ'),
-			'thisfq' => array('label' => 'LBL_CURRENT_FQ'),
-			'nextfq' => array('label' => 'LBL_NEXT_FQ'),
-			'yesterday' => array('label' => 'LBL_YESTERDAY'),
-			'today' => array('label' => 'LBL_TODAY'),
-			'tomorrow' => array('label' => 'LBL_TOMORROW'),
-			'lastweek' => array('label' => 'LBL_LAST_WEEK'),
-			'thisweek' => array('label' => 'LBL_CURRENT_WEEK'),
-			'nextweek' => array('label' => 'LBL_NEXT_WEEK'),
-			'lastmonth' => array('label' => 'LBL_LAST_MONTH'),
-			'thismonth' => array('label' => 'LBL_CURRENT_MONTH'),
-			'nextmonth' => array('label' => 'LBL_NEXT_MONTH'),
-			'last7days' => array('label' => 'LBL_LAST_7_DAYS'),
-			'last30days' => array('label' => 'LBL_LAST_30_DAYS'),
-			'last60days' => array('label' => 'LBL_LAST_60_DAYS'),
-			'last90days' => array('label' => 'LBL_LAST_90_DAYS'),
-			'last120days' => array('label' => 'LBL_LAST_120_DAYS'),
-			'next30days' => array('label' => 'LBL_NEXT_30_DAYS'),
-			'next60days' => array('label' => 'LBL_NEXT_60_DAYS'),
-			'next90days' => array('label' => 'LBL_NEXT_90_DAYS'),
-			'next120days' => array('label' => 'LBL_NEXT_120_DAYS')
-		);
+		$dateFilters = [
+			'custom' => ['label' => 'LBL_CUSTOM'],
+			'prevfy' => ['label' => 'LBL_PREVIOUS_FY'],
+			'thisfy' => ['label' => 'LBL_CURRENT_FY'],
+			'nextfy' => ['label' => 'LBL_NEXT_FY'],
+			'prevfq' => ['label' => 'LBL_PREVIOUS_FQ'],
+			'thisfq' => ['label' => 'LBL_CURRENT_FQ'],
+			'nextfq' => ['label' => 'LBL_NEXT_FQ'],
+			'yesterday' => ['label' => 'LBL_YESTERDAY'],
+			'today' => ['label' => 'LBL_TODAY'],
+			'tomorrow' => ['label' => 'LBL_TOMORROW'],
+			'lastweek' => ['label' => 'LBL_LAST_WEEK'],
+			'thisweek' => ['label' => 'LBL_CURRENT_WEEK'],
+			'nextweek' => ['label' => 'LBL_NEXT_WEEK'],
+			'lastmonth' => ['label' => 'LBL_LAST_MONTH'],
+			'thismonth' => ['label' => 'LBL_CURRENT_MONTH'],
+			'nextmonth' => ['label' => 'LBL_NEXT_MONTH'],
+			'last7days' => ['label' => 'LBL_LAST_7_DAYS'],
+			'last30days' => ['label' => 'LBL_LAST_30_DAYS'],
+			'last60days' => ['label' => 'LBL_LAST_60_DAYS'],
+			'last90days' => ['label' => 'LBL_LAST_90_DAYS'],
+			'last120days' => ['label' => 'LBL_LAST_120_DAYS'],
+			'next30days' => ['label' => 'LBL_NEXT_30_DAYS'],
+			'next60days' => ['label' => 'LBL_NEXT_60_DAYS'],
+			'next90days' => ['label' => 'LBL_NEXT_90_DAYS'],
+			'next120days' => ['label' => 'LBL_NEXT_120_DAYS']
+		];
 
 		foreach ($dateFilters as $filterType => $filterDetails) {
 			$dateValues = self::getDateForStdFilterBytype($filterType);
@@ -780,7 +788,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 			'bw' => 'LBL_BETWEEN',
 			'y' => 'LBL_IS_EMPTY',
 			'ny' => 'LBL_IS_NOT_EMPTY',
-			'om' => 'LBL_CURRENTLY_LOGGED_USER'
+			'om' => 'LBL_CURRENTLY_LOGGED_USER',
+			'wr' => 'LBL_IS_WATCHING_RECORD',
+			'nwr' => 'LBL_IS_NOT_WATCHING_RECORD',
 		);
 	}
 
@@ -791,15 +801,15 @@ class Vtiger_Field_Model extends Vtiger_Field
 	public static function getAdvancedFilterOpsByFieldType()
 	{
 		return array(
-			'V' => array('e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'om'),
-			'N' => array('e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'),
-			'T' => array('e', 'n', 'l', 'g', 'm', 'h', 'bw', 'b', 'a', 'y', 'ny'),
-			'I' => array('e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'),
-			'C' => array('e', 'n', 'y', 'ny'),
-			'D' => array('e', 'n', 'bw', 'b', 'a', 'y', 'ny'),
-			'DT' => array('e', 'n', 'bw', 'b', 'a', 'y', 'ny'),
-			'NN' => array('e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'),
-			'E' => array('e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny')
+			'V' => ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'om', 'wr', 'nwr'],
+			'N' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'],
+			'T' => ['e', 'n', 'l', 'g', 'm', 'h', 'bw', 'b', 'a', 'y', 'ny'],
+			'I' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'],
+			'C' => ['e', 'n', 'y', 'ny'],
+			'D' => ['e', 'n', 'bw', 'b', 'a', 'y', 'ny'],
+			'DT' => ['e', 'n', 'bw', 'b', 'a', 'y', 'ny'],
+			'NN' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'],
+			'E' => ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny']
 		);
 	}
 

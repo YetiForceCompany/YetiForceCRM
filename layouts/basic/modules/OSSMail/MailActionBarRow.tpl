@@ -8,17 +8,17 @@
 			</span>
 		</a>
 		<div class="pull-right rowActions">
-			{if Users_Privileges_Model::isPermitted('Calendar','EditView')}
+			{if Users_Privileges_Model::isPermitted('Calendar','CreateView')}
 				<button class="addReletedRecord" data-module="Calendar" title="{vtranslate('LBL_ADD_CALENDAR',$MODULE_NAME)}">
 					<span class="userIcon-Calendar" aria-hidden="true"></span>
 				</button>
 			{/if}
-			{if Users_Privileges_Model::isPermitted('ModComments','EditView')}
+			{if Users_Privileges_Model::isPermitted('ModComments','CreateView')}
 				<button class="addReletedRecord" data-module="ModComments" title="{vtranslate('LBL_ADD_MODCOMMENTS',$MODULE_NAME)}">
 					<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 				</button>
 			{/if}
-			{if in_array($RELETED['module'], ['HelpDesk','Project']) &&  Users_Privileges_Model::isPermitted('HelpDesk','EditView')}
+			{if in_array($RELETED['module'], ['HelpDesk','Project']) &&  Users_Privileges_Model::isPermitted('HelpDesk','CreateView')}
 				<button class="addReletedRecord" data-module="HelpDesk" title="{vtranslate('LBL_ADD_HELPDESK',$MODULE_NAME)}">
 					<span class="userIcon-HelpDesk" aria-hidden="true"></span>
 				</button>

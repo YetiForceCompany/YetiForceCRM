@@ -6,51 +6,95 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-
-jQuery.Class("Settings_Vtiger_Index_Js",{
-
-	showMessage : function(customParams){
+jQuery.Class("Settings_Vtiger_Index_Js", {
+	showMessage: function (customParams) {
 		var params = {};
 		params.animation = "show";
 		params.type = 'success';
 		params.title = app.vtranslate('JS_MESSAGE');
 
-		if(typeof customParams != 'undefined') {
-			var params = jQuery.extend(params,customParams);
+		if (typeof customParams != 'undefined') {
+			var params = jQuery.extend(params, customParams);
 		}
 		Vtiger_Helper_Js.showPnotify(params);
+	},
+	selectIcon: function () {
+		var aDeferred = jQuery.Deferred();
+		app.showModalWindow({
+			id: 'iconsModal',
+			url: 'index.php?module=Vtiger&view=IconsModal&parent=Settings',
+			cb: function (container) {
+				app.showSelect2ElementView(container.find('#iconsList'), {
+					templateSelection: function (data) {
+						if (!data.id) {
+							return (data.text);
+						}
+						var type = $(data.element).data('type');
+						container.find('.iconName').text(data.id);
+						container.find('#iconName').val(data.id);
+						container.find('#iconType').val(type);
+						if (type == 'icon') {
+							container.find('.iconExample').html('<span class="' + data.element.value + '" aria-hidden="true"></span>');
+						} else if (type = 'image') {
+							container.find('.iconExample').html('<img width="24px" src="' + data.element.value + '"/>')
+						}
+						return data.text;
+					},
+					templateResult: function (data) {
+						if (!data.id) {
+							return (data.text);
+						}
+						var type = $(data.element).data('type');
+						if (type == 'icon') {
+							var option = $('<span class="' + data.element.value + '" aria-hidden="true"> - ' + $(data.element).data('class') + '</span>');
+						} else if (type = 'image') {
+							var option = $('<img width="24px" src="' + data.element.value + '" title="' + data.text + '" /><span> - ' + data.text + '</span>');
+						}
+						return option;
+					},
+					closeOnSelect: true
+				});
+				container.find('[name="saveButton"]').click(function (e) {
+					aDeferred.resolve({
+						type: container.find('#iconType').val(),
+						name: container.find('#iconName').val(),
+					});
+					app.hideModalWindow(container, 'iconsModal');
+				});
+			}
+		});
+		return aDeferred.promise();
 	}
-},{
-
-	registerDeleteShortCutEvent : function(shortCutBlock) {
+}, {
+	registerDeleteShortCutEvent: function (shortCutBlock) {
 		var thisInstance = this;
-		if(typeof shortCutBlock == 'undefined') {
+		if (typeof shortCutBlock == 'undefined') {
 			var shortCutBlock = jQuery('div#settingsShortCutsContainer')
 		}
-		shortCutBlock.on('click','.unpin',function(e) {
+		shortCutBlock.on('click', '.unpin', function (e) {
 			var actionEle = jQuery(e.currentTarget);
 			var closestBlock = actionEle.closest('.moduleBlock');
 			var fieldId = actionEle.data('id');
 			var shortcutBlockActionUrl = closestBlock.data('actionurl');
-			var actionUrl = shortcutBlockActionUrl+'&pin=false';
+			var actionUrl = shortcutBlockActionUrl + '&pin=false';
 			var progressIndicatorElement = jQuery.progressIndicator({
-				'blockInfo' : {
-				'enabled' : true
+				'blockInfo': {
+					'enabled': true
 				}
 			});
-			AppConnector.request(actionUrl).then(function(data) {
-				if(data.result.SUCCESS == 'OK') {
+			AppConnector.request(actionUrl).then(function (data) {
+				if (data.result.SUCCESS == 'OK') {
 					closestBlock.remove();
 					thisInstance.registerSettingShortCutAlignmentEvent();
-					var menuItemId = '#'+fieldId+'_menuItem';
+					var menuItemId = '#' + fieldId + '_menuItem';
 					var shortCutActionEle = jQuery(menuItemId);
 					var imagePath = shortCutActionEle.data('pinimageurl');
-					shortCutActionEle.attr('src',imagePath).data('action','pin');
+					shortCutActionEle.attr('src', imagePath).data('action', 'pin');
 					progressIndicatorElement.progressIndicator({
-						'mode' : 'hide'
+						'mode': 'hide'
 					});
 					var params = {
-						title : app.vtranslate('JS_MESSAGE'),
+						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_SUCCESSFULLY_UNPINNED'),
 						animation: 'show',
 						type: 'info'
@@ -62,54 +106,52 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			e.stopPropagation();
 		});
 	},
-
-	registerPinUnpinShortCutEvent : function() {
+	registerPinUnpinShortCutEvent: function () {
 		var thisInstance = this;
 		var widgets = jQuery('div.widgetContainer');
-		widgets.on('click','.pinUnpinShortCut',function(e){
+		widgets.on('click', '.pinUnpinShortCut', function (e) {
 			var shortCutActionEle = jQuery(e.currentTarget);
 			var url = shortCutActionEle.closest('.menuItem').data('actionurl');
 			var shortCutElementActionStatus = shortCutActionEle.data('action');
-			if(shortCutElementActionStatus == 'pin'){
-				var actionUrl = url+'&pin=true';
+			if (shortCutElementActionStatus == 'pin') {
+				var actionUrl = url + '&pin=true';
 			} else {
-				actionUrl = url+'&pin=false';
+				actionUrl = url + '&pin=false';
 			}
 			var progressIndicatorElement = jQuery.progressIndicator({
-				'blockInfo' : {
-				'enabled' : true
+				'blockInfo': {
+					'enabled': true
 				}
 			});
-			AppConnector.request(actionUrl).then(function(data) {
-				if(data.result.SUCCESS == 'OK') {
-					if(shortCutElementActionStatus == 'pin'){
+			AppConnector.request(actionUrl).then(function (data) {
+				if (data.result.SUCCESS == 'OK') {
+					if (shortCutElementActionStatus == 'pin') {
 						var imagePath = shortCutActionEle.data('unpinimageurl');
 						var unpinTitle = shortCutActionEle.data('unpintitle');
-						shortCutActionEle.attr('src',imagePath).data('action','unpin').attr('title',unpinTitle);
+						shortCutActionEle.attr('src', imagePath).data('action', 'unpin').attr('title', unpinTitle);
 						var params = {
-							'fieldid' : shortCutActionEle.data('id'),
-							'mode'  : 'getSettingsShortCutBlock',
-							'module'  : 'Vtiger',
-							'parent' : 'Settings',
-							'view' : 'IndexAjax'
+							'fieldid': shortCutActionEle.data('id'),
+							'mode': 'getSettingsShortCutBlock',
+							'module': 'Vtiger',
+							'parent': 'Settings',
+							'view': 'IndexAjax'
 						}
-						AppConnector.request(params).then(function(data){
+						AppConnector.request(params).then(function (data) {
 //							var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
-                                                        var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
-                                                        var existingDivBlock=jQuery('#settingsShortCutsContainer div.row:last');
-                                                        var count=jQuery('#settingsShortCutsContainer div.row:last').children("div").length;
-                                                        if(count==3){
-                                                           
-                                                            var newBlock =jQuery('#settingsShortCutsContainer').append('<div class="row">'+data);
-                                                        }
-                                                        else{
-                                                            var newBlock = jQuery(data).appendTo(existingDivBlock);
-                                                        }
+							var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
+							var existingDivBlock = jQuery('#settingsShortCutsContainer div.row:last');
+							var count = jQuery('#settingsShortCutsContainer div.row:last').children("div").length;
+							if (count == 3) {
+
+								var newBlock = jQuery('#settingsShortCutsContainer').append('<div class="row">' + data);
+							} else {
+								var newBlock = jQuery(data).appendTo(existingDivBlock);
+							}
 
 //							var newBlock = jQuery(data).appendTo(shortCutsMainContainer);
 							thisInstance.registerSettingShortCutAlignmentEvent();
 							progressIndicatorElement.progressIndicator({
-								'mode' : 'hide'
+								'mode': 'hide'
 							});
 							var params = {
 								text: app.vtranslate('JS_SUCCESSFULLY_PINNED')
@@ -119,73 +161,69 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 					} else {
 						var imagePath = shortCutActionEle.data('pinimageurl');
 						var pinTitle = shortCutActionEle.data('pintitle');
-						shortCutActionEle.attr('src',imagePath).data('action','pin').attr('title',pinTitle);
-						jQuery('#shortcut_'+shortCutActionEle.data('id')).remove();
+						shortCutActionEle.attr('src', imagePath).data('action', 'pin').attr('title', pinTitle);
+						jQuery('#shortcut_' + shortCutActionEle.data('id')).remove();
 						thisInstance.registerSettingShortCutAlignmentEvent();
 						progressIndicatorElement.progressIndicator({
-							'mode' : 'hide'
+							'mode': 'hide'
 						});
 						var params = {
-							title : app.vtranslate('JS_MESSAGE'),
+							title: app.vtranslate('JS_MESSAGE'),
 							text: app.vtranslate('JS_SUCCESSFULLY_UNPINNED'),
 							animation: 'show',
 							type: 'info'
 						};
-                                                thisInstance.registerReAlign();
+						thisInstance.registerReAlign();
 						Vtiger_Helper_Js.showPnotify(params);
 					}
 				}
 			});
 		});
 	},
-
-	registerSettingsShortcutClickEvent : function() {
-		jQuery('#settingsShortCutsContainer').on('click','.moduleBlock',function(e){
+	registerSettingsShortcutClickEvent: function () {
+		jQuery('#settingsShortCutsContainer').on('click', '.moduleBlock', function (e) {
 			var url = jQuery(e.currentTarget).data('url');
 			window.location.href = url;
 		});
 	},
-
-	registerSettingShortCutAlignmentEvent : function() {
+	registerSettingShortCutAlignmentEvent: function () {
 		jQuery('#settingsShortCutsContainer').find('.moduleBlock').removeClass('marginLeftZero');
 		jQuery('#settingsShortCutsContainer').find('.moduleBlock:nth-child(3n+1)').addClass('marginLeftZero');
 	},
-
-	registerWidgetsEvents : function() {
+	registerWidgetsEvents: function () {
 		var widgets = jQuery('div.widgetContainer');
-		widgets.on('shown.bs.collapse',function(e){
+		widgets.on('shown.bs.collapse', function (e) {
 			var widgetContainer = jQuery(e.currentTarget);
 			var quickWidgetHeader = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader');
 			var imageEle = quickWidgetHeader.find('.imageElement')
 			var imagePath = imageEle.data('downimage');
-			imageEle.attr('src',imagePath);
+			imageEle.attr('src', imagePath);
 		});
-		widgets.on('hidden.bs.collapse',function(e){
+		widgets.on('hidden.bs.collapse', function (e) {
 			var widgetContainer = jQuery(e.currentTarget);
 			var quickWidgetHeader = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader');
 			var imageEle = quickWidgetHeader.find('.imageElement')
 			var imagePath = imageEle.data('rightimage');
-			imageEle.attr('src',imagePath);
+			imageEle.attr('src', imagePath);
 		});
 	},
-
-	registerAddShortcutDragDropEvent : function() {
+	registerAddShortcutDragDropEvent: function () {
 		var thisInstance = this;
 
-		jQuery( ".menuItemLabel" ).draggable({
+		jQuery(".menuItemLabel").draggable({
 			appendTo: "body",
 			helper: "clone"
 		});
-		jQuery( "#settingsShortCutsContainer" ).droppable({
+		jQuery("#settingsShortCutsContainer").droppable({
 			activeClass: "ui-state-default",
 			hoverClass: "ui-state-hover",
 			accept: ".menuItemLabel",
-			drop: function( event, ui ) {
+			drop: function (event, ui) {
 				var actionElement = ui.draggable.closest('.menuItem').find('.pinUnpinShortCut');
 				var pinStatus = actionElement.data('action');
-				if(pinStatus == 'unpin') {
+				if (pinStatus == 'unpin') {
 					var params = {
-						title : app.vtranslate('JS_MESSAGE'),
+						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_SHORTCUT_ALREADY_ADDED'),
 						animation: 'show',
 						type: 'info'
@@ -198,51 +236,50 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			}
 		});
 	},
-        
-        registerReAlign : function()
-        {
-          
-            var params = {
-							'mode'  : 'realignSettingsShortCutBlock',
-							'module'  : 'Vtiger',
-							'parent' : 'Settings',
-							'view' : 'IndexAjax'
-						}
+	registerReAlign: function ()
+	{
 
-						AppConnector.request(params).then(function(data){
-                                                    jQuery('#settingsShortCutsContainer').html(data);
-                                                
-                                                });
-        },
+		var params = {
+			'mode': 'realignSettingsShortCutBlock',
+			'module': 'Vtiger',
+			'parent': 'Settings',
+			'view': 'IndexAjax'
+		}
+
+		AppConnector.request(params).then(function (data) {
+			jQuery('#settingsShortCutsContainer').html(data);
+
+		});
+	},
 	loadCkEditorElement: function () {
 		var customConfig = {};
 		var noteContentElement = jQuery('.ckEditorSource');
 		var ckEditorInstance = new Vtiger_CkEditor_Js();
 		ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
 	},
-	registerSaveIssues: function(){
+	registerSaveIssues: function () {
 		var container = jQuery('.addIssuesModal');
 		container.validationEngine(app.validationEngineOptions);
 		var title = jQuery('#titleIssues');
 		var CKEditorInstance = CKEDITOR.instances['bodyIssues'];
 		var thisInstance = this;
 		var saveBtn = container.find('.saveIssues');
-		saveBtn.click(function(){
+		saveBtn.click(function () {
 			if (container.validationEngine('validate')) {
 				var body = jQuery.trim(CKEditorInstance.document.getBody().getText());
 				var params = {
-					module  : 'Github',
-					parent : app.getParentModuleName(),
-					action : 'SaveIssuesAJAX',
+					module: 'Github',
+					parent: app.getParentModuleName(),
+					action: 'SaveIssuesAjax',
 					title: title.val(),
 					body: body
 				};
-				AppConnector.request(params).then(function(data){
+				AppConnector.request(params).then(function (data) {
 					app.hideModalWindow();
 					thisInstance.reloadContent();
-					if(data.result.success == true){
+					if (data.result.success == true) {
 						var params = {
-							title : app.vtranslate('JS_LBL_PERMISSION'),
+							title: app.vtranslate('JS_LBL_PERMISSION'),
 							text: app.vtranslate('JS_ADDED_ISSUE_COMPLETE'),
 							type: 'success',
 							animation: 'show'
@@ -252,46 +289,44 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 				});
 			}
 		});
-		jQuery('[name="confirmRegulations"]').on('click', function(){
+		jQuery('[name="confirmRegulations"]').on('click', function () {
 			var currentTarget = jQuery(this);
-			if(currentTarget.is(':checked')){
-				saveBtn.removeAttr('disabled');	
-			}
-			else{
-				saveBtn.attr('disabled','disabled');
+			if (currentTarget.is(':checked')) {
+				saveBtn.removeAttr('disabled');
+			} else {
+				saveBtn.attr('disabled', 'disabled');
 			}
 		});
 	},
-	reloadContent: function(){
+	reloadContent: function () {
 		jQuery('.massEditTabs li.active').trigger('click');
 	},
-	resisterSaveKeys: function(){
+	resisterSaveKeys: function (modal) {
 		var thisInstance = this;
-		var container = jQuery('#globalmodal .authModalContent');
+		var container = modal.find('.authModalContent');
 		container.validationEngine(app.validationEngineOptions);
-		container.find('.saveKeys').click(function(){
+		container.find('.saveKeys').click(function () {
 			if (container.validationEngine('validate')) {
 				var params = {
-					module : 'Github',
-					parent : app.getParentModuleName(),
-					action : 'SaveKeysAJAX',
-					username : $('[name="username"]').val(), 
-					client_id : $('[name="client_id"]').val(),
+					module: 'Github',
+					parent: app.getParentModuleName(),
+					action: 'SaveKeysAjax',
+					username: $('[name="username"]').val(),
+					client_id: $('[name="client_id"]').val(),
 					token: $('[name="token"]').val()
 				};
 				container.progressIndicator({});
-				AppConnector.request(params).then(function(data){
+				AppConnector.request(params).then(function (data) {
 					container.progressIndicator({mode: 'hide'});
-					if(data.result.success == false){
+					if (data.result.success == false) {
 						var errorDiv = container.find('.errorMsg');
 						errorDiv.removeClass('hide');
 						errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
-					}
-					else{
+					} else {
 						app.hideModalWindow();
 						thisInstance.reloadContent();
 						var params = {
-							title : app.vtranslate('JS_LBL_PERMISSION'),
+							title: app.vtranslate('JS_LBL_PERMISSION'),
 							text: app.vtranslate('JS_AUTHORIZATION_COMPLETE'),
 							type: 'success',
 							animation: 'show'
@@ -299,36 +334,36 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 						Vtiger_Helper_Js.showMessage(params);
 					}
 				},
-				function (error, err) {
-					container.progressIndicator({mode: 'hide'});
-					app.hideModalWindow();
-				});
+						function (error, err) {
+							container.progressIndicator({mode: 'hide'});
+							app.hideModalWindow();
+						});
 			}
-		
+
 		});
 	},
-	registerTabEvents: function(){
+	registerTabEvents: function () {
 		var thisInstance = this;
-		jQuery('.massEditTabs li').on('click', function(){
+		jQuery('.massEditTabs li').on('click', function () {
 			thisInstance.loadContent(jQuery(this).data('mode'));
 		});
 	},
-	registerPagination: function(){
+	registerPagination: function () {
 		var page = jQuery('.pagination .pageNumber');
 		var thisInstance = this;
-		page.click(function(){
+		page.click(function () {
 			thisInstance.loadContent('Github', $(this).data('id'));
 		});
 	},
-	registerAuthorizedEvent: function(){
+	registerAuthorizedEvent: function () {
 		var thisInstance = this;
-		jQuery('.showModal').on('click', function(){
-			app.showModalWindow(jQuery('.authModal'),function(){
-				thisInstance.resisterSaveKeys();
+		jQuery('.showModal').on('click', function () {
+			app.showModalWindow(jQuery('.authModal'), function (container) {
+				thisInstance.resisterSaveKeys(container);
 			});
 		});
 	},
-	registerEventsForGithub: function (container){
+	registerEventsForGithub: function (container) {
 		var thisInstance = this;
 		thisInstance.registerAuthorizedEvent();
 		thisInstance.registerPagination();
@@ -339,40 +374,38 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 		container.find('.switchState').on('switchChange.bootstrapSwitch', function (e, state) {
 			thisInstance.loadContent('Github', 1);
 		});
-		
-		$('.addIssuesBtn').on('click', function(){
+
+		$('.addIssuesBtn').on('click', function () {
 			var params = {
-				module  : 'Github',
-				parent : app.getParentModuleName(),
-				view : 'AddIssueAJAX'
+				module: 'Github',
+				parent: app.getParentModuleName(),
+				view: 'AddIssue'
 			};
 			container.progressIndicator({});
-			AppConnector.request(params).then(function(data){
+			AppConnector.request(params).then(function (data) {
 				container.progressIndicator({mode: 'hide'});
-				app.showModalWindow(data, function(){
+				app.showModalWindow(data, function () {
 					thisInstance.loadCkEditorElement();
 					thisInstance.registerSaveIssues();
 				});
 			});
 		});
 	},
-	loadContent: function(mode, page){
+	loadContent: function (mode, page) {
 		var thisInstance = this;
 		var container = jQuery('.indexContainer');
 		var state = container.find('.switchState');
 		var author = container.find('.switchAuthor');
-		
 		var params = {
-			mode  : mode,
-			module  : app.getModuleName(),
-			parent : app.getParentModuleName(),
-			view : 'Index',
-			page : page
+			mode: mode,
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			view: 'Index',
+			page: page
 		};
-		if(state.is(':checked')){
+		if (state.is(':checked')) {
 			params.state = 'closed';
-		}
-		else{
+		} else {
 			params.state = 'open';
 		}
 		params.author = author.is(':checked');
@@ -383,10 +416,10 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 				'elementToBlock': container
 			}
 		});
-		AppConnector.request(params).then(function(data){
+		AppConnector.request(params).then(function (data) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			container.html(data);
-			if(mode == 'Index'){
+			if (mode == 'Index') {
 				thisInstance.registerSettingsShortcutClickEvent();
 				thisInstance.registerDeleteShortCutEvent();
 				thisInstance.registerWidgetsEvents();
@@ -398,7 +431,7 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 			}
 		});
 	},
-	registerEvents: function() {
+	registerEvents: function () {
 		this.registerTabEvents();
 		this.reloadContent();
 	}

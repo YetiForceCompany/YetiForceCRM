@@ -321,7 +321,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$module = Vtiger_Module_Model::getInstance($module);
 			$moduleName = $module->get('name');
 		} elseif (empty($module)) {
-			$moduleName = getSalesEntityType($recordId);
+			$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
 			$module = Vtiger_Module_Model::getInstance($moduleName);
 		}
 		$cacheName = $recordId . ':' . $moduleName;
@@ -427,7 +427,13 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 		return $this->privileges['isViewable'];
 	}
-
+	public function isCreateable(){
+		if (!isset($this->privileges['isCreateable'])) {
+			$moduleName = $this->getModuleName();
+			$this->privileges['isCreateable'] = Users_Privileges_Model::isPermitted($moduleName, 'CreateView');
+		}
+		return $this->privileges['isCreateable'];
+	}
 	public function isEditable()
 	{
 		if (!isset($this->privileges['isEditable'])) {
@@ -774,5 +780,33 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
+	}
+
+	/**
+	 * Function to get EditFieldByModal view url for the record
+	 * @return <String> - EditFieldByModal View Url
+	 */
+	public function getEditFieldByModalUrl()
+	{
+		return 'index.php?module=' . $this->getModuleName() . '&view=EditFieldByModal&record=' . $this->getId();
+	}
+
+	public function getFieldToEditByModal()
+	{
+		return [
+			'addClass' => '',
+			'iconClass' => '',
+			'listViewClass' => '',
+			'titleTag' => '',
+			'name' => '',
+		];
+	}
+
+	public function editFieldByModalPermission($profileAction = false)
+	{
+		if ($this->privileges['editFieldByModal'] === true && $profileAction) {
+			return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
+		}
+		return (bool) $this->privileges['editFieldByModal'];
 	}
 }

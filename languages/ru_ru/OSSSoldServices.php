@@ -23,9 +23,6 @@ $languageStrings = [
 	'Assigned To' => 'Ответственный',
 	'LBL_RODZAJUMOWY' => 'Тип соглашения',
 	'LBL_ssservicesstatus' => 'Статус',
-	'Individual Agreement' => 'Индивидуальное соглашение',
-	'In service' => 'Поддержка',
-	'Finished support' => 'Поддержка окончена',
 	'Product Name' => 'Название Услуги',
 	'Sub Category' => 'Подкатегория',
 	'Category' => 'Категория',
@@ -38,6 +35,22 @@ $languageStrings = [
 	'Number' => '№',
 	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'LBL_ORDER_TIME' => 'Время Заказа',
+	'FL_RENEWAL' => 'Renewal',
+	
+	'PLL_DRAFT'=>'Draft',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_ACCEPTED'=>'Accepted',
+	'PLL_CANCELLED'=>'Cancelled',
+	
+	'PLL_PLANNED'=>'Planned',
+	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
+	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
+	'PLL_RENEWED'=>'Renewed',
+	'PLL_NOT_RENEWED'=>'Not renewed',
+	'PLL_NOT_APPLICABLE'=>'Not applicable',
+	'LBL_SET_RENEWAL' => 'Set renewal',
 ];
 
 ?>

@@ -35,7 +35,7 @@
 	.modIcon_{$MODULE->get('name')}{ background-image: url("{Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}"); }
 {/foreach}
 </style>
-<div class="calendarViewContainer rowContent {if AppConfig::module($MODULE_NAME, 'SHOW_RIGHT_PANEL')}col-md-9 {else}col-md-12 {/if} paddingLRZero col-xs-12">
+<div class="calendarViewContainer rowContent col-md-12 paddingLRZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		<div class="btn-group listViewMassActions pull-left paddingLeftMd">
 			{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}

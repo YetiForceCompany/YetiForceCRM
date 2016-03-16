@@ -54,12 +54,6 @@ var app = {
 		return jQuery('body').data('language');
 	},
 	/**
-	 * Function to get height of window
-	 */
-	getHeightWindow: function () {
-		return jQuery(window).height();
-	},
-	/**
 	 * Function to get path to layout
 	 */
 	getLayoutPath: function () {
@@ -126,6 +120,24 @@ var app = {
 
 		selectElement.each(function () {
 			var select = $(this);
+			// hide selected items in the chosen instance when item is hidden.
+			if (select.hasClass('hideSelected')) {
+				var ns = [];
+				select.find('optgroup,option').each(function (n, e) {
+					if (jQuery(this).hasClass('hide')) {
+						ns.push(n);
+					}
+				});
+				if (ns.length) {
+					select.next().find('.search-choice-close').each(function (n, e) {
+						var element = jQuery(this);
+						var index = element.data('option-array-index');
+						if (jQuery.inArray(index, ns) != -1) {
+							element.closest('li').remove();
+						}
+					})
+				}
+			}
 			if (select.attr('readonly') == 'readonly') {
 				select.on('chosen:updated', function () {
 					if (select.attr('readonly')) {
@@ -279,6 +291,7 @@ var app = {
 		if (selectElement.hasClass('delay0')) {
 			params.delay = {show: 0, hide: 0}
 		}
+		params.container = 'body';
 		var data = selectElement.data();
 		if (data != null) {
 			params = jQuery.extend(data, params);
@@ -336,13 +349,17 @@ var app = {
 		return keyValueMap;
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
+		var thisInstance = this;
+		var id = 'globalmodal';
 		//null is also an object
 		if (typeof data == 'object' && data != null && !(data instanceof jQuery)) {
+			if (data.id != undefined) {
+				id = data.id;
+			}
 			paramsObject = data.css;
 			cb = data.cb;
 			url = data.url;
-			data = data.data
-
+			data = data.data;
 		}
 		if (typeof url == 'function') {
 			if (typeof cb == 'object') {
@@ -361,20 +378,12 @@ var app = {
 			cb = function () {
 			}
 		}
-
-		var id = 'globalmodal';
 		var container = jQuery('#' + id);
 		if (container.length) {
 			container.remove();
 		}
-		// modal-backdrop
-		var backdrop = jQuery('.modal-backdrop');
-		if (backdrop.length) {
-			backdrop.remove();
-		}
-
 		container = jQuery('<div></div>');
-		container.attr('id', id);
+		container.attr('id', id).addClass('modalContainer');
 
 		var showModalData = function (data) {
 			var params = {
@@ -411,6 +420,7 @@ var app = {
 			app.showSelectizeElementView(container.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
 			app.registerEventForDatePickerFields(container);
+			thisInstance.registerModalEvents(container);
 			cb(container);
 		}
 		if (data) {
@@ -421,14 +431,23 @@ var app = {
 				showModalData(response);
 			});
 		}
+		container.one('hidden.bs.modal', function () {
+			container.remove();
+			var backdrop = jQuery('.modal-backdrop:first');
+			if (backdrop.length) {
+				backdrop.remove();
+			}
+		});
 		return container;
 	},
 	/**
 	 * Function which you can use to hide the modal
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
-	hideModalWindow: function (callback) {
-		var id = 'globalmodal';
+	hideModalWindow: function (callback, id) {
+		if (id == undefined) {
+			id = 'globalmodal';
+		}
 		var container = jQuery('#' + id);
 		if (container.length <= 0) {
 			return;
@@ -439,7 +458,35 @@ var app = {
 		}
 		var modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
+		var backdrop = jQuery('.modal-backdrop:first');
+		if (backdrop.length) {
+			backdrop.remove();
+		}
 		modalContainer.one('hidden.bs.modal', callback);
+	},
+	registerModalEvents: function (container) {
+		var form = container.find('form');
+		var validationForm = false;
+		if (form.hasClass("validateForm")) {
+			form.validationEngine(app.validationEngineOptions);
+			validationForm = true;
+		}
+		if (form.hasClass("sendByAjax")) {
+			form.submit(function (e) {
+				var save = true;
+				e.preventDefault();
+				if (validationForm && form.data('jqv').InvalidFields.length > 0) {
+					app.formAlignmentAfterValidation(form);
+					save = false;
+				}
+				if (save) {
+					var formData = form.serializeFormData();
+					AppConnector.request(formData).then(function (data) {
+						app.hideModalWindow();
+					})
+				}
+			});
+		}
 	},
 	isHidden: function (element) {
 		if (element.css('display') == 'none') {
@@ -915,7 +962,7 @@ var app = {
 	 * Cache API on client-side
 	 */
 	cacheNSKey: function (key) { // Namespace in client-storage
-		return 'vtiger6.' + key;
+		return 'yf.' + key;
 	},
 	cacheGet: function (key, defvalue) {
 		key = this.cacheNSKey(key);
@@ -1245,8 +1292,10 @@ var app = {
 	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
 		soundsConfig = JSON.parse(soundsConfig);
-		var audio = new Audio(app.getLayoutPath() + '/sounds/' + soundsConfig[action]);
-		audio.play();
+		if (soundsConfig['IS_ENABLED']) {
+			var audio = new Audio(app.getLayoutPath() + '/sounds/' + soundsConfig[action]);
+			audio.play();
+		}
 	},
 	registerSticky: function () {
 		var elements = jQuery('.stick');
@@ -1271,7 +1320,7 @@ var app = {
 				});
 			}
 			if (position == 'bottom') {
-				var offsetTop = currentElement.offset().top - app.getHeightWindow();
+				var offsetTop = currentElement.offset().top - jQuery(window).height();
 				jQuery('.mainBody').scroll(function () {
 					if ($(this).scrollTop() < offsetTop)
 						currentElement.css({

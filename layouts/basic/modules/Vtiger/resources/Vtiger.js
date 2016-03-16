@@ -82,7 +82,7 @@ var Vtiger_Index_Js = {
 			var left = 0;
 			var top = 30;
 			var popupParams = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
-			if (postData == undefined){
+			if (postData == undefined) {
 				window.open(url, '_blank', popupParams + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no');
 				return;
 			}
@@ -157,8 +157,7 @@ var Vtiger_Index_Js = {
 					widgetContainer.html(data);
 					if (data == '') {
 						widgetContainer.closest('.quickWidget').addClass('hide');
-					}
-					else {
+					} else {
 						var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
 						jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 					}
@@ -259,6 +258,85 @@ var Vtiger_Index_Js = {
 			}
 		})
 
+	},
+	registerNotifications: function () {
+		var thisInstance = this;
+		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
+
+		var currentTime = new Date().getTime();
+		var nextActivityReminderCheck = app.cacheGet('nextNotificationsCheckTime', 0);
+
+		if ((currentTime + delay) > nextActivityReminderCheck) {
+			Vtiger_Index_Js.requestNotification();
+
+			var currentTime = new Date().getTime();
+			app.cacheSet('nextNotificationsCheckTime', (currentTime + delay));
+		} else {
+			thisInstance.setNotification(app.cacheGet('notificationsCount', 0));
+		}
+		setTimeout('Vtiger_Index_Js.registerNotifications()', delay);
+	},
+	requestNotification: function () {
+		var thisInstance = this;
+		AppConnector.request({
+			async: false,
+			dataType: 'json',
+			data: {
+				module: 'Home',
+				action: 'Notification',
+				mode: 'getNumberOfNotifications'
+			}
+		}).then(function (data) {
+			var notificationsCount = data.result;
+			app.cacheSet('notificationsCount', notificationsCount);
+			thisInstance.setNotification(notificationsCount);
+		})
+	},
+	setNotification: function (notificationsCount) {
+		var badge = $(".notificationsNotice .badge");
+		badge.text(notificationsCount);
+		badge.removeClass('hide');
+		if (notificationsCount > 0) {
+			$(".notificationsNotice").effect("pulsate", 1500);
+		} else {
+			badge.addClass('hide');
+		}
+	},
+	markNotifications: function (id) {
+		var thisInstance = this;
+		var params = {
+			module: 'Home',
+			action: 'Notification',
+			mode: 'setMark',
+			id: id
+		}
+		AppConnector.request(params).then(function (data) {
+			var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
+			Vtiger_Helper_Js.showPnotify({
+				title: app.vtranslate('JS_MESSAGE'),
+				text: app.vtranslate('JS_MARKED_AS_READ'),
+				type: 'info'
+			});
+			if (data.result == 'hide') {
+				row.fadeOut(300, function () {
+					var entries = row.closest('.notificationEntries')
+					row.remove();
+					entries.each(function (index) {
+						var block = $(this);
+						if (block.find(".noticeRow").length == 0) {
+							block.closest('.panel').hide();
+						}
+					});
+				});
+			}
+			var badge = $(".notificationsNotice .badge");
+			var number = parseInt(badge.text()) - 1;
+			if (number > 0) {
+				badge.text(number);
+			} else {
+				badge.text('');
+			}
+		});
 	},
 	/**
 	 * Function registers event for Calendar Reminder popups
@@ -463,6 +541,37 @@ var Vtiger_Index_Js = {
 			});
 		}
 	},
+	updateWatchingModule: function (module, value) {
+		var aDeferred = jQuery.Deferred();
+		AppConnector.request({
+			module: module,
+			action: 'Watchdog',
+			mode: 'updateModule',
+			state: value
+		}).then(function (data) {
+			aDeferred.resolve(data);
+		}, function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+			app.errorLog(textStatus, errorThrown);
+		});
+		return aDeferred.promise();
+	},
+	updateWatchingRecord: function (module, record, value) {
+		var aDeferred = jQuery.Deferred();
+		AppConnector.request({
+			module: module,
+			action: 'Watchdog',
+			mode: 'updateRecord',
+			record: record,
+			state: value
+		}).then(function (data) {
+			aDeferred.resolve(data);
+		}, function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+			app.errorLog(textStatus, errorThrown);
+		});
+		return aDeferred.promise();
+	},
 	loadPreSaveRecord: function (form) {
 		SaveResult = new SaveResult()
 		return SaveResult.checkData(form);
@@ -471,6 +580,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerActivityReminder();
+		Vtiger_Index_Js.registerNotifications();
 		Vtiger_Index_Js.adjustTopMenuBarItems();
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();

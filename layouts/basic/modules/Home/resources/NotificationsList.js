@@ -16,15 +16,83 @@ jQuery.Class("Home_NotificationsList_Js", {
 				type: 'info'
 			});
 			if (data.result == 'hide') {
-				row.fadeOut(300, function() { 
-					row.remove(); 
+				row.fadeOut(300, function () {
+					row.remove();
+					thisInstance.checkHiddenBlock();
 				});
 			}
-			
+			var badge = $(".notificationsNotice .badge");
+			var number = parseInt(badge.text()) - 1;
+			if (number > 0) {
+				badge.text(number);
+			} else {
+				badge.text('');
+			}
+		});
+	},
+	checkHiddenBlock: function () {
+		var thisInstance = this;
+		$(".notificationEntries").each(function (index) {
+			var block = $(this);
+			if (block.find(".noticeRow").length == 0) {
+				block.closest('.panel').hide();
+			}
 		});
 	},
 }, {
+	gridster: false,
+	getGridster: function () {
+		if (!this.gridster) {
+			this.gridster = $("ul.gridster");
+		}
+		return this.gridster;
+	},
+	registerGridster: function () {
+		var thisInstance = this;
+		var gridsterObj = this.getGridster().gridster({
+			widget_base_dimensions: [thisInstance.getGridster().width() / 12 - 14, 100],
+			widget_margins: [7, 7],
+			min_cols: 6,
+			min_rows: 20,
+			max_size_x: 12
+		});
+		gridsterObj.gridster().data('gridster').disable()
+	},
+	registerButtons: function () {
+		$('.notificationConf').on('click', function () {
+			var params = {
+				module: app.getModuleName(),
+				view: 'Notification',
+			};
+			var progress = jQuery.progressIndicator();
+			var url = 'index.php?module=' + app.getModuleName() + '&view=NotificationConfig';
+			app.showModalWindow(null, url, function (container) {
+				progress.progressIndicator({'mode': 'hide'});
+				container.find('[name="saveButton"]').on('click', function () {
+					var selectedModules = [];
+					container.find('.watchingModule').each(function () {
+						var currentTarget = $(this);
+						if (currentTarget.is(':checked')) {
+							selectedModules.push(currentTarget.data('nameModule'));
+						}
+					});
+					var params = {
+						module: app.getModuleName(),
+						action: 'Notification',
+						mode: 'saveWatchingModules',
+						selctedModules: selectedModules,
+					};
+					var progress = jQuery.progressIndicator();
+					AppConnector.request(params).then(function (data) {
+						progress.progressIndicator({'mode': 'hide'});
+						app.hideModalWindow();
+					});
+				});
+			});
+		});
+	},
 	registerEvents: function () {
-
+		this.registerGridster();
+		this.registerButtons();
 	}
 });

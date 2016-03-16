@@ -67,6 +67,7 @@ $languageStrings = [
 	'LBL_INVENTORY_BALANCE' => 'Баланс',
 	'LBL_DISCOUNT' => 'Скидка',
 	'LBL_CREDIT_LIMIT' => 'Кредитный лимит',
+	'LBL_PARENT_IS_CHILD' => 'The selected parent account cannot be secondary to current account',
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',
 	'PLL_BUSINESS_ACTIVITY' => 'Юридическое лицо',

@@ -53,10 +53,11 @@
 		<input type="hidden" id="gsAutocomplete" value="{vglobal('gsAutocomplete')}" />
 		<input type="hidden" id="gsMinLength" value="{vglobal('gsMinLength')}" />
 		<input type="hidden" id="gsAmountResponse" value="{vglobal('gsAmountResponse')}" />
-		<input type='hidden' id="module" value="{$MODULE}"/>
+		<input type="hidden" id="module" value="{$MODULE}"/>
 		<input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
-		<input type='hidden' id="view" value="{$VIEW}"/>
-		<input type='hidden' id="sounds" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(AppConfig::sounds()))}"/>
+		<input type="hidden" id="view" value="{$VIEW}"/>
+		<input type="hidden" id="sounds" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(AppConfig::sounds()))}"/>
+		<input type="hidden" id="intervalForNotificationNumberCheck" value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}"/>
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->
 			<div id="pjaxContainer" class="hide noprint"></div>

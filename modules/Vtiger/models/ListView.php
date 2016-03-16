@@ -411,11 +411,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$queryGenerator = new QueryGenerator($moduleModel->get('name'), $currentUser);
 		$customView = new CustomView();
-		if (!empty($viewId) && $viewId != "0") {
+		if (!empty($viewId) && $viewId != 0) {
 			$queryGenerator->initForCustomViewById($viewId);
-
-			//Used to set the viewid into the session which will be used to load the same filter when you refresh the page
-			$viewId = $customView->getViewId($moduleName);
 		} else {
 			$viewId = $customView->getViewId($moduleName);
 			if (!empty($viewId) && $viewId != 0) {
@@ -469,7 +466,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
+		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
 		$advancedLinks = [];
 		$importPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Import');
 		if ($importPermission && $createPermission) {
@@ -558,14 +555,29 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
-		if ($createPermission) {
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView')) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
 				'linkclass' => 'addButton',
 				'linkicon' => ''
+			];
+		}
+
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
+			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
+			$class = 'btn-default';
+			if ($watchdog->isWatchingModule()) {
+				$class = 'btn-info';
+			}
+			$basicLinks[] = [
+				'linktype' => 'LISTVIEWBASIC',
+				'linkhint' => 'BTN_WATCHING_MODULE',
+				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
+				'linkclass' => $class,
+				'linkicon' => 'glyphicon glyphicon-eye-open',
+				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
 			];
 		}
 
