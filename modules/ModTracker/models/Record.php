@@ -7,7 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-vimport('~modules/ModTracker/core/ModTracker_Basic.php');
 
 class ModTracker_Record_Model extends Vtiger_Record_Model
 {
@@ -19,6 +18,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	const LINK = 4;
 	const UNLINK = 5;
 	const CONVERTTOACCOUNT = 6;
+	const DISPLAYED = 7;
 
 	/**
 	 * Function to get the history of updates on a record
@@ -103,6 +103,11 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $this->checkStatus(self::UNLINK);
 	}
 
+	function isDisplayed()
+	{
+		return $this->checkStatus(self::DISPLAYED);
+	}
+	
 	function getModifiedBy()
 	{
 		$changeUserId = $this->get('whodid');
