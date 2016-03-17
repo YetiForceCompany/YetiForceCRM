@@ -87,7 +87,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
 		$viewer->assign('NO_PAGINATION', true);
-		$viewer->assign('COLORLISTHANDLERS', Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, false));
+		$viewer->assign('COLORLISTHANDLERS', Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $recordModel));
 
 		//Intially make the prev and next records as null
 		$prevRecordId = null;
