@@ -75,7 +75,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$em = new VTEventsManager(PearDatabase::getInstance());
 		$em->initTriggerCache();
 		$entityData = VTEntityData::fromCRMEntity($recordModel->getEntity());
-		$em->triggerEvent('vtiger.view.display.before', $entityData);
+		$em->triggerEvent('vtiger.view.detail.before', $entityData);
 		
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 

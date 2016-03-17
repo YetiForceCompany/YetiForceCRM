@@ -121,7 +121,7 @@ class ModTrackerHandler extends VTEventHandler
 				case 'entity.convertlead.after':
 					// TODU
 					break;
-				case 'vtiger.view.display.before':
+				case 'vtiger.view.detail.before':
 					$adb->insert('vtiger_modtracker_basic', [
 						'id' => $adb->getUniqueId('vtiger_modtracker_basic'),
 						'crmid' => $data->getId(),
