@@ -85,6 +85,10 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		}
 		if ($this->get('moduleName') != 'Users') {
 			vglobal('current_user', $currentUser);
+			if ($this->get('type') == 0) {
+				$this->set('record', Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId());
+				$this->set('moduleName', 'Users');
+			}
 		}
 		if (!$this->has('time')) {
 			$this->set('time', date('Y-m-d H:i:s'));
