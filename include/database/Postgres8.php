@@ -177,10 +177,6 @@ function expandRecord($table, $log)
 	elseif ($table == "vtiger_leaddetails")
 		$subfields = array("leadid", "email", "interest", "firstname", "salutation", "lastname", "company", "annualrevenue", "industry", "campaign", "rating", "leadstatus", "leadsource", "converted", "designation", "space", "comments", "priority", "demorequest", "partnercontact", "productversion", "product", "maildate", "nextstepdate", "fundingsituation", "purpose", "evaluationstatus", "transferdate", "revenuetype", "noofemployees", "yahooid", "assignleadchk");
 
-	//vtiger_campaignleadrel
-	elseif ($table == "vtiger_campaignleadrel")
-		$subfields = array("campaignid", "leadid");
-
 	//vtiger_pricebook
 	elseif ($table == "vtiger_pricebook")
 		$subfields = array("pricebookid", "bookname", "active", "description");

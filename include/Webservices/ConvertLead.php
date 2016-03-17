@@ -246,9 +246,6 @@ function vtws_updateConvertLeadStatus($entityIds, $leadId, $user)
 		if ($result === false) {
 			throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_MARK_CONVERTED, "Failed mark lead converted");
 		}
-		//updating the campaign-lead relation --Minnie
-		$sql = "DELETE FROM vtiger_campaignleadrel WHERE leadid=?";
-		$adb->pquery($sql, array($leadIdComponents[1]));
 
 		$sql = "DELETE FROM vtiger_tracker WHERE item_id=?";
 		$adb->pquery($sql, array($leadIdComponents[1]));
