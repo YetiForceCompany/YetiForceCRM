@@ -8693,7 +8693,7 @@ CREATE TABLE `vtiger_users` (
   `default_record_view` varchar(10) DEFAULT NULL,
   `leftpanelhide` varchar(3) DEFAULT NULL,
   `rowheight` varchar(10) DEFAULT NULL,
-  `defaulteventstatus` varchar(50) DEFAULT 'Not Held',
+  `defaulteventstatus` varchar(50) DEFAULT NULL,
   `defaultactivitytype` varchar(50) DEFAULT NULL,
   `is_owner` varchar(5) DEFAULT NULL,
   `emailoptout` varchar(3) NOT NULL DEFAULT '1',
