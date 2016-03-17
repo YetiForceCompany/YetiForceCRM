@@ -14,6 +14,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	protected $record = false;
 	public $defaultMode = false;
+
 	function __construct()
 	{
 		parent::__construct();
@@ -71,6 +72,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			break;
 		}
 
+		$em = new VTEventsManager(PearDatabase::getInstance());
+		$em->initTriggerCache();
+		$entityData = VTEntityData::fromCRMEntity($recordModel->getEntity());
+		$em->triggerEvent('vtiger.view.display.before', $entityData);
+		
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
@@ -123,7 +129,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$selectedTabLabel = $request->get('tab_label');
 		if (empty($selectedTabLabel)) {
 			$selectedTabLabel = AppConfig::module($moduleName, 'DEFAULT_VIEW_RECORD');
-			if(empty($selectedTabLabel)){
+			if (empty($selectedTabLabel)) {
 				if ($currentUserModel->get('default_record_view') === 'Detail') {
 					$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
 				} else {
@@ -136,17 +142,16 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			} else {
 				$selectedTabLabel = vtranslate($selectedTabLabel, $moduleName);
 			}
-			
 		}
-		foreach($detailViewLinks['DETAILVIEWTAB'] as $link){
-			if($link->getLabel() == $selectedTabLabel){
+		foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
+			if ($link->getLabel() == $selectedTabLabel) {
 				$queryStr = parse_url(htmlspecialchars_decode($link->getUrl()), PHP_URL_QUERY);
 				parse_str($queryStr, $queryParams);
 				$this->defaultMode = $queryParams['mode'];
 				break;
 			}
 		}
-		
+
 		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
@@ -185,9 +190,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		}		
+		}
 		$defaultMode = $this->defaultMode;
-		if($defaultMode == 'showDetailViewByMode'){
+		if ($defaultMode == 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
