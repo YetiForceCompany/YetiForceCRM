@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -23055,18 +23056,6 @@ insert  into `vtiger_service_usageunit`(`service_usageunitid`,`service_usageunit
 
 insert  into `vtiger_service_usageunit_seq`(`id`) values (3);
 
-/*Data for the table `vtiger_servicecategory` */
-
-insert  into `vtiger_servicecategory`(`servicecategoryid`,`servicecategory`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Support',1,230,2);
-insert  into `vtiger_servicecategory`(`servicecategoryid`,`servicecategory`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Installation',1,231,3);
-insert  into `vtiger_servicecategory`(`servicecategoryid`,`servicecategory`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Migration',1,232,4);
-insert  into `vtiger_servicecategory`(`servicecategoryid`,`servicecategory`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Customization',1,233,5);
-insert  into `vtiger_servicecategory`(`servicecategoryid`,`servicecategory`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'Training',1,234,6);
-
-/*Data for the table `vtiger_servicecategory_seq` */
-
-insert  into `vtiger_servicecategory_seq`(`id`) values (6);
-
 /*Data for the table `vtiger_servicecf` */
 
 /*Data for the table `vtiger_servicecontracts` */
@@ -23512,8 +23501,8 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`mo
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (105,'ISTN',0,-1,'ISTN',NULL,NULL,0,0,1,'0','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (106,'ISTRN',0,-1,'ISTRN',NULL,NULL,0,0,1,'0','',NULL,0,1);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (107,'FCorectingInvoice',0,-1,'FCorectingInvoice',NULL,NULL,0,0,1,'0','',NULL,0,1);
-insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (108,'IGRNC',0,-1,'IGRNC',NULL,NULL,1,0,1,'0','',NULL,0,1);
-insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (109,'IGDNC',0,-1,'IGDNC',NULL,NULL,1,0,1,'0','',NULL,0,1);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (108,'IGRNC',0,-1,'IGRNC',NULL,NULL,0,0,1,'0','',NULL,0,1);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (109,'IGDNC',0,-1,'IGDNC',NULL,NULL,0,0,1,'0','',NULL,0,1);
 
 /*Data for the table `vtiger_tab_info` */
 

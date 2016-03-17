@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -2980,9 +2981,7 @@ CREATE TABLE `vtiger_assets` (
   `serialnumber` varchar(200) DEFAULT NULL,
   `datesold` date DEFAULT NULL,
   `dateinservice` date DEFAULT NULL,
-  `assetstatus` varchar(200) DEFAULT 'In Service',
-  `tagnumber` varchar(300) DEFAULT NULL,
-  `shippingmethod` varchar(200) DEFAULT NULL,
+  `assetstatus` varchar(200) DEFAULT 'PLL_DRAFT',
   `assetname` varchar(100) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `parent_id` int(19) DEFAULT NULL,
@@ -5392,7 +5391,6 @@ CREATE TABLE `vtiger_leaddetails` (
   `noofemployees` int(50) DEFAULT NULL,
   `secondaryemail` varchar(100) DEFAULT NULL,
   `assignleadchk` int(1) DEFAULT '0',
-  `emailoptout` varchar(3) DEFAULT NULL,
   `noapprovalcalls` varchar(3) DEFAULT NULL,
   `noapprovalemails` varchar(3) DEFAULT NULL,
   `vat_id` varchar(30) DEFAULT NULL,
@@ -7839,23 +7837,6 @@ CREATE TABLE `vtiger_service_usageunit_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_servicecategory` */
-
-CREATE TABLE `vtiger_servicecategory` (
-  `servicecategoryid` int(11) NOT NULL AUTO_INCREMENT,
-  `servicecategory` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`servicecategoryid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_servicecategory_seq` */
-
-CREATE TABLE `vtiger_servicecategory_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_servicecf` */
 
 CREATE TABLE `vtiger_servicecf` (
@@ -8712,7 +8693,7 @@ CREATE TABLE `vtiger_users` (
   `default_record_view` varchar(10) DEFAULT NULL,
   `leftpanelhide` varchar(3) DEFAULT NULL,
   `rowheight` varchar(10) DEFAULT NULL,
-  `defaulteventstatus` varchar(50) DEFAULT 'Planned',
+  `defaulteventstatus` varchar(50) DEFAULT 'Not Held',
   `defaultactivitytype` varchar(50) DEFAULT NULL,
   `is_owner` varchar(5) DEFAULT NULL,
   `emailoptout` varchar(3) NOT NULL DEFAULT '1',
