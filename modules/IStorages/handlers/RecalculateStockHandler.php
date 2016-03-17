@@ -13,7 +13,7 @@ class RecalculateStockHandler extends VTEventHandler
 	{
 		$moduleName = $data->getModuleName();
 		$correctionModules = ['IGRNC' => 'igrnid','IGDNC' => 'igdnid'];
-		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN', 'IPreOrder', 'ISTDN', 'ISTRN', 'IGRNC'])) {
+		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN', 'IPreOrder', 'ISTDN', 'ISTRN', 'IGRNC','IGDNC'])) {
 			$status = strtolower($moduleName) . '_status';
 			// Checks if the module is a correction module
 			if (isset($correctionModules[$moduleName])) {
