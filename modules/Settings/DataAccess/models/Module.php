@@ -374,30 +374,29 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		return $return;
 	}
 
-	protected static $colorListCache = false;
+	protected static $colorListCache = [];
 
 	public static function executeColorListHandlers($moduleName, $record, Vtiger_Record_Model $recordModel)
 	{
-		if (self::$colorListCache !== false) {
-			return self::$colorListCache;
+		if (key_exists($record, self::$colorListCache)) {
+			return self::$colorListCache[$record];
 		}
-		$return = [];
-
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
 		$db = PearDatabase::getInstance();
 		$conditions = new DataAccess_Conditions();
 		$sql = "SELECT * FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%colorList%'";
 		$result = $db->pquery($sql, [$moduleName]);
-		$row = $db->getRow($result);
-		$condition_result = $conditions->checkConditions($row['dataaccessid'], $recordModel->getRawData());
-		if ($condition_result['test'] == true) {
-			$data = unserialize($row['data']);
-			$return = [
-				'text' => $data[0]['text'],
-				'background' => $data[0]['bg']
-			];
+		while ($row = $db->getRow($result)) {
+			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordModel->getRawData());
+			if ($conditionResult['test'] == true) {
+				$data = reset(unserialize($row['data']));
+				$return = [
+					'text' => $data['text'],
+					'background' => $data['bg']
+				];
+			}
 		}
-		self::$colorListCache = $return;
+		self::$colorListCache[$record] = $return;
 		return $return;
 	}
 }
