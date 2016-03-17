@@ -4655,7 +4655,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2332 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2334 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8595,6 +8595,8 @@ CREATE TABLE `vtiger_troubletickets` (
   `pssold_id` int(19) DEFAULT NULL,
   `ordertime` decimal(10,2) DEFAULT NULL,
   `from_portal` varchar(3) DEFAULT NULL,
+  `contract_type` varchar(255) DEFAULT NULL,
+  `contracts_end_date` date DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),
