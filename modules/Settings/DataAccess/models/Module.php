@@ -386,8 +386,14 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$conditions = new DataAccess_Conditions();
 		$sql = "SELECT * FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%colorList%'";
 		$result = $db->pquery($sql, [$moduleName]);
+		$return = [];
+		
+		$recordData = $recordModel->getRawData();
+		if(empty($recordData)){
+			$recordData = $recordModel->getData();
+		}
 		while ($row = $db->getRow($result)) {
-			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordModel->getRawData());
+			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordData);
 			if ($conditionResult['test'] == true) {
 				$data = reset(unserialize($row['data']));
 				$return = [

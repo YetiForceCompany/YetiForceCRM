@@ -24,7 +24,7 @@
 						{/if}
 					{/foreach}
 					{if empty($IMAGE_DETAILS)}
-						<span class="detailViewIcon userIcon-{$MODULE}"></span>
+						<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 					{/if}
 				</span>
 			</div>
