@@ -99,4 +99,8 @@ $languageStrings = [
 	'LBL_NOTICE_MODIFICATION' => 'Veränderung',
 	'LBL_NOTICE_CLOSE' => 'Geschlossen',
 	'LBL_NOTICE_FOOTER' => 'Wenn Sie keine Mitteilungen von unserem Projekt-Management-System erhalten möchten, informieren Sie uns bitte per E-Mail. Wenn Sie nicht zu den Adressaten dieser Nachricht gehören, informieren Sie uns bitte darüber und löschen die Nachricht.',
+	// FIELDS
+	'FL_SERVICE_CONTRACTS' => 'Service Level Agreement',
+	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA type',
+	'FL_SERVICE_CONTRACTS_DATE' => 'SLA expiry date',
 ];
