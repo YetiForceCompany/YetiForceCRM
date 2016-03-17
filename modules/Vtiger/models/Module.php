@@ -416,6 +416,15 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $this->get('name'));
 		$recordInstance = new $modelClassName();
+		if($rawData !== false) {
+			foreach ($this->getFields() as $field) {
+				$column = $field->get('column');
+				if (key_exists($column, $rawData)) {
+					$rawData[$field->getName()] = $rawData[$column];
+					unset($rawData[$column]);
+				}
+			}
+		}
 		return $recordInstance->setData($valueArray)->setModuleFromInstance($this)->setRawData($rawData);
 	}
 

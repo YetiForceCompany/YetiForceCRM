@@ -376,7 +376,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 	protected static $colorListCache = false;
 
-	public static function executeColorListHandlers($moduleName, $record, $recordModelObiect)
+	public static function executeColorListHandlers($moduleName, $record, Vtiger_Record_Model $recordModel)
 	{
 		if (self::$colorListCache !== false) {
 			return self::$colorListCache;
@@ -385,13 +385,11 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
 		$db = PearDatabase::getInstance();
-		$moduleFocus = CRMEntity::getInstance($moduleName);
-
 		$conditions = new DataAccess_Conditions();
 		$sql = "SELECT * FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%colorList%'";
 		$result = $db->pquery($sql, [$moduleName]);
 		$row = $db->getRow($result);
-		$condition_result = $conditions->checkConditions($row['dataaccessid'], $moduleFocus->column_fields);
+		$condition_result = $conditions->checkConditions($row['dataaccessid'], $recordModel->getRawData());
 		if ($condition_result['test'] == true) {
 			$data = unserialize($row['data']);
 			$return = [
