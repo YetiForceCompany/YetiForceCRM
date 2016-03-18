@@ -1174,7 +1174,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$viewName = $customView->getViewId($moduleName);
 		} elseif ($viewName == 'All') {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT cvid FROM vtiger_customview WHERE setdefault = 1 AND entitytype=?', [$moduleName]);
+			$result = $db->pquery('SELECT cvid FROM vtiger_customview WHERE presence = 0 AND entitytype=?', [$moduleName]);
 			$viewName = $db->getSingleValue($result);
 		}
 		self::$moduleViewIdCache = $viewName;
