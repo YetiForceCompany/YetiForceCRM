@@ -35,7 +35,7 @@ class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Mod
 					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() == true) {
 						$fieldModel->set('editable', true);
 						$fieldValue = false;
-						if ($recordModel->get($fieldName) === 'on') {
+						if ($recordModel->get($fieldName) === 'on' || $recordModel->get($fieldName) === true) {
 							$fieldValue = true;
 						}
 						$recordModel->set($fieldName, $fieldValue);
