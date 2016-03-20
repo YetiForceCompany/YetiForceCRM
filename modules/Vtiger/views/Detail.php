@@ -76,7 +76,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$em->initTriggerCache();
 		$entityData = VTEntityData::fromCRMEntity($recordModel->getEntity());
 		$em->triggerEvent('vtiger.view.detail.before', $entityData);
-		
+
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
@@ -143,12 +143,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				$selectedTabLabel = vtranslate($selectedTabLabel, $moduleName);
 			}
 		}
-		foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
-			if ($link->getLabel() == $selectedTabLabel) {
-				$queryStr = parse_url(htmlspecialchars_decode($link->getUrl()), PHP_URL_QUERY);
-				parse_str($queryStr, $queryParams);
-				$this->defaultMode = $queryParams['mode'];
-				break;
+		if (is_array($detailViewLinks['DETAILVIEWTAB'])) {
+			foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
+				if ($link->getLabel() == $selectedTabLabel) {
+					$queryStr = parse_url(htmlspecialchars_decode($link->getUrl()), PHP_URL_QUERY);
+					parse_str($queryStr, $queryParams);
+					$this->defaultMode = $queryParams['mode'];
+					break;
+				}
 			}
 		}
 
