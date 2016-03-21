@@ -1060,7 +1060,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		} else {
 			Vtiger_Functions::recurseCopy($dirName . '/files', '', true);
 		}
-		$db->insert('yetiforce_updates', [
+		$adb->insert('yetiforce_updates', [
 			'user' => Users_Record_Model::getCurrentUserModel()->get('user_name'),
 			'name' => $modulenode->label,
 			'from_version' => $modulenode->from_version,
