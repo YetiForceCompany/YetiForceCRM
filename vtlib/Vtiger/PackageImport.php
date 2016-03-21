@@ -1041,29 +1041,36 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		if (file_exists($dirName . '/init.php')) {
 			require_once $dirName . '/init.php';
 			$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
-			$Instance = new YetiForceUpdate($modulenode);
-			$Instance->package = $this;
-			$result = $Instance->preupdate();
+
+			$updateInstance = new YetiForceUpdate($modulenode);
+			$updateInstance->package = $this;
+			$result = $updateInstance->preupdate();
 			if ($result != false) {
-				$Instance->update();
-				if ($Instance->filesToDelete) {
-					foreach ($Instance->filesToDelete as $path) {
+				$updateInstance->update();
+				if ($updateInstance->filesToDelete) {
+					foreach ($updateInstance->filesToDelete as $path) {
 						Vtiger_Functions::recurseDelete($path);
 					}
 				}
 				Vtiger_Functions::recurseCopy($dirName . '/files', '', true);
-				$result = $Instance->postupdate();
+				$result = $updateInstance->postupdate();
 			}
-			$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
-		}
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$adb->query("INSERT INTO `yetiforce_updates` (`user`, `name`, `from_version`, `to_version`, `result`) VALUES ('" . $currentUser->get('user_name') . "', '" . $modulenode->label . "', '" . $modulenode->from_version . "', '" . $modulenode->to_version . "','" . $result . "');", true);
 
+			$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
+		} else {
+			Vtiger_Functions::recurseCopy($dirName . '/files', '', true);
+		}
+		$db->insert('yetiforce_updates', [
+			'user' => Users_Record_Model::getCurrentUserModel()->get('user_name'),
+			'name' => $modulenode->label,
+			'from_version' => $modulenode->from_version,
+			'to_version' => $modulenode->to_version,
+			'result' => $result,
+		]);
 		if ($result) {
 			$adb->update('vtiger_version', ['current_version' => $modulenode->to_version]);
 		}
-		Vtiger_Functions::recurseDelete($dirName . '/files');
-		Vtiger_Functions::recurseDelete($dirName . '/init.php');
+		Vtiger_Functions::recurseDelete($dirName);
 		Vtiger_Functions::recurseDelete('cache/templates_c');
 	}
 
