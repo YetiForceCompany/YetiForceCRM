@@ -90,7 +90,7 @@
 										{vtranslate('LBL_DISPLAYED', $MODULE_NAME)}
 									</span>
 									<span class="pull-right">
-										<p class="muted">
+										<p class="muted no-margin">
 											<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getActivityTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}
 											</small>
 										</p>
