@@ -1122,6 +1122,7 @@ $languageStrings = [
 	'Support Profile' => 'Profil wsparcia',
 	'Sales Profile' => 'Profil sprzedaży',
 	'Guest Profile' => 'Gość',
+	'LBL_DISPLAYED' => 'przeglądał rekord',
 	// Action types - AT
 	'LBL_AT_UPDATED' => 'Modyfikacja',
 	'LBL_AT_DELETED' => 'Usuwanie',

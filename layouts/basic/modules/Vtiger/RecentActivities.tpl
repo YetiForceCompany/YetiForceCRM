@@ -82,6 +82,21 @@
 							<li>
 								<strong>{vtranslate('LBL_CONVERTED_FROM_LEAD', $MODULE_NAME)}</strong> 
 							</li>
+						{else if $RECENT_ACTIVITY->isDisplayed()}
+							<li>
+								<div>
+									<span>
+										<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
+										{vtranslate('LBL_DISPLAYED', $MODULE_NAME)}
+									</span>
+									<span class="pull-right">
+										<p class="muted">
+											<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RECENT_ACTIVITY->getActivityTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}
+											</small>
+										</p>
+									</span>
+								</div>
+							</li>
 						{/if}
 					{/if}
 				{/foreach}
