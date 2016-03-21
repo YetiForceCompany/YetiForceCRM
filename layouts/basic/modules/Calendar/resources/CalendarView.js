@@ -251,6 +251,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var start_date = view.start.format();
 		var end_date = view.end.format();
 		var types = [];
+		var formatDate = app.getMainParams('userDateFormat');
 		types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), types);
 		if (types.length == 0) {
 			allEvents = true;
@@ -278,8 +279,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				module: 'Calendar',
 				action: 'Calendar',
 				mode: 'getEvents',
-				start: start_date,
-				end: end_date,
+				start: app.getDateInVtigerFormat(formatDate, new Date(start_date)),
+				end: app.getDateInVtigerFormat(formatDate, new Date(end_date)),
 				user: user,
 				time: app.getMainParams('showType'),
 				types: types,

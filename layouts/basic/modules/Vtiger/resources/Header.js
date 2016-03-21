@@ -297,8 +297,8 @@ jQuery.Class("Vtiger_Header_Js", {
 			module: 'Calendar',
 			action: 'Calendar',
 			mode: 'getEvents',
-			start: firstDay,
-			end: dateEnd,
+			start: app.getDateInVtigerFormat(dateStartFormat, new Date(firstDay)),
+			end: app.getDateInVtigerFormat(dateStartFormat, new Date(dateEnd)),
 			user: user.val(),
 			time: 'current'
 		}
