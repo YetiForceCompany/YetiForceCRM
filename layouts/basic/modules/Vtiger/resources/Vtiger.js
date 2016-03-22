@@ -159,8 +159,8 @@ var Vtiger_Index_Js = {
 						widgetContainer.closest('.quickWidget').addClass('hide');
 					} else {
 						var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
-						jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 					}
+					jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 				}
 		);
 	},
