@@ -576,11 +576,21 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			}
 		});
 	},
+	registerLoadCalendarData: function () {
+		var thisInstance = this;
+		var widgets = $('.siteBarRight .widgetContainer').length;
+		$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
+			widgets -= 1;
+			if(widgets == 0){
+				thisInstance.loadCalendarData(true);
+			}
+		});
+	},
 	registerEvents: function () {
 		this.renderCalendar();
 		this.registerCacheSettings();
 		this.registerAddButton();
-		this.loadCalendarData(true);
+		this.registerLoadCalendarData();
 		this.registerButtonSelectAll();
 		this.registerChangeView();
 	}
