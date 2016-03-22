@@ -1131,6 +1131,7 @@ $languageStrings = [
 	'LBL_AT_LINK' => 'Utworzono powiązanie',
 	'LBL_AT_UNLINK' => 'Usunięto powiązanie',
 	'LBL_AT_CONVERTTOACCOUNT' => 'Skonwertowano leada',
+	'LBL_FILTER' => 'Filtr',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1393,4 +1394,5 @@ $jsLanguageStrings = [
 	'JS_WATCHING_TITLE' => 'Śledzenie zmian',
 	'JS_WATCHING_MESSAGE0' => 'Czy jesteś pewien że chcesz wyłączyć śledzenie zmian?',
 	'JS_WATCHING_MESSAGE1' => 'Czy jesteś pewien że chcesz włączyć śledzenie zmian?',
+	'JS_FILTER' => 'Filtr',
 ];
