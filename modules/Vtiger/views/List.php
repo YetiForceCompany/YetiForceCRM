@@ -31,11 +31,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 		if ($request->has('viewname')) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
-			if (empty($customView)) {
-				return $title;
+			if (!empty($customView)) {
+				$title .= ' [' . vtranslate('LBL_FILTER', $moduleName) . ': ' . vtranslate($customView->get('viewname'), $moduleName) . ']';
 			}
-			$viewName = $customView->get('viewname');
-			$title .= '[' . vtranslate('LBL_FILTER', $moduleName) . ': ' . ($viewName == 'All' ? vtranslate('All', $moduleName) : $viewName ) . ']';
 		}
 		return $title;
 	}
@@ -46,11 +44,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$title = vtranslate('LBL_VIEW_LIST', $moduleName);
 		if ($request->has('viewname')) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
-			if (empty($customView)) {
-				return $title;
+			if (!empty($customView)) {
+				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . vtranslate('LBL_FILTER', $moduleName)
+					. ' :' . vtranslate($customView->get('viewname'), $moduleName) . ']</div>';
 			}
-			$viewName = $customView->get('viewname');
-			$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . vtranslate('LBL_FILTER', $moduleName) . ' :' . ($viewName == 'All' ? vtranslate('All', $moduleName) : $viewName ) . ']</div>';
 		}
 		return $title;
 	}
