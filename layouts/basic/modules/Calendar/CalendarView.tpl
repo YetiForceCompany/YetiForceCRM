@@ -64,6 +64,14 @@
 			</button>
 		</div>
 	</div>
+	<div class="alert alert-info marginTop10 hide" id="moduleCacheAlert" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{vtranslate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}&nbsp;
+		<span class="selectedFilters"></span>&nbsp;
+		<button type="button" class="pull-right btn btn-default btn-xs marginRight10 cacheClear">{vtranslate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
+	</div>
 	<div class="bottom_margin">
 		<p><!-- Divider --></p>
 		<div id="calendarview"></div>

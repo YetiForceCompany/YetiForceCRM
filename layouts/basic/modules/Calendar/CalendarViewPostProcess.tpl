@@ -28,7 +28,7 @@
 								{if $FILTER->type == 'checkbox'}
 									<div class="checkbox margin0px">
 										<label>
-											<input type="checkbox" value="{$FILTER->value}" id="filterField_{$FILTER->name}"  data-search="{Vtiger_Util_Helper::toSafeHTML($FILTER->searchParams)}" class="filterField">{vtranslate($FILTER->name, $MODULE)}
+											<input type="checkbox" value="{$FILTER->value}" id="filterField_{$FILTER->name}" title="{$FILTER->name}" data-search="{Vtiger_Util_Helper::toSafeHTML($FILTER->searchParams)}" class="filterField">{vtranslate($FILTER->name, $MODULE)}
 										</label>
 									</div>
 								{/if}
