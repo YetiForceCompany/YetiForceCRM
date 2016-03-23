@@ -1131,6 +1131,7 @@ $languageStrings = [
 	'LBL_AT_LINK' => 'Utworzono powiązanie',
 	'LBL_AT_UNLINK' => 'Usunięto powiązanie',
 	'LBL_AT_CONVERTTOACCOUNT' => 'Skonwertowano leada',
+	'LBL_AT_DISPLAYED' => 'Wyświetlono',
 	'LBL_FILTER' => 'Filtr',
 ];
 $jsLanguageStrings = [

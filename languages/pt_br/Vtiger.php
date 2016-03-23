@@ -1133,6 +1133,7 @@ $languageStrings = [
 	'LBL_AT_LINK' => 'Linked',
 	'LBL_AT_UNLINK' => 'Unlinked',
 	'LBL_AT_CONVERTTOACCOUNT' => 'Lead converted',
+	'LBL_AT_DISPLAYED' => 'Displayed',
 	'LBL_FILTER' => 'Filter',
 ];
 $jsLanguageStrings = [
