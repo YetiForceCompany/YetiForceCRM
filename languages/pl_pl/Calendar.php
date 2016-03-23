@@ -137,8 +137,9 @@ $languageStrings = [
 	'LBL_INVITE_USER_BLOCK' => 'Zaproszeni użytkownicy',
 	'LBL_CALENDAR_FILTERS' => 'Filtry',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Wypełnienie daty rozpoczęcia na podstawie pierwszego wolnego terminu',
+	'LBL_CACHE_SELECTED_FILTERS' => 'Aktywne filtry:',
+	'LBL_CACHE_CLEAR' => 'Wyczyść filtry',
 ];
-
 $jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Dodano kalendarz',
 	'JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY' => 'Zmieniono kolor kalendarza',
@@ -186,4 +187,6 @@ $jsLanguageStrings = [
 	'JS_SWITCHING_DAYS' => 'Przełączanie dni ',
 	'JS_ALL' => 'Wszystkie',
 	'JS_WORK_DAYS' => 'Dni robocze',
+	'JS_CHANGED_VIEW' => 'Widok',
+	'JS_CHANGED_DATE' => 'Data',
 ];
