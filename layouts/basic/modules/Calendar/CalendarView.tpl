@@ -59,7 +59,7 @@
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
 		</div>
 		<div class="pull-right col-xs-1 col-sm-1">
-			<button class="pull-right btn btn-default addButton">
+			<button class="pull-right btn btn-default btn-sm addButton marginRight10">
 				<span class="glyphicon glyphicon-plus"></span>
 			</button>
 		</div>
