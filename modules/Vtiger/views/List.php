@@ -46,7 +46,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
 			if (!empty($customView)) {
 				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . vtranslate('LBL_FILTER', $moduleName)
-					. ' :' . vtranslate($customView->get('viewname'), $moduleName) . ']</div>';
+					. ': ' . vtranslate($customView->get('viewname'), $moduleName) . ']</div>';
 			}
 		}
 		return $title;
