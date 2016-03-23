@@ -624,6 +624,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			alert.find('.cacheClear').click(function (e) {
 				app.moduleCacheClear();
 				alert.addClass('hide');
+				location.reload();
 			});
 		}
 	},
