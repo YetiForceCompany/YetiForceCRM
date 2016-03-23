@@ -575,10 +575,6 @@
 								<div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
 									<span class="fieldLabel"></span>
 									<span class="btn-group pull-right actions">
-										<input type="hidden" value="{$FIELD_MODEL->get('name')}" id="relatedFieldValue{$FIELD_NUM}" />
-										<a href="javascript:void(0)" class="copyFieldLabel" data-clipboard-target="relatedFieldValue{$FIELD_NUM}">
-											<span class="glyphicon glyphicon-copy alignMiddle" title="{vtranslate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
-										</a>
 										{if $IS_SORTABLE}
 											<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 												<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
