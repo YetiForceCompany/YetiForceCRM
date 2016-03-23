@@ -23,6 +23,12 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.userIcon-IGDNC:before {
+    content: "\e958";
+}
+.userIcon-IGRNC:before {
+    content: "\e959";
+}
 .userIcon-FCorectingInvoice:before {
     content: "\e957";
 }
