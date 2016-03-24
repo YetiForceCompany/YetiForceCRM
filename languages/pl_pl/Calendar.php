@@ -137,8 +137,8 @@ $languageStrings = [
 	'LBL_INVITE_USER_BLOCK' => 'Zaproszeni użytkownicy',
 	'LBL_CALENDAR_FILTERS' => 'Filtry',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Wypełnienie daty rozpoczęcia na podstawie pierwszego wolnego terminu',
-	'LBL_CACHE_SELECTED_FILTERS' => 'Zmieniłeś standardowy widok w kalendarzu, aby go wyczyścić wciśnij przycisk',
-	'LBL_CACHE_CLEAR' => 'Wyczyść filtry',
+	'LBL_CACHE_SELECTED_FILTERS' => 'Zmieniłeś standardowy widok w kalendarzu, aby go wyczyścić wciśnij przycisk "Wyczyść widok".',
+	'LBL_CACHE_CLEAR' => 'Wyczyść widok',
 ];
 $jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Dodano kalendarz',
