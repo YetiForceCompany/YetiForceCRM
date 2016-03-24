@@ -565,15 +565,19 @@
 					<li class="newCustomFieldCopy hide">
 						<div class="marginLeftZero border1px" data-field-id="" data-sequence="">
 							<div class="row padding1per">
-								<span class="col-md-1">&nbsp;
+								<span class="col-md-2">&nbsp;
 									{if $IS_SORTABLE}
 										<a>
 											<img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 										</a>
 									{/if}
 								</span>
-								<div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
+								<div class="col-md-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
 									<span class="fieldLabel"></span>
+									<input type="hidden" value="" id="relatedFieldValue" />
+									<a href="javascript:void(0)" class="copyFieldLabel pull-right" data-clipboard-target="relatedFieldValue">
+										<span class="glyphicon glyphicon-copy alignMiddle" title="{vtranslate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
+									</a>
 									<span class="btn-group pull-right actions">
 										{if $IS_SORTABLE}
 											<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
