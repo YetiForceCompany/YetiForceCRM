@@ -2045,7 +2045,7 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (87
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (87,1,'u_yf_competition:vat_id:vat_id:Competition_LBL_VAT_ID:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (87,2,'vtiger_crmentity:smownerid:assigned_user_id:Competition_Assigned_To:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (87,3,'vtiger_crmentity:createdtime:createdtime:Competition_Created_Time:DT');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (88,0,'u_yf_fbookkeeping:subject:subject:FBookkeeping_subject:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (88,0,'u_yf_fbookkeeping:subject:subject:FBookkeeping_FL_SUBJECT:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (88,1,'u_yf_fbookkeeping:number:number:FBookkeeping_FL_NUMBER:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (88,2,'vtiger_crmentity:createdtime:createdtime:FBookkeeping_Created_Time:DT');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (88,3,'vtiger_crmentity:smownerid:assigned_user_id:FBookkeeping_Assigned_To:V');
@@ -2054,8 +2054,8 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (89
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (89,2,'u_yf_finvoice:accountid:accountid:FInvoice_FL_ACCOUNT:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (89,3,'vtiger_crmentity:smownerid:assigned_user_id:FInvoice_Assigned_To:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (89,4,'u_yf_finvoice:saledate:saledate:FInvoice_FL_SALE_DATE:D');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (90,0,'vtiger_knowledgebase:subject:subject:KnowledgeBase_subject:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (90,1,'vtiger_knowledgebase:number:number:KnowledgeBase_FL_NUMBER:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (90,0,'u_yf_knowledgebase:subject:subject:KnowledgeBase_FL_SUBJECT:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (90,1,'u_yf_knowledgebase:number:number:KnowledgeBase_FL_NUMBER:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (90,2,'vtiger_crmentity:createdtime:createdtime:KnowledgeBase_Created_Time:DT');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (90,3,'vtiger_crmentity:smownerid:assigned_user_id:KnowledgeBase_Assigned_To:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (91,0,'u_yf_istorages:subject:subject:IStorages_FL_SUBJECT:V');
@@ -2103,7 +2103,7 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (98
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (99,0,'u_yf_istn:subject:subject:ISTN_FL_SUBJECT:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (99,2,'u_yf_istn:number:number:ISTN_FL_NUMBER:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (99,3,'vtiger_crmentity:smownerid:assigned_user_id:ISTN_Assigned_To:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (99,4,'u_yf_istn:estimated_date:estimated_date:ISTN_FL_ESITMATED_DATE:D');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (99,4,'u_yf_istn:estimated_date:estimated_date:ISTN_FL_ESTIMATED_DATE:D');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (99,5,'vtiger_crmentity:createdtime:createdtime:ISTN_Created_Time:DT');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (100,0,'u_yf_istrn:subject:subject:ISTRN_FL_SUBJECT:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (100,1,'u_yf_istrn:vendorid:vendorid:ISTRN_FL_VENDOR:V');
