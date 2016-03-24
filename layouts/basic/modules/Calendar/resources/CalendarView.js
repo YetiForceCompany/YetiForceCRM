@@ -222,6 +222,15 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.createAddSwitch();
 		thisInstance.registerListViewButton();
+		thisInstance.registerSlimScroll();
+	},
+	registerSlimScroll: function(){
+		var calendarContainer = $('.bodyContents');
+		app.showScrollBar(calendarContainer,{
+			railVisible: true,
+			alwaysVisible: true,
+			position: 'left'
+		});
 	},
 	getValuesFromSelect2: function (element, data, text) {
 		if (element.hasClass('select2-hidden-accessible')) {
