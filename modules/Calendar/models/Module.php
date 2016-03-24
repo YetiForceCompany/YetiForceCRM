@@ -489,7 +489,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$moduleModel = self::getInstance('Calendar');
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails');
+		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail');
 		if ($activityReminder != '') {
 			$currentTime = time();
 			$date = date('Y-m-d', strtotime("+$activityReminder seconds", $currentTime));

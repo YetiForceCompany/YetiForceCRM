@@ -30,7 +30,7 @@ class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails');
+		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail');
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORDS', $recordModels);
