@@ -261,7 +261,6 @@ class Vtiger_Util_Helper
 			'ticketpriorities' => 'ticketpriorities_id',
 			'ticketseverities' => 'ticketseverities_id',
 			'ticketstatus' => 'ticketstatus_id',
-			'ticketcategories' => 'ticketcategories_id',
 			'salutationtype' => 'salutationid',
 			'faqstatus' => 'faqstatus_id',
 			'faqcategories' => 'faqcategories_id',
