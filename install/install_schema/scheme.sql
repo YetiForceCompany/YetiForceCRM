@@ -5156,7 +5156,6 @@ CREATE TABLE `vtiger_inventoryproductrel` (
   `purchase` decimal(10,2) DEFAULT NULL,
   `margin` decimal(10,2) DEFAULT NULL,
   `marginp` decimal(10,2) DEFAULT NULL,
-  `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`lineitem_id`),
   KEY `inventoryproductrel_id_idx` (`id`),
   KEY `inventoryproductrel_productid_idx` (`productid`)
