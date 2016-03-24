@@ -423,12 +423,12 @@ class QueryGenerator
 					$moduleList = $this->referenceFieldInfoList[$fieldName];
 					foreach ($moduleList as $module) {
 						if (empty($this->moduleNameFields[$module])) {
-							$meta = $this->getMeta($module);
+							$this->getMeta($module);
 						}
 					}
 				} elseif (in_array($fieldName, $this->ownerFields)) {
-					$meta = $this->getMeta('Users');
-					$meta = $this->getMeta('Groups');
+					$this->getMeta('Users');
+					$this->getMeta('Groups');
 				}
 			}
 

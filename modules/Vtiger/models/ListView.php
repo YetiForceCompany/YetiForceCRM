@@ -265,7 +265,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$listViewContoller = $this->get('listview_controller');
 
 		$this->loadListViewCondition($moduleName);
-
+		$listOrder = $this->getListViewOrderBy();
+		
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
 			$listQuery .= ' AND vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
@@ -280,7 +281,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		$listQuery .= $this->getListViewOrderBy();
+		$listQuery .= $listOrder;
 		$pageLimit = $pagingModel->getPageLimit();
 		$startIndex = $pagingModel->getStartIndex();
 
@@ -384,9 +385,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 	function getQuery()
 	{
-		$queryGenerator = $this->get('query_generator');
-		$listQuery = $queryGenerator->getQuery();
-		return $listQuery;
+		return $this->get('query_generator')->getQuery();
 	}
 
 	/**
