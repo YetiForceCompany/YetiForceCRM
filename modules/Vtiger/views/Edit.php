@@ -55,19 +55,8 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		if (!empty($record) && $request->get('isDuplicate') == true) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
-			$recordModel->set('id', '');
-			//While Duplicating record, If the related record is deleted then we are removing related record info in record model
-			$mandatoryFieldModels = $recordModel->getModule()->getMandatoryFieldModels();
-			foreach ($mandatoryFieldModels as $fieldModel) {
-				if ($fieldModel->isReferenceField()) {
-					$fieldName = $fieldModel->get('name');
-					if (Vtiger_Util_Helper::checkRecordExistance($recordModel->get($fieldName))) {
-						$recordModel->set($fieldName, '');
-					}
-				}
-			}
+			$recordModel = $this->getDuplicate($record, $moduleName);
 		} else if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('RECORD_ID', $record);
@@ -151,6 +140,23 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
+	}
+
+	function getDuplicate($record, $moduleName)
+	{
+		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$recordModel->set('id', '');
+		//While Duplicating record, If the related record is deleted then we are removing related record info in record model
+		$mandatoryFieldModels = $recordModel->getModule()->getMandatoryFieldModels();
+		foreach ($mandatoryFieldModels as $fieldModel) {
+			if ($fieldModel->isReferenceField()) {
+				$fieldName = $fieldModel->get('name');
+				if (Vtiger_Util_Helper::checkRecordExistance($recordModel->get($fieldName))) {
+					$recordModel->set($fieldName, '');
+				}
+			}
+		}
+		return $recordModel;
 	}
 
 	/**
