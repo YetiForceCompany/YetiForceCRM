@@ -566,7 +566,7 @@ class QueryGenerator
 				$tableList[$baseTable] = $field->getTableName();
 				$tableJoinMapping[$baseTable] = $this->meta->getJoinClause($field->getTableName());
 			}
-			if ($field->getFieldDataType() == 'reference') {
+			if (in_array($field->getFieldDataType(),Vtiger_Field_Model::$REFERENCE_TYPES)) {
 				$moduleList = $this->referenceFieldInfoList[$fieldName];
 				// This is special condition as the data is not stored in the base table, 
 				$tableJoinMapping[$field->getTableName()] = 'INNER JOIN';
