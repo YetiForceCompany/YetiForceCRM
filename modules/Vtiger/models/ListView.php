@@ -266,7 +266,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 		$this->loadListViewCondition($moduleName);
 		$listOrder = $this->getListViewOrderBy();
-		
+
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
 			$listQuery .= ' AND vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
@@ -292,7 +292,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$_SESSION['lvs'][$moduleName][$viewid]['start'] = $pagingModel->get('page');
 
 		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
-		
+
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
 		$listResult = $db->query($listQuery);
 
@@ -401,7 +401,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if ($instance) {
 			return $instance;
 		}
-		
+
 		$db = PearDatabase::getInstance();
 		$currentUser = vglobal('current_user');
 
@@ -559,7 +559,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
-				'linkclass' => 'addButton',
+				'linkclass' => 'addButton moduleColor_' . $moduleModel->getName(),
 				'linkicon' => ''
 			];
 		}
