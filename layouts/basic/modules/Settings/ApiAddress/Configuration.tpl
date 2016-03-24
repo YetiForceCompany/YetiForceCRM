@@ -12,9 +12,9 @@
 <div class="" id="menuEditorContainer">
     <div class="widget_header row">
         <div class="col-md-12">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-		{vtranslate('LBL_API_ADDRESS_DESCRIPTION', $MODULENAME)}
-	</div>
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{vtranslate('LBL_API_ADDRESS_DESCRIPTION', $MODULENAME)}
+		</div>
     </div>
     <hr>
 	<div class="main_content">
@@ -74,11 +74,11 @@
 				</div>
 				{foreach from=$CONFIG item=item key=key}
 					{if $key neq 'global'}
-					<div class="hide api_row {$key}">
-						<div colspan="2" style="padding-top: 10px;">
-							{include file=vtemplate_path($key|cat:'.tpl', $MODULENAME) API_INFO=$item API_NAME=$key}
-						</div>
-					{/if}
+						<div class="{if !$item["key"]}hide{/if} api_row {$key}">
+							<div colspan="2" style="padding-top: 10px;">
+								{include file=vtemplate_path($key|cat:'.tpl', $MODULENAME) API_INFO=$item API_NAME=$key}
+							</div>
+						{/if}
 					</div>
 				{/foreach}
 
