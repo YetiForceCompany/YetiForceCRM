@@ -6517,6 +6517,7 @@ insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (92,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (93,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (94,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (95,1);
+insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (96,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (97,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (98,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (99,1);
@@ -6528,6 +6529,8 @@ insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (104,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (105,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (106,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (107,1);
+insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (108,1);
+insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (109,1);
 
 /*Data for the table `vtiger_module_dashboard` */
 
