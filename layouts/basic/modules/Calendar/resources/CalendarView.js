@@ -617,18 +617,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if (keys.length > 0) {
 			var alert = $('#moduleCacheAlert');
 			$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
-				var a = [];
-				$.each(keys, function (index, value) {
-					var element = $('#' + value);
-					if (element.length && element.is("[title]")) {
-						a.push(element.attr('title'));
-					} else if (value == 'start' || value == 'start') {
-						a.push(app.vtranslate('JS_CHANGED_DATE'));
-					} else if (value == 'defaultView') {
-						a.push(app.vtranslate('JS_CHANGED_VIEW'));
-					}
-				});
-				alert.removeClass('hide').find('.selectedFilters').html(a.join(','));
+				alert.removeClass('hide');
 			});
 			alert.find('.cacheClear').click(function (e) {
 				app.moduleCacheClear();

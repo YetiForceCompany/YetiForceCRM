@@ -69,8 +69,7 @@
 			<span aria-hidden="true">&times;</span>
 		</button>
 		{vtranslate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}&nbsp;
-		<span class="selectedFilters"></span>&nbsp;
-		<button type="button" class="pull-right btn btn-default btn-xs marginRight10 cacheClear">{vtranslate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
+		<button type="button" class="pull-right btn btn-warning btn-xs marginRight10 cacheClear">{vtranslate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
 	</div>
 	<div class="bottom_margin">
 		<p><!-- Divider --></p>
