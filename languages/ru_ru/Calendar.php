@@ -161,8 +161,8 @@ $languageStrings = [
 	'LBL_INVITE_USER_BLOCK' => 'Пригласить',
 	'LBL_CALENDAR_FILTERS' => 'Filters',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Fill the start date based on the first available date',
-	'LBL_CACHE_SELECTED_FILTERS' => 'Active filters:',
-	'LBL_CACHE_CLEAR' => 'Clear filters',
+	'LBL_CACHE_SELECTED_FILTERS' => 'Standard view in calendar changed. Click "Clear view" to clear it.',
+	'LBL_CACHE_CLEAR' => 'Clear view',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => '+ Событие | Задача',
@@ -300,6 +300,4 @@ $jsLanguageStrings = [
 	'JS_SWITCHING_DAYS' => 'Switch days ',
 	'JS_ALL' => 'All',
 	'JS_WORK_DAYS' => 'Work days',
-	'JS_CHANGED_VIEW' => 'View',
-	'JS_CHANGED_DATE' => 'Date',
 ];
