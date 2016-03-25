@@ -29,12 +29,12 @@ Vtiger_List_Js("Rss_List_Js",{},
      */
     showRssAddForm : function() {
         var thisInstance = this;
-        var progressInstance = jQuery.progressIndicator();
+        var progressInstance = jQuery.progressIndicator({});
         thisInstance.getRssAddFormUi().then(function(data) {
             var resetPasswordUi = jQuery('.rssAddFormContainer').find('#rssAddFormUi');
             if(resetPasswordUi.length > 0){
                 resetPasswordUi = resetPasswordUi.clone(true,true);
-                progressInstance.hide();
+                progressInstance.progressIndicator({'mode': 'hide'})
                 var callBackFunction = function(data) {
                     var params = app.validationEngineOptions;
                     var form = data.find('#rssAddForm');

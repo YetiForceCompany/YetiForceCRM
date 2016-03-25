@@ -11,6 +11,7 @@
 -->*}
 {strip}
 <input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
+{include file='SideBarLinks.tpl'|@vtemplate_path:$MODULE}
 <div class="listViewEntriesDiv">
 	<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
 		<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
