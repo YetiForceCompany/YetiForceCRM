@@ -13,8 +13,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 		var thisInstance = this;
 		content.find('.save').on('click', function () {
 			var elements = {};
-
-			jQuery(this).parents('table:first').find('.api').each(function () {
+			jQuery(this).closest('.apiContainer').find('.api').each(function () {
 				var name = jQuery(this).attr('name');
 
 				if (jQuery(this).attr('type') == 'checkbox') {
@@ -23,9 +22,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 					elements[name] = jQuery(this).val();
 				}
 			});
-
-			elements['api_name'] = jQuery(this).parents('table').data('api-name');
-
+			elements['api_name'] = jQuery(this).closest('.apiContainer').find('.apiAdrress').data('api-name');
 			// validate fields
 			if (!thisInstance.registerValidate(elements)) {
 				return false;
@@ -69,7 +66,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 	registerRemoveConnection: function (content) {
 		var thisInstance = this;
 		content.find('.delete').on('click', function () {
-			var elements = {'key': '0', 'nominatim': '0', api_name: jQuery(this).parents('table').data('api-name')};
+			var elements = {'key': '0', 'nominatim': '0', api_name: jQuery(this).closest('.apiContainer').find('.apiAdrress').data('api-name')};
 			var params = {}
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
@@ -136,6 +133,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			}
 		}
 		return status;
+		
 	},
 	registerValidatemin_lenght: function (val) {
 		var filter = /^\d+$/;
@@ -184,9 +182,3 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 		thisInstance.registerRemoveConnection(content);
 	}
 });
-/*
- jQuery(document).ready(function () {
- var dc = new ApiAddress();
- dc.registerEvents();
- })
- */
