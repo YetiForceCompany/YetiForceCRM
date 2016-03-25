@@ -4580,7 +4580,8 @@ html,body,.baseContainer
 		height: 100%;
 		border-right:1px solid #ddd;
 	}
-	.quickCreateContent .fieldLabel{
+	.quickCreateContent .fieldLabel,
+	.detailViewTable .fieldsLabelValue .fieldLabel{
 		border-right: 1px solid #ddd;
 	}
 	.fieldsLabelValue::before{
@@ -5061,7 +5062,6 @@ html,body,.baseContainer
     left: 0px;
     height: 100%;
     border-right: 1px solid #ddd;
-	z-index: 10;
 }
 select.form-control {
 	padding-right: 0;

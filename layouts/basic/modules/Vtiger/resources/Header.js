@@ -221,6 +221,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			}
 			thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
 			thisInstance.toggleTimesInputs(quickCreateForm);
+			thisInstance.registerHelpInfo(quickCreateForm);
 			var quickCreateContent = quickCreateForm.find('.quickCreateContent');
 			var quickCreateContentHeight = quickCreateContent.height();
 			var contentHeight = parseInt(quickCreateContentHeight);
