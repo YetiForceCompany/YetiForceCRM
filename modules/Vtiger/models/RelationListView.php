@@ -196,6 +196,40 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		return $addLinkModel;
 	}
 
+	public function getRelationListViewOrderBy($query)
+	{
+		$orderBy = $this->getForSql('orderby');
+		$sortOrder = $this->getForSql('sortorder');
+		if ($orderBy) {
+			$relationModule = $this->getRelationModel()->getRelationModuleModel();
+			$orderByFieldModuleModel = $relationModule->getFieldByColumn($orderBy);
+			if ($orderByFieldModuleModel && $orderByFieldModuleModel->isReferenceField()) {
+				//If reference field then we need to perform a join with crmentity with the related to field
+				$queryComponents = explode('where ', $query);
+				$queryComponents = count($queryComponents) == 2 ? $queryComponents : explode('WHERE ', $query);
+				$selectAndFromClause = $queryComponents[0];
+				$whereCondition = $queryComponents[1];
+				$qualifiedOrderBy = 'vtiger_crmentity' . $orderByFieldModuleModel->get('column');
+				$selectAndFromClause .= ' LEFT JOIN vtiger_crmentity AS ' . $qualifiedOrderBy . ' ON ' .
+					$orderByFieldModuleModel->get('table') . '.' . $orderByFieldModuleModel->get('column') . ' = ' .
+					$qualifiedOrderBy . '.crmid ';
+				$query = $selectAndFromClause . ' WHERE ' . $whereCondition;
+				$query .= ' ORDER BY ' . $qualifiedOrderBy . '.label ' . $sortOrder;
+			} elseif ($orderByFieldModuleModel && $orderByFieldModuleModel->isOwnerField()) {
+				$query .= ' ORDER BY COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname) ' . $sortOrder;
+			} else {
+				// Qualify the the column name with table to remove ambugity
+				$qualifiedOrderBy = $orderBy;
+				$orderByField = $relationModule->getFieldByColumn($orderBy);
+				if ($orderByField) {
+					$qualifiedOrderBy = $relationModule->getOrderBySql($qualifiedOrderBy);
+				}
+				$query = "$query ORDER BY $qualifiedOrderBy $sortOrder";
+			}
+		}
+		return $query;
+	}
+
 	public function getEntries($pagingModel)
 	{
 		$db = PearDatabase::getInstance();
@@ -222,37 +256,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if ($this->get('whereCondition')) {
 			$query = $this->updateQueryWithWhereCondition($query);
 		}
-
+		$query = $this->getRelationListViewOrderBy($query);
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 
-		$orderBy = $this->getForSql('orderby');
-		$sortOrder = $this->getForSql('sortorder');
-		if ($orderBy) {
-			$orderByFieldModuleModel = $relationModule->getFieldByColumn($orderBy);
-			if ($orderByFieldModuleModel && $orderByFieldModuleModel->isReferenceField()) {
-				//If reference field then we need to perform a join with crmentity with the related to field
-				$queryComponents = $split = explode(' where ', $query);
-				$selectAndFromClause = $queryComponents[0];
-				$whereCondition = $queryComponents[1];
-				$qualifiedOrderBy = 'vtiger_crmentity' . $orderByFieldModuleModel->get('column');
-				$selectAndFromClause .= ' LEFT JOIN vtiger_crmentity AS ' . $qualifiedOrderBy . ' ON ' .
-					$orderByFieldModuleModel->get('table') . '.' . $orderByFieldModuleModel->get('column') . ' = ' .
-					$qualifiedOrderBy . '.crmid ';
-				$query = $selectAndFromClause . ' WHERE ' . $whereCondition;
-				$query .= ' ORDER BY ' . $qualifiedOrderBy . '.label ' . $sortOrder;
-			} elseif ($orderByFieldModuleModel && $orderByFieldModuleModel->isOwnerField()) {
-				$query .= ' ORDER BY COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname) ' . $sortOrder;
-			} else {
-				// Qualify the the column name with table to remove ambugity
-				$qualifiedOrderBy = $orderBy;
-				$orderByField = $relationModule->getFieldByColumn($orderBy);
-				if ($orderByField) {
-					$qualifiedOrderBy = $relationModule->getOrderBySql($qualifiedOrderBy);
-				}
-				$query = "$query ORDER BY $qualifiedOrderBy $sortOrder";
-			}
-		}
 		$limitQuery = $query . ' LIMIT ' . $startIndex . ',' . $pageLimit;
 		$result = $db->query($limitQuery);
 		$relatedRecordList = [];
