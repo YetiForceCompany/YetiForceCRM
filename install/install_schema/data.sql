@@ -1510,6 +1510,8 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (16,'Activity state','modules/Calendar/cron/ActivityState.php',1800,NULL,NULL,1,'Calendar',14,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (17,'LBL_MULTI_REFERENCE_VALUE','cron/MultiReference.service',900,NULL,NULL,1,'com_vtiger_workflow',15,NULL);
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (18,'LBL_CRMACTIVITY_DAYS','modules/Calendar/cron/SetCrmActivity.php',86400,NULL,NULL,1,'Calendar',16,'');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (19,'Assets Renewal','modules/Assets/cron/Renewal.php',86400,NULL,NULL,1,'Assets',17,'');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (20,'SoldServices Renewal','modules/OSSSoldServices/cron/Renewal.php',86400,NULL,NULL,1,'OSSSoldServices',18,'');
 
 /*Data for the table `vtiger_currencies` */
 
