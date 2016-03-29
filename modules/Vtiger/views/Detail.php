@@ -384,16 +384,22 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel);
 		$pagingModel->calculatePageRange($recentActivities);
 
-		if ($pagingModel->getCurrentPage() == ModTracker_Record_Model::getTotalRecordCount($parentRecordId) / $pagingModel->getPageLimit()) {
+		if ($pagingModel->getCurrentPage() == ceil(ModTracker_Record_Model::getTotalRecordCount($parentRecordId) / $pagingModel->getPageLimit())) {
 			$pagingModel->set('nextPageExists', false);
+		} else {
+			$pagingModel->set('nextPageExists', true);
 		}
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-
-		echo $viewer->view('RecentActivities.tpl', $moduleName, 'true');
+		$defaultView = AppConfig::main('defaultViewInHistory');
+		if($defaultView == 'List'){
+			$tplName = 'RecentActivities.tpl';
+		} else {
+			$tplName = 'RecentActivitiesTimeLine.tpl';
+		}
+		echo $viewer->view($tplName, $moduleName, 'true');
 	}
 
 	/**
