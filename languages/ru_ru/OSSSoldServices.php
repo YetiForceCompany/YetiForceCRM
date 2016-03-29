@@ -10,15 +10,13 @@
  * Contributor(s): 
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_RECORDS_LIST' => 'Список Услуг',
-	'LBL_ADD_RECORD' => 'Услуга',
-	'Services' => 'Услуги',
-	'Invoice' => 'Счет',
 	'OSSSoldServices' => 'Реализация Услуг',
 	'SINGLE_OSSSoldServices' => 'Реализация Услуг',
+	'LBL_RECORDS_LIST' => 'Список Услуг',
+	'LBL_ADD_RECORD' => 'Услуга',
+	// Blocks
 	'LBL_INFORMATION' => 'Основная информация',
-//fields
-	'Invoice number' => 'Счет',
+	// Field labels
 	'Number' => '№',
 	'Assigned To' => 'Ответственный',
 	'LBL_RODZAJUMOWY' => 'Тип соглашения',
@@ -32,21 +30,19 @@ $languageStrings = [
 	'LBL_DESCRIPTION_INFORMATION' => 'Описание',
 	'LBL_CUSTOM_INFORMATION' => 'Дополнительная информация',
 	'Where bought' => 'Где купил',
-	'Number' => '№',
+	'Services' => 'Услуги',
 	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'LBL_ORDER_TIME' => 'Время Заказа',
+	'FL_RENEWAL_INVOICE' => 'Renewal invoice',
+	// picklist values
 	'FL_RENEWAL' => 'Renewal',
-	
 	'PLL_DRAFT'=>'Draft',
 	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
 	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
 	'PLL_ACCEPTED'=>'Accepted',
 	'PLL_CANCELLED'=>'Cancelled',
-	
 	'PLL_PLANNED'=>'Planned',
 	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
-	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
-	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
 	'PLL_RENEWED'=>'Renewed',
 	'PLL_NOT_RENEWED'=>'Not renewed',
 	'PLL_NOT_APPLICABLE'=>'Not applicable',
