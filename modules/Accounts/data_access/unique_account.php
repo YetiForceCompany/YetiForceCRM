@@ -16,7 +16,7 @@ Class DataAccess_unique_account
 
 	var $config = false;
 
-	public function process($moduleName, $iD, $recordForm, $config)
+	public function process($moduleName, $ID, $recordForm, $config)
 	{
 		$db = PearDatabase::getInstance();
 		$params = [];
@@ -24,37 +24,37 @@ Class DataAccess_unique_account
 		$save = true;
 		$where = '';
 		$hierarchyCheck = false;
-		if ($iD != 0 && $iD != '' && !array_key_exists('vat_id', $recordForm)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($iD, $moduleName);
+		if ($ID != 0 && $ID != '' && !array_key_exists('vat_id', $recordForm)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
 			$vatId = $recordModel->get('vat_id');
 		} else {
 			if (array_key_exists('vat_id', $recordForm))
 				$vatId = $recordForm['vat_id'];
 		}
-		if ($iD != 0 && $iD != '' && !array_key_exists('accountname', $recordForm)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($iD, $moduleName);
+		if ($ID != 0 && $ID != '' && !array_key_exists('accountname', $recordForm)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
 			$accountName = $recordModel->get('accountname');
 		} else {
 			if (array_key_exists('accountname', $recordForm))
 				$accountName = $recordForm['accountname'];
 		}
-		
+
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$hierarchyField = Vtiger_Field_Model::getInstance('account_id', $moduleModel);
 		if ($hierarchyField->isActiveField()) {
 			if (array_key_exists('account_id', $recordForm))
 				$hierarchyValue = $recordForm['account_id'];
-			elseif ($iD != 0 && $iD != '' && !array_key_exists('account_id', $recordForm)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($iD, $moduleName);
+			elseif ($ID != 0 && $ID != '' && !array_key_exists('account_id', $recordForm)) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
 				$hierarchyValue = $recordModel->get('account_id');
 			}
 			if ($hierarchyValue) {
-				$hierarchyAll = $this->getHierarchy($hierarchyValue, $moduleName, $iD);
-			} elseif ($iD) {
-				$hierarchyAll = $this->getHierarchy($iD, $moduleName, $iD);
+				$hierarchyAll = $this->getHierarchy($hierarchyValue, $moduleName, $ID);
+			} elseif ($ID) {
+				$hierarchyAll = $this->getHierarchy($ID, $moduleName, $ID);
 			}
 		}
-		
+
 		if ($vatId) {
 			$params[] = $vatId;
 			$where .= ' vat_id = ?';
@@ -62,11 +62,11 @@ Class DataAccess_unique_account
 			$params[] = $accountName;
 			$where .= ' accountname = ?';
 		}
-		if ($iD != 0 && $iD != '') {
-			$params[] = $iD;
+		if ($ID != 0 && $ID != '') {
+			$params[] = $ID;
 			$where .= ' AND accountid <> ?';
 		}
-		
+
 		if ($hierarchyAll && $vatId) {
 			$hierarchyParams = array_merge($params, array_keys($hierarchyAll));
 			$hierarchyQuery = 'SELECT accountid,accountname FROM vtiger_account WHERE ' . $where . ' AND accountid IN (' . $db->generateQuestionMarks($hierarchyAll) . ')';
@@ -92,29 +92,31 @@ Class DataAccess_unique_account
 				$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $id . '"><strong>' . Vtiger_Functions::getCRMRecordLabel($id) . '</strong></a> (' . Vtiger_Functions::getOwnerRecordLabel($metaData['smownerid']) . ')' . $deletedLabel . ',</li>';
 			}
 		}
-		
-		if ($save === true && empty($recordForm['account_id']) === false && $iD > 0) {
-			if ($hierarchyValue) {
-				$hierarchyAll = $this->getHierarchy($iD, $moduleName, $iD);
+		if ($save === true && empty($recordForm['account_id']) === false && $ID > 0) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
+			$hierarchyValueOld = $recordModel->get('account_id');
+			if ($hierarchyValueOld != $recordForm['account_id']) {
+				$hierarchyAll = $this->getHierarchy($recordForm['account_id'], $moduleName, '');
+				if (array_key_exists($ID, $hierarchyAll) === true) {
+					return [
+						'save_record' => false,
+						'type' => 0,
+						'info' => [
+							'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+							'text' => vtranslate('LBL_PARENT_IS_CHILD', $moduleName),
+							'type' => 'error'
+						]
+					];
+				}
 			}
-			if (array_key_exists($recordForm['account_id'], $hierarchyAll) === true) {
-				return [
-					'save_record' => false,
-					'type' => 0,
-					'info' => [
-						'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-						'text' => vtranslate('LBL_PARENT_IS_CHILD', $moduleName),
-						'type' => 'error'
-					]
-				];
-			}
-		} elseif ($save === false) {
+		}
+		if ($save === false) {
 			$permission = Users_Privileges_Model::isPermitted($moduleName, 'DuplicateRecord');
 			$text = '<div class="marginLeft10">' . vtranslate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
 
 			if ($permission) {
 				$title = '<strong>' . vtranslate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
-				if (!empty($iD)) {
+				if (!empty($ID)) {
 					$text .= '<form class="form-horizontal"><div class="checkbox">
 							<label>
 								<input type="checkbox" name="cache"> ' . vtranslate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
@@ -135,7 +137,7 @@ Class DataAccess_unique_account
 				]
 			];
 		} else {
-			return Array('save_record' => true);
+			return ['save_record' => true];
 		}
 	}
 
