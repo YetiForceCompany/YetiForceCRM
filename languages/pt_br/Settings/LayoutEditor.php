@@ -33,6 +33,7 @@ $languageStrings = [
 	'LBL_DELETE_CUSTOM_BLOCK' => 'Apagar Bloco Customizado',
 	'LBL_DETAILVIEW_LAYOUT' => 'Layout Detalhes Visualização',
 	'LBL_DUPLICATE_FIELD_EXISTS' => 'Duplicar Campo Existente',
+	'LBL_FIELD_NAME_IS_RESERVED' => 'Field name is reserved',
 	'LBL_DUPLICATES_EXIST' => 'Nome do Bloco já existe',
 	'LBL_INVALIDCHARACTER' => 'Digitado caracter ilegal',
 	'LBL_ENTER_PICKLIST_VALUES' => 'Digite Valores da Lista Opções..',

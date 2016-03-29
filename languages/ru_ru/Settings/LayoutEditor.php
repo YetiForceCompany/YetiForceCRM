@@ -39,6 +39,7 @@ $languageStrings = [
 	'LBL_DELETE_CUSTOM_BLOCK' => 'Удалить блок',
 	'LBL_DETAILVIEW_LAYOUT' => 'Подробный вид',
 	'LBL_DUPLICATE_FIELD_EXISTS' => 'Такое поле уже существует',
+	'LBL_FIELD_NAME_IS_RESERVED' => 'Field name is reserved',
 	'LBL_DUPLICATES_EXIST' => 'Блок с таким именем уже существует',
 	'LBL_INVALIDCHARACTER' => 'Введен недопустимый символ',
 	'LBL_ENTER_PICKLIST_VALUES' => 'Введите значения списка...',

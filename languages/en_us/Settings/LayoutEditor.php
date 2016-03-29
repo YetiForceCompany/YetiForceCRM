@@ -33,6 +33,7 @@ $languageStrings = [
 	'LBL_DELETE_CUSTOM_BLOCK' => 'Delete custom block',
 	'LBL_DETAILVIEW_LAYOUT' => 'Detail view layout',
 	'LBL_DUPLICATE_FIELD_EXISTS' => 'Duplicated field exists',
+	'LBL_FIELD_NAME_IS_RESERVED' => 'Field name is reserved',
 	'LBL_DUPLICATES_EXIST' => 'Block name already exists',
 	'LBL_INVALIDCHARACTER' => 'Entered illegal character',
 	'LBL_ENTER_PICKLIST_VALUES' => 'Enter picklist values...',
