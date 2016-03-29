@@ -9,9 +9,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
-	'PLL_DRAFT' => 'Draft',
 	// Basic Strings
-	'Assets'        => 'Assets',
+	'Assets' => 'Assets',
 	'SINGLE_Assets' => 'Asset',
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_RECORDS_LIST' => 'Assets List',
