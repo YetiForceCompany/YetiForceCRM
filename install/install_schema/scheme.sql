@@ -1024,6 +1024,8 @@ CREATE TABLE `u_yf_fcorectinginvoice_inventory` (
   `taxparam` varchar(255) NOT NULL,
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `unit` varchar(255) DEFAULT NULL,
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_fcorectinginvoice_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_fcorectinginvoice` (`fcorectinginvoiceid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1043,7 +1045,7 @@ CREATE TABLE `u_yf_fcorectinginvoice_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_fcorectinginvoice_invmap` */
 
@@ -1131,6 +1133,8 @@ CREATE TABLE `u_yf_finvoice_inventory` (
   `currency` int(10) DEFAULT NULL,
   `currencyparam` varchar(200) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `unit` varchar(255) DEFAULT NULL,
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_finvoice_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_finvoice` (`finvoiceid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1150,7 +1154,7 @@ CREATE TABLE `u_yf_finvoice_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoice_invmap` */
 
@@ -1237,6 +1241,8 @@ CREATE TABLE `u_yf_finvoiceproforma_inventory` (
   `gross` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `comment1` varchar(500) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `unit` varchar(255) DEFAULT NULL,
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_finvoiceproforma_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_finvoiceproforma` (`finvoiceproformaid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1256,7 +1262,7 @@ CREATE TABLE `u_yf_finvoiceproforma_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoiceproforma_invmap` */
 
@@ -2096,6 +2102,8 @@ CREATE TABLE `u_yf_scalculations_inventory` (
   `marginp` decimal(27,8) DEFAULT '0.00000000',
   `margin` decimal(27,8) DEFAULT '0.00000000',
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `unit` varchar(255) DEFAULT NULL,
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_scalculations_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2115,7 +2123,7 @@ CREATE TABLE `u_yf_scalculations_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_scalculations_invmap` */
 
@@ -2161,6 +2169,8 @@ CREATE TABLE `u_yf_squoteenquiries_inventory` (
   `qty` decimal(25,3) NOT NULL DEFAULT '0.000',
   `comment1` varchar(500) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `unit` varchar(255) DEFAULT NULL,
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_squoteenquiries_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_squoteenquiries` (`squoteenquiriesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2180,7 +2190,7 @@ CREATE TABLE `u_yf_squoteenquiries_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squoteenquiries_invmap` */
 
@@ -2279,6 +2289,8 @@ CREATE TABLE `u_yf_squotes_inventory` (
   `currencyparam` varchar(200) DEFAULT NULL,
   `net` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `unit` varchar(255) DEFAULT NULL,
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_squotes_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_squotes` (`squotesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2298,7 +2310,7 @@ CREATE TABLE `u_yf_squotes_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squotes_invmap` */
 
@@ -2386,6 +2398,8 @@ CREATE TABLE `u_yf_srecurringorders_inventory` (
   `taxparam` varchar(255) NOT NULL,
   `comment1` varchar(500) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `unit` varchar(255) DEFAULT NULL,
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_srecurringorders_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_srecurringorders` (`srecurringordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2405,7 +2419,7 @@ CREATE TABLE `u_yf_srecurringorders_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_srecurringorders_invmap` */
 
@@ -2453,6 +2467,8 @@ CREATE TABLE `u_yf_srequirementscards_inventory` (
   `qty` decimal(25,3) NOT NULL DEFAULT '0.000',
   `comment1` varchar(500) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `unit` varchar(255) DEFAULT NULL,
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_srequirementscards_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_srequirementscards` (`srequirementscardsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2472,7 +2488,7 @@ CREATE TABLE `u_yf_srequirementscards_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_srequirementscards_invmap` */
 
@@ -2604,6 +2620,8 @@ CREATE TABLE `u_yf_ssingleorders_inventory` (
   `currency` int(10) DEFAULT NULL,
   `currencyparam` varchar(200) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
+  `unit` varchar(255) DEFAULT NULL,
+  `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
   CONSTRAINT `fk_1_u_yf_ssingleorders_inventory` FOREIGN KEY (`id`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2623,7 +2641,7 @@ CREATE TABLE `u_yf_ssingleorders_invfield` (
   `params` text,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ssingleorders_invmap` */
 
