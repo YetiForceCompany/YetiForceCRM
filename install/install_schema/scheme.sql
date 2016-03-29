@@ -1,9 +1,3 @@
-/*
-SQLyog Ultimate
-MySQL - 5.6.17 : Database - yetiforce
-*********************************************************************
-*/
-
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -4671,7 +4665,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2334 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2336 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6879,7 +6873,7 @@ CREATE TABLE `vtiger_products` (
   `cost_factor` int(11) DEFAULT NULL,
   `commissionrate` decimal(7,3) DEFAULT NULL,
   `commissionmethod` varchar(50) DEFAULT NULL,
-  `discontinued` int(1) NOT NULL DEFAULT '0',
+  `discontinued` tinyint(1) NOT NULL DEFAULT '0',
   `usageunit` varchar(200) DEFAULT NULL,
   `reorderlevel` int(11) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
@@ -6897,6 +6891,7 @@ CREATE TABLE `vtiger_products` (
   `taxes` varchar(50) DEFAULT NULL,
   `ean` varchar(30) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT '',
+  `renewable` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -7826,12 +7821,13 @@ CREATE TABLE `vtiger_service` (
   `sales_end_date` date DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `expiry_date` date DEFAULT NULL,
-  `discontinued` int(1) NOT NULL DEFAULT '0',
+  `discontinued` tinyint(1) NOT NULL DEFAULT '0',
   `service_usageunit` varchar(200) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
   `taxclass` varchar(200) DEFAULT NULL,
   `currency_id` int(19) NOT NULL DEFAULT '1',
   `commissionrate` decimal(7,3) DEFAULT NULL,
+  `renewable` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`serviceid`),
   CONSTRAINT `fk_1_vtiger_service` FOREIGN KEY (`serviceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
