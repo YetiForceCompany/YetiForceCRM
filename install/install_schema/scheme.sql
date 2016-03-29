@@ -3000,10 +3000,12 @@ CREATE TABLE `vtiger_assets` (
   `pscategory` varchar(255) DEFAULT '',
   `ssalesprocessesid` int(19) DEFAULT NULL,
   `assets_renew` varchar(255) DEFAULT NULL,
+  `renewalinvoice` int(19) DEFAULT NULL,
   PRIMARY KEY (`assetsid`),
   KEY `parent_id` (`parent_id`),
   KEY `product` (`product`),
   KEY `ssalesprocessesid` (`ssalesprocessesid`),
+  KEY `renewalinvoice` (`renewalinvoice`),
   CONSTRAINT `fk_1_vtiger_assets` FOREIGN KEY (`assetsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4665,7 +4667,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2336 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2338 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6448,10 +6450,12 @@ CREATE TABLE `vtiger_osssoldservices` (
   `ordertime` decimal(10,2) DEFAULT NULL,
   `ssalesprocessesid` int(19) DEFAULT NULL,
   `osssoldservices_renew` varchar(255) DEFAULT NULL,
+  `renewalinvoice` int(19) DEFAULT NULL,
   PRIMARY KEY (`osssoldservicesid`),
   KEY `parent_id` (`parent_id`),
   KEY `serviceid` (`serviceid`),
   KEY `ssalesprocessesid` (`ssalesprocessesid`),
+  KEY `renewalinvoice` (`renewalinvoice`),
   CONSTRAINT `fk_1_vtiger_osssoldservices` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
