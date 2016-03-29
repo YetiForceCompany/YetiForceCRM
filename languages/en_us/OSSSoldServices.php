@@ -10,15 +10,13 @@
  * Contributor(s): 
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_RECORDS_LIST' => 'Records List',
-	'LBL_ADD_RECORD' => 'Add record',
-	'Services' => 'Services',
-	'Invoice' => 'Invoice',
 	'OSSSoldServices' => 'Sold Services',
 	'SINGLE_OSSSoldServices' => 'Sold Service',
+	'LBL_RECORDS_LIST' => 'Records List',
+	'LBL_ADD_RECORD' => 'Add record',
+	// Blocks
 	'LBL_INFORMATION' => 'Information block',
-//fields
-	'Invoice number' => 'Invoice no.',
+	// Field Labels
 	'Number' => 'Number',
 	'Assigned To' => 'Assigned to',
 	'LBL_RODZAJUMOWY' => 'Type of agreement',
@@ -32,9 +30,11 @@ $languageStrings = [
 	'LBL_DESCRIPTION_INFORMATION' => 'Descriptive information',
 	'LBL_CUSTOM_INFORMATION' => 'System information',
 	'Where bought' => 'Where bought',
-	'Number' => 'Number',
+	'Services' => 'Services',
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',
 	'LBL_ORDER_TIME' => 'Order time',
+	'FL_RENEWAL_INVOICE' => 'Renewal invoice',
+	// picklist values
 	'FL_RENEWAL' => 'Renewal',
 	'PLL_DRAFT' => 'Draft',
 	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
@@ -43,8 +43,6 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_PLANNED' => 'Planned',
 	'PLL_WAITING_FOR_RENEWAL' => 'Waiting for renewal',
-	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
-	'PLL_WAITING_FOR_ACCEPTANCE' => 'Waiting for acceptance',
 	'PLL_RENEWED' => 'Renewed',
 	'PLL_NOT_RENEWED' => 'Not renewed',
 	'PLL_NOT_APPLICABLE' => 'Not applicable',
