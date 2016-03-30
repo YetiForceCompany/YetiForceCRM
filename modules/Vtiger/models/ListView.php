@@ -328,14 +328,12 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 
 		$queryGenerator = $this->get('query_generator');
-
-
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
 			$searchParams = [];
 		}
 
-		$glue = "";
+		$glue = '';
 		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
 			$glue = QueryGenerator::$AND;
 		}
@@ -350,10 +348,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$moduleName = $this->getModule()->get('name');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-
-
 		$listQuery = $this->getQuery();
-
 
 		$sourceModule = $this->get('src_module');
 		if (!empty($sourceModule)) {
@@ -367,11 +362,10 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 		$position = stripos($listQuery, ' from ');
 		if ($position) {
-			$split = explode(' FROM ', $listQuery);
-			$splitCount = count($split);
+			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
-			for ($i = 1; $i < $splitCount; $i++) {
-				$listQuery = $listQuery . ' FROM ' . $split[$i];
+			for ($i = 1; $i < count($split); $i++) {
+				$listQuery .= ' FROM ' . $split[$i];
 			}
 		}
 
@@ -380,7 +374,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 
 		$listResult = $db->query($listQuery);
-		return $db->query_result($listResult, 0, 'count');
+		return $db->getSingleValue($listResult);
 	}
 
 	function getQuery()

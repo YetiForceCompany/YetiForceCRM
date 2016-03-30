@@ -165,16 +165,14 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model
 	public function getListViewCount()
 	{
 		$db = PearDatabase::getInstance();
-
 		$listQuery = $this->getQuery();
 
 		$position = stripos($listQuery, 'from');
 		if ($position) {
-			$split = explode('from', $listQuery);
-			$splitCount = count($split);
+			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
-			for ($i = 1; $i < $splitCount; $i++) {
-				$listQuery = $listQuery . ' FROM ' . $split[$i];
+			for ($i = 1; $i < count($split); $i++) {
+				$listQuery .= ' FROM ' . $split[$i];
 			}
 		}
 		$searchKey = $this->get('search_key');
@@ -184,7 +182,7 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model
 			$listQuery .= " WHERE $searchKey LIKE '$searchValue%'";
 		}
 
-		$listResult = $db->pquery($listQuery, array());
-		return $db->query_result($listResult, 0, 'count');
+		$listResult = $db->query($listQuery);
+		return $db->getSingleValue($listResult);
 	}
 }

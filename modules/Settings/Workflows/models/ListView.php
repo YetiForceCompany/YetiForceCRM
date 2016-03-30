@@ -125,7 +125,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 			$listQuery .= " WHERE module_name = '$sourceModule'";
 		}
 
-		$listResult = $db->pquery($listQuery, array());
-		return $db->query_result($listResult, 0, 'count');
+		$listResult = $db->query($listQuery);
+		return $db->getSingleValue($listResult);
 	}
 }

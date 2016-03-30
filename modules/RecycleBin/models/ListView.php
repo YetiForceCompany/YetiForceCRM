@@ -135,17 +135,15 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		$db = PearDatabase::getInstance();
 
 		$queryGenerator = $this->get('query_generator');
-
 		$listQuery = $queryGenerator->getQuery();
 		$listQuery = preg_replace("/vtiger_crmentity.deleted\s*=\s*0/i", 'vtiger_crmentity.deleted = 1', $listQuery);
 
 		$position = stripos($listQuery, ' from ');
 		if ($position) {
-			$split = explode(' from ', $listQuery);
-			$splitCount = count($split);
+			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
-			for ($i = 1; $i < $splitCount; $i++) {
-				$listQuery = $listQuery . ' FROM ' . $split[$i];
+			for ($i = 1; $i < count($split); $i++) {
+				$listQuery .= ' FROM ' . $split[$i];
 			}
 		}
 
@@ -153,8 +151,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 			$listQuery .= ' AND activitytype <> "Emails"';
 		}
 
-		$listResult = $db->pquery($listQuery, array());
-		$listViewCount = $db->query_result($listResult, 0, 'count');
-		return $listViewCount;
+		$listResult = $db->query($listQuery);
+		return $db->getSingleValue($listResult);
 	}
 }
