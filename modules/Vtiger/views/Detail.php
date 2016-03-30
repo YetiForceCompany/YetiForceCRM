@@ -379,6 +379,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
+		} else {
+			$limit = AppConfig::module('ModTracker','NUMBER_RECORDS_ON_PAGE');
+			$pagingModel->set('limit', $limit);
 		}
 
 		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel);
@@ -393,7 +396,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$defaultView = AppConfig::main('defaultViewInHistory');
+		$defaultView = AppConfig::module('ModTracker','DEFAULT_VIEW');
 		if($defaultView == 'List'){
 			$tplName = 'RecentActivities.tpl';
 		} else {
