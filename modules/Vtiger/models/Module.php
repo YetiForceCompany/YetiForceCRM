@@ -1920,7 +1920,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 					}
 				}
 			}
-			if ($relationField && ($moduleName != $sourceModule || in_array($sourceModule, ['Calendar']))) {
+			if ($relationField && ($moduleName != $sourceModule || ($_REQUEST && $_REQUEST['addRelation']))) {
 				$data[$relationField] = $sourceRecord;
 			}
 		}

@@ -22,7 +22,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 					}
 				});
 				var moduleName = 'Calendar';
-				var url = 'index.php?module=Calendar&view=QuickCreateAjax&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id');
+				var url = 'index.php?module=Calendar&view=QuickCreateAjax&addRelation=true&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id');
 				var params = {};
 				params.noCache = true;
 				var subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject');
