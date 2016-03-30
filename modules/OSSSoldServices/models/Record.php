@@ -49,7 +49,7 @@ class OSSSoldServices_Record_Model extends Vtiger_Record_Model
 		if ($dateRenewable > time()) {
 			return 'PLL_PLANNED';
 		}
-		if (strtotime("+1 month", $dateRenewable) > time()) {
+		if (strtotime('+1 month', $dateRenewable) > time()) {
 			return 'PLL_WAITING_FOR_RENEWAL';
 		}
 		return 'PLL_NOT_RENEWED';
