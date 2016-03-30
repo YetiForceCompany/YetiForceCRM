@@ -37,7 +37,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 						}
 					}
 					headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
-							if (data && data.success && currentTarget.data('type') == '0') {
+							if (data && data.success && data.result.followup.value == currentTarget.data('id')) {
 								thisInstance.updateActivityState(currentTarget);
 							}
 							var formData2 = {};

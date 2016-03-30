@@ -416,7 +416,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $this->get('name'));
 		$recordInstance = new $modelClassName();
-		if($rawData !== false) {
+		if ($rawData !== false) {
 			foreach ($this->getFields() as $field) {
 				$column = $field->get('column');
 				if (key_exists($column, $rawData)) {
@@ -1920,7 +1920,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 					}
 				}
 			}
-			if ($relationField && $moduleName != $sourceModule) {
+			if ($relationField && ($moduleName != $sourceModule || in_array($sourceModule, ['Calendar']))) {
 				$data[$relationField] = $sourceRecord;
 			}
 		}
