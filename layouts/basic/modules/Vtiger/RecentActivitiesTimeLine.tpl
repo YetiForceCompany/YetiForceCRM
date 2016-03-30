@@ -2,6 +2,7 @@
 {strip}
 <div class="recentActivitiesContainer" >
 	<input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}" />
+	<input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
 		{if !empty($RECENT_ACTIVITIES)}
 			<ul class="timeline" id="updates">
 				{foreach item=RECENT_ACTIVITY from=$RECENT_ACTIVITIES}
