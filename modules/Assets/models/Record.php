@@ -46,13 +46,14 @@ class Assets_Record_Model extends Vtiger_Record_Model
 		if (!$this->isEmpty('renewalinvoice')) {
 			return 'PLL_RENEWED';
 		}
-		$dateRenewable = strtotime(AppConfig::module('Assets', 'RENEWAL_TIME'), strtotime($this->get('dateinservice')));
+		$dateInService = strtotime($this->get('dateinservice'));
+		$dateRenewable = strtotime(AppConfig::module('Assets', 'RENEWAL_TIME'), $dateInService);
 		if ($dateRenewable > time()) {
 			return 'PLL_PLANNED';
 		}
-		if (strtotime('+1 month', $dateRenewable) > time()) {
-			return 'PLL_WAITING_FOR_RENEWAL';
+		if (strtotime('+1 month', $dateInService) < time()) {
+			return 'PLL_NOT_RENEWED';
 		}
-		return 'PLL_NOT_RENEWED';
+		return 'PLL_WAITING_FOR_RENEWAL';
 	}
 }
