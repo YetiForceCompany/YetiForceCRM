@@ -260,6 +260,48 @@ var Vtiger_Index_Js = {
 
 	},
 	registerNotifications: function () {
+		$(".notificationsNotice ul a").click(function (e) {
+			var mode = $(this).data('mode');
+			var modalWindowParams = {
+				url: 'index.php?module=Home&view=CreateNotificationModal&mode=' + mode,
+				cb: function (container) {
+					var form, text, link, htmlLink, eol;
+					text = container.find('#notificationMessage');
+					form = container.find('form');
+					container.find('#notificationTitle').val(app.getPageTitle());
+					link = $("<a/>", {
+						name: "link",
+						href: window.location.href,
+						text: window.location.href
+					});
+					htmlLink = $('<div>').append(link.clone()).html();
+					if (mode == 'createMail') {
+						eol = '<br/><hr/>';
+					} else {
+						eol = '\n';
+					}
+					text.val(eol + htmlLink);
+					if (mode == 'createMail') {
+						var ckEditorInstance = new Vtiger_CkEditor_Js();
+						ckEditorInstance.loadCkEditor(text, {});
+					}
+					container.find(".externalMail").click(function (e) {
+						if (form.validationEngine('validate')) {
+							var editor = CKEDITOR.instances.notificationMessage;
+							var text = $('<div>' + editor.getData() + '</div>').text();
+							var emails = container.find("#notificationUsers").val().join();
+							link = $("<a/>", {
+								href: 'mailto:' + emails + '?subject=' + encodeURIComponent(container.find("#notificationTitle").val()) + '&body=' + encodeURIComponent(text)
+							});
+							link[0].click();
+						}
+					})
+				},
+			}
+			app.showModalWindow(modalWindowParams);
+		})
+	},
+	registerCheckNotifications: function () {
 		var thisInstance = this;
 		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
 
@@ -274,7 +316,7 @@ var Vtiger_Index_Js = {
 		} else {
 			thisInstance.setNotification(app.cacheGet('NotificationsData', 0));
 		}
-		setTimeout('Vtiger_Index_Js.registerNotifications()', delay);
+		setTimeout('Vtiger_Index_Js.registerCheckNotifications()', delay);
 	},
 	requestNotification: function () {
 		var thisInstance = this;
@@ -297,7 +339,7 @@ var Vtiger_Index_Js = {
 		badge.text(notificationsCount);
 		badge.removeClass('hide');
 		if (notificationsCount > 0) {
-			$(".notificationsNotice").effect("pulsate", 1500);
+			$(".notificationsNotice .isBadge").effect("pulsate", 1500);
 		} else {
 			badge.addClass('hide');
 		}
@@ -386,7 +428,7 @@ var Vtiger_Index_Js = {
 		badge.text(count);
 		badge.removeClass('hide');
 		if (count > 0) {
-			$(".remindersNotice").effect("pulsate", 1500);
+			$(".remindersNotice .isBadge").effect("pulsate", 1500);
 			if (app.cacheGet('countRemindersNotice') != count) {
 				app.playSound('REMINDERS');
 				app.cacheSet('countRemindersNotice', count);
@@ -580,6 +622,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerActivityReminder();
+		Vtiger_Index_Js.registerCheckNotifications();
 		Vtiger_Index_Js.registerNotifications();
 		Vtiger_Index_Js.adjustTopMenuBarItems();
 		Vtiger_Index_Js.registerPostAjaxEvents();
