@@ -40,10 +40,12 @@
 		<div class="modal-footer">
 			{if $EXTERNAL_MAIL}
 				<button class="btn btn-success externalMail" type="button" >
+					<span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp;&nbsp;
 					<strong>{vtranslate('LBL_SEND', $MODULE)}</strong>
 				</button>
 			{else}
 				<button class="btn btn-success" type="submit" name="saveButton">
+					<span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp;&nbsp;
 					<strong>{vtranslate('LBL_SEND', $MODULE)}</strong>
 				</button>
 			{/if}
