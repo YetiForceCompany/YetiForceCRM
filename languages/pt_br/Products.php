@@ -9,6 +9,9 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 31/05/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = [
+	// Field Labels
+	'FL_RENEWABLE' => 'Renewable',
+	// 
 	'Unit Code'=>'Código Unidade',
 	'Mf. Country Code'=>'Código País Fabricante',
 	'Manuf. Country'=>'País Fabricante',
@@ -43,7 +46,7 @@ $languageStrings = [
 	'LBL_PRICE'=>'Preço',
 	'LBL_PRICES'=>'Preços Produtos',
 	'LBL_PRODUCT_INFORMATION'=>'Detalhes do Produto',
-    'LBL_PRODUCTSMOD_DISABLED'=>'Habilitar o Módulo de Produtos para visualizar os Produtos',
+	'LBL_PRODUCTSMOD_DISABLED'=>'Habilitar o Módulo de Produtos para visualizar os Produtos',
 	'LBL_RECORDS_LIST'=>'Lista de Produtos' ,
 	'LBL_RESET_PRICE'=>'Redefinir Preço',
 	'LBL_RESET'=>'Redefinir' ,
@@ -51,7 +54,7 @@ $languageStrings = [
 	'Manufacturer'=>'Fabricante',
 	'Mfr PartNo'=>'Cód. Fabricante',
 	'M'=>'M' ,
-  '--None--' => '--Nada--',
+	'--None--' => '--Nada--',
 	'Pack' => 'Pct' ,
 	'Pages'=> 'Páginas',
 	'Part Number'=> 'Part Number' ,
