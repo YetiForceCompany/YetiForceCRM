@@ -612,7 +612,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function getAccountByHash($hash)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT * FROM roundcube_users WHERE preferences LIKE \'%"' . $hash . '";}\'');
+		$result = $db->query('SELECT * FROM roundcube_users WHERE preferences LIKE \'%:"' . $hash . '";%\'');
 		if ($db->getRowCount($result) > 0) {
 			return $db->getRow($result);
 		} else {
