@@ -5318,3 +5318,6 @@ select.form-control {
 	background: #001f3f !important;
 	color: #fff !important; 
 }
+.bodyHeader .rightHeaderBtn .isBadge{
+	max-height: 34px;
+}
