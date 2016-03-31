@@ -21,11 +21,11 @@ class OSSSoldServices_Record_Model extends Vtiger_Record_Model
 			'name' => 'ssservicesstatus',
 		];
 	}
-	
+
 	public function updateRenewal()
 	{
 		$value = $this->getRenewalValue();
-		if ($value) {
+		if ($value && $this->get('osssoldservices_renew') != $value) {
 			$this->set('osssoldservices_renew', $value);
 			$this->set('mode', 'edit');
 			$this->save();
@@ -34,7 +34,7 @@ class OSSSoldServices_Record_Model extends Vtiger_Record_Model
 
 	public function getRenewalValue()
 	{
-		if ($this->has('serviceid') == false) {
+		if ($this->isEmpty('serviceid')) {
 			return 'PLL_NOT_APPLICABLE';
 		}
 		$productsRecordModel = Vtiger_Record_Model::getInstanceById($this->get('serviceid'), 'Services');

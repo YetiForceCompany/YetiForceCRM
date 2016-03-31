@@ -26,7 +26,7 @@ class Assets_Record_Model extends Vtiger_Record_Model
 	public function updateRenewal()
 	{
 		$value = $this->getRenewalValue();
-		if ($value) {
+		if ($value && $this->get('assets_renew') != $value) {
 			$this->set('assets_renew', $value);
 			$this->set('mode', 'edit');
 			$this->save();
@@ -35,7 +35,7 @@ class Assets_Record_Model extends Vtiger_Record_Model
 
 	public function getRenewalValue()
 	{
-		if ($this->has('product') == false) {
+		if ($this->isEmpty('product')) {
 			return 'PLL_NOT_APPLICABLE';
 		}
 		$productsRecordModel = Vtiger_Record_Model::getInstanceById($this->get('product'), 'Products');

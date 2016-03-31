@@ -60,6 +60,18 @@ var app = {
 		return jQuery('body').data('layoutpath');
 	},
 	/**
+	 * Function to get page title
+	 */
+	getPageTitle: function () {
+		return document.title;
+	},
+	/**
+	 * Function to set page title
+	 */
+	setPageTitle: function (title) {
+		document.title = title;
+	},
+	/**
 	 * Function to get the contents container
 	 * @returns jQuery object
 	 */
@@ -480,9 +492,13 @@ var app = {
 					save = false;
 				}
 				if (save) {
+					var progressIndicatorElement = jQuery.progressIndicator({
+						blockInfo: {'enabled': true}
+					});
 					var formData = form.serializeFormData();
 					AppConnector.request(formData).then(function (data) {
 						app.hideModalWindow();
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					})
 				}
 			});
