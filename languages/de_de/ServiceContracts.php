@@ -26,10 +26,6 @@ $languageStrings = [
 	'Actual Duration' => 'Aktuelle Dauer (in Tagen)',
 	
 	//YetiForce
-	'Total time [Projects]' => 'Gesamtzeit [Projekte]',
-	'Total time [Project Task]' => 'Gesamtzeit [Projekt Aufgabe]',
-	'Total time [Service Contract]' => 'Gesamtzeit [Servicevertrag]',
-	'Total time [Sum]' => 'Gesamtzeit [Summe]',
 	'Support' => 'Support',
 	'Administrative' => 'Administrativ',
 	'Undefined' => 'Undefiniert',
@@ -42,7 +38,6 @@ $languageStrings = [
 	'Low' => 'Niedrig',
 	'Normal' => 'Normal',
 	'High' => 'Hoch',
-	'Total time [Tickets]'=>'Gesamtzeit [Tickets]',	
 	
 	'Hours' => 'Stunden',
 	'Days' => 'Tage',

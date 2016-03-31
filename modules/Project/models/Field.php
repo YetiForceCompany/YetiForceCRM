@@ -25,6 +25,6 @@ class Project_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getProjectNotEditabeFields()
 	{
-		return ['sum_time', 'sum_time_pt', 'sum_time_h', 'sum_time_all'];
+		return ['sum_time'];
 	}
 }

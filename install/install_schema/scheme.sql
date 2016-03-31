@@ -7881,9 +7881,6 @@ CREATE TABLE `vtiger_servicecontracts` (
   `progress` decimal(5,2) DEFAULT NULL,
   `contract_no` varchar(100) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
-  `sum_time_p` decimal(13,2) DEFAULT NULL,
-  `sum_time_h` decimal(13,2) DEFAULT NULL,
-  `sum_time_all` decimal(13,2) DEFAULT NULL,
   PRIMARY KEY (`servicecontractsid`),
   KEY `sc_related_to` (`sc_related_to`),
   CONSTRAINT `vtiger_servicecontracts_ibfk_1` FOREIGN KEY (`servicecontractsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
