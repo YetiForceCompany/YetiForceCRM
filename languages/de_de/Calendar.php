@@ -122,9 +122,9 @@ $languageStrings = [
 	'LBL_USERS_BLOCK_SHIFT' => 'Ein-/Ausblenden von Benutzerblocktyp',
 	'LBL_GROUPS_BLOCK_SHIFT' => 'Ein-/Ausblenden von Gruppenblocktyp',
 	'LBL_SHIFT_BLOCK' => 'Ein-/Ausblenden von Block',
-	'LBL_ON_SWITCH' => 'ON',
-	'LBL_OFF_SWITCH' => 'OFF',
-	'LBL_FOLLOWUP' => 'Related event',
+	'LBL_ON_SWITCH' => 'Ein',
+	'LBL_OFF_SWITCH' => 'Aus',
+	'LBL_FOLLOWUP' => 'Relevantes Ereignis',
 	
 	'PLL_PLANNED' => 'Geplant',
 	'PLL_IN_REALIZATION' => 'Zu realisieren',
@@ -136,10 +136,10 @@ $languageStrings = [
 	'LBL_RELATED_TO' => 'zugeordnet',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Keine verfügbaren Aktionen',
 	'LBL_INVITE_USER_BLOCK' => 'Einladen',
-	'LBL_CALENDAR_FILTERS' => 'Filters',
+	'LBL_CALENDAR_FILTERS' => 'Filter',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Fill the start date based on the first available date',
 	'LBL_CACHE_SELECTED_FILTERS' => 'Standard view in calendar changed. Click "Clear view" to clear it.',
-	'LBL_CACHE_CLEAR' => 'Clear view',
+	'LBL_CACHE_CLEAR' => 'View leeren',
 ];
 $jsLanguageStrings = [
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',
@@ -183,7 +183,7 @@ $jsLanguageStrings = [
 	'Mobile Call' => 'Mobiler Anruf',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Ändere Status zu: anstehend oder historisch',
 	'JS_ASSIGNED_TO' => 'zuständig',
-	'JS_SWITCHING_DAYS' => 'Switch days ',
-	'JS_ALL' => 'All',
-	'JS_WORK_DAYS' => 'Work days',
+	'JS_SWITCHING_DAYS' => 'Wechsel Tage ',
+	'JS_ALL' => 'Alle',
+	'JS_WORK_DAYS' => 'Arbeitstage',
 ];

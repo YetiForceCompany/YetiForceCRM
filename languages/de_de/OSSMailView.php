@@ -64,7 +64,7 @@ $languageStrings = [
 	'Alert_ChangeType_desc' => 'Alle Arten der ausgewählten E-Mails werden geändert, ohne die Möglichkeit die Änderungen rückgängig zu machen.',
 	'LBL_ChangeTypeOK' => 'E-Mail-Typ geändert',
 	'Configuration' => 'Konfiguration',
-	'LBL_MAIL_REPLY_INTRO' => 'On the %s, %s wrote:',
+	'LBL_MAIL_REPLY_INTRO' => 'Am %s, %s schrieb:',
 	'LBL_MAIL_FORWARD_INTRO' => '-------- Original message --------',
 	'LBL_NO_MAILS' => 'Keine E-Mails',
 	
@@ -76,9 +76,9 @@ $languageStrings = [
 	'Previous week' => 'Letzte Woche',	
 	'Current month' => 'Aktueller Monat',
 	'Previous month' => 'Letzter Monat',
-	'LBL_FILTER_ALL' => 'All',
-	'LBL_FILTER_ACCOUNTS' =>  'All in account',
-	'LBL_FILTER_CONTACTS' => 'All in contact',
+	'LBL_FILTER_ALL' => 'Alle',
+	'LBL_FILTER_ACCOUNTS' =>  'Alle Organisationen',
+	'LBL_FILTER_CONTACTS' => 'Alle Kontakte',
 ];
 $jsLanguageStrings = [
 	'From' => 'Von',
