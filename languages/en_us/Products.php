@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = [
+	// Field Labels
+	'FL_RENEWABLE' => 'Renewable',
+	// 
 	'Unit Code' => 'Unit code',
 	'Mf. Country Code' => 'Mf. country code',
 	'Manuf. Country' => 'Manuf. country',
