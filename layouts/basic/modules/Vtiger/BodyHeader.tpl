@@ -59,7 +59,7 @@
 											</a>
 										</li>
 									{/if}
-									{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail')}
+									{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail') && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
 										<li>
 											<a href="#" data-mode="createMail">
 												{vtranslate('LBL_SEND_NOTIFICATION_MAIL',$MODULE)}
