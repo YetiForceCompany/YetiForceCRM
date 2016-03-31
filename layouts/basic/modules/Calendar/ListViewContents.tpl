@@ -113,14 +113,26 @@
 			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 			{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-			<td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" nowrap>
-				{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4'}
-					<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
-				{else}
-					{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-				{/if}
-				{if $LISTVIEW_HEADER@last}
-				</td><td nowrap class="{$WIDTHTYPE}">		
+			<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
+				{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
+					<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+						{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+							{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+						{else}
+							{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+						{/if}</a>
+					{else}
+						{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
+							{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
+						{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+							{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+						{else}
+							{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+						{/if}
+					{/if}
+			</td>
+			{if $LISTVIEW_HEADER@last}
+			<td nowrap class="{$WIDTHTYPE}">		
 				<div class="actions pull-right">
 					<span class="actionImages">
 						{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
