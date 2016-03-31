@@ -8,6 +8,9 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
+	// Field Labels
+	'FL_RENEWABLE' => 'Renewable',
+	// 
 	'Unit Code' => 'Einheit',
 	'Mf. Country Code' => 'Hersteller Länderschlüssel',
 	'Manuf. Country' => 'Herstellerland',
