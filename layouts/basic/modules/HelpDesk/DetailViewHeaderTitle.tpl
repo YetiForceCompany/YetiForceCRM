@@ -12,7 +12,7 @@
 {strip}
     <div class="col-xs-10 col-sm-9 col-md-4 margin0px">
 		<div class="moduleIcon">
-			<span class="detailViewIcon userIcon-{$MODULE}"></span>
+			<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 		</div>
 		<div class="paddingLeft5px pull-left">
 			<h4 class="paddingLeft5px recordLabel margin0px" title="{$RECORD->getName()}">

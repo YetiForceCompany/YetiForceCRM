@@ -23,6 +23,7 @@
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 <input type="hidden" id="showListButtonInCalendar" value="{AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')}" />
 <input type="hidden" id="hiddenDays" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
+<input type="hidden" id="activityStateLabels" value="{Vtiger_Util_Helper::toSafeHTML($ACTIVITY_STATE_LABELS)}" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
 	.calCol_{$ITEM.label}{ border: 1px solid {$ITEM.value}!important; }
@@ -35,7 +36,7 @@
 	.modIcon_{$MODULE->get('name')}{ background-image: url("{Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}"); }
 {/foreach}
 </style>
-<div class="calendarViewContainer rowContent col-md-12 paddingLRZero col-xs-12">
+<div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		<div class="btn-group listViewMassActions pull-left paddingLeftMd">
 			{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
@@ -58,10 +59,17 @@
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
 		</div>
 		<div class="pull-right col-xs-1 col-sm-1">
-			<button class="pull-right btn btn-default addButton">
+			<button class="pull-right btn btn-default btn-sm addButton marginRight10">
 				<span class="glyphicon glyphicon-plus"></span>
 			</button>
 		</div>
+	</div>
+	<div class="alert alert-info marginTop10 hide" id="moduleCacheAlert" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{vtranslate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}&nbsp;
+		<button type="button" class="pull-right btn btn-warning btn-xs marginRight10 cacheClear">{vtranslate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
 	</div>
 	<div class="bottom_margin">
 		<p><!-- Divider --></p>

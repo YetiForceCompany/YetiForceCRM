@@ -27,6 +27,13 @@
 			</select>
 		</div>
 	</div>
+	<div class="row padding-bottom1per checkbox">
+		<span class="col-md-3">{vtranslate('LBL_SKIP_CURRENT_USER', $QUALIFIED_MODULE)}</span>
+		<div class="col-md-9">
+			<input name="skipCurrentUser" type="checkbox" value="1" {if $TASK_OBJECT->skipCurrentUser}checked{/if}>
+		</div>
+	</div>
+	<hr />
 	<div class="row padding-bottom1per">
 		<span class="col-md-3">{vtranslate('LBL_TITLE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">

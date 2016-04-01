@@ -14,7 +14,7 @@
 		<hr class="widgetHr"/>
 		<div class="row" >
 			<div class="col-md-12 textAlignRight">
-				{if Users_Privileges_Model::isPermitted($MODULE_NAME, 'CreateNotification')}
+				{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage')}
 					<a class="btn btn-default btn-xs showModal" data-url="index.php?module=Home&view=CreateNotificationModal">
 						<span class="glyphicon glyphicon-plus" title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
 					</a>

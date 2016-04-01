@@ -22,17 +22,32 @@ class Vtiger_List_View extends Vtiger_Index_View
 		parent::__construct();
 	}
 
+	function getPageTitle(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$moduleName = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
+		$title = vtranslate($moduleName, $moduleName);
+		$title = $title . ' - ' . vtranslate('LBL_VIEW_LIST', $moduleName);
+
+		if ($request->has('viewname')) {
+			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
+			if (!empty($customView)) {
+				$title .= ' [' . vtranslate('LBL_FILTER', $moduleName) . ': ' . vtranslate($customView->get('viewname'), $moduleName) . ']';
+			}
+		}
+		return $title;
+	}
+
 	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$title = vtranslate('LBL_VIEW_LIST', $moduleName);
 		if ($request->has('viewname')) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
-			if (empty($customView)) {
-				return $title;
+			if (!empty($customView)) {
+				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . vtranslate('LBL_FILTER', $moduleName)
+					. ': ' . vtranslate($customView->get('viewname'), $moduleName) . ']</div>';
 			}
-			$viewName = $customView->get('viewname');
-			$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> :' . ($viewName == 'All' ? vtranslate('All', $moduleName) : $viewName ) . '</div>';
 		}
 		return $title;
 	}
@@ -89,7 +104,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		
+
 		if ($request->isAjax()) {
 			$this->viewName = CustomView_Record_Model::getViewId($request);
 			if (ListViewSession::hasViewChanged($moduleName)) {
@@ -302,11 +317,11 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$searchParmams = $request->get('search_params');
 		$operator = $request->get('operator');
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
-		
+
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
-		
+
 		$listViewModel->set('search_params', $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule()));
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);

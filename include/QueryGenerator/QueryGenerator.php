@@ -423,12 +423,12 @@ class QueryGenerator
 					$moduleList = $this->referenceFieldInfoList[$fieldName];
 					foreach ($moduleList as $module) {
 						if (empty($this->moduleNameFields[$module])) {
-							$meta = $this->getMeta($module);
+							$this->getMeta($module);
 						}
 					}
 				} elseif (in_array($fieldName, $this->ownerFields)) {
-					$meta = $this->getMeta('Users');
-					$meta = $this->getMeta('Groups');
+					$this->getMeta('Users');
+					$this->getMeta('Groups');
 				}
 			}
 
@@ -566,7 +566,7 @@ class QueryGenerator
 				$tableList[$baseTable] = $field->getTableName();
 				$tableJoinMapping[$baseTable] = $this->meta->getJoinClause($field->getTableName());
 			}
-			if ($field->getFieldDataType() == 'reference') {
+			if (in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
 				$moduleList = $this->referenceFieldInfoList[$fieldName];
 				// This is special condition as the data is not stored in the base table, 
 				$tableJoinMapping[$field->getTableName()] = 'INNER JOIN';
@@ -1185,6 +1185,14 @@ class QueryGenerator
 					$sql[] = 'vtiger_crmentity.crmid NOT IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . $value . ')';
 				}
 				continue;
+			}
+			if ($field->getUIType() == 307) {
+				if ($value == '-') {
+					$sql[] = 'IS NULL';
+					continue;
+				} elseif (!in_array(substr($value, 0, 1), ['>', '<']) && !in_array(substr($value, 0, 2), ['>=', '<=']) && !is_numeric($value)) {
+					$value = "'$value'";
+				}
 			}
 			if (trim($value) == '' && ($operator == 'k') &&
 				$this->isStringType($field->getFieldDataType())) {

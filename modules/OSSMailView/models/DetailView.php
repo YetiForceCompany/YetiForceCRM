@@ -22,7 +22,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleModel = Vtiger_Module_Model::getInstance('OSSMail');
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-		if ($permission && AppConfig::main('isActiveSendingMails')) {
+		if ($permission && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')) {
 			$recordId = $recordModel->getId();
 			if ($currentUserModel->get('internal_mailer') == 1) {
 				$config = OSSMail_Module_Model::getComposeParameters();

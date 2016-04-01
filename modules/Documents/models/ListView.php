@@ -31,6 +31,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 					'linktype' => 'LISTVIEWBASIC',
 					'linklabel' => 'LBL_ADD_RECORD',
 					'linkurl' => $moduleModel->getCreateRecordUrl(),
+					'linkclass' => 'moduleColor_' . $moduleModel->getName(),
 					'linkicon' => ''
 				]
 			];

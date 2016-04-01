@@ -41,9 +41,11 @@
 					<a href="#" class="btn btn-sm btn-primary bt_install">
 						{vtranslate('LBL_INSTALL_BUTTON','Install')}
 					</a>
-					<a style="" href="#" class="btn btn-sm btn-primary bt_migrate">
-						{vtranslate('LBL_MIGRATION','Install')}
-					</a>
+					{if $IS_MIGRATE}
+						<a style="" href="#" class="btn btn-sm btn-primary bt_migrate">
+							{vtranslate('LBL_MIGRATION','Install')}
+						</a>
+					{/if}
 				</div>
 			</div>
 		</form>

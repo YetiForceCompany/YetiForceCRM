@@ -97,6 +97,10 @@ $languageStrings = [
 	'LBL_VIEW_FINDDUPLICATES' => 'Найти дубликаты',
 	'Record Id' => 'Номер записи',
 	'ticketpriorities' => 'Приоритет',
+	// FIELDS
+	'FL_SERVICE_CONTRACTS' => 'Service Level Agreement',
+	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA type',
+	'FL_SERVICE_CONTRACTS_DATE' => 'SLA expiry date',
 ];
 
 $jsLanguageStrings = [

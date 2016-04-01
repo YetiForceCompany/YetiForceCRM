@@ -19,4 +19,6 @@ $languageStrings = [
 	'LBL_SHOW_HIERARCHY' => 'Hierarchia',
 	'LBL_PARENT_IS_CHILD' => 'Wybrany magazyn nadrzędny nie może być podrzędnym tego magazynu',
 	'LBL_SECONDARY_STORAGES' => 'Magazyny podrzędne',
+	'LBL_ROW_NUM' => 'Lp.',
+	'LBL_STORAGE_OWNER' => 'Właściciel',
 ];

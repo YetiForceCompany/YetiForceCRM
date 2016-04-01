@@ -1137,6 +1137,8 @@ $languageStrings = [
 	'LBL_AT_LINK' => 'Linked',
 	'LBL_AT_UNLINK' => 'Unlinked',
 	'LBL_AT_CONVERTTOACCOUNT' => 'Lead converted',
+	'LBL_AT_DISPLAYED' => 'Displayed',
+	'LBL_FILTER' => 'Filter',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1382,4 +1384,5 @@ $jsLanguageStrings = [
 	'JS_WATCHING_TITLE' => 'Track changes',
 	'JS_WATCHING_MESSAGE0' => 'Are you sure you want to disable tracking changes?',
 	'JS_WATCHING_MESSAGE1' => 'Are you sure you want to enable tracking changes?',
+	'JS_FILTER' => 'Filter',
 ];

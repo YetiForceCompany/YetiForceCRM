@@ -157,39 +157,49 @@ jQuery.Class("Vtiger_Edit_Js", {
 
 		fieldElement.val(id)
 		fieldDisplayElement.val(selectedName).attr('readonly', true);
-		fieldElement.trigger(Vtiger_Edit_Js.referenceSelectionEvent, {'source_module': popupReferenceModule, 'record': id, 'selectedName': selectedName});
+		fieldElement.trigger(Vtiger_Edit_Js.referenceSelectionEvent, {
+			source_module: popupReferenceModule,
+			record: id,
+			selectedName: selectedName
+		});
 
 		fieldDisplayElement.validationEngine('closePrompt', fieldDisplayElement);
 		var formElement = container.closest('form');
 		var mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
 		if (typeof mappingRelatedField != undefined) {
 			var data = {
-				'source_module': popupReferenceModule, 'record': id
+				source_module: popupReferenceModule,
+				record: id
 			};
-			this.getRecordDetails(data).then(
-					function (data) {
-						var response = data['result']['data'];
-						$.each(mappingRelatedField, function (key, value) {
-							if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
-								var mapFieldElement = formElement.find('input[name="' + key + '"]');
-								if (mapFieldElement.length == 0) {
-									$("<input type='hidden'/>").attr("name", key).attr("value", response[value[0]]).appendTo(formElement);
-								} else {
-									mapFieldElement.val(response[value[0]]);
-								}
-								var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
-								if (mapFieldDisplayElement.length > 0) {
-									mapFieldDisplayElement.val(response[value[0] + '_label']).attr('readonly', true);
-									var referenceModulesList = formElement.find('#' + app.getModuleName() + '_editView_fieldName_' + key + '_dropDown');
-									if (referenceModulesList.length > 0) {
-										referenceModulesList.val(value[1]).trigger("chosen:updated");
-									}
-									thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {name: response[value[0] + '_label'], id: response[value[0]]});
-								}
+			this.getRecordDetails(data).then(function (data) {
+				var response = data['result']['data'];
+				$.each(mappingRelatedField, function (key, value) {
+					if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
+						var mapFieldElement = formElement.find('[name="' + key + '"]');
+						if (mapFieldElement.is('select')) {
+							if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
+								mapFieldElement.val(response[value[0]]).trigger("chosen:updated").change();
 							}
-						});
+						} else if (mapFieldElement.length == 0) {
+							$("<input type='hidden'/>").attr("name", key).attr("value", response[value[0]]).appendTo(formElement);
+						} else {
+							mapFieldElement.val(response[value[0]]);
+						}
+						var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
+						if (mapFieldDisplayElement.length > 0) {
+							mapFieldDisplayElement.val(response[value[0] + '_label']).attr('readonly', true);
+							var referenceModulesList = formElement.find('#' + app.getModuleName() + '_editView_fieldName_' + key + '_dropDown');
+							if (referenceModulesList.length > 0 && value[1]) {
+								referenceModulesList.val(value[1]).trigger("chosen:updated").change();
+							}
+							thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
+								name: response[value[0] + '_label'],
+								id: response[value[0]]
+							});
+						}
 					}
-			);
+				});
+			});
 		}
 	},
 	getRelationOperation: function () {
@@ -1353,7 +1363,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		}
 		container.validationEngine(params);
 	},
-	checkReferencesField: function (container) {
+	checkReferencesField: function (container, clear) {
 		var thisInstance = this;
 		var activeProcess = false, activeSubProcess = false;
 		container.find('input[data-fieldtype="referenceLink"]').each(function (index, element) {
@@ -1375,7 +1385,9 @@ jQuery.Class("Vtiger_Edit_Js", {
 			if (activeProcess) {
 				thisInstance.setEnabledFields(element);
 			} else {
-				thisInstance.clearFieldValue(element);
+				if(clear){
+					thisInstance.clearFieldValue(element);
+				}
 				thisInstance.setDisabledFields(element);
 			}
 
@@ -1399,7 +1411,9 @@ jQuery.Class("Vtiger_Edit_Js", {
 			if (activeSubProcess && length > 0) {
 				thisInstance.setEnabledFields(element);
 			} else {
-				thisInstance.clearFieldValue(element);
+				if(clear){
+					thisInstance.clearFieldValue(element);
+				}
 				thisInstance.setDisabledFields(element);
 			}
 		});
@@ -1416,12 +1430,12 @@ jQuery.Class("Vtiger_Edit_Js", {
 	registerReferenceFields: function (container) {
 		var thisInstance = this;
 		thisInstance.checkReferenceModulesList(container);
-		thisInstance.checkReferencesField(container);
+		thisInstance.checkReferencesField(container, false);
 		container.find('.sourceField').on(Vtiger_Edit_Js.referenceSelectionEvent, function (e, data) {
-			thisInstance.checkReferencesField(container);
+			thisInstance.checkReferencesField(container, true);
 		});
 		container.find('.sourceField').on(Vtiger_Edit_Js.referenceDeSelectionEvent, function (e) {
-			thisInstance.checkReferencesField(container);
+			thisInstance.checkReferencesField(container, true);
 		});
 		container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue').find('.referenceModulesList').on('change', function () {
 			thisInstance.checkReferenceModulesList(container);

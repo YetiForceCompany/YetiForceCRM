@@ -22,7 +22,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 					}
 				});
 				var moduleName = 'Calendar';
-				var url = 'index.php?module=Calendar&view=QuickCreateAjax&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id');
+				var url = 'index.php?module=Calendar&view=QuickCreateAjax&addRelation=true&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id');
 				var params = {};
 				params.noCache = true;
 				var subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject');
@@ -37,7 +37,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 						}
 					}
 					headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
-							if (data && data.success && currentTarget.data('type') == '0') {
+							if (data && data.success && data.result.followup.value == currentTarget.data('id')) {
 								thisInstance.updateActivityState(currentTarget);
 							}
 							var formData2 = {};

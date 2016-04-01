@@ -19,7 +19,7 @@
 			</div>
 			<strong>{$ROW->getTitle()}</strong>
 			{if $SHOW_TYPE}
-				&nbsp;({vtranslate($ROW->getTypeName(), $MODULE)})
+				&nbsp;({vtranslate($ROW->getTypeName(), $MODULE_NAME)})
 			{/if}
 			<br/>
 			{$ROW->getMassage()}
@@ -28,10 +28,10 @@
 			{foreach from=$ROW->getActions() item=ACTION}
 				<button class="btn {$ACTION['class']}" {if $ACTION['action']}onclick="{$ACTION['action']}"{/if} type="button">
 					{if $ACTION['name']}
-						{vtranslate($ACTION['name'], $MODULE)}
+						{vtranslate($ACTION['name'], $MODULE_NAME)}
 					{/if}
 					{if $ACTION['icon']}
-						<span class="{$ACTION['icon']}" title="{vtranslate($ACTION['title'], $MODULE)}" aria-hidden="true"></span>
+						<span class="{$ACTION['icon']}" title="{vtranslate($ACTION['title'], $MODULE_NAME)}" aria-hidden="true"></span>
 					{/if}
 				</button>
 			{/foreach}

@@ -187,7 +187,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 					'sequence' => $menuModel->get('sequence'),
 					'newwindow' => '0',
 					'icon' => $menuModel->get('icon'),
-					'dataurl' => $menuModel->getUrl(),
+					'dataurl' => $menuModel->get('linkto'),
 					'moduleName' => 'Settings::Vtiger',
 				];
 			}

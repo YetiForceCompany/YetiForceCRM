@@ -97,8 +97,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if ($this->isDefault === false) {
 			$db = PearDatabase::getInstance();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$sql = 'SELECT 1 FROM vtiger_user_module_preferences WHERE userid = ? AND `tabid` = ? LIMIT 1';
-			$result = $db->pquery($sql, ['Users:'.$currentUser->getId(), $this->getModule()->getId()]);
+			$sql = 'SELECT 1 FROM vtiger_user_module_preferences WHERE userid = ? AND `tabid` = ? AND default_cvid= ? LIMIT 1';
+			$result = $db->pquery($sql, ['Users:'.$currentUser->getId(), $this->getModule()->getId(), $this->getId()] );
 			$this->isDefault = $result->rowCount();
 		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -1174,7 +1174,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$viewName = $customView->getViewId($moduleName);
 		} elseif ($viewName == 'All') {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT cvid FROM vtiger_customview WHERE setdefault = 1 AND entitytype=?', [$moduleName]);
+			$result = $db->pquery('SELECT cvid FROM vtiger_customview WHERE presence = 0 AND entitytype=?', [$moduleName]);
 			$viewName = $db->getSingleValue($result);
 		}
 		self::$moduleViewIdCache = $viewName;

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('config/config.php');
+require_once('include/ConfigUtils.php');
 include_once('include/utils/utils.php');
 
 /**

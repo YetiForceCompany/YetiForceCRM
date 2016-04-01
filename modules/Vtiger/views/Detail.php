@@ -14,6 +14,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	protected $record = false;
 	public $defaultMode = false;
+
 	function __construct()
 	{
 		parent::__construct();
@@ -71,6 +72,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			break;
 		}
 
+		$em = new VTEventsManager(PearDatabase::getInstance());
+		$em->initTriggerCache();
+		$entityData = VTEntityData::fromCRMEntity($recordModel->getEntity());
+		$em->triggerEvent('vtiger.view.detail.before', $entityData);
+
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
@@ -81,7 +87,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
 		$viewer->assign('NO_PAGINATION', true);
-		$viewer->assign('COLORLISTHANDLERS', Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, false));
+		$viewer->assign('COLORLISTHANDLERS', Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $recordModel));
 
 		//Intially make the prev and next records as null
 		$prevRecordId = null;
@@ -123,7 +129,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$selectedTabLabel = $request->get('tab_label');
 		if (empty($selectedTabLabel)) {
 			$selectedTabLabel = AppConfig::module($moduleName, 'DEFAULT_VIEW_RECORD');
-			if(empty($selectedTabLabel)){
+			if (empty($selectedTabLabel)) {
 				if ($currentUserModel->get('default_record_view') === 'Detail') {
 					$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
 				} else {
@@ -136,17 +142,18 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			} else {
 				$selectedTabLabel = vtranslate($selectedTabLabel, $moduleName);
 			}
-			
 		}
-		foreach($detailViewLinks['DETAILVIEWTAB'] as $link){
-			if($link->getLabel() == $selectedTabLabel){
-				$queryStr = parse_url(htmlspecialchars_decode($link->getUrl()), PHP_URL_QUERY);
-				parse_str($queryStr, $queryParams);
-				$this->defaultMode = $queryParams['mode'];
-				break;
+		if (is_array($detailViewLinks['DETAILVIEWTAB'])) {
+			foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
+				if ($link->getLabel() == $selectedTabLabel) {
+					$queryStr = parse_url(htmlspecialchars_decode($link->getUrl()), PHP_URL_QUERY);
+					parse_str($queryStr, $queryParams);
+					$this->defaultMode = $queryParams['mode'];
+					break;
+				}
 			}
 		}
-		
+
 		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
@@ -185,9 +192,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		}		
+		}
 		$defaultMode = $this->defaultMode;
-		if($defaultMode == 'showDetailViewByMode'){
+		if ($defaultMode == 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
@@ -372,21 +379,30 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
+		} else {
+			$limit = AppConfig::module('ModTracker','NUMBER_RECORDS_ON_PAGE');
+			$pagingModel->set('limit', $limit);
 		}
 
 		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel);
 		$pagingModel->calculatePageRange($recentActivities);
 
-		if ($pagingModel->getCurrentPage() == ModTracker_Record_Model::getTotalRecordCount($parentRecordId) / $pagingModel->getPageLimit()) {
+		if ($pagingModel->getCurrentPage() == ceil(ModTracker_Record_Model::getTotalRecordCount($parentRecordId) / $pagingModel->getPageLimit())) {
 			$pagingModel->set('nextPageExists', false);
+		} else {
+			$pagingModel->set('nextPageExists', true);
 		}
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-
-		echo $viewer->view('RecentActivities.tpl', $moduleName, 'true');
+		$defaultView = AppConfig::module('ModTracker','DEFAULT_VIEW');
+		if($defaultView == 'List'){
+			$tplName = 'RecentActivities.tpl';
+		} else {
+			$tplName = 'RecentActivitiesTimeLine.tpl';
+		}
+		echo $viewer->view($tplName, $moduleName, 'true');
 	}
 
 	/**

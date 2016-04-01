@@ -33,13 +33,20 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			var form = jQuery('form', wizardContainer);
 			form.submit(function (e) {
 				e.preventDefault();
-				var formData = form.serializeFormData();
-				thisInstance.registerSaveEvent('saveWidget', {
-					'data': formData,
-					'tabid': tabId,
-				});
-				thisInstance.reloadWidgets();
-				app.hideModalWindow();
+				var save = true;
+				if (form && form.hasClass('validateForm') && form.data('jqv').InvalidFields.length > 0) {
+					app.formAlignmentAfterValidation(form);
+					save = false;
+				}
+				if (save) {
+					var formData = form.serializeFormData();
+					thisInstance.registerSaveEvent('saveWidget', {
+						'data': formData,
+						'tabid': tabId,
+					});
+					thisInstance.reloadWidgets();
+					app.hideModalWindow();
+				}
 			});
 
 		});

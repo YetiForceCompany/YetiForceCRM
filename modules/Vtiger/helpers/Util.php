@@ -261,7 +261,6 @@ class Vtiger_Util_Helper
 			'ticketpriorities' => 'ticketpriorities_id',
 			'ticketseverities' => 'ticketseverities_id',
 			'ticketstatus' => 'ticketstatus_id',
-			'ticketcategories' => 'ticketcategories_id',
 			'salutationtype' => 'salutationid',
 			'faqstatus' => 'faqstatus_id',
 			'faqcategories' => 'faqcategories_id',
@@ -703,5 +702,17 @@ class Vtiger_Util_Helper
 				break;
 		}
 		return $value;
+	}
+
+	public static function getUserDetail($userid, $field = false)
+	{
+		$detail = Vtiger_Cache::get('UserDetail', $userid);
+		if ($detail) {
+			return $field == false ? $detail : $detail[$field];
+		}
+		checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
+		require('user_privileges/user_privileges_' . $userid . '.php');
+		Vtiger_Cache::set('UserDetail', $userid, $user_info);
+		return $field == false ? $user_info : $user_info[$field];
 	}
 }

@@ -55,7 +55,7 @@
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th nowrap>
 							<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
-								&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
+								&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 						</th>
 					{/foreach}
 					<th width="5%"></th>

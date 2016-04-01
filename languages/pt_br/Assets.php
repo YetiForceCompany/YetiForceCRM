@@ -14,10 +14,8 @@ $languageStrings = [
 	'SINGLE_Assets' => 'Ativo',
 	'LBL_ADD_RECORD' => 'Adicionar registro',
 	'LBL_RECORDS_LIST' => 'Lista Ativos',
-
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Detalhes Ativo',
-
 	//Field Labels
     	'Asset No' => 'No. Ativo',
 	'Serial Number' => 'Número Série',
@@ -30,14 +28,13 @@ $languageStrings = [
 	'Notes' => 'Notas',
 	'FL_RENEWAL' => 'Renewal',
 	'LBL_SET_RENEWAL' => 'Set renewal',
-
+	'FL_RENEWAL_INVOICE' => 'Renewal invoice',
 	/*picklist values*/
 	'PLL_DRAFT'=>'Projeto',
 	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
 	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
 	'PLL_ACCEPTED'=>'Accepted',
 	'PLL_CANCELLED'=>'Cancelled',
-	
 	'PLL_PLANNED'=>'Planned',
 	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
 	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
@@ -45,7 +42,6 @@ $languageStrings = [
 	'PLL_RENEWED'=>'Renewed',
 	'PLL_NOT_RENEWED'=>'Not renewed',
 	'PLL_NOT_APPLICABLE'=>'Not applicable',
-
 	//YetiForce
 	'description'=>'Descrição',
 	'attentions'=>'Atenções',
@@ -53,6 +49,5 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
 	'LBL_ORDER_TIME'=>'Hora Pedido',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Produtos vendidos expirando',
-	
 	'LBL_CHANGE_STATUS' => 'Change Status',
 ];

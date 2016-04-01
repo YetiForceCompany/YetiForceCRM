@@ -23,6 +23,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.adminIcon-yetiforce-shop:before {
+    content: "\e95e";
+}
 .adminIcon-TypeNotification:before {
     content: "\e95c";
 }

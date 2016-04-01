@@ -1321,13 +1321,13 @@ jQuery.Class("Vtiger_List_Js", {
 		var breadCrumbsLastSpan = breadCrumbs.last('span');
 		var filterExist = breadCrumbsLastSpan.find('.breadCrumbsFilter');
 		if (filterExist.length && text != undefined) {
-			filterExist.text(' :' + text);
+			filterExist.text(' [' + app.vtranslate('JS_FILTER') + ': ' + text + ']');
 		} else if (filterExist.length < 1) {
 			text = (text == undefined) ? this.getFilterSelectElement().find(':selected').text() : text;
 			if (breadCrumbsLastSpan.hasClass('breadCrumbsFilter')) {
-				breadCrumbsLastSpan.text(' :' + text);
+				breadCrumbsLastSpan.text(': ' + text);
 			} else {
-				breadCrumbs.append('<span class="font-small breadCrumbsFilter hideToHistory"> :' + text + '</span>');
+				breadCrumbs.append('<span class="font-small breadCrumbsFilter hideToHistory"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</span>');
 			}
 		}
 	},

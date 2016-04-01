@@ -185,7 +185,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 * @param <Number> $record
 	 * @return Boolean
 	 */
-	public static function isPermitted($moduleName, $actionName, $record = false)
+	public static function isPermitted($moduleName, $actionName = '', $record = false)
 	{
 		$permission = isPermitted($moduleName, $actionName, $record);
 		if ($permission == 'yes') {

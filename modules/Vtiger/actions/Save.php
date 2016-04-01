@@ -20,12 +20,14 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 		if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			if (!$recordModel->isEditable()) {
+				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			}
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-		}
-
-		if (!$recordModel->isEditable()) {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			if (!$recordModel->isCreateable()) {
+				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			}
 		}
 	}
 
@@ -123,7 +125,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			if ($request->has($fieldName)) {
 				$fieldValue = $request->get($fieldName, null);
-			} else if (in_array($fieldModel->getDisplayType(),[3,5])) {
+			} else if (in_array($fieldModel->getDisplayType(), [3, 5])) {
 				$fieldValue = $recordModel->get($fieldName);
 			} else {
 				$fieldValue = $fieldModel->getDefaultFieldValue();

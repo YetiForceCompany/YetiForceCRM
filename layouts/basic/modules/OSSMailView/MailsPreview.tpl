@@ -41,7 +41,7 @@
 											</button>
 										</div>
 										<div class="pull-right">
-											{if AppConfig::main('isActiveSendingMails')}
+											{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
 												{if $USER_MODEL->get('internal_mailer') == 1}
 													{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 													<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">

@@ -10,8 +10,8 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	// Basic Strings
-	'ServiceContracts' => 'Umowy',
-	'Service Contracts' => 'Umowy',
+	'ServiceContracts' => 'Umowy wsparcia SLA',
+	'Service Contracts' => 'Umowy wsparcia SLA',
 	'SINGLE_ServiceContracts' => 'Umowa',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
@@ -31,12 +31,6 @@ $languageStrings = [
 	
 		
 	//YetiForce
-	'Total time [Projects]' => 'Łączny czas [Projekty]',
-	'Total time [Project Task]' => 'Łączny czas [Zadania]',
-	'Total time [Service Contract]' => 'Łączny czas [Umowa]',
-	'Total time [Sum]' => 'Suma globalna',
-	'Total time [Tickets]'=>'Łączny czas [Zgłoszenia]',	
-
 	'LBL_SUMMARY' => 'Podsumowanie czasu pracy',
 	'Support' => 'Wsparcie',
 	'Administrative' => 'Administracja',

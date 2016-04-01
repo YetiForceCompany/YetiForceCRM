@@ -1,5 +1,4 @@
 <?php
-
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -9,14 +8,18 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View {
+class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
+{
 
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record);
+		if (empty($record) || $request->get('isDuplicate') == 'true') {
+			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'CreateView');
+		} else {
+			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record);
+		}
 		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $record);
 		if (!$recordPermission || ($lockEdit && $request->get('isDuplicate') != 'true')) {
 			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');

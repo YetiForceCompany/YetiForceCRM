@@ -97,7 +97,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param integer $id - istorageid
 	 * returns Storage hierarchy in array format
 	 */
-	function getHierarchy($id)
+	function getHierarchy($id, $getRawData = false, $getLinks = true)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -129,7 +129,7 @@ class IStorages extends Vtiger_CRMEntity
 		$iStoragesList[$baseId] = $this->getChildIStorages($baseId, $iStoragesList[$baseId], $iStoragesList[$baseId]['depth']);
 
 		// Create array of all the iStorages in the hierarchy
-		$iStorageHierarchy = $this->getHierarchyData($id, $iStoragesList[$baseId], $baseId, $listviewEntries);
+		$iStorageHierarchy = $this->getHierarchyData($id, $iStoragesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
 
 		$iStorageHierarchy = ['header' => $listviewHeader, 'entries' => $listviewEntries];
 		$log->debug('Exiting getHierarchy method ...');
@@ -144,7 +144,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param array $listviewEntries 
 	 * returns All the parent storages of the given Storage in array format
 	 */
-	function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries, $getRawData = false)
+	function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries, $getRawData = false, $getLinks = true)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
@@ -165,10 +165,12 @@ class IStorages extends Vtiger_CRMEntity
 				if ($getRawData === false) {
 					if ($colname == 'subject') {
 						if ($iStorageId != $id) {
-							if ($hasRecordViewAccess) {
-								$data = '<a href="index.php?module=IStorages&action=DetailView&record=' . $iStorageId . '">' . $data . '</a>';
-							} else {
-								$data = '<span>' . $data . '&nbsp;<span class="glyphicon glyphicon-warning-sign"></span></span>';
+							if ($getLinks) {
+								if ($hasRecordViewAccess) {
+									$data = '<a href="index.php?module=IStorages&action=DetailView&record=' . $iStorageId . '">' . $data . '</a>';
+								} else {
+									$data = '<span>' . $data . '&nbsp;<span class="glyphicon glyphicon-warning-sign"></span></span>';
+								}
 							}
 						} else {
 							$data = '<strong>' . $data . '</strong>';
@@ -186,7 +188,7 @@ class IStorages extends Vtiger_CRMEntity
 		
 		foreach ($iStorageInfoBase as $accId => $iStorageInfo) {
 			if (is_array($iStorageInfo) && intval($accId)) {
-				$listviewEntries = $this->getHierarchyData($id, $iStorageInfo, $accId, $listviewEntries, $getRawData);
+				$listviewEntries = $this->getHierarchyData($id, $iStorageInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
 		

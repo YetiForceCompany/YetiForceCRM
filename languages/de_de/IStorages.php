@@ -19,4 +19,6 @@ $languageStrings = [
 	'LBL_SHOW_HIERARCHY' => 'Hierarchy',
 	'LBL_PARENT_IS_CHILD' => 'The selected parent storage cannot be secondary to current storage',
 	'LBL_SECONDARY_STORAGES' => 'Secondary storages',
+	'LBL_ROW_NUM' => 'No.',
+	'LBL_STORAGE_OWNER' => 'Owner',
 ];

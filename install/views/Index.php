@@ -106,12 +106,18 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function Step1(Vtiger_Request $request)
 	{
+		$filesInDir = scandir('install/migrate_schema/');
+		$isMigrate = false;
+		if (count($filesInDir) > 2) {
+			$isMigrate = true;
+		}
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
 
 		$request = $this->setLanguage($request);
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
+		$viewer->assign('IS_MIGRATE', $isMigrate);
 		echo $viewer->fetch('Step1.tpl');
 	}
 

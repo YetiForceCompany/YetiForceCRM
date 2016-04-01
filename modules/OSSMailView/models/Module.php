@@ -111,6 +111,12 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 			'baseTable' => 'vtiger_crmentity',
 			'baseIndex' => 'crmid',
 		]);
+		$queryGenerator->setCustomCondition([
+			'glue' => 'AND',
+			'column' => 'vtiger_ossmailview_relation.ossmailviewid',
+			'operator' => '=',
+			'value' => $recordId
+		]);
 		$query = $queryGenerator->getQuery();
 		return $query;
 	}
