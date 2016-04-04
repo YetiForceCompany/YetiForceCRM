@@ -129,10 +129,7 @@ hr {
 .moreMenus:before {
 	left: 292px !important;
 }
-.announcement {
-	background: #444853;
-	border-top: 1px solid #cccccc;
-}
+
 #headerLinks {
 	padding: 10px 0 7px;
 	min-width: 240px;
