@@ -57,9 +57,9 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 			$html .= '<table class="pTable colapseBorder">
 				<thead>
 					<tr>
-						<th style="width: 65%;"></th>';
+						<th style="width: 60%;"></th>';
 			foreach ($fields[0] as $field) {
-				$html .= '<th colspan="' . $field->get('colspan') . '" class="tBorder noBottomBorder tHeader">
+				$html .= '<th style="' . $field->get('colspan') . '%;" class="tBorder noBottomBorder tHeader">
 								<span>' . vtranslate($field->get('label'), $module) . ':</span>&nbsp;';
 				switch ($field->getTemplateName('DetailView', $module)) {
 					case 'DetailViewBase.tpl':
@@ -83,14 +83,13 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
-					$html .= '<th colspan="' . $field->get('colspan') . '" class="textAlignCenter tBorder tHeader">' . vtranslate($field->get('label'), $module) . '</th>';
+					$html .= '<th style="' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . vtranslate($field->get('label'), $module) . '</th>';
 				}
 			}
 			$html .= '</tr>
 				</thead>
 				<tbody>';
 
-//			for($i=0; $i<100; $i++) {
 			foreach ($inventoryRows as $key => &$inventoryRow) {
 				$rowNo = $key + 1;
 				$html .= '<tr>';
@@ -117,13 +116,12 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 				}
 				$html .= '</tr>';
 			}
-//			}
 			$html .= '</tbody>
 					<tfoot>
 						<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
-					$html .= '<td colspan="' . $field->get('colspan') . '" class="textAlignRight ';
+					$html .= '<td class="textAlignRight ';
 					if ($field->isSummary()) {
 						$html .= 'summaryBorder';
 					}
