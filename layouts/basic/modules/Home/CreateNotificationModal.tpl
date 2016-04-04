@@ -1,9 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{assign var='EXTERNAL_MAIL' value= ($MODE == 'createMail' && $USER_MODEL->internal_mailer == 0)}
 	<form class="createNotificationModal sendByAjax validateForm" id="createNotificationModal" name="createNotificationModal" method="post" action="index.php" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="{$MODULE}"/>
-		<input type="hidden" name="mode" value="{$MODE}"/>
+		<input type="hidden" name="mode" value="createMessage"/>
 		<input type="hidden" name="action" value="Notification"/>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -17,11 +16,9 @@
 						<select class="chzn-select form-control" id="notificationUsers" name="users" data-validation-engine="validate[required]" multiple>
 							{foreach from=$USER_MODEL->getAccessibleUsers() key=OWNER_ID item=OWNER_NAME}
 								{if $USER_MODEL->getId() != $OWNER_ID}
-									{if $EXTERNAL_MAIL}
-										<option value="{Vtiger_Util_Helper::getUserDetail($OWNER_ID, 'email1')}">{$OWNER_NAME}</option>
-									{else}
-										<option value="{$OWNER_ID}">{$OWNER_NAME}</option>
-									{/if}
+									<option value="{$OWNER_ID}" data-mail="{Vtiger_Util_Helper::getUserDetail($OWNER_ID, 'email1')}">
+										{$OWNER_NAME}
+									</option>
 								{/if}
 							{/foreach}
 						</select>
@@ -38,16 +35,25 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			{if $EXTERNAL_MAIL}
-				<button class="btn btn-success externalMail" type="button" >
+			{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage')}
+				<button class="btn btn-success" type="submit" name="saveButton" data-mode="createMessage">
 					<span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp;&nbsp;
-					<strong>{vtranslate('LBL_SEND', $MODULE)}</strong>
+					<strong>{vtranslate('LBL_SEND_NOTIFICATION_MESSAGE', $MODULE)}</strong>
 				</button>
-			{else}
-				<button class="btn btn-success" type="submit" name="saveButton">
-					<span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp;&nbsp;
-					<strong>{vtranslate('LBL_SEND', $MODULE)}</strong>
-				</button>
+			{/if}
+			{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail') && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
+				{if $USER_MODEL->internal_mailer == 0}
+					<a class="btn btn-success externalMail" href="mailto:">
+						<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;
+						<strong>{vtranslate('LBL_SEND_NOTIFICATION_MAIL', $MODULE)}</strong>
+					</a>
+				{/if}
+				{if Emails_Record_Model::checkSendMailStatus()}
+					<button class="btn btn-success" type="submit" name="saveButton" data-mode="createMail">
+						<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;
+						<strong>{vtranslate('LBL_SEND_NOTIFICATION_MAIL', $MODULE)}</strong>
+					</button>
+				{/if}
 			{/if}
 			<button class="btn btn-warning" type="reset" data-dismiss="modal">
 				<strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong>

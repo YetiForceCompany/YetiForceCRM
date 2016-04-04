@@ -47,26 +47,9 @@
 									<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 									<span class="badge hide">0</span>
 								</a>
-								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<span class="caret"></span>
-									<span class="sr-only">Toggle Dropdown</span>
+								<button type="button" class="btn btn-sm btn-default sendNotification" title="{vtranslate('LBL_SEND_NOTIFICATION',$MODULE)}">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 								</button>
-								<ul class="dropdown-menu">
-									{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage')}
-										<li>
-											<a href="#" data-mode="createMessage">
-												{vtranslate('LBL_SEND_NOTIFICATION_MESSAGE',$MODULE)}
-											</a>
-										</li>
-									{/if}
-									{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail') && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
-										<li>
-											<a href="#" data-mode="createMail">
-												{vtranslate('LBL_SEND_NOTIFICATION_MAIL',$MODULE)}
-											</a>
-										</li>
-									{/if}
-								</ul>
 							</div>
 						</div>
 					</div>
