@@ -494,7 +494,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			$currentTime = time();
 			$date = date('Y-m-d', strtotime("+$activityReminder seconds", $currentTime));
 			$time = date('H:i', strtotime("+$activityReminder seconds", $currentTime));
-			$reminderActivitiesResult = 'SELECT reminderid, recordid FROM vtiger_activity_reminder_popup 
+			$reminderActivitiesResult = 'SELECT DISTINCT recordid FROM vtiger_activity_reminder_popup 
 				INNER JOIN vtiger_activity on vtiger_activity.activityid = vtiger_activity_reminder_popup.recordid 
 				INNER JOIN vtiger_crmentity ON vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid';
 
@@ -510,10 +510,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				AND vtiger_activity.status IN ('" . implode("','", Calendar_Module_Model::getComponentActivityStateLabel('current')) . "') LIMIT 20";
 
 
-			$result = $db->pquery($reminderActivitiesResult, array($currentUserModel->getId(), $date, $time));
-			$rows = $db->num_rows($result);
-			for ($i = 0; $i < $rows; $i++) {
-				$recordId = $db->query_result($result, $i, 'recordid');
+			$result = $db->pquery($reminderActivitiesResult, [$currentUserModel->getId(), $date, $time]);
+			while (($recordId = $db->getSingleValue($result)) !== false) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link != '' && $link != 0 && $permissionToSendEmail) {
