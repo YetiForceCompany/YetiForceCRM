@@ -6,27 +6,28 @@
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 $languageStrings = [
-	'FCorectingInvoice' => 'Corecting Invoices',
-	'SINGLE_FCorectingInvoice' => 'Corecting Invoice',
-	//BLOCKS
-	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'LBL_INVOICE_ADDRESS' => 'Invoice address',
-	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Delivery address',
+	'FCorectingInvoice' => 'Rechnungskorrekturen',
+	'SINGLE_FCorectingInvoice' => 'Rechnungskorrektur',
+	
+		//BLOCKS
+	'LBL_CUSTOM_INFORMATION' => 'Systeminformationen',
+	'LBL_INVOICE_ADDRESS' => 'Rechnungsadresse',
+	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Lieferadresse',
 	//FIELDS
-	'FL_SUBJECT' => 'Subject',
-	'FL_PAYMENT_DATE' => 'Due date',
-	'FL_SALE_DATE' => 'Sale date',
-	'FL_FORM_PAYMENT' => 'Payment method',
-	'FL_BANK_ACCOUNT' => 'Bank account number',
-	'FL_NUMBER' => 'Invoice number',
-	'FL_ACCOUNT' => 'Account',
-	'FL_TOTAL' => 'Net',
-	'FL_GROSS' => 'Gross',
+	'FL_SUBJECT' => 'Betreff',
+	'FL_PAYMENT_DATE' => 'Zahlungsdatum',
+	'FL_SALE_DATE' => 'Verkaufsdatum',
+	'FL_FORM_PAYMENT' => 'Zahlungsmethode',
+	'FL_BANK_ACCOUNT' => 'Kontonummer',
+	'FL_NUMBER' => 'Rechnungsnummer',
+	'FL_ACCOUNT' => 'Organisation',
+	'FL_TOTAL' => 'Gesamt',
+	'FL_GROSS' => 'Brutto',
 	'FL_STATUS' => 'Status',
 	//PICKLIST VALUES
-	'PLL_TRANSFER' => 'transfer',
-	'PLL_CASH' => 'cash',
+	'PLL_TRANSFER' => 'Überweisung',
+	'PLL_CASH' => 'Bar',
 	//OTHERS
-	'LBL_YEAR' => 'Year',
-	'FL_INVOICE' => 'Invoice',
+	'LBL_YEAR' => 'Jahr',
+	'FL_INVOICE' => 'Rechnung',
 ];

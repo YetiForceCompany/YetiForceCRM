@@ -21,12 +21,12 @@ $languageStrings = [
 	'PLVT' => 'Top Chancen',
 	'QLTQ' => 'Top Angebote',
 	'UA' => 'Die nächsten Aktivitäten',
-	'LBL_WATCHING_MODULES' => 'Watched modules',
-	'LBL_NO_NOTIFICATIONS' => 'No notifications',
-	'Notifications' => 'Notifications',
-	'LBL_CREATING_NOTIFICATION' => 'Send notification',
-	'LBL_TITLE' => 'Title',
-	'LBL_MESSAGE' => 'Message',
+	'LBL_WATCHING_MODULES' => 'Beobachte Module',
+	'LBL_NO_NOTIFICATIONS' => 'Keine Benachrichtigungen',
+	'Notifications' => 'Benachrichtigungen',
+	'LBL_CREATING_NOTIFICATION' => 'Benachrichtigung senden',
+	'LBL_TITLE' => 'Titel',
+	'LBL_MESSAGE' => 'Nachricht',
 ];
 
 $jsLanguageStrings = [

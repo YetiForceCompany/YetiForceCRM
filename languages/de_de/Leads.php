@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 $languageStrings = [
 	'LBL_SETUP_WEBFORMS' => 'Webformulare einstellen',
-	'Verification data' => 'Verification data',
+	'Verification data' => 'Daten überprüfen',
 	'Attempted to Contact' => 'Kontaktierung versucht',
 	'CANNOT_CONVERT' => 'Umwandlung nicht möglich',
 	'Cold' => 'kalt',
@@ -35,7 +35,7 @@ $languageStrings = [
 	'LBL_LEADS_FIELD_MAPPING_INCOMPLETE' => 'Nicht alle Pflichtfelder sind zugeordnet',
 	'LBL_LEADS_FIELD_MAPPING' => 'Zuordnung der benutzerdefinierten Lead-Felder',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Einige Pflichtfelder sind leer',
-	'LBL_LEAD_ALREADY_CONVERTED' => 'Lead is already converted',
+	'LBL_LEAD_ALREADY_CONVERTED' => 'Lead ist bereits konvertiert',
 	'LBL_RECORDS_LIST' => 'Liste Leads',
 	'LBL_TRANSFER_RELATED_RECORD' => 'Bezugsdatensatz übertragen an',
 	'Lead No' => 'Lead-Nr.',
@@ -104,7 +104,7 @@ $languageStrings = [
 	'Orders accepted' => 'Aufträge angenommen',
 	'LBL_RELATION' => 'Beziehung',
 	'LBL_LEGAL_FORM' => 'Rechtsform',
-	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'At least two accounts meet the requirements for linking, go to : (Administration > Processes > Marketing processes > Conversion) %s',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Mindestens 2 Organisationen benötigen die Voraussetzungen zum verknüpfen => (Administration > Prozesse > Marketing Prozesse > Konvertierung )  %s',
 ];
 $jsLanguageStrings = [
 	'JS_SELECT_CONTACTS' => 'Wähle Kontakte zum fortführen',

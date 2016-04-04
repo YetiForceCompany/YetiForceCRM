@@ -318,9 +318,9 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Zurückgestellt',
 	'PLL_CANCELLED' => 'Abgebrichen',
 	'PLL_COMPLETED' => 'Komplett',
-	'LBL_SWITCH' => 'Switch',
-	'LBL_SWITCH_USER' => 'Switch user',
-	'LBL_SWITCH_TO_YOURSELF' => 'Switch to yourself',
+	'LBL_SWITCH' => 'Wechsel',
+	'LBL_SWITCH_USER' => 'Benutzer wechseln',
+	'LBL_SWITCH_TO_YOURSELF' => 'Zurückwechseln',
 ];
 
 $jsLanguageStrings = [

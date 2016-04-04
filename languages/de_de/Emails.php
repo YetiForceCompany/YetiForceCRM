@@ -9,7 +9,7 @@
  ************************************************************************************/
 $languageStrings = [
 	'Email Flag' => 'Email Flag',
-	'Activtiy Type' => 'Activtiy Type',
+	'Activtiy Type' => 'Aktivitätstyp',
 	'Parent ID' => 'Übergeordnete ID',
 	'Owner' => 'Eigentümer',
 	'Access Count' => 'Anzahl Zugriffe',
@@ -46,7 +46,7 @@ $languageStrings = [
 	'LBL_TO' => 'An',
 	'SINGLE_Emails' => 'E-Mail',
 	'Time Start' => 'Sendezeit',
-	'Emails_Block1' => 'Email block 1',
-	'Emails_Block2' => 'Email block 2',
-	'Emails_Block3' => 'Email block 3',
+	'Emails_Block1' => 'Email Block 1',
+	'Emails_Block2' => 'Email Block 2',
+	'Emails_Block3' => 'Email Block 3',
 ];
