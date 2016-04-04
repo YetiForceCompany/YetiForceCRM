@@ -23166,7 +23166,7 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (14,'LBL_LOGS',7,'adminIcon-logs',0,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (15,'LBL_AUTOMATION',9,'adminIcon-automation',0,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (16,'LBL_MENU_SUMMARRY',0,'userIcon-Home',1,'index.php?module=Vtiger&parent=Settings&view=Index');
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (17,'LBL_YETIFORCE_SHOP',27,'adminIcon-yetiforce-shop',1,'https://shop.yetiforce.com/pl/');
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (17,'LBL_YETIFORCE_SHOP',27,'adminIcon-yetiforce-shop',1,'https://shop.yetiforce.com/');
 
 /*Data for the table `vtiger_settings_blocks_seq` */
 
