@@ -1397,4 +1397,5 @@ $jsLanguageStrings = [
 	'JS_WATCHING_MESSAGE0' => 'Czy jesteś pewien że chcesz wyłączyć śledzenie zmian?',
 	'JS_WATCHING_MESSAGE1' => 'Czy jesteś pewien że chcesz włączyć śledzenie zmian?',
 	'JS_FILTER' => 'Filtr',
+	'JS_NOTIFICATION_LINK' => 'Link',
 ];

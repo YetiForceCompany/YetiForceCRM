@@ -273,7 +273,7 @@ var Vtiger_Index_Js = {
 					link = $("<a/>", {
 						name: "link",
 						href: window.location.href,
-						text: window.location.href
+						text: app.vtranslate('JS_NOTIFICATION_LINK')
 					});
 					htmlLink = $('<div>').append(link.clone()).html();
 					text.val('<br/><hr/>' + htmlLink);
