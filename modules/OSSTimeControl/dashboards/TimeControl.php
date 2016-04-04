@@ -156,11 +156,9 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if ($time == NULL) {
 			$time['start'] = date('Y-m-d', strtotime("-1 week"));
 			$time['end'] = date("Y-m-d");
-		} else {
-			// date parameters passed, convert them to YYYY-mm-dd
-			$time['start'] = Vtiger_Functions::currentUserDisplayDate($time['start']);
-			$time['end'] = Vtiger_Functions::currentUserDisplayDate($time['end']);
 		}
+		$time['start'] = Vtiger_Functions::currentUserDisplayDate($time['start']);
+		$time['end'] = Vtiger_Functions::currentUserDisplayDate($time['end']);
 
 		if ($user == NULL)
 			$user = $loggedUserId;
