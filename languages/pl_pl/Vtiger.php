@@ -1123,8 +1123,7 @@ $languageStrings = [
 	'Sales Profile' => 'Profil sprzedaży',
 	'Guest Profile' => 'Gość',
 	'LBL_DISPLAYED' => 'przeglądał rekord',
-	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Wyślij powiadomienie',
-	'LBL_SEND_NOTIFICATION_MAIL' => 'Wyślij powiadomienie mailem',
+	'LBL_SEND_NOTIFICATION' => 'Wyślij powiadomienie',
 	// Action types - AT
 	'LBL_AT_UPDATED' => 'Modyfikacja',
 	'LBL_AT_DELETED' => 'Usuwanie',
