@@ -136,7 +136,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 					//While sending email template and which has '$logo$' then it should replace with company logo
 					$company = Settings_Vtiger_CompanyDetails_Model::getInstance();
 					$logo = $company->getLogoPath('logoname');
-					$mailer->AddEmbeddedImage(dirname(__FILE__) . '/../../../'.$logo, 'logo', 'logo.jpg', 'base64', 'image/jpg');
+					$mailer->AddEmbeddedImage(dirname(__FILE__) . '/../../../' . $logo, 'logo', 'logo.jpg', 'base64', 'image/jpg');
 				}
 
 				$ccs = array_filter(explode(',', $this->get('ccmail')));
@@ -184,6 +184,17 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		if (empty($fromEmail))
 			$fromEmail = $currentUserModel->get('email1');
 		return $fromEmail;
+	}
+
+	public static function checkSendMailStatus()
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT 1 FROM vtiger_systems WHERE server_type = ?', ['email']);
+		if ($db->getRowCount($result)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
