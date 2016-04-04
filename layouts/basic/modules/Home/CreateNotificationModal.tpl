@@ -48,7 +48,7 @@
 						<strong>{vtranslate('LBL_SEND_NOTIFICATION_MAIL', $MODULE)}</strong>
 					</a>
 				{/if}
-				{if Emails_Record_Model::checkSendMailStatus()}
+				{if $USER_MODEL->internal_mailer != 0 && Emails_Record_Model::checkSendMailStatus()}
 					<button class="btn btn-success" type="submit" name="saveButton" data-mode="createMail">
 						<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;
 						<strong>{vtranslate('LBL_SEND_NOTIFICATION_MAIL', $MODULE)}</strong>
