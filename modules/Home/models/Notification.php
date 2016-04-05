@@ -68,32 +68,30 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 
-		if ($this->get('moduleName') != 'Users') {
-			$currentUser = vglobal('current_user');
-			$user = CRMEntity::getInstance('Users');
-			$user->retrieveCurrentUserInfoFromFile($this->get('userid'));
-			vglobal('current_user', $user);
-			if (!Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
-				$log->error('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) .
-					' does not have permission for this record ' . $this->get('record'));
-				vglobal('current_user', $currentUser);
-				return false;
-			}
-			if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
-				$log->warn('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
-				vglobal('current_user', $currentUser);
-				return false;
-			}
+		$currentUser = vglobal('current_user');
+		$user = CRMEntity::getInstance('Users');
+		$user->retrieveCurrentUserInfoFromFile($this->get('userid'));
+		vglobal('current_user', $user);
+
+		if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
+			$log->warn('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
+			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+			return false;
+		}
+		if ($this->get('moduleName') != 'Users' && !Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
+			$log->error('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) .
+				' does not have permission for this record ' . $this->get('record'));
+			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+			return false;
 		}
 		if ($parseContent) {
 			$this->parseContent();
 		}
-		if ($this->get('moduleName') != 'Users') {
-			vglobal('current_user', $currentUser);
-			if ($this->get('type') == 0) {
-				$this->set('record', Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId());
-				$this->set('moduleName', 'Users');
-			}
+		vglobal('current_user', $currentUser);
+
+		if ($this->get('moduleName') != 'Users' && $this->get('type') == 0) {
+			$this->set('record', Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId());
+			$this->set('moduleName', 'Users');
 		}
 		if (!$this->has('time')) {
 			$this->set('time', date('Y-m-d H:i:s'));
