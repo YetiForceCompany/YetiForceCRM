@@ -1125,6 +1125,8 @@ $languageStrings = [
 	'Support Profile' => 'Support Profile',
 	'Sales Profile' => 'Sales Profile',
 	'Guest Profile' => 'Guest',
+	'LBL_DISPLAYED' => 'Displayed',
+	'LBL_SEND_NOTIFICATION' => 'Send notification',
 	// Action types - AT
 	'LBL_AT_UPDATED' => 'Modify',
 	'LBL_AT_DELETED' => 'Delete',
@@ -1384,4 +1386,5 @@ $jsLanguageStrings = [
 	'JS_WATCHING_MESSAGE0' => 'Are you sure you want to disable tracking changes?',
 	'JS_WATCHING_MESSAGE1' => 'Are you sure you want to enable tracking changes?',
 	'JS_FILTER' => 'Filter',
+	'JS_NOTIFICATION_LINK' => 'Link',
 ];
