@@ -79,6 +79,11 @@ class Home_Notification_Model extends Vtiger_Base_Model
 				vglobal('current_user', $currentUser);
 				return false;
 			}
+			if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
+				$log->warn('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
+				vglobal('current_user', $currentUser);
+				return false;
+			}
 		}
 		if ($parseContent) {
 			$this->parseContent();

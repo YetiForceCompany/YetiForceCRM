@@ -44,7 +44,7 @@
 		<span class="col-md-3"> </span>
 		<div class="col-md-9">
 			{assign var=FIELDS value=$MODULE_MODEL->getFields()}
-			<select class="chzn-select form-control variables" onchange="$('.messageContent').append(' ' + $(this).val())">
+			<select class="chzn-select form-control variables" onchange="$('.messageContent').val($('.messageContent').val() + ' ' + $(this).val())">
 				<option value="">{vtranslate('LBL_SELECT_VARIABLES', $QUALIFIED_MODULE)}</option>
 				<optgroup label="{vtranslate('LBL_VALUE_FROM_FIELD', $QUALIFIED_MODULE)}">
 					{foreach key=FIELD_NAME item=FIELD from=$FIELDS}
