@@ -21,7 +21,6 @@
 <input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 <input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
-<input type="hidden" id="showListButtonInCalendar" value="{AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')}" />
 <input type="hidden" id="hiddenDays" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 <input type="hidden" id="activityStateLabels" value="{Vtiger_Util_Helper::toSafeHTML($ACTIVITY_STATE_LABELS)}" />
 <style>
