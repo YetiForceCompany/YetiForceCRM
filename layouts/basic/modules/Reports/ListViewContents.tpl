@@ -37,14 +37,19 @@
 	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
 	<p class="listViewLoadingMsg hide">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<table class="table table-bordered listViewEntriesTable">
+	<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE}">
 		<thead>
 			<tr class="listViewHeaders">
 				<th><input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox"></th>
 				{foreach key=LISTVIEW_HEADER_KEY item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					<th nowrap {if $LISTVIEW_HEADER@last} colspan="2" {/if}>
-						<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER_KEY}">{vtranslate($LISTVIEW_HEADERS[$LISTVIEW_HEADER_KEY],$MODULE)}
-						&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY}<span class="{$SORT_IMAGE}"></span>{/if}</a>
+					<th {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}columnSorted{/if}">
+						<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER_KEY}">
+							{vtranslate($LISTVIEW_HEADERS[$LISTVIEW_HEADER_KEY],$MODULE)}
+							&nbsp;&nbsp;
+							{if $COLUMN_NAME eq $LISTVIEW_HEADER_KEY}
+								<span class="{$SORT_IMAGE}"></span>
+							{/if}
+						</a>
 					</th>
 				{/foreach}
 			</tr>

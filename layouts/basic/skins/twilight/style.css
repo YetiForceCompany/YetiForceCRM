@@ -5318,3 +5318,6 @@ select.form-control {
 .bodyHeader .rightHeaderBtn .isBadge{
 	max-height: 34px;
 }
+.columnSorted{
+	background: #EAEAEA !important;
+}

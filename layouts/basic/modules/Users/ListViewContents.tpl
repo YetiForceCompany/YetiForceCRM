@@ -43,7 +43,7 @@
 			<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 		</span>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-		<table class="table tableRWD table-bordered listViewEntriesTable">
+		<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE}">
 			<thead>
 				<tr class="listViewHeaders">
 					<th width="2%">
@@ -53,7 +53,7 @@
 						<a href="javascript:void(0);" class="listViewHeaderValues">{vtranslate('LBL_USER_LIST_DETAILS', $MODULE)}</a>
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						<th nowrap>
+						<th class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}columnSorted{/if}">
 							<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
 								&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 						</th>
