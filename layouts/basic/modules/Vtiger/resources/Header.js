@@ -670,11 +670,10 @@ jQuery.Class("Vtiger_Header_Js", {
 		var BtnLink = 'javascript:void();';
 		var history = localStorage.history;
 		if (history != "" && history != null) {
-			var sp = history.toString().split(",");
+			var sp = history.toString().split("_|_");
 			var item = sp[sp.length - 1].toString().split("|");
 			BtnText = item[0];
 			BtnLink = item[1];
-
 		}
 		var htmlContent = '<ul class="dropdown-menu pull-right historyList" role="menu">';
 		var date = new Date().getTime();
@@ -715,13 +714,13 @@ jQuery.Class("Vtiger_Header_Js", {
 			if (sp.length >= maxValues) {
 				sp.splice(0, 1);
 			}
-			localStorage.history = sp.toString();
+			localStorage.history = sp.join('_|_');
 		} else {
 			var stack = new Array();
 			var Label = this.getHistoryLabel();
 			if (Label.length > 1) {
 				stack.push(this.getHistoryLabel() + '|' + document.URL + '|' + date);
-				localStorage.history = stack.toString();
+				localStorage.history = stack.join('_|_');
 			}
 		}
 		htmlContent += '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
