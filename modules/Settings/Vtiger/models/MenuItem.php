@@ -341,9 +341,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	 * @return type module name
 	 */
 	public function getModule(){
-		$url = $this->getUrl();
-		$url = parse_url($url, PHP_URL_QUERY);
-		parse_str($url, $urlParams);
+		$urlParams = Vtiger_Functions::getQueryParams($this->getUrl());
 		return $urlParams['module'];
 	}
 }

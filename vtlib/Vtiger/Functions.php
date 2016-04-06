@@ -1235,6 +1235,7 @@ class Vtiger_Functions
 			$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null);
 			$host = isset($host) ? $host : $_SERVER['SERVER_NAME'] . $port;
 			$browser->url = $protocol . '://' . $host . $_SERVER['REQUEST_URI'];
+			$browser->requestUri = ltrim($_SERVER['REQUEST_URI'], '/');
 			self::$browerCache = $browser;
 		}
 		return self::$browerCache;
@@ -1572,5 +1573,12 @@ class Vtiger_Functions
 	public static function getDateTimeHoursDiff($startDateTime, $endDateTime)
 	{
 		return self::getDateTimeMinutesDiff($startDateTime, $endDateTime) / 60;
+	}
+
+	public static function getQueryParams($url)
+	{
+		$queryStr = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
+		parse_str($queryStr, $queryParams);
+		return $queryParams;
 	}
 }
