@@ -390,17 +390,12 @@ var Vtiger_Index_Js = {
 	 * Function registers event for Calendar Reminder popups
 	 */
 	registerActivityReminder: function () {
-		var activityReminder = jQuery('#activityReminder').val();
-		if (activityReminder != '') {
-			activityReminder = activityReminder * 1000;
-			var currentTime = new Date().getTime();
-			var nextActivityReminderCheck = app.cacheGet('ActivityReminderNextCheckTime', 0);
-
-			if ((currentTime - activityReminder) > nextActivityReminderCheck) {
+		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
+		if (activityReminder != 0) {
+			Vtiger_Index_Js.requestReminder();
+			window.reminder = setInterval(function () {
 				Vtiger_Index_Js.requestReminder();
-				setTimeout('Vtiger_Index_Js.requestReminder()', activityReminder);
-				app.cacheSet('ActivityReminderNextCheckTime', currentTime + parseInt(activityReminder));
-			}
+			}, activityReminder);
 		}
 	},
 	/**
@@ -426,6 +421,8 @@ var Vtiger_Index_Js = {
 					});
 				});
 			});
+		}, function (data, err) {
+			clearInterval(window.reminder);
 		});
 	},
 	refreshNumberNotifications: function (content) {
