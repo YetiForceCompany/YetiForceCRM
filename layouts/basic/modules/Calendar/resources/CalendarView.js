@@ -168,18 +168,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
 				element.find('.fc-content, .fc-info').click(function () {
-					var progressIndicatorElement = jQuery.progressIndicator({
-						position: 'html',
-						blockInfo: {
-							'enabled': true
-						}
-					});
+					var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
 					var event = $(this).closest('.fc-event');
 					var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + event.data('id');
 					var callbackFunction = function (data) {
-						progressIndicatorElement.progressIndicator({
-							'mode': 'hide'
-						})
+						progressInstance.progressIndicator({mode: 'hide'});
 					}
 					var modalWindowParams = {
 						url: url,
@@ -221,12 +214,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		thisInstance.getCalendarView().fullCalendar('destroy');
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.createAddSwitch();
-		thisInstance.registerListViewButton();
 		thisInstance.registerSlimScroll();
 	},
-	registerSlimScroll: function(){
+	registerSlimScroll: function () {
 		var calendarContainer = $('.bodyContents');
-		app.showScrollBar(calendarContainer,{
+		app.showScrollBar(calendarContainer, {
 			railVisible: true,
 			alwaysVisible: true,
 			position: 'left'
@@ -265,7 +257,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		});
 	},
 	loadCalendarData: function (allEvents) {
-		var progressInstance = jQuery.progressIndicator();
+		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
 		var thisInstance = this;
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
@@ -309,15 +301,15 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			}
 			AppConnector.request(params).then(function (events) {
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
-				progressInstance.hide();
+				progressInstance.progressIndicator({mode: 'hide'});
 			});
 		} else {
 			thisInstance.getCalendarView().fullCalendar('removeEvents');
-			progressInstance.hide();
+			progressInstance.progressIndicator({mode: 'hide'});
 		}
 	},
 	updateEvent: function (event, delta, revertFunc) {
-		var progressInstance = jQuery.progressIndicator();
+		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
 		var start = event.start.format();
 		var params = {
 			module: 'Calendar',
@@ -329,14 +321,14 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			allDay: event.allDay
 		}
 		AppConnector.request(params).then(function (response) {
-			progressInstance.hide();
+			progressInstance.progressIndicator({mode: 'hide'});
 			if (!response['result']) {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 				revertFunc();
 			}
 		},
 				function (error) {
-					progressInstance.hide();
+					progressInstance.progressIndicator({mode: 'hide'});
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 					revertFunc();
 				});
@@ -431,15 +423,15 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			aDeferred.resolve(this.calendarCreateView.clone(true, true));
 			return aDeferred.promise();
 		}
-		var progressInstance = jQuery.progressIndicator();
+		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
 		this.loadCalendarCreateView().then(
 				function (data) {
-					progressInstance.hide();
+					progressInstance.progressIndicator({mode: 'hide'});
 					thisInstance.calendarCreateView = data;
 					aDeferred.resolve(data.clone(true, true));
 				},
 				function () {
-					progressInstance.hide();
+					progressInstance.progressIndicator({mode: 'hide'});
 				}
 		);
 		return aDeferred.promise();
@@ -467,11 +459,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	registerChangeView: function () {
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button:not(.listViewButton)").click(function () {
+		thisInstance.getCalendarView().find("button.fc-button").click(function () {
 			thisInstance.loadCalendarData();
 		});
 	},
-	getSearchParams: function () {
+	goToRecordsList: function (link) {
 		var thisInstance = this;
 		var types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), []);
 		var user = thisInstance.getValuesFromSelect2($("#calendarUserList"), [], true);
@@ -495,8 +487,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			}
 
 		});
-		var url = 'index.php?module=Calendar&view=List&search_params=[[' + searchParams + ']]';
-		return url;
+		window.location.href = link + '&search_params=[[' + searchParams + ']]';
 	},
 	registerAddButton: function () {
 		var thisInstance = this;
@@ -508,17 +499,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					}});
 			});
 		})
-	},
-	registerListViewButton: function () {
-		var thisInstance = this;
-		if (app.getMainParams('showListButtonInCalendar')) {
-			var calendarview = this.getCalendarView();
-			jQuery('<button class="btn btn-default fc-button fc-state-default listViewButton" type="button"><span class="glyphicon glyphicon-list"></span></button>')
-					.prependTo(calendarview.find('.fc-toolbar .fc-right')).on('click', function (e) {
-				var url = thisInstance.getSearchParams();
-				window.location.href = url;
-			})
-		}
 	},
 	createAddSwitch: function () {
 		var thisInstance = this;

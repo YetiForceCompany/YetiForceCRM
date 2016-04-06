@@ -79,7 +79,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$entityInstance = CRMEntity::getInstance($this->getName());
 		$list_fields = $entityInstance->list_fields;
 		$list_fields_name = $entityInstance->list_fields_name;
-		$relatedListFields = array();
+		$relatedListFields = [];
 		foreach ($list_fields as $key => $fieldInfo) {
 			foreach ($fieldInfo as $columnName) {
 				if (array_key_exists($key, $list_fields_name)) {
@@ -101,7 +101,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getConfigureRelatedListFields()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSummaryViewFieldsList()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -120,16 +120,16 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
+		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
-		$quickLinks = array(
-			array(
+		$quickLinks = [
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_VIEW',
 				'linkurl' => $this->getCalendarViewUrl(),
 				'linkicon' => '',
-			),
+			],
 			/*
 			  array(
 			  'linktype' => 'SIDEBARLINK',
@@ -137,19 +137,27 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			  'linkurl' => $this->getSharedCalendarViewUrl(),
 			  'linkicon' => '',
 			  ), */
-			array(
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
 				'linkicon' => '',
-			),
-		);
+			],
+		];
+		if ($linkParams['ACTION'] == 'Calendar' && AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
+			$quickLinks[] = [
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_CALENDAR_LIST',
+				'linkurl' => 'javascript:Calendar_CalendarView_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl(). '&viewname=All");',
+				'linkicon' => '',
+			];
+		}
 		foreach ($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
 
-		$quickWidgets = array();
-		$quickWidgetsRight = array();
+		$quickWidgets = [];
+		$quickWidgetsRight = [];
 
 		if ($linkParams['ACTION'] == 'Calendar') {
 			$quickWidgetsRight[] = array(
@@ -467,7 +475,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$params = array($this->getName(), $currentUserModel->id, $limit);
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
-		$recentRecords = array();
+		$recentRecords = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			$row['id'] = $row['crmid'];
@@ -539,7 +547,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			$type = array($type);
 		}
 		$fields = $this->getFields();
-		$fieldList = array();
+		$fieldList = [];
 		foreach ($fields as $field) {
 			$fieldType = $field->getFieldDataType();
 			if (in_array($fieldType, $type)) {
@@ -561,7 +569,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function getSettingLinks()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$settingLinks = array();
+		$settingLinks = [];
 
 		if ($currentUserModel->isAdminUser()) {
 			$settingLinks[] = array(
