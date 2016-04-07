@@ -27,7 +27,7 @@
 										</div>
 										<div class="pull-left">
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
-											{vtranslate('LBL_CREATED', $MODULE_NAME)}
+											&nbsp;{vtranslate('LBL_CREATED', $MODULE_NAME)}
 											{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 												{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
 													<div class='font-x-small updateInfoContainer'>
@@ -147,7 +147,7 @@
 										</div>
 										<div class="pull-left">
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
-											{vtranslate('LBL_DISPLAYED', $MODULE_NAME)}
+											&nbsp;{vtranslate('LBL_DISPLAYED', $MODULE_NAME)}
 										</div>
 									</div>
 								</div>
@@ -156,10 +156,10 @@
 					{/if}
 				{/foreach}
 			</ul>
-			{else}
-				<div class="summaryWidgetContainer">
-					<p class="textAlignCenter">{vtranslate('LBL_NO_RECENT_UPDATES')}</p>
-				</div>
+		{else}
+			<div class="summaryWidgetContainer">
+				<p class="textAlignCenter">{vtranslate('LBL_NO_RECENT_UPDATES')}</p>
+			</div>
 		{/if}
 	
 		<div id="moreLink">
@@ -169,6 +169,5 @@
 			</div>
 		    {/if}
 		</div>
-
-</div>
+	</div>
 {/strip}
