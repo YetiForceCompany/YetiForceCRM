@@ -29,27 +29,10 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 * @param <Array> $linkParams
 	 * @return <Array> List of Vtiger_Link_Model instances
 	 */
-	public function getSideBarLinks($linkParams)
+	public function getHederLinks($linkParams)
 	{
-		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
-		$moduleLinks = $this->getModule()->getSideBarLinks($linkParams);
-
-		$listLinkTypes = array('LISTVIEWSIDEBARLINK', 'LISTVIEWSIDEBARWIDGET');
-		$listLinks = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), $listLinkTypes);
-
-		if ($listLinks['LISTVIEWSIDEBARLINK']) {
-			foreach ($listLinks['LISTVIEWSIDEBARLINK'] as $link) {
-				$moduleLinks['SIDEBARLINK'][] = $link;
-			}
-		}
-
-		if ($listLinks['LISTVIEWSIDEBARWIDGET']) {
-			foreach ($listLinks['LISTVIEWSIDEBARWIDGET'] as $link) {
-				$moduleLinks['SIDEBARWIDGET'][] = $link;
-			}
-		}
-
-		return $moduleLinks;
+		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
+		return $links;
 	}
 
 	/**
@@ -61,10 +44,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleModel = $this->getModule();
-
-		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
-
+		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWBASIC', 'LISTVIEW'], $linkParams);
 		$basicLinks = $this->getBasicLinks();
 
 		foreach ($basicLinks as $basicLink) {
@@ -97,10 +77,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-
-		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
-
+		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 
 		$massActionLinks = [];
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassEdit')) {
