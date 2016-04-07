@@ -7,7 +7,9 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
+//vimport('vtlib/Vtiger/Unzip.php');
 
 class Vtiger_Import_View extends Vtiger_Index_View {
 
@@ -82,6 +84,7 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
+		$viewer->assign('XML_IMPORT_TPL', Import_Utils_Helper::getListTplForXmlType($moduleName));
 		$viewer->assign('SUPPORTED_FILE_TYPES', Import_Utils_Helper::getSupportedFileExtensions($moduleName));
 		$viewer->assign('SUPPORTED_FILE_TYPES_TEXT', Import_Utils_Helper::getSupportedFileExtensionsDescription($moduleName));
 		$viewer->assign('SUPPORTED_FILE_ENCODING', Import_Utils_Helper::getSupportedFileEncoding());
@@ -94,8 +97,8 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 			$viewer->assign('DUPLICATE_HANDLING_NOT_SUPPORTED', true);
 		}
 		//End
-		
-		$viewer->assign('AVAILABLE_FIELDS', $moduleMeta->getMergableFields());
+
+		$viewer->assign('AVAILABLE_BLOCKS', $moduleMeta->getMergableFields(true));
 		$viewer->assign('ENTITY_FIELDS', $moduleMeta->getEntityFields());
 		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
 		$viewer->assign('IMPORT_UPLOAD_SIZE', $upload_maxsize);
@@ -103,25 +106,21 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}
 
-	function uploadAndParse(Vtiger_Request $request) {
-
-		if(Import_Utils_Helper::validateFileUpload($request)) {
+	function uploadAndParse(Vtiger_Request $request)
+	{
+		if (Import_Utils_Helper::validateFileUpload($request)) {
 			$moduleName = $request->getModule();
 			$user = Users_Record_Model::getCurrentUserModel();
-
 			$fileReader = Import_Utils_Helper::getFileReader($request, $user);
-			if($fileReader == null) {
-				$request->set('error_message', vtranslate('LBL_INVALID_FILE', 'Import'));
+			if ($fileReader == null) {
 				$this->importBasicStep($request);
 				exit;
 			}
-
 			$hasHeader = $fileReader->hasHeader();
 			$rowData = $fileReader->getFirstRowData($hasHeader);
-
 			$viewer = $this->getViewer($request);
 			$autoMerge = $request->get('auto_merge');
-			if(!$autoMerge) {
+			if (!$autoMerge) {
 				$request->set('merge_type', 0);
 				$request->set('merge_fields', '');
 			} else {
@@ -132,20 +131,32 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$moduleMeta = $moduleModel->getModuleMeta();
 
-
 			$viewer->assign('DATE_FORMAT', $user->date_format);
 			$viewer->assign('FOR_MODULE', $moduleName);
 			$viewer->assign('MODULE', 'Import');
 
 			$viewer->assign('HAS_HEADER', $hasHeader);
-			$viewer->assign('ROW_1_DATA', $rowData);
+			$viewer->assign('ROW_1_DATA', ($rowData && $rowData['LBL_STANDARD_FIELDS']) ? $rowData : ['LBL_STANDARD_FIELDS' => $rowData]);
 			$viewer->assign('USER_INPUT', $request);
 
-			$viewer->assign('AVAILABLE_FIELDS', $moduleMeta->getImportableFields($moduleName));
-			$viewer->assign('ENCODED_MANDATORY_FIELDS', Zend_Json::encode($moduleMeta->getMandatoryFields($moduleName)));
+			if ($moduleModel->isInventory()) {
+				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
+				$inventoryFields = $inventoryFieldModel->getFields(true);
+				$inventoryFieldsBlock = [];
+				$blocksName = ['LBL_HEADLINE', 'LBL_BASIC_VERSE', 'LBL_ADDITIONAL_VERSE'];
+				foreach ($inventoryFields as $key => $data) {
+					$inventoryFieldsBlock[$blocksName[$key]] = $data;
+				}
+				$viewer->assign('INVENTORY_BLOCKS', $inventoryFieldsBlock);
+				$viewer->assign('INVENTORY', true);
+			}
+
+			$viewer->assign('AVAILABLE_BLOCKS', $moduleMeta->getImportableFields(true));
+			$viewer->assign('ENCODED_MANDATORY_FIELDS', Zend_Json::encode($moduleMeta->getMandatoryFields()));
 			$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
 			$viewer->assign('USERS_LIST', Import_Utils_Helper::getAssignedToUserList($moduleName));
 			$viewer->assign('GROUPS_LIST', Import_Utils_Helper::getAssignedToGroupList($moduleName));
+			$viewer->assign('CREATE_RECORDS_BY_MODEL', in_array($request->get('type'), ['xml', 'zip']));
 
 			return $viewer->view('ImportAdvanced.tpl', 'Import');
 		} else {

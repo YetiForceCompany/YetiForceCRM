@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -21,6 +21,8 @@
 		<input type="hidden" name="view" value="Import" />
 		<input type="hidden" name="mode" value="import" />
 		<input type="hidden" name="type" value="{$USER_INPUT->get('type')}" />
+		<input type="hidden" name="extension" value="{$USER_INPUT->get('extension')}" />
+		<input type="hidden" name="createRecordsByModel" value="{$CREATE_RECORDS_BY_MODEL}" />
 		<input type="hidden" name="has_header" value='{$HAS_HEADER}' />
 		<input type="hidden" name="file_encoding" value='{$USER_INPUT->get('file_encoding')}' />
 		<input type="hidden" name="delimiter" value='{$USER_INPUT->get('delimiter')}' />

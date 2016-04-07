@@ -33,12 +33,36 @@ if (typeof (ImportJs) == 'undefined') {
 			var fileType = jQuery('#type').val();
 			var delimiterContainer = jQuery('#delimiter_container');
 			var hasHeaderContainer = jQuery('#has_header_container');
-			if (fileType != 'csv') {
-				delimiterContainer.hide();
-				hasHeaderContainer.hide();
-			} else {
-				delimiterContainer.show();
-				hasHeaderContainer.show();
+			var xmlTpl = jQuery('#xml_tpl');
+			var extension = jQuery('#zipExtension');
+			var autoMerge = jQuery('#auto_merge');
+
+			switch(fileType) {
+				case 'xml':
+					delimiterContainer.hide();
+					hasHeaderContainer.hide();
+					xmlTpl.removeClass('hide');
+					extension.addClass('hide');
+					if(autoMerge.prop('checked')){
+						autoMerge.trigger('click');
+					}
+					autoMerge.prop('disabled', true);
+					break;
+				case 'zip':
+					delimiterContainer.hide();
+					hasHeaderContainer.hide();
+					extension.removeClass('hide');
+					if(autoMerge.prop('checked')){
+						autoMerge.trigger('click');
+					}
+					autoMerge.prop('disabled', true);
+					break;
+				default:
+					delimiterContainer.show();
+					hasHeaderContainer.show();
+					extension.addClass('hide');
+					xmlTpl.addClass('hide');
+					autoMerge.prop('disabled', false);
 			}
 		},
 		uploadAndParse: function () {
@@ -67,7 +91,7 @@ if (typeof (ImportJs) == 'undefined') {
 				importFile.focus();
 				return false;
 			}
-			if (!ImportJs.uploadFilter("import_file", "csv|vcf")) {
+			if (!ImportJs.uploadFilter("import_file", "csv|vcf|xml|zip")) {
 				return false;
 			}
 			if (!ImportJs.uploadFileSize("import_file")) {
@@ -202,13 +226,15 @@ if (typeof (ImportJs) == 'undefined') {
 		sanitizeFieldMapping: function () {
 			var fieldsList = jQuery('.fieldIdentifier');
 			var mappedFields = {};
+			var inventoryMappedFields = {};
 			var errorMessage;
 			var params = {};
 			var mappedDefaultValues = {};
 			for (var i = 0; i < fieldsList.length; ++i) {
 				var fieldElement = jQuery(fieldsList.get(i));
 				var rowId = jQuery('[name=row_counter]', fieldElement).get(0).value;
-				var selectedFieldElement = jQuery('select option:selected', fieldElement);
+				var selectElement = jQuery('select', fieldElement);
+				var selectedFieldElement = selectElement.find('option:selected');
 				var selectedFieldName = selectedFieldElement.val();
 				var selectedFieldDefaultValueElement = jQuery('#' + selectedFieldName + '_defaultvalue', fieldElement);
 				var defaultValue = '';
@@ -218,16 +244,16 @@ if (typeof (ImportJs) == 'undefined') {
 					defaultValue = selectedFieldDefaultValueElement.val();
 				}
 				if (selectedFieldName != '') {
-					if (selectedFieldName in mappedFields) {
-						errorMessage = app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + " " + selectedFieldElement.data('label');
-						params = {
-							text: errorMessage,
-							'type': 'error'
-						};
-						Vtiger_Helper_Js.showMessage(params);
+					if(selectElement.hasClass('inventory')){
+						var stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, inventoryMappedFields, selectedFieldElement);
+						inventoryMappedFields[selectedFieldName] = rowId - 1;
+					}else{
+						var stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, mappedFields, selectedFieldElement);
+						mappedFields[selectedFieldName] = rowId - 1;
+					}
+					if(stopImmediately){
 						return false;
 					}
-					mappedFields[selectedFieldName] = rowId - 1;
 					if (defaultValue != '') {
 						mappedDefaultValues[selectedFieldName] = defaultValue;
 					}
@@ -254,8 +280,21 @@ if (typeof (ImportJs) == 'undefined') {
 				return false;
 			}
 			jQuery('#field_mapping').val(JSON.stringify(mappedFields));
+			jQuery('#inventory_field_mapping').val(JSON.stringify(inventoryMappedFields));
 			jQuery('#default_values').val(JSON.stringify(mappedDefaultValues));
 			return true;
+		},
+		checkIfMappedFieldExist: function (selectedFieldName, mappedFields, selectedFieldElement){
+			if (selectedFieldName in mappedFields) {
+				var errorMessage = app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + " " + selectedFieldElement.data('label');
+				var params = {
+					text: errorMessage,
+					'type': 'error'
+				};
+				Vtiger_Helper_Js.showMessage(params);
+				return true;
+			}
+			return false;
 		},
 		validateCustomMap: function () {
 			var errorMessage;

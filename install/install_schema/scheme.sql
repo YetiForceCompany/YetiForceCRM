@@ -5112,6 +5112,7 @@ CREATE TABLE `vtiger_import_queue` (
   `default_values` text,
   `merge_type` int(11) DEFAULT NULL,
   `merge_fields` text,
+  `type` tinyint(1) DEFAULT NULL,
   `temp_status` int(11) DEFAULT '0',
   PRIMARY KEY (`importid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

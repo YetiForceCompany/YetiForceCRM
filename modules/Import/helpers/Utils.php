@@ -18,8 +18,8 @@ class Import_Utils_Helper {
 
 	static $supportedFileEncoding = array('UTF-8'=>'UTF-8', 'ISO-8859-1'=>'ISO-8859-1');
 	static $supportedDelimiters = array(','=>'comma', ';'=>'semicolon');
-	static $supportedFileExtensions = array('csv','vcf','ical');
-	static $supportedFileExtensionsByModule = ['Contacts' => ['csv','vcf'], 'Calendar' => ['csv','ical'], 'Default' => ['csv']];
+	static $supportedFileExtensions = ['csv','vcf','ical','xml'];
+	static $supportedFileExtensionsByModule = ['Contacts' => ['csv','vcf'], 'Calendar' => ['csv','ical'], 'Default' => ['csv','xml','zip']];
 
 	public function getSupportedFileExtensions($moduleName=null) {
 	 if (!$moduleName) {
@@ -111,6 +111,10 @@ class Import_Utils_Helper {
         return $tableName;
 	}
 
+	public static function getInventoryDbTableName($user) {
+        return self::getDbTableName($user).'_inv';
+	}
+
 	public static function showErrorPage($errorMessage, $errorDetails=false, $customActions=false) {
 		$viewer = new Vtiger_Viewer();
 
@@ -156,7 +160,9 @@ class Import_Utils_Helper {
 	public static function clearUserImportInfo($user) {
 		$adb = PearDatabase::getInstance();
 		$tableName = self::getDbTableName($user);
+		$invTableName = self::getInventoryDbTableName($user);
 
+		$adb->query('DROP TABLE IF EXISTS '.$invTableName);
 		$adb->query('DROP TABLE IF EXISTS '.$tableName);
 		Import_Lock_Action::unLock($user);
 		Import_Queue_Action::removeForUser($user);
@@ -261,5 +267,21 @@ class Import_Utils_Helper {
 			default:
 				return 'Unknown upload error';
 		}
+	}
+
+	public static function getListTplForXmlType($moduleName)
+	{
+		$output = [];
+		$path = 'modules/Import/tpl/';
+		$list = new DirectoryIterator($path);
+		foreach ($list as $singleFile) {
+			if (!$singleFile->isDot()) {
+				$fileName = $singleFile->getFilename();
+				if (0 === strpos($fileName, $moduleName)) {
+					$output[] = $fileName;
+				}
+			}
+		}
+		return $output;
 	}
 }

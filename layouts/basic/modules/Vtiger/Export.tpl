@@ -6,11 +6,16 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
-    <div style="padding-left: 15px;">
+	<div class='widget_header row '>
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+	</div>
+    <div>
         <form id="exportForm" class="form-horizontal row" method="post" action="index.php">
             <input type="hidden" name="module" value="{$MODULE}" />
             <input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
@@ -25,47 +30,60 @@
             <input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
 
             <div>
-                <div>&nbsp;</div>
                 <div class="col-md-8">
-                    <h4>{vtranslate('LBL_EXPORT_RECORDS',$MODULE)}</h4>
                     <div class="well exportContents marginLeftZero">
-                        <fieldset>
-                            <legend class="hide">{vtranslate('LBL_EXPORT_RECORDS',$MODULE)}</legend>
-                            <div class="row">
-                                <div>
-					<div class="col-md-8 row pushDown">
-						<div class="col-xs-4 ">{vtranslate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}&nbsp;</div>
-						<div class="col-xs-1 ">
-							<input type="radio" name="mode" title="{vtranslate('LBL_EXPORT_SELECTED_RECORDS')}" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}/>
+						<div class="radio">
+							<label title="{vtranslate('LBL_EXPORT_SELECTED_RECORDS')}">
+								<input type="radio" name="mode" id="optionsRadios1" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}>
+								{vtranslate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}
+								{if empty($SELECTED_IDS)}&nbsp; - <span class="redColor">{vtranslate('LBL_NO_RECORD_SELECTED',$MODULE)}</span>{/if}
+							</label>
 						</div>
-						{if empty($SELECTED_IDS)}&nbsp; <div class="col-xs-5 col-md-5 redColor">{vtranslate('LBL_NO_RECORD_SELECTED',$MODULE)}</div>{/if}
-					</div>
-								
-				</div>
-				<div>
-					<div class="col-md-8 row pushDown">
-						<div class="col-xs-4">{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}&nbsp;</div>
-						<div class="col-xs-1"><input type="radio" name="mode" title="{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}" value="ExportCurrentPage" /></div>
-					</div>
-				</div>
-				<div >
-					<div class="col-md-8 row pushDown">
-						<div class="col-xs-4 ">{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}&nbsp;</div>
-						<div class="col-xs-1"><input type="radio"  name="mode" value="ExportAllData" title="{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}" {if empty($SELECTED_IDS)} checked="checked" {/if} /></div>
-					</div>
-				</div>
-			    </div>
-                        </fieldset>
+						<div class="radio">
+							<label title="{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}">
+								<input type="radio" name="mode" id="optionsRadios2" value="ExportCurrentPage">
+								{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}
+							</label>
+						</div>
+						<div class="radio">
+							<label title="{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}">
+								<input type="radio" name="mode" id="optionsRadios3" value="ExportAllData" {if empty($SELECTED_IDS)} checked="checked" {/if}>
+								{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}
+							</label>
+						</div>
+						<br>
+						<hr>
+						<div class="row">
+							<div class="col-md-6">
+								<label class="">{vtranslate('LBL_EXPORT_TYPE',$MODULE)}</label>
+								<div class="">
+									<select class="select2" id="exportType" name="export_type">
+										<option value="cvs">CVS</option>
+										<option value="xml">XML</option>
+									</select>
+								</div>
+							</div>
+							{if $XML_TPL_LIST}
+								<div class="col-md-6 hide xml-tpl">
+									<label class="">{vtranslate('LBL_XML_EXPORT_TPL',$MODULE)}</label>
+									<div class="">
+										<select class="select2" id="xmlExportType" name="xml_export_type">
+											{foreach from=$XML_TPL_LIST item=item key=key}
+												<option value="{$item}">{vtranslate({$item}, $MODULE)}</option>
+											{/foreach}
+										</select>
+									</div>
+								</div>
+							{/if}				
+						</div>
                     </div>
-                    <br>
-                    <div class="textAlignCenter">
-                        <button class="btn btn-success" type="submit"><strong>{vtranslate($MODULE, $MODULE)}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
-						&nbsp;&nbsp;
+                    <div class="pull-left">
+                        <button class="btn btn-success saveButton" type="submit"><strong>{vtranslate($MODULE, $MODULE)}</strong></button>
                         <button class="btn btn-warning" type="reset" onclick='window.history.back()'>{vtranslate('LBL_CANCEL', $MODULE)}</button>
                     </div>
                 </div>
             </div>
-	
-	</form>
+
+		</form>
     </div>
 {/strip}

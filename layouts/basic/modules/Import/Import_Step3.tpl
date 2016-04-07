@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -47,8 +47,12 @@
 							<div class='col-xs-12 row'>
 								<div class='col-xs-5'>
 									<select id="available_fields" multiple size="10" name="available_fields" title="{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}'" class="txtBox" style="width: 100%">
-										{foreach key=_FIELD_NAME item=_FIELD_INFO from=$AVAILABLE_FIELDS}
-										<option value="{$_FIELD_NAME}">{$_FIELD_INFO->getFieldLabelKey()|@vtranslate:$FOR_MODULE}</option>
+										{foreach key=BLOCK_NAME item=_FIELDS from=$AVAILABLE_BLOCKS}
+											<optgroup label="{vtranslate($BLOCK_NAME, $FOR_MODULE)}">
+												{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
+													<option value="{$_FIELD_NAME}">{$_FIELD_INFO->getFieldLabelKey()|@vtranslate:$FOR_MODULE}</option>
+												{/foreach}
+											</optgroup>
 										{/foreach}
 									</select>
 								</div>

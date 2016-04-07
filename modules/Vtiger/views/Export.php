@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Vtiger_Export_View extends Vtiger_Index_View {
@@ -23,7 +24,7 @@ class Vtiger_Export_View extends Vtiger_Index_View {
 	function process(Vtiger_Request $request) {
 		$viewer = $this->getViewer($request);
 		
-		$source_module = $request->getModule();
+		$sourceModule = $request->getModule();
 		$viewId = $request->get('viewname');
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
@@ -34,9 +35,9 @@ class Vtiger_Export_View extends Vtiger_Index_View {
 		$viewer->assign('EXCLUDED_IDS', $excludedIds);
 		$viewer->assign('VIEWID', $viewId);
 		$viewer->assign('PAGE', $page);
-		$viewer->assign('SOURCE_MODULE', $source_module);
+		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE','Export');
-        
+		$viewer->assign('XML_TPL_LIST', Import_Utils_Helper::getListTplForXmlType($sourceModule));
         $searchKey = $request->get('search_key');
         $searchValue = $request->get('search_value');
 		$operator = $request->get('operator');
@@ -46,6 +47,6 @@ class Vtiger_Export_View extends Vtiger_Index_View {
             $viewer->assign('SEARCH_KEY',$searchKey);
 		}
 		$viewer->assign('SEARCH_PARAMS', $request->get('search_params'));
-		$viewer->view('Export.tpl', $source_module);
+		$viewer->view('Export.tpl', $sourceModule);
 	}
 }

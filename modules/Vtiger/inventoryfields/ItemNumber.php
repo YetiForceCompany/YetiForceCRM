@@ -11,5 +11,6 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 
 	protected $name = 'ItemNumber';
 	protected $defaultLabel = 'LBL_ITEM_NUMBER';
+	protected $columnName = 'seq';
 
 }

@@ -824,4 +824,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 		return (bool) $this->privileges['editFieldByModal'];
 	}
+
+	public function setInventoryData($data)
+	{
+		$this->inventoryData = $data;
+	}
 }

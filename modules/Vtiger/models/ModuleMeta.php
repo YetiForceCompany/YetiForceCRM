@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
@@ -63,17 +64,23 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 	 * Function returns accessible fields in a module
 	 * @return <Array of Vtiger_Field>
 	 */
-	public function getAccessibleFields()
+	public function getAccessibleFields($blocks = false)
 	{
-
 		$meta = self::$_cached_module_meta[$this->moduleName][$this->user->id];
 		$moduleFields = $meta->getModuleFields();
 		$accessibleFields = [];
 		foreach ($moduleFields as $fieldName => $fieldInstance) {
-			if ($fieldInstance->getPresence() === 1) {
-				continue;
+			if ($fieldInstance->getPresence() !== 1) {
+				if ($blocks) {
+					$blockName = $fieldInstance->getBlockName();
+					if (empty($blockName)) {
+						$blockName = 'LBL_NOT_ASSIGNET_TO_BLOCK';
+					}
+					$accessibleFields[$blockName][$fieldName] = $fieldInstance;
+				} else {
+					$accessibleFields[$fieldName] = $fieldInstance;
+				}
 			}
-			$accessibleFields[$fieldName] = $fieldInstance;
 		}
 		return $accessibleFields;
 	}
@@ -82,27 +89,38 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 	 * Function returns mergable fields in the module
 	 * @return <Array of Vtiger_field>
 	 */
-	public function getMergableFields()
+	public function getMergableFields($blocks = false)
 	{
-		$accessibleFields = $this->getAccessibleFields($this->moduleName);
+		$accessibleFields = $this->getAccessibleFields($blocks);
 		$mergableFields = [];
-		foreach ($accessibleFields as $fieldName => $fieldInstance) {
-			if ($fieldInstance->getPresence() === 1) {
-				continue;
-			}
-			// We need to avoid Last Modified by or any such User reference field
-			// for now as Query Generator is not handling it well enough.
-			// The case in which query generator is failing to generate right query is,
-			// Assigned User field is not there either in the selected fields list or in the conditions
-			// and condition is added on the User reference field
-			// TODO - Cleanup this once Query Generator support is corrected
-			if ($fieldInstance->getFieldDataType() == 'reference') {
-				$referencedModules = $fieldInstance->getReferenceList();
-				if ($referencedModules[0] == 'Users') {
-					continue;
+		if ($blocks) {
+			foreach ($accessibleFields as $block => $fields) {
+				foreach ($fields as $fieldName => $fieldInstance) {
+					if ($fieldInstance->getFieldDataType() == 'reference') {
+						$referencedModules = $fieldInstance->getReferenceList();
+						if ($referencedModules[0] == 'Users') {
+							continue;
+						}
+					}
+					$mergableFields[$block][$fieldName] = $fieldInstance;
 				}
 			}
-			$mergableFields[$fieldName] = $fieldInstance;
+		} else {
+			foreach ($accessibleFields as $fieldName => $fieldInstance) {
+				// We need to avoid Last Modified by or any such User reference field
+				// for now as Query Generator is not handling it well enough.
+				// The case in which query generator is failing to generate right query is,
+				// Assigned User field is not there either in the selected fields list or in the conditions
+				// and condition is added on the User reference field
+				// TODO - Cleanup this once Query Generator support is corrected
+				if ($fieldInstance->getFieldDataType() == 'reference') {
+					$referencedModules = $fieldInstance->getReferenceList();
+					if ($referencedModules[0] == 'Users') {
+						continue;
+					}
+				}
+				$mergableFields[$fieldName] = $fieldInstance;
+			}
 		}
 		return $mergableFields;
 	}
@@ -118,7 +136,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 		if (method_exists($focus, 'getMandatoryImportableFields')) {
 			$mandatoryFields = $focus->getMandatoryImportableFields();
 		} else {
-			$moduleFields = $this->getAccessibleFields($this->moduleName);
+			$moduleFields = $this->getAccessibleFields();
 			$mandatoryFields = [];
 			foreach ($moduleFields as $fieldName => $fieldInstance) {
 				if ($fieldInstance->isMandatory() && $fieldInstance->getFieldDataType() != 'owner' && $this->isEditableField($fieldInstance)) {
@@ -133,18 +151,29 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 	 * Function returns importable fields
 	 * @return <Array of Vtiger_Field>
 	 */
-	public function getImportableFields()
+	public function getImportableFields($blocks = false)
 	{
 		$focus = CRMEntity::getInstance($this->moduleName);
 		if (method_exists($focus, 'getImportableFields')) {
 			$importableFields = $focus->getImportableFields();
 		} else {
-			$moduleFields = $this->getAccessibleFields($moduleName);
+			$moduleFields = $this->getAccessibleFields($blocks);
 			$importableFields = [];
-			foreach ($moduleFields as $fieldName => $fieldInstance) {
-				if (($this->isEditableField($fieldInstance) && ($fieldInstance->getTableName() != 'vtiger_crmentity' || $fieldInstance->getColumnName() != 'modifiedby')
-					) || ($fieldInstance->getUIType() == '70' && $fieldName != 'modifiedtime')) {
-					$importableFields[$fieldName] = $fieldInstance;
+			if ($blocks) {
+				foreach ($moduleFields as $blockName => $fields) {
+					foreach ($fields as $fieldName => $fieldInstance) {
+						if ($fieldInstance->getTableName() != 'vtiger_entity_stats' && ($this->isEditableField($fieldInstance) && ($fieldInstance->getTableName() != 'vtiger_crmentity' || $fieldInstance->getColumnName() != 'modifiedby')
+							) || ($fieldInstance->getUIType() == '70' && $fieldName != 'modifiedtime')) {
+							$importableFields[$blockName][$fieldName] = $fieldInstance;
+						}
+					}
+				}
+			} else {
+				foreach ($moduleFields as $fieldName => $fieldInstance) {
+					if (($this->isEditableField($fieldInstance) && ($fieldInstance->getTableName() != 'vtiger_crmentity' || $fieldInstance->getColumnName() != 'modifiedby')
+						) || ($fieldInstance->getUIType() == '70' && $fieldName != 'modifiedtime')) {
+						$importableFields[$fieldName] = $fieldInstance;
+					}
 				}
 			}
 		}
@@ -157,7 +186,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 	 */
 	public function getEntityFields()
 	{
-		$moduleFields = $this->getAccessibleFields($this->moduleName);
+		$moduleFields = $this->getAccessibleFields();
 		$entityColumnNames = vtws_getEntityNameFields($this->moduleName);
 		$entityNameFields = [];
 		foreach ($moduleFields as $fieldName => $fieldInstance) {
@@ -199,7 +228,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 		if (method_exists($focus, 'getMandatoryImportableFields')) {
 			$mandatoryFields = $focus->getMandatoryImportableFields();
 		} else {
-			$moduleFields = $this->getAccessibleFields($this->moduleName);
+			$moduleFields = $this->getAccessibleFields();
 			$mandatoryFields = [];
 			foreach ($moduleFields as $fieldName => $fieldInstance) {
 				if ($fieldInstance->isMandatory() && $fieldInstance->getFieldDataType() != 'owner' && $this->isEditableField($fieldInstance)) {

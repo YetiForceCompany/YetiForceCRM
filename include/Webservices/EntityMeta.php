@@ -119,6 +119,22 @@ abstract class EntityMeta
 		return $this->ownerFields;
 	}
 
+	public function getSharedOwnerFields()
+	{
+		if ($this->sharedOwnerFields === null) {
+			$this->sharedOwnerFields = [];
+
+			$moduleFields = $this->getModuleFields();
+			foreach ($moduleFields as $fieldName => $webserviceField) {
+				if (strcasecmp($webserviceField->getFieldDataType(), 'sharedOwner') === 0) {
+					array_push($this->sharedOwnerFields, $fieldName);
+				}
+			}
+			sort($this->sharedOwnerFields);
+		}
+		return $this->sharedOwnerFields;
+	}
+
 	public function getObectIndexColumn()
 	{
 		return $this->idColumn;

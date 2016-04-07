@@ -1134,6 +1134,8 @@ $languageStrings = [
 	'LBL_AT_CONVERTTOACCOUNT' => 'Skonwertowano leada',
 	'LBL_AT_DISPLAYED' => 'Wyświetlono',
 	'LBL_FILTER' => 'Filtr',
+	'LBL_EXPORT_TYPE' => 'Rodzaj eksportowanego pliku',
+	'LBL_XML_EXPORT_TPL' => 'Szablon',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

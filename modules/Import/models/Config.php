@@ -12,13 +12,14 @@ class Import_Config_Model extends Vtiger_Base_Model {
 
 	function __construct() {
 		$ImportConfig = array(
-			'importTypes' => array(
-								'csv' => array('reader' => 'Import_CSVReader_Reader', 'classpath' => 'modules/Import/readers/CSVReader.php'),
-								'vcf' => array('reader' => 'Import_VCardReader_Reader', 'classpath' => 'modules/Import/readers/VCardReader.php'),
-								'ics' => array('reader' => 'Import_ICSReader_Reader', 'classpath' => 'modules/Import/readers/ICSReader.php'),
-								'default' => array('reader' => 'Import_FileReader_Reader', 'classpath' => 'modules/Import/readers/FileReader.php')
-							),
-
+			'importTypes' => [
+				'csv' => ['reader' => 'Import_CSVReader_Reader', 'classpath' => 'modules/Import/readers/CSVReader.php'],
+				'vcf' => ['reader' => 'Import_VCardReader_Reader', 'classpath' => 'modules/Import/readers/VCardReader.php'],
+				'ics' => ['reader' => 'Import_ICSReader_Reader', 'classpath' => 'modules/Import/readers/ICSReader.php'],
+				'default' => ['reader' => 'Import_FileReader_Reader', 'classpath' => 'modules/Import/readers/FileReader.php'],
+				'xml' => ['reader' => 'Import_XmlReader_Reader', 'classpath' => 'modules/Import/readers/XMLReader.php'],
+				'zip' => ['reader' => 'Import_ZipReader_Reader', 'classpath' => 'modules/Import/readers/ZIPReader.php']
+			],
 			'userImportTablePrefix' => 'vtiger_import_',
 			// Individual batch limit - Specified number of records will be imported at one shot and the cycle will repeat till all records are imported
 			'importBatchLimit' => '250',

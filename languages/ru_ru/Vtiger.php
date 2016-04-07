@@ -1380,6 +1380,8 @@ $languageStrings = [
 	'LBL_AT_CONVERTTOACCOUNT' => 'Lead converted',
 	'LBL_AT_DISPLAYED' => 'Displayed',
 	'LBL_FILTER' => 'Filter',
+	'LBL_EXPORT_TYPE' => 'Type of exported file',
+	'LBL_XML_EXPORT_TPL' => 'Template',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
