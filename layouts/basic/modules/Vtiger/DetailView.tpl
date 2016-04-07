@@ -25,7 +25,6 @@
 				<input type="hidden" name="viewMode" value="summary" data-nextviewname="full" data-currentviewlabel="{vtranslate('LBL_SHOW_SUMMARY_DETAILS',{$MODULE_NAME})}"
 					  data-summary-url="{$SUMMARY_MODE_URL}" data-full-url="{$FULL_MODE_URL}"  />
 			</div>
-
 			<div class="col-md-7">
 				<div class="pull-right">
 					<div class="btn-toolbar">

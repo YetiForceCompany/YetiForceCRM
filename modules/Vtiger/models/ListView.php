@@ -532,7 +532,9 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
 				'linkclass' => 'addButton moduleColor_' . $moduleModel->getName(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus',
+				'showLabel' => 1,
+				'linkhref' => true
 			];
 		}
 

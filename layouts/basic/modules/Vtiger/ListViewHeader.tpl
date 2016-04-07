@@ -48,31 +48,8 @@
 							</ul>
 						{/if}
 					</div>
-					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-						<div class="btn-group">
-							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn btn-default {if $LISTVIEW_BASICACTION->linkclass neq ''}{$LISTVIEW_BASICACTION->linkclass}{/if}" 
-								{if $LISTVIEW_BASICACTION->get('linkdata') neq ''}
-									{foreach from=$LISTVIEW_BASICACTION->get('linkdata') key=NAME item=DATA}
-										data-{$NAME}="{$DATA}" 
-									{/foreach}
-								{/if}
-								{if $LISTVIEW_BASICACTION->getUrl() neq ''}
-									{if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}
-										onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
-									{else}
-										onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"'
-									{/if}
-								{/if}>
-								{if $LISTVIEW_BASICACTION->linkicon eq ''}
-									<span class="glyphicon glyphicon-plus"></span>
-								{else}
-									<span class="{$LISTVIEW_BASICACTION->linkicon}"></span>
-								{/if}
-								{if $LISTVIEW_BASICACTION->getLabel() neq ''}
-									&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong>
-								{/if}
-							</button>
-						</div>
+					{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+						{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listView'}
 					{/foreach}
 				</div>
 				<div class="btn-toolbar col-md-3 col-sm-5 col-xs-12 pull-right-sm pull-left-xs">

@@ -11,7 +11,7 @@
 -->*}
 {strip}
     <div class='editViewContainer'>
-		
+
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
             {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
             {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -58,6 +58,12 @@
 						<span class="pull-right">
 							<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong></button>&nbsp;&nbsp;
 							<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong></button>
+						</span>
+						<span class="pull-right">
+							{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
+								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='editViewHeader'}
+								&nbsp;&nbsp;
+							{/foreach}
 						</span>
 						<div class="clearfix"></div>
 					</div>
@@ -119,13 +125,13 @@
 										<label class="muted">
 											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 											{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-											<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
-										{/if}
-											{if $FIELD_MODEL->get('uitype') eq "83"}
-												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
-											{else}
-												{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}
-											{/if}
+												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
+												{/if}
+												{if $FIELD_MODEL->get('uitype') eq "83"}
+													{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
+												{else}
+													{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}
+												{/if}
 										</label>
 									</div>
 									{if $FIELD_MODEL->get('uitype') neq "83"}
