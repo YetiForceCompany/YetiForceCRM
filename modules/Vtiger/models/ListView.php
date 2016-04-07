@@ -162,7 +162,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$this->get('query_generator')->setConditionField($orderByFieldName);
-				//$queryGenerator->whereFields[] = $orderByFieldName;
 
 				$referenceModules = $orderByFieldModel->getReferenceList();
 				$referenceNameFieldOrderBy = [];
@@ -183,6 +182,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				}
 				$query = ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
 			} else if ($orderBy === 'smownerid') {
+				$this->get('query_generator')->setConditionField($orderByFieldName);
+
 				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 				if ($fieldModel->getFieldDataType() == 'owner') {
 					$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
