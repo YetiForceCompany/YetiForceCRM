@@ -273,12 +273,14 @@ class Import_Utils_Helper {
 	{
 		$output = [];
 		$path = 'modules/Import/tpl/';
-		$list = new DirectoryIterator($path);
-		foreach ($list as $singleFile) {
-			if (!$singleFile->isDot()) {
-				$fileName = $singleFile->getFilename();
-				if (0 === strpos($fileName, $moduleName)) {
-					$output[] = $fileName;
+		if(is_dir($path)) {
+			$list = new DirectoryIterator($path);
+			foreach ($list as $singleFile) {
+				if (!$singleFile->isDot()) {
+					$fileName = $singleFile->getFilename();
+					if (0 === strpos($fileName, $moduleName)) {
+						$output[] = $fileName;
+					}
 				}
 			}
 		}
