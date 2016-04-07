@@ -31,7 +31,7 @@
 						<tr class="opacity" data-id="{$RECORD->getId()}">
 							<td class="textAlignCenter {$WIDTHTYPE}"><label class="name">{$RECORD->getName()}</label></td>
 							<td class="textAlignCenter {$WIDTHTYPE}"><span class="value">{$RECORD->getValue()} {if !$CURRENCY_BOOL}%{else}{$CURRENCY.currency_symbol}{/if}</span></td>
-							<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" class="status" {if $RECORD->getStatus()}checked{/if} />
+							<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" class="status" {if !$RECORD->getStatus()}checked{/if} />
 								<div class="pull-right actions">
 									<a class="editInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignBottom"></span></a>&nbsp;
 									<a class="removeInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignBottom"></span></a>&nbsp;
