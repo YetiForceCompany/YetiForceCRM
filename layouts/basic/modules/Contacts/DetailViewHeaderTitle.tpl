@@ -28,7 +28,7 @@
 					{/if}
 				</span>
 			</div>
-			<h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}">
+			<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}">
 				{if $RECORD->getDisplayValue('salutationtype')}
                     <span class="salutation">{$RECORD->getDisplayValue('salutationtype')}</span>&nbsp;
                 {/if}
