@@ -22,25 +22,25 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTER_MODULE_NAME', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-6 controls">
-						<input type="text" class="input-lg module_name form-control" name="module_name" placeholder="HelpDesk" required="true" >
+						<input type="text" class="module_name form-control" name="module_name" placeholder="HelpDesk" required="true" >
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTER_MODULE_LABEL', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-6 controls">
-						<input type="text" class="input-lg module_name form-control" name="module_label" placeholder="Help Desk" required="true">
+						<input type="text" class="module_name form-control" name="module_label" placeholder="Help Desk" required="true">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTITY_FIELDNAME', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-6 controls">
-						<input type="text" class="input-lg entityfieldname form-control" name="entityfieldname" placeholder="title" required="true">
+						<input type="text" class="entityfieldname form-control" name="entityfieldname" placeholder="title" required="true">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTITY_FIELDLABEL', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-6 controls">
-						<input type="text" class="input-lg entityfieldlabel form-control" name="entityfieldlabel" placeholder="Title" required="true">
+						<input type="text" class="entityfieldlabel form-control" name="entityfieldlabel" placeholder="Title" required="true">
 					</div>
 				</div>
 				<div class="form-group">
