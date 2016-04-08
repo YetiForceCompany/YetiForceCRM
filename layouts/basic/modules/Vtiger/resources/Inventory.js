@@ -90,7 +90,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		if (items.find('thead .taxMode').length > 0) {
 			return $('.taxMode');
 		}
-		if(row){
+		if (row) {
 			return row.find('.taxMode');
 		} else {
 			return false;
@@ -106,7 +106,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	isGroupTaxMode: function () {
 		var taxTypeElement = this.getTaxModeSelectElement();
-		if(taxTypeElement){
+		if (taxTypeElement) {
 			var selectedOption = taxTypeElement.find('option:selected');
 			if (selectedOption.val() == '0') {
 				return true;
@@ -259,7 +259,9 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	rowCalculations: function (row) {
 		this.calculateTotalPrice(row);
+		this.calculateDiscounts(row);
 		this.calculateNetPrice(row);
+		this.calculateTaxes(row);
 		this.calculateGrossPrice(row);
 		this.calculateMargin(row);
 	},
@@ -269,6 +271,76 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			thisInstance.quantityChangeActions($(this));
 		});
 		thisInstance.calculateItemNumbers();
+	},
+	calculateDiscounts: function (row) {
+		var discountParams = row.find('.discountParam').val();
+		var aggregationType = $('.aggregationTypeDiscount').val();
+		if (discountParams == '' || discountParams == '[]' || discountParams == undefined)
+			return 0;
+		discountParams = JSON.parse(discountParams);
+		var valuePrices = this.getTotalPrice(row);
+		var discountRate = 0;
+
+		var types = discountParams.aggregationType;
+		if (typeof types == 'string') {
+			types = [types];
+		}
+		types.forEach(function (entry) {
+			if (entry == 'individual') {
+				var discountValue = discountParams.individualDiscount;
+				var discountType = discountParams.individualDiscountType;
+				if (discountType == 'percentage') {
+					discountRate += valuePrices * (discountValue / 100);
+				} else {
+					discountRate += app.parseNumberToFloat(discountValue);
+				}
+			}
+			if (entry == 'global') {
+				var discountValue = discountParams.globalDiscount;
+				discountRate += valuePrices * (discountValue / 100);
+			}
+			if (entry == 'group') {
+				var discountValue = discountParams.groupDiscount;
+				discountRate += valuePrices * (discountValue / 100);
+			}
+			if (aggregationType == '2') {
+				valuePrices = valuePrices - discountRate;
+			}
+		});
+		this.setDiscount(row, discountRate);
+	},
+	calculateTaxes: function (row) {
+		var taxParams = row.find('.taxParam').val();
+		if (taxParams == '' || taxParams == '[]' || taxParams == undefined)
+			return 0;
+		taxParams = JSON.parse(taxParams);
+		var aggregationType = $('.aggregationTypeTax').val();
+		var valuePrices = this.getNetPrice(row);
+		var taxRate = 0;
+		var types = taxParams.aggregationType;
+		if (typeof types == 'string') {
+			types = [types];
+		}
+		types.forEach(function (entry) {
+			var taxValue = 0;
+			if (entry == 'individual') {
+				taxValue = taxParams.individualTax;
+			}
+			if (entry == 'global') {
+				taxValue = taxParams.globalTax;
+			}
+			if (entry == 'group') {
+				taxValue = taxParams.groupTax;
+			}
+			if (entry == 'regional') {
+				taxValue = taxParams.regionalTax;
+			}
+			taxRate += valuePrices * (taxValue / 100);
+			if (aggregationType == '2') {
+				valuePrices = valuePrices + taxRate;
+			}
+		});
+		this.setTax(row, taxRate);
 	},
 	summaryCalculations: function () {
 		var thisInstance = this;
@@ -372,6 +444,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	getAllTaxs: function () {
 		var thisInstance = this;
 		var tax = [];
+		var typeSummary = $('.aggregationTypeTax').val();
 		this.getInventoryItemsContainer().find(thisInstance.rowClass).each(function (index) {
 			var row = $(this);
 			var netPrice = thisInstance.getNetPrice(row);
@@ -388,7 +461,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 					if (tax[precent] != undefined) {
 						old = parseFloat(tax[precent]);
 					}
-					tax[precent] = old + netPrice * (precent / 100);
+					var taxRate = netPrice * (precent / 100);
+					tax[precent] = old + taxRate;
+					if (typeSummary == '2') {
+						netPrice += taxRate;
+					}
 				});
 			}
 		});
