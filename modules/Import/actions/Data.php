@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 require_once 'include/Webservices/Create.php';
@@ -207,12 +208,13 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$fieldColumnMapping = $moduleMeta->getFieldColumnMapping();
 
 		while ($row = $adb->fetchByAssoc($result)) {
+			$handlerOn = false;
 			$rowId = $row['id'];
 			
 			if($isInventory){
 				$sql = 'SELECT * FROM ' . $inventoryTableName . ' WHERE id = ' . $rowId;
-				$result = $adb->query($sql);
-				$inventoryFieldData = $adb->getArray($result);
+				$resultInventory = $adb->query($sql);
+				$inventoryFieldData = $adb->getArray($resultInventory);
 			}
 			
 			$entityInfo = null;
@@ -342,6 +344,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					}else{
 						if($this->type){
 							$entityInfo = $this->createRecordByModel($moduleName, $fieldData, $this->user);
+							$handlerOn = true;
 						} else {
 							try {
 								$entityInfo = vtws_create($moduleName, $fieldData, $this->user);
@@ -357,7 +360,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			} else if ($createRecord) {
 				$entityInfo['status'] = self::$IMPORT_RECORD_CREATED;
 			}
-			if ($createRecord || $mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS || $mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE) {
+			if (empty($handlerOn) && ($createRecord || $mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS || $mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE)) {
 				$entityIdComponents = vtws_getIdComponents($entityInfo['id']);
 				$recordId = $entityIdComponents[1];
 				$entityfields = getEntityFieldNames($this->module);
@@ -385,7 +388,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$this->importedRecordInfo[$rowId] = $entityInfo;
 			$this->updateImportStatus($rowId, $entityInfo);
 		}
-		if ($this->entityData) {
+		if (empty($handlerOn) && $this->entityData) {
 			$entity = new VTEventsManager($adb);
 			$entity->triggerEvent('vtiger.batchevent.save', $this->entityData);
 		}
@@ -906,6 +909,9 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	
 	public function createRecordByModel($moduleName, $fieldData, $user)
 	{
+		global $VTIGER_BULK_SAVE_MODE;
+		$previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
+		$VTIGER_BULK_SAVE_MODE = false;
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		if (isset($fieldData['inventoryData'])) {
 			$inventoryData = $fieldData['inventoryData'];
@@ -918,7 +924,9 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		foreach ($fieldData as $fieldName => $value) {
 			$recordModel->set($fieldName, $value);
 		}
+
 		$recordModel->save();
+		$VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
 		$ID = $recordModel->getId();
 		if (!empty($ID)) {
 			$adb = PearDatabase::getInstance();
@@ -963,7 +971,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 
 		if ($meta->hasMandatoryFields($element)) {
-
 			$ownerFields = $meta->getOwnerFields();
 			if (is_array($ownerFields) && sizeof($ownerFields) > 0) {
 				foreach ($ownerFields as $ownerField) {
@@ -976,33 +983,31 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 		$element = DataTransform::sanitizeForInsert($element, $meta);
 		$sharedOwners = $meta->getSharedOwnerFields();
-		foreach($sharedOwners as $name){
-			if($element[$name]){
-				$element[$name] = explode(',',$element[$name]);
+		foreach ($sharedOwners as $name) {
+			if ($element[$name]) {
+				$element[$name] = explode(',', $element[$name]);
 			}
 		}
 		return $element;
 	}
-	
+
 	public function setInventoryDataToRequest($fieldData, $inventoryData = [])
 	{
 		$invDat = [];
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
 		$jsonFields = $inventoryFieldModel->getJsonFields();
-		foreach($inventoryData as $index=>$data){
-			$i = $index+1;
+		foreach ($inventoryData as $index => $data) {
+			$i = $index + 1;
 			$invDat['inventoryItemsNo'] = $i;
-			foreach($data as $name=>$value){
-				if(in_array($name, $jsonFields)){
+			foreach ($data as $name => $value) {
+				if (in_array($name, $jsonFields)) {
 					$value = Zend_Json::decode($value);
 				}
-				$invDat[$name.$i] = $value;
+				$invDat[$name . $i] = $value;
 			}
 		}
 		$fieldData['inventoryData'] = new Vtiger_Request($invDat);
 		return $fieldData;
 	}
-		
 }
 
-?>

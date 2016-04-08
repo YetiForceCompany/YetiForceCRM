@@ -6,11 +6,15 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
-
+<div class='widget_header row '>
+	<div class="col-xs-12">
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	</div>
+</div>
 {literal}
 <script type="text/javascript">
 jQuery(document).ready(function() {

@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 
 if (typeof (ImportJs) == 'undefined') {
@@ -420,11 +421,24 @@ if (typeof (ImportJs) == 'undefined') {
 				}
 			});
 
+		},
+		submitAction: function () {
+			var form = jQuery('[name="importAdvanced"]');
+			form.on('submit',function(){
+				var progressIndicatorElement = jQuery.progressIndicator({
+					'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true
+					}
+				});
+			});
 		}
 	}
 
 	jQuery(document).ready(function () {
 		ImportJs.toogleMergeConfiguration();
+		ImportJs.submitAction();
 		ImportJs.loadDefaultValueWidgetForMappedFields();
 		ImportJs.registerImportClickEvent();
 		app.registerEventForDatePickerFields(jQuery('.contentsDiv'));
