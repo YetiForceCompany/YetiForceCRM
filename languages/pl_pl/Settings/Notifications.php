@@ -9,6 +9,7 @@ $languageStrings = [
 	'LBL_WIDTH' => 'Szerokość',
 	'LBL_HEIGHT' => 'Wysokość',
 	'LBL_MODULE' => 'Nazwa modułu',
+	'LBL_USERS_WATCHING' => 'Osoby obserwujące',
 ];
 $jsLanguageStrings = [
 	'JS_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć element?',

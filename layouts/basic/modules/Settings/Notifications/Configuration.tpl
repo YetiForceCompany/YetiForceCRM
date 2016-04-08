@@ -13,7 +13,7 @@
 						{vtranslate('LBL_MODULE', $QUALIFIED_MODULE)}
 					</th>
 					<th>
-						{vtranslate('Share with users', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_USERS_WATCHING', $QUALIFIED_MODULE)}
 					</th>
 					<th class="col-sm-2 col-md-1">
 						{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}
