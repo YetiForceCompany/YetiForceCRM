@@ -5,10 +5,15 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce.com
 *************************************************************************************}
 {strip}
-    <div class="editContainer" style="padding-left: 3%;padding-right: 3%">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+    <div class="editContainer">
+		<div class='widget_header row '>
+			<div class="col-xs-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
+		</div>
         <hr>
         <div id="breadcrumb">
             <ul class="crumbs marginLeftZero">
