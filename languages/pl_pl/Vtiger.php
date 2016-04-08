@@ -1136,6 +1136,8 @@ $languageStrings = [
 	'LBL_FILTER' => 'Filtr',
 	'LBL_EXPORT_TYPE' => 'Rodzaj eksportowanego pliku',
 	'LBL_XML_EXPORT_TPL' => 'Szablon',
+	'LBL_CSV' => 'CSV',
+	'LBL_XML' => 'XML',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

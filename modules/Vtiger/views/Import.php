@@ -169,54 +169,66 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		Import_Main_View::import($request, $user);
 	}
 
-	function undoImport(Vtiger_Request $request) {
+	function undoImport(Vtiger_Request $request)
+	{
+		global $VTIGER_BULK_SAVE_MODE;
 		$viewer = new Vtiger_Viewer();
-		$db = PearDatabase::getInstance();
 
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('foruser');
-
+		$type = $request->get('type');
 		$user = Users_Record_Model::getCurrentUserModel();
-		$dbTableName = Import_Utils_Helper::getDbTableName($user);
 
-		if(!$user->isAdminUser() && $user->id != $ownerId) {
+		if (!$user->isAdminUser() && $user->id != $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
 			exit;
 		}
-        $previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
-        $VTIGER_BULK_SAVE_MODE = true;
-		$query = "SELECT recordid FROM $dbTableName WHERE temp_status = ? AND recordid IS NOT NULL";
-		//For inventory modules
-		$inventoryModules = getInventoryModules();
-		if(in_array($moduleName, $inventoryModules)){
-			$query .=' GROUP BY subject';
+		$previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
+		if (empty($type)) {
+			$VTIGER_BULK_SAVE_MODE = true;
+		}else{
+			$VTIGER_BULK_SAVE_MODE = false;
 		}
-		//End
-		$result = $db->pquery($query, array(Import_Data_Action::$IMPORT_RECORD_CREATED));
-		$noOfRecords = $db->num_rows($result);
-		$noOfRecordsDeleted = 0;
-        $entityData = [];
-		for($i=0; $i<$noOfRecords; $i++) {
-			$recordId = $db->query_result($result, $i, 'recordid');
-			if(isRecordExists($recordId) && isPermitted($moduleName, 'Delete', $recordId) == 'yes') {
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-                $recordModel->setId($recordId);
-                $recordModel->delete();
-                $focus = $recordModel->getEntity();
-                $focus->id = $recordId;
-                $entityData[] = VTEntityData::fromCRMEntity($focus);
-				$noOfRecordsDeleted++;
-			}
+		list($noOfRecords, $noOfRecordsDeleted, $entityData) = $this->undoRecords($type, $moduleName);
+		if (empty($type)) {
+			$entity = new VTEventsManager($db);
+			$entity->triggerEvent('vtiger.batchevent.delete', $entityData);
+			$VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
 		}
-        $entity = new VTEventsManager($db);        
-        $entity->triggerEvent('vtiger.batchevent.delete',$entityData);
-        $VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('TOTAL_RECORDS', $noOfRecords);
 		$viewer->assign('DELETED_RECORDS_COUNT', $noOfRecordsDeleted);
 		$viewer->view('ImportUndoResult.tpl', 'Import');
+	}
+
+	function undoRecords($type, $moduleName)
+	{
+		$db = PearDatabase::getInstance();
+		$user = Users_Record_Model::getCurrentUserModel();
+		$dbTableName = Import_Utils_Helper::getDbTableName($user);
+		$query = "SELECT recordid FROM $dbTableName WHERE temp_status = ? AND recordid IS NOT NULL";
+		$result = $db->pquery($query, array(Import_Data_Action::$IMPORT_RECORD_CREATED));
+		$noOfRecords = $db->getRowCount($result);
+		$noOfRecordsDeleted = 0;
+		$entityData = [];
+		for ($i = 0; $i < $noOfRecords; $i++) {
+			$recordId = $db->query_result($result, $i, 'recordid');
+			if (isRecordExists($recordId)) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+				if ($recordModel->isDeletable()) {
+					$recordModel->delete();
+					if (empty($type)) {
+						$focus = $recordModel->getEntity();
+						$focus->id = $recordId;
+						$entityData[] = VTEntityData::fromCRMEntity($focus);
+					}
+					$noOfRecordsDeleted++;
+				}
+			}
+		}
+		return [$noOfRecords, $noOfRecordsDeleted, $entityData];
 	}
 
 	function lastImportedRecords(Vtiger_Request $request) {

@@ -58,8 +58,9 @@
 								<label class="">{vtranslate('LBL_EXPORT_TYPE',$MODULE)}</label>
 								<div class="">
 									<select class="select2" id="exportType" name="export_type">
-										<option value="cvs">CVS</option>
-										<option value="xml">XML</option>
+										{foreach from=$EXPORT_TYPE item=TYPE key=LABEL}
+											<option value="{$TYPE}">{vtranslate({$LABEL},$MODULE)}</option>
+										{/foreach}
 									</select>
 								</div>
 							</div>

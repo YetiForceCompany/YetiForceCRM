@@ -20,6 +20,9 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	public static function getInstanceFromRequest(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
+		if (empty($moduleName)) {
+			$moduleName = $request->getModule();
+		}
 		$componentName = 'Export';
 		if ('xml' == $request->get('export_type')) {
 			$componentName = 'ExportToXml';
@@ -33,10 +36,12 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	public function initialize(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('source_module');
-		$this->moduleName = $moduleName;
-		$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
-		$this->moduleFieldInstances = $this->moduleInstance->getFields();
-		$this->focus = CRMEntity::getInstance($moduleName);
+		if (!empty($moduleName)) {
+			$this->moduleName = $moduleName;
+			$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
+			$this->moduleFieldInstances = $this->moduleInstance->getFields();
+			$this->focus = CRMEntity::getInstance($moduleName);
+		}
 	}
 
 	/**

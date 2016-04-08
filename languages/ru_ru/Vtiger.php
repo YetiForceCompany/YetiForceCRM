@@ -1382,6 +1382,8 @@ $languageStrings = [
 	'LBL_FILTER' => 'Filter',
 	'LBL_EXPORT_TYPE' => 'Type of exported file',
 	'LBL_XML_EXPORT_TPL' => 'Template',
+	'LBL_CSV' => 'CSV',
+	'LBL_XML' => 'XML',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
