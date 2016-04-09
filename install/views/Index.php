@@ -106,10 +106,12 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function Step1(Vtiger_Request $request)
 	{
-		$filesInDir = scandir('install/migrate_schema/');
 		$isMigrate = false;
-		if (count($filesInDir) > 2) {
-			$isMigrate = true;
+		if (is_dir('install/migrate_schema/')) {
+			$filesInDir = scandir('install/migrate_schema/');
+			if (count($filesInDir) > 2) {
+				$isMigrate = true;
+			}
 		}
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
