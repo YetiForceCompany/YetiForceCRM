@@ -42,29 +42,27 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public function getListViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleModel = $this->getModule();
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWBASIC', 'LISTVIEW'], $linkParams);
+		$links = [];
+		
 		$basicLinks = $this->getBasicLinks();
-
 		foreach ($basicLinks as $basicLink) {
 			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
 		}
 
+		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWBASIC', 'LISTVIEW'], $linkParams);
+		if (!empty($allLinks)) {
+			foreach ($allLinks as $type => $allLinksByType) {
+				foreach ($allLinksByType as $linkModel) {
+					$links[$type][] = $linkModel;
+				}
+			}
+		}
+		
 		$advancedLinks = $this->getAdvancedLinks();
-
 		foreach ($advancedLinks as $advancedLink) {
 			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
 		}
-
-		if ($currentUserModel->isAdminUser()) {
-
-			$settingsLinks = $this->getSettingLinks();
-			foreach ($settingsLinks as $settingsLink) {
-				$links['LISTVIEWSETTING'][] = Vtiger_Link_Model::getInstanceFromValues($settingsLink);
-			}
-		}
-
 		return $links;
 	}
 
@@ -507,15 +505,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			}
 		}
 		return $advancedLinks;
-	}
-	/*
-	 * Function to get Setting links
-	 * @return array of setting links
-	 */
-
-	public function getSettingLinks()
-	{
-		return $this->getModule()->getSettingLinks();
 	}
 	/*
 	 * Function to get Basic links
