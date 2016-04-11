@@ -9,7 +9,7 @@
 		{/if}
 	{if $LINK->get('linkhref')}<a{else}<button{/if}{/strip} {strip}
 				id="{$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}"{/strip} {strip}
-				class="btn btn-default {if $LINK->getClassName() neq ''}{$LINK->getClassName()}{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} popoverTooltip{/if}"{/strip} {strip}
+				class="btn btn-default {if $LINK->getClassName() neq ''}{$LINK->getClassName()}{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} popoverTooltip{/if} {if $LINK->get('modalView')}showModal{/if}"{/strip} {strip}
 				{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 					{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
 						data-{$NAME}="{$DATA}" 
@@ -25,15 +25,19 @@
 					href="{$LINK->getUrl()}"
 				{/if}
 			{/strip} {strip}
-				{if $LINK->get('linkPopup')}
-					onclick="window.open('{$LINK->getUrl()}', '{if $LINK->get('linktarget')}{$LINK->get('linktarget')}{else}_self{/if}'{if $LINK->get('linkPopup')}, 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" 
+				{if $LINK->get('modalView')}
+					data-url="{$LINK->getUrl()}"
 				{else}
-					{if $LINK->getUrl() neq '' && !$LINK->get('linkhref')}
-						{if stripos($LINK->getUrl(), 'javascript:')===0}
-							onclick='{$LINK->getUrl()|substr:strlen("javascript:")};'
-						{else}
-							onclick='window.location.href = "{$LINK->getUrl()}"'
-						{/if} 
+					{if $LINK->get('linkPopup')}
+						onclick="window.open('{$LINK->getUrl()}', '{if $LINK->get('linktarget')}{$LINK->get('linktarget')}{else}_self{/if}'{if $LINK->get('linkPopup')}, 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" 
+					{else}
+						{if $LINK->getUrl() neq '' && !$LINK->get('linkhref')}
+							{if stripos($LINK->getUrl(), 'javascript:')===0}
+								onclick='{$LINK->getUrl()|substr:strlen("javascript:")};'
+							{else}
+								onclick='window.location.href = "{$LINK->getUrl()}"'
+							{/if} 
+						{/if}
 					{/if}
 				{/if}
 				>
