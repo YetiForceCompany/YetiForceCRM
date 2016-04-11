@@ -27,7 +27,7 @@
 			</li>
 		</ul>
 	{/if}
-	{foreach item=LINK from=$HEADER_LINKS}
+	{foreach item=LINK from=$MENU_HEADER_LINKS}
 		{assign var="SRC" value=$LINK->getIconPath()}
 		{assign var="ICON" value=$LINK->getIcon()}
 		{assign var="TITLE" value=$LINK->getLabel()}
@@ -128,7 +128,7 @@
 			<span class="icon-bar"></span>
 		</a>
 		<ul class="dropdown-menu pull-right">
-			{foreach key=index item=obj from=$HEADER_LINKS name="compactIndex"}
+			{foreach key=index item=obj from=$MENU_HEADER_LINKS name="compactIndex"}
 				{assign var="src" value=$obj->getIconPath()}
 				{assign var="icon" value=$obj->getIcon()}
 				{assign var="title" value=$obj->getLabel()}

@@ -45,7 +45,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * Function to get the list of Header Links
 	 * @return <Array> - List of Vtiger_Link_Model instances
 	 */
-	public function getHeaderLinks(Vtiger_Request $request)
+	public function getMenuHeaderLinks(Vtiger_Request $request)
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];

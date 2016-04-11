@@ -21,7 +21,7 @@
 				</div>
 				<div class="col-xs-4 noSpaces">
 					<ul class="headerLink noSpaces pull-right">
-						{foreach key=index item=obj from=$HEADER_LINKS}
+						{foreach key=index item=obj from=$MENU_HEADER_LINKS}
 							{if $obj->linktype == 'HEADERLINK'}
 								{assign var="HREF" value='#'}
 								{assign var="ICON_PATH" value=$obj->getIconPath()}
