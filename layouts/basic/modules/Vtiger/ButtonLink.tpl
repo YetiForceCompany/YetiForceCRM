@@ -7,6 +7,8 @@
 			{assign var="ACTION_NAME" value=$LINK->get('linkhint')}
 			{assign var="LABEL" value=$LINK->get('linkhint')}
 		{/if}
+		{assign var="LINK_URL" value=$LINK->getUrl()}
+		{assign var="BTN_MODULE" value=$LINK->getRelatedModuleName($MODULE)}
 	{if $LINK->get('linkhref')}<a{else}<button{/if}{/strip} {strip}
 				id="{$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}"{/strip} {strip}
 				class="btn btn-default {if $LINK->getClassName() neq ''}{$LINK->getClassName()}{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} popoverTooltip{/if} {if $LINK->get('modalView')}showModal{/if}"{/strip} {strip}
@@ -18,24 +20,24 @@
 			{/strip} {strip}
 				{if $LABEL neq '' && $LINK->get('showLabel') != 1}
 					data-placement="bottom"
-					data-content="{vtranslate($LABEL, $MODULE)}"
+					data-content="{vtranslate($LABEL, $BTN_MODULE)}"
 				{/if}
 			{/strip} {strip}
 				{if $LINK->get('linkhref')}
-					href="{$LINK->getUrl()}"
+					href="{$LINK_URL}"
 				{/if}
 			{/strip} {strip}
 				{if $LINK->get('modalView')}
-					data-url="{$LINK->getUrl()}"
+					data-url="{$LINK_URL}"
 				{else}
 					{if $LINK->get('linkPopup')}
-						onclick="window.open('{$LINK->getUrl()}', '{if $LINK->get('linktarget')}{$LINK->get('linktarget')}{else}_self{/if}'{if $LINK->get('linkPopup')}, 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" 
+						onclick="window.open('{$LINK_URL}', '{if $LINK->get('linktarget')}{$LINK->get('linktarget')}{else}_self{/if}'{if $LINK->get('linkPopup')}, 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" 
 					{else}
-						{if $LINK->getUrl() neq '' && !$LINK->get('linkhref')}
-							{if stripos($LINK->getUrl(), 'javascript:')===0}
-								onclick='{$LINK->getUrl()|substr:strlen("javascript:")};'
+						{if $LINK_URL neq '' && !$LINK->get('linkhref')}
+							{if stripos($LINK_URL, 'javascript:')===0}
+								onclick='{$LINK_URL|substr:strlen("javascript:")};'
 							{else}
-								onclick='window.location.href = "{$LINK->getUrl()}"'
+								onclick='window.location.href = "{$LINK_URL}"'
 							{/if} 
 						{/if}
 					{/if}
@@ -48,7 +50,7 @@
 				{/if}
 				{if $LABEL neq '' && $LINK->get('showLabel') == 1}
 					{if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq ''}&nbsp;&nbsp;{/if}
-					<strong>{vtranslate($LABEL, $MODULE)}</strong>
+					<strong>{vtranslate($LABEL, $BTN_MODULE)}</strong>
 				{/if}
 				{if $LINK->get('linkhref')}</a>{else}</button>{/if}
 </div>
