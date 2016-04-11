@@ -34,7 +34,47 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-xs-12">
+			<div class="col-xs-12 marginBottom10px">
+				<div class="col-xs-4 fieldLabel">
+					{vtranslate('LBL_LOGIN', $QUALIFIED_MODULE)}
+				</div>
+				<div class="col-xs-8">
+					<input type="text" name="userName" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('user_name')}{/if}" class="form-control">
+				</div>
+			</div>
+			<div class="col-xs-12 marginBottom10px">
+				<div class="col-xs-4 fieldLabel">
+					{vtranslate('First Name', $QUALIFIED_MODULE)}
+				</div>
+				<div class="col-xs-8">
+					<input type="text" name="firstName" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('first_name')}{/if}" class="form-control">
+				</div>
+			</div>
+			<div class="col-xs-12 marginBottom10px">
+				<div class="col-xs-4 fieldLabel">
+					{vtranslate('Last Name', $QUALIFIED_MODULE)}
+				</div>
+				<div class="col-xs-8">
+					<input type="text" name="lastName" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('last_name')}{/if}" class="form-control">
+				</div>
+			</div>
+			<div class="col-xs-12 marginBottom10px">
+				<div class="col-xs-4 fieldLabel">
+					{vtranslate('SINGLE_Emails', $QUALIFIED_MODULE)}
+				</div>
+				<div class="col-xs-8">
+					<input type="text" name="email" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('email')}{/if}" class="form-control">
+				</div>
+			</div>
+			<div class="col-xs-12 marginBottom10px">
+				<div class="col-xs-4 fieldLabel">
+					{vtranslate('LBL_PASS', $QUALIFIED_MODULE)}
+				</div>
+				<div class="col-xs-8">
+					<input type="text" name="pass" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('pass')}{/if}" class="form-control">
+				</div>
+			</div>
+			<div class="col-xs-12 marginBottom10px">
 				<div class="col-xs-4 fieldLabel">
 					{vtranslate('LBL_ACTION', $QUALIFIED_MODULE)}
 				</div>
@@ -48,6 +88,28 @@
 					</select>
 				</div>
 			</div>
+			<div class="col-xs-12 marginBottom10px">
+				<div class="col-xs-4 fieldLabel">
+					{vtranslate('Status', $QUALIFIED_MODULE)}
+				</div>
+				<div class="col-xs-8">
+					<input type="checkbox" {if $RECORD_MODEL && $RECORD_MODEL->get('status') eq 1}checked{/if} name="status">
+				</div>
+			</div>		
+			<div class="col-xs-12 marginBottom10px">
+				<div class="col-xs-4 fieldLabel">
+					{vtranslate('LBL_SERVER', $QUALIFIED_MODULE)}
+				</div>
+				<div class="col-xs-8">
+					<select class="select2 server">
+						{foreach from=$LIST_SERVERS item=SERVER}
+							<option value="{$SERVER['id']}" {if $RECORD_MODEL && $RECORD_MODEL->get('server_id') eq $SERVER['id']} selected {/if}>
+								{$SERVER['name']}
+							</option>
+						{/foreach}
+					</select>
+				</div>
+			</div>	
 		</div>
 		{include file='ModalFooter.tpl'|@vtemplate_path}
 	</div>

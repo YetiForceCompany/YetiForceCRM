@@ -36,6 +36,7 @@ class Settings_POS_CreateKey_View extends Vtiger_BasicModal_View
 		
 		$viewer->assign('LIST_USERS', $listUsers);
 		$viewer->assign('LIST_ACTIONS', $listActions);
+		$viewer->assign('LIST_SERVERS',  Settings_WebserviceApps_Module_Model::getActiveServers('POS'));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

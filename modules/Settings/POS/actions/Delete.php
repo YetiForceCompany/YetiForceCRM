@@ -12,6 +12,6 @@ class Settings_POS_Delete_Action extends Settings_Vtiger_Index_Action
 	{
 		$db = PearDatabase::getInstance();
 		$id = $request->get('id');
-		$db->delete('p_yf_users_pos', 'id = ?', [$id]);
+		$db->delete('w_yf_pos_users', 'id = ?', [$id]);
 	}
 }

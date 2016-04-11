@@ -66,6 +66,13 @@ jQuery.Class('Settings_POS_Index_Js', {}, {
 						action: 'SaveAjax',
 						user: container.find('.users').val(),
 						actionPos: container.find('.actionPos').val(),
+						server: container.find('.server').val(),
+						status: container.find('[name="status"]').is(':checked'),
+						userName: container.find('[name="userName"]').val(),
+						firstName: container.find('[name="firstName"]').val(),
+						lastName: container.find('[name="lastName"]').val(),
+						email: container.find('[name="email"]').val(),
+						pass: container.find('[name="pass"]').val(),
 					};
 					if (id != '') {
 						params['id'] = id;
