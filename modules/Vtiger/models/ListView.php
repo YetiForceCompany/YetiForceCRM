@@ -32,6 +32,27 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	public function getHederLinks($linkParams)
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
+		
+		$headerLinks = [];
+		$moduleModel = $this->getModule();
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
+			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
+			$class = 'btn-default';
+			if ($watchdog->isWatchingModule()) {
+				$class = 'btn-info';
+			}
+			$headerLinks[] = [
+				'linktype' => 'LIST_VIEW_HEADER',
+				'linkhint' => 'BTN_WATCHING_MODULE',
+				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
+				'linkclass' => $class,
+				'linkicon' => 'glyphicon glyphicon-eye-open',
+				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
+			];
+		}
+		foreach ($headerLinks as $headerLink) {
+			$links['LIST_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues($headerLink);
+		}
 		return $links;
 	}
 
@@ -44,7 +65,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$moduleModel = $this->getModule();
 		$links = [];
-		
+
 		$basicLinks = $this->getBasicLinks();
 		foreach ($basicLinks as $basicLink) {
 			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
@@ -58,7 +79,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		
+
 		$advancedLinks = $this->getAdvancedLinks();
 		foreach ($advancedLinks as $advancedLink) {
 			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
@@ -524,22 +545,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => 'glyphicon glyphicon-plus',
 				'showLabel' => 1,
 				'linkhref' => true
-			];
-		}
-
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
-			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
-			$class = 'btn-default';
-			if ($watchdog->isWatchingModule()) {
-				$class = 'btn-info';
-			}
-			$basicLinks[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linkhint' => 'BTN_WATCHING_MODULE',
-				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
-				'linkclass' => $class,
-				'linkicon' => 'glyphicon glyphicon-eye-open',
-				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
 			];
 		}
 
