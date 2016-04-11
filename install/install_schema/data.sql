@@ -241,11 +241,18 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 
 /*Data for the table `o_yf_csrf` */
 
+/*Data for the table `p_yf_actions_pos` */
+
+insert  into `p_yf_actions_pos`(`id`,`label`) values (1,'LBL_SYNCHRONIZE_PRODUCTS');
+insert  into `p_yf_actions_pos`(`id`,`label`) values (2,'LBL_SYNCHRONIZE_ORDERS');
+
 /*Data for the table `p_yf_servers` */
 
 /*Data for the table `p_yf_sessions` */
 
 /*Data for the table `p_yf_users` */
+
+/*Data for the table `p_yf_users_pos` */
 
 /*Data for the table `roundcube_cache` */
 
@@ -23255,6 +23262,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (96,1,'LBL_LOCKS','adminIcon-locks','LBL_LOCKS_DESCRIPTION','index.php?module=Users&view=Locks&parent=Settings',8,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (97,4,'LBL_TYPE_NOTIFICATIONS','adminIcon-TypeNotification','LBL_TYPE_NOTIFICATIONS_DESCRIPTION','index.php?module=Notifications&view=List&parent=Settings',12,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (98,4,'LBL_NOTIFICATIONS_CONFIGURATION','adminIcon-NotificationConfiguration','LBL_TYPE_NOTIFICATIONS_DESCRIPTION','index.php?module=Notifications&view=Configuration&parent=Settings',13,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (99,5,'LBL_POS',NULL,NULL,'index.php?module=POS&view=Index&parent=Settings',10,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 

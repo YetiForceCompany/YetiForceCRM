@@ -598,6 +598,14 @@ CREATE TABLE `o_yf_csrf` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `p_yf_actions_pos` */
+
+CREATE TABLE `p_yf_actions_pos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `p_yf_servers` */
 
 CREATE TABLE `p_yf_servers` (
@@ -640,6 +648,17 @@ CREATE TABLE `p_yf_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`user_name`),
   KEY `user_name_2` (`user_name`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `p_yf_users_pos` */
+
+CREATE TABLE `p_yf_users_pos` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(50) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `key` varchar(50) NOT NULL,
+  `action` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_cache` */
