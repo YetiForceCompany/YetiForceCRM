@@ -25,7 +25,7 @@ class APISession
 		}
 
 		$dbPortal = PearDatabase::getInstance('portal');
-		$dbPortal->insert('p_yf_sessions', $sessionData);
+		$dbPortal->insert('w_yf_sessions', $sessionData);
 		return $sessionData;
 	}
 }
