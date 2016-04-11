@@ -598,69 +598,6 @@ CREATE TABLE `o_yf_csrf` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `p_yf_actions_pos` */
-
-CREATE TABLE `p_yf_actions_pos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `p_yf_servers` */
-
-CREATE TABLE `p_yf_servers` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) DEFAULT NULL,
-  `acceptable_url` varchar(200) DEFAULT NULL,
-  `status` tinyint(1) DEFAULT '0',
-  `api_key` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `p_yf_sessions` */
-
-CREATE TABLE `p_yf_sessions` (
-  `id` varchar(32) NOT NULL,
-  `user_id` int(19) DEFAULT NULL,
-  `language` varchar(10) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `changed` datetime DEFAULT NULL,
-  `ip` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `p_yf_users` */
-
-CREATE TABLE `p_yf_users` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `server_id` int(10) DEFAULT NULL,
-  `status` tinyint(1) DEFAULT '0',
-  `user_name` varchar(50) NOT NULL,
-  `password_h` varchar(200) DEFAULT NULL,
-  `password_t` varchar(200) DEFAULT NULL,
-  `type` varchar(30) DEFAULT NULL,
-  `parent_id` int(19) DEFAULT NULL,
-  `login_time` datetime DEFAULT NULL,
-  `logout_time` datetime DEFAULT NULL,
-  `first_name` varchar(200) DEFAULT NULL,
-  `last_name` varchar(200) DEFAULT NULL,
-  `language` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_name` (`user_name`),
-  KEY `user_name_2` (`user_name`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `p_yf_users_pos` */
-
-CREATE TABLE `p_yf_users_pos` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `key` varchar(50) NOT NULL,
-  `action` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `roundcube_cache` */
 
 CREATE TABLE `roundcube_cache` (
@@ -9150,6 +9087,75 @@ CREATE TABLE `vtiger_wsapp_sync_state` (
   `userid` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `w_yf_portal_sessions` */
+
+CREATE TABLE `w_yf_portal_sessions` (
+  `id` varchar(32) NOT NULL,
+  `user_id` int(19) DEFAULT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `changed` datetime DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `w_yf_portal_users` */
+
+CREATE TABLE `w_yf_portal_users` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `server_id` int(10) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  `user_name` varchar(50) NOT NULL,
+  `password_h` varchar(200) DEFAULT NULL,
+  `password_t` varchar(200) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
+  `parent_id` int(19) DEFAULT NULL,
+  `login_time` datetime DEFAULT NULL,
+  `logout_time` datetime DEFAULT NULL,
+  `first_name` varchar(200) DEFAULT NULL,
+  `last_name` varchar(200) DEFAULT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_name` (`user_name`),
+  KEY `user_name_2` (`user_name`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `w_yf_pos_actions` */
+
+CREATE TABLE `w_yf_pos_actions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `w_yf_pos_users` */
+
+CREATE TABLE `w_yf_pos_users` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(50) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `pass` varchar(255) NOT NULL,
+  `action` varchar(255) DEFAULT NULL,
+  `server_id` int(11) NOT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `w_yf_servers` */
+
+CREATE TABLE `w_yf_servers` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) DEFAULT NULL,
+  `acceptable_url` varchar(200) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  `api_key` varchar(100) DEFAULT NULL,
+  `type` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_auth` */
 
