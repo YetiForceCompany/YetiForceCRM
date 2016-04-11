@@ -1373,16 +1373,16 @@ class Vtiger_Functions
 		if (!$length) {
 			$length = vglobal('listview_max_textlength');
 		}
-		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text);
+		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $text);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($newText)) > $length) {
-				$newText = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length, vglobal('default_charset'));
+				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, vglobal('default_charset'));
 				if ($addDots) {
 					$newText .= '...';
 				}
 			}
 		} elseif (strlen(html_entity_decode($text)) > $length) {
-			$newText = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $text), 0, $length);
+			$newText = substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length);
 			if ($addDots) {
 				$newText .= '...';
 			}
