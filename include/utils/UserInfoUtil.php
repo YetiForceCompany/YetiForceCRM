@@ -325,14 +325,14 @@ function isPermitted($module, $actionname, $record_id = '')
 		//Checking for Action Permission
 		if (strlen($profileActionPermission[$tabid][$actionid]) < 1 && $profileActionPermission[$tabid][$actionid] == '') {
 			$permission = 'yes';
-			vglobal('isPermittedLog', 'SEC_MODULE_RIGHTS_TO_ACTION_' . $actionid);
+			vglobal('isPermittedLog', 'SEC_MODULE_RIGHTS_TO_ACTION');
 			$log->debug('Exiting isPermitted method ...');
 			return $permission;
 		}
 
 		if ($profileActionPermission[$tabid][$actionid] != 0 && $profileActionPermission[$tabid][$actionid] != '') {
 			$permission = 'no';
-			vglobal('isPermittedLog', 'SEC_MODULE_NO_RIGHTS_TO_ACTION_' . $actionid);
+			vglobal('isPermittedLog', 'SEC_MODULE_NO_RIGHTS_TO_ACTION');
 			$log->debug('Exiting isPermitted method ...');
 			return $permission;
 		}
