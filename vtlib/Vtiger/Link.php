@@ -94,11 +94,13 @@ class Vtiger_Link
 	 * @param String ICON to use on the display
 	 * @param Integer Order or sequence of displaying the link
 	 */
-	static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null, $params = null)
+	static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null, $linkParams = null)
 	{
 		$adb = PearDatabase::getInstance();
-		$checkres = $adb->pquery('SELECT linkid FROM vtiger_links WHERE tabid=? AND linktype=? AND linkurl=? AND linkicon=? AND linklabel=?', Array($tabid, $type, $url, $iconpath, $label));
-		if (!$adb->num_rows($checkres)) {
+		if($tabid != 0){
+			$checkres = $adb->pquery('SELECT linkid FROM vtiger_links WHERE tabid=? AND linktype=? AND linkurl=? AND linkicon=? AND linklabel=?', [$tabid, $type, $url, $iconpath, $label]);
+		}
+		if ($tabid == 0 || !$adb->getRowCount($checkres)) {
 			$params = [
 				'linkid' => self::__getUniqueId(),
 				'tabid' => $tabid,
@@ -113,8 +115,8 @@ class Vtiger_Link
 				$params['handler_class'] = $handlerInfo['class'];
 				$params['handler'] = $handlerInfo['method'];
 			}
-			if (!empty($params)) {
-				$params['params'] = $params;
+			if (!empty($linkParams)) {
+				$params['params'] = $linkParams;
 			}
 			$adb->insert('vtiger_links', $params);
 			self::log("Adding Link ($type - $label) ... DONE");
