@@ -426,11 +426,14 @@ function isPermitted($module, $actionname, $record_id = '')
 			}
 		}
 		$permission = isPermittedBySharing($module, $tabid, $actionid, $record_id);
+		
+		vglobal('isPermittedLog', 'SEC_RECORD_BY_SHARING_' . strtoupper($permission));
 		$log->debug('Exiting isPermitted method ... - isPermittedBySharing');
 	} else {
 		$permission = 'no';
+		vglobal('isPermittedLog', 'SEC_MODULE_IS_INACTIVE');
 	}
-	vglobal('isPermittedLog', 'SEC_RECORD_BY_SHARING_' . strtoupper($permission));
+	
 	$log->debug('Exiting isPermitted method ...');
 	return $permission;
 }
