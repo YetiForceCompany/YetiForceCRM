@@ -197,6 +197,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 					break;
 				case 120: $fieldDataType = 'sharedOwner';
 					break;
+				case 122: $fieldDataType = 'pos';
+					break;
 				case 301: $fieldDataType = 'modules';
 					break;
 				case 302: $fieldDataType = 'tree';
