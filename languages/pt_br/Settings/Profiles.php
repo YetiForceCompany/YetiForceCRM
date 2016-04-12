@@ -8,12 +8,10 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - valmir@ttcasolucoes.com.br
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_VIEW_PRIVILEGE' => 'Visualizar',
 	'LBL_ADD_RECORD' => 'Adicionar Perfil',
 	'LBL_CHOOSE_PROFILES' => 'Escolher Perfis',
 	'LBL_CREATE_PROFILE' => 'Criar Perfil',
 	'LBL_DELETE_PROFILE' => 'Apagar Perfil',
-	'LBL_DELETE_PRIVILIGE' => 'Apagar',
 	'LBL_DELETE_RECORD' => 'Apagar',
 	'LBL_DESCRIPTION' => 'Descrição',
 	'LBL_DUPLICATE_RECORD' => 'Duplicar',
@@ -21,8 +19,6 @@ $languageStrings = [
 	'LBL_EDIT_ALL_DESC' => 'Permite editar todas as informações dos módulos',
 	'LBL_EDIT_ALL' => 'Editar Tudo',
 	'LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE' => 'Editar privilégios para este Perfil',
-	'LBL_EDIT_PRIVILIGE' => 'Editar',
-	'LBL_CREATE_PRIVILIGE' => 'Criar',
 	'LBL_EDIT_RECORD' => 'Editar',
 	'LBL_FIELD_AND_TOOL_PRVILIGES' => 'Privilégios para Campos e Ferramentas',
 	'LBL_FIELDS' => 'Campos',
@@ -36,12 +32,15 @@ $languageStrings = [
 	'LBL_TRANSFER_ROLES_TO_PROFILE' => 'Transferir Funções para Perfil',
 	'LBL_VIEW_ALL_DESC' => 'Permite visualizar todas informações dos módulos',
 	'LBL_VIEW_ALL' => 'Visualizar Tudo',
-	'LBL_VIEW_PRVILIGE' => 'Visualizar',
 	'LBL_WRITE' => 'Escrita',
 	'Profiles' => 'Perfis',
 	'SINGLE_Profiles' => 'Perfil',
 	'Name' => 'Nome Perfil',
 	//Actions
+	'LBL_VIEW_PRIVILEGE' => 'Visualizar',
+	'LBL_DELETE_PRIVILIGE' => 'Apagar',
+	'LBL_CREATE_PRIVILIGE' => 'Criar',
+	'LBL_EDIT_PRIVILIGE' => 'Editar',
 	'Import' => 'Importar',
 	'Export' => 'Exportar',
 	'Merge' => 'Mesclar',
