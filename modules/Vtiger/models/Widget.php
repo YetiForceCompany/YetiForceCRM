@@ -222,4 +222,27 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		}
 		return false;
 	}
+
+	/**
+	 * Process the UI Widget requested
+	 * @param Vtiger_Link $widgetLink
+	 * @param Current Smarty Context $context
+	 */
+	function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
+	{
+		if (preg_match("/^block:\/\/(.*)/", $widgetLink->get('linkurl'), $matches)) {
+			list($widgetControllerClass, $widgetControllerClassFile) = explode(':', $matches[1]);
+			if (!class_exists($widgetControllerClass)) {
+				checkFileAccessForInclusion($widgetControllerClassFile);
+				include_once $widgetControllerClassFile;
+			}
+			if (class_exists($widgetControllerClass)) {
+				$widgetControllerInstance = new $widgetControllerClass;
+				$widgetInstance = $widgetControllerInstance->getWidget($widgetLink);
+				if ($widgetInstance) {
+					return $widgetInstance->process($recordModel);
+				}
+			}
+		}
+	}
 }

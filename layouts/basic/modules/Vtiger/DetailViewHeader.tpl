@@ -53,7 +53,14 @@
 					</div>
 				</div>
 			</div>
-			<div class='col-md-12 paddingLRZero row'>
+			{if !empty($DETAILVIEW_LINKS['DETAIL_VIEW_HEADER_WIDGET'])}
+				{foreach item=WIDGET from=$DETAILVIEW_LINKS['DETAIL_VIEW_HEADER_WIDGET']}
+					<div class="col-md-12 paddingLRZero">
+						{Vtiger_Widget_Model::processWidget($WIDGET, $RECORD)}
+					</div>
+				{/foreach}
+			{/if}
+			<div class="col-md-12 paddingLRZero row">
 				{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
 			</div>
 			<div class="pull-left paddingTop10 tagContainer col-md-12 paddingLRZero row">
