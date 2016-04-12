@@ -4845,6 +4845,7 @@ html,body,.baseContainer
 }
 .detailViewIcon{
 	font-size:48px;
+	padding: 10px;
 }
 .tag{
 	margin-right:5px;
@@ -4859,7 +4860,6 @@ html,body,.baseContainer
 }
 .detailViewTitle .moduleIcon{
 	float: left;
-	padding-right:15px;
 }
 .spaceRelatedList{
 	width:50px;
