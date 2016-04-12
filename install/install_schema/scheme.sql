@@ -1,9 +1,3 @@
-/*
-SQLyog Ultimate
-MySQL - 5.7.9 : Database - yetiforce2
-*********************************************************************
-*/
-
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;

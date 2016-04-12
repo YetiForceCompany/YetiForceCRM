@@ -145,7 +145,7 @@
 								</span>
 							</div>
 						</form>
-					</div>
+					</div>&nbsp;
 					<a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$WIDGET_MODEL->get('id')}">
 						<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 					</a>

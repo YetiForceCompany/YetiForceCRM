@@ -144,18 +144,15 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 					ON vtiger_links.`tabid` = vtiger_tab.`tabid`
 				WHERE linktype = ? AND vtiger_tab.`presence` = 0';
 
-		$params = array('DASHBOARDWIDGET');
+		$params = ['DASHBOARDWIDGET'];
 
 		$result = $db->pquery($sql, $params);
 
-		$widgets = array();
+		$widgets = [];
 		$numRows = $db->getRowCount($result);
 		for ($i = 0; $i < $numRows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$moduleName = Vtiger_Functions::getModuleName($row['tabid']);
-
-			if ($moduleName != 'Home' && ($row['linklabel'] == 'Mini List' || $row['linklabel'] == 'Notebook'))
-				continue;
 			if ($row['linklabel'] == 'Tag Cloud') {
 				$isTagCloudExists = getTagCloudView($currentUser->getId());
 				if ($isTagCloudExists == 'false') {

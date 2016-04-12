@@ -74,25 +74,27 @@
 												<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 											</button>
 										</div>
-										{if $SELECTED_MODULE_NAME eq 'Home'}
+										{if $SPECIAL_WIDGETS['Mini List']}
 											{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 											<div class="btn-group">
 												<button class="btn btn-success addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 													<strong>{vtranslate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
+										{/if}
+										{if $SPECIAL_WIDGETS['Notebook']}
 											{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 											<div class="btn-group">
 												<button class="btn btn-success addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 													<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
-											<div class="btn-group actions form-control-static">
-												<a href="javascript:void(0)" class="deleteCustomBlock" >
-													<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
-												</a>
-											</div>
-										{/if}
+										{/if}	
+										<div class="btn-group actions">
+											<a href="javascript:void(0)" class="deleteCustomBlock btn btn-danger" >
+												<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+											</a>
+										</div>
 									</div>
 								</div>
 
@@ -158,29 +160,31 @@
 
 							<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 								<div class="btn-group">
-									<button class="btn btn-default addCustomField hide" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;
+									<button class="btn btn-success addCustomField hide" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;
 										<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 									</button>
 								</div>
-								{if $SELECTED_MODULE_NAME eq 'Home'}
+								{if $SPECIAL_WIDGETS['Mini List']}
 									{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 									<div class="btn-group">
-										<button class="btn btn-default addMiniList specialWidget" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
+										<button class="btn btn-success addMiniList specialWidget" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
 											<strong>{vtranslate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
+								{/if}
+								{if $SPECIAL_WIDGETS['Notebook']}
 									{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 									<div class="btn-group">
-										<button class="btn btn-default addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
+										<button class="btn btn-success addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
 											<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
-									<div class="btn-group actions form-control-static">
-										<a href="javascript:void(0)" class="deleteCustomBlock" >
-											<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
-										</a>
-									</div>
 								{/if}
+								<div class="btn-group actions">
+									<a href="javascript:void(0)" class="deleteCustomBlock btn btn-danger" >
+										<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -373,7 +377,7 @@
 											</span>
 										</div>
 									</form>
-								</div>
+								</div>&nbsp;
 								<a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span></a>
 							</span>
 						</div>
