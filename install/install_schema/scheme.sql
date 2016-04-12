@@ -1,3 +1,9 @@
+/*
+SQLyog Ultimate
+MySQL - 5.7.9 : Database - yetiforce2
+*********************************************************************
+*/
+
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -3644,12 +3650,14 @@ CREATE TABLE `vtiger_crmentity_seq` (
 
 CREATE TABLE `vtiger_crmentityrel` (
   `crmid` int(11) NOT NULL,
-  `module` varchar(100) NOT NULL,
+  `module` varchar(25) NOT NULL,
   `relcrmid` int(11) NOT NULL,
-  `relmodule` varchar(100) NOT NULL,
+  `relmodule` varchar(25) NOT NULL,
   `rel_created_user` int(11) DEFAULT NULL,
   `rel_created_time` datetime DEFAULT NULL,
-  `rel_comment` varchar(255) DEFAULT NULL
+  `rel_comment` varchar(255) DEFAULT NULL,
+  KEY `crmid` (`crmid`),
+  KEY `relcrmid` (`relcrmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cron_task` */
