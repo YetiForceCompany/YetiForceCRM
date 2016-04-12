@@ -28,7 +28,7 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_CONVERT_FAQ',
 				'linkurl' => $recordModel->getConvertFAQUrl(),
-				'linkicon' => ''
+				'showLabel' => 1,
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
