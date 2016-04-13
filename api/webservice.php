@@ -13,6 +13,8 @@ if (!in_array('webservice', $enabledServices)) {
 }
 AppConfig::iniSet('error_log', $root_directory . 'cache/logs/webservice.log');
 
+define('REQUEST_MODE', 'API');
+
 try {
 	$api = new API();
 	$api->preProcess();

@@ -34,10 +34,6 @@ class API
 			}
 		}
 
-		if (!in_array($this->method, $this->acceptableMethods)) {
-			throw new APIException('Invalid Method', 405);
-		}
-
 		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		$this->initHeaders();
 
@@ -61,18 +57,12 @@ class API
 	{
 		$handlerClass = $this->getModuleClassName();
 		$handler = new $handlerClass();
-
-		if (!$this->additionalMethods($handler)) {
-			return false;
+		$function = strtolower($this->method);
+		
+		if (!method_exists($handler, $function)) {
+			throw new APIException('Invalid Method', 405);
 		}
 		$handler->api = $this;
-		if ($handler->getRequestMethod() != $this->method) {
-			throw new APIException('Invalid request type');
-		}
-
-		if ($this->request->get('action') != '') {
-			$function = $this->request->get('action');
-		}
 
 		$data = [];
 		if (is_a($this->data, 'Vtiger_Request')) {
@@ -88,15 +78,17 @@ class API
 			$response = call_user_func([$handler, $function], $data);
 		}
 
-		$response = [
-			'status' => 1,
-			'result' => $response
-		];
-		if (vglobal('encryptDataTransfer')) {
-			$response = $this->encryptData($response);
-		}
+		if (!empty($response)) {
+			$response = [
+				'status' => 1,
+				'result' => $response
+			];
+			if (vglobal('encryptDataTransfer')) {
+				$response = $this->encryptData($response);
+			}
 
-		$this->response($response);
+			$this->response($response);
+		}
 	}
 
 	public function postProcess()
@@ -197,15 +189,4 @@ class API
 
 		throw new APIException('No action found: ' . $mainFilePath, 405);
 	}
-	
-	public function additionalMethods($handler)
-	{
-		if ($this->method == 'OPTIONS') {
-			header('Allow: ' . $handler->getRequestMethod());
-			header('HTTP/1.1 200 OK');
-			return false;
-		}
-		return true;
-	}
-	
 }

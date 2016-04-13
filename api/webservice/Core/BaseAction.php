@@ -10,6 +10,7 @@ class BaseAction
 {
 
 	public $api = [];
+	protected $requestMethod = [];
 
 	/**
 	 * Function to get the value for a given key
@@ -19,5 +20,11 @@ class BaseAction
 	public function getRequestMethod()
 	{
 		return $this->requestMethod;
+	}
+
+	public function options()
+	{
+		header('Allow: ' . implode(',', $this->requestMethod));
+		header('HTTP/1.1 200 OK');
 	}
 }
