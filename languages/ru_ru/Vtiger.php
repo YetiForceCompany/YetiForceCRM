@@ -1384,6 +1384,9 @@ $languageStrings = [
 	'LBL_XML_EXPORT_TPL' => 'Template',
 	'LBL_CSV' => 'CSV',
 	'LBL_XML' => 'XML',
+	'LBL_HEADLINE' => 'Заголовок',
+	'LBL_BASIC_VERSE' => 'Основные данные',
+	'LBL_ADDITIONAL_VERSE' => 'Дополнительные данные',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

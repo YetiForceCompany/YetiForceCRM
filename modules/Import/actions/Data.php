@@ -32,10 +32,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	var $mergeType;
 	var $mergeFields;
 	var $defaultValues;
-	var $importedRecordInfo = array();
-	protected $allPicklistValues = array();
+	var $importedRecordInfo = [];
+	protected $allPicklistValues = [];
+	protected $inventoryFieldMapData = [];
 	var $batchImport = true;
-	public $entitydata = array();
+	public $entitydata = [];
 	static $IMPORT_RECORD_NONE = 0;
 	static $IMPORT_RECORD_CREATED = 1;
 	static $IMPORT_RECORD_SKIPPED = 2;
@@ -401,30 +402,16 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
 		$inventoryFields = $inventoryFieldModel->getFields();
+		$maps = $inventoryFieldModel->getAutoCompleteFields();
+
 		foreach ($inventoryData as &$data) {
+			$this->currentInventoryRawData = $data;
 			unset($data['id']);
 			foreach ($data as $fieldName => &$value) {
 				$fieldInstance = $inventoryFields[$fieldName];
 				if ($fieldInstance) {
 					if (in_array($fieldInstance->getName(), ['Name', 'Reference'])) {
-						$value = trim($value);
-						if (!empty($value)) {
-							if (strpos($value, '::::') > 0) {
-								$fieldValueDetails = explode('::::', $value);
-							} else if (strpos($value, ':::') > 0) {
-								$fieldValueDetails = explode(':::', $value);
-							} else {
-								$fieldValueDetails = $value;
-							}
-							$value = '';
-							if (count($fieldValueDetails) > 1) {
-								$referenceModuleName = trim($fieldValueDetails[0]);
-								$entityLabel = trim($fieldValueDetails[1]);
-								$value = getEntityId($referenceModuleName, $entityLabel);
-							}
-						} else {
-							$value = '';
-						}
+						$value = $this->transformInventoryReference($value);
 					} elseif ($fieldInstance->getName() == 'Currency') {
 						$curencyName = $value;
 						$value = getCurrencyId($entityLabel);
@@ -439,11 +426,73 @@ class Import_Data_Action extends Vtiger_Action_Controller
 							}
 						}
 						$data['currencyparam'] = Zend_Json::encode($newCurrencyParam);
+					} elseif (array_key_exists($fieldName, $maps)) {
+						$value = $this->transformInventoryFieldFromMap($value, $maps[$fieldName]);
 					}
 				}
 			}
 		}
+		$this->currentInventoryRawData = [];
 		return $inventoryData;
+	}
+
+	public function transformInventoryFieldFromMap($value, $mapData)
+	{
+		if (!empty($value)) {
+			if ($this->currentInventoryRawData['name']) {
+				list($entityName, $recordId) = $this->transformInventoryReference($this->currentInventoryRawData['name'], true);
+			}
+			if ($entityName) {
+				if ($this->inventoryFieldMapData[$mapData['field']] && $this->inventoryFieldMapData[$mapData['field']][$entityName]) {
+					$fieldObject = $this->inventoryFieldMapData[$mapData['field']][$entityName];
+				} else {
+					$moduleObject = Vtiger_Module::getInstance($entityName);
+					$fieldObject = $moduleObject ? Vtiger_Field_Model::getInstance($mapData['field'], $moduleObject) : null;
+					if (!is_array($this->inventoryFieldMapData[$mapData['field']])) {
+						$this->inventoryFieldMapData[$mapData['field']] = [];
+					}
+					$this->inventoryFieldMapData[$mapData['field']][$entityName] = $fieldObject;
+				}
+				if ($fieldObject) {
+					$type = $fieldObject->getFieldDataType();
+					switch ($type) {
+						case 'picklist':
+							$picklist = $fieldObject->getPicklistValues();
+							if (in_array($value, $picklist)) {
+								$value = array_search($value, $picklist);
+							} elseif (array_key_exists($value, $picklist)) {
+								$value = $value;
+							} else {
+								$value = '';
+							}
+							break;
+						default:
+							break;
+					}
+				} else {
+					$value = '';
+				}
+			}
+		}
+		return $value;
+	}
+
+	public function transformInventoryReference($value, $getArray = false)
+	{
+		$value = trim($value);
+		if (!empty($value)) {
+			if (strpos($value, '::::') > 0) {
+				$fieldValueDetails = explode('::::', $value);
+			} else if (strpos($value, ':::') > 0) {
+				$fieldValueDetails = explode(':::', $value);
+			}
+			if (is_array($fieldValueDetails) && count($fieldValueDetails) > 1) {
+				$referenceModuleName = trim($fieldValueDetails[0]);
+				$entityLabel = trim($fieldValueDetails[1]);
+				$value = getEntityId($referenceModuleName, $entityLabel);
+			}
+		}
+		return $getArray ? [$referenceModuleName, $value] : $value;
 	}
 
 	public function transformOwner($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues)

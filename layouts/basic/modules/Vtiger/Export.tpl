@@ -68,7 +68,7 @@
 								<div class="col-md-6 hide xml-tpl">
 									<label class="">{vtranslate('LBL_XML_EXPORT_TPL',$MODULE)}</label>
 									<div class="">
-										<select class="select2" id="xmlExportType" name="xml_export_type">
+										<select class="select2" id="xmlExportType" name="xmlExportType">
 											{foreach from=$XML_TPL_LIST item=item key=key}
 												<option value="{$item}">{vtranslate({$item}, $MODULE)}</option>
 											{/foreach}

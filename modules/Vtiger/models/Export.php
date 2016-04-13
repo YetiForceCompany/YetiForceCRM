@@ -136,11 +136,6 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		$queryGenerator->setFields($fields);
 		$query = $queryGenerator->getQuery();
 
-//		//TODO To be removed together with the old inventory module
-//		if (in_array($moduleName, getInventoryModules())) {
-//			$query = $this->moduleInstance->getExportQuery($this->focus, $query);
-//		}
-
 		$this->accessibleFields = $queryGenerator->getFields();
 
 		switch ($mode) {

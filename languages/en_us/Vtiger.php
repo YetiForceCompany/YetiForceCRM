@@ -1133,6 +1133,9 @@ $languageStrings = [
 	'LBL_XML_EXPORT_TPL' => 'Template',
 	'LBL_CSV' => 'CSV',
 	'LBL_XML' => 'XML',
+	'LBL_HEADLINE' => 'Headline',
+	'LBL_BASIC_VERSE' => 'Basic line',
+	'LBL_ADDITIONAL_VERSE' => 'Additional line',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',

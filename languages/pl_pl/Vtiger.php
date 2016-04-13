@@ -1138,6 +1138,9 @@ $languageStrings = [
 	'LBL_XML_EXPORT_TPL' => 'Szablon',
 	'LBL_CSV' => 'CSV',
 	'LBL_XML' => 'XML',
+	'LBL_HEADLINE' => 'Nagłówek',
+	'LBL_BASIC_VERSE' => 'Wiersz podstawowy',
+	'LBL_ADDITIONAL_VERSE' => 'Wiersz dodatkowy',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
