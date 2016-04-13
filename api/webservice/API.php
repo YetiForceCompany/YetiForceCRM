@@ -9,7 +9,7 @@ class API
 	 * The HTTP method this request was made in, either GET, POST, PUT or DELETE
 	 */
 	protected $method = '';
-	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
+	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'];
 	protected $acceptableHeaders = ['Apikey', 'Encrypted', 'Sessionid'];
 	protected $modulesPath = 'api/webservice/';
 	protected $data = [];
@@ -61,6 +61,10 @@ class API
 	{
 		$handlerClass = $this->getModuleClassName();
 		$handler = new $handlerClass();
+
+		if (!$this->additionalMethods($handler)) {
+			return false;
+		}
 		$handler->api = $this;
 		if ($handler->getRequestMethod() != $this->method) {
 			throw new APIException('Invalid request type');
@@ -74,7 +78,7 @@ class API
 		if (is_a($this->data, 'Vtiger_Request')) {
 			$data = $this->data->getAll();
 		}
-		if(count($data) == 0 && $this->request->has('record')){
+		if (count($data) == 0 && $this->request->has('record')) {
 			$data['record'] = $this->request->get('record');
 		}
 
@@ -132,7 +136,7 @@ class API
 
 	private function response($data, $status = 200)
 	{
-		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
+		header('HTTP/1.1 ' . $status . ' ' . $this->_requestStatus($status));
 		header('Encrypted: ' . (string) vglobal('encryptDataTransfer'));
 		if (vglobal('encryptDataTransfer')) {
 			$response = $data;
@@ -193,4 +197,15 @@ class API
 
 		throw new APIException('No action found: ' . $mainFilePath, 405);
 	}
+	
+	public function additionalMethods($handler)
+	{
+		if ($this->method == 'OPTIONS') {
+			header('Allow: ' . $handler->getRequestMethod());
+			header('HTTP/1.1 200 OK');
+			return false;
+		}
+		return true;
+	}
+	
 }
