@@ -9145,6 +9145,7 @@ CREATE TABLE `w_yf_pos_users` (
   `last_name` varchar(255) DEFAULT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `login_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
