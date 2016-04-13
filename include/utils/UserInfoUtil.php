@@ -297,24 +297,6 @@ function isPermitted($module, $actionname, $record_id = '')
 		}
 
 		$action = getActionname($actionid);
-		//Checking for view all permission
-		if ($profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			if ($actionid == 3 || $actionid == 4) {
-				$permission = 'yes';
-				vglobal('isPermittedLog', 'SEC_MODULE_VIEW_ALL_PERMISSION');
-				$log->debug('Exiting isPermitted method ...');
-				return $permission;
-			}
-		}
-		//Checking for edit all permission
-		if ($profileGlobalPermission[2] == 0) {
-			if ($actionid == 3 || $actionid == 4 || $actionid == 0 || $actionid == 1) {
-				$permission = 'yes';
-				vglobal('isPermittedLog', 'SEC_MODULE_EDIT_ALL_PERMISSION');
-				$log->debug('Exiting isPermitted method ...');
-				return $permission;
-			}
-		}
 		//Checking for vtiger_tab permission
 		if ($profileTabsPermission[$tabid] != 0) {
 			$permission = 'no';
@@ -335,6 +317,24 @@ function isPermitted($module, $actionname, $record_id = '')
 			vglobal('isPermittedLog', 'SEC_MODULE_NO_RIGHTS_TO_ACTION');
 			$log->debug('Exiting isPermitted method ...');
 			return $permission;
+		}
+		//Checking for view all permission
+		if ($profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+			if ($actionid == 3 || $actionid == 4) {
+				$permission = 'yes';
+				vglobal('isPermittedLog', 'SEC_MODULE_VIEW_ALL_PERMISSION');
+				$log->debug('Exiting isPermitted method ...');
+				return $permission;
+			}
+		}
+		//Checking for edit all permission
+		if ($profileGlobalPermission[2] == 0) {
+			if ($actionid == 3 || $actionid == 4 || $actionid == 0 || $actionid == 1) {
+				$permission = 'yes';
+				vglobal('isPermittedLog', 'SEC_MODULE_EDIT_ALL_PERMISSION');
+				$log->debug('Exiting isPermitted method ...');
+				return $permission;
+			}
 		}
 		//Checking and returning true if recorid is null
 		if ($record_id == '') {
