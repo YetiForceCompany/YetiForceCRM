@@ -464,10 +464,13 @@ class ListViewController
 					}
 					$value = implode(', ', $valueTmp);
 					$value = Vtiger_Functions::textLength($value);
+				} elseif ($field->getFieldDataType() == 'posList') {
+					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field->getFieldId());
+					$value = Vtiger_Functions::textLength($fieldModel->getUITypeModel()->getDisplayValue($value));
 				} elseif (in_array($uitype, array(7, 9, 90))) {
 					$value = "<span align='right'>" . textlength_check($value) . "</div>";
 				} elseif ($uitype == 307) {
-					if($value === null){
+					if ($value === null) {
 						$value = '--';
 					} else {
 						$value = "<span align='right'>" . textlength_check($value) . "</div>";

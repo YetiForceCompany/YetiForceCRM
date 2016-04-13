@@ -505,7 +505,7 @@ class CRMEntity
 					} else {
 						$fldvalue = $field_list;
 					}
-				} elseif (in_array($uitype, [303, 304])) {
+				} elseif (in_array($uitype, [303, 304, 122])) {
 					if (is_array($this->column_fields[$fieldname])) {
 						$field_list = implode(',', $this->column_fields[$fieldname]);
 					} else {
@@ -567,8 +567,6 @@ class CRMEntity
 					$fldvalue = CurrencyField::convertToDBFormat($this->column_fields[$fieldname], null, true);
 				} elseif ($uitype == 71 && !$ajaxSave) {
 					$fldvalue = CurrencyField::convertToDBFormat($this->column_fields[$fieldname]);
-				} else if($uitype == 122){
-					$fldvalue = implode(',', $this->column_fields[$fieldname]);
 				} else {
 					$fldvalue = $this->column_fields[$fieldname];
 				}

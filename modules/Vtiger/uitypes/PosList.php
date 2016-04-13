@@ -1,12 +1,15 @@
 <?php
+
 /**
  * UIType POS Field Class
  * @package YetiForce.UIType
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Vtiger_Pos_UIType extends Vtiger_Base_UIType
+class Vtiger_PosList_UIType extends Vtiger_Base_UIType
 {
+
+
 
 	private function getServers()
 	{
@@ -24,6 +27,11 @@ class Vtiger_Pos_UIType extends Vtiger_Base_UIType
 		return 'uitypes/Pos.tpl';
 	}
 
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/MultiSelectFieldSearchView.tpl';
+	}
+
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$listServers = $this->getServers();
@@ -31,10 +39,10 @@ class Vtiger_Pos_UIType extends Vtiger_Base_UIType
 		if (!empty($values)) {
 			$values = explode(',', $values);
 			foreach ($values as $server) {
-				$namesOfServers.= $listServers[$server] . ', ';
+				$namesOfServers .= $listServers[$server] . ', ';
 			}
 		}
-		return $namesOfServers;
+		return rtrim($namesOfServers, ', ');
 	}
 
 	public function getPicklistValues()
