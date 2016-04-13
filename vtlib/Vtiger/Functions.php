@@ -1067,6 +1067,9 @@ class Vtiger_Functions
 
 	public static function throwNewException($message, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
+		if(REQUEST_MODE == 'API'){
+			throw new APIException($message, 401);
+		}
 		$request = new Vtiger_Request($_REQUEST);
 		if ($request->isAjax()) {
 			$response = new Vtiger_Response();

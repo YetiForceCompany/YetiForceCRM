@@ -5,7 +5,9 @@ class APIException extends Exception
 
 	public function __construct($message, $code = 200, Exception $previous = null)
 	{
-		parent::__construct($message, $code, $previous);
+		if (!empty($previous)) {
+			parent::__construct($message, $code, $previous);
+		}
 		header("Access-Control-Allow-Orgin: *");
 		header("Access-Control-Allow-Methods: *");
 		header("Content-Type: application/json");
@@ -49,6 +51,6 @@ function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
 			$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
 			throw new APIException($msg);
 			break;
-	}  
+	}
 }
 set_error_handler('exceptionErrorHandler');
