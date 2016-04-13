@@ -22,13 +22,13 @@ $DEBUG_CONFIG = [
 	 * ************************************************************** */
 	
 	// Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML
-	'DAV_DEBUG_EXCEPTIONS' => true,
+	'DAV_DEBUG_EXCEPTIONS' => false,
 	// Activate the plugin recording log in DAV
-	'DAV_DEBUG_PLUGIN' => true,
+	'DAV_DEBUG_PLUGIN' => false,
 	// Show errors messages in web service
-	'WEBSERVICE_SHOW_ERROR' => true,
+	'WEBSERVICE_SHOW_ERROR' => false,
 	// web service logs
-	'WEBSERVICE_DEBUG' => true,
+	'WEBSERVICE_DEBUG' => false,
 	
 	/* +***************************************************************
 	 * 	ROUNDCUBE MAIL
