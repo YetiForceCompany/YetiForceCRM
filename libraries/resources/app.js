@@ -434,8 +434,8 @@ var app = {
 			app.registerEventForDatePickerFields(container);
 
 			thisInstance.registerModalEvents(container);
-			thisInstance.registerDataTables(container.find('.dataTable'));
 			thisInstance.showPopoverElementView(container.find('.popoverTooltip'));
+			thisInstance.registerDataTables(container.find('.dataTable'));
 			cb(container);
 		}
 		if (data) {
