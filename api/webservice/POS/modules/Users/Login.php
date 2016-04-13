@@ -13,7 +13,6 @@ class API_Users_Login extends BaseAction
 
 	public function post($userName, $password)
 	{
-		//$dbPortal = PearDatabase::getInstance('portal');
 		$dbPortal = PearDatabase::getInstance();
 		$result = $dbPortal->pquery('SELECT * FROM w_yf_pos_users WHERE user_name = ? AND status = ? ', [$userName, 1]);
 		

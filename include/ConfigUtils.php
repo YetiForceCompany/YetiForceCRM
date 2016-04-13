@@ -4,6 +4,7 @@
 class AppConfig
 {
 
+	protected static $api = [];
 	protected static $main = [];
 	protected static $debug = [];
 	protected static $developer = [];
@@ -35,7 +36,7 @@ class AppConfig
 		$argsLength = func_num_args();
 		$args = func_get_args();
 		$module = $args[0];
-		if($argsLength == 2){
+		if ($argsLength == 2) {
 			$key = $args[1];
 		}
 		if (key_exists($module, self::$modules)) {
@@ -49,7 +50,7 @@ class AppConfig
 			}
 		}
 		$fileName = 'config/modules/' . $module . '.php';
-		if(!file_exists($fileName)){
+		if (!file_exists($fileName)) {
 			return false;
 		}
 		require_once $fileName;
@@ -65,6 +66,11 @@ class AppConfig
 				return $CONFIG;
 				break;
 		}
+	}
+
+	public static function api($key, $defvalue = false)
+	{
+		return self::$api[$key];
 	}
 
 	public static function debug($key, $defvalue = false)
@@ -130,5 +136,6 @@ AppConfig::load('securityKeys', $SECURITY_KEYS_CONFIG);
 AppConfig::load('performance', $PERFORMANCE_CONFIG);
 AppConfig::load('relation', $RELATION_CONFIG);
 AppConfig::load('sounds', $SOUNDS_CONFIG);
+AppConfig::load('api', $API_CONFIG);
 session_save_path($root_directory . '/cache/session');
 

@@ -16,10 +16,20 @@ $DEBUG_CONFIG = [
 	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console
 	'DISPLAY_DEBUG_VIEWER' => false,
+	
+	/* +***************************************************************
+	 * 	API 
+	 * ************************************************************** */
+	
 	// Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML
-	'DAV_DEBUG_EXCEPTIONS' => false,
+	'DAV_DEBUG_EXCEPTIONS' => true,
 	// Activate the plugin recording log in DAV
-	'DAV_DEBUG_PLUGIN' => false,
+	'DAV_DEBUG_PLUGIN' => true,
+	// Show errors messages in web service
+	'WEBSERVICE_SHOW_ERROR' => true,
+	// web service logs
+	'WEBSERVICE_DEBUG' => true,
+	
 	/* +***************************************************************
 	 * 	ROUNDCUBE MAIL
 	 * ************************************************************** */

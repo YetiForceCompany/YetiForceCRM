@@ -25,7 +25,9 @@ $enableCalDAV = false;
 $enableWebDAV = false;
 
 /* +*********   Webservice config  ********* */
-$showWebserviceError = false;
-$encryptDataTransfer = false;
-$privateKey = 'config/private.key';
-$publicKey = 'config/public.key';
+$API_CONFIG = [
+	'ENCRYPT_DATA_TRANSFER' => false,
+	'AUTH_METHOD' => 'Basic',
+	'PRIVATE_KEY' => 'config/private.key',
+	'PUBLIC_KEY' => 'config/public.key',
+];

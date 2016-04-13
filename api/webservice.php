@@ -5,7 +5,11 @@ chdir(__DIR__ . '/../');
 require_once 'include/main/WebUI.php';
 require_once 'api/webservice/Core/BaseAction.php';
 require_once 'api/webservice/Core/APISession.php';
+require_once 'api/webservice/Core/APIAuth.php';
 require_once 'api/webservice/API.php';
+require_once 'api/webservice/APIException.php';
+require_once 'api/webservice/APIResponse.php';
+
 
 if (!in_array('webservice', $enabledServices)) {
 	$apiLog = new APINoPermittedException();
@@ -21,5 +25,5 @@ try {
 	$api->process();
 	$api->postProcess();
 } catch (APIException $e) {
-	
+	$e->handleError();
 }
