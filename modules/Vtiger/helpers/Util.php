@@ -704,15 +704,44 @@ class Vtiger_Util_Helper
 		return $value;
 	}
 
+	public static function getUserPrivilegesFile($userId)
+	{
+		if (empty($userId))
+			return null;
+
+		$instance = Vtiger_Cache::get('UserPrivilegesFile', $userId);
+		if ($instance) {
+			return $instance;
+		}
+
+		require("user_privileges/user_privileges_$userId.php");
+		require("user_privileges/sharing_privileges_$userId.php");
+
+		$valueMap = [];
+		$valueMap['id'] = $userId;
+		$valueMap['is_admin'] = (bool) $is_admin;
+		$valueMap['roleid'] = $current_user_roles;
+		$valueMap['parent_role_seq'] = $current_user_parent_role_seq;
+		$valueMap['profiles'] = $current_user_profiles;
+		$valueMap['profile_global_permission'] = $profileGlobalPermission;
+		$valueMap['profile_tabs_permission'] = $profileTabsPermission;
+		$valueMap['profile_action_permission'] = $profileActionPermission;
+		$valueMap['groups'] = $current_user_groups;
+		$valueMap['subordinate_roles'] = $subordinate_roles;
+		$valueMap['parent_roles'] = $parent_roles;
+		$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
+		$valueMap['defaultOrgSharingPermission'] = $defaultOrgSharingPermission;
+		$valueMap['related_module_share'] = $related_module_share;
+		$valueMap['user_info'] = $user_info;
+
+		Vtiger_Cache::set('UserPrivilegesFile', $userId, $valueMap);
+		return $valueMap;
+	}
+
 	public static function getUserDetail($userid, $field = false)
 	{
-		$detail = Vtiger_Cache::get('UserDetail', $userid);
-		if ($detail) {
-			return $field == false ? $detail : $detail[$field];
-		}
-		checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
-		require('user_privileges/user_privileges_' . $userid . '.php');
-		Vtiger_Cache::set('UserDetail', $userid, $user_info);
-		return $field == false ? $user_info : $user_info[$field];
+		$userPrivileges = self::getUserPrivilegesFile($userid);
+		$userInfo = $userPrivileges['user_info'];
+		return $field == false ? $userInfo : $userInfo[$field];
 	}
 }

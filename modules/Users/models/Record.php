@@ -304,6 +304,27 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * Function returns the Users Current Role
+	 * @return <String>
+	 */
+	function getProfiles()
+	{
+		$userProfiles = $this->get('profiles');
+		if (empty($userProfiles)) {
+			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
+			$userProfiles = $privilegesModel->get('profiles');
+			$this->set('profiles', $userProfiles);
+		}
+		$profiles = [];
+		if (!empty($userProfiles)) {
+			foreach ($userProfiles as $profile) {
+				$profiles[$profile] = Settings_Profiles_Record_Model::getInstanceById($profile);
+			}
+		}
+		return $profiles;
+	}
+
+	/**
 	 * Function returns List of Accessible Users for a Module
 	 * @param <String> $module
 	 * @return <Array of Users_Record_Model>
