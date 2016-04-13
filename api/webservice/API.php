@@ -1,6 +1,5 @@
 <?php
 require_once 'api/webservice/APIException.php';
-
 class API
 {
 
@@ -14,12 +13,13 @@ class API
 	protected $modulesPath = 'api/webservice/';
 	protected $data = [];
 	protected $request = [];
-	protected $headers = [];
+	public $headers = [];
 	protected $panel = '';
+	public $app = [];
 
 	public function __construct()
 	{
-		header("Access-Control-Allow-Orgin: *");
+		header("Access-Control-Allow-Origin: *");
 		header("Access-Control-Allow-Methods: *");
 		header("Content-Type: application/json");
 
@@ -79,16 +79,16 @@ class API
 		}
 
 		if (!empty($response)) {
-			$response = [
-				'status' => 1,
-				'result' => $response
-			];
-			if (vglobal('encryptDataTransfer')) {
-				$response = $this->encryptData($response);
-			}
-
-			$this->response($response);
+		$response = [
+			'status' => 1,
+			'result' => $response
+		];
+		if (vglobal('encryptDataTransfer')) {
+			$response = $this->encryptData($response);
 		}
+
+		$this->response($response);
+	}
 	}
 
 	public function postProcess()
@@ -153,11 +153,16 @@ class API
 
 	private function validateApiKey($key)
 	{
-		$this->panel = 'Portal';
-		if ($key != 'n8erhg39rbn48nb438bn') {
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM w_yf_servers WHERE api_key = ?', [$key]);
+		$server = $db->getRow($result);
+		if(empty($server)){
 			return false;
+		} else {
+			$this->app = $server;
+			$this->panel = $server['type'];
+			return true;
 		}
-		return true;
 	}
 
 	private function validateFromUrl($url)
@@ -175,7 +180,7 @@ class API
 
 	private function getModuleClassName()
 	{
-		$mainFilePath = $filePath = $this->modulesPath . $this->panel . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->request->get('module') . DIRECTORY_SEPARATOR . $this->request->get('action') . '.php';
+		$filePath = $this->modulesPath . $this->panel . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->request->get('module') . DIRECTORY_SEPARATOR . $this->request->get('action') . '.php';
 		if (file_exists($filePath)) {
 			require_once $filePath;
 			return 'API_' . $this->request->get('module') . '_' . $this->request->get('action');
@@ -187,6 +192,11 @@ class API
 			return 'API_Base_' . $this->request->get('action');
 		}
 
+		$mainFilePath = $this->modulesPath . $this->panel . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->request->get('module') . '.php';
+		if (file_exists($mainFilePath)) {
+			require_once $mainFilePath;
+			return 'API_' . $this->request->get('module');
+		}
 		throw new APIException('No action found: ' . $mainFilePath, 405);
 	}
 }
