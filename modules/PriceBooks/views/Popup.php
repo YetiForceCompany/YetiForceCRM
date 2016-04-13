@@ -25,6 +25,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$currencyId = $request->get('currency_id');
+		$filterFields = $request->get('filterFields');
 
 		//To handle special operation when selecting record from Popup
 		$getUrl = $request->get('get_url');
@@ -60,6 +61,9 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 		if(!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
+		}
+		if (!empty($filterFields)) {
+			$listViewModel->set('filterFields', $filterFields);
 		}
 		if(!empty($sourceModule)) {
 			$listViewModel->set('src_module', $sourceModule);

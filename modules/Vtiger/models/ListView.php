@@ -32,7 +32,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	public function getHederLinks($linkParams)
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
-		
+
 		$headerLinks = [];
 		$moduleModel = $this->getModule();
 		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
@@ -273,6 +273,14 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if (!empty($sourceModule)) {
 			if (method_exists($moduleModel, 'getQueryByModuleField')) {
 				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $this->get('src_field'), $this->get('src_record'), $listQuery);
+				if (!empty($overrideQuery)) {
+					$listQuery = $overrideQuery;
+				}
+			}
+		}
+		if (!empty($sourceModule)) {
+			if (method_exists($moduleModel, 'getQueryByRelatedField')) {
+				$overrideQuery = $moduleModel->getQueryByRelatedField($this, $listQuery);
 				if (!empty($overrideQuery)) {
 					$listQuery = $overrideQuery;
 				}

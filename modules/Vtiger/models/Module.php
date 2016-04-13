@@ -1854,7 +1854,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		return $return;
 	}
 
-	public function getRelationFieldByHierarchy($moduleName)
+	public function getRelationFieldByHierarchy($moduleName, $field = false)
 	{
 		self::initModulesHierarchy();
 		if ($field != false && isset(self::$modulesMapRelatedFields[$moduleName][$field])) {

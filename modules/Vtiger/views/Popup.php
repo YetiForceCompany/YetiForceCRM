@@ -97,6 +97,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$currencyId = $request->get('currency_id');
 		$relatedParentModule = $request->get('related_parent_module');
 		$relatedParentId = $request->get('related_parent_id');
+		$filterFields = $request->get('filterFields');
 
 		//To handle special operation when selecting record from Popup
 		$getUrl = $request->get('get_url');
@@ -141,6 +142,9 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		if(!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
+		}
+		if (!empty($filterFields)) {
+			$listViewModel->set('filterFields', $filterFields);
 		}
 		if(!empty($sourceModule)) {
 			$listViewModel->set('src_module', $sourceModule);
