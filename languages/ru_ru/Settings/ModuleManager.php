@@ -16,7 +16,6 @@ $languageStrings = [
 	'LBL_IMPORTED_UPDATE' => 'Система успешно обновлена.',
 	'LBL_IMPORTED_EXTENSION' => 'Модуль успешно установлен.',
 	'LBL_IMPORTED_LANGUAGE' => 'Язык успешно установлен.',
-	'LBL_VTIGER_EXTENSION_STORE' => 'Магазин',
 	'LBL_PUBLISHER' => 'Разработчик',
 	'LBL_LICENSE' => 'Лицензия',
 	'LBL_PUBLISHED_ON' => 'Дата создания',

@@ -636,7 +636,7 @@ var app = {
 		}
 		if (registerForAddon == true) {
 			var parentDateElem = element.closest('.date');
-			jQuery('.input-group-addon', parentDateElem).on('click', function (e) {
+			jQuery('.input-group-addon:not(.notEvent)', parentDateElem).on('click', function (e) {
 				var elem = jQuery(e.currentTarget);
 				//Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 				//which is stopping from getting focus to input element

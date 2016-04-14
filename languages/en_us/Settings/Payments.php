@@ -15,6 +15,6 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_DELETED_SUCCESSFULLY' => 'Deleted Successfully',
-	'JS_SAVED_SUCCESSFULLY' => 'Saved Successfully',
+	'JS_DELETED_SUCCESSFULLY' => 'Deleted successfully',
+	'JS_SAVED_SUCCESSFULLY' => 'Saved successfully',
 ];	

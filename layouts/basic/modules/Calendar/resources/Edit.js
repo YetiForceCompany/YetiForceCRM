@@ -168,6 +168,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			var end = thisInstance.getDateInstance(container, 'end');
 			var dateFormat = $('#userDateFormat').val();
 			var timeFormat = $('#userTimeFormat').val();
+			container.find('.autofill').trigger('change');
 			if (start > end) {
 				end = start;
 				var endDateString = app.getDateInVtigerFormat(dateFormat, end);
@@ -254,6 +255,46 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			}
 		})
 	},
+	getFreeTime: function(container){
+		var timeStart = container.find('[name="time_start"]');
+		var timeEnd = container.find('[name="time_end"]');
+		var dateStart = container.find('[name="date_start"]');
+		var params = {
+			module  : app.getModuleName(),
+			action : 'GetFreeTime',
+			dateStart : dateStart.val()
+		};
+		container.progressIndicator({});
+		AppConnector.request(params).then(function(data){
+			container.progressIndicator({mode: 'hide'});
+			timeStart.val(data.result.time_start);
+			timeEnd.val(data.result.time_end);
+			dateStart.val(data.result.date_start);
+			container.find('[name="due_date"]').val(data.result.date_start);
+		});
+	},
+	registerAutoFillHours: function(container){
+		var thisInstance = this;
+		var allDay = container.find('[name="allday"]');
+		var timeStart = container.find('[name="time_start"]');
+		var timeEnd = container.find('[name="time_end"]');
+		container.find('.autofill').on('change', function(e){
+			var currentTarget = $(e.currentTarget);
+			if(currentTarget.is(':checked')){
+				thisInstance.getFreeTime(container);
+				timeStart.attr('readonly','readonly');
+				timeEnd.attr('readonly','readonly');
+				allDay.attr('disabled','disabled');
+				allDay.removeAttr('checked');
+				allDay.trigger('change');
+			}
+			else{
+				allDay.removeAttr('disabled');
+				timeStart.removeAttr('readonly');
+				timeEnd.removeAttr('readonly');
+			}
+		});
+	},
 	registerBasicEvents: function (container) {
 		this._super(container);
 		this.toggleTimesInputs(container);
@@ -261,6 +302,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		this.registerTimeStartChangeEvent(container);
 		this.registerActivityTypeChangeEvent(container);
 		this.registerEndDateTimeChangeLogger(container);
+		this.registerAutoFillHours(container);
 		//Required to set the end time based on the default ActivityType selected
 		container.find('[name="activitytype"]').trigger('change');
 	},
