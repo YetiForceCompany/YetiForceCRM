@@ -52,6 +52,10 @@ class API
 		if ($this->headers['Apikey'] != $this->app['api_key']) {
 			throw new APIException('Invalid api key', 401);
 		}
+		
+		if(empty($this->request->get('module'))){
+			throw new APIException('No action', 404);
+		}
 	}
 
 	public function process()
