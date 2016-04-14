@@ -4860,6 +4860,7 @@ html,body,.baseContainer
 }
 .detailViewTitle .moduleIcon{
 	float: left;
+	margin: 10px 10px 10px 0;
 }
 .spaceRelatedList{
 	width:50px;
