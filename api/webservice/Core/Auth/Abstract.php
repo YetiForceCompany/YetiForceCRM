@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Base Abstract Authorization class
+ * @package YetiForce.WebserviceAuth
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 abstract class AbstractAuth
 {
 

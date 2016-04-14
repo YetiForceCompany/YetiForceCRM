@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Web service response class 
+ * @package YetiForce.Webservice
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class APIResponse
 {
 

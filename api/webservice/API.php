@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Base class to handle communication via web services
+ * @package YetiForce.Webservice
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class API
 {
 

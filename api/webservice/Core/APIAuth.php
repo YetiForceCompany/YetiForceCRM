@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * API Authorization class
+ * @package YetiForce.WebserviceAuth
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class APIAuth
 {
 
