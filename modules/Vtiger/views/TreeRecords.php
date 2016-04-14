@@ -28,11 +28,6 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$treeList = $treeViewModel->getTreeList();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TREE_LIST', Zend_Json::encode($treeList));
-
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
-		$quickLinkModels = $listViewModel->getSideBarLinks($linkParams);
-		$viewer->assign('QUICK_LINKS', $quickLinkModels);
 		$viewer->assign('SELECTABLE_CATEGORY', 0);
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}
@@ -42,16 +37,18 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));
-		if($display){
+		if ($display) {
 			$this->postProcessDisplay($request);
-		}	
+		}
 		parent::postProcess($request);
 	}
+
 	protected function postProcessDisplay(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->view('TreeRecordsPostProcess.tpl' , $request->getModule());
+		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
 	}
+
 	function process(Vtiger_Request $request)
 	{
 		$branches = $request->get('branches');
@@ -85,9 +82,11 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
+		
 		$scripts = [
 			'~libraries/jquery/jstree/jstree.js',
 			'~libraries/jquery/jstree/jstree.category.js',
+			'~libraries/jquery/jstree/jstree.checkbox.js',
 			'~libraries/jquery/datatables/media/js/jquery.dataTables.js',
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
 		];

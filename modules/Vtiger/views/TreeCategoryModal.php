@@ -58,6 +58,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		];
 		if (AppConfig::relation('SELECTABLE_CATEGORY')) {
 			$scripts[] = '~libraries/jquery/jstree/jstree.category.js';
+			$scripts[] = '~libraries/jquery/jstree/jstree.checkbox.js';
 		}
 		if ($this->relationType == 1) {
 			$scripts[] = '~libraries/jquery/jstree/jstree.edit.js';

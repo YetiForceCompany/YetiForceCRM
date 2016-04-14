@@ -50,7 +50,7 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 	 * @param string name of the module
 	 * @return Vtiger_TreeView_Model instance
 	 */
-	public static function getInstance($moduleModel)
+	public static function getInstance(Vtiger_Module_Model $moduleModel)
 	{
 		$moduleName = $moduleModel->get('name');
 		if (isset(self::$_cached_instance[$moduleName])) {

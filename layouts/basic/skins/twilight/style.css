@@ -4933,8 +4933,8 @@ html,body,.baseContainer
 	margin-left: 2px;
 }
 .jstree-node .jstree-category, .jstree-node .jstree-edit{
-	margin-left: 10px;
-	font-size: 15px;
+	margin-left: 5px;
+	font-size: 16px;
 	top: 0;
 	vertical-align: middle;
 }
