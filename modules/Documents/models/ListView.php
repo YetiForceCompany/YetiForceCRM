@@ -6,75 +6,64 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Documents_ListView_Model extends Vtiger_ListView_Model
 {
-
-	/**
-	 * Function to get the list of listview links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
-	 */
-	public function getListViewLinks($linkParams)
+	public function getAdvancedLinks()
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleModel = $this->getModule();
-
-		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
-
 		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
-		if ($createPermission) {
-			$basicLinks = [
-				[
-					'linktype' => 'LISTVIEWBASIC',
-					'linklabel' => 'LBL_ADD_RECORD',
-					'linkurl' => $moduleModel->getCreateRecordUrl(),
-					'linkclass' => 'moduleColor_' . $moduleModel->getName(),
-					'linkicon' => ''
-				]
-			];
-		}
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
-			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
-			$class = 'btn-default';
-			if ($watchdog->isWatchingModule()) {
-				$class = 'btn-info';
-			}
-			$basicLinks[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linkhint' => 'BTN_WATCHING_MODULE',
-				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
-				'linkclass' => $class,
-				'linkicon' => 'glyphicon glyphicon-eye-open',
-				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
-			];
-		}
-		if (!empty($basicLinks)) {
-			foreach ($basicLinks as $basicLink) {
-				$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
-			}
-		}
+		$advancedLinks = [];
 
 		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
-			$advancedLink = array(
+			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $moduleModel->getExportUrl() . '")',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
 				'linkicon' => ''
 			);
-			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
 		}
 
-		if ($currentUserModel->isAdminUser()) {
-			$settingsLinks = $this->getSettingLinks();
-			foreach ($settingsLinks as $settingsLink) {
-				$links['LISTVIEWSETTING'][] = Vtiger_Link_Model::getInstanceFromValues($settingsLink);
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$pdfModel = new $handlerClass();
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			if (count($templates) > 0) {
+				$advancedLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => vtranslate('LBL_EXPORT_PDF'),
+					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
+					'linkicon' => 'glyphicon glyphicon-save-file',
+					'title' => vtranslate('LBL_EXPORT_PDF')
+				];
 			}
 		}
-		return $links;
+
+		$quickExportToExcelPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
+		if ($quickExportToExcelPermission) {
+			$advancedLinks[] = array(
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
+				'linkicon' => ''
+			);
+		}
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'RecordMappingList')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$mfModel = new $handlerClass();
+			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			if (count($templates) > 0) {
+				$advancedLinks[] = [
+					'linktype' => 'LISTVIEW',
+					'linklabel' => 'LBL_GENERATE_RECORDS',
+					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=List");',
+				];
+			}
+		}
+		return $advancedLinks;
 	}
 
 	/**
