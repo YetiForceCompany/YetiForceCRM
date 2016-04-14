@@ -21,9 +21,4 @@ class BaseAction
 	{
 		return $this->requestMethod;
 	}
-
-	public function options()
-	{
-		$this->api->response->addHeader('Allow', strtoupper(implode(',', $this->requestMethod)));
-	}
 }

@@ -21,8 +21,10 @@ define('REQUEST_MODE', 'API');
 
 try {
 	$api = new API();
-	$api->preProcess();
-	$api->process();
+	$process = $api->preProcess();
+	if ($process) {
+		$api->process();
+	}
 	$api->postProcess();
 } catch (APIException $e) {
 	$e->handleError();

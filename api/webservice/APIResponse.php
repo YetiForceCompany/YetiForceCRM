@@ -10,14 +10,16 @@ class APIResponse
 {
 
 	static protected $instance = false;
+	protected $acceptableHeaders = false;
 	protected $body = false;
 	protected $headers = [];
 	protected $status = 200;
 
-	public function getInstance()
+	public function getInstance($acceptableHeaders)
 	{
 		if (!self::$instance) {
 			self::$instance = new self();
+			self::$instance->acceptableHeaders = $acceptableHeaders;
 		}
 		return self::$instance;
 	}
@@ -57,10 +59,10 @@ class APIResponse
 			$encryptDataTransfer = 0;
 		}
 
-		header("Access-Control-Allow-Origin: *");
-		header("Access-Control-Allow-Methods: *");
-		header("Access-Control-Allow-Headers: *");
-		header("Content-Type: application/json");
+		header('Access-Control-Allow-Origin: *');
+		header('Access-Control-Allow-Methods: *');
+		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, ' . implode(',', $this->acceptableHeaders));
+		header('Content-Type: application/json');
 		header('HTTP/1.1 ' . $this->status . ' ' . $this->_requestStatus());
 		header('Encrypted: ' . $encryptDataTransfer);
 

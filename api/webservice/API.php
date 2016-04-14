@@ -15,7 +15,6 @@ class API
 	 */
 	protected $method = '';
 	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
-	protected $unprotectedMethod = ['OPTIONS'];
 	protected $acceptableHeaders = ['Apikey', 'Encrypted', 'Sessionid'];
 	protected $modulesPath = 'api/webservice/';
 	protected $data = [];
@@ -28,18 +27,19 @@ class API
 	{
 		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		$this->response = APIResponse::getInstance();
-		$this->db = PearDatabase::getInstance();
+		$this->db = PearDatabase::getInstance($this->acceptableHeaders);
 		$this->method = $this->request->getRequestMetod();
 		$this->debugRequest();
 	}
 
 	public function preProcess()
 	{
-		$this->app = APIAuth::init($this);
-
-		if (in_array($this->method, $this->unprotectedMethod)) {
+		if (strtolower($this->method) == 'options') {
+			$this->response->addHeader('Allow', strtoupper(implode(', ', $this->acceptableMethods)));
 			return false;
 		}
+
+		$this->app = APIAuth::init($this);
 
 		$this->headers = $this->request->getHeaders();
 		if (isset($this->headers['Encrypted']) && $this->headers['Encrypted'] == 1) {
@@ -52,10 +52,11 @@ class API
 		if ($this->headers['Apikey'] != $this->app['api_key']) {
 			throw new APIException('Invalid api key', 401);
 		}
-		
-		if(empty($this->request->get('module'))){
+
+		if (empty($this->request->get('module'))) {
 			throw new APIException('No action', 404);
 		}
+		return true;
 	}
 
 	public function process()
@@ -93,12 +94,11 @@ class API
 			}
 			$this->response->setBody($return);
 		}
-		$this->response->send();
 	}
 
 	public function postProcess()
 	{
-		
+		$this->response->send();
 	}
 
 	public function encryptData($data)
