@@ -1,6 +1,6 @@
 <?php
-
 require_once 'api/webservice/Core/APISessionPOS.php';
+
 /**
  * Get modules list action class
  * @package YetiForce.WebserviceAction
@@ -12,17 +12,31 @@ class API_Products_GetProducts extends BaseAction
 
 	protected $requestMethod = ['GET'];
 
-	public function get()
+	private function getInfo($recordId)
 	{
-		if(APISessionPOS::checkSession($this->api->headers['Sessionid'])){
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$image = $recordModel->getImageDetails();
+		$data = $recordModel->getData();
+		$imagesUrl = '';
+		foreach ($image as $img) {
+			$imagesUrl[] = 'api/webservice/Products/GetImage/' . $img['id'];
+		}
+		$data['imageUrl'] = $imagesUrl;
+		$records[$recordModel->getId()] = $data;
+		return $records;
+	}
+
+	public function get($recordId = false)
+	{
+		if (APISessionPOS::checkSession($this->api->headers['Sessionid'])) {
 			$db = PearDatabase::getInstance();
-			$results = $db->pquery('SELECT productid FROM vtiger_products WHERE pos LIKE ?', ['%'.$this->api->app['server_id'].'%']);
-			while($productId = $db->getSingleValue($results)){
-				$recordModel = Vtiger_Record_Model::getInstanceById($productId);
-				$image = $recordModel->getImageDetails();
-				$data = $recordModel->getData();
-				$data['imageDetail'] = $image;
-				$records[$recordModel->getId()] = $data;
+			if ($recordId) {
+				$records = $this->getInfo($recordId);
+			} else {
+				$results = $db->pquery('SELECT productid FROM vtiger_products WHERE pos LIKE ?', ['%' . $this->api->app['id'] . '%']);
+				while ($productId = $db->getRow($results)) {
+					$records[] = $this->getInfo($productId['productid']);
+				}
 			}
 			return $records;
 		}
