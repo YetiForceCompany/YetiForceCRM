@@ -26,6 +26,11 @@ $languageStrings = [
 	'FL_MARGIN' => 'Suma marży',
 	'FL_SUM_GROSS' => 'Suma brutto',
 	'FL_SUM_DISCOUNT' => 'Suma rabatu',
+	'LBL_POS' => 'Synchronizacja POS',
+	'FL_POS' => 'POS',
+	'FL_NUMBER_TABLE' => 'Numer stolika',
+	'FL_NUMBER_SEAT' => 'Numer siedzenia',
+	'FL_STORAGE' => 'Magazyn',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Wersja robocza',
