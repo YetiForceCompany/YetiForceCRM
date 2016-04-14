@@ -435,6 +435,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 				$accessibleUser = $this->getRoleBasedSubordinateUsers();
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '4') {
 				$accessibleUser[$this->getId()] = $this->getName();
+			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '5') {
+				$accessibleUser = $this->getFromPanel($module, 'users');
 			}
 			Vtiger_Cache::set('getAccessibleUsers', $name, $accessibleUser);
 		}
@@ -469,6 +471,42 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$currentUserDetail = array($this->getId() => $this->getDisplayName());
 		$users = $currentUserDetail + $users;
 		return $users;
+	}
+
+	public function getFromPanel($moduleName = false, $mode, $private = '')
+	{
+		$db = PearDatabase::getInstance();
+		require('user_privileges/module_record_allocation.php');
+		if (empty($moduleName) && $_REQUEST['parent'] != 'Settings') {
+			$moduleName = $_REQUEST['module'];
+		}
+		$result = [];
+		$moduleId = getTabid($moduleName);
+		$usersGroups = $recordAllocation[$moduleId];
+		if ($mode == 'users') {
+			$result[$this->getId()] = $this->getName();
+			$users = $usersGroups ? $usersGroups['users'] : [];
+			if (!empty($users)) {
+				$query = 'SELECT id, user_name, first_name, last_name, is_admin FROM vtiger_users WHERE status = ? AND id IN (' . generateQuestionMarks($users) . ')';
+				array_unshift($users, 'Active');
+				$resultQuery = $db->pquery($query, $users);
+				while ($row = $db->getRow($resultQuery)) {
+					$result[$row['id']] = getFullNameFromArray('Users', $row);
+				}
+			}
+		} else {
+			$groups = $usersGroups ? $usersGroups['groups'] : [];
+			if (!empty($groups)) {
+				$groupsAll = get_group_array(false, "ACTIVE", "", $private);
+				foreach ($groupsAll as $ID => $name) {
+					if (in_array($ID, $groups)) {
+						$result[$ID] = $name;
+					}
+				}
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -521,10 +559,16 @@ class Users_Record_Model extends Vtiger_Record_Model
 		//TODO:Remove dependence on $_REQUEST for the module name in the below API
 		$accessibleGroups = Vtiger_Cache::get('vtiger-' . $private, 'accessiblegroups');
 		if (!$accessibleGroups) {
-			$accessibleGroups = get_group_array(false, "ACTIVE", "", $private, $module);
+			$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
+			if ($currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
+				$accessibleGroups = $this->getFromPanel($module, 'groups', $private);
+			}else{
+				$accessibleGroups = get_group_array(false, "ACTIVE", "", $private, $module);
+			}
 			Vtiger_Cache::set('vtiger-' . $private, 'accessiblegroups', $accessibleGroups);
+			return $accessibleGroups;
 		}
-		return get_group_array(false, "ACTIVE", "", $private);
+		return $accessibleGroups;
 	}
 
 	/**

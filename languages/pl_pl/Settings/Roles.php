@@ -28,6 +28,7 @@ $languageStrings = [
 	'LBL_TRANSFER_OWNERSHIP' => 'Zmień właściciela',
 	'LBL_USERS_WITH_LOWER_LEVEL' => 'Użytkownicy posiadający podrzędną rolę',
 	'LBL_USERS_WITH_SAME_OR_LOWER_LEVEL' => 'Użytkownicy posiadający tą samą rolę lub podrzędną rolę',
+	'LBL_FROM_PANEL' => 'z panelu - Przydział rekordów',
 	'Roles' => 'Role',
 	'SINGLE_Roles' => 'Rola',
 	'LBL_USERS_LIST' => 'Lista użytkowników należących do tej roli:',

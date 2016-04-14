@@ -48,6 +48,7 @@
 							<option value="2" {if $RECORD_MODEL->get('allowassignedrecordsto') == '2'}selected="true"{/if}>{vtranslate('LBL_USERS_WITH_SAME_OR_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
 							<option value="3" {if $RECORD_MODEL->get('allowassignedrecordsto') == '3'}selected="true"{/if}>{vtranslate('LBL_USERS_WITH_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
 							<option value="4" {if $RECORD_MODEL->get('allowassignedrecordsto') == '4'}selected="true"{/if}>{vtranslate('LBL_JUST_ME', $QUALIFIED_MODULE)}</option>
+							<option value="5" {if $RECORD_MODEL->get('allowassignedrecordsto') == '5'}selected="true"{/if}>{vtranslate('LBL_FROM_PANEL', $QUALIFIED_MODULE)}</option>
 						</select>
 					</div>
                 </div>

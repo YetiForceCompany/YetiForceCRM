@@ -5323,3 +5323,9 @@ select.form-control {
 .columnSorted{
 	background: #EAEAEA !important;
 }
+.dataTableDragDrop{
+	position: absolute;
+	padding: 5px 12px;
+	display: inline-flex;
+	font-size: 14px;
+}
