@@ -350,8 +350,7 @@ var app = {
 			}
 			cb = url;
 			url = false;
-		}
-		else if (typeof url == 'object') {
+		} else if (typeof url == 'object') {
 			cb = function () {
 			};
 			paramsObject = url;
@@ -672,7 +671,7 @@ var app = {
 					element.DatePickerHide();
 					element.blur();
 				}
-				element.data('prevVal',element.val());
+				element.data('prevVal', element.val());
 				element.val(formated).trigger('change').focusout();
 			},
 			onBeforeShow: function (formated) {
@@ -699,7 +698,7 @@ var app = {
 			}
 			params.date = selectedDate;
 			params.current = selectedDate;
-			jQelement.data('prevVal',jQelement.val());
+			jQelement.data('prevVal', jQelement.val());
 			jQelement.DatePicker(params)
 		});
 
@@ -740,7 +739,7 @@ var app = {
 			var elem = jQuery(e.currentTarget);
 			e.stopPropagation();
 			var tempElement = elem.closest('.time').find('input.clockPicker');
-			if(tempElement.attr('disabled') != 'disabled'){
+			if (tempElement.attr('disabled') != 'disabled') {
 				tempElement.clockpicker('show');
 			}
 		});
@@ -1065,8 +1064,7 @@ var app = {
 		if (c_start == -1)
 		{
 			c_value = null;
-		}
-		else
+		} else
 		{
 			c_start = c_value.indexOf("=", c_start) + 1;
 			var c_end = c_value.indexOf(";", c_start);
@@ -1130,8 +1128,8 @@ var app = {
 		params['action'] = 'SaveAjax';
 		params['mode'] = mode;
 		params['param'] = param;
-		if(addToParams != undefined){
-			for(var i in addToParams){
+		if (addToParams != undefined) {
+			for (var i in addToParams) {
 				params[i] = addToParams[i];
 			}
 		}
@@ -1165,7 +1163,11 @@ var app = {
 		}
 		var value = app.cacheParams[param];
 		if (json) {
-			value = $.parseJSON(value);
+			if (value != '') {
+				value = $.parseJSON(value);
+			} else {
+				value = [];
+			}
 		}
 		return value;
 	},

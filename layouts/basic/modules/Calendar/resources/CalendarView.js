@@ -69,7 +69,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	registerCalendar: function () {
 		var thisInstance = this;
 
-		var eventLimit = jQuery('#eventLimit').val();
+		var eventLimit = app.getMainParams('eventLimit');
 		if (eventLimit == 'true') {
 			eventLimit = true;
 		} else if (eventLimit == 'false') {
@@ -77,11 +77,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		} else {
 			eventLimit = parseInt(eventLimit) + 1;
 		}
-		var weekView = jQuery('#weekView').val();
-		var dayView = jQuery('#dayView').val();
+		var weekView = app.getMainParams('weekView');
+		var dayView = app.getMainParams('dayView');
 
 		//User preferred default view
-		var userDefaultActivityView = jQuery('#activity_view').val();
+		var userDefaultActivityView = app.getMainParams('activity_view');
 		if (userDefaultActivityView == 'Today') {
 			userDefaultActivityView = dayView;
 		} else if (userDefaultActivityView == 'This Week') {
@@ -91,7 +91,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		}
 
 		//Default time format
-		var userDefaultTimeFormat = jQuery('#time_format').val();
+		var userDefaultTimeFormat = app.getMainParams('time_format');
 		var popoverTimeFormat;
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H:mm';
@@ -100,13 +100,13 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			userDefaultTimeFormat = 'h:mmt';
 			popoverTimeFormat = 'hh:mm A';
 		}
-
+		
 		//Default first day of the week
-		var defaultFirstDay = jQuery('#start_day').val();
+		var defaultFirstDay = app.getMainParams('start_day');
 		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
 
 		//Default first hour of the day
-		var defaultFirstHour = jQuery('#start_hour').val() + ':00';
+		var defaultFirstHour = app.getMainParams('start_hour') + ':00';
 
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
@@ -127,6 +127,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			eventLimit: eventLimit,
 			selectable: true,
 			selectHelper: true,
+			hiddenDays: app.getMainParams('hiddenDays',true),
 			views: {
 				basic: {
 					eventLimit: false,
