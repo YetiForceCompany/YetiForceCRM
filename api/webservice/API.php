@@ -26,8 +26,8 @@ class API
 	public function __construct()
 	{
 		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		$this->response = APIResponse::getInstance();
-		$this->db = PearDatabase::getInstance($this->acceptableHeaders);
+		$this->response = APIResponse::getInstance($this->acceptableHeaders);
+		$this->db = PearDatabase::getInstance();
 		$this->method = $this->request->getRequestMetod();
 		$this->debugRequest();
 	}
