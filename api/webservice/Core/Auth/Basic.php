@@ -31,10 +31,10 @@ class BasicAuth extends AbstractAuth
 	function validatePass($username, $password)
 	{
 		$db = $this->api->db;
-		$result = $db->pquery('SELECT * FROM w_yf_servers WHERE name = ?', [$username]);
+		$result = $db->pquery('SELECT * FROM w_yf_servers WHERE name = ? AND status = ?', [$username, 1]);
 		if ($db->getRowCount($result)) {
 			$row = $db->getRow($result);
-			$status = $password == $row['xxx'];
+			$status = $password == $row['pass'];
 			if ($status) {
 				$this->currentServer = $row;
 			}

@@ -9141,24 +9141,27 @@ CREATE TABLE `w_yf_pos_users` (
   `pass` varchar(255) NOT NULL,
   `action` varchar(255) DEFAULT NULL,
   `server_id` int(11) NOT NULL,
-  `status` tinyint(1) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
   `last_name` varchar(255) DEFAULT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `login_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_name` (`user_name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `w_yf_servers` */
 
 CREATE TABLE `w_yf_servers` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) DEFAULT NULL,
-  `acceptable_url` varchar(200) DEFAULT NULL,
-  `status` tinyint(1) DEFAULT '0',
-  `api_key` varchar(100) DEFAULT NULL,
-  `type` varchar(40) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `name` varchar(100) NOT NULL,
+  `pass` varchar(100) DEFAULT NULL,
+  `acceptable_url` varchar(255) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `api_key` varchar(100) NOT NULL,
+  `type` varchar(40) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `name` (`name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_auth` */
