@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Settings_WebserviceApps_CreateApp_View extends Vtiger_BasicModal_View
+class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_View
 {
 
 	public function checkPermission(Vtiger_Request $request)

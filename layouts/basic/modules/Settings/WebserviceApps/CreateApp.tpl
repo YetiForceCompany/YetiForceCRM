@@ -34,6 +34,14 @@
 			</div>
 			<div class="col-xs-12 marginBottom10px">
 				<div class="col-xs-4 fieldLabel">
+					{vtranslate('LBL_PASS', $QUALIFIED_MODULE)}
+				</div>
+				<div class="col-xs-8">
+					<input type="text" name="pass" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('pass')}{/if}" class="form-control">
+				</div>
+			</div>
+			<div class="col-xs-12 marginBottom10px">
+				<div class="col-xs-4 fieldLabel">
 					{vtranslate('Status', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-xs-8">
