@@ -1822,6 +1822,7 @@ CREATE TABLE `u_yf_istorages` (
   `storage_status` varchar(255) DEFAULT '',
   `storage_type` varchar(255) DEFAULT '',
   `parentid` int(19) DEFAULT NULL,
+  `pos` varchar(255) DEFAULT '',
   PRIMARY KEY (`istorageid`),
   KEY `parentid` (`parentid`),
   CONSTRAINT `u_yf_istorages_ibfk_1` FOREIGN KEY (`istorageid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -4630,7 +4631,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2343 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2344 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 

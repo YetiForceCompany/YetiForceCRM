@@ -21,4 +21,5 @@ $languageStrings = [
 	'LBL_SECONDARY_STORAGES' => 'Magazyny podrzędne',
 	'LBL_ROW_NUM' => 'Lp.',
 	'LBL_STORAGE_OWNER' => 'Właściciel',
+	'FL_POS' => 'POS',
 ];
