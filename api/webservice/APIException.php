@@ -34,7 +34,7 @@ class APIException extends Exception
 			]
 		];
 		if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-			$body['backtrace'] = Vtiger_Functions::getBacktrace();
+			$body['error']['backtrace'] = Vtiger_Functions::getBacktrace();
 		}
 
 		$response = APIResponse::getInstance();
