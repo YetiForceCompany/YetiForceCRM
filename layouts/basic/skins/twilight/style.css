@@ -1031,11 +1031,6 @@ td.fieldValue .input-group {
 .CustomFilterViewTitle {
 	padding-top: 1%;
 }
-#CustomView .filterActions {
-	padding-bottom: 20px;
-	overflow: hidden;
-}
-
 .filterConditionsDiv {
 	padding-bottom: 0;
 }
@@ -2764,7 +2759,6 @@ tr.summaryViewEntries, #detailView table {
 }
 table.listViewEntriesTable {
 	font-size: 13px;
-	margin-top: 5px;
 }
 .no-margin{
 	margin: 0;
@@ -4650,7 +4644,7 @@ html,body,.baseContainer
 		float: right; 
 	}
 	.pull-left-xs{
-		float: left;
+		float: left !important;
 	}
 	.layoutBlockHeader .pull-right,
 	.relatedContainer .paginationDiv.pull-right{
@@ -5144,4 +5138,13 @@ select.form-control {
 }
 .listLastDocuments li span{
 	padding-right: 5px;
+}
+.customViewList table td{
+	vertical-align: middle !important;
+}
+.customViewList .ui-sortable-helper{
+	background-color: #dff0d8 !important;
+}
+.detailViewContainer .contents .knowledgeBaseDetails {
+	padding: 15px;
 }

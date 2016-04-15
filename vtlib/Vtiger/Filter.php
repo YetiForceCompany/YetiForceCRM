@@ -24,6 +24,7 @@ class Vtiger_Filter
 	var $status = false; // 5.1.0 onwards
 	var $inmetrics = false;
 	var $entitytype = false;
+	var $presence = 1;
 	var $module;
 
 	/**
@@ -70,7 +71,7 @@ class Vtiger_Filter
 		$this->isdefault = ($this->isdefault === true || $this->isdefault == 'true') ? 1 : 0;
 		$this->inmetrics = ($this->inmetrics === true || $this->inmetrics == 'true') ? 1 : 0;
 
-		$adb->pquery("INSERT INTO vtiger_customview(cvid,viewname,setdefault,setmetrics,entitytype) VALUES(?,?,?,?,?)", Array($this->id, $this->name, $this->isdefault, $this->inmetrics, $this->module->name));
+		$adb->pquery('INSERT INTO vtiger_customview(cvid,viewname,setdefault,setmetrics,entitytype,presence) VALUES(?,?,?,?,?,?)', [$this->id, $this->name, $this->isdefault, $this->inmetrics, $this->module->name,$this->presence]);
 
 		self::log("Creating Filter $this->name ... DONE");
 

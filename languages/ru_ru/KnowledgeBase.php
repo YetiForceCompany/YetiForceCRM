@@ -16,5 +16,16 @@ $languageStrings = [
 	'LBL_PREVIOUS' => 'Previous',
 	'LBL_NEXT' => 'Next',
 	'LBL_LIST_RECORDS' => 'Records list',
-	'LBL_RECORD_PREVIEW' => 'Preview'
+	'LBL_RECORD_PREVIEW' => 'Preview',
+	'FL_STATUS' => 'Status',
+	'PLL_DRAFT' => 'Draft',
+	'PLL_IN_REALIZATION' => 'In realization',
+	'PLL_OBJECTIONS' => 'Objections',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_ACCEPTED' => 'Accepted',
+	'PLL_ARCHIVES' => 'Archive',
+	'LBL_ARTICLE' => 'Article',
+	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'LBL_ATTENTION_BLOCK' => 'Comments',
 ];

@@ -17,7 +17,7 @@ class Assets_Field_Model extends Vtiger_Field_Model
 	{
 	
 		$notEditableFields = $this->getEditabeFields();
-		if (!$this->isEditEnabled() || !$this->isViewable() ||
+		if (!$this->isEditEnabled() || 
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
 			$this->isReadOnly() == true || $this->get('uitype') == 4 || in_array($this->get('column'), $notEditableFields)) {
 			return false;
@@ -32,5 +32,14 @@ class Assets_Field_Model extends Vtiger_Field_Model
 	public function getEditabeFields()
 	{
 		return ['sum_time'];
+	}
+	
+	function isAjaxEditable()
+	{
+		$edit = parent::isAjaxEditable();
+		if ($edit && $this->getName() === 'assetstatus') {
+			$edit = false;
+		}
+		return $edit;
 	}
 }

@@ -2,7 +2,8 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -30,6 +31,16 @@ CREATE TABLE `a_yf_discounts_global` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_featured_filter` */
+
+CREATE TABLE `a_yf_featured_filter` (
+  `user` varchar(30) NOT NULL,
+  `cvid` int(19) NOT NULL,
+  PRIMARY KEY (`user`,`cvid`),
+  KEY `cvid` (`cvid`),
+  CONSTRAINT `a_yf_featured_filter_ibfk_1` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_inventory_limits` */
 
 CREATE TABLE `a_yf_inventory_limits` (
@@ -53,7 +64,7 @@ CREATE TABLE `a_yf_mapped_config` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   KEY `reltabid` (`reltabid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_mapped_fields` */
 
@@ -67,7 +78,7 @@ CREATE TABLE `a_yf_mapped_fields` (
   PRIMARY KEY (`id`),
   KEY `a_yf_mapped_fields_ibfk_1` (`mappedid`),
   CONSTRAINT `a_yf_mapped_fields_ibfk_1` FOREIGN KEY (`mappedid`) REFERENCES `a_yf_mapped_config` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_pdf` */
 
@@ -1483,9 +1494,13 @@ CREATE TABLE `u_yf_istdn` (
   `acountid` int(19) DEFAULT NULL,
   `acceptance_date` date DEFAULT NULL,
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `process` int(19) DEFAULT NULL,
+  `subprocess` int(19) DEFAULT NULL,
   PRIMARY KEY (`istdnid`),
   KEY `storageid` (`storageid`),
   KEY `acountid` (`acountid`),
+  KEY `process` (`process`),
+  KEY `subprocess` (`subprocess`),
   CONSTRAINT `u_yf_istdn_ibfk_1` FOREIGN KEY (`istdnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1625,9 +1640,13 @@ CREATE TABLE `u_yf_istrn` (
   `vendorid` int(19) DEFAULT NULL,
   `acceptance_date` date DEFAULT NULL,
   `total` decimal(27,8) NOT NULL DEFAULT '0.00000000',
+  `process` int(19) DEFAULT NULL,
+  `subprocess` int(19) DEFAULT NULL,
   PRIMARY KEY (`istrnid`),
   KEY `storageid` (`storageid`),
   KEY `vendorid` (`vendorid`),
+  KEY `process` (`process`),
+  KEY `subprocess` (`subprocess`),
   CONSTRAINT `u_yf_istrn_ibfk_1` FOREIGN KEY (`istrnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1691,6 +1710,7 @@ CREATE TABLE `u_yf_knowledgebase` (
   `content` text,
   `category` varchar(200) DEFAULT NULL,
   `knowledgebase_view` varchar(255) DEFAULT NULL,
+  `knowledgebase_status` varchar(255) DEFAULT '',
   PRIMARY KEY (`knowledgebaseid`),
   CONSTRAINT `fk_1_vtiger_knowledgebase` FOREIGN KEY (`knowledgebaseid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2704,7 +2724,7 @@ CREATE TABLE `vtiger_assetstatus` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`assetstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_assetstatus_seq` */
 
@@ -3551,6 +3571,11 @@ CREATE TABLE `vtiger_customview` (
   `status` int(1) DEFAULT '1',
   `userid` int(19) DEFAULT '1',
   `privileges` tinyint(2) DEFAULT '1',
+  `featured` tinyint(1) DEFAULT '0',
+  `sequence` int(11) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT '1',
+  `description` text,
+  `sort` varchar(30) DEFAULT '',
   PRIMARY KEY (`cvid`),
   KEY `customview_entitytype_idx` (`entitytype`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
@@ -4307,7 +4332,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2259 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2267 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4885,6 +4910,16 @@ CREATE TABLE `vtiger_istrn_status` (
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`istrn_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_knowledgebase_status` */
+
+CREATE TABLE `vtiger_knowledgebase_status` (
+  `knowledgebase_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `knowledgebase_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`knowledgebase_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_knowledgebase_view` */
 
@@ -8261,7 +8296,7 @@ CREATE TABLE `vtiger_user2role` (
 /*Table structure for table `vtiger_user_module_preferences` */
 
 CREATE TABLE `vtiger_user_module_preferences` (
-  `userid` int(19) NOT NULL,
+  `userid` varchar(30) NOT NULL,
   `tabid` int(19) NOT NULL,
   `default_cvid` int(19) NOT NULL,
   PRIMARY KEY (`userid`,`tabid`),
@@ -8569,7 +8604,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 

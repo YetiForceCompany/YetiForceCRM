@@ -31,9 +31,12 @@ $languageStrings = [
 	'Notes' => 'Notes',
 
 	/*picklist values*/
-	'PLL_WARRANTY_SUPPORT'=>'Warranty support',
-	'PLL_POST_WARRANTY_SUPPORT'=>'Post-warranty support',
-	'PLL_NO_SUPPORT'=>'No support',
+	'PLL_SALES_ACCEPTANCE'=>'Sales acceptance',
+	'PLL_SOLD'=>'Sold',
+	'PLL_TO_RENEW'=>'To renew',
+	'PLL_RENEWAL_ACCEPTANCE'=>'Renewal acceptance ',
+	'PLL_RENEWED'=>'Renewed',
+	'PLL_CANCELLED'=>'Cancelled',
 	
 	//YetiForce
 	'description'=>'Description',
@@ -42,4 +45,7 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',
 	'LBL_ORDER_TIME'=>'Order time',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Expiring sold products',
+	
+	'LBL_CHANGE_STATUS' => 'Change Status',
+	'LBL_PREVIEW' => 'Preview',
 ];

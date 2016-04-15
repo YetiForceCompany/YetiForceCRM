@@ -411,11 +411,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$queryGenerator = new QueryGenerator($moduleModel->get('name'), $currentUser);
 		$customView = new CustomView();
-		if (!empty($viewId) && $viewId != "0") {
+		if (!empty($viewId) && $viewId != 0) {
 			$queryGenerator->initForCustomViewById($viewId);
-
-			//Used to set the viewid into the session which will be used to load the same filter when you refresh the page
-			$viewId = $customView->getViewId($moduleName);
 		} else {
 			$viewId = $customView->getViewId($moduleName);
 			if (!empty($viewId) && $viewId != 0) {

@@ -30,10 +30,13 @@ $languageStrings = [
 
 	/*picklist values*/
 	'PLL_DRAFT'=>'Entwurf',
-	'PLL_WARRANTY_SUPPORT'=>'Gewährleistung',
-	'PLL_POST_WARRANTY_SUPPORT'=>'verlängerte Garantie',
-	'PLL_NO_SUPPORT'=>'Kein Support',
-	
+	'PLL_SALES_ACCEPTANCE'=>'Sales acceptance',
+	'PLL_SOLD'=>'Sold',
+	'PLL_TO_RENEW'=>'To renew',
+	'PLL_RENEWAL_ACCEPTANCE'=>'Renewal acceptance ',
+	'PLL_RENEWED'=>'Renewed',
+	'PLL_CANCELLED'=>'Cancelled',
+
 	//YetiForce
 	'description'=>'Beschreibung',
 	'attentions'=>'Anforderungen',
@@ -41,4 +44,7 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',
 	'LBL_ORDER_TIME'=>'Bestellzeit',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'abverkaufte Produkte',
+	
+	'LBL_CHANGE_STATUS' => 'Change Status',
+	'LBL_PREVIEW' => 'Preview',
 ];

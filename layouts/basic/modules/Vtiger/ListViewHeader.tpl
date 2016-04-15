@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -109,7 +109,7 @@
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 									<optgroup label='{vtranslate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
 										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
-											<option  data-editurl="{$CUSTOM_VIEW->getEditUrl()}" data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}" data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}" data-denyurl="{$CUSTOM_VIEW->getDenyUrl()}" data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" 
+											<option data-orderby="{$CUSTOM_VIEW->getSortOrderBy('orderBy')}" data-sortorder="{$CUSTOM_VIEW->getSortOrderBy('sortOrder')}" data-editurl="{$CUSTOM_VIEW->getEditUrl()}" data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}" data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}" data-denyurl="{$CUSTOM_VIEW->getDenyUrl()}" data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" 
 													 data-editable="{$CUSTOM_VIEW->isEditable()}" data-deletable="{$CUSTOM_VIEW->isDeletable()}" 
 													 data-pending="{$CUSTOM_VIEW->isPending()}" 
 													 data-public="{$CUSTOM_VIEW->isPublic() && $USER_MODEL->isAdminUser()}" id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" 
@@ -151,6 +151,17 @@
 					<span title="{vtranslate('LBL_DUPLICATE', $MODULE)}" data-value="duplicate" class="glyphicon glyphicon-retweet alignMiddle duplicateFilter filterActionImage pull-right"></span>
 				</span>
 			</div>
+			{if $CUSTOM_VIEWS|@count gt 0}
+				<div class="row">
+					<div class="col-xs-12 btn-toolbar">
+						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
+								{if $CUSTOM_VIEW->isFeatured()}<h5 class="btn-group resetButton cursorPointer"><span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}">{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}</span>{if $CUSTOM_VIEW->get('description')}<a href="#" class="featuredInfoPopover" title="" data-placement="auto right" data-content="{Vtiger_Util_Helper::toSafeHTML($CUSTOM_VIEW->get('description'))}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}</h5>{/if}
+							{/foreach}
+						{/foreach}
+					</div>
+				</div>
+			{/if}
 		</div>
 		<div class="listViewContentDiv" id="listViewContents">
 		{/strip}

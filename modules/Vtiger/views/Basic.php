@@ -26,6 +26,11 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		
+		if($activeReminder = vtlib_isModuleActive('Calendar')){
+			$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
+		}
 		$selectedModule = $request->getModule();
 		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
@@ -45,7 +50,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 		$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
-
+		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 		if($display) {
 			$this->preProcessDisplay($request);
 		}
