@@ -356,6 +356,7 @@ $languageStrings = [
 	'LBL_SELECT_ICON' => 'Wybierz ikonę',
 	'LBL_ICON_NAME' => 'Nazwa ikony',
 	'LBL_ICON_EXAMPLE' => 'Przykład ikony',
+	'LBL_YETIFORCE_SHOP' => 'Sklep YetiForce'
 ];
 
 $jsLanguageStrings = [

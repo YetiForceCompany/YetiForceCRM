@@ -21,7 +21,6 @@
 <input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 <input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
-<input type="hidden" id="showListButtonInCalendar" value="{AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')}" />
 <input type="hidden" id="hiddenDays" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 <input type="hidden" id="activityStateLabels" value="{Vtiger_Util_Helper::toSafeHTML($ACTIVITY_STATE_LABELS)}" />
 <style>
@@ -38,23 +37,7 @@
 </style>
 <div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
-		<div class="btn-group listViewMassActions pull-left paddingLeftMd">
-			{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
-				<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-					<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-					&nbsp;&nbsp;<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
-						<li>
-							<a class="quickLinks" href="{$SIDEBARLINK->getUrl()}">
-								{vtranslate($SIDEBARLINK->getLabel(), $MODULE_NAME)}
-							</a>
-						</li>
-					{/foreach}
-				</ul>
-			{/if}
-		</div>
+		{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 		<div class="col-xs-9 col-sm-6">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
 		</div>

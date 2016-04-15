@@ -9,7 +9,7 @@
  *************************************************************************************/
 $languageStrings = [
 	'isactive' => 'Aktiv',
-	'password' => 'Password',
+	'password' => 'Passwort',
 	'username' => 'User Name',
 	'LBL_SEREVER_CONFIG' => 'Neue Konfiguration',
 	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 Zeichen erlaubt',

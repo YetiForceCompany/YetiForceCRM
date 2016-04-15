@@ -16,21 +16,16 @@ class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model
 	{
 
 		$recordModel = $this->getRecord();
-		$linkModelList = parent::getDetailViewLinks($linkParams);
-
-		//TODO: update the database so that these separate handlings are not required
-		$index = 0;
-		foreach ($linkModelList['DETAILVIEW'] as $link) {
-			if ($link->linklabel == 'View History' || $link->linklabel == 'Send SMS') {
-				unset($linkModelList['DETAILVIEW'][$index]);
-			} else if ($link->linklabel == 'LBL_SHOW_EMPLOYEES_HIERARCHY') {
-				$linkURL = 'index.php?module=OSSEmployees&view=EmployeeHierarchy&record=' . $recordModel->getId();
-				$link->linkurl = 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("' . $linkURL . '");';
-				unset($linkModelList['DETAILVIEW'][$index]);
-				$linkModelList['DETAILVIEW'][$index] = $link;
-			}
-			$index++;
-		}
-		return $linkModelList;
+		$linkModelLists = parent::getDetailViewLinks($linkParams);
+		
+		$linkURL = 'index.php?module=OSSEmployees&view=EmployeeHierarchy&record=' . $recordModel->getId();
+		$linkModel = [
+			'linktype' => 'LISTVIEWMASSACTION',
+			'linkhint' => 'LBL_SHOW_EMPLOYEES_HIERARCHY',
+			'linkurl' => 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("' . $linkURL . '");',
+			'linkicon' => 'glyphicon glyphicon-user'
+		];
+		$linkModelLists['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($linkModel);
+		return $linkModelLists;
 	}
 }

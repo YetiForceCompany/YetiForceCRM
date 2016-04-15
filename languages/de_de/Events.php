@@ -95,7 +95,7 @@ $languageStrings = [
 	'LBL_RECURRING_TYPE' => 'Art der Wiederholung',
 	'Status' => 'Status',
 	'End Date' => 'Enddatum',
-	'LBL_FOLLOWUP' => 'Related event',
+	'LBL_FOLLOWUP' => 'Relevantes Ereignis',
 	
 	'PLL_PLANNED' => 'Geplant',
 	'PLL_IN_REALIZATION' => 'Zu Realisieren',

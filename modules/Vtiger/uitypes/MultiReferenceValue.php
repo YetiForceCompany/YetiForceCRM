@@ -49,7 +49,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 
 		$values = [];
 		while ($value = $db->getSingleValue($result)) {
-			$values[] = $value;
+			$values[$value] = $value;
 		}
 		$this->set('picklistValues', $values);
 		return $values;

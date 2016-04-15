@@ -17,19 +17,18 @@ class ModTrackerHandler extends VTEventHandler
 	function handleEvent($eventName, $data)
 	{
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-		$log = vglobal('log');
-		$current_module = vglobal('current_module');
-
+		$log = LoggerManager::getInstance();
+		
 		if (!is_object($data)) {
 			$extendedData = $data;
 			$data = $extendedData['entityData'];
 		}
-
 		$moduleName = $data->getModuleName();
 		$flag = ModTracker::isTrackingEnabledForModule($moduleName);
 
 		if ($flag) {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			
 			switch ($eventName) {
 				case 'vtiger.entity.aftersave.final':
 
@@ -58,7 +57,7 @@ class ModTrackerHandler extends VTEventHandler
 										'id' => $this->id,
 										'crmid' => $recordId,
 										'module' => $moduleName,
-										'whodid' => $current_user->id,
+										'whodid' => $currentUser->getRealId(),
 										'changedon' => $newerColumnFields['modifiedtime'],
 										'status' => $status
 									]);
@@ -68,7 +67,7 @@ class ModTrackerHandler extends VTEventHandler
 							}
 						}
 					}
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $recordId));
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}
@@ -83,11 +82,11 @@ class ModTrackerHandler extends VTEventHandler
 						'id' => $id,
 						'crmid' => $recordId,
 						'module' => $moduleName,
-						'whodid' => $current_user->id,
+						'whodid' => $currentUser->getRealId(),
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$DELETED
 					]);
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $recordId));
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}
@@ -102,11 +101,11 @@ class ModTrackerHandler extends VTEventHandler
 						'id' => $id,
 						'crmid' => $recordId,
 						'module' => $moduleName,
-						'whodid' => $current_user->id,
+						'whodid' => $currentUser->getRealId(),
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$RESTORED
 					]);
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $recordId));
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}
@@ -126,7 +125,7 @@ class ModTrackerHandler extends VTEventHandler
 						'id' => $adb->getUniqueId('vtiger_modtracker_basic'),
 						'crmid' => $data->getId(),
 						'module' => $moduleName,
-						'whodid' => $current_user->id,
+						'whodid' => $currentUser->getRealId(),
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$DISPLAYED
 					]);

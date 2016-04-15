@@ -1,28 +1,20 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'CRM Applications' => 'Aplicações CRM',
-	'Software' => 'Software',
-	'Hardware' => 'Hardware',
-	'LBL_SUMMARY' => 'Resumo tempo trabalho',
 	// Basic Strings
-	'Services' => 'Serviços' ,
+	'Services' => 'Serviços',
 	'SINGLE_Services'=> 'Serviço',
 	'LBL_ADD_RECORD' => 'Adicionar Serviço',
-	'LBL_RECORDS_LIST' => 'Lista Serviços' ,
-
+	'LBL_RECORDS_LIST' => 'Lista Serviços',
 	// Blocks
-	'LBL_SERVICE_INFORMATION'=> 'Detalhes do Serviço' ,
-
-	'LBL_MORE_CURRENCIES' => 'outras moedas' ,
+	'LBL_SERVICE_INFORMATION'=> 'Detalhes do Serviço',
+	'LBL_MORE_CURRENCIES' => 'outras moedas',
 	'LBL_PRICES' => 'Preços Serviços',
 	'LBL_PRICE' => 'Preço',
 	'LBL_RESET_PRICE'=> 'Redefinir Preço',
 	'LBL_RESET' => 'Redefinir' ,
-
 	//Services popup of pricebook
-	'LBL_ADD_TO_PRICEBOOKS'=> 'Adicionar na Lista Preços' ,
-
+	'LBL_ADD_TO_PRICEBOOKS'=> 'Adicionar na Lista Preços',
 	//Field Labels
 	'Service Name' => 'Nome Serviço' ,
 	'Service Active' => 'Ativo' ,
@@ -36,10 +28,12 @@ $languageStrings = [
 	'Usage Unit' => 'Unidade Utilizada' ,
 	'Tax Class'=> 'Categoria Imposto' ,
 	'Website'=> 'Website' ,
-
-	//Services popup of pricebook
-	'LBL_ADD_TO_PRICEBOOKS' => 'Adicionar na Lista de Preços',
-
+	'FL_RENEWABLE' => 'Renewable',
+	//YetiForce
+	'CRM Applications' => 'Aplicações CRM',
+	'Software' => 'Software',
+	'Hardware' => 'Hardware',
+	'LBL_SUMMARY' => 'Resumo tempo trabalho',
 	'Hours' => 'Horas',
 	'Days' => 'Dias',
 	'Incidents' => 'Incidentes',

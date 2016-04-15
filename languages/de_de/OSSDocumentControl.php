@@ -9,9 +9,6 @@ $languageStrings = [
     'LBL_MODULE_NAME' => 'Modulname',
     'LBL_NO_PROJECT_TPL_ADDED' => 'Keine neuen Dokumente hinzugefügt',
     'TPL' => 'Dokumente',
-
-
-    
     
     'LBL_CREATING_TPL' => 'Dokument erzeugen',
     'LBL_FILL_BASE_DATA' => 'Informationen',

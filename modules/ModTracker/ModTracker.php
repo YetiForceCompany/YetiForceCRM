@@ -388,7 +388,7 @@ class ModTracker
 	static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
 	{
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentTime = date('Y-m-d H:i:s');
 
 		$id = $adb->getUniqueId('vtiger_modtracker_basic');
@@ -396,7 +396,7 @@ class ModTracker
 			'id' => $id,
 			'crmid' => $sourceId,
 			'module' => $sourceModule,
-			'whodid' => $current_user->id,
+			'whodid' => $currentUser->getRealId(),
 			'changedon' => $currentTime,
 			'status' => $type
 		]);
@@ -406,7 +406,7 @@ class ModTracker
 			'targetid' => $targetId,
 			'changedon' => $currentTime,
 		]);
-		$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $sourceId));
+		$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $sourceId));
 
 		if ($adb->num_rows($isMyRecord) > 0)
 			$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($sourceId));

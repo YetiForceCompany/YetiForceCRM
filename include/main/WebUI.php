@@ -110,7 +110,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
-		if (AppConfig::main('csrfProtection') && $request->get('mode') != 'reset' && $request->get('action') != 'Login') {
+		if (AppConfig::main('csrfProtection') && $request->get('mode') != 'reset' && $request->get('action') != 'Login' && AppConfig::main('systemMode') != 'demo') {
 			require_once('libraries/csrf-magic/csrf-magic.php');
 			require_once('config/csrf_config.php');
 		}
@@ -186,12 +186,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handler = new $handlerClass();
 			if ($handler) {
 				vglobal('currentModule', $module);
-				$csrfProtection = vglobal('csrfProtection');
-				if ($csrfProtection) {
+				if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') != 'demo') {
 					// Ensure handler validates the request
 					$handler->validateRequest($request);
 				}
-
 				if ($handler->loginRequired()) {
 					$this->checkLogin($request);
 				}

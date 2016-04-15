@@ -48,5 +48,5 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',
 	'LBL_ORDER_TIME' => 'Bestellzeit',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'abverkaufte Produkte',
-	'LBL_CHANGE_STATUS' => 'Change Status',
+	'LBL_CHANGE_STATUS' => 'Status ändern',
 ];

@@ -289,6 +289,16 @@ class Vtiger_Link_Model extends Vtiger_Link
 	{
 		$objectProperties = get_object_vars($linkObj);
 		$linkModel = new self();
+
+		if (!empty($objectProperties['params'])) {
+			$params = Zend_Json::decode($objectProperties['params']);
+			if (!empty($params)) {
+				foreach ($params as $properName => $propertyValue) {
+					$linkModel->$properName = $propertyValue;
+				}
+			}
+			unset($objectProperties['params']);
+		}
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$linkModel->$properName = $propertyValue;
 		}
@@ -298,7 +308,7 @@ class Vtiger_Link_Model extends Vtiger_Link
 			$filePath2 = str_replace('_layoutName_', Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
 			if (is_file(vglobal('root_directory') . $filePath1)) {
 				$linkModel->linkurl = $filePath1;
-			} else if(is_file(vglobal('root_directory') . $filePath2)){
+			} else if (is_file(vglobal('root_directory') . $filePath2)) {
 				$linkModel->linkurl = $filePath2;
 			}
 		}

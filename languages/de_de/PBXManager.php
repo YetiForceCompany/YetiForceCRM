@@ -32,8 +32,8 @@ $languageStrings = [
 	'SINGLE_PBXManager' => 'Anruf Mitschneiden',
 	'Direction' => 'Richtung',
 	'Gateway' => 'Gateway',
-	'Customer type' => 'Customer type',
+	'Customer type' => 'Kundentyp',
 	'Source UUID' => 'Source UUID',
-	'End Time' => 'End Time',
+	'End Time' => 'Endezeit',
 	'Record Id' => 'Record Id',
 ];

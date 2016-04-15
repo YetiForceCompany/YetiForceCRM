@@ -74,6 +74,11 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 			$this->record = $recordModel;
 		}
 
+		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $record);
+		$editViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $record];
+		$detailViewLinks = $editModel->getEditViewLinks($editViewLinkParams);
+		$viewer->assign('EDITVIEW_LINKS', $detailViewLinks);
+
 		$moduleModel = $recordModel->getModule();
 		$fieldList = $moduleModel->getFields();
 		$requestFieldList = array_intersect_key($request->getAll(), $fieldList);

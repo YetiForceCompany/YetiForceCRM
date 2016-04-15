@@ -14,21 +14,13 @@
 				{if $REMINDER_ACTIVE}
 					<div class="pull-right rightHeaderBtn">
 						<div class="remindersNotice quickAction">
-							<a class="btn btn-default btn-sm" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
+							<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
 								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 								<span class="badge hide">0</span>
 							</a>
 						</div>
 					</div>
 				{/if}
-				<div class="pull-right rightHeaderBtn">
-					<div class="notificationsNotice quickAction">
-						<a class="btn btn-default btn-sm" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Home&view=NotificationsList">
-							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-							<span class="badge hide">0</span>
-						</a>
-					</div>
-				</div>
 				{if $CHAT_ACTIVE}
 					<div class="pull-right rightHeaderBtn">
 						<div class="headerLinksAJAXChat quickAction">
@@ -44,6 +36,21 @@
 							<a class="btn btn-default btn-sm" href="#">
 								<img class='alignMiddle imgAnnouncement announcementBtn' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}"/>
 							</a>
+						</div>
+					</div>
+				{/if}
+				{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')}
+					<div class="pull-right rightHeaderBtn">
+						<div class="notificationsNotice quickAction">
+							<div class="btn-group">
+								<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Home&view=NotificationsList">
+									<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+									<span class="badge hide">0</span>
+								</a>
+								<button type="button" class="btn btn-sm btn-default sendNotification" title="{vtranslate('LBL_SEND_NOTIFICATION',$MODULE)}">
+									<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+								</button>
+							</div>
 						</div>
 					</div>
 				{/if}

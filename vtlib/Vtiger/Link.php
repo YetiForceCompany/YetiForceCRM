@@ -30,6 +30,7 @@ class Vtiger_Link
 	var $handler_path;
 	var $handler_class;
 	var $handler;
+	var $params;
 
 	// Ignore module while selection
 	const IGNORE_MODULE = -1;
@@ -59,6 +60,7 @@ class Vtiger_Link
 		$this->handler_path = $valuemap['handler_path'];
 		$this->handler_class = $valuemap['handler_class'];
 		$this->handler = $valuemap['handler'];
+		$this->params = $valuemap['params'];
 	}
 
 	/**
@@ -77,32 +79,11 @@ class Vtiger_Link
 	 */
 	static function __getUniqueId()
 	{
-		$adb = PearDatabase::getInstance();
-		return $adb->getUniqueID('vtiger_links');
+		return PearDatabase::getInstance()->getUniqueID('vtiger_links');
 	}
 
 	/** Cache (Record) the schema changes to improve performance */
-	static $__cacheSchemaChanges = Array();
-
-	/**
-	 * Initialize the schema (tables)
-	 */
-	static function __initSchema()
-	{
-		/* vtiger_links is already core product table */
-		/* if(empty(self::$__cacheSchemaChanges['vtiger_links'])) {
-		  if(!Vtiger_Utils::CheckTable('vtiger_links')) {
-		  Vtiger_Utils::CreateTable(
-		  'vtiger_links',
-		  '(linkid INT NOT NULL PRIMARY KEY,
-		  tabid INT, linktype VARCHAR(20), linklabel VARCHAR(30), linkurl VARCHAR(255), linkicon VARCHAR(100), sequence INT, status INT(1) NOT NULL DEFAULT 1)',
-		  true);
-		  Vtiger_Utils::ExecuteQuery(
-		  'CREATE INDEX link_tabidtype_idx on vtiger_links(tabid,linktype)');
-		  }
-		  self::$__cacheSchemaChanges['vtiger_links'] = true;
-		  } */
-	}
+	static $__cacheSchemaChanges = [];
 
 	/**
 	 * Add link given module
@@ -113,24 +94,29 @@ class Vtiger_Link
 	 * @param String ICON to use on the display
 	 * @param Integer Order or sequence of displaying the link
 	 */
-	static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null)
+	static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null, $params = null)
 	{
 		$adb = PearDatabase::getInstance();
-		self::__initSchema();
 		$checkres = $adb->pquery('SELECT linkid FROM vtiger_links WHERE tabid=? AND linktype=? AND linkurl=? AND linkicon=? AND linklabel=?', Array($tabid, $type, $url, $iconpath, $label));
 		if (!$adb->num_rows($checkres)) {
-			$uniqueid = self::__getUniqueId();
-			$sql = 'INSERT INTO vtiger_links (linkid,tabid,linktype,linklabel,linkurl,linkicon,' .
-				'sequence';
-			$params = Array($uniqueid, $tabid, $type, $label, $url, $iconpath, $sequence);
+			$params = [
+				'linkid' => self::__getUniqueId(),
+				'tabid' => $tabid,
+				'linktype' => $type,
+				'linklabel' => $label,
+				'linkurl' => $url,
+				'linkicon' => $iconpath,
+				'sequence' => $sequence,
+			];
 			if (!empty($handlerInfo)) {
-				$sql .= (', handler_path, handler_class, handler');
-				$params[] = $handlerInfo['path'];
-				$params[] = $handlerInfo['class'];
-				$params[] = $handlerInfo['method'];
+				$params['handler_path'] = $handlerInfo['path'];
+				$params['handler_class'] = $handlerInfo['class'];
+				$params['handler'] = $handlerInfo['method'];
 			}
-			$sql .= (') VALUES (' . generateQuestionMarks($params) . ')');
-			$adb->pquery($sql, $params);
+			if (!empty($params)) {
+				$params['params'] = $params;
+			}
+			$adb->insert('vtiger_links', $params);
 			self::log("Adding Link ($type - $label) ... DONE");
 		}
 	}
@@ -145,7 +131,6 @@ class Vtiger_Link
 	static function deleteLink($tabid, $type, $label, $url = false)
 	{
 		$adb = PearDatabase::getInstance();
-		self::__initSchema();
 		if ($url) {
 			$adb->pquery('DELETE FROM vtiger_links WHERE tabid=? AND linktype=? AND linklabel=? AND linkurl=?', Array($tabid, $type, $label, $url));
 			self::log("Deleting Link ($type - $label - $url) ... DONE");
@@ -162,7 +147,6 @@ class Vtiger_Link
 	static function deleteAll($tabid)
 	{
 		$adb = PearDatabase::getInstance();
-		self::__initSchema();
 		$adb->delete('vtiger_links', 'tabid=?', [$tabid]);
 		self::log("Deleting Links ... DONE");
 	}
@@ -186,7 +170,6 @@ class Vtiger_Link
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		self::__initSchema();
 
 		$multitype = false;
 
@@ -228,14 +211,13 @@ class Vtiger_Link
 				$strtemplate->assign($key, $value);
 		}
 
-		$instances = Array();
+		$instances = [];
 		if ($multitype) {
 			foreach ($type as $t)
-				$instances[$t] = Array();
+				$instances[$t] = [];
 		}
 
 		while ($row = $adb->fetch_array($result)) {
-			$skipLink = false;
 			$instance = new self();
 			$instance->initialize($row);
 			if (!empty($row['handler_path']) && isFileAccessible($row['handler_path'])) {
@@ -244,7 +226,7 @@ class Vtiger_Link
 				$linkData = new Vtiger_LinkData($instance, $current_user);
 				$ignore = call_user_func(array($row['handler_class'], $row['handler']), $linkData);
 				if (!$ignore) {
-					self::log("Ignoring Link ... " . var_export($row, true));
+					self::log('Ignoring Link ... ' . var_export($row, true));
 					continue;
 				}
 			}
@@ -252,19 +234,10 @@ class Vtiger_Link
 				$instance->linkurl = $strtemplate->merge($instance->linkurl);
 				$instance->linkicon = $strtemplate->merge($instance->linkicon);
 			}
-
-			if ($instance->linktype == 'LISTVIEWSIDEBARWIDGET' || $instance->linktype == 'DETAILVIEWSIDEBARWIDGET') {
-				parse_str($instance->linkurl, $linkurl);
-				if (isset($linkurl['module']) && !Users_Privileges_Model::isPermitted($linkurl['module'], 'DetailView')) {
-					$skipLink = true;
-				}
-			}
-			if (!$skipLink) {
-				if ($multitype) {
-					$instances[$instance->linktype][] = $instance;
-				} else {
-					$instances[$instance->linktype] = $instance;
-				}
+			if ($multitype) {
+				$instances[$instance->linktype][] = $instance;
+			} else {
+				$instances[$instance->linktype] = $instance;
 			}
 		}
 		return $instances;
@@ -308,5 +281,3 @@ class Vtiger_Link
 		return $user->is_admin == 'on' || $user->column_fields['is_admin'] == 'on';
 	}
 }
-
-?>

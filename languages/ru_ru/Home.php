@@ -27,6 +27,9 @@ $languageStrings = [
 	'LBL_CREATING_NOTIFICATION' => 'Send notification',
 	'LBL_TITLE' => 'Title',
 	'LBL_MESSAGE' => 'Message',
+	'LBL_MESSAGES_FROM_USERS' => 'From users',
+	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Send message',
+	'LBL_SEND_NOTIFICATION_MAIL' => 'Send via email',
 ];
 
 $jsLanguageStrings = [

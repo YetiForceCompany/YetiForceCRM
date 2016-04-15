@@ -17,15 +17,24 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 		if ($userPrivilegesModel->getId() != $notice->getUserId()) {
 			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
+		$mode = $request->getMode();
+		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage')) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		} elseif (in_array($mode, ['setMark', 'getNumberOfNotifications', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
 	}
 
 	function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('create');
 		$this->exposeMethod('setMark');
 		$this->exposeMethod('getNumberOfNotifications');
 		$this->exposeMethod('saveWatchingModules');
+		$this->exposeMethod('createMessage');
+		$this->exposeMethod('createMail');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -75,13 +84,13 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function create(Vtiger_Request $request)
+	public function createMessage(Vtiger_Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$message = $request->get('message');
 		$title = $request->get('title');
 		$users = $request->get('users');
-		if(!is_array($users)) {
+		if (!is_array($users)) {
 			$users = [$users];
 		}
 		if (count($users)) {
@@ -98,6 +107,36 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($users);
+		$response->emit();
+	}
+
+	public function createMail(Vtiger_Request $request)
+	{
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$accessibleUsers = $userPrivilegesModel->getAccessibleUsers();
+
+		$content = $request->get('message');
+		$subject = $request->get('title');
+		$users = $request->get('users');
+		if (!is_array($users)) {
+			$users = [$users];
+		}
+		$sendStatus = true;
+		if (count($users)) {
+			require_once('modules/Emails/mail.php');
+			foreach ($users as $user) {
+				if (key_exists($user, $accessibleUsers)) {
+					$email = Vtiger_Util_Helper::getUserDetail($user, 'email1');
+					$name = Vtiger_Functions::getOwnerRecordLabel($user);
+					$status = send_mail('Users', $email, $name, $from_email, $subject, $content);
+					if (!$status) {
+						$sendStatus = false;
+					}
+				}
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($sendStatus);
 		$response->emit();
 	}
 }

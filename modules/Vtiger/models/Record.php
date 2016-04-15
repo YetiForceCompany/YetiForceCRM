@@ -750,7 +750,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$inventoryFields = $inventory->getFields();
 			foreach ($summaryFields as $fieldName) {
 				if ($this->has($prefix . $fieldName)) {
-					$this->set($prefix . $fieldName, $inventoryFields[$fieldName]->getSummaryValuesFromData($inventoryData));
+					$value = $inventoryFields[$fieldName]->getSummaryValuesFromData($inventoryData);
+					$this->set($prefix . $fieldName, CurrencyField::convertToUserFormat($value, null, true));
 				}
 			}
 		}

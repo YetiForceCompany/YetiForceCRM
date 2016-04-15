@@ -10,6 +10,9 @@
   * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = [
+	// Field Labels
+	'FL_RENEWABLE' => 'Renewable',
+	// 
 	'--None--' => 'Нет',
 	'300-Sales-Software'           => '300-Продажи-ПО'     , 
 	'301-Sales-Hardware'           => '301-Продажи-Оборудование', 

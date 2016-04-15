@@ -69,12 +69,13 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$this->viewName = CustomView_Record_Model::getViewId($request);
 		if (ListViewSession::hasViewChanged($moduleName, $this->viewName)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($this->viewName);
-			ListViewSession::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
-			ListViewSession::setCurrentView($moduleName, $this->viewName, false);
+			if ($customViewModel) {
+				ListViewSession::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
+				ListViewSession::setCurrentView($moduleName, $this->viewName, false);
+			}
 		}
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
-		$quickLinkModels = $listViewModel->getSideBarLinks($linkParams);
-		$viewer->assign('QUICK_LINKS', $quickLinkModels);
+		$viewer->assign('HEADER_LINKS', $listViewModel->getHederLinks($linkParams));
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEWID', $this->viewName);
 

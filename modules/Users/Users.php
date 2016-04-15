@@ -659,12 +659,11 @@ class Users extends CRMEntity
 	 */
 	function retrieveCurrentUserInfoFromFile($userid)
 	{
-		checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
-		require('user_privileges/user_privileges_' . $userid . '.php');
+		$detail = Vtiger_Util_Helper::getUserDetail($userid);
 		foreach ($this->column_fields as $field => $value_iter) {
-			if (isset($user_info[$field])) {
-				$this->$field = $user_info[$field];
-				$this->column_fields[$field] = $user_info[$field];
+			if (isset($detail[$field])) {
+				$this->$field = $detail[$field];
+				$this->column_fields[$field] = $detail[$field];
 			}
 		}
 		$this->id = $userid;

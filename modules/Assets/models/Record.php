@@ -26,7 +26,7 @@ class Assets_Record_Model extends Vtiger_Record_Model
 	public function updateRenewal()
 	{
 		$value = $this->getRenewalValue();
-		if ($value) {
+		if ($value && $this->get('assets_renew') != $value) {
 			$this->set('assets_renew', $value);
 			$this->set('mode', 'edit');
 			$this->save();
@@ -35,7 +35,7 @@ class Assets_Record_Model extends Vtiger_Record_Model
 
 	public function getRenewalValue()
 	{
-		if ($this->has('product') == false) {
+		if ($this->isEmpty('product')) {
 			return 'PLL_NOT_APPLICABLE';
 		}
 		$productsRecordModel = Vtiger_Record_Model::getInstanceById($this->get('product'), 'Products');
@@ -46,13 +46,14 @@ class Assets_Record_Model extends Vtiger_Record_Model
 		if (!$this->isEmpty('renewalinvoice')) {
 			return 'PLL_RENEWED';
 		}
-		$dateRenewable = strtotime(AppConfig::module('Assets', 'RENEWAL_TIME'), strtotime($this->get('dateinservice')));
+		$dateInService = strtotime($this->get('dateinservice'));
+		$dateRenewable = strtotime(AppConfig::module('Assets', 'RENEWAL_TIME'), $dateInService);
 		if ($dateRenewable > time()) {
 			return 'PLL_PLANNED';
 		}
-		if (strtotime('+1 month', $dateRenewable) > time()) {
-			return 'PLL_WAITING_FOR_RENEWAL';
+		if (strtotime('+1 month', $dateInService) < time()) {
+			return 'PLL_NOT_RENEWED';
 		}
-		return 'PLL_NOT_RENEWED';
+		return 'PLL_WAITING_FOR_RENEWAL';
 	}
 }

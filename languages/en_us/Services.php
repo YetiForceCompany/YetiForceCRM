@@ -2,28 +2,20 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 $languageStrings = [
-	'CRM Applications' => 'CRM Applications',
-	'Software' => 'Software',
-	'Hardware' => 'Hardware',
-	'LBL_SUMMARY' => 'Work time summary',
 	// Basic Strings
 	'Services' => 'Services',
 	'SINGLE_Services' => 'Service',
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_RECORDS_LIST' => 'Services list',
-
 	// Blocks
 	'LBL_SERVICE_INFORMATION' => 'Service details',
-	
 	'LBL_MORE_CURRENCIES' => 'more currencies', 
 	'LBL_PRICES' => 'Service prices',
 	'LBL_PRICE' => 'Price',
 	'LBL_RESET_PRICE' => 'Reset price',
 	'LBL_RESET' => 'Reset',
-	
 	//Services popup of pricebook
 	'LBL_ADD_TO_PRICEBOOKS' => 'Add to PriceBooks',
-
 	//Field Labels
 	'Service Name'=>'Service name',
 	'Service Active'=>'Active',
@@ -37,13 +29,15 @@ $languageStrings = [
 	'Usage Unit'=>'Usage unit',
 	'Tax Class'=>'Tax class',
 	'Website'=>'Website',
-	
-	//Services popup of pricebook
-	'LBL_ADD_TO_PRICEBOOKS' => 'Add to PriceBooks',
-	
+	'FL_RENEWABLE' => 'Renewable',
+	// YetiForce
+	'LBL_SUMMARY' => 'Work time summary',
 	'Hours' => 'Hours',
 	'Days' => 'Days',
 	'Incidents' => 'Incidents',
+	'CRM Applications' => 'CRM Applications',
+	'Software' => 'Software',
+	'Hardware' => 'Hardware',
 	'Sales' => 'Sales',
 	'Service' => 'Service',
 	'Support' => 'Support',

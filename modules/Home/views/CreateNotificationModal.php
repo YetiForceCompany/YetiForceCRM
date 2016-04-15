@@ -9,6 +9,24 @@
 class Home_CreateNotificationModal_View extends Vtiger_BasicModal_View
 {
 
+	public function getSize(Vtiger_Request $request)
+	{
+		return 'modal-lg';
+	}
+
+	public function checkPermission(Vtiger_Request $request)
+	{
+		parent::checkPermission($request);
+
+		$mode = $request->getMode();
+		if (!in_array($mode, ['createMessage', 'createMail'])) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+		if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage') && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail')) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+	}
+
 	public function process(Vtiger_Request $request)
 	{
 		$this->preProcess($request);

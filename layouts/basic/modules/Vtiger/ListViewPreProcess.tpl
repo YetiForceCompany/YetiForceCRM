@@ -15,8 +15,15 @@
 		<div class="mainContainer">
 			<div class="contentsDiv">
 				<div class="widget_header row marginBottom10px">
-					<div class="col-xs-12">
+					<div class="col-xs-8">
 						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					</div>
+					<div class="col-xs-4">
+						<div class="pull-right-lg">
+							{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
+								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listViewHeader'}
+							{/foreach}
+						</div>
 					</div>
 				</div>
 				{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}

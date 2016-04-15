@@ -107,10 +107,8 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-
-		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
-
+		
+		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 
 		$massActionLinks = [];
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassTransferOwnership')) {
@@ -303,6 +301,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				}
 				$query = ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
 			} else if ($orderBy === 'smownerid') {
+				$this->get('query_generator')->setConditionField($orderByFieldName);
 				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 				if ($fieldModel->getFieldDataType() == 'owner') {
 					$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';

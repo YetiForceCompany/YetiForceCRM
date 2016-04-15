@@ -15,8 +15,8 @@
 		<div class="moduleIcon">
 			<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 		</div>
-		<div class="paddingLeft5px pull-left">
-			<h4 class="paddingLeft5px recordLabel pushDown marginbottomZero" title="{$RECORD->getName()}">
+		<div class="paddingLeft5px">
+			<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getName()}">
 				{assign var=COUNTER value=0}
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}

@@ -14,34 +14,7 @@
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
 				<div class="btn-toolbar col-md-4 col-sm-6 col-xs-12">
-					<div class="btn-group">
-						{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}
-							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-								<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-								&nbsp;&nbsp;<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">
-								{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
-									{assign var=SIDE_LINK_URL value=decode_html($SIDEBARLINK->getUrl())}
-									{assign var="EXPLODED_PARSE_URL" value=explode('?',$SIDE_LINK_URL)}
-									{assign var="COUNT_OF_EXPLODED_URL" value=count($EXPLODED_PARSE_URL)}
-									{if $COUNT_OF_EXPLODED_URL gt 1}
-										{assign var="EXPLODED_URL" value=$EXPLODED_PARSE_URL[$COUNT_OF_EXPLODED_URL-1]}
-									{/if}
-									{assign var="PARSE_URL" value=explode('&',$EXPLODED_URL)}
-									{assign var="CURRENT_LINK_VIEW" value='view='|cat:$CURRENT_VIEW}
-									{assign var="LINK_LIST_VIEW" value=in_array($CURRENT_LINK_VIEW,$PARSE_URL)}
-									{assign var="CURRENT_MODULE_NAME" value='module='|cat:$MODULE}
-									{assign var="IS_LINK_MODULE_NAME" value=in_array($CURRENT_MODULE_NAME,$PARSE_URL)}
-									<li>
-										<a class="quickLinks" href="{$SIDEBARLINK->getUrl()}">
-											{vtranslate($SIDEBARLINK->getLabel(), $MODULE)}
-										</a>
-									</li>
-									{/foreach}
-							</ul>
-						{/if}
-					</div>
+					{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK']}
 					<div class="btn-group listViewMassActions">
 						{if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
 							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
@@ -75,31 +48,8 @@
 							</ul>
 						{/if}
 					</div>
-					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-						<div class="btn-group">
-							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn btn-default {if $LISTVIEW_BASICACTION->linkclass neq ''}{$LISTVIEW_BASICACTION->linkclass}{/if}" 
-								{if $LISTVIEW_BASICACTION->get('linkdata') neq ''}
-									{foreach from=$LISTVIEW_BASICACTION->get('linkdata') key=NAME item=DATA}
-										data-{$NAME}="{$DATA}" 
-									{/foreach}
-								{/if}
-								{if $LISTVIEW_BASICACTION->getUrl() neq ''}
-									{if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}
-										onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
-									{else}
-										onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"'
-									{/if}
-								{/if}>
-								{if $LISTVIEW_BASICACTION->linkicon eq ''}
-									<span class="glyphicon glyphicon-plus"></span>
-								{else}
-									<span class="{$LISTVIEW_BASICACTION->linkicon}"></span>
-								{/if}
-								{if $LISTVIEW_BASICACTION->getLabel() neq ''}
-									&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong>
-								{/if}
-							</button>
-						</div>
+					{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+						{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listView'}
 					{/foreach}
 				</div>
 				<div class="btn-toolbar col-md-3 col-sm-5 col-xs-12 pull-right-sm pull-left-xs">

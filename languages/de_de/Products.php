@@ -8,6 +8,9 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
+	'FL_RENEWABLE' => 'Zu Erneuern',
+	// Field Labels
+	// 
 	'Unit Code' => 'Einheit',
 	'Mf. Country Code' => 'Hersteller Länderschlüssel',
 	'Manuf. Country' => 'Herstellerland',
@@ -70,7 +73,7 @@ $languageStrings = [
 	'SINGLE_Products' => 'Produkt',
 	'Software'=>'Software',
 	'Spiral Binder'=>'Spiralordner',
-	'Sq Ft'=>'Quadratfuss',
+	'Sq Ft'=>'Quadratfuß',
 	'Tax Class'=>'Steuerklasse',
 	'Unit Price'=>'Preis/Einheit',
 	'List Price'=>'Listenpreis',
@@ -83,9 +86,9 @@ $languageStrings = [
 	'Marketing Group' => 'Marketing',
 	'Team Selling' => 'Verkauf',
 	'LBL_TAXES' => 'Steuern',
-	'pcs' => 'pcs',
-	'pack' => 'pack',
+	'pcs' => 'Stück',
+	'pack' => 'Packung',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufschance verknüpft sind',
 	'FL_EAN_13' => 'EAN-13',
-	'FL_QTY_IN_STOCK' => 'Quantity of product in stock',
+	'FL_QTY_IN_STOCK' => 'Anzahl Produkte auf Lager',
 ];

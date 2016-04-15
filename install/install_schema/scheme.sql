@@ -5655,6 +5655,7 @@ CREATE TABLE `vtiger_links` (
   `handler_path` varchar(128) DEFAULT NULL,
   `handler_class` varchar(50) DEFAULT NULL,
   `handler` varchar(50) DEFAULT NULL,
+  `params` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`linkid`),
   KEY `link_tabidtype_idx` (`tabid`,`linktype`),
   KEY `linklabel` (`linklabel`),
@@ -7881,9 +7882,6 @@ CREATE TABLE `vtiger_servicecontracts` (
   `progress` decimal(5,2) DEFAULT NULL,
   `contract_no` varchar(100) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
-  `sum_time_p` decimal(13,2) DEFAULT NULL,
-  `sum_time_h` decimal(13,2) DEFAULT NULL,
-  `sum_time_all` decimal(13,2) DEFAULT NULL,
   PRIMARY KEY (`servicecontractsid`),
   KEY `sc_related_to` (`sc_related_to`),
   CONSTRAINT `vtiger_servicecontracts_ibfk_1` FOREIGN KEY (`servicecontractsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE

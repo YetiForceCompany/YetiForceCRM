@@ -34,7 +34,7 @@ class Vtiger_AssignedUpcomingProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$projectsTasks = ($owner === false) ? [] : $moduleModel->getAssignedProjectsTasks('overdue', $pagingModel, $owner);
+		$projectsTasks = ($owner === false) ? [] : $moduleModel->getAssignedProjectsTasks('upcoming', $pagingModel, $owner);
 
 
 		$viewer->assign('WIDGET', $widget);

@@ -1123,6 +1123,7 @@ $languageStrings = [
 	'Sales Profile' => 'Profil sprzedaży',
 	'Guest Profile' => 'Gość',
 	'LBL_DISPLAYED' => 'przeglądał rekord',
+	'LBL_SEND_NOTIFICATION' => 'Wyślij powiadomienie',
 	// Action types - AT
 	'LBL_AT_UPDATED' => 'Modyfikacja',
 	'LBL_AT_DELETED' => 'Usuwanie',
@@ -1396,4 +1397,5 @@ $jsLanguageStrings = [
 	'JS_WATCHING_MESSAGE0' => 'Czy jesteś pewien że chcesz wyłączyć śledzenie zmian?',
 	'JS_WATCHING_MESSAGE1' => 'Czy jesteś pewien że chcesz włączyć śledzenie zmian?',
 	'JS_FILTER' => 'Filtr',
+	'JS_NOTIFICATION_LINK' => 'Link',
 ];

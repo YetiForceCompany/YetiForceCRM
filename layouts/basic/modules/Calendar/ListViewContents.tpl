@@ -45,16 +45,21 @@
 		<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 	</span>
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<table class="table table-bordered listViewEntriesTable">
+	<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE}">
 		<thead>
 			<tr class="listViewHeaders">
 				<th>
 					<input type="checkbox" id="listViewEntriesMainCheckBox" title="{vtranslate('LBL_SELECT_ALL')}" />
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-				<th nowrap {if $LISTVIEW_HEADER@last} colspan="2" {/if}>
-					<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
-						&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}</a>
+				<th {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}columnSorted{/if}">
+					<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">
+						{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
+						&nbsp;&nbsp;
+						{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}
+							<span class="{$SORT_IMAGE}"></span>
+						{/if}
+					</a>
 				</th>
 				{/foreach}
 			</tr>
@@ -113,14 +118,26 @@
 			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 			{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-			<td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" nowrap>
-				{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4'}
-					<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
-				{else}
-					{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-				{/if}
-				{if $LISTVIEW_HEADER@last}
-				</td><td nowrap class="{$WIDTHTYPE}">		
+			<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
+				{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
+					<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+						{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+							{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+						{else}
+							{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+						{/if}</a>
+					{else}
+						{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
+							{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
+						{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+							{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+						{else}
+							{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+						{/if}
+					{/if}
+			</td>
+			{if $LISTVIEW_HEADER@last}
+			<td nowrap class="{$WIDTHTYPE}">		
 				<div class="actions pull-right">
 					<span class="actionImages">
 						{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}

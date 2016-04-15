@@ -29,27 +29,10 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 * @param <Array> $linkParams
 	 * @return <Array> List of Vtiger_Link_Model instances
 	 */
-	public function getSideBarLinks($linkParams)
+	public function getHederLinks($linkParams)
 	{
-		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
-		$moduleLinks = $this->getModule()->getSideBarLinks($linkParams);
-
-		$listLinkTypes = array('LISTVIEWSIDEBARLINK', 'LISTVIEWSIDEBARWIDGET');
-		$listLinks = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), $listLinkTypes);
-
-		if ($listLinks['LISTVIEWSIDEBARLINK']) {
-			foreach ($listLinks['LISTVIEWSIDEBARLINK'] as $link) {
-				$moduleLinks['SIDEBARLINK'][] = $link;
-			}
-		}
-
-		if ($listLinks['LISTVIEWSIDEBARWIDGET']) {
-			foreach ($listLinks['LISTVIEWSIDEBARWIDGET'] as $link) {
-				$moduleLinks['SIDEBARWIDGET'][] = $link;
-			}
-		}
-
-		return $moduleLinks;
+		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
+		return $links;
 	}
 
 	/**
@@ -61,10 +44,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleModel = $this->getModule();
-
-		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
-
+		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWBASIC', 'LISTVIEW'], $linkParams);
 		$basicLinks = $this->getBasicLinks();
 
 		foreach ($basicLinks as $basicLink) {
@@ -97,10 +77,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-
-		$linkTypes = array('LISTVIEWMASSACTION');
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
-
+		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 
 		$massActionLinks = [];
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassEdit')) {
@@ -185,7 +162,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$this->get('query_generator')->setConditionField($orderByFieldName);
-				//$queryGenerator->whereFields[] = $orderByFieldName;
 
 				$referenceModules = $orderByFieldModel->getReferenceList();
 				$referenceNameFieldOrderBy = [];
@@ -206,6 +182,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				}
 				$query = ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
 			} else if ($orderBy === 'smownerid') {
+				$this->get('query_generator')->setConditionField($orderByFieldName);
+
 				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 				if ($fieldModel->getFieldDataType() == 'owner') {
 					$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
@@ -554,7 +532,9 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
 				'linkclass' => 'addButton moduleColor_' . $moduleModel->getName(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus',
+				'showLabel' => 1,
+				'linkhref' => true
 			];
 		}
 

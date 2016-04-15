@@ -5,7 +5,7 @@
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
 			<div class="breadcrumbsContainer">
-				<h2 class="breadcrumbsLinks">
+				<h2 class="breadcrumbsLinks textOverflowEllipsis">
 					<a href='/'>
 						<span class="{$HOMEICON}"></span>
 					</a>

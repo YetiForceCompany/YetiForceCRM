@@ -879,7 +879,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			return;
 		}
 		thisInstance.lockCurrencyChange = true;
-		var block = select.closest('[colspan]');
+		var block = select.closest('th');
 		var modal = block.find('.modelContainer').clone();
 		app.showModalWindow(modal, function (data) {
 			var modal = $(data);

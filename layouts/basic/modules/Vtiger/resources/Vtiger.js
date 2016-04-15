@@ -260,6 +260,54 @@ var Vtiger_Index_Js = {
 
 	},
 	registerNotifications: function () {
+		$(".notificationsNotice .sendNotification").click(function (e) {
+			var modalWindowParams = {
+				url: 'index.php?module=Home&view=CreateNotificationModal',
+				id: 'CreateNotificationModal',
+				cb: function (container) {
+					var form, text, link, htmlLink;
+
+					text = container.find('#notificationMessage');
+					form = container.find('form');
+					container.find('#notificationTitle').val(app.getPageTitle());
+					link = $("<a/>", {
+						name: "link",
+						href: window.location.href,
+						text: app.vtranslate('JS_NOTIFICATION_LINK')
+					});
+					htmlLink = $('<div>').append(link.clone()).html();
+					text.val('<br/><hr/>' + htmlLink);
+					var ckEditorInstance = new Vtiger_CkEditor_Js();
+					ckEditorInstance.loadCkEditor(text);
+					container.find(".externalMail").click(function (e) {
+						if (form.validationEngine('validate')) {
+							var editor = CKEDITOR.instances.notificationMessage;
+							var text = $('<div>' + editor.getData() + '</div>').text();
+							var emails = [];
+							container.find("#notificationUsers option:selected").each(function (index) {
+								emails.push($(this).data('mail'))
+							});
+							$(this).attr('href', 'mailto:' + emails.join() + '?subject=' + encodeURIComponent(container.find("#notificationTitle").val()) + '&body=' + encodeURIComponent(text))
+							app.hideModalWindow(container, 'CreateNotificationModal');
+						} else {
+							e.preventDefault();
+						}
+					});
+					container.find('[type="submit"]').click(function (e) {
+						var element = $(this);
+						form.find('[name="mode"]').val(element.data('mode'));
+					});
+					form.submit(function (e) {
+						if (form.validationEngine('validate')) {
+							app.hideModalWindow(container, 'CreateNotificationModal');
+						}
+					});
+				},
+			}
+			app.showModalWindow(modalWindowParams);
+		})
+	},
+	registerCheckNotifications: function () {
 		var thisInstance = this;
 		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
 
@@ -274,7 +322,7 @@ var Vtiger_Index_Js = {
 		} else {
 			thisInstance.setNotification(app.cacheGet('NotificationsData', 0));
 		}
-		setTimeout('Vtiger_Index_Js.registerNotifications()', delay);
+		setTimeout('Vtiger_Index_Js.registerCheckNotifications()', delay);
 	},
 	requestNotification: function () {
 		var thisInstance = this;
@@ -297,7 +345,7 @@ var Vtiger_Index_Js = {
 		badge.text(notificationsCount);
 		badge.removeClass('hide');
 		if (notificationsCount > 0) {
-			$(".notificationsNotice").effect("pulsate", 1500);
+			$(".notificationsNotice .isBadge").effect("pulsate", 1500);
 		} else {
 			badge.addClass('hide');
 		}
@@ -342,17 +390,12 @@ var Vtiger_Index_Js = {
 	 * Function registers event for Calendar Reminder popups
 	 */
 	registerActivityReminder: function () {
-		var activityReminder = jQuery('#activityReminder').val();
-		if (activityReminder != '') {
-			activityReminder = activityReminder * 1000;
-			var currentTime = new Date().getTime();
-			var nextActivityReminderCheck = app.cacheGet('ActivityReminderNextCheckTime', 0);
-
-			if ((currentTime - activityReminder) > nextActivityReminderCheck) {
+		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
+		if (activityReminder != 0) {
+			Vtiger_Index_Js.requestReminder();
+			window.reminder = setInterval(function () {
 				Vtiger_Index_Js.requestReminder();
-				setTimeout('Vtiger_Index_Js.requestReminder()', activityReminder);
-				app.cacheSet('ActivityReminderNextCheckTime', currentTime + parseInt(activityReminder));
-			}
+			}, activityReminder);
 		}
 	},
 	/**
@@ -378,6 +421,8 @@ var Vtiger_Index_Js = {
 					});
 				});
 			});
+		}, function (data, err) {
+			clearInterval(window.reminder);
 		});
 	},
 	refreshNumberNotifications: function (content) {
@@ -386,7 +431,7 @@ var Vtiger_Index_Js = {
 		badge.text(count);
 		badge.removeClass('hide');
 		if (count > 0) {
-			$(".remindersNotice").effect("pulsate", 1500);
+			$(".remindersNotice .isBadge").effect("pulsate", 1500);
 			if (app.cacheGet('countRemindersNotice') != count) {
 				app.playSound('REMINDERS');
 				app.cacheSet('countRemindersNotice', count);
@@ -580,6 +625,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerActivityReminder();
+		Vtiger_Index_Js.registerCheckNotifications();
 		Vtiger_Index_Js.registerNotifications();
 		Vtiger_Index_Js.adjustTopMenuBarItems();
 		Vtiger_Index_Js.registerPostAjaxEvents();

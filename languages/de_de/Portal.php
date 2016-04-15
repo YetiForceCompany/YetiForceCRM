@@ -29,5 +29,5 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_ENTER_MANDATORY_FIELD' => 'Please enter all mandatory field',
+	'JS_ENTER_MANDATORY_FIELD' => 'Bitte alle Mussfelder füllen',
 ];
