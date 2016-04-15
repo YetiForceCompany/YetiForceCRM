@@ -127,7 +127,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		$row = [];
 		$row['column'] = $inventoryField->getColumnName();
 		$row['name'] = $inventoryField->getColumnName();
-		$row['label'] = $inventoryField->getDefaultLabel();
+		$row['label'] = $inventoryField->get('label');
 		$row['id'] = $inventoryField->getColumnName();
 		$row['defaultvalue'] = $inventoryField->getDefaultValue();
 		$row['mandatory'] = $inventoryField->isMandatory();
