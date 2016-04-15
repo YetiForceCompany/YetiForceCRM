@@ -11,6 +11,34 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 	},
 	registerSave: function (content) {
 		var thisInstance = this;
+		content.find('.saveGlobal').on('click', function () {
+			var elements = {
+				min_lenght: $('[name="min_lenght"]').val(),
+				result_num: $('[name="result_num"]').val(),
+				api_name: 'global',
+			};
+			var params = {}
+			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
+			params.async = false;
+			params.dataType = 'json';
+			AppConnector.request(params).then(
+				function (data) {
+					var response = data['result'];
+					var parametres = {
+						text: response['message'],
+						type: 'success'
+					};
+					Vtiger_Helper_Js.showPnotify(parametres);
+				},
+				function (data, err) {
+					var parametres = {
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(parametres);
+				}
+			);
+		});
 		content.find('.save').on('click', function () {
 			var elements = {};
 			jQuery(this).closest('.apiContainer').find('.api').each(function () {
