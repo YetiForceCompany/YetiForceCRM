@@ -109,7 +109,8 @@ Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 	validate: function () {
 		var fieldValue = this.getFieldValue();
 		var negativeRegex = /(^[-]+\d+)$/;
-		if (isNaN(fieldValue) || fieldValue < 0 || fieldValue.match(negativeRegex)) {
+		parseFieldValue = app.parseNumberToFloat(this.getFieldValue())
+		if (isNaN(parseFieldValue) || fieldValue < 0 || fieldValue.match(negativeRegex)) {
 			var errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
 			this.setError(errorInfo);
 			return false;
