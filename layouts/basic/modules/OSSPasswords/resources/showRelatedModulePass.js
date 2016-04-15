@@ -29,7 +29,12 @@ function showRelatedListPassword( record ) {
             'action' : "GetPass",
             'record' : record
         }
-        
+        var progressIndicatorElement = jQuery.progressIndicator({
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
+			}
+		});
         AppConnector.request(params).then(
             function(data) {
                 var response = data['result'];
@@ -42,8 +47,9 @@ function showRelatedListPassword( record ) {
                     $('a#btn_'+record+' span').removeClass( 'glyphicon-eye-open' );
                     $('a#btn_'+record+' span').addClass( 'glyphicon-eye-close' );
                     // show copy to clipboard button
-                    $('a#copybtn_'+record).toggleClass('hide');
+                    $('a#copybtn_'+record).removeClass('hide');
                 }
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
             },
             function(data,err){
             
@@ -60,7 +66,7 @@ function showRelatedListPassword( record ) {
         $('a#btn_'+record+' span').removeClass( 'glyphicon-eye-close' );
         $('a#btn_'+record+' span').addClass( 'glyphicon-eye-open' );
         // hide copy to clipboard button
-        $('a#copybtn_'+record).toggleClass('hide');
+        $('a#copybtn_'+record).addClass('hide');
     }
 }
 
