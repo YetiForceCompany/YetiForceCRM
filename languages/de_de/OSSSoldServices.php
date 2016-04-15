@@ -2,15 +2,13 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 $languageStrings = [
-	'Services' => 'Service Name',
-	'Invoice' => 'Rechnungsnummer',
 	'OSSSoldServices' => 'Verkaufte Dienstleistungen',
 	'SINGLE_OSSSoldServices' => 'Verkaufte Dienstleistung',
-	'LBL_INFORMATION' => 'Informationsblock',
-	'LBL_ADD_RECORD' => 'Dienstleistung hinzufügen',
 	'LBL_RECORDS_LIST' => 'Liste Dienstleistung',
-//fields
-	'Invoice number' => 'Rechnungs-Nr.',
+	'LBL_ADD_RECORD' => 'Dienstleistung hinzufügen',
+	// Blocks
+	'LBL_INFORMATION' => 'Informationsblock',
+	// Field Labels
 	'Number' => 'Nummer',
 	'Assigned To' => 'zuständig',
 	'LBL_RODZAJUMOWY' => 'Art der Vereinbarung',
@@ -24,9 +22,11 @@ $languageStrings = [
 	'LBL_DESCRIPTION_INFORMATION' => 'Beschreibende Informationen',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
 	'Where bought' => 'Wo gekauft',
-	'Number' => 'Nummer',
+	'Services' => 'Service Name',
 	'LBL_GENERATE_EXTENSION' => 'Erweiterung generieren',
 	'LBL_ORDER_TIME' => 'Bestellzeit',
+	'FL_RENEWAL_INVOICE' => 'Faktura odnowienia',
+	// picklist values
 	'FL_RENEWAL' => 'Renewal',
 	'PLL_DRAFT' => 'Entwurf',
 	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
@@ -35,8 +35,6 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_PLANNED' => 'Planned',
 	'PLL_WAITING_FOR_RENEWAL' => 'Waiting for renewal',
-	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
-	'PLL_WAITING_FOR_ACCEPTANCE' => 'Waiting for acceptance',
 	'PLL_RENEWED' => 'Renewed',
 	'PLL_NOT_RENEWED' => 'Not renewed',
 	'PLL_NOT_APPLICABLE' => 'Not applicable',

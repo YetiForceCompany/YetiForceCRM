@@ -18,6 +18,9 @@ class DataAccess_Conditions
 	public function checkConditions($ID, $form)
 	{
 		$condition = $this->getListConditionsById($ID);
+		if (empty($form)) {
+			return array('test' => true, 'ID' => $ID, 'condition' => $condition[$ID][0]);
+		}
 		$responeListRequired = array();
 		$responeListOptional = array();
 		$responeListRequiredStatus = true;

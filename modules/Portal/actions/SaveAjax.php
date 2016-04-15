@@ -10,6 +10,15 @@
 
 class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action {
     
+	public function checkPermission(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$record = $request->get('record');
+
+		if(!Users_Privileges_Model::isPermitted($moduleName,'Save', $record)){
+			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+		}
+	}
     public function process(Vtiger_Request $request) {
         $module = $request->getModule();
         $recordId = $request->get('record');

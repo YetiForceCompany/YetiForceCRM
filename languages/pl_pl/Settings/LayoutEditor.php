@@ -33,6 +33,7 @@ $languageStrings = [
 	'LBL_DELETE_CUSTOM_BLOCK' => 'Usuń utworzony blok',
 	'LBL_DETAILVIEW_LAYOUT' => 'Pola i bloki',
 	'LBL_DUPLICATE_FIELD_EXISTS' => 'Takie pole już istnieje',
+	'LBL_FIELD_NAME_IS_RESERVED' => 'Nazwa pola jest zarezerwowana',
 	'LBL_DUPLICATES_EXIST' => 'Nazwa bloku już istnieje',
 	'LBL_INVALIDCHARACTER' => 'Wprowadzono niedozwolony znak',
 	'LBL_ENTER_PICKLIST_VALUES' => 'Wprowadź wartości słownika',

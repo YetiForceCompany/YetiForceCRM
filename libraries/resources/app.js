@@ -968,13 +968,60 @@ var app = {
 		key = this.cacheNSKey(key);
 		return jQuery.jStorage.get(key, defvalue);
 	},
-	cacheSet: function (key, value) {
+	cacheSet: function (key, value, ttl) {
 		key = this.cacheNSKey(key);
 		jQuery.jStorage.set(key, value);
+		if (ttl) {
+			jQuery.jStorage.setTTL(key, ttl);
+		}
 	},
 	cacheClear: function (key) {
 		key = this.cacheNSKey(key);
 		return jQuery.jStorage.deleteKey(key);
+	},
+	moduleCacheSet: function (key, value, ttl) {
+		if (ttl == undefined) {
+			ttl = 12 * 60 * 60 * 1000;
+		}
+		var orgKey = key;
+		key = this.getModuleName() + '_' + key;
+		this.cacheSet(key, value, ttl);
+
+		var cacheKey = 'mCache' + this.getModuleName();
+		var moduleCache = this.cacheGet(cacheKey);
+		if (moduleCache == null) {
+			moduleCache = [];
+		} else {
+			moduleCache = moduleCache.split(',');
+		}
+		moduleCache.push(orgKey);
+		this.cacheSet(cacheKey, Vtiger_Helper_Js.unique(moduleCache).join(','));
+	},
+	moduleCacheGet: function (key) {
+		return this.cacheGet(this.getModuleName() + '_' + key);
+	},
+	moduleCacheKeys: function () {
+		var cacheKey = 'mCache' + this.getModuleName();
+		var modules = this.cacheGet(cacheKey)
+		if (modules) {
+			return modules.split(',');
+		}
+		return [];
+	},
+	moduleCacheClear: function (key) {
+		var thisInstance = this;
+		var moduleName = this.getModuleName();
+		var cacheKey = 'mCache' + moduleName;
+		var moduleCache = this.cacheGet(cacheKey);
+		if (moduleCache == null) {
+			moduleCache = [];
+		} else {
+			moduleCache = moduleCache.split(',');
+		}
+		$.each(moduleCache, function (index, value) {
+			thisInstance.cacheClear(moduleName + '_' + value);
+		});
+		thisInstance.cacheClear(cacheKey);
 	},
 	htmlEncode: function (value) {
 		if (value) {

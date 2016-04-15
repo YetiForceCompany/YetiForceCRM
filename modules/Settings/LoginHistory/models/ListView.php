@@ -50,7 +50,7 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 			$listQuery .= " WHERE $module->baseTable.$search_key = '$value'";
 		}
 
-		$listResult = $db->pquery($listQuery, array());
-		return $db->query_result($listResult, 0, 'count');
+		$listResult = $db->query($listQuery);
+		return $db->getSingleValue($listResult);
 	}
 }

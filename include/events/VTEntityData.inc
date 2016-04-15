@@ -147,7 +147,7 @@ class VTEntityData
 
 	function set($fieldName, $value)
 	{
-		$data = $this->focus->column_fields[$fieldName] = $value;
+		$this->focus->column_fields[$fieldName] = $value;
 	}
 
 	/**

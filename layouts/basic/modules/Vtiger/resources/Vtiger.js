@@ -159,8 +159,8 @@ var Vtiger_Index_Js = {
 						widgetContainer.closest('.quickWidget').addClass('hide');
 					} else {
 						var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
-						jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 					}
+					jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 				}
 		);
 	},
@@ -264,15 +264,15 @@ var Vtiger_Index_Js = {
 		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
 
 		var currentTime = new Date().getTime();
-		var nextActivityReminderCheck = app.cacheGet('nextNotificationsCheckTime', 0);
+		var nextActivityReminderCheck = app.cacheGet('NotificationsNextCheckTime', 0);
 
-		if ((currentTime + delay) > nextActivityReminderCheck) {
+		if ((currentTime - delay) > nextActivityReminderCheck) {
 			Vtiger_Index_Js.requestNotification();
 
 			var currentTime = new Date().getTime();
-			app.cacheSet('nextNotificationsCheckTime', (currentTime + delay));
+			app.cacheSet('NotificationsNextCheckTime', (currentTime + delay));
 		} else {
-			thisInstance.setNotification(app.cacheGet('notificationsCount', 0));
+			thisInstance.setNotification(app.cacheGet('NotificationsData', 0));
 		}
 		setTimeout('Vtiger_Index_Js.registerNotifications()', delay);
 	},
@@ -288,7 +288,7 @@ var Vtiger_Index_Js = {
 			}
 		}).then(function (data) {
 			var notificationsCount = data.result;
-			app.cacheSet('notificationsCount', notificationsCount);
+			app.cacheSet('NotificationsData', notificationsCount);
 			thisInstance.setNotification(notificationsCount);
 		})
 	},
@@ -346,12 +346,12 @@ var Vtiger_Index_Js = {
 		if (activityReminder != '') {
 			activityReminder = activityReminder * 1000;
 			var currentTime = new Date().getTime();
-			var nextActivityReminderCheck = app.cacheGet('nextActivityReminderCheckTime', 0);
+			var nextActivityReminderCheck = app.cacheGet('ActivityReminderNextCheckTime', 0);
 
-			if ((currentTime + activityReminder) > nextActivityReminderCheck) {
+			if ((currentTime - activityReminder) > nextActivityReminderCheck) {
 				Vtiger_Index_Js.requestReminder();
 				setTimeout('Vtiger_Index_Js.requestReminder()', activityReminder);
-				app.cacheSet('nextActivityReminderCheckTime', currentTime + parseInt(activityReminder));
+				app.cacheSet('ActivityReminderNextCheckTime', currentTime + parseInt(activityReminder));
 			}
 		}
 	},

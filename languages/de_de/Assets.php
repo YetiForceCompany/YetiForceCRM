@@ -13,10 +13,8 @@ $languageStrings = [
 	'SINGLE_Assets' => 'Bestand',
 	'LBL_ADD_RECORD' => 'Neue Bestandsverwaltung',
 	'LBL_RECORDS_LIST' => 'Bestandsverwaltung',
-
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Bestand Details',
-
 	//Field Labels
 	'Asset No' => 'Bestandsverwaltung Nr.',
 	'Serial Number' => 'Seriennummer',
@@ -29,29 +27,26 @@ $languageStrings = [
 	'Notes' => 'Beschreibung',
 	'FL_RENEWAL' => 'Renewal',
 	'LBL_SET_RENEWAL' => 'Set renewal',
-
+	'FL_RENEWAL_INVOICE' => 'Renewal invoice',
 	/*picklist values*/
-	'PLL_DRAFT'=>'Entwurf',
-	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
-	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
-	'PLL_ACCEPTED'=>'Accepted',
-	'PLL_CANCELLED'=>'Cancelled',
-	
-	'PLL_PLANNED'=>'Planned',
-	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
-	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
-	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
-	'PLL_RENEWED'=>'Renewed',
-	'PLL_NOT_RENEWED'=>'Not renewed',
-	'PLL_NOT_APPLICABLE'=>'Not applicable',
-	
+	'PLL_DRAFT' => 'Entwurf',
+	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE' => 'Waiting for acceptance',
+	'PLL_ACCEPTED' => 'Accepted',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_PLANNED' => 'Planned',
+	'PLL_WAITING_FOR_RENEWAL' => 'Waiting for renewal',
+	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE' => 'Waiting for acceptance',
+	'PLL_RENEWED' => 'Renewed',
+	'PLL_NOT_RENEWED' => 'Not renewed',
+	'PLL_NOT_APPLICABLE' => 'Not applicable',
 	//YetiForce
-	'description'=>'Beschreibung',
-	'attentions'=>'Anforderungen',
-	'BLOCK_INFORMATION_TIME'=>'Zeitinformation',
+	'description' => 'Beschreibung',
+	'attentions' => 'Anforderungen',
+	'BLOCK_INFORMATION_TIME' => 'Zeitinformation',
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',
-	'LBL_ORDER_TIME'=>'Bestellzeit',
+	'LBL_ORDER_TIME' => 'Bestellzeit',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'abverkaufte Produkte',
-	
 	'LBL_CHANGE_STATUS' => 'Change Status',
 ];

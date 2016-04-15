@@ -12,7 +12,7 @@
 <div class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
-			<form class="form-modalAddWidget form-horizontal">
+			<form class="form-modalAddWidget form-horizontal validateForm">
 				<input type="hidden" name="wid" value="{$WID}">
 				<input type="hidden" name="type" value="{$TYPE}">
 				<div class="modal-header">
@@ -34,7 +34,7 @@
 						<div class="form-group form-group-sm">
 							<label class="col-md-4 control-label">{vtranslate('Related module', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Related module info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Related module', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 							<div class="col-md-7 controls">
-								<select name="relatedmodule" class="select2 form-control marginLeftZero">
+								<select name="relatedmodule" class="select2 form-control marginLeftZero" data-validation-engine="validate[required]">
 									{foreach from=$RELATEDMODULES item=item key=key}
 										<option value="{$item['related_tabid']}" {if $WIDGETINFO['data']['relatedmodule'] == $item['related_tabid']}selected{/if} >{vtranslate($item['label'], $item['name'])}</option>
 									{/foreach}

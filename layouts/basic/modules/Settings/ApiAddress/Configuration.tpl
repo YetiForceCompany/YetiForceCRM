@@ -9,54 +9,54 @@
 * All Rights Reserved.
 *************************************************************************************************************************************/
 -->*}
-<div class="" id="menuEditorContainer">
+<div id="menuEditorContainer">
     <div class="widget_header row">
         <div class="col-md-12">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-		{vtranslate('LBL_API_ADDRESS_DESCRIPTION', $MODULENAME)}
-	</div>
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{vtranslate('LBL_API_ADDRESS_DESCRIPTION', $MODULENAME)}
+		</div>
     </div>
     <hr>
 	<div class="main_content">
 		<form>
-			<div class='col-xs-12 row'>
-				<div class='col-xs-12 row'>
+			<div class="col-xs-12 row">
+				<div class="col-xs-12 row">
 					<h4>{vtranslate('LBL_GLOBAL_CONFIG', $MODULENAME)} </h4>
 				</div>
-				<div class='col-xs-12 row marginBottom5px '>
-					<div class='col-sm-6 col-md-4 row'>
+				<div class="col-xs-12 row marginBottom5px">
+					<div class="col-sm-6 col-md-4 row">
 						<div >
 							{vtranslate('LBL_MIN_LOOKUP_LENGHT', $MODULENAME)}: 
 						</div>
 					</div>
-					<div class='col-sm-6 col-md-4'>
+					<div class="col-sm-6 col-md-4">
 						<div style="text-align:center" >
 							<input name="min_lenght" type="text" class="api form-control" value="{$CONFIG['global']['min_lenght']}" style="margin:0 auto;">
 						</div>
 					</div>
 				</div>
-				<div class='clearfix'></div>
-				<div class='col-xs-12 row  marginBottom5px '>
+				<div class="clearfix"></div>
+				<div class="col-xs-12 row  marginBottom5px">
 					<div class='col-sm-6 col-md-4 row'>
 						<div>
 							{vtranslate('LBL_NUMBER_SEARCH_RESULTS', $MODULENAME)}: 
 						</div>
 					</div>
-					<div class='col-sm-6 col-md-4'>
+					<div class="col-sm-6 col-md-4">
 						<div style="text-align:center" >
 							<input name="result_num" type="text" class="api form-control" value="{$CONFIG['global']['result_num']}" style="margin:0 auto;">
 						</div>
 					</div>
 				</div>
-				<div class='col-xs-12 row marginBottom5px'>
+				<div class="col-xs-12 row marginBottom5px">
 					<div>
 						<button type="button" class="btn btn-success save">{vtranslate('LBL_SAVE_GLOBAL_SETTINGS', $MODULENAME)}</button>
 					</div>
 				</div>
-				<div class='col-xs-12 row marginBottom5px'>
+				<div class="col-xs-12 row marginBottom5px">
 					<hr>
 				</div>
-				<div class='col-xs-12 row marginBottom5px'>
+				<div class="col-xs-12 row marginBottom5px">
 					<div class=' row col-md-4 col-sm-6'>
 						{vtranslate('LBL_CHOOSE_API', $MODULENAME)}
 					</div>
@@ -74,11 +74,9 @@
 				</div>
 				{foreach from=$CONFIG item=item key=key}
 					{if $key neq 'global'}
-					<div class="hide api_row {$key}">
-						<div colspan="2" style="padding-top: 10px;">
+						<div class="apiContainer col-xs-12 paddingLRZero {if !$item["key"]}hide{/if} api_row {$key}">
 							{include file=vtemplate_path($key|cat:'.tpl', $MODULENAME) API_INFO=$item API_NAME=$key}
-						</div>
-					{/if}
+						{/if}
 					</div>
 				{/foreach}
 

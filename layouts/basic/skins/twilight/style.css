@@ -4580,7 +4580,8 @@ html,body,.baseContainer
 		height: 100%;
 		border-right:1px solid #ddd;
 	}
-	.quickCreateContent .fieldLabel{
+	.quickCreateContent .fieldLabel,
+	.detailViewTable .fieldsLabelValue .fieldLabel{
 		border-right: 1px solid #ddd;
 	}
 	.fieldsLabelValue::before{
@@ -5061,7 +5062,6 @@ html,body,.baseContainer
     left: 0px;
     height: 100%;
     border-right: 1px solid #ddd;
-	z-index: 10;
 }
 select.form-control {
 	padding-right: 0;
@@ -5223,4 +5223,98 @@ select.form-control {
 .narrow.fieldValue .referenceGroup button.btn{
 	height: 27px;
 	padding: 4px 12px;
+}
+.timeline {
+	position: relative;
+	margin: 0 0 20px 0;
+	padding: 0;
+	list-style: none;
+}
+.timeline:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 4px;
+	background: #ddd;
+	left: 31px;
+	margin: 0;
+	border-radius: 2px;
+}
+.timeline > li {
+	position: relative;
+	margin-right: 10px;
+	margin-bottom: 15px;
+}
+.timeline > li:before,
+.timeline > li:after {
+	content: " ";
+	display: table;
+}
+.timeline > li:after {
+	clear: both;
+}
+.timeline > li > .timeline-item {
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	border-radius: 3px;
+	margin-top: 0;
+	background: #FBFBFB;
+	color: #444;
+	margin-left: 60px;
+	margin-right: 15px;
+	padding: 0;
+	position: relative;
+}
+.timeline > li > .timeline-item > .time {
+	color: #999;
+	float: right;
+	padding: 10px;
+	font-size: 12px;
+}
+.timeline > li > .timeline-item > .timeline-body {
+	padding: 10px;
+}
+.timeline > li > .glyphicon{
+	width: 30px;
+	height: 30px;
+	font-size: 15px;
+	line-height: 30px;
+	position: absolute;
+	color: #666;
+	background: #d2d6de;
+	border-radius: 50%;
+	text-align: center;
+	left: 18px;
+	top: 0;
+}
+.timeline .userImage{
+	margin: 0 auto;
+	width: 40px;
+	padding: 3px;
+	border: 3px solid #d2d6de;
+}
+.bgBlue{
+	background: #337ab7 !important;
+	color: #fff !important;
+}
+.bgGreen{
+	background: #5cb85c !important;
+	color: #fff !important;
+}
+.bgOrange{
+	background: #f0ad4e !important;
+	color: #fff !important;
+}
+.bgOrange{
+	background: #f0ad4e !important;
+	color: #fff !important;
+}
+.bgAzure{
+	background: #3EB1F7 !important;
+	color: #fff !important; 
+}
+.bgDarkBlue{
+	background: #001f3f !important;
+	color: #fff !important; 
 }

@@ -34,6 +34,7 @@ $languageStrings = [
 	'LBL_DELETE_CUSTOM_BLOCK' => 'Benutzerdefinierten Block löschen',
 	'LBL_DETAILVIEW_LAYOUT' => 'Layout Detailansicht',
 	'LBL_DUPLICATE_FIELD_EXISTS' => 'Feld existiert bereits',
+	'LBL_FIELD_NAME_IS_RESERVED' => 'Field name is reserved',
 	'LBL_DUPLICATES_EXIST' => 'Blockname existiert bereits',
 	'LBL_INVALIDCHARACTER' => 'Unzulässiges Zeichen eingetragen',
 	'LBL_ENTER_PICKLIST_VALUES' => 'Auswahllisten-Werte eingeben...',

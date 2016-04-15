@@ -52,14 +52,14 @@
 										<table class="table table-bordered moduleBlock">
 											{foreach item=FIELD_MODEL from=$MODULE_FIELD_MODEL}
 												<tr>
-													<td class="fieldLabel">
+													<td class="fieldLabel col-xs-5">
 														<label class='muted pull-right marginRight10px'>
 															{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if} 
 															{vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}
 
 														</label>
 													</td>
-													<td class="fieldValue">
+													<td class="fieldValue col-xs-7">
 														{include file=$FIELD_MODEL->getUITypeModel()->getTemplateName()|@vtemplate_path}
 													</td>
 												</tr>
@@ -72,13 +72,13 @@
 								<table class="table table-bordered">
 									{assign var=FIELD_MODEL value=$ASSIGN_TO}
 									<tr>
-										<td class="fieldLabel">
+										<td class="fieldLabel col-xs-5">
 											<label class='muted pull-right'>
 												<span class="redColor">*</span> {vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}
 												{if $FIELD_MODEL->isMandatory() eq true} {/if}
 											</label>
 										</td>
-										<td class="fieldValue">
+										<td class="fieldValue col-xs-7">
 											{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getFieldInfo()))}
 											{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 											{if $FIELD_MODEL->get('uitype') eq '53'}

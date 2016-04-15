@@ -2459,9 +2459,10 @@ class CRMEntity
 	{
 		if (strripos($tableName, 'rel') === (strlen($tableName) - 3)) {
 			return 'LEFT JOIN';
-		} else {
-			return 'INNER JOIN';
+		} else if ($tableName == 'vtiger_entity_stats') {
+			return 'LEFT JOIN';
 		}
+		return 'INNER JOIN';
 	}
 
 	function getUserAccessConditionsQuery($module, $user)
@@ -2493,7 +2494,7 @@ class CRMEntity
 	{
 		if ($current_user == false)
 			$current_user = vglobal('current_user');
-		
+
 		$userid = $current_user->id;
 		require('user_privileges/user_privileges_' . $userid . '.php');
 		require('user_privileges/sharing_privileges_' . $userid . '.php');
@@ -2505,7 +2506,7 @@ class CRMEntity
 		if ($relatedRecord) {
 			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$role = $userModel->getRoleDetail();
-			
+
 			if ($role->get('listrelatedrecord') != 0) {
 				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
 				if ($rparentRecord) {

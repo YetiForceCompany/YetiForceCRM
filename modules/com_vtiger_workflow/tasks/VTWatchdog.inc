@@ -15,7 +15,7 @@ class VTWatchdog extends VTTask
 
 	public function getFieldNames()
 	{
-		return ['type', 'message', 'recipients','title'];
+		return ['type', 'message', 'recipients', 'title', 'skipCurrentUser'];
 	}
 
 	public function doTask($entity)
@@ -29,11 +29,14 @@ class VTWatchdog extends VTTask
 		$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 		if ($this->recipients == 'watchdog') {
 			$users = $watchdog->getWatchingUsers();
-		}else{
+		} else {
 			$users = [$this->recipients];
 		}
 		if (empty($users)) {
 			return false;
+		}
+		if ($this->skipCurrentUser == 1 && ($key = array_search(Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId(), $users)) !== false) {
+			unset($users[$key]);
 		}
 		foreach ($users as $userId) {
 			$notification = Home_Notification_Model::getInstance();

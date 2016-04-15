@@ -466,6 +466,12 @@ class ListViewController
 					$value = Vtiger_Functions::textLength($value);
 				} elseif (in_array($uitype, array(7, 9, 90))) {
 					$value = "<span align='right'>" . textlength_check($value) . "</div>";
+				} elseif ($uitype == 307) {
+					if($value === null){
+						$value = '--';
+					} else {
+						$value = "<span align='right'>" . textlength_check($value) . "</div>";
+					}
 				} else {
 					$value = Vtiger_Functions::textLength($value);
 				}

@@ -340,6 +340,17 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $instance;
 	}
 
+	public static function getInstanceByEntity($focus, $recordId)
+	{
+		$moduleName = $focus->moduleName;
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+		$recordModel = new $modelClassName();
+		$recordModel->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($moduleModel)->setEntity($focus);
+		return $recordModel;
+	}
+
 	/**
 	 * Static Function to get the list of records matching the search key
 	 * @param <String> $searchKey
@@ -427,13 +438,16 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 		return $this->privileges['isViewable'];
 	}
-	public function isCreateable(){
+
+	public function isCreateable()
+	{
 		if (!isset($this->privileges['isCreateable'])) {
 			$moduleName = $this->getModuleName();
 			$this->privileges['isCreateable'] = Users_Privileges_Model::isPermitted($moduleName, 'CreateView');
 		}
 		return $this->privileges['isCreateable'];
 	}
+
 	public function isEditable()
 	{
 		if (!isset($this->privileges['isEditable'])) {

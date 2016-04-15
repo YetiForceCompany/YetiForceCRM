@@ -54,7 +54,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$content = '<?php' . PHP_EOL . '$switchUsersRaw = [';
 		$map = [];
-		if (count($data)) {
+		if (!empty($data) && count($data)) {
 			foreach ($data as $row) {
 				$content .= "'" . $row['user'] . "'=>['" . implode("','", $row['access']) . "'],";
 				$accessList = [];
@@ -194,7 +194,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		$map = $toSave = [];
 		if (!empty($data)) {
 			foreach ($data as &$row) {
-				if(empty($row['locks'])){
+				if (empty($row['locks'])) {
 					continue;
 				}
 				if (key_exists($row['user'], $toSave)) {

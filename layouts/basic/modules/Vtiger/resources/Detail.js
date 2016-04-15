@@ -2730,7 +2730,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentPage = jQuery("#updatesCurrentPage").val();
 			var recordId = jQuery("#recordId").val();
 			var nextPage = parseInt(currentPage) + 1;
-			var url = "index.php?module=" + app.getModuleName() + "&view=Detail&record=" + recordId + "&mode=showRecentActivities&page=" + nextPage + "&tab_label=LBL_UPDATES";
+			var pageLimit = jQuery("#updatesPageLimit").val();
+			var url = "index.php?module=" + app.getModuleName() + "&view=Detail&record=" + recordId + "&mode=showRecentActivities&page=" + nextPage + "&limit=" + pageLimit + "&tab_label=LBL_UPDATES";
 			AppConnector.request(url).then(
 					function (data) {
 						jQuery("#updatesCurrentPage").remove();

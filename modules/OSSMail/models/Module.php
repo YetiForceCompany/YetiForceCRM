@@ -216,17 +216,18 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$date = $record['date'];
 		}
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
-		$moduleModel = $recordModel->getModule();
-		$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
-		if (!in_array($smoduleName, array_keys($modulesLevel1))) {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);
-			if ($db->getRowCount($result) > 0) {
-				$subject .= '[' . $recordModel->get($db->getSingleValue($result)) . ']';
+		if (!empty($srecord) && !empty($smoduleName)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
+			$moduleModel = $recordModel->getModule();
+			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
+			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
+				$db = PearDatabase::getInstance();
+				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);
+				if ($db->getRowCount($result) > 0) {
+					$subject .= '[' . $recordModel->get($db->getSingleValue($result)) . ']';
+				}
 			}
 		}
-
 		if ($type == 'forward') {
 			$url = 'mailto:';
 			$subject = 'Fwd: ' . $subject;
@@ -238,21 +239,30 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if ($type == 'replyAll' && !empty($cc)) {
 			$url .= '&cc=' . $cc;
 		}
-		$body = preg_replace('/<[^>]*>/', '', $body);
-		$body = preg_replace('/\r?\n/', "\n", $body);
+		include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
+		$config = HTMLPurifier_Config::createDefault();
+		$config->set('Core.Encoding', vglobal('default_charset'));
+		$config->set('Cache.SerializerPath', vglobal('root_directory') . '/cache/vtlib');
+		$config->set('CSS.AllowTricky', false);
+		$config->set('HTML.AllowedElements', 'div,p,br');
+		$config->set('HTML.AllowedAttributes', '');
+		$purifier = new HTMLPurifier($config);
+		$body = $purifier->purify($body);
+		$body = str_replace(['<p> </p>', '<p></p>', '</p>', '<br />', '<p>', '<div>', '</div>', PHP_EOL . PHP_EOL, PHP_EOL . PHP_EOL], ['', '', PHP_EOL, PHP_EOL, '', '', PHP_EOL, PHP_EOL, PHP_EOL], nl2br($body));
+
 		$content = '';
 		$mailtoLimit = AppConfig::module('Email', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
-			$content .= vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . "\n";
-			$content .= vtranslate('Subject', 'OSSMailView') . ': ' . $subject . "\n";
-			$content .= vtranslate('Date', 'OSSMailView') . ': ' . $date . "\n";
-			$content .= vtranslate('From', 'OSSMailView') . ': ' . $from . "\n";
-			$content .= vtranslate('To', 'OSSMailView') . ': ' . $to . "\n";
-			foreach (explode("\n", $body) as $line) {
+			$content .= vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
+			$content .= vtranslate('Subject', 'OSSMailView') . ': ' . $subject . PHP_EOL;
+			$content .= vtranslate('Date', 'OSSMailView') . ': ' . $date . PHP_EOL;
+			$content .= vtranslate('From', 'OSSMailView') . ': ' . $from . PHP_EOL;
+			$content .= vtranslate('To', 'OSSMailView') . ': ' . $to . PHP_EOL;
+			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {
-					$line = '> ' . $line . "\n";
+					$line = '> ' . $line . PHP_EOL;
 					if (strlen($url . '&body=' . rawurlencode($content . $line)) > $mailtoLimit) {
 						break;
 					}
@@ -260,11 +270,11 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		} else {
-			$content .= vtranslate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . "\n";
-			foreach (explode("\n", $body) as $line) {
+			$content .= vtranslate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
+			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {
-					$line = '> ' . $line . "\n";
+					$line = '> ' . $line . PHP_EOL;
 					if (strlen($url . '&body=' . rawurlencode($content . $line)) > $mailtoLimit) {
 						break;
 					}

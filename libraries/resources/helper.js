@@ -36,18 +36,18 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var emailMassEditInstance = new window[className]();
 		return emailMassEditInstance
 	},
-	getDayFromDate: function(date){
+	getDayFromDate: function (date) {
 		var dayOfWeek = this.getDay(date);
 		return this.getLabelDayFromDate(dayOfWeek);
 	},
-	getDay: function(date){
+	getDay: function (date) {
 		var dateObj = new Date(date);
 		return dateObj.getDay();
 	},
-	getLabelDayFromDate: function(day){
+	getLabelDayFromDate: function (day) {
 		var dayOfWeek = day;
 		var dayOfWeekLabel = '';
-		switch(dayOfWeek) {
+		switch (dayOfWeek) {
 			case 0:
 				dayOfWeekLabel = 'JS_SUN';
 				break;
@@ -225,7 +225,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 		}
 		params.animation = "show";
 		params.title = app.vtranslate('JS_MESSAGE'),
-		Vtiger_Helper_Js.showPnotify(params);
+				Vtiger_Helper_Js.showPnotify(params);
 	},
 	/*
 	 * Function to show pnotify message
@@ -332,14 +332,14 @@ jQuery.Class("Vtiger_Helper_Js", {
 		return app.getStringDate(newDate);
 	},
 	hideOptions: function (element, attr, value) {
-		var opval = ''; 
+		var opval = '';
 		element.find('option').each(function (index, option) {
 			option = $(option);
 			if (value != option.data(attr)) {
 				option.addClass("hide");
-				option.attr("disabled","disabled");
+				option.attr("disabled", "disabled");
 			} else {
-				if(opval == ''){
+				if (opval == '') {
 					opval = option.val();
 				}
 				option.removeClass('hide');
@@ -348,5 +348,10 @@ jQuery.Class("Vtiger_Helper_Js", {
 		});
 		element.val(opval);
 		element.trigger('chosen:updated');
+	},
+	unique: function (array) {
+		return array.filter(function (el, index, arr) {
+			return index === arr.indexOf(el);
+		});
 	}
 }, {});

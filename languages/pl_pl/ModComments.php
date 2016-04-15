@@ -20,7 +20,7 @@ $languageStrings = [
 	//Field Labels
 	'Comment' => 'Komentarz',
 	'Creator' => 'Kreator',
-	'Related To Comments' => 'Powiązany z',
+	'Related To Comments' => 'Komentarz nadrzędny',
 	'ReasonToEdit' => 'Przyczyna edycji',
 	'UserId' => 'Id użytkownika',
 	'Customer' => 'Klient',

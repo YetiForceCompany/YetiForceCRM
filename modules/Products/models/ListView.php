@@ -29,7 +29,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
-			$searchParams = array();
+			$searchParams = [];
 		}
 
 		$glue = "";
@@ -118,12 +118,12 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		if (!empty($orderBy)) {
 			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				$referenceModules = $orderByFieldModel->getReferenceList();
-				$referenceNameFieldOrderBy = array();
+				$referenceNameFieldOrderBy = [];
 				foreach ($referenceModules as $referenceModuleName) {
 					$referenceModuleModel = Vtiger_Module_Model::getInstance($referenceModuleName);
 					$referenceNameFields = $referenceModuleModel->getNameFields();
 
-					$columnList = array();
+					$columnList = [];
 					foreach ($referenceNameFields as $nameField) {
 						$fieldModel = $referenceModuleModel->getField($nameField);
 						$columnList[] = $fieldModel->get('table') . $orderByFieldModel->getName() . '.' . $fieldModel->get('column');
@@ -152,9 +152,9 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
 		}
 
-		$listResult = $db->pquery($listQuery, array());
+		$listResult = $db->pquery($listQuery, []);
 
-		$listViewRecordModels = array();
+		$listViewRecordModels = [];
 		$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
 		$pagingModel->calculatePageRange($listViewEntries);
 
@@ -213,13 +213,12 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		$db = PearDatabase::getInstance();
 
 		$queryGenerator = $this->get('query_generator');
-
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
-			$searchParams = array();
+			$searchParams = [];
 		}
 
-		$glue = "";
+		$glue = '';
 		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
 			$glue = QueryGenerator::$AND;
 		}
@@ -231,8 +230,6 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		if (!empty($searchKey)) {
 			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue, 'operator' => $operator));
 		}
-
-
 
 		$listQuery = $this->getQuery();
 
@@ -252,11 +249,10 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		}
 		$position = stripos($listQuery, ' from ');
 		if ($position) {
-			$split = explode(' from ', $listQuery);
-			$splitCount = count($split);
+			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
-			for ($i = 1; $i < $splitCount; $i++) {
-				$listQuery = $listQuery . ' FROM ' . $split[$i];
+			for ($i = 1; $i < count($split); $i++) {
+				$listQuery .= ' FROM ' . $split[$i];
 			}
 		}
 
@@ -264,7 +260,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			$listQuery .= ' AND activitytype <> "Emails"';
 		}
 
-		$listResult = $db->pquery($listQuery, array());
-		return $db->query_result($listResult, 0, 'count');
+		$listResult = $db->query($listQuery);
+		return $db->getSingleValue($listResult);
 	}
 }

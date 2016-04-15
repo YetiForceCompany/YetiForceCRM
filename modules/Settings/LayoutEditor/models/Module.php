@@ -145,6 +145,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->checkFieldNameExists($name)) {
 			throw new Exception(vtranslate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
 		}
+		if ($this->checkFieldNameIsAnException($name, $params['sourceModule'])) {
+			throw new Exception(vtranslate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
+		}
 		$supportedFieldTypes = $this->getAddSupportedFieldTypes();
 		if (!in_array($fieldType, $supportedFieldTypes)) {
 			throw new Exception(vtranslate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
@@ -372,13 +375,26 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function checkFieldNameExists($fieldName)
 	{
 		$db = PearDatabase::getInstance();
-		$tabId = array($this->getId());
+		$tabId = [$this->getId()];
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
-			$tabId = array('9', '16');
+			$tabId = [Vtiger_Functions::getModuleId('Calendar'), Vtiger_Functions::getModuleId('Events')];
 		}
-		$query = 'SELECT 1 FROM vtiger_field WHERE tabid IN (' . generateQuestionMarks($tabId) . ') AND fieldname=?';
-		$result = $db->pquery($query, array($tabId, $fieldName));
+		$query = 'SELECT 1 FROM vtiger_field WHERE tabid IN (' . generateQuestionMarks($tabId) . ') AND (fieldname = ? OR columnname = ?)';
+		$result = $db->pquery($query, [$tabId, $fieldName, $fieldName]);
 		return ($db->num_rows($result) > 0 ) ? true : false;
+	}
+
+	public function checkFieldNameIsAnException($fieldName, $moduleName)
+	{
+		$exceptions = [];
+		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
+		foreach ($instance->getAllFields() as $field) {
+			$exceptions[] = $field->getColumnName();
+			foreach ($field->getCustomColumn() as $columnName => $dbType) {
+				$exceptions[] = $columnName;
+			}
+		}
+		return in_array($fieldName, $exceptions);
 	}
 
 	public static $supportedModules = false;

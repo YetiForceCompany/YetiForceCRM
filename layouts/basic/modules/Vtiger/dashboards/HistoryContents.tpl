@@ -71,8 +71,14 @@
 							{/foreach}
 						</div>
 					{else if $HISTORY->isCreate()}
-						<div class=''  style='margin-top:5px'>
+						<div style='margin-top:5px'>
 							<strong>{$USER->getName()}</strong> {vtranslate('LBL_ADDED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
+								{$PARENT->getName()}</a>
+						</div>
+					{else if $HISTORY->isDisplayed()}
+						<div style='margin-top:5px'>
+							<strong>{$USER->getName()}</strong> {vtranslate('LBL_DISPLAYED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								{$PARENT->getName()}</a>
 						</div>

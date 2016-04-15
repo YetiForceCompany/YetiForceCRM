@@ -27,90 +27,110 @@ class ModTrackerHandler extends VTEventHandler
 		}
 
 		$moduleName = $data->getModuleName();
-
 		$flag = ModTracker::isTrackingEnabledForModule($moduleName);
 
 		if ($flag) {
-			if ($eventName == 'vtiger.entity.aftersave.final') {
-				$recordId = $data->getId();
-				$columnFields = $data->getData();
-				$vtEntityDelta = new VTEntityDelta();
-				$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
+			switch ($eventName) {
+				case 'vtiger.entity.aftersave.final':
 
-				$newerEntity = $vtEntityDelta->getNewEntity($moduleName, $recordId);
-				$newerColumnFields = $newerEntity->getData();
-				$newerColumnFields = array_change_key_case($newerColumnFields, CASE_LOWER);
-				$delta = array_change_key_case($delta, CASE_LOWER);
-				if (is_array($delta)) {
-					$inserted = false;
-					foreach ($delta as $fieldName => $values) {
-						if ($fieldName != 'modifiedtime') {
-							if (!$inserted) {
-								$checkRecordPresentResult = $adb->pquery('SELECT * FROM vtiger_modtracker_basic WHERE crmid = ?', array($recordId));
-								if (!$adb->num_rows($checkRecordPresentResult) && $data->isNew()) {
-									$status = ModTracker::$CREATED;
-								} else {
-									$status = ModTracker::$UPDATED;
+					$recordId = $data->getId();
+					$columnFields = $data->getData();
+					$vtEntityDelta = new VTEntityDelta();
+					$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
+
+					$newerEntity = $vtEntityDelta->getNewEntity($moduleName, $recordId);
+					$newerColumnFields = $newerEntity->getData();
+					$newerColumnFields = array_change_key_case($newerColumnFields, CASE_LOWER);
+					$delta = array_change_key_case($delta, CASE_LOWER);
+					if (is_array($delta)) {
+						$inserted = false;
+						foreach ($delta as $fieldName => $values) {
+							if ($fieldName != 'modifiedtime') {
+								if (!$inserted) {
+									$checkRecordPresentResult = $adb->pquery('SELECT * FROM vtiger_modtracker_basic WHERE crmid = ?', array($recordId));
+									if (!$adb->num_rows($checkRecordPresentResult) && $data->isNew()) {
+										$status = ModTracker::$CREATED;
+									} else {
+										$status = ModTracker::$UPDATED;
+									}
+									$this->id = $adb->getUniqueId('vtiger_modtracker_basic');
+									$adb->insert('vtiger_modtracker_basic', [
+										'id' => $this->id,
+										'crmid' => $recordId,
+										'module' => $moduleName,
+										'whodid' => $current_user->id,
+										'changedon' => $newerColumnFields['modifiedtime'],
+										'status' => $status
+									]);
+									$inserted = true;
 								}
-								$this->id = $adb->getUniqueId('vtiger_modtracker_basic');
-								$adb->insert('vtiger_modtracker_basic', [
-									'id' => $this->id,
-									'crmid' => $recordId,
-									'module' => $moduleName,
-									'whodid' => $current_user->id,
-									'changedon' => $newerColumnFields['modifiedtime'],
-									'status' => $status
-								]);
-								$inserted = true;
+								$adb->pquery('INSERT INTO vtiger_modtracker_detail(id,fieldname,prevalue,postvalue) VALUES(?,?,?,?)', Array($this->id, $fieldName, $values['oldValue'], $values['currentValue']));
 							}
-							$adb->pquery('INSERT INTO vtiger_modtracker_detail(id,fieldname,prevalue,postvalue) VALUES(?,?,?,?)', Array($this->id, $fieldName, $values['oldValue'], $values['currentValue']));
 						}
 					}
-				}
-				$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
-				if ($adb->num_rows($isMyRecord) > 0)
-					$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
-			}
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
+					if ($adb->num_rows($isMyRecord) > 0) {
+						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
+					}
 
-			if ($eventName == 'vtiger.entity.beforedelete') {
-				$recordId = $data->getId();
-				$columnFields = $data->getData();
-				$id = $adb->getUniqueId('vtiger_modtracker_basic');
-				$adb->insert('vtiger_modtracker_basic', [
-					'id' => $id,
-					'crmid' => $recordId,
-					'module' => $moduleName,
-					'whodid' => $current_user->id,
-					'changedon' => date('Y-m-d H:i:s', time()),
-					'status' => ModTracker::$DELETED
-				]);
-				$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
-				if ($adb->num_rows($isMyRecord) > 0)
-					$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
-			}
+					break;
+				case 'vtiger.entity.beforedelete':
 
-			if ($eventName == 'vtiger.entity.afterrestore') {
-				$recordId = $data->getId();
-				$columnFields = $data->getData();
-				$id = $adb->getUniqueId('vtiger_modtracker_basic');
-				$adb->insert('vtiger_modtracker_basic', [
-					'id' => $id,
-					'crmid' => $recordId,
-					'module' => $moduleName,
-					'whodid' => $current_user->id,
-					'changedon' => date('Y-m-d H:i:s', time()),
-					'status' => ModTracker::$RESTORED
-				]);
-				$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
-				if ($adb->num_rows($isMyRecord) > 0)
-					$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
-			}
+					$recordId = $data->getId();
+					$columnFields = $data->getData();
+					$id = $adb->getUniqueId('vtiger_modtracker_basic');
+					$adb->insert('vtiger_modtracker_basic', [
+						'id' => $id,
+						'crmid' => $recordId,
+						'module' => $moduleName,
+						'whodid' => $current_user->id,
+						'changedon' => date('Y-m-d H:i:s', time()),
+						'status' => ModTracker::$DELETED
+					]);
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
+					if ($adb->num_rows($isMyRecord) > 0) {
+						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
+					}
 
-			if ($eventName == 'vtiger.entity.link.after') {
-				ModTracker::linkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
-			}
-			if ($eventName == 'vtiger.entity.unlink.after') {
-				ModTracker::unLinkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
+					break;
+				case 'vtiger.entity.afterrestore':
+
+					$recordId = $data->getId();
+					$columnFields = $data->getData();
+					$id = $adb->getUniqueId('vtiger_modtracker_basic');
+					$adb->insert('vtiger_modtracker_basic', [
+						'id' => $id,
+						'crmid' => $recordId,
+						'module' => $moduleName,
+						'whodid' => $current_user->id,
+						'changedon' => date('Y-m-d H:i:s', time()),
+						'status' => ModTracker::$RESTORED
+					]);
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $recordId));
+					if ($adb->num_rows($isMyRecord) > 0) {
+						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
+					}
+
+					break;
+				case 'vtiger.entity.link.after':
+					ModTracker::linkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
+					break;
+				case 'vtiger.entity.unlink.after':
+					ModTracker::unLinkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
+					break;
+				case 'entity.convertlead.after':
+					// TODU
+					break;
+				case 'vtiger.view.detail.before':
+					$adb->insert('vtiger_modtracker_basic', [
+						'id' => $adb->getUniqueId('vtiger_modtracker_basic'),
+						'crmid' => $data->getId(),
+						'module' => $moduleName,
+						'whodid' => $current_user->id,
+						'changedon' => date('Y-m-d H:i:s', time()),
+						'status' => ModTracker::$DISPLAYED
+					]);
+					break;
 			}
 		}
 	}

@@ -35,6 +35,24 @@ Class Products_Edit_View extends Vtiger_Edit_View {
 		parent::process($request);
 	}
 	
+	function getDuplicate($record, $moduleName)
+	{
+		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$recordModel->set('id', '');
+		$recordModel->set('qtyinstock', null);
+		//While Duplicating record, If the related record is deleted then we are removing related record info in record model
+		$mandatoryFieldModels = $recordModel->getModule()->getMandatoryFieldModels();
+		foreach ($mandatoryFieldModels as $fieldModel) {
+			if ($fieldModel->isReferenceField()) {
+				$fieldName = $fieldModel->get('name');
+				if (Vtiger_Util_Helper::checkRecordExistance($recordModel->get($fieldName))) {
+					$recordModel->set($fieldName, '');
+				}
+			}
+		}
+		return $recordModel;
+	}
+	
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request

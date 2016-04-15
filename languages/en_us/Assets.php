@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,18 +7,15 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
-	'PLL_DRAFT' => 'Draft',
 	// Basic Strings
-	'Assets'        => 'Assets',
+	'Assets' => 'Assets',
 	'SINGLE_Assets' => 'Asset',
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_RECORDS_LIST' => 'Assets List',
-
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Asset details',
-
 	//Field Labels
     	'Asset No' => 'Asset no.',
 	'Serial Number' => 'Serial number',
@@ -31,13 +28,13 @@ $languageStrings = [
 	'Notes' => 'Notes',
 	'FL_RENEWAL' => 'Renewal',
 	'LBL_SET_RENEWAL' => 'Set renewal',
-
+	'FL_RENEWAL_INVOICE' => 'Renewal invoice',
 	/*picklist values*/
+	'PLL_DRAFT'=>'Draft',
 	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
 	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
 	'PLL_ACCEPTED'=>'Accepted',
 	'PLL_CANCELLED'=>'Cancelled',
-	
 	'PLL_PLANNED'=>'Planned',
 	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
 	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
@@ -45,14 +42,12 @@ $languageStrings = [
 	'PLL_RENEWED'=>'Renewed',
 	'PLL_NOT_RENEWED'=>'Not renewed',
 	'PLL_NOT_APPLICABLE'=>'Not applicable',
-	
 	//YetiForce
-	'description'=>'Description',
-	'attentions'=>'Comments',
-	'BLOCK_INFORMATION_TIME'=>'Information time',
+	'description' => 'Description',
+	'attentions' => 'Comments',
+	'BLOCK_INFORMATION_TIME' => 'Time information',
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',
-	'LBL_ORDER_TIME'=>'Order time',
+	'LBL_ORDER_TIME' => 'Order time',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Expiring sold products',
-	
 	'LBL_CHANGE_STATUS' => 'Change Status',
 ];

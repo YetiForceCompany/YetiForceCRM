@@ -120,7 +120,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 				jQuery('<tr class="opacity" data-id="' + details.id + '">\n\
 					<td class="textAlignCenter ' + details.row_type + '"><label class="name">' + details.name + '</label></td>\n\
 					<td class="textAlignCenter ' + details.row_type + '"><span class="value">' + details.value + ' ' + symbol + '</span></td>\n\
-					<td class="textAlignCenter ' + details.row_type + '"><input class="status" type="checkbox" checked>\n\
+					<td class="textAlignCenter ' + details.row_type + '"><input class="status" type="checkbox">\n\
 						<div class="pull-right actions">\n\
 							<a class="editInventory cursorPointer" data-url="' + details._editurl + '">\n\
 								<span class="glyphicon glyphicon-pencil alignBottom" title="' + app.vtranslate('JS_EDIT') + '"></span>\n\
@@ -142,7 +142,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		}
 		currentTrElement.find('.name').text(data['name']);
 		currentTrElement.find('.value').text(data['value'] + ' ' + symbol);
-		if (data['status'] == '0') {
+		if (data['status'] == '1') {
 			currentTrElement.find('.status').prop('checked', true);
 		} else {
 			currentTrElement.find('.status').prop('checked', false);
@@ -225,7 +225,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 
 		var currentTrElement = currentTarget.closest('tr');
 		var id = currentTrElement.data('id');
-		var status = currentTarget.is(':checked') ? 0 : 1;
+		var status = currentTarget.is(':checked') ? 1 : 0;
 
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',

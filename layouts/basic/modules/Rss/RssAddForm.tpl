@@ -12,7 +12,7 @@
 {strip}
     <div id="rssAddFormUi" class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
-			<div class="modal-content">
+			<div class="modal-content ">
 				<div class="modal-header contentsBackground">
 					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 					<h3 class="modal-title">{vtranslate('LBL_ADD_FEED_SOURCE', $MODULE)}</h3>
