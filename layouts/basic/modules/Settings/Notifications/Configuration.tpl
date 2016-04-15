@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="widget_header row">
-		<div class="col-md-6">
+		<div class="col-md-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
 	</div>
@@ -15,7 +15,7 @@
 					<th>
 						{vtranslate('Share with users', $QUALIFIED_MODULE)}
 					</th>
-					<th class="col-xs-1">
+					<th class="col-sm-2 col-md-1">
 						{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}
 					</th>
 				</tr>
@@ -43,7 +43,7 @@
 								<button class="btn btn-success btn-sm selectAll" title="{vtranslate('LBL_SELECT_ALL',$QUALIFIED_MODULE)}">
 									<span class="glyphicon glyphicon-ok"></span>						
 								</button>
-								<button class="btn btn-danger btn-sm removeAll marginLeft10" title="{vtranslate('LBL_DESELECT_ALL',$QUALIFIED_MODULE)}">
+								<button class="btn btn-danger btn-sm removeAll marginLeft5" title="{vtranslate('LBL_DESELECT_ALL',$QUALIFIED_MODULE)}">
 									<span class="glyphicon glyphicon-remove"></span>						
 								</button>
 							</div>

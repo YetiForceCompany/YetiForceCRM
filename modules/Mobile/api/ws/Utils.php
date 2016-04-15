@@ -128,7 +128,7 @@ class Mobile_WS_Utils {
 			return self::$detectFieldnamesToResolveCache[$module];
 		}
 		
-		$resolveUITypes = array(10, 101, 116, 117, 26, 357, 50, 51, 52, 53, 57, 58, 59, 66, 68, 73, 75, 76, 77, 78, 80, 81);
+		$resolveUITypes = array(10, 101, 116, 117, 26, 357, 50, 51, 52, 53, 57, 58, 59, 66, 68, 73, 75, 76, 77, 80, 81);
 		
 		$result = $adb->pquery(
 			"SELECT DISTINCT fieldname FROM vtiger_field WHERE uitype IN(". 

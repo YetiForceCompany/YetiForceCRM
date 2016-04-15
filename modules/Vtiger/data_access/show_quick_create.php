@@ -18,7 +18,7 @@ Class DataAccess_show_quick_create
 	{
 		$db = PearDatabase::getInstance();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!isset($id) || $id == 0 || $id == '' || !$userPrivModel->hasModuleActionPermission(getTabid($config['modules']), 'EditView')) {
+		if (!isset($id) || $id == 0 || $id == '' || !$userPrivModel->hasModuleActionPermission(getTabid($config['modules']), 'CreateView')) {
 			return ['save_record' => true];
 		}
 		$title = '';

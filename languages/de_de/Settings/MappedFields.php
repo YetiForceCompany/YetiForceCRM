@@ -58,6 +58,14 @@ $languageStrings = [
 	'email' => 'Email',
 	'integer' => 'Integer',
 	'inventory' => 'Advanced field',
+	'LBL_RAW_TEXT' => 'Raw text',
+	'LBL_EXPRESSION' => 'Expression',
+	'LBL_USE_FIELD' => 'Use field',
+	'LBL_USE_FUNCTION' => 'Use function',
+	'LBL_VTIGER' => 'YetiForce',
+	'LBL_EXAMPLE_EXPRESSION' => 'Expression',
+	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
+	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
 	
 ];
 $jsLanguageStrings = [

@@ -18,6 +18,4 @@ $languageStrings = [
 	'PLL_FOR_APPROVAL' => 'Do akceptacji',
 	'PLL_CANCELLED' => 'Anulowane',
 	'PLL_ACCEPTED' => 'Zaakceptowano',
-	
-	'FL_SUBUNIT' => 'Podjednostka',
 ];

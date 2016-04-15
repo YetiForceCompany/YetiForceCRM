@@ -23,6 +23,12 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.adminIcon-TypeNotification:before {
+    content: "\e95c";
+}
+.adminIcon-NotificationConfiguration:before {
+    content: "\e95d";
+}
 .adminIcon-logistics:before {
     content: "\e95b";
 }

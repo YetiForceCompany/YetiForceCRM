@@ -151,6 +151,7 @@ $languageStrings = [
 	'LBL_DEACTIVATE_FAVORITES' => 'Deactivate function: Add to favorites',
 	'LBL_ACTIVATE_FAVORITES' => 'Activate function: Add to favorites',
 	'LBL_HEADER_FIELD' => 'Visible in preview header',
+	'LBL_COPY' => 'Copy',
 ];
 
 $jsLanguageStrings = [
@@ -184,5 +185,7 @@ $jsLanguageStrings = [
 	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Sind Sie sich sicher, dass Element aus dem Block zu löschen?',
 	'JS_EXTENDED_MODULE' => 'Sind Sie sich sicher, den Modultyp zu ändern?',
 	'JS_SAVE_CHANGES' => 'Änderungen wurden erfolgreich gesichert.',
+	'LBL_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
+	'LBL_NOTIFY_COPY_TITLE' => 'Text',
 ];
 

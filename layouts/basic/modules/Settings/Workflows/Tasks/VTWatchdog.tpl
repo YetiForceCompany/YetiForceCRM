@@ -28,6 +28,12 @@
 		</div>
 	</div>
 	<div class="row padding-bottom1per">
+		<span class="col-md-3">{vtranslate('LBL_TITLE', $QUALIFIED_MODULE)}</span>
+		<div class="col-md-9">
+			<input name="title" class="form-control" type="text" value="{$TASK_OBJECT->title}">
+		</div>
+	</div>
+	<div class="row padding-bottom1per">
 		<span class="col-md-3"> </span>
 		<div class="col-md-9">
 			{assign var=FIELDS value=$MODULE_MODEL->getFields()}
@@ -52,7 +58,13 @@
 				{assign var=POPOVER value=$POPOVER|cat:'<br><strong>'|cat:$ITEM|cat:'</strong> - '|cat:vtranslate($KEY, $QUALIFIED_MODULE)}
 			{/foreach}
 			<div class="input-group popoverTooltip" data-content="{Vtiger_Util_Helper::toSafeHTML($POPOVER)}" data-placement="right">
-				<textarea class="form-control messageContent" name="message" rows="3" aria-describedby="messageaddon">{$TASK_OBJECT->message}</textarea>
+				<textarea class="form-control messageContent" name="message" rows="3" aria-describedby="messageaddon">
+					{if $TASK_OBJECT->message}
+						{$TASK_OBJECT->message}
+					{else} 
+						 
+					{/if} 
+				</textarea>
 				<span class="input-group-addon" id="messageaddon">
 					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 				</span>

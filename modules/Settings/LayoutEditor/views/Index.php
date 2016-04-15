@@ -95,4 +95,14 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('RelatedList.tpl', $qualifiedModule);
 	}
+	
+	public function getFooterScripts(Vtiger_Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
+		$moduleName = $request->getModule();
+		$jsFileNames = ['libraries.jquery.ZeroClipboard.ZeroClipboard'];
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+		return $headerScriptInstances;
+	}
 }

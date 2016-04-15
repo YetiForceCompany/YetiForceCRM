@@ -100,4 +100,8 @@ $languageStrings = [
 	'LBL_NOTICE_MODIFICATION'=>'Modificação',
 	'LBL_NOTICE_CLOSE'=>'Fechado',
 	'LBL_NOTICE_FOOTER'=>'Se você não deseja receber notificações do nosso Sistema de Gestão de Projeto, por favor, nos informe enviando e-mail para <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. Caso não seja o destinatário desta mensagem, por favor, nos informe e apague-a.',
+	// FIELDS
+	'FL_SERVICE_CONTRACTS' => 'Service Level Agreement',
+	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA type',
+	'FL_SERVICE_CONTRACTS_DATE' => 'SLA expiry date',
 ];

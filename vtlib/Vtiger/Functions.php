@@ -184,10 +184,10 @@ class Vtiger_Functions
 		return $id ? self::$moduleIdNameCache[$id] : self::$moduleNameIdCache[$name];
 	}
 
-	static function getAllModules($isEntityType = true)
+	static function getAllModules($isEntityType = true, $showRestricted = false)
 	{
 		$moduleList = self::$moduleIdNameCache;
-		if(empty($moduleList)){
+		if (empty($moduleList)) {
 			$db = PearDatabase::getInstance();
 			$result = $db->pquery('SELECT tabid, name, ownedby FROM vtiger_tab', []);
 			while ($row = $db->fetch_array($result)) {
@@ -196,11 +196,11 @@ class Vtiger_Functions
 			$moduleList = self::$moduleIdNameCache;
 		}
 		$restrictedModules = array('SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter');
-		foreach ($moduleList as $id => &$module){
-			if(in_array($module['name'], $restrictedModules)){
+		foreach ($moduleList as $id => &$module) {
+			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
-			if($isEntityType && $module['isentitytype'] == 0){
+			if ($isEntityType && $module['isentitytype'] == 0) {
 				unset($moduleList[$id]);
 			}
 		}

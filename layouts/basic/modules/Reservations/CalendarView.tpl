@@ -14,7 +14,7 @@
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important;}
 {/foreach}
 </style>
-<div class="rowContent {if AppConfig::module($MODULE_NAME, 'SHOW_RIGHT_PANEL')}col-md-9 {else}col-md-12 {/if} paddingLRZero col-xs-12">
+<div class="rowContent col-md-12 paddingLRZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		<div class="btn-group listViewMassActions pull-left paddingLeftMd">
 			{if count($QUICK_LINKS['SIDEBARLINK']) gt 0}

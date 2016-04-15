@@ -60,5 +60,4 @@ $languageStrings = [
 	'last day of +3 months' => 'Последний день следующего квартала',
 	
     'LBL_CHANGE_STATUS' => 'Изменить статус',
-    'LBL_PREVIEW' => 'Предпросмотр',
 ];

@@ -149,6 +149,7 @@ $languageStrings = [
 	'LBL_DEACTIVATE_FAVORITES' => 'Deaktywuj funkcję: Dodaj do ulubionych',
 	'LBL_ACTIVATE_FAVORITES' => 'Aktywuj funkcję: Dodaj do ulubionych',
 	'LBL_HEADER_FIELD' => 'Widoczne w nagłówku podglądu',
+	'LBL_COPY' => 'Kopiuj',
 ];
 
 $jsLanguageStrings = [
@@ -182,4 +183,6 @@ $jsLanguageStrings = [
 	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Na pewno chcesz usunąć element z bloku?',
 	'JS_EXTENDED_MODULE' => 'Czy na pewno chcesz zmienić typ modułu?',
 	'JS_SAVE_CHANGES' => 'Pomyślnie zapisano zmiany.',
+	'LBL_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
+	'LBL_NOTIFY_COPY_TITLE' => 'Tekst',
 ];

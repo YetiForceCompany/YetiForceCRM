@@ -349,13 +349,17 @@ var app = {
 		return keyValueMap;
 	},
 	showModalWindow: function (data, url, cb, paramsObject) {
+		var thisInstance = this;
+		var id = 'globalmodal';
 		//null is also an object
 		if (typeof data == 'object' && data != null && !(data instanceof jQuery)) {
+			if (data.id != undefined) {
+				id = data.id;
+			}
 			paramsObject = data.css;
 			cb = data.cb;
 			url = data.url;
-			data = data.data
-
+			data = data.data;
 		}
 		if (typeof url == 'function') {
 			if (typeof cb == 'object') {
@@ -374,20 +378,12 @@ var app = {
 			cb = function () {
 			}
 		}
-
-		var id = 'globalmodal';
 		var container = jQuery('#' + id);
 		if (container.length) {
 			container.remove();
 		}
-		// modal-backdrop
-		var backdrop = jQuery('.modal-backdrop');
-		if (backdrop.length) {
-			backdrop.remove();
-		}
-
 		container = jQuery('<div></div>');
-		container.attr('id', id);
+		container.attr('id', id).addClass('modalContainer');
 
 		var showModalData = function (data) {
 			var params = {
@@ -424,6 +420,7 @@ var app = {
 			app.showSelectizeElementView(container.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
 			app.registerEventForDatePickerFields(container);
+			thisInstance.registerModalEvents(container);
 			cb(container);
 		}
 		if (data) {
@@ -434,14 +431,23 @@ var app = {
 				showModalData(response);
 			});
 		}
+		container.one('hidden.bs.modal', function () {
+			container.remove();
+			var backdrop = jQuery('.modal-backdrop:first');
+			if (backdrop.length) {
+				backdrop.remove();
+			}
+		});
 		return container;
 	},
 	/**
 	 * Function which you can use to hide the modal
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
-	hideModalWindow: function (callback) {
-		var id = 'globalmodal';
+	hideModalWindow: function (callback, id) {
+		if (id == undefined) {
+			id = 'globalmodal';
+		}
 		var container = jQuery('#' + id);
 		if (container.length <= 0) {
 			return;
@@ -452,7 +458,35 @@ var app = {
 		}
 		var modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
+		var backdrop = jQuery('.modal-backdrop:first');
+		if (backdrop.length) {
+			backdrop.remove();
+		}
 		modalContainer.one('hidden.bs.modal', callback);
+	},
+	registerModalEvents: function (container) {
+		var form = container.find('form');
+		var validationForm = false;
+		if (form.hasClass("validateForm")) {
+			form.validationEngine(app.validationEngineOptions);
+			validationForm = true;
+		}
+		if (form.hasClass("sendByAjax")) {
+			form.submit(function (e) {
+				var save = true;
+				e.preventDefault();
+				if (validationForm && form.data('jqv').InvalidFields.length > 0) {
+					app.formAlignmentAfterValidation(form);
+					save = false;
+				}
+				if (save) {
+					var formData = form.serializeFormData();
+					AppConnector.request(formData).then(function (data) {
+						app.hideModalWindow();
+					})
+				}
+			});
+		}
 	},
 	isHidden: function (element) {
 		if (element.css('display') == 'none') {
@@ -928,7 +962,7 @@ var app = {
 	 * Cache API on client-side
 	 */
 	cacheNSKey: function (key) { // Namespace in client-storage
-		return 'vtiger6.' + key;
+		return 'yf.' + key;
 	},
 	cacheGet: function (key, defvalue) {
 		key = this.cacheNSKey(key);

@@ -29,5 +29,4 @@ $languageStrings = [
 	'PLL_COMPLETED' => 'Wykonane',
 
 	'LBL_CHANGE_STATUS' => 'Zmień status',
-	'LBL_PREVIEW' => 'Podgląd',
 ];

@@ -15,7 +15,7 @@ class VTWatchdog extends VTTask
 
 	public function getFieldNames()
 	{
-		return ['type', 'message', 'recipients'];
+		return ['type', 'message', 'recipients','title'];
 	}
 
 	public function doTask($entity)
@@ -39,6 +39,7 @@ class VTWatchdog extends VTTask
 			$notification = Home_Notification_Model::getInstance();
 			$notification->set('record', $recordId);
 			$notification->set('moduleName', $moduleName);
+			$notification->set('title', $this->title);
 			$notification->set('message', $this->message);
 			$notification->set('type', $this->type);
 			$notification->set('userid', $userId);

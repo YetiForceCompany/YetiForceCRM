@@ -1293,6 +1293,7 @@ $languageStrings = [
 	'LBL_NO_DISCOUNTS' => 'Нет доступных скидок',
 	'LBL_ITEM_NUMBER' => 'No.',
 	'LBL_EAN'=>'EAN',
+	'FL_SUBUNIT' => 'Subunit',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Экспорт в PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Создать PDF',
@@ -1348,7 +1349,7 @@ $languageStrings = [
 	'FL_SUB_PROCESS' => 'Subprocess',
 	'LBL_VIEW_DUPLICATE' => 'Duplicate',
 	'LBL_SU_UPDATED' => 'Record updated by a different user',
-	'LBL_CRMACTIVITY' => 'Calendar activity',
+	'LBL_CRMACTIVITY' => 'Event',
 	'FL_NUMBER' => 'Record number',
 	'DW_SUMMATION_BY_MONTHS' => 'Sales comparison by month',
 	'DW_SUMMATION_BY_USER' => 'Sales comparison by user',
@@ -1361,6 +1362,20 @@ $languageStrings = [
 	'LBL_SELECT_ACTION' => 'Select action',
 	'LBL_CHANGE_VALUE_FOR_FIELD' => 'Change field value',
 	'SINGLE_SSalesProcesses' => 'Сделка',
+	'LBL_RELATION' => 'Relation',
+	'LBL_PREVIEW' => 'Предпросмотр',
+	'Admin Profile' => 'Профиль - Администратор',
+	'Support Profile' => 'Профиль - Поддержка',
+	'Sales Profile' => 'Профиль - Продажи',
+	'Guest Profile' => 'Профиль - Гость',
+	// Action types - AT
+	'LBL_AT_UPDATED' => 'Modify',
+	'LBL_AT_DELETED' => 'Delete',
+	'LBL_AT_CREATED' => 'Create',
+	'LBL_AT_RESTORED' => 'Restored',
+	'LBL_AT_LINK' => 'Linked',
+	'LBL_AT_UNLINK' => 'Unlinked',
+	'LBL_AT_CONVERTTOACCOUNT' => 'Lead converted',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

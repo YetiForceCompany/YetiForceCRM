@@ -12,14 +12,27 @@ class RecalculateStockHandler extends VTEventHandler
 	function handleEvent($eventName, $data)
 	{
 		$moduleName = $data->getModuleName();
-		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN', 'IPreOrder', 'ISTDN', 'ISTRN'])) {
+		$correctionModules = ['IGRNC' => 'igrnid','IGDNC' => 'igdnid'];
+		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN', 'IPreOrder', 'ISTDN', 'ISTRN', 'IGRNC','IGDNC'])) {
 			$status = strtolower($moduleName) . '_status';
+			// Checks if the module is a correction module
+			if (isset($correctionModules[$moduleName])) {
+				$relatedModuleField = $correctionModules[$moduleName];
+				$relatedModuleRecordId = $data->get($relatedModuleField);
+				$relatedModuleRecordModel = Vtiger_Record_Model::getInstanceById($relatedModuleRecordId);
+			}
 			if ($data->get($status) == 'PLL_ACCEPTED') {
+				if (isset($correctionModules[$moduleName])) {
+					$this->getInventoryDataAndSend($relatedModuleRecordModel, 'remove');
+				}
 				$this->getInventoryDataAndSend($data, 'add');
 			} else {
 				$vtEntityDelta = new VTEntityDelta();
 				$delta = $vtEntityDelta->getEntityDelta($moduleName, $data->getId(), true);
 				if (is_array($delta) && !empty($delta[$status]) && in_array('PLL_ACCEPTED', $delta[$status])) {
+					if (isset($correctionModules[$moduleName])) {
+						$this->getInventoryDataAndSend($relatedModuleRecordModel, 'add');
+					}
 					$this->getInventoryDataAndSend($data, 'remove');
 				}
 			}

@@ -831,7 +831,7 @@ class Accounts extends CRMEntity
 			$list_buttons['mass_edit'] = $app_strings[LBL_MASS_EDIT];
 			$list_buttons['c_owner'] = $app_strings[LBL_CHANGE_OWNER];
 		}
-		if (isPermitted('Emails', 'EditView', '') == 'yes') {
+		if (isPermitted('Emails', 'CreateView', '') == 'yes') {
 			$list_buttons['s_mail'] = $app_strings[LBL_SEND_MAIL_BUTTON];
 		}
 		// mailer export

@@ -64,8 +64,8 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 				contextmenu: {
 					items: {
 						create: {
-							"label": app.vtranslate('JS_JSTREE_CREATE'),
-							"action": function (data) {
+							label: app.vtranslate('JS_JSTREE_CREATE'),
+							action: function (data) {
 								var inst = $.jstree.reference(data.reference);
 								obj = inst.get_node(data.reference);
 								thisInstance.jstreeLastID = thisInstance.jstreeLastID + 1;
@@ -80,15 +80,25 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 							}
 						},
 						rename: {
-							"label": app.vtranslate('JS_JSTREE_RENAME'),
-							"action": function (data) {
+							label: app.vtranslate('JS_JSTREE_RENAME'),
+							action: function (data) {
 								var inst = $.jstree.reference(data.reference),
 										obj = inst.get_node(data.reference);
 								inst.edit(obj);
 							}
 						},
+						changeIcon: {
+							label: app.vtranslate('JS_JSTREE_CHANGE_ICON'),
+							action: function (data) {
+								var instanceTree = $.jstree.reference(data.reference);
+								var node = instanceTree.get_node(data.reference);
+								Settings_Vtiger_Index_Js.selectIcon().then(function(data){
+									thisInstance.jstreeInstance.jstree(true).set_icon(node.id, data['name']);
+								});
+							}
+						},
 						remove: {
-							"label": app.vtranslate('JS_JSTREE_REMOVE'),
+							label: app.vtranslate('JS_JSTREE_REMOVE'),
 							action: function (data) {
 								var inst = $.jstree.reference(data.reference);
 								var obj = inst.get_node(data.reference);

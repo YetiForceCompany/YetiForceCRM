@@ -19,6 +19,4 @@ $languageStrings = [
 	'PLL_ACCEPTED' => 'Accepted',
 	
 	'LBL_CHANGE_STATUS' => 'Change Status',
-	'LBL_PREVIEW' => 'Preview',
-	'FL_SUBUNIT' => 'Subunit',
 ];

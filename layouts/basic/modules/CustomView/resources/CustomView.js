@@ -135,10 +135,13 @@ var Vtiger_CustomView_Js = {
 		var container = this.getContentsContainer();
 		container.on('change', '.iconPreferences input', function (e) {
 			var currentTarget = $(e.currentTarget);
+			var buttonElement = currentTarget.closest('.btn');
 			var iconElement = currentTarget.next();
 			if (currentTarget.prop('checked')) {
+				buttonElement.removeClass('btn-default').addClass('btn-primary');
 				iconElement.removeClass(iconElement.data('unchecked')).addClass(iconElement.data('check'));
 			} else {
+				buttonElement.removeClass('btn-primary').addClass('btn-default');
 				iconElement.removeClass(iconElement.data('check')).addClass(iconElement.data('unchecked'));
 			}
 		});

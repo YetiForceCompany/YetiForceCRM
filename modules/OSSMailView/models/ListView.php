@@ -16,7 +16,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 	{
 		$basicLinks = array();
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
+		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
 		if ($createPermission) {
 			$basicLinks[] = array(
 				'linktype' => 'LISTVIEWBASIC',

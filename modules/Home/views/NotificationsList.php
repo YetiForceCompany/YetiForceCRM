@@ -9,11 +9,6 @@
 class Home_NotificationsList_View extends Vtiger_Index_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
-	{
-		return true;
-	}
-
 	function preProcessTplName(Vtiger_Request $request)
 	{
 		return 'NotificationsListPreProcess.tpl';
@@ -45,6 +40,7 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
+
 	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
@@ -55,4 +51,4 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances, $cssScripts);
 		return $headerCssScriptInstances;
 	}
-}	
+}

@@ -466,7 +466,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
+		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
 		$advancedLinks = [];
 		$importPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Import');
 		if ($importPermission && $createPermission) {
@@ -555,7 +555,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView')) {
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView')) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',

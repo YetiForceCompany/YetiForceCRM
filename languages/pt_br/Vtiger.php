@@ -1045,6 +1045,7 @@ $languageStrings = [
 	'LBL_NO_DISCOUNTS' => 'Available discounts not found',
 	'LBL_ITEM_NUMBER' => 'No.',
 	'LBL_EAN'=>'EAN',
+	'FL_SUBUNIT' => 'Subunit',
 	//PDF
 	'LBL_EXPORT_PDF' => 'Export to PDF',
 	'LBL_GENERATE_PDF_FILE' => 'Generate PDF file',
@@ -1105,7 +1106,7 @@ $languageStrings = [
 	'LBL_VIEW_DUPLICATE' => 'Duplicate',
 	'LBL_VIEW_INDEX' => 'Start',
 	'LBL_SU_UPDATED' => 'Record updated by a different user',
-	'LBL_CRMACTIVITY' => 'Calendar activity',
+	'LBL_CRMACTIVITY' => 'Event',
 	'FL_NUMBER' => 'Record number',
 	'DW_SUMMATION_BY_MONTHS' => 'Sales comparison by month',
 	'DW_SUMMATION_BY_USER' => 'Sales comparison by user',
@@ -1118,6 +1119,20 @@ $languageStrings = [
 	'LBL_SELECT_ACTION' => 'Select action',
 	'LBL_CHANGE_VALUE_FOR_FIELD' => 'Change field value',
 	'SINGLE_SSalesProcesses' => 'Oportunidade',
+	'LBL_RELATION' => 'Relation',
+	'LBL_PREVIEW' => 'Preview',
+	'Admin Profile' => 'Admin Profile',
+	'Support Profile' => 'Support Profile',
+	'Sales Profile' => 'Sales Profile',
+	'Guest Profile' => 'Guest',
+	// Action types - AT
+	'LBL_AT_UPDATED' => 'Modify',
+	'LBL_AT_DELETED' => 'Delete',
+	'LBL_AT_CREATED' => 'Create',
+	'LBL_AT_RESTORED' => 'Restored',
+	'LBL_AT_LINK' => 'Linked',
+	'LBL_AT_UNLINK' => 'Unlinked',
+	'LBL_AT_CONVERTTOACCOUNT' => 'Lead converted',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',

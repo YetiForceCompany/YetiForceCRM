@@ -130,7 +130,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		if ($recordModel->isEditable()) {
 			$editViewLinks = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => '',
+				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil',
 				'linkclass' => 'btn',

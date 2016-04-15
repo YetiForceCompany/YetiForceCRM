@@ -22,6 +22,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->exposeMethod('create');
 		$this->exposeMethod('setMark');
 		$this->exposeMethod('getNumberOfNotifications');
 		$this->exposeMethod('saveWatchingModules');
@@ -72,5 +73,31 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 				$watchdogModel->changeModuleState(0);
 			}
 		}
+	}
+
+	public function create(Vtiger_Request $request)
+	{
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$message = $request->get('message');
+		$title = $request->get('title');
+		$users = $request->get('users');
+		if(!is_array($users)) {
+			$users = [$users];
+		}
+		if (count($users)) {
+			foreach ($users as $user) {
+				$notification = Home_Notification_Model::getInstance();
+				$notification->set('moduleName', 'Users');
+				$notification->set('record', $userPrivilegesModel->getId());
+				$notification->set('title', $title);
+				$notification->set('message', $message);
+				$notification->set('type', 0);
+				$notification->set('userid', $user);
+				$notification->save();
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($users);
+		$response->emit();
 	}
 }

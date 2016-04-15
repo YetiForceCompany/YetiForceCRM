@@ -63,7 +63,7 @@ $languageStrings = [
 	'Product Sheet'=>'Product sheet',
 	'Products' => 'Products',
 	'Qty In Demand'=>'Qty. in demand',
-	'Qty In Stock'=>'Qty. in stock',
+	'Qty In Stock'=>'Product quantity',
 	'Qty/Unit'=>'Qty/Unit',
 	'Reams'=>'Reams',
 	'Reorder Level'=>'Reorder level', //Duplicated key-value pairs
@@ -87,5 +87,5 @@ $languageStrings = [
 	'LBL_TAXES' => 'Taxes',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'List of records is limited to the products and services associated with the sales opportunity',
 	'FL_EAN_13' => 'EAN-13',
-	'FL_SUBUNIT' => 'Subunit',
+	'FL_QTY_IN_STOCK' => 'Quantity of product in stock',
 ];

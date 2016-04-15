@@ -6,7 +6,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-
 jQuery.Class("Settings_Vtiger_Index_Js", {
 	showMessage: function (customParams) {
 		var params = {};
@@ -18,6 +17,53 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			var params = jQuery.extend(params, customParams);
 		}
 		Vtiger_Helper_Js.showPnotify(params);
+	},
+	selectIcon: function () {
+		var aDeferred = jQuery.Deferred();
+		app.showModalWindow({
+			id: 'iconsModal',
+			url: 'index.php?module=Vtiger&view=IconsModal&parent=Settings',
+			cb: function (container) {
+				app.showSelect2ElementView(container.find('#iconsList'), {
+					templateSelection: function (data) {
+						if (!data.id) {
+							return (data.text);
+						}
+						var type = $(data.element).data('type');
+						container.find('.iconName').text(data.id);
+						container.find('#iconName').val(data.id);
+						container.find('#iconType').val(type);
+						if (type == 'icon') {
+							container.find('.iconExample').html('<span class="' + data.element.value + '" aria-hidden="true"></span>');
+						} else if (type = 'image') {
+							container.find('.iconExample').html('<img width="24px" src="' + data.element.value + '"/>')
+						}
+						return data.text;
+					},
+					templateResult: function (data) {
+						if (!data.id) {
+							return (data.text);
+						}
+						var type = $(data.element).data('type');
+						if (type == 'icon') {
+							var option = $('<span class="' + data.element.value + '" aria-hidden="true"> - ' + $(data.element).data('class') + '</span>');
+						} else if (type = 'image') {
+							var option = $('<img width="24px" src="' + data.element.value + '" title="' + data.text + '" /><span> - ' + data.text + '</span>');
+						}
+						return option;
+					},
+					closeOnSelect: true
+				});
+				container.find('[name="saveButton"]').click(function (e) {
+					aDeferred.resolve({
+						type: container.find('#iconType').val(),
+						name: container.find('#iconName').val(),
+					});
+					app.hideModalWindow(container, 'iconsModal');
+				});
+			}
+		});
+		return aDeferred.promise();
 	}
 }, {
 	registerDeleteShortCutEvent: function (shortCutBlock) {
@@ -98,8 +144,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 							if (count == 3) {
 
 								var newBlock = jQuery('#settingsShortCutsContainer').append('<div class="row">' + data);
-							}
-							else {
+							} else {
 								var newBlock = jQuery(data).appendTo(existingDivBlock);
 							}
 
@@ -248,8 +293,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			var currentTarget = jQuery(this);
 			if (currentTarget.is(':checked')) {
 				saveBtn.removeAttr('disabled');
-			}
-			else {
+			} else {
 				saveBtn.attr('disabled', 'disabled');
 			}
 		});
@@ -278,8 +322,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 						var errorDiv = container.find('.errorMsg');
 						errorDiv.removeClass('hide');
 						errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
-					}
-					else {
+					} else {
 						app.hideModalWindow();
 						thisInstance.reloadContent();
 						var params = {
@@ -291,10 +334,10 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 						Vtiger_Helper_Js.showMessage(params);
 					}
 				},
-					function (error, err) {
-						container.progressIndicator({mode: 'hide'});
-						app.hideModalWindow();
-					});
+						function (error, err) {
+							container.progressIndicator({mode: 'hide'});
+							app.hideModalWindow();
+						});
 			}
 
 		});
@@ -362,8 +405,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		};
 		if (state.is(':checked')) {
 			params.state = 'closed';
-		}
-		else {
+		} else {
 			params.state = 'open';
 		}
 		params.author = author.is(':checked');
