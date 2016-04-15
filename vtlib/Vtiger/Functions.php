@@ -184,6 +184,29 @@ class Vtiger_Functions
 		return $id ? self::$moduleIdNameCache[$id] : self::$moduleNameIdCache[$name];
 	}
 
+	static function getAllModules($isEntityType = true)
+	{
+		$moduleList = self::$moduleIdNameCache;
+		if(empty($moduleList)){
+			$db = PearDatabase::getInstance();
+			$result = $db->pquery('SELECT tabid, name, ownedby FROM vtiger_tab', []);
+			while ($row = $db->fetch_array($result)) {
+				self::$moduleIdNameCache[$row['tabid']] = $row;
+			}
+			$moduleList = self::$moduleIdNameCache;
+		}
+		$restrictedModules = array('SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter');
+		foreach ($moduleList as $id => &$module){
+			if(in_array($module['name'], $restrictedModules)){
+				unset($moduleList[$id]);
+			}
+			if($isEntityType && $module['isentitytype'] == 0){
+				unset($moduleList[$id]);
+			}
+		}
+		return $moduleList;
+	}
+
 	static function getModuleData($mixed)
 	{
 		$id = $name = NULL;
@@ -399,10 +422,10 @@ class Vtiger_Functions
 	static function getOwnerRecordLabels($ids)
 	{
 		$nameList = [];
-		
+
 		if ($ids && !is_array($ids))
 			$ids = [$ids];
-		
+
 		if ($ids) {
 			$nameList = self::getCRMRecordLabels('Users', $ids);
 			$groups = [];
@@ -1528,13 +1551,14 @@ class Vtiger_Functions
 	 * @param string $endDateTime
 	 * @return int difference in minutes
 	 */
-	public static function getDateTimeMinutesDiff($startDateTime, $endDateTime) {
+	public static function getDateTimeMinutesDiff($startDateTime, $endDateTime)
+	{
 		$start = new DateTime($startDateTime);
 		$end = new DateTime($endDateTime);
 		$interval = $start->diff($end);
 
 		$intervalInSeconds = (new DateTime())->setTimeStamp(0)->add($interval)->getTimeStamp();
-		$intervalInMinutes = ($intervalInSeconds/60);
+		$intervalInMinutes = ($intervalInSeconds / 60);
 
 		return $intervalInMinutes;
 	}
@@ -1545,7 +1569,8 @@ class Vtiger_Functions
 	 * @param string $endDateTime
 	 * @return int difference in hours
 	 */
-	public static function getDateTimeHoursDiff($startDateTime, $endDateTime) {
-		return self::getDateTimeMinutesDiff($startDateTime, $endDateTime)/60;
+	public static function getDateTimeHoursDiff($startDateTime, $endDateTime)
+	{
+		return self::getDateTimeMinutesDiff($startDateTime, $endDateTime) / 60;
 	}
 }

@@ -58,7 +58,41 @@ jQuery.Class("Home_NotificationsList_Js", {
 		});
 		gridsterObj.gridster().data('gridster').disable()
 	},
+	registerButtons: function () {
+		$('.notificationConf').on('click', function () {
+			var params = {
+				module: app.getModuleName(),
+				view: 'Notification',
+			};
+			var progress = jQuery.progressIndicator();
+			var url = 'index.php?module=' + app.getModuleName() + '&view=NotificationConfig';
+			app.showModalWindow(null, url, function (container) {
+				progress.progressIndicator({'mode': 'hide'});
+				container.find('[name="saveButton"]').on('click', function () {
+					var selectedModules = [];
+					container.find('.watchingModule').each(function () {
+						var currentTarget = $(this);
+						if (currentTarget.is(':checked')) {
+							selectedModules.push(currentTarget.data('nameModule'));
+						}
+					});
+					var params = {
+						module: app.getModuleName(),
+						action: 'Notification',
+						mode: 'saveWatchingModules',
+						selctedModules: selectedModules,
+					};
+					var progress = jQuery.progressIndicator();
+					AppConnector.request(params).then(function (data) {
+						progress.progressIndicator({'mode': 'hide'});
+						app.hideModalWindow();
+					});
+				});
+			});
+		});
+	},
 	registerEvents: function () {
 		this.registerGridster();
+		this.registerButtons();
 	}
 });

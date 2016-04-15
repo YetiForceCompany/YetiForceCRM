@@ -96,7 +96,7 @@ class VTWorkflowEventHandler extends VTEventHandler
 						
 						$delta = $vtEntityDelta->getEntityDelta($wsModuleName, $entityId);
 						unset($delta['modifiedtime']);
-						$doEvaluate = !empty($delta);
+						$doEvaluate = !$isNew && !empty($delta);
 						break;
 					}
 				case VTWorkflowManager::$MANUAL: {

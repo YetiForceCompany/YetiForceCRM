@@ -21,6 +21,7 @@ $languageStrings = [
 	'PLVT' => 'Top Chancen',
 	'QLTQ' => 'Top Angebote',
 	'UA' => 'Die nächsten Aktivitäten',
+	'LBL_WATCHING_MODULES' => 'Watched modules',
 ];
 
 $jsLanguageStrings = [

@@ -29,6 +29,8 @@ class VTWatchdog extends VTTask
 		$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 		if ($this->recipients == 'watchdog') {
 			$users = $watchdog->getWatchingUsers();
+		}else{
+			$users = [$this->recipients];
 		}
 		if (empty($users)) {
 			return false;
@@ -40,7 +42,6 @@ class VTWatchdog extends VTTask
 			$notification->set('message', $this->message);
 			$notification->set('type', $this->type);
 			$notification->set('userid', $userId);
-			$notification->parseContent();
 			$notification->save();
 		}
 	}

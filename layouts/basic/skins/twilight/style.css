@@ -5201,3 +5201,13 @@ select.form-control {
 .notificationContainer .panel{
 	height: 100%;
 }
+.wordBreakAll {
+	-ms-word-break: break-all;
+	word-break: break-all;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+}
+.modalNotificationConfig .checkbox{
+	margin: 5px 0;
+}

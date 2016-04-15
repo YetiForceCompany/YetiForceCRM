@@ -202,10 +202,14 @@ $languageStrings = [
 	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Script physically exists but doesn\'t contain imported function name. Manually add %s to %s.',
 	'LBL_FAILED_TO_SAVE_SCRIPT' => 'Failed to save workflow methods script file. Manually copy %s to %s.',
 	'LBL_SELECT_ACTION_TYPE' => 'Select notification type',
+	//VTWatchdog
 	'LBL_SELECT_RECIPIENTS' => 'Recipients',
 	'LBL_MESSAGE' => 'Message',
 	'LBL_MESSAGE_INFO' => 'The text of the message supports variables, the name of the variable can be equal to a system field name or special functions.<br/><br/>Examples of variables for fields:<br/><strong>$accountname$</strong> - Value from field<br/><strong>%accountname%</strong> - Field label<br/><br/>Special functions:',
 	'LBL_WATCHING_USERS' => 'Users watching',
+	'LBL_VALUE_FROM_FIELD' => 'Value from field',
+	'LBL_FIELDS_LABELS' => 'Field label',
+	'LBL_SELECT_VARIABLES' => 'Select variable',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Dieselben Felder mehr als einmal ausgewählt',

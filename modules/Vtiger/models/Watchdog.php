@@ -52,7 +52,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			return $this->get('isWatchingModule');
 		}
 		$return = false;
-		$modules = $this->getWatchingModules(false, $ownerId);
+		$modules = self::getWatchingModules(false, $ownerId);
 		if (in_array(Vtiger_Functions::getModuleId($this->get('module')), $modules)) {
 			$return = true;
 		}
@@ -83,7 +83,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		return $return;
 	}
 
-	public function getWatchingModules($reload = false, $ownerId = false)
+	public static function getWatchingModules($reload = false, $ownerId = false)
 	{
 		if ($ownerId === false) {
 			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

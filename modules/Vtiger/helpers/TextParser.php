@@ -9,13 +9,14 @@
 class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 {
 
-	protected $functionMap = ['general', 'translate', 'companyDetail'];
+	protected $functionMap = ['general', 'companyDetail', 'recordChanges'];
 
 	public static function getFunctionVariables()
 	{
 		return [
-			'Translate' => '(translate: LBL_YEAR)',
+			'Translate' => '(translate: [LBL_YEAR])',
 			'Company Detail' => '(companyDetail: organizationname)',
+			'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => '(recordChanges: listOfAllChanges)',
 			'Current Date' => '(general: CurrentDate)',
 			'Current Time' => '(general: CurrentTime)',
 			'CRM Detail View URL' => '(general: CrmDetailViewURL)',
@@ -47,6 +48,13 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		return $instance;
 	}
 
+	public static function getCleanInstance($moduleName = '')
+	{
+		$instance = new self();
+		$instance->set('moduleName', $moduleName);
+		return $instance;
+	}
+
 	public function setContent($content)
 	{
 		$this->set('content', $content);
@@ -55,13 +63,16 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 
 	public function parse()
 	{
-		$this->parseFieldsValue();
-		$this->parseFieldsLabel();
-		$this->parseFunctions();
+		$this->parseTranslations();
+		if ($this->has('recordModel')) {
+			$this->parseFieldsValue();
+			$this->parseFieldsLabel();
+			$this->parseFunctions();
+		}
 		return $this->get('content');
 	}
 
-	public function parseFieldsValue()
+	private function parseFieldsValue()
 	{
 		$content = preg_replace_callback('/\$(\w+)\$/', function ($matches) {
 			$value = $matches[0];
@@ -74,7 +85,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		$this->set('content', $content);
 	}
 
-	public function parseFieldsLabel()
+	private function parseFieldsLabel()
 	{
 		$content = preg_replace_callback('/\ %([\w\s]+)\% /', function ($matches) {
 			$value = $matches[0];
@@ -88,7 +99,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		$this->set('content', $content);
 	}
 
-	public function parseFunctions()
+	private function parseFunctions()
 	{
 		$content = preg_replace_callback('/\((\w+): ([\w\s]+)\)/', function ($matches) {
 			$value = $matches[0];
@@ -101,17 +112,37 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		$this->set('content', $content);
 	}
 
-	public function companyDetail($fieldName)
+	private function companyDetail($fieldName)
 	{
 		return Settings_Vtiger_CompanyDetails_Model::getSetting($fieldName);
 	}
 
-	public function translate($key)
+	public function parseTranslations()
 	{
-		return vtranslate($key, $this->get('moduleName'));
+		if ($this->get('withoutTranslations') === true) {
+			return false;
+		}
+		$content = preg_replace_callback('/\((\w+): \[([\w\s]+)\]\)/', function ($matches) {
+			$value = $matches[0];
+			$variable = $matches[2];
+			$translate = vtranslate($variable, $this->get('moduleName'));
+			if ($translate != $variable) {
+				$value = $translate;
+			}
+			return $value;
+		}, $this->get('content'));
+		$content = preg_replace_callback('/\((\w+): \[([\w\s]+)\|\|\|(\w+)\]\)/', function ($matches) {
+			$variable = $matches[2];
+			if (key_exists(3, $matches)) {
+				return vtranslate($variable, $matches[3]);
+			}
+			return vtranslate($variable, $this->get('moduleName'));
+		}, $content);
+		$this->set('content', $content);
+		return $content;
 	}
 
-	public function general($key)
+	private function general($key)
 	{
 		switch ($key) {
 			case 'CurrentDate':
@@ -150,5 +181,122 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			case 'RecordLabel' : return $this->get('recordModel')->getName();
 		}
 		return $key;
+	}
+
+	private function recordChanges($key)
+	{
+		if (!Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
+			return '';
+		}
+
+		$vtEntityDelta = new VTEntityDelta();
+		$delta = $vtEntityDelta->getEntityDelta($this->get('moduleName'), $this->get('record'));
+		unset($delta['modifiedtime']);
+		if (empty($delta)) {
+			return '';
+		}
+		$value = PHP_EOL;
+		switch ($key) {
+			case 'listOfAllChanges':
+				foreach ($delta as $fieldName => $delta) {
+					$fieldModel = $this->get('recordModel')->getModule()->getField($fieldName);
+					$oldValue = $this->recordChangesDisplayValue($delta['oldValue'], $fieldModel);
+					$currentValue = $this->recordChangesDisplayValue($delta['currentValue'], $fieldModel);
+					$value.= '(translate: [' . $fieldModel->getFieldLabel() . '|||' . $this->get('moduleName') . '])' . ' ' .
+						'(translate: [LBL_FROM])' . ' ' . $oldValue . ' ' . '(translate: [LBL_TO])' . ' ' . $currentValue . PHP_EOL;
+				}
+				return $value;
+		}
+		return $key;
+	}
+
+	private function recordChangesDisplayValue($value, Vtiger_Field_Model $fieldModel)
+	{
+		if ($this->get('withoutTranslations') !== true) {
+			return $fieldModel->getDisplayValue($value, $this->get('record'), $this->get('recordModel'), true);
+		}
+		if ($value == '') {
+			return '-';
+		}
+		$translateValue = false;
+		switch ($fieldModel->getFieldDataType()) {
+			case 'Boolean':
+				$value = ($value == 1) ? 'LBL_YES' : 'LBL_NO';
+				break;
+			case 'Multipicklist':
+				$value = explode(' |##| ', $value);
+				$trValue = [];
+				for ($i = 0; $i < count($value); $i++) {
+					$trValue[] = '(translate: [' . $value[$i] . '|||' . $fieldModel->getModuleName() . '])';
+				}
+				if (is_array($trValue)) {
+					$trValue = implode(' |##| ', $trValue);
+				}
+				$value = str_ireplace(' |##| ', ', ', $trValue);
+				break;
+			case 'Picklist':
+				$value = '(translate: [' . $value . '|||' . $fieldModel->getModuleName() . '])';
+				break;
+			case 'Time':
+				$userModel = Users_Privileges_Model::getCurrentUserModel();
+				$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
+				$value = $value->format('H:i:s');
+				if ($userModel->get('hour_format') == '12') {
+					if ($value) {
+						list($hours, $minutes, $seconds) = explode(':', $value);
+						$format = '(translate: [PM])';
+						if ($hours > 12) {
+							$hours = (int) $hours - 12;
+						} else if ($hours < 12) {
+							$format = '(translate: [AM])';
+						}
+						//If hours zero then we need to make it as 12 AM
+						if ($hours == '00') {
+							$hours = '12';
+							$format = '(translate: [AM])';
+						}
+						$value = "$hours:$minutes $format";
+					} else {
+						$value = '';
+					}
+				}
+				break;
+			case 'Tree':
+				$template = $fieldModel->getFieldParams();
+				$value = Vtiger_Cache::get('recordChangesTreeData' . $template, $value);
+				if (!$value) {
+					$adb = PearDatabase::getInstance();
+					$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $value]);
+					$parentName = '';
+					$module = $fieldModel->getModuleName();
+					$name = false;
+					if ($adb->getRowCount($result)) {
+						$row = $adb->getRow($result);
+						if ($row['depth'] > 0) {
+							$parenttrre = $row['parenttrre'];
+							$pieces = explode('::', $parenttrre);
+							end($pieces);
+							$parent = prev($pieces);
+
+							$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
+							$parentName = $adb->getSingleValue($result2);
+
+							$parentName = '((translate: [' . $parentName . '|||' . $module . '])) ';
+						}
+						$name = $parentName . '(translate: [' . $row['name'] . '|||' . $module . '])';
+					}
+					Vtiger_Cache::set('recordChangesTreeData' . $template, $value, $name);
+					$value = $name;
+				}
+				break;
+			default:
+				$value = $fieldModel->getDisplayValue($value, $this->get('record'), $this->get('recordModel'), true);
+				break;
+		}
+		if (in_array($fieldModel->getFieldDataType(), ['Boolean', 'CurrencyList', 'Languages', 'Salutation', 'Boolean',
+				'Boolean', 'Boolean', 'Boolean',])) {
+			return '(translate: [' . $value . '])';
+		}
+		return $value;
 	}
 }

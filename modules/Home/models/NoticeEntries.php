@@ -26,8 +26,14 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 	public static function getInstanceByRow($row)
 	{
 		$instance = new self();
+		if (isset($row['reletedid'])) {
+			$textParser = Vtiger_TextParser_Helper::getInstanceByModel(Vtiger_Record_Model::getInstanceById($row['reletedid']));
+		} else {
+			$textParser = Vtiger_TextParser_Helper::getCleanInstance();
+		}
+		$textParser->setContent($row['message']);
+		$row['message'] = $textParser->parseTranslations();
 		$instance->setData($row);
-		Vtiger_Cache::set('Home_NotifiEntries_Model', $row['id'], $instance);
 		return $instance;
 	}
 
@@ -81,12 +87,6 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 				];
 				break;
 			default:
-				$icon = [
-					'type' => 'glyphicon',
-					'title' => 'glyphicon',
-					'class' => 'glyphicon glyphicon-exclamation-sign',
-				];
-
 				break;
 		}
 		return $icon;
