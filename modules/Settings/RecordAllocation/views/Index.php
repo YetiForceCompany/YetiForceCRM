@@ -35,7 +35,6 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		}
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$usersGroupsList = Settings_RecordAllocation_Module_Model::getRecordAllocation();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('USERS_GROUPS_LIST', $usersGroupsList);
@@ -50,8 +49,9 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$index = (int) $request->get('index');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->assign('MODULE_NAME', $request->get('sourceModule'));
 		$viewer->assign('INDEX', ++$index);
-		$viewer->assign('MODULE_ID', $request->get('moduleId'));
+		$viewer->assign('DATA', Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($request->get('sourceModule')));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('AddPanel.tpl', $qualifiedModuleName);
 	}

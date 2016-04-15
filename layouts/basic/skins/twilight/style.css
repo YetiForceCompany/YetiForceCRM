@@ -5330,3 +5330,7 @@ select.form-control {
 	display: inline-flex;
 	font-size: 14px;
 }
+.betweenDragDrop{
+	position: relative;
+    top: 100px;
+}

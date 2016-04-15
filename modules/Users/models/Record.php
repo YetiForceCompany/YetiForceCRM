@@ -476,13 +476,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function getFromPanel($moduleName = false, $mode, $private = '')
 	{
 		$db = PearDatabase::getInstance();
-		require('user_privileges/module_record_allocation.php');
 		if (empty($moduleName) && $_REQUEST['parent'] != 'Settings') {
 			$moduleName = $_REQUEST['module'];
 		}
 		$result = [];
-		$moduleId = getTabid($moduleName);
-		$usersGroups = $recordAllocation[$moduleId];
+		$usersGroups = Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($moduleName);
+		$usersGroups = ($usersGroups && $usersGroups[$this->getId()]) ? $usersGroups[$this->getId()] : [];
 		if ($mode == 'users') {
 			$result[$this->getId()] = $this->getName();
 			$users = $usersGroups ? $usersGroups['users'] : [];
@@ -505,7 +504,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-
 		return $result;
 	}
 

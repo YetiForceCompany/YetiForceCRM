@@ -8,27 +8,75 @@
 class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public static function saveRecordAllocation($data)
+	private static $fileLoc = 'user_privileges/module_record_allocation.php';
+
+	public function saveRecordAllocation($data)
 	{
-		$content = '<?php' . PHP_EOL . '$recordAllocation = [';
-		$map = [];
-		if (!empty($data) && count($data)) {
-			foreach ($data as $moduleId => $row) {
-				$content .= "'" . $moduleId . "'=>[";
-				foreach ($row as $type => $ids) {
-					$content .= "'" . $type . "'=>['" . implode("','", $ids) . "'],";
-				}
-				$content .= '],';
+		$newData = [];
+		$file = self::$fileLoc;
+		require($file);
+		$toLowerModule = strtolower($data['module']);
+		$dataFromFile = $$toLowerModule;
+		$userId = $data['userid'];
+		$userData = $data['ids'] ? $data['ids'] : [];
+		if (!is_null($dataFromFile)) {
+			if (empty($userData)) {
+				unset($dataFromFile[$userId]);
+			} else {
+				$dataFromFile[$userId] = $userData;
 			}
+			$newData = $dataFromFile;
+			$content = $this->removeDataInFile($toLowerModule);
+			$this->putData($toLowerModule, $newData, $content);
+		} elseif (!empty($userData)) {
+			$newData[$userId] = $userData;
+			$content = file_get_contents($file) . PHP_EOL;
+			$this->putData($toLowerModule, $newData, $content);
 		}
-		$content .= '];';
-		$file = 'user_privileges/module_record_allocation.php';
+	}
+
+	public function removeDataInFile($toLowerModule)
+	{
+		$file = self::$fileLoc;
+		if (file_exists($file)) {
+			$configContent = file($file);
+			foreach ($configContent as $key => $line) {
+				if (strpos($line, $toLowerModule) !== false) {
+					unset($configContent[$key]);
+					$removeLine = true;
+				} elseif ($removeLine && strpos($line, '$') === false) {
+					unset($configContent[$key]);
+				} elseif ($removeLine) {
+					break;
+				}
+			}
+			return implode("", $configContent);
+		}
+	}
+
+	public function putData($toLowerModule, $newData, $content)
+	{
+		$file = self::$fileLoc;
+		if ($newData) {
+			$newContent = '$' . $toLowerModule . ' = [';
+			foreach ($newData as $userId => $userData) {
+				$newContent .= "'" . $userId . "'=>[";
+				foreach ($userData as $type => $ids) {
+					$newContent .= "'" . $type . "'=>['" . implode("','", $ids) . "'],";
+				}
+				$newContent .= '],';
+			}
+			$newContent .= '];';
+			$content = $content . $newContent;
+		}
 		file_put_contents($file, $content);
 	}
 
-	public static function getRecordAllocation()
+	public static function getRecordAllocationByModule($moduleName)
 	{
-		require('user_privileges/module_record_allocation.php');
-		return $recordAllocation;
+		$file = self::$fileLoc;
+		require($file);
+		$toLowerModule = strtolower($moduleName);
+		return $$toLowerModule;
 	}
 }
