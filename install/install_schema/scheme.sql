@@ -2,8 +2,7 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -93,6 +92,8 @@ CREATE TABLE `a_yf_pdf` (
   `margin_bottom` smallint(2) unsigned NOT NULL,
   `margin_left` smallint(2) unsigned NOT NULL,
   `margin_right` smallint(2) unsigned NOT NULL,
+  `header_height` smallint(2) unsigned NOT NULL,
+  `footer_height` smallint(2) unsigned NOT NULL,
   `page_orientation` set('PLL_PORTRAIT','PLL_LANDSCAPE') NOT NULL,
   `language` varchar(7) NOT NULL,
   `filename` varchar(255) NOT NULL,
@@ -1457,6 +1458,25 @@ CREATE TABLE `u_yf_istorages` (
   CONSTRAINT `u_yf_istorages_ibfk_1` FOREIGN KEY (`istorageid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_istorages_address` */
+
+CREATE TABLE `u_yf_istorages_address` (
+  `istorageaddressid` int(19) NOT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`istorageaddressid`),
+  CONSTRAINT `u_yf_istorages_address_ibfk_1` FOREIGN KEY (`istorageaddressid`) REFERENCES `u_yf_istorages` (`istorageid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_istorages_products` */
 
 CREATE TABLE `u_yf_istorages_products` (
@@ -2269,8 +2289,8 @@ CREATE TABLE `vtiger_activity` (
   `activitytype` varchar(200) NOT NULL,
   `date_start` date NOT NULL,
   `due_date` date DEFAULT NULL,
-  `time_start` varchar(50) DEFAULT NULL,
-  `time_end` varchar(50) DEFAULT NULL,
+  `time_start` time DEFAULT NULL,
+  `time_end` time DEFAULT NULL,
   `sendnotification` varchar(3) NOT NULL DEFAULT '0',
   `duration_hours` varchar(200) DEFAULT NULL,
   `duration_minutes` varchar(200) DEFAULT NULL,
@@ -4079,7 +4099,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2211 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2222 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6918,7 +6938,7 @@ CREATE TABLE `vtiger_role` (
   `listrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `previewrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `editrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `permissionsrelatedfield` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `permissionsrelatedfield` varchar(10) NOT NULL DEFAULT '0',
   `globalsearchadv` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),

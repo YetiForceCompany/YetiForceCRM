@@ -17,6 +17,7 @@
 <input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}" />
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
 <input type="hidden" id="showType" value="current" />
+<input type="hidden" id="switchingDays" value="workDays" />
 <input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 <input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />

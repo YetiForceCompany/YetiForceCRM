@@ -136,6 +136,7 @@ $languageStrings = [
 	'LBL_RECURRENCE_INFORMATION' => 'Szczegóły powtarzalności terminu',
 	'LBL_INVITE_USER_BLOCK' => 'Zaproszeni użytkownicy',
 	'LBL_CALENDAR_FILTERS' => 'Filtry',
+	'LBL_AUTO_FILL_DESCRIPTION' => 'Wypełnienie daty rozpoczęcia na podstawie pierwszego wolnego terminu',
 ];
 
 $jsLanguageStrings = [
@@ -182,4 +183,7 @@ $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Nie można powiązać kontaktów z potencjalnymi klientami',
 	'Mobile Call' => 'Połączenie',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Zmień czas zdarzenia na do realizacji lub historię',
+	'JS_SWITCHING_DAYS' => 'Przełączanie dni ',
+	'JS_ALL' => 'Wszystkie',
+	'JS_WORK_DAYS' => 'Dni robocze',
 ];

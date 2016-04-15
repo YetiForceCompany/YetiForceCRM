@@ -7,11 +7,11 @@ Vtiger_Detail_Js("KnowledgeBase_Detail_Js", {}, {
 	 */
 	setSlideHeight: function (id) {
 		var slides = [];
-		
+
 		$(id + ' .item').each(function () {
 			slides.push($(this).height());
 		});
-		
+
 		var highestSlideHeight = Math.max.apply(null, slides);
 
 		$(id + ' .knowledgePresentationContent').each(function () {
@@ -20,8 +20,11 @@ Vtiger_Detail_Js("KnowledgeBase_Detail_Js", {}, {
 		
 		return true;
 	},
-	registerEvents: function () {
+	registerBasicEvents : function(){
 		this._super();
-		this.setSlideHeight('#carouselPresentation');
+		var tab = this.getSelectedTab();
+		if (tab.data('reference') === 'Summary') {
+			this.setSlideHeight('#carouselPresentation');
+		}
 	}
 })

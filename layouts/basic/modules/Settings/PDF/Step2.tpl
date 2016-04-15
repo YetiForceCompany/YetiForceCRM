@@ -57,6 +57,17 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-sm-3 control-label">&nbsp;</label>
+					<div class="col-sm-9 row">
+						<div class="col-sm-offset-1 col-sm-2">
+							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}hide{/if}" name="header_height" id="header_height" value="{$PDF_MODEL->get('header_height')}" placeholder="{vtranslate('LBL_HEADER_HEIGHT', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_HEADER_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+						</div>
+						<div class="col-sm-2">
+							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}hide{/if}" name="footer_height" id="footer_height" value="{$PDF_MODEL->get('footer_height')}" placeholder="{vtranslate('LBL_FOOTER_HEIGHT', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_FOOTER_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-sm-3 control-label">
 						{vtranslate('LBL_PAGE_ORIENTATION', $QUALIFIED_MODULE)}
 					</label>

@@ -26,34 +26,52 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$durationEvent = $currentUser->get('othereventduration');
 		$startWorkHour = $currentUser->get('start_hour');
 		$endWorkHour = $currentUser->get('end_hour');
-		$startHour = $startWorkHour;
+		$dbStartDateOject = DateTimeField::convertToDBTimeZone($day . ' ' . $startWorkHour);
+		$dbEndDateObject = DateTimeField::convertToDBTimeZone($day . ' ' . $endWorkHour);
+		$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
+		$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
+		$dbStartDate =  $dbStartDateOject->format('Y-m-d');
+		$dbEndDate = $dbEndDateObject->format('Y-m-d');
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT time_start, time_end FROM vtiger_activity '
+		$params[]= 0;
+		$params[]=  $currentUser->getId();
+		$params[] = $dbStartDateTime;
+		$params[] = $dbEndDateTime;
+		$params[] = $dbStartDateTime;
+		$params[] = $dbEndDateTime;
+		$params[] = $dbStartDate;
+		$params[] = $dbEndDate;
+		$startTime = $dbStartDateOject->format('H:i:s');
+		$result = $db->pquery('SELECT date_start, time_start, time_end FROM vtiger_activity '
 			. 'INNER JOIN vtiger_crmentity ON vtiger_activity.activityid=vtiger_crmentity.crmid '
-			. 'WHERE vtiger_activity.date_start=? AND vtiger_activity.deleted=? AND vtiger_crmentity.smownerid=? '
-			. 'ORDER BY vtiger_activity.time_start ASC', [$day, 0, $currentUser->getId()]);
+			. 'WHERE vtiger_activity.deleted=? AND vtiger_crmentity.smownerid=? '
+			. "AND ( (concat(date_start, ' ', time_start)  >= ? AND concat(date_start, ' ', time_start) <= ?) OR (concat(due_date, ' ', time_end)  >= ? AND concat(due_date, ' ', time_end) <= ?) OR (date_start < ? AND due_date > ?) ) "
+			. "ORDER BY time_start ASC", $params);
 		while ($row = $db->getRow($result)) {
-			if (Vtiger_Functions::getDateTimeMinutesDiff($startHour, $row['time_start']) >= $durationEvent) {
-				$tempDate = $day . ' ' . $startHour;
-				$date = new DateTime($tempDate);
+			if (Vtiger_Functions::getDateTimeMinutesDiff($startTime, $row['time_start']) >= $durationEvent) {
+				$date = new DateTime($row['date_start'] . ' ' . $startTime);
+				$startTime = new DateTimeField($startTime);
 				$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
-				$startHour = new DateTimeField($startHour);
 				$endHour = new DateTimeField(date_format($date, 'H:i:s'));
-				return ['day' => $day, 'time_start' => $startHour->getDisplayTime(), 'time_end' => $endHour->getDisplayTime()];
+				return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endHour->getDisplayTime()];
 			} else {
-				$startHour = $row['time_end'];
+				$startTime = $row['time_end'];
 			}
 		}
-		$tempDate = $day . ' ' . $startHour;
-		$date = new DateTime($tempDate);
+		$date = new DateTime($day . ' ' . $startTime);
+		$startTime = new DateTimeField($startTime);
 		$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
-		if (Vtiger_Functions::getDateTimeMinutesDiff(date_format($date, 'H:i:s'), $endWorkHour) <= 0) {
+		$dbEndWorkHour = $dbEndDateObject->format('H:i:s');
+			
+		if (Vtiger_Functions::getDateTimeMinutesDiff(date_format($date, 'H:i:s'), $dbEndWorkHour) <= 0) {
 			$date->add(new DateInterval('P1D'));
+			while( in_array(date_format($date, 'w'), AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
+				$date->add(new DateInterval('P1D'));
+			}
 			return $this->getFreeTimeInDay(date_format($date, 'Y-m-d'));
 		} else {
-			$startHour = new DateTimeField($startHour);
 			$endHour = new DateTimeField(date_format($date, 'H:i:s'));
-			return ['day' => $day, 'time_start' => $startHour->getDisplayTime(), 'time_end' => $endHour->getDisplayTime()];
+			return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endHour->getDisplayTime()];
 		}
 	}
 
@@ -61,7 +79,6 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 	{
 		$dateStart = $request->get('dateStart');
 		$startDate = $this->getFreeTimeInDay($dateStart);
-		
 		$data ['time_start'] = $startDate['time_start'];
 		$data ['date_start'] = $startDate['day'];
 		$data ['time_end'] = $startDate['time_end'];

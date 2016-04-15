@@ -99,6 +99,10 @@ $languageStrings = [
 	'LBL_GO_TO_TEMPLATE' => 'Click to go to imported template.',
 	'LBL_RETURN' => 'Return',
 	'LBL_PERMISSIONS_DETAILS' => 'Permissions',
+	'LBL_HEADER_HEIGHT' => 'Header margin',
+	'LBL_FOOTER_HEIGHT' => 'Footer margin',
+	'LBL_HEADER_IN_MILIMETERS' => 'Header margin from the top of the page in millimeters',
+	'LBL_FOOTER_IN_MILIMETERS' => 'Footer margin from the bottom of the page in millimeters',
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',

@@ -180,4 +180,7 @@ $jsLanguageStrings = [
 	'Mobile Call' => 'Mobiler Anruf',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Ändere Status zu: anstehend oder historisch',
 	'JS_ASSIGNED_TO' => 'zuständig',
+	'JS_SWITCHING_DAYS' => 'Switch days ',
+	'JS_ALL' => 'All',
+	'JS_WORK_DAYS' => 'Work days',
 ];

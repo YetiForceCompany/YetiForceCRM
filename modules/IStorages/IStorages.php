@@ -21,7 +21,7 @@ class IStorages extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_istorages', 'u_yf_istoragescf');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_istorages', 'u_yf_istoragescf', 'u_yf_istorages_address');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -29,7 +29,8 @@ class IStorages extends Vtiger_CRMEntity
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_istorages' => 'istorageid',
-		'u_yf_istoragescf' => 'istorageid');
+		'u_yf_istoragescf' => 'istorageid',
+		'u_yf_istorages_address' => 'istorageaddressid');
 
 	/**
 	 * Mandatory for Listing (Related listview)

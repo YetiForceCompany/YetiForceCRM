@@ -22,7 +22,7 @@
 			{/if}
 			{assign var="CURRENCY_SYMBOLAND" value=Vtiger_Functions::getCurrencySymbolandRate($CURRENCY)}
 		{/if}
-		<input name="inventoryItemsNo" id="inventoryItemsNo" type="hidden" value="{count($INVENTORY_ROWS)}" />
+		<input name="inventoryItemsNo" id="inventoryItemsNo" type="hidden" value="{if count($INVENTORY_ROWS)}count($INVENTORY_ROWS){else}1{/if}" />
 		<input id="accountReferenceField" type="hidden" value="{$INVENTORY_FIELD->getReferenceField()}" />
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}" />
 		<div class="table-responsive">
