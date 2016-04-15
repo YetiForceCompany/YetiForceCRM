@@ -59,9 +59,9 @@ class VTEntityDelta extends VTEventHandler
 	function computeDelta($moduleName, $recordId)
 	{
 
-		$delta = array();
+		$delta = [];
 
-		$oldData = array();
+		$oldData = [];
 		if (!empty(self::$oldEntity[$moduleName][$recordId])) {
 			$oldEntity = self::$oldEntity[$moduleName][$recordId];
 			$oldData = $oldEntity->getData();

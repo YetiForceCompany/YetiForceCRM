@@ -69,6 +69,7 @@ $languageStrings = [
 	'LBL_CREDIT_LIMIT' => 'Limit kredytowy',
 	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Produkty i usługi',
 	'LBL_ACCOUNTS_LIST_TREE_ALERT' => 'Lista kontrahentów jest uzależniona od wybranych produktów w drzewie oraz filtru.',
+	'LBL_PARENT_IS_CHILD' => 'Wybrany kontrahent nadrzędny nie może być podrzędnym tego kontrahenta',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Osoba fizyczna',

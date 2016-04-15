@@ -11,12 +11,12 @@
 class Vtiger_Basic_Widget {
 	var $Module = false;
 	var $Record = false;
-	var $Config = array();
+	var $Config = [];
 	var $moduleModel = false;
-	var $dbParams = array();
-	var $allowedModules  = array();
+	var $dbParams = [];
+	var $allowedModules  = [];
 	
-	function __construct($Module = false, $moduleModel = false, $Record = false, $widget = array() ) {
+	function __construct($Module = false, $moduleModel = false, $Record = false, $widget = [] ) {
 		$this->Module = $Module;
 		$this->Record = $Record;
 		$this->Config = $widget;

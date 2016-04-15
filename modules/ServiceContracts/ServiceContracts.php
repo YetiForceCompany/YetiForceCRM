@@ -631,7 +631,7 @@ class ServiceContracts extends CRMEntity
 				$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
 				$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
 				$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
-				$relatedModule = vtlib_getModuleNameById($tabId);
+				$relatedModule = Vtiger_Functions::getModuleName($tabId);
 				$focusObj = CRMEntity::getInstance($relatedModule);
 
 				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) AND $focusObj->table_index=?";

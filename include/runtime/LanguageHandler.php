@@ -57,7 +57,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function getLanguageTranslatedString($language, $key, $module = '')
 	{
-		$moduleStrings = array();
+		$moduleStrings = [];
 
 		$module = str_replace(':', '.', $module);
 		if (is_array($module))
@@ -93,7 +93,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function getJSTranslatedString($language, $key, $module = '')
 	{
-		$moduleStrings = array();
+		$moduleStrings = [];
 
 		$module = str_replace(':', '.', $module);
 		$moduleStrings = self::getModuleStringsFromFile($language, $module);
@@ -198,9 +198,9 @@ class Vtiger_Language_Handler
 		}
 
 
-		$resultantLanguageString = array();
+		$resultantLanguageString = [];
 		foreach ($languages as $currentLanguage) {
-			$exportLangString = array();
+			$exportLangString = [];
 
 			$moduleStrings = self::getModuleStringsFromFile($currentLanguage, $module);
 			if (!empty($moduleStrings[$type])) {

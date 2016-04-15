@@ -45,7 +45,7 @@ class Zend_Gdata_Query
      *
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
     /**
      * Default URL
@@ -82,7 +82,7 @@ class Zend_Gdata_Query
      */
     public function getQueryString()
     {
-        $queryArray = array();
+        $queryArray = [];
         foreach ($this->_params as $name => $value) {
             if (substr($name, 0, 1) == '_') {
                 continue;
@@ -101,7 +101,7 @@ class Zend_Gdata_Query
      */
     public function resetParameters()
     {
-        $this->_params = array();
+        $this->_params = [];
     }
 
     /**

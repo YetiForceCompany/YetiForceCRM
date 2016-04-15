@@ -463,6 +463,37 @@ var Vtiger_Index_Js = {
 			});
 		}
 	},
+	updateWatchingModule: function (module, value) {
+		var aDeferred = jQuery.Deferred();
+		AppConnector.request({
+			module: module,
+			action: 'Watchdog',
+			mode: 'updateModule',
+			state: value
+		}).then(function (data) {
+			aDeferred.resolve(data);
+		}, function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+			app.errorLog(textStatus, errorThrown);
+		});
+		return aDeferred.promise();
+	},
+	updateWatchingRecord: function (module, record, value) {
+		var aDeferred = jQuery.Deferred();
+		AppConnector.request({
+			module: module,
+			action: 'Watchdog',
+			mode: 'updateRecord',
+			record: record,
+			state: value
+		}).then(function (data) {
+			aDeferred.resolve(data);
+		}, function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+			app.errorLog(textStatus, errorThrown);
+		});
+		return aDeferred.promise();
+	},
 	loadPreSaveRecord: function (form) {
 		SaveResult = new SaveResult()
 		return SaveResult.checkData(form);

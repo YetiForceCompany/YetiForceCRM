@@ -134,7 +134,7 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 	 */
 	function calculatePageRange($recordList)
 	{
-		$rangeInfo = array();
+		$rangeInfo = [];
 		$recordCount = count($recordList);
 		$pageLimit = $this->getPageLimit();
 		if ($recordCount > 0) {

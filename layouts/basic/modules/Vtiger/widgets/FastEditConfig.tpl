@@ -43,10 +43,11 @@
 								<div class="col-md-4"><label class="control-label">{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}:</label></div>
 								<div class="col-md-7">
 									<select name="FastEdit" multiple class="select2 form-control marginLeftZero columnsSelect">
-										<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
 										{assign var="FIELDS" value=$MODULE_MODEL->getFields( $SOURCE, array('15','16') ) }
 										{foreach from=$FIELDS['labels'] item=item key=key}
 											<option {if isset ($WIDGETINFO['data']['FastEdit']) && in_array($key, $WIDGETINFO['data']['FastEdit']) }selected{/if} value="{$key}">{vtranslate($item, $QUALIFIED_MODULE)}</option>
+										{foreachelse}
+											<option disabled value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
 										{/foreach}
 									</select>
 								</div>

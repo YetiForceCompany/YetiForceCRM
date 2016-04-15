@@ -185,7 +185,7 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		$result = $db->pquery($query, array(Import_Data_Action::$IMPORT_RECORD_CREATED));
 		$noOfRecords = $db->num_rows($result);
 		$noOfRecordsDeleted = 0;
-        $entityData = array();
+        $entityData = [];
 		for($i=0; $i<$noOfRecords; $i++) {
 			$recordId = $db->query_result($result, $i, 'recordid');
 			if(isRecordExists($recordId) && isPermitted($moduleName, 'Delete', $recordId) == 'yes') {

@@ -50,7 +50,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getSize()
 	{
-		return array(1, 2, 3);
+		return [1, 2, 3];
 	}
 
 	public function getType($module = false)
@@ -76,15 +76,14 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getColumns()
 	{
-		$columns = array(1, 2, 3, 4, 5, 6);
-		return $columns;
+		return [1, 2, 3, 4, 5, 6];
 	}
 
 	public function getRelatedModule($tabid)
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_relatedlists.*,vtiger_tab.name FROM vtiger_relatedlists
-				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? AND vtiger_relatedlists.related_tabid != 0' ;
+				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? AND vtiger_relatedlists.related_tabid != 0';
 		$result = $adb->pquery($sql, array($tabid));
 		$relation = array();
 		while ($row = $adb->fetch_array($result)) {
@@ -102,29 +101,26 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			if (!in_array($value['related_tabid'], $tabid)) {
 				$sql = "SELECT columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype in ('15','16');";
 				$result = $adb->pquery($sql, [$value['related_tabid']]);
-				$Num = $adb->num_rows($result);
-				while ($row = $adb->fetch_array($result)) {
+				while ($row = $adb->getRow($result)) {
 					$filetrs[$value['related_tabid']][$row['fieldname']] = vtranslate($row['fieldlabel'], $value['name']);
 				}
 				$tabid[] = $value['related_tabid'];
 			}
 		}
-
 		return $filetrs;
 	}
 
 	public function getCheckboxs($modules)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		$checkboxs = [];
 		$tabid = [];
 		foreach ($modules as $key => $value) {
 			if (!in_array($value['related_tabid'], $tabid)) {
 				$sql = "SELECT columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ? AND columnname NOT IN ('was_read');";
-				$result = $adb->pquery($sql, [$value['related_tabid'], 56]);
-				$Num = $adb->num_rows($result);
-				while ($row = $adb->fetch_array($result)) {
-					$checkboxs[$value['related_tabid']][$row['fieldname']] = vtranslate($row['fieldlabel'], $value['name']);
+				$result = $db->pquery($sql, [$value['related_tabid'], 56]);
+				while ($row = $db->getRow($result)) {
+					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = vtranslate($row['fieldlabel'], $value['name']);
 				}
 				$tabid[] = $value['related_tabid'];
 			}
@@ -234,5 +230,26 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$field[$row['fieldname']] = vtranslate($row['fieldlabel'], $module);
 		}
 		return $field;
+	}
+
+	public static function getHeaderSwitch($index = [])
+	{
+		// type: 1-field, TODO 2-label
+		$data = [
+			getTabid('SSalesProcesses') => [ 0 =>
+				[
+					'type' => 1,
+					'label' => vtranslate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
+					'value' => ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']]
+				]
+			]
+		];
+		if (empty($index)) {
+			return $data;
+		} elseif ($data[$index[0]]) {
+			return $data[$index[0]][$index[1]];
+		} else {
+			return [];
+		}
 	}
 }

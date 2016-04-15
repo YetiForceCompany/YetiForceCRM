@@ -11,10 +11,11 @@ $languageStrings = [
 	'FL_TYPE' => 'Type',
 	'FL_NUMBER' => 'Number',
 	'FL_QTY_IN_STOCK' => 'Quantity of product in stock',
-	
 	'PLL_ACTIVE' => 'Active',
 	'PLL_INACTIVE' => 'Inactive',
 	'PLL_INTERNAL' => 'Internal',
 	'PLL_EXTERNAL' => 'External',
 	'LBL_NOT_PARENT_STORAGE' => 'You have to fill in the Parent Storage name',
+	'LBL_SHOW_HIERARCHY' => 'Hierarchy',
+	'LBL_PARENT_IS_CHILD' => 'The selected parent storage cannot be secondary to current storage',
 ];

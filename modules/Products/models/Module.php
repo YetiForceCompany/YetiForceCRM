@@ -19,7 +19,7 @@ class Products_Module_Model extends Vtiger_Module_Model {
 	 * @param <String> $listQuery
 	 * @return <String> Listview Query
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery,$skipSelected) {
+	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery,$skipSelected = false) {
 		$supportedModulesList = array($this->getName(), 'Vendors', 'Leads', 'Accounts', 'Contacts');
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList')
 				|| in_array($sourceModule, $supportedModulesList)

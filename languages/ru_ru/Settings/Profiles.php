@@ -69,6 +69,8 @@ $languageStrings = [
 	'ExportPdf' => 'Экспорт в PDF',
 	'RecordMapping' => 'Просмотр записи - Отображаемые поля записи',
 	'RecordMappingList' => 'Отображаемые поля записи',
+	'WatchingRecords' => 'Track changes in record',
+	'WatchingModule' => 'Track changes in module',
 	//end Actions
 	'Admin Profile' => 'Профиль - Администратор',
 	'Support Profile' => 'Профиль - Поддержка',

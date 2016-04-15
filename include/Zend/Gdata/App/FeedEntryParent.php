@@ -97,11 +97,11 @@ abstract class Zend_Gdata_App_FeedEntryParent extends Zend_Gdata_App_Base
      */
     protected $_etag = NULL;
 
-    protected $_author = array();
-    protected $_category = array();
-    protected $_contributor = array();
+    protected $_author = [];
+    protected $_category = [];
+    protected $_contributor = [];
     protected $_id = null;
-    protected $_link = array();
+    protected $_link = [];
     protected $_rights = null;
     protected $_title = null;
     protected $_updated = null;

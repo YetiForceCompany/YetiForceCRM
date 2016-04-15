@@ -67,6 +67,8 @@ $languageStrings = [
 	'ExportPdf' => 'Export to PDF',
 	'RecordMapping' => 'Record preview - Generating mapped fields record',
 	'RecordMappingList' => 'Generating mapped fields records',
+	'WatchingRecords' => 'Track changes in record',
+	'WatchingModule' => 'Track changes in module',
 	//end Actions
 	'Admin Profile' => 'Admin Profile',
 	'Support Profile' => 'Support Profile',

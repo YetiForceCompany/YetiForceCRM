@@ -326,13 +326,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 		}
 		return $allComments;
 	}
-	/**
-	 * Function to get details for user have the permissions to do actions
-	 * @return <Boolean> - true/false
-	 */
-	public function isEditable() {
-		return false;
-	}
 
 	/**
 	 * Function to get details for user have the permissions to do actions

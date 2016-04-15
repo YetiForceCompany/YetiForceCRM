@@ -42,7 +42,7 @@ function fixPostgresQuery($query, $log, $debug)
 
 	// Construkt the privateGroupList from the filed list by separating combined
 	// record.field entries
-	$privateGroupList = array();
+	$privateGroupList = [];
 	$token = strtok($queryFields, ", ()	");
 	while ($token !== false) {
 		if (strpos($token, ".") !== false)
@@ -119,7 +119,7 @@ function expandRecord($table, $log)
 {
 	$result = "";
 	$log->info("Debug: expandRecord");
-	$subfields = array();
+	$subfields = [];
 
 	//vtiger_products table
 	if ($table == "vtiger_products")

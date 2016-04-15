@@ -18,8 +18,8 @@ class State
 	function State()
 	{
 		$this->success = false;
-		$this->result = array();
-		$this->error = array();
+		$this->result = [];
+		$this->error = [];
 	}
 }
 

@@ -93,7 +93,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$this->initListViewController();
 
 		if (!$this->listviewHeaders) {
-			$headerFieldModels = array();
+			$headerFieldModels = [];
 			foreach ($this->listviewController->getListViewHeaderFields() as $fieldName => $webserviceField) {
 				$fieldObj = Vtiger_Field::getInstance($webserviceField->getFieldId());
 				$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstanceFromFieldObject($fieldObj);
@@ -125,7 +125,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		} else if ($user === 'all') {
 			$user = '';
 		}
-		$params = array();
+		$params = [];
 		if (!empty($user)) {
 			$ownerSql = ' AND vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
@@ -145,7 +145,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 			$entries = $this->listviewController->getListViewRecords($targetModuleFocus, $targetModuleName, $result);
 
-			$this->listviewRecords = array();
+			$this->listviewRecords = [];
 			$index = 0;
 			foreach ($entries as $id => $record) {
 				$rawData = $db->query_result_rowdata($result, $index++);

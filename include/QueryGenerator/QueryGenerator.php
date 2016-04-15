@@ -61,6 +61,7 @@ class QueryGenerator
 	private $columnsCustom;
 	private $fromClauseCustom;
 	private $whereClauseCustom;
+	private $customTable;
 
 	/**
 	 * Import Feature
@@ -99,6 +100,7 @@ class QueryGenerator
 		$this->columnsCustom = [];
 		$this->fromClauseCustom = [];
 		$this->whereClauseCustom = [];
+		$this->customTable = [];
 		$this->sourceRecord = false;
 	}
 
@@ -150,6 +152,11 @@ class QueryGenerator
 	public function setCustomColumn($columns)
 	{
 		$this->columnsCustom[] = $columns;
+	}
+
+	public function setCustomTable($table)
+	{
+		$this->customTable[] = $table;
 	}
 
 	public function setCustomFrom($from)
@@ -270,7 +277,7 @@ class QueryGenerator
 		$this->advFilterList = $customView->getAdvFilterByCvid($viewId);
 
 		if (is_array($this->stdFilterList)) {
-			$value = array();
+			$value = [];
 			if (!empty($this->stdFilterList['columnname'])) {
 				$this->startGroup('');
 				$name = explode(':', $this->stdFilterList['columnname']);
@@ -341,7 +348,7 @@ class QueryGenerator
 								$enddate[1] = '23:59:59';
 							$dateFilterResolvedList['enddate'] = $enddate[0] . ' ' . $enddate[1];
 						}
-						$value = array();
+						$value = [];
 						$value[] = $this->fixDateTimeValue($name, $dateFilterResolvedList['startdate']);
 						$value[] = $this->fixDateTimeValue($name, $dateFilterResolvedList['enddate'], false);
 						$this->addCondition($name, $value, 'BETWEEN');
@@ -354,7 +361,7 @@ class QueryGenerator
 						$startDate = $this->fixDateTimeValue($name, $filter['startdate']);
 						$endDate = $this->fixDateTimeValue($name, $filter['enddate'], false);
 
-						$value = array();
+						$value = [];
 						$start = explode(' ', $startDate);
 						if ($start[1] == "")
 							$startDate = $start[0] . ' ' . '00:00:00';
@@ -373,7 +380,7 @@ class QueryGenerator
 					} elseif ($nameComponents[4] == 'DT' && ($filter['comparator'] == 'a' || $filter['comparator'] == 'b')) {
 						$dateTime = explode(' ', $filter['value']);
 						$date = DateTimeField::convertToDBFormat($dateTime[0]);
-						$value = array();
+						$value = [];
 						$value[] = $this->fixDateTimeValue($name, $date, false);
 						// Still fixDateTimeValue returns only date value, we need to append time because it is DT type
 						for ($i = 0; $i < count($value); $i++) {
@@ -409,7 +416,7 @@ class QueryGenerator
 	public function getQuery($statement = 'SELECT')
 	{
 		if (empty($this->query)) {
-			$conditionedReferenceFields = array();
+			$conditionedReferenceFields = [];
 			$allFields = array_merge($this->whereFields, $this->fields);
 			foreach ($allFields as $fieldName) {
 				if (in_array($fieldName, $this->referenceFieldList)) {
@@ -456,7 +463,7 @@ class QueryGenerator
 
 	public function getSelectClauseColumnSQL()
 	{
-		$columns = array();
+		$columns = [];
 		$moduleFields = $this->getModuleFields();
 		$accessibleFieldList = array_keys($moduleFields);
 		$accessibleFieldList[] = 'id';
@@ -492,9 +499,9 @@ class QueryGenerator
 		}
 		$baseModule = $this->getModule();
 		$moduleFields = $this->getModuleFields();
-		$tableList = array();
-		$tableJoinMapping = array();
-		$tableJoinCondition = array();
+		$tableList = [];
+		$tableJoinMapping = [];
+		$tableJoinCondition = [];
 		$i = 1;
 
 		$moduleTableIndexList = $this->meta->getEntityTableIndexList();
@@ -522,10 +529,13 @@ class QueryGenerator
 					}
 				}
 			} elseif ($field->getFieldDataType() == 'owner') {
-				$tableList['vtiger_users'] = 'vtiger_users';
-				$tableList['vtiger_groups'] = 'vtiger_groups';
-				$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
-				$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+				/*
+				 * Removed unnecessary join tables
+				  $tableList['vtiger_users'] = 'vtiger_users';
+				  $tableList['vtiger_groups'] = 'vtiger_groups';
+				  $tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
+				  $tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+				 */
 				if ($fieldName == "created_user_id") {
 					$tableJoinCondition[$fieldName]['vtiger_users' . $fieldName] = $field->getTableName() .
 						"." . $field->getColumnName() . " = vtiger_users" . $fieldName . ".id";
@@ -611,14 +621,19 @@ class QueryGenerator
 				"$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]";
 			unset($tableList[$tableName]);
 		}
+		foreach ($this->customTable as $table) {
+			$tableName = $table['name'];
+			$tableList[$tableName] = $tableName;
+			$tableJoinMapping[$tableName] = $table['join'];
+		}
 		foreach ($tableList as $tableName) {
 			if ($tableName == 'vtiger_users') {
 				$field = $moduleFields[$ownerField];
-				$sql .= " $tableJoinMapping[$tableName] $tableName ON " . $field->getTableName() . "." .
+				$sql .= " $tableJoinMapping[$tableName] $tableName ON " . $field->getTableName() . '.' .
 					$field->getColumnName() . " = $tableName.id";
 			} elseif ($tableName == 'vtiger_groups') {
 				$field = $moduleFields[$ownerField];
-				$sql .= " $tableJoinMapping[$tableName] $tableName ON " . $field->getTableName() . "." .
+				$sql .= " $tableJoinMapping[$tableName] $tableName ON " . $field->getTableName() . '.' .
 					$field->getColumnName() . " = $tableName.groupid";
 			} else {
 				$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable." .
@@ -649,14 +664,14 @@ class QueryGenerator
 			$relatedModuleMeta = RelatedModuleMeta::getInstance($this->meta->getTabName(), $conditionInfo['relatedModule']);
 			$relationInfo = $relatedModuleMeta->getRelationMeta();
 			$relatedModule = $this->meta->getTabName();
-			$sql .= ' INNER JOIN ' . $relationInfo['relationTable'] . " ON " .
+			$sql .= ' INNER JOIN ' . $relationInfo['relationTable'] . ' ON ' .
 				$relationInfo['relationTable'] . ".$relationInfo[$relatedModule]=" .
 				"$baseTable.$baseTableIndex";
 		}
 
 		// Adding support for conditions on reference module fields
 		if ($this->referenceModuleField) {
-			$referenceFieldTableList = array();
+			$referenceFieldTableList = [];
 			foreach ($this->referenceModuleField as $index => $conditionInfo) {
 				$handler = vtws_getModuleHandlerFromName($conditionInfo['relatedModule'], $current_user);
 				$meta = $handler->getMeta();
@@ -763,7 +778,7 @@ class QueryGenerator
 							$nameFields = $this->moduleNameFields[$module];
 							$nameFieldList = explode(',', $nameFields);
 							$meta = $this->getMeta($module);
-							$columnList = array();
+							$columnList = [];
 							foreach ($nameFieldList as $column) {
 								if ($module == 'Users') {
 									$instance = CRMEntity::getInstance($module);
@@ -999,7 +1014,7 @@ class QueryGenerator
 		} else {
 			$valueArray = [$value];
 		}
-		$sql = array();
+		$sql = [];
 		if ($operator == 'between' || $operator == 'bw' || $operator == 'notequal') {
 			if ($field->getFieldName() == 'birthday') {
 				$valueArray[0] = getValidDBInsertDateTimeValue($valueArray[0]);
@@ -1456,7 +1471,7 @@ class QueryGenerator
 			$campaignId = vtlib_purify($_REQUEST['campaignid']);
 		}
 
-		$conditionList = array();
+		$conditionList = [];
 		if (!empty($dateClosedStart) && !empty($dateClosedEnd)) {
 
 			$conditionList[] = array('fieldname' => 'closingdate', 'value' => $dateClosedStart,
@@ -1487,7 +1502,7 @@ class QueryGenerator
 			$conditionList[] = array('fieldname' => 'assigned_user_id', 'value' => $owner,
 				'operator' => 'e');
 		}
-		$relatedConditionList = array();
+		$relatedConditionList = [];
 		if (!empty($campaignId)) {
 			$relatedConditionList[] = array('relatedModule' => 'Campaigns', 'conditionModule' =>
 				'Campaigns', 'finalValue' => $campaignId, 'SQLOperator' => '=');
@@ -1530,16 +1545,16 @@ class QueryGenerator
 			case 'n': $sqlOperator = '<>';
 				break;
 			case 's': $sqlOperator = 'LIKE';
-				$value = $value.'%';
+				$value = $value . '%';
 				break;
 			case 'ew': $sqlOperator = 'LIKE';
-				$value = '%'.$value;
+				$value = '%' . $value;
 				break;
 			case 'c': $sqlOperator = 'LIKE';
-				$value = '%'.$value.'%';
+				$value = '%' . $value . '%';
 				break;
 			case 'k': $sqlOperator = 'NOT LIKE';
-				$value = '%'.$value.'%';
+				$value = '%' . $value . '%';
 				break;
 			case 'l': $sqlOperator = '<';
 				break;

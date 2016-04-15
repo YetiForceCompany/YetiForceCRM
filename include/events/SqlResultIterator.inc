@@ -61,16 +61,16 @@ class SqlResultIterator implements Iterator
 
 		if ($copyFields === null) {
 			$columnData = $adb->getFieldsDefinition($this->result);
-			$columnNames = array();
+			$columnNames = [];
 			foreach ($columnData as $column) {
 				$columnNames[] = $column->name;
 			}
 			$copyFields = $columnNames;
 		}
 
-		$arr = array();
+		$arr = [];
 		foreach ($this as $row) {
-			$rowArr = array();
+			$rowArr = [];
 			foreach ($copyFields as $name) {
 				$rowArr[$name] = $row->$name;
 			}

@@ -116,7 +116,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$label = $this->get('label');
 		// No actions for Activity history
 		if ($label == 'Activity History') {
-			return array();
+			return [];
 		}
 
 		return explode(',', $actionString);
@@ -291,7 +291,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 		$result = $db->pquery($query, array($parentModuleModel->getId()));
 
-		$relationModels = array();
+		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$row = $db->query_result_rowdata($result, $i);
@@ -398,7 +398,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_relatedlists SET sequence=CASE ';
-		$relation_ids = array();
+		$relation_ids = [];
 		foreach ($relatedInfoList as $relatedInfo) {
 			$relation_id = $relatedInfo['relation_id'];
 			$relation_ids[] = $relation_id;
@@ -469,7 +469,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$query = 'SELECT vtiger_field.columnname, vtiger_field.fieldname FROM vtiger_relatedlists_fields INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid WHERE vtiger_relatedlists_fields.relation_id = ? AND vtiger_field.presence IN (0,2);';
 		$result = $adb->pquery($query, [$relationId]);
 		if ($onlyFields) {
-			$fields = array();
+			$fields = [];
 			for ($i = 0; $i < $adb->num_rows($result); $i++) {
 				$columnname = $adb->query_result_raw($result, $i, 'columnname');
 				$fieldname = $adb->query_result_raw($result, $i, 'fieldname');

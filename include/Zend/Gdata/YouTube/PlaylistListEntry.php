@@ -70,7 +70,7 @@ class Zend_Gdata_YouTube_PlaylistListEntry extends Zend_Gdata_Entry
      *
      * @var array
      */
-    protected $_feedLink = array();
+    protected $_feedLink = [];
 
     /**
      * Description of this playlist

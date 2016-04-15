@@ -454,7 +454,7 @@ class Zend_Gdata_YouTube_VideoQuery extends Zend_Gdata_Query
     public function getQueryString($majorProtocolVersion = null,
         $minorProtocolVersion = null)
     {
-        $queryArray = array();
+        $queryArray = [];
 
         foreach ($this->_params as $name => $value) {
             if (substr($name, 0, 1) == '_') {

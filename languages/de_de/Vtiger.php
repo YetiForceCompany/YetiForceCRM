@@ -260,7 +260,7 @@ $languageStrings = [
 	'LBL_CREATE_VIEW' => 'Neue Ansicht erstellen',
 	'LBL_CREATING_NEW' => 'Erstelle',
 	'LBL_SYSTEM_SETTINGS' => 'System Einstellungen',
-	'LBL_USER_PANEL' => '__UNTRANSLATED__',
+	'LBL_USER_PANEL' => 'User panel',
 	'LBL_CURRENCY' => 'Währung',
 	'LBL_CURRENT_FQ' => 'Aktuelles Quartal',
 	'LBL_CURRENT_FY' => 'Aktuelles Jahr',
@@ -1110,6 +1110,8 @@ $languageStrings = [
 	'FL_NUMBER' => 'Record number',
 	'DW_SUMMATION_BY_MONTHS' => 'Sales comparison by month',
 	'DW_SUMMATION_BY_USER' => 'Sales comparison by user',
+	'BTN_WATCHING_RECORD' => 'Track changes in record',
+	'BTN_WATCHING_MODULE' => 'Track changes in module',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1352,4 +1354,7 @@ $jsLanguageStrings = [
 	'JS_PROCESS' => 'Prozess',
 	'JS_SUB_PROCESS' => 'Subprocess',
 	'JS_SAVE_SELECTED_ITEMS_ALERT' => 'You selected __LENGTH__ items. Are you sure you want to save?',
+	'JS_WATCHING_TITLE' => 'Track changes',
+	'JS_WATCHING_MESSAGE0' => 'Are you sure you want to disable tracking changes?',
+	'JS_WATCHING_MESSAGE1' => 'Are you sure you want to enable tracking changes?',
 ];

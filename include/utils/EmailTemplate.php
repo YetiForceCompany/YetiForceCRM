@@ -46,7 +46,7 @@ class EmailTemplate
 		$result = preg_match_all("/\\$(?:[a-zA-Z0-9]+)-(?:[a-zA-Z0-9]+)(?:_[a-zA-Z0-9]+)?(?::[a-zA-Z0-9]+)?(?:_[a-zA-Z0-9]+)?\\$/", $this->rawDescription, $matches);
 		if ($result != 0) {
 			$templateVariablePair = $matches[0];
-			$this->templateFields = Array();
+			$this->templateFields = [];
 			for ($i = 0; $i < count($templateVariablePair); $i++) {
 				$templateVariablePair[$i] = str_replace('$', '', $templateVariablePair[$i]);
 				list($module, $columnName) = explode('-', $templateVariablePair[$i]);
@@ -91,10 +91,10 @@ class EmailTemplate
 			$variableList = $this->referencedFields[$referenceColumn];
 		}
 
-		$tableList = array();
-		$columnList = array();
+		$tableList = [];
+		$columnList = [];
 		$allColumnList = $meta->getUserAccessibleColumns();
-		$fieldList = array();
+		$fieldList = [];
 		if (count($variableList) > 0) {
 			foreach ($variableList as $column) {
 				if (in_array($column, $allColumnList)) {
@@ -142,7 +142,7 @@ class EmailTemplate
 				$result = $db->pquery($sql, $sqlparams);
 				$it = new SqlResultIterator($db, $result);
 				//assuming there can only be one row.
-				$values = array();
+				$values = [];
 				foreach ($it as $row) {
 					foreach ($fieldList as $field) {
 						$values[$field] = $row->get($fieldColumnMapping[$field]);

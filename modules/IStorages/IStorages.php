@@ -16,59 +16,59 @@ class IStorages extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('u_yf_istoragescf', 'istorageid');
+	var $customFieldTable = ['u_yf_istoragescf', 'istorageid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_istorages', 'u_yf_istoragescf', 'u_yf_istorages_address');
+	var $tab_name = ['vtiger_crmentity', 'u_yf_istorages', 'u_yf_istoragescf', 'u_yf_istorages_address'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	var $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_istorages' => 'istorageid',
 		'u_yf_istoragescf' => 'istorageid',
-		'u_yf_istorages_address' => 'istorageaddressid');
+		'u_yf_istorages_address' => 'istorageaddressid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	var $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
-// tablename should not have prefix 'vtiger_'
-		'subject' => Array('istorages', 'subject'),
-		'Assigned To' => Array('crmentity', 'smownerid')
-	);
-	var $list_fields_name = Array(
+		// tablename should not have prefix 'vtiger_'
+		'subject' => ['istorages', 'subject'],
+		'Assigned To' => ['crmentity', 'smownerid']
+	];
+	var $list_fields_name = [
 		/* Format: Field Label => fieldname */
-		'subject' => 'subject',
+		'FL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
-	);
-// Make the field link to detail view
+	];
+	// Make the field link to detail view
 	var $list_link_field = 'subject';
-// For Popup listview and UI type support
-	var $search_fields = Array(
+	// For Popup listview and UI type support
+	var $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
-// tablename should not have prefix 'vtiger_'
-		'subject' => Array('istorages', 'subject'),
-		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
-	);
-	var $search_fields_name = Array(
+		// tablename should not have prefix 'vtiger_'
+		'subject' => ['istorages', 'subject'],
+		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
+	];
+	var $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'subject' => 'subject',
 		'Assigned To' => 'assigned_user_id',
-	);
-// For Popup window record selection
-	var $popup_fields = Array('subject');
-// For Alphabetical search
+	];
+	// For Popup window record selection
+	var $popup_fields = ['subject'];
+	// For Alphabetical search
 	var $def_basicsearch_col = 'subject';
-// Column value to use on detail view record text display
+	// Column value to use on detail view record text display
 	var $def_detailview_recname = 'subject';
-// Used when enabling/disabling the mandatory fields for the module.
-// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('subject', 'assigned_user_id');
+	// Used when enabling/disabling the mandatory fields for the module.
+	// Refers to vtiger_field.fieldname values.
+	var $mandatory_fields = ['subject', 'assigned_user_id'];
 	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
@@ -81,15 +81,241 @@ class IStorages extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-// TODO Handle actions after this module is installed.
+		// TODO Handle actions after this module is installed.
 		} else if ($eventType == 'module.disabled') {
-// TODO Handle actions before this module is being uninstalled.
+		// TODO Handle actions before this module is being uninstalled.
 		} else if ($eventType == 'module.preuninstall') {
-// TODO Handle actions when this module is about to be deleted.
+		// TODO Handle actions when this module is about to be deleted.
 		} else if ($eventType == 'module.preupdate') {
-// TODO Handle actions before this module is updated.
+		// TODO Handle actions before this module is updated.
 		} else if ($eventType == 'module.postupdate') {
-// TODO Handle actions after this module is updated.
+		// TODO Handle actions after this module is updated.
 		}
+	}
+	
+	/**
+	 * Function to get storages hierarchy of the given Storage
+	 * @param integer $id - istorageid
+	 * returns Storage hierarchy in array format
+	 */
+	function getHierarchy($id)
+	{
+		$adb = PearDatabase::getInstance();
+		$log = LoggerManager::getInstance();
+		$current_user = vglobal('current_user');
+		$log->debug("Entering getHierarchy(" . $id . ") method ...");
+
+		$listviewHeader = [];
+		$listviewEntries = [];
+
+		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		if (empty($listColumns)) {
+			$listColumns = $this->list_fields_name;
+		}
+		foreach ($listColumns as $fieldname => $colname) {
+			if (getFieldVisibilityPermission('IStorages', $current_user->id, $colname) == '0') {
+				$listviewHeader[] = vtranslate($fieldname);
+			}
+		}
+		$iStoragesList = [];
+
+		// Get the iStorages hierarchy from the top most iStorage in the hierarch of the current iStorage, including the current iStorage
+		$encounteredIStorages = array($id);
+		$iStoragesList = $this->getParentIStorages($id, $iStoragesList, $encounteredIStorages);
+
+		$baseId = current(array_keys($iStoragesList));
+		$iStoragesList = [$baseId => $iStoragesList[$baseId]];
+
+		// Get the iStorages hierarchy (list of child iStorages) based on the current iStorage
+		$iStoragesList[$baseId] = $this->getChildIStorages($baseId, $iStoragesList[$baseId], $iStoragesList[$baseId]['depth']);
+
+		// Create array of all the iStorages in the hierarchy
+		$iStorageHierarchy = $this->getHierarchyData($id, $iStoragesList[$baseId], $baseId, $listviewEntries);
+
+		$iStorageHierarchy = ['header' => $listviewHeader, 'entries' => $listviewEntries];
+		$log->debug('Exiting getHierarchy method ...');
+		return $iStorageHierarchy;
+	}
+
+	/**
+	 * Function to create array of all the storages in the hierarchy
+	 * @param integer $id - Id of the record highest in hierarchy
+	 * @param array $iStorageInfoBase 
+	 * @param integer $iStorageId - istorageid
+	 * @param array $listviewEntries 
+	 * returns All the parent storages of the given Storage in array format
+	 */
+	function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries)
+	{
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
+		$currentUser = vglobal('current_user');
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
+
+		$hasRecordViewAccess = (is_admin($currentUser)) || (isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
+		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		
+		if (empty($listColumns)) {
+			$listColumns = $this->list_fields_name;
+		}
+		
+		foreach ($listColumns as $fieldname => $colname) {
+			// Permission to view storage is restricted, avoid showing field values (except storage name)
+			if (getFieldVisibilityPermission('IStorages', $currentUser->id, $colname) == '0') {
+				$data = $iStorageInfoBase[$colname];
+				if ($colname == 'subject') {
+					if ($iStorageId != $id) {
+						if ($hasRecordViewAccess) {
+							$data = '<a href="index.php?module=IStorages&action=DetailView&record=' . $iStorageId . '">' . $data . '</a>';
+						} else {
+							$data = '<span>' . $data . '&nbsp;<span class="glyphicon glyphicon-warning-sign"></span></span>';
+						}
+					} else {
+						$data = '<strong>' . $data . '</strong>';
+					}
+					// - to show the hierarchy of the Storages
+					$iStorageDepth = str_repeat(" .. ", $iStorageInfoBase['depth']);
+					$data = $iStorageDepth . $data;
+				}
+				$iStorageInfoData[] = $data;
+			}
+		}
+		
+		$listviewEntries[$iStorageId] = $iStorageInfoData;
+		
+		foreach ($iStorageInfoBase as $accId => $iStorageInfo) {
+			if (is_array($iStorageInfo) && intval($accId)) {
+				$listviewEntries = $this->getHierarchyData($id, $iStorageInfo, $accId, $listviewEntries);
+			}
+		}
+		
+		$log->debug('Exiting getHierarchyData method ...');
+		return $listviewEntries;
+	}
+
+	/**
+	 * Function to Recursively get all the upper storages of a given Storage
+	 * @param integer $id - istorageid
+	 * @param array $parentIStorages - Array of all the parent storages
+	 * returns All the parent Storages of the given istorageid in array format
+	 */
+	function getParentIStorages($id, &$parentIStorages, &$encounteredIStorages, $depthBase = 0)
+	{
+		$adb = PearDatabase::getInstance();
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering getParentIStorages(' . $id . ') method ...');
+
+		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
+			$log->error('Exiting getParentIStorages method ... - exceeded maximum depth of hierarchy');
+			return $parentIStorages;
+		}
+
+		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$query = 'SELECT u_yf_istorages.*, u_yf_istorages_address.*,' .
+			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
+			' FROM u_yf_istorages' .
+			' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = u_yf_istorages.istorageid' .
+			' INNER JOIN u_yf_istorages_address ON u_yf_istorages.istorageid = u_yf_istorages_address.istorageaddressid ' .
+			' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
+			' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid' .
+			' WHERE vtiger_crmentity.deleted = 0 and u_yf_istorages.istorageid = ?';
+		$res = $adb->pquery($query, [$id]);
+
+		if ($adb->getRowCount($res) > 0) {
+			$row = $adb->getRow($res);
+			$parentid = $row['parentid'];
+			
+			if ($parentid != '' && $parentid != 0 && !in_array($parentid, $encounteredIStorages)) {
+				$encounteredIStorages[] = $parentid;
+				$this->getParentIStorages($parentid, $parentIStorages, $encounteredIStorages, $depthBase + 1);
+			}
+			
+			$parentIStorageInfo = [];
+			$depth = 0;
+			
+			if (isset($parentIStorages[$parentid])) {
+				$depth = $parentIStorages[$parentid]['depth'] + 1;
+			}
+			
+			$parentIStorageInfo['depth'] = $depth;
+			$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+			
+			if (empty($listColumns)) {
+				$listColumns = $this->list_fields_name;
+			}
+			
+			foreach ($listColumns as $fieldname => $columnname) {
+				if ($columnname == 'assigned_user_id') {
+					$parentIStorageInfo[$columnname] = $row['user_name'];
+				} else {
+					$parentIStorageInfo[$columnname] = $row[$columnname];
+				}
+			}
+			
+			$parentIStorages[$id] = $parentIStorageInfo;
+		}
+		$log->debug('Exiting __getIStorafAccounts method ...');
+		return $parentIStorages;
+	}
+	
+	/**
+	 * Function to Recursively get all the child storages of a given Storage
+	 * @param integer $id - istorageid
+	 * @param array $childIStorages - Array of all the child storages
+	 * @param integer $depth - Depth at which the particular storage has to be placed in the hierarchy
+	 * returns All the child storages of the given istorageid in array format
+	 */
+	function getChildIStorages($id, &$childIStorages, $depthBase)
+	{
+		$adb = PearDatabase::getInstance();
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
+
+		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
+			$log->error('Exiting getChildIStorages method ... - exceeded maximum depth of hierarchy');
+			return $childIStorages;
+		}
+
+		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$query = "SELECT u_yf_istorages.*, u_yf_istorages_address.*," .
+			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
+			' FROM u_yf_istorages' .
+			' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = u_yf_istorages.istorageid' .
+			' INNER JOIN u_yf_istorages_address ON u_yf_istorages.istorageid = u_yf_istorages_address.istorageaddressid ' .
+			' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
+			' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid' .
+			' WHERE vtiger_crmentity.deleted = 0 and parentid = ?';
+		
+		$res = $adb->pquery($query, [$id]);
+		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		
+		if (empty($listColumns)) {
+			$listColumns = $this->list_fields_name;
+		}
+		
+		if ($adb->getRowCount($res) > 0) {
+			$depth = $depthBase + 1;
+			while ($row = $adb->getRow($res)) {
+				$childAccId = $row['istorageid'];
+				$childIStorageInfo = [];
+				$childIStorageInfo['depth'] = $depth;
+				
+				foreach ($listColumns as $fieldname => $columnname) {
+					if ($columnname == 'assigned_user_id') {
+						$childIStorageInfo[$columnname] = $row['user_name'];
+					} else {
+						$childIStorageInfo[$columnname] = $row[$columnname];
+					}
+				}
+				
+				$childIStorages[$childAccId] = $childIStorageInfo;
+				$this->getChildIStorages($childAccId, $childIStorages[$childAccId], $depth);
+			}
+		}
+		
+		$log->debug('Exiting getChildIStorages method ...');
+		return $childIStorages;
 	}
 }

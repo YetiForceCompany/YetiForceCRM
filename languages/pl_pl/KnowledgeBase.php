@@ -16,4 +16,5 @@ $languageStrings = [
 	'LBL_PREVIOUS' => 'Poprzedni',
 	'LBL_NEXT' => 'Następny',
 	'LBL_LIST_RECORDS' => 'Lista dokumentów',
+	'LBL_RECORD_PREVIEW' => 'Podgląd'
 ];

@@ -13,25 +13,25 @@
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {if $FIELD_MODEL->get('uitype') eq '53'}
+	{assign var=ROLE_RECORD_MODEL value=$USER_MODEL->getRoleDetail()}
 	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
 	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('',$MODULE)}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
     {assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-	{assign var=ROLE_RECORD_MODEL value=Settings_Roles_Record_Model::getInstanceById($USER_MODEL->get('roleid'))}
-
+	
 	{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 	{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
 
 	{if $FIELD_VALUE eq '' && $VIEW neq 'MassEdit'}
 		{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 	{/if}
-
+	{assign var=FOUND_SELECT_VALUE value=0}
 	<select class="chzn-select form-control {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}>
 		{if $VIEW eq 'MassEdit'}<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
 		<optgroup label="{vtranslate('LBL_USERS')}">
 			{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-				<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
+				<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}
 					{if array_key_exists($OWNER_ID, $ACCESSIBLE_USER_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if}
 					data-userId="{$CURRENT_USER_ID}">
 				{$OWNER_NAME}
@@ -40,12 +40,18 @@
 		</optgroup>
 		<optgroup label="{vtranslate('LBL_GROUPS')}">
 			{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-				<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if $FIELD_MODEL->get('fieldvalue') eq $OWNER_ID} selected {/if}
+				<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_MODEL->get('fieldvalue') eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}
 					{if array_key_exists($OWNER_ID, $ACCESSIBLE_GROUP_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if} >
 					{vtranslate($OWNER_NAME, $MODULE)}
 				</option>
 			{/foreach}
 		</optgroup>
+		{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0}
+			{assign var=OWNER_NAME value=Vtiger_Functions::getOwnerRecordLabel($FIELD_VALUE)}
+			<option value="{$FIELD_VALUE}" data-picklistvalue="{$OWNER_NAME}" selected data-recordaccess=false data-userId="{$CURRENT_USER_ID}">
+				{$OWNER_NAME}
+			</option>
+		{/if}
 	</select>
 {/if}
 {* TODO - UI type 52 needs to be handled *}

@@ -37,12 +37,12 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 		$detailViewLinks = $detailViewModel->getDetailViewLinks($detailViewLinkParams);
-		$navigationInfo = ListViewSession::getListViewNavigation($recordId);
+		$navigationInfo = false; //ListViewSession::getListViewNavigation($recordId);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
-
+		$viewer->assign('NO_PAGINATION', true);
 		//Intially make the prev and next records as null
 		$prevRecordId = null;
 		$nextRecordId = null;

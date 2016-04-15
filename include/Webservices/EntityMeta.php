@@ -45,7 +45,7 @@ abstract class EntityMeta
 	public function getEmailFields()
 	{
 		if ($this->emailFields === null) {
-			$this->emailFields = array();
+			$this->emailFields = [];
 			$moduleFields = $this->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
 				if (strcasecmp($webserviceField->getFieldType(), 'e') === 0) {
@@ -60,7 +60,7 @@ abstract class EntityMeta
 	public function getFieldColumnMapping()
 	{
 		if ($this->fieldColumnMapping === null) {
-			$this->fieldColumnMapping = array();
+			$this->fieldColumnMapping = [];
 
 			$moduleFields = $this->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
@@ -74,7 +74,7 @@ abstract class EntityMeta
 	public function getMandatoryFields()
 	{
 		if ($this->mandatoryFields === null) {
-			$this->mandatoryFields = array();
+			$this->mandatoryFields = [];
 
 			$moduleFields = $this->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
@@ -89,7 +89,7 @@ abstract class EntityMeta
 	public function getReferenceFieldDetails()
 	{
 		if ($this->referenceFieldDetails === null) {
-			$this->referenceFieldDetails = array();
+			$this->referenceFieldDetails = [];
 
 			$moduleFields = $this->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
@@ -106,7 +106,7 @@ abstract class EntityMeta
 	public function getOwnerFields()
 	{
 		if ($this->ownerFields === null) {
-			$this->ownerFields = array();
+			$this->ownerFields = [];
 
 			$moduleFields = $this->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
@@ -127,7 +127,7 @@ abstract class EntityMeta
 	public function getUserAccessibleColumns()
 	{
 		if ($this->userAccessibleColumns === null) {
-			$this->userAccessibleColumns = array();
+			$this->userAccessibleColumns = [];
 
 			$moduleFields = $this->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
@@ -152,7 +152,7 @@ abstract class EntityMeta
 	public function getColumnTableMapping()
 	{
 		if ($this->columnTableMapping === null) {
-			$this->columnTableMapping = array();
+			$this->columnTableMapping = [];
 
 			$moduleFields = $this->getModuleFields();
 			foreach ($moduleFields as $fieldName => $webserviceField) {
@@ -211,7 +211,7 @@ abstract class EntityMeta
 	public function getFieldNameListByType($type)
 	{
 		$type = strtolower($type);
-		$typeList = array();
+		$typeList = [];
 		$moduleFields = $this->getModuleFields();
 		foreach ($moduleFields as $fieldName => $webserviceField) {
 			if (strcmp($webserviceField->getFieldDataType(), $type) === 0) {
@@ -224,7 +224,7 @@ abstract class EntityMeta
 	public function getFieldListByType($type)
 	{
 		$type = strtolower($type);
-		$typeList = array();
+		$typeList = [];
 		$moduleFields = $this->getModuleFields();
 		foreach ($moduleFields as $fieldName => $webserviceField) {
 			if (strcmp($webserviceField->getFieldDataType(), $type) === 0) {

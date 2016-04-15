@@ -56,6 +56,10 @@ $languageStrings = [
 	'LBL_SELECT_BUTTON_INFO' => 'Włącz pokazywanie przycisku wybierz',
 	'LBL_CONDITION' => 'Warunek',
 	'LBL_CONDITION_INFO' => 'Wybierz warunek pokazywania rekordów',
+	'LBL_SHOW_ALL_RECORDS' => 'Pokaż wszystkie rekordy',
+	'LBL_SHOW_ALL_RECORDS_INFO' => 'Nie - Uwzględniane są uprawnienia <br> Tak - Wyszukiwanie rekordów z pominięciem uprawnień',
+	'LBL_SHITCH_HEADER' => 'Przełącznik w nagłówku',
+	'LBL_SHITCH_HEADER_INFO' => 'Przełącznik (switch) umieszczony w nagłówku widgetu.',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Ładowanie danych...',

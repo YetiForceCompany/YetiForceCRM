@@ -36,7 +36,7 @@ class VTEntityType
 	function getFieldNames()
 	{
 		$adb = $this->adb;
-		$arr = array();
+		$arr = [];
 		$result = $adb->pquery("select fieldname from vtiger_field where tabid=? and vtiger_field.presence in (0,2)", array($this->getTabId()));
 		$it = new SQLResultIterator($adb, $result);
 		foreach ($it as $row) {
@@ -66,7 +66,7 @@ class VTEntityType
 	{
 		$adb = $this->adb;
 		$fieldNames = $this->getFieldNames();
-		$fieldTypes = array();
+		$fieldTypes = [];
 		foreach ($fieldNames as $fieldName) {
 			$fieldTypes[$fieldName] = $this->getFieldType($fieldName);
 		}
@@ -81,7 +81,7 @@ class VTFieldType
 	{
 		$ro = new ReflectionObject($this);
 		$props = $ro->getProperties();
-		$arr = array();
+		$arr = [];
 		foreach ($props as $prop) {
 			$arr[$prop->getName()] = $prop->getValue($this);
 		}

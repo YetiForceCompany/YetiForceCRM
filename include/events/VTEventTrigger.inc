@@ -14,7 +14,7 @@ class VTEventTrigger
 {
 	/* EventTrigger cache management */
 
-	private static $cache = array();
+	private static $cache = [];
 	private static $cacheLookupType = '';
 	private static $mandatoryEventClass = array('VTEntityDelta', 'ModTrackerHandler');
 
@@ -60,7 +60,7 @@ class VTEventTrigger
 	static function clearCache($name = false)
 	{
 		if ($name === false) {
-			self::$cache = array();
+			self::$cache = [];
 			self::$cacheLookupType = '';
 		} else if (self::isCached($name)) {
 			unset(self::$cache[$name]);
@@ -72,14 +72,14 @@ class VTEventTrigger
 		if (self::isCached($name)) {
 			return self::$cache[$name];
 		} else if (self::$cacheLookupType == self::CACHE_LOOKUP_TYPE_ALL) {
-			return array();
+			return [];
 		}
 		return false;
 	}
 
 	static function getActiveEventInfos($adb, $name = false)
 	{
-		$params = array();
+		$params = [];
 		$query = "SELECT * FROM vtiger_eventhandlers WHERE is_active=true";
 		if ($name !== false) {
 			if (is_array($name)) {
@@ -94,7 +94,7 @@ class VTEventTrigger
 			array_push($params, self::$mandatoryEventClass);
 		}
 
-		$evtinfosbyname = array();
+		$evtinfosbyname = [];
 
 		$result = $adb->pquery($query, $params);
 		$it = new SqlResultIterator($adb, $result);
@@ -129,7 +129,7 @@ class VTEventTrigger
 			$eventInfos = self::getActiveEventInfos($this->adb, $this->name);
 		}
 
-		$completedEvents = array();
+		$completedEvents = [];
 		if ($eventInfos) {
 			while (count($eventInfos) > count($completedEvents)) {
 				$handlerCounter = 0; // Tracks the number of handlers triggered for the current iteration.
@@ -164,7 +164,7 @@ class VTEventTrigger
 					}
 				}
 				if ($handlerCounter == 0 && count($eventInfos) > count($completedEvents)) {
-					$uncompletedEvents = array();
+					$uncompletedEvents = [];
 					foreach ($eventInfos as $eventInfo) {
 						if (!in_array($eventInfo['handler_class'], $completedEvents)) {
 							$uncompletedEvents[] = $eventInfo['handler_class'];

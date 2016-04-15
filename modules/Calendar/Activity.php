@@ -320,8 +320,8 @@ class Activity extends CRMEntity
 			$adb->pquery($sql, array($this->id));
 		}
 
-		$user_sql = $adb->pquery("select count(*) as count from vtiger_users where id=?", array($this->column_fields['assigned_user_id']));
-		if ($adb->query_result($user_sql, 0, 'count') != 0) {
+		$userName = Vtiger_Functions::getUserName($this->column_fields['assigned_user_id']);
+		if (!empty($userName)) {
 			$sql_qry = "insert into vtiger_salesmanactivityrel (smid,activityid) values(?,?)";
 			$adb->pquery($sql_qry, array($this->column_fields['assigned_user_id'], $this->id));
 
@@ -407,7 +407,7 @@ class Activity extends CRMEntity
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -958,4 +958,3 @@ class Activity extends CRMEntity
 		}
 	}
 }
-

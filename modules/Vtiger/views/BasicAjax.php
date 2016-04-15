@@ -117,7 +117,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
-		$matchingRecords = array();
+		$matchingRecords = [];
 		if (is_array($advFilterList) && count($advFilterList) > 0) {
 			$isAdvanceSearch = true;
 			$user = Users_Record_Model::getCurrentUserModel();

@@ -408,7 +408,7 @@ class CurrencyField
 	{
 		$adb = PearDatabase::getInstance();
 
-		$result = $adb->pquery('SELECT id FROM vtiger_currency_info WHERE defaultid < 0', array());
+		$result = $adb->pquery('SELECT id FROM vtiger_currency_info WHERE defaultid < 0', []);
 		$noOfRows = $adb->num_rows($result);
 		if ($noOfRows > 0) {
 			return $adb->query_result($result, 0, 'id');

@@ -22,7 +22,7 @@ class Vtiger_Kpi_Helper {
 	}
 	public function getKpiList() {
 		$adb = PearDatabase::getInstance();
-		$list = array();
+		$list = [];
 		$sql = "SELECT serviceid as id, servicename as name FROM vtiger_service INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? AND discontinued = ?;";
 		$params = array(0, 1);
 		$result = $adb->pquery($sql, $params, true);
@@ -32,7 +32,7 @@ class Vtiger_Kpi_Helper {
 		return $list;
 	}
 	public function getKpiTypes() {
-		$types = array();
+		$types = [];
 		$types['tdu'] = 'Terminowość dostarczania usługi';
 		$types['cdu'] = 'Czas dostarczania usługi';
 		$types['tuatd'] = 'Terminowość usuwania awarii';

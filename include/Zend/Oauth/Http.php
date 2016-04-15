@@ -39,7 +39,7 @@ class Zend_Oauth_Http
      *
      * @var array
      */
-    protected $_parameters = array();
+    protected $_parameters = [];
 
     /**
      * Reference to the Zend_Oauth_Consumer instance in use.
@@ -250,7 +250,7 @@ class Zend_Oauth_Http
      */
     protected function _toAuthorizationHeader(array $params, $realm = null)
     {
-        $headerValue = array();
+        $headerValue = [];
         $headerValue[] = 'OAuth realm="' . $realm . '"';
         foreach ($params as $key => $value) {
             if (!preg_match("/^oauth_/", $key)) {

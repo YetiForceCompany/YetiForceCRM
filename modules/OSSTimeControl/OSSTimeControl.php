@@ -179,7 +179,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		foreach ($results as $result) {
 			$columnName = $result['columnname'];
 
-			$relatedModule = vtlib_getModuleNameById($result['tabid']);
+			$relatedModule = Vtiger_Functions::getModuleName($result['tabid']);
 			$focusObj = CRMEntity::getInstance($relatedModule);
 
 			$columns = [$columnName => null];

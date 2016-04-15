@@ -17,7 +17,7 @@ class VTCacheUtils
 {
 
 	/** Tab information caching */
-	static $_tabidinfo_cache = array();
+	static $_tabidinfo_cache = [];
 
 	static function lookupTabid($module)
 	{
@@ -58,7 +58,7 @@ class VTCacheUtils
 	}
 
 	/** Block information caching */
-	static $_blocklabel_cache = array();
+	static $_blocklabel_cache = [];
 
 	static function updateBlockLabelWithId($label, $id)
 	{
@@ -74,7 +74,7 @@ class VTCacheUtils
 	}
 
 	/** Field information caching */
-	static $_fieldinfo_cache = array();
+	static $_fieldinfo_cache = [];
 
 	static function updateFieldInfo($tabid, $fieldname, $fieldid, $fieldlabel, $columnname, $tablename, $uitype, $typeofdata, $presence)
 	{
@@ -132,7 +132,7 @@ class VTCacheUtils
 		}
 
 		if (isset($fldcache)) {
-			$modulefields = array();
+			$modulefields = [];
 
 			foreach ($fldcache as $fieldname => $fieldinfo) {
 				if (in_array($fieldinfo['presence'], $presencein)) {
@@ -201,7 +201,7 @@ class VTCacheUtils
 	}
 
 	/** Entityname information */
-	static $_module_entityname_cache = array();
+	static $_module_entityname_cache = [];
 
 	static function updateEntityNameInfo($module, $data)
 	{
@@ -221,7 +221,7 @@ class VTCacheUtils
 	}
 
 	/** Module active column fields caching */
-	static $_module_columnfields_cache = array();
+	static $_module_columnfields_cache = [];
 
 	static function updateModuleColumnFields($module, $column_fields)
 	{
@@ -237,7 +237,7 @@ class VTCacheUtils
 	}
 
 	/** User currency id caching */
-	static $_usercurrencyid_cache = array();
+	static $_usercurrencyid_cache = [];
 
 	static function lookupUserCurrenyId($userid)
 	{
@@ -263,7 +263,7 @@ class VTCacheUtils
 	}
 
 	/** Currency information caching */
-	static $_currencyinfo_cache = array();
+	static $_currencyinfo_cache = [];
 
 	static function lookupCurrencyInfo($currencyid)
 	{
@@ -285,7 +285,7 @@ class VTCacheUtils
 	}
 
 	/** ProfileId information caching */
-	static $_userprofileid_cache = array();
+	static $_userprofileid_cache = [];
 
 	static function updateUserProfileId($userid, $profileid)
 	{
@@ -301,7 +301,7 @@ class VTCacheUtils
 	}
 
 	/** Profile2Field information caching */
-	static $_profile2fieldpermissionlist_cache = array();
+	static $_profile2fieldpermissionlist_cache = [];
 
 	static function lookupProfile2FieldPermissionList($module, $profileid)
 	{
@@ -318,7 +318,7 @@ class VTCacheUtils
 	}
 
 	/** Role information */
-	static $_subroles_roleid_cache = array();
+	static $_subroles_roleid_cache = [];
 
 	static function lookupRoleSubordinates($roleid)
 	{
@@ -336,14 +336,14 @@ class VTCacheUtils
 	static function clearRoleSubordinates($roleid = false)
 	{
 		if ($roleid === false) {
-			self::$_subroles_roleid_cache = array();
+			self::$_subroles_roleid_cache = [];
 		} else if (isset(self::$_subroles_roleid_cache[$roleid])) {
 			unset(self::$_subroles_roleid_cache[$roleid]);
 		}
 	}
 
 	/** Record Owner Id */
-	static $_record_ownerid_cache = array();
+	static $_record_ownerid_cache = [];
 
 	static function lookupRecordOwner($record)
 	{
@@ -359,7 +359,7 @@ class VTCacheUtils
 	}
 
 	/** Record Owner Type */
-	static $_record_ownertype_cache = array();
+	static $_record_ownertype_cache = [];
 
 	static function lookupOwnerType($ownerId)
 	{
@@ -393,7 +393,7 @@ class VTCacheUtils
 	}
 
 	/** Report module information based on used. */
-	static $_reportmodule_infoperuser_cache = array();
+	static $_reportmodule_infoperuser_cache = [];
 
 	static function lookupReport_Info($userid, $reportid)
 	{
@@ -409,7 +409,7 @@ class VTCacheUtils
 	static function updateReport_Info($userid, $reportid, $primarymodule, $secondarymodules, $reporttype, $reportname, $description, $folderid, $owner)
 	{
 		if (!isset(self::$_reportmodule_infoperuser_cache[$userid])) {
-			self::$_reportmodule_infoperuser_cache[$userid] = array();
+			self::$_reportmodule_infoperuser_cache[$userid] = [];
 		}
 		if (!isset(self::$_reportmodule_infoperuser_cache[$userid][$reportid])) {
 			self::$_reportmodule_infoperuser_cache[$userid][$reportid] = array(
@@ -426,7 +426,7 @@ class VTCacheUtils
 	}
 
 	/** Report module sub-ordinate users information. */
-	static $_reportmodule_subordinateuserid_cache = array();
+	static $_reportmodule_subordinateuserid_cache = [];
 
 	static function lookupReport_SubordinateUsers($reportid)
 	{
@@ -442,7 +442,7 @@ class VTCacheUtils
 	}
 
 	/** Report module information based on used. */
-	static $_reportmodule_scheduledinfoperuser_cache = array();
+	static $_reportmodule_scheduledinfoperuser_cache = [];
 
 	static function lookupReport_ScheduledInfo($userid, $reportid)
 	{
@@ -458,7 +458,7 @@ class VTCacheUtils
 	static function updateReport_ScheduledInfo($userid, $reportid, $isScheduled, $scheduledFormat, $scheduledInterval, $scheduledRecipients, $scheduledTime)
 	{
 		if (!isset(self::$_reportmodule_scheduledinfoperuser_cache[$userid])) {
-			self::$_reportmodule_scheduledinfoperuser_cache[$userid] = array();
+			self::$_reportmodule_scheduledinfoperuser_cache[$userid] = [];
 		}
 		if (!isset(self::$_reportmodule_scheduledinfoperuser_cache[$userid][$reportid])) {
 			self::$_reportmodule_scheduledinfoperuser_cache[$userid][$reportid] = array(
@@ -484,7 +484,7 @@ class VTCacheUtils
 		return self::$_outgoingMailFromEmailAddress;
 	}
 
-	static $_userSignature = array();
+	static $_userSignature = [];
 
 	public static function setUserSignature($userName, $signature)
 	{
@@ -496,7 +496,7 @@ class VTCacheUtils
 		return self::$_userSignature[$userName];
 	}
 
-	static $_userFullName = array();
+	static $_userFullName = [];
 
 	public static function setUserFullName($userName, $fullName)
 	{
@@ -508,7 +508,7 @@ class VTCacheUtils
 		return self::$_userFullName[$userName];
 	}
 
-	static $_report_field_bylabel = array();
+	static $_report_field_bylabel = [];
 
 	public static function getReportFieldByLabel($module, $label)
 	{

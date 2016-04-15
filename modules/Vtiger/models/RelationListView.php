@@ -17,10 +17,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	protected $relatedModuleModel = false;
 	protected $query = false;
 	protected $addRelatedFieldToEntries = [
-		'Calendar' => ['visibility' => 'visibility'], 
-		'PriceBooks' => ['unit_price' => 'unit_price', 'listprice' => 'listprice', 'currency_id' => 'currency_id'], 
+		'Calendar' => ['visibility' => 'visibility'],
+		'PriceBooks' => ['unit_price' => 'unit_price', 'listprice' => 'listprice', 'currency_id' => 'currency_id'],
 		'Documents' => ['filelocationtype' => 'filelocationtype', 'filestatus' => 'filestatus']
-		];
+	];
 
 	public function setRelationModel($relation)
 	{
@@ -121,7 +121,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$addLinks = $this->getAddRelationLinks();
 
 		$links = array_merge($selectLinks, $addLinks);
-		$relatedLink = array();
+		$relatedLink = [];
 		$relatedLink['LISTVIEWBASIC'] = $links;
 		return $relatedLink;
 	}
@@ -129,7 +129,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	public function getSelectRelationLinks()
 	{
 		$relationModel = $this->getRelationModel();
-		$selectLinkModel = array();
+		$selectLinkModel = [];
 
 		if (!$relationModel->isSelectActionSupported()) {
 			return $selectLinkModel;
@@ -338,7 +338,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$pagingModel->calculatePageRange($relatedRecordList);
 
 		$nextLimitQuery = $query . ' LIMIT ' . ($startIndex + $pageLimit) . ' , 1';
-		$nextPageLimitResult = $db->pquery($nextLimitQuery, array());
+		$nextPageLimitResult = $db->pquery($nextLimitQuery, []);
 		if ($db->num_rows($nextPageLimitResult) > 0) {
 			$pagingModel->set('nextPageExists', true);
 		} else {
@@ -353,7 +353,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationFields = $relationModel->getRelationFields(true);
 
-		$headerFields = array();
+		$headerFields = [];
 		if (count($relationFields) > 0) {
 			foreach ($relationFields as $fieldName) {
 				$headerFields[$fieldName] = $relatedModuleModel->getField($fieldName);
@@ -495,7 +495,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$parts = explode(' GROUP BY ', $relationQuery);
 			$relationQuery = $parts[0];
 		}
-		$result = $db->pquery($relationQuery, array());
+		$result = $db->pquery($relationQuery, []);
 		return $db->query_result($result, 0, 'count');
 	}
 
@@ -516,8 +516,16 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$i = 1;
 		foreach ($whereCondition as $fieldName => $fieldValue) {
-			if (is_array($fieldValue) && $fieldValue['comparison'] && in_array(strtoupper($fieldValue['comparison']), ['IN', 'NOT IN'])) {
-				$condition .= " $fieldName " . $fieldValue['comparison'] . ' (' . $fieldValue['value'] . ') ';
+			if (is_array($fieldValue)) {
+				$fieldName = key($fieldValue);
+				$fieldValue = current($fieldValue);
+				if (is_array($fieldValue) && $fieldValue['comparison'] && in_array(strtoupper($fieldValue['comparison']), ['IN', 'NOT IN'])) {
+					if (is_array($fieldValue['value']))
+						$fieldValue['value'] = '"' . implode('","', $fieldValue['value']) . '"';
+					$condition .= " $fieldName " . $fieldValue['comparison'] . ' (' . $fieldValue['value'] . ') ';
+				} else {
+					$condition .= " $fieldName = '$fieldValue' ";
+				}
 			} else {
 				$condition .= " $fieldName = '$fieldValue' ";
 			}
@@ -525,7 +533,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$condition .= " AND ";
 			}
 		}
-
 		$relationQuery = str_replace('where', 'WHERE', $relationQuery);
 		$pos = stripos($relationQuery, 'WHERE');
 		if ($pos) {

@@ -13,8 +13,8 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleName = $recordModel->getModuleName();
 		$relatedLinkEntry = [
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
-			'linkKey' => 'LBL_RECORD_SUMMARY',
+			'linklabel' => vtranslate('LBL_RECORD_PREVIEW', $moduleName),
+			'linkKey' => 'LBL_RECORD_PREVIEW',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showModuleSummaryView&requestMode=summary',
 			'linkicon' => '',
 			'related' => 'Summary'

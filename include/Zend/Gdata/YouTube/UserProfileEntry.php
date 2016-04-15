@@ -145,7 +145,7 @@ class Zend_Gdata_YouTube_UserProfileEntry extends Zend_Gdata_Entry
      *
      * @var array
      */
-    protected $_feedLink = array();
+    protected $_feedLink = [];
 
     /**
      * The username for this profile entry

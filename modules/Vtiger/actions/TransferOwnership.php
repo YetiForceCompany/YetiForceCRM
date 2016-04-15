@@ -55,7 +55,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 				return $customViewModel->getRecordIds($excludedIds, $module);
 			}
 		}
-		return array();
+		return [];
 	}
 
 	public function validateRequest(Vtiger_Request $request)

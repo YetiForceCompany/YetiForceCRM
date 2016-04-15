@@ -194,7 +194,7 @@ class VTQL_Lexer
 	}
 
 	private $_yy_state = 1;
-	private $_yy_stack = array();
+	private $_yy_stack = [];
 
 	function yylex()
 	{
@@ -242,7 +242,7 @@ class VTQL_Lexer
 					// extract sub-patterns for passing to lex function
 					$yysubmatches = array_slice($yysubmatches, $this->token + 1, $tokenMap[$this->token]);
 				} else {
-					$yysubmatches = array();
+					$yysubmatches = [];
 				}
 				$this->value = current($yymatches); // token value
 				$r = $this->{'yy_r1_' . $this->token}($yysubmatches);

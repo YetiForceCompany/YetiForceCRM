@@ -54,7 +54,7 @@ class Vtiger_Response
 	private $emitJSONPFn = false; // for EMIT_JSONP
 
 	/* List of response headers */
-	private $headers = array();
+	private $headers = [];
 
 	/**
 	 * Set headers to send
@@ -145,7 +145,7 @@ class Vtiger_Response
 	 */
 	protected function prepareResponse()
 	{
-		$response = array();
+		$response = [];
 		if ($this->error !== NULL) {
 			$response['success'] = false;
 			$response['error'] = $this->error;

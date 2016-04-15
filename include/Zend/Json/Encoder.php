@@ -47,7 +47,7 @@ class Zend_Json_Encoder
      *
      * @var array
      */
-    protected $_visited = array();
+    protected $_visited = [];
 
     /**
      * Constructor
@@ -168,7 +168,7 @@ class Zend_Json_Encoder
      */
     protected function _encodeArray(&$array)
     {
-        $tmpArray = array();
+        $tmpArray = [];
 
         // Check for associative array
         if (!empty($array) && (array_keys($array) !== range(0, count($array) - 1))) {
@@ -258,7 +258,7 @@ class Zend_Json_Encoder
         $result    = "constants : {";
         $constants = $cls->getConstants();
 
-        $tmpArray = array();
+        $tmpArray = [];
         if (!empty($constants)) {
             foreach ($constants as $key => $value) {
                 $tmpArray[] = "$key: " . self::encode($value);
@@ -350,7 +350,7 @@ class Zend_Json_Encoder
         $result = "variables:{";
         $cnt = 0;
 
-        $tmpArray = array();
+        $tmpArray = [];
         foreach ($properties as $prop) {
             if (! $prop->isPublic()) {
                 continue;

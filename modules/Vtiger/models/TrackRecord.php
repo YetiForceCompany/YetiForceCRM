@@ -57,7 +57,7 @@ class Vtiger_TrackRecord_Model extends Vtiger_Record_Model
 		$tracFocus = new Tracker();
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$list = $tracFocus->get_recently_viewed($userModel->getId());
-		$trackRecords = array();
+		$trackRecords = [];
 		foreach ($list as $record) {
 			$trackRecords[] = self::getInstance($record);
 		}

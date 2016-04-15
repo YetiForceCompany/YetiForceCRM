@@ -6,15 +6,15 @@ $languageStrings = [
 	
 	//BLOCKS
 	'LBL_SSALESPROCESSES_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description Details',
-	'LBL_ATTENTION' => 'Attention',
+	'LBL_CUSTOM_INFORMATION' => 'System information',
+	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
+	'LBL_ATTENTION' => 'Comments',
 	'LBL_FINANCES' => 'Finances',
 	
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
 	'LBL_NUMBER' => 'Number',
-	'LBL_CLOSED_TIME' => 'Closed Time',
+	'LBL_CLOSED_TIME' => 'Closed time',
 	'FL_ESTIMATED' => 'Estimated value',
 	'FL_ACTUAL_SALE' => 'Actual sale',
 	'FL_ESTIMATED_DATE' => 'Estimated date',
@@ -54,5 +54,8 @@ $languageStrings = [
 	'PLL_SALE_COMPLETED' => 'Sale completed',
 	'PLL_SALE_FAILED' => 'Sale failed',
 	'PLL_SALE_CANCELLED' => 'Sale cancelled',
-
+	
+	'LBL_SWITCHHEADER_ON_0' => 'Open',
+	'LBL_SWITCHHEADER_OFF_0' => 'Closed',
+	'LBL_HEADERSWITCH_OPEN_CLOSED' => 'Open/Closed',
 ];

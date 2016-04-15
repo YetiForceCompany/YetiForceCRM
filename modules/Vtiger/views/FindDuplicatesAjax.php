@@ -52,7 +52,7 @@ class Vtiger_FindDuplicatesAjax_View extends Vtiger_FindDuplicates_View {
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 
-		$result = array();
+		$result = [];
 		$result['page'] = $pageCount;
 		$response = new Vtiger_Response();
 		$response->setResult($result);

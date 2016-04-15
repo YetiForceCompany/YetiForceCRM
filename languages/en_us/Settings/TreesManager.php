@@ -10,9 +10,9 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Add',
-	'TreesManager' => 'Tree Manager',
+	'TreesManager' => 'Tree manager',
 	'LBL_TREES_MANAGER' => 'Fields – Folders',
-	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree Template Manager',
+	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree template manager',
 	'LBL_NO_RECORDS_FOUND' => 'No tree templates',
 	'LBL_EDIT_TEMPLATE_TREES' => 'Edit tree template',
 	'LBL_CREATING_TEMPLATE_TREES' => 'Create tree template',

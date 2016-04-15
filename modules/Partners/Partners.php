@@ -20,7 +20,7 @@ class Partners extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_partners', 'u_yf_partnerscf', 'u_yf_partners_address', 'vtiger_entity_stats', 'vtiger_entity_stats' => 'crmid');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_partners', 'u_yf_partnerscf', 'u_yf_partners_address', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -29,7 +29,8 @@ class Partners extends Vtiger_CRMEntity
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_partners' => 'partnersid',
 		'u_yf_partnerscf' => 'partnersid',
-		'u_yf_partners_address' => 'partneraddressid');
+		'u_yf_partners_address' => 'partneraddressid',
+		'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory for Listing (Related listview)
@@ -133,7 +134,7 @@ class Partners extends Vtiger_CRMEntity
 		$log->debug("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);

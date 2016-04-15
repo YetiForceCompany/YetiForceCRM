@@ -10,6 +10,9 @@
 ;(function($){
 	$.fn.serializeFormData = function() {
 		var form = $(this);
+		for (var instance in CKEDITOR.instances) {
+			CKEDITOR.instances[instance].updateElement();
+		}
 		var values = form.serializeArray();
 		var data = {};				
 		if (values) {

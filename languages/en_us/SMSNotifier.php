@@ -11,8 +11,8 @@
 $languageStrings = [
 	'providertype' => 'Provider',
 	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 characters allowed',
-	'LBL_SEREVER_CONFIG' => 'New Configuration',
-	'username' => 'User Name',
+	'LBL_SEREVER_CONFIG' => 'New configuration',
+	'username' => 'User name',
 	'password' => 'Password',
 	'isactive' => 'Active',
 	// Basic Strings
@@ -23,13 +23,13 @@ $languageStrings = [
 	'LBL_TYPE_THE_MESSAGE' => 'Type the message',
 	'LBL_WRITE_YOUR_MESSAGE_HERE' => 'write your message here',
 	'LBL_ADD_MORE_FIELDS' => 'Add more fields',
-	'LBL_SERVER_CONFIG' => 'Server Configuration',
+	'LBL_SERVER_CONFIG' => 'Server configuration',
 
 	//DetailView Actions
-	'LBL_CHECK_STATUS' => 'Check Status',
+	'LBL_CHECK_STATUS' => 'Check status',
 	'message' => 'Message',
 
 	//Blocks
-	'LBL_SMSNOTIFIER_INFORMATION' => 'SMS Information',
+	'LBL_SMSNOTIFIER_INFORMATION' => 'SMS information',
 	'SINGLE_SMSNotifier' => 'SMS Notifier',
 ];

@@ -19,11 +19,11 @@ class Vtiger_Block_Model extends Vtiger_Block
 	{
 		if (empty($this->fields)) {
 			$moduleFields = Vtiger_Field_Model::getAllForModule($this->module);
-			$this->fields = array();
+			$this->fields = [];
 
 			// if block does not contains any fields 
 			if (!is_array($moduleFields[$this->id])) {
-				$moduleFields[$this->id] = array();
+				$moduleFields[$this->id] = [];
 			}
 
 			foreach ($moduleFields[$this->id] as $field) {
@@ -79,7 +79,7 @@ class Vtiger_Block_Model extends Vtiger_Block
 
 		$result = $db->pquery("SELECT * FROM vtiger_blocks_hide WHERE enabled = ? AND blockid = ? AND view LIKE '%$view%';", array(1, $this->get('id')));
 		$num_rows = $db->num_rows($result);
-		$hideBlocks = array();
+		$hideBlocks = [];
 		for ($i = 0; $i < $num_rows; $i++) {
 			$row = $db->raw_query_result_rowdata($result, $i);
 			$hideBlocks[] = $row;
@@ -126,7 +126,7 @@ class Vtiger_Block_Model extends Vtiger_Block
 	 */
 	public function getInActiveFields($raw = true)
 	{
-		$inActiveFields = array();
+		$inActiveFields = [];
 		$fields = $this->getFields();
 		foreach ($fields as $fieldName => $fieldModel) {
 			if (!$fieldModel->isActiveField()) {
@@ -155,7 +155,7 @@ class Vtiger_Block_Model extends Vtiger_Block
 			$blockObjects = parent::getAllForModule($moduleModel);
 			Vtiger_Cache::set('ModuleBlock', $moduleModel->getName(), $blockObjects);
 		}
-		$blockModelList = array();
+		$blockModelList = [];
 
 		if ($blockObjects) {
 			foreach ($blockObjects as $blockObject) {
@@ -224,7 +224,7 @@ class Vtiger_Block_Model extends Vtiger_Block
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT blockid,sequence FROM vtiger_blocks where tabid=?';
 		$result = $db->pquery($query, array($moduleTabId));
-		$response = array();
+		$response = [];
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);

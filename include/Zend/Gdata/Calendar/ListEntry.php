@@ -80,7 +80,7 @@ class Zend_Gdata_Calendar_ListEntry extends Zend_Gdata_Entry
     protected $_hidden = null;
     protected $_selected = null;
     protected $_timezone = null;
-    protected $_where = array();
+    protected $_where = [];
 
     public function __construct($element = null)
     {

@@ -57,12 +57,12 @@ abstract class Zend_Gdata_App_Base
     /**
      * @var array Leftover elements which were not handled
      */
-    protected $_extensionElements = array();
+    protected $_extensionElements = [];
 
     /**
      * @var array Leftover attributes which were not handled
      */
-    protected $_extensionAttributes = array();
+    protected $_extensionAttributes = [];
 
     /**
      * @var string XML child text node content
@@ -75,7 +75,7 @@ abstract class Zend_Gdata_App_Base
      *      form 'prefix-majorVersion-minorVersion', and the value is the
      *      output from getGreatestBoundedValue().
      */
-    protected static $_namespaceLookupCache = array();
+    protected static $_namespaceLookupCache = [];
 
     /**
      * List of namespaces, as a three-dimensional array. The first dimension
@@ -441,7 +441,7 @@ abstract class Zend_Gdata_App_Base
      */
     public static function flushNamespaceLookupCache()
     {
-        self::$_namespaceLookupCache = array();
+        self::$_namespaceLookupCache = [];
     }
 
     /**
@@ -551,7 +551,7 @@ abstract class Zend_Gdata_App_Base
     {
         if (isset($this->{'_' . $name})) {
             if (is_array($this->{'_' . $name})) {
-                $this->{'_' . $name} = array();
+                $this->{'_' . $name} = [];
             } else {
                 $this->{'_' . $name} = null;
             }

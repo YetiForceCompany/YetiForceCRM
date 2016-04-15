@@ -37,11 +37,11 @@ $languageStrings = [
 	'LBL_CONTACTS_SUPPORT_END_DATE' => 'Дата завершения поддержки',
 	'LBL_DAY0' => 'Воскресенье', 
 	'LBL_DAY1' => 'Понедельник', 
-	'LBL_DAY2' => 'Вторник'=, 
+	'LBL_DAY2' => 'Вторник', 
 	'LBL_DAY3' => 'Среда', 
 	'LBL_DAY4' => 'Четверг', 
 	'LBL_DAY5' => 'Пятница', 
-	'LBL_DAY6' => 'Суббота'=, 
+	'LBL_DAY6' => 'Суббота', 
 	'LBL_DAY_OF_THE_MONTH' => 'день месяца',
 	'LBL_DEFAULT_EVENT_DURATION' => 'Продолжительность события по умолчанию',
 	'LBL_EVENT' => 'Событие', 
@@ -160,6 +160,7 @@ $languageStrings = [
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Нет доступных действий',
 	'LBL_INVITE_USER_BLOCK' => 'Пригласить',
 	'LBL_CALENDAR_FILTERS' => 'Filters',
+	'LBL_AUTO_FILL_DESCRIPTION' => 'Fill the start date based on the first available date',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => '+ Событие | Задача',

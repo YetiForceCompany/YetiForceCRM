@@ -36,8 +36,6 @@ class Settings_Webforms_Detail_View extends Settings_Vtiger_Index_View
 		$recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$moduleModel = $recordModel->getModule();
 
-		$navigationInfo = ListViewSession::getListViewNavigation($recordId);
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_NAME', $qualifiedModuleName);

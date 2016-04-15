@@ -118,12 +118,12 @@ class Zend_Gdata_Media_Extension_MediaGroup extends Zend_Gdata_Extension
     /**
      * @var array
      */
-    protected $_content = array();
+    protected $_content = [];
 
     /**
      * @var array
      */
-    protected $_category = array();
+    protected $_category = [];
 
     /**
      * @var Zend_Gdata_Media_Extension_MediaCopyright
@@ -133,7 +133,7 @@ class Zend_Gdata_Media_Extension_MediaGroup extends Zend_Gdata_Extension
     /**
      * @var array
      */
-    protected $_credit = array();
+    protected $_credit = [];
 
     /**
      * @var Zend_Gdata_Media_Extension_MediaDescription
@@ -143,7 +143,7 @@ class Zend_Gdata_Media_Extension_MediaGroup extends Zend_Gdata_Extension
     /**
      * @var array
      */
-    protected $_hash = array();
+    protected $_hash = [];
 
     /**
      * @var Zend_Gdata_Media_Extension_MediaKeywords
@@ -153,27 +153,27 @@ class Zend_Gdata_Media_Extension_MediaGroup extends Zend_Gdata_Extension
     /**
      * @var array
      */
-    protected $_player = array();
+    protected $_player = [];
 
     /**
      * @var array
      */
-    protected $_rating = array();
+    protected $_rating = [];
 
     /**
      * @var array
      */
-    protected $_restriction = array();
+    protected $_restriction = [];
 
     /**
      * @var array
      */
-    protected $_mediaText = array();
+    protected $_mediaText = [];
 
     /**
      * @var array
      */
-    protected $_thumbnail = array();
+    protected $_thumbnail = [];
 
     /**
      * @var string

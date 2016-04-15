@@ -20,17 +20,10 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		var tabId = thisInstance.getTabId();
 		var progressIndicatorElement = jQuery.progressIndicator({'position': 'html'});
 		app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=" + type + "&tabId=" + tabId, function (wizardContainer) {
-			wizardContainer.find('.HelpInfoPopover').hover(
-					function () {
-						$(this).popover('show');
-					},
-					function () {
-						$(this).popover('hide');
-					}
-			);
+			app.showPopoverElementView(wizardContainer.find('.HelpInfoPopover'));
+			app.showBtnSwitch(wizardContainer.find('.switchBtn'));
 			if (type == 'RelatedModule') {
 				thisInstance.loadFilters(wizardContainer);
-				thisInstance.loadCheckboxs(wizardContainer);
 				wizardContainer.find("select[name='relatedmodule']").change(function () {
 					thisInstance.changeRelatedModule();
 					;
@@ -101,9 +94,8 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		params['source'] = $("input[name='tabid']").val();
 		AppConnector.request(params).then(
 				function (data) {
-					jQuery('div.contentsDiv').html(data);
-					thisInstance.registerEvents();
-					$("input[name='ModulesList']").select2();
+					var container = jQuery('div.contentsDiv').html(data);
+					thisInstance.registerEvents(container);
 					Indicator.progressIndicator({'mode': 'hide'});
 				}
 		);
@@ -141,58 +133,44 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		);
 	},
 	loadFilters: function (contener) {
-		var filters = JSON.parse(jQuery('#filters').val());
+		var types = ['filter', 'checkbox', 'switchHeader'];
 		var relatedmodule = contener.find("select[name='relatedmodule'] option:selected").val();
-		var filter_field = contener.find("select[name='filter']");
-		var filter_selected = contener.find("input[name='filter_selected']").val();
-		filter_field.empty();
-		filter_field.append($('<option/>', {value: '-', text: app.vtranslate('None')}));
-		if (filters[relatedmodule] !== undefined) {
-			$.each(filters[relatedmodule], function (index, value) {
-				var option = {value: index, text: value}
-				if (filter_selected == index) {
-					option.selected = 'selected';
-				}
-				filter_field.append($('<option/>', option));
-			});
+		for (var i in types) {
+			var filters = app.getMainParams(types[i] + 'All', true);
+			var filterField = contener.find("select[name='" + types[i] + "']");
+			var filterSelected = contener.find('input#' + types[i] + '_selected').val();
+			filterField.empty();
+			filterField.append($('<option/>', {value: '-', text: app.vtranslate('None')}));
+			if (filters[relatedmodule] !== undefined) {
+				filterField.closest('.form-group').removeClass('hide');
+				$.each(filters[relatedmodule], function (index, value) {
+					if (typeof value === 'object') {
+						value = value.label;
+					}
+					var option = {value: index, text: value}
+					if (filterSelected == index) {
+						option.selected = 'selected';
+					}
+					filterField.append($('<option/>', option));
+				});
+				app.showSelect2ElementView(filterField);
+			} else {
+				filterField.closest('.form-group').addClass('hide');
+			}
 		}
-		var filterv = jQuery("input[name='filterv']").val();
-		if (filterv != undefined) {
-			filter_field.val(filterv);
-		}
-		filter_field.select2();
-	},
-	loadCheckboxs: function (contener) {
-		var checkboxs = JSON.parse(jQuery('#checkboxs').val());
-		var relatedmodule = contener.find("select[name='relatedmodule'] option:selected").val();
-		var checkbox_field = contener.find("select[name='checkbox']");
-		var checkbox_selected = contener.find("input[name='checkbox_selected']").val();
-		checkbox_field.empty();
-		checkbox_field.append($('<option/>', {value: '-', text: app.vtranslate('None')}));
-		if (checkboxs[relatedmodule] !== undefined) {
-			$.each(checkboxs[relatedmodule], function (index, value) {
-				var option = {value: index, text: value}
-				if (checkbox_selected == index) {
-					option.selected = 'selected';
-				}
-				checkbox_field.append($('<option/>', option));
-			});
-		}
-		var checkboxv = jQuery("input[name='checkboxv']").val();
-		if (checkboxv != undefined) {
-			checkbox_field.val(checkboxv);
-		}
-		checkbox_field.select2();
 	},
 	changeRelatedModule: function (e) {
 		var thisInstance = this;
 		var form = jQuery('.form-modalAddWidget');
 		thisInstance.loadFilters(form);
-		thisInstance.loadCheckboxs(form);
 	},
-	registerEvents: function () {
+	registerEvents: function (container) {
 		var thisInstance = this;
 		this.loadWidgets();
+		if (typeof container == 'undefined') {
+			container = jQuery('.WidgetsManage');
+		}
+		app.showSelect2ElementView(container.find('.select2'));
 		$(".WidgetsManage select[name='ModulesList']").change(function (e) {
 			var target = $(e.currentTarget);
 			$("input[name='tabid']").val(target.val());
@@ -217,17 +195,10 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			var blockSortable = target.closest('.blockSortable');
 			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id=" + blockSortable.data('id'), function (wizardContainer) {
 				jQuery('#massEditHeader.modal-title').text(app.vtranslate('JS_EDIT_WIDGET'));
-				wizardContainer.find('.HelpInfoPopover').hover(
-						function () {
-							$(this).popover('show');
-						},
-						function () {
-							$(this).popover('hide');
-						}
-				);
+				app.showBtnSwitch(wizardContainer.find('.switchBtn'));
+				app.showPopoverElementView(wizardContainer.find('.HelpInfoPopover'));
 				if (thisInstance.getType() == 'RelatedModule') {
 					thisInstance.loadFilters(wizardContainer);
-					thisInstance.loadCheckboxs(wizardContainer);
 					wizardContainer.find("select[name='relatedmodule']").change(function () {
 						thisInstance.changeRelatedModule();
 					});

@@ -66,7 +66,7 @@ class VTWSEntityType
 	{
 		if (!isset($this->fieldNames)) {
 			$fields = $this->description['fields'];
-			$arr = array();
+			$arr = [];
 			foreach ($fields as $field) {
 				$arr[] = $field["name"];
 			}
@@ -157,7 +157,7 @@ class VTWSEntityType
 							break;
 						case 'multipicklist':
 							$et->type = 'Select';
-							$et->values = array();
+							$et->values = [];
 							break;
 						case 'skype':
 							$et->type = 'Skype';
@@ -189,7 +189,7 @@ class VTWSEntityType
 	{
 		$adb = $this->adb;
 		$fieldNames = $this->getFieldNames();
-		$fieldTypes = array();
+		$fieldTypes = [];
 		foreach ($fieldNames as $fieldName) {
 			$fieldTypes[$fieldName] = $this->getFieldType($fieldName);
 		}
@@ -204,7 +204,7 @@ class VTWSFieldType
 	{
 		$ro = new ReflectionObject($this);
 		$props = $ro->getProperties();
-		$arr = array();
+		$arr = [];
 		foreach ($props as $prop) {
 			$arr[$prop->getName()] = $prop->getValue($this);
 		}

@@ -56,7 +56,7 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
      *
      * @var array
      */
-    protected $_entry = array();
+    protected $_entry = [];
 
     /**
      * Current location in $_entry array

@@ -69,6 +69,8 @@ $languageStrings = [
 	'ExportPdf' => 'Eksport do PDF',
 	'RecordMapping' => 'Podgląd rekordu - Generowanie rekordu zmapowanych pól',
 	'RecordMappingList' => 'Generowanie rekordów zmapowanych pól',
+	'WatchingRecords' => 'Śledznie zmian w rekordzie',
+	'WatchingModule' => 'Śledznie zmian w module',
 	//end actions
 	'Admin Profile' => 'Profil administratora',
 	'Support Profile' => 'Profil wsparcia',

@@ -260,7 +260,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var timeEnd = container.find('[name="time_end"]');
 		var dateStart = container.find('[name="date_start"]');
 		var params = {
-			module  : app.getModuleName(),
+			module  : 'Calendar',
 			action : 'GetFreeTime',
 			dateStart : dateStart.val()
 		};

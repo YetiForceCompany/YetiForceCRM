@@ -397,6 +397,12 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance($moduleName, $viewId = '0')
 	{
+		$cacheName = $viewId . ':' . $moduleName;
+		$instance = Vtiger_Cache::get('ListView_Model', $cacheName);
+		if ($instance) {
+			return $instance;
+		}
+		
 		$db = PearDatabase::getInstance();
 		$currentUser = vglobal('current_user');
 
@@ -422,8 +428,9 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			}
 		}
 		$controller = new ListViewController($db, $currentUser, $queryGenerator);
-
-		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator)->set('listview_controller', $controller);
+		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator)->set('listview_controller', $controller);
+		Vtiger_Cache::set('ListView_Model', $cacheName, $instance);
+		return $instance;
 	}
 
 	/**
@@ -551,14 +558,29 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
-		if ($createPermission) {
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView')) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
 				'linkclass' => 'addButton',
 				'linkicon' => ''
+			];
+		}
+
+		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
+			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
+			$class = 'btn-default';
+			if ($watchdog->isWatchingRecord()) {
+				$class = 'btn-info';
+			}
+			$basicLinks[] = [
+				'linktype' => 'LISTVIEWBASIC',
+				'linkhint' => 'BTN_WATCHING_MODULE',
+				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
+				'linkclass' => $class,
+				'linkicon' => 'glyphicon glyphicon-eye-open',
+				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1],
 			];
 		}
 

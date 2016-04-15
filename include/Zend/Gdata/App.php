@@ -487,14 +487,14 @@ class Zend_Gdata_App
      */
     public function prepareRequest($method,
                                    $url = null,
-                                   $headers = array(),
+                                   $headers = [],
                                    $data = null,
                                    $contentTypeOverride = null)
     {
         // As a convenience, if $headers is null, we'll convert it back to
         // an empty array.
         if ($headers === null) {
-            $headers = array();
+            $headers = [];
         }
 
         $rawData = null;
@@ -605,7 +605,7 @@ class Zend_Gdata_App
             $remainingRedirects = self::getMaxRedirects();
         }
         if ($headers === null) {
-            $headers = array();
+            $headers = [];
         }
         // Append a Gdata version header if protocol v2 or higher is in use.
         // (Protocol v1 does not use this header.)
@@ -769,7 +769,7 @@ class Zend_Gdata_App
      *                                    useObjectMapping() function.
      */
     public function importUrl($url, $className='Zend_Gdata_App_Feed',
-        $extraHeaders = array())
+        $extraHeaders = [])
     {
         $response = $this->get($url, $extraHeaders);
 
@@ -878,7 +878,7 @@ class Zend_Gdata_App
      * @throws Zend_Gdata_App_HttpException
      * @return Zend_Http_Response
      */
-    public function get($uri, $extraHeaders = array())
+    public function get($uri, $extraHeaders = [])
     {
         $requestData = $this->prepareRequest('GET', $uri, $extraHeaders);
         return $this->performHttpRequest(
@@ -950,7 +950,7 @@ class Zend_Gdata_App
         if (is_string($data)) {
             $requestData = $this->prepareRequest('DELETE', $data);
         } else {
-            $headers = array();
+            $headers = [];
 
             $requestData = $this->prepareRequest(
                 'DELETE', null, $headers, $data);
@@ -976,7 +976,7 @@ class Zend_Gdata_App
      *         insertion.
      */
     public function insertEntry($data, $uri, $className='Zend_Gdata_App_Entry',
-        $extraHeaders = array())
+        $extraHeaders = [])
     {
         if (!class_exists($className, false)) {
           require_once 'Zend/Loader.php';
@@ -1011,7 +1011,7 @@ class Zend_Gdata_App
      * @throws Zend_Gdata_App_Exception
      */
     public function updateEntry($data, $uri = null, $className = null,
-        $extraHeaders = array())
+        $extraHeaders = [])
     {
         if ($className === null && $data instanceof Zend_Gdata_App_Entry) {
             $className = get_class($data);

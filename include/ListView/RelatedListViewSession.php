@@ -56,7 +56,7 @@ class RelatedListViewSession
 		$currentModule = vglobal('currentModule');
 
 		$allRelatedModuleList = isPresentRelatedLists($currentModule);
-		$moduleList = array();
+		$moduleList = [];
 		if (is_array($_SESSION['relatedlist'][$currentModule])) {
 			foreach ($allRelatedModuleList as $relationId => $label) {
 				if (array_key_exists($relationId, $_SESSION['relatedlist'][$currentModule])) {

@@ -20,7 +20,7 @@ class Vtiger_Base_Model
 	 * Constructor
 	 * @param Array $values
 	 */
-	function __construct($values = array())
+	function __construct($values = [])
 	{
 		$this->valueMap = $values;
 	}

@@ -86,23 +86,7 @@ class FInvoice extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance($moduleName);
-			$moduleInstance->setModuleSeqNumber('configure', 'SQuotes', 'F-I', '1');
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', [$moduleName]);
-
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
-				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array($moduleName));
-			}
-			$modTrackerInstance = Vtiger_Module::getInstance('ModTracker');
-			if ($modTrackerInstance && file_exists('modules/ModTracker/ModTracker.php')) {
-				include_once('vtlib/Vtiger/Module.php');
-				include_once 'modules/ModTracker/ModTracker.php';
-				$tabid = Vtiger_Functions::getModuleId($moduleName);
-				ModTracker::enableTrackingForModule($tabid);
-			}
+// TODO Handle actions after this module is installed.
 		} else if ($eventType == 'module.disabled') {
 // TODO Handle actions before this module is being uninstalled.
 		} else if ($eventType == 'module.preuninstall') {
