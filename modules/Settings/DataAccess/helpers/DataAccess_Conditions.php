@@ -15,7 +15,7 @@ class DataAccess_Conditions
 	public static $tab = 'vtiger_dataaccess';
 	public static $tab_cnd = 'vtiger_dataaccess_cnd';
 
-	public function checkConditions($ID, $form)
+	public function checkConditions($ID, $form, $recordModel = false)
 	{
 		$condition = $this->getListConditionsById($ID);
 		if (empty($form)) {
@@ -25,6 +25,17 @@ class DataAccess_Conditions
 		$responeListOptional = array();
 		$responeListRequiredStatus = true;
 		$responeListOptionalStatus = false;
+		if ($recordModel){
+			$fieldNames = array_keys($form);
+			foreach ($condition as $lisConditions) {
+				foreach ($lisConditions as $cndKey => $singleCnd) {
+					if(!in_array($singleCnd['fieldname'], $fieldNames)){
+						$form = Vtiger_Record_Model::getInstanceById($recordModel->getId())->getData();
+						break;
+					}
+				}
+			}
+		}
 		foreach ($condition as $lisConditions) {
 			foreach ($lisConditions as $cndKey => $singleCnd) {
 				if ('1' == $singleCnd['cnd_required']) {
