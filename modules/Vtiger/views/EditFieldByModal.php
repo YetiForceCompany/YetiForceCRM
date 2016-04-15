@@ -1,13 +1,16 @@
 <?php
 
 /**
- * EditStatus View Class for Assets
+ * EditFieldByModal View Class
  * @package YetiForce.View
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Assets_EditStatus_View extends Vtiger_BasicModal_View
+class Vtiger_EditFieldByModal_View extends Vtiger_BasicModal_View
 {
+
+	protected $showFields = [];
+	protected $restrictItems = [];
 
 	function checkPermission(Vtiger_Request $request)
 	{
@@ -33,11 +36,21 @@ class Assets_EditStatus_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('SHOW_FIELDS', ['assetname', 'parent_id', 'serialnumber', 'datesold', 'assetstatus', 'dateinservice', 'assigned_user_id', 'created_user_id', 'shownerid']);
+		$viewer->assign('SHOW_FIELDS', $this->getFieldsToShow());
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
-		$viewer->assign('RESTRICTS_ITEM', []);
+		$viewer->assign('RESTRICTS_ITEM', $this->getRestrictItems());
 		$this->preProcess($request);
-		$viewer->view('EditStatus.tpl', $moduleName);
+		$viewer->view('EditFieldByModal.tpl', $moduleName);
 		$this->postProcess($request);
+	}
+
+	public function getFieldsToShow()
+	{
+		return $this->showFields;
+	}
+
+	public function getRestrictItems()
+	{
+		return $this->restrictItems;
 	}
 }

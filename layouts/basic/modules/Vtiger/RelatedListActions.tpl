@@ -39,6 +39,11 @@
 					</a>
 				{/if}
 			{/if}
+			{if ($IS_EDITABLE && $RELATED_RECORD->isEditable() && $RELATED_RECORD->editFieldByModalPermission()) || $RELATED_RECORD->editFieldByModalPermission(true)}
+				<a class="showModal" data-url="{$RELATED_RECORD->getEditFieldByModalUrl()}">
+					<span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-modal-window alignMiddle"></span>
+				</a>&nbsp;
+			{/if}
 			{if $IS_DELETABLE}
 				{if $RELATED_MODULE_NAME eq 'Calendar'}
 					{if $RELATED_RECORD->isDeletable()}

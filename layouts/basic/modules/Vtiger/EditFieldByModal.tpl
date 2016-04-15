@@ -1,6 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
 	{assign var=ID value=$RECORD->get('id')}
+	{assign var=FIELD_TO_EDIT value=$RECORD->getFieldToEditByModal()}
+	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
+	<input type="hidden" class="fieldToEdit" id="fieldToEdit" value="{$FIELD_TO_EDIT}">
 	<div class="modal-header">
 		<div class="pull-left">
 			<h3 class="modal-title">{vtranslate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
@@ -27,6 +30,7 @@
 						{if $SHOW_FIELDS && !in_array($FIELD_NAME, $SHOW_FIELDS)}
 							{continue}
 						{/if}
+						{assign var=CONVERT value=false}
 						{assign var=VALUE value={include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}}
 						<div class="form-group">
 							<label class="col-sm-4 control-label">{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)} 
@@ -53,18 +57,18 @@
 						{vtranslate('LBL_CHANGE_STATUS',$MODULE_NAME)} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						{assign var=FIELD_MODEL value=Vtiger_Field_Model::getInstance('assetstatus', $RECORD->getModule())}
+						{assign var=FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 						{foreach  key=KEY item=ITEM from=$FIELD_MODEL->getPicklistValues()}
 							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get('assetstatus')} {continue} {/if}
-							<li><a href="#" class="changeStatus" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
+							<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
 							{/foreach}
 					</ul>
 				</div>
 			{/if}
 			{foreach from=$RESTRICTS_ITEM item=ITEM}
-				{if $RECORD->get('assetstatus') neq $ITEM}
+				{if $RECORD->get($FIELD_TO_EDIT) neq $ITEM}
 					<div class="btn-group">
-						<button type="button" class="btn btn-success changeStatus" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
+						<button type="button" class="btn btn-success editState" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
 					</div>
 				{/if}
 			{/foreach}

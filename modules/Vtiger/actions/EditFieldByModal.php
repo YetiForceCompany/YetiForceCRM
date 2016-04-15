@@ -1,40 +1,25 @@
 <?php
 
 /**
- * SaveAjax Assets Action Class
+ * EditFieldByModal Class
  * @package YetiForce.Action
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Assets_SaveAjax_Action extends Vtiger_SaveAjax_Action
+class Vtiger_EditFieldByModal_Action extends Vtiger_Save_Action
 {
 
-	function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('updateStatus');
-	}
-
 	public function process(Vtiger_Request $request)
-	{
-		$mode = $request->get('mode');
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-		parent::process($request);
-	}
-
-	public function updateStatus(Vtiger_Request $request)
 	{
 		$params = $request->get('param');
 		$moduleName = $request->getModule();
 		$recordId = $params['record'];
 		$state = $params['state'];
+		$fieldName = $params['fieldName'];
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->set('id', $recordId);
-		$recordModel->set('assetstatus', $state);
+		$recordModel->set($fieldName, $state);
 		$recordModel->set('mode', 'edit');
 		$recordModel->save();
 

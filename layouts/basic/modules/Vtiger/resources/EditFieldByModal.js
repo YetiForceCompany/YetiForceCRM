@@ -1,20 +1,26 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-jQuery.Class("Assets_EditStatus_Js", {}, {
+jQuery.Class("Vtiger_EditFieldByModal_Js", {}, {
 	formElement: false,
-	moduleName: 'Assets',
-	registerChangeStatus: function () {
+	moduleName: false,
+	registerEditState: function () {
 		var thisInstance = this;
-		jQuery('#modalEditStatus .changeStatus').on('click', function (e) {
+		var form = this.getForm();
+		form.find('.editState').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.closest('.modal').addClass('hide');
-			thisInstance.updateStatus(currentTarget);
+			thisInstance.editState(currentTarget);
 		});
 	},
-	updateStatus: function (currentTarget) {
+	editState: function (currentTarget) {
 		var thisInstance = this;
 		var params = {
-			'record': currentTarget.data('id'),
-			'state': currentTarget.data('state')
+			'module': this.moduleName,
+			'action': 'EditFieldByModal',
+			'param': {
+				'record': currentTarget.data('id'),
+				'state': currentTarget.data('state'),
+				'fieldName': this.getForm().find('.fieldToEdit').val()
+			}
 		}
 		app.hideModalWindow();
 		var progressIndicatorElement = jQuery.progressIndicator({
@@ -23,7 +29,7 @@ jQuery.Class("Assets_EditStatus_Js", {}, {
 				'enabled': true
 			}
 		});
-		app.saveAjax('updateStatus', params, {'module': this.moduleName}).then(
+		AppConnector.request(params).then(
 				function (data) {
 					if (data.success) {
 						var viewName = app.getViewName();
@@ -47,6 +53,8 @@ jQuery.Class("Assets_EditStatus_Js", {}, {
 					} else {
 						return false;
 					}
+				},
+				function (error) {
 				}
 		);
 	},
@@ -65,7 +73,7 @@ jQuery.Class("Assets_EditStatus_Js", {}, {
 	},
 	getForm: function () {
 		if (this.formElement == false) {
-			this.setForm(jQuery('#modalEditStatus'));
+			this.setForm(jQuery('#modalEditFieldByModal'));
 		}
 		return this.formElement;
 	},
@@ -73,8 +81,12 @@ jQuery.Class("Assets_EditStatus_Js", {}, {
 		this.formElement = element;
 		return this;
 	},
+	setModule: function (element) {
+		this.moduleName = this.getForm().find('.moduleBasic').val();
+	},
 	registerEvents: function () {
-		this.registerChangeStatus();
+		this.setModule();
+		this.registerEditState();
 		this.registerHelpInfo();
 		this.getForm().find('.convert').each(function () {
 			var text = jQuery(this).text();
@@ -85,6 +97,6 @@ jQuery.Class("Assets_EditStatus_Js", {}, {
 });
 
 jQuery(document).ready(function (e) {
-	var instance = new Assets_EditStatus_Js();
+	var instance = new Vtiger_EditFieldByModal_Js();
 	instance.registerEvents();
 })
