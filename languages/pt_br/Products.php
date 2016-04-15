@@ -84,7 +84,10 @@ $languageStrings = [
 	'Support Group' => 'Suporte',
 	'Marketing Group' => 'Marketing',
 	'Team Selling' => 'Vendas',
+	'pcs' => 'pcs',
+	'pack' => 'pack',
 	'LBL_TAXES' => 'Taxes',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'A lista de registros está limitada aos Produtos e Serviços associados com a Oportunidade de venda',
 	'FL_EAN_13' => 'EAN-13',
+	'FL_SUBUNIT' => 'Subunit',
 ];

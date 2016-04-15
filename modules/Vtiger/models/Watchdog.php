@@ -46,13 +46,13 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		return $instance;
 	}
 
-	public function isWatchingModule()
+	public function isWatchingModule($ownerId = false)
 	{
 		if ($this->has('isWatchingModule')) {
 			return $this->get('isWatchingModule');
 		}
 		$return = false;
-		$modules = $this->getWatchingModules();
+		$modules = $this->getWatchingModules(false, $ownerId);
 		if (in_array(Vtiger_Functions::getModuleId($this->get('module')), $modules)) {
 			$return = true;
 		}
@@ -83,9 +83,13 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		return $return;
 	}
 
-	public function getWatchingModules($reload = false)
+	public function getWatchingModules($reload = false, $ownerId = false)
 	{
-		$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($ownerId === false) {
+			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		} else {
+			$userModel = Users_Privileges_Model::getInstanceById($ownerId);
+		}
 		$modules = Vtiger_Cache::get('getWatchingModules', $userModel->getId());
 		if (!$reload && $modules !== false) {
 			return $modules;
@@ -119,13 +123,17 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		}
 	}
 
-	public function changeModuleState($state)
+	public function changeModuleState($state, $ownerId = false)
 	{
-		$isWatchingRecord = $this->isWatchingModule();
+		$isWatchingRecord = $this->isWatchingModule($ownerId);
 		if ($isWatchingRecord && $state == 1) {
 			return true;
 		}
-		$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($ownerId === false) {
+			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		} else {
+			$userModel = Users_Privileges_Model::getInstanceById($ownerId);
+		}
 		$db = PearDatabase::getInstance();
 		$moduleId = Vtiger_Functions::getModuleId($this->get('module'));
 		if ($state == 1) {
@@ -136,5 +144,26 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		} else {
 			$db->delete('u_yf_watchdog_module', 'userid = ? AND module = ?', [$userModel->getId(), $moduleId]);
 		}
+	}
+
+	public function getWatchingUsers()
+	{
+		$users = [];
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT userid FROM u_yf_watchdog_module WHERE module = ?', [Vtiger_Functions::getModuleId($this->get('module'))]);
+		while (($userId = $db->getSingleValue($result)) !== false) {
+			$users[$userId] = $userId;
+		}
+		if ($this->has('record')) {
+			$result = $db->pquery('SELECT * FROM u_yf_watchdog_record WHERE record = ?', [$this->get('record')]);
+			while ($row = $db->getRow($result)) {
+				if ($row['state'] == 1) {
+					$users[$row['userid']] = $row['userid'];
+				} else {
+					unset($users[$row['userid']]);
+				}
+			}
+		}
+		return $users;
 	}
 }

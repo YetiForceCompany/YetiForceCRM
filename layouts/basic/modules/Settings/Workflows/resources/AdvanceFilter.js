@@ -17,7 +17,7 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js',{},{
 	allConditionValidationNeededFieldList : ['double', 'integer'],
 
 	// comparators which do not have any field Specific UI.
-	comparatorsWithNoValueBoxMap : ['has changed','is empty','is not empty', 'is added'],
+	comparatorsWithNoValueBoxMap : ['has changed','is empty','is not empty', 'is added','is Watching Record', 'is Not Watching Record'],
 
 	getFieldSpecificType : function(fieldSelected) {
 		var fieldInfo = fieldSelected.data('fieldinfo');

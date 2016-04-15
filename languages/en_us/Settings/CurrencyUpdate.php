@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_CURRENCIES_UNSUPPORTED' => 'List of unsupported currencies by this bank',
 	'LBL_SET_BANK_OK' => 'Successfully saved active bank.',
 	'LBL_SET_BANK_ERROR' => 'Failed to set active bank.',
-	'LBL_INFORMATIONS' => 'Informations',
+	'LBL_INFORMATIONS' => 'Information',
 	'LBL_WARNING' => 'Warning!',
 	// bank labels
 	'NBP' => 'National Bank of Poland',

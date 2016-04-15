@@ -31,7 +31,7 @@ $languageStrings = [
 	'ProductsSumCost' => 'Łączny koszt produktów: ',
 	'ServicesSumCost' => 'Łączny koszt usług: ',
 	'Create record' => 'Tworzenie rekordu',
-	'Create record & Summary' => 'Tworzenie rekordu i Podsumowanie',
+	'Create record & Summary' => 'Tworzenie rekordu i podsumowanie',
 	'Total cost of products and services:' => 'Łączny koszt produktów i usług:',
 	'According to the Contract' => 'Zgodnie z umową',
 	'Paid' => 'Płatne',
@@ -61,7 +61,7 @@ $languageStrings = [
 	'Extra cost'=>'Dodatkowo płatne',
 	'Free'=>'Bezpłatne',
 	'LBL_STATUS'=>'Status',
-	'LBL_PRODUCT_INFORMATION'=>'Additional Information',
+	'LBL_PRODUCT_INFORMATION'=>'Informacje dodatkowe',
 
 	'To approval'=>'Do akceptacji',
 	'Accepted'=>'Zaakceptowano',
@@ -95,7 +95,7 @@ $languageStrings = [
 	//widget
 	'LBL_Holidays' => 'Urlopy',
 	'LBL_YEAR' => 'Rok:',
-	'LBL_Used_Entitled' => 'Wykorzystano / Przysługuje:',
+	'LBL_Used_Entitled' => 'Wykorzystano/Przysługuje:',
 	'LBL_DAYS' => 'dni',
 	'Brak danych' => 'Brak danych',
 

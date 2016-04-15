@@ -5,7 +5,7 @@ $languageStrings = [
 	'SINGLE_KnowledgeBase' => 'KnowledgeBase',
 	'KnowledgeBase ID' => 'KnowledgeBase ID',
 	'LBL_CUSTOM_INFORMATION' => 'Custom information',
-	'subject' => 'Subject',
+	'FL_SUBJECT' => 'Subject',
 	'LBL_KNOWLEDGEBASE_INFORMATION' => 'Basic information',
 	'FL_CONTENT' => 'Content',
 	'FL_CATEGORY' => 'Category',
@@ -28,4 +28,5 @@ $languageStrings = [
 	'LBL_ARTICLE' => 'Article',
 	'LBL_DESCRIPTION_BLOCK' => 'Description',
 	'LBL_ATTENTION_BLOCK' => 'Comments',
+	'LBL_FULL_SCREEN' => 'Full screen'
 ];

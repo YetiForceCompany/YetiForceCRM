@@ -51,7 +51,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js',{},{
 	loadConditions : function(fieldSelect) {
 		var row = fieldSelect.closest('div.conditionRow');
 		var conditionSelectElement = row.find('select[name="comparator"]');
-		var conditionSelected = conditionSelectElement.val();
+		var conditionSelected = row.find('[name="comparatorValue"]').val();
 		var fieldSelected = fieldSelect.find('option:selected');
         var fieldLabel = fieldSelected.val();
         var match = fieldLabel.match(/\((\w+)\) (\w+)/);

@@ -7,10 +7,10 @@ $languageStrings = [
 	//BLOCKS
 	'LBL_SRECURRINGORDERS_INFORMATION' => 'Informacje podstawowe',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
-	'LBL_DESCRIPTION_INFORMATION' => 'Informacje Opisowe',
+	'LBL_DESCRIPTION_INFORMATION' => 'Informacje opisowe',
 	'LBL_STATISTICS' => 'Statystyka',
 	'LBL_PERIODIC_GENERATION' => 'Okresowe generowanie',
-	'LBL_ACTUAL_COMPLETION_DATE' => 'Actual completion date',
+	'LBL_ACTUAL_COMPLETION_DATE' => 'Rzeczywista data zakończenia',
 	
 	//FIELDS
 	'LBL_SUBJECT' => 'Temat',

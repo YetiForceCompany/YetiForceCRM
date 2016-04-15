@@ -1149,7 +1149,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 					);
 			thisInstance.getCalendarView().find(".fc-event-container a").click(function () {
 				var container = thisInstance.getContainer();
-				var url = 'index.php?module=Calendar&view=List&viewname=All';
+				var url = 'index.php?module=Calendar&view=List';
 				if (customFilter) {
 					url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
 				}
@@ -1243,15 +1243,12 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
 		container.find('.goToListView').on('click', function () {
-			var status = container.find('.status').prop('checked');
 			if (container.data('name') == 'OverdueActivities') {
-				status = 'PLL_OVERDUE';
-			} else if (status) {
-				status = 'PLL_IN_REALIZATION';
+				var status = 'PLL_OVERDUE';
 			} else {
-				status = 'PLL_PLANNED';
+				var status = 'PLL_IN_REALIZATION,PLL_PLANNED';
 			}
-			var url = 'index.php?module=Calendar&view=List&viewname=All';
+			var url = 'index.php?module=Calendar&view=List';
 			url += '&search_params=[[';
 			url += '["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],';
 			url += '["activitystatus","e","' + status + '"]]]';
@@ -1263,4 +1260,50 @@ YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedupcomingcalendartasks_
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Creatednotmineactivities_Widget_Js', {}, {});
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Overdueactivities_Widget_Js', {}, {});
 YetiForce_Calendaractivities_Widget_Js('YetiForce_Assignedoverduecalendartasks_Widget_Js', {}, {});
+Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
+	modalView: false,
+	postLoadWidget: function () {
+		this._super();
+		this.registerAction();
+		this.registerListViewButton();
+	},
+	postRefreshWidget: function () {
+		this._super();
+		this.registerAction();
+	},
+	registerAction: function () {
+		var thisInstance = this;
+		var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
+		refreshContainer.find('.rowAction').on('click', function (e) {
+			if (jQuery(e.target).is('a') || thisInstance.modalView) {
+				return;
+			}
+			var url = jQuery(this).data('url');
+			if (typeof url != 'undefined') {
+				var callbackFunction = function () {
+					thisInstance.modalView = false;
+				};
+				thisInstance.modalView = true;
+				app.showModalWindow(null, url, callbackFunction);
+			}
+		})
+	},
+	registerListViewButton: function () {
+		var thisInstance = this;
+		var container = thisInstance.getContainer();
+		container.find('.goToListView').on('click', function () {
+			var url = jQuery(this).data('url');
+			var orderBy = container.find('.orderby');
+			var sortOrder = container.find('.changeRecordSort');
+			if (orderBy.length) {
+				url += '&orderby=' + orderBy.val();
+			}
+			if (sortOrder.length) {
+				url += '&sortorder=' + sortOrder.data('sort').toUpperCase();
+			}
+			window.location.href = url;
+		});
+	}
+});
+YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
 

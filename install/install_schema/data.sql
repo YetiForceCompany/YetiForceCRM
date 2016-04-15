@@ -2,8 +2,7 @@
 SQLyog Ultimate
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -41,19 +40,30 @@ insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`defa
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (8,1,'V','2226','2250','');
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (9,1,'SELF','id','2262','');
 
+/*Data for the table `a_yf_notification_type` */
+
 /*Data for the table `a_yf_pdf` */
 
 insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (1,'SCalculations','','<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td bgcolor=\"#13181A\" height=\"25\" width=\"5%\"> </td>\r\n			<td bgcolor=\"#13181A\" height=\"25\" width=\"65%\"> </td>\r\n			<td bgcolor=\"#A42022\" height=\"25\" width=\"25%\"> </td>\r\n			<td bgcolor=\"#A42022\" height=\"25\" width=\"5%\"> </td>\r\n		</tr></tbody></table><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td bgcolor=\"#13181A\" height=\"150\" width=\"5%\"> </td>\r\n			<td bgcolor=\"#13181A\" height=\"150\" width=\"15%\"><img alt=\"%Company+logoname%\" src=\"$Company+logoname$\" style=\"height:80px;float:left;\" /></td>\r\n			<td bgcolor=\"#13181A\" height=\"150\" width=\"30%\">\r\n			<p style=\"text-transform:uppercase;color:#fff;float:left;\">SPRZEDAWCA:<br /><br />\r\n			$Company+organizationname$<br />\r\n			$Company+address$<br />\r\n			$Company+code$ $Company+city$</p>\r\n			</td>\r\n			<td align=\"right\" height=\"150\" valign=\"top\" width=\"45%\">\r\n			<p style=\"color:#A42022;font-size:14px;\">#CreatedDateTime#,$Company+city$</p>\r\n			 \r\n\r\n			<p style=\"color:#A42022;font-size:20px;\">FAKTURA VAT NR<br />\r\n			$subject$</p>\r\n			</td>\r\n			<td height=\"150\" width=\"5%\"> </td>\r\n		</tr></tbody></table><table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td height=\"150\" width=\"5%\"> </td>\r\n			<td height=\"150\" width=\"60%\">\r\n			<p style=\"text-transform:uppercase;\">Termin płatności: 2015-02-12<br />\r\n			Data wykonania: #CreatedDateTime#<br />\r\n			Forma płatności: PRZELEW<br /><br />\r\n			Nr konta bankowego:<br />\r\n			BZWBK: 69 1090 1056 0000 0001 2602 4598</p>\r\n			</td>\r\n			<td align=\"right\" bgcolor=\"#A42022\" height=\"150\" width=\"30%\">\r\n			<p style=\"text-transform:uppercase;color:#fff;\">NABYWCA:<br /><br />\r\n			$accountid+Accounts+accountname$<br />\r\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$<br />\r\n			$accountid+Accounts+addresslevel7a$ $accountid+Accounts+addresslevel5a$ $accountid+Accounts+addresslevel7b$ $accountid+Accounts+addresslevel5b$<br />\r\n			%accountid+Accounts+vat_id% $accountid+Accounts+vat_id$</p>\r\n			</td>\r\n			<td align=\"right\" bgcolor=\"#A42022\" height=\"150\" width=\"5%\"> </td>\r\n		</tr></tbody></table>\r\n \r\n\r\n<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\r\n			<td bgcolor=\"#ffffff\" height=\"150\" width=\"90%\">#ProductsTableNew#</td>\r\n			<td align=\"right\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\r\n		</tr></tbody></table><table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\r\n			<td bgcolor=\"#eeeeee\" style=\"font-size:13px;height:100px;\" valign=\"top\" width=\"45%\">%attention%<br /><br />\r\n			$attention$</td>\r\n			<td align=\"right\" width=\"45%\">#TableTaxSummary#</td>\r\n			<td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\r\n		</tr></tbody></table>\r\n \r\n\r\n<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\r\n			<td style=\"font-size:13px;border:1px solid #ddd;\" valign=\"top\" width=\"45%\">Wystawił:<br /><br />\r\n			$assigned_user_id+Users+first_name$ $assigned_user_id+Users+last_name$</td>\r\n			<td width=\"45%\"> </td>\r\n			<td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\">{nb} z {PAGENO}</div>\r\n\r\n<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td align=\"center\" bgcolor=\"#13181A\">\r\n			<p style=\"color:#fff;font-size:10px;\">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />\r\n			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>\r\n			</td>\r\n		</tr></tbody></table>','active','Kalkulacje','*','','','',1,'','','A4',0,0,0,0,0,0,0,'PLL_PORTRAIT','pl_pl','kalkulacje','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
 insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (2,'SQuotes','','<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td bgcolor=\"#13181A\" height=\"25\" width=\"5%\"> </td>\r\n			<td bgcolor=\"#13181A\" height=\"25\" width=\"65%\"> </td>\r\n			<td bgcolor=\"#A42022\" height=\"25\" width=\"25%\"> </td>\r\n			<td bgcolor=\"#A42022\" height=\"25\" width=\"5%\"> </td>\r\n		</tr></tbody></table><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td bgcolor=\"#13181A\" height=\"150\" width=\"5%\"> </td>\r\n			<td bgcolor=\"#13181A\" height=\"150\" width=\"15%\"><img alt=\"%Company+logoname%\" src=\"$Company+logoname$\" style=\"height:80px;float:left;\" /></td>\r\n			<td bgcolor=\"#13181A\" height=\"150\" width=\"30%\">\r\n			<p style=\"text-transform:uppercase;color:#fff;float:left;\">SPRZEDAWCA:<br /><br />\r\n			$Company+organizationname$<br />\r\n			$Company+address$<br />\r\n			$Company+code$ $Company+city$<br />\r\n			%Company+vatid% $Company+vatid$</p>\r\n			</td>\r\n			<td align=\"right\" height=\"150\" valign=\"top\" width=\"45%\">\r\n			<p style=\"color:#A42022;font-size:14px;\">#CreatedDateTime#,$Company+city$</p>\r\n			 \r\n\r\n			<p style=\"color:#A42022;font-size:20px;\"><br />\r\n			$subject$</p>\r\n			</td>\r\n			<td height=\"150\" width=\"5%\"> </td>\r\n		</tr></tbody></table><table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td height=\"150\" width=\"5%\"> </td>\r\n			<td height=\"150\" width=\"60%\">Data wykonania: #CreatedDateTime#<br /><br />\r\n			Nr konta bankowego:<br />\r\n			BZWBK: 69 1090 1056 0000 0001 2602 4598\r\n			<p> </p>\r\n			</td>\r\n			<td align=\"right\" bgcolor=\"#A42022\" height=\"150\" width=\"30%\">\r\n			<p style=\"text-transform:uppercase;color:#fff;\">NABYWCA:<br /><br />\r\n			$accountid+Accounts+accountname$<br />\r\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$<br />\r\n			$accountid+Accounts+addresslevel7a$ $accountid+Accounts+addresslevel5a$ $accountid+Accounts+addresslevel7b$ $accountid+Accounts+addresslevel5b$<br />\r\n			%accountid+Accounts+vat_id% $accountid+Accounts+vat_id$</p>\r\n			</td>\r\n			<td align=\"right\" bgcolor=\"#A42022\" height=\"150\" width=\"5%\"> </td>\r\n		</tr></tbody></table><div style=\"padding-left:50px;padding-right:50px;\">#ProductsTableNew#</div>\r\n\r\n<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\r\n			<td bgcolor=\"#eeeeee\" style=\"font-size:13px;height:100px;\" valign=\"top\" width=\"45%\">%attention%<br /><br />\r\n			$attention$</td>\r\n			<td align=\"right\" width=\"45%\">#TableTaxSummary#</td>\r\n			<td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\r\n		</tr></tbody></table>\r\n \r\n\r\n<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\r\n			<td style=\"font-size:13px;border:1px solid #ddd;\" valign=\"top\" width=\"45%\">Wystawił:<br /><br />\r\n			$assigned_user_id+Users+first_name$ $assigned_user_id+Users+last_name$</td>\r\n			<td width=\"45%\">#TableDiscountSummary#</td>\r\n			<td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"> </div>\r\n\r\n<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td align=\"center\" bgcolor=\"#13181A\">\r\n			<p style=\"color:#fff;font-size:10px;\">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />\r\n			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>\r\n			</td>\r\n		</tr></tbody></table>','active','Oferty','*','','','',1,'','','A4',0,0,0,0,0,0,0,'PLL_PORTRAIT','pl_pl','oferty','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
 insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (3,'SSingleOrders','','<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td bgcolor=\"#13181A\" height=\"25\" width=\"5%\"> </td>\n			<td bgcolor=\"#13181A\" height=\"25\" width=\"65%\"> </td>\n			<td bgcolor=\"#A42022\" height=\"25\" width=\"25%\"> </td>\n			<td bgcolor=\"#A42022\" height=\"25\" width=\"5%\"> </td>\n		</tr></tbody></table><table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td bgcolor=\"#13181A\" height=\"150\" width=\"5%\"> </td>\n			<td bgcolor=\"#13181A\" height=\"150\" width=\"15%\"><img alt=\"%Company+logoname%\" src=\"$Company+logoname$\" style=\"height:80px;float:left;\" /></td>\n			<td bgcolor=\"#13181A\" height=\"150\" width=\"30%\">\n			<p style=\"text-transform:uppercase;color:#fff;float:left;\">SPRZEDAWCA:<br /><br />\n			$Company+organizationname$<br />\n			$Company+address$<br />\n			$Company+code$ $Company+city$<br />\n			%Company+vatid% $Company+vatid$</p>\n			</td>\n			<td align=\"right\" height=\"150\" valign=\"top\" width=\"45%\">\n			<p style=\"color:#A42022;font-size:14px;\">#CreatedDateTime#,$Company+city$</p>\n			 \n\n			<p style=\"color:#A42022;font-size:20px;\"><br />\n			$subject$</p>\n			</td>\n			<td height=\"150\" width=\"5%\"> </td>\n		</tr></tbody></table><table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td height=\"150\" width=\"5%\"> </td>\n			<td height=\"150\" width=\"60%\">Data wykonania: #CreatedDateTime#<br /><br />\n			Nr konta bankowego:<br />\n			BZWBK: 69 1090 1056 0000 0001 2602 4598\n			<p> </p>\n			</td>\n			<td align=\"right\" bgcolor=\"#A42022\" height=\"150\" width=\"30%\">\n			<p style=\"text-transform:uppercase;color:#fff;\">NABYWCA:<br /><br />\n			$accountid+Accounts+accountname$<br />\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$<br />\n			$accountid+Accounts+addresslevel7a$ $accountid+Accounts+addresslevel5a$ $accountid+Accounts+addresslevel7b$ $accountid+Accounts+addresslevel5b$<br />\n			%accountid+Accounts+vat_id% $accountid+Accounts+vat_id$</p>\n			</td>\n			<td align=\"right\" bgcolor=\"#A42022\" height=\"150\" width=\"5%\"> </td>\n		</tr></tbody></table>\n \n<div style=\"padding-left:50px;padding-right:50px;\">\n#ProductsTableNew#\n</div>\n<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\n			<td bgcolor=\"#eeeeee\" style=\"font-size:13px;height:100px;\" valign=\"top\" width=\"45%\">%attention%<br /><br />\n			$attention$</td>\n			<td align=\"right\" width=\"45%\">#TableTaxSummary#</td>\n			<td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\n		</tr></tbody></table>\n \n\n<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\n			<td style=\"font-size:13px;border:1px solid #ddd;\" valign=\"top\" width=\"45%\">Wystawił:<br /><br />\n			$assigned_user_id+Users+first_name$ $assigned_user_id+Users+last_name$</td>\n			<td width=\"45%\">#TableDiscountSummary#</td>\n			<td align=\"left\" bgcolor=\"#ffffff\" height=\"150\" width=\"5%\"> </td>\n		</tr></tbody></table>','<div style=\"text-align:center;\"> </div>\n\n<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin:0 auto;\" width=\"100%\"><tbody><tr><td align=\"center\" bgcolor=\"#13181A\">\n			<p style=\"color:#fff;font-size:10px;\">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />\n			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>\n			</td>\n		</tr></tbody></table>','active','Zapytanie jednorazowe','*','','','',1,'','','A4',0,0,0,0,0,0,0,'PLL_PORTRAIT','pl_pl','zapytanie_jednorazowe','PLL_LISTVIEW,PLL_DETAILVIEW',1,'null','text','',0,0,'','Users:1');
-insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (4,'IIDN','','<table style=\"border-collapse:collapse;width:100%;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:50%;\"><span style=\"font-size:20px;\"><strong>PW</strong></span> <span style=\"font-size:10px;\"> $number$</span></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>DATA PRZYJĘCIA</strong> $acceptance_date$</span></td>\r\n		</tr><tr><td style=\"border:1px solid #000;padding:10px;width:50%;font-size:10px;\"><b>FIRMA</b><br />\r\n			$Company+organizationname$<br />\r\n			$Company+address$<br />\r\n			$Company+code$, $Company+city$<br /><b>NIP </b>$Company+vatid$<br /><b>REGON </b>$Company+id1$</td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><table style=\"border-collapse:collapse;width:100%;margin-top:-1px;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:10%;\"><strong><span style=\"font-size:10px;\">OPIS</span></strong></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:90%;\"><span style=\"font-size:10px;\">$description$</span></td>\r\n		</tr><tr><td style=\"border:1px solid #000;padding:10px;width:10%;\"><strong><span style=\"font-size:10px;\">UWAGI</span></strong></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:90%;\"><span style=\"font-size:10px;\">$attention$</span></td>\r\n		</tr></tbody></table><table style=\"border-collapse:collapse;width:100%;margin-top:-1px;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>WYSTAWIŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>ZATWIERDZIŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>DOSTARCZYŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>PRZYJĄŁ</b></span><br /><br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#','','active','Przyjęcie wewnętrzne','*','','','',1,'','','A4',1,25,25,25,25,0,0,'PLL_PORTRAIT','pl_pl','przyjecie_wewnetrzne','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
-insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (5,'IGRN','','<table style=\"border-collapse:collapse;width:100%;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:50%;\"><span style=\"font-size:20px;\"><strong>PZ</strong> </span> <span style=\"font-size:10px;\">$number$</span></td>\r\n			<td style=\"text-align:right;border:1px solid #000;padding:10px;width:50%;\" width=\"50%\"><span style=\"font-size:10px;\"><strong>DATA PRZYJĘCIA </strong>$acceptance_date$</span></td>\r\n		</tr><tr><td style=\"border:1px solid #000;padding:10px;width:50%;\"><span style=\"font-size:10px;\"><strong>DOSTAWCA</strong><br />\r\n			$vendorid+Vendors+vendorname$<br />\r\n			$vendorid+Vendors+addresslevel8a$ $vendorid+Vendors+buildingnumbera$ $vendorid+Vendors+localnumbera$</span><br /><span style=\"font-size:10px;\">$vendorid+Vendors+addresslevel7a$</span><span style=\"font-size:10px;\">, $vendorid+Vendors+addresslevel5a$</span><br /><span style=\"font-size:10px;\"><strong>NIP</strong> $vendorid+Vendors+vat_id$</span><br /><span style=\"font-size:10px;\"><strong>REGON </strong>$vendorid+Vendors+registration_number_2$</span></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br /><br />\r\n			 </td>\r\n		</tr></tbody></table><table style=\"border-collapse:collapse;width:100%;margin-top:-1px;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:10%;\"><strong><span style=\"font-size:10px;\">OPIS</span></strong></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:90%;\"><span style=\"font-size:10px;\">$description$</span></td>\r\n		</tr><tr><td style=\"border:1px solid #000;padding:10px;width:10%;\"><strong><span style=\"font-size:10px;\">UWAGI</span></strong></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:90%;\"><span style=\"font-size:10px;\">$attention$</span></td>\r\n		</tr></tbody></table><table style=\"border-collapse:collapse;width:100%;margin-top:-1px;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>WYSTAWIŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>ZATWIERDZIŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>DOSTARCZYŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>PRZYJĄŁ</b></span><br /><br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#','','active','Przyjęcie zewnętrzne','*','','','',1,'','','A4',1,25,25,25,25,0,0,'PLL_PORTRAIT','pl_pl','przyjecie_zewnetrzne','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
-insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (6,'IGIN','','<table style=\"border-collapse:collapse;width:100%;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:33%;\"><span style=\"font-size:20px;\"><b>RW</b> </span> <span style=\"font-size:10px;\">$number$</span></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:34%;text-align:center;\"><span style=\"font-size:10px;\"><b>DATA WYSTAWIENIA </b>$createdtime$</span></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:33%;text-align:right;\"><span style=\"font-size:10px;\"><b>DATA PRZYJĘCIA </b>$acceptance_date$</span></td>\r\n		</tr></tbody></table><table style=\"border-collapse:collapse;width:100%;margin-top:-1px;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:50%;font-size:10px;\"><b>FIRMA</b><br />\r\n			$Company+organizationname$<br />\r\n			$Company+address$<br />\r\n			$Company+code$, $Company+city$<br /><b>NIP </b>$Company+vatid$<br /><b>REGON </b>$Company+id1$</td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:50%;text-align:right;font-size:10px;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><table style=\"border-collapse:collapse;width:100%;margin-top:-1px;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:10%;\"><strong><span style=\"font-size:10px;\">OPIS</span></strong></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:90%;\"><span style=\"font-size:10px;\">$description$</span></td>\r\n		</tr><tr><td style=\"border:1px solid #000;padding:10px;width:10%;\"><strong><span style=\"font-size:10px;\">UWAGI</span></strong></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:90%;\"><span style=\"font-size:10px;\">$attention$</span></td>\r\n		</tr></tbody></table><table style=\"border-collapse:collapse;width:100%;margin-top:-1px;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>WYSTAWIŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>ZATWIERDZIŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>WYDAŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>ODEBRAŁ</b></span><br /><br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#','','active','Rozchód wewnętrzny','*','','','',1,'','','A4',1,25,25,25,25,0,0,'PLL_PORTRAIT','pl_pl','rozchod_wewnetrzny','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
-insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (7,'IGDN','','<table style=\"border-collapse:collapse;width:100%;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:50%;\"><span style=\"font-size:20px;\"><strong>WZ</strong> </span> <span style=\"font-size:10px;\">$number$</span></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>DATA WYADANIA </strong>$createdtime$</span></td>\r\n		</tr><tr><td style=\"border:1px solid #000;padding:10px;width:50%;\"><span style=\"font-size:10px;\"><strong>ODBIORCA</strong><br />\r\n			$accountid+Accounts+accountname$<br />\r\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$ $accountid+Accounts+localnumbera$<br />\r\n			$Company+code$</span><span style=\"font-size:10px;\">, $accountid+Accounts+addresslevel5a$<br /><strong>NIP</strong> $accountid+Accounts+vat_id$<br /><strong>REGON</strong> $accountid+Accounts+registration_number_2$</span></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br /><br />\r\n			 </td>\r\n		</tr></tbody></table><table style=\"border-collapse:collapse;width:100%;margin-top:-1px;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:10%;\"><strong><span style=\"font-size:10px;\">OPIS</span></strong></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:90%;\"><span style=\"font-size:10px;\">$description$</span></td>\r\n		</tr><tr><td style=\"border:1px solid #000;padding:10px;width:10%;\"><strong><span style=\"font-size:10px;\">UWAGI</span></strong></td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:90%;\"><span style=\"font-size:10px;\">$attention$</span></td>\r\n		</tr></tbody></table><table style=\"border-collapse:collapse;width:100%;margin-top:-1px;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>WYSTAWIŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>ZATWIERDZIŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>WYDAŁ</b></span><br /><br /><br />\r\n			 </td>\r\n			<td style=\"border:1px solid #000;padding:10px;width:25%;\"><span style=\"font-size:10px;\"><b>ODEBRAŁ</b></span><br /><br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#','','active','Wydanie na zewnątrz','*','','','',1,'','','A4',1,0,0,0,0,0,0,'PLL_PORTRAIT','pl_pl','wydanie_na_zewnatrz','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
-insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (8,'IPreOrder','','<table style=\"border-collapse:collapse;width:100%;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:50%;\"><span style=\"font-size:20px;line-height:32px;\"><b>REZERWACJA</b></span> <span style=\"font-size:10px;\">$number$</span></td>\n			<td style=\"border:1px solid #000;padding:10px;width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>DATA PRZYJĘCIA</strong> $acceptance_date$</span></td>\n		</tr><tr><td style=\"border:1px solid #000;padding:10px;width:50%;font-size:10px;\"><b>KONTRAHENT</b><br />\n			$accountid+Accounts+accountname$<br />\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$ $accountid+Accounts+localnumbera$<br />\n			$accountid+Accounts+addresslevel7a$, $accountid+Accounts+addresslevel5a$<br /><b>NIP </b>$accountid+Accounts+vat_id$<br /><b>REGON </b>$accountid+Accounts+registration_number_2$</td>\n			<td style=\"border:1px solid #000;padding:10px;width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\n			$storageid$<br />\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\n			 </td>\n		</tr></tbody></table><table style=\"border-collapse:collapse;width:100%;margin-top:-1px;\"><tbody><tr><td style=\"border:1px solid #000;padding:10px;width:10%;\"><strong><span style=\"font-size:10px;\">OPIS</span></strong></td>\n			<td style=\"border:1px solid #000;padding:10px;width:90%;\"><span style=\"font-size:10px;\">$description$</span></td>\n		</tr><tr><td style=\"border:1px solid #000;padding:10px;width:10%;\"><strong><span style=\"font-size:10px;\">UWAGI</span></strong></td>\n			<td style=\"border:1px solid #000;padding:10px;width:90%;\"><span style=\"font-size:10px;\">$attention$</span></td>\n		</tr></tbody></table><br />\n#ProductsTableNew#','','active','Rezerwacje','*','','','',1,'','','A4',0,15,15,15,15,15,15,'PLL_PORTRAIT','pl_pl','rezerwacja','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
-insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (9,'IStorages','','<table style=\"width:100%;border-collapse:collapse;font-size:10px;\"><tbody><tr><td colspan=\"2\" style=\"border:1px solid rgb(0,0,0);padding:5px;font-size:20px;text-align:center;\"><b>ARKUSZ KONTROLNY STANÓW MAGAZYNOWYCH</b></td>\n		</tr><tr><td style=\"border:1px solid #000;padding:5px;\"><b>%subject%</b> $subject$</td>\n			<td style=\"border:1px solid #000;padding:5px;\"><b>%number%</b> $number$</td>\n		</tr></tbody></table><br />\n#IStoragesProductsControlTable#','','active','Arkusz kontrolny stanów magazynowych','*','','','',1,'','','A4',1,0,0,0,0,0,0,'PLL_PORTRAIT','pl_pl','arkusz_kont_stanow_magazynowych','PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
-insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (10,'IStorages','','<table style=\"width:100%;border-collapse:collapse;font-size:10px;\"><tbody><tr><td colspan=\"2\" style=\"border:1px solid rgb(0,0,0);padding:5px;font-size:20px;text-align:center;\"><b>RAPORT STANÓW MAGAZYNOWYCH</b></td>\n		</tr><tr><td style=\"border:1px solid #000;padding:5px;\"><b>%subject%</b> $subject$</td>\n			<td style=\"border:1px solid #000;padding:5px;\"><b>%number%</b> $number$</td>\n		</tr></tbody></table><br />\n#IStoragesProductsTable#','','active','Raport stanów magazynowych','*','','','',1,'','','A4',1,0,0,0,0,0,0,'PLL_PORTRAIT','pl_pl','raport_stanow_magazynowych','PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
-insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (11,'IStorages','','<table style=\"width:100%;border-collapse:collapse;font-size:10px;\"><tbody><tr><td colspan=\"2\" style=\"border:1px solid rgb(0,0,0);padding:5px;font-size:20px;text-align:center;\"><b>RAPORT WARTOŚCIOWY STANÓW MAGAZYNOWYCH</b></td>\n		</tr><tr><td style=\"border:1px solid #000;padding:5px;\"><b>%subject%</b> $subject$</td>\n			<td style=\"border:1px solid #000;padding:5px;\"><b>%number%</b> $number$</td>\n		</tr></tbody></table><br />\n#IStoragesProductsValueTable#','','active','Raport wartościowy stanów magazynowych','*','','','',1,'','','A4',1,0,0,0,0,0,0,'PLL_PORTRAIT','pl_pl','raport_wart_stanow_magazynowych','PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (4,'IStorages','','<table style=\"width:100%;border-collapse:collapse;font-size:10px;\"><tbody><tr><td colspan=\"2\" style=\"border:1px solid rgb(0,0,0);padding:5px;font-size:20px;text-align:center;\"><b>ARKUSZ KONTROLNY STANÓW MAGAZYNOWYCH</b></td>\n		</tr><tr><td style=\"border:1px solid #000;padding:5px;\"><b>%subject%</b> $subject$</td>\n			<td style=\"border:1px solid #000;padding:5px;\"><b>%number%</b> $number$</td>\n		</tr></tbody></table><br />\n#IStoragesProductsControlTable#','','active','Arkusz kontrolny stanów magazynowych','*','','','',1,'','','A4',1,0,0,0,0,0,0,'PLL_PORTRAIT','pl_pl','arkusz_kont_stanow_magazynowych','PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (5,'IStorages','','<table style=\"width:100%;border-collapse:collapse;font-size:10px;\"><tbody><tr><td colspan=\"2\" style=\"border:1px solid rgb(0,0,0);padding:5px;font-size:20px;text-align:center;\"><b>RAPORT STANÓW MAGAZYNOWYCH</b></td>\n		</tr><tr><td style=\"border:1px solid #000;padding:5px;\"><b>%subject%</b> $subject$</td>\n			<td style=\"border:1px solid #000;padding:5px;\"><b>%number%</b> $number$</td>\n		</tr></tbody></table><br />\n#IStoragesProductsTable#','','active','Raport stanów magazynowych','*','','','',1,'','','A4',1,0,0,0,0,0,0,'PLL_PORTRAIT','pl_pl','raport_stanow_magazynowych','PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (6,'IStorages','','<table style=\"width:100%;border-collapse:collapse;font-size:10px;\"><tbody><tr><td colspan=\"2\" style=\"border:1px solid rgb(0,0,0);padding:5px;font-size:20px;text-align:center;\"><b>RAPORT WARTOŚCIOWY STANÓW MAGAZYNOWYCH</b></td>\n		</tr><tr><td style=\"border:1px solid #000;padding:5px;\"><b>%subject%</b> $subject$</td>\n			<td style=\"border:1px solid #000;padding:5px;\"><b>%number%</b> $number$</td>\n		</tr></tbody></table><br />\n#IStoragesProductsValueTable#','','active','Raport wartościowy stanów magazynowych','*','','','',1,'','','A4',1,0,0,0,0,0,0,'PLL_PORTRAIT','pl_pl','raport_wart_stanow_magazynowych','PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (7,'IIDN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:16px;\"><strong>Przyjęcie wewnętrzne</strong></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Numer dokumentu:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><b>FIRMA</b><br />\r\n			$Company+organizationname$<br />\r\n			$Company+address$<br />\r\n			$Company+code$, $Company+city$<br /><b>%Company+vatid%: </b>$Company+vatid$<br /><b>%Company+id1%: </b>$Company+id1$</td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Przyjęcie wewnętrzne','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','pl_pl','przyjecie_wewnetrzne','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (8,'IGRN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:16px;\"><strong>Przyjęcie z zewnątrz</strong></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Numer dokumentu:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><strong>DOSTAWCA</strong><br />\r\n			$vendorid+Vendors+vendorname$<br />\r\n			$vendorid+Vendors+addresslevel8a$ $vendorid+Vendors+buildingnumbera$ $vendorid+Vendors+localnumbera$<br />\r\n			$vendorid+Vendors+addresslevel7a$<span style=\"font-size:10px;\">, $vendorid+Vendors+addresslevel5a$<br /><strong>%vendorid+Vendors+vat_id%:</strong> $vendorid+Vendors+vat_id$<br /><strong>%vendorid+Vendors+registration_number_2%: </strong>$vendorid+Vendors+registration_number_2$</span></td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Przyjęcie zewnętrzne','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','pl_pl','przyjecie_zewnetrzne','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (9,'IGIN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:16px;\"><strong>Rozchód wewnętrzny</strong></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Numer dokumentu:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><b>FIRMA</b><br />\r\n			$Company+organizationname$<br />\r\n			$Company+address$<br />\r\n			$Company+code$, $Company+city$<br /><b>%Company+vatid%: </b>$Company+vatid$<br /><b>%Company+id1%: </b>$Company+id1$</td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Rozchód wewnętrzny','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','pl_pl','rozchod_wewnetrzny','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (10,'IGDN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:16px;\"><strong>Wydanie na zewnątrz</strong></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Numer dokumentu:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><strong>ODBIORCA</strong><br />\r\n			$accountid+Accounts+accountname$<br />\r\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$ $accountid+Accounts+localnumbera$<br />\r\n			$Company+code$, $accountid+Accounts+addresslevel5a$<br /><strong>%accountid+Accounts+vat_id%: </strong>$accountid+Accounts+vat_id$<br /><strong>%accountid+Accounts+registration_number_2%: </strong>$accountid+Accounts+registration_number_2$</td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Wydanie na zewnątrz','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','pl_pl','wydanie_na_zewnatrz','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (11,'ISTRN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:16px;\"><strong>Przyjęcie magazynowe</strong></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Numer dokumentu:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><strong>DOSTAWCA</strong><br />\r\n			$vendorid+Vendors+vendorname$<br />\r\n			$vendorid+Vendors+addresslevel8a$ $vendorid+Vendors+buildingnumbera$ $vendorid+Vendors+localnumbera$<br />\r\n			$vendorid+Vendors+addresslevel7a$<span style=\"font-size:10px;\">, $vendorid+Vendors+addresslevel5a$<br /><strong>%vendorid+Vendors+vat_id%:</strong> $vendorid+Vendors+vat_id$<br /><strong>%vendorid+Vendors+registration_number_2%: </strong>$vendorid+Vendors+registration_number_2$</span></td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Przyjęcie magazynowe','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','pl_pl','przyjecie_magazynowe','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (12,'IPreOrder','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:16px;line-height:25.6px;\"><b>Rezerwacja magazynowa</b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Numer dokumentu:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><strong>ODBIORCA</strong><br />\r\n			$accountid+Accounts+accountname$<br />\r\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$ $accountid+Accounts+localnumbera$<br />\r\n			$Company+code$, $accountid+Accounts+addresslevel5a$<br /><strong>%accountid+Accounts+vat_id%: </strong>$accountid+Accounts+vat_id$<br /><strong>%accountid+Accounts+registration_number_2%: </strong>$accountid+Accounts+registration_number_2$</td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Rezerwacja magazynowa','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','pl_pl','rezerwacja_magazynowa','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (13,'ISTDN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:16px;\"><strong>Wydanie magazynowe</strong></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Numer dokumentu:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><strong>ODBIORCA</strong><br />\r\n			$accountid+Accounts+accountname$<br />\r\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$ $accountid+Accounts+localnumbera$<br />\r\n			$accountid+Accounts+addresslevel7a$, $accountid+Accounts+addresslevel5a$<br /><strong>%accountid+Accounts+vat_id%: </strong>$accountid+Accounts+vat_id$<br /><strong>%accountid+Accounts+registration_number_2%: </strong>$accountid+Accounts+registration_number_2$</td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>MAGAZYN</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\">PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			.............................................</td>\r\n			<td style=\"width:50%;text-align:right;\">ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			.............................................</td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Wydanie magazynowe','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','pl_pl','wydanie_magazynowe','PLL_LISTVIEW,PLL_DETAILVIEW',1,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (14,'IIDN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><strong><span style=\"font-size:16px;\">Internal Delivery Notes</span></strong></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Document number:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><b>COMPANY</b><br />\r\n			$Company+organizationname$<br />\r\n			$Company+address$<br />\r\n			$Company+code$, $Company+city$<br /><b>%Company+vatid%: </b>$Company+vatid$<br /><b>%Company+id1%: </b>$Company+id1$</td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>STORAGE</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Internal Delivery Notes','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','en_us','internal_delivery_notes','PLL_LISTVIEW,PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (15,'IGRN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><strong><span style=\"font-size:16px;\">Goods Received Note</span></strong></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Document number:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><b>VENDOR</b><br />\r\n			$vendorid+Vendors+vendorname$<br />\r\n			$vendorid+Vendors+addresslevel8a$ $vendorid+Vendors+buildingnumbera$ $vendorid+Vendors+localnumbera$<br />\r\n			$vendorid+Vendors+addresslevel7a$<span style=\"font-size:10px;\">, $vendorid+Vendors+addresslevel5a$<br /><strong>%vendorid+Vendors+vat_id%:</strong> $vendorid+Vendors+vat_id$<br /><strong>%vendorid+Vendors+registration_number_2%: </strong>$vendorid+Vendors+registration_number_2$</span></td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>STORAGE</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Goods Received Note','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','en_us','goods_received_note','PLL_LISTVIEW,PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (16,'IGIN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><strong><span style=\"font-size:16px;\">Goods Issued Note</span></strong></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Document number:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><b>COMPANY</b><br />\r\n			$Company+organizationname$<br />\r\n			$Company+address$<br />\r\n			$Company+code$, $Company+city$<br /><b>%Company+vatid%: </b>$Company+vatid$<br /><b>%Company+id1%: </b>$Company+id1$</td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>STORAGE</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Goods Issued Note','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','en_us','goods_issued_note','PLL_LISTVIEW,PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (17,'IGDN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><strong><span style=\"font-size:16px;\">Goods Dispatched Note</span></strong></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Document number:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><strong>RECIPIENT</strong><br />\r\n			$accountid+Accounts+accountname$<br />\r\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$ $accountid+Accounts+localnumbera$<br />\r\n			$Company+code$, $accountid+Accounts+addresslevel5a$<br /><strong>%accountid+Accounts+vat_id%: </strong>$accountid+Accounts+vat_id$<br /><strong>%accountid+Accounts+registration_number_2%: </strong>$accountid+Accounts+registration_number_2$</td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>STORAGE</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\">PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			.............................................</td>\r\n			<td style=\"width:50%;text-align:right;\">ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			.............................................</td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Goods Dispatched Note','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','en_us','goods_dispatched_note','PLL_LISTVIEW,PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (18,'ISTRN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:16px;\"><strong>Storage Transfer Received Notes</strong></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Document number:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><strong>VENDOR</strong><br />\r\n			$vendorid+Vendors+vendorname$<br />\r\n			$vendorid+Vendors+addresslevel8a$ $vendorid+Vendors+buildingnumbera$ $vendorid+Vendors+localnumbera$<br />\r\n			$vendorid+Vendors+addresslevel7a$<span style=\"font-size:10px;\">, $vendorid+Vendors+addresslevel5a$<br /><strong>%vendorid+Vendors+vat_id%:</strong> $vendorid+Vendors+vat_id$<br /><strong>%vendorid+Vendors+registration_number_2%: </strong>$vendorid+Vendors+registration_number_2$</span></td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>STORAGE</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Storage Transfer Received Notes','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','en_us','storage_transfer_received_notes','PLL_LISTVIEW,PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (19,'IPreOrder','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><strong><span style=\"font-size:16px;\">Pre-order</span></strong></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Document number:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><strong>RECIPIENT</strong><br />\r\n			$accountid+Accounts+accountname$<br />\r\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$ $accountid+Accounts+localnumbera$<br />\r\n			$Company+code$, $accountid+Accounts+addresslevel5a$<br /><strong>%accountid+Accounts+vat_id%: </strong>$accountid+Accounts+vat_id$<br /><strong>%accountid+Accounts+registration_number_2%: </strong>$accountid+Accounts+registration_number_2$</td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>STORAGE</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><span style=\"font-size:10px;\"><b>PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><b>ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			............................................. </b></span></td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Pre-order','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','en_us','pre_order','PLL_LISTVIEW,PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
+insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`footer_content`,`status`,`primary_name`,`secondary_name`,`meta_author`,`meta_creator`,`meta_keywords`,`metatags_status`,`meta_subject`,`meta_title`,`page_format`,`margin_chkbox`,`margin_top`,`margin_bottom`,`margin_left`,`margin_right`,`header_height`,`footer_height`,`page_orientation`,`language`,`filename`,`visibility`,`default`,`conditions`,`watermark_type`,`watermark_text`,`watermark_size`,`watermark_angle`,`watermark_image`,`template_members`) values (20,'ISTDN','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\"><strong><span style=\"font-size:16px;\">Storage Transfer Dispatched Notes</span></strong></td>\r\n			<td style=\"width:50%;text-align:right;\"><span style=\"font-size:10px;\"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style=\"font-size:10px;\"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style=\"font-size:10px;\"><strong>Document number:</strong> $number$</span></td>\r\n		</tr></tbody></table><hr />','<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;font-size:10px;\"><strong>RECIPIENT</strong><br />\r\n			$accountid+Accounts+accountname$<br />\r\n			$accountid+Accounts+addresslevel8a$ $accountid+Accounts+buildingnumbera$ $accountid+Accounts+localnumbera$<br />\r\n			$accountid+Accounts+addresslevel7b$, $accountid+Accounts+addresslevel5a$<br /><strong>%accountid+Accounts+vat_id%: </strong>$accountid+Accounts+vat_id$<br /><strong>%accountid+Accounts+registration_number_2%: </strong>$accountid+Accounts+registration_number_2$</td>\r\n			<td style=\"width:50%;font-size:10px;text-align:right;\"><b>STORAGE</b><br />\r\n			$storageid$<br />\r\n			$storageid+IStorages+addresslevel8a$ $storageid+IStorages+buildingnumbera$ $storageid+IStorages+localnumbera$<br />\r\n			$storageid+IStorages+addresslevel7a$, $storageid+IStorages+addresslevel5a$<br /><br />\r\n			 </td>\r\n		</tr></tbody></table><br />\r\n#ProductsTableNew#<br />\r\n#ShowDescription#<br />\r\n \r\n<table style=\"width:100%;\"><tbody><tr><td style=\"width:50%;\">PRZYGOTOWAŁ<br /><br /><br /><br />\r\n			.............................................</td>\r\n			<td style=\"width:50%;text-align:right;\">ZAAKCEPTOWAŁ<br /><br /><br /><br />\r\n			.............................................</td>\r\n		</tr></tbody></table>','<div style=\"text-align:center;\"><span style=\"font-size:8px;\"><span style=\"line-height:20.8px;\">{PAGENO} / </span>{nb}</span> </div>\r\n','active','Storage Transfer Dispatched Notes','*','','','',1,'','','A4',0,35,15,15,15,15,15,'PLL_PORTRAIT','en_us','storage_transfer_dispatched_notes','PLL_LISTVIEW,PLL_DETAILVIEW',0,'[]','text','',0,0,'','Users:1');
 
 /*Data for the table `a_yf_taxes_config` */
 
@@ -287,6 +297,31 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `u_yf_fbookkeepingcf` */
 
+/*Data for the table `u_yf_fcorectinginvoice` */
+
+/*Data for the table `u_yf_fcorectinginvoice_address` */
+
+/*Data for the table `u_yf_fcorectinginvoice_inventory` */
+
+/*Data for the table `u_yf_fcorectinginvoice_invfield` */
+
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',0,1,0,'{\"modules\":[\"Products\",\"Services\"],\"limit\":\" \"}',30);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',1,1,0,'{}',7);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'discount','LBL_DISCOUNT','Discount',0,'0',4,1,0,'{}',7);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'comment1','LBL_COMMENT','Comment',0,'',11,2,0,'{}',0);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'currency','LBL_CURRENCY','Currency',0,'',12,0,0,'',7);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'discountmode','LBL_DISCOUNT_MODE','DiscountMode',0,'0',13,0,0,'',7);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'taxmode','LBL_TAX_MODE','TaxMode',0,'0',14,0,0,'',7);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',2,1,0,'',7);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'gross','LBL_GROSS_PRICE','GrossPrice',0,'0',8,1,0,'',7);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (10,'net','LBL_DISCOUNT_PRICE','NetPrice',0,'0',5,1,0,'',7);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (11,'tax','LBL_TAX','Tax',0,'0',7,1,0,'',7);
+insert  into `u_yf_fcorectinginvoice_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (12,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',3,1,0,'',7);
+
+/*Data for the table `u_yf_fcorectinginvoice_invmap` */
+
+/*Data for the table `u_yf_fcorectinginvoicecf` */
+
 /*Data for the table `u_yf_finvoice` */
 
 /*Data for the table `u_yf_finvoice_address` */
@@ -348,17 +383,19 @@ insert  into `u_yf_github`(`github_id`,`client_id`,`token`,`username`) values (1
 /*Data for the table `u_yf_igdn_invfield` */
 
 insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
-insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',4,1,0,'{}',15);
-insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
-insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',5,1,0,'{}',15);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',7,1,0,'{}',12);
 insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
 insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,5);
 insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'unit','LBL_UNIT','Value',0,'',3,1,10,NULL,12);
 insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'ean','LBL_EAN','Value',0,'',2,1,10,NULL,15);
+insert  into `u_yf_igdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'subunit','FL_SUBUNIT','Value',0,'',4,1,10,NULL,10);
 
 /*Data for the table `u_yf_igdn_invmap` */
 
 insert  into `u_yf_igdn_invmap`(`module`,`field`,`tofield`) values ('Products','ean','ean');
+insert  into `u_yf_igdn_invmap`(`module`,`field`,`tofield`) values ('Products','subunit','subunit');
 insert  into `u_yf_igdn_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
 
 /*Data for the table `u_yf_igdncf` */
@@ -370,17 +407,19 @@ insert  into `u_yf_igdn_invmap`(`module`,`field`,`tofield`) values ('Products','
 /*Data for the table `u_yf_igin_invfield` */
 
 insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
-insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'qty','LBL_QUANTITY','Quantity',0,'1',4,1,0,'{}',15);
-insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
-insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'qty','LBL_QUANTITY','Quantity',0,'1',5,1,0,'{}',15);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',7,1,0,'{}',12);
 insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (10,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
 insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (11,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,5);
 insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (12,'unit','LBL_UNIT','Value',0,'',3,1,10,NULL,12);
 insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (13,'ean','LBL_EAN','Value',0,'',2,1,10,NULL,15);
+insert  into `u_yf_igin_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (14,'subunit','FL_SUBUNIT','Value',0,'',4,1,10,NULL,10);
 
 /*Data for the table `u_yf_igin_invmap` */
 
 insert  into `u_yf_igin_invmap`(`module`,`field`,`tofield`) values ('Products','ean','ean');
+insert  into `u_yf_igin_invmap`(`module`,`field`,`tofield`) values ('Products','subunit','subunit');
 insert  into `u_yf_igin_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
 
 /*Data for the table `u_yf_igincf` */
@@ -392,17 +431,19 @@ insert  into `u_yf_igin_invmap`(`module`,`field`,`tofield`) values ('Products','
 /*Data for the table `u_yf_igrn_invfield` */
 
 insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
-insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',4,1,0,'{}',15);
-insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
-insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',5,1,0,'{}',15);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',7,1,0,'{}',12);
 insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
 insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,5);
 insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'unit','LBL_UNIT','Value',0,'',3,1,10,NULL,12);
 insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'ean','LBL_EAN','Value',0,'',2,1,10,NULL,15);
+insert  into `u_yf_igrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'subunit','FL_SUBUNIT','Value',0,'',4,1,10,NULL,10);
 
 /*Data for the table `u_yf_igrn_invmap` */
 
 insert  into `u_yf_igrn_invmap`(`module`,`field`,`tofield`) values ('Products','ean','ean');
+insert  into `u_yf_igrn_invmap`(`module`,`field`,`tofield`) values ('Products','subunit','subunit');
 insert  into `u_yf_igrn_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
 
 /*Data for the table `u_yf_igrncf` */
@@ -414,17 +455,19 @@ insert  into `u_yf_igrn_invmap`(`module`,`field`,`tofield`) values ('Products','
 /*Data for the table `u_yf_iidn_invfield` */
 
 insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
-insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',4,1,0,'{}',15);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',5,1,0,'{}',15);
 insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
 insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,NULL,5);
 insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'unit','LBL_UNIT','Value',0,'',3,1,10,NULL,12);
-insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
-insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',7,1,0,'{}',12);
 insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'ean','LBL_EAN','Value',0,'',2,1,10,NULL,15);
+insert  into `u_yf_iidn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'subunit','FL_SUBUNIT','Value',0,'',4,1,10,NULL,10);
 
 /*Data for the table `u_yf_iidn_invmap` */
 
 insert  into `u_yf_iidn_invmap`(`module`,`field`,`tofield`) values ('Products','ean','ean');
+insert  into `u_yf_iidn_invmap`(`module`,`field`,`tofield`) values ('Products','subunit','subunit');
 insert  into `u_yf_iidn_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
 
 /*Data for the table `u_yf_iidncf` */
@@ -436,15 +479,20 @@ insert  into `u_yf_iidn_invmap`(`module`,`field`,`tofield`) values ('Products','
 /*Data for the table `u_yf_ipreorder_invfield` */
 
 insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
-insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',4,1,0,'{}',15);
+insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',5,1,0,'{}',15);
 insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
 insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,'{}',5);
-insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
-insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',7,1,0,'{}',12);
 insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'unit','LBL_UNIT','Value',0,'',3,1,10,'{}',12);
 insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'ean','LBL_EAN','Value',0,'',2,1,10,'{}',15);
+insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (10,'subunit','FL_SUBUNIT','Value',0,'',4,1,10,NULL,10);
 
 /*Data for the table `u_yf_ipreorder_invmap` */
+
+insert  into `u_yf_ipreorder_invmap`(`module`,`field`,`tofield`) values ('Products','ean','ean');
+insert  into `u_yf_ipreorder_invmap`(`module`,`field`,`tofield`) values ('Products','subunit','subunit');
+insert  into `u_yf_ipreorder_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
 
 /*Data for the table `u_yf_ipreordercf` */
 
@@ -455,17 +503,19 @@ insert  into `u_yf_ipreorder_invfield`(`id`,`columnname`,`label`,`invtype`,`pres
 /*Data for the table `u_yf_istdn_invfield` */
 
 insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
-insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',4,1,0,'{}',15);
-insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
-insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',5,1,0,'{}',15);
+insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',7,1,0,'{}',12);
 insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
 insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,'',5);
 insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'unit','LBL_UNIT','Value',0,'',3,1,10,'',12);
 insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'ean','LBL_EAN','Value',0,'',2,1,10,'',15);
+insert  into `u_yf_istdn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'subunit','FL_SUBUNIT','Value',0,'',4,1,10,NULL,10);
 
 /*Data for the table `u_yf_istdn_invmap` */
 
 insert  into `u_yf_istdn_invmap`(`module`,`field`,`tofield`) values ('Products','ean','ean');
+insert  into `u_yf_istdn_invmap`(`module`,`field`,`tofield`) values ('Products','subunit','subunit');
 insert  into `u_yf_istdn_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
 
 /*Data for the table `u_yf_istdncf` */
@@ -489,17 +539,19 @@ insert  into `u_yf_istdn_invmap`(`module`,`field`,`tofield`) values ('Products',
 /*Data for the table `u_yf_istrn_invfield` */
 
 insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',1,1,0,'{\"modules\":\"Products\",\"limit\":\" \"}',29);
-insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',4,1,0,'{}',15);
-insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',5,1,0,'{}',12);
-insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',5,1,0,'{}',15);
+insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',6,1,0,'{}',12);
+insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',7,1,0,'{}',12);
 insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'comment1','LBL_COMMENT','Comment',0,'',5,2,0,'{}',0);
 insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'-','LBL_ITEM_NUMBER','ItemNumber',0,'',0,1,0,'',5);
 insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'unit','LBL_UNIT','Value',0,'',3,1,10,'',12);
 insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'ean','LBL_EAN','Value',0,'',2,1,10,'',15);
+insert  into `u_yf_istrn_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'subunit','FL_SUBUNIT','Value',0,'',4,1,10,NULL,10);
 
 /*Data for the table `u_yf_istrn_invmap` */
 
-insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products','','');
+insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products','ean','ean');
+insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products','subunit','subunit');
 insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
 
 /*Data for the table `u_yf_istrncf` */
@@ -788,17 +840,25 @@ insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (8,'result_num
 
 /*Data for the table `vtiger_assets` */
 
+/*Data for the table `vtiger_assets_renew` */
+
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_PLANNED',1,682,1);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_WAITING_FOR_RENEWAL',1,683,2);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_WAITING_FOR_VERIFICATION',1,684,3);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_WAITING_FOR_ACCEPTANCE',1,685,4);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',0,686,5);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',0,687,6);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',1,688,7);
+
 /*Data for the table `vtiger_assetscf` */
 
 /*Data for the table `vtiger_assetstatus` */
 
 insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_DRAFT',1,508,3);
-insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_SALES_ACCEPTANCE',1,509,4);
-insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_SOLD',1,510,5);
-insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_TO_RENEW',1,511,6);
-insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_RENEWAL_ACCEPTANCE',1,672,7);
-insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'PLL_RENEWED',0,673,8);
-insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'PLL_CANCELLED',0,674,9);
+insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_WAITING_FOR_VERIFICATION',1,509,4);
+insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_WAITING_FOR_ACCEPTANCE',1,510,5);
+insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_ACCEPTED',0,511,6);
+insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_CANCELLED',0,672,7);
 
 /*Data for the table `vtiger_assetstatus_seq` */
 
@@ -1083,12 +1143,16 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (358,106,'LBL_ATTENTION_BLOCK',4,0,0,0,0,0,0,0);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (359,96,'LBL_DESCRIPTION_BLOCK',3,0,0,0,0,0,1,1);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (360,96,'LBL_ATTENTION_BLOCK',4,0,0,0,0,0,1,1);
+insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (361,107,'LBL_BASIC_DETAILS',1,0,0,0,0,0,1,0);
+insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (362,107,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0);
+insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (363,107,'LBL_ADDRESS_INFORMATION',3,0,0,0,0,0,1,1);
+insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (364,107,'LBL_ADDRESS_DELIVERY_INFORMATION',4,0,0,0,0,0,1,1);
 
 /*Data for the table `vtiger_blocks_hide` */
 
 /*Data for the table `vtiger_blocks_seq` */
 
-insert  into `vtiger_blocks_seq`(`id`) values (360);
+insert  into `vtiger_blocks_seq`(`id`) values (364);
 
 /*Data for the table `vtiger_bruteforce` */
 
@@ -1647,10 +1711,11 @@ insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`en
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`) values (98,'All',1,0,'ISTDN',0,1,1,0,NULL,0,NULL,'');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`) values (99,'All',1,0,'ISTN',0,1,1,0,NULL,0,NULL,'');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`) values (100,'All',1,0,'ISTRN',0,1,1,0,NULL,0,NULL,'');
+insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`) values (101,'All',1,0,'FCorectingInvoice',0,1,1,0,NULL,1,NULL,'');
 
 /*Data for the table `vtiger_customview_seq` */
 
-insert  into `vtiger_customview_seq`(`id`) values (100);
+insert  into `vtiger_customview_seq`(`id`) values (101);
 
 /*Data for the table `vtiger_cvadvfilter` */
 
@@ -1981,6 +2046,11 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (10
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (100,3,'vtiger_crmentity:smownerid:assigned_user_id:ISTRN_Assigned_To:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (100,4,'u_yf_istrn:acceptance_date:acceptance_date:ISTRN_FL_ACCEPTANCE_DATE:D');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (100,5,'vtiger_crmentity:createdtime:createdtime:ISTRN_Created_Time:DT');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (101,0,'u_yf_fcorectinginvoice:subject:subject:FCorectingInvoice_FL_SUBJECT:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (101,1,'u_yf_fcorectinginvoice:number:number:FCorectingInvoice_FL_NUMBER:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (101,2,'u_yf_fcorectinginvoice:accountid:accountid:FCorectingInvoice_FL_ACCOUNT:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (101,3,'vtiger_crmentity:smownerid:assigned_user_id:FCorectingInvoice_Assigned_To:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (101,4,'u_yf_fcorectinginvoice:saledate:saledate:FCorectingInvoice_FL_SALE_DATE:D');
 
 /*Data for the table `vtiger_cvstdfilter` */
 
@@ -3475,6 +3545,44 @@ insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) valu
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (104,2261,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (106,2262,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (96,2263,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (58,2267,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (37,2268,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (14,2269,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2270,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2271,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2272,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2273,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2274,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2275,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2276,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2277,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2278,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2279,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2280,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2281,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2282,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2283,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2284,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2285,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2286,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2287,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2288,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2289,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2290,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2291,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2292,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2293,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2294,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2295,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2296,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2297,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2298,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2299,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2300,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2301,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2302,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2303,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (107,2304,0,0);
 
 /*Data for the table `vtiger_def_org_share` */
 
@@ -3539,10 +3647,11 @@ insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) 
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (77,104,2,0);
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (78,105,2,0);
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (79,106,2,0);
+insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (80,107,2,0);
 
 /*Data for the table `vtiger_def_org_share_seq` */
 
-insert  into `vtiger_def_org_share_seq`(`id`) values (79);
+insert  into `vtiger_def_org_share_seq`(`id`) values (80);
 
 /*Data for the table `vtiger_default_record_view` */
 
@@ -3707,6 +3816,7 @@ insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`e
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (104,'ISTDN','u_yf_istdn','subject','istdnid','istdnid','subject',1,0);
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (105,'ISTN','u_yf_istn','subject','istnid','istnid','subject',1,0);
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (106,'ISTRN','u_yf_istrn','subject','istrnid','istrnid','subject',1,0);
+insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (107,'FCorectingInvoice','u_yf_fcorectinginvoice','subject','fcorectinginvoiceid','fcorectinginvoiceid','subject',1,0);
 
 /*Data for the table `vtiger_eventhandler_module` */
 
@@ -3815,6 +3925,15 @@ insert  into `vtiger_faqstatus`(`faqstatus_id`,`faqstatus`,`presence`,`picklist_
 /*Data for the table `vtiger_faqstatus_seq` */
 
 insert  into `vtiger_faqstatus_seq`(`id`) values (4);
+
+/*Data for the table `vtiger_fcorectinginvoice_formpayment` */
+
+insert  into `vtiger_fcorectinginvoice_formpayment`(`fcorectinginvoice_formpaymentid`,`fcorectinginvoice_formpayment`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_TRANSFER',1,691,1);
+insert  into `vtiger_fcorectinginvoice_formpayment`(`fcorectinginvoice_formpaymentid`,`fcorectinginvoice_formpayment`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_CASH',1,693,2);
+
+/*Data for the table `vtiger_fcorectinginvoice_status` */
+
+insert  into `vtiger_fcorectinginvoice_status`(`fcorectinginvoice_statusid`,`fcorectinginvoice_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'None',1,692,1);
 
 /*Data for the table `vtiger_feedback` */
 
@@ -4149,13 +4268,13 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (35,576,'taxclass','vtiger_service',1,'83','taxclass','Tax Class',1,2,'',100,4,92,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (35,577,'commissionrate','vtiger_service',1,'9','commissionrate','Commission Rate',1,2,'',100,2,92,1,'N~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (35,578,'description','vtiger_crmentity',1,'300','description','Description',1,2,'',100,1,94,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,579,'asset_no','vtiger_assets',1,'4','asset_no','Asset No',1,2,'',100,1,95,1,'V~O',1,0,'BAS',2,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,579,'asset_no','vtiger_assets',1,'4','asset_no','Asset No',1,0,'',100,1,95,1,'V~O',1,0,'BAS',2,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,580,'product','vtiger_assets',1,'10','product','Product Name',1,2,'',100,4,96,1,'V~M',2,4,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,581,'serialnumber','vtiger_assets',1,'2','serialnumber','Serial Number',1,2,'',100,2,95,1,'V~M',0,3,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,582,'datesold','vtiger_assets',1,'5','datesold','Date Sold',1,2,'',100,3,192,1,'D~M~OTH~GE~datesold~Date Sold',0,7,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,583,'dateinservice','vtiger_assets',1,'5','dateinservice','Date in Service',1,2,'',100,2,192,1,'D~M~OTH~GE~dateinservice~Date in Service',0,9,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,584,'assetstatus','vtiger_assets',1,'15','assetstatus','Status',1,2,'',100,3,95,1,'V~M',2,5,'BAS',1,'',1,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,589,'smownerid','vtiger_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,5,96,1,'V~M',2,11,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,583,'dateinservice','vtiger_assets',1,'5','dateinservice','Date in Service',1,0,'',100,2,192,1,'D~M~OTH~GE~dateinservice~Date in Service',0,9,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,584,'assetstatus','vtiger_assets',1,'15','assetstatus','Status',1,0,'',100,3,95,1,'V~M',2,5,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,589,'smownerid','vtiger_crmentity',1,'53','assigned_user_id','Assigned To',1,0,'',100,5,96,1,'V~M',2,11,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,590,'assetname','vtiger_assets',1,'1','assetname','Asset Name',1,0,'',100,4,95,1,'V~M',0,1,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,593,'createdtime','vtiger_crmentity',1,'70','createdtime','Created Time',1,0,'',100,4,192,2,'DT~O',3,0,'BAS',0,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,594,'modifiedtime','vtiger_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,5,192,2,'DT~O',3,0,'BAS',0,'',0,'',NULL);
@@ -4306,12 +4425,12 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (57,876,'modifiedtime','vtiger_crmentity',1,'70','modifiedtime','Modified Time',1,0,'',100,5,139,2,'DT~O',3,0,'BAS',0,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (57,877,'modifiedby','vtiger_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,4,139,3,'V~O',3,0,'BAS',0,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (57,878,'description','vtiger_crmentity',1,'300','description','Notes',1,2,'',100,1,140,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,879,'productname','vtiger_osssoldservices',2,'2','productname','Product Name',1,2,'',100,1,141,1,'V~M',2,1,'BAS',1,'',1,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,880,'ssservicesstatus','vtiger_osssoldservices',2,'15','ssservicesstatus','LBL_ssservicesstatus',1,2,'',100,3,141,1,'V~O',2,7,'BAS',2,'',1,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,881,'pscategory','vtiger_osssoldservices',2,'302','pscategory','Category',1,2,'',100,4,141,1,'V~O',2,9,'BAS',1,'',1,'5',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,883,'datesold','vtiger_osssoldservices',2,'5','datesold','Date Sold',1,2,'',100,8,141,1,'D~M',2,5,'BAS',1,'',1,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,884,'dateinservice','vtiger_osssoldservices',2,'5','dateinservice','Date in Service',1,2,'',100,5,141,1,'D~O',1,NULL,'BAS',1,'',1,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,885,'invoice','vtiger_osssoldservices',2,'1','invoice','Invoice',1,2,'',100,7,141,1,'V~O',1,0,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,879,'productname','vtiger_osssoldservices',1,'2','productname','Product Name',1,2,'',100,1,141,1,'V~M',2,1,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,880,'ssservicesstatus','vtiger_osssoldservices',1,'15','ssservicesstatus','LBL_ssservicesstatus',1,0,'',100,3,141,1,'V~M',2,7,'BAS',2,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,881,'pscategory','vtiger_osssoldservices',1,'302','pscategory','Category',1,2,'',100,4,141,1,'V~O',2,9,'BAS',1,'',1,'5',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,883,'datesold','vtiger_osssoldservices',1,'5','datesold','Date Sold',1,2,'',100,8,141,1,'D~M',2,5,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,884,'dateinservice','vtiger_osssoldservices',1,'5','dateinservice','Date in Service',1,2,'',100,5,141,1,'D~O',1,NULL,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,885,'invoice','vtiger_osssoldservices',1,'1','invoice','Invoice',1,2,'',100,7,141,1,'V~O',1,0,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,886,'osssoldservices_no','vtiger_osssoldservices',1,'4','osssoldservices_no','Number',1,2,'',100,1,142,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,887,'smownerid','vtiger_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,5,142,1,'V~M',1,2,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,888,'createdtime','vtiger_crmentity',1,'70','createdtime','Created Time',1,0,'',100,8,142,2,'DT~O',3,0,'BAS',0,'',0,'',NULL);
@@ -4472,10 +4591,10 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (4,1294,'localnumbera','vtiger_contactaddress',1,'1','localnumbera','Local number',1,2,'',100,2,7,1,'V~O~LE~100',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (4,1295,'buildingnumberb','vtiger_contactaddress',1,'1','buildingnumberb','Building number',1,2,'',100,3,178,1,'V~O~LE~100',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (4,1296,'localnumberb','vtiger_contactaddress',1,'1','localnumberb','Local number',1,2,'',100,2,178,1,'V~O~LE~100',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,1314,'parent_id','vtiger_assets',2,'10','parent_id','Parent ID',1,2,'',100,1,96,1,'V~M',2,2,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,1314,'parent_id','vtiger_assets',1,'10','parent_id','Parent ID',1,2,'',100,1,96,1,'V~M',2,2,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (59,1315,'parent_id','vtiger_outsourcedproducts',2,'10','parent_id','Parent ID',1,2,'',100,29,144,1,'V~M',2,2,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (57,1316,'parent_id','vtiger_ossoutsourcedservices',2,'10','parent_id','Parent ID',1,2,'',100,14,138,1,'V~M',2,2,'BAS',1,'',1,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,1317,'parent_id','vtiger_osssoldservices',2,'10','parent_id','Parent ID',1,2,'',100,1,142,1,'V~M',2,6,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,1317,'parent_id','vtiger_osssoldservices',1,'10','parent_id','Parent ID',1,2,'',100,1,142,1,'V~M',2,6,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (42,1318,'parentid','vtiger_projecttask',2,'10','parentid','Parent ID',1,2,'',100,13,104,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (42,1319,'projectmilestoneid','vtiger_projecttask',2,'10','projectmilestoneid','ProjectMilestone',1,2,'',100,12,104,1,'V~M',2,2,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (42,1320,'targetenddate','vtiger_projecttask',2,'5','targetenddate','Target End Date',1,2,'',100,6,105,1,'D~M',2,6,'BAS',1,'',0,'',NULL);
@@ -4492,7 +4611,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (18,1333,'attention','vtiger_crmentity',2,'300','attention','Attention',1,2,'',100,2,45,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (43,1340,'attention','vtiger_crmentity',2,'300','attention','Attention',1,2,'',100,2,109,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (13,1341,'attention','vtiger_crmentity',2,'300','attention','Attention',1,2,'',100,2,28,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,1344,'serviceid','vtiger_osssoldservices',2,'10','serviceid','Services',1,2,'',100,4,142,1,'V~M',2,4,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,1344,'serviceid','vtiger_osssoldservices',1,'10','serviceid','Services',1,2,'',100,4,142,1,'V~M',2,4,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (4,1368,'secondary_email','vtiger_contactdetails',2,'13','secondary_email','Secondary Email',1,2,'',100,4,197,1,'E~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (6,1369,'balance','vtiger_account',2,'71','balance','Balance',1,2,'',100,2,198,1,'N~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (6,1375,'shownerid','vtiger_crmentity',1,'120','shownerid','Share with users',1,2,'',100,8,9,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
@@ -4551,7 +4670,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (13,1482,'pssold_id','vtiger_troubletickets',2,'10','pssold_id','P&S Sold',1,2,'',100,19,25,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (13,1483,'ordertime','vtiger_troubletickets',2,'7','ordertime','LBL_ORDER_TIME',1,2,'',100,18,25,1,'NN~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,1484,'ordertime','vtiger_assets',2,'7','ordertime','LBL_ORDER_TIME',1,2,'',100,7,192,1,'NN~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,1485,'ordertime','vtiger_osssoldservices',2,'7','ordertime','LBL_ORDER_TIME',1,2,'',100,10,142,1,'NN~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,1485,'ordertime','vtiger_osssoldservices',1,'7','ordertime','LBL_ORDER_TIME',1,2,'',100,10,142,1,'NN~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (7,1486,'poboxa','vtiger_leadaddress',1,'1','poboxa','Po Box',1,2,'',100,11,15,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (4,1487,'poboxa','vtiger_contactaddress',1,'1','poboxa','Po Box',1,2,'',100,11,7,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (6,1488,'poboxa','vtiger_accountaddress',1,'1','poboxa','Po Box',1,2,'',100,11,11,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
@@ -4965,10 +5084,10 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (93,1985,'localnumbera','u_yf_competition_address',1,'1','localnumbera','Local number',1,2,'',100,2,305,1,'V~O~LE~100',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (93,1986,'poboxa','u_yf_competition_address',1,'1','poboxa','Po Box',1,2,'',100,11,305,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (93,1987,'description','vtiger_crmentity',1,'300','description','Description',1,2,'',100,1,306,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (59,1988,'ssalesprocessesid','vtiger_outsourcedproducts',1,'10','ssalesprocessesid','SSalesProcesses',1,2,'',100,31,144,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,1989,'ssalesprocessesid','vtiger_assets',1,'10','ssalesprocessesid','SSalesProcesses',1,2,'',100,18,95,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (57,1990,'ssalesprocessesid','vtiger_ossoutsourcedservices',1,'10','ssalesprocessesid','SSalesProcesses',1,2,'',100,16,138,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,1991,'ssalesprocessesid','vtiger_osssoldservices',1,'10','ssalesprocessesid','SSalesProcesses',1,2,'',100,10,141,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (59,1988,'ssalesprocessesid','vtiger_outsourcedproducts',1,'10','ssalesprocessesid','SINGLE_SSalesProcesses',1,2,'',100,31,144,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,1989,'ssalesprocessesid','vtiger_assets',1,'10','ssalesprocessesid','SINGLE_SSalesProcesses',1,2,'',100,18,95,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (57,1990,'ssalesprocessesid','vtiger_ossoutsourcedservices',1,'10','ssalesprocessesid','SINGLE_SSalesProcesses',1,2,'',100,16,138,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,1991,'ssalesprocessesid','vtiger_osssoldservices',1,'10','ssalesprocessesid','SINGLE_SSalesProcesses',1,2,'',100,10,141,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (9,1992,'subprocess','vtiger_activity',1,'68','subprocess','FL_SUB_PROCESS',1,0,'',100,3,87,1,'I~O',1,NULL,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (16,1993,'subprocess','vtiger_activity',1,'68','subprocess','FL_SUB_PROCESS',1,0,'',100,3,119,1,'I~O',1,NULL,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (51,1994,'process','vtiger_osstimecontrol',1,'66','process','FL_PROCESS',1,2,'',100,11,129,1,'I~O',1,NULL,'BAS',1,'',0,'',NULL);
@@ -5203,7 +5322,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (104,2224,'shownerid','vtiger_crmentity',1,'120','shownerid','Share with users',1,2,'',100,7,347,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (104,2225,'storageid','u_yf_istdn',1,'10','storageid','FL_STORAGE',1,2,'',100,2,347,1,'V~M',1,NULL,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (104,2226,'istdn_status','u_yf_istdn',1,'16','istdn_status','FL_STATUS',1,2,'',100,4,347,1,'V~M',1,NULL,'BAS',1,'',1,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (104,2227,'acountid','u_yf_istdn',1,'10','acountid','FL_ACCOUNT',1,2,'',100,3,347,1,'V~M',1,NULL,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (104,2227,'accountid','u_yf_istdn',1,'10','accountid','FL_ACCOUNT',1,2,'',100,3,347,1,'V~M',1,NULL,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (104,2228,'acceptance_date','u_yf_istdn',1,'5','acceptance_date','FL_ACCEPTANCE_DATE',1,2,'',100,5,347,1,'D~O',2,1,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (104,2229,'number','u_yf_istdn',1,'4','number','FL_NUMBER',1,2,'',100,1,348,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (104,2230,'createdtime','vtiger_crmentity',1,'70','createdtime','Created Time',1,2,'',100,2,348,2,'DT~O',1,NULL,'BAS',1,'',0,'',NULL);
@@ -5215,13 +5334,13 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2236,'smownerid','vtiger_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,6,351,1,'V~M',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2237,'shownerid','vtiger_crmentity',1,'120','shownerid','Share with users',1,2,'',100,5,351,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2238,'istn_status','u_yf_istn',1,'16','istn_status','FL_STATUS',1,2,'',100,2,351,1,'V~M',1,NULL,'BAS',1,'',1,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2239,'estimated_date','u_yf_istn',1,'5','estimated_date','FL_ESITMATED_DATE',1,2,'',100,4,351,1,'D~O',2,1,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2239,'estimated_date','u_yf_istn',1,'5','estimated_date','FL_ESTIMATED_DATE',1,2,'',100,4,351,1,'D~O',2,1,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2240,'number','u_yf_istn',1,'4','number','FL_NUMBER',1,2,'',100,1,352,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2241,'createdtime','vtiger_crmentity',1,'70','createdtime','Created Time',1,2,'',100,2,352,2,'DT~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2242,'modifiedtime','vtiger_crmentity',1,'70','modifiedtime','Modified Time',1,2,'',100,3,352,2,'DT~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2243,'description','vtiger_crmentity',1,'300','description','Description',1,2,'',100,1,353,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2244,'attention','vtiger_crmentity',1,'300','attention','Attention',1,2,'',100,1,354,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2245,'istn_type','u_yf_istn',2,'16','istn_type','FL_TYPE',1,2,'',100,3,351,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (105,2245,'istn_type','u_yf_istn',2,'16','istn_type','FL_TYPE',1,2,'',100,3,351,1,'V~O',1,NULL,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (106,2246,'subject','u_yf_istrn',1,'2','subject','FL_SUBJECT',1,2,'',100,1,355,1,'V~M',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (106,2247,'smownerid','vtiger_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,6,355,1,'V~M',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (106,2248,'shownerid','vtiger_crmentity',1,'120','shownerid','Share with users',1,2,'',100,7,355,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
@@ -5239,14 +5358,52 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (106,2260,'process','u_yf_istrn',1,'10','process','FL_PROCESS',1,2,'',100,8,355,1,'I~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (104,2261,'subprocess','u_yf_istdn',1,'10','subprocess','FL_SUB_PROCESS',1,2,'',100,9,347,10,'I~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (106,2262,'subprocess','u_yf_istrn',1,'10','subprocess','FL_SUB_PROCESS',1,2,'',100,9,355,1,'I~O',1,NULL,'BAS',1,'',0,'',NULL);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (96,2263,'knowledgebase_status','u_yf_knowledgebase',2,'16','knowledgebase_status','FL_STATUS',1,2,'',100,9,314,1,'V~O',1,NULL,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (96,2263,'knowledgebase_status','u_yf_knowledgebase',2,'16','knowledgebase_status','FL_STATUS',1,2,'',100,9,314,1,'V~M',2,NULL,'BAS',1,'',1,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (96,2264,'description','vtiger_crmentity',1,'300','description','Description',1,2,NULL,100,1,359,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (96,2265,'attention','vtiger_crmentity',1,'300','attention','Attention',1,2,NULL,100,1,360,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (96,2266,'shownerid','vtiger_crmentity',1,'120','shownerid','Share with users',1,2,NULL,100,10,314,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (58,2267,'osssoldservices_renew','vtiger_osssoldservices',1,'15','osssoldservices_renew','FL_RENEWAL',1,0,'',100,11,141,10,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (37,2268,'assets_renew','vtiger_assets',1,'15','assets_renew','FL_RENEWAL',1,0,'',100,19,95,10,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (14,2269,'subunit','vtiger_products',2,'16','subunit','FL_SUBUNIT',1,2,'',100,7,33,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2270,'subject','u_yf_fcorectinginvoice',1,'2','subject','FL_SUBJECT',1,2,'',100,1,361,1,'V~M',1,NULL,'BAS',1,'',1,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2271,'paymentdate','u_yf_fcorectinginvoice',1,'5','paymentdate','FL_PAYMENT_DATE',1,2,'',100,6,361,1,'D~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2272,'saledate','u_yf_fcorectinginvoice',1,'5','saledate','FL_SALE_DATE',1,2,'',100,7,361,1,'D~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2273,'accountid','u_yf_fcorectinginvoice',1,'10','accountid','FL_ACCOUNT',1,2,'',100,9,361,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2274,'fcorectinginvoice_formpayment','u_yf_fcorectinginvoice',1,'15','fcorectinginvoice_formpayment','FL_FORM_PAYMENT',1,2,'',100,10,361,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2275,'fcorectinginvoice_status','u_yf_fcorectinginvoice',1,'15','fcorectinginvoice_status','FL_STATUS',1,2,'',100,12,361,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2276,'number','u_yf_fcorectinginvoice',1,'4','number','FL_NUMBER',1,2,'',100,1,362,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2277,'smownerid','vtiger_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,2,362,1,'V~M',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2278,'createdtime','vtiger_crmentity',1,'70','createdtime','Created Time',1,2,'',100,3,362,2,'DT~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2279,'modifiedtime','vtiger_crmentity',1,'70','modifiedtime','Modified Time',1,2,'',100,4,362,2,'DT~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2280,'sum_total','u_yf_fcorectinginvoice',1,'7','sum_total','FL_TOTAL',1,2,'',100,5,362,2,'NN~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2281,'sum_gross','u_yf_fcorectinginvoice',1,'7','sum_gross','FL_GROSS',1,2,'',100,6,362,2,'NN~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2282,'poboxa','u_yf_fcorectinginvoice_address',1,'1','poboxa','Po Box',1,2,'',100,4,363,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2283,'localnumbera','u_yf_fcorectinginvoice_address',1,'306','localnumbera','Local number',1,2,'',100,2,363,2,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2284,'buildingnumbera','u_yf_fcorectinginvoice_address',1,'306','buildingnumbera','Building number',1,2,'',100,3,363,2,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2285,'addresslevel8a','u_yf_fcorectinginvoice_address',1,'306','addresslevel8a','AddressLevel8',1,2,'',100,1,363,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2286,'addresslevel7a','u_yf_fcorectinginvoice_address',1,'1','addresslevel7a','AddressLevel7',1,2,'',100,5,363,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2287,'addresslevel6a','u_yf_fcorectinginvoice_address',1,'1','addresslevel6a','AddressLevel6',1,2,'',100,6,363,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2288,'addresslevel5a','u_yf_fcorectinginvoice_address',1,'1','addresslevel5a','AddressLevel5',1,2,'',100,7,363,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2289,'addresslevel4a','u_yf_fcorectinginvoice_address',1,'1','addresslevel4a','AddressLevel4',1,2,'',100,8,363,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2290,'addresslevel3a','u_yf_fcorectinginvoice_address',1,'1','addresslevel3a','AddressLevel3',1,2,'',100,9,363,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2291,'addresslevel2a','u_yf_fcorectinginvoice_address',1,'1','addresslevel2a','AddressLevel2',1,2,'',100,10,363,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2292,'addresslevel1a','u_yf_fcorectinginvoice_address',1,'1','addresslevel1a','AddressLevel1',1,2,'',100,11,363,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2293,'addresslevel1c','u_yf_fcorectinginvoice_address',1,'1','addresslevel1c','AddressLevel1',1,2,'',100,11,364,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2294,'addresslevel2c','u_yf_fcorectinginvoice_address',1,'1','addresslevel2c','AddressLevel2',1,2,'',100,10,364,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2295,'addresslevel3c','u_yf_fcorectinginvoice_address',1,'1','addresslevel3c','AddressLevel3',1,2,'',100,9,364,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2296,'addresslevel4c','u_yf_fcorectinginvoice_address',1,'1','addresslevel4c','AddressLevel4',1,2,'',100,8,364,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2297,'addresslevel5c','u_yf_fcorectinginvoice_address',1,'1','addresslevel5c','AddressLevel5',1,2,'',100,7,364,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2298,'addresslevel6c','u_yf_fcorectinginvoice_address',1,'1','addresslevel6c','AddressLevel6',1,2,'',100,6,364,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2299,'addresslevel7c','u_yf_fcorectinginvoice_address',1,'1','addresslevel7c','AddressLevel7',1,2,'',100,5,364,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2300,'addresslevel8c','u_yf_fcorectinginvoice_address',1,'306','addresslevel8c','AddressLevel8',1,2,'',100,1,364,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2301,'buildingnumberc','u_yf_fcorectinginvoice_address',1,'306','buildingnumberc','Building number',1,2,'',100,3,364,2,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2302,'localnumberc','u_yf_fcorectinginvoice_address',1,'306','localnumberc','Local number',1,2,'',100,2,364,2,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2303,'poboxc','u_yf_fcorectinginvoice_address',1,'1','poboxc','Po Box',1,2,'',100,4,364,2,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (107,2304,'finvoiceid','u_yf_fcorectinginvoice',1,'10','finvoiceid','FL_INVOICE',1,2,'',100,13,361,1,'M~M',2,NULL,'BAS',1,'',0,'','0');
 
 /*Data for the table `vtiger_field_seq` */
 
-insert  into `vtiger_field_seq`(`id`) values (2266);
+insert  into `vtiger_field_seq`(`id`) values (2304);
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -5404,6 +5561,9 @@ insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`se
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2261,'ISTDN','ISTRN',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2262,'ISTRN','ISTDN',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (601,'ModComments','KnowledgeBase',NULL,NULL);
+insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2273,'FCorectingInvoice','Accounts',NULL,NULL);
+insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2304,'FCorectingInvoice','FInvoice',NULL,NULL);
+insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (601,'ModComments','FCorectingInvoice',NULL,NULL);
 
 /*Data for the table `vtiger_finvoice_formpayment` */
 
@@ -5957,10 +6117,12 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (265,106,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,'','','');
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (266,96,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (267,3,'DASHBOARDWIDGET','LBL_PRODUCTS_SOLD_TO_RENEW','index.php?module=Home&view=ShowWidget&name=ProductsSoldToRenew','',0,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (268,3,'DASHBOARDWIDGET','LBL_SOLD_SERVICES_TO_RENEW','index.php?module=Home&view=ShowWidget&name=ServicesSoldToRenew','',0,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (269,107,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,'','','');
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (267);
+insert  into `vtiger_links_seq`(`id`) values (269);
 
 /*Data for the table `vtiger_loginhistory` */
 
@@ -6105,10 +6267,12 @@ insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`star
 insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`start_id`,`cur_id`,`active`) values (69,'KnowledgeBase','KB','','1','1','1');
 insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`start_id`,`cur_id`,`active`) values (70,'ISTDN','I-TD','','1','1','1');
 insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`start_id`,`cur_id`,`active`) values (71,'ISTN','I-SN','','1','1','1');
+insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`start_id`,`cur_id`,`active`) values (72,'ISTRN','I-TR','','1','1','1');
+insert  into `vtiger_modentity_num`(`num_id`,`semodule`,`prefix`,`postfix`,`start_id`,`cur_id`,`active`) values (73,'FCorectingInvoice','F-CI','','1','1','1');
 
 /*Data for the table `vtiger_modentity_num_seq` */
 
-insert  into `vtiger_modentity_num_seq`(`id`) values (71);
+insert  into `vtiger_modentity_num_seq`(`id`) values (73);
 
 /*Data for the table `vtiger_modtracker_basic` */
 
@@ -6182,6 +6346,7 @@ insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (103,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (104,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (105,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (106,1);
+insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (107,1);
 
 /*Data for the table `vtiger_module_dashboard` */
 
@@ -6473,6 +6638,10 @@ insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (0,
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (1,106);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (2,106);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (3,106);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (0,107);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (1,107);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (2,107);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (3,107);
 
 /*Data for the table `vtiger_org_share_action_mapping` */
 
@@ -6631,6 +6800,16 @@ insert  into `vtiger_ossmailview_sendtype_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_osssoldservices` */
 
+/*Data for the table `vtiger_osssoldservices_renew` */
+
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_PLANNED',1,675,1);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_WAITING_FOR_RENEWAL',1,676,2);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_WAITING_FOR_VERIFICATION',1,677,3);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_WAITING_FOR_ACCEPTANCE',1,678,4);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',0,679,5);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',0,680,6);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',1,681,7);
+
 /*Data for the table `vtiger_osssoldservicescf` */
 
 /*Data for the table `vtiger_osstimecontrol` */
@@ -6717,6 +6896,7 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (1,'accounttype');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (25,'activitystatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (2,'activitytype');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (37,'assetstatus');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (91,'assets_renew');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (3,'campaignstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (4,'campaigntype');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (70,'contactstatus');
@@ -6731,6 +6911,8 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (6,'eventstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (7,'expectedresponse');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (8,'faqcategories');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (9,'faqstatus');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (92,'fcorectinginvoice_formpayment');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (93,'fcorectinginvoice_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (88,'finvoiceproforma_formpayment');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (89,'finvoiceproforma_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (86,'finvoice_formpayment');
@@ -6749,6 +6931,7 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (64,'oproductstatus')
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (59,'ossdc_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (60,'osservicesstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (57,'ossmailview_sendtype');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (90,'osssoldservices_renew');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (75,'paymentsin_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (76,'paymentsout_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (45,'progress');
@@ -6789,18 +6972,23 @@ insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfiel
 insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (10,7,'industry','subindustry','Uniformed Services','[\"Army\",\"Police\"]',NULL);
 insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (11,7,'industry','subindustry','Transport & Logistics','[\"\"]',NULL);
 insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (12,7,'industry','subindustry','Technologies','[\"Other\",\"Information Technology\",\"Telecommunication\",\"Media\"]',NULL);
+insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (13,14,'usageunit','subunit','pcs','[\"\"]',NULL);
+insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (14,14,'usageunit','subunit','pack','[\"\"]',NULL);
+insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (15,14,'usageunit','subunit','kg','[\"50g\",\"100g\",\"300g\",\"500g\"]',NULL);
+insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (16,14,'usageunit','subunit','m','[\"\"]',NULL);
+insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (17,14,'usageunit','subunit','l','[\"100ml\",\"250ml\",\"330ml\",\"500ml\"]',NULL);
 
 /*Data for the table `vtiger_picklist_dependency_seq` */
 
-insert  into `vtiger_picklist_dependency_seq`(`id`) values (12);
+insert  into `vtiger_picklist_dependency_seq`(`id`) values (17);
 
 /*Data for the table `vtiger_picklist_seq` */
 
-insert  into `vtiger_picklist_seq`(`id`) values (89);
+insert  into `vtiger_picklist_seq`(`id`) values (93);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
-insert  into `vtiger_picklistvalues_seq`(`id`) values (674);
+insert  into `vtiger_picklistvalues_seq`(`id`) values (693);
 
 /*Data for the table `vtiger_portal` */
 
@@ -8217,6 +8405,44 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,104,2261,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,106,2262,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,96,2263,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,58,2267,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,37,2268,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,14,2269,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2270,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2271,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2272,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2273,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2274,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2275,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2276,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2277,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2278,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2279,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2280,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2281,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2282,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2283,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2284,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2285,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2286,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2287,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2288,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2289,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2290,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2291,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2292,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2293,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2294,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2295,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2296,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2297,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2298,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2299,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2300,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2301,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2302,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2303,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,107,2304,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,3,0,0);
@@ -9603,6 +9829,44 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,104,2261,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,106,2262,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,96,2263,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,58,2267,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,37,2268,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,14,2269,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2270,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2271,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2272,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2273,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2274,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2275,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2276,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2277,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2278,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2279,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2280,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2281,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2282,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2283,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2284,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2285,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2286,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2287,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2288,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2289,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2290,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2291,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2292,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2293,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2294,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2295,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2296,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2297,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2298,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2299,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2300,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2301,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2302,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2303,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,107,2304,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,3,0,0);
@@ -10989,6 +11253,44 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,104,2261,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,106,2262,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,96,2263,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,58,2267,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,37,2268,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,14,2269,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2270,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2271,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2272,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2273,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2274,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2275,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2276,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2277,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2278,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2279,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2280,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2281,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2282,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2283,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2284,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2285,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2286,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2287,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2288,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2289,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2290,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2291,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2292,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2293,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2294,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2295,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2296,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2297,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2298,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2299,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2300,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2301,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2302,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2303,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,107,2304,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,3,0,0);
@@ -12375,6 +12677,44 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,104,2261,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,106,2262,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,96,2263,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,58,2267,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,37,2268,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,14,2269,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2270,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2271,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2272,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2273,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2274,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2275,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2276,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2277,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2278,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2279,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2280,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2281,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2282,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2283,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2284,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2285,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2286,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2287,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2288,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2289,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2290,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2291,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2292,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2293,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2294,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2295,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2296,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2297,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2298,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2299,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2300,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2301,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2302,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2303,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,107,2304,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -12698,6 +13038,11 @@ insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (1,106,2,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (1,106,3,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (1,106,4,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (1,107,0,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (1,107,1,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (1,107,2,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (1,107,3,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (1,107,4,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,4,0,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,4,1,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,4,2,1);
@@ -13007,6 +13352,11 @@ insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,106,2,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,106,3,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,106,4,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,107,0,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,107,1,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,107,2,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,107,3,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (2,107,4,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,4,0,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,4,1,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,4,2,1);
@@ -13316,6 +13666,11 @@ insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,106,2,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,106,3,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,106,4,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,107,0,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,107,1,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,107,2,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,107,3,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (3,107,4,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,4,0,1);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,4,1,1);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,4,2,1);
@@ -13625,6 +13980,11 @@ insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,106,2,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,106,3,0);
 insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,106,4,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,107,0,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,107,1,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,107,2,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,107,3,0);
+insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation`,`permissions`) values (4,107,4,0);
 
 /*Data for the table `vtiger_profile2tab` */
 
@@ -13948,6 +14308,10 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,1
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,106,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,106,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,106,0);
+insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,107,0);
+insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,107,0);
+insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,107,0);
+insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,107,0);
 
 /*Data for the table `vtiger_profile2utility` */
 
@@ -14268,6 +14632,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,34,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,36,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,37,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,40,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,42,0);
@@ -14436,6 +14801,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,34,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,36,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,37,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,40,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,42,0);
@@ -14934,6 +15300,11 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,106,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,106,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,106,42,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,5,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,6,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,8,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,41,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,42,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,4,5,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,4,6,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,4,8,0);
@@ -15251,6 +15622,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,37,34,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,37,36,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,37,37,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,37,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,37,40,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,37,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,37,42,0);
@@ -15419,6 +15791,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,58,34,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,58,36,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,58,37,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,58,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,58,40,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,58,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,58,42,0);
@@ -15917,6 +16290,11 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,106,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,106,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,106,42,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,107,5,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,107,6,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,107,8,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,107,41,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,107,42,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,4,5,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,4,6,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,4,8,0);
@@ -16234,6 +16612,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,37,34,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,37,36,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,37,37,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,37,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,37,40,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,37,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,37,42,0);
@@ -16402,6 +16781,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,58,34,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,58,36,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,58,37,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,58,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,58,40,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,58,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,58,42,0);
@@ -16900,6 +17280,11 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,106,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,106,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,106,42,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,107,5,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,107,6,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,107,8,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,107,41,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,107,42,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,4,5,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,4,6,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,4,8,1);
@@ -17217,6 +17602,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,37,34,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,37,36,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,37,37,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,37,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,37,40,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,37,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,37,42,0);
@@ -17385,6 +17771,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,58,34,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,58,36,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,58,37,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,58,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,58,40,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,58,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,58,42,0);
@@ -17883,6 +18270,11 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,106,38,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,106,41,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,106,42,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,107,5,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,107,6,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,107,8,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,107,41,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,107,42,0);
 
 /*Data for the table `vtiger_profile_seq` */
 
@@ -18341,6 +18733,12 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (483,106,104,'get_dependents_list',3,'ISTDN',0,'ADD',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (484,104,106,'get_dependents_list',3,'ISTRN',0,'ADD',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (485,96,8,'get_related_list',1,'Documents',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (486,105,98,'get_related_list',5,'IGRN',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (487,105,100,'get_related_list',6,'IGDN',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (488,105,102,'get_related_list',7,'IGIN',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (489,105,101,'get_related_list',8,'IIDN',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (490,6,107,'get_dependents_list',28,'FCorectingInvoice',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (491,95,107,'get_dependents_list',1,'FCorectingInvoice',0,'ADD',0,0,0);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -18348,7 +18746,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 
 /*Data for the table `vtiger_relatedlists_seq` */
 
-insert  into `vtiger_relatedlists_seq`(`id`) values (485);
+insert  into `vtiger_relatedlists_seq`(`id`) values (491);
 
 /*Data for the table `vtiger_relcriteria` */
 
@@ -18431,6 +18829,22 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',668,87,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',669,88,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',670,89,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',692,93,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',3,1,2);
@@ -18534,17 +18948,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',196,30,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',197,30,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',198,30,4);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',199,30,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',200,30,6);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',201,30,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',202,30,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',203,30,9);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',204,30,10);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',205,30,11);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',206,30,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',207,30,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',208,30,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',209,30,15);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',210,31,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',211,31,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',212,31,3);
@@ -18767,8 +19170,25 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',670,89,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',671,88,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',672,37,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',673,37,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',674,37,9);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',689,63,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',690,63,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',692,93,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',693,92,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',3,1,2);
@@ -18872,17 +19292,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',196,30,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',197,30,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',198,30,4);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',199,30,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',200,30,6);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',201,30,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',202,30,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',203,30,9);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',204,30,10);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',205,30,11);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',206,30,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',207,30,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',208,30,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',209,30,15);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',210,31,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',211,31,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',212,31,3);
@@ -19105,8 +19514,25 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',670,89,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',671,88,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',672,37,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',673,37,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',674,37,9);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',689,63,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',690,63,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',692,93,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',693,92,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',3,1,2);
@@ -19210,17 +19636,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',196,30,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',197,30,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',198,30,4);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',199,30,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',200,30,6);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',201,30,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',202,30,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',203,30,9);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',204,30,10);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',205,30,11);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',206,30,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',207,30,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',208,30,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',209,30,15);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',210,31,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',211,31,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',212,31,3);
@@ -19443,8 +19858,25 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',670,89,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',671,88,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',672,37,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',673,37,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',674,37,9);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',689,63,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',690,63,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',692,93,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',693,92,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',3,1,2);
@@ -19548,17 +19980,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',196,30,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',197,30,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',198,30,4);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',199,30,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',200,30,6);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',201,30,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',202,30,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',203,30,9);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',204,30,10);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',205,30,11);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',206,30,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',207,30,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',208,30,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',209,30,15);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',210,31,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',211,31,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',212,31,3);
@@ -19781,8 +20202,25 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',670,89,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',671,88,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',672,37,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',673,37,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',674,37,9);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',689,63,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',690,63,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',692,93,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',693,92,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',3,1,2);
@@ -19886,17 +20324,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',196,30,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',197,30,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',198,30,4);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',199,30,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',200,30,6);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',201,30,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',202,30,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',203,30,9);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',204,30,10);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',205,30,11);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',206,30,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',207,30,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',208,30,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',209,30,15);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',210,31,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',211,31,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',212,31,3);
@@ -20119,8 +20546,25 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',670,89,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',671,88,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',672,37,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',673,37,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',674,37,9);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',689,63,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',690,63,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',692,93,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',693,92,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',3,1,2);
@@ -20224,17 +20668,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',196,30,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',197,30,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',198,30,4);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',199,30,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',200,30,6);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',201,30,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',202,30,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',203,30,9);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',204,30,10);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',205,30,11);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',206,30,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',207,30,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',208,30,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',209,30,15);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',210,31,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',211,31,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',212,31,3);
@@ -20457,8 +20890,25 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',670,89,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',671,88,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',672,37,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',673,37,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',674,37,9);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',689,63,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',690,63,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',692,93,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',693,92,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',3,1,2);
@@ -20562,17 +21012,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',196,30,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',197,30,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',198,30,4);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',199,30,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',200,30,6);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',201,30,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',202,30,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',203,30,9);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',204,30,10);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',205,30,11);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',206,30,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',207,30,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',208,30,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',209,30,15);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',210,31,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',211,31,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',212,31,3);
@@ -20795,8 +21234,25 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',670,89,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',671,88,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',672,37,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',673,37,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',674,37,9);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',689,63,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',690,63,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',692,93,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',693,92,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',3,1,2);
@@ -20900,17 +21356,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',196,30,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',197,30,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',198,30,4);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',199,30,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',200,30,6);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',201,30,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',202,30,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',203,30,9);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',204,30,10);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',205,30,11);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',206,30,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',207,30,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',208,30,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',209,30,15);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',210,31,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',211,31,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',212,31,3);
@@ -21133,8 +21578,25 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',670,89,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',671,88,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',672,37,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',673,37,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',674,37,9);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',689,63,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',690,63,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',692,93,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',693,92,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',3,1,2);
@@ -21238,17 +21700,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',196,30,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',197,30,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',198,30,4);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',199,30,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',200,30,6);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',201,30,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',202,30,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',203,30,9);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',204,30,10);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',205,30,11);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',206,30,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',207,30,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',208,30,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',209,30,15);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',210,31,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',211,31,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',212,31,3);
@@ -21471,8 +21922,25 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',670,89,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',671,88,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',672,37,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',673,37,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',674,37,9);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',689,63,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',690,63,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',692,93,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',693,92,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',3,1,2);
@@ -21576,17 +22044,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',196,30,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',197,30,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',198,30,4);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',199,30,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',200,30,6);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',201,30,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',202,30,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',203,30,9);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',204,30,10);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',205,30,11);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',206,30,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',207,30,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',208,30,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',209,30,15);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',210,31,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',211,31,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',212,31,3);
@@ -21809,8 +22266,25 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',670,89,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',671,88,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',672,37,7);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',673,37,8);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',674,37,9);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',675,90,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',676,90,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',677,90,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',678,90,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',679,90,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',680,90,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',681,90,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',682,91,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',683,91,2);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',684,91,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',685,91,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',686,91,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',687,91,6);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',688,91,7);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',689,63,4);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',690,63,5);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',691,92,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',692,93,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',693,92,2);
 
 /*Data for the table `vtiger_role2profile` */
 
@@ -21956,7 +22430,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (14,3,'LBL_COMPANY_DETAILS','adminIcon-company-detlis','LBL_COMPANY_DESCRIPTION','index.php?parent=Settings&module=Vtiger&view=CompanyDetails',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (15,8,'LBL_MAIL_SERVER_SETTINGS','adminIcon-mail-configuration','LBL_MAIL_SERVER_DESCRIPTION','index.php?parent=Settings&module=Vtiger&view=OutgoingServerDetail',5,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (16,4,'LBL_CURRENCY_SETTINGS','adminIcon-currencies','LBL_CURRENCY_DESCRIPTION','index.php?parent=Settings&module=Currency&view=List',4,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (17,4,'LBL_SWITCH_USERS','adminIcon-users','LBL_SWITCH_USERS_DESCRIPTION','index.php?module=Users&view=SwitchUsers&parent=Settings',34,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (17,4,'LBL_SWITCH_USERS','adminIcon-users','LBL_SWITCH_USERS_DESCRIPTION','index.php?module=Users&view=SwitchUsers&parent=Settings',11,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (18,4,'LBL_SYSTEM_INFO','adminIcon-server-configuration','LBL_SYSTEM_DESCRIPTION','index.php?module=Settings&submodule=Server&view=ProxyConfig',6,1,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (19,4,'LBL_ANNOUNCEMENT','adminIcon-company-information','LBL_ANNOUNCEMENT_DESCRIPTION','index.php?parent=Settings&module=Vtiger&view=AnnouncementEdit',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (20,4,'LBL_DEFAULT_MODULE_VIEW','adminIcon-standard-modules','LBL_DEFAULT_MODULE_VIEW_DESC','index.php?module=Settings&action=DefModuleView&parenttab=Settings',2,0,0);
@@ -21971,7 +22445,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (30,5,'LBL_CUSTOMER_PORTAL','adminIcon-customer-portal','PORTAL_EXTENSION_DESCRIPTION','index.php?module=CustomerPortal&action=index&parenttab=Settings',3,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (31,5,'Webforms','adminIcon-online-forms','LBL_WEBFORMS_DESCRIPTION','index.php?module=Webforms&action=index&parenttab=Settings',4,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (33,2,'LBL_EDIT_FIELDS','adminIcon-modules-fields','LBL_LAYOUT_EDITOR_DESCRIPTION','index.php?module=LayoutEditor&parent=Settings&view=Index',2,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (35,4,'LBL_PDF','adminIcon-modules-pdf-templates','LBL_PDF_DESCRIPTION','index.php?module=PDF&parent=Settings&view=List',27,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (35,4,'LBL_PDF','adminIcon-modules-pdf-templates','LBL_PDF_DESCRIPTION','index.php?module=PDF&parent=Settings&view=List',10,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (38,7,'LBL_PASSWORD_CONF','adminIcon-passwords-configuration','LBL_PASSWORD_DESCRIPTION','index.php?module=Password&parent=Settings&view=Index',1,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (40,2,'LBL_MENU_BUILDER','adminIcon-menu-configuration','LBL_MENU_BUILDER_DESCRIPTION','index.php?module=Menu&view=Index&parent=Settings',14,0,1);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (41,2,'LBL_ARRANGE_RELATED_TABS','adminIcon-modules-relations','LBL_ARRANGE_RELATED_TABS','index.php?module=LayoutEditor&parent=Settings&view=Index&mode=showRelatedListLayout',4,0,1);
@@ -22024,10 +22498,12 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (94,8,'Mail','adminIcon-mail-download-history','LBL_OSSMAIL_DESCRIPTION','index.php?module=OSSMail&parent=Settings&view=index',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (95,2,'LBL_MAPPEDFIELDS','adminIcon-mapped-fields','LBL_MAPPEDFIELDS_DESCRIPTION','index.php?module=MappedFields&parent=Settings&view=List',16,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (96,1,'LBL_LOCKS','adminIcon-locks','LBL_LOCKS_DESCRIPTION','index.php?module=Users&view=Locks&parent=Settings',8,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (97,4,'LBL_TYPE_NOTIFICATIONS',NULL,NULL,'index.php?module=Notifications&view=List&parent=Settings',12,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (98,4,'LBL_NOTIFICATIONS_CONFIGURATION',NULL,NULL,'index.php?module=Notifications&view=Configuration&parent=Settings',13,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (96);
+insert  into `vtiger_settings_field_seq`(`id`) values (98);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
@@ -22132,13 +22608,15 @@ insert  into `vtiger_ssingleorders_status`(`ssingleorders_statusid`,`ssingleorde
 
 /*Data for the table `vtiger_ssservicesstatus` */
 
-insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Individual Agreement',1,416,1);
-insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'In service',1,417,2);
-insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Finished support',1,418,3);
+insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_DRAFT',1,416,1);
+insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_WAITING_FOR_VERIFICATION',1,417,2);
+insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_WAITING_FOR_ACCEPTANCE',1,418,3);
+insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_ACCEPTED',0,689,4);
+insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_CANCELLED',0,690,5);
 
 /*Data for the table `vtiger_ssservicesstatus_seq` */
 
-insert  into `vtiger_ssservicesstatus_seq`(`id`) values (3);
+insert  into `vtiger_ssservicesstatus_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_start_hour` */
 
@@ -22249,6 +22727,17 @@ insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`p
 
 insert  into `vtiger_subindustry_seq`(`id`) values (43);
 
+/*Data for the table `vtiger_subunit` */
+
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (1,'50g',1,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (2,'100g',2,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (3,'300g',3,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (4,'500g',4,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (5,'100ml',5,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (6,'250ml',6,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (7,'330ml',7,1);
+insert  into `vtiger_subunit`(`subunitid`,`subunit`,`sortorderid`,`presence`) values (8,'500ml',8,1);
+
 /*Data for the table `vtiger_support_processes` */
 
 insert  into `vtiger_support_processes`(`id`,`ticket_status_indicate_closing`) values (1,'');
@@ -22338,6 +22827,7 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`mo
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (104,'ISTDN',0,-1,'ISTDN',NULL,NULL,0,0,1,'0','',NULL,0,1);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (105,'ISTN',0,-1,'ISTN',NULL,NULL,0,0,1,'0','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (106,'ISTRN',0,-1,'ISTRN',NULL,NULL,0,0,1,'0','',NULL,0,1);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (107,'FCorectingInvoice',0,-1,'FCorectingInvoice',NULL,NULL,0,0,1,'0','',NULL,0,1);
 
 /*Data for the table `vtiger_tab_info` */
 
@@ -22424,6 +22914,7 @@ insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (103,'vtig
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (104,'vtiger_min_version','2.3.1315');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (105,'vtiger_min_version','2.3.1321');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (106,'vtiger_min_version','2.3.1326');
+insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (107,'vtiger_min_version','2.3.1422');
 
 /*Data for the table `vtiger_taskpriority` */
 
@@ -22700,26 +23191,15 @@ insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrr
 
 /*Data for the table `vtiger_usageunit` */
 
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Box',1,194,0);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Carton',1,195,1);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Dozen',1,196,2);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Each',1,197,3);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Hours',1,198,4);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'Impressions',1,199,5);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'Lb',1,200,6);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'M',1,201,7);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'Pack',1,202,8);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (10,'Pages',1,203,9);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'Pieces',1,204,10);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (12,'Quantity',1,205,11);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (13,'Reams',1,206,12);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (14,'Sheet',1,207,13);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (15,'Spiral Binder',1,208,14);
-insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (16,'Sq Ft',1,209,15);
+insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'pcs',1,194,0);
+insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'pack',1,195,1);
+insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'kg',1,196,2);
+insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'m',1,197,3);
+insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'l',1,198,4);
 
 /*Data for the table `vtiger_usageunit_seq` */
 
-insert  into `vtiger_usageunit_seq`(`id`) values (16);
+insert  into `vtiger_usageunit_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_user2mergefields` */
 
@@ -22834,28 +23314,28 @@ insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nom
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (60,87,'Summary',NULL,1,0,NULL,'[]');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (61,87,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (62,87,'RelatedModule','Documents',2,3,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
-insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (63,87,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (63,87,'Comments','ModComments',2,5,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (64,87,'Updates','LBL_UPDATES',1,1,NULL,'[]');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (65,88,'Summary',NULL,1,0,NULL,'[]');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (66,88,'Updates','LBL_UPDATES',1,1,NULL,'[]');
-insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (67,88,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (67,88,'Comments','ModComments',2,5,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (68,88,'RelatedModule','Documents',2,3,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (69,88,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (70,89,'Summary',NULL,1,0,NULL,'[]');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (71,89,'Updates','LBL_UPDATES',1,1,NULL,'[]');
-insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (72,89,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (72,89,'Comments','ModComments',2,5,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (73,89,'RelatedModule','Documents',2,3,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (74,89,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (75,90,'Summary',NULL,1,0,NULL,'[]');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (76,90,'Updates','LBL_UPDATES',1,1,NULL,'[]');
-insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (77,90,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (77,90,'Comments','ModComments',2,5,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (78,90,'RelatedModule','Documents',2,3,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (79,90,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (80,86,'Summary',NULL,1,0,NULL,'[]');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (81,86,'Updates','LBL_UPDATES',1,1,NULL,'[]');
-insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (82,86,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
-insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (83,86,'RelatedModule','Documents',2,3,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"-\",\"checkbox\":\"-\"}');
-insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (84,86,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (82,86,'Comments','ModComments',2,6,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (83,86,'RelatedModule','Documents',2,4,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"-\",\"checkbox\":\"-\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (84,86,'EmailList','Emails',2,5,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (85,92,'Summary',NULL,1,0,NULL,'[]');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (86,92,'Updates','LBL_UPDATES',1,1,NULL,'[]');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (87,92,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
@@ -22871,7 +23351,7 @@ insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nom
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (97,18,'Comments','ModComments',2,2,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (98,18,'RelatedModule','Documents',2,3,NULL,'{\"limit\":\"\",\"relatedmodule\":\"8\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (99,18,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
-insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (100,86,'RelatedModule','Contacts',1,5,NULL,'{\"limit\":\"5\",\"relatedmodule\":\"4\",\"columns\":\"1\",\"action\":\"1\",\"actionSelect\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (100,86,'RelatedModule','Contacts',1,2,NULL,'{\"limit\":\"5\",\"relatedmodule\":\"4\",\"columns\":\"1\",\"action\":\"1\",\"actionSelect\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (101,92,'RelatedModule','Contacts',1,5,NULL,'{\"limit\":\"5\",\"relatedmodule\":\"4\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (102,93,'RelatedModule','Contacts',1,5,NULL,'{\"limit\":\"5\",\"relatedmodule\":\"4\",\"columns\":\"3\",\"action\":\"1\",\"filter\":\"-\",\"checkbox_selected\":\"\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (103,6,'RelatedModule','',1,6,NULL,'{\"relatedmodule\":\"86\",\"limit\":\"10\",\"columns\":\"3\",\"action\":\"1\",\"switchHeader\":\"0\",\"filter\":\"-\",\"checkbox\":\"-\"}');
@@ -22919,6 +23399,18 @@ insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nom
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (145,96,'Updates','LBL_UPDATES',1,1,NULL,'[]');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (146,96,'RelatedModule','',2,3,NULL,'{\"relatedmodule\":\"8\",\"limit\":\"5\",\"columns\":\"1\",\"action\":\"1\",\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (147,96,'Summary',NULL,1,0,NULL,'[]');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (148,86,'Activities','Calendar',2,3,NULL,'{\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (149,88,'Activities','Calendar',2,2,NULL,'{\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (150,85,'Activities','Calendar',1,6,NULL,'{\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (151,89,'Activities','Calendar',2,2,NULL,'{\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (152,91,'Activities','Calendar',2,2,NULL,'{\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (153,87,'Activities','Calendar',2,2,NULL,'{\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (154,90,'Activities','Calendar',2,2,NULL,'{\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (155,91,'Summary',NULL,1,0,NULL,'[]');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (156,91,'Updates','LBL_UPDATES',1,1,NULL,'[]');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (157,91,'RelatedModule','Documents',2,3,NULL,'{\"relatedmodule\":\"8\",\"limit\":\"\",\"columns\":\"3\",\"action\":\"1\",\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (158,91,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (159,91,'Comments','ModComments',2,5,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
 
 /*Data for the table `vtiger_ws_entity` */
 
@@ -22991,6 +23483,7 @@ insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismo
 insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (86,'ISTDN','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
 insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (87,'ISTN','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
 insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (88,'ISTRN','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
+insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (89,'FCorectingInvoice','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
 
 /*Data for the table `vtiger_ws_entity_fieldtype` */
 
@@ -23026,7 +23519,7 @@ insert  into `vtiger_ws_entity_referencetype`(`fieldtypeid`,`type`) values (10,'
 
 /*Data for the table `vtiger_ws_entity_seq` */
 
-insert  into `vtiger_ws_entity_seq`(`id`) values (88);
+insert  into `vtiger_ws_entity_seq`(`id`) values (89);
 
 /*Data for the table `vtiger_ws_entity_tables` */
 
@@ -23276,8 +23769,8 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (69,0,67,0,1,41,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (70,0,67,0,2,42,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (71,0,0,2,6,NULL,'MEN_ACCOUNTING',0,NULL,0,'userIcon-Bookkeeping',NULL,NULL,NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (72,0,71,0,4,79,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (73,0,71,0,3,80,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (72,0,71,0,6,79,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (73,0,71,0,5,80,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (76,0,0,2,8,NULL,'MEN_HUMAN_RESOURCES',0,NULL,0,'userIcon-HumanResources',NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (77,0,76,0,0,61,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (78,0,76,0,1,51,NULL,0,NULL,0,'',NULL,'',NULL);
@@ -23323,20 +23816,21 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (125,0,118,0,6,91,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (126,0,47,0,2,92,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (127,0,47,0,4,93,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (128,0,71,0,0,94,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (129,0,71,0,1,95,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (128,0,71,0,1,94,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (129,0,71,0,2,95,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (130,0,63,0,3,96,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (131,0,0,2,7,NULL,'MEN_LOGISTICS',0,NULL,0,'userIcon-VendorsAccounts',NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (132,0,131,0,8,97,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (133,0,131,0,3,98,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (134,0,71,0,2,99,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (135,0,131,0,4,100,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (136,0,131,0,5,101,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (137,0,131,0,6,102,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (138,0,131,0,7,103,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (139,0,131,0,2,104,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (133,0,131,0,1,98,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (134,0,71,0,3,99,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (135,0,131,0,2,100,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (136,0,131,0,3,101,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (137,0,131,0,4,102,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (138,0,131,0,5,103,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (139,0,131,0,7,104,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (140,0,131,0,0,105,NULL,0,NULL,0,'',NULL,'',NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (141,0,131,0,1,106,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (141,0,131,0,6,106,NULL,0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (142,0,71,0,4,107,NULL,0,NULL,0,'',NULL,'',NULL);
 
 /*Data for the table `yetiforce_mobile_keys` */
 

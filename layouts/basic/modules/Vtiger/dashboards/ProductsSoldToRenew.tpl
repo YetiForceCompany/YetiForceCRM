@@ -1,12 +1,4 @@
-{************************************************************************************
-* The contents of this file are subject to the vtiger CRM Public License Version 1.1
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce.com
-************************************************************************************}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {assign var=ACCESSIBLE_USERS value=$CURRENTUSER->getAccessibleUsers()}
 {assign var=ACCESSIBLE_GROUPS value=$CURRENTUSER->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
@@ -37,10 +29,10 @@
 				</button>
 			</div>
 			<div class="pull-right">
-				<select class="widgetFilter form-control sortFieldName input-sm" name="sortFieldName" title="{vtranslate('LBL_CUSTOM_FILTER')}">
+				<select class="widgetFilter form-control orderby input-sm" name="orderby" title="{vtranslate('LBL_CUSTOM_FILTER')}">
 					{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
-						{assign var="FIELD_VALUE" value=$FIELD->get('table')|cat:'.'|cat:$FIELD->get('name')}
-						<option value="{$FIELD_VALUE}" {if $DATA['sortFieldName'] eq $FIELD_VALUE} selected {/if}>{vtranslate($FIELD->get('label'),$BASE_MODULE)}</option>
+						{assign var="FIELD_VALUE" value=$FIELD->get('name')}
+						<option value="{$FIELD_VALUE}" {if $DATA['orderby'] eq $FIELD_VALUE} selected {/if}>{vtranslate($FIELD->get('label'),$BASE_MODULE)}</option>
 					{/foreach}
 				</select>
 			</div>

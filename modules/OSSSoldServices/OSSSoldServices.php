@@ -13,12 +13,13 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class OSSSoldServices extends Vtiger_CRMEntity {
     var $table_name = 'vtiger_osssoldservices';
     var $table_index= 'osssoldservicesid';
-    var $column_fields = Array();
+    var $column_fields = [];
+	protected $lockFields = ['ssservicesstatus' => ['PLL_ACCEPTED', 'PLL_CANCELLED']];
 
-    /** Indicator if this is a custom module or standard module */
-    var $IsCustomModule = true;
+	/** Indicator if this is a custom module or standard module */
+	var $IsCustomModule = true;
 
-    /**
+	/**
      * Mandatory table for supporting custom fields.
      */
     var $customFieldTable = Array('vtiger_osssoldservicescf', 'osssoldservicesid');

@@ -13,6 +13,12 @@ class Assets_Record_Model extends Vtiger_Record_Model
 
 	public function getFieldToEditByModal()
 	{
-		return 'assetstatus';
+		return [
+			'addClass' => 'btn-danger',
+			'iconClass' => 'glyphicon-modal-window',
+			'listViewClass' => 'danger-color',
+			'titleTag' => 'LBL_SET_RECORD_STATUS',
+			'name' => 'assetstatus',
+		];
 	}
 }

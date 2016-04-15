@@ -1041,6 +1041,11 @@ td.fieldValue .input-group {
 .conditionGroup .contents .conditionRow {
 	margin-bottom: 10px;
 }
+.conditionGroup .contents .conditionRow:after {
+	clear: both;
+	display: table;
+    content: " ";
+}
 .conditionGroup .contents .conditionRow select{
 	width: 100%;
 }
@@ -3491,7 +3496,7 @@ span[name=existingImages] img{
 	height: calc(100% - 50px);
 }
 .nav li:hover > .slimScrollDiv >.subMenu > li > .slimScrollDiv >.subMenu{
-	left: 280px;
+	left: 300px;
 	top: 0;
 }
 .nav li:hover .subMenu a{
@@ -3505,12 +3510,12 @@ span[name=existingImages] img{
 	bottom: 33px;
 	top: 50px;
 	z-index: -1;
-	width: 280px; 
+	width: 300px; 
 	background: #f0f1f1;
 	border-right: 1px solid #dddddd;
 }
 .leftPanel .nav .subMenu li {
-	width: 280px;
+	width: 300px;
 }
 .leftPanel .nav .subMenu li.menuLabel > a {
 	font-weight: 600;
@@ -5120,15 +5125,15 @@ select.form-control {
 	min-height: 450px;
 }
 .knowledgePresentationControl {
-	width: 10%;
+	width: 5%;
 }
 .knowledgePresentationInner {
 	position: relative;
 	min-height: 1px;
 	padding-right: 15px;
 	padding-left: 15px;
-	width: 80%;
-	margin-left: 10%;
+	width: 90%;
+	margin-left: 5%;
 	float: left;
 }
 .panelTree{
@@ -5150,4 +5155,49 @@ select.form-control {
 }
 .detailViewContainer .contents .knowledgeBaseDetails {
 	padding: 15px;
+}
+.dashboardWidgetContent .rowAction:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+.knowledgePopoutContainer .knowledgePopoutSubject,
+.knowledgePopoutContainer .knowledgePopoutContent {
+	padding: 20px 50px;
+}
+.knowledgePopoutContainer .knowledgePopoutSubject {
+	text-align: center;
+}
+.knowledgePresentation .knowledgePresentationRow {
+	margin: 0 !important;
+}
+.danger-color{
+	color: #d9534f !important;
+}
+.detailViewContainer .chosen-container,
+.editViewContainer .chosen-container{
+	height: auto;
+}
+.knowledgePresentationControl.carousel-control{
+	background: #fff;
+	color:#000;
+}
+.notificationContainer {
+	padding: 0;
+}
+.notificationContainer .panel-body{
+	position: absolute;
+	top: 38px;
+	bottom:0;
+	padding: 0;
+	overflow: auto;
+}
+.notificationContainer .noticeRow{
+	margin-top: 0;
+	padding: 5px 10px;
+	border-bottom: 1px solid #ddd;
+}
+.notificationContainer li{
+	list-style: none;
+}
+.notificationContainer .panel{
+	height: 100%;
 }

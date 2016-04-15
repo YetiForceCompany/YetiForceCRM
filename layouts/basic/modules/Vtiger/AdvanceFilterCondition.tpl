@@ -13,7 +13,7 @@
 {if !$USER_MODEL}
 	{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 {/if}
-<div class="conditionRow marginBottom10px">
+<div class="conditionRow">
 	<div class="col-md-4 conditionField">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{vtranslate('LBL_CHOOSE_FIELD')}">
 			<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
@@ -118,6 +118,7 @@
 		</select>
 	</div>
 	<div class="col-md-3">
+		<input type="hidden" name="comparatorValue" value="{$CONDITION_INFO['comparator']}">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}

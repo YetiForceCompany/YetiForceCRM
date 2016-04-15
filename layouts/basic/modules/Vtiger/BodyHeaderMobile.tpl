@@ -13,13 +13,28 @@
 				</div>
 			</div>
 		</div>
+		{if $REMINDER_ACTIVE}
+			<div class="row">
+				<div class="remindersNotice quickAction">
+					<div class="pull-left">
+						{vtranslate('LBL_REMINDER',$MODULE)}
+					</div>	
+					<div class="pull-right">
+						<a class="btn btn-default" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
+							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+							<span class="badge hide">0</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		{/if}
 		<div class="row">
 			<div class="remindersNotice quickAction">
 				<div class="pull-left">
-					{vtranslate('LBL_REMINDER',$MODULE)}
+					{vtranslate('LBL_NOTIFICATIONS',$MODULE)}
 				</div>	
 				<div class="pull-right">
-					<a class="btn btn-default" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
+					<a class="btn btn-default" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Home&view=NotificationsList">
 						<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 						<span class="badge hide">0</span>
 					</a>

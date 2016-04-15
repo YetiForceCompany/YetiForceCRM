@@ -140,13 +140,14 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		}
 
 		if (($recordModel->isEditable() && $recordModel->editFieldByModalPermission() ) || $recordModel->editFieldByModalPermission(true)) {
+			$fieldByEditData = $recordModel->getFieldToEditByModal();
 			$basicActionLink = [
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_SET_RECORD_STATUS',
+				'linklabel' => $fieldByEditData['titleTag'],
 				'linkurl' => '#',
 				'linkdata' => ['url' => $recordModel->getEditFieldByModalUrl()],
-				'linkicon' => 'glyphicon glyphicon-modal-window',
-				'linkclass' => 'showModal'
+				'linkicon' => 'glyphicon ' . $fieldByEditData['iconClass'],
+				'linkclass' => 'showModal ' . $fieldByEditData['addClass']
 			];
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}

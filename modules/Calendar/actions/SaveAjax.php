@@ -25,7 +25,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$result = array();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$value = $recordModel->get($fieldName);
-			if(!is_array($recordModel->get($fieldName))) {
+			if(!is_array($value)) {
 				$fieldValue = Vtiger_Util_Helper::toSafeHTML($value);
 			} else {
 				foreach ($value as $key => $item){

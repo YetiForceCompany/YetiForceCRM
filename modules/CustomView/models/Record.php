@@ -456,7 +456,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 						}
 						$advFitlerValue = implode(",", $val);
 					}
-					if (in_array($advFilterComparator, ['om'])) {
+					if (in_array($advFilterComparator, ['om','wr','nwr'])) {
 						$advFitlerValue = '';
 					}
 					$db->insert('vtiger_cvadvfilter', [

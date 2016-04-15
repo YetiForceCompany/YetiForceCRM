@@ -34,6 +34,7 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 			'.colapseBorder {border-collapse: collapse;}' .
 			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
 			'.productTable .summaryContainer{background:#ccc;padding:5px}' .
+			'.barcode {padding: 1.5mm;margin: 0;vertical-align: top;color: #000000}' .
 			'</style>';
 
 		if (count($fields[1]) != 0) {
@@ -54,6 +55,9 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 				foreach ($fields[1] as $field) {
 					if ($field->getName() == 'ItemNumber') {
 						$html .= '<td><strong>'.$inventoryRow['seq'].'</strong></td>';
+					} else if ($field->get('columnname') == 'ean') {
+						$code = $inventoryRow[$field->get('columnname')];
+						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
 					} else if ($field->isVisible($inventoryRows)) {
 						$itemValue = $inventoryRow[$field->get('columnname')];
 						$html .= '<td class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';

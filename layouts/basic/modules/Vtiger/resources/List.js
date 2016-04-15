@@ -456,7 +456,6 @@ jQuery.Class("Vtiger_List_Js", {
 			listInstance.registerReferenceFieldsForValidation(massEditForm);
 			listInstance.registerFieldsForValidation(massEditForm);
 			listInstance.registerEventForTabClick(massEditForm);
-			listInstance.registerRecordAccessCheckEvent(massEditForm);
 			var editInstance = Vtiger_Edit_Js.getInstance();
 			editInstance.registerBasicEvents(massEditForm);
 			//To remove the change happended for select elements due to picklist dependency
@@ -899,45 +898,6 @@ jQuery.Class("Vtiger_List_Js", {
 				}
 		);
 		return aDeferred.promise();
-	},
-	/*
-	 * Function to check the view permission of a record after save
-	 */
-	registerRecordAccessCheckEvent: function (form) {
-
-		form.on(Vtiger_List_Js.massEditPreSave, function (e) {
-			var assignedToSelectElement = form.find('[name="assigned_user_id"][data-validation-engine]');
-			if (assignedToSelectElement.length > 0) {
-				if (assignedToSelectElement.data('recordaccessconfirmation') == true) {
-					return;
-				} else {
-					if (assignedToSelectElement.data('recordaccessconfirmationprogress') != true) {
-						var recordAccess = assignedToSelectElement.find('option:selected').data('recordaccess');
-						if (recordAccess == false) {
-							var message = app.vtranslate('JS_NO_VIEW_PERMISSION_AFTER_SAVE');
-							Vtiger_Helper_Js.showConfirmationBox({
-								'message': message
-							}).then(
-									function (e) {
-										assignedToSelectElement.data('recordaccessconfirmation', true);
-										assignedToSelectElement.removeData('recordaccessconfirmationprogress');
-										form.submit();
-									},
-									function (error, err) {
-										assignedToSelectElement.removeData('recordaccessconfirmationprogress');
-										e.preventDefault();
-									});
-							assignedToSelectElement.data('recordaccessconfirmationprogress', true);
-						} else {
-							return true;
-						}
-					}
-				}
-			} else {
-				return true;
-			}
-			e.preventDefault();
-		});
 	},
 	checkSelectAll: function () {
 		var state = true;

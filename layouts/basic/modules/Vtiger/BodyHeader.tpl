@@ -15,12 +15,20 @@
 					<div class="pull-right rightHeaderBtn">
 						<div class="remindersNotice quickAction">
 							<a class="btn btn-default btn-sm" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
-								<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 								<span class="badge hide">0</span>
 							</a>
 						</div>
 					</div>
 				{/if}
+				<div class="pull-right rightHeaderBtn">
+					<div class="notificationsNotice quickAction">
+						<a class="btn btn-default btn-sm" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Home&view=NotificationsList">
+							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+							<span class="badge hide">0</span>
+						</a>
+					</div>
+				</div>
 				{if $CHAT_ACTIVE}
 					<div class="pull-right rightHeaderBtn">
 						<div class="headerLinksAJAXChat quickAction">
@@ -73,9 +81,9 @@
 											{/if}
 										{/foreach}
 										{if $count % 3 >= 1}
-											</div>
-										{/if}
-									</div>
+										</div>
+									{/if}
+								</div>
 								</div>
 							</li>
 						</ul>

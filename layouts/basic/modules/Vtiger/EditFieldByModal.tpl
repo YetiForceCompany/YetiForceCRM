@@ -1,12 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
 	{assign var=ID value=$RECORD->get('id')}
-	{assign var=FIELD_TO_EDIT value=$RECORD->getFieldToEditByModal()}
+	{assign var=FIELD_DATA value=$RECORD->getFieldToEditByModal()}
+	{assign var=FIELD_TO_EDIT value=$FIELD_DATA['name']}
+	{assign var=BASIC_FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
-	<input type="hidden" class="fieldToEdit" id="fieldToEdit" value="{$FIELD_TO_EDIT}">
 	<div class="modal-header">
-		<div class="pull-left">
-			<h3 class="modal-title">{vtranslate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
+		<div class="col-xs-10">
+			<h3 class="modal-title">{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}: {vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} </h3>
 		</div>
 		<div class="pull-right btn-group">
 			{if $RECORD->isEditable()}
@@ -51,24 +52,25 @@
 <div class="modal-footer">
 	<div class="pull-left">
 		<div class="btn-toolbar">
+			{assign var=IS_EDITABLE_READONLY value=$BASIC_FIELD_MODEL->set('isEditableReadOnly', false)}
+			{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
 			{if $RECORD->isViewable()}
-				<div class="btn-group">
-					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{vtranslate('LBL_CHANGE_STATUS',$MODULE_NAME)} <span class="caret"></span>
+				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
+					<button type="button" class="btn btn-primary dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						{assign var=FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
-						{foreach  key=KEY item=ITEM from=$FIELD_MODEL->getPicklistValues()}
-							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get('assetstatus')} {continue} {/if}
+						{foreach  key=KEY item=ITEM from=$PICKLIST}
+							{if array_key_exists($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
 							<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
-							{/foreach}
+						{/foreach}
 					</ul>
 				</div>
 			{/if}
-			{foreach from=$RESTRICTS_ITEM item=ITEM}
-				{if $RECORD->get($FIELD_TO_EDIT) neq $ITEM}
-					<div class="btn-group">
-						<button type="button" class="btn btn-success editState" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
+			{foreach from=$RESTRICTS_ITEM item=CLASS key=ITEM}
+				{if $CONDITION_TO_RESTRICTS && array_key_exists($RECORD->get($FIELD_TO_EDIT), $PICKLIST) && $RECORD->get($FIELD_TO_EDIT) neq $ITEM}
+					<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
+						<button type="button" class="btn {$CLASS} editState{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
 					</div>
 				{/if}
 			{/foreach}

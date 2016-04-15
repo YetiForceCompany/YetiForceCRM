@@ -15,25 +15,44 @@ class VTWatchdog extends VTTask
 
 	public function getFieldNames()
 	{
-		return array('type', 'message');
+		return ['type', 'message', 'recipients'];
 	}
 
 	public function doTask($entity)
 	{
-		$util = new VTWorkflowUtils();
-		$admin = $util->adminUser();
-		$ws_id = $entity->getId();
-		$module = $entity->getModuleName();
-		$parts = explode('x', $ws_id);
-		$entityId = $parts[1];
+		$moduleName = $entity->getModuleName();
+		$wsId = $entity->getId();
+		$parts = explode('x', $wsId);
+		$recordId = $parts[1];
+		$users = [];
 
-		$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
+		if ($this->recipients == 'watchdog') {
+			$users = $watchdog->getWatchingUsers();
+		}
+		if (empty($users)) {
+			return false;
+		}
+		foreach ($users as $userId) {
+			$notification = Home_Notification_Model::getInstance();
+			$notification->set('record', $recordId);
+			$notification->set('moduleName', $moduleName);
+			$notification->set('message', $this->message);
+			$notification->set('type', $this->type);
+			$notification->set('userid', $userId);
+			$notification->parseContent();
+			$notification->save();
+		}
+	}
 
-		$notification = Home_Notification_Model::getInstance();
-		$notification->set('message', $this->message);
-		$notification->set('type', $this->type);
-		$notification->set('userid', $userModel->getId());
-		$notification->set('reletedid', $entityId);
-		$notification->save();
+	public function getAllTypes()
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->query('SELECT * FROM a_yf_notification_type');
+		$types = [];
+		while ($row = $db->getRow($result)) {
+			$types[$row['id']] = $row;
+		}
+		return $types;
 	}
 }

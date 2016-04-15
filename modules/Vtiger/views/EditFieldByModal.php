@@ -27,10 +27,10 @@ class Vtiger_EditFieldByModal_View extends Vtiger_BasicModal_View
 	function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$id = $request->get('record');
+		$ID = $request->get('record');
 
-		$recordModel = Vtiger_DetailView_Model::getInstance($moduleName, $id)->getRecord();
-		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		$recordModel = Vtiger_DetailView_Model::getInstance($moduleName, $ID)->getRecord();
+		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
 		$structuredValues = $recordStrucure->getStructure();
 
 		$viewer = $this->getViewer($request);
@@ -39,6 +39,7 @@ class Vtiger_EditFieldByModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('SHOW_FIELDS', $this->getFieldsToShow());
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('RESTRICTS_ITEM', $this->getRestrictItems());
+		$viewer->assign('CONDITION_TO_RESTRICTS', $this->getConditionToRestricts($moduleName, $ID));
 		$this->preProcess($request);
 		$viewer->view('EditFieldByModal.tpl', $moduleName);
 		$this->postProcess($request);
@@ -52,5 +53,10 @@ class Vtiger_EditFieldByModal_View extends Vtiger_BasicModal_View
 	public function getRestrictItems()
 	{
 		return $this->restrictItems;
+	}
+
+	public function getConditionToRestricts($moduleName, $ID)
+	{
+		return true;
 	}
 }

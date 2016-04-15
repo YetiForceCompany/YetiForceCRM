@@ -25,12 +25,12 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$linkId = $request->get('linkid');
 		$sortOrder = $request->get('sortorder');
 		$orderBy = $request->get('orderby');
-		if ($request->get('switchParams')) {
-			$params = ['status' => $request->get('switchParams')];
-		} else {
-			$data['switchParams'] = $stateActivityLabels['in_realization'];
-			$params = ['status' => $stateActivityLabels['in_realization']];
-		}
+
+		$params = ['status' => [
+				$stateActivityLabels['not_started'],
+				$stateActivityLabels['in_realization']
+			]
+		];
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
@@ -47,14 +47,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 
-		$switchLabels = [];
-		$switchLabels[] = ['label' => vtranslate($stateActivityLabels['in_realization'], 'Calendar'), 'name' => $stateActivityLabels['in_realization']];
-		$switchLabels[] = ['label' => vtranslate($stateActivityLabels['not_started'], 'Calendar'), 'name' => $stateActivityLabels['not_started']];
-
 		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
-		if ($params['status'] == $stateActivityLabels['in_realization']) {
-			$msgLabel = 'LBL_NO_CURRENT_ACTIVITIES';
-		}
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
@@ -66,7 +59,6 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('HREFNAMELENGHT', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', $msgLabel);
-		$viewer->assign('SWITCH', $switchLabels);
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
 		$content = $request->get('content');

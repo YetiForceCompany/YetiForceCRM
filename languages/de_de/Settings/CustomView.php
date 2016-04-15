@@ -26,8 +26,8 @@ $languageStrings = [
 	'LBL_SORTING_SETTINGS' => 'Sorting settings',
 	'LBL_SORTING_SETTINGS_WORNING' => '<strong>Warning!<strong><br>Record sorting might significantly increase the page loading time.',
 	'LBL_SELECT_FIELD_TO_SORT_RECORDS' => 'Select a field to sort records',
-	'LBL_SORT_ASCENDING_ORDER' => 'Sort ascending order',
-	'LBL_SORT_DESCENDING_ORDER' => 'Sort sescending order',
+	'LBL_SORT_ASCENDING_ORDER' => 'Sort in ascending order',
+	'LBL_SORT_DESCENDING_ORDER' => 'Sort in descending order',
 ];
 $jsLanguageStrings = [
 	'Saving changes'=> 'Speichern von Änderungen...',

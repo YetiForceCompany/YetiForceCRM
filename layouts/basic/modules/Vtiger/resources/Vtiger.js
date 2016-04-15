@@ -82,7 +82,7 @@ var Vtiger_Index_Js = {
 			var left = 0;
 			var top = 30;
 			var popupParams = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
-			if (postData == undefined){
+			if (postData == undefined) {
 				window.open(url, '_blank', popupParams + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no');
 				return;
 			}
@@ -157,8 +157,7 @@ var Vtiger_Index_Js = {
 					widgetContainer.html(data);
 					if (data == '') {
 						widgetContainer.closest('.quickWidget').addClass('hide');
-					}
-					else {
+					} else {
 						var label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
 						jQuery('.bodyContents').trigger('Vtiger.Widget.Load.' + label, jQuery(widgetContainer));
 					}
@@ -259,6 +258,39 @@ var Vtiger_Index_Js = {
 			}
 		})
 
+	},
+	registerNotifications: function () {
+		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
+
+		var currentTime = new Date().getTime();
+		var nextActivityReminderCheck = app.cacheGet('nextNotificationsCheckTime', 0);
+
+		if ((currentTime + delay) > nextActivityReminderCheck) {
+			Vtiger_Index_Js.requestNotifications();
+			setTimeout('Vtiger_Index_Js.registerNotifications()', delay);
+			app.cacheSet('nextNotificationsCheckTime', currentTime + parseInt(delay));
+		}
+	},
+	requestNotifications: function () {
+		var thisInstance = this;
+		AppConnector.request({
+			async: false,
+			dataType: 'json',
+			data: {
+				module: 'Home',
+				action: 'Notification',
+				mode: 'getNumberOfNotifications'
+			}
+		}).then(function (data) {
+			var badge = $(".notificationsNotice .badge");
+			badge.text(data.result);
+			badge.removeClass('hide');
+			if (data.result > 0) {
+				$(".notificationsNotice").effect("pulsate", 1500);
+			} else {
+				badge.addClass('hide');
+			}
+		})
 	},
 	/**
 	 * Function registers event for Calendar Reminder popups
@@ -502,6 +534,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerActivityReminder();
+		Vtiger_Index_Js.registerNotifications();
 		Vtiger_Index_Js.adjustTopMenuBarItems();
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();

@@ -16,6 +16,7 @@ $languageStrings = [
 	'LBL_ACTION' => 'Ação',
 	'LBL_FTP_SAVE_CONFIG' => 'Salvar configuração',
 	'LBL_HOST' => 'Host',
+	'LBL_PORT' => 'Port',
 	'LBL_LOGIN' => 'Acesso',
 	'LBL_PASSWORD' => 'Senha',
 	'LBL_CONNECTION_STATUS' => 'Status da conexão',

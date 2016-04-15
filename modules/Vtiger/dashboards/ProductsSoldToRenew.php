@@ -46,8 +46,8 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 	public function setData($data)
 	{
-		if (empty($data['sortFieldName'])) {
-			$data['sortFieldName'] = 'vtiger_assets.assetname';
+		if (empty($data['orderby'])) {
+			$data['orderby'] = 'assetname';
 			$data['sortorder'] = 'asc';
 		}
 		$this->data = $data;
@@ -90,6 +90,11 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		return ['id', 'assetname', 'parent_id', 'dateinservice'];
 	}
 
+	public function getRestrictFields()
+	{
+		return [];
+	}
+
 	protected function initListViewController()
 	{
 		if (!$this->listviewController) {
@@ -110,6 +115,9 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		if (!$this->listviewHeaders) {
 			$headerFieldModels = [];
 			foreach ($this->listviewController->getListViewHeaderFields() as $fieldName => $webserviceField) {
+				if (in_array($fieldName, $this->getRestrictFields())) {
+					continue;
+				}
 				$fieldObj = Vtiger_Field::getInstance($webserviceField->getFieldId());
 				$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstanceFromFieldObject($fieldObj);
 			}
@@ -130,13 +138,11 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		$this->initListViewController();
 		if (!$this->listviewRecords) {
 			$db = PearDatabase::getInstance();
-			$status = ['PLL_TO_RENEW', 'PLL_SOLD'];
-			$where = ' AND assetstatus IN (' . $db->generateQuestionMarks($status) . ') ';
-
-			$query = $this->queryGenerator->getQuery() . $where;
-			$query .= ' ORDER BY ' . $this->getFromData('sortFieldName') . ' ' . $this->getFromData('sortorder');
+			$conditions = $this->getConditions();
+			$query = $this->queryGenerator->getQuery() . $conditions['where'];
+			$query .= ' ORDER BY ' . $this->getFromData('orderby') . ' ' . $this->getFromData('sortorder');
 			$query .= ' LIMIT 0,' . $this->getRecordLimit();
-			$result = $db->pquery($query, $status);
+			$result = $db->pquery($query, $conditions['params']);
 
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
@@ -144,13 +150,26 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 			$entries = $this->listviewController->getListViewRecords($targetModuleFocus, $targetModuleName, $result);
 
 			$this->listviewRecords = [];
+			$index = 0;
 			foreach ($entries as $id => $record) {
-				$rawData = $db->getRow($result);
+				$rawData = $db->query_result_rowdata($result, $index++);
 				$record['id'] = $id;
 				$this->listviewRecords[$id] = $this->getTargetModuleModel()->getRecordFromArray($record, $rawData);
 			}
 		}
 
 		return $this->listviewRecords;
+	}
+
+	public function getFieldNameToSecondButton()
+	{
+		return 'assets_renew';
+	}
+
+	public function getConditions()
+	{
+		$where = ' AND assetstatus = ? AND assets_renew NOT IN (?, ?)';
+		$params = ['PLL_ACCEPTED', 'PLL_RENEWED', 'PLL_NOT_RENEWED'];
+		return ['where' => $where, 'params' => $params];
 	}
 }

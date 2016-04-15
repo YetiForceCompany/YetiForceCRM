@@ -44,11 +44,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', false);
 			}
 		});
-		jQuery('#rightPanel .refreshCalendar').on('click', function () {
-			$(this).closest('.refreshHeader').addClass('hide');
-			thisInstance.loadCalendarData();
-			return false;
-		});
 	},
 	registerColorField: function (field, fieldClass) {
 		var params = {};
@@ -534,12 +529,15 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		app.showBtnSwitch(switchBtn.find('.switchBtn'));
 	},
 	registerSelect2Event: function () {
+		var thisInstance = this;
+		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
 		app.showSelect2ElementView($('#calendarUserList'));
 		app.showSelect2ElementView($('#calendarActivityTypeList'));
 		app.showSelect2ElementView($('#calendarGroupList'));
-		$('.select2,.filterField').on('change', function () {
-			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('hide');
+		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function(){
+			thisInstance.loadCalendarData();
 		});
+		
 	},
 	registerEvents: function () {
 		this.renderCalendar();

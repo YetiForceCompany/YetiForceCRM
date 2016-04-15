@@ -60,7 +60,7 @@ class ServiceContractsHandler extends VTEventHandler
 																SELECT relcrmid FROM vtiger_crmentityrel
 																WHERE relmodule = 'ServiceContracts'
 																AND module = 'HelpDesk' AND crmid = ?", array($ticketId, $ticketId));
-						while (($contract_id = $db->getSingleValue($contract_tktresult)) !== false) {
+						while (($contract_id = $adb->getSingleValue($contract_tktresult)) !== false) {
 							$scFocus = CRMEntity::getInstance('ServiceContracts');
 							$scFocus->id = $contract_id;
 							$scFocus->retrieve_entity_info($contract_id, 'ServiceContracts');

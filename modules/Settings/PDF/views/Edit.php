@@ -72,7 +72,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				} else {
 					$relatedFields = [];
 				}
-				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
+				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($pdfModel->get('module_name'));
 
 				$insertOperations = [
 					'PAGENO' => 'PAGENO',
@@ -92,7 +92,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				} else {
 					$relatedFields = [];
 				}
-				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
+				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($pdfModel->get('module_name'));
 
 				$viewer->assign('RELATED_MODULES', $relatedModules);
 				$viewer->assign('RELATED_FIELDS', $relatedFields);
@@ -107,7 +107,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				} else {
 					$relatedFields = [];
 				}
-				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($allModules[key($allModules)]->getName());
+				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($pdfModel->get('module_name'));
 
 				$insertOperations = [
 					'PAGENO' => 'PAGENO',

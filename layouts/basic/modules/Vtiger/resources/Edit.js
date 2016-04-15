@@ -929,37 +929,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 			}
 		});
 	},
-	registerRecordAccessCheckEvent: function (form) {
-
-		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-			var assignedToSelectElement = jQuery('[name="assigned_user_id"]', form);
-			if (assignedToSelectElement.data('recordaccessconfirmation') == true) {
-				return;
-			} else {
-				if (assignedToSelectElement.data('recordaccessconfirmationprogress') != true) {
-					var recordAccess = assignedToSelectElement.find('option:selected').data('recordaccess');
-					if (recordAccess == false) {
-						var message = app.vtranslate('JS_NO_VIEW_PERMISSION_AFTER_SAVE');
-						Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-								function (e) {
-									assignedToSelectElement.data('recordaccessconfirmation', true);
-									assignedToSelectElement.removeData('recordaccessconfirmationprogress');
-									form.append('<input type="hidden" name="returnToList" value="true" />');
-									form.submit();
-								},
-								function (error, err) {
-									assignedToSelectElement.removeData('recordaccessconfirmationprogress');
-									e.preventDefault();
-								});
-						assignedToSelectElement.data('recordaccessconfirmationprogress', true);
-					} else {
-						return true;
-					}
-				}
-			}
-			e.preventDefault();
-		});
-	},
 	/**
 	 * Function to register event for setting up picklistdependency
 	 * for a module if exist on change of picklist value
@@ -1471,7 +1440,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerClearReferenceSelectionEvent(container);
 		this.registerPreventingEnterSubmitEvent(container);
 		this.registerTimeFields(container);
-		this.registerRecordAccessCheckEvent(container);
 		this.registerEventForPicklistDependencySetup(container);
 		this.registerRecordPreSaveEventEvent(container);
 		this.registerReferenceSelectionEvent(container);

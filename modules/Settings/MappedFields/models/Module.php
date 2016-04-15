@@ -337,4 +337,74 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$this->getRecord()->set('conditions', $wfCondition);
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 	}
+	
+	public function import($qualifiedModuleName = false)
+	{
+		$id = '';
+		if (is_array($_FILES) && $_FILES['imported_xml']['name'] != '') {
+			$xmlName = $_FILES['imported_xml']['name'];
+			$uploadedXml = $_FILES['imported_xml']['tmp_name'];
+			$xmlError = $_FILES['imported_xml']['error'];
+			$extension = end(explode('.', $xmlName));
+			$message = false;
+			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
+				list($id, $message) = $this->importDataFromXML($uploadedXml);
+			} else {
+				$message = 'LBL_UPLOAD_ERROR';
+			}
+		}
+		return ['id' => $id, 'message' => vtranslate($message, $qualifiedModuleName)];
+	}
+
+	public function importDataFromXML($uploadedXml)
+	{
+		$combine = ['tabid' => 'source', 'reltabid' => 'target'];
+		$instances = [];
+		$i = 0;
+		$mapping = [];
+		$xml = simplexml_load_file($uploadedXml);
+		foreach ($xml as $fieldsKey => $fieldsValue) {
+			if (array_key_exists($fieldsKey, $combine)) {
+				$value = (int) Vtiger_Functions::getModuleId((string) $fieldsValue);
+				if (empty($value)) {
+					break;
+				}
+				$instances[$combine[$fieldsKey]] = Vtiger_Module_Model::getInstance((string) $fieldsValue);
+			} elseif ($fieldsKey == 'fields') {
+				foreach ($fieldsValue as $fieldKey => $fieldValue) {
+					foreach ($fieldValue as $columnKey => $columnValue) {
+						settype($columnKey, 'string');
+						settype($columnValue, 'string');
+						if (in_array($columnKey, ['default', 'type'])) {
+							$mapping[$i][$columnKey] = $columnValue;
+							continue;
+						}
+						$fieldObject = Settings_MappedFields_Field_Model::getInstance($columnValue, $instances[$columnKey], $mapping[$i]['type']);
+						if (!$fieldObject) {
+							continue;
+						}
+						$mapping[$i][$columnKey] = $fieldObject->getId();
+					}
+					$i++;
+				}
+				continue;
+			} else {
+				$value = (string) $fieldsValue;
+			}
+			$this->getRecord()->set($fieldsKey, $value);
+		}
+		$tabid = $this->getRecord()->get('tabid');
+		$reltabid = $this->getRecord()->get('reltabid');
+		if (empty($tabid) || empty($reltabid)) {
+			$message = 'LBL_MODULE_NOT_EXIST';
+		} elseif (!$this->importsAllowed()) {
+			$this->setMapping($mapping);
+			$this->save(true);
+			$message = 'LBL_IMPORT_OK';
+			$id = $this->getRecordId();
+		} else {
+			$message = 'LBL_NO_PERMISSION_TO_IMPORT';
+		}
+		return [$id, $message];
+	}
 }

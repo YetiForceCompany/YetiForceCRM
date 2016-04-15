@@ -9,7 +9,7 @@
 					<div class="modal-header row no-margin">
 						<div class="col-xs-12 paddingLRZero">
 							<div class="col-xs-8 paddingLRZero">
-								<h4>{vtranslate('LBL_ADD_ISSUE', $QUALIFIED_MODULE)}</h4>
+								<h4>{vtranslate('LBL_TITLE_ADD_ISSUE', $QUALIFIED_MODULE)}</h4>
 							</div>
 							<div class="pull-right">
 								<button class="btn btn-success saveIssues paddingLeftMd" type="submit" disabled>

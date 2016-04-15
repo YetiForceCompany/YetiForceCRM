@@ -41,11 +41,6 @@
 			<div class="pull-right">
 				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 			</div>
-			{if $SWITCH}
-				<div class="pull-left">
-					<input class="switchBtn switchBtnReload status" type="checkbox" {if $DATA['switchParams'] eq $SWITCH[0].name}checked=""{/if} data-size="small" data-label-width="5" data-on-text="{$SWITCH[0].label}" data-off-text="{$SWITCH[1].label}" data-on-val="{$SWITCH[0].name}" data-off-val="{$SWITCH[1].name}" data-urlparams="switchParams">
-				</div>
-			{/if}
 		</div>
 	</div>
 </div>

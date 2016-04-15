@@ -24,9 +24,6 @@
 			<div class="pull-right">
 				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 			</div>
-			<div class="pull-left">
-				<input class="switchBtn switchBtnReload" type="checkbox" {if $DATA['activitesType'] eq 'upcoming'}checked=""{/if} data-size="small" data-label-width="5" data-on-text="{vtranslate('Upcoming Activities',$MODULE_NAME)}" data-off-text="{vtranslate('Overdue Activities',$MODULE_NAME)}" data-on-val="upcoming" data-off-val="overdue" data-urlparams="activitesType">
-			</div>
 		</div>
 	</div>
 </div>
