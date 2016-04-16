@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class("Settings_Vtiger_Index_Js", {
 	showMessage: function (customParams) {
@@ -106,78 +107,44 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			e.stopPropagation();
 		});
 	},
-	registerPinUnpinShortCutEvent: function () {
+	registerPinShortCutEvent: function (element) {
 		var thisInstance = this;
-		var widgets = jQuery('div.widgetContainer');
-		widgets.on('click', '.pinUnpinShortCut', function (e) {
-			var shortCutActionEle = jQuery(e.currentTarget);
-			var url = shortCutActionEle.closest('.menuItem').data('actionurl');
-			var shortCutElementActionStatus = shortCutActionEle.data('action');
-			if (shortCutElementActionStatus == 'pin') {
-				var actionUrl = url + '&pin=true';
-			} else {
-				actionUrl = url + '&pin=false';
+		var id = element.data('id');
+		var url = 'index.php?module=Vtiger&parent=Settings&action=Basic&mode=updateFieldPinnedStatus&pin=true&fieldid=' + id;
+		var progressIndicatorElement = jQuery.progressIndicator({
+			'blockInfo': {
+				'enabled': true
 			}
-			var progressIndicatorElement = jQuery.progressIndicator({
-				'blockInfo': {
-					'enabled': true
+		});
+		AppConnector.request(url).then(function (data) {
+			if (data.result.SUCCESS == 'OK') {
+				var params = {
+					'fieldid': id,
+					'mode': 'getSettingsShortCutBlock',
+					'module': 'Vtiger',
+					'parent': 'Settings',
+					'view': 'IndexAjax'
 				}
-			});
-			AppConnector.request(actionUrl).then(function (data) {
-				if (data.result.SUCCESS == 'OK') {
-					if (shortCutElementActionStatus == 'pin') {
-						var imagePath = shortCutActionEle.data('unpinimageurl');
-						var unpinTitle = shortCutActionEle.data('unpintitle');
-						shortCutActionEle.attr('src', imagePath).data('action', 'unpin').attr('title', unpinTitle);
-						var params = {
-							'fieldid': shortCutActionEle.data('id'),
-							'mode': 'getSettingsShortCutBlock',
-							'module': 'Vtiger',
-							'parent': 'Settings',
-							'view': 'IndexAjax'
-						}
-						AppConnector.request(params).then(function (data) {
-//							var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
-							var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
-							var existingDivBlock = jQuery('#settingsShortCutsContainer div.row:last');
-							var count = jQuery('#settingsShortCutsContainer div.row:last').children("div").length;
-							if (count == 3) {
+				AppConnector.request(params).then(function (data) {
+					var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
+					var existingDivBlock = jQuery('#settingsShortCutsContainer div.row:last');
+					var count = jQuery('#settingsShortCutsContainer div.row:last').children("div").length;
+					if (count == 3) {
 
-								var newBlock = jQuery('#settingsShortCutsContainer').append('<div class="row">' + data);
-							} else {
-								var newBlock = jQuery(data).appendTo(existingDivBlock);
-							}
-
-//							var newBlock = jQuery(data).appendTo(shortCutsMainContainer);
-							thisInstance.registerSettingShortCutAlignmentEvent();
-							progressIndicatorElement.progressIndicator({
-								'mode': 'hide'
-							});
-							var params = {
-								text: app.vtranslate('JS_SUCCESSFULLY_PINNED')
-							};
-							Settings_Vtiger_Index_Js.showMessage(params);
-						});
+						var newBlock = jQuery('#settingsShortCutsContainer').append('<div class="row">' + data);
 					} else {
-						var imagePath = shortCutActionEle.data('pinimageurl');
-						var pinTitle = shortCutActionEle.data('pintitle');
-						shortCutActionEle.attr('src', imagePath).data('action', 'pin').attr('title', pinTitle);
-						jQuery('#shortcut_' + shortCutActionEle.data('id')).remove();
-						thisInstance.registerSettingShortCutAlignmentEvent();
-						progressIndicatorElement.progressIndicator({
-							'mode': 'hide'
-						});
-						var params = {
-							title: app.vtranslate('JS_MESSAGE'),
-							text: app.vtranslate('JS_SUCCESSFULLY_UNPINNED'),
-							animation: 'show',
-							type: 'info'
-						};
-						thisInstance.registerReAlign();
-						Vtiger_Helper_Js.showPnotify(params);
+						var newBlock = jQuery(data).appendTo(existingDivBlock);
 					}
-				}
-			});
+					thisInstance.registerSettingShortCutAlignmentEvent();
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					});
+					var params = {
+						text: app.vtranslate('JS_SUCCESSFULLY_PINNED')
+					};
+					Settings_Vtiger_Index_Js.showMessage(params);
+				});
+			}
 		});
 	},
 	registerSettingsShortcutClickEvent: function () {
@@ -209,19 +176,33 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 	},
 	registerAddShortcutDragDropEvent: function () {
 		var thisInstance = this;
-
-		jQuery(".menuItemLabel").draggable({
+		var elements = jQuery(".subMenu .menuShortcut a");
+		var classes = 'ui-draggable-menuShortcut bg-primary';
+		elements.draggable({
+			containment: "#page",
 			appendTo: "body",
-			helper: "clone"
+			helper: "clone",
+			start: function (e, ui)
+			{
+				$(ui.helper).addClass(classes);
+			},
+			zIndex: 99999
 		});
 		jQuery("#settingsShortCutsContainer").droppable({
 			activeClass: "ui-state-default",
 			hoverClass: "ui-state-hover",
-			accept: ".menuItemLabel",
+			accept: ".subMenu .menuShortcut a",
 			drop: function (event, ui) {
-				var actionElement = ui.draggable.closest('.menuItem').find('.pinUnpinShortCut');
-				var pinStatus = actionElement.data('action');
-				if (pinStatus == 'unpin') {
+				var url = ui.draggable.attr('href');
+				var isExist = false;
+				jQuery('#settingsShortCutsContainer [id^="shortcut"]').each(function () {
+					var shortCutUrl = jQuery(this).data('url');
+					if (shortCutUrl == url) {
+						isExist = true;
+						return;
+					}
+				})
+				if (isExist) {
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_SHORTCUT_ALREADY_ADDED'),
@@ -230,7 +211,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 				} else {
-					ui.draggable.closest('.menuItem').find('.pinUnpinShortCut').trigger('click');
+					thisInstance.registerPinShortCutEvent(ui.draggable.parent());
 					thisInstance.registerSettingShortCutAlignmentEvent();
 				}
 			}
@@ -423,7 +404,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				thisInstance.registerSettingsShortcutClickEvent();
 				thisInstance.registerDeleteShortCutEvent();
 				thisInstance.registerWidgetsEvents();
-				thisInstance.registerPinUnpinShortCutEvent();
 				thisInstance.registerAddShortcutDragDropEvent();
 				thisInstance.registerSettingShortCutAlignmentEvent();
 			} else {
