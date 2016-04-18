@@ -670,7 +670,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 						}
 					}
 				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $mapp['source']->getName()) == 0 && in_array($mapp['source']->getName(), $parentFieldsList)) {
-					if ($mapp['source']->getName() == 'shownerid' && empty($parentRecordModel->get($mapp['source']->getName()))) {
+					$parentMapName = $parentRecordModel->get($mapp['source']->getName());
+					if ($mapp['source']->getName() == 'shownerid' && empty($parentMapName)) {
 						$fieldInstance = Vtiger_Field_Model::getInstance($mapp['source']->getName(), $parentRecordModel->getModule());
 						$parentRecordModel->set($mapp['source']->getName(), $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
 					}
