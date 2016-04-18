@@ -146,7 +146,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if (in_array($this->getName(), $complusoryMandatoryFieldList)) {
 			return true;
 		}
-		if (in_array($this->get('uitype'), $mandatoryRestrictedUitypes) || $this->get('displaytype') == 2) {
+		if (in_array($this->get('uitype'), $mandatoryRestrictedUitypes) || ($this->get('displaytype') == 2 && $this->get('uitype') != 306)) {
 			return true;
 		}
 		return false;
