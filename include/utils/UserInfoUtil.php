@@ -402,7 +402,8 @@ function isPermitted($module, $actionname, $record_id = '')
 			$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role->get('previewrelatedrecord'), $actionid);
 			if ($parentRecord) {
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
-				$permissionsRelatedField = empty($role->get('permissionsrelatedfield')) ? [] : explode(',', $role->get('permissionsrelatedfield'));
+				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
+				$permissionsRelatedField = empty($permissionsRoleForRelatedField) ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as &$row) {
 					switch ($row) {
