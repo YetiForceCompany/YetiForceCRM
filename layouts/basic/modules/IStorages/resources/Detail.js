@@ -1,12 +1,4 @@
-/*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- *************************************************************************************/
-
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 Vtiger_Detail_Js("IStorages_Detail_Js", {}, {
 	//It stores the IStorages Hierarchy response data
 	hierarchyResponseCache: {},
@@ -23,7 +15,6 @@ Vtiger_Detail_Js("IStorages_Detail_Js", {}, {
 		} else {
 			AppConnector.request(params).then(
 					function (data) {
-						console.log(data);
 						//store it in the cache, so that we dont do multiple request
 						thisInstance.hierarchyResponseCache = data;
 						aDeferred.resolve(thisInstance.hierarchyResponseCache);
@@ -52,12 +43,6 @@ Vtiger_Detail_Js("IStorages_Detail_Js", {}, {
 	getDeleteMessageKey: function () {
 		return 'LBL_RELATED_RECORD_DELETE_CONFIRMATION';
 	},
-	/**
-	 * Number of records in hierarchy
-	 * @license licenses/License.html
-	 * @package YetiForce.Detail
-	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
-	 */
 	registerHierarchyRecordCount: function () {
 		var hierarchyButton = $('.detailViewTitle .hierarchy');
 		if (hierarchyButton.length) {
