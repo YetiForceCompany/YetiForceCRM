@@ -77,7 +77,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$errorReportingValue = 'E_WARNING & E_ERROR & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
 		$directiveValues = [
-			'PHP' => ['prefer' => '5.4.0'],
+			'PHP' => ['prefer' => '5.5.0'],
 			'error_reporting' => ['prefer' => $errorReportingValue],
 			'output_buffering' => ['prefer' => 'On'],
 			'max_execution_time' => ['prefer' => '600'],
