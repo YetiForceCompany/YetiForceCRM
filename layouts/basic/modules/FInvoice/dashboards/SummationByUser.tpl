@@ -5,7 +5,6 @@
 			var thisInstance = this;
 			var chartData = thisInstance.generateData();
 			var chartArea = thisInstance.getPlotContainer(false);
-			console.log(chartData);
 			var options = {
 				series: {
 					bars: {

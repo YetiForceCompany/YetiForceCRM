@@ -50,7 +50,7 @@
 				</div>
 				<div class="col-xs-12 row marginBottom5px">
 					<div>
-						<button type="button" class="btn btn-success save">{vtranslate('LBL_SAVE_GLOBAL_SETTINGS', $MODULENAME)}</button>
+						<button type="button" class="btn btn-success saveGlobal">{vtranslate('LBL_SAVE_GLOBAL_SETTINGS', $MODULENAME)}</button>
 					</div>
 				</div>
 				<div class="col-xs-12 row marginBottom5px">

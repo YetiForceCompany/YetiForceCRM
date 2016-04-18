@@ -138,19 +138,19 @@ class Settings_Webforms_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-pencil'
 			),
 			array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => vtranslate('LBL_SHOW_FORM', $moduleModel->getParentName() . ':' . $moduleModel->getName()),
 				'linkurl' => 'javascript:Settings_Webforms_Detail_Js.showForm("' . $this->getShowFormUrl() . '")',
-				'linkicon' => 'icon-picture'
+				'linkicon' => 'glyphicon glyphicon-open'
 			),
 			array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Settings_Webforms_Detail_Js.deleteRecord("' . $this->getDeleteUrl() . '")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);
 

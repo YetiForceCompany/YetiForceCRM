@@ -249,7 +249,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	getNearCalendarEvent: function (data, module) {
 		var showCompanies = $('[name="showCompanies').val();
-		var daysWork = JSON.parse($('[name="hiddenDays').val());
+		var daysWork = app.getMainParams('hiddenDays', true);
 		var thisInstance = this;
 		var typeActive = data.find('ul li.active a').data('tab-name');
 		var user = data.find('[name="assigned_user_id"]');

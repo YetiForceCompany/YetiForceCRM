@@ -645,6 +645,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				}
 			}
 			if ($parentRecordModel->getModule()->isInventory() && $this->getModule()->isInventory()) {
+				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($parentRecordModel->getModuleName());
+				$inventoryFields = $inventoryFieldModel->getFields();
 				$sourceInv = $parentRecordModel->getInventoryData();
 				$newInvData = [];
 			}
@@ -658,6 +660,14 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				} elseif ($mapp['type'] == 'INVENTORY' && is_array($sourceInv)) {
 					foreach ($sourceInv as $key => $base) {
 						$newInvData[$key][$mapp['target']->getName()] = $base[$mapp['source']->getName()];
+						$fieldInventoryModel = $inventoryFields ? $inventoryFields[$mapp['source']->getName()] : [];
+						if ($fieldInventoryModel && $fieldInventoryModel->getCustomColumn()) {
+							foreach (array_keys($fieldInventoryModel->getCustomColumn()) as $customColumn) {
+								if (array_key_exists($customColumn, $base)) {
+									$newInvData[$key][$customColumn] = $base[$customColumn];
+								}
+							}
+						}
 					}
 				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $mapp['source']->getName()) == 0 && in_array($mapp['source']->getName(), $parentFieldsList)) {
 					if ($mapp['source']->getName() == 'shownerid' && empty($parentRecordModel->get($mapp['source']->getName()))) {

@@ -31,9 +31,6 @@ Vtiger_List_Js("Rss_List_Js",{},
         var thisInstance = this;
         var progressInstance = jQuery.progressIndicator({});
         thisInstance.getRssAddFormUi().then(function(data) {
-            var resetPasswordUi = jQuery('.rssAddFormContainer').find('#rssAddFormUi');
-            if(resetPasswordUi.length > 0){
-                resetPasswordUi = resetPasswordUi.clone(true,true);
                 progressInstance.progressIndicator({'mode': 'hide'})
                 var callBackFunction = function(data) {
                     var params = app.validationEngineOptions;
@@ -46,12 +43,7 @@ Vtiger_List_Js("Rss_List_Js",{},
                     }
                     form.validationEngine(params);
                 }
-                var modalWindowParams = {
-                        data : resetPasswordUi,
-                        cb : callBackFunction
-                }
-                app.showModalWindow(modalWindowParams);
-            }
+                app.showModalWindow(data, callBackFunction);
         });
     },
     

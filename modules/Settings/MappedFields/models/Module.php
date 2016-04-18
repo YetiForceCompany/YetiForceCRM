@@ -212,7 +212,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getName());
 		$moduleMeta = $moduleModel->getModuleMeta();
-		$moduleFields = $moduleMeta->getAccessibleFields($this->getName());
+		$moduleFields = $moduleMeta->getAccessibleFields();
 		$fields = [];
 		foreach ($moduleFields as $fieldName => $fieldInstance) {
 			if ($moduleMeta->isEditableField($fieldInstance) && !in_array($fieldInstance->getUIType(), $this->getRestrictedUitypes())) {

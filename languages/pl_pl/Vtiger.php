@@ -1118,10 +1118,6 @@ $languageStrings = [
 	'SINGLE_SSalesProcesses' => 'Szansa sprzedaży',
 	'LBL_RELATION' => 'Realacja',
 	'LBL_PREVIEW' => 'Podgląd',
-	'Admin Profile' => 'Profil administratora',
-	'Support Profile' => 'Profil wsparcia',
-	'Sales Profile' => 'Profil sprzedaży',
-	'Guest Profile' => 'Gość',
 	'LBL_DISPLAYED' => 'przeglądał rekord',
 	'LBL_SEND_NOTIFICATION' => 'Wyślij powiadomienie',
 	// Action types - AT

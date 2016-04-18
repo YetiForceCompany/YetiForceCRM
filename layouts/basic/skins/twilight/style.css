@@ -3523,7 +3523,8 @@ span[name=existingImages] img{
 	font-weight: 600;
 	text-transform: uppercase;
 }
-.leftPanel .menuContainer .modulesList .menuIcon{	
+.leftPanel .menuContainer .modulesList .menuIcon,
+.ui-draggable-menuShortcut .menuIcon{
 	padding-right: 18px;
 	font-size: 24px;
 	height:100%;
@@ -5333,4 +5334,10 @@ select.form-control {
 .betweenDragDrop{
 	position: relative;
     top: 100px;
+}
+.ui-draggable-menuShortcut{
+	position: absolute;
+	padding: 5px 12px;
+	display: inline-flex;
+	font-size: 17px;
 }

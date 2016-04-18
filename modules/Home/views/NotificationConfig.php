@@ -8,12 +8,7 @@
  */
 class Home_NotificationConfig_View extends Vtiger_BasicModal_View
 {
-
-	public function checkPermission(Vtiger_Request $request)
-	{
-		return true;
-	}
-
+	
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();

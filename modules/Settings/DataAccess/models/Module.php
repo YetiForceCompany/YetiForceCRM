@@ -393,7 +393,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			$recordData = $recordModel->getData();
 		}
 		while ($row = $db->getRow($result)) {
-			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordData);
+			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordData, $recordModel);
 			if ($conditionResult['test'] == true) {
 				$data = reset(unserialize($row['data']));
 				$return = [

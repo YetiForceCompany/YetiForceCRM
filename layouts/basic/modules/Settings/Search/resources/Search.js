@@ -31,6 +31,9 @@ var Settings_Index_Js = {
 	updateLabels: function (e) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
+		if(!closestTrElement.hasClass('ui-sortable-handle')){
+			closestTrElement = closestTrElement.prev();
+		}
 		var progress = $.progressIndicator({
 			'message': app.vtranslate('Update labels'),
 			'blockInfo': {

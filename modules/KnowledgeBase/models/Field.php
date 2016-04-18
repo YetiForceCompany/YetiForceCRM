@@ -12,7 +12,7 @@ class KnowledgeBase_Field_Model extends Vtiger_Field_Model
 	function isAjaxEditable()
 	{
 		$edit = parent::isAjaxEditable();
-		if ($edit && $this->getName() === 'istdn_status') {
+		if ($edit && $this->getName() === 'knowledgebase_status') {
 			$edit = false;
 		}
 		return $edit;

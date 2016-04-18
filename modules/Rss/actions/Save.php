@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -10,25 +9,27 @@
  * *********************************************************************************** */
 require_once('libraries/magpierss/rss_fetch.inc');
 
-class Rss_Save_Action extends Vtiger_Save_Action {
+class Rss_Save_Action extends Vtiger_Save_Action
+{
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
-
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record)) {
+		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$moduleId = Vtiger_Functions::getModuleId($moduleName);
+		if (!$currentUserModel->hasModulePermission($moduleId)) {
 			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$response = new Vtiger_Response();
 		$moduleName = $request->getModule();
 		$url = $request->get('feedurl');
 		$recordModel = Rss_Record_Model::getCleanInstance($moduleName);
 		$result = $recordModel->validateRssUrl($url);
-
-        if($result) {
+		if ($result) {
 			$recordModel->save($url);
 			$response->setResult(array('success' => true, 'message' => vtranslate('JS_RSS_SUCCESSFULLY_SAVED', $moduleName), 'id' => $recordModel->getId()));
 		} else {

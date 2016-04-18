@@ -335,7 +335,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			if (entry == 'regional') {
 				taxValue = taxParams.regionalTax;
 			}
-			taxRate += valuePrices * (taxValue / 100);
+			taxRate += valuePrices * (app.parseNumberToFloat(taxValue) / 100);
 			if (aggregationType == '2') {
 				valuePrices = valuePrices + taxRate;
 			}
@@ -430,15 +430,13 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var container = thisInstance.getInventorySummaryTaxesContainer();
 		container.find('.panel-body').html('');
 		var sum = 0;
-		$.each(taxs, function (index, value) {
-			if (value != undefined) {
-				var row = container.find('.hide .form-group').clone();
-				row.find('.percent').text(index + '%');
-				row.find('input').val(app.parseNumberToShow(value));
+		for (var index in taxs) {
+			var row = container.find('.hide .form-group').clone();
+				row.find('.percent').text(app.parseNumberToShow(app.parseNumberToFloat(index)) + '%');
+				row.find('input').val(app.parseNumberToShow(taxs[index]));
 				row.appendTo(container.find('.panel-body'));
-				sum += value;
-			}
-		});
+				sum += taxs[index];
+		}
 		container.find('.panel-footer input').val(app.parseNumberToShow(sum));
 	},
 	getAllTaxs: function () {
@@ -461,7 +459,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 					if (tax[precent] != undefined) {
 						old = parseFloat(tax[precent]);
 					}
-					var taxRate = netPrice * (precent / 100);
+					var taxRate = netPrice * (app.parseNumberToFloat(precent) / 100);
 					tax[precent] = old + taxRate;
 					if (typeSummary == '2') {
 						netPrice += taxRate;
