@@ -4860,6 +4860,7 @@ html,body,.baseContainer
 }
 .detailViewTitle .moduleIcon{
 	float: left;
+	margin: 10px 10px 10px 0;
 }
 .spaceRelatedList{
 	width:50px;
@@ -4933,8 +4934,8 @@ html,body,.baseContainer
 	margin-left: 2px;
 }
 .jstree-node .jstree-category, .jstree-node .jstree-edit{
-	margin-left: 10px;
-	font-size: 15px;
+	margin-left: 5px;
+	font-size: 16px;
 	top: 0;
 	vertical-align: middle;
 }
@@ -5322,4 +5323,14 @@ select.form-control {
 }
 .columnSorted{
 	background: #EAEAEA !important;
+}
+.dataTableDragDrop{
+	position: absolute;
+	padding: 5px 12px;
+	display: inline-flex;
+	font-size: 14px;
+}
+.betweenDragDrop{
+	position: relative;
+    top: 100px;
 }

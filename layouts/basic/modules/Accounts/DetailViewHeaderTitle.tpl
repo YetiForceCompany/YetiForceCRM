@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}	
-	<div class="col-xs-12 col-sm-12 col-md-4">
+	<div class="col-xs-12 col-sm-12 col-md-8">
 		<div class="moduleIcon">
 			<span class="hierarchy">
 
@@ -31,9 +31,6 @@
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
 					<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
-				{/if}
-				{if $RECORD->get('accounttype') != ''}
-					<br/>{vtranslate('Type',$MODULE_NAME)}: {vtranslate($RECORD->get('accounttype'),$MODULE_NAME)}
 				{/if}
 			</span>
 		</div>

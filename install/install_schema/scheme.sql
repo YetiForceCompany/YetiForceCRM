@@ -1822,6 +1822,7 @@ CREATE TABLE `u_yf_istorages` (
   `storage_status` varchar(255) DEFAULT '',
   `storage_type` varchar(255) DEFAULT '',
   `parentid` int(19) DEFAULT NULL,
+  `pos` varchar(255) DEFAULT '',
   PRIMARY KEY (`istorageid`),
   KEY `parentid` (`parentid`),
   CONSTRAINT `u_yf_istorages_ibfk_1` FOREIGN KEY (`istorageid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -2509,10 +2510,15 @@ CREATE TABLE `u_yf_ssingleorders` (
   `sum_margin` decimal(27,8) DEFAULT NULL,
   `sum_gross` decimal(27,8) DEFAULT NULL,
   `sum_discount` decimal(27,8) DEFAULT NULL,
+  `pos` varchar(100) DEFAULT '',
+  `istoragesid` int(19) DEFAULT NULL,
+  `table` varchar(20) DEFAULT NULL,
+  `seat` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
   KEY `accountid` (`accountid`),
+  KEY `istoragesid` (`istoragesid`),
   CONSTRAINT `fk_1_u_yf_ssingleorders` FOREIGN KEY (`ssingleordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4625,7 +4631,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2338 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2344 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6856,6 +6862,7 @@ CREATE TABLE `vtiger_products` (
   `ean` varchar(30) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT '',
   `renewable` tinyint(1) DEFAULT '0',
+  `pos` varchar(255) DEFAULT '',
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8991,7 +8998,7 @@ CREATE TABLE `vtiger_ws_fieldtype` (
   `fieldtype` varchar(200) NOT NULL,
   PRIMARY KEY (`fieldtypeid`),
   UNIQUE KEY `uitype_idx` (`uitype`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_operation` */
 
@@ -9140,23 +9147,27 @@ CREATE TABLE `w_yf_pos_users` (
   `pass` varchar(255) NOT NULL,
   `action` varchar(255) DEFAULT NULL,
   `server_id` int(11) NOT NULL,
-  `status` tinyint(1) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
   `last_name` varchar(255) DEFAULT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `login_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_name` (`user_name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `w_yf_servers` */
 
 CREATE TABLE `w_yf_servers` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) DEFAULT NULL,
-  `acceptable_url` varchar(200) DEFAULT NULL,
-  `status` tinyint(1) DEFAULT '0',
-  `api_key` varchar(100) DEFAULT NULL,
-  `type` varchar(40) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `name` varchar(100) NOT NULL,
+  `pass` varchar(100) DEFAULT NULL,
+  `acceptable_url` varchar(255) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `api_key` varchar(100) NOT NULL,
+  `type` varchar(40) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `name` (`name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_auth` */

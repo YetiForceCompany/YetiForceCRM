@@ -16,6 +16,7 @@ class Vtiger_Request
 	private $valuemap;
 	private $rawvaluemap;
 	private $defaultmap = [];
+	private $headers = [];
 
 	/**
 	 * Default constructor
@@ -130,7 +131,7 @@ class Vtiger_Request
 		}
 		return $value;
 	}
-	
+
 	/**
 	 * Get data map
 	 */
@@ -220,6 +221,10 @@ class Vtiger_Request
 
 	function getHeaders()
 	{
+		if (!empty($this->headers)) {
+			return $this->headers;
+		}
+
 		if (!function_exists('apache_request_headers')) {
 			foreach ($_SERVER as $key => $value) {
 				if (substr($key, 0, 5) == 'HTTP_') {
@@ -229,10 +234,35 @@ class Vtiger_Request
 					$out[$key] = $value;
 				}
 			}
-			return $out;
+			$headers = $out;
 		} else {
-			return apache_request_headers();
+			$headers = apache_request_headers();
 		}
+		$this->headers = $headers;
+		return $headers;
+	}
+
+	function getHeader($key)
+	{
+		if (empty($this->headers)) {
+			$this->getHeaders();
+		}
+		return isset($this->headers[$key]) ? $this->headers[$key] : null;
+	}
+
+	function getRequestMetod()
+	{
+		$method = $_SERVER['REQUEST_METHOD'];
+		if ($method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {
+			if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'DELETE') {
+				$method = 'DELETE';
+			} else if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'PUT') {
+				$method = 'PUT';
+			} else {
+				throw new APIException('Unexpected Header');
+			}
+		}
+		return $method;
 	}
 
 	function getModule($raw = true)

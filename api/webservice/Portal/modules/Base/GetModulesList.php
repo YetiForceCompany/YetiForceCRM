@@ -9,9 +9,9 @@
 class API_Base_GetModulesList extends BaseAction
 {
 
-	protected $requestMethod = 'GET';
+	protected $requestMethod = ['get'];
 
-	public function getModulesList()
+	public function get()
 	{
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND presence = ?';

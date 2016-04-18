@@ -432,9 +432,10 @@ var app = {
 			app.showSelectizeElementView(container.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
 			app.registerEventForDatePickerFields(container);
-			
+
 			thisInstance.registerModalEvents(container);
 			thisInstance.showPopoverElementView(container.find('.popoverTooltip'));
+			thisInstance.registerDataTables(container.find('.dataTable'));
 			cb(container);
 		}
 		if (data) {
@@ -809,6 +810,38 @@ var app = {
 			}
 		});
 		elementClockBtn.clockpicker(params);
+	},
+	registerDataTables: function (table) {
+		if ($.fn.dataTable == undefined) {
+			return false;
+		}
+		if (table.length == 0) {
+			return false;
+		}
+		$.extend($.fn.dataTable.defaults, {
+			language: {
+				sLengthMenu: app.vtranslate('JS_S_LENGTH_MENU'),
+				sZeroRecords: app.vtranslate('JS_NO_RESULTS_FOUND'),
+				sInfo: app.vtranslate('JS_S_INFO'),
+				sInfoEmpty: app.vtranslate('JS_S_INFO_EMPTY'),
+				sSearch: app.vtranslate('JS_SEARCH'),
+				sEmptyTable: app.vtranslate('JS_NO_RESULTS_FOUND'),
+				sInfoFiltered: app.vtranslate('JS_S_INFO_FILTERED'),
+				sLoadingRecords: app.vtranslate('JS_LOADING_OF_RECORDS'),
+				sProcessing: app.vtranslate('JS_LOADING_OF_RECORDS'),
+				oPaginate: {
+					sFirst: app.vtranslate('JS_S_FIRST'),
+					sPrevious: app.vtranslate('JS_S_PREVIOUS'),
+					sNext: app.vtranslate('JS_S_NEXT'),
+					sLast: app.vtranslate('JS_S_LAST')
+				},
+				oAria: {
+					sSortAscending: app.vtranslate('JS_S_SORT_ASCENDING'),
+					sSortDescending: app.vtranslate('JS_S_SORT_DESCENDING')
+				}
+			}
+		});
+		table.dataTable();
 	},
 	/**
 	 * Function which will register time fields
@@ -1341,15 +1374,21 @@ var app = {
 			var url = currentElement.data('url');
 
 			if (typeof url != 'undefined') {
-				if (typeof currentElement.data('cb') != 'undefined') {
-					var modalWindowParams = {
-						url: url,
-						cb: currentElement.data('cb'),
-					}
-					app.showModalWindow(modalWindowParams);
-				} else {
-					app.showModalWindow(null, url);
+				if(currentElement.hasClass('popoverTooltip')){
+					currentElement.popover('hide');
 				}
+				currentElement.attr("disabled", true);
+				var modalWindowParams = {
+					url: url,
+					cb: function (container) {
+						var call = currentElement.data('cb');
+						if (typeof window[call] === 'function') {
+							window[call](container);
+						}
+						currentElement.removeAttr("disabled");
+					}
+				}
+				app.showModalWindow(modalWindowParams);
 			}
 			e.stopPropagation();
 		});

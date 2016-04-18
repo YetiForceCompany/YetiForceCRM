@@ -1,40 +1,67 @@
 <?php
 
+/**
+ * Web service exception class 
+ * @package YetiForce.Webservice
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class APIException extends Exception
 {
 
 	public function __construct($message, $code = 200, Exception $previous = null)
 	{
-		parent::__construct($message, $code, $previous);
-		header("Access-Control-Allow-Orgin: *");
-		header("Access-Control-Allow-Methods: *");
-		header("Content-Type: application/json");
-		if (!isset($data)) {
-			$data = $this->message;
-			$code = $this->code;
+		if (!empty($previous)) {
+			parent::__construct($message, $code, $previous);
+		}
+		if (empty($this->message)) {
+			$this->message = $message;
+		}
+		if (empty($this->code)) {
+			$this->code = $code;
 		}
 
-		header("HTTP/1.1 " . $code . " " . $this->_requestStatus($code));
-		header('Encrypted: 0');
-		global $showWebserviceError;
-		if (!$showWebserviceError && $code === 200) {
+		if (!AppConfig::debug('WEBSERVICE_SHOW_ERROR') && $code === 200) {
 			$message = 'Internal Server Error';
 			$code = 500;
 		}
-		echo json_encode(['status' => 0, 'error' => ['message' => $message, 'code' => $code]]);
+
+		$body = [
+			'status' => 0,
+			'error' => [
+				'message' => $message,
+				'code' => $code
+			]
+		];
+		if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+			$body['error']['backtrace'] = Vtiger_Functions::getBacktrace();
+		}
+
+		$response = APIResponse::getInstance();
+		$response->setBody($body);
+		$response->setStatus($code);
+		$response->send();
 	}
 
-	private function _requestStatus($code)
+	public function handleError()
 	{
-		$status = [
-			200 => 'OK',
-			401 => 'Unauthorized',
-			403 => 'Forbidden',
-			404 => 'Not Found',
-			405 => 'Method Not Allowed',
-			500 => 'Internal Server Error',
-		];
-		return ($status[$code]) ? $status[$code] : $status[500];
+		if (AppConfig::debug('WEBSERVICE_DEBUG')) {
+			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+
+			$error .= 'message: ' . $this->getMessage() . PHP_EOL;
+			$error .= 'file: ' . $this->getFile() . PHP_EOL;
+			$error .= 'line: ' . $this->getLine() . PHP_EOL;
+			$error .= 'code: ' . $this->getCode() . PHP_EOL;
+			$error .= '============ stacktrace: ' . PHP_EOL . $this->getTraceAsString() . PHP_EOL;
+			$error .= '============ Headers: ' . PHP_EOL;
+			$error .= 'REQUEST_METHOD : ' . $request->getRequestMetod() . PHP_EOL;
+			foreach ($request->getHeaders() as $key => $header) {
+				$error .= $key . ': ' . $header . PHP_EOL;
+			}
+			$error .= '============ Request data : ' . PHP_EOL . file_get_contents('php://input') . PHP_EOL;
+			file_put_contents('cache/logs/webserviceErrors.log', '============ Error exception ====== ' . date('Y-m-d H:i:s') . ' ======'
+				. PHP_EOL . $error . PHP_EOL, FILE_APPEND);
+		}
 	}
 }
 
@@ -49,6 +76,6 @@ function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
 			$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
 			throw new APIException($msg);
 			break;
-	}  
+	}
 }
 set_error_handler('exceptionErrorHandler');

@@ -9,9 +9,8 @@
 class API_Users_Logout extends BaseAction
 {
 
-	protected $requestMethod = 'GET';
-
-	public function logout()
+	protected $requestMethod = ['get'];
+	public function get()
 	{
 		
 		return true;

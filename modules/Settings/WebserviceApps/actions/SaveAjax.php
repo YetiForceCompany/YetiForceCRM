@@ -17,8 +17,10 @@ class Settings_WebserviceApps_SaveAjax_Action extends Settings_Vtiger_Index_Acti
 		$nameServer = $request->get('name');
 		$url = $request->get('url');
 		$db = PearDatabase::getInstance();
+		$pass = $request->get('pass');
 		if (empty($id)) {
 			$type = $request->get('type');
+			
 			$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);
 			$db->insert('w_yf_servers', [
 				'name' => $nameServer,
@@ -26,12 +28,14 @@ class Settings_WebserviceApps_SaveAjax_Action extends Settings_Vtiger_Index_Acti
 				'api_key' => $key,
 				'status' => $status == 'true' ? 1 : 0,
 				'type' => $type,
+				'pass' => $pass,
 			]);
 		} else {
 			$updates = [
 				'status' => $status == 'true' ? 1 : 0,
 				'name' => $nameServer,
 				'acceptable_url' => $url,
+				'pass' => $pass,
 			];
 			$db->update('w_yf_servers', $updates, 'id = ?', [$id]);
 		}

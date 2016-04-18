@@ -8,9 +8,9 @@
 class API_Base_GetRecordsList extends BaseAction
 {
 
-	protected $requestMethod = 'GET';
+	protected $requestMethod = ['get'];
 
-	public function getRecordsList()
+	public function get()
 	{
 		$moduleName = $this->api->getModuleName();
 		$user = new Users();

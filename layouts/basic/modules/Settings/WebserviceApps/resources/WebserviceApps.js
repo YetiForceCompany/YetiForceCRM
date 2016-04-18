@@ -68,6 +68,7 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 						url: container.find('[name="addressUrl"]').val(),
 						status: container.find('[name="status"]').is(':checked'),
 						type: container.find('.typeServer').val(),
+						pass: container.find('[name="pass"]').val(),
 					};
 					if (id != '') {
 						params['id'] = id;

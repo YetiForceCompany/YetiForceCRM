@@ -23,7 +23,6 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		$parentScriptInstances = parent::getFooterScripts($request);
 		$scripts = [
 			'~libraries/jquery/jstree/jstree.js',
-			'~libraries/jquery/jstree/jstree.category.js',
 			'~libraries/jquery/datatables/media/js/jquery.dataTables.js',
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
 		];

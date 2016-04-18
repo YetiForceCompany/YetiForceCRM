@@ -18,5 +18,7 @@ require_once 'include/Webservices/Relation.php';
 require_once 'include/main/WebUI.php';
 require_once 'vtlib/Vtiger/Module.php';
 
+define('REQUEST_MODE', 'WebUI');
+
 $webUI = new Vtiger_WebUI();
 $webUI->process(new Vtiger_Request($_REQUEST, $_REQUEST));

@@ -9,9 +9,9 @@
 class API_Users_Login extends BaseAction
 {
 
-	protected $requestMethod = 'POST';
+	protected $requestMethod = ['post'];
 
-	public function login($userName, $password, $params)
+	public function post($userName, $password, $params)
 	{
 		$dbPortal = PearDatabase::getInstance('portal');
 		$result = $dbPortal->pquery('SELECT w_yf_portal_users.*,w_yf_servers.acceptable_url  FROM w_yf_portal_users INNER JOIN w_yf_servers ON w_yf_servers.id = w_yf_portal_users.server_id WHERE w_yf_portal_users.user_name = ? AND w_yf_portal_users.status = ? AND w_yf_servers.status = ?', [$userName, 1, 1]);

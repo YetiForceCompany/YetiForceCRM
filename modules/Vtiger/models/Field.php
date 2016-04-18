@@ -631,7 +631,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
 
-		if (in_array($fieldDataType, ['picklist', 'multipicklist', 'multiowner', 'multiReferenceValue'])) {
+		if (in_array($fieldDataType, ['picklist', 'multipicklist', 'multiowner', 'multiReferenceValue', 'posList'])) {
 			$pickListValues = $this->getPicklistValues();
 			if (!empty($pickListValues)) {
 				$this->fieldInfo['picklistvalues'] = $pickListValues;

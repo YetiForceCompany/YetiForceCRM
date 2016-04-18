@@ -765,15 +765,19 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($profileId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT * FROM vtiger_profile WHERE profileid = ?';
-		$params = array($profileId);
-		$result = $db->pquery($sql, $params);
-		if ($db->num_rows($result) > 0) {
-			return self::getInstanceFromQResult($result);
+		$instance = Vtiger_Cache::get('ProfilesRecordModelById', $profileId);
+		if ($instance) {
+			return $instance;
 		}
-		return null;
+
+		$db = PearDatabase::getInstance();
+		$sql = 'SELECT * FROM vtiger_profile WHERE profileid = ?';
+		$result = $db->pquery($sql, [$profileId]);
+		if ($db->getRowCount($result) > 0) {
+			$instance = self::getInstanceFromQResult($result);
+		}
+		Vtiger_Cache::set('ProfilesRecordModelById', $profileId, $instance);
+		return $instance;
 	}
 
 	public static function getInstanceByName($profileName, $checkOnlyDirectlyRelated = false, $excludedRecordId = array())

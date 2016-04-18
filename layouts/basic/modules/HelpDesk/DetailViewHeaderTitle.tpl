@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="col-xs-10 col-sm-9 col-md-4 margin0px">
+	<div class="col-xs-12 col-sm-12 col-md-8">
 		<div class="moduleIcon">
 			<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 		</div>
@@ -41,7 +41,7 @@
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
-				<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+					<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 				{/if}
 			</div>
 		</div>

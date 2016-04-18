@@ -133,27 +133,9 @@ class Users_Privileges_Model extends Users_Record_Model
 		if (empty($userId))
 			return null;
 
-		require("user_privileges/user_privileges_$userId.php");
-		require("user_privileges/sharing_privileges_$userId.php");
-
-		$valueMap = array();
-		$valueMap['id'] = $userId;
-		$valueMap['is_admin'] = (bool) $is_admin;
-		$valueMap['roleid'] = $current_user_roles;
-		$valueMap['parent_role_seq'] = $current_user_parent_role_seq;
-		$valueMap['profiles'] = $current_user_profiles;
-		$valueMap['profile_global_permission'] = $profileGlobalPermission;
-		$valueMap['profile_tabs_permission'] = $profileTabsPermission;
-		$valueMap['profile_action_permission'] = $profileActionPermission;
-		$valueMap['groups'] = $current_user_groups;
-		$valueMap['subordinate_roles'] = $subordinate_roles;
-		$valueMap['parent_roles'] = $parent_roles;
-		$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
-		$valueMap['defaultOrgSharingPermission'] = $defaultOrgSharingPermission;
-		$valueMap['related_module_share'] = $related_module_share;
-
-		if (is_array($user_info)) {
-			$valueMap = array_merge($valueMap, $user_info);
+		$valueMap = Vtiger_Util_Helper::getUserPrivilegesFile($userId);
+		if (is_array($valueMap['user_info'])) {
+			$valueMap = array_merge($valueMap, $valueMap['user_info']);
 		}
 
 		return self::getInstance($valueMap);
@@ -193,7 +175,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		return false;
 	}
-	
+
 	public static function getLastPermittedAccessLog()
 	{
 		return vglobal('isPermittedLog');

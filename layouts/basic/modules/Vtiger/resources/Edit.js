@@ -89,11 +89,24 @@ jQuery.Class("Vtiger_Edit_Js", {
 			isMultiple = true;
 		}
 
+		var filterFields = {};
+		var formElement = container.closest('form');
+		var mappingRelatedField = formElement.find('input[name="mappingRelatedField"]').val();
+		var mappingRelatedModule = JSON.parse(mappingRelatedField);
+		if (mappingRelatedModule[sourceField] != undefined && mappingRelatedModule[sourceField][popupReferenceModule] != undefined) {
+			$.each(mappingRelatedModule[sourceField][popupReferenceModule], function (index, value) {
+				var mapFieldElement = formElement.find('[name="' + index + '"]');
+				if (mapFieldElement.length && mapFieldElement.val() != '') {
+					filterFields[index] = mapFieldElement.val();
+				}
+			});
+		}
 		var params = {
 			module: popupReferenceModule,
 			src_module: sourceModule,
 			src_field: sourceField,
-			src_record: sourceRecordId
+			src_record: sourceRecordId,
+			filterFields: filterFields,
 		}
 
 		if (isMultiple) {
@@ -1385,7 +1398,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			if (activeProcess) {
 				thisInstance.setEnabledFields(element);
 			} else {
-				if(clear){
+				if (clear) {
 					thisInstance.clearFieldValue(element);
 				}
 				thisInstance.setDisabledFields(element);
@@ -1411,7 +1424,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			if (activeSubProcess && length > 0) {
 				thisInstance.setEnabledFields(element);
 			} else {
-				if(clear){
+				if (clear) {
 					thisInstance.clearFieldValue(element);
 				}
 				thisInstance.setDisabledFields(element);

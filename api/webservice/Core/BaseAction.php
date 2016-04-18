@@ -10,6 +10,7 @@ class BaseAction
 {
 
 	public $api = [];
+	protected $requestMethod = [];
 
 	/**
 	 * Function to get the value for a given key
