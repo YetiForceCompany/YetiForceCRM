@@ -477,7 +477,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		if (empty($moduleName) && $_REQUEST['parent'] != 'Settings') {
-			$moduleName = $_REQUEST['module'];
+			$moduleName = vtlib_purify($_REQUEST['module']);
 		}
 		$result = [];
 		$usersGroups = Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($moduleName);
