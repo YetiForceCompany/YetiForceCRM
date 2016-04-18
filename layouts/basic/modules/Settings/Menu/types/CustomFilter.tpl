@@ -16,6 +16,11 @@
 <div class="form-group">
 	<label class="col-md-4 control-label">{vtranslate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
-		<input name="icon" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('icon')}{/if}"/>
+		<div class="input-group">
+			<input name="icon" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('icon')}{/if}"/>
+			<span class="input-group-btn">
+				<button id="selectIconButton" class="btn btn-default" type="button"><span class="glyphicon glyphicon-info-sign"></span></button>
+			</span>
+		</div>
 	</div>
 </div>
