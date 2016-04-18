@@ -48,7 +48,7 @@ class ListViewSession
 
 	function getRequestStartPage()
 	{
-		$start = $_REQUEST['start'];
+		$start = vtlib_purify($_REQUEST['start']);
 		if (!is_numeric($start)) {
 			$start = 1;
 		}
@@ -194,7 +194,7 @@ class ListViewSession
 			return ListViewSession::getRequestStartPage();
 		}
 		if (!empty($_REQUEST['start'])) {
-			$start = $_REQUEST['start'];
+			$start = vtlib_purify($_REQUEST['start']);
 			if ($start == 'last') {
 				$count_result = $adb->query(Vtiger_Functions::mkCountQuery($query));
 				$noofrows = $adb->query_result($count_result, 0, "count");
@@ -281,10 +281,10 @@ class ListViewSession
 	public static function setDefaultSortOrderBy($module, $defaultSortOrderBy = [])
 	{
 		if (isset($_REQUEST['orderby'])) {
-			$_SESSION['lvs'][$module]['sortby'] = $_REQUEST['orderby'];
+			$_SESSION['lvs'][$module]['sortby'] = vtlib_purify($_REQUEST['orderby']);
 		}
 		if (isset($_REQUEST['sortorder'])) {
-			$_SESSION['lvs'][$module]['sorder'] = $_REQUEST['sortorder'];
+			$_SESSION['lvs'][$module]['sorder'] = vtlib_purify($_REQUEST['sortorder']);
 		}
 		if (isset($defaultSortOrderBy['orderBy'])) {
 			$_SESSION['lvs'][$module]['sortby'] = $defaultSortOrderBy['orderBy'];
