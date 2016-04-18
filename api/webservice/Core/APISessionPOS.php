@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * API Authorization class for POS
+ * @package YetiForce.WebserviceSession
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
 class APISessionPOS
 {
 
@@ -8,7 +14,7 @@ class APISessionPOS
 		$dbPortal = PearDatabase::getInstance();
 		$result = $dbPortal->pquery('SELECT * FROM w_yf_portal_sessions WHERE id = ? LIMIT 1', [$sessionId]);
 		if($session = $dbPortal->getRow($result)){
-			return true;
+			return $session;
 		} else {
 			throw new APIException('Invalid session Id ', 401);
 		}

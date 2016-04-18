@@ -5,7 +5,7 @@ require_once 'api/webservice/Core/APISessionPOS.php';
  * Get modules list action class
  * @package YetiForce.WebserviceAction
  * @license licenses/License.html
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class API_Products_GetProducts extends BaseAction
 {
