@@ -2,7 +2,7 @@
 
 /**
  * XmlReader Class
- * @package YetiForce.Reader
+ * @package YetiForce.Import
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
