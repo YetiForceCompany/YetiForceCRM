@@ -11,7 +11,6 @@ class Settings_WebserviceApps_Delete_Action extends Settings_Vtiger_Index_Action
 	function process(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
-		$id = $request->get('id');
-		$db->delete('w_yf_servers', 'id = ?', [$id]);
+		$db->delete('w_yf_servers', 'id = ?', [$request->get('id')]);
 	}
 }

@@ -2,7 +2,7 @@
 
 /**
  * Create Key
- * @package YetiForce.View
+ * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */

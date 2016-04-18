@@ -158,7 +158,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isActiveOptionDisabled()
 	{	
-		if ($this->get('presence') == 0 || $this->isMandatoryOptionDisabled()) {
+		if ($this->get('presence') == 0  || $this->get('uitype') == 306 || $this->isMandatoryOptionDisabled()) {
 			return true;
 		}
 		return false;

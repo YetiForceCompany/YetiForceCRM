@@ -1900,7 +1900,6 @@ function isLeadConverted($leadId)
 function getSelectedRecords($input, $module, $idstring, $excludedRecords)
 {
 	global $current_user, $adb;
-	var_dump($idstring);
 	if ($idstring == 'relatedListSelectAll') {
 		$recordid = vtlib_purify($input['recordid']);
 		$adb = PearDatabase::getInstance();
