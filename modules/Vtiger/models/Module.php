@@ -1626,7 +1626,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 
 		$instance = CRMEntity::getInstance($relatedModuleName);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName, false, $recordId);
-		if ($securityParameter != '' && !($relationListViewModel && $relationListViewModel->noPermissions === true))
+		//if ($securityParameter != '' && !($relationListViewModel && $relationListViewModel->noPermissions === true))
+		if ($securityParameter != '')
 			$query .= $securityParameter;
 
 		return $query;

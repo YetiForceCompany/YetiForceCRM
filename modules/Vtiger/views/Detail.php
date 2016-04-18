@@ -658,11 +658,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
-
-		if ($request->get('showAll')) {
-			$relationListView->noPermissions = true;
-		}
-
 		$models = $relationListView->getEntries($pagingModel);
 		$header = $relationListView->getHeaders();
 		$links = $relationListView->getLinks();
