@@ -157,8 +157,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 * @return boolean
 	 */
 	public function isActiveOptionDisabled()
-	{
-		if ($this->get('presence') == 0 || $this->get('displaytype') == 2 || $this->isMandatoryOptionDisabled()) {
+	{	
+		if ($this->get('presence') == 0 || $this->isMandatoryOptionDisabled()) {
 			return true;
 		}
 		return false;
@@ -275,7 +275,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$blockId = array($blockId);
 		}
 
-		$query = 'SELECT * FROM vtiger_field WHERE block IN(' . generateQuestionMarks($blockId) . ') AND vtiger_field.displaytype IN (1,2,4,10) ORDER BY sequence';
+		$query = 'SELECT * FROM vtiger_field WHERE block IN(' . generateQuestionMarks($blockId) . ') AND vtiger_field.displaytype IN (1,2,4,9,10) ORDER BY sequence';
 		$result = $db->pquery($query, $blockId);
 		$numOfRows = $db->num_rows($result);
 

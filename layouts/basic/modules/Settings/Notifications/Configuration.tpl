@@ -13,7 +13,7 @@
 						{vtranslate('LBL_MODULE', $QUALIFIED_MODULE)}
 					</th>
 					<th>
-						{vtranslate('Share with users', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_USERS_WATCHING', $QUALIFIED_MODULE)}
 					</th>
 					<th class="col-sm-2 col-md-1">
 						{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}
@@ -32,7 +32,7 @@
 									{foreach from=$LIST_USERS item=USER_MODEL}
 										<option value="{$USER_MODEL->get('id')}" 
 												{if in_array($USER_MODEL->get('id'), $LIST_MODULES_USERS[$MODULE_NAME])} selected{/if}>
-											{$USER_MODEL->get('user_name')}
+											{$USER_MODEL->getName()}
 										</option>
 									{/foreach}
 								</optgroup>

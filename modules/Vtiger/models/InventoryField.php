@@ -557,4 +557,8 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
 		return $fields;
 	}
+	public function getJsonFields()
+	{
+		return $this->jsonFields;
+	}
 }

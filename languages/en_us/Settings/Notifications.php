@@ -9,6 +9,7 @@ $languageStrings = [
 	'LBL_WIDTH' => 'Width',
 	'LBL_HEIGHT' => 'Height',
 	'LBL_MODULE' => 'Module name',
+	'LBL_USERS_WATCHING' => 'Users watching',
 ];
 $jsLanguageStrings = [
 	'JS_DELETE_CONFIRMATION' => 'Are you sure you want to delete this element?',

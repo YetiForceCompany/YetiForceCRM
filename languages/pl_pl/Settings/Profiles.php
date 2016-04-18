@@ -9,12 +9,10 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_VIEW_PRVILIGE' => 'Przeglądanie',
 	'LBL_ADD_RECORD' => 'Dodaj profil',
 	'LBL_CHOOSE_PROFILES' => 'Wybierz profil',
 	'LBL_CREATE_PROFILE' => 'Utwórz profil',
 	'LBL_DELETE_PROFILE' => 'Usuń profil',
-	'LBL_DELETE_PRIVILIGE' => 'Usuwanie',
 	'LBL_DELETE_RECORD' => 'Usuń',
 	'LBL_DESCRIPTION' => 'Opis',
 	'LBL_DUPLICATE_RECORD' => 'Duplikuj',
@@ -22,8 +20,6 @@ $languageStrings = [
 	'LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE' => 'Edytuj uprawnienia do profilu',
 	'LBL_EDIT_ALL_DESC' => 'Po zaznaczeniu tej opcji wszystkie moduły będą miały włączoną opcję: Tworzenie/Edycja.',
 	'LBL_EDIT_ALL' => ' Edycja wszystkich modułów',
-	'LBL_EDIT_PRIVILIGE' => 'Edycja',
-	'LBL_CREATE_PRIVILIGE' => 'Tworzenie',
 	'LBL_EDIT_RECORD' => 'Edytuj',
 	'LBL_FIELD_AND_TOOL_PRVILIGES' => 'Uprawnienia do pól i narzędzi',
 	'LBL_FIELDS' => 'Pola',
@@ -43,6 +39,10 @@ $languageStrings = [
 	'SINGLE_Profiles' => 'Profil',
 	'Name' => 'Nazwa',
 	//Actions
+	'LBL_VIEW_PRVILIGE' => 'Przeglądanie',
+	'LBL_CREATE_PRIVILIGE' => 'Tworzenie',
+	'LBL_EDIT_PRIVILIGE' => 'Edycja',
+	'LBL_DELETE_PRIVILIGE' => 'Usuwanie',
 	'Import' => 'Import',
 	'Export' => 'Eksport',
 	'DuplicatesHandling' => 'Obsługa duplikatów',

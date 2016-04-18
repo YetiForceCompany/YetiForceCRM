@@ -3202,8 +3202,10 @@ span[name=existingImages] img{
 	padding: 5px;
 	font-size: 13px;
 }
-.mailsList .container-fluid > .row{
+.mailsList .container-fluid > .row:not(:first-child){
 	border-bottom: 1px solid #dddddd;
+}
+.mailsList .container-fluid > .row{
 	margin-right: -10px;
 	margin-left: -10px;
 	padding: 4px 0;
@@ -4843,6 +4845,7 @@ html,body,.baseContainer
 }
 .detailViewIcon{
 	font-size:48px;
+	padding: 10px;
 }
 .tag{
 	margin-right:5px;
@@ -4857,7 +4860,6 @@ html,body,.baseContainer
 }
 .detailViewTitle .moduleIcon{
 	float: left;
-	padding-right:15px;
 }
 .spaceRelatedList{
 	width:50px;

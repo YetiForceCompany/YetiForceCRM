@@ -14,7 +14,7 @@ class API_Users_Login extends BaseAction
 	public function login($userName, $password, $params)
 	{
 		$dbPortal = PearDatabase::getInstance('portal');
-		$result = $dbPortal->pquery('SELECT p_yf_users.*,p_yf_servers.acceptable_url  FROM p_yf_users INNER JOIN p_yf_servers ON p_yf_servers.id = p_yf_users.server_id WHERE p_yf_users.user_name = ? AND p_yf_users.status = ? AND p_yf_servers.status = ?', [$userName, 1, 1]);
+		$result = $dbPortal->pquery('SELECT w_yf_portal_users.*,w_yf_servers.acceptable_url  FROM w_yf_portal_users INNER JOIN w_yf_servers ON w_yf_servers.id = w_yf_portal_users.server_id WHERE w_yf_portal_users.user_name = ? AND w_yf_portal_users.status = ? AND w_yf_servers.status = ?', [$userName, 1, 1]);
 		if ($dbPortal->getRowCount($result) != 1) {
 			throw new APIException('LBL_INVALID_DATA_ACCESS', 401);
 		}
@@ -42,7 +42,7 @@ class API_Users_Login extends BaseAction
 	public function updateUser($userId)
 	{
 		$dbPortal = PearDatabase::getInstance('portal');
-		$dbPortal->update('p_yf_users', [
+		$dbPortal->update('w_yf_portal_users', [
 			'login_time' => date('Y-m-d H:i:s'),
 			], 'id = ?', [$userId]
 		);

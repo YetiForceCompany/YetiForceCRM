@@ -5,17 +5,22 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce.com
 *************************************************************************************}
 <div class="col-sm-12">
 
 	{* Comupte the nubmer of columns required *}
 	{assign var="SPANSIZE" value=12}
-	{if $MINILIST_WIDGET_MODEL->getHeaderCount()}
-		{assign var="SPANSIZE" value=12/$MINILIST_WIDGET_MODEL->getHeaderCount()}
+	{assign var="HEADER_COUNT" value=$MINILIST_WIDGET_MODEL->getHeaderCount()}
+	{if $HEADER_COUNT}
+		{assign var="SPANSIZE" value=(12/$HEADER_COUNT)|string_format:"%d"}
 	{/if}
 
 	<div class="row">
-		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders()}
+		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name=headers}
+			{if $HEADER_COUNT eq 5 && in_array($smarty.foreach.headers.iteration, [4,5])}
+				{assign var="SPANSIZE" value=3}
+			{/if}
 			<div class="col-sm-{$SPANSIZE}"><strong>{vtranslate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
 				{/foreach}
 	</div>

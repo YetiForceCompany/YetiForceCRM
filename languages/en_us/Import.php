@@ -10,6 +10,12 @@
  ************************************************************************************/
 $languageStrings = [
 	'csv' => 'CSV',
+	'xml' => 'XML',
+	'zip' => 'ZIP',
+	'LBL_EXTENSION_TYPE' => 'Expanded zipped files',
+	'LBL_XML_EXPORT_TPL' => 'Template',
+	'LBL_STANDARD_FIELDS' => 'Standard fields',
+	'LBL_INVENTORY_FIELDS' => 'Expanded fields',
 	'UTF-8' => 'UTF-8',
 	'vcf' => 'VCard',
 	'semicolon' => 'semicolon',

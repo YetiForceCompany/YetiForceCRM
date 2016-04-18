@@ -6,46 +6,45 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
-<div style="padding-left: 15px;">
-    <input type="hidden" name="module" value="{$FOR_MODULE}" />
-    <table style=" width:90%;margin-left: 5% " cellpadding="10" class="searchUIBasic well">
-        <tr>
-            <td class="font-x-large" align="left" colspan="2">
-                <strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE} - {'LBL_UNDO_RESULT'|@vtranslate:$MODULE}</strong>
-            </td>
-        </tr>
-        {if $ERROR_MESSAGE neq ''}
-            <tr>
-                <td class="style1" align="left" colspan="2">
-                    {$ERROR_MESSAGE}
-                </td>
-            </tr>
-        {/if}
-        <tr>
-            <td colspan="2" valign="top">
-                <table cellpadding="10" cellspacing="0" align="center" class="dvtSelectedCell thickBorder importContents">
-                    <tr>
-                        <td>{'LBL_TOTAL_RECORDS'|@vtranslate:$MODULE}</td>
-                        <td width="10%">:</td>
-                        <td width="10%">{$TOTAL_RECORDS}</td>
-                    </tr>
-                    <tr>
-                        <td>{'LBL_NUMBER_OF_RECORDS_DELETED'|@vtranslate:$MODULE}</td>
-                        <td width="10%">:</td>
-                        <td width="10%">{$DELETED_RECORDS_COUNT}</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td align="right" colspan="2">
-                {include file='Import_Done_Buttons.tpl'|@vtemplate_path:'Import'}
-            </td>
-        </tr>
-    </table>
-</div>
+	<div class='widget_header row '>
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-2"></div>
+	<div class="col-md-6 col-sm-8 col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE} - {'LBL_UNDO_RESULT'|@vtranslate:$MODULE}</h4>
+			</div>
+			<div class="panel-body form-horizontal font-larger">
+				<input type="hidden" name="module" value="{$FOR_MODULE}" />
+				{if $ERROR_MESSAGE neq ''}
+					<div class="alert alert-warning">
+						{$ERROR_MESSAGE}rewtwerterte ert ewrtewrgetr
+					</div>
+				{/if}
+				<div class="form-group">
+					<div class="col-md-7 col-sm-6 col-xs-8 textAlignRight fontBold">{'LBL_TOTAL_RECORDS'|@vtranslate:$MODULE}:</div>
+					<div class="col-md-5 col-sm-6 col-xs-4">
+						{$TOTAL_RECORDS}
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-7 col-sm-6 col-xs-8 textAlignRight fontBold">{'LBL_NUMBER_OF_RECORDS_DELETED'|@vtranslate:$MODULE}:</div>
+					<div class="col-md-5 col-sm-6 col-xs-4">
+						{$DELETED_RECORDS_COUNT}
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				{include file='Import_Done_Buttons.tpl'|@vtemplate_path:'Import'}
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-2"></div>
 {/strip}

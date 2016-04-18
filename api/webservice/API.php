@@ -38,6 +38,7 @@ class API
 			throw new APIException('Invalid Method', 405);
 		}
 
+		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		$this->initHeaders();
 
 		if (isset($this->headers['Encrypted']) && $this->headers['Encrypted'] == 1) {
@@ -46,7 +47,6 @@ class API
 			$requestData = $_POST;
 		}
 
-		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		$this->data = new Vtiger_Request($requestData, $requestData);
 	}
 

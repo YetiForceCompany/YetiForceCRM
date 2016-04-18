@@ -36,6 +36,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 								default_values TEXT,
 								merge_type INT,
 								merge_fields TEXT,
+								type tinyint(1),
 								temp_status INT default 0)",
 							true);
 		}
@@ -46,7 +47,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 			$temp_status = self::$IMPORT_STATUS_NONE;
 		}
 
-		$db->pquery('INSERT INTO vtiger_import_queue VALUES(?,?,?,?,?,?,?,?)',
+		$db->pquery('INSERT INTO vtiger_import_queue VALUES(?,?,?,?,?,?,?,?,?)',
 				array($db->getUniqueID('vtiger_import_queue'),
 						$user->id,
 						getTabid($request->get('module')),
@@ -54,6 +55,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 						Zend_Json::encode($request->get('default_values')),
 						$request->get('merge_type'),
 						Zend_Json::encode($request->get('merge_fields')),
+						$request->get('createRecordsByModel'),
 						$temp_status));
 	}
 
@@ -134,8 +136,9 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 		return $scheduledImports;
 	}
 
-	static function getImportInfoFromResult($rowData) {
-		return array(
+	static function getImportInfoFromResult($rowData)
+	{
+		return [
 			'id' => $rowData['importid'],
 			'module' => getTabModuleName($rowData['tabid']),
 			'field_mapping' => Zend_Json::decode($rowData['field_mapping']),
@@ -143,8 +146,9 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 			'merge_type' => $rowData['merge_type'],
 			'merge_fields' => Zend_Json::decode($rowData['merge_fields']),
 			'user_id' => $rowData['userid'],
+			'type' => $rowData['type'],
 			'temp_status' => $rowData['temp_status']
-		);
+		];
 	}
 
 	static function updateStatus($importId, $temp_status) {

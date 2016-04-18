@@ -6,12 +6,13 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 
 <div class="hide" id="defaultValuesElementsContainer">
-	{foreach key=_FIELD_NAME item=_FIELD_INFO from=$AVAILABLE_FIELDS}
+	{foreach key=BLOCK_NAME item=_FIELDS from=$AVAILABLE_BLOCKS}
+	{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
 		<div id="{$_FIELD_NAME}_defaultvalue_container" name="{$_FIELD_NAME}_defaultvalue" class="small col-md-11">
 			{assign var="_FIELD_TYPE" value=$_FIELD_INFO->getFieldDataType()}
 			{if $_FIELD_TYPE eq 'picklist' || $_FIELD_TYPE eq 'multipicklist'}
@@ -45,7 +46,7 @@
 				<input type="checkbox" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small" />
 			{elseif $_FIELD_TYPE eq 'reference'}
 				<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small chzn-select">
-					{foreach item=_REFERENCE_DETAILS from=$AVAILABLE_FIELDS[$_FIELD_NAME]->getReferenceList()}
+					{foreach item=_REFERENCE_DETAILS from=$_FIELDS[$_FIELD_NAME]->getReferenceList()}
 						<option value="{$_REFERENCE_DETAILS}">{$_REFERENCE_DETAILS|@vtranslate:$FOR_MODULE}</option>
 					{/foreach}
 				</select>
@@ -53,5 +54,6 @@
 				<input type="input" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="defaultInputTextContainer form-control small" />
 			{/if}
 		</div>
+	{/foreach}
 	{/foreach}
 </div>

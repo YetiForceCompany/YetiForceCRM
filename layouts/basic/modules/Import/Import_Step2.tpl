@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -42,6 +42,25 @@
 			<select name="delimiter" class="form-control" id="delimiter" title="{vtranslate('LBL_DELIMITER', $MODULE)}">
 				{foreach key=_DELIMITER item=_DELIMITER_LABEL from=$SUPPORTED_DELIMITERS}
 				<option value="{$_DELIMITER}">{$_DELIMITER_LABEL|@vtranslate:$MODULE}</option>
+				{/foreach}
+			</select>
+		</div>
+	</div>
+	<div id="zipExtension" class="hide">
+		<div class="col-md-4"><span>{vtranslate('LBL_EXTENSION_TYPE', $MODULE)}</span></div>
+		<div class="col-md-6 paddingBottom10">
+			<select name="extension" class="chzn-select" id="extension" title="{vtranslate('LBL_EXTENSION_TYPE', $MODULE)}">
+				<option value="xml">XML</option>
+			</select>
+		</div>
+	</div>
+	<div id="xml_tpl" class="hide">
+		<div class="col-md-4"><span>{vtranslate('LBL_XML_EXPORT_TPL', $MODULE)}</span></div>
+		<div class="col-md-6 paddingBottom10">
+			<select name="xml_import_tpl" class="chzn-select" id="xml_import_tpl" title="{vtranslate('LBL_XML_EXPORT_TPL', $MODULE)}">
+				<option value="">{vtranslate('LBL_NONE', 'Import')}</option>
+				{foreach key=key item=item from=$XML_IMPORT_TPL}
+					<option value="{$item}">{vtranslate($item, 'Import')}</option>
 				{/foreach}
 			</select>
 		</div>

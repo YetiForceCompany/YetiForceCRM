@@ -496,10 +496,10 @@ function textlength_check($field_val)
 		$temp_val = preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $field_val);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($temp_val)) > $listview_max_textlength) {
-				$temp_val = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $field_val), 0, $listview_max_textlength, $default_charset) . '...';
+				$temp_val = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", html_entity_decode($temp_val)), 0, $listview_max_textlength, $default_charset) . '...';
 			}
 		} elseif (strlen(html_entity_decode($field_val)) > $listview_max_textlength) {
-			$temp_val = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $field_val), 0, $listview_max_textlength) . '...';
+			$temp_val = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", html_entity_decode($temp_val)), 0, $listview_max_textlength) . '...';
 		}
 	} else {
 		$temp_val = $field_val;

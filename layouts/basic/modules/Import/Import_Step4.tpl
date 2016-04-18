@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 
@@ -25,9 +25,9 @@
         </td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-        <td colspan="2">
+        <td colspan="3">
 			<input type="hidden" name="field_mapping" id="field_mapping" value="" />
+			<input type="hidden" name="inventory_field_mapping" id="inventory_field_mapping" value="" />
 			<input type="hidden" name="default_values" id="default_values" value="" />
 			<table width="100%" cellspacing="0" cellpadding="2" class="listRow table table-bordered table-condensed listViewEntriesTable">
 				<thead>
@@ -41,31 +41,50 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach key=_HEADER_NAME item=_FIELD_VALUE from=$ROW_1_DATA name="headerIterator"}
-					{assign var="_COUNTER" value=$smarty.foreach.headerIterator.iteration}
-					<tr class="fieldIdentifier" id="fieldIdentifier{$_COUNTER}">
-						{if $HAS_HEADER eq true}
-						<td class="cellLabel">
-							<span name="header_name">{$_HEADER_NAME}</span>
-						</td>
+					{foreach key=TYPE_NAME item=FIELDS_DATA from=$ROW_1_DATA name="rowData"}
+						<tr class=""><td class="textAlignCenter bg-primary" colspan="4">{$TYPE_NAME|@vtranslate:$MODULE}</td></tr>
+						{if $smarty.foreach.rowData.iteration gt 1}
+							{assign var="TYPE_AVAILABLE_BLOCKS" value=$INVENTORY_BLOCKS}
+							{assign var="PREFIX" value='inventory_'}
+						{else}
+							{assign var="TYPE_AVAILABLE_BLOCKS" value=$AVAILABLE_BLOCKS}
+							{assign var="PREFIX" value=''}
 						{/if}
-						<td class="cellLabel">
-							<span>{$_FIELD_VALUE|@textlength_check}</span>
-						</td>
-						<td class="cellLabel">
-							<input type="hidden" name="row_counter" value="{$_COUNTER}" />
-							<select name="mapped_fields" class="txtBox chzn-select form-control" style="width: 100%" onchange="ImportJs.loadDefaultValueWidget('fieldIdentifier{$_COUNTER}')">
-								<option value="">{'LBL_NONE'|@vtranslate:$FOR_MODULE}</option>
-								{foreach key=_FIELD_NAME item=_FIELD_INFO from=$AVAILABLE_FIELDS}
-								{assign var="_TRANSLATED_FIELD_LABEL" value=$_FIELD_INFO->getFieldLabelKey()|@vtranslate:$FOR_MODULE}
-								<option value="{$_FIELD_NAME}" {if decode_html($_HEADER_NAME) eq $_TRANSLATED_FIELD_LABEL} selected {/if} data-label="{$_TRANSLATED_FIELD_LABEL}">{$_TRANSLATED_FIELD_LABEL}{if $_FIELD_INFO->isMandatory() eq 'true'}&nbsp; (*){/if}</option>
-								{/foreach}
-							</select>
-						</td>
-						<td class="cellLabel row" name="default_value_container">&nbsp;</td>
-					</tr>
+						{foreach key=_HEADER_NAME item=_FIELD_VALUE from=$FIELDS_DATA name="headerIterator"}
+							{assign var="_COUNTER" value=$smarty.foreach.headerIterator.iteration}
+							{if $PREFIX && is_numeric($_HEADER_NAME)} {continue} {/if}
+							<tr class="fieldIdentifier" id="fieldIdentifier{$_COUNTER}" data-typename="{$TYPE_NAME}">
+								{if $HAS_HEADER eq true}
+								<td class="cellLabel">
+									<span name="header_name">{$_HEADER_NAME}</span>
+								</td>
+								{/if}
+								<td class="cellLabel">
+									<span>{$_FIELD_VALUE|@textlength_check}</span>
+								</td>
+								<td class="cellLabel">
+									<input type="hidden" name="row_counter" value="{$_COUNTER}" />
+									<select name="{$PREFIX}mapped_fields" class="txtBox chzn-select form-control {if $PREFIX}inventory{/if}" onchange="ImportJs.loadDefaultValueWidget('fieldIdentifier{$_COUNTER}')">
+										<option value="">{'LBL_NONE'|@vtranslate:$FOR_MODULE}</option>
+										{foreach key=BLOCK_NAME item=_FIELDS from=$TYPE_AVAILABLE_BLOCKS}
+											<optgroup label="{vtranslate($BLOCK_NAME, $FOR_MODULE)}">
+											{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
+												{if $_FIELD_INFO->getFieldDataType() eq 'inventory'}
+													{assign var="_TRANSLATED_FIELD_LABEL" value=$_FIELD_INFO->get('label')|@vtranslate:$FOR_MODULE}
+												{else}
+													{assign var="_TRANSLATED_FIELD_LABEL" value=$_FIELD_INFO->getFieldLabelKey()|@vtranslate:$FOR_MODULE}
+												{/if}
+												<option value="{$_FIELD_NAME}" {if decode_html($_HEADER_NAME) eq $_TRANSLATED_FIELD_LABEL} selected {/if} data-label="{$_TRANSLATED_FIELD_LABEL}">{$_TRANSLATED_FIELD_LABEL}{if $_FIELD_INFO->isMandatory() eq 'true'}&nbsp; (*){/if}</option>
+											{/foreach}
+											</optgroup>
+										{/foreach}
+									</select>
+								</td>
+								<td class="cellLabel row" name="default_value_container">&nbsp;</td>
+							</tr>
+						{/foreach}
 					{/foreach}
-			</tbody>
+				</tbody>
 			</table>
 		</td>
 	</tr>

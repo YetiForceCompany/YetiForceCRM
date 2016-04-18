@@ -21,6 +21,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $onlyOne = true;
 	protected $displayTypeBase = ['LBL_DISPLAYTYPE_ALL' => 0, 'LBL_DISPLAYTYPE_ONLY_DETAIL' => 2, 'LBL_DISPLAYTYPE_HIDDEN' => 5, 'LBL_DISPLAYTYPE_READONLY' => 10];
 	protected $blocks = [1];
+	protected $fieldDataType = 'inventory';
 
 	/**
 	 * Getting onlyOne field
@@ -274,5 +275,9 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 			}
 		}
 		return false;
+	}
+
+	public function getFieldDataType(){
+		return $this->fieldDataType;
 	}
 }

@@ -9,12 +9,10 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * *********************************************************************************** */
 $languageStrings = [
-	'LBL_VIEW_PRVILIGE' => 'Просматривать',
 	'LBL_ADD_RECORD' => 'Добавить Профиль',
 	'LBL_CHOOSE_PROFILES' => 'Выбрать профили',
 	'LBL_CREATE_PROFILE' => 'Создать Профиль',
 	'LBL_DELETE_PROFILE' => 'Удалить профиль',
-	'LBL_DELETE_PRIVILIGE' => 'Удалять',
 	'LBL_DELETE_RECORD' => 'Удалить',
 	'LBL_DESCRIPTION' => 'Описание',
 	'LBL_DUPLICATE_RECORD' => 'Дублировать',
@@ -22,8 +20,6 @@ $languageStrings = [
 	'LBL_EDIT_ALL_DESC' => 'Разрешено редактировать все данные модуля',
 	'LBL_EDIT_ALL' => 'Редактировать все',
 	'LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE' => 'Редактировать привилегии для данного профиля',
-	'LBL_EDIT_PRIVILIGE' => 'Редактировать',
-	'LBL_CREATE_PRIVILIGE' => 'Создавать',
 	'LBL_EDIT_RECORD' => 'Редактировать',
 	'LBL_FIELD_AND_TOOL_PRVILIGES' => 'Привилегии для полей и инструментов',
 	'LBL_FIELDS' => 'Поля',
@@ -37,12 +33,15 @@ $languageStrings = [
 	'LBL_TRANSFER_ROLES_TO_PROFILE' => 'Назначить роли Профилю',
 	'LBL_VIEW_ALL_DESC' => 'Разрешено просматривать все данные модуля',
 	'LBL_VIEW_ALL' => 'Просматривать все',
-	'LBL_VIEW_PRIVILEGE' => 'Просматривать',
 	'LBL_WRITE' => 'Запись',
 	'Profiles' => 'Профили',
 	'SINGLE_Profiles' => 'Профиль',
 	'Name' => 'Название профиля',
 	//Actions
+	'LBL_VIEW_PRVILIGE' => 'Просматривать',
+	'LBL_DELETE_PRIVILIGE' => 'Удалять',
+	'LBL_EDIT_PRIVILIGE' => 'Редактировать',
+	'LBL_CREATE_PRIVILIGE' => 'Создавать',
 	'Import' => 'Импортировать записи',
 	'Export' => 'Экспортировать записи',
 	'Merge' => 'Объединять записи',

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 require_once 'include/Webservices/Create.php';
@@ -26,6 +27,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	var $id;
 	var $user;
 	var $module;
+	var $type;
 	var $fieldMapping;
 	var $mergeType;
 	var $mergeFields;
@@ -49,6 +51,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$this->mergeType = $importInfo['merge_type'];
 		$this->mergeFields = $importInfo['merge_fields'];
 		$this->defaultValues = $importInfo['default_values'];
+		$this->type = $importInfo['type'];
 		$this->user = $user;
 	}
 
@@ -179,9 +182,15 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$moduleObjectId = $moduleMeta->getEntityId();
 		$moduleFields = $moduleMeta->getModuleFields();
 
-		$entityData = array();
+		$entityData = [];
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
 		$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE;
+		
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$isInventory = $moduleModel->isInventory();
+		if($isInventory){
+			$inventoryTableName = Import_Utils_Helper::getInventoryDbTableName($this->user);
+		}
 
 		if ($this->batchImport) {
 			$configReader = new Import_Config_Model();
@@ -199,7 +208,15 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$fieldColumnMapping = $moduleMeta->getFieldColumnMapping();
 
 		while ($row = $adb->fetchByAssoc($result)) {
+			$handlerOn = false;
 			$rowId = $row['id'];
+			
+			if($isInventory){
+				$sql = 'SELECT * FROM ' . $inventoryTableName . ' WHERE id = ' . $rowId;
+				$resultInventory = $adb->query($sql);
+				$inventoryFieldData = $adb->getArray($resultInventory);
+			}
+			
 			$entityInfo = null;
 			$fieldData = array();
 			foreach ($fieldMapping as $fieldName => $index) {
@@ -318,13 +335,22 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				}
 				if ($createRecord) {
 					$fieldData = $this->transformForImport($fieldData, $moduleMeta);
+					if($fieldData && $isInventory){
+						$inventoryFieldData = $this->transformInventoryForImport($inventoryFieldData);
+						$fieldData['inventoryData'] = $inventoryFieldData;
+					}
 					if ($fieldData == null) {
 						$entityInfo = null;
-					} else {
-						try {
-							$entityInfo = vtws_create($moduleName, $fieldData, $this->user);
-						} catch (Exception $e) {
-							
+					}else{
+						if($this->type){
+							$entityInfo = $this->createRecordByModel($moduleName, $fieldData, $this->user);
+							$handlerOn = true;
+						} else {
+							try {
+								$entityInfo = vtws_create($moduleName, $fieldData, $this->user);
+							} catch (Exception $e) {
+
+							}
 						}
 					}
 				}
@@ -334,7 +360,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			} else if ($createRecord) {
 				$entityInfo['status'] = self::$IMPORT_RECORD_CREATED;
 			}
-			if ($createRecord || $mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS || $mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE) {
+			if (empty($handlerOn) && ($createRecord || $mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS || $mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE)) {
 				$entityIdComponents = vtws_getIdComponents($entityInfo['id']);
 				$recordId = $entityIdComponents[1];
 				$entityfields = getEntityFieldNames($this->module);
@@ -362,13 +388,241 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$this->importedRecordInfo[$rowId] = $entityInfo;
 			$this->updateImportStatus($rowId, $entityInfo);
 		}
-		if ($this->entityData) {
+		if (empty($handlerOn) && $this->entityData) {
 			$entity = new VTEventsManager($adb);
 			$entity->triggerEvent('vtiger.batchevent.save', $this->entityData);
 		}
 		$this->entityData = null;
 		$result = null;
 		return true;
+	}
+
+	public function transformInventoryForImport($inventoryData)
+	{
+		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
+		$inventoryFields = $inventoryFieldModel->getFields();
+		foreach ($inventoryData as &$data) {
+			unset($data['id']);
+			foreach ($data as $fieldName => &$value) {
+				$fieldInstance = $inventoryFields[$fieldName];
+				if ($fieldInstance) {
+					if (in_array($fieldInstance->getName(), ['Name', 'Reference'])) {
+						$value = trim($value);
+						if (!empty($value)) {
+							if (strpos($value, '::::') > 0) {
+								$fieldValueDetails = explode('::::', $value);
+							} else if (strpos($value, ':::') > 0) {
+								$fieldValueDetails = explode(':::', $value);
+							} else {
+								$fieldValueDetails = $value;
+							}
+							$value = '';
+							if (count($fieldValueDetails) > 1) {
+								$referenceModuleName = trim($fieldValueDetails[0]);
+								$entityLabel = trim($fieldValueDetails[1]);
+								$value = getEntityId($referenceModuleName, $entityLabel);
+							}
+						} else {
+							$value = '';
+						}
+					} elseif ($fieldInstance->getName() == 'Currency') {
+						$curencyName = $value;
+						$value = getCurrencyId($entityLabel);
+						$currencyParam = $data['currencyparam'];
+						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
+						$newCurrencyParam = [];
+						foreach ($currencyParam as $key => $currencyData) {
+							$valueData = getCurrencyId($entityLabel);
+							if ($valueData) {
+								$currencyData['value'] = $valueData;
+								$newCurrencyParam[$valueData] = $currencyData;
+							}
+						}
+						$data['currencyparam'] = Zend_Json::encode($newCurrencyParam);
+					}
+				}
+			}
+		}
+		return $inventoryData;
+	}
+
+	public function transformOwner($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues)
+	{
+		$ownerId = getUserId_Ol(trim($fieldValue));
+		if (empty($ownerId)) {
+			$ownerId = getGrpId($fieldValue);
+		}
+		if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
+			$ownerId = $defaultFieldValues[$fieldName];
+		}
+		if (empty($ownerId) ||
+			!Import_Utils_Helper::hasAssignPrivilege($moduleMeta->getEntityName(), $ownerId)) {
+			$ownerId = $this->user->id;
+		}
+		return $ownerId;
+	}
+
+	public function transformSharedOwner($fieldValue, $defaultFieldValues)
+	{
+		$values = [];
+		$owners = explode(',', $fieldValue);
+		foreach ($owners as $owner) {
+			$ownerId = getUserId_Ol(trim($owner));
+			if (empty($ownerId)) {
+				$ownerId = getGrpId($owner);
+			}
+			if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
+				$ownerId = $defaultFieldValues[$fieldName];
+			}
+			if (!empty($ownerId)) {
+				$values[] = $ownerId;
+			}
+		}
+		return implode(',', $values);
+	}
+
+	public function transformMultipicklist($fieldInstance, $fieldValue, $defaultFieldValues)
+	{
+		$fieldName = $fieldInstance->getFieldName();
+		$trimmedValue = trim($fieldValue);
+		if (!$trimmedValue && isset($defaultFieldValues[$fieldName])) {
+			$explodedValue = explode(',', $defaultFieldValues[$fieldName]);
+		} else {
+			$explodedValue = explode(' |##| ', $trimmedValue);
+		}
+		foreach ($explodedValue as $key => $value) {
+			$explodedValue[$key] = trim($value);
+		}
+		$implodeValue = implode(' |##| ', $explodedValue);
+		return $implodeValue;
+	}
+
+	public function transformReference($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues)
+	{
+		$fieldName = $fieldInstance->getFieldName();
+		$entityId = false;
+		if (!empty($fieldValue)) {
+			if (strpos($fieldValue, '::::') > 0) {
+				$fieldValueDetails = explode('::::', $fieldValue);
+			} else if (strpos($fieldValue, ':::') > 0) {
+				$fieldValueDetails = explode(':::', $fieldValue);
+			} else {
+				$fieldValueDetails = $fieldValue;
+			}
+			if (count($fieldValueDetails) > 1) {
+				$referenceModuleName = trim($fieldValueDetails[0]);
+				$entityLabel = trim($fieldValueDetails[1]);
+				$entityId = getEntityId($referenceModuleName, $entityLabel);
+			} else {
+				$referencedModules = $fieldInstance->getReferenceList();
+				$entityLabel = $fieldValue;
+				foreach ($referencedModules as $referenceModule) {
+					$referenceModuleName = $referenceModule;
+					if ($referenceModule == 'Users') {
+						$referenceEntityId = getUserId_Ol($entityLabel);
+						if (empty($referenceEntityId) ||
+							!Import_Utils_Helper::hasAssignPrivilege($moduleMeta->getEntityName(), $referenceEntityId)) {
+							$referenceEntityId = $this->user->id;
+						}
+					} elseif ($referenceModule == 'Currency') {
+						$referenceEntityId = getCurrencyId($entityLabel);
+					} else {
+						$referenceEntityId = getEntityId($referenceModule, $entityLabel);
+					}
+					if ($referenceEntityId != 0) {
+						$entityId = $referenceEntityId;
+						break;
+					}
+				}
+
+				if ($entityId == false) {
+					$request = new Vtiger_Request($_REQUEST);
+					$referenceModuleName = $request->get($fieldName . '_defaultvalue');
+				}
+			}
+			if ((empty($entityId) || $entityId == 0) && !empty($referenceModuleName)) {
+				if (isPermitted($referenceModuleName, 'CreateView') == 'yes') {
+					try {
+						$wsEntityIdInfo = $this->createEntityRecord($referenceModuleName, $entityLabel);
+						$wsEntityId = $wsEntityIdInfo['id'];
+						$entityIdComponents = vtws_getIdComponents($wsEntityId);
+						$entityId = $entityIdComponents[1];
+					} catch (Exception $e) {
+						$entityId = getEntityId($referenceModuleName, $entityLabel);
+						if ($entityId == 0)
+							$entityId = false;
+					}
+				}
+			}
+			$fieldValue = $entityId;
+		} else {
+			$referencedModules = $fieldInstance->getReferenceList();
+			if ($referencedModules[0] == 'Users') {
+				if (isset($defaultFieldValues[$fieldName])) {
+					$fieldValue = $defaultFieldValues[$fieldName];
+				}
+				if (empty($fieldValue) ||
+					!Import_Utils_Helper::hasAssignPrivilege($moduleMeta->getEntityName(), $fieldValue)) {
+					$fieldValue = $this->user->id;
+				}
+			} else {
+				$fieldValue = '';
+			}
+		}
+		return $fieldValue;
+	}
+
+	public function transformPicklist($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues)
+	{
+		global $default_charset;
+		$fieldName = $fieldInstance->getFieldName();
+		$fieldValue = trim($fieldValue);
+
+		if (empty($fieldValue) && isset($defaultFieldValues[$fieldName])) {
+			$fieldValue = $defaultFieldValues[$fieldName];
+		}
+		$olderCacheEnable = Vtiger_Cache::$cacheEnable;
+		Vtiger_Cache::$cacheEnable = false;
+		if (!isset($this->allPicklistValues[$fieldName])) {
+			$this->allPicklistValues[$fieldName] = $fieldInstance->getPicklistDetails();
+		}
+		$allPicklistDetails = $this->allPicklistValues[$fieldName];
+
+		$allPicklistValues = array();
+		foreach ($allPicklistDetails as $picklistDetails) {
+			$allPicklistValues[] = $picklistDetails['value'];
+		}
+
+		$picklistValueInLowerCase = strtolower(htmlentities($fieldValue, ENT_QUOTES, $default_charset));
+		$allPicklistValuesInLowerCase = array_map('strtolower', $allPicklistValues);
+		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $allPicklistValues);
+
+		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
+			$moduleObject = Vtiger_Module::getInstance($moduleMeta->getEntityName());
+			$fieldObject = Vtiger_Field::getInstance($fieldName, $moduleObject);
+			$fieldObject->setPicklistValues(array($fieldValue));
+			unset($this->allPicklistValues[$fieldName]);
+		} else {
+			$fieldValue = $picklistDetails[$picklistValueInLowerCase];
+		}
+		Vtiger_Cache::$cacheEnable = $olderCacheEnable;
+		return $fieldValue;
+	}
+
+	public function transformTree($fieldInstance, $fieldValue, $defaultFieldValues)
+	{
+		$fieldName = $fieldInstance->getFieldName();
+		if (empty($fieldValue) && isset($defaultFieldValues[$fieldName])) {
+			$fieldValue = $defaultFieldValues[$fieldName];
+		} else if (!empty($fieldValue)) {
+			$fieldValue = trim($fieldValue);
+			foreach ($fieldInstance->getTreeDetails() as $id => $tree) {
+				if ($tree == $fieldValue) {
+					$fieldValue = $id;
+				}
+			}
+		}
+		return $fieldValue;
 	}
 
 	public function transformForImport($fieldData, $moduleMeta, $fillDefault = true, $checkMandatoryFieldValues = true)
@@ -378,148 +632,20 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		foreach ($fieldData as $fieldName => $fieldValue) {
 			$fieldInstance = $moduleFields[$fieldName];
 			if ($fieldInstance->getFieldDataType() == 'owner') {
-				$ownerId = getUserId_Ol(trim($fieldValue));
-				if (empty($ownerId)) {
-					$ownerId = getGrpId($fieldValue);
-				}
-				if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
-					$ownerId = $defaultFieldValues[$fieldName];
-				}
-				if (empty($ownerId) ||
-					!Import_Utils_Helper::hasAssignPrivilege($moduleMeta->getEntityName(), $ownerId)) {
-					$ownerId = $this->user->id;
-				}
-				$fieldData[$fieldName] = $ownerId;
-			} elseif ($fieldInstance->getFieldDataType() == 'multipicklist') {
-				$trimmedValue = trim($fieldValue);
-
-				if (!$trimmedValue && isset($defaultFieldValues[$fieldName])) {
-					$explodedValue = explode(',', $defaultFieldValues[$fieldName]);
-				} else {
-					$explodedValue = explode(' |##| ', $trimmedValue);
-				}
-
-				foreach ($explodedValue as $key => $value) {
-					$explodedValue[$key] = trim($value);
-				}
-
-				$implodeValue = implode(' |##| ', $explodedValue);
-				$fieldData[$fieldName] = $implodeValue;
-			} elseif ($fieldInstance->getFieldDataType() == 'reference') {
-				$entityId = false;
-				if (!empty($fieldValue)) {
-					if (strpos($fieldValue, '::::') > 0) {
-						$fieldValueDetails = explode('::::', $fieldValue);
-					} else if (strpos($fieldValue, ':::') > 0) {
-						$fieldValueDetails = explode(':::', $fieldValue);
-					} else {
-						$fieldValueDetails = $fieldValue;
-					}
-					if (count($fieldValueDetails) > 1) {
-						$referenceModuleName = trim($fieldValueDetails[0]);
-						$entityLabel = trim($fieldValueDetails[1]);
-						$entityId = getEntityId($referenceModuleName, $entityLabel);
-					} else {
-						$referencedModules = $fieldInstance->getReferenceList();
-						$entityLabel = $fieldValue;
-						foreach ($referencedModules as $referenceModule) {
-							$referenceModuleName = $referenceModule;
-							if ($referenceModule == 'Users') {
-								$referenceEntityId = getUserId_Ol($entityLabel);
-								if (empty($referenceEntityId) ||
-									!Import_Utils_Helper::hasAssignPrivilege($moduleMeta->getEntityName(), $referenceEntityId)) {
-									$referenceEntityId = $this->user->id;
-								}
-							} elseif ($referenceModule == 'Currency') {
-								$referenceEntityId = getCurrencyId($entityLabel);
-							} else {
-								$referenceEntityId = getEntityId($referenceModule, $entityLabel);
-							}
-							if ($referenceEntityId != 0) {
-								$entityId = $referenceEntityId;
-								break;
-							}
-						}
-
-						if ($entityId == false) {
-							$request = new Vtiger_Request($_REQUEST);
-							$referenceModuleName = $request->get($fieldName . '_defaultvalue');
-						}
-					}
-					if ((empty($entityId) || $entityId == 0) && !empty($referenceModuleName)) {
-						if (isPermitted($referenceModuleName, 'CreateView') == 'yes') {
-							try {
-								$wsEntityIdInfo = $this->createEntityRecord($referenceModuleName, $entityLabel);
-								$wsEntityId = $wsEntityIdInfo['id'];
-								$entityIdComponents = vtws_getIdComponents($wsEntityId);
-								$entityId = $entityIdComponents[1];
-							} catch (Exception $e) {
-								$entityId = getEntityId($referenceModuleName, $entityLabel);
-								if ($entityId == 0)
-									$entityId = false;
-							}
-						}
-					}
-					$fieldData[$fieldName] = $entityId;
-				} else {
-					$referencedModules = $fieldInstance->getReferenceList();
-					if ($referencedModules[0] == 'Users') {
-						if (isset($defaultFieldValues[$fieldName])) {
-							$fieldData[$fieldName] = $defaultFieldValues[$fieldName];
-						}
-						if (empty($fieldData[$fieldName]) ||
-							!Import_Utils_Helper::hasAssignPrivilege($moduleMeta->getEntityName(), $fieldData[$fieldName])) {
-							$fieldData[$fieldName] = $this->user->id;
-						}
-					} else {
-						$fieldData[$fieldName] = '';
-					}
-				}
+				$fieldData[$fieldName] = $this->transformOwner($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
+			} elseif ($fieldInstance->getFieldDataType() == 'sharedOwner') {		
+				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue, $defaultFieldValues);
+			} elseif ($fieldInstance->getFieldDataType() == 'multipicklist') {		
+				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue, $defaultFieldValues);
+			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
+				$fieldData[$fieldName] = $this->transformReference($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
 			} elseif ($fieldInstance->getFieldDataType() == 'picklist') {
-				$fieldValue = trim($fieldValue);
-				global $default_charset;
-				if (empty($fieldValue) && isset($defaultFieldValues[$fieldName])) {
-					$fieldData[$fieldName] = $fieldValue = $defaultFieldValues[$fieldName];
-				}
-				$olderCacheEnable = Vtiger_Cache::$cacheEnable;
-				Vtiger_Cache::$cacheEnable = false;
-				if (!isset($this->allPicklistValues[$fieldName])) {
-					$this->allPicklistValues[$fieldName] = $fieldInstance->getPicklistDetails();
-				}
-				$allPicklistDetails = $this->allPicklistValues[$fieldName];
-
-				$allPicklistValues = array();
-				foreach ($allPicklistDetails as $picklistDetails) {
-					$allPicklistValues[] = $picklistDetails['value'];
-				}
-
-				$picklistValueInLowerCase = strtolower(htmlentities($fieldValue, ENT_QUOTES, $default_charset));
-				$allPicklistValuesInLowerCase = array_map('strtolower', $allPicklistValues);
-				$picklistDetails = array_combine($allPicklistValuesInLowerCase, $allPicklistValues);
-
-				if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
-					$moduleObject = Vtiger_Module::getInstance($moduleMeta->getEntityName());
-					$fieldObject = Vtiger_Field::getInstance($fieldName, $moduleObject);
-					$fieldObject->setPicklistValues(array($fieldValue));
-					unset($this->allPicklistValues[$fieldName]);
-				} else {
-					$fieldData[$fieldName] = $picklistDetails[$picklistValueInLowerCase];
-				}
-				Vtiger_Cache::$cacheEnable = $olderCacheEnable;
+				$fieldData[$fieldName] = $this->transformPicklist($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
 			} else if ($fieldInstance->getFieldDataType() == 'currency') {
 				// While exporting we are exporting as user format, we should import as db format while importing
 				$fieldData[$fieldName] = CurrencyField::convertToDBFormat($fieldValue, $current_user, false);
 			} else if ($fieldInstance->getFieldDataType() == 'tree') {
-				if (empty($fieldValue) && isset($defaultFieldValues[$fieldName])) {
-					$fieldData[$fieldName] = $fieldValue = $defaultFieldValues[$fieldName];
-				} else if (!empty($fieldValue)) {
-					$fieldValue = trim($fieldValue);
-					foreach ($fieldInstance->getTreeDetails() as $id => $tree) {
-						if ($tree == $fieldValue) {
-							$fieldData[$fieldName] = $id;
-						}
-					}
-				}
+				$fieldData[$fieldName] = $this->transformTree($fieldInstance, $fieldValue, $defaultFieldValues);
 			} else {
 				if ($fieldInstance->getFieldDataType() == 'datetime' && !empty($fieldValue)) {
 					if ($fieldValue == null || $fieldValue == '0000-00-00 00:00:00') {
@@ -780,6 +906,108 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 		return $temp_status;
 	}
+	
+	public function createRecordByModel($moduleName, $fieldData, $user)
+	{
+		global $VTIGER_BULK_SAVE_MODE;
+		$previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
+		$VTIGER_BULK_SAVE_MODE = false;
+		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		if (isset($fieldData['inventoryData'])) {
+			$inventoryData = $fieldData['inventoryData'];
+			unset($fieldData['inventoryData']);
+		}
+		$fieldData = $this->parseData($moduleName, $fieldData);
+		if ($inventoryData) {
+			$fieldData = $this->setInventoryDataToRequest($fieldData, $inventoryData);
+		}
+		foreach ($fieldData as $fieldName => $value) {
+			$recordModel->set($fieldName, $value);
+		}
+
+		$recordModel->save();
+		$VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
+		$ID = $recordModel->getId();
+		if (!empty($ID)) {
+			$adb = PearDatabase::getInstance();
+			$webserviceObject = VtigerWebserviceObject::fromName($adb, $moduleName);
+			$vtwsId = vtws_getId($webserviceObject->getEntityId(), $ID);
+			return ['id' => $vtwsId, 'status' => isRecordExists($ID)];
+		}
+		return null;
+	}
+
+	public function parseData($elementType, $element)
+	{
+		$adb = PearDatabase::getInstance();
+		$types = vtws_listtypes(null, $this->user);
+		$moduleHandler = vtws_getModuleHandlerFromName($elementType, $this->user);
+		$meta = $moduleHandler->getMeta();
+		if ($meta->hasWriteAccess() !== true) {
+			throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to write is denied");
+		}
+
+		$referenceFields = $meta->getReferenceFieldDetails();
+		foreach ($referenceFields as $fieldName => $details) {
+			if (isset($element[$fieldName]) && strlen($element[$fieldName]) > 0) {
+				$ids = vtws_getIdComponents($element[$fieldName]);
+				$elemTypeId = $ids[0];
+				$elemId = $ids[1];
+				$referenceObject = VtigerWebserviceObject::fromId($adb, $elemTypeId);
+				if (!in_array($referenceObject->getEntityName(), $details)) {
+					throw new WebServiceException(WebServiceErrorCode::$REFERENCEINVALID, "Invalid reference specified for $fieldName");
+				}
+				if ($referenceObject->getEntityName() == 'Users') {
+					if (!$meta->hasAssignPrivilege($element[$fieldName])) {
+						throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Cannot assign record to the given user");
+					}
+				}
+				if (!in_array($referenceObject->getEntityName(), $types['types']) && $referenceObject->getEntityName() != 'Users') {
+					throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to access reference type is denied" . $referenceObject->getEntityName());
+				}
+			} else if ($element[$fieldName] !== NULL) {
+				unset($element[$fieldName]);
+			}
+		}
+
+		if ($meta->hasMandatoryFields($element)) {
+			$ownerFields = $meta->getOwnerFields();
+			if (is_array($ownerFields) && sizeof($ownerFields) > 0) {
+				foreach ($ownerFields as $ownerField) {
+					if (isset($element[$ownerField]) && $element[$ownerField] !== null &&
+						!$meta->hasAssignPrivilege($element[$ownerField])) {
+						throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Cannot assign record to the given user");
+					}
+				}
+			}
+		}
+		$element = DataTransform::sanitizeForInsert($element, $meta);
+		$sharedOwners = $meta->getSharedOwnerFields();
+		foreach ($sharedOwners as $name) {
+			if ($element[$name]) {
+				$element[$name] = explode(',', $element[$name]);
+			}
+		}
+		return $element;
+	}
+
+	public function setInventoryDataToRequest($fieldData, $inventoryData = [])
+	{
+		$invDat = [];
+		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
+		$jsonFields = $inventoryFieldModel->getJsonFields();
+		foreach ($inventoryData as $index => $data) {
+			$i = $index + 1;
+			$invDat['inventoryItemsNo'] = $i;
+			foreach ($data as $name => $value) {
+				if (in_array($name, $jsonFields)) {
+					$value = Zend_Json::decode($value);
+				}
+				$invDat[$name . $i] = $value;
+			}
+		}
+		$fieldData['inventoryData'] = new Vtiger_Request($invDat);
+		return $fieldData;
+	}
 }
 
-?>

@@ -440,11 +440,11 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 
 	$columnname = $adb->sql_escape_string($fieldColumnname);
 	$tablename = 'vtiger_' . $fieldColumnname;
-	
+
 	// Gather all the roles (except H1 which is organization role)
 	$roleres = $adb->query("SELECT roleid FROM vtiger_role WHERE roleid != 'H1'");
 	$roleresCount = $adb->num_rows($roleres);
-	$allroles =[];
+	$allroles = [];
 	if ($roleresCount) {
 		for ($index = 0; $index < $roleresCount; ++$index)
 			$allroles[] = $adb->query_result($roleres, $index, 'roleid');
@@ -606,7 +606,7 @@ function vtlib_purify($input, $ignore = false)
 			$config = HTMLPurifier_Config::createDefault();
 			$config->set('Core.Encoding', $use_charset);
 			$config->set('Cache.SerializerPath', "$use_root_directory/cache/vtlib");
-			
+
 			$__htmlpurifier_instance = new HTMLPurifier($config);
 		}
 		if ($__htmlpurifier_instance) {
@@ -757,7 +757,7 @@ function vtlib_purifyForHtml($input, $ignore = false)
 		}
 		$purified_cache[$md5OfInput] = $value;
 	}
-	
+
 	$value = str_replace('&amp;', '&', $value);
 	return $value;
 }
@@ -777,31 +777,6 @@ function vtlib_purifyForSql($string, $skipEmpty = true)
 	return false;
 }
 
-/**
- * Process the UI Widget requested
- * @param Vtiger_Link $widgetLinkInfo
- * @param Current Smarty Context $context
- * @return
- */
-function vtlib_process_widget($widgetLinkInfo, $context = false)
-{
-	if (preg_match("/^block:\/\/(.*)/", $widgetLinkInfo->linkurl, $matches)) {
-		list($widgetControllerClass, $widgetControllerClassFile) = explode(':', $matches[1]);
-		if (!class_exists($widgetControllerClass)) {
-			checkFileAccessForInclusion($widgetControllerClassFile);
-			include_once $widgetControllerClassFile;
-		}
-		if (class_exists($widgetControllerClass)) {
-			$widgetControllerInstance = new $widgetControllerClass;
-			$widgetInstance = $widgetControllerInstance->getWidget($widgetLinkInfo->linklabel);
-			if ($widgetInstance) {
-				return $widgetInstance->process($context);
-			}
-		}
-	}
-	return "";
-}
-
 function vtlib_module_icon($modulename)
 {
 	if ($modulename == 'Events') {
@@ -812,5 +787,3 @@ function vtlib_module_icon($modulename)
 	}
 	return "modules/Vtiger/Vtiger.png";
 }
-
-?>

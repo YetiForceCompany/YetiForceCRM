@@ -193,6 +193,11 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		return false;
 	}
+	
+	public static function getLastPermittedAccessLog()
+	{
+		return vglobal('isPermittedLog');
+	}
 
 	/**
 	 * Function returns non admin access control check query

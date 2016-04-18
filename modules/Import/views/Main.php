@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Import_Main_View extends Vtiger_View_Controller{
@@ -122,6 +123,7 @@ class Import_Main_View extends Vtiger_View_Controller{
 		$viewer->assign('OWNER_ID', $ownerId);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
 		$viewer->assign('INVENTORY_MODULES', getInventoryModules());
+		$viewer->assign('TYPE', $importInfo['type']);
 		$viewer->assign('MERGE_ENABLED', $importInfo['merge_type']);
 
 		$viewer->view('ImportResult.tpl', 'Import');

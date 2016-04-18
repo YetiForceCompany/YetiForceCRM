@@ -18,7 +18,7 @@
 &nbsp;&nbsp;
 {if $MERGE_ENABLED eq '0'}
 <button name="next" class="delete btn btn-danger marginBottom10px"
-		onclick="location.href='index.php?module={$FOR_MODULE}&view=Import&mode=undoImport&foruser={$OWNER_ID}'"><strong>{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</strong></button>
+		onclick="location.href='index.php?module={$FOR_MODULE}&view=Import&mode=undoImport&foruser={$OWNER_ID}&type={$TYPE}'"><strong>{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</strong></button>
 &nbsp;&nbsp;
 {/if}
 <button name="cancel" class="edit btn btn-success marginBottom10px"

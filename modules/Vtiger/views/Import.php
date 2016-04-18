@@ -7,7 +7,9 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
+//vimport('vtlib/Vtiger/Unzip.php');
 
 class Vtiger_Import_View extends Vtiger_Index_View {
 
@@ -82,6 +84,7 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
+		$viewer->assign('XML_IMPORT_TPL', Import_Utils_Helper::getListTplForXmlType($moduleName));
 		$viewer->assign('SUPPORTED_FILE_TYPES', Import_Utils_Helper::getSupportedFileExtensions($moduleName));
 		$viewer->assign('SUPPORTED_FILE_TYPES_TEXT', Import_Utils_Helper::getSupportedFileExtensionsDescription($moduleName));
 		$viewer->assign('SUPPORTED_FILE_ENCODING', Import_Utils_Helper::getSupportedFileEncoding());
@@ -94,8 +97,8 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 			$viewer->assign('DUPLICATE_HANDLING_NOT_SUPPORTED', true);
 		}
 		//End
-		
-		$viewer->assign('AVAILABLE_FIELDS', $moduleMeta->getMergableFields());
+
+		$viewer->assign('AVAILABLE_BLOCKS', $moduleMeta->getMergableFields(true));
 		$viewer->assign('ENTITY_FIELDS', $moduleMeta->getEntityFields());
 		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
 		$viewer->assign('IMPORT_UPLOAD_SIZE', $upload_maxsize);
@@ -103,25 +106,21 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}
 
-	function uploadAndParse(Vtiger_Request $request) {
-
-		if(Import_Utils_Helper::validateFileUpload($request)) {
+	function uploadAndParse(Vtiger_Request $request)
+	{
+		if (Import_Utils_Helper::validateFileUpload($request)) {
 			$moduleName = $request->getModule();
 			$user = Users_Record_Model::getCurrentUserModel();
-
 			$fileReader = Import_Utils_Helper::getFileReader($request, $user);
-			if($fileReader == null) {
-				$request->set('error_message', vtranslate('LBL_INVALID_FILE', 'Import'));
+			if ($fileReader == null) {
 				$this->importBasicStep($request);
 				exit;
 			}
-
 			$hasHeader = $fileReader->hasHeader();
 			$rowData = $fileReader->getFirstRowData($hasHeader);
-
 			$viewer = $this->getViewer($request);
 			$autoMerge = $request->get('auto_merge');
-			if(!$autoMerge) {
+			if (!$autoMerge) {
 				$request->set('merge_type', 0);
 				$request->set('merge_fields', '');
 			} else {
@@ -132,20 +131,32 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$moduleMeta = $moduleModel->getModuleMeta();
 
-
 			$viewer->assign('DATE_FORMAT', $user->date_format);
 			$viewer->assign('FOR_MODULE', $moduleName);
 			$viewer->assign('MODULE', 'Import');
 
 			$viewer->assign('HAS_HEADER', $hasHeader);
-			$viewer->assign('ROW_1_DATA', $rowData);
+			$viewer->assign('ROW_1_DATA', ($rowData && $rowData['LBL_STANDARD_FIELDS']) ? $rowData : ['LBL_STANDARD_FIELDS' => $rowData]);
 			$viewer->assign('USER_INPUT', $request);
 
-			$viewer->assign('AVAILABLE_FIELDS', $moduleMeta->getImportableFields($moduleName));
-			$viewer->assign('ENCODED_MANDATORY_FIELDS', Zend_Json::encode($moduleMeta->getMandatoryFields($moduleName)));
+			if ($moduleModel->isInventory()) {
+				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
+				$inventoryFields = $inventoryFieldModel->getFields(true);
+				$inventoryFieldsBlock = [];
+				$blocksName = ['LBL_HEADLINE', 'LBL_BASIC_VERSE', 'LBL_ADDITIONAL_VERSE'];
+				foreach ($inventoryFields as $key => $data) {
+					$inventoryFieldsBlock[$blocksName[$key]] = $data;
+				}
+				$viewer->assign('INVENTORY_BLOCKS', $inventoryFieldsBlock);
+				$viewer->assign('INVENTORY', true);
+			}
+
+			$viewer->assign('AVAILABLE_BLOCKS', $moduleMeta->getImportableFields(true));
+			$viewer->assign('ENCODED_MANDATORY_FIELDS', Zend_Json::encode($moduleMeta->getMandatoryFields()));
 			$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
 			$viewer->assign('USERS_LIST', Import_Utils_Helper::getAssignedToUserList($moduleName));
 			$viewer->assign('GROUPS_LIST', Import_Utils_Helper::getAssignedToGroupList($moduleName));
+			$viewer->assign('CREATE_RECORDS_BY_MODEL', in_array($request->get('type'), ['xml', 'zip']));
 
 			return $viewer->view('ImportAdvanced.tpl', 'Import');
 		} else {
@@ -158,54 +169,66 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		Import_Main_View::import($request, $user);
 	}
 
-	function undoImport(Vtiger_Request $request) {
+	function undoImport(Vtiger_Request $request)
+	{
+		global $VTIGER_BULK_SAVE_MODE;
 		$viewer = new Vtiger_Viewer();
-		$db = PearDatabase::getInstance();
 
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('foruser');
-
+		$type = $request->get('type');
 		$user = Users_Record_Model::getCurrentUserModel();
-		$dbTableName = Import_Utils_Helper::getDbTableName($user);
 
-		if(!$user->isAdminUser() && $user->id != $ownerId) {
+		if (!$user->isAdminUser() && $user->id != $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
 			exit;
 		}
-        $previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
-        $VTIGER_BULK_SAVE_MODE = true;
-		$query = "SELECT recordid FROM $dbTableName WHERE temp_status = ? AND recordid IS NOT NULL";
-		//For inventory modules
-		$inventoryModules = getInventoryModules();
-		if(in_array($moduleName, $inventoryModules)){
-			$query .=' GROUP BY subject';
+		$previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
+		if (empty($type)) {
+			$VTIGER_BULK_SAVE_MODE = true;
+		}else{
+			$VTIGER_BULK_SAVE_MODE = false;
 		}
-		//End
-		$result = $db->pquery($query, array(Import_Data_Action::$IMPORT_RECORD_CREATED));
-		$noOfRecords = $db->num_rows($result);
-		$noOfRecordsDeleted = 0;
-        $entityData = [];
-		for($i=0; $i<$noOfRecords; $i++) {
-			$recordId = $db->query_result($result, $i, 'recordid');
-			if(isRecordExists($recordId) && isPermitted($moduleName, 'Delete', $recordId) == 'yes') {
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-                $recordModel->setId($recordId);
-                $recordModel->delete();
-                $focus = $recordModel->getEntity();
-                $focus->id = $recordId;
-                $entityData[] = VTEntityData::fromCRMEntity($focus);
-				$noOfRecordsDeleted++;
-			}
+		list($noOfRecords, $noOfRecordsDeleted, $entityData) = $this->undoRecords($type, $moduleName);
+		if (empty($type)) {
+			$entity = new VTEventsManager($db);
+			$entity->triggerEvent('vtiger.batchevent.delete', $entityData);
+			$VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
 		}
-        $entity = new VTEventsManager($db);        
-        $entity->triggerEvent('vtiger.batchevent.delete',$entityData);
-        $VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('TOTAL_RECORDS', $noOfRecords);
 		$viewer->assign('DELETED_RECORDS_COUNT', $noOfRecordsDeleted);
 		$viewer->view('ImportUndoResult.tpl', 'Import');
+	}
+
+	function undoRecords($type, $moduleName)
+	{
+		$db = PearDatabase::getInstance();
+		$user = Users_Record_Model::getCurrentUserModel();
+		$dbTableName = Import_Utils_Helper::getDbTableName($user);
+		$query = "SELECT recordid FROM $dbTableName WHERE temp_status = ? AND recordid IS NOT NULL";
+		$result = $db->pquery($query, array(Import_Data_Action::$IMPORT_RECORD_CREATED));
+		$noOfRecords = $db->getRowCount($result);
+		$noOfRecordsDeleted = 0;
+		$entityData = [];
+		for ($i = 0; $i < $noOfRecords; $i++) {
+			$recordId = $db->query_result($result, $i, 'recordid');
+			if (isRecordExists($recordId)) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+				if ($recordModel->isDeletable()) {
+					$recordModel->delete();
+					if (empty($type)) {
+						$focus = $recordModel->getEntity();
+						$focus->id = $recordId;
+						$entityData[] = VTEntityData::fromCRMEntity($focus);
+					}
+					$noOfRecordsDeleted++;
+				}
+			}
+		}
+		return [$noOfRecords, $noOfRecordsDeleted, $entityData];
 	}
 
 	function lastImportedRecords(Vtiger_Request $request) {

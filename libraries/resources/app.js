@@ -432,7 +432,9 @@ var app = {
 			app.showSelectizeElementView(container.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
 			app.registerEventForDatePickerFields(container);
+			
 			thisInstance.registerModalEvents(container);
+			thisInstance.showPopoverElementView(container.find('.popoverTooltip'));
 			cb(container);
 		}
 		if (data) {

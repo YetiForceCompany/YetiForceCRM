@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	instance: {}
@@ -245,8 +246,8 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				}
 			}
 			fieldValueElement.val(fieldValue);
-			data.modal('hide');
 			fieldValueElement.validationEngine('hide');
+			data.remove();
 		});
 	},
 	registerSelectOptionEvent: function (data) {

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
@@ -22,7 +23,7 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 
-		if (!empty($selectedIds) && $selectedIds != 'all') {
+		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"'])) {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				return $selectedIds;
 			}

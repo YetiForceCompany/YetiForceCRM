@@ -88,31 +88,64 @@ class Import_FileReader_Reader {
 		@unlink($filePath);
 	}
 
-	public function createTable() {
+	public function createTable()
+	{
 		$db = PearDatabase::getInstance();
 
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
 		$fieldMapping = $this->request->get('field_mapping');
-        $moduleFields = $this->moduleModel->getFields();
-        $columnsListQuery = 'id INT PRIMARY KEY AUTO_INCREMENT, temp_status INT DEFAULT 0, recordid INT';
+		$moduleFields = $this->moduleModel->getFields();
+		$columnsListQuery = 'id INT PRIMARY KEY AUTO_INCREMENT, temp_status INT DEFAULT 0, recordid INT';
 		$fieldTypes = $this->getModuleFieldDBColumnType();
-		foreach($fieldMapping as $fieldName => $index) {
-            $fieldObject = $moduleFields[$fieldName];
-            $columnsListQuery .= $this->getDBColumnType($fieldObject, $fieldTypes);
+		foreach ($fieldMapping as $fieldName => $index) {
+			if (empty($moduleFields[$fieldName])) {
+				continue;
+			}
+			$fieldObject = $moduleFields[$fieldName];
+			$columnsListQuery .= $this->getDBColumnType($fieldObject, $fieldTypes);
 		}
-		$createTableQuery = 'CREATE TABLE '. $tableName . ' ('.$columnsListQuery.') ENGINE=InnoDB ';
+		$createTableQuery = 'CREATE TABLE ' . $tableName . ' (' . $columnsListQuery . ') ENGINE=InnoDB ';
 		$db->query($createTableQuery);
+
+		if ($this->moduleModel->isInventory()) {
+			$inventoryTableName = Import_Utils_Helper::getInventoryDbTableName($this->user);
+			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleModel->getName());
+			$columnsInventoryListQuery = ' id INT(19)';
+			foreach ($inventoryFieldModel->getFields() as $columnName => $fieldObject) {
+				$dbType = $fieldObject->getDBType();
+				if(in_array($fieldObject->getName(), ['Name', 'Reference'])){
+					$dbType = 'varchar(200)';
+				}
+				$columnsInventoryListQuery .= ',' . $fieldObject->getColumnName() . ' ' . $dbType;
+				foreach ($fieldObject->getCustomColumn() as $name => $dbType) {
+					$columnsInventoryListQuery .= ',' . $name . ' ' . $dbType;
+				}
+			}
+			$columnsInventoryListQuery .= ", CONSTRAINT `" . $inventoryTableName . "_ibfk_1` FOREIGN KEY (`id`) REFERENCES `$tableName` (`id`) ON DELETE CASCADE";
+			$createTableQuery = 'CREATE TABLE IF NOT EXISTS ' . $inventoryTableName . ' (' . $columnsInventoryListQuery . ') ENGINE=InnoDB ';
+			$db->query($createTableQuery);
+		}
 		return true;
 	}
 
-	public function addRecordToDB($columnNames, $fieldValues) {
+	public function addRecordToDB($columnNames, $fieldValues, $inventoryData = [])
+	{
 		$db = PearDatabase::getInstance();
 
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$db->pquery('INSERT INTO '.$tableName.' ('. implode(',', $columnNames).') VALUES ('. generateQuestionMarks($fieldValues) .')', $fieldValues);
+		$db->pquery('INSERT INTO ' . $tableName . ' (' . implode(',', $columnNames) . ') VALUES (' . generateQuestionMarks($fieldValues) . ')', $fieldValues);
 		$this->numberOfRecordsRead++;
+		if ($inventoryData) {
+			$id = $db->getLastInsertID();
+			$tableName = Import_Utils_Helper::getInventoryDbTableName($this->user);
+			foreach ($inventoryData as $data) {
+				$data['id'] = $id;
+				$sql = 'INSERT INTO ' . $tableName . ' (' . implode(',', array_keys($data)) . ') VALUES (' . generateQuestionMarks($data) . ')';
+				$db->pquery($sql, $data);
+			}
+		}
 	}
-    
+
 	/** Function returns the database column type of the field
 	 * @param $fieldObject <Vtiger_Field_Model>
 	 * @param $fieldTypes <Array> - fieldnames with column type
@@ -122,9 +155,15 @@ class Import_FileReader_Reader {
         $columnsListQuery = '';
         $fieldName = $fieldObject->getName();
         $dataType = $fieldObject->getFieldDataType();
-		$skipDataType = array('reference','owner', 'currencyList', 'date', 'datetime');
+		$skipDataType = array('reference','owner', 'currencyList', 'date', 'datetime', 'sharedOwner');
         if(in_array($dataType, $skipDataType)){
             $columnsListQuery .= ','.$fieldName.' varchar(250)';
+        } elseif ($dataType == 'inventory') {
+//			if( $fieldObject->getName() == 'ItemNumber'){
+//				$columnsListQuery .= ',inv_itemnumber '.$fieldObject->getDBType();
+//			}else{
+				$columnsListQuery .= ','.$fieldObject->getColumnName().' '.$fieldObject->getDBType();
+//			}
         } else {
             $columnsListQuery .= ','.$fieldName.' '.$fieldTypes[$fieldObject->get('column')];
         }

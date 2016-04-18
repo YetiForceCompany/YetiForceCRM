@@ -193,7 +193,6 @@ class Vtiger_Link_Model extends Vtiger_Link
 			$url = Vtiger_Util_Helper::toSafeHTML($url);
 			return $url;
 		}
-
 		$module = false;
 		$sourceModule = false;
 		$sourceRecord = false;
@@ -202,7 +201,8 @@ class Vtiger_Link_Model extends Vtiger_Link
 			$urlParts = explode('=', $keyValue);
 			$key = $urlParts[0];
 			$value = $urlParts[1];
-			if (strcmp($key, 'module') == 0) {
+
+			if (strcmp($key, 'module') == 0 || strcmp($key, 'index.php?module') == 0) {
 				$module = $value;
 			}
 
@@ -241,7 +241,7 @@ class Vtiger_Link_Model extends Vtiger_Link
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($module);
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-			if ($relationModel->isDirectRelation()) {
+			if ($relationModel && $relationModel->isDirectRelation()) {
 				$fieldList = $relatedModuleModel->getFields();
 				foreach ($fieldList as $fieldName => $fieldModel) {
 					if ($fieldModel->isReferenceField()) {
@@ -252,6 +252,10 @@ class Vtiger_Link_Model extends Vtiger_Link
 					}
 				}
 			}
+		}
+
+		if (!empty($module)) {
+			$this->relatedModuleName = $module;
 		}
 
 		$url = implode('&', $parametersParts);
@@ -353,8 +357,20 @@ class Vtiger_Link_Model extends Vtiger_Link
 	 * Function to get the relatedModuleName
 	 * @return <String>
 	 */
-	public function getRelatedModuleName()
+	public function getRelatedModuleName($defaultModuleName = false)
 	{
+		if (!$this->isPageLoadLink()) {
+			return $defaultModuleName != false ? $defaultModuleName : NULL;
+		}
+		if (empty($this->relatedModuleName)) {
+			$queryParams = Vtiger_Functions::getQueryParams($this->get('linkurl'));
+			if (!empty($fieldname)) {
+				$this->relatedModuleName = $queryParams['module'];
+			}
+		}
+		if (empty($this->relatedModuleName) && $defaultModuleName) {
+			return $defaultModuleName;
+		}
 		return $this->relatedModuleName;
 	}
 }

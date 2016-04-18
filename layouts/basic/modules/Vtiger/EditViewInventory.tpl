@@ -23,6 +23,8 @@
 			{assign var="CURRENCY_SYMBOLAND" value=Vtiger_Functions::getCurrencySymbolandRate($CURRENCY)}
 		{/if}
 		{assign var="INVENTORY_ITEMS_NO" value=count($INVENTORY_ROWS)}
+		<input type="hidden" class="aggregationTypeDiscount" value="{$DISCOUNTS_CONFIG['aggregation']}">
+		<input type="hidden" class="aggregationTypeTax" value="{$TAXS_CONFIG['aggregation']}">
 		<input name="inventoryItemsNo" id="inventoryItemsNo" type="hidden" value="{if $INVENTORY_ITEMS_NO}{$INVENTORY_ITEMS_NO}{else}1{/if}" />
 		<input id="accountReferenceField" type="hidden" value="{$INVENTORY_FIELD->getReferenceField()}" />
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}" />

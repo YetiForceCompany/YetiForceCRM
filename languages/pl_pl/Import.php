@@ -10,6 +10,12 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'csv' => 'CSV',
+	'xml' => 'XML',
+	'zip' => 'ZIP',
+	'LBL_EXTENSION_TYPE' => 'Rozszerzenie spakowanych plików',
+	'LBL_XML_EXPORT_TPL' => 'Szablon',
+	'LBL_STANDARD_FIELDS' => 'Pola standardowe',
+	'LBL_INVENTORY_FIELDS' => 'Pola rozszerzone',
 	'UTF-8' => 'UTF-8',
 	'vcf' => 'VCard',
 	'semicolon' => 'średnik',
