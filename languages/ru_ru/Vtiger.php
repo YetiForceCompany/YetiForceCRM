@@ -1364,10 +1364,6 @@ $languageStrings = [
 	'SINGLE_SSalesProcesses' => 'Сделка',
 	'LBL_RELATION' => 'Relation',
 	'LBL_PREVIEW' => 'Предпросмотр',
-	'Admin Profile' => 'Профиль - Администратор',
-	'Support Profile' => 'Профиль - Поддержка',
-	'Sales Profile' => 'Профиль - Продажи',
-	'Guest Profile' => 'Профиль - Гость',
 	'LBL_DISPLAYED' => 'Displayed',
 	'LBL_SEND_NOTIFICATION' => 'Send notification',
 	// Action types - AT

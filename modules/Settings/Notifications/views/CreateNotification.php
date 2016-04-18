@@ -2,23 +2,16 @@
 
 /**
  * List notifications
- * @package YetiForce.View
+ * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Settings_Notifications_CreateNotification_View extends Vtiger_BasicModal_View
+class Settings_Notifications_CreateNotification_View extends Settings_Vtiger_BasicModal_View
 {
-
-	public function checkPermission(Vtiger_Request $request)
-	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	function process(Vtiger_Request $request)
 	{
+		$this->preProcess($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$listSize = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -34,5 +27,6 @@ class Settings_Notifications_CreateNotification_View extends Vtiger_BasicModal_V
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->view('CreateNotification.tpl', $qualifiedModuleName);
+		$this->postProcess($request);
 	}
 }

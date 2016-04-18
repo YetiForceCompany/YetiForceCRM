@@ -60,10 +60,6 @@ jQuery.Class("Home_NotificationsList_Js", {
 	},
 	registerButtons: function () {
 		$('.notificationConf').on('click', function () {
-			var params = {
-				module: app.getModuleName(),
-				view: 'Notification',
-			};
 			var progress = jQuery.progressIndicator();
 			var url = 'index.php?module=' + app.getModuleName() + '&view=NotificationConfig';
 			app.showModalWindow(null, url, function (container) {

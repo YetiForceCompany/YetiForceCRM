@@ -18,7 +18,7 @@ class Calendar_QuickCreateFollowupAjax_View extends Vtiger_QuickCreateAjax_View
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$moduleModel = $recordModel->getModule();
-		$actionname = "CreateView";
+		$actionname = 'CreateView';
 
 		if (isPermitted($moduleName, $actionname, $recordId) === 'yes') {
 			//Start date Field required for validation

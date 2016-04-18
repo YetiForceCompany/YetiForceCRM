@@ -75,6 +75,10 @@ $languageStrings = [
 	'Profile Related to Sales' => 'Profile related to sales',
 	'Profile Related to Support' => 'Profile related to support',
 	'Guest Profile for Test Users' => 'Guest profile for test users',
+	'Admin Profile' => 'Admin Profile',
+	'Support Profile' => 'Support Profile',
+	'Sales Profile' => 'Sales Profile',
+	'Guest Profile' => 'Guest',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profile deleted successfully',

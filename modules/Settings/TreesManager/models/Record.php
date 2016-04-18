@@ -107,19 +107,26 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function insertData($tree, $depth, $parenttrre)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		$label = $tree['text'];
 		$id = $tree['id'];
-		$state = ''; //$tree['state'];
+		$state = '';
 		$treeID = 'T' . $id;
-		$icon =$tree['icon'] == 1 ? '' : $tree['icon'];
+		$icon = $tree['icon'] == 1 ? '' : $tree['icon'];
 		if ($parenttrre != '')
 			$parenttrre = $parenttrre . '::';
 		$parenttrre = $parenttrre . $treeID;
-
-		$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label, state, icon) VALUES (?,?,?,?,?,?,?,?)';
-		$params = array($this->getId(), $label, $treeID, $parenttrre, $depth, $label, $state,$icon);
-		$adb->pquery($sql, $params);
+		$params = [
+			'templateid' => $this->getId(),
+			'name' => $label,
+			'tree' => $treeID,
+			'parenttrre' => $parenttrre,
+			'depth' => $depth,
+			'label' => $label,
+			'state' => $state,
+			'icon' => $icon
+		];
+		$db->insert('vtiger_trees_templates_data', $params);
 		if (!empty($tree['children'])) {
 			foreach ($tree['children'] as $tree) {
 				$this->insertData($tree, $depth + 1, $parenttrre);
