@@ -398,6 +398,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
 				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
+				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 				$permissionsRelatedField = empty($role->get('permissionsrelatedfield')) ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as &$row) {
