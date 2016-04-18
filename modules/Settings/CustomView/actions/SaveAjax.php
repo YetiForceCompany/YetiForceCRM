@@ -19,7 +19,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('setFilterPermissions');
 	}
 
-	public function Delete(Vtiger_Request $request)
+	public function delete(Vtiger_Request $request)
 	{
 		$params = $request->get('param');
 		Settings_CustomView_Module_Model::delete($params);
