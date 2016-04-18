@@ -2,7 +2,7 @@
 
 /**
  * EditFieldByModal View Class for Assets
- * @package YetiForce.View
+ * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
