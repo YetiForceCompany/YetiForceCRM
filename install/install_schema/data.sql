@@ -24517,18 +24517,20 @@ insert  into `vtiger_wsapp_handlerdetails`(`type`,`handlerclass`,`handlerpath`) 
 
 /*Data for the table `vtiger_wsapp_sync_state` */
 
-/*Data for the table `w_yf_portal_sessions` */
-
 /*Data for the table `w_yf_portal_users` */
 
 /*Data for the table `w_yf_pos_actions` */
 
-insert  into `w_yf_pos_actions`(`id`,`label`) values (1,'LBL_SYNCHRONIZE_PRODUCTS');
-insert  into `w_yf_pos_actions`(`id`,`label`) values (2,'LBL_SYNCHRONIZE_ORDERS');
+insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (1,'LBL_SYNCHRONIZE_PRODUCTS','GetProducts');
+insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (2,'LBL_SYNCHRONIZE_ORDERS','SetSSingleOrders');
+insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (3,'LBL_SYNCHRONIZE_PRODUCTS_IMAGES','GetImage');
+insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (4,'LBL_SYNCHRONIZE_STORAGES','GetIStorages');
 
 /*Data for the table `w_yf_pos_users` */
 
 /*Data for the table `w_yf_servers` */
+
+/*Data for the table `w_yf_sessions` */
 
 /*Data for the table `yetiforce_auth` */
 

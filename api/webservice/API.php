@@ -78,6 +78,15 @@ class API
 			$data['record'] = $this->request->get('record');
 		}
 
+		if($this->request->get('action') != 'Login'){
+			if(!$handler->checkSession($this->headers['Sessionid'])){
+				throw new APIException('Invalid Sessionid', 401);
+			}
+			if(!$handler->checkPermission($this->request->get('action'))){
+				throw new APIException('No permission to action', 405);
+			}
+		}
+		
 		if (is_array($data)) {
 			$return = call_user_func_array([$handler, $function], $data);
 		} else {
