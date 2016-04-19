@@ -361,11 +361,20 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			thisInstance.loadCalendarData();
 		});
 	},
+	registerSlimScroll: function(){
+		var calendarContainer = $('.bodyContents');
+		app.showScrollBar(calendarContainer,{
+			railVisible: true,
+			alwaysVisible: true,
+			position: 'left'
+		});
+	},
 	registerEvents: function () {
 		this.registerCalendar();
 		this.loadCalendarData(true);
 		this.registerChangeView();
 		this.registerButtonSelectAll();
 		this.registerRefreshEvent();
+		this.registerSlimScroll();
 	}
 });

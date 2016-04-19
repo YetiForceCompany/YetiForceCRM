@@ -18,14 +18,14 @@
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important; }
 {/foreach}
 </style>
-<div class="rowContent paddingLRZero col-md-12 col-xs-12">
+<div class="rowContent paddingLRZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 		<div class="col-xs-10">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
 		</div>
 	</div>
-	<div class="bottom_margin">
+	<div class="bottom_margin paddingRight15">
 		<p><!-- Divider --></p>
 		<div id="calendarview"></div>
 	</div>
