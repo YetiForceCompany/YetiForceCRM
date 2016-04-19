@@ -107,7 +107,9 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 
 			$fieldModelList = $moduleModel->getFields();
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
-				if ($request->has($fieldName)) {
+				if ($request->has($fieldName) && $fieldModel->get('uitype') == 300) {
+					$fieldValue = $request->getForHtml($fieldName, null);
+				} else if ($request->has($fieldName)) {
 					$fieldValue = $request->get($fieldName, null);
 				} else {
 					$fieldValue = $fieldModel->getDefaultFieldValue();

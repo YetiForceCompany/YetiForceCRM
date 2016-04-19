@@ -123,7 +123,9 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if ($request->has($fieldName)) {
+			if ($request->has($fieldName) && $fieldModel->get('uitype') == 300) {
+				$fieldValue = $request->getForHtml($fieldName, null);
+			} else if ($request->has($fieldName)) {
 				$fieldValue = $request->get($fieldName, null);
 			} else if (in_array($fieldModel->getDisplayType(), [3, 5])) {
 				$fieldValue = $recordModel->get($fieldName);

@@ -20,7 +20,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	{
 		$uiType = $this->get('field')->get('uitype');
 		if ($uiType == 300) {
-			return $value;
+			return vtlib_purifyForHtml($value);
 		} else {
 			return nl2br($value);
 		}

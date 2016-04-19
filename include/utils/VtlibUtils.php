@@ -679,6 +679,7 @@ function vtlib_purifyForHtml($input, $ignore = false)
 			$config->set('Cache.SerializerPath', "$use_root_directory/cache/vtlib");
 			$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 			$config->set('CSS.AllowTricky', true);
+			$config->set('CSS.Proprietary', true);
 			$config->set('HTML.SafeIframe', true);
 			$config->set('HTML.SafeEmbed', true);
 			$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www.youtube(?:-nocookie)?.com/embed/|player.vimeo.com/video/)%');

@@ -24,7 +24,11 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 
 		$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
-			$value = $request->get($field);
+			if ($field == 'body_content') {
+				$value = $request->getForHtml($field);
+			} else {
+				$value = $request->get($field);
+			}
 
 			if (is_array($value)) {
 				$value = implode(',', $value);
