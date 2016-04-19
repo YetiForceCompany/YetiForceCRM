@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,11 +8,12 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-//vimport('vtlib/Vtiger/Unzip.php');
 
-class Vtiger_Import_View extends Vtiger_Index_View {
+class Vtiger_Import_View extends Vtiger_Index_View
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('continueImport');
 		$this->exposeMethod('uploadAndParse');
@@ -27,25 +27,27 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		$this->exposeMethod('checkImportStatus');
 	}
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Import')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Import')) {
 			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Vtiger_Request $request)
+	{
 		global $VTIGER_BULK_SAVE_MODE;
 		$previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
 		$VTIGER_BULK_SAVE_MODE = true;
 
 		$mode = $request->getMode();
-		if(!empty($mode)) {
+		if (!empty($mode)) {
 			// Added to check the status of import
-			if($mode == 'continueImport' || $mode == 'uploadAndParse' || $mode == 'importBasicStep') {
+			if ($mode == 'continueImport' || $mode == 'uploadAndParse' || $mode == 'importBasicStep') {
 				$this->checkImportStatus($request);
 			}
 			$this->invokeExposedMethod($mode, $request);
@@ -53,7 +55,7 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 			$this->checkImportStatus($request);
 			$this->importBasicStep($request);
 		}
-		
+
 		$VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
 	}
 
@@ -62,7 +64,8 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
+	function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
 		$jsFileNames = array(
@@ -74,7 +77,8 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		return $headerScriptInstances;
 	}
 
-	function importBasicStep(Vtiger_Request $request) {
+	function importBasicStep(Vtiger_Request $request)
+	{
 		global $upload_maxsize;
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -90,10 +94,10 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		$viewer->assign('SUPPORTED_FILE_ENCODING', Import_Utils_Helper::getSupportedFileEncoding());
 		$viewer->assign('SUPPORTED_DELIMITERS', Import_Utils_Helper::getSupportedDelimiters());
 		$viewer->assign('AUTO_MERGE_TYPES', Import_Utils_Helper::getAutoMergeTypes());
-		
+
 		//Duplicate records handling not supported for inventory moduels
 		$duplicateHandlingNotSupportedModules = getInventoryModules();
-		if(in_array($moduleName, $duplicateHandlingNotSupportedModules)){
+		if (in_array($moduleName, $duplicateHandlingNotSupportedModules)) {
 			$viewer->assign('DUPLICATE_HANDLING_NOT_SUPPORTED', true);
 		}
 		//End
@@ -102,7 +106,7 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		$viewer->assign('ENTITY_FIELDS', $moduleMeta->getEntityFields());
 		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
 		$viewer->assign('IMPORT_UPLOAD_SIZE', $upload_maxsize);
-		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', round($upload_maxsize/1024/1024,2));
+		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', round($upload_maxsize / 1024 / 1024, 2));
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}
 
@@ -164,14 +168,16 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		}
 	}
 
-	function import(Vtiger_Request $request) {
+	function import(Vtiger_Request $request)
+	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		Import_Main_View::import($request, $user);
 	}
 
 	function undoImport(Vtiger_Request $request)
 	{
-		global $VTIGER_BULK_SAVE_MODE;
+		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
+		$db = PearDatabase::getInstance();
 		$viewer = new Vtiger_Viewer();
 
 		$moduleName = $request->getModule();
@@ -184,18 +190,17 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
 			exit;
 		}
-		$previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
 		if (empty($type)) {
-			$VTIGER_BULK_SAVE_MODE = true;
-		}else{
-			$VTIGER_BULK_SAVE_MODE = false;
+			vglobal('VTIGER_BULK_SAVE_MODE', true);
+		} else {
+			vglobal('VTIGER_BULK_SAVE_MODE', false);
 		}
 		list($noOfRecords, $noOfRecordsDeleted, $entityData) = $this->undoRecords($type, $moduleName);
 		if (empty($type)) {
 			$entity = new VTEventsManager($db);
 			$entity->triggerEvent('vtiger.batchevent.delete', $entityData);
-			$VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
 		}
+		vglobal('VTIGER_BULK_SAVE_MODE', $previousBulkSaveMode);
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('TOTAL_RECORDS', $noOfRecords);
@@ -231,29 +236,33 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		return [$noOfRecords, $noOfRecordsDeleted, $entityData];
 	}
 
-	function lastImportedRecords(Vtiger_Request $request) {
+	function lastImportedRecords(Vtiger_Request $request)
+	{
 		$importList = new Import_List_View();
 		$importList->process($request);
 	}
 
-	function deleteMap(Vtiger_Request $request) {
+	function deleteMap(Vtiger_Request $request)
+	{
 		Import_Main_View::deleteMap($request);
 	}
 
 	//TODO need to move it to an action
-	function clearCorruptedData(Vtiger_Request $request) {
+	function clearCorruptedData(Vtiger_Request $request)
+	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		Import_Utils_Helper::clearUserImportInfo($user);
 		$this->importBasicStep($request);
 	}
 
-	function cancelImport(Vtiger_Request $request) {
+	function cancelImport(Vtiger_Request $request)
+	{
 		$importId = $request->get('import_id');
 		$user = Users_Record_Model::getCurrentUserModel();
 
 		$importInfo = Import_Queue_Action::getImportInfoById($importId);
-		if($importInfo != null) {
-			if($importInfo['user_id'] == $user->id || $user->isAdminUser()) {
+		if ($importInfo != null) {
+			if ($importInfo['user_id'] == $user->id || $user->isAdminUser()) {
 				$importUser = Users_Record_Model::getInstanceById($importInfo['user_id'], 'Users');
 				$importDataController = new Import_Data_Action($importInfo, $importUser);
 				$importStatusCount = $importDataController->getImportStatusCount();
@@ -263,26 +272,27 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 		}
 	}
 
-	function checkImportStatus(Vtiger_Request $request) {
+	function checkImportStatus(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$user = Users_Record_Model::getCurrentUserModel();
 		$mode = $request->getMode();
 
 		// Check if import on the module is locked
 		$lockInfo = Import_Lock_Action::isLockedForModule($moduleName);
-		if($lockInfo != null) {
+		if ($lockInfo != null) {
 			$lockedBy = $lockInfo['userid'];
-			if($user->id != $lockedBy && !$user->isAdminUser()) {
+			if ($user->id != $lockedBy && !$user->isAdminUser()) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				exit;
 			} else {
-				if($mode == 'continueImport' && $user->id == $lockedBy) {
+				if ($mode == 'continueImport' && $user->id == $lockedBy) {
 					$importController = new Import_Main_View($request, $user);
 					$importController->triggerImport(true);
 				} else {
 					$importInfo = Import_Queue_Action::getImportInfoById($lockInfo['importid']);
 					$lockOwner = $user;
-					if($user->id != $lockedBy) {
+					if ($user->id != $lockedBy) {
 						$lockOwner = Users_Record_Model::getInstanceById($lockInfo['userid'], 'Users');
 					}
 					Import_Main_View::showImportStatus($importInfo, $lockOwner);
@@ -291,9 +301,9 @@ class Vtiger_Import_View extends Vtiger_Index_View {
 			}
 		}
 
-		if(Import_Utils_Helper::isUserImportBlocked($user)) {
+		if (Import_Utils_Helper::isUserImportBlocked($user)) {
 			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($user);
-			if($importInfo != null) {
+			if ($importInfo != null) {
 				Import_Main_View::showImportStatus($importInfo, $user);
 				exit;
 			} else {

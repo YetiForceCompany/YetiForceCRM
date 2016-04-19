@@ -5,7 +5,6 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-vimport('modules.Import.helpers.FormatValue');
 
 class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 {
