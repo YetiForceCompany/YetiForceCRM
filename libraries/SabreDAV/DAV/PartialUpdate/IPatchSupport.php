@@ -9,7 +9,7 @@ use Sabre\DAV;
  * It may be used to update a file chunk, upload big a file into smaller
  * chunks or resume an upload
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Jean-Tiare LE BIGOT (http://www.jtlebi.fr/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -45,4 +45,3 @@ interface IPatchSupport extends DAV\IFile {
     function patch($data, $rangeType, $offset = null);
 
 }
-

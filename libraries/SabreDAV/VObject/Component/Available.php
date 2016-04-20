@@ -5,16 +5,41 @@ namespace Sabre\VObject\Component;
 use Sabre\VObject;
 
 /**
- * The Available sub-component
+ * The Available sub-component.
  *
  * This component adds functionality to a component, specific for AVAILABLE
  * components.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  */
 class Available extends VObject\Component {
+
+    /**
+     * Returns the 'effective start' and 'effective end' of this VAVAILABILITY
+     * component.
+     *
+     * We use the DTSTART and DTEND or DURATION to determine this.
+     *
+     * The returned value is an array containing DateTimeImmutable instances.
+     * If either the start or end is 'unbounded' its value will be null
+     * instead.
+     *
+     * @return array
+     */
+    function getEffectiveStartEnd() {
+
+        $effectiveStart = $this->DTSTART->getDateTime();
+        if (isset($this->DTEND)) {
+            $effectiveEnd = $this->DTEND->getDateTime();
+        } else {
+            $effectiveEnd = $effectiveStart->add(VObject\DateTimeParser::parseDuration($this->DURATION));
+        }
+
+        return [$effectiveStart, $effectiveEnd];
+
+    }
 
     /**
      * A simple list of validation rules.
@@ -33,29 +58,29 @@ class Available extends VObject\Component {
      */
     function getValidationRules() {
 
-        return array(
-            'UID' => 1,
+        return [
+            'UID'     => 1,
             'DTSTART' => 1,
             'DTSTAMP' => 1,
 
-            'DTEND' => '?',
+            'DTEND'    => '?',
             'DURATION' => '?',
 
-            'CREATED' => '?',
-            'DESCRIPTION' => '?',
+            'CREATED'       => '?',
+            'DESCRIPTION'   => '?',
             'LAST-MODIFIED' => '?',
             'RECURRENCE-ID' => '?',
-            'RRULE' => '?',
-            'SUMMARY' => '?',
+            'RRULE'         => '?',
+            'SUMMARY'       => '?',
 
             'CATEGORIES' => '*',
-            'COMMENT' => '*',
-            'CONTACT' => '*',
-            'EXDATE' => '*',
-            'RDATE' => '*',
+            'COMMENT'    => '*',
+            'CONTACT'    => '*',
+            'EXDATE'     => '*',
+            'RDATE'      => '*',
 
             'AVAILABLE' => '*',
-        );
+        ];
 
     }
 
@@ -80,6 +105,7 @@ class Available extends VObject\Component {
      *   3 - An error.
      *
      * @param int $options
+     *
      * @return array
      */
     function validate($options = 0) {
@@ -87,19 +113,11 @@ class Available extends VObject\Component {
         $result = parent::validate($options);
 
         if (isset($this->DTEND) && isset($this->DURATION)) {
-            $result[] = array(
-                'level' => 3,
+            $result[] = [
+                'level'   => 3,
                 'message' => 'DTEND and DURATION cannot both be present',
-                'node' => $this
-            );
-        }
-
-        if (isset($this->DURATION) && !isset($this->DTSTART)) {
-            $result[] = array(
-                'level' => 3,
-                'message' => 'DURATION must be declared with a DTSTART.',
-                'node' => $this
-            );
+                'node'    => $this
+            ];
         }
 
         return $result;

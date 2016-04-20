@@ -9,7 +9,7 @@ namespace Sabre\DAV;
  * the directory structure. One usecase would be to add a 'readme.txt' to a
  * root of a webserver with some standard content.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -102,7 +102,7 @@ class SimpleFile extends File {
      */
     function getETag() {
 
-        return '"' . md5($this->contents) . '"';
+        return '"' . sha1($this->contents) . '"';
 
     }
 

@@ -6,7 +6,7 @@ namespace Sabre\HTTP;
  * This exception may be emitted by the HTTP\Client class, in case there was a
  * problem emitting the request.
  *
- * @copyright Copyright (C) 2009-2014 fruux GmbH. All rights reserved.
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

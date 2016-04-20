@@ -4,11 +4,13 @@ namespace Sabre\CalDAV;
 
 use DateTimeZone;
 use Sabre\DAV;
-use Sabre\DAV\Property\HrefList;
+use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\MkCol;
+use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL;
 use Sabre\VObject;
 use Sabre\HTTP;
-use Sabre\HTTP\URLUtil;
+use Sabre\Uri;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -18,7 +20,7 @@ use Sabre\HTTP\ResponseInterface;
  * This plugin provides functionality added by CalDAV (RFC 4791)
  * It implements new reports, and the MKCALENDAR method.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -68,7 +70,7 @@ class Plugin extends DAV\ServerPlugin {
 
         // The MKCALENDAR is only available on unmapped uri's, whose
         // parents extend IExtendedCollection
-        list($parent, $name) = URLUtil::splitPath($uri);
+        list($parent, $name) = Uri\split($uri);
 
         $node = $this->server->tree->getNodeForPath($parent);
 
@@ -87,16 +89,26 @@ class Plugin extends DAV\ServerPlugin {
      * Returns the path to a principal's calendar home.
      *
      * The return url must not end with a slash.
+     * This function should return null in case a principal did not have
+     * a calendar home.
      *
      * @param string $principalUrl
      * @return string
      */
     function getCalendarHomeForPrincipal($principalUrl) {
 
-        // The default is a bit naive, but it can be overwritten.
-        list(, $nodeName) = URLUtil::splitPath($principalUrl);
+        // The default behavior for most sabre/dav servers is that there is a
+        // principals root node, which contains users directly under it.
+        //
+        // This function assumes that there are two components in a principal
+        // path. If there's more, we don't return a calendar home. This
+        // excludes things like the calendar-proxy-read principal (which it
+        // should).
+        $parts = explode('/', trim($principalUrl, '/'));
+        if (count($parts) !== 2) return;
+        if ($parts[0] !== 'principals') return;
 
-        return self::CALENDAR_ROOT . '/' . $nodeName;
+        return self::CALENDAR_ROOT . '/' . $parts[1];
 
     }
 
@@ -167,20 +179,24 @@ class Plugin extends DAV\ServerPlugin {
 
         $this->server = $server;
 
-        $server->on('method:MKCALENDAR',   [$this,'httpMkcalendar']);
-        $server->on('report',              [$this,'report']);
-        $server->on('propFind',            [$this,'propFind']);
-        $server->on('onHTMLActionsPanel',  [$this,'htmlActionsPanel']);
-        $server->on('onBrowserPostAction', [$this,'browserPostAction']);
-        $server->on('beforeCreateFile',    [$this,'beforeCreateFile']);
-        $server->on('beforeWriteContent',  [$this,'beforeWriteContent']);
-        $server->on('afterMethod:GET',     [$this,'httpAfterGET']);
+        $server->on('method:MKCALENDAR',   [$this, 'httpMkCalendar']);
+        $server->on('report',              [$this, 'report']);
+        $server->on('propFind',            [$this, 'propFind']);
+        $server->on('onHTMLActionsPanel',  [$this, 'htmlActionsPanel']);
+        $server->on('beforeCreateFile',    [$this, 'beforeCreateFile']);
+        $server->on('beforeWriteContent',  [$this, 'beforeWriteContent']);
+        $server->on('afterMethod:GET',     [$this, 'httpAfterGET']);
 
-        $server->xmlNamespaces[self::NS_CALDAV] = 'cal';
-        $server->xmlNamespaces[self::NS_CALENDARSERVER] = 'cs';
+        $server->xml->namespaceMap[self::NS_CALDAV] = 'cal';
+        $server->xml->namespaceMap[self::NS_CALENDARSERVER] = 'cs';
 
-        $server->propertyMap['{' . self::NS_CALDAV . '}supported-calendar-component-set'] = 'Sabre\\CalDAV\\Property\\SupportedCalendarComponentSet';
-        $server->propertyMap['{' . self::NS_CALDAV . '}schedule-calendar-transp'] = 'Sabre\\CalDAV\\Property\\ScheduleCalendarTransp';
+        $server->xml->elementMap['{' . self::NS_CALDAV . '}supported-calendar-component-set'] = 'Sabre\\CalDAV\\Xml\\Property\\SupportedCalendarComponentSet';
+        $server->xml->elementMap['{' . self::NS_CALDAV . '}calendar-query'] = 'Sabre\\CalDAV\\Xml\\Request\\CalendarQueryReport';
+        $server->xml->elementMap['{' . self::NS_CALDAV . '}calendar-multiget'] = 'Sabre\\CalDAV\\Xml\\Request\\CalendarMultiGetReport';
+        $server->xml->elementMap['{' . self::NS_CALDAV . '}free-busy-query'] = 'Sabre\\CalDAV\\Xml\\Request\\FreeBusyQueryReport';
+        $server->xml->elementMap['{' . self::NS_CALDAV . '}mkcalendar'] = 'Sabre\\CalDAV\\Xml\\Request\\MkCalendar';
+        $server->xml->elementMap['{' . self::NS_CALDAV . '}schedule-calendar-transp'] = 'Sabre\\CalDAV\\Xml\\Property\\ScheduleCalendarTransp';
+        $server->xml->elementMap['{' . self::NS_CALDAV . '}supported-calendar-component-set'] = 'Sabre\\CalDAV\\Xml\\Property\\SupportedCalendarComponentSet';
 
         $server->resourceTypeMapping['\\Sabre\\CalDAV\\ICalendar'] = '{urn:ietf:params:xml:ns:caldav}calendar';
 
@@ -216,23 +232,23 @@ class Plugin extends DAV\ServerPlugin {
      * This functions handles REPORT requests specific to CalDAV
      *
      * @param string $reportName
-     * @param \DOMNode $dom
+     * @param mixed $report
      * @return bool
      */
-    function report($reportName,$dom) {
+    function report($reportName, $report) {
 
-        switch($reportName) {
+        switch ($reportName) {
             case '{' . self::NS_CALDAV . '}calendar-multiget' :
                 $this->server->transactionType = 'report-calendar-multiget';
-                $this->calendarMultiGetReport($dom);
+                $this->calendarMultiGetReport($report);
                 return false;
             case '{' . self::NS_CALDAV . '}calendar-query' :
                 $this->server->transactionType = 'report-calendar-query';
-                $this->calendarQueryReport($dom);
+                $this->calendarQueryReport($report);
                 return false;
             case '{' . self::NS_CALDAV . '}free-busy-query' :
                 $this->server->transactionType = 'report-free-busy-query';
-                $this->freeBusyQueryReport($dom);
+                $this->freeBusyQueryReport($report);
                 return false;
 
         }
@@ -250,13 +266,6 @@ class Plugin extends DAV\ServerPlugin {
      */
     function httpMkCalendar(RequestInterface $request, ResponseInterface $response) {
 
-        // Due to unforgivable bugs in iCal, we're completely disabling MKCALENDAR support
-        // for clients matching iCal in the user agent
-        //$ua = $this->server->httpRequest->getHeader('User-Agent');
-        //if (strpos($ua,'iCal/')!==false) {
-        //    throw new \Sabre\DAV\Exception\Forbidden('iCal has major bugs in it\'s RFC3744 support. Therefore we are left with no other choice but disabling this feature.');
-        //}
-
         $body = $request->getBodyAsString();
         $path = $request->getPath();
 
@@ -264,16 +273,16 @@ class Plugin extends DAV\ServerPlugin {
 
         if ($body) {
 
-            $dom = DAV\XMLUtil::loadDOMDocument($body);
-
-            foreach($dom->firstChild->childNodes as $child) {
-
-                if (DAV\XMLUtil::toClarkNotation($child)!=='{DAV:}set') continue;
-                foreach(DAV\XMLUtil::parseProperties($child,$this->server->propertyMap) as $k=>$prop) {
-                    $properties[$k] = $prop;
-                }
-
+            try {
+                $mkcalendar = $this->server->xml->expect(
+                    '{urn:ietf:params:xml:ns:caldav}mkcalendar',
+                    $body
+                );
+            } catch (\Sabre\Xml\ParseException $e) {
+                throw new BadRequest($e->getMessage(), null, $e);
             }
+            $properties = $mkcalendar->getProperties();
+
         }
 
         // iCal abuses MKCALENDAR since iCal 10.9.2 to create server-stored
@@ -288,10 +297,10 @@ class Plugin extends DAV\ServerPlugin {
             $resourceType = ['{DAV:}collection','{urn:ietf:params:xml:ns:caldav}calendar'];
         }
 
-        $this->server->createCollection($path,$resourceType,$properties);
+        $this->server->createCollection($path, new MkCol($resourceType, $properties));
 
         $this->server->httpResponse->setStatus(201);
-        $this->server->httpResponse->setHeader('Content-Length',0);
+        $this->server->httpResponse->setHeader('Content-Length', 0);
 
         // This breaks the method chain.
         return false;
@@ -316,10 +325,10 @@ class Plugin extends DAV\ServerPlugin {
 
             $propFind->handle($ns . 'max-resource-size', $this->maxResourceSize);
             $propFind->handle($ns . 'supported-calendar-data', function() {
-                return new Property\SupportedCalendarData();
+                return new Xml\Property\SupportedCalendarData();
             });
             $propFind->handle($ns . 'supported-collation-set', function() {
-                return new Property\SupportedCollationSet();
+                return new Xml\Property\SupportedCollationSet();
             });
 
         }
@@ -330,8 +339,9 @@ class Plugin extends DAV\ServerPlugin {
 
             $propFind->handle('{' . self::NS_CALDAV . '}calendar-home-set', function() use ($principalUrl) {
 
-                $calendarHomePath = $this->getCalendarHomeForPrincipal($principalUrl) . '/';
-                return new DAV\Property\Href($calendarHomePath);
+                $calendarHomePath = $this->getCalendarHomeForPrincipal($principalUrl);
+                if (is_null($calendarHomePath)) return null;
+                return new Href($calendarHomePath . '/');
 
             });
             // The calendar-user-address-set property is basically mapped to
@@ -339,19 +349,19 @@ class Plugin extends DAV\ServerPlugin {
             $propFind->handle('{' . self::NS_CALDAV . '}calendar-user-address-set', function() use ($node) {
                 $addresses = $node->getAlternateUriSet();
                 $addresses[] = $this->server->getBaseUri() . $node->getPrincipalUrl() . '/';
-                return new HrefList($addresses, false);
+                return new Href($addresses, false);
             });
             // For some reason somebody thought it was a good idea to add
             // another one of these properties. We're supporting it too.
             $propFind->handle('{' . self::NS_CALENDARSERVER . '}email-address-set', function() use ($node) {
                 $addresses = $node->getAlternateUriSet();
                 $emails = [];
-                foreach($addresses as $address) {
-                    if (substr($address,0,7)==='mailto:') {
-                        $emails[] = substr($address,7);
+                foreach ($addresses as $address) {
+                    if (substr($address, 0, 7) === 'mailto:') {
+                        $emails[] = substr($address, 7);
                     }
                 }
-                return new Property\EmailAddressSet($emails);
+                return new Xml\Property\EmailAddressSet($emails);
             });
 
             // These two properties are shortcuts for ical to easily find
@@ -359,31 +369,33 @@ class Plugin extends DAV\ServerPlugin {
             $propRead = '{' . self::NS_CALENDARSERVER . '}calendar-proxy-read-for';
             $propWrite = '{' . self::NS_CALENDARSERVER . '}calendar-proxy-write-for';
 
-            if ($propFind->getStatus($propRead)===404 || $propFind->getStatus($propWrite)===404) {
+            if ($propFind->getStatus($propRead) === 404 || $propFind->getStatus($propWrite) === 404) {
 
                 $aclPlugin = $this->server->getPlugin('acl');
                 $membership = $aclPlugin->getPrincipalMembership($propFind->getPath());
                 $readList = [];
                 $writeList = [];
 
-                foreach($membership as $group) {
+                foreach ($membership as $group) {
 
                     $groupNode = $this->server->tree->getNodeForPath($group);
+
+                    $listItem = Uri\split($group)[0] . '/';
 
                     // If the node is either ap proxy-read or proxy-write
                     // group, we grab the parent principal and add it to the
                     // list.
                     if ($groupNode instanceof Principal\IProxyRead) {
-                        list($readList[]) = URLUtil::splitPath($group);
+                        $readList[] = $listItem;
                     }
                     if ($groupNode instanceof Principal\IProxyWrite) {
-                        list($writeList[]) = URLUtil::splitPath($group);
+                        $writeList[] = $listItem;
                     }
 
                 }
 
-                $propFind->set($propRead, new HrefList($readList));
-                $propFind->set($propWrite, new HrefList($writeList));
+                $propFind->set($propRead, new Href($readList));
+                $propFind->set($propWrite, new Href($writeList));
 
             }
 
@@ -394,13 +406,13 @@ class Plugin extends DAV\ServerPlugin {
             // The calendar-data property is not supposed to be a 'real'
             // property, but in large chunks of the spec it does act as such.
             // Therefore we simply expose it as a property.
-            $propFind->handle( '{' . Plugin::NS_CALDAV . '}calendar-data', function() use ($node) {
+            $propFind->handle('{' . self::NS_CALDAV . '}calendar-data', function() use ($node) {
                 $val = $node->get();
                 if (is_resource($val))
                     $val = stream_get_contents($val);
 
                 // Taking out \r to not screw up the xml output
-                return str_replace("\r","", $val);
+                return str_replace("\r", "", $val);
 
             });
 
@@ -414,61 +426,30 @@ class Plugin extends DAV\ServerPlugin {
      * This report is used by the client to fetch the content of a series
      * of urls. Effectively avoiding a lot of redundant requests.
      *
-     * @param \DOMNode $dom
+     * @param CalendarMultiGetReport $report
      * @return void
      */
-    function calendarMultiGetReport($dom) {
+    function calendarMultiGetReport($report) {
 
-        $properties = array_keys(DAV\XMLUtil::parseProperties($dom->firstChild));
-        $hrefElems = $dom->getElementsByTagNameNS('urn:DAV','href');
-
-        $xpath = new \DOMXPath($dom);
-        $xpath->registerNameSpace('cal',Plugin::NS_CALDAV);
-        $xpath->registerNameSpace('dav','urn:DAV');
-
-        $expand = $xpath->query('/cal:calendar-multiget/dav:prop/cal:calendar-data/cal:expand');
-        if ($expand->length > 0) {
-            $expandElem = $expand->item(0);
-            $start = $expandElem->getAttribute('start');
-            $end = $expandElem->getAttribute('end');
-            if(!$start || !$end) {
-                throw new DAV\Exception\BadRequest('The "start" and "end" attributes are required for the CALDAV:expand element');
-            }
-            $start = VObject\DateTimeParser::parseDateTime($start);
-            $end = VObject\DateTimeParser::parseDateTime($end);
-
-            if ($end <= $start) {
-                throw new DAV\Exception\BadRequest('The end-date must be larger than the start-date in the expand element.');
-            }
-
-            $expand = true;
-
-        } else {
-
-            $expand = false;
-
-        }
-
-        $needsJson = $xpath->evaluate("boolean(/cal:calendar-multiget/dav:prop/cal:calendar-data[@content-type='application/calendar+json'])");
-
-        $uris = [];
-        foreach($hrefElems as $elem) {
-            $uris[] = $this->server->calculateUri($elem->nodeValue);
-        }
-
-        $tz = null;
+        $needsJson = $report->contentType === 'application/calendar+json';
 
         $timeZones = [];
+        $propertyList = [];
 
-        foreach($this->server->getPropertiesForMultiplePaths($uris, $properties) as $uri=>$objProps) {
+        $paths = array_map(
+            [$this->server, 'calculateUri'],
+            $report->hrefs
+        );
 
-            if (($needsJson || $expand) && isset($objProps[200]['{' . self::NS_CALDAV . '}calendar-data'])) {
+        foreach ($this->server->getPropertiesForMultiplePaths($paths, $report->properties) as $uri => $objProps) {
+
+            if (($needsJson || $report->expand) && isset($objProps[200]['{' . self::NS_CALDAV . '}calendar-data'])) {
                 $vObject = VObject\Reader::read($objProps[200]['{' . self::NS_CALDAV . '}calendar-data']);
 
-                if ($expand) {
+                if ($report->expand) {
                     // We're expanding, and for that we need to figure out the
                     // calendar's timezone.
-                    list($calendarPath) = URLUtil::splitPath($uri);
+                    list($calendarPath) = Uri\split($uri);
                     if (!isset($timeZones[$calendarPath])) {
                         // Checking the calendar-timezone property.
                         $tzProp = '{' . self::NS_CALDAV . '}calendar-timezone';
@@ -485,25 +466,28 @@ class Plugin extends DAV\ServerPlugin {
                         $timeZones[$calendarPath] = $timeZone;
                     }
 
-                    $vObject->expand($start, $end, $timeZones[$calendarPath]);
+                    $vObject = $vObject->expand($report->expand['start'], $report->expand['end'], $timeZones[$calendarPath]);
                 }
                 if ($needsJson) {
                     $objProps[200]['{' . self::NS_CALDAV . '}calendar-data'] = json_encode($vObject->jsonSerialize());
                 } else {
                     $objProps[200]['{' . self::NS_CALDAV . '}calendar-data'] = $vObject->serialize();
                 }
+                // Destroy circular references so PHP will garbage collect the
+                // object.
+                $vObject->destroy();
             }
 
-            $propertyList[]=$objProps;
+            $propertyList[] = $objProps;
 
         }
 
-        $prefer = $this->server->getHTTPPRefer();
+        $prefer = $this->server->getHTTPPrefer();
 
         $this->server->httpResponse->setStatus(207);
-        $this->server->httpResponse->setHeader('Content-Type','application/xml; charset=utf-8');
-        $this->server->httpResponse->setHeader('Vary','Brief,Prefer');
-        $this->server->httpResponse->setBody($this->server->generateMultiStatus($propertyList, $prefer['return-minimal']));
+        $this->server->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
+        $this->server->httpResponse->setHeader('Vary', 'Brief,Prefer');
+        $this->server->httpResponse->setBody($this->server->generateMultiStatus($propertyList, $prefer['return'] === 'minimal'));
 
     }
 
@@ -513,21 +497,14 @@ class Plugin extends DAV\ServerPlugin {
      * This report is used by clients to request calendar objects based on
      * complex conditions.
      *
-     * @param \DOMNode $dom
+     * @param Xml\Request\CalendarQueryReport $report
      * @return void
      */
-    function calendarQueryReport($dom) {
-
-        $parser = new CalendarQueryParser($dom);
-        $parser->parse();
+    function calendarQueryReport($report) {
 
         $path = $this->server->getRequestUri();
 
-        // TODO: move this into CalendarQueryParser
-        $xpath = new \DOMXPath($dom);
-        $xpath->registerNameSpace('cal',Plugin::NS_CALDAV);
-        $xpath->registerNameSpace('dav','urn:DAV');
-        $needsJson = $xpath->evaluate("boolean(/cal:calendar-query/dav:prop/cal:calendar-data[@content-type='application/calendar+json'])");
+        $needsJson = $report->contentType === 'application/calendar+json';
 
         $node = $this->server->tree->getNodeForPath($this->server->getRequestUri());
         $depth = $this->server->getHTTPDepth(0);
@@ -536,7 +513,7 @@ class Plugin extends DAV\ServerPlugin {
         $result = [];
 
         $calendarTimeZone = null;
-        if ($parser->expand) {
+        if ($report->expand) {
             // We're expanding, and for that we need to figure out the
             // calendar's timezone.
             $tzProp = '{' . self::NS_CALDAV . '}calendar-timezone';
@@ -546,7 +523,10 @@ class Plugin extends DAV\ServerPlugin {
                 // VTIMEZONE.
                 $vtimezoneObj = VObject\Reader::read($tzResult[$tzProp]);
                 $calendarTimeZone = $vtimezoneObj->VTIMEZONE->getTimeZone();
-                unset($vtimezoneObj);
+
+                // Destroy circular references so PHP will garbage collect the
+                // object.
+                $vtimezoneObj->destroy();
             } else {
                 // Defaulting to UTC.
                 $calendarTimeZone = new DateTimeZone('UTC');
@@ -558,7 +538,7 @@ class Plugin extends DAV\ServerPlugin {
         if ($depth == 0 && $node instanceof ICalendarObject) {
 
             $requestedCalendarData = true;
-            $requestedProperties = $parser->requestedProperties;
+            $requestedProperties = $report->properties;
 
             if (!in_array('{urn:ietf:params:xml:ns:caldav}calendar-data', $requestedProperties)) {
 
@@ -587,7 +567,7 @@ class Plugin extends DAV\ServerPlugin {
                 $validator = new CalendarQueryValidator();
 
                 $vObject = VObject\Reader::read($properties[200]['{urn:ietf:params:xml:ns:caldav}calendar-data']);
-                if ($validator->validate($vObject,$parser->filters)) {
+                if ($validator->validate($vObject, $report->filters)) {
 
                     // If the client didn't require the calendar-data property,
                     // we won't give it back.
@@ -596,12 +576,12 @@ class Plugin extends DAV\ServerPlugin {
                     } else {
 
 
-                        if ($parser->expand) {
-                            $vObject->expand($parser->expand['start'], $parser->expand['end'], $calendarTimeZone);
+                        if ($report->expand) {
+                            $vObject = $vObject->expand($report->expand['start'], $report->expand['end'], $calendarTimeZone);
                         }
                         if ($needsJson) {
                             $properties[200]['{' . self::NS_CALDAV . '}calendar-data'] = json_encode($vObject->jsonSerialize());
-                        } elseif ($parser->expand) {
+                        } elseif ($report->expand) {
                             $properties[200]['{' . self::NS_CALDAV . '}calendar-data'] = $vObject->serialize();
                         }
                     }
@@ -609,7 +589,27 @@ class Plugin extends DAV\ServerPlugin {
                     $result = [$properties];
 
                 }
+                // Destroy circular references so PHP will garbage collect the
+                // object.
+                $vObject->destroy();
 
+            }
+
+        }
+
+        if ($node instanceof ICalendarObjectContainer && $depth === 0) {
+
+            if (strpos($this->server->httpRequest->getHeader('User-Agent'), 'MSFT-') === 0) {
+                // Microsoft clients incorrectly supplied depth as 0, when it actually
+                // should have set depth to 1. We're implementing a workaround here
+                // to deal with this.
+                //
+                // This targets at least the following clients:
+                //   Windows 10
+                //   Windows Phone 8, 10
+                $depth = 1;
+            } else {
+                throw new BadRequest('A calendar-query REPORT on a calendar with a Depth: 0 is undefined. Set Depth to 1');
             }
 
         }
@@ -618,20 +618,18 @@ class Plugin extends DAV\ServerPlugin {
         // for the calendar-query.
         if ($node instanceof ICalendarObjectContainer && $depth == 1) {
 
-            $nodePaths = $node->calendarQuery($parser->filters);
+            $nodePaths = $node->calendarQuery($report->filters);
 
-            $timeZones = [];
-
-            foreach($nodePaths as $path) {
+            foreach ($nodePaths as $path) {
 
                 list($properties) =
-                    $this->server->getPropertiesForPath($this->server->getRequestUri() . '/' . $path, $parser->requestedProperties);
+                    $this->server->getPropertiesForPath($this->server->getRequestUri() . '/' . $path, $report->properties);
 
-                if (($needsJson || $parser->expand)) {
+                if (($needsJson || $report->expand)) {
                     $vObject = VObject\Reader::read($properties[200]['{' . self::NS_CALDAV . '}calendar-data']);
 
-                    if ($parser->expand) {
-                        $vObject->expand($parser->expand['start'], $parser->expand['end'], $calendarTimeZone);
+                    if ($report->expand) {
+                        $vObject = $vObject->expand($report->expand['start'], $report->expand['end'], $calendarTimeZone);
                     }
 
                     if ($needsJson) {
@@ -639,6 +637,10 @@ class Plugin extends DAV\ServerPlugin {
                     } else {
                         $properties[200]['{' . self::NS_CALDAV . '}calendar-data'] = $vObject->serialize();
                     }
+
+                    // Destroy circular references so PHP will garbage collect the
+                    // object.
+                    $vObject->destroy();
                 }
                 $result[] = $properties;
 
@@ -646,12 +648,12 @@ class Plugin extends DAV\ServerPlugin {
 
         }
 
-        $prefer = $this->server->getHTTPPRefer();
+        $prefer = $this->server->getHTTPPrefer();
 
         $this->server->httpResponse->setStatus(207);
-        $this->server->httpResponse->setHeader('Content-Type','application/xml; charset=utf-8');
-        $this->server->httpResponse->setHeader('Vary','Brief,Prefer');
-        $this->server->httpResponse->setBody($this->server->generateMultiStatus($result, $prefer['return-minimal']));
+        $this->server->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
+        $this->server->httpResponse->setHeader('Vary', 'Brief,Prefer');
+        $this->server->httpResponse->setBody($this->server->generateMultiStatus($result, $prefer['return'] === 'minimal'));
 
     }
 
@@ -659,39 +661,16 @@ class Plugin extends DAV\ServerPlugin {
      * This method is responsible for parsing the request and generating the
      * response for the CALDAV:free-busy-query REPORT.
      *
-     * @param \DOMNode $dom
+     * @param Xml\Request\FreeBusyQueryReport $report
      * @return void
      */
-    protected function freeBusyQueryReport(\DOMNode $dom) {
-
-        $start = null;
-        $end = null;
-
-        foreach($dom->firstChild->childNodes as $childNode) {
-
-            $clark = DAV\XMLUtil::toClarkNotation($childNode);
-            if ($clark == '{' . self::NS_CALDAV . '}time-range') {
-                $start = $childNode->getAttribute('start');
-                $end = $childNode->getAttribute('end');
-                break;
-            }
-
-        }
-        if ($start) {
-            $start = VObject\DateTimeParser::parseDateTime($start);
-        }
-        if ($end) {
-            $end = VObject\DateTimeParser::parseDateTime($end);
-        }
+    protected function freeBusyQueryReport(Xml\Request\FreeBusyQueryReport $report) {
 
         $uri = $this->server->getRequestUri();
-        if (!$start && !$end) {
-            throw new DAV\Exception\BadRequest('The freebusy report must have a time-range filter');
-        }
 
         $acl = $this->server->getPlugin('acl');
         if ($acl) {
-            $acl->checkPrivileges($uri,'{' . self::NS_CALDAV . '}read-free-busy');
+            $acl->checkPrivileges($uri, '{' . self::NS_CALDAV . '}read-free-busy');
         }
 
         $calendar = $this->server->tree->getNodeForPath($uri);
@@ -708,6 +687,8 @@ class Plugin extends DAV\ServerPlugin {
         if (isset($calendarProps[$tzProp])) {
             $vtimezoneObj = VObject\Reader::read($calendarProps[$tzProp]);
             $calendarTimeZone = $vtimezoneObj->VTIMEZONE->getTimeZone();
+            // Destroy circular references so PHP will garbage collect the object.
+            $vtimezoneObj->destroy();
         } else {
             $calendarTimeZone = new DateTimeZone('UTC');
         }
@@ -715,22 +696,22 @@ class Plugin extends DAV\ServerPlugin {
         // Doing a calendar-query first, to make sure we get the most
         // performance.
         $urls = $calendar->calendarQuery([
-            'name' => 'VCALENDAR',
+            'name'         => 'VCALENDAR',
             'comp-filters' => [
                 [
-                    'name' => 'VEVENT',
-                    'comp-filters' => [],
-                    'prop-filters' => [],
+                    'name'           => 'VEVENT',
+                    'comp-filters'   => [],
+                    'prop-filters'   => [],
                     'is-not-defined' => false,
-                    'time-range' => [
-                        'start' => $start,
-                        'end' => $end,
+                    'time-range'     => [
+                        'start' => $report->start,
+                        'end'   => $report->end,
                     ],
                 ],
             ],
-            'prop-filters' => [],
+            'prop-filters'   => [],
             'is-not-defined' => false,
-            'time-range' => null,
+            'time-range'     => null,
         ]);
 
         $objects = array_map(function($url) use ($calendar) {
@@ -740,7 +721,7 @@ class Plugin extends DAV\ServerPlugin {
 
         $generator = new VObject\FreeBusyGenerator();
         $generator->setObjects($objects);
-        $generator->setTimeRange($start, $end);
+        $generator->setTimeRange($report->start, $report->end);
         $generator->setTimeZone($calendarTimeZone);
         $result = $generator->getResult();
         $result = $result->serialize();
@@ -773,7 +754,7 @@ class Plugin extends DAV\ServerPlugin {
         // We're onyl interested in ICalendarObject nodes that are inside of a
         // real calendar. This is to avoid triggering validation and scheduling
         // for non-calendars (such as an inbox).
-        list($parent) = URLUtil::splitPath($path);
+        list($parent) = Uri\split($path);
         $parentNode = $this->server->tree->getNodeForPath($parent);
 
         if (!$parentNode instanceof ICalendar)
@@ -844,13 +825,13 @@ class Plugin extends DAV\ServerPlugin {
         // Converting the data to unicode, if needed.
         $data = DAV\StringUtil::ensureUTF8($data);
 
-        if ($before!==md5($data)) $modified = true;
+        if ($before !== md5($data)) $modified = true;
 
         try {
 
             // If the data starts with a [, we can reasonably assume we're dealing
             // with a jCal object.
-            if (substr($data,0,1)==='[') {
+            if (substr($data, 0, 1) === '[') {
                 $vobj = VObject\Reader::readJson($data);
 
                 // Converting $data back to iCalendar, as that's what we
@@ -874,7 +855,7 @@ class Plugin extends DAV\ServerPlugin {
         $sCCS = '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set';
 
         // Get the Supported Components for the target calendar
-        list($parentPath) = URLUtil::splitPath($path);
+        list($parentPath) = Uri\split($path);
         $calendarProperties = $this->server->getProperties($parentPath, [$sCCS]);
 
         if (isset($calendarProperties[$sCCS])) {
@@ -885,8 +866,8 @@ class Plugin extends DAV\ServerPlugin {
 
         $foundType = null;
         $foundUID = null;
-        foreach($vobj->getComponents() as $component) {
-            switch($component->name) {
+        foreach ($vobj->getComponents() as $component) {
+            switch ($component->name) {
                 case 'VTIMEZONE' :
                     continue 2;
                 case 'VEVENT' :
@@ -947,6 +928,9 @@ class Plugin extends DAV\ServerPlugin {
 
         }
 
+        // Destroy circular references so PHP will garbage collect the object.
+        $vobj->destroy();
+
     }
 
 
@@ -964,39 +948,16 @@ class Plugin extends DAV\ServerPlugin {
         if (!$node instanceof CalendarHome)
             return;
 
-        $output.= '<tr><td colspan="2"><form method="post" action="">
+        $output .= '<tr><td colspan="2"><form method="post" action="">
             <h3>Create new calendar</h3>
-            <input type="hidden" name="sabreAction" value="mkcalendar" />
+            <input type="hidden" name="sabreAction" value="mkcol" />
+            <input type="hidden" name="resourceType" value="{DAV:}collection,{' . self::NS_CALDAV . '}calendar" />
             <label>Name (uri):</label> <input type="text" name="name" /><br />
             <label>Display name:</label> <input type="text" name="{DAV:}displayname" /><br />
             <input type="submit" value="create" />
             </form>
             </td></tr>';
 
-        return false;
-
-    }
-
-    /**
-     * This method allows us to intercept the 'mkcalendar' sabreAction. This
-     * action enables the user to create new calendars from the browser plugin.
-     *
-     * @param string $uri
-     * @param string $action
-     * @param array $postVars
-     * @return bool
-     */
-    function browserPostAction($uri, $action, array $postVars) {
-
-        if ($action!=='mkcalendar')
-            return;
-
-        $resourceType = ['{DAV:}collection','{urn:ietf:params:xml:ns:caldav}calendar'];
-        $properties = [];
-        if (isset($postVars['{DAV:}displayname'])) {
-            $properties['{DAV:}displayname'] = $postVars['{DAV:}displayname'];
-        }
-        $this->server->createCollection($uri . '/' . $postVars['name'],$resourceType,$properties);
         return false;
 
     }
@@ -1012,7 +973,7 @@ class Plugin extends DAV\ServerPlugin {
      */
     function httpAfterGet(RequestInterface $request, ResponseInterface $response) {
 
-        if (strpos($response->getHeader('Content-Type'),'text/calendar')===false) {
+        if (strpos($response->getHeader('Content-Type'), 'text/calendar') === false) {
             return;
         }
 
@@ -1032,8 +993,32 @@ class Plugin extends DAV\ServerPlugin {
         $jsonBody = json_encode($vobj->jsonSerialize());
         $response->setBody($jsonBody);
 
+        // Destroy circular references so PHP will garbage collect the object.
+        $vobj->destroy();
+
         $response->setHeader('Content-Type', 'application/calendar+json');
         $response->setHeader('Content-Length', strlen($jsonBody));
+
+    }
+
+    /**
+     * Returns a bunch of meta-data about the plugin.
+     *
+     * Providing this information is optional, and is mainly displayed by the
+     * Browser plugin.
+     *
+     * The description key in the returned array may contain html and will not
+     * be sanitized.
+     *
+     * @return array
+     */
+    function getPluginInfo() {
+
+        return [
+            'name'        => $this->getPluginName(),
+            'description' => 'Adds support for CalDAV (rfc4791)',
+            'link'        => 'http://sabre.io/dav/caldav/',
+        ];
 
     }
 

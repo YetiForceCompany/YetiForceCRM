@@ -9,8 +9,8 @@ use Sabre\DAV\Exception\MethodNotAllowed;
  * The SchedulingObject represents a scheduling object in the Inbox collection
  *
  * @author Brett (https://github.com/bretten)
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @license http://sabre.io/license/ Modified BSD License
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  */
 class SchedulingObject extends \Sabre\CalDAV\CalendarObject implements ISchedulingObject {
 
@@ -45,7 +45,7 @@ class SchedulingObject extends \Sabre\CalDAV\CalendarObject implements IScheduli
      * @param Backend\BackendInterface $caldavBackend
      * @param array $objectData
      */
-    function __construct(Backend\SchedulingSupport $caldavBackend,array $objectData) {
+    function __construct(Backend\SchedulingSupport $caldavBackend, array $objectData) {
 
         $this->caldavBackend = $caldavBackend;
 
@@ -92,7 +92,7 @@ class SchedulingObject extends \Sabre\CalDAV\CalendarObject implements IScheduli
      */
     function delete() {
 
-        $this->caldavBackend->deleteSchedulingObject($this->objectData['principaluri'],$this->objectData['uri']);
+        $this->caldavBackend->deleteSchedulingObject($this->objectData['principaluri'], $this->objectData['uri']);
 
     }
 

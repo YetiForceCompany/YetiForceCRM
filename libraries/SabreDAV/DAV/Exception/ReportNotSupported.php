@@ -9,7 +9,7 @@ use Sabre\DAV;
  *
  * This exception is thrown when the client requested an unknown report through the REPORT method
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -22,9 +22,9 @@ class ReportNotSupported extends UnsupportedMediaType {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(DAV\Server $server,\DOMElement $errorNode) {
+    function serialize(DAV\Server $server, \DOMElement $errorNode) {
 
-        $error = $errorNode->ownerDocument->createElementNS('DAV:','d:supported-report');
+        $error = $errorNode->ownerDocument->createElementNS('DAV:', 'd:supported-report');
         $errorNode->appendChild($error);
 
     }

@@ -8,7 +8,7 @@ use Sabre\DAV\PropFind;
  * This class is used by the browser plugin to trick the system in returning
  * every defined property.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -88,7 +88,7 @@ class PropFindAll extends PropFind {
      */
     function get($propertyName) {
 
-        return isset($this->result[$propertyName])?$this->result[$propertyName][1]:null;
+        return isset($this->result[$propertyName]) ? $this->result[$propertyName][1] : null;
 
     }
 
@@ -103,7 +103,7 @@ class PropFindAll extends PropFind {
      */
     function getStatus($propertyName) {
 
-        return isset($this->result[$propertyName])?$this->result[$propertyName][0]:404;
+        return isset($this->result[$propertyName]) ? $this->result[$propertyName][0] : 404;
 
     }
 
@@ -116,8 +116,8 @@ class PropFindAll extends PropFind {
     function get404Properties() {
 
         $result = [];
-        foreach($this->result as $propertyName=>$stuff) {
-            if ($stuff[0]===404) {
+        foreach ($this->result as $propertyName => $stuff) {
+            if ($stuff[0] === 404) {
                 $result[] = $propertyName;
             }
         }

@@ -7,7 +7,7 @@ use Sabre\DAV;
 /**
  * File class
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -21,18 +21,19 @@ class File extends Node implements DAV\IFile {
      */
     function put($data) {
 
-        file_put_contents($this->path,$data);
+        file_put_contents($this->path, $data);
+        clearstatcache(true, $this->path);
 
     }
 
     /**
      * Returns the data
      *
-     * @return string
+     * @return resource
      */
     function get() {
 
-        return fopen($this->path,'r');
+        return fopen($this->path, 'r');
 
     }
 
@@ -70,7 +71,11 @@ class File extends Node implements DAV\IFile {
      */
     function getETag() {
 
-        return null;
+        return '"' . sha1(
+            fileinode($this->path) .
+            filesize($this->path) .
+            filemtime($this->path)
+        ) . '"';
 
     }
 
@@ -88,4 +93,3 @@ class File extends Node implements DAV\IFile {
     }
 
 }
-

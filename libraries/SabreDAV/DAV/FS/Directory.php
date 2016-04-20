@@ -1,12 +1,13 @@
 <?php
 
 namespace Sabre\DAV\FS;
+
 use Sabre\DAV;
 
 /**
  * Directory class
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -39,7 +40,8 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota {
     function createFile($name, $data = null) {
 
         $newPath = $this->path . '/' . $name;
-        file_put_contents($newPath,$data);
+        file_put_contents($newPath, $data);
+        clearstatcache(true, $newPath);
 
     }
 
@@ -53,6 +55,7 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota {
 
         $newPath = $this->path . '/' . $name;
         mkdir($newPath);
+        clearstatcache(true, $newPath);
 
     }
 
@@ -74,7 +77,7 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota {
 
         if (is_dir($path)) {
 
-            return new Directory($path);
+            return new self($path);
 
         } else {
 
@@ -92,7 +95,16 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota {
     function getChildren() {
 
         $nodes = [];
-        foreach(scandir($this->path) as $node) if($node!='.' && $node!='..') $nodes[] = $this->getChild($node);
+        $iterator = new \FilesystemIterator(
+            $this->path,
+            \FilesystemIterator::CURRENT_AS_SELF
+          | \FilesystemIterator::SKIP_DOTS
+        );
+        foreach ($iterator as $entry) {
+
+            $nodes[] = $this->getChild($entry->getFilename());
+
+        }
         return $nodes;
 
     }
@@ -117,7 +129,7 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota {
      */
     function delete() {
 
-        foreach($this->getChildren() as $child) $child->delete();
+        foreach ($this->getChildren() as $child) $child->delete();
         rmdir($this->path);
 
     }
@@ -128,13 +140,12 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota {
      * @return array
      */
     function getQuotaInfo() {
-		$root_directory = vglobal('root_directory');
-		$path = $root_directory.$this->path;
+
         return [
-            disk_total_space($path)-disk_free_space($path),
-            disk_free_space($path)
+            disk_total_space($this->path) - disk_free_space($this->path),
+            disk_free_space($this->path)
         ];
+
     }
 
 }
-

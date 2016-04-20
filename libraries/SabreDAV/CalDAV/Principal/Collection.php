@@ -1,6 +1,7 @@
 <?php
 
 namespace Sabre\CalDAV\Principal;
+
 use Sabre\DAVACL;
 
 /**
@@ -11,11 +12,11 @@ use Sabre\DAVACL;
  * calendar-proxy-write sub-principals, as defined by the caldav-proxy
  * specification.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class Collection extends DAVACL\AbstractPrincipalCollection {
+class Collection extends DAVACL\PrincipalCollection {
 
     /**
      * Returns a child object based on principal information

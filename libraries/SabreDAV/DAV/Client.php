@@ -12,26 +12,39 @@ use Sabre\HTTP;
  *
  * NOTE: This class is experimental, it's api will likely change in the future.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
 class Client extends HTTP\Client {
 
     /**
-     * The propertyMap is a key-value array.
+     * The xml service.
      *
-     * If you use the propertyMap, any {DAV:}multistatus responses with the
-     * properties listed in this array, will automatically be mapped to a
-     * respective class.
+     * Uset this service to configure the property and namespace maps.
      *
-     * The {DAV:}resourcetype property is automatically added. This maps to
-     * Sabre\DAV\Property\ResourceType
+     * @var mixed
+     */
+    public $xml;
+
+    /**
+     * The elementMap
      *
+     * This property is linked via reference to $this->xml->elementMap.
+     * It's deprecated as of version 3.0.0, and should no longer be used.
+     *
+     * @deprecated
      * @var array
      */
     public $propertyMap = [];
 
+    /**
+     * Base URI
+     *
+     * This URI will be used to resolve relative urls.
+     *
+     * @var string
+     */
     protected $baseUri;
 
     /**
@@ -43,6 +56,11 @@ class Client extends HTTP\Client {
      * Digest authentication
      */
     const AUTH_DIGEST = 2;
+
+    /**
+     * NTLM authentication
+     */
+    const AUTH_NTLM = 4;
 
     /**
      * Identity encoding, which basically does not nothing.
@@ -84,8 +102,8 @@ class Client extends HTTP\Client {
      *   * authType (optional)
      *   * encoding (optional)
      *
-     *  authType must be a bitmap, using self::AUTH_BASIC and
-     *  self::AUTH_DIGEST. If you know which authentication method will be
+     *  authType must be a bitmap, using self::AUTH_BASIC, self::AUTH_DIGEST
+     *  and self::AUTH_NTLM. If you know which authentication method will be
      *  used, it's recommended to set it, as it will save a great deal of
      *  requests to 'discover' this information.
      *
@@ -109,7 +127,7 @@ class Client extends HTTP\Client {
 
         if (isset($settings['userName'])) {
             $userName = $settings['userName'];
-            $password = isset($settings['password'])?$settings['password']:'';
+            $password = isset($settings['password']) ? $settings['password'] : '';
 
             if (isset($settings['authType'])) {
                 $curlType = 0;
@@ -118,6 +136,9 @@ class Client extends HTTP\Client {
                 }
                 if ($settings['authType'] & self::AUTH_DIGEST) {
                     $curlType |= CURLAUTH_DIGEST;
+                }
+                if ($settings['authType'] & self::AUTH_NTLM) {
+                    $curlType |= CURLAUTH_NTLM;
                 }
             } else {
                 $curlType = CURLAUTH_BASIC | CURLAUTH_DIGEST;
@@ -144,36 +165,12 @@ class Client extends HTTP\Client {
             $this->addCurlSetting(CURLOPT_ENCODING, implode(',', $encodings));
         }
 
-        $this->propertyMap['{DAV:}resourcetype'] = 'Sabre\\DAV\\Property\\ResourceType';
+        $this->addCurlSetting(CURLOPT_USERAGENT, 'sabre-dav/' . Version::VERSION . ' (http://sabre.io/)');
 
-    }
+        $this->xml = new Xml\Service();
+        // BC
+        $this->propertyMap = & $this->xml->elementMap;
 
-
-    /**
-     * Add trusted root certificates to the webdav client.
-     *
-     * The parameter certificates should be a absolute path to a file
-     * which contains all trusted certificates
-     *
-     * @deprecated This method will be removed in the future, use
-     *             addCurlSetting instead.
-     * @param string $certificates
-     * @return void
-     */
-    function addTrustedCertificates($certificates) {
-        $this->addCurlSetting(CURLOPT_CAINFO, $certificates);
-    }
-
-    /**
-     * Enables/disables SSL peer verification
-     *
-     * @deprecated This method will be removed in the future, use
-     *             addCurlSetting instead.
-     * @param bool $value
-     * @return void
-     */
-    function setVerifyPeer($value) {
-        $this->addCurlSetting(CURLOPT_SSL_VERIFYPEER, $value);
     }
 
     /**
@@ -204,51 +201,51 @@ class Client extends HTTP\Client {
         $root = $dom->createElementNS('DAV:', 'd:propfind');
         $prop = $dom->createElement('d:prop');
 
-        foreach($properties as $property) {
+        foreach ($properties as $property) {
 
             list(
                 $namespace,
                 $elementName
-            ) = XMLUtil::parseClarkNotation($property);
+            ) = \Sabre\Xml\Service::parseClarkNotation($property);
 
             if ($namespace === 'DAV:') {
-                $element = $dom->createElement('d:'.$elementName);
+                $element = $dom->createElement('d:' . $elementName);
             } else {
-                $element = $dom->createElementNS($namespace, 'x:'.$elementName);
+                $element = $dom->createElementNS($namespace, 'x:' . $elementName);
             }
 
-            $prop->appendChild( $element );
+            $prop->appendChild($element);
         }
 
-        $dom->appendChild($root)->appendChild( $prop );
+        $dom->appendChild($root)->appendChild($prop);
         $body = $dom->saveXML();
 
         $url = $this->getAbsoluteUrl($url);
 
         $request = new HTTP\Request('PROPFIND', $url, [
-            'Depth' => $depth,
+            'Depth'        => $depth,
             'Content-Type' => 'application/xml'
         ], $body);
 
         $response = $this->send($request);
 
         if ((int)$response->getStatus() >= 400) {
-            throw new Exception('HTTP error: ' . $response->getStatus());
+            throw new \Sabre\HTTP\ClientHttpException($response);
         }
 
         $result = $this->parseMultiStatus($response->getBodyAsString());
 
         // If depth was 0, we only return the top item
-        if ($depth===0) {
+        if ($depth === 0) {
             reset($result);
             $result = current($result);
-            return isset($result[200])?$result[200]:[];
+            return isset($result[200]) ? $result[200] : [];
         }
 
         $newResult = [];
-        foreach($result as $href => $statusList) {
+        foreach ($result as $href => $statusList) {
 
-            $newResult[$href] = isset($statusList[200])?$statusList[200]:[];
+            $newResult[$href] = isset($statusList[200]) ? $statusList[200] : [];
 
         }
 
@@ -265,65 +262,51 @@ class Client extends HTTP\Client {
      *
      * @param string $url
      * @param array $properties
-     * @return void
+     * @return bool
      */
     function propPatch($url, array $properties) {
 
-        $dom = new \DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = true;
-        $root = $dom->createElementNS('DAV:', 'd:propertyupdate');
-
-        foreach($properties as $propName => $propValue) {
-
-            list(
-                $namespace,
-                $elementName
-            ) = XMLUtil::parseClarkNotation($propName);
-
-            if ($propValue === null) {
-
-                $remove = $dom->createElement('d:remove');
-                $prop = $dom->createElement('d:prop');
-
-                if ($namespace === 'DAV:') {
-                    $element = $dom->createElement('d:'.$elementName);
-                } else {
-                    $element = $dom->createElementNS($namespace, 'x:'.$elementName);
-                }
-
-                $root->appendChild( $remove )->appendChild( $prop )->appendChild( $element );
-
-            } else {
-
-                $set = $dom->createElement('d:set');
-                $prop = $dom->createElement('d:prop');
-
-                if ($namespace === 'DAV:') {
-                    $element = $dom->createElement('d:'.$elementName);
-                } else {
-                    $element = $dom->createElementNS($namespace, 'x:'.$elementName);
-                }
-
-                if ( $propValue instanceof Property ) {
-                    $propValue->serialize( new Server, $element );
-                } else {
-                    $element->nodeValue = htmlspecialchars($propValue, ENT_NOQUOTES, 'UTF-8');
-                }
-
-                $root->appendChild( $set )->appendChild( $prop )->appendChild( $element );
-
-            }
-
-        }
-
-        $dom->appendChild($root);
-        $body = $dom->saveXML();
+        $propPatch = new Xml\Request\PropPatch();
+        $propPatch->properties = $properties;
+        $xml = $this->xml->write(
+            '{DAV:}propertyupdate',
+            $propPatch
+        );
 
         $url = $this->getAbsoluteUrl($url);
         $request = new HTTP\Request('PROPPATCH', $url, [
             'Content-Type' => 'application/xml',
-        ], $body);
-        $this->send($request);
+        ], $xml);
+        $response = $this->send($request);
+
+        if ($response->getStatus() >= 400) {
+            throw new \Sabre\HTTP\ClientHttpException($response);
+        }
+
+        if ($response->getStatus() === 207) {
+            // If it's a 207, the request could still have failed, but the
+            // information is hidden in the response body.
+            $result = $this->parseMultiStatus($response->getBodyAsString());
+
+            $errorProperties = [];
+            foreach ($result as $href => $statusList) {
+                foreach ($statusList as $status => $properties) {
+
+                    if ($status >= 400) {
+                        foreach ($properties as $propName => $propValue) {
+                            $errorProperties[] = $propName . ' (' . $status . ')';
+                        }
+                    }
+
+                }
+            }
+            if ($errorProperties) {
+
+                throw new \Sabre\HTTP\ClientException('PROPPATCH failed. The following properties errored: ' . implode(', ', $errorProperties));
+            }
+        }
+        return true;
+
     }
 
     /**
@@ -346,7 +329,7 @@ class Client extends HTTP\Client {
         }
 
         $features = explode(',', $dav);
-        foreach($features as &$v) {
+        foreach ($features as &$v) {
             $v = trim($v);
         }
         return $features;
@@ -388,9 +371,9 @@ class Client extends HTTP\Client {
 
         $response = $this->send(new HTTP\Request($method, $url, $headers, $body));
         return [
-            'body' => $response->getBodyAsString(),
+            'body'       => $response->getBodyAsString(),
             'statusCode' => (int)$response->getStatus(),
-            'headers' => array_change_key_case($response->getHeaders()),
+            'headers'    => array_change_key_case($response->getHeaders()),
         ];
 
     }
@@ -411,9 +394,9 @@ class Client extends HTTP\Client {
 
         // If the url starts with a slash, we must calculate the url based off
         // the root of the base url.
-        if (strpos($url,'/') === 0) {
+        if (strpos($url, '/') === 0) {
             $parts = parse_url($this->baseUri);
-            return $parts['scheme'] . '://' . $parts['host'] . (isset($parts['port'])?':' . $parts['port']:'') . $url;
+            return $parts['scheme'] . '://' . $parts['host'] . (isset($parts['port']) ? ':' . $parts['port'] : '') . $url;
         }
 
         // Otherwise...
@@ -448,20 +431,11 @@ class Client extends HTTP\Client {
      */
     function parseMultiStatus($body) {
 
-        try {
-            $dom = XMLUtil::loadDOMDocument($body);
-        } catch (Exception\BadRequest $e) {
-            throw new \InvalidArgumentException('The body passed to parseMultiStatus could not be parsed. Is it really xml?');
-        }
-
-        $responses = Property\ResponseList::unserialize(
-            $dom->documentElement,
-            $this->propertyMap
-        );
+        $multistatus = $this->xml->expect('{DAV:}multistatus', $body);
 
         $result = [];
 
-        foreach($responses->getResponses() as $response) {
+        foreach ($multistatus->getResponses() as $response) {
 
             $result[$response->getHref()] = $response->getResponseProperties();
 

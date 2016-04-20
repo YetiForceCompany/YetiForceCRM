@@ -10,7 +10,6 @@
 	<IfModule mod_php5.c>
 		php_flag output_buffering On
 		php_flag always_populate_raw_post_data Off
-		php_flag magic_quotes_gpc Off
 		php_flag mbstring.func_overload Off
 	</IfModule>
 </Files>

@@ -11,9 +11,9 @@ namespace Sabre\CalDAV;
  * In most cases you will likely want to look at ICalendar instead of this
  * interface.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ * @license http://sabre.io/license/ Modified BSD License
  */
 interface ICalendarObjectContainer extends \Sabre\DAV\ICollection {
 

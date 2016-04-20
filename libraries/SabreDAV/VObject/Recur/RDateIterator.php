@@ -2,14 +2,12 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTime;
-use InvalidArgumentException;
+use DateTimeInterface;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
 
-
 /**
- * RRuleParser
+ * RRuleParser.
  *
  * This class receives an RRULE string, and allows you to iterate to get a list
  * of dates in that recurrence.
@@ -17,7 +15,7 @@ use Sabre\VObject\DateTimeParser;
  * For instance, passing: FREQ=DAILY;LIMIT=5 will cause the iterator to contain
  * 5 items, one for each day.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -27,9 +25,9 @@ class RDateIterator implements Iterator {
      * Creates the Iterator.
      *
      * @param string|array $rrule
-     * @param DateTime $start
+     * @param DateTimeInterface $start
      */
-    public function __construct($rrule, DateTime $start) {
+    function __construct($rrule, DateTimeInterface $start) {
 
         $this->startDate = $start;
         $this->parseRDate($rrule);
@@ -39,9 +37,9 @@ class RDateIterator implements Iterator {
 
     /* Implementation of the Iterator interface {{{ */
 
-    public function current() {
+    function current() {
 
-        if (!$this->valid()) return null;
+        if (!$this->valid()) return;
         return clone $this->currentDate;
 
     }
@@ -51,7 +49,7 @@ class RDateIterator implements Iterator {
      *
      * @return int
      */
-    public function key() {
+    function key() {
 
         return $this->counter;
 
@@ -63,7 +61,7 @@ class RDateIterator implements Iterator {
      *
      * @return bool
      */
-    public function valid() {
+    function valid() {
 
         return ($this->counter <= count($this->dates));
 
@@ -74,7 +72,7 @@ class RDateIterator implements Iterator {
      *
      * @return void
      */
-    public function rewind() {
+    function rewind() {
 
         $this->currentDate = clone $this->startDate;
         $this->counter = 0;
@@ -86,14 +84,15 @@ class RDateIterator implements Iterator {
      *
      * @return void
      */
-    public function next() {
+    function next() {
 
         $this->counter++;
         if (!$this->valid()) return;
 
         $this->currentDate =
             DateTimeParser::parse(
-                $this->dates[$this->counter-1]
+                $this->dates[$this->counter - 1],
+                $this->startDate->getTimezone()
             );
 
     }
@@ -105,7 +104,7 @@ class RDateIterator implements Iterator {
      *
      * @return bool
      */
-    public function isInfinite() {
+    function isInfinite() {
 
         return false;
 
@@ -115,12 +114,13 @@ class RDateIterator implements Iterator {
      * This method allows you to quickly go to the next occurrence after the
      * specified date.
      *
-     * @param DateTime $dt
+     * @param DateTimeInterface $dt
+     *
      * @return void
      */
-    public function fastForward(\DateTime $dt) {
+    function fastForward(DateTimeInterface $dt) {
 
-        while($this->valid() && $this->currentDate < $dt ) {
+        while ($this->valid() && $this->currentDate < $dt) {
             $this->next();
         }
 
@@ -131,7 +131,7 @@ class RDateIterator implements Iterator {
      *
      * All calculations are based on this initial date.
      *
-     * @var DateTime
+     * @var DateTimeInterface
      */
     protected $startDate;
 
@@ -139,7 +139,7 @@ class RDateIterator implements Iterator {
      * The date of the current iteration. You can get this by calling
      * ->current().
      *
-     * @var DateTime
+     * @var DateTimeInterface
      */
     protected $currentDate;
 
@@ -159,6 +159,7 @@ class RDateIterator implements Iterator {
      * class with all the values.
      *
      * @param string|array $rrule
+     *
      * @return void
      */
     protected function parseRDate($rdate) {
@@ -170,5 +171,12 @@ class RDateIterator implements Iterator {
         $this->dates = $rdate;
 
     }
+
+    /**
+     * Array with the RRULE dates
+     *
+     * @var array
+     */
+    protected $dates = [];
 
 }

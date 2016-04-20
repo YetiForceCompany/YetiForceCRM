@@ -219,6 +219,8 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 
 /*Data for the table `dav_principals` */
 
+/*Data for the table `dav_propertystorage` */
+
 /*Data for the table `dav_schedulingobjects` */
 
 /*Data for the table `dav_users` */

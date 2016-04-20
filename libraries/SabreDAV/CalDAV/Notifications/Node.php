@@ -4,6 +4,7 @@ namespace Sabre\CalDAV\Notifications;
 
 use Sabre\DAV;
 use Sabre\CalDAV;
+use Sabre\CalDAV\Xml\Notification\NotificationInterface;
 use Sabre\DAVACL;
 
 /**
@@ -12,8 +13,8 @@ use Sabre\DAVACL;
  * The signature is mostly identical to that of Sabre\DAV\IFile, but the get() method
  * MUST return an xml document that matches the requirements of the
  * 'caldav-notifications.txt' spec.
-
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ *
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -45,9 +46,9 @@ class Node extends DAV\File implements INode, DAVACL\IACL {
      *
      * @param CalDAV\Backend\NotificationSupport $caldavBackend
      * @param string $principalUri
-     * @param CalDAV\Notifications\INotificationType $notification
+     * @param NotificationInterface $notification
      */
-    function __construct(CalDAV\Backend\NotificationSupport $caldavBackend, $principalUri, INotificationType $notification) {
+    function __construct(CalDAV\Backend\NotificationSupport $caldavBackend, $principalUri, NotificationInterface $notification) {
 
         $this->caldavBackend = $caldavBackend;
         $this->principalUri = $principalUri;

@@ -4,6 +4,7 @@ namespace Sabre\DAV\Sync;
 
 use Sabre\DAV;
 use Sabre\HTTP\RequestInterface;
+use Sabre\DAV\Xml\Request\SyncCollectionReport;
 
 /**
  * This plugin all WebDAV-sync capabilities to the Server.
@@ -13,7 +14,7 @@ use Sabre\HTTP\RequestInterface;
  * The sync capabilities only work with collections that implement
  * Sabre\DAV\Sync\ISyncCollection.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -53,6 +54,7 @@ class Plugin extends DAV\ServerPlugin {
     function initialize(DAV\Server $server) {
 
         $this->server = $server;
+        $server->xml->elementMap['{DAV:}sync-collection'] = 'Sabre\\DAV\\Xml\\Request\\SyncCollectionReport';
 
         $self = $this;
 
@@ -99,20 +101,10 @@ class Plugin extends DAV\ServerPlugin {
      * This method handles the {DAV:}sync-collection HTTP REPORT.
      *
      * @param string $uri
-     * @param \DOMDocument $dom
+     * @param SyncCollectionReport $report
      * @return void
      */
-    function syncCollection($uri, \DOMDocument $dom) {
-
-        // rfc3253 specifies 0 is the default value for Depth:
-        $depth = $this->server->getHTTPDepth(0);
-
-        list(
-            $syncToken,
-            $syncLevel,
-            $limit,
-            $properties
-        ) = $this->parseSyncCollectionRequest($dom, $depth);
+    function syncCollection($uri, SyncCollectionReport $report) {
 
         // Getting the data
         $node = $this->server->tree->getNodeForPath($uri);
@@ -124,6 +116,7 @@ class Plugin extends DAV\ServerPlugin {
             throw new DAV\Exception\ReportNotSupported('No sync information is available at this node');
         }
 
+        $syncToken = $report->syncToken;
         if (!is_null($syncToken)) {
             // Sync-token must start with our prefix
             if (substr($syncToken, 0, strlen(self::SYNCTOKEN_PREFIX)) !== self::SYNCTOKEN_PREFIX) {
@@ -133,7 +126,7 @@ class Plugin extends DAV\ServerPlugin {
             $syncToken = substr($syncToken, strlen(self::SYNCTOKEN_PREFIX));
 
         }
-        $changeInfo = $node->getChanges($syncToken, $syncLevel, $limit);
+        $changeInfo = $node->getChanges($syncToken, $report->syncLevel, $report->limit);
 
         if (is_null($changeInfo)) {
 
@@ -148,72 +141,8 @@ class Plugin extends DAV\ServerPlugin {
             $changeInfo['added'],
             $changeInfo['modified'],
             $changeInfo['deleted'],
-            $properties
+            $report->properties
         );
-
-    }
-
-    /**
-     * Parses the {DAV:}sync-collection REPORT request body.
-     *
-     * This method returns an array with 3 values:
-     *   0 - the value of the {DAV:}sync-token element
-     *   1 - the value of the {DAV:}sync-level element
-     *   2 - The value of the {DAV:}limit element
-     *   3 - A list of requested properties
-     *
-     * @param \DOMDocument $dom
-     * @param int $depth
-     * @return void
-     */
-    protected function parseSyncCollectionRequest(\DOMDocument $dom, $depth) {
-
-        $xpath = new \DOMXPath($dom);
-        $xpath->registerNamespace('d','urn:DAV');
-
-        $syncToken = $xpath->query("//d:sync-token");
-        if ($syncToken->length !== 1) {
-            throw new DAV\Exception\BadRequest('You must specify a {DAV:}sync-token element, and it must appear exactly once');
-        }
-        $syncToken = $syncToken->item(0)->nodeValue;
-        // Initial sync
-        if (!$syncToken) $syncToken = null;
-
-        $syncLevel = $xpath->query("//d:sync-level");
-        if ($syncLevel->length === 0) {
-            // In case there was no sync-level, it could mean that we're dealing
-            // with an old client. For these we must use the depth header
-            // instead.
-            $syncLevel = $depth;
-        } else {
-            $syncLevel = $syncLevel->item(0)->nodeValue;
-            if ($syncLevel === 'infinite') {
-                $syncLevel = DAV\Server::DEPTH_INFINITY;
-            }
-
-        }
-        $limit = $xpath->query("//d:limit/d:nresults");
-        if ($limit->length === 0) {
-            $limit = null;
-        } else {
-            $limit = $limit->item(0)->nodeValue;
-        }
-
-        $prop = $xpath->query('d:prop');
-        if ($prop->length !== 1) {
-            throw new DAV\Exception\BadRequest('The {DAV:}sync-collection must contain extactly 1 {DAV:}prop');
-        }
-
-        $properties = array_keys(
-            DAV\XMLUtil::parseProperties($dom->documentElement)
-        );
-
-        return [
-            $syncToken,
-            $syncLevel,
-            $limit,
-            $properties,
-        ];
 
     }
 
@@ -230,51 +159,41 @@ class Plugin extends DAV\ServerPlugin {
      */
     protected function sendSyncCollectionResponse($syncToken, $collectionUrl, array $added, array $modified, array $deleted, array $properties) {
 
-        $dom = new \DOMDocument('1.0','utf-8');
-        $dom->formatOutput = true;
-        $multiStatus = $dom->createElement('d:multistatus');
-        $dom->appendChild($multiStatus);
-
-        // Adding in default namespaces
-        foreach($this->server->xmlNamespaces as $namespace=>$prefix) {
-
-            $multiStatus->setAttribute('xmlns:' . $prefix,$namespace);
-
-        }
 
         $fullPaths = [];
 
         // Pre-fetching children, if this is possible.
-        foreach(array_merge($added, $modified) as $item) {
+        foreach (array_merge($added, $modified) as $item) {
             $fullPath = $collectionUrl . '/' . $item;
             $fullPaths[] = $fullPath;
         }
 
-        foreach($this->server->getPropertiesForMultiplePaths($fullPaths, $properties) as $fullPath => $props) {
+        $responses = [];
+        foreach ($this->server->getPropertiesForMultiplePaths($fullPaths, $properties) as $fullPath => $props) {
 
             // The 'Property_Response' class is responsible for generating a
             // single {DAV:}response xml element.
-            $response = new DAV\Property\Response($fullPath, $props);
-            $response->serialize($this->server, $multiStatus);
+            $responses[] = new DAV\Xml\Element\Response($fullPath, $props);
 
         }
+
+
 
         // Deleted items also show up as 'responses'. They have no properties,
         // and a single {DAV:}status element set as 'HTTP/1.1 404 Not Found'.
-        foreach($deleted as $item) {
+        foreach ($deleted as $item) {
 
             $fullPath = $collectionUrl . '/' . $item;
-            $response = new DAV\Property\Response($fullPath, [], 404);
-            $response->serialize($this->server, $multiStatus);
+            $responses[] = new DAV\Xml\Element\Response($fullPath, [], 404);
 
         }
-
-        $syncToken = $dom->createElement('d:sync-token', self::SYNCTOKEN_PREFIX . $syncToken);
-        $multiStatus->appendChild($syncToken);
+        $multiStatus = new DAV\Xml\Response\MultiStatus($responses, self::SYNCTOKEN_PREFIX . $syncToken);
 
         $this->server->httpResponse->setStatus(207);
-        $this->server->httpResponse->setHeader('Content-Type','application/xml; charset=utf-8');
-        $this->server->httpResponse->setBody($dom->saveXML());
+        $this->server->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
+        $this->server->httpResponse->setBody(
+            $this->server->xml->write('{DAV:}multistatus', $multiStatus, $this->server->getBaseUri())
+        );
 
     }
 
@@ -303,14 +222,15 @@ class Plugin extends DAV\ServerPlugin {
      * It's a moment where this plugin can check all the supplied lock tokens
      * in the If: header, and check if they are valid.
      *
-     * @param mixed $conditions
+     * @param RequestInterface $request
+     * @param array $conditions
      * @return void
      */
-    function validateTokens( RequestInterface $request, &$conditions ) {
+    function validateTokens(RequestInterface $request, &$conditions) {
 
-        foreach($conditions as $kk=>$condition) {
+        foreach ($conditions as $kk => $condition) {
 
-            foreach($condition['tokens'] as $ii=>$token) {
+            foreach ($condition['tokens'] as $ii => $token) {
 
                 // Sync-tokens must always start with our designated prefix.
                 if (substr($token['token'], 0, strlen(self::SYNCTOKEN_PREFIX)) !== self::SYNCTOKEN_PREFIX) {
@@ -333,5 +253,25 @@ class Plugin extends DAV\ServerPlugin {
 
     }
 
-}
+    /**
+     * Returns a bunch of meta-data about the plugin.
+     *
+     * Providing this information is optional, and is mainly displayed by the
+     * Browser plugin.
+     *
+     * The description key in the returned array may contain html and will not
+     * be sanitized.
+     *
+     * @return array
+     */
+    function getPluginInfo() {
 
+        return [
+            'name'        => $this->getPluginName(),
+            'description' => 'Adds support for WebDAV Collection Sync (rfc6578)',
+            'link'        => 'http://sabre.io/dav/sync/',
+        ];
+
+    }
+
+}

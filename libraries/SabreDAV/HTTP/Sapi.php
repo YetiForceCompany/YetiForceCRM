@@ -24,7 +24,7 @@ namespace Sabre\HTTP;
  * You can choose to either call all these methods statically, but you can also
  * instantiate this as an object to allow for polymorhpism.
  *
- * @copyright Copyright (C) 2007-2014 fruux GmbH. All rights reserved.
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -39,7 +39,7 @@ class Sapi {
     static function getRequest() {
 
         $r = self::createFromServerArray($_SERVER);
-        $r->setBody(fopen('php://input','r'));
+        $r->setBody(fopen('php://input', 'r'));
         $r->setPostData($_POST);
         return $r;
 
@@ -56,9 +56,9 @@ class Sapi {
     static function sendResponse(ResponseInterface $response) {
 
         header('HTTP/' . $response->getHttpVersion() . ' ' . $response->getStatus() . ' ' . $response->getStatusText());
-        foreach($response->getHeaders() as $key=>$value) {
+        foreach ($response->getHeaders() as $key => $value) {
 
-            foreach($value as $k=>$v) {
+            foreach ($value as $k => $v) {
                 if ($k === 0) {
                     header($key . ': ' . $v);
                 } else {
@@ -67,7 +67,25 @@ class Sapi {
             }
 
         }
-        file_put_contents('php://output', $response->getBody());
+
+        $body = $response->getBody();
+        if (is_null($body)) return;
+
+        $contentLength = $response->getHeader('Content-Length');
+        if ($contentLength !== null) {
+            $output = fopen('php://output', 'wb');
+            if (is_resource($body) && get_resource_type($body) == 'stream') {
+                stream_copy_to_stream($body, $output, $contentLength);
+            } else {
+                fwrite($output, $body, $contentLength);
+            }
+        } else {
+            file_put_contents('php://output', $body);
+        }
+
+        if (is_resource($body)) {
+            fclose($body);
+        }
 
     }
 
@@ -88,12 +106,12 @@ class Sapi {
         $protocol = 'http';
         $hostName = 'localhost';
 
-        foreach($serverArray as $key=>$value) {
+        foreach ($serverArray as $key => $value) {
 
-            switch($key) {
+            switch ($key) {
 
                 case 'SERVER_PROTOCOL' :
-                    if ($value==='HTTP/1.0') {
+                    if ($value === 'HTTP/1.0') {
                         $httpVersion = '1.0';
                     }
                     break;
@@ -104,7 +122,7 @@ class Sapi {
                     $url = $value;
                     break;
 
-                // These sometimes should up without a HTTP_ prefix
+                // These sometimes show up without a HTTP_ prefix
                 case 'CONTENT_TYPE' :
                     $headers['Content-Type'] = $value;
                     break;
@@ -137,17 +155,17 @@ class Sapi {
                     break;
 
                 case 'HTTPS' :
-                    if (!empty($value) && $value!=='off') {
+                    if (!empty($value) && $value !== 'off') {
                         $protocol = 'https';
                     }
                     break;
 
                 default :
-                    if (substr($key,0,5)==='HTTP_') {
+                    if (substr($key, 0, 5) === 'HTTP_') {
                         // It's a HTTP header
 
                         // Normalizing it to be prettier
-                        $header = strtolower(substr($key,5));
+                        $header = strtolower(substr($key, 5));
 
                         // Transforming dashes into spaces, and uppercasing
                         // every first letter.

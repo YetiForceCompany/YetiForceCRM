@@ -16,7 +16,7 @@ use Sabre\DAVACL;
  * This collection should only return Sabre\CalDAV\Notifications\INode nodes as
  * its children.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -59,7 +59,7 @@ class Collection extends DAV\Collection implements ICollection, DAVACL\IACL {
         $children = [];
         $notifications = $this->caldavBackend->getNotificationsForPrincipal($this->principalUri);
 
-        foreach($notifications as $notification) {
+        foreach ($notifications as $notification) {
 
             $children[] = new Node(
                 $this->caldavBackend,

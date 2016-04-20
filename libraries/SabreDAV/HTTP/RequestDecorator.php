@@ -8,7 +8,7 @@ namespace Sabre\HTTP;
  * This helper class allows you to easily create decorators for the Request
  * object.
  *
- * @copyright Copyright (C) 2009-2014 fruux GmbH. All rights reserved.
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

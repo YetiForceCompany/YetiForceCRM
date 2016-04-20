@@ -2,14 +2,15 @@
 
 namespace Sabre\VObject\Component;
 
+use DateTimeInterface;
 use Sabre\VObject;
 
 /**
- * VTodo component
+ * VTodo component.
  *
  * This component contains some additional functionality specific for VTODOs.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -22,22 +23,22 @@ class VTodo extends VObject\Component {
      * The rules used to determine if an event falls within the specified
      * time-range is based on the CalDAV specification.
      *
-     * @param DateTime $start
-     * @param DateTime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
+     *
      * @return bool
      */
-    public function isInTimeRange(\DateTime $start, \DateTime $end) {
+    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
-        $dtstart = isset($this->DTSTART)?$this->DTSTART->getDateTime():null;
-        $duration = isset($this->DURATION)?VObject\DateTimeParser::parseDuration($this->DURATION):null;
-        $due = isset($this->DUE)?$this->DUE->getDateTime():null;
-        $completed = isset($this->COMPLETED)?$this->COMPLETED->getDateTime():null;
-        $created = isset($this->CREATED)?$this->CREATED->getDateTime():null;
+        $dtstart = isset($this->DTSTART) ? $this->DTSTART->getDateTime() : null;
+        $duration = isset($this->DURATION) ? VObject\DateTimeParser::parseDuration($this->DURATION) : null;
+        $due = isset($this->DUE) ? $this->DUE->getDateTime() : null;
+        $completed = isset($this->COMPLETED) ? $this->COMPLETED->getDateTime() : null;
+        $created = isset($this->CREATED) ? $this->CREATED->getDateTime() : null;
 
         if ($dtstart) {
             if ($duration) {
-                $effectiveEnd = clone $dtstart;
-                $effectiveEnd->add($duration);
+                $effectiveEnd = $dtstart->add($duration);
                 return $start <= $effectiveEnd && $end > $dtstart;
             } elseif ($due) {
                 return
@@ -80,44 +81,44 @@ class VTodo extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
-            'UID' => 1,
+        return [
+            'UID'     => 1,
             'DTSTAMP' => 1,
 
-            'CLASS' => '?',
-            'COMPLETED' => '?',
-            'CREATED' => '?',
-            'DESCRIPTION' => '?',
-            'DTSTART' => '?',
-            'GEO' => '?',
+            'CLASS'         => '?',
+            'COMPLETED'     => '?',
+            'CREATED'       => '?',
+            'DESCRIPTION'   => '?',
+            'DTSTART'       => '?',
+            'GEO'           => '?',
             'LAST-MODIFIED' => '?',
-            'LOCATION' => '?',
-            'ORGANIZER' => '?',
-            'PERCENT' => '?',
-            'PRIORITY' => '?',
+            'LOCATION'      => '?',
+            'ORGANIZER'     => '?',
+            'PERCENT'       => '?',
+            'PRIORITY'      => '?',
             'RECURRENCE-ID' => '?',
-            'SEQUENCE' => '?',
-            'STATUS' => '?',
-            'SUMMARY' => '?',
-            'URL' => '?',
+            'SEQUENCE'      => '?',
+            'STATUS'        => '?',
+            'SUMMARY'       => '?',
+            'URL'           => '?',
 
-            'RRULE' => '?',
-            'DUE' => '?',
+            'RRULE'    => '?',
+            'DUE'      => '?',
             'DURATION' => '?',
 
-            'ATTACH' => '*',
-            'ATTENDEE' => '*',
-            'CATEGORIES' => '*',
-            'COMMENT' => '*',
-            'CONTACT' => '*',
-            'EXDATE' => '*',
+            'ATTACH'         => '*',
+            'ATTENDEE'       => '*',
+            'CATEGORIES'     => '*',
+            'COMMENT'        => '*',
+            'CONTACT'        => '*',
+            'EXDATE'         => '*',
             'REQUEST-STATUS' => '*',
-            'RELATED-TO' => '*',
-            'RESOURCES' => '*',
-            'RDATE' => '*',
-        );
+            'RELATED-TO'     => '*',
+            'RESOURCES'      => '*',
+            'RDATE'          => '*',
+        ];
 
     }
 
@@ -140,9 +141,10 @@ class VTodo extends VObject\Component {
      *   3 - A severe issue.
      *
      * @param int $options
+     *
      * @return array
      */
-    public function validate($options = 0) {
+    function validate($options = 0) {
 
         $result = parent::validate($options);
         if (isset($this->DUE) && isset($this->DTSTART)) {
@@ -152,25 +154,39 @@ class VTodo extends VObject\Component {
 
             if ($due->getValueType() !== $dtStart->getValueType()) {
 
-                $result[] = array(
+                $result[] = [
                     'level'   => 3,
                     'message' => 'The value type (DATE or DATE-TIME) must be identical for DUE and DTSTART',
-                    'node' => $due,
-                );
+                    'node'    => $due,
+                ];
 
             } elseif ($due->getDateTime() < $dtStart->getDateTime()) {
 
-                $result[] = array(
+                $result[] = [
                     'level'   => 3,
                     'message' => 'DUE must occur after DTSTART',
-                    'node' => $due,
-                );
+                    'node'    => $due,
+                ];
 
             }
 
         }
 
         return $result;
+
+    }
+
+    /**
+     * This method should return a list of default property values.
+     *
+     * @return array
+     */
+    protected function getDefaults() {
+
+        return [
+            'UID'     => 'sabre-vobject-' . VObject\UUIDUtil::getUUID(),
+            'DTSTAMP' => date('Ymd\\THis\\Z'),
+        ];
 
     }
 

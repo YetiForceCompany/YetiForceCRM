@@ -2,11 +2,10 @@
 
 namespace Sabre\CalDAV\Subscriptions;
 
-use
-    Sabre\DAV\INode,
-    Sabre\DAV\PropFind,
-    Sabre\DAV\ServerPlugin,
-    Sabre\DAV\Server;
+use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
+use Sabre\DAV\ServerPlugin;
+use Sabre\DAV\Server;
 
 /**
  * This plugin adds calendar-subscription support to your CalDAV server.
@@ -14,7 +13,7 @@ use
  * Some clients support 'managed subscriptions' server-side. This is basically
  * a list of subscription urls a user is using.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -36,8 +35,8 @@ class Plugin extends ServerPlugin {
         $server->resourceTypeMapping['Sabre\\CalDAV\\Subscriptions\\ISubscription'] =
             '{http://calendarserver.org/ns/}subscribed';
 
-        $server->propertyMap['{http://calendarserver.org/ns/}source'] =
-            'Sabre\\DAV\\Property\\Href';
+        $server->xml->elementMap['{http://calendarserver.org/ns/}source'] =
+            'Sabre\\DAV\\Xml\\Property\\Href';
 
         $server->on('propFind', [$this, 'propFind'], 150);
 
@@ -60,6 +59,8 @@ class Plugin extends ServerPlugin {
     /**
      * Triggered after properties have been fetched.
      *
+     * @param PropFind $propFind
+     * @param INode $node
      * @return void
      */
     function propFind(PropFind $propFind, INode $node) {
@@ -72,9 +73,9 @@ class Plugin extends ServerPlugin {
             '{http://calendarserver.org/ns/}subscribed-strip-todos',
         ];
 
-        foreach($props as $prop) {
+        foreach ($props as $prop) {
 
-            if ($propFind->getStatus($prop)===200) {
+            if ($propFind->getStatus($prop) === 200) {
                 $propFind->set($prop, '', 200);
             }
 
@@ -82,4 +83,38 @@ class Plugin extends ServerPlugin {
 
     }
 
+    /**
+     * Returns a plugin name.
+     *
+     * Using this name other plugins will be able to access other plugins
+     * using \Sabre\DAV\Server::getPlugin
+     *
+     * @return string
+     */
+    function getPluginName() {
+
+        return 'subscriptions';
+
+    }
+
+    /**
+     * Returns a bunch of meta-data about the plugin.
+     *
+     * Providing this information is optional, and is mainly displayed by the
+     * Browser plugin.
+     *
+     * The description key in the returned array may contain html and will not
+     * be sanitized.
+     *
+     * @return array
+     */
+    function getPluginInfo() {
+
+        return [
+            'name'        => $this->getPluginName(),
+            'description' => 'This plugin allows users to store iCalendar subscriptions in their calendar-home.',
+            'link'        => null,
+        ];
+
+    }
 }

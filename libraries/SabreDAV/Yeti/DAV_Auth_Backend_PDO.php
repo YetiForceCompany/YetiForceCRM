@@ -1,22 +1,32 @@
-<?php
-namespace Yeti;
+<?php namespace Yeti;
+
 use Sabre\DAV;
 
-class DAV_Auth_Backend_PDO extends DAV\Auth\Backend\PDO {
-    /**
-     * Creates the backend object.
-     *
-     * If the filename argument is passed in, it will parse out the specified file fist.
-     *
-     * @param PDO $pdo
-     * @param string $tableName The PDO table name to use
-     * @deprecated The tableName argument will be removed from a future version
-     *             of sabredav. Use the public property instead.
-     */
-    function __construct(\PDO $pdo, $tableName = 'dav_users') {
+/**
+ * This is an authentication backend that uses a database to manage passwords.
+ *
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
+ * @author Evert Pot (http://evertpot.com/)
+ * @license http://sabre.io/license/ Modified BSD License
+ */
+class DAV_Auth_Backend_PDO extends DAV\Auth\Backend\PDO
+{
 
-        $this->pdo = $pdo;
-        $this->tableName = $tableName;
+	/**
+	 * PDO table name we'll be using
+	 *
+	 * @var string
+	 */
+	public $tableName = 'dav_users';
 
-    }
+	/**
+	 * Authentication Realm.
+	 *
+	 * The realm is often displayed by browser clients when showing the
+	 * authentication dialog.
+	 *
+	 * @var string
+	 */
+	protected $realm = 'YetiDAV';
+
 }

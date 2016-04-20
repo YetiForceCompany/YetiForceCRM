@@ -3,7 +3,6 @@
 namespace Sabre\CalDAV\Schedule;
 
 use Sabre\DAV;
-use Sabre\VObject;
 use Sabre\VObject\ITip;
 
 /**
@@ -16,7 +15,7 @@ use Sabre\VObject\ITip;
  * If you want to customize the email that gets sent out, you can do so by
  * extending this class and overriding the sendMessage method.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -28,13 +27,6 @@ class IMipPlugin extends DAV\ServerPlugin {
      * @var string
      */
     protected $senderEmail;
-
-    /**
-     * Server class
-     *
-     * @var DAV\Server
-     */
-    protected $server;
 
     /**
      * ITipMessage
@@ -65,7 +57,7 @@ class IMipPlugin extends DAV\ServerPlugin {
      *
      * This method should set up the required event subscriptions.
      *
-     * @param Server $server
+     * @param DAV\Server $server
      * @return void
      */
     function initialize(DAV\Server $server) {
@@ -107,14 +99,14 @@ class IMipPlugin extends DAV\ServerPlugin {
 
         $summary = $iTipMessage->message->VEVENT->SUMMARY;
 
-        if (parse_url($iTipMessage->sender, PHP_URL_SCHEME)!=='mailto')
+        if (parse_url($iTipMessage->sender, PHP_URL_SCHEME) !== 'mailto')
             return;
 
-        if (parse_url($iTipMessage->recipient, PHP_URL_SCHEME)!=='mailto')
+        if (parse_url($iTipMessage->recipient, PHP_URL_SCHEME) !== 'mailto')
             return;
 
-        $sender = substr($iTipMessage->sender,7);
-        $recipient = substr($iTipMessage->recipient,7);
+        $sender = substr($iTipMessage->sender, 7);
+        $recipient = substr($iTipMessage->recipient, 7);
 
         if ($iTipMessage->senderName) {
             $sender = $iTipMessage->senderName . ' <' . $sender . '>';
@@ -124,7 +116,7 @@ class IMipPlugin extends DAV\ServerPlugin {
         }
 
         $subject = 'SabreDAV iTIP message';
-        switch(strtoupper($iTipMessage->method)) {
+        switch (strtoupper($iTipMessage->method)) {
             case 'REPLY' :
                 $subject = 'Re: ' . $summary;
                 break;
@@ -158,7 +150,7 @@ class IMipPlugin extends DAV\ServerPlugin {
     // This is deemed untestable in a reasonable manner
 
     /**
-     * This function is reponsible for sending the actual email.
+     * This function is responsible for sending the actual email.
      *
      * @param string $to Recipient email address
      * @param string $subject Subject of the email
@@ -173,5 +165,26 @@ class IMipPlugin extends DAV\ServerPlugin {
     }
 
     // @codeCoverageIgnoreEnd
+
+    /**
+     * Returns a bunch of meta-data about the plugin.
+     *
+     * Providing this information is optional, and is mainly displayed by the
+     * Browser plugin.
+     *
+     * The description key in the returned array may contain html and will not
+     * be sanitized.
+     *
+     * @return array
+     */
+    function getPluginInfo() {
+
+        return [
+            'name'        => $this->getPluginName(),
+            'description' => 'Email delivery (rfc6037) for CalDAV scheduling',
+            'link'        => 'http://sabre.io/dav/scheduling/',
+        ];
+
+    }
 
 }

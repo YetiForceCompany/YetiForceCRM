@@ -94,6 +94,7 @@ header a {
 }
 .logo img {
   vertical-align: middle;
+  border: 0;
 }
 input, button {
     font: inherit;
@@ -172,6 +173,11 @@ section table {
 .propTable td {
   padding: 0 10px;
   background: #eeeeee;
+}
+
+.propTable pre {
+    font-size: 80%;
+    background: #f8f8f8;
 }
 
 .actions {

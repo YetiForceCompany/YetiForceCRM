@@ -2,13 +2,15 @@
 
 namespace Sabre\VObject;
 
+use Sabre\Xml;
+
 /**
- * Component
+ * Component.
  *
  * A component represents a group of properties, such as VCALENDAR, VEVENT, or
  * VCARD.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -28,7 +30,7 @@ class Component extends Node {
      *
      * @var array
      */
-    public $children = array();
+    protected $children = [];
 
     /**
      * Creates a new component.
@@ -45,9 +47,10 @@ class Component extends Node {
      * @param string $name such as VCALENDAR, VEVENT.
      * @param array $children
      * @param bool $defaults
+     *
      * @return void
      */
-    function __construct(Document $root, $name, array $children = array(), $defaults = true) {
+    function __construct(Document $root, $name, array $children = [], $defaults = true) {
 
         $this->name = strtoupper($name);
         $this->root = $root;
@@ -58,8 +61,8 @@ class Component extends Node {
             // defaults and the childrens list, are inserted in the object in a
             // natural way.
             $list = $this->getDefaults();
-            $nodes = array();
-            foreach($children as $key=>$value) {
+            $nodes = [];
+            foreach ($children as $key => $value) {
                 if ($value instanceof Node) {
                     if (isset($list[$value->name])) {
                         unset($list[$value->name]);
@@ -69,16 +72,15 @@ class Component extends Node {
                     $list[$key] = $value;
                 }
             }
-            foreach($list as $key=>$value) {
+            foreach ($list as $key => $value) {
                 $this->add($key, $value);
             }
-            foreach($nodes as $node) {
+            foreach ($nodes as $node) {
                 $this->add($node);
             }
         } else {
-            foreach($children as $k=>$child) {
+            foreach ($children as $k => $child) {
                 if ($child instanceof Node) {
-
                     // Component or Property
                     $this->add($child);
                 } else {
@@ -98,36 +100,40 @@ class Component extends Node {
      *
      * add(Component $comp) // Adds a new component
      * add(Property $prop)  // Adds a new property
-     * add($name, $value, array $parameters = array()) // Adds a new property
-     * add($name, array $children = array()) // Adds a new component
+     * add($name, $value, array $parameters = []) // Adds a new property
+     * add($name, array $children = []) // Adds a new component
      * by name.
      *
      * @return Node
      */
-    function add($a1, $a2 = null, $a3 = null) {
+    function add() {
 
-        if ($a1 instanceof Node) {
-            if (!is_null($a2)) {
+        $arguments = func_get_args();
+
+        if ($arguments[0] instanceof Node) {
+            if (isset($arguments[1])) {
                 throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject Node');
             }
-            $a1->parent = $this;
-            $this->children[] = $a1;
+            $arguments[0]->parent = $this;
+            $newNode = $arguments[0];
 
-            return $a1;
+        } elseif (is_string($arguments[0])) {
 
-        } elseif(is_string($a1)) {
-
-            $item = $this->root->create($a1, $a2, $a3);
-            $item->parent = $this;
-            $this->children[] = $item;
-
-            return $item;
+            $newNode = call_user_func_array([$this->root, 'create'], $arguments);
 
         } else {
 
             throw new \InvalidArgumentException('The first argument must either be a \\Sabre\\VObject\\Node or a string');
 
         }
+
+        $name = $newNode->name;
+        if (isset($this->children[$name])) {
+            $this->children[$name][] = $newNode;
+        } else {
+            $this->children[$name] = [$newNode];
+        }
+        return $newNode;
 
     }
 
@@ -139,42 +145,52 @@ class Component extends Node {
      * pass an instance of a property or component, in which case only that
      * exact item will be removed.
      *
-     * The removed item will be returned. In case there were more than 1 items
-     * removed, only the last one will be returned.
-     *
-     * @param mixed $item
+     * @param string|Property|Component $item
      * @return void
      */
     function remove($item) {
 
         if (is_string($item)) {
-            $children = $this->select($item);
-            foreach($children as $k=>$child) {
-                unset($this->children[$k]);
+            // If there's no dot in the name, it's an exact property name and
+            // we can just wipe out all those properties.
+            //
+            if (strpos($item, '.') === false) {
+                unset($this->children[strtoupper($item)]);
+                return;
             }
-            return $child;
+            // If there was a dot, we need to ask select() to help us out and
+            // then we just call remove recursively.
+            foreach ($this->select($item) as $child) {
+
+                $this->remove($child);
+
+            }
         } else {
-            foreach($this->children as $k => $child) {
-                if ($child===$item) {
-                    unset($this->children[$k]);
-                    return $child;
+            foreach ($this->select($item->name) as $k => $child) {
+                if ($child === $item) {
+                    unset($this->children[$item->name][$k]);
+                    return;
                 }
             }
-
-            throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
-
         }
+
+        throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
 
     }
 
     /**
-     * Returns an iterable list of children
+     * Returns a flat list of all the properties and components in this
+     * component.
      *
      * @return array
      */
     function children() {
 
-        return $this->children;
+        $result = [];
+        foreach ($this->children as $childGroup) {
+            $result = array_merge($result, $childGroup);
+        }
+        return $result;
 
     }
 
@@ -186,13 +202,15 @@ class Component extends Node {
      */
     function getComponents() {
 
-        $result = array();
-        foreach($this->children as $child) {
-            if ($child instanceof Component) {
-                $result[] = $child;
+        $result = [];
+
+        foreach ($this->children as $childGroup) {
+            foreach ($childGroup as $child) {
+                if ($child instanceof self) {
+                    $result[] = $child;
+                }
             }
         }
-
         return $result;
 
     }
@@ -207,9 +225,6 @@ class Component extends Node {
      * string ("HOME.EMAIL"). If you want to search on a specific property that
      * has not been assigned a group, specify ".EMAIL".
      *
-     * Keys are retained from the 'children' array, which may be confusing in
-     * certain cases.
-     *
      * @param string $name
      * @return array
      */
@@ -217,30 +232,46 @@ class Component extends Node {
 
         $group = null;
         $name = strtoupper($name);
-        if (strpos($name,'.')!==false) {
-            list($group,$name) = explode('.', $name, 2);
+        if (strpos($name, '.') !== false) {
+            list($group, $name) = explode('.', $name, 2);
+        }
+        if ($name === '') $name = null;
+
+        if (!is_null($name)) {
+
+            $result = isset($this->children[$name]) ? $this->children[$name] : [];
+
+            if (is_null($group)) {
+                return $result;
+            } else {
+                // If we have a group filter as well, we need to narrow it down
+                // more.
+                return array_filter(
+                    $result,
+                    function($child) use ($group) {
+
+                        return $child instanceof Property && strtoupper($child->group) === $group;
+
+                    }
+                );
+            }
+
         }
 
-        $result = array();
-        foreach($this->children as $key=>$child) {
+        // If we got to this point, it means there was no 'name' specified for
+        // searching, implying that this is a group-only search.
+        $result = [];
+        foreach ($this->children as $childGroup) {
 
-            if (
-                (
-                    strtoupper($child->name) === $name
-                    && (is_null($group) || ( $child instanceof Property && strtoupper($child->group) === $group))
-                )
-                ||
-                (
-                    $name === '' && $child instanceof Property && strtoupper($child->group) === $group
-                )
-            ) {
+            foreach ($childGroup as $child) {
 
-                $result[$key] = $child;
+                if ($child instanceof Property && strtoupper($child->group) === $group) {
+                    $result[] = $child;
+                }
 
             }
-        }
 
-        reset($result);
+        }
         return $result;
 
     }
@@ -266,6 +297,7 @@ class Component extends Node {
          *
          * @param int $key
          * @param array $array
+         *
          * @return int
          */
         $sortScore = function($key, $array) {
@@ -275,32 +307,33 @@ class Component extends Node {
                 // We want to encode VTIMEZONE first, this is a personal
                 // preference.
                 if ($array[$key]->name === 'VTIMEZONE') {
-                    $score=300000000;
-                    return $score+$key;
+                    $score = 300000000;
+                    return $score + $key;
                 } else {
-                    $score=400000000;
-                    return $score+$key;
+                    $score = 400000000;
+                    return $score + $key;
                 }
             } else {
                 // Properties get encoded first
                 // VCARD version 4.0 wants the VERSION property to appear first
                 if ($array[$key] instanceof Property) {
                     if ($array[$key]->name === 'VERSION') {
-                        $score=100000000;
-                        return $score+$key;
+                        $score = 100000000;
+                        return $score + $key;
                     } else {
                         // All other properties
-                        $score=200000000;
-                        return $score+$key;
+                        $score = 200000000;
+                        return $score + $key;
                     }
                 }
             }
 
         };
 
-        $tmp = $this->children;
+        $children = $this->children();
+        $tmp = $children;
         uksort(
-            $this->children,
+            $children,
             function($a, $b) use ($sortScore, $tmp) {
 
                 $sA = $sortScore($a, $tmp);
@@ -311,8 +344,8 @@ class Component extends Node {
             }
         );
 
-        foreach($this->children as $child) $str.=$child->serialize();
-        $str.= "END:" . $this->name . "\r\n";
+        foreach ($children as $child) $str .= $child->serialize();
+        $str .= "END:" . $this->name . "\r\n";
 
         return $str;
 
@@ -320,28 +353,82 @@ class Component extends Node {
 
     /**
      * This method returns an array, with the representation as it should be
-     * encoded in json. This is used to create jCard or jCal documents.
+     * encoded in JSON. This is used to create jCard or jCal documents.
      *
      * @return array
      */
     function jsonSerialize() {
 
-        $components = array();
-        $properties = array();
+        $components = [];
+        $properties = [];
 
-        foreach($this->children as $child) {
-            if ($child instanceof Component) {
-                $components[] = $child->jsonSerialize();
-            } else {
-                $properties[] = $child->jsonSerialize();
+        foreach ($this->children as $childGroup) {
+            foreach ($childGroup as $child) {
+                if ($child instanceof self) {
+                    $components[] = $child->jsonSerialize();
+                } else {
+                    $properties[] = $child->jsonSerialize();
+                }
             }
         }
 
-        return array(
+        return [
             strtolower($this->name),
             $properties,
             $components
-        );
+        ];
+
+    }
+
+    /**
+     * This method serializes the data into XML. This is used to create xCard or
+     * xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     *
+     * @return void
+     */
+    function xmlSerialize(Xml\Writer $writer) {
+
+        $components = [];
+        $properties = [];
+
+        foreach ($this->children as $childGroup) {
+            foreach ($childGroup as $child) {
+                if ($child instanceof self) {
+                    $components[] = $child;
+                } else {
+                    $properties[] = $child;
+                }
+            }
+        }
+
+        $writer->startElement(strtolower($this->name));
+
+        if (!empty($properties)) {
+
+            $writer->startElement('properties');
+
+            foreach ($properties as $property) {
+                $property->xmlSerialize($writer);
+            }
+
+            $writer->endElement();
+
+        }
+
+        if (!empty($components)) {
+
+            $writer->startElement('components');
+
+            foreach ($components as $component) {
+                $component->xmlSerialize($writer);
+            }
+
+            $writer->endElement();
+        }
+
+        $writer->endElement();
 
     }
 
@@ -352,7 +439,7 @@ class Component extends Node {
      */
     protected function getDefaults() {
 
-        return array();
+        return [];
 
     }
 
@@ -369,13 +456,20 @@ class Component extends Node {
      * $event = $calendar->VEVENT;
      *
      * @param string $name
+     *
      * @return Property
      */
     function __get($name) {
 
+        if ($name === 'children') {
+
+            throw new \RuntimeException('Starting sabre/vobject 4.0 the children property is now protected. You should use the children() method instead');
+
+        }
+
         $matches = $this->select($name);
-        if (count($matches)===0) {
-            return null;
+        if (count($matches) === 0) {
+            return;
         } else {
             $firstMatch = current($matches);
             /** @var $firstMatch Property */
@@ -389,17 +483,18 @@ class Component extends Node {
      * This method checks if a sub-element with the specified name exists.
      *
      * @param string $name
+     *
      * @return bool
      */
     function __isset($name) {
 
         $matches = $this->select($name);
-        return count($matches)>0;
+        return count($matches) > 0;
 
     }
 
     /**
-     * Using the setter method you can add properties or subcomponents
+     * Using the setter method you can add properties or subcomponents.
      *
      * You can either pass a Component, Property
      * object, or a string to automatically create a Property.
@@ -409,28 +504,17 @@ class Component extends Node {
      *
      * @param string $name
      * @param mixed $value
+     *
      * @return void
      */
     function __set($name, $value) {
 
-        $matches = $this->select($name);
-        $overWrite = count($matches)?key($matches):null;
-
-        if ($value instanceof Component || $value instanceof Property) {
-            $value->parent = $this;
-            if (!is_null($overWrite)) {
-                $this->children[$overWrite] = $value;
-            } else {
-                $this->children[] = $value;
-            }
+        $name = strtoupper($name);
+        $this->remove($name);
+        if ($value instanceof self || $value instanceof Property) {
+            $this->add($value);
         } else {
-            $property = $this->root->create($name,$value);
-            $property->parent = $this;
-            if (!is_null($overWrite)) {
-                $this->children[$overWrite] = $property;
-            } else {
-                $this->children[] = $property;
-            }
+            $this->add($name, $value);
         }
     }
 
@@ -439,17 +523,12 @@ class Component extends Node {
      * specified name.
      *
      * @param string $name
+     *
      * @return void
      */
     function __unset($name) {
 
-        $matches = $this->select($name);
-        foreach($matches as $k=>$child) {
-
-            unset($this->children[$k]);
-            $child->parent = null;
-
-        }
+        $this->remove($name);
 
     }
 
@@ -463,9 +542,13 @@ class Component extends Node {
      */
     function __clone() {
 
-        foreach($this->children as $key=>$child) {
-            $this->children[$key] = clone $child;
-            $this->children[$key]->parent = $this;
+        foreach ($this->children as $childName => $childGroup) {
+            foreach ($childGroup as $key => $child) {
+                $clonedChild = clone $child;
+                $clonedChild->parent = $this;
+                $clonedChild->root = $this->root;
+                $this->children[$childName][$key] = $clonedChild;
+            }
         }
 
     }
@@ -493,7 +576,7 @@ class Component extends Node {
      */
     function getValidationRules() {
 
-        return array();
+        return [];
 
     }
 
@@ -518,6 +601,7 @@ class Component extends Node {
      *   3 - An error.
      *
      * @param int $options
+     *
      * @return array
      */
     function validate($options = 0) {
@@ -525,11 +609,11 @@ class Component extends Node {
         $rules = $this->getValidationRules();
         $defaults = $this->getDefaults();
 
-        $propertyCounters = array();
+        $propertyCounters = [];
 
-        $messages = array();
+        $messages = [];
 
-        foreach($this->children as $child) {
+        foreach ($this->children() as $child) {
             $name = strtoupper($child->name);
             if (!isset($propertyCounters[$name])) {
                 $propertyCounters[$name] = 1;
@@ -539,49 +623,50 @@ class Component extends Node {
             $messages = array_merge($messages, $child->validate($options));
         }
 
-        foreach($rules as $propName => $rule) {
+        foreach ($rules as $propName => $rule) {
 
-            switch($rule) {
+            switch ($rule) {
                 case '0' :
                     if (isset($propertyCounters[$propName])) {
-                        $messages[] = array(
-                            'level' => 3,
+                        $messages[] = [
+                            'level'   => 3,
                             'message' => $propName . ' MUST NOT appear in a ' . $this->name . ' component',
-                            'node' => $this,
-                        );
+                            'node'    => $this,
+                        ];
                     }
                     break;
                 case '1' :
-                    if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName]!==1) {
+                    if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName] !== 1) {
                         $repaired = false;
                         if ($options & self::REPAIR && isset($defaults[$propName])) {
                             $this->add($propName, $defaults[$propName]);
+                            $repaired = true;
                         }
-                        $messages[] = array(
-                            'level' => $repaired?1:3,
+                        $messages[] = [
+                            'level'   => $repaired ? 1 : 3,
                             'message' => $propName . ' MUST appear exactly once in a ' . $this->name . ' component',
-                            'node' => $this,
-                        );
+                            'node'    => $this,
+                        ];
                     }
                     break;
                 case '+' :
                     if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName] < 1) {
-                        $messages[] = array(
-                            'level' => 3,
+                        $messages[] = [
+                            'level'   => 3,
                             'message' => $propName . ' MUST appear at least once in a ' . $this->name . ' component',
-                            'node' => $this,
-                        );
+                            'node'    => $this,
+                        ];
                     }
                     break;
                 case '*' :
                     break;
                 case '?' :
                     if (isset($propertyCounters[$propName]) && $propertyCounters[$propName] > 1) {
-                        $messages[] = array(
-                            'level' => 3,
+                        $messages[] = [
+                            'level'   => 3,
                             'message' => $propName . ' MUST NOT appear more than once in a ' . $this->name . ' component',
-                            'node' => $this,
-                        );
+                            'node'    => $this,
+                        ];
                     }
                     break;
 
@@ -589,6 +674,26 @@ class Component extends Node {
 
         }
         return $messages;
+
+    }
+
+    /**
+     * Call this method on a document if you're done using it.
+     *
+     * It's intended to remove all circular references, so PHP can easily clean
+     * it up.
+     *
+     * @return void
+     */
+    function destroy() {
+
+        parent::destroy();
+        foreach ($this->children as $childGroup) {
+            foreach ($childGroup as $child) {
+                $child->destroy();
+            }
+        }
+        $this->children = [];
 
     }
 

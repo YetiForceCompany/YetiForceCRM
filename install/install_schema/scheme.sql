@@ -308,40 +308,40 @@ CREATE TABLE `com_vtiger_workflowtemplates` (
 
 CREATE TABLE `dav_addressbookchanges` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `uri` varchar(200) NOT NULL,
+  `uri` varbinary(200) NOT NULL,
   `synctoken` int(11) unsigned NOT NULL,
   `addressbookid` int(11) unsigned NOT NULL,
   `operation` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `addressbookid_synctoken` (`addressbookid`,`synctoken`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `dav_addressbooks` */
 
 CREATE TABLE `dav_addressbooks` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `principaluri` varchar(255) DEFAULT NULL,
+  `principaluri` varbinary(255) DEFAULT NULL,
   `displayname` varchar(255) DEFAULT NULL,
-  `uri` varchar(200) DEFAULT NULL,
+  `uri` varbinary(200) DEFAULT NULL,
   `description` text,
   `synctoken` int(11) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `principaluri` (`principaluri`(100),`uri`(100)),
-  KEY `principaluri_2` (`principaluri`),
+  KEY `dav_addressbooks_ibfk_1` (`principaluri`),
   CONSTRAINT `dav_addressbooks_ibfk_1` FOREIGN KEY (`principaluri`) REFERENCES `dav_principals` (`uri`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `dav_calendarchanges` */
 
 CREATE TABLE `dav_calendarchanges` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `uri` varchar(200) NOT NULL,
+  `uri` varbinary(200) NOT NULL,
   `synctoken` int(11) unsigned NOT NULL,
   `calendarid` int(11) unsigned NOT NULL,
   `operation` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `calendarid_synctoken` (`calendarid`,`synctoken`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `dav_calendarobjects` */
 
@@ -356,12 +356,12 @@ CREATE TABLE `dav_calendarobjects` (
   `componenttype` varbinary(8) DEFAULT NULL,
   `firstoccurence` int(11) unsigned DEFAULT NULL,
   `lastoccurence` int(11) unsigned DEFAULT NULL,
-  `uid` varchar(200) DEFAULT NULL,
+  `uid` varbinary(200) DEFAULT NULL,
   `crmid` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `calendarid` (`calendarid`,`uri`),
   CONSTRAINT `dav_calendarobjects_ibfk_1` FOREIGN KEY (`calendarid`) REFERENCES `dav_calendars` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `dav_calendars` */
 
@@ -375,30 +375,30 @@ CREATE TABLE `dav_calendars` (
   `calendarorder` int(11) unsigned NOT NULL DEFAULT '0',
   `calendarcolor` varbinary(10) DEFAULT NULL,
   `timezone` text,
-  `components` varbinary(20) DEFAULT NULL,
+  `components` varbinary(21) DEFAULT NULL,
   `transparent` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `principaluri` (`principaluri`,`uri`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `dav_calendarsubscriptions` */
 
 CREATE TABLE `dav_calendarsubscriptions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `uri` varchar(200) NOT NULL,
-  `principaluri` varchar(100) NOT NULL,
+  `uri` varbinary(200) NOT NULL,
+  `principaluri` varbinary(100) NOT NULL,
   `source` text,
   `displayname` varchar(100) DEFAULT NULL,
   `refreshrate` varchar(10) DEFAULT NULL,
   `calendarorder` int(11) unsigned NOT NULL DEFAULT '0',
-  `calendarcolor` varchar(10) DEFAULT NULL,
+  `calendarcolor` varbinary(10) DEFAULT NULL,
   `striptodos` tinyint(1) DEFAULT NULL,
   `stripalarms` tinyint(1) DEFAULT NULL,
   `stripattachments` tinyint(1) DEFAULT NULL,
   `lastmodified` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `principaluri` (`principaluri`,`uri`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `dav_cards` */
 
@@ -406,7 +406,7 @@ CREATE TABLE `dav_cards` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `addressbookid` int(11) unsigned NOT NULL,
   `carddata` mediumblob,
-  `uri` varchar(200) DEFAULT NULL,
+  `uri` varbinary(200) DEFAULT NULL,
   `lastmodified` int(11) unsigned DEFAULT NULL,
   `etag` varbinary(32) DEFAULT NULL,
   `size` int(11) unsigned NOT NULL,
@@ -414,7 +414,7 @@ CREATE TABLE `dav_cards` (
   PRIMARY KEY (`id`),
   KEY `addressbookid` (`addressbookid`,`crmid`),
   CONSTRAINT `dav_cards_ibfk_1` FOREIGN KEY (`addressbookid`) REFERENCES `dav_addressbooks` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `dav_groupmembers` */
 
@@ -424,46 +424,57 @@ CREATE TABLE `dav_groupmembers` (
   `member_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `principal_id` (`principal_id`,`member_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `dav_principals` */
 
 CREATE TABLE `dav_principals` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `uri` varchar(200) NOT NULL,
-  `email` varchar(80) DEFAULT NULL,
+  `uri` varbinary(200) NOT NULL,
+  `email` varbinary(80) DEFAULT NULL,
   `displayname` varchar(80) DEFAULT NULL,
-  `vcardurl` varchar(255) DEFAULT NULL,
   `userid` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uri` (`uri`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Table structure for table `dav_propertystorage` */
+
+CREATE TABLE `dav_propertystorage` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `path` varbinary(1024) NOT NULL,
+  `name` varbinary(100) NOT NULL,
+  `valuetype` int(10) unsigned DEFAULT NULL,
+  `value` mediumblob,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `path_property` (`path`(600),`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `dav_schedulingobjects` */
 
 CREATE TABLE `dav_schedulingobjects` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `principaluri` varchar(255) DEFAULT NULL,
+  `principaluri` varbinary(255) DEFAULT NULL,
   `calendardata` mediumblob,
-  `uri` varchar(200) DEFAULT NULL,
+  `uri` varbinary(200) DEFAULT NULL,
   `lastmodified` int(11) unsigned DEFAULT NULL,
-  `etag` varchar(32) DEFAULT NULL,
+  `etag` varbinary(32) DEFAULT NULL,
   `size` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `dav_users` */
 
 CREATE TABLE `dav_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) DEFAULT NULL,
-  `digesta1` varchar(32) DEFAULT NULL,
+  `username` varbinary(50) DEFAULT NULL,
+  `digesta1` varbinary(32) DEFAULT NULL,
   `userid` int(19) unsigned DEFAULT NULL,
   `key` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `userid` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `l_yf_notification` */
 

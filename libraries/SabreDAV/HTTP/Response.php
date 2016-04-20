@@ -5,7 +5,7 @@ namespace Sabre\HTTP;
 /**
  * This class represents a single HTTP response.
  *
- * @copyright Copyright (C) 2009-2014 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -57,6 +57,7 @@ class Response extends Message implements ResponseInterface {
         416 => 'Requested Range Not Satisfiable',
         417 => 'Expectation Failed',
         418 => 'I\'m a teapot', // RFC 2324
+        421 => 'Misdirected Request', // RFC7540 (HTTP/2)
         422 => 'Unprocessable Entity', // RFC 4918
         423 => 'Locked', // RFC 4918
         424 => 'Failed Dependency', // RFC 4918
@@ -152,7 +153,7 @@ class Response extends Message implements ResponseInterface {
         if (ctype_digit($status) || is_int($status)) {
 
             $statusCode = $status;
-            $statusText = isset(self::$statusCodes[$status])?self::$statusCodes[$status]:'Unknown';
+            $statusText = isset(self::$statusCodes[$status]) ? self::$statusCodes[$status] : 'Unknown';
 
         } else {
             list(
@@ -179,13 +180,13 @@ class Response extends Message implements ResponseInterface {
     function __toString() {
 
         $str = 'HTTP/' . $this->httpVersion . ' ' . $this->getStatus() . ' ' . $this->getStatusText() . "\r\n";
-        foreach($this->getHeaders() as $key=>$value) {
-            foreach($value as $v) {
-                $str.= $key . ": " . $v . "\r\n";
+        foreach ($this->getHeaders() as $key => $value) {
+            foreach ($value as $v) {
+                $str .= $key . ": " . $v . "\r\n";
             }
         }
-        $str.="\r\n";
-        $str.=$this->getBodyAsString();
+        $str .= "\r\n";
+        $str .= $this->getBodyAsString();
         return $str;
 
     }
