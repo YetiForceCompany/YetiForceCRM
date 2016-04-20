@@ -39,7 +39,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action {
         $adb = PearDatabase::getInstance();            
            
         // check if encryption is enabled
-        $config == false;
+        $config = false;
         if ( file_exists( 'modules/OSSPasswords/config.ini.php' ) ) {
             $config = parse_ini_file( 'modules/OSSPasswords/config.ini.php' );
         }
