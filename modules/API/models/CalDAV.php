@@ -23,6 +23,7 @@ class API_CalDAV_Model
 	public $calendarId = false;
 	public $davUsers = [];
 	protected $crmRecords = [];
+	const MAX_DATE = '2038-01-01';
 
 	function __construct()
 	{
