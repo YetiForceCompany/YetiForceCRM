@@ -175,6 +175,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 				$focus->column_fields[$fieldName] = decode_html($fieldValue);
 			}
 		}
+		$focus->isInventory = $this->isInventory();
 		if ($this->isInventory()) {
 			$focus->inventoryData = $recordModel->getInventoryData();
 		}
