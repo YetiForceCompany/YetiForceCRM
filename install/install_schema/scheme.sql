@@ -2514,6 +2514,7 @@ CREATE TABLE `u_yf_ssingleorders` (
   `istoragesid` int(19) DEFAULT NULL,
   `table` varchar(20) DEFAULT NULL,
   `seat` varchar(20) DEFAULT NULL,
+  `source` varchar(255) DEFAULT '',
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
@@ -4631,7 +4632,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2344 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2345 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8066,6 +8067,16 @@ CREATE TABLE `vtiger_ssalesprocesses_type` (
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ssalesprocesses_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ssingleorders_source` */
+
+CREATE TABLE `vtiger_ssingleorders_source` (
+  `ssingleorders_sourceid` int(11) NOT NULL AUTO_INCREMENT,
+  `ssingleorders_source` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ssingleorders_sourceid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssingleorders_status` */
 
