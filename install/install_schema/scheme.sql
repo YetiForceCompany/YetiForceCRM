@@ -2525,7 +2525,7 @@ CREATE TABLE `u_yf_ssingleorders` (
   `istoragesid` int(19) DEFAULT NULL,
   `table` varchar(20) DEFAULT NULL,
   `seat` varchar(20) DEFAULT NULL,
-  `source` varchar(255) DEFAULT '',
+  `ssingleorders_source` varchar(255) DEFAULT '',
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
