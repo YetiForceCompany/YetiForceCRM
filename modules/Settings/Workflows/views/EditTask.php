@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
@@ -49,7 +50,10 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$taskType = get_class($taskObject);
 
 		if ($taskType === 'VTCreateEntityTask') {
-			if ($taskObject->entity_type) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
+			$mfModel = new $handlerClass();
+			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($moduleModel->getName()));
+			if ($taskObject->entity_type && $taskObject->field_value_mapping) {
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
