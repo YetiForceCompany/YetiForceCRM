@@ -234,7 +234,7 @@ class iCalendar_property_method extends iCalendar_property {
     function is_valid_value($value) {
         // This is case-sensitive
         // Methods from RFC 2446
-        $methods == array('PUBLISH', 'REQUEST', 'REPLY', 'ADD', 'CANCEL', 'REFRESH', 'COUNTER', 'DECLINECOUNTER');
+        $methods = array('PUBLISH', 'REQUEST', 'REPLY', 'ADD', 'CANCEL', 'REFRESH', 'COUNTER', 'DECLINECOUNTER');
         return in_array($value, $methods);
     }
 }
