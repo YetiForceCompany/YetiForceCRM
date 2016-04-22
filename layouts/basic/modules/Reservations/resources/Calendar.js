@@ -118,9 +118,9 @@ jQuery.Class("Reservations_Calendar_Js", {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
-				element.find('.fc-info').popover({
+				element.find('.fc-content').popover({
 					title: event.title,
-					placement: 'top',
+					placement: 'auto right',
 					html: true,
 					trigger: 'hover',
 					delay: 500,
