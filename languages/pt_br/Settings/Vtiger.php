@@ -319,6 +319,7 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Detalhes da Empresa',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Anúncios',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Servidor SMTP',
+	'LBL_VIEW_OUTGOINGSERVEREDIT' => 'Edit Outgoing Server',
 	'LBL_DEFAULT_LAYOUT' => 'Layout',
 	'LBL_TIMECONTROL_PROCESSES' => 'Processos Controle Tempo',
 	//config editor

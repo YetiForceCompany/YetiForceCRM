@@ -322,6 +322,7 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Firmen Details',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Bekanntmachungen',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Ausgehender Server',
+	'LBL_VIEW_OUTGOINGSERVEREDIT' => 'Edit Outgoing Server',
 	'LBL_DEFAULT_LAYOUT' => 'Layout',
 	'LBL_DEFAULT' => 'Default',
 	'LBL_TIMECONTROL_PROCESSES' => 'Zeiterfassungsprozesse',

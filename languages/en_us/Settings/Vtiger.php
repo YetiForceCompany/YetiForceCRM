@@ -322,6 +322,7 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Company details',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Announcements',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Outgoing Server',
+	'LBL_VIEW_OUTGOINGSERVEREDIT' => 'Edit Outgoing Server',
 	'LBL_DEFAULT_LAYOUT' => 'Layout',
 	'LBL_TIMECONTROL_PROCESSES' => 'Time control processes',
 	//config editor
