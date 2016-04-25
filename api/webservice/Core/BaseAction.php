@@ -39,7 +39,7 @@ class BaseAction
 	public function checkSession($sessionId)
 	{
 		$dbPortal = PearDatabase::getInstance();
-		$result = $dbPortal->pquery('SELECT * FROM w_yf_portal_sessions WHERE id = ? LIMIT 1', [$sessionId]);
+		$result = $dbPortal->pquery('SELECT * FROM w_yf_sessions WHERE id = ? LIMIT 1', [$sessionId]);
 		if ($session = $dbPortal->getRow($result)) {
 			$this->session = $session;
 			return true;
