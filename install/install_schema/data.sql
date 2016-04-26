@@ -24539,6 +24539,7 @@ insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (1,'LBL_SYNCHRONIZE_
 insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (2,'LBL_SYNCHRONIZE_ORDERS','SetSSingleOrders');
 insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (3,'LBL_SYNCHRONIZE_PRODUCTS_IMAGES','GetImage');
 insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (4,'LBL_SYNCHRONIZE_STORAGES','GetIStorages');
+insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (5,'LBL_CANCEL_ORDERS','CancelSSingleOrders');
 
 /*Data for the table `w_yf_pos_users` */
 
