@@ -410,8 +410,9 @@ class ListViewController
 					}
 					if (!empty($value) && !empty($this->nameList[$fieldName]) && !empty($parentModule)) {
 						$parentMeta = $this->queryGenerator->getMeta($parentModule);
-						$value = textlength_check($this->nameList[$fieldName][$value]);
-						if ($parentMeta->isModuleEntity() && $parentModule != 'Users') {
+						$ID = $value;
+						$value = textlength_check($this->nameList[$fieldName][$ID]);
+						if ($parentMeta->isModuleEntity() && $parentModule != 'Users' && Users_Privileges_Model::isPermitted($parentModule, 'DetailView', $ID)) {
 							$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&" .
 								"record=$rawValue' title='" . getTranslatedString($parentModule, $parentModule) . "'>$value</a>";
 						}
