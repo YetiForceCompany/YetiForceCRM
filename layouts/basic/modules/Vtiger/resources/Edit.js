@@ -501,6 +501,9 @@ jQuery.Class("Vtiger_Edit_Js", {
 	getRecordDetails: function (params) {
 		var aDeferred = jQuery.Deferred();
 		var url = "index.php?module=" + app.getModuleName() + "&action=GetData&record=" + params['record'] + "&source_module=" + params['source_module'];
+		if(app.getParentModuleName() == 'Settings'){
+			url += '&parent=Settings';
+		}
 		AppConnector.request(url).then(
 				function (data) {
 					if (data['success']) {
