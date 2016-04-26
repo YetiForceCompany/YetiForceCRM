@@ -59,6 +59,7 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 		AppConnector.request(params).then(function (data) {
 			progress.progressIndicator({'mode': 'hide'});
 			app.showModalWindow(data, function (container) {
+				Vtiger_Edit_Js.getInstance().registerEvents();
 				container.find('[name="saveButton"]').on('click', function () {
 					var params = {
 						module: app.getModuleName(),
@@ -69,6 +70,7 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 						status: container.find('[name="status"]').is(':checked'),
 						type: container.find('.typeServer').val(),
 						pass: container.find('[name="pass"]').val(),
+						accounts: container.find('[name="accountsid"]').val(),
 					};
 					if (id != '') {
 						params['id'] = id;

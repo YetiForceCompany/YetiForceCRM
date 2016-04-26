@@ -9147,7 +9147,7 @@ CREATE TABLE `w_yf_pos_actions` (
   `label` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `w_yf_pos_users` */
 
@@ -9177,6 +9177,7 @@ CREATE TABLE `w_yf_servers` (
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `api_key` varchar(100) NOT NULL,
   `type` varchar(40) NOT NULL,
+  `accounts_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
