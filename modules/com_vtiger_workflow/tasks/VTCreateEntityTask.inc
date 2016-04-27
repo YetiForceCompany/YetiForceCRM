@@ -137,6 +137,12 @@ class VTCreateEntityTask extends VTTask
 
 	public function setFieldMapping($fieldValueMapping, $recordModel, $parentRecordModel)
 	{
+		$ownerFields = [];
+		foreach ($recordModel->getModule()->getFields() as $name => $fieldModel) {
+			if ($fieldModel->getFieldDataType() == 'owner') {
+				$ownerFields[] = $name;
+			}
+		}
 		foreach ($fieldValueMapping as $fieldInfo) {
 			$fieldName = $fieldInfo['fieldname'];
 			$referenceModule = $fieldInfo['modulename'];
