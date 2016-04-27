@@ -5,7 +5,7 @@ $languageStrings = [
 	'SINGLE_IGDN' => '[WZ] Wydanie na zewnątrz',
 	'LBL_DESCRIPTION_BLOCK' => 'Opis',
 	'LBL_ATTENTION_BLOCK' => 'Uwagi',
-	'FL_ACCEPTANCE_DATE' => 'Data przyjęcia',
+	'FL_ACCEPTANCE_DATE' => 'Data wydania',
 	'FL_ACCOUNT' => 'Kontrahent',
 	'FL_SUBJECT' => 'Nazwa',
 	'FL_NUMBER' => 'Numer',
@@ -18,6 +18,6 @@ $languageStrings = [
 	'PLL_FOR_APPROVAL' => 'Do akceptacji',
 	'PLL_CANCELLED' => 'Anulowane',
 	'PLL_ACCEPTED' => 'Zaakceptowano',
-	
+	'FL_SSIGNLEORDERS' => 'Zamówienie jednorazowe',
 	'LBL_CHANGE_STATUS' => 'Zmień status',
 ];
