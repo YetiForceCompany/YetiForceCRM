@@ -167,6 +167,10 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				return false;
 			}
 		} else {
+			$relationFieldModel = $this->getRelationField();
+			if($relationFieldModel && $relationFieldModel->isMandatory()){
+				return false;
+			}			
 			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
 			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			return true;
@@ -226,7 +230,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	 */
 	public function isDeletable()
 	{
-		return $this->getRelationModuleModel()->isPermitted('Delete');
+		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
 	}
 
 	public function showCreatorDetail()

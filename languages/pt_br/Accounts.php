@@ -93,5 +93,4 @@ $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'O nome da Organização já existe. Deseja criar um registro duplicado?',
 	'LBL_DELETE_CONFIRMATION'=> 'Ao apagar esta Organização serão removidas as Oportunidades e Cotações relacionadas. Tem certeza que certeza que deseja apagar esta Organização?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Ao apagar esta(s) Organização(ões) serão removidas as Oportunidades e Cotações relacionadas. Tem certeza que deseja apagar o(s) registro(s) selecionado(s)?',
-	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Tem certeza que deseja apagar?',
 ];

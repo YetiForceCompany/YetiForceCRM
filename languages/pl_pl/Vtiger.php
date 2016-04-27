@@ -1401,4 +1401,5 @@ $jsLanguageStrings = [
 	'JS_WATCHING_MESSAGE1' => 'Czy jesteś pewien że chcesz włączyć śledzenie zmian?',
 	'JS_FILTER' => 'Filtr',
 	'JS_NOTIFICATION_LINK' => 'Link',
+	'JS_CANNOT_REMOVE_RELATION' => 'Nie można usunąć relacji.',
 ];

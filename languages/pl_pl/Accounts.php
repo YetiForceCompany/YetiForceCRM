@@ -96,5 +96,4 @@ $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Taki kontrahent istnieje. Czy chcesz utworzyć duplikat?',
 	'LBL_DELETE_CONFIRMATION' => 'Usunięcie tego Kontrahenta usunie również przypisane szanse sprzedaży oraz Oferty. Czy jesteś pewnien, że chcesz usunąć tego Kontrahenta?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Usunięcie tych Kontrahentów usunie również przypisane szanse sprzedaży oraz Oferty. Czy jesteś pewnien, że chcesz usunąć tych Kontrahentów?',
-	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Czy jesteś pewien że chcesz usunąć rekordy?',
 ];

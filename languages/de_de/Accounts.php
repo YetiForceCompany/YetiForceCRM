@@ -92,5 +92,4 @@ $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Organisationsname ist bereits vorhanden. Möchten Sie einen doppelten Datensatz erstellen?',
 	'LBL_DELETE_CONFIRMATION' => 'Beim löschen dieser Organisation, werden die damit verbundenen Verkaufschancen und Angebote mit entfernt. Sind Sie sicher, dass Sie diese Organisation löschen möchten?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Beim löschen dieser Organisationen werden, die damit verbundenen Verkaufschancen und Angebote mit entfernt. Sind Sie sicher, dass Sie diese Organisationen löschen möchten?',
-	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Sind Sie sicher, dass Sie löschen möchten?',
 ];
