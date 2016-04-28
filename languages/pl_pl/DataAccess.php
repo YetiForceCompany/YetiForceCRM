@@ -78,6 +78,10 @@ $languageStrings = [
 	'Action_check_day_tasks' => 'Sprawdź ilości wydarzeń dla zapisywanego dnia',
 	'Action_Desc_check_day_tasks' => 'Akcja sprawdza ilość wydarzeń dla daty rozpoczęcia wydarzenia i jeśli przekracza limit system blokuje/informuje użytkownika.',
 	'LBL_MAXIMUM_NUMBER_EVENTS_PER_DAY' => 'Maksymalna ilość wydarzeń w jednym dniu',
+	'LBL_SELECT_OPTION_TO_SEARCH' => 'Wybierz opcję wyszukiwania wydarzeń',
+	'LBL_SET_CUSTOM_CONDITIONS' => 'Ustaw własne warunki',
+	'LBL_CURRENT_EVENTS' => 'Wydarzenia bieżące',
+	'LBL_PAST_EVENTS' => 'Wydarzenia historyczne',
 	//
 	'Action_unique_account' => 'Sprawdź czy istnieje duplikat dla kontrahenta',
 	'Action_Desc_unique_account' => 'Sprawdź czy kontrahent jest unikatowy w module.',
