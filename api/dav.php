@@ -7,19 +7,19 @@ if (!in_array('dav', $enabledServices)) {
 	$apiLog = new APINoPermittedException();
 	$apiLog->stop('Dav - Service is not active');
 }
-AppConfig::iniSet('error_log', $root_directory . 'cache/logs/dav.log');
+AppConfig::iniSet('error_log', $root_directory . 'cache/logs/davPhpError.log');
 
 /* Database */
 $pdo = new PDO('mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-/*
-  //Mapping PHP errors to exceptions
-  function exception_error_handler($errno, $errstr, $errfile, $errline ) {
-  throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-  }
-  set_error_handler('exception_error_handler');
- */
+//Mapping PHP errors to exceptions
+function exception_error_handler($errno, $errstr, $errfile, $errline)
+{
+	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+}
+set_error_handler('exception_error_handler');
+
 // Autoloader
 require_once('libraries/SabreDAV/autoload.php');
 

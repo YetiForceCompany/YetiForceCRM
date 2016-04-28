@@ -14,7 +14,8 @@ class Debug extends DAV\ServerPlugin
 	 */
 	protected $server;
 
-	const FILE = 'cache/logs/davDebug.log';
+	const DEBUG_FILE = 'cache/logs/davDebug.log';
+	const EXCEPTION_FILE = 'cache/logs/davException.log';
 
 	function initialize(DAV\Server $server)
 	{
@@ -26,15 +27,34 @@ class Debug extends DAV\ServerPlugin
 
 	function beforeMethod(RequestInterface $request, ResponseInterface $response)
 	{
-		file_put_contents(self::FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Request ======'
-			. PHP_EOL . $request->__toString() . PHP_EOL, FILE_APPEND);
+		file_put_contents(self::DEBUG_FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Request ======' . PHP_EOL, FILE_APPEND);
+		if (in_array($request->getMethod(), ['PROPFIND', 'REPORT'])) {
+			$content = $request->getMethod() . ' ' . $request->getUrl() . ' HTTP/' . $request->getHTTPVersion() . "\r\n";
+			foreach ($request->getHeaders() as $key => $value) {
+				foreach ($value as $v) {
+					if ($key === 'Authorization') {
+						list($v) = explode(' ', $v, 2);
+						$v .= ' REDACTED';
+					}
+					$content .= $key . ": " . $v . "\r\n";
+				}
+			}
+		} else {
+			$content = $request->__toString();
+		}
+		file_put_contents(self::DEBUG_FILE, $content . PHP_EOL, FILE_APPEND);
 		return true;
 	}
 
 	function afterResponse(RequestInterface $request, ResponseInterface $response)
 	{
-		file_put_contents(self::FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Response ======'
-			. PHP_EOL . $response->__toString() . PHP_EOL, FILE_APPEND);
+		$contentType = explode(';', $response->getHeader('Content-Type'));
+		$content = reset($contentType);
+		if (in_array($content, ['text/html', 'application/xml'])) {
+			$content = $response->__toString();
+		}
+		file_put_contents(self::DEBUG_FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Response ======'
+			. PHP_EOL . $content . PHP_EOL, FILE_APPEND);
 		return true;
 	}
 
@@ -46,7 +66,7 @@ class Debug extends DAV\ServerPlugin
 		$error .= 'line: ' . $e->getLine() . PHP_EOL;
 		$error .= 'code: ' . $e->getCode() . PHP_EOL;
 		$error .= 'stacktrace: ' . PHP_EOL . $e->getTraceAsString() . PHP_EOL;
-		file_put_contents(self::FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Error exception ======'
+		file_put_contents(self::EXCEPTION_FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Error exception ======'
 			. PHP_EOL . $error . PHP_EOL, FILE_APPEND);
 		return true;
 	}
