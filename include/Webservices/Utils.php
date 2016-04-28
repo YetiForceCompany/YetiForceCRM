@@ -604,36 +604,22 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
 	$adb = PearDatabase::getInstance();
 	$log = vglobal('log');
 
-	$sql = "select * from vtiger_senotesrel where crmid=?";
-	$result = $adb->pquery($sql, array($id));
-	if ($result === false) {
+	$sql = 'SELECT notesid FROM vtiger_senotesrel WHERE crmid=?';
+	$result = $adb->pquery($sql, [$id]);
+	if (!$result->rowCount()) {
 		return false;
 	}
-	$rowCount = $adb->num_rows($result);
-
-	$sql = "insert into vtiger_senotesrel(crmid,notesid) values (?,?)";
-	for ($i = 0; $i < $rowCount; ++$i) {
-		$noteId = $adb->query_result($result, $i, "notesid");
-		$resultNew = $adb->pquery($sql, array($relatedId, $noteId));
-		if ($resultNew === false) {
-			return false;
-		}
+	while ($noteId = $adb->getSingleValue($result)) {
+		$adb->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $noteId]);
 	}
 
-	$sql = "select * from vtiger_seattachmentsrel where crmid=?";
-	$result = $adb->pquery($sql, array($id));
-	if ($result === false) {
+	$sql = 'SELECT attachmentsid FROM vtiger_seattachmentsrel WHERE crmid=?';
+	$result = $adb->pquery($sql, [$id]);
+	if (!$result->rowCount()) {
 		return false;
 	}
-	$rowCount = $adb->num_rows($result);
-
-	$sql = "insert into vtiger_seattachmentsrel(crmid,attachmentsid) values (?,?)";
-	for ($i = 0; $i < $rowCount; ++$i) {
-		$attachmentId = $adb->query_result($result, $i, "attachmentsid");
-		$resultNew = $adb->pquery($sql, array($relatedId, $attachmentId));
-		if ($resultNew === false) {
-			return false;
-		}
+	while ($attachmentId = $adb->getSingleValue($result)) {
+		$adb->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $attachmentId]);
 	}
 	return true;
 }
@@ -773,23 +759,10 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
 	if (empty($leadId) || empty($relatedId) || empty($seType)) {
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Records");
 	}
-	$status = vtws_getRelatedNotesAttachments($leadId, $relatedId);
-	if ($status === false) {
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Documents to the " . $seType);
-	}
-	//Retrieve the lead related products and relate them with this new account
-	$status = vtws_saveLeadRelatedProducts($leadId, $relatedId, $seType);
-	if ($status === false) {
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Products to the " . $seType);
-	}
-	$status = vtws_saveLeadRelations($leadId, $relatedId, $seType);
-	if ($status === false) {
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move Records to the " . $seType);
-	}
-	$status = vtws_saveLeadRelatedCampaigns($leadId, $relatedId, $seType);
-	if ($status === false) {
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move Records to the " . $seType);
-	}
+	vtws_getRelatedNotesAttachments($leadId, $relatedId);
+	vtws_saveLeadRelatedProducts($leadId, $relatedId, $seType);
+	vtws_saveLeadRelations($leadId, $relatedId, $seType);
+	vtws_saveLeadRelatedCampaigns($leadId, $relatedId, $seType);
 	vtws_transferComments($leadId, $relatedId);
 	vtws_transferRelatedRecords($leadId, $relatedId);
 }
@@ -804,21 +777,27 @@ function vtws_transferComments($sourceRecordId, $destinationRecordId)
 
 function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
 {
-	$adb = PearDatabase::getInstance();
+	$db = PearDatabase::getInstance();
 	//PBXManager
-	$adb->pquery("UPDATE vtiger_pbxmanager SET customer=? WHERE customer=?", [$destinationRecordId, $sourceRecordId]);
+	$db->pquery("UPDATE vtiger_pbxmanager SET customer=? WHERE customer=?", [$destinationRecordId, $sourceRecordId]);
 	//OSSPasswords
-	$adb->pquery("UPDATE vtiger_osspasswords SET linkto=? WHERE linkto=?", [$destinationRecordId, $sourceRecordId]);
+	$db->pquery("UPDATE vtiger_osspasswords SET linkto=? WHERE linkto=?", [$destinationRecordId, $sourceRecordId]);
 	//Contacts
-	$adb->pquery("UPDATE vtiger_contactdetails SET parentid=? WHERE parentid=?", [$destinationRecordId, $sourceRecordId]);
+	$db->pquery("UPDATE vtiger_contactdetails SET parentid=? WHERE parentid=?", [$destinationRecordId, $sourceRecordId]);
 	//OutsourcedProducts
-	$adb->pquery("UPDATE vtiger_outsourcedproducts SET parent_id=? WHERE parent_id=?", [$destinationRecordId, $sourceRecordId]);
+	$db->pquery("UPDATE vtiger_outsourcedproducts SET parent_id=? WHERE parent_id=?", [$destinationRecordId, $sourceRecordId]);
 	//OSSOutsourcedServices
-	$adb->pquery("UPDATE vtiger_ossoutsourcedservices SET parent_id=? WHERE parent_id=?", [$destinationRecordId, $sourceRecordId]);
-	//OSSOutsourcedServices
-	$adb->pquery("UPDATE vtiger_osstimecontrol SET accountid=?,leadid=? WHERE leadid=?", [$destinationRecordId, 0, $sourceRecordId]);
+	$db->pquery("UPDATE vtiger_ossoutsourcedservices SET parent_id=? WHERE parent_id=?", [$destinationRecordId, $sourceRecordId]);
+	//OSSTimeControl
+	$db->pquery("UPDATE vtiger_osstimecontrol SET link=? WHERE link=?", [$destinationRecordId, $sourceRecordId]);
 	//OSSMailView
-	$adb->pquery("UPDATE vtiger_ossmailview_relation SET crmid=? WHERE crmid=?", [$destinationRecordId, $sourceRecordId]);
+	$db->pquery("UPDATE vtiger_ossmailview_relation SET crmid=? WHERE crmid=?", [$destinationRecordId, $sourceRecordId]);
+	//CallHistory
+	$db->update('vtiger_callhistory', ['destination' => $destinationRecordId], 'destination = ?', [$sourceRecordId]);
+	//LettersIn
+	$db->update('vtiger_lettersin', ['relatedid' => $destinationRecordId], 'relatedid = ?', [$sourceRecordId]);
+	//LettersOut
+	$db->update('vtiger_lettersout', ['relatedid' => $destinationRecordId], 'relatedid = ?', [$sourceRecordId]);
 }
 
 function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
