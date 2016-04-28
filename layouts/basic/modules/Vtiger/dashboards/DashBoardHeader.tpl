@@ -57,6 +57,11 @@
 											{vtranslate('LBL_ADD_FILTER')}
 										</a>
 									</li>
+									<li class="hidden-xs">
+										<a href="#">
+											{vtranslate('LBL_NONE')}
+										</a>
+									</li>
 								</ul>
 							{/if}
 						</div>
