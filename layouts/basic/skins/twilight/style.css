@@ -2953,10 +2953,10 @@ span[name=existingImages] img{
 }
 .remindersNoticeContainer{
 	position: fixed;
-	right: 0;
+	right: -380px;
 	top: 109px;
-	z-index: 1029;
-	width: 0;
+	z-index: 1035;
+	width: 380px;
 	height: 100%;
 	bottom: 30px;
 	overflow-y: auto;
@@ -2969,8 +2969,7 @@ span[name=existingImages] img{
 	overflow-y: auto;
 }
 .remindersNoticeContainer.toggled{
-	width: 380px;
-	z-index: 1035;
+	right: 0px;
 }
 .remindersContent{
 	margin: 5px 8px 0 8px;
