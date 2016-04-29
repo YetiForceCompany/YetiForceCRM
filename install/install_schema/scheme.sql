@@ -5269,15 +5269,16 @@ CREATE TABLE `vtiger_knowledgebase_view` (
 
 CREATE TABLE `vtiger_language` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) DEFAULT NULL,
-  `prefix` varchar(10) DEFAULT NULL,
-  `label` varchar(30) DEFAULT NULL,
+  `name` varchar(50) NOT NULL,
+  `prefix` varchar(10) NOT NULL,
+  `label` varchar(30) NOT NULL,
   `lastupdated` datetime DEFAULT NULL,
   `sequence` int(11) DEFAULT NULL,
-  `isdefault` int(1) DEFAULT '0',
-  `active` int(1) DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  `isdefault` tinyint(1) NOT NULL DEFAULT '0',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `prefix` (`prefix`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_language_seq` */
 
