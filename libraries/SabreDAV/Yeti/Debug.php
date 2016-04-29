@@ -28,7 +28,7 @@ class Debug extends DAV\ServerPlugin
 	function beforeMethod(RequestInterface $request, ResponseInterface $response)
 	{
 		file_put_contents(self::DEBUG_FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Request ======' . PHP_EOL, FILE_APPEND);
-		if (in_array($request->getMethod(), ['PROPFIND', 'REPORT'])) {
+		if (in_array($request->getMethod(), ['PROPFIND', 'REPORT', 'PUT'])) {
 			$content = $request->getMethod() . ' ' . $request->getUrl() . ' HTTP/' . $request->getHTTPVersion() . "\r\n";
 			foreach ($request->getHeaders() as $key => $value) {
 				foreach ($value as $v) {
@@ -39,6 +39,7 @@ class Debug extends DAV\ServerPlugin
 					$content .= $key . ": " . $v . "\r\n";
 				}
 			}
+			$content .= PHP_EOL . file_get_contents('php://input');
 		} else {
 			$content = $request->__toString();
 		}
