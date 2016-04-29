@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 class VTSimpleTemplate{
 
@@ -37,7 +38,7 @@ class VTSimpleTemplate{
                 $data = $this->parent->getData();
 
                 if(isset($data[$fieldname]) || $fieldname === '_DATE_FORMAT_') {
-                    if($this->useValue($data, $fieldname)){
+                    if($this->useValue($data, $fieldname, $this->parent->getModuleName())){
                         $result = $this->transformToUserFormat($this->parent->getModuleName(), $fieldname, $data[$fieldname]);
                     } else {
                         $result ='';
@@ -68,7 +69,7 @@ class VTSimpleTemplate{
                             foreach ($referenceIdsList as $referenceId) {
                                 $entity = $this->cache->forId($referenceId);
                                 $data = $entity->getData();
-                                if($this->useValue($data, $fieldname)) {
+                                if($this->useValue($data, $fieldname, $referenceModule)) {
                                     $parts[] = $this->transformToUserFormat($referenceModule, $fieldname, $data[$fieldname]);
                                 }
                             }
@@ -88,7 +89,7 @@ class VTSimpleTemplate{
                                 $refId = vtws_getWebserviceEntityId("Users", $userId);
                                 $entity = $this->cache->forId($refId);
                                 $data = $entity->getData();
-                                if($this->useValue($data, $fieldname)){
+                                if($this->useValue($data, $fieldname, $referenceModule)){
                                     $parts[] = $this->transformToUserFormat($referenceModule, $fieldname, $data[$fieldname]);
                                 }
                             }
@@ -96,7 +97,7 @@ class VTSimpleTemplate{
 
                         } elseif($entity->getModuleName()===$referenceModule){
                             $data = $entity->getData();
-                            if($this->useValue($data, $fieldname)){
+                            if($this->useValue($data, $fieldname, $referenceModule)){
                                 $handler = vtws_getModuleHandlerFromName($referenceModule, $this->cache->user);
                                 $meta = $handler->getMeta();
                                 $referenceFieldList = $meta->getReferenceFieldDetails();
@@ -122,11 +123,11 @@ class VTSimpleTemplate{
             }
         }
 		return $result;
-
 	}
 
-	protected function useValue($data, $fieldname) {
-        return true;
+	protected function useValue($data, $fieldname, $moduleName)
+	{
+		return true;
 	}
 
 	function parseTemplate(){
