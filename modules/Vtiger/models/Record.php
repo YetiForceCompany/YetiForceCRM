@@ -129,6 +129,13 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $this;
 	}
 
+	public function getRecordNumber()
+	{
+		$fieldModel = $this->getModule()->getFieldsByUiType(4);
+		$fieldModel = reset($fieldModel);
+		return $this->get($fieldModel->getName());
+	}
+
 	/**
 	 * Function to get the Detail View url for the record
 	 * @return <String> - Record Detail View Url

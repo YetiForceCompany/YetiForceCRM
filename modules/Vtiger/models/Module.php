@@ -488,6 +488,17 @@ class Vtiger_Module_Model extends Vtiger_Module
 		}
 		return $fieldList;
 	}
+	
+	public function getFieldsByUiType($type)
+	{
+		$fieldList = [];
+		foreach ($this->getFields() as $field) {
+			if ($field->get('uitype') == $type) {
+				$fieldList[$field->getName()] = $field;
+			}
+		}
+		return $fieldList;
+	}
 
 	/**
 	 * Function gives fields based on the type
