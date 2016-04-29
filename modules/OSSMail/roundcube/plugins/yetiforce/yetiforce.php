@@ -78,24 +78,34 @@ class yetiforce extends rcube_plugin
 		$id = $COMPOSE_ID;
 		$type = rcube_utils::get_input_value('type', rcube_utils::INPUT_GPC);
 		$crmid = rcube_utils::get_input_value('crmid', rcube_utils::INPUT_GPC);
-		$crmmodule = rcube_utils::get_input_value('crmmodule', rcube_utils::INPUT_GPC);
-		$crmrecord = rcube_utils::get_input_value('crmrecord', rcube_utils::INPUT_GPC);
-		$crmview = rcube_utils::get_input_value('crmview', rcube_utils::INPUT_GPC);
+		$crmModule = rcube_utils::get_input_value('crmmodule', rcube_utils::INPUT_GPC);
+		$crmRecord = rcube_utils::get_input_value('crmrecord', rcube_utils::INPUT_GPC);
+		$crmView = rcube_utils::get_input_value('crmview', rcube_utils::INPUT_GPC);
 		$crmSubject = rcube_utils::get_input_value('subject', rcube_utils::INPUT_GPC);
 		$emails = rcube_utils::get_input_value('emails', rcube_utils::INPUT_GPC);
 		if (!empty($emails)) {
-			$args['param']['bcc'] = implode(',', json_decode($emails,true));
+			$args['param']['bcc'] = implode(',', json_decode($emails, true));
 		}
-		if ($crmmodule) {
-			$_SESSION['compose_data_' . $id]['param']['module'] = $crmmodule;
+		if ($crmModule) {
+			$_SESSION['compose_data_' . $id]['param']['module'] = $crmModule;
 		}
-		if ($crmrecord) {
+		if ($crmRecord) {
 			$_SESSION['compose_data_' . $id]['param']['record'] = $crmrecord;
 		}
-		if ($crmview) {
-			$_SESSION['compose_data_' . $id]['param']['view'] = $crmview;
+		if ($crmView) {
+			$_SESSION['compose_data_' . $id]['param']['view'] = $crmView;
 		}
 
+		if ($crmModule == 'Documents') {
+			$userid = $this->rc->user->ID;
+			list($usec, $sec) = explode(' ', microtime());
+			$dId = preg_replace('/[^0-9]/', '', $userid . $sec . $usec);
+			foreach (self::getAttachment($crmRecord) as $index => $attachment) {
+				$attachment['group'] = $id;
+				$attachment['id'] = $dId . $index;
+				$args['attachments'][$attachment['id']] = $attachment;
+			}
+		}
 		if (!$crmid) {
 			return $args;
 		}
@@ -347,18 +357,23 @@ if (window && window.rcmail) {
 		return $files;
 	}
 
-	public function getAttachment()
+	public function getAttachment($ids = false)
 	{
 		$attachments = [];
-		$ids = rcube_utils::get_input_value('ids', rcube_utils::INPUT_GPC);
-		if (!isset($ids)) {
+		if (!$ids) {
+			$ids = rcube_utils::get_input_value('ids', rcube_utils::INPUT_GPC);
+		}
+		if (empty($ids)) {
 			return $attachments;
+		}
+		if (is_array($ids)) {
+			$ids = implode(',', $ids);
 		}
 		$this->rc = rcmail::get_instance();
 		$db = $this->rc->get_dbh();
-		$ids = implode(',', $ids);
 		$userid = $this->rc->user->ID;
 		$index = 0;
+
 		$sql_result = $db->query("SELECT vtiger_attachments.* FROM vtiger_attachments INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid=vtiger_attachments.attachmentsid WHERE vtiger_seattachmentsrel.crmid IN ($ids);");
 		while ($row = $db->fetch_assoc($sql_result)) {
 			$orgFile = $this->rc->config->get('root_directory') . $row['path'] . $row['attachmentsid'] . '_' . $row['name'];

@@ -79,15 +79,4 @@ Vtiger_Detail_Js("Documents_Detail_Js", {
 		};
 		Vtiger_Helper_Js.showPnotify(params);
 	},
-
-	triggerSendEmail : function(recordIds) {
-		var params = {
-			"module" : "Documents",
-			"view" : "ComposeEmail",
-			"documentIds" : recordIds
-		};
-		var emailEditInstance = new Emails_MassEdit_Js();
-		emailEditInstance.showComposeEmailForm(params);
-	}
-	
 },{});
