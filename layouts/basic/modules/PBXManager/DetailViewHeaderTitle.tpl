@@ -45,8 +45,8 @@
         <span class="row">
             <span class="recordLabel pushDown" title="{$RECORD->getName()}">
                 {assign var=NAME_FIELD value=$MODULE_MODEL->getNameFields()}
-                {assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
-                {if $FIELD_MODEL->getPermissions()}
+                {assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
+				{if $FIELD_MODEL && $FIELD_MODEL->getPermissions()}
                     {assign var=RECORDID value=$RECORD->get("customer")}
 
                     {if $RECORDID}

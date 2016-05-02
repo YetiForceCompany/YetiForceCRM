@@ -17,10 +17,10 @@
 		<div class="paddingLeft5px">
 			<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getName()}">
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
-					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
-						{if $FIELD_MODEL->getPermissions()}
-							<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
-						{/if}
+					{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
+					{if $FIELD_MODEL && $FIELD_MODEL->getPermissions()}
+						<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
+					{/if}
 				{/foreach}
 			</h4>
 			{assign var=RELATED_TO value=$RECORD->get('linktoaccountscontacts')}
