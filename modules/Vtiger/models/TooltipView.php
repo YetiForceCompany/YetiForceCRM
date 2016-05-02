@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 vimport('~include/Webservices/Query.php');
@@ -52,6 +53,9 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 		$referenceFields = [];
 		$fieldNames = [];
 		foreach ($this->fields as $fieldModel) {
+			if (!$fieldModel->isViewEnabled()) {
+				continue;
+			}
 			$fieldType = $fieldModel->getFieldDataType();
 			$fieldName = $fieldModel->get('name');
 
