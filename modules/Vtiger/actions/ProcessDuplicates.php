@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
@@ -45,10 +46,9 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 
 		$deleteRecords = array_diff($records, array($primaryRecord));
 		foreach ($deleteRecords as $deleteRecord) {
-			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Delete', $deleteRecord);
-			if ($recordPermission) {
-				$primaryRecordModel->transferRelationInfoOfRecords(array($deleteRecord));
-				$record = Vtiger_Record_Model::getInstanceById($deleteRecord);
+			$record = Vtiger_Record_Model::getInstanceById($deleteRecord, $moduleName);
+			if ($record->isDeletable()) {
+				$primaryRecordModel->transferRelationInfoOfRecords([$deleteRecord]);
 				$record->delete();
 			}
 		}

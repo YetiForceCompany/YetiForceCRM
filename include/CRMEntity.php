@@ -1943,7 +1943,7 @@ class CRMEntity
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
 			$relatedRecords = $adb->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? AND module=?' .
 				' AND relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? AND module=?)', array($transferId, $module, $entityId, $module));
-			$numOfRecords = $adb->num_rows($relatedRecords);
+			$numOfRecords = $adb->getRowCount($relatedRecords);
 			for ($i = 0; $i < $numOfRecords; $i++) {
 				$relcrmid = $adb->query_result($relatedRecords, $i, 'relcrmid');
 				$relmodule = $adb->query_result($relatedRecords, $i, 'relmodule');
@@ -1952,11 +1952,10 @@ class CRMEntity
 				$params = [$relcrmid, $relmodule, $transferId, $module];
 				$adb->update('vtiger_crmentityrel', ['crmid' => $entityId], $where, $params);
 			}
-
 			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
 			$parentRecords = $adb->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? AND relmodule=?' .
 				' AND crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? AND relmodule=?)', array($transferId, $module, $entityId, $module));
-			$numOfRecords = $adb->num_rows($parentRecords);
+			$numOfRecords = $adb->getRowCount($parentRecords);
 			for ($i = 0; $i < $numOfRecords; $i++) {
 				$parcrmid = $adb->query_result($parentRecords, $i, 'crmid');
 				$parmodule = $adb->query_result($parentRecords, $i, 'module');
@@ -1965,16 +1964,17 @@ class CRMEntity
 				$adb->update('vtiger_crmentityrel', ['relcrmid' => $entityId], $where, $params);
 			}
 			$adb->update('vtiger_modcomments', ['related_to' => $entityId], 'related_to = ?', [$transferId]);
-
 			foreach ($relTables as $relModule => $relTable) {
-				$idField = $relTable[0][1];
-				$entityIdField = $relTable[0][0];
+				$idField = current($relTable)[1];
+				$entityIdField = current($relTable)[0];
+				$relTableName = key($relTable);
 				// IN clause to avoid duplicate entries
-				$selResult = $adb->pquery("select $idField from $rel_table where $entityIdField=? " .
-					" and $idField not in (select $idField from $rel_table where $entityIdField=?)", [$transferId, $entityId]);
-				if ($adb->num_rows($selResult) > 0) {
+				$sql = "SELECT $idField FROM $relTableName WHERE $entityIdField = ? " .
+					" AND $idField NOT IN ( SELECT $idField FROM $relTableName WHERE $entityIdField = ? )";
+				$selResult = $adb->pquery($sql, [$transferId, $entityId]);
+				if ($adb->getRowCount($selResult) > 0) {
 					while (($idFieldValue = $adb->getSingleValue($selResult)) !== false) {
-						$adb->update($rel_table, [
+						$adb->update($relTableName, [
 							$entityIdField => $entityId
 							], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
 						);
@@ -2704,13 +2704,18 @@ class CRMEntity
 	 * between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"),
-				$this->table_name => $this->table_index),
-		);
-		return $rel_tables[$secmodule];
+		$relTables = [
+			"Documents" => [
+				'vtiger_senotesrel' => ['crmid', 'notesid'],
+				$this->table_name => $this->table_index
+			]
+		];
+		if ($secmodule === false) {
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	/**
