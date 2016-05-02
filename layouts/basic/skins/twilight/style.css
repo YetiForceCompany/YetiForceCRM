@@ -4286,7 +4286,7 @@ html,body,.baseContainer
 	}
 	.siteBarRight{
 		width: 100%;
-		padding: 0;
+		padding: 0 15px;
 		position: relative;
 		-webkit-transition: all 0.5s ease;
 		-moz-transition: all 0.5s ease;
