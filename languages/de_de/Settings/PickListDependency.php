@@ -36,5 +36,5 @@ $jsLanguageStrings = [
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Auswahllisten-Abhängigkeit gespeichert',
 	'JS_SELECT_SOME_VALUE' => 'Wählen Sie einen Wert',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Quell- und Zielfeld dürfen nicht identisch sein',
-	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'No dependencies were entered. No changes were saved.',
+	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'Keine Abhängigkeiten wurden eingegeben. Keine Änderungen gesichert.',
 ];

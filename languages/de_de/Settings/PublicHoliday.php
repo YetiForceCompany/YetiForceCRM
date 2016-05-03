@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PublicHoliday' => 'Feiertage',
-	'LBL_PUBLIC_HOLIDAY' => 'Calendar - Holidays',
+	'LBL_PUBLIC_HOLIDAY' => 'Kalendar - Feiertage',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => 'Pflege von Feiertagen',
 	'LBL_ADD_HOLIDAY' => 'Feiertag hinzufügen',
 	'LBL_HOLIDAY_LIST' => 'Feiertage',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'JS_HOLIDAY_DELETE_ERROR' => 'Feiertag konnte nicht gelöscht werden',
 	'LBL_ADD_NEW_HOLIDAY' => 'Feiertag hinzufügen',
 	'LBL_DATE' => 'Datum',
-	'LBL_DAY_NAME' => 'Name of the holiday',
+	'LBL_DAY_NAME' => 'Name des Feiertages',
 	'LBL_DAY_NAME_DESC' => 'Name des Feiertages',
 	'LBL_NEW_DATE_OK' => 'Neuer Feiertag erfolgreich hinzugefügt',
 	'LBL_NEW_DATE_ERROR' => 'Es konnte kein neuer Feiertag hinzugefügt werden',
@@ -42,10 +42,10 @@ $languageStrings = [
 	'ecclesiastical' => 'kirchlich',
 	'national' => 'gesetzlicher',
 	'LBL_VIEW_CONFIGURATION' => 'Feiertage',
-	'LBL_DATE_RANGE' => 'Range',
+	'LBL_DATE_RANGE' => 'Zeitraum',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_NEW_HOLIDAY' => 'Feiertag hinzufügen',
-	'JS_EDIT_HOLIDAY' => 'Edit holiday',
+	'JS_EDIT_HOLIDAY' => 'Feiertag ändern',
 	'JS_FILL_FORM_ERROR' => 'Es müssen alle Felder im Formular befüllt werden',
 ];

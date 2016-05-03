@@ -10,7 +10,7 @@
  *************************************************************************************/
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Fehler beim Upload',
-	'ModuleManager' => 'Module Manager',
+	'ModuleManager' => 'Modul Manager',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Import Bundle von Datei',
 	'LBL_IMPORT_MODULE' => 'Modul importieren',
 	'LBL_IMPORTED_UPDATE' => 'System wurde erfolgreich aktualisiert.',
@@ -70,7 +70,7 @@ $languageStrings = [
 	'LBL_BASE_MODULE' => 'Basis Modul',
 	'LBL_INVENTORY_MODULE' => 'Erweitertes Modul',
 	'LBL_EXTENSION_MODULE' => 'Extensions module',
-	'LBL_LANGUAGE_MODULE' => 'Language pack',
+	'LBL_LANGUAGE_MODULE' => 'Sprach Modul',
 	'LBL_VIEW_MODULEIMPORT' => 'Import',
 ];
 $jsLanguageStrings = [

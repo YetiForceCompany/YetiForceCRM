@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SALES_PROCESSES' => 'Sales',
+	'LBL_SALES_PROCESSES' => 'Vertrieb',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Einstellungen zu den Vertriebsprozessen',
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Limit the choice of products/services only to the ones related to currently selected Opportunity. Applies to modules: Quote Enquiries, Sales requirements, Calculations, Quotes, Sales Orders, Recurring Sales Orders.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Liste der Produkte und Dienstleistungen',
@@ -22,16 +22,16 @@ $languageStrings = [
 	'LBL_CREATE_POTENTIALS' => 'Anlegen von Verkaufschancen für Organisationen/Kontakte unterbinden, in denen kein User zugeordnet ist',
 	'SalesProcesses' => 'Vetriebsprozesse',
 	
-	'LBL_SQUOTEENQUIRIES' => 'Sales enquiries',
-	'LBL_SREQUIREMENTSCARD' => 'Sales Requirements',
+	'LBL_SQUOTEENQUIRIES' => 'Verkaufsanfrage',
+	'LBL_SREQUIREMENTSCARD' => 'Verkaufs Anforderungen',
 	'LBL_SCALCULATIONS' => 'Kalkulationen',
-	'LBL_SQUOTES' => 'Quotes',
-	'LBL_SSALESORDER' => 'Sales Order',
+	'LBL_SQUOTES' => 'Angebote',
+	'LBL_SSALESORDER' => 'Bestellung',
 	
-	'LBL_STATUSES_CLOSED_SSALESORDER' => 'Statuses that define closing a sales order',
-	'LBL_STATUSES_CLOSED_SQUOTEENQUIRIES' => 'Statuses that define closing a quote enquiry',
-	'LBL_STATUSES_CLOSED_SREQUIREMENTSCARD' => 'Statuses that define closing a sales requirements',
-	'LBL_STATUSES_CLOSED_SQUOTES' => 'Statuses that define closing a quote',
+	'LBL_STATUSES_CLOSED_SSALESORDER' => 'Status die eine geschlossene Bestellung definiert',
+	'LBL_STATUSES_CLOSED_SQUOTEENQUIRIES' => 'Status die eine geschlossene Verkaufsanfrage definiert',
+	'LBL_STATUSES_CLOSED_SREQUIREMENTSCARD' => 'Status die eine geschlossene Anforderung definiert',
+	'LBL_STATUSES_CLOSED_SQUOTES' => 'Status die ein geschlossenes Angebot definiert',
 ];
 
 
