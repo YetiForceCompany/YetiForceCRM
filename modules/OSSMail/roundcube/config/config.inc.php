@@ -56,6 +56,7 @@ $config['imap_debug'] = $DEBUG_CONFIG['ROUNDCUBE_IMAP_DEBUG'];
 $config['ldap_debug'] = $DEBUG_CONFIG['ROUNDCUBE_LDAP_DEBUG'];
 $config['smtp_debug'] = $DEBUG_CONFIG['ROUNDCUBE_SMTP_DEBUG'];
 $config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/logs/';
+$config['temp_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/mail/';
 $config['devel_mode'] = $DEBUG_CONFIG['ROUNDCUBE_DEVEL_MODE'];
 
 $config['imap_conn_options'] = [

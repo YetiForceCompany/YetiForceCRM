@@ -27,6 +27,10 @@
 					href="{$LINK_URL}"
 				{/if}
 			{/strip} {strip}
+				{if $LINK->get('linktarget')}
+					target="{$LINK->get('linktarget')}"
+				{/if}
+			{/strip} {strip}
 				{if $LINK->get('modalView')}
 					data-url="{$LINK_URL}"
 				{else}
