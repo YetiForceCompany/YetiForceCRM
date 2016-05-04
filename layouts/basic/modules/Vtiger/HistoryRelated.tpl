@@ -1,8 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="recentActivitiesContainer" >
+		<input type="hidden" id="relatedHistoryCurrentPage" value="{$PAGING_MODEL->get('page')}" />
+		<input type="hidden" id="relatedHistoryPageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
 		{if !empty($HISTORIES)}
-			<ul class="timeline" id="updates">
+			<ul class="timeline" id="relatedUpdates">
 				{foreach item=HISTORY from=$HISTORIES}
 					<li>
 						<span class="glyphicon glyphicon-th-list bgBlue"></span>
@@ -29,9 +31,9 @@
 				<p class="textAlignCenter">{vtranslate('LBL_NO_RECENT_UPDATES')}</p>
 			</div>
 		{/if}
-		<div id="moreLink">
+		<div id="moreRelatedUpdates">
 			<div class="pull-right">
-				<a href="javascript:void(0)" class="moreRecentUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>
+				<a href="javascript:void(0)" class="moreRelatedUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>
 			</div>
 		</div>
 	</div>
