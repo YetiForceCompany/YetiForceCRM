@@ -35,7 +35,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 		$headerLinks = [];
 		$moduleModel = $this->getModule();
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
+		if ($moduleModel->isPermitted('WatchingModule')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
 			$class = 'btn-default';
 			if ($watchdog->isWatchingModule()) {
@@ -94,12 +94,11 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 
 		$massActionLinks = [];
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassEdit')) {
+		if ($moduleModel->isPermitted('MassEdit')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
@@ -107,7 +106,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			);
 		}
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassDelete')) {
+		if ($moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
@@ -117,7 +116,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		if ($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView') && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassAddComment')) {
+		if ($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView') && $moduleModel->isPermitted('MassAddComment')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD_COMMENT',
@@ -126,20 +125,11 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			);
 		}
 
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassTransferOwnership')) {
+		if ($moduleModel->isPermitted('MassTransferOwnership')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => ''
-			);
-		}
-
-		if ($linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && is_admin($currentUserModel)) {
-			$massActionLinks[] = array(
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_MASS_PWD_EDIT',
-				'linkurl' => 'javascript:Settings_Users_List_Js.triggerEditPasswords("index.php?module=Users&view=EditAjax&mode=editPasswords", "' . $linkParams['MODULE'] . '")',
 				'linkicon' => ''
 			);
 		}
@@ -463,29 +453,25 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
 		$advancedLinks = [];
-		$importPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Import');
-		if ($importPermission && $createPermission) {
-			$advancedLinks[] = array(
+
+		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('Import')) {
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => $moduleModel->getImportUrl(),
 				'linkicon' => ''
-			);
+			];
 		}
-
-		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
-		if ($exportPermission) {
-			$advancedLinks[] = array(
+		if ($moduleModel->isPermitted('Export')) {
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
 				'linkicon' => ''
-			);
+			];
 		}
-
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+		if ($moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -499,29 +485,25 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				];
 			}
 		}
-
-		$duplicatePermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'DuplicatesHandling');
-		if ($duplicatePermission) {
-			$advancedLinks[] = array(
+		if ($moduleModel->isPermitted('DuplicatesHandling')) {
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_FIND_DUPLICATES',
 				'linkurl' => 'Javascript:Vtiger_List_Js.showDuplicateSearchForm("index.php?module=' . $moduleModel->getName() .
 				'&view=MassActionAjax&mode=showDuplicatesSearchForm")',
 				'linkicon' => ''
-			);
+			];
 		}
-
-		$quickExportToExcelPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
-		if ($quickExportToExcelPermission) {
-			$advancedLinks[] = array(
+		if ($moduleModel->isPermitted('QuickExportToExcel')) {
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
 				'linkicon' => ''
-			);
+			];
 		}
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'RecordMappingList')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		if ($moduleModel->isPermitted('RecordMappingList')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -543,7 +525,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView')) {
+		
+		if ($moduleModel->isPermitted('CreateView')) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
@@ -555,7 +538,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+		if ($moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');

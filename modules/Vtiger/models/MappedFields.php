@@ -68,7 +68,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
 		if (!isRecordExists($recordId)) {
 			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -95,7 +95,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	 */
 	public static function getTemplatesByModule($moduleName)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$db = PearDatabase::getInstance();
 		$moduleId = Vtiger_Functions::getModuleId($moduleName);
@@ -115,7 +115,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function getActiveTemplatesForModule($moduleName, $view)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ',' . $view . ') method ...');
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
@@ -130,7 +130,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public static function getInstanceByModules($tabId, $relTabId)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `tabid` = ? AND `reltabid` = ? LIMIT 1;';
@@ -149,7 +149,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
 		
 		$mf = Vtiger_Cache::get('MappedFieldsModel', $recordId);
@@ -186,7 +186,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	 */
 	public function getMapping()
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
 			$db = PearDatabase::getInstance();
@@ -258,7 +258,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function checkUserPermissions()
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		$permissions = $this->get('permissions');
 		if (empty($permissions)) {

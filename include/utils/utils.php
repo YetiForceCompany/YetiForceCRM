@@ -551,22 +551,25 @@ function getActionid($action)
 function getActionname($actionid)
 {
 	$log = LoggerManager::getInstance();
-	$log->debug("Entering getActionname(" . $actionid . ") method ...");
+	$log->debug('Entering getActionname(' . $actionid . ') method ...');
 	$adb = PearDatabase::getInstance();
 
-	$actionname = '';
-
+	$actionName = Vtiger_Cache::get('getActionName', $actionid);
+	if ($actionName) {
+		$log->debug('Exiting getActionname method ...');
+		return $actionName;
+	}
 	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
 		include('user_privileges/tabdata.php');
-		$actionname = $action_name_array[$actionid];
+		$actionName = $action_name_array[$actionid];
 	} else {
-
-		$query = "select * from vtiger_actionmapping where actionid=? and securitycheck=0";
+		$query = 'select actionname from vtiger_actionmapping where actionid=? and securitycheck=0';
 		$result = $adb->pquery($query, array($actionid));
-		$actionname = $adb->query_result($result, 0, "actionname");
+		$actionName = $adb->getSingleValue($result);
 	}
-	$log->debug("Exiting getActionname method ...");
-	return $actionname;
+	Vtiger_Cache::set('getActionName', $actionid, $actionName);
+	$log->debug('Exiting getActionname method ...');
+	return $actionName;
 }
 
 /** Function to get a user id or group id for a given entity

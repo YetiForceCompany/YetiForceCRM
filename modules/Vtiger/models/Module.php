@@ -488,7 +488,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		}
 		return $fieldList;
 	}
-	
+
 	public function getFieldsByUiType($type)
 	{
 		$fieldList = [];
@@ -1324,7 +1324,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	 */
 	public function isPermitted($actionName)
 	{
-		return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
+		return ($this->isActive() && Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($this->getId(), $actionName));
 	}
 
 	/**

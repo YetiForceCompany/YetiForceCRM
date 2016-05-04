@@ -445,8 +445,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function isCreateable()
 	{
 		if (!isset($this->privileges['isCreateable'])) {
-			$moduleName = $this->getModuleName();
-			$this->privileges['isCreateable'] = Users_Privileges_Model::isPermitted($moduleName, 'CreateView');
+			$this->privileges['isCreateable'] = $this->getModule()->isPermitted('CreateView');
 		}
 		return $this->privileges['isCreateable'];
 	}
