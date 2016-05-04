@@ -7,10 +7,10 @@
 			<ul class="timeline" id="relatedUpdates">
 				{foreach item=HISTORY from=$HISTORIES}
 					<li>
-						<span class="glyphicon glyphicon-th-list bgBlue"></span>
+						<span class="userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
 						<div class="timeline-item">
 							<span class="time">
-								<b>{$HISTORY['date_start']}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($HISTORY['date_start'])})
+								<b>{$HISTORY['time']}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($HISTORY['time'])})
 							</span>
 							<div class="timeline-body row no-margin">
 								<div class="pull-left paddingRight15">
@@ -18,8 +18,7 @@
 								</div>
 								<div class="pull-left">
 									<strong>{$HISTORY['userModel']->getName()}</strong>
-									{$HISTORY['subject']} <br><br>
-									{vtranslate($HISTORY['activitytype'],$MODULE_NAME)}
+									{$HISTORY['content']}
 								</div>
 							</div>
 						</div>

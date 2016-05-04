@@ -786,6 +786,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('HISTORIES', $histories);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		return $viewer->view('HistoryRelated.tpl', $moduleName, true);
 	}
 }

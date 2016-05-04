@@ -2759,6 +2759,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		detailContentsHolder.on('change', '.relatedHistoryTypes', function (e) {
 			var recordId = jQuery("#recordId").val();
+			var widgetContent = jQuery(this).closest('.widgetContentBlock').find('.widgetContent');
 			var types = jQuery(e.currentTarget).val();
 			var pageLimit = jQuery("#relatedHistoryPageLimit").val();
 			var params = {
@@ -2772,9 +2773,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 			};
 			AppConnector.request(params).then(
 				function (data) {
-					jQuery("#relatedHistoryCurrentPage").remove();
-					jQuery("#moreRelatedUpdates").remove();
-					jQuery('#relatedUpdates').html(data);
+					widgetContent.find("#relatedHistoryCurrentPage").remove();
+					widgetContent.find("#moreRelatedUpdates").remove();
+					widgetContent.html(data);
 				}
 			);
 		});
