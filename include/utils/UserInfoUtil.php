@@ -295,16 +295,28 @@ function isPermitted($module, $actionname, $record_id = '')
 			$log->debug('Exiting isPermitted method ...');
 			return $permission;
 		}
-
-		$action = getActionname($actionid);
 		//Checking for vtiger_tab permission
 		if ($profileTabsPermission[$tabid] != 0) {
 			$permission = 'no';
 			vglobal('isPermittedLog', 'SEC_MODULE_PERMISSIONS_NO');
-			$log->debug('Exiting isPermitted method ...');
+			$log->debug('Exiting isPermitted method ... - no');
 			return $permission;
 		}
+
+		if ($actionid === false) {
+			$permission = 'no';
+			vglobal('isPermittedLog', 'SEC_ACTION_DOES_NOT_EXIST');
+			$log->debug('Exiting isPermitted method ... - no');
+			return $permission;
+		}
+		$action = getActionname($actionid);
 		//Checking for Action Permission
+		if (!key_exists($actionid, $profileActionPermission[$tabid])) {
+			$permission = 'no';
+			vglobal('isPermittedLog', 'SEC_MODULE_NO_ACTION_TOOL');
+			$log->debug('Exiting isPermitted method ... - no');
+			return $permission;
+		}
 		if (strlen($profileActionPermission[$tabid][$actionid]) < 1 && $profileActionPermission[$tabid][$actionid] == '') {
 			$permission = 'yes';
 			vglobal('isPermittedLog', 'SEC_MODULE_RIGHTS_TO_ACTION');
@@ -315,7 +327,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		if ($profileActionPermission[$tabid][$actionid] != 0 && $profileActionPermission[$tabid][$actionid] != '') {
 			$permission = 'no';
 			vglobal('isPermittedLog', 'SEC_MODULE_NO_RIGHTS_TO_ACTION');
-			$log->debug('Exiting isPermitted method ...');
+			$log->debug('Exiting isPermitted method ... - no');
 			return $permission;
 		}
 		//Checking for view all permission
