@@ -99,7 +99,7 @@
 				<select class="chzn-select form-control" name="datefield_start">
 					<optgroup label='{vtranslate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-							<option {if $TASK_OBJECT->datefield_start eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
+							<option {if $TASK_OBJECT->datefield_start eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label='{vtranslate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
@@ -124,7 +124,7 @@
 				<select class="chzn-select form-control" name="datefield_end">
 					<optgroup label='{vtranslate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-							<option {if $TASK_OBJECT->datefield_end eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
+							<option {if $TASK_OBJECT->datefield_end eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label='{vtranslate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
