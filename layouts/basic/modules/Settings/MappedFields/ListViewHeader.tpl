@@ -2,8 +2,8 @@
 {strip}
 	<div class="listViewPageDiv" id="listViewContainer">
 		<div class="listViewTopMenuDiv">
-			<div class="row">
-				<div class="col-md-12">
+			<div class="widget_header row">
+				<div class="col-xs-12">
 					{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 					{vtranslate('LBL_MAPPEDFIELDS_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
