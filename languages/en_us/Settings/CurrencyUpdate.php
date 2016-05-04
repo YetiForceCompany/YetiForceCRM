@@ -29,4 +29,5 @@ $languageStrings = [
 	'NBP' => 'National Bank of Poland',
 	'ECB' => 'European Central Bank',
 	'CBR' => 'Central Bank of Russia',
+	'NBR' => 'National Bank of Romania',
 ];
