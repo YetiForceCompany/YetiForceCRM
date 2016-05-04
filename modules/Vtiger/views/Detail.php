@@ -771,35 +771,21 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	public function getHistory(Vtiger_Request $request)
 	{
-		$moduleName = 'Calendar';
-		$histories = $this->getRelatedHistory($request);
+		$pageNumber = $request->get('page');
+		$moduleName = $request->getModule();
+
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
+		}
+		
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		$pagingModel->set('limit', 10);
+		
+		$histories = Vtiger_History_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('HISTORIES', $histories);
 		return $viewer->view('HistoryRelated.tpl', $moduleName, true);
-	}
-
-	private function getRelatedHistory($request)
-	{
-		$recordId = $request->get('record');
-		$pageNumber = $request->get('page');
-		$pageLimit = $request->get('limit');
-		if (empty($pageNumber)) {
-			$pageNumber = 1;
-		}
-		if (empty($pageLimit)) {
-			$pageLimit = 10;
-		}
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM vtiger_activity 
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid 
-				WHERE vtiger_activity.link = ? LIMIT ?';
-		$results = $db->pquery($query, [$recordId, $pageLimit]);
-		$history = [];
-		while ($row = $db->getRow($results)) {
-			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['smownerid']);
-			$history[] = $row;
-		}
-		return $history;
 	}
 }

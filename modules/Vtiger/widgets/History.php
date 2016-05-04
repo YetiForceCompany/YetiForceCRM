@@ -24,4 +24,28 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget
 		$widget = $this->Config;
 		return $widget;
 	}
+	
+	public function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
+	{
+		$recordId = $request->get('record');
+		$pageNumber = $request->get('page');
+		$pageLimit = $request->get('limit');
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
+		}
+		if (empty($pageLimit)) {
+			$pageLimit = 10;
+		}
+		$db = PearDatabase::getInstance();
+		$query = 'SELECT * FROM vtiger_activity 
+				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid 
+				WHERE vtiger_activity.link = ? LIMIT ?';
+		$results = $db->pquery($query, [$recordId, $pageLimit]);
+		$history = [];
+		while ($row = $db->getRow($results)) {
+			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['smownerid']);
+			$history[] = $row;
+		}
+		return $history;
+	}
 }
