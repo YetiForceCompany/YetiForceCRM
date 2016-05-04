@@ -92,9 +92,9 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget
 		} else {
 			$sql = 'SELECT * FROM (';
 			foreach ($queries as $query) {
-				$sql .= $query . ' UNION ';
+				$sql .= $query . ' UNION ALL ';
 			}
-			$sql = rtrim($sql, ' UNION ').') AS rows ORDER BY time DESC';
+			$sql = rtrim($sql, ' UNION  ALL ').') AS records ORDER BY time DESC';
 		}
 		return $sql;
 	}
