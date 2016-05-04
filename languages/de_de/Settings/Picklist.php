@@ -40,7 +40,7 @@ $languageStrings = [
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Um mehrere Elemente zu löschen, während der Auswahl die Strg-Taste drücken',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Einer Rolle zugewiesene Werte',
     'NO_PICKLIST_FIELDS'=> 'hat keine Auswahllisten-Felder',
-	'LBL_NEW_VALUE' => 'New value',
+	'LBL_NEW_VALUE' => 'Neuer Wert',
 ];
 
 $jsLanguageStrings = [

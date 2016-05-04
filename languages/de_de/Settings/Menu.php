@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_MENU_BUILDER' => 'Menu - Configuration',
+	'LBL_MENU_BUILDER' => 'Menü - Konfiguration',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Erzeuge und verwalte Menüeinträge.',
 	'LBL_DEFAULT_MENU' => 'Standard Menü',
 	'LBL_ADD_MENU' => 'Menüeintrag hinzufügen',
@@ -48,8 +48,8 @@ $languageStrings = array(
 	'LBL_HOMEICON_DESC' => 'Menüeintrag der zur Startseite führt.',
 	'LBL_CUSTOMFILTER' => 'Filter',
 	'LBL_CUSTOMFILTER_DESC' => 'Menüeintrag führt zum gwählten Filter.',
-	'LBL_PROFILE' => 'Profile',
-	'LBL_PROFILE_DESC' => "Menu item that allows changing the user's settings.",
+	'LBL_PROFILE' => 'Profil',
+	'LBL_PROFILE_DESC' => 'Menüeintrag welcher die Änderung der Benutzereinstellungen erlaubt.',
 	
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Menüeintrag wurde gelöscht',
@@ -62,7 +62,7 @@ $languageStrings = array(
 	'LBL_REMOVE' => 'Löschen',
 	'LBL_CANCEL' => 'Abbrechen',
 	//End Remove modal
-	'LBL_MORE_INFO' => 'Click here for more information',
+	'LBL_MORE_INFO' => 'Hier klicken, für mehr Information',
 );
 $jsLanguageStrings = array(
 	'JS_EDIT' => 'Ändern',

@@ -66,10 +66,10 @@ $languageStrings = [
 	'CreateDashboardFilter' => 'Filter Widgets erzeugen',
 	'DetailTransferOwnership' => 'Vorschau Datensatz - Zuständigen ändern',
 	'ExportPdf' => 'Export to PDF',
-	'RecordMapping' => 'Record preview - Generating mapped fields record',
+	'RecordMapping' => 'Vorschau Datensatz - Generating mapped fields record',
 	'RecordMappingList' => 'Generating mapped fields records',
-	'WatchingRecords' => 'Track changes in record',
-	'WatchingModule' => 'Track changes in module',
+	'WatchingRecords' => 'Änderungen im Datensatz protokollieren',
+	'WatchingModule' => 'Änderungen im Modul protokollieren',
 	//end Actions
 	'Profile Related to Sales' => 'Profile Related to Sales',
 	'Profile Related to Support' => 'Profile Related to Support',
