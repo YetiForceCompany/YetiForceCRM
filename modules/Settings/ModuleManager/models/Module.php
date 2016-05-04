@@ -198,7 +198,12 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->setDefaultSharing();
 
 		// Enable and Disable available tools
-		$module->enableTools(['Import', 'Export', 'Merge', 'RemoveRelation']);
+		$module->enableTools(['Import', 'Export', 'DuplicatesHandling', 'CreateCustomFilter',
+			'DuplicateRecord', 'MassEdit', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
+			'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter',
+			'QuickExportToExcel', 'TagCloud', 'DetailTransferOwnership', 'ExportPdf',
+			'RecordMapping', 'RecordMappingList', 'FavoriteRecords', 'WatchingRecords',
+			'WatchingModule', 'RemoveRelation']);
 
 		// Initialize Webservice support
 		$module->initWebservice();
