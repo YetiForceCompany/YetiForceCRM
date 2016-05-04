@@ -32,6 +32,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedProductsServices');
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showRelatedTree');
+		$this->exposeMethod('getHistory');
 	}
 
 	function checkPermission(Vtiger_Request $request)
@@ -379,7 +380,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		} else {
-			$limit = AppConfig::module('ModTracker','NUMBER_RECORDS_ON_PAGE');
+			$limit = AppConfig::module('ModTracker', 'NUMBER_RECORDS_ON_PAGE');
 			$pagingModel->set('limit', $limit);
 		}
 
@@ -395,8 +396,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$defaultView = AppConfig::module('ModTracker','DEFAULT_VIEW');
-		if($defaultView == 'List'){
+		$defaultView = AppConfig::module('ModTracker', 'DEFAULT_VIEW');
+		if ($defaultView == 'List') {
 			$tplName = 'RecentActivities.tpl';
 		} else {
 			$tplName = 'RecentActivitiesTimeLine.tpl';
@@ -766,5 +767,39 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 
 		echo $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
+	}
+
+	public function getHistory(Vtiger_Request $request)
+	{
+		$moduleName = 'Calendar';
+		$histories = $this->getRelatedHistory($request);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('HISTORIES', $histories);
+		return $viewer->view('HistoryRelated.tpl', $moduleName, true);
+	}
+
+	private function getRelatedHistory($request)
+	{
+		$recordId = $request->get('record');
+		$pageNumber = $request->get('page');
+		$pageLimit = $request->get('limit');
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
+		}
+		if (empty($pageLimit)) {
+			$pageLimit = 10;
+		}
+		$db = PearDatabase::getInstance();
+		$query = 'SELECT * FROM vtiger_activity 
+				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid 
+				WHERE vtiger_activity.link = ? LIMIT ?';
+		$results = $db->pquery($query, [$recordId, $pageLimit]);
+		$history = [];
+		while ($row = $db->getRow($results)) {
+			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['smownerid']);
+			$history[] = $row;
+		}
+		return $history;
 	}
 }
