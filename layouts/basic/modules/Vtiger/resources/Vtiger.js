@@ -583,6 +583,7 @@ var Vtiger_Index_Js = {
 			jQuery('button[name="vtTooltipClose"]').on('click', function (e) {
 				var lastPopover = lastPopovers.pop();
 				lastPopover.popover('hide');
+				jQuery('.popover').css( "display", "none", "important");
 			});
 		}
 	},
