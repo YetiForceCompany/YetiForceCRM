@@ -15,9 +15,7 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ConvertLead')) {
+		if (!$moduleModel->isPermitted('ConvertLead')) {
 			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 

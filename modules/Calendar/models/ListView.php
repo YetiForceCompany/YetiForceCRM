@@ -107,13 +107,11 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-		
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 
 		$massActionLinks = [];
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassTransferOwnership')) {
+		if ($moduleModel->isPermitted('MassTransferOwnership')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_CHANGE_OWNER',
@@ -121,7 +119,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => ''
 			);
 		}
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassDelete')) {
+		if ($moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',

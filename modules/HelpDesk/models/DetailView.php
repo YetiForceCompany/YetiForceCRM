@@ -17,13 +17,11 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
 	 *                   array('linktype'=>list of link models);
 	 */
 	public function getDetailViewLinks($linkParams) {
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
 		$quotesModuleModel = Vtiger_Module_Model::getInstance('Faq');
-		if($currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'DetailView')) {
+		if ($quotesModuleModel->isPermitted('DetailView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_CONVERT_FAQ',

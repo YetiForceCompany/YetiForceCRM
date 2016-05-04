@@ -20,13 +20,11 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$moduleModel = $this->getModule();
-		$recordId = $recordModel->getId();
 
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'DetailTransferOwnership')) {
+		if ($moduleModel->isPermitted('DetailTransferOwnership')) {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
