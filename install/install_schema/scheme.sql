@@ -2687,6 +2687,7 @@ CREATE TABLE `vtiger_account` (
   `creditlimit` int(10) DEFAULT NULL,
   `products` text,
   `services` text,
+  `last_invoice_date` date DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -4645,7 +4646,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2346 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2347 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
