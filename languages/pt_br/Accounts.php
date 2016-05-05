@@ -88,6 +88,8 @@ $languageStrings = [
 	'LBL_INVENTORY_BALANCE' => 'Balance',
 	'LBL_DISCOUNT' => 'Discount',
 	'LBL_CREDIT_LIMIT' => 'Credit limit',
+	//FIELDS
+	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'O nome da Organização já existe. Deseja criar um registro duplicado?',
