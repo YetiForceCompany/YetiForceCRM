@@ -975,7 +975,7 @@ CREATE TABLE `u_yf_fcorectinginvoice_inventory` (
   `discountparam` varchar(255) NOT NULL,
   `comment1` varchar(500) DEFAULT NULL,
   `currency` int(10) DEFAULT NULL,
-  `currencyparam` varchar(200) DEFAULT NULL,
+  `currencyparam` varchar(1024) DEFAULT NULL,
   `discountmode` tinyint(1) NOT NULL DEFAULT '0',
   `taxmode` tinyint(1) NOT NULL DEFAULT '0',
   `price` decimal(27,8) NOT NULL DEFAULT '0.00000000',
@@ -1092,7 +1092,7 @@ CREATE TABLE `u_yf_finvoice_inventory` (
   `discountparam` varchar(255) NOT NULL,
   `comment1` varchar(500) DEFAULT NULL,
   `currency` int(10) DEFAULT NULL,
-  `currencyparam` varchar(200) DEFAULT NULL,
+  `currencyparam` varchar(1024) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
@@ -1187,7 +1187,7 @@ CREATE TABLE `u_yf_finvoiceproforma_inventory` (
   `id` int(19) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
   `currency` int(10) DEFAULT NULL,
-  `currencyparam` varchar(200) DEFAULT NULL,
+  `currencyparam` varchar(1024) DEFAULT NULL,
   `discountmode` tinyint(1) NOT NULL DEFAULT '0',
   `taxmode` tinyint(1) NOT NULL DEFAULT '0',
   `name` int(19) NOT NULL DEFAULT '0',
@@ -2250,7 +2250,7 @@ CREATE TABLE `u_yf_squotes_inventory` (
   `discountmode` tinyint(1) NOT NULL DEFAULT '0',
   `taxmode` tinyint(1) NOT NULL DEFAULT '0',
   `currency` int(10) DEFAULT NULL,
-  `currencyparam` varchar(200) DEFAULT NULL,
+  `currencyparam` varchar(1024) DEFAULT NULL,
   `net` decimal(27,8) NOT NULL DEFAULT '0.00000000',
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   `unit` varchar(255) DEFAULT NULL,
@@ -2588,7 +2588,7 @@ CREATE TABLE `u_yf_ssingleorders_inventory` (
   `discountmode` tinyint(1) NOT NULL DEFAULT '0',
   `taxmode` tinyint(1) NOT NULL DEFAULT '0',
   `currency` int(10) DEFAULT NULL,
-  `currencyparam` varchar(200) DEFAULT NULL,
+  `currencyparam` varchar(1024) DEFAULT NULL,
   `qtyparam` tinyint(1) NOT NULL DEFAULT '0',
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
@@ -2687,6 +2687,7 @@ CREATE TABLE `vtiger_account` (
   `creditlimit` int(10) DEFAULT NULL,
   `products` text,
   `services` text,
+  `last_invoice_date` date DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -4645,7 +4646,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2346 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2347 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 

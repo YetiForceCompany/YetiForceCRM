@@ -185,10 +185,10 @@ class Vtiger_FieldBasic
 		if (!$this->label)
 			$this->label = $this->name;
 
-		$adb->pquery("INSERT INTO vtiger_field (tabid, fieldid, columnname, tablename, generatedtype,
+		$adb->pquery('INSERT INTO vtiger_field (tabid, fieldid, columnname, tablename, generatedtype,
 uitype, fieldname, fieldlabel, readonly, presence, defaultvalue, maximumlength, sequence,
 block, displaytype, typeofdata, quickcreate, quickcreatesequence, info_type, helpinfo, summaryfield, fieldparams) 
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Array($this->getModuleId(), $this->id, $this->column, $this->table, $this->generatedtype,
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(), $this->id, $this->column, $this->table, $this->generatedtype,
 			$this->uitype, $this->name, $this->label, $this->readonly, $this->presence, $this->defaultvalue,
 			$this->maximumlength, $this->sequence, $this->getBlockId(), $this->displaytype, $this->typeofdata,
 			$this->quickcreate, $this->quicksequence, $this->info_type, $this->helpinfo, $this->summaryfield, $this->fieldparams));
@@ -205,8 +205,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Array($this->getModuleId(
 			Vtiger_Utils::AddColumn($this->table, $this->column, $columntype);
 		}
 
-		self::log("Creating Field $this->name ... DONE");
-		self::log("Module language mapping for $this->label ... CHECK");
+		self::log("Creating field $this->name ... DONE");
 	}
 
 	/**

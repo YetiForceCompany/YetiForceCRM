@@ -103,16 +103,18 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	{
 		$log = LoggerManager::getLogger('System');
 		vglobal('log', $log);
-
 		if (AppConfig::main('forceSSL') && !Vtiger_Functions::getBrowserInfo()->https) {
-			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
-
 		if ($this->isInstalled() === false) {
 			header('Location:install/Install.php');
 			exit;
 		}
-
+		$request_URL = (Vtiger_Functions::getBrowserInfo()->https ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		if (AppConfig::main('forceRedirect') && stripos($request_URL, AppConfig::main('site_URL')) !== 0) {
+			header('Location: ' . AppConfig::main('site_URL'), true, 301);
+			exit;
+		}
 		Vtiger_Session::init();
 
 		// Better place this here as session get initiated

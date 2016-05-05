@@ -242,3 +242,5 @@ $defaultLayout = 'basic';
 // Logo is visible in footer.
 $isVisibleLogoInFooter = true;
 
+
+$forceRedirect = true;

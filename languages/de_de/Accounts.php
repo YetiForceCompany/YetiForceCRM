@@ -66,6 +66,8 @@ $languageStrings = [
 	'LBL_DISCOUNT' => 'Rabatt',
 	'LBL_CREDIT_LIMIT' => 'Kreditlimit',
 	'LBL_PARENT_IS_CHILD' => 'The selected parent account cannot be secondary to current account',
+	//FIELDS
+	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Natürliche Person',

@@ -181,19 +181,19 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			}
 		}
 
-		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAILVIEWBASIC', 'DETAILVIEW', 'DETAIL_VIEW_HEADER_WIDGET'], $linkParams);
+		$relatedLinks = $this->getDetailViewRelatedLinks();
+		foreach ($relatedLinks as $relatedLinkEntry) {
+			$relatedLink = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
+			$linkModelList[$relatedLink->getType()][] = $relatedLink;
+		}
+		
+		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAILVIEWBASIC', 'DETAILVIEW', 'DETAIL_VIEW_HEADER_WIDGET','DETAILVIEWTAB'], $linkParams);
 		if (!empty($allLinks)) {
 			foreach ($allLinks as $type => $allLinksByType) {
 				foreach ($allLinksByType as $linkModel) {
 					$linkModelList[$type][] = $linkModel;
 				}
 			}
-		}
-
-		$relatedLinks = $this->getDetailViewRelatedLinks();
-		foreach ($relatedLinks as $relatedLinkEntry) {
-			$relatedLink = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
-			$linkModelList[$relatedLink->getType()][] = $relatedLink;
 		}
 		return $linkModelList;
 	}

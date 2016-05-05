@@ -96,19 +96,22 @@
 				{foreach from=$GITHUB_ISSUES item=ISSUE}
 					<tr class="">
 						<td>
-							{$ISSUE->get('title')}
+							<a href="{$ISSUE->get('html_url')}" target="_blank">
+								{$ISSUE->get('title')}
+							</a>
 						</td>
 						<td>
-							{$ISSUE->get('user')->login}
+							<a href="{$ISSUE->get('user')->html_url}" target="_blank">
+								{$ISSUE->get('user')->login}
+							</a>
 						</td>
 						<td>
 							{vtranslate($ISSUE->get('state'), $QUALIFIED_MODULE)}
-							
 						</td>
 						<td>
 							<div class="pull-right actions">
 								<span class="actionImages">
-									<a href="{$ISSUE->get('html_url')}">
+									<a href="{$ISSUE->get('html_url')}" target="_blank">
 										<span title="" class="glyphicon glyphicon-th-list alignMiddle"></span>
 									</a>
 								</span>

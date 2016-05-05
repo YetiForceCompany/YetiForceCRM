@@ -14,7 +14,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'currency';
 	protected $dbType = 'int(10)';
 	protected $customColumn = [
-		'currencyparam' => 'varchar(200)'
+		'currencyparam' => 'varchar(1024)'
 	];
 	protected $blocks = [0];
 
