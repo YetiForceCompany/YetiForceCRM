@@ -13,7 +13,7 @@ class FInvoice_Record_Model extends Vtiger_Record_Model
 	{
 		parent::save();
 
-		if (!$this->isEmpty('accountid')) {
+		if (AppConfig::module('FInvoice', 'UPDATE_LAST_INVOICE_DATE') && !$this->isEmpty('accountid')) {
 			$db = PearDatabase::getInstance();
 			$query = 'SELECT MAX(saledate) FROM u_yf_finvoice
 				LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = u_yf_finvoice.finvoiceid
