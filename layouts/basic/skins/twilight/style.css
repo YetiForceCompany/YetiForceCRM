@@ -5347,3 +5347,13 @@ select.form-control {
 	display: inline-flex;
 	font-size: 17px;
 }
+.modulesList .menuSeparator{
+	background: #fff;
+	height: 2px;
+	margin: 5px 0;
+}
+.subMenu .menuSeparator{
+	background: #444853;
+	height: 2px;
+	margin: 5px 0;
+}
