@@ -2658,7 +2658,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		app.registerEventForDatePickerFields(detailContentsHolder);
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
-
+		app.showSelect2ElementView(detailContentsHolder.find('select.select2'));
 		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
 			var url = selectedTabElement.data('url');
 			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
@@ -2762,6 +2762,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var widgetContent = jQuery(this).closest('.widgetContentBlock').find('.widgetContent');
 			var types = jQuery(e.currentTarget).val();
 			var pageLimit = jQuery("#relatedHistoryPageLimit").val();
+			var progressIndicatorElement = jQuery.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					'enabled': true,
+					'elementToBlock': widgetContent
+				}
+			});
 			var params = {
 				module: app.getModuleName(),
 				view: 'Detail',
@@ -2769,10 +2776,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 				mode: 'getHistory',
 				page: 1,
 				limit: pageLimit,
-				type: types,				
+				type: types,
 			};
 			AppConnector.request(params).then(
 				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					widgetContent.find("#relatedHistoryCurrentPage").remove();
 					widgetContent.find("#moreRelatedUpdates").remove();
 					widgetContent.html(data);
@@ -2780,6 +2788,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 			);
 		});
 		detailContentsHolder.on('click', '.moreRelatedUpdates', function () {
+			var widgetContent = jQuery(this).closest('.widgetContentBlock').find('.widgetContent');
+			var progressIndicatorElement = jQuery.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					'enabled': true,
+					'elementToBlock': widgetContent
+				}
+			});
 			var currentPage = jQuery("#relatedHistoryCurrentPage").val();
 			var recordId = jQuery("#recordId").val();
 			var nextPage = parseInt(currentPage) + 1;
@@ -2792,13 +2808,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 				mode: 'getHistory',
 				page: nextPage,
 				limit: pageLimit,
-				type: types,				
+				type: types,
 			};
 			AppConnector.request(params).then(
 				function (data) {
-					jQuery("#relatedHistoryCurrentPage").remove();
-					jQuery("#moreRelatedUpdates").remove();
-					jQuery('#relatedUpdates').append(data);
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					widgetContent.find("#relatedHistoryCurrentPage").remove();
+					widgetContent.find("#moreRelatedUpdates").remove();
+					widgetContent.find('#relatedUpdates').append(data);
 				}
 			);
 		});

@@ -7,7 +7,7 @@
 			<ul class="timeline" id="relatedUpdates">
 				{foreach item=HISTORY from=$HISTORIES}
 					<li>
-						<span class="userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
+						<span class="glyphicon bgBlue userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
 						<div class="timeline-item">
 							<span class="time">
 								<b>{$HISTORY['time']}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($HISTORY['time'])})
@@ -25,15 +25,20 @@
 					</li>
 				{/foreach}
 			</ul>
+			{if count($HISTORIES) eq $PAGING_MODEL->getPageLimit()}
+				<div id="moreRelatedUpdates">
+					<div class="pull-right">
+						<a href="javascript:void(0)" class="moreRelatedUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>
+					</div>
+				</div>
+			{/if}
 		{else}
-			<div class="summaryWidgetContainer">
-				<p class="textAlignCenter">{vtranslate('LBL_NO_RECENT_UPDATES')}</p>
-			</div>
+			{if $PAGING_MODEL->get('page') eq 1}
+				<div class="summaryWidgetContainer">
+					<p class="textAlignCenter">{vtranslate('LBL_NO_RECENT_UPDATES')}</p>
+				</div>
+			{/if}
 		{/if}
-		<div id="moreRelatedUpdates">
-			<div class="pull-right">
-				<a href="javascript:void(0)" class="moreRelatedUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>
-			</div>
-		</div>
+		
 	</div>
 {/strip}

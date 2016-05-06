@@ -1,32 +1,37 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
-class Vtiger_History_Widget extends Vtiger_Basic_Widget
-{
+/**
+ * Class for history widget
+ * @package YetiForce.Widget
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
+class Vtiger_History_Widget extends Vtiger_Basic_Widget {
 
-	public function getUrl()
-	{
-		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getHistory&page=1&limit=' . $this->Data['limit'];
+	static public function getActions() {
+		return ['ModComments', 'Emails', 'Calendar'];
 	}
 
-	public function getWidget()
-	{
+	public function getUrl() {
+		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getHistory&page=1&limit=' . $this->Data['limit'];
+		foreach (self::getActions() as $type) {
+			$url .= '&type[]=' . $type;
+		}
+		return $url;
+	}
+
+	public function getWidget() {
 		$this->Config['tpl'] = 'History.tpl';
 		$this->Config['url'] = $this->getUrl();
 		$widget = $this->Config;
 		return $widget;
 	}
 
-	public function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
-	{
+	public function getConfigTplName() {
+		return 'HistoryConfig';
+	}
+
+	public function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel) {
 		$db = PearDatabase::getInstance();
 		$recordId = $request->get('record');
 		$type = $request->get('type');
@@ -52,8 +57,7 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget
 		return $history;
 	}
 
-	public function getQuery($recordId, $type)
-	{
+	public function getQuery($recordId, $type) {
 		$queries = [];
 		if (in_array('Calendar', $type)) {
 			$sql = 'SELECT CONCAT(\'Calendar\') AS type, c.crmid AS id,a.subject AS content,c.smownerid AS user,concat(a.date_start, " ", a.time_start) AS `time` FROM vtiger_activity a
@@ -94,8 +98,10 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget
 			foreach ($queries as $query) {
 				$sql .= $query . ' UNION ALL ';
 			}
-			$sql = rtrim($sql, ' UNION  ALL ').') AS records ORDER BY time DESC';
+			$sql = rtrim($sql, ' UNION  ALL ') . ') AS records';
 		}
+		$sql .= ' ORDER BY time DESC';
 		return $sql;
 	}
+
 }

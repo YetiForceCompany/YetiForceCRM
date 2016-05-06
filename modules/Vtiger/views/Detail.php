@@ -772,15 +772,18 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function getHistory(Vtiger_Request $request)
 	{
 		$pageNumber = $request->get('page');
+		$limitPage = $request->get('limit');
 		$moduleName = $request->getModule();
 
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
-		
+		if (empty($limitPage)) {
+			$pageNumber = 10;
+		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('limit', 10);
+		$pagingModel->set('limit', $limitPage);
 		
 		$histories = Vtiger_History_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
