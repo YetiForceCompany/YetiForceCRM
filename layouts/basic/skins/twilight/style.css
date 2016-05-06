@@ -5092,9 +5092,6 @@ select.form-control {
 	padding-top:10px;
 	border-top: 4px solid #404952;
 }
-.detailViewHeaderFields .detailViewHeaderFieldsContent{
-	max-width: 300px;
-}
 .detailViewHeaderFields .detailViewHeaderFieldsName{
 	display: inline-block;
 	float: left;
@@ -5106,6 +5103,9 @@ select.form-control {
 .detailViewHeaderFields .detailViewHeaderFieldsValue .badge{
 	padding: 3px 10px !important;
 	margin: 2px 0px;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsValue .badge a{
+	color: inherit;
 }
 #calendarview .listViewButton{
 	padding-left: 0.8em !important;
