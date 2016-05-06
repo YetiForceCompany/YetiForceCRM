@@ -107,4 +107,5 @@ $languageStrings = [
 	'FL_SERVICE_CONTRACTS' => 'Service Level Agreement',
 	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA Typ',
 	'FL_SERVICE_CONTRACTS_DATE' => 'SLA Ablaufdatum',
+	'FL_REPORT_TIME' => 'Report time',
 ];

@@ -106,4 +106,5 @@ $languageStrings = [
 	'FL_SERVICE_CONTRACTS' => 'Umowa wsparcia SLA',
 	'FL_SERVICE_CONTRACTS_TYPE' => 'Rodzaj umowy wsparcia SLA',
 	'FL_SERVICE_CONTRACTS_DATE' => 'Data zakończenia wsparcia SLA',
+	'FL_REPORT_TIME' => 'Czas zgłoszenia ',
 ];

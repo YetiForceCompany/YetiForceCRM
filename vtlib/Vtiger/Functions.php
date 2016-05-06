@@ -1049,6 +1049,43 @@ class Vtiger_Functions
 		);
 	}
 
+	static function getRangeTime($timeMinutesRange)
+	{
+		$short = [];
+		$full = [];
+		$years = ($timeMinutesRange) / (60 * 24 * 365);
+		$years = floor($years);
+		if (!empty($years)) {
+			$short[] = $years . vtranslate('LBL_Y');
+			$full[] = $years == 1 ? $years . vtranslate('LBL_YEAR') : $years . vtranslate('LBL_YEARS');
+		}
+		$days = bcmod(($timeMinutesRange), (60 * 24 * 365));
+		$days = ($days) / (24 * 60);
+		$days = floor($days);
+		if (!empty($days)) {
+			$short[] = $days . vtranslate('LBL_D');
+			$full[] = $days == 1 ? $days . vtranslate('LBL_DAY') : $days . vtranslate('LBL_DAYS');
+		}
+		$hours = bcmod(($timeMinutesRange), (24 * 60));
+		$hours = ($hours) / (60);
+		$hours = floor($hours);
+		if (!empty($hours)) {
+			$short[] = $hours . vtranslate('LBL_H');
+			$full[] = $hours == 1 ? $hours . vtranslate('LBL_HOUR') : $hours . vtranslate('LBL_HOURS');
+		}
+		$minutes = bcmod(($timeMinutesRange), (60));
+		$minutes = floor($minutes);
+		if (!empty($minutes)) {
+			$short[] = $minutes . vtranslate('LBL_M');
+			$full[] = $minutes == 1 ? $minutes . vtranslate('LBL_MINUTE') : $minutes . vtranslate('LBL_MINUTES');
+		}
+
+		return [
+			'short' => implode(' ', $short),
+			'full' => implode(' ', $full),
+		];
+	}
+
 	static function getArrayFromValue($values)
 	{
 		if (is_array($values)) {
@@ -1067,7 +1104,7 @@ class Vtiger_Functions
 
 	public static function throwNewException($message, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
-		if(REQUEST_MODE == 'API'){
+		if (REQUEST_MODE == 'API') {
 			throw new APIException($message, 401);
 		}
 		$request = new Vtiger_Request($_REQUEST);

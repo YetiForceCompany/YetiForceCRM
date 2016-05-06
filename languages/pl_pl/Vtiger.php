@@ -1137,6 +1137,7 @@ $languageStrings = [
 	'LBL_HEADLINE' => 'Nagłówek',
 	'LBL_BASIC_VERSE' => 'Wiersz podstawowy',
 	'LBL_ADDITIONAL_VERSE' => 'Wiersz dodatkowy',
+	'LBL_Y' => 'r',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

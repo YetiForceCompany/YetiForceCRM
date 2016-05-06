@@ -78,7 +78,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	{
 		return $this->label;
 	}
-	
+
 	/**
 	 * Function to retrieve full data
 	 * @return <array>
@@ -206,6 +206,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 				case 304: $fieldDataType = 'inventoryLimit';
 					break;
 				case 305: $fieldDataType = 'multiReferenceValue';
+					break;
+				case 308: $fieldDataType = 'rangeTime';
 					break;
 				default:
 					$webserviceField = $this->getWebserviceFieldObject();
