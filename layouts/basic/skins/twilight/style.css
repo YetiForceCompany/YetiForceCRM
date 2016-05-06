@@ -3353,7 +3353,7 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer a{
 	border-radius: 0;
 	vertical-align: text-top;
-	padding: 6px 15px 6px 50px;
+	padding: 6px 15px 6px 55px;
 	word-wrap: break-word;
 	font-size: 16px;
 
@@ -3416,6 +3416,8 @@ span[name=existingImages] img{
 {
 	margin-right: 12px;
 	font-size: 20px;
+	padding-right: 7px;
+	padding-left: 3px;
 }
 
 .leftPanel li.menuLabel .slimScrollDiv{
