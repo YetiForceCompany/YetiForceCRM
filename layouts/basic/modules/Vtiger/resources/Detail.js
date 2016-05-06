@@ -616,6 +616,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(postData).then(
 				function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					if (commentMode == 'add') {
+						thisInstance.addRelationBetweenRecords('ModComments', data.result.id, thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel))
+					}
 					aDeferred.resolve(data);
 				},
 				function (textStatus, errorThrown) {
@@ -1686,10 +1689,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		this.registerFastEditingFiels();
 	},
-	addRelationBetweenRecords: function (relatedModule, relatedModuleRecordId) {
+	addRelationBetweenRecords: function (relatedModule, relatedModuleRecordId, selectedTabElement) {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
-		var selectedTabElement = thisInstance.getSelectedTab();
+		if (selectedTabElement == undefined) {
+			var selectedTabElement = thisInstance.getSelectedTab();
+		}
 		var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModule);
 		relatedController.addRelations(relatedModuleRecordId).then(
 				function (data) {
@@ -2491,7 +2496,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentTarget = jQuery(e.currentTarget);
 			var commentInfoBlock = currentTarget.closest('.singleComment');
 			var commentInfoHeader = commentInfoBlock.find('.commentInfoHeader');
-			var deleteUrl = "index.php?module=ModComments&action=DeleteAjax&record=" + commentInfoHeader.data('commentid')
+			var recordId = commentInfoHeader.data('commentid');
+			var deleteUrl = "index.php?module=ModComments&action=DeleteAjax&record=" + recordId;
 			var commentDetails = currentTarget.closest('.commentDetails');
 			var relatedComments = commentDetails.find('.commentDetails');
 			var viewThreadBlock = commentDetails.find('.viewThreadBlock');
@@ -2507,6 +2513,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 									});
 									thisInstance.reloadTabContent();
 									var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
+									var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), recentCommentsTab, 'ModComments');
+									relatedController.deleteRelation([recordId]);
 									thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
 								} else {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
@@ -2779,12 +2787,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				type: types,
 			};
 			AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					widgetContent.find("#relatedHistoryCurrentPage").remove();
-					widgetContent.find("#moreRelatedUpdates").remove();
-					widgetContent.html(data);
-				}
+					function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						widgetContent.find("#relatedHistoryCurrentPage").remove();
+						widgetContent.find("#moreRelatedUpdates").remove();
+						widgetContent.html(data);
+					}
 			);
 		});
 		detailContentsHolder.on('click', '.moreRelatedUpdates', function () {
@@ -2811,12 +2819,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				type: types,
 			};
 			AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					widgetContent.find("#relatedHistoryCurrentPage").remove();
-					widgetContent.find("#moreRelatedUpdates").remove();
-					widgetContent.find('#relatedUpdates').append(data);
-				}
+					function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						widgetContent.find("#relatedHistoryCurrentPage").remove();
+						widgetContent.find("#moreRelatedUpdates").remove();
+						widgetContent.find('#relatedUpdates').append(data);
+					}
 			);
 		});
 		detailContentsHolder.on('click', '.moreRecentUpdates', function () {
