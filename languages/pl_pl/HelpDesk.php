@@ -9,10 +9,13 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
+	'PLL_SUBMITTED_COMMENTS' => 'Zgłoszono uwagi',
+	'PLL_FOR_APPROVAL' => 'Do akceptacji',
+	'PLL_TO_CLOSE' => 'Do zamknięcia',
 	'LBL_SETUP_WEBFORMS' => 'Ustawienia formularzy internetowych',
 	'LBL_ORDER_TIME' => 'Czas realizacji',
 	'Big Problem' => 'Duży problem',
-	'Closed' => 'Zamknięty',
+	'Closed' => 'Zaakceptowany',
 	'created' => 'Utworzony',
 	'Critical' => 'Krytyczny',
 	'customer_portal' => 'w "Portalu Klienta" w YetiForce.',
@@ -63,7 +66,7 @@ $languageStrings = [
 	'Major' => 'Normalny',
 	'Minor' => 'Drobny',
 	'Normal' => 'Normalny',
-	'Open' => 'Otwarte',
+	'Open' => 'Oczekuje na weryfikacje',
 	'Other Problem' => 'Inny problem',
 	'Related To' => 'Kontrahent',
 	'replied' => 'odpowiedź',
@@ -85,7 +88,7 @@ $languageStrings = [
 	'Wait For Response' => 'Oczekuje na odpowiedź',
 	'LBL_CHARTS' => 'Wykresy',
 	'Rejected' => 'Odrzucony',
-	'Answered' => 'Udzielono odpowiedzi',
+	'Answered' => 'Oczekuje na realizacje',
 	'P&S Sold' => 'Produkt/Usługa Sprzedana',
 	'LBL_VIEW_FINDDUPLICATES' => 'Znajdź duplikaty',
 	'Record Id' => 'ID rekordu',

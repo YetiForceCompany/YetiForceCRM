@@ -8373,7 +8373,7 @@ CREATE TABLE `vtiger_ticketstatus` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`ticketstatus_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ticketstatus_seq` */
 

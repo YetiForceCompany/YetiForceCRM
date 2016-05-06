@@ -6,12 +6,16 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_TO_CLOSE' => 'To close',
 	'LBL_SETUP_WEBFORMS' => 'Web Forms einrichten',
 	'LBL_STATUS_CLOSED' => 'Geschlossen',
 	'Big Problem' => 'grosses Problem',
-	'Closed' => 'Geschlossen',
+	'Closed' => 'Accepted',
 	'created' => 'erstellt',
 	'Critical' => 'kritisch',
 	'customer_portal' => ' Im Kundenportal des CRM Systems.',
@@ -62,7 +66,7 @@ $languageStrings = [
 	'Major' => 'bedeutend',
 	'Minor' => 'gering',
 	'Normal' => 'Normal',
-	'Open' => 'Offen',
+	'Open' => 'Awaiting verification',
 	'Other Problem' => 'anderes Problem',
 	'Related To' => 'Bezogen auf',
 	'replied' => 'beantwortet.',
@@ -85,7 +89,7 @@ $languageStrings = [
 	'LBL_CHARTS' => 'Grafiken',
 	'LBL_ORDER_TIME' => 'Auftragszeit',
 	'Rejected' => 'Abgelehnt',
-	'Answered' => 'Beantwortet',
+	'Answered' => 'Awaiting realization',
 	'P&S Sold' => 'Produkt/Dienstleistung verkauft',
 	'LBL_VIEW_FINDDUPLICATES' => 'Dubletten finden',
 	'Record Id' => 'Datensatz Id',
