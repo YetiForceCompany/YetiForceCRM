@@ -1,6 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-
 	<div class="modal-content validationEngineContainer" id="EditView">
 		<form>
 			<input class="recordEditView" type="hidden">
@@ -22,7 +21,7 @@
 			<div class="modal-body row">
 				<div class="col-xs-12 marginBottom10px">
 					<div class="col-xs-4 fieldLabel">
-						{vtranslate('LBL_APP_NAME', $QUALIFIED_MODULE)}
+						<span class="redColor">*</span>{vtranslate('LBL_APP_NAME', $QUALIFIED_MODULE)}
 					</div>
 					<div class="col-xs-8">
 						<input type="text" name="name" data-validation-engine="validate[required]" value="{if $RECORD_MODEL}{$RECORD_MODEL->getName()}{/if}" class="form-control">
@@ -38,10 +37,10 @@
 				</div>
 				<div class="col-xs-12 marginBottom10px">
 					<div class="col-xs-4 fieldLabel">
-						{vtranslate('LBL_PASS', $QUALIFIED_MODULE)}
+						<span class="redColor">*</span>{vtranslate('LBL_PASS', $QUALIFIED_MODULE)}
 					</div>
 					<div class="col-xs-8">
-						<input type="text" name="pass" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('pass')}{/if}" class="form-control">
+						<input type="text" name="pass" data-validation-engine="validate[required]" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('pass')}{/if}" class="form-control">
 					</div>
 				</div>
 				<div class="col-xs-12 marginBottom10px">
