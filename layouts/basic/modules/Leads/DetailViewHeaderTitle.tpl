@@ -10,39 +10,41 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<input type="hidden" id="conversion_available_status" value="{Vtiger_Util_Helper::toSafeHTML($CONVERSION_AVAILABLE_STATUS)}">
-    <div class="col-xs-12 col-sm-12 col-md-8">
-		<div class="moduleIcon">
-			<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
-		</div>
-		<div class="paddingLeft5px">
-			<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getName()}">
-				{assign var=COUNTER value=0}
-				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
-					{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
-					{if $FIELD_MODEL && $FIELD_MODEL->getPermissions()}
-						<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>
-					{if $COUNTER eq 0 && ($RECORD->get($NAME_FIELD))}&nbsp;{assign var=COUNTER value=$COUNTER+1}{/if}
-				{/if}
-			{/foreach}
-			</h4>
-			<div class="paddingLeft5px">
-				<span class="designation_label">{$RECORD->getDisplayValue('designation')}</span>
-				{if $RECORD->getDisplayValue('designation') && $RECORD->getDisplayValue('company')}
-					&nbsp;{vtranslate('LBL_AT')}&nbsp;     
-				{/if}
-				<span class="company_label">{$RECORD->get('company')}</span>
+	<div class="col-md-12 paddingLRZero row">
+		<input type="hidden" id="conversion_available_status" value="{Vtiger_Util_Helper::toSafeHTML($CONVERSION_AVAILABLE_STATUS)}">
+		<div class="col-xs-12 col-sm-12 col-md-8">
+			<div class="moduleIcon">
+				<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 			</div>
 			<div class="paddingLeft5px">
-				<span class="muted">
-					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
-					{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
-					{if $SHOWNERS != ''}
-					<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+				<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getName()}">
+					{assign var=COUNTER value=0}
+					{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
+						{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
+						{if $FIELD_MODEL && $FIELD_MODEL->getPermissions()}
+							<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>
+							{if $COUNTER eq 0 && ($RECORD->get($NAME_FIELD))}&nbsp;{assign var=COUNTER value=$COUNTER+1}{/if}
+						{/if}
+					{/foreach}
+				</h4>
+				<div class="paddingLeft5px">
+					<span class="designation_label">{$RECORD->getDisplayValue('designation')}</span>
+					{if $RECORD->getDisplayValue('designation') && $RECORD->getDisplayValue('company')}
+						&nbsp;{vtranslate('LBL_AT')}&nbsp;     
 					{/if}
-				</span>
+					<span class="company_label">{$RECORD->get('company')}</span>
+				</div>
+				<div class="paddingLeft5px">
+					<span class="muted">
+						{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
+						{if $SHOWNERS != ''}
+							<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+						{/if}
+					</span>
+				</div>
 			</div>
 		</div>
-    </div>
-	{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
+		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
+	</div>
 {/strip}
