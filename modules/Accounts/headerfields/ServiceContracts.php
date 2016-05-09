@@ -25,7 +25,7 @@ class Accounts_ServiceContracts_HeaderField
 		$row = $db->getRow($result);
 
 		if (!empty($row['date']) || !empty($row['total'])) {
-			$title = vtranslate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . CurrencyField::convertToUserFormat($row['total'], null, true);
+			$title = vtranslate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'];
 			return [
 				'title' => $title,
 				'badge' => DateTimeField::convertToUserFormat($row['date'])
