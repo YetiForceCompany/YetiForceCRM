@@ -2500,10 +2500,18 @@ table.summary-table .summaryViewEdit{
 .padding20 {
 	padding: 20px;
 }
+.padding6 {
+	padding: 6px 12px !important;
+}
+.top10 {
+	top: -10px;
+}
+.relative {
+	position: relative;
+}
 .pushDown {
 	margin-top: 7px;
 }
-
 .boxSizingBorderBox {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;

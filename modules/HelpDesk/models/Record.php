@@ -62,4 +62,16 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 			}
 		}
 	}
+	
+	public function getActiveServiceContracts()
+	{
+		$db = PearDatabase::getInstance();
+		$sql = 'SELECT * FROM vtiger_servicecontracts INNER JOIN vtiger_crmentity ON vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid WHERE deleted = ? AND contract_status = ? AND sc_related_to = ?';
+		$result = $db->pquery($sql, [0, 'In Progress', $this->get('parent_id')]);
+		$rows = [];
+		while ($row = $db->getRow($result)) {
+			$rows[] = $row;
+		}
+		return $rows;
+	}
 }
