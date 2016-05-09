@@ -14,6 +14,7 @@ $languageStrings = [
 	'FL_SERVICE_CONTRACTS_TYPE' => 'Rodzaj umowy wsparcia SLA',
 	'FL_SERVICE_CONTRACTS_DATE' => 'Data zakończenia wsparcia SLA',
 	'FL_REPORT_TIME' => 'Czas zgłoszenia ',
+	'FL_RESPONSE_TIME' => 'Czas odpowiedzi',
 	// Others
 	'PLL_SUBMITTED_COMMENTS' => 'Zgłoszono uwagi',
 	'PLL_FOR_APPROVAL' => 'Do akceptacji',

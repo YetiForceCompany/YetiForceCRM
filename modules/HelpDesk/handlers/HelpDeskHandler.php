@@ -28,6 +28,9 @@ class HelpDeskHandler extends VTEventHandler
 				HelpDesk_Record_Model::updateTicketRangeTimeField($entityData);
 			}
 		} else if ($eventName == 'vtiger.entity.link.after') {
+			if (in_array($entityData['destinationModule'], ['Calendar', 'Events', 'Activity', 'ModComments']) && $entityData['sourceModule'] == 'HelpDesk') {
+				HelpDesk_Record_Model::updateTicketRangeTimeField($entityData['entityData'], true);
+			}
 			if ($entityData['destinationModule'] == 'Contacts' && $entityData['sourceModule'] == 'HelpDesk' && isRecordExists($entityData['destinationRecordId'])) {
 				$ticketId = $entityData['sourceRecordId'];
 				$contactId = $entityData['destinationRecordId'];

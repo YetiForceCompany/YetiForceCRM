@@ -6,7 +6,7 @@
    * The Initial Developer of the Original Code is vtiger.
    * Portions created by vtiger are Copyright (C) vtiger.
    * All Rights Reserved.
-  *
+   * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 	{else}
-			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_INFO['searchValue']}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
+			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_INFO['searchValue']}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
 	{/if}
     </div>
 {/strip}

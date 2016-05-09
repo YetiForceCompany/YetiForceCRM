@@ -49,11 +49,22 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		return $commentsList;
 	}
 
-	public static function updateTicketRangeTimeField($entityData)
+	public static function updateTicketRangeTimeField($entityData, $updateFieldImmediately = false)
 	{
 		$db = PearDatabase::getInstance();
 		$ticketId = $entityData->getId();
 		$moduleName = $entityData->getModuleName();
+		$status = 'ticketstatus';
+		$vtEntityDelta = new VTEntityDelta();
+		$delta = $vtEntityDelta->getEntityDelta($moduleName, $entityData->getId(), true);
+		$currentDate = date('Y-m-d H:i:s');
+		if ((is_array($delta) && !empty($delta[$status])) || $updateFieldImmediately) {
+			if (in_array($entityData->get($status), ['Closed', 'Rejected'])) {
+				$db->pquery('UPDATE vtiger_troubletickets SET `response_time` = NULL WHERE ticketid = ?', [$ticketId]);
+			} else {
+				$db->update('vtiger_troubletickets', ['response_time' => $currentDate], 'ticketid = ?', [$ticketId]);
+			}
+		}
 		$closedTime = Vtiger_Functions::getSingleFieldValue('vtiger_crmentity', 'closedtime', 'crmid', $ticketId);
 		if (!empty($closedTime) && array_key_exists('report_time', $entityData->getData())) {
 			$timeMinutesRange = round(Vtiger_Functions::getDateTimeMinutesDiff($entityData->get('createdtime'), $closedTime));
@@ -62,7 +73,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 			}
 		}
 	}
-	
+
 	public function getActiveServiceContracts()
 	{
 		$db = PearDatabase::getInstance();
@@ -71,7 +82,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		$securityParameter = $instance->getUserAccessConditionsQuerySR('ServiceContracts', Users_Record_Model::getCurrentUserModel());
 		if ($securityParameter != '')
 			$sql.= $securityParameter;
-		
+
 		$result = $db->pquery($sql, [0, 'In Progress', $this->get('parent_id')]);
 		$rows = [];
 		while ($row = $db->getRow($result)) {

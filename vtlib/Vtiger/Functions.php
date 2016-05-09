@@ -1049,7 +1049,7 @@ class Vtiger_Functions
 		);
 	}
 
-	static function getRangeTime($timeMinutesRange)
+	static function getRangeTime($timeMinutesRange, $showEmptyValue = true)
 	{
 		$short = [];
 		$full = [];
@@ -1075,7 +1075,7 @@ class Vtiger_Functions
 		}
 		$minutes = bcmod(($timeMinutesRange), (60));
 		$minutes = floor($minutes);
-		if (!empty($minutes)) {
+		if (!empty($timeMinutesRange) || $showEmptyValue) {
 			$short[] = $minutes . vtranslate('LBL_M');
 			$full[] = $minutes == 1 ? $minutes . vtranslate('LBL_MINUTE') : $minutes . vtranslate('LBL_MINUTES');
 		}

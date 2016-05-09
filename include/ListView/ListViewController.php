@@ -209,8 +209,10 @@ class ListViewController
 				} else {
 					$value = $rawValue;
 				}
-
-				if ($module == 'Documents' && $fieldName == 'filename') {
+				if ($uitype == 308) {
+					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field->getFieldId());
+					$value = $fieldModel->getUITypeModel()->getListViewDisplayValue($value);
+				}elseif ($module == 'Documents' && $fieldName == 'filename') {
 					$downloadtype = $db->query_result($result, $i, 'filelocationtype');
 					$fileName = $db->query_result($result, $i, 'filename');
 
