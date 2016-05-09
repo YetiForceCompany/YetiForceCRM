@@ -58,7 +58,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		$vtEntityDelta = new VTEntityDelta();
 		$delta = $vtEntityDelta->getEntityDelta($moduleName, $entityData->getId(), true);
 		$currentDate = date('Y-m-d H:i:s');
-		if ((is_array($delta) && !empty($delta[$status])) || $updateFieldImmediately) {
+		if (!$entityData->isNew() && ((is_array($delta) && !empty($delta[$status])) || $updateFieldImmediately)) {
 			if (in_array($entityData->get($status), ['Closed', 'Rejected'])) {
 				$db->pquery('UPDATE vtiger_troubletickets SET `response_time` = NULL WHERE ticketid = ?', [$ticketId]);
 			} else {
