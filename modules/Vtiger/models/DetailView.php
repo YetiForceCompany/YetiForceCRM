@@ -376,11 +376,13 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		foreach (new DirectoryIterator($path) as $fileinfo) {
 			if (!$fileinfo->isDot()) {
 				$name = reset(explode('.', $fileinfo->getFilename()));
-	
+
 				$modelClassName = Vtiger_Loader::getComponentClassName('HeaderField', $name, $moduleName);
 				$instance = new $modelClassName;
-				$result = $instance->process($this);
-				if ($result) {
+				if (method_exists($instance, 'checkPermission') && !$instance->checkPermission()) {
+					continue;
+				}
+				if ($result = $instance->process($this)) {
 					$headerFields[] = $result;
 				}
 			}
