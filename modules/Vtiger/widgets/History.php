@@ -48,10 +48,17 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget {
 
 		$limitQuery = $query . ' LIMIT ' . $startIndex . ',' . $pageLimit;
 		$results = $db->query($limitQuery);
-		//var_dump($limitQuery, $db->getRowCount($results));
 		$history = [];
+		$groups = Settings_Groups_Record_Model::getAll();
+		$groupIds = array_keys($groups);
 		while ($row = $db->getRow($results)) {
-			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
+			if(in_array($row['user'], $groupIds)){
+				$row['isGroup'] = true;
+				$row['userModel'] = $groups[$row['user']];
+			} else {
+				$row['isGroup'] = false;
+				$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
+			}
 			$history[] = $row;
 		}
 		return $history;
@@ -80,7 +87,7 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget {
 			$queries[] = $sql;
 		}
 		if (in_array('Emails', $type)) {
-			$sql = 'SELECT CONCAT(\'Emails\') AS type,o.ossmailviewid AS id,o.subject AS content,c.smownerid AS user,c.createdtime AS `time` FROM vtiger_ossmailview o
+			$sql = 'SELECT CONCAT(\'OSSMailView\') AS type,o.ossmailviewid AS id,o.subject AS content,c.smownerid AS user,c.createdtime AS `time` FROM vtiger_ossmailview o
 			INNER JOIN vtiger_crmentity c ON c.crmid = o.ossmailviewid 
 			INNER JOIN vtiger_ossmailview_relation r ON r.ossmailviewid = o.ossmailviewid 
 			WHERE c.deleted = 0 AND r.crmid = ' . $recordId;

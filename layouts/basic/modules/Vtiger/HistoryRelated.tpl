@@ -14,11 +14,15 @@
 							</span>
 							<div class="timeline-body row no-margin">
 								<div class="pull-left paddingRight15">
-									<img class="userImage img-circle" src="{$HISTORY['userModel']->getImagePath()}">
+									{if !$HISTORY['isGroup']}
+										<img class="userImage img-circle" src="{$HISTORY['userModel']->getImagePath()}">
+									{else}
+										<img class="userImage img-circle" src="{vimage_path('DefaultUserIcon.png')}">
+									{/if}
 								</div>
 								<div class="pull-left">
-									<strong>{$HISTORY['userModel']->getName()}</strong>
-									{$HISTORY['content']}
+									<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
+									<a href="index.php?module={$HISTORY['type']}&record={$HISTORY['id']}&view=Detail">{$HISTORY['content']}</a>
 								</div>
 							</div>
 						</div>
@@ -39,6 +43,6 @@
 				</div>
 			{/if}
 		{/if}
-		
+
 	</div>
 {/strip}
