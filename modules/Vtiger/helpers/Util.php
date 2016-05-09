@@ -713,7 +713,10 @@ class Vtiger_Util_Helper
 		if ($instance) {
 			return $instance;
 		}
-
+		if (!file_exists("user_privileges/user_privileges_$userId.php")) {
+			return null;
+		}
+		
 		require("user_privileges/user_privileges_$userId.php");
 		require("user_privileges/sharing_privileges_$userId.php");
 

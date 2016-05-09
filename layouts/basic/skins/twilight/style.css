@@ -3911,16 +3911,12 @@ html,body,.baseContainer
 }
 .widget_header{
 	background:#eee;
-	margin-bottom:15px;
+	padding-top:5px;
+	padding-bottom:5px;
 }
 .summaryWidgetContainer .widget_header{
 	background:#fff;
 	margin-bottom:0px;
-}
-
-.widget_header{
-	padding-top:5px;
-	padding-bottom:5px;
 }
 .sortTableUl{
 	list-style-type: none;
@@ -5093,8 +5089,8 @@ select.form-control {
 }
 .detailViewTitle .hierarchy{
 	position: absolute;
-	top: -10px;
-	left: 55px;
+	top: 0px;
+    left: 60px;
 }
 .indexContainer{
 	padding-top:10px;
