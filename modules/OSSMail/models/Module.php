@@ -185,7 +185,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	function getExternalUrlForWidget($record, $type, $srecord, $smoduleName)
+	function getExternalUrlForWidget($record, $type, $srecord = false, $smoduleName = false)
 	{
 		if (is_object($record)) {
 			$body = $record->get('content');
