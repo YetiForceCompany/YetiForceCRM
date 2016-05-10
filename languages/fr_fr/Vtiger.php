@@ -1127,6 +1127,8 @@ $languageStrings = [
 	'LBL_AT_CONVERTTOACCOUNT' => 'Prospect converti',
 	'LBL_AT_DISPLAYED' => 'Affiché',
 	'LBL_FILTER' => 'Filtre',
+	'LBL_Y' => 'yr',
+	'LBL_YRS' => 'yrs',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',
