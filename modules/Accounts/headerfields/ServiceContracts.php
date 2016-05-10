@@ -14,19 +14,15 @@ class Accounts_ServiceContracts_HeaderField
 		$recordId = $viewModel->getRecord()->getId();
 
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT MAX(end_date) AS date,count(*) AS total FROM vtiger_servicecontracts INNER JOIN vtiger_crmentity ON vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid WHERE deleted = ? AND sc_related_to = ?';
+		$sql = 'SELECT MAX(due_date) AS date,count(*) AS total FROM vtiger_servicecontracts INNER JOIN vtiger_crmentity ON vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid WHERE deleted = ? AND sc_related_to = ? AND contract_status = ?';
 
-		$instance = CRMEntity::getInstance('ServiceContracts');
-		$securityParameter = $instance->getUserAccessConditionsQuerySR('ServiceContracts', Users_Record_Model::getCurrentUserModel());
-		if ($securityParameter != '')
-			$sql.= $securityParameter;
-
-		$result = $db->pquery($sql, [0, $recordId]);
+		$result = $db->pquery($sql, [0, $recordId, 'In Progress']);
 		$row = $db->getRow($result);
 
 		if (!empty($row['date']) || !empty($row['total'])) {
 			$title = vtranslate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'];
 			return [
+				'class' => 'btn-success',
 				'title' => $title,
 				'badge' => DateTimeField::convertToUserFormat($row['date'])
 			];
