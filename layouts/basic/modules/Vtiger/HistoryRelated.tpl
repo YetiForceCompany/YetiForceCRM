@@ -7,7 +7,7 @@
 			<ul class="timeline" id="relatedUpdates">
 				{foreach item=HISTORY from=$HISTORIES}
 					<li>
-						<span class="glyphicon bgBlue userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
+						<span class="glyphicon {$HISTORY['class']} userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
 						<div class="timeline-item">
 							<span class="time">
 								<b>{$HISTORY['time']}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($HISTORY['time'])})
