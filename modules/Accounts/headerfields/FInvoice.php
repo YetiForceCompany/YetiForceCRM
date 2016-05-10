@@ -22,6 +22,7 @@ class Accounts_FInvoice_HeaderField
 		if (!empty($row['date']) && !empty($row['total'])) {
 			$title = vtranslate('Sum invoices') . ': ' . CurrencyField::convertToUserFormat($row['total'], null, true);
 			return [
+				'class' => 'btn-success',
 				'title' => $title,
 				'badge' => DateTimeField::convertToUserFormat($row['date'])
 			];
