@@ -649,7 +649,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
-				$whereCondition[] = ['crmid' => ['comparison' => 'IN', 'value' => implode(', ', $favorites)]];
+				$whereCondition[] = ['vtiger_crmentity.crmid' => ['comparison' => 'IN', 'value' => implode(', ', $favorites)]];
 			}
 		}
 		if (!empty($whereCondition)) {
