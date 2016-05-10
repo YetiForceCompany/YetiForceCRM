@@ -55,8 +55,10 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		$ticketId = $entityData->getId();
 		$moduleName = $entityData->getModuleName();
 		$status = 'ticketstatus';
-		$vtEntityDelta = new VTEntityDelta();
-		$delta = $vtEntityDelta->getEntityDelta($moduleName, $entityData->getId(), true);
+		if (class_exists('VTEntityDelta')) {
+			$vtEntityDelta = new VTEntityDelta();
+			$delta = $vtEntityDelta->getEntityDelta($moduleName, $entityData->getId(), true);
+		}
 		$currentDate = date('Y-m-d H:i:s');
 		if (!$entityData->isNew() && ((is_array($delta) && !empty($delta[$status])) || $updateFieldImmediately)) {
 			if (in_array($entityData->get($status), ['Closed', 'Rejected'])) {
