@@ -490,11 +490,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var mappingRelatedField = this.getMappingRelatedField(fieldName, referenceModule, formElement);
 		$.each(mappingRelatedField, function (key, value) {
 			var mapFieldElement = formElement.find('[name="' + key + '"]');
-
 			if (mapFieldElement.is('select')) {
 				mapFieldElement.val(mapFieldElement.find("option:first").val()).trigger("chosen:updated").change();
 			} else {
-				mapFieldElement.val();
+				mapFieldElement.val('');
 			}
 			var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 			if (mapFieldDisplayElement.length > 0) {
