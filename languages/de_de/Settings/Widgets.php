@@ -64,6 +64,7 @@ $languageStrings = [
 	'LBL_SHOW_ALL_RECORDS_INFO' => 'No - Permissions are taken into account <br> Yes - Searching for records excluding permissions',
 	'LBL_SHITCH_HEADER' => 'Schalter im Header',
 	'LBL_SHITCH_HEADER_INFO' => 'Schalter befindet sich im Widget\'s Header.',
+	'History' => 'Timeline',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Laden...',

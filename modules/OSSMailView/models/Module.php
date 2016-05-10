@@ -132,4 +132,9 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 			WHERE vtiger_crmentity.deleted = 0 AND vtiger_ossmailview_relation.crmid = " . $recordId . " ";
 		return $query;
 	}
+
+	public function getPreviewViewUrl($id)
+	{
+		return 'index.php?module=' . $this->get('name') . '&view=preview&record=' . $id;
+	}
 }

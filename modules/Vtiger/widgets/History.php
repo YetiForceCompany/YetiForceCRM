@@ -71,6 +71,12 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget
 				$row['isGroup'] = false;
 				$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
 			}
+			if ($row['type'] == 'OSSMailView') {
+				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getPreviewViewUrl($row['id']);
+			} else {
+				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getDetailViewUrl($row['id']);
+			}
+
 			$row['class'] = self::$colors[$row['type']];
 			$history[] = $row;
 		}

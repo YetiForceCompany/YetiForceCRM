@@ -22,7 +22,7 @@
 								</div>
 								<div class="pull-left">
 									<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
-									<a href="index.php?module={$HISTORY['type']}&record={$HISTORY['id']}&view=Detail">{$HISTORY['content']}</a>
+									<a href="{$HISTORY['url']}" target="_blank">{$HISTORY['content']}</a>
 								</div>
 							</div>
 						</div>
