@@ -1834,7 +1834,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		return $modules[$parent];
 	}
 
-	public function getMappingRelatedField($moduleName, $field = false)
+	public static function getMappingRelatedField($moduleName, $field = false)
 	{
 		self::initModulesHierarchy();
 		$module = self::$modulesHierarchy[$moduleName];
