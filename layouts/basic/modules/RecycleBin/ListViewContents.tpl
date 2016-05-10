@@ -95,7 +95,6 @@
 		<tbody>
 			<tr>
 				<td>
-					{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
 					{vtranslate('LBL_NO_RECORDS_FOUND', $MODULE)} {vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}.
 				</td>
 			</tr>

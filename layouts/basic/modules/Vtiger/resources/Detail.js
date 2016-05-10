@@ -1172,7 +1172,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 				fieldElement.validationEngine('hide');
 				//Before saving ajax edit values we need to check if the value is changed then only we have to save
-				if (previousValue == ajaxEditNewValue) {
+				if (previousValue.toString() == ajaxEditNewValue.toString()) {
 					editElement.addClass('hide');
 					detailViewValue.removeClass('hide');
 					actionElement.removeClass('hide');
