@@ -11,7 +11,7 @@
 
 $languageStrings = [
 	'ModTracker' => 'ModTracker',
-	'SINGLE_ModTracker' => 'ModTracker Record',
+	'SINGLE_ModTracker' => 'Tracking tool',
 	// Action types 
 	'LBL_AT_UPDATE' => 'Modify',
 	'LBL_AT_DELETE' => 'Delete',
