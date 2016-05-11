@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="row">
+	<div class="notificationContainer">
 		{assign var=ENTRIES value=$NOTIFICATION_MODEL->getEntries()}
-		<ul class="row notificationContainer gridster">
+		<ul class="gridster">
 			{foreach from=$NOTIFICATION_MODEL->getTypes() item=TYPE key=TYPE_ID}
 				{if $ENTRIES[$TYPE_ID]}
 					<li data-row="1" data-col="1" data-sizex="{$TYPE['width']}" data-sizey="{$TYPE['height']}">

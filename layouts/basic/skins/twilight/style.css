@@ -375,9 +375,6 @@ hr {
 #globalmodal form {
 	margin: 0 0 0;
 }
-.gridster>*{
-	margin: 0 0 0 15px !important;
-}
 .contentsDiv .gridster {
 	padding: 0;
 }
@@ -5199,9 +5196,6 @@ select.form-control {
 .top2px{
     position: relative;
     top: -2px;
-}
-.notificationContainer {
-	padding: 0;
 }
 .notificationContainer .notificationBody{
 	position: absolute;
