@@ -471,7 +471,7 @@ class ListViewController
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field->getFieldId());
 					$value = Vtiger_Functions::textLength($fieldModel->getUITypeModel()->getDisplayValue($value));
 				} elseif (in_array($uitype, array(7, 9, 90))) {
-					$value = "<span align='right'>" . textlength_check($value) . "</div>";
+					$value = textlength_check($value);
 				} elseif ($uitype == 307) {
 					if ($value === null) {
 						$value = '--';
