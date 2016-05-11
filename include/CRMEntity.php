@@ -87,7 +87,7 @@ class CRMEntity
 		$table = $inventory->getTableName('data');
 
 		$db->delete($table, 'id = ?', [$this->id]);
-		if(is_array($this->inventoryData)){
+		if (is_array($this->inventoryData)) {
 			foreach ($this->inventoryData as $insertData) {
 				$insertData['id'] = $this->id;
 				$db->insert($table, $insertData);
@@ -120,7 +120,7 @@ class CRMEntity
 			}
 		}
 
-		if($this->isInventory === true && !empty($this->inventoryData)){
+		if ($this->isInventory === true && !empty($this->inventoryData)) {
 			$this->saveInventoryData($module);
 		}
 
@@ -790,6 +790,7 @@ class CRMEntity
 				if (!empty($resultrow['deleted'])) {
 					throw new NoPermittedToRecordException('LBL_RECORD_DELETE');
 				}
+				$showsAdditionalLabels = vglobal('showsAdditionalLabels');
 				foreach ($cachedModuleFields as $fieldinfo) {
 					$fieldvalue = '';
 					$fieldkey = $this->createColumnAliasForField($fieldinfo);
@@ -797,10 +798,10 @@ class CRMEntity
 					if (isset($resultrow[$fieldkey])) {
 						$fieldvalue = $resultrow[$fieldkey];
 					}
-					if (in_array($fieldinfo['uitype'], array(10, 51, 73))) {
+					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [10, 51, 73])) {
 						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getCRMRecordLabel($fieldvalue);
 					}
-					if (in_array($fieldinfo['uitype'], [52, 53])) {
+					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [52, 53])) {
 						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getOwnerRecordLabel($fieldvalue);
 					}
 					$this->column_fields[$fieldinfo['fieldname']] = $fieldvalue;
@@ -1024,7 +1025,7 @@ class CRMEntity
 		if ($uitype == 57 && $fldvalue == '') {
 			return 0;
 		}
-		if (in_array($uitype, [307,308]) && $fldvalue == '') {
+		if (in_array($uitype, [307, 308]) && $fldvalue == '') {
 			return null;
 		}
 		if (is_uitype($uitype, "_date_") && $fldvalue == '' || $uitype == '14') {
