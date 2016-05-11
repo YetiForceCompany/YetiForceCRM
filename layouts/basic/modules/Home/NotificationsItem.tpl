@@ -30,7 +30,7 @@
 						{$COTENT}
 						<hr/>
 					{/if}
-					<div class="text-right">
+					<div class="text-right ">
 						<button type="button" class="btn btn-success btn-xs" onclick="Vtiger_Index_Js.markNotifications({$ROW->getId()});" title="{vtranslate('LBL_MARK_AS_READ', $MODULE_NAME)}">
 							<span class="glyphicon glyphicon-ok"></span>
 						</button>&nbsp;&nbsp;
