@@ -31,6 +31,8 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 		} else {
 			$textParser = Vtiger_TextParser_Helper::getCleanInstance();
 		}
+		$textParser->setContent($row['title']);
+		$row['title'] = $textParser->parseTranslations();
 		$textParser->setContent($row['message']);
 		$row['message'] = $textParser->parseTranslations();
 		$instance->setData($row);
@@ -71,7 +73,6 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 		$notice = $this->getData();
 		$db->insert('l_yf_notification_archive', $notice);
 		$db->delete('l_yf_notification', 'id = ?', [$this->getId()]);
-		return 'hide';
 	}
 
 	public function getIcon()
@@ -84,23 +85,18 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 					'type' => 'image',
 					'title' => $userModel->getName(),
 					'src' => $userModel->getImagePath(),
-					'class' => '',
+					'class' => 'userImage',
 				];
 				break;
 			default:
+				$icon = [
+					'type' => 'icon',
+					'title' => vtranslate($this->get('reletedmodule'), $this->get('reletedmodule')),
+					'class' => 'userIcon-'.$this->get('reletedmodule'),
+				];
 				break;
 		}
 		return $icon;
-	}
-
-	public function getActions()
-	{
-		return [[
-			'action' => 'Vtiger_Index_Js.markNotifications(' . $this->getId() . ')',
-			'title' => 'LBL_MARK_AS_READ',
-			'class' => 'btn-success btn-sm',
-			'icon' => 'glyphicon glyphicon-ok'
-		]];
 	}
 
 	public function getMassage()

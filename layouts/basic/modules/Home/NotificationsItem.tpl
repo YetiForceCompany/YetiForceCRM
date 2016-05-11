@@ -2,39 +2,44 @@
 {strip}
 	<div class="media noticeRow" data-id="{$ROW->getId()}" data-type="{$ROW->get('type')}">
 		{assign var=ICON value=$ROW->getIcon()}
-		{if $ICON}
-			<div class="media-left media-middle">
-				{if $ICON['type'] == 'image'}
-					<img width="30px" class="{$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}"/>
-				{else}
-					<span class="{$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" aria-hidden="true"></span>
-				{/if}
-			</div>
-		{/if}
-		<div class="media-body media-middle wordBreakAll">
-			<div class="pull-right">
-				<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($ROW->get('time'))}">
-					{Vtiger_Util_Helper::formatDateDiffInStrings($ROW->get('time'))}
-				</small>
-			</div>
-			<strong>{$ROW->getTitle()}</strong>
-			{if $SHOW_TYPE}
-				&nbsp;({vtranslate($ROW->getTypeName(), $MODULE_NAME)})
-			{/if}
-			<br/>
-			{$ROW->getMassage()}
-		</div>
-		<div class="media-right media-middle">
-			{foreach from=$ROW->getActions() item=ACTION}
-				<button class="btn {$ACTION['class']}" {if $ACTION['action']}onclick="{$ACTION['action']}"{/if} type="button">
-					{if $ACTION['name']}
-						{vtranslate($ACTION['name'], $MODULE_NAME)}
+		<div class="media-body wordBreakAll">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					{if $ICON}
+						<div class="pull-left">
+							{if $ICON['type'] == 'image'}
+								<img width="22px" class="top2px {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}"/>
+							{else}
+								<span class="noticeIcon {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" aria-hidden="true"></span>
+							{/if}&nbsp;&nbsp;
+						</div>
 					{/if}
-					{if $ACTION['icon']}
-						<span class="{$ACTION['icon']}" title="{vtranslate($ACTION['title'], $MODULE_NAME)}" aria-hidden="true"></span>
+					<div class="pull-right">
+						<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($ROW->get('time'))}">
+							{Vtiger_Util_Helper::formatDateDiffInStrings($ROW->get('time'))}
+						</small>
+					</div>
+					<strong>{$ROW->getTitle()}</strong>
+					{if $SHOW_TYPE}
+						&nbsp;({vtranslate($ROW->getTypeName(), $MODULE_NAME)})
 					{/if}
-				</button>
-			{/foreach}
+				</div>
+				<div class="panel-body">
+					{assign var=COTENT value=$ROW->getMassage()}
+					{if $COTENT}
+						{$COTENT}
+						<hr/>
+					{/if}
+					<div class="text-right">
+						<button type="button" class="btn btn-success btn-xs" onclick="Vtiger_Index_Js.markNotifications({$ROW->getId()});" title="{vtranslate('LBL_MARK_AS_READ', $MODULE_NAME)}">
+							<span class="glyphicon glyphicon-ok"></span>
+						</button>&nbsp;&nbsp;
+						<a class="btn btn-info btn-xs" title="{vtranslate('LBL_GO_TO_PREVIEW')}" href="index.php?module={$ROW->get('reletedmodule')}&view=Detail&record={$ROW->get('reletedid')}">
+							<span class="glyphicon glyphicon-th-list"></span>
+						</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 {/strip}

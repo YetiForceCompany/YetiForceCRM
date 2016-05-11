@@ -5196,20 +5196,32 @@ select.form-control {
 	background: #fff;
 	color:#000;
 }
+.top2px{
+    position: relative;
+    top: -2px;
+}
 .notificationContainer {
 	padding: 0;
 }
-.notificationContainer .panel-body{
+.notificationContainer .notificationBody{
 	position: absolute;
-	top: 38px;
-	bottom:0;
+	top: 39px;
+	bottom: 7px;
 	padding: 0;
 	overflow: auto;
 }
+.notificationContainer .notificationBody .panel{
+	margin-bottom: 0px;
+}
+.notificationContainer .notificationBody .panel-body{
+	padding: 7px;
+}
 .notificationContainer .noticeRow{
 	margin-top: 0;
-	padding: 5px 10px;
-	border-bottom: 1px solid #ddd;
+	padding: 7px 7px 0px 7px;
+}
+.notificationContainer .noticeIcon{
+	font-size: 20px;
 }
 .notificationContainer li{
 	list-style: none;
