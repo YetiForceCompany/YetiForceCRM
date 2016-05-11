@@ -9,6 +9,8 @@
 class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 {
 
+	public $notificationDefaultType = 1;
+
 	/**
 	 * Function to get the instance by id
 	 * @return <Home_Notification_Model>
