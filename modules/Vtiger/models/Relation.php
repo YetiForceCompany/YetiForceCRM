@@ -445,11 +445,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$result = $adb->pquery($query, array($presence, $relationId));
 	}
 
-	public function removeRelationById($relationId)
+	public static function removeRelationById($relationId)
 	{
 		$db = PearDatabase::getInstance();
 		if ($relationId) {
 			$db->delete('vtiger_relatedlists', 'relation_id = ?', [$relationId]);
+			$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
+			$db->delete('a_yf_relatedlists_inv_fields', 'relation_id = ?', [$relationId]);
 		}
 	}
 
@@ -468,13 +470,30 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
-		foreach ($fields as $key => $field) {
-			$db->insert('vtiger_relatedlists_fields', [
-				'relation_id' => $relationId,
-				'fieldid' => $field['id'],
-				'fieldname' => $field['name'],
-				'sequence' => $key
-			]);
+		if ($fields) {
+			foreach ($fields as $key => $field) {
+				$db->insert('vtiger_relatedlists_fields', [
+					'relation_id' => $relationId,
+					'fieldid' => $field['id'],
+					'fieldname' => $field['name'],
+					'sequence' => $key
+				]);
+			}
+		}
+	}
+
+	public static function updateModuleRelatedInventoryFields($relationId, $fields)
+	{
+		$db = PearDatabase::getInstance();
+		$db->delete('a_yf_relatedlists_inv_fields', 'relation_id = ?', [$relationId]);
+		if ($fields) {
+			foreach ($fields as $key => $field) {
+				$db->insert('a_yf_relatedlists_inv_fields', [
+					'relation_id' => $relationId,
+					'fieldname' => $field,
+					'sequence' => $key
+				]);
+			}
 		}
 	}
 
@@ -497,6 +516,23 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			return $fields;
 		}
 		return $result->GetArray();
+	}
+
+	public function getRelationInventoryFields()
+	{
+		$db = PearDatabase::getInstance();
+		$relationId = $this->getId();
+		$moduleName = $this->get('modulename');
+		$inventoryFields = Vtiger_InventoryField_Model::getInstance($moduleName)->getFields();
+		$query = 'SELECT a_yf_relatedlists_inv_fields.fieldname FROM a_yf_relatedlists_inv_fields WHERE a_yf_relatedlists_inv_fields.relation_id = ? ORDER BY sequence;';
+		$result = $db->pquery($query, [$relationId]);
+		$fields = [];
+		while ($name = $db->getSingleValue($result)) {
+			if ($inventoryFields[$name] && $inventoryFields[$name]->isVisible()) {
+				$fields[] = $name;
+			}
+		}
+		return $fields;
 	}
 
 	public function addSearchConditions($query, $searchParams, $related_module)

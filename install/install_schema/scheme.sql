@@ -127,6 +127,15 @@ CREATE TABLE `a_yf_pdf` (
   KEY `module_name` (`module_name`,`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_relatedlists_inv_fields` */
+
+CREATE TABLE `a_yf_relatedlists_inv_fields` (
+  `relation_id` int(19) DEFAULT NULL,
+  `fieldname` varchar(30) DEFAULT NULL,
+  `sequence` int(10) DEFAULT NULL,
+  KEY `relation_id` (`relation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_taxes_config` */
 
 CREATE TABLE `a_yf_taxes_config` (

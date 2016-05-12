@@ -1015,6 +1015,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 			});
 		});
+		detailContentsHolder.on('click', '.relatedContents .listViewEntries td', function(e){
+			var target = jQuery(e.target);
+			var row = target.closest('tr');
+			var inventoryRow = row.next();
+			if (inventoryRow.hasClass('listViewInventoryEntries') && !target.closest('div').hasClass('actions') && !target.is('a') && !target.is('input')){
+				inventoryRow.toggleClass('hide');
+			}
+		})
 	},
 	registerBlockAnimationEvent: function () {
 		var detailContentsHolder = this.getContentHolder();

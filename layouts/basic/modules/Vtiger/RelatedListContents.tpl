@@ -1,3 +1,4 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="listViewEntriesDiv contents-bottomscroll">
@@ -87,6 +88,40 @@
 						<td class="medium" data-field-type="rel_comment" nowrap>{$RELATED_RECORD->get('relComment')}</td>
 					{/if}
 				</tr>
+				{if $RELATED_RECORD->get('inventoryData')}
+					{assign var="INVENTORY_DATA" value=$RELATED_RECORD->get('inventoryData')}
+					{assign var="INVENTORY_FIELDS" value=Vtiger_InventoryField_Model::getInstance($RELATED_MODULE_NAME)->getFields()}
+					<tr class="listViewInventoryEntries hide">
+						<td colspan="{$COUNT+1}" class="backgroundWhiteSmoke">
+							<table class="table table-condensed no-margin">
+								<thead>
+									<tr>
+										{foreach from=$INVENTORY_DATA[0] item=VALUE key=NAME}
+											{assign var="FIELD" value=$INVENTORY_FIELDS[$NAME]}
+											<th class="medium" nowrap>{vtranslate($FIELD->get('label'),$RELATED_MODULE_NAME)}</th>
+										{/foreach}
+									</tr>
+								</thead>
+								<tbody>
+									{foreach from=$INVENTORY_DATA item=ROWDATA}
+										<tr>
+											{if $INVENTORY_ROW['name']}
+												{assign var="ROW_MODULE" value=Vtiger_Functions::getCRMRecordType($INVENTORY_ROW['name'])}
+											{/if}
+											{foreach from=$ROWDATA item=VALUE key=NAME}
+												{assign var="FIELD" value=$INVENTORY_FIELDS[$NAME]}
+												{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$RELATED_MODULE_NAME)}
+												<td>		
+													{include file=$FIELD_TPL_NAME|@vtemplate_path:$RELATED_MODULE_NAME ITEM_VALUE=$ROWDATA[$FIELD->get('columnname')]}
+												</td>
+											{/foreach}
+										</tr>
+									{/foreach}
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				{/if}
 			{/foreach}
 		</table>
 	</div>

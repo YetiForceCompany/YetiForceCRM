@@ -5169,7 +5169,8 @@ select.form-control {
 .detailViewContainer .contents .knowledgeBaseDetails {
 	padding: 15px;
 }
-.dashboardWidgetContent .rowAction:nth-of-type(even) {
+.dashboardWidgetContent .rowAction:nth-of-type(even),
+.listViewInventoryEntries table tbody tr:nth-of-type(even){
     background-color: #f9f9f9;
 }
 .knowledgePopoutContainer .knowledgePopoutSubject,
@@ -5368,4 +5369,16 @@ select.form-control {
 	background: #444853;
 	height: 2px;
 	margin: 5px 0;
+}
+.backgroundWhiteSmoke{
+	background: whitesmoke;
+}
+.listViewInventoryEntries th{
+	background: none;
+}
+.listViewInventoryEntries td{
+	vertical-align: middle !important;
+}
+.paddingBottomZero{
+	padding-bottom: 0px !important;
 }
