@@ -23,7 +23,8 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_CREATEMAIL',
 				'linkurl' => "javascript:window.location='index.php?module=OSSMail&view=compose'",
 				'linkclass' => 'moduleColor_' . $moduleModel->getName(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus',
+				'showLabel' => 1,
 			);
 		}
 		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
