@@ -9,21 +9,21 @@
 					<li>
 						<span class="glyphicon {$HISTORY['class']} userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
 						<div class="timeline-item">
-							<span class="time">
-								<b>{$HISTORY['time']}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($HISTORY['time'])})
-							</span>
+							<div class="pull-left paddingRight15 imageContainer">
+								{if !$HISTORY['isGroup']}
+									<img class="userImage img-circle" src="{$HISTORY['userModel']->getImagePath()}">
+								{else}
+									<img class="userImage img-circle" src="{vimage_path('DefaultUserIcon.png')}">
+								{/if}
+							</div>
 							<div class="timeline-body row no-margin">
-								<div class="pull-left paddingRight15">
-									{if !$HISTORY['isGroup']}
-										<img class="userImage img-circle" src="{$HISTORY['userModel']->getImagePath()}">
-									{else}
-										<img class="userImage img-circle" src="{vimage_path('DefaultUserIcon.png')}">
-									{/if}
+								<div class="pull-right">
+									<span class="time">
+										<b>{$HISTORY['time']}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($HISTORY['time'])})
+									</span>
 								</div>
-								<div class="pull-left">
-									<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
-									<a href="{$HISTORY['url']}" target="_blank">{$HISTORY['content']}</a>
-								</div>
+								<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
+								<a href="{$HISTORY['url']}" target="_blank">{$HISTORY['content']}</a>
 							</div>
 						</div>
 					</li>

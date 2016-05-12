@@ -5286,13 +5286,18 @@ select.form-control {
 	padding: 0;
 	position: relative;
 }
-.timeline > li > .timeline-item > .time {
+.timeline > li > .timeline-item .time {
 	color: #999;
 	float: right;
-	padding: 10px;
+	padding: 5px;
 	font-size: 12px;
 }
+.timeline > li > .timeline-item > .imageContainer{
+	width: 40px;
+}
 .timeline > li > .timeline-item > .timeline-body {
+	float: left;
+	width: calc(100% - 40px);
 	padding: 10px;
 }
 .timeline > li > .glyphicon{
@@ -5311,7 +5316,7 @@ select.form-control {
 .timeline .userImage{
 	margin: 0 auto;
 	width: 40px;
-	padding: 3px;
+	padding: 2px;
 	border: 3px solid #d2d6de;
 }
 .bgBlue{
