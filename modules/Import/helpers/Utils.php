@@ -16,10 +16,10 @@ class Import_Utils_Helper {
 	static $AUTO_MERGE_OVERWRITE = 2;
 	static $AUTO_MERGE_MERGEFIELDS = 3;
 
-	static $supportedFileEncoding = array('UTF-8'=>'UTF-8', 'ISO-8859-1'=>'ISO-8859-1');
-	static $supportedDelimiters = array(','=>'comma', ';'=>'semicolon');
-	static $supportedFileExtensions = ['csv','vcf','ical','xml'];
-	static $supportedFileExtensionsByModule = ['Contacts' => ['csv','vcf'], 'Calendar' => ['csv','ical'], 'Default' => ['csv','xml','zip']];
+	static $supportedFileEncoding = array('UTF-8' => 'UTF-8', 'ISO-8859-1' => 'ISO-8859-1');
+	static $supportedDelimiters = array(',' => 'comma', ';' => 'semicolon');
+	static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
+	static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
 
 	public function getSupportedFileExtensions($moduleName=null) {
 	 if (!$moduleName) {
