@@ -1707,7 +1707,7 @@ function getGrpId($groupname)
 function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessmode = 'readonly')
 {
 	$log = LoggerManager::getInstance();
-	$log->debug("Entering getFieldVisibilityPermission(" . $fld_module . "," . $userid . "," . $fieldname . ") method ...");
+	$log->debug('Entering getFieldVisibilityPermission(' . $fld_module . ',' . $userid . ',' . $fieldname . ') method ...');
 
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
@@ -1753,7 +1753,7 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
 
 		$result = $adb->pquery($query, $params);
 
-		$log->debug("Exiting getFieldVisibilityPermission method ...");
+		$log->debug('Exiting getFieldVisibilityPermission method ...');
 
 		// Returns value as a string
 		if ($adb->num_rows($result) == 0)
