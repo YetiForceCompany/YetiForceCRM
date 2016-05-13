@@ -2,12 +2,11 @@
 
 namespace Sabre\VObject\Splitter;
 
-use
-    Sabre\VObject,
-    Sabre\VObject\Component\VCalendar;
+use Sabre\VObject;
+use Sabre\VObject\Component\VCalendar;
 
 /**
- * Splitter
+ * Splitter.
  *
  * This class is responsible for splitting up iCalendar objects.
  *
@@ -15,46 +14,44 @@ use
  * calendar-objects inside. Objects with identical UID's will be combined into
  * a single object.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
- * @author Dominik Tobschall
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
+ * @author Dominik Tobschall (http://tobschall.de/)
  * @author Armin Hackmann
  * @license http://sabre.io/license/ Modified BSD License
  */
 class ICalendar implements SplitterInterface {
 
     /**
-     * Timezones
+     * Timezones.
      *
      * @var array
      */
-    protected $vtimezones = array();
+    protected $vtimezones = [];
 
     /**
-     * iCalendar objects
+     * iCalendar objects.
      *
      * @var array
      */
-    protected $objects = array();
+    protected $objects = [];
 
     /**
-     * Constructor
+     * Constructor.
      *
      * The splitter should receive an readable file stream as it's input.
      *
      * @param resource $input
      * @param int $options Parser options, see the OPTIONS constants.
      */
-    public function __construct($input, $options = 0) {
+    function __construct($input, $options = 0) {
 
         $data = VObject\Reader::read($input, $options);
-        $vtimezones = array();
-        $components = array();
 
         if (!$data instanceof VObject\Component\VCalendar) {
             throw new VObject\ParseException('Supplied input could not be parsed as VCALENDAR.');
         }
 
-        foreach($data->children() as $component) {
+        foreach ($data->children() as $component) {
             if (!$component instanceof VObject\Component) {
                 continue;
             }
@@ -66,7 +63,7 @@ class ICalendar implements SplitterInterface {
             }
 
             // Get component UID for recurring Events search
-            if(!$component->UID) {
+            if (!$component->UID) {
                 $component->UID = sha1(microtime()) . '-vobjectimport';
             }
             $uid = (string)$component->UID;
@@ -89,9 +86,9 @@ class ICalendar implements SplitterInterface {
      *
      * @return Sabre\VObject\Component|null
      */
-    public function getNext() {
+    function getNext() {
 
-        if($object=array_shift($this->objects)) {
+        if ($object = array_shift($this->objects)) {
 
             // create our baseobject
             $object->version = '2.0';
@@ -107,7 +104,7 @@ class ICalendar implements SplitterInterface {
 
         } else {
 
-            return null;
+            return;
 
         }
 

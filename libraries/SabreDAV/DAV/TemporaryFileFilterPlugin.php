@@ -2,9 +2,9 @@
 
 namespace Sabre\DAV;
 
-use
-    Sabre\HTTP\RequestInterface,
-    Sabre\HTTP\ResponseInterface;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
+use Sabre\HTTP\URLUtil;
 
 /**
  * Temporary File Filter Plugin
@@ -26,7 +26,7 @@ use
  * Additional patterns can be added, by adding on to the
  * temporaryFilePatterns property.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -74,7 +74,7 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
      */
     function __construct($dataDir = null) {
 
-        if (!$dataDir) $dataDir = ini_get('session.save_path').'/sabredav/';
+        if (!$dataDir) $dataDir = ini_get('session.save_path') . '/sabredav/';
         if (!is_dir($dataDir)) mkdir($dataDir);
         $this->dataDir = $dataDir;
 
@@ -92,8 +92,8 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
     function initialize(Server $server) {
 
         $this->server = $server;
-        $server->on('beforeMethod',    [$this,'beforeMethod']);
-        $server->on('beforeCreateFile',[$this,'beforeCreateFile']);
+        $server->on('beforeMethod',    [$this, 'beforeMethod']);
+        $server->on('beforeCreateFile', [$this, 'beforeCreateFile']);
 
     }
 
@@ -110,9 +110,9 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
     function beforeMethod(RequestInterface $request, ResponseInterface $response) {
 
         if (!$tempLocation = $this->isTempFile($request->getPath()))
-            return true;
+            return;
 
-        switch($request->getMethod()) {
+        switch ($request->getMethod()) {
             case 'GET' :
                 return $this->httpGet($request, $response, $tempLocation);
             case 'PUT' :
@@ -122,7 +122,7 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
             case 'DELETE' :
                 return $this->httpDelete($request, $response, $tempLocation);
         }
-        return true;
+        return;
 
     }
 
@@ -134,18 +134,21 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
      *
      * @param string $uri
      * @param resource $data
+     * @param DAV\ICollection $parentNode
+     * @param bool $modified Should be set to true, if this event handler
+     *                       changed &$data.
      * @return bool
      */
-    function beforeCreateFile($uri,$data) {
+    function beforeCreateFile($uri, $data, $parent, $modified) {
 
         if ($tempPath = $this->isTempFile($uri)) {
 
             $hR = $this->server->httpResponse;
-            $hR->setHeader('X-Sabre-Temp','true');
-            file_put_contents($tempPath,$data);
+            $hR->setHeader('X-Sabre-Temp', 'true');
+            file_put_contents($tempPath, $data);
             return false;
         }
-        return true;
+        return;
 
     }
 
@@ -155,16 +158,16 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
      * temporary file storage.
      *
      * @param string $path
-     * @return boolean|string
+     * @return bool|string
      */
     protected function isTempFile($path) {
 
         // We're only interested in the basename.
         list(, $tempPath) = URLUtil::splitPath($path);
 
-        foreach($this->temporaryFilePatterns as $tempFile) {
+        foreach ($this->temporaryFilePatterns as $tempFile) {
 
-            if (preg_match($tempFile,$tempPath)) {
+            if (preg_match($tempFile, $tempPath)) {
                 return $this->getDataDir() . '/sabredav_' . md5($path) . '.tempfile';
             }
 
@@ -187,13 +190,13 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
      */
     function httpGet(RequestInterface $request, ResponseInterface $hR, $tempLocation) {
 
-        if (!file_exists($tempLocation)) return true;
+        if (!file_exists($tempLocation)) return;
 
-        $hR->setHeader('Content-Type','application/octet-stream');
-        $hR->setHeader('Content-Length',filesize($tempLocation));
-        $hR->setHeader('X-Sabre-Temp','true');
+        $hR->setHeader('Content-Type', 'application/octet-stream');
+        $hR->setHeader('Content-Length', filesize($tempLocation));
+        $hR->setHeader('X-Sabre-Temp', 'true');
         $hR->setStatus(200);
-        $hR->setBody(fopen($tempLocation,'r'));
+        $hR->setBody(fopen($tempLocation, 'r'));
         return false;
 
     }
@@ -208,7 +211,7 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
      */
     function httpPut(RequestInterface $request, ResponseInterface $hR, $tempLocation) {
 
-        $hR->setHeader('X-Sabre-Temp','true');
+        $hR->setHeader('X-Sabre-Temp', 'true');
 
         $newFile = !file_exists($tempLocation);
 
@@ -216,8 +219,8 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
              throw new Exception\PreconditionFailed('The resource already exists, and an If-None-Match header was supplied');
         }
 
-        file_put_contents($tempLocation,$this->server->httpRequest->getBody());
-        $hR->setStatus($newFile?201:200);
+        file_put_contents($tempLocation, $this->server->httpRequest->getBody());
+        $hR->setStatus($newFile ? 201 : 200);
         return false;
 
     }
@@ -235,10 +238,10 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
      */
     function httpDelete(RequestInterface $request, ResponseInterface $hR, $tempLocation) {
 
-        if (!file_exists($tempLocation)) return true;
+        if (!file_exists($tempLocation)) return;
 
         unlink($tempLocation);
-        $hR->setHeader('X-Sabre-Temp','true');
+        $hR->setHeader('X-Sabre-Temp', 'true');
         $hR->setStatus(204);
         return false;
 
@@ -258,21 +261,19 @@ class TemporaryFileFilterPlugin extends ServerPlugin {
      */
     function httpPropfind(RequestInterface $request, ResponseInterface $hR, $tempLocation) {
 
-        if (!file_exists($tempLocation)) return true;
+        if (!file_exists($tempLocation)) return;
 
-        $hR->setHeader('X-Sabre-Temp','true');
+        $hR->setHeader('X-Sabre-Temp', 'true');
         $hR->setStatus(207);
-        $hR->setHeader('Content-Type','application/xml; charset=utf-8');
-
-        $this->server->parsePropFindRequest($request->getBodyAsString());
+        $hR->setHeader('Content-Type', 'application/xml; charset=utf-8');
 
         $properties = [
             'href' => $request->getPath(),
-            200 => [
-                '{DAV:}getlastmodified' => new Property\GetLastModified(filemtime($tempLocation)),
-                '{DAV:}getcontentlength' => filesize($tempLocation),
-                '{DAV:}resourcetype' => new Property\ResourceType(null),
-                '{'.Server::NS_SABREDAV.'}tempFile' => true,
+            200    => [
+                '{DAV:}getlastmodified'                 => new Xml\Property\GetLastModified(filemtime($tempLocation)),
+                '{DAV:}getcontentlength'                => filesize($tempLocation),
+                '{DAV:}resourcetype'                    => new Xml\Property\ResourceType(null),
+                '{' . Server::NS_SABREDAV . '}tempFile' => true,
 
             ],
         ];

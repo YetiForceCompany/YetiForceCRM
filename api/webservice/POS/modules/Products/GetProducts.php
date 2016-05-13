@@ -1,5 +1,4 @@
 <?php
-require_once 'api/webservice/Core/APISessionPOS.php';
 
 /**
  * Get modules list action class
@@ -19,26 +18,23 @@ class API_Products_GetProducts extends BaseAction
 		$data = $recordModel->getData();
 		$imagesUrl = '';
 		foreach ($image as $img) {
-			$imagesUrl[] = 'api/webservice/Products/GetImage/' . $img['id'];
+			$imagesUrl[] = '/Products/GetImage/' . $img['id'];
 		}
 		$data['imageUrl'] = $imagesUrl;
-		$records[$recordModel->getId()] = $data;
-		return $records;
+		return $data;
 	}
 
 	public function get($recordId = false)
 	{
-		if (APISessionPOS::checkSession($this->api->headers['Sessionid'])) {
-			$db = PearDatabase::getInstance();
-			if ($recordId) {
-				$records = $this->getInfo($recordId);
-			} else {
-				$results = $db->pquery('SELECT productid FROM vtiger_products WHERE pos LIKE ?', ['%' . $this->api->app['id'] . '%']);
-				while ($productId = $db->getRow($results)) {
-					$records[] = $this->getInfo($productId['productid']);
-				}
+		$db = PearDatabase::getInstance();
+		if ($recordId) {
+			$records = $this->getInfo($recordId);
+		} else {
+			$results = $db->pquery('SELECT productid FROM vtiger_products WHERE pos LIKE ? AND discontinued = ?', ['%' . $this->api->app['id'] . '%', 1]);
+			while ($productId = $db->getRow($results)) {
+				$records[$productId['productid']] = $this->getInfo($productId['productid']);
 			}
-			return $records;
 		}
+		return $records;
 	}
 }

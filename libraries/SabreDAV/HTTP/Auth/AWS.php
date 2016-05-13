@@ -9,7 +9,7 @@ use Sabre\HTTP\Util;
  *
  * Use this class to leverage amazon's AWS authentication header
  *
- * @copyright Copyright (C) 2009-2014 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -54,14 +54,14 @@ class AWS extends AbstractAuth {
     function init() {
 
         $authHeader = $this->request->getHeader('Authorization');
-        $authHeader = explode(' ',$authHeader);
+        $authHeader = explode(' ', $authHeader);
 
-        if ($authHeader[0]!='AWS' || !isset($authHeader[1])) {
+        if ($authHeader[0] != 'AWS' || !isset($authHeader[1])) {
             $this->errorCode = self::ERR_NOAWSHEADER;
              return false;
         }
 
-        list($this->accessKey,$this->signature) = explode(':',$authHeader[1]);
+        list($this->accessKey, $this->signature) = explode(':', $authHeader[1]);
 
         return true;
 
@@ -90,10 +90,10 @@ class AWS extends AbstractAuth {
 
         if ($contentMD5) {
             // We need to validate the integrity of the request
-            $body = $this->request->getBody(true);
-            $this->request->setBody($body,true);
+            $body = $this->request->getBody();
+            $this->request->setBody($body);
 
-            if ($contentMD5!=base64_encode(md5($body,true))) {
+            if ($contentMD5 != base64_encode(md5($body, true))) {
                 // content-md5 header did not match md5 signature of body
                 $this->errorCode = self::ERR_MD5CHECKSUMWRONG;
                 return false;
@@ -141,7 +141,7 @@ class AWS extends AbstractAuth {
      */
     function requireLogin() {
 
-        $this->response->addHeader('WWW-Authenticate','AWS');
+        $this->response->addHeader('WWW-Authenticate', 'AWS');
         $this->response->setStatus(401);
 
     }
@@ -190,16 +190,16 @@ class AWS extends AbstractAuth {
 
         $amzHeaders = [];
         $headers = $this->request->getHeaders();
-        foreach($headers as $headerName => $headerValue) {
-            if (strpos(strtolower($headerName),'x-amz-')===0) {
-                $amzHeaders[strtolower($headerName)] = str_replace( ["\r\n"], [' '],$headerValue[0]) . "\n";
+        foreach ($headers as $headerName => $headerValue) {
+            if (strpos(strtolower($headerName), 'x-amz-') === 0) {
+                $amzHeaders[strtolower($headerName)] = str_replace(["\r\n"], [' '], $headerValue[0]) . "\n";
             }
         }
         ksort($amzHeaders);
 
         $headerStr = '';
-        foreach($amzHeaders as $h=>$v) {
-            $headerStr.=$h.':'.$v;
+        foreach ($amzHeaders as $h => $v) {
+            $headerStr .= $h . ':' . $v;
         }
 
         return $headerStr;
@@ -219,14 +219,14 @@ class AWS extends AbstractAuth {
             return hash_hmac('sha1', $message, $key, true);
         }
 
-        $blocksize=64;
-        if (strlen($key)>$blocksize) {
-            $key=pack('H*', sha1($key));
+        $blocksize = 64;
+        if (strlen($key) > $blocksize) {
+            $key = pack('H*', sha1($key));
         }
-        $key=str_pad($key,$blocksize,chr(0x00));
-        $ipad=str_repeat(chr(0x36),$blocksize);
-        $opad=str_repeat(chr(0x5c),$blocksize);
-        $hmac = pack('H*',sha1(($key^$opad).pack('H*',sha1(($key^$ipad).$message))));
+        $key = str_pad($key, $blocksize, chr(0x00));
+        $ipad = str_repeat(chr(0x36), $blocksize);
+        $opad = str_repeat(chr(0x5c), $blocksize);
+        $hmac = pack('H*', sha1(($key ^ $opad) . pack('H*', sha1(($key ^ $ipad) . $message))));
         return $hmac;
 
     }

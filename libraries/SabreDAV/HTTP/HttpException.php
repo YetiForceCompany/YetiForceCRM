@@ -11,7 +11,7 @@ namespace Sabre\HTTP;
  * If you'd like to use this, create a new exception class, extending Exception
  * and implementing this interface.
  *
- * @copyright Copyright (C) 2009-2014 fruux GmbH. All rights reserved.
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

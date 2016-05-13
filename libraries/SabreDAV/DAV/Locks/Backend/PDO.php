@@ -10,7 +10,7 @@ use Sabre\DAV\Locks\LockInfo;
  * This Lock Manager stores all its data in a database. You must pass a PDO
  * connection object in the constructor.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -34,14 +34,10 @@ class PDO extends AbstractBackend {
      * Constructor
      *
      * @param PDO $pdo
-     * @param string $tableName
-     * @deprecated We are removing the tableName property in a future version
-     *             of sabredav. Use the public property instead.
      */
-    function __construct(\PDO $pdo, $tableName = 'locks') {
+    function __construct(\PDO $pdo) {
 
         $this->pdo = $pdo;
-        $this->tableName = $tableName;
 
     }
 
@@ -63,41 +59,41 @@ class PDO extends AbstractBackend {
         // NOTE: the following 10 lines or so could be easily replaced by
         // pure sql. MySQL's non-standard string concatenation prevents us
         // from doing this though.
-        $query = 'SELECT owner, token, timeout, created, scope, depth, uri FROM '.$this->tableName.' WHERE ((created + timeout) > CAST(? AS UNSIGNED INTEGER)) AND ((uri = ?)';
+        $query = 'SELECT owner, token, timeout, created, scope, depth, uri FROM ' . $this->tableName . ' WHERE (created > (? - timeout)) AND ((uri = ?)';
         $params = [time(),$uri];
 
         // We need to check locks for every part in the uri.
-        $uriParts = explode('/',$uri);
+        $uriParts = explode('/', $uri);
 
         // We already covered the last part of the uri
         array_pop($uriParts);
 
-        $currentPath='';
+        $currentPath = '';
 
-        foreach($uriParts as $part) {
+        foreach ($uriParts as $part) {
 
-            if ($currentPath) $currentPath.='/';
-            $currentPath.=$part;
+            if ($currentPath) $currentPath .= '/';
+            $currentPath .= $part;
 
-            $query.=' OR (depth!=0 AND uri = ?)';
+            $query .= ' OR (depth!=0 AND uri = ?)';
             $params[] = $currentPath;
 
         }
 
         if ($returnChildLocks) {
 
-            $query.=' OR (uri LIKE ?)';
+            $query .= ' OR (uri LIKE ?)';
             $params[] = $uri . '/%';
 
         }
-        $query.=')';
+        $query .= ')';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute($params);
         $result = $stmt->fetchAll();
 
         $lockList = [];
-        foreach($result as $row) {
+        foreach ($result as $row) {
 
             $lockInfo = new LockInfo();
             $lockInfo->owner = $row['owner'];
@@ -125,18 +121,18 @@ class PDO extends AbstractBackend {
     function lock($uri, LockInfo $lockInfo) {
 
         // We're making the lock timeout 30 minutes
-        $lockInfo->timeout = 30*60;
+        $lockInfo->timeout = 30 * 60;
         $lockInfo->created = time();
         $lockInfo->uri = $uri;
 
-        $locks = $this->getLocks($uri,false);
+        $locks = $this->getLocks($uri, false);
         $exists = false;
-        foreach($locks as $lock) {
+        foreach ($locks as $lock) {
             if ($lock->token == $lockInfo->token) $exists = true;
         }
 
         if ($exists) {
-            $stmt = $this->pdo->prepare('UPDATE '.$this->tableName.' SET owner = ?, timeout = ?, scope = ?, depth = ?, uri = ?, created = ? WHERE token = ?');
+            $stmt = $this->pdo->prepare('UPDATE ' . $this->tableName . ' SET owner = ?, timeout = ?, scope = ?, depth = ?, uri = ?, created = ? WHERE token = ?');
             $stmt->execute([
                 $lockInfo->owner,
                 $lockInfo->timeout,
@@ -147,7 +143,7 @@ class PDO extends AbstractBackend {
                 $lockInfo->token
             ]);
         } else {
-            $stmt = $this->pdo->prepare('INSERT INTO '.$this->tableName.' (owner,timeout,scope,depth,uri,created,token) VALUES (?,?,?,?,?,?,?)');
+            $stmt = $this->pdo->prepare('INSERT INTO ' . $this->tableName . ' (owner,timeout,scope,depth,uri,created,token) VALUES (?,?,?,?,?,?,?)');
             $stmt->execute([
                 $lockInfo->owner,
                 $lockInfo->timeout,
@@ -174,12 +170,11 @@ class PDO extends AbstractBackend {
      */
     function unlock($uri, LockInfo $lockInfo) {
 
-        $stmt = $this->pdo->prepare('DELETE FROM '.$this->tableName.' WHERE uri = ? AND token = ?');
+        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->tableName . ' WHERE uri = ? AND token = ?');
         $stmt->execute([$uri, $lockInfo->token]);
 
-        return $stmt->rowCount()===1;
+        return $stmt->rowCount() === 1;
 
     }
 
 }
-

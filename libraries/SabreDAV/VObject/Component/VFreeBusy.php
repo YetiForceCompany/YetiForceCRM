@@ -2,15 +2,16 @@
 
 namespace Sabre\VObject\Component;
 
+use DateTimeInterface;
 use Sabre\VObject;
 
 /**
- * The VFreeBusy component
+ * The VFreeBusy component.
  *
  * This component adds functionality to a component, specific for VFREEBUSY
  * components.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -20,17 +21,18 @@ class VFreeBusy extends VObject\Component {
      * Checks based on the contained FREEBUSY information, if a timeslot is
      * available.
      *
-     * @param DateTime $start
-     * @param Datetime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
+     *
      * @return bool
      */
-    public function isFree(\DateTime $start, \Datetime $end) {
+    function isFree(DateTimeInterface $start, DatetimeInterface $end) {
 
-        foreach($this->select('FREEBUSY') as $freebusy) {
+        foreach ($this->select('FREEBUSY') as $freebusy) {
 
             // We are only interested in FBTYPE=BUSY (the default),
             // FBTYPE=BUSY-TENTATIVE or FBTYPE=BUSY-UNAVAILABLE.
-            if (isset($freebusy['FBTYPE']) && strtoupper(substr((string)$freebusy['FBTYPE'],0,4))!=='BUSY') {
+            if (isset($freebusy['FBTYPE']) && strtoupper(substr((string)$freebusy['FBTYPE'], 0, 4)) !== 'BUSY') {
                 continue;
             }
 
@@ -38,7 +40,7 @@ class VFreeBusy extends VObject\Component {
             // commas.
             $periods = explode(',', (string)$freebusy);
 
-            foreach($periods as $period) {
+            foreach ($periods as $period) {
                 // Every period is formatted as [start]/[end]. The start is an
                 // absolute UTC time, the end may be an absolute UTC time, or
                 // duration (relative) value.
@@ -47,12 +49,10 @@ class VFreeBusy extends VObject\Component {
                 $busyStart = VObject\DateTimeParser::parse($busyStart);
                 $busyEnd = VObject\DateTimeParser::parse($busyEnd);
                 if ($busyEnd instanceof \DateInterval) {
-                    $tmp = clone $busyStart;
-                    $tmp->add($busyEnd);
-                    $busyEnd = $tmp;
+                    $busyEnd = $busyStart->add($busyEnd);
                 }
 
-                if($start < $busyEnd && $end > $busyStart) {
+                if ($start < $busyEnd && $end > $busyStart) {
                     return false;
                 }
 
@@ -79,25 +79,24 @@ class VFreeBusy extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
-            'UID' => 1,
+        return [
+            'UID'     => 1,
             'DTSTAMP' => 1,
 
-            'CONTACT' => '?',
-            'DTSTART' => '?',
-            'DTEND' => '?',
+            'CONTACT'   => '?',
+            'DTSTART'   => '?',
+            'DTEND'     => '?',
             'ORGANIZER' => '?',
-            'URL' => '?',
+            'URL'       => '?',
 
-            'ATTENDEE' => '*',
-            'COMMENT' => '*',
-            'FREEBUSY' => '*',
+            'ATTENDEE'       => '*',
+            'COMMENT'        => '*',
+            'FREEBUSY'       => '*',
             'REQUEST-STATUS' => '*',
-        );
+        ];
 
     }
 
 }
-

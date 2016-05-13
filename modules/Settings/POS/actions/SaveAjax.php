@@ -44,7 +44,7 @@ class Settings_POS_SaveAjax_Action extends Settings_Vtiger_Index_Action
 					'user_name' => $userName,
 					'user_id' => $userId,
 					'pass' => $pass,
-					'action' => implode(',', $actionsPos),
+					'action' => empty($actionsPos) ? '' : implode(',', $actionsPos),
 					'status' => $status == 'true' ? 1 : 0,  
 					'server_id' => $serverId,
 					'first_name' => $firstName,

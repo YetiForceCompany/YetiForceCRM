@@ -12,7 +12,7 @@ namespace Sabre\CalDAV\Notifications;
  * For a complete example, check out the Notification class, which contains
  * some helper functions.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

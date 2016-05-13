@@ -9,7 +9,7 @@ use Sabre\DAV;
  *
  * This exception is thrown by UNLOCK if a supplied lock-token is invalid
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -31,9 +31,9 @@ class LockTokenMatchesRequestUri extends Conflict {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(DAV\Server $server,\DOMElement $errorNode) {
+    function serialize(DAV\Server $server, \DOMElement $errorNode) {
 
-        $error = $errorNode->ownerDocument->createElementNS('DAV:','d:lock-token-matches-request-uri');
+        $error = $errorNode->ownerDocument->createElementNS('DAV:', 'd:lock-token-matches-request-uri');
         $errorNode->appendChild($error);
 
     }

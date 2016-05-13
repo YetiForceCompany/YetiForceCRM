@@ -80,7 +80,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
-				'linkurl' => 'Vtiger_Detail_Js.showWorkflowTriggerView(this)',
+				'linkurl' => 'javascript:Vtiger_Detail_Js.showWorkflowTriggerView(this)',
 				'linkicon' => 'glyphicon glyphicon-plus-sign',
 				'linkhint' => 'BTN_WORKFLOW_TRIGGER',
 				'linkclass' => 'btn-warning',
@@ -109,7 +109,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
-				'linkurl' => 'Vtiger_Detail_Js.changeWatchingRecord(this,' . $recordId . ')',
+				'linkurl' => 'javascript:Vtiger_Detail_Js.changeWatchingRecord(this,' . $recordId . ')',
 				'linkicon' => 'glyphicon glyphicon-eye-open',
 				'linkhint' => 'BTN_WATCHING_RECORD',
 				'linkclass' => $class,

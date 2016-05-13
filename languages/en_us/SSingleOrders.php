@@ -36,4 +36,9 @@ $languageStrings = [
 	'PLL_ACCEPTED' => 'Accepted',
 
 	'LBL_CHANGE_STATUS' => 'Change status',
+	'LBL_SYNCHRONIZE_POS' => 'Synchronize POS',
+	'FL_SOURCE' => 'Source',
+	'PLL_MANUAL' => 'Manual',
+	'PLL_POS' => 'POS',
+	'PLL_SHOP' => 'Shop',
 ];

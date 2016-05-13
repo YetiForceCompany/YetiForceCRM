@@ -2,77 +2,76 @@
 
 namespace Sabre\DAV\Auth;
 
-use
-    Sabre\DAV,
-    Sabre\HTTP\RequestInterface,
-    Sabre\HTTP\ResponseInterface;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
+use Sabre\HTTP\URLUtil;
+use Sabre\DAV\Exception\NotAuthenticated;
+use Sabre\DAV\Server;
+use Sabre\DAV\ServerPlugin;
 
 /**
  * This plugin provides Authentication for a WebDAV server.
  *
- * It relies on a Backend object, which provides user information.
+ * It works by providing a Auth\Backend class. Several examples of these
+ * classes can be found in the Backend directory.
  *
- * Additionally, it provides support for:
- *  * {DAV:}current-user-principal property from RFC5397
- *  * {DAV:}principal-collection-set property from RFC3744
+ * It's possible to provide more than one backend to this plugin. If more than
+ * one backend was provided, each backend will attempt to authenticate. Only if
+ * all backends fail, we throw a 401.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class Plugin extends DAV\ServerPlugin {
+class Plugin extends ServerPlugin {
 
     /**
-     * Reference to main server object
+     * authentication backends
+     */
+    protected $backends;
+
+    /**
+     * The currently logged in principal. Will be `null` if nobody is currently
+     * logged in.
      *
-     * @var Sabre\DAV\Server
+     * @var string|null
      */
-    protected $server;
+    protected $currentPrincipal;
 
     /**
-     * Authentication backend
+     * Creates the authentication plugin
      *
-     * @var Backend\BackendInterface
+     * @param Backend\BackendInterface $authBackend
      */
-    protected $authBackend;
+    function __construct(Backend\BackendInterface $authBackend = null) {
 
-    /**
-     * The authentication realm.
-     *
-     * @var string
-     */
-    private $realm;
+        if (!is_null($authBackend)) {
+            $this->addBackend($authBackend);
+        }
 
-    /**
-     * @return string
-     */
-    function getRealm() {
-        return $this->realm;
     }
 
     /**
-     * __construct
+     * Adds an authentication backend to the plugin.
      *
      * @param Backend\BackendInterface $authBackend
-     * @param string $realm
+     * @return void
      */
-    function __construct(Backend\BackendInterface $authBackend, $realm) {
+    function addBackend(Backend\BackendInterface $authBackend) {
 
-        $this->authBackend = $authBackend;
-        $this->realm = $realm;
+        $this->backends[] = $authBackend;
 
     }
 
     /**
      * Initializes the plugin. This function is automatically called by the server
      *
-     * @param DAV\Server $server
+     * @param Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    function initialize(Server $server) {
 
-        $this->server = $server;
-        $this->server->on('beforeMethod', [$this,'beforeMethod'], 10);
+        $server->on('beforeMethod', [$this, 'beforeMethod'], 10);
 
     }
 
@@ -91,18 +90,41 @@ class Plugin extends DAV\ServerPlugin {
     }
 
     /**
-     * Returns the current users' principal uri.
+     * Returns the currently logged-in principal.
      *
-     * If nobody is logged in, this will return null.
+     * This will return a string such as:
      *
+     * principals/username
+     * principals/users/username
+     *
+     * This method will return null if nobody is logged in.
+     *
+     * @return string|null
+     */
+    function getCurrentPrincipal() {
+
+        return $this->currentPrincipal;
+
+    }
+
+    /**
+     * Returns the current username.
+     *
+     * This method is deprecated and is only kept for backwards compatibility
+     * purposes. Please switch to getCurrentPrincipal().
+     *
+     * @deprecated Will be removed in a future version!
      * @return string|null
      */
     function getCurrentUser() {
 
-        $userInfo = $this->authBackend->getCurrentUser();
-        if (!$userInfo) return null;
+        // We just do a 'basename' on the principal to give back a sane value
+        // here.
+        list(, $userName) = URLUtil::splitPath(
+            $this->getCurrentPrincipal()
+        );
 
-        return $userInfo;
+        return $userName;
 
     }
 
@@ -115,7 +137,76 @@ class Plugin extends DAV\ServerPlugin {
      */
     function beforeMethod(RequestInterface $request, ResponseInterface $response) {
 
-        $this->authBackend->authenticate($this->server,$this->getRealm());
+        if ($this->currentPrincipal) {
+
+            // We already have authentication information. This means that the
+            // event has already fired earlier, and is now likely fired for a
+            // sub-request.
+            //
+            // We don't want to authenticate users twice, so we simply don't do
+            // anything here. See Issue #700 for additional reasoning.
+            //
+            // This is not a perfect solution, but will be fixed once the
+            // "currently authenticated principal" is information that's not
+            // not associated with the plugin, but rather per-request.
+            //
+            // See issue #580 for more information about that.
+            return;
+
+        }
+        if (!$this->backends) {
+            throw new \Sabre\DAV\Exception('No authentication backends were configured on this server.');
+        }
+        $reasons = [];
+        foreach ($this->backends as $backend) {
+
+            $result = $backend->check(
+                $request,
+                $response
+            );
+
+            if (!is_array($result) || count($result) !== 2 || !is_bool($result[0]) || !is_string($result[1])) {
+                throw new \Sabre\DAV\Exception('The authentication backend did not return a correct value from the check() method.');
+            }
+
+            if ($result[0]) {
+                $this->currentPrincipal = $result[1];
+                // Exit early
+                return;
+            }
+            $reasons[] = $result[1];
+
+        }
+
+        // If we got here, it means that no authentication backend was
+        // successful in authenticating the user.
+        $this->currentPrincipal = null;
+
+        foreach ($this->backends as $backend) {
+            $backend->challenge($request, $response);
+        }
+        throw new NotAuthenticated(implode(', ', $reasons));
+
+    }
+
+    /**
+     * Returns a bunch of meta-data about the plugin.
+     *
+     * Providing this information is optional, and is mainly displayed by the
+     * Browser plugin.
+     *
+     * The description key in the returned array may contain html and will not
+     * be sanitized.
+     *
+     * @return array
+     */
+    function getPluginInfo() {
+
+        return [
+            'name'        => $this->getPluginName(),
+            'description' => 'Generic authentication plugin',
+            'link'        => 'http://sabre.io/dav/authentication/',
+        ];
 
     }
 

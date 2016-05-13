@@ -10,7 +10,7 @@ use Sabre\HTTP\URLUtil;
  * It allows for fetching nodes by path, facilitates deleting, copying and
  * moving.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -52,7 +52,7 @@ class Tree {
      */
     function getNodeForPath($path) {
 
-        $path = trim($path,'/');
+        $path = trim($path, '/');
         if (isset($this->cache[$path])) return $this->cache[$path];
 
         // Is it the root node?
@@ -64,7 +64,7 @@ class Tree {
         list($parentName, $baseName) = URLUtil::splitPath($path);
 
         // If there was no parent, we must simply ask it from the root node.
-        if ($parentName==="") {
+        if ($parentName === "") {
             $node = $this->rootNode->getChild($baseName);
         } else {
             // Otherwise, we recursively grab the parent and ask him/her.
@@ -96,7 +96,7 @@ class Tree {
         try {
 
             // The root always exists
-            if ($path==='') return true;
+            if ($path === '') return true;
 
             list($parent, $base) = URLUtil::splitPath($path);
 
@@ -127,7 +127,7 @@ class Tree {
         list($destinationDir, $destinationName) = URLUtil::splitPath($destinationPath);
 
         $destinationParent = $this->getNodeForPath($destinationDir);
-        $this->copyNode($sourceNode,$destinationParent,$destinationName);
+        $this->copyNode($sourceNode, $destinationParent, $destinationName);
 
         $this->markDirty($destinationDir);
 
@@ -145,7 +145,7 @@ class Tree {
         list($sourceDir) = URLUtil::splitPath($sourcePath);
         list($destinationDir, $destinationName) = URLUtil::splitPath($destinationPath);
 
-        if ($sourceDir===$destinationDir) {
+        if ($sourceDir === $destinationDir) {
             // If this is a 'local' rename, it means we can just trigger a rename.
             $sourceNode = $this->getNodeForPath($sourcePath);
             $sourceNode->setName($destinationName);
@@ -158,7 +158,7 @@ class Tree {
                 $moveSuccess = $newParentNode->moveInto($destinationName, $sourcePath, $sourceNode);
             }
             if (!$moveSuccess) {
-                $this->copy($sourcePath,$destinationPath);
+                $this->copy($sourcePath, $destinationPath);
                 $this->getNodeForPath($sourcePath)->delete();
             }
         }
@@ -193,8 +193,10 @@ class Tree {
 
         $node = $this->getNodeForPath($path);
         $children = $node->getChildren();
-        $basePath = trim($path,'/') . '/';
-        foreach($children as $child) {
+        $basePath = trim($path, '/');
+        if ($basePath !== '') $basePath .= '/';
+
+        foreach ($children as $child) {
 
             $this->cache[$basePath . $child->getName()] = $child;
 
@@ -225,9 +227,9 @@ class Tree {
 
         // We don't care enough about sub-paths
         // flushing the entire cache
-        $path = trim($path,'/');
-        foreach($this->cache as $nodePath=>$node) {
-            if ($nodePath == $path || strpos($nodePath,$path.'/')===0)
+        $path = trim($path, '/');
+        foreach ($this->cache as $nodePath => $node) {
+            if ($nodePath == $path || strpos($nodePath, $path . '/') === 0)
                 unset($this->cache[$nodePath]);
 
         }
@@ -252,7 +254,7 @@ class Tree {
 
         // Finding common parents
         $parents = [];
-        foreach($paths as $path) {
+        foreach ($paths as $path) {
             list($parent, $node) = URLUtil::splitPath($path);
             if (!isset($parents[$parent])) {
                 $parents[$parent] = [$node];
@@ -263,17 +265,17 @@ class Tree {
 
         $result = [];
 
-        foreach($parents as $parent=>$children) {
+        foreach ($parents as $parent => $children) {
 
             $parentNode = $this->getNodeForPath($parent);
             if ($parentNode instanceof IMultiGet) {
-                foreach($parentNode->getMultipleChildren($children) as $childNode) {
+                foreach ($parentNode->getMultipleChildren($children) as $childNode) {
                     $fullPath = $parent . '/' . $childNode->getName();
                     $result[$fullPath] = $childNode;
                     $this->cache[$fullPath] = $childNode;
                 }
             } else {
-                foreach($children as $child) {
+                foreach ($children as $child) {
                     $fullPath = $parent . '/' . $child;
                     $result[$fullPath] = $this->getNodeForPath($fullPath);
                 }
@@ -304,12 +306,12 @@ class Tree {
 
             // If the body was a string, we need to convert it to a stream
             if (is_string($data)) {
-                $stream = fopen('php://temp','r+');
-                fwrite($stream,$data);
+                $stream = fopen('php://temp', 'r+');
+                fwrite($stream, $data);
                 rewind($stream);
                 $data = $stream;
             }
-            $destinationParent->createFile($destinationName,$data);
+            $destinationParent->createFile($destinationName, $data);
             $destination = $destinationParent->getChild($destinationName);
 
         } elseif ($source instanceof ICollection) {
@@ -317,9 +319,9 @@ class Tree {
             $destinationParent->createDirectory($destinationName);
 
             $destination = $destinationParent->getChild($destinationName);
-            foreach($source->getChildren() as $child) {
+            foreach ($source->getChildren() as $child) {
 
-                $this->copyNode($child,$destination);
+                $this->copyNode($child, $destination);
 
             }
 
@@ -336,4 +338,3 @@ class Tree {
     }
 
 }
-

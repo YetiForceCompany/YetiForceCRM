@@ -11,7 +11,7 @@ use Sabre\DAV;
  * like for example an If, If-None-Match or If-Match header, which caused the HTTP
  * request to not execute (the condition of the header failed)
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -33,7 +33,7 @@ class PreconditionFailed extends DAV\Exception {
      * @param string $message
      * @param string $header
      */
-    function __construct($message, $header=null) {
+    function __construct($message, $header = null) {
 
         parent::__construct($message);
         $this->header = $header;
@@ -58,7 +58,7 @@ class PreconditionFailed extends DAV\Exception {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(DAV\Server $server,\DOMElement $errorNode) {
+    function serialize(DAV\Server $server, \DOMElement $errorNode) {
 
         if ($this->header) {
             $prop = $errorNode->ownerDocument->createElement('s:header');

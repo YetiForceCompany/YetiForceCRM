@@ -16,7 +16,7 @@ use Sabre\DAV;
  * generate more results than the implementation is willing to send back.
  *
  * @author Evert Pot (http://evertpot.com/)
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
 class TooManyMatches extends Forbidden {
@@ -28,9 +28,9 @@ class TooManyMatches extends Forbidden {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(DAV\Server $server,\DOMElement $errorNode) {
+    function serialize(DAV\Server $server, \DOMElement $errorNode) {
 
-        $error = $errorNode->ownerDocument->createElementNS('DAV:','d:number-of-matches-within-limits');
+        $error = $errorNode->ownerDocument->createElementNS('DAV:', 'd:number-of-matches-within-limits');
         $errorNode->appendChild($error);
 
     }

@@ -8,7 +8,7 @@ namespace Sabre\DAV;
  * The SimpleCollection is used to quickly setup static directory structures.
  * Just create the object with a proper name, and add children to use it.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -40,7 +40,7 @@ class SimpleCollection extends Collection {
     function __construct($name, array $children = []) {
 
         $this->name = $name;
-        foreach($children as $child) {
+        foreach ($children as $child) {
 
             if (!($child instanceof INode)) throw new Exception('Only instances of Sabre\DAV\INode are allowed to be passed in the children argument');
             $this->addChild($child);

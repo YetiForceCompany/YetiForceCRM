@@ -2,12 +2,10 @@
 
 namespace Sabre\VObject\Property;
 
-use
-    LogicException,
-    Sabre\VObject\Property;
+use Sabre\VObject\Property;
 
 /**
- * BINARY property
+ * BINARY property.
  *
  * This object represents BINARY values.
  *
@@ -16,7 +14,7 @@ use
  *
  * This property will transparently encode and decode to base64.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -36,13 +34,14 @@ class Binary extends Property {
      * This may be either a single, or multiple strings in an array.
      *
      * @param string|array $value
+     *
      * @return void
      */
-    public function setValue($value) {
+    function setValue($value) {
 
-        if(is_array($value)) {
+        if (is_array($value)) {
 
-            if(count($value) === 1) {
+            if (count($value) === 1) {
                 $this->value = $value[0];
             } else {
                 throw new \InvalidArgumentException('The argument must either be a string or an array with only one child');
@@ -63,9 +62,10 @@ class Binary extends Property {
      * not yet done, but parameters are not included.
      *
      * @param string $val
+     *
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $this->value = base64_decode($val);
 
@@ -76,7 +76,7 @@ class Binary extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return base64_encode($this->value);
 
@@ -90,7 +90,7 @@ class Binary extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return 'BINARY';
 
@@ -103,9 +103,9 @@ class Binary extends Property {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
-        return array(base64_encode($this->getValue()));
+        return [base64_encode($this->getValue())];
 
     }
 
@@ -115,9 +115,10 @@ class Binary extends Property {
      * The value must always be an array.
      *
      * @param array $value
+     *
      * @return void
      */
-    public function setJsonValue(array $value) {
+    function setJsonValue(array $value) {
 
         $value = array_map('base64_decode', $value);
         parent::setJsonValue($value);

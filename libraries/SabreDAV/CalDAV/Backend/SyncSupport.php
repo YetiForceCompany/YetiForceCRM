@@ -14,7 +14,7 @@ namespace Sabre\CalDAV\Backend;
  * For this to work, you _must_ return a {http://sabredav.org/ns}sync-token
  * property from getCalendarsFromUser.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

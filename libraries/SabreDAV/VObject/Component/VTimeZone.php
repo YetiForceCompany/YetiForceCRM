@@ -5,12 +5,12 @@ namespace Sabre\VObject\Component;
 use Sabre\VObject;
 
 /**
- * The VTimeZone component
+ * The VTimeZone component.
  *
  * This component adds functionality to a component, specific for VTIMEZONE
  * components.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -47,11 +47,11 @@ class VTimeZone extends VObject\Component {
      */
     function getValidationRules() {
 
-        return array(
+        return [
             'TZID' => 1,
 
             'LAST-MODIFIED' => '?',
-            'TZURL' => '?',
+            'TZURL'         => '?',
 
             // At least 1 STANDARD or DAYLIGHT must appear, or more. But both
             // cannot appear in the same VTIMEZONE.
@@ -60,9 +60,8 @@ class VTimeZone extends VObject\Component {
             // rules are too loose.
             'STANDARD' => '*',
             'DAYLIGHT' => '*',
-        );
+        ];
 
     }
 
 }
-

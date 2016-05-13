@@ -13,7 +13,7 @@ use Sabre\DAV\Locks\LockInfo;
  *
  * It literally solves the problem this class solves as well, but much better.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -56,14 +56,14 @@ class File extends AbstractBackend {
 
         $locks = $this->getData();
 
-        foreach($locks as $lock) {
+        foreach ($locks as $lock) {
 
             if ($lock->uri === $uri ||
                 //deep locks on parents
-                ($lock->depth!=0 && strpos($uri, $lock->uri . '/')===0) ||
+                ($lock->depth != 0 && strpos($uri, $lock->uri . '/') === 0) ||
 
                 // locks on children
-                ($returnChildLocks && (strpos($lock->uri, $uri . '/')===0)) ) {
+                ($returnChildLocks && (strpos($lock->uri, $uri . '/') === 0))) {
 
                 $newLocks[] = $lock;
 
@@ -72,7 +72,7 @@ class File extends AbstractBackend {
         }
 
         // Checking if we can remove any of these locks
-        foreach($newLocks as $k=>$lock) {
+        foreach ($newLocks as $k => $lock) {
             if (time() > $lock->timeout + $lock->created) unset($newLocks[$k]);
         }
         return $newLocks;
@@ -95,7 +95,7 @@ class File extends AbstractBackend {
 
         $locks = $this->getData();
 
-        foreach($locks as $k=>$lock) {
+        foreach ($locks as $k => $lock) {
             if (
                 ($lock->token == $lockInfo->token) ||
                 (time() > $lock->timeout + $lock->created)
@@ -119,7 +119,7 @@ class File extends AbstractBackend {
     function unlock($uri, LockInfo $lockInfo) {
 
         $locks = $this->getData();
-        foreach($locks as $k=>$lock) {
+        foreach ($locks as $k => $lock) {
 
             if ($lock->token == $lockInfo->token) {
 
@@ -143,14 +143,14 @@ class File extends AbstractBackend {
         if (!file_exists($this->locksFile)) return [];
 
         // opening up the file, and creating a shared lock
-        $handle = fopen($this->locksFile,'r');
-        flock($handle,LOCK_SH);
+        $handle = fopen($this->locksFile, 'r');
+        flock($handle, LOCK_SH);
 
         // Reading data until the eof
         $data = stream_get_contents($handle);
 
         // We're all good
-        flock($handle,LOCK_UN);
+        flock($handle, LOCK_UN);
         fclose($handle);
 
         // Unserializing and checking if the resource file contains data for this file
@@ -169,15 +169,15 @@ class File extends AbstractBackend {
     protected function putData(array $newData) {
 
         // opening up the file, and creating an exclusive lock
-        $handle = fopen($this->locksFile,'a+');
-        flock($handle,LOCK_EX);
+        $handle = fopen($this->locksFile, 'a+');
+        flock($handle, LOCK_EX);
 
         // We can only truncate and rewind once the lock is acquired.
-        ftruncate($handle,0);
+        ftruncate($handle, 0);
         rewind($handle);
 
-        fwrite($handle,serialize($newData));
-        flock($handle,LOCK_UN);
+        fwrite($handle, serialize($newData));
+        flock($handle, LOCK_UN);
         fclose($handle);
 
     }

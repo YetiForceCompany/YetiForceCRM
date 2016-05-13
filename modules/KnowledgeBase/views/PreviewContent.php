@@ -19,7 +19,7 @@ class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View
 		$template = ucfirst(strtolower($type)) . 'View.tpl';
 
 		if ($type === 'PRESENTATION') {
-			$content = explode('<div><span style="display:none;"> </span></div>', $recordModel->get('content'));
+			$content = explode('<div style="page-break-after:always;"><span style="display:none;"> </span></div>', $recordModel->get('content'));
 		} else {
 			$content = $recordModel->get('content');
 		}

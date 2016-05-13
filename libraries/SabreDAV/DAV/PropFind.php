@@ -47,7 +47,7 @@ class PropFind {
         $this->depth = $depth;
         $this->requestType = $requestType;
 
-        if($requestType === self::ALLPROPS) {
+        if ($requestType === self::ALLPROPS) {
             $this->properties = [
                 '{DAV:}getlastmodified',
                 '{DAV:}getcontentlength',
@@ -59,7 +59,7 @@ class PropFind {
             ];
         }
 
-        foreach($this->properties as $propertyName) {
+        foreach ($this->properties as $propertyName) {
 
             // Seeding properties with 404's.
             $this->result[$propertyName] = [404, null];
@@ -131,7 +131,7 @@ class PropFind {
             }
             return;
         }
-        if ($status!==404 && $this->result[$propertyName][0]===404) {
+        if ($status !== 404 && $this->result[$propertyName][0] === 404) {
             $this->itemsLeft--;
         } elseif ($status === 404 && $this->result[$propertyName][0] !== 404) {
             $this->itemsLeft++;
@@ -148,7 +148,7 @@ class PropFind {
      */
     function get($propertyName) {
 
-        return isset($this->result[$propertyName])?$this->result[$propertyName][1]:null;
+        return isset($this->result[$propertyName]) ? $this->result[$propertyName][1] : null;
 
     }
 
@@ -163,7 +163,7 @@ class PropFind {
      */
     function getStatus($propertyName) {
 
-        return isset($this->result[$propertyName])?$this->result[$propertyName][0]:null;
+        return isset($this->result[$propertyName]) ? $this->result[$propertyName][0] : null;
 
     }
 
@@ -225,8 +225,8 @@ class PropFind {
             return [];
         }
         $result = [];
-        foreach($this->result as $propertyName=>$stuff) {
-            if ($stuff[0]===404) {
+        foreach ($this->result as $propertyName => $stuff) {
+            if ($stuff[0] === 404) {
                 $result[] = $propertyName;
             }
         }
@@ -248,6 +248,17 @@ class PropFind {
     }
 
     /**
+     * Returns true if this was an '{DAV:}allprops' request.
+     *
+     * @return bool
+     */
+    function isAllProps() {
+
+        return $this->requestType === self::ALLPROPS;
+
+    }
+
+    /**
      * Returns a result array that's often used in multistatus responses.
      *
      * The array uses status codes as keys, and property names and value pairs
@@ -265,7 +276,7 @@ class PropFind {
             200 => [],
             404 => [],
         ];
-        foreach($this->result as $propertyName=>$info) {
+        foreach ($this->result as $propertyName => $info) {
             if (!isset($r[$info[0]])) {
                 $r[$info[0]] = [$propertyName => $info[1]];
             } else {

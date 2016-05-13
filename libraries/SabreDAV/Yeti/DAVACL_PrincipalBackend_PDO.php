@@ -1,20 +1,33 @@
-<?php
-namespace Yeti;
+<?php namespace Yeti;
+
 use Sabre\DAVACL;
 
-class DAVACL_PrincipalBackend_PDO extends DAVACL\PrincipalBackend\PDO {
-    /**
-     * Sets up the backend.
-     *
-     * @param PDO $pdo
-     * @param string $tableName
-     * @param string $groupMembersTableName
-     * @deprecated We are removing the tableName arguments in a future version
-     *             of sabredav. Use the public properties instead.
-     */
-    function __construct(\PDO $pdo, $tableName = 'dav_principals', $groupMembersTableName = 'dav_groupmembers') {
-        $this->pdo = $pdo;
-        $this->tableName = $tableName;
-        $this->groupMembersTableName = $groupMembersTableName;
-    }
+/**
+ * PDO principal backend
+ *
+ *
+ * This backend assumes all principals are in a single collection. The default collection
+ * is 'principals/', but this can be overriden.
+ *
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
+ * @author Evert Pot (http://evertpot.com/)
+ * @license http://sabre.io/license/ Modified BSD License
+ */
+class DAVACL_PrincipalBackend_PDO extends DAVACL\PrincipalBackend\PDO
+{
+
+	/**
+	 * PDO table name for 'principals'
+	 *
+	 * @var string
+	 */
+	public $tableName = 'dav_principals';
+
+	/**
+	 * PDO table name for 'group members'
+	 *
+	 * @var string
+	 */
+	public $groupMembersTableName = 'dav_groupmembers';
+
 }

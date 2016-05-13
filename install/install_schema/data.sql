@@ -219,6 +219,8 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 
 /*Data for the table `dav_principals` */
 
+/*Data for the table `dav_propertystorage` */
+
 /*Data for the table `dav_schedulingobjects` */
 
 /*Data for the table `dav_users` */
@@ -1245,7 +1247,7 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (370,109,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (371,109,'LBL_DESCRIPTION_BLOCK',3,0,0,0,0,0,0,0);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (372,109,'LBL_ATTENTION_BLOCK',4,0,0,0,0,0,0,0);
-insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (373,90,'LBL_POS',2,0,0,0,0,0,1,1);
+insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (373,90,'LBL_SYNCHRONIZE_POS',2,0,0,0,0,0,1,1);
 
 /*Data for the table `vtiger_blocks_hide` */
 
@@ -3747,6 +3749,7 @@ insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) valu
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (90,2341,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (90,2342,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (97,2343,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (90,2344,0,0);
 
 /*Data for the table `vtiger_def_org_share` */
 
@@ -5607,10 +5610,11 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (90,2341,'table','u_yf_ssingleorders',2,'7','table','FL_NUMBER_TABLE',1,2,'',100,3,373,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (90,2342,'seat','u_yf_ssingleorders',2,'7','seat','FL_NUMBER_SEAT',1,2,'',100,4,373,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (97,2343,'pos','u_yf_istorages',2,'122','pos','FL_POS',1,2,'',100,7,316,1,'V~O~LE~255',1,NULL,'BAS',1,'',0,'',NULL);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`) values (90,2344,'ssingleorders_source','u_yf_ssingleorders',2,'16','ssingleorders_source','FL_SOURCE',1,2,'',100,13,284,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL);
 
 /*Data for the table `vtiger_field_seq` */
 
-insert  into `vtiger_field_seq`(`id`) values (2343);
+insert  into `vtiger_field_seq`(`id`) values (2344);
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -8746,6 +8750,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,90,2341,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,90,2342,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,97,2343,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,90,2344,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,3,0,0);
@@ -10220,6 +10225,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,90,2341,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,90,2342,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,97,2343,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,90,2344,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,3,0,0);
@@ -11694,6 +11700,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,90,2341,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,90,2342,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,97,2343,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,90,2344,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,3,0,0);
@@ -13168,6 +13175,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,90,2341,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,90,2342,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,97,2343,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,90,2344,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -23394,6 +23402,12 @@ insert  into `vtiger_ssalesprocesses_type`(`ssalesprocesses_typeid`,`ssalesproce
 insert  into `vtiger_ssalesprocesses_type`(`ssalesprocesses_typeid`,`ssalesprocesses_type`,`sortorderid`,`presence`) values (3,'PLL_AFTERSALES',3,1);
 insert  into `vtiger_ssalesprocesses_type`(`ssalesprocesses_typeid`,`ssalesprocesses_type`,`sortorderid`,`presence`) values (4,'PLL_TENDER',4,1);
 
+/*Data for the table `vtiger_ssingleorders_source` */
+
+insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (1,'PLL_MANUAL',1,0);
+insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (2,'PLL_POS',2,0);
+insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (3,'PLL_SHOP',3,0);
+
 /*Data for the table `vtiger_ssingleorders_status` */
 
 insert  into `vtiger_ssingleorders_status`(`ssingleorders_statusid`,`ssingleorders_status`,`sortorderid`,`presence`) values (1,'PLL_DRAFT',1,1);
@@ -24517,18 +24531,20 @@ insert  into `vtiger_wsapp_handlerdetails`(`type`,`handlerclass`,`handlerpath`) 
 
 /*Data for the table `vtiger_wsapp_sync_state` */
 
-/*Data for the table `w_yf_portal_sessions` */
-
 /*Data for the table `w_yf_portal_users` */
 
 /*Data for the table `w_yf_pos_actions` */
 
-insert  into `w_yf_pos_actions`(`id`,`label`) values (1,'LBL_SYNCHRONIZE_PRODUCTS');
-insert  into `w_yf_pos_actions`(`id`,`label`) values (2,'LBL_SYNCHRONIZE_ORDERS');
+insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (1,'LBL_SYNCHRONIZE_PRODUCTS','GetProducts');
+insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (2,'LBL_SYNCHRONIZE_ORDERS','SetSSingleOrders');
+insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (3,'LBL_SYNCHRONIZE_PRODUCTS_IMAGES','GetImage');
+insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (4,'LBL_SYNCHRONIZE_STORAGES','GetIStorages');
 
 /*Data for the table `w_yf_pos_users` */
 
 /*Data for the table `w_yf_servers` */
+
+/*Data for the table `w_yf_sessions` */
 
 /*Data for the table `yetiforce_auth` */
 

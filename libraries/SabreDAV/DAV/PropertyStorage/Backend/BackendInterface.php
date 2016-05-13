@@ -11,7 +11,7 @@ use Sabre\DAV\PropPatch;
  * Propertystorage backends must implement this interface to be used by the
  * propertystorage plugin.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH. (https://fruux.com/)
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -26,6 +26,9 @@ interface BackendInterface {
      * Ususually you would just want to call 'get404Properties' on this object,
      * as this will give you the _exact_ list of properties that need to be
      * fetched, and haven't yet.
+     *
+     * However, you can also support the 'allprops' property here. In that
+     * case, you should check for $propFind->isAllProps().
      *
      * @param string $path
      * @param PropFind $propFind

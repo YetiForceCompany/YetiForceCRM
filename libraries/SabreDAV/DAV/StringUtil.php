@@ -9,7 +9,7 @@ namespace Sabre\DAV;
  * the CalDAV calendar-query REPORT, and CardDAV addressbook-query REPORT.
  * Because they both need it, it was decided to put it in Sabre\DAV instead.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -26,13 +26,13 @@ class StringUtil {
      */
     static function textMatch($haystack, $needle, $collation, $matchType = 'contains') {
 
-        switch($collation) {
+        switch ($collation) {
 
             case 'i;ascii-casemap' :
                 // default strtolower takes locale into consideration
                 // we don't want this.
-                $haystack = str_replace(range('a','z'), range('A','Z'), $haystack);
-                $needle = str_replace(range('a','z'), range('A','Z'), $needle);
+                $haystack = str_replace(range('a', 'z'), range('A', 'Z'), $haystack);
+                $needle = str_replace(range('a', 'z'), range('A', 'Z'), $needle);
                 break;
 
             case 'i;octet' :
@@ -49,16 +49,16 @@ class StringUtil {
 
         }
 
-        switch($matchType) {
+        switch ($matchType) {
 
             case 'contains' :
-                return strpos($haystack, $needle)!==false;
+                return strpos($haystack, $needle) !== false;
             case 'equals' :
                 return $haystack === $needle;
             case 'starts-with' :
-                return strpos($haystack, $needle)===0;
+                return strpos($haystack, $needle) === 0;
             case 'ends-with' :
-                return strrpos($haystack, $needle)===strlen($haystack)-strlen($needle);
+                return strrpos($haystack, $needle) === strlen($haystack) - strlen($needle);
             default :
                 throw new Exception\BadRequest('Match-type: ' . $matchType . ' is not supported');
 
@@ -78,7 +78,7 @@ class StringUtil {
      */
     static function ensureUTF8($input) {
 
-        $encoding = mb_detect_encoding($input , ['UTF-8','ISO-8859-1'], true);
+        $encoding = mb_detect_encoding($input, ['UTF-8', 'ISO-8859-1'], true);
 
         if ($encoding === 'ISO-8859-1') {
             return utf8_encode($input);

@@ -14,7 +14,7 @@ class APISession
 		return md5(time() . rand());
 	}
 
-	public static function init($userDetail, $params)
+	public static function init($userDetail)
 	{
 		$sessionId = self::regenerateId();
 		$sessionData = [
@@ -22,15 +22,9 @@ class APISession
 			'user_id' => $userDetail['id'],
 			'created' => date('Y-m-d H:i:s'),
 			'changed' => date('Y-m-d H:i:s'),
-			'ip' => $params['ip'],
+			'ip' => '',
 		];
-		if (key_exists('language', $params)) {
-			$sessionData['language'] = $params['language'];
-		} else {
-			$sessionData['language'] = $userDetail['language'];
-		}
-
-		$dbPortal = PearDatabase::getInstance('portal');
+		$dbPortal = PearDatabase::getInstance();
 		$dbPortal->insert('w_yf_sessions', $sessionData);
 		return $sessionData;
 	}

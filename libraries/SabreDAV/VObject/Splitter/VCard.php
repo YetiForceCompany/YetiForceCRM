@@ -2,12 +2,11 @@
 
 namespace Sabre\VObject\Splitter;
 
-use
-    Sabre\VObject,
-    Sabre\VObject\Parser\MimeDir;
+use Sabre\VObject;
+use Sabre\VObject\Parser\MimeDir;
 
 /**
- * Splitter
+ * Splitter.
  *
  * This class is responsible for splitting up VCard objects.
  *
@@ -15,36 +14,36 @@ use
  * class checks for BEGIN:VCARD and END:VCARD and parses each encountered
  * component individually.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
- * @author Dominik Tobschall
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
+ * @author Dominik Tobschall (http://tobschall.de/)
  * @author Armin Hackmann
  * @license http://sabre.io/license/ Modified BSD License
  */
 class VCard implements SplitterInterface {
 
     /**
-     * File handle
+     * File handle.
      *
      * @var resource
      */
     protected $input;
 
     /**
-     * Persistent parser
+     * Persistent parser.
      *
      * @var MimeDir
      */
     protected $parser;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * The splitter should receive an readable file stream as it's input.
      *
      * @param resource $input
      * @param int $options Parser options, see the OPTIONS constants.
      */
-    public function __construct($input, $options = 0) {
+    function __construct($input, $options = 0) {
 
         $this->input = $input;
         $this->parser = new MimeDir($input, $options);
@@ -59,7 +58,7 @@ class VCard implements SplitterInterface {
      *
      * @return Sabre\VObject\Component|null
      */
-    public function getNext() {
+    function getNext() {
 
         try {
             $object = $this->parser->parse();
@@ -69,7 +68,7 @@ class VCard implements SplitterInterface {
             }
 
         } catch (VObject\EofException $e) {
-            return null;
+            return;
         }
 
         return $object;
