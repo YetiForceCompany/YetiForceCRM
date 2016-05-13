@@ -210,6 +210,9 @@ function OSSProjectTemplatesEdit() {
 				$('.addButton').click(function(){
 					app.showModalWindow($('#add_project_modal'));
 				});
+				$('.addTaskButton').click(function(){
+					app.showModalWindow($('#step_2_modal'));
+				});
 				$('.addMilestoneButton').click(function(){
 					app.showModalWindow($('#step_1_modal'));
 				});
