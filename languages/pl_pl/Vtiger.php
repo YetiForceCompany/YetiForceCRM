@@ -1131,6 +1131,7 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Wiersz dodatkowy',
 	'LBL_Y' => 'r',
 	'LBL_YRS' => 'l',
+	'FL_INACTIVITY' => 'Brak aktyności',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

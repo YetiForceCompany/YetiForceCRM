@@ -1138,6 +1138,7 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Erweitert',
 	'LBL_Y' => 'yr',
 	'LBL_YRS' => 'yrs',
+	'FL_INACTIVITY' => 'Inactivity',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
