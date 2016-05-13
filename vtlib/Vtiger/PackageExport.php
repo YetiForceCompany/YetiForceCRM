@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 include_once('vtlib/Vtiger/Module.php');
 include_once('vtlib/Vtiger/Menu.php');
@@ -545,69 +546,54 @@ class Vtiger_PackageExport
 	 */
 	function export_CustomViews($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 
-		$customviewres = $adb->pquery("SELECT * FROM vtiger_customview WHERE entitytype = ?", Array($moduleInstance->name));
-		$customviewcount = $adb->num_rows($customviewres);
-
-		if (empty($customviewcount))
+		$customviewres = $db->pquery("SELECT * FROM vtiger_customview WHERE entitytype = ?", [$moduleInstance->name]);
+		if (!$customviewres->rowCount())
 			return;
 
 		$this->openNode('customviews');
-		for ($cvindex = 0; $cvindex < $customviewcount; ++$cvindex) {
-
-			$cvid = $adb->query_result($customviewres, $cvindex, 'cvid');
-
-			$cvcolumnres = $adb->pquery("SELECT * FROM vtiger_cvcolumnlist WHERE cvid=?", array($cvid));
-			$cvcolumncount = $adb->num_rows($cvcolumnres);
+		while ($row = $db->getRow($customviewres)) {
+			$setdefault = ($row['setdefault'] == 1) ? 'true' : 'false';
+			$setmetrics = ($row['setmetrics'] == 1) ? 'true' : 'false';
 
 			$this->openNode('customview');
-
-			$setdefault = $adb->query_result($customviewres, $cvindex, 'setdefault');
-			$setdefault = ($setdefault == 1) ? 'true' : 'false';
-
-			$setmetrics = $adb->query_result($customviewres, $cvindex, 'setmetrics');
-			$setmetrics = ($setmetrics == 1) ? 'true' : 'false';
-
-			$this->outputNode($adb->query_result($customviewres, $cvindex, 'viewname'), 'viewname');
+			$this->outputNode($row['viewname'], 'viewname');
 			$this->outputNode($setdefault, 'setdefault');
 			$this->outputNode($setmetrics, 'setmetrics');
+			$this->outputNode($row['featured'], 'featured');
+			$this->outputNode($row['privileges'], 'privileges');
+			$this->outputNode($row['presence'], 'presence');
+			$this->outputNode($row['sequence'], 'sequence');
+			$this->outputNode('<![CDATA[' . $row['description'] . ']]>', 'description');
+			$this->outputNode($row['sort'], 'sort');
 
 			$this->openNode('fields');
-			for ($index = 0; $index < $cvcolumncount; ++$index) {
-				$cvcolumnindex = $adb->query_result($cvcolumnres, $index, 'columnindex');
-				$cvcolumnname = $adb->query_result($cvcolumnres, $index, 'columnname');
-				$cvcolumnnames = explode(':', $cvcolumnname);
-				$cvfieldname = $cvcolumnnames[2];
+			$cvid = $row['cvid'];
+			$cvcolumnres = $db->pquery("SELECT * FROM vtiger_cvcolumnlist WHERE cvid=?", [$cvid]);
+			while ($cvRow = $db->getRow($cvcolumnres)) {
+				$cvColumnNames = explode(':', $cvRow['columnname']);
 
 				$this->openNode('field');
-				$this->outputNode($cvfieldname, 'fieldname');
-				$this->outputNode($cvcolumnindex, 'columnindex');
+				$this->outputNode($cvColumnNames[2], 'fieldname');
+				$this->outputNode($cvRow['columnindex'], 'columnindex');
 
-				$cvcolumnruleres = $adb->pquery("SELECT * FROM vtiger_cvadvfilter WHERE cvid=? AND columnname=?", Array($cvid, $cvcolumnname));
-				$cvcolumnrulecount = $adb->num_rows($cvcolumnruleres);
-
-				if ($cvcolumnrulecount) {
+				$cvcolumnruleres = $db->pquery("SELECT * FROM vtiger_cvadvfilter WHERE cvid=? AND columnname=?", [$cvid, $cvRow['columnname']]);
+				if ($cvcolumnruleres->rowCount()) {
 					$this->openNode('rules');
-					for ($rindex = 0; $rindex < $cvcolumnrulecount; ++$rindex) {
-						$cvcolumnruleindex = $adb->query_result($cvcolumnruleres, $rindex, 'columnindex');
-						$cvcolumnrulecomp = $adb->query_result($cvcolumnruleres, $rindex, 'comparator');
-						$cvcolumnrulevalue = $adb->query_result($cvcolumnruleres, $rindex, 'value');
-						$cvcolumnrulecomp = Vtiger_Filter::translateComparator($cvcolumnrulecomp, true);
-
+					while ($rulesRow = $db->getRow($cvcolumnruleres)) {
+						$cvColumnRuleComp = Vtiger_Filter::translateComparator($rulesRow['comparator'], true);
 						$this->openNode('rule');
-						$this->outputNode($cvcolumnruleindex, 'columnindex');
-						$this->outputNode($cvcolumnrulecomp, 'comparator');
-						$this->outputNode($cvcolumnrulevalue, 'value');
+						$this->outputNode($rulesRow['columnindex'], 'columnindex');
+						$this->outputNode($cvColumnRuleComp, 'comparator');
+						$this->outputNode($rulesRow['value'], 'value');
 						$this->closeNode('rule');
 					}
 					$this->closeNode('rules');
 				}
-
 				$this->closeNode('field');
 			}
 			$this->closeNode('fields');
-
 			$this->closeNode('customview');
 		}
 		$this->closeNode('customviews');
