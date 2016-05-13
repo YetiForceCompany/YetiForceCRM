@@ -576,13 +576,14 @@ class Accounts extends CRMEntity
 		$hasRecordViewAccess = (is_admin($currentUser)) || (isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
 		foreach ($this->hierarchyFields as &$field) {
 			$fieldName = $field['fieldname'];
+			$rawData = '';
 			// Permission to view account is restricted, avoid showing field values (except account name)
 			if (getFieldVisibilityPermission('Accounts', $currentUser->id, $fieldName) == '0') {
 				$data = $accountInfoBase[$fieldName];
 				if ($fieldName == 'accountname') {
 					if ($accountId != $id) {
 						if ($hasRecordViewAccess) {
-							$data = '<a href="index.php?module=Accounts&action=DetailView&record=' . $accountId . '">' . $data . '</a>';
+							$data = '<a href="index.php?module=Accounts&view=Detail&record=' . $accountId . '">' . $data . '</a>';
 						} else {
 							$data = '<span>' . $data . '&nbsp;<span class="glyphicon glyphicon-warning-sign"></span></span>';
 						}
@@ -596,9 +597,10 @@ class Accounts extends CRMEntity
 
 				} else {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field['fieldid']);
+					$rawData = $data;
 					$data = $fieldModel->getDisplayValue($data);
 				}
-				$accountInfoData[] = $data;
+				$accountInfoData[] = ['data' => $data, 'fieldname' => $fieldName, 'rawData' => $rawData];
 			}
 		}
 		$listviewEntries[$accountId] = $accountInfoData;

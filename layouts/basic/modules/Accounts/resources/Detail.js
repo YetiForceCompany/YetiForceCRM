@@ -31,10 +31,43 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 		}
 		return aDeferred.promise();
 	},
+	registerButtons: function (contaienr) {
+		contaienr.find('.toChangeBtn').on('click', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var fieldname = currentTarget.data('fieldname');
+			var params = {
+				value: currentTarget.hasClass('btn-danger') ? 0 : 1,
+				field: fieldname,
+				record: currentTarget.data('recordId'),
+				module: app.getModuleName(),
+				action: 'SaveAjax'
+			};
+			AppConnector.request(params).then(
+					function (data) {
+						if(currentTarget.hasClass('btn-default')){
+							currentTarget.removeClass('btn-default');
+							currentTarget.addClass('btn-danger');
+						} else {
+							currentTarget.addClass('btn-default');
+							currentTarget.removeClass('btn-danger');
+						}
+						currentTarget.html(data.result[fieldname].display_value);
+						var params = {
+							title: app.vtranslate('JS_LBL_PERMISSION'),
+							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+							type: 'success',
+							animation: 'show'
+						};
+						Vtiger_Helper_Js.showMessage(params);
+					}
+			);
+		});
+	},
 	/*
 	 * function to display the AccountHierarchy response data
 	 */
 	displayAccountHierarchyResponseData: function (data) {
+		var thisInstance = this;
 		var callbackFunction = function (data) {
 			app.showScrollBar(jQuery('#hierarchyScroll'), {
 				height: '300px',
@@ -46,6 +79,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 			if (typeof callbackFunction == 'function' && jQuery('#hierarchyScroll').height() > 300) {
 				callbackFunction(data);
 			}
+			thisInstance.registerButtons(data);
 		});
 	},
 	/**
