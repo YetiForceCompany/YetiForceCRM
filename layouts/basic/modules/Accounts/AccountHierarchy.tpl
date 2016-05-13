@@ -27,11 +27,15 @@
 								{/foreach}
 								</tr>
 							</thead>
-						{foreach item=ENTRIES from=$ACCOUNT_HIERARCHY['entries']}
+						{foreach item=ENTRIES from=$ACCOUNT_HIERARCHY['entries'] name=hierarchyEntries}
 							<tbody>
 								<tr>
 								{foreach item=LISTFIELDS from=$ENTRIES}
-									<td>{$LISTFIELDS}</td>
+									{if $smarty.foreach.hierarchyEntries.first} 
+										<td class="parentAccount">{$LISTFIELDS}</td>
+									{else}
+										<td>{$LISTFIELDS}</td>
+									{/if}
 								{/foreach}
 								</tr>
 							</tbody>
