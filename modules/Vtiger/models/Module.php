@@ -1915,7 +1915,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 					}
 				}
 			}
-			if ($relationField && ($moduleName != $sourceModule || ($_REQUEST && $_REQUEST['addRelation']))) {
+			if ($relationField && ($moduleName != $sourceModule || AppRequest::get('addRelation'))) {
 				$data[$relationField] = $sourceRecord;
 			}
 		}
@@ -1962,7 +1962,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		}
 		$query .= $recordId;
 
-		$time = vtlib_purify($_REQUEST['time']);
+		$time = AppRequest::get('time');
 		if ($time == 'current') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
 			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";

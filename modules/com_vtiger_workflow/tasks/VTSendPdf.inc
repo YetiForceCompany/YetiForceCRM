@@ -10,7 +10,6 @@ class VTSendPdf extends VTTask
 
 	public function doTask($entity)
 	{
-		$request = new Vtiger_Request($_REQUEST);
 		$templateId = $this->pdf_tpl;
 		$emailTemplateId = $this->email_tpl;
 		$emailField = $this->email_fld;
@@ -29,7 +28,6 @@ class VTSendPdf extends VTTask
 				if (is_numeric($relRecord) && intval($relRecord) > 0) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($relRecord, $relModuleName);
 					$email = $recordModel->get($relModuleField);
-					var_Dump($email);
 				}
 			}
 		}

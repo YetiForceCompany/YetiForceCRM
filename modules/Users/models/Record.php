@@ -476,8 +476,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function getFromPanel($moduleName = false, $mode, $private = '')
 	{
 		$db = PearDatabase::getInstance();
-		if (empty($moduleName) && $_REQUEST['parent'] != 'Settings') {
-			$moduleName = vtlib_purify($_REQUEST['module']);
+		if (empty($moduleName) && AppRequest::get('parent') != 'Settings') {
+			$moduleName = AppRequest::get('module');
 		}
 		$result = [];
 		$usersGroups = Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($moduleName);
@@ -552,15 +552,14 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function to get all the accessible groups
 	 * @return <Array>
 	 */
-	public function getAccessibleGroups($private = "", $module = false)
+	public function getAccessibleGroups($private = '', $module = false)
 	{
-		//TODO:Remove dependence on $_REQUEST for the module name in the below API
 		$accessibleGroups = Vtiger_Cache::get('vtiger-' . $private, 'accessiblegroups');
 		if (!$accessibleGroups) {
 			$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
 			if ($currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
 				$accessibleGroups = $this->getFromPanel($module, 'groups', $private);
-			}else{
+			} else {
 				$accessibleGroups = get_group_array(false, "ACTIVE", "", $private, $module);
 			}
 			Vtiger_Cache::set('vtiger-' . $private, 'accessiblegroups', $accessibleGroups);

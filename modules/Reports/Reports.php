@@ -1319,7 +1319,7 @@ function getEscapedColumns($selectedfields)
 						}
 
 					}
-					if(isset($_REQUEST["record"]) && $_REQUEST["record"] != '')
+					if(!AppRequest::isEmpty('record'))
 					{
 						$options['label'][] = getTranslatedString($columntototalrow['tablabel'],$columntototalrow['tablabel']).' -'.getTranslatedString($columntototalrow['fieldlabel'],$columntototalrow['tablabel']);
 					}

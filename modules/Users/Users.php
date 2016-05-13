@@ -137,10 +137,10 @@ class Users extends CRMEntity
 	 */
 	function getSortOrder()
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering getSortOrder() method ...");
-		if (isset($_REQUEST['sorder']))
-			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
+		if (AppRequest::has('sorder'))
+			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
 		$log->debug("Exiting getSortOrder method ...");
@@ -153,7 +153,7 @@ class Users extends CRMEntity
 	 */
 	function getOrderBy()
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
@@ -161,8 +161,8 @@ class Users extends CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (isset($_REQUEST['order_by']))
-			$order_by = $this->db->sql_escape_string($_REQUEST['order_by']);
+		if (AppRequest::has('order_by'))
+			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
 		$log->debug("Exiting getOrderBy method ...");
@@ -580,45 +580,6 @@ class Users extends CRMEntity
 		return $userid;
 	}
 
-	/**
-	 * @return -- returns a list of all users in the system.
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	function verify_data()
-	{
-		$usr_name = $this->column_fields["user_name"];
-		global $mod_strings;
-
-		$query = "SELECT user_name from vtiger_users where user_name=? AND id<>? AND deleted=0";
-		$result = $this->db->pquery($query, array($usr_name, $this->id), true, "Error selecting possible duplicate users: ");
-		$dup_users = $this->db->fetchByAssoc($result);
-
-		$query = "SELECT user_name from vtiger_users where is_admin = 'on' AND deleted=0";
-		$result = $this->db->pquery($query, array(), true, "Error selecting possible duplicate vtiger_users: ");
-		$last_admin = $this->db->fetchByAssoc($result);
-
-		$this->log->debug("last admin length: " . count($last_admin));
-		$this->log->debug($last_admin['user_name'] . " == " . $usr_name);
-
-		$verified = true;
-		if ($dup_users != null) {
-			$this->error_string .= $mod_strings['ERR_USER_NAME_EXISTS_1'] . $usr_name . '' . $mod_strings['ERR_USER_NAME_EXISTS_2'];
-			$verified = false;
-		}
-		if (!isset($_REQUEST['is_admin']) &&
-			count($last_admin) == 1 &&
-			$last_admin['user_name'] == $usr_name) {
-			$this->log->debug("last admin length: " . count($last_admin));
-
-			$this->error_string .= $mod_strings['ERR_LAST_ADMIN_1'] . $usr_name . $mod_strings['ERR_LAST_ADMIN_2'];
-			$verified = false;
-		}
-
-		return $verified;
-	}
-
 	/** Function to return the column name array
 	 *
 	 */
@@ -766,7 +727,7 @@ class Users extends CRMEntity
 	function createAccessKey()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 
 		$log->info("Entering Into function createAccessKey()");
 		$updateQuery = "update vtiger_users set accesskey=? where id=?";
@@ -780,7 +741,7 @@ class Users extends CRMEntity
 	 */
 	function insertIntoEntityTable($table_name, $module)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -952,12 +913,12 @@ class Users extends CRMEntity
 	 */
 	function insertIntoAttachment($id, $module)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
+				$files['original_name'] = AppRequest::get($fileindex . '_hidden');
 				$this->uploadAndSaveFile($id, $module, $files);
 			}
 		}
@@ -972,7 +933,7 @@ class Users extends CRMEntity
 	function retrieve_entity_info($record, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into retrieve_entity_info($record, $module) method.");
 
 		if ($record == '') {
@@ -1050,7 +1011,7 @@ class Users extends CRMEntity
 	 */
 	function uploadAndSaveFile($id, $module, $file_details)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
 		$current_user = vglobal('current_user');
@@ -1122,7 +1083,7 @@ class Users extends CRMEntity
 	function save($module_name)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 
 		//Event triggering code
 		require_once('include/events/include.inc');
@@ -1234,7 +1195,7 @@ class Users extends CRMEntity
 	{
 		$homeModComptVisibility = 1;
 		if ($inVal == 'postinstall') {
-			if ($_REQUEST[$home_string] != '') {
+			if (AppRequest::get($home_string) != '') {
 				$homeModComptVisibility = 0;
 			} else if (in_array($home_string, $this->default_widgets)) {
 				$homeModComptVisibility = 0;
@@ -1333,12 +1294,12 @@ class Users extends CRMEntity
 	function saveHomeStuffOrder($id)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering in function saveHomeOrder($id)");
 
 		if ($this->mode == 'edit') {
 			for ($i = 0; $i < count($this->homeorder_array); $i++) {
-				if ($_REQUEST[$this->homeorder_array[$i]] != '') {
+				if (AppRequest::get($this->homeorder_array[$i]) != '') {
 					$save_array[] = $this->homeorder_array[$i];
 					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid=" . $id . " and vtiger_homedefault.hometype='" . $this->homeorder_array[$i] . "'"; //To show the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, array());
@@ -1511,113 +1472,6 @@ class Users extends CRMEntity
 		$user = new Users();
 		$user->retrieveCurrentUserInfoFromFile($adminId);
 		return $user;
-	}
-
-	/**
-	 * Function to set the user time zone and language
-	 * @param- $_REQUEST array
-	 */
-	public function setUserPreferences($requestArray)
-	{
-		$adb = PearDatabase::getInstance();
-		$updateData = array();
-
-		if (isset($requestArray['about']['phone']))
-			$updateData['phone_mobile'] = vtlib_purify($requestArray['about']['phone']);
-		if (isset($requestArray['about']['country']))
-			$updateData['address_country'] = vtlib_purify($requestArray['about']['country']);
-		if (isset($requestArray['about']['company_job']))
-			$updateData['title'] = vtlib_purify($requestArray['about']['company_job']);
-		if (isset($requestArray['about']['department']))
-			$updateData['department'] = vtlib_purify($requestArray['about']['department']);
-
-		if (isset($requestArray['lang_name']))
-			$updateData['language'] = vtlib_purify($requestArray['lang_name']);
-		if (isset($requestArray['time_zone']))
-			$updateData['time_zone'] = vtlib_purify($requestArray['time_zone']);
-		if (isset($requestArray['date_format']))
-			$updateData['date_format'] = vtlib_purify($requestArray['date_format']);
-
-		if (!empty($updateData)) {
-			$updateQuery = 'UPDATE vtiger_users SET ' . ( implode('=?,', array_keys($updateData)) . '=?') . ' WHERE id = ?';
-			$updateQueryParams = array_values($updateData);
-			$updateQueryParams[] = $this->id;
-			$adb->pquery($updateQuery, $updateQueryParams);
-		}
-	}
-
-	/**
-	 * Function to set the Company Logo
-	 * @param- $_REQUEST array
-	 * @param- $_FILE array
-	 */
-	public function uploadOrgLogo($requestArray, $fileArray)
-	{
-		$adb = PearDatabase::getInstance();
-		$file = $fileArray['file'];
-		$logo_name = $file['name'];
-		$file_size = $file['size'];
-		$file_type = $file['type'];
-
-		$filetype_array = explode("/", $file_type);
-		$file_type_val = strtolower($filetype_array[1]);
-
-		$validFileFormats = array('jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif');
-
-		if ($file_size != 0 && in_array($file_type_val, $validFileFormats)) {
-			//Uploading the selected Image
-			move_uploaded_file($file['tmp_name'], 'storage/Logo/' . $logo_name);
-
-			//Updating Database
-			$sql = 'UPDATE vtiger_organizationdetails SET logoname = ? WHERE organization_id = ?';
-			$params = array(decode_html($logo_name), '1');
-			$adb->pquery($sql, $params);
-			copy('storage/Logo/' . $logo_name, 'storage/Logo/application.ico');
-		}
-	}
-
-	/**
-	 * Function to update Base Currency of Product
-	 * @param- $_REQUEST array
-	 */
-	public function updateBaseCurrency($requestArray)
-	{
-		$adb = PearDatabase::getInstance();
-		if (isset($requestArray['currency_name'])) {
-			$currency_name = vtlib_purify($requestArray['currency_name']);
-
-			$result = $adb->pquery('SELECT currency_code, currency_symbol FROM vtiger_currencies WHERE currency_name = ?', array($currency_name));
-			$num_rows = $adb->num_rows($result);
-			if ($num_rows > 0) {
-				$currency_code = decode_html($adb->query_result($result, 0, 'currency_code'));
-				$currency_symbol = decode_html($adb->query_result($result, 0, 'currency_symbol'));
-			}
-
-			//Updating Database
-			$query = 'UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ? WHERE id = ?';
-			$params = array($currency_name, $currency_code, $currency_symbol, '1');
-			$adb->pquery($query, $params);
-		}
-	}
-
-	/**
-	 * Function to update Config file
-	 * @param- $_REQUEST array
-	 */
-	public function updateConfigFile($requestArray)
-	{
-		if (isset($requestArray['currency_name'])) {
-			$currency_name = vtlib_purify($requestArray['currency_name']);
-			$currency_name = '$currency_name = \'' . $currency_name . '\'';
-
-			//Updating in config inc file
-			$filename = 'config/config.php';
-			if (file_exists($filename)) {
-				$contents = file_get_contents($filename);
-				$contents = str_replace('$currency_name = \'USA, Dollars\'', $currency_name, $contents);
-				file_put_contents($filename, $contents);
-			}
-		}
 	}
 
 	public function triggerAfterSaveEventHandlers()

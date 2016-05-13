@@ -46,7 +46,7 @@ class APIException extends Exception
 	public function handleError()
 	{
 		if (AppConfig::debug('WEBSERVICE_DEBUG')) {
-			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+			$request = AppRequest::init();
 
 			$error .= 'message: ' . $this->getMessage() . PHP_EOL;
 			$error .= 'file: ' . $this->getFile() . PHP_EOL;

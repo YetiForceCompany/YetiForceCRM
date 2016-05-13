@@ -25,9 +25,9 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserI
 
 	$cronTasks = false;
 	Vtiger_Cron::setCronAction(true);
-	if (isset($_REQUEST['service'])) {
+	if (AppRequest::has('service')) {
 		// Run specific service
-		$cronTasks = [Vtiger_Cron::getInstance($_REQUEST['service'])];
+		$cronTasks = [Vtiger_Cron::getInstance(AppRequest::get('service'))];
 	} else {
 		// Run all service
 		$cronTasks = Vtiger_Cron::listAllActiveInstances();

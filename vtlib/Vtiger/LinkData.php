@@ -32,16 +32,11 @@ class Vtiger_LinkData
 		$this->link = $link;
 		$this->user = $user;
 		$this->module = $currentModule;
-		if (empty($input)) {
-			$this->input = $_REQUEST;
-		} else {
-			$this->input = $input;
-		}
 	}
 
 	public function getInputParameter($name)
 	{
-		return $this->input[$name];
+		return AppRequest::get($name);
 	}
 
 	/**
@@ -67,5 +62,3 @@ class Vtiger_LinkData
 		return $this->module;
 	}
 }
-
-?>

@@ -83,13 +83,12 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	global $urlPrefix;
 
 	global $theme;
-	$pricebook_id = vtlib_purify($_REQUEST['record']);
+	$pricebook_id = AppRequest::get('record');
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
 
-	$computeCount = $_REQUEST['withCount'];
 	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true ||
-		((boolean) $computeCount) == true) {
+		((boolean) AppRequest::get('withCount')) == true) {
 		$noofrows = $adb->query_result($adb->query(Vtiger_Functions::mkCountQuery($query)), 0, 'count');
 	} else {
 		$noofrows = null;
@@ -105,8 +104,8 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	}
 
 
-	if (isset($_REQUEST['relmodule']) && $_REQUEST['relmodule'] != '' && $_REQUEST['relmodule'] == $relatedmodule) {
-		$relmodule = vtlib_purify($_REQUEST['relmodule']);
+	if (AppRequest::has('relmodule') && AppRequest::get('relmodule') == $relatedmodule) {
+		$relmodule = AppRequest::get('relmodule');
 		if ($_SESSION['rlvs'][$module][$relmodule]) {
 			setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $list_max_entries_per_page, $module, $relmodule);
 		}

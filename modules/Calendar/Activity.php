@@ -121,9 +121,7 @@ class Activity extends CRMEntity
 		$this->insertIntoReminderTable('vtiger_activity_reminder', $module, "");
 
 		//Handling for invitees
-		$selected_users_string = $_REQUEST['inviteesid'];
-		$invitees_array = explode(';', $selected_users_string);
-		$this->insertIntoInviteeTable($module, $invitees_array);
+		$this->insertIntoInviteeTable($module, explode(';', AppRequest::get('inviteesid')));
 
 		//Inserting into sales man activity rel
 		$this->insertIntoSmActivityRel($module);
@@ -187,21 +185,21 @@ class Activity extends CRMEntity
 	 */
 	function insertIntoReminderTable($table_name, $module, $recurid)
 	{
-		$log = vglobal('log');
-		$log->info("in insertIntoReminderTable  " . $table_name . "    module is  " . $module);
-		if ($_REQUEST['set_reminder'] == 'Yes') {
+		$log = LoggerManager::getInstance();
+		$log->info('in insertIntoReminderTable  ' . $table_name . '    module is  ' . $module);
+		if (AppRequest::get('set_reminder') == 'Yes') {
 			unset($_SESSION['next_reminder_time']);
-			$log->debug("set reminder is set");
-			$rem_days = $_REQUEST['remdays'];
-			$log->debug("rem_days is " . $rem_days);
-			$rem_hrs = $_REQUEST['remhrs'];
-			$log->debug("rem_hrs is " . $rem_hrs);
-			$rem_min = $_REQUEST['remmin'];
-			$log->debug("rem_minutes is " . $rem_min);
+			$log->debug('set reminder is set');
+			$rem_days = AppRequest::get('remdays');
+			$log->debug('rem_days is ' . $rem_days);
+			$rem_hrs = AppRequest::get('remhrs');
+			$log->debug('rem_hrs is ' . $rem_hrs);
+			$rem_min = AppRequest::get('remmin');
+			$log->debug('rem_minutes is ' . $rem_min);
 			$reminder_time = $rem_days * 24 * 60 + $rem_hrs * 60 + $rem_min;
-			$log->debug("reminder_time is " . $reminder_time);
-			if ($recurid == "") {
-				if ($_REQUEST['mode'] == 'edit') {
+			$log->debug('reminder_time is ' . $reminder_time);
+			if ($recurid == '') {
+				if (AppRequest::get('mode') == 'edit') {
 					$this->activity_reminder($this->id, $reminder_time, 0, $recurid, 'edit');
 				} else {
 					$this->activity_reminder($this->id, $reminder_time, 0, $recurid, '');
@@ -209,7 +207,7 @@ class Activity extends CRMEntity
 			} else {
 				$this->activity_reminder($this->id, $reminder_time, 0, $recurid, '');
 			}
-		} elseif ($_REQUEST['set_reminder'] == 'No') {
+		} elseif (AppRequest::get('set_reminder') == 'No') {
 			$this->activity_reminder($this->id, '0', 0, $recurid, 'delete');
 		}
 	}
@@ -221,16 +219,16 @@ class Activity extends CRMEntity
 	function insertIntoRecurringTable(& $recurObj)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$st_date = $recurObj->startdate->get_DB_formatted_date();
 		$end_date = $recurObj->enddate->get_DB_formatted_date();
 		if (!empty($recurObj->recurringenddate)) {
 			$recurringenddate = $recurObj->recurringenddate->get_DB_formatted_date();
 		}
 		$type = $recurObj->getRecurringType();
-		$flag = "true";
+		$flag = 'true';
 
-		if ($_REQUEST['mode'] == 'edit') {
+		if (AppRequest::get('mode') == 'edit') {
 			$activity_id = $this->id;
 
 			$sql = 'select min(recurringdate) AS min_date,max(recurringdate) AS max_date, recurringtype, activityid from vtiger_recurringevents where activityid=? group by activityid, recurringtype';
@@ -242,13 +240,13 @@ class Activity extends CRMEntity
 				$end_date_b4edit = $adb->query_result($result, $i, "max_date");
 			}
 			if (($st_date == $date_start_b4edit) && ($end_date == $end_date_b4edit) && ($type == $recur_type_b4_edit)) {
-				if ($_REQUEST['set_reminder'] == 'Yes') {
+				if (AppRequest::get('set_reminder') == 'Yes') {
 					$sql = 'delete from vtiger_activity_reminder where activity_id=?';
 					$adb->pquery($sql, array($activity_id));
 					$sql = 'delete  from vtiger_recurringevents where activityid=?';
 					$adb->pquery($sql, array($activity_id));
 					$flag = "true";
-				} elseif ($_REQUEST['set_reminder'] == 'No') {
+				} elseif (AppRequest::get('set_reminder') == 'No') {
 					$sql = 'delete  from vtiger_activity_reminder where activity_id=?';
 					$adb->pquery($sql, array($activity_id));
 					$flag = "false";
@@ -279,7 +277,7 @@ class Activity extends CRMEntity
 			$rec_params = array($current_id, $this->id, $st_date, $type, $recur_freq, $recurringinfo, $recurringenddate);
 			$adb->pquery($recurring_insert, $rec_params);
 			unset($_SESSION['next_reminder_time']);
-			if ($_REQUEST['set_reminder'] == 'Yes') {
+			if (AppRequest::get('set_reminder') == 'Yes') {
 				$this->insertIntoReminderTable("vtiger_activity_reminder", $module, $current_id, '');
 			}
 		}
@@ -325,8 +323,8 @@ class Activity extends CRMEntity
 			$sql_qry = "insert into vtiger_salesmanactivityrel (smid,activityid) values(?,?)";
 			$adb->pquery($sql_qry, array($this->column_fields['assigned_user_id'], $this->id));
 
-			if (isset($_REQUEST['inviteesid']) && $_REQUEST['inviteesid'] != '') {
-				$selected_users_string = $_REQUEST['inviteesid'];
+			if (!AppRequest::isEmpty('inviteesid')) {
+				$selected_users_string = AppRequest::get('inviteesid');
 				$invitees_array = explode(';', $selected_users_string);
 				foreach ($invitees_array as $inviteeid) {
 					if ($inviteeid != '') {
@@ -360,13 +358,13 @@ class Activity extends CRMEntity
 	 */
 	function getSortOrder()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering getSortOrder() method ...");
-		if (isset($_REQUEST['sorder']))
-			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering getSortOrder() method ...');
+		if (AppRequest::has('sorder'))
+			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['ACTIVITIES_SORT_ORDER'] != '') ? ($_SESSION['ACTIVITIES_SORT_ORDER']) : ($this->default_sort_order));
-		$log->debug("Exiting getSortOrder method ...");
+		$log->debug('Exiting getSortOrder method ...');
 		return $sorder;
 	}
 
@@ -376,7 +374,7 @@ class Activity extends CRMEntity
 	 */
 	function getOrderBy()
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
@@ -384,8 +382,8 @@ class Activity extends CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (isset($_REQUEST['order_by']))
-			$order_by = $this->db->sql_escape_string($_REQUEST['order_by']);
+		if (AppRequest::has('order_by'))
+			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['ACTIVITIES_ORDER_BY'] != '') ? ($_SESSION['ACTIVITIES_ORDER_BY']) : ($use_default_order_by));
 		$log->debug("Exiting getOrderBy method ...");
@@ -401,7 +399,7 @@ class Activity extends CRMEntity
 	 */
 	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
@@ -603,27 +601,27 @@ class Activity extends CRMEntity
 	 */
 	function activity_reminder($activity_id, $reminder_time, $reminder_sent = 0, $recurid, $remindermode = '')
 	{
-		$log = vglobal('log');
-		$log->debug("Entering vtiger_activity_reminder(" . $activity_id . "," . $reminder_time . "," . $reminder_sent . "," . $recurid . "," . $remindermode . ") method ...");
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering vtiger_activity_reminder(' . $activity_id . "," . $reminder_time . "," . $reminder_sent . "," . $recurid . "," . $remindermode . ") method ...");
 		//Check for vtiger_activityid already present in the reminder_table
 		$query_exist = "SELECT activity_id FROM " . $this->reminder_table . " WHERE activity_id = ?";
 		$result_exist = $this->db->pquery($query_exist, array($activity_id));
 
 		if ($remindermode == 'edit') {
 			if ($this->db->num_rows($result_exist) > 0) {
-				$query = "UPDATE " . $this->reminder_table . " SET";
+				$query = "UPDATE " . $this->reminder_table . ' SET';
 				$query .=" reminder_sent = ?, reminder_time = ? WHERE activity_id =?";
 				$params = array($reminder_sent, $reminder_time, $activity_id);
 			} else {
-				$query = "INSERT INTO " . $this->reminder_table . " VALUES (?,?,?,?)";
+				$query = "INSERT INTO " . $this->reminder_table . ' VALUES (?,?,?,?)';
 				$params = array($activity_id, $reminder_time, 0, $recurid);
 			}
 		} elseif (($remindermode == 'delete') && ($this->db->num_rows($result_exist) > 0)) {
-			$query = "DELETE FROM " . $this->reminder_table . " WHERE activity_id = ?";
+			$query = "DELETE FROM " . $this->reminder_table . ' WHERE activity_id = ?';
 			$params = array($activity_id);
 		} else {
-			if ($_REQUEST['set_reminder'] == 'Yes') {
-				$query = "INSERT INTO " . $this->reminder_table . " VALUES (?,?,?,?)";
+			if (AppRequest::get('set_reminder') == 'Yes') {
+				$query = "INSERT INTO " . $this->reminder_table . ' VALUES (?,?,?,?)';
 				$params = array($activity_id, $reminder_time, 0, $recurid);
 			}
 		}

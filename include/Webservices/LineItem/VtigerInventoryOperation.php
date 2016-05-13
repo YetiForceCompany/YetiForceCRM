@@ -85,15 +85,15 @@ class VtigerInventoryOperation extends VtigerModuleOperation
 			$parent['pre_tax_total'] = $updatedParent['pre_tax_total'];
 			$parent['LineItems'] = $handler->getAllLineItemForParent($parentId);
 		} else {
-			$prevAction = $_REQUEST['action'];
+			$prevAction = AppRequest::get('action');
 			// This is added as we are passing data in user format, so in the crmentity insertIntoEntity API
 			// should convert to database format, we have added a check based on the action name there. But 
 			// while saving Invoice and Purchase Order we are also depending on the same action file names to
 			// not to update stock if its an ajax save. In this case also we do not want line items to change.
-			$_REQUEST['action'] = 'FROM_WS';
-
+			AppRequest::set('action', 'FROM_WS');
+			
 			$parent = parent::revise($element);
-			$_REQUEST['action'] = $prevAction;
+			AppRequest::set('action', $prevAction);
 		}
 		return array_merge($element, $parent);
 	}
@@ -133,24 +133,24 @@ class VtigerInventoryOperation extends VtigerModuleOperation
 	{
 		$meta = $this->getMeta();
 		if (!empty($element['hdnTaxType'])) {
-			$_REQUEST['taxtype'] = $element['hdnTaxType'];
+			AppRequest::set('taxtype', $element['hdnTaxType']);
 		}
 		if (!empty($element['hdnSubTotal'])) {
-			$_REQUEST['subtotal'] = $element['hdnSubTotal'];
+			AppRequest::set('subtotal', $element['hdnSubTotal']);
 		}
 
 		if (($element['hdnDiscountAmount'])) {
-			$_REQUEST['discount_type_final'] = 'amount';
-			$_REQUEST['discount_amount_final'] = $element['hdnDiscountAmount'];
+			AppRequest::set('discount_type_final', 'amount');
+			AppRequest::set('discount_amount_final', $element['hdnDiscountAmount']);
 		} elseif (($element['hdnDiscountPercent'])) {
-			$_REQUEST['discount_type_final'] = 'percentage';
-			$_REQUEST['discount_percentage_final'] = $element['hdnDiscountPercent'];
+			AppRequest::set('discount_type_final', 'percentage');
+			AppRequest::set('discount_percentage_final', $element['hdnDiscountPercent']);
 		} else {
-			$_REQUEST['discount_type_final'] = '';
-			$_REQUEST['discount_percentage_final'] = '';
+			AppRequest::set('discount_type_final', '');
+			AppRequest::set('discount_percentage_final', '');
 		}
 		if (!empty($element['hdnGrandTotal'])) {
-			$_REQUEST['total'] = $element['hdnGrandTotal'];
+			AppRequest::set('total', $element['hdnGrandTotal']);
 		}
 
 		return $element;

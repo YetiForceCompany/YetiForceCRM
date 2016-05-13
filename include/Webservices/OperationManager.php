@@ -113,7 +113,7 @@ class OperationManager
 				return $input;
 			case 'post': $input = &$_POST;
 				return $input;
-			default: $input = &$_REQUEST;
+			default: $input = vtlib_purify($_REQUEST);
 				return $input;
 		}
 	}

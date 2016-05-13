@@ -585,8 +585,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				}
 
 				if ($entityId == false) {
-					$request = new Vtiger_Request($_REQUEST);
-					$referenceModuleName = $request->get($fieldName . '_defaultvalue');
+					$referenceModuleName = AppRequest::get($fieldName . '_defaultvalue');
 				}
 			}
 			if ((empty($entityId) || $entityId == 0) && !empty($referenceModuleName)) {

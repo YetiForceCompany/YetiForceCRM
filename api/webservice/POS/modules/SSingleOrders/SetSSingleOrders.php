@@ -56,17 +56,17 @@ class API_SSingleOrders_SetSSingleOrders extends BaseAction
 					$countInventoryData++;
 					foreach ($fields as $columnName) {
 						if ($columnName == 'total' || $columnName == 'gross' || $columnName == 'net') {
-							$_REQUEST[$columnName . $countInventoryData] = $rowInInventory['qty'] * $rowInInventory['price'];
+							AppRequest::set($columnName . $countInventoryData, $rowInInventory['qty'] * $rowInInventory['price']);
 						} else {
 							if (key_exists($columnName, $this->inventoryMapping)) {
-								$_REQUEST[$columnName . $countInventoryData] = $rowInInventory[$this->inventoryMapping[$columnName]];
+								AppRequest::set($columnName . $countInventoryData, $rowInInventory[$this->inventoryMapping[$columnName]]);
 							}
 						}
 					}
-					$_REQUEST['seq' . $countInventoryData] = $countInventoryData;
-					$_REQUEST['currency' . $countInventoryData] = $defaultCurrency;
+					AppRequest::set('seq' . $countInventoryData, $countInventoryData);
+					AppRequest::set('currency' . $countInventoryData, $defaultCurrency);
 				}
-				$_REQUEST['inventoryItemsNo'] = $countInventoryData;
+				AppRequest::set('inventoryItemsNo', $countInventoryData);
 				$recordModel->save();
 				$idsToReturn[$offer['id']] = $recordModel->getid();
 			} else {

@@ -722,7 +722,7 @@ class Contacts extends CRMEntity
 		if ($_FILES) {
 			foreach ($_FILES as $fileindex => $files) {
 				if ($files['name'] != '' && $files['size'] > 0) {
-					$files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
+					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
 					$file_saved = $this->uploadAndSaveFile($id, $module, $files);
 				}
 			}

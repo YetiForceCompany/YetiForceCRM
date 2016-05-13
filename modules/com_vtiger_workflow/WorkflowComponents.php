@@ -1,47 +1,48 @@
 <?php
-/*+*******************************************************************************
+/* +*******************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ******************************************************************************/
-require_once("include/utils/CommonUtils.php");
+ * **************************************************************************** */
+require_once('include/utils/CommonUtils.php');
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Webservices/DescribeObject.php';
-require_once("include/Zend/Json.php");
-
+require_once('include/Zend/Json.php');
 require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
 
-function vtJsonFields($adb, $request) {
-	$moduleName = $request['modulename'];
+function vtJsonFields($adb, Vtiger_Request $request)
+{
 	$mem = new VTExpressionsManager($adb);
-	$fields = $mem->fields($moduleName);
+	$fields = $mem->fields($request->getModule());
 	echo Zend_Json::encode(array('moduleFields' => $fields));
 }
 
-function vtJsonFunctions($adb) {
+function vtJsonFunctions($adb)
+{
 	$mem = new VTExpressionsManager($adb);
 	$functions = $mem->expressionFunctions();
 	echo Zend_Json::encode($functions);
 }
 
-function vtJsonDependentModules($adb, $request) {
-	$moduleName = $request['modulename'];
-    
+function vtJsonDependentModules($adb, Vtiger_Request $request)
+{
+	$moduleName = $request->getModule();
+
 	$result = $adb->pquery("SELECT fieldname, tabid, typeofdata, vtiger_ws_referencetype.type as reference_module FROM vtiger_field
 									INNER JOIN vtiger_ws_fieldtype ON vtiger_field.uitype = vtiger_ws_fieldtype.uitype
 									INNER JOIN vtiger_ws_referencetype ON vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid
 							UNION
 							SELECT fieldname, tabid, typeofdata, relmodule as reference_module FROM vtiger_field
-									INNER JOIN vtiger_fieldmodulerel ON vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid", array());
-    
+									INNER JOIN vtiger_fieldmodulerel ON vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid", []);
+
 	$noOfFields = $adb->num_rows($result);
-	$dependentFields = array();
+	$dependentFields = [];
 	// List of modules which will not be supported by 'Create Entity' workflow task
 	$filterModules = array('Emails', 'Calendar', 'Events', 'Accounts');
-	$skipFieldsList = array();
+	$skipFieldsList = [];
 	for ($i = 0; $i < $noOfFields; ++$i) {
 		$tabId = $adb->query_result($result, $i, 'tabid');
 		$fieldName = $adb->query_result($result, $i, 'fieldname');
@@ -51,8 +52,9 @@ function vtJsonDependentModules($adb, $request) {
 		if (in_array($tabModuleName, $filterModules))
 			continue;
 		if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
-            if(!vtlib_isModuleActive($tabModuleName))continue;
-			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => getTranslatedString($tabModuleName, $tabModuleName));            
+			if (!vtlib_isModuleActive($tabModuleName))
+				continue;
+			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => getTranslatedString($tabModuleName, $tabModuleName));
 		} else {
 			$dataTypeInfo = explode('~', $typeOfData);
 			if ($dataTypeInfo[1] == 'M') { // If the current reference field is mandatory
@@ -66,14 +68,15 @@ function vtJsonDependentModules($adb, $request) {
 			unset($dependentFields[$tabModuleName]);
 		}
 	}
-    
+
 	$returnValue = array('count' => count($dependentFields), 'entities' => $dependentFields);
-    
+
 	echo Zend_Json::encode($returnValue);
 }
 
-function vtJsonOwnersList($adb) {
-	$ownersList = array();
+function vtJsonOwnersList($adb)
+{
+	$ownersList = [];
 	$activeUsersList = get_user_array(false);
 	$allGroupsList = get_group_array(false);
 	foreach ($activeUsersList as $userId => $userName) {
@@ -85,17 +88,16 @@ function vtJsonOwnersList($adb) {
 
 	echo Zend_Json::encode($ownersList);
 }
-
 $adb = PearDatabase::getInstance();
-$mode = vtlib_purify($_REQUEST['mode']);
+$request = AppRequest::init();
+$mode = $request->get('mode');
 
 if ($mode == 'getfieldsjson') {
-	vtJsonFields($adb, $_REQUEST);
+	vtJsonFields($adb, $request);
 } elseif ($mode == 'getfunctionsjson') {
 	vtJsonFunctions($adb);
 } elseif ($mode == 'getdependentfields') {
-	vtJsonDependentModules($adb, $_REQUEST);
+	vtJsonDependentModules($adb, $request);
 } elseif ($mode == 'getownerslist') {
 	vtJsonOwnersList($adb);
 }
-?>

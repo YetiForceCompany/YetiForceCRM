@@ -788,21 +788,21 @@ class Vtiger_Functions
 	static function getRecurringObjValue()
 	{
 		$recurring_data = [];
-		if (isset($_REQUEST['recurringtype']) && $_REQUEST['recurringtype'] != null && $_REQUEST['recurringtype'] != '--None--') {
-			if (!empty($_REQUEST['date_start'])) {
-				$startDate = $_REQUEST['date_start'];
+		if (!AppRequest::isEmpty('recurringtype') && AppRequest::get('recurringtype') != '--None--') {
+			if (!AppRequest::isEmpty('date_start')) {
+				$startDate = AppRequest::get('date_start');
 			}
-			if (!empty($_REQUEST['calendar_repeat_limit_date'])) {
-				$endDate = $_REQUEST['calendar_repeat_limit_date'];
+			if (!AppRequest::isEmpty('calendar_repeat_limit_date')) {
+				$endDate = AppRequest::get('calendar_repeat_limit_date');
 				$recurring_data['recurringenddate'] = $endDate;
-			} elseif (isset($_REQUEST['due_date']) && $_REQUEST['due_date'] != null) {
-				$endDate = $_REQUEST['due_date'];
+			} elseif (!AppRequest::isEmpty('due_date')) {
+				$endDate = AppRequest::get('due_date');
 			}
-			if (!empty($_REQUEST['time_start'])) {
-				$startTime = $_REQUEST['time_start'];
+			if (!AppRequest::isEmpty('time_start')) {
+				$startTime = AppRequest::get('time_start');
 			}
-			if (!empty($_REQUEST['time_end'])) {
-				$endTime = $_REQUEST['time_end'];
+			if (!AppRequest::isEmpty('time_end')) {
+				$endTime = AppRequest::get('time_end');
 			}
 
 			$recurring_data['startdate'] = $startDate;
@@ -810,35 +810,35 @@ class Vtiger_Functions
 			$recurring_data['enddate'] = $endDate;
 			$recurring_data['endtime'] = $endTime;
 
-			$recurring_data['type'] = $_REQUEST['recurringtype'];
-			if ($_REQUEST['recurringtype'] == 'Weekly') {
-				if (isset($_REQUEST['sun_flag']) && $_REQUEST['sun_flag'] != null)
+			$recurring_data['type'] = AppRequest::get('recurringtype');
+			if (AppRequest::get('recurringtype') == 'Weekly') {
+				if (!AppRequest::isEmpty('sun_flag'))
 					$recurring_data['sun_flag'] = true;
-				if (isset($_REQUEST['mon_flag']) && $_REQUEST['mon_flag'] != null)
+				if (!AppRequest::isEmpty('mon_flag'))
 					$recurring_data['mon_flag'] = true;
-				if (isset($_REQUEST['tue_flag']) && $_REQUEST['tue_flag'] != null)
+				if (!AppRequest::isEmpty('tue_flag'))
 					$recurring_data['tue_flag'] = true;
-				if (isset($_REQUEST['wed_flag']) && $_REQUEST['wed_flag'] != null)
+				if (!AppRequest::isEmpty('wed_flag'))
 					$recurring_data['wed_flag'] = true;
-				if (isset($_REQUEST['thu_flag']) && $_REQUEST['thu_flag'] != null)
+				if (!AppRequest::isEmpty('thu_flag'))
 					$recurring_data['thu_flag'] = true;
-				if (isset($_REQUEST['fri_flag']) && $_REQUEST['fri_flag'] != null)
+				if (!AppRequest::isEmpty('fri_flag'))
 					$recurring_data['fri_flag'] = true;
-				if (isset($_REQUEST['sat_flag']) && $_REQUEST['sat_flag'] != null)
+				if (!AppRequest::isEmpty('sat_flag'))
 					$recurring_data['sat_flag'] = true;
 			}
-			elseif ($_REQUEST['recurringtype'] == 'Monthly') {
-				if (isset($_REQUEST['repeatMonth']) && $_REQUEST['repeatMonth'] != null)
-					$recurring_data['repeatmonth_type'] = $_REQUEST['repeatMonth'];
+			elseif (AppRequest::get('recurringtype') == 'Monthly') {
+				if (!AppRequest::isEmpty('repeatMonth'))
+					$recurring_data['repeatmonth_type'] = AppRequest::get('repeatMonth');
 				if ($recurring_data['repeatmonth_type'] == 'date') {
-					if (isset($_REQUEST['repeatMonth_date']) && $_REQUEST['repeatMonth_date'] != null)
-						$recurring_data['repeatmonth_date'] = $_REQUEST['repeatMonth_date'];
+					if (!AppRequest::isEmpty('repeatMonth_date'))
+						$recurring_data['repeatmonth_date'] = AppRequest::get('repeatMonth_date');
 					else
 						$recurring_data['repeatmonth_date'] = 1;
 				}
 				elseif ($recurring_data['repeatmonth_type'] == 'day') {
-					$recurring_data['repeatmonth_daytype'] = $_REQUEST['repeatMonth_daytype'];
-					switch ($_REQUEST['repeatMonth_day']) {
+					$recurring_data['repeatmonth_daytype'] = AppRequest::get('repeatMonth_daytype');
+					switch (AppRequest::get('repeatMonth_day')) {
 						case 0 :
 							$recurring_data['sun_flag'] = true;
 							break;
@@ -863,8 +863,8 @@ class Vtiger_Functions
 					}
 				}
 			}
-			if (isset($_REQUEST['repeat_frequency']) && $_REQUEST['repeat_frequency'] != null)
-				$recurring_data['repeat_frequency'] = $_REQUEST['repeat_frequency'];
+			if (!AppRequest::isEmpty('repeat_frequency'))
+				$recurring_data['repeat_frequency'] = AppRequest::get('repeat_frequency');
 
 			$recurObj = RecurringType::fromUserRequest($recurring_data);
 			return $recurObj;
@@ -1128,7 +1128,7 @@ class Vtiger_Functions
 		if (REQUEST_MODE == 'API') {
 			throw new APIException($message, 401);
 		}
-		$request = new Vtiger_Request($_REQUEST);
+		$request = AppRequest::init();
 		if ($request->isAjax()) {
 			$response = new Vtiger_Response();
 			$response->setEmitType(Vtiger_Response::$EMIT_JSON);

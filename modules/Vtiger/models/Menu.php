@@ -47,7 +47,7 @@ class Vtiger_Menu_Model
 	public static function getBreadcrumbs($pageTitle = false)
 	{
 		$breadcrumbs = false;
-		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		$request = AppRequest::init();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {

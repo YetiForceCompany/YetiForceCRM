@@ -69,25 +69,6 @@ class Vtiger_Deprecated
 		return $blockid;
 	}
 
-	static function copyValuesFromRequest($focus)
-	{
-		if (isset($_REQUEST['record'])) {
-			$focus->id = $_REQUEST['record'];
-		}
-		if (isset($_REQUEST['mode'])) {
-			$focus->mode = $_REQUEST['mode'];
-		}
-		foreach ($focus->column_fields as $fieldname => $val) {
-			if (isset($_REQUEST[$fieldname])) {
-				if (is_array($_REQUEST[$fieldname]))
-					$value = $_REQUEST[$fieldname];
-				else
-					$value = trim($_REQUEST[$fieldname]);
-				$focus->column_fields[$fieldname] = $value;
-			}
-		}
-	}
-
 	static function createModuleMetaFile()
 	{
 		$adb = PearDatabase::getInstance();
@@ -226,10 +207,10 @@ class Vtiger_Deprecated
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
 	}
 
-	static function SaveTagCloudView($id = "")
+	static function SaveTagCloudView($id = '')
 	{
 		$adb = PearDatabase::getInstance();
-		$tag_cloud_status = $_REQUEST['tagcloudview'];
+		$tag_cloud_status = AppRequest::get('tagcloudview');
 		if ($tag_cloud_status == "true") {
 			$tag_cloud_view = 0;
 		} else {

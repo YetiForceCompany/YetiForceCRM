@@ -94,7 +94,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
 			//Due to dependencies on the activity_reminder api in Activity.php(5.x)
-			$_REQUEST['mode'] = 'edit';
+			AppRequest::set('mode', 'edit');
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$modelData = $recordModel->getData();
@@ -156,9 +156,9 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 		//Due to dependencies on the older code
 		$setReminder = $request->get('set_reminder');
 		if ($setReminder) {
-			$_REQUEST['set_reminder'] = 'Yes';
+			AppRequest::set('set_reminder', 'Yes');
 		} else {
-			$_REQUEST['set_reminder'] = 'No';
+			AppRequest::set('set_reminder', 'No');
 		}
 
 		$time = (strtotime($request->get('time_end'))) - (strtotime($request->get('time_start')));
