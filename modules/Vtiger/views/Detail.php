@@ -616,6 +616,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relatedModuleName = $request->get('relatedModule');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
+		$columns = $request->get('col');
 		$moduleName = $request->getModule();
 
 		if (empty($pageNumber)) {
@@ -666,8 +667,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
 
-		if ($request->get('col')) {
-			$header = array_splice($header, 0, $request->get('col'));
+		if ($columns) {
+			$header = array_splice($header, 0, $columns);
 		}
 
 		$viewer = $this->getViewer($request);
@@ -702,6 +703,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
+		$viewer->assign('COLUMNS', $columns);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
