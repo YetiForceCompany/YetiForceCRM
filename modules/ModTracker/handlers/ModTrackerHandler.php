@@ -44,7 +44,7 @@ class ModTrackerHandler extends VTEventHandler
 					if (is_array($delta)) {
 						$inserted = false;
 						foreach ($delta as $fieldName => $values) {
-							if ($fieldName != 'modifiedtime') {
+							if (!in_array($fieldName, ['modifiedtime', 'modifiedby'])) {
 								if (!$inserted) {
 									$checkRecordPresentResult = $adb->pquery('SELECT * FROM vtiger_modtracker_basic WHERE crmid = ?', array($recordId));
 									if (!$adb->num_rows($checkRecordPresentResult) && $data->isNew()) {
@@ -159,7 +159,7 @@ class ModTrackerHandler extends VTEventHandler
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$DISPLAYED
 					]);
-					
+
 					break;
 			}
 			if (AppConfig::module('ModTracker', 'WATCHDOG') && $watchdogTitle != '') {
