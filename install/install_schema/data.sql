@@ -21,6 +21,7 @@ insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2
 /*Data for the table `a_yf_mapped_config` */
 
 insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (1,104,106,'active','[]','','{\"autofill\":\"on\"}');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (2,6,18,'active','[]','','{\"autofill\":\"on\"}');
 
 /*Data for the table `a_yf_mapped_fields` */
 
@@ -33,6 +34,8 @@ insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`defa
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (7,1,'INVENTORY','total','total','');
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (8,1,'V','2226','2250','');
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (9,1,'SELF','id','2262','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (10,2,'V','1','288','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (11,2,'E','9','291','');
 
 /*Data for the table `a_yf_notification_type` */
 
