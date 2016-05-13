@@ -11,6 +11,19 @@ class API_Products_GetProducts extends BaseAction
 
 	protected $requestMethod = ['GET'];
 
+	private function getCategoryName($categoryId)
+	{
+		static $categoryCache = [];
+		if (!empty($categoryCache[$categoryId])) {
+			return $categoryCache[$categoryId];
+		}
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [2, $categoryId]);
+		$categoryName = $db->getSingleValue($result);
+		$categoryCache[$categoryId] = $categoryName;
+		return $categoryName;
+	}
+
 	private function getInfo($recordId)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
@@ -20,6 +33,7 @@ class API_Products_GetProducts extends BaseAction
 		foreach ($image as $img) {
 			$imagesUrl[] = '/Products/GetImage/' . $img['id'];
 		}
+		$data['categoryName'] = $this->getCategoryName($data['pscategory']);
 		$data['imageUrl'] = $imagesUrl;
 		return $data;
 	}

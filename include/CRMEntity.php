@@ -74,6 +74,28 @@ class CRMEntity
 		return $focus;
 	}
 
+	/**
+	 * Save the inventory data
+	 */
+	public function saveInventoryData($moduleName)
+	{
+		$db = PearDatabase::getInstance();
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+
+		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$table = $inventory->getTableName('data');
+
+		$db->delete($table, 'id = ?', [$this->id]);
+		if(is_array($this->inventoryData)){
+			foreach ($this->inventoryData as $insertData) {
+				$insertData['id'] = $this->id;
+				$db->insert($table, $insertData);
+			}
+		}
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
+	}
+
 	function saveentity($module, $fileid = '')
 	{
 		$insertion_mode = $this->mode;
@@ -96,6 +118,10 @@ class CRMEntity
 			} else {
 				$this->insertIntoEntityTable($table_name, $module, $fileid);
 			}
+		}
+
+		if($this->isInventory === true && !empty($this->inventoryData)){
+			$this->saveInventoryData($module);
 		}
 
 		//Calling the Module specific save code
