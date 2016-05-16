@@ -32,8 +32,6 @@ $languageStrings = [
 	'FL_RENEWAL_INVOICE' => 'Faktura odnowienia',
 	// picklist values
 	'PLL_DRAFT' => 'Wersja robocza',
-	'PLL_WAITING_FOR_VERIFICATION' => 'Oczekuje na weryfikacje',
-	'PLL_WAITING_FOR_ACCEPTANCE' => 'Oczekuje na akceptacje',
 	'PLL_ACCEPTED' => 'Zaakceptowano',
 	'PLL_CANCELLED' => 'Anulowano',
 	'PLL_PLANNED' => 'Planowane',

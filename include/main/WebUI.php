@@ -235,6 +235,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
+		} catch (WebServiceException $e) {
+			//No permissions for the record
+			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+
+			Vtiger_Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
+			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+				exit('<pre>' . $e->getTraceAsString() . '</pre>');
+			}
 		} catch (Exception $e) {
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 

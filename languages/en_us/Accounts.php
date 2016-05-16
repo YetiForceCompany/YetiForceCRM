@@ -94,5 +94,4 @@ $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Account name already exists. Do you want to create a duplicate record?',
 	'LBL_DELETE_CONFIRMATION' => 'Deleting this Account will remove its related Opportunities and Quotes. Are you sure you want to delete this Account?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Deleting this Account(s) will remove its related Opportunities and Quotes. Are you sure you want to delete the selected records?',
-	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Are you sure you want to delete?',
 ];

@@ -1262,9 +1262,11 @@ CREATE TABLE `u_yf_igdn` (
   `igdn_status` varchar(255) DEFAULT NULL,
   `acceptance_date` date DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
+  `ssingleordersid` int(19) DEFAULT NULL,
   PRIMARY KEY (`igdnid`),
   KEY `storageid` (`storageid`),
   KEY `accountid` (`accountid`),
+  KEY `ssingleordersid` (`ssingleordersid`),
   CONSTRAINT `u_yf_igdn_ibfk_1` FOREIGN KEY (`igdnid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4643,7 +4645,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2345 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2346 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -9147,7 +9149,7 @@ CREATE TABLE `w_yf_pos_actions` (
   `label` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `w_yf_pos_users` */
 
@@ -9177,6 +9179,7 @@ CREATE TABLE `w_yf_servers` (
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `api_key` varchar(100) NOT NULL,
   `type` varchar(40) NOT NULL,
+  `accounts_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

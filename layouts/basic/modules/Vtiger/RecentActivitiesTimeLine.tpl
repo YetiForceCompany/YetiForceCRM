@@ -19,7 +19,7 @@
 								<span class="glyphicon glyphicon-plus bgGreen"></span>
 								<div class="timeline-item">
 									<span class="time">
-										<b>{$RECENT_ACTIVITY->getActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))})
+										<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))})
 									</span>
 									<div class="timeline-body row no-margin">
 										<div class="pull-left paddingRight15">
@@ -56,7 +56,7 @@
 								<span class="glyphicon glyphicon-pencil bgDarkBlue"></span>
 								<div class="timeline-item">
 									<span class="time">
-										<b>{$RECENT_ACTIVITY->getActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
+										<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
 									</span>
 									<div class="timeline-body row no-margin">
 										<div class="pull-left paddingRight15">
@@ -92,7 +92,7 @@
 								<span class="glyphicon glyphicon-link bgOrange"></span>
 								<div class="timeline-item">
 									<span class="time">
-										<b>{$RECENT_ACTIVITY->getActivityTime()}</b> ({Vtiger_Util_Helper::formatDateTimeIntoDayString($RELATION->get('changedon'))})
+										<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateTimeIntoDayString($RELATION->get('changedon'))})
 									</span>
 									<div class="timeline-body row no-margin">
 										<div class="pull-left paddingRight15">
@@ -122,7 +122,7 @@
 								<span class="glyphicon glyphicon-transfer bgAzure"></span>
 								<div class="timeline-item">
 									<span class="time">
-										<b>{$RECENT_ACTIVITY->getActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
+										<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
 									</span>
 									<div class="timeline-body row no-margin">
 										<div class="pull-left paddingRight15">
@@ -139,7 +139,7 @@
 								<span class="glyphicon glyphicon-th-list bgBlue"></span>
 								<div class="timeline-item">
 									<span class="time">
-										<b>{$RECENT_ACTIVITY->getActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
+										<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
 									</span>
 									<div class="timeline-body row no-margin">
 										<div class="pull-left paddingRight15">

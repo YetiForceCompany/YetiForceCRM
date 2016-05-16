@@ -24,7 +24,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$isRelatedPassword = $request->get('password') != '' && $request->get('password') != '**********' ? true : false;
 
 		// check if encryption is enabled
-		$config == false;
+		$config = false;
 		if (file_exists('modules/OSSPasswords/config.ini.php')) {
 			$config = parse_ini_file('modules/OSSPasswords/config.ini.php');
 		}

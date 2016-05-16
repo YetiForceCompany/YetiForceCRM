@@ -44,18 +44,15 @@ class VtigerWebserviceObject
 
 			$result = null;
 			if ($cacheLength == 0) {
-				$result = $adb->pquery("select * from vtiger_ws_entity where name=?", array($entityName));
+				$result = $adb->pquery('select * from vtiger_ws_entity where name=?', [$entityName]);
 			} else {
 				// Could repeat more number of times...so let us pull rest of details into cache.
-				$result = $adb->pquery("select * from vtiger_ws_entity", []);
+				$result = $adb->pquery('select * from vtiger_ws_entity', []);
 			}
 
 			if ($result) {
-				$rowCount = $adb->num_rows($result);
-				while ($rowCount > 0) {
-					$rowData = $adb->query_result_rowdata($result, $rowCount - 1);
+				while ($rowData = $adb->getRow($result)) {
 					self::$_fromNameCache[$rowData['name']] = $rowData;
-					--$rowCount;
 				}
 			}
 		}
@@ -65,7 +62,7 @@ class VtigerWebserviceObject
 		if ($rowData) {
 			return new VtigerWebserviceObject($rowData['id'], $rowData['name'], $rowData['handler_path'], $rowData['handler_class']);
 		}
-		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to perform the operation is denied for name");
+		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, 'Permission to perform the operation is denied for name: ' . $entityName);
 	}
 
 	// Cache variables to enable result re-use

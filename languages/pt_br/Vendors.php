@@ -41,5 +41,4 @@ $languageStrings = [
 $jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION'=> 'Ao apagar este Fornecedor serão removidos os Pedidos de Compras relacionados. Tem certeza que deseja apagar este Fornecedor?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Ao apagar este(s) Fornecedor(s) serão removidos os Pedidos de Compras relacionados. Tem certeza que deseja apagar os Registros selacionados?',
-	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'tem certeza que deseja apagar?',
 ];

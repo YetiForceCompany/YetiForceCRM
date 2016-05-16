@@ -79,6 +79,10 @@ $languageStrings = [
 	'Action_check_day_tasks' => 'Check the number of events for the saved day',
 	'Action_Desc_check_day_tasks' => 'The action checks the number of events for the event\'s start date, and in case it exceeds the limit, the system blocks/informs the user.',
 	'LBL_MAXIMUM_NUMBER_EVENTS_PER_DAY' => 'Maximum number of events per day',
+	'LBL_SELECT_OPTION_TO_SEARCH' => 'Select option to search for events',
+	'LBL_SET_CUSTOM_CONDITIONS' => 'Set custom conditions',
+	'LBL_CURRENT_EVENTS' => 'Current events',
+	'LBL_PAST_EVENTS' => 'Past events',
 	//
 	'Action_unique_account' => 'Check for account duplicates',
 	'Action_Desc_unique_account' => 'Check if account is unique in the module.',

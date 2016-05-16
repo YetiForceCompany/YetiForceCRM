@@ -1416,6 +1416,8 @@ $jsLanguageStrings = [
 	'JS_PLL_COMPLETED' => 'Completed',
 	'JS_PDF_RECALCULATING' => 'Checking templates',
 	'JS_PDF_GENERATING' => 'Generating PDF in progress',
+	'JS_YESTERDAY' => 'Yesterday',
+	'JS_OLDER' => 'Older',
 	'JS_SELECTED_ELEMENTS' => 'Number of selected elements',
 	'JS_REMOVED_FROM_FAVORITES' => 'Removed from favorites',
 	'JS_ADDED_TO_FAVORITES' => 'Added to favorites',
@@ -1440,4 +1442,5 @@ $jsLanguageStrings = [
 	'JS_WATCHING_MESSAGE1' => 'Are you sure you want to enable tracking changes?',
 	'JS_FILTER' => 'Filter',
 	'JS_NOTIFICATION_LINK' => 'Link',
+	'JS_CANNOT_REMOVE_RELATION' => "Can't remove relation",
 ];

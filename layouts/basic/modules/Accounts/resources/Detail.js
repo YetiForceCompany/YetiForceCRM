@@ -48,9 +48,6 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 			}
 		});
 	},
-	getDeleteMessageKey: function () {
-		return 'LBL_RELATED_RECORD_DELETE_CONFIRMATION';
-	},
 	/**
 	 * Number of records in hierarchy
 	 * @license licenses/License.html

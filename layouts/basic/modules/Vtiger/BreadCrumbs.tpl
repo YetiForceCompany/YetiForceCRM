@@ -6,7 +6,7 @@
 		{if $BREADCRUMBS}
 			<div class="breadcrumbsContainer">
 				<h2 class="breadcrumbsLinks textOverflowEllipsis">
-					<a href='/'>
+					<a href="{AppConfig::main('site_URL')}">
 						<span class="{$HOMEICON}"></span>
 					</a>
 					&nbsp;|&nbsp;

@@ -288,7 +288,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		}
 		bootbox.dialog({
-			message: app.vtranslate('JS_WATCHING_MESSAGE'+value),
+			message: app.vtranslate('JS_WATCHING_MESSAGE' + value),
 			title: app.vtranslate('JS_WATCHING_TITLE'),
 			buttons: {
 				success: {
@@ -503,7 +503,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 		return jQuery('div.related');
 	},
 	getTabs: function () {
-		return this.getTabContainer().find('li');
+		var topTabs = this.getTabContainer().find('li.baseLink:not(.hide)');
+		var dropdownMenuTabs = this.getTabContainer().find('li:not(.baseLink)');
+		dropdownMenuTabs.each(function (n, e) {
+			var currentTarget = jQuery(this);
+			var iteration = currentTarget.data('iteration');
+			var className = currentTarget.hasClass('mainNav') ? 'mainNav' : 'relatedNav';
+			if (iteration != undefined && topTabs.filter('.' + className + '[data-iteration="' + iteration + '"]').length < 1) {
+				topTabs.push(currentTarget.get(0));
+			}
+		})
+		return topTabs;
 	},
 	getContentHolder: function () {
 		if (this.detailViewContentHolder == false) {
@@ -950,7 +960,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 						}
 						var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 						relatedController.deleteRelation([relatedRecordid]).then(function (response) {
-							relatedController.loadRelatedList();
+							if (response.result) {
+								relatedController.loadRelatedList();
+							} else {
+								Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+							}
 						});
 					},
 					function (error, err) {
