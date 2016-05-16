@@ -44,9 +44,17 @@ class API_Products_GetProducts extends BaseAction
 		if ($recordId) {
 			$records = $this->getInfo($recordId);
 		} else {
-			$results = $db->pquery('SELECT productid FROM vtiger_products WHERE pos LIKE ? AND discontinued = ?', ['%' . $this->api->app['id'] . '%', 1]);
-			while ($productId = $db->getRow($results)) {
-				$records[$productId['productid']] = $this->getInfo($productId['productid']);
+			$query = 'SELECT vtiger_products.productid, vtiger_products.pos FROM vtiger_products
+					INNER JOIN vtiger_crmentity ON  vtiger_products.productid = vtiger_crmentity.crmid
+					WHERE vtiger_crmentity.deleted = ?
+					AND vtiger_products.pos LIKE ?
+					AND vtiger_products.discontinued = ?';
+			$results = $db->pquery($query, [0, '%' . $this->api->app['id'] . '%', 1]);
+			while ($products = $db->getRow($results)) {
+				$poses = explode(',', $products['pos']);
+				if (in_array($this->api->app['id'], $poses)) {
+					$records[$products['productid']] = $this->getInfo($products['productid']);
+				}
 			}
 		}
 		return $records;
