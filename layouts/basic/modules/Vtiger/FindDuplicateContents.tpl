@@ -92,7 +92,6 @@
 			<tbody>
 				<tr>
 					<td>
-						{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
 						{vtranslate('LBL_NO_DUPLICATED_FOUND', $MODULE)}
 					</td>
 				</tr>

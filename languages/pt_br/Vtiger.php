@@ -1140,6 +1140,8 @@ $languageStrings = [
 	'LBL_HEADLINE' => 'Título',
 	'LBL_BASIC_VERSE' => 'Verso básico',
 	'LBL_ADDITIONAL_VERSE' => 'Verso adicional',
+	'LBL_Y' => 'yr',
+	'LBL_YRS' => 'yrs',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',

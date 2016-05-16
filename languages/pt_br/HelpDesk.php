@@ -108,4 +108,5 @@ $languageStrings = [
 	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA type',
 	'FL_SERVICE_CONTRACTS_DATE' => 'SLA expiry date',
 	'FL_REPORT_TIME' => 'Report time',
+	'FL_RESPONSE_TIME' => 'Response time',
 ];

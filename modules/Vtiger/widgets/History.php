@@ -6,13 +6,22 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Vtiger_History_Widget extends Vtiger_Basic_Widget {
+class Vtiger_History_Widget extends Vtiger_Basic_Widget
+{
 
-	static public function getActions() {
+	public static $colors = [
+		'ModComments' => 'bgBlue',
+		'OSSMailView' => 'bgOrange',
+		'Calendar' => 'bgGreen',
+	];
+
+	static public function getActions()
+	{
 		return ['ModComments', 'Emails', 'Calendar'];
 	}
 
-	public function getUrl() {
+	public function getUrl()
+	{
 		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getHistory&page=1&limit=' . $this->Data['limit'];
 		foreach (self::getActions() as $type) {
 			$url .= '&type[]=' . $type;
@@ -20,18 +29,21 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget {
 		return $url;
 	}
 
-	public function getWidget() {
+	public function getWidget()
+	{
 		$this->Config['tpl'] = 'History.tpl';
 		$this->Config['url'] = $this->getUrl();
 		$widget = $this->Config;
 		return $widget;
 	}
 
-	public function getConfigTplName() {
+	public function getConfigTplName()
+	{
 		return 'HistoryConfig';
 	}
 
-	public function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel) {
+	public function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
+	{
 		$db = PearDatabase::getInstance();
 		$recordId = $request->get('record');
 		$type = $request->get('type');
@@ -39,7 +51,7 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget {
 			return [];
 		}
 
-		$query = self::getQuery($recordId, $type);
+		$query = self::getQuery($recordId, $request->getModule(), $type);
 		if (empty($query)) {
 			return [];
 		}
@@ -52,24 +64,34 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget {
 		$groups = Settings_Groups_Record_Model::getAll();
 		$groupIds = array_keys($groups);
 		while ($row = $db->getRow($results)) {
-			if(in_array($row['user'], $groupIds)){
+			if (in_array($row['user'], $groupIds)) {
 				$row['isGroup'] = true;
 				$row['userModel'] = $groups[$row['user']];
 			} else {
 				$row['isGroup'] = false;
 				$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
 			}
+			if ($row['type'] == 'OSSMailView') {
+				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getPreviewViewUrl($row['id']);
+			} else {
+				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getDetailViewUrl($row['id']);
+			}
+
+			$row['class'] = self::$colors[$row['type']];
 			$history[] = $row;
 		}
 		return $history;
 	}
 
-	public function getQuery($recordId, $type) {
+	public function getQuery($recordId, $moduleName, $type)
+	{
 		$queries = [];
+		$field = Vtiger_Module_Model::getMappingRelatedField($moduleName);
+
 		if (in_array('Calendar', $type)) {
 			$sql = 'SELECT CONCAT(\'Calendar\') AS type, c.crmid AS id,a.subject AS content,c.smownerid AS user,concat(a.date_start, " ", a.time_start) AS `time` FROM vtiger_activity a
 				INNER JOIN vtiger_crmentity c ON c.crmid = a.activityid 
-				WHERE c.deleted = 0 AND a.link = ' . $recordId;
+				WHERE c.deleted = 0 AND a.' . $field . ' = ' . $recordId;
 			$instance = CRMEntity::getInstance('Calendar');
 			$securityParameter = $instance->getUserAccessConditionsQuerySR('Calendar', false, $recordId);
 			if ($securityParameter != '')
@@ -110,5 +132,4 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget {
 		$sql .= ' ORDER BY time DESC';
 		return $sql;
 	}
-
 }

@@ -1172,7 +1172,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 				fieldElement.validationEngine('hide');
 				//Before saving ajax edit values we need to check if the value is changed then only we have to save
-				if (previousValue == ajaxEditNewValue) {
+				if (previousValue.toString() == ajaxEditNewValue.toString()) {
 					editElement.addClass('hide');
 					detailViewValue.removeClass('hide');
 					actionElement.removeClass('hide');
@@ -2747,23 +2747,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var element = jQuery(e.currentTarget);
 			var recentCommentsTab = thisInstance.getTabByLabel(element.data('label-key'));
 			recentCommentsTab.trigger('click');
-		});
-		detailContentsHolder.on('click', '.moreRecentUpdates', function () {
-			var currentPage = jQuery("#updatesCurrentPage").val();
-			var recordId = jQuery("#recordId").val();
-			var nextPage = parseInt(currentPage) + 1;
-			var pageLimit = jQuery("#updatesPageLimit").val();
-			var url = "index.php?module=" + app.getModuleName() + "&view=Detail&record=" + recordId + "&mode=showRecentActivities&page=" + nextPage + "&limit=" + pageLimit + "&tab_label=LBL_UPDATES";
-			AppConnector.request(url).then(
-					function (data) {
-						jQuery("#updatesCurrentPage").remove();
-						jQuery("#moreLink").remove();
-						jQuery('#updates').append(data);
-					},
-					function (error, err) {
-
-					}
-			);
 		});
 		detailContentsHolder.on('change', '.relatedHistoryTypes', function (e) {
 			var recordId = jQuery("#recordId").val();

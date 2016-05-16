@@ -205,17 +205,17 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header("Content-Type: $exportType; charset=UTF-8");
-		header("Expires: Mon, 31 Dec 2000 00:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: post-check=0, pre-check=0", false);
+		header('Expires: Mon, 31 Dec 2000 00:00:00 GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: post-check=0, pre-check=0', false);
 
 		# Start the ouput
 		$output = fopen('php://output', 'w');
 		fputcsv($output, $headers);
-
 		foreach ($entries as $row) {
 			fputcsv($output, $row);
 		}
+		fclose($output);
 	}
 
 	/**
@@ -278,10 +278,10 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				$uitypeInstance = new Vtiger_SharedOwner_UIType;
 				$owners = $uitypeInstance->getEditViewDisplayValue([], $recordId);
 				$values = [];
-				foreach($owners as $owner){
+				foreach ($owners as $owner) {
 					$values[] = Vtiger_Util_Helper::getOwnerName($owner);
 				}
-				$value = implode(',',$values);
+				$value = implode(',', $values);
 			} elseif ($type == 'reference') {
 				$value = trim($value);
 				if (!empty($value)) {

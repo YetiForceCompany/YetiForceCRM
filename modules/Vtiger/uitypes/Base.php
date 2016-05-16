@@ -97,6 +97,11 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 		return $value;
 	}
 
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		return $this->getDisplayValue($value, $record, $recordInstance, $rawText);
+	}
+
 	/**
 	 * Function to get the Detailview template name for the current UI Type Object
 	 * @return <String> - Template Name
@@ -119,5 +124,10 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/FieldSearchView.tpl';
+	}
+
+	public function isActiveSearchView()
+	{
+		return true;
 	}
 }

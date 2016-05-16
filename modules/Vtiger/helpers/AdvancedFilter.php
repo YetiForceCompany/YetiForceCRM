@@ -5,6 +5,7 @@
  * @package YetiForce.Helpers
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_AdvancedFilter_Helper
 {
@@ -98,6 +99,7 @@ class Vtiger_AdvancedFilter_Helper
 			'image' => array('is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'),
 			'percentage' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'),
 			'multiReferenceValue' => array('contains', 'does not contain', 'has changed', 'is empty', 'is not empty'),
+			'rangeTime' => ['is empty', 'is not empty'],
 		);
 	}
 

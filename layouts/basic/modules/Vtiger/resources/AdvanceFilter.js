@@ -203,7 +203,10 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		var options = '';
 		for (var key in conditionList) {
-			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules', 'tree']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
+			if (jQuery.inArray(fieldInfo.type, ['rangeTime']) != -1 && jQuery.inArray(conditionList[key], ['y', 'ny']) == -1) {
+				continue;
+			}
+			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules', 'tree',]) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
 				continue;
 			}
 			if (jQuery.inArray(conditionList[key], ['om', 'wr', 'nwr']) != -1 && jQuery.inArray(fieldInfo.type, ['owner','sharedOwner']) == -1 ) {

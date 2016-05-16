@@ -251,18 +251,18 @@ class Partners extends Vtiger_CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 
-		if (!is_array($with_crmids))
-			$with_crmids = [$with_crmids];
-		if ($with_module != 'Campaigns') {
-			parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
+		if (!is_array($withCrmids))
+			$withCrmids = [$withCrmids];
+		if ($withModule != 'Campaigns') {
+			parent::save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName);
 		} else {
-			foreach ($with_crmids as $with_crmid) {
+			foreach ($withCrmids as $withCrmid) {
 				$adb->insert('vtiger_campaign_records', [
-					'campaignid' => $with_crmid,
+					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
 					'campaignrelstatusid' => 0
 				]);

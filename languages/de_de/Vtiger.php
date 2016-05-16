@@ -1144,6 +1144,8 @@ $languageStrings = [
 	'LBL_HEADLINE' => 'Kopfzeile',
 	'LBL_BASIC_VERSE' => 'Einfach',
 	'LBL_ADDITIONAL_VERSE' => 'Erweitert',
+	'LBL_Y' => 'yr',
+	'LBL_YRS' => 'yrs',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

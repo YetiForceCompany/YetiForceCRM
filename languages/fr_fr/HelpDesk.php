@@ -108,4 +108,5 @@ $languageStrings = [
 	'FL_SERVICE_CONTRACTS_TYPE' => 'Type de contrat de niveau de service',
 	'FL_SERVICE_CONTRACTS_DATE' => 'Date d\'expiration du contrat de niveau de service',
 	'FL_REPORT_TIME' => 'Report time',
+	'FL_RESPONSE_TIME' => 'Response time',
 ];

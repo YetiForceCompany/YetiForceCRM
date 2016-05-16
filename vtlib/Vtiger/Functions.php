@@ -1049,33 +1049,33 @@ class Vtiger_Functions
 		);
 	}
 
-	static function getRangeTime($timeMinutesRange)
+	static function getRangeTime($timeMinutesRange, $showEmptyValue = true)
 	{
 		$short = [];
 		$full = [];
 		$years = ($timeMinutesRange) / (60 * 24 * 365);
 		$years = floor($years);
 		if (!empty($years)) {
-			$short[] = $years . vtranslate('LBL_Y');
+			$short[] = $years == 1 ? $years . vtranslate('LBL_Y') : $years . vtranslate('LBL_YRS');
 			$full[] = $years == 1 ? $years . vtranslate('LBL_YEAR') : $years . vtranslate('LBL_YEARS');
 		}
-		$days = bcmod(($timeMinutesRange), (60 * 24 * 365));
+		$days = self::myBcmod(($timeMinutesRange), (60 * 24 * 365));
 		$days = ($days) / (24 * 60);
 		$days = floor($days);
 		if (!empty($days)) {
 			$short[] = $days . vtranslate('LBL_D');
 			$full[] = $days == 1 ? $days . vtranslate('LBL_DAY') : $days . vtranslate('LBL_DAYS');
 		}
-		$hours = bcmod(($timeMinutesRange), (24 * 60));
+		$hours = self::myBcmod(($timeMinutesRange), (24 * 60));
 		$hours = ($hours) / (60);
 		$hours = floor($hours);
 		if (!empty($hours)) {
 			$short[] = $hours . vtranslate('LBL_H');
 			$full[] = $hours == 1 ? $hours . vtranslate('LBL_HOUR') : $hours . vtranslate('LBL_HOURS');
 		}
-		$minutes = bcmod(($timeMinutesRange), (60));
+		$minutes = self::myBcmod(($timeMinutesRange), (60));
 		$minutes = floor($minutes);
-		if (!empty($minutes)) {
+		if (!empty($timeMinutesRange) || $showEmptyValue) {
 			$short[] = $minutes . vtranslate('LBL_M');
 			$full[] = $minutes == 1 ? $minutes . vtranslate('LBL_MINUTE') : $minutes . vtranslate('LBL_MINUTES');
 		}
@@ -1084,6 +1084,27 @@ class Vtiger_Functions
 			'short' => implode(' ', $short),
 			'full' => implode(' ', $full),
 		];
+	}
+
+	/**
+	 * myBcmod - get modulus (substitute for bcmod) 
+	 * string my_bcmod ( string left_operand, int modulus ) 
+	 * left_operand can be really big, but be carefull with modulus :( 
+	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania 
+	 * */
+	static function myBcmod($x, $y)
+	{
+		// how many numbers to take at once? carefull not to exceed (int) 
+		$take = 5;
+		$mod = '';
+
+		do {
+			$a = (int) $mod . substr($x, 0, $take);
+			$x = substr($x, $take);
+			$mod = $a % $y;
+		} while (strlen($x));
+
+		return (int) $mod;
 	}
 
 	static function getArrayFromValue($values)

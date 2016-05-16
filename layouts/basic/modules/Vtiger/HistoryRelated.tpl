@@ -7,7 +7,7 @@
 			<ul class="timeline" id="relatedUpdates">
 				{foreach item=HISTORY from=$HISTORIES}
 					<li>
-						<span class="glyphicon bgBlue userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
+						<span class="glyphicon {$HISTORY['class']} userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
 						<div class="timeline-item">
 							<span class="time">
 								<b>{$HISTORY['time']}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($HISTORY['time'])})
@@ -22,7 +22,7 @@
 								</div>
 								<div class="pull-left">
 									<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
-									<a href="index.php?module={$HISTORY['type']}&record={$HISTORY['id']}&view=Detail">{$HISTORY['content']}</a>
+									<a href="{$HISTORY['url']}" target="_blank">{$HISTORY['content']}</a>
 								</div>
 							</div>
 						</div>

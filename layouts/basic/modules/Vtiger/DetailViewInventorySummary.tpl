@@ -61,7 +61,8 @@
 				</table>
 			</div>
 			{if in_array("currency",$COLUMNS) && $BASE_CURRENCY['id'] != $CURRENCY}
-				{assign var="RATE" value=$BASE_CURRENCY['conversion_rate']/$CURRENCY_SYMBOLAND['rate']}
+				{assign var="CURRENCY_PARAM" value=$INVENTORY_ROWS[0]['currencyparam']|json_decode:true}
+				{assign var="RATE" value=$CURRENCY_PARAM[$CURRENCY]['value']}
 				<div class="col-md-4">
 					<table class="table table-bordered inventorySummaryContainer">
 						<thead>

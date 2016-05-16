@@ -1227,4 +1227,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 	{
 		return Zend_Json::decode($this->get('fieldparams'));
 	}
+
+	public function isActiveSearchView()
+	{
+		return $this->getUITypeModel()->isActiveSearchView();
+	}
 }

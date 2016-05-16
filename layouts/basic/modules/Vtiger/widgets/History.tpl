@@ -4,10 +4,10 @@
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="widget_header">
 				<div class="widgetTitle row">
-					<div class="col-xs-5">
+					<div class="col-xs-4">
 						<h4 class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4>
 					</div>
-					<div class="col-xs-7">
+					<div class="col-xs-8">
 						<select class="select2 relatedHistoryTypes" multiple>
 							{foreach from=Vtiger_History_Widget::getActions() item=ACTIONS}
 								<option selected value="{$ACTIONS}">{vtranslate($ACTIONS, $ACTIONS)}</option>	

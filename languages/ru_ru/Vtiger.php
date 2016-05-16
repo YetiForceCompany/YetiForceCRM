@@ -1383,6 +1383,8 @@ $languageStrings = [
 	'LBL_HEADLINE' => 'Заголовок',
 	'LBL_BASIC_VERSE' => 'Основные данные',
 	'LBL_ADDITIONAL_VERSE' => 'Дополнительные данные',
+	'LBL_Y' => 'yr',
+	'LBL_YRS' => 'yrs',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
