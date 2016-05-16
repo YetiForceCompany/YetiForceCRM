@@ -14,7 +14,7 @@
 		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
 				<span class="hierarchy">
-
+					<span class="badge {if $RECORD->get('inactivity')} bgGreen {else} bgOrange {/if}"></span>
 				</span>
 				<span class="detailViewIcon cursorPointer userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 			</div>
@@ -23,7 +23,7 @@
 					{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 						{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
 						{if $FIELD_MODEL && $FIELD_MODEL->getPermissions()}
-							<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>
+							<span class="cursorPointer recordLabelValue moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>
 						{/if}
 					{/foreach}
 				</h4>

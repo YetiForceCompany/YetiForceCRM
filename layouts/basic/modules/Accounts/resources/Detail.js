@@ -36,7 +36,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 			var currentTarget = $(e.currentTarget);
 			var fieldname = currentTarget.data('fieldname');
 			var params = {
-				value: currentTarget.hasClass('btn-danger') ? 0 : 1,
+				value: currentTarget.hasClass('btn-success') ? 0 : 1,
 				field: fieldname,
 				record: currentTarget.data('recordId'),
 				module: app.getModuleName(),
@@ -44,12 +44,12 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 			};
 			AppConnector.request(params).then(
 					function (data) {
-						if(currentTarget.hasClass('btn-default')){
-							currentTarget.removeClass('btn-default');
-							currentTarget.addClass('btn-danger');
+						if(currentTarget.hasClass('btn-warning')){
+							currentTarget.removeClass('btn-warning');
+							currentTarget.addClass('btn-success');
 						} else {
-							currentTarget.addClass('btn-default');
-							currentTarget.removeClass('btn-danger');
+							currentTarget.addClass('btn-warning');
+							currentTarget.removeClass('btn-success');
 						}
 						currentTarget.html(data.result[fieldname].display_value);
 						var params = {
@@ -99,7 +99,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 			}
 			AppConnector.request(params).then(function (response) {
 				if (response.success) {
-					$('.detailViewTitle .hierarchy').append(' <span class="badge">' + response.result + '</span>');
+					$('.detailViewTitle .hierarchy .badge').html(response.result);
 				}
 			});
 		}
@@ -108,7 +108,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 		var thisInstance = this;
 		var hierarchyButton = $('.detailViewTitle');
 		var url = "index.php?module=Accounts&view=AccountHierarchy&record=" + app.getRecordId();
-		hierarchyButton.on('click', '.detailViewIcon', function (e) {
+		hierarchyButton.on('click', '.detailViewIcon, .recordLabelValue', function (e) {
 			thisInstance.getAccountHierarchyResponseData(url).then(function (data) {
 				thisInstance.displayAccountHierarchyResponseData(data);
 			});
