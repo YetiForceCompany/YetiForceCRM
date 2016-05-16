@@ -414,14 +414,9 @@ class ListViewController
 						$parentMeta = $this->queryGenerator->getMeta($parentModule);
 						$ID = $value;
 						$value = textlength_check($this->nameList[$fieldName][$ID]);
-						$recordModel = Vtiger_Record_Model::getInstanceById($rawValue, $parentModule);
-						$colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($module, $rawValue, $recordModel);
-						$colorStyle = '';
-						if ($colorList)
-							$colorStyle = 'style="color: ' . $colorList['text'] . ' "';
 						if ($parentMeta->isModuleEntity() && $parentModule != 'Users' && Users_Privileges_Model::isPermitted($parentModule, 'DetailView', $ID)) {
 							$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&" .
-								"record=$rawValue' title='" . getTranslatedString($parentModule, $parentModule) . "' " . $colorStyle . ">$value</a>";
+								"record=$rawValue' title='" . getTranslatedString($parentModule, $parentModule) . "'>$value</a>";
 						}
 					} else {
 						$value = '--';
