@@ -19,6 +19,14 @@ class API_SSingleOrders_CancelSSingleOrders extends BaseAction
 				$recordModel->set('ssingleorders_status', 'PLL_CANCELLED');
 				$recordModel->set('mode', 'edit');
 				$recordModel->save();
+				$db = PearDatabase::getInstance();
+				$result = $db->pquery('SELECT igdnid FROM u_yf_igdn WHERE ssingleordersid = ?', [$recordId]);
+				while($igdnId = $db->getSingleValue($result)){
+					$recordIgdnModel = Vtiger_Record_Model::getInstanceById($igdnId);
+					$recordIgdnModel->set('igdn_status', 'PLL_CANCELLED');
+					$recordIgdnModel->set('mode', 'edit');
+					$recordIgdnModel->save();
+				}
 			} else {
 				throw new APIException('Record from other module', 405);
 			}

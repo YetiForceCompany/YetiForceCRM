@@ -44,17 +44,17 @@ $languageStrings = [
 	'LBL_SU_BASE_ACCESS' => 'User',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Es ist erlaubt, sich anzumelden.',
 	//Locks
-	'LBL_LOCKS' => 'Locks',
-	'LBL_LOCKS_DESCRIPTION' => 'Tool to block browser actions (copy, cut, etc)',
-	'LBL_LOCK_COPY' => 'Lock copying',
-	'LBL_LOCK_CUT' => 'Lock cutting',
-	'LBL_LOCK_PASTE' => 'Lock pasting',
-	'LBL_LOCK_RIGHT_MENU' => 'Lock right mouse button',
-	'LBL_LOCK_SELECT_TEXT' => 'Lock selecting',
-	'LBL_LOCK_DRAG' => 'Lock dragging',
+	'LBL_LOCKS' => 'Sperren',
+	'LBL_LOCKS_DESCRIPTION' => 'Tool um Browseraktionen zu sperren (kopieren, ausschneiden, etc.)',
+	'LBL_LOCK_COPY' => 'Kopieren sperren',
+	'LBL_LOCK_CUT' => 'Ausschneiden sperren',
+	'LBL_LOCK_PASTE' => 'Einfügen sperren',
+	'LBL_LOCK_RIGHT_MENU' => 'Rechte Maustaste sperren',
+	'LBL_LOCK_SELECT_TEXT' => 'Selektieren sperren',
+	'LBL_LOCK_DRAG' => 'Verschieben sperren',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
-	'Changed password successfully' => 'Changed password successfully',
+	'Changed password successfully' => 'Passwort erfolgreich geändert',
 ];

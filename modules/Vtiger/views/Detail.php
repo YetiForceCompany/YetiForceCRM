@@ -32,6 +32,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedProductsServices');
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showRelatedTree');
+		$this->exposeMethod('getHistory');
 	}
 
 	function checkPermission(Vtiger_Request $request)
@@ -379,7 +380,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		} else {
-			$limit = AppConfig::module('ModTracker','NUMBER_RECORDS_ON_PAGE');
+			$limit = AppConfig::module('ModTracker', 'NUMBER_RECORDS_ON_PAGE');
 			$pagingModel->set('limit', $limit);
 		}
 
@@ -395,8 +396,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$defaultView = AppConfig::module('ModTracker','DEFAULT_VIEW');
-		if($defaultView == 'List'){
+		$defaultView = AppConfig::module('ModTracker', 'DEFAULT_VIEW');
+		if ($defaultView == 'List') {
 			$tplName = 'RecentActivities.tpl';
 		} else {
 			$tplName = 'RecentActivitiesTimeLine.tpl';
@@ -766,5 +767,26 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 
 		echo $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
+	}
+
+	public function getHistory(Vtiger_Request $request)
+	{
+		$pageNumber = $request->get('page');
+		$moduleName = $request->getModule();
+
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
+		}
+		
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		$pagingModel->set('limit', 10);
+		
+		$histories = Vtiger_History_Widget::getHistory($request, $pagingModel);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('HISTORIES', $histories);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
+		return $viewer->view('HistoryRelated.tpl', $moduleName, true);
 	}
 }

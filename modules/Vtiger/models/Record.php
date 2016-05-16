@@ -129,6 +129,13 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $this;
 	}
 
+	public function getRecordNumber()
+	{
+		$fieldModel = $this->getModule()->getFieldsByUiType(4);
+		$fieldModel = reset($fieldModel);
+		return $this->get($fieldModel->getName());
+	}
+
 	/**
 	 * Function to get the Detail View url for the record
 	 * @return <String> - Record Detail View Url
@@ -438,8 +445,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function isCreateable()
 	{
 		if (!isset($this->privileges['isCreateable'])) {
-			$moduleName = $this->getModuleName();
-			$this->privileges['isCreateable'] = Users_Privileges_Model::isPermitted($moduleName, 'CreateView');
+			$this->privileges['isCreateable'] = $this->getModule()->isPermitted('CreateView');
 		}
 		return $this->privileges['isCreateable'];
 	}

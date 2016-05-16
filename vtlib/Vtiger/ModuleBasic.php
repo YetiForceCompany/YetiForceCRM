@@ -404,7 +404,7 @@ class Vtiger_ModuleBasic
 	function enableTools($tools)
 	{
 		if (is_string($tools)) {
-			$tools = Array(0 => $tools);
+			$tools = [$tools];
 		}
 
 		foreach ($tools as $tool) {

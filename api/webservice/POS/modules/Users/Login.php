@@ -24,6 +24,9 @@ class API_Users_Login extends BaseAction
 		if ($password != $userDetail['pass']) {
 			throw new APIException('LBL_INVALID_USER_PASSWORD', 401);
 		}
+		if ($this->api->app['id'] != $userDetail['server_id']){
+			throw new APIException('LBL_INVALID_APP', 401);
+		}
 		$sessionData = APISession::init($userDetail);
 		self::updateUser($userDetail['id']);
 		return [

@@ -18,7 +18,10 @@
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
- * ****************************************************************************** */
+ * ******************************************************************************
+ * Contributor(s): YetiForce.com
+ */
+
 
 // Contact is used to store customer information.
 class Contacts extends CRMEntity
@@ -861,14 +864,12 @@ class Contacts extends CRMEntity
 
 	function setRelationTables($secmodule = false)
 	{
-		$relTables = array(
-			//'HelpDesk' => array('vtiger_troubletickets'=>array('contact_id','ticketid'),'vtiger_contactdetails'=>'contactid'),
-			'Products' => array('vtiger_seproductsrel' => array('crmid', 'productid'), 'vtiger_contactdetails' => 'contactid'),
-			'Campaigns' => array('vtiger_campaign_records' => array('crmid', 'campaignid'), 'vtiger_contactdetails' => 'contactid'),
-			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_contactdetails' => 'contactid'),
-			'Accounts' => array('vtiger_contactdetails' => array('contactid', 'accountid'))
-		);
-		if($secmodule === false){
+		$relTables = [
+			'Products' => ['vtiger_seproductsrel' => ['crmid', 'productid'], 'vtiger_contactdetails' => 'contactid'],
+			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'vtiger_contactdetails' => 'contactid'],
+			'Documents' => ['vtiger_senotesrel' => ['crmid', 'notesid'], 'vtiger_contactdetails' => 'contactid']
+		];
+		if ($secmodule === false) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];

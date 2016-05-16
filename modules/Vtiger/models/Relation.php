@@ -168,9 +168,9 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			}
 		} else {
 			$relationFieldModel = $this->getRelationField();
-			if($relationFieldModel && $relationFieldModel->isMandatory()){
+			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
 				return false;
-			}			
+			}
 			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
 			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			return true;
@@ -281,7 +281,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename FROM vtiger_relatedlists 
+		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename,vtiger_tab.tabid as moduleid FROM vtiger_relatedlists 
                     INNER JOIN vtiger_tab on vtiger_relatedlists.related_tabid = vtiger_tab.tabid
                     WHERE vtiger_relatedlists.tabid = ? AND related_tabid != 0';
 
@@ -297,11 +297,11 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		while ($row = $db->getRow($result)) {
 			//$relationModuleModel = Vtiger_Module_Model::getCleanInstance($moduleName);
 			// Skip relation where target module does not exits or is no permitted for view.
-			if (!Users_Privileges_Model::isPermitted($row['modulename'], 'DetailView')) {
+			if (!$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
 			}
 			$relationModel = new $relationModelClassName();

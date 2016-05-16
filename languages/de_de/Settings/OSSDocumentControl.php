@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'Document Control' => 'Document Flow',
+	'Document Control' => 'Dokumentenkontrolle',
 	'OSSDocumentControl' => 'Dokumentenkontrolle',
 	'LBL_ENTER_BASIC_INFO' => 'Geben Sie die grundlegenden Informationen ein',
 	'LBL_STEP_1' => 'Schritt 1',
@@ -84,6 +84,6 @@ $jsLanguageStrings = [
 	'Check for duplicate names' => 'Prüfe auf doppelte Namen',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Prüfe ob alle Mussfelder bei Schnelleditieren gefüllt sind',
 	'Lock edit on the status' => 'Bearbeiten Sperren bei folgendem Status',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'ist aktiviert',
+	'is disabled' => 'ist deaktiviert',
 ];

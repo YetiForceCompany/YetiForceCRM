@@ -19,8 +19,8 @@
 			<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getName()}">
 				{assign var=COUNTER value=0}
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
-					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
-					{if $FIELD_MODEL->getPermissions()}
+					{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
+					{if $FIELD_MODEL && $FIELD_MODEL->getPermissions()}
 						<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>
 					{if $COUNTER eq 0 && ($RECORD->get($NAME_FIELD))}&nbsp;{assign var=COUNTER value=$COUNTER+1}{/if}
 				{/if}

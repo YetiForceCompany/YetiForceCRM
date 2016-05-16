@@ -2953,10 +2953,10 @@ span[name=existingImages] img{
 }
 .remindersNoticeContainer{
 	position: fixed;
-	right: 0;
+	right: -380px;
 	top: 109px;
-	z-index: 1029;
-	width: 0;
+	z-index: 1035;
+	width: 380px;
 	height: 100%;
 	bottom: 30px;
 	overflow-y: auto;
@@ -2969,8 +2969,7 @@ span[name=existingImages] img{
 	overflow-y: auto;
 }
 .remindersNoticeContainer.toggled{
-	width: 380px;
-	z-index: 1035;
+	right: 0px;
 }
 .remindersContent{
 	margin: 5px 8px 0 8px;
@@ -3439,11 +3438,12 @@ span[name=existingImages] img{
 	margin-left: 50px;
 }
 .baseContainer .basePanel {
+	width: 100%;
 	position: relative;
 	left: 0;
 	z-index: 1030;
-	-webkit-transition: left ease-in-out 0.3s;
-	transition: left ease-in-out 0.3s;
+	-webkit-transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
+	transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
 	background: #ffffff;
 	min-height: 100%;
 	transition-delay: 0.5s;
@@ -4143,6 +4143,12 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width:1240px){
+	.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
+	.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
+		width: calc(100% - 180px);
+		-webkit-transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+		transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	}
 	.pull-left-md{
 		float:left;
 	}
@@ -4280,7 +4286,7 @@ html,body,.baseContainer
 	}
 	.siteBarRight{
 		width: 100%;
-		padding: 0;
+		padding: 0 15px;
 		position: relative;
 		-webkit-transition: all 0.5s ease;
 		-moz-transition: all 0.5s ease;

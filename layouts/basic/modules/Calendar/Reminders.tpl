@@ -83,6 +83,10 @@
 					</div>
 				</div>
 			</div>
+		{foreachelse}
+			<div class="alert alert-info">
+				{vtranslate('LBL_NO_CURRENT_ACTIVITIES',$MODULE_NAME)}
+			</div>
 		{/foreach}
 	</div>
 {/strip}

@@ -2,9 +2,10 @@
 {strip}
 <div class="listViewPageDiv" id="listViewContainer">
 	<div class="listViewTopMenuDiv">
-		<div class="row">
-			<div class="col-md-12">
-				<h3>{vtranslate('LBL_PDF',$QUALIFIED_MODULE)}</h3>{vtranslate('LBL_PDF_DESCRIPTION', $QUALIFIED_MODULE)}
+		<div class="row widget_header">
+			<div class="col-xs-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{vtranslate('LBL_PDF_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>
 		<hr>

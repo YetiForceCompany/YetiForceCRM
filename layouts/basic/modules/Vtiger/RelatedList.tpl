@@ -24,7 +24,7 @@
 				<div class="col-md-6 col-sm-6">
 
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-						{if {Users_Privileges_Model::isPermitted($RELATED_MODULE_NAME, 'EditView')} }
+						{if {Users_Privileges_Model::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
 							<div class="btn-group paddingRight10">
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 								<button type="button" class="btn addButton btn-default

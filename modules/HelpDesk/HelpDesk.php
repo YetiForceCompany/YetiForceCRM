@@ -482,7 +482,6 @@ class HelpDesk extends CRMEntity
 	{
 		$relTables = array(
 			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_troubletickets' => 'ticketid'),
-			'Products' => array('vtiger_troubletickets' => array('ticketid', 'product_id')),
 			'Services' => array('vtiger_crmentityrel' => array('crmid', 'relcrmid'), 'vtiger_troubletickets' => 'ticketid'),
 		);
 		if($secmodule === false){

@@ -2757,6 +2757,68 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 			);
 		});
+		detailContentsHolder.on('change', '.relatedHistoryTypes', function (e) {
+			var recordId = jQuery("#recordId").val();
+			var widgetContent = jQuery(this).closest('.widgetContentBlock').find('.widgetContent');
+			var types = jQuery(e.currentTarget).val();
+			var pageLimit = jQuery("#relatedHistoryPageLimit").val();
+			var params = {
+				module: app.getModuleName(),
+				view: 'Detail',
+				record: recordId,
+				mode: 'getHistory',
+				page: 1,
+				limit: pageLimit,
+				type: types,				
+			};
+			AppConnector.request(params).then(
+				function (data) {
+					widgetContent.find("#relatedHistoryCurrentPage").remove();
+					widgetContent.find("#moreRelatedUpdates").remove();
+					widgetContent.html(data);
+				}
+			);
+		});
+		detailContentsHolder.on('click', '.moreRelatedUpdates', function () {
+			var currentPage = jQuery("#relatedHistoryCurrentPage").val();
+			var recordId = jQuery("#recordId").val();
+			var nextPage = parseInt(currentPage) + 1;
+			var types = jQuery(".relatedHistoryTypes").val();
+			var pageLimit = jQuery("#relatedHistoryPageLimit").val();
+			var params = {
+				module: app.getModuleName(),
+				view: 'Detail',
+				record: recordId,
+				mode: 'getHistory',
+				page: nextPage,
+				limit: pageLimit,
+				type: types,				
+			};
+			AppConnector.request(params).then(
+				function (data) {
+					jQuery("#relatedHistoryCurrentPage").remove();
+					jQuery("#moreRelatedUpdates").remove();
+					jQuery('#relatedUpdates').append(data);
+				}
+			);
+		});
+		detailContentsHolder.on('click', '.moreRecentUpdates', function () {
+			var currentPage = jQuery("#updatesCurrentPage").val();
+			var recordId = jQuery("#recordId").val();
+			var nextPage = parseInt(currentPage) + 1;
+			var pageLimit = jQuery("#updatesPageLimit").val();
+			var url = "index.php?module=" + app.getModuleName() + "&view=Detail&record=" + recordId + "&mode=showRecentActivities&page=" + nextPage + "&limit=" + pageLimit + "&tab_label=LBL_UPDATES";
+			AppConnector.request(url).then(
+					function (data) {
+						jQuery("#updatesCurrentPage").remove();
+						jQuery("#moreLink").remove();
+						jQuery('#updates').append(data);
+					},
+					function (error, err) {
+
+					}
+			);
+		});
 
 		detailContentsHolder.on('click', '.moreRecentDocuments', function () {
 			var recentDocumentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentDocumentsTabLabel);
