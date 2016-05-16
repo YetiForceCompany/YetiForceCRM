@@ -6,14 +6,9 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 include_once 'include/Webservices/Relation.php';
-include_once 'include/main/WebUI.php';
 $current_user = Users::getActiveAdminUser();
 
 $db = PearDatabase::getInstance();
-$log = vglobal('log');
-$log = &LoggerManager::getLogger('MultiReferenceValue');
-$log->info('Cron MultiReferenceValue - Start');
-
 $executed = [];
 $result = $db->pquery('SELECT * FROM s_yf_multireference');
 while ($multireference = $db->fetch_array($result)) {
@@ -65,4 +60,3 @@ while ($multireference = $db->fetch_array($result)) {
 	}
 	$db->delete('s_yf_multireference', 'source_module = ? AND dest_module = ? AND type = ?', [$multireference['source_module'], $multireference['dest_module'], $multireference['type']]);
 }
-$log->info('Cron MultiReferenceValue - End');

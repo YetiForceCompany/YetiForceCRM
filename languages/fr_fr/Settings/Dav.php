@@ -32,6 +32,8 @@ $languageStrings = [
 	'LBL_VIEW_KEYS' => 'Clés DAV',
 	'Dav' => 'Clés DAV',
 	'LBL_DUPLICATE_USER_SERVICES' => 'Une clé pour cette application existe déjà.',
+	'LBL_ALERT_DAV_CONFIG_TITLE' => 'Configuration info',
+	'LBL_ALERT_DAV_CONFIG_DESC' => 'Examples of DAV server connection configuration for different apps and systems:<br><b>DAVdroid</b><br>Address: https://gitdeveloper.yetiforce.com/api/dav.php<br>Preventive authorization NO<br><b>Thunderbird CalDAV</b><br>Address: https://gitdeveloper.yetiforce.com/api/dav.php/calendars/demo/YFCalendar/<br><b>iOS</b><br>Address: http://gitdeveloper.yetiforce.com/api/dav.php/principals/demo/',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Ajouter clé',

@@ -159,7 +159,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('FIELDS_HEADER', $fieldsInHeader);
-
+		$viewer->assign('CUSTOM_FIELDS_HEADER', $this->record->getCustomHeaderFields());
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
 
@@ -772,15 +772,18 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function getHistory(Vtiger_Request $request)
 	{
 		$pageNumber = $request->get('page');
+		$limitPage = $request->get('limit');
 		$moduleName = $request->getModule();
 
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
-		
+		if (empty($limitPage)) {
+			$pageNumber = 10;
+		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('limit', 10);
+		$pagingModel->set('limit', $limitPage);
 		
 		$histories = Vtiger_History_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);

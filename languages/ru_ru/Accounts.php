@@ -88,6 +88,8 @@ $languageStrings = [
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Европейское Ограниченное Партнерство',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Европейская ассоциация',
 	'PLL_UFCIITS' => 'Организация Коллективного Инвестирования',
+	//FIELDS
+	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',

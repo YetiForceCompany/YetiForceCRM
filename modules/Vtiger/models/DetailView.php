@@ -69,7 +69,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
 		$linkModelList = $detailViewLinks = [];
-		
+
 		if ($moduleModel->isPermitted('WorkflowTrigger')) {
 			$adb = PearDatabase::getInstance();
 			vimport('~~modules/com_vtiger_workflow/include.inc');
@@ -181,19 +181,19 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			}
 		}
 
-		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAILVIEWBASIC', 'DETAILVIEW', 'DETAIL_VIEW_HEADER_WIDGET'], $linkParams);
+		$relatedLinks = $this->getDetailViewRelatedLinks();
+		foreach ($relatedLinks as $relatedLinkEntry) {
+			$relatedLink = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
+			$linkModelList[$relatedLink->getType()][] = $relatedLink;
+		}
+
+		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAILVIEWBASIC', 'DETAILVIEW', 'DETAIL_VIEW_HEADER_WIDGET', 'DETAILVIEWTAB'], $linkParams);
 		if (!empty($allLinks)) {
 			foreach ($allLinks as $type => $allLinksByType) {
 				foreach ($allLinksByType as $linkModel) {
 					$linkModelList[$type][] = $linkModel;
 				}
 			}
-		}
-
-		$relatedLinks = $this->getDetailViewRelatedLinks();
-		foreach ($relatedLinks as $relatedLinkEntry) {
-			$relatedLink = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
-			$linkModelList[$relatedLink->getType()][] = $relatedLink;
 		}
 		return $linkModelList;
 	}
@@ -363,5 +363,28 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->trackView();
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
+	}
+
+	public function getCustomHeaderFields()
+	{
+		$moduleName = $this->getModuleName();
+		$path = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'headerfields';
+		if (!is_dir($path)) {
+			return [];
+		}
+		$headerFields = [];
+		foreach (new DirectoryIterator($path) as $fileinfo) {
+			if (!$fileinfo->isDot()) {
+				$name = reset(explode('.', $fileinfo->getFilename()));
+	
+				$modelClassName = Vtiger_Loader::getComponentClassName('HeaderField', $name, $moduleName);
+				$instance = new $modelClassName;
+				$result = $instance->process($this);
+				if ($result) {
+					$headerFields[] = $result;
+				}
+			}
+		}
+		return $headerFields;
 	}
 }

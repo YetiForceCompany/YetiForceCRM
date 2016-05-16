@@ -92,23 +92,28 @@
 								<span class="glyphicon glyphicon-link bgOrange"></span>
 								<div class="timeline-item">
 									<span class="time">
-										<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateTimeIntoDayString($RELATION->get('changedon'))})
+										<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
 									</span>
 									<div class="timeline-body row no-margin">
 										<div class="pull-left paddingRight15">
 											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
 										</div>
 										<div class="pull-left">
+										<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}&nbsp;</strong></span>
 										{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
-											<span>{vtranslate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}</span> <span>
+											<span>
 												{if $RECENT_ACTIVITY->isRelationLink()}
 													{vtranslate('LBL_ADDED', $MODULE_NAME)}
 												{else}
 													{vtranslate('LBL_REMOVED', $MODULE_NAME)}
-												{/if} </span><span>
+												{/if} 
+											</span>
+											<span>
 												{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
 													{if isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId()) eq 'yes'} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
-												{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}</span>
+												{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}
+											</span>
+											<span>({vtranslate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())})</span>
 										</div>
 									</div>
 								</div>

@@ -167,6 +167,11 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				return false;
 			}
 		} else {
+			if ($destinationModuleName == 'ModComments') {
+				include_once('modules/ModTracker/ModTracker.php');
+				ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
+				return true;
+			}
 			$relationFieldModel = $this->getRelationField();
 			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
 				return false;
@@ -254,6 +259,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . ($label ? 1 : 0);
 		if (key_exists($relKey, self::$_cached_instance)) {
 			return self::$_cached_instance[$relKey];
+		}
+		if ($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) {
+			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$relationModel = new $relationModelClassName();
+			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			self::$_cached_instance[$relKey] = $relationModel;
+			return $relationModel;
 		}
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename FROM vtiger_relatedlists

@@ -187,7 +187,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		Vtiger_Cache::set('Vtiger_Record_Model', $moduleName, $fields);
+		Vtiger_Cache::set('InventoryFields', $moduleName, $fields);
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $fields;
 	}

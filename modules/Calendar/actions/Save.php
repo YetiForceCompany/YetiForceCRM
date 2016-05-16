@@ -103,6 +103,9 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
+			if(!$fieldModel->isEditEnabled()){
+				continue;
+			}
 			$fieldValue = $request->get($fieldName, null);
 			// For custom time fields in Calendar, it was not converting to db insert format(sending as 10:00 AM/PM)
 			$fieldDataType = $fieldModel->getFieldDataType();

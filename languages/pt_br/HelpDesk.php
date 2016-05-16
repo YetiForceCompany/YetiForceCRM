@@ -9,10 +9,13 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = [
+	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_TO_CLOSE' => 'To close',
 	'LBL_SETUP_WEBFORMS' => 'Configurar Web Forms',
 	'LBL_ORDER_TIME'=>'Ordenar por hora',
 	'Big Problem'=> 'Problema Grande' ,
-	'Closed' => 'Fechado' ,
+	'Closed' => 'Accepted' ,
 	'created' => 'criado',
 	'Critical' => 'Crítico',
 	'customer_portal' => 'no "Portal do Cliente" do YetiForce.',
@@ -63,7 +66,7 @@ $languageStrings = [
 	'Major'=> 'Maior' ,
 	'Minor'=> 'Menor' ,
 	'Normal' => 'Normal',
-	'Open' => 'Aberto',
+	'Open' => 'Awaiting verification',
 	'Other Problem'=> 'Outro Problema',
 	'Related To' => 'Nome Organização',
 	'replied' => 'respondido',
@@ -85,7 +88,7 @@ $languageStrings = [
 	'Wait For Response'=> 'Aguarda Resposta',
 	'LBL_CHARTS'=>'Gráfico',
 	'Rejected'=>'Rejeitado',
-	'Answered'=>'Respondido',
+	'Answered'=>'Awaiting realization',
 	'P&S Sold'=>'Produto/Serviço Vendido',
 	'LBL_VIEW_FINDDUPLICATES'=> 'Localizar duplicados',
 	'Record Id' => 'No. Registro',
@@ -104,4 +107,5 @@ $languageStrings = [
 	'FL_SERVICE_CONTRACTS' => 'Service Level Agreement',
 	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA type',
 	'FL_SERVICE_CONTRACTS_DATE' => 'SLA expiry date',
+	'FL_REPORT_TIME' => 'Report time',
 ];

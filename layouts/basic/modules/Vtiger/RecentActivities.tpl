@@ -86,7 +86,8 @@
 							<li>
 								<div>
 									{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
-									<span>{vtranslate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}</span> <span>
+									<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()} </strong></span>
+									<span>
 											{if $RECENT_ACTIVITY->isRelationLink()}
 												{vtranslate('LBL_ADDED', $MODULE_NAME)}
 											{else}
@@ -95,6 +96,7 @@
 											{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
 												{if isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId()) eq 'yes'} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
 											{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}</span>
+									(<span>{vtranslate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}</span>)
 									<span class="pull-right"><p class="muted no-margin"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RELATION->get('changedon'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($RELATION->get('changedon'))}</small></p></span>
 								</div>
 							</li>

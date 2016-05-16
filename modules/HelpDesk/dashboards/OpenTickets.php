@@ -14,11 +14,13 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
 	 * @param type $data
 	 * @return <Array>
 	 */
-	public function getOpenTickets() {
+	public function getOpenTickets($owner) {
 		$db = PearDatabase::getInstance();
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$module = 'HelpDesk';
+		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$ownerSql = $moduleModel->getOwnerWhereConditionForDashBoards($owner);
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
@@ -39,9 +41,11 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
 			$ticketStatusSearch = implode("','", $ticketStatus);
 			$sql .=	" AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 		}
+		if(!empty($ownerSql)){
+			$sql .= ' AND ' . $ownerSql;
+		}
 		$sql .= ' GROUP BY smownerid';
-		$result = $db->pquery($sql , array());
-		$moduleModel = Vtiger_Module_Model::getInstance('HelpDesk');
+		$result = $db->pquery($sql, []);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$chartData = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
@@ -77,13 +81,22 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
-		
-		$data = $this->getOpenTickets();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		if (!$request->has('owner'))
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
+		else
+			$owner = $request->get('owner');
+		if ($owner == 'all')
+			$owner = '';
+		$data = $this->getOpenTickets($owner);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-        
+		
+		$accessibleUsers = $currentUser->getAccessibleUsersForModule($moduleName);
+		$accessibleGroups = $currentUser->getAccessibleGroupForModule($moduleName);
+		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
+		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		//Include special script and css needed for this widget
 		$viewer->assign('CURRENTUSER', $currentUser);
 

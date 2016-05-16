@@ -9,10 +9,13 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = [
+	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_TO_CLOSE' => 'To close',
 	'LBL_SETUP_WEBFORMS' => 'Configurer le formulaire Web',
 	'LBL_ORDER_TIME'=>'Heure de commande',
 	'Big Problem'=>'Problème important',
-	'Closed'=>'Fermé',
+	'Closed'=>'Accepted',
 	'created' => 'Créé',
 	'Critical'=>'Critique',
 	'customer_portal' => 'dans le "portail client" YetiForce.',
@@ -63,7 +66,7 @@ $languageStrings = [
 	'Major'=>'Majeur',
 	'Minor'=>'Mineur',
 	'Normal'=>'Normal',
-	'Open'=>'Ouvert',
+	'Open'=>'Awaiting verification',
 	'Other Problem'=>'Autre problème',
 	'Related To' => 'Organisation',
 	'replied' => 'répondu',
@@ -85,7 +88,7 @@ $languageStrings = [
 	'Wait For Response'=>'En attente de réponse',
 	'LBL_CHARTS'=>'Graphiques',
 	'Rejected'=>'Rejeté',
-	'Answered'=>'Répondu',
+	'Answered'=>'Awaiting realization',
 	'P&S Sold'=>'Produit / Service vendu',
 	'LBL_VIEW_FINDDUPLICATES'=> 'Trouver des doublons',
 	'Record Id' => 'ID enregistrement',
@@ -104,4 +107,5 @@ $languageStrings = [
 	'FL_SERVICE_CONTRACTS' => 'Contrat de niveau de service',
 	'FL_SERVICE_CONTRACTS_TYPE' => 'Type de contrat de niveau de service',
 	'FL_SERVICE_CONTRACTS_DATE' => 'Date d\'expiration du contrat de niveau de service',
+	'FL_REPORT_TIME' => 'Report time',
 ];

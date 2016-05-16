@@ -9,10 +9,13 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = [
+	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_TO_CLOSE' => 'To close',
 	'LBL_SETUP_WEBFORMS' => 'Setup Web Forms',
 	'LBL_ORDER_TIME'=>'Order time',
 	'Big Problem'=>'Big problem',
-	'Closed'=>'Closed',
+	'Closed'=>'Accepted',
 	'created' => 'Created',
 	'Critical'=>'Critical',
 	'customer_portal' => 'in the "Customer Portal" at YetiForce.',
@@ -63,7 +66,7 @@ $languageStrings = [
 	'Major'=>'Major',
 	'Minor'=>'Minor',
 	'Normal'=>'Normal',
-	'Open'=>'Open',
+	'Open'=>'Awaiting verification',
 	'Other Problem'=>'Other problem',
 	'Related To' => 'Account name',
 	'replied' => 'replied',
@@ -85,7 +88,7 @@ $languageStrings = [
 	'Wait For Response'=>'Wait for response',
 	'LBL_CHARTS'=>'Charts',
 	'Rejected'=>'Rejected',
-	'Answered'=>'Answered',
+	'Answered'=>'Awaiting realization',
 	'P&S Sold'=>'Product / Service Sold',
 	'LBL_VIEW_FINDDUPLICATES'=> 'Find duplicates',
 	'Record Id' => 'Record ID',
@@ -104,4 +107,5 @@ $languageStrings = [
 	'FL_SERVICE_CONTRACTS' => 'Service Level Agreement',
 	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA type',
 	'FL_SERVICE_CONTRACTS_DATE' => 'SLA expiry date',
+	'FL_REPORT_TIME' => 'Report time',
 ];

@@ -2500,10 +2500,18 @@ table.summary-table .summaryViewEdit{
 .padding20 {
 	padding: 20px;
 }
+.padding6 {
+	padding: 6px 12px !important;
+}
+.top10 {
+	top: -10px;
+}
+.relative {
+	position: relative;
+}
 .pushDown {
 	margin-top: 7px;
 }
-
 .boxSizingBorderBox {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -3353,7 +3361,7 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer a{
 	border-radius: 0;
 	vertical-align: text-top;
-	padding: 6px 15px 6px 50px;
+	padding: 6px 15px 6px 55px;
 	word-wrap: break-word;
 	font-size: 16px;
 
@@ -3416,6 +3424,8 @@ span[name=existingImages] img{
 {
 	margin-right: 12px;
 	font-size: 20px;
+	padding-right: 7px;
+	padding-left: 3px;
 }
 
 .leftPanel li.menuLabel .slimScrollDiv{
@@ -3901,16 +3911,12 @@ html,body,.baseContainer
 }
 .widget_header{
 	background:#eee;
-	margin-bottom:15px;
+	padding-top:5px;
+	padding-bottom:5px;
 }
 .summaryWidgetContainer .widget_header{
 	background:#fff;
 	margin-bottom:0px;
-}
-
-.widget_header{
-	padding-top:5px;
-	padding-bottom:5px;
 }
 .sortTableUl{
 	list-style-type: none;
@@ -5083,15 +5089,12 @@ select.form-control {
 }
 .detailViewTitle .hierarchy{
 	position: absolute;
-	top: -10px;
-	left: 55px;
+	top: 0px;
+    left: 60px;
 }
 .indexContainer{
 	padding-top:10px;
 	border-top: 4px solid #404952;
-}
-.detailViewHeaderFields .detailViewHeaderFieldsContent{
-	max-width: 300px;
 }
 .detailViewHeaderFields .detailViewHeaderFieldsName{
 	display: inline-block;
@@ -5104,6 +5107,9 @@ select.form-control {
 .detailViewHeaderFields .detailViewHeaderFieldsValue .badge{
 	padding: 3px 10px !important;
 	margin: 2px 0px;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsValue .badge a{
+	color: inherit;
 }
 #calendarview .listViewButton{
 	padding-left: 0.8em !important;
@@ -5346,4 +5352,14 @@ select.form-control {
 	padding: 5px 12px;
 	display: inline-flex;
 	font-size: 17px;
+}
+.modulesList .menuSeparator{
+	background: #fff;
+	height: 2px;
+	margin: 5px 0;
+}
+.subMenu .menuSeparator{
+	background: #444853;
+	height: 2px;
+	margin: 5px 0;
 }
