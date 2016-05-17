@@ -365,6 +365,8 @@ class Vtiger_Link_Model extends Vtiger_Link
 			if (!empty($fieldname)) {
 				$this->relatedModuleName = $relatedModuleName = $queryParams['module'];
 			}
+		} else {
+			$relatedModuleName = $this->relatedModuleName;
 		}
 		return $relatedModuleName;
 	}
