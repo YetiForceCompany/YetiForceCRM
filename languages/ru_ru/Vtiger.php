@@ -1377,6 +1377,7 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Дополнительные данные',
 	'LBL_Y' => 'yr',
 	'LBL_YRS' => 'yrs',
+	'FL_ACTIVE' => 'Active',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

@@ -1121,7 +1121,7 @@ $languageStrings = [
 	'LBL_FILTER' => 'Filtre',
 	'LBL_Y' => 'yr',
 	'LBL_YRS' => 'yrs',
-	'FL_INACTIVITY' => 'Inactivity',
+	'FL_ACTIVE' => 'Active',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',
