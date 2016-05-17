@@ -32,7 +32,7 @@
 									<tr {if $smarty.foreach.hierarchyEntries.first} class="parentAccount" {/if}>
 										{foreach item=LISTFIELDS from=$ENTRIES}
 											<td>
-												{if $LISTFIELDS['fieldname'] == 'inactivity' && Users_Privileges_Model::isPermitted($MODULE, 'EditView', $RECORD_ID)}
+												{if $LISTFIELDS['fieldname'] == 'active' && Users_Privileges_Model::isPermitted($MODULE, 'EditView', $RECORD_ID)}
 													<button class="btn{if $LISTFIELDS['rawData']} btn-success {else} btn-warning  {/if}btn-xs toChangeBtn" data-record-id="{$RECORD_ID}" data-fieldname="{$LISTFIELDS['fieldname']}">
 														{$LISTFIELDS['data']}
 													</button>

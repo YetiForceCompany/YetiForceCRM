@@ -14,7 +14,7 @@
 		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
 				<span class="hierarchy">
-					<span class="badge {if $RECORD->get('inactivity')} bgGreen {else} bgOrange {/if}"></span>
+					<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
 				</span>
 				<span class="detailViewIcon cursorPointer userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 			</div>
