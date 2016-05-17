@@ -132,7 +132,7 @@ CREATE TABLE `a_yf_pdf` (
 CREATE TABLE `a_yf_relatedlists_inv_fields` (
   `relation_id` int(19) DEFAULT NULL,
   `fieldname` varchar(30) DEFAULT NULL,
-  `sequence` int(10) DEFAULT NULL,
+  `sequence` tinyint(1) DEFAULT NULL,
   KEY `relation_id` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
