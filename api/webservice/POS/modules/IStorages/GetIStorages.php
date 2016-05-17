@@ -15,7 +15,7 @@ class API_IStorages_GetIStorages extends BaseAction
 	{
 		$records = [];
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM u_yf_istorages
+		$query = 'SELECT u_yf_istorages.* FROM u_yf_istorages
 			INNER JOIN vtiger_crmentity ON  u_yf_istorages.istorageid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ?
 			AND u_yf_istorages.pos LIKE ?
@@ -24,6 +24,7 @@ class API_IStorages_GetIStorages extends BaseAction
 		while ($storage = $db->getRow($results)) {
 			$poses = explode(',', $storage['pos']);
 			if (in_array($this->api->app['id'], $poses)) {
+				unset($storage['pos']);
 				$records[] = $storage;
 			}
 		}
