@@ -34,8 +34,7 @@
 				<label class="col-md-4 control-label">{vtranslate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}:</label>
 				{assign var='functionName' value=$ITEM|cat:'Values'}
 				<div class="col-md-7">
-					<select class='form-control select2' name="{$ITEM}"  {if $ITEM eq 'modules'} data-validation-engine="validate[required]" multiple {/if}>
-						{if $ITEM neq 'modules'}<option value=" ">{vtranslate('LBL_SELECT_OPTION', $ITEMS.module)}</option>{/if}
+					<select class="form-control select2" name="{$ITEM}" {if $ITEM eq 'modules'} data-validation-engine="validate[required]" multiple {/if}>
 						{foreach from=$FIELD_INSTANCE->$functionName() item=ITEMS key=KEY}
 							{assign var='CONDITION' value=0}
 							{if $PARAMS[$ITEM]|is_array && in_array($ITEMS.id,$PARAMS[$ITEM])}
@@ -43,7 +42,7 @@
 							{elseif !($PARAMS[$ITEM]|is_array) && $ITEMS.id eq $PARAMS[$ITEM]}
 								{assign var='CONDITION' value=1}
 							{/if}
-							<option value="{$ITEMS.id}" {if $CONDITION} selected {/if}>{vtranslate($ITEMS.name, $ITEMS.module)}</option>
+							<option value="{$ITEMS['id']}" {if $CONDITION}selected{/if}>{vtranslate($ITEMS['name'], $ITEMS['module'])}</option>
 						{/foreach}
 					</select>
 				</div>

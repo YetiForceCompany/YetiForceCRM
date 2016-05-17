@@ -10,7 +10,12 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-6">{vtranslate('LBL_CREDIT_LIMIT', $MODULE)}:</div>
-						<div class="col-md-6"><strong>{$LIMIT}</strong> {$SYMBOL}</div>
+						<div class="col-md-6">
+							<strong>{$LIMIT}</strong>
+							{if $LIMIT != '-'}
+								&nbsp;{$SYMBOL}
+							{/if}
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">{vtranslate('LBL_BALANCE_LIMIT', $MODULE)}:</div>
@@ -25,14 +30,16 @@
 						<div class="col-md-6">{vtranslate('LBL_TOTALS_LIMIT', $MODULE)}:</div>
 						<div class="col-md-6"><strong>{$TOTALS}</strong> {$SYMBOL}</div>
 					</div>
-					{if $LIMIT_CONFIG != '1'}
+					{if $LOCK == '1'}
 						<br/>
 						<div class="alert alert-danger">{vtranslate('LBL_LIMIT_ALERT', $MODULE)}</div>
 					{/if}
 				</div>
-				{if $LIMIT_CONFIG == '1'}
+				{if $LOCK == '0'}
 					<div class="modal-footer">
-						<button class="btn btn-success enableSave" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+						<button class="btn btn-success enableSave" type="submit">
+							<strong>{vtranslate('LBL_SAVE', $MODULE)}</strong>
+						</button>
 					</div>
 				{/if}
 			</div>
