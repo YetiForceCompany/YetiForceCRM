@@ -1,7 +1,7 @@
 <?php
 
 /**
- *
+ * Class to get category tree
  * @package YetiForce.WebserviceAction
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>

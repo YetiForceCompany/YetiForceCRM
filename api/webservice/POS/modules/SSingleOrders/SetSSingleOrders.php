@@ -52,21 +52,23 @@ class API_SSingleOrders_SetSSingleOrders extends BaseAction
 				$defaultCurrency = Vtiger_Functions::getDefaultCurrencyInfo()['id'];
 				$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 				$fields = $inventory->getColumns();
+				$inventoryData = new Vtiger_Base_Model();
 				foreach ($offer['items'] as $rowInInventory) {
 					$countInventoryData++;
 					foreach ($fields as $columnName) {
 						if ($columnName == 'total' || $columnName == 'gross' || $columnName == 'net') {
-							AppRequest::set($columnName . $countInventoryData, $rowInInventory['qty'] * $rowInInventory['price']);
+							$inventoryData->set($columnName . $countInventoryData, $rowInInventory['qty'] * $rowInInventory['price']);
 						} else {
 							if (key_exists($columnName, $this->inventoryMapping)) {
-								AppRequest::set($columnName . $countInventoryData, $rowInInventory[$this->inventoryMapping[$columnName]]);
+								$inventoryData->set($columnName . $countInventoryData, $rowInInventory[$this->inventoryMapping[$columnName]]);
 							}
 						}
 					}
-					AppRequest::set('seq' . $countInventoryData, $countInventoryData);
-					AppRequest::set('currency' . $countInventoryData, $defaultCurrency);
+					$inventoryData->set('seq' . $countInventoryData, $countInventoryData);
+					$inventoryData->set('currency' . $countInventoryData, $defaultCurrency);
 				}
-				AppRequest::set('inventoryItemsNo', $countInventoryData);
+				$inventoryData->set('inventoryItemsNo', $countInventoryData);
+				$recordModel->set('inventoryData', $inventoryData);
 				$recordModel->save();
 				$idsToReturn[$offer['id']] = $recordModel->getid();
 			} else {

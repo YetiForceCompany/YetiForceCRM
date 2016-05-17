@@ -32,7 +32,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedProductsServices');
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showRelatedTree');
-		$this->exposeMethod('getHistory');
+		$this->exposeMethod('showRecentRelation');
 	}
 
 	function checkPermission(Vtiger_Request $request)
@@ -771,7 +771,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		echo $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
 	}
 
-	public function getHistory(Vtiger_Request $request)
+	public function showRecentRelation(Vtiger_Request $request)
 	{
 		$pageNumber = $request->get('page');
 		$limitPage = $request->get('limit');
@@ -781,17 +781,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$pageNumber = 1;
 		}
 		if (empty($limitPage)) {
-			$pageNumber = 10;
+			$limitPage = 10;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('limit', $limitPage);
 		
-		$histories = Vtiger_History_Widget::getHistory($request, $pagingModel);
+		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		return $viewer->view('HistoryRelated.tpl', $moduleName, true);
+		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
 	}
 }
