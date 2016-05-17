@@ -87,7 +87,7 @@ class CRMEntity
 		$table = $inventory->getTableName('data');
 
 		$db->delete($table, 'id = ?', [$this->id]);
-		if(is_array($this->inventoryData)){
+		if (is_array($this->inventoryData)) {
 			foreach ($this->inventoryData as $insertData) {
 				$insertData['id'] = $this->id;
 				$db->insert($table, $insertData);
@@ -120,7 +120,7 @@ class CRMEntity
 			}
 		}
 
-		if($this->isInventory === true && !empty($this->inventoryData)){
+		if ($this->isInventory === true && !empty($this->inventoryData)) {
 			$this->saveInventoryData($module);
 		}
 
@@ -128,9 +128,9 @@ class CRMEntity
 		$this->save_module($module);
 
 		// vtlib customization: Hook provide to enable generic module relation.
-		if ($_REQUEST['createmode'] == 'link') {
-			$for_module = vtlib_purify($_REQUEST['return_module']);
-			$for_crmid = vtlib_purify($_REQUEST['return_id']);
+		if (AppRequest::get('createmode') == 'link') {
+			$for_module = AppRequest::get('return_module');
+			$for_crmid = AppRequest::get('return_id');
 			$with_module = $module;
 			$with_crmid = $this->id;
 
@@ -225,9 +225,9 @@ class CRMEntity
 			];
 			$adb->insert('vtiger_attachments', $params);
 
-			if ($_REQUEST['mode'] == 'edit') {
-				if ($id != '' && vtlib_purify($_REQUEST['fileid']) != '') {
-					$delparams = [$id, vtlib_purify($_REQUEST['fileid'])];
+			if (AppRequest::get('mode') == 'edit') {
+				if ($id != '' && AppRequest::get('fileid') != '') {
+					$delparams = [$id, AppRequest::get('fileid')];
 					$adb->delete('vtiger_seattachmentsrel', 'crmid = ? AND attachmentsid = ?', $delparams);
 				}
 			}
@@ -489,7 +489,7 @@ class CRMEntity
 			$datatype = $typeofdata_array[0];
 
 			$ajaxSave = false;
-			if (($_REQUEST['file'] == 'DetailViewAjax' && $_REQUEST['ajxaction'] == 'DETAILVIEW' && isset($_REQUEST["fldName"]) && $_REQUEST["fldName"] != $fieldname) || ($_REQUEST['action'] == 'MassEditSave' && !isset($_REQUEST[$fieldname . "_mass_edit_check"]))) {
+			if ((AppRequest::get('file') == 'DetailViewAjax' && AppRequest::get('ajxaction') == 'DETAILVIEW' && AppRequest::has('fldName') && AppRequest::get('fldName') != $fieldname) || (AppRequest::get('action') == 'MassEditSave' && !AppRequest::get($fieldname . '_mass_edit_check'))) {
 				$ajaxSave = true;
 			}
 
@@ -790,6 +790,7 @@ class CRMEntity
 				if (!empty($resultrow['deleted'])) {
 					throw new NoPermittedToRecordException('LBL_RECORD_DELETE');
 				}
+				$showsAdditionalLabels = vglobal('showsAdditionalLabels');
 				foreach ($cachedModuleFields as $fieldinfo) {
 					$fieldvalue = '';
 					$fieldkey = $this->createColumnAliasForField($fieldinfo);
@@ -797,10 +798,10 @@ class CRMEntity
 					if (isset($resultrow[$fieldkey])) {
 						$fieldvalue = $resultrow[$fieldkey];
 					}
-					if (in_array($fieldinfo['uitype'], array(10, 51, 73))) {
+					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [10, 51, 73])) {
 						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getCRMRecordLabel($fieldvalue);
 					}
-					if (in_array($fieldinfo['uitype'], [52, 53])) {
+					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [52, 53])) {
 						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getOwnerRecordLabel($fieldvalue);
 					}
 					$this->column_fields[$fieldinfo['fieldname']] = $fieldvalue;
@@ -1024,7 +1025,7 @@ class CRMEntity
 		if ($uitype == 57 && $fldvalue == '') {
 			return 0;
 		}
-		if (in_array($uitype, [307,308]) && $fldvalue == '') {
+		if (in_array($uitype, [307, 308]) && $fldvalue == '') {
 			return null;
 		}
 		if (is_uitype($uitype, "_date_") && $fldvalue == '' || $uitype == '14') {
@@ -2748,8 +2749,8 @@ class CRMEntity
 		$log = LoggerManager::getInstance();
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering getSortOrder() method ...");
-		if (isset($_REQUEST['sorder']))
-			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
+		if (AppRequest::has('sorder'))
+			$sorder = $this->db->sql_escape_string(AppRequest::getForSql('sorder'));
 		else
 			$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
 		$log->debug("Exiting getSortOrder() method ...");
@@ -2770,8 +2771,8 @@ class CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (isset($_REQUEST['order_by']))
-			$order_by = $this->db->sql_escape_string($_REQUEST['order_by']);
+		if (AppRequest::has('order_by'))
+			$order_by = $this->db->sql_escape_string(AppRequest::getForSql('order_by'));
 		else
 			$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
 		$log->debug("Exiting getOrderBy method ...");

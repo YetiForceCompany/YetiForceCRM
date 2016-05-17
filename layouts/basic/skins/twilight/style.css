@@ -375,9 +375,6 @@ hr {
 #globalmodal form {
 	margin: 0 0 0;
 }
-.gridster>*{
-	margin: 0 0 0 15px !important;
-}
 .contentsDiv .gridster {
 	padding: 0;
 }
@@ -5172,7 +5169,8 @@ select.form-control {
 .detailViewContainer .contents .knowledgeBaseDetails {
 	padding: 15px;
 }
-.dashboardWidgetContent .rowAction:nth-of-type(even) {
+.dashboardWidgetContent .rowAction:nth-of-type(even),
+.listViewInventoryEntries table tbody tr:nth-of-type(even){
     background-color: #f9f9f9;
 }
 .knowledgePopoutContainer .knowledgePopoutSubject,
@@ -5196,20 +5194,29 @@ select.form-control {
 	background: #fff;
 	color:#000;
 }
-.notificationContainer {
-	padding: 0;
+.top2px{
+    position: relative;
+    top: -2px;
 }
-.notificationContainer .panel-body{
+.notificationContainer .notificationBody{
 	position: absolute;
-	top: 38px;
-	bottom:0;
+	top: 39px;
+	bottom: 7px;
 	padding: 0;
 	overflow: auto;
 }
+.notificationContainer .notificationBody .panel{
+	margin-bottom: 0px;
+}
+.notificationContainer .notificationBody .panel-body{
+	padding: 7px;
+}
 .notificationContainer .noticeRow{
 	margin-top: 0;
-	padding: 5px 10px;
-	border-bottom: 1px solid #ddd;
+	padding: 7px 7px 0px 7px;
+}
+.notificationContainer .noticeIcon{
+	font-size: 20px;
 }
 .notificationContainer li{
 	list-style: none;
@@ -5279,13 +5286,18 @@ select.form-control {
 	padding: 0;
 	position: relative;
 }
-.timeline > li > .timeline-item > .time {
+.timeline > li > .timeline-item .time {
 	color: #999;
 	float: right;
-	padding: 10px;
+	padding: 5px;
 	font-size: 12px;
 }
+.timeline > li > .timeline-item > .imageContainer{
+	width: 40px;
+}
 .timeline > li > .timeline-item > .timeline-body {
+	float: left;
+	width: calc(100% - 40px);
 	padding: 10px;
 }
 .timeline > li > .glyphicon{
@@ -5304,7 +5316,7 @@ select.form-control {
 .timeline .userImage{
 	margin: 0 auto;
 	width: 40px;
-	padding: 3px;
+	padding: 2px;
 	border: 3px solid #d2d6de;
 }
 .bgBlue{
@@ -5362,4 +5374,19 @@ select.form-control {
 	background: #444853;
 	height: 2px;
 	margin: 5px 0;
+}
+.backgroundWhiteSmoke{
+	background: whitesmoke;
+}
+.listViewInventoryEntries th{
+	background: none;
+}
+.listViewInventoryEntries td{
+	vertical-align: middle !important;
+}
+.paddingBottomZero{
+	padding-bottom: 0px !important;
+}
+.parentAccount{
+	background-color: wheat;
 }

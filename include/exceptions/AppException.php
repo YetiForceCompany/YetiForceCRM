@@ -21,7 +21,7 @@ class NoPermittedException extends Exception
 		parent::__construct($message, $code);
 		Vtiger_Session::init();
 
-		$request = new Vtiger_Request($_REQUEST);
+		$request = AppRequest::init();
 		$dbLog = PearDatabase::getInstance('log');
 		$userName = Vtiger_Session::get('full_user_name');
 		$dbLog->insert('o_yf_access_for_user', [
@@ -45,7 +45,7 @@ class NoPermittedToRecordException extends Exception
 		parent::__construct($message, $code);
 		Vtiger_Session::init();
 
-		$request = new Vtiger_Request($_REQUEST);
+		$request = AppRequest::init();
 		$dbLog = PearDatabase::getInstance('log');
 		$userName = Vtiger_Session::get('full_user_name');
 		$dbLog->insert('o_yf_access_to_record', [
@@ -70,7 +70,7 @@ class NoPermittedForAdminException extends Exception
 		parent::__construct($message, $code);
 		Vtiger_Session::init();
 
-		$request = new Vtiger_Request($_REQUEST);
+		$request = AppRequest::init();
 		$dbLog = PearDatabase::getInstance('log');
 		$userName = Vtiger_Session::get('full_user_name');
 		$dbLog->insert('o_yf_access_for_admin', [
@@ -115,7 +115,7 @@ class APINoPermittedException extends Exception
 		parent::__construct($message, $code);
 		Vtiger_Session::init();
 
-		$request = new Vtiger_Request($_REQUEST);
+		$request = AppRequest::init();
 		$dbLog = PearDatabase::getInstance('log');
 		$userName = Vtiger_Session::get('full_user_name');
 		$dbLog->insert('o_yf_access_for_api', [

@@ -48,7 +48,7 @@
 				{/if}
 				>
 				{if $LINK->get('linkimg') neq ''}
-					<img class="image-in-button" src="{$LINK->get('linkimg')}">
+					<img class="image-in-button" src="{$LINK->get('linkimg')}" title="{vtranslate($LABEL, $BTN_MODULE)}">
 				{elseif $LINK->get('linkicon') neq ''}
 					<span class="{$LINK->get('linkicon')}"></span>
 				{/if}

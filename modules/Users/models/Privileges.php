@@ -237,10 +237,8 @@ class Users_Privileges_Model extends Users_Record_Model
 		$db = PearDatabase::getInstance();
 		$userIds = $recordModel->get('shownerid');
 		$record = $recordModel->getId();
-		$moduleName = $recordModel->getModuleName();
 
-		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
-		if ($request->get('action') == 'SaveAjax' && $request->get('field') != 'shownerid') {
+		if (AppRequest::get('action') == 'SaveAjax' && AppRequest::get('field') != 'shownerid') {
 			$saveFull = false;
 		}
 		if ($saveFull) {

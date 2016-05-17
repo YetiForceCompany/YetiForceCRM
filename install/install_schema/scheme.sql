@@ -57,7 +57,7 @@ CREATE TABLE `a_yf_mapped_config` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   KEY `reltabid` (`reltabid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_mapped_fields` */
 
@@ -71,7 +71,7 @@ CREATE TABLE `a_yf_mapped_fields` (
   PRIMARY KEY (`id`),
   KEY `a_yf_mapped_fields_ibfk_1` (`mappedid`),
   CONSTRAINT `a_yf_mapped_fields_ibfk_1` FOREIGN KEY (`mappedid`) REFERENCES `a_yf_mapped_config` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_notification_type` */
 
@@ -126,6 +126,15 @@ CREATE TABLE `a_yf_pdf` (
   PRIMARY KEY (`pdfid`),
   KEY `module_name` (`module_name`,`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_relatedlists_inv_fields` */
+
+CREATE TABLE `a_yf_relatedlists_inv_fields` (
+  `relation_id` int(19) DEFAULT NULL,
+  `fieldname` varchar(30) DEFAULT NULL,
+  `sequence` int(10) DEFAULT NULL,
+  KEY `relation_id` (`relation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_taxes_config` */
 
@@ -824,6 +833,7 @@ CREATE TABLE `u_yf_competition` (
   `vat_id` varchar(30) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `email` varchar(50) DEFAULT '',
+  `inactivity` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`competitionid`),
   CONSTRAINT `fk_1_u_yf_competition` FOREIGN KEY (`competitionid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1984,6 +1994,7 @@ CREATE TABLE `u_yf_partners` (
   `vat_id` varchar(30) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `email` varchar(50) DEFAULT '',
+  `inactivity` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`partnersid`),
   CONSTRAINT `fk_1_u_yf_partners` FOREIGN KEY (`partnersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2688,6 +2699,7 @@ CREATE TABLE `vtiger_account` (
   `products` text,
   `services` text,
   `last_invoice_date` date DEFAULT NULL,
+  `inactivity` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -3504,6 +3516,7 @@ CREATE TABLE `vtiger_contactdetails` (
   `jobtitle` varchar(100) DEFAULT '',
   `decision_maker` tinyint(1) DEFAULT '0',
   `sum_time` decimal(10,2) DEFAULT '0.00',
+  `inactivity` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
@@ -4646,7 +4659,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2349 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2355 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5395,6 +5408,7 @@ CREATE TABLE `vtiger_leaddetails` (
   `leads_relation` varchar(255) DEFAULT NULL,
   `legal_form` varchar(255) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
+  `inactivity` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`leadid`),
   KEY `leaddetails_converted_leadstatus_idx` (`converted`,`leadstatus`),
   KEY `email_idx` (`email`),
@@ -8765,6 +8779,7 @@ CREATE TABLE `vtiger_vendor` (
   `registration_number_2` varchar(30) DEFAULT NULL,
   `verification` text,
   `sum_time` decimal(10,2) DEFAULT '0.00',
+  `inactivity` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`vendorid`),
   KEY `vendorname` (`vendorname`),
   CONSTRAINT `fk_1_vtiger_vendor` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE

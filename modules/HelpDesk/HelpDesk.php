@@ -112,9 +112,9 @@ class HelpDesk extends CRMEntity
 		$this->insertIntoAttachment($this->id, $module);
 
 		//service contract update
-		$return_action = $_REQUEST['return_action'];
-		$for_module = $_REQUEST['return_module'];
-		$for_crmid = $_REQUEST['return_id'];
+		$return_action = AppRequest::get('return_action');
+		$for_module = AppRequest::get('return_module');
+		$for_crmid = AppRequest::get('return_id');
 		if ($return_action && $for_module && $for_crmid) {
 			if ($for_module == 'ServiceContracts') {
 				$on_focus = CRMEntity::getInstance($for_module);
@@ -141,7 +141,7 @@ class HelpDesk extends CRMEntity
 	 */
 	function insertIntoTicketCommentTable($table_name, $module)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->info("in insertIntoTicketCommentTable  " . $table_name . "    module is  " . $module);
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -170,15 +170,14 @@ class HelpDesk extends CRMEntity
 	 */
 	function insertIntoAttachment($id, $module)
 	{
-		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
 
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
+				$files['original_name'] = AppRequest::get($fileindex . '_hidden');
 				$file_saved = $this->uploadAndSaveFile($id, $module, $files);
 			}
 		}
@@ -197,7 +196,7 @@ class HelpDesk extends CRMEntity
 	function get_ticket_history($ticketid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into get_ticket_history($ticketid) method ...");
 
 		$query = "select title,update_log from vtiger_troubletickets where ticketid=?";
@@ -220,7 +219,7 @@ class HelpDesk extends CRMEntity
 	 * */
 	function getColumnNames_Hd()
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$log->debug("Entering getColumnNames_Hd() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -254,7 +253,7 @@ class HelpDesk extends CRMEntity
 	 * */
 	function getCustomerName($id)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering getCustomerName(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
 		$sql = "select * from vtiger_portalinfo inner join vtiger_troubletickets on vtiger_troubletickets.contact_id = vtiger_portalinfo.id where vtiger_troubletickets.ticketid=?";
@@ -271,7 +270,7 @@ class HelpDesk extends CRMEntity
 	 */
 	function create_export_query($where)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $where . ") method ...");
 
@@ -390,7 +389,7 @@ class HelpDesk extends CRMEntity
 	function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Attachments" => "vtiger_seattachmentsrel", "Documents" => "vtiger_senotesrel");
@@ -493,7 +492,7 @@ class HelpDesk extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		if (empty($return_module) || empty($return_id))
 			return;
 

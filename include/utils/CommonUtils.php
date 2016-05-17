@@ -196,15 +196,6 @@ function getBlockId($tabid, $label)
 	return Vtiger_Deprecated::getBlockId($tabid, $label);
 }
 
-/**
- * This function is used to set the Object values from the REQUEST values.
- * @param  object reference $focus - reference of the object
- */
-function setObjectValuesFromRequest($focus)
-{
-	return Vtiger_Deprecated::copyValuesFromRequest($focus);
-}
-
 function create_tab_data_file()
 {
 	return Vtiger_Deprecated::createModuleMetaFile();

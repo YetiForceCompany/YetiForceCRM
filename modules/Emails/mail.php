@@ -235,8 +235,8 @@ function setMailerProperties($mail, $subject, $contents, $from_email, $from_name
 
 	//If we want to add the currently selected file only then we will use the following function
 	if ($attachment == 'current' && $emailid != '') {
-		if (isset($_REQUEST['filename_hidden'])) {
-			$file_name = vtlib_purify($_REQUEST['filename_hidden']);
+		if (AppRequest::has('filename_hidden')) {
+			$file_name = AppRequest::get('filename_hidden');
 		} else {
 			$file_name = $_FILES['filename']['name'];
 		}
@@ -263,16 +263,17 @@ function setMailServerProperties($mail)
 	$log->debug('Inside the function setMailServerProperties');
 
 	$res = $adb->pquery('select * from vtiger_systems where server_type=?', array('email'));
-	if (isset($_REQUEST['server']))
-		$server = vtlib_purify($_REQUEST['server']);
+	if (AppRequest::has('server'))
+		$server = AppRequest::get('server');
 	else
 		$server = $adb->query_result_raw($res, 0, 'server');
-	if (isset($_REQUEST['server_username']))
-		$username = vtlib_purify($_REQUEST['server_username']);
+	if (AppRequest::has('server_username'))
+		$username = AppRequest::get('server_username');
 	else
 		$username = $adb->query_result_raw($res, 0, 'server_username');
-	if (isset($_REQUEST['server_password']))
-		$password = vtlib_purify($_REQUEST['server_password']);
+
+	if (AppRequest::has('server_password'))
+		$password = AppRequest::get('server_password');
 	else
 		$password = $adb->query_result_raw($res, 0, 'server_password');
 
@@ -280,15 +281,13 @@ function setMailServerProperties($mail)
 	$smtp_auth = false;
 
 	// Prasad: First time read smtp_auth from the request
-	if (isset($_REQUEST['smtp_auth'])) {
-		if ($_REQUEST['smtp_auth'] == 'on')
-			$smtp_auth = true;
-	}
-	else if (isset($_REQUEST['module']) && $_REQUEST['module'] == 'Settings' && (!isset($_REQUEST['smtp_auth']))) {
+	if (AppRequest::get('smtp_auth') == 'on')
+		$smtp_auth = true;
+	else if (AppRequest::get('module') == 'Settings' && (!AppRequest::has('smtp_auth'))) {
 		//added to avoid issue while editing the values in the outgoing mail server.
 		$smtp_auth = false;
 	} else {
-		if ($adb->query_result_raw($res, 0, 'smtp_auth') == "1" || $adb->query_result_raw($res, 0, 'smtp_auth') == "true") {
+		if ($adb->query_result_raw($res, 0, 'smtp_auth') == '1' || $adb->query_result_raw($res, 0, 'smtp_auth') == 'true') {
 			$smtp_auth = true;
 		}
 	}
@@ -546,8 +545,8 @@ function parseEmailErrorString($mail_error_str)
 
 function isUserInitiated()
 {
-	return (( isset($_REQUEST['module']) && $_REQUEST['module'] == 'Emails') &&
-		( isset($_REQUEST['action']) && ($_REQUEST['action'] == 'mailsend' || $_REQUEST['action'] == 'Save')));
+	return ( AppRequest::get('module') == 'Emails' &&
+		( AppRequest::get('action') == 'mailsend' || AppRequest::get('action') == 'Save'));
 }
 
 /**

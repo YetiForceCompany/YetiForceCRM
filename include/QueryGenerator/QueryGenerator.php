@@ -1330,20 +1330,14 @@ class QueryGenerator
 	{
 		global $log, $default_charset;
 		if ($input['searchtype'] == 'advance') {
+			$advftCriteria = AppRequest::get('advft_criteria');
+			$advftCriteriaGroups = AppRequest::get('advft_criteria_groups');
 
-			$json = new Zend_Json();
-			$advft_criteria = $_REQUEST['advft_criteria'];
-			if (!empty($advft_criteria))
-				$advft_criteria = $json->decode($advft_criteria);
-			$advft_criteria_groups = $_REQUEST['advft_criteria_groups'];
-			if (!empty($advft_criteria_groups))
-				$advft_criteria_groups = $json->decode($advft_criteria_groups);
-
-			if (empty($advft_criteria) || count($advft_criteria) <= 0) {
+			if (empty($advftCriteria) || count($advftCriteria) <= 0) {
 				return;
 			}
 
-			$advfilterlist = getAdvancedSearchCriteriaList($advft_criteria, $advft_criteria_groups, $this->getModule());
+			$advfilterlist = getAdvancedSearchCriteriaList($advftCriteria, $advftCriteriaGroups, $this->getModule());
 
 			if (empty($advfilterlist) || count($advfilterlist) <= 0) {
 				return;
@@ -1468,26 +1462,26 @@ class QueryGenerator
 
 	public function getDashBoardConditionList()
 	{
-		if (isset($_REQUEST['leadsource'])) {
-			$leadSource = $_REQUEST['leadsource'];
+		if (AppRequest::has('leadsource')) {
+			$leadSource = AppRequest::get('leadsource');
 		}
-		if (isset($_REQUEST['date_closed'])) {
-			$dateClosed = $_REQUEST['date_closed'];
+		if (AppRequest::has('date_closed')) {
+			$leadSource = AppRequest::get('date_closed');
 		}
-		if (isset($_REQUEST['sales_stage'])) {
-			$salesStage = $_REQUEST['sales_stage'];
+		if (AppRequest::has('sales_stage')) {
+			$leadSource = AppRequest::get('sales_stage');
 		}
-		if (isset($_REQUEST['closingdate_start'])) {
-			$dateClosedStart = $_REQUEST['closingdate_start'];
+		if (AppRequest::has('closingdate_start')) {
+			$leadSource = AppRequest::get('closingdate_start');
 		}
-		if (isset($_REQUEST['closingdate_end'])) {
-			$dateClosedEnd = $_REQUEST['closingdate_end'];
+		if (AppRequest::has('closingdate_end')) {
+			$leadSource = AppRequest::get('closingdate_end');
 		}
-		if (isset($_REQUEST['owner'])) {
-			$owner = vtlib_purify($_REQUEST['owner']);
+		if (AppRequest::has('owner')) {
+			$leadSource = AppRequest::get('owner');
 		}
-		if (isset($_REQUEST['campaignid'])) {
-			$campaignId = vtlib_purify($_REQUEST['campaignid']);
+		if (AppRequest::has('campaignid')) {
+			$leadSource = AppRequest::get('campaignid');
 		}
 
 		$conditionList = [];

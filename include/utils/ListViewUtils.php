@@ -111,7 +111,7 @@ function getListQuery($module, $where = '')
 			$query .= getNonAdminAccessControlQuery($module, $current_user);
 			$query .= "WHERE vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.converted = 0 " . $where;
 			break;
-		Case "Products":
+		Case 'Products':
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.description, vtiger_products.*, vtiger_productcf.*
 			FROM vtiger_products
 			INNER JOIN vtiger_crmentity
@@ -124,13 +124,11 @@ function getListQuery($module, $where = '')
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid";
-			if ((isset($_REQUEST["from_dashboard"]) && $_REQUEST["from_dashboard"] == true) && (isset($_REQUEST["type"]) && $_REQUEST["type"] == "dbrd"))
-				$query .= " INNER JOIN vtiger_inventoryproductrel on vtiger_inventoryproductrel.productid = vtiger_products.productid";
 
 			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= " WHERE vtiger_crmentity.deleted = 0 " . $where;
+			$query .= ' WHERE vtiger_crmentity.deleted = 0 ' . $where;
 			break;
-		Case "Documents":
+		Case 'Documents':
 			$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,vtiger_crmentity.crmid, vtiger_crmentity.modifiedtime,
 			vtiger_crmentity.smownerid,`vtiger_trees_templates_data`.*,vtiger_notes.*
 			FROM vtiger_notes
@@ -170,15 +168,14 @@ function getListQuery($module, $where = '')
 				ON vtiger_contactdetails.reportsto = vtiger_contactdetails2.contactid
 			LEFT JOIN vtiger_customerdetails
 				ON vtiger_customerdetails.customerid = vtiger_contactdetails.contactid";
-			if ((isset($_REQUEST["from_dashboard"]) && $_REQUEST["from_dashboard"] == true) &&
-				(isset($_REQUEST["type"]) && $_REQUEST["type"] == "dbrd")) {
+			if (AppRequest::get('from_dashboard') == true && AppRequest::get('type') == 'dbrd') {
 				$query .= " INNER JOIN vtiger_campaign_records on vtiger_campaign_records.crmid = " .
 					"vtiger_contactdetails.contactid";
 			}
 			$query .= getNonAdminAccessControlQuery($module, $current_user);
 			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
 			break;
-		Case "Calendar":
+		Case 'Calendar':
 
 			$query = "SELECT vtiger_activity.activityid as act_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype,
 		vtiger_activity.*
@@ -199,10 +196,8 @@ function getListQuery($module, $where = '')
 			ON vtiger_crmentity.modifiedby = vtiger_groups2.groupid";
 
 			//added to fix #5135
-			if (isset($_REQUEST['from_homepage']) && ($_REQUEST['from_homepage'] ==
-				"upcoming_activities" || $_REQUEST['from_homepage'] == "pending_activities")) {
-				$query.=" LEFT OUTER JOIN vtiger_recurringevents
-			             ON vtiger_recurringevents.activityid=vtiger_activity.activityid";
+			if (AppRequest::get('from_homepage') == 'upcoming_activities' || AppRequest::get('from_homepage') == 'pending_activities') {
+				$query.=' LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.activityid=vtiger_activity.activityid';
 			}
 			//end
 			$instance = CRMEntity::getInstance($module);
@@ -335,7 +330,7 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 		$start = 0;
 	}
 
-	if (isset($_REQUEST['start']) && $_REQUEST['start'] != '') {
+	if (AppRequest::has('start') && AppRequest::get('start') != '') {
 		$lv_array['start'] = ListViewSession::getRequestStartPage();
 		$start = ListViewSession::getRequestStartPage();
 	} elseif ($_SESSION['rlvs'][$module][$related]['start'] != '') {
@@ -345,11 +340,11 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 			$start = $_SESSION['rlvs'][$module][$related]['start'];
 		}
 	}
-	if (isset($_REQUEST['viewname']) && $_REQUEST['viewname'] != '')
-		$lv_array['viewname'] = vtlib_purify($_REQUEST['viewname']);
+	if (AppRequest::has('viewname') && AppRequest::get('viewname') != '')
+		$lv_array['viewname'] = AppRequest::get('viewname');
 
 	if ($related == '')
-		$_SESSION['lvs'][$_REQUEST['module']] = $lv_array;
+		$_SESSION['lvs'][AppRequest::get('module')] = $lv_array;
 	else
 		$_SESSION['rlvs'][$module][$related] = $lv_array;
 
@@ -407,7 +402,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		style='width: 3em;margin-right: 0.7em;' onchange=\"loadRelatedListBlock('{$urldata}&start='+this.value+'','{$target}','{$imagesuffix}');\"
 		onkeypress=\"$jsHandler\">";
 	$output .= "<span name='listViewCountContainerName' class='small' style='white-space: nowrap;'>";
-	$computeCount = $_REQUEST['withCount'];
+	$computeCount = AppRequest::get('withCount');
 	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true || ((boolean) $computeCount) == true) {
 		$output .= $app_strings['LBL_LIST_OF'] . ' ' . $navigation_array['verylast'];
 	} else {
@@ -470,36 +465,37 @@ function getEntityId($module, $entityName)
 
 function decode_html($str)
 {
-	global $default_charset;
+	$defaultCharset = AppConfig::main('default_charset');
 	if (empty($default_charset))
-		$default_charset = 'UTF-8';
+		$defaultCharset = 'UTF-8';
 	// Direct Popup action or Ajax Popup action should be treated the same.
-	if ((isset($_REQUEST['action']) && $_REQUEST['action'] == 'Popup') || (isset($_REQUEST['action']) && $_REQUEST['file'] == 'Popup'))
+	if (AppRequest::get('action') == 'Popup' || (AppRequest::has('action') && AppRequest::get('file') == 'Popup'))
 		return html_entity_decode($str);
 	else
-		return html_entity_decode($str, ENT_QUOTES, $default_charset);
+		return html_entity_decode($str, ENT_QUOTES, $defaultCharset);
 }
 
 function popup_decode_html($str)
 {
-	global $default_charset;
+	$defaultCharset = AppConfig::main('default_charset');
 	$slashes_str = popup_from_html($str);
-	$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $default_charset);
+	$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $defaultCharset);
 	return decode_html(br2nl($slashes_str));
 }
 
 //function added to check the text length in the listview.
 function textlength_check($field_val)
 {
-	global $listview_max_textlength, $default_charset;
+	$defaultCharset = AppConfig::main('default_charset');
+	$listview_max_textlength = AppConfig::main('listview_max_textlength');
 	if ($listview_max_textlength && $listview_max_textlength > 0) {
-		$temp_val = preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $field_val);
+		$temp_val = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $field_val);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($temp_val)) > $listview_max_textlength) {
-				$temp_val = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", html_entity_decode($temp_val)), 0, $listview_max_textlength, $default_charset) . '...';
+				$temp_val = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', html_entity_decode($temp_val)), 0, $listview_max_textlength, $defaultCharset) . '...';
 			}
 		} elseif (strlen(html_entity_decode($field_val)) > $listview_max_textlength) {
-			$temp_val = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", html_entity_decode($temp_val)), 0, $listview_max_textlength) . '...';
+			$temp_val = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', html_entity_decode($temp_val)), 0, $listview_max_textlength) . '...';
 		}
 	} else {
 		$temp_val = $field_val;

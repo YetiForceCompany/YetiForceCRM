@@ -489,7 +489,13 @@ class Vtiger_ModuleBasic
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? OR related_tabid=?', [$this->id, $this->id]);
+		$ids = $db->getArrayColumn($result, 'relation_id');
 		$db->delete('vtiger_relatedlists', 'tabid=? OR related_tabid=?', [$this->id, $this->id]);
+		if ($ids) {
+			$db->delete('vtiger_relatedlists_fields', 'relation_id IN (' . generateQuestionMarks($ids) . ')', [$ids]);
+			$db->delete('a_yf_relatedlists_inv_fields', 'relation_id IN (' . generateQuestionMarks($ids) . ')', [$ids]);
+		}
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
 

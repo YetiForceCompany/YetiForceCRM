@@ -64,8 +64,8 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 						switch ($field->getTemplateName('DetailView', $module)) {
 							case 'DetailViewName.tpl':
 								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
-								if (isset($fields[2]['comment' . $inventoryRow['seq']])) {
-									$COMMENT_FIELD = $fields[2]['comment' . $inventoryRow['seq']];
+								foreach ($fields[2] as $commentKey => $value) {
+									$COMMENT_FIELD = $fields[2][$commentKey];
 									$html .= '<br/>' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
 								}
 								break;

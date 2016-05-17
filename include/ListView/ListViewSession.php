@@ -48,7 +48,7 @@ class ListViewSession
 
 	function getRequestStartPage()
 	{
-		$start = vtlib_purify($_REQUEST['start']);
+		$start = AppRequest::get('start');
 		if (!is_numeric($start)) {
 			$start = 1;
 		}
@@ -97,7 +97,7 @@ class ListViewSession
 						$recordPageMapping[$recordId] = $start;
 						if ($recordId == $currentRecordId) {
 							$searchKey = count($recordList) - 1;
-							$_REQUEST['start'] = $start;
+							AppRequest::set('start', $start);
 						}
 					}
 				}
@@ -111,7 +111,7 @@ class ListViewSession
 
 		if ($reUseData === false && !empty($list_query)) {
 			$recordNavigationInfo = [];
-			if (!empty($_REQUEST['start'])) {
+			if (!AppRequest::isEmpty('start')) {
 				$start = ListViewSession::getRequestStartPage();
 			} else {
 				$start = ListViewSession::getCurrentPage($currentModule, $viewId);
@@ -190,11 +190,11 @@ class ListViewSession
 	{
 		global $list_max_entries_per_page, $adb;
 		$start = 1;
-		if (isset($_REQUEST['query']) && $_REQUEST['query'] == 'true' && $_REQUEST['start'] != "last") {
+		if (AppRequest::has('query') && AppRequest::get('query') == 'true' && AppRequest::get('start') != 'last') {
 			return ListViewSession::getRequestStartPage();
 		}
-		if (!empty($_REQUEST['start'])) {
-			$start = vtlib_purify($_REQUEST['start']);
+		if (!AppRequest::isEmpty('start')) {
+			$start = AppRequest::get('start');
 			if ($start == 'last') {
 				$count_result = $adb->query(Vtiger_Functions::mkCountQuery($query));
 				$noofrows = $adb->query_result($count_result, 0, "count");
@@ -231,7 +231,7 @@ class ListViewSession
 	{
 		if (empty($_SESSION['lvs'][$currentModule]['viewname']))
 			return true;
-		if (!empty($_REQUEST['viewname']) && ($_REQUEST['viewname'] != $_SESSION['lvs'][$currentModule]['viewname']))
+		if (!AppRequest::isEmpty('viewname') && (AppRequest::get('viewname') != $_SESSION['lvs'][$currentModule]['viewname']))
 			return true;
 		if (!empty($viewId) && ($viewId != $_SESSION['lvs'][$currentModule]['viewname']))
 			return true;
@@ -245,7 +245,7 @@ class ListViewSession
 	 */
 	public static function setCurrentView($module, $viewId, $pjax = true)
 	{
-		if($pjax && isset($_REQUEST['_pjax'])){
+		if($pjax && AppRequest::has('_pjax')){
 			$_SESSION['lvs'][$module]['viewname'] = $viewId;
 		}elseif(empty($pjax)){
 			$_SESSION['lvs'][$module]['viewname'] = $viewId;
@@ -280,11 +280,11 @@ class ListViewSession
 
 	public static function setDefaultSortOrderBy($module, $defaultSortOrderBy = [])
 	{
-		if (isset($_REQUEST['orderby'])) {
-			$_SESSION['lvs'][$module]['sortby'] = vtlib_purify($_REQUEST['orderby']);
+		if (AppRequest::has('orderby')) {
+			$_SESSION['lvs'][$module]['sortby'] = AppRequest::get('orderby');
 		}
-		if (isset($_REQUEST['sortorder'])) {
-			$_SESSION['lvs'][$module]['sorder'] = vtlib_purify($_REQUEST['sortorder']);
+		if (AppRequest::has('sortorder')) {
+			$_SESSION['lvs'][$module]['sorder'] = AppRequest::get('sortorder');
 		}
 		if (isset($defaultSortOrderBy['orderBy'])) {
 			$_SESSION['lvs'][$module]['sortby'] = $defaultSortOrderBy['orderBy'];

@@ -9,15 +9,9 @@
  *************************************************************************************/
 
 //Overrides GetRelatedList : used to get related query
-//TODO : Eliminate below hacking solution
-require_once 'config/config.php';
-require_once 'config/debug.php';
-require_once 'config/performance.php';
-require_once('include/ConfigUtils.php');
-include_once 'include/Webservices/Relation.php';
-include_once 'vtlib/Vtiger/Module.php';
-include_once dirname(__FILE__) . '/include/Loader.php';
+require_once 'include/RequirementsValidation.php';
+require_once 'include/Webservices/Relation.php';
+require_once 'include/main/WebUI.php';
+require_once 'vtlib/Vtiger/Module.php';
 
-vimport ('include.runtime.EntryPoint');
-
-Vtiger_ShortURL_Helper::handle(vtlib_purify($_REQUEST['id']));
+Vtiger_ShortURL_Helper::handle(AppRequest::get('id'));

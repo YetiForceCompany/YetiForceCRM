@@ -49,9 +49,17 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 
 	public function setMark(Vtiger_Request $request)
 	{
-		$notice = Home_NoticeEntries_Model::getInstanceById($request->get('id'));
+		$ids = $request->get('ids');
+		if(!is_array($ids)){
+			$ids = [$ids];
+		}
+		foreach ($ids as $id) {
+			$notice = Home_NoticeEntries_Model::getInstanceById($id);
+			$notice->setMarked();
+		}
+		
 		$response = new Vtiger_Response();
-		$response->setResult($notice->setMarked());
+		$response->setResult(true);
 		$response->emit();
 	}
 

@@ -154,6 +154,9 @@ $languageStrings = [
 	'LBL_ACTIVATE_FAVORITES' => 'Activer la fonction: Ajouter aux favoris',
 	'LBL_HEADER_FIELD' => 'Visible dans l\'en-tête de prévisualisation',
 	'LBL_COPY' => 'Copier',
+	'LBL_STANDARD_FIELDS' => 'Standard fields',
+	'LBL_ADVANCED_BLOCK_FIELDS' => 'Advanced block fields',
+	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Add advanced block fields',
 ];
 
 $jsLanguageStrings = [

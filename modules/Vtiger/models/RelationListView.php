@@ -337,6 +337,20 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				}
 				$newRow['relComment'] = Vtiger_Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
 			}
+			if ($relationModule->isInventory()) {
+				$showInventoryFields = $relationModel->getRelationInventoryFields();
+				if (!empty($showInventoryFields)) {
+					$inventoryData = Vtiger_Record_Model::getInventoryDataById($recordId, $relationModule->getName());
+					foreach ($inventoryData as &$rowData) {
+						$newRowData = [];
+						foreach ($showInventoryFields as $name) {
+							$newRowData[$name] = $rowData[$name];
+						}
+						$rowData = $newRowData;
+					}
+				}
+				$newRow['inventoryData'] = $inventoryData;
+			}
 			$record = Vtiger_Record_Model::getCleanInstance($relationModule->get('name'));
 			$record->setData($newRow)->setModuleFromInstance($relationModule);
 			$record->setId($row['crmid']);

@@ -44,10 +44,15 @@
                 <div class="relatedListContainer">	
 					<div class="relatedModulesList">
 						{foreach item=MODULE_MODEL from=$RELATED_MODULES}
+							{assign var=INVENTORY_FIELD_MODEL value=false}
 							{assign var=RELATED_MODULE_NAME value=$MODULE_MODEL->getRelationModuleName()}
 							{assign var=RELATED_MODULE_MODEL value=$MODULE_MODEL->getRelationModuleModel()}
 							{assign var=RECORD_STRUCTURE_INSTANCE value=Vtiger_RecordStructure_Model::getInstanceForModule($RELATED_MODULE_MODEL)}
 							{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_INSTANCE->getStructure()}
+							{if $RELATED_MODULE_MODEL->isInventory()}
+								{assign var=INVENTORY_FIELD_MODEL value=Vtiger_InventoryField_Model::getInstance($RELATED_MODULE_NAME)}
+								{assign var=SELECTED_INVENTORY_FIELDS value=$MODULE_MODEL->getRelationInventoryFields()}
+							{/if}
 							{if $MODULE_MODEL->isActive()}
 								{assign var=STATUS value='1'}
 							{else}
@@ -75,8 +80,9 @@
 										</div>
 									</h4>
                                 </div>
-								<div class="relatedModuleFieldsList mainBlockTableContent row panel-body">
-									<div class="col-md-12">
+								<div class="relatedModuleFieldsList mainBlockTableContent panel-body paddingBottomZero">
+									<div class="form-group">
+									<label class="control-label">{vtranslate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}</label>
 										<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="select2_container columnsSelect relatedColumnsList">
 				                        	<optgroup label=''>
 												{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
@@ -101,11 +107,34 @@
 						                    {/foreach}
                      					</select>
                     				</div>
+									{if $INVENTORY_FIELD_MODEL}
+										{assign var=INVENTORY_FIELDS value=$INVENTORY_FIELD_MODEL->getFields()}
+										<div class="form-group">
+										<label class="control-label">{vtranslate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}</label>
+											<select data-placeholder="{vtranslate('LBL_ADD_ADVANCED_BLOCK_FIELDS', $QUALIFIED_MODULE)}" multiple class="select2_container relatedColumnsList" data-type="inventory">
+												{foreach item=SELECTED_FIELD from=$SELECTED_INVENTORY_FIELDS}
+													{assign var=FIELD_INSTANCE value=$INVENTORY_FIELDS[$SELECTED_FIELD]}
+													{if $FIELD_INSTANCE}
+														<option value="{$FIELD_INSTANCE->getColumnName()}" data-name="{$FIELD_INSTANCE->getColumnName()}" selected>
+															{vtranslate($FIELD_INSTANCE->get('label'), $RELATED_MODULE_NAME)}
+														</option>
+													{/if}
+												{/foreach}
+												{foreach item=FIELD_MODEL from=$INVENTORY_FIELDS}
+													{if !in_array($FIELD_MODEL->getColumnName(), $SELECTED_FIELDS)}
+														<option value="{$FIELD_MODEL->getColumnName()}" data-field-name="{$FIELD_MODEL->getColumnName()}">
+															{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
+														</option>
+													{/if}
+												{/foreach}
+											</select>
+										</div>
+									{/if}
 								</div>
 							</div>
 						{/foreach}
-                    </div>
-                </div>
+					</div>
+				</div>
             {/if}
         </div>
         </div>

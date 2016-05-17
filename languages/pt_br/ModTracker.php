@@ -12,4 +12,21 @@
 $languageStrings = [
 	'ModTracker' => 'ModTracker',
 	'SINGLE_ModTracker' => 'Registro Módulo Rastreamento',
+	// Action types 
+	'LBL_AT_UPDATE' => 'Modify',
+	'LBL_AT_DELETE' => 'Delete',
+	'LBL_AT_CREATE' => 'Create',
+	'LBL_AT_RESTORE' => 'Restore',
+	'LBL_AT_LINK' => 'Link',
+	'LBL_AT_UNLINK' => 'Unlink',
+	'LBL_AT_CONVERTTOACCOUNT' => 'Convert to Account',
+	'LBL_AT_DISPLAY' => 'View',
+	'LBL_AT_UPDATE_P' => 'Modified',
+	'LBL_AT_DELETE_P' => 'Deleted',
+	'LBL_AT_CREATE_P' => 'Created',
+	'LBL_AT_RESTORE_P' => 'Restored',
+	'LBL_AT_LINK_P' => 'Linked',
+	'LBL_AT_UNLINK_P' => 'Unlinked',
+	'LBL_AT_CONVERTTOACCOUNT_P' => 'Converted to Account',
+	'LBL_AT_DISPLAY_P' => 'Viewed'
 ];

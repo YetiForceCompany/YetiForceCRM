@@ -31,6 +31,7 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 
 		$permitted = Users_Privileges_Model::isPermitted($sourceModule, 'DetailView', $record);
 		if ($permitted) {
+			vglobal('showsAdditionalLabels', true);
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
 			$data = $recordModel->getData();
 			$response->setResult(array('success' => true, 'data' => array_map('decode_html', $data)));

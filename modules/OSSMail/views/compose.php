@@ -57,6 +57,10 @@ class OSSMail_compose_View extends Vtiger_Index_View
 		if ($request->get('mid') != '' && $request->get('type') != '') {
 			$param .= '&crmid=' . (int) $request->get('mid') . '&type=' . $request->get('type');
 		}
+		$pdfPath = $request->get('pdf_path');
+		if ($pdfPath) {
+			$param .= '&pdf_path=' . $pdfPath;
+		}
 		$this->mainUrl = $this->mainUrl . $param;
 
 		if ($config['popup']) {

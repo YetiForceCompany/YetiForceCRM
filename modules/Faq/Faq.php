@@ -110,7 +110,7 @@ class Faq extends CRMEntity {
 		if($this->column_fields['comments'] != '')
 			$comment = $this->column_fields['comments'];
 		else
-			$comment = $_REQUEST['comments'];
+			$comment = AppRequest::get('comments');
 
 		if($comment != '')
 		{

@@ -749,7 +749,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if ($this->has('inventoryData')) {
 			$request = $this->get('inventoryData');
 		} else {
-			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+			$request = AppRequest::init();
 		}
 		if ($request->has('inventoryItemsNo')) {
 			$numRow = $request->get('inventoryItemsNo');

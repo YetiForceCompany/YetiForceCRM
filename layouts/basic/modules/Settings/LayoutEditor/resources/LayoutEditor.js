@@ -150,7 +150,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var container = currentTarget.closest('#relatedTabOrder');
 			var contentsDiv = container.closest('.contentsDiv');
 			var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
-
 			var callBackFunction = function (data) {
 				app.showSelect2ElementView(data.find('select'));
 				data.find('.relLabel').val(data.find('.target option:selected').val());
@@ -344,7 +343,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	},
 	updateSelectedFields: function (target) {
 		var thisInstance = this;
-		var selectedFields = thisInstance.getSelectedFields(jQuery(target));
 		var params = {};
 		var relatedModule = jQuery(target).closest('.relatedModule');
 		var progressIndicatorElement = jQuery.progressIndicator({
@@ -353,6 +351,12 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				'enabled': true
 			}
 		});
+		if (jQuery(target).data('type') == 'inventory') {
+			params['inventory'] = true;
+			var selectedFields = jQuery(target).val();
+		} else {
+			var selectedFields = thisInstance.getSelectedFields(jQuery(target));
+		}
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'Relation';

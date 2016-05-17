@@ -5,4 +5,7 @@ $CONFIG = [
 	'DEFAULT_VIEW' => 'TimeLine',
 	// Number of records on one page
 	'NUMBER_RECORDS_ON_PAGE' => 50,
+	// Enable sending notifications for all actions available in changes history.
+	// Tracking requires enabling module or record tracking.
+	'WATCHDOG' => true,
 ];

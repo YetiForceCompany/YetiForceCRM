@@ -53,9 +53,14 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 	{
 		$fields = $request->get('fields');
 		$relationId = $request->get('relationId');
+		$isInventory = $request->get('inventory');
 		$response = new Vtiger_Response();
 		try {
-			Vtiger_Relation_Model::updateModuleRelatedFields($relationId, $fields);
+			if($isInventory){
+				Vtiger_Relation_Model::updateModuleRelatedInventoryFields($relationId, $fields);
+			}else{
+				Vtiger_Relation_Model::updateModuleRelatedFields($relationId, $fields);
+			}
 			$response->setResult(array('success' => true));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

@@ -360,7 +360,7 @@ var Vtiger_Index_Js = {
 			module: 'Home',
 			action: 'Notification',
 			mode: 'setMark',
-			id: id
+			ids: id
 		}
 		AppConnector.request(params).then(function (data) {
 			var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
@@ -369,7 +369,7 @@ var Vtiger_Index_Js = {
 				text: app.vtranslate('JS_MARKED_AS_READ'),
 				type: 'info'
 			});
-			if (data.result == 'hide') {
+			if (data.result) {
 				row.fadeOut(300, function () {
 					var entries = row.closest('.notificationEntries')
 					row.remove();
@@ -381,6 +381,44 @@ var Vtiger_Index_Js = {
 					});
 				});
 			}
+			var badge = $(".notificationsNotice .badge");
+			var number = parseInt(badge.text()) - 1;
+			if (number > 0) {
+				badge.text(number);
+			} else {
+				badge.text('');
+			}
+		});
+	},
+	markAllNotifications: function (element) {
+		var thisInstance = this;
+
+		var ids = [];
+		var li = $(element).closest('li');
+		li.find('.noticeRow').each(function (index) {
+			ids.push($(this).data('id'));
+			console.log($(this).data('id'));
+		});
+
+		var params = {
+			module: 'Home',
+			action: 'Notification',
+			mode: 'setMark',
+			ids: ids
+		}
+		li.progressIndicator({'position' : 'html'});
+		AppConnector.request(params).then(function (data) {
+			li.progressIndicator({'mode': 'hide'});
+			Vtiger_Helper_Js.showPnotify({
+				title: app.vtranslate('JS_MESSAGE'),
+				text: app.vtranslate('JS_MARKED_AS_READ'),
+				type: 'info'
+			});
+
+			li.fadeOut(300, function () {
+				row.remove();
+			});
+
 			var badge = $(".notificationsNotice .badge");
 			var number = parseInt(badge.text()) - 1;
 			if (number > 0) {

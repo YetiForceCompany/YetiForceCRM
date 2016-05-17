@@ -82,7 +82,12 @@ function OSSProjectTemplatesEdit() {
                             for (var val in data.result) {
                                 var isJson = thisInstance.isJsonArray(data.result[val]);                             
                                 if (!isJson) {
-                                    jQuery('[name="' + val + '"]').val(data.result[val]);
+									var type = jQuery('[name="' + val + '"]').prop('type');
+									if('select-one' == type){
+										jQuery('[name="' + val + '"]').val(data.result[val]);
+										jQuery('[name="' + val + '"]').trigger('chosen:updated');
+									}else
+										jQuery('[name="' + val + '"]').val(data.result[val]);
                                 } else {
                                     var tabValue = JSON.parse(data.result[val]);
                                     jQuery('#' + val + '_edit').val(tabValue).trigger('chosen:updated');
@@ -204,6 +209,12 @@ function OSSProjectTemplatesEdit() {
 			this.registerButtonEvents = function(){
 				$('.addButton').click(function(){
 					app.showModalWindow($('#add_project_modal'));
+				});
+				$('.addTaskButton').click(function(){
+					app.showModalWindow($('#step_2_modal'));
+				});
+				$('.addMilestoneButton').click(function(){
+					app.showModalWindow($('#step_1_modal'));
 				});
 				$('.edit_tpl').click(function(){
 					app.showModalWindow($('#edit_project_modal'));

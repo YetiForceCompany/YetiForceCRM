@@ -306,10 +306,12 @@ class Vtiger_Field_Model extends Vtiger_Field
 			}
 
 			// Protection against deleting a value that does not exist on the list
-			$fieldValue = $this->get('fieldvalue');
-			if (!empty($fieldValue) && !in_array($this->get('fieldvalue'), $picklistValues)) {
-				$picklistValues[] = $this->get('fieldvalue');
-				$this->set('isEditableReadOnly', true);
+			if ($fieldDataType == 'picklist') {
+				$fieldValue = $this->get('fieldvalue');
+				if (!empty($fieldValue) && !in_array($this->get('fieldvalue'), $picklistValues)) {
+					$picklistValues[] = $this->get('fieldvalue');
+					$this->set('isEditableReadOnly', true);
+				}
 			}
 
 			$fieldPickListValues = [];
