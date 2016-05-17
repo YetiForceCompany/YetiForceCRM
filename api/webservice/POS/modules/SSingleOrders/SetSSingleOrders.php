@@ -70,7 +70,7 @@ class API_SSingleOrders_SetSSingleOrders extends BaseAction
 				$recordModel->save();
 				$idsToReturn[$offer['id']] = $recordModel->getid();
 			} else {
-				throw new APIException('LBL_NO_PERMISSION_TO_STORAGE', 405);
+				throw new APIException('ERR_NO_PERMISSION_TO_STORAGE', 500);
 			}
 		}
 		return $idsToReturn;

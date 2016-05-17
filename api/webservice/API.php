@@ -45,7 +45,7 @@ class API
 		if (isset($this->headers['Encrypted']) && $this->headers['Encrypted'] == 1) {
 			$requestData = $this->decryptData(file_get_contents('php://input'));
 		} else {
-			$requestData = $_POST;
+			$requestData = json_decode(file_get_contents('php://input'), 1);
 		}
 
 		$this->data = new Vtiger_Request($requestData, $requestData);
@@ -78,11 +78,13 @@ class API
 			$data['record'] = $this->request->get('record');
 		}
 
-		if($this->request->get('action') != 'Login'){
-			if(!$handler->checkSession($this->headers['Sessionid'])){
+		if(!($this->request->get('action') == 'Login' && $this->request->get('module') == 'Users')){
+			$session = APISession::checkSession($this->headers['Sessionid']);
+			
+			if($session == false){
 				throw new APIException('Invalid Sessionid', 401);
 			}
-			if(!$handler->checkPermission($this->request->get('action'))){
+			if(!$handler->checkPermission($this->request->get('action'), $session->get('user_id'))){
 				throw new APIException('No permission to action', 405);
 			}
 		}

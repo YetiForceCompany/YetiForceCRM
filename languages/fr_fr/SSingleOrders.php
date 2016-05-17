@@ -26,6 +26,10 @@ $languageStrings = [
 	'FL_MARGIN' => 'Marge totale',
 	'FL_SUM_GROSS' => 'Total TTC',
 	'FL_SUM_DISCOUNT' => 'Montant réduction',
+	'FL_POS' => 'POS',
+	'FL_NUMBER_TABLE' => 'Table number',
+	'FL_NUMBER_SEAT' => 'Seat number',
+	'FL_STORAGE' => 'Storage',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Brouillon',

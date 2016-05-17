@@ -11,17 +11,16 @@ class BaseAction
 
 	public $api = [];
 	protected $requestMethod = [];
-	public $session = [];
 	public $user = [];
 
-	public function checkPermission($function)
+	public function checkPermission($function, $userId)
 	{
 		if ($this->api->app['type'] == 'POS') {
-			$dbPortal = PearDatabase::getInstance();
-			$query = $result = $dbPortal->pquery('SELECT * FROM w_yf_pos_actions WHERE name = ? LIMIT 1', [$function]);
-			if ($action = $dbPortal->getRow($result)) {
-				$result = $dbPortal->pquery('SELECT * FROM w_yf_pos_users WHERE id = ? LIMIT 1', [$this->session['user_id']]);
-				$user = $dbPortal->getRow($result);
+			$db = PearDatabase::getInstance();
+			$query = $result = $db->pquery('SELECT * FROM w_yf_pos_actions WHERE name = ? LIMIT 1', [$function]);
+			if ($action = $db->getRow($result)) {
+				$result = $db->pquery('SELECT * FROM w_yf_pos_users WHERE id = ? LIMIT 1', [$userId]);
+				$user = $db->getRow($result);
 				$this->user = $user;
 				if (strpos($user['action'], (string) $action['id']) !== false) {
 					return true;
@@ -33,18 +32,6 @@ class BaseAction
 			}
 		} else {
 			return true;
-		}
-	}
-
-	public function checkSession($sessionId)
-	{
-		$dbPortal = PearDatabase::getInstance();
-		$result = $dbPortal->pquery('SELECT * FROM w_yf_sessions WHERE id = ? LIMIT 1', [$sessionId]);
-		if ($session = $dbPortal->getRow($result)) {
-			$this->session = $session;
-			return true;
-		} else {
-			return false;
 		}
 	}
 

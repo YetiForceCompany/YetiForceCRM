@@ -25,7 +25,7 @@ class API_TreesManager_GetCategories extends BaseAction
 		if($recordModel){
 			return $recordModel->getTree();
 		} else {
-			throw new APIException('LBL_NOT_FOUND_TREE', 405);
+			throw new APIException('ERR_NOT_FOUND_TREE', 500);
 		}
 	}
 }

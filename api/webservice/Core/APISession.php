@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class APISession
+class APISession extends Vtiger_Base_Model
 {
 
 	public static function regenerateId()
@@ -24,8 +24,24 @@ class APISession
 			'changed' => date('Y-m-d H:i:s'),
 			'ip' => '',
 		];
-		$dbPortal = PearDatabase::getInstance();
-		$dbPortal->insert('w_yf_sessions', $sessionData);
+		$db = PearDatabase::getInstance();
+		$db->insert('w_yf_sessions', $sessionData);
 		return $sessionData;
+	}
+	
+	public static function checkSession($sessionId)
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM w_yf_sessions WHERE id = ? LIMIT 1', [$sessionId]);
+		if ($session = $db->getRow($result)) {
+			$sessionModel = self::getInstance();
+			$sessionModel->setData($session);
+			return $sessionModel;
+		} else {
+			return false;
+		}
+	}
+	public static function getInstance(){
+		return new self();
 	}
 }

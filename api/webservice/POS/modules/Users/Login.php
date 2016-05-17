@@ -17,15 +17,15 @@ class API_Users_Login extends BaseAction
 		$result = $dbPortal->pquery('SELECT * FROM w_yf_pos_users WHERE user_name = ? AND status = ? ', [$userName, 1]);
 
 		if ($dbPortal->getRowCount($result) != 1) {
-			throw new APIException('LBL_INVALID_DATA_ACCESS', 401);
+			throw new APIException('ERR_INVALID_DATA_ACCESS', 401);
 		}
 		$userDetail = $dbPortal->getRow($result);
 
 		if ($password != $userDetail['pass']) {
-			throw new APIException('LBL_INVALID_USER_PASSWORD', 401);
+			throw new APIException('ERR_INVALID_USER_PASSWORD', 401);
 		}
 		if ($this->api->app['id'] != $userDetail['server_id']){
-			throw new APIException('LBL_INVALID_APP', 401);
+			throw new APIException('ERR_INVALID_APP', 401);
 		}
 		$sessionData = APISession::init($userDetail);
 		self::updateUser($userDetail['id']);
