@@ -87,9 +87,7 @@
 												{CurrencyField::convertToUserFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME), null, true, true)}
 												{else}
 													{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
-														{assign var=NoOfDecimalPlaces value=getCurrencyDecimalPlaces()}
-														{assign var=decimalNumber value=$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-														{number_format($decimalNumber,$NoOfDecimalPlaces)}
+														{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
 													{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
 														{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 													{else}
