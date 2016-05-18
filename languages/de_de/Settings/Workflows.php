@@ -203,6 +203,10 @@ $languageStrings = [
 	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Script existiert physikalisch, enthält aber nicht den importierten Funktionsname. Manuell %s zu %s hinzufügen.',
 	'LBL_FAILED_TO_SAVE_SCRIPT' => 'Speichern der Workflow Skriptdatei fehlgeschlagen. Manuell kopieren %s zu %s.',
 	'LBL_SELECT_ACTION_TYPE' => 'Wähle Benachrichtungstyp',
+	'LBL_MESSAGES_FROM_USERS' => 'Messages from users',
+	'LBL_SKIP_CURRENT_USER' => 'Skip current user',
+	'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => 'List of all changes in record',
+	'LBL_LIST_OF_ALL_VALUES_IN_RECORD' => 'List of all values in record',
 	//VTWatchdog
 	'LBL_SELECT_RECIPIENTS' => 'Empfänger',
 	'LBL_MESSAGE' => 'Nachricht',
