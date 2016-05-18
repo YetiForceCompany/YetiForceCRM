@@ -348,7 +348,7 @@ class AppRequest
 		return self::$request->get($key, $defvalue);
 	}
 
-	public function has($key)
+	public static function has($key)
 	{
 		if (!self::$request) {
 			self::init();
@@ -356,7 +356,7 @@ class AppRequest
 		return self::$request->has($key);
 	}
 
-	public function getForSql($key, $skipEmtpy = true)
+	public static function getForSql($key, $skipEmtpy = true)
 	{
 		if (!self::$request) {
 			self::init();
@@ -364,7 +364,7 @@ class AppRequest
 		return self::$request->getForSql($key, $skipEmtpy);
 	}
 
-	public function set($key, $value)
+	public static function set($key, $value)
 	{
 		if (!self::$request) {
 			self::init();
@@ -372,7 +372,7 @@ class AppRequest
 		return self::$request->set($key, $value);
 	}
 	
-	public function isEmpty($key)
+	public static function isEmpty($key)
 	{
 		if (!self::$request) {
 			self::init();
