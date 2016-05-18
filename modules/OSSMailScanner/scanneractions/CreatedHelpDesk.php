@@ -47,7 +47,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BaseSc
 					$record->set('ticketpriorities', $serviceContracts['priority']);
 				}
 			}
-			$record->set('description', vtlib_purify($mail->get('body')));
+			$record->set('description', vtlib_purifyForHtml($mail->get('body')));
 			$record->set('ticketstatus', 'Open');
 			$record->set('mode', 'new');
 			$record->set('id', '');
