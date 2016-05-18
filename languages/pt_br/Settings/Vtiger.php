@@ -67,6 +67,8 @@ $languageStrings = [
 	'LBL_FIELDS_INFO_IS_EMPTY' => 'As informações dos campos estão vazias',
 	'LBL_FROM_EMAIL' => 'Responder a [Email]:',
 	'LBL_GROUP_DESCRIPTION' => 'Gerenciar diferentes tipos de equipes baseadas em Funções, Usuários e Perfis',
+	'LBL_RECORDALLOCATION_DESCRIPTION' => ' ',
+	'LBL_RECORDALLOCATION' => 'Record allocation',
 	'LBL_HELPDESK_SUPPORT_EMAILID' => 'Email Suporte',
 	'LBL_HELPDESK_SUPPORT_NAME' => 'Nome Suporte',
 	'LBL_IMAGE_CORRUPTED' => 'Virus detectado ou a imagem transferida está corrompida',
@@ -317,6 +319,7 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Detalhes da Empresa',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Anúncios',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Servidor SMTP',
+	'LBL_VIEW_OUTGOINGSERVEREDIT' => 'Edit Outgoing Server',
 	'LBL_DEFAULT_LAYOUT' => 'Layout',
 	'LBL_TIMECONTROL_PROCESSES' => 'Processos Controle Tempo',
 	//config editor

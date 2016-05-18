@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 require_once 'modules/Emails/mail.php';
@@ -24,8 +25,12 @@ class HelpDeskHandler extends VTEventHandler
 				$ticketId = $entityData->getId();
 				$sql = 'UPDATE `vtiger_troubletickets` SET `from_portal` = 0 WHERE `ticketid` = ?';
 				$adb->pquery($sql, [$ticketId]);
+				HelpDesk_Record_Model::updateTicketRangeTimeField($entityData);
 			}
 		} else if ($eventName == 'vtiger.entity.link.after') {
+			if (in_array($entityData['destinationModule'], ['Calendar', 'Events', 'Activity', 'ModComments']) && $entityData['sourceModule'] == 'HelpDesk') {
+				HelpDesk_Record_Model::updateTicketRangeTimeField($entityData['entityData'], true);
+			}
 			if ($entityData['destinationModule'] == 'Contacts' && $entityData['sourceModule'] == 'HelpDesk' && isRecordExists($entityData['destinationRecordId'])) {
 				$ticketId = $entityData['sourceRecordId'];
 				$contactId = $entityData['destinationRecordId'];

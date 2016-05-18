@@ -45,7 +45,20 @@ class Users_ListView_Model extends Vtiger_ListView_Model {
 	 */
 	public function getListViewMassActions($linkParams) {
 		$links = parent::getListViewMassActions($linkParams);
+		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		
+		$massActionLinks = [];
+		if ($linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && is_admin($privilegesModel)) {
+			$massActionLinks[] = array(
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_PWD_EDIT',
+				'linkurl' => 'javascript:Settings_Users_List_Js.triggerEditPasswords("index.php?module=Users&view=EditAjax&mode=editPasswords", "' . $linkParams['MODULE'] . '")',
+				'linkicon' => ''
+			);
+		}
+		foreach ($massActionLinks as $massActionLink) {
+			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+		}
 		for( $i=0; $i<count($links['LISTVIEWMASSACTION']); $i++ ) {
 			if ( $links['LISTVIEWMASSACTION'][$i]->linklabel == 'LBL_MASS_DELETE' ) {
 				unset($links['LISTVIEWMASSACTION'][$i]);

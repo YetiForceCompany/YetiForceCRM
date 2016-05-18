@@ -75,8 +75,8 @@ class DataTransform
 		// added to handle the setting reminder time
 		if (strtolower($meta->getEntityName()) == "events") {
 			if (isset($row['reminder_time']) && $row['reminder_time'] != null && $row['reminder_time'] != 0) {
-				$_REQUEST['set_reminder'] = "Yes";
-				$_REQUEST['mode'] = 'edit';
+				AppRequest::set('set_reminder', 'Yes');
+				AppRequest::set('mode', 'edit');
 
 				$reminder = $row['reminder_time'];
 				$seconds = (int) $reminder % 60;
@@ -89,11 +89,11 @@ class DataTransform
 					$minutes = 1;
 				}
 
-				$_REQUEST['remmin'] = $minutes;
-				$_REQUEST['remhrs'] = $hours;
-				$_REQUEST['remdays'] = $days;
+				AppRequest::set('remmin', $minutes);
+				AppRequest::set('remhrs', $hours);
+				AppRequest::set('remdays', $days);
 			} else {
-				$_REQUEST['set_reminder'] = "No";
+				AppRequest::set('set_reminder', 'No');
 			}
 		} elseif (strtolower($meta->getEntityName()) == "calendar") {
 			if (empty($row['sendnotification']) || strtolower($row['sendnotificaiton']) == 'no' || $row['sendnotificaiton'] == '0' || $row['sendnotificaiton'] == 'false' || strtolower($row['sendnotificaiton']) == 'n') {
@@ -117,9 +117,9 @@ class DataTransform
 		if (strtolower($meta->getEntityName()) == "emails") {
 			if (isset($row['parent_id'])) {
 				if ($associatedToUser === true) {
-					$_REQUEST['module'] = 'Emails';
+					AppRequest::set('module', 'Emails');
 					$row['parent_id'] = $row['parent_id'] . "@-1|";
-					$_REQUEST['parent_id'] = $row['parent_id'];
+					AppRequest::set('parent_id', $row['parent_id']);
 				} else {
 					$referenceHandler = vtws_getModuleHandlerFromId($parentTypeId, $meta->getUser());
 					$referenceMeta = $referenceHandler->getMeta();

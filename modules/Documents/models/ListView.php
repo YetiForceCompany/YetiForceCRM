@@ -73,7 +73,6 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
 		$linkTypes = array('LISTVIEWMASSACTION');
@@ -81,7 +80,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 
 		//Opensource fix to make documents module mass editable
 		$massActionLinks = [];
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassEdit')) {
+		if ($moduleModel->isPermitted('MassEdit')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_EDIT',
@@ -90,7 +89,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			);
 		}
 
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassDelete')) {
+		if ($moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
@@ -98,7 +97,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => ''
 			);
 		}
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassMoveDocuments')) {
+		if ($moduleModel->isPermitted('MassMoveDocuments')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MOVE',
@@ -106,7 +105,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => ''
 			);
 		}
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassTransferOwnership')) {
+		if ($moduleModel->isPermitted('MassTransferOwnership')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',

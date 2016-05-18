@@ -10,7 +10,7 @@ use Sabre\DAV;
  * The 403-need privileges is thrown when a user didn't have the appropriate
  * permissions to perform an operation
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -36,7 +36,7 @@ class NeedPrivileges extends DAV\Exception\Forbidden {
      * @param string $uri
      * @param array $privileges
      */
-    function __construct($uri,array $privileges) {
+    function __construct($uri, array $privileges) {
 
         $this->uri = $uri;
         $this->privileges = $privileges;
@@ -54,25 +54,25 @@ class NeedPrivileges extends DAV\Exception\Forbidden {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(DAV\Server $server,\DOMElement $errorNode) {
+    function serialize(DAV\Server $server, \DOMElement $errorNode) {
 
         $doc = $errorNode->ownerDocument;
 
-        $np = $doc->createElementNS('DAV:','d:need-privileges');
+        $np = $doc->createElementNS('DAV:', 'd:need-privileges');
         $errorNode->appendChild($np);
 
-        foreach($this->privileges as $privilege) {
+        foreach ($this->privileges as $privilege) {
 
-            $resource = $doc->createElementNS('DAV:','d:resource');
+            $resource = $doc->createElementNS('DAV:', 'd:resource');
             $np->appendChild($resource);
 
-            $resource->appendChild($doc->createElementNS('DAV:','d:href',$server->getBaseUri() . $this->uri));
+            $resource->appendChild($doc->createElementNS('DAV:', 'd:href', $server->getBaseUri() . $this->uri));
 
-            $priv = $doc->createElementNS('DAV:','d:privilege');
+            $priv = $doc->createElementNS('DAV:', 'd:privilege');
             $resource->appendChild($priv);
 
-            preg_match('/^{([^}]*)}(.*)$/',$privilege,$privilegeParts);
-            $priv->appendChild($doc->createElementNS($privilegeParts[1],'d:' . $privilegeParts[2]));
+            preg_match('/^{([^}]*)}(.*)$/', $privilege, $privilegeParts);
+            $priv->appendChild($doc->createElementNS($privilegeParts[1], 'd:' . $privilegeParts[2]));
 
 
         }
@@ -80,4 +80,3 @@ class NeedPrivileges extends DAV\Exception\Forbidden {
     }
 
 }
-

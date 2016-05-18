@@ -585,8 +585,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				}
 
 				if ($entityId == false) {
-					$request = new Vtiger_Request($_REQUEST);
-					$referenceModuleName = $request->get($fieldName . '_defaultvalue');
+					$referenceModuleName = AppRequest::get($fieldName . '_defaultvalue');
 				}
 			}
 			if ((empty($entityId) || $entityId == 0) && !empty($referenceModuleName)) {
@@ -958,9 +957,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	
 	public function createRecordByModel($moduleName, $fieldData, $user)
 	{
-		global $VTIGER_BULK_SAVE_MODE;
-		$previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
-		$VTIGER_BULK_SAVE_MODE = false;
+		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
+		vglobal('VTIGER_BULK_SAVE_MODE', false);
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		if (isset($fieldData['inventoryData'])) {
 			$inventoryData = $fieldData['inventoryData'];
@@ -975,7 +973,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 
 		$recordModel->save();
-		$VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
+		vglobal('VTIGER_BULK_SAVE_MODE', $previousBulkSaveMode);
 		$ID = $recordModel->getId();
 		if (!empty($ID)) {
 			$adb = PearDatabase::getInstance();

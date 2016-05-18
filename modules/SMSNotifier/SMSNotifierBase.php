@@ -104,7 +104,7 @@ class SMSNotifierBase extends CRMEntity {
 		$currentModule = vglobal('currentModule');
 
 		$sortorder = $this->default_sort_order;
-		if($_REQUEST['sorder']) $sortorder = $_REQUEST['sorder'];
+		if(!AppRequest::isEmpty('sorder')) $sortorder = AppRequest::get('sorder');
 		else if($_SESSION[$currentModule.'_Sort_Order'])
 			$sortorder = $_SESSION[$currentModule.'_Sort_Order'];
 
@@ -113,7 +113,7 @@ class SMSNotifierBase extends CRMEntity {
 
 	function getOrderBy() {
 		$orderby = $this->default_order_by;
-		if($_REQUEST['order_by']) $orderby = $_REQUEST['order_by'];
+		if(!AppRequest::isEmpty('order_by')) $sortorder = AppRequest::get('order_by');
 		else if($_SESSION[$currentModule.'_Order_By'])
 			$orderby = $_SESSION[$currentModule.'_Order_By'];
 		return $orderby;
@@ -228,12 +228,12 @@ class SMSNotifierBase extends CRMEntity {
 	function create_export_query($where)
 	{
 		$current_user  = vglobal('current_user');
-		$thismodule = $_REQUEST['module'];
+		$thismodule = AppRequest::get('module');
 
-		include("include/utils/ExportUtils.php");
+		include('include/utils/ExportUtils.php');
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery($thismodule, "detail_view");
+		$sql = getPermittedFieldsQuery($thismodule, 'detail_view');
 
 		$fields_list = getFieldsListFromQuery($sql);
 

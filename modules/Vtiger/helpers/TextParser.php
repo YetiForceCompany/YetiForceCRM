@@ -17,6 +17,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			'Translate' => '(translate: [LBL_YEAR])',
 			'Company Detail' => '(companyDetail: organizationname)',
 			'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => '(recordChanges: listOfAllChanges)',
+			'LBL_LIST_OF_ALL_VALUES_IN_RECORD' => '(recordChanges: listOfAllValues)',
 			'Current Date' => '(general: CurrentDate)',
 			'Current Time' => '(general: CurrentTime)',
 			'CRM Detail View URL' => '(general: CrmDetailViewURL)',
@@ -131,7 +132,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			}
 			return $value;
 		}, $this->get('content'));
-		$content = preg_replace_callback('/\((\w+): \[([\w\s]+)\|\|\|(\w+)\]\)/', function ($matches) {
+		$content = preg_replace_callback('/\((\w+): \[([\w\s\&]+)\|\|\|(\w+)\]\)/', function ($matches) {
 			$variable = $matches[2];
 			if (key_exists(3, $matches)) {
 				return vtranslate($variable, $matches[3]);
@@ -195,7 +196,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		if (empty($delta)) {
 			return '';
 		}
-		$value = PHP_EOL;
+		$value = '';
 		switch ($key) {
 			case 'listOfAllChanges':
 				foreach ($delta as $fieldName => $delta) {
@@ -204,6 +205,17 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 					$currentValue = $this->recordChangesDisplayValue($delta['currentValue'], $fieldModel);
 					$value.= '(translate: [' . $fieldModel->getFieldLabel() . '|||' . $this->get('moduleName') . '])' . ' ' .
 						'(translate: [LBL_FROM])' . ' ' . $oldValue . ' ' . '(translate: [LBL_TO])' . ' ' . $currentValue . PHP_EOL;
+				}
+				return $value;
+			case 'listOfAllValues':
+				unset($delta['record_id']);
+				unset($delta['record_module']);
+				foreach ($delta as $fieldName => $delta) {
+					$fieldModel = $this->get('recordModel')->getModule()->getField($fieldName);
+					if ($fieldModel) {
+						$value.= '(translate: [' . $fieldModel->getFieldLabel() . '|||' . $this->get('moduleName') . '])' . ': ' .
+							$this->recordChangesDisplayValue($delta['currentValue'], $fieldModel) . PHP_EOL;
+					}
 				}
 				return $value;
 		}

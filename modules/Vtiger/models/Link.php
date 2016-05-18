@@ -359,18 +359,15 @@ class Vtiger_Link_Model extends Vtiger_Link
 	 */
 	public function getRelatedModuleName($defaultModuleName = false)
 	{
-		if (!$this->isPageLoadLink()) {
-			return $defaultModuleName != false ? $defaultModuleName : NULL;
-		}
+		$relatedModuleName = $defaultModuleName;
 		if (empty($this->relatedModuleName)) {
 			$queryParams = Vtiger_Functions::getQueryParams($this->get('linkurl'));
 			if (!empty($fieldname)) {
-				$this->relatedModuleName = $queryParams['module'];
+				$this->relatedModuleName = $relatedModuleName = $queryParams['module'];
 			}
+		} else {
+			$relatedModuleName = $this->relatedModuleName;
 		}
-		if (empty($this->relatedModuleName) && $defaultModuleName) {
-			return $defaultModuleName;
-		}
-		return $this->relatedModuleName;
+		return $relatedModuleName;
 	}
 }

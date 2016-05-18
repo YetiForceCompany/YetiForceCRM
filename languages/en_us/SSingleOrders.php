@@ -26,6 +26,10 @@ $languageStrings = [
 	'FL_MARGIN' => 'Total margin',
 	'FL_SUM_GROSS' => 'Gross amount',
 	'FL_SUM_DISCOUNT' => 'Discount amount',
+	'FL_POS' => 'POS',
+	'FL_NUMBER_TABLE' => 'Table number',
+	'FL_NUMBER_SEAT' => 'Seat number',
+	'FL_STORAGE' => 'Storage',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Draft',
@@ -36,4 +40,9 @@ $languageStrings = [
 	'PLL_ACCEPTED' => 'Accepted',
 
 	'LBL_CHANGE_STATUS' => 'Change status',
+	'LBL_SYNCHRONIZE_POS' => 'Synchronize POS',
+	'FL_SOURCE' => 'Source',
+	'PLL_MANUAL' => 'Manual',
+	'PLL_POS' => 'POS',
+	'PLL_SHOP' => 'Shop',
 ];

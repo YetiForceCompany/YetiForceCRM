@@ -26,7 +26,6 @@ $languageStrings = [
 	'FL_MARGIN' => 'Suma marży',
 	'FL_SUM_GROSS' => 'Suma brutto',
 	'FL_SUM_DISCOUNT' => 'Suma rabatu',
-	'LBL_POS' => 'Synchronizacja POS',
 	'FL_POS' => 'POS',
 	'FL_NUMBER_TABLE' => 'Numer stolika',
 	'FL_NUMBER_SEAT' => 'Numer siedzenia',
@@ -41,4 +40,9 @@ $languageStrings = [
 	'PLL_ACCEPTED' => 'Zaakceptowana',
 
 	'LBL_CHANGE_STATUS' => 'Zmień status',
+	'LBL_SYNCHRONIZE_POS' => 'Synchronizacja POS',
+	'FL_SOURCE' => 'Źródło',
+	'PLL_MANUAL' => 'Manualnie',
+	'PLL_POS' => 'POS',
+	'PLL_SHOP' => 'Sklep',
 ];

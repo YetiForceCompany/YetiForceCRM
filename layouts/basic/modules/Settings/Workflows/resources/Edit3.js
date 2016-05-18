@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	step3Container: false,
@@ -71,6 +72,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
 
+				app.showBtnSwitch($(data).find('.switchBtn'));
 				app.showPopoverElementView($(data).find('.popoverTooltip'));
 			}, {'min-width': '900px'});
 
@@ -111,7 +113,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 					thisInstance[preSaveActionFunctionName].apply(thisInstance, [taskType]);
 				}
 				var params = form.serializeFormData();
-
 				AppConnector.request(params).then(function (data) {
 					if (data.result) {
 						thisInstance.getTaskList();
@@ -444,10 +445,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 					var selectedOptionFieldInfo = selectedElement.find('option:selected').data('fieldinfo');
 					var type = selectedOptionFieldInfo.type;
 					if (type == 'picklist' || type == 'multipicklist') {
-						var moduleName = jQuery('#createEntityModule').val();
-						moduleNameElement.find('option[value="' + moduleName + '"]').attr('selected', true);
-						moduleNameElement.trigger('change');
-						moduleNameElement.select2("disable");
+						var selectElement = jQuery('select.createEntityModule:not(:disabled)');
+						var moduleName = selectElement.val();
+						moduleNameElement.val(moduleName).change().prop('disabled', true);
 					}
 				}
 				thisInstance.loadFieldSpecificUi(selectedElement);
@@ -491,13 +491,11 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		} else {
 			fieldInfo.workflow_valuetype = 'rawtext';
 		}
-
 		var moduleName = this.getModuleName();
 
 		var fieldModel = Vtiger_Field_Js.getInstance(fieldInfo, moduleName);
 		this.fieldModelInstance = fieldModel;
 		var fieldSpecificUi = this.getFieldSpecificUi(fieldSelect);
-
 		//remove validation since we dont need validations for all eleements
 		// Both filter and find is used since we dont know whether the element is enclosed in some conainer like currency
 		var fieldName = fieldModel.getName();
@@ -508,14 +506,12 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		fieldSpecificUi.find('[name="' + fieldName + '"]').attr('data-value', 'value');
 		fieldSpecificUi.filter('[name="valuetype"]').removeAttr('data-validation-engine');
 		fieldSpecificUi.find('[name="valuetype"]').removeAttr('data-validation-engine');
-
 		//If the workflowValueType is rawtext then only validation should happen
 		var workflowValueType = fieldSpecificUi.filter('[name="valuetype"]').val();
 		if (workflowValueType != 'rawtext' && typeof workflowValueType != 'undefined') {
 			fieldSpecificUi.filter('[name="' + fieldName + '"]').removeAttr('data-validation-engine');
 			fieldSpecificUi.find('[name="' + fieldName + '"]').removeAttr('data-validation-engine');
 		}
-
 		fieldUiHolder.html(fieldSpecificUi);
 
 		if (fieldSpecificUi.is('input.select2')) {
@@ -568,15 +564,51 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	},
 	registerChangeCreateEntityEvent: function () {
 		var thisInstance = this;
-		jQuery('#createEntityModule').on('change', function (e) {
+		jQuery('[name="mappingPanel"]').on('change', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			app.setMainParams('mappingPanel', currentTarget.val())
+			jQuery('#addCreateEntityContainer').html('');
+			var hideElementByClass = jQuery('.' + currentTarget.data('hide'));
+			var showElementByClass = jQuery('.' + currentTarget.data('show'));
+			var taskFields = app.getMainParams('taskFields', true);
+			hideElementByClass.addClass('hide').find('input,select').each(function (e, n) {
+				var element = jQuery(this);
+				var name = element.attr('name');
+				if ($.inArray(name, taskFields) >= 0) {
+					if (element.is('select')) {
+						element.val('').trigger('chosen:updated').change();
+					}
+					element.prop('disabled', true);
+				}
+			});
+			showElementByClass.removeClass('hide').find('input,select').each(function (e, n) {
+				var element = jQuery(this);
+				var name = element.attr('name');
+				if ($.inArray(name, taskFields) >= 0) {
+					element.prop('disabled', false);
+					if (element.is('select')) {
+						element.val('').trigger('chosen:updated').change();
+					}
+				}
+			});
+		});
+		jQuery('.createEntityModule').on('change', function (e) {
 			var params = {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				view: 'CreateEntity',
 				relatedModule: jQuery(e.currentTarget).val(),
-				for_workflow: jQuery('[name="for_workflow"]').val()
+				for_workflow: jQuery('[name="for_workflow"]').val(),
+				mappingPanel: app.getMainParams('mappingPanel')
 			}
+			var progressIndicatorElement = jQuery.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
 			AppConnector.request(params).then(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'})
 				var createEntityContainer = jQuery('#addCreateEntityContainer');
 				createEntityContainer.html(data);
 				app.changeSelectElementView(createEntityContainer);

@@ -167,6 +167,15 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				return false;
 			}
 		} else {
+			if ($destinationModuleName == 'ModComments') {
+				include_once('modules/ModTracker/ModTracker.php');
+				ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
+				return true;
+			}
+			$relationFieldModel = $this->getRelationField();
+			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
+				return false;
+			}
 			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
 			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			return true;
@@ -226,7 +235,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	 */
 	public function isDeletable()
 	{
-		return $this->getRelationModuleModel()->isPermitted('Delete');
+		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
 	}
 
 	public function showCreatorDetail()
@@ -250,6 +259,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . ($label ? 1 : 0);
 		if (key_exists($relKey, self::$_cached_instance)) {
 			return self::$_cached_instance[$relKey];
+		}
+		if ($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) {
+			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$relationModel = new $relationModelClassName();
+			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			self::$_cached_instance[$relKey] = $relationModel;
+			return $relationModel;
 		}
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename FROM vtiger_relatedlists
@@ -277,7 +293,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename FROM vtiger_relatedlists 
+		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename,vtiger_tab.tabid as moduleid FROM vtiger_relatedlists 
                     INNER JOIN vtiger_tab on vtiger_relatedlists.related_tabid = vtiger_tab.tabid
                     WHERE vtiger_relatedlists.tabid = ? AND related_tabid != 0';
 
@@ -293,11 +309,11 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		while ($row = $db->getRow($result)) {
 			//$relationModuleModel = Vtiger_Module_Model::getCleanInstance($moduleName);
 			// Skip relation where target module does not exits or is no permitted for view.
-			if (!Users_Privileges_Model::isPermitted($row['modulename'], 'DetailView')) {
+			if (!$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
 			}
 			$relationModel = new $relationModelClassName();
@@ -429,11 +445,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$result = $adb->pquery($query, array($presence, $relationId));
 	}
 
-	public function removeRelationById($relationId)
+	public static function removeRelationById($relationId)
 	{
 		$db = PearDatabase::getInstance();
 		if ($relationId) {
 			$db->delete('vtiger_relatedlists', 'relation_id = ?', [$relationId]);
+			$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
+			$db->delete('a_yf_relatedlists_inv_fields', 'relation_id = ?', [$relationId]);
 		}
 	}
 
@@ -452,13 +470,30 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
-		foreach ($fields as $key => $field) {
-			$db->insert('vtiger_relatedlists_fields', [
-				'relation_id' => $relationId,
-				'fieldid' => $field['id'],
-				'fieldname' => $field['name'],
-				'sequence' => $key
-			]);
+		if ($fields) {
+			foreach ($fields as $key => $field) {
+				$db->insert('vtiger_relatedlists_fields', [
+					'relation_id' => $relationId,
+					'fieldid' => $field['id'],
+					'fieldname' => $field['name'],
+					'sequence' => $key
+				]);
+			}
+		}
+	}
+
+	public static function updateModuleRelatedInventoryFields($relationId, $fields)
+	{
+		$db = PearDatabase::getInstance();
+		$db->delete('a_yf_relatedlists_inv_fields', 'relation_id = ?', [$relationId]);
+		if ($fields) {
+			foreach ($fields as $key => $field) {
+				$db->insert('a_yf_relatedlists_inv_fields', [
+					'relation_id' => $relationId,
+					'fieldname' => $field,
+					'sequence' => $key
+				]);
+			}
 		}
 	}
 
@@ -481,6 +516,23 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			return $fields;
 		}
 		return $result->GetArray();
+	}
+
+	public function getRelationInventoryFields()
+	{
+		$db = PearDatabase::getInstance();
+		$relationId = $this->getId();
+		$moduleName = $this->get('modulename');
+		$inventoryFields = Vtiger_InventoryField_Model::getInstance($moduleName)->getFields();
+		$query = 'SELECT a_yf_relatedlists_inv_fields.fieldname FROM a_yf_relatedlists_inv_fields WHERE a_yf_relatedlists_inv_fields.relation_id = ? ORDER BY sequence;';
+		$result = $db->pquery($query, [$relationId]);
+		$fields = [];
+		while ($name = $db->getSingleValue($result)) {
+			if ($inventoryFields[$name] && $inventoryFields[$name]->isVisible()) {
+				$fields[] = $name;
+			}
+		}
+		return $fields;
 	}
 
 	public function addSearchConditions($query, $searchParams, $related_module)

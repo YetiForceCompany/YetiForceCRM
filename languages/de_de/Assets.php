@@ -30,8 +30,6 @@ $languageStrings = [
 	'FL_RENEWAL_INVOICE' => 'Renewal invoice',
 	/*picklist values*/
 	'PLL_DRAFT' => 'Entwurf',
-	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
-	'PLL_WAITING_FOR_ACCEPTANCE' => 'Waiting for acceptance',
 	'PLL_ACCEPTED' => 'Accepted',
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_PLANNED' => 'Planned',

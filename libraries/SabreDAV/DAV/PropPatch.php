@@ -13,7 +13,7 @@ use UnexpectedValueException;
  * Property updates must always be atomic. This means that a property update
  * must either completely succeed, or completely fail.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -71,7 +71,14 @@ class PropPatch {
      * "{DAV:}displayname" and a second argument that's a method that does the
      * actual updating.
      *
-     * It's possible to specify more than one property.
+     * It's possible to specify more than one property as an array.
+     *
+     * The callback must return a boolean or an it. If the result is true, the
+     * operation was considered successful. If it's false, it's consided
+     * failed.
+     *
+     * If the result is an integer, we'll use that integer as the http status
+     * code associated with the operation.
      *
      * @param string|string[] $properties
      * @param callable $callback
@@ -80,7 +87,7 @@ class PropPatch {
     function handle($properties, callable $callback) {
 
         $usedProperties = [];
-        foreach((array)$properties as $propertyName) {
+        foreach ((array)$properties as $propertyName) {
 
             if (array_key_exists($propertyName, $this->mutations) && !isset($this->result[$propertyName])) {
 
@@ -99,7 +106,7 @@ class PropPatch {
             // If the original argument to this method was a string, we need
             // to also make sure that it stays that way, so the commit function
             // knows how to format the arguments to the callback.
-            is_string($properties)?$properties:$usedProperties,
+            is_string($properties) ? $properties : $usedProperties,
             $callback
         ];
 
@@ -121,7 +128,7 @@ class PropPatch {
             return;
         }
 
-        foreach($properties as $propertyName) {
+        foreach ($properties as $propertyName) {
             // HTTP Accepted
             $this->result[$propertyName] = 202;
 
@@ -142,11 +149,11 @@ class PropPatch {
      */
     function setResultCode($properties, $resultCode) {
 
-        foreach((array)$properties as $propertyName) {
+        foreach ((array)$properties as $propertyName) {
             $this->result[$propertyName] = $resultCode;
         }
 
-        if ($resultCode>=400) {
+        if ($resultCode >= 400) {
             $this->failed = true;
         }
 
@@ -170,14 +177,36 @@ class PropPatch {
     /**
      * Returns the list of properties that don't have a result code yet.
      *
-     * @return array
+     * This method returns a list of property names, but not its values.
+     *
+     * @return string[]
      */
     function getRemainingMutations() {
 
         $remaining = [];
-        foreach($this->mutations as $propertyName => $propValue) {
+        foreach ($this->mutations as $propertyName => $propValue) {
             if (!isset($this->result[$propertyName])) {
                 $remaining[] = $propertyName;
+            }
+        }
+
+        return $remaining;
+
+    }
+
+    /**
+     * Returns the list of properties that don't have a result code yet.
+     *
+     * This method returns list of properties and their values.
+     *
+     * @return array
+     */
+    function getRemainingValues() {
+
+        $remaining = [];
+        foreach ($this->mutations as $propertyName => $propValue) {
+            if (!isset($this->result[$propertyName])) {
+                $remaining[$propertyName] = $propValue;
             }
         }
 
@@ -196,7 +225,7 @@ class PropPatch {
     function commit() {
 
         // First we validate if every property has a handler
-        foreach($this->mutations as $propertyName => $value) {
+        foreach ($this->mutations as $propertyName => $value) {
 
             if (!isset($this->result[$propertyName])) {
                 $this->failed = true;
@@ -205,7 +234,7 @@ class PropPatch {
 
         }
 
-        foreach($this->propertyUpdateCallbacks as $callbackInfo) {
+        foreach ($this->propertyUpdateCallbacks as $callbackInfo) {
 
             if ($this->failed) {
                 break;
@@ -224,7 +253,7 @@ class PropPatch {
          */
         if ($this->failed) {
 
-            foreach($this->result as $propertyName=>$status) {
+            foreach ($this->result as $propertyName => $status) {
                 if ($status === 202) {
                     // Failed dependency
                     $this->result[$propertyName] = 424;
@@ -265,7 +294,7 @@ class PropPatch {
             throw new UnexpectedValueException('A callback sent to handle() did not return an int or a bool');
         }
         $this->result[$propertyName] = $result;
-        if ($result>=400) {
+        if ($result >= 400) {
             $this->failed = true;
         }
 
@@ -281,14 +310,14 @@ class PropPatch {
     private function doCallBackMultiProp(array $propertyList, callable $callback) {
 
         $argument = [];
-        foreach($propertyList as $propertyName) {
+        foreach ($propertyList as $propertyName) {
             $argument[$propertyName] = $this->mutations[$propertyName];
         }
 
         $result = $callback($argument);
 
         if (is_array($result)) {
-            foreach($propertyList as $propertyName) {
+            foreach ($propertyList as $propertyName) {
                 if (!isset($result[$propertyName])) {
                     $resultCode = 500;
                 } else {
@@ -303,14 +332,14 @@ class PropPatch {
         } elseif ($result === true) {
 
             // Success
-            foreach($argument as $propertyName=>$propertyValue) {
-                $this->result[$propertyName] = is_null($propertyValue)?204:200;
+            foreach ($argument as $propertyName => $propertyValue) {
+                $this->result[$propertyName] = is_null($propertyValue) ? 204 : 200;
             }
 
         } elseif ($result === false) {
             // Fail :(
             $this->failed = true;
-            foreach($propertyList as $propertyName) {
+            foreach ($propertyList as $propertyName) {
                 $this->result[$propertyName] = 403;
             }
         } else {

@@ -66,27 +66,28 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 	{
 		$moduleModel = $this->getModule();
 		$recordModel = $this->getRecord();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
-
 		$linkModelList = $detailViewLinks = [];
-		$adb = PearDatabase::getInstance();
-		vimport('~~modules/com_vtiger_workflow/include.inc');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
-		$wfs = new VTWorkflowManager($adb);
-		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
-		if (Users_Privileges_Model::isPermitted($moduleName, 'WorkflowTrigger') && count($workflows) > 0) {
-			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkurl' => 'Vtiger_Detail_Js.showWorkflowTriggerView(this)',
-				'linkicon' => 'glyphicon glyphicon-plus-sign',
-				'linkhint' => 'BTN_WORKFLOW_TRIGGER',
-				'linkclass' => 'btn-warning',
-			];
+
+		if ($moduleModel->isPermitted('WorkflowTrigger')) {
+			$adb = PearDatabase::getInstance();
+			vimport('~~modules/com_vtiger_workflow/include.inc');
+			vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+			$wfs = new VTWorkflowManager($adb);
+			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
+			if (count($workflows) > 0) {
+				$detailViewLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => '',
+					'linkurl' => 'javascript:Vtiger_Detail_Js.showWorkflowTriggerView(this)',
+					'linkicon' => 'glyphicon glyphicon-plus-sign',
+					'linkhint' => 'BTN_WORKFLOW_TRIGGER',
+					'linkclass' => 'btn-warning',
+				];
+			}
 		}
-		if (Users_Privileges_Model::isPermitted($moduleName, 'RecordMapping')) {
+		if ($moduleModel->isPermitted('RecordMapping')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
 			if ($mfModel && $mfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
@@ -100,7 +101,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				];
 			}
 		}
-		if (Users_Privileges_Model::isPermitted($moduleName, 'WatchingRecords')) {
+		if ($moduleModel->isPermitted('WatchingRecords')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 			$class = 'btn-default';
 			if ($watchdog->isWatchingRecord()) {
@@ -109,7 +110,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
-				'linkurl' => 'Vtiger_Detail_Js.changeWatchingRecord(this,' . $recordId . ')',
+				'linkurl' => 'javascript:Vtiger_Detail_Js.changeWatchingRecord(this,' . $recordId . ')',
 				'linkicon' => 'glyphicon glyphicon-eye-open',
 				'linkhint' => 'BTN_WATCHING_RECORD',
 				'linkclass' => $class,
@@ -155,8 +156,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
 		}
-
-		if (Users_Privileges_Model::isPermitted($moduleName, 'DuplicateRecord')) {
+		if ($moduleModel->isPermitted('DuplicateRecord')) {
 			$duplicateLinkModel = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_DUPLICATE',
@@ -166,9 +166,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
-
-
-		if (Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
+		if ($moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
@@ -183,19 +181,19 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			}
 		}
 
-		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAILVIEWBASIC', 'DETAILVIEW', 'DETAIL_VIEW_HEADER_WIDGET'], $linkParams);
+		$relatedLinks = $this->getDetailViewRelatedLinks();
+		foreach ($relatedLinks as $relatedLinkEntry) {
+			$relatedLink = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
+			$linkModelList[$relatedLink->getType()][] = $relatedLink;
+		}
+
+		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAILVIEWBASIC', 'DETAILVIEW', 'DETAIL_VIEW_HEADER_WIDGET', 'DETAILVIEWTAB'], $linkParams);
 		if (!empty($allLinks)) {
 			foreach ($allLinks as $type => $allLinksByType) {
 				foreach ($allLinksByType as $linkModel) {
 					$linkModelList[$type][] = $linkModel;
 				}
 			}
-		}
-
-		$relatedLinks = $this->getDetailViewRelatedLinks();
-		foreach ($relatedLinks as $relatedLinkEntry) {
-			$relatedLink = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
-			$linkModelList[$relatedLink->getType()][] = $relatedLink;
 		}
 		return $linkModelList;
 	}
@@ -365,5 +363,30 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->trackView();
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
+	}
+
+	public function getCustomHeaderFields()
+	{
+		$moduleName = $this->getModuleName();
+		$path = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'headerfields';
+		if (!is_dir($path)) {
+			return [];
+		}
+		$headerFields = [];
+		foreach (new DirectoryIterator($path) as $fileinfo) {
+			if (!$fileinfo->isDot()) {
+				$name = reset(explode('.', $fileinfo->getFilename()));
+
+				$modelClassName = Vtiger_Loader::getComponentClassName('HeaderField', $name, $moduleName);
+				$instance = new $modelClassName;
+				if (method_exists($instance, 'checkPermission') && !$instance->checkPermission()) {
+					continue;
+				}
+				if ($result = $instance->process($this)) {
+					$headerFields[] = $result;
+				}
+			}
+		}
+		return $headerFields;
 	}
 }

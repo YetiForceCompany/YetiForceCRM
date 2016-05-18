@@ -1,12 +1,14 @@
 <?php
 
 namespace Sabre\DAV\FSExt;
+
 use Sabre\DAV;
+use Sabre\DAV\FS\Node;
 
 /**
  * File class
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -15,15 +17,16 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
     /**
      * Updates the data
      *
-     * data is a readable stream resource.
+     * Data is a readable stream resource.
      *
      * @param resource|string $data
      * @return string
      */
     function put($data) {
 
-        file_put_contents($this->path,$data);
-        return '"' . md5_file($this->path) . '"';
+        file_put_contents($this->path, $data);
+        clearstatcache(true, $this->path);
+        return $this->getETag();
 
     }
 
@@ -42,7 +45,7 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      * The third argument is the start or end byte.
      *
      * After a successful put operation, you may choose to return an ETag. The
-     * etag must always be surrounded by double-quotes. These quotes must
+     * ETAG must always be surrounded by double-quotes. These quotes must
      * appear in the actual string you're returning.
      *
      * Clients may use the ETag from a PUT request to later on make sure that
@@ -56,13 +59,13 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      */
     function patch($data, $rangeType, $offset = null) {
 
-        switch($rangeType) {
+        switch ($rangeType) {
             case 1 :
                 $f = fopen($this->path, 'a');
                 break;
             case 2 :
                 $f = fopen($this->path, 'c');
-                fseek($f,$offset);
+                fseek($f, $offset);
                 break;
             case 3 :
                 $f = fopen($this->path, 'c');
@@ -72,10 +75,11 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
         if (is_string($data)) {
             fwrite($f, $data);
         } else {
-            stream_copy_to_stream($data,$f);
+            stream_copy_to_stream($data, $f);
         }
         fclose($f);
-        return '"' . md5_file($this->path) . '"';
+        clearstatcache(true, $this->path);
+        return $this->getETag();
 
     }
 
@@ -86,7 +90,7 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      */
     function get() {
 
-        return fopen($this->path,'r');
+        return fopen($this->path, 'r');
 
     }
 
@@ -96,7 +100,8 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      * @return bool
      */
     function delete() {
-        return unlink($this->path) && parent::delete();
+
+        return unlink($this->path);
 
     }
 
@@ -112,7 +117,11 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      */
     function getETag() {
 
-        return '"' . md5_file($this->path). '"';
+        return '"' . sha1(
+            fileinode($this->path) .
+            filesize($this->path) .
+            filemtime($this->path)
+        ) . '"';
 
     }
 

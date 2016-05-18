@@ -2,14 +2,21 @@
 
 namespace Sabre\VObject;
 
+use Sabre\Xml;
+
 /**
  * A node is the root class for every element in an iCalendar of vCard object.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
+abstract class Node
+    implements \IteratorAggregate,
+               \ArrayAccess,
+               \Countable,
+               \JsonSerializable,
+               Xml\XmlSerializable {
 
     /**
      * The following constants are used by the validate() method.
@@ -45,59 +52,86 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
     public $parent;
 
     /**
-     * Iterator override
+     * Iterator override.
      *
      * @var ElementList
      */
     protected $iterator = null;
 
     /**
-     * The root document
+     * The root document.
      *
      * @var Component
      */
     protected $root;
 
     /**
-     * Serializes the node into a mimedir format
+     * Serializes the node into a mimedir format.
      *
      * @return string
      */
-    abstract public function serialize();
+    abstract function serialize();
 
     /**
      * This method returns an array, with the representation as it should be
-     * encoded in json. This is used to create jCard or jCal documents.
+     * encoded in JSON. This is used to create jCard or jCal documents.
      *
      * @return array
      */
-    abstract public function jsonSerialize();
+    abstract function jsonSerialize();
+
+    /**
+     * This method serializes the data into XML. This is used to create xCard or
+     * xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     *
+     * @return void
+     */
+    abstract function xmlSerialize(Xml\Writer $writer);
+
+    /**
+     * Call this method on a document if you're done using it.
+     *
+     * It's intended to remove all circular references, so PHP can easily clean
+     * it up.
+     *
+     * @return void
+     */
+    function destroy() {
+
+        $this->parent = null;
+        $this->root = null;
+
+    }
 
     /* {{{ IteratorAggregator interface */
 
     /**
-     * Returns the iterator for this object
+     * Returns the iterator for this object.
      *
      * @return ElementList
      */
-    public function getIterator() {
+    function getIterator() {
 
-        if (!is_null($this->iterator))
+        if (!is_null($this->iterator)) {
             return $this->iterator;
+        }
 
-        return new ElementList(array($this));
+        return new ElementList([$this]);
 
     }
 
     /**
-     * Sets the overridden iterator
+     * Sets the overridden iterator.
      *
      * Note that this is not actually part of the iterator interface
      *
      * @param ElementList $iterator
+     *
      * @return void
      */
-    public function setIterator(ElementList $iterator) {
+    function setIterator(ElementList $iterator) {
 
         $this->iterator = $iterator;
 
@@ -122,11 +156,12 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      *   3 - A severe issue.
      *
      * @param int $options
+     *
      * @return array
      */
-    public function validate($options = 0) {
+    function validate($options = 0) {
 
-        return array();
+        return [];
 
     }
 
@@ -135,11 +170,11 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
     /* {{{ Countable interface */
 
     /**
-     * Returns the number of elements
+     * Returns the number of elements.
      *
      * @return int
      */
-    public function count() {
+    function count() {
 
         $it = $this->getIterator();
         return $it->count();
@@ -157,9 +192,10 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * This method just forwards the request to the inner iterator
      *
      * @param int $offset
+     *
      * @return bool
      */
-    public function offsetExists($offset) {
+    function offsetExists($offset) {
 
         $iterator = $this->getIterator();
         return $iterator->offsetExists($offset);
@@ -172,9 +208,10 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * This method just forwards the request to the inner iterator
      *
      * @param int $offset
+     *
      * @return mixed
      */
-    public function offsetGet($offset) {
+    function offsetGet($offset) {
 
         $iterator = $this->getIterator();
         return $iterator->offsetGet($offset);
@@ -188,12 +225,13 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      *
      * @param int $offset
      * @param mixed $value
+     *
      * @return void
      */
-    public function offsetSet($offset, $value) {
+    function offsetSet($offset, $value) {
 
         $iterator = $this->getIterator();
-        $iterator->offsetSet($offset,$value);
+        $iterator->offsetSet($offset, $value);
 
     // @codeCoverageIgnoreStart
     //
@@ -208,9 +246,10 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * This method just forwards the request to the inner iterator
      *
      * @param int $offset
+     *
      * @return void
      */
-    public function offsetUnset($offset) {
+    function offsetUnset($offset) {
 
         $iterator = $this->getIterator();
         $iterator->offsetUnset($offset);

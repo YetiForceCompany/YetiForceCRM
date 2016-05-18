@@ -1,5 +1,4 @@
 <?php
-require_once 'api/webservice/Core/APISessionPOS.php';
 
 /**
  * Get modules list action class
@@ -24,17 +23,15 @@ class API_Products_GetImage extends BaseAction
 
 	public function get($recordId)
 	{
-		if (APISessionPOS::checkSession($this->api->headers['Sessionid'])) {
-			$image = $this->getAttachments($recordId);
-			if ($image) {
-				$image['base64'] = base64_encode(file_get_contents($image['path'] . $image['attachmentsid'] . '_' . $image['name']));
-				return [
-					'type' => $image['type'],
-					'base64' => $image['base64']
-				];
-			} else {
-				return [];
-			}
+		$image = $this->getAttachments($recordId);
+		if ($image) {
+			$image['base64'] = base64_encode(file_get_contents($image['path'] . $image['attachmentsid'] . '_' . $image['name']));
+			return [
+				'type' => $image['type'],
+				'base64' => $image['base64']
+			];
+		} else {
+			return [];
 		}
 	}
 }

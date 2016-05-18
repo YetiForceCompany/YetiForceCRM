@@ -17,9 +17,9 @@ $languageStrings = [
 	'TimeControlProcesses' => 'Zeiterfassungsprozesse',
 	'LBL_TIME_CONTROL_WIDGET' => 'Zitkontrolle Widget',
 	'LBL_TCW_INFO' => 'The options to hide/display icons in the time control widget can be found here.',
-	'LBL_HOLIDAYS' => 'Holiday icons',
-	'LBL_WORKING_DAYS' => 'Working days icons',
-	'LBL_WORKING_TIME' => 'Working time icons',
+	'LBL_HOLIDAYS' => 'Urlaub Icons',
+	'LBL_WORKING_DAYS' => 'Arbeitstage Icons',
+	'LBL_WORKING_TIME' => 'Arbeitszeit Icons',
 ];
 $jsLanguageStrings = [
 ];

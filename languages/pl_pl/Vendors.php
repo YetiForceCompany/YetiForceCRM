@@ -41,5 +41,4 @@ $languageStrings = [
 $jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION' => 'Usunięcie tego sprzedawcy usunie również jego powiązane zlecenia. Czy napewno chcesz usunąć tego sprzedawcę?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Usunięcie sprzedawcy(ów) usunie również powiązane zlecenia. Czy napewno chcesz usunać wybrane rekordy?',
-	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć?',
 ];

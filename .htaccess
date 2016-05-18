@@ -8,6 +8,12 @@
 	RewriteRule ^api/webservice/(.*)/(.*)/(.*)$ api/webservice.php?module=$1&action=$2&record=$3 [QSA,NC,L]
 	RewriteRule ^api/webservice/(.*)/(.*)$ api/webservice.php?module=$1&action=$2 [QSA,NC,L]
 	RewriteRule ^api/webservice/(.*)$ api/webservice.php?module=$1 [QSA,NC,L]
+
+	RewriteRule ^\.well-known/carddav /api/dav.php/addressbooks/ [R]
+	RewriteRule ^\.well-known/caldav /api/dav.php/calendars/ [R]
+	RewriteRule /.well-known/carddav /api/dav.php/addressbooks/ [R,L]
+	RewriteRule /.well-known/caldav /api/dav.php/calendars/ [R,L]
+	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 </ifModule>
 <IfModule mod_php5.c>
 	php_flag	log_errors					Off

@@ -114,7 +114,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to update Base Currency of Product
-	 * @param- $_REQUEST array
+	 * @param- $currencyName array
 	 */
 	public function updateBaseCurrency($currencyName)
 	{
@@ -136,7 +136,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to update Config file
-	 * @param- $_REQUEST array
+	 * @param- $currencyName array
 	 */
 	public function updateConfigFile($currencyName)
 	{

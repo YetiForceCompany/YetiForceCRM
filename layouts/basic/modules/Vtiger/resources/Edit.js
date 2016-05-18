@@ -46,6 +46,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		} else {
 			var instance = new window[fallbackClassName]();
 		}
+		instance.moduleName = moduleName;
 		return instance;
 	},
 	getInstance: function () {
@@ -62,6 +63,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	addressDataGM: [],
 	formElement: false,
 	relationOperation: '',
+	moduleName: app.getModuleName(),
 	getForm: function () {
 		if (this.formElement == false) {
 			this.setForm(jQuery('#EditView'));
@@ -201,9 +203,9 @@ jQuery.Class("Vtiger_Edit_Js", {
 						var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 						if (mapFieldDisplayElement.length > 0) {
 							mapFieldDisplayElement.val(response[value[0] + '_label']).attr('readonly', true);
-							var referenceModulesList = formElement.find('#' + app.getModuleName() + '_editView_fieldName_' + key + '_dropDown');
+							var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
 							if (referenceModulesList.length > 0 && value[1]) {
-								referenceModulesList.val(value[1]).trigger("chosen:updated").change();
+								referenceModulesList.val(value[1]).change().trigger("chosen:updated");
 							}
 							thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
 								name: response[value[0] + '_label'],
@@ -475,11 +477,33 @@ jQuery.Class("Vtiger_Edit_Js", {
 		})
 	},
 	clearFieldValue: function (element) {
+		var thisInstance = this;
 		var fieldValueContener = element.closest('.fieldValue');
 		var fieldNameElement = fieldValueContener.find('.sourceField');
 		var fieldName = fieldNameElement.attr('name');
+		var referenceModule = fieldValueContener.find('input[name="popupReferenceModule"]').val();
+		var formElement = fieldValueContener.closest('form');
+
 		fieldNameElement.val('');
 		fieldValueContener.find('#' + fieldName + '_display').removeAttr('readonly').val('');
+
+		var mappingRelatedField = this.getMappingRelatedField(fieldName, referenceModule, formElement);
+		$.each(mappingRelatedField, function (key, value) {
+			var mapFieldElement = formElement.find('[name="' + key + '"]');
+			if (mapFieldElement.is('select')) {
+				mapFieldElement.val(mapFieldElement.find("option:first").val()).trigger("chosen:updated").change();
+			} else {
+				mapFieldElement.val('');
+			}
+			var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
+			if (mapFieldDisplayElement.length > 0) {
+				mapFieldDisplayElement.val('').attr('readonly', false);
+				var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
+				if (referenceModulesList.length > 0 && value[1]) {
+					referenceModulesList.val(referenceModulesList.find("option:first").val()).change().trigger("chosen:updated");
+				}
+			}
+		});
 	},
 	/**
 	 * Function which will register event to prevent form submission on pressing on enter
@@ -501,6 +525,9 @@ jQuery.Class("Vtiger_Edit_Js", {
 	getRecordDetails: function (params) {
 		var aDeferred = jQuery.Deferred();
 		var url = "index.php?module=" + app.getModuleName() + "&action=GetData&record=" + params['record'] + "&source_module=" + params['source_module'];
+		if (app.getParentModuleName() == 'Settings') {
+			url += '&parent=Settings';
+		}
 		AppConnector.request(url).then(
 				function (data) {
 					if (data['success']) {

@@ -29,13 +29,27 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($recordId);
+		if($recordModel){
+			$recordModel->set('accountsModel', Vtiger_Record_Model::getInstanceById($recordModel->get('accounts_id')));
+		}
 		$typesServers = Settings_WebserviceApps_Module_Model::getTypes();
 		$viewer = $this->getViewer($request);
+		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode(Vtiger_Module_Model::getRelationFieldByHierarchy('SSingleOrders')));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('TYPES_SERVERS', $typesServers);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('CreateApp.tpl', $qualifiedModuleName);
 		parent::postProcess($request);
+	}
+
+	public function getModalScripts(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$scripts = array(
+			"modules.Settings.$moduleName.resources.Edit",
+		);
+		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
+		return $scriptInstances;
 	}
 }

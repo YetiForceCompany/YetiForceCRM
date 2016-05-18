@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = [
 	'ADD_CONDITIONS' => 'Adicionar Condições',
@@ -224,6 +225,10 @@ $languageStrings = [
 	'LBL_VALUE_FROM_FIELD' => 'Value from field',
 	'LBL_FIELDS_LABELS' => 'Field label',
 	'LBL_SELECT_VARIABLES' => 'Select variable',
+	'LBL_CREATE_CUSTOM_MAPPING' => 'Create custom mapping',
+	'LBL_GET_FROM_PANEL_MAPPING' => 'Get mapping from panel',
+	'LBL_SELECT_TEMPLATE_FOR_MODULE' => 'Select template for module',
+	'LBL_OVERWRITTEN_FIELDS' => 'Overwritten fields',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Os mesmos campos escolhidos mais de uma vez',

@@ -2,19 +2,17 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use
-    Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir,
-    Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property;
+use Sabre\VObject\DateTimeParser;
 
 /**
- * Duration property
+ * Duration property.
  *
  * This object represents DURATION values, as defined here:
  *
  * http://tools.ietf.org/html/rfc5545#section-3.3.6
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -35,9 +33,10 @@ class Duration extends Property {
      * not yet done, but parameters are not included.
      *
      * @param string $val
+     *
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $this->setValue(explode($this->delimiter, $val));
 
@@ -48,7 +47,7 @@ class Duration extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return implode($this->delimiter, $this->getParts());
 
@@ -62,7 +61,7 @@ class Duration extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return 'DURATION';
 
@@ -75,7 +74,7 @@ class Duration extends Property {
      *
      * @return \DateInterval
      */
-    public function getDateInterval() {
+    function getDateInterval() {
 
         $parts = $this->getParts();
         $value = $parts[0];

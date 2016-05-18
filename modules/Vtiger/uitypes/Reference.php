@@ -51,7 +51,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			$referenceModuleName = $referenceModule->get('name');
 			$entityNames = getEntityName($referenceModuleName, [$value]);
 			$name = $entityNames[$value];
-			if ($rawText || $referenceModuleName == 'Users') {
+			if ($rawText || $referenceModuleName == 'Users' || ($value && !Users_Privileges_Model::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
 			$name = Vtiger_Functions::textLength($name, vglobal('href_max_length'));

@@ -2,9 +2,8 @@
 
 namespace Sabre\HTTP\Auth;
 
-use
-    Sabre\HTTP\RequestInterface,
-    Sabre\HTTP\ResponseInterface;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 /**
  * HTTP Digest Authentication handler
@@ -24,7 +23,7 @@ use
  *  6. To make sure an authentication prompt is displayed, call the
  *     requireLogin() method.
  *
- * @copyright Copyright (C) 2009-2014 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -138,7 +137,7 @@ class Digest extends AbstractAuth {
 
         $A2 = $this->request->getMethod() . ':' . $this->digestParts['uri'];
 
-        if ($this->digestParts['qop']=='auth-int') {
+        if ($this->digestParts['qop'] == 'auth-int') {
             // Making sure we support this qop value
             if (!($this->qop & self::QOP_AUTHINT)) return false;
             // We need to add an md5 of the entire request body to the A2 part of the hash
@@ -155,7 +154,7 @@ class Digest extends AbstractAuth {
 
         $validResponse = md5("{$this->A1}:{$this->digestParts['nonce']}:{$this->digestParts['nc']}:{$this->digestParts['cnonce']}:{$this->digestParts['qop']}:{$A2}");
 
-        return $this->digestParts['response']==$validResponse;
+        return $this->digestParts['response'] == $validResponse;
 
 
     }
@@ -170,7 +169,7 @@ class Digest extends AbstractAuth {
     function requireLogin() {
 
         $qop = '';
-        switch($this->qop) {
+        switch ($this->qop) {
             case self::QOP_AUTH    :
                 $qop = 'auth';
                 break;
@@ -182,7 +181,7 @@ class Digest extends AbstractAuth {
                 break;
         }
 
-        $this->response->addHeader('WWW-Authenticate','Digest realm="' . $this->realm . '",qop="'.$qop.'",nonce="' . $this->nonce . '",opaque="' . $this->opaque . '"');
+        $this->response->addHeader('WWW-Authenticate', 'Digest realm="' . $this->realm . '",qop="' . $qop . '",nonce="' . $this->nonce . '",opaque="' . $this->opaque . '"');
         $this->response->setStatus(401);
 
     }
@@ -215,7 +214,7 @@ class Digest extends AbstractAuth {
     protected function parseDigest($digest) {
 
         // protect against missing data
-        $needed_parts = ['nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1, 'username'=>1, 'uri'=>1, 'response'=>1];
+        $needed_parts = ['nonce' => 1, 'nc' => 1, 'cnonce' => 1, 'qop' => 1, 'username' => 1, 'uri' => 1, 'response' => 1];
         $data = [];
 
         preg_match_all('@(\w+)=(?:(?:")([^"]+)"|([^\s,$]+))@', $digest, $matches, PREG_SET_ORDER);

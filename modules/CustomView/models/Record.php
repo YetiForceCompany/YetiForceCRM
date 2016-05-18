@@ -21,7 +21,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	const CV_STATUS_PENDING = 2;
 	const CV_STATUS_PUBLIC = 3;
 	const CV_STATUS_SYSTEM = 4;
-	
+
 	protected $isFeatured = false;
 	protected $isDefault = false;
 	protected $sortOrderBy = false;
@@ -98,7 +98,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$db = PearDatabase::getInstance();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$sql = 'SELECT 1 FROM vtiger_user_module_preferences WHERE userid = ? AND `tabid` = ? AND default_cvid= ? LIMIT 1';
-			$result = $db->pquery($sql, ['Users:'.$currentUser->getId(), $this->getModule()->getId(), $this->getId()] );
+			$result = $db->pquery($sql, ['Users:' . $currentUser->getId(), $this->getModule()->getId(), $this->getId()]);
 			$this->isDefault = $result->rowCount();
 		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -164,7 +164,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	{
 		return ($this->get('status') == self::CV_STATUS_PUBLIC || $this->get('status') == self::CV_STATUS_PENDING);
 	}
-	
+
 	public function isFeatured($editView = false)
 	{
 		$log = LoggerManager::getInstance();
@@ -190,7 +190,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$sql = 'SELECT `user` FROM a_yf_featured_filter WHERE `cvid` = ? AND `user` = ?';
 		$result = $db->pquery($sql, [$this->getId(), 'Users:' . $currentUser->getId()]);
-		return (bool)$result->rowCount();
+		return (bool) $result->rowCount();
 	}
 
 	public function checkPermissionToFeatured($editView = false)
@@ -274,10 +274,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
-			$searchParams = array();
+			$searchParams = [];
 		}
 		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
-		$queryGenerator->parseAdvFilterList($transformedSearchParams);
+		$glue = '';
+		if (count($queryGenerator->getWhereFields()) > 0 && (count($transformedSearchParams)) > 0) {
+			$glue = QueryGenerator::$AND;
+		}
+		$queryGenerator->parseAdvFilterList($transformedSearchParams, $glue);
 
 		$listQuery = $queryGenerator->getQuery();
 		if ($module == 'RecycleBin') {
@@ -289,7 +293,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		}
 		$result = $db->query($listQuery);
 		$noOfRecords = $db->num_rows($result);
-		$recordIds = array();
+		$recordIds = [];
 		for ($i = 0; $i < $noOfRecords; ++$i) {
 			$recordIds[] = $db->query_result($result, $i, $baseTableId);
 		}
@@ -361,6 +365,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		// To Delete the mini list widget associated with the filter 
 		$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE filterid = ?', [$cvId]);
 	}
+
 	/**
 	 * Function to delete the custom view record
 	 */
@@ -383,7 +388,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
 		$cvId = $this->getId();
-		
+
 		$stdFilterList = $this->get('stdfilterlist');
 		if (!empty($stdFilterList) && !empty($stdFilterList['columnname'])) {
 			$db->insert('vtiger_cvstdfilter', [
@@ -456,7 +461,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 						}
 						$advFitlerValue = implode(",", $val);
 					}
-					if (in_array($advFilterComparator, ['om','wr','nwr'])) {
+					if (in_array($advFilterComparator, ['om', 'wr', 'nwr'])) {
 						$advFitlerValue = '';
 					}
 					$db->insert('vtiger_cvadvfilter', [
@@ -594,7 +599,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 		$cvId = $this->getId();
 		if (empty($cvId)) {
-			return array();
+			return [];
 		}
 
 		$query = 'SELECT vtiger_cvstdfilter.* FROM vtiger_cvstdfilter
@@ -604,7 +609,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$result = $db->pquery($query, $params);
 		$stdfilterrow = $db->fetch_array($result);
 		if (!empty($stdfilterrow)) {
-			$stdfilterlist = array();
+			$stdfilterlist = [];
 			$stdfilterlist["columnname"] = $stdfilterrow["columnname"];
 			$stdfilterlist["stdfilter"] = $stdfilterrow["stdfilter"];
 
@@ -638,7 +643,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$default_charset = vglobal('default_charset');
 
 		$cvId = $this->getId();
-		$advft_criteria = array();
+		$advft_criteria = [];
 		if (empty($cvId)) {
 			return $advft_criteria;
 		}
@@ -664,7 +669,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				continue;
 
 			while ($relcriteriarow = $db->fetch_array($result)) {
-				$criteria = array();
+				$criteria = [];
 				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
 				$criteria['comparator'] = $relcriteriarow["comparator"];
 				$advfilterval = html_entity_decode($relcriteriarow["value"], ENT_QUOTES, $default_charset);
@@ -916,7 +921,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$sql = 'SELECT * FROM vtiger_customview';
-		$params = array();
+		$params = [];
 
 		if (!empty($moduleName)) {
 			$sql .= ' WHERE entitytype=?';
@@ -1077,7 +1082,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	{
 		$standardFilter = $this->transformStandardFilter();
 		$advancedFilter = $this->getAdvancedCriteria();
-		$allGroupColumns = $anyGroupColumns = array();
+		$allGroupColumns = $anyGroupColumns = [];
 		foreach ($advancedFilter as $index => $group) {
 			$columns = $group['columns'];
 			$and = $or = 0;
@@ -1104,7 +1109,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if ($standardFilter) {
 			$allGroupColumns = array_merge($allGroupColumns, $standardFilter);
 		}
-		$transformedAdvancedCondition = array();
+		$transformedAdvancedCondition = [];
 		$transformedAdvancedCondition[1] = array('columns' => $allGroupColumns, 'condition' => 'and');
 		$transformedAdvancedCondition[2] = array('columns' => $anyGroupColumns, 'condition' => '');
 
@@ -1119,7 +1124,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	{
 		$standardFilter = $this->getStandardCriteria();
 		if (!empty($standardFilter)) {
-			$tranformedStandardFilter = array();
+			$tranformedStandardFilter = [];
 			$tranformedStandardFilter['comparator'] = 'bw';
 
 			$fields = explode(':', $standardFilter['columnname']);
@@ -1180,9 +1185,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		self::$moduleViewIdCache = $viewName;
 		return $viewName;
 	}
-	
+
 	public function getSortOrderBy($name = '')
-	{	
+	{
 		if ($this->sortOrderBy === false) {
 			$this->sortOrderBy = explode(',', $this->get('sort'));
 		}

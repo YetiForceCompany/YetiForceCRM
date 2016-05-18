@@ -6,8 +6,8 @@
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 $languageStrings = [
-	'FCorectingInvoice' => 'Corecting Invoices',
-	'SINGLE_FCorectingInvoice' => 'Corecting Invoice',
+	'FCorectingInvoice' => 'Correcting Invoices',
+	'SINGLE_FCorectingInvoice' => 'Correcting Invoice',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'System information',
 	'LBL_INVOICE_ADDRESS' => 'Invoice address',

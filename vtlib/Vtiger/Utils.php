@@ -125,10 +125,11 @@ class Vtiger_Utils
 	 */
 	static function Log($message, $delimit = true)
 	{
-		global $Vtiger_Utils_Log, $log;
+		$log = LoggerManager::getInstance();
+		$utilsLog = vglobal('tiger_Utils_Log');
 
 		$log->debug($message);
-		if (!isset($Vtiger_Utils_Log) || $Vtiger_Utils_Log == false)
+		if (!isset($utilsLog) || $utilsLog == false)
 			return;
 
 		echo $message;

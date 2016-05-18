@@ -24,8 +24,10 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 			if ($activityType == 'Events')
 				$moduleName = 'Events';
 		}
-		$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		$recordModel = $detailViewModel->getRecord();
+		if (!$this->record) {
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+		}
+		$recordModel = $this->record->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$summaryInfo = array();
 		// Take first block information as summary information
@@ -36,7 +38,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		}
 
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
-		$detailViewLinks = $detailViewModel->getDetailViewLinks($detailViewLinkParams);
+		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$navigationInfo = false; //ListViewSession::getListViewNavigation($recordId);
 
 		$viewer = $this->getViewer($request);
@@ -72,7 +74,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 			}
 		}
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = $this->record->getModule();
 		if (!empty($prevRecordId)) {
 			$viewer->assign('PREVIOUS_RECORD_URL', $moduleModel->getDetailViewUrl($prevRecordId));
 		}
@@ -80,14 +82,14 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 			$viewer->assign('NEXT_RECORD_URL', $moduleModel->getDetailViewUrl($nextRecordId));
 		}
 
-		$viewer->assign('MODULE_MODEL', $detailViewModel->getModule());
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 
-		$viewer->assign('IS_EDITABLE', $detailViewModel->getRecord()->isEditable($moduleName));
-		$viewer->assign('IS_DELETABLE', $detailViewModel->getRecord()->isDeletable($moduleName));
+		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
+		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$linkModels = $detailViewModel->getSideBarLinks($linkParams);
+		$linkModels = $this->record->getSideBarLinks($linkParams);
 
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('NO_SUMMARY', true);

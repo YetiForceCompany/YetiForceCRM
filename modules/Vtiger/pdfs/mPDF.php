@@ -280,7 +280,7 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 			$fileName = $this->getFileName() . '.pdf';
 			$dest = 'I';
 		}
-		$pages = explode('<div><span> </span></div>', $this->html);
+		$pages = explode('<div style="page-break-after:always;"><span style="display:none;"> </span></div>', $this->html);
 		foreach($pages as $page){
 			$this->pdf->AddPage();
 			$this->pdf->WriteHTML($page);

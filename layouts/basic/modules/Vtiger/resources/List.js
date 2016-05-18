@@ -1291,12 +1291,10 @@ jQuery.Class("Vtiger_List_Js", {
 		this.getFilterSelectElement().on('change', function (event) {
 			var currentTarget = jQuery(event.currentTarget);
 			var selectOption = currentTarget.find(':selected');
-			jQuery('#pageNumber').val("1");
-			jQuery('#pageToJump').val('1');
-			jQuery('#orderBy').val(selectOption.data('orderby'));
-			jQuery("#sortOrder").val(selectOption.data('sortorder'));
-			selectedIds = new Array();
-			excludedIds = new Array();
+			app.setMainParams('pageNumber', '1');
+			app.setMainParams('pageToJump', '1');
+			app.setMainParams('orderBy', selectOption.data('orderby'));
+			app.setMainParams('sortOrder', selectOption.data('sortorder'));
 			var urlParams = {
 				"viewname": jQuery(this).val(),
 				//to make alphabetic search empty

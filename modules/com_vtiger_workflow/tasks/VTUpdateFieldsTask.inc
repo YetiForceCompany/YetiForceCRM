@@ -183,24 +183,23 @@ class VTUpdateFieldsTask extends VTTask
 			foreach ($focus->column_fields as $fieldName => $fieldValue) {
 				$focus->column_fields[$fieldName] = html_entity_decode($fieldValue, ENT_QUOTES, $default_charset);
 			}
-			$_REQUEST['file'] = '';
-			$_REQUEST['ajxaction'] = '';
+			AppRequest::set('file', '');
+			AppRequest::set('ajxaction', '');
 
 			// Added as Mass Edit triggers workflow and date and currency fields are set to user format
 			// When saving the information in database saveentity API should convert to database format
 			// and save it. But it converts in database format only if that date & currency fields are
 			// changed(massedit) other wise they wont be converted thereby changing the values in user
 			// format, CRMEntity.php line 474 has the login to check wheather to convert to database format
-			$actionName = $_REQUEST['action'];
-			$_REQUEST['action'] = '';
-
+			$actionName = AppRequest::get('action');
+			AppRequest::set('action', '');
 			// For workflows update field tasks is deleted all the lineitems.
 			$focus->isLineItemUpdate = false;
 
 			$focus->saveentity($moduleName);
 
 			// Reverting back the action name as there can be some dependencies on this.
-			$_REQUEST['action'] = $actionName;
+			AppRequest::set('action', $actionName);
 			$util->revertUser();
 		}
 		$util->revertUser();
@@ -243,9 +242,9 @@ class VTUpdateFieldsTask extends VTTask
 			$curid = $currency_details[$i]['curid'];
 			$cur_checkname = 'cur_' . $curid . '_check';
 			$cur_valuename = 'curname' . $curid;
-			if ($cur_valuename == $_REQUEST['base_currency'] && ($_REQUEST[$cur_checkname] == 'on' || $_REQUEST[$cur_checkname] == 1)) {
+			if ($cur_valuename == AppRequest::get('base_currency') && (AppRequest::get($cur_checkname) == 'on' || AppRequest::get($cur_checkname) == 1)) {
 				$fieldValue = $fieldValue * $currency_details[$i]['conversionrate'];
-				$_REQUEST[$cur_valuename] = $fieldValue;
+				AppRequest::set($cur_valuename, $fieldValue);
 			}
 		}
 		return $fieldValue;

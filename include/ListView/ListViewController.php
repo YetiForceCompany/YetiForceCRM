@@ -209,8 +209,10 @@ class ListViewController
 				} else {
 					$value = $rawValue;
 				}
-
-				if ($module == 'Documents' && $fieldName == 'filename') {
+				if ($uitype == 308) {
+					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field->getFieldId());
+					$value = $fieldModel->getUITypeModel()->getListViewDisplayValue($value);
+				}elseif ($module == 'Documents' && $fieldName == 'filename') {
 					$downloadtype = $db->query_result($result, $i, 'filelocationtype');
 					$fileName = $db->query_result($result, $i, 'filename');
 
@@ -410,8 +412,9 @@ class ListViewController
 					}
 					if (!empty($value) && !empty($this->nameList[$fieldName]) && !empty($parentModule)) {
 						$parentMeta = $this->queryGenerator->getMeta($parentModule);
-						$value = textlength_check($this->nameList[$fieldName][$value]);
-						if ($parentMeta->isModuleEntity() && $parentModule != 'Users') {
+						$ID = $value;
+						$value = textlength_check($this->nameList[$fieldName][$ID]);
+						if ($parentMeta->isModuleEntity() && $parentModule != 'Users' && Users_Privileges_Model::isPermitted($parentModule, 'DetailView', $ID)) {
 							$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&" .
 								"record=$rawValue' title='" . getTranslatedString($parentModule, $parentModule) . "'>$value</a>";
 						}
@@ -468,7 +471,7 @@ class ListViewController
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field->getFieldId());
 					$value = Vtiger_Functions::textLength($fieldModel->getUITypeModel()->getDisplayValue($value));
 				} elseif (in_array($uitype, array(7, 9, 90))) {
-					$value = "<span align='right'>" . textlength_check($value) . "</div>";
+					$value = textlength_check($value);
 				} elseif ($uitype == 307) {
 					if ($value === null) {
 						$value = '--';

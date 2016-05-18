@@ -99,6 +99,8 @@ $languageStrings = [
 	'LBL_FIELDS_INFO_IS_EMPTY' => 'Информация полей пуста',
 	'LBL_FROM_EMAIL' => 'Адрес электронной почты отправителя',
 	'LBL_GROUP_DESCRIPTION' => 'Управление разными типами команд, базирующихся на ролях, пользователях и профилях',
+	'LBL_RECORDALLOCATION_DESCRIPTION' => ' ',
+	'LBL_RECORDALLOCATION' => 'Record allocation',
 	'LBL_HELPDESK_SUPPORT_EMAILID' => 'Адрес электронной почты службы поддержки',
 	'LBL_HELPDESK_SUPPORT_NAME' => 'Наименование службы поддержки',
 	'LBL_HIDEBLOCKS' => 'Редактор Блоков',
@@ -339,6 +341,7 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Информация о компании',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Сообщения',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Сервер исходящей почты',
+	'LBL_VIEW_OUTGOINGSERVEREDIT' => 'Edit Outgoing Server',
 	'LBL_TIMECONTROL_PROCESSES' => 'Процесс Учета времени',
 	//config editor
 	'LBL_POPUP_TYPE' => 'Pop-up window type with record list.  1 - Normal, 2 - Expanded search',

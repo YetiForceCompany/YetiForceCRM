@@ -9,7 +9,7 @@ namespace Sabre\HTTP;
  * Didn't seem needed to create a full class for this, so we're just
  * implementing it as a trait.
  *
- * @copyright Copyright (C) 2009-2014 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

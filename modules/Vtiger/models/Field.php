@@ -78,7 +78,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	{
 		return $this->label;
 	}
-	
+
 	/**
 	 * Function to retrieve full data
 	 * @return <array>
@@ -207,6 +207,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 					break;
 				case 305: $fieldDataType = 'multiReferenceValue';
 					break;
+				case 308: $fieldDataType = 'rangeTime';
+					break;
 				default:
 					$webserviceField = $this->getWebserviceFieldObject();
 					$fieldDataType = $webserviceField->getFieldDataType();
@@ -304,10 +306,12 @@ class Vtiger_Field_Model extends Vtiger_Field
 			}
 
 			// Protection against deleting a value that does not exist on the list
-			$fieldValue = $this->get('fieldvalue');
-			if (!empty($fieldValue) && !in_array($this->get('fieldvalue'), $picklistValues)) {
-				$picklistValues[] = $this->get('fieldvalue');
-				$this->set('isEditableReadOnly', true);
+			if ($fieldDataType == 'picklist') {
+				$fieldValue = $this->get('fieldvalue');
+				if (!empty($fieldValue) && !in_array($this->get('fieldvalue'), $picklistValues)) {
+					$picklistValues[] = $this->get('fieldvalue');
+					$this->set('isEditableReadOnly', true);
+				}
 			}
 
 			$fieldPickListValues = [];
@@ -1224,5 +1228,10 @@ class Vtiger_Field_Model extends Vtiger_Field
 	public function getFieldParams()
 	{
 		return Zend_Json::decode($this->get('fieldparams'));
+	}
+
+	public function isActiveSearchView()
+	{
+		return $this->getUITypeModel()->isActiveSearchView();
 	}
 }

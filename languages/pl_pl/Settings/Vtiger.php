@@ -323,6 +323,7 @@ $languageStrings = [
 	'LBL_VIEW_COMPANYDETAILS' => 'Dane firmy',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Komunikaty',
 	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Serwer poczty wychodzącej',
+	'LBL_VIEW_OUTGOINGSERVEREDIT' => 'Edit Outgoing Server',
 	'LBL_VIEW_SWITCHUSERS' => 'Przełączanie użytkowników',
 	//end history
 	//config editor

@@ -245,7 +245,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 	$permission = 'no';
-	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && $_REQUEST['parenttab'] != 'Settings') {
+	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && AppRequest::get('parenttab') != 'Settings') {
 		//These modules dont have security right now
 		$permission = 'yes';
 		vglobal('isPermittedLog', 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT');
@@ -254,7 +254,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	}
 
 	//Checking the Access for the Settings Module
-	if ($module == 'Settings' || $module == 'Administration' || $module == 'System' || $_REQUEST['parenttab'] == 'Settings') {
+	if ($module == 'Settings' || $module == 'Administration' || $module == 'System' || AppRequest::get('parenttab') == 'Settings') {
 		if (!$is_admin) {
 			$permission = 'no';
 		} else {
@@ -285,7 +285,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		}
 
 		//If no actionid, then allow action is vtiger_tab permission is available
-		if ($actionid === '') {
+		if ($actionid === '' || $actionid === null) {
 			if ($profileTabsPermission[$tabid] == 0) {
 				$permission = 'yes';
 			} else {
@@ -295,16 +295,28 @@ function isPermitted($module, $actionname, $record_id = '')
 			$log->debug('Exiting isPermitted method ...');
 			return $permission;
 		}
-
-		$action = getActionname($actionid);
 		//Checking for vtiger_tab permission
 		if ($profileTabsPermission[$tabid] != 0) {
 			$permission = 'no';
 			vglobal('isPermittedLog', 'SEC_MODULE_PERMISSIONS_NO');
-			$log->debug('Exiting isPermitted method ...');
+			$log->debug('Exiting isPermitted method ... - no');
 			return $permission;
 		}
+
+		if ($actionid === false) {
+			$permission = 'no';
+			vglobal('isPermittedLog', 'SEC_ACTION_DOES_NOT_EXIST');
+			$log->debug('Exiting isPermitted method ... - no');
+			return $permission;
+		}
+		$action = getActionname($actionid);
 		//Checking for Action Permission
+		if (!key_exists($actionid, $profileActionPermission[$tabid])) {
+			$permission = 'no';
+			vglobal('isPermittedLog', 'SEC_MODULE_NO_ACTION_TOOL');
+			$log->debug('Exiting isPermitted method ... - no');
+			return $permission;
+		}
 		if (strlen($profileActionPermission[$tabid][$actionid]) < 1 && $profileActionPermission[$tabid][$actionid] == '') {
 			$permission = 'yes';
 			vglobal('isPermittedLog', 'SEC_MODULE_RIGHTS_TO_ACTION');
@@ -315,7 +327,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		if ($profileActionPermission[$tabid][$actionid] != 0 && $profileActionPermission[$tabid][$actionid] != '') {
 			$permission = 'no';
 			vglobal('isPermittedLog', 'SEC_MODULE_NO_RIGHTS_TO_ACTION');
-			$log->debug('Exiting isPermitted method ...');
+			$log->debug('Exiting isPermitted method ... - no');
 			return $permission;
 		}
 		//Checking for view all permission
@@ -1695,7 +1707,7 @@ function getGrpId($groupname)
 function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessmode = 'readonly')
 {
 	$log = LoggerManager::getInstance();
-	$log->debug("Entering getFieldVisibilityPermission(" . $fld_module . "," . $userid . "," . $fieldname . ") method ...");
+	$log->debug('Entering getFieldVisibilityPermission(' . $fld_module . ',' . $userid . ',' . $fieldname . ') method ...');
 
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
@@ -1741,7 +1753,7 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
 
 		$result = $adb->pquery($query, $params);
 
-		$log->debug("Exiting getFieldVisibilityPermission method ...");
+		$log->debug('Exiting getFieldVisibilityPermission method ...');
 
 		// Returns value as a string
 		if ($adb->num_rows($result) == 0)

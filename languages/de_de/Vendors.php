@@ -41,5 +41,4 @@ $languageStrings = [
 $jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION' => 'Löschen dieses Lieferanten, wird auch seine ihm zugehörigen Bestellungen entfernen. Sind Sie sicher, dass Sie diesen Lieferanten löschen möchten?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Löschen dieser Lieferanten, wird auch die ihnen zugehörigen Bestellungen entfernen. Sind Sie sicher, dass Sie die ausgewählten Lieferanten löschen möchten?',
-	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Sind Sie sicher, dass Sie löschen möchten?',
 ];

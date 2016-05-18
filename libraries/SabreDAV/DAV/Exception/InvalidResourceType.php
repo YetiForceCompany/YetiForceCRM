@@ -10,7 +10,7 @@ namespace Sabre\DAV\Exception;
  *
  * See RFC5689 section 3.3
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -23,9 +23,9 @@ class InvalidResourceType extends Forbidden {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(\Sabre\DAV\Server $server,\DOMElement $errorNode) {
+    function serialize(\Sabre\DAV\Server $server, \DOMElement $errorNode) {
 
-        $error = $errorNode->ownerDocument->createElementNS('DAV:','d:valid-resourcetype');
+        $error = $errorNode->ownerDocument->createElementNS('DAV:', 'd:valid-resourcetype');
         $errorNode->appendChild($error);
 
     }

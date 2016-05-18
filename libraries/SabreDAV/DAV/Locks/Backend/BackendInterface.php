@@ -8,7 +8,7 @@ use Sabre\DAV\Locks;
  * If you are defining your own Locks backend, you must implement this
  * interface.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -36,7 +36,7 @@ interface BackendInterface {
      * @param Locks\LockInfo $lockInfo
      * @return bool
      */
-    function lock($uri,Locks\LockInfo $lockInfo);
+    function lock($uri, Locks\LockInfo $lockInfo);
 
     /**
      * Removes a lock from a uri
@@ -45,7 +45,6 @@ interface BackendInterface {
      * @param Locks\LockInfo $lockInfo
      * @return bool
      */
-    function unlock($uri,Locks\LockInfo $lockInfo);
+    function unlock($uri, Locks\LockInfo $lockInfo);
 
 }
-

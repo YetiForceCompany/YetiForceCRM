@@ -28,15 +28,16 @@ class ModTracker
 
 	static function getAllActionsTypes()
 	{
-		$listActions[self::$UPDATED] = 'LBL_AT_UPDATED';
-		$listActions[self::$DELETED] = 'LBL_AT_DELETED';
-		$listActions[self::$CREATED] = 'LBL_AT_CREATED';
-		$listActions[self::$RESTORED] = 'LBL_AT_RESTORED';
-		$listActions[self::$LINK] = 'LBL_AT_LINK';
-		$listActions[self::$UNLINK] = 'LBL_AT_UNLINK';
-		$listActions[self::$CONVERTTOACCOUNT] = 'LBL_AT_CONVERTTOACCOUNT';
-		$listActions[self::$DISPLAYED] = 'LBL_AT_DISPLAYED';
-		return $listActions;
+		return [
+			self::$UPDATED => 'LBL_AT_UPDATE',
+			self::$DELETED => 'LBL_AT_DELETE',
+			self::$CREATED => 'LBL_AT_CREATE',
+			self::$RESTORED => 'LBL_AT_RESTORE',
+			self::$LINK => 'LBL_AT_LINK',
+			self::$UNLINK => 'LBL_AT_UNLINK',
+			self::$CONVERTTOACCOUNT => 'LBL_AT_CONVERTTOACCOUNT',
+			self::$DISPLAYED => 'LBL_AT_DISPLAY'
+		];
 	}
 
 	/**

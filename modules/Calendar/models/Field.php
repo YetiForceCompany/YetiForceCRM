@@ -183,14 +183,11 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		parent::getFieldInfo();
 		//Change the default search operator
 		if ($this->get('name') == 'date_start') {
-			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
-			if ($request->has('search_params')) {
-				$searchParams = $request->get('search_params');
-				if(!empty($searchParams)) {
-					foreach ($searchParams[0] as $value) {
-						if ($value[0] == 'date_start') {
-							$this->fieldInfo['searchOperator'] = $value[1];
-						}
+			$searchParams = AppRequest::get('search_params');
+			if (!empty($searchParams)) {
+				foreach ($searchParams[0] as $value) {
+					if ($value[0] == 'date_start') {
+						$this->fieldInfo['searchOperator'] = $value[1];
 					}
 				}
 			}

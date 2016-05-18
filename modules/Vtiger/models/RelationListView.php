@@ -136,6 +136,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 
 		$relatedModel = $relationModel->getRelationModuleModel();
+		if (!$relatedModel->isPermitted('DetailView')) {
+			return $selectLinkModel;
+		}
 
 		$selectLinkList = array(
 			array(
@@ -145,7 +148,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				'linkicon' => '',
 			)
 		);
-
 
 		foreach ($selectLinkList as $selectLink) {
 			$selectLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($selectLink);
@@ -162,6 +164,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			return $addLinkModel;
 		}
 		$relatedModel = $relationModel->getRelationModuleModel();
+		if (!$relatedModel->isPermitted('CreateView')) {
+			return $addLinkModel;
+		}
 
 		if ($relatedModel->get('label') == 'Calendar') {
 			$addLinkList[] = [
@@ -336,6 +341,20 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 					$newRow['relCommentFull'] = $row['rel_comment'];
 				}
 				$newRow['relComment'] = Vtiger_Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
+			}
+			if ($relationModule->isInventory()) {
+				$showInventoryFields = $relationModel->getRelationInventoryFields();
+				if (!empty($showInventoryFields)) {
+					$inventoryData = Vtiger_Record_Model::getInventoryDataById($recordId, $relationModule->getName());
+					foreach ($inventoryData as &$rowData) {
+						$newRowData = [];
+						foreach ($showInventoryFields as $name) {
+							$newRowData[$name] = $rowData[$name];
+						}
+						$rowData = $newRowData;
+					}
+				}
+				$newRow['inventoryData'] = $inventoryData;
 			}
 			$record = Vtiger_Record_Model::getCleanInstance($relationModule->get('name'));
 			$record->setData($newRow)->setModuleFromInstance($relationModule);

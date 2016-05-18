@@ -212,6 +212,10 @@ $languageStrings = [
 	'LBL_VALUE_FROM_FIELD' => 'Wartość z pola',
 	'LBL_FIELDS_LABELS' => 'Etykieta pola',
 	'LBL_SELECT_VARIABLES' => 'Wybierz zmienną',
+	'LBL_CREATE_CUSTOM_MAPPING' => 'Twórz własne mapowanie',
+	'LBL_GET_FROM_PANEL_MAPPING' => 'Pobierz mapowanie z panelu',
+	'LBL_SELECT_TEMPLATE_FOR_MODULE' => 'Wybierz szablon dla modułu',
+	'LBL_OVERWRITTEN_FIELDS' => 'Nadpisywane pola',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',

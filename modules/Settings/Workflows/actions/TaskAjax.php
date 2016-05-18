@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
@@ -137,7 +138,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 			}
 
 			$taskType = get_class($taskObject);
-			if ($taskType === 'VTCreateEntityTask') {
+			if ($taskType === 'VTCreateEntityTask' && $taskObject->field_value_mapping) {
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 

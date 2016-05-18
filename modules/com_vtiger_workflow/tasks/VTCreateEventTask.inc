@@ -1,12 +1,12 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 require_once('include/Webservices/Utils.php');
 require_once("include/Webservices/VtigerCRMObject.php");
 require_once("include/Webservices/VtigerCRMObjectMeta.php");
@@ -21,44 +21,48 @@ require_once 'include/Webservices/VtigerWebserviceObject.php';
 
 require_once("modules/Users/Users.php");
 
-class VTCreateEventTask extends VTTask{
+class VTCreateEventTask extends VTTask
+{
+
 	public $executeImmediately = true;
 
-	public function getFieldNames(){
+	public function getFieldNames()
+	{
 		return array('eventType', 'eventName', 'description', 'sendNotification',
-								 'startTime', 'startDays', 'startDirection', 'startDatefield',
-								 'endTime','endDays', 'endDirection', 'endDatefield',
-								 'status', 'priority','recurringcheck','repeat_frequency',
-								 'recurringtype','calendar_repeat_limit_date',
-								 'mon_flag','tue_flag','wed_flag','thu_flag','fri_flag','sat_flag','sun_flag',
-								 'repeatMonth','repeatMonth_date','repeatMonth_daytype','repeatMonth_day', 'assigned_user_id');
+			'startTime', 'startDays', 'startDirection', 'startDatefield',
+			'endTime', 'endDays', 'endDirection', 'endDatefield',
+			'status', 'priority', 'recurringcheck', 'repeat_frequency',
+			'recurringtype', 'calendar_repeat_limit_date',
+			'mon_flag', 'tue_flag', 'wed_flag', 'thu_flag', 'fri_flag', 'sat_flag', 'sun_flag',
+			'repeatMonth', 'repeatMonth_date', 'repeatMonth_daytype', 'repeatMonth_day', 'assigned_user_id');
 	}
 
-	function getAdmin(){
+	function getAdmin()
+	{
 		$user = Users::getActiveAdminUser();
-		$current_user  = vglobal('current_user');
+		$current_user = vglobal('current_user');
 		$this->originalUser = $current_user;
 		$current_user = $user;
 		return $user;
 	}
 
-	public function doTask($entityData){
-		if(!vtlib_isModuleActive('Calendar')) {
+	public function doTask($entityData)
+	{
+		if (!vtlib_isModuleActive('Calendar')) {
 			return;
 		}
-		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
 		$userId = $entityData->get('assigned_user_id');
-		if($userId===null){
+		if ($userId === null) {
 			$userId = vtws_getWebserviceEntityId('Users', 1);
 		}
 
 		$moduleName = $entityData->getModuleName();
 		$adminUser = $this->getAdmin();
 
-		$startDate = $this->calculateDate($entityData, $this->startDays,
-															$this->startDirection, $this->startDatefield);
-		$endDate = $this->calculateDate($entityData, $this->endDays,
-															$this->endDirection, $this->endDatefield);
+		$startDate = $this->calculateDate($entityData, $this->startDays, $this->startDirection, $this->startDatefield);
+		$endDate = $this->calculateDate($entityData, $this->endDays, $this->endDirection, $this->endDatefield);
 
 		if ($this->assigned_user_id == 'currentUser' && isset($current_user)) {
 			$userId = vtws_getWebserviceEntityId('Users', $current_user->id);
@@ -83,32 +87,32 @@ class VTCreateEventTask extends VTTask{
 		}
 
 		$fields = array(
-			'activitytype'=>$this->eventType,
-			'description'=>$this->description,
-			'subject'=>$this->eventName,
-			'taskpriority'=>$this->priority,
-			'activitystatus'=>$this->status,
-			'assigned_user_id'=>$userId,
-			'time_start'=>self::convertToDBFormat($this->startTime),
-			'date_start'=> $startDate,
-			'time_end'=>self::convertToDBFormat($this->endTime),
-			'due_date'=>$endDate,
-			'duration_hours'=>'0'
+			'activitytype' => $this->eventType,
+			'description' => $this->description,
+			'subject' => $this->eventName,
+			'taskpriority' => $this->priority,
+			'activitystatus' => $this->status,
+			'assigned_user_id' => $userId,
+			'time_start' => self::convertToDBFormat($this->startTime),
+			'date_start' => $startDate,
+			'time_end' => self::convertToDBFormat($this->endTime),
+			'due_date' => $endDate,
+			'duration_hours' => '0'
 		);
-		
+
 		//Setting visibility value
 		$assignedTo = explode('x', $userId);
 		$sharedType = Calendar_Module_Model::getSharedType($assignedTo[1]);
-		if($sharedType == 'selectedusers' || empty($sharedType)) {
+		if ($sharedType == 'selectedusers' || empty($sharedType)) {
 			$sharedType = 'public';
 		}
 		$fields['visibility'] = ucfirst($sharedType);
-		
+
 		$id = $entityData->getId();
-		if(in_array($moduleName, ['Accounts','Leads','Contacts','Vendors','OSSEmployees'])){
+		if (in_array($moduleName, ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
 			$fields['link'] = $id;
 		}
-		if(in_array($moduleName, ['Campaigns','HelpDesk','Project','ServiceContracts'])){
+		if (in_array($moduleName, ['Campaigns', 'HelpDesk', 'Project', 'ServiceContracts'])) {
 			$fields['process'] = $id;
 		}
 
@@ -120,14 +124,14 @@ class VTCreateEventTask extends VTTask{
 
 		$handler = vtws_getModuleHandlerFromName('Events', $adminUser);
 		$meta = $handler->getMeta();
-		$recordValues = DataTransform::sanitizeForInsert($event,$meta);
+		$recordValues = DataTransform::sanitizeForInsert($event, $meta);
 		list($typeId, $id) = vtws_getIdComponents($event['id']);
 		$event = CRMEntity::getInstance('Events');
 		$event->id = $id;
 		$event->column_fields = $recordValues;
 
-		if($this->recurringcheck && !empty($startDate) &&
-				($this->calendar_repeat_limit_date)) {
+		if ($this->recurringcheck && !empty($startDate) &&
+			($this->calendar_repeat_limit_date)) {
 
 			$resultRow = array();
 
@@ -177,64 +181,66 @@ class VTCreateEventTask extends VTTask{
 				}
 			}
 			$resultRow['recurringinfo'] = $recurringInfo;
-	
+
 			// Added this to relate these events to parent module.
-			$_REQUEST['createmode'] = 'link';
-			$_REQUEST['return_module'] = $moduleName;
-			$_REQUEST['return_id'] = $entityIdDetails[1];
+			AppRequest::set('createmode', 'link');
+			AppRequest::set('return_module', $moduleName);
+			AppRequest::set('return_id', $entityIdDetails[1]);
 
 			$recurObj = RecurringType::fromDBRequest($resultRow);
 
 			include_once 'modules/Calendar/RepeatEvents.php';
 			Calendar_RepeatEvents::repeat($event, $recurObj);
 
-			$_REQUEST['createmode'] = '';
-
+			AppRequest::set('createmode', '');
 		}
-		$current_user  = vglobal('current_user');
+		$current_user = vglobal('current_user');
 		$current_user = $this->originalUser;
 	}
 
-	private function calculateDate($entityData, $days, $direction, $datefield){
+	private function calculateDate($entityData, $days, $direction, $datefield)
+	{
 		$baseDate = $entityData->get($datefield);
-		if($baseDate == '') {
+		if ($baseDate == '') {
 			$baseDate = date('Y-m-d');
 		}
-		if($days == '') {
+		if ($days == '') {
 			$days = 0;
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
 		$baseDate = strtotime($match[0]);
-		$date = strftime('%Y-%m-%d', $baseDate+$days*24*60*60*
-										 (strtolower($direction)=='before'?-1:1));
+		$date = strftime('%Y-%m-%d', $baseDate + $days * 24 * 60 * 60 *
+			(strtolower($direction) == 'before' ? -1 : 1));
 		return $date;
 	}
 
-    /**
-     * To convert time_start & time_end values to db format
-     * @param type $timeStr
-     * @return time
-     */
-    static function convertToDBFormat($timeStr){
-        $date = new DateTime();
-        $time = Vtiger_Time_UIType::getTimeValueWithSeconds($timeStr);
-        $dbInsertDateTime = DateTimeField::convertToDBTimeZone($date->format('Y-m-d').' '.$time);
-        return $dbInsertDateTime->format('H:i:s');
-    }
-    
-	static function conv12to24hour($timeStr){
+	/**
+	 * To convert time_start & time_end values to db format
+	 * @param type $timeStr
+	 * @return time
+	 */
+	static function convertToDBFormat($timeStr)
+	{
+		$date = new DateTime();
+		$time = Vtiger_Time_UIType::getTimeValueWithSeconds($timeStr);
+		$dbInsertDateTime = DateTimeField::convertToDBTimeZone($date->format('Y-m-d') . ' ' . $time);
+		return $dbInsertDateTime->format('H:i:s');
+	}
+
+	static function conv12to24hour($timeStr)
+	{
 		$arr = array();
 		preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);
-		if($arr[3]=='am'){
-			$hours = ((int)$arr[1]) % 12;
-		}else{
-			$hours = ((int)$arr[1]) % 12 + 12;
+		if ($arr[3] == 'am') {
+			$hours = ((int) $arr[1]) % 12;
+		} else {
+			$hours = ((int) $arr[1]) % 12 + 12;
 		}
-		return str_pad($hours, 2, '0', STR_PAD_LEFT).':'.str_pad($arr[2], 2, '0', STR_PAD_LEFT);
+		return str_pad($hours, 2, '0', STR_PAD_LEFT) . ':' . str_pad($arr[2], 2, '0', STR_PAD_LEFT);
 	}
 
-	public function getTimeFieldList() {
+	public function getTimeFieldList()
+	{
 		return array('startTime', 'endTime');
 	}
-
 }

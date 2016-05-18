@@ -1,9 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <div id="currencyUpdateContainer">
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	{vtranslate('LBL_CURRENCY_UPDATE_DESCRIPTION', $QUALIFIED_MODULE)}<hr>
-
+	<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{vtranslate('LBL_CURRENCY_UPDATE_DESCRIPTION', $QUALIFIED_MODULE)}
+		</div>
+	</div>
 	{if $CURRNUM lt 2}
 		<div class="alert alert-danger" style="margin:10px 15px;">
 			<strong>{vtranslate('LBL_WARNING', $QUALIFIED_MODULE)}</strong> {vtranslate('MSG_ONE_CURRENCY', $QUALIFIED_MODULE)}

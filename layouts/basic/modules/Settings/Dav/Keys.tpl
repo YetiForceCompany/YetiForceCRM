@@ -20,12 +20,17 @@
 		</div>
 		<div class="contents">
 			{if $ENABLEDAV }
-				<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
+				<div class="alert alert-warning">
 					<button type="button" class="close" data-dismiss="alert">×</button>
 					<h4 class="alert-heading">{vtranslate('LBL_ALERT_DAV_NO_ACTIVE_TITLE', $QUALIFIED_MODULE)}</h4>
 					<p>{vtranslate('LBL_ALERT_DAV_NO_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>
 				</div>	
 			{/if}
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<h4 class="alert-heading">{vtranslate('LBL_ALERT_DAV_CONFIG_TITLE', $QUALIFIED_MODULE)}</h4>
+				<p>{vtranslate('LBL_ALERT_DAV_CONFIG_DESC', $QUALIFIED_MODULE)}</p>
+			</div>
 			<div>
 				<div class="contents tabbable">
 					<table class="table table-bordered  tableRWD table-condensed listViewEntriesTable">

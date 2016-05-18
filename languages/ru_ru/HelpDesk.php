@@ -6,11 +6,15 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
-	'Answered' => 'Ответил',
+	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_TO_CLOSE' => 'To close',
+	'Answered' => 'Awaiting realization',
 	'Big Problem' => 'Большая проблема',
-	'Closed' => 'Закрыто',
+	'Closed' => 'Accepted',
 	'Critical' => 'Критичная',
 	'Days' => 'Дней',
 	'Dear' => 'Уважаемый(ая)',
@@ -67,7 +71,7 @@ $languageStrings = [
 	'Major' => 'Значительная',
 	'Minor' => 'Незначительная',
 	'Normal' => 'Нормальный',
-	'Open' => 'Открыто',
+	'Open' => 'Awaiting verification',
 	'Other Problem' => 'Другая проблема',
 	'P&S Sold' => 'Товары / Услуги',
 	'Re' => 'Ответ:',
@@ -101,6 +105,8 @@ $languageStrings = [
 	'FL_SERVICE_CONTRACTS' => 'Service Level Agreement',
 	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA type',
 	'FL_SERVICE_CONTRACTS_DATE' => 'SLA expiry date',
+	'FL_REPORT_TIME' => 'Report time',
+	'FL_RESPONSE_TIME' => 'Response time',
 ];
 
 $jsLanguageStrings = [

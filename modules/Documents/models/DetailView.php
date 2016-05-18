@@ -42,13 +42,14 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 		$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 
 		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I') {
-			$emailModuleModel = Vtiger_Module_Model::getInstance('Emails');
-
-			if ($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
+			$emailModuleModel = Vtiger_Module_Model::getInstance('OSSMail');
+			if ($currentUserModel->hasModulePermission($emailModuleModel->getId()) && AppConfig::main('isActiveSendingMails')) {
 				$basicActionLink = array(
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => vtranslate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
-					'linkurl' => "javascript:Documents_Detail_Js.triggerSendEmail('" . ZEND_JSON::encode(array($recordModel->getId())) . "')",
+					'linkhref' => true,
+					'linktarget' => '_blank',
+					'linkurl' => 'index.php?module=OSSMail&view=compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
 					'linkicon' => 'glyphicon glyphicon-envelope'
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);

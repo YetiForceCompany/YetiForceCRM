@@ -168,7 +168,6 @@
 		<tbody>
 			<tr>
 				<td>
-					{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
 					{vtranslate('LBL_RECORDS_NO_FOUND')}.{if $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{vtranslate('LBL_CREATE_SINGLE_RECORD')}</a>{/if}
 				</td>
 			</tr>

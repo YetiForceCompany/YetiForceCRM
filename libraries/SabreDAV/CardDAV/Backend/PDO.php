@@ -10,7 +10,7 @@ use Sabre\DAV;
  *
  * This CardDAV backend uses PDO to store addressbooks
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -44,18 +44,10 @@ class PDO extends AbstractBackend implements SyncSupport {
      * Sets up the object
      *
      * @param \PDO $pdo
-     * @param string $addressBooksTableName
-     * @param string $cardsTableName
-     * @deprecated We are going to remove all the tableName arguments in a
-     *             future version, and rely on the public properties instead.
-     *             Stop relying on them!
      */
-    function __construct(\PDO $pdo, $addressBooksTableName = 'addressbooks', $cardsTableName = 'cards', $addressBookChangesTableName = 'addressbookchanges') {
+    function __construct(\PDO $pdo) {
 
         $this->pdo = $pdo;
-        $this->addressBooksTableName = $addressBooksTableName;
-        $this->cardsTableName = $cardsTableName;
-        $this->addressBookChangesTableName = $addressBookChangesTableName;
 
     }
 
@@ -67,21 +59,21 @@ class PDO extends AbstractBackend implements SyncSupport {
      */
     function getAddressBooksForUser($principalUri) {
 
-        $stmt = $this->pdo->prepare('SELECT id, uri, displayname, principaluri, description, synctoken FROM '.$this->addressBooksTableName.' WHERE principaluri = ?');
+        $stmt = $this->pdo->prepare('SELECT id, uri, displayname, principaluri, description, synctoken FROM ' . $this->addressBooksTableName . ' WHERE principaluri = ?');
         $stmt->execute([$principalUri]);
 
         $addressBooks = [];
 
-        foreach($stmt->fetchAll() as $row) {
+        foreach ($stmt->fetchAll() as $row) {
 
             $addressBooks[] = [
-                'id'  => $row['id'],
-                'uri' => $row['uri'],
-                'principaluri' => $row['principaluri'],
-                '{DAV:}displayname' => $row['displayname'],
+                'id'                                                          => $row['id'],
+                'uri'                                                         => $row['uri'],
+                'principaluri'                                                => $row['principaluri'],
+                '{DAV:}displayname'                                           => $row['displayname'],
                 '{' . CardDAV\Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
-                '{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-                '{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+                '{http://calendarserver.org/ns/}getctag'                      => $row['synctoken'],
+                '{http://sabredav.org/ns}sync-token'                          => $row['synctoken'] ? $row['synctoken'] : '0',
             ];
 
         }
@@ -117,9 +109,9 @@ class PDO extends AbstractBackend implements SyncSupport {
         $propPatch->handle($supportedProperties, function($mutations) use ($addressBookId) {
 
             $updates = [];
-            foreach($mutations as $property=>$newValue) {
+            foreach ($mutations as $property => $newValue) {
 
-                switch($property) {
+                switch ($property) {
                     case '{DAV:}displayname' :
                         $updates['displayname'] = $newValue;
                         break;
@@ -130,15 +122,15 @@ class PDO extends AbstractBackend implements SyncSupport {
             }
             $query = 'UPDATE ' . $this->addressBooksTableName . ' SET ';
             $first = true;
-            foreach($updates as $key=>$value) {
+            foreach ($updates as $key => $value) {
                 if ($first) {
                     $first = false;
                 } else {
-                    $query.=', ';
+                    $query .= ', ';
                 }
-                $query.=' `' . $key . '` = :' . $key . ' ';
+                $query .= ' `' . $key . '` = :' . $key . ' ';
             }
-            $query.=' WHERE id = :addressbookid';
+            $query .= ' WHERE id = :addressbookid';
 
             $stmt = $this->pdo->prepare($query);
             $updates['addressbookid'] = $addressBookId;
@@ -159,20 +151,20 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param string $principalUri
      * @param string $url Just the 'basename' of the url.
      * @param array $properties
-     * @return void
+     * @return int Last insert id
      */
     function createAddressBook($principalUri, $url, array $properties) {
 
         $values = [
-            'displayname' => null,
-            'description' => null,
+            'displayname'  => null,
+            'description'  => null,
             'principaluri' => $principalUri,
-            'uri' => $url,
+            'uri'          => $url,
         ];
 
-        foreach($properties as $property=>$newValue) {
+        foreach ($properties as $property => $newValue) {
 
-            switch($property) {
+            switch ($property) {
                 case '{DAV:}displayname' :
                     $values['displayname'] = $newValue;
                     break;
@@ -206,7 +198,7 @@ class PDO extends AbstractBackend implements SyncSupport {
         $stmt = $this->pdo->prepare('DELETE FROM ' . $this->addressBooksTableName . ' WHERE id = ?');
         $stmt->execute([$addressBookId]);
 
-        $stmt = $this->pdo->prepare('DELETE FROM '.$this->addressBookChangesTableName.' WHERE id = ?');
+        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->addressBookChangesTableName . ' WHERE addressbookid = ?');
         $stmt->execute([$addressBookId]);
 
     }
@@ -236,7 +228,7 @@ class PDO extends AbstractBackend implements SyncSupport {
         $stmt->execute([$addressbookId]);
 
         $result = [];
-        while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $row['etag'] = '"' . $row['etag'] . '"';
             $result[] = $row;
         }
@@ -284,19 +276,15 @@ class PDO extends AbstractBackend implements SyncSupport {
      */
     function getMultipleCards($addressBookId, array $uris) {
 
-        return array_map(function($uri) use ($addressBookId) {
-            return $this->getCard($addressBookId, $uri);
-        }, $uris);
-
-        $query = 'SELECT id, uri, lastmodified, etag, size FROM ' . $this->cardsTableName . ' WHERE addressbookid = ? AND uri = IN (';
+        $query = 'SELECT id, uri, lastmodified, etag, size, carddata FROM ' . $this->cardsTableName . ' WHERE addressbookid = ? AND uri IN (';
         // Inserting a whole bunch of question marks
-        $query.=implode(',', array_fill(0, count($uris), '?'));
-        $query.=')';
+        $query .= implode(',', array_fill(0, count($uris), '?'));
+        $query .= ')';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(array_merge([$addressBookId], $uris));
         $result = [];
-        while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $row['etag'] = '"' . $row['etag'] . '"';
             $result[] = $row;
         }
@@ -409,7 +397,7 @@ class PDO extends AbstractBackend implements SyncSupport {
 
         $this->addChange($addressBookId, $cardUri, 3);
 
-        return $stmt->rowCount()===1;
+        return $stmt->rowCount() === 1;
 
     }
 
@@ -488,7 +476,7 @@ class PDO extends AbstractBackend implements SyncSupport {
         if ($syncToken) {
 
             $query = "SELECT uri, operation FROM " . $this->addressBookChangesTableName . " WHERE synctoken >= ? AND synctoken < ? AND addressbookid = ? ORDER BY synctoken";
-            if ($limit>0) $query.= " LIMIT " . (int)$limit;
+            if ($limit > 0) $query .= " LIMIT " . (int)$limit;
 
             // Fetching all changes
             $stmt = $this->pdo->prepare($query);
@@ -498,15 +486,15 @@ class PDO extends AbstractBackend implements SyncSupport {
 
             // This loop ensures that any duplicates are overwritten, only the
             // last change on a node is relevant.
-            while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 
                 $changes[$row['uri']] = $row['operation'];
 
             }
 
-            foreach($changes as $uri => $operation) {
+            foreach ($changes as $uri => $operation) {
 
-                switch($operation) {
+                switch ($operation) {
                     case 1:
                         $result['added'][] = $uri;
                         break;
@@ -541,7 +529,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      */
     protected function addChange($addressBookId, $objectUri, $operation) {
 
-        $stmt = $this->pdo->prepare('INSERT INTO ' . $this->addressBookChangesTableName .' (uri, synctoken, addressbookid, operation) SELECT ?, synctoken, ?, ? FROM ' . $this->addressBooksTableName . ' WHERE id = ?');
+        $stmt = $this->pdo->prepare('INSERT INTO ' . $this->addressBookChangesTableName . ' (uri, synctoken, addressbookid, operation) SELECT ?, synctoken, ?, ? FROM ' . $this->addressBooksTableName . ' WHERE id = ?');
         $stmt->execute([
             $objectUri,
             $addressBookId,

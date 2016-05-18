@@ -375,9 +375,6 @@ hr {
 #globalmodal form {
 	margin: 0 0 0;
 }
-.gridster>*{
-	margin: 0 0 0 15px !important;
-}
 .contentsDiv .gridster {
 	padding: 0;
 }
@@ -2500,10 +2497,18 @@ table.summary-table .summaryViewEdit{
 .padding20 {
 	padding: 20px;
 }
+.padding6 {
+	padding: 6px 12px !important;
+}
+.top10 {
+	top: -10px;
+}
+.relative {
+	position: relative;
+}
 .pushDown {
 	margin-top: 7px;
 }
-
 .boxSizingBorderBox {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -2953,10 +2958,10 @@ span[name=existingImages] img{
 }
 .remindersNoticeContainer{
 	position: fixed;
-	right: 0;
+	right: -380px;
 	top: 109px;
-	z-index: 1029;
-	width: 0;
+	z-index: 1035;
+	width: 380px;
 	height: 100%;
 	bottom: 30px;
 	overflow-y: auto;
@@ -2969,8 +2974,7 @@ span[name=existingImages] img{
 	overflow-y: auto;
 }
 .remindersNoticeContainer.toggled{
-	width: 380px;
-	z-index: 1035;
+	right: 0px;
 }
 .remindersContent{
 	margin: 5px 8px 0 8px;
@@ -3354,7 +3358,7 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer a{
 	border-radius: 0;
 	vertical-align: text-top;
-	padding: 6px 15px 6px 50px;
+	padding: 6px 15px 6px 55px;
 	word-wrap: break-word;
 	font-size: 16px;
 
@@ -3417,6 +3421,8 @@ span[name=existingImages] img{
 {
 	margin-right: 12px;
 	font-size: 20px;
+	padding-right: 7px;
+	padding-left: 3px;
 }
 
 .leftPanel li.menuLabel .slimScrollDiv{
@@ -3439,11 +3445,12 @@ span[name=existingImages] img{
 	margin-left: 50px;
 }
 .baseContainer .basePanel {
+	width: 100%;
 	position: relative;
 	left: 0;
 	z-index: 1030;
-	-webkit-transition: left ease-in-out 0.3s;
-	transition: left ease-in-out 0.3s;
+	-webkit-transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
+	transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
 	background: #ffffff;
 	min-height: 100%;
 	transition-delay: 0.5s;
@@ -3901,16 +3908,13 @@ html,body,.baseContainer
 }
 .widget_header{
 	background:#eee;
+	padding-top:5px;
+	padding-bottom:5px;
 	margin-bottom:15px;
 }
 .summaryWidgetContainer .widget_header{
 	background:#fff;
 	margin-bottom:0px;
-}
-
-.widget_header{
-	padding-top:5px;
-	padding-bottom:5px;
 }
 .sortTableUl{
 	list-style-type: none;
@@ -4143,6 +4147,12 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width:1240px){
+	.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
+	.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
+		width: calc(100% - 180px);
+		-webkit-transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+		transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	}
 	.pull-left-md{
 		float:left;
 	}
@@ -4280,7 +4290,7 @@ html,body,.baseContainer
 	}
 	.siteBarRight{
 		width: 100%;
-		padding: 0;
+		padding: 0 15px;
 		position: relative;
 		-webkit-transition: all 0.5s ease;
 		-moz-transition: all 0.5s ease;
@@ -5077,15 +5087,12 @@ select.form-control {
 }
 .detailViewTitle .hierarchy{
 	position: absolute;
-	top: -10px;
-	left: 55px;
+	top: 0px;
+    left: 60px;
 }
 .indexContainer{
 	padding-top:10px;
 	border-top: 4px solid #404952;
-}
-.detailViewHeaderFields .detailViewHeaderFieldsContent{
-	max-width: 300px;
 }
 .detailViewHeaderFields .detailViewHeaderFieldsName{
 	display: inline-block;
@@ -5098,6 +5105,9 @@ select.form-control {
 .detailViewHeaderFields .detailViewHeaderFieldsValue .badge{
 	padding: 3px 10px !important;
 	margin: 2px 0px;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsValue .badge a{
+	color: inherit;
 }
 #calendarview .listViewButton{
 	padding-left: 0.8em !important;
@@ -5160,7 +5170,8 @@ select.form-control {
 .detailViewContainer .contents .knowledgeBaseDetails {
 	padding: 15px;
 }
-.dashboardWidgetContent .rowAction:nth-of-type(even) {
+.dashboardWidgetContent .rowAction:nth-of-type(even),
+.listViewInventoryEntries table tbody tr:nth-of-type(even){
     background-color: #f9f9f9;
 }
 .knowledgePopoutContainer .knowledgePopoutSubject,
@@ -5184,20 +5195,29 @@ select.form-control {
 	background: #fff;
 	color:#000;
 }
-.notificationContainer {
-	padding: 0;
+.top2px{
+    position: relative;
+    top: -2px;
 }
-.notificationContainer .panel-body{
+.notificationContainer .notificationBody{
 	position: absolute;
-	top: 38px;
-	bottom:0;
+	top: 39px;
+	bottom: 7px;
 	padding: 0;
 	overflow: auto;
 }
+.notificationContainer .notificationBody .panel{
+	margin-bottom: 0px;
+}
+.notificationContainer .notificationBody .panel-body{
+	padding: 7px;
+}
 .notificationContainer .noticeRow{
 	margin-top: 0;
-	padding: 5px 10px;
-	border-bottom: 1px solid #ddd;
+	padding: 7px 7px 0px 7px;
+}
+.notificationContainer .noticeIcon{
+	font-size: 20px;
 }
 .notificationContainer li{
 	list-style: none;
@@ -5267,13 +5287,18 @@ select.form-control {
 	padding: 0;
 	position: relative;
 }
-.timeline > li > .timeline-item > .time {
+.timeline > li > .timeline-item .time {
 	color: #999;
 	float: right;
-	padding: 10px;
+	padding: 5px;
 	font-size: 12px;
 }
+.timeline > li > .timeline-item > .imageContainer{
+	width: 40px;
+}
 .timeline > li > .timeline-item > .timeline-body {
+	float: left;
+	width: calc(100% - 40px);
 	padding: 10px;
 }
 .timeline > li > .glyphicon{
@@ -5292,7 +5317,7 @@ select.form-control {
 .timeline .userImage{
 	margin: 0 auto;
 	width: 40px;
-	padding: 3px;
+	padding: 2px;
 	border: 3px solid #d2d6de;
 }
 .bgBlue{
@@ -5340,4 +5365,29 @@ select.form-control {
 	padding: 5px 12px;
 	display: inline-flex;
 	font-size: 17px;
+}
+.modulesList .menuSeparator{
+	background: #fff;
+	height: 2px;
+	margin: 5px 0;
+}
+.subMenu .menuSeparator{
+	background: #444853;
+	height: 2px;
+	margin: 5px 0;
+}
+.backgroundWhiteSmoke{
+	background: whitesmoke;
+}
+.listViewInventoryEntries th{
+	background: none;
+}
+.listViewInventoryEntries td{
+	vertical-align: middle !important;
+}
+.paddingBottomZero{
+	padding-bottom: 0px !important;
+}
+.parentAccount{
+	background-color: wheat;
 }

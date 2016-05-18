@@ -23,23 +23,9 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_CREATEMAIL',
 				'linkurl' => "javascript:window.location='index.php?module=OSSMail&view=compose'",
 				'linkclass' => 'moduleColor_' . $moduleModel->getName(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus',
+				'showLabel' => 1,
 			);
-		}
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
-			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
-			$class = 'btn-default';
-			if ($watchdog->isWatchingModule()) {
-				$class = 'btn-info';
-			}
-			$basicLinks[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linkhint' => 'BTN_WATCHING_MODULE',
-				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
-				'linkclass' => $class,
-				'linkicon' => 'glyphicon glyphicon-eye-open',
-				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
-			];
 		}
 		return $basicLinks;
 	}

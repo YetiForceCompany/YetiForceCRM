@@ -9,10 +9,20 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
+	// Fields
+	'FL_SERVICE_CONTRACTS' => 'Umowa wsparcia SLA',
+	'FL_SERVICE_CONTRACTS_TYPE' => 'Rodzaj umowy wsparcia SLA',
+	'FL_SERVICE_CONTRACTS_DATE' => 'Data zakończenia wsparcia SLA',
+	'FL_REPORT_TIME' => 'Czas zgłoszenia ',
+	'FL_RESPONSE_TIME' => 'Czas odpowiedzi',
+	// Others
+	'PLL_SUBMITTED_COMMENTS' => 'Zgłoszono uwagi',
+	'PLL_FOR_APPROVAL' => 'Do akceptacji',
+	'PLL_TO_CLOSE' => 'Do zamknięcia',
 	'LBL_SETUP_WEBFORMS' => 'Ustawienia formularzy internetowych',
 	'LBL_ORDER_TIME' => 'Czas realizacji',
 	'Big Problem' => 'Duży problem',
-	'Closed' => 'Zamknięty',
+	'Closed' => 'Zaakceptowany',
 	'created' => 'Utworzony',
 	'Critical' => 'Krytyczny',
 	'customer_portal' => 'w "Portalu Klienta" w YetiForce.',
@@ -63,7 +73,7 @@ $languageStrings = [
 	'Major' => 'Normalny',
 	'Minor' => 'Drobny',
 	'Normal' => 'Normalny',
-	'Open' => 'Otwarte',
+	'Open' => 'Oczekuje na weryfikacje',
 	'Other Problem' => 'Inny problem',
 	'Related To' => 'Kontrahent',
 	'replied' => 'odpowiedź',
@@ -85,11 +95,15 @@ $languageStrings = [
 	'Wait For Response' => 'Oczekuje na odpowiedź',
 	'LBL_CHARTS' => 'Wykresy',
 	'Rejected' => 'Odrzucony',
-	'Answered' => 'Udzielono odpowiedzi',
+	'Answered' => 'Oczekuje na realizacje',
 	'P&S Sold' => 'Produkt/Usługa Sprzedana',
 	'LBL_VIEW_FINDDUPLICATES' => 'Znajdź duplikaty',
 	'Record Id' => 'ID rekordu',
 	'ticketpriorities' => 'priorytet',
+	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'Zgłoszenie nie jest podpięte pod kontrahenta, należy powiązać z kontrahentem',
+	'LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK' => 'Zgłoszenie nie ma podpiętej umowy SLA',
+	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'Kontrahent nie ma aktywnych umów SLA',
+	'LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC' => 'Naciśnięcie tego przycisku spowoduje powiązanie tej umowy ze zgłoszeniem',
 	//notifications translation 
 	'LBL_NOTICE_WELCOME' => 'Witaj w platformie',
 	'LBL_NOTICE_CREATED' => 'zostało utworzone (przez',
@@ -99,8 +113,4 @@ $languageStrings = [
 	'LBL_NOTICE_MODIFICATION' => 'Modyfikacja',
 	'LBL_NOTICE_CLOSE' => 'Zamknięto',
 	'LBL_NOTICE_FOOTER' => 'Jeżeli nie chcesz otrzymywać powiadomień z naszego systemu do zarządzania projektów, poinformuj nas o tym wysyłając nam wiadomość na adres <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. Jeżeli nie jesteś adresatem tej wiadomości poinformuj nas o tym i usuń tą wiadomość.',
-	// FIELDS
-	'FL_SERVICE_CONTRACTS' => 'Umowa wsparcia SLA',
-	'FL_SERVICE_CONTRACTS_TYPE' => 'Rodzaj umowy wsparcia SLA',
-	'FL_SERVICE_CONTRACTS_DATE' => 'Data zakończenia wsparcia SLA',
 ];

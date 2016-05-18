@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 include_once('vtlib/Vtiger/Utils.php');
 include_once('vtlib/Vtiger/Version.php');
@@ -25,6 +26,10 @@ class Vtiger_Filter
 	var $inmetrics = false;
 	var $entitytype = false;
 	var $presence = 1;
+	var $featured = 0;
+	var $description;
+	var $privileges = 1;
+	var $sort;
 	var $module;
 
 	/**
@@ -64,28 +69,38 @@ class Vtiger_Filter
 	 */
 	function __create($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		$this->module = $moduleInstance;
 
 		$this->id = $this->__getUniqueId();
 		$this->isdefault = ($this->isdefault === true || $this->isdefault == 'true') ? 1 : 0;
 		$this->inmetrics = ($this->inmetrics === true || $this->inmetrics == 'true') ? 1 : 0;
-
-		$adb->pquery('INSERT INTO vtiger_customview(cvid,viewname,setdefault,setmetrics,entitytype,presence) VALUES(?,?,?,?,?,?)', [$this->id, $this->name, $this->isdefault, $this->inmetrics, $this->module->name,$this->presence]);
-
-		self::log("Creating Filter $this->name ... DONE");
-
-		// Filters are role based from 5.1.0 onwards
+		if(!$this->sequence){
+			$result = $db->pquery('SELECT MAX(sequence) AS max  FROM vtiger_customview WHERE entitytype = ?;', [$this->module->name]);
+			$this->sequence = $result->rowCount() ? (int) $db->getSingleValue($result) + 1 : 0;
+		}
 		if (!$this->status) {
-			if (strtoupper(trim($this->name)) == 'ALL')
+			if ($this->presence == 0)
 				$this->status = '0'; // Default
 			else
 				$this->status = '3'; // Public
-			$adb->pquery("UPDATE vtiger_customview SET status=? WHERE cvid=?", Array($this->status, $this->id));
-
-			self::log("Setting Filter $this->name to status [$this->status] ... DONE");
 		}
-		// END
+
+		$db->insert('vtiger_customview', [
+			'cvid' => $this->id,
+			'viewname' => $this->name,
+			'setdefault' => $this->isdefault,
+			'setmetrics' => $this->inmetrics,
+			'entitytype' => $this->module->name,
+			'status' => $this->status,
+			'privileges' => $this->privileges,
+			'featured' => $this->featured,
+			'sequence' => $this->sequence,
+			'presence' => $this->presence,
+			'description' => $this->description,
+			'sort' => $this->sort,
+		]);
+		self::log("Creating Filter $this->name ... DONE");
 	}
 
 	/**

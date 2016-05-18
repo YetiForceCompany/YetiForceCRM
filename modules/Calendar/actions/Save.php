@@ -94,7 +94,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
 			//Due to dependencies on the activity_reminder api in Activity.php(5.x)
-			$_REQUEST['mode'] = 'edit';
+			AppRequest::set('mode', 'edit');
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$modelData = $recordModel->getData();
@@ -103,6 +103,9 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
+			if(!$fieldModel->isEditEnabled()){
+				continue;
+			}
 			$fieldValue = $request->get($fieldName, null);
 			// For custom time fields in Calendar, it was not converting to db insert format(sending as 10:00 AM/PM)
 			$fieldDataType = $fieldModel->getFieldDataType();
@@ -153,9 +156,9 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 		//Due to dependencies on the older code
 		$setReminder = $request->get('set_reminder');
 		if ($setReminder) {
-			$_REQUEST['set_reminder'] = 'Yes';
+			AppRequest::set('set_reminder', 'Yes');
 		} else {
-			$_REQUEST['set_reminder'] = 'No';
+			AppRequest::set('set_reminder', 'No');
 		}
 
 		$time = (strtotime($request->get('time_end'))) - (strtotime($request->get('time_start')));

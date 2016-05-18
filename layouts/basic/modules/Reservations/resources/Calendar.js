@@ -118,9 +118,9 @@ jQuery.Class("Reservations_Calendar_Js", {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
-				element.find('.fc-info').popover({
+				element.find('.fc-content').popover({
 					title: event.title,
-					placement: 'top',
+					placement: 'auto right',
 					html: true,
 					trigger: 'hover',
 					delay: 500,
@@ -358,11 +358,20 @@ jQuery.Class("Reservations_Calendar_Js", {
 			thisInstance.loadCalendarData();
 		});
 	},
+	registerSlimScroll: function(){
+		var calendarContainer = $('.bodyContents');
+		app.showScrollBar(calendarContainer,{
+			railVisible: true,
+			alwaysVisible: true,
+			position: 'left'
+		});
+	},
 	registerEvents: function () {
 		this.registerCalendar();
 		this.loadCalendarData(true);
 		this.registerChangeView();
 		this.registerButtonSelectAll();
 		this.registerRefreshEvent();
+		this.registerSlimScroll();
 	}
 });

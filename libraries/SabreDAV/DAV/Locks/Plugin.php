@@ -2,10 +2,9 @@
 
 namespace Sabre\DAV\Locks;
 
-use
-    Sabre\DAV,
-    Sabre\HTTP\RequestInterface,
-    Sabre\HTTP\ResponseInterface;
+use Sabre\DAV;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 /**
  * Locking plugin
@@ -17,7 +16,7 @@ use
  * $lockPlugin = new Sabre\DAV\Locks\Plugin($lockBackend);
  * $server->addPlugin($lockPlugin);
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -42,7 +41,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @param Backend\BackendInterface $locksBackend
      */
-    function __construct(Backend\BackendInterface $locksBackend = null) {
+    function __construct(Backend\BackendInterface $locksBackend) {
 
         $this->locksBackend = $locksBackend;
 
@@ -59,6 +58,9 @@ class Plugin extends DAV\ServerPlugin {
     function initialize(DAV\Server $server) {
 
         $this->server = $server;
+
+        $this->server->xml->elementMap['{DAV:}lockinfo'] = 'Sabre\\DAV\\Xml\\Request\\Lock';
+
         $server->on('method:LOCK',    [$this, 'httpLock']);
         $server->on('method:UNLOCK',  [$this, 'httpUnlock']);
         $server->on('validateTokens', [$this, 'validateTokens']);
@@ -92,11 +94,11 @@ class Plugin extends DAV\ServerPlugin {
     function propFind(DAV\PropFind $propFind, DAV\INode $node) {
 
         $propFind->handle('{DAV:}supportedlock', function() {
-            return new DAV\Property\SupportedLock(!!$this->locksBackend);
+            return new DAV\Xml\Property\SupportedLock();
         });
         $propFind->handle('{DAV:}lockdiscovery', function() use ($propFind) {
-            return new DAV\Property\LockDiscovery(
-                $this->getLocks( $propFind->getPath() )
+            return new DAV\Xml\Property\LockDiscovery(
+                $this->getLocks($propFind->getPath())
             );
         });
 
@@ -114,10 +116,7 @@ class Plugin extends DAV\ServerPlugin {
      */
     function getHTTPMethods($uri) {
 
-        if ($this->locksBackend)
-            return ['LOCK','UNLOCK'];
-
-        return [];
+        return ['LOCK','UNLOCK'];
 
     }
 
@@ -150,12 +149,7 @@ class Plugin extends DAV\ServerPlugin {
      */
     function getLocks($uri, $returnChildLocks = false) {
 
-        $lockList = [];
-
-        if ($this->locksBackend)
-            $lockList = array_merge($lockList,$this->locksBackend->getLocks($uri, $returnChildLocks));
-
-        return $lockList;
+        return $this->locksBackend->getLocks($uri, $returnChildLocks);
 
     }
 
@@ -185,7 +179,7 @@ class Plugin extends DAV\ServerPlugin {
 
             $existingLock = null;
             // Checking if there's already non-shared locks on the uri.
-            foreach($existingLocks as $existingLock) {
+            foreach ($existingLocks as $existingLock) {
                 if ($existingLock->scope === LockInfo::EXCLUSIVE) {
                     throw new DAV\Exception\ConflictingLock($existingLock);
                 }
@@ -194,7 +188,7 @@ class Plugin extends DAV\ServerPlugin {
             $lockInfo = $this->parseLockRequest($body);
             $lockInfo->depth = $this->server->getHTTPDepth();
             $lockInfo->uri = $uri;
-            if($existingLock && $lockInfo->scope != LockInfo::SHARED)
+            if ($existingLock && $lockInfo->scope != LockInfo::SHARED)
                 throw new DAV\Exception\ConflictingLock($existingLock);
 
         } else {
@@ -204,9 +198,9 @@ class Plugin extends DAV\ServerPlugin {
             $conditions = $this->server->getIfConditions($request);
             $found = null;
 
-            foreach($existingLocks as $existingLock) {
-                foreach($conditions as $condition) {
-                    foreach($condition['tokens'] as $token) {
+            foreach ($existingLocks as $existingLock) {
+                foreach ($conditions as $condition) {
+                    foreach ($condition['tokens'] as $token) {
                         if ($token['token'] === 'opaquelocktoken:' . $existingLock->token) {
                             $found = $existingLock;
                             break 3;
@@ -229,7 +223,7 @@ class Plugin extends DAV\ServerPlugin {
             $lockInfo = $found;
 
             // The resource could have been locked through another uri.
-            if ($uri!=$lockInfo->uri) $uri = $lockInfo->uri;
+            if ($uri != $lockInfo->uri) $uri = $lockInfo->uri;
 
         }
 
@@ -250,16 +244,16 @@ class Plugin extends DAV\ServerPlugin {
         } catch (DAV\Exception\NotFound $e) {
 
             // It didn't, lets create it
-            $this->server->createFile($uri,fopen('php://memory','r'));
+            $this->server->createFile($uri, fopen('php://memory', 'r'));
             $newFile = true;
 
         }
 
-        $this->lockNode($uri,$lockInfo);
+        $this->lockNode($uri, $lockInfo);
 
-        $response->setHeader('Content-Type','application/xml; charset=utf-8');
-        $response->setHeader('Lock-Token','<opaquelocktoken:' . $lockInfo->token . '>');
-        $response->setStatus($newFile?201:200);
+        $response->setHeader('Content-Type', 'application/xml; charset=utf-8');
+        $response->setHeader('Lock-Token', '<opaquelocktoken:' . $lockInfo->token . '>');
+        $response->setStatus($newFile ? 201 : 200);
         $response->setBody($this->generateLockResponse($lockInfo));
 
         // Returning false will interupt the event chain and mark this method
@@ -290,14 +284,14 @@ class Plugin extends DAV\ServerPlugin {
 
         // Windows sometimes forgets to include < and > in the Lock-Token
         // header
-        if ($lockToken[0]!=='<') $lockToken = '<' . $lockToken . '>';
+        if ($lockToken[0] !== '<') $lockToken = '<' . $lockToken . '>';
 
-        foreach($locks as $lock) {
+        foreach ($locks as $lock) {
 
             if ('<opaquelocktoken:' . $lock->token . '>' == $lockToken) {
 
-                $this->unlockNode($path,$lock);
-                $response->setHeader('Content-Length','0');
+                $this->unlockNode($path, $lock);
+                $response->setHeader('Content-Length', '0');
                 $response->setStatus(204);
 
                 // Returning false will break the method chain, and mark the
@@ -324,7 +318,7 @@ class Plugin extends DAV\ServerPlugin {
     function afterUnbind($path) {
 
         $locks = $this->getLocks($path, $includeChildren = true);
-        foreach($locks as $lock) {
+        foreach ($locks as $lock) {
             $this->unlockNode($path, $lock);
         }
 
@@ -340,12 +334,10 @@ class Plugin extends DAV\ServerPlugin {
      * @param LockInfo $lockInfo
      * @return bool
      */
-    function lockNode($uri,LockInfo $lockInfo) {
+    function lockNode($uri, LockInfo $lockInfo) {
 
-        if (!$this->server->emit('beforeLock', [$uri,$lockInfo])) return;
-
-        if ($this->locksBackend) return $this->locksBackend->lock($uri,$lockInfo);
-        throw new DAV\Exception\MethodNotAllowed('Locking support is not enabled for this resource. No Locking backend was found so if you didn\'t expect this error, please check your configuration.');
+        if (!$this->server->emit('beforeLock', [$uri, $lockInfo])) return;
+        return $this->locksBackend->lock($uri, $lockInfo);
 
     }
 
@@ -360,8 +352,8 @@ class Plugin extends DAV\ServerPlugin {
      */
     function unlockNode($uri, LockInfo $lockInfo) {
 
-        if (!$this->server->emit('beforeUnlock', [$uri,$lockInfo])) return;
-        if ($this->locksBackend) return $this->locksBackend->unlock($uri,$lockInfo);
+        if (!$this->server->emit('beforeUnlock', [$uri, $lockInfo])) return;
+        return $this->locksBackend->unlock($uri, $lockInfo);
 
     }
 
@@ -379,8 +371,8 @@ class Plugin extends DAV\ServerPlugin {
 
         if ($header) {
 
-            if (stripos($header,'second-')===0) $header = (int)(substr($header,7));
-            else if (stripos($header,'infinite')===0) $header = LockInfo::TIMEOUT_INFINITE;
+            if (stripos($header, 'second-') === 0) $header = (int)(substr($header, 7));
+            elseif (stripos($header, 'infinite') === 0) $header = LockInfo::TIMEOUT_INFINITE;
             else throw new DAV\Exception\BadRequest('Invalid HTTP timeout header');
 
         } else {
@@ -401,20 +393,10 @@ class Plugin extends DAV\ServerPlugin {
      */
     protected function generateLockResponse(LockInfo $lockInfo) {
 
-        $dom = new \DOMDocument('1.0','utf-8');
-        $dom->formatOutput = true;
-
-        $prop = $dom->createElementNS('DAV:','d:prop');
-        $dom->appendChild($prop);
-
-        $lockDiscovery = $dom->createElementNS('DAV:','d:lockdiscovery');
-        $prop->appendChild($lockDiscovery);
-
-        $lockObj = new DAV\Property\LockDiscovery([$lockInfo]);
-        $lockObj->serialize($this->server,$lockDiscovery);
-
-        return $dom->saveXML();
-
+        return $this->server->xml->write('{DAV:}prop', [
+            '{DAV:}lockdiscovery' =>
+                new DAV\Xml\Property\LockDiscovery([$lockInfo])
+        ]);
     }
 
     /**
@@ -427,10 +409,11 @@ class Plugin extends DAV\ServerPlugin {
      * must be present in the request, and reject requests without the proper
      * tokens.
      *
+     * @param RequestInterface $request
      * @param mixed $conditions
      * @return void
      */
-    function validateTokens( RequestInterface $request, &$conditions ) {
+    function validateTokens(RequestInterface $request, &$conditions) {
 
         // First we need to gather a list of locks that must be satisfied.
         $mustLocks = [];
@@ -438,7 +421,7 @@ class Plugin extends DAV\ServerPlugin {
 
         // Methods not in that list are operations that doesn't alter any
         // resources, and we don't need to check the lock-states for.
-        switch($method) {
+        switch ($method) {
 
             case 'DELETE' :
                 $mustLocks = array_merge($mustLocks, $this->getLocks(
@@ -475,8 +458,8 @@ class Plugin extends DAV\ServerPlugin {
             case 'LOCK' :
                 //Temporary measure.. figure out later why this is needed
                 // Here we basically ignore all incoming tokens...
-                foreach($conditions as $ii=>$condition) {
-                    foreach($condition['tokens'] as $jj=>$token) {
+                foreach ($conditions as $ii => $condition) {
+                    foreach ($condition['tokens'] as $jj => $token) {
                         $conditions[$ii]['tokens'][$jj]['validToken'] = true;
                     }
                 }
@@ -487,21 +470,21 @@ class Plugin extends DAV\ServerPlugin {
         // It's possible that there's identical locks, because of shared
         // parents. We're removing the duplicates here.
         $tmp = [];
-        foreach($mustLocks as $lock) $tmp[$lock->token] = $lock;
+        foreach ($mustLocks as $lock) $tmp[$lock->token] = $lock;
         $mustLocks = array_values($tmp);
 
-        foreach($conditions as $kk=>$condition) {
+        foreach ($conditions as $kk => $condition) {
 
-            foreach($condition['tokens'] as $ii=>$token) {
+            foreach ($condition['tokens'] as $ii => $token) {
 
                 // Lock tokens always start with opaquelocktoken:
                 if (substr($token['token'], 0, 16) !== 'opaquelocktoken:') {
                     continue;
                 }
 
-                $checkToken = substr($token['token'],16);
+                $checkToken = substr($token['token'], 16);
                 // Looping through our list with locks.
-                foreach($mustLocks as $jj => $mustLock) {
+                foreach ($mustLocks as $jj => $mustLock) {
 
                     if ($mustLock->token == $checkToken) {
 
@@ -517,32 +500,32 @@ class Plugin extends DAV\ServerPlugin {
 
                     }
 
-                    // If we got here, it means that there was a
-                    // lock-token, but it was not in 'mustLocks'.
-                    //
-                    // This is an edge-case, as it could mean that token
-                    // was specified with a url that was not 'required' to
-                    // check. So we're doing one extra lookup to make sure
-                    // we really don't know this token.
-                    //
-                    // This also gets triggered when the user specified a
-                    // lock-token that was expired.
-                    $oddLocks = $this->getLocks($condition['uri']);
-                    foreach($oddLocks as $oddLock) {
-
-                        if ($oddLock->token === $checkToken) {
-
-                            // We have a hit!
-                            $conditions[$kk]['tokens'][$ii]['validToken'] = true;
-                            continue 2;
-
-                        }
-                    }
-
-                    // If we get all the way here, the lock-token was
-                    // really unknown.
-
                 }
+
+                // If we got here, it means that there was a
+                // lock-token, but it was not in 'mustLocks'.
+                //
+                // This is an edge-case, as it could mean that token
+                // was specified with a url that was not 'required' to
+                // check. So we're doing one extra lookup to make sure
+                // we really don't know this token.
+                //
+                // This also gets triggered when the user specified a
+                // lock-token that was expired.
+                $oddLocks = $this->getLocks($condition['uri']);
+                foreach ($oddLocks as $oddLock) {
+
+                    if ($oddLock->token === $checkToken) {
+
+                        // We have a hit!
+                        $conditions[$kk]['tokens'][$ii]['validToken'] = true;
+                        continue 2;
+
+                    }
+                }
+
+                // If we get all the way here, the lock-token was
+                // really unknown.
 
 
             }
@@ -567,29 +550,40 @@ class Plugin extends DAV\ServerPlugin {
      */
     protected function parseLockRequest($body) {
 
-        // Fixes an XXE vulnerability on PHP versions older than 5.3.23 or
-        // 5.4.13.
-        $previous = libxml_disable_entity_loader(true);
+        $result = $this->server->xml->expect(
+            '{DAV:}lockinfo',
+            $body
+        );
 
-
-        $xml = simplexml_load_string(
-            DAV\XMLUtil::convertDAVNamespace($body),
-            null,
-            LIBXML_NOWARNING);
-        libxml_disable_entity_loader($previous);
-
-        $xml->registerXPathNamespace('d','urn:DAV');
         $lockInfo = new LockInfo();
 
-        $children = $xml->children("urn:DAV");
-        $lockInfo->owner = (string)$children->owner;
-
+        $lockInfo->owner = $result->owner;
         $lockInfo->token = DAV\UUIDUtil::getUUID();
-        $lockInfo->scope = count($xml->xpath('d:lockscope/d:exclusive'))>0 ? LockInfo::EXCLUSIVE : LockInfo::SHARED;
+        $lockInfo->scope = $result->scope;
 
         return $lockInfo;
 
     }
 
+    /**
+     * Returns a bunch of meta-data about the plugin.
+     *
+     * Providing this information is optional, and is mainly displayed by the
+     * Browser plugin.
+     *
+     * The description key in the returned array may contain html and will not
+     * be sanitized.
+     *
+     * @return array
+     */
+    function getPluginInfo() {
+
+        return [
+            'name'        => $this->getPluginName(),
+            'description' => 'The locks plugin turns this server into a class-2 WebDAV server and adds support for LOCK and UNLOCK',
+            'link'        => 'http://sabre.io/dav/locks/',
+        ];
+
+    }
 
 }

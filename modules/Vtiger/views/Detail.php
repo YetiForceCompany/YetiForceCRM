@@ -32,6 +32,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedProductsServices');
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showRelatedTree');
+		$this->exposeMethod('showRecentRelation');
 	}
 
 	function checkPermission(Vtiger_Request $request)
@@ -158,7 +159,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('FIELDS_HEADER', $fieldsInHeader);
-
+		$viewer->assign('CUSTOM_FIELDS_HEADER', $this->record->getCustomHeaderFields());
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
 
@@ -379,7 +380,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		} else {
-			$limit = AppConfig::module('ModTracker','NUMBER_RECORDS_ON_PAGE');
+			$limit = AppConfig::module('ModTracker', 'NUMBER_RECORDS_ON_PAGE');
 			$pagingModel->set('limit', $limit);
 		}
 
@@ -395,8 +396,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$defaultView = AppConfig::module('ModTracker','DEFAULT_VIEW');
-		if($defaultView == 'List'){
+		$defaultView = AppConfig::module('ModTracker', 'DEFAULT_VIEW');
+		if ($defaultView == 'List') {
 			$tplName = 'RecentActivities.tpl';
 		} else {
 			$tplName = 'RecentActivitiesTimeLine.tpl';
@@ -615,6 +616,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relatedModuleName = $request->get('relatedModule');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
+		$columns = $request->get('col');
 		$moduleName = $request->getModule();
 
 		if (empty($pageNumber)) {
@@ -648,7 +650,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
-				$whereCondition[] = ['crmid' => ['comparison' => 'IN', 'value' => implode(', ', $favorites)]];
+				$whereCondition[] = ['vtiger_crmentity.crmid' => ['comparison' => 'IN', 'value' => implode(', ', $favorites)]];
 			}
 		}
 		if (!empty($whereCondition)) {
@@ -665,8 +667,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
 
-		if ($request->get('col')) {
-			$header = array_splice($header, 0, $request->get('col'));
+		if ($columns) {
+			$header = array_splice($header, 0, $columns);
 		}
 
 		$viewer = $this->getViewer($request);
@@ -701,6 +703,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
+		$viewer->assign('COLUMNS', $columns);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
@@ -766,5 +769,29 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 
 		echo $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
+	}
+
+	public function showRecentRelation(Vtiger_Request $request)
+	{
+		$pageNumber = $request->get('page');
+		$limitPage = $request->get('limit');
+		$moduleName = $request->getModule();
+
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
+		}
+		if (empty($limitPage)) {
+			$limitPage = 10;
+		}
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		$pagingModel->set('limit', $limitPage);
+		
+		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('HISTORIES', $histories);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
+		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
 	}
 }

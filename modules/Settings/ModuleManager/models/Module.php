@@ -198,15 +198,20 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->setDefaultSharing();
 
 		// Enable and Disable available tools
-		$module->enableTools(Array('Import', 'Export', 'Merge'));
+		$module->enableTools(['Import', 'Export', 'DuplicatesHandling', 'CreateCustomFilter',
+			'DuplicateRecord', 'MassEdit', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
+			'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter',
+			'QuickExportToExcel', 'TagCloud', 'DetailTransferOwnership', 'ExportPdf',
+			'RecordMapping', 'RecordMappingList', 'FavoriteRecords', 'WatchingRecords',
+			'WatchingModule', 'RemoveRelation']);
 
 		// Initialize Webservice support
 		$module->initWebservice();
 
 		// Create files
 		$module->createFiles($field1);
-		$ModuleInstance = CRMEntity::getInstance($module->name);
-		$ModuleInstance->setModuleSeqNumber('configure', $module->name, 'N', '1');
+		$moduleInstance = CRMEntity::getInstance($module->name);
+		$moduleInstance->setModuleSeqNumber('configure', $module->name, 'N', '1');
 	}
 
 	public function toAlphaNumeric($value)

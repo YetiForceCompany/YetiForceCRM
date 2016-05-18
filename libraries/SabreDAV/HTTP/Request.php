@@ -3,6 +3,7 @@
 namespace Sabre\HTTP;
 
 use InvalidArgumentException;
+use Sabre\Uri;
 
 /**
  * The Request class represents a single HTTP request.
@@ -10,7 +11,7 @@ use InvalidArgumentException;
  * You can either simply construct the object from scratch, or if you need
  * access to the current HTTP request, use Sapi::getRequest.
  *
- * @copyright Copyright (C) 2009-2014 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -106,10 +107,10 @@ class Request extends Message implements RequestInterface {
     function getQueryParameters() {
 
         $url = $this->getUrl();
-        if (($index = strpos($url,'?'))===false) {
+        if (($index = strpos($url, '?')) === false) {
             return [];
         } else {
-            parse_str(substr($url, $index+1), $queryParams);
+            parse_str(substr($url, $index + 1), $queryParams);
             return $queryParams;
         }
 
@@ -190,18 +191,21 @@ class Request extends Message implements RequestInterface {
     function getPath() {
 
         // Removing duplicated slashes.
-        $uri = str_replace('//','/',$this->getUrl());
+        $uri = str_replace('//', '/', $this->getUrl());
 
-        if (strpos($uri,$this->getBaseUrl())===0) {
+        $uri = Uri\normalize($uri);
+        $baseUri = Uri\normalize($this->getBaseUrl());
+
+        if (strpos($uri, $baseUri) === 0) {
 
             // We're not interested in the query part (everything after the ?).
             list($uri) = explode('?', $uri);
-            return trim(URLUtil::decodePath(substr($uri,strlen($this->getBaseUrl()))),'/');
+            return trim(URLUtil::decodePath(substr($uri, strlen($baseUri))), '/');
 
         }
         // A special case, if the baseUri was accessed without a trailing
         // slash, we'll accept it as well.
-        elseif ($uri.'/' === $this->getBaseUrl()) {
+        elseif ($uri . '/' === $baseUri) {
 
             return '';
 
@@ -293,10 +297,10 @@ class Request extends Message implements RequestInterface {
 
         $out = $this->getMethod() . ' ' . $this->getUrl() . ' HTTP/' . $this->getHTTPVersion() . "\r\n";
 
-        foreach($this->getHeaders() as $key=>$value) {
-            foreach($value as $v) {
-                if ($key==='Authorization') {
-                    list($v) = explode(' ', $v,2);
+        foreach ($this->getHeaders() as $key => $value) {
+            foreach ($value as $v) {
+                if ($key === 'Authorization') {
+                    list($v) = explode(' ', $v, 2);
                     $v  .= ' REDACTED';
                 }
                 $out .= $key . ": " . $v . "\r\n";

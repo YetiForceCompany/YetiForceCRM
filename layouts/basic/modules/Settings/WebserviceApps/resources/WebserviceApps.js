@@ -59,25 +59,31 @@ jQuery.Class('Settings_WebserviceApps_Index_Js', {}, {
 		AppConnector.request(params).then(function (data) {
 			progress.progressIndicator({'mode': 'hide'});
 			app.showModalWindow(data, function (container) {
+				Vtiger_Edit_Js.getInstance().registerEvents();
+				var form = container.find('form');
+				form.validationEngine(app.validationEngineOptions);
 				container.find('[name="saveButton"]').on('click', function () {
-					var params = {
-						module: app.getModuleName(),
-						parent: app.getParentModuleName(),
-						action: 'SaveAjax',
-						name: container.find('[name="name"]').val(),
-						url: container.find('[name="addressUrl"]').val(),
-						status: container.find('[name="status"]').is(':checked'),
-						type: container.find('.typeServer').val(),
-						pass: container.find('[name="pass"]').val(),
-					};
-					if (id != '') {
-						params['id'] = id;
+					if (form.validationEngine('validate')) {
+						var params = {
+							module: app.getModuleName(),
+							parent: app.getParentModuleName(),
+							action: 'SaveAjax',
+							name: container.find('[name="name"]').val(),
+							url: container.find('[name="addressUrl"]').val(),
+							status: container.find('[name="status"]').is(':checked'),
+							type: container.find('.typeServer').val(),
+							pass: container.find('[name="pass"]').val(),
+							accounts: container.find('[name="accountsid"]').val(),
+						};
+						if (id != '') {
+							params['id'] = id;
+						}
+						AppConnector.request(params).then(function (data) {
+							thisInstance.loadTable();
+							app.hideModalWindow();
+						});
 					}
-					AppConnector.request(params).then(function (data) {
-						thisInstance.loadTable();
-						app.hideModalWindow();
-					});
-				})
+				});
 			});
 		});
 	},

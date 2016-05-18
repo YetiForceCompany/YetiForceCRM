@@ -86,7 +86,7 @@ class RelatedListViewSession
 
 	public static function getRequestStartPage()
 	{
-		$start = $_REQUEST['start'];
+		$start = AppRequest::get('start');
 		if (!is_numeric($start)) {
 			$start = 1;
 		}
@@ -101,9 +101,8 @@ class RelatedListViewSession
 	{
 		global $list_max_entries_per_page, $adb;
 
-		$start = 1;
-		if (!empty($_REQUEST['start'])) {
-			$start = $_REQUEST['start'];
+		$start = AppRequest::get('start');
+		if (!empty($start)) {
 			if ($start == 'last') {
 				$count_result = $adb->query(Vtiger_Functions::mkCountQuery($query));
 				$noofrows = $adb->query_result($count_result, 0, "count");

@@ -2,19 +2,18 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use
-    Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir,
-    Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property;
+use Sabre\VObject\DateTimeParser;
+use Sabre\Xml;
 
 /**
- * Period property
+ * Period property.
  *
  * This object represents PERIOD values, as defined here:
  *
  * http://tools.ietf.org/html/rfc5545#section-3.8.2.6
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -35,9 +34,10 @@ class Period extends Property {
      * not yet done, but parameters are not included.
      *
      * @param string $val
+     *
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $this->setValue(explode($this->delimiter, $val));
 
@@ -48,7 +48,7 @@ class Period extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return implode($this->delimiter, $this->getParts());
 
@@ -62,9 +62,9 @@ class Period extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
-        return "PERIOD";
+        return 'PERIOD';
 
     }
 
@@ -74,14 +74,15 @@ class Period extends Property {
      * The value must always be an array.
      *
      * @param array $value
+     *
      * @return void
      */
-    public function setJsonValue(array $value) {
+    function setJsonValue(array $value) {
 
         $value = array_map(
             function($item) {
 
-                return strtr(implode('/', $item), array(':' => '', '-' => ''));
+                return strtr(implode('/', $item), [':' => '', '-' => '']);
 
             },
             $value
@@ -97,32 +98,57 @@ class Period extends Property {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
-        $return = array();
-        foreach($this->getParts() as $item) {
+        $return = [];
+        foreach ($this->getParts() as $item) {
 
             list($start, $end) = explode('/', $item, 2);
 
             $start = DateTimeParser::parseDateTime($start);
 
             // This is a duration value.
-            if ($end[0]==='P') {
-                $return[] = array(
+            if ($end[0] === 'P') {
+                $return[] = [
                     $start->format('Y-m-d\\TH:i:s'),
                     $end
-                );
+                ];
             } else {
                 $end = DateTimeParser::parseDateTime($end);
-                $return[] = array(
+                $return[] = [
                     $start->format('Y-m-d\\TH:i:s'),
                     $end->format('Y-m-d\\TH:i:s'),
-                );
+                ];
             }
 
         }
 
         return $return;
+
+    }
+
+    /**
+     * This method serializes only the value of a property. This is used to
+     * create xCard or xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     *
+     * @return void
+     */
+    protected function xmlSerializeValue(Xml\Writer $writer) {
+
+        $writer->startElement(strtolower($this->getValueType()));
+        $value = $this->getJsonValue();
+        $writer->writeElement('start', $value[0][0]);
+
+        if ($value[0][1][0] === 'P') {
+            $writer->writeElement('duration', $value[0][1]);
+        }
+        else {
+            $writer->writeElement('end', $value[0][1]);
+        }
+
+        $writer->endElement();
 
     }
 

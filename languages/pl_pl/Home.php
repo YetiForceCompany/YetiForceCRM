@@ -30,6 +30,7 @@ $languageStrings = [
 	'LBL_TITLE' => 'Tytuł',
 	'LBL_MESSAGE' => 'Wiadomość',
 	'LBL_MESSAGES_FROM_USERS' => 'Od użytkowników',
+	'LBL_WATCHDOG' => 'Śledzenie zmian',
 	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Wyślij wiadomość',
 	'LBL_SEND_NOTIFICATION_MAIL' => 'Wyślij mailem',
 ];

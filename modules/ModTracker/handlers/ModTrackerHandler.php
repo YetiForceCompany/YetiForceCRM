@@ -18,7 +18,7 @@ class ModTrackerHandler extends VTEventHandler
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
-		
+
 		if (!is_object($data)) {
 			$extendedData = $data;
 			$data = $extendedData['entityData'];
@@ -28,7 +28,7 @@ class ModTrackerHandler extends VTEventHandler
 
 		if ($flag) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			
+			$watchdogTitle = $watchdogMessage = '';
 			switch ($eventName) {
 				case 'vtiger.entity.aftersave.final':
 
@@ -44,14 +44,19 @@ class ModTrackerHandler extends VTEventHandler
 					if (is_array($delta)) {
 						$inserted = false;
 						foreach ($delta as $fieldName => $values) {
-							if ($fieldName != 'modifiedtime') {
+							if (!in_array($fieldName, ['modifiedtime', 'modifiedby'])) {
 								if (!$inserted) {
 									$checkRecordPresentResult = $adb->pquery('SELECT * FROM vtiger_modtracker_basic WHERE crmid = ?', array($recordId));
 									if (!$adb->num_rows($checkRecordPresentResult) && $data->isNew()) {
 										$status = ModTracker::$CREATED;
+										$watchdogTitle = 'LBL_CREATED';
+										$watchdogMessage = '(recordChanges: listOfAllValues)';
 									} else {
 										$status = ModTracker::$UPDATED;
+										$watchdogTitle = 'LBL_UPDATED';
+										$watchdogMessage = '(recordChanges: listOfAllChanges)';
 									}
+
 									$this->id = $adb->getUniqueId('vtiger_modtracker_basic');
 									$adb->insert('vtiger_modtracker_basic', [
 										'id' => $this->id,
@@ -90,6 +95,8 @@ class ModTrackerHandler extends VTEventHandler
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}
+					$watchdogTitle = 'LBL_REMOVED';
+					$watchdogMessage = '(recordChanges: listOfAllChanges)';
 
 					break;
 				case 'vtiger.entity.afterrestore':
@@ -109,27 +116,73 @@ class ModTrackerHandler extends VTEventHandler
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}
+					$watchdogTitle = 'LBL_RESTORED';
 
 					break;
 				case 'vtiger.entity.link.after':
+
+					$recordId = $extendedData['destinationRecordId'];
+					$moduleName = $extendedData['destinationModule'];
 					ModTracker::linkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
+					$watchdogTitle = 'LBL_ADDED';
+					if (AppConfig::module('ModTracker', 'WATCHDOG')) {
+						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . Vtiger_Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
+						$watchdogMessage .= ' (translate: [LBL_WITH]) ';
+						$watchdogMessage .= '<a href="index.php?module=' . $extendedData['destinationModule'] . '&view=Detail&record=' . $extendedData['destinationRecordId'] . '">(general: RecordLabel)</a>';
+					}
+
 					break;
 				case 'vtiger.entity.unlink.after':
+
+					$recordId = $extendedData['destinationRecordId'];
+					$moduleName = $extendedData['destinationModule'];
 					ModTracker::unLinkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
+					$watchdogTitle = 'LBL_REMOVED';
+					if (AppConfig::module('ModTracker', 'WATCHDOG')) {
+						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . Vtiger_Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
+						$watchdogMessage .= ' (translate: [LBL_WITH]) ';
+						$watchdogMessage .= '<a href="index.php?module=' . $extendedData['destinationModule'] . '&view=Detail&record=' . $extendedData['destinationRecordId'] . '">(general: RecordLabel)</a>';
+					}
+
 					break;
 				case 'entity.convertlead.after':
 					// TODU
 					break;
 				case 'vtiger.view.detail.before':
+
+					$recordId = $data->getId();
 					$adb->insert('vtiger_modtracker_basic', [
 						'id' => $adb->getUniqueId('vtiger_modtracker_basic'),
-						'crmid' => $data->getId(),
+						'crmid' => $recordId,
 						'module' => $moduleName,
 						'whodid' => $currentUser->getRealId(),
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$DISPLAYED
 					]);
+
 					break;
+			}
+			if (AppConfig::module('ModTracker', 'WATCHDOG') && $watchdogTitle != '') {
+				$actionsTypes = ModTracker::getAllActionsTypes();
+				$watchdogTitle = '(translate: [' . $watchdogTitle . '|||ModTracker]) (general: RecordLabel)';
+				if (in_array($watchdogTitle, [0, 2, 3, 7])) {
+					$watchdogTitle = '<a href="index.php?module=' . $moduleName . '&view=Detail&record=' . $recordId . '">' . $watchdogTitle . '</a>';
+				}
+				$watchdogTitle = $currentUser->getName() . ' ' . $watchdogTitle;
+				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
+				$users = $watchdog->getWatchingUsers();
+				if (!empty($users)) {
+					foreach ($users as $userId) {
+						$notification = Home_Notification_Model::getInstance();
+						$notification->set('record', $recordId);
+						$notification->set('moduleName', $moduleName);
+						$notification->set('title', $watchdogTitle);
+						$notification->set('message', $watchdogMessage);
+						$notification->set('type', $watchdog->notificationDefaultType);
+						$notification->set('userid', $userId);
+						$notification->save();
+					}
+				}
 			}
 		}
 	}

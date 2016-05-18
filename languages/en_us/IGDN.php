@@ -5,13 +5,15 @@ $languageStrings = [
 	'SINGLE_IGDN' => 'Goods Dispatched Note',
 	'LBL_DESCRIPTION_BLOCK' => 'Description',
 	'LBL_ATTENTION_BLOCK' => 'Comments',
+	// Fields
 	'FL_ACCEPTANCE_DATE' => 'Date of acceptance',
 	'FL_ACCOUNT' => 'Account',
 	'FL_NUMBER' => 'Number',
 	'FL_SUBJECT' => 'Subject',
 	'FL_STORAGE' => 'Storage',
 	'FL_STATUS' => 'Status',
-	
+	'FL_SSIGNLEORDERS' => 'Single Order',
+	// Picklist
 	'PLL_DRAFT' => 'Draft',
 	'PLL_IN_REALIZATION' => 'In realization',
 	'PLL_OBJECTIONS' => 'Objections',

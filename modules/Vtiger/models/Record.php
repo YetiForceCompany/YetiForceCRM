@@ -129,6 +129,13 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $this;
 	}
 
+	public function getRecordNumber()
+	{
+		$fieldModel = $this->getModule()->getFieldsByUiType(4);
+		$fieldModel = reset($fieldModel);
+		return $this->get($fieldModel->getName());
+	}
+
 	/**
 	 * Function to get the Detail View url for the record
 	 * @return <String> - Record Detail View Url
@@ -272,10 +279,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 
 		$this->getModule()->saveRecord($this);
-
-		if ($this->getModule()->isInventory() && count($this->inventoryData) > 0) {
-			$this->saveInventoryData();
-		}
 		$db->completeTransaction();
 	}
 
@@ -442,8 +445,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function isCreateable()
 	{
 		if (!isset($this->privileges['isCreateable'])) {
-			$moduleName = $this->getModuleName();
-			$this->privileges['isCreateable'] = Users_Privileges_Model::isPermitted($moduleName, 'CreateView');
+			$this->privileges['isCreateable'] = $this->getModule()->isPermitted('CreateView');
 		}
 		return $this->privileges['isCreateable'];
 	}
@@ -711,19 +713,23 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			if (empty($record)) {
 				return [];
 			}
-
-			$db = PearDatabase::getInstance();
-			$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
-			$table = $inventoryField->getTableName('data');
-			$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$record]);
-			$fields = [];
-			while ($row = $db->fetch_array($result)) {
-				$fields[] = $row;
-			}
-			$this->inventoryData = $fields;
+			$this->inventoryData = self::getInventoryDataById($record, $module);
 		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $this->inventoryData;
+	}
+
+	public static function getInventoryDataById($ID, $moduleName)
+	{
+		$db = PearDatabase::getInstance();
+		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$table = $inventoryField->getTableName('data');
+		$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$ID]);
+		$fields = [];
+		while ($row = $db->fetch_array($result)) {
+			$fields[] = $row;
+		}
+		return $fields;
 	}
 
 	/**
@@ -743,7 +749,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if ($this->has('inventoryData')) {
 			$request = $this->get('inventoryData');
 		} else {
-			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+			$request = AppRequest::init();
 		}
 		if ($request->has('inventoryItemsNo')) {
 			$numRow = $request->get('inventoryItemsNo');
@@ -767,44 +773,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		$this->inventoryData = $inventoryData;
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
-	}
-
-	/**
-	 * Save the inventory data
-	 */
-	public function saveInventoryData()
-	{
-		//Event triggering code
-		require_once('include/events/include.inc');
-
-		$db = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
-
-		$moduleName = $this->getModuleName();
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$table = $inventory->getTableName('data');
-
-		//In Bulk mode stop triggering events
-		if (!CRMEntity::isBulkSaveMode()) {
-			$em = new VTEventsManager($adb);
-			// Initialize Event trigger cache
-			$em->initTriggerCache();
-			$em->triggerEvent('entity.inventory.beforesave', [$this, $inventory, $this->inventoryData]);
-		}
-
-		$db->delete($table, 'id = ?', [$this->getId()]);
-		foreach ($this->inventoryData as $insertData) {
-			$insertData['id'] = $this->getId();
-			$db->insert($table, $insertData);
-		}
-
-		if ($em) {
-			//Event triggering code
-			$em->triggerEvent('entity.inventory.aftersave', [$this, $inventory, $this->inventoryData]);
-		}
-
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 	}
 

@@ -2,10 +2,9 @@
 
 namespace Sabre\DAV\PartialUpdate;
 
-use
-    Sabre\DAV,
-    Sabre\HTTP\RequestInterface,
-    Sabre\HTTP\ResponseInterface;
+use Sabre\DAV;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 /**
  * Partial update plugin (Patch method)
@@ -17,7 +16,7 @@ use
  * $patchPlugin = new \Sabre\DAV\PartialUpdate\Plugin();
  * $server->addPlugin($patchPlugin);
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Jean-Tiare LE BIGOT (http://www.jtlebi.fr/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -45,7 +44,7 @@ class Plugin extends DAV\ServerPlugin {
     function initialize(DAV\Server $server) {
 
         $this->server = $server;
-        $server->on('method:PATCH', [$this,'httpPatch']);
+        $server->on('method:PATCH', [$this, 'httpPatch']);
 
     }
 
@@ -83,7 +82,7 @@ class Plugin extends DAV\ServerPlugin {
 
         if ($tree->nodeExists($uri)) {
             $node = $tree->getNodeForPath($uri);
-            if ($node instanceof IFile || $node instanceof IPatchSupport) {
+            if ($node instanceof IPatchSupport) {
                 return ['PATCH'];
             }
         }
@@ -119,7 +118,7 @@ class Plugin extends DAV\ServerPlugin {
 
         // Get the node. Will throw a 404 if not found
         $node = $this->server->tree->getNodeForPath($path);
-        if (!$node instanceof IFile && !$node instanceof IPatchSupport) {
+        if (!$node instanceof IPatchSupport) {
             throw new DAV\Exception\MethodNotAllowed('The target resource does not support the PATCH method.');
         }
 
@@ -140,7 +139,7 @@ class Plugin extends DAV\ServerPlugin {
         $len = $this->server->httpRequest->getHeader('Content-Length');
         if (!$len) throw new DAV\Exception\LengthRequired('A Content-Length header is required');
 
-        switch($range[0]) {
+        switch ($range[0]) {
             case self::RANGE_START :
                 // Calculate the end-range if it doesn't exist.
                 if (!$range[2]) {
@@ -149,7 +148,7 @@ class Plugin extends DAV\ServerPlugin {
                     if ($range[2] < $range[1]) {
                         throw new DAV\Exception\RequestedRangeNotSatisfiable('The end offset (' . $range[2] . ') is lower than the start offset (' . $range[1] . ')');
                     }
-                    if($range[2] - $range[1] + 1 != $len) {
+                    if ($range[2] - $range[1] + 1 != $len) {
                         throw new DAV\Exception\RequestedRangeNotSatisfiable('Actual data length (' . $len . ') is not consistent with begin (' . $range[1] . ') and end (' . $range[2] . ') offsets');
                     }
                 }
@@ -162,26 +161,12 @@ class Plugin extends DAV\ServerPlugin {
         $body = $this->server->httpRequest->getBody();
 
 
-        if ($node instanceof IPatchSupport) {
-            $etag = $node->patch($body, $range[0], isset($range[1])?$range[1]:null);
-        } else {
-            // The old interface
-            switch($range[0]) {
-                case self::RANGE_APPEND :
-                    throw new DAV\Exception\NotImplemented('This node does not support the append syntax. Please upgrade it to IPatchSupport');
-                case self::RANGE_START :
-                    $etag = $node->putRange($body, $range[1]);
-                    break;
-                case self::RANGE_END :
-                    throw new DAV\Exception\NotImplemented('This node does not support the end-range syntax. Please upgrade it to IPatchSupport');
-                    break;
-            }
-        }
+        $etag = $node->patch($body, $range[0], isset($range[1]) ? $range[1] : null);
 
         $this->server->emit('afterWriteContent', [$path, $node]);
 
-        $response->setHeader('Content-Length','0');
-        if ($etag) $response->setHeader('ETag',$etag);
+        $response->setHeader('Content-Length', '0');
+        if ($etag) $response->setHeader('ETag', $etag);
         $response->setStatus(204);
 
         // Breaks the event chain
@@ -216,16 +201,14 @@ class Plugin extends DAV\ServerPlugin {
 
         // Matching "Range: bytes=1234-5678: both numbers are optional
 
-        if (!preg_match('/^(append)|(?:bytes=([0-9]+)-([0-9]*))|(?:bytes=(-[0-9]+))$/i',$range,$matches)) return null;
+        if (!preg_match('/^(append)|(?:bytes=([0-9]+)-([0-9]*))|(?:bytes=(-[0-9]+))$/i', $range, $matches)) return null;
 
-        if ($matches[1]==='append') {
+        if ($matches[1] === 'append') {
             return [self::RANGE_APPEND];
-        } elseif (strlen($matches[2])>0) {
-            return [self::RANGE_START, $matches[2], $matches[3]?:null];
-        } elseif ($matches[4]) {
-            return [self::RANGE_END, $matches[4]];
+        } elseif (strlen($matches[2]) > 0) {
+            return [self::RANGE_START, $matches[2], $matches[3] ?: null];
         } else {
-            return null;
+            return [self::RANGE_END, $matches[4]];
         }
 
     }

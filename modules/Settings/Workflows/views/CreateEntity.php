@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_Workflows_CreateEntity_View extends Settings_Vtiger_Index_View
@@ -25,6 +26,7 @@ class Settings_Workflows_CreateEntity_View extends Settings_Vtiger_Index_View
 
 		$workflowModuleModel = $workflowModel->getModule();
 
+		$viewer->assign('MAPPING_PANEL', $request->get('mappingPanel'));
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 		$viewer->assign('REFERENCE_FIELD_NAME', $workflowModel->getReferenceFieldName($relatedModule));
 		$viewer->assign('RELATED_MODULE_MODEL', $relatedModuleModel);

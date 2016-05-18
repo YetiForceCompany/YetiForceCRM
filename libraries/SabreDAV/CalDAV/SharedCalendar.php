@@ -5,7 +5,7 @@ namespace Sabre\CalDAV;
 /**
  * This object represents a CalDAV calendar that is shared by a different user.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -24,7 +24,7 @@ class SharedCalendar extends Calendar implements ISharedCalendar {
             '{http://sabredav.org/ns}owner-principal',
             '{http://sabredav.org/ns}read-only',
         ];
-        foreach($required as $r) {
+        foreach ($required as $r) {
             if (!isset($calendarInfo[$r])) {
                 throw new \InvalidArgumentException('The ' . $r . ' property must be specified for SharedCalendar(s)');
             }

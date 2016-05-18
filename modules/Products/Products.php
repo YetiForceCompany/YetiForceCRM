@@ -77,7 +77,7 @@ class Products extends CRMEntity
 	function save_module($module)
 	{
 		//Inserting into product_taxrel table
-		if ($_REQUEST['ajxaction'] != 'DETAILVIEW' && $_REQUEST['action'] != 'MassEditSave' && $_REQUEST['action'] != 'ProcessDuplicates') {
+		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassEditSave' && AppRequest::get('action') != 'ProcessDuplicates') {
 			$this->insertTaxInformation('vtiger_producttaxrel', 'Products');
 			$this->insertPriceInformation('vtiger_productcurrencyrel', 'Products');
 		}
@@ -113,17 +113,17 @@ class Products extends CRMEntity
 		for ($i = 0; $i < count($tax_details); $i++) {
 			$tax_name = $tax_details[$i]['taxname'];
 			$tax_checkname = $tax_details[$i]['taxname'] . "_check";
-			if ($_REQUEST[$tax_checkname] == 'on' || $_REQUEST[$tax_checkname] == 1) {
+			if (AppRequest::get($tax_checkname) == 'on' || AppRequest::get($tax_checkname) == 1) {
 				$taxid = getTaxId($tax_name);
-				$tax_per = $_REQUEST[$tax_name];
+				$tax_per = AppRequest::get($tax_name);
 				if ($tax_per == '') {
-					$log->debug("Tax selected but value not given so default value will be saved.");
+					$log->debug('Tax selected but value not given so default value will be saved.');
 					$tax_per = getTaxPercentage($tax_name);
 				}
 
 				$log->debug("Going to save the Product - $tax_name tax relationship");
 
-				$query = "insert into vtiger_producttaxrel values(?,?,?)";
+				$query = 'insert into vtiger_producttaxrel values(?,?,?)';
 				$adb->pquery($query, array($this->id, $taxid, $tax_per));
 			}
 		}
@@ -147,7 +147,7 @@ class Products extends CRMEntity
 		$currency_details = getAllCurrencies('all');
 
 		//Delete the existing currency relationship if any
-		if ($this->mode == 'edit' && $_REQUEST['action'] !== 'MassEditSave') {
+		if ($this->mode == 'edit' && AppRequest::get('action') !== 'MassEditSave') {
 			for ($i = 0; $i < count($currency_details); $i++) {
 				$curid = $currency_details[$i]['curid'];
 				$sql = "delete from vtiger_productcurrencyrel where productid=? and currencyid=?";
@@ -164,9 +164,9 @@ class Products extends CRMEntity
 			$cur_checkname = 'cur_' . $curid . '_check';
 			$cur_valuename = 'curname' . $curid;
 
-			$requestPrice = CurrencyField::convertToDBFormat($_REQUEST['unit_price'], null, true);
-			$actualPrice = CurrencyField::convertToDBFormat($_REQUEST[$cur_valuename], null, true);
-			if ($_REQUEST[$cur_checkname] == 'on' || $_REQUEST[$cur_checkname] == 1) {
+			$requestPrice = CurrencyField::convertToDBFormat(AppRequest::get('unit_price'), null, true);
+			$actualPrice = CurrencyField::convertToDBFormat(AppRequest::get($cur_valuename), null, true);
+			if (AppRequest::get($cur_valuename) == 'on' || AppRequest::get($cur_valuename) == 1) {
 				$conversion_rate = $currency_details[$i]['conversionrate'];
 				$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 				$converted_price = $actual_conversion_rate * $requestPrice;
@@ -177,7 +177,7 @@ class Products extends CRMEntity
 				$adb->pquery($query, array($this->id, $curid, $converted_price, $actualPrice));
 
 				// Update the Product information with Base Currency choosen by the User.
-				if ($_REQUEST['base_currency'] == $cur_valuename) {
+				if (AppRequest::get('base_currency') == $cur_valuename) {
 					$currencySet = 1;
 					$adb->pquery("update vtiger_products set currency_id=?, unit_price=? where productid=?", array($curid, $actualPrice, $this->id));
 				}
@@ -210,8 +210,8 @@ class Products extends CRMEntity
 		$file_saved = false;
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
-				if ($_REQUEST[$fileindex . '_hidden'] != '')
-					$files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
+				if (AppRequest::get($fileindex . '_hidden') != '')
+					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
 				else
 					$files['original_name'] = stripslashes($files['name']);
 				$files['original_name'] = str_replace('"', '', $files['original_name']);
@@ -236,8 +236,8 @@ class Products extends CRMEntity
 		$adb->pquery('UPDATE vtiger_products SET imagename = ? WHERE productid = ?', array($commaSeperatedFileNames, $id));
 
 		//Remove the deleted vtiger_attachments from db - Products
-		if ($module == 'Products' && $_REQUEST['del_file_list'] != '') {
-			$del_file_list = explode("###", trim($_REQUEST['del_file_list'], "###"));
+		if ($module == 'Products' && AppRequest::get('del_file_list') != '') {
+			$del_file_list = explode("###", trim(AppRequest::get('del_file_list'), "###"));
 			foreach ($del_file_list as $del_file_name) {
 				$attach_res = $adb->pquery("select vtiger_attachments.attachmentsid from vtiger_attachments inner join vtiger_seattachmentsrel on vtiger_attachments.attachmentsid=vtiger_seattachmentsrel.attachmentsid where crmid=? and name=?", array($id, $del_file_name));
 				$attachments_id = $adb->query_result($attach_res, 0, 'attachmentsid');
@@ -855,11 +855,10 @@ class Products extends CRMEntity
 			'Leads' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
 			'Accounts' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
 			'Contacts' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
-			'Products' => array('vtiger_products' => array('productid', 'product_id'), 'vtiger_products' => 'productid'),
 			'PriceBooks' => array('vtiger_pricebookproductrel' => array('productid', 'pricebookid'), 'vtiger_products' => 'productid'),
 			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_products' => 'productid'),
 		);
-		if($secmodule === false){
+		if ($secmodule === false) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];

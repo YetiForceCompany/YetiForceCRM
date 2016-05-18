@@ -9,14 +9,15 @@
 class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 {
 
+	public $notificationDefaultType = 1;
+
 	/**
 	 * Function to get the instance by id
 	 * @return <Home_Notification_Model>
 	 */
 	public static function getInstanceById($record, $moduleName)
 	{
-		$instance = Vtiger_Cache::get('WatchdogModel', $moduleName . $record);
-		if ($instance) {
+		if ($instance = Vtiger_Cache::get('WatchdogModel', $moduleName . $record)) {
 			return $instance;
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
@@ -34,8 +35,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance($moduleName)
 	{
-		$instance = Vtiger_Cache::get('WatchdogModel', $moduleName);
-		if ($instance) {
+		if ($instance = Vtiger_Cache::get('WatchdogModel', $moduleName)) {
 			return $instance;
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
@@ -46,13 +46,14 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		return $instance;
 	}
 
-	public function isWatchingModule($ownerId = false)
+	public function isWatchingModule($userId = false)
 	{
 		if ($this->has('isWatchingModule')) {
 			return $this->get('isWatchingModule');
 		}
 		$return = false;
-		$modules = self::getWatchingModules(false, $ownerId);
+		
+		$modules = self::getWatchingModules(false, $userId);
 		if (in_array(Vtiger_Functions::getModuleId($this->get('module')), $modules)) {
 			$return = true;
 		}
@@ -60,12 +61,12 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		return $return;
 	}
 
-	public function isWatchingRecord()
+	public function isWatchingRecord($userId = false)
 	{
 		if ($this->has('isWatchingRecord')) {
 			return $this->get('isWatchingRecord');
 		}
-		$return = $this->isWatchingModule();
+		$return = $this->isWatchingModule($userId);
 		$db = PearDatabase::getInstance();
 		$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$sql = 'SELECT state FROM u_yf_watchdog_record WHERE userid = ? AND record = ?';

@@ -74,6 +74,28 @@ class CRMEntity
 		return $focus;
 	}
 
+	/**
+	 * Save the inventory data
+	 */
+	public function saveInventoryData($moduleName)
+	{
+		$db = PearDatabase::getInstance();
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+
+		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$table = $inventory->getTableName('data');
+
+		$db->delete($table, 'id = ?', [$this->id]);
+		if (is_array($this->inventoryData)) {
+			foreach ($this->inventoryData as $insertData) {
+				$insertData['id'] = $this->id;
+				$db->insert($table, $insertData);
+			}
+		}
+		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
+	}
+
 	function saveentity($module, $fileid = '')
 	{
 		$insertion_mode = $this->mode;
@@ -98,13 +120,17 @@ class CRMEntity
 			}
 		}
 
+		if ($this->isInventory === true && !empty($this->inventoryData)) {
+			$this->saveInventoryData($module);
+		}
+
 		//Calling the Module specific save code
 		$this->save_module($module);
 
 		// vtlib customization: Hook provide to enable generic module relation.
-		if ($_REQUEST['createmode'] == 'link') {
-			$for_module = vtlib_purify($_REQUEST['return_module']);
-			$for_crmid = vtlib_purify($_REQUEST['return_id']);
+		if (AppRequest::get('createmode') == 'link') {
+			$for_module = AppRequest::get('return_module');
+			$for_crmid = AppRequest::get('return_id');
 			$with_module = $module;
 			$with_crmid = $this->id;
 
@@ -199,9 +225,9 @@ class CRMEntity
 			];
 			$adb->insert('vtiger_attachments', $params);
 
-			if ($_REQUEST['mode'] == 'edit') {
-				if ($id != '' && vtlib_purify($_REQUEST['fileid']) != '') {
-					$delparams = [$id, vtlib_purify($_REQUEST['fileid'])];
+			if (AppRequest::get('mode') == 'edit') {
+				if ($id != '' && AppRequest::get('fileid') != '') {
+					$delparams = [$id, AppRequest::get('fileid')];
 					$adb->delete('vtiger_seattachmentsrel', 'crmid = ? AND attachmentsid = ?', $delparams);
 				}
 			}
@@ -463,7 +489,7 @@ class CRMEntity
 			$datatype = $typeofdata_array[0];
 
 			$ajaxSave = false;
-			if (($_REQUEST['file'] == 'DetailViewAjax' && $_REQUEST['ajxaction'] == 'DETAILVIEW' && isset($_REQUEST["fldName"]) && $_REQUEST["fldName"] != $fieldname) || ($_REQUEST['action'] == 'MassEditSave' && !isset($_REQUEST[$fieldname . "_mass_edit_check"]))) {
+			if ((AppRequest::get('file') == 'DetailViewAjax' && AppRequest::get('ajxaction') == 'DETAILVIEW' && AppRequest::has('fldName') && AppRequest::get('fldName') != $fieldname) || (AppRequest::get('action') == 'MassEditSave' && !AppRequest::get($fieldname . '_mass_edit_check'))) {
 				$ajaxSave = true;
 			}
 
@@ -764,6 +790,7 @@ class CRMEntity
 				if (!empty($resultrow['deleted'])) {
 					throw new NoPermittedToRecordException('LBL_RECORD_DELETE');
 				}
+				$showsAdditionalLabels = vglobal('showsAdditionalLabels');
 				foreach ($cachedModuleFields as $fieldinfo) {
 					$fieldvalue = '';
 					$fieldkey = $this->createColumnAliasForField($fieldinfo);
@@ -771,10 +798,10 @@ class CRMEntity
 					if (isset($resultrow[$fieldkey])) {
 						$fieldvalue = $resultrow[$fieldkey];
 					}
-					if (in_array($fieldinfo['uitype'], array(10, 51, 73))) {
+					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [10, 51, 73])) {
 						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getCRMRecordLabel($fieldvalue);
 					}
-					if (in_array($fieldinfo['uitype'], [52, 53])) {
+					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [52, 53])) {
 						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getOwnerRecordLabel($fieldvalue);
 					}
 					$this->column_fields[$fieldinfo['fieldname']] = $fieldvalue;
@@ -998,7 +1025,7 @@ class CRMEntity
 		if ($uitype == 57 && $fldvalue == '') {
 			return 0;
 		}
-		if ($uitype == 307 && $fldvalue == '') {
+		if (in_array($uitype, [307, 308]) && $fldvalue == '') {
 			return null;
 		}
 		if (is_uitype($uitype, "_date_") && $fldvalue == '' || $uitype == '14') {
@@ -1917,7 +1944,7 @@ class CRMEntity
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
 			$relatedRecords = $adb->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? AND module=?' .
 				' AND relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? AND module=?)', array($transferId, $module, $entityId, $module));
-			$numOfRecords = $adb->num_rows($relatedRecords);
+			$numOfRecords = $adb->getRowCount($relatedRecords);
 			for ($i = 0; $i < $numOfRecords; $i++) {
 				$relcrmid = $adb->query_result($relatedRecords, $i, 'relcrmid');
 				$relmodule = $adb->query_result($relatedRecords, $i, 'relmodule');
@@ -1926,11 +1953,10 @@ class CRMEntity
 				$params = [$relcrmid, $relmodule, $transferId, $module];
 				$adb->update('vtiger_crmentityrel', ['crmid' => $entityId], $where, $params);
 			}
-
 			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
 			$parentRecords = $adb->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? AND relmodule=?' .
 				' AND crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? AND relmodule=?)', array($transferId, $module, $entityId, $module));
-			$numOfRecords = $adb->num_rows($parentRecords);
+			$numOfRecords = $adb->getRowCount($parentRecords);
 			for ($i = 0; $i < $numOfRecords; $i++) {
 				$parcrmid = $adb->query_result($parentRecords, $i, 'crmid');
 				$parmodule = $adb->query_result($parentRecords, $i, 'module');
@@ -1939,16 +1965,17 @@ class CRMEntity
 				$adb->update('vtiger_crmentityrel', ['relcrmid' => $entityId], $where, $params);
 			}
 			$adb->update('vtiger_modcomments', ['related_to' => $entityId], 'related_to = ?', [$transferId]);
-
 			foreach ($relTables as $relModule => $relTable) {
-				$idField = $relTable[0][1];
-				$entityIdField = $relTable[0][0];
+				$idField = current($relTable)[1];
+				$entityIdField = current($relTable)[0];
+				$relTableName = key($relTable);
 				// IN clause to avoid duplicate entries
-				$selResult = $adb->pquery("select $idField from $rel_table where $entityIdField=? " .
-					" and $idField not in (select $idField from $rel_table where $entityIdField=?)", [$transferId, $entityId]);
-				if ($adb->num_rows($selResult) > 0) {
+				$sql = "SELECT $idField FROM $relTableName WHERE $entityIdField = ? " .
+					" AND $idField NOT IN ( SELECT $idField FROM $relTableName WHERE $entityIdField = ? )";
+				$selResult = $adb->pquery($sql, [$transferId, $entityId]);
+				if ($adb->getRowCount($selResult) > 0) {
 					while (($idFieldValue = $adb->getSingleValue($selResult)) !== false) {
-						$adb->update($rel_table, [
+						$adb->update($relTableName, [
 							$entityIdField => $entityId
 							], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
 						);
@@ -2678,13 +2705,18 @@ class CRMEntity
 	 * between module and this module
 	 */
 
-	function setRelationTables($secmodule)
+	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
-			"Documents" => array("vtiger_senotesrel" => array("crmid", "notesid"),
-				$this->table_name => $this->table_index),
-		);
-		return $rel_tables[$secmodule];
+		$relTables = [
+			"Documents" => [
+				'vtiger_senotesrel' => ['crmid', 'notesid'],
+				$this->table_name => $this->table_index
+			]
+		];
+		if ($secmodule === false) {
+			return $relTables;
+		}
+		return $relTables[$secmodule];
 	}
 
 	/**
@@ -2717,8 +2749,8 @@ class CRMEntity
 		$log = LoggerManager::getInstance();
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering getSortOrder() method ...");
-		if (isset($_REQUEST['sorder']))
-			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
+		if (AppRequest::has('sorder'))
+			$sorder = $this->db->sql_escape_string(AppRequest::getForSql('sorder'));
 		else
 			$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
 		$log->debug("Exiting getSortOrder() method ...");
@@ -2739,8 +2771,8 @@ class CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (isset($_REQUEST['order_by']))
-			$order_by = $this->db->sql_escape_string($_REQUEST['order_by']);
+		if (AppRequest::has('order_by'))
+			$order_by = $this->db->sql_escape_string(AppRequest::getForSql('order_by'));
 		else
 			$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
 		$log->debug("Exiting getOrderBy method ...");

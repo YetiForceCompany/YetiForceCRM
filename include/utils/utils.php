@@ -117,7 +117,7 @@ function get_user_array($add_blank = true, $status = 'Active', $assigned_user = 
 	}
 	static $user_array = null;
 	if (!$module) {
-		$module = $_REQUEST['module'];
+		$module = AppRequest::get('module');
 	}
 	if ($user_array == null) {
 		require_once('include/database/PearDatabase.php');
@@ -174,8 +174,8 @@ function get_group_array($add_blank = true, $status = 'Active', $assigned_user =
 	$log = LoggerManager::getInstance();
 	$log->debug('Entering get_user_array(' . $add_blank . ',' . $status . ',' . $assigned_user . ',' . $private . ') method ...');
 
-	if (!$module && $_REQUEST['parent'] != 'Settings') {
-		$module = $_REQUEST['module'];
+	if (!$module && AppRequest::get('parent') != 'Settings') {
+		$module = AppRequest::get('module');
 	}
 
 	$name = $add_blank . $status . $assigned_user . $private . $module;
@@ -344,8 +344,8 @@ function to_html($string, $encode = true)
 	}
 	$default_charset = vglobal('default_charset');
 
-	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : false;
-	$search = isset($_REQUEST['search']) ? $_REQUEST['search'] : false;
+	$action = AppRequest::has('action') ? AppRequest::get('action') : false;
+	$search = AppRequest::has('search') ? AppRequest::get('search') : false;
 	$ajaxAction = false;
 	$doconvert = false;
 
@@ -355,11 +355,11 @@ function to_html($string, $encode = true)
 		$inUTF8 = (strtoupper($default_charset) == 'UTF-8');
 	}
 
-	if (isset($_REQUEST['module']) && isset($_REQUEST['file']) && $_REQUEST['module'] != 'Settings' && $_REQUEST['file'] != 'ListView' && $_REQUEST['module'] != 'Portal' && $_REQUEST['module'] != "Reports")// && $_REQUEST['module'] != 'Emails')
-		$ajaxAction = $_REQUEST['module'] . 'Ajax';
+	if (AppRequest::has('module') && AppRequest::has('file') && AppRequest::get('module') != 'Settings' && AppRequest::get('file') != 'ListView' && AppRequest::get('module') != 'Portal' && AppRequest::get('module') != 'Reports')
+		$ajaxAction = AppRequest::get('module') . 'Ajax';
 
 	if (is_string($string)) {
-		if ($action != 'CustomView' && $action != 'Export' && $action != $ajaxAction && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && $_REQUEST['module'] != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!isset($_REQUEST['submode']))) {
+		if ($action != 'CustomView' && $action != 'Export' && $action != $ajaxAction && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && AppRequest::get('module') != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!AppRequest::has('submode'))) {
 			$doconvert = true;
 		} else if ($search == true) {
 			// Fix for tickets #4647, #4648. Conversion required in case of search results also.
@@ -551,22 +551,25 @@ function getActionid($action)
 function getActionname($actionid)
 {
 	$log = LoggerManager::getInstance();
-	$log->debug("Entering getActionname(" . $actionid . ") method ...");
+	$log->debug('Entering getActionname(' . $actionid . ') method ...');
 	$adb = PearDatabase::getInstance();
 
-	$actionname = '';
-
+	$actionName = Vtiger_Cache::get('getActionName', $actionid);
+	if ($actionName) {
+		$log->debug('Exiting getActionname method ...');
+		return $actionName;
+	}
 	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
 		include('user_privileges/tabdata.php');
-		$actionname = $action_name_array[$actionid];
+		$actionName = $action_name_array[$actionid];
 	} else {
-
-		$query = "select * from vtiger_actionmapping where actionid=? and securitycheck=0";
+		$query = 'select actionname from vtiger_actionmapping where actionid=? and securitycheck=0';
 		$result = $adb->pquery($query, array($actionid));
-		$actionname = $adb->query_result($result, 0, "actionname");
+		$actionName = $adb->getSingleValue($result);
 	}
-	$log->debug("Exiting getActionname method ...");
-	return $actionname;
+	Vtiger_Cache::set('getActionName', $actionid, $actionName);
+	$log->debug('Exiting getActionname method ...');
+	return $actionName;
 }
 
 /** Function to get a user id or group id for a given entity

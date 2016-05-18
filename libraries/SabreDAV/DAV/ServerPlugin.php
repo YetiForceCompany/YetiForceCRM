@@ -7,7 +7,7 @@ namespace Sabre\DAV;
  *
  * Plugins can modify or extend the servers behaviour.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -86,5 +86,25 @@ abstract class ServerPlugin {
 
     }
 
-}
+    /**
+     * Returns a bunch of meta-data about the plugin.
+     *
+     * Providing this information is optional, and is mainly displayed by the
+     * Browser plugin.
+     *
+     * The description key in the returned array may contain html and will not
+     * be sanitized.
+     *
+     * @return array
+     */
+    function getPluginInfo() {
 
+        return [
+            'name'        => $this->getPluginName(),
+            'description' => null,
+            'link'        => null,
+        ];
+
+    }
+
+}

@@ -10,7 +10,7 @@ use Sabre\DAV;
  * The PaymentRequired exception may be thrown in a case where a user must pay
  * to access a certain resource or operation.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

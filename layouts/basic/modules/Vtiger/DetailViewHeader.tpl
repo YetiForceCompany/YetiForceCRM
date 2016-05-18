@@ -60,9 +60,7 @@
 					</div>
 				{/foreach}
 			{/if}
-			<div class="col-md-12 paddingLRZero row">
-				{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
-			</div>
+			{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
 			<div class="pull-left paddingTop10 tagContainer col-md-12 paddingLRZero row">
 			</div>
 		</div>

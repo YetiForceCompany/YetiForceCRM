@@ -17,7 +17,7 @@ $log = LoggerManager::getLogger('INSTALL');
 vglobal('log', $log);
 Vtiger_Session::init();
 
-$request = new Vtiger_Request($_REQUEST);
+$request = AppRequest::init();
 $install = new Install_Index_view();
 $install->preProcess($request);
 $install->process($request);

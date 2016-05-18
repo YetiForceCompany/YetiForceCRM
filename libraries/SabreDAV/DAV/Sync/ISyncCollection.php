@@ -11,7 +11,7 @@ use Sabre\DAV;
  * means that if any child nodes in this collection was created, modified or
  * deleted in any way, you should maintain an updated changelist.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -86,4 +86,3 @@ interface ISyncCollection extends DAV\ICollection {
     function getChanges($syncToken, $syncLevel, $limit = null);
 
 }
-

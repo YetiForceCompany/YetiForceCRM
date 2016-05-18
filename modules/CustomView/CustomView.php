@@ -91,8 +91,8 @@ class CustomView extends CRMEntity
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$now_action = vtlib_purify($_REQUEST['view']);
-		if (empty($_REQUEST['viewname'])) {
+		$now_action = AppRequest::get('view');
+		if (AppRequest::isEmpty('viewname')) {
 			if (isset($_SESSION['lvs'][$module]['viewname']) && $_SESSION['lvs'][$module]['viewname'] != '') {
 				$viewid = $_SESSION['lvs'][$module]['viewname'];
 			} elseif ($this->setdefaultviewid != '') {
@@ -104,7 +104,7 @@ class CustomView extends CRMEntity
 				$viewid = $this->getMandatoryFilter($module);
 			}
 		} else {
-			$viewname = vtlib_purify($_REQUEST['viewname']);
+			$viewname = AppRequest::get('viewname');
 			if (!is_numeric($viewname)) {
 				$viewid = $this->getViewIdByName($viewname, $module);
 			} else {

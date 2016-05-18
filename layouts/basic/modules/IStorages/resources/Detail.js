@@ -40,9 +40,6 @@ Vtiger_Detail_Js("IStorages_Detail_Js", {}, {
 			}
 		});
 	},
-	getDeleteMessageKey: function () {
-		return 'LBL_RELATED_RECORD_DELETE_CONFIRMATION';
-	},
 	registerHierarchyRecordCount: function () {
 		var hierarchyButton = $('.detailViewTitle .hierarchy');
 		if (hierarchyButton.length) {

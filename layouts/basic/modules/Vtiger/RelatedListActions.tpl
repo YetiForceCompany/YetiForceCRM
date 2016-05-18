@@ -46,17 +46,9 @@
 				</a>&nbsp;
 			{/if}
 			{if $IS_DELETABLE}
-				{if $RELATED_MODULE_NAME eq 'Calendar'}
-					{if $RELATED_RECORD->isDeletable()}
-						<a class="relationDelete">
-							<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
-						</a>
-					{/if}
-				{else}
-					<a class="relationDelete">
-						<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
-					</a>
-				{/if}
+				<a class="relationDelete">
+					<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
+				</a>
 			{/if}
 		</span>
 	</div>

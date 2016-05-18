@@ -2,9 +2,8 @@
 
 namespace Sabre\DAVACL;
 
-use
-    Sabre\DAV,
-    Sabre\HTTP\URLUtil;
+use Sabre\DAV;
+use Sabre\HTTP\URLUtil;
 
 /**
  * Principal class
@@ -17,7 +16,7 @@ use
  * This principal also has basic ACL settings, only allowing the principal
  * access it's own principal.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -116,7 +115,6 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
 
     }
 
-
     /**
      * Sets a list of group members
      *
@@ -133,7 +131,6 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
         $this->principalBackend->setGroupMemberSet($this->principalProperties['uri'], $groupMembers);
 
     }
-
 
     /**
      * Returns this principals name.
@@ -172,7 +169,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
     function getProperties($requestedProperties) {
 
         $newProperties = [];
-        foreach($requestedProperties as $propName) {
+        foreach ($requestedProperties as $propName) {
 
             if (isset($this->principalProperties[$propName])) {
                 $newProperties[$propName] = $this->principalProperties[$propName];

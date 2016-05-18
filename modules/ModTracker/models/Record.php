@@ -114,6 +114,11 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return Users_Record_Model::getInstanceById($changeUserId, 'Users');
 	}
 
+	function getDisplayActivityTime(){
+		$time = $this->getActivityTime();
+		$time = new DateTimeField($time);
+		return $time->getFullcalenderDateTimevalue();
+	}
 	function getActivityTime()
 	{
 		return $this->get('changedon');

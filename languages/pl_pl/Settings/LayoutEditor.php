@@ -118,7 +118,7 @@ $languageStrings = [
 	'LBL_SELECT_TYPE_OF_INVENTORY' => 'Wybierz rodzaj pola',
 	'LBL_NEXT' => 'Dalej',
 	'LBL_PARAMS_MODULES' => 'Moduły',
-	'LBL_PARAMS_LIMIT' => 'Limit',
+	'LBL_PARAMS_LIMIT' => 'Limit kredytowy <br>- Blokada zapisu',
 	'LBL_DISPLAY_TYPE' => 'Typ pola',
 	'LBL_DISPLAYTYPE_ALL' => 'Widoczne wszędzie',
 	'LBL_DISPLAYTYPE_READONLY' => 'Tylko do odczytu',
@@ -151,6 +151,9 @@ $languageStrings = [
 	'LBL_ACTIVATE_FAVORITES' => 'Aktywuj funkcję: Dodaj do ulubionych',
 	'LBL_HEADER_FIELD' => 'Widoczne w nagłówku podglądu',
 	'LBL_COPY' => 'Kopiuj',
+	'LBL_STANDARD_FIELDS' => 'Pola standardowe',
+	'LBL_ADVANCED_BLOCK_FIELDS' => 'Pola bloku zaawansowanego',
+	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Dodaj pola bloku zaawansowanego',
 ];
 
 $jsLanguageStrings = [

@@ -243,12 +243,19 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	function getReportColumnSQL($selectedfields)
 	{
 		$reportRunObject = $this->getReportRunObject();
-		$append_currency_symbol_to_value = $reportRunObject->append_currency_symbol_to_value;
-		$reportRunObject->append_currency_symbol_to_value = array();
+		$appendCurrencySymbolToValue = $reportRunObject->append_currency_symbol_to_value;
+		$reportRunObject->append_currency_symbol_to_value = [];
 
 		$columnSQL = $reportRunObject->getColumnSQL($selectedfields);
 
-		$reportRunObject->append_currency_symbol_to_value = $append_currency_symbol_to_value;
+		// Fix for http://code.vtiger.com/vtiger/vtigercrm/issues/4
+		switch ($selectedfields[count($selectedfields) - 1]) {
+			case 'MY':
+				$columnSQL = str_replace('%M', '%m', $columnSQL); // %M (yields Jan), %m - 01
+				break;
+		}
+		// End
+		$reportRunObject->append_currency_symbol_to_value = $appendCurrencySymbolToValue;
 		return $columnSQL;
 	}
 

@@ -104,7 +104,7 @@ class Services extends CRMEntity
 	function save_module($module)
 	{
 		//Inserting into service_taxrel table
-		if ($_REQUEST['ajxaction'] != 'DETAILVIEW' && $_REQUEST['action'] != 'MassEditSave' && $_REQUEST['action'] != 'ProcessDuplicates') {
+		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassEditSave' && AppRequest::get('action') != 'ProcessDuplicates') {
 			$this->insertTaxInformation('vtiger_producttaxrel', 'Services');
 			$this->insertPriceInformation('vtiger_productcurrencyrel', 'Services');
 		}
@@ -137,9 +137,9 @@ class Services extends CRMEntity
 		for ($i = 0; $i < count($tax_details); $i++) {
 			$tax_name = $tax_details[$i]['taxname'];
 			$tax_checkname = $tax_details[$i]['taxname'] . "_check";
-			if ($_REQUEST[$tax_checkname] == 'on' || $_REQUEST[$tax_checkname] == 1) {
+			if (AppRequest::get($tax_checkname) == 'on' || AppRequest::get($tax_checkname) == 1) {
 				$taxid = getTaxId($tax_name);
-				$tax_per = $_REQUEST[$tax_name];
+				$tax_per = AppRequest::get($tax_name);
 				if ($tax_per == '') {
 					$log->debug("Tax selected but value not given so default value will be saved.");
 					$tax_per = getTaxPercentage($tax_name);
@@ -172,7 +172,7 @@ class Services extends CRMEntity
 		$currency_details = getAllCurrencies('all');
 
 		//Delete the existing currency relationship if any
-		if ($this->mode == 'edit' && $_REQUEST['action'] != 'MassEditSave' && $_REQUEST['action'] != 'ProcessDuplicates') {
+		if ($this->mode == 'edit' && AppRequest::get('action') != 'MassEditSave' && AppRequest::get('action') != 'ProcessDuplicates') {
 			for ($i = 0; $i < count($currency_details); $i++) {
 				$curid = $currency_details[$i]['curid'];
 				$sql = "delete from vtiger_productcurrencyrel where productid=? and currencyid=?";
@@ -189,9 +189,9 @@ class Services extends CRMEntity
 			$cur_checkname = 'cur_' . $curid . '_check';
 			$cur_valuename = 'curname' . $curid;
 			$base_currency_check = 'base_currency' . $curid;
-			$requestPrice = CurrencyField::convertToDBFormat($_REQUEST['unit_price'], null, true);
-			$actualPrice = CurrencyField::convertToDBFormat($_REQUEST[$cur_valuename], null, true);
-			if ($_REQUEST[$cur_checkname] == 'on' || $_REQUEST[$cur_checkname] == 1) {
+			$requestPrice = CurrencyField::convertToDBFormat(AppRequest::get('unit_price'), null, true);
+			$actualPrice = CurrencyField::convertToDBFormat(AppRequest::get($cur_valuename), null, true);
+			if (AppRequest::get($cur_valuename) == 'on' || AppRequest::get($cur_checkname) == 1) {
 				$conversion_rate = $currency_details[$i]['conversionrate'];
 				$actual_conversion_rate = $service_base_conv_rate * $conversion_rate;
 				$converted_price = $actual_conversion_rate * $requestPrice;
@@ -202,7 +202,7 @@ class Services extends CRMEntity
 				$adb->pquery($query, array($this->id, $curid, $converted_price, $actualPrice));
 
 				// Update the Product information with Base Currency choosen by the User.
-				if ($_REQUEST['base_currency'] == $cur_valuename) {
+				if (AppRequest::get('base_currency') == $cur_valuename) {
 					$adb->pquery("update vtiger_service set currency_id=?, unit_price=? where serviceid=?", array($curid, $actualPrice, $this->id));
 				}
 			} else {
@@ -495,11 +495,11 @@ class Services extends CRMEntity
 		global $urlPrefix;
 
 		global $theme;
-		$pricebook_id = $_REQUEST['record'];
+		$pricebook_id = AppRequest::get('record');
 		$theme_path = "themes/" . $theme . "/";
 		$image_path = $theme_path . "images/";
 
-		$computeCount = $_REQUEST['withCount'];
+		$computeCount = AppRequest::get('withCount');
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true ||
 			((boolean) $computeCount) == true) {
 			$noofrows = $adb->query_result($adb->query(Vtiger_Functions::mkCountQuery($query)), 0, 'count');
@@ -514,8 +514,8 @@ class Services extends CRMEntity
 			$modObj->sorder = $focus->default_sort_order;
 			$_SESSION['rlvs'][$module][$relatedmodule] = get_object_vars($modObj);
 		}
-		if (isset($_REQUEST['relmodule']) && $_REQUEST['relmodule'] != '' && $_REQUEST['relmodule'] == $relatedmodule) {
-			$relmodule = vtlib_purify($_REQUEST['relmodule']);
+		if (AppRequest::get('relmodule') == $relatedmodule) {
+			$relmodule = AppRequest::get('relmodule');
 			if ($_SESSION['rlvs'][$module][$relmodule]) {
 				setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $list_max_entries_per_page, $module, $relmodule);
 			}
@@ -733,7 +733,7 @@ class Services extends CRMEntity
 			'PriceBooks' => array('vtiger_pricebookproductrel' => array('productid', 'pricebookid'), 'vtiger_service' => 'serviceid'),
 			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_service' => 'serviceid'),
 		);
-		if($secmodule === false){
+		if ($secmodule === false) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];

@@ -2,10 +2,9 @@
 
 namespace Sabre\DAVACL\PrincipalBackend;
 
-use
-    Sabre\DAV,
-    Sabre\DAVACL,
-    Sabre\HTTP\URLUtil;
+use Sabre\DAV;
+use Sabre\DAV\MkCol;
+use Sabre\HTTP\URLUtil;
 
 /**
  * PDO principal backend
@@ -14,11 +13,11 @@ use
  * This backend assumes all principals are in a single collection. The default collection
  * is 'principals/', but this can be overriden.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class PDO extends AbstractBackend {
+class PDO extends AbstractBackend implements CreatePrincipalSupport {
 
     /**
      * PDO table name for 'principals'
@@ -56,20 +55,9 @@ class PDO extends AbstractBackend {
         ],
 
         /**
-         * This property is actually used by the CardDAV plugin, where it gets
-         * mapped to {http://calendarserver.orgi/ns/}me-card.
-         *
-         * The reason we don't straight-up use that property, is because
-         * me-card is defined as a property on the users' addressbook
-         * collection.
-         */
-        '{http://sabredav.org/ns}vcard-url' => [
-            'dbField' => 'vcardurl',
-        ],
-        /**
          * This is the users' primary email-address.
          */
-        '{http://sabredav.org/ns}email-address' =>[
+        '{http://sabredav.org/ns}email-address' => [
             'dbField' => 'email',
         ],
     ];
@@ -78,19 +66,12 @@ class PDO extends AbstractBackend {
      * Sets up the backend.
      *
      * @param PDO $pdo
-     * @param string $tableName
-     * @param string $groupMembersTableName
-     * @deprecated We are removing the tableName arguments in a future version
-     *             of sabredav. Use the public properties instead.
      */
-    function __construct(\PDO $pdo, $tableName = 'principals', $groupMembersTableName = 'groupmembers') {
+    function __construct(\PDO $pdo) {
 
         $this->pdo = $pdo;
-        $this->tableName = $tableName;
-        $this->groupMembersTableName = $groupMembersTableName;
 
     }
-
 
     /**
      * Returns a list of principals based on a prefix.
@@ -114,14 +95,14 @@ class PDO extends AbstractBackend {
             'uri',
         ];
 
-        foreach($this->fieldMap as $key=>$value) {
+        foreach ($this->fieldMap as $key => $value) {
             $fields[] = $value['dbField'];
         }
-        $result = $this->pdo->query('SELECT '.implode(',', $fields).'  FROM '. $this->tableName);
+        $result = $this->pdo->query('SELECT ' . implode(',', $fields) . '  FROM ' . $this->tableName);
 
         $principals = [];
 
-        while($row = $result->fetch(\PDO::FETCH_ASSOC)) {
+        while ($row = $result->fetch(\PDO::FETCH_ASSOC)) {
 
             // Checking if the principal is in the prefix
             list($rowPrefix) = URLUtil::splitPath($row['uri']);
@@ -130,7 +111,7 @@ class PDO extends AbstractBackend {
             $principal = [
                 'uri' => $row['uri'],
             ];
-            foreach($this->fieldMap as $key=>$value) {
+            foreach ($this->fieldMap as $key => $value) {
                 if ($row[$value['dbField']]) {
                     $principal[$key] = $row[$value['dbField']];
                 }
@@ -158,10 +139,10 @@ class PDO extends AbstractBackend {
             'uri',
         ];
 
-        foreach($this->fieldMap as $key=>$value) {
+        foreach ($this->fieldMap as $key => $value) {
             $fields[] = $value['dbField'];
         }
-        $stmt = $this->pdo->prepare('SELECT '.implode(',', $fields).'  FROM '. $this->tableName . ' WHERE uri = ?');
+        $stmt = $this->pdo->prepare('SELECT ' . implode(',', $fields) . '  FROM ' . $this->tableName . ' WHERE uri = ?');
         $stmt->execute([$path]);
 
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -171,7 +152,7 @@ class PDO extends AbstractBackend {
             'id'  => $row['id'],
             'uri' => $row['uri'],
         ];
-        foreach($this->fieldMap as $key=>$value) {
+        foreach ($this->fieldMap as $key => $value) {
             if ($row[$value['dbField']]) {
                 $principal[$key] = $row[$value['dbField']];
             }
@@ -193,9 +174,9 @@ class PDO extends AbstractBackend {
      * Read the PropPatch documenation for more info and examples.
      *
      * @param string $path
-     * @param \Sabre\DAV\PropPatch $propPatch
+     * @param DAV\PropPatch $propPatch
      */
-    function updatePrincipal($path, \Sabre\DAV\PropPatch $propPatch) {
+    function updatePrincipal($path, DAV\PropPatch $propPatch) {
 
         $propPatch->handle(array_keys($this->fieldMap), function($properties) use ($path) {
 
@@ -204,20 +185,20 @@ class PDO extends AbstractBackend {
 
             $values = [];
 
-            foreach($properties as $key=>$value) {
+            foreach ($properties as $key => $value) {
 
                 $dbField = $this->fieldMap[$key]['dbField'];
 
                 if (!$first) {
-                    $query.= ', ';
+                    $query .= ', ';
                 }
                 $first = false;
-                $query.=$dbField . ' = :' . $dbField;
+                $query .= $dbField . ' = :' . $dbField;
                 $values[$dbField] = $value;
 
             }
 
-            $query.=" WHERE uri = :uri";
+            $query .= " WHERE uri = :uri";
             $values['uri'] = $path;
 
             $stmt = $this->pdo->prepare($query);
@@ -259,33 +240,32 @@ class PDO extends AbstractBackend {
      * @return array
      */
     function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
+        if (count($searchProperties) == 0) return [];    //No criteria
 
-        $query = 'SELECT uri FROM ' . $this->tableName . ' WHERE 1=1 ';
+        $query = 'SELECT uri FROM ' . $this->tableName . ' WHERE ';
         $values = [];
-        foreach($searchProperties as $property => $value) {
-
-            switch($property) {
-
+        foreach ($searchProperties as $property => $value) {
+            switch ($property) {
                 case '{DAV:}displayname' :
-                    $query.=' AND displayname LIKE ?';
-                    $values[] = '%' . $value . '%';
+                    $column = "displayname";
                     break;
                 case '{http://sabredav.org/ns}email-address' :
-                    $query.=' AND email LIKE ?';
-                    $values[] = '%' . $value . '%';
+                    $column = "email";
                     break;
                 default :
                     // Unsupported property
                     return [];
-
             }
+            if (count($values) > 0) $query .= (strcmp($test, "anyof") == 0 ? " OR " : " AND ");
+            $query .= 'lower(' . $column . ') LIKE lower(?)';
+            $values[] = '%' . $value . '%';
 
         }
         $stmt = $this->pdo->prepare($query);
         $stmt->execute($values);
 
         $principals = [];
-        while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 
             // Checking if the principal is in the prefix
             list($rowPrefix) = URLUtil::splitPath($row['uri']);
@@ -300,6 +280,52 @@ class PDO extends AbstractBackend {
     }
 
     /**
+     * Finds a principal by its URI.
+     *
+     * This method may receive any type of uri, but mailto: addresses will be
+     * the most common.
+     *
+     * Implementation of this API is optional. It is currently used by the
+     * CalDAV system to find principals based on their email addresses. If this
+     * API is not implemented, some features may not work correctly.
+     *
+     * This method must return a relative principal path, or null, if the
+     * principal was not found or you refuse to find it.
+     *
+     * @param string $uri
+     * @param string $principalPrefix
+     * @return string
+     */
+    function findByUri($uri, $principalPrefix) {
+        $value = null;
+        $scheme = null;
+        list($scheme, $value) = explode(":", $uri, 2);
+        if ($value == null) return null;
+
+        $uri = null;
+        switch ($scheme){
+            case "mailto":
+                $query = 'SELECT uri FROM ' . $this->tableName . ' WHERE lower(email)=lower(?)';
+                $stmt = $this->pdo->prepare($query);
+                $stmt->execute([ $value ]);
+            
+                while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                    // Checking if the principal is in the prefix
+                    list($rowPrefix) = URLUtil::splitPath($row['uri']);
+                    if ($rowPrefix !== $principalPrefix) continue;
+                    
+                    $uri = $row['uri'];
+                    break; //Stop on first match
+                }
+                break;
+            default:
+                //unsupported uri scheme
+                return null;
+        }
+        return $uri;
+    }
+
+    /**
      * Returns the list of members for a group-principal
      *
      * @param string $principal
@@ -310,7 +336,7 @@ class PDO extends AbstractBackend {
         $principal = $this->getPrincipalByPath($principal);
         if (!$principal) throw new DAV\Exception('Principal not found');
 
-        $stmt = $this->pdo->prepare('SELECT principals.uri as uri FROM '.$this->groupMembersTableName.' AS groupmembers LEFT JOIN '.$this->tableName.' AS principals ON groupmembers.member_id = principals.id WHERE groupmembers.principal_id = ?');
+        $stmt = $this->pdo->prepare('SELECT principals.uri as uri FROM ' . $this->groupMembersTableName . ' AS groupmembers LEFT JOIN ' . $this->tableName . ' AS principals ON groupmembers.member_id = principals.id WHERE groupmembers.principal_id = ?');
         $stmt->execute([$principal['id']]);
 
         $result = [];
@@ -332,7 +358,7 @@ class PDO extends AbstractBackend {
         $principal = $this->getPrincipalByPath($principal);
         if (!$principal) throw new DAV\Exception('Principal not found');
 
-        $stmt = $this->pdo->prepare('SELECT principals.uri as uri FROM '.$this->groupMembersTableName.' AS groupmembers LEFT JOIN '.$this->tableName.' AS principals ON groupmembers.principal_id = principals.id WHERE groupmembers.member_id = ?');
+        $stmt = $this->pdo->prepare('SELECT principals.uri as uri FROM ' . $this->groupMembersTableName . ' AS groupmembers LEFT JOIN ' . $this->tableName . ' AS principals ON groupmembers.principal_id = principals.id WHERE groupmembers.member_id = ?');
         $stmt->execute([$principal['id']]);
 
         $result = [];
@@ -355,13 +381,13 @@ class PDO extends AbstractBackend {
     function setGroupMemberSet($principal, array $members) {
 
         // Grabbing the list of principal id's.
-        $stmt = $this->pdo->prepare('SELECT id, uri FROM '.$this->tableName.' WHERE uri IN (? ' . str_repeat(', ? ', count($members)) . ');');
+        $stmt = $this->pdo->prepare('SELECT id, uri FROM ' . $this->tableName . ' WHERE uri IN (? ' . str_repeat(', ? ', count($members)) . ');');
         $stmt->execute(array_merge([$principal], $members));
 
         $memberIds = [];
         $principalId = null;
 
-        while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             if ($row['uri'] == $principal) {
                 $principalId = $row['id'];
             } else {
@@ -371,15 +397,34 @@ class PDO extends AbstractBackend {
         if (!$principalId) throw new DAV\Exception('Principal not found');
 
         // Wiping out old members
-        $stmt = $this->pdo->prepare('DELETE FROM '.$this->groupMembersTableName.' WHERE principal_id = ?;');
+        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->groupMembersTableName . ' WHERE principal_id = ?;');
         $stmt->execute([$principalId]);
 
-        foreach($memberIds as $memberId) {
+        foreach ($memberIds as $memberId) {
 
-            $stmt = $this->pdo->prepare('INSERT INTO '.$this->groupMembersTableName.' (principal_id, member_id) VALUES (?, ?);');
+            $stmt = $this->pdo->prepare('INSERT INTO ' . $this->groupMembersTableName . ' (principal_id, member_id) VALUES (?, ?);');
             $stmt->execute([$principalId, $memberId]);
 
         }
+
+    }
+
+    /**
+     * Creates a new principal.
+     *
+     * This method receives a full path for the new principal. The mkCol object
+     * contains any additional webdav properties specified during the creation
+     * of the principal.
+     *
+     * @param string $path
+     * @param MkCol $mkCol
+     * @return void
+     */
+    function createPrincipal($path, MkCol $mkCol) {
+
+        $stmt = $this->pdo->prepare('INSERT INTO ' . $this->tableName . ' (uri) VALUES (?)');
+        $stmt->execute([$path]);
+        $this->updatePrincipal($path, $mkCol);
 
     }
 

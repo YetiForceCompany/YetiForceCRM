@@ -25,8 +25,8 @@ $smarty->assign("THEME", $theme_path);
 $smarty->assign("IMAGE_PATH", $image_path);
 $smarty->assign("MODULE", $currentModule);
 $smarty->assign("MODULELABEL", getTranslatedString($currentModule));
-$smarty->assign("IDSTRING", vtlib_purify($_REQUEST['idstring']));
-$smarty->assign("EXCLUDED_RECORDS", vtlib_purify($_REQUEST['excludedRecords']));
+$smarty->assign("IDSTRING", AppRequest::get('idstring'));
+$smarty->assign("EXCLUDED_RECORDS", AppRequest::get('excludedRecords'));
 $smarty->assign("PERPAGE", $list_max_entries_per_page);
 $current_user = vglobal('current_user');
 if (!is_admin($current_user) && (isPermitted($currentModule, 'Export') != 'yes')) {

@@ -103,16 +103,18 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	{
 		$log = LoggerManager::getLogger('System');
 		vglobal('log', $log);
-
 		if (AppConfig::main('forceSSL') && !Vtiger_Functions::getBrowserInfo()->https) {
-			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
-
 		if ($this->isInstalled() === false) {
 			header('Location:install/Install.php');
 			exit;
 		}
-
+		$request_URL = (Vtiger_Functions::getBrowserInfo()->https ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		if (AppConfig::main('forceRedirect') && stripos($request_URL, AppConfig::main('site_URL')) !== 0) {
+			header('Location: ' . AppConfig::main('site_URL'), true, 301);
+			exit;
+		}
 		Vtiger_Session::init();
 
 		// Better place this here as session get initiated
@@ -235,6 +237,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
+		} catch (WebServiceException $e) {
+			//No permissions for the record
+			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+
+			Vtiger_Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
+			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+				exit('<pre>' . $e->getTraceAsString() . '</pre>');
+			}
 		} catch (Exception $e) {
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 
@@ -248,4 +258,22 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$response->emit();
 		}
 	}
+}
+
+if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
+
+	function exception_error_handler($errno, $errstr, $errfile, $errline)
+	{
+		$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
+		if (AppConfig::debug('EXCEPTION_ERROR_HANDLER_TO_FILE')) {
+			$file = 'cache/logs/errors.log';
+			$test = print_r($msg.PHP_EOL, true);
+			file_put_contents($file, $test, FILE_APPEND);
+		}
+		if (AppConfig::debug('EXCEPTION_ERROR_HANDLER_TO_SHOW')) {
+			Vtiger_Functions::throwNewException($msg, false);
+			die();
+		}
+	}
+	set_error_handler('exception_error_handler');
 }

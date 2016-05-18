@@ -39,7 +39,7 @@
 					{vtranslate('LBL_LOGIN', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-xs-8">
-					<input type="text" name="userName" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('user_name')}{/if}" class="form-control">
+					<input type="text" name="userName"{if $RECORD_MODEL} readonly{/if} value="{if $RECORD_MODEL}{$RECORD_MODEL->get('user_name')}{/if}" class="form-control">
 				</div>
 			</div>
 			<div class="col-xs-12 marginBottom10px">

@@ -13,7 +13,7 @@
 	YetiForce_Pie_Widget_Js('YetiForce_Opentickets_Widget_Js',{},{});
 </script>
 <div class="dashboardWidgetHeader">
-	{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file="dashboards/WidgetHeadeAccessible.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
 <div class="dashboardWidgetContent">
 	{include file="dashboards/DashBoardWidgetContents.tpl"|@vtemplate_path:$MODULE_NAME}

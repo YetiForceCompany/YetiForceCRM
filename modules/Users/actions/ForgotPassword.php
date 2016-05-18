@@ -9,28 +9,18 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . "/../../../");
-require_once 'config/config.php';
-require_once 'config/debug.php';
-require_once 'config/security.php';
-require_once 'config/performance.php';
-require_once('include/ConfigUtils.php');
+require_once 'include/RequirementsValidation.php';
+require_once 'include/main/WebUI.php';
 include_once "include/utils/VtlibUtils.php";
-include_once "include/utils/CommonUtils.php";
-include_once "include/Loader.php";
-include_once 'include/runtime/BaseModel.php';
-include_once 'include/runtime/Viewer.php';
-include_once "include/http/Request.php";
 include_once "include/Webservices/Custom/ChangePassword.php";
 include_once "include/Webservices/Utils.php";
-include_once "include/runtime/EntryPoint.php";
 include_once 'modules/Vtiger/helpers/ShortURL.php';
 
 class Users_ForgotPassword_Action
 {
 
-	public function changePassword($request)
+	public function changePassword(Vtiger_Request $request)
 	{
-		$request = new Vtiger_Request($request);
 		$viewer = Vtiger_Viewer::getInstance();
 		$userName = $request->get('username');
 		$newPassword = $request->get('password');
@@ -59,9 +49,8 @@ class Users_ForgotPassword_Action
 		$viewer->view('FPLogin.tpl', 'Users');
 	}
 
-	public function requestForgotPassword($request)
+	public function requestForgotPassword(Vtiger_Request $request)
 	{
-		$request = new Vtiger_Request($request);
 		$adb = PearDatabase::getInstance();
 		$username = vtlib_purify($request->get('user_name'));
 		$result = $adb->pquery('select id,email1 from vtiger_users where user_name = ? ', array($username));
@@ -103,10 +92,10 @@ class Users_ForgotPassword_Action
 		}
 	}
 
-	public static function run($request)
+	public static function run(Vtiger_Request $request)
 	{
 		$instance = new self();
-		if (isset($_REQUEST['user_name']) && isset($_REQUEST['emailId'])) {
+		if ($request->has('user_name') && $request->has('emailId')) {
 			if (AppConfig::security('RESET_LOGIN_PASSWORD')) {
 				$instance->requestForgotPassword($request);
 			} else {
@@ -118,4 +107,4 @@ class Users_ForgotPassword_Action
 	}
 }
 
-Users_ForgotPassword_Action::run($_REQUEST);
+Users_ForgotPassword_Action::run(AppRequest::init());

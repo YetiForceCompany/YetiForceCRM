@@ -57,7 +57,7 @@ class Vtiger_Request
 		if (is_string($value)) {
 			// NOTE: Zend_Json or json_decode gets confused with big-integers (when passed as string)
 			// and convert them to ugly exponential format - to overcome this we are performin a pre-check
-			if (strpos($value, "[") === 0 || strpos($value, "{") === 0) {
+			if (strpos($value, '[') === 0 || strpos($value, '{') === 0) {
 				$isJSON = true;
 			}
 		}
@@ -153,8 +153,10 @@ class Vtiger_Request
 	 */
 	function isEmpty($key)
 	{
-		$value = $this->get($key);
-		return empty($value);
+		if (isset($this->valuemap[$key])) {
+			return empty($this->valuemap[$key]);
+		}
+		return true;
 	}
 
 	/**
@@ -182,9 +184,6 @@ class Vtiger_Request
 	function setGlobal($key, $newvalue)
 	{
 		$this->set($key, $newvalue);
-		// TODO - This needs to be cleaned up once core apis are made independent of REQUEST variable.
-		// This is added just for backward compatibility
-		$_REQUEST[$key] = $newvalue;
 	}
 
 	/**
@@ -325,5 +324,59 @@ class Vtiger_Request
 		if (!csrf_check(false)) {
 			throw new CsrfException('Unsupported request');
 		}
+	}
+}
+
+class AppRequest
+{
+
+	private static $request = false;
+
+	public static function init()
+	{
+		if (!self::$request) {
+			self::$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		}
+		return self::$request;
+	}
+
+	public static function get($key, $defvalue = '')
+	{
+		if (!self::$request) {
+			self::init();
+		}
+		return self::$request->get($key, $defvalue);
+	}
+
+	public static function has($key)
+	{
+		if (!self::$request) {
+			self::init();
+		}
+		return self::$request->has($key);
+	}
+
+	public static function getForSql($key, $skipEmtpy = true)
+	{
+		if (!self::$request) {
+			self::init();
+		}
+		return self::$request->getForSql($key, $skipEmtpy);
+	}
+
+	public static function set($key, $value)
+	{
+		if (!self::$request) {
+			self::init();
+		}
+		return self::$request->set($key, $value);
+	}
+	
+	public static function isEmpty($key)
+	{
+		if (!self::$request) {
+			self::init();
+		}
+		return self::$request->isEmpty($key);
 	}
 }
