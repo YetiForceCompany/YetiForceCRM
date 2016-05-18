@@ -9,7 +9,7 @@
 class OSSMailScanner_BindServiceContracts_ScannerAction extends OSSMailScanner_PrefixScannerAction_Model
 {
 
-	public function process($mail)
+	public function process(OSSMail_Mail_Model $mail)
 	{
 		$mailId = $mail->getMailCrmId();
 		$returnIds = [];

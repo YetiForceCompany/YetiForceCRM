@@ -9,7 +9,7 @@
 class OSSMailScanner_EmailScannerAction_Model extends OSSMailScanner_BaseScannerAction_Model
 {
 
-	public function process($mail, $moduleName)
+	public function process(OSSMail_Mail_Model $mail, $moduleName)
 	{
 		$db = PearDatabase::getInstance();
 		$mailId = $mail->getMailCrmId();

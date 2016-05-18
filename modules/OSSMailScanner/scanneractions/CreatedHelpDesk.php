@@ -9,7 +9,7 @@
 class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BaseScannerAction_Model
 {
 
-	public function process($mail)
+	public function process(OSSMail_Mail_Model $mail)
 	{
 		$id = 0;
 		$accountOwner = $mail->getAccountOwner();
@@ -47,7 +47,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BaseSc
 					$record->set('ticketpriorities', $serviceContracts['priority']);
 				}
 			}
-			$record->set('description', strip_tags($mail->get('body')));
+			$record->set('description', vtlib_purify($mail->get('body')));
 			$record->set('ticketstatus', 'Open');
 			$record->set('mode', 'new');
 			$record->set('id', '');

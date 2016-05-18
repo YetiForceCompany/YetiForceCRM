@@ -9,7 +9,7 @@
 class OSSMailScanner_BindCampaigns_ScannerAction extends OSSMailScanner_PrefixScannerAction_Model
 {
 
-	public function process($mail)
+	public function process(OSSMail_Mail_Model $mail)
 	{
 		$campaignIds = parent::process($mail, 'Campaigns', 'vtiger_campaign', 'campaign_no');
 		if ($mail->get('type') == 0 && $campaignIds !== false && $campaignIds != 0) {
