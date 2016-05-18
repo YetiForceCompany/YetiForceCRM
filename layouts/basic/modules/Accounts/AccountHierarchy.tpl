@@ -29,7 +29,7 @@
 							</thead>
 							<tbody>
 								{foreach key=RECORD_ID item=ENTRIES from=$ACCOUNT_HIERARCHY['entries'] name=hierarchyEntries}
-									<tr {if $smarty.foreach.hierarchyEntries.first} class="parentAccount" {/if}>
+									<tr {if $smarty.foreach.hierarchyEntries.first} class="bgGreen" {/if}>
 										{foreach item=LISTFIELDS from=$ENTRIES}
 											<td>
 												{if $LISTFIELDS['fieldname'] == 'active' && Users_Privileges_Model::isPermitted($MODULE, 'EditView', $RECORD_ID)}
