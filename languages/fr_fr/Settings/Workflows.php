@@ -216,6 +216,10 @@ $languageStrings = [
 	'LBL_GO_TO_TEMPLATE' => 'Cliquer pour aller à l\'enregistrement importé.',
 	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Le script existe mais ne contient pas le nom de la fonction importée. Ajouter manuellement %s à %s.',
 	'LBL_FAILED_TO_SAVE_SCRIPT' => 'Echec de la sauvegarde du fichier script des méthodes de workflow. Copier manuellement %s à %s.',
+	'LBL_MESSAGES_FROM_USERS' => 'Messages from users',
+	'LBL_SKIP_CURRENT_USER' => 'Skip current user',
+	'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => 'List of all changes in record',
+	'LBL_LIST_OF_ALL_VALUES_IN_RECORD' => 'List of all values in record',
 	//VTWatchdog
 	'LBL_SELECT_ACTION_TYPE' => 'Sélectionner le type de notification',
 	'LBL_SELECT_RECIPIENTS' => 'Destinataires',
