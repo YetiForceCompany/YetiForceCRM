@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="recentActivitiesContainer" >
+	<div class="recentActivitiesContainer row no-margin" >
 		<input type="hidden" id="relatedHistoryCurrentPage" value="{$PAGING_MODEL->get('page')}" />
 		<input type="hidden" id="relatedHistoryPageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
 		{if !empty($HISTORIES)}
@@ -32,7 +32,7 @@
 			{if count($HISTORIES) eq $PAGING_MODEL->getPageLimit()}
 				<div id="moreRelatedUpdates">
 					<div class="pull-right">
-						<a href="javascript:void(0)" class="moreRelatedUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>
+						<button type="button" class="btn btn-primary btn-xs moreRelatedUpdates cursorPointer">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
 					</div>
 				</div>
 			{/if}

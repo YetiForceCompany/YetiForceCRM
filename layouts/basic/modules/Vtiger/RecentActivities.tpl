@@ -10,12 +10,12 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="recentActivitiesContainer" id="updates">
+<div class="recentActivitiesContainer" >
     <input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}" />
-    
+    <input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
 	<div>
 		{if !empty($RECENT_ACTIVITIES)}
-			<ul class="list-unstyled">
+			<ul class="list-unstyled" id="updates">
 				{foreach item=RECENT_ACTIVITY from=$RECENT_ACTIVITIES}
 					{assign var=PROCEED value= TRUE}
 					{if ($RECENT_ACTIVITY->isRelationLink()) or ($RECENT_ACTIVITY->isRelationUnLink())}
@@ -133,12 +133,13 @@
 				</div>
 		{/if}
 	</div>
-		<div class="row" id="moreLink">
-		    {if $PAGING_MODEL->isNextPageExists()}
-			<div class="pull-right">
-				<a href="javascript:void(0)" class="moreRecentUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>
-			</div>
-		    {/if}
+		<div id="moreLink">
+			{if $PAGING_MODEL->isNextPageExists()}
+				<div class="pull-right">
+					<button type="button" class="btn btn-primary btn-xs moreRecentUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
+				</div>
+			{/if}
+		</div>
 		</div>
 	<span class="clearfix"></span>
 </div>

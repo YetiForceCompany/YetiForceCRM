@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="recentActivitiesContainer" >
+	<div class="recentActivitiesContainer row no-margin" >
 		<input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}" />
 		<input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
 		{if !empty($RECENT_ACTIVITIES)}
@@ -168,7 +168,7 @@
 		<div id="moreLink">
 			{if $PAGING_MODEL->isNextPageExists()}
 				<div class="pull-right">
-					<a href="javascript:void(0)" class="moreRecentUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>
+					<button type="button" class="btn btn-primary btn-xs moreRecentUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
 				</div>
 			{/if}
 		</div>
