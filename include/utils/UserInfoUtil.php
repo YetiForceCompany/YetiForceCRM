@@ -285,7 +285,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		}
 
 		//If no actionid, then allow action is vtiger_tab permission is available
-		if ($actionid === '' || $actionid === NULL) {
+		if ($actionid === '' || $actionid === null) {
 			if ($profileTabsPermission[$tabid] == 0) {
 				$permission = 'yes';
 			} else {
