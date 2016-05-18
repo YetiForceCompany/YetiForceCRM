@@ -23,7 +23,7 @@
 									</div>
 									<div class="timeline-body row no-margin">
 										<span class="time pull-right">
-											<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))})
+											<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
 										</span>
 										<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
 										&nbsp;{vtranslate('LBL_CREATED', $MODULE_NAME)}
@@ -58,7 +58,7 @@
 									</div>
 									<div class="timeline-body row no-margin">
 										<span class="time pull-right">
-											<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
+											<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 										</span>
 										<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {vtranslate('LBL_UPDATED', $MODULE_NAME)}</span>
 										{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
@@ -92,8 +92,8 @@
 									</div>
 									<div class="timeline-body row no-margin">
 										<div class="pull-right">
-											<span class="time">
-												<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
+											<span class="time pull-right">
+												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 										</div>
 										<span>
@@ -129,7 +129,7 @@
 									</div>
 									<div class="timeline-body row no-margin">
 										<span class="time pull-right">
-											<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
+											<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 										</span>
 										<div class="pull-left">
 											<strong>{vtranslate('LBL_CONVERTED_FROM_LEAD', $MODULE_NAME)}</strong> 
@@ -146,7 +146,7 @@
 									</div>
 									<div class="timeline-body row no-margin">
 										<span class="time pull-right">
-											<b>{$RECENT_ACTIVITY->getDisplayActivityTime()}</b> ({Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())})
+											<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 										</span>
 										<div class="pull-left">
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
