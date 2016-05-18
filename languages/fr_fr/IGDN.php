@@ -5,13 +5,15 @@ $languageStrings = [
 	'SINGLE_IGDN' => 'Bon de livraison',
 	'LBL_DESCRIPTION_BLOCK' => 'Description',
 	'LBL_ATTENTION_BLOCK' => 'Commentaires',
+	//Fields
 	'FL_ACCEPTANCE_DATE' => 'Date de réception',
 	'FL_ACCOUNT' => 'Organisation',
 	'FL_NUMBER' => 'Nombre',
 	'FL_SUBJECT' => 'Sujet',
 	'FL_STORAGE' => 'Stockage',
 	'FL_STATUS' => 'Statut',
-	
+	'FL_SSIGNLEORDERS' => 'Single Order',
+	// Picklist
 	'PLL_DRAFT' => 'Brouillon',
 	'PLL_IN_REALIZATION' => 'En cours',
 	'PLL_OBJECTIONS' => 'Objections',

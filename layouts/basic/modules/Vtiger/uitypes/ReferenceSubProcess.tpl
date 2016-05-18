@@ -49,7 +49,7 @@
 			{/if}
 			{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
 			<!-- Show the add button only if it is edit view  -->
-			{if (($VIEW eq 'Edit') or ($MODULE_NAME eq 'Webforms')) && $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD_MODEL->get('displaytype') != 10  && Users_Privileges_Model::isPermitted($REFERENCE_LIST[0], 'CreateView')}
+			{if (($VIEW eq 'Edit') or ($MODULE_NAME eq 'Webforms')) && $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD_MODEL->get('displaytype') != 10}
 				<button class="btn btn-default createReferenceRecord" type="button">
 					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class='glyphicon glyphicon-plus' title="{vtranslate('LBL_CREATE', $MODULE)}"></span>
 				</button>

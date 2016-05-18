@@ -95,4 +95,13 @@ class Vtiger_Base_Model
 	{
 		return (!isset($this->valueMap[$key]) || empty($this->valueMap[$key]));
 	}
+
+	/**
+	 * Function to remove the value
+	 * @param type $key
+	 */
+	public function remove($key)
+	{
+		unset($this->valueMap[$key]);
+	}
 }

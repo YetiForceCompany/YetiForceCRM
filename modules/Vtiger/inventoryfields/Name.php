@@ -34,7 +34,10 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function limitValues()
 	{
-		return Vtiger_InventoryLimit_UIType::getLimits();
+		return [
+			['id' => 0, 'name' => 'LBL_NO'],
+			['id' => 1, 'name' => 'LBL_YES']
+		];
 	}
 
 	public function getConfig()

@@ -9,7 +9,7 @@
 					</div>
 					<div class="col-xs-8">
 						<select class="select2 relatedHistoryTypes" multiple>
-							{foreach from=Vtiger_History_Widget::getActions() item=ACTIONS}
+							{foreach from=Vtiger_HistoryRelation_Widget::getActions() item=ACTIONS}
 								<option selected value="{$ACTIONS}">{vtranslate($ACTIONS, $ACTIONS)}</option>	
 							{/foreach}
 						</select>

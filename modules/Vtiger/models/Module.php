@@ -52,7 +52,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	 */
 	public function isQuickCreateSupported()
 	{
-		return $this->isEntityModule() && !$this->isInventory();
+		return $this->isEntityModule() && !$this->isInventory() && Users_Privileges_Model::isPermitted($this->getName(), 'CreateView');
 	}
 
 	/**

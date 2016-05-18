@@ -45,7 +45,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
 			$sql .= ' AND ' . $ownerSql;
 		}
 		$sql .= ' GROUP BY smownerid';
-		$result = $db->pquery($sql, []);
+		$result = $db->query($sql);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$chartData = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {

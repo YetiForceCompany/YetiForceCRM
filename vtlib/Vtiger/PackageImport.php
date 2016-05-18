@@ -837,9 +837,9 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	function import_CustomView($modulenode, $moduleInstance, $customviewnode)
 	{
 		$filterInstance = new Vtiger_Filter();
-		$filterInstance->name = $customviewnode->viewname;;
-		$filterInstance->isdefault = $customviewnode->setdefault;;
-		$filterInstance->inmetrics = $customviewnode->setmetrics;;
+		$filterInstance->name = $customviewnode->viewname;
+		$filterInstance->isdefault = $customviewnode->setdefault;
+		$filterInstance->inmetrics = $customviewnode->setmetrics;
 		$filterInstance->presence = $customviewnode->presence;
 		$filterInstance->privileges = $customviewnode->privileges;
 		$filterInstance->featured = $customviewnode->featured;

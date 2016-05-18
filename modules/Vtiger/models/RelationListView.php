@@ -136,6 +136,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 
 		$relatedModel = $relationModel->getRelationModuleModel();
+		if (!$relatedModel->isPermitted('DetailView')) {
+			return $selectLinkModel;
+		}
 
 		$selectLinkList = array(
 			array(
@@ -145,7 +148,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				'linkicon' => '',
 			)
 		);
-
 
 		foreach ($selectLinkList as $selectLink) {
 			$selectLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($selectLink);
@@ -162,6 +164,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			return $addLinkModel;
 		}
 		$relatedModel = $relationModel->getRelationModuleModel();
+		if (!$relatedModel->isPermitted('CreateView')) {
+			return $addLinkModel;
+		}
 
 		if ($relatedModel->get('label') == 'Calendar') {
 			$addLinkList[] = [

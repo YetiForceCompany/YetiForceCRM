@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Vtiger_History_Widget extends Vtiger_Basic_Widget
+class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 {
 
 	public static $colors = [
@@ -22,7 +22,7 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getHistory&page=1&limit=' . $this->Data['limit'];
+		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentRelation&page=1&limit=' . $this->Data['limit'];
 		foreach (self::getActions() as $type) {
 			$url .= '&type[]=' . $type;
 		}
@@ -31,7 +31,7 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget
 
 	public function getWidget()
 	{
-		$this->Config['tpl'] = 'History.tpl';
+		$this->Config['tpl'] = 'HistoryRelation.tpl';
 		$this->Config['url'] = $this->getUrl();
 		$widget = $this->Config;
 		return $widget;
@@ -39,7 +39,7 @@ class Vtiger_History_Widget extends Vtiger_Basic_Widget
 
 	public function getConfigTplName()
 	{
-		return 'HistoryConfig';
+		return 'HistoryRelationConfig';
 	}
 
 	public function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)

@@ -17,6 +17,10 @@ $DEBUG_CONFIG = [
 	// Display Smarty Debug Console
 	'DISPLAY_DEBUG_VIEWER' => false,
 	
+	'EXCEPTION_ERROR_HANDLER' => false,
+	'EXCEPTION_ERROR_HANDLER_TO_FILE' => false,
+	'EXCEPTION_ERROR_HANDLER_TO_SHOW' => false,
+	
 	/* +***************************************************************
 	 * 	API 
 	 * ************************************************************** */

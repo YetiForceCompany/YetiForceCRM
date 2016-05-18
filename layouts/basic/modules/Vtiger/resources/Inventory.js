@@ -900,8 +900,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var account = thisInstance.getAccountId();
 		var response = true;
 
-		if (account == '' || $('#inventoryLimit').val() == '0' || thisInstance.limitEnableSave) {
-			return true;
+		if (account == '' || thisInstance.limitEnableSave) {
+			return response;
 		}
 
 		var params = {}
@@ -912,7 +912,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			record: account,
 			currency: thisInstance.getCurrency(),
 			price: thisInstance.getSummaryGrossPrice(),
-			limitConfig: $('#inventoryLimit').val(),
+			limitConfig: app.getMainParams('inventoryLimit'),
 		}
 		params.async = false;
 		params.dataType = 'json';

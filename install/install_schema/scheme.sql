@@ -132,7 +132,7 @@ CREATE TABLE `a_yf_pdf` (
 CREATE TABLE `a_yf_relatedlists_inv_fields` (
   `relation_id` int(19) DEFAULT NULL,
   `fieldname` varchar(30) DEFAULT NULL,
-  `sequence` int(10) DEFAULT NULL,
+  `sequence` tinyint(1) DEFAULT NULL,
   KEY `relation_id` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -833,7 +833,7 @@ CREATE TABLE `u_yf_competition` (
   `vat_id` varchar(30) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `email` varchar(50) DEFAULT '',
-  `inactivity` tinyint(1) DEFAULT '0',
+  `active` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`competitionid`),
   CONSTRAINT `fk_1_u_yf_competition` FOREIGN KEY (`competitionid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1994,7 +1994,7 @@ CREATE TABLE `u_yf_partners` (
   `vat_id` varchar(30) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `email` varchar(50) DEFAULT '',
-  `inactivity` tinyint(1) DEFAULT '0',
+  `active` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`partnersid`),
   CONSTRAINT `fk_1_u_yf_partners` FOREIGN KEY (`partnersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2699,7 +2699,7 @@ CREATE TABLE `vtiger_account` (
   `products` text,
   `services` text,
   `last_invoice_date` date DEFAULT NULL,
-  `inactivity` tinyint(1) DEFAULT '0',
+  `active` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -3516,7 +3516,7 @@ CREATE TABLE `vtiger_contactdetails` (
   `jobtitle` varchar(100) DEFAULT '',
   `decision_maker` tinyint(1) DEFAULT '0',
   `sum_time` decimal(10,2) DEFAULT '0.00',
-  `inactivity` tinyint(1) DEFAULT '0',
+  `active` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
@@ -5408,7 +5408,7 @@ CREATE TABLE `vtiger_leaddetails` (
   `leads_relation` varchar(255) DEFAULT NULL,
   `legal_form` varchar(255) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
-  `inactivity` tinyint(1) DEFAULT '0',
+  `active` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`leadid`),
   KEY `leaddetails_converted_leadstatus_idx` (`converted`,`leadstatus`),
   KEY `email_idx` (`email`),
@@ -8779,7 +8779,7 @@ CREATE TABLE `vtiger_vendor` (
   `registration_number_2` varchar(30) DEFAULT NULL,
   `verification` text,
   `sum_time` decimal(10,2) DEFAULT '0.00',
-  `inactivity` tinyint(1) DEFAULT '0',
+  `active` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`vendorid`),
   KEY `vendorname` (`vendorname`),
   CONSTRAINT `fk_1_vtiger_vendor` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE

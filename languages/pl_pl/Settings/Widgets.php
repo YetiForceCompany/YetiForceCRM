@@ -60,7 +60,7 @@ $languageStrings = [
 	'LBL_SHOW_ALL_RECORDS_INFO' => 'Nie - Uwzględniane są uprawnienia <br> Tak - Wyszukiwanie rekordów z pominięciem uprawnień',
 	'LBL_SHITCH_HEADER' => 'Przełącznik w nagłówku',
 	'LBL_SHITCH_HEADER_INFO' => 'Przełącznik (switch) umieszczony w nagłówku widgetu.',
-	'History' => 'Oś czasu',
+	'HistoryRelation' => 'Oś czasu',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Ładowanie danych...',

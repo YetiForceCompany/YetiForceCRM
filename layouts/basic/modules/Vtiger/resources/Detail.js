@@ -2757,10 +2757,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentCommentsTab.trigger('click');
 		});
 		detailContentsHolder.on('change', '.relatedHistoryTypes', function (e) {
-			var recordId = jQuery("#recordId").val();
 			var widgetContent = jQuery(this).closest('.widgetContentBlock').find('.widgetContent');
 			var types = jQuery(e.currentTarget).val();
-			var pageLimit = jQuery("#relatedHistoryPageLimit").val();
+			var pageLimit = widgetContent.find("#relatedHistoryPageLimit").val();
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -2771,8 +2770,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var params = {
 				module: app.getModuleName(),
 				view: 'Detail',
-				record: recordId,
-				mode: 'getHistory',
+				record: app.getRecordId(),
+				mode: 'showRecentRelation',
 				page: 1,
 				limit: pageLimit,
 				type: types,
@@ -2787,7 +2786,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			);
 		});
 		detailContentsHolder.on('click', '.moreRelatedUpdates', function () {
-			var widgetContent = jQuery(this).closest('.widgetContentBlock').find('.widgetContent');
+			var widgetContainer = jQuery(this).closest('.widgetContentBlock');
+			var widgetContent = widgetContainer.find('.widgetContent');
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -2795,16 +2795,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 					'elementToBlock': widgetContent
 				}
 			});
-			var currentPage = jQuery("#relatedHistoryCurrentPage").val();
-			var recordId = jQuery("#recordId").val();
+			var currentPage = widgetContent.find("#relatedHistoryCurrentPage").val();
 			var nextPage = parseInt(currentPage) + 1;
-			var types = jQuery(".relatedHistoryTypes").val();
-			var pageLimit = jQuery("#relatedHistoryPageLimit").val();
+			var types = widgetContainer.find(".relatedHistoryTypes").val();
+			var pageLimit = widgetContent.find("#relatedHistoryPageLimit").val();
 			var params = {
 				module: app.getModuleName(),
 				view: 'Detail',
-				record: recordId,
-				mode: 'getHistory',
+				record: app.getRecordId(),
+				mode: 'showRecentRelation',
 				page: nextPage,
 				limit: pageLimit,
 				type: types,
