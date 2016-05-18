@@ -203,6 +203,10 @@ $languageStrings = [
 	'LBL_GO_TO_TEMPLATE' => 'Kliknij aby przejść do zaimportowanego rekordu.',
 	'LBL_SCRIPT_EXISTS_FUNCTION_NOT' => 'Skrypt fizycznie istnieje, ale nie zawiera importowanej funkcji. Ręcznie skopiuj %s do %s.',
 	'LBL_FAILED_TO_SAVE_SCRIPT' => 'Nie udało się zapisać importowanego skryptu z funkcją obiegu informacji. Ręcznie skopiuj %s do %s.',
+	'LBL_MESSAGES_FROM_USERS' => 'Wiadomości od użytkowników',
+	'LBL_SKIP_CURRENT_USER' => 'Pomiń obecnego użytkownika',
+	'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => 'Lista wszystkich zmian w rekordzie',
+	'LBL_LIST_OF_ALL_VALUES_IN_RECORD' => 'Lista wszystkich wartości w rekordzie',
 	//VTWatchdog
 	'LBL_SELECT_ACTION_TYPE' => 'Wybierz typ powiadomienia',
 	'LBL_SELECT_RECIPIENTS' => 'Odbiorcy',
