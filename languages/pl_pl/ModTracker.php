@@ -29,4 +29,6 @@ $languageStrings = [
 	'LBL_AT_UNLINK_P' => 'Usunięto powiązanie',
 	'LBL_AT_CONVERTTOACCOUNT_P' => 'Skonwertowano leada',
 	'LBL_AT_DISPLAY_P' => 'Wyświetlono',
+	'LBL_REVIEW_HISTORY' => 'Historia prezeglądania',
+	'LBL_REVIEWED' => 'Zapoznane',
 ];

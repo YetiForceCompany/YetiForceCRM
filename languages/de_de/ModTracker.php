@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 $languageStrings = [
@@ -27,5 +28,7 @@ $languageStrings = [
 	'LBL_AT_LINK_P' => 'Linked',
 	'LBL_AT_UNLINK_P' => 'Unlinked',
 	'LBL_AT_CONVERTTOACCOUNT_P' => 'Converted to Account',
-	'LBL_AT_DISPLAY_P' => 'Viewed'
+	'LBL_AT_DISPLAY_P' => 'Viewed',
+	'LBL_REVIEW_HISTORY' => 'Review history',
+	'LBL_REVIEWED' => 'Reviewed',
 ];

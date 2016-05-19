@@ -1133,6 +1133,7 @@ $languageStrings = [
 	'LBL_YRS' => 'l',
 	'FL_ACTIVE' => 'Aktywny',
 	'SwitchUsers' => 'Przełączanie użytkowników',
+	'BTN_CHANGES_REVIEWED_ON' => 'Zapoznano się ze zmianami',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

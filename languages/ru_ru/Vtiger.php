@@ -1378,7 +1378,8 @@ $languageStrings = [
 	'LBL_Y' => 'yr',
 	'LBL_YRS' => 'yrs',
 	'FL_ACTIVE' => 'Active',
-	'SwitchUsers' => 'Переключатель пользователей'
+	'SwitchUsers' => 'Переключатель пользователей',
+	'BTN_CHANGES_REVIEWED_ON' => 'Changes reviewed on',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
