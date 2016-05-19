@@ -146,7 +146,7 @@
 {if $PAGING_MODEL->isNextPageExists()}
 	<div class="row">
 		<div class="pull-right">
-			<a href="javascript:void(0)" class="moreRecentActivities">{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>
+			<button type="button" class="btn btn-primary btn-xs moreRecentActivities marginTop10 marginRight10">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
 		</div>
 	</div>
 {/if}
