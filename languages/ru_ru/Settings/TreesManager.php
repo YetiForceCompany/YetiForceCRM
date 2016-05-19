@@ -22,6 +22,8 @@ $languageStrings = [
 	'LBL_ADD_TO_TREES' => 'Добавить',
 	'LBL_SAVE' => 'Сохранить',
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Изменить Каталог:',
+	'Category' => 'Category',
+	'Reservations' => 'Reservations',
 ];
 $jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'Шаблон Каталога успешно удален',

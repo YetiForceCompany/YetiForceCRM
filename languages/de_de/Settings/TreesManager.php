@@ -22,6 +22,8 @@ $languageStrings = [
 	'LBL_ADD_TO_TREES' => 'Hinzufügen',
 	'LBL_SAVE' => 'Speichern',
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Ändere Eintrag in Baumstruktur:',
+	'Category' => 'Category',
+	'Reservations' => 'Reservations',
 ];
 $jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'Vorlage erfolgreich gelöscht',
