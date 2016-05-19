@@ -37,7 +37,7 @@
 											{if $MODULE_MODEL->get('label') eq 'Calendar'}
 												{vtranslate('LBL_TASK', $MODULE_MODEL->get('label'))}
 											{else}
-												{vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->get('label'))}
+												{vtranslate($MODULE_MODEL->get('label'), $MODULE_NAME)}
 											{/if}
 										</option>
 									{/foreach}
