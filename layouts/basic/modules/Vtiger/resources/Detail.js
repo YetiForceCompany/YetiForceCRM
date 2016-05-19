@@ -210,6 +210,18 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(url).then(
 				function (data) {
 					progressInstance.progressIndicator({mode: 'hide'});
+					var detailInstance = Vtiger_Detail_Js.getInstance();
+					var tab = detailInstance.getSelectedTab();
+					if (tab.data('labelKey') == detailInstance.detailViewRecentUpdatesTabLabel) {
+						detailInstance.reloadTabContent();
+					} else if (tab.data('linkKey') == detailInstance.detailViewSummaryTabLabel) {
+						var summaryViewContainer = detailInstance.getContentHolder();
+						var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
+						if (updatesWidget.length > 0) {
+							var params = detailInstance.getFiltersData(updatesWidget);
+							detailInstance.loadWidget(updatesWidget, params['params']);
+						}
+					}
 					jQuery(e).parent().remove();
 				},
 				function (error, err) {
@@ -985,11 +997,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 			});
 		});
-		detailContentsHolder.on('click', '.relatedContents .listViewEntries td', function(e){
+		detailContentsHolder.on('click', '.relatedContents .listViewEntries td', function (e) {
 			var target = jQuery(e.target);
 			var row = target.closest('tr');
 			var inventoryRow = row.next();
-			if (inventoryRow.hasClass('listViewInventoryEntries') && !target.closest('div').hasClass('actions') && !target.is('a') && !target.is('input')){
+			if (inventoryRow.hasClass('listViewInventoryEntries') && !target.closest('div').hasClass('actions') && !target.is('a') && !target.is('input')) {
 				inventoryRow.toggleClass('hide');
 			}
 		})
@@ -1424,7 +1436,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.loadWidget(data['container'], data['params']);
 	},
 	getFiltersData: function (e, params) {
-		var currentElement = jQuery(e.currentTarget);
+		if (e.currentTarget) {
+			var currentElement = jQuery(e.currentTarget);
+		} else {
+			currentElement = e;
+		}
 		var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
 		var widget = summaryWidgetContainer.find('.widgetContentBlock');
 		var url = '&' + widget.data('url');
@@ -1537,7 +1553,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.recordDetails', function (e, params) {
 			var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 			if (updatesWidget.length) {
-				thisInstance.loadWidget(updatesWidget);
+				var params = thisInstance.getFiltersData(updatesWidget);
+				thisInstance.loadWidget(updatesWidget, params['params']);
 			}
 		});
 
@@ -1686,7 +1703,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var summaryViewContainer = thisInstance.getContentHolder();
 					var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 					if (updatesWidget.length > 0) {
-						thisInstance.loadWidget(updatesWidget);
+						var params = thisInstance.getFiltersData(updatesWidget);
+						thisInstance.loadWidget(updatesWidget, params['params']);
 					}
 					aDeferred.resolve(data);
 				},
