@@ -231,6 +231,7 @@ $languageStrings = [
 	'LBL_VALUE_FROM_FIELD' => 'Valeur du champ',
 	'LBL_FIELDS_LABELS' => 'Label champ',
 	'LBL_SELECT_VARIABLES' => 'Sélectionner des variables',
+	'Birthdate' => 'Date de naissance',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Le même champ est sélectionné à multiples reprises',

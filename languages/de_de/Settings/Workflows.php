@@ -221,6 +221,7 @@ $languageStrings = [
 	'LBL_GET_FROM_PANEL_MAPPING' => 'Get mapping from panel',
 	'LBL_SELECT_TEMPLATE_FOR_MODULE' => 'Select template for module',
 	'LBL_OVERWRITTEN_FIELDS' => 'Overwritten fields',
+	'Birthdate' => 'Geburtsdatum',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Dieselben Felder mehr als einmal ausgewählt',

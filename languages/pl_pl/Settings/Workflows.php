@@ -222,6 +222,7 @@ $languageStrings = [
 	'LBL_GET_FROM_PANEL_MAPPING' => 'Pobierz mapowanie z panelu',
 	'LBL_SELECT_TEMPLATE_FOR_MODULE' => 'Wybierz szablon dla modułu',
 	'LBL_OVERWRITTEN_FIELDS' => 'Nadpisywane pola',
+	'Birthdate' => 'Data urodzin',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',
