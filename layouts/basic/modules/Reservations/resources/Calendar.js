@@ -358,7 +358,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerSlimScroll: function(){
+	registerCalendarScroll: function(){
 		var calendarContainer = $('.bodyContents');
 		app.showScrollBar(calendarContainer,{
 			railVisible: true,
@@ -372,6 +372,6 @@ jQuery.Class("Reservations_Calendar_Js", {
 		this.registerChangeView();
 		this.registerButtonSelectAll();
 		this.registerRefreshEvent();
-		this.registerSlimScroll();
+		this.registerCalendarScroll();
 	}
 });

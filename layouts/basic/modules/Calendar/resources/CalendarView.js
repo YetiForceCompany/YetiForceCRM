@@ -215,9 +215,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		thisInstance.getCalendarView().fullCalendar('destroy');
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.createAddSwitch();
-		thisInstance.registerSlimScroll();
+		thisInstance.registerCalendarScroll();
 	},
-	registerSlimScroll: function () {
+	registerCalendarScroll: function () {
 		var calendarContainer = $('.bodyContents');
 		app.showScrollBar(calendarContainer, {
 			railVisible: true,
