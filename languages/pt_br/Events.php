@@ -98,13 +98,13 @@ $languageStrings = [
 	'Status' => 'Estado',
 	'End Date' => 'Data Final',
 	'LBL_FOLLOWUP' => 'Related event',
-	
 	'PLL_PLANNED' => 'Planned',
 	'PLL_IN_REALIZATION' => 'To be realized',
 	'PLL_OVERDUE' => 'Overdue',
 	'PLL_POSTPONED' => 'Postponed',
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_COMPLETED' => 'Completed',
-
+	'LBL_REMAIND_HOURS' => 'Remind after selected numer of hours',
+	'LBL_REMAIND_MINS' => 'Remind after selected numer of minutes',
 ];
 

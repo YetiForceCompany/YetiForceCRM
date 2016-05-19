@@ -45,7 +45,7 @@
 	
 		<div class="col-xs-3 ">
 			<div>
-				<select class="chzn-select input-mini" name="remhrs" title="{vtranslate('LBL_REMAIND_HOURS')}" >
+				<select class="chzn-select input-mini" name="remhrs" title="{vtranslate('LBL_REMAIND_HOURS', $MODULE)}" >
 					{for $HOURS = 0 to 23}
 						<option value="{$HOURS}" {if $HOURS eq $HOUR}selected{/if}>{$HOURS}</option>
 					{/for}
@@ -58,7 +58,7 @@
 		</div>
 		<div class="col-xs-3 ">
 			<div>
-				<select class="chzn-select  input-mini" name="remmin" title="{vtranslate('LBL_REMAIND_MINS')}">
+				<select class="chzn-select  input-mini" name="remmin" title="{vtranslate('LBL_REMAIND_MINS', $MODULE)}">
 				{for $MINUTES = 1 to 59}
 					<option value="{$MINUTES}" {if $MINUTES eq $MINUTE}selected{/if}>{$MINUTES}</option>
 				{/for}

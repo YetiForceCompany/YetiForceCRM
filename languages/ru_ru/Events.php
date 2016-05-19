@@ -93,14 +93,14 @@ $languageStrings = [
 	'LBL_RECURRING_TYPE' => 'Тип повторения',
 	'End Date' => 'Дата окончания',
 	'LBL_FOLLOWUP' => 'Связанные события',
-	
 	'PLL_PLANNED' => 'Запланировано',
 	'PLL_IN_REALIZATION' => 'В процессе',
 	'PLL_OVERDUE' => 'Просрочено',
 	'PLL_POSTPONED' => 'Отложено',
 	'PLL_CANCELLED' => 'Отменено',
 	'PLL_COMPLETED' => 'Выполнено',
-
+	'LBL_REMAIND_HOURS' => 'Remind after selected numer of hours',
+	'LBL_REMAIND_MINS' => 'Remind after selected numer of minutes',
 ];
 
 $jsLanguageStrings = [

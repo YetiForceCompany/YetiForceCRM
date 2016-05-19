@@ -97,7 +97,6 @@ $languageStrings = [
 	'End Time' => 'Czas zakończenia',
 	'End Date' => 'Data zakończenia',
 	'LBL_FOLLOWUP' => 'Zdarzenie powiązane',
-	
 	'PLL_PLANNED' => 'Planowane',
 	'PLL_IN_REALIZATION' => 'Do realizacji',
 	'PLL_OVERDUE' => 'Zaległe',
@@ -105,5 +104,7 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Anulowane',
 	'PLL_COMPLETED' => 'Wykonane',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Wypełnienie daty rozpoczęcia na podstawie pierwszego wolnego terminu',
+	'LBL_REMAIND_HOURS' => 'Przypomnij po wybranej ilości godzin',
+	'LBL_REMAIND_MINS' => 'Przypomnij po wybranej ilości minut',
 ];
 
