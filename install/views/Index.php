@@ -182,13 +182,13 @@ class Install_Index_view extends Vtiger_View_Controller
 		$createDB = $request->get('create_db');
 		if ($createDB == 'on') {
 			$rootUser = $request->get('db_username');
-			$rootPassword = $request->get('db_password');
+			$rootPassword = $request->getRaw('db_password');
 			$createDataBase = true;
 		}
 		$authKey = $_SESSION['config_file_info']['authentication_key'] = md5(microtime());
 
 		//PHP 5.5+ mysqli is favourable.
-		$dbConnection = Install_Utils_Model::checkDbConnection('mysql', $request->get('db_hostname'), $request->get('db_username'), $request->get('db_password'), $request->get('db_name'), $createDataBase, true, $rootUser, $rootPassword);
+		$dbConnection = Install_Utils_Model::checkDbConnection('mysql', $request->get('db_hostname'), $request->get('db_username'), $request->getRaw('db_password'), $request->get('db_name'), $createDataBase, true, $rootUser, $rootPassword);
 
 		$webRoot = ($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
 		$webRoot .= $_SERVER["REQUEST_URI"];
