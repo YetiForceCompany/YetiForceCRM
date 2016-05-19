@@ -1132,6 +1132,7 @@ $languageStrings = [
 	'LBL_Y' => 'r',
 	'LBL_YRS' => 'l',
 	'FL_ACTIVE' => 'Aktywny',
+	'SwitchUsers' => 'Przełączanie użytkowników',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
