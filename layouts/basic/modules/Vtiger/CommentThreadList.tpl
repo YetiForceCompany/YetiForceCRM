@@ -1,13 +1,13 @@
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
 *
- ********************************************************************************/
+********************************************************************************/
 -->*}
 <div class="commentDiv">
 	<div class="singleComment">
@@ -31,13 +31,13 @@
 						</div>
 					</div>
 					<span class="pull-right paddingRight15">
-							<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
+						<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
 					</span>
 				</div>
 			</div>
 		</div>
 		<div class="commentActionsContainer row no-margin ">
-			
+
 			{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
 			<div class="editedStatus visible-lg-block col-xs-6"  name="editStatus">
 				<p class="col-xs-6 marginLeftZero">
@@ -57,32 +57,26 @@
 			</div>
 			<div class="commentActionsDiv">
 				{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
-					<span class="pull-right commentActions">
-						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
-						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-							<span>
-								<a class="cursorPointer replyComment">&nbsp;
-									<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;
-									{vtranslate('LBL_REPLY',$MODULE_NAME)}
-								</a>
-								{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-									&nbsp;<span style="color:black">|</span>&nbsp;
-									<a class="cursorPointer editComment feedback">
-										<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_EDIT',$MODULE_NAME)}
-									</a>
-								{/if}
-								{if $COMMENTS_MODULE_MODEL->isPermitted('Delete')}
-									<span>
-										<span style="color:black">|</span>&nbsp;
-										<a class="cursorPointer deleteComment">
-											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_DELETE',$MODULE_NAME)}
-										</a>
-									</span>
-								{/if}
-							</span>
-						{/if}
-					</span>
+				<span class="pull-right commentActions">
+					{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
+					{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
+						<button type="button" class="btn btn-xs btn-success replyComment">
+							<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+							&nbsp;{vtranslate('LBL_REPLY',$MODULE_NAME)}
+						</button>
+					{/if}
+					{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
+						<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
+							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_EDIT',$MODULE_NAME)}
+						</button>
+					{/if}
+					{if $COMMENTS_MODULE_MODEL->isPermitted('Delete')}
+						<button type="button" class="btn btn-xs btn-danger deleteComment marginLeft5">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_DELETE',$MODULE_NAME)}
+						</button>
+					{/if}
+				</span>
 			</div>
 		</div>
-					</div>
-				</div>
+	</div>
+</div>

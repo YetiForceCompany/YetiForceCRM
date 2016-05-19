@@ -59,33 +59,29 @@
 							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 						{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-							<span>
-								<a class="cursorPointer replyComment"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_REPLY',$MODULE_NAME)}</a>
-									{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-									&nbsp;<span style="color:black">|</span>&nbsp;
-									<a class="cursorPointer editComment feedback">
-										<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_EDIT',$MODULE_NAME)}
-									</a>
-								{/if}
-							</span>
+							<button type="button" class="btn btn-xs btn-success replyComment">
+								<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+								&nbsp;{vtranslate('LBL_REPLY',$MODULE_NAME)}
+							</button>
+						{/if}
+						{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
+							<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
+								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_EDIT',$MODULE_NAME)}
+							</button>
 						{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('Delete')}
-							<span>
-								<span style="color:black">|</span>&nbsp;
-								<a class="cursorPointer deleteComment">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_DELETE',$MODULE_NAME)}
-								</a>
-							</span>
+							<button type="button" class="btn btn-xs btn-danger deleteComment marginLeft5">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_DELETE',$MODULE_NAME)}
+							</button>
 						{/if}
 						{if $TYPE_VIEW eq 'List'}
 							{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 							{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
-								{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}&nbsp;<span style="color:black">|</span>&nbsp;{/if}
 								<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-									<a class="cursorPointer viewThread">
+									<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
 										<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
-										<img class="alignMiddle" src="{vimage_path('rightArrowSmall.png')}" />
-									</a>
+										<span class="glyphicon glyphicon-share-alt"></span>
+									</button>
 								</span>
 								<span class="hide hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 									<a class="cursorPointer hideThread">
@@ -94,12 +90,11 @@
 									</a>
 								</span>
 							{elseif $CHILD_COMMENTS neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
-								{if $COMMENTS_MODULE->isPermitted('EditView')}&nbsp;<span style="color:black">|</span>&nbsp;{/if}
-								<span class="hide viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-									<a class="cursorPointer viewThread">
+								<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
 										<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
-										<img class="alignMiddle" src="{vimage_path('rightArrowSmall.png')}" />
-									</a>
+										<span class="glyphicon glyphicon-share-alt"></span>
+									</button>
 								</span>
 								<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 									<a class="cursorPointer hideThread">

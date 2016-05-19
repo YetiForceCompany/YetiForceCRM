@@ -811,6 +811,7 @@ li.ui-timepicker-selected,
 }
 .commentsList > ul {
 	margin-left: 0;
+	padding-left: 0;
 }
 .singleComment .editedStatus {
 	-webkit-box-sizing: border-box;
@@ -853,8 +854,8 @@ li.ui-timepicker-selected,
 .singleComment:hover .commentActions .replyComment {
 	display: inline-block;
 }
-.commentActionsContainer {
-	height: 18px;
+.commentActions {
+	margin-bottom: 5px;
 }
 .commentActionsContainer a:hover {
 	text-decoration: none;
@@ -864,6 +865,7 @@ li.ui-timepicker-selected,
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	word-wrap: break-word;
+	height: 15px;
 }
 .commentActionsContainer .editStatus p {
 	margin-bottom: 0;

@@ -77,34 +77,34 @@
 												</small>
 											</p>
 										</span>
-										{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-											<span class="pull-right visible-lg-block">
-												<p class="muted pull-right">
-													<small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
-													<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small>
-												</p>
-											</span>
-										{/if}
 									</div>
+									{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
+										<div class="clearfix"></div>
+										<span class="pull-left visible-lg-block">
+											<p class="muted pull-right">
+												<small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
+												<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small>
+											</p>
+										</span>
+									{/if}
 									<div class="pull-right commentActions">
 										{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 											<span>
-												<a class="cursorPointer replyComment feedback">
+												<button type="button" class="btn btn-xs btn-success replyComment feedback">
 													<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;
 													{vtranslate('LBL_REPLY',$MODULE_NAME)}
-												</a>
+												</button>
 												{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-													&nbsp;<span>|</span><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
-													<a class="cursorPointer editComment feedback">
+													<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
+														<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
 														{vtranslate('LBL_EDIT',$MODULE_NAME)}
-													</a>
+													</button>
 												{/if}
 											</span>
 										{/if}
 										<span>
 											{if $PARENT_COMMENT_MODEL neq false or $CHILD_COMMENTS_MODEL neq null}
-												{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}&nbsp;<span>|</span>&nbsp;{/if}
-												<a href="javascript:void(0);" class="cursorPointer detailViewThread">{vtranslate('LBL_VIEW_THREAD',$MODULE_NAME)}</a>
+												<button type="button" class="btn btn-xs btn-info detailViewThread marginLeft5">{vtranslate('LBL_VIEW_THREAD',$MODULE_NAME)}</button>
 											{/if}
 										</span>
 									</div>
