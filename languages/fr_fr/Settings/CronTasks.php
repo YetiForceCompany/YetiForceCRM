@@ -43,6 +43,9 @@ $languageStrings = [
 	'LBL_CURRENCY_UPDATE' => 'Mise à jour devise',
 	'LBL_MULTI_REFERENCE_VALUE' => 'Mise à jour de champs multiréférence',
 	'LBL_CRMACTIVITY_DAYS' => 'Metter à jour les activités calendrier dans les modules liés',
+	'Activity State' => 'Activity State',
+	'Assets Renewal' => 'Assets Renewal',
+	'SoldServices Renewal' => 'SoldServices Renewal'
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'La fréquence recommandée pour les imports programmés est de 15 mins',

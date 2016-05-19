@@ -44,6 +44,9 @@ $languageStrings = [
 	'LBL_CURRENCY_UPDATE' => 'Currency Update',
 	'LBL_MULTI_REFERENCE_VALUE' => 'Multireference fields update',
 	'LBL_CRMACTIVITY_DAYS' => 'Update calendar activity fields in related modules',
+	'Activity State' => 'Activity State',
+	'Assets Renewal' => 'Assets Renewal',
+	'SoldServices Renewal' => 'SoldServices Renewal'
 ];
 $jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'Частота указывается в целых числах',
