@@ -66,6 +66,7 @@ $languageStrings = [
 	'LBL_EXAMPLE_EXPRESSION' => 'Expression',
 	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
+	'MappedFields' => 'Mapping',
 	
 ];
 $jsLanguageStrings = [
