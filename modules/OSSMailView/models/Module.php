@@ -80,7 +80,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 	 * @param Vtiger_Module_Model $relatedModule
 	 * @return <String>
 	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false)
+	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false, $relationListViewModel = false)
 	{
 		if ($functionName === 'get_record2mails') {
 			$query = $this->reletedQueryRecords2Mail($recordId, $relatedModule, $relationModel);
@@ -103,7 +103,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 			$relatedListFields = $relatedModule->getConfigureRelatedListFields();
 		}
 		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
-		$queryGenerator->setFields($relatedListFields);//ossmailviewid
+		$queryGenerator->setFields($relatedListFields); //ossmailviewid
 		$queryGenerator->setCustomFrom([
 			'joinType' => 'INNER',
 			'relatedTable' => 'vtiger_ossmailview_relation',
@@ -120,6 +120,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		$query = $queryGenerator->getQuery();
 		return $query;
 	}
+
 	public function reletedQueryMail2Records($recordId, $relatedModule, $relationModel)
 	{
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>

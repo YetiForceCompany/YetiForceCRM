@@ -28,9 +28,9 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$operator = $request->get('operator');
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);
+		}
 			$viewer->assign('OPERATOR', $operator);
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
-		}
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);

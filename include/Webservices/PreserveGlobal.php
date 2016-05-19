@@ -20,10 +20,9 @@ class VTWS_PreserveGlobal
 		//To not push null value . Ideally we should not push null value for any name
 		//But current user null is dangerous so we are checking for only current user
 		if (!empty($$name) || $name != 'current_user') {
-			if (!is_array(VTWS_PreserveGlobal::$globalData[$name])) {
+			if (!isset(VTWS_PreserveGlobal::$globalData[$name])) {
 				VTWS_PreserveGlobal::$globalData[$name] = [];
 			}
-
 			VTWS_PreserveGlobal::$globalData[$name][] = $$name;
 		}
 

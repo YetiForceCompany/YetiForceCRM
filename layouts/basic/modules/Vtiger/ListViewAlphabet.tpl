@@ -24,7 +24,7 @@
 							<div class="alphabetContents alphabet_{$COUNT_ALPHABETS} row ">
 								{foreach item=ALPHABET from=$ALPHABETS}
 									<div class="alphabetSearch cursorPointer">
-										<a class="btn {if $ALPHABET_VALUE eq $ALPHABET}btn-primary{else}btn-default{/if}" id="{$ALPHABET}" href="#">{$ALPHABET}</a>
+										<a class="btn {if isset($ALPHABET_VALUE) && $ALPHABET_VALUE == $ALPHABET}btn-primary{else}btn-default{/if}" id="{$ALPHABET}" href="#">{$ALPHABET}</a>
 									</div>
 								{/foreach}
 							</div>

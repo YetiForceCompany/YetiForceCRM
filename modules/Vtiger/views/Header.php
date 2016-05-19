@@ -31,8 +31,11 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 */
 	protected function checkFileUriInRelocatedMouldesFolder($fileuri)
 	{
-		list ($filename, $query) = explode('?', $fileuri);
-
+		if (strpos($fileuri, '?') !== false) {
+			list ($filename, $query) = explode('?', $fileuri);
+		} else {
+			$filename = $fileuri;
+		}
 		// prefix the base lookup folder (relocated file).
 		if (strpos($filename, 'modules') === 0) {
 			$filename = $filename;
@@ -50,14 +53,14 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
 		if ($userModel->isAdminUser()) {
-			if($request->get('parent') != 'Settings') {
+			if ($request->get('parent') != 'Settings') {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
 					'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 					'glyphicon' => 'glyphicon glyphicon-cog',
 				];
-			}else{
+			} else {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
@@ -75,14 +78,14 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'glyphicon' => 'glyphicon glyphicon-tasks',
 			];
 		}
-		
+
 		$headerLinks[] = [
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
 			'glyphicon' => 'glyphicon glyphicon-off',
 		];
-		
+
 		if (Users_Module_Model::getSwitchUsers()) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',

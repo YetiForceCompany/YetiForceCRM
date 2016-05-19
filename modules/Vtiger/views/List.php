@@ -78,7 +78,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('HEADER_LINKS', $listViewModel->getHederLinks($linkParams));
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEWID', $this->viewName);
-
+		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -104,7 +104,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if ($request->isAjax()) {
 			$this->viewName = CustomView_Record_Model::getViewId($request);
@@ -119,7 +118,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 		}
 
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
@@ -207,9 +205,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$operator = $request->get('operator');
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);
-			$viewer->assign('OPERATOR', $operator);
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
+		$viewer->assign('OPERATOR', $operator);
+		$viewer->assign('ALPHABET_VALUE', $searchValue);
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);

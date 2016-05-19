@@ -11,8 +11,7 @@
 {assign var=TABINDEX value=0}
 {foreach key=KEY item=MENU from=$MENUS}
 	{assign var=TABINDEX value=$TABINDEX+1}
-	{assign var=CHILDS value=$MENU.childs}
-	{if $CHILDS|@count neq 0}
+	{if isset($MENU['childs']) && $MENU['childs']|@count neq 0}
 		{assign var=HASPOPUP value='true'}
 		{assign var=CLASS value='dropdown'}
 	{else}

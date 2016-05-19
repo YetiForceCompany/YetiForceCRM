@@ -55,17 +55,17 @@
 								<a href="javascript:void(0);" class="listViewHeaderValues pull-left" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}</a>
 									{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-						<div class='pull-left'>
-							<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
-								  data-content="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
-								<span class="glyphicon glyphicon-info-sign"></span>
-							</span>
-							<input type="checkbox" id="searchInSubcategories" title="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['specialOption']} checked {/if}>
-						</div>
-					{/if}
-					</th>
-				{/foreach}
-				</tr>
+									<div class='pull-left'>
+										<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
+											  data-content="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
+											<span class="glyphicon glyphicon-info-sign"></span>
+										</span>
+										<input type="checkbox" id="searchInSubcategories" title="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['specialOption']} checked {/if}>
+									</div>
+								{/if}
+							</th>
+						{/foreach}
+					</tr>
 				</thead>
 				{if $MODULE_MODEL->isQuickSearchEnabled()}
 					<tr>
@@ -75,8 +75,13 @@
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td>
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER->getName()])}
+									{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]}
+								{else}
+									{assign var=SEARCH_INFO value=[]}
+								{/if}
 								{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
-                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
+                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 							</td>
 						{/foreach}
 						<td>
@@ -89,37 +94,37 @@
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 					{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
 					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList}style="background-color: {$LISTVIEW_ENTRY->colorList['background']};color: {$LISTVIEW_ENTRY->colorList['text']};"{/if}>
-					<td class="{$WIDTHTYPE}">
-						{if $LISTVIEW_ENTRY->isEditable()}
-							<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}"/>
-						{/if}
-					</td>
-					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-						<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
-							{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
-								<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
-									{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-										{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-									{else}
-										{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-									{/if}</a>
-								{else}
-									{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
-										{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
-									{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-										{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-									{else}
-										{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-									{/if}
-								{/if}
+						<td class="{$WIDTHTYPE}">
+							{if $LISTVIEW_ENTRY->isEditable()}
+								<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}"/>
+							{/if}
 						</td>
-						{if $LISTVIEW_HEADER@last}
-							<td class="{$WIDTHTYPE} noWrap">
-								{include file=vtemplate_path('ListViewRecordActions.tpl',$MODULE_NAME)}
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
+							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
+								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
+									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+										{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+											{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+										{else}
+											{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+										{/if}</a>
+									{else}
+										{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
+											{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
+										{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+											{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+										{else}
+											{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+										{/if}
+									{/if}
 							</td>
-						{/if}
-					{/foreach}
+							{if $LISTVIEW_HEADER@last}
+								<td class="{$WIDTHTYPE} noWrap">
+									{include file=vtemplate_path('ListViewRecordActions.tpl',$MODULE_NAME)}
+								</td>
+							{/if}
+						{/foreach}
 					</tr>
 				{/foreach}
 			</table>

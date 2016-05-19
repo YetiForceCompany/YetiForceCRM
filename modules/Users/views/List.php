@@ -94,9 +94,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$operator = $request->get('operator');
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);
-			$viewer->assign('OPERATOR', $operator);
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
+		$viewer->assign('OPERATOR', $operator);
+		$viewer->assign('ALPHABET_VALUE', $searchValue);
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
@@ -151,7 +151,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		
+
 		if (!$this->listViewCount) {
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
@@ -208,11 +208,11 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$searchParmams = $request->get('search_params');
 		$operator = $request->get('operator');
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
-		
+
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
-		
+
 		$listViewModel->set('search_params', $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule()));
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);

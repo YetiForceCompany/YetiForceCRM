@@ -48,19 +48,13 @@ class Vtiger_Link
 	 */
 	function initialize($valuemap)
 	{
-		$this->tabid = $valuemap['tabid'];
-		$this->linkid = $valuemap['linkid'];
-		$this->linktype = $valuemap['linktype'];
-		$this->linklabel = $valuemap['linklabel'];
-		$this->linkurl = decode_html($valuemap['linkurl']);
-		$this->linkicon = decode_html($valuemap['linkicon']);
-		$this->glyphicon = $valuemap['glyphicon'];
-		$this->sequence = $valuemap['sequence'];
-		$this->status = $valuemap['status'];
-		$this->handler_path = $valuemap['handler_path'];
-		$this->handler_class = $valuemap['handler_class'];
-		$this->handler = $valuemap['handler'];
-		$this->params = $valuemap['params'];
+		foreach ($valuemap as $key => $value) {
+			if ($key == 'linkurl' || $key == 'linkicon') {
+				$this->$key = decode_html($value);
+			} else {
+				$this->$key = $value;
+			}
+		}
 	}
 
 	/**
@@ -97,7 +91,7 @@ class Vtiger_Link
 	static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null, $linkParams = null)
 	{
 		$adb = PearDatabase::getInstance();
-		if($tabid != 0){
+		if ($tabid != 0) {
 			$checkres = $adb->pquery('SELECT linkid FROM vtiger_links WHERE tabid=? AND linktype=? AND linkurl=? AND linkicon=? AND linklabel=?', [$tabid, $type, $url, $iconpath, $label]);
 		}
 		if ($tabid == 0 || !$adb->getRowCount($checkres)) {

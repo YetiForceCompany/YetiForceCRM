@@ -23,9 +23,9 @@ class Vtiger_Language_Handler
 	 * @param <String> $module - module scope in which the translation need to be check
 	 * @return <String> - translated string
 	 */
-	public static function getTranslatedString($key, $module = '', $currentLanguage = '')
+	public static function getTranslatedString($key, $module = 'Vtiger', $currentLanguage = false)
 	{
-		if (empty($currentLanguage)) {
+		if ($currentLanguage === false) {
 			$currentLanguage = self::getLanguage();
 		}
 		//decoding for Start Date & Time and End Date & Time 
@@ -55,7 +55,7 @@ class Vtiger_Language_Handler
 	 * @param <String> $module - module name
 	 * @return <String> translated string or null if translation not found
 	 */
-	public static function getLanguageTranslatedString($language, $key, $module = '')
+	public static function getLanguageTranslatedString($language, $key, $module = 'Vtiger')
 	{
 		$moduleStrings = [];
 
@@ -77,7 +77,6 @@ class Vtiger_Language_Handler
 				return stripslashes($moduleStrings['languageStrings'][$key]);
 			}
 		}
-
 		$commonStrings = self::getModuleStringsFromFile($language);
 		if (!empty($commonStrings['languageStrings'][$key]))
 			return stripslashes($commonStrings['languageStrings'][$key]);
@@ -91,7 +90,7 @@ class Vtiger_Language_Handler
 	 * @param <String> $module - module scope in which the translation need to be check
 	 * @return <String> - translated string
 	 */
-	public static function getJSTranslatedString($language, $key, $module = '')
+	public static function getJSTranslatedString($language, $key, $module = 'Vtiger')
 	{
 		$moduleStrings = [];
 
@@ -254,7 +253,7 @@ class Vtiger_Language_Handler
 	}
 }
 
-function vtranslate($key, $moduleName = '')
+function vtranslate($key, $moduleName = 'Vtiger')
 {
 	$formattedString = Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
 	$args = func_get_args();
@@ -266,7 +265,7 @@ function vtranslate($key, $moduleName = '')
 	return $formattedString;
 }
 
-function vJSTranslate($key, $moduleName = '')
+function vJSTranslate($key, $moduleName = 'Vtiger')
 {
 	$args = func_get_args();
 	return call_user_func_array(array('Vtiger_Language_Handler', 'getJSTranslatedString'), $args);

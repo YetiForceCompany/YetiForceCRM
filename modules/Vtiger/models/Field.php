@@ -90,7 +90,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function getModule()
 	{
-		if (!$this->module) {
+		if (!isset($this->module)) {
 			$moduleObj = $this->block->module;
 			//fix for opensource emailTemplate listview break
 			if (empty($moduleObj)) {
@@ -149,7 +149,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 			$row['fieldid'] = $this->get('id');
 			$row['readonly'] = !$this->getProfileReadWritePermission();
 			$row['defaultvalue'] = $this->get('defaultvalue');
-
+			$row['fieldparams'] = $this->get('fieldparams');
 			$this->webserviceField = WebserviceField::fromArray($db, $row);
 		}
 		return $this->webserviceField;
@@ -161,7 +161,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function getFieldDataType()
 	{
-		if (!$this->fieldDataType) {
+		if (!isset($this->fieldDataType)) {
 			$uiType = $this->get('uitype');
 			switch ($uiType) {
 				case 9: $fieldDataType = 'percentage';

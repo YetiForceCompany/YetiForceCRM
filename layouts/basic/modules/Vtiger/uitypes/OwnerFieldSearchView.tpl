@@ -12,9 +12,12 @@
 {strip}
     {assign var=FIELD_INFO value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
-
-    {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
-    {assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
+	{if isset($SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUE value=explode(',',$SEARCH_INFO['searchValue'])}
+	{else}
+		{assign var=SEARCH_VALUE value=[]}
+	{/if}
+    {assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUE)}
 
 	{if $VIEWID && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 		{assign var=USERS_GROUP_LIST value=$USER_MODEL->getUsersAndGroupForModuleList($MODULE, $VIEWID)}

@@ -161,7 +161,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	public function getListViewOrderBy()
 	{
 		$moduleModel = $this->getModule();
-
+		$query = '';
 		$orderBy = $this->getForSql('orderby');
 		$sortOrder = $this->getForSql('sortorder');
 		if (!empty($orderBy)) {
@@ -525,7 +525,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		
+
 		if ($moduleModel->isPermitted('CreateView')) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',

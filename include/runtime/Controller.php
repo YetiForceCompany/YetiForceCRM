@@ -167,7 +167,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	function getViewer(Vtiger_Request $request)
 	{
-		if (!$this->viewer) {
+		if (!isset($this->viewer)) {
 			$viewer = Vtiger_Viewer::getInstance();
 			$viewer->assign('APPTITLE', getTranslatedString('APPTITLE'));
 			$viewer->assign('YETIFORCE_VERSION', vglobal('YetiForce_current_version'));

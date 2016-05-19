@@ -227,7 +227,7 @@ class ListViewSession
 		Vtiger_Session::set($currentModule . '_listquery', $query);
 	}
 
-	function hasViewChanged($currentModule, $viewId = false)
+	public static function hasViewChanged($currentModule, $viewId = false)
 	{
 		if (empty($_SESSION['lvs'][$currentModule]['viewname']))
 			return true;

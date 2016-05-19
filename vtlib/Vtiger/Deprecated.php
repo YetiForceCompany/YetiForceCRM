@@ -159,14 +159,15 @@ class Vtiger_Deprecated
 
 	static function getAnnouncements()
 	{
-		$adb = PearDatabase::getInstance();
-		$sql = " select * from vtiger_announcement inner join vtiger_users on vtiger_announcement.creatorid=vtiger_users.id";
+		$db = PearDatabase::getInstance();
+		$sql = 'select * from vtiger_announcement inner join vtiger_users on vtiger_announcement.creatorid=vtiger_users.id';
 		$sql.=" AND vtiger_users.is_admin='on' AND vtiger_users.status='Active' AND vtiger_users.deleted = 0";
-		$result = $adb->pquery($sql, array());
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
-			$announce = getUserFullName($adb->query_result($result, $i, 'creatorid')) . ' :  ' . $adb->query_result($result, $i, 'announcement') . '   ';
-			if ($adb->query_result($result, $i, 'announcement') != '')
-				$announcement.=$announce;
+		$result = $db->query($sql);
+		$announcement = '';
+		while ($row = $db->getRow($result)) {
+			if ($row['announcement'] != '') {
+				$announcement .= getUserFullName($row['creatorid']) . ' :  ' . $row['announcement'] . '   ';
+			}
 		}
 
 		return $announcement;

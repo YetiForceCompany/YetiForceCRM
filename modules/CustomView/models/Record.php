@@ -1197,7 +1197,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				$return = $return[0];
 				break;
 			case 'sortOrder':
-				$return = $return[1];
+				$return = isset($return[1]) ? $return[1] : '';
 				break;
 
 			default:

@@ -12,10 +12,15 @@
 {strip}
     {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var="LABEL" value=$FIELD_MODEL->getFieldInfo()}
+	{if isset($SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUE value=$SEARCH_INFO['searchValue']}
+	{else}
+		{assign var=SEARCH_VALUE value=''}
+	{/if}
 	<div class="searchField">
 	{if $MODULE_MODEL && $MODULE_MODEL->getAlphabetSearchField() eq $FIELD_MODEL->get('name')}
 		<div class="input-group col-xs-12">
-			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_INFO['searchValue']}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
+			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
 			<div  class="input-group-btn alphabetBtnContainer">
 				{if $ALPHABET_VALUE}
 					<button class=" btn btn-primary alphabetBtn">
@@ -30,7 +35,7 @@
 			</div>
 		</div>
 	{else}
-			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_INFO['searchValue']}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
+			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
 	{/if}
     </div>
 {/strip}

@@ -14,7 +14,7 @@
 						{if $key != 0 && $ITEM_PREV}
 							<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
 						{/if}
-						{if $item['url']}
+						{if isset($item['url'])}
 							<a href="{$item['url']}">
 								<span>{$item['name']}</span>
 							</a>

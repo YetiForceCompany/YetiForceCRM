@@ -215,11 +215,11 @@ class DateTimeField
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date) . ' | ' . $format);
 		$date = self::convertToInternalFormat($date);
 		$separator = '-';
-		if (strpos($date[0], "-") !== false) {
+		if (strpos($date[0], '-') !== false) {
 			$separator = '-';
-		} elseif (strpos($date[0], ".") !== false) {
+		} elseif (strpos($date[0], '.') !== false) {
 			$separator = '.';
-		} elseif (strpos($date[0], "/") !== false) {
+		} elseif (strpos($date[0], '/') !== false) {
 			$separator = '/';
 		}
 		list($y, $m, $d) = explode($separator, $date[0]);
@@ -245,7 +245,7 @@ class DateTimeField
 				break;
 		}
 
-		if ($date[1] != '') {
+		if (isset($date[1]) && $date[1] != '') {
 			$userDate = $date[0] . ' ' . $date[1];
 		} else {
 			$userDate = $date[0];
@@ -361,17 +361,13 @@ class DateTimeField
 	 */
 	function getDisplayDate($user = null)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
-
 		$date_value = explode(' ', $this->datetime);
-		if ($date_value[1] != '') {
+		if (isset($date_value[1]) && $date_value[1] != '') {
 			$date = self::convertToUserTimeZone($this->datetime, $user);
 			$date_value = $date->format('Y-m-d');
 		}
 
 		$display_date = self::convertToUserFormat($date_value, $user);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $display_date;
 	}
 

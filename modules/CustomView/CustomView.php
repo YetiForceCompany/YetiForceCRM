@@ -132,7 +132,7 @@ class CustomView extends CRMEntity
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$tabId = Vtiger_Functions::getModuleId($module);
-		
+
 		$sql = 'SELECT userid, default_cvid FROM vtiger_user_module_preferences WHERE `tabid` = ?';
 		$result = $db->pquery($sql, [$tabId]);
 		$data = $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
@@ -1433,7 +1433,7 @@ class CustomView extends CRMEntity
 
 			if (trim($block_label) == '') {
 				$block_info[$pre_block_label] = $block_info[$pre_block_label] . "," . $block_result['block'];
-			} else {
+			} elseif (isset($current_mod_strings[$block_label])) {
 				$lan_block_label = $current_mod_strings[$block_label];
 				if (isset($block_info[$lan_block_label]) && $block_info[$lan_block_label] != '') {
 					$block_info[$lan_block_label] = $block_info[$lan_block_label] . "," . $block_result['block'];
