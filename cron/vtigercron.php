@@ -19,7 +19,8 @@ require_once 'modules/Emails/mail.php';
 Vtiger_Session::init();
 $authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
 $appUniqueKey = Vtiger_Session::get('app_unique_key');
-if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey == vglobal('application_unique_key'))) {
+$user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey == AppConfig::main('application_unique_key'));
+if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || $user) {
 	$log = LoggerManager::getLogger('CRON');
 	vglobal('log', $log);
 
@@ -39,6 +40,9 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserI
 	$current_user = vglobal('current_user');
 	$current_user = Users::getActiveAdminUser();
 
+	if($user){
+		echo '<pre>';
+	}
 	echo sprintf('---------------  %s | Start CRON  ----------', date('Y-m-d H:i:s')) . PHP_EOL;
 	foreach ($cronTasks as $cronTask) {
 		try {
@@ -83,8 +87,9 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserI
 			$cronTask->markFinished();
 			echo sprintf('%s | %s - End task', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 		} catch (AppException $e) {
-			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()).PHP_EOL;
 			echo $e->getMessage() . PHP_EOL;
+			echo $e->getTraceAsString() . PHP_EOL;
 		}
 	}
 	echo sprintf('===============  %s | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
