@@ -41,7 +41,7 @@
 			</thead>
 			<tr class="blockHeader">
 				<th class="blockHeader" colspan="5">
-					{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)} {vtranslate('LBL_FIELD_INFORMATION', $QUALIFIED_MODULE)} {$QUALIFIED_MODULE}
+					{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)} {vtranslate('LBL_FIELD_INFORMATION', $QUALIFIED_MODULE)}
 				</th>
 			</tr>
 			<tr>
