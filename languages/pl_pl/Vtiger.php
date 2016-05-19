@@ -583,6 +583,7 @@ $languageStrings = [
 	'SINGLE_Contacts' => 'Kontakt', //Duplicated key-value pairs
 	'SINGLE_Calendar' => 'Kalendarz',
 	'SINGLE_ServiceContracts' => 'Umowa',
+	'ServiceContracts' => 'Umowa',
 	'SINGLE_Emails' => 'Email',
 	'Single_Users' => 'Użytkownik',
 	'State' => 'Województwo',

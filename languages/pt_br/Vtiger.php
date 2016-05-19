@@ -642,6 +642,7 @@ $languageStrings = [
 	'SINGLE_Contacts' => 'Contato', //Duplicated key-value pairs
 	'SINGLE_Calendar' => 'Tarefa',
 	'SINGLE_ServiceContracts' => 'Contrato',
+	'ServiceContracts' => 'Contrato',
 	'SINGLE_Emails' => 'Email',
 	'Single_Users' => 'Usuário',
 	'State' => 'Estado',
