@@ -4,7 +4,7 @@
  * 
  * <p>This framework is based on log4j (see {@link http://jakarta.apache.org/log4j log4j} for details).</p>
  * <p>Design, strategies and part of the methods documentation are developed by log4j team 
- * (Ceki Gülcü as log4j project founder and 
+ * (Ceki GÃ¼lcÃ¼ as log4j project founder and 
  * {@link http://jakarta.apache.org/log4j/docs/contributors.html contributors}).</p>
  *
  * <p>PHP port, extensions and modifications by VxR. All rights reserved.<br>
@@ -160,6 +160,7 @@ class LoggerCategory {
         }
         if ($errorLevel->isGreaterOrEqual($this->getEffectiveLevel())) {
             $this->forcedLog($this->fqcn, $caller, $errorLevel, $message);
+			$this->forcedLog($this->fqcn, $caller, $errorLevel, PHP_EOL.Vtiger_Functions::getBacktrace(1));
         }
     }
   
