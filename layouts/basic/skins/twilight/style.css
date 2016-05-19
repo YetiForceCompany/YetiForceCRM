@@ -5387,3 +5387,15 @@ select.form-control {
 	max-height: 500px;
 	overflow-y: auto;
 }
+.lineOfText {
+    background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=);
+    background-repeat: repeat-x;
+    background-position: left;
+    text-align: center;
+}
+.lineOfText :first-child {
+    background-color: #ffffff;
+    margin: 0 auto;
+    padding:0 5px;
+    display: inline-block;
+}

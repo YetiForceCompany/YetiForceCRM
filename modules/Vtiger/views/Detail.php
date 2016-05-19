@@ -366,9 +366,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	function showRecentActivities(Vtiger_Request $request)
 	{
+		$type = 'changes';
 		$parentRecordId = $request->get('record');
 		$pageNumber = $request->get('page');
 		$limit = $request->get('limit');
+		$whereCondition = $request->get('whereCondition');
 		$moduleName = $request->getModule();
 
 		if (empty($pageNumber)) {
@@ -383,24 +385,31 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$limit = AppConfig::module('ModTracker', 'NUMBER_RECORDS_ON_PAGE');
 			$pagingModel->set('limit', $limit);
 		}
-
-		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel);
+		if (!empty($whereCondition)) {
+			$type = is_array($whereCondition) ? current($whereCondition) : $whereCondition;
+		}
+		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel, $type);
 		$pagingModel->calculatePageRange($recentActivities);
 
-		if ($pagingModel->getCurrentPage() == ceil(ModTracker_Record_Model::getTotalRecordCount($parentRecordId) / $pagingModel->getPageLimit())) {
+		if ($pagingModel->getCurrentPage() == ceil(ModTracker_Record_Model::getTotalRecordCount($parentRecordId, $type) / $pagingModel->getPageLimit())) {
 			$pagingModel->set('nextPageExists', false);
 		} else {
 			$pagingModel->set('nextPageExists', true);
 		}
 		$viewer = $this->getViewer($request);
+		$viewer->assign('TYPE', $type);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('MODULE_BASE_NAME', 'ModTracker');
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$defaultView = AppConfig::module('ModTracker', 'DEFAULT_VIEW');
 		if ($defaultView == 'List') {
 			$tplName = 'RecentActivities.tpl';
 		} else {
 			$tplName = 'RecentActivitiesTimeLine.tpl';
+		}
+		if(!$request->get('skipHeader')){
+			echo $viewer->view('RecentActivitiesHeader.tpl', $moduleName, 'true');
 		}
 		echo $viewer->view($tplName, $moduleName, 'true');
 	}

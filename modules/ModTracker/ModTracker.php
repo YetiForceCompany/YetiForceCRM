@@ -399,8 +399,10 @@ class ModTracker
 			'module' => $sourceModule,
 			'whodid' => $currentUser->getRealId(),
 			'changedon' => $currentTime,
-			'status' => $type
+			'status' => $type,
+			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 		]);
+		ModTracker_Record_Model::unsetReviewed($sourceId, $currentUser->getRealId());
 		$adb->insert('vtiger_modtracker_relations', [
 			'id' => $id,
 			'targetmodule' => $targetModule,

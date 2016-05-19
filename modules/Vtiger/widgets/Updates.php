@@ -14,12 +14,17 @@ class Vtiger_Updates_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentActivities&page=1&limit=5';
+		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentActivities&page=1&limit=5&skipHeader=true';
 	}
 
 	public function getWidget()
 	{
 		$this->Config['url'] = $this->getUrl();
+		$this->Config['switchHeader'] = [];
+		$this->Config['switchHeader']['on'] = 'changes';
+		$this->Config['switchHeader']['off'] = 'review';
+		$this->Config['switchHeaderLables']['on'] = vtranslate('LBL_UPDATES', 'ModTracker');
+		$this->Config['switchHeaderLables']['off'] = vtranslate('LBL_REVIEW_HISTORY', 'ModTracker');
 		return $this->Config;
 	}
 }

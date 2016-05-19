@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -16,6 +16,7 @@
 	<div>
 		{if !empty($RECENT_ACTIVITIES)}
 			<ul class="list-unstyled" id="updates">
+				{assign var=COUNT value=0}
 				{foreach item=RECENT_ACTIVITY from=$RECENT_ACTIVITIES}
 					{assign var=PROCEED value= TRUE}
 					{if ($RECENT_ACTIVITY->isRelationLink()) or ($RECENT_ACTIVITY->isRelationUnLink())}
@@ -25,6 +26,12 @@
 						{/if}
 					{/if}
 					{if $PROCEED}
+						{if $RECENT_ACTIVITY->isReviewed() && $COUNT neq 0}
+							<div class="lineOfText">
+								<div>{vtranslate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div>
+							</div>
+						{/if}
+						{$COUNT=$COUNT+1}
 						{if $RECENT_ACTIVITY->isCreate()}
 							<li>
 								<div>

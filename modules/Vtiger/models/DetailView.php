@@ -70,6 +70,16 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$recordId = $recordModel->getId();
 		$linkModelList = $detailViewLinks = [];
 
+		if ($moduleModel->isTrackingEnabled() && ModTracker_Record_Model::isNewChange($recordId)) {
+			$detailViewLinks[] = [
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => '',
+				'linkurl' => 'javascript:Vtiger_Detail_Js.changesReviewedOn(this)',
+				'linkicon' => 'glyphicon glyphicon-ok-circle',
+				'linkhint' => 'BTN_CHANGES_REVIEWED_ON',
+				'linkclass' => 'btn-success',
+			];
+		}
 		if ($moduleModel->isPermitted('WorkflowTrigger')) {
 			$adb = PearDatabase::getInstance();
 			vimport('~~modules/com_vtiger_workflow/include.inc');

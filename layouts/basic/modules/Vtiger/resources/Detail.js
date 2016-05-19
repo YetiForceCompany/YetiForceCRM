@@ -199,6 +199,24 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var detailInstance = Vtiger_Detail_Js.getInstance();
 		detailInstance.loadRelatedList(pageNumber);
 	},
+	changesReviewedOn: function (e) {
+		var progressInstance = jQuery.progressIndicator({
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
+			}
+		});
+		var url = 'index.php?module=ModTracker&action=ChangesReviewedOn&record=' + app.getRecordId();
+		AppConnector.request(url).then(
+				function (data) {
+					progressInstance.progressIndicator({mode: 'hide'});
+					jQuery(e).parent().remove();
+				},
+				function (error, err) {
+					progressInstance.progressIndicator({mode: 'hide'});
+				}
+		);
+	},
 	showWorkflowTriggerView: function (instance) {
 		$(instance).popover('hide');
 		var detailInstance = Vtiger_Detail_Js.getInstance();
@@ -1449,7 +1467,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		})
 	},
-	getFiltersDataAndLoad: function (e, stan) {
+	getFiltersDataAndLoad: function (e, params) {
+		var data = this.getFiltersData(e, params);
+		this.loadWidget(data['container'], data['params']);
+	},
+	getFiltersData: function (e, params) {
 		var currentElement = jQuery(e.currentTarget);
 		var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
 		var widget = summaryWidgetContainer.find('.widgetContentBlock');
@@ -1486,7 +1508,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				urlNewParams[name] = [value];
 			}
 		});
-		this.loadWidget($(widget), $.extend(urlParams, urlNewParams));
+		if (params != undefined) {
+			$.extend(urlNewParams, params);
+		}
+		return {'container': $(widget), 'params': $.extend(urlParams, urlNewParams)};
 	},
 	registerChangeFilterForWidget: function () {
 		var thisInstance = this;
@@ -2817,19 +2842,28 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 			);
 		});
+
 		detailContentsHolder.on('click', '.moreRecentUpdates', function (e) {
 			var container = $(e.currentTarget).closest('.recentActivitiesContainer');
 			var currentPage = container.find('#updatesCurrentPage').val();
-			var recordId = jQuery("#recordId").val();
 			var nextPage = parseInt(currentPage) + 1;
-			var pageLimit = container.find('#updatesPageLimit').val();
-			var url = 'index.php?module=' + app.getModuleName() + '&view=Detail&record=' + recordId + '&mode=showRecentActivities&page=' + nextPage + '&limit=' + pageLimit + '&tab_label=LBL_UPDATES';
-			AppConnector.request(url).then(
-				function (data) {
-					container.find('#updatesCurrentPage').remove();
-					container.find('#moreLink').remove();
-					container.find('#updates').append(data);
+			if (container.closest('.summaryWidgetContainer').length) {
+				var data = thisInstance.getFiltersData(e, {'page': nextPage, 'tab_label': 'LBL_UPDATES'}, container.find('#updates'));
+				var url = data['params'];
+			} else {
+				var url = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url');
+				url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true';
+				if (url.indexOf('&whereCondition') == -1) {
+					var switchBtn = jQuery('.recentActivitiesSwitch');
+					url += '&whereCondition=' + (switchBtn.prop('checked') ? switchBtn.data('on-val') : switchBtn.data('off-val'));
 				}
+			}
+			AppConnector.request(url).then(
+					function (data) {
+						container.find('#updatesCurrentPage').remove();
+						container.find('#moreLink').remove();
+						container.find('#updates').append(data);
+					}
 			);
 		});
 
@@ -2863,6 +2897,23 @@ jQuery.Class("Vtiger_Detail_Js", {
 		if (selectedTabElement.data('reference') == 'Comments') {
 			thisInstance.registerRefreshTimeline();
 		}
+
+		detailContentsHolder.on('switchChange.bootstrapSwitch', '.recentActivitiesSwitch.switchBtn', function (e, state) {
+			var currentTarget = jQuery(e.currentTarget);
+			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);
+			var url = tabElement.data('url');
+			var variableName = currentTarget.data('urlparams');
+			var valueOn = currentTarget.data('on-val');
+			var valueOff = currentTarget.data('off-val');
+			url = url.replace('&' + variableName + '=' + valueOn, '').replace('&' + variableName + '=' + valueOff, '');
+			if (state) {
+				url += '&' + variableName + '=' + valueOn;
+			} else {
+				url += '&' + variableName + '=' + valueOff;
+			}
+			tabElement.data('url', url);
+			tabElement.trigger('click');
+		});
 	},
 	refreshRelatedList: function () {
 		var container = jQuery('.related');
