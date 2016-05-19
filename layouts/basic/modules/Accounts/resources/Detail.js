@@ -68,18 +68,14 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 	 */
 	displayAccountHierarchyResponseData: function (data) {
 		var thisInstance = this;
-		var callbackFunction = function (data) {
-			app.showScrollBar(jQuery('#hierarchyScroll'), {
-				height: '300px',
+		app.showModalWindow(data, function (container) {
+			var bodyModal = container.find('.maxHeightModal');
+			app.showScrollBar(bodyModal, {
+				height: bodyModal.height,
 				railVisible: true,
 				size: '6px'
 			});
-		}
-		app.showModalWindow(data, function (data) {
-			if (typeof callbackFunction == 'function' && jQuery('#hierarchyScroll').height() > 300) {
-				callbackFunction(data);
-			}
-			thisInstance.registerButtons(data);
+			thisInstance.registerButtons(container);
 		});
 	},
 	/**

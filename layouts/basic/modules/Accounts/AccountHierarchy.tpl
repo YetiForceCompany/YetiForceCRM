@@ -17,8 +17,7 @@
 					<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
 					<h3 class="modal-title">{vtranslate('LBL_SHOW_ACCOUNT_HIERARCHY', $MODULE)}</h3>
 				</div>
-				<div class="modal-body">
-					<div id ="hierarchyScroll" style="margin-right: 8px;">
+				<div class="modal-body maxHeightModal">
 						<table class="table table-bordered">
 							<thead>
 								<tr class="blockHeader">
@@ -45,7 +44,6 @@
 								{/foreach}
 							</tbody>
 						</table>
-					</div>
 				</div>
 				<div class="modal-footer">
 					<div class=" pull-right cancelLinkContainer">

@@ -5383,3 +5383,7 @@ select.form-control {
 .paddingBottomZero{
 	padding-bottom: 0px !important;
 }
+.maxHeightModal{
+	max-height: 500px;
+	overflow-y: auto;
+}
