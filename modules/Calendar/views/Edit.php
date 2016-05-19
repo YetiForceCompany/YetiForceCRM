@@ -123,7 +123,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 
 			$viewer->assign('SOURCE_MODULE', $sourceModule);
 			$viewer->assign('SOURCE_RECORD', $sourceRecord);
-			$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $sourceModule, $sourceRecord);
+			$sourceRelatedField = $moduleModel->getValuesFromSource($request, $moduleName);
 			foreach ($recordStructure as &$block) {
 				foreach ($sourceRelatedField as $field => &$value) {
 					if (isset($block[$field])) {

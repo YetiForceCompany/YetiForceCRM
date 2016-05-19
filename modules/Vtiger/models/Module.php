@@ -1861,12 +1861,24 @@ class Vtiger_Module_Model extends Vtiger_Module
 		return [];
 	}
 
-	public function getValuesFromSource($moduleName, $sourceModule = false, $sourceRecord = false)
+	public function getValuesFromSource(Vtiger_Request $request, $moduleName = false)
 	{
 		$data = [];
-		if ($sourceModule && $sourceRecord) {
+		if(!$moduleName){
+			$moduleName = $request->getModule();
+		}
+		$sourceModule = $request->get('sourceModule');
+		$sourceRecord = $request->get('sourceRecord');
+		$sourceRecordData = $request->get('sourceRecordData');
+		
+		if ($sourceModule && ($sourceRecord || $sourceRecordData)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$recordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+			if(empty($sourceRecord)){
+				$recordModel = Vtiger_Record_Model::getCleanInstance($sourceModule);
+				$recordModel->setData($sourceRecordData);
+			}else{
+				$recordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+			}
 			$sourceModuleModel = $recordModel->getModule();
 			$relationField = false;
 			$fieldMap = [];

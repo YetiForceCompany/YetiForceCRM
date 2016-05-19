@@ -38,7 +38,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$recordStructure = $recordStructureInstance->getStructure();
 			$fieldValues = [];
-			$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
+			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 			foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
 				
 				if (isset($recordStructure[$fieldName])) {

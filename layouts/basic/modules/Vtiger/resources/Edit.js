@@ -554,9 +554,20 @@ jQuery.Class("Vtiger_Edit_Js", {
 			params.id = data.result._recordId;
 			thisInstance.setReferenceFieldValue(container, params);
 		}
-
+		var params = {callbackFunction: postQuickCreateSave};
+		if (app.getViewName() === 'Edit' && !app.getRecordId()) {
+			var formElement = this.getForm();
+			var formData = formElement.serializeFormData();
+			for (var i in formData){
+				if (!formData[i] || jQuery.inArray(i, ['__vtrftk', 'action']) != -1){
+					delete formData[i];
+				}
+			}
+			params.data = {};
+			params.data.sourceRecordData = formData;
+		}
 		var referenceModuleName = this.getReferencedModuleName(container);
-		Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, {callbackFunction: postQuickCreateSave});
+		Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, params);
 	},
 	/**
 	 * Function which will register event for create of reference record

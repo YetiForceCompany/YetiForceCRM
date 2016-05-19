@@ -48,7 +48,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
 
 		$fieldValues = [];
-		$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
+		$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 		foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
 			if (isset($recordStructure[$fieldName])) {
 				$fieldvalue = $recordStructure[$fieldName]->get('fieldvalue');
