@@ -26,7 +26,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 	{
 		$record = $request->get('record');
 		$result = ModTracker_Record_Model::setLastReviewed($record);
-		ModTracker_Record_Model::unsetReviewed($record);
+		ModTracker_Record_Model::unsetReviewed($record, false, $result);
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

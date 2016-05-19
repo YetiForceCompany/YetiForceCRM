@@ -62,19 +62,23 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$row = $db->getRow($result);
 			$lastReviewedUsers = explode('#', $row['last_reviewed_users']);
 			$lastReviewedUsers[] = $currentUser->getRealId();
-			return $db->update('vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ' `id` = ?', [$row['id']]);
+			$db->update('vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ' `id` = ?', [$row['id']]);
+			return $row['id'];
 		}
 		return false;
 	}
 
-	public static function unsetReviewed($recordId, $userId = false)
+	public static function unsetReviewed($recordId, $userId = false, $exception = false)
 	{
 		$db = PearDatabase::getInstance();
 		if (!$userId) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUser->getRealId();
 		}
-		$listQuery = 'SELECT `last_reviewed_users`, `id` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? AND `last_reviewed_users` LIKE "%#' . $userId . '#%" ORDER BY changedon ASC LIMIT 1;';
+		if ($exception) {
+			$where = ' AND `id` <> ' . $exception;
+		}
+		$listQuery = 'SELECT `last_reviewed_users`, `id` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? AND `last_reviewed_users` LIKE "%#' . $userId . '#%" ' . $where . ' ORDER BY changedon ASC LIMIT 1;';
 		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
 		if ($result->rowCount()) {
 			$row = $db->getRow($result);
