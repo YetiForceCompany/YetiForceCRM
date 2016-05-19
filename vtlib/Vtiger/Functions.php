@@ -1403,7 +1403,7 @@ class Vtiger_Functions
 		return $initial;
 	}
 
-	public static function getBacktrace($ignore = 2)
+	public static function getBacktrace($ignore = 1)
 	{
 		$trace = '';
 		$rootDirectory = rtrim(AppConfig::main('root_directory'), '/');
