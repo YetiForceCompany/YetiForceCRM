@@ -5258,7 +5258,7 @@ select.form-control {
 	bottom: 0;
 	width: 4px;
 	background: #ddd;
-	left: 31px;
+	left: 13px;
 	margin: 0;
 	border-radius: 2px;
 }
@@ -5281,15 +5281,14 @@ select.form-control {
 	margin-top: 0;
 	background: #FBFBFB;
 	color: #444;
-	margin-left: 60px;
-	margin-right: 15px;
+	margin-left: 33px;
 	padding: 0;
 	position: relative;
 }
 .timeline > li > .timeline-item .time {
 	color: #999;
 	float: right;
-	padding: 5px;
+	padding: 5px 0;
 	font-size: 12px;
 }
 .timeline > li > .timeline-item > .imageContainer{
@@ -5298,7 +5297,7 @@ select.form-control {
 .timeline > li > .timeline-item > .timeline-body {
 	float: left;
 	width: calc(100% - 40px);
-	padding: 10px 0px 10px 5px;
+	padding: 0 0 10px 5px;
 }
 .timeline > li > .glyphicon{
 	width: 30px;
@@ -5310,14 +5309,15 @@ select.form-control {
 	background: #d2d6de;
 	border-radius: 50%;
 	text-align: center;
-	left: 18px;
+	left: 0;
 	top: 0;
 }
 .timeline .userImage{
 	margin: 0 auto;
 	width: 40px;
+	height: 40px;
 	padding: 2px;
-	border: 3px solid #d2d6de;
+	border: 2px solid #d2d6de;
 }
 .bgBlue{
 	background: #337ab7 !important;
@@ -5325,10 +5325,6 @@ select.form-control {
 }
 .bgGreen{
 	background: #5cb85c !important;
-	color: #fff !important;
-}
-.bgOrange{
-	background: #f0ad4e !important;
 	color: #fff !important;
 }
 .bgOrange{
