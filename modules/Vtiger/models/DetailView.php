@@ -120,11 +120,11 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.changeWatchingRecord(this,' . $recordId . ')',
+				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkicon' => 'glyphicon glyphicon-eye-open',
 				'linkhint' => 'BTN_WATCHING_RECORD',
 				'linkclass' => $class,
-				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1],
+				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1, 'record' => $recordId],
 			];
 		}
 		foreach ($detailViewLinks as $detailViewLink) {

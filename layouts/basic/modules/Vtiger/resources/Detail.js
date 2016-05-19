@@ -291,54 +291,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		);
 	},
-	changeWatchingRecord: function (instance, record) {
-		var value, module, state, className;
-		if (instance != undefined) {
-			instance = $(instance);
-			value = instance.data('value');
-			if (record == undefined) {
-				record = instance.data('record');
-			}
-			if (instance.data('module') != undefined) {
-				module = instance.data('module');
-			} else {
-				module = app.getModuleName();
-			}
-		}
-		bootbox.dialog({
-			message: app.vtranslate('JS_WATCHING_MESSAGE' + value),
-			title: app.vtranslate('JS_WATCHING_TITLE'),
-			buttons: {
-				success: {
-					label: app.vtranslate('LBL_YES'),
-					className: "btn-success",
-					callback: function () {
-						Vtiger_Index_Js.updateWatchingRecord(module, record, value).then(function (data) {
-							if (instance != undefined) {
-								state = data.result == 1 ? 0 : 1;
-								instance.data('value', state);
-								if (state == 1) {
-									className = instance.data('off');
-								} else {
-									className = instance.data('on');
-								}
-								instance.removeClass(function (index, css) {
-									return (css.match(/(^|\s)btn-\S+/g) || []).join(' ');
-								});
-								instance.addClass(className);
-							}
-						});
-					}
-				},
-				danger: {
-					label: app.vtranslate('LBL_NO'),
-					className: "btn-warning",
-					callback: function () {
-					}
-				}
-			}
-		});
-	}
 }, {
 	targetPicklistChange: false,
 	targetPicklist: false,

@@ -44,7 +44,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'BTN_WATCHING_MODULE',
-				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
+				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkclass' => $class,
 				'linkicon' => 'glyphicon glyphicon-eye-open',
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],

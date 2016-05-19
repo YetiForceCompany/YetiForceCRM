@@ -55,14 +55,12 @@ var Vtiger_Index_Js = {
 	},
 	registerMailButtons: function (container) {
 		var thisInstance = this;
-
 		container.find('.sendMailBtn').click(function (e) {
 			var sendButton = jQuery(this);
 			var url = sendButton.data("url");
 			var module = sendButton.data("module");
 			var record = sendButton.data("record");
 			var popup = sendButton.data("popup");
-
 			if (module != undefined && record != undefined) {
 				thisInstance.getEmailFromRecord(record, module).then(function (data) {
 					if (data != '') {
@@ -179,10 +177,8 @@ var Vtiger_Index_Js = {
 			e.stopPropagation();
 			var currentElement = jQuery(e.currentTarget);
 			currentElement.closest('#themeContainer').hide();
-
 			var progressElement = jQuery('#progressDiv');
 			progressElement.progressIndicator();
-
 			var params = {
 				'module': 'Users',
 				'action': 'SaveAjax',
@@ -266,7 +262,6 @@ var Vtiger_Index_Js = {
 				id: 'CreateNotificationModal',
 				cb: function (container) {
 					var form, text, link, htmlLink;
-
 					text = container.find('#notificationMessage');
 					form = container.find('form');
 					container.find('#notificationTitle').val(app.getPageTitle());
@@ -314,13 +309,10 @@ var Vtiger_Index_Js = {
 	registerCheckNotifications: function () {
 		var thisInstance = this;
 		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
-
 		var currentTime = new Date().getTime();
 		var nextActivityReminderCheck = app.cacheGet('NotificationsNextCheckTime', 0);
-
 		if ((currentTime - delay) > nextActivityReminderCheck) {
 			Vtiger_Index_Js.requestNotification();
-
 			var currentTime = new Date().getTime();
 			app.cacheSet('NotificationsNextCheckTime', (currentTime + delay));
 		} else {
@@ -392,21 +384,19 @@ var Vtiger_Index_Js = {
 	},
 	markAllNotifications: function (element) {
 		var thisInstance = this;
-
 		var ids = [];
 		var li = $(element).closest('li');
 		li.find('.noticeRow').each(function (index) {
 			ids.push($(this).data('id'));
 			console.log($(this).data('id'));
 		});
-
 		var params = {
 			module: 'Home',
 			action: 'Notification',
 			mode: 'setMark',
 			ids: ids
 		}
-		li.progressIndicator({'position' : 'html'});
+		li.progressIndicator({'position': 'html'});
 		AppConnector.request(params).then(function (data) {
 			li.progressIndicator({'mode': 'hide'});
 			Vtiger_Helper_Js.showPnotify({
@@ -414,11 +404,9 @@ var Vtiger_Index_Js = {
 				text: app.vtranslate('JS_MARKED_AS_READ'),
 				type: 'info'
 			});
-
 			li.fadeOut(300, function () {
 				row.remove();
 			});
-
 			var badge = $(".notificationsNotice .badge");
 			var number = parseInt(badge.text()) - 1;
 			if (number > 0) {
@@ -451,7 +439,6 @@ var Vtiger_Index_Js = {
 			content.html(data);
 			thisInstance.refreshNumberNotifications(content);
 			app.registerModal(content);
-
 			content.find('.reminderPostpone').on('click', function (e) {
 				var currentElement = jQuery(e.currentTarget);
 				var recordID = currentElement.closest('.panel').data('record');
@@ -540,14 +527,12 @@ var Vtiger_Index_Js = {
 	registerTooltipEvents: function () {
 		var references = jQuery.merge(jQuery('[data-field-type="reference"] > a'), jQuery('[data-field-type="multireference"] > a'));
 		var lastPopovers = [];
-
 		// Fetching reference fields often is not a good idea on a given page.
 		// The caching is done based on the URL so we can reuse.
 		var CACHE_ENABLED = true; // TODO - add cache timeout support.
 
 		function prepareAndShowTooltipView() {
 			hideAllTooltipViews();
-
 			var el = jQuery(this);
 			var url = el.attr('href') ? el.attr('href') : '';
 			if (url == '') {
@@ -556,7 +541,6 @@ var Vtiger_Index_Js = {
 
 			// Rewrite URL to retrieve Tooltip view.
 			url = url.replace('view=', 'xview=') + '&view=TooltipAjax';
-
 			var cachedView = CACHE_ENABLED ? jQuery('[data-url-cached="' + url + '"]') : null;
 			if (cachedView && cachedView.length) {
 				showTooltip(el, cachedView.html());
@@ -620,7 +604,6 @@ var Vtiger_Index_Js = {
 				out: hideAllTooltipViews
 			});
 		});
-
 		function registerToolTipDestroy() {
 			jQuery('button[name="vtTooltipClose"]').on('click', function (e) {
 				var lastPopover = lastPopovers.pop();
@@ -629,30 +612,71 @@ var Vtiger_Index_Js = {
 			});
 		}
 	},
-	updateWatchingModule: function (module, value) {
-		var aDeferred = jQuery.Deferred();
-		AppConnector.request({
-			module: module,
-			action: 'Watchdog',
-			mode: 'updateModule',
-			state: value
-		}).then(function (data) {
-			aDeferred.resolve(data);
-		}, function (textStatus, errorThrown) {
-			aDeferred.reject(textStatus, errorThrown);
-			app.errorLog(textStatus, errorThrown);
+	changeWatching: function (instance) {
+		var value, module, state, className, user, record;
+		if (instance != undefined) {
+			instance = $(instance);
+			value = instance.data('value');
+			if (instance.data('module') != undefined) {
+				module = instance.data('module');
+			} else {
+				module = app.getModuleName();
+			}
+			if (instance.data('user') != undefined) {
+				user = instance.data('user');
+			}
+			if (instance.data('record') != undefined) {
+				record = instance.data('record');
+			}
+		}
+		bootbox.dialog({
+			message: app.vtranslate('JS_WATCHING_MESSAGE' + value),
+			title: app.vtranslate('JS_WATCHING_TITLE'),
+			buttons: {
+				success: {
+					label: app.vtranslate('LBL_YES'),
+					className: "btn-success",
+					callback: function () {
+						Vtiger_Index_Js.updateWatching(module, value, user, record).then(function (data) {
+							if (instance != undefined) {
+								state = data.result == 1 ? 0 : 1;
+								instance.data('value', state);
+								if (state == 1) {
+									className = instance.data('off');
+								} else {
+									className = instance.data('on');
+								}
+								instance.removeClass(function (index, css) {
+									return (css.match(/(^|\s)btn-\S+/g) || []).join(' ');
+								});
+								instance.addClass(className);
+							}
+						});
+					}
+				},
+				danger: {
+					label: app.vtranslate('LBL_NO'),
+					className: "btn-warning",
+					callback: function () {
+					}
+				}
+			}
 		});
-		return aDeferred.promise();
 	},
-	updateWatchingRecord: function (module, record, value) {
+	updateWatching: function (module, value, user, record) {
 		var aDeferred = jQuery.Deferred();
-		AppConnector.request({
+		var params = {
 			module: module,
 			action: 'Watchdog',
-			mode: 'updateRecord',
-			record: record,
 			state: value
-		}).then(function (data) {
+		};
+		if (user != undefined) {
+			params['user'] = user;
+		}
+		if (record != undefined && record != 0) {
+			params['record'] = record;
+		}
+		AppConnector.request(params).then(function (data) {
 			aDeferred.resolve(data);
 		}, function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);

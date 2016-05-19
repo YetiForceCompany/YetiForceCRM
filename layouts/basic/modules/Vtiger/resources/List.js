@@ -581,51 +581,6 @@ jQuery.Class("Vtiger_List_Js", {
 		app.showModalWindow(null, url, function () {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'})
 		});
-	},
-	changeWatchingModule: function (instance) {
-		var value, module, state, className;
-		if (instance != undefined) {
-			instance = $(instance);
-			value = instance.data('value');
-			if (instance.data('module') != undefined) {
-				module = instance.data('module');
-			} else {
-				module = app.getModuleName();
-			}
-		}
-		bootbox.dialog({
-			message: app.vtranslate('JS_WATCHING_MESSAGE' + value),
-			title: app.vtranslate('JS_WATCHING_TITLE'),
-			buttons: {
-				success: {
-					label: app.vtranslate('LBL_YES'),
-					className: "btn-success",
-					callback: function () {
-						Vtiger_Index_Js.updateWatchingModule(module, value).then(function (data) {
-							if (instance != undefined) {
-								state = data.result == 1 ? 0 : 1;
-								instance.data('value', state);
-								if (state == 1) {
-									className = instance.data('off');
-								} else {
-									className = instance.data('on');
-								}
-								instance.removeClass(function (index, css) {
-									return (css.match(/(^|\s)btn-\S+/g) || []).join(' ');
-								});
-								instance.addClass(className);
-							}
-						});
-					}
-				},
-				danger: {
-					label: app.vtranslate('LBL_NO'),
-					className: "btn-warning",
-					callback: function () {
-					}
-				}
-			}
-		});
 	}
 }, {
 	//contains the List View element.
