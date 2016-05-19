@@ -1380,6 +1380,7 @@ $languageStrings = [
 	'FL_ACTIVE' => 'Active',
 	'SwitchUsers' => 'Переключатель пользователей',
 	'BTN_CHANGES_REVIEWED_ON' => 'Changes reviewed on',
+	'LBL_VIEW_CONDITIONS' => 'Conditions',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

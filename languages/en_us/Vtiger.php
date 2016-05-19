@@ -916,6 +916,7 @@ $languageStrings = [
 	'LBL_VIEW_COMPOSE' => 'Create e-mail',
 	'LBL_VIEW_PREFERENCEDETAIL' => 'My settings',
 	'LBL_VIEW_PREFERENCEEDIT' => 'Edit settings',
+	'LBL_VIEW_CONDITIONS' => 'Conditions',
 	//Call popover
 	'LBL_BTN_CALL' => 'Call',
 	'LBL_SELECT_USER_TO_CALL' => 'Select to where you want to call',

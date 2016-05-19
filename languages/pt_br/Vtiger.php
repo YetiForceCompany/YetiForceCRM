@@ -914,6 +914,7 @@ $languageStrings = [
 	'LBL_VIEW_COMPOSE' => 'Criar e-mail',
 	'LBL_VIEW_PREFERENCEDETAIL' => 'Minhas configurações',
 	'LBL_VIEW_PREFERENCEEDIT' => 'Editar configurações',
+	'LBL_VIEW_CONDITIONS' => 'Conditions',
 	//Call popover
 	'LBL_BTN_CALL' => 'Chamada',
 	'LBL_SELECT_USER_TO_CALL' => 'Selecione destino da ligação',
