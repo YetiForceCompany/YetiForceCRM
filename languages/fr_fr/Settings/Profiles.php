@@ -71,6 +71,7 @@ $languageStrings = [
 	'RecordMappingList' => 'Générer des enregistrements de champs mappés',
 	'WatchingRecords' => 'Audit des modifications dans les enregistrements',
 	'WatchingModule' => 'Audit des modifications dans les modules',
+	'FavoriteRecords' => 'Favorite records',
 	//end Actions
 	'Profile Related to Sales' => 'Profil liés aux ventes',
 	'Profile Related to Support' => 'Profil lié au support',

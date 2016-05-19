@@ -70,6 +70,7 @@ $languageStrings = [
 	'RecordMappingList' => 'Generating mapped fields records',
 	'WatchingRecords' => 'Änderungen im Datensatz protokollieren',
 	'WatchingModule' => 'Änderungen im Modul protokollieren',
+	'FavoriteRecords' => 'Favorite records',
 	//end Actions
 	'Profile Related to Sales' => 'Profile Related to Sales',
 	'Profile Related to Support' => 'Profile Related to Support',

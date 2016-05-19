@@ -71,6 +71,7 @@ $languageStrings = [
 	'RecordMappingList' => 'Отображаемые поля записи',
 	'WatchingRecords' => 'Track changes in record',
 	'WatchingModule' => 'Track changes in module',
+	'FavoriteRecords' => 'Favorite records',
 	//end Actions
 	'Profile Related to Sales' => 'Профиль связанный с продажами',
 	'Profile Related to Support' => 'Профиль связанный с поддержкой',
