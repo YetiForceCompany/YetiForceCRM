@@ -14,7 +14,7 @@ class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 
 	var $actionsDir = false;
 
-	function OSSMailScanner_Module_Model()
+	function __construct()
 	{
 		$this->actionsDir = AppConfig::main('root_directory') . '/modules/OSSMailScanner/scanneractions';
 	}

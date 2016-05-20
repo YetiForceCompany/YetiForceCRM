@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  ********************************************************************************/
-require_once('include/database/PearDatabase.php');
-require_once('include/CRMEntity.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
 global $calpath;
@@ -17,28 +15,9 @@ global $app_strings,$mod_strings;
 global $app_list_strings;
 global $modules;
 global $blocks;
-global $adv_filter_options;
-$log = vglobal('log');
-
 global $report_modules;
 global $related_modules;
 global $old_related_modules;
-
-$adv_filter_options = array("e"=>"equals",
-		            "n"=>"not equal to",
-			    "s"=>"starts with",
-			    "ew"=>"ends with",
-			    "c"=>"contains",
-			    "k"=>"does not contain",
-			    "l"=>"less than",
-			    "g"=>"greater than",
-			    "m"=>"less or equal",
-			    "h"=>"greater or equal",
-			    "bw"=>"between",
-			    "a"=>"after",
-			    "b"=>"before",
-				"y"=>"is empty",
-			   );
 
 //$report_modules = Array('Faq','Rss','Portal','Recyclebin','Emails','Reports','Dashboard','Home','Activities'
 	//	       );
@@ -107,7 +86,7 @@ class Reports extends CRMEntity{
 	 *  It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given vtiger_reportid
 	 */
 
-	function Reports($reportid="")
+	function __construct($reportid="")
 	{
 		global $adb,$current_user,$theme,$mod_strings;
 		$this->initListOfModules();
@@ -1370,24 +1349,6 @@ function getEscapedColumns($selectedfields)
 
 		$log->info("Reports :: Successfully returned sgetColumnstoTotalHTML");
 		return $options_list;
-	}
-
-	/** Function to get the  advanced filter criteria for an option
-	 *  This function accepts The option in the advenced filter as an argument
-	 *  This generate filter criteria for the advanced filter
-	 *  It returns a HTML string of combo values
-	 */
-	public static function getAdvCriteriaHTML($selected="") {
-		global $adv_filter_options;
-
-		foreach($adv_filter_options as $key=>$value) {
-			if($selected == $key) {
-				$shtml .= "<option selected value=\"".$key."\">".$value."</option>";
-			} else {
-				$shtml .= "<option value=\"".$key."\">".$value."</option>";
-			}
-		}
-		return $shtml;
 	}
 }
 

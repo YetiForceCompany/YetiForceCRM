@@ -8,13 +8,15 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ModTracker_Field_Model extends Vtiger_Record_Model {
+class ModTracker_Field_Model extends Vtiger_Record_Model
+{
 
 	/**
 	 * Function to set parent to this model
 	 * @param Vtiger_Record_Model
 	 */
-	public function setParent($parent) {
+	public function setParent($parent)
+	{
 		$this->parent = $parent;
 		return $this;
 	}
@@ -23,7 +25,8 @@ class ModTracker_Field_Model extends Vtiger_Record_Model {
 	 * Function to get parent
 	 * @return Vtiger_Record_Model
 	 */
-	public function getParent() {
+	public function getParent()
+	{
 		return $this->parent;
 	}
 
@@ -31,7 +34,8 @@ class ModTracker_Field_Model extends Vtiger_Record_Model {
 	 * Function to set Field instance
 	 * @param Vtiger_Field_Model
 	 */
-	public function setFieldInstance($fieldModel) {
+	public function setFieldInstance($fieldModel)
+	{
 		$this->fieldInstance = $fieldModel;
 		return $this;
 	}
@@ -40,7 +44,8 @@ class ModTracker_Field_Model extends Vtiger_Record_Model {
 	 * Function to get Field instance
 	 * @return Vtiger_Field_Model
 	 */
-	public function getFieldInstance() {
+	public function getFieldInstance()
+	{
 		return $this->fieldInstance;
 	}
 
@@ -48,7 +53,8 @@ class ModTracker_Field_Model extends Vtiger_Record_Model {
 	 * Function to get Old value of this Field
 	 * @return <String>
 	 */
-	public function getOldValue() {
+	public function getOldValue()
+	{
 		return $this->getDisplayValue($this->get('prevalue'));
 	}
 
@@ -56,7 +62,8 @@ class ModTracker_Field_Model extends Vtiger_Record_Model {
 	 * Function to get new(updated) value of this Field
 	 * @return <String>
 	 */
-	public function getNewValue() {
+	public function getNewValue()
+	{
 		return $this->getDisplayValue($this->get('postvalue'));
 	}
 
@@ -64,7 +71,8 @@ class ModTracker_Field_Model extends Vtiger_Record_Model {
 	 * Function to get name
 	 * @return <type>
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->getFieldInstance()->get('label');
 	}
 
@@ -73,15 +81,17 @@ class ModTracker_Field_Model extends Vtiger_Record_Model {
 	 * @param <type> $value
 	 * @return <String>
 	 */
-	public function getDisplayValue($value) {
-		return $this->getFieldInstance()->getDisplayValue($value);
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		return $this->getFieldInstance()->getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	/**
 	 * Function returns the module name of the field
 	 * @return <String>
 	 */
-	public function getModuleName() {
+	public function getModuleName()
+	{
 		return $this->getParent()->getParent()->getModule()->getName();
 	}
 }

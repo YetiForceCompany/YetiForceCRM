@@ -62,15 +62,6 @@ class Documents extends CRMEntity
 	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 
-	function Documents()
-	{
-		$this->log = LoggerManager::getLogger('notes');
-		$this->log->debug("Entering Documents() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Documents');
-		$this->log->debug("Exiting Documents method ...");
-	}
-
 	function save_module($module)
 	{
 		global $log, $adb, $upload_badext;

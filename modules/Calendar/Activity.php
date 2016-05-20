@@ -90,13 +90,6 @@ class Activity extends CRMEntity
 	var $default_order_by = 'date_start';
 	var $default_sort_order = 'ASC';
 
-	function Activity()
-	{
-		$this->log = LoggerManager::getLogger('Calendar');
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Calendar');
-	}
-
 	function save_module($module)
 	{
 		$adb = PearDatabase::getInstance();

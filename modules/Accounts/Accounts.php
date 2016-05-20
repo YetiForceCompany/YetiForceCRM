@@ -73,13 +73,6 @@ class Accounts extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'accountname';
 
-	function Accounts()
-	{
-		$this->log = LoggerManager::getLogger('account');
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Accounts');
-	}
-
 	/** Function to handle module specific operations when saving a entity
 	 */
 	function save_module($module)

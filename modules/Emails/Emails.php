@@ -63,17 +63,6 @@ class Emails extends CRMEntity {
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
 
-	/** This function will set the columnfields for Email module
-	 */
-	function Emails() {
-		$this->log = LoggerManager::getLogger('email');
-		$this->log->debug("Entering Emails() method ...");
-		$this->log = LoggerManager::getLogger('email');
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Emails');
-		$this->log->debug("Exiting Email method ...");
-	}
-
 	function save_module($module) {
 		$adb = PearDatabase::getInstance();
 		//Inserting into seactivityrel

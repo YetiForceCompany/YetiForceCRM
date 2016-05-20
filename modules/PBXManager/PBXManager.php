@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-include_once 'include/CRMEntity.php';
 require_once 'vtlib/Vtiger/Link.php';
 include_once 'vtlib/Vtiger/Module.php';
 include_once('vtlib/Vtiger/Menu.php');
@@ -72,12 +71,6 @@ class PBXManager extends CRMEntity
 	var $column_fields = Array();
 	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
-
-	function PBXManager()
-	{
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('PBXManager');
-	}
 
 	/**
 	 * Invoked when special actions are performed on the module.

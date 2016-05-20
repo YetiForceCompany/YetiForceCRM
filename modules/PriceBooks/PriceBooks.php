@@ -52,16 +52,6 @@ class PriceBooks extends CRMEntity {
 	// For Alphabetical search
 	var $def_basicsearch_col = 'bookname';
 
-	/**	Constructor which will set the column_fields in this object
-	 */
-	function PriceBooks() {
-		$this->log =LoggerManager::getLogger('pricebook');
-		$this->log->debug("Entering PriceBooks() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('PriceBooks');
-		$this->log->debug("Exiting PriceBook method ...");
-	}
-
 	function save_module($module)
 	{
 		// Update the list prices in the price book with the unit price, if the Currency has been changed

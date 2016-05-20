@@ -92,15 +92,7 @@ class ServiceContracts extends CRMEntity
 	var $special_functions = Array('set_import_assigned_user');
 	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
-
-	function __construct()
-	{
-		$log = vglobal('log');
-		$this->column_fields = getColumnFields(get_class($this));
-		$this->db = PearDatabase::getInstance();
-		$this->log = $log;
-	}
-
+	
 	function save_module($module)
 	{
 		$return_action = AppRequest::get('return_action');

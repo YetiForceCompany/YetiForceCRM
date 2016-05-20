@@ -32,6 +32,7 @@ require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';
 require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
 require_once 'vtlib/Vtiger/Language.php';
 require_once 'include/ListView/ListViewSession.php';
 require_once 'vtlib/Vtiger/Functions.php';

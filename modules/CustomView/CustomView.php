@@ -52,15 +52,15 @@ class CustomView extends CRMEntity
 	 * @param $module -- The module Name:: Type String(optional)
 	 * @returns  nothing
 	 */
-	function CustomView($module = "")
+	function __construct($module = '')
 	{
 		global $current_user, $adb;
 		$this->customviewmodule = $module;
-		$this->escapemodule[] = $module . "_";
-		$this->escapemodule[] = "_";
+		$this->escapemodule[] = $module . '_';
+		$this->escapemodule[] = '_';
 		$this->smownerid = $current_user->id;
 		$this->moduleMetaInfo = array();
-		if ($module != "" && $module != 'Calendar') {
+		if ($module != '' && $module != 'Calendar') {
 			$this->meta = $this->getMeta($module, $current_user);
 		}
 	}

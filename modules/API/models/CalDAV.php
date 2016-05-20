@@ -657,6 +657,7 @@ class API_CalDAV_Model
 		// get all transitions for one year back/ahead
 		$year = 86400 * 360;
 		$transitions = $tz->getTransitions($from - $year, $to + $year);
+		
 		$vt = $vcalendar->createComponent('VTIMEZONE');
 		$vt->TZID = $tz->getName();
 		$vt->TZURL = 'http://tzurl.org/zoneinfo/' . $tz->getName();

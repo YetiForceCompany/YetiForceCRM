@@ -3,6 +3,9 @@
 {if !is_array($ACCESS_OPTIONS.available)}
 	{$ACCESS_OPTIONS.available = array($ACCESS_OPTIONS.available)}
 {/if}
+{if !isset($OWNER)}
+	{assign var=OWNER value=''}
+{/if}
 <select class="widgetFilter width90 owner form-control input-sm" name="owner" title="{vtranslate('LBL_OWNER')}">
 	{if array_key_exists( $CURRENTUSER->getId(), $ACCESSIBLE_USERS ) && in_array('mine', $ACCESS_OPTIONS.available)}
 		<option value="{$CURRENTUSER->getId()}" data-name="{$CURRENTUSER->getName()}" title="{vtranslate('LBL_MINE')}" {if $OWNER eq $CURRENTUSER->getId()} selected {/if}>{vtranslate('LBL_MINE')}</option>

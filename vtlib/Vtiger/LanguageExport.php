@@ -100,7 +100,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	{
 		$adb = PearDatabase::getInstance();
 
-		$sqlresult = $adb->pquery("SELECT * FROM vtiger_language WHERE prefix = ?", array($prefix));
+		$sqlresult = $adb->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
 		$languageresultrow = $adb->fetch_array($sqlresult);
 
 		$langname = decode_html($languageresultrow['name']);
@@ -124,11 +124,9 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	function export_Dependencies()
+	function export_Dependencies($moduleInstance)
 	{
-		global $YetiForce_current_version, $adb;
-
-		$vtigerMinVersion = $YetiForce_current_version;
+		$vtigerMinVersion = vglobal('YetiForce_current_version');
 		$vtigerMaxVersion = false;
 
 		$this->openNode('dependencies');

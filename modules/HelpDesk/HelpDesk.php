@@ -92,17 +92,6 @@ class HelpDesk extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'ticket_title';
 
-	/** 	Constructor which will set the column_fields in this object
-	 */
-	function HelpDesk()
-	{
-		$this->log = LoggerManager::getLogger('helpdesk');
-		$this->log->debug("Entering HelpDesk() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('HelpDesk');
-		$this->log->debug("Exiting HelpDesk method ...");
-	}
-
 	function save_module($module)
 	{
 		//Inserting into Ticket Comment Table

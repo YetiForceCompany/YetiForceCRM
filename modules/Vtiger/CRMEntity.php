@@ -25,10 +25,9 @@ class Vtiger_CRMEntity extends CRMEntity {
 	var $special_functions = Array('set_import_assigned_user');
 	
 	function __construct() {
-		$log = LoggerManager::getInstance();
 		$this->column_fields = getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
-		$this->log = $log;
+		$this->log = LoggerManager::getInstance(get_class($this));
 	}
 
 	function save_module($module) {

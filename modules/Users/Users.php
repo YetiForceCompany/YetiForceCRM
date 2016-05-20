@@ -25,17 +25,10 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once('include/logging.php');
-require_once('include/database/PearDatabase.php');
 require_once('include/utils/UserInfoUtil.php');
-require_once 'include/CRMEntity.php';
-require_once('modules/Calendar/Activity.php');
-require_once('modules/Contacts/Contacts.php');
-require_once('include/Tracker.php');
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Webservices/Utils.php';
 require_once('modules/Users/UserTimeZonesArray.php');
-require_once 'include/runtime/Cache.php';
 
 // User is used to store customer information.
 /** Main class for the user module
@@ -115,10 +108,9 @@ class Users extends CRMEntity
 	  instantiates the Logger class and PearDatabase Class
 	 *
 	 */
-	function Users()
+	function __construct()
 	{
-		$this->log = LoggerManager::getLogger('user');
-		$this->log->debug("Entering Users() method ...");
+		$this->log = LoggerManager::getInstance(get_class($this));
 		$this->db = PearDatabase::getInstance();
 		$this->DEFAULT_PASSWORD_CRYPT_TYPE = (version_compare(PHP_VERSION, '5.3.0') >= 0) ?
 			'PHP5.3MD5' : 'MD5';
@@ -127,7 +119,6 @@ class Users extends CRMEntity
 		$this->column_fields['currency_code'] = '';
 		$this->column_fields['currency_symbol'] = '';
 		$this->column_fields['conv_rate'] = '';
-		$this->log->debug("Exiting Users() method ...");
 	}
 
 	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
@@ -635,7 +626,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 *
 	 */
-	function saveentity($module)
+	function saveentity($module, $fileid = '')
 	{
 		$db = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
@@ -739,7 +730,7 @@ class Users extends CRMEntity
 	 * @param $table_name -- table name:: Type varchar
 	 * @param $module -- module:: Type varchar
 	 */
-	function insertIntoEntityTable($table_name, $module)
+	function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
 		$log = LoggerManager::getInstance();
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
@@ -1009,7 +1000,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 * @param $file_details -- file details array:: Type array
 	 */
-	function uploadAndSaveFile($id, $module, $file_details)
+	function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
@@ -1080,7 +1071,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 *
 	 */
-	function save($module_name)
+	function save($module_name, $fileid = '')
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -1338,7 +1329,7 @@ class Users extends CRMEntity
 	 * @param $input_value -- Input value for the column taken from the User
 	 * @return Column value of the field.
 	 */
-	function get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype)
+	function get_column_value($columName, $fldvalue, $fieldname, $uitype, $datatype = '')
 	{
 		if (is_uitype($uitype, "_date_") && $fldvalue == '') {
 			return null;

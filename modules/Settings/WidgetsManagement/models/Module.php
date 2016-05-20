@@ -14,27 +14,18 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getRestrictFilter()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getRestrictFIlter() method ...");
-
-		$restrictFilter = ["LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES" => ['mine']];
-
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getRestrictFIlter() method ...");
-		return $restrictFilter;
+		return [
+			"LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES" => ['mine']
+		];
 	}
 
 	public function getWidgetsWithLimit()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit() method ...");
-
 		$widgetWithLimit = ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'LBL_EXPIRING_SOLD_PRODUCTS', "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES"];
-
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit() method ...");
 		return $widgetWithLimit;
 	}
 
-	public function getDefaultUserId($widgetModel, $module = false)
+	public static function getDefaultUserId($widgetModel, $module = false)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...");

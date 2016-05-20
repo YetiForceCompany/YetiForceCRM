@@ -89,7 +89,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'display_errors' => ['prefer' => 'Off'],
 			'log_errors' => ['prefer' => 'Off'],
 			'file_uploads' => ['prefer' => 'On'],
-			'register_globals' => ['prefer' => 'On'],
 			'short_open_tag' => ['prefer' => 'On'],
 			'post_max_size' => ['prefer' => '50 MB'],
 			'upload_max_filesize' => ['prefer' => '50 MB'],
@@ -124,10 +123,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (ini_get('file_uploads') != '1' || stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads']['status'] = true;
 		$directiveValues['file_uploads']['current'] = self::getFlag(ini_get('file_uploads'));
-
-		if (ini_get('register_globals') == '1' || stripos(ini_get('register_globals'), 'On') !== false)
-			$directiveValues['register_globals']['status'] = true;
-		$directiveValues['register_globals']['current'] = self::getFlag(ini_get('register_globals'));
 
 		if ((ini_get('output_buffering') <= '4096' && ini_get('output_buffering') != '1') || stripos(ini_get('output_buffering'), 'Off') !== false)
 			$directiveValues['output_buffering']['status'] = true;

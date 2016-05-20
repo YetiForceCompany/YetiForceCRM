@@ -103,13 +103,6 @@ class Project extends CRMEntity {
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectname', 'assigned_user_id');
 
-	function __construct() {
-	    global $log, $currentModule;
-	    $this->column_fields = getColumnFields(get_class($this));
-	    $this->db = PearDatabase::getInstance();
-	    $this->log = $log;
-	}
-
 	function save_module($module) {
 	}
 

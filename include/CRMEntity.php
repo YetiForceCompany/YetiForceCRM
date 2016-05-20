@@ -32,6 +32,15 @@ class CRMEntity
 
 	var $ownedby;
 
+	/** 	Constructor which will set the column_fields in this object
+	 */
+	function __construct()
+	{
+		$this->log = LoggerManager::getInstance(get_class($this));
+		$this->db = PearDatabase::getInstance();
+		$this->column_fields = getColumnFields(get_class($this));
+	}
+
 	/**
 	 * Detect if we are in bulk save mode, where some features can be turned-off
 	 * to improve performance.
@@ -1016,10 +1025,10 @@ class CRMEntity
 	 * @param $uitype -- UI type of the field
 	 * @return Column value of the field.
 	 */
-	function get_column_value($columnname, $fldvalue, $fieldname, $uitype, $datatype = '')
+	function get_column_value($columName, $fldvalue, $fieldname, $uitype, $datatype = '')
 	{
 		$log = LoggerManager::getInstance();
-		$log->debug("Entering function get_column_value ($columnname, $fldvalue, $fieldname, $uitype, $datatype='')");
+		$log->debug("Entering function get_column_value ($columName, $fldvalue, $fieldname, $uitype, $datatype='')");
 
 		// Added for the fields of uitype '57' which has datatype mismatch in crmentity table and particular entity table
 		if ($uitype == 57 && $fldvalue == '') {

@@ -81,7 +81,7 @@ class Settings_Webforms_Field_Model extends Vtiger_Field_Model
 		return array();
 	}
 
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($this->getName() === 'enabled') {
 			$moduleName = 'Settings:Webforms';
@@ -90,7 +90,7 @@ class Settings_Webforms_Field_Model extends Vtiger_Field_Model
 			}
 			return vtranslate('LBL_INACTIVE', $moduleName);
 		}
-		return parent::getDisplayValue($value);
+		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	public function getPermissions()
