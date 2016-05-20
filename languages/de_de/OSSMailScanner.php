@@ -148,4 +148,5 @@ $languageStrings = [
 	'LBL_SHOW_ACCOUNT_DETAILS' => 'Zeige Organisationsdetails',
 	'LBL_EDIT_FOLDER_ACCOUNT' => 'Verzeichnisse editieren',
 	'LBL_ALERT_EDIT_FOLDER' => 'Verzeichnis löschen und wieder hinzufügen startet den MailScanner für die selektierten Verzeichnisse.',
+	'LBL_DELETE_ACCOUNT' => 'Delete account',
 ];

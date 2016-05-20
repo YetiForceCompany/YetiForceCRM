@@ -107,7 +107,7 @@
 										<button title="{vtranslate('LBL_EDIT_FOLDER_ACCOUNT', 'OSSMailScanner')}" type="button" data-user="{$row['user_id']}" class="btn btn-default editFolders">
 											<span class="glyphicon glyphicon-folder-open"></span>
 										</button>
-										<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont">
+										<button title="{vtranslate('LBL_DELETE_ACCOUNT', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont">
 											<span class="glyphicon glyphicon-trash"></span>
 										</button>
 									</div>
