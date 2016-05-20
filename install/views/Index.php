@@ -56,7 +56,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function preProcess(Vtiger_Request $request)
 	{
-		date_default_timezone_set('Europe/London'); // to overcome the pre configuration settings
+		date_default_timezone_set('UTC'); // to overcome the pre configuration settings
 		// Added to redirect to default module if already installed
 
 		$request->set('module', 'Install');
