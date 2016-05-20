@@ -1433,4 +1433,5 @@ $jsLanguageStrings = [
 	'JS_WATCHING_MESSAGE0' => 'Etes-vous sur de vouloir désactiver le traçage des modifications ?',
 	'JS_WATCHING_MESSAGE1' => 'Etes-vous sur de vouloir activer le traçage des modifications?',
 	'JS_FILTER' => 'Filtre',
+	'JS_RECORD_INFO' => 'Record info',
 ];

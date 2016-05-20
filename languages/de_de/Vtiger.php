@@ -1391,4 +1391,5 @@ $jsLanguageStrings = [
 	'JS_FILTER' => 'Filter',
 	'JS_NOTIFICATION_LINK' => 'Link',
 	'JS_CANNOT_REMOVE_RELATION' => 'Beziehung kann nicht gelöscht werden',
+	'JS_RECORD_INFO' => 'Record info',
 ];
