@@ -354,6 +354,7 @@ $languageStrings = [
 	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Afficher le choix de langues sur la page de connexion',
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Afficher le choix de la disposition sur la page de connexion',
 	'LBL_YETIFORCE_SHOP' => 'Boutique YetiForce',
+	'RecordAllocation' => 'Record allocation',
 ];
 
 $jsLanguageStrings = [
