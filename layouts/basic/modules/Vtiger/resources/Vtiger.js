@@ -127,7 +127,7 @@ var Vtiger_Index_Js = {
 	 */
 	loadWidgets: function (widgetContainer, open) {
 		var message = jQuery('.loadingWidgetMsg').html();
-		if (widgetContainer.find('.panel-body').html() != '') {
+		if (widgetContainer.find('.panel-body').html().trim()) {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
 			imageEle.attr('src', imagePath);
@@ -143,6 +143,7 @@ var Vtiger_Index_Js = {
 		}
 		AppConnector.request(listViewWidgetParams).then(
 				function (data) {
+					
 					if (typeof open == 'undefined')
 						open = true;
 					if (open) {

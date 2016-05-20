@@ -114,6 +114,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->initializeListViewContents($request, $viewer);
 			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 			$viewer->assign('MODULE_NAME', $moduleName);
+			$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 			$viewer->assign('VIEWID', $this->viewName);
 		}
 

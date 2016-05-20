@@ -15,7 +15,7 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 		$this->step($step, $request);
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);

@@ -11,7 +11,7 @@
 Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}

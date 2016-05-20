@@ -158,7 +158,7 @@ jQuery.Class('Install_Index_Js', {}, {
 				}
 			}
 			var password = jQuery('#passwordError');
-			if(password.html() != '') error = true;
+			if(password.html().trim()) error = true;
 
                         var emailField = jQuery('input[name="admin_email"]'); 
                         var regex = /^[_/a-zA-Z0-9*]+([!"#$%&'()*+,./:;<=>?\^_`{|}~-]?[a-zA-Z0-9/_/-])*@[a-zA-Z0-9]+([\_\-\.]?[a-zA-Z0-9]+)*\.([\-\_]?[a-zA-Z0-9])+(\.?[a-zA-Z0-9]+)?$/;

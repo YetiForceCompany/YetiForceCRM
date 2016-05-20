@@ -9,7 +9,7 @@
 class Settings_MappedFields_Import_View extends Settings_Vtiger_BasicModal_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		echo '<div class="modal fade" id="mfImport"><div class="modal-dialog"><div class="modal-content">';
 	}

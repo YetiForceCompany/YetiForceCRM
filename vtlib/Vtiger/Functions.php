@@ -1321,7 +1321,7 @@ class Vtiger_Functions
 		return $address;
 	}
 
-	function parseBytes($str)
+	static function parseBytes($str)
 	{
 		if (is_numeric($str)) {
 			return floatval($str);
@@ -1370,7 +1370,7 @@ class Vtiger_Functions
 		return $str;
 	}
 
-	public function getMaxUploadSize()
+	public static function getMaxUploadSize()
 	{
 		// find max filesize value
 		$maxFileSize = self::parseBytes(ini_get('upload_max_filesize'));

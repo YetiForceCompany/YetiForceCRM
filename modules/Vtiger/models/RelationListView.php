@@ -246,7 +246,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if (count($relatedColumnFields) <= 0) {
 			$relatedColumnFields = $relationModule->getConfigureRelatedListFields();
 		}
-		if (count($relatedColumnFields) <= 0) {
+		
+		if (empty($relatedColumnFields)) {
 			$relatedColumnFields = $relationModule->getRelatedListFields();
 		}
 
@@ -255,7 +256,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$relatedColumnFields[$col] = $name;
 			}
 		}
-
+		
 		$query = $this->getRelationQuery();
 
 		if ($this->get('whereCondition')) {
