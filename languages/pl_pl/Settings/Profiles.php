@@ -76,6 +76,7 @@ $languageStrings = [
 	'NotificationCreateMail' => 'Wysyłanie powiadomień mailowych',
 	'NotificationPreview' => 'Podgląd powiadomień',
 	'FavoriteRecords' => 'Ulubione rekordy',
+	'OpenRecord' => 'Otwieranie rekordów',
 	//end actions
 	'Profile Related to Sales' => 'Profil powiązany ze sprzedażą',
 	'Profile Related to Support' => 'Profil związany ze wsparciem',

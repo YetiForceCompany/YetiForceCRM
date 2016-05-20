@@ -72,6 +72,7 @@ $languageStrings = [
 	'WatchingRecords' => 'Track changes in record',
 	'WatchingModule' => 'Track changes in module',
 	'FavoriteRecords' => 'Favorite records',
+	'OpenRecord' => 'Open record',
 	//end Actions
 	'Profile Related to Sales' => 'Profile related to sales',
 	'Profile Related to Support' => 'Profile related to support',
