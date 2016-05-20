@@ -265,15 +265,14 @@ if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 	function exception_error_handler($errno, $errstr, $errfile, $errline)
 	{
 		$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
-		if (AppConfig::debug('EXCEPTION_ERROR_HANDLER_TO_FILE')) {
+		if (AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
 			$file = 'cache/logs/errors.log';
-			$test = print_r($msg.PHP_EOL, true);
+			$test = print_r($msg . PHP_EOL, true);
 			file_put_contents($file, $test, FILE_APPEND);
 		}
-		if (AppConfig::debug('EXCEPTION_ERROR_HANDLER_TO_SHOW')) {
+		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
 			Vtiger_Functions::throwNewException($msg, false);
-			die();
 		}
 	}
-	set_error_handler('exception_error_handler');
+	set_error_handler('exception_error_handler', AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
 }

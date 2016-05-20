@@ -5,7 +5,6 @@ $DEBUG_CONFIG = [
 	/* +***************************************************************
 	 * 	CRM 
 	 * ************************************************************** */
-
 	// Enable log4php -> cache/logs/system.log
 	'LOG4PHP_DEBUG' => false,
 	// Stop the running process of the system if there is and error in sql query
@@ -16,15 +15,22 @@ $DEBUG_CONFIG = [
 	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console
 	'DISPLAY_DEBUG_VIEWER' => false,
-	
+	/* +***************************************************************
+	 * Configure a user-defined error handler function
+	 * ************************************************************** */
 	'EXCEPTION_ERROR_HANDLER' => false,
-	'EXCEPTION_ERROR_HANDLER_TO_FILE' => false,
-	'EXCEPTION_ERROR_HANDLER_TO_SHOW' => false,
-	
+	// Save logs to file
+	'EXCEPTION_ERROR_TO_FILE' => false,
+	// Display errors
+	'EXCEPTION_ERROR_TO_SHOW' => false,
+	// Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.  
+	// https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
+	// All errors - E_ALL & ~E_NOTICE
+	// Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
+	'EXCEPTION_ERROR_LEVEL' => E_ALL & ~E_NOTICE,
 	/* +***************************************************************
 	 * 	API 
 	 * ************************************************************** */
-	
 	// Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML
 	'DAV_DEBUG_EXCEPTIONS' => false,
 	// Activate the plugin recording log in DAV
@@ -37,7 +43,6 @@ $DEBUG_CONFIG = [
 	/* +***************************************************************
 	 * 	ROUNDCUBE MAIL
 	 * ************************************************************** */
-
 	// System error reporting, sum of: 1 = log; 4 = show, 8 = trace
 	'ROUNDCUBE_DEBUG_LEVEL' => 1,
 	// Devel_mode this will print real PHP memory usage into logs/console and do not compress JS libraries
