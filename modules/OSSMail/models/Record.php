@@ -10,7 +10,7 @@
 class OSSMail_Record_Model extends Vtiger_Record_Model
 {
 
-	function getAccountsList($user = false, $onlyMy = false, $password = false)
+	static function getAccountsList($user = false, $onlyMy = false, $password = false)
 	{
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -245,7 +245,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
-	public function _get_body_attach($mbox, $id, $msgno)
+	public static function _get_body_attach($mbox, $id, $msgno)
 	{
 		$struct = imap_fetchstructure($mbox, $id, FT_UID);
 		$parts = $struct->parts;
@@ -264,7 +264,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $ret;
 	}
 
-	protected function initMailPart($mbox, $mail, $partStructure, $partNum)
+	protected static function initMailPart($mbox, $mail, $partStructure, $partNum)
 	{
 		$data = $partNum ? imap_fetchbody($mbox, $mail['id'], $partNum, FT_UID | FT_PEEK) : imap_body($mbox, $mail['id'], FT_UID | FT_PEEK);
 		if ($partStructure->encoding == 1) {
@@ -588,7 +588,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $site_URL;
 	}
 
-	function getMailsFromIMAP($user = false)
+	static function getMailsFromIMAP($user = false)
 	{
 		$account = self::getAccountsList($user, true);
 		$mails = [];

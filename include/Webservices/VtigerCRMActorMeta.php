@@ -15,7 +15,7 @@ class VtigerCRMActorMeta extends EntityMeta
 	protected static $fieldTypeMapping = [];
 	protected static $referenceTypeMapping = [];
 
-	function VtigerCRMActorMeta($tableName, $webserviceObject, $adb, $user)
+	function __construct($tableName, $webserviceObject, $adb, $user)
 	{
 		parent::__construct($webserviceObject, $user);
 		$this->baseTable = $tableName;

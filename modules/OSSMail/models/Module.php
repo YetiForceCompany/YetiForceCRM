@@ -145,7 +145,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return self::$composeParam;
 	}
 
-	function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
+	static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
 	{
 		$url = 'mailto:';
 		if (!empty($record) && isRecordExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {

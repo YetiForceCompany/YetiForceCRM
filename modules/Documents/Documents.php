@@ -389,21 +389,21 @@ class Documents extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$log = LoggerManager::getInstance();
-		if (empty($return_module) || empty($return_id))
+		if (empty($returnModule) || empty($returnId))
 			return;
 
-		if ($return_module == 'Accounts') {
+		if ($returnModule == 'Accounts') {
 			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? AND (crmid = ? OR crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
-			$this->db->pquery($sql, array($id, $return_id, $return_id));
+			$this->db->pquery($sql, array($id, $returnId, $returnId));
 		} else {
 			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? AND crmid = ?';
-			$this->db->pquery($sql, array($id, $return_id));
+			$this->db->pquery($sql, array($id, $returnId));
 
 			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
-			$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
+			$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
 			$this->db->pquery($sql, $params);
 		}
 	}

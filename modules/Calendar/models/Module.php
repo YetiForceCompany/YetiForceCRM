@@ -434,7 +434,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 * @param type $currentUserId
 	 * @param type $sharedIds
 	 */
-	public function getSharedType($currentUserId)
+	public static function getSharedType($currentUserId)
 	{
 		$db = PearDatabase::getInstance();
 
