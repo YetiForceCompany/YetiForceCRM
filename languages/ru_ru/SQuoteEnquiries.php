@@ -1,14 +1,14 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'SQuoteEnquiries' => 'Запрос Предложения',
-	'SINGLE_SQuoteEnquiries' => 'Запрос Предложения',
+	'SQuoteEnquiries' => 'Запросы',
+	'SINGLE_SQuoteEnquiries' => 'Запрос',
 
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Основная информация',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description Details',
-	'LBL_STATISTICS' => 'Statistics',
+	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
+	'LBL_DESCRIPTION_INFORMATION' => 'Описание',
+	'LBL_STATISTICS' => 'Статистика',
 
 	
 	//FIELDS
@@ -20,11 +20,11 @@ $languageStrings = [
 	'SINGLE_SSalesProcesses' => 'Сделка',
 
 	//PICKLIST VALUES
-	'PLL_DRAFT' => 'Draft',
-	'PLL_IN_REALIZATION' => 'In realization',
-	'PLL_FOR_VERIFICATION' => 'For verification',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_COMPLETED' => 'Completed',
+	'PLL_DRAFT' => 'Черновик',
+	'PLL_IN_REALIZATION' => 'В работе',
+	'PLL_FOR_VERIFICATION' => 'Проверка',
+	'PLL_CANCELLED' => 'Отменено',
+	'PLL_COMPLETED' => 'Выполнено',
 
-	'LBL_CHANGE_STATUS' => 'Change Status',
+	'LBL_CHANGE_STATUS' => 'Изменить статус',
 ];

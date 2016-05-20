@@ -8,11 +8,13 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 $languageStrings = [
+	'LBL_WATCHDOG' => 'Отслеживать изменения',
+	'LBL_MARK_AS_READ' => 'Отметить как прочитанное',
 	'ALVT' => 'Последние Контрагенты',
-	'CVLVT' => 'Ключевые Показатели',
-	'GRT' => 'Положение Моей Группы',
+	'CVLVT' => 'Ключевые показатели',
+	'GRT' => 'Моя группа',
 	'HDB' => 'Панель Главной Страницы',
-	'HLT' => 'Топ Билеты Поддержка',
+	'HLT' => 'Поддержка',
 	'ILTI' => 'Последние Счета',
 	'LTFAQ' => 'Мои вопросы',
 	'PA' => 'События в процессе',
@@ -22,17 +24,18 @@ $languageStrings = [
 	'Home' => 'Главная',
 	'OLTPO' => 'Последние Закупки',
 	'LBL_WATCHING_MODULES' => 'Watched modules',
-	'LBL_NO_NOTIFICATIONS' => 'No notifications',
-	'Notifications' => 'Notifications',
-	'LBL_CREATING_NOTIFICATION' => 'Send notification',
-	'LBL_TITLE' => 'Title',
-	'LBL_MESSAGE' => 'Message',
-	'LBL_MESSAGES_FROM_USERS' => 'From users',
-	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Send message',
-	'LBL_SEND_NOTIFICATION_MAIL' => 'Send via email',
+	'LBL_NO_NOTIFICATIONS' => ' Нет уведомлений',
+	'Notifications' => 'Уведомления',
+	'LBL_CREATING_NOTIFICATION' => 'Отправить уведомление',
+	'LBL_TITLE' => 'Заголовок',
+	'LBL_MESSAGE' => 'Сообщение',
+	'LBL_MESSAGES_FROM_USERS' => 'Для пользователей',
+	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Отправить сообщение',
+	'LBL_SEND_NOTIFICATION_MAIL' => 'Отправить по почте',
 ];
 
 $jsLanguageStrings = [
+	'JS_MARKED_AS_READ' => 'Отметить как прочитанное',
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Невозможно выбрать соответствующие Контакты для Обращений',
 	'LBL_ALL_DAY' => 'Дни',
 	'LBL_APR' => 'Апр',
