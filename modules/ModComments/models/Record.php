@@ -286,47 +286,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 		
 		return $recordInstances;
 	}
-	public static function getAllCommentsForTimeline($parentId){
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
-		$parentComments = self::getRecentComments($parentId, $pagingModel);
-		$allComments = [];
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$formatDate = $currentUser->get('date_format');
-		$formatDate.=$currentUser->get('hour_format') == 24 ? ' HH:MM:ss' : ' hh:MM:ss TT';
-		if(count($parentComments)){
-			foreach($parentComments as $comment){
-				$createdTime = $comment->get('createdtime');
-				$date = DateTime::createFromFormat('Y-m-d H:i:s',$createdTime);
-				$iconPath = $comment->getImagePath();
-				if(!$iconPath){
-					$iconPath = vimage_path('DefaultUserIcon.png');
-				}
-				$allComments ["events"][] = [
-									"start_date" => [
-										"year" => $date->format('Y'),
-										"month" => $date->format('m'),
-										"day" => $date->format('d'),
-										"hour" => $date->format('H'),
-										"minute" => $date->format('i'),
-										"second" => $date->format('s'),
-										"format" => $formatDate
-									],
-									"media" => [
-										"caption" => $comment->getCommentedByModel()->getName(),
-										"url"=> $iconPath,
-										"thumbnail" => $iconPath
-									],
-									"text" => [
-										"headline" => $comment->get('commentcontent')
-									],
-									"unique_id" => 'Id'. $comment->get('modcommentsid')
-								];
-			}
-		}
-		return $allComments;
-	}
-
 	/**
 	 * Function to get details for user have the permissions to do actions
 	 * @return <Boolean> - true/false

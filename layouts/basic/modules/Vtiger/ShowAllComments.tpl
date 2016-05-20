@@ -12,11 +12,10 @@
 {strip}
 {* Change to this also refer: RecentComments.tpl *}
 {include file='CommentModal.tpl'|@vtemplate_path}
-<input type="hidden" id="typeView" value="{$TYPE_VIEW}">
 <input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
 <div class="col-md-12 row no-margin commentsBar paddingLRZero">
 	{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-		<div class="commentTitle col-sm-8 paddingTop10" >
+		<div class="commentTitle col-xs-12 paddingTop10" >
 			<div class="addCommentBlock pull-left">
 				<div class="input-group">
 					<span class="input-group-addon " >
@@ -36,20 +35,10 @@
 			</div>
 		</div>
 	{/if}
-	<div class="col-sm-4 pull-right paddingTop10">
-		<div class="bootstrap-switch-container pull-right">
-			<input class="switchBtn" type="checkbox" {if $TYPE_VIEW neq 'List'}checked{/if} data-size="small" data-handle-width="90" data-label-width="5" data-off-text="{vtranslate('LBL_RECORDS_LIST', $MODULE_NAME)}" data-on-text="{vtranslate('LBL_TIMELINE', $MODULE_NAME)}">
-		</div>
-	</div>
 </div>
-{if $TYPE_VIEW neq 'List'}
-	<div id="timeline" class="timelineContainer"></div>
-{/if}
 <div class="commentContainer">
 	<div class="commentsList commentsBody  col-md-12 paddingLRZero">
-		{if $TYPE_VIEW eq 'List'}
-			{include file='CommentsList.tpl'|@vtemplate_path COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
-		{/if}
+	{include file='CommentsList.tpl'|@vtemplate_path COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
 	</div>
 	<div class="hide basicAddCommentBlock marginTop10 marginBottom10px">
 		<div class="row">
@@ -80,7 +69,7 @@
 	<div class="hide basicEditCommentBlock" >
 		<div class="row">
 			<div class="col-md-12 marginTop10 marginBottom10px">
-					<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
+				<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
 			</div>
 		</div>
 		<div class="row">

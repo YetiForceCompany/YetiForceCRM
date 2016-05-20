@@ -2404,9 +2404,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var commentInfoBlock = currentTarget.closest('.singleComment');
 		commentTextAreaElement.val('');
 		if (mode == "add") {
-			if ($('#typeView').val() == 'Timeline') {
-				thisInstance.registerRefreshTimeline('last');
-			}
 			var commentId = data['result']['id'];
 			var commentHtml = thisInstance.getCommentUI(commentId);
 			commentHtml.then(function (data) {
@@ -2436,7 +2433,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				commentInfoBlock.find('.commentActionsContainer').show();
 			});
 		} else if (mode == "edit") {
-			thisInstance.registerRefreshTimeline(commentInfoBlock.find('.commentInfoHeader').data('commentid'));
 			var modifiedTime = commentInfoBlock.find('.commentModifiedTime');
 			var commentInfoContent = commentInfoBlock.find('.commentInfoContent');
 			var commentEditStatus = commentInfoBlock.find('[name="editStatus"]');
@@ -2556,18 +2552,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					element.removeAttr('disabled');
 				});
 			}
-		});
-		detailContentsHolder.find('.commentsBar .switchBtn').on('switchChange.bootstrapSwitch', function (e, state) {
-			var selectedTab = thisInstance.getSelectedTab();
-			var addressUrl = selectedTab.data('url');
-			if (state) {
-				addressUrl = addressUrl.replace("type=List", "type=Timeline");
-				selectedTab.data('url', addressUrl);
-			} else {
-				addressUrl = addressUrl.replace("type=Timeline", "type=List");
-				selectedTab.data('url', addressUrl);
-			}
-			selectedTab.trigger('click');
 		});
 		detailContentsHolder.on('click', '.moreRecentComments', function () {
 			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
@@ -2864,10 +2848,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerEventForRelatedListPagination();
 		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
-		if (selectedTabElement.data('reference') == 'Comments') {
-			thisInstance.registerRefreshTimeline();
-		}
-
 		detailContentsHolder.on('switchChange.bootstrapSwitch', '.recentActivitiesSwitch.switchBtn', function (e, state) {
 			var currentTarget = jQuery(e.currentTarget);
 			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);
@@ -2952,67 +2932,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(function (data) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			commentContainer.html(data);
-		});
-	},
-	registerRefreshTimeline: function (currentComment) {
-		if ($('#typeView').val() == 'List') {
-			return;
-		}
-		var thisInstance = this;
-		var options = {
-			width: '100%',
-			height: '100%',
-			layout: 'portrait',
-			timenav_position: 'top',
-			marker_height_min: 48,
-			marker_width_min: 150,
-			marker_padding: 5,
-			scale_factor: 1,
-			optimal_tick_width: 700,
-			slide_padding_lr: 100,
-			slide_default_fade: "0%",
-			language: app.getLanguage().substring(0, 2)
-		};
-		var params = {
-			module: 'ModComments',
-			srcModule: app.getModuleName(),
-			action: 'TimelineAjax',
-			record: thisInstance.getRecordId()
-		};
-		var progressIndicatorElement = jQuery.progressIndicator({
-			position: 'html',
-			'blockInfo': {
-				'enabled': true,
-				'elementToBlock': thisInstance.getContentHolder()
-			}
-		});
-		if (typeof currentComment == 'undefined') {
-			currentComment = $('#currentComment').val();
-		}
-		AppConnector.request(params).then(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			var allComments = data.result;
-			if (typeof allComments.events != 'undefined') {
-				var timeline = new TL.Timeline('timeline', allComments, options);
-				timeline.on('change', function (data) {
-					var uniqueId = data.unique_id;
-					thisInstance.refreshCommentContainer(uniqueId.substr(2, uniqueId.length - 2));
-				});
-				if (!currentComment || currentComment == 'last') {
-					if (allComments.events.length == 1) {
-						var uniqueId = allComments.events[0].unique_id;
-						thisInstance.refreshCommentContainer(uniqueId.substr(2, uniqueId.length - 2));
-					} else {
-						timeline.goToEnd();
-					}
-				} else if (allComments.events[allComments.events.length - 1].unique_id == 'Id' + currentComment) {
-					thisInstance.refreshCommentContainer(currentComment);
-				} else {
-					timeline.goToId('Id' + currentComment);
-				}
-			} else {
-				thisInstance.refreshCommentContainer();
-			}
 		});
 	},
 	updateRecordsPDFTemplateBtn: function (form) {

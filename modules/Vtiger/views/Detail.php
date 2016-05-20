@@ -229,23 +229,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Emails.resources.MassEdit',
 			'modules.Vtiger.resources.Widgets',
-			'~/libraries/timelineJS3/js/timeline.js'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
-	}
-
-	public function getHeaderCss(Vtiger_Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
-			'~/libraries/timelineJS3/css/timeline.css'
-		];
-		$cssFileNames = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssFileNames, $headerCssInstances);
-		return $headerCssInstances;
 	}
 
 	function showDetailViewByMode($request)
@@ -546,7 +534,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
-		$viewer->assign('TYPE_VIEW', $request->get('type'));
 		return $viewer->view('ShowAllComments.tpl', $moduleName, 'true');
 	}
 
