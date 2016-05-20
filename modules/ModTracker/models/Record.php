@@ -101,7 +101,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$lastReviewedUsers = $db->getSingleValue($result);
 		if (!empty($lastReviewedUsers)) {
 			$lastReviewedUsers = explode('#', $lastReviewedUsers);
-			return !in_array($currentUser->id, $lastReviewedUsers);
+			return !in_array($currentUser->getRealId(), $lastReviewedUsers);
 		}
 		return true;
 	}
