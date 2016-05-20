@@ -52,7 +52,6 @@ $languageStrings = [
 	'Filter info' => 'Enable data filtering by selection list',
 	'None' => 'None',
 	'ProductsServices' => 'Products services',
-	'Campaign status' => 'Campaign status',
 	'LBL_SELECT_BUTTON_INFO' => 'Enable visible select button',
 	'LBL_CONDITION' => 'Condition',
 	'LBL_CONDITION_INFO' => 'Select condition for showing records',

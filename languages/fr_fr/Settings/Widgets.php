@@ -52,7 +52,6 @@ $languageStrings = [
 	'Filter info' => 'Activer le filtrage des données par liste de sélection',
 	'None' => 'Aucun',
 	'ProductsServices' => 'Produits services',
-	'Campaign status' => 'Satuts Campagne',
 	'LBL_SELECT_BUTTON_INFO' => 'Activer le boutton sélection',
 	'LBL_CONDITION' => 'Condition',
 	'LBL_CONDITION_INFO' => 'Sélectionner une condition pour afficher les enregistrements',

@@ -56,7 +56,6 @@ $languageStrings = [
 	'Add button info' => 'Knopf hinzufügen, um einen Datensatz in der Widget Datensatzansicht hinzu zufügen',
 	'No left margin info' => 'Deaktiviere linken Rand im Widget.',
 	'ProductsServices' => 'Produkte Dienstleistungen',
-	'Campaign status' => 'Kampagnenstatus',
 	'LBL_SELECT_BUTTON_INFO' => 'Aktivieren Sichtbarkeit Wählen Button',
 	'LBL_CONDITION' => 'Bedingung',
 	'LBL_CONDITION_INFO' => 'Bedingung wählen um Datensätze anzuzeigen',

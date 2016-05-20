@@ -91,6 +91,7 @@ $languageStrings = [
 	'LBL_INVENTORY_BALANCE' => 'balance',
 	'LBL_DISCOUNT' => 'Discount',
 	'LBL_CREDIT_LIMIT' => 'Credit limit',
+	'Campaign status' => 'Campaign status',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Account name already exists. Do you want to create a duplicate record?',

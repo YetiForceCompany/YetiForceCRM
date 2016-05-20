@@ -104,6 +104,7 @@ $languageStrings = [
 	'PLL_EUROPEAN_ASSOCIATION' => 'Европейская ассоциация',
 	'PLL_UFCIITS' => 'Организация Коллективного Инвестирования',
 	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Как минимум два условия должны быть выполнены, перейдите по ссылке: (Настройка системы &gt; Процессы &gt; Маркетинг &gt; Преобразование) %s',
+	'Campaign status' => 'Статус Компании',
 ];
 
 $jsLanguageStrings = [

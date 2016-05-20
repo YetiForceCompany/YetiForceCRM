@@ -88,6 +88,7 @@ $languageStrings = [
 	'LBL_INVENTORY_BALANCE' => 'Balance',
 	'LBL_DISCOUNT' => 'Discount',
 	'LBL_CREDIT_LIMIT' => 'Credit limit',
+	'Campaign status' => 'Campaign status',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
 ];

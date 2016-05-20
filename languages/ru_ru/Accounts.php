@@ -68,6 +68,7 @@ $languageStrings = [
 	'LBL_DISCOUNT' => 'Скидка',
 	'LBL_CREDIT_LIMIT' => 'Кредитный лимит',
 	'LBL_PARENT_IS_CHILD' => 'The selected parent account cannot be secondary to current account',
+	'Campaign status' => 'Статус Компании',
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',
 	'PLL_BUSINESS_ACTIVITY' => 'Юридическое лицо',

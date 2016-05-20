@@ -52,7 +52,6 @@ $languageStrings = [
 	'Filter info' => 'Czy w widgecie ma być możliwość filtrowania danych według listy wyboru',
 	'None' => 'Brak',
 	'ProductsServices' => 'Usługi produktów',
-	'Campaign status' => 'Status kampanii',
 	'LBL_SELECT_BUTTON_INFO' => 'Włącz pokazywanie przycisku wybierz',
 	'LBL_CONDITION' => 'Warunek',
 	'LBL_CONDITION_INFO' => 'Wybierz warunek pokazywania rekordów',
