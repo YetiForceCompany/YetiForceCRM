@@ -32,6 +32,7 @@ $languageStrings = [
 	'LBL_MESSAGES_FROM_USERS' => 'Для пользователей',
 	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Отправить сообщение',
 	'LBL_SEND_NOTIFICATION_MAIL' => 'Отправить по почте',
+	'Home page' => 'Home page',
 ];
 
 $jsLanguageStrings = [

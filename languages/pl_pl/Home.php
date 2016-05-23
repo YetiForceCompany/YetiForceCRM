@@ -33,6 +33,7 @@ $languageStrings = [
 	'LBL_WATCHDOG' => 'Śledzenie zmian',
 	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Wyślij wiadomość',
 	'LBL_SEND_NOTIFICATION_MAIL' => 'Wyślij mailem',
+	'Home page' => 'Strona główna',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',

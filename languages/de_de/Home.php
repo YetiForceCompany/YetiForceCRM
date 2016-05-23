@@ -30,6 +30,7 @@ $languageStrings = [
 	'LBL_MESSAGES_FROM_USERS' => 'From users',
 	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Send message',
 	'LBL_SEND_NOTIFICATION_MAIL' => 'Send via email',
+	'Home page' => 'Home page',
 ];
 
 $jsLanguageStrings = [
