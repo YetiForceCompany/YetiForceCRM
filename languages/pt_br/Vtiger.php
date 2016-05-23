@@ -1144,8 +1144,8 @@ $languageStrings = [
 	'Return Url' => 'URL de retorno',
 	'Module' => 'Módulo',
 	'Captcha Enabled' => 'Habilitar Captcha',
-    'LBL_ASSIGN_ROUND_ROBIN' => 'Designar Usuários no Round Robin',
-    'LBL_ROUNDROBIN_USERS_LIST' => 'Lista de Usuários Round Robin',
+	'LBL_ASSIGN_ROUND_ROBIN' => 'Designar Usuários no Round Robin',
+	'LBL_ROUNDROBIN_USERS_LIST' => 'Lista de Usuários Round Robin',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',

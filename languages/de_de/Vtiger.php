@@ -1149,7 +1149,7 @@ $languageStrings = [
 	'Module' => 'Modul',
 	'Captcha Enabled' => 'Habilitar Captcha',
 	'LBL_ASSIGN_ROUND_ROBIN' => 'Zu Verteilerliste hinzufügen',
-    'LBL_ROUNDROBIN_USERS_LIST' => 'Benutzer im Verteiler',
+	'LBL_ROUNDROBIN_USERS_LIST' => 'Benutzer im Verteiler',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
