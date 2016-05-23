@@ -629,7 +629,7 @@ class Vtiger_Functions
 	static function formatDecimal($value)
 	{
 		$fld_value = explode('.', $value);
-		if ($fld_value[1] != '') {
+		if (!empty($fld_value[1])) {
 			$fld_value = rtrim($value, '0');
 			$value = rtrim($fld_value, '.');
 		}

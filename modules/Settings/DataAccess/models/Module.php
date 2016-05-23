@@ -65,7 +65,6 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$output = [];
 		while ($row = $db->getRow($result)) {
 			$output[] = [
-				'actions' => $row['actions'],
 				'module' => $row['module_name'],
 				'summary' => $row['summary'],
 				'data' => unserialize($row['data']),
@@ -318,7 +317,6 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	public static function executeAjaxHandlers($module, $param)
 	{
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
-		$record = $param['record'];
 		$conditions = new DataAccess_Conditions();
 		$DataAccessList = self::getDataAccessList($module);
 		$success = true;
