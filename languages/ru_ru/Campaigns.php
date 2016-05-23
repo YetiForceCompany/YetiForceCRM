@@ -57,6 +57,7 @@ $languageStrings = [
 	'Message sent' => 'Message sent',
 	'Completed' => 'Завершена',
 	'Partners' => 'Партнеры',
+	'Campaign status' => 'Статус',
 ];
 $jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Вы уверены, что хотите добавить эту запись в фильтр?',
