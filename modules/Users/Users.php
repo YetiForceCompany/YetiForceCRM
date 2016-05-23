@@ -928,18 +928,19 @@ class Users extends CRMEntity
 		$log->debug("Entering into retrieve_entity_info($record, $module) method.");
 
 		if ($record == '') {
-			$log->debug("record is empty. returning null");
+			$log->fatal('record is empty. returning null');
 			return null;
 		}
 
-		$result = Array();
+		$result = [];
 		foreach ($this->tab_name_index as $table_name => $index) {
-			$result[$table_name] = $adb->pquery("select * from " . $table_name . " where " . $index . "=?", array($record));
+			$result[$table_name] = $adb->pquery('select * from ' . $table_name . ' where ' . $index . '=?', array($record));
 		}
 		$tabid = getTabid($module);
-		$sql1 = "select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)";
+		$sql1 = 'select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)';
 		$result1 = $adb->pquery($sql1, array($tabid));
 		$noofrows = $adb->num_rows($result1);
+
 		for ($i = 0; $i < $noofrows; $i++) {
 			$fieldcolname = $adb->query_result($result1, $i, "columnname");
 			$tablename = $adb->query_result($result1, $i, "tablename");
@@ -949,40 +950,31 @@ class Users extends CRMEntity
 			$this->column_fields[$fieldname] = $fld_value;
 			$this->$fieldname = $fld_value;
 		}
-		$this->column_fields["record_id"] = $record;
-		$this->column_fields["record_module"] = $module;
+		$this->column_fields['record_id'] = $record;
+		$this->column_fields['record_module'] = $module;
 
 		$currency_query = "select * from vtiger_currency_info where id=? and currency_status='Active' and deleted=0";
-		$currency_result = $adb->pquery($currency_query, array($this->column_fields["currency_id"]));
-		if ($adb->num_rows($currency_result) == 0) {
-			$currency_query = "select * from vtiger_currency_info where id =1";
-			$currency_result = $adb->pquery($currency_query, array());
+		$currencyResult = $adb->pquery($currency_query, array($this->column_fields['currency_id']));
+		if ($adb->num_rows($currencyResult) == 0) {
+			$currencyResult = $adb->query('select * from vtiger_currency_info where id =1');
 		}
-		$currency_array = array("$" => "&#36;", "&euro;" => "&#8364;", "&pound;" => "&#163;", "&yen;" => "&#165;");
-		$ui_curr = $currency_array[$adb->query_result($currency_result, 0, "currency_symbol")];
-		if ($ui_curr == "")
-			$ui_curr = $adb->query_result($currency_result, 0, "currency_symbol");
-		$this->column_fields["currency_name"] = $this->currency_name = $adb->query_result($currency_result, 0, "currency_name");
-		$this->column_fields["currency_code"] = $this->currency_code = $adb->query_result($currency_result, 0, "currency_code");
-		$this->column_fields["currency_symbol"] = $this->currency_symbol = $ui_curr;
-		$this->column_fields["conv_rate"] = $this->conv_rate = $adb->query_result($currency_result, 0, "conversion_rate");
+		$currency = $adb->getRow($currencyResult);
+		$currencyArray = ['$' => '&#36;', '&euro;' => '&#8364;', '&pound;' => '&#163;', '&yen;' => '&#165;'];
+		if(isset($currencyArray[$currency['currency_symbol']])){
+			$currencySymbol = $currencyArray[$currency['currency_symbol']];
+		}else{
+			$currencySymbol = $currency['currency_symbol'];
+		}
+		$this->column_fields['currency_name'] = $this->currency_name = $currency['currency_name'];
+		$this->column_fields['currency_code'] = $this->currency_code = $currency['currency_code'];
+		$this->column_fields['currency_symbol'] = $this->currency_symbol = $currencySymbol;
+		$this->column_fields['conv_rate'] = $this->conv_rate = $currency['conversion_rate'];
 		if ($this->column_fields['no_of_currency_decimals'] == '')
 			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = getCurrencyDecimalPlaces();
 
 		// TODO - This needs to be cleaned up once default values for fields are picked up in a cleaner way.
 		// This is just a quick fix to ensure things doesn't start breaking when the user currency configuration is missing
 		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
-
-			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
-			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
-			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ',';
-			$this->column_fields['currency_symbol_placement'] = $this->currency_symbol_placement = '$1.0';
-		}
-
-		// TODO - This needs to be cleaned up once default values for fields are picked up in a cleaner way.
-		// This is just a quick fix to ensure things doesn't start breaking when the user currency configuration is missing
-		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
-
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
 			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
 			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ',';
@@ -990,8 +982,7 @@ class Users extends CRMEntity
 		}
 
 		$this->id = $record;
-		$log->debug("Exit from retrieve_entity_info($record, $module) method.");
-
+		$log->debug('Exit from retrieve_entity_info() method.');
 		return $this;
 	}
 

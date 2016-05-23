@@ -66,7 +66,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getParent()
 	{
-		if (!$this->parent) {
+		if (!isset($this->parent)) {
 			$parentRoleString = $this->getParentRoleString();
 			$parentComponents = explode('::', $parentRoleString);
 			$noOfRoles = count($parentComponents);
@@ -87,7 +87,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	public function getChildren()
 	{
 		$db = PearDatabase::getInstance();
-		if (!$this->children) {
+		if (!isset($this->children)) {
 			$parentRoleString = $this->getParentRoleString();
 			$currentRoleDepth = $this->getDepth();
 
@@ -108,7 +108,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	public function getSameLevelRoles()
 	{
 		$db = PearDatabase::getInstance();
-		if (!$this->children) {
+		if (!isset($this->children)) {
 			$parentRoles = getParentRole($this->getId());
 			$currentRoleDepth = $this->getDepth();
 			$parentRoleString = '';
@@ -246,7 +246,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getProfiles()
 	{
-		if (!$this->profiles) {
+		if (!isset($this->profiles)) {
 			$this->profiles = Settings_Profiles_Record_Model::getAllByRole($this->getId());
 		}
 		return $this->profiles;

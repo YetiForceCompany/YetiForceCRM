@@ -39,7 +39,9 @@ function createUserPrivilegesfile($userid)
 		$user_focus->id = $userid; 
 		foreach($user_focus->column_fields as $field=>$value_iter)
         	{
-               		$userInfo[$field]= $user_focus->$field;
+               	if(isset($user_focus->$field)){
+					$userInfo[$field]= $user_focus->$field;
+				}
         	}
 
 		if($user_focus->is_admin == 'on')
