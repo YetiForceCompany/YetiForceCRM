@@ -21,7 +21,7 @@
 			{foreach key=$index item=record from=$LIST}
 				<tr>
 					{foreach from=$record item=item key=key}
-						<td>{$item}</td>
+						<td>{vtranslate($item, $item)}</td>
 					{/foreach}
 				</tr>
 			{/foreach}
