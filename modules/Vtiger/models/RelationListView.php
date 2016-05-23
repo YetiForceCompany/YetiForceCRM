@@ -537,6 +537,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$whereCondition = $this->get("whereCondition");
 		$count = count($whereCondition);
+		$appendAndCondition = false;
 		if ($count > 1) {
 			$appendAndCondition = true;
 		}

@@ -14,33 +14,33 @@
 						</h4>
 					</div>
 				</div>
-				{if $WIDGET['switchHeader']}
-				<div class="col-xs-8 col-md-4 col-sm-3 paddingBottom10">
-					<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="whereCondition" data-on-val='{$WIDGET['switchHeader']['on']}' data-off-val='{$WIDGET['switchHeader']['off']}'>
-				</div>
+				{if isset($WIDGET['switchHeader'])}
+					<div class="col-xs-8 col-md-4 col-sm-3 paddingBottom10">
+						<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="whereCondition" data-on-val='{$WIDGET['switchHeader']['on']}' data-off-val='{$WIDGET['switchHeader']['off']}'>
+					</div>
 				{/if}
 				<div class="col-md-3 col-sm-3 pull-right paddingBottom10">
 					<div class="pull-right">
 						<div class="btn-group">
-						{if in_array(1,[$WIDGET['data']['actionSelect'], $WIDGET['data']['action']])}
-							{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
-							{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $WIDGET['data']['relatedmodule'])}
-							{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
-							{if $WIDGET['data']['actionSelect'] eq 1}
-								{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
-								<button class="btn btn-sm btn-default selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{Zend_Json::encode($RESTRICTIONS_FIELD)}'{/if} title="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}" alt="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}">
-									<span class="glyphicon glyphicon-search"></span>
-								</button>
+							{if isset($WIDGET['data']['actionSelect']) || isset($WIDGET['data']['action'])}
+								{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
+								{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $WIDGET['data']['relatedmodule'])}
+								{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
+								{if $WIDGET['data']['actionSelect'] eq 1}
+									{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
+									<button class="btn btn-sm btn-default selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{Zend_Json::encode($RESTRICTIONS_FIELD)}'{/if} title="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}" alt="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								{/if}
+								{if $WIDGET['data']['action'] eq 1}
+									{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
+									{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
+									<button class="btn btn-sm btn-default createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
+											{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{Zend_Json::encode($AUTOCOMPLETE_FIELD)}'{/if} title="{vtranslate('LBL_ADD',$MODULE_NAME)}" alt="{vtranslate('LBL_ADD',$MODULE_NAME)}">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button>
+								{/if}
 							{/if}
-							{if $WIDGET['data']['action'] eq 1}
-								{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
-								{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-								<button class="btn btn-sm btn-default createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
-										{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{Zend_Json::encode($AUTOCOMPLETE_FIELD)}'{/if} title="{vtranslate('LBL_ADD',$MODULE_NAME)}" alt="{vtranslate('LBL_ADD',$MODULE_NAME)}">
-									<span class="glyphicon glyphicon-plus"></span>
-								</button>
-							{/if}
-						{/if}
 						</div>
 					</div>
 				</div>
@@ -55,7 +55,7 @@
 				{if isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-'}
 					<div class="{$span} form-group-sm">
 						{assign var=filter value=$WIDGET['data']['filter']}
-{*						<input type="hidden" name="filter_data" value="{$filter}" />*}
+						{*<input type="hidden" name="filter_data" value="{$filter}" />*}
 						{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($WIDGET['data']['relatedmodule'])}
 						{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($filter)}
 						{assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}

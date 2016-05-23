@@ -159,6 +159,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 	 * @return ModComments_Record_Model if exits or null
 	 */
 	public static function getRecentComments($parentRecordId, $pagingModel){
+		$recordInstances = [];
 		$db = PearDatabase::getInstance();
 		$startIndex = $pagingModel->getStartIndex();
 		$limit = $pagingModel->getPageLimit();

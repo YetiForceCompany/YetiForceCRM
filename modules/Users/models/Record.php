@@ -386,21 +386,21 @@ class Users_Record_Model extends Vtiger_Record_Model
             LEFT JOIN vtiger_salesmanattachmentsrel ON vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
             WHERE vtiger_salesmanattachmentsrel.smid=?';
 
-			$result = $db->pquery($query, array($recordId));
+			$result = $db->pquery($query, [$recordId]);
 
-			$imageId = $db->query_result($result, 0, 'attachmentsid');
-			$imagePath = $db->query_result($result, 0, 'path');
-			$imageName = $db->query_result($result, 0, 'name');
-
-			//decode_html - added to handle UTF-8 characters in file names
-			$imageOriginalName = decode_html($imageName);
-
-			$imageDetails[] = array(
-				'id' => $imageId,
-				'orgname' => $imageOriginalName,
-				'path' => $imagePath . $imageId,
-				'name' => $imageName
-			);
+			if($db->getRowCount($result)){
+				$imageId = $db->query_result($result, 0, 'attachmentsid');
+				$imagePath = $db->query_result($result, 0, 'path');
+				$imageName = $db->query_result($result, 0, 'name');
+				//decode_html - added to handle UTF-8 characters in file names
+				$imageOriginalName = decode_html($imageName);
+				$imageDetails[] = array(
+					'id' => $imageId,
+					'orgname' => $imageOriginalName,
+					'path' => $imagePath . $imageId,
+					'name' => $imageName
+				);
+			}
 		}
 		return $imageDetails;
 	}
