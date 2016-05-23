@@ -17,7 +17,7 @@ class Reports_ListView_Model extends Vtiger_ListView_Model {
 	 * Function to get the list of listview links for the module
 	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
 	 */
-	public function getListViewLinks() {
+	public function getListViewLinks($linkParams) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$basicLinks = array();
@@ -70,7 +70,7 @@ class Reports_ListView_Model extends Vtiger_ListView_Model {
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
 	 */
-	public function getListViewMassActions() {
+	public function getListViewMassActions($linkParams) {
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$massActionLinks = array();
@@ -113,7 +113,8 @@ class Reports_ListView_Model extends Vtiger_ListView_Model {
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel) {
+	public function getListViewEntries($pagingModel, $searchResult = false)
+	{
 		$reportFolderModel = Reports_Folder_Model::getInstance();
 		$reportFolderModel->set('folderid', $this->get('folderid'));
 

@@ -52,7 +52,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 
 	public function getListFields()
 	{
-		if (!$this->listFieldModels) {
+		if (!isset($this->listFieldModels)) {
 			$fields = $this->listFields;
 			$fieldObjects = array();
 			foreach ($fields as $fieldName => $fieldLabel) {

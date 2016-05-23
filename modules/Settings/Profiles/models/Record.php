@@ -97,7 +97,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (!$this->global_permissions) {
+		if (!isset($this->global_permissions)) {
 			$globalPermissions = array();
 			$globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW] = $globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT] = Settings_Profiles_Module_Model::GLOBAL_ACTION_DEFAULT_VALUE;
 
@@ -258,7 +258,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (!$this->profile_tab_permissions) {
+		if (!isset($this->profile_tab_permissions)) {
 			$profile2TabPermissions = array();
 			if ($this->getId()) {
 				$sql = 'SELECT * FROM vtiger_profile2tab WHERE profileid=?';
@@ -280,7 +280,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (!$this->profile_tab_field_permissions[$tabId]) {
+		if (!isset($this->profile_tab_field_permissions[$tabId])) {
 			$profile2TabFieldPermissions = array();
 			if ($this->getId()) {
 				$sql = 'SELECT * FROM vtiger_profile2field WHERE profileid=? AND tabid=?';
@@ -304,7 +304,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (!$this->profile_action_permissions) {
+		if (!isset($this->profile_action_permissions)) {
 			$profile2ActionPermissions = array();
 			if ($this->getId()) {
 				$sql = 'SELECT * FROM vtiger_profile2standardpermissions WHERE profileid=?';
@@ -327,7 +327,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (!$this->profile_utility_permissions) {
+		if (!isset($this->profile_utility_permissions)) {
 			$profile2UtilityPermissions = array();
 			if ($this->getId()) {
 				$sql = 'SELECT * FROM vtiger_profile2utility WHERE profileid=?';
@@ -348,7 +348,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getModulePermissions()
 	{
-		if (!$this->module_permissions) {
+		if (!isset($this->module_permissions)) {
 			$allModules = Vtiger_Module_Model::getAll(array(0), Settings_Profiles_Module_Model::getNonVisibleModulesList());
 			$eventModule = Vtiger_Module_Model::getInstance('Events');
 			$allModules[$eventModule->getId()] = $eventModule;

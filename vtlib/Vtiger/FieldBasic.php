@@ -19,6 +19,7 @@ class Vtiger_FieldBasic
 	/** ID of this field instance */
 	var $id;
 	var $name;
+	var $tabid = false;
 	var $label = false;
 	var $table = false;
 	var $column = false;
@@ -60,6 +61,7 @@ class Vtiger_FieldBasic
 	function initialize($valuemap, $moduleInstance = false, $blockInstance = false)
 	{
 		$this->id = $valuemap['fieldid'];
+		$this->tabid = $valuemap['tabid'];
 		$this->name = $valuemap['fieldname'];
 		$this->label = $valuemap['fieldlabel'];
 		$this->column = $valuemap['columnname'];
@@ -245,6 +247,9 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	function getModuleId()
 	{
+		if ($this->tabid) {
+			return $this->tabid;
+		}
 		return $this->block->module->id;
 	}
 
@@ -253,6 +258,9 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	function getModuleName()
 	{
+		if ($this->tabid) {
+			return Vtiger_Functions::getModuleName($this->tabid);
+		}
 		return $this->block->module->name;
 	}
 

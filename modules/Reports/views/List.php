@@ -49,9 +49,9 @@ class Reports_List_View extends Vtiger_Index_View
 		$listViewModel->set('orderby', $orderBy);
 		$listViewModel->set('sortorder', $sortBy);
 
-		$linkModels = $listViewModel->getListViewLinks();
+		$linkModels = $listViewModel->getListViewLinks(false);
 		$pageNumber = $request->get('page');
-		$listViewMassActionModels = $listViewModel->getListViewMassActions();
+		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
 
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
