@@ -42,7 +42,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		if ($this->checkPermission($request)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
-			if($activeReminder = vtlib_isModuleActive('Calendar')){
+			if ($activeReminder = vtlib_isModuleActive('Calendar')) {
 				$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 				$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());

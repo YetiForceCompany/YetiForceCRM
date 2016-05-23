@@ -960,9 +960,9 @@ class Users extends CRMEntity
 		}
 		$currency = $adb->getRow($currencyResult);
 		$currencyArray = ['$' => '&#36;', '&euro;' => '&#8364;', '&pound;' => '&#163;', '&yen;' => '&#165;'];
-		if(isset($currencyArray[$currency['currency_symbol']])){
+		if (isset($currencyArray[$currency['currency_symbol']])) {
 			$currencySymbol = $currencyArray[$currency['currency_symbol']];
-		}else{
+		} else {
 			$currencySymbol = $currency['currency_symbol'];
 		}
 		$this->column_fields['currency_name'] = $this->currency_name = $currency['currency_name'];

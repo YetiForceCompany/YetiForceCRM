@@ -278,7 +278,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		}
 		return true;
 	}
-	
+
 	public static function getNotAdminUsers()
 	{
 		$adb = PearDatabase::getInstance();
@@ -291,7 +291,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 		return $output;
 	}
-	
+
 	public static function getSwitchUsers()
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
