@@ -1144,6 +1144,12 @@ $languageStrings = [
 	'SwitchUsers' => 'Benutzer wechseln',
 	'BTN_CHANGES_REVIEWED_ON' => 'Changes reviewed on',
 	'Api Address' => 'Adressen Suche',
+	'WebForm Name' => 'Webformular Name',
+	'Return Url' => 'Rückgabe URL',
+	'Module' => 'Modul',
+	'Captcha Enabled' => 'Habilitar Captcha',
+	'LBL_ASSIGN_ROUND_ROBIN' => 'Zu Verteilerliste hinzufügen',
+    'LBL_ROUNDROBIN_USERS_LIST' => 'Benutzer im Verteiler',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

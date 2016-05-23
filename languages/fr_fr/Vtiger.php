@@ -1127,6 +1127,12 @@ $languageStrings = [
 	'SwitchUsers' => 'Changer d\'utilisateur',
 	'BTN_CHANGES_REVIEWED_ON' => 'Changes reviewed on',
 	'Api Address' => 'Chercher adresse',
+	'WebForm Name' => 'Nom du formulaire web',
+	'Return Url' => 'URL de retour',
+	'Module' => 'Módulo',
+	'Captcha Enabled' => 'Captcha activé',
+    'LBL_ASSIGN_ROUND_ROBIN' => 'Assigner les utilisateurs en round-robin',
+    'LBL_ROUNDROBIN_USERS_LIST' => 'Liste des utilisateurs pour le Round-robin ',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',

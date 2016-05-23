@@ -1382,6 +1382,12 @@ $languageStrings = [
 	'BTN_CHANGES_REVIEWED_ON' => 'Changes reviewed on',
 	'LBL_VIEW_CONDITIONS' => 'Conditions',
 	'Api Address' => 'Поиск адресов',
+	'WebForm Name' => 'Имя Веб-Формы',
+	'Return Url' => 'Возвращаемый URL',
+	'Module' => 'Модуль',
+	'Captcha Enabled' => 'Captcha',
+	'LBL_ASSIGN_ROUND_ROBIN' => 'Назначить',
+	'LBL_ROUNDROBIN_USERS_LIST' => 'Пользователи',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

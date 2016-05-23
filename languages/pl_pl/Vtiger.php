@@ -1137,6 +1137,12 @@ $languageStrings = [
 	'SwitchUsers' => 'Przełączanie użytkowników',
 	'BTN_CHANGES_REVIEWED_ON' => 'Zapoznano się ze zmianami',
 	'Api Address' => 'Wyszukiwarka adresów',
+	'WebForm Name' => 'Nazwa formularza',
+	'Return Url' => 'Adres zwrotny (url)',
+	'Module' => 'Moduł',
+	'Captcha Enabled' => 'Captcha Włączone',
+	'LBL_ASSIGN_ROUND_ROBIN' => 'Losowe przypisywanie użytkowników',
+    'LBL_ROUNDROBIN_USERS_LIST' => 'Losuj z użytkowników',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
