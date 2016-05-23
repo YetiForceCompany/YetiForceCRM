@@ -86,7 +86,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getMembers()
 	{
-		if (!$this->members) {
+		if (!isset($this->members)) {
 			$this->members = Settings_Groups_Member_Model::getAllByGroup($this);
 		}
 		return $this->members;
@@ -98,7 +98,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getModules()
 	{
-		if (!$this->modules) {
+		if (!isset($this->modules)) {
 			$db = PearDatabase::getInstance();
 
 			$sql = 'SELECT vtiger_tab.tabid, vtiger_tab.name FROM vtiger_group2modules INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_group2modules.tabid WHERE vtiger_group2modules.groupid=?';

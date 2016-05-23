@@ -365,8 +365,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isMandatory()
 	{
-		list($type, $mandatory) = explode('~', $this->get('typeofdata'));
-		return $mandatory == 'M' ? true : false;
+		$typeOfData = explode('~', $this->get('typeofdata'));
+		return (isset($typeOfData[1]) && $typeOfData[1] == 'M') ? true : false;
 	}
 
 	/**
@@ -837,7 +837,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 			foreach ($fieldObjects as $fieldObject) {
 				$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
-				$fieldModelList[$fieldModelObject->get('block')->id][] = $fieldModelObject;
+				$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
+				$fieldModelList[$block][] = $fieldModelObject;
 				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
 				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
 			}

@@ -22,7 +22,7 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Index_Ac
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		$moduleInstance->saveRecordAllocation(array_filter($data));
 		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($response);
+		$responceToEmit->setResult(true);
 		$responceToEmit->emit();
 	}
 
@@ -35,7 +35,7 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Index_Ac
 		$content = $moduleInstance->removeDataInFile($toLowerModule);
 		$moduleInstance->putData($toLowerModule, [], $content);
 		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($response);
+		$responceToEmit->setResult(true);
 		$responceToEmit->emit();
 	}
 }

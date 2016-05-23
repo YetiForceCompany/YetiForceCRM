@@ -16,10 +16,10 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 		$file = self::$fileLoc;
 		require($file);
 		$toLowerModule = strtolower($data['module']);
-		$dataFromFile = $$toLowerModule;
 		$userId = $data['userid'];
-		$userData = $data['ids'] ? $data['ids'] : [];
-		if (!is_null($dataFromFile)) {
+		$userData = isset($data['ids']) ? $data['ids'] : [];
+		if (isset($$toLowerModule)) {
+			$dataFromFile = $$toLowerModule;
 			if (empty($userData)) {
 				unset($dataFromFile[$userId]);
 			} else {
@@ -77,6 +77,9 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 		$file = self::$fileLoc;
 		require($file);
 		$toLowerModule = strtolower($moduleName);
-		return $$toLowerModule;
+		if (isset($$toLowerModule)) {
+			return $$toLowerModule;
+		}
+		return false;
 	}
 }
