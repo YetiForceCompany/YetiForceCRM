@@ -112,9 +112,11 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->assign('PAGE_NUMBER',$pageNumber);
 		$viewer->assign('ISSUES_STATE',$state);
 		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('LISTVIEW_ENTRIES_COUNT', false);
 		$viewer->assign('LISTVIEW_COUNT', Settings_Github_Issues_Model::$totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
+		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('GITHUB_ISSUES', $issues);
 		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);

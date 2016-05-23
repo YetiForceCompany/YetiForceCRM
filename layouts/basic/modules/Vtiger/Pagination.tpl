@@ -20,12 +20,12 @@
 						<ul class="dropdown-menu listViewBasicAction" aria-labelledby="dLabel" id="listViewPageJumpDropDown">
 							<li>
 								<div>
-									<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per"><span>{vtranslate('LBL_PAGE',$moduleName)}</span></div>
+									<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per"><span>{vtranslate('LBL_PAGE',$MODULE)}</span></div>
 									<div class="col-md-3 recentComments">
 										<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter form-control" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
 									</div>
 									<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
-										{vtranslate('LBL_OF',$moduleName)}
+										{vtranslate('LBL_OF',$MODULE)}
 									</div>
 									<div class="col-md-2 recentComments pushUpandDown2per textAlignCenter" id="totalPageCount">{$PAGE_COUNT}</div>
 								</div>
