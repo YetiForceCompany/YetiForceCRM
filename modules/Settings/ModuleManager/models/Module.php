@@ -219,7 +219,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		return preg_replace("/[^a-zA-Z0-9_]/", "", $value);
 	}
 
-	public function getUploadDirectory()
+	public static function getUploadDirectory()
 	{
 		$uploadDir = 'cache/vtlib';
 		return $uploadDir;

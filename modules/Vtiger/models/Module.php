@@ -953,18 +953,13 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$db = PearDatabase::getInstance();
 			// Initialize meta information - to speed up instance creation (Vtiger_ModuleBasic::initialize2)
 			$result = $db->pquery('SELECT modulename,tablename,entityidfield,fieldname FROM vtiger_entityname', []);
-
-			for ($index = 0, $len = $db->num_rows($result); $index < $len; ++$index) {
-
-				$fieldNames = $db->query_result($result, $index, 'fieldname');
-				$modulename = $db->query_result($result, $index, 'modulename');
-
+			while ($row = $db->getRow($result)) {
 				$entiyObj = new stdClass();
-				$entiyObj->basetable = $db->query_result($result, $index, 'tablename');
-				$entiyObj->basetableid = $db->query_result($result, $index, 'entityidfield');
-				$entiyObj->fieldname = $fieldNames;
+				$entiyObj->basetable = $row['tablename'];
+				$entiyObj->basetableid = $row['entityidfield'];
+				$entiyObj->fieldname = $row['fieldname'];
 
-				Vtiger_Cache::set('EntityField', $modulename, $entiyObj);
+				Vtiger_Cache::set('EntityField', $row['modulename'], $entiyObj);
 				Vtiger_Cache::set('EntityField', 'all', true);
 			}
 		}
@@ -1864,19 +1859,19 @@ class Vtiger_Module_Model extends Vtiger_Module
 	public function getValuesFromSource(Vtiger_Request $request, $moduleName = false)
 	{
 		$data = [];
-		if(!$moduleName){
+		if (!$moduleName) {
 			$moduleName = $request->getModule();
 		}
 		$sourceModule = $request->get('sourceModule');
 		$sourceRecord = $request->get('sourceRecord');
 		$sourceRecordData = $request->get('sourceRecordData');
-		
+
 		if ($sourceModule && ($sourceRecord || $sourceRecordData)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			if(empty($sourceRecord)){
+			if (empty($sourceRecord)) {
 				$recordModel = Vtiger_Record_Model::getCleanInstance($sourceModule);
 				$recordModel->setData($sourceRecordData);
-			}else{
+			} else {
 				$recordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 			}
 			$sourceModuleModel = $recordModel->getModule();

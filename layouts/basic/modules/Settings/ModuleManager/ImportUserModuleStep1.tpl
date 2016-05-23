@@ -14,7 +14,9 @@
 		<div class="widget_header row">
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-				{vtranslate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
+				{if isset($SELECTED_PAGE)}
+					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+				{/if}
 			</div>
 		</div>
 		{assign var=MAXUPLOADSIZE value=Vtiger_Functions::getMaxUploadSize()}

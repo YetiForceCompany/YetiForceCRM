@@ -40,6 +40,7 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 		$file = self::$fileLoc;
 		if (file_exists($file)) {
 			$configContent = file($file);
+			$removeLine = false;
 			foreach ($configContent as $key => $line) {
 				if (strpos($line, $toLowerModule) !== false) {
 					unset($configContent[$key]);

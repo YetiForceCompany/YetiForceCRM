@@ -21,7 +21,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMailView&parent=Settings&view=index&block=4&fieldid=' . $db->query_result($result, 0, 'fieldid'),
+			'linkurl' => 'index.php?module=OSSMailView&parent=Settings&view=index&block=4&fieldid=' . $db->getSingleValue($result),
 			'linkicon' => $layoutEditorImagePath
 		);
 		return $settingsLinks;
