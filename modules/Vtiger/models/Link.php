@@ -198,6 +198,9 @@ class Vtiger_Link_Model extends Vtiger_Link
 		$sourceRecord = false;
 		$parametersParts = explode('&', $url);
 		foreach ($parametersParts as $index => $keyValue) {
+			if(strpos($keyValue, '=') === false){
+				continue;
+			}
 			$urlParts = explode('=', $keyValue);
 			$key = $urlParts[0];
 			$value = $urlParts[1];

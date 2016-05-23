@@ -172,10 +172,10 @@ class Vtiger_Menu_Model
 	public static function getModuleNameFromUrl($url)
 	{
 		$params = Vtiger_Functions::getQueryParams($url);
-		if ($params[parent]) {
-			return ("$params[parent]:$params[module]");
+		if ($params['parent']) {
+			return ($params['parent'] . ':' . $params['module']);
 		}
-		return $params[module];
+		return $params['module'];
 	}
 
 	public static function getMenuIcon($menu, $title = '')

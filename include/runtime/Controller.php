@@ -185,8 +185,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	function getPageTitle(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleName = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
-		$title = vtranslate($moduleName, $moduleName);
+		$moduleLabel = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
+		$title = vtranslate($moduleLabel, $moduleName);
 		$pageTitle = $this->getBreadcrumbTitle($request);
 		if ($pageTitle) {
 			$title .= ' - ' . $pageTitle;
