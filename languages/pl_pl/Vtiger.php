@@ -1143,6 +1143,7 @@ $languageStrings = [
 	'Captcha Enabled' => 'Captcha Włączone',
 	'LBL_ASSIGN_ROUND_ROBIN' => 'Losowe przypisywanie użytkowników',
 	'LBL_ROUNDROBIN_USERS_LIST' => 'Losuj z użytkowników',
+	'Notifications' => 'Powiadomienia',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

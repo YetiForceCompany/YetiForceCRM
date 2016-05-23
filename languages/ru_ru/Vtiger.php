@@ -1388,6 +1388,7 @@ $languageStrings = [
 	'Captcha Enabled' => 'Captcha',
 	'LBL_ASSIGN_ROUND_ROBIN' => 'Назначить',
 	'LBL_ROUNDROBIN_USERS_LIST' => 'Пользователи',
+	'Notifications' => 'Notifications',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
