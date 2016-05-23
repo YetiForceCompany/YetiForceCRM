@@ -1381,6 +1381,7 @@ $languageStrings = [
 	'SwitchUsers' => 'Переключатель пользователей',
 	'BTN_CHANGES_REVIEWED_ON' => 'Changes reviewed on',
 	'LBL_VIEW_CONDITIONS' => 'Conditions',
+	'Api Address' => 'Поиск адресов',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

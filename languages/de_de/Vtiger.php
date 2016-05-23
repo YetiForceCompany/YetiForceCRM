@@ -1143,6 +1143,7 @@ $languageStrings = [
 	'FL_ACTIVE' => 'Active',
 	'SwitchUsers' => 'Benutzer wechseln',
 	'BTN_CHANGES_REVIEWED_ON' => 'Changes reviewed on',
+	'Api Address' => 'Adressen Suche',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
