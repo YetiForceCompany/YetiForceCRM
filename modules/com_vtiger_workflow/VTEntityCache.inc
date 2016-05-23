@@ -102,12 +102,12 @@ class VTWorkflowEntity{
 class VTEntityCache{
 	function __construct($user){
 		$this->user = $user;
-		$this->cache = array();
+		$this->cache = [];
 	}
 
-    static $_vtWorflow_entity_cache = array();
+    static $_vtWorflow_entity_cache = [];
 	function forId($id){
-		if($this->cache[$id]==null){
+		if(!isset($this->cache[$id])){
             $entity = VTEntityCache::getCachedEntity($id);
             if(!$entity) {
                 $data  = new VTWorkflowEntity($this->user, $id);
@@ -120,7 +120,10 @@ class VTEntityCache{
 	}
     
     public static function getCachedEntity($id) {
-        return self::$_vtWorflow_entity_cache[$id];
+		if(isset(self::$_vtWorflow_entity_cache[$id])){
+			return self::$_vtWorflow_entity_cache[$id];
+		}
+		return false;
     }
     
     public static function setCachedEntity($id, $entity) {

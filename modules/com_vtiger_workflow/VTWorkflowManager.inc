@@ -128,7 +128,7 @@ class VTWorkflowManager
 			return $this->getWorkflowsForResult($cache->getWorkflowForModule($cacheName));
 		} else {
 			$result = $adb->getColumnNames("com_vtiger_workflows");
-			if (in_array(defaultworkflow, $result)) {
+			if (in_array('defaultworkflow', $result)) {
 				$sql = 'SELECT workflow_id, module_name, summary, test, execution_condition, defaultworkflow, type, filtersavedinnew FROM com_vtiger_workflows WHERE module_name=?';
 			} else {
 				$sql = 'SELECT workflow_id, module_name, summary, test, execution_condition, type, filtersavedinnew FROM com_vtiger_workflows WHERE module_name=?';

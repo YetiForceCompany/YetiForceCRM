@@ -86,7 +86,7 @@ class VTEntityData
 		$obj->entityId = $crmEntity->id;
 		$obj->moduleName = $crmEntity->moduleName;
 		$obj->focus = $crmEntity;
-		$obj->isNew = $crmEntity->mode != 'edit';
+		$obj->isNew = isset($crmEntity->mode) ?  $crmEntity->mode != 'edit' : false;
 		return $obj;
 	}
 

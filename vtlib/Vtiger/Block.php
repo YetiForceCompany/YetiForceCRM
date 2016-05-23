@@ -204,8 +204,8 @@ class Vtiger_Block
 			if ($adb->num_rows($result)) {
 				$instance = new self();
 				$instance->initialize($adb->fetch_array($result), $moduleInstance);
+				$cache->setBlockInstance($value, $instance->module->id, $instance);
 			}
-			$cache->setBlockInstance($value, $instance->module->id, $instance);
 			return $instance;
 		}
 	}
