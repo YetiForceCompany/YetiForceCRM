@@ -115,7 +115,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getRawData()
 	{
-		return $this->rawData;
+		
+		return isset($this->rawData) ? $this->rawData : false;
 	}
 
 	/**

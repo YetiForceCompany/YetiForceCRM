@@ -1492,7 +1492,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	 */
 	public function getSummaryViewFieldsList()
 	{
-		if (!$this->summaryFields) {
+		if (!isset($this->summaryFields)) {
 			$summaryFields = [];
 			$fields = $this->getFields();
 			foreach ($fields as $fieldName => $fieldModel) {

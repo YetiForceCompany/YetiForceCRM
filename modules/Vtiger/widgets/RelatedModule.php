@@ -14,7 +14,11 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $this->Data['relatedmodule'] . '&page=1&limit=' . $this->Data['limit'] . '&col=' . $this->Data['columns'] . '&r=' . $this->Data['no_result_text'];
+		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $this->Data['relatedmodule'] . '&page=1&limit=' . $this->Data['limit'] . '&col=' . $this->Data['columns'];
+		if(isset($this->Data['no_result_text'])){
+			$url .= '&r=' . $this->Data['no_result_text'];
+		}
+		return $url;
 	}
 
 	public function getWidget()
@@ -30,7 +34,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 				$this->Config['action'] = ($createPermission == true) ? 1 : 0;
 				$this->Config['actionURL'] = $model->getQuickCreateUrl();
 			}
-			if ($this->Data['showAll']) {
+			if (isset($this->Data['showAll'])) {
 				$this->Config['url'] .= '&showAll=' . $this->Data['showAll'];
 			}
 			if (isset($this->Data['switchHeader']) && $this->Data['switchHeader'] != '-') {

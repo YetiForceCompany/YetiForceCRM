@@ -385,7 +385,8 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$headerFields = [];
 		foreach (new DirectoryIterator($path) as $fileinfo) {
 			if (!$fileinfo->isDot()) {
-				$name = reset(explode('.', $fileinfo->getFilename()));
+				$filename = explode('.', $fileinfo->getFilename());
+				$name = reset($filename);
 
 				$modelClassName = Vtiger_Loader::getComponentClassName('HeaderField', $name, $moduleName);
 				$instance = new $modelClassName;
