@@ -52,7 +52,8 @@ class API_Products_GetProducts extends BaseAction
 					vtiger_products.pscategory,
 					vtiger_products.productid,
 					vtiger_products.pos,
-					vtiger_products.unit_price
+					vtiger_products.unit_price,
+					vtiger_products.imagename
 					FROM vtiger_products
 					INNER JOIN vtiger_crmentity ON  vtiger_products.productid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.deleted = ?

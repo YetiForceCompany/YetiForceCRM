@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class API_TreesManager_GetCategories extends BaseAction
+class API_TreesManager_GetTree extends BaseAction
 {
 
 	protected $requestMethod = ['GET'];
