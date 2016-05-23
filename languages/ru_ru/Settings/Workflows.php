@@ -221,6 +221,27 @@ $languageStrings = [
 	'LBL_SELECT_TEMPLATE_FOR_MODULE' => 'Select template for module',
 	'LBL_OVERWRITTEN_FIELDS' => 'Overwritten fields',
 	'Birthdate' => 'Дата рождения',
+	'Notify Owner On Ticket Change' => 'Notify Owner On Ticket Change',
+	'Notify Account On Ticket Change' => 'Notify Account On Ticket Change',
+	'Notify Contact On Ticket Closed' => 'Notify Contact On Ticket Closed',
+	'Notify Account On Ticket Closed' => 'Notify Account On Ticket Closed',
+	'Notify Contact On Ticket Create' => 'Notify Contact On Ticket Create',
+	'Notify Account On Ticket Create' => 'Notify Account On Ticket Create',
+	'Notify Contact On Ticket Change' => 'Notify Contact On Ticket Change',
+	'Notify Owner On Ticket Closed' => 'Notify Owner On Ticket Closed',
+	'Notify Owner On Ticket Create' => 'Notify Owner On Ticket Create',
+	'Customer Portal Login Details' => 'Customer Portal Login Details',
+	'Send invitations' => 'Send invitations',
+	'Send Notification Email to Record Owner' => 'Send Notification Email to Record Owner',
+	'Activity Reminder Notification' => 'Activity Reminder Notification',
+	'Test mail about the mail server configuration' => 'Test mail about the mail server configuration',
+	'ForgotPassword' => 'ForgotPassword',
+	'Customer Portal - ForgotPassword' => 'Customer Portal - ForgotPassword',
+	'Notify Owner On new comment added to ticket from portal' => 'Notify Owner On new comment added to ticket from portal',
+	'Notify Contact On New comment added to ticket' => 'Notify Contact On New comment added to ticket',
+	'Security risk has been detected - Brute Force' => 'Security risk has been detected - Brute Force',
+	'Backup has been made' => 'Backup has been made',
+	'Notify Account On New comment added to ticket' => 'Notify Account On New comment added to ticket'
 ];
 
 $jsLanguageStrings = [

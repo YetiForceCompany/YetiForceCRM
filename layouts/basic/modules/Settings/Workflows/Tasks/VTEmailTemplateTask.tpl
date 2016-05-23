@@ -19,7 +19,7 @@
 				<select class="chzn-select form-control" name="template" data-validation-engine='validate[required]'>
 				<option value="">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 				{foreach from=$TEMPLATELIST key=key item=item}
-					<option {if $TASK_OBJECT->template eq $key}selected=""{/if} value="{$key}">{$item.name}</option>
+					<option {if $TASK_OBJECT->template eq $key}selected=""{/if} value="{$key}">{vtranslate($item.name, $QUALIFIED_MODULE)}</option>
 				{/foreach}	
 			</select>
 			</div>
