@@ -15,7 +15,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 * Function that returns all the fields for the module
 	 * @return <Array of Vtiger_Field_Model> - list of field models
 	 */
-	public function getFields()
+	public function getFields($blockInstance = false)
 	{
 		if (empty($this->fields)) {
 			$fieldList = array();

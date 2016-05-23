@@ -309,7 +309,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		return $fieldInfo;
 	}
 
-	public static function getInstanceFromFieldId($fieldId, $moduleTabId)
+	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
 		$db = PearDatabase::getInstance();
 
