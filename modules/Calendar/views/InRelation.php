@@ -90,7 +90,15 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->get('view'));
-
+		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
+		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());		
+		$isFavorites = false;
+		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
+			$favorites = $relationListView->getFavoriteRecords();
+			$viewer->assign('FAVORITES', $favorites);
+			$isFavorites = $relationModel->isFavorites();
+		}
+		$viewer->assign('IS_FAVORITES', $isFavorites);
 		return $viewer->view('RelatedList.tpl', $relatedModuleName, 'true');
 	}
 }
