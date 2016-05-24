@@ -1389,6 +1389,7 @@ $languageStrings = [
 	'LBL_ASSIGN_ROUND_ROBIN' => 'Назначить',
 	'LBL_ROUNDROBIN_USERS_LIST' => 'Пользователи',
 	'Notifications' => 'Notifications',
+	'Mails' => 'Mails',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

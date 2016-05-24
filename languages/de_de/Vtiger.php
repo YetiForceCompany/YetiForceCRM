@@ -1151,6 +1151,7 @@ $languageStrings = [
 	'LBL_ASSIGN_ROUND_ROBIN' => 'Zu Verteilerliste hinzufügen',
 	'LBL_ROUNDROBIN_USERS_LIST' => 'Benutzer im Verteiler',
 	'Notifications' => 'Benachrichtigung',
+	'Mails' => 'Mails',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
