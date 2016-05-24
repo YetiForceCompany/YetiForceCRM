@@ -60,25 +60,25 @@
 						<div class="form-group form-group-sm form-switch-mini">
 							<label class="col-md-4 control-label">{vtranslate('No left margin', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 							<div class="col-md-7 controls">
-								<input name="nomargin" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['data']['nomargin'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+								<input name="nomargin" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['nomargin'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 							</div>
 						</div>
 						<div class="form-group form-group-sm form-switch-mini">
 							<label class="col-md-4 control-label">{vtranslate('Add button', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Add button info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Add button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 							<div class="col-md-7">
-									<input name="action" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['data']['action'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+									<input name="action" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['action']) && $WIDGETINFO['data']['action'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 							</div>
 						</div>
 						<div class="form-group form-group-sm form-switch-mini">
 							<label class="col-md-4 control-label">{vtranslate('Select button', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('LBL_SELECT_BUTTON_INFO', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Select button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 							<div class="col-md-7 controls form-switch-mini">
-								<input name="actionSelect" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['data']['actionSelect'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+								<input name="actionSelect" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['actionSelect']) && $WIDGETINFO['data']['actionSelect'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 							</div>
 						</div>
 						<div class="form-group form-group-sm form-switch-mini">
 							<label class="col-md-4 control-label">{vtranslate('No message', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('No message info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No message', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 							<div class="col-md-7 controls">
-								<input name="no_result_text" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['data']['no_result_text'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+								<input name="no_result_text" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['result']) && $WIDGETINFO['data']['no_result_text'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 							</div>
 						</div>
 						{*<div class="form-group form-group-sm form-switch-mini">

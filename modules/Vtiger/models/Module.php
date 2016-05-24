@@ -1653,11 +1653,10 @@ class Vtiger_Module_Model extends Vtiger_Module
 	public function getCumplosoryMandatoryFieldList()
 	{
 		$focus = CRMEntity::getInstance($this->getName());
-		$compulsoryMandtoryFields = $focus->mandatory_fields;
-		if (empty($compulsoryMandtoryFields)) {
-			$compulsoryMandtoryFields = [];
+		if (!isset($focus->mandatory_fields) || empty($focus->mandatory_fields)) {
+			return [];
 		}
-		return $compulsoryMandtoryFields;
+		return $focus->mandatory_fields;
 	}
 
 	/**

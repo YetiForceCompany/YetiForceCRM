@@ -538,7 +538,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return $treeList;
 	}
 
-	public function getRelationsTypes()
+	public static function getRelationsTypes()
 	{
 		$typesList = array(
 			'get_related_list' => 'PLL_RELATED_LIST',
@@ -549,7 +549,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return $typesList;
 	}
 
-	public function getRelationsActions()
+	public static function getRelationsActions()
 	{
 		$actionList = array(
 			'ADD' => 'PLL_ADD',

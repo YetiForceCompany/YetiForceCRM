@@ -94,6 +94,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
 		$viewer->assign('RELATED_MODULES', $relatedModuleModels);
+		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('RelatedList.tpl', $qualifiedModule);

@@ -147,7 +147,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		return array('labels' => $fieldlabel, 'table' => $fieldsList);
 	}
 
-	public function saveWidget($params)
+	public static function saveWidget($params)
 	{
 		$adb = PearDatabase::getInstance();
 		$tabid = $params['tabid'];
@@ -172,7 +172,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		unset($data['filter_selected']);
 		unset($data['wid']);
-		$nomargin = $data['nomargin'];
+		$nomargin = isset($data['nomargin']) ? $data['nomargin'] : 0;
 		unset($data['nomargin']);
 		$serializeData = Zend_Json::encode($data);
 		$sequence = self::getLastSequence($tabid) + 1;
@@ -185,7 +185,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		}
 	}
 
-	public function removeWidget($wid)
+	public static function removeWidget($wid)
 	{
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_widgets WHERE id = ?;', array($wid));
@@ -195,28 +195,28 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_widgets WHERE id = ?';
-		$result = $adb->pquery($sql, array($wid), true);
+		$result = $adb->pquery($sql, array($wid));
 		$resultrow = $adb->raw_query_result_rowdata($result);
 		$resultrow['data'] = Zend_Json::decode($resultrow['data']);
 		return $resultrow;
 	}
 
-	public function getLastSequence($tabid)
+	public static function getLastSequence($tabid)
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT MAX(sequence) as max FROM vtiger_widgets WHERE tabid = ?';
-		$result = $adb->pquery($sql, array($tabid), true);
+		$result = $adb->pquery($sql, array($tabid));
 		return $adb->query_result($result, 0, 'max');
 	}
 
-	public function updateSequence($params)
+	public static function updateSequence($params)
 	{
 		$adb = PearDatabase::getInstance();
 		$tabid = $params['tabid'];
 		$data = $params['data'];
 		foreach ($data as $key => $value) {
-			$sql = "UPDATE vtiger_widgets SET sequence = ?, wcol = ? WHERE tabid = ? AND id = ?;";
-			$adb->pquery($sql, array($value['index'], $value['column'], $tabid, $key), true);
+			$sql = 'UPDATE vtiger_widgets SET sequence = ?, wcol = ? WHERE tabid = ? AND id = ?;';
+			$adb->pquery($sql, array($value['index'], $value['column'], $tabid, $key));
 		}
 	}
 
