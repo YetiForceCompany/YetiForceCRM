@@ -209,9 +209,10 @@ class Vtiger_Functions
 
 	static function getModuleData($mixed)
 	{
-		if ($mixed === false) {
+		if ($mixed === false || empty($mixed)) {
 			$log = LoggerManager::getInstance();
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
+			return false;
 		}
 		$id = $name = NULL;
 		if (is_numeric($mixed))

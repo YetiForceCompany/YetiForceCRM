@@ -340,21 +340,21 @@ class Workflow
 
 	function setup($row)
 	{
-		$this->id = $row['workflow_id'];
-		$this->moduleName = $row['module_name'];
-		$this->description = to_html($row['summary']);
-		$this->test = $row['test'];
-		$this->executionCondition = $row['execution_condition'];
-		$this->schtypeid = $row['schtypeid'];
-		$this->schtime = $row['schtime'];
-		$this->schdayofmonth = $row['schdayofmonth'];
-		$this->schdayofweek = $row['schdayofweek'];
-		$this->schannualdates = $row['schannualdates'];
-		if ($row['defaultworkflow']) {
+		$this->id = isset($row['workflow_id']) ? $row['workflow_id'] : '';
+		$this->moduleName = isset($row['module_name']) ? $row['module_name'] : '';
+		$this->description = to_html(isset($row['summary']) ? $row['summary'] : '');
+		$this->test = isset($row['test']) ? $row['test'] : '';
+		$this->executionCondition = isset($row['execution_condition']) ? $row['execution_condition'] : '';
+		$this->schtypeid = isset($row['schtypeid']) ? $row['schtypeid'] : '';
+		$this->schtime = isset($row['schtime']) ? $row['schtime'] : '';
+		$this->schdayofmonth = isset($row['schdayofmonth']) ? $row['schdayofmonth'] : '';
+		$this->schdayofweek = isset($row['schdayofweek']) ? $row['schdayofweek'] : '';
+		$this->schannualdates = isset($row['schannualdates']) ? $row['schannualdates'] : '';
+		if (isset($row['defaultworkflow'])) {
 			$this->defaultworkflow = $row['defaultworkflow'];
 		}
-		$this->filtersavedinnew = $row['filtersavedinnew'];
-		$this->nexttrigger_time = $row['nexttrigger_time'];
+		$this->filtersavedinnew = isset($row['filtersavedinnew']) ? $row['filtersavedinnew'] : '';
+		$this->nexttrigger_time = isset($row['nexttrigger_time']) ? $row['filtersavedinnew'] : '';
 	}
 
 	function evaluate($entityCache, $id)

@@ -339,6 +339,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	{
 		$save_record = true;
 		$output = [];
+		$recordId = isset($param['record']) ? $param['record'] : false;
 		if ($data) {
 			foreach ($data as $row) {
 				$action = explode(self::$separator, $row['an']);
@@ -347,7 +348,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 					vimport("~~$file");
 					$class = "DataAccess_" . $action[1];
 					$actionObject = new $class();
-					$output[] = $resp = $actionObject->process($module, $param['record'], $param, $row);
+					$output[] = $resp = $actionObject->process($module, $recordId, $param, $row);
 					if ($resp['save_record'] == false) {
 						$save_record = false;
 					}

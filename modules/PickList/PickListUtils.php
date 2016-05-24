@@ -107,7 +107,7 @@ function getAllPickListValues($fieldName,$lang = Array() ){
 	$arr = [];
 	while($row = $db->fetchByAssoc($result)){
 		$pick_val = decode_html($row[$fieldName]);
-		if($lang[$pick_val] != ''){
+		if(!empty($lang[$pick_val])){
 			$arr[$pick_val] = $lang[$pick_val];
 		}
 		else{

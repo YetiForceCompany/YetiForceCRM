@@ -21,7 +21,7 @@ class Field_Model_BaseOnOtherModule extends Field_Model_Select {
         return $output;
     }
 
-    public function process($fieldName, $moduleName) {
+    public function process($fieldName, $moduleName, $editView) {
         $viewer = new Vtiger_Viewer();
         $viewer->assign('OPTION_LIST', $this->getOptions($fieldName));
         $viewer->assign('FLD_ID', $fieldName);
