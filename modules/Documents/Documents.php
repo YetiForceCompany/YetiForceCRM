@@ -496,8 +496,8 @@ class Documents extends CRMEntity
 
 	function getQueryByModuleField($module, $fieldname, $srcrecord, $query)
 	{
-		if ($module == "MailManager") {
-			$tempQuery = split('WHERE', $query);
+		if ($module == 'MailManager') {
+			$tempQuery = preg_split('/WHERE/i', $query);
 			if (!empty($tempQuery[1])) {
 				$where = " vtiger_notes.filelocationtype = 'I' AND vtiger_notes.filename != '' AND vtiger_notes.filestatus != 0 AND ";
 				$overRideQuery = $listQuery . ' AND ' . $where;
@@ -514,7 +514,7 @@ class Documents extends CRMEntity
 	 */
 	static function isLinkPermitted($linkData)
 	{
-		$moduleName = "Documents";
+		$moduleName = 'Documents';
 		if (vtlib_isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}

@@ -59,7 +59,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$timeZone = new iCalendar_timezone;
-		$timeZoneId = split('/', date_default_timezone_get());
+		$timeZoneId = explode('/', date_default_timezone_get());
 
 		if (!empty($timeZoneId[1])) {
 			$zoneId = $timeZoneId[1];

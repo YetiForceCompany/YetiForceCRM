@@ -90,7 +90,7 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport
 				$targetdir = substr($filename, 0, strripos($filename, '/'));
 				$targetfile = basename($filename);
 
-				$prefixparts = split('_', $prefix);
+				$prefixparts = explode('_', $prefix);
 
 				$dounzip = false;
 				if (is_dir($targetdir)) {

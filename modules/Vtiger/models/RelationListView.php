@@ -444,7 +444,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$joinQuery = ' INNER JOIN ' . $parentModuleBaseTable . ' ON ' . $parentModuleBaseTable . '.' . $parentModuleDirectRelatedField . " = " . $relatedModuleBaseTable . '.' . $relatedModuleEntityIdField;
 
 		$query = $queryGenerator->getQuery();
-		$queryComponents = explode(' FROM ', $query);
+		$queryComponents = preg_split('/ FROM /i', $query);
 		foreach ($queryComponents as $key => $val) {
 			if ($key == 0) {
 				$query = $queryComponents[0] . ' ,vtiger_crmentity.crmid';
@@ -452,7 +452,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$query .= ' FROM ' . $val;
 			}
 		}
-		$whereSplitQueryComponents = explode(' WHERE ', $query);
+		$whereSplitQueryComponents = preg_split('/ WHERE /i', $query);
 		$query = $whereSplitQueryComponents[0] . $joinQuery;
 		foreach ($whereSplitQueryComponents as $key => $val) {
 			if ($key == 0) {
@@ -461,7 +461,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$query .= $val . ' WHERE ';
 			}
 		}
-		$this->query = trim($query, "WHERE ");
+		$this->query = trim($query, 'WHERE ');
 		return $this->query;
 	}
 
@@ -508,10 +508,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$relationQuery = $this->getRelationQuery();
 		$relationQuery = preg_replace("/[ \t\n\r]+/", " ", $relationQuery);
-		$position = stripos($relationQuery, ' from ');
+		$position = stripos($relationQuery, ' FROM ');
 		if ($position) {
-			$relationQuery = str_replace('FROM', 'from', $relationQuery);
-			$split = explode(' from ', $relationQuery);
+			$split = preg_split('/ FROM /i', $relationQuery);
 			$splitCount = count($split);
 			$relationQuery = 'SELECT COUNT(1) AS count';
 			for ($i = 1; $i < $splitCount; $i++) {
@@ -561,10 +560,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$condition .= " AND ";
 			}
 		}
-		$relationQuery = str_replace('where', 'WHERE', $relationQuery);
 		$pos = stripos($relationQuery, 'WHERE');
 		if ($pos) {
-			$split = explode('WHERE', $relationQuery);
+			$split = preg_split('/ WHERE /i', $relationQuery);
 			$updatedQuery = $split[0] . ' WHERE ' . $split[1] . ' AND ' . $condition;
 		} else {
 			$updatedQuery = $relationQuery . ' WHERE ' . $condition;

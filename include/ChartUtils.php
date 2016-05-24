@@ -356,7 +356,7 @@ Class ChartUtils
 
 		$restrictedModules = false;
 		foreach ($reportModules as $mod) {
-			if (isPermitted($mod, 'index') != "yes" || vtlib_isModuleActive($mod) == false) {
+			if (isPermitted($mod, 'index') != 'yes' || vtlib_isModuleActive($mod) == false) {
 				if (!is_array($restrictedModules))
 					$restrictedModules = [];
 				$restrictedModules[] = $mod;
@@ -364,17 +364,17 @@ Class ChartUtils
 		}
 
 		if (is_array($restrictedModules) && count($restrictedModules) > 0) {
-			$ChartDataArray['error'] = "<h4>" . getTranslatedString('LBL_NO_ACCESS', 'Reports') . ' - ' . implode(',', $restrictedModules) . "</h4>";
+			$ChartDataArray['error'] = '<h4>' . getTranslatedString('LBL_NO_ACCESS', 'Reports') . ' - ' . implode(',', $restrictedModules) . "</h4>";
 			return $ChartDataArray;
 		}
 
 		if ($fieldDetails != '') {
-			list($tablename, $colname, $module_field, $fieldname, $single) = explode(":", $fieldDetails);
-			list($module, $field) = split("_", $module_field);
+			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldDetails);
+			list($module, $field) = explode('_', $module_field);
 			$dateField = false;
 			if ($single == 'D') {
 				$dateField = true;
-				$query = "SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=? ORDER BY sortid";
+				$query = 'SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=? ORDER BY sortid';
 				$result = $adb->pquery($query, array($reportid));
 				$criteria = $adb->query_result($result, 0, 'dategroupbycriteria');
 			}
