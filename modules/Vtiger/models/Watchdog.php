@@ -5,6 +5,7 @@
  * @package YetiForce.View
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
  */
 class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 {
@@ -52,7 +53,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			return $this->get('isWatchingModule');
 		}
 		$return = false;
-		
+
 		$modules = self::getWatchingModules(false, $userId);
 		if (in_array(Vtiger_Functions::getModuleId($this->get('module')), $modules)) {
 			$return = true;
@@ -106,24 +107,35 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		return $modules;
 	}
 
+	public static function getWatchingModulesSchedule($ownerId = false)
+	{
+		if ($ownerId === false) {
+			$ownerId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
+		}
+		$db = PearDatabase::getInstance();
+		$sql = 'SELECT frequency FROM u_yf_watchdog_schedule WHERE userid = ?';
+		$result = $db->pquery($sql, [$ownerId]);
+		return $db->getSingleValue($result);
+	}
+
 	public function changeRecordState($state, $ownerId = false)
 	{
 		$isWatchingRecord = $this->isWatchingRecord($ownerId);
 		if ($isWatchingRecord && $state == 1) {
 			return true;
 		}
-		if($ownerId == false){
+		if ($ownerId == false) {
 			$ownerId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
 		}
 		$db = PearDatabase::getInstance();
-		
+
 		$row = ['state' => $state];
 		if ($this->get('isRecord') == 0) {
 			$row['userid'] = $ownerId;
 			$row['record'] = $this->get('record');
 			$db->insert('u_yf_watchdog_record', $row);
 		} else {
-		
+
 			$db->update('u_yf_watchdog_record', $row, 'userid = ? AND record = ?', [$ownerId, $this->get('record')]);
 		}
 	}
@@ -146,6 +158,28 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			]);
 		} else {
 			$db->delete('u_yf_watchdog_module', 'userid = ? AND module = ?', [$ownerId, $moduleId]);
+		}
+	}
+
+	public static function setSchedulerByUser($sendNotifications, $frequency, $ownerId = false)
+	{
+		if ($ownerId === false) {
+			$ownerId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
+		}
+		$db = PearDatabase::getInstance();
+		if (empty($sendNotifications)) {
+			$db->delete('u_yf_watchdog_schedule', 'userid = ?', [$ownerId]);
+		} else {
+			$result = $db->pquery('SELECT 1 FROM u_yf_watchdog_schedule WHERE userid = ?', [$ownerId]);
+			if ($result->rowCount()) {
+				$db->update('u_yf_watchdog_schedule', ['frequency' => $frequency], '`userid` = ?', [$ownerId]);
+			} else {
+				$db->insert('u_yf_watchdog_schedule', [
+					'userid' => $ownerId,
+					'frequency' => $frequency,
+					'last_execution' => null
+				]);
+			}
 		}
 	}
 

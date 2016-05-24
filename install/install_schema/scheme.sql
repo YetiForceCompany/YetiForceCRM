@@ -2663,6 +2663,16 @@ CREATE TABLE `u_yf_watchdog_record` (
   CONSTRAINT `u_yf_watchdog_record_ibfk_1` FOREIGN KEY (`record`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_watchdog_schedule` */
+
+CREATE TABLE `u_yf_watchdog_schedule` (
+  `userid` int(11) NOT NULL,
+  `frequency` smallint(6) NOT NULL,
+  `last_execution` datetime DEFAULT NULL,
+  PRIMARY KEY (`userid`),
+  CONSTRAINT `u_yf_watchdog_schedule_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_account` */
 
 CREATE TABLE `vtiger_account` (
@@ -3704,7 +3714,7 @@ CREATE TABLE `vtiger_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 

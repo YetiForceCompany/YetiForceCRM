@@ -5,6 +5,7 @@
  * @package YetiForce.Action
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
  */
 class Home_Notification_Action extends Vtiger_Action_Controller
 {
@@ -50,14 +51,14 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 	public function setMark(Vtiger_Request $request)
 	{
 		$ids = $request->get('ids');
-		if(!is_array($ids)){
+		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
 		foreach ($ids as $id) {
 			$notice = Home_NoticeEntries_Model::getInstanceById($id);
 			$notice->setMarked();
 		}
-		
+
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
@@ -75,6 +76,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 	{
 		$selectedModules = $request->get('selctedModules');
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
+		Vtiger_Watchdog_Model::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
 		if (!empty($selectedModules)) {
 			foreach ($selectedModules as $moduleName) {
 				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);

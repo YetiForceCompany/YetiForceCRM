@@ -794,6 +794,8 @@ insert  into `u_yf_ssingleorders_invmap`(`module`,`field`,`tofield`) values ('Pr
 
 /*Data for the table `u_yf_watchdog_record` */
 
+/*Data for the table `u_yf_watchdog_schedule` */
+
 /*Data for the table `vtiger_account` */
 
 /*Data for the table `vtiger_accountaddress` */
@@ -879,6 +881,7 @@ insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) val
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (44,'NotificationCreateMail',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (45,'NotificationPreview',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (46,'RemoveRelation',0);
+insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (47,'ReceivingMailNotifications',0);
 
 /*Data for the table `vtiger_activity` */
 
@@ -1493,10 +1496,11 @@ insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`m
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (107,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-02-26 09:59:53','2015-02-26 09:59:53','2015-02-26 09:59:53',NULL,NULL,0,1,0,'Security risk has been detected - Brute Force','Security risk has been detected - Brute Force',0);
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (108,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-03-12 07:44:12','2015-03-12 07:44:12','2015-03-12 07:44:13',NULL,NULL,0,1,0,'Backup has been made','Backup has been made',0);
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (109,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-10-23 08:16:58','2015-10-23 08:34:54','2015-10-23 08:34:54',NULL,NULL,0,1,0,'Notify Account On New comment added to ticket','Notify Account On New comment added to ticket',0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`was_read`) values (110,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2016-05-24 12:40:24','2016-05-24 12:40:24','2016-05-24 12:40:24',NULL,NULL,0,1,0,'Send notifications','Send notifications',0);
 
 /*Data for the table `vtiger_crmentity_seq` */
 
-insert  into `vtiger_crmentity_seq`(`id`) values (109);
+insert  into `vtiger_crmentity_seq`(`id`) values (110);
 
 /*Data for the table `vtiger_crmentityrel` */
 
@@ -1518,6 +1522,7 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (18,'LBL_CRMACTIVITY_DAYS','modules/Calendar/cron/SetCrmActivity.php',86400,NULL,NULL,1,'Calendar',16,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (19,'Assets Renewal','modules/Assets/cron/Renewal.php',86400,NULL,NULL,1,'Assets',17,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (20,'SoldServices Renewal','modules/OSSSoldServices/cron/Renewal.php',86400,NULL,NULL,1,'OSSSoldServices',18,'');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (21,'LBL_SEND_NOTIFICATIONS','modules/Home/cron/Notifications.php',900,NULL,NULL,1,'Home',19,'');
 
 /*Data for the table `vtiger_currencies` */
 
@@ -7021,6 +7026,7 @@ insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`sysname`,`os
 insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`sysname`,`oss_module_list`,`subject`,`content`,`ossmailtemplates_type`) values (107,'Security risk has been detected - Brute Force','BruteForceSecurityRiskHasBeenDetected','Contacts','Security risk has been detected','<span class=\"value\">Dear user,<br />\r\nFailed login attempts have been detected. </span>','PLL_MODULE');
 insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`sysname`,`oss_module_list`,`subject`,`content`,`ossmailtemplates_type`) values (108,'Backup has been made','BackupHasBeenMade','Contacts','Backup has been made notification','Dear User,<br />\r\nBackup has been made.','PLL_MODULE');
 insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`sysname`,`oss_module_list`,`subject`,`content`,`ossmailtemplates_type`) values (109,'Notify Account On New comment added to ticket','NewCommentAddedToTicketAccount','ModComments','#t#LBL_ADDED_COMMENT_TO_TICKET#tEnd#','<div>\r\n<h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>\r\n#t#LBL_NEW_COMMENT_FOR_TICKET#tEnd# (#t#LBL_NOTICE_CREATED#tEnd# #a#745#aEnd#).\r\n\r\n<hr /> #b#597#bEnd#: #a#597#aEnd#\r\n<hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>','PLL_RECORD');
+insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`sysname`,`oss_module_list`,`subject`,`content`,`ossmailtemplates_type`) values (110,'Send notifications','SendNotificationsViaMail','System','Notifications #s#CurrentDate#sEnd#','#s#Notifications#sEnd#','PLL_MODULE');
 
 /*Data for the table `vtiger_ossmailtemplates_type` */
 
@@ -7057,6 +7063,7 @@ insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (106);
 insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (107);
 insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (108);
 insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (109);
+insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (110);
 
 /*Data for the table `vtiger_ossmailview` */
 
@@ -15156,6 +15163,7 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,1
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,1,43,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,1,44,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,1,45,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,1,47,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,4,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,4,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,4,8,0);
@@ -16220,6 +16228,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,1,43,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,1,44,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,1,45,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,1,47,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,4,5,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,4,6,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (2,4,8,0);
@@ -17284,6 +17293,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,1,43,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,1,44,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,1,45,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,1,47,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,4,5,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,4,6,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (3,4,8,0);
@@ -18348,6 +18358,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,1,43,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,1,44,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,1,45,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,1,47,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,4,5,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,4,6,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (4,4,8,1);
