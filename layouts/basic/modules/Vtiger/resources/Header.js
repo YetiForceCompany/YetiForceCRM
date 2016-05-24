@@ -85,7 +85,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	alignContentsContainer: function (show, speed, effect) {
 		var navTop = jQuery('nav.navbar-fixed-top').outerHeight();
 		if (show) {
-			var announcement = jQuery('#announcement').outerHeight();
+			var announcement = jQuery('#announcement .alert').outerHeight(true);
 			navTop = (navTop + announcement);
 		}
 		var contentsContainer = this.getContentsContainer();

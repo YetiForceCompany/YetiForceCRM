@@ -5412,3 +5412,7 @@ select.form-control {
 .widget_contents .singleComment:hover .commentActionsContainer .commentActions{
 	height: 22px;
 }
+.announcement .alert {
+	margin: 3px;
+	padding: 5px 10px;
+}
