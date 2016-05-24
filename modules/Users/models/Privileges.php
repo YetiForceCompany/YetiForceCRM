@@ -307,6 +307,19 @@ class Users_Privileges_Model extends Users_Record_Model
 		$log->info('Exiting setSharedOwnerRecursively()');
 	}
 
+	public static function isPermittedByUserId($userId, $moduleName, $actionName = '', $record = false)
+	{
+		$currentUser = vglobal('current_user');
+		if (!empty($userId)) {
+			$user = CRMEntity::getInstance('Users');
+			$user->retrieveCurrentUserInfoFromFile($userId);
+			vglobal('current_user', $user);
+		}
+		$result = self::isPermitted($moduleName, $actionName, $record);
+		vglobal('current_user', $currentUser);
+		return $result;
+	}
+
 	/**
 	 * Function to get set Shared Owner Recursively
 	 */
