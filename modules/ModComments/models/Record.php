@@ -240,15 +240,16 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 	public static function getCommentsCount($recordId)
 	{
 		$db = PearDatabase::getInstance();
-		if (empty($recordId))
-			return;
-		$query = 'SELECT COUNT(modcommentsid) AS count FROM
-					vtiger_modcomments 
-				INNER JOIN vtiger_crmentity 
-					ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid 
-				WHERE vtiger_crmentity.deleted = 0 
-					AND vtiger_modcomments.modcommentsid > 0 
-					AND related_to = ?';
+		if (empty($recordId)) {
+			return 0;
+		}
+		$listView = Vtiger_ListView_Model::getInstance('ModComments');
+		$queryGenerator = $listView->get('query_generator');
+		$queryGenerator->setFields([]);
+		$queryGenerator->setCustomColumn('COUNT(modcommentsid)');
+		$queryGenerator->setSourceRecord($recordId);
+		$query = $queryGenerator->getQuery();
+		$query .= ' AND related_to = ?';
 		$result = $db->pquery($query, [$recordId]);
 		return (int) $db->getSingleValue($result);
 	}
