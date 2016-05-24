@@ -20,7 +20,7 @@
 					{assign var=CONVERSION_CONFIG value=Vtiger_Processes_Model::getConfig('marketing','conversion')}
 					<div class="modal-header contentsBackground">
 						<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-						<h3 class="modal-title">{vtranslate('LBL_CONVERT_LEAD', $MODULE)} : {$RECORD->getName()}</h3>
+						<h3 class="modal-title">{vtranslate('LBL_CONVERT_LEAD', $MODULE)}: {$RECORD->getName()}</h3>
 					</div>
 					<form class="form-horizontal" id="convertLeadForm" method="post" action="index.php">
 						<input type="hidden" name="module" value="{$MODULE}"/>
