@@ -34,9 +34,9 @@
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                 <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{vtranslate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
-				{if $IS_INVENTORY}
+							{if $IS_INVENTORY}
 					<li class="inventoryNav"><a data-toggle="tab" href="#inventoryViewLayout"><strong>{vtranslate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong></a></li>
-				{/if}
+							{/if}
             </ul>
             <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
@@ -173,8 +173,8 @@
 																						<input type="hidden" name="header_field" value="0"/>
 																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																							<input type="checkbox" name="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if}
-																								value="btn-default" />&nbsp;
-																								{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
+																								   value="btn-default" />&nbsp;
+																							{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
 																					<span>
@@ -382,8 +382,8 @@
 																						<input type="hidden" name="header_field" value="0"/>
 																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																							<input type="checkbox" name="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if}
-																								value="btn-default" />&nbsp;
-																								{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
+																								   value="btn-default" />&nbsp;
+																							{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
 																					<span>
