@@ -5401,3 +5401,14 @@ select.form-control {
     padding:0 5px;
     display: inline-block;
 }
+.widget_contents .singleComment .commentActionsContainer .commentActions {
+	height: 0;
+	overflow: hidden;
+	-webkit-transition: all 0.2s 0.15s ease-in-out;
+	-moz-transition: all 0.2s 0.15s ease-in-out;
+	-o-transition: all 0.2s 0.15s ease-in-out;
+	transition: all 0.2s 0.15s ease-in-out;
+}
+.widget_contents .singleComment:hover .commentActionsContainer .commentActions{
+	height: 22px;
+}
