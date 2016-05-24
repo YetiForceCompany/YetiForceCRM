@@ -217,7 +217,11 @@ class Vtiger_Field extends Vtiger_FieldBasic
 	{
 		$adb = PearDatabase::getInstance();
 		$instance = false;
-		$data = Vtiger_Functions::getModuleFieldInfo($moduleInstance->id, $value);
+		$moduleid = null;
+		if ($moduleInstance) {
+			$moduleid = $moduleInstance->id;
+		}
+		$data = Vtiger_Functions::getModuleFieldInfo($moduleid, $value);
 		if ($data) {
 			$instance = new self();
 			$instance->initialize($data, $moduleInstance);
@@ -290,7 +294,7 @@ class Vtiger_Field extends Vtiger_FieldBasic
 		self::deletePickLists($moduleInstance);
 		self::deleteUiType10Fields($moduleInstance);
 		$adb->delete('vtiger_field', 'tabid=?', [$moduleInstance->id]);
-		$adb->delete('vtiger_fieldmodulerel', 'module = ? OR relmodule = ?', [$moduleInstance->name, $moduleInstance->name] );
+		$adb->delete('vtiger_fieldmodulerel', 'module = ? OR relmodule = ?', [$moduleInstance->name, $moduleInstance->name]);
 		self::log("Deleting fields of the module ... DONE");
 	}
 
@@ -308,7 +312,7 @@ class Vtiger_Field extends Vtiger_FieldBasic
 		self::log("Add tree template $tree->name ... DONE");
 		return $templateid;
 	}
-	
+
 	/**
 	 * Function to remove uitype10 fields
 	 * @param Vtiger_Module Instance of module
@@ -340,13 +344,13 @@ class Vtiger_Field extends Vtiger_FieldBasic
 		$db = PearDatabase::getInstance();
 		$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = '" . $moduleInstance->getId() . "' AND  uitype IN (15, 16, 33)";
 		$result = $db->query($query);
-		$modulePicklists = $db->getArrayColumn($result,'fieldname');
+		$modulePicklists = $db->getArrayColumn($result, 'fieldname');
 		if (!empty($modulePicklists)) {
 			$params = $modulePicklists;
 			$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `fieldname` IN (" . $db->generateQuestionMarks($modulePicklists) . ") AND `tabid` <> ? AND uitype IN (?, ?, ?)";
 			array_push($params, $moduleInstance->getId(), 15, 16, 33);
 			$result = $db->pquery($query, $params);
-			$picklists = $db->getArrayColumn($result,'fieldname');
+			$picklists = $db->getArrayColumn($result, 'fieldname');
 			$modulePicklists = array_diff($modulePicklists, $picklists);
 		}
 		foreach ($modulePicklists as $picklistName) {

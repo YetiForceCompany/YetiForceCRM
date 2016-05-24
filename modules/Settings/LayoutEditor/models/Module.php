@@ -225,6 +225,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function getTypeDetailsForAddField($fieldType, $params)
 	{
+		$displayType = 1;
 		switch ($fieldType) {
 			Case 'Text' :
 				$fieldLength = $params['fieldLength'];
@@ -524,16 +525,15 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function getTreeTemplates($sourceModule)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		$sourceModule = Vtiger_Functions::getModuleId($sourceModule);
 
 		$query = 'SELECT templateid,name FROM vtiger_trees_templates WHERE module = ?';
-		$result = $adb->pquery($query, array($sourceModule));
-		$numOfRows = $adb->num_rows($result);
+		$result = $db->pquery($query, array($sourceModule));
 
 		$treeList = [];
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$treeList[$adb->query_result($result, $i, 'templateid')] = $adb->query_result($result, $i, 'name');
+		while ($row = $db->getRow($result)) {
+			$treeList[$row['templateid']] = $row['name'];
 		}
 		return $treeList;
 	}

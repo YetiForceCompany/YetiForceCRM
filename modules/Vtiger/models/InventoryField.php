@@ -66,7 +66,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE ' . $where . ' ORDER BY sequence', $params);
 			$fields = [];
 			while ($row = $db->getRow($result)) {
-				if (!$this->isActiveField($row)) {
+				if ($viewType != 'Settings' && !$this->isActiveField($row)) {
 					continue;
 				}
 				$inventoryFieldInstance = $this->getInventoryFieldInstance($row);
@@ -83,8 +83,15 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		} else {
 			$fields = $this->fields[$key];
 		}
-		if (empty($fields)) {
-			$fields = [0 => [], 1 => [], 2 => []];
+		
+		if (!isset($fields[0])) {
+			$fields[0] = [];
+		}
+		if (!isset($fields[1])) {
+			$fields[1] = [];
+		}
+		if (!isset($fields[2])) {
+			$fields[2] = [];
 		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $fields;
@@ -103,7 +110,6 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -447,7 +453,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				'sequence' => $sequence,
 				'block' => $params['block'],
 				'displaytype' => $params['displayType'],
-				'params' => $params['params'],
+				'params' => isset($params['params']) ? $params['params'] : '',
 				'colspan' => $colSpan,
 		]);
 	}
@@ -472,7 +478,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$id = $param['id'];
 		$params[] = $id;
 		if (!empty($set)) {
-			$db->update($this->getTableName('fields'), $set, '`id` = ?', [$id]);
+			$return = $db->update($this->getTableName('fields'), $set, '`id` = ?', [$id]);
 		}
 		return $return;
 	}

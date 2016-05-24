@@ -68,10 +68,11 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('ADD_SUPPORTED_FIELD_TYPES', $moduleModel->getAddSupportedFieldTypes());
 		$viewer->assign('DISPLAY_TYPE_LIST', Vtiger_Field_Model::showDisplayTypeList());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
-		$viewer->assign('INVENTORY_MODAL', Vtiger_InventoryField_Model::getInstance($sourceModule));
+		$viewer->assign('INVENTORY_MODEL', Vtiger_InventoryField_Model::getInstance($sourceModule));
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}
 
