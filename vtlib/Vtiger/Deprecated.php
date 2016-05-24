@@ -166,7 +166,7 @@ class Vtiger_Deprecated
 		$announcement = '';
 		while ($row = $db->getRow($result)) {
 			if ($row['announcement'] != '') {
-				$announcement .= getUserFullName($row['creatorid']) . ' :  ' . $row['announcement'] . '   ';
+				$announcement .= getUserFullName($row['creatorid']) . ':  ' . $row['announcement'] . '   ';
 			}
 		}
 
