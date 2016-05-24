@@ -22,7 +22,7 @@ class Vtiger_Block_Model extends Vtiger_Block
 			$this->fields = [];
 
 			// if block does not contains any fields 
-			if (!is_array($moduleFields[$this->id])) {
+			if (!isset($moduleFields[$this->id])) {
 				$moduleFields[$this->id] = [];
 			}
 

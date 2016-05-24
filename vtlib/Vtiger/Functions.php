@@ -209,6 +209,10 @@ class Vtiger_Functions
 
 	static function getModuleData($mixed)
 	{
+		if ($mixed === false) {
+			$log = LoggerManager::getInstance();
+			$log->error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
+		}
 		$id = $name = NULL;
 		if (is_numeric($mixed))
 			$id = $mixed;
@@ -221,8 +225,9 @@ class Vtiger_Functions
 		} else if ($id && !isset(self::$moduleIdNameCache[$id])) {
 			$reload = true;
 		} else {
-			if (!$id)
+			if (!$id) {
 				$id = self::$moduleNameIdCache[$name]['tabid'];
+			}
 			if (!isset(self::$moduleIdDataCache[$id])) {
 				$reload = true;
 			}

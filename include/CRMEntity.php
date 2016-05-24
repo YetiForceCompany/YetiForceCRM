@@ -1387,7 +1387,7 @@ class CRMEntity
 			if ($numRows == 0) {
 				$numid = $adb->getUniqueId('vtiger_modentity_num');
 				$active = $adb->pquery('SELECT num_id FROM vtiger_modentity_num WHERE semodule = ? AND active = 1;', [$module]);
-				$adb->update('vtiger_modentity_num', ['active' => 0], 'num_id = ?', [$adb->query_result($active, 0, 'num_id')]);
+				$adb->update('vtiger_modentity_num', ['active' => 0], 'num_id = ?', [$adb->getSingleValue($active)]);
 
 				$params = [
 					'num_id' => $numid,

@@ -75,11 +75,11 @@ class Vtiger_Filter
 		$this->id = $this->__getUniqueId();
 		$this->isdefault = ($this->isdefault === true || $this->isdefault == 'true') ? 1 : 0;
 		$this->inmetrics = ($this->inmetrics === true || $this->inmetrics == 'true') ? 1 : 0;
-		if(!$this->sequence){
+		if(!isset($this->sequence)){
 			$result = $db->pquery('SELECT MAX(sequence) AS max  FROM vtiger_customview WHERE entitytype = ?;', [$this->module->name]);
 			$this->sequence = $result->rowCount() ? (int) $db->getSingleValue($result) + 1 : 0;
 		}
-		if (!$this->status) {
+		if (!isset($this->status)) {
 			if ($this->presence == 0)
 				$this->status = '0'; // Default
 			else

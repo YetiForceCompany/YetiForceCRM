@@ -214,9 +214,9 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$moduleInstance->setModuleSeqNumber('configure', $module->name, 'N', '1');
 	}
 
-	public function toAlphaNumeric($value)
+	public static function toAlphaNumeric($value)
 	{
-		return preg_replace("/[^a-zA-Z0-9_]/", "", $value);
+		return preg_replace("/[^a-zA-Z0-9_]/", '', $value);
 	}
 
 	public static function getUploadDirectory()

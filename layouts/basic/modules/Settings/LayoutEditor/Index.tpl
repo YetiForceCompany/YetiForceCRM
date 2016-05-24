@@ -267,7 +267,7 @@
 																						<span>
 																							<label class="checkbox" style="padding-left: 5px;">
 																								{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-																								{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
+																								{assign var=DISPLAY_TYPE value=Vtiger_Field_Model::showDisplayTypeList()}
 																							</label>
 																							<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 																								<select name="displaytype" class="form-control">
@@ -471,7 +471,7 @@
 																						<span>
 																							<label class="checkbox" style="padding-left: 5px;">
 																								{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-																								{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
+																								{assign var=DISPLAY_TYPE value=Vtiger_Field_Model::showDisplayTypeList()}
 																							</label>
 																							<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 																								<select name="displaytype" class="form-control">

@@ -120,11 +120,11 @@ class Vtiger_FieldBasic
 	 */
 	function __getNextSequence()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT MAX(sequence) AS max_seq FROM vtiger_field WHERE tabid=? AND block=?", Array($this->getModuleId(), $this->getBlockId()));
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery("SELECT MAX(sequence) AS max_seq FROM vtiger_field WHERE tabid=? AND block=?", Array($this->getModuleId(), $this->getBlockId()));
 		$maxseq = 0;
-		if ($result && $adb->num_rows($result)) {
-			$maxseq = $adb->query_result($result, 0, 'max_seq');
+		if ($result && $db->num_rows($result)) {
+			$maxseq = $db->getSingleValue($result);
 			$maxseq += 1;
 		}
 		return $maxseq;

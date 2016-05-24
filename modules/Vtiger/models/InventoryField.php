@@ -10,8 +10,8 @@
 class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 {
 
-	protected static $fields = false;
-	protected static $columns = false;
+	protected $fields = false;
+	protected $columns = false;
 	protected $jsonFields = ['discountparam', 'taxparam', 'currencyparam'];
 
 	/**
@@ -50,7 +50,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 		$key = $returnInBlock ? 'block' : 'noBlock';
-		if (!$this->fields[$key]) {
+		if (!isset($this->fields[$key])) {
 			$db = PearDatabase::getInstance();
 			$table = $this->getTableName('fields');
 			$result = $db->query("SHOW TABLES LIKE '$table'");
@@ -83,7 +83,9 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		} else {
 			$fields = $this->fields[$key];
 		}
-
+		if (empty($fields)) {
+			$fields = [0 => [], 1 => [], 2 => []];
+		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $fields;
 	}
@@ -260,7 +262,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		$fields = [];
 		foreach ($this->getAutoCompleteFields() as $row) {
-			if($row['module'] == $moduleName) {
+			if ($row['module'] == $moduleName) {
 				$fields[] = $row;
 			}
 		}
@@ -557,6 +559,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
 		return $fields;
 	}
+
 	public function getJsonFields()
 	{
 		return $this->jsonFields;

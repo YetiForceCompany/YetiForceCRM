@@ -346,7 +346,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return $modules;
 	}
 
-	public function showDisplayTypeList()
+	public static function showDisplayTypeList()
 	{
 		$displayType = array(
 			1 => 'LBL_DISPLAY_TYPE_1',
@@ -681,8 +681,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 		}
 
 		if ($this->getFieldDataType() == 'owner') {
-			$userList = $currentUser->getAccessibleUsers();
-			$groupList = $currentUser->getAccessibleGroups();
+			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName());
+			$groupList = $currentUser->getAccessibleGroups('', $this->getModuleName());
 			$pickListValues = [];
 			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
 			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
