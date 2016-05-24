@@ -39,9 +39,9 @@
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6 schedule{if !$FREQUENCY} hide{/if}">
-									{assign var="POPOVER_CONTENT" value=vtranslate('LBL_CRON_LAUNCHING_FREQUENCY', $QUALIFIED_MODULE)|cat:': '|cat:$CRON_INFO->getFrequency()/60|cat:vtranslate('LBL_MINUTES')}
+									{assign var="POPOVER_CONTENT" value=vtranslate('LBL_CRON_LAUNCHING_FREQUENCY', $MODULE)|cat:': '|cat:$CRON_INFO->getFrequency()/60|cat:vtranslate('LBL_MINUTES')}
 									<label class="pull-left control-label form-control-static">{vtranslate('LBL_SCHEDULE', $MODULE)}&nbsp;
-										<a href="#" class="infoPopover" title="" data-placement="top" data-original-title="{vtranslate('LBL_CRON', $QUALIFIED_MODULE)}" data-content="{Vtiger_Util_Helper::toSafeHTML($POPOVER_CONTENT)}"><i class="glyphicon glyphicon-info-sign"></i></a>: 
+										<a href="#" class="infoPopover" title="" data-placement="top" data-original-title="{vtranslate('LBL_CRON', $MODULE)}" data-content="{Vtiger_Util_Helper::toSafeHTML($POPOVER_CONTENT)}"><i class="glyphicon glyphicon-info-sign"></i></a>: 
 									</label>
 									<div class="col-md-6 col-sm-7 col-xs-12 controls">
 										<select class="select2" name="frequency" title="{vtranslate('LBL_SCHEDULE', $MODULE)}">

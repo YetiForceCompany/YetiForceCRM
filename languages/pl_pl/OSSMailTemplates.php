@@ -32,6 +32,7 @@ $languageStrings = [
 	'PLL_RECORD' => 'Rekord',
 	'PLL_MAIL' => 'Wiadomość mail',
 	'PLL_LIST' => 'Lista',
+	'PLL_SYSTEM' => 'System',
 	
 	/// special_functions
 	'CurrentDate' => 'Aktualna data',

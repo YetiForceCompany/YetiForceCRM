@@ -31,6 +31,18 @@ $languageStrings = [
 	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Send message',
 	'LBL_SEND_NOTIFICATION_MAIL' => 'Send via email',
 	'Home page' => 'Home page',
+	'LBL_RECEIVING_MAIL_NOTIFICATIONS' => 'Receiving mail notifications',
+	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Cron launching frequency',
+	'LBL_SCHEDULE' => 'Schedule',
+	'LBL_CRON' => 'Cron',
+	
+	'PLL_5_MIN' => '5 minutes',
+	'PLL_15_MIN' => '15 minutes',
+	'PLL_30_MIN' => '30 minutes',
+	'PLL_60_MIN' => '60 minutes',
+	'PLL_3_H' => '3 hours',
+	'PLL_12_H' => '12 hours',
+	'PLL_24_H' => '24 hours',
 ];
 
 $jsLanguageStrings = [

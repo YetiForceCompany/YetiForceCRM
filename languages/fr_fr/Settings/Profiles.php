@@ -74,6 +74,8 @@ $languageStrings = [
 	'FavoriteRecords' => 'Favorite records',
 	'OpenRecord' => 'Open record',
 	'CloseRecord' => 'Close record',
+	'RemoveRelation' => 'Remove relation',
+	'ReceivingMailNotifications' => 'Receiving mail notificat',
 	//end Actions
 	'Profile Related to Sales' => 'Profil liés aux ventes',
 	'Profile Related to Support' => 'Profil lié au support',

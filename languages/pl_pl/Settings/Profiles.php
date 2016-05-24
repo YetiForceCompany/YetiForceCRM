@@ -87,6 +87,7 @@ $languageStrings = [
 	'Sales Profile' => 'Profil sprzedaży',
 	'Guest Profile' => 'Gość',
 	'RemoveRelation' => 'Usuwanie relacji',
+	'ReceivingMailNotifications' => 'Otrzymywanie powiadomień mailowych',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',

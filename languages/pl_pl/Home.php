@@ -34,6 +34,18 @@ $languageStrings = [
 	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Wyślij wiadomość',
 	'LBL_SEND_NOTIFICATION_MAIL' => 'Wyślij mailem',
 	'Home page' => 'Strona główna',
+	'LBL_RECEIVING_MAIL_NOTIFICATIONS' => 'Otrzymywanie powiadomień mailowych',
+	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Częstotliwość uruchamiania crona',
+	'LBL_SCHEDULE' => 'Harmonogram',
+	'LBL_CRON' => 'Cron',
+	
+	'PLL_5_MIN' => '5 minut',
+	'PLL_15_MIN' => '15 minut',
+	'PLL_30_MIN' => '30 minut',
+	'PLL_60_MIN' => '60 minut',
+	'PLL_3_H' => '3 godziny',
+	'PLL_12_H' => '12 godzin',
+	'PLL_24_H' => '24 godziny',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',

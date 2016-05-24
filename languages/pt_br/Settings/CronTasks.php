@@ -45,7 +45,8 @@ $languageStrings = [
 	'LBL_CRMACTIVITY_DAYS' => 'Update calendar activity fields in related modules',
 	'Activity State' => 'Activity State',
 	'Assets Renewal' => 'Assets Renewal',
-	'SoldServices Renewal' => 'SoldServices Renewal'
+	'SoldServices Renewal' => 'SoldServices Renewal',
+	'LBL_SEND_NOTIFICATIONS' => 'Send notifications',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'A frequência recomendada para a Importação Agendada é de 15 minutos',
