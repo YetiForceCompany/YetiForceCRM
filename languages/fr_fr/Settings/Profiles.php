@@ -75,7 +75,7 @@ $languageStrings = [
 	'OpenRecord' => 'Open record',
 	'CloseRecord' => 'Close record',
 	'RemoveRelation' => 'Remove relation',
-	'ReceivingMailNotifications' => 'Receiving mail notificat',
+	'ReceivingMailNotifications' => 'Receiving mail notifications',
 	//end Actions
 	'Profile Related to Sales' => 'Profil liés aux ventes',
 	'Profile Related to Support' => 'Profil lié au support',

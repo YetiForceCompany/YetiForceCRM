@@ -83,7 +83,7 @@ $languageStrings = [
 	'Sales Profile' => 'Sales Profile',
 	'Guest Profile' => 'Guest',
 	'RemoveRelation' => 'Remove relation',
-	'ReceivingMailNotifications' => 'Receiving mail notificat',
+	'ReceivingMailNotifications' => 'Receiving mail notifications',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profile deleted successfully',
