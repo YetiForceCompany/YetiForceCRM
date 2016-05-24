@@ -39,7 +39,7 @@
 		{if count($ALL_ACTIVEUSER_LIST) gt 0}
 			<optgroup label="{vtranslate('LBL_USERS')}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-					<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES)} selected {/if} data-userId="{$CURRENT_USER_ID}">
+					<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
 					{$OWNER_NAME}
 					</option>
 				{/foreach}

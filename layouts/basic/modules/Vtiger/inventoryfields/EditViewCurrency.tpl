@@ -16,8 +16,8 @@
 		{assign var=CURRENCY_PARAMS value=$FIELD->getCurrencyParam($CURRENCIES, $INVENTORY_ROWS[0]['currencyparam'])}
 	{/if}
 
-	<input name="currencyparam{$ROW_NO}" type="hidden" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($CURRENCY_PARAMS))}" class="currencyparam" />
-	<select class="select2" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}" name="{$FIELD->getColumnName()}{$ROW_NO}" 
+	<input name="currencyparam" type="hidden" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($CURRENCY_PARAMS))}" class="currencyparam" />
+	<select class="select2" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}" name="{$FIELD->getColumnName()}" 
 			title="{vtranslate('LBL_CURRENCY', $MODULE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}>
 		{foreach item=CURRENCY key=count from=$CURRENCIES}
 			{assign var=CURRENCY_PARAM value=$CURRENCY_PARAMS[$CURRENCY.id]}

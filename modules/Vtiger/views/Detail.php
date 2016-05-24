@@ -524,7 +524,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
-
+		$currentCommentModel = [];
 		if (!empty($commentRecordId)) {
 			$currentCommentModel = ModComments_Record_Model::getInstanceById($commentRecordId);
 		}
@@ -534,6 +534,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
+		$viewer->assign('MODULE_NAME', $moduleName);
 		return $viewer->view('ShowAllComments.tpl', $moduleName, 'true');
 	}
 

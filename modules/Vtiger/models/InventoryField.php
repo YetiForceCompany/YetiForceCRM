@@ -65,7 +65,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			}
 			$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE ' . $where . ' ORDER BY sequence', $params);
 			$fields = [];
-			while ($row = $db->fetch_array($result)) {
+			while ($row = $db->getRow($result)) {
 				if (!$this->isActiveField($row)) {
 					continue;
 				}
@@ -97,7 +97,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function isActiveField($row)
 	{
-		if (in_array($row['suptype'], ['Discount', 'DiscountMode'])) {
+		if (in_array($row['invtype'], ['Discount', 'DiscountMode'])) {
 			$discountsConfig = Vtiger_Inventory_Model::getDiscountsConfig();
 			if ($discountsConfig['active'] == '0') {
 				return false;
