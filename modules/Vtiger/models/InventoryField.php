@@ -83,15 +83,16 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		} else {
 			$fields = $this->fields[$key];
 		}
-		
-		if (!isset($fields[0])) {
-			$fields[0] = [];
-		}
-		if (!isset($fields[1])) {
-			$fields[1] = [];
-		}
-		if (!isset($fields[2])) {
-			$fields[2] = [];
+		if($returnInBlock) {
+			if (!isset($fields[0])) {
+				$fields[0] = [];
+			}
+			if (!isset($fields[1])) {
+				$fields[1] = [];
+			}
+			if (!isset($fields[2])) {
+				$fields[2] = [];
+			}
 		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $fields;
