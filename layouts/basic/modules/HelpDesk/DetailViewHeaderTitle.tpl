@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{if AppConfig::module('HelpDesk','CHECK_ACCOUNT_EXISTS') && $RECORD->get('parent_id') == 0}
-		<div class="alert alert-danger margin0px" role="alert">
+		<div class="alert alert-danger marginBottom10px" role="alert">
 			<strong>{vtranslate('LBL_NO_ACCOUNTS_IN_HELPDESK',{$MODULE})}</strong>
 			<span class="text-right">
 				<a href="javascript:HelpDesk_Detail_Js.setAccountsReference();">
@@ -21,7 +21,7 @@
 		</div>
 	{elseif AppConfig::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && Vtiger_Module_Model::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
 		{assign var=SERVICE_CONTRACTS value=$RECORD->getActiveServiceContracts()}
-		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts margin0px" role="alert">
+		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts marginBottom10px" role="alert">
 			{if $SERVICE_CONTRACTS}
 				<ul class="nav nav-pills pull-right relative top10" role="tablist">
 					{foreach item=ROW from=$SERVICE_CONTRACTS}
@@ -43,12 +43,7 @@
 			</div>
 			<div class="paddingLeft5px">
 				<h4 class="recordLabel margin0px textOverflowEllipsis" title="{$RECORD->getName()}">
-					{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
-						{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
-						{if $FIELD_MODEL && $FIELD_MODEL->getPermissions()}
-							<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
-						{/if}
-					{/foreach}
+					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 				{assign var=RELATED_TO value=$RECORD->get('parent_id')}
 				{if !empty($RELATED_TO)}

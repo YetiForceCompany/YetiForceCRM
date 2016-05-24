@@ -2594,7 +2594,7 @@ table.summary-table .summaryViewEdit{
 	padding-bottom: 10px;
 }
 .marginBottom10px {
-	margin-bottom: 10px;
+	margin-bottom: 10px !important;
 }
 .displayInlineBlock {
 	display: inline-block;
@@ -3912,7 +3912,7 @@ html,body,.baseContainer
 	background:#eee;
 	padding-top:5px;
 	padding-bottom:5px;
-	margin-bottom:15px;
+	margin-bottom:10px;
 }
 .summaryWidgetContainer .widget_header{
 	background:#fff;
