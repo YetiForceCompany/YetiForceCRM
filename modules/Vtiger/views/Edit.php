@@ -59,7 +59,6 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 			$recordModel = $this->getDuplicate($record, $moduleName);
 		} else if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
@@ -70,6 +69,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 			}
 			$viewer->assign('MODE', '');
 		}
+		$viewer->assign('RECORD_ID', $record);
 		if (!$this->record) {
 			$this->record = $recordModel;
 		}

@@ -51,7 +51,6 @@
 						<span class="customFilterMainSpan">
 							{if $CUSTOM_VIEWS|@count gt 0}
 								<select id="recordsFilter" class="col-md-12" data-placeholder="{vtranslate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
-									<option></option>
 									{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 										<optgroup label=' {if $GROUP_LABEL eq 'Mine'} &nbsp; {else if} {vtranslate($GROUP_LABEL)} {/if}' >
 											{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}

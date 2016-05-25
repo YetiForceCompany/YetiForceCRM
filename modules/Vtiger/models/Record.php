@@ -630,6 +630,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	function setRecordFieldValues($parentRecordModel)
 	{
+		$newInvData = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$mfInstance = Vtiger_MappedFields_Model::getInstanceByModules($parentRecordModel->getModule()->getId(), $this->getModule()->getId());
 		if ($mfInstance) {
@@ -654,7 +655,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($parentRecordModel->getModuleName());
 				$inventoryFields = $inventoryFieldModel->getFields();
 				$sourceInv = $parentRecordModel->getInventoryData();
-				$newInvData = [];
 			}
 			foreach ($mfInstance->getMapping() as $mapp) {
 				// TODO Validation that specifies whether a value is included in the list of values for a given module field should be added

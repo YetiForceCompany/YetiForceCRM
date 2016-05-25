@@ -24,7 +24,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		return '';
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');

@@ -15,7 +15,7 @@ class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		echo '<div class="modal fade switchUsersContainer"><div class="modal-dialog modal-sm"><div class="modal-content">';
 	}
