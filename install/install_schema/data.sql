@@ -14825,34 +14825,10 @@ insert  into `vtiger_profile2standardpermissions`(`profileid`,`tabid`,`operation
 
 /*Data for the table `vtiger_profile2tab` */
 
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,3,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,27,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,3,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,27,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,3,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,27,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,3,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,27,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,30,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,30,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,30,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,30,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,31,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,31,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,31,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,31,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,32,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,32,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,32,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,32,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,36,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,36,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,36,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,36,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,38,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,38,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,38,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,38,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,1,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,4,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,6,0);

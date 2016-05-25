@@ -199,7 +199,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				}
 
 				//TODO : Need to review the design as there can potential security threat
-				$skipList = array('Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install');
+				$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install', 'ModTracker', 'CustomerPortal', 'WSAPP'];
 
 				if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 					$this->triggerCheckPermission($handler, $request);

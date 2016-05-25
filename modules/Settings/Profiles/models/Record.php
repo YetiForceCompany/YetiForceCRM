@@ -542,21 +542,21 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				}
 
 				//Update process
-				if ($profileActionPermissions) {
+				if ($profileActionPermissions || $moduleModel->isUtilityActionEnabled()) {
 					//Standard permissions
-					$actionsUpdateQuery = 'UPDATE vtiger_profile2standardpermissions SET permissions = CASE ';
-					foreach ($actionsIdsList as $actionId => $permission) {
-						$permissionValue = $this->tranformInputPermissionValue($permission);
-						if (isset(Vtiger_Action_Model::$standardActions[$actionId])) {
-							if ($permission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
-								$actionEnabled = true;
-							}
-							$actionsUpdateQuery .= " WHEN operation = $actionId THEN $permissionValue ";
-						}
-					}
-					$actionsUpdateQuery .= 'ELSE permissions END WHERE profileid = ? AND tabid = ?';
 					if ($actionsIdsList) {
-						$db->pquery($actionsUpdateQuery, array($profileId, $tabId));
+						$actionsUpdateQuery = 'UPDATE vtiger_profile2standardpermissions SET permissions = CASE ';
+						foreach ($actionsIdsList as $actionId => $permission) {
+							$permissionValue = $this->tranformInputPermissionValue($permission);
+							if (isset(Vtiger_Action_Model::$standardActions[$actionId])) {
+								if ($permission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
+									$actionEnabled = true;
+								}
+								$actionsUpdateQuery .= " WHEN operation = $actionId THEN $permissionValue ";
+							}
+						}
+						$actionsUpdateQuery .= 'ELSE permissions END WHERE profileid = ? AND tabid = ?';
+						$db->pquery($actionsUpdateQuery, [$profileId, $tabId]);
 					}
 
 					foreach (Vtiger_Action_Model::$utilityActions as $utilityActionId => $utilityActionName) {
@@ -565,16 +565,15 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						}
 					}
 					//Utility permissions
-					$utilityUpdateQuery = 'UPDATE vtiger_profile2utility SET permission = CASE ';
-					foreach ($utilityIdsList as $actionId => $permission) {
-						$permissionValue = $this->tranformInputPermissionValue($permission);
-						$utilityUpdateQuery .= " WHEN activityid = $actionId THEN $permissionValue ";
-					}
-
 					if ($utilityIdsList) {
 						$actionEnabled = true;
+						$utilityUpdateQuery = 'UPDATE vtiger_profile2utility SET permission = CASE ';
+						foreach ($utilityIdsList as $actionId => $permission) {
+							$permissionValue = $this->tranformInputPermissionValue($permission);
+							$utilityUpdateQuery .= " WHEN activityid = $actionId THEN $permissionValue ";
+						}
 						$utilityUpdateQuery .= 'ELSE ? END WHERE profileid = ? AND tabid = ?';
-						$db->pquery($utilityUpdateQuery, array(1, $profileId, $tabId));
+						$db->pquery($utilityUpdateQuery, [1, $profileId, $tabId]);
 					}
 				} else {
 					//Insert Process
