@@ -18,8 +18,9 @@ class OSSMailTemplates_Field_Model extends Vtiger_Field_Model
 		$adb = PearDatabase::getInstance();
 		$modules = [];
 		$params = [];
+		$where = '';
 		if ($onlyActive) {
-			$where .= ' WHERE (presence = ? AND isentitytype = ? ) or name = ?';
+			$where = ' WHERE (presence = ? AND isentitytype = ? ) or name = ?';
 			array_push($params, 0, 1, 'Users');
 		}
 		$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab' . $where, $params);

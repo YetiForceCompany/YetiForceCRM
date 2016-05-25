@@ -162,7 +162,7 @@ class ListViewController
 					}
 				}
 				if (count($idList) > 0) {
-					if (!is_array($this->ownerNameList[$fieldName])) {
+					if (isset($this->ownerNameList[$fieldName]) && !is_array($this->ownerNameList[$fieldName])) {
 						$this->ownerNameList[$fieldName] = getOwnerNameList($idList);
 					} else {
 						//array_merge API loses key information so need to merge the arrays

@@ -260,9 +260,10 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance()
 	{
-		$instance = Vtiger_Cache::get('calendar', $value);
-		if (!$instance) {
+		$instance = Vtiger_Cache::get('calendar','instance');
+		if(!$instance){
 			$instance = new self();
+			Vtiger_Cache::set('calendar', 'instance', $instance);
 		}
 		return $instance;
 	}
