@@ -836,7 +836,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		set_time_limit($php_max_execution_time);
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
 
-		$userIdsList = $this->getUsersList();
+		$userIdsList = self::getUsersList($this->getId());
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
 				createUserPrivilegesfile($userId);
@@ -849,27 +849,21 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 * @param <Boolean> $allUsers
 	 * @return <Array> list of user ids
 	 */
-	public static function getUsersList($allUsers = false)
+	public static function getUsersList($profileId = false)
 	{
 		$db = PearDatabase::getInstance();
-		$params = array(0);
+		$params = [0];
 		$query = 'SELECT id FROM vtiger_users
 					INNER JOIN vtiger_user2role ON vtiger_user2role.userid = vtiger_users.id
 					INNER JOIN vtiger_role2profile ON vtiger_role2profile.roleid = vtiger_user2role.roleid
 					WHERE vtiger_users.deleted = ?';
 
-		if (!$allUsers) {
+		if ($profileId) {
 			$query .= ' AND vtiger_role2profile.profileid = ?';
-			$params[] = $this->getId();
+			$params[] = $profileId;
 		}
 		$result = $db->pquery($query, $params);
-		$numOfRows = $db->num_rows($result);
-
-		$userIdsList = [];
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$userIdsList[] = $db->query_result($result, $i, 'id');
-		}
-		return $userIdsList;
+		return $db->getArray($result);
 	}
 
 	/**
