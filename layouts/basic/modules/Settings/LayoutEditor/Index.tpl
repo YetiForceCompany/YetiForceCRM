@@ -532,12 +532,12 @@
 							<div class="col-md-6 marginLeftZero">
 								<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 									<div class="btn-group">
-										<button class="btn btn-default addCustomField hide" type="button">
+										<button class="btn btn-success addCustomField hide" type="button">
 											<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
 									<div class="btn-group">
-										<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+										<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
 											<strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
 											<span class="caret"></span>
 										</button>
