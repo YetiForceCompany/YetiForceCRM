@@ -3913,6 +3913,7 @@ html,body,.baseContainer
 	padding-top:5px;
 	padding-bottom:5px;
 	margin-bottom:10px;
+	position: relative;
 }
 .summaryWidgetContainer .widget_header{
 	background:#fff;
@@ -5413,6 +5414,6 @@ select.form-control {
 	height: 22px;
 }
 .announcement .alert {
-	margin: 3px;
+	margin: 3px 3px 0;
 	padding: 5px 10px;
 }

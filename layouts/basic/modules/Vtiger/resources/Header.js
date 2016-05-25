@@ -90,6 +90,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		}
 		var contentsContainer = this.getContentsContainer();
 		contentsContainer.animate({'padding-top': navTop}, speed, effect);
+		contentsContainer.find('.siteBarRight').animate({'padding-top': navTop}, speed, effect);
 		return this;
 	},
 	/**
