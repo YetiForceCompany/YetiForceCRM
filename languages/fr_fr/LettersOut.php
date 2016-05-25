@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	// Basic Strings
-	'LettersIn' => 'Lettres sortantes',
+	'LettersOut' => 'Lettres sortantes',
 	'SINGLE_LettersIn' => 'Lettre sortante',
 	'LBL_ADD_RECORD' => 'Ajouter une lettre sortante',
 	'LBL_RECORDS_LIST' => 'Lettres sortantes',
