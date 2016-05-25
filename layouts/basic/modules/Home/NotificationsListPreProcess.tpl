@@ -9,7 +9,7 @@
 						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 					</div>
 					<div class="dashboardHeading col-xs-3 col-sm-6">
-						<button class="btn btn-default pull-right notificationConf">
+						<button class="btn btn-default pull-right notificationConf" title="{vtranslate('LBL_NOTIFICATION_SETTINGS', $MODULE)}">
 							<span class="glyphicon glyphicon-cog"></span>
 						</button>
 					</div>

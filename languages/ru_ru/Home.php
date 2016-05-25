@@ -45,6 +45,7 @@ $languageStrings = [
 	'PLL_3_H' => '3 hours',
 	'PLL_12_H' => '12 hours',
 	'PLL_24_H' => '24 hours',
+	'LBL_NOTIFICATION_SETTINGS' => 'Notification settings'
 ];
 
 $jsLanguageStrings = [
