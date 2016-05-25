@@ -89,9 +89,10 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		$field = Vtiger_Module_Model::getMappingRelatedField($moduleName);
 
 		if (in_array('Calendar', $type)) {
-			$sql = 'SELECT CONCAT(\'Calendar\') AS type, c.crmid AS id,a.subject AS content,c.smownerid AS user,concat(a.date_start, " ", a.time_start) AS `time` FROM vtiger_activity a
-				INNER JOIN vtiger_crmentity c ON c.crmid = a.activityid 
-				WHERE c.deleted = 0 AND a.' . $field . ' = ' . $recordId;
+			$sql = 'SELECT CONCAT(\'Calendar\') AS type, vtiger_crmentity.crmid AS id,a.subject AS content,vtiger_crmentity.smownerid AS user,concat(a.date_start, " ", a.time_start) AS `time`
+				FROM vtiger_activity a
+				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = a.activityid 
+				WHERE vtiger_crmentity.deleted = 0 AND a.' . $field . ' = ' . $recordId;
 			$instance = CRMEntity::getInstance('Calendar');
 			$securityParameter = $instance->getUserAccessConditionsQuerySR('Calendar', false, $recordId);
 			if ($securityParameter != '')
@@ -99,9 +100,10 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$queries[] = $sql;
 		}
 		if (in_array('ModComments', $type)) {
-			$sql = 'SELECT CONCAT(\'ModComments\') AS type,m.modcommentsid AS id,m.commentcontent AS content,c.smownerid AS user,c.createdtime AS `time` FROM vtiger_modcomments m
-				INNER JOIN vtiger_crmentity c ON m.modcommentsid = c.crmid 
-				WHERE c.deleted = 0 AND related_to = ' . $recordId;
+			$sql = 'SELECT CONCAT(\'ModComments\') AS type,m.modcommentsid AS id,m.commentcontent AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
+				FROM vtiger_modcomments m
+				INNER JOIN vtiger_crmentity ON m.modcommentsid = vtiger_crmentity.crmid 
+				WHERE vtiger_crmentity.deleted = 0 AND related_to = ' . $recordId;
 			$instance = CRMEntity::getInstance('ModComments');
 			$securityParameter = $instance->getUserAccessConditionsQuerySR('ModComments', false, $recordId);
 			if ($securityParameter != '')
@@ -109,10 +111,11 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$queries[] = $sql;
 		}
 		if (in_array('Emails', $type)) {
-			$sql = 'SELECT CONCAT(\'OSSMailView\') AS type,o.ossmailviewid AS id,o.subject AS content,c.smownerid AS user,c.createdtime AS `time` FROM vtiger_ossmailview o
-			INNER JOIN vtiger_crmentity c ON c.crmid = o.ossmailviewid 
-			INNER JOIN vtiger_ossmailview_relation r ON r.ossmailviewid = o.ossmailviewid 
-			WHERE c.deleted = 0 AND r.crmid = ' . $recordId;
+			$sql = 'SELECT CONCAT(\'OSSMailView\') AS type,o.ossmailviewid AS id,o.subject AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
+				FROM vtiger_ossmailview o
+				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = o.ossmailviewid 
+				INNER JOIN vtiger_ossmailview_relation r ON r.ossmailviewid = o.ossmailviewid 
+				WHERE vtiger_crmentity.deleted = 0 AND r.crmid = ' . $recordId;
 			$instance = CRMEntity::getInstance('OSSMailView');
 			$securityParameter = $instance->getUserAccessConditionsQuerySR('OSSMailView', false, $recordId);
 			if ($securityParameter != '')
