@@ -12,10 +12,8 @@
 class Settings_QuickCreateEditor_Module_Model extends Vtiger_Module_Model
 {
 
-	public function updateFieldSequenceNumber($blockFieldSequence)
+	public static function updateFieldSequenceNumber($blockFieldSequence)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_QuickCreateEditor_Module_Model::updateFieldSequenceNumber(" . $blockFieldSequence . ") method ...");
 		$fieldIdList = array();
 		$db = PearDatabase::getInstance();
 
@@ -24,16 +22,13 @@ class Settings_QuickCreateEditor_Module_Model extends Vtiger_Module_Model
 		foreach ($blockFieldSequence as $newFieldSequence) {
 			$fieldId = $newFieldSequence['fieldid'];
 			$sequence = $newFieldSequence['sequence'];
-			$block = $newFieldSequence['block'];
 			$fieldIdList[] = $fieldId;
 
 			$query .= ' WHEN fieldid=' . $fieldId . ' THEN ' . $sequence;
 		}
 
 		$query .=' END ';
-
 		$query .= ' WHERE fieldid IN (' . generateQuestionMarks($fieldIdList) . ')';
 		$db->pquery($query, array($fieldIdList));
-		$log->debug("Exiting Settings_QuickCreateEditor_Module_Model::updateFieldSequenceNumber(" . $blockFieldSequence . ") method ...");
 	}
 }
