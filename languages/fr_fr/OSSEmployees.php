@@ -12,8 +12,8 @@
 $languageStrings = [
 'OSSEmployees' => 'Employés',
 'SINGLE_OSSEmployees' => 'Employé',
-'LBL_INFORMATION' => 'Déatils sur employé',
-'LBL_CONTACTS' => 'Déatils de contact',
+'LBL_INFORMATION' => 'Détails de l\'employé',
+'LBL_CONTACTS' => 'Détails de contact',
 'LBL_PERMANENT_ADDRESS' => 'Adresse permanente',
 'LBL_CORRESPONDANCE_ADDRESS' => 'Adresse de renvoi',
 
