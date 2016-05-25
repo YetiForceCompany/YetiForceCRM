@@ -1055,8 +1055,6 @@ class Accounts extends CRMEntity
 		$more_relation = '';
 		if (!empty($other->related_tables)) {
 			foreach ($other->related_tables as $tname => $relmap) {
-				$query .= ", $tname.*";
-
 				// Setup the default JOIN conditions if not specified
 				if (empty($relmap[1]))
 					$relmap[1] = $other->table_name;

@@ -1,6 +1,6 @@
 <div  class="summaryWidgetContainer activityWidgetContainer">
 	<div class="widget_header row">
-		<div class="col-xs-5"><h4 class="textOverflowEllipsis">{vtranslate('LBL_ACTIVITIES',$MODULE_NAME)}</h4></div>
+		<div class="col-xs-5"><h4 class="widgetTitle textOverflowEllipsis">{vtranslate('LBL_ACTIVITIES',$MODULE_NAME)}</h4></div>
 		<div class="col-xs-5">
 			<span class="pull-right">
 				<input class="switchBtn" title="{vtranslate('LBL_CHANGE_ACTIVITY_TYPE')}" type="checkbox" checked data-size="small" data-label-width="5" data-handle-width="100" data-on-text="{vtranslate('LBL_CURRENT')}" data-off-text="{vtranslate('LBL_HISTORY')}">
