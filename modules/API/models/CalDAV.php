@@ -23,6 +23,7 @@ class API_CalDAV_Model
 	public $calendarId = false;
 	public $davUsers = [];
 	protected $crmRecords = [];
+
 	const MAX_DATE = '2038-01-01';
 
 	function __construct()
@@ -72,6 +73,8 @@ class API_CalDAV_Model
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
 		$calType = $record['activitytype'] == 'Task' ? 'VTODO' : 'VEVENT';
 		$endField = $this->getEndFieldName($calType);
+		$uid = date('Y-m-d\THis') . '-' . $record['crmid'];
+		$calUri = $uid . '.ics';
 
 		$vcalendar = new Sabre\VObject\Component\VCalendar();
 		$vcalendar->PRODID = '-//' . self::PRODID . ' V' . vglobal('YetiForce_current_version') . '//';
@@ -90,25 +93,29 @@ class API_CalDAV_Model
 			$endDT = $DTEND = new \DateTime($end);
 		}
 		$cal = $vcalendar->createComponent($calType);
+		$cal->UID = $uid;
 		//$cal->add($vcalendar->createProperty('CREATED', new \DateTime($record['createdtime'])));
 		//$cal->add($vcalendar->createProperty('LAST-MODIFIED', new \DateTime($record['modifiedtime'])));
-		$cal->add($vcalendar->createProperty('SUMMARY', $record['subject']));
 		$cal->add($vcalendar->createProperty('DTSTART', $DTSTART));
 		$cal->add($vcalendar->createProperty($endField, $DTEND));
+		$cal->add($vcalendar->createProperty('SUMMARY', $record['subject']));
+		if (!empty($record['location'])) {
+			$cal->add($vcalendar->createProperty('LOCATION', $record['location']));
+		}
+		if (!empty($record['description'])) {
+			$cal->add($vcalendar->createProperty('DESCRIPTION', $record['description']));
+		}
 		$cal->add($vcalendar->createProperty('CLASS', $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC'));
 		$cal->add($vcalendar->createProperty('PRIORITY', $this->getPriority($record['priority'], false)));
 
 		$status = $this->getStatus($record['status'], false);
-		if ($status)
+		if ($status) {
 			$cal->add($vcalendar->createProperty('STATUS', $status));
+		}
 		$state = $this->getState($record['state'], false);
-		if ($state)
+		if ($state) {
 			$cal->add($vcalendar->createProperty('TRANSP', $state));
-
-		if (!empty($record['location']))
-			$cal->add($vcalendar->createProperty('LOCATION', $record['location']));
-		if (!empty($record['description']))
-			$cal->add($vcalendar->createProperty('DESCRIPTION', $record['description']));
+		}
 		$vcalendar->add($cal);
 		$dtz = date_default_timezone_get();
 		$vTimeZone = self::getVTimeZone($vcalendar, $dtz, $startDT->getTimestamp(), $endDT->getTimestamp());
@@ -117,11 +124,10 @@ class API_CalDAV_Model
 
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$calUri = date('Y-m-d\THis') . '-' . $record['crmid'];
 		$stmt = $this->pdo->prepare('INSERT INTO dav_calendarobjects (calendarid, uri, calendardata, lastmodified, etag, size, componenttype, firstoccurence, lastoccurence, uid, crmid) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
 		$stmt->execute([
 			$this->calendarId,
-			$calUri . '.ics',
+			$calUri,
 			$calendarData,
 			$modifiedtime,
 			$extraData['etag'],
@@ -129,7 +135,7 @@ class API_CalDAV_Model
 			$extraData['componentType'],
 			$extraData['firstOccurence'],
 			$extraData['lastOccurence'],
-			$calUri,
+			$uid,
 			$record['crmid']
 		]);
 		$this->addChange($calUri, 1);
@@ -161,7 +167,7 @@ class API_CalDAV_Model
 		}
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if ($component->name = $calType) {
-				$component->__set('LAST-MODIFIED', $vcalendar->createProperty('LAST-MODIFIED', new DateTime($record['modifiedtime'])));
+				//$component->__set('LAST-MODIFIED', $vcalendar->createProperty('LAST-MODIFIED', new DateTime($record['modifiedtime'])));
 				$component->DTSTART = $DTSTART;
 				$component->$endField = $DTEND;
 				$component->SUMMARY = $record['subject'];
@@ -175,6 +181,13 @@ class API_CalDAV_Model
 				$state = $this->getState($record['state'], false);
 				if ($state)
 					$component->TRANSP = $state;
+				if (isset($component->SEQUENCE)) {
+					$seq = (int) $component->SEQUENCE->getValue();
+					$seq++;
+					$component->SEQUENCE->setValue($seq);
+				} else {
+					$component->SEQUENCE = 1;
+				}
 			}
 		}
 		unset($vcalendar->VTIMEZONE);
@@ -289,6 +302,7 @@ class API_CalDAV_Model
 	{
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Cal ID:' . $card['id']);
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
+
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if (in_array($component->name, ['VTODO', 'VEVENT'])) {
 				$dates = $this->getEventDates($component);
@@ -334,32 +348,37 @@ class API_CalDAV_Model
 		// Start
 		if (isset($component->DTSTART)) {
 			$DTSTART = Sabre\VObject\DateTimeParser::parse($component->DTSTART);
-			$date_start = $DTSTART->format('Y-m-d');
-			$time_start = $DTSTART->format('H:i:s');
+			$dateStart = $DTSTART->format('Y-m-d');
+			$timeStart = $DTSTART->format('H:i:s');
 			$startHasTime = $component->DTSTART->hasTime();
 		} else {
 			$DTSTAMP = Sabre\VObject\DateTimeParser::parse($component->DTSTAMP);
-			$date_start = $DTSTAMP->format('Y-m-d');
-			$time_start = $DTSTAMP->format('H:i:s');
+			$dateStart = $DTSTAMP->format('Y-m-d');
+			$timeStart = $DTSTAMP->format('H:i:s');
 		}
 		//End
 		if (isset($component->$endField)) {
 			$DTEND = Sabre\VObject\DateTimeParser::parse($component->$endField);
 			$endHasTime = $component->$endField->hasTime();
+			$dueDate = $DTEND->format('Y-m-d');
+			$timeEnd = $DTEND->format('H:i:s');
 			if (!$endHasTime) {
-				$DTEND->modify('-1 day');
+				$endTime = strtotime('-1 day', strtotime($dueDate . ' ' . $timeEnd));
+				$dueDate = date('Y-m-d', $endTime);
+				$timeEnd = date('H:i:s', $endTime);
 			}
-			$due_date = $DTEND->format('Y-m-d');
-			$time_end = $DTEND->format('H:i:s');
 		} else {
-			$endTime = strtotime('+7 day', strtotime($date_start . ' ' . $time_start));
-			$due_date = date('Y-m-d', $endTime);
-			$time_end = date('H:i:s', $endTime);
+			$endTime = strtotime('+7 day', strtotime($dateStart . ' ' . $timeStart));
+			$dueDate = date('Y-m-d', $endTime);
+			$timeEnd = date('H:i:s', $endTime);
 		}
 		if (!$startHasTime && !$endHasTime) {
 			$allday = 1;
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$timeStart = $currentUser->get('start_hour');
+			$timeEnd = $currentUser->get('end_hour');
 		}
-		return ['allday' => $allday, 'date_start' => $date_start, 'due_date' => $due_date, 'time_start' => $time_start, 'time_end' => $time_end];
+		return ['allday' => $allday, 'date_start' => $dateStart, 'due_date' => $dueDate, 'time_start' => $timeStart, 'time_end' => $timeEnd];
 	}
 
 	public function getEndFieldName($type)
@@ -657,7 +676,7 @@ class API_CalDAV_Model
 		// get all transitions for one year back/ahead
 		$year = 86400 * 360;
 		$transitions = $tz->getTransitions($from - $year, $to + $year);
-		
+
 		$vt = $vcalendar->createComponent('VTIMEZONE');
 		$vt->TZID = $tz->getName();
 		$vt->TZURL = 'http://tzurl.org/zoneinfo/' . $tz->getName();
