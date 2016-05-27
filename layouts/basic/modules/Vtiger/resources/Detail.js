@@ -2799,14 +2799,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 		detailContentsHolder.on('click', '.moreRecentUpdates', function (e) {
 			var container = $(e.currentTarget).closest('.recentActivitiesContainer');
+			var newChangeInput = container.find('#newChange');
+			var newChange = newChangeInput.val();
 			var currentPage = container.find('#updatesCurrentPage').val();
 			var nextPage = parseInt(currentPage) + 1;
 			if (container.closest('.summaryWidgetContainer').length) {
-				var data = thisInstance.getFiltersData(e, {'page': nextPage, 'tab_label': 'LBL_UPDATES'}, container.find('#updates'));
+				var data = thisInstance.getFiltersData(e, {'page': nextPage, 'tab_label': 'LBL_UPDATES', 'newChange': newChange}, container.find('#updates'));
 				var url = data['params'];
 			} else {
 				var url = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url');
-				url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true';
+				url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true&newChange=' + newChange;
 				if (url.indexOf('&whereCondition') == -1) {
 					var switchBtn = jQuery('.recentActivitiesSwitch');
 					url += '&whereCondition=' + (switchBtn.prop('checked') ? switchBtn.data('on-val') : switchBtn.data('off-val'));
@@ -2814,9 +2816,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 			AppConnector.request(url).then(
 					function (data) {
-						container.find('#updatesCurrentPage').remove();
-						container.find('#moreLink').remove();
-						container.find('#updates').append(data);
+						var dataContainer = jQuery(data);
+						container.find('#newChange').val(dataContainer.find('#newChange').val());
+						container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
+						container.find('#moreLink').html(dataContainer.find('#moreLink').html());
+						container.find('#updates ul').append(dataContainer.find('#updates ul').html());
 					}
 			);
 		});

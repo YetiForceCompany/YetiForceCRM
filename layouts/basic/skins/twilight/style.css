@@ -3726,7 +3726,8 @@ html,body,.baseContainer
 	color: #000;
 	font-size: 14px;
 }
-.actionMenu a{
+.actionMenu a,
+.marginLeft15{
 	margin-left: 15px;
 }
 .actionMenu .row {
@@ -5267,7 +5268,7 @@ select.form-control {
 }
 .timeline > li {
 	position: relative;
-	margin-bottom: 15px;
+	padding-bottom: 10px;
 }
 .timeline > li:before,
 .timeline > li:after {
@@ -5298,9 +5299,8 @@ select.form-control {
 	width: 40px;
 }
 .timeline > li > .timeline-item > .timeline-body {
-	float: left;
-	width: calc(100% - 40px);
-	padding: 0 0 10px 5px;
+	padding-right: 10px;
+	padding-left: 44px;
 }
 .timeline > li > .glyphicon{
 	width: 30px;
@@ -5325,6 +5325,9 @@ select.form-control {
 .bgBlue{
 	background: #337ab7 !important;
 	color: #fff !important;
+}
+.bgWarning{
+	background: #fcf8e3 !important;
 }
 .bgGreen{
 	background: #5cb85c !important;

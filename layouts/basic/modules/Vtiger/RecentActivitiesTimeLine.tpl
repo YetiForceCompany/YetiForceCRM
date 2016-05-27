@@ -16,18 +16,19 @@
 							{/if}
 						{/if}
 						{if $PROCEED}
-							{if $RECENT_ACTIVITY->isReviewed() && $COUNT neq 0}
-								</ul>
-									<div class="lineOfText marginBottom10px">
+							{if $RECENT_ACTIVITY->isReviewed() && !($COUNT eq 0 && $PAGING_MODEL->get('page') eq 1)}
+								{$NEW_CHANGE = false}
+								<li>
+									<div class="lineOfText marginLeft15">
 										<div>{vtranslate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div>
 									</div>
-								<ul class="timeline">
+								</li>
 							{/if}
 							{$COUNT=$COUNT+1}
 							{if $RECENT_ACTIVITY->isCreate()}
 								<li>
 									<span class="glyphicon glyphicon-plus bgGreen"></span>
-									<div class="timeline-item">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
 											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
 										</div>
@@ -62,7 +63,7 @@
 							{else if $RECENT_ACTIVITY->isUpdate()}
 								<li>
 									<span class="glyphicon glyphicon-pencil bgDarkBlue"></span>
-									<div class="timeline-item">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
 											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
 										</div>
@@ -96,7 +97,7 @@
 							{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
 								<li>
 									<span class="glyphicon glyphicon-link bgOrange"></span>
-									<div class="timeline-item">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
 											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
 										</div>
@@ -133,7 +134,7 @@
 							{else if $RECENT_ACTIVITY->isConvertToAccount()}
 								<li>
 									<span class="glyphicon glyphicon-transfer bgAzure"></span>
-									<div class="timeline-item">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
 											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
 										</div>
@@ -175,7 +176,7 @@
 				<p class="textAlignCenter">{vtranslate('LBL_NO_RECENT_UPDATES')}</p>
 			</div>
 		{/if}
-
+		<input type="hidden" id="newChange" value="{$NEW_CHANGE}" />
 		<div id="moreLink">
 			{if $PAGING_MODEL->isNextPageExists()}
 				<div class="pull-right">

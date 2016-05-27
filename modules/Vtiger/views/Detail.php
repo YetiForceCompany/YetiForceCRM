@@ -384,8 +384,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		} else {
 			$pagingModel->set('nextPageExists', true);
 		}
+		if ($type == 'changes') {
+			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
+		$viewer->assign('NEW_CHANGE', $newChange);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_BASE_NAME', 'ModTracker');
@@ -396,7 +400,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		} else {
 			$tplName = 'RecentActivitiesTimeLine.tpl';
 		}
-		if(!$request->get('skipHeader')){
+		if (!$request->get('skipHeader')) {
 			echo $viewer->view('RecentActivitiesHeader.tpl', $moduleName, 'true');
 		}
 		echo $viewer->view($tplName, $moduleName, 'true');
@@ -783,7 +787,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('limit', $limitPage);
-		
+
 		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
