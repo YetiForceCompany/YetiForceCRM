@@ -75,6 +75,7 @@ $languageStrings = [
 	'NotificationCreateMessage' => 'Wysyłanie powiadomień zwykłych',
 	'NotificationCreateMail' => 'Wysyłanie powiadomień mailowych',
 	'NotificationPreview' => 'Podgląd powiadomień',
+	'NotificationSendToAll' => 'Wysyłanie powiadomień do wszystkich użytkowników',
 	'FavoriteRecords' => 'Ulubione rekordy',
 	'OpenRecord' => 'Otwieranie rekordów',
 	'CloseRecord' => 'Zamykanie rekordów',
