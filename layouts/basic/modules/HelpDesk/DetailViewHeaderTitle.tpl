@@ -59,6 +59,13 @@
 						{$RECORD->getDisplayValue('ticketpriorities')}
 					</div>
 				{/if}
+				{assign var=STATUS value=$RECORD->get('ticketstatus')}
+				{if !empty($STATUS)}
+					<div class="paddingLeft5px">
+						<span class="muted">{vtranslate('Status',$MODULE_NAME)}: </span>
+						{$RECORD->getDisplayValue('ticketstatus')}
+					</div>
+				{/if}
 				<div class="muted paddingLeft5px">
 					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 					{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
