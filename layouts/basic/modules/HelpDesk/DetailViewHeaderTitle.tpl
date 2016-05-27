@@ -41,7 +41,7 @@
 			<div class="moduleIcon">
 				<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 			</div>
-			<div class="paddingLeft5px">
+			<div class="paddingLeft5px detailViewHeaderFieldInformation">
 				<h4 class="recordLabel margin0px textOverflowEllipsis" title="{$RECORD->getName()}">
 					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
@@ -68,11 +68,13 @@
 				{/if}
 				<div class="muted paddingLeft5px">
 					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
-					{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
-					{if $SHOWNERS != ''}
-						<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
-					{/if}
 				</div>
+				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
+				{if $SHOWNERS != ''}
+					<div class="muted paddingLeft5px">
+						{vtranslate('Share with users',$MODULE_NAME)}: {$SHOWNERS}
+					</div>
+				{/if}
 			</div>
 		</div>
 		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
