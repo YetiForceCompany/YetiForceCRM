@@ -307,7 +307,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		foreach ($listViewEntries as $recordId => $record) {
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $listViewRecordModels[$recordId]);
+			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
 		}
 		return $listViewRecordModels;
 	}
