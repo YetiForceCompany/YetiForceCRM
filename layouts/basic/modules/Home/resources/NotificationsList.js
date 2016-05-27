@@ -68,6 +68,7 @@ jQuery.Class("Home_NotificationsList_Js", {
 				thisInstance.registerEventForModal(container);
 			});
 		});
+		this.registerNotifications();
 	},
 	registerEventForModal: function (container) {
 		app.showBtnSwitch(container.find('.switchBtn'));
@@ -101,6 +102,57 @@ jQuery.Class("Home_NotificationsList_Js", {
 				app.hideModalWindow();
 			});
 		});
+	},
+	registerNotifications: function () {
+		$(".notificationsNotice .sendNotification").click(function (e) {
+			var modalWindowParams = {
+				url: 'index.php?module=Home&view=CreateNotificationModal',
+				id: 'CreateNotificationModal',
+				cb: function (container) {
+					var form, text, link, htmlLink;
+					text = container.find('#notificationMessage');
+					form = container.find('form');
+					container.find('#notificationTitle').val(app.getPageTitle());
+					link = $("<a/>", {
+						name: "link",
+						href: window.location.href,
+						text: app.vtranslate('JS_NOTIFICATION_LINK')
+					});
+					htmlLink = $('<div>').append(link.clone()).html();
+					text.val('<br/><hr/>' + htmlLink);
+					var ckEditorInstance = new Vtiger_CkEditor_Js();
+					ckEditorInstance.loadCkEditor(text);
+					container.find(".externalMail").click(function (e) {
+						if (form.validationEngine('validate')) {
+							var editor = CKEDITOR.instances.notificationMessage;
+							var text = $('<div>' + editor.getData() + '</div>');
+							text.find("a[href]").each(function (i, el) {
+								var href = $(this);
+								href.text(href.attr('href'));
+							});
+							var emails = [];
+							container.find("#notificationUsers option:selected").each(function (index) {
+								emails.push($(this).data('mail'))
+							});
+							$(this).attr('href', 'mailto:' + emails.join() + '?subject=' + encodeURIComponent(container.find("#notificationTitle").val()) + '&body=' + encodeURIComponent(text.text()))
+							app.hideModalWindow(container, 'CreateNotificationModal');
+						} else {
+							e.preventDefault();
+						}
+					});
+					container.find('[type="submit"]').click(function (e) {
+						var element = $(this);
+						form.find('[name="mode"]').val(element.data('mode'));
+					});
+					form.submit(function (e) {
+						if (form.validationEngine('validate')) {
+							app.hideModalWindow(container, 'CreateNotificationModal');
+						}
+					});
+				},
+			}
+			app.showModalWindow(modalWindowParams);
+		})
 	},
 	registerEvents: function () {
 		this.registerGridster();

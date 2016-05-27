@@ -64,9 +64,6 @@
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
-						<button type="button" class="btn btn-sm btn-default sendNotification" title="{vtranslate('LBL_SEND_NOTIFICATION',$MODULE)}">
-							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-						</button>
 					</div>
 				</div>
 			</div>
