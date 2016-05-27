@@ -106,7 +106,18 @@
 					<div class="col-xs-12 btn-toolbar">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
-								{if $CUSTOM_VIEW->isFeatured()}<h5 class="btn-group resetButton cursorPointer"><span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}">{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}</span>{if $CUSTOM_VIEW->get('description')}<a href="#" class="featuredInfoPopover" title="" data-placement="auto right" data-content="{Vtiger_Util_Helper::toSafeHTML($CUSTOM_VIEW->get('description'))}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}</h5>{/if}
+								{if $CUSTOM_VIEW->isFeatured()}
+									<h5 class="btn-group resetButton cursorPointer">
+										<span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
+											{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+										</span>
+										{if $CUSTOM_VIEW->get('description')}
+											<a href="#" class="featuredInfoPopover" title="" data-placement="auto right" data-content="{Vtiger_Util_Helper::toSafeHTML($CUSTOM_VIEW->get('description'))}">
+												<i class="glyphicon glyphicon-info-sign"></i>
+											</a>
+										{/if}
+									</h5>
+								{/if}
 							{/foreach}
 						{/foreach}
 					</div>

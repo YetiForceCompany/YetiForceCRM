@@ -144,6 +144,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$jsFileNames = array(
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
+			'~libraries/jquery/colorpicker/js/colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
 			'modules.Emails.resources.MassEdit',
@@ -153,6 +154,22 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
+	}
+
+	/**
+	 * Retrieves css styles that need to loaded in the page
+	 * @param Vtiger_Request $request - request model
+	 * @return <array> - array of Vtiger_CssScript_Model
+	 */
+	public function getHeaderCss(Vtiger_Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = array(
+			'~libraries/jquery/colorpicker/css/colorpicker.css'
+		);
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
+		return $headerCssInstances;
 	}
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents

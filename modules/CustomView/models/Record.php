@@ -528,6 +528,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			'userid' => $currentUser->getId(),
 			'sequence' => $seq,
 			'featured' => null,
+			'color' => $this->get('color'),
 			'description' => $this->get('description')
 		]);
 		$this->setColumnlist();
@@ -554,6 +555,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			'viewname' => $this->get('viewname'),
 			'setmetrics' => $this->get('setmetrics'),
 			'status' => $this->get('status'),
+			'color' => $this->get('color'),
 			'description' => $this->get('description')
 			], 'cvid = ?', [$cvId]
 		);

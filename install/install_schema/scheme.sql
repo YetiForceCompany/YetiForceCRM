@@ -3891,6 +3891,7 @@ CREATE TABLE `vtiger_customview` (
   `presence` tinyint(1) DEFAULT '1',
   `description` text,
   `sort` varchar(30) DEFAULT '',
+  `color` varchar(10) DEFAULT '',
   PRIMARY KEY (`cvid`),
   KEY `customview_entitytype_idx` (`entitytype`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE

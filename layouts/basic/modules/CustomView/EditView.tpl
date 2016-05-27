@@ -11,15 +11,15 @@
 -->*}
 {strip}
 	<form class="form-horizontal" id="CustomView" name="CustomView" method="post" action="index.php">
-			<input type="hidden" name="record" id="record" value="{$RECORD_ID}" />
-			<input type="hidden" name="module" value="{$MODULE}" />
-			<input type="hidden" name="action" value="Save" />
-			<input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>
-			<input type="hidden" id="stdfilterlist" name="stdfilterlist" value=""/>
-			<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
-			<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
-			<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
-			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
+		<input type="hidden" name="record" id="record" value="{$RECORD_ID}" />
+		<input type="hidden" name="module" value="{$MODULE}" />
+		<input type="hidden" name="action" value="Save" />
+		<input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>
+		<input type="hidden" id="stdfilterlist" name="stdfilterlist" value=""/>
+		<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
+		<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
+		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
+		<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
 		<div class='widget_header row customViewHeader'>
 			<div class="col-sm-5 col-xs-12">
 				{if !$RECORD_ID}
@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group marginbottomZero">
+					<div class="form-group">
 						<label class="paddingLeftMd control-label"><span class="redColor">*</span> {vtranslate('LBL_CHOOSE_COLUMNS',$MODULE)} ({vtranslate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
 						<div class="columnsSelectDiv col-md-12">
 							{assign var=MANDATORY_FIELDS value=array()}
@@ -112,10 +112,20 @@
 									{/foreach}
 								</select>
 							</div>
-
 							<input type="hidden" name="columnslist" value='{ZEND_JSON::encode($SELECTED_FIELDS)}' />
 							<input id="mandatoryFieldsList" type="hidden" value='{ZEND_JSON::encode($MANDATORY_FIELDS)}' />
-						</div>	
+						</div>
+					</div>
+					<div class="form-group marginbottomZero">
+						<div class="row col-md-5">
+							<label class="pull-left control-label paddingLeftMd"><span class="redColor">*</span> {vtranslate('LBL_COLOR_VIEW',$MODULE)}:</label>
+							<div class="col-md-7">
+								<div class="input-group">
+									<input type="text" class="form-control colorPicker" name="color" value="{$CUSTOMVIEW_MODEL->get('color')}">
+									<span class="input-group-addon" style="background-color: {$CUSTOMVIEW_MODEL->get('color')};">&nbsp;&nbsp;</span>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
