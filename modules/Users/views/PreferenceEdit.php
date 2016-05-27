@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 Class Users_PreferenceEdit_View extends Vtiger_Edit_View
@@ -119,21 +120,5 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		parent::process($request);
-	}
-
-	public function getFooterScripts(Vtiger_Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-		$moduleDetailFile = 'modules.' . $moduleName . '.resources.PreferenceEdit';
-		unset($headerScriptInstances[$moduleDetailFile]);
-
-		$jsFileNames = array(
-			'modules.Users.resources.Edit',
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
 	}
 }
