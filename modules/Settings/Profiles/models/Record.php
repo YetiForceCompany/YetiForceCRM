@@ -862,7 +862,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$params[] = $profileId;
 		}
 		$result = $db->pquery($query, $params);
-		return $db->getArray($result);
+		return $db->getArrayColumn($result);
 	}
 
 	/**
