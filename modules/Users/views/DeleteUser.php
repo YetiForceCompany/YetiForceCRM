@@ -6,14 +6,18 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Users_DeleteUser_View extends Vtiger_Index_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	function checkPermission(Vtiger_Request $request)
 	{
-		parent::checkPermission($request);
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
 	}
 
 	public function process(Vtiger_Request $request)

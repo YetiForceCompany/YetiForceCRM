@@ -6,11 +6,20 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 vimport('~include/Webservices/Custom/DeleteUser.php');
 
 class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 {
+
+	function checkPermission(Vtiger_Request $request)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+	}
 
 	public function process(Vtiger_Request $request)
 	{

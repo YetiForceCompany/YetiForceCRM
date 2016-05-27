@@ -3,6 +3,14 @@
 class Users_ExportData_Action extends Vtiger_ExportData_Action
 {
 
+	function checkPermission(Vtiger_Request $request)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		}
+	}
+
 	/**
 	 * Function exports the data based on the mode
 	 * @param Vtiger_Request $request
