@@ -2543,17 +2543,16 @@ class CRMEntity
 			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$role = $userModel->getRoleDetail();
 
-			if ($role->get('listrelatedrecord') != 0) {
+			if ($role->get('listrelatedrecord') == 2) {
 				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
 				if ($rparentRecord) {
 					$relatedRecord = $rparentRecord;
 				}
-
-				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
-				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
-				if ($recordPermission) {
-					return '';
-				}
+			}
+			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
+			$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
+			if ($recordPermission) {
+				return '';
 			}
 		}
 
