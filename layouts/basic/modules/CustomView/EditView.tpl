@@ -37,20 +37,20 @@
 					<button class="btn btn-success" id="customViewSubmit" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 				</div>
 				<div class="btn-group pull-right pull-left-xs iconPreferences marginRight10" data-toggle="buttons">
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isDefault()} btn-primary{/if}" title="{vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}" >
-						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()} value="1" checked="checked"{/if}>
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isDefault()} active  btn-primary{/if}" title="{vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}" >
+						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1">
 						<span class="glyphicon glyphicon-heart-empty" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
 					</label>
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isSetPublic()} btn-primary{/if}" title="{vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}">
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isSetPublic()} active  btn-primary{/if}" title="{vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}">
 						<input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}>
 						<span class="glyphicon glyphicon-eye-close" data-check="glyphicon-eye-open" data-unchecked="glyphicon-eye-close"></span>
 					</label>
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isFeatured(true)} btn-primary{/if}" title="{vtranslate('LBL_FEATURED',$MODULE)}">
-						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} value="1" checked="checked"{/if}>
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isFeatured(true)} active btn-primary{/if}" title="{vtranslate('LBL_FEATURED',$MODULE)}">
+						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if} value="1">
 						<span class="glyphicon glyphicon-star-empty" data-check="glyphicon-star" data-unchecked="glyphicon-star-empty"></span>
 					</label>
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->get('setmetrics')} btn-primary{/if}" title="{vtranslate('LBL_LIST_IN_METRICS',$MODULE)}">
-						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}  value="1" {else} value="0" {/if}>
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}" title="{vtranslate('LBL_LIST_IN_METRICS',$MODULE)}">
+						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if} value="1">
 						<span class="glyphicon glyphicon-blackboard" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
 					</label>
 				</div>
