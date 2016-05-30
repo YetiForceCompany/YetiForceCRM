@@ -5337,6 +5337,10 @@ select.form-control {
 .bgWarning{
 	background: #fcf8e3 !important;
 }
+.bgDanger{
+	color: #fff !important;
+	background-color: #d9534f !important;
+}
 .bgGreen{
 	background: #5cb85c !important;
 	color: #fff !important;

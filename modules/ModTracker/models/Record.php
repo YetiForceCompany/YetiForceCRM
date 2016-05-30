@@ -106,6 +106,30 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return true;
 	}
 
+	public static function getUnreviewed($recordsId)
+	{
+		$db = PearDatabase::getInstance();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$unreviewed = [];
+
+		if(!is_array($recordsId)){
+			$recordsId = [$recordsId];
+		}
+		$listQuery = 'SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN ('.$db->generateQuestionMarks($recordsId).') AND status <> ? ORDER BY crmid,changedon DESC;';
+		$result = $db->pquery($listQuery, [$recordsId, self::DISPLAYED]);
+		foreach($result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN) as $crmId=>$reviewedUsers){
+			$count = 0;
+			foreach($reviewedUsers as $users){
+				if(strpos($users, '#'.$currentUser->getRealId().'#') !== false){
+					break;
+				}
+				++$count;
+				$unreviewed[$crmId] = $count;
+			}
+		}
+		return $unreviewed;
+	}
+
 	function setParent($id, $moduleName)
 	{
 		$this->parent = Vtiger_Record_Model::getInstanceById($id, $moduleName);

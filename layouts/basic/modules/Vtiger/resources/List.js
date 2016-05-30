@@ -1925,6 +1925,36 @@ jQuery.Class("Vtiger_List_Js", {
 			jQuery('.pageNumbersText').html("");
 		}
 	},
+	registerUnreviewedCountEvent: function () {
+		var thisInstance = this;
+		var ids = [];
+		var listViewContentDiv = this.getListViewContentContainer();
+		var isUnreviewedActive = listViewContentDiv.find('.unreviewed').lenght;
+		listViewContentDiv.find('tr.listViewEntries').each(function () {
+			var id = jQuery(this).data('id');
+			if (id) {
+				ids.push(id);
+			}
+		})
+		if (!ids || isUnreviewedActive < 1) {
+			return;
+		}
+		var actionParams = {
+			action: 'ChangesReviewedOn',
+			mode: 'getUnreviewed',
+			module: 'ModTracker',
+			sourceModule: app.getModuleName(),
+			recordsId: ids
+		};
+		AppConnector.request(actionParams).then(function (appData) {
+			var data = appData.result;
+			for (var i in data) {
+				if (data[i] > 0) {
+					listViewContentDiv.find('tr[data-id="' + i + '"] .unreviewed .badge').text(data[i]);
+				}
+			}
+		});
+	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
@@ -1962,6 +1992,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerListViewSelect();
 		this.registerListViewSpecialOptiopn();
 		this.registerFeaturedElementsEvent();
+		this.registerUnreviewedCountEvent();
 	},
 	registerListViewSelect: function () {
 		var listViewContainer = this.getListViewContentContainer();
@@ -2078,7 +2109,6 @@ jQuery.Class("Vtiger_List_Js", {
 				url = jQuery.parseJSON(decodeURIComponent(url));
 				$.each(url[0], function (index, value) {
 					var exist = false;
-					console.log(value);
 					$.each(searchParams, function (index, searchParam) {
 						if (searchParam[0] == value[0]) {
 							exist = true;

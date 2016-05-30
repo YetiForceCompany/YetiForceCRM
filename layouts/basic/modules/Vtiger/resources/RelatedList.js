@@ -64,6 +64,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 						jQuery('.pageNumbers', thisInstance.relatedContentContainer).tooltip();
 						jQuery('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {response: responseData, params: completeParams});
 						app.showBtnSwitch(jQuery('body').find('.switchBtn'));
+						thisInstance.registerUnreviewedCountEvent();
 					}
 					aDeferred.resolve(responseData);
 
@@ -607,6 +608,36 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 			aDeferred.reject(false);
 		}
 		return aDeferred.promise();
+	},
+	registerUnreviewedCountEvent: function () {
+		var thisInstance = this;
+		var ids = [];
+		var listViewRelatedContentDiv = this.relatedContentContainer;
+		var isUnreviewedActive = listViewRelatedContentDiv.find('.unreviewed').lenght;
+		listViewRelatedContentDiv.find('tr.listViewEntries').each(function () {
+			var id = jQuery(this).data('id');
+			if (id) {
+				ids.push(id);
+			}
+		});
+		if (!ids || isUnreviewedActive < 1) {
+			return;
+		}
+		var actionParams = {
+			action: 'ChangesReviewedOn',
+			mode: 'getUnreviewed',
+			module: 'ModTracker',
+			sourceModule: this.relatedModulename,
+			recordsId: ids
+		};
+		AppConnector.request(actionParams).then(function (appData) {
+			var data = appData.result;
+			for (var i in data) {
+				if (data[i] > 0) {
+					listViewRelatedContentDiv.find('tr[data-id="' + i + '"] .unreviewed .badge').text(data[i]);
+				}
+			}
+		});
 	},
 	init: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
 		this.selectedRelatedTabElement = selectedRelatedTabElement,

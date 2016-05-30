@@ -887,6 +887,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.selectPageHandler(pageNumber);
 		});
+
 	},
 	/**
 	 * Function to register Event for Sorting
@@ -1004,7 +1005,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (inventoryRow.hasClass('listViewInventoryEntries') && !target.closest('div').hasClass('actions') && !target.is('a') && !target.is('input')) {
 				inventoryRow.toggleClass('hide');
 			}
-		})
+		});
+		var selectedTabElement = thisInstance.getSelectedTab();
+		var relatedModuleName = thisInstance.getRelatedModuleName();
+		var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
+		relatedController.registerUnreviewedCountEvent();
 	},
 	registerBlockAnimationEvent: function () {
 		var detailContentsHolder = this.getContentHolder();

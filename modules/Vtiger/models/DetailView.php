@@ -70,7 +70,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$recordId = $recordModel->getId();
 		$linkModelList = $detailViewLinks = [];
 
-		if ($moduleModel->isTrackingEnabled() && ModTracker_Record_Model::isNewChange($recordId)) {
+		if ($moduleModel->isPermitted('ReviewingUpdates') && $moduleModel->isTrackingEnabled() && ModTracker_Record_Model::isNewChange($recordId)) {
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',

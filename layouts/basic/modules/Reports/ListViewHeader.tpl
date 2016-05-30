@@ -29,22 +29,31 @@
 					</ul>
 				</span>
 				{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+					{var_dump($LISTVIEW_BASICACTION)}<br>
+					{var_dump('aaaaaaaa')}<br>
+					{var_dump($LISTVIEW_BASICACTION->getLabel())}<br>
+					{var_dump('bbbbbbbb')}<br>
 					{if $LISTVIEW_BASICACTION->getLabel() eq 'LBL_ADD_RECORD'}
 						{assign var="childLinks" value=$LISTVIEW_BASICACTION->getChildLinks()}
 						<span class="btn-group">
 							<button class="btn btn-default dropdown-toggle addButton" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
 								<span class="glyphicon glyphicon-plus"></span>&nbsp;
+								{var_dump('aaaaaaaa1111')}<br>
 								<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong>&nbsp;
+								{var_dump('aaaaaaaa2222')}<br>
 								<span class="caret icon-white"></span></button>
 							<ul class="dropdown-menu">
 								{foreach item="childLink" from=$childLinks}
+									{var_dump('dddddddddddd')}<br>
 									<li id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($childLink->getLabel())}">
+										{var_dump('eeeeeeeee')}<br>
 										<a href="javascript:void(0);" onclick='{$childLink->getUrl()|substr:strlen("javascript:")};'>{vtranslate($childLink->getLabel(), $MODULE)}</a>
 									</li>
 								{/foreach}
 							</ul>
 						</span>
 					{else}
+						
 						<span class="btn-group">
 							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}><span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
 						</span>

@@ -8,4 +8,6 @@ $CONFIG = [
 	// Enable sending notifications for all actions available in changes history.
 	// Tracking requires enabling module or record tracking.
 	'WATCHDOG' => true,
+	// Displays the number of unreviewed changes in record.
+	'UNREVIEWED_COUNT' => true,
 ];
