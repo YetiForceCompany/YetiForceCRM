@@ -900,8 +900,28 @@ jQuery.Class("Vtiger_Header_Js", {
 			$(this).parents('.btn-group').find('.dropdown-toggle .textHolder').html($(this).text());
 		});
 	},
+	listenTextAreaChange: function () {
+		var thisInstance = this;
+		$('textarea').live('keyup', function () {
+			var elem = $(this);
+			if (!elem.data('has-scroll'))
+			{
+				elem.data('has-scroll', true);
+				elem.bind('scroll keyup', function () {
+					thisInstance.resizeTextArea($(this));
+				});
+			}
+			thisInstance.resizeTextArea($(this));
+		});
+	},
+	resizeTextArea: function (elem) {
+		elem.height(1);
+		elem.scrollTop(0);
+		elem.height(elem[0].scrollHeight - elem[0].clientHeight + elem.height());
+	},
 	registerEvents: function () {
 		var thisInstance = this;
+		thisInstance.listenTextAreaChange();
 		thisInstance.recentPageViews();
 		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerScrollForMenu();
