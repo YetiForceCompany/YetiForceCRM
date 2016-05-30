@@ -41,7 +41,7 @@
 				</option>
 			{/foreach}
 		</optgroup>
-		{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0 && !($ROLE_RECORD_MODEL->get('allowassignedrecordsto') == 5 && count($ALL_ACTIVEGROUP_LIST) != 0)}
+		{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0 && !($ROLE_RECORD_MODEL->get('allowassignedrecordsto') == 5 && count($ALL_ACTIVEGROUP_LIST) != 0 && $FIELD_MODEL->get('fieldvalue') == '')}
 			{assign var=OWNER_NAME value=Vtiger_Functions::getOwnerRecordLabel($FIELD_VALUE)}
 			<option value="{$FIELD_VALUE}" data-picklistvalue="{$OWNER_NAME}" selected data-userId="{$CURRENT_USER_ID}">
 				{$OWNER_NAME}
