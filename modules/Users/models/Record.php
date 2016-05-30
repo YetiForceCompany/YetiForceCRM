@@ -483,7 +483,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$usersGroups = Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($moduleName);
 		$usersGroups = ($usersGroups && $usersGroups[$this->getId()]) ? $usersGroups[$this->getId()] : [];
 		if ($mode == 'users') {
-			$result[$this->getId()] = $this->getName();
 			$users = $usersGroups ? $usersGroups['users'] : [];
 			if (!empty($users)) {
 				$query = 'SELECT id, user_name, first_name, last_name, is_admin FROM vtiger_users WHERE status = ? AND id IN (' . generateQuestionMarks($users) . ')';
