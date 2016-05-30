@@ -5191,6 +5191,9 @@ select.form-control {
 .danger-color{
 	color: #d9534f !important;
 }
+.info-color{
+	color: #5bc0de !important;
+}
 .detailViewContainer .chosen-container,
 .editViewContainer .chosen-container{
 	height: auto;

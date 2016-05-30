@@ -143,7 +143,7 @@ var Vtiger_Index_Js = {
 		}
 		AppConnector.request(listViewWidgetParams).then(
 				function (data) {
-					
+
 					if (typeof open == 'undefined')
 						open = true;
 					if (open) {
@@ -338,7 +338,6 @@ var Vtiger_Index_Js = {
 		var li = $(element).closest('li');
 		li.find('.noticeRow').each(function (index) {
 			ids.push($(this).data('id'));
-			console.log($(this).data('id'));
 		});
 		var params = {
 			module: 'Home',
@@ -592,14 +591,12 @@ var Vtiger_Index_Js = {
 								state = data.result == 1 ? 0 : 1;
 								instance.data('value', state);
 								if (state == 1) {
-									className = instance.data('off');
+									instance.toggleClass(instance.data('off') + ' ' + instance.data('on'));
+									instance.children().toggleClass(instance.data('iconOff') + ' ' + instance.data('iconOn'));
 								} else {
-									className = instance.data('on');
+									instance.toggleClass(instance.data('on') + ' ' + instance.data('off'));
+									instance.children().toggleClass(instance.data('iconOn') + ' ' + instance.data('iconOff'));
 								}
-								instance.removeClass(function (index, css) {
-									return (css.match(/(^|\s)btn-\S+/g) || []).join(' ');
-								});
-								instance.addClass(className);
 							}
 						});
 					}

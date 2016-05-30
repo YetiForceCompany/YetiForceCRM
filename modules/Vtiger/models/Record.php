@@ -58,6 +58,16 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
 	}
 
+	public function isWatchingRecord()
+	{
+		if(!isset($this->isWatchingRecord)){
+			$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
+			$this->isWatchingRecord = (bool) $watchdog->isWatchingRecord();
+		}
+		return $this->isWatchingRecord;
+		
+	}
+
 	/**
 	 * Function to get the Module to which the record belongs
 	 * @return Vtiger_Module_Model

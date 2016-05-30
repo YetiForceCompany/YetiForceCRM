@@ -13,15 +13,12 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId)) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
 		if (empty($recordId)) {
 			if (!Users_Privileges_Model::isPermitted($moduleName, 'WatchingModule')) {
 				throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		} else {
-			if (!Users_Privileges_Model::isPermitted($moduleName, 'WatchingRecords')) {
+			if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId) || !Users_Privileges_Model::isPermitted($moduleName, 'WatchingRecords')) {
 				throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
