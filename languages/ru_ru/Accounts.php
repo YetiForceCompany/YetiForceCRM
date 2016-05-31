@@ -91,6 +91,8 @@ $languageStrings = [
 	'PLL_UFCIITS' => 'Организация Коллективного Инвестирования',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
+	// OTHERS
+	'LBL_DEACTIVATED_BY' => 'Account deactivated by ',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',
