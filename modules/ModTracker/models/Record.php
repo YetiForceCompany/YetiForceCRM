@@ -112,15 +112,15 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$unreviewed = [];
 
-		if(!is_array($recordsId)){
+		if (!is_array($recordsId)) {
 			$recordsId = [$recordsId];
 		}
-		$listQuery = 'SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN ('.$db->generateQuestionMarks($recordsId).') AND status <> ? ORDER BY crmid,changedon DESC;';
+		$listQuery = 'SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (' . $db->generateQuestionMarks($recordsId) . ') AND status <> ? ORDER BY crmid,changedon DESC;';
 		$result = $db->pquery($listQuery, [$recordsId, self::DISPLAYED]);
-		foreach($result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN) as $crmId=>$reviewedUsers){
+		foreach ($result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN) as $crmId => $reviewedUsers) {
 			$count = 0;
-			foreach($reviewedUsers as $users){
-				if(strpos($users, '#'.$currentUser->getRealId().'#') !== false){
+			foreach ($reviewedUsers as $users) {
+				if (strpos($users, '#' . $currentUser->getRealId() . '#') !== false) {
 					break;
 				}
 				++$count;
@@ -203,11 +203,13 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return Users_Record_Model::getInstanceById($changeUserId, 'Users');
 	}
 
-	function getDisplayActivityTime(){
+	function getDisplayActivityTime()
+	{
 		$time = $this->getActivityTime();
 		$time = new DateTimeField($time);
 		return $time->getFullcalenderDateTimevalue();
 	}
+
 	function getActivityTime()
 	{
 		return $this->get('changedon');
