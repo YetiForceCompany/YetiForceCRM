@@ -1359,10 +1359,16 @@ var app = {
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {
-		if (typeof error == 'object') {
+		if (typeof error == 'object' && error.responseText) {
 			error = error.responseText;
 		}
+		if (typeof error == 'object' && error.statusText) {
+			error = error.statusText;
+		}
 		console.error(error);
+		console.error(err);
+		console.error(errorThrown);
+		console.error('-----------------');
 	},
 	registerModal: function (container) {
 		if (typeof container == 'undefined') {
