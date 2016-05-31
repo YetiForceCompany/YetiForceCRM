@@ -58,6 +58,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleName = Vtiger_Functions::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
+		$moduleModel =  Vtiger_Module_Model::getInstance($module);
 		$ffs = scandir($dir);
 		foreach ($ffs as $ff) {
 			$action = str_replace('.php', "", $ff);
@@ -66,7 +67,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				vimport('~~' . $dir . $ff);
 				$modelClassName = Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
 				$instance = new $modelClassName();
-				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules)) {
+				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules) || ($action == 'Comments' && !$moduleModel->isCommentEnabled())) {
 					unset($folderFiles[$action]);
 				}
 			}
