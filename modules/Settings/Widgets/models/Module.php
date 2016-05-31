@@ -178,17 +178,33 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$sequence = self::getLastSequence($tabid) + 1;
 		if ($wid) {
 			$sql = "UPDATE vtiger_widgets SET label = ?, nomargin = ?, `data` = ? WHERE id = ?;";
-			$adb->pquery($sql, array($label, $nomargin, $serializeData, $wid));
+			$adb->pquery($sql, [$label, $nomargin, $serializeData, $wid]);
 		} else {
 			$sql = "INSERT INTO vtiger_widgets (tabid, type, label, nomargin, sequence ,data) VALUES (?, ?, ?, ?, ?, ?);";
-			$adb->pquery($sql, array($tabid, $type, $label, $nomargin, $sequence, $serializeData));
+			$adb->pquery($sql, [$tabid, $type, $label, $nomargin, $sequence, $serializeData]);
+			if ('Comments' == $type) {
+				$moduleName = Vtiger_Functions::getModuleName($tabid);
+				$params = [
+					'fieldid' => 601,
+					'module' => 'ModComments',
+					'relmodule' => $moduleName
+				];
+				$adb->insert('vtiger_fieldmodulerel', $params);
+			}
 		}
 	}
 
 	public static function removeWidget($wid)
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery('DELETE FROM vtiger_widgets WHERE id = ?;', array($wid));
+		$query = "SELECT tabid, type FROM vtiger_widgets WHERE id =?";
+		$result = $adb->pquery($query,[$wid]);
+		$row = $adb->getRow($result);
+		if('Comments' == $row['type']){
+			$moduleName = Vtiger_Functions::getModuleName($row['tabid']);
+			$adb->delete('vtiger_fieldmodulerel', 'fieldid = ? AND module = ? AND relmodule =? ', [601,'ModComments', $moduleName ]);
+		}
+		$adb->delete('vtiger_widgets', 'id = ?', [$wid]);
 	}
 
 	public function getWidgetInfo($wid)
