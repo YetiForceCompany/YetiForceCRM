@@ -116,8 +116,21 @@
 								{if $HEADER_FIELD@last}
 								</td><td nowrap>
 									<div class="pull-right actions"> 
+										{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
+											<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed">
+												<span class="badge bgDanger"></span>&nbsp;
+											</a>&nbsp;
+										{/if}
+										{* button for copying password to clipboard *}  
+										<a href="#" id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $SOURCEMODULE)}" ><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
 										<span class="actionImages">
-											<a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $SOURCEMODULE)}" class="glyphicon glyphicon-eye-open alignMiddle"></span></a>&nbsp;
+											<a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $SOURCEMODULE)}" class="glyphicon adminIcon-passwords-encryption alignMiddle"></span></a>&nbsp;
+											{if $RELATED_MODULE->isPermitted('WatchingRecords') && $RELATED_RECORD->isViewable()}
+												{assign var=WATCHING_STATE value=(!$RELATED_RECORD->isWatchingRecord())|intval}
+												<a href="#" onclick="Vtiger_Index_Js.changeWatching(this)" title="{vtranslate('BTN_WATCHING_RECORD', $MODULE)}" data-record="{$RELATED_RECORD->getId()}" data-value="{$WATCHING_STATE}" class="noLinkBtn{if !$WATCHING_STATE} info-color{/if}" data-on="info-color" data-off="" data-icon-on="glyphicon-eye-open" data-icon-off="glyphicon-eye-close">
+													<span class="glyphicon {if $WATCHING_STATE}glyphicon-eye-close{else}glyphicon-eye-open{/if} alignMiddle"></span>
+												</a>&nbsp;
+											{/if}
 											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 												{if $IS_EDITABLE}
 												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
@@ -126,10 +139,6 @@
 												<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 												{/if}
 										</span>
-									</div>
-									{* button for copying password to clipboard *}                    
-									<div class="pull-right">
-										<a href='' id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $SOURCEMODULE)}" ><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
 									</div>
 								</td>
 							{/if}
@@ -204,11 +213,8 @@
 								if (response['success']) {
 									// show password
 									$('#' + record).html(response['password']);
-									// change button title to 'Hide Password'
-									$('a#btn_' + record + ' i').attr('title', hidePassText);
 									// change icon
-									$('a#btn_' + record + ' i').removeClass('glyphicon-eye-open');
-									$('a#btn_' + record + ' i').addClass('glyphicon-eye-close');
+									$('a#btn_' + record + ' span').attr('title', hidePassText).removeClass('adminIcon-passwords-encryption').addClass('glyphicon-lock');
 									// show copy to clipboard button
 									$('a#copybtn_' + record).toggleClass('hide');
 								}
@@ -222,11 +228,8 @@
 				else {
 					// hide password
 					$('#' + record).html('**********');
-					// change button title to 'Show Password'
-					$('a#btn_' + record + ' i').attr('title', showPassText);
 					// change icon
-					$('a#btn_' + record + ' i').removeClass('glyphicon-eye-close');
-					$('a#btn_' + record + ' i').addClass('glyphicon-eye-open');
+					$('a#btn_' + record + ' span').attr('title', showPassText).removeClass('glyphicon-lock').addClass('adminIcon-passwords-encryption');
 					// hide copy to clipboard button
 					$('a#copybtn_' + record).toggleClass('hide');
 				}

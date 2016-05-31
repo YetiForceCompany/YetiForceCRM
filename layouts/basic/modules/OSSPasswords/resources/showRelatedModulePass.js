@@ -44,8 +44,8 @@ function showRelatedListPassword( record ) {
                     // change button title to 'Hide Password'
                     $('a#btn_'+record+' span').attr( 'title', hidePassText );
                     // change icon
-                    $('a#btn_'+record+' span').removeClass( 'glyphicon-eye-open' );
-                    $('a#btn_'+record+' span').addClass( 'glyphicon-eye-close' );
+                    $('a#btn_'+record+' span').removeClass( 'adminIcon-passwords-encryption' );
+                    $('a#btn_'+record+' span').addClass( 'glyphicon-lock' );
                     // show copy to clipboard button
                     $('a#copybtn_'+record).removeClass('hide');
                 }
@@ -63,8 +63,8 @@ function showRelatedListPassword( record ) {
         // change button title to 'Show Password'
         $('a#btn_'+record+' span').attr( 'title', showPassText );
         // change icon
-        $('a#btn_'+record+' span').removeClass( 'glyphicon-eye-close' );
-        $('a#btn_'+record+' span').addClass( 'glyphicon-eye-open' );
+        $('a#btn_'+record+' span').removeClass( 'glyphicon-lock' );
+        $('a#btn_'+record+' span').addClass( 'adminIcon-passwords-encryption' );
         // hide copy to clipboard button
         $('a#copybtn_'+record).addClass('hide');
     }
