@@ -438,9 +438,8 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 	$log->debug('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
 	$adb = PearDatabase::getInstance();
 
-	$columnname = $adb->sql_escape_string($fieldColumnname);
+	$columnname = $adb->quote($fieldColumnname, false);
 	$tablename = 'vtiger_' . $fieldColumnname;
-
 	// Gather all the roles (except H1 which is organization role)
 	$roleres = $adb->query("SELECT roleid FROM vtiger_role WHERE roleid != 'H1'");
 	$roleresCount = $adb->num_rows($roleres);
@@ -461,10 +460,8 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 
 	$picklistval_roles = [];
 	if ($picklistresCount) {
-		for ($index = 0; $index < $picklistresCount; ++$index) {
-			$picklistval = $adb->query_result($picklistres, $index, 'pickvalue');
-			$pickvalroleid = $adb->query_result($picklistres, $index, 'roleid');
-			$picklistval_roles[$picklistval][] = $pickvalroleid;
+		while($row = $adb->getRow($picklistres)){
+			$picklistval_roles[$row['pickvalue']][] = $row['roleid'];
 		}
 	}
 	// Collect picklist value which is associated to all the roles.
