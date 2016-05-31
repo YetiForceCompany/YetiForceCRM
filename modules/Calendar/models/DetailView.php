@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Calendar_DetailView_Model extends Vtiger_DetailView_Model
@@ -32,13 +33,15 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 
 		$parentModuleModel = $this->getModule();
 		if ($parentModuleModel->isTrackingEnabled()) {
-			$relatedLinks[] = array(
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => vtranslate('LBL_UPDATES'),
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
-				'related' => 'Updates'
-			);
+				'related' => 'Updates',
+				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'badgeClass' => 'bgDanger'
+			];
 		}
 		return $relatedLinks;
 	}

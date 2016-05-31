@@ -223,6 +223,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						}
 					}
 					jQuery(e).parent().remove();
+					detailInstance.getTabByLabel(detailInstance.detailViewRecentUpdatesTabLabel).find('.count.badge').text('');
 				},
 				function (error, err) {
 					progressInstance.progressIndicator({mode: 'hide'});

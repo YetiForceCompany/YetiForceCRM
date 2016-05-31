@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
@@ -196,6 +197,9 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		}
 		if (in_array('Comments', $relModules)) {
 			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
+		} elseif ($relatedModuleName == 'Updates') {
+			$count = (int) current(ModTracker_Record_Model::getUnreviewed($parentId));
+			$totalCount = $count ? $count : '';
 		} else {
 			$pagingModel = new Vtiger_Paging_Model();
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
