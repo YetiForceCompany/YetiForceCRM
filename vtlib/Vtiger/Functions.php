@@ -1427,8 +1427,20 @@ class Vtiger_Functions
 			if ($k < $ignore) {
 				continue;
 			}
+			$args = '';
+			if (isset($v['args'])) {
+				foreach ($v['args'] as &$arg) {
+					if (!is_array($arg) && !is_object($arg) && !is_resource($arg)) {
+						$args .= "'$arg'";
+					} elseif (is_array($arg)) {
+						$args .= '[' . implode(',', $arg) . ']';
+					}
+					$args .= ',';
+				}
+				$args = rtrim($args, ',');
+			}
 			$file = str_replace($rootDirectory . DIRECTORY_SEPARATOR, '', $v['file']);
-			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '() in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
+			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '(' . $args . ') in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
 		}
 
 		return $trace;
