@@ -726,6 +726,7 @@ jQuery.Class("Vtiger_List_Js", {
 						app.notifyPostAjaxReady();
 					});
 					thisInstance.registerAlphabetClick();
+					thisInstance.registerUnreviewedCountEvent();
 				},
 				function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
@@ -1953,6 +1954,7 @@ jQuery.Class("Vtiger_List_Js", {
 					listViewContentDiv.find('tr[data-id="' + i + '"] .unreviewed .badge').text(data[i]);
 				}
 			}
+			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		});
 	},
 	registerEvents: function () {
