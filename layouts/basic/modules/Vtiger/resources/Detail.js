@@ -2336,68 +2336,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred);
 		return aDeferred.promise();
 	},
-	registerCommentModalEvents: function (detailContentsHolder) {
-		var thisInstance = this;
-		detailContentsHolder.on('click', '.detailViewCommentModalBtn', function (e) {
-			var moreBtn = jQuery(e.currentTarget);
-			var blockComment = moreBtn.closest('.addCommentBlock');
-			var commentValue = blockComment.find('.commentcontent').val();
-			var reasonValue = blockComment.find('[name="reasonToEdit"]').val();
-			app.showModalWindow($('.commentModal').html(), function () {
-				var commentModal = $('.commentModalContent');
-				commentModal.find('.commentcontent').html(commentValue);
-				commentModal.find('[name="reasonToEdit"]').val(reasonValue);
-				if (moreBtn.data('mode') == 'edit') {
-					commentModal.find('.reason').removeClass('hide');
-				} else {
-					commentModal.find('.reason').addClass('hide');
-				}
-				$('.modalSaveComment').on('click', function (e) {
-					var element = jQuery(e.currentTarget);
-					if (!element.is(":disabled")) {
-						var dataObj = thisInstance.saveCommentModal(element, moreBtn);
-						dataObj.then(function () {
-							thisInstance.registerRelatedModulesRecordCount();
-							var commentsContainer = detailContentsHolder.find("[data-type='Comments']");
-							thisInstance.loadWidget(commentsContainer).then(function () {
-								app.hideModalWindow();
-								element.removeAttr('disabled');
-							});
-						});
-					}
-				});
-			});
-		});
-
-		detailContentsHolder.on('click', '.commentModalBtn', function (e) {
-			var moreBtn = jQuery(e.currentTarget);
-			var blockComment = moreBtn.closest('.addCommentBlock');
-			var commentValue = blockComment.find('.commentcontent').val();
-			var reasonValue = blockComment.find('[name="reasonToEdit"]').val();
-			app.showModalWindow($('.commentModal').html(), function () {
-				var commentModal = $('.commentModalContent');
-				commentModal.find('.commentcontent').html(commentValue);
-				commentModal.find('[name="reasonToEdit"]').val(reasonValue);
-				if (moreBtn.data('mode') == 'edit') {
-					commentModal.find('.reason').removeClass('hide');
-				} else {
-					commentModal.find('.reason').addClass('hide');
-				}
-				$('.modalSaveComment').on('click', function (e) {
-					var element = jQuery(e.currentTarget);
-					if (!element.is(":disabled")) {
-						var dataObj = thisInstance.saveCommentModal(element, moreBtn);
-						dataObj.then(function (data) {
-							var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
-							thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
-							thisInstance.addComment(moreBtn, data);
-							app.hideModalWindow();
-						});
-					}
-				});
-			});
-		});
-	},
 	/**
 	 * Function to display a new comments
 	 */
@@ -2459,7 +2397,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerCommentEvents: function (detailContentsHolder) {
 		var thisInstance = this;
-		thisInstance.registerCommentModalEvents(detailContentsHolder);
 		detailContentsHolder.on('click', '.addCommentBtn', function (e) {
 			thisInstance.removeCommentBlockIfExists();
 			var addCommentBlock = thisInstance.getCommentBlock();

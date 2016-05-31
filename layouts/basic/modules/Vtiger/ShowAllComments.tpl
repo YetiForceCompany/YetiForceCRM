@@ -12,16 +12,17 @@
 {strip}
 {* Change to this also refer: RecentComments.tpl *}
 {include file='CommentModal.tpl'|@vtemplate_path}
+{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 <input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
 <div class="col-md-12 row no-margin commentsBar paddingLRZero">
 	{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 		<div class="commentTitle col-xs-12 paddingTop10" >
 			<div class="addCommentBlock">
 				<div class="input-group">
-					<span class="input-group-addon " >
+					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-comment"></span>
 					</span>
-					<textarea type="text" name="commentcontent" class="commentcontent form-control" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent" class="commentcontent form-control" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 				</div>
 				<button class="btn btn-success saveComment pull-right" type="button" data-mode="add">
 					<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
@@ -42,7 +43,7 @@
 					<span class="input-group-addon" >
 						<span class="glyphicon glyphicon-comment"></span>
 					</span>
-					<textarea class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 				</div>
 				<button class="cursorPointer closeCommentBlock btn btn-warning pull-right cancel" type="reset">
 					<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
@@ -68,7 +69,7 @@
 					<span class="input-group-addon" >
 						<span class="glyphicon glyphicon-comment"></span>
 					</span>
-					<textarea  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
+					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 				</div>
 				<button class="cursorPointer closeCommentBlock btn btn-warning pull-right cancel" type="reset">
 					<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>

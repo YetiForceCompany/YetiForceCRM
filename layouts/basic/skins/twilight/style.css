@@ -787,7 +787,7 @@ li.ui-timepicker-selected,
 	margin-bottom: 0;
 }
 .commentContainer .addCommentBlock .commentcontent {
-	min-height: 75px !important;
+	min-height: 56px !important;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	padding: 7px !important;
@@ -797,7 +797,6 @@ li.ui-timepicker-selected,
 	word-wrap: break-word;
 	width: 100%;
 	resize: none;
-	margin-bottom: 5px;
 }
 .commentContainer .commentInfoContent {
 	padding: 1px 0;
