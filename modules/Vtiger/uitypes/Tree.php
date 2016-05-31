@@ -86,21 +86,21 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		$adb = PearDatabase::getInstance();
 		$values = [];
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', array($template));
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
-			$tree = $adb->query_result_raw($result, $i, 'tree');
+		while ($row = $db->getRow($result)) {
+			$tree = $row['tree'];
 			$parent = '';
 			$parentName = '';
-			if ($adb->query_result_raw($result, $i, 'depth') > 0) {
-				$parenttrre = $adb->query_result_raw($result, $i, 'parenttrre');
+			if ($row['depth'] > 0) {
+				$parenttrre = $row['parenttrre'];
 				$cut = strlen('::' . $tree);
 				$parenttrre = substr($parenttrre, 0, - $cut);
 				$pieces = explode('::', $parenttrre);
 				$parent = end($pieces);
 				$result3 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", array($template, $parent));
-				$parentName = $adb->query_result_raw($result3, 0, 'name');
+				$parentName = $adb->getSingleValue($result3);
 				$parentName = '(' . vtranslate($parentName, $module) . ') ';
 			}
-			$values[$adb->query_result_raw($result, $i, 'tree')] = array($parentName . vtranslate($adb->query_result_raw($result, $i, 'name'), $this->get('field')->getModuleName()), $parent);
+			$values[$row['tree']] = array($parentName . vtranslate($row['name'], $this->get('field')->getModuleName()), $parent);
 		}
 		return $values;
 	}
