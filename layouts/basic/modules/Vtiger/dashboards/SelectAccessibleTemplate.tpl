@@ -6,7 +6,7 @@
 {if !isset($OWNER)}
 	{assign var=OWNER value=''}
 {/if}
-{if $MODULE_NAME != 'Home'}
+{if !isset($SOURCE_MODULE) && $MODULE_NAME != 'Home'}
 	{assign var=SOURCE_MODULE value=$MODULE_NAME}
 {/if}
 {if $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
