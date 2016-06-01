@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Get record list class
  * @package YetiForce.WebserviceAction
@@ -17,19 +18,40 @@ class API_Base_GetRecordsList extends BaseAction
 		$currentUser = $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId());
 		vglobal('current_user', $currentUser);
 		$listQuery = '';
+
+		$module = Vtiger_Module_Model::getInstance($moduleName);
+		$fields = $module->getFields();
 		$queryGenerator = new QueryGenerator($moduleName, $currentUser);
 		$queryGenerator->initForDefaultCustomView();
+		$queryFields = $queryGenerator->getFields();
 		$listQuery = $queryGenerator->getQuery();
 		$db = PearDatabase::getInstance();
+
 		$listResult = $db->query($listQuery);
 		$records = [];
 		$entity = CRMEntity::getInstance($moduleName);
-		
-		while ($row = $db->fetch_array($listResult)) {
-			$records[$row[$entity->table_index]] = $row;
-		}
-		//$listQuery = getListQuery('OSSTimeControl', '');
 
-		return ['headers' => $queryGenerator->getFields(), 'records' => $records,'count'=> 456 ];
+		$columns = [];
+		foreach ($queryFields as &$column) {
+			if (isset($fields[$column])) {
+				$columns[$fields[$column]->get('column')] = $fields[$column];
+			}
+		}
+
+		while ($row = $db->getRow($listResult)) {
+			$id = $row[$entity->table_index];
+			$record = [];
+			foreach ($columns as $column => $field) {
+				if (isset($row[$column])) {
+					$record[$field->getName()] = $field->getDisplayValue($row[$column], $id, false, true);
+				}
+			}
+			$records[$id] = $record;
+		}
+		$headers = [];
+		foreach ($columns as &$column) {
+			$headers[$column->getName()] = vtranslate($column->getFieldLabel(), $moduleName);
+		}
+		return ['headers' => $headers, 'records' => $records, 'count' => 456];
 	}
 }

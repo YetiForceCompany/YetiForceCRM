@@ -420,7 +420,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		if ($rawData !== false) {
 			foreach ($this->getFields() as $field) {
 				$column = $field->get('column');
-				if (key_exists($column, $rawData)) {
+				if (isset($rawData[$column])) {
 					$rawData[$field->getName()] = $rawData[$column];
 					unset($rawData[$column]);
 				}

@@ -28,7 +28,7 @@ class API_Base_GetRecordDetail extends BaseAction
 				$block = $moduleField->get('block');
 				$blockLabel = vtranslate($block->label,$moduleName);
 				$fieldLabel = vtranslate($moduleField->get('label'),$moduleName);
-				$fields[$blockLabel][$fieldLabel] = $recordModel->getDisplayValue($moduleField->getName(), $record);
+				$fields[$blockLabel][$fieldLabel] = $recordModel->getDisplayValue($moduleField->getName(), $record, true);
 				if (empty($block)) {
 					continue;
 				}
