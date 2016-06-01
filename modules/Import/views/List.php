@@ -100,13 +100,15 @@ class Import_List_View extends Vtiger_Popup_View{
 	}
 
     public function getImportDetails(Vtiger_Request $request) {
-        $viewer = $this->getViewer($request);
+		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$forModule = $request->get('forModule');
         $user = Users_Record_Model::getCurrentUserModel();
-        $importRecords= Import_Data_Action::getImportDetails($user);
+        $importRecords= Import_Data_Action::getImportDetails($user, $forModule);
         $viewer->assign('IMPORT_RECORDS', $importRecords);
         $viewer->assign('TYPE',$request->get('type'));
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('FOR_MODULE', $forModule);
         $viewer->view('ImportDetails.tpl', 'Import');
         
     }

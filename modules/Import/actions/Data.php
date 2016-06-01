@@ -901,21 +901,24 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	/*
 	 *  Function to get Record details of import
 	 *  @parms $user <User Record Model> Current Users
+	 *	@parms $user <String> Imported module
 	 *  @returns <Array> Import Records with the list of skipped records and failed records
 	 */
 
-	public static function getImportDetails($user)
+	public static function getImportDetails($user, $forModule)
 	{
 		$adb = PearDatabase::getInstance();
 		$tableName = Import_Utils_Helper::getDbTableName($user);
 		$result = $adb->pquery("SELECT * FROM $tableName where temp_status IN (?,?)", array(self::$IMPORT_RECORD_SKIPPED, self::$IMPORT_RECORD_FAILED));
 		$importRecords = array();
 		if ($result) {
+			$moduleModel = Vtiger_Module_Model::getInstance($forModule);
 			$headers = $adb->getColumnNames($tableName);
 			$numOfHeaders = count($headers);
 			for ($i = 0; $i < 10; $i++) {
 				if ($i >= 3 && $i < $numOfHeaders) {
-					$importRecords['headers'][] = $headers[$i];
+					$fieldModel = Vtiger_Field_Model::getInstance($headers[$i],$moduleModel);
+					$importRecords['headers'][] = $fieldModel->getFieldLabel();
 				}
 			}
 			$noOfRows = $adb->num_rows($result);
