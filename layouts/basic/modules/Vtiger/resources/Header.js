@@ -913,8 +913,6 @@ jQuery.Class("Vtiger_Header_Js", {
 			currentTarget.trigger(pressEvent);
 		});
 		thisInstance.registerAnnouncement();
-		thisInstance.setAnnouncement();
-
 		thisInstance.registerHotKeys();
 		thisInstance.registerToggleButton();
 		//this.registerCalendarButtonClickEvent();

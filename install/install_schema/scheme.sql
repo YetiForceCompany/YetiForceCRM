@@ -2977,6 +2977,7 @@ CREATE TABLE `vtiger_announcement` (
   `title` varchar(255) DEFAULT NULL,
   `announcement_no` varchar(255) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
+  `announcementstatus` varchar(255) DEFAULT '',
   KEY `vtiger_announcementcf` (`announcementid`),
   CONSTRAINT `vtiger_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2988,6 +2989,17 @@ CREATE TABLE `vtiger_announcementcf` (
   PRIMARY KEY (`announcementid`),
   CONSTRAINT `fk_1_vtiger_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_announcement` (`announcementid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_announcementstatus` */
+
+CREATE TABLE `vtiger_announcementstatus` (
+  `announcementstatusid` int(11) NOT NULL AUTO_INCREMENT,
+  `announcementstatus` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`announcementstatusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_apiaddress` */
 
@@ -4687,7 +4699,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2355 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2356 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6738,7 +6750,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 

@@ -7,5 +7,10 @@ $languageStrings = [
 	'LBL_ANNOUNCEMENTS_INFORMATION' => 'Podstawowe informacje',
 	//Fields
 	'LBL_SUBJECT' => 'Temat',
-	'LBL_NUMBER' => 'Numer'
+	'LBL_NUMBER' => 'Numer',
+	'FL_STATUS' => 'Status',
+	// picklist values
+	'PLL_DRAFT' => 'Wersja robocza',
+	'PLL_FOR_ACCEPTANCE' => 'Do akceptacji',
+	'PLL_PUBLISHED' => 'Opublikowano',
 ];

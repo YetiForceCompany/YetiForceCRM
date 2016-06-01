@@ -70,6 +70,7 @@ class Announcements extends Vtiger_CRMEntity
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
 	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
+	protected $lockFields = ['announcementstatus' => ['PLL_PUBLISHED', 'PLL_ARCHIVES']];
 
 	/**
 	 * Invoked when special actions are performed on the module.
