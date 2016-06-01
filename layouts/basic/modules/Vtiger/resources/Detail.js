@@ -393,6 +393,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					contentContainer.trigger(thisInstance.widgetPostLoad, {'widgetName': relatedModuleName})
 					app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 					app.registerModal(contentContainer);
+					app.registerMoreContent(contentContainer.find('button.moreBtn'));
 					aDeferred.resolve(params);
 				},
 				function (e) {
@@ -2034,6 +2035,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							element.progressIndicator({'mode': 'hide'});
 							thisInstance.registerHelpInfo();
 							app.registerModal(detailContentsHolder);
+							app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
 							if (typeof callBack == 'function') {
 								callBack(data);
 							}

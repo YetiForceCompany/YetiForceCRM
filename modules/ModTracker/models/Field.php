@@ -55,7 +55,15 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	 */
 	public function getOldValue()
 	{
-		return $this->getDisplayValue($this->get('prevalue'));
+		$value = $this->getDisplayValue($this->get('prevalue'));
+		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
+			return $value;
+		}
+		$teaser = Vtiger_Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		if (substr($teaser, -3) == '...') {
+			$this->set('fullPreValue', $value);
+		}
+		return $teaser;
 	}
 
 	/**
@@ -64,7 +72,15 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	 */
 	public function getNewValue()
 	{
-		return $this->getDisplayValue($this->get('postvalue'));
+		$value = $this->getDisplayValue($this->get('postvalue'));
+		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
+			return $value;
+		}
+		$teaser = Vtiger_Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		if (substr($teaser, -3) == '...') {
+			$this->set('fullPostValue', $value);
+		}
+		return $teaser;
 	}
 
 	/**

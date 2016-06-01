@@ -8,29 +8,38 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ModTracker_Relation_Model extends Vtiger_Record_Model {
+class ModTracker_Relation_Model extends Vtiger_Record_Model
+{
 
-	function setParent($parent) {
+	function getValue()
+	{
+		return $this->getLinkedRecord()->getName();
+	}
+
+	function setParent($parent)
+	{
 		$this->parent = $parent;
 	}
 
-	function getParent() {
+	function getParent()
+	{
 		return $this->parent;
 	}
 
-	function getLinkedRecord() {
-        $db = PearDatabase::getInstance();
-        
+	function getLinkedRecord()
+	{
+		$db = PearDatabase::getInstance();
+
 		$targetId = $this->get('targetid');
 		$targetModule = $this->get('targetmodule');
-        
-        $query = 'SELECT * FROM vtiger_crmentity WHERE crmid = ?';
+
+		$query = 'SELECT * FROM vtiger_crmentity WHERE crmid = ?';
 		$params = array($targetId);
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
 		$moduleModels = array();
-		if($noOfRows) {
-			if(!array_key_exists($targetModule, $moduleModels)) {
+		if ($noOfRows) {
+			if (!array_key_exists($targetModule, $moduleModels)) {
 				$moduleModel = Vtiger_Module_Model::getInstance($targetModule);
 			}
 			$row = $db->query_result_rowdata($result, 0);

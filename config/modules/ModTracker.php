@@ -10,4 +10,6 @@ $CONFIG = [
 	'WATCHDOG' => true,
 	// Displays the number of unreviewed changes in record.
 	'UNREVIEWED_COUNT' => true,
+	// Maximum length of text, only applies to text fields
+	'TEASER_TEXT_LENGTH' => 400,
 ];
