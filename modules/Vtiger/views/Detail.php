@@ -340,6 +340,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleModel = $recordModel->getModule();
 
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			echo $viewer->view('SummaryViewWidgets.tpl', $moduleName, true);
@@ -392,6 +393,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('NEW_CHANGE', $newChange);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 		$viewer->assign('MODULE_BASE_NAME', 'ModTracker');
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$defaultView = AppConfig::module('ModTracker', 'DEFAULT_VIEW');

@@ -1379,7 +1379,6 @@ $languageStrings = [
 	'LBL_YRS' => 'yrs',
 	'FL_ACTIVE' => 'Active',
 	'SwitchUsers' => 'Переключатель пользователей',
-	'BTN_CHANGES_REVIEWED_ON' => 'Changes reviewed on',
 	'LBL_VIEW_CONDITIONS' => 'Conditions',
 	'Api Address' => 'Поиск адресов',
 	'WebForm Name' => 'Имя Веб-Формы',

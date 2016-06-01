@@ -1138,7 +1138,6 @@ $languageStrings = [
 	'LBL_YRS' => 'yrs',
 	'FL_ACTIVE' => 'Active',
 	'SwitchUsers' => 'Switch Users',
-	'BTN_CHANGES_REVIEWED_ON' => 'Changes reviewed on',
 	'Api Address' => 'Pesquisar endereço',
 	'WebForm Name' => 'Nome Webform',
 	'Return Url' => 'URL de retorno',

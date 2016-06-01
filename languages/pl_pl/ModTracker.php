@@ -31,4 +31,5 @@ $languageStrings = [
 	'LBL_AT_DISPLAY_P' => 'Wyświetlono',
 	'LBL_REVIEW_HISTORY' => 'Historia prezeglądania',
 	'LBL_REVIEWED' => 'Zapoznane',
+	'BTN_CHANGES_REVIEWED_ON' => 'Zapoznano się ze zmianami',
 ];

@@ -19,12 +19,16 @@ class Vtiger_Updates_Widget extends Vtiger_Basic_Widget
 
 	public function getWidget()
 	{
+		$moduelName = 'ModTracker';
+		$this->Config['tpl'] = 'Updates.tpl';
+		$this->Config['moduleBaseName'] = $moduelName;
 		$this->Config['url'] = $this->getUrl();
+		$this->Config['newChanege'] = ModTracker_Record_Model::isNewChange($this->Record);
 		$this->Config['switchHeader'] = [];
 		$this->Config['switchHeader']['on'] = 'changes';
 		$this->Config['switchHeader']['off'] = 'review';
-		$this->Config['switchHeaderLables']['on'] = vtranslate('LBL_UPDATES', 'ModTracker');
-		$this->Config['switchHeaderLables']['off'] = vtranslate('LBL_REVIEW_HISTORY', 'ModTracker');
+		$this->Config['switchHeaderLables']['on'] = vtranslate('LBL_UPDATES', $moduelName);
+		$this->Config['switchHeaderLables']['off'] = vtranslate('LBL_REVIEW_HISTORY', $moduelName);
 		return $this->Config;
 	}
 }
