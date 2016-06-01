@@ -34,7 +34,7 @@
 											<span class="time pull-right">
 												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
 											</span>
-											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</sdtrong> 
+											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
 												&nbsp;{vtranslate('LBL_CREATED', $MODULE_NAME)}
 												{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 													{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
@@ -135,7 +135,7 @@
 													{vtranslate('LBL_ADDED', $MODULE_NAME)}
 												{else}
 													{vtranslate('LBL_REMOVED', $MODULE_NAME)}
-												{/if} 
+												{/if}&nbsp;
 											</span>
 											<span>
 												{if Users_Privileges_Model::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
@@ -152,7 +152,7 @@
 													</strong>
 												{/if}
 											</span>
-											<span>({vtranslate('SINGLE_'|cat:$RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())})</span>
+											<span>&nbsp;({vtranslate('SINGLE_'|cat:$RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())})</span>
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isRestore()}

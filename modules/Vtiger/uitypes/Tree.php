@@ -86,7 +86,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		$adb = PearDatabase::getInstance();
 		$values = [];
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', array($template));
-		while ($row = $db->getRow($result)) {
+		while ($row = $adb->getRow($result)) {
 			$tree = $row['tree'];
 			$parent = '';
 			$parentName = '';
