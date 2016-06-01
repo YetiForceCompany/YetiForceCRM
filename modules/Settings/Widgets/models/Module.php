@@ -34,7 +34,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		return $widgets;
 	}
 
-	public function getModulesList()
+	public function getModulesList($module = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier');
@@ -43,7 +43,9 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $adb->pquery($sql, $params);
 		$modules = array();
 		while ($row = $adb->fetch_array($result)) {
-			$modules[$row['tabid']] = $row;
+			$moduleModel =  Vtiger_Module_Model::getInstance($row['name']);
+			if($moduleModel->isSummaryViewSupported())
+				$modules[$row['tabid']] = $row;
 		}
 		return $modules;
 	}
