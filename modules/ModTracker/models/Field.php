@@ -61,6 +61,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 		}
 		$teaser = Vtiger_Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
+			$value = vtlib_purify(Vtiger_Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'),$value));
 			$this->set('fullPreValue', $value);
 		}
 		return $teaser;
@@ -78,6 +79,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 		}
 		$teaser = Vtiger_Functions::textLength($value, AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
+			$value = vtlib_purify(Vtiger_Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'),$value));
 			$this->set('fullPostValue', $value);
 		}
 		return $teaser;

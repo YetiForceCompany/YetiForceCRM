@@ -1162,7 +1162,7 @@ class Vtiger_Functions
 
 	static function removeHtmlTags(array $tags, $html)
 	{
-		$crmUrl = vglobal($key);
+		$crmUrl = AppConfig::main('site_URL');
 
 		$doc = new DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(TRUE);
