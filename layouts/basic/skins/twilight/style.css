@@ -5434,3 +5434,6 @@ select.form-control {
 .tdUnderline{
 	text-decoration: underline;
 }
+.rssAddButton{
+	cursor: pointer;
+}
