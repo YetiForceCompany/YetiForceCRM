@@ -388,4 +388,6 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'nie wspierany format pliku',
 	'JS_COLUMN_ADDED' => 'Pole dodane',
 	'JS_COLUMN_EXIST' => 'Błąd przy dodaniu pola',
+	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
+	'JS_NOTIFY_COPY_TITLE' => 'Tekst',
 ];

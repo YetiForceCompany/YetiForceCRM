@@ -385,4 +385,6 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'not supported Image type',
 	'JS_COLUMN_ADDED' => 'Field added',
 	'JS_COLUMN_EXIST' => 'Error while adding field',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
+	'JS_NOTIFY_COPY_TITLE' => 'Text',
 ];
