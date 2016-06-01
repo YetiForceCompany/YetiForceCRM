@@ -165,8 +165,8 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'Szablon pdf został zapisany.',
-	'LBL_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
-	'LBL_NOTIFY_COPY_TITLE' => 'Tekst',
+	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
+	'JS_NOTIFY_COPY_TITLE' => 'Tekst',
 	'JS_PDF_TEMPLATE_EXPORTED' => 'Szablon PDF został pomyślnie wyeksportowany.',
 	'JS_RECALCULATING' => 'Przeliczanie uprawnień...'
 ];
