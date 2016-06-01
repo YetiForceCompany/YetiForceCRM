@@ -106,12 +106,14 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return true;
 	}
 
-	public static function getUnreviewed($recordsId)
+	public static function getUnreviewed($recordsId, $userId = false)
 	{
 		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		if($userId === false){
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$userId = $currentUser->getRealId();
+		}
 		$unreviewed = [];
-
 		if (!is_array($recordsId)) {
 			$recordsId = [$recordsId];
 		}
@@ -120,7 +122,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		foreach ($result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN) as $crmId => $reviewedUsers) {
 			$count = 0;
 			foreach ($reviewedUsers as $users) {
-				if (strpos($users, '#' . $currentUser->getRealId() . '#') !== false) {
+				if (strpos($users, "#$userId#") !== false) {
 					break;
 				}
 				++$count;
