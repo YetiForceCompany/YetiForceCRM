@@ -2737,6 +2737,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
 						container.find('#moreLink').html(dataContainer.find('#moreLink').html());
 						container.find('#updates ul').append(dataContainer.find('#updates ul').html());
+						app.registerMoreContent(container.find('button.moreBtn'));
 					}
 			);
 		});
