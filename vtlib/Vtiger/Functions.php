@@ -1438,7 +1438,15 @@ class Vtiger_Functions
 					if (!is_array($arg) && !is_object($arg) && !is_resource($arg)) {
 						$args .= "'$arg'";
 					} elseif (is_array($arg)) {
-						$args .= '[' . implode(',', $arg) . ']';
+						$args .= '[';
+						foreach ($arg as &$a) {
+							$val = $a;
+							if (is_array($a) || is_object($a) || is_resource($a)) {
+								$val = gettype($a);
+							}
+							$args .= $val . ',';
+						}
+						$args = rtrim($args, ',') . ']';
 					}
 					$args .= ',';
 				}
