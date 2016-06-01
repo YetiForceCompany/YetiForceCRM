@@ -34,15 +34,12 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 		$targetModule = $this->get('targetmodule');
 
 		$query = 'SELECT * FROM vtiger_crmentity WHERE crmid = ?';
-		$params = array($targetId);
-		$result = $db->pquery($query, $params);
+		$result = $db->pquery($query, [$targetId]);
 		$noOfRows = $db->num_rows($result);
-		$moduleModels = array();
+		$moduleModels = [];
 		if ($noOfRows) {
-			if (!array_key_exists($targetModule, $moduleModels)) {
-				$moduleModel = Vtiger_Module_Model::getInstance($targetModule);
-			}
-			$row = $db->query_result_rowdata($result, 0);
+			$moduleModel = Vtiger_Module_Model::getInstance($targetModule);
+			$row = $db->getRow($result);
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $targetModule);
 			$recordInstance = new $modelClassName();
 			$recordInstance->setData($row)->setModuleFromInstance($moduleModel);

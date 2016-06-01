@@ -130,6 +130,46 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $unreviewed;
 	}
 
+	/**
+	 * Function to get the name of the module to which the record belongs
+	 * @return <String> - Record Module Name
+	 */
+	public function getModule()
+	{
+		if (empty($this->parent)) {
+			return Vtiger_Module_Model::getInstance($this->getModuleName());
+		}
+		return $this->getParent()->getModule();
+	}
+
+	/**
+	 * Function to get the name of the module to which the record belongs
+	 * @return <String> - Record Module Name
+	 */
+	public function getModuleName()
+	{
+		return $this->get('module');
+	}
+
+	/**
+	 * Function to get the Detail View url for the record
+	 * @return <String> - Record Detail View Url
+	 */
+	public function getDetailViewUrl()
+	{
+		$moduleName = $this->getModuleName();
+		switch ($moduleName) {
+			case 'Documents': $action = 'action=DownloadFile';
+				break;
+			case 'OSSMailView': $action = 'view=Preview';
+				break;
+			default: $action = 'view=Detail';
+				break;
+		}
+
+		return "index.php?module=$moduleName&$action&record=" . $this->get('crmid');
+	}
+
 	function setParent($id, $moduleName)
 	{
 		$this->parent = Vtiger_Record_Model::getInstanceById($id, $moduleName);
@@ -220,18 +260,16 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$id = $this->get('id');
 		$db = PearDatabase::getInstance();
 
-		$fieldInstances = array();
+		$fieldInstances = [];
 		if ($this->isCreate() || $this->isUpdate()) {
 			$result = $db->pquery('SELECT * FROM vtiger_modtracker_detail WHERE id = ?', array($id));
-			$rows = $db->num_rows($result);
-			for ($i = 0; $i < $rows; $i++) {
-				$data = $db->query_result_rowdata($result, $i);
+			while ($data = $db->getRow($result)) {
 				$row = array_map('html_entity_decode', $data);
 
 				if ($row['fieldname'] == 'record_id' || $row['fieldname'] == 'record_module')
 					continue;
 
-				$fieldModel = Vtiger_Field_Model::getInstance($row['fieldname'], $this->getParent()->getModule());
+				$fieldModel = Vtiger_Field_Model::getInstance($row['fieldname'], $this->getModule());
 				if (!$fieldModel)
 					continue;
 
