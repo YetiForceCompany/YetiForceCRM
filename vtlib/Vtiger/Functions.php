@@ -701,21 +701,26 @@ class Vtiger_Functions
 	{
 		$filepath = 'storage/';
 
-		if ($module && in_array($module, array("Users", "Contacts", "Products", "OSSMailView"))) {
-			$filepath = $filepath . $module . "/";
+		if ($module && in_array($module, array('Users', 'Contacts', 'Products', 'OSSMailView'))) {
+			$filepath .= $module . '/';
+		}
+		if (!is_dir($filepath)) {
+			//create new folder
+			mkdir($filepath);
 		}
 		$year = date('Y');
 		$month = date('F');
 		$day = date('j');
 		$week = '';
-
-		if (!is_dir($filepath . $year)) {
+		$filepath .= $year;
+		if (!is_dir($filepath)) {
 			//create new folder
-			mkdir($filepath . $year);
+			mkdir($filepath);
 		}
-		if (!is_dir($filepath . $year . "/" . $month)) {
+		$filepath .= '/' . $month;
+		if (!is_dir($filepath)) {
 			//create new folder
-			mkdir($filepath . "$year/$month");
+			mkdir($filepath);
 		}
 
 		if ($day > 0 && $day <= 7)
@@ -729,12 +734,12 @@ class Vtiger_Functions
 		else
 			$week = 'week5';
 
-		if (!is_dir($filepath . $year . "/" . $month . "/" . $week)) {
+		$filepath .= '/' . $week;
+		if (!is_dir($filepath)) {
 			//create new folder
-			mkdir($filepath . "$year/$month/$week");
+			mkdir($filepath);
 		}
-		$filepath = $filepath . $year . "/" . $month . "/" . $week . "/";
-		return $filepath;
+		return $filepath . '/';
 	}
 
 	static public function validateImage($fileDetails)
