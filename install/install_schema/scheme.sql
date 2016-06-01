@@ -2973,12 +2973,20 @@ CREATE TABLE `vtiger_activitytype_seq` (
 /*Table structure for table `vtiger_announcement` */
 
 CREATE TABLE `vtiger_announcement` (
-  `creatorid` int(19) NOT NULL,
-  `announcement` text,
+  `announcementid` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`creatorid`),
-  KEY `announcement_creatorid_idx` (`creatorid`)
+  `announcement_no` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  KEY `vtiger_announcementcf` (`announcementid`),
+  CONSTRAINT `vtiger_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_announcementcf` */
+
+CREATE TABLE `vtiger_announcementcf` (
+  `announcementid` int(11) NOT NULL,
+  PRIMARY KEY (`announcementid`),
+  CONSTRAINT `fk_1_vtiger_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_announcement` (`announcementid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_apiaddress` */
@@ -5962,25 +5970,6 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_widgets_ibfk_1` (`templateid`),
   CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_neworders` */
-
-CREATE TABLE `vtiger_neworders` (
-  `newordersid` int(11) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `neworders_no` varchar(255) DEFAULT NULL,
-  `subject` varchar(255) DEFAULT NULL,
-  KEY `vtiger_neworderscf` (`newordersid`),
-  CONSTRAINT `vtiger_neworderscf` FOREIGN KEY (`newordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_neworderscf` */
-
-CREATE TABLE `vtiger_neworderscf` (
-  `newordersid` int(11) NOT NULL,
-  PRIMARY KEY (`newordersid`),
-  CONSTRAINT `fk_1_vtiger_neworderscf` FOREIGN KEY (`newordersid`) REFERENCES `vtiger_neworders` (`newordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_no_of_currency_decimals` */

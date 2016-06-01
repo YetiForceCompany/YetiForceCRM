@@ -30,15 +30,6 @@
 						</div>
 					</div>
 				{/if}
-				{if !empty($announcement)}
-					<div class="pull-right rightHeaderBtn">
-						<div class="quickAction">
-							<a class="btn btn-default btn-sm" href="#">
-								<img class='alignMiddle imgAnnouncement announcementBtn' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}"/>
-							</a>
-						</div>
-					</div>
-				{/if}
 				{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')}
 					<div class="pull-right rightHeaderBtn">
 						<div class="notificationsNotice quickAction">
@@ -179,11 +170,6 @@
 				</div>
 			</div>
 		</div>
-		{if !empty($announcement)}
-			<div class="row">
-				{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
-			</div>
-		{/if}
 	</div>
 	<div class="mainBody">
 	{/strip}

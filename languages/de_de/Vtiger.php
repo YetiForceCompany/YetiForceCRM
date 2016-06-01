@@ -601,7 +601,6 @@ $languageStrings = [
 	'ModComments' => 'Kommentare',
 	'Modified Time' => 'Änderungszeit',
 	'Net Total' => 'Nettosumme',
-	'NewOrders' => 'Neue Bestellungen',
 	'Notebook' => 'Notizblock',
 	'Notify Owner' => 'Besitzer benachrichtigen',
 	'NOT_A_BUNDLE' => 'Kein Bündel',

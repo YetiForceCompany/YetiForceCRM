@@ -79,21 +79,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		return true;
 	},
 	/**
-	 * Function which will align the contents container at specified height depending on the top fixed menu
-	 * It will caliculate the height by following formaula menuContianer.height+1	 *
-	 */
-	alignContentsContainer: function (show, speed, effect) {
-		var navTop = jQuery('nav.navbar-fixed-top').outerHeight();
-		if (show) {
-			var announcement = jQuery('#announcement .alert').outerHeight(true);
-			navTop = (navTop + announcement);
-		}
-		var contentsContainer = this.getContentsContainer();
-		contentsContainer.animate({'padding-top': navTop}, speed, effect);
-		contentsContainer.find('.siteBarRight').animate({'padding-top': navTop}, speed, effect);
-		return this;
-	},
-	/**
 	 * Function to save the quickcreate module
 	 * @param accepts form element as parameter
 	 * @return returns deferred promise
@@ -125,20 +110,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 		form.addClass('not_validation');
 		form.submit();
-	},
-	setAnnouncement: function () {
-		var announcementoff = app.cacheGet('announcement.turnoff', false);
-		var announcementBtn = jQuery('.announcementBtn');
-		var thisInstance = this;
-		if (announcementoff === true) {
-			jQuery('#announcement').hide();
-			announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
-			thisInstance.alignContentsContainer(false, 0, 'linear');
-		} else {
-			jQuery('#announcement').show();
-			announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
-			thisInstance.alignContentsContainer(true, 0, 'linear');
-		}
 	},
 	registerAnnouncement: function () {
 		var thisInstance = this;

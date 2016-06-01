@@ -251,15 +251,6 @@ function getSingleFieldValue($tablename, $fieldname, $idname, $id)
 	return Vtiger_Functions::getSingleFieldValue($tablename, $fieldname, $idname, $id);
 }
 
-/** 	Function used to retrieve the announcements from database
- * 	The function accepts no argument and returns the announcements
- * 	return string $announcement  - List of announments for the CRM users
- */
-function get_announcements()
-{
-	return Vtiger_Deprecated::getAnnouncements();
-}
-
 /**
  *  Function to get recurring info depending on the recurring type
  *  return  $recurObj       - Object of class RecurringType
