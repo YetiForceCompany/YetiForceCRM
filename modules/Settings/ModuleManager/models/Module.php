@@ -203,7 +203,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 			'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter',
 			'QuickExportToExcel', 'TagCloud', 'DetailTransferOwnership', 'ExportPdf',
 			'RecordMapping', 'RecordMappingList', 'FavoriteRecords', 'WatchingRecords',
-			'WatchingModule', 'RemoveRelation']);
+			'WatchingModule', 'RemoveRelation', 'ReviewingUpdates']);
 
 		// Initialize Webservice support
 		$module->initWebservice();

@@ -1,8 +1,3 @@
-/*
-SQLyog Ultimate
-MySQL - 5.7.9 : Database - yetiforce
-*********************************************************************
-*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -833,13 +828,13 @@ CREATE TABLE `s_yf_multireference` (
 /*Table structure for table `u_yf_announcement` */
 
 CREATE TABLE `u_yf_announcement` (
-  `announcementid` int(11) DEFAULT NULL,
+  `announcementid` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `announcement_no` varchar(255) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `announcementstatus` varchar(255) DEFAULT '',
-  KEY `u_yf_announcementcf` (`announcementid`),
-  CONSTRAINT `u_yf_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  PRIMARY KEY (`announcementid`),
+  CONSTRAINT `fk_1_u_yf_announcement` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_announcement_mark` */
@@ -850,8 +845,9 @@ CREATE TABLE `u_yf_announcement_mark` (
   `date` datetime NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`announcementid`,`userid`),
-  KEY `userid` (`userid`,`status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  KEY `userid` (`userid`,`status`),
+  CONSTRAINT `u_yf_announcement_mark_ibfk_1` FOREIGN KEY (`announcementid`) REFERENCES `u_yf_announcement` (`announcementid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_announcementcf` */
 
