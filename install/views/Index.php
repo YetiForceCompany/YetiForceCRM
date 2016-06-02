@@ -54,7 +54,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->exposeMethod('mStep3');
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		date_default_timezone_set('UTC'); // to overcome the pre configuration settings
 		// Added to redirect to default module if already installed
