@@ -1028,8 +1028,9 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 					}
 				});
 				app.showSelect2ElementView(select);
-			})
+			});
 			thisInstance.initItem(newRow);
+			Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
 		});
 	},
 	registerSortableItems: function () {
