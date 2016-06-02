@@ -79,6 +79,7 @@ $languageStrings = [
 	'FavoriteRecords' => 'Ulubione rekordy',
 	'OpenRecord' => 'Otwieranie rekordów',
 	'CloseRecord' => 'Zamykanie rekordów',
+	'ReviewingUpdates' => 'Zapoznawanie się z historią zmian',
 	//end actions
 	'Profile Related to Sales' => 'Profil powiązany ze sprzedażą',
 	'Profile Related to Support' => 'Profil związany ze wsparciem',

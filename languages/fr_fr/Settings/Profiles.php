@@ -80,6 +80,7 @@ $languageStrings = [
 	'CloseRecord' => 'Close record',
 	'RemoveRelation' => 'Remove relation',
 	'ReceivingMailNotifications' => 'Receiving mail notifications',
+	'ReviewingUpdates' => 'Reviewing history of changes',
 	//end Actions
 	'Profile Related to Sales' => 'Profil liés aux ventes',
 	'Profile Related to Support' => 'Profil lié au support',
