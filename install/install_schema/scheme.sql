@@ -833,6 +833,7 @@ CREATE TABLE `u_yf_announcement` (
   `announcement_no` varchar(255) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `announcementstatus` varchar(255) DEFAULT '',
+  `interval` smallint(5) DEFAULT NULL,
   PRIMARY KEY (`announcementid`),
   CONSTRAINT `fk_1_u_yf_announcement` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -846,6 +847,7 @@ CREATE TABLE `u_yf_announcement_mark` (
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`announcementid`,`userid`),
   KEY `userid` (`userid`,`status`),
+  KEY `announcementid` (`announcementid`,`userid`,`date`,`status`),
   CONSTRAINT `u_yf_announcement_mark_ibfk_1` FOREIGN KEY (`announcementid`) REFERENCES `u_yf_announcement` (`announcementid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4712,7 +4714,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid` (`tabid`,`tablename`),
   KEY `quickcreate` (`quickcreate`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2356 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2357 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
