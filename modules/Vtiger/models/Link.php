@@ -153,6 +153,11 @@ class Vtiger_Link_Model extends Vtiger_Link
 		return $this;
 	}
 
+	public function setChildLink($links)
+	{
+		$this->childlinks = $links;
+	}
+
 	/**
 	 * Function to get all the child links
 	 * @result <array> - list of Vtiger_Link_Model instances
@@ -198,7 +203,7 @@ class Vtiger_Link_Model extends Vtiger_Link
 		$sourceRecord = false;
 		$parametersParts = explode('&', $url);
 		foreach ($parametersParts as $index => $keyValue) {
-			if(strpos($keyValue, '=') === false){
+			if (strpos($keyValue, '=') === false) {
 				continue;
 			}
 			$urlParts = explode('=', $keyValue);

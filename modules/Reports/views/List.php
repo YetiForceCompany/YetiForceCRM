@@ -129,7 +129,7 @@ class Reports_List_View extends Vtiger_Index_View
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
 		}
-		$listViewMassActionModels = $listViewModel->getListViewMassActions();
+		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
