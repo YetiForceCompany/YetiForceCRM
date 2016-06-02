@@ -151,6 +151,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 			}
 			$focus = CRMEntity::getInstance($module);
 			$ignoreEmpty = $this->get('ignoreEmpty');
+			$additionalColumns = array_diff($additionalColumns, $tableColumns);
 			$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $additionalColumns);
 
 			$position = stripos($query, 'from');
