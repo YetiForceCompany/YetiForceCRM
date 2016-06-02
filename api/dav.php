@@ -1,9 +1,9 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 chdir(__DIR__ . '/../');
-require_once('include/ConfigUtils.php');
+require('include/ConfigUtils.php');
 if (!in_array('dav', $enabledServices)) {
-	require_once('include/exceptions/AppException.php');
+	require('include/main/WebUI.php');
 	$apiLog = new APINoPermittedException();
 	$apiLog->stop('Dav - Service is not active');
 }

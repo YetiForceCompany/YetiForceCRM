@@ -8,9 +8,9 @@ $DEBUG_CONFIG = [
 	// Enable log4php -> cache/logs/system.log
 	'LOG4PHP_DEBUG' => false,
 	// Stop the running process of the system if there is and error in sql query
-	'SQL_DIE_ON_ERROR' => false,
+	'SQL_DIE_ON_ERROR' => true,
 	// Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true
-	'DISPLAY_DEBUG_BACKTRACE' => false,
+	'DISPLAY_DEBUG_BACKTRACE' => true,
 	// Debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console
@@ -25,9 +25,9 @@ $DEBUG_CONFIG = [
 	'EXCEPTION_ERROR_TO_SHOW' => false,
 	// Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.  
 	// https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
-	// All errors - E_ALL & ~E_NOTICE
+	// All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
 	// Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
-	'EXCEPTION_ERROR_LEVEL' => E_ALL & ~E_NOTICE,
+	'EXCEPTION_ERROR_LEVEL' => E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED,
 	/* +***************************************************************
 	 * 	API 
 	 * ************************************************************** */
