@@ -83,7 +83,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getMapping($editable = false)
 	{
-		if (!$this->mapping) {
+		if (empty($this->mapping)) {
 			$db = PearDatabase::getInstance();
 			$query = 'SELECT * FROM vtiger_convertleadmapping';
 			if ($editable) {
@@ -102,7 +102,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 			foreach ($mapping as $mappingDetails) {
 				array_push($fieldIdsList, $mappingDetails['leadfid'], $mappingDetails['accountfid'], $mappingDetails['contactfid']);
 			}
-			$fieldLabelsList = array();
+			$fieldLabelsList = [];
 			if (!empty($fieldIdsList)) {
 				$fieldLabelsList = $this->getFieldsInfo(array_unique($fieldIdsList));
 			}

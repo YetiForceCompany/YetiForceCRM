@@ -141,7 +141,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param <String> $moduleName
 	 * @return <Settings_MappedFields_Module_Model>
 	 */
-	public static function getInstance($moduleName)
+	public static function getInstance($moduleName = 'Settings:Vtiger')
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
