@@ -41,7 +41,7 @@
 						<tr>
 							<td>
 								{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
-								<p class="rssAddButton tdUnderline ">{vtranslate('LBL_RECORDS_NO_FOUND')}. {vtranslate('LBL_CREATE')} {vtranslate($SINGLE_MODULE, $MODULE)}<p>
+								<button class="rssAddButton btn btn-link tdUnderline">{vtranslate('LBL_RECORDS_NO_FOUND')}. {vtranslate('LBL_CREATE')} {vtranslate($SINGLE_MODULE, $MODULE)}<button>
 							</td>
 						</tr>
 					</tbody>

@@ -96,7 +96,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        {vtranslate('LBL_NO')} {vtranslate('LBL_FOUND')} {vtranslate('LBL_BOOKMARKS', $MODULE)}. <a class="addBookmark">{vtranslate('LBL_BOOKMARK', $MODULE)}</a>
+										<button class="addBookmark btn btn-link tdUnderline"> {vtranslate('LBL_NO')} {vtranslate('LBL_FOUND')} {vtranslate('LBL_BOOKMARKS', $MODULE)}. {vtranslate('LBL_BOOKMARK', $MODULE)}</button>
                                     </td>
                                 </tr>
                             </tbody>
