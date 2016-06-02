@@ -9,5 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-
+  'Announcements|FL_INTERVAL' => 'What should be the frequency of a reminder if user did not read changes? If value is empty, reminder will not be displayed again.',
+  'Accounts|Account Name' => 'This field is intended for company name',
+	
 ];
