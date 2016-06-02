@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Announcements_Save_Action extends Vtiger_Action_Controller
+class Announcements_BasicAjax_Action extends Vtiger_BasicAjax_Action
 {
 
 	function __construct()
@@ -21,11 +21,6 @@ class Announcements_Save_Action extends Vtiger_Action_Controller
 		if ($mode) {
 			$this->invokeExposedMethod($mode, $request);
 		}
-	}
-
-	function checkPermission(Vtiger_Request $request)
-	{
-		return;
 	}
 
 	public function mark(Vtiger_Request $request)

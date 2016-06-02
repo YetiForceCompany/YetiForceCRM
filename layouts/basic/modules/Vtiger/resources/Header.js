@@ -124,7 +124,7 @@ jQuery.Class("Vtiger_Header_Js", {
 				modal.find('button').click(function (e) {
 					AppConnector.request({
 						module: 'Announcements',
-						action: 'Save',
+						action: 'BasicAjax',
 						mode: 'mark',
 						record: aid,
 						type: $(this).data('type')
