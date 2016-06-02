@@ -111,41 +111,38 @@ jQuery.Class("Vtiger_Header_Js", {
 		form.addClass('not_validation');
 		form.submit();
 	},
-	registerAnnouncement: function () {
+	showAnnouncement: function () {
 		var thisInstance = this;
-		var announcementBtn = jQuery('.announcementBtn');
-		var announcementTurnOffKey = 'announcement.turnoff';
+		var announcementContainer = jQuery('#announcements');
+		var announcements = announcementContainer.find('.announcement');
+		if (announcements.length > 0) {
+			var announcement = announcements.first();
+			var aid = announcement.data('id')
 
-		announcementBtn.click(function (e, manual) {
-			thisInstance.hideActionMenu();
-			var displayStatus = jQuery('#announcement').css('display');
-
-			if (displayStatus == 'none') {
-				jQuery('#announcement').show();
-				thisInstance.alignContentsContainer(true, 200, 'linear');
-				announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
-
-				// Turn-on always
-				if (!manual) {
-					app.cacheSet(announcementTurnOffKey, false);
-				}
-			} else {
-				thisInstance.alignContentsContainer(false, 200, 'linear');
-				jQuery('#announcement').hide();
-				announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
-
-				// Turn-off always
-				// NOTE: Add preference on server - to reenable on announcement content change.
-				if (!manual) {
-					app.cacheSet(announcementTurnOffKey, true);
-				}
-
-			}
-		});
-
-		if (app.cacheGet(announcementTurnOffKey, false)) {
-			announcementBtn.trigger('click', true);
+			app.showModalWindow(announcement.find('.modal'), function (modal) {
+				announcement.remove();
+				modal.find('button').click(function (e) {
+					AppConnector.request({
+						module: app.getModuleName(),
+						action: 'Announcement',
+						mode: 'mark',
+						record: aid,
+						type: $(this).data('type')
+					}).then(function (res) {
+						app.hideModalWindow(modal);
+						thisInstance.showAnnouncement();
+					})
+				});
+			}, '', {backdrop: 'static'});
 		}
+	},
+	registerAnnouncements: function () {
+		var thisInstance = this;
+		var announcementContainer = jQuery('#announcements');
+		if (announcementContainer.length == 0) {
+			return false;
+		}
+		thisInstance.showAnnouncement();
 	},
 	registerCalendarButtonClickEvent: function () {
 		var element = jQuery('#calendarBtn');
@@ -912,7 +909,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			pressEvent.which = 13;
 			currentTarget.trigger(pressEvent);
 		});
-		thisInstance.registerAnnouncement();
+		thisInstance.registerAnnouncements();
 		thisInstance.registerHotKeys();
 		thisInstance.registerToggleButton();
 		//this.registerCalendarButtonClickEvent();

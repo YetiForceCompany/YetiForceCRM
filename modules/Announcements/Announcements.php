@@ -10,26 +10,26 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class Announcements extends Vtiger_CRMEntity
 {
 
-	var $table_name = 'vtiger_announcement';
+	var $table_name = 'u_yf_announcement';
 	var $table_index = 'announcementid';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_announcementcf', 'announcementid');
+	var $customFieldTable = Array('u_yf_announcementcf', 'announcementid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_announcement', 'vtiger_announcementcf');
+	var $tab_name = Array('vtiger_crmentity', 'u_yf_announcement', 'u_yf_announcementcf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
-		'vtiger_announcement' => 'announcementid',
-		'vtiger_announcementcf' => 'announcementid');
+		'u_yf_announcement' => 'announcementid',
+		'u_yf_announcementcf' => 'announcementid');
 
 	/**
 	 * Mandatory for Listing (Related listview)
