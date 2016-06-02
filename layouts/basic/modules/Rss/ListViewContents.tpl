@@ -35,8 +35,8 @@
 				<div class="feedListContainer pushDown" style="overflow: auto;"> 
 					{include file='RssFeedContents.tpl'|@vtemplate_path:$MODULE}
 				</div>
-            {else}
-                <table class="emptyRecordsDiv">
+			{else}
+				<table class="emptyRecordsDiv">
 					<tbody>
 						<tr>
 							<td>
@@ -45,7 +45,7 @@
 							</td>
 						</tr>
 					</tbody>
-                </table>
+				</table>
 			{/if}
 		</div>
 	</div>
