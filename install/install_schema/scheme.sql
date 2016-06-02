@@ -1,3 +1,9 @@
+/*
+SQLyog Ultimate
+MySQL - 5.7.9 : Database - yetiforce
+*********************************************************************
+*/
+
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -822,6 +828,37 @@ CREATE TABLE `s_yf_multireference` (
   `lastid` int(19) unsigned NOT NULL DEFAULT '0',
   `type` tinyint(1) NOT NULL DEFAULT '0',
   KEY `source_module` (`source_module`,`dest_module`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_announcement` */
+
+CREATE TABLE `u_yf_announcement` (
+  `announcementid` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `announcement_no` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `announcementstatus` varchar(255) DEFAULT '',
+  KEY `u_yf_announcementcf` (`announcementid`),
+  CONSTRAINT `u_yf_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_announcement_mark` */
+
+CREATE TABLE `u_yf_announcement_mark` (
+  `announcementid` int(19) NOT NULL,
+  `userid` int(19) NOT NULL,
+  `date` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`announcementid`,`userid`),
+  KEY `userid` (`userid`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_announcementcf` */
+
+CREATE TABLE `u_yf_announcementcf` (
+  `announcementid` int(11) NOT NULL,
+  PRIMARY KEY (`announcementid`),
+  CONSTRAINT `fk_1_u_yf_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `u_yf_announcement` (`announcementid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_competition` */
@@ -2968,26 +3005,6 @@ CREATE TABLE `vtiger_activitytype` (
 
 CREATE TABLE `vtiger_activitytype_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_announcement` */
-
-CREATE TABLE `vtiger_announcement` (
-  `announcementid` int(11) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `announcement_no` varchar(255) DEFAULT NULL,
-  `subject` varchar(255) DEFAULT NULL,
-  `announcementstatus` varchar(255) DEFAULT '',
-  KEY `vtiger_announcementcf` (`announcementid`),
-  CONSTRAINT `vtiger_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_announcementcf` */
-
-CREATE TABLE `vtiger_announcementcf` (
-  `announcementid` int(11) NOT NULL,
-  PRIMARY KEY (`announcementid`),
-  CONSTRAINT `fk_1_vtiger_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_announcement` (`announcementid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_announcementstatus` */
