@@ -3936,9 +3936,6 @@ html,body,.baseContainer
 .widget_header h2{
 	margin-bottom:7px;
 }
-.addButton span{
-	margin: 3px !important;
-}
 .gridster .gs-w[data-col="1"] {
 	left: 0px!important;
 }
