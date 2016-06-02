@@ -136,7 +136,6 @@ $languageStrings = [
 	'LBL_ALPHABETS' => 'A,B,C,Ć,D,E,F,G,H,I,J,K,L,Ł,M,N,O,P,R,S,Ś,T,U,V,W,X,Y,Z,Ź,Ż',
 	'LBL_ANALYTICS' => 'RAPORTY',
 	'LBL_AND' => 'i', //Duplicated key-value pairs
-	'LBL_ANNOUNCEMENT' => 'Ogłoszenia',
 	'LBL_ANY_CONDITIONS' => 'Dowolny warunek',
 	'LBL_ANY_CONDITIONS_DESC' => 'Przynajmniej jeden warunek z tej sekcji ma być spełniony',
 	'LBL_APPLBL_NONEROVE' => 'Approve-------------',

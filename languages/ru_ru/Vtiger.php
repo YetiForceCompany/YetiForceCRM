@@ -390,7 +390,6 @@ $languageStrings = [
 	'LBL_ALPHABETS' => 'А,Б,В,Г,Д,Е,Ж,З,И,К,Л,М,Н,О,П,Р,С,Т,У,Ф,Х,Ц,Ч,Ш,Щ,Э,Ю,Я',
 	'LBL_ANALYTICS' => 'Аналитика',
 	'LBL_AND' => 'и',
-	'LBL_ANNOUNCEMENT' => 'Оповещение',
 	'LBL_ANY_CONDITIONS' => 'Любые условия',
 	'LBL_ANY_CONDITIONS_DESC' => 'Хотя бы одно условие должно быть выполнено',
 	'LBL_APPLBL_NONEROVE' => 'Утверждено',
