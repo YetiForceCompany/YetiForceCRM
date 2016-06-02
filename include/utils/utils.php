@@ -143,13 +143,14 @@ function get_user_array($add_blank = true, $status = 'Active', $assigned_user = 
 				$params = array($status);
 			}
 		}
+		
 		if (!empty($assigned_user)) {
 			$query .= ' OR id=?';
 			array_push($params, $assigned_user);
 		}
 
 		$query .= ' ORDER BY last_name ASC, first_name ASC';
-		$result = $db->pquery($query, $params, true, 'Error filling in user array: ');
+		$result = $db->pquery($query, $params);
 
 		if ($add_blank == true) {
 			// Add in a blank row
