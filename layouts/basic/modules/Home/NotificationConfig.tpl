@@ -16,6 +16,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12">
+							
 							{foreach from=$MODULE_LIST key=MODULE_ID item=MODULE_INFO}
 								<div class="col-md-3 col-sm-3 col-xs-4">
 									<div class="checkbox">
@@ -53,6 +54,13 @@
 											<option value="720" {if $FREQUENCY eq '720'} selected{/if}>{vtranslate('PLL_12_H',$MODULE)}</option>
 											<option value="1440" {if $FREQUENCY eq '1440'} selected{/if}>{vtranslate('PLL_24_H',$MODULE)}</option>
 										</select>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" {if $SELECT_ALL_MODULES} checked {/if} class="selectAllModules"> {vtranslate('LBL_SELECT_ALL')}
+										</label>
 									</div>
 								</div>
 							</div>

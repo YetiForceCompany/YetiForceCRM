@@ -102,6 +102,16 @@ jQuery.Class("Home_NotificationsList_Js", {
 				app.hideModalWindow();
 			});
 		});
+		container.find('.selectAllModules').on('click', function () {
+			if ($(this).is(':checked')) {
+				var value = true;
+			} else {
+				var value = false;
+			}
+			container.find('.watchingModule').each(function () {
+				$(this).prop("checked", value);
+			});
+		});
 	},
 	registerNotifications: function () {
 		$(".notificationsNotice .sendNotification").click(function (e) {

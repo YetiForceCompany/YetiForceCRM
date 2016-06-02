@@ -21,9 +21,13 @@ class Home_NotificationConfig_View extends Vtiger_BasicModal_View
 		}
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
 		$frequency = Vtiger_Watchdog_Model::getWatchingModulesSchedule();
+		$selectAllModules = false;
+		if(count($moduleList) == count($watchingModules))
+			$selectAllModules = true;
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_LIST', $moduleList);
 		$viewer->assign('WATCHING_MODULES', $watchingModules);
+		$viewer->assign('SELECT_ALL_MODULES', $selectAllModules);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('FREQUENCY', $frequency);
 		$viewer->assign('CRON_INFO', Vtiger_Cron::getInstance('LBL_SEND_NOTIFICATIONS'));
