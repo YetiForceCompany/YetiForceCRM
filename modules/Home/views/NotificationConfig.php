@@ -15,14 +15,14 @@ class Home_NotificationConfig_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$moduleList = Vtiger_Functions::getAllModules(true, true);
 		foreach ($moduleList as $tabId => &$module) {
-			if (!Users_Privileges_Model::isPermitted($module['name'], 'WatchingModule')) {
+			if ($module['name'] == 'Events' || !Users_Privileges_Model::isPermitted($module['name'], 'WatchingModule')) {
 				unset($moduleList[$tabId]);
 			}
 		}
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
 		$frequency = Vtiger_Watchdog_Model::getWatchingModulesSchedule();
 		$selectAllModules = false;
-		if(count($moduleList) == count($watchingModules))
+		if (count($moduleList) == count($watchingModules))
 			$selectAllModules = true;
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_LIST', $moduleList);
