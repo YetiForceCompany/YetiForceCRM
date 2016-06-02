@@ -70,7 +70,7 @@ class Vtiger_Inventory_Model
 	{
 		$db = PearDatabase::getInstance();
 		$config = [];
-		$result = $db->pquery('SELECT * FROM a_yf_discounts_global WHERE status = ?', [1]);
+		$result = $db->pquery('SELECT * FROM a_yf_discounts_global WHERE status = ?', [0]);
 		while ($row = $db->fetch_array($result)) {
 			$config[$row['name']] = $row['value'];
 		}
