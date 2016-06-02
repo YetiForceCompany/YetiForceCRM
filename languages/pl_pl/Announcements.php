@@ -18,4 +18,7 @@ $languageStrings = [
 	// Alert
 	'LBL_REMIND_ME_LATER' => 'Przypomnij później',
 	'LBL_MARK_AS_READ' => 'Oznacz jako przeczytane',
+	// Others
+	'LBL_ACCEPT_ANNOUNCEMENT' => 'Czy akceptował',
+	'LBL_DATE' => 'Data przeczytania',
 ];

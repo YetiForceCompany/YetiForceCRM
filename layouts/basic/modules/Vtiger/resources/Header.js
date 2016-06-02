@@ -123,8 +123,8 @@ jQuery.Class("Vtiger_Header_Js", {
 				announcement.remove();
 				modal.find('button').click(function (e) {
 					AppConnector.request({
-						module: app.getModuleName(),
-						action: 'Announcement',
+						module: 'Announcements',
+						action: 'Save',
 						mode: 'mark',
 						record: aid,
 						type: $(this).data('type')

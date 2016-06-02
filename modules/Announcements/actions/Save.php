@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_Announcement_Action extends Vtiger_Action_Controller
+class Announcements_Save_Action extends Vtiger_Action_Controller
 {
 
 	function __construct()
@@ -30,10 +30,11 @@ class Vtiger_Announcement_Action extends Vtiger_Action_Controller
 
 	public function mark(Vtiger_Request $request)
 	{
+		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$state = $request->get('type');
 
-		$announcements = Vtiger_Announcements_Model::getInstance();
+		$announcements = Vtiger_Module_Model::getInstance($moduleName);
 		$announcements->setMark($record, $state);
 
 		$response = new Vtiger_Response();

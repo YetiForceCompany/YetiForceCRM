@@ -1,24 +1,15 @@
 <?php
 
 /**
- * Announcements CRMEntity Class
+ * Announcements Module Model Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_Announcements_Model
+class Announcements_Module_Model extends Vtiger_Module_Model
 {
 
-	protected static $instance = false;
 	protected $announcements = [];
-
-	public static function getInstance()
-	{
-		if (!self::$instance) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
 
 	public function checkActive()
 	{
@@ -32,11 +23,8 @@ class Vtiger_Announcements_Model
 	public function loadAnnouncements()
 	{
 		$db = PearDatabase::getInstance();
-		$moduleName = 'Announcements';
-
 		$userModel = Users_Record_Model::getCurrentUserModel();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$listView = Vtiger_ListView_Model::getInstance($moduleName);
+		$listView = Vtiger_ListView_Model::getInstance($this->getName());
 		$queryGenerator = $listView->get('query_generator');
 		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime']);
 		$query = $queryGenerator->getQuery();
@@ -56,7 +44,7 @@ class Vtiger_Announcements_Model
 			if ($db->getRowCount($resultMark) == 1) {
 				continue;
 			}
-			$recordModel = $moduleModel->getRecordFromArray($row);
+			$recordModel = $this->getRecordFromArray($row);
 			$recordModel->set('id', $row['announcementid']);
 			$this->announcements[] = $recordModel;
 		}
@@ -99,21 +87,21 @@ class Vtiger_Announcements_Model
 		$archive = true;
 		$db = PearDatabase::getInstance();
 		$users = $this->getUsers(true);
-		foreach ($users as $userid => $name) {
-			$result = $db->pquery('SELECT count(*) FROM u_yf_announcement_mark WHERE announcementid = ? AND userid = ? AND status = ?', [$record, $userid, 1]);
+		foreach ($users as $userId => $name) {
+			$result = $db->pquery('SELECT count(*) FROM u_yf_announcement_mark WHERE announcementid = ? AND userid = ? AND status = ?', [$record, $userId, 1]);
 			if ($db->getSingleValue($result) == 0) {
 				$archive = false;
 			}
 		}
 		if ($archive) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, 'Announcements');
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $this->getName());
 			$recordModel->set('mode', 'edit');
 			$recordModel->set('announcementstatus', 'PLL_ARCHIVES');
 			$recordModel->save();
 		}
 	}
 
-	public function getUsers($showAll = false)
+	public function getUsers($showAll = true)
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		if ($showAll) {
@@ -122,5 +110,15 @@ class Vtiger_Announcements_Model
 			$users = $userModel->getRoleBasedSubordinateUsers();
 		}
 		return $users;
+	}
+
+	public function getMarkInfo($record, $userId)
+	{
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? AND userid = ?', [$record, $userId]);
+		while ($row = $db->getRow($result)) {
+			return $row;
+		}
+		return [];
 	}
 }
