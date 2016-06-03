@@ -84,6 +84,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'max_input_time' => ['prefer' => '600'],
 			'default_socket_timeout' => ['prefer' => '600'],
 			'mysql.connect_timeout' => ['prefer' => '600'],
+			'innodb_lock_wait_timeout' => ['prefer' => '600'], // MySQL
+			'wait_timeout' => ['prefer' => '600'], // MySQL
+			'interactive_timeout' => ['prefer' => '600'], // MySQL
+			'sql_mode' => ['prefer' => ''], // MySQL
 			'memory_limit' => ['prefer' => '512 MB'],
 			'safe_mode' => ['prefer' => 'Off'],
 			'display_errors' => ['prefer' => 'Off'],
@@ -92,7 +96,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'short_open_tag' => ['prefer' => 'On'],
 			'post_max_size' => ['prefer' => '50 MB'],
 			'upload_max_filesize' => ['prefer' => '50 MB'],
-			'max_allowed_packet' => ['prefer' => '10 MB'],
+			'max_allowed_packet' => ['prefer' => '10 MB'], // MySQL
 			'max_input_vars' => ['prefer' => '5000'],
 			'magic_quotes_gpc' => ['prefer' => 'Off'],
 			'magic_quotes_runtime' => ['prefer' => 'Off'],
@@ -126,20 +130,28 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 
 		if ((ini_get('output_buffering') <= '4096' && ini_get('output_buffering') != '1') || stripos(ini_get('output_buffering'), 'Off') !== false)
 			$directiveValues['output_buffering']['status'] = true;
-		if(!in_array(ini_get('output_buffering'), ['On',1,0,'Off'])){
+		if (!in_array(ini_get('output_buffering'), ['On', 1, 0, 'Off'])) {
 			$directiveValues['output_buffering']['current'] = ini_get('output_buffering');
-		}  else {
+		} else {
 			$directiveValues['output_buffering']['current'] = self::getFlag(ini_get('output_buffering'));
 		}
-		
+
 		if (ini_get('max_execution_time') != 0 && ini_get('max_execution_time') < 600)
 			$directiveValues['max_execution_time']['status'] = true;
 		$directiveValues['max_execution_time']['current'] = ini_get('max_execution_time');
 
 		if (ini_get('max_input_time') != 0 && ini_get('max_input_time') < 600)
 			$directiveValues['max_input_time']['status'] = true;
-		$directiveValues['max_input_time']['current'] = ini_get('max_input_time');		
-		
+		$directiveValues['max_input_time']['current'] = ini_get('max_input_time');
+
+		if (ini_get('default_socket_timeout') != 0 && ini_get('default_socket_timeout') < 600)
+			$directiveValues['default_socket_timeout']['status'] = true;
+		$directiveValues['default_socket_timeout']['current'] = ini_get('default_socket_timeout');
+
+		if (ini_get('mysql.connect_timeout') != 0 && ini_get('mysql.connect_timeout') < 600)
+			$directiveValues['mysql.connect_timeout']['status'] = true;
+		$directiveValues['mysql.connect_timeout']['current'] = ini_get('mysql.connect_timeout');
+
 		if (Vtiger_Functions::parseBytes(ini_get('memory_limit')) < 33554432)
 			$directiveValues['memory_limit']['status'] = true;
 		$directiveValues['memory_limit']['current'] = Vtiger_Functions::showBytes(ini_get('memory_limit'));
@@ -214,16 +226,19 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$directiveValues['PHP']['current'] = PHP_VERSION;
 
 		if (extension_loaded('suhosin')) {
-			if (ini_get('suhosin.request.max_vars') < 5000)
+			if (ini_get('suhosin.request.max_vars') < 5000) {
 				$directiveValues['suhosin.request.max_vars']['status'] = true;
+			}
 			$directiveValues['suhosin.request.max_vars']['current'] = ini_get('suhosin.request.max_vars');
 
-			if (ini_get('suhosin.post.max_vars') < 5000)
+			if (ini_get('suhosin.post.max_vars') < 5000) {
 				$directiveValues['suhosin.post.max_vars']['status'] = true;
+			}
 			$directiveValues['suhosin.post.max_vars']['current'] = ini_get('suhosin.post.max_vars');
 
-			if (ini_get('suhosin.post.max_value_length') < 1500000)
+			if (ini_get('suhosin.post.max_value_length') < 1500000) {
 				$directiveValues['suhosin.post.max_value_length']['status'] = true;
+			}
 			$directiveValues['suhosin.post.max_value_length']['current'] = ini_get('suhosin.post.max_value_length');
 		}
 
@@ -231,9 +246,34 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$db = PearDatabase::getInstance();
 			$result = $db->query('SELECT @@max_allowed_packet');
 			$maxAllowedPacket = $db->getSingleValue($result);
-			if ($maxAllowedPacket < 16777216)
+			if ($maxAllowedPacket < 16777216) {
 				$directiveValues['max_allowed_packet']['status'] = true;
+			}
 			$directiveValues['max_allowed_packet']['current'] = Vtiger_Functions::showBytes($maxAllowedPacket);
+
+			$result = $db->query('SELECT @@innodb_lock_wait_timeout');
+			$innodbLockWaitTimeout = $db->getSingleValue($result);
+			if ($innodbLockWaitTimeout < 600) {
+				$directiveValues['innodb_lock_wait_timeout']['status'] = true;
+			}
+			$directiveValues['innodb_lock_wait_timeout']['current'] = $innodbLockWaitTimeout;
+
+			$result = $db->query('SELECT @@wait_timeout');
+			$waitTimeout = $db->getSingleValue($result);
+			if ($waitTimeout < 600) {
+				$directiveValues['wait_timeout']['status'] = true;
+			}
+			$directiveValues['wait_timeout']['current'] = $waitTimeout;
+
+			$result = $db->query('SELECT @@interactive_timeout');
+			$interactiveTimeout = $db->getSingleValue($result);
+			if ($interactiveTimeout < 600) {
+				$directiveValues['interactive_timeout']['status'] = true;
+			}
+			$directiveValues['interactive_timeout']['current'] = $interactiveTimeout;
+
+			$result = $db->query('SELECT @@sql_mode');
+			$directiveValues['sql_mode']['current'] = $db->getSingleValue($result);
 		}
 
 		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? self::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
