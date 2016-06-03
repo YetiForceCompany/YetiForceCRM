@@ -289,7 +289,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'skins.icons.adminIcons',
 			'skins.icons.additionalIcons',
 			'libraries.resources.styles',
-			'modules.OSSMail.resources.OSSMailBoxInfo',
 		];
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;
