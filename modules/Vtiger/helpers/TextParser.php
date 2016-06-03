@@ -193,6 +193,8 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		$vtEntityDelta = new VTEntityDelta();
 		$delta = $vtEntityDelta->getEntityDelta($this->get('moduleName'), $this->get('record'));
 		unset($delta['modifiedtime']);
+		unset($delta['record_id']);
+		unset($delta['record_module']);
 		if (empty($delta)) {
 			return '';
 		}
@@ -208,8 +210,6 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 				}
 				return $value;
 			case 'listOfAllValues':
-				unset($delta['record_id']);
-				unset($delta['record_module']);
 				foreach ($delta as $fieldName => $delta) {
 					$fieldModel = $this->get('recordModel')->getModule()->getField($fieldName);
 					if ($fieldModel) {
