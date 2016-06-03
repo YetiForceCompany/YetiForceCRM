@@ -219,17 +219,15 @@
                             <input id="specificemails" style="width: 281px !important;" class="col-md-6 form-control" title="{vtranslate('LBL_SPECIFIC_EMAIL_ADDRESS', $MODULE)}" type="text" value="{$specificemailids}" name="specificemails" data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]"></input>
                         </div>
                     </div>
-                    {if $SCHEDULEDREPORTS->get('next_trigger_time')}
                         <div class="row">
                             <div class='col-md-3 marginBottom5px'>
                                 <span class=''>{vtranslate('LBL_NEXT_TRIGGER_TIME', $MODULE)}</span>
                             </div>
-                            <div class='span'>
+                            <div class='col-md-4'>
                                 {DateTimeField::convertToUserFormat($SCHEDULEDREPORTS->get('next_trigger_time'))}
-                                            <span>&nbsp;({$ACTIVE_ADMIN->time_zone})</span>
+                                 <span>&nbsp;({$ACTIVE_ADMIN->time_zone})</span>
                             </div>
                         </div>
-                    {/if}
                 </div>
 		</div>
 		<div class="row pull-right no-margin">
