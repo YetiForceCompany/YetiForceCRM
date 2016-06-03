@@ -525,7 +525,7 @@ class Accounts extends CRMEntity
 		$hierarchyFields = [];
 		foreach ($listColumns as $fieldLabel => $fieldName) {
 			if (getFieldVisibilityPermission('Accounts', $current_user->id, $fieldName) == '0') {
-				$listview_header[] = getTranslatedString($fieldLabel);
+				$listview_header[] = $fieldLabel;
 			}
 			$field = Vtiger_Functions::getModuleFieldInfo('Accounts', $fieldName);
 			$hierarchyFields[] = $field;
