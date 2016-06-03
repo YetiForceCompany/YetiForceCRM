@@ -474,7 +474,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 		$allModuleModules = Vtiger_Module_Model::getAll(array(0), Settings_Profiles_Module_Model::getNonVisibleModulesList());
 		$allModuleModules[$eventModule->getId()] = $eventModule;
-		
 		if (count($allModuleModules) > 0) {
 			$actionModels = Vtiger_Action_Model::getAll(true);
 			foreach ($allModuleModules as $tabId => $moduleModel) {
@@ -529,12 +528,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($moduleModel->isEntityModule() || $moduleModel->isUtilityActionEnabled()) {
 			if (isset($permissions['actions']) || $moduleModel->isUtilityActionEnabled()) {
 				$actionPermissions = $permissions['actions'];
-				if (isset($actionPermissions[0]) && isset($actionPermissions[1])) {
-					$actionPermissions[0] = $actionPermissions[1];
-				}
-
+				$actionsIdsList = Vtiger_Action_Model::$standardActions;
+				unset($actionsIdsList[3]);
 				//Dividing on actions
-				$actionsIdsList = $utilityIdsList = [];
+				$utilityIdsList = [];
 				foreach ($actionPermissions as $actionId => $permission) {
 					if (isset(Vtiger_Action_Model::$standardActions[$actionId])) {
 						$actionsIdsList[$actionId] = $permission;
