@@ -1443,6 +1443,9 @@ class Vtiger_Functions
 							$val = $a;
 							if (is_array($a) || is_object($a) || is_resource($a)) {
 								$val = gettype($a);
+								if (is_object($a)) {
+									$val .= '(' . get_class($a) . ')';
+								}
 							}
 							$args .= $val . ',';
 						}

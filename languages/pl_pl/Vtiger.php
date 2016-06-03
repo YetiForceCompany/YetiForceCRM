@@ -1146,6 +1146,11 @@ $languageStrings = [
 	'LBL_ROUNDROBIN_USERS_LIST' => 'Losuj z użytkowników',
 	'Notifications' => 'Powiadomienia',
 	'Mails' => 'Maile',
+	'LBL_SQL_ERROR' => 'Błąd podczas wykonania zapytania SQL',
+	'LBL_ERROR_MASAGE' => 'Komunikat błędu',
+	'LBL_SQL_QUERY' => 'Zapytanie',
+	'LBL_SQL_PARAMS' => 'Parametry zapytania',
+	'LBL_BACKTRACE' => 'Śledzenie wywołania funkcji',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
