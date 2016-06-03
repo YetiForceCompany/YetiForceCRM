@@ -367,8 +367,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var thisInstance = this;
 		var parent = thisInstance.getContainer();
 		var contentContainer = parent.find('.dashboardWidgetContent');
-		contentContainer.off('click', 'a.showMoreHistory');
-		contentContainer.on('click', 'a.showMoreHistory', function (e) {
+		contentContainer.off('click', '.showMoreHistory');
+		contentContainer.on('click', '.showMoreHistory', function (e) {
 			var element = jQuery(e.currentTarget);
 			element.hide();
 			var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');

@@ -144,7 +144,7 @@
 	{if $NEXTPAGE}
 	<div class="row">
 		<div class="col-md-12">
-			<button class="load-more btn-sm btn-link padding0" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{vtranslate('LBL_MORE')}...</button>
+			<button class="load-more btn btn-xs btn-primary" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{vtranslate('LBL_MORE')}</button>
 		</div>
 	</div>
 	{/if}
