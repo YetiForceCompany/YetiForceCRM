@@ -178,7 +178,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$this->recalculate($oldUsersList);
 		$em = new VTEventsManager($db);
 		$em->initTriggerCache();
-		$entityData = array();
+		$entityData = [];
 		$entityData['groupid'] = $groupId;
 		$entityData['group_members'] = $members;
 		$entityData['memberId'] = $memberId;
@@ -196,7 +196,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		set_time_limit($php_max_execution_time);
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
 
-		$userIdsList = array();
+		$userIdsList = [];
 		foreach ($oldUsersList as $userId => $userRecordModel) {
 			$userIdsList[$userId] = $userId;
 		}
@@ -218,7 +218,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getUsersList($nonAdmin = false)
 	{
-		$userIdsList = $usersList = array();
+		$userIdsList = $usersList = [];
 		$members = $this->getMembers();
 
 		foreach ($members['Users'] as $memberModel) {
@@ -314,7 +314,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		// Initialize Event trigger cache
 		$em->initTriggerCache();
 
-		$entityData = array();
+		$entityData = [];
 		$entityData['groupid'] = $groupId;
 		$entityData['transferToId'] = $transferGroupId;
 		$em->triggerEvent("vtiger.entity.beforegroupdelete", $entityData);
@@ -339,7 +339,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	public function getRecordLinks()
 	{
 
-		$links = array();
+		$links = [];
 		$recordLinks = array(
 			array(
 				'linktype' => 'LISTVIEWRECORD',
@@ -362,20 +362,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the instance of Groups record model from query result
-	 * @param <Object> $result
-	 * @param <Number> $rowNo
-	 * @return Settings_Groups_Record_Model instance
-	 */
-	public static function getInstanceFromQResult($result, $rowNo)
-	{
-		$db = PearDatabase::getInstance();
-		$row = $db->query_result_rowdata($result, $rowNo);
-		$role = new self();
-		return $role->setData($row);
-	}
-
-	/**
 	 * Function to get all the groups
 	 * @return <Array> - Array of Settings_Groups_Record_Model instances
 	 */
@@ -383,13 +369,11 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM vtiger_groups';
-		$params = array();
-		$result = $db->pquery($sql, $params);
-		$noOfGroups = $db->num_rows($result);
-		$groups = array();
-		for ($i = 0; $i < $noOfGroups; ++$i) {
-			$group = self::getInstanceFromQResult($result, $i);
+		$result = $db->query('SELECT * FROM vtiger_groups');
+		$groups = [];
+		while ($row = $db->getRow($result)) {
+			$group = new self();
+			$group->setData($row);
 			$groups[$group->getId()] = $group;
 		}
 		return $groups;
@@ -409,10 +393,11 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			$sql = 'SELECT * FROM vtiger_groups WHERE groupname = ?';
 		}
-		$params = array($value);
-		$result = $db->pquery($sql, $params);
-		if ($db->num_rows($result) > 0) {
-			return self::getInstanceFromQResult($result, 0);
+		$result = $db->pquery($sql, [$value]);
+		if ($db->getRowCount($result) > 0) {
+			$role = new self();
+			$role->setData($db->getRow($result));
+			return $role;
 		}
 		return null;
 	}
@@ -421,7 +406,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 * @return null/group instance
 	 */
 
-	public static function getInstanceByName($name, $excludedRecordId = array())
+	public static function getInstanceByName($name, $excludedRecordId = [])
 	{
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_groups WHERE groupname=?';
@@ -433,8 +418,10 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		$result = $db->pquery($sql, $params);
-		if ($db->num_rows($result) > 0) {
-			return self::getInstanceFromQResult($result, 0);
+		if ($db->getRowCount($result) > 0) {
+			$role = new self();
+			$role->setData($db->getRow($result));
+			return $role;
 		}
 		return null;
 	}

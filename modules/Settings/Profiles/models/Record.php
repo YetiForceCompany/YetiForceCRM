@@ -473,6 +473,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 		$allModuleModules = Vtiger_Module_Model::getAll(array(0), Settings_Profiles_Module_Model::getNonVisibleModulesList());
 		$allModuleModules[$eventModule->getId()] = $eventModule;
+		
 		if (count($allModuleModules) > 0) {
 			$actionModels = Vtiger_Action_Model::getAll(true);
 			foreach ($allModuleModules as $tabId => $moduleModel) {
@@ -697,14 +698,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return $links;
 	}
 
-	public static function getInstanceFromQResult($result, $rowNo = 0)
-	{
-		$db = PearDatabase::getInstance();
-		$row = $db->query_result_rowdata($result, $rowNo);
-		$profile = new self();
-		return $profile->setData($row);
-	}
-
 	/**
 	 * Function to get all the profiles linked to the given role
 	 * @param <String> - $roleId
@@ -722,10 +715,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						vtiger_role2profile.roleid = ?';
 		$params = array($roleId);
 		$result = $db->pquery($sql, $params);
-		$noOfProfiles = $db->num_rows($result);
 		$profiles = [];
-		for ($i = 0; $i < $noOfProfiles; ++$i) {
-			$profile = self::getInstanceFromQResult($result, $i);
+		while ($row = $db->getRow($result)) {
+			$profile = new self();
+			$profile->setData($row);
 			$profiles[$profile->getId()] = $profile;
 		}
 		return $profiles;
@@ -738,14 +731,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getAll()
 	{
 		$db = PearDatabase::getInstance();
-
 		$sql = 'SELECT * FROM vtiger_profile';
-		$params = [];
-		$result = $db->pquery($sql, $params);
-		$noOfProfiles = $db->num_rows($result);
+		$result = $db->query($sql);
 		$profiles = [];
-		for ($i = 0; $i < $noOfProfiles; ++$i) {
-			$profile = self::getInstanceFromQResult($result, $i);
+		while ($row = $db->getRow($result)) {
+			$profile = new self();
+			$profile->setData($row);
 			$profiles[$profile->getId()] = $profile;
 		}
 		return $profiles;
@@ -767,10 +758,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$sql = 'SELECT * FROM vtiger_profile WHERE profileid = ?';
 		$result = $db->pquery($sql, [$profileId]);
 		if ($db->getRowCount($result) > 0) {
-			$instance = self::getInstanceFromQResult($result);
+			$row = $db->getRow($result);
+			$profile = new self();
+			$profile->setData($row);
 		}
-		Vtiger_Cache::set('ProfilesRecordModelById', $profileId, $instance);
-		return $instance;
+		Vtiger_Cache::set('ProfilesRecordModelById', $profileId, $profile);
+		return $profile;
 	}
 
 	public static function getInstanceByName($profileName, $checkOnlyDirectlyRelated = false, $excludedRecordId = [])
@@ -787,8 +780,11 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		$result = $db->pquery($query, $params);
-		if ($db->num_rows($result) > 0) {
-			return self::getInstanceFromQResult($result);
+		if ($db->getRowCount($result) > 0) {
+			$row = $db->getRow($result);
+			$profile = new self();
+			$profile->setData($row);
+			return $profile;
 		}
 		return null;
 	}

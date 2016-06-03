@@ -267,20 +267,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the instance of Roles record model from query result
-	 * @param <Object> $result
-	 * @param <Number> $rowNo
-	 * @return Settings_Roles_Record_Model instance
-	 */
-	public static function getInstanceFromQResult($result, $rowNo)
-	{
-		$db = PearDatabase::getInstance();
-		$row = $db->raw_query_result_rowdata($result, $rowNo);
-		$tree = new self();
-		return $tree->setData($row);
-	}
-
-	/**
 	 * Function to get the instance of Role model, given role id
 	 * @param <Integer> $record
 	 * @return Settings_Roles_Record_Model instance, if exists. Null otherwise
@@ -291,8 +277,10 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$sql = 'SELECT * FROM vtiger_trees_templates WHERE templateid = ?';
 		$params = array($record);
 		$result = $db->pquery($sql, $params);
-		if ($db->num_rows($result) > 0) {
-			return self::getInstanceFromQResult($result, 0);
+		if ($db->getRowCount($result) > 0) {
+			$instance = new self();
+			$instance->setData($db->getRow($result));
+			return $instance;
 		}
 		return null;
 	}
