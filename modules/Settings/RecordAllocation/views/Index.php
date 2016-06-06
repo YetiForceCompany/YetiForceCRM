@@ -35,7 +35,12 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		}
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
+		$type = $request->get('type');
+		if (empty($type)) {
+			$type = 'owner';
+		}
 		$viewer = $this->getViewer($request);
+		$viewer->assign('TYPE', $type);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
@@ -46,12 +51,17 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$index = (int) $request->get('index');
+		$type = $request->get('type');
+		if (empty($type)) {
+			$type = 'owner';
+		}
 		$viewer = $this->getViewer($request);
+		$viewer->assign('TYPE', $type);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE_NAME', $request->get('sourceModule'));
 		$viewer->assign('MODULE_ID', Vtiger_Functions::getModuleId($request->get('sourceModule')));
 		$viewer->assign('INDEX', ++$index);
-		$viewer->assign('DATA', Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($request->get('sourceModule')));
+		$viewer->assign('DATA', Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($type, $request->get('sourceModule')));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('AddPanel.tpl', $qualifiedModuleName);
 	}

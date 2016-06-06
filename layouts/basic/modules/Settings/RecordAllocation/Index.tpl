@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+	<input type="hidden" id="fieldType" value="{$TYPE}"/>
 	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers('Public')}
 	{assign var=ALL_MODULE_LIST value=Vtiger_Module_Model::getAll([0],[],true)}
 	<div class="">
@@ -17,7 +18,7 @@
 		{foreach from=$ALL_MODULE_LIST key=MODULE_ID item=MODULE_MODEL name=modules}
 			{assign 'INDEX' $smarty.foreach.modules.iteration}
 			{assign 'MODULE_NAME' $MODULE_MODEL->getName()}
-			{assign var=DATA value=Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($MODULE_NAME)}
+			{assign var=DATA value=Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($TYPE, $MODULE_NAME)}
 			{if $DATA}
 				{include file='AddPanel.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 			{/if}

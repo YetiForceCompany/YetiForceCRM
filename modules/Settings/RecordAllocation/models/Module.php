@@ -8,12 +8,15 @@
 class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	private static $fileLoc = 'user_privileges/module_record_allocation.php';
+	private static $types = [
+		'owner' => 'user_privileges/module_record_allocation.php',
+		'multiOwner' => 'user_privileges/MultiOwner.php',
+	];
 
 	public function saveRecordAllocation($data)
 	{
 		$newData = [];
-		$file = self::$fileLoc;
+		$file = self::$types[$this->get('type')];
 		require($file);
 		$toLowerModule = strtolower($data['module']);
 		$userId = $data['userid'];
@@ -37,7 +40,7 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 
 	public function removeDataInFile($toLowerModule)
 	{
-		$file = self::$fileLoc;
+		$file = self::$types[$this->get('type')];
 		if (file_exists($file)) {
 			$configContent = file($file);
 			$removeLine = false;
@@ -51,13 +54,13 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 					break;
 				}
 			}
-			return implode("", $configContent);
+			return implode('', $configContent);
 		}
 	}
 
 	public function putData($toLowerModule, $newData, $content)
 	{
-		$file = self::$fileLoc;
+		$file = self::$types[$this->get('type')];
 		if ($newData) {
 			$newContent = '$' . $toLowerModule . ' = [';
 			foreach ($newData as $userId => $userData) {
@@ -73,9 +76,9 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 		file_put_contents($file, $content);
 	}
 
-	public static function getRecordAllocationByModule($moduleName)
+	public static function getRecordAllocationByModule($type, $moduleName)
 	{
-		$file = self::$fileLoc;
+		$file = self::$types[$type];
 		require($file);
 		$toLowerModule = strtolower($moduleName);
 		if (isset($$toLowerModule)) {

@@ -7964,7 +7964,7 @@ CREATE TABLE `vtiger_settings_field` (
   `blockid` int(19) DEFAULT NULL,
   `name` varchar(250) DEFAULT NULL,
   `iconpath` varchar(300) DEFAULT NULL,
-  `description` text,
+  `description` varchar(250) DEFAULT NULL,
   `linkto` text,
   `sequence` int(19) DEFAULT NULL,
   `active` int(19) DEFAULT '0',
