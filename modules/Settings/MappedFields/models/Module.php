@@ -93,7 +93,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getSupportedModules()
 	{
-		$restrictedModules = ['OSSMailView'];
+		$restrictedModules = ['OSSMailView', 'ModComments'];
 		$moduleModels = Vtiger_Module_Model::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
@@ -337,7 +337,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$this->getRecord()->set('conditions', $wfCondition);
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 	}
-	
+
 	public function import($qualifiedModuleName = false)
 	{
 		$id = '';
