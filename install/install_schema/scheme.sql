@@ -1,4 +1,3 @@
-
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -7627,6 +7626,7 @@ CREATE TABLE `vtiger_role` (
   `editrelatedrecord` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `permissionsrelatedfield` varchar(10) NOT NULL DEFAULT '0',
   `globalsearchadv` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `assignedmultiowner` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),
   KEY `parentrole_2` (`parentrole`,`depth`),

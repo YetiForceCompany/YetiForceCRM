@@ -326,6 +326,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'parentrole' => $this->getParentRoleString(),
 			'depth' => $this->getDepth(),
 			'allowassignedrecordsto' => $this->get('allowassignedrecordsto'),
+			'assignedmultiowner' => $this->get('assignedmultiowner'),
 			'changeowner' => $this->get('change_owner'),
 			'searchunpriv' => $searchunpriv,
 			'clendarallorecords' => $this->get('clendarallorecords'),

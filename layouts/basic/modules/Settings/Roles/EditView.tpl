@@ -42,9 +42,10 @@
 						<input type="hidden" name="parent_roleid" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getId()}"{/if}>
 						<input type="text" class="form-control" name="parent_roleid_display" {if $HAS_PARENT}value="{vtranslate($RECORD_MODEL->getParent()->getName(), $QUALIFIED_MODULE)}"{/if} readonly>
 					</div>
-				</div><br>
+				</div>
+				<br>
                 <div class="row">
-					<label class="col-md-4"><strong>{vtranslate('LBL_CAN_ASSIGN_RECORDS_TO', $QUALIFIED_MODULE)}: </strong></label>
+					<label class="col-md-4"><strong>{vtranslate('LBL_CAN_ASSIGN_OWNER_TO', $QUALIFIED_MODULE)}: </strong></label>
 					<div class="col-md-7 fieldValue">
 						<select id="allowassignedrecordsto" class="row select2 form-control" name="allowassignedrecordsto">
 							<option value="1" {if $RECORD_MODEL->get('allowassignedrecordsto') == '1'}selected="true"{/if}>{vtranslate('LBL_ALL_USERS', $QUALIFIED_MODULE)}</option>
@@ -52,6 +53,19 @@
 							<option value="3" {if $RECORD_MODEL->get('allowassignedrecordsto') == '3'}selected="true"{/if}>{vtranslate('LBL_USERS_WITH_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
 							<option value="4" {if $RECORD_MODEL->get('allowassignedrecordsto') == '4'}selected="true"{/if}>{vtranslate('LBL_JUST_ME', $QUALIFIED_MODULE)}</option>
 							<option value="5" {if $RECORD_MODEL->get('allowassignedrecordsto') == '5'}selected="true"{/if}>{vtranslate('LBL_FROM_PANEL', $QUALIFIED_MODULE)}</option>
+						</select>
+					</div>
+                </div>
+				<br>
+                <div class="row">
+					<label class="col-md-4"><strong>{vtranslate('LBL_CAN_ASSIGN_MULTIOWNER_TO', $QUALIFIED_MODULE)}: </strong></label>
+					<div class="col-md-7 fieldValue">
+						<select id="allowassignedrecordsto" class="row select2 form-control" name="assignedmultiowner">
+							<option value="1" {if $RECORD_MODEL->get('assignedmultiowner') == '1'}selected="true"{/if}>{vtranslate('LBL_ALL_USERS', $QUALIFIED_MODULE)}</option>
+							<option value="2" {if $RECORD_MODEL->get('assignedmultiowner') == '2'}selected="true"{/if}>{vtranslate('LBL_USERS_WITH_SAME_OR_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
+							<option value="3" {if $RECORD_MODEL->get('assignedmultiowner') == '3'}selected="true"{/if}>{vtranslate('LBL_USERS_WITH_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
+							<option value="4" {if $RECORD_MODEL->get('assignedmultiowner') == '4'}selected="true"{/if}>{vtranslate('LBL_JUST_ME', $QUALIFIED_MODULE)}</option>
+							<option value="5" {if $RECORD_MODEL->get('assignedmultiowner') == '5'}selected="true"{/if}>{vtranslate('LBL_FROM_PANEL', $QUALIFIED_MODULE)}</option>
 						</select>
 					</div>
                 </div>
