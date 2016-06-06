@@ -153,7 +153,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	 */
 	registerTimeStartChangeEvent: function (container) {
 		var thisInstance = this;
-		container.on('changeTime', 'input[name="time_start"]', function (e) {
+		container.find('input[name="time_start"]').on('change', function (e) {
 			thisInstance.setDefaultEndTime(container);
 		});
 
@@ -208,7 +208,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		});
 	},
 	registerEndDateTimeChangeLogger: function (container) {
-		container.find('[name="time_end"]').on('changeTime', function (e) {
+		container.find('[name="time_end"]').on('change', function (e) {
 			var timeElement = jQuery(e.currentTarget);
 			var result = Vtiger_Time_Validator_Js.invokeValidation(timeElement);
 			if (result != true) {
