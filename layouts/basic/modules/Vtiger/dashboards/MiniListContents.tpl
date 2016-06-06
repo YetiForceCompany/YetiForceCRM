@@ -42,7 +42,11 @@
 						<a href="{$RECORD->getDetailViewUrl()}" class="pull-right"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>
 						{/if}
 						{if $RECORD->get($FIELD->get('name'))}
-							{vtranslate($RECORD->get($FIELD->get('name')), $BASE_MODULE)}
+							{if $FIELD->getFieldDataType() eq 'tree'}
+								{$RECORD->getDisplayValue($FIELD->get('name'))}
+							{else}
+								{vtranslate($RECORD->get($FIELD->get('name')), $BASE_MODULE)}
+							{/if}
 						{else}
 						&nbsp;
 					{/if}
