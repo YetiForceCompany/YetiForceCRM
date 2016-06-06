@@ -209,6 +209,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 					break;
 				case 308: $fieldDataType = 'rangeTime';
 					break;
+				case 309: $fieldDataType = 'categoryMultipicklist';
+					break;
 				default:
 					$webserviceField = $this->getWebserviceFieldObject();
 					$fieldDataType = $webserviceField->getFieldDataType();

@@ -1390,6 +1390,7 @@ $languageStrings = [
 	'LBL_ROUNDROBIN_USERS_LIST' => 'Пользователи',
 	'Notifications' => 'Notifications',
 	'Mails' => 'Mails',
+	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_'
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',

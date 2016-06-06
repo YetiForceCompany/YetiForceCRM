@@ -136,7 +136,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		}
 	}
 
-	public function getTree()
+	public function getTree($category = false)
 	{
 		$tree = array();
 		$templateId = $this->getId();
@@ -157,13 +157,17 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$parenttrre = substr($row['parenttrre'], 0, - $cut);
 			$pieces = explode('::', $parenttrre);
 			$parent = (int) str_replace('T', '', end($pieces));
-			$tree[] = [
+			$parameters = [
 				'id' => $treeID,
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => vtranslate($row['name'], $module),
 				'state' => ($row['state']) ? $row['state'] : '',
-				'icon' => $row['icon']
+				'icon' => $row['icon'],
 			];
+			if ($category) {
+				$parameters['type'] = $category;
+			}
+			$tree[] = $parameters;
 			if ($treeID > $lastId)
 				$lastId = $treeID;
 		}

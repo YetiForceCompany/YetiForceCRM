@@ -112,7 +112,7 @@
 									{else}
 										{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
 											{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
-										{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+										{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
 											{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 										{else}
 											{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}

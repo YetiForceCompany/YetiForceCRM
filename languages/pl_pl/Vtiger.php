@@ -1151,6 +1151,7 @@ $languageStrings = [
 	'LBL_SQL_QUERY' => 'Zapytanie',
 	'LBL_SQL_PARAMS' => 'Parametry zapytania',
 	'LBL_BACKTRACE' => 'Śledzenie wywołania funkcji',
+	'LBL_CATEGORY_MULTIPICKLIST' => 'Lista kategorii'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

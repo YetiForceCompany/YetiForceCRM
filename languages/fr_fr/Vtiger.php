@@ -1136,6 +1136,7 @@ $languageStrings = [
 	'LBL_ROUNDROBIN_USERS_LIST' => 'Liste des utilisateurs pour le Round-robin',
 	'Notifications' => 'Notifications',
 	'Mails' => 'Mails',
+	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',
