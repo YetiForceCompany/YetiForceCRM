@@ -89,6 +89,9 @@ $languageStrings = [
 	'Guest Profile' => 'Профиль - Гость',
 	'RemoveRelation' => 'Remove relation',
 	'ReceivingMailNotifications' => 'Receiving mail notifications',
+	'ActivityCancel' => 'Cancel records',
+	'ActivityComplete' => 'Close records',
+	'ActivityPostponed' => 'Postpone records',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Профиль успешно удален',

@@ -85,6 +85,9 @@ $languageStrings = [
 	'Profile Related to Sales' => 'Profil liés aux ventes',
 	'Profile Related to Support' => 'Profil lié au support',
 	'Guest Profile for Test Users' => 'Profil invité pour utilisateurs de test',
+	'ActivityCancel' => 'Cancel records',
+	'ActivityComplete' => 'Close records',
+	'ActivityPostponed' => 'Postpone records',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil supprimé avec succès',

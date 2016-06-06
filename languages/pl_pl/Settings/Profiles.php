@@ -90,6 +90,9 @@ $languageStrings = [
 	'Guest Profile' => 'Gość',
 	'RemoveRelation' => 'Usuwanie relacji',
 	'ReceivingMailNotifications' => 'Otrzymywanie powiadomień mailowych',
+	'ActivityCancel' => 'Anulowanie rekordów',
+	'ActivityComplete' => 'Zamykanie rekordów',
+	'ActivityPostponed' => 'Przekładanie rekordów',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',
