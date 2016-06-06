@@ -35,7 +35,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 		if ($parentModuleModel->isTrackingEnabled()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_UPDATES'),
+				'linklabel' => 'LBL_UPDATES',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'Updates',
