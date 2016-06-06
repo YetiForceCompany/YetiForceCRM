@@ -239,6 +239,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isNameField()
 	{
+		
 		$nameFieldObject = Vtiger_Cache::get('EntityField', $this->getModuleName());
 		if (!$nameFieldObject) {
 			$moduleModel = $this->getModule();
@@ -251,7 +252,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 			$moduleEntityNameFields = explode(',', $nameFieldObject->fieldname);
 		}
 
-		if (in_array($this->get('name'), $moduleEntityNameFields)) {
+		if (in_array($this->get('column'), $moduleEntityNameFields)) {
 			return true;
 		}
 		return false;
