@@ -1767,10 +1767,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 		self::$modulesMap1M = $modulesMap1M;
 		self::$modulesMapMMBase = $modulesMapMMBase;
 		self::$modulesMapMMCustom = $modulesMapMMCustom;
-		$relatedModules = vtws_listtypes(NULL, Users_Record_Model::getCurrentUserModel());
-		$relatedModules = $relatedModules['types'];
 		foreach (self::$modulesHierarchy as $module => &$details) {
-			if (vtlib_isModuleActive($module) && in_array($module, $relatedModules)) {
+			if (vtlib_isModuleActive($module) && Users_Privileges_Model::isPermitted($module)) {
 				self::$modulesByLevels[$details['level']][$module] = $details;
 			}
 		}
