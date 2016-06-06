@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
-class KnowledgeBase_Popup_View extends Vtiger_Popup_View
+class KnowledgeBase_FullScreen_View extends Vtiger_Popup_View
 {
 	function process (Vtiger_Request $request) {
 		$previewView = new KnowledgeBase_PreviewContent_View();
