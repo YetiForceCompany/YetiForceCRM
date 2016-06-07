@@ -44,7 +44,7 @@ class API_Products_GetProducts extends BaseAction
 		$recordModel->set('imageUrl', $imagesUrl);
 	}
 
-	public function get()
+	public function get($category)
 	{
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT vtiger_products.productname,
@@ -58,8 +58,9 @@ class API_Products_GetProducts extends BaseAction
 					INNER JOIN vtiger_crmentity ON  vtiger_products.productid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.deleted = ?
 					AND vtiger_products.pos LIKE ?
+					AND vtiger_products.category_multipicklist LIKE ?
 					AND vtiger_products.discontinued = ?';
-		$results = $db->pquery($query, [0, '%' . $this->api->app['id'] . '%', 1]);
+		$results = $db->pquery($query, [0, '%' . $this->api->app['id'] . '%', '%' . $category . '%' , 1]);
 		$records = [];
 		while ($product = $db->getRow($results)) {
 			$poses = explode(',', $product['pos']);
