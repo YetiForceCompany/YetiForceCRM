@@ -53,7 +53,8 @@ class API_Products_GetProducts extends BaseAction
 					vtiger_products.productid,
 					vtiger_products.pos,
 					vtiger_products.unit_price,
-					vtiger_products.imagename
+					vtiger_products.imagename, 
+					vtiger_products.category_multipicklist
 					FROM vtiger_products
 					INNER JOIN vtiger_crmentity ON  vtiger_products.productid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.deleted = ?
@@ -67,6 +68,8 @@ class API_Products_GetProducts extends BaseAction
 			$categories = explode(',', $product['category_multipicklist']);
 			if (in_array($this->api->app['id'], $poses) && in_array($category, $categories)) {
 				unset($product['pos']);
+				unset($product['category_multipicklist']);
+				$product['pscategory'] = str_replace('T', '', $product['pscategory']);
 				$recordModel = Vtiger_Record_Model::getCleanInstance($this->moduleName);
 				$recordModel->setData($product)->set('id', $product['productid']);
 				$this->getInfo($recordModel);
