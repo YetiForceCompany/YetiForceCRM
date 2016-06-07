@@ -19,7 +19,7 @@
 				<select class="chzn-select form-control" name="email_tpl"  data-validation-engine="validate[required]">
 					<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
 					{foreach from=$MAIL_TPL key=key item=item}
-						<option {if $TASK_OBJECT->email_tpl eq $item.ossmailtemplatesid}selected{/if} value="{$item.ossmailtemplatesid}">{$item.name}</option>
+						<option {if $TASK_OBJECT->email_tpl eq $item.ossmailtemplatesid}selected{/if} value="{$item.ossmailtemplatesid}">{vtranslate($item.name, $QUALIFIED_MODULE)}</option>
 					{/foreach}
 				</select>
 			</div>
