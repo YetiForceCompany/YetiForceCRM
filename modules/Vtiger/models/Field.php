@@ -241,7 +241,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isNameField()
 	{
-		
+
 		$nameFieldObject = Vtiger_Cache::get('EntityField', $this->getModuleName());
 		if (!$nameFieldObject) {
 			$moduleModel = $this->getModule();
@@ -684,8 +684,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 		}
 
 		if ($this->getFieldDataType() == 'owner') {
-			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName());
-			$groupList = $currentUser->getAccessibleGroups('', $this->getModuleName());
+			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
+			$groupList = $currentUser->getAccessibleGroups('', $this->getModuleName(), $this->getFieldDataType());
 			$pickListValues = [];
 			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
 			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
@@ -693,7 +693,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		}
 
 		if ($this->getFieldDataType() == 'sharedOwner') {
-			$userList = $currentUser->getAccessibleUsers();
+			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
 			$pickListValues = [];
 			$this->fieldInfo['picklistvalues'] = $userList;
 		}

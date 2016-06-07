@@ -8,82 +8,56 @@
 class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Model
 {
 
+	private static $data = [];
 	private static $types = [
 		'owner' => 'user_privileges/module_record_allocation.php',
-		'multiOwner' => 'user_privileges/MultiOwner.php',
+		'sharedOwner' => 'user_privileges/sharedOwner.php',
 	];
 
-	public function saveRecordAllocation($data)
+	public function save($data)
 	{
-		$newData = [];
-		$file = self::$types[$this->get('type')];
-		require($file);
-		$toLowerModule = strtolower($data['module']);
+		$moduleName = $data['module'];
 		$userId = $data['userid'];
 		$userData = isset($data['ids']) ? $data['ids'] : [];
-		if (isset($$toLowerModule)) {
-			$dataFromFile = $$toLowerModule;
-			if (empty($userData)) {
-				unset($dataFromFile[$userId]);
-			} else {
-				$dataFromFile[$userId] = $userData;
-			}
-			$newData = $dataFromFile;
-			$content = $this->removeDataInFile($toLowerModule);
-			$this->putData($toLowerModule, $newData, $content);
-		} elseif (!empty($userData)) {
-			$newData[$userId] = $userData;
-			$content = file_get_contents($file) . PHP_EOL;
-			$this->putData($toLowerModule, $newData, $content);
-		}
+		$this->putToFile($moduleName, $userId, $userData);
 	}
 
-	public function removeDataInFile($toLowerModule)
+	public function remove($moduleName)
 	{
+		$data = self::loadFile($this->get('type'));
+		unset($data[$moduleName]);
+		$content = '<?php' . PHP_EOL . '$map=' . var_export($data, true) . ';';
+
 		$file = self::$types[$this->get('type')];
-		if (file_exists($file)) {
-			$configContent = file($file);
-			$removeLine = false;
-			foreach ($configContent as $key => $line) {
-				if (strpos($line, $toLowerModule) !== false) {
-					unset($configContent[$key]);
-					$removeLine = true;
-				} elseif ($removeLine && strpos($line, '$') === false) {
-					unset($configContent[$key]);
-				} elseif ($removeLine) {
-					break;
-				}
-			}
-			return implode('', $configContent);
-		}
+		file_put_contents($file, $content);
 	}
 
-	public function putData($toLowerModule, $newData, $content)
+	public function putToFile($moduleName, $userId, $userData)
 	{
-		$file = self::$types[$this->get('type')];
-		if ($newData) {
-			$newContent = '$' . $toLowerModule . ' = [';
-			foreach ($newData as $userId => $userData) {
-				$newContent .= "'" . $userId . "'=>[";
-				foreach ($userData as $type => $ids) {
-					$newContent .= "'" . $type . "'=>['" . implode("','", $ids) . "'],";
-				}
-				$newContent .= '],';
-			}
-			$newContent .= '];';
-			$content = $content . $newContent;
+		$data = self::loadFile($this->get('type'));
+		if (!isset($data[$moduleName])) {
+			$data[$moduleName] = [];
 		}
+		$data[$moduleName][$userId] = $userData;
+		$content = '<?php' . PHP_EOL . '$map=' . var_export($data, true) . ';';
+
+		$file = self::$types[$this->get('type')];
 		file_put_contents($file, $content);
 	}
 
 	public static function getRecordAllocationByModule($type, $moduleName)
 	{
-		$file = self::$types[$type];
-		require($file);
-		$toLowerModule = strtolower($moduleName);
-		if (isset($$toLowerModule)) {
-			return $$toLowerModule;
+		$data = self::loadFile($type);
+		return isset($data[$moduleName]) ? $data[$moduleName] : [];
+	}
+
+	public static function loadFile($type)
+	{
+		if (!isset(self::$data[$type])) {
+			$file = self::$types[$type];
+			require($file);
+			self::$data[$type] = isset($map) ? $map : [];
 		}
-		return false;
+		return self::$data[$type];
 	}
 }

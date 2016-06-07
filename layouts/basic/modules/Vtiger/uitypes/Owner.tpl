@@ -14,8 +14,8 @@
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {if $FIELD_MODEL->get('uitype') eq '53'}
 	{assign var=ROLE_RECORD_MODEL value=$USER_MODEL->getRoleDetail()}
-	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers('',$MODULE)}
-	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('',$MODULE)}
+	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers('', $MODULE, $FIELD_MODEL->getFieldDataType())}
+	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('', $MODULE, $FIELD_MODEL->getFieldDataType())}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
     {assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
