@@ -120,11 +120,10 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$time['start'] = Vtiger_Functions::currentUserDisplayDate($time['start']);
 		$time['end'] = Vtiger_Functions::currentUserDisplayDate($time['end']);
-
-		if ($user == NULL){
-			$user = $loggedUserId;
-		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		if ($user == NULL){
+			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+		}
 		$data = $this->getWidgetTimeControl($user, $time);
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 		$accessibleUsers = $currentUser->getAccessibleUsersForModule($moduleName);
@@ -144,53 +143,6 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$viewer->view('dashboards/TimeControlContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/AllTimeControl.tpl', $moduleName);
-		}
-	}
-
-	public function getDays($startDate, $endDate)
-	{
-		$holidayDays = Settings_PublicHoliday_Module_Model::getHolidays([$startDate, $endDate]);
-		$notWorkingDaysType = Settings_Calendar_Module_Model::getNotWorkingDays();
-		$begin = strtotime($startDate);
-		$end = strtotime($endDate);
-		$workDays = 0;
-
-		if ($begin > $end) {
-			return 0;
-		} else {
-			$days = 0;
-			$weekends = 0;
-			while ($begin <= $end) {
-				$days++;
-				$whatDay = date("N", $begin);
-				$day = date('Y-m-d', $begin);
-				$isWorkDay = TRUE;
-				$isHolidayNotInWeekend = TRUE;
-				foreach ($holidayDays as $key => $value) {
-					if ($day == $value['date']) {
-						$isWorkDay = FALSE;
-						if ($whatDay > 5) {
-							$isHolidayNotInWeekend = FALSE;
-						}
-						unset($holidayDays[$key]);
-					}
-				}
-				foreach ($notWorkingDaysType as $key => $value) {
-					if ($whatDay == $value)
-						$isWorkDay = FALSE;
-				}
-
-				if ($isWorkDay)
-					$workDays++;
-
-				if ($whatDay > 5 && !$isWorkDay && $notWorkingDaysType) {
-					$weekends++;
-				}
-				$begin += 86400;
-			};
-			$workingDays = $days - $weekends;
-			$result = ['workDays' => $workDays, 'weekends' => $weekends, 'days' => $days];
-			return $result;
 		}
 	}
 }
