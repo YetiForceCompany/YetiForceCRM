@@ -64,7 +64,8 @@ class API_Products_GetProducts extends BaseAction
 		$records = [];
 		while ($product = $db->getRow($results)) {
 			$poses = explode(',', $product['pos']);
-			if (in_array($this->api->app['id'], $poses)) {
+			$categories = explode(',', $product['category_multipicklist']);
+			if (in_array($this->api->app['id'], $poses) && in_array($category, $categories)) {
 				unset($product['pos']);
 				$recordModel = Vtiger_Record_Model::getCleanInstance($this->moduleName);
 				$recordModel->setData($product)->set('id', $product['productid']);
