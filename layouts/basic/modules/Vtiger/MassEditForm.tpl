@@ -14,6 +14,7 @@
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 {/foreach}
 <div id="massEditContainer" class='modelContainer modal fade' tabindex="-1">
+	
 	<div class="modal-dialog modal-lg">
         <div class="modal-content">
 			<div class="modal-header contentsBackground">
@@ -21,6 +22,9 @@
 				<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_MASS_EDITING', $MODULE)} {vtranslate($MODULE, $MODULE)}</h3>
 			</div>
 			<form class="form-horizontal" id="massEdit" name="MassEdit" method="post" action="index.php">
+				{if !empty($MAPPING_RELATED_FIELD)}
+					<input type="hidden" name="mappingRelatedField" value='{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}' />
+				{/if}
 				{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 					<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 				{/if}
