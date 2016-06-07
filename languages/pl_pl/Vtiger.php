@@ -1151,7 +1151,10 @@ $languageStrings = [
 	'LBL_SQL_QUERY' => 'Zapytanie',
 	'LBL_SQL_PARAMS' => 'Parametry zapytania',
 	'LBL_BACKTRACE' => 'Śledzenie wywołania funkcji',
-	'LBL_CATEGORY_MULTIPICKLIST' => 'Lista kategorii'
+	'LBL_CATEGORY_MULTIPICKLIST' => 'Lista kategorii',
+	// popup
+	'LBL_POPUP_SWITCH_BUTTON' => 'Przełącznik',
+	'LBL_POPUP_NARROW_DOWN_RECORDS_LIST' => 'Zawęź listę rekordów do powiązanych z modułem',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1418,4 +1421,5 @@ $jsLanguageStrings = [
 	'JS_NOTIFICATION_LINK' => 'Link',
 	'JS_CANNOT_REMOVE_RELATION' => 'Nie można usunąć relacji.',
 	'JS_RECORD_INFO' => 'Informacje o rekordzie',
+	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
 ];

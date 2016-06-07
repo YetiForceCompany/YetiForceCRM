@@ -1136,7 +1136,10 @@ $languageStrings = [
 	'LBL_ROUNDROBIN_USERS_LIST' => 'Liste des utilisateurs pour le Round-robin',
 	'Notifications' => 'Notifications',
 	'Mails' => 'Mails',
-	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_'
+	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_',
+	// popup
+	'LBL_POPUP_SWITCH_BUTTON' => 'Bouton de switch',
+	'LBL_POPUP_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to module',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',
@@ -1445,4 +1448,5 @@ $jsLanguageStrings = [
 	'JS_WATCHING_MESSAGE1' => 'Etes-vous sur de vouloir activer le traçage des modifications?',
 	'JS_FILTER' => 'Filtre',
 	'JS_RECORD_INFO' => 'Record info',
+	'JS_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
 ];

@@ -1151,7 +1151,10 @@ $languageStrings = [
 	'LBL_ROUNDROBIN_USERS_LIST' => 'Benutzer im Verteiler',
 	'Notifications' => 'Benachrichtigung',
 	'Mails' => 'Mails',
-	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_'
+	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_',
+	// popup
+	'LBL_POPUP_SWITCH_BUTTON' => 'Button umschalten',
+	'LBL_POPUP_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to module',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1401,4 +1404,5 @@ $jsLanguageStrings = [
 	'JS_NOTIFICATION_LINK' => 'Link',
 	'JS_CANNOT_REMOVE_RELATION' => 'Beziehung kann nicht gelöscht werden',
 	'JS_RECORD_INFO' => 'Record info',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
 ];

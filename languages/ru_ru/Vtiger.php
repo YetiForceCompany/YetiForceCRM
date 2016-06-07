@@ -1390,7 +1390,10 @@ $languageStrings = [
 	'LBL_ROUNDROBIN_USERS_LIST' => 'Пользователи',
 	'Notifications' => 'Notifications',
 	'Mails' => 'Mails',
-	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_'
+	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_',
+	// popup
+	'LBL_POPUP_SWITCH_BUTTON' => 'Switch button',
+	'LBL_POPUP_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to module',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
@@ -1733,4 +1736,5 @@ $jsLanguageStrings = [
 	'JS_NOTIFICATION_LINK' => 'Link',
 	'JS_CANNOT_REMOVE_RELATION' => "Can't remove relation",
 	'JS_RECORD_INFO' => 'Record info',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
 ];
