@@ -93,6 +93,7 @@ $languageStrings = [
 	'LBL_VIEW_FINDDUPLICATES'=> 'Find duplicates',
 	'Record Id' => 'Record ID',
 	'ticketpriorities' => 'priority',
+	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'The ticket is not related to any Account. Please create a relation.',
 	
 	//notifications translation 
 	'LBL_NOTICE_WELCOME'=>'Welcome to platform',
