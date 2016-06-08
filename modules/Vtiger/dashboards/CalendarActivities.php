@@ -47,9 +47,14 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 
+		$colorList = [];
+		foreach($calendarActivities as $activityModel){
+			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+		}
 		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
+		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
 		$viewer->assign('PAGING', $pagingModel);

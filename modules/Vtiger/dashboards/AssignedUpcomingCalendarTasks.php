@@ -38,9 +38,13 @@ class Vtiger_AssignedUpcomingCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vi
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_upcoming', $pagingModel, $owner);
-
+		$colorList = [];
+		foreach($calendarActivities as $activityModel){
+			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+		}
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
+		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
 		$viewer->assign('PAGING', $pagingModel);

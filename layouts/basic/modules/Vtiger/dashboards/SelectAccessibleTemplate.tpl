@@ -12,7 +12,9 @@
 {if $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 	{assign var=USERS_GROUP_LIST value=$CURRENTUSER->getUsersAndGroupForModuleList($SOURCE_MODULE)}
 	{if $USERS_GROUP_LIST['users']}
-		{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
+		{if !isset($ACCESSIBLE_USERS)}
+			{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
+		{/if}
 	{/if}
 	{if $USERS_GROUP_LIST['group']}
 		{assign var=ACCESSIBLE_GROUPS value=$USERS_GROUP_LIST['group']}

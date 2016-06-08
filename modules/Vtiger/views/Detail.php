@@ -594,8 +594,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 			$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
 
+			$colorList = [];
+			foreach($relatedActivities as $activityModel){
+				$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+			}
 			$viewer = $this->getViewer($request);
 			$viewer->assign('RECORD', $recordModel);
+			$viewer->assign('COLOR_LIST', $colorList);
 			$viewer->assign('MODULE_NAME', $moduleName);
 			$viewer->assign('PAGING_MODEL', $pagingModel);
 			$viewer->assign('PAGE_NUMBER', $pageNumber);

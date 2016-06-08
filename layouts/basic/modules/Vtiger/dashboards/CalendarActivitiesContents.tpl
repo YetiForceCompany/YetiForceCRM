@@ -16,8 +16,11 @@ font-size: 75%;
 </style>
 <div>
 	{foreach from=$ACTIVITIES key=INDEX item=ACTIVITY}
-	<div class="changeActivity cursorPointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}">
-		<div class="pull-left marginLeft5">
+		<div class="changeActivity cursorPointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}" accesskey=""
+			{if !empty($COLOR_LIST[$ACTIVITY->getId()])}
+				style="background: {$COLOR_LIST[$ACTIVITY->getId()]['background']}; color: {$COLOR_LIST[$ACTIVITY->getId()]['text']}"
+			{/if}>
+		<div class="pull-left marginLeft5 marginTop5">
 			{assign var=ACTIVITY_TYPE value=$ACTIVITY->get('activitytype')}
 			{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
 			<image src="{vimage_path_default($ACTIVITY_TYPE, Calendar)}" alt="{vtranslate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;
