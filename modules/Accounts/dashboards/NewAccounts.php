@@ -14,6 +14,8 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$instance = CRMEntity::getInstance($moduleName);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
+		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
+		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$time['start'] .= ' 00:00:00';
 		$time['end'] .= ' 23:59:59';
 		$sql = 'SELECT vtiger_crmentity.crmid ,vtiger_account.accountname, vtiger_crmentity.smownerid,	vtiger_crmentity.createdtime 
@@ -51,11 +53,9 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$user = $request->get('owner');
 		$time = $request->get('time');
 		if (empty($time)) {
-			$time['start'] = date('Y-m-d');
-			$time['end'] = date('Y-m-d');
+			$time['start'] = Vtiger_Functions::currentUserDisplayDateNew();
+			$time['end'] =  Vtiger_Functions::currentUserDisplayDateNew();
 		}
-		$time['start'] = Vtiger_Functions::currentUserDisplayDate($time['start']);
-		$time['end'] = Vtiger_Functions::currentUserDisplayDate($time['end']);
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (empty($user)) {
 			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
