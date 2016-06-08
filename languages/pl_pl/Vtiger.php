@@ -1156,6 +1156,7 @@ $languageStrings = [
 	'LBL_POPUP_SWITCH_BUTTON' => 'Przełącznik',
 	'LBL_POPUP_NARROW_DOWN_RECORDS_LIST' => 'Zawęź listę rekordów do powiązanych z modułem',
 	'LBL_ALL_TIME_CONTROL' => 'Czas pracy wszystkich użytkówników',
+	'LBL_NEW_ACCOUNTS' => 'Nowi kontrahenci',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

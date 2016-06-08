@@ -1156,6 +1156,7 @@ $languageStrings = [
 	'LBL_POPUP_SWITCH_BUTTON' => 'Button umschalten',
 	'LBL_POPUP_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to module',
 	'LBL_ALL_TIME_CONTROL' => 'All users total working time',
+	'LBL_NEW_ACCOUNTS' => 'New Accounts',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

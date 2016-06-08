@@ -3555,8 +3555,8 @@ span[name=existingImages] img{
 	transition-delay: 0.5s;
 }
 .noSpaces{
-	padding: 0;
-	margin: 0;
+	padding: 0 !important;
+	margin: 0 !important;
 }
 html,body,.baseContainer
 {
