@@ -950,6 +950,9 @@ td.fieldValue .input-group {
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues:hover {
 	text-decoration: none;
 }
+.listViewEntriesTable .listViewEntries .listViewEntryValue a{
+	color: inherit !important;
+}
 .listViewEntriesTable td.listViewEntryValue,
 .listViewEntries td {
 	vertical-align: middle;
