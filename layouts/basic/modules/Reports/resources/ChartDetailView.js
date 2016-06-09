@@ -7,7 +7,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-Reports_Detail_Js("Reports_ChartDetail_Js", {
+Reports_Detail_Js("Reports_ChartDetailView_Js", {
 	/**
 	 * Function used to display message when there is no data from the server
 	 */
@@ -52,7 +52,7 @@ Reports_Detail_Js("Reports_ChartDetail_Js", {
 			}
 
 			var advFilterCondition = thisInstance.calculateValues();
-			var recordId = thisInstance.getRecordId();
+			var recordId = $('[name="recordId"').val();
 			var currentMode = jQuery(e.currentTarget).data('mode');
 			var postData = {
 				'advanced_filter': advFilterCondition,
@@ -94,7 +94,7 @@ Reports_Detail_Js("Reports_ChartDetail_Js", {
 			thisInstance.getInstance();	// instantiate the object and calls init function
 			jQuery('#chartcontent').trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
 		} catch (error) {
-			Reports_ChartDetail_Js.displayNoDataMessage();
+			Reports_ChartDetailView_Js.displayNoDataMessage();
 			return;
 		}
 	},
@@ -143,14 +143,14 @@ Vtiger_Pie_Widget_Js('Report_Piechart_Js', {}, {
 		}
 	},
 	postLoadWidget: function () {
-		if (!Reports_ChartDetail_Js.isEmptyData()) {
+		if (!Reports_ChartDetailView_Js.isEmptyData()) {
 			this.loadChart();
 		} else {
 			this.positionNoDataMsg();
 		}
 	},
 	positionNoDataMsg: function () {
-		Reports_ChartDetail_Js.displayNoDataMessage();
+		Reports_ChartDetailView_Js.displayNoDataMessage();
 	},
 	getPlotContainer: function (useCache) {
 		if (typeof useCache == 'undefined') {
@@ -166,8 +166,8 @@ Vtiger_Pie_Widget_Js('Report_Piechart_Js', {}, {
 		this._super(jQuery('#reportContentsDiv'));
 	},
 	generateData: function () {
-		if (Reports_ChartDetail_Js.isEmptyData()) {
-			Reports_ChartDetail_Js.displayNoDataMessage();
+		if (Reports_ChartDetailView_Js.isEmptyData()) {
+			Reports_ChartDetailView_Js.displayNoDataMessage();
 			return false;
 		}
 
@@ -205,7 +205,7 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 		});
 	},
 	postLoadWidget: function () {
-		if (!Reports_ChartDetail_Js.isEmptyData()) {
+		if (!Reports_ChartDetailView_Js.isEmptyData()) {
 			this.loadChart();
 		} else {
 			this.positionNoDataMsg();
@@ -213,7 +213,7 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 		this.postInitializeCalls();
 	},
 	positionNoDataMsg: function () {
-		Reports_ChartDetail_Js.displayNoDataMessage();
+		Reports_ChartDetailView_Js.displayNoDataMessage();
 	},
 	getPlotContainer: function (useCache) {
 		if (typeof useCache == 'undefined') {
@@ -229,8 +229,8 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 		this._super(jQuery('#reportContentsDiv'));
 	},
 	generateChartData: function () {
-		if (Reports_ChartDetail_Js.isEmptyData()) {
-			Reports_ChartDetail_Js.displayNoDataMessage();
+		if (Reports_ChartDetailView_Js.isEmptyData()) {
+			Reports_ChartDetailView_Js.displayNoDataMessage();
 			return false;
 		}
 
@@ -279,8 +279,8 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 
 Report_Verticalbarchart_Js('Report_Horizontalbarchart_Js', {}, {
 	generateChartData: function () {
-		if (Reports_ChartDetail_Js.isEmptyData()) {
-			Reports_ChartDetail_Js.displayNoDataMessage();
+		if (Reports_ChartDetailView_Js.isEmptyData()) {
+			Reports_ChartDetailView_Js.displayNoDataMessage();
 			return false;
 		}
 
@@ -387,8 +387,8 @@ Report_Verticalbarchart_Js('Report_Horizontalbarchart_Js', {}, {
 
 Report_Verticalbarchart_Js('Report_Linechart_Js', {}, {
 	generateData: function () {
-		if (Reports_ChartDetail_Js.isEmptyData()) {
-			Reports_ChartDetail_Js.displayNoDataMessage();
+		if (Reports_ChartDetailView_Js.isEmptyData()) {
+			Reports_ChartDetailView_Js.displayNoDataMessage();
 			return false;
 		}
 
@@ -451,4 +451,7 @@ Report_Verticalbarchart_Js('Report_Linechart_Js', {}, {
 		});
 		jQuery('table.jqplot-table-legend').css('width', '95px');
 	}
+});
+$( document ).ready(function() {
+	(new Reports_ChartDetailView_Js()).registerEvents();
 });

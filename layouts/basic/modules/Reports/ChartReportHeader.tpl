@@ -10,9 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-		<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
-	</div>
     <div class="">
         <div class="reportsDetailHeader">
             <input type="hidden" name="date_filters" data-value='{ZEND_JSON::encode($DATE_FILTERS)}' />
@@ -98,7 +95,7 @@
 						<div class="clearfix">
 							<div class='h3'>
 								{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
-								<button class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
+								<button type="button" class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
 									<strong>{vtranslate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
 									<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-down {/if}"></span>
 								</button>
@@ -109,7 +106,7 @@
 						</div>
 					</div>
 					<div class="row textAlignCenter">
-						<button class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>
+						<button type="button" class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>
 						<strong>{vtranslate('LBL_SAVE',$MODULE)}</strong>
 						</button>
 					</div>
