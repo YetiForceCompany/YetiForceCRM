@@ -30,7 +30,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$sql .= ' AND vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
-		$sql .= $securityParameter . ' LIMIT ?, ?';
+		$sql .= $securityParameter . ' ORDER BY  vtiger_crmentity.createdtime DESC LIMIT ?, ?';
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit();
 		$db = PearDatabase::getInstance();
