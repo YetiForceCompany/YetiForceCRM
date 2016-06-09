@@ -1144,8 +1144,10 @@ $languageStrings = [
 	// popup
 	'LBL_POPUP_SWITCH_BUTTON' => 'Switch button',
 	'LBL_POPUP_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to module',
+	// widgets - Dashboards
 	'LBL_ALL_TIME_CONTROL' => 'All users total working time',
 	'LBL_NEW_ACCOUNTS' => 'New Accounts',
+	'LBL_NEGLECTED_ACCOUNTS' => 'Neglected Accounts',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',

@@ -21,7 +21,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getWidgetsWithLimit()
 	{
-		$widgetWithLimit = ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'LBL_EXPIRING_SOLD_PRODUCTS', "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES",'LBL_NEW_ACCOUNTS'];
+		$widgetWithLimit = ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'LBL_EXPIRING_SOLD_PRODUCTS', 
+			"LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES",'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS'];
 		return $widgetWithLimit;
 	}
 
@@ -97,7 +98,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks',
 			'Delagated Events/To Dos', 'Delegated (overdue) Events/ToDos', 'Calendar',
 			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'Open Tickets', 'LBL_ALL_TIME_CONTROL',
-			'LBL_NEW_ACCOUNTS'
+			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS'
 		];
 	}
 

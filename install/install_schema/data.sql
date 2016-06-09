@@ -6414,10 +6414,11 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (277,61,'DASHBOARDWIDGET','Mini List','index.php?module=Home&view=ShowWidget&name=MiniList','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (278,3,'DASHBOARDWIDGET','LBL_ALL_TIME_CONTROL','index.php?module=OSSTimeControl&view=ShowWidget&name=AllTimeControl',NULL,0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (279,3,'DASHBOARDWIDGET','LBL_NEW_ACCOUNTS','index.php?module=Accounts&view=ShowWidget&name=NewAccounts','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (280,3,'DASHBOARDWIDGET','LBL_NEGLECTED_ACCOUNTS','index.php?module=Accounts&view=ShowWidget&name=NeglectedAccounts','',0,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (279);
+insert  into `vtiger_links_seq`(`id`) values (280);
 
 /*Data for the table `vtiger_loginhistory` */
 
