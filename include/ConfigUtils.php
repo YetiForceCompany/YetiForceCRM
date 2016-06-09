@@ -60,6 +60,8 @@ class AppConfig
 		self::$modules[$module] = $CONFIG;
 		switch ($argsLength) {
 			case 2:
+				if(!isset($CONFIG[$key]))
+					return false;
 				return $CONFIG[$key];
 				break;
 			default:

@@ -30,10 +30,10 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		$records = $this->getRecordsListFromRequest($request);
 		$allRecords = $this->getRecordsCount($request);
 		$url = 'mailto:?bcc=' . implode(',', $records);
-		
+
 		if ($sourceModule == 'Campaigns' && !empty($relatedModule)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $request->get('sourceModule'));
-			$url .= '&subject='.$recordModel->get('campaign_no').' - '.$recordModel->get('campaignname');
+			$url .= '&subject=' . $recordModel->get('campaign_no') . ' - ' . $recordModel->get('campaignname');
 		}
 		$viewer->assign('URL', $url);
 		$viewer->assign('SOURCE_RECORD', $sourceRecord);
@@ -118,7 +118,7 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 
 		$db = PearDatabase::getInstance();
 		$query = $this->getQuery();
-		$exQuery = explode(' FROM ', $query);
+		$exQuery = preg_split('/ FROM /i', $query, 2);
 		$query = 'SELECT count(*) FROM ' . $exQuery[1];
 
 		$result = $db->query($query);

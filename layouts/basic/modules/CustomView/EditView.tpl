@@ -11,15 +11,15 @@
 -->*}
 {strip}
 	<form class="form-horizontal" id="CustomView" name="CustomView" method="post" action="index.php">
-			<input type="hidden" name="record" id="record" value="{$RECORD_ID}" />
-			<input type="hidden" name="module" value="{$MODULE}" />
-			<input type="hidden" name="action" value="Save" />
-			<input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>
-			<input type="hidden" id="stdfilterlist" name="stdfilterlist" value=""/>
-			<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
-			<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
-			<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
-			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
+		<input type="hidden" name="record" id="record" value="{$RECORD_ID}" />
+		<input type="hidden" name="module" value="{$MODULE}" />
+		<input type="hidden" name="action" value="Save" />
+		<input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>
+		<input type="hidden" id="stdfilterlist" name="stdfilterlist" value=""/>
+		<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
+		<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
+		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
+		<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
 		<div class='widget_header row customViewHeader'>
 			<div class="col-sm-5 col-xs-12">
 				{if !$RECORD_ID}
@@ -37,20 +37,20 @@
 					<button class="btn btn-success" id="customViewSubmit" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 				</div>
 				<div class="btn-group pull-right pull-left-xs iconPreferences marginRight10" data-toggle="buttons">
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isDefault()} btn-primary{/if}" title="{vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}" >
-						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()} value="1" checked="checked"{/if}>
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isDefault()} active  btn-primary{/if}" title="{vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}" >
+						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1">
 						<span class="glyphicon glyphicon-heart-empty" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
 					</label>
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isSetPublic()} btn-primary{/if}" title="{vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}">
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isSetPublic()} active  btn-primary{/if}" title="{vtranslate('LBL_SET_AS_PUBLIC',$MODULE)}">
 						<input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}>
 						<span class="glyphicon glyphicon-eye-close" data-check="glyphicon-eye-open" data-unchecked="glyphicon-eye-close"></span>
 					</label>
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isFeatured(true)} btn-primary{/if}" title="{vtranslate('LBL_FEATURED',$MODULE)}">
-						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} value="1" checked="checked"{/if}>
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isFeatured(true)} active btn-primary{/if}" title="{vtranslate('LBL_FEATURED',$MODULE)}">
+						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if} value="1">
 						<span class="glyphicon glyphicon-star-empty" data-check="glyphicon-star" data-unchecked="glyphicon-star-empty"></span>
 					</label>
-					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->get('setmetrics')} btn-primary{/if}" title="{vtranslate('LBL_LIST_IN_METRICS',$MODULE)}">
-						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}  value="1" {else} value="0" {/if}>
+					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}" title="{vtranslate('LBL_LIST_IN_METRICS',$MODULE)}">
+						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if} value="1">
 						<span class="glyphicon glyphicon-blackboard" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
 					</label>
 				</div>
@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group marginbottomZero">
+					<div class="form-group">
 						<label class="paddingLeftMd control-label"><span class="redColor">*</span> {vtranslate('LBL_CHOOSE_COLUMNS',$MODULE)} ({vtranslate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
 						<div class="columnsSelectDiv col-md-12">
 							{assign var=MANDATORY_FIELDS value=array()}
@@ -112,10 +112,20 @@
 									{/foreach}
 								</select>
 							</div>
-
 							<input type="hidden" name="columnslist" value='{ZEND_JSON::encode($SELECTED_FIELDS)}' />
 							<input id="mandatoryFieldsList" type="hidden" value='{ZEND_JSON::encode($MANDATORY_FIELDS)}' />
-						</div>	
+						</div>
+					</div>
+					<div class="form-group marginbottomZero">
+						<div class="row col-md-5">
+							<label class="pull-left control-label paddingLeftMd"><span class="redColor">*</span> {vtranslate('LBL_COLOR_VIEW',$MODULE)}:</label>
+							<div class="col-md-7">
+								<div class="input-group">
+									<input type="text" class="form-control colorPicker" name="color" value="{$CUSTOMVIEW_MODEL->get('color')}">
+									<span class="input-group-addon" style="background-color: {$CUSTOMVIEW_MODEL->get('color')};">&nbsp;&nbsp;</span>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

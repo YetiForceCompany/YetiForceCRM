@@ -117,7 +117,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 	public function getRecords($user)
 	{
-
+		$ownerSql = '';
 		$this->initListViewController();
 		if (!$user) {
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();

@@ -14,14 +14,11 @@
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {if $FIELD_MODEL->get('uitype') eq '53'}
 	{assign var=ROLE_RECORD_MODEL value=$USER_MODEL->getRoleDetail()}
-	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
-	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('',$MODULE)}
+	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers('', $MODULE, $FIELD_MODEL->getFieldDataType())}
+	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('', $MODULE, $FIELD_MODEL->getFieldDataType())}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
     {assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-	
-	{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
-	{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
 
 	{if $FIELD_VALUE eq '' && $VIEW neq 'MassEdit'}
 		{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
@@ -44,7 +41,7 @@
 				</option>
 			{/foreach}
 		</optgroup>
-		{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0}
+		{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0 && !($ROLE_RECORD_MODEL->get('allowassignedrecordsto') == 5 && count($ALL_ACTIVEGROUP_LIST) != 0 && $FIELD_MODEL->get('fieldvalue') == '')}
 			{assign var=OWNER_NAME value=Vtiger_Functions::getOwnerRecordLabel($FIELD_VALUE)}
 			<option value="{$FIELD_VALUE}" data-picklistvalue="{$OWNER_NAME}" selected data-userId="{$CURRENT_USER_ID}">
 				{$OWNER_NAME}

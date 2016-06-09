@@ -130,16 +130,18 @@ class Vtiger_Language_Handler
 		if (empty(self::$languageContainer[$language][$module])) {
 			$qualifiedName = 'languages.' . $language . '.' . $module;
 			$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
-
 			$languageStrings = $jsLanguageStrings = [];
 			if (file_exists($file)) {
 				require $file;
-				self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
-				self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
+			} else {
+				$log = LoggerManager::getInstance();
+				$log->warn('Language file does not exist, module:' . $module . ' ,language: ' . $language);
 			}
+			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
+			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
+
 			$qualifiedName = 'custom.languages.' . $language . '.' . $module;
 			$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
-
 			if (file_exists($file)) {
 				require $file;
 				foreach ($languageStrings as $key => $val) {

@@ -20,7 +20,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
-		$settingsLinks = array();
+		$settingsLinks = [];
 
 		$db = PearDatabase::getInstance();
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
@@ -28,7 +28,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=index&block=4&fieldid=' . $db->query_result($result, 0, 'fieldid'),
+			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=index&block=4&fieldid=' . $db->getSingleValue($result),
 			'linkicon' => $layoutEditorImagePath
 		);
 
@@ -145,7 +145,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return self::$composeParam;
 	}
 
-	function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
+	static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
 	{
 		$url = 'mailto:';
 		if (!empty($record) && isRecordExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {

@@ -10,11 +10,11 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-	{if $ALL_ACTIVEGROUP_LIST || $ALL_ACTIVEUSER_LIST}
+	{if !empty($ALL_ACTIVEGROUP_LIST) || !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="calendarUserList">
 			<div class="row no-margin">
 				<div class="col-xs-12 marginTB10">
-				<select class="select2 col-xs-12" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
+				<select class="select2 col-xs-12" id="calendarUserList" multiple>
 					<optgroup label="{vtranslate('LBL_USERS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 							<option class="userCol_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}" {if $USER_MODEL->id eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 	{/if}
-	{if $ALL_ACTIVETYPES_LIST}
+	{if !empty($ALL_ACTIVETYPES_LIST)}
 		<div class="calendarTypeList">
 			<div class="row no-margin">
 				<div class="col-xs-12 marginTB10">

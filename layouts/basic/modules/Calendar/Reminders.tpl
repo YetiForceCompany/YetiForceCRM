@@ -17,7 +17,10 @@
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			<div class="panel borderColor{$RECORD->get('activitytype')}" data-record="{$RECORD->getId()}">
-				<div class="panel-heading headingColor{$RECORD->get('activitytype')}">
+				<div class="panel-heading headingColor{$RECORD->get('activitytype')}" 
+					 {if !empty($COLOR_LIST[$RECORD->getId()])}
+					 style="background: {$COLOR_LIST[$RECORD->getId()]['background']}; color: {$COLOR_LIST[$RECORD->getId()]['text']};"
+					 {/if}>
 					<a class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					</a>

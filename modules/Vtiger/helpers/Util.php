@@ -235,10 +235,21 @@ class Vtiger_Util_Helper
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime);
+		$dateTimeInUserFormat = explode(' ', Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
 
-		list($dateInUserFormat, $timeInUserFormat, $meridiem) = explode(' ', $dateTimeInUserFormat);
-		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
+		if (count($dateTimeInUserFormat) == 3) {
+			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
+		} else {
+			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
+			$meridiem = '';
+		}
+		$timeInUserFormat = explode(':', $timeInUserFormat);
+		if (count($timeInUserFormat) == 3) {
+			list($hours, $minutes, $seconds) = $timeInUserFormat;
+		} else {
+			list($hours, $minutes) = $timeInUserFormat;
+			$seconds = '';
+		}
 
 		$dateDay = vtranslate(DateTimeField::getDayFromDate($dateTime), 'Calendar');
 		$formatedDate = $dateInUserFormat;

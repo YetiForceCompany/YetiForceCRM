@@ -122,7 +122,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 			}
 
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $listViewRecordModels[$recordId]);
+			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
 		}
 		return $listViewRecordModels;
 	}

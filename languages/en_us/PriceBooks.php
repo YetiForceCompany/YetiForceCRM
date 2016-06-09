@@ -21,4 +21,5 @@ $languageStrings = [
 	'SINGLE_PriceBooks' => 'Price Book',
 	'yes' => 'Yes',
 	'no' => 'No',
+	'Unit Price'=>'Unit price',
 ];

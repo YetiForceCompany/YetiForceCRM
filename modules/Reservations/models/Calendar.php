@@ -87,10 +87,11 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 	 * @param mixed id or name of the module
 	 */
 	public static function getInstance() {
-        $instance = Vtiger_Cache::get('calendar',$value);
+        $instance = Vtiger_Cache::get('calendar','instance');
         if(!$instance){
-            $instance = new self();
-        }
+			$instance = new self();
+			Vtiger_Cache::set('calendar', 'instance', $instance);
+		}
 		return $instance;
 	}
 	

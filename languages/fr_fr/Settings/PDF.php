@@ -165,8 +165,8 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'Modèle PDF sauvegardé.',
-	'LBL_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
-	'LBL_NOTIFY_COPY_TITLE' => 'Texte',
+	'JS_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
+	'JS_NOTIFY_COPY_TITLE' => 'Texte',
 	'JS_PDF_TEMPLATE_EXPORTED' => 'Modèle PDF exporté avec succès.',
 	'JS_RECALCULATING' => 'Mise à jour des droits d\'accès...',
 ];

@@ -77,16 +77,6 @@ class Faq extends CRMEntity {
 	// For Alphabetical search
 	var $def_basicsearch_col = 'question';
 
-	/**	Constructor which will set the column_fields in this object
-	 */
-	function Faq() {
-		$this->log =LoggerManager::getLogger('faq');
-		$this->log->debug("Entering Faq() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Faq');
-		$this->log->debug("Exiting Faq method ...");
-	}
-
 	function save_module($module)
 	{
 		//Inserting into Faq comment table

@@ -52,7 +52,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 
 	public function getListFields()
 	{
-		if (!$this->listFieldModels) {
+		if (!isset($this->listFieldModels)) {
 			$fields = $this->listFields;
 			$fieldObjects = array();
 			foreach ($fields as $fieldName => $fieldLabel) {
@@ -150,11 +150,15 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 		} else {
 			$selectedMenu = false;
 		}
+
 		$menu = [];
 		foreach ($menuModels as $blockId => $menuModel) {
 			if ($menuModel->getType() != 1) {
 				$childs = [];
 				foreach ($menuModel->getMenuItems() as $menuItem) {
+					if ($menuItem->getId() == $fieldId) {
+						$this->set('selected', $menuItem);
+					}
 					$childs[] = [
 						'id' => $menuItem->getId(),
 						'active' => $menuItem->getId() == $fieldId ? true : false,
@@ -207,7 +211,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 		$params['sequence'] = $sequence;
 		$db->insert('vtiger_settings_field', $params);
 	}
-	
+
 	public static function deleteSettingsField($block, $name)
 	{
 		$db = PearDatabase::getInstance();

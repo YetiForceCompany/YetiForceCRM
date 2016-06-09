@@ -1,13 +1,5 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 class OSSMailTemplates_Field_Model extends Vtiger_Field_Model
 {
@@ -24,17 +16,19 @@ class OSSMailTemplates_Field_Model extends Vtiger_Field_Model
 	public function getModulesListValues($onlyActive = true)
 	{
 		$adb = PearDatabase::getInstance();
-		$modules = array();
-		$params = array();
+		$modules = [];
+		$params = [];
+		$where = '';
 		if ($onlyActive) {
-			$where .= ' WHERE (presence = ? AND isentitytype = ? ) or name = ?';
-			array_push($params, 0);
-			array_push($params, 1);
-			array_push($params, 'Users');
+			$where = ' WHERE (presence = ? AND isentitytype = ? ) or name = ?';
+			array_push($params, 0, 1, 'Users');
 		}
 		$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab' . $where, $params);
 		while ($row = $adb->fetch_array($result)) {
-			$modules[$row['tabid']] = array('name' => $row['name'], 'label' => vtranslate($row['name'], $row['name']));
+			$modules[$row['tabid']] = ['name' => $row['name'], 'label' => vtranslate($row['name'], $row['name'])];
+		}
+		if ($this->getName() == 'oss_module_list') {
+			$modules[0] = ['name' => 'System', 'label' => vtranslate('PLL_SYSTEM', $this->getModuleName())];
 		}
 		return $modules;
 	}

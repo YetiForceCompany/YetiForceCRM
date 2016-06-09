@@ -209,6 +209,11 @@ class Vtiger_Functions
 
 	static function getModuleData($mixed)
 	{
+		if ($mixed === false || empty($mixed)) {
+			$log = LoggerManager::getInstance();
+			$log->error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
+			return false;
+		}
 		$id = $name = NULL;
 		if (is_numeric($mixed))
 			$id = $mixed;
@@ -221,8 +226,9 @@ class Vtiger_Functions
 		} else if ($id && !isset(self::$moduleIdNameCache[$id])) {
 			$reload = true;
 		} else {
-			if (!$id)
+			if (!$id) {
 				$id = self::$moduleNameIdCache[$name]['tabid'];
+			}
 			if (!isset(self::$moduleIdDataCache[$id])) {
 				$reload = true;
 			}
@@ -629,7 +635,7 @@ class Vtiger_Functions
 	static function formatDecimal($value)
 	{
 		$fld_value = explode('.', $value);
-		if ($fld_value[1] != '') {
+		if (!empty($fld_value[1])) {
 			$fld_value = rtrim($value, '0');
 			$value = rtrim($fld_value, '.');
 		}
@@ -695,21 +701,26 @@ class Vtiger_Functions
 	{
 		$filepath = 'storage/';
 
-		if ($module && in_array($module, array("Users", "Contacts", "Products", "OSSMailView"))) {
-			$filepath = $filepath . $module . "/";
+		if ($module && in_array($module, array('Users', 'Contacts', 'Products', 'OSSMailView'))) {
+			$filepath .= $module . '/';
+		}
+		if (!is_dir($filepath)) {
+			//create new folder
+			mkdir($filepath);
 		}
 		$year = date('Y');
 		$month = date('F');
 		$day = date('j');
 		$week = '';
-
-		if (!is_dir($filepath . $year)) {
+		$filepath .= $year;
+		if (!is_dir($filepath)) {
 			//create new folder
-			mkdir($filepath . $year);
+			mkdir($filepath);
 		}
-		if (!is_dir($filepath . $year . "/" . $month)) {
+		$filepath .= '/' . $month;
+		if (!is_dir($filepath)) {
 			//create new folder
-			mkdir($filepath . "$year/$month");
+			mkdir($filepath);
 		}
 
 		if ($day > 0 && $day <= 7)
@@ -723,12 +734,12 @@ class Vtiger_Functions
 		else
 			$week = 'week5';
 
-		if (!is_dir($filepath . $year . "/" . $month . "/" . $week)) {
+		$filepath .= '/' . $week;
+		if (!is_dir($filepath)) {
 			//create new folder
-			mkdir($filepath . "$year/$month/$week");
+			mkdir($filepath);
 		}
-		$filepath = $filepath . $year . "/" . $month . "/" . $week . "/";
-		return $filepath;
+		return $filepath . '/';
 	}
 
 	static public function validateImage($fileDetails)
@@ -1123,6 +1134,16 @@ class Vtiger_Functions
 		return $array;
 	}
 
+	static function replaceLinkAddress($string, $pattern, $replace)
+	{
+		require_once('include/simplehtmldom/simple_html_dom.php');
+		$html = str_get_html($string);
+		foreach ($html->find('a') as $index => &$element) {
+			$element->href = preg_replace($pattern, $replace, $element->href);
+		}
+		return $html->__toString();
+	}
+
 	public static function throwNewException($message, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
 		if (REQUEST_MODE == 'API') {
@@ -1146,7 +1167,7 @@ class Vtiger_Functions
 
 	static function removeHtmlTags(array $tags, $html)
 	{
-		$crmUrl = vglobal($key);
+		$crmUrl = AppConfig::main('site_URL');
 
 		$doc = new DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(TRUE);
@@ -1321,7 +1342,7 @@ class Vtiger_Functions
 		return $address;
 	}
 
-	function parseBytes($str)
+	static function parseBytes($str)
 	{
 		if (is_numeric($str)) {
 			return floatval($str);
@@ -1370,7 +1391,7 @@ class Vtiger_Functions
 		return $str;
 	}
 
-	public function getMaxUploadSize()
+	public static function getMaxUploadSize()
 	{
 		// find max filesize value
 		$maxFileSize = self::parseBytes(ini_get('upload_max_filesize'));
@@ -1411,8 +1432,31 @@ class Vtiger_Functions
 			if ($k < $ignore) {
 				continue;
 			}
+			$args = '';
+			if (isset($v['args'])) {
+				foreach ($v['args'] as &$arg) {
+					if (!is_array($arg) && !is_object($arg) && !is_resource($arg)) {
+						$args .= "'$arg'";
+					} elseif (is_array($arg)) {
+						$args .= '[';
+						foreach ($arg as &$a) {
+							$val = $a;
+							if (is_array($a) || is_object($a) || is_resource($a)) {
+								$val = gettype($a);
+								if (is_object($a)) {
+									$val .= '(' . get_class($a) . ')';
+								}
+							}
+							$args .= $val . ',';
+						}
+						$args = rtrim($args, ',') . ']';
+					}
+					$args .= ',';
+				}
+				$args = rtrim($args, ',');
+			}
 			$file = str_replace($rootDirectory . DIRECTORY_SEPARATOR, '', $v['file']);
-			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '() in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
+			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '(' . $args . ') in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
 		}
 
 		return $trace;
@@ -1432,12 +1476,12 @@ class Vtiger_Functions
 	public static function textLength($text, $length = false, $addDots = true)
 	{
 		if (!$length) {
-			$length = vglobal('listview_max_textlength');
+			$length = AppConfig::main('listview_max_textlength');
 		}
 		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $text);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($newText)) > $length) {
-				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, vglobal('default_charset'));
+				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, AppConfig::main('default_charset'));
 				if ($addDots) {
 					$newText .= '...';
 				}

@@ -16,18 +16,17 @@
 							{/if}
 						{/if}
 						{if $PROCEED}
-							{if $RECENT_ACTIVITY->isReviewed() && $COUNT neq 0}
-								</ul>
-									<div class="lineOfText marginBottom10px">
+							<li>
+								{if $RECENT_ACTIVITY->isReviewed() && !($COUNT eq 0 && $PAGING_MODEL->get('page') eq 1)}
+									{$NEW_CHANGE = false}
+									<div class="lineOfText marginLeft15">
 										<div>{vtranslate('LBL_REVIEWED', $MODULE_BASE_NAME)}</div>
 									</div>
-								<ul class="timeline">
-							{/if}
-							{$COUNT=$COUNT+1}
-							{if $RECENT_ACTIVITY->isCreate()}
-								<li>
+								{/if}
+								{$COUNT=$COUNT+1}
+								{if $RECENT_ACTIVITY->isCreate()}
 									<span class="glyphicon glyphicon-plus bgGreen"></span>
-									<div class="timeline-item">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
 											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
 										</div>
@@ -36,33 +35,32 @@
 												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
 											</span>
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
-											&nbsp;{vtranslate('LBL_CREATED', $MODULE_NAME)}
-											{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
-												{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
-													<div class='font-x-small updateInfoContainer'>
-														<span>{vtranslate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
-														{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
-															&nbsp;{vtranslate('LBL_FROM')} <strong style="white-space:pre-wrap;">
-																{vtranslate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue')))),$MODULE_NAME)}</strong>
-															{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-															&nbsp; <strong> {vtranslate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</del> )
-														{else}
-															&nbsp;{vtranslate('LBL_CHANGED')}
-														{/if}
-														{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-															&nbsp;{vtranslate('LBL_TO')}&nbsp;<strong style="white-space:pre-wrap;">
-																{vtranslate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue')))),$MODULE_NAME)}</strong>
+												&nbsp;{vtranslate('LBL_CREATED', $MODULE_NAME)}
+												{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
+													{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
+														<div class='font-x-small updateInfoContainer'>
+															<span>{vtranslate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
+															{if $FIELDMODEL->get('postvalue') neq ''}
+																<strong class="moreContent">
+																	<span class="teaserContent">
+																		{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
+																	</span>
+																	{if $FIELDMODEL->has('fullPostValue')}
+																		<span class="fullContent hide">
+																			{$FIELDMODEL->get('fullPostValue')}
+																		</span>
+																		<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+																	{/if}
+																</strong>
 															{/if}
-													</div>
-												{/if}
-											{/foreach}
+														</div>
+													{/if}
+												{/foreach}
 										</div>
 									</div>
-								</li>
-							{else if $RECENT_ACTIVITY->isUpdate()}
-								<li>
+								{else if $RECENT_ACTIVITY->isUpdate()}
 									<span class="glyphicon glyphicon-pencil bgDarkBlue"></span>
-									<div class="timeline-item">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
 											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
 										</div>
@@ -76,27 +74,49 @@
 													<div class='font-x-small updateInfoContainer'>
 														<span>{vtranslate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 														{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
-															&nbsp;{vtranslate('LBL_FROM')} <strong style="white-space:pre-wrap;">
-																{vtranslate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue')))),$MODULE_NAME)}</strong>
-															{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-															&nbsp; <strong> {vtranslate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</del> )
+															&nbsp;{vtranslate('LBL_FROM')}&nbsp;
+															<strong class="moreContent">
+																<span class="teaserContent">
+																	{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}
+																</span>
+																{if $FIELDMODEL->has('fullPreValue')}
+																	<span class="fullContent hide">
+																		{$FIELDMODEL->get('fullPreValue')}
+																	</span>
+																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+																{/if}
+															</strong>
+														{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
+															&nbsp; 
+															<strong>
+																{vtranslate('LBL_DELETED')}
+															</strong>
+															( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del> )
 														{else}
 															&nbsp;{vtranslate('LBL_CHANGED')}
 														{/if}
 														{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-															&nbsp;{vtranslate('LBL_TO')}&nbsp;<strong style="white-space:pre-wrap;">
-																{vtranslate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue')))),$MODULE_NAME)}</strong>
-															{/if}
+															&nbsp;{vtranslate('LBL_TO')}&nbsp;
+															<strong class="moreContent">
+																<span class="teaserContent">
+																	{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
+																</span>
+																{if $FIELDMODEL->has('fullPostValue')}
+																	<span class="fullContent hide">
+																		{$FIELDMODEL->get('fullPostValue')}
+																	</span>
+																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+																{/if}
+															</strong>
+														{/if}
 													</div>
 												{/if}
 											{/foreach}
 										</div>
 									</div>
-								</li>
-							{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
-								<li>
+								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
 									<span class="glyphicon glyphicon-link bgOrange"></span>
-									<div class="timeline-item">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
 											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
 										</div>
@@ -115,25 +135,31 @@
 													{vtranslate('LBL_ADDED', $MODULE_NAME)}
 												{else}
 													{vtranslate('LBL_REMOVED', $MODULE_NAME)}
-												{/if} 
+												{/if}&nbsp;
 											</span>
 											<span>
-												{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
-													{if isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId()) eq 'yes'} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
-												{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}
+												{if Users_Privileges_Model::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
+													<strong class="moreContent">
+														<span class="teaserContent">
+															{Vtiger_Util_Helper::toVtiger6SafeHTML($RELATION->getValue())}
+														</span>
+														{if $RELATION->has('fullValue')}
+															<span class="fullContent hide">
+																{$RELATION->get('fullValue')}
+															</span>
+															<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+														{/if}
+													</strong>
+												{/if}
 											</span>
-											<span>({vtranslate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())})</span>
+											<span>&nbsp;({vtranslate('SINGLE_'|cat:$RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())})</span>
 										</div>
 									</div>
-								</li>
-							{else if $RECENT_ACTIVITY->isRestore()}
-								<li>
+								{else if $RECENT_ACTIVITY->isRestore()}
 
-								</li>
-							{else if $RECENT_ACTIVITY->isConvertToAccount()}
-								<li>
+								{else if $RECENT_ACTIVITY->isConvertToAccount()}
 									<span class="glyphicon glyphicon-transfer bgAzure"></span>
-									<div class="timeline-item">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
 											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
 										</div>
@@ -146,9 +172,7 @@
 											</div>
 										</div>
 									</div>
-								</li>
-							{else if $RECENT_ACTIVITY->isDisplayed()}
-								<li>
+								{else if $RECENT_ACTIVITY->isDisplayed()}
 									<span class="glyphicon glyphicon-th-list bgAzure"></span>
 									<div class="timeline-item">
 										<div class="pull-left paddingRight15 imageContainer">
@@ -164,8 +188,8 @@
 											</div>
 										</div>
 									</div>
-								</li>
-							{/if}
+								{/if}
+							</li>
 						{/if}
 					{/foreach}
 				</ul>
@@ -175,7 +199,7 @@
 				<p class="textAlignCenter">{vtranslate('LBL_NO_RECENT_UPDATES')}</p>
 			</div>
 		{/if}
-
+		<input type="hidden" id="newChange" value="{$NEW_CHANGE}" />
 		<div id="moreLink">
 			{if $PAGING_MODEL->isNextPageExists()}
 				<div class="pull-right">

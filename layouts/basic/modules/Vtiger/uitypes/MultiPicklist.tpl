@@ -16,6 +16,8 @@
 {assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('fieldvalue'))}
 {if !empty($FIELD_MODEL->get('fieldvalue'))}
 	{assign var=NOT_DISPLAY_LIST_VALUES value=array_diff_key(array_flip($FIELD_VALUE_LIST), $PICKLIST_VALUES)}
+{else}
+	{assign var=NOT_DISPLAY_LIST_VALUES value=[]}
 {/if}
 <input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="" />
 <select id="{$MODULE}_{$VIEW}_fieldName_{$FIELD_MODEL->get('name')}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" multiple class="chzn-select form-control col-md-12 {if !empty($NOT_DISPLAY_LIST_VALUES)} hideSelected{/if}" name="{$FIELD_MODEL->getFieldName()}[]" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isMandatory() eq true} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>

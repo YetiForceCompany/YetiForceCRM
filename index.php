@@ -13,10 +13,9 @@
 //TODO : Eliminate below hacking solution
 
 $startTime = microtime(true);
-require_once 'include/RequirementsValidation.php';
-require_once 'include/Webservices/Relation.php';
-require_once 'include/main/WebUI.php';
-require_once 'vtlib/Vtiger/Module.php';
+require 'include/RequirementsValidation.php';
+require 'include/Webservices/Relation.php';
+require 'include/main/WebUI.php';
 
 define('REQUEST_MODE', 'WebUI');
 

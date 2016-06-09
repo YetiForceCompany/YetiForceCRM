@@ -35,6 +35,7 @@ class ListViewController
 	private $picklistValueMap;
 	private $picklistRoleMap;
 	private $headerSortingEnabled;
+	public $rawData;
 
 	public function __construct($db, $user, $generator)
 	{
@@ -47,6 +48,7 @@ class ListViewController
 		$this->picklistValueMap = [];
 		$this->picklistRoleMap = [];
 		$this->headerSortingEnabled = true;
+		$this->rawData = [];
 	}
 
 	public function isHeaderSortingEnabled()
@@ -162,7 +164,7 @@ class ListViewController
 					}
 				}
 				if (count($idList) > 0) {
-					if (!is_array($this->ownerNameList[$fieldName])) {
+					if (isset($this->ownerNameList[$fieldName]) && !is_array($this->ownerNameList[$fieldName])) {
 						$this->ownerNameList[$fieldName] = getOwnerNameList($idList);
 					} else {
 						//array_merge API loses key information so need to merge the arrays
@@ -185,7 +187,7 @@ class ListViewController
 		}
 		$useAsterisk = get_use_asterisk($this->user->id);
 
-		$data = [];
+		$data = $rawData = [];
 		for ($i = 0; $i < $rowCount; ++$i) {
 			//Getting the recordId
 			if ($module != 'Users') {
@@ -198,12 +200,12 @@ class ListViewController
 				$recordId = $db->query_result($result, $i, "id");
 			}
 			$row = [];
-
+			$rawData[$recordId] = [];
 			foreach ($listViewFields as $fieldName) {
 				$field = $moduleFields[$fieldName];
 				$uitype = $field->getUIType();
 				$rawValue = $this->db->query_result($result, $i, $field->getColumnName());
-
+				$rawData[$recordId][$fieldName] = $rawValue;
 				if (in_array($uitype, array(15, 33, 16))) {
 					$value = html_entity_decode($rawValue, ENT_QUOTES, $default_charset);
 				} else {
@@ -212,7 +214,7 @@ class ListViewController
 				if ($uitype == 308) {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field->getFieldId());
 					$value = $fieldModel->getUITypeModel()->getListViewDisplayValue($value);
-				}elseif ($module == 'Documents' && $fieldName == 'filename') {
+				} elseif ($module == 'Documents' && $fieldName == 'filename') {
 					$downloadtype = $db->query_result($result, $i, 'filelocationtype');
 					$fileName = $db->query_result($result, $i, 'filename');
 
@@ -485,6 +487,7 @@ class ListViewController
 			}
 			$data[$recordId] = $row;
 		}
+		$this->rawData = $rawData;
 		return $data;
 	}
 }

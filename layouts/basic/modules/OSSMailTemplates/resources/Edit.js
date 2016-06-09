@@ -99,16 +99,16 @@ Vtiger_Edit_Js("OSSMailTemplates_Edit_Js", {
 		AppConnector.request(params).then(
 				function (data) {
 					if (data.success) {
-						var fieldRelatedListSelect = jQuery('[name="oss_related_fields_list"]'),
-						tabField = data.result;
+						var fieldRelatedListSelect = jQuery('[name="oss_related_fields_list"]');
+						var tabField = data.result;
+						fieldRelatedListSelect.find('optgroup').remove();
 						fieldRelatedListSelect.find('option').remove();
-		
 						jQuery(tabField).each(function (index, item) {
 							for (var tab in item) {
 								var html = '<optgroup label="' + tab + '">';
-								for(var itemTab in item[tab]){
-									for(var content in item[tab][itemTab]){
-										if(undefined != item[tab][itemTab][content]['id'])
+								for (var itemTab in item[tab]) {
+									for (var content in item[tab][itemTab]) {
+										if (undefined != item[tab][itemTab][content]['id'])
 											html += '<option value="' + item[tab][itemTab][content]['id'] + '">' + item[tab][itemTab][content]['label'] + '</option>';
 									}
 								}

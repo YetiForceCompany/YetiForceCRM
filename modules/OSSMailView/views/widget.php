@@ -50,7 +50,6 @@ Class OSSMailView_widget_View extends Vtiger_Edit_View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECOLDLIST', $recordModel->$mode($srecord, $smodule, $config, $type, $mailFilter));
-		$viewer->assign('SENDURLDDATA', $urldata);
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('SMODULENAME', $smodule);
 		$viewer->assign('RECORD', $record);

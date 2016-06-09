@@ -101,9 +101,75 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$lastReviewedUsers = $db->getSingleValue($result);
 		if (!empty($lastReviewedUsers)) {
 			$lastReviewedUsers = explode('#', $lastReviewedUsers);
-			return !in_array($currentUser->id, $lastReviewedUsers);
+			return !in_array($currentUser->getRealId(), $lastReviewedUsers);
 		}
 		return true;
+	}
+
+	public static function getUnreviewed($recordsId, $userId = false)
+	{
+		$db = PearDatabase::getInstance();
+		if($userId === false){
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$userId = $currentUser->getRealId();
+		}
+		$unreviewed = [];
+		if (!is_array($recordsId)) {
+			$recordsId = [$recordsId];
+		}
+		$listQuery = 'SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (' . $db->generateQuestionMarks($recordsId) . ') AND status <> ? ORDER BY crmid,changedon DESC;';
+		$result = $db->pquery($listQuery, [$recordsId, self::DISPLAYED]);
+		foreach ($result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN) as $crmId => $reviewedUsers) {
+			$count = 0;
+			foreach ($reviewedUsers as $users) {
+				if (strpos($users, "#$userId#") !== false) {
+					break;
+				}
+				++$count;
+				$unreviewed[$crmId] = $count;
+			}
+		}
+		return $unreviewed;
+	}
+
+	/**
+	 * Function to get the name of the module to which the record belongs
+	 * @return <String> - Record Module Name
+	 */
+	public function getModule()
+	{
+		if (empty($this->parent)) {
+			return Vtiger_Module_Model::getInstance($this->getModuleName());
+		}
+		return $this->getParent()->getModule();
+	}
+
+	/**
+	 * Function to get the name of the module to which the record belongs
+	 * @return <String> - Record Module Name
+	 */
+	public function getModuleName()
+	{
+		return $this->get('module');
+	}
+
+	/**
+	 * Function to get the Detail View url for the record
+	 * @return <String> - Record Detail View Url
+	 */
+	public function getDetailViewUrl()
+	{
+		$moduleName = $this->getModuleName();
+		switch ($moduleName) {
+			case 'Documents': $action = 'action=DownloadFile';
+				break;
+			case 'OSSMailView': $action = 'view=Preview';
+				break;
+			default: $action = 'view=Detail';
+				break;
+		}
+
+		return "index.php?module=$moduleName&$action&record=" . $this->get('crmid');
 	}
 
 	function setParent($id, $moduleName)
@@ -179,11 +245,13 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return Users_Record_Model::getInstanceById($changeUserId, 'Users');
 	}
 
-	function getDisplayActivityTime(){
+	function getDisplayActivityTime()
+	{
 		$time = $this->getActivityTime();
 		$time = new DateTimeField($time);
 		return $time->getFullcalenderDateTimevalue();
 	}
+
 	function getActivityTime()
 	{
 		return $this->get('changedon');
@@ -194,18 +262,16 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$id = $this->get('id');
 		$db = PearDatabase::getInstance();
 
-		$fieldInstances = array();
+		$fieldInstances = [];
 		if ($this->isCreate() || $this->isUpdate()) {
 			$result = $db->pquery('SELECT * FROM vtiger_modtracker_detail WHERE id = ?', array($id));
-			$rows = $db->num_rows($result);
-			for ($i = 0; $i < $rows; $i++) {
-				$data = $db->query_result_rowdata($result, $i);
+			while ($data = $db->getRow($result)) {
 				$row = array_map('html_entity_decode', $data);
 
 				if ($row['fieldname'] == 'record_id' || $row['fieldname'] == 'record_module')
 					continue;
 
-				$fieldModel = Vtiger_Field_Model::getInstance($row['fieldname'], $this->getParent()->getModule());
+				$fieldModel = Vtiger_Field_Model::getInstance($row['fieldname'], $this->getModule());
 				if (!$fieldModel)
 					continue;
 

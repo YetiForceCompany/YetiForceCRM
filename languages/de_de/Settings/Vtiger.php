@@ -29,9 +29,6 @@ $languageStrings = [
 	'LBL_ADD_NEW_TAX' => 'Neuen Steuersatz hinzufügen',
 	'LBL_ADD_OR_DELETE_USERS' => 'Benutzer hinzufügen/löschen',
 	'LBL_ADD_USER' => 'Benutzer hinzufügen',
-	'LBL_ANNOUNCEMENT' => 'System Messages',
-	'LBL_ANNOUNCEMENT_DESCRIPTION' => 'Verwalten von Bekanntmachungen',
-	'LBL_ANNOUNCEMENTS' => 'Bekanntmachungen',
 	'LBL_AVAILABLE_WORKLIST_LIST' => 'Verfügbare Workflows',
 	'LBL_CALCULATOR_DISPLAY' => 'Taschenrechner',
 	'LBL_CALENDAR_CONFIG' => 'Kalenderkonfiguration',
@@ -358,6 +355,7 @@ $languageStrings = [
 	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Show language selection on the login page',
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Show layout selection on the login page',
 	'LBL_YETIFORCE_SHOP' => 'YetiForce Shop',
+	'RecordAllocation' => 'Record allocation',
 ];
 $jsLanguageStrings = [
 	'JS_AUTHORIZATION_COMPLETE' => 'Authorization successful',
@@ -384,4 +382,6 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'Nicht unterstütztes Bildformat',
 	'JS_COLUMN_ADDED' => 'Feld hinzugefügt',
 	'JS_COLUMN_EXIST' => 'Fehler beim Feld hinzufügen',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
+	'JS_NOTIFY_COPY_TITLE' => 'Text',
 ];

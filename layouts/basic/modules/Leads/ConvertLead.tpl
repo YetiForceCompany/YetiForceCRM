@@ -20,7 +20,7 @@
 					{assign var=CONVERSION_CONFIG value=Vtiger_Processes_Model::getConfig('marketing','conversion')}
 					<div class="modal-header contentsBackground">
 						<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-						<h3 class="modal-title">{vtranslate('LBL_CONVERT_LEAD', $MODULE)} : {$RECORD->getName()}</h3>
+						<h3 class="modal-title">{vtranslate('LBL_CONVERT_LEAD', $MODULE)}: {$RECORD->getName()}</h3>
 					</div>
 					<form class="form-horizontal" id="convertLeadForm" method="post" action="index.php">
 						<input type="hidden" name="module" value="{$MODULE}"/>
@@ -40,7 +40,7 @@
 													{/if}
 													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME == 'Accounts'} hide{/if}" data-module="{vtranslate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" {if $MODULE_NAME == 'Accounts' && $CONTACT_ACCOUNT_FIELD_MODEL && $CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()} disabled="disabled" {/if} checked="" />
 													{assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
-													<span class="panel-title">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_CREATE', $MODULE)}&nbsp;{vtranslate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
+													<span class="panel-title">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_CREATING_NEW', $MODULE_NAME)}&nbsp;{vtranslate($SINGLE_MODULE_NAME, $MODULE_NAME)} {$SINGLE_MODULE_NAME}</span>
 
 
 												</label>

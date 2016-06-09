@@ -199,36 +199,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var detailInstance = Vtiger_Detail_Js.getInstance();
 		detailInstance.loadRelatedList(pageNumber);
 	},
-	changesReviewedOn: function (e) {
-		var progressInstance = jQuery.progressIndicator({
-			'position': 'html',
-			'blockInfo': {
-				'enabled': true
-			}
-		});
-		var url = 'index.php?module=ModTracker&action=ChangesReviewedOn&record=' + app.getRecordId();
-		AppConnector.request(url).then(
-				function (data) {
-					progressInstance.progressIndicator({mode: 'hide'});
-					var detailInstance = Vtiger_Detail_Js.getInstance();
-					var tab = detailInstance.getSelectedTab();
-					if (tab.data('labelKey') == detailInstance.detailViewRecentUpdatesTabLabel) {
-						detailInstance.reloadTabContent();
-					} else if (tab.data('linkKey') == detailInstance.detailViewSummaryTabLabel) {
-						var summaryViewContainer = detailInstance.getContentHolder();
-						var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
-						if (updatesWidget.length > 0) {
-							var params = detailInstance.getFiltersData(updatesWidget);
-							detailInstance.loadWidget(updatesWidget, params['params']);
-						}
-					}
-					jQuery(e).parent().remove();
-				},
-				function (error, err) {
-					progressInstance.progressIndicator({mode: 'hide'});
-				}
-		);
-	},
 	showWorkflowTriggerView: function (instance) {
 		$(instance).popover('hide');
 		var detailInstance = Vtiger_Detail_Js.getInstance();
@@ -392,6 +362,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					contentContainer.trigger(thisInstance.widgetPostLoad, {'widgetName': relatedModuleName})
 					app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 					app.registerModal(contentContainer);
+					app.registerMoreContent(contentContainer.find('button.moreBtn'));
 					aDeferred.resolve(params);
 				},
 				function (e) {
@@ -887,6 +858,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.selectPageHandler(pageNumber);
 		});
+
 	},
 	/**
 	 * Function to register Event for Sorting
@@ -1004,7 +976,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (inventoryRow.hasClass('listViewInventoryEntries') && !target.closest('div').hasClass('actions') && !target.is('a') && !target.is('input')) {
 				inventoryRow.toggleClass('hide');
 			}
-		})
+		});
+		var selectedTabElement = thisInstance.getSelectedTab();
+		var relatedModuleName = thisInstance.getRelatedModuleName();
+		var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
+		relatedController.registerUnreviewedCountEvent();
 	},
 	registerBlockAnimationEvent: function () {
 		var detailContentsHolder = this.getContentHolder();
@@ -1554,6 +1530,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 			if (updatesWidget.length) {
 				var params = thisInstance.getFiltersData(updatesWidget);
+				updatesWidget.find('.btnChangesReviewedOn').parent().remove();
 				thisInstance.loadWidget(updatesWidget, params['params']);
 			}
 		});
@@ -1704,6 +1681,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 					if (updatesWidget.length > 0) {
 						var params = thisInstance.getFiltersData(updatesWidget);
+						updatesWidget.find('.btnChangesReviewedOn').parent().remove();
 						thisInstance.loadWidget(updatesWidget, params['params']);
 					}
 					aDeferred.resolve(data);
@@ -2028,6 +2006,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							element.progressIndicator({'mode': 'hide'});
 							thisInstance.registerHelpInfo();
 							app.registerModal(detailContentsHolder);
+							app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
 							if (typeof callBack == 'function') {
 								callBack(data);
 							}
@@ -2331,68 +2310,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred);
 		return aDeferred.promise();
 	},
-	registerCommentModalEvents: function (detailContentsHolder) {
-		var thisInstance = this;
-		detailContentsHolder.on('click', '.detailViewCommentModalBtn', function (e) {
-			var moreBtn = jQuery(e.currentTarget);
-			var blockComment = moreBtn.closest('.addCommentBlock');
-			var commentValue = blockComment.find('.commentcontent').val();
-			var reasonValue = blockComment.find('[name="reasonToEdit"]').val();
-			app.showModalWindow($('.commentModal').html(), function () {
-				var commentModal = $('.commentModalContent');
-				commentModal.find('.commentcontent').html(commentValue);
-				commentModal.find('[name="reasonToEdit"]').val(reasonValue);
-				if (moreBtn.data('mode') == 'edit') {
-					commentModal.find('.reason').removeClass('hide');
-				} else {
-					commentModal.find('.reason').addClass('hide');
-				}
-				$('.modalSaveComment').on('click', function (e) {
-					var element = jQuery(e.currentTarget);
-					if (!element.is(":disabled")) {
-						var dataObj = thisInstance.saveCommentModal(element, moreBtn);
-						dataObj.then(function () {
-							thisInstance.registerRelatedModulesRecordCount();
-							var commentsContainer = detailContentsHolder.find("[data-type='Comments']");
-							thisInstance.loadWidget(commentsContainer).then(function () {
-								app.hideModalWindow();
-								element.removeAttr('disabled');
-							});
-						});
-					}
-				});
-			});
-		});
-
-		detailContentsHolder.on('click', '.commentModalBtn', function (e) {
-			var moreBtn = jQuery(e.currentTarget);
-			var blockComment = moreBtn.closest('.addCommentBlock');
-			var commentValue = blockComment.find('.commentcontent').val();
-			var reasonValue = blockComment.find('[name="reasonToEdit"]').val();
-			app.showModalWindow($('.commentModal').html(), function () {
-				var commentModal = $('.commentModalContent');
-				commentModal.find('.commentcontent').html(commentValue);
-				commentModal.find('[name="reasonToEdit"]').val(reasonValue);
-				if (moreBtn.data('mode') == 'edit') {
-					commentModal.find('.reason').removeClass('hide');
-				} else {
-					commentModal.find('.reason').addClass('hide');
-				}
-				$('.modalSaveComment').on('click', function (e) {
-					var element = jQuery(e.currentTarget);
-					if (!element.is(":disabled")) {
-						var dataObj = thisInstance.saveCommentModal(element, moreBtn);
-						dataObj.then(function (data) {
-							var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
-							thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
-							thisInstance.addComment(moreBtn, data);
-							app.hideModalWindow();
-						});
-					}
-				});
-			});
-		});
-	},
 	/**
 	 * Function to display a new comments
 	 */
@@ -2404,9 +2321,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var commentInfoBlock = currentTarget.closest('.singleComment');
 		commentTextAreaElement.val('');
 		if (mode == "add") {
-			if ($('#typeView').val() == 'Timeline') {
-				thisInstance.registerRefreshTimeline('last');
-			}
 			var commentId = data['result']['id'];
 			var commentHtml = thisInstance.getCommentUI(commentId);
 			commentHtml.then(function (data) {
@@ -2436,7 +2350,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				commentInfoBlock.find('.commentActionsContainer').show();
 			});
 		} else if (mode == "edit") {
-			thisInstance.registerRefreshTimeline(commentInfoBlock.find('.commentInfoHeader').data('commentid'));
 			var modifiedTime = commentInfoBlock.find('.commentModifiedTime');
 			var commentInfoContent = commentInfoBlock.find('.commentInfoContent');
 			var commentEditStatus = commentInfoBlock.find('[name="editStatus"]');
@@ -2458,7 +2371,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerCommentEvents: function (detailContentsHolder) {
 		var thisInstance = this;
-		thisInstance.registerCommentModalEvents(detailContentsHolder);
 		detailContentsHolder.on('click', '.addCommentBtn', function (e) {
 			thisInstance.removeCommentBlockIfExists();
 			var addCommentBlock = thisInstance.getCommentBlock();
@@ -2556,18 +2468,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					element.removeAttr('disabled');
 				});
 			}
-		});
-		detailContentsHolder.find('.commentsBar .switchBtn').on('switchChange.bootstrapSwitch', function (e, state) {
-			var selectedTab = thisInstance.getSelectedTab();
-			var addressUrl = selectedTab.data('url');
-			if (state) {
-				addressUrl = addressUrl.replace("type=List", "type=Timeline");
-				selectedTab.data('url', addressUrl);
-			} else {
-				addressUrl = addressUrl.replace("type=Timeline", "type=List");
-				selectedTab.data('url', addressUrl);
-			}
-			selectedTab.trigger('click');
 		});
 		detailContentsHolder.on('click', '.moreRecentComments', function () {
 			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
@@ -2815,14 +2715,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 		detailContentsHolder.on('click', '.moreRecentUpdates', function (e) {
 			var container = $(e.currentTarget).closest('.recentActivitiesContainer');
+			var newChangeInput = container.find('#newChange');
+			var newChange = newChangeInput.val();
 			var currentPage = container.find('#updatesCurrentPage').val();
 			var nextPage = parseInt(currentPage) + 1;
 			if (container.closest('.summaryWidgetContainer').length) {
-				var data = thisInstance.getFiltersData(e, {'page': nextPage, 'tab_label': 'LBL_UPDATES'}, container.find('#updates'));
+				var data = thisInstance.getFiltersData(e, {'page': nextPage, 'tab_label': 'LBL_UPDATES', 'newChange': newChange}, container.find('#updates'));
 				var url = data['params'];
 			} else {
 				var url = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url');
-				url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true';
+				url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true&newChange=' + newChange;
 				if (url.indexOf('&whereCondition') == -1) {
 					var switchBtn = jQuery('.recentActivitiesSwitch');
 					url += '&whereCondition=' + (switchBtn.prop('checked') ? switchBtn.data('on-val') : switchBtn.data('off-val'));
@@ -2830,9 +2732,37 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 			AppConnector.request(url).then(
 					function (data) {
-						container.find('#updatesCurrentPage').remove();
-						container.find('#moreLink').remove();
-						container.find('#updates').append(data);
+						var dataContainer = jQuery(data);
+						container.find('#newChange').val(dataContainer.find('#newChange').val());
+						container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
+						container.find('#moreLink').html(dataContainer.find('#moreLink').html());
+						container.find('#updates ul').append(dataContainer.find('#updates ul').html());
+						app.registerMoreContent(container.find('button.moreBtn'));
+					}
+			);
+		});
+		detailContentsHolder.on('click', '.btnChangesReviewedOn', function (e) {
+			var progressInstance = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var url = 'index.php?module=ModTracker&action=ChangesReviewedOn&record=' + app.getRecordId();
+			AppConnector.request(url).then(
+					function (data) {
+						progressInstance.progressIndicator({mode: 'hide'});
+						jQuery(e.currentTarget).parent().remove();
+						thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).find('.count.badge').text('');
+						if (selectedTabElement.data('labelKey') == thisInstance.detailViewRecentUpdatesTabLabel) {
+							thisInstance.reloadTabContent();
+						} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+							var updatesWidget = detailContentsHolder.find("[data-type='Updates']");
+							if (updatesWidget.length > 0) {
+								var params = thisInstance.getFiltersData(updatesWidget);
+								thisInstance.loadWidget(updatesWidget, params['params']);
+							}
+						}
 					}
 			);
 		});
@@ -2864,10 +2794,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerEventForRelatedListPagination();
 		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
-		if (selectedTabElement.data('reference') == 'Comments') {
-			thisInstance.registerRefreshTimeline();
-		}
-
 		detailContentsHolder.on('switchChange.bootstrapSwitch', '.recentActivitiesSwitch.switchBtn', function (e, state) {
 			var currentTarget = jQuery(e.currentTarget);
 			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);
@@ -2952,67 +2878,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(function (data) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			commentContainer.html(data);
-		});
-	},
-	registerRefreshTimeline: function (currentComment) {
-		if ($('#typeView').val() == 'List') {
-			return;
-		}
-		var thisInstance = this;
-		var options = {
-			width: '100%',
-			height: '100%',
-			layout: 'portrait',
-			timenav_position: 'top',
-			marker_height_min: 48,
-			marker_width_min: 150,
-			marker_padding: 5,
-			scale_factor: 1,
-			optimal_tick_width: 700,
-			slide_padding_lr: 100,
-			slide_default_fade: "0%",
-			language: app.getLanguage().substring(0, 2)
-		};
-		var params = {
-			module: 'ModComments',
-			srcModule: app.getModuleName(),
-			action: 'TimelineAjax',
-			record: thisInstance.getRecordId()
-		};
-		var progressIndicatorElement = jQuery.progressIndicator({
-			position: 'html',
-			'blockInfo': {
-				'enabled': true,
-				'elementToBlock': thisInstance.getContentHolder()
-			}
-		});
-		if (typeof currentComment == 'undefined') {
-			currentComment = $('#currentComment').val();
-		}
-		AppConnector.request(params).then(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			var allComments = data.result;
-			if (typeof allComments.events != 'undefined') {
-				var timeline = new TL.Timeline('timeline', allComments, options);
-				timeline.on('change', function (data) {
-					var uniqueId = data.unique_id;
-					thisInstance.refreshCommentContainer(uniqueId.substr(2, uniqueId.length - 2));
-				});
-				if (!currentComment || currentComment == 'last') {
-					if (allComments.events.length == 1) {
-						var uniqueId = allComments.events[0].unique_id;
-						thisInstance.refreshCommentContainer(uniqueId.substr(2, uniqueId.length - 2));
-					} else {
-						timeline.goToEnd();
-					}
-				} else if (allComments.events[allComments.events.length - 1].unique_id == 'Id' + currentComment) {
-					thisInstance.refreshCommentContainer(currentComment);
-				} else {
-					timeline.goToId('Id' + currentComment);
-				}
-			} else {
-				thisInstance.refreshCommentContainer();
-			}
 		});
 	},
 	updateRecordsPDFTemplateBtn: function (form) {

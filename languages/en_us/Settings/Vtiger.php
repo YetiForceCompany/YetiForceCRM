@@ -28,9 +28,6 @@ $languageStrings = [
 	'LBL_ADD_NEW_TAX' => 'Add new tax',
 	'LBL_ADD_OR_DELETE_USERS' => 'Add/Delete Users',
 	'LBL_ADD_USER' => 'Add User',
-	'LBL_ANNOUNCEMENT' => 'System messages',
-	'LBL_ANNOUNCEMENT_DESCRIPTION' => 'Manage announcements visible to all the users',
-	'LBL_ANNOUNCEMENTS' => 'Announcements',
 	'LBL_AVAILABLE_WORKLIST_LIST' => 'Available Workflows',
 	'LBL_CALCULATOR_DISPLAY' => 'Calculator',
 	'LBL_COMPANY' => 'Company Information',
@@ -357,6 +354,7 @@ $languageStrings = [
 	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Show language selection on the login page',
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Show layout selection on the login page',
 	'LBL_YETIFORCE_SHOP' => 'YetiForce Shop',
+	'RecordAllocation' => 'Record allocation',
 ];
 
 $jsLanguageStrings = [
@@ -384,4 +382,6 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'not supported Image type',
 	'JS_COLUMN_ADDED' => 'Field added',
 	'JS_COLUMN_EXIST' => 'Error while adding field',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
+	'JS_NOTIFY_COPY_TITLE' => 'Text',
 ];

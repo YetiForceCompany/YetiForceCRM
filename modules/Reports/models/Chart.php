@@ -160,7 +160,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 					$aggregateFunction = $columnInfo[5];
 					if (empty($referenceFieldReportColumnSQL)) {
 						$reportColumnSQL = $this->getReportTotalColumnSQL($columnInfo);
-						$reportColumnSQLInfo = split(' AS ', $reportColumnSQL);
+						$reportColumnSQLInfo = preg_split('/ AS /i', $reportColumnSQL);
 
 						if ($aggregateFunction == 'AVG') { // added as mysql will ignore null values
 							$label = $this->reportRun->replaceSpecialChar($reportColumnSQLInfo[1]) . '__AVG';
@@ -174,7 +174,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 						$fieldModel->set('reportlabel', $this->reportRun->replaceSpecialChar($label));
 					} else {
 						$reportColumn = $referenceFieldReportColumnSQL;
-						$groupColumnSQLInfo = split(' AS ', $referenceFieldReportColumnSQL);
+						$groupColumnSQLInfo = preg_split('/ AS /i', $referenceFieldReportColumnSQL);
 						$fieldModel->set('reportlabel', $this->reportRun->replaceSpecialChar($groupColumnSQLInfo[1]));
 						$fieldModel->set('reportcolumn', $this->reportRun->replaceSpecialChar($reportColumn));
 					}
@@ -209,13 +209,13 @@ abstract class Base_Chart extends Vtiger_Base_Model
 						$fieldModel->set('reportcolumn', $this->reportRun->replaceSpecialChar($reportColumnSQL));
 						// Added support for date and date time fields with Year and Month support
 						if ($columnInfo[4] == 'D' || $columnInfo[4] == 'DT') {
-							$reportColumnSQLInfo = split(' AS ', $reportColumnSQL);
+							$reportColumnSQLInfo = preg_split('/ AS /i', $reportColumnSQL);
 							$fieldModel->set('reportlabel', trim($this->reportRun->replaceSpecialChar($reportColumnSQLInfo[1]), '\'')); // trim added as single quote on labels was not grouping properly
 						} else {
 							$fieldModel->set('reportlabel', $this->reportRun->replaceSpecialChar($columnInfo[2]));
 						}
 					} else {
-						$groupColumnSQLInfo = split(' AS ', $referenceFieldReportColumnSQL);
+						$groupColumnSQLInfo = preg_split('/ AS /i', $referenceFieldReportColumnSQL);
 						$fieldModel->set('reportlabel', $this->reportRun->replaceSpecialChar($groupColumnSQLInfo[1]));
 						$fieldModel->set('reportcolumn', $this->reportRun->replaceSpecialChar($referenceFieldReportColumnSQL));
 					}
@@ -352,13 +352,12 @@ abstract class Base_Chart extends Vtiger_Base_Model
 			}
 		}
 
-		$sql = explode(' from ', $this->reportRun->sGetSQLforReport($reportModel->getId(), $advFilterSql, 'PDF'));
-
+		$sql = preg_split('/ from /i', $this->reportRun->sGetSQLforReport($reportModel->getId(), $advFilterSql, 'PDF'));
 		$columnLabels = [];
 
-		$chartSQL = "SELECT ";
+		$chartSQL = 'SELECT ';
 		if ($this->isRecordCount()) {
-			$chartSQL .= " count(*) AS RECORD_COUNT,";
+			$chartSQL .= ' count(*) AS RECORD_COUNT,';
 		}
 
 		// Add other columns
@@ -370,7 +369,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 		$chartSQL .= " FROM $sql[1] ";
 
 		if ($groupByColumns && is_array($groupByColumns)) {
-			$chartSQL .= " GROUP BY " . implode(',', $groupByColumns);
+			$chartSQL .= ' GROUP BY ' . implode(',', $groupByColumns);
 		}
 		return $chartSQL;
 	}

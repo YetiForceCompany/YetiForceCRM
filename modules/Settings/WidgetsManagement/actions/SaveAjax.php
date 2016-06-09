@@ -40,7 +40,8 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 		} else {
 			if (!$data['action'])
 				$data['action'] = 'saveDetails';
-			$result = Settings_WidgetsManagement_Module_Model::$data['action']($data, $moduleName, $addToUser);
+			$action = $data['action'];
+			$result = Settings_WidgetsManagement_Module_Model::$action($data, $moduleName, $addToUser);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

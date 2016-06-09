@@ -63,17 +63,6 @@ class Emails extends CRMEntity {
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
 
-	/** This function will set the columnfields for Email module
-	 */
-	function Emails() {
-		$this->log = LoggerManager::getLogger('email');
-		$this->log->debug("Entering Emails() method ...");
-		$this->log = LoggerManager::getLogger('email');
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Emails');
-		$this->log->debug("Exiting Email method ...");
-	}
-
 	function save_module($module) {
 		$adb = PearDatabase::getInstance();
 		//Inserting into seactivityrel
@@ -459,14 +448,15 @@ class Emails extends CRMEntity {
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id) {
+	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
+	{
 		$log = vglobal('log');
 
 		$sql = 'DELETE FROM vtiger_seactivityrel WHERE activityid=? AND crmid = ?';
-		$this->db->pquery($sql, array($id, $return_id));
+		$this->db->pquery($sql, array($id, $returnId));
 
 		$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
-		$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
+		$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
 		$this->db->pquery($sql, $params);
 
 		$this->db->pquery('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?', array(date('y-m-d H:i:d'), $id));
@@ -515,13 +505,17 @@ class Emails extends CRMEntity {
 	* @param - $secmodule secondary module name
 	* returns the array with table names and fieldnames storing relations between module and this module
 	*/
-	function setRelationTables($secmodule) {
+	function setRelationTables($secmodule = false)
+	{
 		$rel_tables = array (
 				"Leads" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
 				"Vendors" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
 				"Contacts" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
 				"Accounts" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
 		);
+		if ($secmodule === false) {
+			return $relTables;
+		}
 		return $rel_tables[$secmodule];
 	}
 

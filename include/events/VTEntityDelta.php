@@ -79,7 +79,7 @@ class VTEntityDelta extends VTEventHandler
 				$isModified = true;
 			}
 			if ($isModified) {
-				$delta[$fieldName] = array('oldValue' => $oldData[$fieldName],
+				$delta[$fieldName] = array('oldValue' => isset($oldData[$fieldName]) ? $oldData[$fieldName] : '',
 					'currentValue' => $newData[$fieldName]);
 			}
 		}

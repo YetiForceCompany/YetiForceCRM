@@ -36,7 +36,7 @@ class Vtiger_AssignedOverdueProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$projectsTasks = ($owner === false) ? [] : $moduleModel->getAssignedProjectsTasks('overdue', $pagingModel, $owner);
 
-
+		$viewer->assign('SOURCE_MODULE', 'ProjectTask');
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTSTASKS', $projectsTasks);

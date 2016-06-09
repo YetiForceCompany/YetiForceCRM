@@ -165,8 +165,8 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'PDF template saved.',
-	'LBL_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
-	'LBL_NOTIFY_COPY_TITLE' => 'Text',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
+	'JS_NOTIFY_COPY_TITLE' => 'Text',
 	'JS_PDF_TEMPLATE_EXPORTED' => 'PDF template exported successfully.',
 	'JS_RECALCULATING' => 'Recalculating permissions...',
 ];

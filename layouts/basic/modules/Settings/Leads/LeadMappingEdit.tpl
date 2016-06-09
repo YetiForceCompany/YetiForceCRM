@@ -13,7 +13,7 @@
 		<form id="leadsMapping" method="POST">
 			<div class="row widget_header settingsHeader marginBottom5">
 				<span class="col-sm-12 col-xs-12 col-md-8">
-					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 				</span>
 				<span class="col-xs-12 col-sm-12 col-md-4 ">
 					<span class="pull-right">

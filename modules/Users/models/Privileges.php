@@ -167,7 +167,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 * @param <Number> $record
 	 * @return Boolean
 	 */
-	public static function isPermitted($moduleName, $actionName = '', $record = false)
+	public static function isPermitted($moduleName, $actionName = null, $record = false)
 	{
 		$permission = isPermitted($moduleName, $actionName, $record);
 		if ($permission == 'yes') {
@@ -305,6 +305,19 @@ class Users_Privileges_Model extends Users_Record_Model
 			}
 		}
 		$log->info('Exiting setSharedOwnerRecursively()');
+	}
+
+	public static function isPermittedByUserId($userId, $moduleName, $actionName = '', $record = false)
+	{
+		$currentUser = vglobal('current_user');
+		if (!empty($userId)) {
+			$user = CRMEntity::getInstance('Users');
+			$user->retrieveCurrentUserInfoFromFile($userId);
+			vglobal('current_user', $user);
+		}
+		$result = self::isPermitted($moduleName, $actionName, $record);
+		vglobal('current_user', $currentUser);
+		return $result;
 	}
 
 	/**

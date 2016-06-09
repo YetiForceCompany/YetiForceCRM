@@ -149,4 +149,5 @@ $languageStrings = [
 	'LBL_SHOW_ACCOUNT_DETAILS' => 'Show account details',
 	'LBL_EDIT_FOLDER_ACCOUNT' => 'Edit folders',
 	'LBL_ALERT_EDIT_FOLDER' => 'Deleting the folder and adding it again will restart the mail scanner for selected folders.',
+	'LBL_DELETE_ACCOUNT' => 'Delete account',
 ];

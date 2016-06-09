@@ -28,9 +28,6 @@ $languageStrings = [
 	'LBL_ADD_NEW_TAX' => 'Dodaj nowy podatek',
 	'LBL_ADD_OR_DELETE_USERS' => 'Dodaj/Usuń użytkowników',
 	'LBL_ADD_USER' => 'Dodaj użytkownika',
-	'LBL_ANNOUNCEMENT' => 'Komunikaty - systemowe',
-	'LBL_ANNOUNCEMENT_DESCRIPTION' => 'Zarządzaj komunikatami systemowymi, które będą wyświetlane wszystkim użytkownikom systemu CRM.',
-	'LBL_ANNOUNCEMENTS' => 'Ogłoszenia systemowe',
 	'LBL_AVAILABLE_WORKLIST_LIST' => 'Aktywne obiegi informacji',
 	'LBL_CALCULATOR_DISPLAY' => 'Kalkulator',
 	'LBL_COMPANY' => 'Definiowanie firmy',
@@ -67,8 +64,6 @@ $languageStrings = [
 	'LBL_FIELDS_INFO_IS_EMPTY' => 'Brak informacji o polu',
 	'LBL_FROM_EMAIL' => 'Mail widoczny w "Od"',
 	'LBL_GROUP_DESCRIPTION' => 'Twórz i zarządzaj grupami, które możesz powiązać z innymi grupami, rolami, podrolami oraz użytkownikami.',
-	'LBL_RECORDALLOCATION_DESCRIPTION' => ' ',
-	'LBL_RECORDALLOCATION' => 'Przydział rekordów',
 	'LBL_HELPDESK_SUPPORT_EMAILID' => 'Helpdesk email',
 	'LBL_HELPDESK_SUPPORT_NAME' => 'Wyświetlana nazwa helpdesk-u',
 	'LBL_IMAGE_CORRUPTED' => 'Wykryto wirusa lub przesłano uszkodzony plik',
@@ -359,7 +354,8 @@ $languageStrings = [
 	'LBL_SELECT_ICON' => 'Wybierz ikonę',
 	'LBL_ICON_NAME' => 'Nazwa ikony',
 	'LBL_ICON_EXAMPLE' => 'Przykład ikony',
-	'LBL_YETIFORCE_SHOP' => 'Sklep YetiForce'
+	'LBL_YETIFORCE_SHOP' => 'Sklep YetiForce',
+	'RecordAllocation' => 'Przydział rekordów',
 ];
 
 $jsLanguageStrings = [
@@ -387,4 +383,6 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'nie wspierany format pliku',
 	'JS_COLUMN_ADDED' => 'Pole dodane',
 	'JS_COLUMN_EXIST' => 'Błąd przy dodaniu pola',
+	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
+	'JS_NOTIFY_COPY_TITLE' => 'Tekst',
 ];

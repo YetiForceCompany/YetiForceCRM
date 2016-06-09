@@ -209,6 +209,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 					break;
 				case 308: $fieldDataType = 'rangeTime';
 					break;
+				case 309: $fieldDataType = 'categoryMultipicklist';
+					break;
 				default:
 					$webserviceField = $this->getWebserviceFieldObject();
 					$fieldDataType = $webserviceField->getFieldDataType();
@@ -239,6 +241,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isNameField()
 	{
+
 		$nameFieldObject = Vtiger_Cache::get('EntityField', $this->getModuleName());
 		if (!$nameFieldObject) {
 			$moduleModel = $this->getModule();
@@ -251,7 +254,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 			$moduleEntityNameFields = explode(',', $nameFieldObject->fieldname);
 		}
 
-		if (in_array($this->get('name'), $moduleEntityNameFields)) {
+		if (in_array($this->get('column'), $moduleEntityNameFields)) {
 			return true;
 		}
 		return false;
@@ -346,7 +349,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return $modules;
 	}
 
-	public function showDisplayTypeList()
+	public static function showDisplayTypeList()
 	{
 		$displayType = array(
 			1 => 'LBL_DISPLAY_TYPE_1',
@@ -365,8 +368,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isMandatory()
 	{
-		list($type, $mandatory) = explode('~', $this->get('typeofdata'));
-		return $mandatory == 'M' ? true : false;
+		$typeOfData = explode('~', $this->get('typeofdata'));
+		return (isset($typeOfData[1]) && $typeOfData[1] == 'M') ? true : false;
 	}
 
 	/**
@@ -681,8 +684,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 		}
 
 		if ($this->getFieldDataType() == 'owner') {
-			$userList = $currentUser->getAccessibleUsers();
-			$groupList = $currentUser->getAccessibleGroups();
+			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
+			$groupList = $currentUser->getAccessibleGroups('', $this->getModuleName(), $this->getFieldDataType());
 			$pickListValues = [];
 			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
 			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
@@ -690,7 +693,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		}
 
 		if ($this->getFieldDataType() == 'sharedOwner') {
-			$userList = $currentUser->getAccessibleUsers();
+			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
 			$pickListValues = [];
 			$this->fieldInfo['picklistvalues'] = $userList;
 		}
@@ -837,7 +840,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 			foreach ($fieldObjects as $fieldObject) {
 				$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
-				$fieldModelList[$fieldModelObject->get('block')->id][] = $fieldModelObject;
+				$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
+				$fieldModelList[$block][] = $fieldModelObject;
 				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
 				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
 			}

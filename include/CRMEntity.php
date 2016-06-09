@@ -32,6 +32,15 @@ class CRMEntity
 
 	var $ownedby;
 
+	/** 	Constructor which will set the column_fields in this object
+	 */
+	function __construct()
+	{
+		$this->log = LoggerManager::getInstance(get_class($this));
+		$this->db = PearDatabase::getInstance();
+		$this->column_fields = getColumnFields(get_class($this));
+	}
+
 	/**
 	 * Detect if we are in bulk save mode, where some features can be turned-off
 	 * to improve performance.
@@ -1016,10 +1025,10 @@ class CRMEntity
 	 * @param $uitype -- UI type of the field
 	 * @return Column value of the field.
 	 */
-	function get_column_value($columnname, $fldvalue, $fieldname, $uitype, $datatype = '')
+	function get_column_value($columName, $fldvalue, $fieldname, $uitype, $datatype = '')
 	{
 		$log = LoggerManager::getInstance();
-		$log->debug("Entering function get_column_value ($columnname, $fldvalue, $fieldname, $uitype, $datatype='')");
+		$log->debug("Entering function get_column_value ($columName, $fldvalue, $fieldname, $uitype, $datatype='')");
 
 		// Added for the fields of uitype '57' which has datatype mismatch in crmentity table and particular entity table
 		if ($uitype == 57 && $fldvalue == '') {
@@ -1378,7 +1387,7 @@ class CRMEntity
 			if ($numRows == 0) {
 				$numid = $adb->getUniqueId('vtiger_modentity_num');
 				$active = $adb->pquery('SELECT num_id FROM vtiger_modentity_num WHERE semodule = ? AND active = 1;', [$module]);
-				$adb->update('vtiger_modentity_num', ['active' => 0], 'num_id = ?', [$adb->query_result($active, 0, 'num_id')]);
+				$adb->update('vtiger_modentity_num', ['active' => 0], 'num_id = ?', [$adb->getSingleValue($active)]);
 
 				$params = [
 					'num_id' => $numid,
@@ -2534,17 +2543,16 @@ class CRMEntity
 			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$role = $userModel->getRoleDetail();
 
-			if ($role->get('listrelatedrecord') != 0) {
+			if ($role->get('listrelatedrecord') == 2) {
 				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
 				if ($rparentRecord) {
 					$relatedRecord = $rparentRecord;
 				}
-
-				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
-				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
-				if ($recordPermission) {
-					return '';
-				}
+			}
+			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
+			$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
+			if ($recordPermission) {
+				return '';
 			}
 		}
 
@@ -2693,7 +2701,7 @@ class CRMEntity
 		//as mysql query optimizer puts crmentity on the left side and considerably slow down
 		$query = preg_replace('/\s+/', ' ', $query);
 		if (strripos($query, ' WHERE ') !== false) {
-			vtlib_setup_modulevars($module, $this);
+			vtlib_setup_modulevars($this->moduleName, $this);
 			$query = str_ireplace(' where ', " WHERE $this->table_name.$this->table_index > 0  AND ", $query);
 		}
 		return $query;

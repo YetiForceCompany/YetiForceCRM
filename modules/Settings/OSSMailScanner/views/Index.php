@@ -17,8 +17,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$mailScannerRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$identityList = [];
 		if ($mailModuleActive) {
-			$mailRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-			$accountsList = $mailRecordModel->getAccountsList();
+			$accountsList = OSSMail_Record_Model::getAccountsList();
 			foreach ($accountsList as $key => $account) {
 				$identityList[$account['user_id']] = $mailScannerRecordModel->getIdentities($account['user_id']);
 			}

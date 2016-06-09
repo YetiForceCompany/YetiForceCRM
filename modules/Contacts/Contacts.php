@@ -22,7 +22,6 @@
  * Contributor(s): YetiForce.com
  */
 
-
 // Contact is used to store customer information.
 class Contacts extends CRMEntity
 {
@@ -117,13 +116,6 @@ class Contacts extends CRMEntity
 	var $default_sort_order = 'ASC';
 	// For Alphabetical search
 	var $def_basicsearch_col = 'lastname';
-
-	function Contacts()
-	{
-		$this->log = LoggerManager::getLogger('contact');
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Contacts');
-	}
 
 	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
 	/** Function to get the number of Contacts assigned to a particular User.
@@ -924,18 +916,18 @@ class Contacts extends CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName)
+	function save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		if (!is_array($with_crmids))
-			$with_crmids = [$with_crmids];
-		if (!in_array($with_module, ['Products', 'Campaigns', 'Vendors'])) {
-			parent::save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName);
+		if (!is_array($withCrmid))
+			$withCrmid = [$withCrmid];
+		if (!in_array($withModule, ['Products', 'Campaigns', 'Vendors'])) {
+			parent::save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName);
 		} else {
-			foreach ($with_crmids as $with_crmid) {
-				if ($with_module == 'Products') {
+			foreach ($withCrmid as $with_crmid) {
+				if ($withModule == 'Products') {
 					$adb->insert('vtiger_seproductsrel', [
 						'crmid' => $crmid,
 						'productid' => $with_crmid,
@@ -943,13 +935,13 @@ class Contacts extends CRMEntity
 						'rel_created_user' => $currentUser->getId(),
 						'rel_created_time' => date('Y-m-d H:i:s')
 					]);
-				} else if ($with_module == 'Campaigns') {
+				} else if ($withModule == 'Campaigns') {
 					$adb->insert('vtiger_campaign_records', [
 						'campaignid' => $with_crmid,
 						'crmid' => $crmid,
 						'campaignrelstatusid' => 0
 					]);
-				} else if ($with_module == 'Vendors') {
+				} else if ($withModule == 'Vendors') {
 					$adb->insert('vtiger_vendorcontactrel', [
 						'vendorid' => $with_crmid,
 						'contactid' => $crmid

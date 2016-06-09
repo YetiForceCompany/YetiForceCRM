@@ -26,7 +26,7 @@ class RelatedListViewSession
 	var $sortby = null;
 	var $page_view = null;
 
-	function RelatedListViewSession()
+	function __construct()
 	{
 		$log = vglobal('log');
 		$currentModule = vglobal('currentModule');

@@ -270,12 +270,10 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 
 		$sql .= ' ORDER BY sequence';
 		$result = $db->pquery($sql, array_merge($params, $skipMenuItemList));
-		$noOfMenus = $db->num_rows($result);
 
 		$menuItemModels = [];
-		for ($i = 0; $i < $noOfMenus; ++$i) {
-			$fieldId = $db->query_result($result, $i, self::$itemId);
-			$rowData = $db->query_result_rowdata($result, $i);
+		while ($rowData = $db->getRow($result)) {
+			$fieldId = $rowData[self::$itemId];
 			$menuItem = Settings_Vtiger_MenuItem_Model::getInstanceFromArray($rowData);
 			if ($menuModel) {
 				$menuItem->setMenuFromInstance($menuModel);
@@ -322,6 +320,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		}
 		return $menuItemModels;
 	}
+
 	/**
 	 * used only in old layout 
 	 * @param type $url
@@ -336,11 +335,13 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		}
 		return $query_params[module];
 	}
+
 	/**
 	 * Function to get name module
 	 * @return type module name
 	 */
-	public function getModule(){
+	public function getModule()
+	{
 		$urlParams = Vtiger_Functions::getQueryParams($this->getUrl());
 		return $urlParams['module'];
 	}

@@ -12,11 +12,6 @@ require_once("include/Zend/Json.php");
 class VTJsonCondition
 {
 
-	function __construct()
-	{
-		
-	}
-
 	function evaluate($condition, $entityCache, $id)
 	{
 		$expr = Zend_Json::decode($condition);

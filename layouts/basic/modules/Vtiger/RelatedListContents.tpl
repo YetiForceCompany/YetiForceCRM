@@ -10,7 +10,7 @@
 						<th></th>
 						{/if}
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-							{if $COLUMNS != '' && $COUNT == $COLUMNS }
+							{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 								{break}
 							{/if}
 							{assign var=COUNT value=$COUNT+1}
@@ -50,7 +50,7 @@
 						</td>
 					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-						{if $COLUMNS != '' && $COUNT == $COLUMNS }
+						{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 							{break}
 						{/if}
 						{assign var=COUNT value=$COUNT+1}

@@ -51,9 +51,7 @@
 						</div>
 					</div>
 					<div class="widgetContainer panel-collapse" id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}">
-						<div class="panel-body">
-
-						</div>
+						<div class="panel-body"></div>
 					</div>
 				</div>
 			{/foreach}

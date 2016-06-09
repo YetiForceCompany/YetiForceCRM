@@ -32,7 +32,7 @@
 						<td>
 							<div class="actions pull-right">
 								<a href="{$ENTRY->getDetailViewUrl()}">
-									<span class="glyphicon glyphicon-th-list alignMiddle"></span>
+									<span class="glyphicon glyphicon-th-list alignMiddle" title="{vtranslate('LBL_RECORD_DETAILS', $MODULE_NAME)}"></span>
 								</a>
 							</div>
 						</td>

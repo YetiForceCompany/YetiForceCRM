@@ -25,6 +25,7 @@ $languageStrings = [
 	'Project Task No'=>'Nr',
 	'Project Task Name' => 'Nazwa zadania do projektu',
 	'LBL_ESTIMATED_WORK_TIME' => 'Szacowany czas pracy',
+	'Add Project Task' => 'Dodaj zadanie projektu',
 	// Blocks
 	'LBL_PROJECT_TASK_INFORMATION' => 'Szczegóły zadania',
 	'LBL_PROJECTS_LIST' => 'Lista projektów',

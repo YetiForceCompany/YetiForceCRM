@@ -93,6 +93,7 @@ $languageStrings = [
 	'LBL_VIEW_FINDDUPLICATES'=> 'Trouver des doublons',
 	'Record Id' => 'ID enregistrement',
 	'ticketpriorities' => 'priorité',
+	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'The ticket is not related to any Account. Please create a relation.',
 	
 	//notifications translation 
 	'LBL_NOTICE_WELCOME'=>'Bienvenue sur le portail',

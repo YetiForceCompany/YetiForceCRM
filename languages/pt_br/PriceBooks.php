@@ -21,4 +21,5 @@ $languageStrings = [
 	'SINGLE_PriceBooks'=> 'Lista Preço', 
 	'yes' => 'Sim',
 	'no' => 'Não',
+	'Unit Price' => 'Preço Unitário',
 ];

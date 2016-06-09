@@ -52,15 +52,15 @@ class CustomView extends CRMEntity
 	 * @param $module -- The module Name:: Type String(optional)
 	 * @returns  nothing
 	 */
-	function CustomView($module = "")
+	function __construct($module = '')
 	{
-		global $current_user, $adb;
+		global $current_user;
 		$this->customviewmodule = $module;
-		$this->escapemodule[] = $module . "_";
-		$this->escapemodule[] = "_";
+		$this->escapemodule[] = $module . '_';
+		$this->escapemodule[] = '_';
 		$this->smownerid = $current_user->id;
-		$this->moduleMetaInfo = array();
-		if ($module != "" && $module != 'Calendar') {
+		$this->moduleMetaInfo = [];
+		if ($module != '' && $module != 'Calendar') {
 			$this->meta = $this->getMeta($module, $current_user);
 		}
 	}
@@ -72,7 +72,6 @@ class CustomView extends CRMEntity
 	 */
 	public function getMeta($module, $user)
 	{
-		$db = PearDatabase::getInstance();
 		if (empty($this->moduleMetaInfo[$module])) {
 			$handler = vtws_getModuleHandlerFromName($module, $user);
 			$meta = $handler->getMeta();
@@ -89,8 +88,6 @@ class CustomView extends CRMEntity
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
 		$now_action = AppRequest::get('view');
 		if (AppRequest::isEmpty('viewname')) {
 			if (isset($_SESSION['lvs'][$module]['viewname']) && $_SESSION['lvs'][$module]['viewname'] != '') {
@@ -1433,15 +1430,15 @@ class CustomView extends CRMEntity
 
 			if (trim($block_label) == '') {
 				$block_info[$pre_block_label] = $block_info[$pre_block_label] . "," . $block_result['block'];
-			} elseif (isset($current_mod_strings[$block_label])) {
+			} else {
 				$lan_block_label = $current_mod_strings[$block_label];
 				if (isset($block_info[$lan_block_label]) && $block_info[$lan_block_label] != '') {
 					$block_info[$lan_block_label] = $block_info[$lan_block_label] . "," . $block_result['block'];
 				} else {
 					$block_info[$lan_block_label] = $block_result['block'];
 				}
+				$pre_block_label = $lan_block_label;
 			}
-			$pre_block_label = $lan_block_label;
 		}
 		$this->module_list[$module] = $block_info;
 		return $this->module_list;

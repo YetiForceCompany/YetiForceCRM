@@ -66,6 +66,7 @@ $languageStrings = [
 	'LBL_DISCOUNT' => 'Rabatt',
 	'LBL_CREDIT_LIMIT' => 'Kreditlimit',
 	'LBL_PARENT_IS_CHILD' => 'The selected parent account cannot be secondary to current account',
+	'Campaign status' => 'Kampagnenstatus',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
 
@@ -89,6 +90,8 @@ $languageStrings = [
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Europäische Beteiligungspartnerschaft',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Europäische Vereinigung',
 	'PLL_UFCIITS' => 'Organismen für gemeinsame Anlagen in Wertpapieren <OGAW>',
+	// OTHERS
+	'LBL_DEACTIVATED_BY' => 'Account deactivated by ',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Organisationsname ist bereits vorhanden. Möchten Sie einen doppelten Datensatz erstellen?',

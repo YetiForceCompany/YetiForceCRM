@@ -121,121 +121,119 @@
 						</div>
 					</div>
 
-                        {* show month view by dates *}
-                        <div class='row {if $scheduleid neq 3} hide {/if}' id='scheduleMonthByDates' style="padding:5px 0px;">
-                            <div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}</div>
-                            <div class='col-md-4'>
-                                {assign var=dayOfMonth value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdayofthemonth'))}
-                                <select style="width: 281px !important;" multiple class="chosen-select col-md-6 form-control" title="{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name='schdayofthemonth' id='schdayofthemonth' >
-                                    {section name=foo loop=31}
-                                        <option value={$smarty.section.foo.iteration} {if is_array($dayOfMonth) && in_array($smarty.section.foo.iteration, $dayOfMonth)}selected{/if}>{$smarty.section.foo.iteration}</option>
-                                    {/section}
-                                </select>
-                            </div>
-                        </div>
-                        {* show specific date *}
-                        <div class='row {if $scheduleid neq 5} hide {/if}' id='scheduleByDate' style="padding:5px 0px;">
-                            <div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'><span class="redColor">*</span>{vtranslate('LBL_CHOOSE_DATE', $MODULE)}</div>
-                            <div class='col-md-6'>
-                                <div class='input-group date' style='width: 185px;'>
-									{assign var=specificDate value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdate'))}
-									{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
-									<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
-									<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-								</div>
-                            </div>
-                        </div>
-                    {* show month view by anually *}
-                    <div class='row {if $scheduleid neq 4} hide {/if}' id='scheduleAnually' style='padding:5px 0px;'>
-                        <div class='col-md-3 ' style='position:relative;top:5px;'>
-                            {vtranslate('LBL_SELECT_MONTH_AND_DAY', $MODULE)}
-                        </div>
-                        <div class='col-md-5'>
-                            <div id='annualDatePicker'></div>
-                        </div>
-                        <div class='col-md-2'>
-                            <div style='padding-bottom:5px;'>{vtranslate('LBL_SELECTED_DATES', $MODULE)}</div>
-                            <div>
-                                <input type="hidden" id=hiddenAnnualDates value='{$SCHEDULEDREPORTS->get('schannualdates')}' />
-                                {assign var=ANNUAL_DATES value=Zend_Json::decode($SCHEDULEDREPORTS->get('schannualdates'))}
-                                <select multiple class="chosen-select" id='annualDates' name='schannualdates' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
-                                    {foreach item=DATES from=$ANNUAL_DATES}
-                                        <option value="{$DATES}" selected>{$DATES}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+					{* show month view by dates *}
+					<div class='row {if $scheduleid neq 3} hide {/if}' id='scheduleMonthByDates' style="padding:5px 0px;">
+						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}</div>
+						<div class='col-md-4'>
+							{assign var=dayOfMonth value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdayofthemonth'))}
+							<select style="width: 281px !important;" multiple class="chosen-select col-md-6 form-control" title="{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name='schdayofthemonth' id='schdayofthemonth' >
+								{section name=foo loop=31}
+									<option value={$smarty.section.foo.iteration} {if is_array($dayOfMonth) && in_array($smarty.section.foo.iteration, $dayOfMonth)}selected{/if}>{$smarty.section.foo.iteration}</option>
+								{/section}
+							</select>
+						</div>
+					</div>
+					{* show specific date *}
+					<div class='row {if $scheduleid neq 5} hide {/if}' id='scheduleByDate' style="padding:5px 0px;">
+						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'><span class="redColor">*</span>{vtranslate('LBL_CHOOSE_DATE', $MODULE)}</div>
+						<div class='col-md-6'>
+							<div class='input-group date' style='width: 185px;'>
+								{assign var=specificDate value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdate'))}
+								{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
+								<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
+								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</div>
+					</div>
+					{* show month view by anually *}
+					<div class='row {if $scheduleid neq 4} hide {/if}' id='scheduleAnually' style='padding:5px 0px;'>
+						<div class='col-md-3 ' style='position:relative;top:5px;'>
+							{vtranslate('LBL_SELECT_MONTH_AND_DAY', $MODULE)}
+						</div>
+						<div class='col-md-5'>
+							<div id='annualDatePicker'></div>
+						</div>
+						<div class='col-md-2'>
+							<div style='padding-bottom:5px;'>{vtranslate('LBL_SELECTED_DATES', $MODULE)}</div>
+							<div>
+								<input type="hidden" id=hiddenAnnualDates value='{$SCHEDULEDREPORTS->get('schannualdates')}' />
+								{assign var=ANNUAL_DATES value=Zend_Json::decode($SCHEDULEDREPORTS->get('schannualdates'))}
+								<select multiple class="chosen-select" id='annualDates' name='schannualdates' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
+									{foreach item=DATES from=$ANNUAL_DATES}
+										<option value="{$DATES}" selected>{$DATES}</option>
+									{/foreach}
+								</select>
+							</div>
+						</div>
+					</div>
 
-                    {* show time for all other than Hourly option*}
-                    <div class='row' id='scheduledTime' style='padding:5px 0px 10px 0px;'>
-                        <div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>
-                            <span class="redColor">*</span>{vtranslate('LBL_AT_TIME', $MODULE)}
-                        </div>
-                        <div class='col-md-4' id='schtime'>
-                            <div class="input-group time">
-                                <input type='text' class='timepicker-default input-sm form-control' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
-                                <span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    {* show all the users,groups,roles and subordinat roles*}
-                    <div class='row' id='recipientsList' style='padding:5px 0px 10px 0px;'>
-                        <div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>
-                            <span class="redColor">*</span>{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}
-                        </div>
-                        <div class='col-md-4'>
-                            {assign var=ALL_ACTIVEUSER_LIST value=$CURRENT_USER->getAccessibleUsers()}
-                            {assign var=ALL_ACTIVEGROUP_LIST value=$CURRENT_USER->getAccessibleGroups()}
-                            {assign var=recipients value=Zend_Json::decode($SCHEDULEDREPORTS->get('recipients'))}
-                            <select multiple data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" title="{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}" class="chosen-select col-md-6 form-control" id='recipients' name='recipients' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" style="width: 281px !important;">
-                                <optgroup label="{vtranslate('LBL_USERS')}">
-                                    {foreach key=USER_ID item=USER_NAME from=$ALL_ACTIVEUSER_LIST}
-                                            {assign var=USERID value="USER::{$USER_ID}"}
-                                            <option value="{$USERID}" {if is_array($recipients) && in_array($USERID, $recipients)} selected {/if} data-picklistvalue= '{$USER_NAME}'> {$USER_NAME} </option>
-                                    {/foreach}
-                                </optgroup>
-                                <optgroup label="{vtranslate('LBL_GROUPS')}">
-                                    {foreach key=GROUP_ID item=GROUP_NAME from=$ALL_ACTIVEGROUP_LIST}
-                                        {assign var=GROUPID value="GROUP::{$GROUP_ID}"}
-                                        <option value="{$GROUPID}" {if is_array($recipients) && in_array($GROUPID, $recipients)} selected {/if} data-picklistvalue= '{$GROUP_NAME}'>{$GROUP_NAME}</option>
-                                    {/foreach}
-                                </optgroup>
-                                <optgroup label="{vtranslate('Roles', 'Roles')}">
-                                    {foreach key=ROLE_ID item=ROLE_OBJ from=$ROLES}
-                                        {assign var=ROLEID value="ROLE::{$ROLE_ID}"}
-                                        <option value="{$ROLEID}" {if is_array($recipients) && in_array($ROLEID, $recipients)} selected {/if} data-picklistvalue= '{$ROLE_OBJ->get('rolename')}'>{vtranslate($ROLE_OBJ->get('rolename'))}</option>
-                                    {/foreach}
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                    <div class='row' id='specificemailsids' style='padding:5px 0px 10px 0px;'>
-                        <div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>
-                            {vtranslate('LBL_SPECIFIC_EMAIL_ADDRESS', $MODULE)}
-                        </div>
-                        <div class='col-md-4'>
-                            {assign var=specificemailids value=Zend_Json::decode($SCHEDULEDREPORTS->get('specificemails'))}
-                            <input id="specificemails" style="width: 281px !important;" class="col-md-6 form-control" title="{vtranslate('LBL_SPECIFIC_EMAIL_ADDRESS', $MODULE)}" type="text" value="{$specificemailids}" name="specificemails" data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]"></input>
-                        </div>
-                    </div>
-                    {if $SCHEDULEDREPORTS->get('next_trigger_time')}
-                        <div class="row">
-                            <div class='col-md-3 marginBottom5px'>
-                                <span class=''>{vtranslate('LBL_NEXT_TRIGGER_TIME', $MODULE)}</span>
-                            </div>
-                            <div class='span'>
-                                {DateTimeField::convertToUserFormat($SCHEDULEDREPORTS->get('next_trigger_time'))}
-                                            <span>&nbsp;({$ACTIVE_ADMIN->time_zone})</span>
-                            </div>
-                        </div>
-                    {/if}
-                </div>
-		</div>
-		<div class="row pull-right no-margin">
-			<button type="submit" class="btn btn-success nextStep"><strong>{vtranslate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
-			<button onclick='window.history.back()' type="reset" class="cancelLink cursorPointer btn btn-warning">{vtranslate('LBL_CANCEL',$MODULE)}</button>
-		</div>
-	</form>
-</div>
+					{* show time for all other than Hourly option*}
+					<div class='row' id='scheduledTime' style='padding:5px 0px 10px 0px;'>
+						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>
+							<span class="redColor">*</span>{vtranslate('LBL_AT_TIME', $MODULE)}
+						</div>
+						<div class='col-md-4' id='schtime'>
+							<div class="input-group time">
+								<input type='text' class='timepicker-default input-sm form-control' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
+								<span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span>
+							</div>
+						</div>
+					</div>
+					{* show all the users,groups,roles and subordinat roles*}
+					<div class='row' id='recipientsList' style='padding:5px 0px 10px 0px;'>
+						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>
+							<span class="redColor">*</span>{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}
+						</div>
+						<div class='col-md-4'>
+							{assign var=ALL_ACTIVEUSER_LIST value=$CURRENT_USER->getAccessibleUsers()}
+							{assign var=ALL_ACTIVEGROUP_LIST value=$CURRENT_USER->getAccessibleGroups()}
+							{assign var=recipients value=Zend_Json::decode($SCHEDULEDREPORTS->get('recipients'))}
+							<select multiple data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" title="{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}" class="chosen-select col-md-6 form-control" id='recipients' name='recipients' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" style="width: 281px !important;">
+								<optgroup label="{vtranslate('LBL_USERS')}">
+									{foreach key=USER_ID item=USER_NAME from=$ALL_ACTIVEUSER_LIST}
+										{assign var=USERID value="USER::{$USER_ID}"}
+										<option value="{$USERID}" {if is_array($recipients) && in_array($USERID, $recipients)} selected {/if} data-picklistvalue= '{$USER_NAME}'> {$USER_NAME} </option>
+									{/foreach}
+								</optgroup>
+								<optgroup label="{vtranslate('LBL_GROUPS')}">
+									{foreach key=GROUP_ID item=GROUP_NAME from=$ALL_ACTIVEGROUP_LIST}
+										{assign var=GROUPID value="GROUP::{$GROUP_ID}"}
+										<option value="{$GROUPID}" {if is_array($recipients) && in_array($GROUPID, $recipients)} selected {/if} data-picklistvalue= '{$GROUP_NAME}'>{$GROUP_NAME}</option>
+									{/foreach}
+								</optgroup>
+								<optgroup label="{vtranslate('Roles', 'Roles')}">
+									{foreach key=ROLE_ID item=ROLE_OBJ from=$ROLES}
+										{assign var=ROLEID value="ROLE::{$ROLE_ID}"}
+										<option value="{$ROLEID}" {if is_array($recipients) && in_array($ROLEID, $recipients)} selected {/if} data-picklistvalue= '{$ROLE_OBJ->get('rolename')}'>{vtranslate($ROLE_OBJ->get('rolename'))}</option>
+									{/foreach}
+								</optgroup>
+							</select>
+						</div>
+					</div>
+					<div class='row' id='specificemailsids' style='padding:5px 0px 10px 0px;'>
+						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>
+							{vtranslate('LBL_SPECIFIC_EMAIL_ADDRESS', $MODULE)}
+						</div>
+						<div class='col-md-4'>
+							{assign var=specificemailids value=Zend_Json::decode($SCHEDULEDREPORTS->get('specificemails'))}
+							<input id="specificemails" style="width: 281px !important;" class="col-md-6 form-control" title="{vtranslate('LBL_SPECIFIC_EMAIL_ADDRESS', $MODULE)}" type="text" value="{$specificemailids}" name="specificemails" data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]"></input>
+						</div>
+					</div>
+					<div class="row">
+						<div class='col-md-3 marginBottom5px'>
+							<span class=''>{vtranslate('LBL_NEXT_TRIGGER_TIME', $MODULE)}</span>
+						</div>
+						<div class='col-md-4'>
+							{DateTimeField::convertToUserFormat($SCHEDULEDREPORTS->get('next_trigger_time'))}
+							<span>&nbsp;({$ACTIVE_ADMIN->time_zone})</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row pull-right no-margin">
+				<button type="submit" class="btn btn-success nextStep"><strong>{vtranslate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
+				<button onclick='window.history.back()' type="reset" class="cancelLink cursorPointer btn btn-warning">{vtranslate('LBL_CANCEL',$MODULE)}</button>
+			</div>
+		</form>
+	</div>
 {/strip}

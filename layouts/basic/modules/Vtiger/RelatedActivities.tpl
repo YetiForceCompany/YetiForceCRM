@@ -19,7 +19,10 @@
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=STATUS value=$RECORD->get('status')}
 			{assign var=SHAREDOWNER value=Vtiger_SharedOwner_UIType::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
-			<div class="activityEntries">
+			<div class="activityEntries padding5"
+				{if !empty($COLOR_LIST[$RECORD->getId()])}
+					style="background: {$COLOR_LIST[$RECORD->getId()]['background']}; color: {$COLOR_LIST[$RECORD->getId()]['text']}" 
+				{/if}>
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
 				<div class="row">
 					<span class="col-md-6">
@@ -118,7 +121,7 @@
 						<span class="2 edit hide row">
 							{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}
 							{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('description'))}
-							{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME OCCUPY_COMPLETE_WIDTH=false}
+							{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 							{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
 								<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
 							{else}

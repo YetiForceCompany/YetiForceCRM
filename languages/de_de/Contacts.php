@@ -60,11 +60,6 @@ $languageStrings = [
 	//Activity Types
 	'End of support for contact' => 'Ende der Wartung für den Kontakt',
 	'Birthdays of contacts' => 'Geburtstage der Kontakte',
-	
-	// popup
-	'LBL_ACCOUNT' => 'Organisation',
-	'LBL_SWITCH_BUTTON' => 'Button umschalten',
-	'LBL_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to Account',
 ];
 $jsLanguageStrings = [
 ];

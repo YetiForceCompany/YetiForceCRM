@@ -210,8 +210,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$orderByFieldModuleModel = $relationModule->getFieldByColumn($orderBy);
 			if ($orderByFieldModuleModel && $orderByFieldModuleModel->isReferenceField()) {
 				//If reference field then we need to perform a join with crmentity with the related to field
-				$queryComponents = explode('where ', $query);
-				$queryComponents = count($queryComponents) == 2 ? $queryComponents : explode('WHERE ', $query);
+				$queryComponents = preg_split('/WHERE /i', $query);
 				$selectAndFromClause = $queryComponents[0];
 				$whereCondition = $queryComponents[1];
 				$qualifiedOrderBy = 'vtiger_crmentity' . $orderByFieldModuleModel->get('column');
@@ -246,7 +245,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if (count($relatedColumnFields) <= 0) {
 			$relatedColumnFields = $relationModule->getConfigureRelatedListFields();
 		}
-		if (count($relatedColumnFields) <= 0) {
+
+		if (empty($relatedColumnFields)) {
 			$relatedColumnFields = $relationModule->getRelatedListFields();
 		}
 
@@ -443,24 +443,24 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$joinQuery = ' INNER JOIN ' . $parentModuleBaseTable . ' ON ' . $parentModuleBaseTable . '.' . $parentModuleDirectRelatedField . " = " . $relatedModuleBaseTable . '.' . $relatedModuleEntityIdField;
 
 		$query = $queryGenerator->getQuery();
-		$queryComponents = explode(' FROM ', $query);
+		$queryComponents = preg_split('/FROM/i', $query);
 		foreach ($queryComponents as $key => $val) {
 			if ($key == 0) {
 				$query = $queryComponents[0] . ' ,vtiger_crmentity.crmid';
 			} else {
-				$query .= ' FROM ' . $val;
+				$query .= 'FROM ' . $val;
 			}
 		}
-		$whereSplitQueryComponents = explode(' WHERE ', $query);
+		$whereSplitQueryComponents = preg_split('/WHERE/i', $query);
 		$query = $whereSplitQueryComponents[0] . $joinQuery;
 		foreach ($whereSplitQueryComponents as $key => $val) {
 			if ($key == 0) {
-				$query .= " WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId AND ";
+				$query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId AND ";
 			} else {
 				$query .= $val . ' WHERE ';
 			}
 		}
-		$this->query = trim($query, "WHERE ");
+		$this->query = trim($query, ' WHERE ');
 		return $this->query;
 	}
 
@@ -507,10 +507,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$relationQuery = $this->getRelationQuery();
 		$relationQuery = preg_replace("/[ \t\n\r]+/", " ", $relationQuery);
-		$position = stripos($relationQuery, ' from ');
+		$position = stripos($relationQuery, ' FROM ');
 		if ($position) {
-			$relationQuery = str_replace('FROM', 'from', $relationQuery);
-			$split = explode(' from ', $relationQuery);
+			$split = preg_split('/FROM/i', $relationQuery);
 			$splitCount = count($split);
 			$relationQuery = 'SELECT COUNT(1) AS count';
 			for ($i = 1; $i < $splitCount; $i++) {
@@ -521,8 +520,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$parts = explode(' GROUP BY ', $relationQuery);
 			$relationQuery = $parts[0];
 		}
-		$result = $db->pquery($relationQuery, []);
-		return $db->query_result($result, 0, 'count');
+		$result = $db->query($relationQuery);
+		return $db->getSingleValue($result);
 	}
 
 	/**
@@ -536,6 +535,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$whereCondition = $this->get("whereCondition");
 		$count = count($whereCondition);
+		$appendAndCondition = false;
 		if ($count > 1) {
 			$appendAndCondition = true;
 		}
@@ -559,13 +559,12 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$condition .= " AND ";
 			}
 		}
-		$relationQuery = str_replace('where', 'WHERE', $relationQuery);
-		$pos = stripos($relationQuery, 'WHERE');
-		if ($pos) {
-			$split = explode('WHERE', $relationQuery);
-			$updatedQuery = $split[0] . ' WHERE ' . $split[1] . ' AND ' . $condition;
+
+		if (stripos($relationQuery, 'WHERE')) {
+			$split = preg_split('/WHERE/i', $relationQuery);
+			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' AND ' . $condition;
 		} else {
-			$updatedQuery = $relationQuery . ' WHERE ' . $condition;
+			$updatedQuery = "$relationQuery WHERE $condition";
 		}
 		return $updatedQuery;
 	}

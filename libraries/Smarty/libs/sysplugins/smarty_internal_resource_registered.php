@@ -76,12 +76,13 @@ class Smarty_Internal_Resource_Registered extends Smarty_Resource
     public function getContent(Smarty_Template_Source $source)
     {
         // return template string
-        $t = call_user_func_array($source->smarty->registered_resources[$source->type][0][0], array($source->name, &$source->content, $source->smarty));
+        $content = null;
+        $t = call_user_func_array($source->smarty->registered_resources[$source->type][0][0], array($source->name, &$content, $source->smarty));
         if (is_bool($t) && !$t) {
             throw new SmartyException("Unable to read template {$source->type} '{$source->name}'");
         }
 
-        return $source->content;
+        return $content;
     }
 
     /**
@@ -91,7 +92,7 @@ class Smarty_Internal_Resource_Registered extends Smarty_Resource
      *
      * @return string                 resource's basename
      */
-    protected function getBasename(Smarty_Template_Source $source)
+    public function getBasename(Smarty_Template_Source $source)
     {
         return basename($source->name);
     }

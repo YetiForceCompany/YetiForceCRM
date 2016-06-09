@@ -58,6 +58,16 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
 	}
 
+	public function isWatchingRecord()
+	{
+		if(!isset($this->isWatchingRecord)){
+			$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
+			$this->isWatchingRecord = (bool) $watchdog->isWatchingRecord();
+		}
+		return $this->isWatchingRecord;
+		
+	}
+
 	/**
 	 * Function to get the Module to which the record belongs
 	 * @return Vtiger_Module_Model
@@ -95,6 +105,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getEntity()
 	{
+		if(empty($this->entity)){
+			return false;
+		}
 		return $this->entity;
 	}
 
@@ -115,7 +128,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getRawData()
 	{
-		return $this->rawData;
+		
+		return isset($this->rawData) ? $this->rawData : false;
 	}
 
 	/**
@@ -626,6 +640,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	function setRecordFieldValues($parentRecordModel)
 	{
+		$newInvData = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$mfInstance = Vtiger_MappedFields_Model::getInstanceByModules($parentRecordModel->getModule()->getId(), $this->getModule()->getId());
 		if ($mfInstance) {
@@ -650,7 +665,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($parentRecordModel->getModuleName());
 				$inventoryFields = $inventoryFieldModel->getFields();
 				$sourceInv = $parentRecordModel->getInventoryData();
-				$newInvData = [];
 			}
 			foreach ($mfInstance->getMapping() as $mapp) {
 				// TODO Validation that specifies whether a value is included in the list of values for a given module field should be added
@@ -798,10 +812,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function editFieldByModalPermission($profileAction = false)
 	{
-		if ($this->privileges['editFieldByModal'] === true && $profileAction) {
+		if (isset($this->privileges['editFieldByModal']) && $this->privileges['editFieldByModal'] === true && $profileAction) {
 			return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
 		}
-		return (bool) $this->privileges['editFieldByModal'];
+		return false;
 	}
 
 	public function setInventoryData($data)

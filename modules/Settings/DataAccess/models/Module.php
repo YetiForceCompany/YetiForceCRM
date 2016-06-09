@@ -65,7 +65,6 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$output = [];
 		while ($row = $db->getRow($result)) {
 			$output[] = [
-				'actions' => $row['actions'],
 				'module' => $row['module_name'],
 				'summary' => $row['summary'],
 				'data' => unserialize($row['data']),
@@ -318,7 +317,6 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	public static function executeAjaxHandlers($module, $param)
 	{
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
-		$record = $param['record'];
 		$conditions = new DataAccess_Conditions();
 		$DataAccessList = self::getDataAccessList($module);
 		$success = true;
@@ -341,6 +339,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	{
 		$save_record = true;
 		$output = [];
+		$recordId = isset($param['record']) ? $param['record'] : false;
 		if ($data) {
 			foreach ($data as $row) {
 				$action = explode(self::$separator, $row['an']);
@@ -349,7 +348,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 					vimport("~~$file");
 					$class = "DataAccess_" . $action[1];
 					$actionObject = new $class();
-					$output[] = $resp = $actionObject->process($module, $param['record'], $param, $row);
+					$output[] = $resp = $actionObject->process($module, $recordId, $param, $row);
 					if ($resp['save_record'] == false) {
 						$save_record = false;
 					}

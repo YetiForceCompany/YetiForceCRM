@@ -42,20 +42,6 @@
 				</div>
 			</div>
 		{/if}
-		{if !empty($announcement)}
-			<div class="row">
-				<div class="quickAction">
-					<div class="pull-left">
-						{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}
-					</div>
-					<div class='pull-right'>
-						<a class="btn btn-default" href="#">
-							<img class='alignMiddle imgAnnouncement announcementBtn' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" />
-						</a>
-					</div>
-				</div>
-			</div>
-		{/if}
 		{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')}
 			<div class="row">
 				<div class="notificationsNotice quickAction">
@@ -64,9 +50,6 @@
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
-						<button type="button" class="btn btn-sm btn-default sendNotification" title="{vtranslate('LBL_SEND_NOTIFICATION',$MODULE)}">
-							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-						</button>
 					</div>
 				</div>
 			</div>

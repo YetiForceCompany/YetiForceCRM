@@ -49,7 +49,7 @@
 									<img class="alignMiddle" src="{vimage_path('drag.png')}" /> &nbsp;&nbsp;{vtranslate($WIDGET['type'], $QUALIFIED_MODULE)}
 								</div>
 								<div class="col-md-5">
-									{if $WIDGET['label'] eq ''}
+									{if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
 										{vtranslate(Vtiger_Functions::getModuleName($WIDGET['data']['relatedmodule']),Vtiger_Functions::getModuleName($WIDGET['data']['relatedmodule']))}
 									{else}	
 										{vtranslate($WIDGET['label'], $SOURCEMODULE)}&nbsp;

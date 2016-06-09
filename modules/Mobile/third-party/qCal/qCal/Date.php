@@ -583,7 +583,7 @@ class qCal_Date {
 	public static function gmgetdate($timestamp = null) {
 	
 		$k = array('seconds','minutes','hours','mday','wday','mon','year','yday','weekday','month',0);
-		return(array_combine($k, split(":", gmdate('s:i:G:j:w:n:Y:z:l:F:U', is_null($timestamp) ? time() : $timestamp))));
+		return(array_combine($k, explode(":", gmdate('s:i:G:j:w:n:Y:z:l:F:U', is_null($timestamp) ? time() : $timestamp))));
 	
 	}
 

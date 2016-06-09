@@ -33,6 +33,7 @@ $languageStrings = [
 	'PLL_RECORD' => 'Запись',
 	'PLL_MAIL' => 'Сообщение',
 	'PLL_LIST' => 'Список',
+	'PLL_SYSTEM' => 'System',
 	/// special_functions
 	'CurrentDate' => 'Текущая дата',
 	'CurrentDateTime' => 'Текущая дата и время',

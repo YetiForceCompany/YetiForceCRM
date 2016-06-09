@@ -59,11 +59,11 @@ class Vtiger_Block
 	 */
 	function __getNextSequence()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT MAX(sequence) as max_sequence from vtiger_blocks where tabid = ?", Array($this->module->id));
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT MAX(sequence) as max_sequence from vtiger_blocks where tabid = ?', [$this->module->id]);
 		$maxseq = 0;
-		if ($adb->num_rows($result)) {
-			$maxseq = $adb->query_result($result, 0, 'max_sequence');
+		if ($db->num_rows($result)) {
+			$maxseq = $db->getSingleValue($result);
 		}
 		return ++$maxseq;
 	}
@@ -204,8 +204,8 @@ class Vtiger_Block
 			if ($adb->num_rows($result)) {
 				$instance = new self();
 				$instance->initialize($adb->fetch_array($result), $moduleInstance);
+				$cache->setBlockInstance($value, $instance->module->id, $instance);
 			}
-			$cache->setBlockInstance($value, $instance->module->id, $instance);
 			return $instance;
 		}
 	}

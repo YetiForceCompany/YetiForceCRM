@@ -32,6 +32,7 @@ require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';
 require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
 require_once 'vtlib/Vtiger/Language.php';
 require_once 'include/ListView/ListViewSession.php';
 require_once 'vtlib/Vtiger/Functions.php';
@@ -142,13 +143,14 @@ function get_user_array($add_blank = true, $status = 'Active', $assigned_user = 
 				$params = array($status);
 			}
 		}
+		
 		if (!empty($assigned_user)) {
 			$query .= ' OR id=?';
 			array_push($params, $assigned_user);
 		}
 
 		$query .= ' ORDER BY last_name ASC, first_name ASC';
-		$result = $db->pquery($query, $params, true, 'Error filling in user array: ');
+		$result = $db->pquery($query, $params);
 
 		if ($add_blank == true) {
 			// Add in a blank row
@@ -1967,7 +1969,7 @@ function getSelectAllQuery($input, $module)
 		$query = $oCustomView->getModifiedCvListQuery($viewid, $listquery, $module);
 		$where = '';
 		if ($input['query'] == 'true') {
-			list($where, $ustring) = split("#@@#", getWhereCondition($module, $input));
+			list($where, $ustring) = explode("#@@#", getWhereCondition($module, $input));
 			if (isset($where) && $where != '') {
 				$query .= " AND " . $where;
 			}

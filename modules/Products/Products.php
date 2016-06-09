@@ -63,17 +63,6 @@ class Products extends CRMEntity
 	// Josh added for importing and exporting -added in patch2
 	var $unit_price;
 
-	/** 	Constructor which will set the column_fields in this object
-	 */
-	function Products()
-	{
-		$this->log = LoggerManager::getLogger('product');
-		$this->log->debug("Entering Products() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Products');
-		$this->log->debug("Exiting Product method ...");
-	}
-
 	function save_module($module)
 	{
 		//Inserting into product_taxrel table

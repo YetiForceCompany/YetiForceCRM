@@ -11,11 +11,13 @@
 -->*}
 {strip}
     <div id="layoutEditorContainer">
-
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
 			<div class="col-md-6">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{if isset($SELECTED_PAGE)}
+					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+				{/if}
 			</div>
 			<div class="pull-right col-md-6 form-inline">
 				<div class="form-group pull-right col-md-6">
@@ -34,9 +36,9 @@
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                 <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{vtranslate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a></li>
-				{if $IS_INVENTORY}
+							{if $IS_INVENTORY}
 					<li class="inventoryNav"><a data-toggle="tab" href="#inventoryViewLayout"><strong>{vtranslate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong></a></li>
-				{/if}
+							{/if}
             </ul>
             <div class="tab-content layoutContent padding20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
@@ -173,8 +175,8 @@
 																						<input type="hidden" name="header_field" value="0"/>
 																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																							<input type="checkbox" name="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if}
-																								value="btn-default" />&nbsp;
-																								{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
+																								   value="btn-default" />&nbsp;
+																							{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
 																					<span>
@@ -267,7 +269,7 @@
 																						<span>
 																							<label class="checkbox" style="padding-left: 5px;">
 																								{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-																								{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
+																								{assign var=DISPLAY_TYPE value=Vtiger_Field_Model::showDisplayTypeList()}
 																							</label>
 																							<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 																								<select name="displaytype" class="form-control">
@@ -382,8 +384,8 @@
 																						<input type="hidden" name="header_field" value="0"/>
 																						<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 																							<input type="checkbox" name="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if}
-																								value="btn-default" />&nbsp;
-																								{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
+																								   value="btn-default" />&nbsp;
+																							{vtranslate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 																						</label>
 																					</span>
 																					<span>
@@ -471,7 +473,7 @@
 																						<span>
 																							<label class="checkbox" style="padding-left: 5px;">
 																								{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-																								{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
+																								{assign var=DISPLAY_TYPE value=Vtiger_Field_Model::showDisplayTypeList()}
 																							</label>
 																							<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 																								<select name="displaytype" class="form-control">
@@ -530,12 +532,12 @@
 							<div class="col-md-6 marginLeftZero">
 								<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 									<div class="btn-group">
-										<button class="btn btn-default addCustomField hide" type="button">
+										<button class="btn btn-success addCustomField hide" type="button">
 											<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
 									<div class="btn-group">
-										<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+										<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
 											<strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
 											<span class="caret"></span>
 										</button>

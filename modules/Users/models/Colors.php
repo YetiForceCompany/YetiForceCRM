@@ -40,7 +40,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		$result = $adb->query("SELECT * FROM vtiger_users");
 		$rows = $adb->num_rows($result);
 
-		$userColors = Array();
+		$userColors = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$activityTypes = $adb->query_result_rowdata($result, $i);
 			$userColors[] = array(
@@ -81,7 +81,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		$result = $adb->query("SELECT * FROM vtiger_groups");
 		$rows = $adb->num_rows($result);
 
-		$groupColors = Array();
+		$groupColors = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$activityTypes = $adb->query_result_rowdata($result, $i);
 			$groupColors[] = array(
@@ -112,15 +112,14 @@ class Users_Colors_Model extends Vtiger_Record_Model
 
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
 		$query = 'SELECT * FROM vtiger_' . $fieldName . ' order by sortorderid';
-		$values = array();
-		$result = $db->pquery($query, array());
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
+		$groupColors = [];
+		$result = $db->query($query);
+		while ($row = $db->getRow($result)) {
 			//Need to decode the picklist values twice which are saved from old ui
 			$groupColors[] = array(
-				'id' => $db->query_result($result, $i, $primaryKey),
-				'value' => decode_html(decode_html($db->query_result($result, $i, $fieldName))),
-				'color' => $db->query_result($result, $i, 'color')
+				'id' => $row[$primaryKey],
+				'value' => decode_html(decode_html($row[$fieldName])),
+				'color' => $row['color']
 			);
 		}
 		return $groupColors;
@@ -129,7 +128,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 	public static function getModulesColors($active = false)
 	{
 		$adb = PearDatabase::getInstance();
-		$sql_params = Array();
+		$sql_params = [];
 		$sql = '';
 		if ($active) {
 			$sql = 'WHERE coloractive = ?';
@@ -153,7 +152,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 	public function activeColor($params)
 	{
 		$adb = PearDatabase::getInstance();
-		$sql_params = Array();
+		$sql_params = [];
 		$sql = '';
 		if ($params['color'] == '') {
 			$color = self::getColor();

@@ -45,6 +45,13 @@ class SmartyBC extends Smarty
     public $_version = self::SMARTY_VERSION;
 
     /**
+     * This is an array of directories where trusted php scripts reside.
+     *
+     * @var array
+     */
+    public $trusted_dir = array();
+
+    /**
      * Initialize new SmartyBC object
      *
      * @param array $options options to set during initialization, e.g. array( 'forceCompile' => false )
@@ -52,8 +59,6 @@ class SmartyBC extends Smarty
     public function __construct(array $options = array())
     {
         parent::__construct($options);
-        // register {php} tag
-        $this->registerPlugin('block', 'php', 'smarty_php_tag');
     }
 
     /**
@@ -115,10 +120,10 @@ class SmartyBC extends Smarty
     /**
      * Registers object to be used in templates
      *
-     * @param string  $object      name of template object
-     * @param object  $object_impl the referenced PHP object to register
-     * @param array   $allowed     list of allowed methods (empty = all)
-     * @param boolean $smarty_args smarty argument format, else traditional
+     * @param string  $object        name of template object
+     * @param object  $object_impl   the referenced PHP object to register
+     * @param array   $allowed       list of allowed methods (empty = all)
+     * @param boolean $smarty_args   smarty argument format, else traditional
      * @param array   $block_methods list of methods that are block format
      *
      * @throws SmartyException
@@ -447,21 +452,4 @@ class SmartyBC extends Smarty
     {
         trigger_error("Smarty error: $error_msg", $error_type);
     }
-}
-
-/**
- * Smarty {php}{/php} block function
- *
- * @param array   $params   parameter list
- * @param string  $content  contents of the block
- * @param object  $template template object
- * @param boolean &$repeat  repeat flag
- *
- * @return string content re-formatted
- */
-function smarty_php_tag($params, $content, $template, &$repeat)
-{
-    eval($content);
-
-    return '';
 }

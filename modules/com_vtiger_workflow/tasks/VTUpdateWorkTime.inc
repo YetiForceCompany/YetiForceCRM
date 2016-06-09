@@ -59,7 +59,7 @@ class VTUpdateWorkTime extends VTTask
 	 * @param <Object> $entity
 	 * @return <String> contents
 	 */
-	public function getContents($entity)
+	public function getContents($entity, $entityCache = false)
 	{
 		if (!$this->contents && is_object($entity)) {
 			$moduleName = $entity->getModuleName();

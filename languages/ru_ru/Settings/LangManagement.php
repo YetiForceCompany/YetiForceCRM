@@ -68,4 +68,5 @@ $jsLanguageStrings = [
 	'LBL_Loader' => 'Пожалуйста ждите...',
 	'No matching records found' => 'Не найдено ни одной записи',
 	'Search' => 'Поиск:',
+	'JS_EXPORT' => 'Экспорт',	
 ];

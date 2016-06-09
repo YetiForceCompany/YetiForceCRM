@@ -315,7 +315,7 @@ abstract class BaseRecognizer{
 	 *  handle mismatched symbol exceptions but there could be a mismatched
 	 *  token that the match() routine could not recover from.
 	 */
-	public function recover($input, $re) {
+	public function recover($input, $re = null) {
 		if ( $this->state->lastErrorIndex==$input->index() ) {
 			// uh oh, another error at same token index; must be a case
 			// where LT(1) is in the recovery token set so nothing is

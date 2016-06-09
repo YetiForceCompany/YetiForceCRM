@@ -88,8 +88,11 @@ $languageStrings = [
 	'LBL_INVENTORY_BALANCE' => 'Solde Inventaire',
 	'LBL_DISCOUNT' => 'Réduction',
 	'LBL_CREDIT_LIMIT' => 'Limite de crédit',
+	'Campaign status' => 'Satuts Campagne',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
+	// OTHERS
+	'LBL_DEACTIVATED_BY' => 'Account deactivated by ',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Cette organisation existe déjà avec ce nom. Voulez-vous créer un duplicata?',

@@ -239,12 +239,12 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * @return an array with the list of languages which are available in source
 	 */
-	public function getLanguagesList()
+	public static function getLanguagesList()
 	{
 		$adb = PearDatabase::getInstance();
 
 		$language_query = 'SELECT prefix, label FROM vtiger_language';
-		$result = $adb->pquery($language_query, array());
+		$result = $adb->query($language_query);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$lang_prefix = decode_html($adb->query_result($result, $i, 'prefix'));
@@ -278,7 +278,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		}
 		return true;
 	}
-	
+
 	public static function getNotAdminUsers()
 	{
 		$adb = PearDatabase::getInstance();
@@ -291,7 +291,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 		return $output;
 	}
-	
+
 	public static function getSwitchUsers()
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();

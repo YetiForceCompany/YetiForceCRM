@@ -91,16 +91,6 @@ class Services extends CRMEntity
 	var $default_sort_order = 'ASC';
 	var $unit_price;
 
-	/** 	Constructor which will set the column_fields in this object
-	 */
-	function __construct()
-	{
-		$log = vglobal('log');
-		$this->column_fields = getColumnFields(get_class($this));
-		$this->db = PearDatabase::getInstance();
-		$this->log = $log;
-	}
-
 	function save_module($module)
 	{
 		//Inserting into service_taxrel table

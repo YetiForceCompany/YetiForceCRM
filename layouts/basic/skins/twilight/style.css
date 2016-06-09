@@ -787,6 +787,9 @@ li.ui-timepicker-selected,
 	margin-bottom: 0;
 }
 .commentContainer .addCommentBlock .commentcontent {
+	min-height: 56px !important;
+	overflow-x:hidden;
+	overflow-y:hidden;
 	padding: 7px !important;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -821,9 +824,6 @@ li.ui-timepicker-selected,
 }
 .singleComment .editedStatus p {
 	margin-bottom: 0;
-}
-.singleComment .commentActionsDiv {
-	display: none;
 }
 .singleComment .commentActionsDiv p {
 	margin-bottom: 0;
@@ -2410,7 +2410,7 @@ form {
 	z-index: 1000029 !important;
 }
 .colorpicker {
-	z-index: 1029 !important;
+	z-index: 1030 !important;
 }
 .colorpicker input {
 	width: 30px !important;
@@ -2594,7 +2594,7 @@ table.summary-table .summaryViewEdit{
 	padding-bottom: 10px;
 }
 .marginBottom10px {
-	margin-bottom: 10px;
+	margin-bottom: 10px !important;
 }
 .displayInlineBlock {
 	display: inline-block;
@@ -3035,6 +3035,9 @@ span[name=existingImages] img{
 }
 .marginRightMinus20{
 	margin-right:-20px;
+}
+.marginTop5{
+	margin-top: 5px !important;
 }
 .marginTopMinus10{
 	margin-top:-10px;
@@ -3552,8 +3555,8 @@ span[name=existingImages] img{
 	transition-delay: 0.5s;
 }
 .noSpaces{
-	padding: 0;
-	margin: 0;
+	padding: 0 !important;
+	margin: 0 !important;
 }
 html,body,.baseContainer
 {
@@ -3726,7 +3729,8 @@ html,body,.baseContainer
 	color: #000;
 	font-size: 14px;
 }
-.actionMenu a{
+.actionMenu a,
+.marginLeft15{
 	margin-left: 15px;
 }
 .actionMenu .row {
@@ -3912,7 +3916,8 @@ html,body,.baseContainer
 	background:#eee;
 	padding-top:5px;
 	padding-bottom:5px;
-	margin-bottom:15px;
+	margin-bottom:10px;
+	position: relative;
 }
 .summaryWidgetContainer .widget_header{
 	background:#fff;
@@ -3933,9 +3938,6 @@ html,body,.baseContainer
 .dashboardHeading h2,
 .widget_header h2{
 	margin-bottom:7px;
-}
-.addButton span{
-	margin: 3px !important;
 }
 .gridster .gs-w[data-col="1"] {
 	left: 0px!important;
@@ -5189,6 +5191,9 @@ select.form-control {
 .danger-color{
 	color: #d9534f !important;
 }
+.info-color{
+	color: #5bc0de !important;
+}
 .detailViewContainer .chosen-container,
 .editViewContainer .chosen-container{
 	height: auto;
@@ -5207,6 +5212,7 @@ select.form-control {
 	bottom: 7px;
 	padding: 0;
 	overflow: auto;
+	width: 100%;
 }
 .notificationContainer .notificationBody .panel{
 	margin-bottom: 0px;
@@ -5266,7 +5272,7 @@ select.form-control {
 }
 .timeline > li {
 	position: relative;
-	margin-bottom: 15px;
+	padding-bottom: 10px;
 }
 .timeline > li:before,
 .timeline > li:after {
@@ -5297,9 +5303,8 @@ select.form-control {
 	width: 40px;
 }
 .timeline > li > .timeline-item > .timeline-body {
-	float: left;
-	width: calc(100% - 40px);
-	padding: 0 0 10px 5px;
+	padding-right: 10px;
+	padding-left: 44px;
 }
 .timeline > li > .glyphicon{
 	width: 30px;
@@ -5324,6 +5329,13 @@ select.form-control {
 .bgBlue{
 	background: #337ab7 !important;
 	color: #fff !important;
+}
+.bgWarning{
+	background: #fcf8e3 !important;
+}
+.bgDanger{
+	color: #fff !important;
+	background-color: #d9534f !important;
 }
 .bgGreen{
 	background: #5cb85c !important;
@@ -5401,3 +5413,38 @@ select.form-control {
     padding:0 5px;
     display: inline-block;
 }
+.singleComment .commentActionsContainer .commentActions {
+	height: 0;
+	overflow: hidden;
+	-webkit-transition: all 0.2s 0.15s ease-in-out;
+	-moz-transition: all 0.2s 0.15s ease-in-out;
+	-o-transition: all 0.2s 0.15s ease-in-out;
+	transition: all 0.2s 0.15s ease-in-out;
+}
+.singleComment:hover .commentActionsContainer .commentActions{
+	height: 22px;
+}
+.announcement .alert {
+	margin: 3px 3px 0;
+	padding: 5px 10px;
+}
+.detailViewHeaderFieldInformation {
+	margin-left: 68px;
+}
+.tdUnderline{
+	text-decoration: underline;
+}
+#OSSMailBoxInfo{
+	position: relative;
+	z-index: 999;
+}
+.dashboardWidgetContent.allTimeControl .flot-x-axis .flot-tick-label.tickLabel{
+	text-align: right !important;
+	word-wrap: normal;
+	line-height: 10px;
+	margin-top: 35px;
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+}	

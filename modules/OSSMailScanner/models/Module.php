@@ -14,7 +14,7 @@ class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 
 	var $actionsDir = false;
 
-	function OSSMailScanner_Module_Model()
+	function __construct()
 	{
 		$this->actionsDir = AppConfig::main('root_directory') . '/modules/OSSMailScanner/scanneractions';
 	}
@@ -35,7 +35,7 @@ class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMailScanner&parent=Settings&view=index&block=4&fieldid=' . $db->query_result($result, '0', 'fieldid'),
+			'linkurl' => 'index.php?module=OSSMailScanner&parent=Settings&view=index&block=4&fieldid=' . $db->getSingleValue($result),
 			'linkicon' => $layoutEditorImagePath
 		);
 		return $settingsLinks;

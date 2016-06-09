@@ -19,7 +19,7 @@
 	{if $BLOCKS_HIDE}
 	
 	<div class="detailViewTable">
-		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">					
+		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL_KEY}">
 			<div class="row blockHeader panel-heading no-margin">
 				<div class="iconCollapse">
 					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>

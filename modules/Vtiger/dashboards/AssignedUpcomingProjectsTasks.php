@@ -38,6 +38,7 @@ class Vtiger_AssignedUpcomingProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vi
 
 
 		$viewer->assign('WIDGET', $widget);
+		$viewer->assign('SOURCE_MODULE', 'ProjectTask');
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTSTASKS', $projectsTasks);
 		$viewer->assign('PAGING', $pagingModel);

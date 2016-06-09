@@ -63,11 +63,6 @@ $languageStrings = [
 	
 	'LBL_SWITCH_ON_DECISION_MAKER' => 'Decyzyjna',
 	'LBL_SWITCH_OFF_DECISION_MAKER' => 'Wszystkie',
-	
-	// popup
-	'LBL_ACCOUNT' => 'Kontrahent',
-	'LBL_SWITCH_BUTTON' => 'Przełącznik',
-	'LBL_NARROW_DOWN_RECORDS_LIST' => 'Zawęź listę rekordów do powiązanych z kontrahentem',
 ];
 
 $jsLanguageStrings = [

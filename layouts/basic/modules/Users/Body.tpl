@@ -6,7 +6,7 @@
 				{if !empty($CHILD_LINKS)}
 					<span class="caret"></span>
 				{/if}
-				{assign var="announcement" value=$ANNOUNCEMENT->get('announcement')}	
+				{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
 				{include file='BodyHeaderMobile.tpl'|@vtemplate_path:$MODULE}
 				<div class="mobileLeftPanel noSpaces">
 					{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}

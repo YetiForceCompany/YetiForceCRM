@@ -6,7 +6,8 @@
 	<input type="hidden" name="src_field" value="{$SRC_FIELD}" />
 	<input type="hidden" name="template" value="{$TEMPLATE}" />
 	<input type="hidden" id="treeLastID" value="{$LAST_ID}" />
-	<input type="hidden" name="tree" id="treePopupValues" value='{Vtiger_Util_Helper::toSafeHTML($TREE)}' />
+	<input type="hidden" name="tree" id="treePopupValues" value="{Vtiger_Util_Helper::toSafeHTML($TREE)}" />
+	<input type="hidden" name="isMultiple" id="isMultiple" value="{$IS_MULTIPLE}" />
 	{assign var="MODULE_INSTANCE" value=Vtiger_Module_Model::getInstance($MODULE)}
 	{assign var="FIELD_INSTANCE" value=Vtiger_Field_Model::getInstance($SRC_FIELD,$MODULE_INSTANCE)}
 	<div class="panel panel-default marginTop10">
@@ -19,6 +20,11 @@
 		</div>
 		</div>
 	</div>
+	{if $IS_MULTIPLE}
+	<div class="pull-right">
+		<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+	</div>
+	{/if}
 </div>
 {* javascript files *}
 {include file='JSResources.tpl'|@vtemplate_path}

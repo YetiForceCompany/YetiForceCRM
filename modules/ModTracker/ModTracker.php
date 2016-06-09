@@ -239,7 +239,7 @@ class ModTracker
 	static function getVisibilityForModule($tabid)
 	{
 		if (isset(self::$__cache_modtracker[$tabid])) {
-			return $__cache_modtracker[$tabid]['visible'];
+			return self::$__cache_modtracker[$tabid]['visible'];
 		}
 		return false;
 	}
@@ -402,7 +402,7 @@ class ModTracker
 			'status' => $type,
 			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 		]);
-		ModTracker_Record_Model::unsetReviewed($sourceId, $currentUser->getRealId());
+		ModTracker_Record_Model::unsetReviewed($sourceId, $currentUser->getRealId(), $id);
 		$adb->insert('vtiger_modtracker_relations', [
 			'id' => $id,
 			'targetmodule' => $targetModule,

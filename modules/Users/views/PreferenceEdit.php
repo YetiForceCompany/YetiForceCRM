@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 Class Users_PreferenceEdit_View extends Vtiger_Edit_View
@@ -42,7 +43,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		if ($this->checkPermission($request)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
-			if($activeReminder = vtlib_isModuleActive('Calendar')){
+			if ($activeReminder = vtlib_isModuleActive('Calendar')) {
 				$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 				$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
@@ -64,7 +65,6 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 			$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
 			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
@@ -119,21 +119,5 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		parent::process($request);
-	}
-
-	public function getFooterScripts(Vtiger_Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-		$moduleDetailFile = 'modules.' . $moduleName . '.resources.PreferenceEdit';
-		unset($headerScriptInstances[$moduleDetailFile]);
-
-		$jsFileNames = array(
-			'modules.Users.resources.Edit',
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
 	}
 }

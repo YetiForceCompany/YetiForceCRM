@@ -73,13 +73,6 @@ class Accounts extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'accountname';
 
-	function Accounts()
-	{
-		$this->log = LoggerManager::getLogger('account');
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Accounts');
-	}
-
 	/** Function to handle module specific operations when saving a entity
 	 */
 	function save_module($module)
@@ -532,7 +525,7 @@ class Accounts extends CRMEntity
 		$hierarchyFields = [];
 		foreach ($listColumns as $fieldLabel => $fieldName) {
 			if (getFieldVisibilityPermission('Accounts', $current_user->id, $fieldName) == '0') {
-				$listview_header[] = getTranslatedString($fieldLabel);
+				$listview_header[] = $fieldLabel;
 			}
 			$field = Vtiger_Functions::getModuleFieldInfo('Accounts', $fieldName);
 			$hierarchyFields[] = $field;
@@ -1062,8 +1055,6 @@ class Accounts extends CRMEntity
 		$more_relation = '';
 		if (!empty($other->related_tables)) {
 			foreach ($other->related_tables as $tname => $relmap) {
-				$query .= ", $tname.*";
-
 				// Setup the default JOIN conditions if not specified
 				if (empty($relmap[1]))
 					$relmap[1] = $other->table_name;

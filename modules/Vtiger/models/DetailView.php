@@ -70,16 +70,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$recordId = $recordModel->getId();
 		$linkModelList = $detailViewLinks = [];
 
-		if ($moduleModel->isTrackingEnabled() && ModTracker_Record_Model::isNewChange($recordId)) {
-			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.changesReviewedOn(this)',
-				'linkicon' => 'glyphicon glyphicon-ok-circle',
-				'linkhint' => 'BTN_CHANGES_REVIEWED_ON',
-				'linkclass' => 'btn-success',
-			];
-		}
 		if ($moduleModel->isPermitted('WorkflowTrigger')) {
 			$adb = PearDatabase::getInstance();
 			vimport('~~modules/com_vtiger_workflow/include.inc');
@@ -245,23 +235,24 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type=' . $modCommentsModel::getDefaultViewComments(),
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => 'Comments',
-				'countRelated' => true
+				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 
 		if ($parentModuleModel->isTrackingEnabled()) {
-			$relatedLinks[] = array(
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_UPDATES',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
-				'related' => 'Updates'
-			);
+				'related' => 'Updates',
+				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'badgeClass' => 'bgDanger'
+			];
 		}
-
 
 		$relationModels = $parentModuleModel->getRelations();
 
@@ -385,7 +376,8 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$headerFields = [];
 		foreach (new DirectoryIterator($path) as $fileinfo) {
 			if (!$fileinfo->isDot()) {
-				$name = reset(explode('.', $fileinfo->getFilename()));
+				$filename = explode('.', $fileinfo->getFilename());
+				$name = reset($filename);
 
 				$modelClassName = Vtiger_Loader::getComponentClassName('HeaderField', $name, $moduleName);
 				$instance = new $modelClassName;

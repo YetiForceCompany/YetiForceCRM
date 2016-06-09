@@ -150,4 +150,5 @@ $languageStrings = [
 	'LBL_SHOW_ACCOUNT_DETAILS' => 'Pokaż szczegóły konta',
 	'LBL_EDIT_FOLDER_ACCOUNT' => 'Edytuj foldery',
 	'LBL_ALERT_EDIT_FOLDER' => 'Usunięcie folderu i dodanie ponownie spowoduje ponowne uruchomienie skanera poczty dla wybranych folderów.',
+	'LBL_DELETE_ACCOUNT' => 'Usuń konto',
 ];

@@ -68,6 +68,7 @@ $languageStrings = [
 	'LBL_DISCOUNT' => 'Скидка',
 	'LBL_CREDIT_LIMIT' => 'Кредитный лимит',
 	'LBL_PARENT_IS_CHILD' => 'The selected parent account cannot be secondary to current account',
+	'Campaign status' => 'Статус Компании',
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',
 	'PLL_BUSINESS_ACTIVITY' => 'Юридическое лицо',
@@ -90,6 +91,8 @@ $languageStrings = [
 	'PLL_UFCIITS' => 'Организация Коллективного Инвестирования',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
+	// OTHERS
+	'LBL_DEACTIVATED_BY' => 'Account deactivated by ',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',

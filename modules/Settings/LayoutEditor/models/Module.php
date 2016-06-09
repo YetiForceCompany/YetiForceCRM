@@ -15,12 +15,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 * Function that returns all the fields for the module
 	 * @return <Array of Vtiger_Field_Model> - list of field models
 	 */
-	public function getFields()
+	public function getFields($blockInstance = false)
 	{
 		if (empty($this->fields)) {
-			$fieldList = array();
+			$fieldList = [];
 			$blocks = $this->getBlocks();
-			$blockId = array();
+			$blockId = [];
 			foreach ($blocks as $block) {
 				//to skip events hardcoded block id
 				if ($block->get('id') == 'EVENT_INVITE_USER_BLOCK_ID') {
@@ -29,7 +29,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$blockId[] = $block->get('id');
 			}
 			if (count($blockId) > 0) {
-				$fieldList = Settings_LayoutEditor_Field_Model::getInstanceFromBlockIdList($blockId, $moduleModel);
+				$fieldList = Settings_LayoutEditor_Field_Model::getInstanceFromBlockIdList($blockId);
 			}
 			//To handle special case for invite users
 			if ($this->getName() == 'Events') {
@@ -57,7 +57,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getBlocks()
 	{
 		if (empty($this->blocks)) {
-			$blocksList = array();
+			$blocksList = [];
 			$moduleBlocks = Settings_LayoutEditor_Block_Model::getAllForModule($this);
 			foreach ($moduleBlocks as $block) {
 				if (!$block->get('label')) {
@@ -97,11 +97,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getAddFieldTypeInfo()
 	{
-		$fieldTypesInfo = array();
+		$fieldTypesInfo = [];
 		$addFieldSupportedTypes = $this->getAddSupportedFieldTypes();
 		$lengthSupportedFieldTypes = array('Text', 'Decimal', 'Integer', 'Currency');
 		foreach ($addFieldSupportedTypes as $fieldType) {
-			$details = array();
+			$details = [];
 			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
 				$details['lengthsupported'] = true;
 			}
@@ -225,6 +225,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function getTypeDetailsForAddField($fieldType, $params)
 	{
+		$displayType = 1;
 		switch ($fieldType) {
 			Case 'Text' :
 				$fieldLength = $params['fieldLength'];
@@ -437,7 +438,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($query, array($presence, 1, $restrictedModules));
 		$numOfRows = $db->num_rows($result);
 
-		$modulesList = array();
+		$modulesList = [];
 		for ($i = 0; $i < $numOfRows; $i++) {
 			$moduleName = $db->query_result($result, $i, 'name');
 			$modulesList[$moduleName] = $moduleName;
@@ -524,21 +525,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function getTreeTemplates($sourceModule)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		$sourceModule = Vtiger_Functions::getModuleId($sourceModule);
 
 		$query = 'SELECT templateid,name FROM vtiger_trees_templates WHERE module = ?';
-		$result = $adb->pquery($query, array($sourceModule));
-		$numOfRows = $adb->num_rows($result);
+		$result = $db->pquery($query, array($sourceModule));
 
-		$treeList = array();
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$treeList[$adb->query_result($result, $i, 'templateid')] = $adb->query_result($result, $i, 'name');
+		$treeList = [];
+		while ($row = $db->getRow($result)) {
+			$treeList[$row['templateid']] = $row['name'];
 		}
 		return $treeList;
 	}
 
-	public function getRelationsTypes()
+	public static function getRelationsTypes()
 	{
 		$typesList = array(
 			'get_related_list' => 'PLL_RELATED_LIST',
@@ -549,7 +549,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return $typesList;
 	}
 
-	public function getRelationsActions()
+	public static function getRelationsActions()
 	{
 		$actionList = array(
 			'ADD' => 'PLL_ADD',

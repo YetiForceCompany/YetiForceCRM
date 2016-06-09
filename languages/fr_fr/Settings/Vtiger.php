@@ -28,9 +28,6 @@ $languageStrings = [
 	'LBL_ADD_NEW_TAX' => 'Ajouter une nouvelle taxe',
 	'LBL_ADD_OR_DELETE_USERS' => 'Ajouter/Supprimer des Utilisateurs',
 	'LBL_ADD_USER' => 'Ajouter Utilisateur',
-	'LBL_ANNOUNCEMENT' => 'Messages systèmes',
-	'LBL_ANNOUNCEMENT_DESCRIPTION' => 'Gérer les annonces visible par tous les utilisateurs',
-	'LBL_ANNOUNCEMENTS' => 'Annonces',
 	'LBL_AVAILABLE_WORKLIST_LIST' => 'Workflows disponibles',
 	'LBL_CALCULATOR_DISPLAY' => 'Calculateur',
 	'LBL_COMPANY' => 'Information Société',
@@ -354,6 +351,7 @@ $languageStrings = [
 	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Afficher le choix de langues sur la page de connexion',
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Afficher le choix de la disposition sur la page de connexion',
 	'LBL_YETIFORCE_SHOP' => 'Boutique YetiForce',
+	'RecordAllocation' => 'Record allocation',
 ];
 
 $jsLanguageStrings = [
@@ -381,4 +379,6 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'Type d\'image non supporté',
 	'JS_COLUMN_ADDED' => 'Champ ajouté',
 	'JS_COLUMN_EXIST' => 'Erreur lors de l\'ajout du champ',
+	'JS_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
+	'JS_NOTIFY_COPY_TITLE' => 'Texte',
 ];

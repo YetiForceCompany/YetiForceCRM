@@ -32,7 +32,6 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		$data = $this->getWidgetData($moduleName, $param, $time);
 
 		$viewer->assign('DTIME', $time);
-		$viewer->assign('USERID', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('PARAM', $param);

@@ -19,23 +19,28 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Index_Ac
 	{
 		$data = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);
+
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-		$moduleInstance->saveRecordAllocation(array_filter($data));
+		$moduleInstance->set('type', $data['type']);
+		$moduleInstance->save(array_filter($data));
+
 		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($response);
+		$responceToEmit->setResult(true);
 		$responceToEmit->emit();
 	}
 
 	function removePanel(Vtiger_Request $request)
 	{
-		$moduleName = $request->get('param');
-		$toLowerModule = strtolower($moduleName);
+		$data = $request->get('param');
+		$moduleName = $data['module'];
 		$qualifiedModuleName = $request->getModule(false);
+
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-		$content = $moduleInstance->removeDataInFile($toLowerModule);
-		$moduleInstance->putData($toLowerModule, [], $content);
+		$moduleInstance->set('type', $data['type']);
+		$moduleInstance->remove($moduleName);
+
 		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($response);
+		$responceToEmit->setResult(true);
 		$responceToEmit->emit();
 	}
 }

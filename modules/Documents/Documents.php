@@ -62,15 +62,6 @@ class Documents extends CRMEntity
 	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 
-	function Documents()
-	{
-		$this->log = LoggerManager::getLogger('notes');
-		$this->log->debug("Entering Documents() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Documents');
-		$this->log->debug("Exiting Documents method ...");
-	}
-
 	function save_module($module)
 	{
 		global $log, $adb, $upload_badext;
@@ -398,21 +389,21 @@ class Documents extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id)
+	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$log = LoggerManager::getInstance();
-		if (empty($return_module) || empty($return_id))
+		if (empty($returnModule) || empty($returnId))
 			return;
 
-		if ($return_module == 'Accounts') {
+		if ($returnModule == 'Accounts') {
 			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? AND (crmid = ? OR crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
-			$this->db->pquery($sql, array($id, $return_id, $return_id));
+			$this->db->pquery($sql, array($id, $returnId, $returnId));
 		} else {
 			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? AND crmid = ?';
-			$this->db->pquery($sql, array($id, $return_id));
+			$this->db->pquery($sql, array($id, $returnId));
 
 			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
-			$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
+			$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
 			$this->db->pquery($sql, $params);
 		}
 	}
@@ -505,8 +496,8 @@ class Documents extends CRMEntity
 
 	function getQueryByModuleField($module, $fieldname, $srcrecord, $query)
 	{
-		if ($module == "MailManager") {
-			$tempQuery = split('WHERE', $query);
+		if ($module == 'MailManager') {
+			$tempQuery = preg_split('/WHERE/i', $query);
 			if (!empty($tempQuery[1])) {
 				$where = " vtiger_notes.filelocationtype = 'I' AND vtiger_notes.filename != '' AND vtiger_notes.filestatus != 0 AND ";
 				$overRideQuery = $listQuery . ' AND ' . $where;
@@ -523,7 +514,7 @@ class Documents extends CRMEntity
 	 */
 	static function isLinkPermitted($linkData)
 	{
-		$moduleName = "Documents";
+		$moduleName = 'Documents';
 		if (vtlib_isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}

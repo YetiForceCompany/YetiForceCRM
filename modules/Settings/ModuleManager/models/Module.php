@@ -203,7 +203,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 			'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter',
 			'QuickExportToExcel', 'TagCloud', 'DetailTransferOwnership', 'ExportPdf',
 			'RecordMapping', 'RecordMappingList', 'FavoriteRecords', 'WatchingRecords',
-			'WatchingModule', 'RemoveRelation']);
+			'WatchingModule', 'RemoveRelation', 'ReviewingUpdates']);
 
 		// Initialize Webservice support
 		$module->initWebservice();
@@ -214,12 +214,12 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$moduleInstance->setModuleSeqNumber('configure', $module->name, 'N', '1');
 	}
 
-	public function toAlphaNumeric($value)
+	public static function toAlphaNumeric($value)
 	{
-		return preg_replace("/[^a-zA-Z0-9_]/", "", $value);
+		return preg_replace("/[^a-zA-Z0-9_]/", '', $value);
 	}
 
-	public function getUploadDirectory()
+	public static function getUploadDirectory()
 	{
 		$uploadDir = 'cache/vtlib';
 		return $uploadDir;

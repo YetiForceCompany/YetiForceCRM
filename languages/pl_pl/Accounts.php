@@ -92,6 +92,8 @@ $languageStrings = [
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Europejska spółka wzajemna',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Stowarzyszenie europejskie',
 	'PLL_UFCIITS' => 'Przedsiębiorstwo zbiorowego inwestowania w zbywalne papiery wartościowe',
+	'Campaign status' => 'Status kampanii',
+	'LBL_DEACTIVATED_BY' => 'Kontrahent został dezaktywowany przez ',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Taki kontrahent istnieje. Czy chcesz utworzyć duplikat?',

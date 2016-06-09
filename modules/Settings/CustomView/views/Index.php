@@ -10,7 +10,7 @@
 class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 {
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -35,17 +35,39 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 		}
 	}
 
+	/**
+	 * Function to get the list of Script models to be included
+	 * @param Vtiger_Request $request
+	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 */
 	function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
+			'~libraries/jquery/colorpicker/js/colorpicker.js',
 			'modules.CustomView.resources.CustomView'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
+	}
+
+	/**
+	 * Retrieves css styles that need to loaded in the page
+	 * @param Vtiger_Request $request - request model
+	 * @return <array> - array of Vtiger_CssScript_Model
+	 */
+	public function getHeaderCss(Vtiger_Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = array(
+			'~libraries/jquery/colorpicker/css/colorpicker.css'
+		);
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
+		return $headerCssInstances;
 	}
 }

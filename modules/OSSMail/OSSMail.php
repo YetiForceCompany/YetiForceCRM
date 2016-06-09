@@ -9,8 +9,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  *************************************************************************************************************************************/
-require_once('include/CRMEntity.php');
-require_once('include/Tracker.php');
 
 class OSSMail {
     function vtlib_handler($moduleName, $eventType) {

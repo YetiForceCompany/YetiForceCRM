@@ -43,9 +43,8 @@ class DateTimeField
 		if (count($value) == 2) {
 			$value[0] = self::convertToUserFormat($value[0]);
 		}
-
-		$insert_time = '';
-		if ($value[1] != '') {
+		$insert_date = '';
+		if (!empty($value[1])) {
 			$date = self::convertToDBTimeZone($this->datetime, $user);
 			$insert_date = $date->format('Y-m-d');
 		} else {

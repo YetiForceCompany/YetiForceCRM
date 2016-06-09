@@ -60,9 +60,6 @@ $languageStrings = [
 	'LBL_ADD_NEW_TAX' => 'Добавить налог',
 	'LBL_ADD_OR_DELETE_USERS' => 'Добавить/Удалить пользователя',
 	'LBL_ADD_USER' => 'Добавить Пользователя',
-	'LBL_ANNOUNCEMENT' => 'Системное сообщение',
-	'LBL_ANNOUNCEMENT_DESCRIPTION' => 'Здесь вы можете настроить сообщение, которое будет отображаться в системе, всем пользователям, вошедшим в систему.',
-	'LBL_ANNOUNCEMENTS' => 'Системное сообщение',
 	'LBL_AVAILABLE_WORKLIST_LIST' => 'Доступные обработчики',
 	'LBL_CALCULATOR_DISPLAY' => 'Показывать калькулятор',
 	'LBL_COMPANY' => 'Организация',
@@ -375,6 +372,7 @@ $languageStrings = [
 	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Show language selection on the login page',
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Show layout selection on the login page',
 	'LBL_YETIFORCE_SHOP' => 'YetiForce Shop',
+	'RecordAllocation' => 'Record allocation',
 ];
 
 $jsLanguageStrings = [
@@ -403,4 +401,6 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'Не поддерживаемый формат изображения',
 	'JS_COLUMN_ADDED' => 'Поле успешно добавлено',
 	'JS_COLUMN_EXIST' => 'Ошибка добавления поля',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
+	'JS_NOTIFY_COPY_TITLE' => 'Text',
 ];

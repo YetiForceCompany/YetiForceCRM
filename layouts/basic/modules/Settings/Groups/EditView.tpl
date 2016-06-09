@@ -16,7 +16,10 @@
 			<input type="hidden" name="mode" value="{$MODE}">
 
 			<div class="contentHeader">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}				
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{if isset($SELECTED_PAGE)}
+					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+				{/if}
 			</div>
 			<hr>
 			<div class="form-group">

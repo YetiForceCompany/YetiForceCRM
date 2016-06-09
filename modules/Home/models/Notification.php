@@ -5,6 +5,7 @@
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
  */
 class Home_Notification_Model extends Vtiger_Base_Model
 {
@@ -37,16 +38,22 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		return $types;
 	}
 
-	public function getEntries($limit = false)
+	public function getEntries($limit = false, $conditions = false, $userId = false)
 	{
 		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		if (empty($userId)) {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$userId = $currentUser->getId();
+		}
 
-		$sql = 'SELECT * FROM l_yf_notification WHERE userid = ?'; //ORDER BY id DESC
+		$sql = 'SELECT * FROM l_yf_notification WHERE userid = ? '; //ORDER BY id DESC
+		if ($conditions) {
+			$sql .= $conditions;
+		}
 		if ($limit) {
 			$sql .= ' LIMIT ' . $limit;
 		}
-		$result = $db->pquery($sql, [$currentUser->getId()]);
+		$result = $db->pquery($sql, [$userId]);
 		$entries = [];
 		while ($row = $db->getRow($result)) {
 			$entries[$row['type']][] = Home_NoticeEntries_Model::getInstanceByRow($row, $this);

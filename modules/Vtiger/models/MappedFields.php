@@ -140,7 +140,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			return false;
 		}
 
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields');
 		$mf = new $handlerClass();
 		$mf->setData($db->getRow($result));
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');

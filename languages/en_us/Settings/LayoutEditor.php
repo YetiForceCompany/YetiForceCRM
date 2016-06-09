@@ -190,6 +190,6 @@ $jsLanguageStrings = [
 	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Are you sure you want to remove the element from the block?',
 	'JS_EXTENDED_MODULE' => 'Are you sure you want to change the module type?',
 	'JS_SAVE_CHANGES' => 'Changes saved successfully.',
-	'LBL_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
-	'LBL_NOTIFY_COPY_TITLE' => 'Text',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
+	'JS_NOTIFY_COPY_TITLE' => 'Text',
 ];

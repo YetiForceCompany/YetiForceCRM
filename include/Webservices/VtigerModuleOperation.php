@@ -16,7 +16,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 	protected $isEntity = true;
 	protected $partialDescribeFields = null;
 
-	public function VtigerModuleOperation($webserviceObject, $user, $adb, $log)
+	public function __construct($webserviceObject, $user, $adb, $log)
 	{
 		parent::__construct($webserviceObject, $user, $adb, $log);
 		$this->meta = $this->getMetaInstance();

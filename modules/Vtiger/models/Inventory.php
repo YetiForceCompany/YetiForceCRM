@@ -70,7 +70,7 @@ class Vtiger_Inventory_Model
 	{
 		$db = PearDatabase::getInstance();
 		$config = [];
-		$result = $db->pquery('SELECT * FROM a_yf_discounts_global WHERE status = ?', [1]);
+		$result = $db->pquery('SELECT * FROM a_yf_discounts_global WHERE status = ?', [0]);
 		while ($row = $db->fetch_array($result)) {
 			$config[$row['name']] = $row['value'];
 		}
@@ -184,25 +184,30 @@ class Vtiger_Inventory_Model
 		} else {
 			$type = 0;
 		}
-		$result = $db->updateBlob('vtiger_tab', 'type', [$type, $moduleName], 'name = ?');
+		$result = $db->update('vtiger_tab', [
+			'type' => $type
+			], 'name = ?', [$moduleName]
+		);
 		$i = 0;
-		while ($result && $type && $ends = $tableEnds[$i]) {
-			switch ($ends) {
-				case '_inventory':
-					$sql = '(id int(19),seq int(10),KEY id (id),CONSTRAINT `fk_1_' . $basetable . $ends . '` FOREIGN KEY (`id`) REFERENCES `' . $basetable . '` (`' . $basetableid . '`) ON DELETE CASCADE)';
-					break;
-				case '_invfield':
-					$sql = "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
+		if($result && $type) {
+			while (isset($tableEnds[$i]) && $ends = $tableEnds[$i]) {
+				switch ($ends) {
+					case '_inventory':
+						$sql = '(id int(19),seq int(10),KEY id (id),CONSTRAINT `fk_1_' . $basetable . $ends . '` FOREIGN KEY (`id`) REFERENCES `' . $basetable . '` (`' . $basetableid . '`) ON DELETE CASCADE)';
+						break;
+					case '_invfield':
+						$sql = "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
 					defaultvalue varchar(255),sequence int(10) unsigned NOT NULL, block tinyint(1) unsigned NOT NULL,displaytype tinyint(1) unsigned NOT NULL DEFAULT '1', params text, colspan tinyint(1) unsigned NOT NULL DEFAULT '1')";
-					break;
-				case '_invmap':
-					$sql = '(module varchar(50) NOT NULL,field varchar(50) NOT NULL,tofield varchar(50) NOT NULL,PRIMARY KEY (`module`,`field`,`tofield`))';
-					break;
+						break;
+					case '_invmap':
+						$sql = '(module varchar(50) NOT NULL,field varchar(50) NOT NULL,tofield varchar(50) NOT NULL,PRIMARY KEY (`module`,`field`,`tofield`))';
+						break;
+				}
+				if (!Vtiger_Utils::CheckTable($basetable . $ends)) {
+					Vtiger_Utils::CreateTable($basetable . $ends, $sql, true);
+				}
+				$i++;
 			}
-			if (!Vtiger_Utils::CheckTable($basetable . $ends)) {
-				Vtiger_Utils::CreateTable($basetable . $ends, $sql, true);
-			}
-			$i++;
 		}
 		return $result;
 	}

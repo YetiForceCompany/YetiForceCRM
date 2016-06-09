@@ -45,7 +45,7 @@
 									<select name="FastEdit" multiple class="select2 form-control marginLeftZero columnsSelect">
 										{assign var="FIELDS" value=$MODULE_MODEL->getFields( $SOURCE, array('15','16') ) }
 										{foreach from=$FIELDS['labels'] item=item key=key}
-											<option {if isset ($WIDGETINFO['data']['FastEdit']) && in_array($key, $WIDGETINFO['data']['FastEdit']) }selected{/if} value="{$key}">{vtranslate($item, $QUALIFIED_MODULE)}</option>
+											<option {if isset ($WIDGETINFO['data']['FastEdit']) && in_array($key, $WIDGETINFO['data']['FastEdit']) }selected{/if} value="{$key}">{vtranslate($item, $SOURCEMODULE)}</option>
 										{foreachelse}
 											<option disabled value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
 										{/foreach}

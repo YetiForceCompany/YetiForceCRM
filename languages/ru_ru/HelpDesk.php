@@ -101,6 +101,7 @@ $languageStrings = [
 	'LBL_VIEW_FINDDUPLICATES' => 'Найти дубликаты',
 	'Record Id' => 'Номер записи',
 	'ticketpriorities' => 'Приоритет',
+	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'The ticket is not related to any Account. Please create a relation.',
 	// FIELDS
 	'FL_SERVICE_CONTRACTS' => 'Service Level Agreement',
 	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA type',

@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  ********************************************************************************/
-require_once('include/database/PearDatabase.php');
-require_once('include/CRMEntity.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
 global $calpath;
@@ -17,28 +15,9 @@ global $app_strings,$mod_strings;
 global $app_list_strings;
 global $modules;
 global $blocks;
-global $adv_filter_options;
-$log = vglobal('log');
-
 global $report_modules;
 global $related_modules;
 global $old_related_modules;
-
-$adv_filter_options = array("e"=>"equals",
-		            "n"=>"not equal to",
-			    "s"=>"starts with",
-			    "ew"=>"ends with",
-			    "c"=>"contains",
-			    "k"=>"does not contain",
-			    "l"=>"less than",
-			    "g"=>"greater than",
-			    "m"=>"less or equal",
-			    "h"=>"greater or equal",
-			    "bw"=>"between",
-			    "a"=>"after",
-			    "b"=>"before",
-				"y"=>"is empty",
-			   );
 
 //$report_modules = Array('Faq','Rss','Portal','Recyclebin','Emails','Reports','Dashboard','Home','Activities'
 	//	       );
@@ -51,7 +30,7 @@ $old_related_modules = Array('Accounts'=>Array('Contacts','Products'),
 			 'Campaigns'=>Array('Products')
 			);
 
-$related_modules =Array();
+$related_modules =[];
 
 class Reports extends CRMEntity{
 
@@ -67,10 +46,10 @@ class Reports extends CRMEntity{
 
 	var $srptfldridjs;
 
-	var $column_fields = Array();
+	var $column_fields = [];
 
-	var $sort_fields = Array();
-	var $sort_values = Array();
+	var $sort_fields = [];
+	var $sort_values = [];
 
 	var $id;
 	var $mode;
@@ -98,16 +77,16 @@ class Reports extends CRMEntity{
 	var $sec_module_columnslist;
 
 	var $advft_criteria;
-	var $adv_rel_fields = Array();
+	var $adv_rel_fields = [];
 
-	var $module_list = Array();
+	var $module_list = [];
 
 	/** Function to set primodule,secmodule,reporttype,reportname,reportdescription,folderid for given vtiger_reportid
 	 *  This function accepts the vtiger_reportid as argument
 	 *  It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given vtiger_reportid
 	 */
 
-	function Reports($reportid="")
+	function __construct($reportid="")
 	{
 		global $adb,$current_user,$theme,$mod_strings;
 		$this->initListOfModules();
@@ -140,7 +119,7 @@ class Reports extends CRMEntity{
 				}
 
 				$query = $adb->pquery("select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '".$current_user_parent_role_seq."::%'",array());
-				$subordinate_users = Array();
+				$subordinate_users = [];
 				for($i=0;$i<$adb->num_rows($query);$i++){
 					$subordinate_users[] = $adb->query_result($query,$i,'userid');
 				}
@@ -353,7 +332,7 @@ class Reports extends CRMEntity{
 	{
 
 		global $adb,$log,$mod_strings;
-		$returndata = Array();
+		$returndata = [];
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, array());
 		$reportfldrow = $adb->fetch_array($result);
@@ -366,7 +345,7 @@ class Reports extends CRMEntity{
 			{
 				if($reportfldrow["state"] == $mode)
 				{
-					$details = Array();
+					$details = [];
 					$details['state'] = $reportfldrow["state"];
 					$details['id'] = $reportfldrow["folderid"];
 					$details['name'] = ($mod_strings[$reportfldrow["foldername"]] == '' ) ? $reportfldrow["foldername"]:$mod_strings[$reportfldrow["foldername"]];
@@ -381,7 +360,7 @@ class Reports extends CRMEntity{
 		{
 			do
 			{
-				$details = Array();
+				$details = [];
 				$details['state'] = $reportfldrow["state"];
 				$details['id'] = $reportfldrow["folderid"];
 				$details['name'] = ($mod_strings[$reportfldrow["foldername"]] == '' ) ? $reportfldrow["foldername"]:$mod_strings[$reportfldrow["foldername"]];
@@ -406,7 +385,7 @@ class Reports extends CRMEntity{
     {
         $adb = PearDatabase::getInstance();
         $log = vglobal('log');
-        $returndata=Array();
+        $returndata=[];
         $sql ="select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
         $sql.=" inner join vtiger_reportmodules on vtiger_reportmodules.reportmodulesid = vtiger_report.reportid";
          if($paramsList){
@@ -425,7 +404,7 @@ class Reports extends CRMEntity{
 		{
 			do
 			{
-				$report_details = Array();
+				$report_details = [];
 				$report_details ['customizable'] = $report["customizable"];
 				$report_details ['reportid'] = $report["reportid"];
 				$report_details ['primarymodule'] = $report["primarymodule"];
@@ -462,7 +441,7 @@ class Reports extends CRMEntity{
 		$current_user = vglobal('current_user');
 		$log = vglobal('log');
 		$mod_strings = vglobal('mod_strings');
-		$returndata = Array();
+		$returndata = [];
 
 		require_once('include/utils/UserInfoUtil.php');
 
@@ -504,7 +483,7 @@ class Reports extends CRMEntity{
 			$sql .= " LIMIT $startIndex,".($pageLimit+1);
 		}
 		$query = $adb->pquery("select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '".$current_user_parent_role_seq."::%'",array());
-		$subordinate_users = Array();
+		$subordinate_users = [];
 		for($i=0;$i<$adb->num_rows($query);$i++){
 			$subordinate_users[] = $adb->query_result($query,$i,'userid');
 		}
@@ -515,7 +494,7 @@ class Reports extends CRMEntity{
 		{
 			do
 			{
-				$report_details = Array();
+				$report_details = [];
 				$report_details ['customizable'] = $report["customizable"];
 				$report_details ['reportid'] = $report["reportid"];
 				$report_details ['primarymodule'] = $report["primarymodule"];
@@ -916,7 +895,7 @@ function getEscapedColumns($selectedfields)
 	{
 		$current_user  = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
-		$access_fields = Array();
+		$access_fields = [];
 
 		$profileList = getCurrentUserProfileList();
 		$query = "select vtiger_field.fieldname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where";
@@ -992,49 +971,49 @@ function getEscapedColumns($selectedfields)
 	function getSelectedColumnsList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
-		global $modules;
-		$log = vglobal('log'); $current_user = vglobal('current_user');
+		$log = LoggerManager::getInstance();
+		$current_user = vglobal('current_user');
 
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid";
 		$ssql .= " where vtiger_report.reportid = ?";
 		$ssql .= " order by vtiger_selectcolumn.columnindex";
 		$result = $adb->pquery($ssql, array($reportid));
-		$permitted_fields = Array();
+		$permitted_fields = [];
 
-		$selected_mod = split(":",$this->secmodule);
+		$selected_mod = explode(':',$this->secmodule);
 		array_push($selected_mod,$this->primodule);
 
 		$inventoryModules = getInventoryModules();
 		while($columnslistrow = $adb->fetch_array($result))
 		{
-			$fieldname ="";
-			$fieldcolname = $columnslistrow["columnname"];
+			$fieldname ='';
+			$fieldcolname = $columnslistrow['columnname'];
 
 			$selmod_field_disabled = true;
 			foreach($selected_mod as $smod){
-				if((stripos($fieldcolname,":".$smod."__")>-1) && vtlib_isModuleActive($smod)){
+				if((stripos($fieldcolname,':'.$smod.'__')>-1) && vtlib_isModuleActive($smod)){
 					$selmod_field_disabled = false;
 					break;
 				}
 			}
 			if($selmod_field_disabled==false){
-				list($tablename,$colname,$module_field,$fieldname,$single) = split(":",$fieldcolname);
+				list($tablename,$colname,$module_field,$fieldname,$single) = split(':',$fieldcolname);
 				require('user_privileges/user_privileges_'.$current_user->id.'.php');
-				list($module,$field) = split("__",$module_field);
+				list($module,$field) = explode('__',$module_field);
 				if(sizeof($permitted_fields) == 0 && $is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 				{
 					$permitted_fields = $this->getaccesfield($module);
 				}
 				$querycolumns = $this->getEscapedColumns($selectedfields);
-				$fieldlabel = trim(str_replace($module," ",$module_field));
+				$fieldlabel = trim(str_replace($module,' ',$module_field));
 				$mod_arr=explode('__',$fieldlabel);
 	                        $mod = ($mod_arr[0] == '')?$module:$mod_arr[0];
-				$fieldlabel = trim(str_replace("__"," ",$fieldlabel));
+				$fieldlabel = trim(str_replace('__',' ',$fieldlabel));
 				//modified code to support i18n issue
 				$mod_lbl = getTranslatedString($mod,$module); //module
 				$fld_lbl = getTranslatedString($fieldlabel,$module); //fieldlabel
-				$fieldlabel = $mod_lbl." ".$fld_lbl;
+				$fieldlabel = $mod_lbl.' '.$fld_lbl;
 				if (in_array($mod, $inventoryModules) && $fieldname == 'serviceid') {
 					$shtml .= "<option permission='yes' value=\"".$fieldcolname."\">".$fieldlabel."</option>";
 				}
@@ -1108,7 +1087,7 @@ function getEscapedColumns($selectedfields)
 
 				$temp_val = explode(",",$relcriteriarow["value"]);
 				if($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
-					$val = Array();
+					$val = [];
 					for($x=0;$x<count($temp_val);$x++) {
                         if($col[4] == 'D') {
 							$date = new DateTimeField(trim($temp_val[$x]));
@@ -1174,7 +1153,7 @@ function getEscapedColumns($selectedfields)
 
 	function sgetColumntoTotal($primarymodule,$secondarymodule)
 	{
-		$options = Array();
+		$options = [];
 		$options []= $this->sgetColumnstoTotalHTML($primarymodule,0);
 		if(!empty($secondarymodule))
 		{
@@ -1198,7 +1177,7 @@ function getEscapedColumns($selectedfields)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
-		$options = Array();
+		$options = [];
 		if($reportid != "")
 		{
 			$ssql = "select vtiger_reportsummary.* from vtiger_reportsummary inner join vtiger_report on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid where vtiger_report.reportid=?";
@@ -1291,14 +1270,14 @@ function getEscapedColumns($selectedfields)
 
 		$result = $adb->pquery($ssql, $sparams);
 		$columntototalrow = $adb->fetch_array($result);
-		$options_list = Array();
+		$options_list = [];
 		do
 		{
 			$typeofdata = explode("~",$columntototalrow["typeofdata"]);
 
 			if($typeofdata[0] == "N" || $typeofdata[0] == "I" || ($typeofdata[0] == "NN" && !empty($typeofdata[2])))
 			{
-				$options = Array();
+				$options = [];
 				if(isset($this->columnssummary))
 				{
 					$selectedcolumn = "";
@@ -1371,24 +1350,6 @@ function getEscapedColumns($selectedfields)
 		$log->info("Reports :: Successfully returned sgetColumnstoTotalHTML");
 		return $options_list;
 	}
-
-	/** Function to get the  advanced filter criteria for an option
-	 *  This function accepts The option in the advenced filter as an argument
-	 *  This generate filter criteria for the advanced filter
-	 *  It returns a HTML string of combo values
-	 */
-	public static function getAdvCriteriaHTML($selected="") {
-		global $adv_filter_options;
-
-		foreach($adv_filter_options as $key=>$value) {
-			if($selected == $key) {
-				$shtml .= "<option selected value=\"".$key."\">".$value."</option>";
-			} else {
-				$shtml .= "<option value=\"".$key."\">".$value."</option>";
-			}
-		}
-		return $shtml;
-	}
 }
 
 /** Function to get the primary module list in vtiger_reports
@@ -1402,7 +1363,7 @@ function getReportsModuleList($focus)
 	global $app_list_strings;
 	//global $report_modules;
 	global $mod_strings;
-	$modules = Array();
+	$modules = [];
 	foreach($focus->module_list as $key=>$value) {
 		if(isPermitted($key,'index') == "yes") {
 			$count_flag = 1;
@@ -1422,7 +1383,7 @@ function getReportRelatedModules($module,$focus)
 	global $app_list_strings;
 	global $related_modules;
 	global $mod_strings;
-	$optionhtml = Array();
+	$optionhtml = [];
 	if(vtlib_isModuleActive($module)){
 		if(!empty($focus->related_modules[$module])) {
 			foreach($focus->related_modules[$module] as $rel_modules)
@@ -1484,7 +1445,7 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		$temp_val = explode(",",$adv_filter_value);
 		if(($column_info[4] == 'D' || ($column_info[4] == 'T' && $column_info[1] != 'time_start' && $column_info[1] != 'time_end') || ($column_info[4] == 'DT')) && ($column_info[4] != '' && $adv_filter_value != '' ))
 		{
-			$val = Array();
+			$val = [];
 			for($x=0;$x<count($temp_val);$x++) {
 				if(trim($temp_val[$x]) != '') {
 					$date = new DateTimeField(trim($temp_val[$x]));

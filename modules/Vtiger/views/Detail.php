@@ -229,23 +229,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Emails.resources.MassEdit',
 			'modules.Vtiger.resources.Widgets',
-			'~/libraries/timelineJS3/js/timeline.js'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
-	}
-
-	public function getHeaderCss(Vtiger_Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
-			'~/libraries/timelineJS3/css/timeline.css'
-		];
-		$cssFileNames = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssFileNames, $headerCssInstances);
-		return $headerCssInstances;
 	}
 
 	function showDetailViewByMode($request)
@@ -262,7 +250,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showModuleDetailView(Vtiger_Request $request)
+	public function showModuleDetailView(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -323,7 +311,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	function showModuleBasicView($request)
+	public function showModuleBasicView(Vtiger_Request $request)
 	{
 
 		$recordId = $request->get('record');
@@ -352,6 +340,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleModel = $recordModel->getModule();
 
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			echo $viewer->view('SummaryViewWidgets.tpl', $moduleName, true);
@@ -396,10 +385,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		} else {
 			$pagingModel->set('nextPageExists', true);
 		}
+		if ($type == 'changes') {
+			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
+		$viewer->assign('NEW_CHANGE', $newChange);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 		$viewer->assign('MODULE_BASE_NAME', 'ModTracker');
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$defaultView = AppConfig::module('ModTracker', 'DEFAULT_VIEW');
@@ -408,7 +402,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		} else {
 			$tplName = 'RecentActivitiesTimeLine.tpl';
 		}
-		if(!$request->get('skipHeader')){
+		if (!$request->get('skipHeader')) {
 			echo $viewer->view('RecentActivitiesHeader.tpl', $moduleName, 'true');
 		}
 		echo $viewer->view($tplName, $moduleName, 'true');
@@ -536,7 +530,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
-
+		$currentCommentModel = [];
 		if (!empty($commentRecordId)) {
 			$currentCommentModel = ModComments_Record_Model::getInstanceById($commentRecordId);
 		}
@@ -546,7 +540,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
-		$viewer->assign('TYPE_VIEW', $request->get('type'));
+		$viewer->assign('MODULE_NAME', $moduleName);
 		return $viewer->view('ShowAllComments.tpl', $moduleName, 'true');
 	}
 
@@ -600,8 +594,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 			$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
 
+			$colorList = [];
+			foreach($relatedActivities as $activityModel){
+				$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+			}
 			$viewer = $this->getViewer($request);
 			$viewer->assign('RECORD', $recordModel);
+			$viewer->assign('COLOR_LIST', $colorList);
 			$viewer->assign('MODULE_NAME', $moduleName);
 			$viewer->assign('PAGING_MODEL', $pagingModel);
 			$viewer->assign('PAGE_NUMBER', $pageNumber);
@@ -795,7 +794,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('limit', $limitPage);
-		
+
 		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);

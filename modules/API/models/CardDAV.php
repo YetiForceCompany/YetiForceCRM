@@ -336,7 +336,7 @@ class API_CardDAV_Model
 	{
 		$db = PearDatabase::getInstance();
 		if ($module == 'Contacts')
-			$query = 'SELECT crmid, parentid, firstname, lastname, phone, mobile, email, secondary_email, vtiger_crmentity.modifiedtime '
+			$query = 'SELECT crmid, parentid, firstname, lastname, phone, mobile, email, secondary_email, jobtitle, vtiger_crmentity.modifiedtime '
 				. 'FROM vtiger_contactdetails '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid '
 				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_contactdetails.contactid > 0 AND vtiger_contactdetails.dav_status = 1;';

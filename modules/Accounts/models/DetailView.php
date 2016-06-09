@@ -78,7 +78,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'ProductsAndServices',
-				'countRelated' => true
+				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -86,21 +86,23 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type=' . $modCommentsModel::getDefaultViewComments(),
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => 'Comments',
-				'countRelated' => true
+				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 
 		if ($parentModuleModel->isTrackingEnabled()) {
-			$relatedLinks[] = array(
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_UPDATES',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
-				'related' => 'Updates'
-			);
+				'related' => 'Updates',
+				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'badgeClass' => 'bgDanger'
+			];
 		}
 
 		$relationModels = $parentModuleModel->getRelations();

@@ -171,10 +171,28 @@ var Vtiger_CustomView_Js = {
 			}
 		});
 	},
+	registerColorEvent: function () {
+		var container = this.getContentsContainer();
+		var field = container.find('.colorPicker');
+		var color = field.val();
+		var addon = field.parent().find('.input-group-addon');
+
+		field.ColorPicker({
+			onChange: function (hsb, hex, rgb) {
+				color = '#' + hex;
+				field.val(color);
+				addon.css('background-color', color);
+			},
+			onBeforeShow: function () {
+				$(this).ColorPickerSetColor(this.value);
+			}
+		});
+	},
 	registerEvents: function () {
 		this.registerIconEvents();
 		this.registerCkEditorElement();
 		this.registerBlockToggleEvent();
+		this.registerColorEvent();
 		var select2Element = Vtiger_CustomView_Js.columnListSelect2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
 		var contentsContainer = Vtiger_CustomView_Js.getContentsContainer();
 		jQuery('.stndrdFilterDateSelect').datepicker();
@@ -207,7 +225,7 @@ var Vtiger_CustomView_Js = {
 			var mandatoryFieldsList = JSON.parse(jQuery('#mandatoryFieldsList').val());
 			var selectedOptions = selectElement.val();
 			var mandatoryFieldsMissing = true;
-			if(selectedOptions){
+			if (selectedOptions) {
 				for (var i = 0; i < selectedOptions.length; i++) {
 					if (jQuery.inArray(selectedOptions[i], mandatoryFieldsList) >= 0) {
 						mandatoryFieldsMissing = false;

@@ -23,6 +23,8 @@
 		{assign var="REFERENCED_MODULE_STRUCT" value=$FIELD_MODEL->getUITypeModel()->getReferenceModule($DISPLAYID)}
 		{if !empty($REFERENCED_MODULE_STRUCT)}
 			{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
+		{else}
+			{assign var="REFERENCED_MODULE_NAME" value=''}
 		{/if}
 		{if in_array($REFERENCED_MODULE_NAME, $REFERENCE_LIST)}
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCED_MODULE_NAME}" />
@@ -54,7 +56,7 @@
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="glyphicon glyphicon-search" title="{vtranslate('LBL_SELECT', $MODULE)}" ></span>
 			</button>
 			<!-- Show the add button only if it is edit view  -->
-			{if (($VIEW eq 'Edit') or ($MODULE_NAME eq 'Webforms')) && $REFERENCE_MODULE_MODEL && $REFERENCE_MODULE_MODEL->isQuickCreateSupported()}
+			{if (($VIEW eq 'Edit') or ($MODULE eq 'Webforms')) && $REFERENCE_MODULE_MODEL && $REFERENCE_MODULE_MODEL->isQuickCreateSupported()}
 				<button class="btn btn-default createReferenceRecord" type="button" {if $FIELD_MODEL->isEditableReadOnly()}disabled {/if}>
 					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="glyphicon glyphicon-plus" title="{vtranslate('LBL_CREATE', $MODULE)}"></span>
 				</button>

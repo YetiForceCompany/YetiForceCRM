@@ -79,20 +79,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		return true;
 	},
 	/**
-	 * Function which will align the contents container at specified height depending on the top fixed menu
-	 * It will caliculate the height by following formaula menuContianer.height+1	 *
-	 */
-	alignContentsContainer: function (show, speed, effect) {
-		var navTop = jQuery('nav.navbar-fixed-top').outerHeight();
-		if (show) {
-			var announcement = jQuery('#announcement').outerHeight();
-			navTop = (navTop + announcement);
-		}
-		var contentsContainer = this.getContentsContainer();
-		contentsContainer.animate({'margin-top': navTop}, speed, effect);
-		return this;
-	},
-	/**
 	 * Function to save the quickcreate module
 	 * @param accepts form element as parameter
 	 * @return returns deferred promise
@@ -125,55 +111,38 @@ jQuery.Class("Vtiger_Header_Js", {
 		form.addClass('not_validation');
 		form.submit();
 	},
-	setAnnouncement: function () {
-		var announcementoff = app.cacheGet('announcement.turnoff', false);
-		var announcementBtn = jQuery('.announcementBtn');
+	showAnnouncement: function () {
 		var thisInstance = this;
-		if (announcementoff === true) {
-			jQuery('#announcement').hide();
-			announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
-			thisInstance.alignContentsContainer(false, 0, 'linear');
-		} else {
-			jQuery('#announcement').show();
-			announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
-			thisInstance.alignContentsContainer(true, 0, 'linear');
+		var announcementContainer = jQuery('#announcements');
+		var announcements = announcementContainer.find('.announcement');
+		if (announcements.length > 0) {
+			var announcement = announcements.first();
+			var aid = announcement.data('id')
+
+			app.showModalWindow(announcement.find('.modal'), function (modal) {
+				announcement.remove();
+				modal.find('button').click(function (e) {
+					AppConnector.request({
+						module: 'Announcements',
+						action: 'BasicAjax',
+						mode: 'mark',
+						record: aid,
+						type: $(this).data('type')
+					}).then(function (res) {
+						app.hideModalWindow(modal);
+						thisInstance.showAnnouncement();
+					})
+				});
+			}, '', {backdrop: 'static'});
 		}
 	},
-	registerAnnouncement: function () {
+	registerAnnouncements: function () {
 		var thisInstance = this;
-		var announcementBtn = jQuery('.announcementBtn');
-		var announcementTurnOffKey = 'announcement.turnoff';
-
-		announcementBtn.click(function (e, manual) {
-			thisInstance.hideActionMenu();
-			var displayStatus = jQuery('#announcement').css('display');
-
-			if (displayStatus == 'none') {
-				jQuery('#announcement').show();
-				thisInstance.alignContentsContainer(true, 200, 'linear');
-				announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
-
-				// Turn-on always
-				if (!manual) {
-					app.cacheSet(announcementTurnOffKey, false);
-				}
-			} else {
-				thisInstance.alignContentsContainer(false, 200, 'linear');
-				jQuery('#announcement').hide();
-				announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
-
-				// Turn-off always
-				// NOTE: Add preference on server - to reenable on announcement content change.
-				if (!manual) {
-					app.cacheSet(announcementTurnOffKey, true);
-				}
-
-			}
-		});
-
-		if (app.cacheGet(announcementTurnOffKey, false)) {
-			announcementBtn.trigger('click', true);
+		var announcementContainer = jQuery('#announcements');
+		if (announcementContainer.length == 0) {
+			return false;
 		}
+		thisInstance.showAnnouncement();
 	},
 	registerCalendarButtonClickEvent: function () {
 		var element = jQuery('#calendarBtn');
@@ -899,8 +868,28 @@ jQuery.Class("Vtiger_Header_Js", {
 			$(this).parents('.btn-group').find('.dropdown-toggle .textHolder').html($(this).text());
 		});
 	},
+	listenTextAreaChange: function () {
+		var thisInstance = this;
+		$('textarea').live('keyup', function () {
+			var elem = $(this);
+			if (!elem.data('has-scroll'))
+			{
+				elem.data('has-scroll', true);
+				elem.bind('scroll keyup', function () {
+					thisInstance.resizeTextArea($(this));
+				});
+			}
+			thisInstance.resizeTextArea($(this));
+		});
+	},
+	resizeTextArea: function (elem) {
+		elem.height(1);
+		elem.scrollTop(0);
+		elem.height(elem[0].scrollHeight - elem[0].clientHeight + elem.height());
+	},
 	registerEvents: function () {
 		var thisInstance = this;
+		thisInstance.listenTextAreaChange();
 		thisInstance.recentPageViews();
 		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerScrollForMenu();
@@ -920,9 +909,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			pressEvent.which = 13;
 			currentTarget.trigger(pressEvent);
 		});
-		thisInstance.registerAnnouncement();
-		thisInstance.setAnnouncement();
-
+		thisInstance.registerAnnouncements();
 		thisInstance.registerHotKeys();
 		thisInstance.registerToggleButton();
 		//this.registerCalendarButtonClickEvent();

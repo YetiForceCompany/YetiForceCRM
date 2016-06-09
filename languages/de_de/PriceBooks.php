@@ -20,4 +20,5 @@ $languageStrings = [
 	'SINGLE_PriceBooks' => 'Preisliste',
 	'yes' => 'Ja',
 	'no' => 'Nein',
+	'Unit Price'=>'Preis/Einheit',
 ];

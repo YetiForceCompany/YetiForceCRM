@@ -9,7 +9,7 @@
 class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');

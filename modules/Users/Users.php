@@ -25,17 +25,10 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-require_once('include/logging.php');
-require_once('include/database/PearDatabase.php');
 require_once('include/utils/UserInfoUtil.php');
-require_once 'include/CRMEntity.php';
-require_once('modules/Calendar/Activity.php');
-require_once('modules/Contacts/Contacts.php');
-require_once('include/Tracker.php');
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Webservices/Utils.php';
 require_once('modules/Users/UserTimeZonesArray.php');
-require_once 'include/runtime/Cache.php';
 
 // User is used to store customer information.
 /** Main class for the user module
@@ -115,10 +108,9 @@ class Users extends CRMEntity
 	  instantiates the Logger class and PearDatabase Class
 	 *
 	 */
-	function Users()
+	function __construct()
 	{
-		$this->log = LoggerManager::getLogger('user');
-		$this->log->debug("Entering Users() method ...");
+		$this->log = LoggerManager::getInstance(get_class($this));
 		$this->db = PearDatabase::getInstance();
 		$this->DEFAULT_PASSWORD_CRYPT_TYPE = (version_compare(PHP_VERSION, '5.3.0') >= 0) ?
 			'PHP5.3MD5' : 'MD5';
@@ -127,7 +119,6 @@ class Users extends CRMEntity
 		$this->column_fields['currency_code'] = '';
 		$this->column_fields['currency_symbol'] = '';
 		$this->column_fields['conv_rate'] = '';
-		$this->log->debug("Exiting Users() method ...");
 	}
 
 	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
@@ -635,7 +626,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 *
 	 */
-	function saveentity($module)
+	function saveentity($module, $fileid = '')
 	{
 		$db = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
@@ -739,7 +730,7 @@ class Users extends CRMEntity
 	 * @param $table_name -- table name:: Type varchar
 	 * @param $module -- module:: Type varchar
 	 */
-	function insertIntoEntityTable($table_name, $module)
+	function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
 		$log = LoggerManager::getInstance();
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
@@ -937,18 +928,19 @@ class Users extends CRMEntity
 		$log->debug("Entering into retrieve_entity_info($record, $module) method.");
 
 		if ($record == '') {
-			$log->debug("record is empty. returning null");
+			$log->fatal('record is empty. returning null');
 			return null;
 		}
 
-		$result = Array();
+		$result = [];
 		foreach ($this->tab_name_index as $table_name => $index) {
-			$result[$table_name] = $adb->pquery("select * from " . $table_name . " where " . $index . "=?", array($record));
+			$result[$table_name] = $adb->pquery('select * from ' . $table_name . ' where ' . $index . '=?', array($record));
 		}
 		$tabid = getTabid($module);
-		$sql1 = "select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)";
+		$sql1 = 'select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)';
 		$result1 = $adb->pquery($sql1, array($tabid));
 		$noofrows = $adb->num_rows($result1);
+
 		for ($i = 0; $i < $noofrows; $i++) {
 			$fieldcolname = $adb->query_result($result1, $i, "columnname");
 			$tablename = $adb->query_result($result1, $i, "tablename");
@@ -958,40 +950,31 @@ class Users extends CRMEntity
 			$this->column_fields[$fieldname] = $fld_value;
 			$this->$fieldname = $fld_value;
 		}
-		$this->column_fields["record_id"] = $record;
-		$this->column_fields["record_module"] = $module;
+		$this->column_fields['record_id'] = $record;
+		$this->column_fields['record_module'] = $module;
 
 		$currency_query = "select * from vtiger_currency_info where id=? and currency_status='Active' and deleted=0";
-		$currency_result = $adb->pquery($currency_query, array($this->column_fields["currency_id"]));
-		if ($adb->num_rows($currency_result) == 0) {
-			$currency_query = "select * from vtiger_currency_info where id =1";
-			$currency_result = $adb->pquery($currency_query, array());
+		$currencyResult = $adb->pquery($currency_query, array($this->column_fields['currency_id']));
+		if ($adb->num_rows($currencyResult) == 0) {
+			$currencyResult = $adb->query('select * from vtiger_currency_info where id =1');
 		}
-		$currency_array = array("$" => "&#36;", "&euro;" => "&#8364;", "&pound;" => "&#163;", "&yen;" => "&#165;");
-		$ui_curr = $currency_array[$adb->query_result($currency_result, 0, "currency_symbol")];
-		if ($ui_curr == "")
-			$ui_curr = $adb->query_result($currency_result, 0, "currency_symbol");
-		$this->column_fields["currency_name"] = $this->currency_name = $adb->query_result($currency_result, 0, "currency_name");
-		$this->column_fields["currency_code"] = $this->currency_code = $adb->query_result($currency_result, 0, "currency_code");
-		$this->column_fields["currency_symbol"] = $this->currency_symbol = $ui_curr;
-		$this->column_fields["conv_rate"] = $this->conv_rate = $adb->query_result($currency_result, 0, "conversion_rate");
+		$currency = $adb->getRow($currencyResult);
+		$currencyArray = ['$' => '&#36;', '&euro;' => '&#8364;', '&pound;' => '&#163;', '&yen;' => '&#165;'];
+		if (isset($currencyArray[$currency['currency_symbol']])) {
+			$currencySymbol = $currencyArray[$currency['currency_symbol']];
+		} else {
+			$currencySymbol = $currency['currency_symbol'];
+		}
+		$this->column_fields['currency_name'] = $this->currency_name = $currency['currency_name'];
+		$this->column_fields['currency_code'] = $this->currency_code = $currency['currency_code'];
+		$this->column_fields['currency_symbol'] = $this->currency_symbol = $currencySymbol;
+		$this->column_fields['conv_rate'] = $this->conv_rate = $currency['conversion_rate'];
 		if ($this->column_fields['no_of_currency_decimals'] == '')
 			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = getCurrencyDecimalPlaces();
 
 		// TODO - This needs to be cleaned up once default values for fields are picked up in a cleaner way.
 		// This is just a quick fix to ensure things doesn't start breaking when the user currency configuration is missing
 		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
-
-			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
-			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
-			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ',';
-			$this->column_fields['currency_symbol_placement'] = $this->currency_symbol_placement = '$1.0';
-		}
-
-		// TODO - This needs to be cleaned up once default values for fields are picked up in a cleaner way.
-		// This is just a quick fix to ensure things doesn't start breaking when the user currency configuration is missing
-		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
-
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
 			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
 			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ',';
@@ -999,8 +982,7 @@ class Users extends CRMEntity
 		}
 
 		$this->id = $record;
-		$log->debug("Exit from retrieve_entity_info($record, $module) method.");
-
+		$log->debug('Exit from retrieve_entity_info() method.');
 		return $this;
 	}
 
@@ -1009,7 +991,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 * @param $file_details -- file details array:: Type array
 	 */
-	function uploadAndSaveFile($id, $module, $file_details)
+	function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
@@ -1080,7 +1062,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 *
 	 */
-	function save($module_name)
+	function save($module_name, $fileid = '')
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -1338,7 +1320,7 @@ class Users extends CRMEntity
 	 * @param $input_value -- Input value for the column taken from the User
 	 * @return Column value of the field.
 	 */
-	function get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype)
+	function get_column_value($columName, $fldvalue, $fieldname, $uitype, $datatype = '')
 	{
 		if (is_uitype($uitype, "_date_") && $fldvalue == '') {
 			return null;

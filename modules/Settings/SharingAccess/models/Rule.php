@@ -165,7 +165,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 
 	protected function getRuleComponents()
 	{
-		if (!$this->rule_details && $this->getId()) {
+		if (!isset($this->rule_details) && $this->getId()) {
 			$db = PearDatabase::getInstance();
 
 			$relationTypeComponents = explode('::', $this->get('relationtype'));
@@ -262,7 +262,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 	public function getSourceDetailViewUrl()
 	{
 		debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-		
+
 		$sourceMember = $this->getSourceMember()->getId();
 		$sourceMemberDetails = explode(':', $sourceMember);
 
@@ -408,7 +408,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 		$targetType = $relationTypeComponents[1];
 		$tableColumnInfo = self::$dataShareTableColArr[$sourceType][$targetType];
 		$tableName = $tableColumnInfo['table'];
-		
+
 		$db->delete($tableName, 'shareid = ?', [$ruleId]);
 		$db->delete('vtiger_datashare_module_rel', 'shareid = ?', [$ruleId]);
 

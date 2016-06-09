@@ -23,13 +23,8 @@
 				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</div>
 			<div class="paddingLeft5px pull-left">
-				<h4 style="color: #1560bd;" title="{$RECORD->getName()}">
-					{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
-						{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
-						{if $FIELD_MODEL && $FIELD_MODEL->getPermissions()}
-							<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
-						{/if}
-					{/foreach}
+				<h4 style="color: #1560bd;" class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
+					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 				<span class="muted">
 					<small><em>{vtranslate('Sent','OSSMailView')}</em></small>

@@ -14,7 +14,7 @@
 					<label for="notificationUsers">{vtranslate('LBL_USERS', $MODULE)}</label>
 					<div class="clearfix">
 						<select class="chzn-select form-control" id="notificationUsers" name="users" data-validation-engine="validate[required]" multiple>
-							{foreach from=$USER_MODEL->getAccessibleUsers() key=OWNER_ID item=OWNER_NAME}
+							{foreach from=$USERS key=OWNER_ID item=OWNER_NAME}
 								<option value="{$OWNER_ID}" data-mail="{Vtiger_Util_Helper::getUserDetail($OWNER_ID, 'email1')}">
 									{$OWNER_NAME}
 								</option>

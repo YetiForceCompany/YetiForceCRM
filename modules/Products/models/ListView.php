@@ -170,14 +170,14 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			$rawData = $db->query_result_rowdata($listResult, $index++);
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $listViewRecordModels[$recordId]);
+			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
 		}
 		return $listViewRecordModels;
 	}
 
 	public function addSubProductsQuery($listQuery)
 	{
-		$splitQuery = split('WHERE', $listQuery);
+		$splitQuery = preg_split('/WHERE/i', $listQuery, 2);
 		$query = " LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_seproductsrel.setype='Products'";
 		$splitQuery[0] .= $query;
 		$productId = $this->get('productId');

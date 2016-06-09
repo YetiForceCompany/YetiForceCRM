@@ -97,7 +97,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 					. ' CONSTRAINT `'.$refTableName['table'].'_ibfk_2` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)', true);
 			}
 		}
-		self::log("Setting relation with $moduleInstance->name [$useactions_text] ... DONE");
+		self::log("Setting relation with $moduleInstance->name  ... DONE");
 	}
 
 	/**

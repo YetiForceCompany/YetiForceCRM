@@ -59,33 +59,110 @@ jQuery.Class("Home_NotificationsList_Js", {
 		gridsterObj.gridster().data('gridster').disable()
 	},
 	registerButtons: function () {
+		var thisInstance = this;
 		$('.notificationConf').on('click', function () {
 			var progress = jQuery.progressIndicator();
 			var url = 'index.php?module=' + app.getModuleName() + '&view=NotificationConfig';
 			app.showModalWindow(null, url, function (container) {
 				progress.progressIndicator({'mode': 'hide'});
-				container.find('[name="saveButton"]').on('click', function () {
-					var selectedModules = [];
-					container.find('.watchingModule').each(function () {
-						var currentTarget = $(this);
-						if (currentTarget.is(':checked')) {
-							selectedModules.push(currentTarget.data('nameModule'));
-						}
-					});
-					var params = {
-						module: app.getModuleName(),
-						action: 'Notification',
-						mode: 'saveWatchingModules',
-						selctedModules: selectedModules,
-					};
-					var progress = jQuery.progressIndicator();
-					AppConnector.request(params).then(function (data) {
-						progress.progressIndicator({'mode': 'hide'});
-						app.hideModalWindow();
-					});
-				});
+				thisInstance.registerEventForModal(container);
 			});
 		});
+		this.registerNotifications();
+	},
+	registerEventForModal: function (container) {
+		app.showBtnSwitch(container.find('.switchBtn'));
+		app.showPopoverElementView(container.find('.infoPopover'));
+		container.on('switchChange.bootstrapSwitch', '.sendNotificationsSwitch', function (e, state) {
+			if (state) {
+				container.find('.schedule').removeClass('hide');
+			} else {
+				container.find('.schedule').addClass('hide');
+			}
+		});
+		container.find('[name="saveButton"]').on('click', function () {
+			var selectedModules = [];
+			container.find('.watchingModule').each(function () {
+				var currentTarget = $(this);
+				if (currentTarget.is(':checked')) {
+					selectedModules.push(currentTarget.data('nameModule'));
+				}
+			});
+			var params = {
+				module: app.getModuleName(),
+				action: 'Notification',
+				mode: 'saveWatchingModules',
+				selctedModules: selectedModules,
+				sendNotifications: container.find('.sendNotificationsSwitch').prop('checked') ? 1 : 0,
+				frequency: container.find('select[name="frequency"]').val()
+			};
+			var progress = jQuery.progressIndicator();
+			AppConnector.request(params).then(function (data) {
+				progress.progressIndicator({'mode': 'hide'});
+				app.hideModalWindow();
+			});
+		});
+		container.find('.selectAllModules').on('click', function () {
+			if ($(this).is(':checked')) {
+				var value = true;
+			} else {
+				var value = false;
+			}
+			container.find('.watchingModule').each(function () {
+				$(this).prop("checked", value);
+			});
+		});
+	},
+	registerNotifications: function () {
+		$(".notificationsNotice .sendNotification").click(function (e) {
+			var modalWindowParams = {
+				url: 'index.php?module=Home&view=CreateNotificationModal',
+				id: 'CreateNotificationModal',
+				cb: function (container) {
+					var form, text, link, htmlLink;
+					text = container.find('#notificationMessage');
+					form = container.find('form');
+					container.find('#notificationTitle').val(app.getPageTitle());
+					link = $("<a/>", {
+						name: "link",
+						href: window.location.href,
+						text: app.vtranslate('JS_NOTIFICATION_LINK')
+					});
+					htmlLink = $('<div>').append(link.clone()).html();
+					text.val('<br/><hr/>' + htmlLink);
+					var ckEditorInstance = new Vtiger_CkEditor_Js();
+					ckEditorInstance.loadCkEditor(text);
+					container.find(".externalMail").click(function (e) {
+						if (form.validationEngine('validate')) {
+							var editor = CKEDITOR.instances.notificationMessage;
+							var text = $('<div>' + editor.getData() + '</div>');
+							text.find("a[href]").each(function (i, el) {
+								var href = $(this);
+								href.text(href.attr('href'));
+							});
+							var emails = [];
+							container.find("#notificationUsers option:selected").each(function (index) {
+								emails.push($(this).data('mail'))
+							});
+							$(this).attr('href', 'mailto:' + emails.join() + '?subject=' + encodeURIComponent(container.find("#notificationTitle").val()) + '&body=' + encodeURIComponent(text.text()))
+							app.hideModalWindow(container, 'CreateNotificationModal');
+						} else {
+							e.preventDefault();
+						}
+					});
+					container.find('[type="submit"]').click(function (e) {
+						var element = $(this);
+						form.find('[name="mode"]').val(element.data('mode'));
+					});
+					form.submit(function (e) {
+						if (form.validationEngine('validate')) {
+							app.hideModalWindow(container, 'CreateNotificationModal');
+						}
+					});
+				},
+			}
+			app.showModalWindow(modalWindowParams);
+		})
 	},
 	registerEvents: function () {
 		this.registerGridster();

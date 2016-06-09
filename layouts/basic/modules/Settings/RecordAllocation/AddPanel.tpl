@@ -39,7 +39,7 @@
 								<table class="table table-bordered table-condensed dataTable" data-mode="active">
 									<thead>
 										<tr>
-											<th><strong>{vtranslate('LBL_USER',$QUALIFIED_MODULE)}</strong></th>
+											<th><strong>{vtranslate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong></th>
 										</tr>
 									</thead>
 									<tbody class="dropContainer">
@@ -59,7 +59,7 @@
 								<table class="table table-bordered table-condensed dataTable" data-mode="base">
 									<thead>
 										<tr>
-											<th><strong>{vtranslate('LBL_USER',$QUALIFIED_MODULE)}</strong></th>
+											<th><strong>{vtranslate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong></th>
 										</tr>
 									</thead>
 									<tbody class="dropContainer">
@@ -70,7 +70,7 @@
 										{/foreach}
 										{foreach from=$ALL_ACTIVEGROUP_LIST key=ID item=USER_NAME}
 											<tr class="dragDrop{$INDEX}" data-id="{$ID}" data-type="groups">
-												<td>{$USER_NAME}</td>
+												<td>{vtranslate($USER_NAME,$QUALIFIED_MODULE)}</td>
 											</tr>
 										{/foreach}
 									</tbody>

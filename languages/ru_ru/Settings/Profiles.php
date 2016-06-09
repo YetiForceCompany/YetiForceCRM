@@ -71,7 +71,14 @@ $languageStrings = [
 	'RecordMappingList' => 'Отображаемые поля записи',
 	'WatchingRecords' => 'Track changes in record',
 	'WatchingModule' => 'Track changes in module',
+	'NotificationCreateMessage' => 'Send notifications',
+	'NotificationCreateMail' => 'Send email notifications',
+	'NotificationPreview' => 'Preview notifications',
+	'NotificationSendToAll' => 'Send notifications to all users',
 	'FavoriteRecords' => 'Favorite records',
+	'OpenRecord' => 'Open record',
+	'CloseRecord' => 'Close record',
+	'ReviewingUpdates' => 'Reviewing history of changes',
 	//end Actions
 	'Profile Related to Sales' => 'Профиль связанный с продажами',
 	'Profile Related to Support' => 'Профиль связанный с поддержкой',
@@ -81,6 +88,10 @@ $languageStrings = [
 	'Sales Profile' => 'Профиль - Продажи',
 	'Guest Profile' => 'Профиль - Гость',
 	'RemoveRelation' => 'Remove relation',
+	'ReceivingMailNotifications' => 'Receiving mail notifications',
+	'ActivityCancel' => 'Cancel records',
+	'ActivityComplete' => 'Close records',
+	'ActivityPostponed' => 'Postpone records',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Профиль успешно удален',

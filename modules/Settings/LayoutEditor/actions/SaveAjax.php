@@ -43,7 +43,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$id = $param['id'];
 		$edit = false;
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
-		if ($id) {
+		if (!empty($id)) {
 			$return = $inventoryField->saveField($name, $param);
 			$edit = true;
 		} else {
@@ -51,6 +51,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 			$id = $return['id'];
 		}
 		$arrayInstane = $inventoryField->getFields(false, [$id]);
+		$data = [];
 		if (current($arrayInstane)) {
 			$data = current($arrayInstane)->getData();
 			$data['translate'] = vtranslate($data['label'], $moduleName);

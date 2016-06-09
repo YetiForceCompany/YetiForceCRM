@@ -157,19 +157,4 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		}
 		return $headerCssInstances;
 	}
-
-	/**
-	 * Function to get the Announcement
-	 * @return Vtiger_Base_Model - Announcement
-	 */
-	function getAnnouncement()
-	{
-		//$announcement = Vtiger_Cache::get('announcement', 'value');
-		$model = new Vtiger_Base_Model();
-		//if(!$announcement) {
-		$announcement = get_announcements();
-		//Vtiger_Cache::set('announcement', 'value', $announcement);
-		//}
-		return $model->set('announcement', $announcement);
-	}
 }

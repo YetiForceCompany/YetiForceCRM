@@ -15,7 +15,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 	 * Function to get fields of this model
 	 * @return <Array> list of field models <Settings_Leads_Field_Model>
 	 */
-	public function getFields()
+	public function getFields($blockInstance = false)
 	{
 		if (!$this->fields) {
 			$fieldModelsList = array();
@@ -36,7 +36,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getMappingSupportedFieldIdsList()
 	{
-		if (!$this->supportedFieldIdsList) {
+		if (empty($this->supportedFieldIdsList)) {
 			$selectedTabidsList[] = getTabid($this->getName());
 			$presense = array(0, 2);
 			$restrictedFieldNames = array('campaignrelstatus');

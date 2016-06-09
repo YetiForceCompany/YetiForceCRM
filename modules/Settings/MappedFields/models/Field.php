@@ -145,7 +145,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	 * @param <String> $type
 	 * @return <Settings_MappedFields_Field_Model> field model
 	 */
-	public static function getInstance($value, $module, $type = '')
+	public static function getInstance($value, $module = false, $type = '')
 	{
 		switch ($type) {
 			case 'SELF':

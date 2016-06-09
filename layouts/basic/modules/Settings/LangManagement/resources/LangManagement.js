@@ -320,7 +320,7 @@ var Settings_Index_Js = {
 			'prefix': $("#AddNewLangMondal input[name='prefix']").val()
 		});
 		if (SaveEvent.resp) {
-			$('#lang_list table tbody').append('<tr data-prefix="' + SaveEvent.params.prefix + '"><td>' + SaveEvent.params.label + '</td><td>' + SaveEvent.params.name + '</td><td>' + SaveEvent.params.prefix + '</td><td><button class="btn btn-danger" data-toggle="confirmation" data-original-title="" id="deleteItemC">' + app.vtranslate('Delete') + '</button></td></tr>');
+			$('#lang_list table tbody').append('<tr data-prefix="' + SaveEvent.params.prefix + '"><td>' + SaveEvent.params.label + '</td><td>' + SaveEvent.params.name + '</td><td>' + SaveEvent.params.prefix + '</td><td><a href="index.php?module=LangManagement&parent=Settings&action=Export&lang=' + SaveEvent.params.prefix + '" class="btn btn-primary">' + app.vtranslate('JS_EXPORT') + '</a> <button class="btn btn-success" data-toggle="confirmation" id="setAsDefault">' + app.vtranslate('JS_DEFAULT') + '</button> <button class="btn btn-danger" data-toggle="confirmation" data-original-title="" id="deleteItemC">' + app.vtranslate('Delete') + '</button></td></tr>');
 			var element = $('#lang_list tr[data-prefix=' + SaveEvent.params.prefix + ']')
 			Settings_Index_Js.initEvant(element);
 			$('#AddNewLangMondal').modal('hide');

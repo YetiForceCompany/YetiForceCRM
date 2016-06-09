@@ -311,7 +311,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		}
 		$action = getActionname($actionid);
 		//Checking for Action Permission
-		if (!key_exists($actionid, $profileActionPermission[$tabid])) {
+		if (!isset($profileActionPermission[$tabid][$actionid])) {
 			$permission = 'no';
 			vglobal('isPermittedLog', 'SEC_MODULE_NO_ACTION_TOOL');
 			$log->debug('Exiting isPermitted method ... - no');
@@ -366,6 +366,13 @@ function isPermitted($module, $actionname, $record_id = '')
 			}
 		}
 
+		$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record_id);
+		if(!isset($recordMetaData) || $recordMetaData['deleted'] == 1){
+			vglobal('isPermittedLog', 'SEC_RECORD_DOES_NOT_EXIST');
+			$log->debug('Exiting isPermitted method ... - no');
+			return 'no';
+		}
+		
 		//Retreiving the RecordOwnerId
 		$recOwnType = '';
 		$recOwnId = '';

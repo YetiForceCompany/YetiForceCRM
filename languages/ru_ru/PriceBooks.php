@@ -22,4 +22,5 @@ $languageStrings = [
 	'SINGLE_PriceBooks' => 'Прайс-Лист',
 	'yes' => 'Да',
 	'no' => 'Нет',
+	'Unit Price' => 'Цена за единицу',
 ];

@@ -36,7 +36,8 @@ class Vtiger_Viewer extends SmartyBC {
 	 */
 	function __construct($media='') {
 		parent::__construct();
-
+		$this->debugging = AppConfig::debug('DISPLAY_DEBUG_VIEWER');
+		
 		$THISDIR = dirname(__FILE__);
 
 		$templatesDir = '';
@@ -61,6 +62,7 @@ class Vtiger_Viewer extends SmartyBC {
 		$this->setCompileDir($compileDir);		
 
 		self::$debugViewer = AppConfig::debug('DEBUG_VIEWER');
+		
 		
 		// FOR SECURITY
 		// Escape all {$variable} to overcome XSS

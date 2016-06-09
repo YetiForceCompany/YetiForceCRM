@@ -328,17 +328,17 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$this->updateCustomView();
 		}
 
+		$userId = 'Users:' . $currentUserModel->getId();
 		if (!empty($featured) && empty($cvIdOrg)) {
-			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, 'Users:' . $currentUserModel->getId(), 'add');
+			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
 		} elseif (empty($featured) && !empty($cvIdOrg)) {
-			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, 'Users:' . $currentUserModel->getId(), 'remove');
+			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'remove');
 		} elseif (!empty($featured)) {
-			$result = $db->pquery('SELECT 1 FROM a_yf_featured_filter WHERE a_yf_featured_filter.cvid = ? AND a_yf_featured_filter.user = ?;', [$cvId, 'Users:' . $currentUserModel->getId()]);
+			$result = $db->pquery('SELECT 1 FROM a_yf_featured_filter WHERE a_yf_featured_filter.cvid = ? AND a_yf_featured_filter.user = ?;', [$cvId, $userId]);
 			if (empty($result->rowCount())) {
-				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, 'Users:' . $currentUserModel->getId(), 'add');
+				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
 			}
 		}
-
 		if (empty($setDefault) && !empty($cvIdOrg)) {
 			$db->delete('vtiger_user_module_preferences', 'userid = ? AND tabid = ? AND default_cvid = ?', [$userId, $this->getModule()->getId(), $cvId]);
 		} elseif (!empty($setDefault)) {
@@ -528,6 +528,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			'userid' => $currentUser->getId(),
 			'sequence' => $seq,
 			'featured' => null,
+			'color' => $this->get('color'),
 			'description' => $this->get('description')
 		]);
 		$this->setColumnlist();
@@ -548,12 +549,12 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function updateCustomView()
 	{
 		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$cvId = $this->getId();
 		$db->update('vtiger_customview', [
 			'viewname' => $this->get('viewname'),
 			'setmetrics' => $this->get('setmetrics'),
 			'status' => $this->get('status'),
+			'color' => $this->get('color'),
 			'description' => $this->get('description')
 			], 'cvid = ?', [$cvId]
 		);

@@ -64,17 +64,6 @@ class Vendors extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'vendorname';
 
-	/** 	Constructor which will set the column_fields in this object
-	 */
-	function Vendors()
-	{
-		$this->log = LoggerManager::getLogger('vendor');
-		$this->log->debug("Entering Vendors() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Vendors');
-		$this->log->debug("Exiting Vendor method ...");
-	}
-
 	function save_module($module)
 	{
 		

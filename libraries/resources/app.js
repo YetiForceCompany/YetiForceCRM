@@ -1359,22 +1359,28 @@ var app = {
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {
-		if (typeof error == 'object') {
+		if (typeof error == 'object' && error.responseText) {
 			error = error.responseText;
 		}
+		if (typeof error == 'object' && error.statusText) {
+			error = error.statusText;
+		}
 		console.error(error);
+		console.error(err);
+		console.error(errorThrown);
+		console.error('-----------------');
 	},
 	registerModal: function (container) {
 		if (typeof container == 'undefined') {
 			container = jQuery('body');
 		}
-		container.on('click', 'button.showModal, a.showModal', function (e) {
+		container.off('click', 'button.showModal, a.showModal').on('click', 'button.showModal, a.showModal', function (e) {
 			e.preventDefault();
 			var currentElement = jQuery(e.currentTarget);
 			var url = currentElement.data('url');
 
 			if (typeof url != 'undefined') {
-				if(currentElement.hasClass('popoverTooltip')){
+				if (currentElement.hasClass('popoverTooltip')) {
 					currentElement.popover('hide');
 				}
 				currentElement.attr("disabled", true);
@@ -1441,6 +1447,19 @@ var app = {
 				});
 			}
 		});
+	},
+	registerMoreContent: function (container) {
+		container.on('click', function (e) {
+			var btn = jQuery(e.currentTarget);
+			var content = btn.closest('.moreContent');
+			content.find('.teaserContent').toggleClass('hide');
+			content.find('.fullContent').toggleClass('hide');
+			if(btn.text() == btn.data('on')){
+				btn.text(btn.data('off'));
+			}else{
+				btn.text(btn.data('on'));
+			}
+		});
 	}
 }
 jQuery(document).ready(function () {
@@ -1451,6 +1470,7 @@ jQuery(document).ready(function () {
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 	app.registerSticky();
+	app.registerMoreContent(jQuery('body').find('button.moreBtn'));
 	app.registerModal();
 	//Updating row height
 	app.updateRowHeight();

@@ -434,7 +434,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 * @param type $currentUserId
 	 * @param type $sharedIds
 	 */
-	public function getSharedType($currentUserId)
+	public static function getSharedType($currentUserId)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -524,8 +524,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$link = $recordModel->get('link');
 				if ($link != '' && $link != 0 && $permissionToSendEmail) {
 					$url = "index.php?module=OSSMail&view=compose&mod=" . Vtiger_Functions::getCRMRecordType($link) . "&record=$link";
-				}
-				if ($url != '') {
 					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . vtranslate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;

@@ -127,7 +127,7 @@ var Vtiger_Index_Js = {
 	 */
 	loadWidgets: function (widgetContainer, open) {
 		var message = jQuery('.loadingWidgetMsg').html();
-		if (widgetContainer.find('.panel-body').html() != '') {
+		if (widgetContainer.find('.panel-body').html().trim()) {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
 			imageEle.attr('src', imagePath);
@@ -143,6 +143,7 @@ var Vtiger_Index_Js = {
 		}
 		AppConnector.request(listViewWidgetParams).then(
 				function (data) {
+
 					if (typeof open == 'undefined')
 						open = true;
 					if (open) {
@@ -255,57 +256,6 @@ var Vtiger_Index_Js = {
 		})
 
 	},
-	registerNotifications: function () {
-		$(".notificationsNotice .sendNotification").click(function (e) {
-			var modalWindowParams = {
-				url: 'index.php?module=Home&view=CreateNotificationModal',
-				id: 'CreateNotificationModal',
-				cb: function (container) {
-					var form, text, link, htmlLink;
-					text = container.find('#notificationMessage');
-					form = container.find('form');
-					container.find('#notificationTitle').val(app.getPageTitle());
-					link = $("<a/>", {
-						name: "link",
-						href: window.location.href,
-						text: app.vtranslate('JS_NOTIFICATION_LINK')
-					});
-					htmlLink = $('<div>').append(link.clone()).html();
-					text.val('<br/><hr/>' + htmlLink);
-					var ckEditorInstance = new Vtiger_CkEditor_Js();
-					ckEditorInstance.loadCkEditor(text);
-					container.find(".externalMail").click(function (e) {
-						if (form.validationEngine('validate')) {
-							var editor = CKEDITOR.instances.notificationMessage;
-							var text = $('<div>' + editor.getData() + '</div>');
-							text.find("a[href]").each(function (i, el) {
-								var href = $(this);
-								href.text(href.attr('href'));
-							});
-							var emails = [];
-							container.find("#notificationUsers option:selected").each(function (index) {
-								emails.push($(this).data('mail'))
-							});
-							$(this).attr('href', 'mailto:' + emails.join() + '?subject=' + encodeURIComponent(container.find("#notificationTitle").val()) + '&body=' + encodeURIComponent(text.text()))
-							app.hideModalWindow(container, 'CreateNotificationModal');
-						} else {
-							e.preventDefault();
-						}
-					});
-					container.find('[type="submit"]').click(function (e) {
-						var element = $(this);
-						form.find('[name="mode"]').val(element.data('mode'));
-					});
-					form.submit(function (e) {
-						if (form.validationEngine('validate')) {
-							app.hideModalWindow(container, 'CreateNotificationModal');
-						}
-					});
-				},
-			}
-			app.showModalWindow(modalWindowParams);
-		})
-	},
 	registerCheckNotifications: function () {
 		var thisInstance = this;
 		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
@@ -388,7 +338,6 @@ var Vtiger_Index_Js = {
 		var li = $(element).closest('li');
 		li.find('.noticeRow').each(function (index) {
 			ids.push($(this).data('id'));
-			console.log($(this).data('id'));
 		});
 		var params = {
 			module: 'Home',
@@ -642,14 +591,12 @@ var Vtiger_Index_Js = {
 								state = data.result == 1 ? 0 : 1;
 								instance.data('value', state);
 								if (state == 1) {
-									className = instance.data('off');
+									instance.toggleClass(instance.data('off') + ' ' + instance.data('on'));
+									instance.children().toggleClass(instance.data('iconOff') + ' ' + instance.data('iconOn'));
 								} else {
-									className = instance.data('on');
+									instance.toggleClass(instance.data('on') + ' ' + instance.data('off'));
+									instance.children().toggleClass(instance.data('iconOn') + ' ' + instance.data('iconOff'));
 								}
-								instance.removeClass(function (index, css) {
-									return (css.match(/(^|\s)btn-\S+/g) || []).join(' ');
-								});
-								instance.addClass(className);
 							}
 						});
 					}
@@ -693,7 +640,6 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerActivityReminder();
 		Vtiger_Index_Js.registerCheckNotifications();
-		Vtiger_Index_Js.registerNotifications();
 		Vtiger_Index_Js.adjustTopMenuBarItems();
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();

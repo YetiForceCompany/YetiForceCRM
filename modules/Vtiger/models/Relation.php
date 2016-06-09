@@ -435,7 +435,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$result = $db->pquery($query, array($sourceModuleTabId, $relation_ids));
 	}
 
-	public function updateRelationPresence($relationId, $status)
+	public static function updateRelationPresence($relationId, $status)
 	{
 		$adb = PearDatabase::getInstance();
 		$presence = 0;
@@ -466,7 +466,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		}
 	}
 
-	public function updateModuleRelatedFields($relationId, $fields)
+	public static function updateModuleRelatedFields($relationId, $fields)
 	{
 		$db = PearDatabase::getInstance();
 		$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
@@ -614,7 +614,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $result;
 	}
 
-	public function updateStateFavorites($relationId, $status)
+	public static function updateStateFavorites($relationId, $status)
 	{
 		$adb = PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_relatedlists SET `favorites` = ? WHERE `relation_id` = ?;';
