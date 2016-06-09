@@ -345,7 +345,6 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 					thisInstance.registerEvents();
 					progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 				});
-				console.log(formated);
 			}
 		}
 		app.registerEventForDatePickerFields(dateFilter, false, customParams);

@@ -78,7 +78,6 @@ function OSSProjectTemplatesEdit() {
                     AppConnector.request(params).then(function(data) {
                         if (data.success === true) {
                             jQuery('[name="tpl_id"]').val(tpl_id);
-							console.log(data.result);
                             for (var val in data.result) {
                                 var isJson = thisInstance.isJsonArray(data.result[val]);                             
                                 if (!isJson) {

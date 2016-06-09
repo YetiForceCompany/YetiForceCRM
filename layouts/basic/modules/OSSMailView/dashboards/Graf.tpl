@@ -40,9 +40,7 @@
 		var dataInfo = JSON.parse(data);
 		for(var i=0; i<dataInfo.length; i++) {
 			labels[i] = dataInfo[i][2];
-		//	console.log(dataInfo[i][1]);
 			value[i] = parseFloat(dataInfo[i][1]);
-			//console.log(dataInfo[i][1]);
 		}
 		
 		this.getPlotContainer(false).jqplot([value],  {

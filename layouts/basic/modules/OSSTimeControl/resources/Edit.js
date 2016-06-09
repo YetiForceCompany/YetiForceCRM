@@ -94,7 +94,6 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
                         var sourceD = response.sourceData;
 						
                         if(moduleName == 'HelpDesk'){
-						//console.log(moduleName);
 							if ( 'contact_id' in sourceD ){
 								jQuery('[name="contactid"]').val( sourceD.contact_id );
 								jQuery('[name="contactid_display"]').val(thisInstance.replaceAll( sourceD.contact_label, '&oacute;', 'ó' )).prop('readonly', true);
@@ -109,7 +108,6 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
 								jQuery('[name="contactid_display"]').val(thisInstance.replaceAll( sourceD.contact_label, '&oacute;', 'ó' )).prop('readonly', true);
 							}
 							if ( 'account_label' in sourceD ){
-								//console.log(moduleName);
 								jQuery('[name="accountid"]').val( sourceD.linktoaccountscontacts );
 								jQuery('[name="accountid_display"]').val(thisInstance.replaceAll( sourceD.account_label, '&oacute;', 'ó' )).prop('readonly', true);
 							}

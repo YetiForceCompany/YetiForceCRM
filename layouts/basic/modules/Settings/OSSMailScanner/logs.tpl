@@ -191,7 +191,6 @@ reloadLogTable(jQuery('[name="page_num"]').val() - 1);
     }
     function number_validate(value){
       var valid = !/^\s*$/.test(value) && !isNaN(value);
-      console.log(valid);
         return valid;
     }
     
