@@ -293,6 +293,17 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 		$this->pdf->WriteHTML($this->html);
 	}
 
+	public function setWaterMark($templateModel)
+	{
+		if ($templateModel->get('watermark_type') == 'text') {
+			$this->pdf->SetWatermarkText($templateModel->get('watermark_text'), 0.15);
+			$this->pdf->showWatermarkText = true;
+		} elseif ($templateModel->get('watermark_type') == 'image') {
+			$this->pdf->SetWatermarkImage($templateModel->get('watermark_image'), 0.15, 'P');
+			$this->pdf->showWatermarkImage = true;
+		}
+	}
+
 	/**
 	 * Export record to PDF file
 	 * @param int $recordId - id of a record
@@ -327,7 +338,7 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 		$pdf->setTemplateId($templateId);
 		$pdf->setRecordId($recordId);
 		$pdf->setModuleName($moduleName);
-
+		$pdf->setWaterMark($template);
 		$pdf->setLanguage($template->get('language'));
 		$pdf->setFileName($template->get('filename'));
 
