@@ -18,7 +18,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions,['due_date', 'bw', $dateStart . ',' . $dateEnd . '']);
 		}
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . json_encode($listSearchParams);
+		return '&search_params=' . json_encode($listSearchParams) . '&viewname=All';
 	}
 
 	public function getWidgetTimeControl($user, $time)
@@ -26,6 +26,8 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if (!$time) {
 			return array();
 		}
+		$timeDatabase['start'] = DateTimeField::convertToDBFormat($time['start']);
+		$timeDatabase['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if ($user == 'all') {
 			$accessibleUsers = $currentUser->getAccessibleUsers();
@@ -52,8 +54,8 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if ($securityParameter != '')
 			$sql.= $securityParameter;
 		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? AND vtiger_osstimecontrol.due_date <= ?) AND vtiger_osstimecontrol.deleted = 0 ";
-		$param[] = $time['start'];
-		$param[] = $time['end'];
+		$param[] = $timeDatabase['start'];
+		$param[] = $timeDatabase['end'];
 		$result = $db->pquery($sql, $param);
 		$timeTypes = [];
 		$response = [];
@@ -115,11 +117,9 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$user = $request->get('owner');
 		$time = $request->get('time');
 		if ($time == NULL) {
-			$time['start'] = date('Y-m-d');
-			$time['end'] = date('Y-m-d');
+			$time['start'] = Vtiger_Functions::currentUserDisplayDateNew();
+			$time['end'] =  Vtiger_Functions::currentUserDisplayDateNew();
 		}
-		$time['start'] = Vtiger_Functions::currentUserDisplayDate($time['start']);
-		$time['end'] = Vtiger_Functions::currentUserDisplayDate($time['end']);
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if ($user == NULL){
 			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
