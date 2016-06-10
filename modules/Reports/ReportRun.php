@@ -1838,6 +1838,9 @@ class ReportRun extends CRMEntity
 			$query = "from vtiger_account
 				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_account.accountid";
 
+			if ($this->queryPlanner->requireTable('vtiger_entity_stats')) {
+				$query .= " inner join vtiger_entity_stats on vtiger_account.accountid=vtiger_entity_stats.crmid";
+			}
 			if ($this->queryPlanner->requireTable('vtiger_accountaddress')) {
 				$query .= " inner join vtiger_accountaddress on vtiger_account.accountid=vtiger_accountaddress.accountaddressid";
 			}
