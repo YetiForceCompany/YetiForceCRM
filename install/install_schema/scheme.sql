@@ -6929,7 +6929,7 @@ CREATE TABLE `vtiger_products` (
   `subunit` varchar(255) DEFAULT '',
   `renewable` tinyint(1) DEFAULT '0',
   `pos` varchar(255) DEFAULT '',
-  `category_multipicklist` varchar(255) DEFAULT NULL,
+  `category_multipicklist` text,
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
