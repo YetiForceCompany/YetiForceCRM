@@ -498,7 +498,7 @@ class PieChart extends Base_Chart
 					if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
 						$value = (float) ($row[$sector]);
 						$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
-					} elseif($sectorField->get('uitype') == '7') {
+					} elseif ($sectorField->get('uitype') == '7') {
 						$value = (float) ($row[$sector]);
 					} else {
 						$value = (int) $sectorField->getDisplayValue($row[$sector]);
@@ -570,16 +570,16 @@ class VerticalbarChart extends Base_Chart
 			$row = $db->query_result_rowdata($result, $i);
 
 			if ($recordCountLabel) {
-				$values[$i][] = (int) $row[strtolower($recordCountLabel)];
+				$values[$i][] = (int) $row[$recordCountLabel];
 			}
 
 			if ($queryColumnsByFieldModel) {
 				foreach ($queryColumnsByFieldModel as $fieldModel) {
 					if ($fieldModel->get('uitype') == '71' || $fieldModel->get('uitype') == '72') {
-						$value = (float) ($row[strtolower($fieldModel->get('reportlabel'))]);
+						$value = (float) ($row[$fieldModel->get('reportlabel')]);
 						$values[$i][] = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 					} else {
-						$values[$i][] = (int) $row[strtolower($fieldModel->get('reportlabel'))];
+						$values[$i][] = (float) $row[$fieldModel->get('reportlabel')];
 					}
 				}
 			}
@@ -588,23 +588,23 @@ class VerticalbarChart extends Base_Chart
 				foreach ($groupByColumnsByFieldModel as $gFieldModel) {
 					$fieldDataType = $gFieldModel->getFieldDataType();
 					if ($fieldDataType == 'picklist') {
-						$label = vtranslate($row[strtolower($gFieldModel->get('reportlabel'))], $gFieldModel->getModuleName());
+						$label = vtranslate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
 					} else if ($fieldDataType == 'multipicklist') {
-						$multiPicklistValue = $row[strtolower($gFieldModel->get('reportlabel'))];
+						$multiPicklistValue = $row[$gFieldModel->get('reportlabel')];
 						$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 						foreach ($multiPicklistValues as $multiPicklistValue) {
 							$labelList[] = vtranslate($multiPicklistValue, $gFieldModel->getModuleName());
 						}
 						$label = implode(',', $labelList);
 					} else if ($fieldDataType == 'date') {
-						$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($gFieldModel->get('reportlabel'))]);
+						$label = Vtiger_Date_UIType::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
 					} else if ($fieldDataType == 'datetime') {
-						$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($gFieldModel->get('reportlabel'))]);
+						$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[$gFieldModel->get('reportlabel')]);
 					} else {
-						$label = $row[strtolower($gFieldModel->get('reportlabel'))];
+						$label = $row[$gFieldModel->get('reportlabel')];
 					}
 					$labels[] = (strlen($label) > 30) ? substr($label, 0, 30) . '..' : $label;
-					$links[] = $this->generateLink($gFieldModel->get('reportcolumninfo'), $row[strtolower($gFieldModel->get('reportlabel'))]);
+					$links[] = $this->generateLink($gFieldModel->get('reportcolumninfo'), $row[$gFieldModel->get('reportlabel')]);
 				}
 			}
 		}

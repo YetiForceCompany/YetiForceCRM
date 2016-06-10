@@ -11,30 +11,32 @@
 -->*}
 {strip}
     <div class="">
+		<input type="hidden" name="date_filters" data-value='{ZEND_JSON::encode($DATE_FILTERS)}' />
+		<div class="widget_header row marginBottom10px">
+			<div class="col-sm-8">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
+			<div class="col-sm-4">
+				<div class="btn-toolbar pull-right">
+					{if $REPORT_MODEL->isEditable() eq true}
+						<div class="btn-group">
+							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-primary">
+								<strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
+								<span class="glyphicon glyphicon-pencil"></span>
+							</button>
+						</div>
+					{/if}
+					<div class="btn-group">
+						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-success">
+							<strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
         <div class="reportsDetailHeader">
-            <input type="hidden" name="date_filters" data-value='{ZEND_JSON::encode($DATE_FILTERS)}' />
-            <div class="reportHeader row">
-                <div class='col-md-8'>
-                    <h3>{$REPORT_MODEL->getName()}</h3>
-                </div>
-
-                <div class='col-md-4 h4'>
-                    <div class="btn-toolbar pull-right">
-                        {if $REPORT_MODEL->isEditable() eq true}
-                            <div class="btn-group">
-                                <button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-default">
-                                    <strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </button>
-                            </div>
-                        {/if}
-                        <div class="btn-group">
-                            <button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-default">
-                                <strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+			<div class="reportHeader">
+				<h4>{$REPORT_MODEL->getName()}</h4>
             </div>
 			<div class="well">
 				<form name='chartDetailForm' id='chartDetailForm'>

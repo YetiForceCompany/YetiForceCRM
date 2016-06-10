@@ -115,6 +115,7 @@ $languageStrings = [
 	'Reports' => 'Отчеты',
 	'SINGLE_Reports' => 'Отчет',
 	'LBL_SELECT_REPORT' => 'Выберите отчет',
+	'LBL_VIEW_CHARTDETAIL' => 'Chart preview',
 ];
 
 $jsLanguageStrings = [

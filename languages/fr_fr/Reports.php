@@ -116,6 +116,7 @@ $languageStrings = [
     //Schedule Reports - Mail Content
     'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Ceci est un mail automatique pour l\'envoi des rapports.',
 	'LBL_PIVOT_REPORT' => 'Rapport pivot',
+	'LBL_VIEW_CHARTDETAIL' => 'Chart preview',
 ];
 
 $jsLanguageStrings = [
