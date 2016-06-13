@@ -190,7 +190,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$label = $request->get('tab_label');
 		$totalCount = 0;
 		$relModules = [$relatedModuleName];
-
+		$pageCount = 0;
 		if (in_array('ProductsAndServices', $relModules)) {
 			$label = '';
 			$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];

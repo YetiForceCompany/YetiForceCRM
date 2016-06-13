@@ -22,6 +22,7 @@ class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 		} else {
 			$recordModels = Calendar_Module_Model::getCalendarReminder();
 		}
+		$colorList = [];
 		foreach ($recordModels as $record) {
 			$record->updateReminderStatus(2);
 			$colorList[$record->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $record->getId(), $record);
