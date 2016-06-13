@@ -88,7 +88,7 @@ class CustomView extends CRMEntity
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
-		$now_action = AppRequest::get('view');
+		$nowAction = AppRequest::get('view');
 		if (AppRequest::isEmpty('viewname')) {
 			if (isset($_SESSION['lvs'][$module]['viewname']) && $_SESSION['lvs'][$module]['viewname'] != '') {
 				$viewid = $_SESSION['lvs'][$module]['viewname'];
@@ -97,17 +97,20 @@ class CustomView extends CRMEntity
 			} else {
 				$viewid = $this->getDefaultCvId($module);
 			}
-			if (empty($viewid) || $this->isPermittedCustomView($viewid, $now_action, $module) != 'yes') {
+			if (empty($viewid) || $this->isPermittedCustomView($viewid, $nowAction, $module) != 'yes') {
 				$viewid = $this->getMandatoryFilter($module);
 			}
 		} else {
 			$viewname = AppRequest::get('viewname');
 			if (!is_numeric($viewname)) {
 				$viewid = $this->getViewIdByName($viewname, $module);
+				if(!$viewid){
+					$viewid = $this->getDefaultCvId($module);
+				}
 			} else {
 				$viewid = $viewname;
 			}
-			if ($this->isPermittedCustomView($viewid, $now_action, $module) != 'yes')
+			if ($this->isPermittedCustomView($viewid, $nowAction, $module) != 'yes')
 				$viewid = 0;
 		}
 		ListViewSession::setCurrentView($module, $viewid);
