@@ -202,7 +202,7 @@ reloadLogTable(jQuery('[name="page_num"]').val() - 1);
                         function(data) {
                             if (data.success) {
                                 var tab = jQuery('table.log-list');
-                                tab.find('tr.listViewHeaders').nextAll().remove();
+								tab.find('tbody tr').remove();
                                 for (i = 0; i < data.result.length; i++) {
                                     
                                     var html = '<tr>' 
