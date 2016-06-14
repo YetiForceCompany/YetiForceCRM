@@ -157,7 +157,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 				}
 				$tabInfo = $this->relationAcounts[$findMod];
 				if ($tabInfo) {
-					$findResult = $db->pquery('SELECT accountid, accountname FROM vtiger_account '
+					$findResult = $db->pquery('SELECT vtiger_account.accountid, vtiger_account.accountname FROM vtiger_account '
 						. 'INNER JOIN ' . $tabInfo[0] . ' ON vtiger_account.accountid = ' . $tabInfo[0] . '.' . $tabInfo[2]
 						. ' WHERE ' . $tabInfo[1] . ' = ?;', [$findId]);
 					if ($db->num_rows($findResult) > 0) {

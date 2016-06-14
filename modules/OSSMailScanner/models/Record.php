@@ -270,11 +270,12 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$get_emails = true;
 			}
 		} else if ($msgno < $num_msg) {
+			++$msgno;
 			$get_emails = true;
 		}
 
 		if ($get_emails) {
-			for ($i = ++$msgno; $i <= $num_msg; $i++) {
+			for ($i = $msgno; $i <= $num_msg; $i++) {
 				$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 
 				$uid = imap_uid($mbox, $i);
