@@ -89,7 +89,15 @@
 													<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
-										{/if}	
+										{/if}
+										{if $SPECIAL_WIDGETS['Chart']}
+											{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
+											<div class="btn-group">
+												<button class="btn btn-success addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+													<strong>{vtranslate('LBL_ADD_WIDGET_CHARTS', $QUALIFIED_MODULE)}</strong>
+												</button>
+											</div>
+										{/if}
 										<div class="btn-group actions">
 											<a href="javascript:void(0)" class="deleteCustomBlock btn btn-danger" >
 												<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
@@ -177,6 +185,14 @@
 									<div class="btn-group">
 										<button class="btn btn-success addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
 											<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
+										</button>
+									</div>
+								{/if}
+								{if $SPECIAL_WIDGETS['Chart']}
+									{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
+									<div class="btn-group">
+										<button class="btn btn-success addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+											<strong>{vtranslate('LBL_ADD_WIDGET_CHARTS', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
 								{/if}

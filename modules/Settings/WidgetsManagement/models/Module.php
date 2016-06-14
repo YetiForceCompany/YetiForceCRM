@@ -311,8 +311,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSpecialWidgets($moduleName) method ...");
 		$db = PearDatabase::getInstance();
 		$tabId = getTabid($moduleName);
-		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? AND linklabel IN (?, ?)';
-		$result = $db->pquery($query, [$tabId, 'Mini List', 'Notebook']);
+		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? AND linklabel IN (?, ?, ?)';
+		$result = $db->pquery($query, [$tabId, 'Mini List', 'Notebook', 'Chart']);
 		$widgets = [];
 		while ($row = $db->fetch_array($result)) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);

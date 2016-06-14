@@ -489,8 +489,17 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		jQuery('#layoutDashBoards').find('.addNotebook').click(function (e) {
 			thisInstance.addNoteBookWidget(this, jQuery(this).data('url'));
 		});
+		jQuery('#layoutDashBoards').find('.addCharts').click(function (e) {
+			thisInstance.addChartWidget($(e.currentTarget));
+		});
 		jQuery('#layoutDashBoards').find('.addMiniList').click(function (e) {
 			thisInstance.addMiniListWidget(this, jQuery(this).data('url'));
+		});
+	},
+	addChartWidget: function (element) {
+		app.showModalWindow(null, "index.php?parent=Settings&module=WidgetsManagement&view=AddChart", function (wizardContainer) {
+			wizardContainer.find('[name="blockid"]').val(element.data('block-id'));
+			wizardContainer.find('[name="linkId"]').val(element.data('linkid'));
 		});
 	},
 	addNoteBookWidget: function (element, url) {

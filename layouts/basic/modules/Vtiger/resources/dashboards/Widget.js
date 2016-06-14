@@ -748,7 +748,20 @@ Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
 		this.registerFilterChangeEvent();
 	}
 });
-
+Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
+	loadChart: function () {
+		var container = this.getContainer();
+		var chartType = container.find('[name="typeChart"]').val();
+		var chartClassName = chartType.toCamelCase();
+		var chartClass = window["Report_" + chartClassName + "_Js"];
+		var instance = false;
+		if (typeof chartClass != 'undefined') {
+			instance = new chartClass();
+			instance.setContainer(container);
+			instance.loadChart();
+		}
+	}
+});
 Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js', {}, {
 	postLoadWidget: function () {
 		this._super();
