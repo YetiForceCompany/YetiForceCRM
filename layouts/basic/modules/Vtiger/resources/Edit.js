@@ -215,6 +215,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 					}
 				});
 			});
+			if('Products' == popupReferenceModule || 'Services' == popupReferenceModule){
+				var inventoryInstance = new Vtiger_Inventory_Js();
+ 				inventoryInstance.registerRowAutoCompleteAfterAdding(container);
+			}
 		}
 	},
 	getRelationOperation: function () {

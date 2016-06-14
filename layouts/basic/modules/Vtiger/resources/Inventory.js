@@ -1362,6 +1362,27 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			);
 		});
 	},
+	registerRowAutoCompleteAfterAdding: function (container) {
+		var thisInstance = this;
+		var sourceFieldElement = container.find('.rowName .sourceField');
+		var parentRow = sourceFieldElement.closest(thisInstance.rowClass);
+		var record = container.find('.sourceField').val()
+		var selectedModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
+		var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency();
+		AppConnector.request(dataUrl).then(
+				function (data) {
+					for (var id in data) {
+						if (typeof data[id] == "object") {
+							var recordData = data[id];
+							thisInstance.mapResultsToFields(selectedModule, parentRow, recordData);
+						}
+					}
+				},
+				function (error, err) {
+					console.error(error, err);
+				}
+		);
+	},
 	calculateItemNumbers: function () {
 		var thisInstance = this;
 		var items = this.getInventoryItemsContainer();
