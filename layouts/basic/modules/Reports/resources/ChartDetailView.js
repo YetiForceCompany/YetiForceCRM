@@ -12,7 +12,7 @@ Reports_Detail_Js("Reports_ChartDetailView_Js", {
 	 * Function used to display message when there is no data from the server
 	 */
 	displayNoDataMessage: function () {
-		$('#chartcontent').html('<div>' + app.vtranslate('JS_NO_CHART_DATA_AVAILABLE') + '</div>').css(
+		$('.chartcontent').html('<div>' + app.vtranslate('JS_NO_CHART_DATA_AVAILABLE') + '</div>').css(
 				{'text-align': 'center', 'position': 'relative', 'top': '100px'});
 	},
 	/**
@@ -92,7 +92,7 @@ Reports_Detail_Js("Reports_ChartDetailView_Js", {
 		var thisInstance = this;
 		try {
 			thisInstance.getInstance();	// instantiate the object and calls init function
-			jQuery('#chartcontent').trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
+			jQuery('.chartcontent').trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
 		} catch (error) {
 			Reports_ChartDetailView_Js.displayNoDataMessage();
 			return;
