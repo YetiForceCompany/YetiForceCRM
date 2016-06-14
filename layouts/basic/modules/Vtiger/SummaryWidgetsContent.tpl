@@ -1,7 +1,7 @@
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="listViewEntriesDiv contents-bottomscroll">
-		<table class="table noStyle">
+		<table class="table noStyle listViewEntriesTable">
 			<thead>
 				<tr class="">
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
@@ -22,6 +22,9 @@
 				<tr class="listViewEntries" data-id="{$RELATED_RECORD->getId()}"
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
+					{/if}
+					{if !empty($COLOR_LIST[$RELATED_RECORD->getId()])}
+						style="background: {$COLOR_LIST[$RELATED_RECORD->getId()]['background']}; color: {$COLOR_LIST[$RELATED_RECORD->getId()]['text']}"
 					{/if}>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}

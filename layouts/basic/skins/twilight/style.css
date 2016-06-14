@@ -950,7 +950,7 @@ td.fieldValue .input-group {
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues:hover {
 	text-decoration: none;
 }
-.listViewEntriesTable .listViewEntries .listViewEntryValue a{
+.listViewEntriesTable .listViewEntries td > a{
 	color: inherit !important;
 }
 .listViewEntriesTable td.listViewEntryValue,

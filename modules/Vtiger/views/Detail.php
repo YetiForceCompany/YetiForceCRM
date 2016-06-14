@@ -678,8 +678,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($columns) {
 			$header = array_splice($header, 0, $columns);
 		}
-
+		foreach ($models as $record) {
+			$colorList[$record->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
+		}	
 		$viewer = $this->getViewer($request);
+		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $request->get('limit'));
 		$viewer->assign('RELATED_RECORDS', $models);
