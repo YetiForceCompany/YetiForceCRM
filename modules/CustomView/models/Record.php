@@ -292,10 +292,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
 		}
 		$result = $db->query($listQuery);
-		$noOfRecords = $db->num_rows($result);
 		$recordIds = [];
-		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$recordIds[] = $db->query_result($result, $i, $baseTableId);
+		while($row = $db->getRow($result)){
+			$recordIds[] = $row[$baseTableId];
 		}
 		return $recordIds;
 	}
