@@ -200,7 +200,7 @@ class ListViewController
 				$recordId = $db->query_result($result, $i, "id");
 			}
 			$row = [];
-			$rawData[$recordId] = [];
+			$rawData[$recordId] = ['id' => $recordId];
 			foreach ($listViewFields as $fieldName) {
 				$field = $moduleFields[$fieldName];
 				$uitype = $field->getUIType();
