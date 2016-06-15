@@ -270,12 +270,22 @@ class ListViewSession
 			return $_SESSION['lvs'][$module]['sorder'];
 		}
 	}
+	
+	public static function setSorder($module, $order)
+	{	
+		$_SESSION['lvs'][$module]['sorder'] = $order;
+	}
 
 	public static function getSortby($module)
 	{
 		if (!empty($_SESSION['lvs'][$module]['sortby'])) {
 			return $_SESSION['lvs'][$module]['sortby'];
 		}
+	}
+	
+	public static function setSortby($module, $order)
+	{	
+		$_SESSION['lvs'][$module]['sortby'] = $order;
 	}
 
 	public static function setDefaultSortOrderBy($module, $defaultSortOrderBy = [])
