@@ -5,6 +5,10 @@
 	{assign var=FIELD_TO_EDIT value=$FIELD_DATA['name']}
 	{assign var=BASIC_FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
+	{if $RELATED_EXISTS}
+		<input type="hidden" class="relatedRecord" id="relatedRecord" value="{$RELATED_RECORD}">
+		<input type="hidden" class="relatedModule" id="relatedModule" value="{$RELATED_MODULE}">
+	{/if}
 	<div class="modal-header">
 		<div class="col-xs-10">
 			<h3 class="modal-title">{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}</h3>
@@ -41,6 +45,16 @@
 						</div>
 					</div>
 				{/foreach}	
+			</div>
+		{/if}
+		{if $RELATED_EXISTS}
+			<br>
+			<div class="relatedRecordsContents">
+				<hr>
+				{$RELATED_RECORD_METADATA['label']} >> {vtranslate($RELATED_MODULE, $RELATED_MODULE)}
+				<div class="message text-center hide">
+					{vtranslate('LBL_NO_RECORDS', $RECORD->getModuleName())}
+				</div>
 			</div>
 		{/if}
 	</div>

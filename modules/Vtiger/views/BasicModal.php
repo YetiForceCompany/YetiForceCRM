@@ -5,6 +5,7 @@
  * @package YetiForce.Modal
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 {
@@ -55,8 +56,8 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		$viewName = $request->get('view');
 
 		$scripts = array(
-			"modules.$moduleName.resources.$viewName",
-			"modules.Vtiger.resources.$viewName"
+			"modules.Vtiger.resources.$viewName",
+			"modules.$moduleName.resources.$viewName"
 		);
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
