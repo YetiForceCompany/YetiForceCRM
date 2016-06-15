@@ -253,8 +253,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 * @param <Boolean> $skipRecords - List of the RecordIds to be skipped
 	 * @return <Array> List of RecordsIds
 	 */
-	public function getRecordIds($skipRecords = false, $module = false)
+	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
 	{
+		$params = [];
 		$db = PearDatabase::getInstance();
 		$cvId = $this->getId();
 		$moduleModel = $this->getModule();
@@ -291,7 +292,15 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
 			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
 		}
-		$result = $db->query($listQuery);
+		if($lockRecords){
+			$crmEntityModel = Vtiger_CRMEntity::getInstance($moduleName);
+			$lockFields = $crmEntityModel->getLockFields();
+			foreach($lockFields as $fieldName => $fieldValues){
+				$listQuery .=' AND ' . $baseTableName .'.' . $fieldName . ' NOT IN (' . generateQuestionMarks($fieldValues) . ')'; 
+				$params = array_merge($params, $fieldValues);
+			}
+		}
+		$result = $db->pquery($listQuery, $params);
 		$recordIds = [];
 		while($row = $db->getRow($result)){
 			$recordIds[] = $row[$baseTableId];
