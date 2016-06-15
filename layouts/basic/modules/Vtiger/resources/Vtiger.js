@@ -354,7 +354,7 @@ var Vtiger_Index_Js = {
 				type: 'info'
 			});
 			li.fadeOut(300, function () {
-				row.remove();
+				li.remove();
 			});
 			var badge = $(".notificationsNotice .badge");
 			var number = parseInt(badge.text()) - 1;
