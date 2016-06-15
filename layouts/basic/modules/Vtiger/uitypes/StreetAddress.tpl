@@ -7,7 +7,15 @@
 	{assign var="POSTFIX" value=substr($FIELD_NAME, -1)}
 	{assign var="FIELD_NAME_BUILDING_NUMBER" value='buildingnumber'|cat:$POSTFIX}
 	{assign var="FIELD_NAME_LOCAL_NUMBER" value='localnumber'|cat:$POSTFIX}
-	{assign var="MODULE_MODEL" value=$RECORD->getModule()}
+	{if $MODE neq 'massedit'}
+		{assign var="MODULE_MODEL" value=$RECORD->getModule()}
+		{assign var="FIELD_BUILDING_NUMBER_VALUE" value=Vtiger_Util_Helper::toSafeHTML($RECORD->get($FIELD_NAME_BUILDING_NUMBER))}
+		{assign var="FIELD_LOCAL_NUMBER_VALUE" value=Vtiger_Util_Helper::toSafeHTML($RECORD->get($FIELD_NAME_LOCAL_NUMBER))}
+	{else}
+		{assign var="MODULE_MODEL" value=Vtiger_Module_Model::getInstance($MODULE)}
+		{assign var="FIELD_BUILDING_NUMBER_VALUE" value=''}
+		{assign var="FIELD_LOCAL_NUMBER_VALUE" value=''}
+	{/if}
 	{assign var="FIELD_MODEL_BUILDING_NUMBER" value=Vtiger_Field_Model::getInstance($FIELD_NAME_BUILDING_NUMBER, $MODULE_MODEL)}
 	{assign var="FIELD_MODEL_LOCAL_NUMBER" value=Vtiger_Field_Model::getInstance($FIELD_NAME_LOCAL_NUMBER, $MODULE_MODEL)}
 
@@ -29,13 +37,13 @@
 		<div class="col-md-5 noSpaces">
 			<div class="input-group">
 				{if $FIELD_MODEL_BUILDING_NUMBER}
-					<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME_BUILDING_NUMBER}" type="text" title="{vtranslate($FIELD_MODEL_BUILDING_NUMBER->get('label'), $MODULE)}" class="noLeftRadius form-control {if $FIELD_MODEL_BUILDING_NUMBER->isNameField()}nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL_BUILDING_NUMBER->isMandatory() eq true}required,{/if}funcCall[Vtiger_InputMask_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL_BUILDING_NUMBER->getFieldName()}" value="{Vtiger_Util_Helper::toSafeHTML($RECORD->get($FIELD_NAME_BUILDING_NUMBER))}"
+					<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME_BUILDING_NUMBER}" type="text" title="{vtranslate($FIELD_MODEL_BUILDING_NUMBER->get('label'), $MODULE)}" class="noLeftRadius form-control {if $FIELD_MODEL_BUILDING_NUMBER->isNameField()}nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL_BUILDING_NUMBER->isMandatory() eq true}required,{/if}funcCall[Vtiger_InputMask_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL_BUILDING_NUMBER->getFieldName()}" value="{$FIELD_BUILDING_NUMBER_VALUE}"
 						   {if $FIELD_MODEL_BUILDING_NUMBER->get('uitype') eq '3' || $FIELD_MODEL_BUILDING_NUMBER->get('uitype') eq '4'|| $FIELD_MODEL_BUILDING_NUMBER->isReadOnly()} readonly {/if} data-fieldinfo="{$FIELD_INFO_BUILDING}" {if !empty($SPECIAL_VALIDATOR_BUILDING)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR_BUILDING)}{/if} 
 						   {if $FIELD_MODEL_BUILDING_NUMBER->get('displaytype') == 10}readonly="readonly"{/if} {if $FIELD_MODEL_BUILDING_NUMBER->get('fieldparams') != ''}data-inputmask="'mask': '{$FIELD_MODEL_BUILDING_NUMBER->get('fieldparams')}'"{/if} placeholder="{vtranslate($FIELD_MODEL_BUILDING_NUMBER->get('label'), $MODULE)}"/>
 				{/if}
 				{if $FIELD_MODEL_LOCAL_NUMBER}
 					<span class="input-group-addon">/</span>
-					<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME_LOCAL_NUMBER}" type="text" title="{vtranslate($FIELD_MODEL_LOCAL_NUMBER->get('label'), $MODULE)}" class="form-control {if $FIELD_MODEL_LOCAL_NUMBER->isNameField()}nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL_LOCAL_NUMBER->isMandatory() eq true}required,{/if}funcCall[Vtiger_InputMask_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL_LOCAL_NUMBER->getFieldName()}" value="{Vtiger_Util_Helper::toSafeHTML($RECORD->get($FIELD_NAME_LOCAL_NUMBER))}"
+					<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME_LOCAL_NUMBER}" type="text" title="{vtranslate($FIELD_MODEL_LOCAL_NUMBER->get('label'), $MODULE)}" class="form-control {if $FIELD_MODEL_LOCAL_NUMBER->isNameField()}nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL_LOCAL_NUMBER->isMandatory() eq true}required,{/if}funcCall[Vtiger_InputMask_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL_LOCAL_NUMBER->getFieldName()}" value="{$FIELD_LOCAL_NUMBER_VALUE}"
 						   {if $FIELD_MODEL_LOCAL_NUMBER->get('uitype') eq '3' || $FIELD_MODEL_LOCAL_NUMBER->get('uitype') eq '4'|| $FIELD_MODEL_LOCAL_NUMBER->isReadOnly()} readonly {/if} data-fieldinfo="{$FIELD_INFO_LOCAL}" {if !empty($SPECIAL_VALIDATOR_LOCAL)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR_LOCAL)}{/if} 
 						   {if $FIELD_MODEL_LOCAL_NUMBER->get('displaytype') == 10}readonly="readonly"{/if} {if $FIELD_MODEL_LOCAL_NUMBER->get('fieldparams') != ''}data-inputmask="'mask': '{$FIELD_MODEL_LOCAL_NUMBER->get('fieldparams')}'"{/if} placeholder="{vtranslate($FIELD_MODEL_LOCAL_NUMBER->get('label'), $MODULE)}"/>
 				{/if}
