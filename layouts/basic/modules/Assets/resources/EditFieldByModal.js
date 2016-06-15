@@ -8,7 +8,7 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 			return false;
 		}
 		var params = {
-			'module': 'Accounts',
+			'module': form.find('.relatedModuleBasic').val(),
 			'view': 'Detail',
 			'mode': 'showRelatedList',
 			'relatedModule': form.find('.relatedModule').val(),

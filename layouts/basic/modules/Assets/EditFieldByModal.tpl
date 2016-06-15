@@ -7,6 +7,7 @@
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
 	{if $RELATED_EXISTS}
 		<input type="hidden" class="relatedRecord" id="relatedRecord" value="{$RELATED_RECORD}">
+		<input type="hidden" class="relatedModuleBasic" id="relatedModuleBasic" value="{$RELATED_MODULE_BASIC}">
 		<input type="hidden" class="relatedModule" id="relatedModule" value="{$RELATED_MODULE}">
 	{/if}
 	<div class="modal-header">
