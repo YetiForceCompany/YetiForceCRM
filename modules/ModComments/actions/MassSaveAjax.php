@@ -25,6 +25,9 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action {
 		foreach($recordModels as $recordId => $recordModel) {
 			$recordModel->save();
 		}
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 
 	/**
