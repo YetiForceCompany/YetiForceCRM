@@ -60,12 +60,11 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function isWatchingRecord()
 	{
-		if(!isset($this->isWatchingRecord)){
+		if (!isset($this->isWatchingRecord)) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
 			$this->isWatchingRecord = (bool) $watchdog->isWatchingRecord();
 		}
 		return $this->isWatchingRecord;
-		
 	}
 
 	/**
@@ -105,7 +104,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getEntity()
 	{
-		if(empty($this->entity)){
+		if (empty($this->entity)) {
 			return false;
 		}
 		return $this->entity;
@@ -128,7 +127,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getRawData()
 	{
-		
+
 		return isset($this->rawData) ? $this->rawData : false;
 	}
 
@@ -708,6 +707,19 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$module = CRMEntity::getInstance($parentModuleName);
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
+	}
+
+	public function getInventoryDefaultDataFields()
+	{
+		$lastItem = end($this->getInventoryData());
+		$defaultData = [];
+		if (!empty($lastItem)) {
+			$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
+			foreach ($items as $key) {
+				$defaultData[$key] = isset($lastItem[$key]) ? $lastItem[$key] : null;
+			}
+		}
+		return $defaultData;
 	}
 
 	/**

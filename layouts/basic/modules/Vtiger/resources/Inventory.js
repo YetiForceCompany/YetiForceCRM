@@ -777,6 +777,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				info[param] = modal.find('[name="' + param + '"]').val();
 			}
 		});
+		thisInstance.setDiscountParam($('#blackIthemTable'), info);
 		thisInstance.setDiscountParam(parentRow, info);
 	},
 	saveTaxsParameters: function (parentRow, modal) {
@@ -798,6 +799,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 		});
 		thisInstance.setTaxParam(parentRow, info);
+		thisInstance.setTaxParam($('#blackIthemTable'), info);
 	},
 	showExpandedRow: function (row) {
 		var thisInstance = this;

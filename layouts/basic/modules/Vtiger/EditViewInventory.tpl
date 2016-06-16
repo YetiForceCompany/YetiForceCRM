@@ -100,7 +100,7 @@
 			</table>
 		</div>
 		{include file='EditViewInventorySummary.tpl'|@vtemplate_path:$MODULE}
-		{assign var="ITEM_DATA" value=[]}
+		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 		<table id="blackIthemTable" class="noValidate hide">
 			<tbody>
 				{assign var="ROW_NO" value='_NUM_'}
