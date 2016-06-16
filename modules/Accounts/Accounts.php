@@ -587,7 +587,7 @@ class Accounts extends CRMEntity
 					$account_depth = str_repeat(' .. ', $accountInfoBase['depth']);
 					$data = $account_depth . $data;
 				} else if ($fieldName == 'assigned_user_id' || $fieldName == 'shownerid') {
-
+					
 				} else {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field['fieldid']);
 					$rawData = $data;
@@ -901,111 +901,50 @@ class Accounts extends CRMEntity
 		return $return_value;
 	}
 
-	/**
-	 * Function to handle the dependents list for the module.
-	 * NOTE: UI type '10' is used to stored the references to other modules for a given record.
-	 * These dependent records can be retrieved through this function.
-	 * For eg: A trouble ticket can be related to an Account or a Contact.
-	 * From a given Contact/Account if we need to fetch all such dependent trouble tickets, get_dependents_list function can be used.
-	 */
-	function get_dependents_list($id, $cur_tab_id, $relTabId, $actions = false)
+	function createDependentQuery($other, $row, $id)
 	{
-		$app_strings = vglobal('app_strings');
-		$current_user = vglobal('current_user');
-		$singlepane_view = vglobal('singlepane_view');
+		$dependentColumn = $row['columnname'];
+		$dependentTable = $row['tablename'];
+		$joinTables = [];
+		$join = '';
+		$tables = '';
+		foreach ($other->tab_name_index as $table => $index) {
+			if ($table == $other->table_name) {
+				continue;
+			}
+			$joinTables[] = $table;
+			$join .= ' INNER JOIN ' . $table . ' ON ' . $table . '.' . $index . ' = ' . $other->table_name . '.' . $other->table_index;
+		}
 
-		$currentModule = Vtiger_Functions::getModuleName($cur_tab_id);
-		$relatedModule = Vtiger_Functions::getModuleName($relTabId);
-		$other = CRMEntity::getInstance($relatedModule);
-
-		// Some standard module class doesn't have required variables
-		// that are used in the query, they are defined in this generic API
-		vtlib_setup_modulevars($currentModule, $this);
-		vtlib_setup_modulevars($relatedModule, $other);
-
-		$singular_modname = 'SINGLE_' . $relatedModule;
-		$button = '';
-		$row = [];
-
-		// To make the edit or del link actions to return back to same view.
-		if ($singlepane_view == 'true')
-			$returnset = "&return_module=$currentModule&return_action=DetailView&return_id=$id";
-		else
-			$returnset = "&return_module=$currentModule&return_action=CallRelatedList&return_id=$id";
-
-		$return_value = null;
-		$dependentFieldSql = $this->db->pquery('SELECT tabid, fieldname, columnname FROM vtiger_field WHERE uitype = 10 AND' .
-			' fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? AND module=?)', [$currentModule, $relatedModule]);
-		if ($dependentFieldSql->rowCount()) {
-			$row = $this->db->getRow($dependentFieldSql);
-		} else {
-			$depProcessFieldSql = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [$relTabId]);
-			while ($rowProc = $this->db->getRow($depProcessFieldSql)) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
-				$fieldModel = new $className();
-				foreach ($rowProc as $properName => $propertyValue) {
-					$fieldModel->$properName = $propertyValue;
+		if (!empty($other->related_tables)) {
+			foreach ($other->related_tables as $tname => $relmap) {
+				$tables .= ", $tname.*";
+				if (in_array($tname, $joinTables)) {
+					continue;
 				}
-				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
-				if (!empty($moduleList) && in_array($currentModule, $moduleList)) {
-					$row = $rowProc;
-					break;
-				}
+				// Setup the default JOIN conditions if not specified
+				if (empty($relmap[1]))
+					$relmap[1] = $other->table_name;
+				if (empty($relmap[2]))
+					$relmap[2] = $relmap[0];
+				$join .= " LEFT JOIN $tname ON $tname.$relmap[0] = $relmap[1].$relmap[2]";
 			}
 		}
-		if (!empty($row)) {
-			$dependentColumn = $row['columnname'];
-			$dependentField = $row['fieldname'];
+		$entityIds = $this->getRelatedContactsIds();
+		$entityIds[] = $id;
+		$entityIds = implode(',', $entityIds);
 
-			$button .= '<input type="hidden" name="' . $dependentColumn . '" id="' . $dependentColumn . '" value="' . $id . '">';
-			$button .= '<input type="hidden" name="' . $dependentColumn . '_type" id="' . $dependentColumn . '_type" value="' . $currentModule . '">';
-			if ($actions) {
-				if (is_string($actions))
-					$actions = explode(',', strtoupper($actions));
-				if (in_array('ADD', $actions) && isPermitted($relatedModule, 1, '') == 'yes' && getFieldVisibilityPermission($relatedModule, $current_user->id, $dependentField, 'readwrite') == '0') {
-					$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $relatedModule) . "' class='crmbutton small create'" .
-						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$relatedModule\"' type='submit' name='button'" .
-						" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $relatedModule) . "'>&nbsp;";
-				}
-			}
-
-			$entityIds = $this->getRelatedContactsIds();
-			array_push($entityIds, $id);
-			$entityIds = implode(',', $entityIds);
-
-			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-
-			$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
-			$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
-
-			$more_relation = '';
-			if (!empty($other->related_tables)) {
-				foreach ($other->related_tables as $tname => $relmap) {
-					$query .= ", $tname.*";
-
-					// Setup the default JOIN conditions if not specified
-					if (empty($relmap[1]))
-						$relmap[1] = $other->table_name;
-					if (empty($relmap[2]))
-						$relmap[2] = $relmap[0];
-					$more_relation .= " LEFT JOIN $tname ON $tname.$relmap[0] = $relmap[1].$relmap[2]";
-				}
-			}
-
-			$query .= " FROM $other->table_name";
-			$query .= " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $other->table_name.$other->table_index";
-			$query .= $more_relation;
-			$query .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
-			$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-			$query .= " WHERE vtiger_crmentity.deleted = 0 AND $other->table_name.$dependentColumn IN (" . $entityIds . ")";
-
-			$return_value = GetRelatedList($currentModule, $relatedModule, $other, $query, $button, $returnset);
-		}
-		if ($return_value == null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		return $return_value;
+		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
+		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
+			'last_name' => 'vtiger_users.last_name'), 'Users');
+		$query .= $tables;
+		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
+		$query .= ' FROM ' . $other->table_name;
+		$query .= $join;
+		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
+		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
+		$query .= " WHERE vtiger_crmentity.deleted = 0 AND $other->table_name.$dependentColumn IN ($entityIds)";
+		return $query;
 	}
 
 	/**
