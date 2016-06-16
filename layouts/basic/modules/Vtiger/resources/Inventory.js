@@ -43,7 +43,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		return this.summaryCurrenciesContainer;
 	},
 	getNextLineItemRowNumber: function () {
-		var rowNumber = $(this.rowClass, this.getInventoryItemsContainer()).length;
+		var rowNumber = parseInt($('#inventoryItemsNo').val());
 		$('#inventoryItemsNo').val(rowNumber + 1);
 		return ++rowNumber;
 	},
@@ -1405,9 +1405,9 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.registerRowAutoComplete(container);
 		thisInstance.checkDeleteIcon();
 		thisInstance.rowsCalculations();
+		thisInstance.updateRowSequence();
 	},
 	registerChangeQtyparam: function (container) {
-		var thisInstance = this;
 		container.on('click', '.qtyparamButton', function (e) {
 			var element = $(e.currentTarget);
 			var rowNum = element.data('rownum');
