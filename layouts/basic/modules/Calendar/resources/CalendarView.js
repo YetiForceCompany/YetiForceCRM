@@ -391,6 +391,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	addCalendarEvent: function (calendarDetails) {
 		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
 		var eventObject = {};
+		var calendar = this.getCalendarView();
 
 		var taskstatus = $.inArray(calendarDetails.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
 		if (state == true && taskstatus >= 0 || state != true && taskstatus == -1) {
@@ -398,9 +399,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		}
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.subject.display_value;
-		var startDate = Date.parse(calendarDetails.date_start.display_value + 'T' + calendarDetails.time_start.display_value);
+		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value);
 		eventObject.start = startDate.toString();
-		var endDate = Date.parse(calendarDetails.due_date.display_value + 'T' + calendarDetails.time_end.display_value);
+		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value);
 		var assignedUserId = calendarDetails.assigned_user_id.value;
 		eventObject.end = endDate.toString();
 		eventObject.url = 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId;
