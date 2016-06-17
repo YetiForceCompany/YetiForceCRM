@@ -168,7 +168,9 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			default: $action = 'view=Detail';
 				break;
 		}
-
+		if($moduleName == 'Events'){
+			$moduleName = 'Calendar';
+		}
 		return "index.php?module=$moduleName&$action&record=" . $this->get('crmid');
 	}
 
