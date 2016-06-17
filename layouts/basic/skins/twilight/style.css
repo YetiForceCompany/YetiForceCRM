@@ -939,6 +939,7 @@ td.fieldValue .input-group {
 	border-color: #f3f3f4 #f3f3f4 #cbcbcf;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	border-bottom: 1px solid #dddddd;
+	border-top: 1px solid #dddddd !important;
 }
 .listViewEntriesDiv,
 .listViewEntriesDiv td {
@@ -950,7 +951,9 @@ td.fieldValue .input-group {
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues:hover {
 	text-decoration: none;
 }
-.listViewEntriesTable .listViewEntries td > a{
+.listViewEntriesTable .listViewEntries td > a,
+.headingColorMeeting a,
+.activityEntries .summaryViewEntries a{
 	color: inherit !important;
 }
 .listViewEntriesTable td.listViewEntryValue,

@@ -103,8 +103,6 @@
 							<button class="btn btn-default searchIcon" type="button">
 								<span class="glyphicon glyphicon-search"></span>
 							</button>
-						</span>
-						<span class="input-group-btn">
 							<button class="btn btn-default globalSearch" title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">
 								<span class="glyphicon glyphicon-th-large"></span>
 							</button>

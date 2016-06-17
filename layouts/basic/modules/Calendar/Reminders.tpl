@@ -21,9 +21,9 @@
 					 {if !empty($COLOR_LIST[$RECORD->getId()])}
 					 style="background: {$COLOR_LIST[$RECORD->getId()]['background']}; color: {$COLOR_LIST[$RECORD->getId()]['text']};"
 					 {/if}>
-					<a class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
+					<button class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</a>
+					</button>
 					<img class="activityTypeIcon" src="{vimage_path($RECORD->getActivityTypeIcon())}" />&nbsp;
 					<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD->getId()}">
 						{$RECORD->get('subject')}
