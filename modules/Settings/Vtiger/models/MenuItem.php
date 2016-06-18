@@ -102,7 +102,9 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		if (isset(self::$transformedUrlMapping[$url])) {
 			$url = self::$transformedUrlMapping[$url];
 		}
-		$url .= '&block=' . $this->getMenu()->getId() . '&fieldid=' . $this->getId();
+		if (!empty($this->menu)) {
+			$url .= '&block=' . $this->getMenu()->getId() . '&fieldid=' . $this->getId();
+		}
 		return $url;
 	}
 
