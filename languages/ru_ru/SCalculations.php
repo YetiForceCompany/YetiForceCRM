@@ -23,10 +23,10 @@ $languageStrings = [
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Черновик',
-	'PLL_IN_REALIZATION' => 'In realization',
-	'PLL_FOR_VERIFICATION' => 'For verification',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_COMPLETED' => 'Completed',
+	'PLL_IN_REALIZATION' => 'На реализации',
+	'PLL_FOR_VERIFICATION' => 'На проверке',
+	'PLL_CANCELLED' => 'Отмененный',
+	'PLL_COMPLETED' => 'Завершенный',
 
 	'LBL_CHANGE_STATUS' => 'Изменить статус',
 ];
