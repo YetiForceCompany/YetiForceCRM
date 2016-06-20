@@ -67,7 +67,7 @@ $languageStrings = [
 	'LBL_INVENTORY_BALANCE' => 'Баланс',
 	'LBL_DISCOUNT' => 'Скидка',
 	'LBL_CREDIT_LIMIT' => 'Кредитный лимит',
-	'LBL_PARENT_IS_CHILD' => 'The selected parent account cannot be secondary to current account',
+	'LBL_PARENT_IS_CHILD' => 'Выбранный родительский контрагент не может быть подчиненным по отношению к текущему контрагенту',
 	'Campaign status' => 'Статус Компании',
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',
@@ -90,9 +90,9 @@ $languageStrings = [
 	'PLL_EUROPEAN_ASSOCIATION' => 'Европейская ассоциация',
 	'PLL_UFCIITS' => 'Организация Коллективного Инвестирования',
 	//FIELDS
-	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
+	'FL_LAST_INVOICE_DATE' => 'Последняя дата счета',
 	// OTHERS
-	'LBL_DEACTIVATED_BY' => 'Account deactivated by ',
+	'LBL_DEACTIVATED_BY' => 'Акаунт выключен ',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',

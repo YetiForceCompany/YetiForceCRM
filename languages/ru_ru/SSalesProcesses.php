@@ -23,10 +23,10 @@ $languageStrings = [
 	'FL_SOURCE' => 'Source',
 	'FL_TYPE' => 'Type',
 	'FL_STATUS' => 'Status',
-	
+
 	//Picklist
 	'PLL_WEBSITE' => 'Website',
-	'PLL_PHONE' => 'Phone',
+	'PLL_PHONE' => 'Телефон',
 	'PLL_MAIL_CAMPAIGN' => 'Mail campaign',
 	'PLL_CONFERENCE' => 'Conference',
 	'PLL_RECOMMENDATION' => 'Recommendation',
@@ -54,7 +54,7 @@ $languageStrings = [
 	'PLL_SALE_COMPLETED' => 'Sale completed',
 	'PLL_SALE_FAILED' => 'Sale failed',
 	'PLL_SALE_CANCELLED' => 'Sale cancelled',
-	
+
 	'LBL_SWITCHHEADER_ON_0' => 'Open',
 	'LBL_SWITCHHEADER_OFF_0' => 'Closed',
 	'LBL_HEADERSWITCH_OPEN_CLOSED' => 'Open/Closed',

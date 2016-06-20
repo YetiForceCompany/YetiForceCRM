@@ -32,20 +32,20 @@ $languageStrings = [
 	'LBL_MESSAGES_FROM_USERS' => 'Для пользователей',
 	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Отправить сообщение',
 	'LBL_SEND_NOTIFICATION_MAIL' => 'Отправить по почте',
-	'Home page' => 'Home page',
-	'LBL_RECEIVING_MAIL_NOTIFICATIONS' => 'Receiving mail notifications',
-	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Cron launching frequency',
-	'LBL_SCHEDULE' => 'Schedule',
-	'LBL_CRON' => 'Cron',
-	
-	'PLL_5_MIN' => '5 minutes',
-	'PLL_15_MIN' => '15 minutes',
-	'PLL_30_MIN' => '30 minutes',
-	'PLL_60_MIN' => '60 minutes',
-	'PLL_3_H' => '3 hours',
-	'PLL_12_H' => '12 hours',
-	'PLL_24_H' => '24 hours',
-	'LBL_NOTIFICATION_SETTINGS' => 'Notification settings'
+	'Home page' => 'Домашняя страница',
+	'LBL_RECEIVING_MAIL_NOTIFICATIONS' => 'Получать уведомления по почте',
+	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Частота запуска планировщика',
+	'LBL_SCHEDULE' => 'Расписание',
+	'LBL_CRON' => 'Планировщик',
+
+	'PLL_5_MIN' => '5 минут',
+	'PLL_15_MIN' => '15 минут',
+	'PLL_30_MIN' => '30 минут',
+	'PLL_60_MIN' => '60 минут',
+	'PLL_3_H' => '3 часа',
+	'PLL_12_H' => '12 часов',
+	'PLL_24_H' => '24 часа',
+	'LBL_NOTIFICATION_SETTINGS' => 'Настройки уведомлений'
 ];
 
 $jsLanguageStrings = [
