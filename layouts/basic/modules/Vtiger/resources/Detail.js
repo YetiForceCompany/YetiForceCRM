@@ -1068,7 +1068,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		jQuery(fieldElement).each(function (index, element) {
 			var fieldName = jQuery(element).val();
 			var elementTarget = jQuery(element);
-			var fieldElement = jQuery('[name="' + fieldName + '"]', editElement);
+			var elementName = jQuery.inArray(elementTarget.data('type'), ['multipicklist', 'taxes', 'sharedOwner']) ? fieldName + '[]' : fieldName;
+			var fieldElement = jQuery('[name="' + elementName + '"]', editElement);
 			if (fieldElement.attr('disabled') == 'disabled') {
 				return;
 			}
@@ -1102,7 +1103,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var previousValue = elementTarget.data('prevValue');
 				var formElement = thisInstance.getForm();
 				var formData = formElement.serializeFormData();
-				var ajaxEditNewValue = formData[fieldName];
+				var ajaxEditNewValue = formData[fieldName] ? formData[fieldName] : formData[elementName];
 				//value that need to send to the server
 				var fieldValue = ajaxEditNewValue;
 				var fieldInfo = Vtiger_Field_Js.getInstance(fieldElement.data('fieldinfo'));
@@ -1138,7 +1139,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 				fieldElement.validationEngine('hide');
 				//Before saving ajax edit values we need to check if the value is changed then only we have to save
-				if (previousValue.toString() == ajaxEditNewValue.toString()) {
+				if ((previousValue != undefined ? previousValue.toString() : previousValue) == (ajaxEditNewValue != undefined ? ajaxEditNewValue.toString() : ajaxEditNewValue)) {
 					editElement.addClass('hide');
 					detailViewValue.removeClass('hide');
 					actionElement.removeClass('hide');
