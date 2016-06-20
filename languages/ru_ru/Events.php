@@ -99,8 +99,8 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Отложено',
 	'PLL_CANCELLED' => 'Отменено',
 	'PLL_COMPLETED' => 'Выполнено',
-	'LBL_REMAIND_HOURS' => 'Remind after selected numer of hours',
-	'LBL_REMAIND_MINS' => 'Remind after selected numer of minutes',
+	'LBL_REMAIND_HOURS' => 'Напомнить после выбранного количества часов',
+	'LBL_REMAIND_MINS' => 'RНапомнить после выбранного количества минут',
 ];
 
 $jsLanguageStrings = [
