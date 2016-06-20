@@ -247,7 +247,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		var saveBtn = container.find('.saveIssues');
 		saveBtn.click(function () {
 			if (container.validationEngine('validate')) {
-				var body = jQuery.trim(CKEditorInstance.document.getBody().getText());
+				var body = CKEditorInstance.document.getBody().getHtml();
 				var params = {
 					module: 'Github',
 					parent: app.getParentModuleName(),
