@@ -1068,7 +1068,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		jQuery(fieldElement).each(function (index, element) {
 			var fieldName = jQuery(element).val();
 			var elementTarget = jQuery(element);
-			var elementName = jQuery.inArray(elementTarget.data('type'), ['multipicklist', 'taxes', 'sharedOwner']) ? fieldName + '[]' : fieldName;
+			var elementName = jQuery.inArray(elementTarget.data('type'), ['multipicklist', 'taxes', 'sharedOwner']) != -1 ? fieldName + '[]' : fieldName;
 			var fieldElement = jQuery('[name="' + elementName + '"]', editElement);
 			if (fieldElement.attr('disabled') == 'disabled') {
 				return;
