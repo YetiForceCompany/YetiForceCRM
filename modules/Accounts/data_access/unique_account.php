@@ -153,10 +153,12 @@ Class DataAccess_unique_account
 		$hierarchy = $focus->getAccountHierarchy($id);
 		unset($hierarchy['entries'][$recordId]);
 		foreach ($hierarchy['entries'] as $hId => $value) {
-			preg_match('/[.\s]+/', $value[0], $dashes);
+			preg_match('/[.\s]+/', $value[0]['data'], $dashes);
 			if ($dashes[0]) {
-				$dash = explode($dashes[0], $value[0]);
+				$dash = explode($dashes[0], $value[0]['data']);
 				$value[0] = $dash[1];
+			} else {
+				$value[0] = $value[0]['dtata'];
 			}
 			$hierarchyAll[$hId] = strip_tags($value[0]);
 		}
