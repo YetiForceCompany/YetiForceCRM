@@ -38,10 +38,16 @@ class API_CalDAV_Model
 	public function calDavCrm2Dav()
 	{
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start');
+
 		$db = PearDatabase::getInstance();
-		$result = $this->getCrmRecordsToSync();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$this->record = $db->raw_query_result_rowdata($result, $i);
+		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description '
+			. 'FROM vtiger_activity '
+			. 'INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid '
+			. "WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.activityid > 0 AND vtiger_activity.activitytype IN ('Task','Meeting') AND vtiger_activity.dav_status = 1;";
+
+		$result = $db->query($query);
+		while ($row = $db->getRow($result)) {
+			$this->record = $row;
 			$this->saveCalendar();
 		}
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
@@ -49,19 +55,21 @@ class API_CalDAV_Model
 
 	public function saveCalendar()
 	{
-		foreach ($this->davUsers as $key => $user) {
+		foreach ($this->davUsers as &$user) {
 			$this->calendarId = $user->get('calendarsid');
-			$current_user = vglobal('current_user');
-			$current_user = $user;
 			$accessibleGroups = $user->getAccessibleGroups();
 			if ($this->record['smownerid'] == $user->get('id') || $this->record['visibility'] == 'Public' || array_key_exists($this->record['smownerid'], $accessibleGroups)) {
+				$currentUser = vglobal('current_user');
+				vglobal('current_user', $user);
+
 				$vcalendar = $this->getCalendarDetail();
-				if ($vcalendar == false) { // Creating
+				if ($vcalendar === false) {// Creating
 					$this->createCalendar();
 					//} elseif($this->record['deleted'] == 1){
 				} elseif (strtotime($this->record['modifiedtime']) > $vcalendar['lastmodified']) { // Updating
 					$this->updateCalendar($vcalendar);
 				}
+				vglobal('current_user', $currentUser);
 			}
 		}
 		$this->markComplete();
@@ -231,23 +239,24 @@ class API_CalDAV_Model
 	{
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
-		$result = $this->getDavCardsToSync();
+		$query = 'SELECT dav_calendarobjects.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype, vtiger_crmentity.smownerid FROM dav_calendarobjects LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_calendarobjects.crmid WHERE calendarid = ?';
+		$result = $db->pquery($query, [$this->calendarId]);
+
 		$create = $deletes = $updates = 0;
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$cal = $db->raw_query_result_rowdata($result, $i);
-			if (!$cal['crmid']) { //Creating
-				$this->createRecord($cal);
+		while ($row = $db->getRow($result)) {
+			if (!$row['crmid']) { //Creating
+				$this->createRecord($row);
 				$create++;
-			} elseif ($this->toDelete($cal)) {
+			} elseif ($this->toDelete($row)) {
 				// Deleting $cal['crmid']
-				$this->deletedCal($cal);
+				$this->deletedCal($row);
 				$deletes++;
 			} else {
-				$crmLMT = strtotime($cal['modifiedtime']);
-				$cardLMT = $cal['lastmodified'];
+				$crmLMT = strtotime($row['modifiedtime']);
+				$cardLMT = $row['lastmodified'];
 				if ($crmLMT < $cardLMT) { // Updating
-					$recordModel = Vtiger_Record_Model::getInstanceById($cal['crmid']);
-					$this->updateRecord($recordModel, $cal);
+					$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
+					$this->updateRecord($recordModel, $row);
 					$updates++;
 				}
 			}
@@ -502,31 +511,12 @@ class API_CalDAV_Model
 		return $status;
 	}
 
-	public function getCrmRecordsToSync()
-	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description '
-			. 'FROM vtiger_activity '
-			. 'INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid '
-			. "WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.activityid > 0 AND vtiger_activity.activitytype IN ('Task','Meeting') AND vtiger_activity.dav_status = 1;";
-		$result = $db->query($query);
-		return $result;
-	}
-
 	public function getCalendarDetail()
 	{
 		$db = PearDatabase::getInstance();
-		$sql = "SELECT * FROM dav_calendarobjects WHERE calendarid = ? AND crmid = ?;";
+		$sql = 'SELECT * FROM dav_calendarobjects WHERE calendarid = ? AND crmid = ?;';
 		$result = $db->pquery($sql, [$this->calendarId, $this->record['crmid']]);
-		return $db->num_rows($result) > 0 ? $db->raw_query_result_rowdata($result, 0) : false;
-	}
-
-	public function getDavCardsToSync()
-	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT dav_calendarobjects.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype, vtiger_crmentity.smownerid FROM dav_calendarobjects LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_calendarobjects.crmid WHERE calendarid = ?';
-		$result = $db->pquery($query, [$this->calendarId]);
-		return $result;
+		return $db->getRow($result) > 0 ? $db->getRow($result) : false;
 	}
 
 	/**
