@@ -324,6 +324,36 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $profiles;
 	}
 
+	function getGroups()
+	{
+		if (empty($this->get('groups'))) {
+			if ($this->isAdminUser()) {
+				$userGroupFocus = new GetUserGroups();
+				$userGroupFocus->getAllUserGroups($this->getId());
+				$userGroups = $userGroupFocus->user_groups;
+			} else {
+				$privilegesModel = $this->getPrivileges();
+				$userGroups = $privilegesModel->get('groups');
+			}
+			$this->set('groups', $userGroups);
+		}
+		return $this->get('groups');
+	}
+
+	function getParentRoles()
+	{
+		if (empty($this->get('parentRoles'))) {
+			if ($this->isAdminUser()) {
+				$userParentRoles = getParentRole($this->getRole());
+			} else {
+				$privilegesModel = $this->getPrivileges();
+				$userParentRoles = $privilegesModel->get('parent_roles');
+			}
+			$this->set('parentRoles', $userParentRoles);
+		}
+		return $this->get('parentRoles');
+	}
+
 	/**
 	 * Function returns List of Accessible Users for a Module
 	 * @param <String> $module
