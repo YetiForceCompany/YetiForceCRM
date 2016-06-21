@@ -675,20 +675,20 @@ function vtlib_purifyForHtml($input, $ignore = false)
 			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 
 			$allowed = array(
-				'img[src|alt|title|width|height|style|data-mce-src|data-mce-json]',
+				'img[src|alt|title|width|height|style|data-mce-src|data-mce-json|class]',
 				'figure', 'figcaption',
 				'video[src|type|width|height|poster|preload|controls|style|class]', 'source[src|type]',
-				'audio[src|type|preload|controls]',
-				'a[href|target]',
-				'iframe[width|height|src|frameborder|allowfullscreen]',
+				'audio[src|type|preload|controls|class]',
+				'a[href|target|class]',
+				'iframe[width|height|src|frameborder|allowfullscreen|class]',
 				'strong', 'b', 'i', 'u', 'em', 'br', 'font',
-				'h1[style]', 'h2[style]', 'h3[style]', 'h4[style]', 'h5[style]', 'h6[style]',
-				'p[style]', 'div[style]', 'center', 'address[style]',
-				'span[style]', 'pre[style]',
+				'h1[style|class]', 'h2[style|class]', 'h3[style|class]', 'h4[style|class]', 'h5[style|class]', 'h6[style|class]',
+				'p[style|class]', 'div[style|class]', 'center', 'address[style]',
+				'span[style|class]', 'pre[style]',
 				'ul', 'ol', 'li',
-				'table[width|height|border|style]', 'th[width|height|border|style]',
-				'tr[width|height|border|style]', 'td[width|height|border|style]',
-				'hr'
+				'table[width|height|border|style|class]', 'th[width|height|border|style|class]',
+				'tr[width|height|border|style|class]', 'td[width|height|border|style|class]',
+				'hr',
 			);
 			$config = HTMLPurifier_Config::createDefault();
 			$config->set('Core.Encoding', $use_charset);
