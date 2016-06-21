@@ -41,7 +41,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel)
+	public function getListViewEntries($pagingModel, $searchResult = false)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $this->getModule()->get('name');

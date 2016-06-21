@@ -54,7 +54,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 	/**
 	 * Overrided to add HTML content for callstatus irrespective of the filters
 	 */
-	public function getListViewEntries($pagingModel)
+	public function getListViewEntries($pagingModel, $searchResult = false)
 	{
 		$db = PearDatabase::getInstance();
 
