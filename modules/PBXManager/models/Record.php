@@ -81,9 +81,9 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$details = array_change_key_case($params, CASE_LOWER);
 		$fieldModelList = $moduleModel->getFields();
 		if (!isset($details["assigned_user_id"]))
-			$details["assigned_user_id"] = 1;
+			$details["assigned_user_id"] = Users::getActiveAdminId();
 		if (!isset($details["created_user_id"]))
-			$details["created_user_id"] = 1;
+			$details["created_user_id"] = Users::getActiveAdminId();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$fieldValue = $details[$fieldName];
 			$recordModel->set($fieldName, $fieldValue);
