@@ -88,24 +88,30 @@ class API_CalDAV_Model
 		$vcalendar->PRODID = '-//' . self::PRODID . ' V' . vglobal('YetiForce_current_version') . '//';
 		$start = $record['date_start'] . ' ' . $record['time_start'];
 		$end = $record['due_date'] . ' ' . $record['time_end'];
+
+		$startDT = new \DateTime($start);
+		$dtstart = $vcalendar->createProperty('DTSTART', $startDT);
+		$createdTime = new \DateTime($record['createdtime']);
+		$created = $vcalendar->createProperty('CREATED', $createdTime);
 		if ($record['allday']) {
-			$startDT = new \DateTime($start);
-			$DTSTART = $vcalendar->createProperty('DTSTART', $startDT);
 			$endDT = new DateTime($end);
 			$endDT->modify('+1 day');
-			$DTEND = $vcalendar->createProperty($endField, $endDT);
-			$DTEND['VALUE'] = 'DATE';
-			$DTSTART['VALUE'] = 'DATE';
+			$dtend = $vcalendar->createProperty($endField, $endDT);
+			$dtend['VALUE'] = 'DATE';
+			$dtstart['VALUE'] = 'DATE';
+			$created['VALUE'] = 'DATE';
 		} else {
-			$startDT = $DTSTART = new \DateTime($start);
-			$endDT = $DTEND = new \DateTime($end);
+			$endDT = new \DateTime($end);
+			$dtend = $vcalendar->createProperty($endField, $endDT);
+			$dtz = date_default_timezone_get();
+			$vTimeZone = self::getVTimeZone($vcalendar, $dtz, $startDT->getTimestamp(), $endDT->getTimestamp());
+			$vcalendar->add($vTimeZone);
 		}
 		$cal = $vcalendar->createComponent($calType);
 		$cal->UID = $uid;
-		//$cal->add($vcalendar->createProperty('CREATED', new \DateTime($record['createdtime'])));
-		//$cal->add($vcalendar->createProperty('LAST-MODIFIED', new \DateTime($record['modifiedtime'])));
-		$cal->add($vcalendar->createProperty('DTSTART', $DTSTART));
-		$cal->add($vcalendar->createProperty($endField, $DTEND));
+		$cal->add($created);
+		$cal->add($dtstart);
+		$cal->add($dtend);
 		$cal->add($vcalendar->createProperty('SUMMARY', $record['subject']));
 		if (!empty($record['location'])) {
 			$cal->add($vcalendar->createProperty('LOCATION', $record['location']));
@@ -124,10 +130,8 @@ class API_CalDAV_Model
 		if ($state) {
 			$cal->add($vcalendar->createProperty('TRANSP', $state));
 		}
+		$cal->SEQUENCE = 0;
 		$vcalendar->add($cal);
-		$dtz = date_default_timezone_get();
-		$vTimeZone = self::getVTimeZone($vcalendar, $dtz, $startDT->getTimestamp(), $endDT->getTimestamp());
-		$vcalendar->add($vTimeZone);
 		$calendarData = $vcalendar->serialize();
 
 		$modifiedtime = strtotime($record['modifiedtime']);
@@ -161,23 +165,29 @@ class API_CalDAV_Model
 		$vcalendar->PRODID = '-//' . self::PRODID . ' V' . vglobal('YetiForce_current_version') . '//';
 		$start = $record['date_start'] . ' ' . $record['time_start'];
 		$end = $record['due_date'] . ' ' . $record['time_end'];
+		
+		$startDT = new \DateTime($start);
+		$dtstart = $vcalendar->createProperty('DTSTART', $startDT);
 		if ($record['allday']) {
-			$startDT = new \DateTime($start);
-			$DTSTART = $vcalendar->createProperty('DTSTART', $startDT);
 			$endDT = new DateTime($end);
 			$endDT->modify('+1 day');
-			$DTEND = $vcalendar->createProperty($endField, $endDT);
-			$DTSTART['VALUE'] = 'DATE';
-			$DTEND['VALUE'] = 'DATE';
+			$dtend = $vcalendar->createProperty($endField, $endDT);
+			$dtend['VALUE'] = 'DATE';
+			$dtstart['VALUE'] = 'DATE';
+			$created['VALUE'] = 'DATE';
 		} else {
-			$startDT = $DTSTART = new \DateTime($start);
-			$endDT = $DTEND = new \DateTime($end);
+			$endDT = new \DateTime($end);
+			$dtend = $vcalendar->createProperty($endField, $endDT);
+			unset($vcalendar->VTIMEZONE);
+			$dtz = date_default_timezone_get();
+			$vTimeZone = self::getVTimeZone($vcalendar, $dtz, $startDT->getTimestamp(), $endDT->getTimestamp());
+			$vcalendar->add($vTimeZone);
 		}
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if ($component->name = $calType) {
 				//$component->__set('LAST-MODIFIED', $vcalendar->createProperty('LAST-MODIFIED', new DateTime($record['modifiedtime'])));
-				$component->DTSTART = $DTSTART;
-				$component->$endField = $DTEND;
+				$component->DTSTART = $dtstart;
+				$component->$endField = $dtend;
 				$component->SUMMARY = $record['subject'];
 				$component->LOCATION = $record['location'];
 				$component->DESCRIPTION = $record['description'];
@@ -198,10 +208,6 @@ class API_CalDAV_Model
 				}
 			}
 		}
-		unset($vcalendar->VTIMEZONE);
-		$dtz = date_default_timezone_get();
-		$vTimeZone = self::getVTimeZone($vcalendar, $dtz, $startDT->getTimestamp(), $endDT->getTimestamp());
-		$vcalendar->add($vTimeZone);
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
@@ -268,6 +274,7 @@ class API_CalDAV_Model
 	public function createRecord($cal)
 	{
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Cal ID' . $cal['id']);
+
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if (in_array($component->name, ['VTODO', 'VEVENT'])) {
@@ -292,18 +299,19 @@ class API_CalDAV_Model
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 				$record->save();
-				$stmt = $this->pdo->prepare('UPDATE dav_calendarobjects SET crmid = ? WHERE id = ?;');
-				$stmt->execute([
-					$record->getId(),
-					$cal['id']
-				]);
-				$stmt = $this->pdo->prepare('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?;');
-				$stmt->execute([
-					date('Y-m-d H:i:s', $cal['lastmodified']),
-					$record->getId()
-				]);
+
+				$db = PearDatabase::getInstance();
+				$db->update('dav_calendarobjects', [
+					'crmid' => $record->getId()
+					], 'id = ?', [$cal['id']]
+				);
+				$db->update('vtiger_crmentity', [
+					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified'])
+					], 'crmid = ?', [$record->getId()]
+				);
 			}
 		}
+
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
@@ -377,7 +385,7 @@ class API_CalDAV_Model
 				$timeEnd = date('H:i:s', $endTime);
 			}
 		} else {
-			$endTime = strtotime('+7 day', strtotime($dateStart . ' ' . $timeStart));
+			$endTime = strtotime('+1 day', strtotime($dateStart . ' ' . $timeStart));
 			$dueDate = date('Y-m-d', $endTime);
 			$timeEnd = date('H:i:s', $endTime);
 		}
@@ -516,7 +524,7 @@ class API_CalDAV_Model
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM dav_calendarobjects WHERE calendarid = ? AND crmid = ?;';
 		$result = $db->pquery($sql, [$this->calendarId, $this->record['crmid']]);
-		return $db->getRow($result) > 0 ? $db->getRow($result) : false;
+		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
 	}
 
 	/**
