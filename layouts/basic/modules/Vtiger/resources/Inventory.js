@@ -963,6 +963,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var currencyParam = JSON.parse(block.find('.currencyparam').val());
 
 			if (currencyParam != false) {
+				if(typeof currencyParam[option.val()] == 'undefined'){
+					currencyParam[option.val()]['value'] = 1;
+					currencyParam[option.val()]['date'] = '';
+				}
 				modal.find('.currencyName').text(option.text());
 				modal.find('.currencyRate').val(currencyParam[option.val()]['value']);
 				modal.find('.currencyDate').text(currencyParam[option.val()]['date']);

@@ -153,7 +153,7 @@ class PBXManager extends CRMEntity
 		$restoreEvent = 'vtiger.entity.afterrestore';
 		$batchSaveEvent = 'vtiger.batchevent.save';
 		$batchDeleteEvent = 'vtiger.batchevent.delete';
-		$handler_path = 'modules/PBXManager/PBXManagerHandler.php';
+		$handler_path = 'modules/PBXManager/handlers/PBXManagerHandler.php';
 		$className = 'PBXManagerHandler';
 		$batchEventClassName = 'PBXManagerBatchHandler';
 		$EventManager->registerHandler($createEvent, $handler_path, $className, '', '["VTEntityDelta"]');

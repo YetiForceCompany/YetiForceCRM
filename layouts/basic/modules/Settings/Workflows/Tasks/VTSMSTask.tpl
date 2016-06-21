@@ -11,30 +11,35 @@
 -->*}
 {strip}
 	<div class="row">
-		<div class="col-xs-2">{vtranslate('LBL_RECEPIENTS',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
-		<div class="col-xs-4">
-			<input type="text" class="fields form-control" data-validation-engine='validate[required]' name="sms_recepient" value="{$TASK_OBJECT->sms_recepient}" />
-		</div>
-		<div class="col-xs-4">
-			<select class="chzn-select task-fields form-control">
-				{foreach from=$RECORD_STRUCTURE_MODEL->getFieldsByType('phone') item=FIELD key=FIELD_VALUE}
-					<option value=",${$FIELD_VALUE}">({vtranslate($FIELD->getModule()->get('name'),$FIELD->getModule()->get('name'))})  {vtranslate($FIELD->get('label'),$FIELD->getModule()->get('name'))}</option>
-				{/foreach}
-			</select>	
+		<div class="form-group">
+			<label class="col-md-2 control-label">{vtranslate('LBL_RECEPIENTS',$QUALIFIED_MODULE)}<span class="redColor">*</span></label>
+			<div class="col-md-4">
+				<input type="text" class="fields form-control" data-validation-engine='validate[required]' name="sms_recepient" value="{$TASK_OBJECT->sms_recepient}" />
+			</div>
+			<div class="col-md-4">
+				<select class="chzn-select task-fields form-control">
+					{foreach from=$RECORD_STRUCTURE_MODEL->getFieldsByType('phone') item=FIELD key=FIELD_VALUE}
+						<option value=",${$FIELD_VALUE}">({vtranslate($FIELD->getModule()->get('name'),$FIELD->getModule()->get('name'))})  {vtranslate($FIELD->get('label'),$FIELD->getModule()->get('name'))}</option>
+					{/foreach}
+				</select>	
+			</div>			
 		</div>			
 	</div>
 	<div class="row">
-		<div class="col-md-2">{vtranslate('LBL_ADD_FIELDS',$QUALIFIED_MODULE)}</div>
-		<div class="col-md-4">
-			<select class="chzn-select task-fields form-control">
-				{$ALL_FIELD_OPTIONS}
-			</select>	
+		<div class="form-group">
+			<label class="col-md-2 control-label">{vtranslate('LBL_ADD_FIELDS',$QUALIFIED_MODULE)}</label>
+			<div class="col-md-4">
+				<select class="chzn-select task-fields form-control">
+					{$ALL_FIELD_OPTIONS}
+				</select>	
+			</div>
 		</div>
+		<div class="form-group">
+			<label class="col-md-2 control-label">{vtranslate('LBL_SMS_TEXT',$QUALIFIED_MODULE)}</label>
+			<div class="col-md-8">
+				<textarea name="content" class="form-control fields">{$TASK_OBJECT->content}</textarea>
+			</div>
+		</div>	
 	</div>
-	<div class="row">
-		<div class="col-md-2">{vtranslate('LBL_SMS_TEXT',$QUALIFIED_MODULE)}</div>
-		<div class="col-md-8">
-			<textarea name="content" class="form-control fields">{$TASK_OBJECT->content}</textarea>
-		</div>
-	</div>
+	
 {/strip}	

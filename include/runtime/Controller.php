@@ -93,6 +93,9 @@ abstract class Vtiger_Controller
 
 	function setHeaders()
 	{
+		if (headers_sent()) {
+			return;
+		}
 		$browser = Vtiger_Functions::getBrowserInfo();
 		header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");

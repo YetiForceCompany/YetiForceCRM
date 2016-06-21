@@ -389,8 +389,15 @@ class ListViewController
 				} elseif ($field->getFieldDataType() == 'skype') {
 					$value = ($value != '') ? "<a href='skype:$value?call'>" . textlength_check($value) . "</a>" : "";
 				} elseif ($field->getUIType() == 11) {
-					$outgoingCallPermission = Vtiger_Mobile_Model::checkPermissionForOutgoingCall();
+					$moduleInstance = Vtiger_Module_Model::getInstance("PBXManager");
+					if ($moduleInstance && $moduleInstance->isActive()) {
+						$outgoingCallPermission = PBXManager_Server_Model::checkPermissionForOutgoingCall();
+					}
+					$outgoingMobilePermission = Vtiger_Mobile_Model::checkPermissionForOutgoingCall();
 					if ($outgoingCallPermission && !empty($value)) {
+						$phoneNumber = preg_replace('/[-()\s+]/', '', $value);
+						$value = textlength_check($value) . '<a class="phoneField" data-value="' . $phoneNumber . '" record="' . $recordId . '"onclick="Vtiger_PBXManager_Js.registerPBXOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')"> <img style="vertical-align:middle;" src="layouts/basic/skins/images/small_Call.png"/></a>';
+					} elseif ($outgoingMobilePermission && !empty($value)) {
 						$phoneNumber = preg_replace('/[-()\s]/', '', $value);
 						$value = '<a class="phoneField" data-phoneNumber="' . $phoneNumber . '" record="' . $recordId . '" onclick="Vtiger_Mobile_Js.registerOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')">' . textlength_check($value) . '</a>';
 						$callUsers = Vtiger_Mobile_Model::getPrivilegesUsers();

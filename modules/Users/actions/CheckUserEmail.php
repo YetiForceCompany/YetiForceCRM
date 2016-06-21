@@ -6,7 +6,7 @@ class Users_CheckUserEmail_Action extends Vtiger_Action_Controller
 	function checkPermission(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUser->isAdminUser()) {
+		if (!$currentUser->isAdminUser() && $currentUser->getId() != $request->get('cUser')) {
 			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}
