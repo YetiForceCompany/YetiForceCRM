@@ -151,7 +151,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
-		
+
 		$mf = Vtiger_Cache::get('MappedFieldsModel', $recordId);
 		if ($mf) {
 			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -169,7 +169,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		$mf = new $handlerClass();
 		$mf->setData($db->getRow($result));
 		Vtiger_Cache::set('MappedFieldsModel', $recordId, $mf);
-		
+
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $mf;
 	}
@@ -267,21 +267,31 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		}
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$permissions = explode(',', $permissions);
-
-		if (in_array('Users:' . $currentUser->getId(), $permissions)) { // check user id
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
-			return true;
-		} else {
-			$userGroups = new GetUserGroups();
-			$userGroups->getAllUserGroups($currentUser->getId());
-			foreach ($userGroups->user_groups as $group) {
-				if (in_array('Groups:' . $group, $permissions)) {
-					$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
-					return true;
-				}
+		$getTypes = [];
+		$return = false;
+		foreach ($permissions as $name) {
+			$valueType = explode(':', $name);
+			$getTypes[$valueType[0]][] = $valueType[1];
+		}
+		if (in_array('Users:' . $currentUser->getId(), $permissions)) {
+			$return = true;
+		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
+			$return = true;
+		} elseif (array_key_exists('Groups', $getTypes)) {
+			$accessibleGroups = array_keys($currentUser->getAccessibleGroupForModule($this->get('module_name')));
+			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
+			if (array_intersect($groups, $accessibleGroups)) {
+				$return = true;
+			}
+		}
+		if (array_key_exists('RoleAndSubordinates', $getTypes) && !$return) {
+			$roles = $currentUser->getParentRoles();
+			$roles[] = $currentUser->getRole();
+			if (array_intersect($getTypes['RoleAndSubordinates'], array_filter($roles))) {
+				$return = true;
 			}
 		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
-		return false;
+		return $return;
 	}
 }
