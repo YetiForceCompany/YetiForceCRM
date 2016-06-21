@@ -274,8 +274,8 @@ class Reports extends CRMEntity{
 					AND vtiger_tab.name NOT IN(".generateQuestionMarks($restricted_modules).")
 					AND vtiger_tab.presence = 0 AND vtiger_relatedlists.label!='Activity History'
 					UNION
-					SELECT module, vtiger_tab.tabid FROM vtiger_fieldmodulerel
-					INNER JOIN vtiger_tab on vtiger_tab.name = vtiger_fieldmodulerel.relmodule
+					SELECT relmodule, vtiger_tab.tabid FROM vtiger_fieldmodulerel
+					INNER JOIN vtiger_tab on vtiger_tab.name = vtiger_fieldmodulerel.module
 					WHERE vtiger_tab.isentitytype = 1
 					AND vtiger_tab.name NOT IN(".generateQuestionMarks($restricted_modules).")
 					AND vtiger_tab.presence = 0",
