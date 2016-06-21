@@ -313,6 +313,10 @@ jQuery.Class("Vtiger_Helper_Js", {
 		var month = splittedDate[splittedDateFormat.indexOf("mm")];
 		var date = splittedDate[splittedDateFormat.indexOf("dd")];
 		var dateInstance = new Date(year, month - 1, date);
+		if ((year.length > 4) || (month.length > 2) || (date.length > 2) || (dateInstance == null)) {
+			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			throw errorMsg;
+		}
 		var newDate = dateInstance;
 		if ('0' == modDay) {
 			if ('Calendar' == type) {
