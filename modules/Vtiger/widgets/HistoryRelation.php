@@ -86,7 +86,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	public function getQuery($recordId, $moduleName, $type)
 	{
 		$queries = [];
-		$field = Vtiger_Module_Model::getMappingRelatedField($moduleName);
+		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 
 		if (in_array('Calendar', $type)) {
 			$sql = 'SELECT CONCAT(\'Calendar\') AS type, vtiger_crmentity.crmid AS id,a.subject AS content,vtiger_crmentity.smownerid AS user,concat(a.date_start, " ", a.time_start) AS `time`

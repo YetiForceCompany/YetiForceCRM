@@ -62,7 +62,7 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('Strong', 'Strong');
 		$viewer->assign('Very Strong', 'Very Strong');
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
-		$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
+		$mappingRelatedField = Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName);
 		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($mappingRelatedField));
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);

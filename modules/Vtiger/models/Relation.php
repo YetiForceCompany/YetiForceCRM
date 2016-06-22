@@ -289,7 +289,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return false;
 	}
 
-	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true)
+	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -313,7 +313,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		while ($row = $db->getRow($result)) {
 			//$relationModuleModel = Vtiger_Module_Model::getCleanInstance($moduleName);
 			// Skip relation where target module does not exits or is no permitted for view.
-			if (!$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
+			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
 			}
 			$relationModel = new $relationModelClassName();

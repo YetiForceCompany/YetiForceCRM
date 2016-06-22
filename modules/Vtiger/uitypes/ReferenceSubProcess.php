@@ -20,7 +20,7 @@ class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 
 	public function getReferenceList()
 	{
-		$modules = Vtiger_Module_Model::getModulesByLevel(2);
+		$modules = Vtiger_ModulesHierarchy_Model::getModulesByLevel(2);
 		if(!empty($modules)){
 			return array_keys($modules);
 		}
@@ -29,7 +29,7 @@ class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 
 	public function getParentModule($module)
 	{
-		$modules = Vtiger_Module_Model::getModulesByLevel(2);
+		$modules = Vtiger_ModulesHierarchy_Model::getModulesByLevel(2);
 		if (isset($modules[$module]['parentModule'])) {
 			return $modules[$module]['parentModule'];
 		}

@@ -103,7 +103,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			}
 
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
+			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1))) {
 				$subject = '&subject=';
 				if ($type == 'new') {
@@ -158,7 +158,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
 
-			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
+			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1))) {
 				$db = PearDatabase::getInstance();
 				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);
@@ -206,7 +206,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!empty($srecord) && !empty($smoduleName)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
-			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
+			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
 				$db = PearDatabase::getInstance();
 				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);

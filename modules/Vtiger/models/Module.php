@@ -1749,112 +1749,6 @@ class Vtiger_Module_Model extends Vtiger_Module
 		return true;
 	}
 
-	protected static $modulesHierarchy = [];
-	protected static $modulesByLevels = [];
-	protected static $modulesMapRelatedFields = [];
-	protected static $modulesMap1M = [];
-	protected static $modulesMapMMBase = [];
-	protected static $modulesMapMMCustom = [];
-
-	public static function initModulesHierarchy()
-	{
-		if (!empty(self::$modulesHierarchy)) {
-			return true;
-		}
-		include('user_privileges/moduleHierarchy.php');
-		self::$modulesHierarchy = $modulesHierarchy;
-		self::$modulesMapRelatedFields = $modulesMapRelatedFields;
-		self::$modulesMap1M = $modulesMap1M;
-		self::$modulesMapMMBase = $modulesMapMMBase;
-		self::$modulesMapMMCustom = $modulesMapMMCustom;
-		foreach (self::$modulesHierarchy as $module => &$details) {
-			if (vtlib_isModuleActive($module) && Users_Privileges_Model::isPermitted($module)) {
-				self::$modulesByLevels[$details['level']][$module] = $details;
-			}
-		}
-	}
-
-	public static function getModulesHierarchy()
-	{
-		self::initModulesHierarchy();
-		return self::$modulesHierarchy;
-	}
-
-	public static function getModulesMap1M($moduleName)
-	{
-		self::initModulesHierarchy();
-		return self::$modulesMap1M[$moduleName];
-	}
-
-	public static function getModulesMapMMBase()
-	{
-		self::initModulesHierarchy();
-		return self::$modulesMapMMBase;
-	}
-
-	public static function getModulesMapMMCustom($moduleName)
-	{
-		self::initModulesHierarchy();
-		return self::$modulesMapMMCustom[$moduleName];
-	}
-
-	public static function getModulesByLevel($level = 0)
-	{
-		self::initModulesHierarchy();
-		return self::$modulesByLevels[$level];
-	}
-
-	public static function accessModulesByLevel($level = 0, $actionName = 'EditView')
-	{
-		self::initModulesHierarchy();
-		$modules = [];
-		foreach (self::$modulesByLevels[$level] as $module => &$details) {
-			if (Users_Privileges_Model::isPermitted($module, $actionName)) {
-				$modules[$module] = $details;
-			}
-		}
-		return $modules;
-	}
-
-	public static function accessModulesByParent($parent, $actionName = 'EditView')
-	{
-		self::initModulesHierarchy();
-		$modules = [];
-		foreach (self::$modulesHierarchy as $module => &$details) {
-			if (Users_Privileges_Model::isPermitted($module, $actionName)) {
-				$modules[$details['parentModule']][$module] = $details;
-			}
-		}
-		return $modules[$parent];
-	}
-
-	public static function getMappingRelatedField($moduleName, $field = false)
-	{
-		self::initModulesHierarchy();
-		$module = self::$modulesHierarchy[$moduleName];
-		switch ($module['level']) {
-			case 0: $return = 'link';
-				break;
-			case 1: $return = 'process';
-				break;
-			case 2: $return = 'subprocess';
-				break;
-		}
-		return $return;
-	}
-
-	public function getRelationFieldByHierarchy($moduleName, $field = false)
-	{
-		self::initModulesHierarchy();
-		if ($field != false && isset(self::$modulesMapRelatedFields[$moduleName][$field])) {
-			return self::$modulesMapRelatedFields[$moduleName][$field];
-		}
-		if (isset(self::$modulesMapRelatedFields[$moduleName])) {
-			return self::$modulesMapRelatedFields[$moduleName];
-		}
-		return [];
-	}
-
 	public function getValuesFromSource(Vtiger_Request $request, $moduleName = false)
 	{
 		$data = [];
@@ -1906,7 +1800,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 					}
 				}
 			}
-			$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
+			$mappingRelatedField = Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName);
 			if (!empty($mappingRelatedField)) {
 				foreach ($mappingRelatedField as $relatedModules) {
 					foreach ($relatedModules as $relatedModule => $relatedFields) {

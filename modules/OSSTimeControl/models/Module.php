@@ -108,7 +108,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	public function getTimeUsers($id, $moduleName)
 	{
 		$db = PearDatabase::getInstance();
-		$fieldName = self::getMappingRelatedField($moduleName);
+		$fieldName = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 
 		if (empty($id) || empty($fieldName))
 			$response = false;
