@@ -1838,9 +1838,11 @@ class Vtiger_Module_Model extends Vtiger_Module
 
 	public function getRelationQueryForActivities($recordId, $relatedModule, $relationModel)
 	{
-		$query = 'SELECT vtiger_crmentity.*,vtiger_activity.* FROM vtiger_activity '
-			. ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid'
-			. ' WHERE vtiger_activity.deleted = 0';
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$queryGenerator = new QueryGenerator($relatedModule->getName(), $currentUser);
+		$queryGenerator->setFields($relationModel->getRelationFields(true));
+		$queryGenerator->permissions = false;
+		$query = $queryGenerator->getQuery();
 		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModule->getName());
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
