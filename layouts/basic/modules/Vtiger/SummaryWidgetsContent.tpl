@@ -69,20 +69,15 @@
 												   class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
 													<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>
 												</a>
-											{elseif $RELATED_MODULE_NAME eq 'Calendar'}
-												{if $RELATED_MODULE->isEditable()}
-													<a href='{$RELATED_RECORD->getEditViewUrl()}'>
-														<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
-													</a>
-												{/if}
 											{elseif $RELATED_RECORD->isEditable()}
-												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
+												<a href='{$RELATED_RECORD->getEditViewUrl()}'>
+													<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
 												</a>
 											{/if}
 										{/if}
 										{if $IS_DELETABLE}
 											{if $RELATED_MODULE_NAME eq 'Calendar'}
-												{if $RELATED_MODULE->isDeletable()}
+												{if $RELATED_RECORD->isDeletable()}
 													<a class="relationDelete">
 														<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
 													</a>
