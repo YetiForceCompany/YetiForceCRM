@@ -62,6 +62,7 @@ class QueryGenerator
 	private $fromClauseCustom;
 	private $whereClauseCustom;
 	private $customTable;
+	public $permissions = true;
 
 	/**
 	 * Import Feature
@@ -973,8 +974,10 @@ class QueryGenerator
 		}
 		if (!$onlyWhereQuery) {
 			$sql .= " AND $baseTable.$baseTableIndex > 0";
-			$instance = CRMEntity::getInstance($baseModule);
-			$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user, $this->getSourceRecord());
+			if ($this->permissions) {
+				$instance = CRMEntity::getInstance($baseModule);
+				$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user, $this->getSourceRecord());
+			}
 		}
 		$this->whereClause = $sql;
 		return $sql;
