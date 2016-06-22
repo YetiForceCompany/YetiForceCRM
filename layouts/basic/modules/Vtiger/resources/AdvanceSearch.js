@@ -272,7 +272,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 				msgContainer.position({
 					my: "left bottom",
 					at: "left top",
-					of: "#globalSearchValue",
+					of: ".globalSearchValue",
 				});
 				thisInstance.registerShowFiler();
 				//if the filter already shown , show again

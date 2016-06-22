@@ -617,9 +617,7 @@ class CRMEntity
 			}
 
 			if ($insertion_mode == 'edit') {
-				if ($table_name != 'vtiger_ticketcomments' && $uitype != 4) {
-					$updateColumns[$columname] = $fldvalue;
-				}
+				$updateColumns[$columname] = $fldvalue;
 			} else {
 				array_push($column, $columname);
 				array_push($value, $fldvalue);

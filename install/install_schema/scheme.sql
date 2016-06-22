@@ -8366,20 +8366,6 @@ CREATE TABLE `vtiger_ticketcf` (
   CONSTRAINT `fk_1_vtiger_ticketcf` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_troubletickets` (`ticketid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_ticketcomments` */
-
-CREATE TABLE `vtiger_ticketcomments` (
-  `commentid` int(19) NOT NULL AUTO_INCREMENT,
-  `ticketid` int(19) DEFAULT NULL,
-  `comments` text,
-  `ownerid` int(19) NOT NULL DEFAULT '0',
-  `ownertype` varchar(10) DEFAULT NULL,
-  `createdtime` datetime NOT NULL,
-  PRIMARY KEY (`commentid`),
-  KEY `ticketcomments_ticketid_idx` (`ticketid`),
-  CONSTRAINT `fk_1_vtiger_ticketcomments` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_troubletickets` (`ticketid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ticketpriorities` */
 
 CREATE TABLE `vtiger_ticketpriorities` (

@@ -21,7 +21,7 @@ class HelpDesk extends CRMEntity
 	var $table_name = "vtiger_troubletickets";
 	var $table_index = 'ticketid';
 	var $tab_name = Array('vtiger_crmentity', 'vtiger_troubletickets', 'vtiger_ticketcf', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_ticketcomments' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
+	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
@@ -94,9 +94,6 @@ class HelpDesk extends CRMEntity
 
 	function save_module($module)
 	{
-		//Inserting into Ticket Comment Table
-		$this->insertIntoTicketCommentTable("vtiger_ticketcomments", $module);
-
 		//Inserting into vtiger_attachments
 		$this->insertIntoAttachment($this->id, $module);
 
@@ -121,34 +118,6 @@ class HelpDesk extends CRMEntity
 			$serviceContract->updateServiceContractState($with_crmid);
 		} else {
 			parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
-		}
-	}
-
-	/** Function to insert values in vtiger_ticketcomments  for the specified tablename and  module
-	 * @param $table_name -- table name:: Type varchar
-	 * @param $module -- module:: Type varchar
-	 */
-	function insertIntoTicketCommentTable($table_name, $module)
-	{
-		$log = LoggerManager::getInstance();
-		$log->info("in insertIntoTicketCommentTable  " . $table_name . "    module is  " . $module);
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-
-		$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);
-		if ($this->column_fields['from_portal'] != 1) {
-			$ownertype = 'user';
-			$ownerId = $current_user->id;
-		} else {
-			$ownertype = 'customer';
-			$ownerId = $this->column_fields['parent_id'];
-		}
-
-		$comment = $this->column_fields['comments'];
-		if ($comment != '') {
-			$sql = "insert into vtiger_ticketcomments values(?,?,?,?,?,?)";
-			$params = array('', $this->id, from_html($comment), $ownerId, $ownertype, $current_time);
-			$adb->pquery($sql, $params);
 		}
 	}
 
@@ -266,9 +235,6 @@ class HelpDesk extends CRMEntity
 		//To get the Permitted fields query and the permitted fields list
 		$sql = getPermittedFieldsQuery("HelpDesk", "detail_view");
 		$fields_list = getFieldsListFromQuery($sql);
-		//Ticket changes--5198
-		$fields_list = str_replace(",vtiger_ticketcomments.comments as 'Add Comment'", ' ', $fields_list);
-
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
