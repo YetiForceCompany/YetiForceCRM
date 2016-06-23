@@ -5,6 +5,7 @@
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
 	RewriteEngine On
+	RewriteRule ^favicon.ico layouts/basic/skins/images/favicon.ico [L,NC]
 	RewriteRule ^api/webservice/(.*)/(.*)/(.*)$ api/webservice.php?module=$1&action=$2&record=$3 [QSA,NC,L]
 	RewriteRule ^api/webservice/(.*)/(.*)$ api/webservice.php?module=$1&action=$2 [QSA,NC,L]
 	RewriteRule ^api/webservice/(.*)$ api/webservice.php?module=$1 [QSA,NC,L]
