@@ -745,9 +745,9 @@ class PearDatabase
 	{
 		// array_map will call the function specified in the first parameter for every element of the list in second parameter
 		if (is_array($items)) {
-			return implode(",", array_map("_questionify", $items));
+			return implode(',', array_map('_questionify', $items));
 		} else {
-			return implode(",", array_map("_questionify", explode(",", $items)));
+			return implode(',', array_map('_questionify', explode(',', $items)));
 		}
 	}
 

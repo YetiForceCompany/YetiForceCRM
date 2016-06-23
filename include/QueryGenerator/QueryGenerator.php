@@ -616,17 +616,22 @@ class QueryGenerator
 		}
 		$baseTable = $this->meta->getEntityBaseTable();
 		$sql = " FROM $baseTable ";
-		unset($tableList[$baseTable]);
-		foreach ($defaultTableList as $tableName) {
-			$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable." .
-				"$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]";
-			unset($tableList[$tableName]);
-		}
 		foreach ($this->customTable as $table) {
 			$tableName = $table['name'];
 			$tableList[$tableName] = $tableName;
 			$tableJoinMapping[$tableName] = $table['join'];
 		}
+		foreach ($this->whereClauseCustom as &$where) {
+			if (isset($where['tablename']) && ($baseTable != $where['tablename'] && !in_array($where['tablename'], $tableList))) {
+				$tableList[] = $where['tablename'];
+				$tableJoinMapping[$where['tablename']] = 'LEFT JOIN';
+			}
+		}
+		foreach ($defaultTableList as $tableName) {
+			$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]";
+			unset($tableList[$tableName]);
+		}
+		unset($tableList[$baseTable]);
 		foreach ($tableList as $tableName) {
 			if ($tableName == 'vtiger_users') {
 				$field = $moduleFields[$ownerField];
@@ -641,13 +646,6 @@ class QueryGenerator
 					"$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]";
 			}
 		}
-
-		/* if( $this->meta->getTabName() == 'Documents') {
-		  $tableJoinCondition['folderid'] = array(
-		  'vtiger_attachmentsfolderfolderid'=>"$baseTable.folderid = vtiger_attachmentsfolderfolderid.folderid"
-		  );
-		  $tableJoinMapping['vtiger_attachmentsfolderfolderid'] = 'INNER JOIN vtiger_attachmentsfolder';
-		  } */
 
 		foreach ($tableJoinCondition as $fieldName => $conditionInfo) {
 			foreach ($conditionInfo as $tableName => $condition) {
