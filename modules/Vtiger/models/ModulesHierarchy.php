@@ -40,6 +40,12 @@ class Vtiger_ModulesHierarchy_Model
 		return self::$modulesHierarchy;
 	}
 
+	public static function getModuleLevel($moduleName)
+	{
+		self::init();
+		return isset(self::$modulesHierarchy[$moduleName]) ? self::$modulesHierarchy[$moduleName]['level'] : false;
+	}
+
 	public static function getModulesMap1M($moduleName)
 	{
 		self::init();
@@ -90,9 +96,7 @@ class Vtiger_ModulesHierarchy_Model
 
 	public static function getMappingRelatedField($moduleName, $field = false)
 	{
-		self::init();
-		$module = self::$modulesHierarchy[$moduleName];
-		switch ($module['level']) {
+		switch (self::getModuleLevel($moduleName)) {
 			case 0: $return = 'link';
 				break;
 			case 1: $return = 'process';
@@ -117,9 +121,7 @@ class Vtiger_ModulesHierarchy_Model
 
 	public static function getUitypeByModule($moduleName)
 	{
-		self::init();
-		$module = self::$modulesHierarchy[$moduleName];
-		switch ($module['level']) {
+		switch (self::getModuleLevel($moduleName)) {
 			case 0: $return = 67;
 				break;
 			case 1: $return = 66;
@@ -130,35 +132,139 @@ class Vtiger_ModulesHierarchy_Model
 		return $return;
 	}
 
+	protected static $relatedField = [];
+
 	public static function getRelatedField($moduleName, $type = 0)
 	{
 		$db = PearDatabase::getInstance();
 
 		$fields = [];
 		if ($type == 0 || $type == 1) {
-			$query = 'SELECT vtiger_field.tabid,vtiger_field.columnname,vtiger_field.tablename FROM vtiger_fieldmodulerel INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid WHERE vtiger_fieldmodulerel.relmodule = ?';
-			$result = $db->pquery($query, [$moduleName]);
-			while ($row = $db->getRow($result)) {
-				$fields[] = $row;
+			if (isset(self::$relatedField[$moduleName][1])) {
+				$fields = self::$relatedField[$moduleName][1];
+			} else {
+				$query = 'SELECT vtiger_field.tabid,vtiger_field.columnname,vtiger_field.fieldname,vtiger_field.tablename,vtiger_tab.name FROM vtiger_fieldmodulerel INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = ? AND vtiger_fieldmodulerel.relmodule = ?';
+				$result = $db->pquery($query, [0, $moduleName]);
+				while ($row = $db->getRow($result)) {
+					$fields[] = $row;
+				}
+				self::$relatedField[$moduleName][1] = $fields;
 			}
 		}
 		if ($type == 0 || $type == 2) {
-			$query = 'SELECT vtiger_field.tabid,vtiger_field.columnname,vtiger_field.tablename FROM vtiger_field 
+			if (isset(self::$relatedField[$moduleName][2])) {
+				$fields = array_merge($fields, self::$relatedField[$moduleName][2]);
+			} else {
+				$query = 'SELECT vtiger_field.tabid,vtiger_field.fieldname,vtiger_field.columnname,vtiger_field.tablename,vtiger_tab.name FROM vtiger_field 
+INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
 INNER JOIN vtiger_ws_fieldtype ON vtiger_ws_fieldtype.uitype = vtiger_field.uitype
 INNER JOIN vtiger_ws_referencetype ON vtiger_ws_referencetype.fieldtypeid = vtiger_ws_fieldtype.fieldtypeid
-WHERE vtiger_ws_referencetype.`type` = ?';
-			$result = $db->pquery($query, [$moduleName]);
-			while ($row = $db->getRow($result)) {
-				$fields[] = $row;
+WHERE vtiger_tab.presence = ? AND vtiger_ws_referencetype.`type` = ?';
+				$result = $db->pquery($query, [0, $moduleName]);
+				$fields1 = [];
+				while ($row = $db->getRow($result)) {
+					$fields1[] = $row;
+				}
+				$fields = array_merge($fields, $fields1);
+				self::$relatedField[$moduleName][1] = $fields1;
 			}
 		}
-		if ($type == 0 || $type == 2) {
-			$uitype = Vtiger_ModulesHierarchy_Model::getUitypeByModule($moduleName);
-			$result = $db->pquery('SELECT tabid,columnname,tablename FROM vtiger_field WHERE uitype = ?', [$uitype]);
-			while ($row = $db->getRow($result)) {
-				$fields[] = $row;
+		if ($type == 0 || $type == 3) {
+			if (isset(self::$relatedField[$moduleName][3])) {
+				$fields = array_merge($fields, self::$relatedField[$moduleName][3]);
+			} else {
+				$uitype = Vtiger_ModulesHierarchy_Model::getUitypeByModule($moduleName);
+				$result = $db->pquery('SELECT vtiger_field.tabid,vtiger_field.fieldname,vtiger_field.columnname,vtiger_field.tablename,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = ? AND vtiger_field.uitype = ?', [0, $uitype]);
+				$fields2 = [];
+				while ($row = $db->getRow($result)) {
+					$fields2[] = $row;
+				}
+				$fields = array_merge($fields, $fields2);
+				self::$relatedField[$moduleName][3] = $fields2;
 			}
 		}
 		return $fields;
+	}
+
+	public static function getRelatedFieldByModule($moduleName, $type = 0)
+	{
+		$fields = Vtiger_ModulesHierarchy_Model::getRelatedField($moduleName, $type);
+		$modules = self::getChildModules($moduleName);
+		$return = [];
+		foreach ($fields as &$field) {
+			if (in_array($field['name'], $modules)) {
+				$return[] = $field;
+			}
+		}
+		return $return;
+	}
+
+	public static function getChildModules($moduleName)
+	{
+		self::init();
+		$modules = [];
+		switch (self::getModuleLevel($moduleName)) {
+			case 0:
+				$modules = array_keys(self::getModulesByLevel(1));
+				break;
+			case 1:
+				if ($levelMod = self::getModulesByLevel(2)) {
+					foreach ($levelMod as $mod => &$details) {
+						if ($moduleName == $details['parentModule']) {
+							$modules[] = $mod;
+						}
+					}
+				}
+				break;
+		}
+		return $modules;
+	}
+
+	public static function getRelatedRecords($record, $hierarchy)
+	{
+		$moduleName = Vtiger_Functions::getCRMRecordType($record);
+		$records = $recordsLevel1 = [];
+		if (in_array(0, $hierarchy)) {
+			$records[] = $record;
+		}
+		$fields = self::getRelatedFieldByModule($moduleName);
+		foreach ($fields as &$field) {
+			$recordsByField = self::getRelatedRecordsByField($record, $field);
+			$recordsLevel1 = array_merge($recordsLevel1, $recordsByField);
+		}
+		$level = self::getModuleLevel($moduleName);
+		if (!($level == 0 && !in_array(1, $hierarchy))) {
+			$records = array_merge($records, $recordsLevel1);
+		}
+		if ($level == 0 && in_array(2, $hierarchy)) {
+			foreach ($recordsLevel1 as $record) {
+				$recordsByHierarchy = self::getRelatedRecords($record, $hierarchy);
+				$records = array_merge($records, $recordsByHierarchy);
+			}
+		}
+		return array_unique($records);
+	}
+
+	protected static function getRelatedRecordsByField($record, $field)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+		$queryGenerator = new QueryGenerator($field['name'], $currentUserModel);
+		$queryGenerator->setFields(['id']);
+		$queryGenerator->setCustomCondition([
+			'glue' => 'AND',
+			'tablename' => $field['tablename'],
+			'column' => $field['columnname'],
+			'operator' => '=',
+			'value' => $record
+		]);
+		$query = $queryGenerator->getQuery();
+		$result = $db->query($query);
+
+		$ids = [];
+		while (($id = $db->getSingleValue($result)) !== false) {
+			$ids[] = $id;
+		}
+		return $ids;
 	}
 }
