@@ -41,13 +41,23 @@
 							{vtranslate('Status',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('activitystatus')}</strong>
 						</div>
 					{/if}
-					{if $RECORD->get('link') neq '' }
+					{if $RECORD->get('link') neq ''}
 						<div>
 							{vtranslate('FL_RELATION',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('link')}</strong>
 							{if $PERMISSION_TO_SENDE_MAIL}
-								<a target="_blank" class="pull-right btn btn-default btn-xs " href="index.php?module=OSSMail&view=compose&mod={Vtiger_Functions::getCRMRecordType($RECORD->get('link'))}&record={$RECORD->get('link')}">
-									<span class="glyphicon glyphicon-envelope icon-white" aria-hidden="true"></span>
-								</a>
+								{if $USER_MODEL->get('internal_mailer') == 1}
+									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(Vtiger_Functions::getCRMRecordType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
+									<a target="_blank" class="pull-right btn btn-default btn-xs" href="{$COMPOSE_URL}" title="{vtranslate('LBL_SEND_EMAIL')}">
+										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+									</a>
+								{else}
+									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(Vtiger_Functions::getCRMRecordType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
+									{if $URLDATA && $URLDATA != 'mailto:?'}
+										<a class="pull-right btn btn-default btn-xs" href="{$URLDATA}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
+											<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										</a>
+									{/if}
+								{/if}
 							{/if}
 						</div>
 					{/if}

@@ -33,6 +33,7 @@ class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('RECORDS', $recordModels);
 		$viewer->view('Reminders.tpl', $moduleName);
 	}
