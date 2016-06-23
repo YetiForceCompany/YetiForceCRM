@@ -1840,7 +1840,12 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$queryGenerator = new QueryGenerator($relatedModule->getName(), $currentUser);
-		$queryGenerator->setFields($relationModel->getRelationFields(true));
+		$relatedListFields = $relationModel->getRelationFields(true); 
+		if(count($relatedListFields) == 0){
+			$relatedListFields = $relatedModule->getRelatedListFields();
+		}
+		$queryGenerator->setFields($relatedListFields);
+		$queryGenerator->setCustomColumn('crmid');
 		$queryGenerator->permissions = false;
 		$query = $queryGenerator->getQuery();
 		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModule->getName());
