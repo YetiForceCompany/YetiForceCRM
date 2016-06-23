@@ -169,7 +169,8 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		if ($selectedIds && !empty($selectedIds) && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				$queryGenerator->setCustomCondition([
-					'column' => $baseTableName . '.' . $baseTableId,
+					'tablename' => $baseTableName,
+					'column' => $baseTableId,
 					'operator' => 'IN',
 					'value' => '(' . implode(',', $selectedIds) . ')',
 					'glue' => 'AND'
