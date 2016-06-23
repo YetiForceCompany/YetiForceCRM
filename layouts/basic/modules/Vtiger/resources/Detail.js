@@ -2392,7 +2392,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			commentInfoBlock.find('.commentActionsContainer').hide();
 			addCommentBlock.appendTo(commentInfoBlock).show();
 		});
-
 		detailContentsHolder.on('click', '.editComment', function (e) {
 			thisInstance.removeCommentBlockIfExists();
 			var currentTarget = jQuery(e.currentTarget);
@@ -2406,7 +2405,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			commentInfoBlock.find('.commentActionsContainer').hide();
 			editCommentBlock.appendTo(commentInfoBlock).show();
 		});
-
 		detailContentsHolder.on('click', '.deleteComment', function (e) {
 			thisInstance.removeCommentBlockIfExists();
 			var currentTarget = jQuery(e.currentTarget);
@@ -2442,7 +2440,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				);
 			}
 		});
-
 		detailContentsHolder.on('click', '.detailViewSaveComment', function (e) {
 			var element = jQuery(e.currentTarget);
 			if (!element.is(":disabled")) {
@@ -2456,7 +2453,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-
 		detailContentsHolder.on('click', '.saveComment', function (e) {
 			var element = jQuery(e.currentTarget);
 			if (!element.is(":disabled")) {
@@ -2473,6 +2469,33 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.on('click', '.moreRecentComments', function () {
 			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 			recentCommentsTab.trigger('click');
+		});
+		detailContentsHolder.find('.commentsHierarchy').change(function (e) {
+			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
+			var url = recentCommentsTab.data('url');
+			var regex = /&hierarchy=+([\w,]+)/;
+			url = url.replace(regex, "");
+			if ($(this).val()) {
+				url += '&hierarchy=' + $(this).val();
+			}
+			recentCommentsTab.data('url', url);
+			recentCommentsTab.trigger('click');
+		});
+		detailContentsHolder.find('.commentSearch').keyup(function (e) {
+			var text = $(this).val();
+			if (text) {
+				detailContentsHolder.find('.commentDetails').addClass('hide');
+				var contains = detailContentsHolder.find(".commentRelatedTitle:contains(" + text + ")");
+				contains.each(function (e) {
+					$(this).closest('.commentDetails').removeClass('hide');
+				});
+				if(contains.length == 0){
+					detailContentsHolder.find('.noCommentsMsgContainer').removeClass('hide');
+				}
+			}else{
+				detailContentsHolder.find('.commentDetails').removeClass('hide');
+				detailContentsHolder.find('.noCommentsMsgContainer').addClass('hide');
+			}
 		});
 	},
 	registerMailPreviewWidget: function (container) {
