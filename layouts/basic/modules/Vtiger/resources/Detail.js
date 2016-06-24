@@ -918,7 +918,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 						var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 						relatedController.deleteRelation([relatedRecordid]).then(function (response) {
 							if (response.result) {
-								relatedController.loadRelatedList();
+								thisInstance.loadWidget(element.closest('.widgetContentBlock'));
+								thisInstance.loadWidget(detailContentsHolder.find('.recentActivitiesContainer').closest('.widgetContentBlock'));
 							} else {
 								Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
 							}
