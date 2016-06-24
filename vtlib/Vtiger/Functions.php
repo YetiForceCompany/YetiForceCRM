@@ -1579,7 +1579,7 @@ class Vtiger_Functions
 			'ш' => 'sh', 'щ' => 'sh', 'ю' => 'yu', 'я' => 'ya', 'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g',
 			'д' => 'd', 'е' => 'e', 'ё' => 'e', 'з' => 'z', 'и' => 'i', 'й' => 'y', 'к' => 'k', 'л' => 'l', 'м' => 'm',
 			'н' => 'n', 'о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h',
-			'ц' => 'c', 'ъ' => '', 'ы' => 'i', 'ь' => '', 'э' => 'e', 
+			'ц' => 'c', 'ъ' => '', 'ы' => 'i', 'ь' => '', 'э' => 'e',
 			// Ukrainian
 			'Đ„' => 'Ye', 'Đ†' => 'I', 'Đ‡' => 'Yi', 'Ň' => 'G',
 			'Ń”' => 'ye', 'Ń–' => 'i', 'Ń—' => 'yi', 'Ň‘' => 'g',
@@ -1694,5 +1694,25 @@ class Vtiger_Functions
 		$queryStr = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
 		parse_str($queryStr, $queryParams);
 		return $queryParams;
+	}
+
+	static public function encrypt($data)
+	{
+		require_once('include/utils/encryption.php');
+		$encryption = new Encryption();
+		if (isset($data)) {
+			$encrypted = $encryption->encrypt($data);
+		}
+		return $encrypted;
+	}
+
+	static public function decrypt($data)
+	{
+		require_once('include/utils/encryption.php');
+		$encryption = new Encryption();
+		if (isset($data)) {
+			$decrypted = $encryption->decrypt($data);
+		}
+		return $decrypted;
 	}
 }

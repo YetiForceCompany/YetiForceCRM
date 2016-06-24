@@ -24,6 +24,13 @@ CREATE TABLE `a_yf_discounts_global` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_encryption` */
+
+CREATE TABLE `a_yf_encryption` (
+  `method` varchar(40) NOT NULL,
+  `pass` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_featured_filter` */
 
 CREATE TABLE `a_yf_featured_filter` (

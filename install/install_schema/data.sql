@@ -14,6 +14,8 @@ insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2
 
 /*Data for the table `a_yf_discounts_global` */
 
+/*Data for the table `a_yf_encryption` */
+
 /*Data for the table `a_yf_featured_filter` */
 
 /*Data for the table `a_yf_inventory_limits` */

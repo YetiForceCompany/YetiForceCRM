@@ -518,27 +518,6 @@ class Users extends CRMEntity
 		return true;
 	}
 
-	function de_cryption($data)
-	{
-		require_once('include/utils/encryption.php');
-		$de_crypt = new Encryption();
-		if (isset($data)) {
-			$decrypted_password = $de_crypt->decrypt($data);
-		}
-		return $decrypted_password;
-	}
-
-	function changepassword($newpassword)
-	{
-		require_once('include/utils/encryption.php');
-		$en_crypt = new Encryption();
-		if (isset($newpassword)) {
-			$encrypted_password = $en_crypt->encrypt($newpassword);
-		}
-
-		return $encrypted_password;
-	}
-
 	function verifyPassword($password)
 	{
 		$query = "SELECT user_name,user_password,crypt_type FROM {$this->table_name} WHERE id=?";
