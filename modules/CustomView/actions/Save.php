@@ -56,9 +56,16 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 			'description' => $request->get('description')
 		);
 		$selectedColumnsList = $request->get('columnslist');
-		if (!empty($selectedColumnsList)) {
-			$customViewData['columnslist'] = $selectedColumnsList;
+		if (empty($selectedColumnsList)) {
+			$moduleModel = Vtiger_Module_Model::getInstance($request->get('source_module'));
+			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
+			if($cvIdDefault === false){
+				$cvIdDefault = CustomView::getDefaultCvId($request->get('source_module'));
+			}
+			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);
+			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();
 		}
+		$customViewData['columnslist'] = $selectedColumnsList;
 		$stdFilterList = $request->get('stdfilterlist');
 		if (!empty($stdFilterList)) {
 			$customViewData['stdfilterlist'] = $stdFilterList;
