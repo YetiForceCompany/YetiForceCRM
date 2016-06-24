@@ -1426,4 +1426,5 @@ $jsLanguageStrings = [
 	'JS_CANNOT_REMOVE_RELATION' => 'Nie można usunąć relacji.',
 	'JS_RECORD_INFO' => 'Informacje o rekordzie',
 	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
+	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Czas pracy nie powinien być dłuższy niż 24 h',
 ];

@@ -42,8 +42,8 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
 		var firstDateTimeValue = firstDateValue + ' ' + firstTimeValue;
 		var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
 
-			var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue,firstDateFormat);
-			var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue,secondDateFormat);
+		var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue,firstDateFormat);
+		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue,secondDateFormat);
 
 		var timeBetweenDates =  secondDateInstance - firstDateInstance;
 		if(timeBetweenDates >= 0){
@@ -58,26 +58,31 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
 	 */
 	registerRecordPreSaveEvent : function(){
 		var thisInstance = this;
-		form = this.getForm();
-	
+		var form = this.getForm();
 		form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
 			var sumeTime2 = thisInstance.differenceDays();
 			if(sumeTime2 == 'Error'){
-				var parametry = {
+				var parametres = {
 					text: app.vtranslate('JS_DATE_SHOULD_BE_GREATER_THAN'),
 					type: 'error'
 				};
-				Vtiger_Helper_Js.showPnotify(parametry);
+				Vtiger_Helper_Js.showPnotify(parametres);
 				return false;
-			}else{
-			send = true;
-			form.submit();
+			} else {
+				sumeTime2 = sumeTime2 / 1000 / 60 / 60;
+				if(sumeTime2 > 24){
+					var parametres = {
+						text: app.vtranslate('JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H'),
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(parametres);
+					return false;
+				};
+				form.submit();
 			}
 		});	
 	},
-
-
-	    registerGenerateTCFromHelpDesk : function() {
+	registerGenerateTCFromHelpDesk : function() {
 		var thisInstance = this;
         var sourceDesk = jQuery('input[name="sourceRecord"]').val();
 		var moduleName = jQuery('input[name="sourceModule"]').val();
