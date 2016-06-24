@@ -919,7 +919,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 						relatedController.deleteRelation([relatedRecordid]).then(function (response) {
 							if (response.result) {
 								thisInstance.loadWidget(element.closest('.widgetContentBlock'));
-								thisInstance.loadWidget(detailContentsHolder.find('.recentActivitiesContainer').closest('.widgetContentBlock'));
+								var updatesWidget = detailContentsHolder.find("[data-type='Updates']");
+								if (updatesWidget.length > 0) {
+									thisInstance.loadWidget(updatesWidget);
+								}
 							} else {
 								Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
 							}
