@@ -168,7 +168,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$data = $this->getWidgetTimeControl($user, $time);
 		$daysAmount = count($data['ticks']);
 
-		$listViewUrl = 'index.php?module=OSSTimeControl&view=List';
+		$listViewUrl = 'index.php?module=OSSTimeControl&view=List&viewname=All';
 		for ($i = 0; $i < $daysAmount; $i++) {
 			$data['links'][$i][0] = $i;
 			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($user, $data['days'][$i]);

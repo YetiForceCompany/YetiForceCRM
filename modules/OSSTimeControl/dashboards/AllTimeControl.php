@@ -93,7 +93,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 				$newArray = [$key, $accessibleUsers[$value]];
 				array_push($ticks, $newArray);
 			}
-			$listViewUrl = 'index.php?module=OSSTimeControl&view=List';
+			$listViewUrl = 'index.php?module=OSSTimeControl&view=List&viewname=All';
 			$counter = 0;
 			foreach($ticks as $key => $value){
 				$response['links'][$counter][0] = $counter;
