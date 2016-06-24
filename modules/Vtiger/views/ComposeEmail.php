@@ -25,7 +25,7 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View
 	{
 		$moduleName = $request->getModule();
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'CreateView')) {
+		if (!AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail')) {
 			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}

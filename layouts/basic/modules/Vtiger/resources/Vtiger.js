@@ -61,7 +61,11 @@ var Vtiger_Index_Js = {
 			var module = sendButton.data("module");
 			var record = sendButton.data("record");
 			var popup = sendButton.data("popup");
-			if (module != undefined && record != undefined) {
+			var toMail = sendButton.data("to");
+			if (toMail) {
+				url += '&to=' + toMail;
+			}
+			if (module != undefined && record != undefined && !toMail) {
 				thisInstance.getEmailFromRecord(record, module).then(function (data) {
 					if (data != '') {
 						url += '&to=' + data;

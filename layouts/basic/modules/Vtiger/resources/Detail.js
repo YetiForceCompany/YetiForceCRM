@@ -2583,6 +2583,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		);
 	},
+	registerEmailEvents: function (detailContentsHolder) {
+		Vtiger_Index_Js.registerMailButtons(detailContentsHolder);
+	},
 	registerBasicEvents: function () {
 		var thisInstance = this;
 		var detailContentsHolder = thisInstance.getContentHolder();
@@ -2590,6 +2593,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		//register all the events for summary view container
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 		thisInstance.registerCommentEvents(detailContentsHolder);
+		thisInstance.registerEmailEvents(detailContentsHolder);
 		app.registerEventForDatePickerFields(detailContentsHolder);
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
