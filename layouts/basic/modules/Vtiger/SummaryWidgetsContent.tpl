@@ -45,7 +45,18 @@
 							{if $HEADER_FIELD@last}
 							</td><td nowrap class="{$WIDTHTYPE}">
 								<div class="pull-right actions">
+									{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
+										<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed">
+											<span class="badge bgDanger"></span>&nbsp;
+										</a>&nbsp;
+									{/if}
 									<span class="actionImages">
+										{if $RELATED_MODULE->isPermitted('WatchingRecords') && $RELATED_RECORD->isViewable()}
+											{assign var=WATCHING_STATE value=(!$RELATED_RECORD->isWatchingRecord())|intval}
+											<a href="#" onclick="Vtiger_Index_Js.changeWatching(this)" title="{vtranslate('BTN_WATCHING_RECORD', $MODULE)}" data-record="{$RELATED_RECORD->getId()}" data-value="{$WATCHING_STATE}" class="noLinkBtn{if !$WATCHING_STATE} info-color{/if}" data-on="info-color" data-off="" data-icon-on="glyphicon-eye-open" data-icon-off="glyphicon-eye-close" data-module="{$RELATED_MODULE_NAME}">
+												<span class="glyphicon {if $WATCHING_STATE}glyphicon-eye-close{else}glyphicon-eye-open{/if} alignMiddle"></span>
+											</a>&nbsp;
+										{/if}
 										{if $RELATED_MODULE_NAME eq 'Calendar'}
 											{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
 											{if $IS_EDITABLE && in_array($RELATED_RECORD->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}

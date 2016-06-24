@@ -53,6 +53,7 @@ $languageStrings = [
 	'None' => 'Nada',
 	'Default' => 'Padrão',
 	'LBL_SELECT_Documents' => 'Selecionar documento',
+	'LBL_RELATIONS' => 'Relations',
 ];
 
 $jsLanguageStrings = [

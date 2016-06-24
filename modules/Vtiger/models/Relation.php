@@ -260,10 +260,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		if (key_exists($relKey, self::$_cached_instance)) {
 			return self::$_cached_instance[$relKey];
 		}
-		if ($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) {
+		if (($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) || $parentModuleModel->getName() == 'Documents') {
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			if(method_exists($relationModel, 'setExceptionData')){
+				$relationModel->setExceptionData();
+			}
 			self::$_cached_instance[$relKey] = $relationModel;
 			return $relationModel;
 		}

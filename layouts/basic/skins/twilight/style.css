@@ -5453,4 +5453,11 @@ select.form-control {
 	-moz-transform: rotate(-90deg);
 	-ms-transform: rotate(-90deg);
 	-o-transform: rotate(-90deg);
-}	
+}
+.noSumarryWidgetEffect {
+	padding: 0 !important;
+	border: none !important;
+}
+.noSumarryWidgetEffect .listViewEntriesTable {
+	margin-bottom: 0 !important;
+}

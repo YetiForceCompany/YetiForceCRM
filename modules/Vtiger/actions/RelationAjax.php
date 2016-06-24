@@ -185,11 +185,13 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	function getRelatedListPageCount(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->get('relatedModule');
+		$relModules = $relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
 		$totalCount = 0;
-		$relModules = [$relatedModuleName];
+		if (!is_array($relatedModuleName)) {
+			$relModules = [$relatedModuleName];
+		}
 		$pageCount = 0;
 		if (in_array('ProductsAndServices', $relModules)) {
 			$label = '';

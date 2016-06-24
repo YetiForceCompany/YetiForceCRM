@@ -508,6 +508,68 @@ class Documents extends CRMEntity
 		}
 	}
 
+	function getRelatedRecord($id, $curTabId, $relTabId, $actions = false)
+	{
+		global $currentModule, $singlepane_view;
+		$thisModule = $currentModule;
+
+		$relatedModule = Vtiger_Functions::getModuleName($relTabId);
+		$other = CRMEntity::getInstance($relatedModule);
+
+		// Some standard module class doesn't have required variables
+		// that are used in the query, they are defined in this generic API
+		vtlib_setup_modulevars($relatedModule, $other);
+
+		// To make the edit or del link actions to return back to same view.
+		if ($singlepane_view == 'true')
+			$returnset = "&return_module=$thisModule&return_action=DetailView&return_id=$id";
+		else
+			$returnset = "&return_module=$thisModule&return_action=CallRelatedList&return_id=$id";
+
+		$joinTables = [];
+		$join = '';
+		$tables = '';
+		foreach ($other->tab_name_index as $table => $index) {
+			if ($table == $other->table_name) {
+				continue;
+			}
+			$joinTables[] = $table;
+			$join .= ' INNER JOIN ' . $table . ' ON ' . $table . '.' . $index . ' = ' . $other->table_name . '.' . $other->table_index;
+		}
+
+		if (!empty($other->related_tables)) {
+			foreach ($other->related_tables as $tname => $relmap) {
+				$tables .= ", $tname.*";
+				if (in_array($tname, $joinTables)) {
+					continue;
+				}
+				// Setup the default JOIN conditions if not specified
+				if (empty($relmap[1]))
+					$relmap[1] = $other->table_name;
+				if (empty($relmap[2]))
+					$relmap[2] = $relmap[0];
+				$join .= " LEFT JOIN $tname ON $tname.$relmap[0] = $relmap[1].$relmap[2]";
+			}
+		}
+		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
+		$userNameSql = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name',
+			'last_name' => 'vtiger_users.last_name'], 'Users');
+		$query .= $tables;
+		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
+		$query .= ' FROM ' . $other->table_name;
+		$query .= $join;
+		$query .= ' INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid';
+		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
+		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
+		$query .= " WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.notesid = $id";
+
+		$returnValue = GetRelatedList($thisModule, $relatedModule, $other, $query, $button, $returnset);
+		if ($returnValue == null)
+			$returnValue = [];
+		$returnValue['CUSTOM_BUTTON'] = $button;
+		return $returnValue;
+	}
+
 	/**
 	 * Function to check the module active and user action permissions before showing as link in other modules
 	 * like in more actions of detail view.
