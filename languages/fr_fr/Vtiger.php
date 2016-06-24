@@ -474,6 +474,7 @@ $languageStrings = [
 	'LBL_REPLY' => 'Répondre',
 	'LBL_RESTORED' => 'restauré',
 	'LBL_RESULT_FOR_THE_TAG' => 'Résultats pour le tag',
+	'LBL_REVIEW_HISTORY' => 'Historique',
 	'LBL_Sat' => 'Sam',
 	'LBL_SAVE' => 'Sauvegarder',
 	'LBL_SAVE_AS_DRAFT' => 'Sauvegarder en tant que brouillon',
