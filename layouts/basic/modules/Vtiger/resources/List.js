@@ -691,6 +691,7 @@ jQuery.Class("Vtiger_List_Js", {
 					thisInstance.registerTimeListSearch(listViewContentsContainer);
 					jQuery('body').trigger(jQuery.Event('LoadRecordList.PostLoad'), data);
 					thisInstance.registerDateListSearch(listViewContentsContainer);
+					Vtiger_Index_Js.registerMailButtons(listViewContentsContainer);
 					thisInstance.calculatePages().then(function (data) {
 						//thisInstance.triggerDisplayTypeEvent();
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
@@ -1995,6 +1996,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerListViewSpecialOptiopn();
 		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
+		Vtiger_Index_Js.registerMailButtons(listViewContainer);
 	},
 	registerListViewSelect: function () {
 		var listViewContainer = this.getListViewContentContainer();

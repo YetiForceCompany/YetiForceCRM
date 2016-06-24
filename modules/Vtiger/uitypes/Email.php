@@ -27,17 +27,17 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 		if ($value && !$rawText) {
 			$moduleName = $this->get('field')->get('block')->module->name;
 			$fieldName = $this->get('field')->get('name');
-			$orgValue = $value;
+			$rawValue = $value;
 			$value = Vtiger_Functions::textLength($value);
 			if ($internalMailer == 1) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
-				$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$orgValue\" data-popup=" . $mailConfig['popup'] . " title=" . vtranslate('LBL_SEND_EMAIL') . ">$value</a>";
+				$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . vtranslate('LBL_SEND_EMAIL') . ">$value</a>";
 			} else {
 				if ($moduleName == 'Users' && $fieldName == 'user_name') {
-					$value = "<a class='cursorPointer' href='mailto:" . $value . "'>" . textlength_check($value) . "</a>";
+					$value = "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . "</a>";
 				} else {
-					$value = "<a class='emailField cursorPointer'  href='mailto:" . $value . "'>" . textlength_check($value) . "</a>";
+					$value = "<a class='emailField cursorPointer'  href='mailto:" . $rawValue . "'>" . $value . "</a>";
 				}
 			}
 		}

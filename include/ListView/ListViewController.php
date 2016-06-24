@@ -345,13 +345,14 @@ class ListViewController
 						$value = '<a class="urlField cursorPointer" title="' . $rawValue . '" href="http://' . $rawValue . '" target="_blank">' . textlength_check($value) . '</a>';
 					}
 				} elseif ($field->getFieldDataType() == 'email') {
-					$current_user = vglobal('current_user');
-					if ($current_user->internal_mailer == 1) {
-						//check added for email link in user detailview
-						$value = "<a class='emailField' onclick=\"Vtiger_Helper_Js.getInternalMailer($recordId," .
-							"'$fieldName','$module');\">" . textlength_check($value) . "</a>";
+					$currentUser = Users_Record_Model::getCurrentUserModel();
+					$value = Vtiger_Functions::textLength($value);
+					if ($currentUser->get('internal_mailer') == 1) {
+						$url = OSSMail_Module_Model::getComposeUrl($module, $recordId, 'Detail', 'new');
+						$mailConfig = OSSMail_Module_Model::getComposeParameters();
+						$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$module\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . vtranslate('LBL_SEND_EMAIL') . ">$value</a>";
 					} else {
-						$value = '<a class="emailField" href="mailto:' . $rawValue . '">' . textlength_check($value) . '</a>';
+						$value = '<a class="emailField" href="mailto:' . $rawValue . '">' . $value . '</a>';
 					}
 				} elseif ($field->getFieldDataType() == 'boolean') {
 					if ($value === 'on') {

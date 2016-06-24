@@ -56,6 +56,7 @@ var Vtiger_Index_Js = {
 	registerMailButtons: function (container) {
 		var thisInstance = this;
 		container.find('.sendMailBtn').click(function (e) {
+			e.stopPropagation();
 			var sendButton = jQuery(this);
 			var url = sendButton.data("url");
 			var module = sendButton.data("module");
