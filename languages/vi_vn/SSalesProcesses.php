@@ -1,0 +1,61 @@
+<?php
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+$languageStrings = [
+	'SSalesProcesses' => 'Hồ sơ',
+	'SINGLE_SSalesProcesses' => 'Hồ sơ',
+	
+	//BLOCKS
+	'LBL_SSALESPROCESSES_INFORMATION' => 'Thông Tin Hồ Sơ',
+	'LBL_CUSTOM_INFORMATION' => 'Thông Tin Hệ Thống',
+	'LBL_DESCRIPTION_INFORMATION' => 'Mô tả chi tiết',
+	'LBL_ATTENTION' => 'Bình luận',
+	'LBL_FINANCES' => 'Tín dụng',
+	
+	//FIELDS
+	'LBL_SUBJECT' => 'Chủ đề',
+	'LBL_NUMBER' => 'Number',
+	'LBL_CLOSED_TIME' => 'Thời gian đóng',
+	'FL_ESTIMATED' => 'Giá trị đề xuất',
+	'FL_ACTUAL_SALE' => 'Giá trị thực tế',
+	'FL_ESTIMATED_DATE' => 'Thời điểm dự kiến',
+	'FL_ACTUAL_DATE' => 'Thời điểm chốt',
+	'FL_PROBABILITY' => 'Xác suất',
+	'FL_SOURCE' => 'Nguồn',
+	'FL_TYPE' => 'Kiểu',
+	'FL_STATUS' => 'Trạng thái',
+	
+	//Picklist
+	'PLL_WEBSITE' => 'Website',
+	'PLL_PHONE' => 'Phone',
+	'PLL_MAIL_CAMPAIGN' => 'Mail campaign',
+	'PLL_CONFERENCE' => 'Conference',
+	'PLL_RECOMMENDATION' => 'Recommendation',
+	'PLL_MEETING' => 'Meeting',
+	'PLL_ADVERTISING' => 'Advertising',
+	'PLL_COMMUNITY' => 'Community',
+	'PLL_OTHER' => 'Other',
+	'PLL_NEW_SALES' => 'Bán mới',
+	'PLL_RENEWAL' => 'Đổi mới',
+	'PLL_AFTERSALES' => 'Sau bán',
+	'PLL_TENDER' => 'Đề nghị',
+	'PLL_DRAFT' => 'Draft',
+	'PLL_FOR_REALIZATION' => 'For realization',
+	'PLL_QUOTE_ENQUIRY' => 'Quote enquiry',
+	'PLL_REQUIREMENTS_CARD' => 'Requirements Card',
+	'PLL_CALCULATION' => 'Calculation',
+	'PLL_QUOTE' => 'Quote',
+	'PLL_NEGOTIATIONS' => 'Negotiations',
+	'PLL_AWAITING_DECISION' => 'Awaiting decision',
+	'PLL_AWAITING_SIGNATURES' => 'Awaiting signatures',
+	'PLL_ORDER' => 'Order',
+	'PLL_REALIZATION' => 'Realization',
+	'PLL_AWAITING_PAYMENT' => 'Awaiting payment',
+	'PLL_INVOICING' => 'Invoicing',
+	'PLL_SALE_COMPLETED' => 'FINISH',
+	'PLL_SALE_FAILED' => 'REJ',
+	'PLL_SALE_CANCELLED' => 'CAN',
+	
+	'LBL_SWITCHHEADER_ON_0' => 'Mở',
+	'LBL_SWITCHHEADER_OFF_0' => 'Đóng',
+	'LBL_HEADERSWITCH_OPEN_CLOSED' => 'Đang mở/Đã đóng',
+];
