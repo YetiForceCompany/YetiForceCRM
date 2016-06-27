@@ -119,6 +119,7 @@ class Users extends CRMEntity
 		$this->column_fields['currency_code'] = '';
 		$this->column_fields['currency_symbol'] = '';
 		$this->column_fields['conv_rate'] = '';
+		$this->column_fields['internal_mailer'] = 1;
 	}
 
 	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
