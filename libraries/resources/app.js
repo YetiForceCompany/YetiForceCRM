@@ -422,21 +422,23 @@ var app = {
 							}
 						}, this))
 			};
-
-			container.find('.modal:first').modal(params);
+			var modalContainer = container.find('.modal:first');
+			modalContainer.modal(params);
 			jQuery('body').append(container);
 			// TODO Make it better with jQuery.on
-			app.changeSelectElementView(container);
+			app.changeSelectElementView(modalContainer);
 			//register all select2 Elements
-			app.showSelect2ElementView(container.find('select.select2'));
-			app.showSelectizeElementView(container.find('select.selectize'));
+			app.showSelect2ElementView(modalContainer.find('select.select2'));
+			app.showSelectizeElementView(modalContainer.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
-			app.registerEventForDatePickerFields(container);
+			app.registerEventForDatePickerFields(modalContainer);
 
-			thisInstance.registerModalEvents(container);
-			thisInstance.showPopoverElementView(container.find('.popoverTooltip'));
-			thisInstance.registerDataTables(container.find('.dataTable'));
-			cb(container);
+			thisInstance.registerModalEvents(modalContainer);
+			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
+			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
+			modalContainer.on('shown.bs.modal', function () {
+				cb(modalContainer);
+			})
 		}
 		if (data) {
 			showModalData(data)
@@ -1454,9 +1456,9 @@ var app = {
 			var content = btn.closest('.moreContent');
 			content.find('.teaserContent').toggleClass('hide');
 			content.find('.fullContent').toggleClass('hide');
-			if(btn.text() == btn.data('on')){
+			if (btn.text() == btn.data('on')) {
 				btn.text(btn.data('off'));
-			}else{
+			} else {
 				btn.text(btn.data('on'));
 			}
 		});
