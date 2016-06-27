@@ -3,11 +3,6 @@
 -->*}
 {strip}
 	<div class="actions pull-right">
-		{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
-			<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed">
-				<span class="badge bgDanger"></span>&nbsp;
-			</a>&nbsp;
-		{/if}
 		{if $PASS_ID}
 			<a href="#" id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}" ><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
 		{/if}

@@ -6,10 +6,8 @@
 			<thead>
 				<tr class="listViewHeaders">
 					{assign var=COUNT value=0}
-					{if $IS_FAVORITES}
-						<th></th>
-						{/if}
-						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+					<th class="noWrap"></th>
+					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 								{break}
 							{/if}
@@ -40,15 +38,20 @@
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 					{/if}>
 					{assign var=COUNT value=0}
-					{if $IS_FAVORITES}
-						<td class="{$WIDTHTYPE} text-center text-center font-larger">
+					<td class="{$WIDTHTYPE} text-center text-center font-larger">
+						{if $IS_FAVORITES}
 							{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 							<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
 								<span title="{vtranslate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
 								<span title="{vtranslate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
 							</a>
-						</td>
-					{/if}
+						{/if}
+						{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
+							<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed">
+								<span class="badge bgDanger"></span>&nbsp;
+							</a>&nbsp;
+						{/if}
+					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 							{break}

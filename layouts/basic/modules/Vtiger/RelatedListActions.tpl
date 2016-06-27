@@ -3,11 +3,6 @@
 -->*}
 {strip}
 	<div class="pull-right actions">
-		{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
-			<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed">
-				<span class="badge bgDanger"></span>&nbsp;
-			</a>&nbsp;
-		{/if}
 		<span class="actionImages">
 			{if $RELATED_MODULE->isPermitted('WatchingRecords') && $RELATED_RECORD->isViewable()}
 				{assign var=WATCHING_STATE value=(!$RELATED_RECORD->isWatchingRecord())|intval}

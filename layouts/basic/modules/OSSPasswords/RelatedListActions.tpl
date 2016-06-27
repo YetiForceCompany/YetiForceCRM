@@ -3,11 +3,6 @@
 -->*}
 {strip}
 	<div class="pull-right actions">
-		{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
-			<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed">
-				<span class="badge bgDanger"></span>&nbsp;
-			</a>&nbsp;
-		{/if}
 		{* button for copying password to clipboard *}  
 		<a href="#" id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $RELATED_MODULE_NAME)}"><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
 		<span class="actionImages">

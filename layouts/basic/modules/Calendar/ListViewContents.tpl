@@ -113,8 +113,13 @@
 				}
 				</style>
 			{/if}
-            <td class="{$WIDTHTYPE}">
+            <td class="{$WIDTHTYPE} noWrap">
 				<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}"/>
+				{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
+					<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed">
+						<span class="badge bgDanger"></span>&nbsp;
+					</a>&nbsp;
+				{/if}
 			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 			{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
@@ -139,11 +144,6 @@
 			{if $LISTVIEW_HEADER@last}
 			<td nowrap class="{$WIDTHTYPE}">		
 				<div class="actions pull-right">
-					{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
-						<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed">
-							<span class="badge bgDanger"></span>&nbsp;
-						</a>&nbsp;
-					{/if}
 					<span class="actionImages">
 						{if $MODULE_MODEL->isPermitted('WatchingRecords') && $LISTVIEW_ENTRY->isViewable()}
 							{assign var=WATCHING_STATE value=(!$LISTVIEW_ENTRY->isWatchingRecord())|intval}

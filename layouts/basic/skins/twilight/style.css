@@ -956,6 +956,9 @@ td.fieldValue .input-group {
 .activityEntries .summaryViewEntries a{
 	color: inherit !important;
 }
+.listViewEntriesTable .listViewEntries .unreviewed .badge{
+	margin: -5px 0 0 5px;
+}
 .listViewEntriesTable td.listViewEntryValue,
 .listViewEntries td {
 	vertical-align: middle;
