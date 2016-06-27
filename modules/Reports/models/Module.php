@@ -40,7 +40,7 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 			$result = $db->pquery('SELECT * FROM vtiger_homereportchart WHERE reportid = ?',array($reportId));
 			$numOfRows = $db->num_rows($result);
 			for ($i = 0; $i < $numOfRows; $i++) {
-				$homePageChartIdsList[] = $adb->query_result($result, $i, 'stuffid');
+				$homePageChartIdsList[] = $db->query_result($result, $i, 'stuffid');
 			}
 			if ($homePageChartIdsList) {
 				$deleteQuery = 'DELETE FROM vtiger_homestuff WHERE stuffid IN (' . implode(",", $homePageChartIdsList) . ')';

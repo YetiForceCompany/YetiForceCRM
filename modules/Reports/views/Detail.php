@@ -15,20 +15,6 @@ class Reports_Detail_View extends Vtiger_Index_View
 	protected $calculationFields;
 	protected $count;
 
-	public function checkPermission(Vtiger_Request $request)
-	{
-		$moduleName = $request->getModule();
-		$moduleModel = Reports_Module_Model::getInstance($moduleName);
-
-		$record = $request->get('record');
-		$reportModel = Reports_Record_Model::getCleanInstance($record);
-
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId()) && !$reportModel->isEditable()) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
-		}
-	}
-
 	const REPORT_LIMIT = 1000;
 
 	function preProcess(Vtiger_Request $request, $display = true)

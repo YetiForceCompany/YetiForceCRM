@@ -17,24 +17,6 @@ Class Reports_Edit_View extends Vtiger_Edit_View {
 		$this->exposeMethod('step3');
 	}
 
-	public function checkPermission(Vtiger_Request $request) {
-		$moduleName = $request->getModule();
-		$moduleModel = Reports_Module_Model::getInstance($moduleName);
-
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
-		}
-
-		$record = $request->get('record');
-		if ($record) {
-			$reportModel = Reports_Record_Model::getCleanInstance($record);
-			if (!$reportModel->isEditable()) {
-				throw new NoPermittedException('LBL_PERMISSION_DENIED');
-			}
-		}
-	}
-
 	public function preProcess(Vtiger_Request $request) {
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);

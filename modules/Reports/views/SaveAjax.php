@@ -44,7 +44,7 @@ class Reports_SaveAjax_View extends Vtiger_IndexAjax_View {
 		$pagingModel->set('limit', Reports_Detail_View::REPORT_LIMIT);
 
 		if ($mode === 'save') {
-			$reportModel->saveAdvancedFilters();
+			$reportModel->saveAdvancedFilters(false, $record);
 			$reportData = $reportModel->getReportData($pagingModel);
             $data = $reportData['data'];
 		} else if ($mode === 'generate') {
