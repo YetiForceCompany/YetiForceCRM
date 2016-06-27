@@ -119,7 +119,6 @@ class Users extends CRMEntity
 		$this->column_fields['currency_code'] = '';
 		$this->column_fields['currency_symbol'] = '';
 		$this->column_fields['conv_rate'] = '';
-		$this->column_fields['internal_mailer'] = 1;
 	}
 
 	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
@@ -615,53 +614,42 @@ class Users extends CRMEntity
 			$this->column_fields['time_zone'] = $dbDefaultTimeZone;
 			$this->time_zone = $dbDefaultTimeZone;
 		}
-		if (empty($this->column_fields['currency_id'])) {
-			$this->column_fields['currency_id'] = CurrencyField::getDBCurrencyId();
+		$defaults = [
+			'currency_id' => CurrencyField::getDBCurrencyId(),
+			'date_format' => 'yyyy-mm-dd',
+			'start_hour' => '08:00',
+			'end_hour' => '16:00',
+			'dayoftheweek' => 'Monday',
+			'activity_view' => 'Today',
+			'callduration' => 10,
+			'othereventduration' => 30,
+			'hour_format' => 24,
+			'activity_view' => 'This Month',
+			'calendarsharedtype' => 'public',
+			'default_record_view' => 'Summary',
+			'status' => 'Active',
+			'internal_mailer' => 1,
+			'defaulteventstatus' => 'PLL_PLANNED',
+			'defaultactivitytype' => 'Meeting',
+			'calendarsharedtype' => 'private',
+			'truncate_trailing_zeros' => 0,
+			'no_of_currency_decimals' => 2,
+			'currency_grouping_pattern' => '123,456,789',
+			'currency_symbol_placement' => '1.0$',
+			'truncate_trailing_zeros' => 0,
+			'reminder_interval' => '15 Minutes',
+			'rowheight' => 'medium',
+			'lead_view' => 'Today',
+		];
+		foreach ($defaults as $column => $value) {
+			if ($this->column_fields[$column] == '') {
+				$this->column_fields[$column] = $value;
+			}
 		}
-		if (empty($this->column_fields['date_format'])) {
-			$this->column_fields['date_format'] = 'yyyy-mm-dd';
-		}
-
-		if (empty($this->column_fields['start_hour'])) {
-			$this->column_fields['start_hour'] = '08:00';
-		}
-
-		if (empty($this->column_fields['dayoftheweek'])) {
-			$this->column_fields['dayoftheweek'] = 'Monday';
-		}
-
-		if (empty($this->column_fields['callduration'])) {
-			$this->column_fields['callduration'] = 5;
-		}
-
-		if (empty($this->column_fields['othereventduration'])) {
-			$this->column_fields['othereventduration'] = 5;
-		}
-
-		if (empty($this->column_fields['hour_format'])) {
-			$this->column_fields['hour_format'] = 24;
-		}
-
-		if (empty($this->column_fields['activity_view'])) {
-			$this->column_fields['activity_view'] = 'This Month';
-		}
-
-		if (empty($this->column_fields['calendarsharedtype'])) {
-			$this->column_fields['calendarsharedtype'] = 'public';
-		}
-
-		if (empty($this->column_fields['default_record_view'])) {
-			$this->column_fields['default_record_view'] = 'Summary';
-		}
-
-		if (empty($this->column_fields['status'])) {
-			$this->column_fields['status'] = 'Active';
-		}
-
+		
 		if (empty($this->column_fields['currency_decimal_separator']) && $this->column_fields['currency_decimal_separator'] != ' ') {
 			$this->column_fields['currency_decimal_separator'] = '.';
 		}
-
 		if (empty($this->column_fields['currency_grouping_separator']) && $this->column_fields['currency_grouping_separator'] != ' ') {
 			$this->column_fields['currency_grouping_separator'] = ' ';
 		}
@@ -957,8 +945,8 @@ class Users extends CRMEntity
 		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
 			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
-			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ',';
-			$this->column_fields['currency_symbol_placement'] = $this->currency_symbol_placement = '$1.0';
+			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ' ';
+			$this->column_fields['currency_symbol_placement'] = $this->currency_symbol_placement = '1.0$';
 		}
 
 		$this->id = $record;
