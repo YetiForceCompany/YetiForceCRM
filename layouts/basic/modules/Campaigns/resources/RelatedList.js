@@ -55,7 +55,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 			app.showSelect2ElementView(filterSelectElement, {
 				templateSelection: function (data) {
 					var resultContainer = jQuery('<span></span>');
-					resultContainer.append(jQuery(jQuery('.filterImage').clone().get(0)).show());
+					resultContainer.append(jQuery(jQuery('.filterImage').detach().get(0)).show());
 					resultContainer.append(data.text);
 					return resultContainer;
 				},
@@ -71,27 +71,29 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 	 */
 
 	registerChangeCustomFilterEvent: function () {
-		var filterSelectElement = jQuery('#recordsFilter');
-		filterSelectElement.change(function (e) {
+		var thisInstance = this;
+		var relatedContainer = thisInstance.getRelatedContainer();
+		var filterSelectElement = relatedContainer.find('.loadFormFilterButton');
+		var recordsFilter = relatedContainer.find('#recordsFilter');
+		filterSelectElement.click(function (e) {
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 					function () {
-						var element = jQuery(e.currentTarget);
-						var cvId = element.find('option:selected').data('id');
-						var relatedModuleName = jQuery('.relatedModuleName').val();
+						var cvId = recordsFilter.val();
+						var relatedModuleName = relatedContainer.find('.relatedModuleName').val();
 						var params = {
-							'sourceRecord': jQuery('#recordId').val(),
-							'relatedModule': relatedModuleName,
-							'viewId': cvId,
-							'module': app.getModuleName(),
-							'action': "RelationAjax",
-							'mode': 'addRelationsFromRelatedModuleViewId'
+							sourceRecord: app.getRecordId(),
+							relatedModule: relatedModuleName,
+							viewId: cvId,
+							module: app.getModuleName(),
+							action: "RelationAjax",
+							mode: 'addRelationsFromRelatedModuleViewId'
 						}
 
 						var progressIndicatorElement = jQuery.progressIndicator({
-							'position': 'html',
-							'blockInfo': {
-								'enabled': true
+							position: 'html',
+							blockInfo: {
+								enabled: true
 							}
 						});
 						AppConnector.request(params).then(

@@ -25,6 +25,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 	getParentId: function () {
 		return this.parentRecordId;
 	},
+	getRelatedContainer: function () {
+		return this.relatedContentContainer;
+	},
 	loadRelatedList: function (params) {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
@@ -463,8 +466,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		params['action'] = "RelationAjax";
 		params['module'] = this.parentModuleName;
 		params['record'] = this.getParentId(),
-				params['relatedModule'] = this.relatedModulename,
-				params['tab_label'] = this.selectedRelatedTabElement.data('label-key');
+		params['relatedModule'] = this.relatedModulename,
+		params['tab_label'] = this.selectedRelatedTabElement.data('label-key');
 		params['mode'] = "getRelatedListPageCount"
 
 		var element = jQuery('#totalPageCount');
@@ -648,5 +651,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		this.detailViewContainer = this.relatedTabsContainer.closest('div.detailViewContainer');
 		this.relatedContentContainer = jQuery('div.contents', this.detailViewContainer);
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
+		app.showPopoverElementView(this.relatedContentContainer.find('.popoverTooltip'));
 	}
 })

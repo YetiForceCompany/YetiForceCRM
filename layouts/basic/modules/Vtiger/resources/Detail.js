@@ -2888,7 +2888,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				moreBtn.removeClass('hide');
 			}
 		}
-
 	},
 	refreshCommentContainer: function (commentId) {
 		var thisInstance = this;

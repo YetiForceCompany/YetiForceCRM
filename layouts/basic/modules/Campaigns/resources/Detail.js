@@ -231,8 +231,8 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 		relatedController.registerEvents();
 	},
 	registerEvents: function () {
-		this.registerRelatedListEvents();
 		this._super();
+		this.registerRelatedListEvents();
 		//Calling registerevents of campaigns list to handle checkboxs click of related records
 		var listInstance = Vtiger_List_Js.getInstance();
 		listInstance.registerEvents();

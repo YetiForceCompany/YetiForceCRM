@@ -47,25 +47,33 @@
 						{/foreach}
 						&nbsp;
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-2">
 						<span class="customFilterMainSpan">
 							{if $CUSTOM_VIEWS|@count gt 0}
 								<select id="recordsFilter" class="col-md-12" data-placeholder="{vtranslate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
 									{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-										<optgroup label=' {if $GROUP_LABEL eq 'Mine'} &nbsp; {else if} {vtranslate($GROUP_LABEL)} {/if}' >
+										<optgroup label="{vtranslate($GROUP_LABEL)}">
 											{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 												<option id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}">{if $CUSTOM_VIEW->get('viewname') eq 'All'}{vtranslate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)} {vtranslate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}{else}{vtranslate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)}{/if}{if $GROUP_LABEL neq 'Mine'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
 											{/foreach}
 										</optgroup>
 									{/foreach}
 								</select>
-								<img class="filterImage" src="{'filter.png'|vimage_path}" style="display:none;height:13px;margin-right:2px;vertical-align: middle;">
+								<span class="filterImage">
+									<span class="glyphicon glyphicon-filter"></span>
+								</span>
 							{else}
 								<input type="hidden" value="0" id="customFilter" />
 							{/if}
 						</span>
 					</div>
-					<div class="col-md-5">
+					<div class="col-md-2">
+						<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{vtranslate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
+							<span class="glyphicon glyphicon-filter"></span>&nbsp;
+							<strong>{vtranslate('LBL_LOAD_RECORDS',$MODULE)}</strong>
+						</button>
+					</div>
+					<div class="col-md-4">
 						<div class="paginationDiv pull-right">
 							{include file='RelatedListPagination.tpl'|@vtemplate_path:$MODULE}
 						</div>
@@ -94,8 +102,8 @@
 								</th>
 								{if $IS_FAVORITES}
 									<th></th>
-								{/if}
-								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+									{/if}
+									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									<th nowrap>
 										{if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists' }
 											<a href="javascript:void(0);" class="noSorting">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
