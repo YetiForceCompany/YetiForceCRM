@@ -64,6 +64,7 @@ $languageStrings = [
 	'LBL_SHITCH_HEADER' => 'Schalter im Header',
 	'LBL_SHITCH_HEADER_INFO' => 'Schalter befindet sich im Widget\'s Header.',
 	'HistoryRelation' => 'Timeline',
+	'CountRecords' => 'Number of records'
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Laden...',

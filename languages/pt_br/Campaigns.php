@@ -58,6 +58,7 @@ $languageStrings = [
 	'Webinar' => 'Webinar',
 	'Message sent' => 'Message sent',
 	'Campaign status' => 'Status Campanha',
+	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records'
 ];
 $jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Tem certeza que deseja adicionar este filtro de registros?',

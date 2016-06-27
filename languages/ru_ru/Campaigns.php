@@ -58,6 +58,7 @@ $languageStrings = [
 	'Completed' => 'Завершена',
 	'Partners' => 'Партнеры',
 	'Campaign status' => 'Статус',
+	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records'
 ];
 $jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Вы уверены, что хотите добавить эту запись в фильтр?',
