@@ -32,5 +32,5 @@ $PERFORMANCE_CONFIG = [
 	// Show in search engine/filters only users and groups available in records list. It might result in a longer search time.
 	'SEARCH_SHOW_OWNER_ONLY_IN_LIST' => true,
 	// Time to update number of notifications in seconds
-	'INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK' => 10,
+	'INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK' => 5,
 ];

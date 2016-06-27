@@ -44,7 +44,7 @@
 body {
 	width: 100%;
 	height: 100%;
-	font-family: 'Open Sans', 'Lucida Grande', Verdana, Tahoma, Arial, sans-serif !important;
+	font-family: Arial, sans-serif !important;
 	font-size: 12px !important;
 	background: #ffffff;
 	color: #2b2b2b;
@@ -2367,7 +2367,7 @@ span.wrapper a {
 	font-weight: bold;
 }
 a {
-	color: #353c44;
+	color: #365899;
 }
 a:hover {
 	color: #1e2327;
@@ -3549,7 +3549,8 @@ span[name=existingImages] img{
 	height:100%;
 }
 .bodyHeader{
-	background-color: #009688;
+	background-color: #3b5998;
+    border-bottom: 1px solid #29487d;
 	color: #fff;
 	height: 50px;
 	position: fixed;
@@ -3981,7 +3982,7 @@ html,body,.baseContainer
 .labelConstainer{
 	height:33px;
 	display: table;
-	width: 145px;
+	width: 160px;
 }
 .labelConstainer .labelValue{
 	display: table-cell;
@@ -4047,7 +4048,7 @@ html,body,.baseContainer
 	padding: 5px;
 }
 .blockContainer .blockHeader .iconCollapse{
-	padding:10px;
+	padding:7px;
 }
 .quickCreateContent .fieldLabel  label,
 .blockContainer .blockContent .fieldLabel  label{
