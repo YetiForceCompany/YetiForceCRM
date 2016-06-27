@@ -45,13 +45,7 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
   db_name
  */
 
-$dbconfig['db_server'] = 'localhost';
-$dbconfig['db_port'] = '3306';
-$dbconfig['db_username'] = 'equrzutl_work';
-$dbconfig['db_password'] = 'QuH)TIO1HOic';
-$dbconfig['db_name'] = 'equrzutl_work';
-$dbconfig['db_type'] = 'mysql';
-$dbconfig['db_status'] = 'true';
+
 
 // TODO: test if port is empty
 // TODO: set db_hostname dependending on db_type
