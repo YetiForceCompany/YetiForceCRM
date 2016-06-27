@@ -8991,7 +8991,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 

@@ -5826,6 +5826,7 @@ insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`se
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2337,'OSSSoldServices','FInvoice',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2340,'SSingleOrders','IStorages',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2345,'IGDN','SSingleOrders',NULL,NULL);
+insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (601,'ModComments','Campaigns',NULL,NULL);
 
 /*Data for the table `vtiger_finvoice_formpayment` */
 
@@ -6409,10 +6410,11 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (279,3,'DASHBOARDWIDGET','LBL_NEW_ACCOUNTS','index.php?module=Accounts&view=ShowWidget&name=NewAccounts','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (280,3,'DASHBOARDWIDGET','LBL_NEGLECTED_ACCOUNTS','index.php?module=Accounts&view=ShowWidget&name=NeglectedAccounts','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (281,3,'DASHBOARDWIDGET','Chart','index.php?module=Reports&view=ShowWidget&name=Charts','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (282,26,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (281);
+insert  into `vtiger_links_seq`(`id`) values (282);
 
 /*Data for the table `vtiger_loginhistory` */
 
@@ -19997,10 +19999,10 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (62,18,54,'get_emails',4,'OSSMailView',0,'SEND',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (81,9,0,'get_users',1,'Users',0,'',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (82,9,4,'get_contacts',2,'Contacts',0,'',0,0,0);
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (84,26,7,'get_campaigns_records',3,'Leads',0,'ADD,SELECT',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (84,26,7,'get_campaigns_records',4,'Leads',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (86,26,9,'get_activities',1,'Activities',0,'ADD',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (87,6,26,'get_campaigns',6,'Campaigns',0,'select',0,0,0);
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (88,26,6,'get_campaigns_records',4,'Accounts',0,'ADD,SELECT',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (88,26,6,'get_campaigns_records',5,'Accounts',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (89,15,8,'get_attachments',1,'Documents',0,'add,select',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (92,6,33,'get_dependents_list',7,'PBXManager',0,'',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (95,6,34,'get_dependents_list',8,'Service Contracts',0,'ADD',0,0,0);
@@ -20177,13 +20179,13 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (439,54,89,'get_record2mails',20,'SQuotes',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (440,54,90,'get_record2mails',21,'SSingleOrders',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (441,54,91,'get_record2mails',22,'SRecurringOrders',0,'ADD,SELECT',0,0,0);
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (442,26,18,'get_campaigns_records',6,'Vendors',0,'ADD,SELECT',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (442,26,18,'get_campaigns_records',7,'Vendors',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (443,18,26,'get_campaigns',16,'Campaigns',0,'SELECT',0,0,0);
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (444,26,4,'get_campaigns_records',5,'Contacts',0,'ADD,SELECT',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (444,26,4,'get_campaigns_records',6,'Contacts',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (445,4,26,'get_campaigns',28,'Campaigns',0,'SELECT',0,0,0);
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (446,26,92,'get_campaigns_records',7,'Partners',0,'ADD,SELECT',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (446,26,92,'get_campaigns_records',8,'Partners',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (447,92,26,'get_campaigns',6,'Campaigns',0,'SELECT',0,0,0);
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (448,26,93,'get_campaigns_records',8,'Competition',0,'ADD,SELECT',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (448,26,93,'get_campaigns_records',9,'Competition',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (449,93,26,'get_campaigns',6,'Campaigns',0,'SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (450,6,94,'get_dependents_list',24,'FBookkeeping',0,'ADD',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (451,6,95,'get_dependents_list',25,'FInvoice',0,'ADD',0,0,0);
@@ -20244,6 +20246,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (506,86,60,'get_related_list',17,'OSSPasswords',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (507,43,60,'get_related_list',10,'OSSPasswords',0,'ADD,SELECT',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (508,61,60,'get_dependents_list',9,'OSSPasswords',0,'ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (509,26,8,'get_attachments',3,'Documents',0,'ADD,SELECT',0,0,0);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -20251,7 +20254,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 
 /*Data for the table `vtiger_relatedlists_seq` */
 
-insert  into `vtiger_relatedlists_seq`(`id`) values (508);
+insert  into `vtiger_relatedlists_seq`(`id`) values (509);
 
 /*Data for the table `vtiger_relcriteria` */
 
@@ -24946,6 +24949,10 @@ insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nom
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (157,91,'RelatedModule','Documents',2,3,NULL,'{\"relatedmodule\":\"8\",\"limit\":\"\",\"columns\":\"3\",\"action\":\"1\",\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (158,91,'EmailList','Emails',2,4,NULL,'{\"relatedmodule\":\"Emails\",\"limit\":\"5\"}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (159,91,'Comments','ModComments',2,5,NULL,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (160,26,'Summary',NULL,1,0,0,'[]');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (161,26,'Comments','ModComments',2,3,0,'{\"relatedmodule\":\"ModComments\",\"limit\":\"5\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (162,26,'RelatedModule','Documents',2,2,0,'{\"relatedmodule\":\"8\",\"limit\":\"5\",\"columns\":\"3\",\"action\":\"1\",\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`nomargin`,`data`) values (163,26,'Updates','LBL_UPDATES',1,1,0,'[]');
 
 /*Data for the table `vtiger_ws_entity` */
 
