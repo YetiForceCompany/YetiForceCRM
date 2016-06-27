@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="Autoloader.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438670463079" remote="131112784800000000" Dst="0" />
+<file name="CachedObjectStorageFactory.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438682489387" remote="131112784800000000" Dst="0" />
+<file name="Calculation.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438700816005" remote="131112784800000000" Dst="0" />
+<file name="Cell.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438705260815" remote="131112784800000000" Dst="0" />
+<file name="Chart.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438712411916" remote="131112784800000000" Dst="0" />
+<file name="Comment.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438712757187" remote="131112784800000000" Dst="0" />
+<file name="DocumentProperties.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438714794681" remote="131112784800000000" Dst="0" />
+<file name="DocumentSecurity.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438714593917" remote="131112784800000000" Dst="0" />
+<file name="Exception.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438714914777" remote="131112784800000000" Dst="0" />
+<file name="HashTable.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438716210772" remote="131112784800000000" Dst="0" />
+<file name="IComparable.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438716786224" remote="131112784800000000" Dst="0" />
+<file name="IOFactory.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438717016578" remote="131112784800000000" Dst="0" />
+<file name="NamedRange.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438718843044" remote="131112784800000000" Dst="0" />
+<file name="ReferenceHelper.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438734352731" remote="131112784800000000" Dst="0" />
+<file name="RichText.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438736445557" remote="131112784800000000" Dst="0" />
+<file name="Settings.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438736635681" remote="131112784800000000" Dst="0" />
+<file name="Style.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438780926622" remote="131112784800000000" Dst="0" />
+<file name="WorksheetIterator.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438797330155" remote="131112784800000000" Dst="0" />
+<file name="Worksheet.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438798985430" remote="131112784800000000" Dst="0" />
+</dwsync>

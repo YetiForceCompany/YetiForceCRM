@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="DetailViewBase.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438164384101" remote="131112784800000000" Dst="0" />
+<file name="DetailViewDiscountMode.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438166140663" remote="131112784800000000" Dst="0" />
+<file name="DetailViewItemNumber.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438166210718" remote="131112784800000000" Dst="0" />
+<file name="DetailViewName.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438166260751" remote="131112784800000000" Dst="0" />
+<file name="DetailViewPicklistField.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438168057512" remote="131112784800000000" Dst="0" />
+<file name="DetailViewTaxMode.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438168077540" remote="131112784800000000" Dst="0" />
+<file name="EditViewComment.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438168137614" remote="131112784800000000" Dst="0" />
+<file name="EditViewCurrency.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438169904191" remote="131112784800000000" Dst="0" />
+<file name="EditViewDiscount.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438169974358" remote="131112784800000000" Dst="0" />
+<file name="EditViewDiscountMode.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438170044288" remote="131112784800000000" Dst="0" />
+<file name="EditViewGrossPrice.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438171821870" remote="131112784800000000" Dst="0" />
+<file name="EditViewItemNumber.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438171861890" remote="131112784800000000" Dst="0" />
+<file name="EditViewMargin.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438171911929" remote="131112784800000000" Dst="0" />
+<file name="EditViewMarginP.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438173663367" remote="131112784800000000" Dst="0" />
+<file name="EditViewName.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438173713408" remote="131112784800000000" Dst="0" />
+<file name="EditViewNetPrice.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438173783515" remote="131112784800000000" Dst="0" />
+<file name="EditViewPicklistField.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438175599871" remote="131112784800000000" Dst="0" />
+<file name="EditViewPurchase.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438175659922" remote="131112784800000000" Dst="0" />
+<file name="EditViewQuantity.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438175699936" remote="131112784800000000" Dst="0" />
+<file name="EditViewReference.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438177348695" remote="131112784800000000" Dst="0" />
+<file name="EditViewTax.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438177408743" remote="131112784800000000" Dst="0" />
+<file name="EditViewTaxMode.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438177458776" remote="131112784800000000" Dst="0" />
+<file name="EditViewTotalPrice.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438179350188" remote="131112784800000000" Dst="0" />
+<file name="EditViewUnitPrice.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438179410265" remote="131112784800000000" Dst="0" />
+<file name="EditViewValue.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438179470299" remote="131112784800000000" Dst="0" />
+</dwsync>

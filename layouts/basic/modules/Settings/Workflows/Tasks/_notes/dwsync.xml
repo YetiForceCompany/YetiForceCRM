@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="VTAddressBookTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437926514623" remote="131112784800000000" Dst="0" />
+<file name="VTCreateEntityTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437926564656" remote="131112784800000000" Dst="0" />
+<file name="VTCreateEventTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437928812005" remote="131112784800000000" Dst="0" />
+<file name="VTCreateTodoTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437928902072" remote="131112784800000000" Dst="0" />
+<file name="VTEmailTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437928962200" remote="131112784800000000" Dst="0" />
+<file name="VTEmailTemplateTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437930990844" remote="131112784800000000" Dst="0" />
+<file name="VTEntityMethodTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437931040879" remote="131112784800000000" Dst="0" />
+<file name="VTSendNotificationTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437933268881" remote="131112784800000000" Dst="0" />
+<file name="VTSendPdf.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437933329038" remote="131112784800000000" Dst="0" />
+<file name="VTSMSTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437931106393" remote="131112784800000000" Dst="0" />
+<file name="VTUpdateCalendarDates.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437933348944" remote="131112784800000000" Dst="0" />
+<file name="VTUpdateClosedTime.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437935120573" remote="131112784800000000" Dst="0" />
+<file name="VTUpdateFieldsTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437935180621" remote="131112784800000000" Dst="0" />
+<file name="VTUpdateRelatedFieldTask.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437935240684" remote="131112784800000000" Dst="0" />
+<file name="VTUpdateWorkTime.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437936862965" remote="131112784800000000" Dst="0" />
+<file name="VTWatchdog.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437936933075" remote="131112784800000000" Dst="0" />
+</dwsync>

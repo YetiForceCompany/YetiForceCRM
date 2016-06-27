@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="Body.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438024256951" remote="131112784800000000" Dst="0" />
+<file name="ChangePassword.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438024377011" remote="131112784800000000" Dst="0" />
+<file name="ChangePasswordUser.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438026704208" remote="131112784800000000" Dst="0" />
+<file name="DeleteUser.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438026774270" remote="131112784800000000" Dst="0" />
+<file name="DetailViewFullContents.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438026834309" remote="131112784800000000" Dst="0" />
+<file name="EditPasswords.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438029006132" remote="131112784800000000" Dst="0" />
+<file name="EditView.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438029056159" remote="131112784800000000" Dst="0" />
+<file name="Export.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438029121208" remote="131112784800000000" Dst="0" />
+<file name="ForgotPassword.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438031669426" remote="131112784800000000" Dst="0" />
+<file name="FPLogin.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438031419251" remote="131112784800000000" Dst="0" />
+<file name="ListViewContents.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438031769480" remote="131112784800000000" Dst="0" />
+<file name="ListViewHeader.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438033010436" remote="131112784800000000" Dst="0" />
+<file name="ListViewPreProcess.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438033615883" remote="131112784800000000" Dst="0" />
+<file name="Login.Default.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438033766001" remote="131112784800000000" Dst="0" />
+<file name="Login.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438035667420" remote="131112784800000000" Dst="0" />
+<file name="OperationNotPermitted.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438035787511" remote="131112784800000000" Dst="0" />
+<file name="PopupContents.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438035867574" remote="131112784800000000" Dst="0" />
+<file name="PreferenceDetailViewHeader.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438037624361" remote="131112784800000000" Dst="0" />
+<file name="PreferenceDetailViewPreProcess.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438037684415" remote="131112784800000000" Dst="0" />
+<file name="SwitchUsers.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438037754462" remote="131112784800000000" Dst="0" />
+<file name="TransferOwner.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438039396053" remote="131112784800000000" Dst="0" />
+<file name="UserEditViewPreProcess.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438039476121" remote="131112784800000000" Dst="0" />
+<file name="UserViewHeader.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438039536169" remote="131112784800000000" Dst="0" />
+<file name="UserViewPreProcess.tpl" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438041762817" remote="131112784800000000" Dst="0" />
+</dwsync>

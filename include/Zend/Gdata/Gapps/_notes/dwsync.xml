@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="EmailListEntry.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436890052054" remote="131112784800000000" Dst="0" />
+<file name="EmailListFeed.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436891763336" remote="131112784800000000" Dst="0" />
+<file name="EmailListQuery.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436891923447" remote="131112784800000000" Dst="0" />
+<file name="EmailListRecipientEntry.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436892113704" remote="131112784800000000" Dst="0" />
+<file name="EmailListRecipientFeed.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436893184397" remote="131112784800000000" Dst="0" />
+<file name="EmailListRecipientQuery.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436893844920" remote="131112784800000000" Dst="0" />
+<file name="Error.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436894035041" remote="131112784800000000" Dst="0" />
+<file name="GroupEntry.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436900147233" remote="131112784800000000" Dst="0" />
+<file name="GroupFeed.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436900207279" remote="131112784800000000" Dst="0" />
+<file name="GroupQuery.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436900377425" remote="131112784800000000" Dst="0" />
+<file name="MemberEntry.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436902065402" remote="131112784800000000" Dst="0" />
+<file name="MemberFeed.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436902155458" remote="131112784800000000" Dst="0" />
+<file name="MemberQuery.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436902345633" remote="131112784800000000" Dst="0" />
+<file name="NicknameEntry.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436904192717" remote="131112784800000000" Dst="0" />
+<file name="NicknameFeed.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436903922528" remote="131112784800000000" Dst="0" />
+<file name="NicknameQuery.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436904432942" remote="131112784800000000" Dst="0" />
+<file name="OwnerEntry.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436905591988" remote="131112784800000000" Dst="0" />
+<file name="OwnerFeed.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436906162399" remote="131112784800000000" Dst="0" />
+<file name="OwnerQuery.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436906372597" remote="131112784800000000" Dst="0" />
+<file name="Query.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436908062187" remote="131112784800000000" Dst="0" />
+<file name="ServiceException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436908277357" remote="131112784800000000" Dst="0" />
+<file name="UserEntry.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436908592607" remote="131112784800000000" Dst="0" />
+<file name="UserFeed.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436909683402" remote="131112784800000000" Dst="0" />
+<file name="UserQuery.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436910363911" remote="131112784800000000" Dst="0" />
+</dwsync>

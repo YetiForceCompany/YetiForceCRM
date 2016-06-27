@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="Client.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438938489976" remote="131112784800000000" Dst="0" />
+<file name="Collection.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438940952509" remote="131112784800000000" Dst="0" />
+<file name="CorePlugin.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438941372326" remote="131112784800000000" Dst="0" />
+<file name="Exception.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438955504818" remote="131112784800000000" Dst="0" />
+<file name="ICollection.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438961340711" remote="131112784800000000" Dst="0" />
+<file name="IExtendedCollection.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438961480813" remote="131112784800000000" Dst="0" />
+<file name="IFile.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438961630920" remote="131112784800000000" Dst="0" />
+<file name="IMoveTarget.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438963547578" remote="131112784800000000" Dst="0" />
+<file name="IMultiGet.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438963317414" remote="131112784800000000" Dst="0" />
+<file name="INode.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438963417486" remote="131112784800000000" Dst="0" />
+<file name="IProperties.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438965229217" remote="131112784800000000" Dst="0" />
+<file name="IQuota.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438965319335" remote="131112784800000000" Dst="0" />
+<file name="MkCol.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438969673059" remote="131112784800000000" Dst="0" />
+<file name="PropFind.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438973806064" remote="131112784800000000" Dst="0" />
+<file name="PropPatch.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438974036358" remote="131112784800000000" Dst="0" />
+<file name="Server.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438978742742" remote="131112784800000000" Dst="0" />
+<file name="ServerPlugin.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438978132311" remote="131112784800000000" Dst="0" />
+<file name="SimpleCollection.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438978362483" remote="131112784800000000" Dst="0" />
+<file name="SimpleFile.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438980401385" remote="131112784800000000" Dst="0" />
+<file name="TemporaryFileFilterPlugin.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438982594217" remote="131112784800000000" Dst="0" />
+<file name="Tree.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438982834379" remote="131112784800000000" Dst="0" />
+<file name="UUIDUtil.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438984450656" remote="131112784800000000" Dst="0" />
+<file name="Version.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438984570744" remote="131112784800000000" Dst="0" />
+<file name="File.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438959769349" remote="131112784800000000" Dst="0" />
+<file name="Node.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438971722860" remote="131112784800000000" Dst="0" />
+<file name="StringUtil.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438980591523" remote="131112784800000000" Dst="0" />
+</dwsync>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="antlr.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439280756338" remote="131112784800000000" Dst="0" />
+<file name="util.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439280906439" remote="131112784800000000" Dst="0" />
+<file name="Set.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439278368890" remote="131112784800000000" Dst="0" />
+<file name="IntStream.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439272117459" remote="131112784800000000" Dst="0" />
+<file name="CharStream.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439267760540" remote="131112784800000000" Dst="0" />
+<file name="RecognizerSharedState.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439278258777" remote="131112784800000000" Dst="0" />
+<file name="CharStreamState.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439269602034" remote="131112784800000000" Dst="0" />
+<file name="ANTLRStringStream.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439265428513" remote="131112784800000000" Dst="0" />
+<file name="Token.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439278739147" remote="131112784800000000" Dst="0" />
+<file name="CommonToken.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439269642051" remote="131112784800000000" Dst="0" />
+<file name="TokenStream.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439280646254" remote="131112784800000000" Dst="0" />
+<file name="CommonTokenStream.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439270022301" remote="131112784800000000" Dst="0" />
+<file name="RecognitionException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439276527459" remote="131112784800000000" Dst="0" />
+<file name="MismatchedTokenException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439274084777" remote="131112784800000000" Dst="0" />
+<file name="MissingTokenException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439276021997" remote="131112784800000000" Dst="0" />
+<file name="NoViableAltException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439276207214" remote="131112784800000000" Dst="0" />
+<file name="EarlyExitException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439271917331" remote="131112784800000000" Dst="0" />
+<file name="MismatchedRangeException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439273744538" remote="131112784800000000" Dst="0" />
+<file name="DFA.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439271276252" remote="131112784800000000" Dst="0" />
+<file name="MismatchedSetException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439273924669" remote="131112784800000000" Dst="0" />
+<file name="BaseRecognizer.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439268090778" remote="131112784800000000" Dst="0" />
+<file name="AntlrLexer.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439265808786" remote="131112784800000000" Dst="0" />
+<file name="AntlrParser.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439267105023" remote="131112784800000000" Dst="0" />
+</dwsync>

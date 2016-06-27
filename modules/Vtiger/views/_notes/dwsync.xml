@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="AddNotePad.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444662791143" remote="131112784800000000" Dst="0" />
+<file name="Basic.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444664447482" remote="131112784800000000" Dst="0" />
+<file name="BasicAjax.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444664597635" remote="131112784800000000" Dst="0" />
+<file name="BasicModal.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444664792813" remote="131112784800000000" Dst="0" />
+<file name="ComposeEmail.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444666589152" remote="131112784800000000" Dst="0" />
+<file name="DashBoard.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444666740000" remote="131112784800000000" Dst="0" />
+<file name="Edit.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444668616419" remote="131112784800000000" Dst="0" />
+<file name="Detail.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444666950149" remote="131112784800000000" Dst="0" />
+<file name="EditFieldByModal.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444668804008" remote="131112784800000000" Dst="0" />
+<file name="EmailsRelatedModulePopup.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444668954112" remote="131112784800000000" Dst="0" />
+<file name="EmailsRelatedModulePopupAjax.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444670035570" remote="131112784800000000" Dst="0" />
+<file name="Export.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444670636045" remote="131112784800000000" Dst="0" />
+<file name="FindDuplicates.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444670846801" remote="131112784800000000" Dst="0" />
+<file name="FindDuplicatesAjax.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444672438787" remote="131112784800000000" Dst="0" />
+<file name="Footer.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444672583936" remote="131112784800000000" Dst="0" />
+<file name="GenerateModal.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444672724067" remote="131112784800000000" Dst="0" />
+<file name="Header.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444673870058" remote="131112784800000000" Dst="0" />
+<file name="Import.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444674520563" remote="131112784800000000" Dst="0" />
+<file name="Index.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444674685751" remote="131112784800000000" Dst="0" />
+<file name="IndexAjax.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444676292993" remote="131112784800000000" Dst="0" />
+<file name="Inventory.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444676463111" remote="131112784800000000" Dst="0" />
+<file name="List.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444676698546" remote="131112784800000000" Dst="0" />
+<file name="ListAjax.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444677779494" remote="131112784800000000" Dst="0" />
+<file name="MassActionAjax.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444678610121" remote="131112784800000000" Dst="0" />
+<file name="MergeRecord.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444678329888" remote="131112784800000000" Dst="0" />
+<file name="MiniListWizard.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444680325710" remote="131112784800000000" Dst="0" />
+<file name="Pagination.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444680540895" remote="131112784800000000" Dst="0" />
+<file name="PDF.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444680165608" remote="131112784800000000" Dst="0" />
+<file name="Popup.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444682167327" remote="131112784800000000" Dst="0" />
+<file name="PopupAjax.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444682447537" remote="131112784800000000" Dst="0" />
+<file name="QuickCreateAjax.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444682287426" remote="131112784800000000" Dst="0" />
+<file name="RelatedCommentModal.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444684088831" remote="131112784800000000" Dst="0" />
+<file name="RelatedList.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444684248937" remote="131112784800000000" Dst="0" />
+<file name="ShowTagCloud.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444684429065" remote="131112784800000000" Dst="0" />
+<file name="ShowTagCloudTop.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444686001493" remote="131112784800000000" Dst="0" />
+<file name="ShowWidget.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444686151636" remote="131112784800000000" Dst="0" />
+<file name="SmartDetail.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444686331730" remote="131112784800000000" Dst="0" />
+<file name="TagCloudSearchAjax.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444687427551" remote="131112784800000000" Dst="0" />
+<file name="TooltipAjax.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444688008075" remote="131112784800000000" Dst="0" />
+<file name="TreeCategoryModal.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444688168174" remote="131112784800000000" Dst="0" />
+<file name="TreePopup.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444689811228" remote="131112784800000000" Dst="0" />
+<file name="TreeRecords.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444689971459" remote="131112784800000000" Dst="0" />
+<file name="WorkflowTrigger.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444690121451" remote="131112784800000000" Dst="0" />
+</dwsync>

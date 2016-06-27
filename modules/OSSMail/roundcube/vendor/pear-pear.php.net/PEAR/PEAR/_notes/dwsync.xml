@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="Autoloader.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443851668639" remote="131112784800000000" Dst="0" />
+<file name="Builder.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443852584623" remote="131112784800000000" Dst="0" />
+<file name="ChannelFile.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443855019156" remote="131112784800000000" Dst="0" />
+<file name="Command.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114665429423143" remote="131112784800000000" Dst="0" />
+<file name="Common.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443874175836" remote="131112784800000000" Dst="0" />
+<file name="Config.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114665429823419" remote="131112784800000000" Dst="0" />
+<file name="Dependency2.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443875722636" remote="131112784800000000" Dst="0" />
+<file name="DependencyDB.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443876413398" remote="131112784800000000" Dst="0" />
+<file name="ErrorStack.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443878805516" remote="131112784800000000" Dst="0" />
+<file name="Downloader.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443878565314" remote="131112784800000000" Dst="0" />
+<file name="Exception.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443878345158" remote="131112784800000000" Dst="0" />
+<file name="FixPHP5PEARWarnings.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443880342426" remote="131112784800000000" Dst="0" />
+<file name="Frontend.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114665427351497" remote="131112784800000000" Dst="0" />
+<file name="Installer.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443900760928" remote="131112784800000000" Dst="0" />
+<file name="PackageFile.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443908002661" remote="131112784800000000" Dst="0" />
+<file name="Packager.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443907807471" remote="131112784800000000" Dst="0" />
+<file name="Registry.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443912435623" remote="131112784800000000" Dst="0" />
+<file name="REST.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443912215455" remote="131112784800000000" Dst="0" />
+<file name="RunTest.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443912705806" remote="131112784800000000" Dst="0" />
+<file name="Validate.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443920596170" remote="131112784800000000" Dst="0" />
+<file name="XMLParser.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114443920756298" remote="131112784800000000" Dst="0" />
+</dwsync>

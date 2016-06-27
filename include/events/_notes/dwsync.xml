@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="include.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437081679008" remote="131112784800000000" Dst="0" />
+<file name="SqlResultIterator.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437071521184" remote="131112784800000000" Dst="0" />
+<file name="VTBatchData.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437073482706" remote="131112784800000000" Dst="0" />
+<file name="VTBatchEventTrigger.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437073372636" remote="131112784800000000" Dst="0" />
+<file name="VTEntityData.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437073682842" remote="131112784800000000" Dst="0" />
+<file name="VTEntityDelta.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437074893754" remote="131112784800000000" Dst="0" />
+<file name="VTEntityType.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437075594309" remote="131112784800000000" Dst="0" />
+<file name="VTEventCondition.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437075814459" remote="131112784800000000" Dst="0" />
+<file name="VTEventConditionParserLexer.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437077956155" remote="131112784800000000" Dst="0" />
+<file name="VTEventConditionParserParser.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437077545872" remote="131112784800000000" Dst="0" />
+<file name="VTEventConditionSymbol.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437077685957" remote="131112784800000000" Dst="0" />
+<file name="VTEventHandler.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437079052045" remote="131112784800000000" Dst="0" />
+<file name="VTEventsManager.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437079937708" remote="131112784800000000" Dst="0" />
+<file name="VTWSEntityType.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437081598948" remote="131112784800000000" Dst="0" />
+<file name="VTEventTrigger.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437079687528" remote="131112784800000000" Dst="0" />
+</dwsync>

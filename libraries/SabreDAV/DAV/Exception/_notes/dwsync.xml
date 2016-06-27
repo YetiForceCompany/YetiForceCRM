@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="BadRequest.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438941042085" remote="131112784800000000" Dst="0" />
+<file name="Conflict.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438943205258" remote="131112784800000000" Dst="0" />
+<file name="ConflictingLock.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438943325346" remote="131112784800000000" Dst="0" />
+<file name="Forbidden.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438943445434" remote="131112784800000000" Dst="0" />
+<file name="InsufficientStorage.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438945594768" remote="131112784800000000" Dst="0" />
+<file name="InvalidResourceType.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438945754893" remote="131112784800000000" Dst="0" />
+<file name="InvalidSyncToken.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438945900056" remote="131112784800000000" Dst="0" />
+<file name="LengthRequired.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438947050996" remote="131112784800000000" Dst="0" />
+<file name="Locked.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438947791519" remote="131112784800000000" Dst="0" />
+<file name="LockTokenMatchesRequestUri.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438947641398" remote="131112784800000000" Dst="0" />
+<file name="MethodNotAllowed.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438949382792" remote="131112784800000000" Dst="0" />
+<file name="NotAuthenticated.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438949502895" remote="131112784800000000" Dst="0" />
+<file name="NotFound.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438949602955" remote="131112784800000000" Dst="0" />
+<file name="NotImplemented.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438951315599" remote="131112784800000000" Dst="0" />
+<file name="PaymentRequired.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438951445680" remote="131112784800000000" Dst="0" />
+<file name="PreconditionFailed.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438951685856" remote="131112784800000000" Dst="0" />
+<file name="ReportNotSupported.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438952794904" remote="131112784800000000" Dst="0" />
+<file name="RequestedRangeNotSatisfiable.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438953372539" remote="131112784800000000" Dst="0" />
+<file name="ServiceUnavailable.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438953492639" remote="131112784800000000" Dst="0" />
+<file name="TooManyMatches.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438955214609" remote="131112784800000000" Dst="0" />
+<file name="UnsupportedMediaType.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438955314742" remote="131112784800000000" Dst="0" />
+</dwsync>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="config.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444735026532" remote="131112784800000000" Dst="0" />
+<file name="edittask.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444735236690" remote="131112784800000000" Dst="0" />
+<file name="VTWorkflowApplication.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444730487706" remote="131112784800000000" Dst="0" />
+<file name="VTTaskManager.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444729326713" remote="131112784800000000" Dst="0" />
+<file name="VTWorkflowManager.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444731096768" remote="131112784800000000" Dst="0" />
+<file name="VTWorkflowUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444732975377" remote="131112784800000000" Dst="0" />
+<file name="include.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444739119791" remote="131112784800000000" Dst="0" />
+<file name="include_webservices.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444740787044" remote="131112784800000000" Dst="0" />
+<file name="VTConditionalExpression.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444725046637" remote="131112784800000000" Dst="0" />
+<file name="VTEmailRecipientsTemplate.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444725186737" remote="131112784800000000" Dst="0" />
+<file name="VTEntityCache.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444725446910" remote="131112784800000000" Dst="0" />
+<file name="VTEntityMethodManager.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444726648063" remote="131112784800000000" Dst="0" />
+<file name="VTEventHandler.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444727195033" remote="131112784800000000" Dst="0" />
+<file name="VTJsonCondition.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444727375155" remote="131112784800000000" Dst="0" />
+<file name="VTSimpleTemplate.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444729136592" remote="131112784800000000" Dst="0" />
+<file name="VTTaskQueue.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444728966460" remote="131112784800000000" Dst="0" />
+<file name="VTWorkflowTemplateManager.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444731296902" remote="131112784800000000" Dst="0" />
+<file name="WorkflowComponents.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444733205546" remote="131112784800000000" Dst="0" />
+<file name="WorkflowScheduler.inc" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444734484708" remote="131112784800000000" Dst="0" />
+<file name="WorkFlowScheduler.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114444733445711" remote="131112784800000000" Dst="0" />
+</dwsync>

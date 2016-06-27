@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="AddRecordComment.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441729740830" remote="131112784800000000" Dst="0" />
+<file name="AlertDetailsWithMessage.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441730906693" remote="131112784800000000" Dst="0" />
+<file name="Controller.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441731577169" remote="131112784800000000" Dst="0" />
+<file name="DeleteRecords.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441731743176" remote="131112784800000000" Dst="0" />
+<file name="Describe.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441733329337" remote="131112784800000000" Dst="0" />
+<file name="FetchAllAlerts.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441733639623" remote="131112784800000000" Dst="0" />
+<file name="FetchModuleFilters.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441733489465" remote="131112784800000000" Dst="0" />
+<file name="FetchModuleOwners.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441735230802" remote="131112784800000000" Dst="0" />
+<file name="FetchRecord.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441735430945" remote="131112784800000000" Dst="0" />
+<file name="FetchRecordsWithGrouping.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441737502625" remote="131112784800000000" Dst="0" />
+<file name="FetchRecordWithGrouping.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441735616108" remote="131112784800000000" Dst="0" />
+<file name="FilterDetailsWithCount.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441737692825" remote="131112784800000000" Dst="0" />
+<file name="History.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441737830470" remote="131112784800000000" Dst="0" />
+<file name="ListModuleRecords.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441739061376" remote="131112784800000000" Dst="0" />
+<file name="Login.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441739731878" remote="131112784800000000" Dst="0" />
+<file name="LoginAndFetchModules.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441739888425" remote="131112784800000000" Dst="0" />
+<file name="Query.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441741624950" remote="131112784800000000" Dst="0" />
+<file name="QueryWithGrouping.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441741831430" remote="131112784800000000" Dst="0" />
+<file name="RelatedRecordsWithGrouping.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441741971515" remote="131112784800000000" Dst="0" />
+<file name="SaveRecord.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441743245018" remote="131112784800000000" Dst="0" />
+<file name="SyncModuleRecords.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441743865488" remote="131112784800000000" Dst="0" />
+<file name="TaxByType.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441744075640" remote="131112784800000000" Dst="0" />
+<file name="Utils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114441745746904" remote="131112784800000000" Dst="0" />
+</dwsync>

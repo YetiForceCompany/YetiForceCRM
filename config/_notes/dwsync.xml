@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="api.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436689897480" remote="131112784800000000" Dst="0" />
+<file name="config.db.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436691871812" remote="131112784800000000" Dst="0" />
+<file name="config.inc.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114406379964023" remote="131114406000000000" Dst="0" />
+<file name="config.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436691951857" remote="131112784800000000" Dst="0" />
+<file name="config.template.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114323251400859" remote="131114335800000000" Dst="0" />
+<file name="csrf_config.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436692041921" remote="131112784800000000" Dst="0" />
+<file name="debug.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436693873274" remote="131112784800000000" Dst="0" />
+<file name="developer.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436693913308" remote="131112784800000000" Dst="0" />
+<file name="log4php.properties" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436695915158" remote="131112784800000000" Dst="0" />
+<file name="mimetypes.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436696035229" remote="131112784800000000" Dst="0" />
+<file name="parent_tabdata.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436705341884" remote="131112784800000000" Dst="0" />
+<file name="relation.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436705421941" remote="131112784800000000" Dst="0" />
+<file name="performance.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131112784800000000" remote="131112784800000000" Dst="0" />
+<file name="secret_keys.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436705481984" remote="131112784800000000" Dst="0" />
+<file name="security.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436707353419" remote="131112784800000000" Dst="0" />
+<file name="sounds.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436707423457" remote="131112784800000000" Dst="0" />
+<file name="version.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436707503523" remote="131112784800000000" Dst="0" />
+<file name="csrf_secret.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436693773208" remote="131114371800000000" Dst="0" />
+</dwsync>

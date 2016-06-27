@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="HttpException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439031058234" remote="131112784800000000" Dst="0" />
+<file name="Message.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439031268853" remote="131112784800000000" Dst="0" />
+<file name="Client.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439029326898" remote="131112784800000000" Dst="0" />
+<file name="Request.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439033445491" remote="131112784800000000" Dst="0" />
+<file name="RequestDecorator.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439034691556" remote="131112784800000000" Dst="0" />
+<file name="Response.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439035517185" remote="131112784800000000" Dst="0" />
+<file name="Sapi.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439037405065" remote="131112784800000000" Dst="0" />
+<file name="URLUtil.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439039136868" remote="131112784800000000" Dst="0" />
+<file name="Version.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439039387049" remote="131112784800000000" Dst="0" />
+<file name="ClientException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439029086725" remote="131112784800000000" Dst="0" />
+<file name="ClientHttpException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439030933142" remote="131112784800000000" Dst="0" />
+<file name="functions.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439041573939" remote="131112784800000000" Dst="0" />
+<file name="MessageDecoratorTrait.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439033010133" remote="131112784800000000" Dst="0" />
+<file name="MessageInterface.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439033195328" remote="131112784800000000" Dst="0" />
+<file name="RequestInterface.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439035307036" remote="131112784800000000" Dst="0" />
+<file name="ResponseDecorator.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439037154950" remote="131112784800000000" Dst="0" />
+<file name="ResponseInterface.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439037264954" remote="131112784800000000" Dst="0" />
+<file name="Util.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439039256954" remote="131112784800000000" Dst="0" />
+</dwsync>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="LoggerAppenderConsole.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440908220417" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderDailyFile.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440908460565" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderDb.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440908770788" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderEcho.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440909951835" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderFile.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440910703252" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderMail.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440910953461" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderMailEvent.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440912330172" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderNull.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440913040759" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderPhp.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440913230891" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderRollingFile.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440915240254" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderSocket.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440915540473" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderSyslog.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440915720584" remote="131112784800000000" Dst="0" />
+</dwsync>

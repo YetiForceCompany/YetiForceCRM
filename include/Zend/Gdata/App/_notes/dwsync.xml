@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="AuthException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436785880016" remote="131112784800000000" Dst="0" />
+<file name="BadMethodCallException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436785950063" remote="131112784800000000" Dst="0" />
+<file name="Base.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436786240295" remote="131112784800000000" Dst="0" />
+<file name="BaseMediaSource.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436787858935" remote="131112784800000000" Dst="0" />
+<file name="CaptchaRequiredException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436787979034" remote="131112784800000000" Dst="0" />
+<file name="Entry.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436788149141" remote="131112784800000000" Dst="0" />
+<file name="Exception.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436789881110" remote="131112784800000000" Dst="0" />
+<file name="Extension.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436804744711" remote="131112784800000000" Dst="0" />
+<file name="Feed.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436806476642" remote="131112784800000000" Dst="0" />
+<file name="FeedEntryParent.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436806766828" remote="131112784800000000" Dst="0" />
+<file name="FeedSourceParent.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436806616742" remote="131112784800000000" Dst="0" />
+<file name="HttpException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436808328436" remote="131112784800000000" Dst="0" />
+<file name="InvalidArgumentException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436808468556" remote="131112784800000000" Dst="0" />
+<file name="IOException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436808408533" remote="131112784800000000" Dst="0" />
+<file name="LoggingHttpClientAdapterSocket.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436810265112" remote="131112784800000000" Dst="0" />
+<file name="MediaEntry.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436810399147" remote="131112784800000000" Dst="0" />
+<file name="MediaFileSource.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436810549371" remote="131112784800000000" Dst="0" />
+<file name="MediaSource.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436811610281" remote="131112784800000000" Dst="0" />
+<file name="Util.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436812175600" remote="131112784800000000" Dst="0" />
+<file name="VersionException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436812250645" remote="131112784800000000" Dst="0" />
+</dwsync>

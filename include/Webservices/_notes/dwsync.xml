@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="AuthToken.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436729262724" remote="131112784800000000" Dst="0" />
+<file name="ConvertLead.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436731074105" remote="131112784800000000" Dst="0" />
+<file name="Create.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436731199226" remote="131112784800000000" Dst="0" />
+<file name="DataTransform.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436733335878" remote="131112784800000000" Dst="0" />
+<file name="Delete.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436734897013" remote="131112784800000000" Dst="0" />
+<file name="DescribeObject.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436735937840" remote="131112784800000000" Dst="0" />
+<file name="DescribeObjectPartial.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436735257317" remote="131112784800000000" Dst="0" />
+<file name="EntityMeta.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436737288843" remote="131112784800000000" Dst="0" />
+<file name="ExtendSession.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436737879254" remote="131112784800000000" Dst="0" />
+<file name="GetUpdates.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436738039365" remote="131112784800000000" Dst="0" />
+<file name="History.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436739660571" remote="131112784800000000" Dst="0" />
+<file name="Login.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436745649584" remote="131112784800000000" Dst="0" />
+<file name="Logout.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436745729667" remote="131112784800000000" Dst="0" />
+<file name="ModuleTypes.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436745809712" remote="131112784800000000" Dst="0" />
+<file name="OperationManager.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114666675055171" remote="131112784800000000" Dst="0" />
+<file name="PreserveGlobal.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436747807388" remote="131112784800000000" Dst="0" />
+<file name="Query.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436747887459" remote="131112784800000000" Dst="0" />
+<file name="QueryParser.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436749535576" remote="131112784800000000" Dst="0" />
+<file name="QueryRelated.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436749625657" remote="131112784800000000" Dst="0" />
+<file name="RelatedModuleMeta.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436749725723" remote="131112784800000000" Dst="0" />
+<file name="RelatedTypes.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436751523174" remote="131112784800000000" Dst="0" />
+<file name="Relation.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114666669905127" remote="131112784800000000" Dst="0" />
+<file name="Retrieve.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436751693277" remote="131112784800000000" Dst="0" />
+<file name="RetrieveRelated.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436753289466" remote="131112784800000000" Dst="0" />
+<file name="Revise.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436753379524" remote="131112784800000000" Dst="0" />
+<file name="SessionManager.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114666675250298" remote="131112784800000000" Dst="0" />
+<file name="State.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114666673102170" remote="131112784800000000" Dst="0" />
+<file name="Update.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436755214572" remote="131112784800000000" Dst="0" />
+<file name="VtigerActorOperation.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436757943405" remote="131112784800000000" Dst="0" />
+<file name="Utils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114666673272291" remote="131112784800000000" Dst="0" />
+<file name="VtigerCRMActorMeta.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436758411148" remote="131112784800000000" Dst="0" />
+<file name="VtigerCRMObject.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436759674724" remote="131112784800000000" Dst="0" />
+<file name="VtigerCRMObjectMeta.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436760365397" remote="131112784800000000" Dst="0" />
+<file name="VtigerModuleOperation.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436760545536" remote="131112784800000000" Dst="0" />
+<file name="VtigerWebserviceObject.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436762161870" remote="131112784800000000" Dst="0" />
+<file name="VTQL_Lexer.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436756662367" remote="131112784800000000" Dst="0" />
+<file name="WebserviceEntityOperation.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436764609840" remote="131112784800000000" Dst="0" />
+<file name="WebServiceError.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436762241935" remote="131112784800000000" Dst="0" />
+<file name="VTQL_Parser.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436758223496" remote="131112784800000000" Dst="0" />
+<file name="WebServiceErrorCode.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436762312284" remote="131112784800000000" Dst="0" />
+<file name="WebserviceField.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114436764830125" remote="131112784800000000" Dst="0" />
+</dwsync>

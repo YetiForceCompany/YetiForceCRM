@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="AbstractBackend.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438855905612" remote="131112784800000000" Dst="0" />
+<file name="BackendInterface.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438857332096" remote="131112784800000000" Dst="0" />
+<file name="NotificationSupport.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438857967633" remote="131112784800000000" Dst="0" />
+<file name="PDO.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438860044402" remote="131112784800000000" Dst="0" />
+<file name="SchedulingSupport.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438859198590" remote="131112784800000000" Dst="0" />
+<file name="SharingSupport.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438860254552" remote="131112784800000000" Dst="0" />
+<file name="SubscriptionSupport.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438861395536" remote="131112784800000000" Dst="0" />
+<file name="SyncSupport.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114438862081151" remote="131112784800000000" Dst="0" />
+</dwsync>

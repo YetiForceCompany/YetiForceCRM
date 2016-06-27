@@ -33,7 +33,7 @@
 									{if !empty($LINK)}
 										{assign var="HREF" value=$LINK}
 									{/if}
-									<a class="dropdown-toggle {$obj->getClassName()}" title="{vtranslate($TITLE,$MODULE)}" {if !empty($CHILD_LINKS)}data-toggle="dropdown"{/if} href="{$HREF}"
+									<a class="dropdown-toggle {$obj->getClassName()}" style=" color: #fff; font-size: 18px;"  title="{vtranslate($TITLE,$MODULE)}" {if !empty($CHILD_LINKS)}data-toggle="dropdown"{/if} href="{$HREF}"
 									   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 										   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 											   data-{$DATA_NAME}="{$DATA_VALUE}" 

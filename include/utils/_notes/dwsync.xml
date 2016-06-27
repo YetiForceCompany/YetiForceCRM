@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="CommonUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437098086518" remote="131112784800000000" Dst="0" />
+<file name="ConfigReader.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437098697268" remote="131112784800000000" Dst="0" />
+<file name="DetailViewUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437098787330" remote="131112784800000000" Dst="0" />
+<file name="EditViewUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437101204357" remote="131112784800000000" Dst="0" />
+<file name="EmailTemplate.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437100954106" remote="131112784800000000" Dst="0" />
+<file name="encryption.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437110423295" remote="131112784800000000" Dst="0" />
+<file name="ExportRecords.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437101044198" remote="131112784800000000" Dst="0" />
+<file name="ExportUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437102925620" remote="131112784800000000" Dst="0" />
+<file name="GetGroupUsers.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437103070746" remote="131112784800000000" Dst="0" />
+<file name="GetParentGroups.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437103165825" remote="131112784800000000" Dst="0" />
+<file name="GetUserGroups.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437104817064" remote="131112784800000000" Dst="0" />
+<file name="GraphUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437104977172" remote="131112784800000000" Dst="0" />
+<file name="InventoryUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437106360226" remote="131112784800000000" Dst="0" />
+<file name="ListViewUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437106500326" remote="131112784800000000" Dst="0" />
+<file name="RecurringType.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437106730486" remote="131112784800000000" Dst="0" />
+<file name="SearchUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437108301688" remote="131112784800000000" Dst="0" />
+<file name="UserInfoUtil.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437108752008" remote="131112784800000000" Dst="0" />
+<file name="utils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437112214657" remote="131112784800000000" Dst="0" />
+<file name="VTCacheUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437108431781" remote="131112784800000000" Dst="0" />
+<file name="VtlibUtils.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114437110603423" remote="131112784800000000" Dst="0" />
+</dwsync>

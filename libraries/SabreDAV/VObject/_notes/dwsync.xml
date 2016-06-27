@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="BirthdayCalendarGenerator.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439043230712" remote="131112784800000000" Dst="0" />
+<file name="Cli.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439044346696" remote="131112784800000000" Dst="0" />
+<file name="Component.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439052204895" remote="131112784800000000" Dst="0" />
+<file name="DateTimeParser.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439051969702" remote="131112784800000000" Dst="0" />
+<file name="Document.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439052435058" remote="131112784800000000" Dst="0" />
+<file name="ElementList.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439053976233" remote="131112784800000000" Dst="0" />
+<file name="EofException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439054091318" remote="131112784800000000" Dst="0" />
+<file name="FreeBusyData.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439054296495" remote="131112784800000000" Dst="0" />
+<file name="InvalidDataException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439058093931" remote="131112784800000000" Dst="0" />
+<file name="FreeBusyGenerator.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439055912831" remote="131112784800000000" Dst="0" />
+<file name="Node.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439059425330" remote="131112784800000000" Dst="0" />
+<file name="Parameter.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439060208975" remote="131112784800000000" Dst="0" />
+<file name="ParseException.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439061736471" remote="131112784800000000" Dst="0" />
+<file name="PHPUnitAssertions.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439060035778" remote="131112784800000000" Dst="0" />
+<file name="Property.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439080041277" remote="131112784800000000" Dst="0" />
+<file name="Reader.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439079761056" remote="131112784800000000" Dst="0" />
+<file name="Settings.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439083574939" remote="131112784800000000" Dst="0" />
+<file name="StringUtil.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439087614607" remote="131112784800000000" Dst="0" />
+<file name="TimeZoneUtil.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439087774721" remote="131112784800000000" Dst="0" />
+<file name="UUIDUtil.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439087904808" remote="131112784800000000" Dst="0" />
+<file name="VCardConverter.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439089831935" remote="131112784800000000" Dst="0" />
+<file name="Version.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439089521706" remote="131112784800000000" Dst="0" />
+<file name="Writer.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114439089661803" remote="131112784800000000" Dst="0" />
+</dwsync>

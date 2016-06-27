@@ -204,7 +204,7 @@ hr {
 }
 .commonActionsContainer .quickAction {
 	margin-top: 8px;
-	margin-left: 4px;
+	margin-right: 10px;
 	cursor: pointer;
 }
 .commonActionsContainer .quickAction img {
@@ -3145,7 +3145,7 @@ span[name=existingImages] img{
 }
 .paginationDiv .pagination > li > span,
 .paginationDiv .pagination > li > a{
-	padding: 8px 8px;
+	padding: 7px 12px;
 }
 .paginationDiv .listViewBasicAction.dropdown-menu{
 	width: 35%;
@@ -3160,12 +3160,13 @@ span[name=existingImages] img{
 	min-width: 100px;
 }
 .paginationDiv .pageInfo {
-	border: 1px solid #ddd;
-	color: #337AB7;
-	float: right;
-	margin-left: 5px;
-	list-style: none;
-	padding: 8px 5px;
+    border: 1px solid #2196F3;
+    color: #337AB7;
+    float: right;
+    border-radius: 4px;
+    margin-left: 5px;
+    list-style: none;
+	padding: 7px 7px;
 }
 .listViewEntriesDiv .listViewEntriesCheckBox{
 	margin-left: 2px;
@@ -3357,14 +3358,14 @@ span[name=existingImages] img{
 	position: fixed;
 	left: 0;
 	top: 0;
-	bottom: 33px;
+	bottom: 18px;
 	width: 230px;
 	color: #fff;
 	z-index: 1030;
 	background: #444853;
 }
 .baseContainer .leftPanel a{
-	color: #fff;
+	color: #00796b;
 }
 .baseContainer .leftPanel .menuContainer a{
 	border-radius: 0;
@@ -3446,11 +3447,11 @@ span[name=existingImages] img{
 .baseContainer .leftPanel:after {
 	content: "";
 	position: fixed;
-	bottom:33px;
+	bottom:18px;
 	z-index: -2;
 	width: 230px;
 	height: 100%;
-	background: #4a5364;
+	background: #fff;
 }
 .baseContainer:not(.leftPanelOpen) {
 	margin-left: 50px;
@@ -3460,11 +3461,11 @@ span[name=existingImages] img{
 	position: relative;
 	left: 0;
 	z-index: 1030;
-	-webkit-transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
-	transition: left ease-in-out 0.3s, width ease-in-out 0.3s;
+	-webkit-transition: left ease-in-out 0.1s, width ease-in-out 0.1s;
+	transition: left ease-in-out 0.1s, width ease-in-out 0.1s;
 	background: #ffffff;
 	min-height: 100%;
-	transition-delay: 0.5s;
+	transition-delay: 0.1s;
 }
 .baseContainer .basePanel:after {
 	content: "";
@@ -3478,28 +3479,28 @@ span[name=existingImages] img{
 
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
 	left: 230px;
-	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	-webkit-transition: left ease-in-out 0.1s 0.1s, z-index 0.1s 0.1s;
+	transition: left ease-in-out 0.1s 0.1s, z-index 0.1s 0.1s;
 }
 .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
 .baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
 	left: 180px;
 	z-index: 0;
-	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
-	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
+	-webkit-transition: left ease-in-out 0.1s 0.1s, z-index 0.1s 0.1s;
+	transition: left ease-in-out 0.1s 0.1s, z-index 0.1s 0.1s;
 }
 .bodyHeader.open,.footerContainer.open{
 	left: 210px;
-	-webkit-transition: left ease-in-out 0.3s;
-	transition: left ease-in-out 0.3s;
+	-webkit-transition: left ease-in-out 0.1s;
+	transition: left ease-in-out 0.1s;
 }
 .baseContainer .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown,
 .baseContainer .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown:before {
-	-webkit-transition: left ease-in-out 0.35s;
-	transition: left ease-in-out 0.35s;
+	-webkit-transition: left ease-in-out 0.1s;
+	transition: left ease-in-out 0.1s;
 }
 .footerContainer{
-	height: 33px;
+	height: 18px;
 }
 .subMenu{
 	display: none;
@@ -3527,7 +3528,7 @@ span[name=existingImages] img{
 	content: "";
 	display: block;
 	position: fixed;
-	bottom: 33px;
+	bottom: 18px;
 	top: 50px;
 	z-index: -1;
 	width: 300px; 
@@ -3548,7 +3549,7 @@ span[name=existingImages] img{
 	height:100%;
 }
 .bodyHeader{
-	background-color: #4a5364;
+	background-color: #009688;
 	color: #fff;
 	height: 50px;
 	position: fixed;
@@ -3556,9 +3557,9 @@ span[name=existingImages] img{
 	right: 0;
 	left: 50px;
 	z-index: 1030;
-	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
-	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
-	transition-delay: 0.5s;
+	-webkit-transition: left ease-in-out 0.1s, z-index 0s;
+	transition: left ease-in-out 0.1s, z-index 0s;
+	transition-delay: 0.1s;
 }
 .noSpaces{
 	padding: 0 !important;
@@ -3604,7 +3605,7 @@ html,body,.baseContainer
 	height: 50px;
 	padding-right: 0;
 	padding-left: 0;
-	background-color: #4979aa;
+	background-color: #009688;
 }
 .userActionContainer{
 	padding-right: 0;
@@ -3795,8 +3796,8 @@ html,body,.baseContainer
 	z-index: 1050;
 	background: #3f3f3f;
 	overflow: scroll;
-	-webkit-transition: left ease-in-out 0.35s;
-	transition: left ease-in-out 0.35s;
+	-webkit-transition: left ease-in-out 0.1s;
+	transition: left ease-in-out 0.1s;
 }
 .mobileLeftPanel{
 	font-size:14px;
@@ -3865,7 +3866,7 @@ html,body,.baseContainer
 .mainBody{
 	position: absolute;
 	top:50px;
-	bottom:33px;
+	bottom:18px;
 	width: 100%;
 	overflow-x: hidden;
 }
@@ -4145,6 +4146,7 @@ html,body,.baseContainer
 	}
 	.selectSearch{
 		display: block;
+		margin-left: 350px;
 	}
 	.searchAction{
 		display: none;
@@ -4591,6 +4593,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (min-width: 767px) {
+	.mainBody{
+		border-left: 2px solid #00796b;
+	}
 	.quickCreateContent .fieldsLabelValue::before{
 		content: "";
 		float: left;

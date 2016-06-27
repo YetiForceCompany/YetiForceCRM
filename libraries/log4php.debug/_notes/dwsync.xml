@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="Logger.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440897630633" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppender.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440897400469" remote="131112784800000000" Dst="0" />
+<file name="LoggerAppenderSkeleton.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440897945874" remote="131112784800000000" Dst="0" />
+<file name="LoggerBasicConfigurator.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440899684195" remote="131112784800000000" Dst="0" />
+<file name="LoggerCategory.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440900209645" remote="131112784800000000" Dst="0" />
+<file name="LoggerDefaultCategoryFactory.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440899879376" remote="131112784800000000" Dst="0" />
+<file name="LoggerHierarchy.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440901510601" remote="131112784800000000" Dst="0" />
+<file name="LoggerLayout.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440902131084" remote="131112784800000000" Dst="0" />
+<file name="LoggerLevel.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440902341239" remote="131112784800000000" Dst="0" />
+<file name="LoggerLog.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440904193002" remote="131112784800000000" Dst="0" />
+<file name="LoggerManager.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440904413159" remote="131112784800000000" Dst="0" />
+<file name="LoggerMDC.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440904022879" remote="131112784800000000" Dst="0" />
+<file name="LoggerNDC.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440906113236" remote="131112784800000000" Dst="0" />
+<file name="LoggerPropertyConfigurator.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440906493514" remote="131112784800000000" Dst="0" />
+<file name="LoggerRoot.php" server="www.ezbank.com.vn//public_html/ezwork/" local="131114440906313389" remote="131112784800000000" Dst="0" />
+</dwsync>
