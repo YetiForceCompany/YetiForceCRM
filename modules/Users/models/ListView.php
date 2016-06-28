@@ -102,49 +102,48 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$queryGenerator->setFields($fields);
 
 		$userFieldsFix = $this->get('search_params');
-		if (empty($userFieldsFix)) {
-			$userFieldsFix[0]['columns'] = array();
-		}
 		$indexKey = '';
 		$indexValue = '';
 		$roleKey = '';
 		$roleValue = '';
-		$roleDataInfo = array();
+		$roleDataInfo = [];
+		if (empty($userFieldsFix)) {
+			$userFieldsFix = [];
+		} else {
+			foreach ($userFieldsFix[0]['columns'] as $key => $column) {
+				if (strpos($column['columnname'], 'is_admin') !== false) {
+					$indexKey = $key;
+					$indexValue = $column['value'] == '0' ? 'off' : 'on';
+				} else if (strpos($column['columnname'], 'roleid') !== false) {
+					$roleKey = $key;
 
-		foreach ($userFieldsFix[0]['columns'] as $key => $column) {
-			if (strpos($column['columnname'], 'is_admin') !== false) {
-				$indexKey = $key;
-				$indexValue = $column['value'] == '0' ? 'off' : 'on';
-			} else if (strpos($column['columnname'], 'roleid') !== false) {
-				$roleKey = $key;
+					$db = PearDatabase::getInstance();
+					$sql = "SELECT `roleid`, `rolename` FROM `vtiger_role`;";
+					$result = $db->query($sql, true);
+					$roleNum = $db->num_rows($result);
 
-				$db = PearDatabase::getInstance();
-				$sql = "SELECT `roleid`, `rolename` FROM `vtiger_role`;";
-				$result = $db->query($sql, true);
-				$roleNum = $db->num_rows($result);
+					if ($roleNum > 0) {
+						for ($i = 0; $i < $roleNum; $i++) {
+							$roleid = $db->query_result($result, $i, 'roleid');
+							$rolename = $db->query_result($result, $i, 'rolename');
+							$translated = vtranslate($rolename);
 
-				if ($roleNum > 0) {
-					for ($i = 0; $i < $roleNum; $i++) {
-						$roleid = $db->query_result($result, $i, 'roleid');
-						$rolename = $db->query_result($result, $i, 'rolename');
-						$translated = vtranslate($rolename);
-
-						if ($translated == $column['value']) {
-							$roleValue = $roleid;
+							if ($translated == $column['value']) {
+								$roleValue = $roleid;
+							}
 						}
 					}
 				}
 			}
-		}
 
-		if ($indexValue !== '') {
-			$userFieldsFix[0]['columns'][$indexKey]['value'] = $indexValue;
-		}
+			if ($indexValue !== '') {
+				$userFieldsFix[0]['columns'][$indexKey]['value'] = $indexValue;
+			}
 
-		if ($roleValue !== '') {
-			$userFieldsFix[0]['columns'][$roleKey]['value'] = $roleValue;
+			if ($roleValue !== '') {
+				$userFieldsFix[0]['columns'][$roleKey]['value'] = $roleValue;
+			}
 		}
-
 		$this->set('search_params', $userFieldsFix);
 
 		return parent::getListViewEntries($pagingModel, $searchResult);
