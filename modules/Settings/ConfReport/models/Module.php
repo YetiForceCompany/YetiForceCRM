@@ -198,11 +198,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$directiveValues['magic_quotes_sybase']['current'] = self::getFlag(ini_get('magic_quotes_sybase'));
 
 		if (ini_get('log_errors') == '1' || stripos(ini_get('log_errors'), 'On') !== false)
-			$directiveValues['log_errors']['status'] = 'On';
+			$directiveValues['log_errors']['status'] = true;
 		$directiveValues['log_errors']['current'] = self::getFlag(ini_get('log_errors'));
 
 		if (ini_get('short_open_tag') != '1' || stripos(ini_get('short_open_tag'), 'Off') !== false)
-			$directiveValues['short_open_tag']['status'] = 'Off';
+			$directiveValues['short_open_tag']['status'] = true;
 		$directiveValues['short_open_tag']['current'] = self::getFlag(ini_get('short_open_tag'));
 
 		if (ini_get('session.gc_maxlifetime') < 21600)
