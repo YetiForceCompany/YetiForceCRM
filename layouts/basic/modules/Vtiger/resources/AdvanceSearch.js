@@ -120,7 +120,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 					//params.css = {'width':'50%','text-align':'left','background-color':'transparent','border-width':'0px'};
 					//not showing overlay
 					//params.overlayCss = {'opacity':'0.2'};
-
+					app.hideModalWindow();
 					app.showModalWindow(params);
 				},
 				function (error) {
