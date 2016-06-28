@@ -1111,10 +1111,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	function saveReportType($db, $recordId)
 	{
 		$data = $this->get('reporttypedata');
-//		echo '<pre>';print_r($this->get('reporttypedata'));echo '</pre>';
 		if (!empty($data)) {
-			$content = print_r($data, true);
-			file_put_contents('xxxxx2.txt', $content);
 			$db->pquery("INSERT INTO vtiger_reporttype(reportid, data) VALUES (?,?)", array($recordId, $data));
 		}
 	}
