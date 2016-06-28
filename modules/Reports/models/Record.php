@@ -405,66 +405,90 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$secondaryModule = $this->getSecondaryModules();
-		if ($this->get('mode') != 'edit') {
-			$recordId = $db->getUniqueID('vtiger_crmentity');
-			$this->set('newRecord', $recordId);
+
+		$reportId = $this->getId();
+		if (empty($reportId)) {
+			$reportId = $db->getUniqueID("vtiger_selectquery");
+			$this->setId($reportId);
+
+			$db->pquery('INSERT INTO vtiger_selectquery(queryid, startindex, numofobjects) VALUES(?,?,?)', array($reportId, 0, 0));
+
+			$reportParams = array($reportId, $this->get('folderid'), $this->get('reportname'), $this->get('description'),
+				$this->get('reporttype', 'tabular'), $reportId, 'CUSTOM', $currentUser->id, 'Public');
+			$db->pquery('INSERT INTO vtiger_report(reportid, folderid, reportname, description,
+								reporttype, queryid, state, owner, sharingtype) VALUES(?,?,?,?,?,?,?,?,?)', $reportParams);
+
+
+			$secondaryModule = $this->getSecondaryModules();
+			$db->pquery('INSERT INTO vtiger_reportmodules(reportmodulesid, primarymodule, secondarymodules) VALUES(?,?,?)', array($reportId, $this->getPrimaryModule(), $secondaryModule));
+
+			$this->saveSelectedFields();
+
+			$this->saveSortFields();
+			if ($this->get('reporttype') != 'chart') {
+				$this->saveCalculationFields();
+			}
+
+			$this->saveStandardFilter();
+
+			$this->saveAdvancedFilters();
+
+			$this->saveReportType();
+
+			$this->saveSharingInformation();
 		} else {
-			$recordId = $this->getId();
-			$db->pquery('DELETE FROM vtiger_reportsortcol WHERE reportid = ?', array($recordId));
-			$db->pquery('DELETE FROM vtiger_reportgroupbycolumn WHERE reportid = ?', array($recordId));
-			$db->pquery('DELETE FROM vtiger_selectcolumn WHERE queryid = ?', array($recordId));
-			$db->pquery('DELETE FROM vtiger_reportsummary WHERE reportsummaryid = ?', array($recordId));
-			$db->pquery('DELETE FROM vtiger_reportdatefilter WHERE datefilterid = ?', array($recordId));
-			$db->pquery('DELETE FROM vtiger_relcriteria WHERE queryid = ?', array($recordId));
-			$db->pquery('DELETE FROM vtiger_relcriteria_grouping WHERE queryid = ?', array($recordId));
-			$db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', array($recordId));
-			$db->pquery("DELETE FROM vtiger_reportsharing WHERE reportid = ?", array($recordId));
+
+			$reportId = $this->getId();
+			$db->pquery('DELETE FROM vtiger_selectcolumn WHERE queryid = ?', array($reportId));
+			$this->saveSelectedFields();
+
+			$db->pquery("DELETE FROM vtiger_reportsharing WHERE reportid = ?", array($reportId));
+			$this->saveSharingInformation();
+
+
+			$db->pquery('UPDATE vtiger_reportmodules SET primarymodule = ?,secondarymodules = ? WHERE reportmodulesid = ?', array($this->getPrimaryModule(), $this->getSecondaryModules(), $reportId));
+
+			$db->pquery('UPDATE vtiger_report SET reportname = ?, description = ?, reporttype = ?, folderid = ? WHERE
+				reportid = ?', array($this->get('reportname'), $this->get('description'), $this->get('reporttype'), $this->get('folderid'), $reportId));
+
+
+			$db->pquery('DELETE FROM vtiger_reportsortcol WHERE reportid = ?', array($reportId));
+			$db->pquery('DELETE FROM vtiger_reportgroupbycolumn WHERE reportid = ?', array($reportId));
+			$this->saveSortFields();
+
+			$db->pquery('DELETE FROM vtiger_reportsummary WHERE reportsummaryid = ?', array($reportId));
+			if ($this->get('reporttype') != 'chart') {
+				$this->saveCalculationFields();
+			}
+
+			$db->pquery('DELETE FROM vtiger_reportdatefilter WHERE datefilterid = ?', array($reportId));
+			$this->saveStandardFilter();
+
+			$this->saveReportType();
+
+			$this->saveAdvancedFilters();
 		}
-		$db->pquery('INSERT INTO vtiger_selectquery(queryid, startindex, numofobjects) VALUES(?,?,?)', array($recordId, 0, 0));
-		// report
-		$this->set('queryid', $recordId);
-		$this->set('state', 'CUSTOM');
-		$this->set('owner', $currentUser->id);
-		$this->set('sharingtype', 'Public');
-		// selectquery
-		$this->set('startindex', 0);
-		$this->set('numofobjects', 0);
-		$this->set('columnindex', '');
-		$this->set('columnname', '');
-		$this->set('reportid', $recordId);
-		$db->startTransaction();
-		$tempModel = clone $this;
-		$tempModel->getModule()->saveRecord($tempModel);
-		$db->pquery('INSERT INTO vtiger_reportmodules(reportmodulesid, primarymodule, secondarymodules) VALUES(?,?,?)', array($recordId, $this->getPrimaryModule(), $secondaryModule));
-		$this->saveSelectedFields($db, $recordId);
-		$this->saveSortFields($db, $recordId);
-		if ($this->get('reporttype') != 'chart') {
-			$this->saveCalculationFields($db, $recordId);
-		}
-		$this->saveStandardFilter($db, $recordId);
-		$this->saveAdvancedFilters($db, $recordId);
-		$this->saveReportType($db, $recordId);
-		$this->saveSharingInformation($db, $recordId);
-		$db->completeTransaction();
 	}
 
 	/**
 	 * Function saves Reports Sorting Fields
 	 */
-	function saveSortFields($db, $recordId)
+	function saveSortFields()
 	{
+		$db = PearDatabase::getInstance();
+
 		$sortFields = $this->get('sortFields');
+
 		if (!empty($sortFields)) {
 			$i = 0;
 			foreach ($sortFields as $fieldInfo) {
-				$db->pquery('INSERT INTO vtiger_reportsortcol(sortcolid, reportid, columnname, sortorder) VALUES (?,?,?,?)', array($i, $recordId, $fieldInfo[0], $fieldInfo[1]));
+				$db->pquery('INSERT INTO vtiger_reportsortcol(sortcolid, reportid, columnname, sortorder) VALUES (?,?,?,?)', array($i, $this->getId(), $fieldInfo[0], $fieldInfo[1]));
 				if (IsDateField($fieldInfo[0])) {
 					if (empty($fieldInfo[2])) {
 						$fieldInfo[2] = 'None';
 					}
 					$db->pquery("INSERT INTO vtiger_reportgroupbycolumn(reportid, sortid, sortcolname, dategroupbycriteria)
-                        VALUES(?,?,?,?)", array($recordId, $i, $fieldInfo[0], $fieldInfo[2]));
+                        VALUES(?,?,?,?)", array($this->getId(), $i, $fieldInfo[0], $fieldInfo[2]));
 				}
 				$i++;
 			}
@@ -474,38 +498,42 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function saves Reports Calculation Fields information
 	 */
-	function saveCalculationFields($db, $recordId)
+	function saveCalculationFields()
 	{
+		$db = PearDatabase::getInstance();
+
 		$calculationFields = $this->get('calculationFields');
-		if (!empty($calculationFields)) {
-			for ($i = 0; $i < count($calculationFields); $i++) {
-				$db->pquery('INSERT INTO vtiger_reportsummary (reportsummaryid, summarytype, columnname) VALUES (?,?,?)', array($recordId, $i, $calculationFields[$i]));
-			}
+		for ($i = 0; $i < count($calculationFields); $i++) {
+			$db->pquery('INSERT INTO vtiger_reportsummary (reportsummaryid, summarytype, columnname) VALUES (?,?,?)', array($this->getId(), $i, $calculationFields[$i]));
 		}
 	}
 
 	/**
 	 * Function saves Reports Standard Filter information
 	 */
-	function saveStandardFilter($db, $recordId)
+	function saveStandardFilter()
 	{
+		$db = PearDatabase::getInstance();
+
 		$standardFilter = $this->get('standardFilter');
 		if (!empty($standardFilter)) {
 			$db->pquery('INSERT INTO vtiger_reportdatefilter (datefilterid, datecolumnname, datefilter, startdate, enddate)
-							VALUES (?,?,?,?,?)', array($recordId, $standardFilter['field'], $standardFilter['type'], $standardFilter['start'], $standardFilter['end']));
+							VALUES (?,?,?,?,?)', array($this->getId(), $standardFilter['field'], $standardFilter['type'],
+				$standardFilter['start'], $standardFilter['end']));
 		}
 	}
 
 	/**
 	 * Function saves Reports Sharing information
 	 */
-	function saveSharingInformation($db, $recordId)
+	function saveSharingInformation()
 	{
+		$db = PearDatabase::getInstance();
 		$sharingInfo = $this->get('sharingInfo');
 		if ($sharingInfo) {
 			foreach ($sharingInfo as $key => $value) {
 				$db->insert('vtiger_reportsharing', [
-					'reportid' => $recordId,
+					'reportid' => $this->getId(),
 					'shareid' => $value['id'],
 					'setype' => $value['type']
 				]);
@@ -516,13 +544,16 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Functions saves Reports selected fields
 	 */
-	function saveSelectedFields($db, $recordId)
+	function saveSelectedFields()
 	{
+		$db = PearDatabase::getInstance();
+
 		$selectedFields = $this->get('selectedFields');
+
 		if (!empty($selectedFields)) {
 			for ($i = 0; $i < count($selectedFields); $i++) {
 				if (!empty($selectedFields[$i])) {
-					$db->pquery("INSERT INTO vtiger_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)", array($recordId, $i, decode_html($selectedFields[$i])));
+					$db->pquery("INSERT INTO vtiger_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)", array($this->getId(), $i, decode_html($selectedFields[$i])));
 				}
 			}
 		}
@@ -531,13 +562,17 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function saves Reports Filter information
 	 */
-	function saveAdvancedFilters($db, $recordId)
+	function saveAdvancedFilters()
 	{
-		if (!$db) {
-			$db = PearDatabase::getInstance();
-		}
+		$db = PearDatabase::getInstance();
+
+		$reportId = $this->getId();
 		$advancedFilter = $this->get('advancedFilter');
 		if (!empty($advancedFilter)) {
+
+			$db->pquery('DELETE FROM vtiger_relcriteria WHERE queryid = ?', array($reportId));
+			$db->pquery('DELETE FROM vtiger_relcriteria_grouping WHERE queryid = ?', array($reportId));
+
 			foreach ($advancedFilter as $groupIndex => $groupInfo) {
 				if (empty($groupInfo))
 					continue;
@@ -602,7 +637,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					}
 
 					$db->pquery('INSERT INTO vtiger_relcriteria (queryid, columnindex, columnname, comparator, value,
-						groupid, column_condition) VALUES (?,?,?,?,?,?,?)', array($recordId, $columnIndex, $advFilterColumn,
+						groupid, column_condition) VALUES (?,?,?,?,?,?,?)', array($reportId, $columnIndex, $advFilterColumn,
 						$advFilterComparator, $advFilterValue, $groupIndex, $advFilterColumnCondition));
 
 					// Update the condition expression for the group to which the condition column belongs
@@ -618,7 +653,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 				if (empty($groupConditionExpression))
 					continue; // Case when the group doesn't have any column criteria
 
-				$db->pquery("INSERT INTO vtiger_relcriteria_grouping(groupid, queryid, group_condition, condition_expression) VALUES (?,?,?,?)", array($groupIndex, $recordId, $groupCondition, $groupConditionExpression));
+				$db->pquery("INSERT INTO vtiger_relcriteria_grouping(groupid, queryid, group_condition, condition_expression) VALUES (?,?,?,?)", array($groupIndex, $reportId, $groupCondition, $groupConditionExpression));
 			}
 		}
 	}
@@ -1108,11 +1143,13 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to save reprot tyep data
 	 */
-	function saveReportType($db, $recordId)
+	function saveReportType()
 	{
+		$db = PearDatabase::getInstance();
 		$data = $this->get('reporttypedata');
 		if (!empty($data)) {
-			$db->pquery("INSERT INTO vtiger_reporttype(reportid, data) VALUES (?,?)", array($recordId, $data));
+			$db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', array($this->getId()));
+			$db->pquery("INSERT INTO vtiger_reporttype(reportid, data) VALUES (?,?)", array($this->getId(), $data));
 		}
 	}
 
