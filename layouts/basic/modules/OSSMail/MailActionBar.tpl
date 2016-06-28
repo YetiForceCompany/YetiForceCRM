@@ -98,6 +98,9 @@
 									<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 								</button>
 							{/if}
+							<button class="hideBtn" data-type="0" title="{vtranslate('LBL_MINIMIZE_BAR',$MODULE_NAME)}">
+								<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+							</button>
 						</div>
 					</div>
 				</div>

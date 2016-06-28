@@ -24,11 +24,27 @@ function registerEvents(content) {
 	registerSelectRecord(content);
 	registerRemoveRecord(content);
 	registerImportMail(content);
+
+	var block = content.find('.ytHeader > .data');
+	content.find('.hideBtn').click(function () {
+		var button = $(this);
+		var icon = button.find('.glyphicon');
+
+		if (button.data('type') == '0') {
+			button.data('type', '1');
+			icon.removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+		} else {
+			button.data('type', '0');
+			icon.removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+		}
+		block.toggle();
+		$(window).trigger("resize");
+	});
 }
 function registerImportMail(content) {
 	content.find('.importMail').click(function (e) {
 		window.crm.Vtiger_Helper_Js.showPnotify({
-			text: window.crm.app.vtranslate('StartedDownloadingEmail'), 
+			text: window.crm.app.vtranslate('StartedDownloadingEmail'),
 			type: 'info'
 		});
 		var params = {
@@ -43,7 +59,7 @@ function registerImportMail(content) {
 		window.crm.AppConnector.request(params).then(function (data) {
 			loadActionBar();
 			window.crm.Vtiger_Helper_Js.showPnotify({
-				text: window.crm.app.vtranslate('AddFindEmailInRecord'), 
+				text: window.crm.app.vtranslate('AddFindEmailInRecord'),
 				type: 'success'
 			});
 		})
