@@ -302,8 +302,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		this.registerActivityTypeChangeEvent(container);
 		this.registerEndDateTimeChangeLogger(container);
 		this.registerAutoFillHours(container);
-		//Required to set the end time based on the default ActivityType selected
-		container.find('[name="activitytype"]').trigger('change');
 	},
 	toggleTimesInputs: function (container) {
 		container.find(':checkbox').change(function () {

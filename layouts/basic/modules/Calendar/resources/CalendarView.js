@@ -334,33 +334,41 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					revertFunc();
 				});
 	},
-	selectDays: function (start, end) {
+	selectDays: function (startDate, endDate) {
 		var thisInstance = this;
-		if (end.hasTime() == false) {
-			end.add(-1, 'days');
+		var start_hour = $('#start_hour').val();
+		var end_hour = $('#end_hour').val();
+		if (endDate.hasTime() == false) {
+			endDate.add(-1, 'days');
 		}
-		start = start.format();
-		end = end.format();
+		startDate = startDate.format();
+		endDate = endDate.format();
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		if (view.name == "month") {
-			var start_hour = $('#start_hour').val();
-			var end_hour = $('#end_hour').val();
-
-			if (start_hour == '') {
-				start_hour = '00';
-			}
-			if (end_hour == '') {
-				end_hour = '00';
-			}
-
-			start = start + 'T' + start_hour + ':00';
-			end = end + 'T' + end_hour + ':00';
+		if (start_hour == '') {
+			start_hour = '00';
+		}
+		if (end_hour == '') {
+			end_hour = '00';
 		}
 		this.getCalendarCreateView().then(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
-
+			if(view.name != 'agendaDay' && view.name != 'agendaWeek'){
+				if(startDate == endDate){
+					var defaulDuration = 0;
+					if (data.find('[name="activitytype"]').val() == 'Call') {
+						defaulDuration = data.find('[name="defaultCallDuration"]').val();
+					} else {
+						defaulDuration = data.find('[name="defaultOtherEventDuration"]').val();
+					}
+					var startDateInstance = Date.parse(start_hour);
+					var endDateInstance = startDateInstance.addMinutes(defaulDuration);
+					end_hour = endDateInstance.toString('HH:mm');
+				}
+				startDate = startDate + 'T' + start_hour + ':00';
+				endDate = endDate + 'T' + end_hour + ':00';
+			}
 			var dateFormat = data.find('[name="date_start"]').data('dateFormat');
 			var timeFormat = data.find('[name="time_start"]').data('format');
 			if (timeFormat == 24) {
@@ -369,10 +377,10 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				defaultTimeFormat = 'hh:mm tt';
 			}
 
-			var startDateInstance = Date.parse(start);
+			var startDateInstance = Date.parse(startDate);
 			var startDateString = app.getDateInVtigerFormat(dateFormat, startDateInstance);
 			var startTimeString = startDateInstance.toString(defaultTimeFormat);
-			var endDateInstance = Date.parse(end);
+			var endDateInstance = Date.parse(endDate);
 			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
 			var endTimeString = endDateInstance.toString(defaultTimeFormat);
 
