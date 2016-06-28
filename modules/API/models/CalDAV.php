@@ -482,10 +482,10 @@ class API_CalDAV_Model
 			if ($component->name == 'VTODO') {
 				if (isset($component->STATUS)) {
 					switch ($component->STATUS->getValue()) {
-						case 'IN-PROCESS':
-							$status = 'PLL_IN_REALIZATION';
+						case 'TENTATIVE':
+							$status = 'PLL_PLANNED';
 							break;
-						case 'COMPLETED':
+						case 'CONFIRMED':
 							$status = 'PLL_COMPLETED';
 							break;
 						case 'CANCELLED':
@@ -497,10 +497,7 @@ class API_CalDAV_Model
 		} else {
 			switch ($component) {
 				case 'PLL_PLANNED':
-					$status = 'NEEDS-ACTION';
-					break;
-				case 'PLL_IN_REALIZATION':
-					$status = 'IN-PROCESS';
+					$status = 'TENTATIVE';
 					break;
 				case 'PLL_OVERDUE':
 					$status = 'CANCELLED';
@@ -512,7 +509,7 @@ class API_CalDAV_Model
 					$status = 'CANCELLED';
 					break;
 				case 'PLL_COMPLETED':
-					$status = 'COMPLETED';
+					$status = 'CONFIRMED';
 					break;
 			}
 		}
