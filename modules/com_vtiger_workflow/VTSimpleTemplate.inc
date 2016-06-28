@@ -138,7 +138,9 @@ class VTSimpleTemplate{
 	} 
 	function getMetaValue($fieldname){
 		require_once 'config/config.php';
-		global $site_URL, $PORTAL_URL, $current_user, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID;
+		$siteURL = AppConfig::main('site_URL');
+		$portalUrl = AppConfig::main('PORTAL_URL');
+
 		switch($fieldname){
 			case 'date'					:	$referenceId = $this->parent->get('assigned_user_id');
 											if ($referenceId) {
@@ -176,7 +178,7 @@ class VTSimpleTemplate{
 											$parts = explode('x', $wsId);
 											$recordId = $parts[1];
 											$moduleName = $this->parent->getModuleName();
-											return "$site_URL/index.php?module=$moduleName&view=Detail&record=$recordId";
+											return "$siteURL/index.php?module=$moduleName&view=Detail&record=$recordId";
 			case 'portaldetailviewurl'	: 	$wsId = $this->parent->getId();
 											$parts = explode('x', $wsId);
 											$recordId = $parts[1];
@@ -185,22 +187,21 @@ class VTSimpleTemplate{
 											if($moduleName == 'HelpDesk') $recorIdName = 'ticketid';
 											if($moduleName == 'Faq') $recorIdName = 'faqid';
 											if($moduleName == 'Products') $recorIdName = 'productid';
-											return $PORTAL_URL.'/index.php?module='.$moduleName.'&action=index&'.$recorIdName.'='.$recordId.'&status=true';
+											return $portalUrl.'/index.php?module='.$moduleName.'&action=index&'.$recorIdName.'='.$recordId.'&status=true';
             case 'portalpdfurl'         :   $wsId = $this->parent->getId();
 											$parts = explode('x', $wsId);
 											$recordId = $parts[1];
 											$moduleName = $this->parent->getModuleName();
 											$recorIdName='id';
-											return $PORTAL_URL.'/index.php?module='.$moduleName.'&action=index&'.$recorIdName.'='.$recordId.'&downloadfile=true';
-			case 'siteurl'				:	return $site_URL;
-			case 'portalurl'			:	return $PORTAL_URL;
+											return $portalUrl.'/index.php?module='.$moduleName.'&action=index&'.$recorIdName.'='.$recordId.'&downloadfile=true';
+			case 'siteurl'				:	return $siteURL;
+			case 'portalurl'			:	return $portalUrl;
 			case 'logo'					:	return '<img src="cid:logo" />';
 
 			case 'recordId'				: list($moduleId, $recordId) = vtws_getIdComponents($this->parent->getId());
 										  return $recordId;
 
-			case 'supportName'			: return $HELPDESK_SUPPORT_NAME;
-			case 'supportEmailId'		: return $HELPDESK_SUPPORT_EMAIL_ID;
+			case 'supportName'			: return AppConfig::main('HELPDESK_SUPPORT_NAME');
 			default: '';
 		}
 	}

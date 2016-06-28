@@ -2081,14 +2081,10 @@ function getCombinations($array, $tempString = '')
 
 function getCompanyDetails()
 {
-	$adb = PearDatabase::getInstance();
+	$db = PearDatabase::getInstance();
+	$result = $db->query('select * from vtiger_organizationdetails');
 
-	$sql = 'select * from vtiger_organizationdetails';
-	$result = $adb->pquery($sql, []);
-
-	$companyDetails = [];
-	$companyDetails = $adb->query_result_rowdata($result);
-
+	$companyDetails = $db->getRow($result);
 	return $companyDetails;
 }
 

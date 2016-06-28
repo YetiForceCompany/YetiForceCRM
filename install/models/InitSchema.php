@@ -233,7 +233,6 @@ class Install_InitSchema_Model
 		$configFileParameters['db_password'] = $dbconfig['db_password'];
 		$configFileParameters['db_name'] = $dbconfig['db_name'];
 		$configFileParameters['db_type'] = $dbconfig['db_type'];
-		$configFileParameters['admin_email'] = $HELPDESK_SUPPORT_EMAIL_ID;
 		$configFileParameters['currency_name'] = $currency_name;
 		$configFileParameters['vt_charset'] = $default_charset;
 		$configFileParameters['default_language'] = $default_language;

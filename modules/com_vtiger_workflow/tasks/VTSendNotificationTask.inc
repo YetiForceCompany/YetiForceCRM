@@ -20,7 +20,7 @@ class VTSendNotificationTask extends VTTask {
 	}
 
 	public function doTask($entity) {
-		global $adb, $site_URL, $current_user, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID;
+		$db = PearDatabase::getInstance();
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
 		$ws_id = $entity->getId();
@@ -34,7 +34,7 @@ class VTSendNotificationTask extends VTTask {
 			$attachment = array();
 
 			$sql = 'SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_crmentity.smownerid as assigned_user_id,  vtiger_crmentity.modifiedtime, vtiger_crmentity.createdtime, vtiger_activity_reminder.reminder_time FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = 0 WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activityid = ?';
-			$result = $adb->pquery($sql, array($entityId));
+			$result = $db->pquery($sql, array($entityId));
 
 			$moduleModel = Vtiger_Module_Model::getInstance($module);
 			$moduleModel->setEventFieldsForExport();
@@ -49,8 +49,8 @@ class VTSendNotificationTask extends VTTask {
 				'encoding' => "base64",
 				'type' => "application/ics; charset=utf-8; method=REQUEST"
 			);
-			$result_invitees = $adb->pquery("SELECT * FROM vtiger_invitees WHERE activityid = ?", array($entityId));
-			while ($recordinfo = $adb->fetch_array($result_invitees)) {
+			$result_invitees = $db->pquery("SELECT * FROM vtiger_invitees WHERE activityid = ?", array($entityId));
+			while ($recordinfo = $db->fetch_array($result_invitees)) {
 				$recordModel = Users_Record_Model::getInstanceById($recordinfo['inviteeid'], 'Users');
 				$email = $recordModel->get('email1');
 				$language = $recordModel->get('language');

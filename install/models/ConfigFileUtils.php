@@ -95,7 +95,6 @@ class Install_ConfigFileUtils_Model {
 		      		$buffer = str_replace( "_VT_APP_UNIQKEY_", md5(time() + rand(1,9999999) + md5($this->rootDirectory)) , $buffer);
 
 					/* replace support email variable */
-					$buffer = str_replace( "_USER_SUPPORT_EMAIL_", $this->adminEmail, $buffer);
 					$buffer = str_replace( "_LANG_", $this->default_language ,$buffer);
 					$buffer = str_replace( "_TIMEZONE_", $this->timezone ,$buffer);
 					

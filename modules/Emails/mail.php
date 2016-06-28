@@ -17,8 +17,8 @@ require_once 'include/utils/VTCacheUtils.php';
 /**   Function used to send email
  *   $module 		-- current module
  *   $to_email 	-- to email address
- *   $from_name	-- currently loggedin user name
- *   $from_email	-- currently loggedin vtiger_users's email id. you can give as '' if you are not in HelpDesk module
+ *   $fromName	-- currently loggedin user name
+ *   $fromEmail	-- currently loggedin vtiger_users's email id. you can give as '' if you are not in HelpDesk module
  *   $subject		-- subject of the email you want to send
  *   $contents		-- body of the email you want to send
  *   $cc		-- add email ids with comma seperated. - optional
@@ -26,70 +26,61 @@ require_once 'include/utils/VTCacheUtils.php';
  *   $attachment	-- whether we want to attach the currently selected file or all vtiger_files.[values = current,all] - optional
  *   $emailid		-- id of the email object which will be used to get the vtiger_attachments
  */
-function send_mail($module, $to_email, $from_name, $from_email, $subject, $contents, $cc = '', $bcc = '', $attachment = '', $emailid = '', $logo = '', $useGivenFromEmailAddress = false, $attachmentSrc = [])
+function send_mail($module, $to_email, $fromName, $fromEmail, $subject, $contents, $cc = '', $bcc = '', $attachment = '', $emailid = '', $logo = '', $useGivenFromEmailAddress = false, $attachmentSrc = [])
 {
 
 	$adb = PearDatabase::getInstance();
 	$log = LoggerManager::getInstance();
-	$root_directory = vglobal('root_directory');
-	global $HELPDESK_SUPPORT_EMAIL_ID, $HELPDESK_SUPPORT_NAME;
 
-	$uploaddir = $root_directory . '/cache/upload/';
 	$log->debug('To id => ' . $to_email . ' Subject => ' . $subject . 'Contents => ' . $contents);
 
 	//Get the email id of assigned_to user -- pass the value and name, name must be "user_name" or "id"(field names of vtiger_users vtiger_table)
 	//$to_email = getUserEmailId('id',$assigned_user_id);
 	//if module is HelpDesk then from_email will come based on support email id
-	if ($from_email == '') {
+	if (empty($fromEmail)) {
 		//if from email is not defined, then use the useremailid as the from address
-		$from_email = getUserEmailId('user_name', $from_name);
+		$fromEmail = getUserEmailId('user_name', $fromName);
 	}
 
 	//if the newly defined from email field is set, then use this email address as the from address
 	//and use the username as the reply-to address
-	$cachedFromEmail = VTCacheUtils::getOutgoingMailFromEmailAddress();
-	if ($cachedFromEmail === null) {
-		$query = "select from_email_field from vtiger_systems where server_type=?";
-		$params = array('email');
-		$result = $adb->pquery($query, $params);
-		$from_email_field = $adb->query_result($result, 0, 'from_email_field');
-		VTCacheUtils::setOutgoingMailFromEmailAddress($from_email_field);
+	$systems = Vtiger_Cache::get('SYSTEMS', 'email');
+	if (!$cachedFromEmail) {
+		$query = 'select from_email_field from vtiger_systems where server_type=?';
+		$result = $adb->pquery($query, ['email']);
+		$systems = $adb->getRow($result);
+		Vtiger_Cache::set('SYSTEMS', 'email', $systems);
 	}
+	$fromEmailField = $systems['from_email_field'];
 
-	if (isUserInitiated()) {
-		$replyToEmail = $from_email;
-	} else {
-		$replyToEmail = $from_email_field;
-	}
-	if (isset($from_email_field) && $from_email_field != '' && !$useGivenFromEmailAddress) {
+	if ((!empty($fromEmailField) && !$useGivenFromEmailAddress) || empty($fromEmail)) {
 		//setting from _email to the defined email address in the outgoing server configuration
-		$from_email = $from_email_field;
+		$fromEmail = $fromEmailField;
 	}
-
+	$supportName = AppConfig::main('HELPDESK_SUPPORT_NAME');
+	if (!empty($supportName)) {
+		$fromName = $supportName;
+	}
+	
 	//if($module != "Calendar")
-	//$contents = addSignature($contents,$from_name); //TODO improved during the reconstruction Signature
+	//$contents = addSignature($contents,$fromName); //TODO improved during the reconstruction Signature
 
 	$mail = new PHPMailer();
 
-	setMailerProperties($mail, $subject, $contents, $from_email, $from_name, trim($to_email, ","), $attachment, $emailid, $module, $logo);
+	setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, trim($to_email, ','), $attachment, $emailid, $module, $logo);
 	setCCAddress($mail, 'cc', $cc);
 	setCCAddress($mail, 'bcc', $bcc);
-	if (!empty($replyToEmail)) {
-		$mail->AddReplyTo($replyToEmail);
+
+	$emailReply = AppConfig::main('HELPDESK_SUPPORT_EMAIL_REPLY');
+	if (!empty($emailReply) && $emailReply != $fromEmail) {
+		$mail->AddReplyTo($emailReply);
 	}
 
-	// vtmailscanner customization: If Support Reply to is defined use it.
-	global $HELPDESK_SUPPORT_EMAIL_REPLY_ID;
-	if ($HELPDESK_SUPPORT_EMAIL_REPLY_ID && $HELPDESK_SUPPORT_EMAIL_ID != $HELPDESK_SUPPORT_EMAIL_REPLY_ID) {
-		$mail->AddReplyTo($HELPDESK_SUPPORT_EMAIL_REPLY_ID);
-	}
-	// END
 	// Fix: Return immediately if Outgoing server not configured
 	if (empty($mail->Host)) {
 		return 0;
 	}
 	// END
-
 
 	if (count($attachmentSrc)) {
 		foreach ($attachmentSrc as $name => $src) {
@@ -103,15 +94,14 @@ function send_mail($module, $to_email, $from_name, $from_email, $subject, $conte
 		}
 	}
 
-	$mail_status = MailSend($mail);
-
-	if ($mail_status != 1) {
-		$mail_error = getMailError($mail, $mail_status, $mailto);
+	$sendStatus = MailSend($mail);
+	if ($sendStatus != 1) {
+		$mailError = getMailError($mail, $sendStatus, $mailto);
 	} else {
-		$mail_error = $mail_status;
+		$mailError = $sendStatus;
 	}
 
-	return $mail_error;
+	return $mailError;
 }
 
 /** 	Function to get the user Email id based on column name and column value
@@ -125,7 +115,7 @@ function getUserEmailId($name, $val)
 	if ($val != '') {
 		$adb = PearDatabase::getInstance();
 		//done to resolve the PHP5 specific behaviour
-		$sql = "SELECT email1  from vtiger_users WHERE status='Active' AND " . $adb->sql_escape_string($name) . " = ?";
+		$sql = "SELECT email1 from vtiger_users WHERE status='Active' AND " . $adb->sql_escape_string($name) . " = ?";
 		$res = $adb->pquery($sql, array($val));
 		$email = $adb->query_result($res, 0, 'email1');
 		$log->debug('Email id is selected  => ' . $email);
@@ -169,23 +159,23 @@ function addSignature($contents, $fromname)
  * 	$mail 		-- reference of the mail object
  * 	$subject	-- subject of the email you want to send
  * 	$contents	-- body of the email you want to send
- * 	$from_email	-- from email id which will be displayed in the mail
- * 	$from_name	-- from name which will be displayed in the mail
+ * 	$fromEmail	-- from email id which will be displayed in the mail
+ * 	$fromName	-- from name which will be displayed in the mail
  * 	$to_email 	-- to email address  -- This can be an email in a single string, a comma separated
  * 			   list of emails or an array of email addresses
  * 	$attachment	-- whether we want to attach the currently selected file or all vtiger_files.
   [values = current,all] - optional
  * 	$emailid	-- id of the email object which will be used to get the vtiger_attachments - optional
  */
-function setMailerProperties($mail, $subject, $contents, $from_email, $from_name, $to_email, $attachment = '', $emailid = '', $module = '', $logo = '')
+function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, $to_email, $attachment = '', $emailid = '', $module = '', $logo = '')
 {
 	$log = LoggerManager::getInstance();
 	$log->debug('Inside the function setMailerProperties');
-	$CompanyDetails = getCompanyDetails();
-	$logourl = 'storage/Logo/' . $CompanyDetails['logoname'];
+	$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+	$logourl = 'storage/Logo/' . $companyDetails->get('logoname');
 	if ($logo == 1) {
 		$image = getimagesize($logourl);
-		$mail->AddEmbeddedImage($logourl, 'logo', $CompanyDetails['logoname'], "base64", $image['mime']);
+		$mail->AddEmbeddedImage($logourl, 'logo', $companyDetails->get('logoname'), 'base64', $image['mime']);
 	}
 
 	$mail->Subject = $subject;
@@ -200,21 +190,20 @@ function setMailerProperties($mail, $subject, $contents, $from_email, $from_name
 	setMailServerProperties($mail);
 
 	//Handle the from name and email for HelpDesk
-	$mail->From = $from_email;
-	$userFullName = trim(VTCacheUtils::getUserFullName($from_name));
+	$mail->From = $fromEmail;
+	$userFullName = trim(VTCacheUtils::getUserFullName($fromName));
 	if (empty($userFullName)) {
 		$adb = PearDatabase::getInstance();
-		$rs = $adb->pquery("select first_name,last_name from vtiger_users where user_name=?", array($from_name));
+		$rs = $adb->pquery("select first_name,last_name from vtiger_users where user_name=?", array($fromName));
 		$num_rows = $adb->num_rows($rs);
 		if ($num_rows > 0) {
 			$fullName = getFullNameFromQResult($rs, 0, 'Users');
-			VTCacheUtils::setUserFullName($from_name, $fullName);
+			VTCacheUtils::setUserFullName($fromName, $fullName);
 		}
 	} else {
-		$from_name = $userFullName;
+		$fromName = $userFullName;
 	}
-	$mail->FromName = decode_html($from_name);
-
+	$mail->FromName = decode_html($fromName);
 
 	if ($to_email != '') {
 		if (is_array($to_email)) {
@@ -222,7 +211,7 @@ function setMailerProperties($mail, $subject, $contents, $from_email, $from_name
 				$mail->addAddress($to_email[$j]);
 			}
 		} else {
-			$_tmp = explode(",", $to_email);
+			$_tmp = explode(',', $to_email);
 			for ($j = 0, $num = count($_tmp); $j < $num; $j++) {
 				$mail->addAddress($_tmp[$j]);
 			}
@@ -230,7 +219,7 @@ function setMailerProperties($mail, $subject, $contents, $from_email, $from_name
 	}
 
 	//commented so that it does not add from_email in reply to
-	//$mail->AddReplyTo($from_email);
+	//$mail->AddReplyTo($fromEmail);
 	$mail->WordWrap = 50;
 
 	//If we want to add the currently selected file only then we will use the following function
@@ -451,11 +440,11 @@ function getMailError($mail, $mail_status, $to)
 	  provide_address, mailer_not_supported, execute, instantiate, file_access, file_open, encoding, data_not_accepted, authenticate,
 	  connect_host, recipients_failed, from_failed
 	 */
-	$log = vglobal('log');
-	$log->info("Inside the function getMailError");
+	$log = LoggerManager::getInstance();
+	$log->info('Inside the function getMailError');
 
 	$msg = array_search($mail_status, $mail->language);
-	$log->info("Error message ==> " . $msg);
+	$log->info("Error message ==> $msg");
 
 	if ($msg == 'connect_host') {
 		$error_msg = $msg;
@@ -464,11 +453,11 @@ function getMailError($mail, $mail_status, $to)
 	} elseif (strstr($msg, 'recipients_failed')) {
 		$error_msg = $msg;
 	} else {
-		$log->info("Mail error is not as connect_host or from_failed or recipients_failed");
+		$log->info('Mail error is not as connect_host or from_failed or recipients_failed');
 		$error_msg = $msg;
 	}
 
-	$log->info("return error => " . $error_msg);
+	$log->info("return error => $error_msg");
 	return $error_msg;
 }
 
