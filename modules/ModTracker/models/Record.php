@@ -91,17 +91,20 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
-	public static function isNewChange($recordId)
+	public static function isNewChange($recordId, $userId = false)
 	{
 		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		if ($userId === false) {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$userId = $currentUser->getId();
+		}
 
 		$listQuery = 'SELECT `last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? ORDER BY changedon DESC LIMIT 1;';
 		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
 		$lastReviewedUsers = $db->getSingleValue($result);
 		if (!empty($lastReviewedUsers)) {
 			$lastReviewedUsers = explode('#', $lastReviewedUsers);
-			return !in_array($currentUser->getRealId(), $lastReviewedUsers);
+			return !in_array($userId, $lastReviewedUsers);
 		}
 		return true;
 	}
@@ -109,9 +112,9 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	public static function getUnreviewed($recordsId, $userId = false)
 	{
 		$db = PearDatabase::getInstance();
-		if($userId === false){
+		if ($userId === false) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$userId = $currentUser->getRealId();
+			$userId = $currentUser->getId();
 		}
 		$unreviewed = [];
 		if (!is_array($recordsId)) {
@@ -168,7 +171,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			default: $action = 'view=Detail';
 				break;
 		}
-		if($moduleName == 'Events'){
+		if ($moduleName == 'Events') {
 			$moduleName = 'Calendar';
 		}
 		return "index.php?module=$moduleName&$action&record=" . $this->get('crmid');
@@ -233,12 +236,15 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $this->checkStatus(self::DISPLAYED);
 	}
 
-	function isReviewed()
+	function isReviewed($userId = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		if ($userId === false) {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$userId = $currentUser->getId();
+		}
 		$reviewed = $this->get('last_reviewed_users');
 		$users = explode('#', $reviewed);
-		return in_array($currentUser->getRealId(), $users);
+		return in_array($userId, $users);
 	}
 
 	function getModifiedBy()
