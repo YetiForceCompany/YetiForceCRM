@@ -20,7 +20,7 @@
 			</span>
 			<span class="col-md-4 settingsSummary">
 				<a href="index.php?module=Workflows&parent=Settings&view=List">
-					<h2 style="font-size: 44px" class="summaryCount">{$ACTIVE_WORKFLOWS}</h2> 
+					<h2 style="font-size: 44px" class="summaryCount">{$ALL_WORKFLOWS}</h2> 
                     <p class="summaryText" style="margin-top:20px;">{vtranslate('LBL_WORKFLOWS_ACTIVE',$QUALIFIED_MODULE)}</p> 
 				</a>
 			</span>
