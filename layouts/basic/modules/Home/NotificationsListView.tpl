@@ -1,31 +1,53 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="notificationContainer">
-		{assign var=ENTRIES value=$NOTIFICATION_MODEL->getEntries()}
-		<ul class="gridster">
-			{foreach from=$NOTIFICATION_MODEL->getTypes() item=TYPE key=TYPE_ID}
-				{if $ENTRIES[$TYPE_ID]}
-					<li data-row="1" data-col="1" data-sizex="{$TYPE['width']}" data-sizey="{$TYPE['height']}">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<div class="pull-right">
-									<button type="button" class="btn btn-success btn-xs" onclick="Vtiger_Index_Js.markAllNotifications(this);" title="{vtranslate('LBL_MARK_AS_READ', $MODULE_NAME)}">
-										<span class="glyphicon glyphicon-ok"></span>
-									</button>
-								</div>
-								{vtranslate($TYPE['name'], $MODULE)}
-							</div>
-							<div class="panel-body notificationBody">
-								<div class="notificationEntries">
-									{foreach from=$ENTRIES[$TYPE_ID] item=ROW}
-										{include file='NotificationsItem.tpl'|@vtemplate_path:$MODULE}
-									{/foreach}
-								</div>
-							</div>
-						</div>
-					</li>
-				{/if}
+	<table class="table table-bordered table-condensed notificationTable">
+		<thead>
+			<tr>
+				<th>{vtranslate('LBL_TITLE', $MODULE)}</th>
+				<th>{vtranslate('LBL_TYPE_NOTIFICATIONS', $MODULE)}</th>
+				<th>{vtranslate('LBL_MESSAGE', $MODULE)}</th>
+				<th>{vtranslate('LBL_TIME', $MODULE)}</th>
+				<th>
+					{if !empty($NOTIFICATION_ENTRIES)}
+						<button type="button" class="btn btn-success btn-xs" 
+								onclick="Vtiger_Index_Js.markAllNotifications(this);" title="{vtranslate('LBL_MARK_AS_READ', $MODULE)}">
+							<span class="glyphicon glyphicon-ok"></span>
+						</button>
+					{/if}
+				</th>
+			</tr>
+		</thead>
+		<tbody class="notificationEntries">
+			{foreach from=$NOTIFICATION_ENTRIES item=ITEM}
+				<tr class="noticeRow" data-id="{$ITEM->getId()}">
+					<td>
+						{assign var=ICON value=$ITEM->getIcon()}
+						{if $ICON['type'] == 'image'}
+							<img width="22px" class="top2px {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}"/>
+						{else}
+							<span class="noticeIcon {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" aria-hidden="true"></span>
+						{/if}&nbsp;&nbsp;
+						{$ITEM->getTitle()}
+					</td>
+					<td>{vtranslate($ITEM->getTypeName(), $MODULE)}</td>
+					<td>{$ITEM->getMassage()}</td>
+					<td>
+						<span title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($ITEM->get('time'))}">
+							{Vtiger_Util_Helper::formatDateDiffInStrings($ITEM->get('time'))}
+						</span>
+					</td>
+					<td>
+						<button type="button" class="btn btn-success btn-xs" onclick="Vtiger_Index_Js.markNotifications({$ITEM->getId()});" title="{vtranslate('LBL_MARK_AS_READ', $MODULE)}">
+							<span class="glyphicon glyphicon-ok"></span>
+						</button>&nbsp;&nbsp;
+						{if isRecordExists($ITEM->get('reletedid'))}
+							<a class="btn btn-info btn-xs" title="{vtranslate('LBL_GO_TO_PREVIEW')}" href="index.php?module={$ITEM->get('reletedmodule')}&view=Detail&record={$ITEM->get('reletedid')}">
+								<span class="glyphicon glyphicon-th-list"></span>
+							</a>
+						{/if}
+					</td>
+				</tr>
 			{/foreach}
-		</ul>
-	</div>
+		</tbody>
+	</table>
 {/strip}

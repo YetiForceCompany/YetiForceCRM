@@ -46,7 +46,11 @@ $languageStrings = [
 	'PLL_3_H' => '3 godziny',
 	'PLL_12_H' => '12 godzin',
 	'PLL_24_H' => '24 godziny',
-	'LBL_NOTIFICATION_SETTINGS' => 'Konfiguracja powiadomień'
+	'LBL_NOTIFICATION_SETTINGS' => 'Konfiguracja powiadomień',
+	'LBL_TYPE_NOTIFICATIONS' => 'Typy powiadomień',
+	'LBL_TITLE' => 'Tytuł',
+	'LBL_MESSAGE' => 'Wiadomość',
+	'LBL_TIME' => 'Czas',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',
