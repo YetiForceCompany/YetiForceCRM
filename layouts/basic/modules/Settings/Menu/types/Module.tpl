@@ -13,7 +13,7 @@
 <div class="form-group">
 	<label class="col-md-4 control-label">{vtranslate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
-		<input name="label" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('label')}{/if}" data-validation-engine="validate[required]" />
+		<input name="label" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('label')}{/if}" />
 	</div>
 </div>
 {include file='fields/Newwindow.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
