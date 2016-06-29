@@ -23,6 +23,7 @@ $languageStrings = [
 	'FL_MARGIN' => 'Total margin',
 	'FL_SUM_GROSS' => 'Gross amount',
 	'FL_SUM_DISCOUNT' => 'Discount amount',
+	'FL_VALID_UNTIL' => 'Valid until',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Draft',
@@ -34,5 +35,4 @@ $languageStrings = [
 	'PLL_ACCEPTED' => 'Accepted',
 
 	'LBL_CHANGE_STATUS' => 'Change Status',
-
 ];

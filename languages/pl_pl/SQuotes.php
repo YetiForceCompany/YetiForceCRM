@@ -23,6 +23,7 @@ $languageStrings = [
 	'FL_MARGIN' => 'Suma marży',
 	'FL_SUM_GROSS' => 'Suma brutto',
 	'FL_SUM_DISCOUNT' => 'Suma rabatu',
+	'FL_VALID_UNTIL' => 'Ważność oferty',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Wersja robocza',
