@@ -345,7 +345,10 @@ class Vtiger_Link_Model extends Vtiger_Link
 		$linkModels = [];
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
-				$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
+				$queryParams = Vtiger_Functions::getQueryParams($linkObject->linkurl);
+				if (!(isset($queryParams['module']) && !Users_Privileges_Model::isPermitted($queryParams['module']))) {
+					$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
+				}
 			}
 		}
 
