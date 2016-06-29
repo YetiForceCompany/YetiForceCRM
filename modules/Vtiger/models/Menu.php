@@ -7,6 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 
 class Vtiger_Menu_Model
@@ -132,17 +133,23 @@ class Vtiger_Menu_Model
 					}
 				}
 
-				if ($pageTitle) {
-					$breadcrumbs[] = [ 'name' => vtranslate($pageTitle, $moduleName)];
-				} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
-					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
-				} elseif ($view != '' && $view != 'List') {
-					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
-				}
-				if ($request->get('record') != '') {
-					$recordLabel = Vtiger_Functions::getUserRecordLabel($request->get('record'));
-					if ($recordLabel != '') {
-						$breadcrumbs[] = [ 'name' => $recordLabel];
+				if (is_array($pageTitle)) {
+					foreach ($pageTitle as $title) {
+						$breadcrumbs[] = $title;
+					}
+				} else {
+					if ($pageTitle) {
+						$breadcrumbs[] = [ 'name' => vtranslate($pageTitle, $moduleName)];
+					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
+						$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
+					} elseif ($view != '' && $view != 'List') {
+						$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
+					}
+					if ($request->get('record') != '' && $moduleName == 'Users') {
+						$recordLabel = Vtiger_Functions::getUserRecordLabel($request->get('record'));
+						if ($recordLabel != '') {
+							$breadcrumbs[] = [ 'name' => $recordLabel];
+						}
 					}
 				}
 			}
