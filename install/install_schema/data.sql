@@ -23930,22 +23930,22 @@ insert  into `vtiger_service_usageunit_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_settings_blocks` */
 
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (1,'LBL_USER_MANAGEMENT',1,'adminIcon-permissions',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (2,'LBL_STUDIO',2,'adminIcon-standard-modules',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (3,'LBL_COMPANY',12,'adminIcon-company-information',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (4,'LBL_SYSTEM_TOOLS',11,'adminIcon-system-tools',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (5,'LBL_INTEGRATION',8,'adminIcon-integration',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (6,'LBL_PROCESSES',13,'adminIcon-processes',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (7,'LBL_SECURITY_MANAGEMENT',6,'adminIcon-security',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (8,'LBL_MAIL_TOOLS',10,'adminIcon-mail-tools',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (9,'LBL_About_YetiForce',26,'adminIcon-about-yetiforce',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (11,'LBL_ADVANCED_MODULES',3,'adminIcon-advenced-modules',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (12,'LBL_CALENDAR_LABELS_COLORS',4,'adminIcon-calendar-labels-colors',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (13,'LBL_SEARCH_AND_FILTERS',5,'adminIcon-search-and-filtres',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (14,'LBL_LOGS',7,'adminIcon-logs',0,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (15,'LBL_AUTOMATION',9,'adminIcon-automation',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (1,'LBL_USER_MANAGEMENT',2,'adminIcon-permissions',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (2,'LBL_STUDIO',3,'adminIcon-standard-modules',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (3,'LBL_COMPANY',13,'adminIcon-company-information',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (4,'LBL_SYSTEM_TOOLS',12,'adminIcon-system-tools',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (5,'LBL_INTEGRATION',9,'adminIcon-integration',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (6,'LBL_PROCESSES',14,'adminIcon-processes',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (7,'LBL_SECURITY_MANAGEMENT',7,'adminIcon-security',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (8,'LBL_MAIL_TOOLS',11,'adminIcon-mail-tools',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (9,'LBL_About_YetiForce',15,'adminIcon-about-yetiforce',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (11,'LBL_ADVANCED_MODULES',4,'adminIcon-advenced-modules',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (12,'LBL_CALENDAR_LABELS_COLORS',5,'adminIcon-calendar-labels-colors',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (13,'LBL_SEARCH_AND_FILTERS',6,'adminIcon-search-and-filtres',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (14,'LBL_LOGS',8,'adminIcon-logs',0,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (15,'LBL_AUTOMATION',10,'adminIcon-automation',0,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (16,'LBL_MENU_SUMMARRY',0,'userIcon-Home',1,'index.php?module=Vtiger&parent=Settings&view=Index');
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (17,'LBL_YETIFORCE_SHOP',27,'adminIcon-yetiforce-shop',1,'https://shop.yetiforce.com/');
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`) values (17,'LBL_YETIFORCE_SHOP',1,'adminIcon-yetiforce-shop',1,'https://shop.yetiforce.com/');
 
 /*Data for the table `vtiger_settings_blocks_seq` */
 
