@@ -342,12 +342,15 @@ var Vtiger_Index_Js = {
 		});
 	},
 	markAllNotifications: function (element) {
-		var thisInstance = this;
 		var ids = [];
-		var li = $(element).closest('li');
-		li.find('.noticeRow').each(function (index) {
+		var li = $(element).closest('.notificationContainer');
+		li.find('.notificationEntries .noticeRow').each(function (index) {
 			ids.push($(this).data('id'));
 		});
+		if(ids.length == 0){
+			element.remove();
+			return false;
+		}
 		var params = {
 			module: 'Home',
 			action: 'Notification',
@@ -361,9 +364,6 @@ var Vtiger_Index_Js = {
 				title: app.vtranslate('JS_MESSAGE'),
 				text: app.vtranslate('JS_MARKED_AS_READ'),
 				type: 'info'
-			});
-			li.fadeOut(300, function () {
-				li.remove();
 			});
 			var badge = $(".notificationsNotice .badge");
 			var number = parseInt(badge.text()) - 1;

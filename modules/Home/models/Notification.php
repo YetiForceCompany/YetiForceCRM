@@ -19,6 +19,25 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		return new self();
 	}
 
+	/**
+	 * Function to get types of notification for library jstree
+	 * @return <Array>
+	 */
+	public function getTypesForTree()
+	{
+		$typesNotification = $this->getTypes();
+		$tree = [];
+		foreach ($typesNotification as $id => $type) {
+			$tree[] = [
+				'id' => $id,
+				'record_id' => $id,
+				'type' => 'folder',
+				'text' => vtranslate($type['name'], 'Home')
+			];
+		}
+		return $tree;
+	}
+
 	public function getTypes()
 	{
 		$instance = Vtiger_Cache::get('Home_Notification_Model', 'Types');
@@ -38,15 +57,14 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		return $types;
 	}
 
-	public function getEntries($limit = false, $conditions = false, $userId = false)
+	public function getEntries($limit = false, $conditions = false, $userId = false, $groupBy = true)
 	{
 		$db = PearDatabase::getInstance();
 		if (empty($userId)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUser->getId();
 		}
-
-		$sql = 'SELECT * FROM l_yf_notification WHERE userid = ? '; //ORDER BY id DESC
+		$sql = 'SELECT * FROM l_yf_notification WHERE userid = ? ';
 		if ($conditions) {
 			$sql .= $conditions;
 		}
@@ -56,7 +74,11 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$result = $db->pquery($sql, [$userId]);
 		$entries = [];
 		while ($row = $db->getRow($result)) {
-			$entries[$row['type']][] = Home_NoticeEntries_Model::getInstanceByRow($row, $this);
+			if ($groupBy) {
+				$entries[$row['type']][] = Home_NoticeEntries_Model::getInstanceByRow($row, $this);
+			} else {
+				$entries[] = Home_NoticeEntries_Model::getInstanceByRow($row, $this);
+			}
 		}
 		return $entries;
 	}

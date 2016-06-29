@@ -16,12 +16,30 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
+		$moduleName = $request->getModule();
+		$notification = Home_Notification_Model::getInstance();
+		$types = [];
+		if($request->has('types')){
+			$types = $request->get('types');
+		}
+		$notificationEntries = [];
+		if (!empty($types)){
+			$notificationEntries = $notification->getEntries(false,  'AND `type` IN (' . implode(',', $types) . ')' , false, false);
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('NOTIFICATION_ENTRIES', $notificationEntries);
+		$viewer->view('NotificationsListView.tpl', $moduleName);
+	}
+
+	public function postProcess(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
 		$notification = Home_Notification_Model::getInstance();
-		$viewer->assign('NOTIFICATION_MODEL', $notification);
-		$viewer->view('NotificationsListView.tpl', $moduleName);
+		$viewer->assign('NOTIFICATION_TYPES', Zend_Json::encode($notification->getTypesForTree()));
+		$viewer->view('NotificationsListPostProcess.tpl', $moduleName);
+		parent::postProcess($request);
 	}
 
 	function getBreadcrumbTitle(Vtiger_Request $request)
@@ -35,6 +53,9 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			'~libraries/jquery/gridster/jquery.gridster.js',
+			'~libraries/jquery/jstree/jstree.js',
+			'~libraries/jquery/datatables/media/js/jquery.dataTables.js',
+			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -46,6 +67,9 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 		$headerCss = [
 			'~libraries/jquery/gridster/jquery.gridster.css',
+			'~libraries/jquery/jstree/themes/proton/style.css',
+			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
+			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
 		];
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances, $cssScripts);
