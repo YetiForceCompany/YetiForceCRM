@@ -16,7 +16,7 @@ $languageStrings = [
 	
 	//Bloks
 	'LBL_HOLIDAYSENTITLEMENT_INFORMATION' => 'Information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
+	'LBL_CUSTOM_INFORMATION' => 'Systeminformationen',
 	
 	//Fields
 	'LBL_YEAR' => 'Jahr',

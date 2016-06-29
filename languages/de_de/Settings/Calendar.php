@@ -14,7 +14,7 @@ $languageStrings = [
 	'Meeting' => 'Besprechung',
 	'Call' => 'Anruf',
 	//ActivityTypes
-	'LBL_ACTIVITY_TYPES' => 'Calendar – Types',
+	'LBL_ACTIVITY_TYPES' => 'Kalendertypen',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Verwaltung von Aktivitätstypen.',
 	'LBL_ACTIVITY_NAME' => 'Aktivitätsname',
 	'LBL_MODULE' => 'Modul',

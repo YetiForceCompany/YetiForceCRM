@@ -42,11 +42,11 @@ $languageStrings = [
 	'MailScannerBind' => 'Mail Scanner Bind',
 	'LBL_CURRENCY_UPDATE' => 'Währungs Update',
 	'LBL_MULTI_REFERENCE_VALUE' => 'Multireferenzfelder Update',
-	'LBL_CRMACTIVITY_DAYS' => 'Update calendar activity fields in related modules',
-	'Activity State' => 'Activity State',
-	'Assets Renewal' => 'Assets Renewal',
-	'SoldServices Renewal' => 'SoldServices Renewal',
-	'LBL_SEND_NOTIFICATIONS' => 'Send notifications',
+	'LBL_CRMACTIVITY_DAYS' => 'Kalenderaktivitäten in zugehörigen Modulen aktualisieren',
+	'Activity State' => 'Aktivitätsstatus',
+	'Assets Renewal' => 'Erneuern Bestandsverwaltung',
+	'SoldServices Renewal' => 'Eneuern Dienstleistung',
+	'LBL_SEND_NOTIFICATIONS' => 'Benachrichtigungen senden',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15min',

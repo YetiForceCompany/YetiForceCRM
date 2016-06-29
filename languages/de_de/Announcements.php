@@ -1,24 +1,24 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'Announcements' => 'Announcements',
-	'SINGLE_Announcements' => 'Announcement',
+	'Announcements' => 'Bekanntmachungen',
+	'SINGLE_Announcements' => 'Bekanntmachung',
 	//BLOCKS
 	'LBL_ANNOUNCEMENTS_INFORMATION' => 'Information',
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
 	'LBL_NUMBER' => 'Nummer',
 	'FL_STATUS' => 'Status',
-	'FL_INTERVAL' => 'Reminder time',
+	'FL_INTERVAL' => 'Erinnerungszeit',
 	// Picklist values
-	'PLL_DRAFT' => 'Draft',
-	'PLL_FOR_ACCEPTANCE' => 'For approval',
-	'PLL_PUBLISHED' => 'Published',
-	'PLL_ARCHIVES' => 'Archived',
+	'PLL_DRAFT' => 'Entwurf',
+	'PLL_FOR_ACCEPTANCE' => 'zum Bestätigen',
+	'PLL_PUBLISHED' => 'Veröffentlicht',
+	'PLL_ARCHIVES' => 'Archiviert',
 	// Alert
-	'LBL_REMIND_ME_LATER' => 'Remind me later',
-	'LBL_MARK_AS_READ' => 'Mark as read',
+	'LBL_REMIND_ME_LATER' => 'Später erinnern',
+	'LBL_MARK_AS_READ' => 'als gelesen markiert',
 	// Others
-	'LBL_ACCEPT_ANNOUNCEMENT' => 'Was accepted?',
-	'LBL_DATE' => 'Read on',
+	'LBL_ACCEPT_ANNOUNCEMENT' => 'Wurde akzeptiert?',
+	'LBL_DATE' => 'weiterlesen',
 ];
