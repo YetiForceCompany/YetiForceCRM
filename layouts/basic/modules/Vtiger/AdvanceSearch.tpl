@@ -49,7 +49,7 @@
 						<button class="btn hide btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
 							<strong>{vtranslate('LBL_SAVE_FILTER', $MODULE)}</strong>
 						</button>
-						{if Users_Privileges_Model::isPermitted($MODULE, 'CreateCustomFilter')}
+						{if Users_Privileges_Model::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
 							<button class="btn btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
 								<strong>{vtranslate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
 							</button>
@@ -62,6 +62,4 @@
 			</div>
 		</div>
 	</div>
-</div>
-</div>
 {/strip}
