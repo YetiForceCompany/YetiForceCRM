@@ -62,7 +62,7 @@ $languageStrings = [
 	'Message sent' => 'Wysłano wiadomość',
 	'LBL_LOAD_RECORDS' => 'Wczytaj z filtru',
 	'LBL_LOAD_RECORDS_INFO' => 'Przycisk umożliwia wczytanie wszystkich rekordów które spełniają warunki określone w filtrze.',
-	'LBL_COUNT_RECORDS_WIDGET' => 'Ilość rekordów modułów powiązanych'
+	'LBL_COUNT_RECORDS_WIDGET' => 'Ilość rekordów modułów powiązanych',
 ];
 $jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Czy jesteś pewien, że chcesz dodać wszystkie rekordy z filtru ?',
