@@ -8,6 +8,20 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 $languageStrings = [
+	'Campaign Name' => 'Kampagnenname',
+	'Campaign No' => 'Kampagnennr.',
+	'Campaigns' => 'Kampagnen',
+	'SINGLE_Campaigns' => 'Kampagne',
+	'LBL_ADD_RECORD' => 'Kampagne hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Kampagnen',
+	//FIELDS
+	'Budget Cost' => 'Budget',
+	'Campaign Status' => 'Kampagnenstatus',
+	'Campaign Type' => 'Kampagnentyp',
+	 //BLOCKS
+	'LBL_CAMPAIGN_INFORMATION' => 'Kampagnen Information',
+	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Erwartungen & Aktuelles',
+	//OTHERS
 	'Active' => 'Aktiv',
 	'Actual Cost' => 'aktuelle Kosten',
 	'Actual Response Count' => 'aktuelle Rücklaufmenge',
@@ -17,12 +31,6 @@ $languageStrings = [
 	'Partners' => 'Partner',
 	'Average' => 'Durchschnitt',
 	'Banner Ads' => 'Web Werbung',
-	'Budget Cost' => 'Budget',
-	'Campaign Name' => 'Kampagnenname',
-	'Campaign No' => 'Kampagnennr.',
-	'Campaigns' => 'Kampagnen',
-	'Campaign Status' => 'Kampagnenstatus',
-	'Campaign Type' => 'Kampagnentyp',
 	'Cancelled' => 'abgebrochen',
 	'Complete' => 'Komplett',
 	'Contacted - Never Contact Again' => 'Kontaktiert - nie wiederholen',
@@ -37,10 +45,6 @@ $languageStrings = [
 	'Expected Sales Count' => 'erwartete Verkaufsmenge',
 	'Good' => 'gut',
 	'Inactive' => 'Inaktiv',
-	'LBL_ADD_RECORD' => 'Kampagne hinzufügen',
-	'LBL_CAMPAIGN_INFORMATION' => 'Kampagnen Information',
-	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Erwartungen & Aktuelles',
-	'LBL_RECORDS_LIST' => 'Liste Kampagnen',
 	'--None--' => '--keine--',
 	'Num Sent' => 'gesendete Anzahl',
 	'Others' => 'andere',
@@ -49,16 +53,16 @@ $languageStrings = [
 	'Poor' => 'schwach',
 	'Product' => 'Produkt',
 	'Referral Program' => 'Referenzprogram',
-	'SINGLE_Campaigns' => 'Kampagne',
 	'Sponsor' => 'Sponsor',
 	'Target Audience' => 'Zielgruppe',
 	'TargetSize' => 'Größe der Zielgruppe',
 	'Telemarketing' => 'Telemarketing',
 	'Webinar' => 'Webseminar',
 	'Message sent' => 'Meldung gesendet',
-	'Campaign status' => 'Kampagnenstatus',
-	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records'
+	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records',
+	'LBL_LOAD_RECORDS' => 'Load from filter',
+	'LBL_LOAD_RECORDS_INFO' => 'Button used to load all records that meet the conditions specified in filter.',
 ];
 $jsLanguageStrings = [
-	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Wollen Sie die Datensätze des Filters wirklich hinzufügen?',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add all records from filter?',
 ];
