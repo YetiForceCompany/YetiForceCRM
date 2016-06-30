@@ -831,6 +831,19 @@ CREATE TABLE `s_yf_multireference` (
   KEY `source_module` (`source_module`,`dest_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_activity_invitation` */
+
+CREATE TABLE `u_yf_activity_invitation` (
+  `inviteesid` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `activityid` int(19) NOT NULL,
+  `crmid` int(19) NOT NULL DEFAULT '0',
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `status` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`inviteesid`),
+  KEY `activityid` (`activityid`),
+  CONSTRAINT `u_yf_activity_invitation_ibfk_1` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_announcement` */
 
 CREATE TABLE `u_yf_announcement` (
@@ -5260,15 +5273,6 @@ CREATE TABLE `vtiger_inventorytaxinfo` (
 
 CREATE TABLE `vtiger_inventorytaxinfo_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_invitees` */
-
-CREATE TABLE `vtiger_invitees` (
-  `activityid` int(19) NOT NULL,
-  `inviteeid` int(19) NOT NULL,
-  PRIMARY KEY (`activityid`,`inviteeid`),
-  CONSTRAINT `vtiger_invitees_ibfk_1` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ipreorder_status` */

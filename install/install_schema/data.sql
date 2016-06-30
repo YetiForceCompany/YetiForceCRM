@@ -285,6 +285,8 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `s_yf_multireference` */
 
+/*Data for the table `u_yf_activity_invitation` */
+
 /*Data for the table `u_yf_announcement` */
 
 /*Data for the table `u_yf_announcement_mark` */
@@ -6081,8 +6083,6 @@ insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
 insert  into `vtiger_inventorytaxinfo_seq`(`id`) values (3);
-
-/*Data for the table `vtiger_invitees` */
 
 /*Data for the table `vtiger_ipreorder_status` */
 
