@@ -167,7 +167,11 @@ jQuery.Class("Home_NotificationsList_Js", {
 		var selectedTypes = app.moduleCacheGet('selectedTypesNotifications');
 		selectedTypes = JSON.parse(selectedTypes);
 		thisInstance.jstreeInstance.on('loaded.jstree', function (event, data) {
-			data.instance.select_node(selectedTypes);
+			if(selectedTypes == null){
+				thisInstance.jstreeInstance.jstree('select_all');
+			} else {
+				data.instance.select_node(selectedTypes);
+			}
 			thisInstance.jstreeInstance.on('changed.jstree', function (e, data) {
 				var selectedElements = thisInstance.jstreeInstance.jstree("get_selected", true);
 				var selectedIds = [];
