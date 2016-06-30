@@ -8,6 +8,20 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 $languageStrings = [
+	'Campaign Name' => 'Наименование',
+	'Campaign No' => 'Кампания №',
+	'Campaigns' => 'Кампании',
+	'SINGLE_Campaigns' => 'Кампания',
+	'LBL_ADD_RECORD' => 'Кампания',
+	'LBL_RECORDS_LIST' => 'Список Кампаний',
+	//FIELDS
+	'Budget Cost' => 'Бюджет',
+	'Campaign Status' => 'Статус',
+	'Campaign Type' => 'Тип',
+	 //BLOCKS
+	'LBL_CAMPAIGN_INFORMATION' => 'Основная информация',
+	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Ожидания и результаты',
+	//OTHERS
 	'--None--' => '--Нет--',
 	'Active' => 'Активно',
 	'Actual Cost' => 'Затраты',
@@ -17,12 +31,6 @@ $languageStrings = [
 	'Advertisement' => 'Реклама',
 	'Average' => 'Средне',
 	'Banner Ads' => 'Реклама',
-	'Budget Cost' => 'Бюджет',
-	'Campaign Name' => 'Наименование',
-	'Campaign No' => 'Кампания №',
-	'Campaign Status' => 'Статус',
-	'Campaign Type' => 'Тип',
-	'Campaigns' => 'Кампании',
 	'Cancelled' => 'Отменена',
 	'Complete' => 'Завершена',
 	'Contacted - Never Contact Again' => 'Никогда не контактировать',
@@ -37,10 +45,6 @@ $languageStrings = [
 	'Expected Sales Count' => 'Плановые продажи',
 	'Good' => 'Хорошо',
 	'Inactive' => 'Неактивна',
-	'LBL_ADD_RECORD' => 'Кампания',
-	'LBL_CAMPAIGN_INFORMATION' => 'Основная информация',
-	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Ожидания и результаты',
-	'LBL_RECORDS_LIST' => 'Список Кампаний',
 	'Num Sent' => 'Отправлено',
 	'Others' => 'Другое',
 	'Partners' => 'Partners',
@@ -48,7 +52,6 @@ $languageStrings = [
 	'Poor' => 'Плохо',
 	'Product' => 'Товар',
 	'Referral Program' => 'Целенаправленная программа',
-	'SINGLE_Campaigns' => 'Кампания',
 	'Sponsor' => 'Спонсор',
 	'Target Audience' => 'Целевая аудитория',
 	'TargetSize' => 'Размер аудитории',
@@ -58,8 +61,10 @@ $languageStrings = [
 	'Completed' => 'Завершена',
 	'Partners' => 'Партнеры',
 	'Campaign status' => 'Статус',
-	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records'
+	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records',
+	'LBL_LOAD_RECORDS' => 'Load from filter',
+	'LBL_LOAD_RECORDS_INFO' => 'Button used to load all records that meet the conditions specified in filter.',
 ];
 $jsLanguageStrings = [
-	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Вы уверены, что хотите добавить эту запись в фильтр?',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add all records from filter?',
 ];
