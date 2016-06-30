@@ -49,7 +49,7 @@ class VTSendNotificationTask extends VTTask {
 				'encoding' => "base64",
 				'type' => "application/ics; charset=utf-8; method=REQUEST"
 			);
-			$result_invitees = $db->pquery("SELECT * FROM vtiger_invitees WHERE activityid = ?", array($entityId));
+			$result_invitees = $db->pquery("SELECT * FROM u_yf_activity_invitation WHERE activityid = ?", array($entityId));
 			while ($recordinfo = $db->fetch_array($result_invitees)) {
 				$recordModel = Users_Record_Model::getInstanceById($recordinfo['inviteeid'], 'Users');
 				$email = $recordModel->get('email1');

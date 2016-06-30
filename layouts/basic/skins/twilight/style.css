@@ -5470,3 +5470,13 @@ select.form-control {
 	-o-transition: width 0.5s ease;
 	transition: width 0.5s ease;
 }
+.blockHeader .inviteesSearch{
+	margin-top: 3px;
+}
+.blockContent .inviteesContent{
+	padding: 10px;
+}
+.blockContent .inviteRow{
+	width: 500px;
+	margin-bottom: 2px;
+}

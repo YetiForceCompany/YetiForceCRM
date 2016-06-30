@@ -243,25 +243,27 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				jQuery('#recurringType').append(jQuery('<option value="--None--">None</option>')).val('--None--');
 			}
 			if (thisInstance.isEvents()) {
-				var inviteeIdsList = jQuery('#selectedUsers').val();
-				if (inviteeIdsList != null) {
-					inviteeIdsList = jQuery('#selectedUsers').val().join(';')
-				}
-				jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(inviteeIdsList);
+				var rows = form.find(".inviteesContent .inviteRow[data-email!='']");
+				var invitees = [];
+				rows.each(function (index, domElement) {
+					var row = jQuery(domElement);
+					invitees.push([row.data('email'),row.data('crmid'),row.data('ivid')]);
+				});	
+				jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
 			}
 		})
 	},
-	getFreeTime: function(container){
+	getFreeTime: function (container) {
 		var timeStart = container.find('[name="time_start"]');
 		var timeEnd = container.find('[name="time_end"]');
 		var dateStart = container.find('[name="date_start"]');
 		var params = {
-			module  : 'Calendar',
-			action : 'GetFreeTime',
-			dateStart : dateStart.val()
+			module: 'Calendar',
+			action: 'GetFreeTime',
+			dateStart: dateStart.val()
 		};
 		container.progressIndicator({});
-		AppConnector.request(params).then(function(data){
+		AppConnector.request(params).then(function (data) {
 			container.progressIndicator({mode: 'hide'});
 			timeStart.val(data.result.time_start);
 			timeEnd.val(data.result.time_end);
@@ -269,24 +271,23 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			container.find('[name="due_date"]').val(data.result.date_start);
 		});
 	},
-	registerAutoFillHours: function(container){
+	registerAutoFillHours: function (container) {
 		var thisInstance = this;
 		var allDay = container.find('[name="allday"]');
 		var timeStart = container.find('[name="time_start"]');
 		var timeEnd = container.find('[name="time_end"]');
 		var dateEnd = container.find('[name="due_date"]');
-		container.find('.autofill').on('change', function(e){
+		container.find('.autofill').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
-			if(currentTarget.is(':checked')){
+			if (currentTarget.is(':checked')) {
 				thisInstance.getFreeTime(container);
-				timeStart.attr('readonly','readonly');
-				timeEnd.attr('readonly','readonly');
-				allDay.attr('disabled','disabled');
+				timeStart.attr('readonly', 'readonly');
+				timeEnd.attr('readonly', 'readonly');
+				allDay.attr('disabled', 'disabled');
 				allDay.removeAttr('checked');
 				allDay.trigger('change');
-				dateEnd.attr('readonly','readonly');
-			}
-			else{
+				dateEnd.attr('readonly', 'readonly');
+			} else {
 				allDay.removeAttr('disabled');
 				timeStart.removeAttr('readonly');
 				timeEnd.removeAttr('readonly');
@@ -323,7 +324,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		if (allday.prop('checked')) {
 			container.find('.time').hide();
 		}
-		;
+
 	},
 	getDateInstance: function (container, type) {
 		var startDateElement = container.find('[name="date_start"]');
@@ -344,17 +345,30 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		}
 		return dateInstance;
 	},
+	registerInviteEvent: function (editViewForm) {
+		this.registerRow(editViewForm);
+	},
+	registerRow: function (row) {
+		var thisInstance = this;
+		row.on("click", '.inviteRemove', function (e) {
+			$(e.target).closest('.inviteRow').remove();
+		});
+	},
 	registerEvents: function () {
 		var statusToProceed = this.proceedRegisterEvents();
 		if (!statusToProceed) {
 			return;
 		}
+		var editViewForm = this.getForm();
 		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
 		this.repeatMonthOptionsChangeHandling();
 		this.registerRecurringTypeChangeEvent();
 		this.registerRepeatMonthActions();
+		if (this.isEvents()) {
+			this.registerInviteEvent(editViewForm);
+		}
 		this._super();
 	}
 });

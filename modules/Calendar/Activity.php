@@ -96,7 +96,7 @@ class Activity extends CRMEntity
 		$this->db = PearDatabase::getInstance();
 		$this->column_fields = getColumnFields('Calendar');
 	}
-	
+
 	function save_module($module)
 	{
 		$adb = PearDatabase::getInstance();
@@ -121,7 +121,7 @@ class Activity extends CRMEntity
 		$this->insertIntoReminderTable('vtiger_activity_reminder', $module, "");
 
 		//Handling for invitees
-		$this->insertIntoInviteeTable($module, explode(';', AppRequest::get('inviteesid')));
+		$this->insertIntoInviteeTable($module);
 
 		//Inserting into sales man activity rel
 		$this->insertIntoSmActivityRel($module);
@@ -283,27 +283,44 @@ class Activity extends CRMEntity
 		}
 	}
 
-	/** Function to insert values in vtiger_invitees table for the specified module,tablename ,invitees_array
+	/** Function to insert values in u_yf_activity_invitation table for the specified module,tablename ,invitees_array
 	 * @param $table_name -- table name:: Type varchar
 	 * @param $module -- module:: Type varchar
 	 * @param $invitees_array Array
 	 */
-	function insertIntoInviteeTable($module, $invitees_array)
+	function insertIntoInviteeTable($module)
 	{
-		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering insertIntoInviteeTable(" . $module . "," . $invitees_array . ") method ...");
-		if ($this->mode == 'edit') {
-			$sql = "delete from vtiger_invitees where activityid=?";
-			$adb->pquery($sql, array($this->id));
+		$log = LoggerManager::getInstance();
+		if (!AppRequest::has('inviteesid')) {
+			$log->fatal('No invitations in request, Exiting insertIntoInviteeTable method ...');
+			return;
 		}
-		foreach ($invitees_array as $inviteeid) {
-			if ($inviteeid != '') {
-				$query = "insert into vtiger_invitees values(?,?)";
-				$adb->pquery($query, array($this->id, $inviteeid));
+		$log->debug("Entering insertIntoInviteeTable($module) method ...");
+
+		$inviteesRequest = AppRequest::get('inviteesid');
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$this->id]);
+		$invities = [];
+		while ($row = $db->getRow($result)) {
+			$invities[$row['inviteesid']] = $row;
+		}
+		if(!empty($inviteesRequest)) {
+			foreach ($inviteesRequest as &$invitation) {
+				if (isset($invities[$invitation[2]])) {
+					unset($invities[$invitation[2]]);
+				} else {
+					$db->insert('u_yf_activity_invitation', [
+						'email' => $invitation[0],
+						'crmid' => $invitation[1],
+						'activityid' => $this->id
+					]);
+				}
 			}
 		}
-		$log->debug("Exiting insertIntoInviteeTable method ...");
+		foreach ($invities as &$invitation) {
+			$db->delete('u_yf_activity_invitation', 'inviteesid = ?', [$invitation[2]]);
+		}
+		$log->debug('Exiting insertIntoInviteeTable method ...');
 	}
 
 	/** Function to insert values in vtiger_salesmanactivityrel table for the specified module
