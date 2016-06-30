@@ -60,7 +60,6 @@ $languageStrings = [
 	'Telemarketing' => 'Call center',
 	'Webinar' => 'Seminarium',
 	'Message sent' => 'Wysłano wiadomość',
-	'Campaign status' => 'Status kampanii',
 	'LBL_LOAD_RECORDS' => 'Wczytaj z filtru',
 	'LBL_LOAD_RECORDS_INFO' => 'Przycisk umożliwia wczytanie wszystkich rekordów które spełniają warunki określone w filtrze.',
 	'LBL_COUNT_RECORDS_WIDGET' => 'Ilość rekordów modułów powiązanych'
