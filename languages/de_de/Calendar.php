@@ -136,7 +136,6 @@ $languageStrings = [
 	'LBL_RECURRENCE_INFORMATION' => 'Wiederholungdetails',
 	'LBL_RELATED_TO' => 'zugeordnet',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Keine verfügbaren Aktionen',
-	'LBL_INVITE_USER_BLOCK' => 'Einladen',
 	'LBL_CALENDAR_FILTERS' => 'Filter',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Bitte das Startdatum auf das erste verfügbare Datum setzen',
 	'LBL_CACHE_SELECTED_FILTERS' => 'Standardsicht des Kalenders geändert. Klicke "View leeren" um zu löschen.',
