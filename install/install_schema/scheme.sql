@@ -522,6 +522,28 @@ CREATE TABLE `l_yf_notification_archive` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_settings_tracker_basic` */
+
+CREATE TABLE `l_yf_settings_tracker_basic` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  `module_name` varchar(50) NOT NULL,
+  `date` datetime NOT NULL,
+  `action` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=219 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `l_yf_settings_tracker_detail` */
+
+CREATE TABLE `l_yf_settings_tracker_detail` (
+  `id` int(11) unsigned NOT NULL,
+  `prev_value` varchar(255) NOT NULL DEFAULT '',
+  `post_value` varchar(255) NOT NULL DEFAULT '',
+  `field` varchar(255) NOT NULL,
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_sqltime` */
 
 CREATE TABLE `l_yf_sqltime` (

@@ -237,6 +237,10 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 
 /*Data for the table `l_yf_notification_archive` */
 
+/*Data for the table `l_yf_settings_tracker_basic` */
+
+/*Data for the table `l_yf_settings_tracker_detail` */
+
 /*Data for the table `l_yf_sqltime` */
 
 /*Data for the table `l_yf_switch_users` */
