@@ -479,7 +479,7 @@ var app = {
 		}
 		var modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
-		var backdrop = jQuery('.modal-backdrop:first');
+		var backdrop = jQuery('.modal-backdrop:last');
 		if (backdrop.length) {
 			backdrop.remove();
 		}
