@@ -47,7 +47,7 @@ class Settings_Vtiger_Tracker_Model
 		$db->update('l_yf_settings_tracker_basic', ['type' => self::$types[$type]], ' id = ?', [self::$id]);
 	}
 
-	static function addDetail($prev, $post, $field = false)
+	static function addDetail($prev, $post)
 	{
 		if (self::$lockTrack) {
 			return true;
@@ -64,7 +64,7 @@ class Settings_Vtiger_Tracker_Model
 				'id' => self::$id,
 				'prev_value' => isset($prev[$key]) ? $prev[$key] : '',
 				'post_value' => is_null($value) ? '' : $value,
-				'field' => $field == false && isset($field[$key]) ? $field[$key] : '',
+				'field' => $key,
 			];
 			$db->insert('l_yf_settings_tracker_detail', $paramsToSave);
 		}
