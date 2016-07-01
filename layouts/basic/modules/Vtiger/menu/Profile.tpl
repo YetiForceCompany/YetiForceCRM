@@ -20,7 +20,7 @@
 				<ul class="slimScrollSubMenu nav subMenu {if $MENU['active'] || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
 			{/if}
 			<li class="menuPanel">
-				<button name="changePass" data-url="index.php?module=Users&view=ChangePassword" 
+				<button name="changePass" data-url="index.php?module=Users&view=ChangePassword&record={$USER_MODEL->getRealId()}" 
 						class=" btn btn-block btn-default showModal" type="button">
 					{Vtiger_Menu_Model::vtranslateMenu('LBL_CHANGE_LOGIN_PASSWORD',$MENU_MODULE)}
 				</button>
