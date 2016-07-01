@@ -172,7 +172,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getLocks()
 	{
-		require('user_privileges/locks.php');
+		include('user_privileges/locks.php');
 		return $locksRaw;
 	}
 
@@ -190,6 +190,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function saveLocks($data)
 	{
+		$oldValues = $this->getLocks();
 		$content = '<?php' . PHP_EOL . '$locksRaw = [';
 		$map = $toSave = [];
 		if (!empty($data)) {
@@ -224,5 +225,42 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		$content .= '];';
 		$file = 'user_privileges/locks.php';
 		file_put_contents($file, $content);
+		$newValues = $this->getLocks();
+		$difference = Vtiger_Functions::arrayDiffAssocRecursive($newValues, $oldValues);
+		if (!empty($difference)) {
+			foreach ($difference as $id => $locks) {
+				if (strpos($id, 'H') === false) {
+					$name = Users_Record_Model::getInstanceById($id, 'Users');
+				} else {
+					$name = Settings_Roles_Record_Model::getInstanceById($id);
+				}
+				$name = $name->getName();
+				$prev['id'] = '';
+				$prev['locks'] = implode(',', $oldValues[$id]);
+				$post['id'] = $name;
+				$post['locks'] = implode(',', $newValues[$id]);
+				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
+			}
+		}
+
+		$difference = Vtiger_Functions::arrayDiffAssocRecursive($oldValues, $newValues);
+		if (!empty($difference)) {
+			Settings_Vtiger_Tracker_Model::changeType('delete');
+			foreach ($difference as $id => $locks) {
+				if (strpos($id, 'H') === false) {
+					$name = Users_Record_Model::getInstanceById($id, 'Users');
+				} else {
+					$name = Settings_Roles_Record_Model::getInstanceById($id);
+				}
+				$name = $name->getName();
+				$prev['id'] = '';
+				$prev['locks'] = implode(',', $oldValues[$id]);
+				$post['id'] = $name;
+				$post['locks'] = implode(',', $newValues[$id]);
+				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
+			}
+		}
+		$content = print_r($difference, true);
+		file_put_contents('xxxxx.txt', $content);
 	}
 }

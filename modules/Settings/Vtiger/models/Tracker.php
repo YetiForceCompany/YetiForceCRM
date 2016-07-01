@@ -2,13 +2,14 @@
 
 /**
  * Main class to save modification in settings
- * @package YetiForce.View
+ * @package YetiForce.Model
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_Vtiger_Tracker_Model
 {
 
+	static $lockTrack = false;
 	static $id = false;
 	static $types = [
 		'view' => 1,
@@ -18,7 +19,10 @@ class Settings_Vtiger_Tracker_Model
 
 	static function addBasic($type)
 	{
-		if (self::$id != false) {
+		if ($type == 'view' && Vtiger_Request::isAjax()) {
+			self::lockTracking();
+		}
+		if (self::$id != false || self::$lockTrack) {
 			return true;
 		}
 		$db = PearDatabase::getInstance('log');
@@ -37,8 +41,17 @@ class Settings_Vtiger_Tracker_Model
 		}
 	}
 
+	static function changeType($type)
+	{
+		$db = PearDatabase::getInstance('log');
+		$db->update('l_yf_settings_tracker_basic', ['type' => self::$types[$type]], ' id = ?', [self::$id]);
+	}
+
 	static function addDetail($prev, $post, $field = false)
 	{
+		if (self::$lockTrack) {
+			return true;
+		}
 		if (self::$id != false) {
 			self::addBasic('save');
 		}
@@ -50,10 +63,15 @@ class Settings_Vtiger_Tracker_Model
 			$paramsToSave = [
 				'id' => self::$id,
 				'prev_value' => isset($prev[$key]) ? $prev[$key] : '',
-				'post_value' => $value,
+				'post_value' => is_null($value) ? '' : $value,
 				'field' => $field == false && isset($field[$key]) ? $field[$key] : '',
 			];
 			$db->insert('l_yf_settings_tracker_detail', $paramsToSave);
 		}
+	}
+
+	static function lockTracking()
+	{
+		self::$lockTrack = true;
 	}
 }
