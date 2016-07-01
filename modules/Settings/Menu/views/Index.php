@@ -19,8 +19,10 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 		if (empty($roleId))
 			$roleId = 0;
 		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
+		$rolesContainMenu =  $settingsModel->getRolesContainMenu();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $settingsModel);
+		$viewer->assign('ROLES_CONTAIN_MENU', $rolesContainMenu);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ROLEID', $roleId);
 		$viewer->assign('DATA', $settingsModel->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT)));

@@ -61,6 +61,7 @@ $languageStrings = [
 	'LBL_CANCEL' => 'Anuluj',
 	//End Remove mondal
 	'LBL_MORE_INFO' => 'Kliknij tutaj by uzyskać więcej informacji',
+	'LBL_COPY_MENU' => 'Skopiuj menu',
 ];
 $jsLanguageStrings = [
 	'JS_EDIT' => 'Edytuj',

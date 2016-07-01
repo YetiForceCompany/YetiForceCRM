@@ -28,11 +28,38 @@
 		</div>
 	</div>
 	<hr>
+	{if !$DATA}
+		<button class="btn btn-success copyMenu"><strong>{vtranslate('LBL_COPY_MENU', $QUALIFIED_MODULE)}</strong></button>
+	{/if}
 	<div class="treeMenuContainer">
 		<input type="hidden" id="treeLastID" value="{$LASTID}" />
 		<input type="hidden" name="tree" id="treeValues" value='{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($DATA))}' />
 		<div id="treeContent"></div>
 	</div>
+	<div class="modal fade copyMenuModal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<form>
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">{vtranslate('LBL_COPY_MENU', $QUALIFIED_MODULE)}</h4>
+					</div>
+					<div class="modal-body">
+						<select id="roleList" class="form-control" name="roles" data-validation-engine="validate[required]">
+							<option value="0">{vtranslate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}</option>
+							{foreach item=ROLE key=KEY from=$ROLES_CONTAIN_MENU}
+								<option value="{$ROLE['roleId']}"  >{vtranslate($ROLE['roleName'])}</option>
+							{/foreach}
+						</select>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success saveButton">{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
+						<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>	
 </div>
 <div class="modal deleteAlert fade" tabindex="-1">
 	<div class="modal-dialog">
