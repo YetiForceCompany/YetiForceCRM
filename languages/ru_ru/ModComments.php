@@ -31,8 +31,8 @@ $languageStrings = [
 	'LBL_NOTICE_CREATED' => 'Успешно',
 	//Others
 	'LBL_COMMENTS_0' => 'Current record',
-	'LBL_COMMENTS_1' => 'Level 1',
-	'LBL_COMMENTS_2' => 'Level 2',
+	'LBL_COMMENTS_1' => 'Processes',
+	'LBL_COMMENTS_2' => 'Subprocesses',
 	'LBL_COMMENTS_SEARCH' => 'Search',
 ];
 $jsLanguageStrings = [
