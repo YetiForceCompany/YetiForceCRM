@@ -10,6 +10,7 @@ class Settings_Vtiger_Save_Action extends Settings_Vtiger_Basic_Action
 
 	function __construct()
 	{
+		Settings_Vtiger_Tracker_Model::setRecordId(AppRequest::get('record'));
 		Settings_Vtiger_Tracker_Model::addBasic('save');
 		parent::__construct();
 	}

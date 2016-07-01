@@ -8,10 +8,10 @@
  */
 class Settings_Vtiger_Tracker_Model
 {
-
-	static $lockTrack = false;
-	static $id = false;
-	static $types = [
+	static private $recordId = '';
+	static private $lockTrack = false;
+	static private $id = false;
+	static private $types = [
 		'view' => 1,
 		'save' => 2,
 		'delete' => 3,
@@ -32,6 +32,7 @@ class Settings_Vtiger_Tracker_Model
 			'user_id' => $currentUser->getId(),
 			'type' => self::$types[$type],
 			'module_name' => AppRequest::get('module'),
+			'record_id' => self::$recordId,
 			'date' => date('Y-m-d H:i:s'),
 			'action' => _PROCESS_NAME
 		];
@@ -73,5 +74,10 @@ class Settings_Vtiger_Tracker_Model
 	static function lockTracking()
 	{
 		self::$lockTrack = true;
+	}
+	static function setRecordId($record){
+		if(empty(self::$recordId)){
+			self::$recordId = $record;
+		}
 	}
 }

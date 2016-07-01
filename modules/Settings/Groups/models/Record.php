@@ -457,8 +457,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				$groupMembers[] = $groupModel->getName();
 			}
 		}
-		$groupMembers = implode(',', $groupMembers);
-		$data['group_members'] = $groupMembers;
+		$data['group_members'] = implode(',', $groupMembers);
 		return $data;
 	}
 }

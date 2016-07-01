@@ -528,11 +528,12 @@ CREATE TABLE `l_yf_settings_tracker_basic` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
   `type` tinyint(1) NOT NULL,
+  `action` varchar(50) NOT NULL,
+  `record_id` int(11) DEFAULT NULL,
   `module_name` varchar(50) NOT NULL,
   `date` datetime NOT NULL,
-  `action` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=219 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `l_yf_settings_tracker_detail` */
 

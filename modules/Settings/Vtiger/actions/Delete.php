@@ -11,6 +11,7 @@ class Settings_Vtiger_Delete_Action extends Settings_Vtiger_Basic_Action
 
 	function __construct()
 	{
+		Settings_Vtiger_Tracker_Model::setRecordId(AppRequest::get('record'));
 		Settings_Vtiger_Tracker_Model::addBasic('delete');
 		parent::__construct();
 	}
