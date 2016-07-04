@@ -294,7 +294,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			params.data = jQuery.extend(params.data, this.getFilterData())
 		}
 		var refreshContainer = parent.find('.dashboardWidgetContent');
+		var refreshContainerFooter = parent.find('.dashboardWidgetFooter');
 		refreshContainer.html('');
+		refreshContainerFooter.html('');
 		refreshContainer.progressIndicator();
 
 		if (this.paramCache) {
@@ -303,10 +305,19 @@ jQuery.Class('Vtiger_Widget_Js', {
 
 		AppConnector.request(params).then(
 				function (data) {
-
+					var data = jQuery(data);
+					var footer = data.filter('.widgetFooterContent');
 					refreshContainer.progressIndicator({'mode': 'hide'});
+					if(footer.length){
+						footer = footer.clone(true, true);
+						refreshContainerFooter.html(footer);
+						data.each(function(n, e){
+							if(jQuery(this).hasClass('widgetFooterContent')){
+								data.splice(n,1);
+							}
+						})
+					}
 					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
-
 				},
 				function () {
 					refreshContainer.progressIndicator({'mode': 'hide'});
@@ -639,15 +650,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 				labels: data['data_labels']
 			}
 		});
-//		this.getPlotContainer(false).on('jqPlotDataClick', function(){
-//			console.log('here');
-//		});
-//		jQuery.jqplot.eventListenerHooks.push(['jqPlotDataClick', myClickHandler]);
 	}
-
-//	registerSectionClick : function() {
-//		this.getPlotContainer(false);
-//	}
 });
 
 Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {

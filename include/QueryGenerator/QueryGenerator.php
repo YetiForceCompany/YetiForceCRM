@@ -1556,6 +1556,8 @@ class QueryGenerator
 		switch ($operator) {
 			case 'e': $sqlOperator = '=';
 				break;
+			case 'om': $sqlOperator = '=';
+				break;
 			case 'n': $sqlOperator = '<>';
 				break;
 			case 's': $sqlOperator = 'LIKE';
