@@ -956,7 +956,8 @@ td.fieldValue .input-group {
 .activityEntries .summaryViewEntries a{
 	color: inherit !important;
 }
-.listViewEntriesTable .listViewEntries .unreviewed .badge{
+.listViewEntriesTable .listViewEntries .unreviewed .badge,
+.listViewEntriesTable .listViewEntries .actions{
 	margin: -5px 0 0 5px;
 }
 .listViewEntriesTable td.listViewEntryValue,
