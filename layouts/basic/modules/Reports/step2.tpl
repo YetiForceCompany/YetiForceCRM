@@ -35,7 +35,7 @@
 		<input type="hidden" name="recipients" value={ZEND_JSON::encode($REPORT_MODEL->get('recipients'))}>
         <input type="hidden" name="specificemails" value={ZEND_JSON::encode($REPORT_MODEL->get('specificemails'))}>
 		<input type="hidden" name="schtypeid" value="{$REPORT_MODEL->get('schtypeid')}">
-
+		<input type="hidden" name="scheduleFileType" value="{$REPORT_MODEL->get('scheduleFileType')}">
 		<input type="hidden" class="step" value="2" />
 		<div class="well contentsBackground col-xs-12">
 			<div class="block marginBottom10px col-xs-12 paddingLRZero">
