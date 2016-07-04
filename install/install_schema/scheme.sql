@@ -862,6 +862,7 @@ CREATE TABLE `u_yf_activity_invitation` (
   `crmid` int(19) NOT NULL DEFAULT '0',
   `email` varchar(100) NOT NULL DEFAULT '',
   `status` tinyint(1) DEFAULT '0',
+  `time` datetime DEFAULT NULL,
   PRIMARY KEY (`inviteesid`),
   KEY `activityid` (`activityid`),
   CONSTRAINT `u_yf_activity_invitation_ibfk_1` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
@@ -7814,6 +7815,7 @@ CREATE TABLE `vtiger_schedulereports` (
   `schannualdates` varchar(500) DEFAULT NULL,
   `specificemails` varchar(500) DEFAULT NULL,
   `next_trigger_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `filetype` varchar(20) DEFAULT NULL,
   KEY `reportid` (`reportid`),
   CONSTRAINT `vtiger_schedulereports_ibfk_1` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
