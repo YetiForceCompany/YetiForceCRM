@@ -296,19 +296,23 @@ var app = {
 		if (typeof params == 'undefined') {
 			params = {trigger: 'hover', placement: 'bottom', html: true};
 		}
-		if (selectElement.data('placement')) {
-			params.placement = selectElement.data('placement');
-		}
-
-		if (selectElement.hasClass('delay0')) {
-			params.delay = {show: 0, hide: 0}
-		}
 		params.container = 'body';
-		var data = selectElement.data();
-		if (data != null) {
-			params = jQuery.extend(data, params);
-		}
-		selectElement.popover(params);
+		var sparams;
+		selectElement.each(function (index, domElement) {
+			sparams = params;
+			var element = jQuery(domElement);
+			if (element.data('placement')) {
+				sparams.placement = element.data('placement');
+			}
+			if (element.hasClass('delay0')) {
+				sparams.delay = {show: 0, hide: 0}
+			}
+			var data = element.data();
+			if (data != null) {
+				sparams = jQuery.extend(data, sparams);
+			}
+			element.popover(sparams);
+		});
 		return selectElement;
 	},
 	/**
@@ -475,7 +479,7 @@ var app = {
 		}
 		var modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
-		var backdrop = jQuery('.modal-backdrop:first');
+		var backdrop = jQuery('.modal-backdrop:last');
 		if (backdrop.length) {
 			backdrop.remove();
 		}

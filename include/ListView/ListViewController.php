@@ -486,7 +486,7 @@ class ListViewController
 					if ($value === null) {
 						$value = '--';
 					} else {
-						$value = "<span align='right'>" . textlength_check($value) . "</div>";
+						$value = "<span align='right'>" . textlength_check($value) . '</span>';
 					}
 				} else {
 					$value = Vtiger_Functions::textLength($value);

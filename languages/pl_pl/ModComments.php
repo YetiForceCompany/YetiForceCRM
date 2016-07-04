@@ -32,7 +32,7 @@ $languageStrings = [
 	'LBL_NOTICE_CREATED'=>'został utworzony przez',
 	//Others
 	'LBL_COMMENTS_0' => 'Bieżący rekord',
-	'LBL_COMMENTS_1' => 'Poziom 1',
-	'LBL_COMMENTS_2' => 'Poziom 2',
+	'LBL_COMMENTS_1' => 'Procesy',
+	'LBL_COMMENTS_2' => 'Podprocesy',
 	'LBL_COMMENTS_SEARCH' => 'Szukaj',
 ];

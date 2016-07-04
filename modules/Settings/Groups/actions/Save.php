@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Groups_Save_Action extends Settings_Vtiger_Index_Action
+class Settings_Groups_Save_Action extends Settings_Vtiger_Save_Action
 {
 
 	public function process(Vtiger_Request $request)
@@ -18,8 +18,19 @@ class Settings_Groups_Save_Action extends Settings_Vtiger_Index_Action
 		$recordId = $request->get('record');
 
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$prevValues = [];
 		if (!empty($recordId)) {
 			$recordModel = Settings_Groups_Record_Model::getInstance($recordId);
+			$members = $recordModel->getMembers();
+			$membersToDipslay = [];
+			foreach ($members as $typeMembers) {
+				foreach ($typeMembers as $member) {
+					$membersToDipslay[] = $member->get('id');
+				}
+			}
+			$recordModel->set('group_members', $membersToDipslay);
+			$recordModel->set('modules', $recordModel->getModules());
+			$prevValues = $recordModel->getDisplayData();
 		} else {
 			$recordModel = new Settings_Groups_Record_Model();
 		}
@@ -29,6 +40,8 @@ class Settings_Groups_Save_Action extends Settings_Vtiger_Index_Action
 			$recordModel->set('group_members', $request->get('members'));
 			$recordModel->set('modules', $request->get('modules'));
 			$recordModel->save();
+			$postValues = $recordModel->getDisplayData();
+			Settings_Vtiger_Tracker_Model::addDetail($prevValues, $postValues);
 		}
 
 		$redirectUrl = $recordModel->getDetailViewUrl();

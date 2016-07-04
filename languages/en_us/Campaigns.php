@@ -9,6 +9,20 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'Campaign Name' => 'Campaign name',
+	'Campaign No' => 'Campaign no.',
+	'Campaigns' => 'Campaigns',
+	'SINGLE_Campaigns' => 'Marketing campaign',
+	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_RECORDS_LIST' => 'Campaigns list',
+	//FIELDS
+	'Budget Cost' => 'Campaign budget',
+	'Campaign Status' => 'Campaign status',
+	'Campaign Type' => 'Campaign type',
+ 	//BLOCKS
+	'LBL_CAMPAIGN_INFORMATION' => 'Campaign details',
+	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Expectations and results',
+	//OTHERS
 	'Complete' => 'Complete',
 	'Actual Cost' => 'Actual cost',
 	'Actual Response Count' => 'Actual response count',
@@ -18,12 +32,6 @@ $languageStrings = [
 	'Partners' => 'Partners',
 	'Average' => 'Average',
 	'Banner Ads' => 'Banner ads',
-	'Budget Cost' => 'Budget cost',
-	'Campaign Name' => 'Campaign name',
-	'Campaign No' => 'Campaign no.',
-	'Campaigns' => 'Campaigns',
-	'Campaign Status' => 'Campaign status',
-	'Campaign Type' => 'Campaign type',
 	'Cancelled' => 'Cancelled',
 	'Contacted - Never Contact Again' => 'Contacted - never contact again',
 	'Contacted - Successful' => 'Contacted - successful',
@@ -38,10 +46,6 @@ $languageStrings = [
 	'Good' => 'Good',
 	'Inactive' => 'Inactive',
 	'Active' => 'Active',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_CAMPAIGN_INFORMATION' => 'Campaign details',
-	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Expectations and actuals',
-	'LBL_RECORDS_LIST' => 'Campaigns list',
 	'--None--' => '--None--',
 	'Num Sent' => 'Number sent',
 	'Others' => 'Others',
@@ -50,16 +54,16 @@ $languageStrings = [
 	'Poor' => 'Poor',
 	'Product' => 'Product',
 	'Referral Program' => 'Referral program',
-	'SINGLE_Campaigns' => 'Campaign',
 	'Sponsor' => 'Sponsor',
 	'Target Audience' => 'Target audience',
 	'TargetSize' => 'Target size',
 	'Telemarketing' => 'Telemarketing',
 	'Webinar' => 'Webinar',
 	'Message sent' => 'Message sent',
-	'Campaign status' => 'Statut Campagne',
-	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records'
+	'LBL_LOAD_RECORDS' => 'Load from filter',
+	'LBL_LOAD_RECORDS_INFO' => 'Button used to load all records that meet the conditions specified in filter.',
+	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records',
 ];
 $jsLanguageStrings = [
-	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add this filter for records?',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add all records from filter?',
 ];

@@ -253,6 +253,11 @@ class Vtiger_Language_Handler
 		}
 		return false;
 	}
+
+	public static function getTranslateSingularModuleName($moduleName)
+	{
+		return Vtiger_Language_Handler::getTranslatedString("SINGLE_$moduleName", $moduleName);
+	}
 }
 
 function vtranslate($key, $moduleName = 'Vtiger')

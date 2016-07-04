@@ -237,6 +237,10 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 
 /*Data for the table `l_yf_notification_archive` */
 
+/*Data for the table `l_yf_settings_tracker_basic` */
+
+/*Data for the table `l_yf_settings_tracker_detail` */
+
 /*Data for the table `l_yf_sqltime` */
 
 /*Data for the table `l_yf_switch_users` */
@@ -284,6 +288,8 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 /*Data for the table `roundcube_users_autologin` */
 
 /*Data for the table `s_yf_multireference` */
+
+/*Data for the table `u_yf_activity_invitation` */
 
 /*Data for the table `u_yf_announcement` */
 
@@ -6081,8 +6087,6 @@ insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
 insert  into `vtiger_inventorytaxinfo_seq`(`id`) values (3);
-
-/*Data for the table `vtiger_invitees` */
 
 /*Data for the table `vtiger_ipreorder_status` */
 

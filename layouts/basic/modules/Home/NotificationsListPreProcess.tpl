@@ -3,7 +3,7 @@
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
 	<div class="bodyContents" id="centerPanel">
 		<div class="mainContainer">
-			<div class="contentsDiv col-md-12 marginLeftZero rowContent">
+			<div class="contentsDiv col-md-9 marginLeftZero rowContent">
 				<div class="widget_header row">
 					<div class="col-xs-9 col-sm-6">
 						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}

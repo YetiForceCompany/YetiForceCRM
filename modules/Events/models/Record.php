@@ -46,17 +46,19 @@ class Events_Record_Model extends Calendar_Record_Model
 
 	public function getInvities()
 	{
-		$adb = PearDatabase::getInstance();
-		$sql = "select vtiger_invitees.* from vtiger_invitees where activityid=?";
-		$result = $adb->pquery($sql, array($this->getId()));
-		$invitiesId = array();
-
-		$num_rows = $adb->num_rows($result);
-
-		for ($i = 0; $i < $num_rows; $i++) {
-			$invitiesId[] = $adb->query_result($result, $i, 'inviteeid');
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$this->getId()]);
+		$invitees = [];
+		while ($row = $db->getRow($result)) {
+			$invitees[] = $row;
 		}
-		return $invitiesId;
+		return $invitees;
+	}
+
+	static public function getInvitionStatus($status = false)
+	{
+		$statuses = [0 => 'LBL_NEEDS-ACTION',1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
+		return $status !== false ? $statuses[$status] : $statuses;
 	}
 
 	public function getInviteUserMailData()
