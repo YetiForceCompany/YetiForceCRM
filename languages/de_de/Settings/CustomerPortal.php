@@ -16,7 +16,7 @@ $languageStrings = [
 	'LBL_PORTAL_URL' => 'Portal URL',
 
 	//Fields
-	'LBL_MODULE_NAME' => 'Modul Name',
+	'LBL_MODULE_NAME' => 'Modulname',
 	'LBL_ENABLE_MODULE' => 'Module aktivieren',
 	'LBL_VIEW_ALL_RECORDS' => 'Alle Datensätze einer Organisation anzeigen',
 

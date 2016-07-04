@@ -6,7 +6,7 @@ $languageStrings = [
 	
 	//BLOCKS
 	'LBL_SRECURRINGORDERS_INFORMATION' => 'Informationen',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
+	'LBL_CUSTOM_INFORMATION' => 'Systeminformation',
 	'LBL_DESCRIPTION_INFORMATION' => 'Beschreibung Details',
 	'LBL_STATISTICS' => 'Statistiken',
 	'LBL_PERIODIC_GENERATION' => 'Periodisch wiederholen',
