@@ -724,7 +724,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			filteridSelect2.change(function () {
 				if (!filteridSelect2.val())
 					return;
-
+				footer.hide();
+				fieldsSelectDOM.closest('tr').hide();
 				AppConnector.request({
 					module: 'Home',
 					view: 'MiniListWizard',
