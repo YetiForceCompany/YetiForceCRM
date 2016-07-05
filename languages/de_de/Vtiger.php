@@ -1409,5 +1409,5 @@ $jsLanguageStrings = [
 	'JS_CANNOT_REMOVE_RELATION' => 'Beziehung kann nicht gelöscht werden',
 	'JS_RECORD_INFO' => 'Record info',
 	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
-	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Working time should not exceed 24hours',
+	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Arbeitszeit sollte die 24 Stunden nicht überschreiten',
 ];

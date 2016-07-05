@@ -101,6 +101,6 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Zurückgestellt',
 	'PLL_CANCELLED' => 'Abgebrochen',
 	'PLL_COMPLETED' => 'Abgeschlossen',
-	'LBL_REMAIND_HOURS' => 'Remind after selected numer of hours',
-	'LBL_REMAIND_MINS' => 'Remind after selected numer of minutes',
+	'LBL_REMAIND_HOURS' => 'Erinnern, nach der ausgewählten Anzahl von Stunden',
+	'LBL_REMAIND_MINS' => 'Erinnern, nach der ausgewählten Anzahl von Minuten',
 ];

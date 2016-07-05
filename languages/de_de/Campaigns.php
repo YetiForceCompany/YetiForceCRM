@@ -59,10 +59,10 @@ $languageStrings = [
 	'Telemarketing' => 'Telemarketing',
 	'Webinar' => 'Webseminar',
 	'Message sent' => 'Meldung gesendet',
-	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records',
-	'LBL_LOAD_RECORDS' => 'Load from filter',
-	'LBL_LOAD_RECORDS_INFO' => 'Button used to load all records that meet the conditions specified in filter.',
+	'LBL_COUNT_RECORDS_WIDGET' => 'Änzahl zugehörigen Datensätze',
+	'LBL_LOAD_RECORDS' => 'Laden gefilterter Einträge',
+	'LBL_LOAD_RECORDS_INFO' => 'Alle Datensätze, welche den Bedingungen des Filters entsprechen, werden geladen.',
 ];
 $jsLanguageStrings = [
-	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add all records from filter?',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Wollen Sie die Datensätze des Filters wirklich hinzufügen?',
 ];

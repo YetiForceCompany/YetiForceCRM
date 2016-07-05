@@ -145,8 +145,8 @@ $languageStrings = [
 	'LBL_EXCEPTIONS_CREATING_TICKET' => 'Adressen ignoriert aufgrund der Erstellung von Tickets',
 	'LBL_WRITE_AND_ENTER' => 'Adresse eingeben und mit Enter bestätigen',
 	'ERR_NO_CONFIGURATION_FOLDERS' => 'Keine Verzeichniskonfiguration',
-	'LBL_SHOW_ACCOUNT_DETAILS' => 'Zeige Organisationsdetails',
+	'LBL_SHOW_ACCOUNT_DETAILS' => 'Zeige Zugangsdetails',
 	'LBL_EDIT_FOLDER_ACCOUNT' => 'Verzeichnisse editieren',
 	'LBL_ALERT_EDIT_FOLDER' => 'Verzeichnis löschen und wieder hinzufügen startet den MailScanner für die selektierten Verzeichnisse.',
-	'LBL_DELETE_ACCOUNT' => 'Delete account',
+	'LBL_DELETE_ACCOUNT' => 'Zugang löschen',
 ];
