@@ -572,23 +572,24 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
 				var selectedFilterId = filteridSelect2.val();
 				var selectedFilterLabel = filteridSelect2.find(':selected').text();
+				var fieldLabel = fieldsSelect2.find(':selected').text();
 				var data = {
 					module: selectedModule,
 					groupField: fieldsSelect2.val(),
 					chartType: chartType.val(),
 				};
-				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, data);
+				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, fieldLabel, data);
 			});
 		});
 
-		function finializeAddChart(moduleNameLabel, filterid, filterLabel, data) {
+		function finializeAddChart(moduleNameLabel, filterid, filterLabel, fieldLabel, data) {
 
 			var paramsForm = {};
 			paramsForm['data'] = JSON.stringify(data);
 			paramsForm['action'] = 'addWidget';
 			paramsForm['blockid'] = element.data('block-id');
 			paramsForm['linkid'] = element.data('linkid');
-			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel;
+			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel + ' - ' + fieldLabel;
 			paramsForm['name'] = 'ChartFilter';
 			paramsForm['filterid'] = filterid;
 			paramsForm['isdefault'] = 0;

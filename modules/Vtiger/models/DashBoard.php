@@ -71,6 +71,12 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$widgets[] = $minilistWidget;
+			} elseif ($row['linklabel'] == 'ChartFilter') {
+				$charFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
+				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
+				$chartFilterWidgetModel->setWidgetModel($charFilterWidget);
+				$charFilterWidget->set('title', $chartFilterWidgetModel->getTitle());
+				$widgets[] = $charFilterWidget;
 			} else
 				$widgets[] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}

@@ -311,24 +311,25 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
 					var selectedFilterId = filteridSelect2.val();
 					var selectedFilterLabel = filteridSelect2.find(':selected').text();
+					var selectedFieldLabel = fieldsSelect2.find(':selected').text();
 					var data = {
 						module: selectedModule,
 						groupField: fieldsSelect2.val(),
 						chartType: chartType.val(),
 					};
-					thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel, form);
+					thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel,selectedFieldLabel, form);
 				});
 			});
 		});
 	},
-	saveChartFilterWidget: function (data, element, moduleNameLabel, filterid, filterLabel, form) {
+	saveChartFilterWidget: function (data, element, moduleNameLabel, filterid, filterLabel, groupFieldName, form) {
 		var thisInstance = this;
 		var paramsForm = {
 			data: JSON.stringify(data),
 			action: 'addWidget',
 			blockid: element.data('block-id'),
 			linkid: element.data('linkid'),
-			label: moduleNameLabel + ' - ' + filterLabel,
+			label: moduleNameLabel + ' - ' + filterLabel + ' - ' + groupFieldName,
 			name: 'ChartFilter',
 			filterid: filterid,
 			isdefault: 0,
