@@ -652,7 +652,77 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 		});
 	}
 });
-
+Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
+	loadChart: function () {
+		var data = this.generateChartData();
+		this.getPlotContainer(false).jqplot(data['chartData'], {
+			title: data['title'],
+			animate: !$.jqplot.use_excanvas,
+			seriesDefaults: {
+				renderer: $.jqplot.BarRenderer,
+				showDataLabels: true,
+				pointLabels: {show: true, location: 'e', edgeTolerance: -15},
+				shadowAngle: 135,
+				rendererOptions: {
+					barDirection: 'horizontal'
+				}
+			},
+			axes: {
+				yaxis: {
+					tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+					renderer: jQuery.jqplot.CategoryAxisRenderer,
+					ticks: data['labels'],
+					tickOptions: {
+						angle: -45
+					}
+				}
+			},
+			legend: {
+				show: false,
+				location: 'e',
+				placement: 'outside',
+				showSwatch: true,
+				showLabels: true,
+				labels: data['data_labels']
+			}
+		});
+	}
+});
+Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
+	loadChart: function () {
+		var data = this.generateChartData();
+		this.getPlotContainer(false).jqplot(data['chartData'], {
+			title: data['title'],
+			legend: {
+				show: false,
+				labels: data['labels'],
+				location: 'ne',
+				showSwatch: true,
+				showLabels: true,
+				placement: 'outside'
+			},
+			seriesDefaults: {
+				pointLabels: {
+					show: true
+				}
+			},
+			axes: {
+				xaxis: {
+					min: 0,
+					pad: 1,
+					renderer: $.jqplot.CategoryAxisRenderer,
+					ticks: data['labels'],
+					tickOptions: {
+						formatString: '%b %#d'
+					}
+				}
+			},
+			cursor: {
+				show: true
+			}
+		});
+	}
+});
 Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 	/**
 	 * Function which will give char related Data like data , x labels and legend labels as map
@@ -1322,4 +1392,3 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	}
 });
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
-

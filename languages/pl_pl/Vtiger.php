@@ -1159,6 +1159,13 @@ $languageStrings = [
 	'LBL_ALL_TIME_CONTROL' => 'Czas pracy wszystkich użytkówników',
 	'LBL_NEW_ACCOUNTS' => 'Nowi kontrahenci',
 	'LBL_NEGLECTED_ACCOUNTS' => 'Zaniedbani kontrahenci',
+	'LBL_ADD_CHART_FILTER' => 'Dodaj wykres z filtru',
+	'LBL_PIE_CHART' => 'Diagram kołowy',
+	'LBL_VERTICAL_BAR_CHART' => 'Wykres słupkowy poziomy',
+	'LBL_HORIZONTAL_BAR_CHART' => 'Wykres słupkowy pionowy',
+	'LBL_LINE_CHART' => 'Wykres liniowy',
+	'LBL_SELECT_CHART' => 'Wybierz wykres',
+	'LBL_GROUP_FIELD' => 'Grupuj po',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

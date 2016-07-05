@@ -237,6 +237,132 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			);
 		});
 	},
+	registerChartFilterWidget: function () {
+		var thisInstance = this;
+		$('.dashboardHeading').on('click', '.addChartFilter', function (e) {
+			var element = $(e.currentTarget);
+
+			app.showModalWindow(null, "index.php?module=Home&view=ChartFilter&step=step1", function (wizardContainer) {
+				var form = jQuery('form', wizardContainer);
+				
+				var chartType = jQuery('select[name="chartType"]', wizardContainer);
+				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
+				var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
+				var fieldsSelectDOM = jQuery('select[name="groupField"]', wizardContainer);
+
+				var moduleNameSelect2 = app.showSelect2ElementView(moduleNameSelectDOM, {
+					placeholder: app.vtranslate('JS_SELECT_MODULE')
+				});
+				var filteridSelect2 = app.showSelect2ElementView(filteridSelectDOM, {
+					placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
+				});
+				var fieldsSelect2 = app.showSelect2ElementView(fieldsSelectDOM, {
+					placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
+					closeOnSelect: true,
+					maximumSelectionLength: 6
+				});
+				var footer = jQuery('.modal-footer', wizardContainer);
+
+				filteridSelectDOM.closest('tr').hide();
+				fieldsSelectDOM.closest('tr').hide();
+				footer.hide();
+
+				moduleNameSelect2.change(function () {
+					if (!moduleNameSelect2.val())
+						return;
+
+					AppConnector.request({
+						module: 'Home',
+						view: 'ChartFilter',
+						step: 'step2',
+						selectedModule: moduleNameSelect2.val()
+					}).then(function (res) {
+						filteridSelectDOM.empty().html(res).trigger('change');
+						filteridSelect2.closest('tr').show();
+					})
+				});
+				filteridSelect2.change(function () {
+					if (!filteridSelect2.val())
+						return;
+
+					AppConnector.request({
+						module: 'Home',
+						view: 'ChartFilter',
+						step: 'step3',
+						selectedModule: moduleNameSelect2.val(),
+						filterid: filteridSelect2.val()
+					}).then(function (res) {
+						fieldsSelectDOM.empty().html(res).trigger('change');
+						fieldsSelect2.closest('tr').show();
+						fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
+					});
+				});
+				fieldsSelect2.change(function () {
+					if (!fieldsSelect2.val()) {
+						footer.hide();
+					} else {
+						footer.show();
+					}
+				});
+
+				form.submit(function (e) {
+					e.preventDefault();
+					var selectedModule = moduleNameSelect2.val();
+					var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
+					var selectedFilterId = filteridSelect2.val();
+					var selectedFilterLabel = filteridSelect2.find(':selected').text();
+					var data = {
+						module: selectedModule,
+						groupField: fieldsSelect2.val(),
+						chartType: chartType.val(),
+					};
+					thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel, form);
+				});
+			});
+		});
+	},
+	saveChartFilterWidget: function (data, element, moduleNameLabel, filterid, filterLabel, form) {
+		var thisInstance = this;
+		var paramsForm = {
+			data: JSON.stringify(data),
+			action: 'addWidget',
+			blockid: element.data('block-id'),
+			linkid: element.data('linkid'),
+			label: moduleNameLabel + ' - ' + filterLabel,
+			name: 'Mini List',
+			filterid: filterid,
+			isdefault: 0,
+			height: 3,
+			width: 4,
+			owners_all: ["mine", "all", "users", "groups"],
+			default_owner: 'mine',
+		};
+		thisInstance.saveWidget(paramsForm, 'save').then(
+				function (data) {
+					var result = data['result'];
+					var params = {};
+					if (data['success']) {
+						app.hideModalWindow();
+						paramsForm['id'] = result['id'];
+						paramsForm['status'] = result['status'];
+						params['text'] = result['text'];
+						params['type'] = 'success';
+						var linkElement = element.clone();
+						linkElement.data('name', 'ChartFilter')
+						Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0')
+						Vtiger_Helper_Js.showMessage(params);
+					} else {
+						var message = data['error']['message'];
+						if (data['error']['code'] != 513) {
+							var errorField = form.find('[name="fieldName"]');
+						} else {
+							var errorField = form.find('[name="fieldLabel"]');
+						}
+						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+					}
+				}
+		);
+	},
 	registerMiniListWidget: function () {
 		var thisInstance = this;
 		$('.dashboardHeading').on('click', '.addFilter', function (e) {
@@ -409,5 +535,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		this.registerShowMailBody();
 		this.registerChangeMailUser();
 		this.registerMiniListWidget();
+		this.registerChartFilterWidget();
 	},
 });

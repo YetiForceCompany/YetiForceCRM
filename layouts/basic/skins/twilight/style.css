@@ -503,6 +503,7 @@ hr {
 }
 .gridster ul .widgetChartContainer {
 	margin-left: 10px;
+	height: 240px !important;
 }
 .listViewPageDiv {
 	margin: 0px 0;
