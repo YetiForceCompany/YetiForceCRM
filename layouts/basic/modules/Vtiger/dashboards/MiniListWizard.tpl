@@ -31,7 +31,7 @@
 								<select class="form-control" name="module">
 									<option></option>
 									{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
-									<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+										<option value="{$MODULE_MODEL['name']}">{vtranslate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
 									{/foreach}
 								</select>
 							</td>

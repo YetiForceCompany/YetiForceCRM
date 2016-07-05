@@ -15,7 +15,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View {
 		$viewer->assign('WIZARD_STEP', $request->get('step'));
 		switch ($request->get('step')) {
 			case 'step1':
-				$modules = Vtiger_Module_Model::getSearchableModules();
+				$modules = Vtiger_Functions::getAllModules(true, false, 0);
 				$chartTypes = [
 					'Pie' => 'LBL_PIE_CHART',
 					'Barchat' => 'LBL_VERTICAL_BAR_CHART',
@@ -36,7 +36,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View {
 				$selectedModuleName = $request->get('selectedModule');
 				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
 				$viewer->assign('MODULE_FILEDS', $selectedModuleModel->getFields());
-				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
+				$viewer->assign('SELECTED_MODULE', $selectedModule);
 				break;
 		}
 		$viewer->view('dashboards/ChartFilter.tpl', $moduleName);
