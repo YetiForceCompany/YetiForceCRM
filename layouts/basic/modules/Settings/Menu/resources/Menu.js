@@ -330,7 +330,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		var params = {};
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
-		params['action'] = 'saveAjax';
+		params['action'] = 'SaveAjax';
 		params['mode'] = 'copyMenu';
 		params['fromRole'] = fromRole;
 		params['toRole'] = toRole;
