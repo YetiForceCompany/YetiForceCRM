@@ -45,9 +45,9 @@
 								<div>
 									{assign var=STATUS_LABEL value=Events_Record_Model::getInvitionStatus($INVITIE['status'])}
 									{if $INVITIE['status'] == '1'}
-										<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE_NAME)}" aria-hidden="true"></span>
+										<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 									{elseif $INVITIE['status'] == '2'}
-										<span class="glyphicon glyphicon-minus-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE_NAME)}" aria-hidden="true"></span>
+										<span class="glyphicon glyphicon-minus-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 									{else}
 										<span class="glyphicon glyphicon-question-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE_NAME)}" aria-hidden="true"></span>
 									{/if}&nbsp;

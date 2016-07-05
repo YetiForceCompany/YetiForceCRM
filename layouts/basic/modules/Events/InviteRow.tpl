@@ -16,12 +16,12 @@
 				{/if}
 			</span>
 			<span class="input-group-addon inviteName {if $TITLE}popoverTooltip{/if}" data-content="{$TITLE}" style="width: 100px;">{$LABEL}</span>
-			<span class="input-group-addon inviteIcon">
+			<span class="input-group-addon inviteStatus">
 				{assign var=STATUS_LABEL value=Events_Record_Model::getInvitionStatus($INVITIE['status'])}
 				{if $INVITIE['status'] == '1'}
-					<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE)}" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 				{elseif $INVITIE['status'] == '2'}
-					<span class="glyphicon glyphicon-minus-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE)}" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-minus-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 				{else}
 					{assign var=LABEL value=$INVITIE['email']}
 					<span class="glyphicon glyphicon-question-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE)}" aria-hidden="true"></span>

@@ -243,12 +243,14 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				jQuery('#recurringType').append(jQuery('<option value="--None--">None</option>')).val('--None--');
 			}
 			if (thisInstance.isEvents()) {
-				var rows = form.find(".inviteesContent .inviteRow[data-email!='']");
+				var rows = form.find(".inviteesContent .inviteRow");
 				var invitees = [];
 				rows.each(function (index, domElement) {
 					var row = jQuery(domElement);
-					invitees.push([row.data('email'),row.data('crmid'),row.data('ivid')]);
-				});	
+					if (row.data('crmid') != ''){
+						invitees.push([row.data('email'), row.data('crmid'), row.data('ivid')]);
+					}
+				});
 				jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
 			}
 		})
@@ -346,7 +348,86 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		return dateInstance;
 	},
 	registerInviteEvent: function (editViewForm) {
+		var thisInstance = this;
 		this.registerRow(editViewForm);
+		var inviteesContent = editViewForm.find('.inviteesContent');
+		var inviteesSearch = editViewForm.find('input.inviteesSearch');
+		$.widget("custom.ivAutocomplete", $.ui.autocomplete, {
+			_create: function () {
+				this._super();
+				this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
+			},
+			_renderMenu: function (ul, items) {
+				var that = this, currentCategory = "";
+				$.each(items, function (index, item) {
+					var li;
+					if (item.category != currentCategory) {
+						ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+						currentCategory = item.category;
+					}
+					that._renderItemData(ul, item);
+				});
+			},
+			_renderItemData: function (ul, item) {
+				return this._renderItem(ul, item).data("ui-autocomplete-item", item);
+			},
+			_renderItem: function (ul, item) {
+				return $("<li>")
+						.data("item.autocomplete", item)
+						.append($("<a></a>").html(item.label))
+						.appendTo(ul);
+			},
+		});
+		inviteesSearch.ivAutocomplete({
+			delay: '600',
+			minLength: '3',
+			source: function (request, response) {
+				AppConnector.request({
+					module: 'Calendar',
+					action: 'Invitees',
+					mode: 'find',
+					value: request.term
+				}).then(function (result) {
+					var reponseDataList = result.result;
+					if (reponseDataList.length <= 0) {
+						reponseDataList.push({
+							label: app.vtranslate('JS_NO_RESULTS_FOUND'),
+							type: 'no results'
+						});
+					}
+					response(reponseDataList);
+				})
+			},
+			select: function (event, ui) {
+				var selected = ui.item;
+
+				//To stop selection if no results is selected
+				if (typeof selected.type != 'undefined' && selected.type == "no results") {
+					return false;
+				}
+				console.log(selected);
+				var recordExist = true;
+				inviteesContent.find('.inviteRow').each(function (index) {
+					if ($(this).data('crmid') == selected.id) {
+						recordExist = false;
+					}
+				});
+				if (recordExist) {
+					var inviteRow = inviteesContent.find('.hide .inviteRow').clone(true, true);
+					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).then(function (email) {
+						inviteRow.data('crmid', selected.id);
+						inviteRow.data('email', email);
+						inviteRow.find('.inviteName').data('content', selected.fullLabel + email).text(selected.label);
+						inviteRow.find('.inviteIcon .glyphicon').removeClass('glyphicon glyphicon-envelope').addClass('userIcon-' + selected.module);
+						inviteesContent.append(inviteRow);
+					});
+				}
+			},
+			close: function (event, ui) {
+				inviteesSearch.val('');
+			}
+
+		});
 	},
 	registerRow: function (row) {
 		var thisInstance = this;
