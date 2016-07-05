@@ -6418,10 +6418,16 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (281,3,'DASHBOARDWIDGET','Chart','index.php?module=Reports&view=ShowWidget&name=Charts','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (282,26,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (283,3,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (284,6,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (285,4,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (286,7,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (287,13,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (288,54,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (289,61,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (283);
+insert  into `vtiger_links_seq`(`id`) values (289);
 
 /*Data for the table `vtiger_loginhistory` */
 
