@@ -6,42 +6,10 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMail_compose_View extends Vtiger_Index_View
+class OSSMail_compose_View extends OSSMail_index_View
 {
 
-	protected $mainUrl = '';
-
-	function __construct()
-	{
-		parent::__construct();
-		$this->mainUrl = OSSMail_Record_Model::GetSite_URL() . 'modules/OSSMail/roundcube/?_task=mail&_action=compose';
-	}
-
-	function initAutologin()
-	{
-		$config = Settings_Mail_Config_Model::getConfig('autologin');
-		if ($config['autologinActive'] == 'true') {
-			$account = OSSMail_Autologin_Model::getAutologinUsers();
-			if ($account) {
-				$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
-				require_once 'modules/OSSMail/RoundcubeLogin.class.php';
-				$rcl = new RoundcubeLogin($this->mainUrl, false);
-				try {
-					if ($rcl->isLoggedIn()) {
-						if ($rcl->getUsername() != $rcUser['username']) {
-							$rcl->logout();
-							$rcl->login($rcUser['username'], $rcUser['password']);
-						}
-					} else {
-						$rcl->login($rcUser['username'], $rcUser['password']);
-					}
-				} catch (RoundcubeLoginException $ex) {
-					$log = vglobal('log');
-					$log->error('OSSMail_index_View|RoundcubeLoginException: ' . $ex->getMessage());
-				}
-			}
-		}
-	}
+	protected $mainUrl = 'modules/OSSMail/roundcube/?_task=mail&_action=compose';
 
 	function preProcessAjax(Vtiger_Request $request)
 	{
@@ -67,7 +35,7 @@ class OSSMail_compose_View extends Vtiger_Index_View
 			header('Location: ' . $this->mainUrl . '&_extwin=1');
 			exit;
 		}
-		parent::preProcess($request, true);
+		parent::preProcess($request, $display);
 	}
 
 	public function process(Vtiger_Request $request)
