@@ -270,7 +270,8 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				moduleNameSelect2.change(function () {
 					if (!moduleNameSelect2.val())
 						return;
-
+					footer.hide();
+					fieldsSelectDOM.closest('tr').hide();
 					AppConnector.request({
 						module: 'Home',
 						view: 'ChartFilter',
