@@ -65,7 +65,9 @@
 	{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
 		<optgroup label="{vtranslate($FILTERGROUP,$SELECTED_MODULE)}">
 			{foreach from=$FILTERS item=FILTER key=FILTERNAME}
-				<option value="{$FILTER->getId()}">{vtranslate($FILTER->get('viewname'),$SELECTED_MODULE)}</option>
+				{if $FILTER->get('setmetrics') eq 1}
+					<option value="{$FILTER->getId()}">{vtranslate($FILTER->get('viewname'),$SELECTED_MODULE)}</option>
+				{/if}
 			{/foreach}
 		</optgroup>
 	{/foreach}
