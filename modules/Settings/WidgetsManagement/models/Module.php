@@ -371,7 +371,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$data[$row['blockid']][$i] = $minilistWidget;
 			} else if($row['linklabel'] == 'ChartFilter'){
 				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
-				$chartFilterWidgetModel = new Vtiger_MiniList_Model();
+				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
 				$chartFilterWidget->set('title', $chartFilterWidgetModel->getTitle());
 				$data[$row['blockid']][$i] = $chartFilterWidget;

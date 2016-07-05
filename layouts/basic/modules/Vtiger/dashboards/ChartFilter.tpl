@@ -18,7 +18,7 @@
 						<tr>
 							<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SELECT_CHART'|vtranslate}</td>
 							<td class="fieldValue">
-								<select class="form-control" name="chartType">
+								<select class="form-control select2" name="chartType">
 									{foreach from=$CHART_TYPES item=TYPE key=VALUE}
 										<option value="{$VALUE}">{vtranslate($TYPE, $MODULE)}</option>
 									{/foreach}

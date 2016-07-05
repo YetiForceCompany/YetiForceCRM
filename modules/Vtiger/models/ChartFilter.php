@@ -54,12 +54,13 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$filterId = $this->widgetModel->get('filterid');
 		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$groupField = $this->extraData['groupField'];
+		$groupFieldModel = Vtiger_Field_Model::getInstance($groupField, $this->getTargetModuleModel());
+		$groupField = $groupFieldModel->get('column');
 		$queryGenerator = new QueryGenerator($this->getTargetModule(), $currentUserModel);
 		$queryGenerator->initForCustomViewById($filterId);
 		$fields = $queryGenerator->getFields();
 		$fields[] = $groupField;
 		$queryGenerator->setFields($fields);
-		$groupFieldModel = Vtiger_Field_Model::getInstance($groupField, $this->getTargetModuleModel());
 		$db = PearDatabase::getInstance();
 		$result = $db->query($queryGenerator->getQuery());
 		$groupData = [];
@@ -124,6 +125,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($db->num_rows($customviewrs)) {
 			$customview = $db->fetch_array($customviewrs);
 			$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
+			$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+			$suffix .= ' - ' . vtranslate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
 		}
 		return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 	}

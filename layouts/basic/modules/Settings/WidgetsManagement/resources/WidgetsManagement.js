@@ -593,7 +593,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			paramsForm['filterid'] = filterid;
 			paramsForm['isdefault'] = 0;
 			paramsForm['cache'] = 0;
-			paramsForm['height'] = 3;
+			paramsForm['height'] = 4;
 			paramsForm['width'] = 4;
 			paramsForm['owners_all'] = ["mine", "all", "users", "groups"];
 			paramsForm['default_owner'] = 'mine';
