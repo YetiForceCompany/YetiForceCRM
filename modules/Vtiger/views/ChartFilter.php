@@ -6,9 +6,11 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Vtiger_ChartFilter_View extends Vtiger_Index_View {
+class Vtiger_ChartFilter_View extends Vtiger_Index_View
+{
 
-	function process (Vtiger_Request $request) {
+	function process(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -24,7 +26,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View {
 				];
 				$viewer->assign('CHART_TYPES', $chartTypes);
 				//Since comments is not treated as seperate module 
-                unset($modules['ModComments']);
+				unset($modules['ModComments']);
 				$viewer->assign('MODULES', $modules);
 				break;
 			case 'step2':
@@ -36,7 +38,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View {
 				$selectedModuleName = $request->get('selectedModule');
 				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
 				$viewer->assign('MODULE_FILEDS', $selectedModuleModel->getFields());
-				$viewer->assign('SELECTED_MODULE', $selectedModule);
+				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				break;
 		}
 		$viewer->view('dashboards/ChartFilter.tpl', $moduleName);
