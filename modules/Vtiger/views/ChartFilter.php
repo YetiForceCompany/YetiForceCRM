@@ -36,7 +36,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View {
 				$selectedModuleName = $request->get('selectedModule');
 				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
 				$viewer->assign('MODULE_FILEDS', $selectedModuleModel->getFields());
-				$viewer->assign('SELECTED_MODULE', $selectedModule);
+				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				break;
 		}
 		$viewer->view('dashboards/ChartFilter.tpl', $moduleName);
