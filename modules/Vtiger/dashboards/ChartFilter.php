@@ -27,6 +27,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$chartFilterWidgetModel->setWidgetModel($widget);
 		$data = $chartFilterWidgetModel->getChartData();
 		$viewer->assign('WIDGET', $widget);
+		$viewer->assign('CHART_MODEL', $chartFilterWidgetModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('BASE_MODULE', $chartFilterWidgetModel->getTargetModule());
 		$viewer->assign('DATA_CHART', $data);
@@ -34,6 +35,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/ChartFilterContents.tpl', $moduleName);
+			$viewer->view('dashboards/ChartFilterFooter.tpl', $moduleName);
 		} else {
 			$widget->set('title', $chartFilterWidgetModel->getTitle());
 			$viewer->view('dashboards/ChartFilterHeader.tpl', $moduleName);

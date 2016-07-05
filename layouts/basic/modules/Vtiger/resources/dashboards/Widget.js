@@ -308,12 +308,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 					var data = jQuery(data);
 					var footer = data.filter('.widgetFooterContent');
 					refreshContainer.progressIndicator({'mode': 'hide'});
-					if(footer.length){
+					if (footer.length) {
 						footer = footer.clone(true, true);
 						refreshContainerFooter.html(footer);
-						data.each(function(n, e){
-							if(jQuery(this).hasClass('widgetFooterContent')){
-								data.splice(n,1);
+						data.each(function (n, e) {
+							if (jQuery(this).hasClass('widgetFooterContent')) {
+								data.splice(n, 1);
 							}
 						})
 					}
@@ -1392,3 +1392,17 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	}
 });
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
+Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
+	loadChart: function () {
+		var container = this.getContainer();
+		var chartType = container.find('[name="typeChart"]').val();
+		var chartClassName = chartType.toCamelCase();
+		var chartClass = window["Vtiger_" + chartClassName + "_Widget_Js"];
+
+		var instance = false;
+		if (typeof chartClass != 'undefined') {
+			instance = new chartClass(container);
+			instance.loadChart();
+		}
+	}
+});
