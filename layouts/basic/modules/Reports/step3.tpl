@@ -34,7 +34,7 @@
 		<input type="hidden" name="recipients" value={ZEND_JSON::encode($REPORT_MODEL->get('recipients'))}>
         <input type="hidden" name="specificemails" value={ZEND_JSON::encode($REPORT_MODEL->get('specificemails'))}>
 		<input type="hidden" name="schtypeid" value="{$REPORT_MODEL->get('schtypeid')}">
-
+		<input type="hidden" name="scheduleFileType" value="{$REPORT_MODEL->get('scheduleFileType')}">
         <input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
 		{assign var=RECORD_STRUCTURE value=array()}
 		{assign var=PRIMARY_MODULE_LABEL value=vtranslate($PRIMARY_MODULE, $PRIMARY_MODULE)}

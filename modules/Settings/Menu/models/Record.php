@@ -275,4 +275,21 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		return ['userIcon-VirtualDesk', 'userIcon-Home', 'userIcon-CompaniesAndContact', 'userIcon-Campaigns', 'userIcon-Support', 'userIcon-Project', 'userIcon-Bookkeeping', 'userIcon-HumanResources', 'userIcon-Secretary', 'userIcon-Database', 'userIcon-Sales', 'userIcon-VendorsAccounts'];
 	}
+	
+	public function getRolesContainMenu()
+	{
+		$db = PearDatabase::getInstance();
+		$allRoles = Settings_Roles_Record_Model::getAll();
+		$menu = [];
+		$counter = 0;
+		foreach ($allRoles as $roleId => $value) {
+			$hasMenu = $this->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT));
+			if ($hasMenu) {
+				$menu[$counter]['roleName'] = $allRoles[$roleId]->get('rolename');
+				$menu[$counter]['roleId'] = $roleId;
+				$counter++;
+			}
+		}
+		return $menu;
+	}
 }

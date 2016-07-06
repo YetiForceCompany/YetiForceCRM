@@ -19,11 +19,12 @@ class Vtiger_Updates_Widget extends Vtiger_Basic_Widget
 
 	public function getWidget()
 	{
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduelName = 'ModTracker';
 		$this->Config['tpl'] = 'Updates.tpl';
 		$this->Config['moduleBaseName'] = $moduelName;
 		$this->Config['url'] = $this->getUrl();
-		$this->Config['newChanege'] = ModTracker_Record_Model::isNewChange($this->Record);
+		$this->Config['newChanege'] = ModTracker_Record_Model::isNewChange($this->Record, $currentUser->getRealId());
 		$this->Config['switchHeader'] = [];
 		$this->Config['switchHeader']['on'] = 'changes';
 		$this->Config['switchHeader']['off'] = 'review';

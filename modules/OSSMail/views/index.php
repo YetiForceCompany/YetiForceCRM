@@ -12,17 +12,23 @@
 class OSSMail_index_View extends Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	protected $mainUrl = 'modules/OSSMail/roundcube/';
+
+	function __construct()
 	{
-		$moduleName = $request->getModule();
-		$url = OSSMail_Record_Model::GetSite_URL() . 'modules/OSSMail/roundcube/';
+		parent::__construct();
+		$this->mainUrl = OSSMail_Record_Model::GetSite_URL() . $this->mainUrl;
+	}
+
+	function initAutologin()
+	{
 		$config = Settings_Mail_Config_Model::getConfig('autologin');
 		if ($config['autologinActive'] == 'true') {
 			$account = OSSMail_Autologin_Model::getAutologinUsers();
 			if ($account) {
 				$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
 				require_once 'modules/OSSMail/RoundcubeLogin.class.php';
-				$rcl = new RoundcubeLogin($url, false);
+				$rcl = new RoundcubeLogin($this->mainUrl, false);
 				try {
 					if ($rcl->isLoggedIn()) {
 						if ($rcl->getUsername() != $rcUser['username']) {
@@ -33,11 +39,24 @@ class OSSMail_index_View extends Vtiger_Index_View
 						$rcl->login($rcUser['username'], $rcUser['password']);
 					}
 				} catch (RoundcubeLoginException $ex) {
-					$log = vglobal('log');
+					$log = LoggerManager::getInstance();
 					$log->error('OSSMail_index_View|RoundcubeLoginException: ' . $ex->getMessage());
 				}
 			}
 		}
+	}
+
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
+		$this->initAutologin();
+
+		parent::preProcess($request, $display);
+	}
+
+	public function process(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$url = OSSMail_Record_Model::GetSite_URL() . 'modules/OSSMail/roundcube/';
 		$viewer = $this->getViewer($request);
 		$viewer->assign('URL', $url);
 		$viewer->view('index.tpl', $moduleName);

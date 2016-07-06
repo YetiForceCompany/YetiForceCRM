@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_DAV_KEYS' => 'DAV Applications',
+	'LBL_DAV_KEYS' => 'DAV Anwendungen',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Anlegen und Bearbeiten von DAV Schlüssel',
 	'LBL_KEY' => 'Schlüssel',
 	'LBL_TOOLS' => 'Tools',
@@ -32,7 +32,7 @@ $languageStrings = [
 	'LBL_VIEW_KEYS' => 'DAV Schlüssel',
 	'Dav' => 'DAV Schlüssel',
 	'LBL_DUPLICATE_USER_SERVICES' => 'Schlüssel für diese Applikation existiert bereits.',
-	'LBL_ALERT_DAV_CONFIG_TITLE' => 'Configuration info',
+	'LBL_ALERT_DAV_CONFIG_TITLE' => 'Konfigurationsinformationen',
 	'LBL_ALERT_DAV_CONFIG_DESC' => 'Examples of DAV server connection configuration for different apps and systems:<br><b>DAVdroid</b><br>Address: https://gitdeveloper.yetiforce.com/api/dav.php<br>Preventive authorization NO<br><b>Thunderbird CalDAV</b><br>Address: https://gitdeveloper.yetiforce.com/api/dav.php/calendars/demo/YFCalendar/<br><b>iOS</b><br>Address: http://gitdeveloper.yetiforce.com/api/dav.php/principals/demo/<br> For SSL connections: <br> http://gitdeveloper.yetiforce.com:443/api/dav.php/principals/demo/',
 ];
 $jsLanguageStrings = [

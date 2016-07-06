@@ -61,6 +61,7 @@ $languageStrings = [
 	'LBL_CANCEL' => 'Annuler',
 	//End remove modal
 	'LBL_MORE_INFO' => 'Cliquer ici pour plus d\'information',
+	'LBL_COPY_MENU' => 'Copy menu',
 ];
 $jsLanguageStrings = [
 	'JS_EDIT' => 'Edit',

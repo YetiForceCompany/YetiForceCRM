@@ -20,7 +20,7 @@ Vtiger_Session::init();
 $authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
 $appUniqueKey = Vtiger_Session::get('app_unique_key');
 $user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey == AppConfig::main('application_unique_key'));
-if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || $user) {
+if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5'  || $user) {
 	$log = LoggerManager::getLogger('CRON');
 	vglobal('log', $log);
 

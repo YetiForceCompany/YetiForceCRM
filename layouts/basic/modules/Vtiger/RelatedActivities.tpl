@@ -110,7 +110,7 @@
 								  </div>
 							  {/if}
 							  {if count($RECORD->get('selectedusers')) > 0}
-								  <br />{vtranslate('LBL_INVITE_USER_BLOCK',$MODULE_NAME)}: 
+								  <br />{vtranslate('LBL_INVITE_RECORDS',$MODULE_NAME)}: 
 								  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
 								  {if $USER}{Vtiger_Functions::getOwnerRecordLabel( $USER )}{/if}
 							  {/foreach}

@@ -13,6 +13,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 	function __construct()
 	{
+		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
 		$this->exposeMethod('DonateUs');
 		$this->exposeMethod('Index');

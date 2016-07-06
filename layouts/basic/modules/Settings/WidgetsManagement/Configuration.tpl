@@ -82,6 +82,14 @@
 												</button>
 											</div>
 										{/if}
+										{if $SPECIAL_WIDGETS['ChartFilter']}
+											{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
+											<div class="btn-group">
+												<button class="btn btn-success addChartFilter" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>&nbsp;
+													<strong>{vtranslate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
+												</button>
+											</div>
+										{/if}
 										{if $SPECIAL_WIDGETS['Notebook']}
 											{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 											<div class="btn-group">
@@ -177,6 +185,14 @@
 									<div class="btn-group">
 										<button class="btn btn-success addMiniList specialWidget" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
 											<strong>{vtranslate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
+										</button>
+									</div>
+								{/if}
+								{if $SPECIAL_WIDGETS['ChartFilter']}
+									{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
+									<div class="btn-group">
+										<button class="btn btn-success addChartFilter specialWidget" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
+											<strong>{vtranslate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
 								{/if}

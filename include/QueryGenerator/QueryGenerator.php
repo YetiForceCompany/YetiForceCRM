@@ -1467,22 +1467,22 @@ class QueryGenerator
 			$leadSource = AppRequest::get('leadsource');
 		}
 		if (AppRequest::has('date_closed')) {
-			$leadSource = AppRequest::get('date_closed');
+			$dateClosed = AppRequest::get('date_closed');
 		}
 		if (AppRequest::has('sales_stage')) {
-			$leadSource = AppRequest::get('sales_stage');
+			$salesStage = AppRequest::get('sales_stage');
 		}
 		if (AppRequest::has('closingdate_start')) {
-			$leadSource = AppRequest::get('closingdate_start');
+			$dateClosedStart = AppRequest::get('closingdate_start');
 		}
 		if (AppRequest::has('closingdate_end')) {
-			$leadSource = AppRequest::get('closingdate_end');
+			$dateClosedEnd = AppRequest::get('closingdate_end');
 		}
 		if (AppRequest::has('owner')) {
-			$leadSource = AppRequest::get('owner');
+			$owner = AppRequest::get('owner');
 		}
 		if (AppRequest::has('campaignid')) {
-			$leadSource = AppRequest::get('campaignid');
+			$campaignId = AppRequest::get('campaignid');
 		}
 
 		$conditionList = [];
@@ -1555,6 +1555,8 @@ class QueryGenerator
 	{
 		switch ($operator) {
 			case 'e': $sqlOperator = '=';
+				break;
+			case 'om': $sqlOperator = '=';
 				break;
 			case 'n': $sqlOperator = '<>';
 				break;

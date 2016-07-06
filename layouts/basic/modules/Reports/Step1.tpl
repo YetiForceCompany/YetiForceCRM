@@ -90,6 +90,15 @@
 					</div>
 				</div>
 				<div id="scheduleBox" class='well contentsBackground {if $SCHEDULEDREPORTS->get('scheduleid') eq ''} hide {/if}'>
+					<div class="row" style="padding:5px 0px;">
+						<div class="col-md-3 marginBottom5px" style="position:relative;top:5px;">{vtranslate('LBL_FILE_TYPE', $MODULE)}</div>
+						<div class="col-md-4">
+							<select class="chzn-select form-control" title="{vtranslate('LBL_FILE_TYPE',$MODULE)}" name="scheduleFileType">
+								<option value="CSV" {if $SCHEDULEDREPORTS->get('scheduleFileType') eq 'CSV'}selected{/if}>{vtranslate('LBL_CSV', $MODULE)}</option>
+								<option value="EXCEL" {if $SCHEDULEDREPORTS->get('scheduleFileType') eq 'EXCEL'}selected{/if}>{vtranslate('LBL_EXCEL', $MODULE)}</option>
+							</select>
+						</div>
+					</div>
 					<div class='row' style="padding:5px 0px;">
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{vtranslate('LBL_RUN_REPORT', $MODULE)}</div>
 						<div class='col-md-4'>

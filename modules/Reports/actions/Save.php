@@ -73,6 +73,7 @@ class Reports_Save_Action extends Vtiger_Save_Action {
         $scheduleReportModel->set('recipients', $request->get('recipients'));
         $scheduleReportModel->set('isReportScheduled', $request->get('enable_schedule'));
         $scheduleReportModel->set('specificemails', $request->get('specificemails'));
+		$scheduleReportModel->set('scheduleFileType', $request->get('scheduleFileType'));
         $scheduleReportModel->saveScheduleReport();
 		//END
 

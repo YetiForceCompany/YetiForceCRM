@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_MiniList_Model extends Vtiger_Widget_Model
@@ -155,5 +156,50 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		}
 
 		return $this->listviewRecords;
+	}
+
+	public function getKeyMetricsWithCount($user = false)
+	{
+		$db = PearDatabase::getInstance();
+		$currenUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$user) {
+			$user = $currenUserModel->getId();
+		} else if ($user === 'all') {
+			$user = '';
+		}
+		require_once 'modules/CustomView/ListViewTop.php';
+		$metriclists = getMetricList([$this->widgetModel->get('filterid')]);
+
+		if (!empty($metriclists)) {
+			$metriclist = current($metriclists);
+			$queryGenerator = new QueryGenerator($metriclist['module'], $currenUserModel);
+			$queryGenerator->initForCustomViewById($metriclist['id']);
+			if ($metriclist['module'] == "Calendar") {
+				// For calendar we need to eliminate emails or else it will break in status empty condition
+				$queryGenerator->addCondition('activitytype', "Emails", 'n', QueryGenerator::$AND);
+			}
+			if (!empty($user)) {
+				$queryGenerator->addCondition('assigned_user_id', $user, 'om', QueryGenerator::$AND);
+			}
+			$metricsql = $queryGenerator->getQuery();
+			$metricresult = $db->query(Vtiger_Functions::mkCountQuery($metricsql));
+			if ($metricresult) {
+				$rowcount = $db->fetch_array($metricresult);
+				return $rowcount['count'];
+			}
+		}
+		return false;
+	}
+
+	public function getListViewURL($user = false)
+	{
+		$url = 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');
+		if (!$user) {
+			$currenUserModel = Users_Record_Model::getCurrentUserModel();
+			$userName = $currenUserModel->getName();
+		} else if ($user && $user !== 'all') {
+			$userName = Vtiger_Functions::getUserRecordLabel($user);
+		}
+		return empty($userName) ? $url : $url .= '&search_params=[[["assigned_user_id","c","' . $userName . '"]]]';
 	}
 }

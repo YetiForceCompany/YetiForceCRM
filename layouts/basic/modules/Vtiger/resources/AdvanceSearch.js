@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
@@ -104,6 +105,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		var thisInstance = this;
 		var postLoad = function (uiData) {
 			thisInstance.setContainer(jQuery('#advanceSearchContainer'));
+			thisInstance.filterValidationRegistered = false;
 			thisInstance.registerEvents();
 			thisInstance.advanceFilter = new Vtiger_SearchAdvanceFilter_Js(jQuery('.filterContainer', uiData));
 			if (jQuery('#searchContainer').height() > 200) {
@@ -268,31 +270,23 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		this.search().then(function (data) {
 			thisInstance.setContainer(thisInstance.getContainer().detach());
 			thisInstance.showSearchResults(data).then(function (modalBlock) {
-				var msgContainer = modalBlock.closest('#globalmodal');
-				msgContainer.position({
-					my: "left bottom",
-					at: "left top",
-					of: ".globalSearchValue",
-				});
 				thisInstance.registerShowFiler();
 				//if the filter already shown , show again
 				if (isSearchResultsAndFilterShown) {
 					thisInstance.showFilter();
 				}
 			});
-
 		});
 	},
 	/**
 	 * Function which will show the advance filter next to search results
 	 */
 	showFilter: function () {
-		var modalData = jQuery('#globalmodal');
-		var searchHolder = jQuery('.searchHolder', modalData);
-		var filterHolder = jQuery('.filterHolder', modalData);
-		filterHolder.removeClass('hide').html(this.getContainer());
-		//searchHolder.removeClass('col-md-12').css('width' , '35%');;
-		modalData.css('width', '70%');
+		var thisInstance = this;
+		var callback = function () {
+			app.showModalWindow(thisInstance.getContainer());
+		}
+		app.hideModalWindow(callback);
 	},
 	/**
 	 * Function which will perform the validation for the advance filter fields

@@ -35,12 +35,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			if ($this->getName() == 'Events') {
 				$blockModel = new Settings_LayoutEditor_Block_Model();
 				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
-				$blockModel->set('label', 'LBL_INVITE_USER_BLOCK');
+				$blockModel->set('label', 'LBL_INVITE_RECORDS');
 				$blockModel->set('module', $this);
 
 				$fieldModel = new Settings_LayoutEditor_Field_Model();
 				$fieldModel->set('name', 'selectedusers');
-				$fieldModel->set('label', 'LBL_INVITE_USERS');
+				$fieldModel->set('label', 'LBL_INVITE_RECORDS');
 				$fieldModel->set('block', $blockModel);
 				$fieldModel->setModule($this);
 				$fieldList[] = $fieldModel;
@@ -75,9 +75,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			if ($this->getName() == 'Events') {
 				$blockModel = new Settings_LayoutEditor_Block_Model();
 				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
-				$blockModel->set('label', 'LBL_INVITE_USER_BLOCK');
+				$blockModel->set('label', 'LBL_INVITE_RECORDS');
 				$blockModel->set('module', $this);
-				$blocksList['LBL_INVITE_USER_BLOCK'] = $blockModel;
+				$blocksList['LBL_INVITE_RECORDS'] = $blockModel;
 			}
 			$this->blocks = $blocksList;
 		}
@@ -487,7 +487,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$blocksEliminatedArray = array('HelpDesk' => array('LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'),
 			'Faq' => array('LBL_COMMENT_INFORMATION'),
 			'Calendar' => array('LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION'),
-			'Events' => array('LBL_EVENT_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION', 'LBL_RELATED_TO', 'LBL_DESCRIPTION_INFORMATION', 'LBL_INVITE_USER_BLOCK'));
+			'Events' => array('LBL_EVENT_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION', 'LBL_RELATED_TO', 'LBL_DESCRIPTION_INFORMATION', 'LBL_INVITE_RECORDS'));
 		if (in_array($moduleName, array('Calendar', 'Events', 'HelpDesk', 'Faq'))) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
 				if (in_array($blockName, $blocksEliminatedArray[$moduleName])) {

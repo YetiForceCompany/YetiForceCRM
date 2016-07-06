@@ -1145,6 +1145,13 @@ $languageStrings = [
 	'LBL_ALL_TIME_CONTROL' => 'All users total working time',
 	'LBL_NEW_ACCOUNTS' => 'New Accounts',
 	'LBL_NEGLECTED_ACCOUNTS' => 'Neglected Accounts',
+	'LBL_ADD_CHART_FILTER' => 'Add chart from filter',
+	'LBL_PIE_CHART' => 'Pie chart',
+	'LBL_VERTICAL_BAR_CHART' => 'Horizontal bar chart',
+	'LBL_HORIZONTAL_BAR_CHART' => 'Vertical bar chart',
+	'LBL_LINE_CHART' => 'Line chart',
+	'LBL_SELECT_CHART' => 'Select chart',
+	'LBL_GROUP_FIELD' => 'Group by',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',

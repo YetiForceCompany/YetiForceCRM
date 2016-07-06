@@ -52,7 +52,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	 * Function to get the user selected search module
 	 */
 	getCurrentSearchModule: function () {
-		if (this.currentSearchModule === false) {
+		if (this.currentSearchModule === false && this.mainConatiner) {
 			this.currentSearchModule = this.mainConatiner.find('.basicSearchModulesList').val();
 		}
 		return this.currentSearchModule;

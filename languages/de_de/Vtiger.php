@@ -1159,6 +1159,13 @@ $languageStrings = [
 	'LBL_ALL_TIME_CONTROL' => 'Gesamtarbeitszeit für alle Benutzer',
 	'LBL_NEW_ACCOUNTS' => 'Neue Organisationen',
 	'LBL_NEGLECTED_ACCOUNTS' => 'Ehemalige Organisationen',
+	'LBL_ADD_CHART_FILTER' => 'Add chart from filter',
+	'LBL_PIE_CHART' => 'Pie chart',
+	'LBL_VERTICAL_BAR_CHART' => 'Horizontal bar chart',
+	'LBL_HORIZONTAL_BAR_CHART' => 'Vertical bar chart',
+	'LBL_LINE_CHART' => 'Line chart',
+	'LBL_SELECT_CHART' => 'Select chart',
+	'LBL_GROUP_FIELD' => 'Group by',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1409,5 +1416,5 @@ $jsLanguageStrings = [
 	'JS_CANNOT_REMOVE_RELATION' => 'Beziehung kann nicht gelöscht werden',
 	'JS_RECORD_INFO' => 'Record info',
 	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
-	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Working time should not exceed 24hours',
+	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Arbeitszeit sollte die 24 Stunden nicht überschreiten',
 ];

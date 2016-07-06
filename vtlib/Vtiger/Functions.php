@@ -184,12 +184,12 @@ class Vtiger_Functions
 		return $id ? self::$moduleIdNameCache[$id] : self::$moduleNameIdCache[$name];
 	}
 
-	static function getAllModules($isEntityType = true, $showRestricted = false)
+	static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false)
 	{
 		$moduleList = self::$moduleIdNameCache;
 		if (empty($moduleList)) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT tabid, name, ownedby FROM vtiger_tab', []);
+			$result = $db->pquery('SELECT tabid, name, ownedby, presence FROM vtiger_tab', []);
 			while ($row = $db->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
 			}
@@ -201,6 +201,9 @@ class Vtiger_Functions
 				unset($moduleList[$id]);
 			}
 			if ($isEntityType && $module['isentitytype'] == 0) {
+				unset($moduleList[$id]);
+			}
+			if($presence !== false && $module['presence'] != $presence){
 				unset($moduleList[$id]);
 			}
 		}
@@ -1714,5 +1717,24 @@ class Vtiger_Functions
 			$decrypted = $encryption->decrypt($data);
 		}
 		return $decrypted;
+	}
+	
+	static function arrayDiffAssocRecursive($array1, $array2)
+	{
+		$difference = [];
+		foreach ($array1 as $key => $value) {
+			if (is_array($value)) {
+				if (!isset($array2[$key]) || !is_array($array2[$key])) {
+					$difference[$key] = $value;
+				} else {
+					$newDiff = self::arrayDiffAssocRecursive($value, $array2[$key]);
+					if (!empty($newDiff))
+						$difference[$key] = $newDiff;
+				}
+			} else if (!array_key_exists($key, $array2) || $array2[$key] !== $value) {
+				$difference[$key] = $value;
+			}
+		}
+		return $difference;
 	}
 }

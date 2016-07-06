@@ -237,6 +237,10 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 
 /*Data for the table `l_yf_notification_archive` */
 
+/*Data for the table `l_yf_settings_tracker_basic` */
+
+/*Data for the table `l_yf_settings_tracker_detail` */
+
 /*Data for the table `l_yf_sqltime` */
 
 /*Data for the table `l_yf_switch_users` */
@@ -284,6 +288,8 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 /*Data for the table `roundcube_users_autologin` */
 
 /*Data for the table `s_yf_multireference` */
+
+/*Data for the table `u_yf_activity_invitation` */
 
 /*Data for the table `u_yf_announcement` */
 
@@ -6082,8 +6088,6 @@ insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`
 
 insert  into `vtiger_inventorytaxinfo_seq`(`id`) values (3);
 
-/*Data for the table `vtiger_invitees` */
-
 /*Data for the table `vtiger_ipreorder_status` */
 
 insert  into `vtiger_ipreorder_status`(`ipreorder_statusid`,`ipreorder_status`,`sortorderid`,`presence`) values (1,'PLL_DRAFT',1,1);
@@ -6413,10 +6417,17 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (280,3,'DASHBOARDWIDGET','LBL_NEGLECTED_ACCOUNTS','index.php?module=Accounts&view=ShowWidget&name=NeglectedAccounts','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (281,3,'DASHBOARDWIDGET','Chart','index.php?module=Reports&view=ShowWidget&name=Charts','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (282,26,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (283,3,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (284,6,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (285,4,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (286,7,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (287,13,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (288,54,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (289,61,'DASHBOARDWIDGET','ChartFilter','index.php?module=Home&view=ShowWidget&name=ChartFilter','',0,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (282);
+insert  into `vtiger_links_seq`(`id`) values (289);
 
 /*Data for the table `vtiger_loginhistory` */
 

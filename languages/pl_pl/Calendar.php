@@ -135,7 +135,6 @@ $languageStrings = [
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Brak dostępnych akcji',
 	'LBL_RELATED_TO' => 'Powiązany z',
 	'LBL_RECURRENCE_INFORMATION' => 'Szczegóły powtarzalności terminu',
-	'LBL_INVITE_USER_BLOCK' => 'Zaproszeni użytkownicy',
 	'LBL_CALENDAR_FILTERS' => 'Filtry',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Wypełnienie daty rozpoczęcia na podstawie pierwszego wolnego terminu',
 	'LBL_CACHE_SELECTED_FILTERS' => 'Zmieniłeś standardowy widok w kalendarzu, aby go wyczyścić wciśnij przycisk "Wyczyść widok".',

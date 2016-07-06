@@ -159,7 +159,6 @@ $languageStrings = [
 	'LBL_RECURRENCE_INFORMATION' => 'Повторить',
 	'LBL_RELATED_TO' => 'Связан с',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Нет доступных действий',
-	'LBL_INVITE_USER_BLOCK' => 'Пригласить',
 	'LBL_CALENDAR_FILTERS' => 'Фильтры',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Заполните дату начала, основываясь на первой доступной дате',
 	'LBL_CACHE_SELECTED_FILTERS' => 'Стандартный вид в календаре изменен. Нажмите кнопку \"Очистить вид\", чтобы очистить его.',

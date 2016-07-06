@@ -311,8 +311,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSpecialWidgets($moduleName) method ...");
 		$db = PearDatabase::getInstance();
 		$tabId = getTabid($moduleName);
-		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? AND linklabel IN (?, ?, ?)';
-		$result = $db->pquery($query, [$tabId, 'Mini List', 'Notebook', 'Chart']);
+		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? AND linklabel IN (?, ?, ?, ?)';
+		$result = $db->pquery($query, [$tabId, 'Mini List', 'Notebook', 'Chart', 'ChartFilter']);
 		$widgets = [];
 		while ($row = $db->fetch_array($result)) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);
@@ -369,6 +369,12 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$data[$row['blockid']][$i] = $minilistWidget;
+			} else if($row['linklabel'] == 'ChartFilter'){
+				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
+				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
+				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
+				$chartFilterWidget->set('title', $chartFilterWidgetModel->getTitle());
+				$data[$row['blockid']][$i] = $chartFilterWidget;
 			} else
 				$data[$row['blockid']][$i] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}

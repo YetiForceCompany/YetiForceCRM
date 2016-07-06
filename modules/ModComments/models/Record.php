@@ -215,6 +215,9 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$query .= ' AND related_to = ?';
 		} else {
 			$recordIds = Vtiger_ModulesHierarchy_Model::getRelatedRecords($parentId, $hierarchy);
+			if (empty($recordIds)) {
+				return [];
+			}
 			$params = $recordIds;
 			$query .= ' AND related_to IN (' . $db->generateQuestionMarks($recordIds) . ')';
 		}
