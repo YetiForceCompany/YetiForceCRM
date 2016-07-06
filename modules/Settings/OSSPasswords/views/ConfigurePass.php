@@ -93,8 +93,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 			// update the configuration data
 			if (strlen($error) == 0 && $post_min > 0 && $post_max > 0 && strlen($aChars) > 0) {
-				$adb->pquery("UPDATE vtiger_passwords_config SET pass_length_min = '?', pass_length_max = '?', pass_allow_chars = ?, register_changes= ?;", array($post_min, $post_max, $adb->sql_escape_string($aChars), $rChanges), true);
-
+				$adb->pquery("UPDATE vtiger_passwords_config SET pass_length_min = ?, pass_length_max = ?, pass_allow_chars = ?, register_changes= ?;", array($post_min, $post_max, $adb->sql_escape_string($aChars), $rChanges), true);
 				// uaktualnij zmienne
 				$min = $post_min;
 				$max = $post_max;
