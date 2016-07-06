@@ -376,6 +376,7 @@ var app = {
 			cb = data.cb;
 			url = data.url;
 			data = data.data;
+			sendByAjaxCb = data.sendByAjaxCb;
 		}
 		if (typeof url == 'function') {
 			if (typeof cb == 'object') {
@@ -389,11 +390,14 @@ var app = {
 			paramsObject = url;
 			url = false;
 		}
-
 		if (typeof cb != 'function') {
 			cb = function () {
 			}
 		}
+		if (typeof sendByAjaxCb != 'function') {
+			var sendByAjaxCb = function () {}
+		}
+
 		var container = jQuery('#' + id);
 		if (container.length) {
 			container.remove();
@@ -437,7 +441,7 @@ var app = {
 			//register date fields event to show mini calendar on click of element
 			app.registerEventForDatePickerFields(modalContainer);
 
-			thisInstance.registerModalEvents(modalContainer);
+			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 			modalContainer.on('shown.bs.modal', function () {
@@ -485,7 +489,7 @@ var app = {
 		}
 		modalContainer.one('hidden.bs.modal', callback);
 	},
-	registerModalEvents: function (container) {
+	registerModalEvents: function (container, sendByAjaxCb) {
 		var form = container.find('form');
 		var validationForm = false;
 		if (form.hasClass("validateForm")) {
@@ -506,6 +510,7 @@ var app = {
 					});
 					var formData = form.serializeFormData();
 					AppConnector.request(formData).then(function (data) {
+						sendByAjaxCb(formData, data);
 						app.hideModalWindow();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					})
