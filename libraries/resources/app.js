@@ -375,8 +375,10 @@ var app = {
 			paramsObject = data.css;
 			cb = data.cb;
 			url = data.url;
+			if (data.sendByAjaxCb != 'undefined') {
+				var sendByAjaxCb = data.sendByAjaxCb;
+			}
 			data = data.data;
-			sendByAjaxCb = data.sendByAjaxCb;
 		}
 		if (typeof url == 'function') {
 			if (typeof cb == 'object') {
