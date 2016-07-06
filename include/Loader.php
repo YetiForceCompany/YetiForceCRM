@@ -28,7 +28,7 @@ class Vtiger_Loader
 	{
 		$allowedExtensions = array('php', 'js', 'css', 'less');
 		$rootDirectory = vglobal('root_directory');
-		if ($rootDirectory == null)
+		if ($rootDirectory == null || $rootDirectory == '/')
 			$rootDirectory = __DIR__ . '/..';
 
 		$file = '';
