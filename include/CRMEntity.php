@@ -79,7 +79,7 @@ class CRMEntity
 		}
 		$focus = new $modName();
 		$focus->moduleName = $module;
-		Vtiger_Cache::set('CRMEntity', $module, $focus);
+		Vtiger_Cache::set('CRMEntity', $module, clone $focus);
 		return $focus;
 	}
 
