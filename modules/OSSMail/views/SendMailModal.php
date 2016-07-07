@@ -151,8 +151,17 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		if (empty($searchParams)) {
 			$searchParams = [];
 		}
+		foreach ($searchParams as $key => $value) {
+			if (empty($value)) {
+				unset($searchParams[$key]);
+			}
+		}
+		$glue = '';
+		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
+			$glue = QueryGenerator::$AND;
+		}
 		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
-		$queryGenerator->parseAdvFilterList($transformedSearchParams);
+		$queryGenerator->parseAdvFilterList($transformedSearchParams, $glue);
 
 		$emailColumns = [];
 		$emailFields = ['id'];
