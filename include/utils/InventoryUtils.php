@@ -745,11 +745,11 @@ function createRecords($obj)
 	$focus = CRMEntity::getInstance($moduleName);
 
 	$tableName = Import_Utils_Helper::getDbTableName($obj->user);
-	$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE;
-
+	$sql = 'SELECT * FROM %s WHERE temp_status = %s';
+	$sql = sprintf($sql, $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
 	if ($obj->batchImport) {
 		$importBatchLimit = getImportBatchLimit();
-		$sql .= ' LIMIT ' . $importBatchLimit;
+		$sql .= sprintf(' LIMIT %s', $importBatchLimit);
 	}
 	$result = $adb->query($sql);
 	$numberOfRecords = $adb->num_rows($result);
@@ -768,7 +768,8 @@ function createRecords($obj)
 		$fieldData = [];
 		$lineItems = [];
 		$subject = $row['subject'];
-		$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE;
+		$sql = 'SELECT * FROM %s WHERE temp_status = %s';
+		$sql = sprintf($sql, $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
 		if (!empty($subject))
 			$sql .= ' AND subject = "' . str_replace("\"", "\\\"", $subject) . '"';
 		$subjectResult = $adb->query($sql);
@@ -923,7 +924,7 @@ function getImportStatusCount($obj)
 {
 	$adb = PearDatabase::getInstance();
 	$tableName = Import_Utils_Helper::getDbTableName($obj->user);
-	$result = $adb->query('SELECT temp_status FROM ' . $tableName . ';');
+	$result = $adb->query(sprintf('SELECT temp_status FROM %s', $tableName));
 
 	$statusCount = array('TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
 		'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0);

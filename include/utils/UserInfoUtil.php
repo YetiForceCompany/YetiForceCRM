@@ -1062,10 +1062,10 @@ function deleteRoleRelatedSharingRules($roleId)
 
 	foreach ($dataShareTableColArr as $tablename => $colname) {
 		$colNameArr = explode('::', $colname);
-		$query = "select shareid from " . $tablename . " where " . $colNameArr[0] . "=?";
+		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
 		$params = array($roleId);
 		if (sizeof($colNameArr) > 1) {
-			$query .=" or " . $colNameArr[1] . "=?";
+			$query .= sprintf(" OR %s = ?" ,$colNameArr[1]) ;
 			array_push($params, $roleId);
 		}
 
@@ -1100,7 +1100,7 @@ function deleteGroupRelatedSharingRules($grpId)
 
 	foreach ($dataShareTableColArr as $tablename => $colname) {
 		$colNameArr = explode('::', $colname);
-		$query = "select shareid from " . $tablename . " where " . $colNameArr[0] . "=?";
+		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
 		$params = array($grpId);
 		if (sizeof($colNameArr) > 1) {
 			$query .=" or " . $colNameArr[1] . "=?";
@@ -1136,7 +1136,7 @@ function deleteUserRelatedSharingRules($usId)
 
 	foreach ($dataShareTableColArr as $tablename => $colname) {
 		$colNameArr = explode('::', $colname);
-		$query = "select shareid from " . $tablename . " where " . $colNameArr[0] . "=?";
+		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
 		$params = array($grpId);
 		if (sizeof($colNameArr) > 1) {
 			$query .=" or " . $colNameArr[1] . "=?";
@@ -1666,17 +1666,17 @@ function get_current_user_access_groups($module)
 	$query = "select groupname,groupid from vtiger_groups";
 	$params = [];
 	if (count($current_user_group_list) > 0 && count($sharing_write_group_list) > 0) {
-		$query .= " where (groupid in (" . generateQuestionMarks($current_user_group_list) . ") or groupid in (" . generateQuestionMarks($sharing_write_group_list) . "))";
+		$query .= sprintf(" WHERE (groupid in (%s) OR groupid IN (%s))", generateQuestionMarks($current_user_group_list), generateQuestionMarks($sharing_write_group_list));
 		array_push($params, $current_user_group_list, $sharing_write_group_list);
 		$result = $adb->pquery($query, $params);
 		$noof_group_rows = $adb->num_rows($result);
 	} elseif (count($current_user_group_list) > 0) {
-		$query .= " where groupid in (" . generateQuestionMarks($current_user_group_list) . ")";
+		$query .= sprintf(" WHERE groupid IN (%s)", generateQuestionMarks($current_user_group_list));
 		array_push($params, $current_user_group_list);
 		$result = $adb->pquery($query, $params);
 		$noof_group_rows = $adb->num_rows($result);
 	} elseif (count($sharing_write_group_list) > 0) {
-		$query .= " where groupid in (" . generateQuestionMarks($sharing_write_group_list) . ")";
+		$query .= sprintf(" WHERE groupid IN (%s)", generateQuestionMarks($sharing_write_group_list) );
 		array_push($params, $sharing_write_group_list);
 		$result = $adb->pquery($query, $params);
 		$noof_group_rows = $adb->num_rows($result);
@@ -1740,9 +1740,9 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
 
 		if (count($profilelist) > 0) {
 			if ($accessmode == 'readonly') {
-				$query = "SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (" . generateQuestionMarks($profilelist) . ") AND vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
+				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profilelist));
 			} else {
-				$query = "SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (" . generateQuestionMarks($profilelist) . ") AND vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
+				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profilelist));
 			}
 			$params = array($tabid, $profilelist, $fieldname);
 		} else {

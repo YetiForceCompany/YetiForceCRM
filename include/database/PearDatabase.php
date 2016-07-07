@@ -452,11 +452,11 @@ class PearDatabase
 			return false;
 		}
 		if ($where != '')
-			$where = 'WHERE ' . $where;
+			$where = sprintf('WHERE %s', $where);
 		if (count($params) === 0) {
-			$this->query('DELETE FROM ' . $table . ' ' . $where);
+			$this->query(sprintf('DELETE FROM %s %s', $table, $where));
 		} else {
-			$this->pquery('DELETE FROM ' . $table . ' ' . $where, $params);
+			$this->pquery(sprintf('DELETE FROM %s %s', $table, $where), $params);
 		}
 		return $this->stmt->rowCount();
 	}
@@ -478,7 +478,7 @@ class PearDatabase
 		}
 		$query = trim($query, ',');
 		if ($where !== false) {
-			$query .= ' WHERE ' . $where;
+			$query = sprintf(' WHERE %s', $where);
 		}
 		$this->pquery(trim($query, ','), [array_merge($values, $params)]);
 		return $this->stmt->rowCount();
@@ -649,7 +649,7 @@ class PearDatabase
 	{
 		$tableName = $seqname . '_seq';
 		if ($this->checkExistTable($tableName)) {
-			$result = $this->query('SELECT id FROM ' . $tableName);
+			$result = $this->query(sprintf('SELECT id FROM %s', $tableName));
 			$id = ((int) $this->getSingleValue($result)) + 1;
 			$this->database->query("update $tableName set id = $id");
 		} else {
@@ -852,7 +852,7 @@ class PearDatabase
 		$logQuery = 'INSERT INTO ' . $logTable . '(`id`, `type`, `qtime`, `content`, `date`, `group`) VALUES (?,?,?,?,?,?)';
 
 		if ($this->logSqlTimeID === false) {
-			$stmt = $db->database->query('SELECT MAX(id) FROM ' . $logTable);
+			$stmt = $db->database->query(sprintf('SELECT MAX(id) FROM %s', $logTable));
 			$this->logSqlTimeID = (int) $this->getSingleValue($stmt) + 1;
 
 			$type = PHP_SAPI;
