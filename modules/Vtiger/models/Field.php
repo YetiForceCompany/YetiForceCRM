@@ -1236,6 +1236,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function isActiveSearchView()
 	{
+		if($this->fromOutsideList){
+			return false;
+		}
 		return $this->getUITypeModel()->isActiveSearchView();
 	}
 }
