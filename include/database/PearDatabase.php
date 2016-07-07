@@ -478,7 +478,7 @@ class PearDatabase
 		}
 		$query = trim($query, ',');
 		if ($where !== false) {
-			$query = sprintf(' WHERE %s', $where);
+			$query .= sprintf(' WHERE %s', $where);
 		}
 		$this->pquery(trim($query, ','), [array_merge($values, $params)]);
 		return $this->stmt->rowCount();
