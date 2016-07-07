@@ -160,10 +160,10 @@ jQuery.Class("Vtiger_List_Js", {
 				selected_ids: selectedIds,
 				excluded_ids: excludedIds
 			};
-			var searchValue = listInstance.getListSearchInstance(true).getAlphabetSearchValue();
-			postData.search_params = JSON.stringify(listInstance.getListSearchInstance(true).getListSearchParams());
+			var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
+			postData.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
 			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = listInstance.getListSearchInstance(true).getAlphabetSearchField();
+				postData['search_key'] = listInstance.getListSearchInstance().getAlphabetSearchField();
 				postData['search_value'] = searchValue;
 				postData['operator'] = 's';
 			}
@@ -255,11 +255,11 @@ jQuery.Class("Vtiger_List_Js", {
 						var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
 						var listViewInstance = Vtiger_List_Js.getInstance();
 
-						var searchValue = listViewInstance.getListSearchInstance(true).getAlphabetSearchValue();
-						deleteURL += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance(true).getListSearchParams());
+						var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+						deleteURL += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
 
 						if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-							deleteURL += '&search_key=' + listViewInstance.getListSearchInstance(true).getAlphabetSearchField();
+							deleteURL += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
 							deleteURL += '&search_value=' + searchValue;
 							deleteURL += '&operator=s';
 						}
@@ -387,10 +387,10 @@ jQuery.Class("Vtiger_List_Js", {
 			};
 
 			var listViewInstance = Vtiger_List_Js.getInstance();
-			var searchValue = listViewInstance.getListSearchInstance(true).getAlphabetSearchValue();
-			postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance(true).getListSearchParams());
+			var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+			postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
 			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = listViewInstance.getListSearchInstance(true).getAlphabetSearchField();
+				postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
 				postData['search_value'] = searchValue;
 				postData['operator'] = 's';
 			}
@@ -493,11 +493,11 @@ jQuery.Class("Vtiger_List_Js", {
 		exportActionUrl += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&viewname=' + cvId + '&page=' + pageNumber;
 
 		var listViewInstance = Vtiger_List_Js.getInstance();
-		var searchValue = listViewInstance.getListSearchInstance(true).getAlphabetSearchValue();
-		exportActionUrl += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance(true).getListSearchParams());
+		var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+		exportActionUrl += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
 
 		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-			exportActionUrl += '&search_key=' + listViewInstance.getListSearchInstance(true).getAlphabetSearchField();
+			exportActionUrl += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
 			exportActionUrl += '&search_value=' + searchValue;
 			exportActionUrl += '&operator=s';
 		}
@@ -549,10 +549,10 @@ jQuery.Class("Vtiger_List_Js", {
 				excluded_ids: excludedIds
 			};
 
-			var searchValue = listInstance.getListSearchInstance(true).getAlphabetSearchValue();
-			postData.search_params = JSON.stringify(listInstance.getListSearchInstance(true).getListSearchParams());
+			var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
+			postData.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
 			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = listInstance.getListSearchInstance(true).getAlphabetSearchField();
+				postData['search_key'] = listInstance.getListSearchInstance().getAlphabetSearchField();
 				postData['search_value'] = searchValue;
 				postData['operator'] = 's';
 			}
@@ -591,9 +591,13 @@ jQuery.Class("Vtiger_List_Js", {
 	filterBlock: false,
 	filterSelectElement: false,
 	listSearchInstance: false,
-	getListSearchInstance: function (noEvents) {
+	noEventsListSearch: true,
+	getListSearchInstance: function (events) {
+		if(events != undefined){
+			this.noEventsListSearch = events;
+		}
 		if (this.listSearchInstance == false) {
-			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.getListViewContainer(), noEvents);
+			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.getListViewContainer(), this.noEventsListSearch);
 		}
 		return this.listSearchInstance;
 	},
@@ -1933,7 +1937,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewContainer = this.getListViewContentContainer();
 		listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);
 
-		this.getListSearchInstance();
+		this.getListSearchInstance(false);
 		this.registerListViewSpecialOptiopn();
 		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
@@ -1972,80 +1976,5 @@ jQuery.Class("Vtiger_List_Js", {
 				});
 		jQuery('#recordsCount').val('');
 		return aDeferred.promise();
-	},
-	getListSearchParams: function (urlSearchParams) {
-		var listViewPageDiv = this.getListViewContainer();
-		var listViewTable = listViewPageDiv.find('.listViewEntriesTable');
-		var searchParams = new Array();
-		listViewTable.find('.listSearchContributor').each(function (index, domElement) {
-			var searchInfo = new Array();
-			var searchContributorElement = jQuery(domElement);
-			var fieldInfo = searchContributorElement.data('fieldinfo');
-			var fieldName = searchContributorElement.attr('name');
-
-			var searchValue = searchContributorElement.val();
-
-			if (typeof searchValue == "object") {
-				if (searchValue == null) {
-					searchValue = "";
-				} else {
-					searchValue = searchValue.join(',');
-				}
-			}
-			searchValue = searchValue.trim();
-			if (searchValue.length <= 0) {
-				//continue
-				return true;
-			}
-
-			var searchOperator = 'c';
-			if (fieldInfo.hasOwnProperty("searchOperator")) {
-				searchOperator = fieldInfo.searchOperator;
-			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
-				searchOperator = 'bw';
-			} else if (fieldInfo.type == "boolean" || fieldInfo.type == "picklist" || fieldInfo.type == "tree") {
-				searchOperator = 'e';
-			} else if (fieldInfo.type == 'currency' || fieldInfo.type == "double" || fieldInfo.type == 'percentage' ||
-					fieldInfo.type == "integer" || fieldInfo.type == "number") {
-				if (searchValue.substring(0, 2) == '>=') {
-					searchOperator = 'h';
-				} else if (searchValue.substring(0, 2) == '<=') {
-					searchOperator = 'm';
-				} else if (searchValue.substring(0, 1) == '>') {
-					searchOperator = 'g';
-				} else if (searchValue.substring(0, 1) == '<') {
-					searchOperator = 'l';
-				} else {
-					searchOperator = 'e';
-				}
-			}
-
-			searchInfo.push(fieldName);
-			searchInfo.push(searchOperator);
-			searchInfo.push(searchValue);
-			if (fieldInfo.type == "tree") {
-				var searchInSubcategories = jQuery('.listViewHeaders #searchInSubcategories[data-columnname="' + fieldName + '"]').prop('checked');
-				searchInfo.push(searchInSubcategories);
-			}
-			searchParams.push(searchInfo);
-		});
-		if (urlSearchParams) {
-			var url = app.getUrlVar('search_params');
-			if (url != undefined && url.length) {
-				url = jQuery.parseJSON(decodeURIComponent(url));
-				$.each(url[0], function (index, value) {
-					var exist = false;
-					$.each(searchParams, function (index, searchParam) {
-						if (searchParam[0] == value[0]) {
-							exist = true;
-						}
-					});
-					if (exist == false) {
-						searchParams.push(value);
-					}
-				});
-			}
-		}
-		return new Array(searchParams);
 	},
 });
