@@ -69,7 +69,8 @@ Class DataAccess_unique_account
 
 		if ($hierarchyAll && $vatId) {
 			$hierarchyParams = array_merge($params, array_keys($hierarchyAll));
-			$hierarchyQuery = 'SELECT accountid,accountname FROM vtiger_account WHERE ' . $where . ' AND accountid IN (' . $db->generateQuestionMarks($hierarchyAll) . ')';
+			$hierarchyQuery = 'SELECT accountid,accountname FROM vtiger_account WHERE %s AND accountid IN (' . $db->generateQuestionMarks($hierarchyAll) . ')';
+			$hierarchyQuery = sprintf($hierarchyQuery, $where);
 			$result = $db->pquery($hierarchyQuery, $hierarchyParams);
 			if ($db->getRowCount($result)) {
 				$hierarchyCheck = true;
