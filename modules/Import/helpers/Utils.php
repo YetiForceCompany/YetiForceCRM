@@ -149,7 +149,8 @@ class Import_Utils_Helper {
 		$tableName = self::getDbTableName($user);
 
 		if(Vtiger_Utils::CheckTable($tableName)) {
-			$result = $adb->query('SELECT 1 FROM '.$tableName.' WHERE temp_status = '.  Import_Data_Action::$IMPORT_RECORD_NONE);
+			$query = sprintf('SELECT 1 FROM %s WHERE temp_status = %s', $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
+			$result = $adb->query($query);
 			if($adb->num_rows($result) > 0) {
 				return true;
 			}

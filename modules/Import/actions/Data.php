@@ -185,7 +185,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 		$entityData = [];
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE;
+		$sql = 'SELECT * FROM %s  WHERE temp_status = %s';
+		$sql = sprintf($query, $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
 		
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$isInventory = $moduleModel->isInventory();
@@ -196,7 +197,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		if ($this->batchImport) {
 			$configReader = new Import_Config_Model();
 			$importBatchLimit = $configReader->get('importBatchLimit');
-			$sql .= ' LIMIT ' . $importBatchLimit;
+			$sql .= sprintf(' LIMIT %s', $importBatchLimit);
 		}
 		$result = $adb->query($sql);
 		$numberOfRecords = $adb->num_rows($result);
@@ -213,8 +214,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$rowId = $row['id'];
 			
 			if($isInventory){
-				$sql = 'SELECT * FROM ' . $inventoryTableName . ' WHERE id = ' . $rowId;
-				$resultInventory = $adb->query($sql);
+				$sql = sprintf('SELECT * FROM %s WHERE id = ?', $inventoryTableName);
+				$resultInventory = $adb->pquery($sql, [$rowId]);
 				$inventoryFieldData = $adb->getArray($resultInventory);
 			}
 			
@@ -811,7 +812,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$adb = PearDatabase::getInstance();
 
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$result = $adb->query('SELECT temp_status FROM ' . $tableName);
+		$query = sprintf('SELECT temp_status FROM %s');
+		$result = $adb->query($query);
 
 		$statusCount = array('TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
 			'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0);
