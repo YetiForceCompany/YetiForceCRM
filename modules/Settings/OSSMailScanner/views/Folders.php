@@ -17,6 +17,11 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		}
 	}
 
+	public function getSize(Vtiger_Request $request)
+	{
+		return 'modal-lg';
+	}
+
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
