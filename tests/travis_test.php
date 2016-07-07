@@ -9,8 +9,6 @@ try {
 	define('REQUEST_MODE', 'WebUI');
 	define('ROOT_DIRECTORY', __DIR__);
 
-	require 'include/RequirementsValidation.php';
-	require 'include/Webservices/Relation.php';
 	require 'include/main/WebUI.php';
 
 	$webUI = new Vtiger_WebUI();
