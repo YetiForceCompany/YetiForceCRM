@@ -145,8 +145,9 @@ class Assets extends CRMEntity
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
 		}
 
-		$query .= "	WHERE vtiger_crmentity.deleted = 0 " . $where;
+		$query .= '	WHERE vtiger_crmentity.deleted = 0 %s';
 		$query .= $this->getListViewSecurityParameter($module);
+		$query = sprintf($query, $where);
 		return $query;
 	}
 
@@ -253,8 +254,8 @@ class Assets extends CRMEntity
 	 */
 	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
-		$select_clause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid, vtiger_users_last_import.deleted," . $table_cols;
-
+		$select_clause = "SELECT %s.%s AS recordid, vtiger_users_last_import.deleted," . $table_cols;
+		$select_clause = sprintf($select_clause, $this->table_name, $this->table_index);
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
 			$query .= ", " . $this->customFieldTable[0] . ".* ";
