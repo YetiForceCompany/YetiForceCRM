@@ -531,8 +531,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			},
 			sendByAjaxCb: function (form, data) {
 				var widgetId = data.result.widgetId;
-				data['id'] = widgetId;
-				data['label'] = form.widgetTitle;
+				form['id'] = widgetId;
+				form['label'] = form['widgetTitle'];
 				thisInstance.showCustomField(form);
 			}
 		};
