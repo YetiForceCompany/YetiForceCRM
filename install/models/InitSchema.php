@@ -213,20 +213,13 @@ class Install_InitSchema_Model
 		}
 
 		include_once $config_directory;
-		if (!isset($root_directory)) {
-			return array('result' => false, 'text' => 'LBL_ERROR_EMPTY_CONFIG');
-		}
-		$rootDirectory = getcwd();
-		if (substr($rootDirectory, -1) != '/') {
-			$rootDirectory = $rootDirectory . '/';
-		}
+
 		$webRoot = ($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
 		$webRoot .= $_SERVER["REQUEST_URI"];
 		$webRoot = str_replace("install/Install.php", "", $webRoot);
 		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? "https://" : "http://") . $webRoot;
 
 		$configFileParameters = array();
-		$configFileParameters['root_directory'] = $rootDirectory;
 		$configFileParameters['site_URL'] = $webRoot;
 		$configFileParameters['db_hostname'] = $dbconfig['db_server'] . ':' . $dbconfig['db_port'];
 		$configFileParameters['db_username'] = $dbconfig['db_username'];
@@ -269,11 +262,12 @@ class Install_InitSchema_Model
 
 	public function deleteDirFile($src)
 	{
-		global $root_directory, $log;
-		if ($root_directory && strpos($src, $root_directory) === FALSE) {
-			$src = $root_directory . $src;
+		$log = LoggerManager::getInstance();
+		$rootDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		if ($rootDirectory && strpos($src, $rootDirectory) === FALSE) {
+			$src = $rootDirectory . $src;
 		}
-		if (!file_exists($src) || !$root_directory)
+		if (!file_exists($src) || !$rootDirectory)
 			return;
 		@chmod($src, 0777);
 		$log->debug("Exiting VT620_to_YT::testest(" . $src . ") method ...");

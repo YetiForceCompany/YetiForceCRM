@@ -109,9 +109,8 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 			$col++;
 		}
 
-		$rootDirectory = vglobal('root_directory');
 		$tmpDir = vglobal('tmp_dir');
-		$tempFileName = tempnam($rootDirectory . $tmpDir, 'xls');
+		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
 		$workbookWriter->save($tempFileName);
 

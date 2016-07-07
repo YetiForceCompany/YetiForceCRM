@@ -78,17 +78,17 @@ class API
 			$data['record'] = $this->request->get('record');
 		}
 
-		if(!($this->request->get('action') == 'Login' && $this->request->get('module') == 'Users')){
+		if (!($this->request->get('action') == 'Login' && $this->request->get('module') == 'Users')) {
 			$session = APISession::checkSession($this->headers['Sessionid']);
-			
-			if($session == false){
+
+			if ($session == false) {
 				throw new APIException('Invalid Sessionid', 401);
 			}
-			if(!$handler->checkPermission($this->request->get('action'), $session->get('user_id'))){
+			if (!$handler->checkPermission($this->request->get('action'), $session->get('user_id'))) {
 				throw new APIException('No permission to action', 405);
 			}
 		}
-		
+
 		if (is_array($data)) {
 			$return = call_user_func_array([$handler, $function], $data);
 		} else {
@@ -114,14 +114,14 @@ class API
 
 	public function encryptData($data)
 	{
-		$publicKey = 'file://' . vglobal('root_directory') . vglobal('publicKey');
+		$publicKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('publicKey');
 		openssl_public_encrypt(json_encode($data), $encrypted, $publicKey);
 		return $encrypted;
 	}
 
 	public function decryptData($data)
 	{
-		$privateKey = 'file://' . vglobal('root_directory') . vglobal('privateKey');
+		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('privateKey');
 		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
 			throw new AppException('Private Key failed');
 		}

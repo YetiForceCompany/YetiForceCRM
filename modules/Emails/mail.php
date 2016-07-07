@@ -61,7 +61,7 @@ function send_mail($module, $to_email, $fromName, $fromEmail, $subject, $content
 	if (!empty($supportName)) {
 		$fromName = $supportName;
 	}
-	
+
 	//if($module != "Calendar")
 	//$contents = addSignature($contents,$fromName); //TODO improved during the reconstruction Signature
 
@@ -313,7 +313,7 @@ function addAttachment($mail, $filename, $record)
 
 	//This is the file which has been selected in Email EditView
 	if (is_file($filename) && $filename != '') {
-		$mail->AddAttachment(vglobal('root_directory') . 'cache/upload/' . $filename);
+		$mail->AddAttachment(ROOT_DIRECTORY . '/cache/upload/' . $filename);
 	}
 }
 
@@ -335,13 +335,12 @@ function addAllAttachments($mail, $record)
 			INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.notesid = vtiger_seattachmentsrel.crmid 
 			WHERE vtiger_crmentity.deleted=0 AND vtiger_senotesrel.crmid=?';
 	$res = $adb->pquery($sql, array($record));
-	$count = $adb->num_rows($res);
 
-	for ($i = 0; $i < $count; $i++) {
-		$fileid = $adb->query_result($res, $i, 'attachmentsid');
-		$filename = decode_html($adb->query_result($res, $i, 'name'));
-		$filepath = $adb->query_result($res, $i, 'path');
-		$filewithpath = vglobal('root_directory') . $filepath . $fileid . "_" . $filename;
+	while ($row = $db->getRow($result)) {
+		$fileid = $row['attachmentsid'];
+		$filename = decode_html($row['attachmentsid']);
+		$filepath = $row['path'];
+		$filewithpath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filepath . $fileid . '_' . $filename;
 
 		//if the file is exist in cache/upload directory then we will add directly
 		//else get the contents of the file and write it as a file and then attach (this will occur when we unlink the file)

@@ -15,7 +15,7 @@ require('modules/HelpDesk/HelpDesk.php');
 require('modules/Emails/mail.php');
 require('modules/Settings/CustomerPortal/helpers/CustomerPortalPassword.php');
 
-AppConfig::iniSet('error_log', $root_directory . 'cache/logs/yetiportal.log');
+AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/yetiportal.log');
 
 /** Configure language for server response translation */
 $current_language = vglobal('current_language');
@@ -369,7 +369,7 @@ function get_combo_values($input_array)
 	}
 
 	$data = Vtiger_Functions::getModuleFieldInfo(Vtiger_Functions::getModuleId('HelpDesk'), 'ticketcategories');
-	if($data['presence'] != 1){
+	if ($data['presence'] != 1) {
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$data['fieldparams']]);
 		$output['ticketcategories'] = [];
 		while ($row = $adb->getRow($result)) {
@@ -1200,7 +1200,7 @@ function add_ticket_attachment($input_array)
 {
 	$adb = PearDatabase::getInstance();
 	$log = LoggerManager::getInstance();
-	global $root_directory, $upload_badext;
+	global $upload_badext;
 	$log->debug("Entering customer portal function add_ticket_attachment");
 	$adb->println("INPUT ARRAY for the function add_ticket_attachment");
 	$adb->println($input_array);
@@ -1804,7 +1804,6 @@ function get_inventory_products($id, $module, $customerid, $sessionid)
 	}
 	return [];
 }
-
 /* Function to get contactid's and account's product details'
  *
  */

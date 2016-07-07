@@ -203,7 +203,7 @@ class Vtiger_Functions
 			if ($isEntityType && $module['isentitytype'] == 0) {
 				unset($moduleList[$id]);
 			}
-			if($presence !== false && $module['presence'] != $presence){
+			if ($presence !== false && $module['presence'] != $presence) {
 				unset($moduleList[$id]);
 			}
 		}
@@ -1231,7 +1231,7 @@ class Vtiger_Functions
 
 	public function recurseDelete($src)
 	{
-		$rootDir = vglobal('root_directory');
+		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src))
 			return;
 		$dirs = [];
@@ -1256,7 +1256,7 @@ class Vtiger_Functions
 
 	public function recurseCopy($src, $dest, $delete = false)
 	{
-		$rootDir = vglobal('root_directory');
+		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src))
 			return;
 
@@ -1430,7 +1430,6 @@ class Vtiger_Functions
 	public static function getBacktrace($ignore = 1)
 	{
 		$trace = '';
-		$rootDirectory = rtrim(AppConfig::main('root_directory'), '/');
 		foreach (debug_backtrace() as $k => $v) {
 			if ($k < $ignore) {
 				continue;
@@ -1458,7 +1457,7 @@ class Vtiger_Functions
 				}
 				$args = rtrim($args, ',');
 			}
-			$file = str_replace($rootDirectory . DIRECTORY_SEPARATOR, '', $v['file']);
+			$file = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $v['file']);
 			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '(' . $args . ') in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
 		}
 
@@ -1468,7 +1467,7 @@ class Vtiger_Functions
 	public function getDiskSpace($dir = '')
 	{
 		if ($dir == '') {
-			$dir = vglobal('root_directory');
+			$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		}
 		$total = disk_total_space($dir);
 		$free = disk_free_space($dir);
@@ -1718,7 +1717,7 @@ class Vtiger_Functions
 		}
 		return $decrypted;
 	}
-	
+
 	static function arrayDiffAssocRecursive($array1, $array2)
 	{
 		$difference = [];

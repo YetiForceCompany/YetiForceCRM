@@ -40,11 +40,13 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 	public function process(Vtiger_Request $request)
 	{
-		global $root_directory, $adb, $current_user, $log;
+		$log = LoggerManager::getInstance();
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
 
 		// config
 		// check if password encode config exists
-		$config_path = "modules/OSSPasswords/config.ini.php";
+		$config_path = 'modules/OSSPasswords/config.ini.php';
 		$config = '';
 		$config_exists = file_exists($config_path);
 

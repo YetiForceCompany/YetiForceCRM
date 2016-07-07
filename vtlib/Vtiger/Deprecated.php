@@ -211,14 +211,13 @@ class Vtiger_Deprecated
 
 	static function clearSmartyCompiledFiles($path = null)
 	{
-		$root_directory = vglobal('root_directory');
 		if ($path == null) {
-			$path = $root_directory . 'cache/templates_c/';
+			$path = ROOT_DIRECTORY . '/cache/templates_c/';
 		}
 		if (file_exists($path) && is_dir($path)) {
 			$mydir = @opendir($path);
 			while (false !== ($file = readdir($mydir))) {
-				if ($file != "." && $file != ".." && $file != ".svn") {
+				if ($file != '.' && $file != '..' && $file != '.svn') {
 					//chmod($path.$file, 0777);
 					if (is_dir($path . $file)) {
 						chdir('.');
@@ -238,14 +237,13 @@ class Vtiger_Deprecated
 
 	static function getSmartyCompiledTemplateFile($template_file, $path = null)
 	{
-		$root_directory = vglobal('root_directory');
 		if ($path == null) {
-			$path = $root_directory . 'cache/templates_c/';
+			$path = ROOT_DIRECTORY . '/cache/templates_c/';
 		}
 		$mydir = @opendir($path);
 		$compiled_file = null;
 		while (false !== ($file = readdir($mydir)) && $compiled_file == null) {
-			if ($file != "." && $file != ".." && $file != ".svn") {
+			if ($file != '.' && $file != '..' && $file != '.svn') {
 				//chmod($path.$file, 0777);
 				if (is_dir($path . $file)) {
 					chdir('.');
@@ -272,20 +270,12 @@ class Vtiger_Deprecated
 
 	static function checkFileAccessForInclusion($filepath)
 	{
-		$root_directory = vglobal('root_directory');
-		// Set the base directory to compare with
-		$use_root_directory = $root_directory;
-		if (empty($use_root_directory)) {
-			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
-		}
-
 		$unsafeDirectories = array('storage', 'cache', 'test');
-
 		$realfilepath = realpath($filepath);
 
 		/** Replace all \\ with \ first */
 		$realfilepath = str_replace('\\\\', '\\', $realfilepath);
-		$rootdirpath = str_replace('\\\\', '\\', $use_root_directory);
+		$rootdirpath = str_replace('\\\\', '\\', ROOT_DIRECTORY . DIRECTORY_SEPARATOR);
 
 		/** Replace all \ with / now */
 		$realfilepath = str_replace('\\', '/', $realfilepath);
@@ -304,19 +294,12 @@ class Vtiger_Deprecated
 	/** Function to check the file deletion within the deletable (safe) directories */
 	static function checkFileAccessForDeletion($filepath)
 	{
-		// Set the base directory to compare with
-		$use_root_directory = AppConfig::main('root_directory');
-		if (empty($use_root_directory)) {
-			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
-		}
-
 		$safeDirectories = array('storage', 'cache', 'test');
-
 		$realfilepath = realpath($filepath);
 
 		/** Replace all \\ with \ first */
 		$realfilepath = str_replace('\\\\', '\\', $realfilepath);
-		$rootdirpath = str_replace('\\\\', '\\', $use_root_directory);
+		$rootdirpath = str_replace('\\\\', '\\', ROOT_DIRECTORY . DIRECTORY_SEPARATOR);
 
 		/** Replace all \ with / now */
 		$realfilepath = str_replace('\\', '/', $realfilepath);
@@ -345,23 +328,16 @@ class Vtiger_Deprecated
 	/**
 	 * function to return whether the file access is made within vtiger root directory
 	 * and it exists.
-	 * @global String $root_directory vtiger root directory as given in config.inc.php file.
 	 * @param String $filepath relative path to the file which need to be verified
 	 * @return Boolean true if file is a valid file within vtiger root directory, false otherwise.
 	 */
 	static function isFileAccessible($filepath)
 	{
-		// Set the base directory to compare with
-		$use_root_directory = AppConfig::main('root_directory');
-		if (empty($use_root_directory)) {
-			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
-		}
-
 		$realfilepath = realpath($filepath);
 
 		/** Replace all \\ with \ first */
 		$realfilepath = str_replace('\\\\', '\\', $realfilepath);
-		$rootdirpath = str_replace('\\\\', '\\', $use_root_directory);
+		$rootdirpath = str_replace('\\\\', '\\', ROOT_DIRECTORY . DIRECTORY_SEPARATOR);
 
 		/** Replace all \ with / now */
 		$realfilepath = str_replace('\\', '/', $realfilepath);

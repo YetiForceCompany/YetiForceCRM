@@ -49,8 +49,6 @@ class Emails_Record_Model extends Vtiger_Record_Model
 	public function send()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$rootDirectory = vglobal('root_directory');
-
 		$mailer = Emails_Mailer_Model::getInstance();
 		$mailer->IsHTML(true);
 
@@ -126,7 +124,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 				//Adding attachments to mail
 				if (is_array($attachments)) {
 					foreach ($attachments as $attachment) {
-						$fileNameWithPath = $rootDirectory . $attachment['path'] . $attachment['fileid'] . "_" . $attachment['attachment'];
+						$fileNameWithPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $attachment['path'] . $attachment['fileid'] . "_" . $attachment['attachment'];
 						if (is_file($fileNameWithPath)) {
 							$mailer->AddAttachment($fileNameWithPath, $attachment['attachment']);
 						}

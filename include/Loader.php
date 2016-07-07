@@ -27,10 +27,6 @@ class Vtiger_Loader
 	static function resolveNameToPath($qualifiedName, $fileExtension = 'php')
 	{
 		$allowedExtensions = array('php', 'js', 'css', 'less');
-		$rootDirectory = vglobal('root_directory');
-		if ($rootDirectory == null || $rootDirectory == '/')
-			$rootDirectory = __DIR__ . '/..';
-
 		$file = '';
 		if (!in_array($fileExtension, $allowedExtensions)) {
 			return '';
@@ -39,10 +35,10 @@ class Vtiger_Loader
 		// TO handle loading vtiger files
 		if (strpos($qualifiedName, '~') === 0) {
 			$file = str_replace('~', '', $qualifiedName);
-			$file = $rootDirectory . DIRECTORY_SEPARATOR . $file;
+			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file;
 		} else {
 			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
-			$file = $rootDirectory . DIRECTORY_SEPARATOR . $file;
+			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file;
 		}
 		return $file;
 	}

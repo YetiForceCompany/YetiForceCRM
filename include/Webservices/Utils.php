@@ -498,8 +498,7 @@ function vtws_getModuleHandlerFromId($id, $user)
 
 function vtws_CreateCompanyLogoFile($fieldname)
 {
-	$root_directory = vglobal('root_directory');
-	$uploaddir = $root_directory . "/storage/Logo/";
+	$uploaddir = ROOT_DIRECTORY . '/storage/Logo/';
 	$allowedFileTypes = array("jpeg", "png", "jpg", "pjpeg", "x-png");
 	$binFile = $_FILES[$fieldname]['name'];
 	$fileType = $_FILES[$fieldname]['type'];
