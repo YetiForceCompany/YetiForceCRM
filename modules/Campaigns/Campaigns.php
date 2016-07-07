@@ -164,8 +164,9 @@ class Campaigns extends CRMEntity
 		$query .= ' LEFT JOIN vtiger_users  ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_campaignrelstatus ON vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid';
-		$query .= ' WHERE vtiger_crmentity.deleted = 0 AND vtiger_campaign_records.campaignid = ' . $id;
-
+		$query .= ' WHERE vtiger_crmentity.deleted = 0 AND vtiger_campaign_records.campaignid = %d';
+		
+		$query = sprintf($query, $id);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
