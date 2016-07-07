@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package YetiForce.models
@@ -6,7 +7,6 @@
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 class OSSMail_Record_Model extends Vtiger_Record_Model
 {
 
@@ -478,9 +478,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		$account = self::getAccountsList($user);
 		$account = reset($account);
-		$folders = [];
+		$folders = false;
 		$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
 		if ($mbox) {
+			$folders = [];
 			$ref = '{' . $account['mail_host'] . '}';
 			$list = imap_list($mbox, $ref, '*');
 			foreach ($list as $mailboxname) {

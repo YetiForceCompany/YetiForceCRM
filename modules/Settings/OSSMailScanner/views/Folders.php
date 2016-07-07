@@ -20,6 +20,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
+		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
 		$mailModuleActive = Vtiger_Functions::getModuleId('OSSMail');
 		$folders = [];
@@ -39,7 +40,8 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		$viewer->assign('FOLDERS', $folders);
 		$viewer->assign('SELECTED', $selectedFolders);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->view('Folders.tpl', $request->getModule(false));
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->view('Folders.tpl', $qualifiedModuleName);
 		$this->postProcess($request);
 	}
 }
