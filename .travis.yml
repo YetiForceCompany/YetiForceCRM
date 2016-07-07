@@ -1,15 +1,33 @@
 language: php
+
 php:
   - 5.5
   - 5.6
   - 7.0
   - hhvm
+  
 matrix:
   fast_finish: true
   allow_failures:
     - php: hhvm
+    
+services:
+  - mysql
+  
+mysql:
+  database: yetiforce
+  username: root
+  encoding: utf8
+  
+before_script:
+- mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
+- \[ -f "config/config_override.php" \] || cp tests/travis_config.php config/config_override.php
+- cp tests/.htaccess .htaccess
+- php tests/travis_install.php
+  
+script:
+- php tests/travis_test.php
+
 branches:
   only:
-    - stable
-    - master
     - developer
