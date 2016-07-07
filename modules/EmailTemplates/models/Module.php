@@ -210,7 +210,7 @@ class EmailTemplates_Module_Model extends Vtiger_Module_Model {
 	public function getRecordIds($skipRecords){
 		$db = PearDatabase::getInstance();
 		
-		$query = 'SELECT templateid FROM vtiger_emailtemplates WHERE templateid NOT IN ('.generateQuestionMarks($skipRecords).')';
+		$query = sprintf('SELECT templateid FROM vtiger_emailtemplates WHERE templateid NOT IN (%s)', generateQuestionMarks($skipRecords));
 		$result = $db->pquery($query, $skipRecords);
 		$num_rows = $db->num_rows($result);
 		$recordIds = array();

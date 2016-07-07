@@ -261,8 +261,9 @@ class HelpDesk extends CRMEntity
 		if ($where != "")
 			$query .= "  WHERE ($where) AND " . $where_auto;
 		else
-			$query .= "  WHERE " . $where_auto;
+			$query .= '  WHERE %s';
 
+		$query = sprintf($query, $where_auto);
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
 	}

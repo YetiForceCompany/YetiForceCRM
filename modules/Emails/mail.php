@@ -115,7 +115,7 @@ function getUserEmailId($name, $val)
 	if ($val != '') {
 		$adb = PearDatabase::getInstance();
 		//done to resolve the PHP5 specific behaviour
-		$sql = "SELECT email1 from vtiger_users WHERE status='Active' AND " . $adb->sql_escape_string($name) . " = ?";
+		$sql = sprintf("SELECT email1 from vtiger_users WHERE status='Active' AND %s = ?", $adb->sql_escape_string($name));
 		$res = $adb->pquery($sql, array($val));
 		$email = $adb->query_result($res, 0, 'email1');
 		$log->debug('Email id is selected  => ' . $email);
@@ -418,8 +418,8 @@ function getParentMailId($parentmodule, $parentid)
 	if ($parentid != '') {
 		$adb = PearDatabase::getInstance();
 		//$query = 'select * from '.$tablename.' where '.$idname.' = '.$parentid;
-		$query = 'select * from ' . $tablename . ' where ' . $idname . ' = ?';
-		$res = $adb->pquery($query, array($parentid));
+		$query = sprintf('select * from %s where %s = ?', $tablename, $idname);
+		$res = $adb->pquery($query, [$parentid]);
 		$mailid = $adb->query_result($res, 0, $first_email);
 	}
 
@@ -551,9 +551,14 @@ function getDefaultAssigneeEmailIds($groupId)
 
 		if (count($userGroups->group_users) == 0)
 			return [];
-
-		$result = $adb->pquery('SELECT email1 FROM vtiger_users WHERE vtiger_users.id IN
-											(' . generateQuestionMarks($userGroups->group_users) . ') AND vtiger_users.status= ?', array($userGroups->group_users, 'Active'));
+		
+		$query = sprintf('SELECT 
+					email1 
+				FROM
+					vtiger_users 
+				WHERE vtiger_users.id IN (%s) 
+					AND vtiger_users.status = ?', generateQuestionMarks($userGroups->group_users));
+		$result = $adb->pquery($query, [$userGroups->group_users, 'Active']);
 		$rows = $adb->num_rows($result);
 		for ($i = 0; $i < $rows; $i++) {
 			$email = $adb->query_result($result, $i, 'email1');
