@@ -134,9 +134,9 @@ class VTWorkflowUtils
 	{
 		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($modulename);
-		$modules_not_supported = array('Calendar', 'Emails', 'Faq', 'Events', 'Users');
+		$modules_not_supported = ['Calendar', 'Emails', 'Faq', 'Events', 'Users'];
 		$query = sprintf('SELECT name FROM vtiger_tab WHERE name not in (%s) AND isentitytype=1 AND presence = 0 AND tabid = ?', generateQuestionMarks($modules_not_supported));
-		$result = $adb->pquery($query, array($modules_not_supported, $tabid));
+		$result = $adb->pquery($query,[$modules_not_supported, $tabid]);
 		$rows = $adb->num_rows($result);
 		if ($rows > 0) {
 			return true;
@@ -147,13 +147,13 @@ class VTWorkflowUtils
 
 	public function vtGetModules($adb)
 	{
-		$modules_not_supported = array('Emails', 'PBXManager');
+		$modules_not_supported = ['Emails', 'PBXManager'];
 		$sql = sprintf('select distinct vtiger_field.tabid, name
 			from vtiger_field
 			inner join vtiger_tab
 				on vtiger_field.tabid=vtiger_tab.tabid
 			where vtiger_tab.name not in(%s) and vtiger_tab.isentitytype=1 and vtiger_tab.presence in (0,2) ', generateQuestionMarks($modules_not_supported));
-		$it = new SqlResultIterator($adb, $adb->pquery($sql, array($modules_not_supported)));
+		$it = new SqlResultIterator($adb, $adb->pquery($sql, [$modules_not_supported]));
 		$modules = array();
 		foreach ($it as $row) {
 			$modules[] = $row->name;
