@@ -38,6 +38,10 @@ $languageStrings = [
 	'LBL_TICK_SIZE' => 'Wartość przeskoku (y)',
 	'LBL_MAXIMUM_VALUE' => 'Maksymalna wartość (y)',
 	'LBL_SHOW_USERS' => 'Wyswietl nazwę użytkownika',
+	'LBL_TITLE_WIDGET' => 'Tytuł widżetu',
+	'LBL_ADDRESS_RSS' => 'Adres RSS',
+	'LBL_ADD_CHANNEL' => 'Dodaj kanał',
+	'LBL_ADD_RSS' => 'Dodaj RSS',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',

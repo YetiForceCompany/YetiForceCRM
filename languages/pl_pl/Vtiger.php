@@ -1246,7 +1246,9 @@ $languageStrings = [
 	'LBL_SEPTENDECILLIONSS' => 'nonylionów',
     'LBL_NOVEMDECILLION' => 'decylion',
 	'LBL_NOVEMDECILLIONS' => 'decyliony',
-	'LBL_NOVEMDECILLIONSS' => 'decylionów'
+	'LBL_NOVEMDECILLIONSS' => 'decylionów',
+	'LBL_SOURCE' => 'Źródło',
+	'LBL_DATE' => 'Data',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
