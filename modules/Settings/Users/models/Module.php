@@ -235,7 +235,10 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 					$name = Settings_Roles_Record_Model::getInstanceById($id);
 				}
 				$name = $name->getName();
-				$prev[$name] = implode(',', $oldValues[$id]);
+				if($oldValues[$id])
+					$prev[$name] = implode(',', $oldValues[$id]);
+				else 
+					$prev[$name] = '';
 				$post[$name] = implode(',', $newValues[$id]);
 				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 			}
@@ -252,7 +255,10 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				}
 				$name = $name->getName();
 				$prev[$name] = implode(',', $oldValues[$id]);
-				$post[$name] = implode(',', $newValues[$id]);
+				if($newValues[$id])
+					$post[$name] = implode(',', $newValues[$id]);
+				else
+					$post[$name] = '';
 				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 			}
 		}
