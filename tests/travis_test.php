@@ -7,12 +7,19 @@ try {
 
 	$startTime = microtime(true);
 	define('REQUEST_MODE', 'WebUI');
-	define('ROOT_DIRECTORY', __DIR__);
+	define('ROOT_DIRECTORY', getcwd());
 
 	require 'include/main/WebUI.php';
 
 	$webUI = new Vtiger_WebUI();
 	$webUI->process(AppRequest::init());
+
+
+	$rekord = Vtiger_Record_Model::getCleanInstance('Accounts');
+	$rekord->set('accountname', 'YetiForce Sp. z o.o.');
+	$rekord->set('assigned_user_id', 1);
+	$rekord->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
+	$rekord->save();
 
 	ob_end_clean();
 } catch (\Exception $e) {
