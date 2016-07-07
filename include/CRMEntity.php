@@ -2850,7 +2850,7 @@ class CRMEntity
 		if (!empty($additionalColumns)) {
 			$additionalColumns = ',' . implode(',', $additionalColumns);
 		}
-		$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString,$additionalColumns);
+		$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
