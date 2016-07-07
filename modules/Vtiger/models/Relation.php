@@ -131,8 +131,9 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$functionName = $this->get('name');
 		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
 		if ($relationListView_Model) {
-			$searchParams = $relationListView_Model->get('search_params');
-			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
+			$queryGenerator = $relationListView_Model->get('query_generator');
+			$where = $queryGenerator->getWhereClause(true);
+			$query .= $where;
 		}
 		return $query;
 	}
@@ -264,7 +265,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
-			if(method_exists($relationModel, 'setExceptionData')){
+			if (method_exists($relationModel, 'setExceptionData')) {
 				$relationModel->setExceptionData();
 			}
 			self::$_cached_instance[$relKey] = $relationModel;

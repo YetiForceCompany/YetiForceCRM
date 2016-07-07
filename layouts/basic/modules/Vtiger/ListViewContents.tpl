@@ -14,9 +14,6 @@
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
-	<input type="hidden" id="alphabetSearchKey" value= "{$MODULE_MODEL->getAlphabetSearchField()}" />
-	<input type="hidden" id="Operator" value="{$OPERATOR}" />
-	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 	<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
 	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />

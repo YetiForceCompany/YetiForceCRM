@@ -38,15 +38,24 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 		var params = {};
 		params['view'] = "Detail";
 		params['module'] = this.parentModuleName;
-		params['record'] = this.getParentId(),
-				params['relatedModule'] = this.relatedModulename,
-				params['sortorder'] = this.getSortOrder(),
-				params['orderby'] = this.getOrderBy(),
-				params['page'] = this.getCurrentPageNum();
-		params['mode'] = "showRelatedList",
-				params['selectedIds'] = jQuery('#selectedIds').data('selectedIds');
+		params['record'] = this.getParentId();
+		params['relatedModule'] = this.relatedModulename;
+		params['sortorder'] = this.getSortOrder();
+		params['orderby'] = this.getOrderBy();
+		params['page'] = this.getCurrentPageNum();
+		params['mode'] = "showRelatedList";
+		params['selectedIds'] = jQuery('#selectedIds').data('selectedIds');
 		params['excludedIds'] = jQuery('#excludedIds').data('excludedIds');
 
+		if (this.listSearchInstance) {
+			var searchValue = this.listSearchInstance.getAlphabetSearchValue();
+			params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
+		}
+		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
+			params['search_value'] = searchValue;
+			params['operator'] = 's';
+		}
 		return params;
 	},
 	changeCustomFilterElementView: function () {

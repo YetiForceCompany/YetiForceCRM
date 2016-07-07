@@ -57,8 +57,9 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		if ($selectColumnSql && $newQuery[1])
 			$query = $selectColumnSql . ' FROM ' . $newQuery[1];
 		if ($relationListView_Model) {
-			$searchParams = $relationListView_Model->get('search_params');
-			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
+			$queryGenerator = $relationListView_Model->get('query_generator');
+			$where = $queryGenerator->getWhereClause(true);
+			$query .= $where;
 		}
 		return $query;
 	}

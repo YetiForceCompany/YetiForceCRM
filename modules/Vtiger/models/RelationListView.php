@@ -234,6 +234,42 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		return $query;
 	}
 
+	public function loadCondition($moduleName)
+	{
+		$queryGenerator = $this->get('query_generator');
+		if(empty($queryGenerator)){
+			$queryGenerator = new QueryGenerator($moduleName, Users_Record_Model::getCurrentUserModel());
+		}
+		$srcRecord = $this->get('src_record');
+		if ($moduleName == $this->get('src_module') && !empty($srcRecord)) {
+			$queryGenerator->addCondition('id', $srcRecord, 'n');
+		}
+
+		$searchParams = $this->get('search_params');
+		if (empty($searchParams)) {
+			$searchParams = [];
+		}
+		$glue = '';
+		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
+			$glue = QueryGenerator::$AND;
+		}
+		$queryGenerator->parseAdvFilterList($searchParams, $glue);
+
+		$searchKey = $this->get('search_key');
+		$searchValue = $this->get('search_value');
+		$operator = $this->get('operator');
+		if (!empty($searchKey)) {
+			$queryGenerator->addUserSearchConditions(
+				[
+					'search_field' => $searchKey,
+					'search_text' => $searchValue,
+					'operator' => $operator
+				]
+			);
+		}
+		$this->set('query_generator', $queryGenerator);
+	}
+
 	public function getEntries($pagingModel)
 	{
 		$db = PearDatabase::getInstance();
@@ -255,7 +291,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$relatedColumnFields[$col] = $name;
 			}
 		}
-
 		$query = $this->getRelationQuery();
 
 		if ($this->get('whereCondition')) {
@@ -410,18 +445,14 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			return $this->query;
 		}
 		$relationModel = $this->getRelationModel();
+		$relatedModuleModel = $this->getRelatedModuleModel();
+		$relatedModuleName = $relatedModuleModel->getName();
+		$this->loadCondition($relationModuleName);
 		if (!empty($relationModel) && $relationModel->get('name') != NULL) {
 			$recordModel = $this->getParentRecordModel();
 			$this->query = $relationModel->getQuery($recordModel, false, $this);
 			return $this->query;
 		}
-		$searchParams = $this->get('search_params');
-		if (empty($searchParams)) {
-			$searchParams = [];
-		}
-
-		$relatedModuleModel = $this->getRelatedModuleModel();
-		$relatedModuleName = $relatedModuleModel->getName();
 
 		$relatedModuleBaseTable = $relatedModuleModel->basetable;
 		$relatedModuleEntityIdField = $relatedModuleModel->basetableid;
@@ -433,13 +464,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$parentModuleDirectRelatedField = $parentModuleModel->get('directRelatedFieldName');
 
 		$relatedModuleFields = array_keys($this->getHeaders());
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$queryGenerator = new QueryGenerator($relatedModuleName, $currentUserModel);
+		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->setFields($relatedModuleFields);
 
-		if (count($searchParams) > 0) {
-			$queryGenerator->parseAdvFilterList($searchParams);
-		}
 		$joinQuery = ' INNER JOIN ' . $parentModuleBaseTable . ' ON ' . $parentModuleBaseTable . '.' . $parentModuleDirectRelatedField . " = " . $relatedModuleBaseTable . '.' . $relatedModuleEntityIdField;
 
 		$query = $queryGenerator->getQuery();
@@ -493,8 +520,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 		if (!$relationModel) {
 			$relationModel = false;
+		}else{
+			$queryGenerator = new QueryGenerator($relatedModuleModel->getName(), Users_Record_Model::getCurrentUserModel());
 		}
-		$instance->setRelationModel($relationModel);
+		$instance->setRelationModel($relationModel)->set('query_generator', $queryGenerator);
 		return $instance;
 	}
 
