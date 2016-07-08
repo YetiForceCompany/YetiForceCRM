@@ -1336,51 +1336,6 @@ class Vtiger_Module_Model extends Vtiger_Module
 	}
 
 	/**
-	 * Function to get where condition query for dashboards
-	 * @param <Integer> $owner
-	 * @return <String> query
-	 */
-	public function getOwnerWhereConditionForDashBoards($owner)
-	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$sharingAccessModel = Settings_SharingAccess_Module_Model::getInstance($this->getName());
-		$params = [];
-		if (!empty($owner) && $currentUserModel->isAdminUser()) {//If admin user, then allow users data
-			$ownerSql = ' smownerid = ' . $owner;
-			$params[] = $owner;
-		} else if (!empty($owner)) {//If not admin user, then check sharing access for that module
-			if ($sharingAccessModel->isPrivate()) {
-				$subordinateUserModels = $currentUserModel->getSubordinateUsers();
-				$subordinateUsers = [];
-				foreach ($subordinateUserModels as $id => $name) {
-					$subordinateUsers[] = $id;
-				}
-				if (in_array($owner, $subordinateUsers)) {
-					$ownerSql = ' smownerid = ' . $owner;
-				} else {
-					$ownerSql = ' smownerid = ' . $currentUserModel->getId();
-				}
-			} else {
-				$ownerSql = ' smownerid = ' . $owner;
-			}
-		} else {//If no owner filter, then check if the module access is Private
-			if ($sharingAccessModel->isPrivate() && (!$currentUserModel->isAdminUser())) {
-				$subordinateUserModels = $currentUserModel->getSubordinateUsers();
-				foreach ($subordinateUserModels as $id => $name) {
-					$subordinateUsers[] = $id;
-					$params[] = $id;
-				}
-				if ($subordinateUsers) {
-					$ownerSql = ' smownerid IN (' . implode(',', $subordinateUsers) . ')';
-				} else {
-					$ownerSql = ' smownerid = ' . $currentUserModel->getId();
-				}
-			}
-		}
-		return $ownerSql;
-	}
-
-	/**
 	 * Function to get Settings links
 	 * @return <Array>
 	 */
@@ -1840,8 +1795,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$queryGenerator = new QueryGenerator($relatedModule->getName(), $currentUser);
-		$relatedListFields = $relationModel->getRelationFields(true); 
-		if(count($relatedListFields) == 0){
+		$relatedListFields = $relationModel->getRelationFields(true);
+		if (count($relatedListFields) == 0) {
 			$relatedListFields = $relatedModule->getRelatedListFields();
 		}
 		$queryGenerator->setFields($relatedListFields);
