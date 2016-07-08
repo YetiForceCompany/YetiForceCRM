@@ -315,7 +315,7 @@ class CRMEntity
 					WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 
 					AND vtiger_profile2field.readonly = 0 
 					AND vtiger_profile2field.profileid IN (%s) 
-					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=`vtiger_crmentity` 
+					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=\'vtiger_crmentity\' 
 					and vtiger_field.presence in (0,2)', generateQuestionMarks($profileList));
 				$perm_result = $adb->pquery($perm_qry, [$tabid, $profileList]);
 				while ($columnname = $adb->getSingleValue($perm_result)) {
