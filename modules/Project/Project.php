@@ -166,7 +166,7 @@ class Project extends CRMEntity {
 
 		$current_user  = vglobal('current_user');
 		$query .= $this->getNonAdminAccessControlQuery($module,$current_user);
-		$query .= "	WHERE vtiger_crmentity.deleted = 0 ".$usewhere;
+		$query .= sprintf('	WHERE vtiger_crmentity.deleted = 0 %s',$usewhere);
 		return $query;
 	}
 
@@ -276,7 +276,7 @@ class Project extends CRMEntity {
 	 * Function which will give the basic query to find duplicates
 	 */
 	function getDuplicatesQuery($module,$table_cols,$field_values,$ui_type_arr,$select_cols='') {
-		$select_clause = "SELECT ". $this->table_name .".".$this->table_index ." AS recordid, vtiger_users_last_import.deleted,".$table_cols;
+		$select_clause = sprintf('SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s', $this->table_name, $this->table_index, $table_cols);
 
 		// Select Custom Field Table Columns if present
 		if(isset($this->customFieldTable)) $query .= ", " . $this->customFieldTable[0] . ".* ";
@@ -565,11 +565,12 @@ class Project extends CRMEntity {
 		if ($relatedName == 'get_many_to_many') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
-			$query = 'DELETE FROM vtiger_crmentityrel WHERE (relcrmid=' . $id . ' AND module IN (' . $return_modules . ') AND crmid IN (' . $entityIds . ')) OR (crmid=' . $id . ' AND relmodule IN (' . $return_modules . ') AND relcrmid IN (' . $entityIds . '))';
-			$this->db->pquery($query, array());
+			$where = '(relcrmid= %s AND module IN (%s) AND crmid IN (%s)) OR (crmid= %s AND relmodule IN (%s) AND relcrmid IN (%s))';
+			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
+			$this->db->delete('vtiger_crmentityrel', $where, $params);
 
-			$sql = 'SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN (' . $return_modules . '))';
-			$fieldRes = $this->db->pquery($sql, array($currentModule));
+			$sql = sprintf('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN (%s))', $return_modules);
+			$fieldRes = $this->db->pquery($sql, [$currentModule]);
 			$numOfFields = $this->db->num_rows($fieldRes);
 
 			for ($i = 0; $i < $numOfFields; $i++) {
