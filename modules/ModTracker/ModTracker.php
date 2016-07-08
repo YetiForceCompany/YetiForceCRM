@@ -260,12 +260,12 @@ class ModTracker
 		if (empty($accessibleModules))
 			throw new Exception('Modtracker not enabled for any modules');
 
-		$query = "SELECT id, module, modifiedtime, vtiger_crmentity.crmid, smownerid, vtiger_modtracker_basic.status
+		$query = sprintf('SELECT id, module, modifiedtime, vtiger_crmentity.crmid, smownerid, vtiger_modtracker_basic.status
                 FROM vtiger_modtracker_basic
                 INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
                     AND vtiger_modtracker_basic.changedon = vtiger_crmentity.modifiedtime
-                WHERE id > ? AND changedon >= ? AND module IN(" . generateQuestionMarks($accessibleModules) . ")
-                ORDER BY id";
+                WHERE id > ? AND changedon >= ? AND module IN (%s)
+                ORDER BY id', generateQuestionMarks($accessibleModules));
 
 		$params = array($uniqueId, $datetime);
 		foreach ($accessibleModules as $entityModule) {
@@ -319,8 +319,8 @@ class ModTracker
 		$output['updated'] = $updatedRecords;
 		$output['deleted'] = $deletedRecords;
 
-		$moreQuery = "SELECT * FROM vtiger_modtracker_basic WHERE id > ? AND changedon >= ? AND module
-            IN(" . generateQuestionMarks($accessibleModules) . ")";
+		$moreQuery = sprintf('SELECT * FROM vtiger_modtracker_basic WHERE id > ? AND changedon >= ? AND module
+            IN(%s)', generateQuestionMarks($accessibleModules));
 
 		$param = array($maxUniqueId, $maxModifiedTime);
 		foreach ($accessibleModules as $entityModule) {

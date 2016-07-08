@@ -69,7 +69,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			if (count($relatedID) == 0) {
 				return [];
 			}
-			$query = 'SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(' . implode(',', $relatedID) . ') AND `deleted` = ? ORDER BY `date` DESC';
+			$query = sprintf('SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(%s) AND `deleted` = ? ORDER BY `date` DESC', implode(',', $relatedID));
 			$result = $adb->pquery($query, [0]);
 
 			while ($row = $adb->fetch_array($result)) {
@@ -93,7 +93,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				$query .= $securityParameter;
 			$query .= ' ORDER BY date DESC';
 			if ($config['widget_limit'] != '') {
-				$query .= ' LIMIT ' . $config['widget_limit'];
+				$query .= sprintf(' LIMIT %s', $config['widget_limit']);
 			}
 
 			$result = $adb->pquery($query, $queryParams, true);
