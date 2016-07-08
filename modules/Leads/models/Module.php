@@ -137,7 +137,8 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$convertedInfo = [];
 		if ($recordIdsList) {
 			$db = PearDatabase::getInstance();
-			$result = $db->query('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (' . implode(',',$recordIdsList) . ')');
+			$query = sprintf('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (%s)', implode(',',$recordIdsList));
+			$result = $db->query($query);
 			while ($row = $db->getRow($result)) {
 				$convertedInfo[$row['leadid']] = $row['converted'];
 			}

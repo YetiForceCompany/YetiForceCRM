@@ -135,17 +135,17 @@ class Mobile_ICAL {
 			'date_start', 'time_start', 'due_date', 'time_end', 'modifiedtime'
 		);
 
-		$query = "SELECT " . implode(',', $fieldnames) . " FROM vtiger_activity
+		$query = sprintf("SELECT %s FROM vtiger_activity
 			INNER JOIN vtiger_crmentity ON
 			(vtiger_activity.activityid=vtiger_crmentity.crmid 	AND vtiger_crmentity.deleted = 0 AND vtiger_crmentity.smownerid = ?)
 			LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id=vtiger_activity.activityid
-			WHERE vtiger_activity.activitytype != 'Emails'";
+			WHERE vtiger_activity.activitytype != 'Emails'", implode(',', $fieldnames));
 
-		$result = $this->db->pquery($query, array($this->userfocus->id));
+		$result = $this->db->pquery($query, [$this->userfocus->id]);
 
 		while($resultrow = $this->db->fetch_array($result)) {
 
-			$properties = array();
+			$properties = [];
 			$properties['uid']         = $resultrow['activityid'];
 			$properties['summary']     = $this->formatValue(decode_html($resultrow['subject']));
 			$properties['description'] = $this->formatValue(decode_html($resultrow['description']));
