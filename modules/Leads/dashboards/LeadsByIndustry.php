@@ -52,15 +52,28 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
+		$query = sprintf('SELECT 
+					COUNT(*) AS COUNT,
+					CASE
+					  WHEN vtiger_leaddetails.industry IS NULL 
+					  OR vtiger_leaddetails.industry = "" 
+					  THEN "" 
+					  ELSE vtiger_leaddetails.industry 
+					END AS industryvalue 
+				  FROM
+					vtiger_leaddetails 
+					INNER JOIN vtiger_crmentity 
+					  ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid 
+					  AND deleted = 0 
+					  AND converted = 0 %s %s %s 
+					INNER JOIN vtiger_industry 
+					  ON vtiger_leaddetails.industry = vtiger_industry.industry 
+				  GROUP BY industryvalue 
+				  ORDER BY vtiger_industry.sortorderid;',$ownerSql, $dateFilterSql, $securityParameterSql);
+		
+		$result = $db->pquery($query, $params);
 
-		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN vtiger_leaddetails.industry IS NULL OR vtiger_leaddetails.industry = "" THEN "" 
-						ELSE vtiger_leaddetails.industry END AS industryvalue FROM vtiger_leaddetails 
-						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-						AND deleted=0 AND converted = 0 ' . $ownerSql . ' ' . $dateFilterSql . ' ' . $securityParameterSql . '
-						INNER JOIN vtiger_industry ON vtiger_leaddetails.industry = vtiger_industry.industry 
-						GROUP BY industryvalue ORDER BY vtiger_industry.sortorderid', $params);
-
-		$response = array();
+		$response = [];
 		$numRows = $db->num_rows($result);
 		if ($numRows > 0) {
 			for ($i = 0; $i < $numRows; $i++) {

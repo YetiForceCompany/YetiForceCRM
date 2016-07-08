@@ -812,7 +812,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$adb = PearDatabase::getInstance();
 
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$query = sprintf('SELECT temp_status FROM %s');
+		$query = sprintf('SELECT temp_status FROM %s', $tableName);
 		$result = $adb->query($query);
 
 		$statusCount = array('TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,

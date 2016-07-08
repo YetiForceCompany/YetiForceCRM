@@ -542,12 +542,11 @@ class Contacts extends CRMEntity
 		$query .= getNonAdminAccessControlQuery('Contacts', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
-		if ($where != "")
-			$query .= "  WHERE ($where) AND " . $where_auto;
+		if ($where != '')
+			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
 		else
-			$query .= '  WHERE %s';
+			$query .= sprintf(' where %s', $where_auto);
 
-		$query = sprintf($query, $where_auto);
 		$log->info("Export Query Constructed Successfully");
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
