@@ -78,7 +78,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if ($exception) {
 			$where = ' AND `id` <> ' . $exception;
 		}
-		$listQuery = sprintf('SELECT `last_reviewed_users`, `id` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? AND `last_reviewed_users` LIKE "%#%s#%" %s ORDER BY changedon ASC LIMIT 1;', $userId, $where);
+		$listQuery = sprintf('SELECT last_reviewed_users,id FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? AND last_reviewed_users LIKE "%s" %s ORDER BY changedon ASC LIMIT 1;', "%#$userId#%", $where);
 		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
 		if ($result->rowCount()) {
 			$row = $db->getRow($result);
@@ -309,7 +309,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$where = self::getConditionByType($type);
-		$query = sprintf('SELECT COUNT(*) AS count FROM vtiger_modtracker_basic WHERE crmid = ? %s' , $where);
+		$query = sprintf('SELECT COUNT(*) AS count FROM vtiger_modtracker_basic WHERE crmid = ? %s', $where);
 		$result = $db->pquery($query, [$recordId]);
 		return $db->query_result($result, 0, 'count');
 	}
