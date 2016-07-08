@@ -50,8 +50,8 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action {
         if ( $recordId != '' && $mode == 'edit' ) {
             if ( $properPassword == '**********' ) {    // hidden password sent in edit mode, get the correct one
                 if ( $config ) {    // when encryption is on
-                    $sql = "SELECT AES_DECRYPT(`password`, '".$config['key']."') AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;";
-                    $result = $adb->pquery( $sql, array($recordId), true );
+                    $sql = sprintf("SELECT AES_DECRYPT(`password`, '%s') AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;", $config['key']);
+                    $result = $adb->pquery( $sql, [$recordId], true );
                     $properPassword = $adb->query_result( $result, 0, 'pass' );
                 }
                 else {  // encryption mode is off

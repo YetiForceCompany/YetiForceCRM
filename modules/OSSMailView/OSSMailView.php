@@ -155,7 +155,7 @@ class OSSMailView extends CRMEntity
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
 		}
 
-		$query .= "	WHERE vtiger_crmentity.deleted = 0 " . $where;
+		$query .= sprintf('	WHERE vtiger_crmentity.deleted = 0 %s ', $where);
 		$query .= $this->getListViewSecurityParameter($module);
 		return $query;
 	}
@@ -263,7 +263,7 @@ class OSSMailView extends CRMEntity
 	 */
 	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
-		$select_clause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid, vtiger_users_last_import.deleted," . $table_cols;
+		$select_clause = sprintf('SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s', $this->table_name, $this->table_index, $table_cols);
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))

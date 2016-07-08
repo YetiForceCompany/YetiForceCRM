@@ -119,7 +119,7 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		$db = PearDatabase::getInstance();
 		$query = $this->getQuery();
 		$exQuery = preg_split('/ FROM /i', $query, 2);
-		$query = 'SELECT count(*) FROM ' . $exQuery[1];
+		$query = sprintf('SELECT count(*) FROM %s', $exQuery[1]);
 
 		$result = $db->query($query);
 		return $db->getSingleValue($result);

@@ -27,20 +27,19 @@ class SECURE extends VTEventHandler {
                 $sql = "SELECT basic.id FROM `vtiger_modtracker_basic` basic LEFT JOIN `vtiger_modtracker_detail` detail ON detail.`id` = basic.`id` 
                     WHERE basic.module = 'OSSPasswords' AND basic.`whodid` = '{$currentUserModel->id}'  
                     AND basic.changedon > CURDATE() AND detail.fieldname = 'password' ORDER BY basic.id DESC LIMIT 1;";
-                $result = $adb->query( $sql, true );
+                $result = $adb->query($sql, true);
                 
-                $num = $adb->num_rows( $result );
+                $num = $adb->num_rows($result);
                 if($num > 0){
-					$toUpdate = array();
-					for ( $i=0; $i<$num; $i++ )
-						$toUpdate[] = (int)$adb->query_result( $result, $i, 'id' );
+					$toUpdate = [];
+					for ($i=0; $i<$num; $i++)
+						$toUpdate[] = (int)$adb->query_result($result, $i, 'id');
 		
 					// register changes: show prevalue, hide postvalue
 					if ( $conf['register_changes'] == 1 )
-						$sql = "UPDATE `vtiger_modtracker_detail` SET `postvalue` = '**********' WHERE `id` IN (".implode(',',$toUpdate).") AND `fieldname` = 'password';";
+						$adb->update('vtiger_modtracker_detail', ['postvalue' => '**********'], "`id` IN (?) AND `fieldname` = 'password'", [implode(',',$toUpdate)]);
 					else
-						$sql = "UPDATE `vtiger_modtracker_detail` SET `prevalue` = '**********', `postvalue` = '**********' WHERE `id` IN (".implode(',',$toUpdate).") AND `fieldname` = 'password';";
-					$adb->query( $sql, true );
+						$adb->update('vtiger_modtracker_detail', ['postvalue' => '**********', 'prevalue' => '**********'], "`id` IN (?) AND `fieldname` = 'password'", [implode(',',$toUpdate)]);
 				}
             }
         }
