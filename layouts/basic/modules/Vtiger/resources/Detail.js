@@ -2567,6 +2567,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 		});
 		container.find('.widget_contents').on(thisInstance.widgetPostLoad, function (e, widgetName) {
+			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
 				app.showModalWindow("", $(e.currentTarget).data('url'), function (data) {
