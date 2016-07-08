@@ -58,7 +58,9 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
 		$this->inventoryFields = $inventoryFieldModel->getFields();
 		$table = $inventoryFieldModel->getTableName('data');
-		$resultInventory = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$recordData[$this->focus->table_index]]);
+		$query = 'SELECT * FROM %s WHERE id = ? ORDER BY seq';
+		$query = sprintf($query, $table);
+		$resultInventory = $db->pquery($query, [$recordData[$this->focus->table_index]]);
 		if ($db->getRowCount($resultInventory)) {
 			while ($inventoryRow = $db->getRow($resultInventory)) {
 				$entries[] = $inventoryRow;

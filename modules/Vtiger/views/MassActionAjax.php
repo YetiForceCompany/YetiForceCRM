@@ -153,7 +153,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
             $wsModuleMeta = $moduleMeta->getMeta();
             $tabNameIndexList = $wsModuleMeta->getEntityTableIndexList();
 
-            $queryWithFromClause = 'SELECT '. implode(',',$emailColumnNames). ' FROM vtiger_crmentity ';
+            $queryWithFromClause = sprintf('SELECT %s FROM vtiger_crmentity ', implode(',',$emailColumnNames));
             foreach($emailFields as $emailFieldModel) {
                 $fieldTableName = $emailFieldModel->table;
                 if(in_array($fieldTableName, $tableJoined)){

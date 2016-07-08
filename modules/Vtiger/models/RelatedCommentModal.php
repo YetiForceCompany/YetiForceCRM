@@ -42,7 +42,7 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 	{
 		$relationTable = $this->getRelationTable();
 		$table = key($relationTable);
-		$query = 'SELECT rel_comment FROM ' . $table . ' WHERE ' . $relationTable[$table][0] . ' = ? AND ' . $relationTable[$table][1] . ' = ?';
+		$query = sprintf('SELECT rel_comment FROM %s WHERE %s = ? AND %s = ?', $table, $relationTable[$table][0], $relationTable[$table][1]);
 		return $query;
 	}
 

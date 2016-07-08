@@ -217,10 +217,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$selectAndFromClause .= ' LEFT JOIN vtiger_crmentity AS ' . $qualifiedOrderBy . ' ON ' .
 					$orderByFieldModuleModel->get('table') . '.' . $orderByFieldModuleModel->get('column') . ' = ' .
 					$qualifiedOrderBy . '.crmid ';
-				$query = $selectAndFromClause . ' WHERE ' . $whereCondition;
-				$query .= ' ORDER BY ' . $qualifiedOrderBy . '.label ' . $sortOrder;
+				$query = sprintf('%s WHERE %s ORDER BY %s.label %s', $selectAndFromClause, $whereCondition, $qualifiedOrderBy, $sortOrder);
 			} elseif ($orderByFieldModuleModel && $orderByFieldModuleModel->isOwnerField()) {
-				$query .= ' ORDER BY COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname) ' . $sortOrder;
+				$query .= sprintf(' ORDER BY COALESCE(%s,vtiger_groups.groupname) %s', getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), $sortOrder);
 			} else {
 				// Qualify the the column name with table to remove ambugity
 				$qualifiedOrderBy = $orderBy;
@@ -228,7 +227,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				if ($orderByField) {
 					$qualifiedOrderBy = $relationModule->getOrderBySql($qualifiedOrderBy);
 				}
-				$query = "$query ORDER BY $qualifiedOrderBy $sortOrder";
+				$query = sprintf("%s ORDER BY %s %s ", $query, $qualifiedOrderBy, $sortOrder);
 			}
 		}
 		return $query;
@@ -473,9 +472,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$queryComponents = preg_split('/FROM/i', $query);
 		foreach ($queryComponents as $key => $val) {
 			if ($key == 0) {
-				$query = $queryComponents[0] . ' ,vtiger_crmentity.crmid';
+				$query = sprintf('%s ,vtiger_crmentity.crmid', $queryComponents[0]);
 			} else {
-				$query .= 'FROM ' . $val;
+				$query .= sprintf('FROM %s', $val);
 			}
 		}
 		$whereSplitQueryComponents = preg_split('/WHERE/i', $query);
@@ -629,11 +628,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relModuleName = $this->getRelatedModuleModel()->getName();
 		$moduleName = $this->getParentRecordModel()->getModuleName();
 
-		$query = 'SELECT `relcrmid` FROM `u_yf_favorites` WHERE u_yf_favorites.module = "' . $moduleName . '" 
-		AND u_yf_favorites.relmodule = "' . $relModuleName . '" 
-		AND u_yf_favorites.crmid = ' . $recordId . '
-		AND u_yf_favorites.userid = ' . $currentUser->getId();
-		$result = $db->query($query);
+		$query = 'SELECT `relcrmid` FROM `u_yf_favorites` WHERE u_yf_favorites.module = ? 
+		AND u_yf_favorites.relmodule = ? 
+		AND u_yf_favorites.crmid = ? 
+		AND u_yf_favorites.userid = ?';
+		$result = $db->pquery($query,[$moduleName, $relModuleName, $recordId, $currentUser->getId()]);
 		return $db->getArrayColumn($result, 'relcrmid');
 	}
 

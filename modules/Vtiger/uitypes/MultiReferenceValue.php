@@ -66,7 +66,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$return = Vtiger_Cache::get('mrvfm-' . $sourceModule, $destinationModule);
 		if (!$return) {
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT * FROM vtiger_field WHERE tabid = ? AND presence <> ? AND vtiger_field.uitype = ? AND fieldparams LIKE \'{"module":"' . $destinationModule . '"%\';';
+			$query = sprintf('SELECT * FROM vtiger_field WHERE tabid = ? AND presence <> ? AND vtiger_field.uitype = ? AND fieldparams LIKE \'{"module":"%s"%\';', $destinationModule);
 			$result = $db->pquery($query, [Vtiger_Functions::getModuleId($sourceModule), 1, 305]);
 			$return = [];
 			while ($field = $db->fetch_array($result)) {
@@ -142,14 +142,14 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$params = $this->get('field')->getFieldParams();
 
 		// Get current value
-		$query = 'SELECT ' . $this->get('field')->get('column') . ' FROM ' . $this->get('field')->get('table') . ' WHERE ' . $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?';
+		$query = sprintf('SELECT %s FROM %s WHERE %s = ?', $this->get('field')->get('column'), $this->get('field')->get('table'), $entity->tab_name_index[$this->get('field')->get('table')]);
 		$result = $db->pquery($query, [$sourceRecord]);
 		$currentValue = $db->getSingleValue($result);
 
 		// Get value to added
 		$destInstance = CRMEntity::getInstance($params['module']);
 		$fieldInfo = Vtiger_Functions::getModuleFieldInfoWithId($params['field']);
-		$query = 'SELECT ' . $fieldInfo['columnname'] . ' FROM ' . $fieldInfo['tablename'] . ' WHERE ' . $destInstance->tab_name_index[$fieldInfo['tablename']] . ' = ?';
+		$query = sprintf('SELECT %s FROM %s WHERE %s = ?', $fieldInfo['columnname'], $fieldInfo['tablename'], $destInstance->tab_name_index[$fieldInfo['tablename']]);
 		$result = $db->pquery($query, [$destRecord]);
 		$relatedValue = $db->getSingleValue($result);
 		return ['currentValue' => $currentValue, 'relatedValue' => $relatedValue];
@@ -219,7 +219,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$fieldInfo = Vtiger_Functions::getModuleFieldInfoWithId($params['field']);
 		$query = $targetModel->getRelationQuery();
 		$explodedQuery = explode('FROM', $query, 2);
-		$relationQuery = 'SELECT DISTINCT ' . $fieldInfo['columnname'] . ' FROM' . $explodedQuery[1] . ' AND ' . $fieldInfo['columnname'] . " <> ''";
+		$relationQuery = sprintf("SELECT DISTINCT %s FROM %s AND %s <> ''", $fieldInfo['columnname'], $explodedQuery[1], $fieldInfo['columnname']);
 
 		vglobal('current_user', $currentUser);
 		$result = $db->query($relationQuery);
