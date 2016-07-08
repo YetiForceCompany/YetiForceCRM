@@ -821,7 +821,7 @@ class Vtiger_PackageExport
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleInstance->name);
 		$tableName = $inventoryFieldModel->getTableName('fields');
 
-		$result = $db->query('SELECT * FROM ' . $tableName);
+		$result = $db->query(sprintf('SELECT * FROM %s', $tableName));
 		if ($db->getRowCount($result) == 0)
 			return false;
 

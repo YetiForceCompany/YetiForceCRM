@@ -46,7 +46,8 @@ class OSSMailScanner_PrefixScannerAction_Model extends OSSMailScanner_BaseScanne
 			$moduleObject = new $moduleName();
 			$tableIndex = $moduleObject->tab_name_index[$tableName];
 
-			$result = $db->pquery('SELECT ' . $tableIndex . ' FROM ' . $tableName . ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $tableName . '.' . $tableIndex . ' WHERE vtiger_crmentity.deleted = 0  AND ' . $tableColumn . ' = ? ', [$prefix]);
+			$query = sprintf('SELECT %s FROM %s INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %s.%s WHERE vtiger_crmentity.deleted = 0  AND %s = ? ', $tableIndex, $tableName, $tableName, $tableIndex, $tableColumn);
+			$result = $db->pquery($query, [$prefix]);
 
 			if ($db->getRowCount($result) > 0) {
 				$crmid = $db->getSingleValue($result);

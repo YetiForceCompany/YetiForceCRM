@@ -372,10 +372,10 @@ class Accounts extends CRMEntity
 		$query .= $this->getNonAdminAccessControlQuery('Accounts', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
-		if ($where != "")
-			$query .= " WHERE ($where) AND " . $where_auto;
+		if ($where != '')
+			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
 		else
-			$query .= sprintf(' WHERE %s', $where_auto);
+			$query .= sprintf(' where %s', $where_auto);
 
 		$log->debug("Exiting create_export_query method ...");
 		return $query;

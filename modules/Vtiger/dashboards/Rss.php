@@ -20,16 +20,11 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 		} else {
 			$widgetId = $request->get('widgetid');
 		}
-
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$data = $widget->get('data');
 		$data = Zend_Json::decode(decode_html($data));
 		$rssContent = fetch_rss($data['channels'][0]);
 		$listSubjects = [];
-		
-		
-		$content = print_r($rssContent, true);
-file_put_contents('xxxxx.txt', $content);
 		foreach ($rssContent->items as $item) {
 			$date = new DateTime($item['pubdate']);
 			$date = DateTimeField::convertToUserFormat($date->format('Y-m-d H:i:s'));

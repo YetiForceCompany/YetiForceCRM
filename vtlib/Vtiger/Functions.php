@@ -507,7 +507,7 @@ class Vtiger_Functions
 				}
 				$paramsCol[] = $idcolumn;
 				$ids = array_unique($ids);
-				$sql = sprintf('SELECT ' . implode(',', $paramsCol) . ' AS id FROM %s ' . $leftJoin . ' WHERE %s IN (%s)', $table, $idcolumn, generateQuestionMarks($ids));
+				$sql = sprintf('SELECT %s AS id FROM %s %s WHERE %s IN (%s)',implode(',', $paramsCol), $table, $leftJoin, $idcolumn, generateQuestionMarks($ids));
 				$result = $adb->pquery($sql, $ids);
 
 				for ($i = 0; $i < $adb->num_rows($result); $i++) {
@@ -1023,7 +1023,7 @@ class Vtiger_Functions
 
 		//Strip of the current SELECT fields and replace them by "select count(*) as count"
 		// Space across FROM has to be retained here so that we do not have a clash with string "from" found in select clause
-		$query = "SELECT count(*) AS count " . substr($query, stripos($query, ' FROM '), strlen($query));
+		$query = sprintf('SELECT count(*) AS count %s', substr($query, stripos($query, ' FROM '), strlen($query)));
 
 		//Strip of any "GROUP BY" clause
 		if (stripos($query, 'GROUP BY') > 0)

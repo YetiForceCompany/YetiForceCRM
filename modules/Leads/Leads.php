@@ -112,10 +112,10 @@ class Leads extends CRMEntity
 		$query .= $this->getNonAdminAccessControlQuery('Leads', $current_user);
 		$where_auto = " vtiger_crmentity.deleted=0 AND vtiger_leaddetails.converted =0";
 
-		if ($where != "")
-			$query .= " where ($where) AND " . $where_auto;
+		if ($where != '')
+			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
 		else
-			$query .= " where " . $where_auto;
+			$query .= sprintf(' where %s', $where_auto);
 
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
@@ -457,7 +457,7 @@ class Leads extends CRMEntity
 		if (!empty($additionalColumns)) {
 			$additionalColumns = ',' . implode(',', $additionalColumns);
 		}
-		$selectClause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid," . $tableColumnsString . $additionalColumns;
+		$selectClause = sprintf('SELECT %s.%s AS recordid, %s %s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))

@@ -339,8 +339,8 @@ class CustomView extends CRMEntity
 
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$tab_ids = explode(",", $tabid);
-			$sql = "select * from vtiger_field ";
-			$sql.= " where vtiger_field.tabid in (" . generateQuestionMarks($tab_ids) . ") and vtiger_field.block in (" . generateQuestionMarks($block_ids) . ") and vtiger_field.presence in (0,2) and";
+			$sql = 'select * from vtiger_field ';
+			$sql.= ' where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and vtiger_field.presence in (0,2) and';
 			$sql.= $display_type;
 			if ($tabid == 9 || $tabid == 16) {
 				$sql.= " and vtiger_field.fieldname not in('notime','duration_minutes','duration_hours')";
@@ -350,9 +350,9 @@ class CustomView extends CRMEntity
 		} else {
 			$tab_ids = explode(",", $tabid);
 			$profileList = getCurrentUserProfileList();
-			$sql = "select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid ";
-			$sql.= " where vtiger_field.tabid in (" . generateQuestionMarks($tab_ids) . ") and vtiger_field.block in (" . generateQuestionMarks($block_ids) . ") and";
-			$sql.= "$display_type and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
+			$sql = 'select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid ';
+			$sql.= ' where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and';
+			$sql.= $display_type .'and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)';
 
 			$params = array($tab_ids, $block_ids);
 
@@ -368,6 +368,7 @@ class CustomView extends CRMEntity
 		}
 		if ($tabid == '9,16')
 			$tabid = "9";
+		$sql = sprintf($sql, generateQuestionMarks($tab_ids), generateQuestionMarks($block_ids));
 		$result = $adb->pquery($sql, $params);
 		$noofrows = $adb->num_rows($result);
 		//Added on 14-10-2005 -- added ticket id in list
@@ -513,18 +514,17 @@ class CustomView extends CRMEntity
 		}
 
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid ";
-			$sql.= " where vtiger_field.tabid=? and vtiger_field.block in (" . generateQuestionMarks($blockids) . ")
-                        and vtiger_field.uitype in (5,6,23,70)";
-			$sql.= " and vtiger_field.presence in (0,2) order by vtiger_field.sequence";
-			$params = array($tabid, $blockids);
+			$sql = 'select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid ';
+			$sql.= ' where vtiger_field.tabid=? and vtiger_field.block in (%s)
+                        and vtiger_field.uitype in (5,6,23,70)';
+			$sql.= ' and vtiger_field.presence in (0,2) order by vtiger_field.sequence';
+			$params = [$tabid, $blockids];
 		} else {
 			$profileList = getCurrentUserProfileList();
-			$sql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join  vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid ";
-			$sql.= " where vtiger_field.tabid=? and vtiger_field.block in (" . generateQuestionMarks($blockids) . ") and vtiger_field.uitype in (5,6,23,70)";
+			$sql = 'select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join  vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid ';
+			$sql.= ' where vtiger_field.tabid=? and vtiger_field.block in (%s) and vtiger_field.uitype in (5,6,23,70)';
 			$sql.= " and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-
-			$params = array($tabid, $blockids);
+			$params = [$tabid, $blockids];
 
 			if (count($profileList) > 0) {
 				$sql.= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
@@ -533,7 +533,7 @@ class CustomView extends CRMEntity
 
 			$sql.= " order by vtiger_field.sequence";
 		}
-
+		$sql = sprintf($sql, generateQuestionMarks($block_ids));
 		$result = $adb->pquery($sql, $params);
 
 		while ($criteriatyperow = $adb->fetch_array($result)) {
@@ -1153,8 +1153,8 @@ class CustomView extends CRMEntity
 
 		$adv_chk_value = $value;
 		$value = '(';
-		$sql = "select distinct(setype) from vtiger_crmentity c INNER JOIN " . $adb->sql_escape_string($tablename) . " t ON t." . $adb->sql_escape_string($fieldname) . " = c.crmid";
-		$res = $adb->pquery($sql, array());
+		$sql = sprintf("select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t." . $adb->sql_escape_string($fieldname) . " = c.crmid", $adb->sql_escape_string($tablename));
+		$res = $adb->query($sql);
 		for ($s = 0; $s < $adb->num_rows($res); $s++) {
 			$modulename = $adb->query_result($res, $s, "setype");
 			if ($modulename == 'Vendors') {
@@ -1318,22 +1318,24 @@ class CustomView extends CRMEntity
 
 			$listviewquery = substr($listquery, strpos($listquery, 'FROM'), strlen($listquery));
 			if ($module == "Calendar" || $module == "Emails") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . ", vtiger_activity.activityid, vtiger_activity.activitytype as type, vtiger_activity.priority, vtiger_activity.status as status, vtiger_crmentity.crmid,vtiger_contactdetails.contactid " . $listviewquery;
+				$query = 'select %s, vtiger_activity.activityid, vtiger_activity.activitytype as type, vtiger_activity.priority, vtiger_activity.status as status, vtiger_crmentity.crmid,vtiger_contactdetails.contactid ' . $listviewquery;
 			} else if ($module == "Documents") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_notes.* " . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_notes.* ' . $listviewquery;
 			} else if ($module == "Products") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_products.* " . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_products.* ' . $listviewquery;
 			} else if ($module == "Vendors") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
 			} else if ($module == "PriceBooks") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
 			} else if ($module == "Faq") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
 			} else if ($module == "Contacts") {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_account.accountid " . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_account.accountid ' . $listviewquery;
 			} else {
-				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid " . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
 			}
+			
+			$query = sprintf($query, $this->getCvColumnListSQL($viewid));
 			$stdfiltersql = $this->getCVStdFilterSQL($viewid);
 			$advfiltersql = $this->getCVAdvFilterSQL($viewid);
 			if (isset($stdfiltersql) && $stdfiltersql != '') {
@@ -1357,7 +1359,7 @@ class CustomView extends CRMEntity
 		if ($viewid != "" && $listquery != "") {
 			$listviewquery = substr($listquery, strpos($listquery, 'FROM'), strlen($listquery));
 
-			$query = "select count(*) AS count " . $listviewquery;
+			$query = 'select count(*) AS count %s';
 
 			$stdfiltersql = $this->getCVStdFilterSQL($viewid);
 			$advfiltersql = $this->getCVAdvFilterSQL($viewid);
@@ -1368,7 +1370,7 @@ class CustomView extends CRMEntity
 				$query .= ' and ' . $advfiltersql;
 			}
 		}
-
+		$query = sprintf($query, $listviewquery);
 		return $query;
 	}
 
@@ -1418,8 +1420,21 @@ class CustomView extends CRMEntity
 			getTabid('Faq') => array('LBL_COMMENT_INFORMATION')
 		);
 
-		$Sql = "select distinct block,vtiger_field.tabid,name,blocklabel from vtiger_field inner join vtiger_blocks on vtiger_blocks.blockid=vtiger_field.block inner join vtiger_tab on vtiger_tab.tabid=vtiger_field.tabid where vtiger_tab.name in (" . generateQuestionMarks($modules_list) . ") and vtiger_field.presence in (0,2) order by block";
-		$result = $adb->pquery($Sql, array($modules_list));
+		$sql = sprintf('SELECT DISTINCT 
+					block,
+					vtiger_field.tabid,
+					NAME,
+					blocklabel 
+				  FROM
+					vtiger_field 
+					INNER JOIN vtiger_blocks 
+					  ON vtiger_blocks.blockid = vtiger_field.block 
+					INNER JOIN vtiger_tab 
+					  ON vtiger_tab.tabid = vtiger_field.tabid 
+				  WHERE vtiger_tab.name IN (%s) 
+					AND vtiger_field.presence IN (0, 2) 
+				  ORDER BY block ', generateQuestionMarks($modules_list));
+		$result = $adb->pquery($sql, [$modules_list]);
 		if ($module == "Calendar','Events")
 			$module = "Calendar";
 
@@ -1514,8 +1529,23 @@ class CustomView extends CRMEntity
 							$permission = "yes";
 						else {
 							$log->debug("Entering when status=1 or status=2 & action = ListView or $module.Ajax or index");
-							$sql = "select vtiger_users.id from vtiger_customview inner join vtiger_users where vtiger_customview.cvid = ? and vtiger_customview.userid in (select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '%" . $current_user_parent_role_seq . "::%')";
-							$result = $adb->pquery($sql, array($record_id));
+							$sql = sprintf('SELECT 
+										vtiger_users.id 
+									  FROM
+										vtiger_customview 
+										INNER JOIN vtiger_users 
+									  WHERE vtiger_customview.cvid = ? 
+										AND vtiger_customview.userid IN 
+										(SELECT 
+										  vtiger_user2role.userid 
+										FROM
+										  vtiger_user2role 
+										  INNER JOIN vtiger_users 
+											ON vtiger_users.id = vtiger_user2role.userid 
+										  INNER JOIN vtiger_role 
+											ON vtiger_role.roleid = vtiger_user2role.roleid 
+										WHERE vtiger_role.parentrole LIKE "%%s::%")', $current_user_parent_role_seq);
+							$result = $adb->pquery($sql, [$record_id]);
 
 							while ($row = $adb->fetchByAssoc($result)) {
 								$temp_result[] = $row['id'];

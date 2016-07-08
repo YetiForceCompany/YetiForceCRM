@@ -224,9 +224,9 @@ class Assets extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if ($where != '')
-			$query .= " WHERE ($where) AND $where_auto";
+			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
 		else
-			$query .= " WHERE $where_auto";
+			$query .= sprintf(' where %s', $where_auto);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
