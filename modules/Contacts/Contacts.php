@@ -147,8 +147,8 @@ class Contacts extends CRMEntity
 	{
 		$log = vglobal('log');
 		$log->debug("Entering get_contacts(" . $user_name . "," . $from_index . "," . $offset . ") method ...");
-		$query = "select vtiger_users.user_name,vtiger_groups.groupname,vtiger_contactdetails.department department, vtiger_contactdetails.phone office_phone, vtiger_contactdetails.fax fax, vtiger_contactsubdetails.assistant assistant_name, vtiger_contactsubdetails.otherphone other_phone, vtiger_contactsubdetails.homephone home_phone,vtiger_contactsubdetails.birthday birthdate, vtiger_contactdetails.lastname last_name,vtiger_contactdetails.firstname first_name,vtiger_contactdetails.contactid as id, vtiger_contactdetails.salutation as salutation, vtiger_contactdetails.email as email1,vtiger_contactdetails.title as title,vtiger_contactdetails.mobile as phone_mobile,vtiger_account.accountname as account_name,vtiger_account.accountid as parent_id, vtiger_contactaddress.mailingcity as primary_address_city,vtiger_contactaddress.mailingstreet as primary_address_street, vtiger_contactaddress.mailingcountry as primary_address_country,vtiger_contactaddress.mailingstate as primary_address_state, vtiger_contactaddress.mailingzip as primary_address_postalcode,   vtiger_contactaddress.othercity as alt_address_city,vtiger_contactaddress.otherstreet as alt_address_street, vtiger_contactaddress.othercountry as alt_address_country,vtiger_contactaddress.otherstate as alt_address_state, vtiger_contactaddress.otherzip as alt_address_postalcode  from vtiger_contactdetails inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid left join vtiger_account on vtiger_account.accountid=vtiger_contactdetails.parentid left join vtiger_contactaddress on vtiger_contactaddress.contactaddressid=vtiger_contactdetails.contactid left join vtiger_contactsubdetails on vtiger_contactsubdetails.contactsubscriptionid = vtiger_contactdetails.contactid left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid left join vtiger_users on vtiger_crmentity.smownerid=vtiger_users.id where user_name='" . $user_name . "' and vtiger_crmentity.deleted=0 limit " . $from_index . "," . $offset;
-
+		$query = "select vtiger_users.user_name,vtiger_groups.groupname,vtiger_contactdetails.department department, vtiger_contactdetails.phone office_phone, vtiger_contactdetails.fax fax, vtiger_contactsubdetails.assistant assistant_name, vtiger_contactsubdetails.otherphone other_phone, vtiger_contactsubdetails.homephone home_phone,vtiger_contactsubdetails.birthday birthdate, vtiger_contactdetails.lastname last_name,vtiger_contactdetails.firstname first_name,vtiger_contactdetails.contactid as id, vtiger_contactdetails.salutation as salutation, vtiger_contactdetails.email as email1,vtiger_contactdetails.title as title,vtiger_contactdetails.mobile as phone_mobile,vtiger_account.accountname as account_name,vtiger_account.accountid as parent_id, vtiger_contactaddress.mailingcity as primary_address_city,vtiger_contactaddress.mailingstreet as primary_address_street, vtiger_contactaddress.mailingcountry as primary_address_country,vtiger_contactaddress.mailingstate as primary_address_state, vtiger_contactaddress.mailingzip as primary_address_postalcode,   vtiger_contactaddress.othercity as alt_address_city,vtiger_contactaddress.otherstreet as alt_address_street, vtiger_contactaddress.othercountry as alt_address_country,vtiger_contactaddress.otherstate as alt_address_state, vtiger_contactaddress.otherzip as alt_address_postalcode  from vtiger_contactdetails inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid left join vtiger_account on vtiger_account.accountid=vtiger_contactdetails.parentid left join vtiger_contactaddress on vtiger_contactaddress.contactaddressid=vtiger_contactdetails.contactid left join vtiger_contactsubdetails on vtiger_contactsubdetails.contactsubscriptionid = vtiger_contactdetails.contactid left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid left join vtiger_users on vtiger_crmentity.smownerid=vtiger_users.id where user_name='%s' and vtiger_crmentity.deleted=0 limit " . $from_index . "," . $offset;
+		$query = sprintf($query, $user_name);
 		$log->debug("Exiting get_contacts method ...");
 		return $this->process_list_query1($query);
 	}
@@ -359,7 +359,7 @@ class Contacts extends CRMEntity
 			}
 		}
 
-		$query = 'SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode,
+		$query = sprintf('SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode,
 		 		  vtiger_products.commissionrate, vtiger_products.qty_per_unit, vtiger_products.unit_price,
 				  vtiger_crmentity.crmid, vtiger_crmentity.smownerid,vtiger_contactdetails.lastname
 				FROM vtiger_products
@@ -375,7 +375,7 @@ class Contacts extends CRMEntity
 					ON vtiger_users.id=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups
 					ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			   WHERE vtiger_contactdetails.contactid = ' . $id . ' and vtiger_crmentity.deleted = 0';
+			   WHERE vtiger_contactdetails.contactid = %s and vtiger_crmentity.deleted = 0', $id);
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -542,10 +542,10 @@ class Contacts extends CRMEntity
 		$query .= getNonAdminAccessControlQuery('Contacts', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
-		if ($where != "")
-			$query .= "  WHERE ($where) AND " . $where_auto;
+		if ($where != '')
+			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
 		else
-			$query .= "  WHERE " . $where_auto;
+			$query .= sprintf(' where %s', $where_auto);
 
 		$log->info("Export Query Constructed Successfully");
 		$log->debug("Exiting create_export_query method ...");
@@ -676,7 +676,7 @@ class Contacts extends CRMEntity
 		}
 
 		$log->debug("Entering get_contactsforol(" . $user_name . ") method ...");
-		$query = "select vtiger_contactdetails.contactid as id, " . implode(',', $column_table_lists) . " from vtiger_contactdetails
+		$query = sprintf("select vtiger_contactdetails.contactid as id, %s from vtiger_contactdetails
 						inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid
 						inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
 						left join vtiger_customerdetails on vtiger_customerdetails.customerid=vtiger_contactdetails.contactid
@@ -686,7 +686,7 @@ class Contacts extends CRMEntity
                         left join vtiger_campaign_records on vtiger_contactdetails.contactid = vtiger_campaign_records.crmid
                         left join vtiger_campaignrelstatus on vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid
 			      LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-						where vtiger_crmentity.deleted=0 and vtiger_users.user_name='" . $user_name . "'";
+						where vtiger_crmentity.deleted=0 and vtiger_users.user_name='" . $user_name . "'", implode(',', $column_table_lists));
 		$log->debug("Exiting get_contactsforol method ...");
 		return $query;
 	}

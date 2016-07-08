@@ -774,7 +774,7 @@ function getTableNameForField($module, $fieldname)
 	if ($module == 'Calendar') {
 		$tabid = array('9', '16');
 	}
-	$sql = "select tablename from vtiger_field where tabid in (" . generateQuestionMarks($tabid) . ") and vtiger_field.presence in (0,2) and columnname like ?";
+	$sql = sprintf("select tablename from vtiger_field where tabid in (%s) and vtiger_field.presence in (0,2) and columnname like ?", generateQuestionMarks($tabid));
 	$res = $adb->pquery($sql, array($tabid, '%' . $fieldname . '%'));
 
 	$tablename = '';
@@ -2042,7 +2042,7 @@ function getExportRecordIds($moduleName, $viewid, $input)
 		$limit_start_rec = ($current_page - 1) * $list_max_entries_per_page;
 		if ($limit_start_rec < 0)
 			$limit_start_rec = 0;
-		$query .= ' LIMIT ' . $limit_start_rec . ',' . $list_max_entries_per_page;
+		$query .= sprintf(' LIMIT %s,%s', $limit_start_rec, $list_max_entries_per_page);
 
 		$result = $adb->pquery($query, []);
 		$idstring = [];

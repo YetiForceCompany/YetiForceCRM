@@ -96,8 +96,8 @@ class Mobile_WS_Utils {
 	
 	static function getModuleColumnTableByFieldNames($module, $fieldnames) {
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT fieldname,columnname,tablename FROM vtiger_field WHERE tabid=? AND fieldname IN (".
-			generateQuestionMarks($fieldnames) . ")", array(getTabid($module), $fieldnames)
+		$query = sprintf('SELECT fieldname,columnname,tablename FROM vtiger_field WHERE tabid=? AND fieldname IN (%s)',generateQuestionMarks($fieldnames));
+		$result = $adb->pquery($query, [getTabid($module), $fieldnames]
 		);
 		$columnnames = array();
 		if ($result && $adb->num_rows($result)) {
@@ -129,10 +129,8 @@ class Mobile_WS_Utils {
 		}
 		
 		$resolveUITypes = array(10, 101, 116, 117, 26, 357, 50, 51, 52, 53, 57, 58, 59, 66, 68, 73, 75, 76, 77, 80, 81);
-		
-		$result = $adb->pquery(
-			"SELECT DISTINCT fieldname FROM vtiger_field WHERE uitype IN(". 
-			generateQuestionMarks($resolveUITypes) .") AND tabid=?", array($resolveUITypes, getTabid($module)) 
+		$query = sprintf('SELECT DISTINCT fieldname FROM vtiger_field WHERE uitype IN(%s) AND tabid=?', generateQuestionMarks($resolveUITypes));
+		$result = $adb->pquery($query, [$resolveUITypes, getTabid($module)] 
 		);
 		$fieldnames = array();
 		while($resultrow = $adb->fetch_array($result)) {

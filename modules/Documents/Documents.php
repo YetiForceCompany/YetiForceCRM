@@ -266,8 +266,9 @@ class Documents extends CRMEntity
 		if ($where != "")
 			$query .= "  WHERE ($where) AND " . $where_auto;
 		else
-			$query .= "  WHERE " . $where_auto;
+			$query .= '  WHERE %s';
 
+		$query = sprintf($query, $where_auto);
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
 	}
@@ -556,13 +557,14 @@ class Documents extends CRMEntity
 			'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query .= $tables;
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
-		$query .= ' FROM ' . $other->table_name;
+		$query .= ' FROM %s';
 		$query .= $join;
 		$query .= ' INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid';
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
 		$query .= " WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.notesid = $id";
-
+		
+		$query = sprintf($query, $other->table_name);
 		$returnValue = GetRelatedList($thisModule, $relatedModule, $other, $query, $button, $returnset);
 		if ($returnValue == null)
 			$returnValue = [];

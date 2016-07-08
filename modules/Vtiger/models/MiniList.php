@@ -135,10 +135,9 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$db = PearDatabase::getInstance();
 
 			$query = $this->queryGenerator->getQuery() . $ownerSql;
-			$query .= ' ORDER BY vtiger_crmentity.modifiedtime DESC ';
-			$query .= ' LIMIT 0,' . $this->getRecordLimit();
+			$query .= sprintf(' ORDER BY vtiger_crmentity.modifiedtime DESC LIMIT 0,%d', $this->getRecordLimit());
 			$query = substr($query, 6);
-			$query = 'SELECT vtiger_crmentity.crmid as id, ' . $query;
+			$query = sprintf('SELECT vtiger_crmentity.crmid as id, %s', $query);
 			$result = $db->pquery($query, $params);
 
 			$targetModuleName = $this->getTargetModule();

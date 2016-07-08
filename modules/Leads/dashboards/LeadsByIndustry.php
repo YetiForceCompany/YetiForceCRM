@@ -14,7 +14,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 
 	function getSearchParams($value, $assignedto, $dates)
 	{
-		$listSearchParams = array();
+		$listSearchParams = [];
 		$conditions = array(array('industry', 'e', $value));
 		if ($assignedto != '')
 			array_push($conditions, array('assigned_user_id', 'e', getUserFullName($assignedto)));
@@ -34,18 +34,17 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$db = PearDatabase::getInstance();
 		$module = 'Leads';
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		$ownerSql = $moduleModel->getOwnerWhereConditionForDashBoards($owner);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
-		if (!empty($ownerSql)) {
-			$ownerSql = ' AND ' . $ownerSql;
+		$securityParameterSql = $dateFilterSql = $ownerSql = '';
+		$params = [];
+		if (!empty($owner)) {
+			$ownerSql = ' AND smownerid = ' . $owner;
 		}
-		if ($securityParameter != '')
-			$securityParameterSql .= $securityParameter;
+		if (!empty($securityParameter))
+			$securityParameterSql = $securityParameter;
 
-		$params = array();
 		if (!empty($dateFilter)) {
 			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
 			//client is not giving time frame so we are appending it
@@ -60,11 +59,9 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 						INNER JOIN vtiger_industry ON vtiger_leaddetails.industry = vtiger_industry.industry 
 						GROUP BY industryvalue ORDER BY vtiger_industry.sortorderid', $params);
 
-		$response = array();
-		$numRows = $db->num_rows($result);
-		if ($numRows > 0) {
-			for ($i = 0; $i < $numRows; $i++) {
-				$row = $db->query_result_rowdata($result, $i);
+		$response = [];
+		if ($db->num_rows($result) > 0) {
+			while ($row = $db->getRow($result)) {
 				$data[$i]['label'] = vtranslate($row['industryvalue'], 'Leads');
 				$ticks[$i][0] = $i;
 				$ticks[$i][1] = vtranslate($row['industryvalue'], 'Leads');
@@ -106,7 +103,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = ($owner === false) ? array() : $this->getLeadsByIndustry($owner, $dates);
+		$data = ($owner === false) ? [] : $this->getLeadsByIndustry($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$leadSIndustryAmount = count($data['name']);
 		for ($i = 0; $i < $leadSIndustryAmount; $i++) {

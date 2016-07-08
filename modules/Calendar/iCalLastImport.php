@@ -21,7 +21,8 @@ class iCalLastImport {
 	function clearRecords($userId) {
 		$adb = PearDatabase::getInstance();
 		if(Vtiger_Utils::CheckTable($this->tableName)) {
-			$adb->pquery('DELETE FROM '.$this->tableName .' WHERE userid = ?', array($userId));
+			$query = sprintf('DELETE FROM %s WHERE userid = ?', $this->tableName);
+			$adb->pquery($query, array($userId));
 		}
 	}
 
@@ -57,9 +58,8 @@ class iCalLastImport {
 	function undo($moduleName, $userId) {
 		$adb = PearDatabase::getInstance();
 		if(Vtiger_Utils::CheckTable($this->tableName)) {
-			$result = $adb->pquery('UPDATE vtiger_crmentity SET deleted=1 WHERE crmid IN
-								(SELECT crmid FROM '.$this->tableName .' WHERE userid = ? AND entitytype = ?)',
-						array($userId, $moduleName));
+			$query =  sprintf('UPDATE vtiger_crmentity SET deleted=1 WHERE crmid IN (SELECT crmid FROM %s WHERE userid = ? AND entitytype = ?)', $this->tableName);
+			$result = $adb->pquery($query, [$userId, $moduleName]);
 			return $adb->getAffectedRowCount($result);
 		}
 	}

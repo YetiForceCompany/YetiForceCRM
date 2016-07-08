@@ -19,7 +19,8 @@ $languageStrings = [
 	'Drafts' => 'Szkice',
 	'INBOX' => 'Skrzynka odbiorcza',
 	'Junk' => 'Kosz',
-	'Sent' => "Wysłane",
+	'Sent' => 'Wysłane',
+	'ERR_INCORRECT_ACCESS_DATA' => 'Błedne dane dostępowe',
 ];
 $jsLanguageStrings = [
 	'start_cron' => 'Uruchomiono crona',

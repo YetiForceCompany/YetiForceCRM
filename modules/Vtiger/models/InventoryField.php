@@ -63,7 +63,9 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				$where = '`id` IN (' . generateQuestionMarks($ids) . ')';
 				$params = $ids;
 			}
-			$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE ' . $where . ' ORDER BY sequence', $params);
+			$query = 'SELECT * FROM %s WHERE %s ORDER BY sequence';
+			$query = sprintf($query, $table, $where);
+			$result = $db->pquery($query, $params);
 			$fields = [];
 			while ($row = $db->getRow($result)) {
 				if ($viewType != 'Settings' && !$this->isActiveField($row)) {
@@ -443,7 +445,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			}
 		}
 
-		$result = $adb->query('SELECT MAX(sequence) AS max FROM ' . $this->getTableName('fields'));
+		$result = $adb->query(sprintf('SELECT MAX(sequence) AS max FROM %s', $this->getTableName('fields')));
 		$sequence = (int) $adb->getSingleValue($result) + 1;
 
 		return $adb->insert($this->getTableName('fields'), [
@@ -493,12 +495,12 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function saveSequence($sequenceList)
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'UPDATE `' . $this->getTableName('fields') . '` SET sequence = CASE id ';
+		$query = sprintf('UPDATE `%s` SET sequence = CASE id ', $this->getTableName('fields'));
 		foreach ($sequenceList as $sequence => $id) {
 			$query .=' WHEN ' . $id . ' THEN ' . $sequence;
 		}
 		$query .=' END ';
-		$query .= ' WHERE id IN (' . generateQuestionMarks($sequenceList) . ')';
+		$query .= sprintf(' WHERE id IN (%s)', generateQuestionMarks($sequenceList));
 		return $db->pquery($query, array_values($sequenceList));
 	}
 
@@ -529,7 +531,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function getUniqueID($instance)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = 'SELECT MAX(id) AS max FROM `' . $this->getTableName('fields') . '` WHERE `invtype` = ? ';
+		$query = sprintf('SELECT MAX(id) AS max FROM `%s` WHERE `invtype` = ? ', $this->getTableName('fields'));
 		$result = $adb->pquery($query, [$instance->getName()]);
 		return (int) $adb->getSingleValue($result) + 1;
 	}
@@ -558,7 +560,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 
 		$db = PearDatabase::getInstance();
 		$table = $this->getTableName('autofield');
-		$result = $db->pquery('SELECT * FROM ' . $table);
+		$result = $db->pquery(sprintf('SELECT * FROM %s', $table));
 		$fields = [];
 		while ($row = $db->getRow($result)) {
 			$fields[$row['tofield']] = $row;

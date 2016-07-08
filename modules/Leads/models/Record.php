@@ -29,9 +29,9 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$deletedCondition = $this->getModule()->getDeletedRecordCondition();
-		$query = 'SELECT * FROM vtiger_crmentity
+		$query = sprintf('SELECT * FROM vtiger_crmentity
                     INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-                    WHERE label LIKE ? AND ' . $deletedCondition;
+                    WHERE label LIKE ? AND %s', $deletedCondition);
 		$params = array("%$searchKey%");
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);

@@ -74,6 +74,14 @@
 												<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 											</button>
 										</div>
+										{if $SPECIAL_WIDGETS['Rss']}
+											{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
+											<div class="btn-group">
+												<button class="btn btn-success addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+													<strong>{vtranslate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
+												</button>
+											</div>
+										{/if}
 										{if $SPECIAL_WIDGETS['Mini List']}
 											{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 											<div class="btn-group">
@@ -180,6 +188,14 @@
 										<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 									</button>
 								</div>
+								{if $SPECIAL_WIDGETS['Rss']}
+									{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
+									<div class="btn-group">
+										<button class="btn btn-success addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>
+											<strong>{vtranslate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
+										</button>
+									</div>
+								{/if}
 								{if $SPECIAL_WIDGETS['Mini List']}
 									{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 									<div class="btn-group">

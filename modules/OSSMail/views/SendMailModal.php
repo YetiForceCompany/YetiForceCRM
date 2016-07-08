@@ -119,7 +119,7 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		$db = PearDatabase::getInstance();
 		$query = $this->getQuery();
 		$exQuery = preg_split('/ FROM /i', $query, 2);
-		$query = 'SELECT count(*) FROM ' . $exQuery[1];
+		$query = sprintf('SELECT count(*) FROM %s', $exQuery[1]);
 
 		$result = $db->query($query);
 		return $db->getSingleValue($result);
@@ -151,8 +151,17 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		if (empty($searchParams)) {
 			$searchParams = [];
 		}
+		foreach ($searchParams as $key => $value) {
+			if (empty($value)) {
+				unset($searchParams[$key]);
+			}
+		}
+		$glue = '';
+		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
+			$glue = QueryGenerator::$AND;
+		}
 		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
-		$queryGenerator->parseAdvFilterList($transformedSearchParams);
+		$queryGenerator->parseAdvFilterList($transformedSearchParams, $glue);
 
 		$emailColumns = [];
 		$emailFields = ['id'];

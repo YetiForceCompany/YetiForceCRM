@@ -229,7 +229,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 		$config = HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', vglobal('default_charset'));
-		$config->set('Cache.SerializerPath', vglobal('root_directory') . '/cache/vtlib');
+		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . '/cache/vtlib');
 		$config->set('CSS.AllowTricky', false);
 		$config->set('HTML.AllowedElements', 'div,p,br');
 		$config->set('HTML.AllowedAttributes', '');

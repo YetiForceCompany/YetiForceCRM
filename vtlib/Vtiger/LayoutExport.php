@@ -98,8 +98,8 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	function export_Layout($layoutName)
 	{
 		$adb = PearDatabase::getInstance();
-
-		$sqlresult = $adb->pquery('SELECT * FROM ' . self::TABLENAME . ' WHERE name = ?', [$layoutName]);
+		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
+		$sqlresult = $adb->pquery($query, [$layoutName]);
 		$layoutresultrow = $adb->fetch_array($sqlresult);
 
 		$layoutname = decode_html($layoutresultrow['name']);
@@ -146,7 +146,8 @@ class Vtiger_LayoutExport extends Vtiger_Package
 		$useisactive = ($isactive) ? 1 : 0;
 
 		$adb = PearDatabase::getInstance();
-		$checkres = $adb->pquery('SELECT id FROM ' . self::TABLENAME . ' WHERE name=?', [$name]);
+		$query = sprintf('SELECT id FROM %s WHERE name = ?', self::TABLENAME);
+		$checkres = $adb->pquery($query, [$name]);
 		$datetime = date('Y-m-d H:i:s');
 		if ($checkres->rowCount()) {
 			$adb->update(self::TABLENAME, [

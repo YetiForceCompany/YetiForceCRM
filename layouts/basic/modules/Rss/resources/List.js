@@ -185,7 +185,7 @@ Vtiger_List_Js("Rss_List_Js",{},
         container.on('click' , '.feedLink', function(e) {
             var element = jQuery(e.currentTarget);
             var url = element.data('url');
-            var frameElement = thisInstance.getFrameElement(url)
+            var frameElement = thisInstance.getFrameElement(url);
             container.find('.feedFrame').html(frameElement);
         });
     },

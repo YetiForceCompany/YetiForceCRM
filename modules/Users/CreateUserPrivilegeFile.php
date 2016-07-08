@@ -21,8 +21,7 @@ require_once('include/utils/GetGroupUsers.php');
  */
 function createUserPrivilegesfile($userid)
 {
-	$rootDirectory = AppConfig::main('root_directory');
-	$handle = @fopen($rootDirectory . 'user_privileges/user_privileges_' . $userid . '.php', "w+");
+	$handle = @fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/user_privileges_' . $userid . '.php', "w+");
 
 	if ($handle) {
 		$newbuf = '';
@@ -103,10 +102,9 @@ function createUserPrivilegesfile($userid)
 function createUserSharingPrivilegesfile($userid)
 {
 	$adb = PearDatabase::getInstance();
-	$rootDirectory = AppConfig::main('root_directory');
 	checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
 	require('user_privileges/user_privileges_' . $userid . '.php');
-	$handle = @fopen($rootDirectory . 'user_privileges/sharing_privileges_' . $userid . '.php', "w+");
+	$handle = @fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userid . '.php', "w+");
 
 	if ($handle) {
 		$newbuf = '';

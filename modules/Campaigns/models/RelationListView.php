@@ -52,7 +52,8 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model {
 
 			$query = 'SELECT campaignrelstatus, crmid FROM vtiger_campaign_records
 						INNER JOIN vtiger_campaignrelstatus ON vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid
-						WHERE crmid IN ('. generateQuestionMarks($relatedRecordIdsList).') AND campaignid = ?';
+						WHERE crmid IN (%s) AND campaignid = ?';
+			$query = sprintf($query, generateQuestionMarks($relatedRecordIdsList));
 			array_push($relatedRecordIdsList, $parentRecordModel->getId());
 
 			$result = $db->pquery($query, $relatedRecordIdsList);

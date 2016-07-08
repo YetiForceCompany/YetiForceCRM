@@ -142,7 +142,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `module_name` = ? and `status` = ?;';
+		$query = sprintf('SELECT * FROM `%s` WHERE `module_name` = ? and `status` = ?;', self::$baseTable);
 		$result = $db->pquery($query, [$moduleName, 'active']);
 		$templates = [];
 

@@ -23,7 +23,8 @@ class OSSMailTemplates_Field_Model extends Vtiger_Field_Model
 			$where = ' WHERE (presence = ? AND isentitytype = ? ) or name = ?';
 			array_push($params, 0, 1, 'Users');
 		}
-		$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab' . $where, $params);
+		$query = sprintf('SELECT tabid, name, ownedby FROM vtiger_tab %s', $where);
+		$result = $adb->pquery($query, $params);
 		while ($row = $adb->fetch_array($result)) {
 			$modules[$row['tabid']] = ['name' => $row['name'], 'label' => vtranslate($row['name'], $row['name'])];
 		}

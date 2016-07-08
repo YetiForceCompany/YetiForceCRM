@@ -195,8 +195,7 @@ class Vtiger_Block_Model extends Vtiger_Block
 		foreach ($sequenceList as $blockId => $sequence) {
 			$query .=' WHEN ' . $blockId . ' THEN ' . $sequence;
 		}
-		$query .=' END ';
-		$query .= ' WHERE blockid IN (' . generateQuestionMarks($sequenceList) . ')';
+		$query .= sprintf(' END WHERE blockid IN (%s)', generateQuestionMarks($sequenceList));
 		$db->pquery($query, array_keys($sequenceList));
 	}
 

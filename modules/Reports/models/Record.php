@@ -749,10 +749,9 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$rootDirectory = vglobal('root_directory');
 		$tmpDir = vglobal('tmp_dir');
 
-		$tempFileName = tempnam($rootDirectory . $tmpDir, 'xls');
+		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$fileName = decode_html($this->getName()) . '.xls';
 		$reportRun->writeReportToExcelFile($tempFileName, $advanceFilterSql);
 
@@ -777,10 +776,9 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$rootDirectory = vglobal('root_directory');
 		$tmpDir = vglobal('tmp_dir');
 
-		$tempFileName = tempnam($rootDirectory . $tmpDir, 'csv');
+		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'csv');
 		$reportRun->writeReportToCSVFile($tempFileName, $advanceFilterSql);
 		$fileName = decode_html($this->getName()) . '.csv';
 

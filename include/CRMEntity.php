@@ -79,7 +79,7 @@ class CRMEntity
 		}
 		$focus = new $modName();
 		$focus->moduleName = $module;
-		Vtiger_Cache::set('CRMEntity', $module, $focus);
+		Vtiger_Cache::set('CRMEntity', $module, clone $focus);
 		return $focus;
 	}
 
@@ -309,7 +309,14 @@ class CRMEntity
 				];
 			} else {
 				$profileList = getCurrentUserProfileList();
-				$perm_qry = 'SELECT columnname FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0 AND vtiger_profile2field.profileid IN (' . generateQuestionMarks($profileList) . ") AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename='vtiger_crmentity' and vtiger_field.presence in (0,2);";
+				$perm_qry = sprintf('SELECT columnname FROM vtiger_field 
+					INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid 
+					INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid 
+					WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 
+					AND vtiger_profile2field.readonly = 0 
+					AND vtiger_profile2field.profileid IN (%s) 
+					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=`vtiger_crmentity` 
+					and vtiger_field.presence in (0,2)', generateQuestionMarks($profileList));
 				$perm_result = $adb->pquery($perm_qry, [$tabid, $profileList]);
 				while ($columnname = $adb->getSingleValue($perm_result)) {
 					$columname[] = $columnname;
@@ -428,7 +435,7 @@ class CRMEntity
 				$profileList = getCurrentUserProfileList();
 
 				if (count($profileList) > 0) {
-					$sql = 'SELECT *
+					$sql = sprintf('SELECT *
 			  			FROM vtiger_field
 			  			INNER JOIN vtiger_profile2field
 			  			ON vtiger_profile2field.fieldid = vtiger_field.fieldid
@@ -436,8 +443,8 @@ class CRMEntity
 			  			ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
 			  			WHERE vtiger_field.tabid = ?
 			  			AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0
-			  			AND vtiger_profile2field.profileid IN (' . generateQuestionMarks($profileList) . ')
-			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname';
+			  			AND vtiger_profile2field.profileid IN (%s)
+			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname', generateQuestionMarks($profileList));
 
 					$params = array($tabid, $profileList, $table_name);
 				} else {
@@ -948,7 +955,7 @@ class CRMEntity
 	function checkIfCustomTableExists($tablename)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = "select * from " . $adb->sql_escape_string($tablename);
+		$query = sprintf("SELECT * FROM %s", $adb->sql_escape_string($tablename));
 		$result = $this->db->pquery($query, []);
 		$testrow = $this->db->getFieldsCount($result);
 		if ($testrow > 1) {
@@ -1456,12 +1463,8 @@ class CRMEntity
 	function checkModuleSeqNumber($table, $column, $no)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("select " . $adb->sql_escape_string($column) .
-			" from " . $adb->sql_escape_string($table) .
-			" where " . $adb->sql_escape_string($column) . " = ?", array($no));
-
+		$result = $adb->pquery(sprintf("SELECT %s FROM *s WHERE %s = ?", $adb->sql_escape_string($column), $adb->sql_escape_string($table), $adb->sql_escape_string($column)), [$no]);
 		$num_rows = $adb->num_rows($result);
-
 		if ($num_rows > 0)
 			return true;
 		else
@@ -1671,11 +1674,10 @@ class CRMEntity
 	function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
 		$db = PearDatabase::getInstance();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
 
 		foreach ($withCrmid as $relcrmid) {
-			$check = $db->pquery('SELECT 1 FROM `' . $referenceInfo['table'] . '` WHERE ' . $referenceInfo['base'] . ' = ? AND ' . $referenceInfo['rel'] . ' = ?', [$relcrmid, $crmid]);
+			$check = $db->pquery(sprintf('SELECT 1 FROM `%s` WHERE %s = ? AND %s = ?', $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel']), [$relcrmid, $crmid]);
 			// Relation already exists? No need to add again
 			if ($check && $db->getRowCount($check))
 				continue;
@@ -1936,7 +1938,7 @@ class CRMEntity
 			'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query .= $tables;
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
-		$query .= ' FROM ' . $other->table_name;
+		$query .= sprintf(' FROM %s', $other->table_name);
 		$query .= $join;
 		$query .= " INNER JOIN $this->table_name ON $this->table_name.$this->table_index = $dependentTable.$dependentColumn";
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
@@ -2848,7 +2850,7 @@ class CRMEntity
 		if (!empty($additionalColumns)) {
 			$additionalColumns = ',' . implode(',', $additionalColumns);
 		}
-		$selectClause = 'SELECT ' . $this->table_name . '.' . $this->table_index . ' AS recordid,' . $tableColumnsString . $additionalColumns;
+		$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))

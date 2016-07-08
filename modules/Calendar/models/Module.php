@@ -471,8 +471,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		if ($nonAdminQuery) {
 			$query .= " INNER JOIN vtiger_activity ON vtiger_crmentity.crmid = vtiger_activity.activityid " . $nonAdminQuery;
 		}
-		$query .= ' WHERE setype=? AND ' . $deletedCondition . ' AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
-		$params = array($this->getName(), $currentUserModel->id, $limit);
+		$query .= ' WHERE setype=? AND %s AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
+		$params = [$this->getName(), $currentUserModel->id, $limit];
+		$query = sprintf($query, $deletedCondition);
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
 		$recentRecords = [];

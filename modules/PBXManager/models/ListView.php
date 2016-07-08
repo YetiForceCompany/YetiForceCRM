@@ -134,9 +134,9 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$listQuery .= ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
+				$listQuery .= sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
 			} else {
-				$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
+				$listQuery .= sprintf(' ORDER BY %s %s' , $orderBy, $sortOrder);
 			}
 		}
 

@@ -13,11 +13,13 @@
 //TODO : Eliminate below hacking solution
 
 $startTime = microtime(true);
+
+define('REQUEST_MODE', 'WebUI');
+define('ROOT_DIRECTORY', __DIR__);
+
 require 'include/RequirementsValidation.php';
 require 'include/Webservices/Relation.php';
 require 'include/main/WebUI.php';
-
-define('REQUEST_MODE', 'WebUI');
 
 $webUI = new Vtiger_WebUI();
 $webUI->process(AppRequest::init());

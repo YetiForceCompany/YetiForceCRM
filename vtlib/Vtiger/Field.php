@@ -35,10 +35,10 @@ class Vtiger_Field extends Vtiger_FieldBasic
 	{
 		$adb = PearDatabase::getInstance();
 		$picklist_table = 'vtiger_' . $this->name;
-		$picklistValues = array();
-		$picklistResult = $adb->query("SELECT " . $this->name . " FROM " . $picklist_table);
-		for ($i = 0; $i < $adb->num_rows($picklistResult); $i++) {
-			$picklistValues[] = $adb->query_result($picklistResult, $i, $this->name);
+		$picklistValues = [];
+		$picklistResult = $adb->query(sprintf("SELECT %s FROM %s", $this->name, $picklist_table));
+		while($row = $adb->getRow($picklistResult)){
+			$picklistValues[] = $row[$this->name];
 		}
 		return $picklistValues;
 	}
@@ -342,12 +342,12 @@ class Vtiger_Field extends Vtiger_FieldBasic
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
-		$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = '" . $moduleInstance->getId() . "' AND  uitype IN (15, 16, 33)";
-		$result = $db->query($query);
+		$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = ? AND  uitype IN (15, 16, 33)";
+		$result = $db->pquery($query,[$moduleInstance->getId()]);
 		$modulePicklists = $db->getArrayColumn($result, 'fieldname');
 		if (!empty($modulePicklists)) {
 			$params = $modulePicklists;
-			$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `fieldname` IN (" . $db->generateQuestionMarks($modulePicklists) . ") AND `tabid` <> ? AND uitype IN (?, ?, ?)";
+			$query = sprintf("SELECT `fieldname` FROM `vtiger_field` WHERE `fieldname` IN (%s) AND `tabid` <> ? AND uitype IN (?, ?, ?)", $db->generateQuestionMarks($modulePicklists));
 			array_push($params, $moduleInstance->getId(), 15, 16, 33);
 			$result = $db->pquery($query, $params);
 			$picklists = $db->getArrayColumn($result, 'fieldname');

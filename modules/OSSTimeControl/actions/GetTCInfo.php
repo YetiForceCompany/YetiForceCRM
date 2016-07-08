@@ -53,7 +53,8 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 				else
 					$sourceData['account_label'] = Vtiger_Functions::getCRMRecordLabel($sourceData['parent_id']);
 			} else if ($sourceModule == 'Project') {
-				$ifExist = $adb->query("select * from vtiger_account where accountid = " . $sourceData['linktoaccountscontacts'] . "", true, "Błąd podczas pobierania danych z vtiger_crmentityrel");
+				$query = sprintf("select * from vtiger_account where accountid = %s", $sourceData['linktoaccountscontacts']);
+				$ifExist = $adb->query($query, true, "Błąd podczas pobierania danych z vtiger_crmentityrel");
 				if ($adb->num_rows($ifExist) > 0)
 					$sourceData['account_label'] = Vtiger_Functions::getCRMRecordLabel($sourceData['linktoaccountscontacts']);
 				else

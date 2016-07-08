@@ -66,8 +66,8 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View {
 		}
 		
 		$params[] = $currentUser->getId();
-		$sql.= ' ORDER BY vtiger_assets.dateinservice ASC LIMIT '.$limit;
-
+		$sql.= ' ORDER BY vtiger_assets.dateinservice ASC LIMIT %s';
+		$sql = sprintf($sql, $limit);
 		$result = $db->pquery($sql, $params);
 		$returnData = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {

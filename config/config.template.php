@@ -61,9 +61,6 @@ $host_name = $dbconfig['db_hostname'];
 // backslash is required at the end of URL
 $site_URL = '_SITE_URL_';
 
-// root directory path
-$root_directory = '_VT_ROOTDIR_';
-
 // cache direcory path
 $cache_dir = '_VT_CACHEDIR_';
 
@@ -92,10 +89,6 @@ $allow_exports = 'all';
 // files with one of these extensions will have '.txt' appended to their filename on upload
 // upload_badext default value = php, php3, php4, php5, pl, cgi, py, asp, cfm, js, vbs, html, htm
 $upload_badext = array('php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm');
-
-// full path to include directory including the trailing slash
-// includeDirectory default value = $root_directory..'include/
-$includeDirectory = $root_directory . 'include/';
 
 // list_max_entries_per_page default value = 20
 $list_max_entries_per_page = '20';
@@ -160,9 +153,6 @@ $default_timezone = '_TIMEZONE_';
 if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
 	@date_default_timezone_set($default_timezone);
 }
-
-// Change of logs directory with PHP errors
-AppConfig::iniSet('error_log', $root_directory . 'cache/logs/phpError.log');
 
 // Enable sharing of records?
 $shared_owners = true;

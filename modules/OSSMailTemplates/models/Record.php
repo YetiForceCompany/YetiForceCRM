@@ -234,7 +234,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		vimport("~~modules/$module/$module.php");
 		$IDs = explode('||', $fieldId);
-		$getFieldInfoSql = "SELECT * FROM vtiger_field WHERE fieldid = '" . $IDs[0] . "'";
+		$getFieldInfoSql = sprintf('SELECT * FROM vtiger_field WHERE fieldid = %s', $IDs[0]);
 		$getFieldInfoResult = $db->query($getFieldInfoSql, true);
 		$fieldTab = $db->query_result_raw($getFieldInfoResult, 0, 'tablename');
 		$fieldname = $db->query_result_raw($getFieldInfoResult, 0, 'fieldname');

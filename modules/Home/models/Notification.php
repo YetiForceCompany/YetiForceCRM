@@ -69,7 +69,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 			$sql .= $conditions;
 		}
 		if ($limit) {
-			$sql .= ' LIMIT ' . $limit;
+			$sql .= sprintf(' LIMIT %s', $limit);
 		}
 		$result = $db->pquery($sql, [$userId]);
 		$entries = [];

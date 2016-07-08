@@ -394,7 +394,6 @@ function checkFileAccess($filepath)
 /**
  * function to return whether the file access is made within vtiger root directory
  * and it exists.
- * @global String $root_directory vtiger root directory as given in config.inc.php file.
  * @param String $filepath relative path to the file which need to be verified
  * @return Boolean true if file is a valid file within vtiger root directory, false otherwise.
  */

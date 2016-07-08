@@ -136,9 +136,9 @@ class ListViewSession
 				$tablename = (($tablename != '') ? ($tablename . ".") : '');
 
 				if (!empty($order_by)) {
-					$list_query .= ' ORDER BY ' . $tablename . $order_by . ' ' . $sorder;
+					$list_query .= sprintf(' ORDER BY %s%s %s', $tablename, $order_by, $sorder);
 				} elseif (!empty($default_orderby)) {
-					$list_query .= ' ORDER BY ' . $default_orderby . '';
+					$list_query .= sprintf(' ORDER BY %s', $default_orderby);
 				}
 			}
 			if ($start != 1) {

@@ -325,8 +325,8 @@ class Accounts extends CRMEntity
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
 				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.crmid IN (" . $entityIds . ")";
-
+				WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.crmid IN (%s)";
+		$query = sprintf($query, $entityIds);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
@@ -372,10 +372,10 @@ class Accounts extends CRMEntity
 		$query .= $this->getNonAdminAccessControlQuery('Accounts', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
-		if ($where != "")
-			$query .= " WHERE ($where) AND " . $where_auto;
+		if ($where != '')
+			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
 		else
-			$query .= " WHERE " . $where_auto;
+			$query .= sprintf(' where %s', $where_auto);
 
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
@@ -939,7 +939,7 @@ class Accounts extends CRMEntity
 			'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query .= $tables;
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
-		$query .= ' FROM ' . $other->table_name;
+		$query .= sprintf(' FROM %s', $other->table_name);
 		$query .= $join;
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';

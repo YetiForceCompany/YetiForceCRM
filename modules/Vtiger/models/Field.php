@@ -342,7 +342,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 			array_push($params, 0);
 			array_push($params, 1);
 		}
-		$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab' . $where, $params);
+		$result = $adb->pquery(sprintf('SELECT tabid, name, ownedby FROM vtiger_tab %s', $where), $params);
 		while ($row = $adb->fetch_array($result)) {
 			$modules[$row['tabid']] = array('name' => $row['name'], 'label' => vtranslate($row['name'], $row['name']));
 		}
@@ -1098,10 +1098,11 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 		if (count($profilelist) > 0) {
 			if ($accessmode == 'readonly') {
-				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (" . generateQuestionMarks($profilelist) . ") AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
+				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
 			} else {
-				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (" . generateQuestionMarks($profilelist) . ") AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
+				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
 			}
+			sprintf($query, generateQuestionMarks($profilelist));
 			$params = array($tabid, $profilelist);
 		} else {
 			if ($accessmode == 'readonly') {
@@ -1236,6 +1237,9 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function isActiveSearchView()
 	{
+		if($this->fromOutsideList){
+			return false;
+		}
 		return $this->getUITypeModel()->isActiveSearchView();
 	}
 }

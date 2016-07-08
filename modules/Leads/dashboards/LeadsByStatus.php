@@ -14,7 +14,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 	function getSearchParams($value, $assignedto, $dates)
 	{
-		$listSearchParams = array();
+		$listSearchParams = [];
 		$conditions = array(array('leadstatus', 'e', $value));
 		if ($assignedto != '')
 			array_push($conditions, array('assigned_user_id', 'e', getUserFullName($assignedto)));
@@ -34,19 +34,17 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$db = PearDatabase::getInstance();
 		$module = 'Leads';
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		$ownerSql = $moduleModel->getOwnerWhereConditionForDashBoards($owner);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		$leadsClosed = Settings_MarketingProcesses_Module_Model::getConfig('lead');
 
-		if (!empty($ownerSql)) {
-			$ownerSql = ' AND ' . $ownerSql;
+		$dateFilterSql = $ownerSql = '';
+		if (!empty($owner)) {
+			$ownerSql = ' AND smownerid = ' . $owner;
 		}
 
-		$response = [];
-		$params = array();
+		$params = $response = [];
 		if (!empty($dateFilter)) {
 			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
 			//client is not giving time frame so we are appending it
@@ -61,7 +59,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 					ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
 					AND deleted=0 AND converted = 0 ' . $ownerSql . ' ' . $dateFilterSql .
 			'INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus ';
-		if ($securityParameter != '')
+		if (!empty($securityParameter))
 			$sql .= $securityParameter;
 
 		if (!empty($leadsClosed['status'])) {
@@ -72,11 +70,9 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$sql .= ' GROUP BY leadstatusvalue ORDER BY vtiger_leadstatus.sortorderid ';
 		$result = $db->pquery($sql, $params);
 
-		$response = array();
-		$numRows = $db->num_rows($result);
-		if ($numRows > 0) {
-			for ($i = 0; $i < $numRows; $i++) {
-				$row = $db->query_result_rowdata($result, $i);
+		$response = [];
+		if ($db->num_rows($result) > 0) {
+			while ($row = $db->getRow($result)) {
 				$data[$i]['label'] = vtranslate($row['leadstatusvalue'], 'Leads');
 				$ticks[$i][0] = $i;
 				$ticks[$i][1] = vtranslate($row['leadstatusvalue'], 'Leads');
@@ -84,12 +80,10 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 				$data[$i]['data'][0][1] = $row['count'];
 				$name[] = $row['leadstatusvalue'];
 			}
-
 			$response['chart'] = $data;
 			$response['ticks'] = $ticks;
 			$response['name'] = $name;
 		}
-
 		return $response;
 	}
 
@@ -120,7 +114,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = ($owner === false) ? array() : $this->getLeadsByStatus($owner, $dates);
+		$data = ($owner === false) ? [] : $this->getLeadsByStatus($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$leadStatusAmount = count($data['name']);
 		for ($i = 0; $i < $leadStatusAmount; $i++) {

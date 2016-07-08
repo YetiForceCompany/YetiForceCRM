@@ -5490,3 +5490,13 @@ select.form-control {
 	width: 500px;
 	margin-bottom: 2px;
 }
+.selectDashboradView::after{
+	height: 3px;
+	width: 100%;
+	background: #404952;
+}
+.dashboardViewContainer .dashboardHeading {
+	position: absolute;
+	top: 3px;
+	right: 0;
+}

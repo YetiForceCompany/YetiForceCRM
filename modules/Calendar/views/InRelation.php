@@ -50,6 +50,37 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 			$relationListView->set('sortorder', $sortOrder);
 		}
 
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$relationListView->set('operator', $operator);
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('OPERATOR', $operator);
+		$viewer->assign('ALPHABET_VALUE', $searchValue);
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$relationListView->set('search_key', $searchKey);
+			$relationListView->set('search_value', $searchValue);
+		}
+
+		$searchParmams = $request->get('search_params');
+		if (empty($searchParmams) || !is_array($searchParmams)) {
+			$searchParmams = [];
+		}
+		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $relationListView->getRelationModel()->getRelationModuleModel());
+		$relationListView->set('search_params', $transformedSearchParams);
+
+		//To make smarty to get the details easily accesible
+		foreach ($searchParmams as $fieldListGroup) {
+			foreach ($fieldListGroup as $fieldSearchInfo) {
+				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
+				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+				$searchParmams[$fieldName] = $fieldSearchInfo;
+			}
+		}
+
 		$models = $relationListView->getEntries($pagingModel);
 		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
@@ -63,7 +94,6 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
-		$viewer = $this->getViewer($request);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
@@ -91,7 +121,7 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
-		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());		
+		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$isFavorites = false;
 		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
@@ -99,6 +129,12 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 			$isFavorites = $relationModel->isFavorites();
 		}
 		$viewer->assign('IS_FAVORITES', $isFavorites);
+		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		return $viewer->view('RelatedList.tpl', $relatedModuleName, 'true');
+	}
+
+	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
+	{
+		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 }

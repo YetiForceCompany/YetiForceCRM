@@ -197,7 +197,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	reloadRelatedList: function () {
 		var pageNumber = jQuery('[name="currentPageNum"]').val();
 		var detailInstance = Vtiger_Detail_Js.getInstance();
-		detailInstance.loadRelatedList(pageNumber);
+		detailInstance.loadRelatedList({'page': pageNumber});
 	},
 	showWorkflowTriggerView: function (instance) {
 		$(instance).popover('hide');
@@ -810,10 +810,21 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 
 	},
-	loadRelatedList: function (pageNumber) {
+	loadRelatedList: function (params) {
+		var aDeferred = jQuery.Deferred();
+		if (params == undefined) {
+			params = {};
+		}
 		var relatedListInstance = new Vtiger_RelatedList_Js(this.getRecordId(), app.getModuleName(), this.getSelectedTab(), this.getRelatedModuleName());
-		var params = {'page': pageNumber};
-		relatedListInstance.loadRelatedList(params);
+		relatedListInstance.loadRelatedList(params).then(
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
+		);
+		return aDeferred.promise();
 	},
 	registerEventForRelatedListPagination: function () {
 		var thisInstance = this;
@@ -2493,10 +2504,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				contains.each(function (e) {
 					$(this).closest('.commentDetails').removeClass('hide');
 				});
-				if(contains.length == 0){
+				if (contains.length == 0) {
 					detailContentsHolder.find('.noCommentsMsgContainer').removeClass('hide');
 				}
-			}else{
+			} else {
 				detailContentsHolder.find('.commentDetails').removeClass('hide');
 				detailContentsHolder.find('.noCommentsMsgContainer').addClass('hide');
 			}
@@ -2556,7 +2567,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 		});
 		container.find('.widget_contents').on(thisInstance.widgetPostLoad, function (e, widgetName) {
-			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
 				app.showModalWindow("", $(e.currentTarget).data('url'), function (data) {

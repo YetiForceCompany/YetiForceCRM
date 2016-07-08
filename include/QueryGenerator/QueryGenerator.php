@@ -958,10 +958,6 @@ class QueryGenerator
 			}
 		}
 
-		foreach ($this->whereClauseCustom as $where) {
-			$sql .= ' ' . $where['glue'] . ' ' . $where['column'] . ' ' . $where['operator'] . ' ' . $where['value'];
-		}
-
 		// This is needed as there can be condition in different order and there is an assumption in makeGroupSqlReplacements API
 		// that it expects the array in an order and then replaces the sql with its the corresponding place
 		ksort($fieldSqlList);
@@ -970,6 +966,11 @@ class QueryGenerator
 			$this->conditionalWhere = $groupSql;
 			$sql .= $groupSql;
 		}
+		
+		foreach ($this->whereClauseCustom as $where) {
+			$sql .= ' ' . $where['glue'] . ' ' . $where['column'] . ' ' . $where['operator'] . ' ' . $where['value'];
+		}
+
 		if (!$onlyWhereQuery) {
 			$sql .= " AND $baseTable.$baseTableIndex > 0";
 			if ($this->permissions) {

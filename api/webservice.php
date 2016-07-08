@@ -15,7 +15,7 @@ if (!in_array('webservice', $enabledServices)) {
 	$apiLog = new APINoPermittedException();
 	$apiLog->stop(['status' => 0, 'Encrypted' => 0, 'error' => ['message' => 'Webservice - Service is not active']]);
 }
-AppConfig::iniSet('error_log', $root_directory . 'cache/logs/webservice.log');
+AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/webservice.log');
 
 define('REQUEST_MODE', 'API');
 

@@ -37,7 +37,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$pageLimit = $pagingModel->getPageLimit();
 
 		$where = self::getConditionByType($type);
-		$listQuery = 'SELECT * FROM vtiger_modtracker_basic WHERE crmid = ? ' . $where . ' ORDER BY changedon DESC LIMIT ?, ?;';
+		$listQuery = sprintf('SELECT * FROM vtiger_modtracker_basic WHERE crmid = ? %s ORDER BY changedon DESC LIMIT ?, ?;', $where);
 		array_push($params, $parentRecordId, $startIndex, $pageLimit);
 		$result = $db->pquery($listQuery, $params);
 		$rows = $db->num_rows($result);
@@ -78,7 +78,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if ($exception) {
 			$where = ' AND `id` <> ' . $exception;
 		}
-		$listQuery = 'SELECT `last_reviewed_users`, `id` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? AND `last_reviewed_users` LIKE "%#' . $userId . '#%" ' . $where . ' ORDER BY changedon ASC LIMIT 1;';
+		$listQuery = sprintf('SELECT `last_reviewed_users`, `id` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? AND `last_reviewed_users` LIKE "%#%s#%" %s ORDER BY changedon ASC LIMIT 1;', $userId, $where);
 		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
 		if ($result->rowCount()) {
 			$row = $db->getRow($result);
@@ -309,7 +309,8 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$where = self::getConditionByType($type);
-		$result = $db->pquery('SELECT COUNT(*) AS count FROM vtiger_modtracker_basic WHERE crmid = ? ' . $where, [$recordId]);
+		$query = sprintf('SELECT COUNT(*) AS count FROM vtiger_modtracker_basic WHERE crmid = ? %s' , $where);
+		$result = $db->pquery($query, [$recordId]);
 		return $db->query_result($result, 0, 'count');
 	}
 

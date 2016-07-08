@@ -29,7 +29,15 @@ class OSSMail_compose_View extends OSSMail_index_View
 		if ($pdfPath) {
 			$param .= '&pdf_path=' . $pdfPath;
 		}
-		$this->mainUrl = $this->mainUrl . $param;
+		if ($request->has('crmModule')) {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$moduleConfig = AppConfig::module($request->get('crmModule'));
+			if ($moduleConfig && isset($moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')])) {
+				$param .= '&from=' . $moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')];
+			}
+		}
+
+		$this->mainUrl .= $param;
 
 		if ($config['popup']) {
 			header('Location: ' . $this->mainUrl . '&_extwin=1');

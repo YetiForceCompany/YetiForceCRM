@@ -160,16 +160,13 @@ jQuery.Class("Vtiger_List_Js", {
 				selected_ids: selectedIds,
 				excluded_ids: excludedIds
 			};
-
-			var searchValue = listInstance.getAlphabetSearchValue();
-
+			var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
+			postData.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
 			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = listInstance.getAlphabetSearchField();
+				postData['search_key'] = listInstance.getListSearchInstance().getAlphabetSearchField();
 				postData['search_value'] = searchValue;
-				postData['operator'] = "s";
+				postData['operator'] = 's';
 			}
-
-			postData.search_params = JSON.stringify(listInstance.getListSearchParams());
 
 			var actionParams = {
 				type: "POST",
@@ -257,14 +254,16 @@ jQuery.Class("Vtiger_List_Js", {
 
 						var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
 						var listViewInstance = Vtiger_List_Js.getInstance();
-						var searchValue = listViewInstance.getAlphabetSearchValue();
+
+						var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+						deleteURL += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
 
 						if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-							deleteURL += '&search_key=' + listViewInstance.getAlphabetSearchField();
+							deleteURL += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
 							deleteURL += '&search_value=' + searchValue;
 							deleteURL += '&operator=s';
 						}
-						deleteURL += "&search_params=" + JSON.stringify(listViewInstance.getListSearchParams());
+
 						var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
 						var progressIndicatorElement = jQuery.progressIndicator({
 							'message': deleteMessage,
@@ -388,15 +387,13 @@ jQuery.Class("Vtiger_List_Js", {
 			};
 
 			var listViewInstance = Vtiger_List_Js.getInstance();
-			var searchValue = listViewInstance.getAlphabetSearchValue();
-
+			var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+			postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
 			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = listViewInstance.getAlphabetSearchField();
+				postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
 				postData['search_value'] = searchValue;
-				postData['operator'] = "s";
+				postData['operator'] = 's';
 			}
-
-			postData.search_params = JSON.stringify(listInstance.getListSearchParams());
 
 			var actionParams = {
 				"type": "POST",
@@ -496,12 +493,14 @@ jQuery.Class("Vtiger_List_Js", {
 		exportActionUrl += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&viewname=' + cvId + '&page=' + pageNumber;
 
 		var listViewInstance = Vtiger_List_Js.getInstance();
-		var searchValue = listViewInstance.getAlphabetSearchValue();
+		var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+		exportActionUrl += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
 
 		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-			exportActionUrl += '&search_key=' + listViewInstance.getAlphabetSearchField() + '&search_value=' + searchValue + '&operator=s';
+			exportActionUrl += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
+			exportActionUrl += '&search_value=' + searchValue;
+			exportActionUrl += '&operator=s';
 		}
-		exportActionUrl += '&search_params=' + JSON.stringify(listInstance.getListSearchParams());
 		window.location.href = exportActionUrl;
 	},
 	/**
@@ -550,14 +549,13 @@ jQuery.Class("Vtiger_List_Js", {
 				excluded_ids: excludedIds
 			};
 
-			var searchValue = listInstance.getAlphabetSearchValue();
+			var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
+			postData.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
 			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = listInstance.getAlphabetSearchField();
+				postData['search_key'] = listInstance.getListSearchInstance().getAlphabetSearchField();
 				postData['search_value'] = searchValue;
-				postData['operator'] = "s";
+				postData['operator'] = 's';
 			}
-
-			postData.search_params = JSON.stringify(listInstance.getListSearchParams(urlSearchParams));
 			return postData;
 		} else {
 			listInstance.noRecordSelectedAlert();
@@ -592,6 +590,17 @@ jQuery.Class("Vtiger_List_Js", {
 	//Contains filter Block Element
 	filterBlock: false,
 	filterSelectElement: false,
+	listSearchInstance: false,
+	noEventsListSearch: true,
+	getListSearchInstance: function (events) {
+		if(events != undefined){
+			this.noEventsListSearch = events;
+		}
+		if (this.listSearchInstance == false) {
+			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.getListViewContainer(), this.noEventsListSearch);
+		}
+		return this.listSearchInstance;
+	},
 	getListViewContainer: function () {
 		if (this.listViewContainer == false) {
 			this.listViewContainer = jQuery('div.listViewPageDiv');
@@ -645,14 +654,14 @@ jQuery.Class("Vtiger_List_Js", {
 			sortorder: sortOrder
 		}
 
-		var searchValue = this.getAlphabetSearchValue();
-
+		var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
+		params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
 		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-			params['search_key'] = this.getAlphabetSearchField();
+			params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
 			params['search_value'] = searchValue;
-			params['operator'] = "s";
+			params['operator'] = 's';
 		}
-		params.search_params = JSON.stringify(this.getListSearchParams());
+
 		return params;
 	},
 	/*
@@ -684,13 +693,11 @@ jQuery.Class("Vtiger_List_Js", {
 					var listViewContentsContainer = jQuery('#listViewContents')
 					listViewContentsContainer.html(data);
 					app.showSelect2ElementView(listViewContentsContainer.find('select.select2'));
-					thisInstance.registerListViewSelect();
 					thisInstance.registerListViewSpecialOptiopn();
 					app.changeSelectElementView(listViewContentsContainer);
 					app.showPopoverElementView(listViewContentsContainer.find('.popoverTooltip'));
-					thisInstance.registerTimeListSearch(listViewContentsContainer);
 					jQuery('body').trigger(jQuery.Event('LoadRecordList.PostLoad'), data);
-					thisInstance.registerDateListSearch(listViewContentsContainer);
+					thisInstance.getListSearchInstance().registerBasicEvents();
 					Vtiger_Index_Js.registerMailButtons(listViewContentsContainer);
 					thisInstance.calculatePages().then(function (data) {
 						//thisInstance.triggerDisplayTypeEvent();
@@ -726,7 +733,6 @@ jQuery.Class("Vtiger_List_Js", {
 						// Let listeners know about page state change.
 						app.notifyPostAjaxReady();
 					});
-					thisInstance.registerAlphabetClick();
 					thisInstance.registerUnreviewedCountEvent();
 				},
 				function (textStatus, errorThrown) {
@@ -890,14 +896,13 @@ jQuery.Class("Vtiger_List_Js", {
 				"mode": "getRecordsCount"
 			}
 
-			var searchValue = this.getAlphabetSearchValue();
+			var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
+			postData.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
 			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = this.getAlphabetSearchField();
-				postData['search_value'] = this.getAlphabetSearchValue();
-				postData['operator'] = "s";
+				postData['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
+				postData['search_value'] = searchValue;
+				postData['operator'] = 's';
 			}
-
-			postData.search_params = JSON.stringify(this.getListSearchParams());
 
 			AppConnector.request(postData).then(
 					function (data) {
@@ -1223,15 +1228,15 @@ jQuery.Class("Vtiger_List_Js", {
 		params['viewname'] = cvId;
 		params['page'] = pageNumber;
 		params['mode'] = 'getPagination';
-		var searchValue = this.getAlphabetSearchValue();
 		params['sourceModule'] = jQuery('#moduleFilter').val()
 
+		var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
+		params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
 		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-			params['search_key'] = this.getAlphabetSearchField();
+			params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
 			params['search_value'] = searchValue;
-			params['operator'] = "s";
+			params['operator'] = 's';
 		}
-		params.search_params = JSON.stringify(this.getListSearchParams());
 
 		AppConnector.request(params).then(function (data) {
 			jQuery('.paginationDiv').html(data);
@@ -1835,62 +1840,6 @@ jQuery.Class("Vtiger_List_Js", {
 			elements.attr('class', widthType);
 		}
 	},
-	registerAlphabetClick: function () {
-		var thisInstance = this;
-		$('.alphabetBtn').click(function () {
-			app.showModalWindow($('.alphabetModal').html(), function () {
-				thisInstance.registerEventForAlphabetSearch();
-			});
-		});
-	},
-	registerEventForAlphabetSearch: function () {
-		var thisInstance = this;
-		var listViewPageDiv = $('.modal .alphabetSorting ');
-		listViewPageDiv.find('.alphabetSearch').on('click', function (e) {
-			var alphabet = jQuery(e.currentTarget).find('a').text();
-			var cvId = thisInstance.getCurrentCvId();
-			var AlphabetSearchKey = thisInstance.getAlphabetSearchField();
-			var urlParams = {
-				"viewname": cvId,
-				"search_key": AlphabetSearchKey,
-				"search_value": alphabet,
-				"operator": 's',
-				"page": 1
-			}
-			jQuery('#recordsCount').val('');
-			//To Set the page number as first page
-			jQuery('#pageNumber').val('1');
-			jQuery('#pageToJump').val('1');
-			jQuery('#totalPageCount').text("");
-			thisInstance.getListViewRecords(urlParams).then(
-					function (data) {
-						thisInstance.updatePaginationOnAlphabetChange(alphabet, AlphabetSearchKey);
-						//To unmark the all the selected ids
-						jQuery('#deSelectAllMsg').trigger('click');
-					},
-					function (textStatus, errorThrown) {
-					}
-			);
-			app.hideModalWindow();
-		});
-	},
-	updatePaginationOnAlphabetChange: function (alphabet, AlphabetSearchKey) {
-		var thisInstance = this;
-		var params = {};
-		params['module'] = app.getModuleName();
-		params['parent'] = app.getParentModuleName()
-		params['view'] = 'Pagination';
-		params['page'] = 1;
-		params['mode'] = 'getPagination';
-		params['search_key'] = AlphabetSearchKey
-		params['search_value'] = alphabet
-		params['operator'] = "s";
-
-		AppConnector.request(params).then(function (data) {
-			jQuery('.paginationDiv').html(data);
-			thisInstance.registerPageNavigationEvents();
-		});
-	},
 	/**
 	 * Function to show total records count in listview on hover
 	 * of pageNumber text
@@ -1969,7 +1918,6 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerDeleteRecordClickEvent();
 		this.registerHeadersClickEvent();
 		this.registerMassActionSubmitEvent();
-		this.registerAlphabetClick();
 		this.changeCustomFilterElementView();
 		this.registerChangeCustomFilterEvent();
 		this.registerDuplicateFilterClickEvent();
@@ -1989,43 +1937,21 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewContainer = this.getListViewContentContainer();
 		listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);
 
-		this.registerListSearch();
-		this.registerDateListSearch(listViewContainer);
-		this.registerTimeListSearch(listViewContainer);
-		this.registerListViewSelect();
+		this.getListSearchInstance(false);
 		this.registerListViewSpecialOptiopn();
 		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
 	},
-	registerListViewSelect: function () {
-		var listViewContainer = this.getListViewContentContainer();
-		listViewContainer.find('.listViewEntriesTable .select2noactive').each(function (index, domElement) {
-			var select = $(domElement);
-			app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
-		});
-
-		if (app.getMainParams('autoRefreshListOnChange') == '1') {
-			listViewContainer.find('.listViewEntriesTable select').on("change", function (e) {
-				Vtiger_List_Js.triggerListSearch();
-			});
-			listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
-				var prevVal = $(this).data('prevVal');
-				var value = $(this).val();
-				if (prevVal != value) {
-					Vtiger_List_Js.triggerListSearch();
-				}
-			});
-		}
-	},
 	registerListViewSpecialOptiopn: function () {
+		var thisInstance = this;
 		var listViewContainer = this.getListViewContentContainer();
 		var box = listViewContainer.find('.listViewEntriesTable #searchInSubcategories');
 		box.on("change", function (e) {
 			var searchContributorElement = jQuery('.listSearchContributor[name="' + box.data('columnname') + '"]');
 			var searchValue = searchContributorElement.val();
 			if (searchValue) {
-				Vtiger_List_Js.triggerListSearch();
+				thisInstance.getListSearchInstance().triggerListSearch();
 			}
 		})
 	},
@@ -2051,132 +1977,4 @@ jQuery.Class("Vtiger_List_Js", {
 		jQuery('#recordsCount').val('');
 		return aDeferred.promise();
 	},
-	getListSearchParams: function (urlSearchParams) {
-		var listViewPageDiv = this.getListViewContainer();
-		var listViewTable = listViewPageDiv.find('.listViewEntriesTable');
-		var searchParams = new Array();
-		listViewTable.find('.listSearchContributor').each(function (index, domElement) {
-			var searchInfo = new Array();
-			var searchContributorElement = jQuery(domElement);
-			var fieldInfo = searchContributorElement.data('fieldinfo');
-			var fieldName = searchContributorElement.attr('name');
-
-			var searchValue = searchContributorElement.val();
-
-			if (typeof searchValue == "object") {
-				if (searchValue == null) {
-					searchValue = "";
-				} else {
-					searchValue = searchValue.join(',');
-				}
-			}
-			searchValue = searchValue.trim();
-			if (searchValue.length <= 0) {
-				//continue
-				return true;
-			}
-
-			var searchOperator = 'c';
-			if (fieldInfo.hasOwnProperty("searchOperator")) {
-				searchOperator = fieldInfo.searchOperator;
-			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
-				searchOperator = 'bw';
-			} else if (fieldInfo.type == "boolean" || fieldInfo.type == "picklist" || fieldInfo.type == "tree") {
-				searchOperator = 'e';
-			} else if (fieldInfo.type == 'currency' || fieldInfo.type == "double" || fieldInfo.type == 'percentage' ||
-					fieldInfo.type == "integer" || fieldInfo.type == "number") {
-				if (searchValue.substring(0, 2) == '>=') {
-					searchOperator = 'h';
-				} else if (searchValue.substring(0, 2) == '<=') {
-					searchOperator = 'm';
-				} else if (searchValue.substring(0, 1) == '>') {
-					searchOperator = 'g';
-				} else if (searchValue.substring(0, 1) == '<') {
-					searchOperator = 'l';
-				} else {
-					searchOperator = 'e';
-				}
-			}
-
-			searchInfo.push(fieldName);
-			searchInfo.push(searchOperator);
-			searchInfo.push(searchValue);
-			if (fieldInfo.type == "tree") {
-				var searchInSubcategories = jQuery('.listViewHeaders #searchInSubcategories[data-columnname="' + fieldName + '"]').prop('checked');
-				searchInfo.push(searchInSubcategories);
-			}
-			searchParams.push(searchInfo);
-		});
-		if (urlSearchParams) {
-			var url = app.getUrlVar('search_params');
-			if (url != undefined && url.length) {
-				url = jQuery.parseJSON(decodeURIComponent(url));
-				$.each(url[0], function (index, value) {
-					var exist = false;
-					$.each(searchParams, function (index, searchParam) {
-						if (searchParam[0] == value[0]) {
-							exist = true;
-						}
-					});
-					if (exist == false) {
-						searchParams.push(value);
-					}
-				});
-			}
-		}
-		return new Array(searchParams);
-	},
-	registerListSearch: function () {
-		var listViewPageDiv = this.getListViewContainer();
-		var thisInstance = this;
-		listViewPageDiv.on('click', '[data-trigger="listSearch"]', function (e) {
-			thisInstance.getListViewRecords({'page': '1'}).then(
-					function (data) {
-						//To unmark the all the selected ids
-						jQuery('#deSelectAllMsg').trigger('click');
-
-						jQuery('#recordsCount').val('');
-						//To Set the page number as first page
-						jQuery('#pageNumber').val('1');
-						jQuery('#pageToJump').val('1');
-						jQuery('#totalPageCount').text("");
-						thisInstance.calculatePages().then(function () {
-							thisInstance.updatePagination();
-						});
-					},
-					function (textStatus, errorThrown) {
-					}
-			);
-		})
-
-		listViewPageDiv.on('keypress', 'input.listSearchContributor', function (e) {
-			if (e.keyCode == 13) {
-				var element = jQuery(e.currentTarget);
-				var parentElement = element.closest('tr');
-				var searchTriggerElement = parentElement.find('[data-trigger="listSearch"]');
-				searchTriggerElement.trigger('click');
-			}
-		});
-	},
-	registerDateListSearch: function (container) {
-		container.find('.dateField').each(function (index, element) {
-			var dateElement = jQuery(element);
-			var customParams = {
-				calendars: 3,
-				mode: 'range',
-				className: 'rangeCalendar',
-				onChange: function (formated) {
-					dateElement.data('prevVal', dateElement.val());
-					dateElement.val(formated.join(','));
-				},
-				onHide: function (formated) {
-					dateElement.trigger(jQuery.Event('DatePicker.onHide'), formated);
-				}
-			}
-			app.registerEventForDatePickerFields(dateElement, false, customParams);
-		});
-	},
-	registerTimeListSearch: function (container) {
-		app.registerEventForTimeFields(container, false);
-	}
 });

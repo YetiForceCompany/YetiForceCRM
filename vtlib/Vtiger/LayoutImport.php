@@ -107,7 +107,7 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 						$targetdir = "layouts/$name/" . str_replace("layouts/$name", "", $targetdir);
 						@mkdir($targetdir, 0755, true);
 					}
-					$filepath = 'zip://' . vglobal('root_directory') . $zipfile . '#' . $filename;
+					$filepath = 'zip://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $zipfile . '#' . $filename;
 					$fileInfo = pathinfo($filepath);
 					if (in_array($fileInfo['extension'], $badFileExtensions)) {
 						$fileValidation = false;

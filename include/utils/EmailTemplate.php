@@ -116,7 +116,7 @@ class EmailTemplate
 			}
 
 			if (count($tableList) > 0 && count($columnList) > 0) {
-				$sql = 'select ' . implode(', ', $columnList) . ' from ' . $tableList[0];
+				$sql = sprintf('SELECT %s FROM %s', implode(', ', $columnList), $tableList[0]);
 				$moduleTableIndexList = $meta->getEntityTableIndexList();
 				foreach ($tableList as $index => $tableName) {
 					if ($tableName != $tableList[0]) {
