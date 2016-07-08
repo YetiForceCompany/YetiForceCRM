@@ -135,9 +135,19 @@ class Vtiger_Request
 	/**
 	 * Get data map
 	 */
-	function getAll()
+	function getAllRaw()
 	{
 		return $this->valuemap;
+	}
+
+	/**
+	 * Get data map
+	 */
+	function getAll()
+	{
+		return array_map(function($key) {
+			return $this->get($key);
+		}, array_keys($this->valuemap));
 	}
 
 	/**
@@ -371,7 +381,7 @@ class AppRequest
 		}
 		return self::$request->set($key, $value);
 	}
-	
+
 	public static function isEmpty($key)
 	{
 		if (!self::$request) {
