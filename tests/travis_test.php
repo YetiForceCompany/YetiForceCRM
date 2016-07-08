@@ -20,6 +20,12 @@ try {
 	$rekord->set('assigned_user_id', 1);
 	$rekord->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
 	$rekord->save();
+	$rekord->isEditable();
+	$rekord->isWatchingRecord();
+	$rekord->set('accounttype', 'Customer');
+	$rekord->set('mode', 'edit');
+	$rekord->save();
+	$rekord->delete();
 
 	ob_end_clean();
 } catch (\Exception $e) {
