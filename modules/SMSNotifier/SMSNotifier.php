@@ -55,7 +55,9 @@ class SMSNotifier extends SMSNotifierBase {
 				relateEntities($focus, $moduleName, $focus->id, $linktoModule, $linktoids);
 			} else {
 				// Link modulename not provided (linktoids can belong to mix of module so determine proper modulename)
-				$linkidsetypes = $adb->pquery( "SELECT setype,crmid FROM vtiger_crmentity WHERE crmid IN (".generateQuestionMarks($linktoids) . ")", array($linktoids) );
+				$query = "SELECT setype,crmid FROM vtiger_crmentity WHERE crmid IN (%s)";
+				$query = sprintf($query, generateQuestionMarks($linktoids));
+				$linkidsetypes = $adb->pquery($query, [$linktoids]);
 				if($linkidsetypes && $adb->num_rows($linkidsetypes)) {
 					while($linkidsetypesrow = $adb->fetch_array($linkidsetypes)) {
 						relateEntities($focus, $moduleName, $focus->id, $linkidsetypesrow['setype'], $linkidsetypesrow['crmid']);
@@ -136,8 +138,9 @@ class SMSNotifier extends SMSNotifierBase {
 		$tonumbers = array();
 
 		if(count($userIds) > 0) {
-	       	$phoneSqlQuery = "select phone_mobile, id from vtiger_users WHERE status='Active' AND id in(". generateQuestionMarks($userIds) .")";
-	       	$phoneSqlResult = $adb->pquery($phoneSqlQuery, array($userIds));
+	       	$phoneSqlQuery = "select phone_mobile, id from vtiger_users WHERE status='Active' AND id in(%s)";
+			$phoneSqlQuery = sprintf($phoneSqlQuery, generateQuestionMarks($userIds));
+	       	$phoneSqlResult = $adb->pquery($phoneSqlQuery, [$userIds]);
 	       	while($phoneSqlResultRow = $adb->fetch_array($phoneSqlResult)) {
 	       		$number = $phoneSqlResultRow['phone_mobile'];
 	       		if(!empty($number)) {

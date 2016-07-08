@@ -83,8 +83,9 @@ class Users_Field_Model extends Vtiger_Field_Model
 		} else if ($this->get('uitype') == '115') {
 			$db = PearDatabase::getInstance();
 
-			$query = 'SELECT ' . $this->getFieldName() . ' FROM vtiger_' . $this->getFieldName();
-			$result = $db->pquery($query, array());
+			$query = 'SELECT %s FROM vtiger_%s';
+			$query = sprintf($query, $this->getFieldName(), $this->getFieldName());
+			$result = $db->pquery($query, []);
 			$num_rows = $db->num_rows($result);
 			$fieldPickListValues = array();
 			for ($i = 0; $i < $num_rows; $i++) {

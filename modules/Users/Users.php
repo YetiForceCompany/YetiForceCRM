@@ -707,7 +707,8 @@ class Users extends CRMEntity
 		$insertion_mode = $this->mode;
 		//Checkin whether an entry is already is present in the vtiger_table to update
 		if ($insertion_mode == 'edit') {
-			$check_query = "select * from " . $table_name . " where " . $this->tab_name_index[$table_name] . "=?";
+			$check_query = "SELECT * FROM %s WHERE %s = ?";
+			$check_query = sprintf($check_query, $table_name, $this->tab_name_index[$table_name]);
 			$check_result = $this->db->pquery($check_query, array($this->id));
 
 			$num_rows = $this->db->num_rows($check_result);
@@ -902,7 +903,9 @@ class Users extends CRMEntity
 
 		$result = [];
 		foreach ($this->tab_name_index as $table_name => $index) {
-			$result[$table_name] = $adb->pquery('select * from ' . $table_name . ' where ' . $index . '=?', array($record));
+			$query = 'SELECT * FROM %s WHERE %s = ?';
+			$query = sprintf($query, $table_name, $index);
+			$result[$table_name] = $adb->pquery($query, [$record]);
 		}
 		$tabid = getTabid($module);
 		$sql1 = 'select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)';
@@ -1251,11 +1254,12 @@ class Users extends CRMEntity
 			for ($i = 0; $i < count($this->homeorder_array); $i++) {
 				if (AppRequest::get($this->homeorder_array[$i]) != '') {
 					$save_array[] = $this->homeorder_array[$i];
-					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid=" . $id . " and vtiger_homedefault.hometype='" . $this->homeorder_array[$i] . "'"; //To show the default Homestuff on the the Home Page
-					$result = $adb->pquery($qry, array());
+					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid = ? and vtiger_homedefault.hometype= ?"; //To show the default Homestuff on the the Home Page
+					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);
 				} else {
-					$qry = "update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=1 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid=" . $id . " and vtiger_homedefault.hometype='" . $this->homeorder_array[$i] . "'"; //To hide the default Homestuff on the the Home Page
-					$result = $adb->pquery($qry, array());
+					
+					$qry = "update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=1 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid= ? and vtiger_homedefault.hometype=?"; //To hide the default Homestuff on the the Home Page
+					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);
 				}
 			}
 			if ($save_array != "")

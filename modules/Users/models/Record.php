@@ -518,7 +518,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($mode == 'users') {
 			$users = $usersGroups ? $usersGroups['users'] : [];
 			if (!empty($users)) {
-				$query = 'SELECT id, user_name, first_name, last_name, is_admin FROM vtiger_users WHERE status = ? AND id IN (' . generateQuestionMarks($users) . ')';
+				$query = 'SELECT id, user_name, first_name, last_name, is_admin FROM vtiger_users WHERE status = ? AND id IN (%s)';
+				$query = sprintf($query, generateQuestionMarks($users));
 				array_unshift($users, 'Active');
 				$resultQuery = $db->pquery($query, $users);
 				while ($row = $db->getRow($resultQuery)) {
@@ -556,7 +557,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 			return [];
 		}
 
-		$sql = 'SELECT userid FROM vtiger_user2role WHERE roleid IN (' . generateQuestionMarks($roleIds) . ')';
+		$sql = 'SELECT userid FROM vtiger_user2role WHERE roleid IN (%s)';
+		$sql = sprintf($sql, generateQuestionMarks($roleIds));
 		$result = $db->pquery($sql, $roleIds);
 		$noOfUsers = $db->num_rows($result);
 		$userIds = [];
@@ -566,8 +568,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				$userIds[] = $db->query_result($result, $i, 'userid');
 			}
 			$entityData = Vtiger_Functions::getEntityModuleSQLColumnString('Users');
-			$query = 'SELECT id, ' . $entityData['colums'] . ' FROM vtiger_users WHERE status = ? AND id IN (' . generateQuestionMarks($userIds) . ')';
-			$query .= ' order by last_name ASC, first_name ASC';
+			$query = sprintf('SELECT id, %s FROM vtiger_users WHERE status = ? AND id IN (%s) order by last_name ASC, first_name ASC', $entityData['colums'], generateQuestionMarks($userIds));
 			$result = $db->pquery($query, array('ACTIVE', $userIds));
 			while ($row = $db->fetch_array($result)) {
 				$colums = [];

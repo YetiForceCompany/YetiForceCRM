@@ -287,7 +287,9 @@ class Users_Privileges_Model extends Users_Record_Model
 
 			if ($addUserString !== false) {
 				$usersExist = [];
-				$result = $db->query('SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(' . $addUserString . ') AND crmid IN (' . $sqlRecords . ')');
+				$query = 'SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(%s) AND crmid IN (%s)';
+				$query = sprintf($query, $addUserString, $sqlRecords);				
+				$result = $db->query($query);
 				while ($row = $db->getRow($result)) {
 					$usersExist[$row['crmid']][$row['userid']] = true;
 				}
@@ -440,7 +442,8 @@ class Users_Privileges_Model extends Users_Record_Model
 		} else if ($relationInfo = Vtiger_ModulesHierarchy_Model::getModulesMapMMCustom($moduleName)) {
 			$db = PearDatabase::getInstance();
 			$role = $userPrivilegesModel->getRoleDetail();
-			$query = 'SELECT ' . $relationInfo['rel'] . ' AS crmid FROM `' . $relationInfo['table'] . '` WHERE ' . $relationInfo['base'] . ' = ?';
+			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
+			$query = sprintf($query,$relationInfo['rel'],$relationInfo['table'],$relationInfo['base']);
 			$result = $db->pquery($query, [$record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'];
