@@ -172,7 +172,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 		$useisactive = ($isactive) ? 1 : 0;
 
 		$adb = PearDatabase::getInstance();
-		$checkres = $adb->pquery('SELECT id FROM ' . self::TABLENAME . ' WHERE prefix=?', Array($prefix));
+		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
 		$datetime = date('Y-m-d H:i:s');
 		if ($adb->num_rows($checkres)) {
 			$id = $adb->query_result($checkres, 0, 'id');
@@ -229,9 +229,9 @@ class Vtiger_LanguageExport extends Vtiger_Package
 
 		if ($hastable) {
 			if ($includeInActive)
-				$result = $adb->pquery('SELECT * FROM ' . self::TABLENAME, array());
+				$result = $adb->pquery(sprintf('SELECT * FROM %s', self::TABLENAME), []);
 			else
-				$result = $adb->pquery('SELECT * FROM ' . self::TABLENAME . ' WHERE active=?', array(1));
+				$result = $adb->pquery(sprintf('SELECT * FROM %s WHERE active = ?', self::TABLENAME), [1]);
 
 			for ($index = 0; $index < $adb->num_rows($result); ++$index) {
 				$resultrow = $adb->fetch_array($result);

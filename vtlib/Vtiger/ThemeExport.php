@@ -190,7 +190,8 @@ class Vtiger_ThemeExport extends Vtiger_Package
 		$useisactive = ($isactive) ? 1 : 0;
 
 		$adb = PearDatabase::getInstance();
-		$checkres = $adb->pquery('SELECT * FROM ' . self::TABLENAME . ' WHERE name=?', Array($name));
+		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
+		$checkres = $adb->pquery($query, [$name]);
 		$datetime = date('Y-m-d H:i:s');
 		if ($adb->num_rows($checkres)) {
 			$adb->update(self::TABLENAME, [
