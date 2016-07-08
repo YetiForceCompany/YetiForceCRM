@@ -13,8 +13,8 @@ class Vtiger_Request
 {
 
 	// Datastore
-	private $valuemap;
-	private $rawvaluemap;
+	private $valueMap = [];
+	private $rawValueMap = [];
 	private $defaultmap = [];
 	private $headers = [];
 
@@ -23,11 +23,9 @@ class Vtiger_Request
 	 */
 	function __construct($values, $rawvalues = [], $stripifgpc = true)
 	{
-		$this->valuemap = $values;
-		$this->rawvaluemap = $rawvalues;
-		if ($stripifgpc && !empty($this->valuemap) && get_magic_quotes_gpc()) {
-			$this->valuemap = $this->stripslashes_recursive($this->valuemap);
-			$this->rawvaluemap = $this->stripslashes_recursive($this->rawvaluemap);
+		$this->rawValueMap = $values;
+		if ($stripifgpc && !empty($this->rawValueMap) && get_magic_quotes_gpc()) {
+			$this->rawValueMap = $this->stripslashes_recursive($this->rawValueMap);
 		}
 	}
 
@@ -46,8 +44,11 @@ class Vtiger_Request
 	function get($key, $defvalue = '')
 	{
 		$value = $defvalue;
-		if (isset($this->valuemap[$key])) {
-			$value = $this->valuemap[$key];
+		if (isset($this->valueMap[$key])) {
+			return $this->valueMap[$key];
+		}
+		if (isset($this->rawValueMap[$key])) {
+			$value = $this->rawValueMap[$key];
 		}
 		if ($value === '' && isset($this->defaultmap[$key])) {
 			$value = $this->defaultmap[$key];
@@ -75,6 +76,7 @@ class Vtiger_Request
 		if (!empty($value)) {
 			$value = vtlib_purify($value);
 		}
+		$this->valueMap[$key] = $value;
 		return $value;
 	}
 
@@ -100,8 +102,8 @@ class Vtiger_Request
 	function getForHtml($key, $defvalue = '')
 	{
 		$value = $defvalue;
-		if (isset($this->valuemap[$key])) {
-			$value = $this->valuemap[$key];
+		if (isset($this->rawValueMap[$key])) {
+			$value = $this->rawValueMap[$key];
 		}
 		if ($value === '' && isset($this->defaultmap[$key])) {
 			$value = $this->defaultmap[$key];
@@ -137,7 +139,7 @@ class Vtiger_Request
 	 */
 	function getAllRaw()
 	{
-		return $this->valuemap;
+		return $this->rawValueMap;
 	}
 
 	/**
@@ -145,9 +147,10 @@ class Vtiger_Request
 	 */
 	function getAll()
 	{
-		return array_map(function($key) {
-			return $this->get($key);
-		}, array_keys($this->valuemap));
+		foreach ($this->rawValueMap as $key => $value) {
+			$this->get($key);
+		}
+		return $this->valueMap;
 	}
 
 	/**
@@ -155,7 +158,7 @@ class Vtiger_Request
 	 */
 	function has($key)
 	{
-		return isset($this->valuemap[$key]);
+		return isset($this->rawValueMap[$key]);
 	}
 
 	/**
@@ -163,8 +166,8 @@ class Vtiger_Request
 	 */
 	function isEmpty($key)
 	{
-		if (isset($this->valuemap[$key])) {
-			return empty($this->valuemap[$key]);
+		if (isset($this->rawValueMap[$key])) {
+			return empty($this->rawValueMap[$key]);
 		}
 		return true;
 	}
@@ -174,8 +177,8 @@ class Vtiger_Request
 	 */
 	function getRaw($key, $defvalue = '')
 	{
-		if (isset($this->rawvaluemap[$key])) {
-			return $this->rawvaluemap[$key];
+		if (isset($this->rawValueMap[$key])) {
+			return $this->rawValueMap[$key];
 		}
 		return $this->get($key, $defvalue);
 	}
@@ -185,7 +188,7 @@ class Vtiger_Request
 	 */
 	function set($key, $newvalue)
 	{
-		$this->valuemap[$key] = $newvalue;
+		$this->valueMap[$key] = $newvalue;
 	}
 
 	/**
