@@ -14,10 +14,19 @@ try {
 	$webUI = new Vtiger_WebUI();
 	$webUI->process(AppRequest::init());
 
+	$user = Vtiger_Record_Model::getCleanInstance('Users');
+	$user->set('user_name', 'demo1');
+	$user->set('email1', 'd1emo@yetiforce.com');
+	$user->set('first_name', 'Demo');
+	$user->set('last_name', 'YetiForce');
+	$user->set('user_password', 'demo');
+	$user->set('confirm_password', 'demo');
+	$user->set('roleid', 'H2');
+	$user->save();
 
 	$rekord = Vtiger_Record_Model::getCleanInstance('Accounts');
 	$rekord->set('accountname', 'YetiForce Sp. z o.o.');
-	$rekord->set('assigned_user_id', 1);
+	$rekord->set('assigned_user_id', $user->getId());
 	$rekord->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
 	$rekord->save();
 	$rekord->isEditable();
