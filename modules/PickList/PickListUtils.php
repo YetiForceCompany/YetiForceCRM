@@ -102,7 +102,8 @@ function get_available_module_picklist($picklist_details){
  */
 function getAllPickListValues($fieldName,$lang = Array() ){
 	$db = PearDatabase::getInstance();
-	$result = $db->query('SELECT * FROM vtiger_'.$fieldName);
+	$query = sprintf('SELECT * FROM vtiger_%s', $fieldName);
+	$result = $db->query($query);
 	
 	$arr = [];
 	while($row = $db->fetchByAssoc($result)){

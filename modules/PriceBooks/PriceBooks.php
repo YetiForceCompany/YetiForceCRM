@@ -115,7 +115,7 @@ class PriceBooks extends CRMEntity {
 			}
 		}
 
-		$query = 'SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode, vtiger_products.commissionrate,
+		$query = sprintf('SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode, vtiger_products.commissionrate,
 						vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
 						vtiger_pricebookproductrel.listprice
 				FROM vtiger_products
@@ -123,9 +123,8 @@ class PriceBooks extends CRMEntity {
 				INNER JOIN vtiger_crmentity on vtiger_crmentity.crmid = vtiger_products.productid
 				INNER JOIN vtiger_pricebook on vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid
 				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid '
-				. getNonAdminAccessControlQuery($related_module, $current_user) .'
-				WHERE vtiger_pricebook.pricebookid = '.$id.' and vtiger_crmentity.deleted = 0';
+				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid %s
+				WHERE vtiger_pricebook.pricebookid = %s and vtiger_crmentity.deleted = 0', getNonAdminAccessControlQuery($related_module, $current_user), $id);
 
 		$this->retrieve_entity_info($id,$this_module);
 		$return_value = getPriceBookRelatedProducts($query,$this,$returnset);
@@ -166,7 +165,7 @@ class PriceBooks extends CRMEntity {
 			}
 		}
 
-		$query = 'SELECT vtiger_service.serviceid, vtiger_service.servicename, vtiger_service.commissionrate,
+		$query = sprintf('SELECT vtiger_service.serviceid, vtiger_service.servicename, vtiger_service.commissionrate,
 					vtiger_service.qty_per_unit, vtiger_service.unit_price, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
 					vtiger_pricebookproductrel.listprice
 			FROM vtiger_service
@@ -174,9 +173,8 @@ class PriceBooks extends CRMEntity {
 			INNER JOIN vtiger_crmentity on vtiger_crmentity.crmid = vtiger_service.serviceid
 			INNER JOIN vtiger_pricebook on vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid '
-			. getNonAdminAccessControlQuery($related_module, $current_user) .'
-			WHERE vtiger_pricebook.pricebookid = '.$id.' and vtiger_crmentity.deleted = 0';
+			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid %s
+			WHERE vtiger_pricebook.pricebookid = %s and vtiger_crmentity.deleted = 0', getNonAdminAccessControlQuery($related_module, $current_user), $id);
 
 		$this->retrieve_entity_info($id,$this_module);
 		$return_value = $other->getPriceBookRelatedServices($query,$this,$returnset);

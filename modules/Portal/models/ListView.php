@@ -26,7 +26,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model {
         $sortOrder = $this->get('sortorder');
 
         if(!empty($orderBy))
-            $listQuery .= ' ORDER BY '.$orderBy.' '.$sortOrder;
+            $listQuery .= sprintf(' ORDER BY %s %s',$orderBy, $sortOrder);
         
 
 		$listQuery .= " LIMIT $startIndex,".($pageLimit);
@@ -55,7 +55,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model {
         $query = 'SELECT portalid, portalname, portalurl, createdtime FROM vtiger_portal';
         $searchValue = $this->get('search_value');
         if(!empty($searchValue))
-            $query .= " WHERE portalname LIKE '".$searchValue."%'";
+            $query .= sprintf(" WHERE portalname LIKE '%s%'", $searchValue);
         
         return $query;
     }
@@ -94,8 +94,8 @@ class Portal_ListView_Model extends Vtiger_ListView_Model {
         $db = PearDatabase::getInstance();
         $listQuery = $this->getQuery();
         $queryParts = explode('FROM', $listQuery);
-        $query = 'SELECT COUNT(*) AS count FROM '.$queryParts[1];
-        $result = $db->pquery($query, array());
+        $query = sprintf('SELECT COUNT(*) AS count FROM %s',$queryParts[1]);
+        $result = $db->query($query);
         
         return $db->query_result($result, 0, 'count');
     }
