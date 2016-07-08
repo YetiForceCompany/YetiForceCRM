@@ -96,9 +96,11 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model
 			if ($this->isDeleted()) {
 				$deleted = 1;
 			}
-			$query = 'UPDATE ' . $tablename . ' SET taxlabel=?,percentage=?,deleted=? WHERE taxid=?';
-			$params = array($this->getName(), $this->get('percentage'), $deleted, $taxId);
-			$db->pquery($query, $params);
+			$db->update($tablename, [
+				'taxlabel' => $this->getName(),
+				'percentage' => $this->get('percentage'),
+				'deleted' => $deleted
+			], 'taxid = ?', [$taxId]);
 		} else {
 			$taxId = $this->addTax();
 		}
@@ -179,7 +181,7 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$tablename = 'vtiger_inventorytaxinfo';
 
-		$query = 'SELECT * FROM ' . $tablename . ' WHERE taxid=?';
+		$query = sprintf('SELECT * FROM %s WHERE taxid = ?', $tablename);
 		$result = $db->pquery($query, array($id));
 		$taxRecordModel = new self();
 		if ($db->num_rows($result) > 0) {
@@ -202,8 +204,8 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model
 		}
 		$tablename = 'vtiger_inventorytaxinfo';
 
-		$query = 'SELECT 1 FROM ' . $tablename . ' WHERE taxlabel = ?';
-		$params = array($label);
+		$query = sprintf('SELECT 1 FROM %s WHERE taxlabel = ?', $tablename);
+		$params = [$label];
 
 		if (!empty($excludedIds)) {
 			$query .= " AND taxid NOT IN (" . generateQuestionMarks($excludedIds) . ")";

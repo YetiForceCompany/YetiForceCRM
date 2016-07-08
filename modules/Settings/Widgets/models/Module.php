@@ -37,11 +37,11 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	public function getModulesList($module = false)
 	{
 		$adb = PearDatabase::getInstance();
-		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier');
-		$sql = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ')';
-		$params = array(1, $restrictedModules);
+		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier'];
+		$sql = sprintf('SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN (%s)', generateQuestionMarks($restrictedModules));
+		$params = [1, $restrictedModules];
 		$result = $adb->pquery($sql, $params);
-		$modules = array();
+		$modules = [];
 		while ($row = $adb->fetch_array($result)) {
 			$moduleModel =  Vtiger_Module_Model::getInstance($row['name']);
 			if($moduleModel->isSummaryViewSupported())
