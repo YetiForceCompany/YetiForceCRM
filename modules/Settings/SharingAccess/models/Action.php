@@ -58,7 +58,7 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (Vtiger_Utils::isNumber($value)) {
+		if (vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_id = ?';
 		} else {
 			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_name = ?';

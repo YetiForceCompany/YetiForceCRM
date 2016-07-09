@@ -202,7 +202,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 	public static function addSettingsField($block, $params)
 	{
 		$db = PearDatabase::getInstance();
-		$blockId = Vtiger_Deprecated::getSettingsBlockId($block);
+		$blockId = vtlib\Deprecated::getSettingsBlockId($block);
 		$result = $db->pquery('SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?', [$blockId]);
 		$sequence = $db->getSingleValue($result);
 		$fieldId = $db->getUniqueId('vtiger_settings_field');
@@ -215,7 +215,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 	public static function deleteSettingsField($block, $name)
 	{
 		$db = PearDatabase::getInstance();
-		$blockId = Vtiger_Deprecated::getSettingsBlockId($block);
+		$blockId = vtlib\Deprecated::getSettingsBlockId($block);
 		$db->delete('vtiger_settings_field', 'name = ? AND blockid=?', [$name, $blockId]);
 	}
 }

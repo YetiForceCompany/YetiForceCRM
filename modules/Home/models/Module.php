@@ -264,7 +264,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 				if (isRecordExists($row['projectid'])) {
 					$record = Vtiger_Record_Model::getInstanceById($row['projectid'], 'Project');
 					if (isRecordExists($record->get('linktoaccountscontacts'))) {
-						$model->set('account', '<a href="index.php?module=' . Vtiger_Functions::getCRMRecordType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . Vtiger_Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
+						$model->set('account', '<a href="index.php?module=' . vtlib\Functions::getCRMRecordType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
 					}
 				}
 			}

@@ -55,7 +55,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$headers = $listviewController->getListViewHeaderFields();
 		//get the column headers, they go in row 0 of the spreadsheet
 		foreach ($headers as $column => $webserviceField) {
-			$fieldObj = Vtiger_Field::getInstance($webserviceField->getFieldId());
+			$fieldObj = vtlib\Field::getInstance($webserviceField->getFieldId());
 			$fields[] = $fieldObj;
 			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, decode_html(vtranslate($fieldObj->label, $module)), PHPExcel_Cell_DataType::TYPE_STRING);
 			$col++;

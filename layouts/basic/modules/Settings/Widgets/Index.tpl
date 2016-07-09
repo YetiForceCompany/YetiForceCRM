@@ -50,7 +50,7 @@
 								</div>
 								<div class="col-md-5">
 									{if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
-										{vtranslate(Vtiger_Functions::getModuleName($WIDGET['data']['relatedmodule']),Vtiger_Functions::getModuleName($WIDGET['data']['relatedmodule']))}
+										{vtranslate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
 									{else}	
 										{vtranslate($WIDGET['label'], $SOURCEMODULE)}&nbsp;
 									{/if}									

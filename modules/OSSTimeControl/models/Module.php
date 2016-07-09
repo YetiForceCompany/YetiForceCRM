@@ -95,11 +95,11 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		$userTime = [];
 		$count = 1;
 		while ($row = $db->fetch_array($result)) {
-			$smownerid = Vtiger_Functions::getOwnerRecordLabel($row['smownerid']);
+			$smownerid = vtlib\Functions::getOwnerRecordLabel($row['smownerid']);
 
 			$userTime[] = [
 				'name' => [$count, $smownerid],
-				'initial' => [$count, Vtiger_Functions::getInitials($smownerid)],
+				'initial' => [$count, vtlib\Functions::getInitials($smownerid)],
 				'data' => [$count, $row['sumtime']]
 			];
 			$count++;

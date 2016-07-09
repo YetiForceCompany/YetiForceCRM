@@ -222,7 +222,7 @@ WHERE vtiger_tab.presence = ? AND vtiger_ws_referencetype.`type` = ?';
 
 	public static function getRelatedRecords($record, $hierarchy)
 	{
-		$moduleName = Vtiger_Functions::getCRMRecordType($record);
+		$moduleName = vtlib\Functions::getCRMRecordType($record);
 		$records = $recordsLevel1 = [];
 		if (in_array(0, $hierarchy)) {
 			$records[] = $record;

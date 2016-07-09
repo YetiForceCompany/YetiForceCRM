@@ -108,7 +108,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	public function getDisplayValueByField($tree, $field, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE tabid = ? AND fieldname = ?', array(Vtiger_Functions::getModuleId($module), $field));
+		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE tabid = ? AND fieldname = ?', array(vtlib\Functions::getModuleId($module), $field));
 		if ($adb->num_rows($result) == 0) {
 			return false;
 		}

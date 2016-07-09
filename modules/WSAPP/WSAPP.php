@@ -96,9 +96,9 @@ class WSAPP {
 					);
 					++$parameter_index;
 				}
-				Vtiger_Utils::Log("Opearation $operation_name enabled successfully.");
+				vtlib\Utils::Log("Opearation $operation_name enabled successfully.");
 			} else {
-				Vtiger_Utils::Log("Operation $operation_name already exists.");
+				vtlib\Utils::Log("Operation $operation_name already exists.");
 			}
 		}
 	}

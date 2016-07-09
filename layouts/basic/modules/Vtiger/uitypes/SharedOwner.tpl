@@ -15,7 +15,7 @@
 		{/if}
 		
 		{if $FIELD_VALUE neq '' }
-			{assign var=FIELD_VALUE value=Vtiger_Functions::getArrayFromValue($FIELD_VALUE)}
+			{assign var=FIELD_VALUE value=vtlib\Functions::getArrayFromValue($FIELD_VALUE)}
 			{assign var=NOT_DISPLAY_LIST value=array_diff_key(array_flip($FIELD_VALUE), $ALL_ACTIVEUSER_LIST, $ALL_ACTIVEGROUP_LIST)}
 		{else}
 			{assign var=FIELD_VALUE value=[]}

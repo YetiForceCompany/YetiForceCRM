@@ -19,7 +19,7 @@
 			margin-right: 5px;
 		}
 		</style>
-		{assign var=TOTALTIME value=Vtiger_Functions::decimalTimeFormat($RELATED_SUMMARY['totalTime'])}
+		{assign var=TOTALTIME value=vtlib\Functions::decimalTimeFormat($RELATED_SUMMARY['totalTime'])}
 		{if count($RELATED_SUMMARY['userTime']) gt 0 }
 			<div class="row">
 				<div class="col-md-12">

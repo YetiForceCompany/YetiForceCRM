@@ -103,7 +103,7 @@ function HeldDeskNewCommentAccount($entityData)
 	$data = $entityData->getData();
 	$relatedToWSId = $data['related_to'];
 	$relatedToId = explode('x', $relatedToWSId);
-	$moduleName = Vtiger_Functions::getCRMRecordType($relatedToId[1]);
+	$moduleName = vtlib\Functions::getCRMRecordType($relatedToId[1]);
 	$mail = false;
 	if (!empty($relatedToWSId) && $moduleName == 'HelpDesk') {
 		if ($moduleName == 'HelpDesk') {

@@ -418,7 +418,7 @@ class Services extends CRMEntity
 		global $currentModule, $log, $singlepane_view, $mod_strings;
 		$log->debug("Entering get_service_pricebooks(" . $id . ") method ...");
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 		require_once("modules/$related_module/$related_module.php");
 		$focus = new $related_module();
@@ -492,7 +492,7 @@ class Services extends CRMEntity
 		$computeCount = AppRequest::get('withCount');
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true ||
 			((boolean) $computeCount) == true) {
-			$noofrows = $adb->query_result($adb->query(Vtiger_Functions::mkCountQuery($query)), 0, 'count');
+			$noofrows = $adb->query_result($adb->query(vtlib\Functions::mkCountQuery($query)), 0, 'count');
 		} else {
 			$noofrows = null;
 		}
@@ -750,24 +750,22 @@ class Services extends CRMEntity
 		$adb = PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
-			require_once('vtlib/Vtiger/Module.php');
-
-			$moduleInstance = Vtiger_Module::getInstance($moduleName);
+			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$moduleInstance->allowSharing();
 
-			$ttModuleInstance = Vtiger_Module::getInstance('HelpDesk');
+			$ttModuleInstance = vtlib\Module::getInstance('HelpDesk');
 			$ttModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$leadModuleInstance = Vtiger_Module::getInstance('Leads');
+			$leadModuleInstance = vtlib\Module::getInstance('Leads');
 			$leadModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$accModuleInstance = Vtiger_Module::getInstance('Accounts');
+			$accModuleInstance = vtlib\Module::getInstance('Accounts');
 			$accModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$conModuleInstance = Vtiger_Module::getInstance('Contacts');
+			$conModuleInstance = vtlib\Module::getInstance('Contacts');
 			$conModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$pbModuleInstance = Vtiger_Module::getInstance('PriceBooks');
+			$pbModuleInstance = vtlib\Module::getInstance('PriceBooks');
 			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'), 'get_pricebook_services');
 
 			// Initialize module sequence for the module
@@ -786,8 +784,8 @@ class Services extends CRMEntity
 		} else if ($eventType == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 			//adds sharing accsess
-			$ServicesModule = Vtiger_Module::getInstance('Services');
-			Vtiger_Access::setDefaultSharing($ServicesModule);
+			$ServicesModule = vtlib\Module::getInstance('Services');
+			vtlib\Access::setDefaultSharing($ServicesModule);
 		}
 	}
 
@@ -830,7 +828,7 @@ class Services extends CRMEntity
 		$log->debug("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);

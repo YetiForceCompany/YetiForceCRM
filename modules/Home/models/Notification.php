@@ -103,12 +103,12 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		vglobal('current_user', $user);
 
 		if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
-			$log->warn('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
+			$log->warn('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
 			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($this->get('moduleName') != 'Users' && !Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
-			$log->error('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) .
+			$log->error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) .
 				' does not have permission for this record ' . $this->get('record'));
 			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 			return false;

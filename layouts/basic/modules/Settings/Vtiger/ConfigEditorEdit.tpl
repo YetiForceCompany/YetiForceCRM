@@ -71,7 +71,7 @@
 									{else}
 
 										{if $FIELD_NAME == 'upload_maxsize'}
-											{assign var=MAXUPLOADSIZE value=Vtiger_Functions::getMaxUploadSize()}
+											{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
 											<div class="col-md-4">
 												<div class="input-group">
 													<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={Zend_Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
@@ -79,7 +79,7 @@
 												</div>
 											</div>
 											<label class="control-label">
-												(upload_max_filesize: {Vtiger_Functions::showBytes($MAXUPLOADSIZE)})
+												(upload_max_filesize: {vtlib\Functions::showBytes($MAXUPLOADSIZE)})
 											</label>
 										{else}
 											<div class="col-md-4">

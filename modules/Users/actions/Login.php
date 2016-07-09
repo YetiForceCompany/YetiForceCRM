@@ -32,7 +32,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			if (file_exists($configTemplate)) {
 				unlink($configTemplate);
 			}
-			Vtiger_Functions::recurseDelete($dirPath);
+			vtlib\Functions::recurseDelete($dirPath);
 		}
 
 		$checkBlocked = Settings_BruteForce_Module_Model::checkBlocked();
@@ -59,7 +59,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			Vtiger_Session::set('app_unique_key', AppConfig::main('application_unique_key'));
 			Vtiger_Session::set('authenticated_user_language', AppConfig::main('default_language'));
 			Vtiger_Session::set('user_name', $username);
-			Vtiger_Session::set('full_user_name', Vtiger_Functions::getUserRecordLabel($userid));
+			Vtiger_Session::set('full_user_name', vtlib\Functions::getUserRecordLabel($userid));
 
 			if ($request->has('language') && AppConfig::main('langInLoginView')) {
 				Vtiger_Session::set('language', $request->get('language'));

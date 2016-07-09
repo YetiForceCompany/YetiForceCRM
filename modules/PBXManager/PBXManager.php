@@ -8,9 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-require_once 'vtlib/Vtiger/Link.php';
-include_once 'vtlib/Vtiger/Module.php';
-include_once('vtlib/Vtiger/Menu.php');
 require 'include/events/include.inc';
 require_once 'include/utils/utils.php';
 
@@ -124,12 +121,12 @@ class PBXManager extends CRMEntity
 	public function addUserExtensionField()
 	{
 		$log = vglobal('log');
-		$module = Vtiger_Module::getInstance('Users');
+		$module = vtlib\Module::getInstance('Users');
 		if ($module) {
 			$module->initTables();
-			$blockInstance = Vtiger_Block::getInstance('LBL_MORE_INFORMATION', $module);
+			$blockInstance = vtlib\Block::getInstance('LBL_MORE_INFORMATION', $module);
 			if ($blockInstance) {
-				$fieldInstance = new Vtiger_Field();
+				$fieldInstance = new vtlib\Field();
 				$fieldInstance->name = 'phone_crm_extension';
 				$fieldInstance->label = 'CRM Phone Extension';
 				$fieldInstance->uitype = 11;
@@ -170,9 +167,9 @@ class PBXManager extends CRMEntity
 	public function setModuleRelatedDependencies()
 	{
 		$log = vglobal('log');
-		$pbxmanager = Vtiger_Module::getInstance('PBXManager');
+		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
-			$moduleInstance = Vtiger_Module::getInstance($module);
+			$moduleInstance = vtlib\Module::getInstance($module);
 			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'get_dependents_list');
 		}
 		$log->fatal('Successfully added Module Related lists');
@@ -184,9 +181,9 @@ class PBXManager extends CRMEntity
 	public function unsetModuleRelatedDependencies()
 	{
 		$log = vglobal('log');
-		$pbxmanager = Vtiger_Module::getInstance('PBXManager');
+		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
-			$moduleInstance = Vtiger_Module::getInstance($module);
+			$moduleInstance = vtlib\Module::getInstance($module);
 			$moduleInstance->unsetRelatedList($pbxmanager, "PBXManager", 'get_dependents_list');
 		}
 		$log->fatal('Successfully removed Module Related lists');
@@ -217,7 +214,7 @@ class PBXManager extends CRMEntity
 			'class' => 'PBXManager',
 			'method' => 'checkLinkPermission');
 
-		Vtiger_Link::addLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
+		vtlib\Link::addLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
 		$log->fatal('Links added');
 	}
 
@@ -228,7 +225,7 @@ class PBXManager extends CRMEntity
 	{
 		$log = vglobal('log');
 		//Deleting Headerscripts links
-		Vtiger_Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js');
+		vtlib\Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js');
 		$log->fatal('Links Removed');
 	}
 
@@ -279,7 +276,7 @@ class PBXManager extends CRMEntity
 	{
 		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
-		$module = new Vtiger_Module();
+		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
 
 		//To add actionname as ReceiveIncomingcalls
@@ -310,7 +307,7 @@ class PBXManager extends CRMEntity
 	{
 		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
-		$module = new Vtiger_Module();
+		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
 
 		$moduleInstance->disableTools('ReceiveIncomingcalls');
@@ -326,7 +323,7 @@ class PBXManager extends CRMEntity
 
 	public static function checkLinkPermission($linkData)
 	{
-		$module = new Vtiger_Module();
+		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
 
 		if ($moduleInstance) {

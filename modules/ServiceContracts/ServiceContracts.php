@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 
  * @package YetiForce.ServiceContracts
@@ -92,7 +93,7 @@ class ServiceContracts extends CRMEntity
 	var $special_functions = Array('set_import_assigned_user');
 	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
-	
+
 	function save_module($module)
 	{
 		$return_action = AppRequest::get('return_action');
@@ -364,17 +365,15 @@ class ServiceContracts extends CRMEntity
 		$adb = PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
-			require_once('vtlib/Vtiger/Module.php');
+			$moduleInstance = vtlib\Module::getInstance($moduleName);
 
-			$moduleInstance = Vtiger_Module::getInstance($moduleName);
-
-			$accModuleInstance = Vtiger_Module::getInstance('Accounts');
+			$accModuleInstance = vtlib\Module::getInstance('Accounts');
 			$accModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'get_dependents_list');
 
-			$conModuleInstance = Vtiger_Module::getInstance('Contacts');
+			$conModuleInstance = vtlib\Module::getInstance('Contacts');
 			$conModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'get_dependents_list');
 
-			$helpDeskInstance = Vtiger_Module::getInstance("HelpDesk");
+			$helpDeskInstance = vtlib\Module::getInstance("HelpDesk");
 			$helpDeskInstance->setRelatedList($moduleInstance, "Service Contracts", Array('ADD', 'SELECT'));
 
 			// Initialize module sequence for the module
@@ -414,7 +413,7 @@ class ServiceContracts extends CRMEntity
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 				$this->updateHelpDeskRelatedTo($crmid, $with_crmid);
 				$this->updateServiceContractState($crmid);
-			}else{
+			} else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
 			}
 		}
@@ -623,7 +622,7 @@ class ServiceContracts extends CRMEntity
 				$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
 				$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
 				$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
-				$relatedModule = Vtiger_Functions::getModuleName($tabId);
+				$relatedModule = vtlib\Functions::getModuleName($tabId);
 				$focusObj = CRMEntity::getInstance($relatedModule);
 
 				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) AND $focusObj->table_index=?";

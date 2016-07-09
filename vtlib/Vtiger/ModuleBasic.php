@@ -8,23 +8,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Access.php');
-include_once('vtlib/Vtiger/Block.php');
-include_once('vtlib/Vtiger/Field.php');
-include_once('vtlib/Vtiger/Filter.php');
-include_once('vtlib/Vtiger/Profile.php');
-include_once('vtlib/Vtiger/Menu.php');
-include_once('vtlib/Vtiger/Link.php');
-include_once('vtlib/Vtiger/Event.php');
-include_once('vtlib/Vtiger/Webservice.php');
-include_once('vtlib/Vtiger/Version.php');
-require_once 'include/runtime/Cache.php';
+namespace vtlib;
 
 /**
  * Provides API to work with vtiger CRM Module
  * @package vtlib
  */
-class Vtiger_ModuleBasic
+class ModuleBasic
 {
 
 	/** ID of this instance */
@@ -55,14 +45,6 @@ class Vtiger_ModuleBasic
 	const EVENT_MODULE_PREUNINSTALL = 'module.preuninstall';
 	const EVENT_MODULE_PREUPDATE = 'module.preupdate';
 	const EVENT_MODULE_POSTUPDATE = 'module.postupdate';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		
-	}
 
 	/**
 	 * Initialize this instance
@@ -96,7 +78,7 @@ class Vtiger_ModuleBasic
 	 */
 	function initialize2()
 	{
-		$entitydata = Vtiger_Functions::getEntityModuleInfo($this->name);
+		$entitydata = Functions::getEntityModuleInfo($this->name);
 		if ($entitydata) {
 			$this->basetable = $entitydata['tablename'];
 			$this->basetableid = $entitydata['entityidfield'];
@@ -109,7 +91,7 @@ class Vtiger_ModuleBasic
 	 */
 	function __getUniqueId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$result = $adb->query("SELECT MAX(tabid) AS max_seq FROM vtiger_tab");
 		$maxseq = $adb->query_result($result, 0, 'max_seq');
 		return ++$maxseq;
@@ -121,8 +103,8 @@ class Vtiger_ModuleBasic
 	 */
 	function __getNextSequence()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT MAX(tabsequence) AS max_tabseq FROM vtiger_tab", array());
+		$adb = \PearDatabase::getInstance();
+		$result = $adb->pquery("SELECT MAX(tabsequence) AS max_tabseq FROM vtiger_tab", []);
 		$maxtabseq = $adb->query_result($result, 0, 'max_tabseq');
 		return ++$maxtabseq;
 	}
@@ -134,8 +116,8 @@ class Vtiger_ModuleBasic
 	function __handleVtigerCoreSchemaChanges()
 	{
 		// Add version column to the table first
-		Vtiger_Utils::AddColumn('vtiger_tab', 'version', ' VARCHAR(10)');
-		Vtiger_Utils::AddColumn('vtiger_tab', 'parent', ' VARCHAR(30)');
+		Utils::AddColumn('vtiger_tab', 'version', ' VARCHAR(10)');
+		Utils::AddColumn('vtiger_tab', 'parent', ' VARCHAR(30)');
 	}
 
 	/**
@@ -144,7 +126,7 @@ class Vtiger_ModuleBasic
 	 */
 	function __create()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		self::log("Creating Module $this->name ... STARTED");
 
@@ -174,8 +156,8 @@ class Vtiger_ModuleBasic
 			'type' => $this->type,
 		]);
 
-		if (!Vtiger_Utils::CheckTable('vtiger_tab_info')) {
-			Vtiger_Utils::CreateTable(
+		if (!Utils::CheckTable('vtiger_tab_info')) {
+			Utils::CreateTable(
 				'vtiger_tab_info', '(tabid INT, prefname VARCHAR(256), prefvalue VARCHAR(256), FOREIGN KEY fk_1_vtiger_tab_info(tabid) REFERENCES vtiger_tab(tabid) ON DELETE CASCADE ON UPDATE CASCADE)', true);
 		}
 		if ($this->minversion) {
@@ -195,15 +177,15 @@ class Vtiger_ModuleBasic
 			}
 		}
 
-		Vtiger_Profile::initForModule($this);
+		Profile::initForModule($this);
 
 		self::syncfile();
 
 		if ($this->isentitytype) {
-			Vtiger_Access::initSharing($this);
+			Access::initSharing($this);
 		}
 
-		$moduleInstance = Vtiger_Module::getInstance($this->name);
+		$moduleInstance = Module::getInstance($this->name);
 		$parentTab = $this->parent;
 		if (!empty($parentTab)) {
 			
@@ -226,9 +208,9 @@ class Vtiger_ModuleBasic
 	 */
 	function __delete()
 	{
-		Vtiger_Module::fireEvent($this->name, Vtiger_Module::EVENT_MODULE_PREUNINSTALL);
+		Module::fireEvent($this->name, Module::EVENT_MODULE_PREUNINSTALL);
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		if ($this->isentitytype) {
 			$this->unsetEntityIdentifier();
 		}
@@ -244,7 +226,7 @@ class Vtiger_ModuleBasic
 	function __updateVersion($newversion)
 	{
 		$this->__handleVtigerCoreSchemaChanges();
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_tab SET version=? WHERE tabid=?', Array($newversion, $this->id));
 		$this->version = $newversion;
 		self::log("Updating version to $newversion ... DONE");
@@ -267,16 +249,16 @@ class Vtiger_ModuleBasic
 	 */
 	function delete()
 	{
-		$moduleInstance = Vtiger_Module_Model::getInstance($this->name);
+		$moduleInstance = \Vtiger_Module_Model::getInstance($this->name);
 		require_once "modules/$this->name/$this->name.php";
 		$focus = new $this->name();
 		$this->tableName = $focus->table_name;
 
 		if ($this->isentitytype) {
 			$this->deleteFromCRMEntity();
-			Vtiger_Access::deleteTools($this);
-			Vtiger_Filter::deleteForModule($this);
-			Vtiger_Block::deleteForModule($this);
+			Access::deleteTools($this);
+			Filter::deleteForModule($this);
+			Block::deleteForModule($this);
 			if (method_exists($this, 'deinitWebservice')) {
 				$this->deinitWebservice();
 			}
@@ -284,19 +266,19 @@ class Vtiger_ModuleBasic
 
 		$this->deleteIcons();
 		$this->unsetAllRelatedList($moduleInstance);
-		ModComments_Module_Model::deleteForModule($moduleInstance);
-		Vtiger_Language::deleteForModule($moduleInstance);
-		Vtiger_Access::deleteSharing($moduleInstance);
+		\ModComments_Module_Model::deleteForModule($moduleInstance);
+		Language::deleteForModule($moduleInstance);
+		Access::deleteSharing($moduleInstance);
 		$this->deleteFromModentityNum();
-		Vtiger_Cron::deleteForModule($moduleInstance);
-		Vtiger_Profile::deleteForModule($moduleInstance);
-		Settings_Workflows_Module_Model::deleteForModule($moduleInstance);
-		Vtiger_Menu::deleteForModule($moduleInstance);
+		Cron::deleteForModule($moduleInstance);
+		Profile::deleteForModule($moduleInstance);
+		\Settings_Workflows_Module_Model::deleteForModule($moduleInstance);
+		Menu::deleteForModule($moduleInstance);
 		$this->deleteGroup2Modules();
 		$this->deleteModuleTables();
 		$this->deleteCRMEntityRel();
-		Vtiger_Profile::deleteForModule($this);
-		Vtiger_Link::deleteAll($this->id);
+		Profile::deleteForModule($this);
+		Link::deleteAll($this->id);
 		$this->deleteDir($moduleInstance);
 		$this->__delete();
 		self::syncfile();
@@ -326,19 +308,19 @@ class Vtiger_ModuleBasic
 		if (!$this->customtable)
 			$this->customtable = $this->basetable . 'cf';
 
-		Vtiger_Utils::CreateTable($this->basetable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->basetable` FOREIGN KEY (`$this->basetableid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)", true);
-		Vtiger_Utils::CreateTable($this->customtable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->customtable` FOREIGN KEY (`$this->basetableid`) REFERENCES `$this->basetable` (`$this->basetableid`) ON DELETE CASCADE)", true);
+		Utils::CreateTable($this->basetable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->basetable` FOREIGN KEY (`$this->basetableid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)", true);
+		Utils::CreateTable($this->customtable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->customtable` FOREIGN KEY (`$this->basetableid`) REFERENCES `$this->basetable` (`$this->basetableid`) ON DELETE CASCADE)", true);
 		if ($this->type == 1) {
-			Vtiger_Utils::CreateTable($this->basetable . '_invfield', "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
+			Utils::CreateTable($this->basetable . '_invfield', "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
 				defaultvalue varchar(255),sequence int(10) unsigned NOT NULL, block tinyint(1) unsigned NOT NULL,displaytype tinyint(1) unsigned NOT NULL DEFAULT '1', params text, colspan tinyint(1) unsigned NOT NULL DEFAULT '1')", true);
-			Vtiger_Utils::CreateTable($this->basetable . '_inventory', '(id int(19),seq int(10),KEY id (id),CONSTRAINT `fk_1_' . $this->basetable . '_inventory` FOREIGN KEY (`id`) REFERENCES `' . $this->basetable . '` (`' . $this->basetableid . '`) ON DELETE CASCADE)', true);
-			Vtiger_Utils::CreateTable($this->basetable . '_invmap', '(module varchar(50) NOT NULL,field varchar(50) NOT NULL,tofield varchar(50) NOT NULL,PRIMARY KEY (`module`,`field`,`tofield`))', true);
+			Utils::CreateTable($this->basetable . '_inventory', '(id int(19),seq int(10),KEY id (id),CONSTRAINT `fk_1_' . $this->basetable . '_inventory` FOREIGN KEY (`id`) REFERENCES `' . $this->basetable . '` (`' . $this->basetableid . '`) ON DELETE CASCADE)', true);
+			Utils::CreateTable($this->basetable . '_invmap', '(module varchar(50) NOT NULL,field varchar(50) NOT NULL,tofield varchar(50) NOT NULL,PRIMARY KEY (`module`,`field`,`tofield`))', true);
 		}
 	}
 
 	/**
 	 * Set entity identifier field for this module
-	 * @param Vtiger_Field Instance of field to use
+	 * @param Field Instance of field to use
 	 */
 	function setEntityIdentifier($fieldInstance)
 	{
@@ -367,7 +349,7 @@ class Vtiger_ModuleBasic
 	 */
 	function unsetEntityIdentifier()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_entityname WHERE tabid=?', Array($this->id));
 		self::log('Unsetting entity identifier ... DONE');
 	}
@@ -378,7 +360,7 @@ class Vtiger_ModuleBasic
 	 */
 	function setDefaultSharing($permission_text = 'Public_ReadWriteDelete')
 	{
-		Vtiger_Access::setDefaultSharing($this, $permission_text);
+		Access::setDefaultSharing($this, $permission_text);
 	}
 
 	/**
@@ -386,7 +368,7 @@ class Vtiger_ModuleBasic
 	 */
 	function allowSharing()
 	{
-		Vtiger_Access::allowSharing($this, true);
+		Access::allowSharing($this, true);
 	}
 
 	/**
@@ -394,7 +376,7 @@ class Vtiger_ModuleBasic
 	 */
 	function disallowSharing()
 	{
-		Vtiger_Access::allowSharing($this, false);
+		Access::allowSharing($this, false);
 	}
 
 	/**
@@ -408,7 +390,7 @@ class Vtiger_ModuleBasic
 		}
 
 		foreach ($tools as $tool) {
-			Vtiger_Access::updateTool($this, $tool, true);
+			Access::updateTool($this, $tool, true);
 		}
 	}
 
@@ -422,13 +404,13 @@ class Vtiger_ModuleBasic
 			$tools = Array(0 => $tools);
 		}
 		foreach ($tools as $tool) {
-			Vtiger_Access::updateTool($this, $tool, false);
+			Access::updateTool($this, $tool, false);
 		}
 	}
 
 	/**
 	 * Add block to this module
-	 * @param Vtiger_Block Instance of block to add
+	 * @param vtlib\Block Instance of block to add
 	 */
 	function addBlock($blockInstance)
 	{
@@ -438,7 +420,7 @@ class Vtiger_ModuleBasic
 
 	/**
 	 * Add filter to this module
-	 * @param Vtiger_Filter Instance of filter to add
+	 * @param vtlib\Filter Instance of filter to add
 	 */
 	function addFilter($filterInstance)
 	{
@@ -448,15 +430,15 @@ class Vtiger_ModuleBasic
 
 	/**
 	 * Get all the fields of the module or block
-	 * @param Vtiger_Block Instance of block to use to get fields, false to get all the block fields
+	 * @param vtlib\Block Instance of block to use to get fields, false to get all the block fields
 	 */
 	function getFields($blockInstance = false)
 	{
 		$fields = false;
 		if ($blockInstance)
-			$fields = Vtiger_Field::getAllForBlock($blockInstance, $this);
+			$fields = Field::getAllForBlock($blockInstance, $this);
 		else
-			$fields = Vtiger_Field::getAllForModule($this);
+			$fields = Field::getAllForModule($this);
 		return $fields;
 	}
 
@@ -468,7 +450,7 @@ class Vtiger_ModuleBasic
 	 */
 	static function log($message, $delimit = true)
 	{
-		Vtiger_Utils::Log($message, $delimit);
+		Utils::Log($message, $delimit);
 	}
 
 	/**
@@ -488,7 +470,7 @@ class Vtiger_ModuleBasic
 	public function unsetAllRelatedList()
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$result = $db->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? OR related_tabid=?', [$this->id, $this->id]);
 		$ids = $db->getArrayColumn($result, 'relation_id');
 		$db->delete('vtiger_relatedlists', 'tabid=? OR related_tabid=?', [$this->id, $this->id]);
@@ -505,7 +487,7 @@ class Vtiger_ModuleBasic
 	public function deleteGroup2Modules()
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$db->delete('vtiger_group2modules', 'tabid = ?', [$this->id]);
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
@@ -515,7 +497,7 @@ class Vtiger_ModuleBasic
 	 */
 	public function deleteCRMEntityRel()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$db->delete('vtiger_crmentityrel', '`module` = ? OR `relmodule` = ?', [$this->name, $this->name]);
 	}
 
@@ -525,10 +507,10 @@ class Vtiger_ModuleBasic
 	public function deleteFromCRMEntity()
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$result = $db->pquery('SELECT crmid FROM vtiger_crmentity where setype = ?', [$this->name]);
 		while ($id = $db->getSingleValue($result)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->name);
+			$recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->name);
 			$recordModel->delete();
 		}
 		$db->delete('vtiger_crmentity', 'setype = ?', [$this->name]);
@@ -541,7 +523,7 @@ class Vtiger_ModuleBasic
 	public function deleteFromModentityNum()
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$db->delete('vtiger_modentity_num', 'semodule = ?', [$this->name]);
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
@@ -552,9 +534,9 @@ class Vtiger_ModuleBasic
 	public function deleteModuleTables()
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$db->query('SET foreign_key_checks = 0');
-		$moduleInstance = Vtiger_Module_Model::getInstance($this->name);
+		$moduleInstance = \Vtiger_Module_Model::getInstance($this->name);
 		if ($moduleInstance->isInventory()) {
 			$db->query('DROP TABLE IF EXISTS ' . $this->tableName . '_inventory');
 			$db->query('DROP TABLE IF EXISTS ' . $this->tableName . '_invfield');
@@ -574,10 +556,10 @@ class Vtiger_ModuleBasic
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$modulePath = 'modules/' . $moduleInstance->name;
-		Vtiger_Functions::recurseDelete($modulePath);
-		foreach (Yeti_Layout::getAllLayouts() as $name => $label) {
+		Functions::recurseDelete($modulePath);
+		foreach (\Yeti_Layout::getAllLayouts() as $name => $label) {
 			$layoutPath = 'layouts/' . $name . '/modules/' . $moduleInstance->name;
-			Vtiger_Functions::recurseDelete($layoutPath);
+			Functions::recurseDelete($layoutPath);
 		}
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
@@ -590,7 +572,7 @@ class Vtiger_ModuleBasic
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$iconSize = ['', 48, 64, 128];
 		foreach ($iconSize as $value) {
-			foreach (Yeti_Layout::getAllLayouts() as $name => $label) {
+			foreach (\Yeti_Layout::getAllLayouts() as $name => $label) {
 				$fileName = "layouts/$name/skins/images/" . $this->name . $value . ".png";
 				if (file_exists($fileName)) {
 					@unlink($fileName);

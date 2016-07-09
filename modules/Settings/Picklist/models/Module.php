@@ -341,11 +341,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the instance of Vtiger Module Model from a given Vtiger_Module object
-	 * @param Vtiger_Module $moduleObj
+	 * Function to get the instance of Vtiger Module Model from a given vtlib\Module object
+	 * @param vtlib\Module $moduleObj
 	 * @return Vtiger_Module_Model instance
 	 */
-	public static function getInstanceFromModuleObject(Vtiger_Module $moduleObj)
+	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
 	{
 		$objectProperties = get_object_vars($moduleObj);
 		$moduleModel = new self();

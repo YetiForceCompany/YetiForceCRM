@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-vimport('~vtlib/Vtiger/Module.php');
-
 /**
  * Calendar Module Model Class
  */
@@ -148,7 +146,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_LIST',
-				'linkurl' => 'javascript:Calendar_CalendarView_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl(). '&viewname=All");',
+				'linkurl' => 'javascript:Calendar_CalendarView_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
 				'linkicon' => '',
 			];
 		}
@@ -377,8 +375,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$calendarViewTypes = Array();
 		for ($i = 0; $i < $rows; $i++) {
 			$activityTypes = $db->query_result_rowdata($result, $i);
-			$moduleInstance = Vtiger_Module::getInstance($activityTypes['module']);
-			$fieldInstance = Vtiger_Field::getInstance($activityTypes['fieldname'], $moduleInstance);
+			$moduleInstance = vtlib\Module::getInstance($activityTypes['module']);
+			$fieldInstance = vtlib\Field::getInstance($activityTypes['fieldname'], $moduleInstance);
 			if ($fieldInstance) {
 				$fieldLabel = $fieldInstance->label;
 			} else {
@@ -524,7 +522,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link != '' && $link != 0 && $permissionToSendEmail) {
-					$url = "index.php?module=OSSMail&view=compose&mod=" . Vtiger_Functions::getCRMRecordType($link) . "&record=$link";
+					$url = "index.php?module=OSSMail&view=compose&mod=" . vtlib\Functions::getCRMRecordType($link) . "&record=$link";
 					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . vtranslate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;

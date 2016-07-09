@@ -62,7 +62,7 @@ class GenerateRecords {
         $id = $baseModule->id;
 
         if (!!$relId) {
-            $this->setRel($relId, Vtiger_Functions::getCRMRecordType($relId), $id, $moduleType);
+            $this->setRel($relId, vtlib\Functions::getCRMRecordType($relId), $id, $moduleType);
         }
         $db = PearDatabase::getInstance();
         $db->query("update {$baseModule->table_name} set {$baseModule->list_link_field} = replace({$baseModule->list_link_field}, '&oacute;', 'ó') WHERE {$baseModule->table_index} = $id", TRUE);

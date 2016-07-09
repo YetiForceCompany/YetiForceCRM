@@ -5,7 +5,7 @@
 				<span class="margin0px"><h4>{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 			</div>
 		{/if}
-		{assign var=MODULEINSTANCE value=Vtiger_Module::getInstance($MODULE_NAME)}
+		{assign var=MODULEINSTANCE value=vtlib\Module::getInstance($MODULE_NAME)}
 		{if !$WIDGET['data']['FastEdit']}
 			{vtranslate('LBL_RECORDS_NO_FOUND',$MODULE_NAME)}
 		{else}

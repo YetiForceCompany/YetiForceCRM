@@ -216,7 +216,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$moduleList = $params['referenceModule'];
 			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
-				$targetModule = Vtiger_Module::getInstance($module);
+				$targetModule = vtlib\Module::getInstance($module);
 				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'get_dependents_list');
 			}
 		}
@@ -378,7 +378,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$tabId = [$this->getId()];
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
-			$tabId = [Vtiger_Functions::getModuleId('Calendar'), Vtiger_Functions::getModuleId('Events')];
+			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
 		}
 		$query = 'SELECT 1 FROM vtiger_field WHERE tabid IN (' . generateQuestionMarks($tabId) . ') AND (fieldname = ? OR columnname = ?)';
 		$result = $db->pquery($query, [$tabId, $fieldName, $fieldName]);
@@ -526,7 +526,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getTreeTemplates($sourceModule)
 	{
 		$db = PearDatabase::getInstance();
-		$sourceModule = Vtiger_Functions::getModuleId($sourceModule);
+		$sourceModule = vtlib\Functions::getModuleId($sourceModule);
 
 		$query = 'SELECT templateid,name FROM vtiger_trees_templates WHERE module = ?';
 		$result = $db->pquery($query, array($sourceModule));

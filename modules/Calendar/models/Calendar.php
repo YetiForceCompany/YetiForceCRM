@@ -124,7 +124,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['sta'] = $record['status'];
 			$item['vis'] = $record['visibility'];
 			$item['state'] = $record['state'];
-			$item['smownerid'] = Vtiger_Functions::getOwnerRecordLabel($record['smownerid']);
+			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
 
 			//translate
 			$item['labels']['sta'] = vtranslate($record['status'], $this->getModuleName());
@@ -193,8 +193,8 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$hours = Vtiger_Functions::getDateTimeHoursDiff($item['start'], $item['end']);
-			$item['hours'] = Vtiger_Functions::decimalTimeFormat($hours)['short'];
+			$hours = vtlib\Functions::getDateTimeHoursDiff($item['start'], $item['end']);
+			$item['hours'] = vtlib\Functions::decimalTimeFormat($hours)['short'];
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $activitytype;
 			$return[] = $item;

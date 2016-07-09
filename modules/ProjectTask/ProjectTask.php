@@ -345,7 +345,7 @@ class ProjectTask extends CRMEntity {
 				}
 			}
 
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if(class_exists('ModComments')) ModComments::addWidgetTo(array('ProjectTask'));
@@ -366,7 +366,7 @@ class ProjectTask extends CRMEntity {
             // TODO Handle actions before this module is updated.
         } else if($event_type == 'module.postupdate') {
 
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if(class_exists('ModComments')) ModComments::addWidgetTo(array('ProjectTask'));

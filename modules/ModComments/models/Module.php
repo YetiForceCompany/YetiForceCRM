@@ -60,7 +60,7 @@ class ModComments_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Delete coments associated with module
-	 * @param Vtiger_Module Instnace of module to use
+	 * @param vtlib\Module Instnace of module to use
 	 */
 	static function deleteForModule($moduleInstance)
 	{

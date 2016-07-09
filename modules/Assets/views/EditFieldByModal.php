@@ -34,7 +34,7 @@ class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 			$relatedModuleBasicName = $relationData['module'];
 			$relationModuleName = $relationData['relatedModule'];
 			$relatedRecord = $recordModel->get($relationData['relationField']);
-			$metaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
+			$metaData = vtlib\Functions::getCRMRecordMetadata($relatedRecord);
 			if ($relatedRecord && $metaData && $metaData['setype'] == $relatedModuleBasicName && $metaData['deleted'] == 0 && Users_Privileges_Model::isPermitted($relatedModuleBasicName, 'DetailView', $relatedRecord)) {
 				$relatedModuleBasic = Vtiger_Module_Model::getInstance($relatedModuleBasicName);
 				$relatedModuleModel = Vtiger_Module_Model::getInstance($relationModuleName);

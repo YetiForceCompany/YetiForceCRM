@@ -19,7 +19,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$params = [];
 		if ($module) {
 			if (!is_numeric($module)) {
-				$module = Vtiger_Functions::getModuleId($module);
+				$module = vtlib\Functions::getModuleId($module);
 			}
 			$sql .= ' WHERE tabid = ? ';
 			$params[] = $module;
@@ -57,7 +57,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getType($module = false)
 	{
-		$moduleName = Vtiger_Functions::getModuleName($module);
+		$moduleName = vtlib\Functions::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
 		$moduleModel =  Vtiger_Module_Model::getInstance($module);

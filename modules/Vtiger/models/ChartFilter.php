@@ -147,7 +147,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$queryGenerator->addCondition('activitytype', "Emails", 'n', QueryGenerator::$AND);
 			}
 			$metricsql = $queryGenerator->getQuery();
-			$metricresult = $db->query(Vtiger_Functions::mkCountQuery($metricsql));
+			$metricresult = $db->query(vtlib\Functions::mkCountQuery($metricsql));
 			if ($metricresult) {
 				$rowcount = $db->fetch_array($metricresult);
 				return $rowcount['count'];

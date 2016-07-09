@@ -7,14 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('include/ConfigUtils.php');
-include_once('include/utils/utils.php');
+namespace vtlib;
 
 /**
  * Provides few utility functions
  * @package vtlib
  */
-class Vtiger_Utils
+class Utils
 {
 
 	protected static $logFileName = 'module.log';
@@ -69,9 +68,9 @@ class Vtiger_Utils
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			if ($dieOnFail) {
-				$log = LoggerManager::getInstance();
+				$log = \LoggerManager::getInstance();
 				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-				throw new AppException('Sorry! Attempt to access restricted file.');
+				throw new \AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
 		}
@@ -86,7 +85,7 @@ class Vtiger_Utils
 	static function checkFileAccess($filepath, $dieOnFail = true)
 	{
 		// Set the base directory to compare with
-		$use_root_directory = AppConfig::main('root_directory');
+		$use_root_directory = \AppConfig::main('root_directory');
 		if (empty($use_root_directory)) {
 			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
 		}
@@ -103,9 +102,9 @@ class Vtiger_Utils
 
 		if (stripos($realfilepath, $rootdirpath) !== 0) {
 			if ($dieOnFail) {
-				$log = LoggerManager::getInstance();
+				$log = \LoggerManager::getInstance();
 				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-				throw new AppException('Sorry! Attempt to access restricted file.');
+				throw new \AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
 		}
@@ -119,7 +118,7 @@ class Vtiger_Utils
 	 */
 	static function Log($message, $delimit = true)
 	{
-		$log = LoggerManager::getInstance();
+		$log = \LoggerManager::getInstance();
 		$utilsLog = vglobal('tiger_Utils_Log');
 
 		$log->debug($message);
@@ -143,7 +142,7 @@ class Vtiger_Utils
 	{
 		if ($value == null)
 			return $value;
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->sql_escape_string($value);
 	}
 
@@ -153,7 +152,7 @@ class Vtiger_Utils
 	 */
 	static function CheckTable($tableName)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->checkExistTable($tableName);
 	}
 
@@ -167,7 +166,7 @@ class Vtiger_Utils
 	 */
 	static function CreateTable($tablename, $criteria, $suffixTableMeta = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$org_dieOnError = $adb->dieOnError;
 		$adb->dieOnError = false;
@@ -194,7 +193,7 @@ class Vtiger_Utils
 	 */
 	static function AlterTable($tablename, $criteria)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->query("ALTER TABLE " . $tablename . $criteria);
 	}
 
@@ -206,7 +205,7 @@ class Vtiger_Utils
 	 */
 	static function AddColumn($tablename, $columnname, $criteria)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		if (!in_array($columnname, $adb->getColumnNames($tablename))) {
 			self::AlterTable($tablename, " ADD COLUMN `$columnname` $criteria");
 		}
@@ -218,13 +217,13 @@ class Vtiger_Utils
 	 */
 	static function ExecuteQuery($sqlquery, $supressdie = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$old_dieOnError = $adb->dieOnError;
 
 		if ($supressdie)
 			$adb->dieOnError = false;
 
-		$adb->pquery($sqlquery, array());
+		$adb->pquery($sqlquery, []);
 
 		$adb->dieOnError = $old_dieOnError;
 	}
@@ -235,7 +234,7 @@ class Vtiger_Utils
 	 */
 	static function CreateTableSql($tablename)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$result = $adb->query("SHOW CREATE TABLE $tablename");
 		$createTable = $adb->fetch_array($result);
@@ -276,7 +275,7 @@ class Vtiger_Utils
 	 * @param <boolean> $backtrace flag to enable or disable backtrace in log  
 	 * @param <boolean> $request flag to enable or disable request in log
 	 */
-	static function ModuleLog($module, $mixed, $extra = array())
+	static function ModuleLog($module, $mixed, $extra = [])
 	{
 		if (ALLOW_MODULE_LOGGING) {
 			global $site_URL;

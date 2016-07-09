@@ -17,7 +17,7 @@ class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler {
 		if ($eventName == 'vtiger.entity.aftersave') {
             $module = $data->getModuleName();
             if($module != "Users"){
-                $labelInfo = Vtiger_Functions::computeCRMRecordLabels($module, $data->getId(),true);
+                $labelInfo = vtlib\Functions::computeCRMRecordLabels($module, $data->getId(),true);
 				if (count($labelInfo) > 0) {
 					$label = decode_html($labelInfo[$data->getId()]['name']);
 					$search = decode_html($labelInfo[$data->getId()]['search']);

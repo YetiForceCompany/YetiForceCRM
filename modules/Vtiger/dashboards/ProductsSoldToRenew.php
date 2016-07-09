@@ -118,7 +118,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 				if (in_array($fieldName, $this->getRestrictFields())) {
 					continue;
 				}
-				$fieldObj = Vtiger_Field::getInstance($webserviceField->getFieldId());
+				$fieldObj = vtlib\Field::getInstance($webserviceField->getFieldId());
 				$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstanceFromFieldObject($fieldObj);
 			}
 			$this->listviewHeaders = $headerFieldModels;

@@ -8,12 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-include_once 'vtlib/Vtiger/Field.php';
 
 /**
  * Vtiger Field Model Class
  */
-class Vtiger_Field_Model extends Vtiger_Field
+class Vtiger_Field_Model extends vtlib\Field
 {
 
 	var $webserviceField = false;
@@ -514,11 +513,11 @@ class Vtiger_Field_Model extends Vtiger_Field
 	}
 
 	/**
-	 * Static Function to get the instance fo Vtiger Field Model from a given Vtiger_Field object
-	 * @param Vtiger_Field $fieldObj - vtlib field object
+	 * Static Function to get the instance fo Vtiger Field Model from a given vtlib\Field object
+	 * @param vtlib\Field $fieldObj - vtlib field object
 	 * @return Vtiger_Field_Model instance
 	 */
-	public static function getInstanceFromFieldObject(Vtiger_Field $fieldObj)
+	public static function getInstanceFromFieldObject(vtlib\Field $fieldObj)
 	{
 		$objectProperties = get_object_vars($fieldObj);
 		$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $fieldObj->getModuleName());
@@ -1213,7 +1212,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		if ($fieldModel) {
 			return $fieldModel;
 		}
-		$field = Vtiger_Functions::getModuleFieldInfoWithId($fieldId);
+		$field = vtlib\Functions::getModuleFieldInfoWithId($fieldId);
 		$fieldModel = new self();
 		$fieldModel->initialize($field);
 		Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);

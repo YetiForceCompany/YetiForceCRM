@@ -147,7 +147,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (is_array($detailViewLinks['DETAILVIEWTAB'])) {
 			foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
 				if ($link->getLabel() == $selectedTabLabel) {
-					$params = Vtiger_Functions::getQueryParams($link->getUrl());
+					$params = vtlib\Functions::getQueryParams($link->getUrl());
 					$this->defaultMode = $params['mode'];
 					break;
 				}
@@ -665,7 +665,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			if (is_numeric($relatedModuleName))
-				$relatedModuleName = Vtiger_Functions::getModuleName($relatedModuleName);
+				$relatedModuleName = vtlib\Functions::getModuleName($relatedModuleName);
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;

@@ -148,7 +148,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$templateId]);
 		$module = $this->get('module');
 		if (is_numeric($module)) {
-			$module = Vtiger_Functions::getModuleName($module);
+			$module = vtlib\Functions::getModuleName($module);
 		}
 		for ($i = 0; $i < $adb->num_rows($result); $i++) {
 			$row = $adb->raw_query_result_rowdata($result, $i);

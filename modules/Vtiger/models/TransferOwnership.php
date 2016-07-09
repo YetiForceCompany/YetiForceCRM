@@ -31,7 +31,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 						$field = $relModData[2];
 						foreach ($recordIds as $recordId) {
 							$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
-							if ($recordModel->get($field) != 0 && Vtiger_Functions::getCRMRecordType($recordModel->get($field)) == $relatedModule) {
+							if ($recordModel->get($field) != 0 && vtlib\Functions::getCRMRecordType($recordModel->get($field)) == $relatedModule) {
 								$relatedIds[] = $recordModel->get($field);
 							}
 						}

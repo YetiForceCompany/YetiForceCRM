@@ -135,9 +135,9 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model
 
 			$inventoryModules = getInventoryModules();
 			foreach ($inventoryModules as $moduleName) {
-				$moduleInstance = Vtiger_Module::getInstance($moduleName);
-				$blockInstance = Vtiger_Block::getInstance('LBL_ITEM_DETAILS', $moduleInstance);
-				$field = new Vtiger_Field();
+				$moduleInstance = vtlib\Module::getInstance($moduleName);
+				$blockInstance = vtlib\Block::getInstance('LBL_ITEM_DETAILS', $moduleInstance);
+				$field = new vtlib\Field();
 
 				$field->name = $taxname;
 				$field->label = $taxLabel;

@@ -160,8 +160,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		} else {
 			$modulePermission = Vtiger_Cache::get('modulePermission-' . $accessmode, $this->getModuleId());
 			if (!$modulePermission) {
-				$modulePermissionCalendar = self::preFetchModuleFieldPermission(Vtiger_Functions::getModuleId('Calendar'), $accessmode);
-				$modulePermissionEvents = self::preFetchModuleFieldPermission(Vtiger_Functions::getModuleId('Events'), $accessmode);
+				$modulePermissionCalendar = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Calendar'), $accessmode);
+				$modulePermissionEvents = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Events'), $accessmode);
 				$modulePermission = $modulePermissionCalendar + $modulePermissionEvents;
 				Vtiger_Cache::set('modulePermission-' . $accessmode, $this->getModuleId(), $modulePermission);
 			}

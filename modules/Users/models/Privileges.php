@@ -20,7 +20,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public function getName()
 	{
-		$entityData = Vtiger_Functions::getEntityModuleInfo('Users');
+		$entityData = vtlib\Functions::getEntityModuleInfo('Users');
 		$colums = [];
 		foreach (explode(',', $entityData['fieldname']) as $fieldname) {
 			$colums[] = $this->get($fieldname);
@@ -374,7 +374,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$currentUserId = $userPrivilegesModel->getId();
 		$currentUserGroups = $userPrivilegesModel->get('groups');
 		if (!$moduleName) {
-			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
+			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
 		}
 		if ($moduleName == 'Events') {
@@ -409,7 +409,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? OR relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
-				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
+				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 				$permissionsRelatedField = empty($permissionsRoleForRelatedField) ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
@@ -447,7 +447,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$result = $db->pquery($query, [$record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'];
-				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
+				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRelatedField = empty($role->get('permissionsrelatedfield')) ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as &$row) {

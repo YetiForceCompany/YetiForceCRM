@@ -427,7 +427,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		$db->pquery('DELETE FROM vtiger_profile WHERE profileid=?', array($profileId));
-		Vtiger_Access::syncSharingAccess();
+		vtlib\Access::syncSharingAccess();
 	}
 
 	public function save()

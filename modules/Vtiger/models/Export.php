@@ -287,8 +287,8 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			} elseif ($type == 'reference') {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = Vtiger_Functions::getCRMRecordType($value);
-					$displayValueArray = Vtiger_Functions::computeCRMRecordLabels($recordModule, $value);
+					$recordModule = vtlib\Functions::getCRMRecordType($value);
+					$displayValueArray = vtlib\Functions::computeCRMRecordLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;
@@ -324,8 +324,8 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = Vtiger_Functions::getCRMRecordType($value);
-					$displayValueArray = Vtiger_Functions::computeCRMRecordLabels($recordModule, $value);
+					$recordModule = vtlib\Functions::getCRMRecordType($value);
+					$displayValueArray = vtlib\Functions::computeCRMRecordLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;

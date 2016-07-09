@@ -514,7 +514,7 @@ class Documents extends CRMEntity
 		global $currentModule, $singlepane_view;
 		$thisModule = $currentModule;
 
-		$relatedModule = Vtiger_Functions::getModuleName($relTabId);
+		$relatedModule = vtlib\Functions::getModuleName($relTabId);
 		$other = CRMEntity::getInstance($relatedModule);
 
 		// Some standard module class doesn't have required variables

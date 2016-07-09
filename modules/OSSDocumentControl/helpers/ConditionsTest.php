@@ -24,7 +24,7 @@ class ConditionsTest {
         $val = self::getValue($form, $cndArray['fieldname']);
 
         if ('date' == $cndArray['field_type']) {
-			$format = Vtiger_Functions::currentUserJSDateFormat($val);
+			$format = vtlib\Functions::currentUserJSDateFormat($val);
 			$format = str_replace('%', "", $format);
             $cndDate = DateTime::createFromFormat('Y-m-d', ($cndArray['val']));
             $recordDate = DateTime::createFromFormat($format, $val);
@@ -70,7 +70,7 @@ class ConditionsTest {
         $val = self::getValue($form, $cndArray['fieldname']);
 
         if ('date' == $cndArray['field_type']) {
-			$format = Vtiger_Functions::currentUserJSDateFormat($val);
+			$format = vtlib\Functions::currentUserJSDateFormat($val);
 			$format = str_replace('%', "", $format);
             $cndDate = DateTime::createFromFormat('Y-m-d', ($cndArray['val']));
             $recordDate = DateTime::createFromFormat($format, $val);
@@ -242,7 +242,7 @@ class ConditionsTest {
 
     public static function after($form, $cndArray) {
         $val = self::getValue($form, $cndArray['fieldname']);
-		$format = Vtiger_Functions::currentUserJSDateFormat($val);
+		$format = vtlib\Functions::currentUserJSDateFormat($val);
 		$format = str_replace('%', "", $format);
         $cndDate = DateTime::createFromFormat('Y-m-d', $cndArray['val']);
         $recordDate = DateTime::createFromFormat($format, $val);
@@ -257,7 +257,7 @@ class ConditionsTest {
     public static function before($form, $cndArray) {
         $val = self::getValue($form, $cndArray['fieldname']);
 
-		$format = Vtiger_Functions::currentUserJSDateFormat($val);
+		$format = vtlib\Functions::currentUserJSDateFormat($val);
 		$format = str_replace('%', "", $format);
 
         $cndDate = DateTime::createFromFormat('Y-m-d', $cndArray['val']); // data z warunku
@@ -274,7 +274,7 @@ class ConditionsTest {
 
     public static function isToday($form, $cndArray) {
         $val = self::getValue($form, $cndArray['fieldname']);
-		$format = Vtiger_Functions::currentUserJSDateFormat($val);
+		$format = vtlib\Functions::currentUserJSDateFormat($val);
 		$format = str_replace('%', "", $format);
         $recordDate = DateTime::createFromFormat($format, $val);
         $cndDate = new DateTime();
@@ -289,7 +289,7 @@ class ConditionsTest {
     // minej niz x dni temu
     public static function inLessThan($form, $cndArray) {
         $val = self::getValue($form, $cndArray['fieldname']);
-		$format = Vtiger_Functions::currentUserJSDateFormat($val);
+		$format = vtlib\Functions::currentUserJSDateFormat($val);
 		$format = str_replace('%', "", $format);
         $recordDate = DateTime::createFromFormat($format, $val);
         $cndDate = new DateTime();
@@ -309,7 +309,7 @@ class ConditionsTest {
     // wiecej niz x dni temu
     public static function inMoreThan($form, $cndArray) {
         $val = self::getValue($form, $cndArray['fieldname']);
-		$format = Vtiger_Functions::currentUserJSDateFormat($val);
+		$format = vtlib\Functions::currentUserJSDateFormat($val);
 		$format = str_replace('%', "", $format);
         $recordDate = DateTime::createFromFormat($format, $val);
         $cndDate = new DateTime();
@@ -329,7 +329,7 @@ class ConditionsTest {
     // x dni po dacie z pola
     public static function daysAgo($form, $cndArray) {
         $val = self::getValue($form, $cndArray['fieldname']);
-		$format = Vtiger_Functions::currentUserJSDateFormat($val);
+		$format = vtlib\Functions::currentUserJSDateFormat($val);
 		$format = str_replace('%', "", $format);
         $recordDate = DateTime::createFromFormat($format, $val);
         $cndDate = new DateTime();
@@ -349,7 +349,7 @@ class ConditionsTest {
     // x dni po dacie z pola
     public static function daysLater($form, $cndArray) {
         $val = self::getValue($form, $cndArray['fieldname']);
-		$format = Vtiger_Functions::currentUserJSDateFormat($val);
+		$format = vtlib\Functions::currentUserJSDateFormat($val);
 		$format = str_replace('%', "", $format);
         $recordDate = DateTime::createFromFormat($format, $val);
         $cndDate = new DateTime();
@@ -371,7 +371,7 @@ class ConditionsTest {
 
         $dates = explode(',', $cndArray['val']);
         list($startDate, $endDate) = $dates;
-		$format = Vtiger_Functions::currentUserJSDateFormat($val);
+		$format = vtlib\Functions::currentUserJSDateFormat($val);
 		$format = str_replace('%', "", $format);
         $startDate = DateTime::createFromFormat('Y-m-d', $startDate);
         $endDate = DateTime::createFromFormat('Y-m-d', $endDate);

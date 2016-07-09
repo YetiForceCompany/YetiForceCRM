@@ -145,17 +145,14 @@ function vtlib_moduleAlwaysActive()
 function vtlib_toggleModuleAccess($module, $enable_disable)
 {
 	global $adb, $__cache_module_activeinfo;
-
-	include_once('vtlib/Vtiger/Module.php');
-
 	$event_type = false;
 
 	if ($enable_disable === true) {
 		$enable_disable = 0;
-		$event_type = Vtiger_Module::EVENT_MODULE_ENABLED;
+		$event_type = vtlib\Module::EVENT_MODULE_ENABLED;
 	} else if ($enable_disable === false) {
 		$enable_disable = 1;
-		$event_type = Vtiger_Module::EVENT_MODULE_DISABLED;
+		$event_type = vtlib\Module::EVENT_MODULE_DISABLED;
 	}
 
 	$adb->pquery("UPDATE vtiger_tab set presence = ? WHERE name = ?", array($enable_disable, $module));
@@ -164,7 +161,7 @@ function vtlib_toggleModuleAccess($module, $enable_disable)
 
 	create_tab_data_file();
 	vtlib_RecreateUserPrivilegeFiles();
-	Vtiger_Module::fireEvent($module, $event_type);
+	vtlib\Module::fireEvent($module, $event_type);
 }
 
 /**

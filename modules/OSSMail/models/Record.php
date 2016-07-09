@@ -110,7 +110,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		$log = vglobal('log');
 		$log->error("Error OSSMail_Record_Model::imapConnect(): " . $error);
-		Vtiger_Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
+		vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
@@ -415,7 +415,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 						], 'crmid = ?', [$record->getId()]
 					);
 					if ($relID && $relID != 0 && $relID != '') {
-						$dirname = Vtiger_Functions::initStorageFileDirectory('OSSMailView');
+						$dirname = vtlib\Functions::initStorageFileDirectory('OSSMailView');
 						$url_to_image = $dirname . $attachid . '_' . $filename;
 						$adb->insert('vtiger_ossmailview_files', [
 							'ossmailviewid' => $relID,
@@ -451,7 +451,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		require_once 'modules/OSSMail/MailAttachmentMIME.php';
 		$adb = PearDatabase::getInstance();
-		$dirname = Vtiger_Functions::initStorageFileDirectory('OSSMailView');
+		$dirname = vtlib\Functions::initStorageFileDirectory('OSSMailView');
 		if (!is_dir($dirname))
 			mkdir($dirname);
 		$filename = str_replace(' ', '-', $filename);

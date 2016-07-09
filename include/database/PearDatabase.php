@@ -188,7 +188,7 @@ class PearDatabase
 		if ($this->dieOnError || $dieOnError) {
 			$backtrace = false;
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				$backtrace = Vtiger_Functions::getBacktrace();
+				$backtrace = vtlib\Functions::getBacktrace();
 			}
 			$message = [
 				'message' => $message,
@@ -196,7 +196,7 @@ class PearDatabase
 				'query' => $query,
 				'params' => $params,
 			];
-			Vtiger_Functions::throwNewException($message, true, 'DatabaseException.tpl');
+			vtlib\Functions::throwNewException($message, true, 'DatabaseException.tpl');
 		}
 	}
 

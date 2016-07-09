@@ -36,7 +36,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$params = [];
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
-			$sourceModule = Vtiger_Functions::getModuleName($sourceModule);
+			$sourceModule = vtlib\Functions::getModuleName($sourceModule);
 			$listQuery .= ' WHERE `tabid` = ?';
 			$params[] = $sourceModule;
 		}
@@ -57,8 +57,8 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$listViewRecordModels = [];
 		while ($row = $db->getRow($listResult)) {
 			$recordModel = new $recordModelClass();
-			$moduleName = Vtiger_Functions::getModuleName($row['tabid']);
-			$relModuleName = Vtiger_Functions::getModuleName($row['reltabid']);
+			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
+			$relModuleName = vtlib\Functions::getModuleName($row['reltabid']);
 
 			$row['tabid'] = vtranslate($moduleName, $moduleName);
 			$row['reltabid'] = vtranslate($relModuleName, $relModuleName);

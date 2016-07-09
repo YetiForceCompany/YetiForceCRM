@@ -28,7 +28,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		$modulesFields = self::getAllField();
 		foreach ($modulesFields AS $key => $fields) {
 			foreach ($fields AS $field) {
-				$instance[$key][] = Vtiger_Functions::getModuleFieldInfo(getTabid($field['module']), $field['nameField']);
+				$instance[$key][] = vtlib\Functions::getModuleFieldInfo(getTabid($field['module']), $field['nameField']);
 			}
 		}
 		return $instance;

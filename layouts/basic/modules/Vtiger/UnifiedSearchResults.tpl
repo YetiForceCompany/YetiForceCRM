@@ -62,14 +62,14 @@
 								<li id="{$ID}">
 									<a target="_blank" id="{$ID}_link" class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} 
 											onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
-										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({Vtiger_Functions::getOwnerRecordLabel($recordObject->get('smownerid'))}){/if}</span>
+										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({vtlib\Functions::getOwnerRecordLabel($recordObject->get('smownerid'))}){/if}</span>
 										<span id="{$ID}_time" class="pull-right" title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($recordObject->get('createdtime'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($recordObject->get('createdtime'))}</span>
 									</a>
 								</li>
 							{else}
 								<li id="{$ID}">
 									<a class="cursorDefault">
-										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({Vtiger_Functions::getOwnerRecordLabel($recordObject->get('smownerid'))}){/if}</span>&nbsp;
+										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({vtlib\Functions::getOwnerRecordLabel($recordObject->get('smownerid'))}){/if}</span>&nbsp;
 										<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 										<span id="{$ID}_time" class="pull-right" title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($recordObject->get('createdtime'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($recordObject->get('createdtime'))}</span>
 									</a>

@@ -366,7 +366,7 @@ function isPermitted($module, $actionname, $record_id = '')
 			}
 		}
 
-		$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record_id);
+		$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record_id);
 		if(!isset($recordMetaData) || $recordMetaData['deleted'] == 1){
 			vglobal('isPermittedLog', 'SEC_RECORD_DOES_NOT_EXIST');
 			$log->debug('Exiting isPermitted method ... - no');
@@ -420,7 +420,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
 			$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role->get('previewrelatedrecord'), $actionid);
 			if ($parentRecord) {
-				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($parentRecord);
+				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($parentRecord);
 				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 				$permissionsRelatedField = empty($permissionsRoleForRelatedField) ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;

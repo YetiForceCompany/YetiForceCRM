@@ -167,12 +167,12 @@ class Install_InitSchema_Model
 	{
 		include_once $this->migration_schema . $system . '.php';
 		$migrationObject = new $system;
-		Vtiger_Access::syncSharingAccess();
+		vtlib\Access::syncSharingAccess();
 		$migrationObject->preProcess($userName, $source);
 		$migrationObject->process();
 		$return = $migrationObject->postProcess();
-		Vtiger_Access::syncSharingAccess();
-		Vtiger_Deprecated::createModuleMetaFile();
+		vtlib\Access::syncSharingAccess();
+		vtlib\Deprecated::createModuleMetaFile();
 		return $return;
 	}
 

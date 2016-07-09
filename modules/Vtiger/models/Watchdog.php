@@ -55,7 +55,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		$return = false;
 
 		$modules = self::getWatchingModules(false, $userId);
-		if (in_array(Vtiger_Functions::getModuleId($this->get('module')), $modules)) {
+		if (in_array(vtlib\Functions::getModuleId($this->get('module')), $modules)) {
 			$return = true;
 		}
 		$this->set('isWatchingModule', $return);
@@ -150,7 +150,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			$ownerId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
 		}
 		$db = PearDatabase::getInstance();
-		$moduleId = Vtiger_Functions::getModuleId($this->get('module'));
+		$moduleId = vtlib\Functions::getModuleId($this->get('module'));
 		if ($state == 1) {
 			$db->insert('u_yf_watchdog_module', [
 				'userid' => $ownerId,
@@ -187,7 +187,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 	{
 		$users = [];
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT userid FROM u_yf_watchdog_module WHERE module = ?', [Vtiger_Functions::getModuleId($this->get('module'))]);
+		$result = $db->pquery('SELECT userid FROM u_yf_watchdog_module WHERE module = ?', [vtlib\Functions::getModuleId($this->get('module'))]);
 		while (($userId = $db->getSingleValue($result)) !== false) {
 			$users[$userId] = $userId;
 		}

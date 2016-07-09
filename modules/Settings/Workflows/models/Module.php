@@ -141,7 +141,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Delete all worklflows associated with module
-	 * @param Vtiger_Module Instnace of module to use
+	 * @param vtlib\Module Instnace of module to use
 	 */
 	static function deleteForModule($moduleInstance)
 	{

@@ -119,22 +119,22 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	{
 		$moduleInformation['entityfieldname'] = strtolower(self::toAlphaNumeric($moduleInformation['entityfieldname']));
 
-		$module = new Vtiger_Module();
+		$module = new vtlib\Module();
 		$module->name = ucfirst($moduleInformation['module_name']);
 		$module->label = $moduleInformation['module_label'];
 		$module->type = $moduleInformation['entitytype'];
 		$module->save();
 		$module->initTables();
 
-		$block = new Vtiger_Block();
+		$block = new vtlib\Block();
 		$block->label = 'LBL_' . strtoupper($module->name) . '_INFORMATION';
 		$module->addBlock($block);
 
-		$blockcf = new Vtiger_Block();
+		$blockcf = new vtlib\Block();
 		$blockcf->label = 'LBL_CUSTOM_INFORMATION';
 		$module->addBlock($blockcf);
 
-		$field1 = new Vtiger_Field();
+		$field1 = new vtlib\Field();
 		$field1->name = $moduleInformation['entityfieldname'];
 		$field1->label = $moduleInformation['entityfieldlabel'];
 		$field1->uitype = 2;
@@ -146,7 +146,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->setEntityIdentifier($field1);
 
 		/** Common fields that should be in every module, linked to vtiger CRM core table */
-		$field2 = new Vtiger_Field();
+		$field2 = new vtlib\Field();
 		$field2->name = 'number';
 		$field2->label = 'FL_NUMBER';
 		$field2->column = 'number';
@@ -156,7 +156,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->columntype = 'varchar(32)';
 		$block->addField($field2);
 
-		$field3 = new Vtiger_Field();
+		$field3 = new vtlib\Field();
 		$field3->name = 'assigned_user_id';
 		$field3->label = 'Assigned To';
 		$field3->table = 'vtiger_crmentity';
@@ -165,7 +165,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field3->typeofdata = 'V~M';
 		$block->addField($field3);
 
-		$field4 = new Vtiger_Field();
+		$field4 = new vtlib\Field();
 		$field4->name = 'createdtime';
 		$field4->label = 'Created Time';
 		$field4->table = 'vtiger_crmentity';
@@ -175,7 +175,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field4->displaytype = 2;
 		$block->addField($field4);
 
-		$field5 = new Vtiger_Field();
+		$field5 = new vtlib\Field();
 		$field5->name = 'modifiedtime';
 		$field5->label = 'Modified Time';
 		$field5->table = 'vtiger_crmentity';
@@ -186,7 +186,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$block->addField($field5);
 
 		// Create default custom filter (mandatory)
-		$filter1 = new Vtiger_Filter();
+		$filter1 = new vtlib\Filter();
 		$filter1->name = 'All';
 		$filter1->isdefault = true;
 		$filter1->presence = 0;

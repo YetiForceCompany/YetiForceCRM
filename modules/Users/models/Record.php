@@ -567,7 +567,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			for ($i = 0; $i < $noOfUsers; ++$i) {
 				$userIds[] = $db->query_result($result, $i, 'userid');
 			}
-			$entityData = Vtiger_Functions::getEntityModuleSQLColumnString('Users');
+			$entityData = vtlib\Functions::getEntityModuleSQLColumnString('Users');
 			$query = sprintf('SELECT id, %s FROM vtiger_users WHERE status = ? AND id IN (%s) order by last_name ASC, first_name ASC', $entityData['colums'], generateQuestionMarks($userIds));
 			$result = $db->pquery($query, array('ACTIVE', $userIds));
 			while ($row = $db->fetch_array($result)) {
@@ -886,10 +886,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$ids = $db->getArrayColumn($result);
 
 		$users = $groups = [];
-		$users = Vtiger_Functions::getCRMRecordLabels('Users', $ids);
+		$users = vtlib\Functions::getCRMRecordLabels('Users', $ids);
 		$diffIds = array_diff($ids, array_keys($users));
 		if ($diffIds) {
-			$groups = Vtiger_Functions::getCRMRecordLabels('Groups', array_values($diffIds));
+			$groups = vtlib\Functions::getCRMRecordLabels('Groups', array_values($diffIds));
 		}
 		return [ 'users' => $users, 'group' => $groups];
 	}

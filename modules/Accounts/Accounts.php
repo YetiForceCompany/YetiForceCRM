@@ -93,7 +93,7 @@ class Accounts extends CRMEntity
 		$log->debug("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -157,7 +157,7 @@ class Accounts extends CRMEntity
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -225,7 +225,7 @@ class Accounts extends CRMEntity
 		$log->debug("Entering get_tickets(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -286,7 +286,7 @@ class Accounts extends CRMEntity
 		$log->debug("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -527,7 +527,7 @@ class Accounts extends CRMEntity
 			if (getFieldVisibilityPermission('Accounts', $current_user->id, $fieldName) == '0') {
 				$listview_header[] = $fieldLabel;
 			}
-			$field = Vtiger_Functions::getModuleFieldInfo('Accounts', $fieldName);
+			$field = vtlib\Functions::getModuleFieldInfo('Accounts', $fieldName);
 			$hierarchyFields[] = $field;
 		}
 		$this->hierarchyFields = $hierarchyFields;
@@ -656,7 +656,7 @@ class Accounts extends CRMEntity
 				} elseif ($fieldName == 'shownerid') {
 					$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($row['accountid']);
 					if (!empty($sharedOwners)) {
-						$sharedOwners = implode(',', array_map('Vtiger_Functions::getOwnerRecordLabel', $sharedOwners));
+						$sharedOwners = implode(',', array_map('vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
 						$parent_account_info[$fieldName] = $sharedOwners;
 					}
 				} else {
@@ -712,7 +712,7 @@ class Accounts extends CRMEntity
 					} elseif ($fieldName == 'shownerid') {
 						$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($child_acc_id);
 						if (!empty($sharedOwners)) {
-							$sharedOwners = implode(',', array_map('Vtiger_Functions::getOwnerRecordLabel', $sharedOwners));
+							$sharedOwners = implode(',', array_map('vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
 							$child_account_info[$fieldName] = $sharedOwners;
 						}
 					} else {
@@ -843,7 +843,7 @@ class Accounts extends CRMEntity
 
 		global $currentModule, $app_strings, $singlepane_view;
 		$this_module = $currentModule;
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
@@ -949,15 +949,15 @@ class Accounts extends CRMEntity
 
 	/**
 	 * Function to handle the related list for the module.
-	 * NOTE: Vtiger_Module::setRelatedList sets reference to this function in vtiger_relatedlists table
+	 * NOTE: vtlib\Module::setRelatedList sets reference to this function in vtiger_relatedlists table
 	 * if function name is not explicitly specified.
 	 */
 	function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		global $currentModule, $app_strings, $singlepane_view;
 
-		$current_module = Vtiger_Functions::getModuleName($cur_tab_id);
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$current_module = vtlib\Functions::getModuleName($cur_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables

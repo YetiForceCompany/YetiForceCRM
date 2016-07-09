@@ -267,7 +267,7 @@ class ListViewController
 						$value = '--';
 					}
 				} elseif ($module == 'OSSTimeControl' && $fieldName == 'sum_time') {
-					$value = Vtiger_Functions::decimalTimeFormat($value);
+					$value = vtlib\Functions::decimalTimeFormat($value);
 					$value = $value['short'];
 				} elseif ($field->getUIType() == '27') {
 					if ($value == 'I') {
@@ -277,7 +277,7 @@ class ListViewController
 					} else {
 						$value = ' --';
 					}
-					$value = Vtiger_Functions::textLength($value);
+					$value = vtlib\Functions::textLength($value);
 				} elseif ($field->getFieldDataType() == 'picklist') {
 					$value = Vtiger_Language_Handler::getTranslatedString($value, $module);
 					$value = textlength_check($value);
@@ -346,7 +346,7 @@ class ListViewController
 					}
 				} elseif ($field->getFieldDataType() == 'email') {
 					$currentUser = Users_Record_Model::getCurrentUserModel();
-					$value = Vtiger_Functions::textLength($value);
+					$value = vtlib\Functions::textLength($value);
 					if ($currentUser->get('internal_mailer') == 1) {
 						$url = OSSMail_Module_Model::getComposeUrl($module, $recordId, 'Detail', 'new');
 						$mailConfig = OSSMail_Module_Model::getComposeParameters();
@@ -451,7 +451,7 @@ class ListViewController
 							}
 						}
 						$value = implode(', ', $tmpArray);
-						$value = Vtiger_Functions::textLength($value);
+						$value = vtlib\Functions::textLength($value);
 					}
 				} elseif ($field->getFieldDataType() == 'inventoryLimit') {
 					if (!empty($value)) {
@@ -465,7 +465,7 @@ class ListViewController
 							}
 						}
 						$value = implode(', ', $tmpArray);
-						$value = Vtiger_Functions::textLength($value);
+						$value = vtlib\Functions::textLength($value);
 					}
 				} elseif ($field->getFieldDataType() == 'multiReferenceValue') {
 					$params = $field->getFieldParams();
@@ -476,10 +476,10 @@ class ListViewController
 						$valueTmp[$index] = $fieldModel->getUITypeModel()->getDisplayValue($tmp);
 					}
 					$value = implode(', ', $valueTmp);
-					$value = Vtiger_Functions::textLength($value);
+					$value = vtlib\Functions::textLength($value);
 				} elseif ($field->getFieldDataType() == 'posList') {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field->getFieldId());
-					$value = Vtiger_Functions::textLength($fieldModel->getUITypeModel()->getDisplayValue($value));
+					$value = vtlib\Functions::textLength($fieldModel->getUITypeModel()->getDisplayValue($value));
 				} elseif (in_array($uitype, array(7, 9, 90))) {
 					$value = textlength_check($value);
 				} elseif ($uitype == 307) {
@@ -489,7 +489,7 @@ class ListViewController
 						$value = "<span align='right'>" . textlength_check($value) . '</span>';
 					}
 				} else {
-					$value = Vtiger_Functions::textLength($value);
+					$value = vtlib\Functions::textLength($value);
 				}
 				$row[$fieldName] = $value;
 			}

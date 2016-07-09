@@ -141,7 +141,7 @@
 									{foreach from=$INVENTORY_DATA item=ROWDATA}
 										<tr>
 											{if $INVENTORY_ROW['name']}
-												{assign var="ROW_MODULE" value=Vtiger_Functions::getCRMRecordType($INVENTORY_ROW['name'])}
+												{assign var="ROW_MODULE" value=vtlib\Functions::getCRMRecordType($INVENTORY_ROW['name'])}
 											{/if}
 											{foreach from=$ROWDATA item=VALUE key=NAME}
 												{assign var="FIELD" value=$INVENTORY_FIELDS[$NAME]}

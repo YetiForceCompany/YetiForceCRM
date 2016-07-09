@@ -811,7 +811,7 @@ class Users extends CRMEntity
 					$_SESSION['vtiger_authenticated_user_theme'] = $fldvalue;
 				}
 			} elseif ($uitype == 32) {
-				$languageList = Vtiger_Language::getAll();
+				$languageList = vtlib\Language::getAll();
 				$languageList = array_keys($languageList);
 				if (!in_array($fldvalue, $languageList) || $fldvalue == '') {
 					$default_language = vglobal('default_language');
@@ -1057,7 +1057,7 @@ class Users extends CRMEntity
 			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
 			$result = $adb->pquery($sql, array($this->column_fields['user_name'], $this->column_fields['email1']));
 			if ($adb->num_rows($result) > 0) {
-				Vtiger_Functions::throwNewException('LBL_USER_EXISTS');
+				vtlib\Functions::throwNewException('LBL_USER_EXISTS');
 				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_USER_EXISTS'));
 				return false;
 			}

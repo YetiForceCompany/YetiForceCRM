@@ -96,7 +96,7 @@ class Settings_Webforms_ModuleField_Model extends Vtiger_Field_Model
 		return false;
 	}
 
-	public static function getInstanceFromFieldObject(Vtiger_Field $fieldObj)
+	public static function getInstanceFromFieldObject(vtlib\Field $fieldObj)
 	{
 		$objectProperties = get_object_vars($fieldObj);
 		$fieldModel = new self();

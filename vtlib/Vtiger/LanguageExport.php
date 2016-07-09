@@ -7,24 +7,16 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Package.php');
+namespace vtlib;
 
 /**
  * Provides API to package vtiger CRM language files.
  * @package vtlib
  */
-class Vtiger_LanguageExport extends Vtiger_Package
+class LanguageExport extends Package
 {
 
 	const TABLENAME = 'vtiger_language';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
 
 	/**
 	 * Generate unique id for insertion
@@ -32,7 +24,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 */
 	static function __getUniqueId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
 	}
 
@@ -43,7 +35,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	function __initExport($languageCode)
 	{
 		// Security check to ensure file is withing the web folder.
-		Vtiger_Utils::checkFileAccessForInclusion("languages/$languageCode/Vtiger.php");
+		Utils::checkFileAccessForInclusion("languages/$languageCode/Vtiger.php");
 
 		$this->_export_modulexml_file = fopen($this->__getManifestFilePath(), 'w');
 		$this->__write("<?xml version='1.0'?>\n");
@@ -51,7 +43,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 
 	/**
 	 * Export Module as a zip file.
-	 * @param Vtiger_Module Instance of module
+	 * @param Module Instance of module
 	 * @param Path Output directory path
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
@@ -71,7 +63,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 			$zipfilename = "$languageCode-" . date('YmdHis') . ".zip";
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
-		$zip = new Vtiger_Zip($zipfilename);
+		$zip = new Zip($zipfilename);
 
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), "manifest.xml");
@@ -98,7 +90,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 */
 	function export_Language($prefix)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$sqlresult = $adb->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
 		$languageresultrow = $adb->fetch_array($sqlresult);
@@ -142,9 +134,9 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 */
 	static function __initSchema()
 	{
-		$hastable = Vtiger_Utils::CheckTable(self::TABLENAME);
+		$hastable = Utils::CheckTable(self::TABLENAME);
 		if (!$hastable) {
-			Vtiger_Utils::CreateTable(
+			Utils::CreateTable(
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
 				name VARCHAR(50), prefix VARCHAR(10), label VARCHAR(30), lastupdated DATETIME, sequence INT, isdefault INT(1), active INT(1))', true
 			);
@@ -171,7 +163,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 		$useisdefault = ($isdefault) ? 1 : 0;
 		$useisactive = ($isactive) ? 1 : 0;
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
 		$datetime = date('Y-m-d H:i:s');
 		if ($adb->num_rows($checkres)) {
@@ -211,7 +203,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 
 		self::__initSchema();
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->delete(self::TABLENAME, 'prefix=?', [$prefix]);
 		self::log("Deregistering Language $prefix ... DONE");
 	}
@@ -222,10 +214,10 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 */
 	static function getAll($includeInActive = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$hastable = Vtiger_Utils::CheckTable(self::TABLENAME);
+		$adb = \PearDatabase::getInstance();
+		$hastable = Utils::CheckTable(self::TABLENAME);
 
-		$languageinfo = Array();
+		$languageinfo = [];
 
 		if ($hastable) {
 			if ($includeInActive)

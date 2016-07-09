@@ -19,7 +19,6 @@ require_once('include/database/PearDatabase.php');
 require_once('include/CRMEntity.php');
 require_once("modules/Reports/Reports.php");
 require_once 'modules/Reports/ReportUtils.php';
-require_once("vtlib/Vtiger/Module.php");
 require_once('modules/Vtiger/helpers/Util.php');
 require_once('include/RelatedListView.php');
 
@@ -2119,7 +2118,7 @@ class ReportRun extends CRMEntity
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" WHERE vtiger_crmentity.deleted = 0";
-		} else if($module == "OSSTimeControl"){
+		} else if ($module == "OSSTimeControl") {
 			$query = "FROM vtiger_osstimecontrol
 			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_osstimecontrol.osstimecontrolid";
 			if ($this->queryPlanner->requireTable("vtiger_account")) {
@@ -3577,28 +3576,28 @@ class ReportRun extends CRMEntity
 				} elseif (in_array($moduleName, $reportSecondaryModules)) {
 					$referenceTableName = "{$entityTableName}Rel$moduleName";
 					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldInstance->getFieldId()}";
-				} elseif($moduleName == 'OSSTimeControl' && $referenceModule == 'Accounts'){
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Accounts') {
 					$referenceTableName = "vtiger_account";
 					$dependentTableName = "vtiger_account";
-				} elseif($moduleName == 'OSSTimeControl' && $referenceModule == 'Contacts'){
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Contacts') {
 					$referenceTableName = "vtiger_contactdetails";
 					$dependentTableName = "vtiger_contactdetails";
-				}  elseif($moduleName == 'OSSTimeControl' && $referenceModule == 'Leads'){
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Leads') {
 					$referenceTableName = "vtiger_leaddetails";
 					$dependentTableName = "vtiger_leaddetails";
-				}  elseif($moduleName == 'OSSTimeControl' && $referenceModule == 'Vendors'){
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Vendors') {
 					$referenceTableName = "vtiger_vendor";
 					$dependentTableName = "vtiger_vendor";
-				}  elseif($moduleName == 'OSSTimeControl' && $referenceModule == 'Partners'){
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Partners') {
 					$referenceTableName = "u_yf_partners";
 					$dependentTableName = "u_yf_partners";
-				}  elseif($moduleName == 'OSSTimeControl' && $referenceModule == 'Competition'){
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Competition') {
 					$referenceTableName = "u_yf_competition";
 					$dependentTableName = "u_yf_competition";
-				}  elseif($moduleName == 'OSSTimeControl' && $referenceModule == 'OSSEmployees'){
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'OSSEmployees') {
 					$referenceTableName = "vtiger_ossemployees";
 					$dependentTableName = "vtiger_ossemployees";
-				}else {
+				} else {
 					$referenceTableName = "{$entityTableName}Rel{$moduleName}{$fieldInstance->getFieldId()}";
 					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldInstance->getFieldId()}";
 					$this->queryPlanner->addCustomTable(

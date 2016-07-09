@@ -355,23 +355,21 @@ class Assets extends CRMEntity
 
 			$this->addModuleToCustomerPortal();
 
-			include_once('vtlib/Vtiger/Module.php');
-
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 
 			//adds sharing accsess
-			$AssetsModule = Vtiger_Module::getInstance('Assets');
-			Vtiger_Access::setDefaultSharing($AssetsModule);
+			$AssetsModule = vtlib\Module::getInstance('Assets');
+			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			$assetInstance = Vtiger_Module::getInstance('Assets');
+			$assetInstance = vtlib\Module::getInstance('Assets');
 			$assetLabel = 'Assets';
 
-			$accountInstance = Vtiger_Module::getInstance('Accounts');
+			$accountInstance = vtlib\Module::getInstance('Accounts');
 			$accountInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'get_dependents_list');
 
-			$productInstance = Vtiger_Module::getInstance('Products');
+			$productInstance = vtlib\Module::getInstance('Products');
 			$productInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'get_dependents_list');
 
 			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($moduleName));

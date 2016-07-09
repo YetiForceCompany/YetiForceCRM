@@ -70,7 +70,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 
 		$relatedModule = $request->get('related_module');
 		if (is_numeric($relatedModule)) {
-			$relatedModule = Vtiger_Functions::getModuleName($relatedModule);
+			$relatedModule = vtlib\Functions::getModuleName($relatedModule);
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
 

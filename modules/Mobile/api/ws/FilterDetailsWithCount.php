@@ -41,7 +41,7 @@ class Mobile_WS_FilterDetailsWithCount extends Mobile_WS_FetchModuleFilters {
 			$view->getCustomViewByCvid($viewid);
 			$viewQuery = $view->getModifiedCvListQuery($viewid, getListQuery($module), $module);
 				
-			$countResult = $adb->pquery(Vtiger_Functions::mkCountQuery($viewQuery), array()); 
+			$countResult = $adb->pquery(vtlib\Functions::mkCountQuery($viewQuery), array()); 
 			$count = 0;
 			if($countResult && $adb->num_rows($countResult)) {
 				$count = $adb->query_result($countResult, 0, 'count');

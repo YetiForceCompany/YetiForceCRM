@@ -813,7 +813,7 @@ class QueryGenerator
 						$concatSql = getSqlForNameInDisplayFormat(array('first_name' => "vtiger_users$fieldName.first_name", 'last_name' => "vtiger_users$fieldName.last_name"), 'Users');
 						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql)";
 					} else {
-						$entityFields = Vtiger_Functions::getEntityModuleInfoFieldsFormatted('Users');
+						$entityFields = vtlib\Functions::getEntityModuleInfoFieldsFormatted('Users');
 						if (count($entityFields['fieldname']) > 1) {
 							$columns = [];
 							foreach ($entityFields['fieldname'] as $i => $fieldname) {
@@ -1171,9 +1171,9 @@ class QueryGenerator
 			}
 			if (trim($value) == '' && in_array($operator, ['wr', 'nwr']) && in_array($field->getFieldName(), $this->ownerFields)) {
 				$userId = Users_Record_Model::getCurrentUserModel()->get('id');
-				$watchingSql = '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' AND module = ' . Vtiger_Functions::getModuleId($this->module) . ') > 0 AND ';
+				$watchingSql = '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' AND module = ' . vtlib\Functions::getModuleId($this->module) . ') > 0 AND ';
 				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' AND record = vtiger_crmentity.crmid AND state = 0) = 0) OR ';
-				$watchingSql .= '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' AND module = ' . Vtiger_Functions::getModuleId($this->module) . ') = 0 AND ';
+				$watchingSql .= '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' AND module = ' . vtlib\Functions::getModuleId($this->module) . ') = 0 AND ';
 				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' AND record = vtiger_crmentity.crmid AND state = 1) > 0)';
 				$sql[] = $watchingSql;
 				continue;

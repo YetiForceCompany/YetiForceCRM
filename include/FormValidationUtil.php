@@ -19,7 +19,7 @@
  */
 function getDBValidationData($tablearray, $tabid = '')
 {
-	return Vtiger_Deprecated::getModuleFieldTypeOfDataInfos($tablearray, $tabid);
+	return vtlib\Deprecated::getModuleFieldTypeOfDataInfos($tablearray, $tabid);
 }
 
 ?>

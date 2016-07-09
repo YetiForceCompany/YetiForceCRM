@@ -42,7 +42,7 @@ class VTUpdateWorkTime extends VTTask
 		}
 
 		$referenceIds = array_diff_key($referenceIds, array_flip($globalIds));
-		$metasData = Vtiger_Functions::getCRMRecordMetadata(array_keys($referenceIds));
+		$metasData = vtlib\Functions::getCRMRecordMetadata(array_keys($referenceIds));
 		include('user_privileges/moduleHierarchy.php');
 		$modulesHierarchy = array_keys($modulesHierarchy);
 		foreach ($metasData as $referenceId => $metaData) {

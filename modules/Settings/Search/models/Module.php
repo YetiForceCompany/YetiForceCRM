@@ -79,7 +79,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleName = $moduleEntity['modulename'];
 		$fieldName = $moduleEntity['fieldname'];
 		$searchColumns = $moduleEntity['searchcolumn'];
-		$moduleInfo = Vtiger_Functions::getModuleFieldInfos($moduleName);
+		$moduleInfo = vtlib\Functions::getModuleFieldInfos($moduleName);
 		$columnsEntityName = explode(',', $fieldName);
 		$searchColumns = explode(',', $searchColumns);
 		$allColumns = array_unique(array_merge($columnsEntityName, $searchColumns));

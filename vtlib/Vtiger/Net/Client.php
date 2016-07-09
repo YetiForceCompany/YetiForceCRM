@@ -45,7 +45,7 @@ class Vtiger_Net_Client
 
 	function setDefaultHeaders()
 	{
-		$headers = array();
+		$headers = [];
 		if (isset($_SERVER)) {
 			global $site_URL;
 			$headers['referer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ($site_URL . "?noreferer");
@@ -145,5 +145,3 @@ class Vtiger_Net_Client
 		$this->client->disconnect();
 	}
 }
-
-?>

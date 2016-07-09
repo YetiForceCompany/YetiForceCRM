@@ -63,7 +63,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			if (!$adb->num_rows($result)) {
 				$adb->query('drop table vtiger_' . $columnname);
 				//To Delete Sequence Table 
-				if (Vtiger_Utils::CheckTable('vtiger_' . $columnname . '_seq')) {
+				if (vtlib\Utils::CheckTable('vtiger_' . $columnname . '_seq')) {
 					$adb->query('drop table vtiger_' . $columnname . '_seq');
 				}
 				$adb->pquery('delete from vtiger_picklist where name=? ', array($columnname));

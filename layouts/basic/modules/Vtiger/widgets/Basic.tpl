@@ -7,7 +7,7 @@
 					<div class="widgetTitle textOverflowEllipsis">
 						<h4 class="moduleColor_{$WIDGET['label']}">
 							{if $WIDGET['label'] eq ''}
-								{vtranslate(Vtiger_Functions::getModuleName($WIDGET['data']['relatedmodule']),Vtiger_Functions::getModuleName($WIDGET['data']['relatedmodule']))}
+								{vtranslate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
 							{else}	
 								{vtranslate($WIDGET['label'],$MODULE_NAME)}
 							{/if}
