@@ -414,7 +414,8 @@ class DateTimeField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		return str_replace(array('yyyy', 'mm', 'dd'), array('Y', 'm', 'd'), $user->date_format);
+		$dateFormat = empty($user->date_format) ? 'Y-m-d' : $user->date_format;
+		return str_replace(array('yyyy', 'mm', 'dd'), array('Y', 'm', 'd'), $dateFormat);
 	}
 
 	private static function sanitizeDate($value, $user)
