@@ -21,9 +21,11 @@ mysql:
   
 before_script:
 - mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
-- \[ -f "config/config_override.php" \] || cp tests/travis_config.php config/config_override.php
+- cp tests/travis_config.php config/config_override.php
+- cp tests/travis_debug.php config/debug.php
 - cp tests/.htaccess .htaccess
 - php tests/travis_install.php
+- wget https://tests.yetiforce.com/Test.zip
   
 script:
 - php tests/travis_test.php
