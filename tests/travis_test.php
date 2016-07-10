@@ -53,9 +53,6 @@ try {
 		$cronTask->markFinished();
 	}
 
-	$db = PearDatabase::getInstance();
-	echo PHP_EOL . $db->getUniqueID('vtiger_crmentity');
-
 	$templatepath = 'languages/';
 	$flags = FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS;
 	$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($templatepath, $flags), RecursiveIteratorIterator::SELF_FIRST);
