@@ -1165,7 +1165,7 @@ class Functions
 			$viewer->view($tpl, 'Vtiger');
 		}
 		if ($die) {
-			exit();
+			throw new \Exception('');
 		}
 	}
 
