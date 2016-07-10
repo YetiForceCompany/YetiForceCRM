@@ -30,7 +30,7 @@ class Language extends LanguageImport
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$result = $db->query('SELECT prefix FROM vtiger_language');
 		while ($lang = $db->getSingleValue($result)) {
 			$langFilePath = "languages/$lang/" . $moduleInstance->name . '.php';

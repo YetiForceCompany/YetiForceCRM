@@ -324,7 +324,7 @@ class ModuleBasic
 	 */
 	function setEntityIdentifier($fieldInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		if ($this->basetableid) {
 			if (!$this->entityidfield)
