@@ -95,7 +95,7 @@ class Field extends FieldBasic
 			if (in_array($value, $picklistValues)) {
 				continue;
 			}
-			$new_picklistvalueid = getUniquePicklistID();
+			$new_picklistvalueid = $adb->getUniqueID('vtiger_picklistvalues');
 			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
 			$new_id = $adb->getUniqueID($picklist_table);
 			++$sortid;

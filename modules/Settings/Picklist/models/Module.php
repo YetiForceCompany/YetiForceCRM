@@ -37,8 +37,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$id = $db->getUniqueID("vtiger_$pickListFieldName");
-		vimport('~include/ComboUtil.php');
-		$picklist_valueid = getUniquePicklistID();
+		$picklist_valueid = $db->getUniqueID('vtiger_picklistvalues');
 		$tableName = 'vtiger_' . $pickListFieldName;
 		$maxSeqQuery = 'SELECT max(sortorderid) as maxsequence FROM ' . $tableName;
 		$result = $db->pquery($maxSeqQuery, []);
@@ -108,11 +107,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 
 		$query = "UPDATE vtiger_field SET defaultvalue=? WHERE defaultvalue=? AND columnname=?";
 		$db->pquery($query, array($newValue, $oldValue, $columnName));
-		
+
 		vimport('include/utils/CommonUtils.php');
 
 		$db->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], 'sourcevalue = ? AND sourcefield = ?', [$oldValue, $pickListFieldName]);
-		
+
 		$em = new VTEventsManager($db);
 		$data = array();
 		$data['fieldname'] = $pickListFieldName;
@@ -155,7 +154,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		//if role based then we need to delete all the values in role based picklist
 		if ($fieldModel->isRoleBased()) {
 			$picklistValueIdToDelete = array();
-			$query = sprintf('SELECT picklist_valueid FROM %s WHERE %s IN (%s)', $this->getPickListTableName($pickListFieldName), $primaryKey,  generateQuestionMarks($valueToDeleteId));
+			$query = sprintf('SELECT picklist_valueid FROM %s WHERE %s IN (%s)', $this->getPickListTableName($pickListFieldName), $primaryKey, generateQuestionMarks($valueToDeleteId));
 			$result = $db->pquery($query, $valueToDeleteId);
 			$num_rows = $db->num_rows($result);
 			for ($i = 0; $i < $num_rows; $i++) {
@@ -164,8 +163,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$db->delete('vtiger_role2picklist', 'picklistvalueid IN (' . generateQuestionMarks($picklistValueIdToDelete) . ')', $picklistValueIdToDelete);
 		}
 
-		$db->delete($this->getPickListTableName($pickListFieldName), $primaryKey. ' IN (' . generateQuestionMarks($valueToDeleteId) . ')', $valueToDeleteId);
-		
+		$db->delete($this->getPickListTableName($pickListFieldName), $primaryKey . ' IN (' . generateQuestionMarks($valueToDeleteId) . ')', $valueToDeleteId);
+
 		vimport('include/utils/CommonUtils.php');
 		$tabId = getTabId($moduleName);
 		$params = [];
@@ -186,7 +185,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$params = [];
 		array_push($params, $pickListValues);
 		array_push($params, $columnName);
-		$db->update('vtiger_field',['defaultvalue' => $replaceValue], 'defaultvalue IN (' . generateQuestionMarks($pickListValues) . ') AND columnname=?', $params);
+		$db->update('vtiger_field', ['defaultvalue' => $replaceValue], 'defaultvalue IN (' . generateQuestionMarks($pickListValues) . ') AND columnname=?', $params);
 
 		$em = new VTEventsManager($db);
 		$data = array();
@@ -214,8 +213,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 
 		$pickListValueList = array_merge($valuesToEnables, $valuesToDisable);
 		$pickListValueDetails = array();
-		$query = sprintf('SELECT picklist_valueid, %s, %s FROM %s WHERE %s IN (%s)',
-			$picklistFieldName, $primaryKey, $this->getPickListTableName($picklistFieldName), $primaryKey, generateQuestionMarks($pickListValueList));
+		$query = sprintf('SELECT picklist_valueid, %s, %s FROM %s WHERE %s IN (%s)', $picklistFieldName, $primaryKey, $this->getPickListTableName($picklistFieldName), $primaryKey, generateQuestionMarks($pickListValueList));
 		$params = array();
 		array_push($params, $pickListValueList);
 
