@@ -85,7 +85,7 @@ class PickListHandler extends VTEventHandler
 		}
 
 		//update Workflows values
-		$query = 'SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE "%' . $oldValue . '%"';
+		$query = sprintf('SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE "%s"',"%$oldValue%");
 		$result = $db->pquery($query, array($moduleName));
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
@@ -113,8 +113,8 @@ class PickListHandler extends VTEventHandler
 		}
 
 		//update workflow task
-		$query = 'SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE "%' . $oldValue . '%"';
-		$result = $db->pquery($query, array());
+		$query = sprintf('SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE "%s"', "%$oldValue%");
+		$result = $db->pquery($query, []);
 		$num_rows = $db->num_rows($result);
 
 		for ($i = 0; $i < $num_rows; $i++) {
@@ -237,7 +237,7 @@ class PickListHandler extends VTEventHandler
 
 		foreach ($valueToDelete as $value) {
 			//update Workflows values
-			$query = 'SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE "%' . $value . '%"';
+			$query = sprintf('SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE "%s"', "%$value%");
 			$result = $db->pquery($query, array($moduleName));
 			$num_rows = $db->num_rows($result);
 			for ($i = 0; $i < $num_rows; $i++) {
@@ -270,8 +270,8 @@ class PickListHandler extends VTEventHandler
 
 		foreach ($valueToDelete as $value) {
 			//update workflow task
-			$query = 'SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE "%' . $value . '%"';
-			$result = $db->pquery($query, array());
+			$query = sprintf('SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE "%s"', "%$value%");
+			$result = $db->pquery($query, []);
 			$num_rows = $db->num_rows($result);
 
 			for ($i = 0; $i < $num_rows; $i++) {

@@ -40,12 +40,13 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$fieldName = $this->getName();
 		$tableName = 'vtiger_' . $fieldName;
 		$idColName = $fieldName . 'id';
-		$query = 'SELECT ' . $fieldName;
+		$query = 'SELECT %s';
 		if ($intersectionMode) {
 			$query .= ',count(roleid) as rolecount ';
 		}
-		$query .= ' FROM  vtiger_role2picklist INNER JOIN ' . $tableName . ' ON vtiger_role2picklist.picklistvalueid = ' . $tableName . '.picklist_valueid' .
-			' WHERE roleid IN (' . generateQuestionMarks($roleIdList) . ') order by sortid';
+		$query .= ' FROM  vtiger_role2picklist INNER JOIN %s ON vtiger_role2picklist.picklistvalueid = %s.picklist_valueid' .
+			' WHERE roleid IN (%s) order by sortid';
+		$query = sprintf($query, $fieldName, $tableName, $tableName, generateQuestionMarks($roleIdList));
 		if ($intersectionMode) {
 			$query .= ' GROUP BY picklistvalueid';
 		}
