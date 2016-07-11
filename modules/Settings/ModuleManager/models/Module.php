@@ -78,7 +78,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		if ($onlyActive) {
 			$presence = [0];
 			$nonVisibleModules = self::getNonVisibleModulesList();
-			$query .= sprintf('WHERE presence IN (%s) AND name NOT IN (%s)', 
+			$query .= sprintf(' WHERE presence IN (%s) AND name NOT IN (%s)', 
 				generateQuestionMarks($presence), generateQuestionMarks($nonVisibleModules));
 			array_push($params, $presence, $nonVisibleModules);
 		}
