@@ -304,7 +304,7 @@ class Activity extends CRMEntity
 		while ($row = $db->getRow($result)) {
 			$invities[$row['inviteesid']] = $row;
 		}
-		if(!empty($inviteesRequest)) {
+		if (!empty($inviteesRequest)) {
 			foreach ($inviteesRequest as &$invitation) {
 				if (isset($invities[$invitation[2]])) {
 					unset($invities[$invitation[2]]);
@@ -318,7 +318,7 @@ class Activity extends CRMEntity
 			}
 		}
 		foreach ($invities as &$invitation) {
-			$db->delete('u_yf_activity_invitation', 'inviteesid = ?', [$invitation[2]]);
+			$db->delete('u_yf_activity_invitation', 'inviteesid = ?', [$invitation['inviteesid']]);
 		}
 		$log->debug('Exiting insertIntoInviteeTable method ...');
 	}
