@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
@@ -76,43 +77,45 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	public function save()
 	{
 		$db = PearDatabase::getInstance();
-		$id = $this->getId();
+		$ID = $this->getId();
 		$tableName = Settings_Currency_Module_Model::tableName;
-		if (!empty($id)) {
-			$query = 'UPDATE ' . $tableName . ' SET currency_name=?, currency_code=?, 
-                currency_status=?,currency_symbol=?,conversion_rate=?, deleted=? WHERE id=?';
-			$params = array(
-				$this->get('currency_name'), $this->get('currency_code'),
-				$this->get('currency_status'), $this->get('currency_symbol'),
-				$this->get('conversion_rate'), $this->getDeleteStatus(), $id
-			);
+		if (!empty($ID)) {
+			$db->update($tableName, [
+				'currency_name' => $this->get('currency_name'),
+				'currency_code' => $this->get('currency_code'),
+				'currency_status' => $this->get('currency_status'),
+				'currency_symbol' => $this->get('currency_symbol'),
+				'conversion_rate' => $this->get('conversion_rate'),
+				'deleted' => $this->getDeleteStatus()
+				], 'id = ?', [$ID]);
 		} else {
-			$id = $db->getUniqueID($tableName);
-			$query = 'INSERT INTO ' . $tableName . ' VALUES(?,?,?,?,?,?,?,?)';
-			$params = array(
-				$id, $this->get('currency_name'), $this->get('currency_code'),
-				$this->get('currency_symbol'), $this->get('conversion_rate'),
-				$this->get('currency_status'), 0, 0
-			);
+			$ID = $db->getUniqueID($tableName);
+			$db->insert($tableName, [
+				'id' => $ID,
+				'currency_name' => $this->get('currency_name'),
+				'currency_code' => $this->get('currency_code'),
+				'currency_status' => $this->get('currency_status'),
+				'currency_symbol' => $this->get('currency_symbol'),
+				'conversion_rate' => $this->get('conversion_rate'),
+				'defaultid' => 0,
+				'deleted' => 0
+			]);
 		}
-		$db->pquery($query, $params);
-		return $id;
+		return $ID;
 	}
 
-	public static function getInstance($id)
+	public static function getInstance($ID)
 	{
 		$db = PearDatabase::getInstance();
-		if (vtlib\Utils::isNumber($id)) {
-			$query = 'SELECT * FROM ' . Settings_Currency_Module_Model::tableName . ' WHERE id=?';
+		if (vtlib\Utils::isNumber($ID)) {
+			$query = sprintf('SELECT * FROM %s WHERE id = ?', Settings_Currency_Module_Model::tableName);
 		} else {
-			$query = 'SELECT * FROM ' . Settings_Currency_Module_Model::tableName . ' WHERE currency_name=?';
+			$query = sprintf('SELECT * FROM %s WHERE currency_name = ?', Settings_Currency_Module_Model::tableName);
 		}
-
-		$params = array($id);
-		$result = $db->pquery($query, $params);
-		if ($db->num_rows($result) > 0) {
+		$result = $db->pquery($query, [$ID]);
+		if ($db->getRowCount($result) > 0) {
+			$row = $db->getRow($result);
 			$instance = new self();
-			$row = $db->query_result_rowdata($result, 0);
 			$instance->setData($row);
 		}
 		return $instance;
@@ -150,26 +153,23 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		return $currencyModelList;
 	}
 
-	public static function getAll($excludedIds = array())
+	public static function getAll($excludedIds = [])
 	{
 		$db = PearDatabase::getInstance();
 
 		if (!is_array($excludedIds)) {
-			$excludedIds = array($excludedIds);
+			$excludedIds = [$excludedIds];
 		}
 
-		$query = 'SELECT * FROM ' . Settings_Currency_Module_Model::tableName . ' WHERE deleted=0 AND currency_status="Active"';
-		$params = array();
+		$query = sprintf('SELECT * FROM %s WHERE deleted = ? AND currency_status = ?', Settings_Currency_Module_Model::tableName);
+		$params = [0, 'Active'];
 		if (!empty($excludedIds)) {
-			$params = $excludedIds;
+			$params[] = $excludedIds;
 			$query .= ' AND id NOT IN (' . generateQuestionMarks($excludedIds) . ')';
 		}
 		$result = $db->pquery($query, $params);
-		$num_rows = $db->num_rows($result);
-		$instanceList = array();
-
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$instanceList = [];
+		while ($row = $db->getRow($result)) {
 			$instanceList[$row['id']] = new Settings_Currency_Record_Model($row);
 		}
 		return $instanceList;
