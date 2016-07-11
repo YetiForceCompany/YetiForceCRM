@@ -379,7 +379,7 @@ class OSSPasswords extends CRMEntity {
 				$moduleModTrackerInstance->updateCache($tabId,1);
 			}
 			if ( !$moduleModTrackerInstance->isModTrackerLinkPresent($tabId) ) {
-				$moduleInstance=Vtiger_Module::getInstance($tabId);
+				$moduleInstance=vtlib\Module::getInstance($tabId);
 				$moduleInstance->addLink(
 					'DETAILVIEWBASIC',
 					'View History',

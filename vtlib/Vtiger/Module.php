@@ -8,15 +8,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-
-require_once 'include/runtime/Cache.php';
-include_once('vtlib/Vtiger/ModuleBasic.php');
+namespace vtlib;
 
 /**
  * Provides API to work with vtiger CRM Modules
  * @package vtlib
  */
-class Vtiger_Module extends Vtiger_ModuleBasic
+class Module extends ModuleBasic
 {
 
 	/**
@@ -34,7 +32,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	 */
 	function __getNextRelatedListSequence()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$max_sequence = 0;
 		$result = $adb->pquery("SELECT max(sequence) as maxsequence FROM vtiger_relatedlists WHERE tabid=?", Array($this->id));
 		if ($adb->num_rows($result))
@@ -44,7 +42,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 
 	/**
 	 * Set related list information between other module
-	 * @param Vtiger_Module Instance of target module with which relation should be setup
+	 * @param Module Instance of target module with which relation should be setup
 	 * @param String Label to display in related list (default is target module name)
 	 * @param Array List of action button to show ('ADD', 'SELECT')
 	 * @param String Callback function name of this module to use as handler
@@ -53,7 +51,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	 */
 	function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'get_related_list')
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		if (empty($moduleInstance))
 			return;
@@ -89,12 +87,12 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 		]);
 
 		if ($functionName == 'get_many_to_many') {
-			$refTableName = Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
-			if (!Vtiger_Utils::CheckTable($refTableName['table'])) {
-				Vtiger_Utils::CreateTable(
+			$refTableName = \Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
+			if (!Utils::CheckTable($refTableName['table'])) {
+				Utils::CreateTable(
 					$refTableName['table'], '(crmid INT(19) ,relcrmid INT(19),KEY crmid (crmid),KEY relcrmid (relcrmid),'
-					. ' CONSTRAINT `'.$refTableName['table'].'_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,'
-					. ' CONSTRAINT `'.$refTableName['table'].'_ibfk_2` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)', true);
+					. ' CONSTRAINT `' . $refTableName['table'] . '_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,'
+					. ' CONSTRAINT `' . $refTableName['table'] . '_ibfk_2` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)', true);
 			}
 		}
 		self::log("Setting relation with $moduleInstance->name  ... DONE");
@@ -102,13 +100,13 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 
 	/**
 	 * Unset related list information that exists with other module
-	 * @param Vtiger_Module Instance of target module with which relation should be setup
+	 * @param Module Instance of target module with which relation should be setup
 	 * @param String Label to display in related list (default is target module name)
 	 * @param String Callback function name of this module to use as handler
 	 */
 	function unsetRelatedList($moduleInstance, $label = '', $function_name = 'get_related_list')
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		if (empty($moduleInstance))
 			return;
@@ -134,7 +132,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	 */
 	function addLink($type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null)
 	{
-		Vtiger_Link::addLink($this->id, $type, $label, $url, $iconpath, $sequence, $handlerInfo);
+		Link::addLink($this->id, $type, $label, $url, $iconpath, $sequence, $handlerInfo);
 	}
 
 	/**
@@ -145,7 +143,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	 */
 	function deleteLink($type, $label, $url = false)
 	{
-		Vtiger_Link::deleteLink($this->id, $type, $label, $url);
+		Link::deleteLink($this->id, $type, $label, $url);
 	}
 
 	/**
@@ -153,7 +151,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	 */
 	function getLinks()
 	{
-		return Vtiger_Link::getAll($this->id);
+		return Link::getAll($this->id);
 	}
 
 	/**
@@ -161,7 +159,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	 */
 	function getLinksForExport()
 	{
-		return Vtiger_Link::getAllForExport($this->id);
+		return Link::getAllForExport($this->id);
 	}
 
 	/**
@@ -169,7 +167,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	 */
 	function initWebservice()
 	{
-		Vtiger_Webservice::initialize($this);
+		Webservice::initialize($this);
 	}
 
 	/**
@@ -177,17 +175,17 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	 */
 	function deinitWebservice()
 	{
-		Vtiger_Webservice::uninitialize($this);
+		Webservice::uninitialize($this);
 	}
 
-	function createFiles(Vtiger_Field $entityField)
+	function createFiles(Field $entityField)
 	{
 		$targetpath = 'modules/' . $this->name;
 
 		if (!is_file($targetpath)) {
 			$templatepath = 'vtlib/ModuleDir/BaseModule/';
-			$flags = FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS;
-			$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($templatepath, $flags), RecursiveIteratorIterator::SELF_FIRST);
+			$flags = \FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
+			$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($templatepath, $flags), \RecursiveIteratorIterator::SELF_FIRST);
 			foreach ($objects as $name => $object) {
 				$targetPath = str_replace($templatepath, '', $name);
 				$targetPath = str_replace('_ModuleName_', $this->name, $targetPath);
@@ -212,7 +210,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 					file_put_contents($targetPath, $fileContent);
 				}
 			}
-			$languages = Users_Module_Model::getLanguagesList();
+			$languages = \Users_Module_Model::getLanguagesList();
 			$langFile = 'languages/en_us/' . $this->name . '.php';
 			foreach ($languages as $key => $language) {
 				if ($key != 'en_us') {
@@ -229,7 +227,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 	static function getInstance($value)
 	{
 		$instance = false;
-		$data = Vtiger_Functions::getModuleData($value);
+		$data = Functions::getModuleData($value);
 		if ($data) {
 			$instance = new self();
 			$instance->initialize($data);
@@ -248,7 +246,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic
 
 		$instance = false;
 		$filepath = "modules/$modulename/$modulename.php";
-		if (Vtiger_Utils::checkFileAccessForInclusion($filepath, false)) {
+		if (Utils::checkFileAccessForInclusion($filepath, false)) {
 			checkFileAccessForInclusion($filepath);
 			include_once($filepath);
 			if (class_exists($modulename)) {

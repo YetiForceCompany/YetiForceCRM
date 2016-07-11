@@ -148,7 +148,7 @@ class Import_Utils_Helper {
 		$adb = PearDatabase::getInstance();
 		$tableName = self::getDbTableName($user);
 
-		if(Vtiger_Utils::CheckTable($tableName)) {
+		if(vtlib\Utils::CheckTable($tableName)) {
 			$query = sprintf('SELECT 1 FROM %s WHERE temp_status = %s', $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
 			$result = $adb->query($query);
 			if($adb->num_rows($result) > 0) {

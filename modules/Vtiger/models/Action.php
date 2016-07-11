@@ -74,7 +74,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 			self::$cachedInstances = self::getAll();
 		}
 		if (self::$cachedInstances) {
-			$actionid = Vtiger_Utils::isNumber($value) ? $value : false;
+			$actionid = vtlib\Utils::isNumber($value) ? $value : false;
 			foreach (self::$cachedInstances as $instance) {
 				if ($actionid !== false) {
 					if ($instance->get('actionid') == $actionid) {
@@ -94,7 +94,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (Vtiger_Utils::isNumber($value)) {
+		if (vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionid=? LIMIT 1';
 		} else {
 			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionname=?';

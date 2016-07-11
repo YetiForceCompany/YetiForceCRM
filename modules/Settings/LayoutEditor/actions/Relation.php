@@ -56,9 +56,9 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$isInventory = $request->get('inventory');
 		$response = new Vtiger_Response();
 		try {
-			if($isInventory){
+			if ($isInventory) {
 				Vtiger_Relation_Model::updateModuleRelatedInventoryFields($relationId, $fields);
-			}else{
+			} else {
 				Vtiger_Relation_Model::updateModuleRelatedFields($relationId, $fields);
 			}
 			$response->setResult(array('success' => true));
@@ -75,10 +75,9 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$label = $request->get('label');
 		$type = $request->get('type');
 		$actions = is_array($request->get('actions')) ? $request->get('actions') : [$request->get('actions')];
-		include_once('vtlib/Vtiger/Module.php');
 
-		$source_Module = Vtiger_Module::getInstance($source);
-		$moduleInstance = Vtiger_Module::getInstance($target);
+		$source_Module = vtlib\Module::getInstance($source);
+		$moduleInstance = vtlib\Module::getInstance($target);
 		$source_Module->setRelatedList($moduleInstance, $label, $actions, $type);
 
 		$response = new Vtiger_Response();
@@ -97,7 +96,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		}
 		$response->emit();
 	}
-	
+
 	public function updateStateFavorites(Vtiger_Request $request)
 	{
 		$relationId = $request->get('relationId');

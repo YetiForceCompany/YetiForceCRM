@@ -337,7 +337,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$module = Vtiger_Module_Model::getInstance($module);
 			$moduleName = $module->get('name');
 		} elseif (empty($module)) {
-			$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
 			$module = Vtiger_Module_Model::getInstance($moduleName);
 		}
 		$cacheName = $recordId . ':' . $moduleName;

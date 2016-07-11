@@ -25,7 +25,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if ($value == 0) {
 			return '';
 		}
-		$metaData = Vtiger_Functions::getCRMRecordMetadata($value);
+		$metaData = vtlib\Functions::getCRMRecordMetadata($value);
 		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . vtranslate($metaData['setype'], $metaData['setype']) . '">' . $metaData['label'] . '</a>';
 		return $linkValue;
 	}
@@ -40,7 +40,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($value)) {
 			return '';
 		}
-		$value = Vtiger_Functions::getCRMRecordLabel($value, $default = '');
+		$value = vtlib\Functions::getCRMRecordLabel($value, $default = '');
 		return $value;
 	}
 
@@ -53,7 +53,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	public function getReferenceModule($record)
 	{
 		if (!empty($record)) {
-			$metadata = Vtiger_Functions::getCRMRecordMetadata($record);
+			$metadata = vtlib\Functions::getCRMRecordMetadata($record);
 			return $metadata['setype'];
 		}
 		return '';

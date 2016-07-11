@@ -76,7 +76,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 		}
 
 		if(empty($currencyId)) {
-			$defaultCurrency = Vtiger_Functions::getDefaultCurrencyInfo();
+			$defaultCurrency = vtlib\Functions::getDefaultCurrencyInfo();
 			$currencyId = $defaultCurrency['id'];
 		}
 		$listViewModel->set('currency_id', $currencyId);

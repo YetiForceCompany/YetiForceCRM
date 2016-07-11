@@ -8,7 +8,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-include_once 'vtlib/Vtiger/Module.php';
 include_once 'include/main/WebUI.php';
 include_once 'modules/com_vtiger_workflow/include.inc';
 include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
@@ -47,13 +46,13 @@ class Oss_Tool
 		if (self::checkArg(func_get_args(), 4)) {
 			vglobal('Vtiger_Utils_Log', TRUE);
 
-			$tabid = Vtiger_Functions::getModuleId($moduleName);
+			$tabid = vtlib\Functions::getModuleId($moduleName);
 			$blockId = getBlockId($tabid, $blockLabel);
 
-			$moduleInstance = Vtiger_Module::getInstance($moduleName);
-			$blockInstance = Vtiger_Block::getInstance($blockId, $moduleInstance);
+			$moduleInstance = vtlib\Module::getInstance($moduleName);
+			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
 
-			$fieldInstance = new Vtiger_Field();
+			$fieldInstance = new vtlib\Field();
 			$fieldInstance->name = $fieldName;
 			$fieldInstance->table = 'vtiger_crmentity';
 			$fieldInstance->label = $fieldLabel;
@@ -79,13 +78,13 @@ class Oss_Tool
 		if (self::checkArg(func_get_args(), 2)) {
 			vglobal('Vtiger_Utils_Log', TRUE);
 
-			$tabid = Vtiger_Functions::getModuleId($moduleName);
+			$tabid = vtlib\Functions::getModuleId($moduleName);
 			$blockId = getBlockId($tabid, $blockLabel);
 
-			$moduleInstance = Vtiger_Module::getInstance($moduleName);
-			$blockInstance = Vtiger_Block::getInstance($blockId, $moduleInstance);
+			$moduleInstance = vtlib\Module::getInstance($moduleName);
+			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
 
-			$field = new Vtiger_Field();
+			$field = new vtlib\Field();
 
 			if ($fieldName) {
 				$field->name = strtolower($fieldName);
@@ -132,14 +131,13 @@ class Oss_Tool
 		if (self::checkArg(func_get_args(), 3)) {
 			//vglobal('Vtiger_Utils_Log', TRUE);
 
-			$tabid = Vtiger_Functions::getModuleId($moduleName);
+			$tabid = vtlib\Functions::getModuleId($moduleName);
 			$blockId = getBlockId($tabid, $blockLabel);
 
-			include_once('vtlib/Vtiger/Module.php');
-			$moduleInstance = Vtiger_Module::getInstance($moduleName);
-			$blockInstance = Vtiger_Block::getInstance($blockId, $moduleInstance);
+			$moduleInstance = vtlib\Module::getInstance($moduleName);
+			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
 
-			$field = new Vtiger_Field();
+			$field = new vtlib\Field();
 
 			if ($fieldName) {
 				$field->name = strtolower($fieldName);
@@ -201,13 +199,13 @@ class Oss_Tool
 		if (self::checkArg(func_get_args(), 4)) {
 			vglobal('Vtiger_Utils_Log', TRUE);
 
-			$tabid = Vtiger_Functions::getModuleId($moduleName);
+			$tabid = vtlib\Functions::getModuleId($moduleName);
 			$blockId = getBlockId($tabid, $blockLabel);
 
-			$moduleInstance = Vtiger_Module::getInstance($moduleName);
-			$blockInstance = Vtiger_Block::getInstance($blockId, $moduleInstance);
+			$moduleInstance = vtlib\Module::getInstance($moduleName);
+			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
 
-			$fieldInstance = new Vtiger_Field();
+			$fieldInstance = new vtlib\Field();
 			$fieldInstance->name = strtolower($fieldName);
 
 			if ($moduleInstance->table_name) {
@@ -285,8 +283,8 @@ class Oss_Tool
 		if (self::checkArg(func_get_args(), 4)) {
 			vglobal('Vtiger_Utils_Log', TRUE);
 
-			$relModuleObj = Vtiger_Module::getInstance($relatedModule);
-			$baseModuleObj = Vtiger_Module::getInstance($baseModule);
+			$relModuleObj = vtlib\Module::getInstance($relatedModule);
+			$baseModuleObj = vtlib\Module::getInstance($baseModule);
 			$baseModuleObj->setRelatedList($relModuleObj, $relatedModule, $action, $relatedFunction);
 		}
 	}
@@ -358,11 +356,11 @@ class Oss_Tool
 	private static function addLink($type, $moduleName, $widgetName, $link)
 	{
 		vglobal('Vtiger_Utils_Log', TRUE);
-		$tabId = Vtiger_Functions::getModuleId($moduleName);
+		$tabId = vtlib\Functions::getModuleId($moduleName);
 		if ($tabId) {
-			Vtiger_Link::addLink($tabId, $type, $widgetName, $link);
+			vtlib\Link::addLink($tabId, $type, $widgetName, $link);
 		} else {
-			Vtiger_Utils::Log('tabid module not found - check if module name is correct');
+			vtlib\Utils::Log('tabid module not found - check if module name is correct');
 		}
 	}
 
@@ -380,7 +378,7 @@ class Oss_Tool
 		for ($i = 0; $i < $numMandatoryArg; $i++) {
 			if (empty($parameterList[$i])) {
 				$i++;
-				Vtiger_Utils::Log($i . ' function parameter is empty');
+				vtlib\Utils::Log($i . ' function parameter is empty');
 				return FALSE;
 			}
 		}

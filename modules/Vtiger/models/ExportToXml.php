@@ -78,8 +78,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = Vtiger_Functions::getCRMRecordType($value);
-					$displayValueArray = Vtiger_Functions::computeCRMRecordLabels($recordModule, $value);
+					$recordModule = vtlib\Functions::getCRMRecordType($value);
+					$displayValueArray = vtlib\Functions::computeCRMRecordLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;
@@ -109,7 +109,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 					$valueData = $field->getCurrencyParam([], $value);
 					$valueNewData = [];
 					foreach ($valueData as $currencyId => &$data) {
-						$currencyName = Vtiger_Functions::getCurrencyName($currencyId, false);
+						$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
 						$data['value'] = $currencyName;
 						$valueNewData[$currencyName] = $data;
 					}

@@ -28,7 +28,7 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		if (substr($this->get('relatedRecord'), 0, 1) == 'T') {
-			$result = $db->pquery($this->getRelationTreeQuery(), [$this->get('record'), $this->get('relatedRecord'), Vtiger_Functions::getModuleId($this->get('relatedModuleName'))]);
+			$result = $db->pquery($this->getRelationTreeQuery(), [$this->get('record'), $this->get('relatedRecord'), vtlib\Functions::getModuleId($this->get('relatedModuleName'))]);
 		} else {
 			$result = $db->pquery($this->getRelationQuery(), [$this->get('record'), $this->get('relatedRecord')]);
 		}
@@ -74,7 +74,7 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 		if (substr($this->get('relatedRecord'), 0, 1) == 'T') {
 			$db->update('u_yf_crmentity_rel_tree', [
 				'rel_comment' => $comment
-				], 'crmid = ? AND tree = ? AND relmodule = ?', [$this->get('record'), $this->get('relatedRecord'), Vtiger_Functions::getModuleId($this->get('relatedModuleName'))]
+				], 'crmid = ? AND tree = ? AND relmodule = ?', [$this->get('record'), $this->get('relatedRecord'), vtlib\Functions::getModuleId($this->get('relatedModuleName'))]
 			);
 		} else {
 			$relationTable = $this->getRelationTable();

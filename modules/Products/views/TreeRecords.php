@@ -44,9 +44,9 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode(',', $branches), 'c',  $glue);
 		}
 		if (!empty($category)) {
-			$baseModuleId = Vtiger_Functions::getModuleId($baseModuleName);
-			$moduleId = Vtiger_Functions::getModuleId($moduleName);
-			$query = 'SELECT crmid FROM u_yf_crmentity_rel_tree WHERE module = ' . $baseModuleId . ' AND relmodule = ' . $moduleId . ' AND tree IN (\'' . implode("','", $category) . '\')';
+			$baseModuleId = vtlib\Functions::getModuleId($baseModuleName);
+			$moduleId = vtlib\Functions::getModuleId($moduleName);
+			$query = sprintf('SELECT crmid FROM u_yf_crmentity_rel_tree WHERE module = %s AND relmodule = %s AND tree IN (%s)', $baseModuleId, $moduleId, implode("','", $category));
 			if (count($queryGenerator->getWhereFields()) > 0) {
 				$glue = QueryGenerator::$AND;
 			}

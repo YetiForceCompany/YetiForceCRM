@@ -59,7 +59,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE_NAME', $request->get('sourceModule'));
-		$viewer->assign('MODULE_ID', Vtiger_Functions::getModuleId($request->get('sourceModule')));
+		$viewer->assign('MODULE_ID', vtlib\Functions::getModuleId($request->get('sourceModule')));
 		$viewer->assign('INDEX', ++$index);
 		$viewer->assign('DATA', Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($type, $request->get('sourceModule')));
 		$viewer->assign('MODULE', $moduleName);

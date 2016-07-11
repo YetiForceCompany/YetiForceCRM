@@ -62,7 +62,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns accessible fields in a module
-	 * @return <Array of Vtiger_Field>
+	 * @return <Array of vtlib\Field>
 	 */
 	public function getAccessibleFields($blocks = false)
 	{
@@ -127,7 +127,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns mandatory importable fields
-	 * @return <Array of Vtiger_Field>
+	 * @return <Array of vtlib\Field>
 	 */
 	public function getMandatoryImportableFields()
 	{
@@ -149,7 +149,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns importable fields
-	 * @return <Array of Vtiger_Field>
+	 * @return <Array of vtlib\Field>
 	 */
 	public function getImportableFields($blocks = false)
 	{
@@ -182,7 +182,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns Entity Name fields
-	 * @return <Array of Vtiger_Field>
+	 * @return <Array of vtlib\Field>
 	 */
 	public function getEntityFields()
 	{
@@ -220,7 +220,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns list of mandatory fields
-	 * @return <Array of Vtiger_Field>
+	 * @return <Array of vtlib\Field>
 	 */
 	public function getMandatoryFields()
 	{

@@ -368,7 +368,7 @@ function get_combo_values($input_array)
 		$output['ticketseverities'][$i] = array($adb->query_result($result2, $i, "ticketseverities"), Vtiger_Language_Handler::getTranslatedString($adb->query_result($result2, $i, "ticketseverities"), 'HelpDesk', vglobal('default_language')));
 	}
 
-	$data = Vtiger_Functions::getModuleFieldInfo(Vtiger_Functions::getModuleId('HelpDesk'), 'ticketcategories');
+	$data = vtlib\Functions::getModuleFieldInfo(vtlib\Functions::getModuleId('HelpDesk'), 'ticketcategories');
 	if ($data['presence'] != 1) {
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$data['fieldparams']]);
 		$output['ticketcategories'] = [];
@@ -1595,7 +1595,7 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 					$fieldid = $adb->query_result($res, $j, 'contactid');
 					$fieldvalue = '<a href="index.php?module=Contacts&action=index&id=' . $fieldid . '">' . $fieldvalue . '</a>';
 				} elseif ($fieldname == 'parentid') {
-					$fieldvalue = Vtiger_Functions::getCRMRecordLabel($fieldvalue);
+					$fieldvalue = vtlib\Functions::getCRMRecordLabel($fieldvalue);
 				}
 			}
 			if ($module == 'Project') {
@@ -2170,10 +2170,10 @@ function get_details($id, $module, $customerid, $sessionid)
 			$fieldvalue = Vtiger_Language_Handler::getTranslatedString($fieldvalue, $module, vglobal('default_language'));
 		}
 		if (in_array($uitype, array('10'))) {
-			$fieldvalue = Vtiger_Functions::getCRMRecordLabel($fieldvalue);
+			$fieldvalue = vtlib\Functions::getCRMRecordLabel($fieldvalue);
 		}
 		if (in_array($uitype, array('53', '52', '77'))) {
-			$fieldvalue = Vtiger_Functions::getOwnerRecordLabel($fieldvalue);
+			$fieldvalue = vtlib\Functions::getOwnerRecordLabel($fieldvalue);
 		}
 		if ($fieldname == 'unit_price') {
 			$sym = getCurrencySymbol($res, 0, 'currency_id');

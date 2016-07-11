@@ -822,7 +822,7 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	$sql = "update vtiger_import_maps set assigned_user_id=? where assigned_user_id=?";
 	$db->pquery($sql, array($newOwnerId, $ownerId));
 
-	if (Vtiger_Utils::CheckTable('vtiger_customerportal_prefs')) {
+	if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
 		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
 		$params = array($newOwnerId, 'defaultassignee', $ownerId);
 		$db->pquery($query, $params);
@@ -928,8 +928,8 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 	$nameSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerName . '"';
 	$idSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerId . '"';
 	$fieldSearchValue = 's:16:"assigned_user_id"';
-	$query = sprintf("SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE '%%s%' 
-			OR task LIKE '%%s%' OR task LIKE '%%s%'",$nameSearchValue, $idSearchValue, $fieldSearchValue);
+	$query = sprintf("SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE '%s' 
+			OR task LIKE '%s' OR task LIKE '%s'", "%$nameSearchValue%", "%$idSearchValue%", "%$fieldSearchValue%");
 	$result = $db->pquery($query, []);
 
 	$num_rows = $db->num_rows($result);

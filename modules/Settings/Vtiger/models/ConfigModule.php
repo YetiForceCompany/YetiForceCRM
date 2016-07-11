@@ -106,9 +106,9 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 			$presence = array(0);
 			$restrictedModules = array('Emails', 'Integration', 'Dashboard');
-			$query = 'SELECT name, tablabel FROM vtiger_tab WHERE presence IN (' . generateQuestionMarks($presence) . ') AND isentitytype = ? AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ')';
-
-			$result = $db->pquery($query, array($presence, '1', $restrictedModules));
+			$query = 'SELECT name, tablabel FROM vtiger_tab WHERE presence IN (%s) AND isentitytype = ? AND name NOT IN (%s)';
+			$query = sprintf($query, generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
+			$result = $db->pquery($query, [$presence, '1', $restrictedModules]);
 			$numOfRows = $db->num_rows($result);
 
 			$moduleData = array('Home' => 'Home');

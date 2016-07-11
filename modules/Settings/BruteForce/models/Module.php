@@ -82,7 +82,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 		$query = "SELECT * FROM `vtiger_bruteforce` LIMIT 1";
 		$result = $db->pquery($query, array());
-		$ip = Vtiger_Functions::getRemoteIP();
+		$ip = vtlib\Functions::getRemoteIP();
 		$now = date("Y-m-d H:i:s");
 
 		$bruteforceSettings = $db->query_result_rowdata($result, 0);

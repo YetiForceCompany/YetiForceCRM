@@ -58,7 +58,7 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (Vtiger_Utils::isNumber($value)) {
+		if (vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_id = ?';
 		} else {
 			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_name = ?';
@@ -79,7 +79,7 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
 		$sql = 'SELECT * FROM vtiger_org_share_action_mapping';
 		$params = [];
 		if ($configurable) {
-			$sql .= ' WHERE share_action_name NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+			$sql .= sprintf(' WHERE share_action_name NOT IN (%s)', generateQuestionMarks(self::$nonConfigurableActions));
 			array_push($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);

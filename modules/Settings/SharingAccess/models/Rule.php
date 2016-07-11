@@ -177,7 +177,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 			$sourceColumnName = $tableColumnInfo['source_id'];
 			$targetColumnName = $tableColumnInfo['target_id'];
 
-			$sql = 'SELECT * FROM ' . $tableName . ' WHERE shareid = ?';
+			$sql = sprintf('SELECT * FROM %s WHERE shareid = ?', $tableName);
 			$params = array($this->getId());
 			$result = $db->pquery($sql, $params);
 			if ($db->num_rows($result)) {

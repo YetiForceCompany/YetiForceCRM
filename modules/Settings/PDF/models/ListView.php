@@ -51,7 +51,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 			}
 		}
 		if (!empty($orderBy)) {
-			$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $this->getForSql('sortorder');
+			$listQuery .= sprintf(' ORDER BY %s %s' , $orderBy, $this->getForSql('sortorder'));
 		}
 		$nextListQuery = $listQuery . ' LIMIT ' . ($startIndex + $pageLimit) . ',1';
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
@@ -103,7 +103,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 
 		$module = $this->getModule();
 		$params = [];
-		$listQuery = 'SELECT COUNT(1) AS count FROM ' . $module->baseTable;
+		$listQuery = sprintf('SELECT COUNT(1) AS count FROM %s', $module->baseTable);
 
 		$sourceModule = $this->get('sourceModule');
 		if ($sourceModule) {

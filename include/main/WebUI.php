@@ -103,14 +103,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	{
 		$log = LoggerManager::getLogger('System');
 		vglobal('log', $log);
-		if (AppConfig::main('forceSSL') && !Vtiger_Functions::getBrowserInfo()->https) {
+		if (AppConfig::main('forceSSL') && !vtlib\Functions::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
 		if ($this->isInstalled() === false) {
 			header('Location:install/Install.php');
 			exit;
 		}
-		$request_URL = (Vtiger_Functions::getBrowserInfo()->https ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$request_URL = (vtlib\Functions::getBrowserInfo()->https ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		if (AppConfig::main('forceRedirect') && stripos($request_URL, AppConfig::main('site_URL')) !== 0) {
 			header('Location: ' . AppConfig::main('site_URL'), true, 301);
 			exit;
@@ -225,7 +225,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		} catch (AppException $e) {
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 
-			Vtiger_Functions::throwNewException($e->getMessage(), false);
+			vtlib\Functions::throwNewException($e->getMessage(), false);
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
@@ -233,7 +233,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			//No permissions for the record
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 
-			Vtiger_Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
+			vtlib\Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
@@ -241,14 +241,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			//No permissions for the record
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 
-			Vtiger_Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
+			vtlib\Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
 		} catch (Exception $e) {
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 
-			Vtiger_Functions::throwNewException($e->getMessage(), false);
+			vtlib\Functions::throwNewException($e->getMessage(), false);
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				exit('<pre>' . $e->getTraceAsString() . '</pre>');
 			}
@@ -271,7 +271,7 @@ if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 			file_put_contents($file, $test, FILE_APPEND);
 		}
 		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
-			Vtiger_Functions::throwNewException($msg, false);
+			vtlib\Functions::throwNewException($msg, false);
 		}
 	}
 	set_error_handler('exception_error_handler', AppConfig::debug('EXCEPTION_ERROR_LEVEL'));

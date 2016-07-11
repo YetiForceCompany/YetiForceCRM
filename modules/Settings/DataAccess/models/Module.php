@@ -30,14 +30,14 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
 
-		$presence = array(0, 2);
-		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter');
-		$query = 'SELECT name FROM vtiger_tab WHERE
-                    presence IN (' . generateQuestionMarks($presence) . ')
+		$presence = [0, 2];
+		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter'];
+		$query = sprintf('SELECT name FROM vtiger_tab WHERE
+                    presence IN (%s)
                     AND isentitytype = ?
-                    AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ') ';
+                    AND name NOT IN (%s) ', generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
 
-		$result = $db->pquery($query, array($presence, 1, $restrictedModules));
+		$result = $db->pquery($query, [$presence, 1, $restrictedModules]);
 		$numOfRows = $db->num_rows($result);
 
 		$modulesList = array('All' => 'All');

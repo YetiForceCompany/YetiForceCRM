@@ -25,7 +25,7 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 					$fileType = explode('/', $logoDetails[$image]['type']);
 					$fileType = $fileType[1];
 					//mime type check 
-					$mimeType = Vtiger_Functions::getMimeContentType($_FILES[$image]["tmp_name"]);
+					$mimeType = vtlib\Functions::getMimeContentType($_FILES[$image]["tmp_name"]);
 					$mimeTypeContents = explode('/', $mimeType);
 					if (!$logoDetails[$image]['size'] || $mimeTypeContents[0] != 'image' || !in_array($mimeTypeContents[1], Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
 						$saveLogo[$image] = false;

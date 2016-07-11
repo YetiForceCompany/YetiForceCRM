@@ -36,7 +36,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	 */
 	public function getCurrencyNum()
 	{
-		return count(Vtiger_Functions::getAllCurrency(true));
+		return count(vtlib\Functions::getAllCurrency(true));
 	}
 
 	/*
@@ -307,14 +307,14 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	public function getCRMConversionRate($from, $to, $date = '')
 	{
 		$db = PearDatabase::getInstance();
-		$mainCurrencyCode = Vtiger_Functions::getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrencyCode = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
 		$activeBankId = self::getActiveBankId();
 		$exchange = false;
 		if (is_numeric($from)) {
-			$from = Vtiger_Functions::getAllCurrency(true)[$from]['currency_code'];
+			$from = vtlib\Functions::getAllCurrency(true)[$from]['currency_code'];
 		}
 		if (is_numeric($to)) {
-			$to = Vtiger_Functions::getAllCurrency(true)[$to]['currency_code'];
+			$to = vtlib\Functions::getAllCurrency(true)[$to]['currency_code'];
 		}
 		// get present conversion rate from crm
 		if (empty($date)) {

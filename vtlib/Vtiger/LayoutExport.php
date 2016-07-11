@@ -7,24 +7,16 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Package.php');
+namespace vtlib;
 
 /**
  * Provides API to package vtiger CRM layout files.
  * @package vtlib
  */
-class Vtiger_LayoutExport extends Vtiger_Package
+class LayoutExport extends Package
 {
 
 	const TABLENAME = 'vtiger_layout';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
 
 	/**
 	 * Generate unique id for insertion
@@ -32,7 +24,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	 */
 	static function __getUniqueId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
 	}
 
@@ -43,7 +35,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	function __initExport($layoutName)
 	{
 		// Security check to ensure file is withing the web folder.
-		Vtiger_Utils::checkFileAccessForInclusion("layouts/$layoutName/skins/vtiger/style.less");
+		Utils::checkFileAccessForInclusion("layouts/$layoutName/skins/style.less");
 
 		$this->_export_modulexml_file = fopen($this->__getManifestFilePath(), 'w');
 		$this->__write("<?xml version='1.0'?>\n");
@@ -70,7 +62,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 			$zipfilename = "$layoutName-" . date('YmdHis') . ".zip";
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
-		$zip = new Vtiger_Zip($zipfilename);
+		$zip = new Zip($zipfilename);
 
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
@@ -97,7 +89,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	 */
 	function export_Layout($layoutName)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
 		$sqlresult = $adb->pquery($query, [$layoutName]);
 		$layoutresultrow = $adb->fetch_array($sqlresult);
@@ -145,7 +137,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 		$useisdefault = ($isdefault) ? 1 : 0;
 		$useisactive = ($isactive) ? 1 : 0;
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$query = sprintf('SELECT id FROM %s WHERE name = ?', self::TABLENAME);
 		$checkres = $adb->pquery($query, [$name]);
 		$datetime = date('Y-m-d H:i:s');
@@ -176,9 +168,9 @@ class Vtiger_LayoutExport extends Vtiger_Package
 		if (strtolower($name) == 'basic')
 			return;
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->delete(self::TABLENAME, 'name = ?', [$name]);
-		Vtiger_Functions::recurseDelete('layouts' . DIRECTORY_SEPARATOR . $name);
+		Functions::recurseDelete('layouts' . DIRECTORY_SEPARATOR . $name);
 		self::log("Deregistering Layout $name ... DONE");
 	}
 }

@@ -22,7 +22,7 @@ set_error_handler('exception_error_handler');
 $enableWebDAV = false;
 
 // Autoloader
-require_once('libraries/SabreDAV/autoload.php');
+require('libraries/SabreDAV/autoload.php');
 
 // Backends 
 $authBackend = new Yeti\DAV_Auth_Backend_PDO($pdo);

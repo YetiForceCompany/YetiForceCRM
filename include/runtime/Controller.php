@@ -96,7 +96,7 @@ abstract class Vtiger_Controller
 		if (headers_sent()) {
 			return;
 		}
-		$browser = Vtiger_Functions::getBrowserInfo();
+		$browser = vtlib\Functions::getBrowserInfo();
 		header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
@@ -376,7 +376,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					$filePath = str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
 				}
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
-				if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+				if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
@@ -398,7 +398,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (empty($preLayoutPath))
 						$filePath = str_replace('.', '/', $filePath) . '.js';
 					$minFilePath = str_replace('.js', '.min.js', $filePath);
-					if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
 					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $layoutPath . '/' . $filePath);
@@ -413,7 +413,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (empty($preLayoutPath))
 						$filePath = str_replace('.', '/', $jsFile) . '.js';
 					$minFilePath = str_replace('.js', '.min.js', $filePath);
-					if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
 					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $layoutPath . '/' . $filePath);
@@ -450,7 +450,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					$filePath = str_replace('.', '/', $cssFileName) . '.' . $fileExtension;
 				}
 				$minFilePath = str_replace('.css', '.min.css', $filePath);
-				if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+				if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
@@ -471,7 +471,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (empty($preLayoutPath))
 						$filePath = str_replace('.', '/', $cssFile) . '.css';
 					$minFilePath = str_replace('.css', '.min.css', $filePath);
-					if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
 					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $layoutPath . '/' . $filePath);
@@ -485,7 +485,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (empty($preLayoutPath))
 						$filePath = str_replace('.', '/', $cssFile) . '.css';
 					$minFilePath = str_replace('.css', '.min.css', $filePath);
-					if (Vtiger_Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
 					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $layoutPath . '/' . $filePath);

@@ -129,7 +129,7 @@ class API_CardDAV_Model
 		if ($moduleName == 'Contacts') {
 			$name = $record['firstname'] . ' ' . $record['lastname'];
 			$vcard->N = [ $record['lastname'], $record['firstname']];
-			$org = Vtiger_Functions::getCRMRecordLabel($record['parentid']);
+			$org = vtlib\Functions::getCRMRecordLabel($record['parentid']);
 			if ($org != '') {
 				$vcard->ORG = $org;
 			}
@@ -187,7 +187,7 @@ class API_CardDAV_Model
 		if ($moduleName == 'Contacts') {
 			$name = $record['firstname'] . ' ' . $record['lastname'];
 			$vcard->N = [ $record['lastname'], $record['firstname']];
-			$org = Vtiger_Functions::getCRMRecordLabel($record['parentid']);
+			$org = vtlib\Functions::getCRMRecordLabel($record['parentid']);
 			if (!empty($org))
 				$vcard->ORG = $org;
 			if (!empty($record['jobtitle'])) {

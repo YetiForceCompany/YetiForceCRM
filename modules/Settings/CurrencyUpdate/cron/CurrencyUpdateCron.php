@@ -14,7 +14,7 @@ $moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 $activeBankId = $moduleModel->getActiveBankId();
 if (!empty($activeBankId)) {
 	$yesterday = date('Y-m-d', strtotime('-1 day'));
-	$lastWorkingDay = Vtiger_Functions::getLastWorkingDay($yesterday);
+	$lastWorkingDay = vtlib\Functions::getLastWorkingDay($yesterday);
 	$status = $moduleModel->fetchCurrencyRates($lastWorkingDay, true);
 
 	if ($status) {

@@ -43,6 +43,12 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		} else {
 			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 		}
+	
+		//TODO adddetail to source and target
+		$prevValues['permission'] = $ruleModel->getPermission();
+		$newValues['permission'] = $request->get('permission');
+		
+		Settings_Vtiger_Tracker_Model::addDetail($prevValues, $newValues);
 
 		$ruleModel->set('source_id', $request->get('source_id'));
 		$ruleModel->set('target_id', $request->get('target_id'));

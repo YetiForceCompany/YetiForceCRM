@@ -43,8 +43,8 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 				$homePageChartIdsList[] = $adb->query_result($result, $i, 'stuffid');
 			}
 			if ($homePageChartIdsList) {
-				$deleteQuery = 'DELETE FROM vtiger_homestuff WHERE stuffid IN (' . implode(",", $homePageChartIdsList) . ')';
-				$db->pquery($deleteQuery, array());
+				$where = sprintf('stuffid IN (%s)', implode(",", $homePageChartIdsList));
+				$db->delete('vtiger_homestuff', $where);
 			}
 			return true;
 		}

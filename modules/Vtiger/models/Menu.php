@@ -97,7 +97,7 @@ class Vtiger_Menu_Model
 				$breadcrumbs[] = [ 'name' => vtranslate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
-				$recordLabel = Vtiger_Functions::getCRMRecordLabel($request->get('record'));
+				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->get('record'));
 				if ($recordLabel != '') {
 					$breadcrumbs[] = [ 'name' => $recordLabel];
 				}
@@ -146,7 +146,7 @@ class Vtiger_Menu_Model
 						$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
 					if ($request->get('record') != '' && $moduleName == 'Users') {
-						$recordLabel = Vtiger_Functions::getUserRecordLabel($request->get('record'));
+						$recordLabel = vtlib\Functions::getUserRecordLabel($request->get('record'));
 						if ($recordLabel != '') {
 							$breadcrumbs[] = [ 'name' => $recordLabel];
 						}
@@ -178,7 +178,7 @@ class Vtiger_Menu_Model
 	 */
 	public static function getModuleNameFromUrl($url)
 	{
-		$params = Vtiger_Functions::getQueryParams($url);
+		$params = vtlib\Functions::getQueryParams($url);
 		if ($params['parent']) {
 			return ($params['parent'] . ':' . $params['module']);
 		}

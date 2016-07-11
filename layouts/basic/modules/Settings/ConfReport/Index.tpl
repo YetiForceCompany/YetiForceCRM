@@ -86,10 +86,10 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach from=Vtiger_Functions::getDiskSpace() key=key item=item}			
+					{foreach from=vtlib\Functions::getDiskSpace() key=key item=item}			
 						<tr>
 							<td>{vtranslate('LBL_SPACE_'|cat:strtoupper($key), $MODULE)}</td>
-							<td>{Vtiger_Functions::showBytes($item)}</td>			
+							<td>{vtlib\Functions::showBytes($item)}</td>			
 						</tr>
 					{/foreach}
 				</tbody>

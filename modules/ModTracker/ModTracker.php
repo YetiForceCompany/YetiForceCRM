@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-include_once 'vtlib/Vtiger/Event.php';
 include_once 'include/Webservices/GetUpdates.php';
 
 class ModTracker
@@ -49,7 +48,7 @@ class ModTracker
 	{
 		global $adb, $currentModule;
 
-		$modtrackerModule = Vtiger_Module::getInstance($currentModule);
+		$modtrackerModule = vtlib\Module::getInstance($currentModule);
 		$otherModuleNames = $this->getModTrackerEnabledModules();
 
 		if ($eventType == 'module.postinstall') {
@@ -119,7 +118,7 @@ class ModTracker
 			self::updateCache($tabid, 0);
 		}
 		if (self::isModtrackerLinkPresent($tabid)) {
-			$moduleInstance = Vtiger_Module::getInstance($tabid);
+			$moduleInstance = vtlib\Module::getInstance($tabid);
 			$moduleInstance->deleteLink('DETAILVIEWBASIC', 'View History');
 		}
 		$adb->pquery("UPDATE vtiger_field SET presence = 1 WHERE tabid = ? AND fieldname = ?", array($tabid, 'was_read'));

@@ -134,6 +134,7 @@ require_once 'config/secret_keys.php';
 require_once 'config/security.php';
 require_once 'config/version.php';
 require_once 'config/sounds.php';
+require_once('include/autoload.php');
 
 AppConfig::load('debug', $DEBUG_CONFIG);
 AppConfig::load('developer', $DEVELOPER_CONFIG);

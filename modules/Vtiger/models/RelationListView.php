@@ -374,7 +374,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				if (strlen($row['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')) {
 					$newRow['relCommentFull'] = $row['rel_comment'];
 				}
-				$newRow['relComment'] = Vtiger_Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
+				$newRow['relComment'] = vtlib\Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
 			}
 			if ($relationModule->isInventory()) {
 				$showInventoryFields = $relationModel->getRelationInventoryFields();
@@ -689,7 +689,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				if (strlen($row['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')) {
 					$tree['relCommentFull'] = $row['rel_comment'];
 				}
-				$tree['relComment'] = Vtiger_Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
+				$tree['relComment'] = vtlib\Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
 			}
 
 			if (!empty($row['icon'])) {

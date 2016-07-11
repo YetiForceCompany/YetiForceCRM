@@ -304,7 +304,7 @@ class Activity extends CRMEntity
 		while ($row = $db->getRow($result)) {
 			$invities[$row['inviteesid']] = $row;
 		}
-		if(!empty($inviteesRequest)) {
+		if (!empty($inviteesRequest)) {
 			foreach ($inviteesRequest as &$invitation) {
 				if (isset($invities[$invitation[2]])) {
 					unset($invities[$invitation[2]]);
@@ -318,7 +318,7 @@ class Activity extends CRMEntity
 			}
 		}
 		foreach ($invities as &$invitation) {
-			$db->delete('u_yf_activity_invitation', 'inviteesid = ?', [$invitation[2]]);
+			$db->delete('u_yf_activity_invitation', 'inviteesid = ?', [$invitation['inviteesid']]);
 		}
 		$log->debug('Exiting insertIntoInviteeTable method ...');
 	}
@@ -335,7 +335,7 @@ class Activity extends CRMEntity
 			$adb->pquery($sql, array($this->id));
 		}
 
-		$userName = Vtiger_Functions::getUserName($this->column_fields['assigned_user_id']);
+		$userName = vtlib\Functions::getUserName($this->column_fields['assigned_user_id']);
 		if (!empty($userName)) {
 			$sql_qry = "insert into vtiger_salesmanactivityrel (smid,activityid) values(?,?)";
 			$adb->pquery($sql_qry, array($this->column_fields['assigned_user_id'], $this->id));
@@ -422,7 +422,7 @@ class Activity extends CRMEntity
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -699,8 +699,8 @@ class Activity extends CRMEntity
 
 		$query = "select vtiger_activity.activityid as taskid, %s from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
 			 inner join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-			 where vtiger_users.user_name='" . $username . "' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
-		$columnTableList = implode(',', $column_table_lists);
+			 where vtiger_users.user_name='%s' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
+		$columnTableList = implode(',', $column_table_lists, $username);
 		$query = sprintf($query, $columnTableList);
 		$log->debug("Exiting get_tasksforol method ...");
 		return $query;
@@ -759,9 +759,9 @@ class Activity extends CRMEntity
 				inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid
 				left join vtiger_contactdetails on vtiger_contactdetails.contactid=vtiger_activity.link
 				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
-				where vtiger_users.user_name='" . $user_name . "' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting'";
+				where vtiger_users.user_name='%s' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting'";
 		$columnTableLists = implode(',', $column_table_lists);
-		$query = sprintf($query, $columnTableLists);
+		$query = sprintf($query, $columnTableLists, $user_name);
 		$log->debug("Exiting get_calendarsforol method ...");
 		return $query;
 	}
@@ -954,7 +954,7 @@ class Activity extends CRMEntity
 		if ($fieldRes->rowCount()) {
 			$results = $this->db->getArray($fieldRes);
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [Vtiger_Functions::getModuleId($module)]);
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
 			while ($row = $this->db->getRow($fieldRes)) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();

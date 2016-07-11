@@ -37,7 +37,7 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		$modules = $this->getParamsConfig();
 		if (!empty($rowId)) {
-			$moduleName = Vtiger_Functions::getCRMRecordType($rowId);
+			$moduleName = vtlib\Functions::getCRMRecordType($rowId);
 			foreach ($modules as $module => $field) {
 				if ($module != $moduleName) {
 					unset($modules[$module]);

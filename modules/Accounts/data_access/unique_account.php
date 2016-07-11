@@ -69,17 +69,17 @@ Class DataAccess_unique_account
 
 		if ($hierarchyAll && $vatId) {
 			$hierarchyParams = array_merge($params, array_keys($hierarchyAll));
-			$hierarchyQuery = 'SELECT accountid,accountname FROM vtiger_account WHERE %s AND accountid IN (' . $db->generateQuestionMarks($hierarchyAll) . ')';
-			$hierarchyQuery = sprintf($hierarchyQuery, $where);
+			$hierarchyQuery = 'SELECT accountid,accountname FROM vtiger_account WHERE %s AND accountid IN (%s)';
+			$hierarchyQuery = sprintf($hierarchyQuery, $where, $db->generateQuestionMarks($hierarchyAll));
 			$result = $db->pquery($hierarchyQuery, $hierarchyParams);
 			if ($db->getRowCount($result)) {
 				$hierarchyCheck = true;
 			}
 			while ($row = $db->getRow($result)) {
 				if ($row['accountname'] == $accountName) {
-					$metaData = Vtiger_Functions::getCRMRecordMetadata($row['accountid']);
+					$metaData = vtlib\Functions::getCRMRecordMetadata($row['accountid']);
 					$save = false;
-					$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $row['accountid'] . '"><strong>' . Vtiger_Functions::getCRMRecordLabel($row['accountid']) . '</strong></a> (' . Vtiger_Functions::getOwnerRecordLabel($metaData['smownerid']) . '),</li>';
+					$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $row['accountid'] . '"><strong>' . vtlib\Functions::getCRMRecordLabel($row['accountid']) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metaData['smownerid']) . '),</li>';
 				}
 			}
 		}
@@ -87,10 +87,10 @@ Class DataAccess_unique_account
 			$sql = "SELECT accountid FROM vtiger_account WHERE $where;";
 			$result = $db->pquery($sql, $params);
 			while ($id = $db->getSingleValue($result)) {
-				$metaData = Vtiger_Functions::getCRMRecordMetadata($id);
+				$metaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$save = false;
 				$deletedLabel = $metaData['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
-				$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $id . '"><strong>' . Vtiger_Functions::getCRMRecordLabel($id) . '</strong></a> (' . Vtiger_Functions::getOwnerRecordLabel($metaData['smownerid']) . ')' . $deletedLabel . ',</li>';
+				$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $id . '"><strong>' . vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metaData['smownerid']) . ')' . $deletedLabel . ',</li>';
 			}
 		}
 		if ($save === true && empty($recordForm['account_id']) === false && $ID > 0) {

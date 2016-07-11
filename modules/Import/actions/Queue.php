@@ -26,8 +26,8 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 	public static function add($request, $user) {
 		$db = PearDatabase::getInstance();
 
-		if (!Vtiger_Utils::CheckTable('vtiger_import_queue')) {
-			Vtiger_Utils::CreateTable(
+		if (!vtlib\Utils::CheckTable('vtiger_import_queue')) {
+			vtlib\Utils::CreateTable(
 							'vtiger_import_queue',
 							"(importid INT NOT NULL PRIMARY KEY,
 								userid INT NOT NULL,
@@ -61,14 +61,14 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 
 	public static function remove($importId) {
 		$db = PearDatabase::getInstance();
-		if(Vtiger_Utils::CheckTable('vtiger_import_queue')) {
+		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$db->pquery('DELETE FROM vtiger_import_queue WHERE importid=?', array($importId));
 		}
 	}
 
 	public static function removeForUser($user) {
 		$db = PearDatabase::getInstance();
-		if(Vtiger_Utils::CheckTable('vtiger_import_queue')) {
+		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$db->pquery('DELETE FROM vtiger_import_queue WHERE userid=?', array($user->id));
 		}
 	}
@@ -76,7 +76,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 	public static function getUserCurrentImportInfo($user) {
 		$db = PearDatabase::getInstance();
 
-		if(Vtiger_Utils::CheckTable('vtiger_import_queue')) {
+		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', array($user->id));
 
 			if($queueResult && $db->num_rows($queueResult) > 0) {
@@ -90,7 +90,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 	public static function getImportInfo($module, $user) {
 		$db = PearDatabase::getInstance();
 
-		if(Vtiger_Utils::CheckTable('vtiger_import_queue')) {
+		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE tabid=? AND userid=?',
 											array(getTabid($module), $user->id));
 
@@ -105,7 +105,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 	public static function getImportInfoById($importId) {
 		$db = PearDatabase::getInstance();
 
-		if(Vtiger_Utils::CheckTable('vtiger_import_queue')) {
+		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE importid=?', array($importId));
 
 			if($queueResult && $db->num_rows($queueResult) > 0) {

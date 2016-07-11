@@ -6,14 +6,14 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BaseScannerAction_Model
+class OSSMailScanner_CreatedHelpDesk_ScannerAction
 {
 
 	public function process(OSSMail_Mail_Model $mail)
 	{
 		$id = 0;
 		$accountOwner = $mail->getAccountOwner();
-		$prefix = $this->findEmailPrefix('HelpDesk', $mail->get('subject'));
+		$prefix = includes\fields\Email::findCrmidByPrefix($mail->get('subject'), 'HelpDesk');
 
 		$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
 		if (!empty($exceptionsAll['crating_tickets'])) {

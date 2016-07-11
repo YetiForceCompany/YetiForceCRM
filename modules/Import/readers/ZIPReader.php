@@ -46,7 +46,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		}
 		if ($this->extension && file_exists($zipfile) && !file_exists($this->importFolderLocation)) {
 			mkdir($this->importFolderLocation);
-			$unzip = new Vtiger_Unzip($zipfile);
+			$unzip = new vtlib\Unzip($zipfile);
 			$unzip->unzipAllEx($this->importFolderLocation);
 			foreach ($unzip->getList() as $name => $data) {
 				$this->filelist[] = $name;

@@ -87,17 +87,13 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 					$item = implode(',', $item);
 				}
 				if ($key != 'id' && $key != 'edit') {
-					$sqlCol .= $key . ' = ?,';
-					$params[] = $item;
+					$params[$key] = $item;
 				}
 			}
 			if (!isset($data['newwindow'])) {
-				$sqlCol .= 'newwindow = ?,';
-				$params[] = 0;
+				$params['newwindow'] = 0;
 			}
-			$params[] = $this->getId();
-			$sql = 'UPDATE yetiforce_menu SET ' . trim($sqlCol, ',') . ' WHERE id = ?';
-			$db->pquery($sql, $params);
+			$db->update('yetiforce_menu', $params, 'id = ?', [$this->getId()]);
 		} else {
 			foreach ($this->getData() as $key => $item) {
 				if (is_array($item)) {

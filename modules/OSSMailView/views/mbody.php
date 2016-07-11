@@ -44,7 +44,7 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);
-		$viewer->assign('CONTENT', Vtiger_Functions::getHtmlOrPlainText($content));
+		$viewer->assign('CONTENT', vtlib\Functions::getHtmlOrPlainText($content));
 		$viewer->assign('RECORD', $record);
 		$viewer->view('mbody.tpl', 'OSSMailView');
 	}

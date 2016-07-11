@@ -37,7 +37,7 @@ class Pdf_TimeControlUserGroup extends Vtiger_SpecialFunction_Pdf
 			$html .= '<tr>';
 			$html .= '<td>' . $user . '</td>';
 			$html .= '<td class="center">' . $data['role'] . '</td>';
-			$time = Vtiger_Functions::decimalTimeFormat($data['time']);
+			$time = vtlib\Functions::decimalTimeFormat($data['time']);
 			$html .= '<td class="center">' . $time['short'] . '</td>';
 			$html .= '</tr>';
 		}

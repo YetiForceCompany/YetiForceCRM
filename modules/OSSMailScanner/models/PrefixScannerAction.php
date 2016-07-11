@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMailScanner_PrefixScannerAction_Model extends OSSMailScanner_BaseScannerAction_Model
+class OSSMailScanner_PrefixScannerAction_Model
 {
 
 	public function process($mail, $moduleName, $tableName, $tableColumn)
@@ -19,7 +19,7 @@ class OSSMailScanner_PrefixScannerAction_Model extends OSSMailScanner_BaseScanne
 		$returnIds = [];
 		$result = $db->pquery('SELECT crmid FROM vtiger_ossmailview_relation WHERE ossmailviewid = ?;', [$mailId]);
 		while ($crmid = $db->getSingleValue($result)) {
-			$type = Vtiger_Functions::getCRMRecordType($crmid);
+			$type = vtlib\Functions::getCRMRecordType($crmid);
 			if ($type == $moduleName) {
 				$returnIds[] = $crmid;
 			}
@@ -28,7 +28,7 @@ class OSSMailScanner_PrefixScannerAction_Model extends OSSMailScanner_BaseScanne
 			return $returnIds;
 		}
 
-		$prefix = $this->findEmailPrefix($moduleName, $mail->get('subject'));
+		$prefix = includes\fields\Email::findCrmidByPrefix($mail->get('subject'), $moduleName);
 		if (!$prefix) {
 			return false;
 		}

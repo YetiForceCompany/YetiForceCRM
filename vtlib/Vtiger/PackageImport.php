@@ -8,17 +8,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/PackageExport.php');
-include_once('vtlib/Vtiger/Unzip.php');
-include_once('vtlib/Vtiger/Module.php');
-include_once('vtlib/Vtiger/Event.php');
-include_once('vtlib/Vtiger/Cron.php');
+namespace vtlib;
 
 /**
  * Provides API to import module into vtiger CRM
  * @package vtlib
  */
-class Vtiger_PackageImport extends Vtiger_PackageExport
+class PackageImport extends PackageExport
 {
 
 	/**
@@ -32,7 +28,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	 * will be used to create customviews.
 	 * @access private
 	 */
-	var $_modulefields_cache = Array();
+	var $_modulefields_cache = [];
 
 	/**
 	 * License of the package.
@@ -42,14 +38,6 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	var $_errorText = '';
 	var $packageType = '';
 	var $parameters = [];
-
-	/**
-	 * Constructor
-	 */
-	function Vtiger_PackageImport()
-	{
-		parent::__construct();
-	}
 
 	/**
 	 * Parse the manifest file
@@ -266,7 +254,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	function checkZip($zipfile)
 	{
 		global $YetiForce_current_version;
-		$unzip = new Vtiger_Unzip($zipfile);
+		$unzip = new Unzip($zipfile);
 		$filelist = $unzip->getList();
 
 		$manifestxml_found = false;
@@ -279,7 +267,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		$language_modulename = null;
 
 		foreach ($filelist as $filename => $fileinfo) {
-			$matches = Array();
+			$matches = [];
 			preg_match('/manifest.xml/', $filename, $matches);
 			if (count($matches)) {
 				$manifestxml_found = true;
@@ -429,7 +417,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module != null) {
-			$unzip = new Vtiger_Unzip($zipfile, $overwrite);
+			$unzip = new Unzip($zipfile, $overwrite);
 			// Unzip selectively
 			$unzip->unzipAllEx(".", [
 				// Include only file/folders that need to be extracted
@@ -441,7 +429,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 				// What files needs to be renamed?
 				[
 				// Templates folder
-				'templates' => 'layouts/' . Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
+				'templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
@@ -453,9 +441,9 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 				'settings/connectors' => "modules/Settings/$module/connectors",
 				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
-				'settings/templates' => 'layouts/' . Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
+				'settings/templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
-				'images' => 'layouts/' . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
+				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
 				'settings' => 'modules/Settings',
 				'updates' => 'cache/updates',
 				'layouts' => 'layouts'
@@ -463,7 +451,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 			);
 
 			if ($unzip->checkFileExistsInRootFolder("$module.png")) {
-				$unzip->unzip("$module.png", "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
+				$unzip->unzip("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
 			}
 
 			if ($unzip)
@@ -564,8 +552,8 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 				$this->__parseManifestFile($unzip);
 			}
 
-			$buildModuleArray = array();
-			$installSequenceArray = array();
+			$buildModuleArray = [];
+			$installSequenceArray = [];
 			$moduleBundle = (boolean) $this->_modulexml->modulebundle;
 			if ($moduleBundle == true) {
 				$moduleList = (Array) $this->_modulexml->modulelist;
@@ -577,7 +565,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 					}
 				}
 				sort($installSequenceArray);
-				$unzip = new Vtiger_Unzip($zipfile);
+				$unzip = new Unzip($zipfile);
 				$unzip->unzipAllEx($this->getTemporaryFilePath());
 				foreach ($installSequenceArray as $sequence) {
 					foreach ($buildModuleArray as $moduleInfo) {
@@ -619,7 +607,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		$vtigerMinVersion = $this->_modulexml->dependencies->vtiger_version;
 		$vtigerMaxVersion = $this->_modulexml->dependencies->vtiger_max_version;
 
-		$moduleInstance = new Vtiger_Module();
+		$moduleInstance = new Module();
 		$moduleInstance->name = $tabname;
 		$moduleInstance->label = $tabLabel;
 		$moduleInstance->isentitytype = ($isextension != true);
@@ -643,7 +631,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 			$this->import_RelatedLists($this->_modulexml, $moduleInstance);
 			$this->import_CustomLinks($this->_modulexml, $moduleInstance);
 			$this->import_CronTasks($this->_modulexml);
-			Vtiger_Module::fireEvent($moduleInstance->name, Vtiger_Module::EVENT_MODULE_POSTINSTALL);
+			Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTINSTALL);
 		} else {
 			$this->import_update($this->_modulexml);
 		}
@@ -657,7 +645,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	{
 		if (empty($modulenode->tables) || empty($modulenode->tables->table))
 			return;
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
 
 		// Import the table via queries
@@ -665,18 +653,18 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 			$tableName = $tablenode->name;
 			$sql = (string) $tablenode->sql; // Convert to string format
 			// Avoid executing SQL that will DELETE or DROP table data
-			if (Vtiger_Utils::IsCreateSql($sql)) {
-				if (!Vtiger_Utils::checkTable($tableName)) {
+			if (Utils::IsCreateSql($sql)) {
+				if (!Utils::checkTable($tableName)) {
 					self::log("SQL: $sql ... ", false);
-					Vtiger_Utils::ExecuteQuery($sql);
+					Utils::ExecuteQuery($sql);
 					self::log("DONE");
 				}
 			} else {
-				if (Vtiger_Utils::IsDestructiveSql($sql)) {
+				if (Utils::IsDestructiveSql($sql)) {
 					self::log("SQL: $sql ... SKIPPED");
 				} else {
 					self::log("SQL: $sql ... ", false);
-					Vtiger_Utils::ExecuteQuery($sql);
+					Utils::ExecuteQuery($sql);
 					self::log("DONE");
 				}
 			}
@@ -706,7 +694,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	{
 		$blocklabel = $blocknode->label;
 
-		$blockInstance = new Vtiger_Block();
+		$blockInstance = new Block();
 		$blockInstance->label = $blocklabel;
 		if (isset($blocknode->sequence) && isset($blocknode->display_status)) {
 			$blockInstance->sequence = strval($blocknode->sequence);
@@ -747,7 +735,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	 */
 	function import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode)
 	{
-		$fieldInstance = new Vtiger_Field();
+		$fieldInstance = new Field();
 		$fieldInstance->name = (string) $fieldnode->fieldname;
 		$fieldInstance->label = $fieldnode->fieldlabel;
 		$fieldInstance->table = $fieldnode->tablename;
@@ -793,7 +781,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 
 		// Check picklist values associated with field if any.
 		if (!empty($fieldnode->picklistvalues) && !empty($fieldnode->picklistvalues->picklistvalue)) {
-			$picklistvalues = Array();
+			$picklistvalues = [];
 			foreach ($fieldnode->picklistvalues->picklistvalue as $picklistvaluenode) {
 				$picklistvalues[] = $picklistvaluenode;
 			}
@@ -802,7 +790,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 
 		// Check related modules associated with this field
 		if (!empty($fieldnode->relatedmodules) && !empty($fieldnode->relatedmodules->relatedmodule)) {
-			$relatedmodules = Array();
+			$relatedmodules = [];
 			foreach ($fieldnode->relatedmodules->relatedmodule as $relatedmodulenode) {
 				$relatedmodules[] = $relatedmodulenode;
 			}
@@ -826,7 +814,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		if (empty($modulenode->customviews) || empty($modulenode->customviews->customview))
 			return;
 		foreach ($modulenode->customviews->customview as $customviewnode) {
-			$filterInstance = $this->import_CustomView($modulenode, $moduleInstance, $customviewnode);
+			$this->import_CustomView($modulenode, $moduleInstance, $customviewnode);
 		}
 	}
 
@@ -836,7 +824,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	 */
 	function import_CustomView($modulenode, $moduleInstance, $customviewnode)
 	{
-		$filterInstance = new Vtiger_Filter();
+		$filterInstance = new Filter();
 		$filterInstance->name = $customviewnode->viewname;
 		$filterInstance->isdefault = $customviewnode->setdefault;
 		$filterInstance->inmetrics = $customviewnode->setmetrics;
@@ -886,7 +874,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		if (empty($modulenode->events) || empty($modulenode->events->event))
 			return;
 
-		if (Vtiger_Event::hasSupport()) {
+		if (Event::hasSupport()) {
 			foreach ($modulenode->events->event as $eventnode) {
 				$this->import_Event($modulenode, $moduleInstance, $eventnode);
 			}
@@ -905,7 +893,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 			$event_condition = "$eventnode->condition";
 		if (!empty($eventnode->dependent))
 			$event_dependent = "$eventnode->dependent";
-		Vtiger_Event::register($moduleInstance, (string) $eventnode->eventname, (string) $eventnode->classname, (string) $eventnode->filename, (string) $event_condition, (string) $event_dependent
+		Event::register($moduleInstance, (string) $eventnode->eventname, (string) $eventnode->classname, (string) $eventnode->filename, (string) $event_condition, (string) $event_dependent
 		);
 	}
 
@@ -959,11 +947,11 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	 */
 	function import_Relatedlist($modulenode, $moduleInstance, $relatedlistnode)
 	{
-		$relModuleInstance = Vtiger_Module::getInstance($relatedlistnode->relatedmodule);
+		$relModuleInstance = Module::getInstance($relatedlistnode->relatedmodule);
 		$label = $relatedlistnode->label;
 		$actions = false;
 		if (!empty($relatedlistnode->actions) && !empty($relatedlistnode->actions->action)) {
-			$actions = Array();
+			$actions = [];
 			foreach ($relatedlistnode->actions->action as $actionnode) {
 				$actions[] = "$actionnode";
 			}
@@ -976,11 +964,11 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 
 	function import_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode)
 	{
-		$inRelModuleInstance = Vtiger_Module::getInstance($inRelatedListNode->inrelatedmodule);
+		$inRelModuleInstance = Module::getInstance($inRelatedListNode->inrelatedmodule);
 		$label = $inRelatedListNode->label;
 		$actions = false;
 		if (!empty($inRelatedListNode->actions) && !empty($inRelatedListNode->actions->action)) {
-			$actions = Array();
+			$actions = [];
 			foreach ($inRelatedListNode->actions->action as $actionnode) {
 				$actions[] = "$actionnode";
 			}
@@ -1003,7 +991,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		foreach ($modulenode->customlinks->customlink as $customlinknode) {
 			$handlerInfo = null;
 			if (!empty($customlinknode->handler_path)) {
-				$handlerInfo = array();
+				$handlerInfo = [];
 				$handlerInfo = array('path' => "$customlinknode->handler_path",
 					'class' => "$customlinknode->handler_class",
 					'method' => "$customlinknode->handler");
@@ -1024,14 +1012,14 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 			return;
 		foreach ($modulenode->crons->cron as $cronTask) {
 			if (empty($cronTask->status)) {
-				$cronTask->status = Vtiger_Cron::$STATUS_DISABLED;
+				$cronTask->status = Cron::$STATUS_DISABLED;
 			} else {
-				$cronTask->status = Vtiger_Cron::$STATUS_ENABLED;
+				$cronTask->status = Cron::$STATUS_ENABLED;
 			}
 			if ((empty($cronTask->sequence))) {
-				$cronTask->sequence = Vtiger_Cron::nextSequence();
+				$cronTask->sequence = Cron::nextSequence();
 			}
-			Vtiger_Cron::register("$cronTask->name", "$cronTask->handler", "$cronTask->frequency", "$modulenode->name", "$cronTask->status", "$cronTask->sequence", "$cronTask->description");
+			Cron::register("$cronTask->name", "$cronTask->handler", "$cronTask->frequency", "$modulenode->name", "$cronTask->status", "$cronTask->sequence", "$cronTask->description");
 		}
 	}
 
@@ -1039,31 +1027,31 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 	{
 		$dirName = 'cache/updates';
 		$result = false;
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		if (file_exists($dirName . '/init.php')) {
 			require_once $dirName . '/init.php';
 			$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
 
-			$updateInstance = new YetiForceUpdate($modulenode);
+			$updateInstance = new \YetiForceUpdate($modulenode);
 			$updateInstance->package = $this;
 			$result = $updateInstance->preupdate();
 			if ($result != false) {
 				$updateInstance->update();
 				if ($updateInstance->filesToDelete) {
 					foreach ($updateInstance->filesToDelete as $path) {
-						Vtiger_Functions::recurseDelete($path);
+						Functions::recurseDelete($path);
 					}
 				}
-				Vtiger_Functions::recurseCopy($dirName . '/files', '', true);
+				Functions::recurseCopy($dirName . '/files', '', true);
 				$result = $updateInstance->postupdate();
 			}
 
 			$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
 		} else {
-			Vtiger_Functions::recurseCopy($dirName . '/files', '', true);
+			Functions::recurseCopy($dirName . '/files', '', true);
 		}
 		$adb->insert('yetiforce_updates', [
-			'user' => Users_Record_Model::getCurrentUserModel()->get('user_name'),
+			'user' => \Users_Record_Model::getCurrentUserModel()->get('user_name'),
 			'name' => $modulenode->label,
 			'from_version' => $modulenode->from_version,
 			'to_version' => $modulenode->to_version,
@@ -1072,8 +1060,8 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 		if ($result) {
 			$adb->update('vtiger_version', ['current_version' => $modulenode->to_version]);
 		}
-		Vtiger_Functions::recurseDelete($dirName);
-		Vtiger_Functions::recurseDelete('cache/templates_c');
+		Functions::recurseDelete($dirName);
+		Functions::recurseDelete('cache/templates_c');
 	}
 
 	/**
@@ -1086,9 +1074,9 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 			return false;
 		$module = (string) $this->moduleInstance->name;
 
-		$inventoryInstance = Vtiger_Inventory_Model::getInstance($module);
+		$inventoryInstance = \Vtiger_Inventory_Model::getInstance($module);
 		$inventoryInstance->setInventoryTable(true);
-		$inventoryFieldInstance = Vtiger_InventoryField_Model::getInstance($module);
+		$inventoryFieldInstance = \Vtiger_InventoryField_Model::getInstance($module);
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
 			$this->importInventoryField($inventoryFieldInstance, $fieldNode);
 		}
@@ -1096,16 +1084,16 @@ class Vtiger_PackageImport extends Vtiger_PackageExport
 
 	function importInventoryField($inventoryFieldInstance, $fieldNode)
 	{
-		$instance = Vtiger_InventoryField_Model::getFieldInstance($inventoryFieldInstance->get('module'), $fieldNode->invtype);
+		$instance = \Vtiger_InventoryField_Model::getFieldInstance($inventoryFieldInstance->get('module'), $fieldNode->invtype);
 		$table = $inventoryFieldInstance->getTableName();
 
 		if ($instance->isColumnType()) {
-			Vtiger_Utils::AddColumn($table, $fieldNode->columnname, $instance->getDBType());
+			Utils::AddColumn($table, $fieldNode->columnname, $instance->getDBType());
 			foreach ($instance->getCustomColumn() as $column => $criteria) {
-				Vtiger_Utils::AddColumn($table, $column, $criteria);
+				Utils::AddColumn($table, $column, $criteria);
 			}
 		}
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		return $db->insert($inventoryFieldInstance->getTableName('fields'), [
 				'columnname' => $fieldNode->columnname,
 				'label' => $fieldNode->label,

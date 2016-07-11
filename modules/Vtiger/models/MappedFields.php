@@ -75,7 +75,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);
@@ -98,7 +98,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$db = PearDatabase::getInstance();
-		$moduleId = Vtiger_Functions::getModuleId($moduleName);
+		$moduleId = vtlib\Functions::getModuleId($moduleName);
 		$query = sprintf('SELECT * FROM `%s` WHERE `tabid` = ? and `status` = ?;', self::$baseTable);
 		$result = $db->pquery($query, [$moduleId, 'active']);
 		$templates = [];
@@ -229,12 +229,12 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function getName()
 	{
-		return Vtiger_Functions::getModuleName($this->get('tabid'));
+		return vtlib\Functions::getModuleName($this->get('tabid'));
 	}
 
 	public function getRelatedName()
 	{
-		return Vtiger_Functions::getModuleName($this->get('reltabid'));
+		return vtlib\Functions::getModuleName($this->get('reltabid'));
 	}
 
 	public function checkFiltersForRecord($recordId)

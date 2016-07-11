@@ -182,7 +182,7 @@ class CRMEntity
 
 		$saveFile = 'true';
 		//only images are allowed for Image Attachmenttype 
-		$mimeType = Vtiger_Functions::getMimeContentType($file_details['tmp_name']);
+		$mimeType = vtlib\Functions::getMimeContentType($file_details['tmp_name']);
 		$mimeTypeContents = explode('/', $mimeType);
 		// For contacts and products we are sending attachmentType as value 
 		if ($attachmentType == 'Image' || ($file_details['size'] && $mimeTypeContents[0] == 'image') || ($module == 'Contacts' || $module == 'Products')) {
@@ -315,7 +315,7 @@ class CRMEntity
 					WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 
 					AND vtiger_profile2field.readonly = 0 
 					AND vtiger_profile2field.profileid IN (%s) 
-					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=`vtiger_crmentity` 
+					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=\'vtiger_crmentity\' 
 					and vtiger_field.presence in (0,2)', generateQuestionMarks($profileList));
 				$perm_result = $adb->pquery($perm_qry, [$tabid, $profileList]);
 				while ($columnname = $adb->getSingleValue($perm_result)) {
@@ -813,10 +813,10 @@ class CRMEntity
 						$fieldvalue = $resultrow[$fieldkey];
 					}
 					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [10, 51, 73])) {
-						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getCRMRecordLabel($fieldvalue);
+						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = vtlib\Functions::getCRMRecordLabel($fieldvalue);
 					}
 					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [52, 53])) {
-						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = Vtiger_Functions::getOwnerRecordLabel($fieldvalue);
+						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = vtlib\Functions::getOwnerRecordLabel($fieldvalue);
 					}
 					$this->column_fields[$fieldinfo['fieldname']] = $fieldvalue;
 				}
@@ -1147,7 +1147,7 @@ class CRMEntity
 	{
 		global $log, $current_user, $adb;
 
-		$recordType = Vtiger_Functions::getCRMRecordType($id);
+		$recordType = vtlib\Functions::getCRMRecordType($id);
 		if ($recordType != $module) {
 			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
@@ -1189,7 +1189,7 @@ class CRMEntity
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
 
-			$relatedModule = Vtiger_Functions::getModuleName($tabId);
+			$relatedModule = vtlib\Functions::getModuleName($tabId);
 			$focusObj = CRMEntity::getInstance($relatedModule);
 
 			//Backup Field Relations for the deleted entity
@@ -1533,7 +1533,7 @@ class CRMEntity
 		global $currentModule, $app_strings, $singlepane_view;
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
@@ -1747,15 +1747,15 @@ class CRMEntity
 
 	/**
 	 * Default (generic) function to handle the related list for the module.
-	 * NOTE: Vtiger_Module::setRelatedList sets reference to this function in vtiger_relatedlists table
+	 * NOTE: vtlib\Module::setRelatedList sets reference to this function in vtiger_relatedlists table
 	 * if function name is not explicitly specified.
 	 */
 	function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		global $currentModule, $app_strings, $singlepane_view;
 
-		$current_module = Vtiger_Functions::getModuleName($cur_tab_id);
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$current_module = vtlib\Functions::getModuleName($cur_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
@@ -1837,8 +1837,8 @@ class CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 
-		$currentModule = Vtiger_Functions::getModuleName($cur_tab_id);
-		$relatedModule = Vtiger_Functions::getModuleName($relTabId);
+		$currentModule = vtlib\Functions::getModuleName($cur_tab_id);
+		$relatedModule = vtlib\Functions::getModuleName($relTabId);
 		$other = CRMEntity::getInstance($relatedModule);
 
 		// Some standard module class doesn't have required variables
@@ -2565,7 +2565,7 @@ class CRMEntity
 					$relatedRecord = $rparentRecord;
 				}
 			}
-			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($relatedRecord);
+			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($relatedRecord);
 			$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
 			if ($recordPermission) {
 				return '';

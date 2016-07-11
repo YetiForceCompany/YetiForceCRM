@@ -111,7 +111,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				}
 				$recordNumber = $recordModel->getRecordNumber();
 				if (!empty($recordNumber)) {
-					$subject .= $recordNumber;
+					$subject .= '[' . $recordNumber . ']';
 				}
 				$url .= $subject;
 			}

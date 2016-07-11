@@ -21,7 +21,6 @@
  * ****************************************************************************** */
 
 require_once('include/database/PearDatabase.php');
-require_once('include/ComboUtil.php'); //new
 require_once('include/utils/CommonUtils.php'); //new
 require_once('user_privileges/default_module_view.php'); //new
 require_once('include/utils/UserInfoUtil.php');
@@ -240,7 +239,7 @@ function getListQuery($module, $where = '')
 				ON vtiger_crmentity.crmid = vtiger_faq.id
 			LEFT JOIN vtiger_products
 				ON vtiger_faq.product_id = vtiger_products.productid %s
-			WHERE vtiger_crmentity.deleted = 0 %s";	
+			WHERE vtiger_crmentity.deleted = 0 %s";
 			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 

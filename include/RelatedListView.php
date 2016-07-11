@@ -89,7 +89,7 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 
 	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true ||
 		((boolean) AppRequest::get('withCount')) == true) {
-		$noofrows = $adb->query_result($adb->query(Vtiger_Functions::mkCountQuery($query)), 0, 'count');
+		$noofrows = $adb->query_result($adb->query(vtlib\Functions::mkCountQuery($query)), 0, 'count');
 	} else {
 		$noofrows = null;
 	}

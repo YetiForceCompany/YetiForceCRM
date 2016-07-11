@@ -131,7 +131,7 @@ class CustomView extends CRMEntity
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$tabId = Vtiger_Functions::getModuleId($module);
+		$tabId = vtlib\Functions::getModuleId($module);
 
 		$sql = 'SELECT userid, default_cvid FROM vtiger_user_module_preferences WHERE `tabid` = ?';
 		$result = $db->pquery($sql, [$tabId]);
@@ -470,7 +470,7 @@ class CustomView extends CRMEntity
 
 		if ($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			$log->debug("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
-			die(Vtiger_Functions::throwNewException(vtranslate('LBL_NO_FOUND_VIEW')));
+			die(vtlib\Functions::throwNewException(vtranslate('LBL_NO_FOUND_VIEW')));
 		} else if (!is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
@@ -481,7 +481,7 @@ class CustomView extends CRMEntity
 				}
 			} else {
 				$log->debug("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
-				die(Vtiger_Functions::throwNewException(vtranslate('LBL_NO_FOUND_VIEW')));
+				die(vtlib\Functions::throwNewException(vtranslate('LBL_NO_FOUND_VIEW')));
 			}
 		} else {
 			while ($columnrow = $adb->fetch_array($result)) {
@@ -1153,7 +1153,7 @@ class CustomView extends CRMEntity
 
 		$adv_chk_value = $value;
 		$value = '(';
-		$sql = sprintf("select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t." . $adb->sql_escape_string($fieldname) . " = c.crmid", $adb->sql_escape_string($tablename));
+		$sql = sprintf('select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t.%s = c.crmid', $adb->sql_escape_string($tablename), $adb->sql_escape_string($fieldname));
 		$res = $adb->query($sql);
 		for ($s = 0; $s < $adb->num_rows($res); $s++) {
 			$modulename = $adb->query_result($res, $s, "setype");
@@ -1318,24 +1318,24 @@ class CustomView extends CRMEntity
 
 			$listviewquery = substr($listquery, strpos($listquery, 'FROM'), strlen($listquery));
 			if ($module == "Calendar" || $module == "Emails") {
-				$query = 'select %s, vtiger_activity.activityid, vtiger_activity.activitytype as type, vtiger_activity.priority, vtiger_activity.status as status, vtiger_crmentity.crmid,vtiger_contactdetails.contactid ' . $listviewquery;
+				$query = 'select %s, vtiger_activity.activityid, vtiger_activity.activitytype as type, vtiger_activity.priority, vtiger_activity.status as status, vtiger_crmentity.crmid,vtiger_contactdetails.contactid %s';
 			} else if ($module == "Documents") {
-				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_notes.* ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_notes.* %s';
 			} else if ($module == "Products") {
-				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_products.* ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_products.* %s';
 			} else if ($module == "Vendors") {
-				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid %s';
 			} else if ($module == "PriceBooks") {
-				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid %s';
 			} else if ($module == "Faq") {
-				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid %s';
 			} else if ($module == "Contacts") {
-				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_account.accountid ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_account.accountid %s';
 			} else {
-				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid %s';
 			}
 			
-			$query = sprintf($query, $this->getCvColumnListSQL($viewid));
+			$query = sprintf($query, $this->getCvColumnListSQL($viewid), $listviewquery);
 			$stdfiltersql = $this->getCVStdFilterSQL($viewid);
 			$advfiltersql = $this->getCVAdvFilterSQL($viewid);
 			if (isset($stdfiltersql) && $stdfiltersql != '') {

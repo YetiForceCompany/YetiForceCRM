@@ -16,7 +16,7 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getName()
 	{
-		return Vtiger_Functions::getModuleName($this->get('tabid'));
+		return vtlib\Functions::getModuleName($this->get('tabid'));
 	}
 
 	public function getEditViewUrl()

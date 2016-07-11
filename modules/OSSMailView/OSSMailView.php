@@ -323,7 +323,6 @@ class OSSMailView extends CRMEntity
 		require_once('include/utils/utils.php');
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			include_once 'vtlib/Vtiger/Module.php';
 			$myCustomEntity = CRMEntity::getInstance($moduleName);
 			$myCustomPrefix = "M_";
 			$sequenceStart = '1';
@@ -335,7 +334,7 @@ class OSSMailView extends CRMEntity
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'target', '_blank'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'permissions', 'vtiger'));
 			include_once('modules/ModTracker/ModTracker.php');
-			$tabid = Vtiger_Functions::getModuleId($moduleName);
+			$tabid = vtlib\Functions::getModuleId($moduleName);
 			$moduleModTrackerInstance = new ModTracker();
 			if (!$moduleModTrackerInstance->isModulePresent($tabid)) {
 				$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
@@ -345,11 +344,11 @@ class OSSMailView extends CRMEntity
 				$moduleModTrackerInstance->updateCache($tabid, 1);
 			}
 			if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)) {
-				$moduleInstance = Vtiger_Module::getInstance($tabid);
+				$moduleInstance = vtlib\Module::getInstance($tabid);
 				$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
 			}
 			$registerLink = true;
-			$Module = Vtiger_Module::getInstance($moduleName);
+			$Module = vtlib\Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
@@ -363,7 +362,7 @@ class OSSMailView extends CRMEntity
 		} else if ($eventType == 'module.preupdate') {
 			// TODO Handle actions before this module is updated.
 		} else if ($eventType == 'module.postupdate') {
-			$Module = Vtiger_Module::getInstance($moduleName);
+			$Module = vtlib\Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		}
@@ -386,7 +385,7 @@ class OSSMailView extends CRMEntity
 		global $currentModule, $app_strings, $singlepane_view;
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);

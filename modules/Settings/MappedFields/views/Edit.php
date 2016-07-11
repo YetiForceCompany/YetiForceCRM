@@ -55,7 +55,7 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 				$viewer->view('Step4.tpl', $qualifiedModuleName);
 				break;
 			case 'step3':
-				$moduleSourceName = Vtiger_Functions::getModuleName($moduleInstance->get('tabid'));
+				$moduleSourceName = vtlib\Functions::getModuleName($moduleInstance->get('tabid'));
 				$moduleModel = Vtiger_Module_Model::getInstance($moduleSourceName);
 				$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

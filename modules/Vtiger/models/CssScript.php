@@ -72,11 +72,11 @@ class Vtiger_CssScript_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Function to get the instance of CSS Script model from a given Vtiger_Link object
-	 * @param Vtiger_Link $linkObj
+	 * Function to get the instance of CSS Script model from a given vtlib\Link object
+	 * @param vtlib\Link $linkObj
 	 * @return Vtiger_CssScript_Model instance
 	 */
-	public static function getInstanceFromLinkObject(Vtiger_Link $linkObj)
+	public static function getInstanceFromLinkObject(vtlib\Link $linkObj)
 	{
 		$objectProperties = get_object_vars($linkObj);
 		$linkModel = new self();

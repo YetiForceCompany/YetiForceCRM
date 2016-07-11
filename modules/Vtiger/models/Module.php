@@ -8,12 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-vimport('~vtlib/Vtiger/Module.php');
 
 /**
  * Vtiger Module Model Class
  */
-class Vtiger_Module_Model extends Vtiger_Module
+class Vtiger_Module_Model extends vtlib\Module
 {
 
 	protected $blocks = false;
@@ -776,11 +775,11 @@ class Vtiger_Module_Model extends Vtiger_Module
 	}
 
 	/**
-	 * Function to get the instance of Vtiger Module Model from a given Vtiger_Module object
-	 * @param Vtiger_Module $moduleObj
+	 * Function to get the instance of Vtiger Module Model from a given vtlib\Module object
+	 * @param vtlib\Module $moduleObj
 	 * @return Vtiger_Module_Model instance
 	 */
-	public static function getInstanceFromModuleObject(Vtiger_Module $moduleObj)
+	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
 	{
 		$objectProperties = get_object_vars($moduleObj);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $objectProperties['name']);
@@ -951,7 +950,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		if (!Vtiger_Cache::get('EntityField', 'all')) {
 			$db = PearDatabase::getInstance();
-			// Initialize meta information - to speed up instance creation (Vtiger_ModuleBasic::initialize2)
+			// Initialize meta information - to speed up instance creation (vtlib\ModuleBasic::initialize2)
 			$result = $db->pquery('SELECT modulename,tablename,entityidfield,fieldname FROM vtiger_entityname', []);
 			while ($row = $db->getRow($result)) {
 				$entiyObj = new stdClass();
@@ -1267,8 +1266,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 				unset($newRow['visibility']);
 			}
 
-			$sql = "SELECT * FROM u_yf_activity_invitation WHERE activityid = '" . $newRow['crmid'] . "'";
-			$result_invitees = $db->query($sql);
+			$sql = "SELECT * FROM u_yf_activity_invitation WHERE activityid = ?";
+			$result_invitees = $db->pquery($sql, [$newRow['crmid']]);
 			while ($recordinfo = $db->fetch_array($result_invitees)) {
 				$newRow['selectedusers'][] = $recordinfo['inviteeid'];
 			}
@@ -1748,7 +1747,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 						foreach ($referenceList as $referenceModule) {
 							if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
 								$fieldValue = $recordModel->get($fieldName);
-								if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
+								if ($fieldValue != 0 && vtlib\Functions::getCRMRecordType($fieldValue) == $referenceModule)
 									$data[$fieldMap[$referenceModule]] = $fieldValue;
 							}
 						}
@@ -1781,16 +1780,13 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->getName(), $relatedModule->getName());
 		$basetable = $relatedModule->get('basetable');
-		
+
 		$query = sprintf('SELECT vtiger_crmentity.*, %s.* FROM %s 
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %d
 				INNER JOIN %s ON %s.%s = vtiger_crmentity.crmid
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 AND %s.%s = %d', $basetable, $basetable, 
-				$relatedModule->get('basetableid'), $referenceInfo['table'],
-				$referenceInfo['table'], $referenceInfo['base'], $referenceInfo['table'],
-				$referenceInfo['rel'], $recordId);
+				WHERE vtiger_crmentity.deleted = 0 AND %s.%s = %d', $basetable, $basetable, $relatedModule->get('basetableid'), $referenceInfo['table'], $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['table'], $referenceInfo['rel'], $recordId);
 		return $query;
 	}
 
@@ -1798,8 +1794,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$queryGenerator = new QueryGenerator($relatedModule->getName(), $currentUser);
-		$relatedListFields = $relationModel->getRelationFields(true); 
-		if(count($relatedListFields) == 0){
+		$relatedListFields = $relationModel->getRelationFields(true);
+		if (count($relatedListFields) == 0) {
 			$relatedListFields = $relatedModule->getRelatedListFields();
 		}
 		$queryGenerator->setFields($relatedListFields);

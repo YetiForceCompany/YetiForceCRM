@@ -596,7 +596,7 @@ jQuery.Class("Vtiger_List_Js", {
 		if(events != undefined){
 			this.noEventsListSearch = events;
 		}
-		if (this.listSearchInstance == false) {
+		if (this.listSearchInstance == false && this.getListViewContainer().find('.searchField').length) {
 			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.getListViewContainer(), this.noEventsListSearch);
 		}
 		return this.listSearchInstance;

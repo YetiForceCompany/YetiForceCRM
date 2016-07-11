@@ -59,12 +59,11 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 
 		$importType = $request->get('module_import_type');
 		if (strtolower($importType) == 'language') {
-			$package = new Vtiger_Language();
+			$package = new vtlib\Language();
 		} else if (strtolower($importType) == 'layout') {
-			vimport('vtlib.Vtiger.Layout');
-			$package = new Vtiger_Layout();
+			$package = new vtlib\Layout();
 		} else {
-			$package = new Vtiger_Package();
+			$package = new vtlib\Package();
 		}
 
 		$package->import($uploadFileName);
@@ -87,18 +86,17 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 
 		$importType = strtolower($request->get('module_import_type'));
 		if ($importType == 'language') {
-			$package = new Vtiger_Language();
+			$package = new vtlib\Language();
 		} else if ($importType == 'layout') {
-			vimport('vtlib.Vtiger.Layout');
-			$package = new Vtiger_Layout();
+			$package = new vtlib\Layout();
 		} else {
-			$package = new Vtiger_Package();
+			$package = new vtlib\Package();
 		}
 
 		if ($importType == 'language' || $importType == 'layout') {
 			$package->import($uploadFileName);
 		} else {
-			$package->update(Vtiger_Module::getInstance($importModuleName), $uploadFileName);
+			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
 		}
 
 		checkFileAccessForDeletion($uploadFileName);
@@ -119,7 +117,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('moduleName');
-		$module = Vtiger_Module::getInstance($moduleName);
+		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
 			$result = array('success' => false, 'text' => vtranslate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
 		} elseif (preg_match('/[^A-Za-z]/i', $moduleName)) {
@@ -151,7 +149,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 	public function deleteModule(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('forModule');
-		$moduleInstance = Vtiger_Module::getInstance($moduleName);
+		$moduleInstance = vtlib\Module::getInstance($moduleName);
 		if ($moduleInstance) {
 			$moduleInstance->delete();
 			$result = array('success' => true);

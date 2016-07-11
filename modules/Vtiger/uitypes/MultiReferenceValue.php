@@ -38,7 +38,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$params = $this->get('field')->getFieldParams();
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$fieldInfo = Vtiger_Functions::getModuleFieldInfoWithId($params['field']);
+		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
 		$queryGenerator = new QueryGenerator($params['module'], $currentUser);
 		$queryGenerator->setFields([$fieldInfo['columnname']]);
 		if ($params['filterField'] != '-') {
@@ -66,8 +66,8 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$return = Vtiger_Cache::get('mrvfm-' . $sourceModule, $destinationModule);
 		if (!$return) {
 			$db = PearDatabase::getInstance();
-			$query = sprintf('SELECT * FROM vtiger_field WHERE tabid = ? AND presence <> ? AND vtiger_field.uitype = ? AND fieldparams LIKE \'{"module":"%s"%\';', $destinationModule);
-			$result = $db->pquery($query, [Vtiger_Functions::getModuleId($sourceModule), 1, 305]);
+			$query = sprintf('SELECT * FROM vtiger_field WHERE tabid = ? AND presence <> ? AND vtiger_field.uitype = ? AND fieldparams LIKE \'%s\';', '{"module":"' . $destinationModule . '"%' );
+			$result = $db->pquery($query, [vtlib\Functions::getModuleId($sourceModule), 1, 305]);
 			$return = [];
 			while ($field = $db->fetch_array($result)) {
 				$return[] = $field;
@@ -88,7 +88,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$return = Vtiger_Cache::get('mrvf', $moduleName);
 		if (!$return) {
 			$db = PearDatabase::getInstance();
-			$moduleId = Vtiger_Functions::getModuleId($moduleName);
+			$moduleId = vtlib\Functions::getModuleId($moduleName);
 			$query = 'SELECT DISTINCT vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_relatedlists ON vtiger_relatedlists.related_tabid = vtiger_field.tabid'
 				. ' LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid'
 				. ' WHERE vtiger_relatedlists.tabid = ? AND vtiger_field.presence <> ? AND vtiger_field.uitype = ? AND fieldparams LIKE \'{"module":"' . $moduleName . '"%\';';
@@ -109,7 +109,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$relatedModules = array_unique($relatedModules);
 			foreach ($relatedModules as $key => $relatedModule) {
 				if ($relatedModule != 'Users') {
-					$relatedModules[$key] = Vtiger_Functions::getModuleId($relatedModule);
+					$relatedModules[$key] = vtlib\Functions::getModuleId($relatedModule);
 				} else {
 					unset($relatedModules[$key]);
 				}
@@ -148,7 +148,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 
 		// Get value to added
 		$destInstance = CRMEntity::getInstance($params['module']);
-		$fieldInfo = Vtiger_Functions::getModuleFieldInfoWithId($params['field']);
+		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
 		$query = sprintf('SELECT %s FROM %s WHERE %s = ?', $fieldInfo['columnname'], $fieldInfo['tablename'], $destInstance->tab_name_index[$fieldInfo['tablename']]);
 		$result = $db->pquery($query, [$destRecord]);
 		$relatedValue = $db->getSingleValue($result);
@@ -216,7 +216,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 
 		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $params['module']);
-		$fieldInfo = Vtiger_Functions::getModuleFieldInfoWithId($params['field']);
+		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
 		$query = $targetModel->getRelationQuery();
 		$explodedQuery = explode('FROM', $query, 2);
 		$relationQuery = sprintf("SELECT DISTINCT %s FROM %s AND %s <> ''", $fieldInfo['columnname'], $explodedQuery[1], $fieldInfo['columnname']);

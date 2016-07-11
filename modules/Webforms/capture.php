@@ -11,7 +11,6 @@
 chdir(dirname(__FILE__) . '/../..');
 
 include_once 'include/Zend/Json.php';
-include_once 'vtlib/Vtiger/Module.php';
 include_once 'include/utils/VtlibUtils.php';
 include_once 'include/Webservices/Create.php';
 include_once 'modules/Webforms/model/WebformsModel.php';

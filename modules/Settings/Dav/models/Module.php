@@ -75,7 +75,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
 		$davStorageDir = vglobal('davStorageDir');
-		Vtiger_Functions::recurseDelete($davStorageDir . '/' . $user_name);
+		vtlib\Functions::recurseDelete($davStorageDir . '/' . $user_name);
 	}
 
 	public function getTypes()

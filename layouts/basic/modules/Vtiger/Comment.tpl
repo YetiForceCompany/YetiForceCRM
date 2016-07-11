@@ -25,13 +25,13 @@
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span><br> 
 						{if $HIERARCHY}
-							{assign var=RELATED_MODULE value=Vtiger_Functions::getCRMRecordType($COMMENT->get('related_to'))}
+							{assign var=RELATED_MODULE value=vtlib\Functions::getCRMRecordType($COMMENT->get('related_to'))}
 							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$COMMENT->get('related_to')}">
 								<strong>
 									{vtranslate($RELATED_MODULE,$RELATED_MODULE)}: 
 								</strong>
 								<strong class="commentRelatedTitle">
-									{Vtiger_Functions::getCRMRecordLabel($COMMENT->get('related_to'))}
+									{vtlib\Functions::getCRMRecordLabel($COMMENT->get('related_to'))}
 								</strong>
 							</a>
 						{/if}

@@ -28,7 +28,7 @@ class Settings_QuickCreateEditor_Module_Model extends Vtiger_Module_Model
 		}
 
 		$query .=' END ';
-		$query .= ' WHERE fieldid IN (' . generateQuestionMarks($fieldIdList) . ')';
+		$query .= sprintf(' WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdList));
 		$db->pquery($query, array($fieldIdList));
 	}
 }

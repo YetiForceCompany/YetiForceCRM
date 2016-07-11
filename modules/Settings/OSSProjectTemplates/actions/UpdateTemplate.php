@@ -58,7 +58,7 @@ class Settings_OSSProjectTemplates_UpdateTemplate_Action extends Settings_Vtiger
 					$db->query($sql, true);
 
 					//  $lastTplId = $this->getLastTplId($baseModuleName);
-					//  $parentTplId = Vtiger_Functions::getSingleFieldValue('vtiger_oss_project_templates', 'parent', 'id_tpl', $id);
+					//  $parentTplId = vtlib\Functions::getSingleFieldValue('vtiger_oss_project_templates', 'parent', 'id_tpl', $id);
 					$sql = "INSERT INTO vtiger_oss_project_templates VALUES(NULL, '{$key}_day_type', '$dateDayIntervalType', $id, '$parent', '$baseModuleName')";
 					$db->query($sql, true);
 				} else {

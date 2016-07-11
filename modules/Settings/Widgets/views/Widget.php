@@ -53,7 +53,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 				'limit' => 5, 'relatedmodule' => '', 'columns' => '', 'action' => '', 'switchHeader' => '', 'filter' => '', 'checkbox' => ''
 			], 'nomargin' => '', 'label' => ''
 		]);
-		$viewer->assign('SOURCEMODULE', Vtiger_Functions::getModuleName($tabId));
+		$viewer->assign('SOURCEMODULE', vtlib\Functions::getModuleName($tabId));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -77,7 +77,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$type = $WidgetInfo['type'];
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE', $WidgetInfo['tabid']);
-		$viewer->assign('SOURCEMODULE', Vtiger_Functions::getModuleName($WidgetInfo['tabid']));
+		$viewer->assign('SOURCEMODULE', vtlib\Functions::getModuleName($WidgetInfo['tabid']));
 		$viewer->assign('WID', $wid);
 		$viewer->assign('WIDGETINFO', $WidgetInfo);
 		$viewer->assign('TYPE', $type);

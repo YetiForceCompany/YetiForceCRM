@@ -8,9 +8,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once 'vtlib/Vtiger/Block.php';
 
-class Vtiger_Block_Model extends Vtiger_Block
+class Vtiger_Block_Model extends vtlib\Block
 {
 
 	public $fields = false;
@@ -173,11 +172,11 @@ class Vtiger_Block_Model extends Vtiger_Block
 	}
 
 	/**
-	 * Function to retrieve block instance from Vtiger_Block object
-	 * @param Vtiger_Block $blockObject - vtlib block object
+	 * Function to retrieve block instance from vtlib\Block object
+	 * @param vtlib\Block $blockObject - vtlib block object
 	 * @return Vtiger_Block_Model
 	 */
-	public static function getInstanceFromBlockObject(Vtiger_Block $blockObject)
+	public static function getInstanceFromBlockObject(vtlib\Block $blockObject)
 	{
 		$objectProperties = get_object_vars($blockObject);
 		$blockClassName = Vtiger_Loader::getComponentClassName('Model', 'Block', $blockObject->module->name);
