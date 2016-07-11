@@ -1266,8 +1266,8 @@ class Vtiger_Module_Model extends vtlib\Module
 				unset($newRow['visibility']);
 			}
 
-			$sql = "SELECT * FROM u_yf_activity_invitation WHERE activityid = '" . $newRow['crmid'] . "'";
-			$result_invitees = $db->query($sql);
+			$sql = "SELECT * FROM u_yf_activity_invitation WHERE activityid = ?";
+			$result_invitees = $db->pquery($sql, [$newRow['crmid']]);
 			while ($recordinfo = $db->fetch_array($result_invitees)) {
 				$newRow['selectedusers'][] = $recordinfo['inviteeid'];
 			}

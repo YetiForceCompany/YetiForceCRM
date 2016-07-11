@@ -223,12 +223,11 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
 			foreach ($tree as $row) {
-				$query = 'UPDATE ' . $tableName . ' SET ' . $columnName . ' = ? WHERE ' . $columnName . ' IN (' . generateQuestionMarks($row['old']) . ');';
-				$params = ['T' . current($row['new'])];
+				$params = [];
 				foreach ($row['old'] as $new) {
 					$params[] = 'T' . $new;
 				}
-				$adb->pquery($query, $params);
+				$adb->update($tableName, [$columnName => 'T' . current($row['new'])], $columnName . ' IN ( ' . generateQuestionMarks($row['old']) .')', $params);
 			}
 		}
 	}

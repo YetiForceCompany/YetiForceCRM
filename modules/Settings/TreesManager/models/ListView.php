@@ -43,7 +43,7 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 		}
 
 		if (!empty($orderBy)) {
-			$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $this->getForSql('sortorder');
+			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $this->getForSql('sortorder'));
 		}
 
 		$sourceModule = $this->get('sourceModule');

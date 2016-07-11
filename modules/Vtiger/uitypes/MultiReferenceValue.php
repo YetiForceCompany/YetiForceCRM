@@ -66,7 +66,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$return = Vtiger_Cache::get('mrvfm-' . $sourceModule, $destinationModule);
 		if (!$return) {
 			$db = PearDatabase::getInstance();
-			$query = sprintf('SELECT * FROM vtiger_field WHERE tabid = ? AND presence <> ? AND vtiger_field.uitype = ? AND fieldparams LIKE \'{"module":"%s"%\';', $destinationModule);
+			$query = sprintf('SELECT * FROM vtiger_field WHERE tabid = ? AND presence <> ? AND vtiger_field.uitype = ? AND fieldparams LIKE \'%s\';', '{"module":"' . $destinationModule . '"%' );
 			$result = $db->pquery($query, [vtlib\Functions::getModuleId($sourceModule), 1, 305]);
 			$return = [];
 			while ($field = $db->fetch_array($result)) {

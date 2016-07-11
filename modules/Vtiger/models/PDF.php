@@ -162,7 +162,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 			return $pdf;
 		}
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `' . self::$baseIndex . '` = ? LIMIT 1;';
+		$query = sprintf('SELECT * FROM `%s` WHERE `%s` = ? LIMIT 1', self::$baseTable, self::$baseIndex);
 		$result = $db->pquery($query, [$recordId]);
 		if ($result->rowCount() == 0) {
 			return false;
