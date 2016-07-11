@@ -1484,7 +1484,7 @@ class Functions
 		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $text);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($newText)) > $length) {
-				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, AppConfig::main('default_charset'));
+				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, \AppConfig::main('default_charset'));
 				if ($addDots) {
 					$newText .= '...';
 				}
