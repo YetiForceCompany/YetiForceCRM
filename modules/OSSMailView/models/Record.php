@@ -84,7 +84,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				$queryParams[] = $type;
 			}
 			$query = 'SELECT vtiger_ossmailview.* FROM vtiger_ossmailview INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid';
-			$query .= ' WHERE ossmailviewid IN (' . generateQuestionMarks($ids) . ')' . $ifwhere;
+			$query .= sprintf(' WHERE ossmailviewid IN (%s) %s', generateQuestionMarks($ids), $ifwhere);
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$moduleName = 'OSSMailView';
 			$instance = CRMEntity::getInstance($moduleName);

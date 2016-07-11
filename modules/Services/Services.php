@@ -250,7 +250,7 @@ class Services extends CRMEntity
 						ON vtiger_users.id = vtiger_crmentity.smownerid ";
 		$current_user = vglobal('current_user');
 		$query .= $this->getNonAdminAccessControlQuery($module, $current_user);
-		$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+		$query .= sprintf('WHERE vtiger_crmentity.deleted = 0 %s', $where);
 		return $query;
 	}
 
@@ -347,7 +347,7 @@ class Services extends CRMEntity
 	 */
 	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
-		$select_clause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid, vtiger_users_last_import.deleted," . $table_cols;
+		$select_clause = sprintf("SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s", $this->table_name, $this->table_index, $table_cols);
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
@@ -440,7 +440,7 @@ class Services extends CRMEntity
 			}
 		}
 
-		$query = "SELECT vtiger_crmentity.crmid,
+		$query = sprintf('SELECT vtiger_crmentity.crmid,
 			vtiger_pricebook.*,
 			vtiger_pricebookproductrel.productid as prodid
 			FROM vtiger_pricebook
@@ -451,7 +451,7 @@ class Services extends CRMEntity
 			INNER JOIN vtiger_pricebookcf
 				ON vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
 			WHERE vtiger_crmentity.deleted = 0
-			AND vtiger_pricebookproductrel.productid = " . $id;
+			AND vtiger_pricebookproductrel.productid = %s', $id);
 		$log->debug("Exiting get_product_pricebooks method ...");
 
 		$return_value = GetRelatedList($currentModule, $related_module, $focus, $query, $button, $returnset);
@@ -809,8 +809,9 @@ class Services extends CRMEntity
 		if ($relatedName && $relatedName != 'get_related_list') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
-			$query = 'DELETE FROM vtiger_crmentityrel WHERE (relcrmid=' . $id . ' AND module IN (' . $return_modules . ') AND crmid IN (' . $entityIds . ')) OR (crmid=' . $id . ' AND relmodule IN (' . $return_modules . ') AND relcrmid IN (' . $entityIds . '))';
-			$this->db->pquery($query, array());
+			$where = '(relcrmid= ? AND module IN (?) AND crmid IN (?)) OR (crmid= ? AND relmodule IN (?) AND relcrmid IN (?))';
+			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
+			$this->db->delete('vtiger_crmentityrel', $where, $params);
 		}
 	}
 

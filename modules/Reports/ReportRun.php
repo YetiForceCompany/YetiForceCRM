@@ -2220,7 +2220,7 @@ class ReportRun extends CRMEntity
 
 		if ($type == 'COLUMNSTOTOTAL') {
 			if ($columnstotalsql != '') {
-				$reportquery = "select " . $columnstotalsql . " " . $reportquery . " " . $wheresql;
+				$reportquery = sprintf('select %s %s %s ', $columnstotalsql, $reportquery, $wheresql);
 			}
 		} else {
 			if ($selectedcolumns == '') {
@@ -2229,16 +2229,16 @@ class ReportRun extends CRMEntity
 				$selectedcolumns = "''"; // "''" to get blank column name
 				$allColumnsRestricted = true;
 			}
-			$reportquery = "select DISTINCT " . $selectedcolumns . " " . $reportquery . " " . $wheresql;
+			$reportquery = sprintf('select DISTINCT %s %s %s ', $selectedcolumns, $reportquery, $wheresql);
 		}
 
 		$reportquery = listQueryNonAdminChange($reportquery, $this->primarymodule);
 
 		if (trim($groupsquery) != "" && $type !== 'COLUMNSTOTOTAL') {
 			if ($chartReport == true) {
-				$reportquery .= "group by " . $this->GetFirstSortByField($reportid);
+				$reportquery .= sprintf(' group by %s', $this->GetFirstSortByField($reportid));
 			} else {
-				$reportquery .= " order by " . $groupsquery;
+				$reportquery .= sprintf(' order by %s', $groupsquery);
 			}
 		}
 
@@ -3263,7 +3263,7 @@ class ReportRun extends CRMEntity
 		if ($this->secondarymodule != '')
 			array_push($id, getTabid($this->secondarymodule));
 
-		$query = 'select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(' . generateQuestionMarks($id) . ') and uitype in (15,33,55)'; //and columnname in (?)';
+		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
 		$roleid = $current_user->roleid;
 		$subrole = getRoleSubordinates($roleid);

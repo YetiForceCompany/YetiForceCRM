@@ -158,7 +158,7 @@ class ServiceContracts extends CRMEntity
 
 		$current_user = vglobal('current_user');
 		$query .= $this->getNonAdminAccessControlQuery($module, $current_user);
-		$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+		$query .= sprintf('WHERE vtiger_crmentity.deleted = 0 %s', $where);
 		return $query;
 	}
 
@@ -311,7 +311,7 @@ class ServiceContracts extends CRMEntity
 	 */
 	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
-		$select_clause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid, vtiger_users_last_import.deleted," . $table_cols;
+		$select_clause = sprintf("SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s", $this->table_name, $this->table_index, $table_cols);
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
@@ -425,10 +425,10 @@ class ServiceContracts extends CRMEntity
 
 		if (!is_array($entityIds))
 			$entityIds = array($entityIds);
-		$selectTicketsQuery = "SELECT ticketid FROM vtiger_troubletickets
+		$selectTicketsQuery = sprintf('SELECT ticketid FROM vtiger_troubletickets
 								WHERE (parent_id IS NULL OR parent_id = 0)
-									AND ticketid IN (" . generateQuestionMarks($entityIds) . ")";
-		$selectTicketsResult = $this->db->pquery($selectTicketsQuery, array($entityIds));
+									AND ticketid IN (%s)', generateQuestionMarks($entityIds));
+		$selectTicketsResult = $this->db->pquery($selectTicketsQuery, [$entityIds]);
 		$noOfTickets = $this->db->num_rows($selectTicketsResult);
 		for ($i = 0; $i < $noOfTickets; ++$i) {
 			$ticketId = $this->db->query_result($selectTicketsResult, $i, 'ticketid');
@@ -569,7 +569,7 @@ class ServiceContracts extends CRMEntity
 		array_push($updateParams, $progressUpdateParams);
 
 		if (count($updateCols) > 0) {
-			$updateQuery = 'UPDATE vtiger_servicecontracts SET ' . implode(",", $updateCols) . ' WHERE servicecontractsid = ?';
+			$updateQuery = sprintf('UPDATE vtiger_servicecontracts SET %s WHERE servicecontractsid = ?', implode(",", $updateCols));
 			array_push($updateParams, $this->id);
 			$this->db->pquery($updateQuery, $updateParams);
 		}
@@ -612,11 +612,12 @@ class ServiceContracts extends CRMEntity
 		if ($relatedName == 'get_many_to_many') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
-			$query = 'DELETE FROM vtiger_crmentityrel WHERE (relcrmid=' . $id . ' AND module IN (' . $return_modules . ') AND crmid IN (' . $entityIds . ')) OR (crmid=' . $id . ' AND relmodule IN (' . $return_modules . ') AND relcrmid IN (' . $entityIds . '))';
-			$this->db->pquery($query, array());
-
-			$sql = 'SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN (' . $return_modules . '))';
-			$fieldRes = $this->db->pquery($sql, array($currentModule));
+			$where = '(relcrmid= ? AND module IN (?) AND crmid IN (?)) OR (crmid= ? AND relmodule IN (?) AND relcrmid IN (?))';
+			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
+			$this->db->delete('vtiger_crmentityrel', $where, $params);
+		
+			$sql = sprintf('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN (%s))', $return_modules);
+			$fieldRes = $this->db->pquery($sql, [$currentModule]);
 			$numOfFields = $this->db->num_rows($fieldRes);
 			for ($i = 0; $i < $numOfFields; $i++) {
 				$tabId = $this->db->query_result($fieldRes, $i, 'tabid');

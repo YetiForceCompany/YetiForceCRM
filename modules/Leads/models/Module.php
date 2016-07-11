@@ -113,11 +113,11 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
 
-		$sql = 'SELECT COUNT(*) as count, CASE WHEN vtiger_leadstatus.leadstatus IS NULL OR vtiger_leadstatus.leadstatus = "" THEN "" ELSE vtiger_leadstatus.leadstatus END AS leadstatusvalue 
+		$sql = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leadstatus.leadstatus IS NULL OR vtiger_leadstatus.leadstatus = "" THEN "" ELSE vtiger_leadstatus.leadstatus END AS leadstatusvalue 
 		FROM vtiger_leaddetails 
 		INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
 		INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus
-		WHERE deleted = 0' . $ownerSql . $dateFilterSql . $securityParameter;
+		WHERE deleted = 0 %s %s %s',$ownerSql, $dateFilterSql, $securityParameter);
 		$sql .= ' GROUP BY leadstatusvalue ORDER BY vtiger_leadstatus.sortorderid';
 		$result = $db->pquery($sql, $params);
 
@@ -144,7 +144,8 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$convertedInfo = [];
 		if ($recordIdsList) {
 			$db = PearDatabase::getInstance();
-			$result = $db->query('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (' . implode(',', $recordIdsList) . ')');
+			$query = sprintf('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (%s)', implode(',', $recordIdsList));
+			$result = $db->query($query);
 			while ($row = $db->getRow($result)) {
 				$convertedInfo[$row['leadid']] = $row['converted'];
 			}

@@ -120,7 +120,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if (!is_array($recordsId)) {
 			$recordsId = [$recordsId];
 		}
-		$listQuery = 'SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (' . $db->generateQuestionMarks($recordsId) . ') AND status <> ? ORDER BY crmid,changedon DESC;';
+		$listQuery = sprintf('SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (%s) AND status <> ? ORDER BY crmid,changedon DESC;', $db->generateQuestionMarks($recordsId));
 		$result = $db->pquery($listQuery, [$recordsId, self::DISPLAYED]);
 		foreach ($result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN) as $crmId => $reviewedUsers) {
 			$count = 0;
