@@ -478,7 +478,7 @@ class Reports extends CRMEntity{
 			}
 			$sql .= " LIMIT $startIndex,".($pageLimit+1);
 		}
-		$query = sprinf("select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '%s::%'", $current_user_parent_role_seq);
+		$query = sprintf("select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '%s'", $current_user_parent_role_seq . '::%');
 		$query = $adb->query($query);
 		$subordinate_users = [];
 		for($i=0;$i<$adb->num_rows($query);$i++){
