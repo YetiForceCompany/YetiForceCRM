@@ -1153,7 +1153,7 @@ class CustomView extends CRMEntity
 
 		$adv_chk_value = $value;
 		$value = '(';
-		$sql = sprintf("select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t." . $adb->sql_escape_string($fieldname) . " = c.crmid", $adb->sql_escape_string($tablename));
+		$sql = sprintf('select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t.%s = c.crmid', $adb->sql_escape_string($tablename), $adb->sql_escape_string($fieldname));
 		$res = $adb->query($sql);
 		for ($s = 0; $s < $adb->num_rows($res); $s++) {
 			$modulename = $adb->query_result($res, $s, "setype");
@@ -1318,24 +1318,24 @@ class CustomView extends CRMEntity
 
 			$listviewquery = substr($listquery, strpos($listquery, 'FROM'), strlen($listquery));
 			if ($module == "Calendar" || $module == "Emails") {
-				$query = 'select %s, vtiger_activity.activityid, vtiger_activity.activitytype as type, vtiger_activity.priority, vtiger_activity.status as status, vtiger_crmentity.crmid,vtiger_contactdetails.contactid ' . $listviewquery;
+				$query = 'select %s, vtiger_activity.activityid, vtiger_activity.activitytype as type, vtiger_activity.priority, vtiger_activity.status as status, vtiger_crmentity.crmid,vtiger_contactdetails.contactid %s';
 			} else if ($module == "Documents") {
-				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_notes.* ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_notes.* %s';
 			} else if ($module == "Products") {
-				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_products.* ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_products.* %s';
 			} else if ($module == "Vendors") {
-				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid %s';
 			} else if ($module == "PriceBooks") {
-				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid %s';
 			} else if ($module == "Faq") {
-				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid %s';
 			} else if ($module == "Contacts") {
-				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_account.accountid ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_account.accountid %s';
 			} else {
-				$query = 'select %s ,vtiger_crmentity.crmid ' . $listviewquery;
+				$query = 'select %s ,vtiger_crmentity.crmid %s';
 			}
 			
-			$query = sprintf($query, $this->getCvColumnListSQL($viewid));
+			$query = sprintf($query, $this->getCvColumnListSQL($viewid), $listviewquery);
 			$stdfiltersql = $this->getCVStdFilterSQL($viewid);
 			$advfiltersql = $this->getCVAdvFilterSQL($viewid);
 			if (isset($stdfiltersql) && $stdfiltersql != '') {

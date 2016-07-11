@@ -73,9 +73,9 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
 
-		$sql = 'SELECT COUNT(*) AS count, date(createdtime) AS time FROM vtiger_leaddetails
+		$sql = sprintf('SELECT COUNT(*) AS count, date(createdtime) AS time FROM vtiger_leaddetails
 		INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-		WHERE deleted = 0' . $ownerSql . $dateFilterSql . $securityParameter;
+		WHERE deleted = 0 %s %s %s', $ownerSql, $dateFilterSql, $securityParameter);
 		$sql .= ' AND converted = 0 GROUP BY week(createdtime)';
 		$result = $db->pquery($sql, $params);
 

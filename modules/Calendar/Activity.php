@@ -699,8 +699,8 @@ class Activity extends CRMEntity
 
 		$query = "select vtiger_activity.activityid as taskid, %s from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
 			 inner join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-			 where vtiger_users.user_name='" . $username . "' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
-		$columnTableList = implode(',', $column_table_lists);
+			 where vtiger_users.user_name='%s' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
+		$columnTableList = implode(',', $column_table_lists, $username);
 		$query = sprintf($query, $columnTableList);
 		$log->debug("Exiting get_tasksforol method ...");
 		return $query;
@@ -759,9 +759,9 @@ class Activity extends CRMEntity
 				inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid
 				left join vtiger_contactdetails on vtiger_contactdetails.contactid=vtiger_activity.link
 				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
-				where vtiger_users.user_name='" . $user_name . "' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting'";
+				where vtiger_users.user_name='%s' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting'";
 		$columnTableLists = implode(',', $column_table_lists);
-		$query = sprintf($query, $columnTableLists);
+		$query = sprintf($query, $columnTableLists, $user_name);
 		$log->debug("Exiting get_calendarsforol method ...");
 		return $query;
 	}
