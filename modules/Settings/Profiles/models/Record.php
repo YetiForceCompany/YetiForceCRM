@@ -653,7 +653,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	protected function tranformInputPermissionValue($value)
 	{
-		if ($value == 'on' || $value == '1') {
+		if ($value === 'on' || $value === '1') {
 			return Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
 		} else {
 			return Settings_Profiles_Module_Model::NOT_PERMITTED_VALUE;
