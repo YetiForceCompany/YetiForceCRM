@@ -117,8 +117,8 @@ class Reports extends CRMEntity{
 					array_push($params, $current_user->id);
 					array_push($params, $current_user->id);
 				}
-
-				$query = $adb->pquery("select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '".$current_user_parent_role_seq."::%'",array());
+				$query = sprintf("select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '%s::%'", $current_user_parent_role_seq);
+				$query = $adb->query($query);
 				$subordinate_users = [];
 				for($i=0;$i<$adb->num_rows($query);$i++){
 					$subordinate_users[] = $adb->query_result($query,$i,'userid');
@@ -184,10 +184,10 @@ class Reports extends CRMEntity{
 		require_once('include/utils/utils.php');
 		$tabid = getTabid($module);
 		if ($module == 'Calendar') {
-			$tabid = array(9, 16);
+			$tabid = [9, 16];
 		}
-		$sql = "SELECT blockid, blocklabel FROM vtiger_blocks WHERE tabid IN (". generateQuestionMarks($tabid) .")";
-		$res = $adb->pquery($sql, array($tabid));
+		$sql = sprintf('SELECT blockid, blocklabel FROM vtiger_blocks WHERE tabid IN (%s)', generateQuestionMarks($tabid));
+		$res = $adb->pquery($sql, [$tabid]);
 		$noOfRows = $adb->num_rows($res);
 		if ($noOfRows <= 0) return;
 		for($index = 0; $index < $noOfRows; ++$index) {
@@ -238,9 +238,8 @@ class Reports extends CRMEntity{
 				}
 
 				$moduleids = array_keys($this->module_id);
-				$reportblocks =
-					$adb->pquery("SELECT blockid, blocklabel, tabid FROM vtiger_blocks WHERE tabid IN (" .generateQuestionMarks($moduleids) .")",
-						array($moduleids));
+				$query = sprintf('SELECT blockid, blocklabel, tabid FROM vtiger_blocks WHERE tabid IN (%s)', generateQuestionMarks($moduleids));
+				$reportblocks = $adb->pquery($query, [$moduleids]);
 				$prev_block_label = '';
 				if($adb->num_rows($reportblocks)) {
 					while($resultrow = $adb->fetch_array($reportblocks)) {
@@ -266,21 +265,18 @@ class Reports extends CRMEntity{
 						}
 					}
 				}
-
-				$relatedmodules = $adb->pquery(
-					"SELECT vtiger_tab.name, vtiger_relatedlists.tabid FROM vtiger_tab
+				$query = sprintf("SELECT vtiger_tab.name, vtiger_relatedlists.tabid FROM vtiger_tab
 					INNER JOIN vtiger_relatedlists on vtiger_tab.tabid=vtiger_relatedlists.related_tabid
 					WHERE vtiger_tab.isentitytype=1
-					AND vtiger_tab.name NOT IN(".generateQuestionMarks($restricted_modules).")
+					AND vtiger_tab.name NOT IN(%s)
 					AND vtiger_tab.presence = 0 AND vtiger_relatedlists.label!='Activity History'
 					UNION
 					SELECT relmodule, vtiger_tab.tabid FROM vtiger_fieldmodulerel
 					INNER JOIN vtiger_tab on vtiger_tab.name = vtiger_fieldmodulerel.module
 					WHERE vtiger_tab.isentitytype = 1
-					AND vtiger_tab.name NOT IN(".generateQuestionMarks($restricted_modules).")
-					AND vtiger_tab.presence = 0",
-					array($restricted_modules,$restricted_modules)
-				);
+					AND vtiger_tab.name NOT IN(%s)
+					AND vtiger_tab.presence = 0", generateQuestionMarks($restricted_modules), generateQuestionMarks($restricted_modules));
+				$relatedmodules = $adb->pquery($query, [$restricted_modules,$restricted_modules]);
 				if($adb->num_rows($relatedmodules)) {
 					while($resultrow = $adb->fetch_array($relatedmodules)) {
 						$module = $this->module_id[$resultrow['tabid']];
@@ -482,7 +478,8 @@ class Reports extends CRMEntity{
 			}
 			$sql .= " LIMIT $startIndex,".($pageLimit+1);
 		}
-		$query = $adb->pquery("select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '".$current_user_parent_role_seq."::%'",array());
+		$query = sprinf("select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '%s::%'", $current_user_parent_role_seq);
+		$query = $adb->query($query);
 		$subordinate_users = [];
 		for($i=0;$i<$adb->num_rows($query);$i++){
 			$subordinate_users[] = $adb->query_result($query,$i,'userid');
@@ -662,7 +659,7 @@ class Reports extends CRMEntity{
 		//Security Check
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] ==0)
 		{
-			$sql = "select * from vtiger_field where vtiger_field.tabid in (". generateQuestionMarks($tabid) .") and vtiger_field.block in (". generateQuestionMarks($block) .") and vtiger_field.displaytype in (1,2,3,10) and vtiger_field.presence in (0,2) AND tablename NOT IN (".generateQuestionMarks($skipTalbes).") ";
+			$sql = sprintf("select * from vtiger_field where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_field.presence in (0,2) AND tablename NOT IN (%s) ", generateQuestionMarks($tabid), generateQuestionMarks($block), generateQuestionMarks($skipTalbes));
 
 			//fix for Ticket #4016
 			if($module == "Calendar")
@@ -674,7 +671,7 @@ class Reports extends CRMEntity{
 		{
 
 			$profileList = getCurrentUserProfileList();
-			$sql = "select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (". generateQuestionMarks($tabid) .")  and vtiger_field.block in (". generateQuestionMarks($block) .") and vtiger_field.displaytype in (1,2,3,10) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
+			$sql = sprintf("select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (%s)  and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)", generateQuestionMarks($tabid),  generateQuestionMarks($block));
 			if (count($profileList) > 0) {
 				$sql .= " and vtiger_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
 				array_push($params, $profileList);
@@ -840,7 +837,7 @@ class Reports extends CRMEntity{
 		else
 		{
 			$profileList = getCurrentUserProfileList();
-			$sql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid  where vtiger_field.tabid=? and (vtiger_field.uitype =5 or vtiger_field.displaytype=2) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.block in (". generateQuestionMarks($block) .") and vtiger_field.presence in (0,2)";
+			$sql = sprintf('select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid  where vtiger_field.tabid=? and (vtiger_field.uitype =5 or vtiger_field.displaytype=2) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.block in (%s) and vtiger_field.presence in (0,2)', generateQuestionMarks($block));
 			if (count($profileList) > 0) {
 				$sql .= " and vtiger_profile2field.profileid in (". generateQuestionMarks($profileList) .")";
 				array_push($params, $profileList);
