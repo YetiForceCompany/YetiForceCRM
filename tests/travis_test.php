@@ -1,4 +1,10 @@
 <?php
+/**
+ * Travis CI test script
+ * @package YetiForce.Travis CI
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 chdir(dirname(__FILE__) . '/../');
 
