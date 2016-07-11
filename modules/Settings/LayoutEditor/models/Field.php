@@ -53,8 +53,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$adb->pquery($deletequery, array($id));
 		} elseif ($fld_module == 'Accounts' || $fld_module == 'Contacts') {
 			$map_del_id = array('Accounts' => 'accountfid', 'Contacts' => 'contactfid');
-			$map_del_q = 'update vtiger_convertleadmapping set ' . $map_del_id[$fld_module] . '=0 where ' . $map_del_id[$fld_module] . '=?';
-			$adb->pquery($map_del_q, array($id));
+			$adb->update('vtiger_convertleadmapping', [$map_del_id[$fld_module] => 0], $map_del_id[$fld_module] . '=?', [$id]);
 		}
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
@@ -128,7 +127,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$query .= ' WHEN fieldid = ? THEN ' . $maxSequence;
 		}
 		$query .= ' ELSE sequence END';
-		$query .= ' WHERE fieldid IN (' . generateQuestionMarks($fieldIdsList) . ')';
+		$query .= sprintf(' WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdsList));
 
 		$db->pquery($query, array_merge($fieldIdsList, $fieldIdsList));
 	}
@@ -248,7 +247,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	{
 		if ($fieldIdsList) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT fieldid, sequence, block, fieldlabel FROM vtiger_field WHERE fieldid IN (' . generateQuestionMarks($fieldIdsList) . ')', $fieldIdsList);
+			$query = sprintf('SELECT fieldid, sequence, block, fieldlabel FROM vtiger_field WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdsList));
+			$result = $db->pquery($query, $fieldIdsList);
 			$numOfRows = $db->num_rows($result);
 
 			for ($i = 0; $i < $numOfRows; $i++) {
@@ -275,7 +275,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$blockId = array($blockId);
 		}
 
-		$query = 'SELECT * FROM vtiger_field WHERE block IN(' . generateQuestionMarks($blockId) . ') AND vtiger_field.displaytype IN (1,2,4,9,10) ORDER BY sequence';
+		$query = sprintf('SELECT * FROM vtiger_field WHERE block IN(%s) AND vtiger_field.displaytype IN (1,2,4,9,10) ORDER BY sequence', generateQuestionMarks($blockId));
 		$result = $db->pquery($query, $blockId);
 		$numOfRows = $db->num_rows($result);
 
@@ -317,8 +317,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$fieldId = array($fieldId);
 		}
 
-		$query = 'SELECT * FROM vtiger_field WHERE fieldid IN (' . generateQuestionMarks($fieldId) . ') AND tabid=?';
-		$result = $db->pquery($query, array($fieldId, $moduleTabId));
+		$query = sprintf('SELECT * FROM vtiger_field WHERE fieldid IN (%s) AND tabid=?', generateQuestionMarks($fieldId));
+		$result = $db->pquery($query, [$fieldId, $moduleTabId]);
 		$fieldModelList = array();
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {

@@ -70,9 +70,9 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 		}
 		$query .=' END ';
 
-		$query .= ' WHERE fieldid IN (' . generateQuestionMarks($fieldIdList) . ')';
+		$query .= sprintf(' WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdList));
 
-		$db->pquery($query, array($fieldIdList));
+		$db->pquery($query, [$fieldIdList]);
 	}
 
 	public static function getInstance($value, $moduleInstance = false)
