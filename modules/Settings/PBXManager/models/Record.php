@@ -37,8 +37,8 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$serverModel = new self();
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM ' . self::tableName;
-		$gatewatResult = $db->pquery($query, array());
+		$query = sprintf('SELECT * FROM %s', self::tableName);
+		$gatewatResult = $db->query($query);
 		$gatewatResultCount = $db->num_rows($gatewatResult);
 
 		if ($gatewatResultCount > 0) {
@@ -57,7 +57,9 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getInstanceById($recordId, $qualifiedModuleName)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM ' . self::tableName . ' WHERE id = ?', array($recordId));
+		$query = 'SELECT * FROM %s WHERE id = ?';
+		$query = sprintf($query, self::tableName);
+		$result = $db->pquery($query, [$recordId]);
 
 		if ($db->num_rows($result)) {
 			$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
@@ -86,15 +88,15 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 			$parameters[$field] = $this->get($field);
 		}
 		$this->set('parameters', Zend_Json::encode($parameters));
-		$params = array($selectedGateway, $this->get('parameters'));
+		$params = [
+			'gateway' => $selectedGateway,
+			'parameters' => $this->get('parameters')
+		];
 		$id = $this->getId();
-
 		if ($id) {
-			$query = 'UPDATE ' . self::tableName . ' SET gateway=?, parameters = ? WHERE id = ?';
-			array_push($params, $id);
+			$db->update(self::tableName, $params, 'id = ?', [$id]);
 		} else {
-			$query = 'INSERT INTO ' . self::tableName . '(gateway, parameters) VALUES(?, ?)';
+			$db->insert(self::tableName, $params);
 		}
-		$db->pquery($query, $params);
 	}
 }
