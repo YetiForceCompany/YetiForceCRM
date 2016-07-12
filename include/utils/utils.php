@@ -20,7 +20,6 @@
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 require_once 'include/database/PearDatabase.php';
-require_once 'include/ComboUtil.php'; //new
 require_once 'include/utils/ListViewUtils.php';
 require_once 'include/utils/EditViewUtils.php';
 require_once 'include/utils/CommonUtils.php';
@@ -33,10 +32,7 @@ require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';
 require_once 'include/CRMEntity.php';
 include_once 'modules/Vtiger/CRMEntity.php';
-require_once 'vtlib/Vtiger/Language.php';
 require_once 'include/ListView/ListViewSession.php';
-require_once 'vtlib/Vtiger/Functions.php';
-require_once 'vtlib/Vtiger/Deprecated.php';
 require_once 'include/runtime/Cache.php';
 require_once 'modules/Vtiger/helpers/Util.php';
 
@@ -143,7 +139,7 @@ function get_user_array($add_blank = true, $status = 'Active', $assigned_user = 
 				$params = array($status);
 			}
 		}
-		
+
 		if (!empty($assigned_user)) {
 			$query .= ' OR id=?';
 			array_push($params, $assigned_user);
@@ -257,7 +253,7 @@ function get_group_array($add_blank = true, $status = 'Active', $assigned_user =
  * If you are using the current language, do not call this function unless you are loading it for the first time */
 function return_app_list_strings_language($language)
 {
-	return Vtiger_Deprecated::return_app_list_strings_language($language);
+	return vtlib\Deprecated::return_app_list_strings_language($language);
 }
 
 /**
@@ -265,7 +261,7 @@ function return_app_list_strings_language($language)
  */
 function return_app_currency_strings_language($language)
 {
-	return Vtiger_Deprecated::return_app_list_strings_language($language);
+	return vtlib\Deprecated::return_app_list_strings_language($language);
 }
 
 /** This function retrieves an application language file and returns the array of strings included.
@@ -275,7 +271,7 @@ function return_app_currency_strings_language($language)
  * If you are using the current language, do not call this function unless you are loading it for the first time */
 function return_application_language($language)
 {
-	return Vtiger_Deprecated::return_app_list_strings_language($language);
+	return vtlib\Deprecated::return_app_list_strings_language($language);
 }
 
 /** This function retrieves a module's language file and returns the array of strings included.
@@ -285,14 +281,14 @@ function return_application_language($language)
  * If you are in the current module, do not call this function unless you are loading it for the first time */
 function return_module_language($language, $module)
 {
-	return Vtiger_Deprecated::getModuleTranslationStrings($language, $module);
+	return vtlib\Deprecated::getModuleTranslationStrings($language, $module);
 }
 /* This function returns the mod_strings for the current language and the specified module
  */
 
 function return_specified_module_language($language, $module)
 {
-	return Vtiger_Deprecated::return_app_list_strings_language($language, $module);
+	return vtlib\Deprecated::return_app_list_strings_language($language, $module);
 }
 
 /**
@@ -411,7 +407,7 @@ function getTabname($tabid)
  */
 function getTabModuleName($tabid)
 {
-	return Vtiger_Functions::getModuleName($tabid);
+	return vtlib\Functions::getModuleName($tabid);
 }
 
 /** Function to get column fields for a given module
@@ -428,7 +424,7 @@ function getColumnFields($module)
 	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 
 	if ($cachedModuleFields === false) {
-		$fieldsInfo = Vtiger_Functions::getModuleFieldInfos($module);
+		$fieldsInfo = vtlib\Functions::getModuleFieldInfos($module);
 		if (!empty($fieldsInfo)) {
 			foreach ($fieldsInfo as $resultrow) {
 				// Update information to cache for re-use
@@ -585,7 +581,7 @@ function getRecordOwnerId($record)
 	$adb = PearDatabase::getInstance();
 	$ownerArr = [];
 
-	$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
+	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
 
 	if ($recordMetaData) {
 		$ownerId = $recordMetaData['smownerid'];
@@ -774,7 +770,7 @@ function getTableNameForField($module, $fieldname)
 	if ($module == 'Calendar') {
 		$tabid = array('9', '16');
 	}
-	$sql = "select tablename from vtiger_field where tabid in (" . generateQuestionMarks($tabid) . ") and vtiger_field.presence in (0,2) and columnname like ?";
+	$sql = sprintf("select tablename from vtiger_field where tabid in (%s) and vtiger_field.presence in (0,2) and columnname like ?", generateQuestionMarks($tabid));
 	$res = $adb->pquery($sql, array($tabid, '%' . $fieldname . '%'));
 
 	$tablename = '';
@@ -1469,13 +1465,11 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 		return;
 	$_installOrUpdateVtlibModule[$packagename . $packagepath] = 'install';
 
-	require_once('vtlib/Vtiger/Package.php');
-	require_once('vtlib/Vtiger/Module.php');
 	$Vtiger_Utils_Log = defined('INSTALLATION_MODE_DEBUG') ? INSTALLATION_MODE_DEBUG : true;
-	$package = new Vtiger_Package();
+	$package = new vtlib\Package();
 
 	if ($package->isLanguageType($packagepath)) {
-		$package = new Vtiger_Language();
+		$package = new vtlib\Language();
 		$package->import($packagepath, true);
 		return;
 	}
@@ -1483,8 +1477,7 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 
 	// Customization
 	if ($package->isLanguageType()) {
-		require_once('vtlib/Vtiger/Language.php');
-		$languagePack = new Vtiger_Language();
+		$languagePack = new vtlib\Language();
 		@$languagePack->import($packagepath, true);
 		return;
 	}
@@ -1494,14 +1487,14 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 	$module_dir_exists = false;
 	if ($module == null) {
 		$log->fatal("$packagename Module zipfile is not valid!");
-	} else if (Vtiger_Module::getInstance($module)) {
+	} else if (vtlib\Module::getInstance($module)) {
 		$log->fatal("$module already exists!");
 		$module_exists = true;
 	}
 	if ($module_exists == false) {
 		$log->debug("$module - Installation starts here");
 		$package->import($packagepath, true);
-		$moduleInstance = Vtiger_Module::getInstance($module);
+		$moduleInstance = vtlib\Module::getInstance($module);
 		if (empty($moduleInstance)) {
 			$log->fatal("$module module installation failed!");
 		}
@@ -1522,14 +1515,11 @@ function updateVtlibModule($module, $packagepath)
 		return;
 	$_installOrUpdateVtlibModule[$module . $packagepath] = 'update';
 
-	require_once('vtlib/Vtiger/Package.php');
-	require_once('vtlib/Vtiger/Module.php');
 	$Vtiger_Utils_Log = defined('INSTALLATION_MODE_DEBUG') ? INSTALLATION_MODE_DEBUG : true;
-	$package = new Vtiger_Package();
+	$package = new vtlib\Package();
 
 	if ($package->isLanguageType($packagepath)) {
-		require_once('vtlib/Vtiger/Language.php');
-		$languagePack = new Vtiger_Language();
+		$languagePack = new vtlib\Language();
 		$languagePack->update(null, $packagepath, true);
 		return;
 	}
@@ -1537,7 +1527,7 @@ function updateVtlibModule($module, $packagepath)
 	if ($module == null) {
 		$log->fatal("Module name is invalid");
 	} else {
-		$moduleInstance = Vtiger_Module::getInstance($module);
+		$moduleInstance = vtlib\Module::getInstance($module);
 		if ($moduleInstance || $package->isModuleBundle($packagepath)) {
 			$log->debug("$module - Module instance found - Update starts here");
 			$package->update($moduleInstance, $packagepath);
@@ -1590,7 +1580,7 @@ function com_vtGetModules($adb)
  */
 function isRecordExists($recordId, $cache = true)
 {
-	$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($recordId);
+	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($recordId);
 	return (isset($recordMetaData) && $recordMetaData['deleted'] == 0 ) ? true : false;
 }
 
@@ -1667,7 +1657,7 @@ function getValidDBInsertDateTimeValue($value)
  */
 function sanitizeUploadFileName($fileName, $badFileExtensions)
 {
-	$fileName = Vtiger_Functions::slug($fileName);
+	$fileName = vtlib\Functions::slug($fileName);
 	$fileName = rtrim($fileName, '\\/<>?*:"<>|');
 
 	$fileNameParts = explode(".", $fileName);
@@ -1840,15 +1830,14 @@ function getInventoryModules()
 function initUpdateVtlibModule($module, $packagepath)
 {
 	$log = LoggerManager::getInstance();
-	require_once('vtlib/Vtiger/Package.php');
-	require_once('vtlib/Vtiger/Module.php');
+
 	$Vtiger_Utils_Log = true;
-	$package = new Vtiger_Package();
+	$package = new vtlib\Package();
 
 	if ($module == null) {
 		$log->fatal("Module name is invalid");
 	} else {
-		$moduleInstance = Vtiger_Module::getInstance($module);
+		$moduleInstance = vtlib\Module::getInstance($module);
 		if ($moduleInstance) {
 			$log->debug("$module - Module instance found - Init Update starts here");
 			$package->initUpdate($moduleInstance, $packagepath, true);
@@ -2042,7 +2031,7 @@ function getExportRecordIds($moduleName, $viewid, $input)
 		$limit_start_rec = ($current_page - 1) * $list_max_entries_per_page;
 		if ($limit_start_rec < 0)
 			$limit_start_rec = 0;
-		$query .= ' LIMIT ' . $limit_start_rec . ',' . $list_max_entries_per_page;
+		$query .= sprintf(' LIMIT %s,%s', $limit_start_rec, $list_max_entries_per_page);
 
 		$result = $adb->pquery($query, []);
 		$idstring = [];

@@ -193,22 +193,20 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 
 	public function sendEmail()
 	{
-		require_once 'vtlib/Vtiger/Mailer.php';
-
-		$vtigerMailer = new Vtiger_Mailer();
+		$vtigerMailer = new vtlib\Mailer();
 
 		$recipientEmails = $this->getRecipientEmails();
-		Vtiger_Utils::ModuleLog('ScheduleReprots', $recipientEmails);
+		vtlib\Utils::ModuleLog('ScheduleReprots', $recipientEmails);
 		foreach ($recipientEmails as $name => $email) {
 			$vtigerMailer->AddAddress($email, $name);
 		}
 		vimport('~modules/Report/models/Record.php');
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
-		Vtiger_Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
+		vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
 		$reportname = decode_html($reportRecordModel->getName());
 		$subject = $reportname;
-		Vtiger_Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
+		vtlib\Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
 		$vtigerMailer->Subject = $subject;
 		$vtigerMailer->Body = $this->getEmailContent($reportRecordModel);
 		$vtigerMailer->IsHTML();
@@ -217,7 +215,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		$fileName = $baseFileName . '.csv';
 
 		$reportFormat = $this->scheduledFormat;
-		if(!$this->isEmpty('scheduleFileType')){
+		if (!$this->isEmpty('scheduleFileType')) {
 			$reportFormat = $this->get('scheduleFileType');
 		}
 		$oReportRun = ReportRun::getInstance($this->get('reportid'));
@@ -293,9 +291,9 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
-		Vtiger_Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
+		vtlib\Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
 		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->get('reportid')));
-		Vtiger_Utils::ModuleLog('ScheduleReprot', 'Next Trigger Time updated');
+		vtlib\Utils::ModuleLog('ScheduleReprot', 'Next Trigger Time updated');
 	}
 
 	public static function getScheduledReports()
@@ -337,7 +335,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		$scheduledReports = self::getScheduledReports();
 		foreach ($scheduledReports as $scheduledReport) {
 			$status = $scheduledReport->sendEmail();
-			Vtiger_Utils::ModuleLog('ScheduleReprot Send Mail Status ', $status);
+			vtlib\Utils::ModuleLog('ScheduleReprot Send Mail Status ', $status);
 			if ($status)
 				$scheduledReport->updateNextTriggerTime();
 		}

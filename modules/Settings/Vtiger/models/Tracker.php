@@ -71,9 +71,9 @@ class Settings_Vtiger_Tracker_Model
 		}
 	}
 
-	static function lockTracking()
+	static function lockTracking($lock = true)
 	{
-		self::$lockTrack = true;
+		self::$lockTrack = $lock;
 	}
 	static function setRecordId($record){
 		if(empty(self::$recordId)){

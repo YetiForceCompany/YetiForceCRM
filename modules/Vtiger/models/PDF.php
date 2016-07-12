@@ -108,7 +108,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);
@@ -142,7 +142,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `module_name` = ? and `status` = ?;';
+		$query = sprintf('SELECT * FROM `%s` WHERE `module_name` = ? and `status` = ?;', self::$baseTable);
 		$result = $db->pquery($query, [$moduleName, 'active']);
 		$templates = [];
 
@@ -162,7 +162,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 			return $pdf;
 		}
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `' . self::$baseIndex . '` = ? LIMIT 1;';
+		$query = sprintf('SELECT * FROM `%s` WHERE `%s` = ? LIMIT 1', self::$baseTable, self::$baseIndex);
 		$result = $db->pquery($query, [$recordId]);
 		if ($result->rowCount() == 0) {
 			return false;
@@ -626,7 +626,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		foreach ($fileNames as $file) {
 			unlink($file);
 		}
-		$mimeType = Vtiger_Functions::getMimeContentType($fileName);
+		$mimeType = vtlib\Functions::getMimeContentType($fileName);
 		$size = filesize($fileName);
 		$name = basename($fileName);
 

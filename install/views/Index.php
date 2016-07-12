@@ -202,12 +202,6 @@ class Install_Index_view extends Vtiger_View_Controller
 		$_SESSION['config_file_info']['site_URL'] = $webRoot;
 		$viewer->assign('SITE_URL', $webRoot);
 
-		$root_directory = getcwd();
-		if (substr($root_directory, -1) != '/') {
-			$root_directory = $root_directory . '/';
-		}
-		$_SESSION['config_file_info']['root_directory'] = $root_directory;
-
 		$currencies = Install_Utils_Model::getCurrencyList();
 		$currencyName = $request->get('currency_name');
 		if (isset($currencyName)) {
@@ -272,14 +266,14 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
-		$root_directory = getcwd();
-		if (substr($root_directory, -1) != '/') {
-			$root_directory = $root_directory . '/';
+		$rootDirectory = getcwd();
+		if (substr($rootDirectory, -1) != '/') {
+			$rootDirectory = $rootDirectory . '/';
 		}
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
-		$viewer->assign('EXAMPLE_DIRECTORY', $root_directory);
+		$viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$viewer->assign('SCHEMALISTS', $schemaLists);
 		echo $viewer->fetch('mStep0.tpl');
 	}
@@ -288,14 +282,14 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
-		$root_directory = getcwd();
-		if (substr($root_directory, -1) != '/') {
-			$root_directory = $root_directory . '/';
+		$rootDirectory = getcwd();
+		if (substr($rootDirectory, -1) != '/') {
+			$rootDirectory = $rootDirectory . '/';
 		}
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
-		$viewer->assign('EXAMPLE_DIRECTORY', $root_directory);
+		$viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$viewer->assign('SCHEMALISTS', $schemaLists);
 		echo $viewer->fetch('mStep1.tpl');
 	}
@@ -304,14 +298,14 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
-		$root_directory = getcwd();
-		if (substr($root_directory, -1) != '/') {
-			$root_directory = $root_directory . '/';
+		$rootDirectory = getcwd();
+		if (substr($rootDirectory, -1) != '/') {
+			$rootDirectory = $rootDirectory . '/';
 		}
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
-		$viewer->assign('EXAMPLE_DIRECTORY', $root_directory);
+		$viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$viewer->assign('SCHEMALISTS', $schemaLists);
 		echo $viewer->fetch('mStep2.tpl');
 	}

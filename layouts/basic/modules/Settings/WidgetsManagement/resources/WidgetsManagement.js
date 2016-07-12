@@ -499,6 +499,44 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		container.find('.addChartFilter').click(function (e) {
 			thisInstance.addChartFilterWidget(this, jQuery(this).data('url'));
 		});
+		container.find('.addRss').click(function (e) {
+			thisInstance.addRssWidget($(e.currentTarget), jQuery(this).data('url'));
+		});
+	},
+	addRssWidget: function (element, url) {
+		var thisInstance = this;
+		var objectToShowModal = {
+			url: 'index.php?module=' + app.getModuleName() + '&parent=' + app.getParentModuleName() + '&view=AddRss',
+			cb: function (container) {
+				container.find('.removeChannel').on('click', function (e) {
+					var currentTarget = $(e.currentTarget);
+					var row = currentTarget.closest('.form-group');
+					row.remove();
+				});
+				container.find('.addChannel').on('click', function (e) {
+					var newRow = container.find('.newChannel').clone();
+					var formContainer = container.find('.formContainer');
+					formContainer.append(newRow);
+					newRow.removeClass('hide');
+					newRow.removeClass('newChannel');
+					newRow.find('input').removeAttr('disabled');
+					newRow.find('.removeChannel').on('click', function (e) {
+						var currentTarget = $(e.currentTarget);
+						var row = currentTarget.closest('.form-group');
+						row.remove();
+					});
+				});
+				container.find('[name="blockid"]').val(element.data('blockId'));
+				container.find('[name="linkId"]').val(element.data('linkid'));
+			},
+			sendByAjaxCb: function (form, data) {
+				var widgetId = data.result.widgetId;
+				form['id'] = widgetId;
+				form['label'] = form['widgetTitle'];
+				thisInstance.showCustomField(form);
+			}
+		};
+		app.showModalWindow(objectToShowModal);
 	},
 	addChartFilterWidget: function (element) {
 		var thisInstance = this;

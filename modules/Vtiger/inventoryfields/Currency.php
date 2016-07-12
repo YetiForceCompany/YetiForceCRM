@@ -25,7 +25,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value)
 	{
-		return Vtiger_Functions::getCurrencyName($value, false);
+		return vtlib\Functions::getCurrencyName($value, false);
 	}
 
 	public function getCurrencyParam($currencies, $param = false)
@@ -34,7 +34,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 			return Zend_Json::decode($param);
 		} else {
 			foreach ($currencies as $currency) {
-				$return[$currency['id']] = Vtiger_Functions::getConversionRateInfo($currency['id']);
+				$return[$currency['id']] = vtlib\Functions::getConversionRateInfo($currency['id']);
 			}
 		}
 		return $return;

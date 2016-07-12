@@ -157,7 +157,7 @@ class LettersIn extends CRMEntity
 
 		$current_user = vglobal('current_user');
 		$query .= $this->getNonAdminAccessControlQuery($module, $current_user);
-		$query .= "	WHERE vtiger_crmentity.deleted = 0 " . $usewhere;
+		$query .= sprintf('	WHERE vtiger_crmentity.deleted = 0 %s', $usewhere);
 		return $query;
 	}
 
@@ -271,7 +271,7 @@ class LettersIn extends CRMEntity
 	 */
 	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
-		$select_clause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid, vtiger_users_last_import.deleted," . $table_cols;
+		$select_clause = sprintf('SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s', $this->table_name, $this->table_index, $table_cols);
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
@@ -326,18 +326,17 @@ class LettersIn extends CRMEntity
 			$ModuleInstance = CRMEntity::getInstance($modulename);
 			$ModuleInstance->setModuleSeqNumber("configure", $modulename, 'LI', '1');
 
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('LettersIn'));
 			}
 
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModTracker');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModTracker');
 			if ($modcommentsModuleInstance && file_exists('modules/ModTracker/ModTracker.php')) {
-				include_once('vtlib/Vtiger/Module.php');
 				include_once 'modules/ModTracker/ModTracker.php';
-				$tabid = Vtiger_Functions::getModuleId($modulename);
+				$tabid = vtlib\Functions::getModuleId($modulename);
 				$moduleModTrackerInstance = new ModTracker();
 				if (!$moduleModTrackerInstance->isModulePresent($tabid)) {
 					$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
@@ -347,7 +346,7 @@ class LettersIn extends CRMEntity
 					$moduleModTrackerInstance->updateCache($tabid, 1);
 				}
 				if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)) {
-					$moduleInstance = Vtiger_Module::getInstance($tabid);
+					$moduleInstance = vtlib\Module::getInstance($tabid);
 					$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
 				}
 			}

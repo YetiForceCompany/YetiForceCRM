@@ -252,8 +252,8 @@ class VTTaskType
 	public static function registerTaskType($taskType)
 	{
 		$adb = PearDatabase::getInstance();
-		if (!Vtiger_Utils::CheckTable('com_vtiger_workflow_tasktypes')) {
-			Vtiger_Utils::CreateTable(
+		if (!vtlib\Utils::CheckTable('com_vtiger_workflow_tasktypes')) {
+			vtlib\Utils::CreateTable(
 				'com_vtiger_workflow_tasktypes', "(id int(11) NOTNULL,
 						tasktypename varchar(255) NOTNULL,
 						label varchar(255),

@@ -37,8 +37,9 @@ class Home_Module_Model extends Vtiger_Module_Model
 			FROM vtiger_modcomments
 			INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
 			INNER JOIN vtiger_crmentity crmentity2 ON vtiger_modcomments.related_to = crmentity2.crmid
-			WHERE vtiger_crmentity.deleted = 0 AND crmentity2.deleted = 0 ' . $UserAccessConditions . '
+			WHERE vtiger_crmentity.deleted = 0 AND crmentity2.deleted = 0 %s
 			ORDER BY vtiger_modcomments.modcommentsid DESC LIMIT ?, ?';
+		$sql = sprintf($sql, $UserAccessConditions);
 		$result = $db->pquery($sql, array($pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
 
 		$comments = array();
@@ -145,7 +146,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$params[] = $user;
 		}
 
-		$query .= ' ORDER BY ' . $orderBy . ' LIMIT ?, ?';
+		$query .=  sprintf(' ORDER BY %s LIMIT ?, ?', $orderBy);
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit() + 1;
 		
@@ -263,7 +264,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 				if (isRecordExists($row['projectid'])) {
 					$record = Vtiger_Record_Model::getInstanceById($row['projectid'], 'Project');
 					if (isRecordExists($record->get('linktoaccountscontacts'))) {
-						$model->set('account', '<a href="index.php?module=' . Vtiger_Functions::getCRMRecordType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . Vtiger_Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
+						$model->set('account', '<a href="index.php?module=' . vtlib\Functions::getCRMRecordType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
 					}
 				}
 			}
@@ -308,11 +309,12 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if ($type == 'updates' || $type == 'all') {
 			$db = PearDatabase::getInstance();
 			$queryforActivity = $this->getActivityQuery($type);
-			$result = $db->pquery('SELECT vtiger_modtracker_basic.*
+			$query = sprintf('SELECT vtiger_modtracker_basic.*
 					FROM vtiger_modtracker_basic
 					INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
-					AND deleted = 0 ' . $queryforActivity . '
-					ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', array($pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
+					AND deleted = 0 %s
+					ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', $queryforActivity);
+			$result = $db->pquery($query, [$pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
 
 			$activites = array();
 			for ($i = 0; $i < $db->num_rows($result); $i++) {

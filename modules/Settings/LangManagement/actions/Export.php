@@ -14,11 +14,9 @@ class Settings_LangManagement_Export_Action extends Settings_Vtiger_IndexAjax_Vi
 
 	public function process(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
 		$lang = $request->get('lang');
-		require_once("vtlib/Vtiger/LanguageExport.php");
-		$package = new Vtiger_LanguageExport();
+
+		$package = new vtlib\LanguageExport();
 		$package->export($lang, '', $lang . '.zip', true);
 	}
 }

@@ -63,7 +63,7 @@ class Products_SummaryWidget_Model
 		if ($securityParameter != '')
 			$sql.= $securityParameter;
 
-		$sql.= ' LIMIT ' . $limit;
+		$sql.= sprintf(' LIMIT %s', $limit);
 		$result = $db->pquery($sql, $params);
 		$returnData = [];
 		while ($row = $db->fetch_array($result)) {

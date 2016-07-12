@@ -160,7 +160,7 @@ class LoggerCategory {
         }
         if ($errorLevel->isGreaterOrEqual($this->getEffectiveLevel())) {
             $this->forcedLog($this->fqcn, $caller, $errorLevel, $message);
-			$this->forcedLog($this->fqcn, $caller, $errorLevel, PHP_EOL.Vtiger_Functions::getBacktrace(1));
+			$this->forcedLog($this->fqcn, $caller, $errorLevel, PHP_EOL.vtlib\Functions::getBacktrace(1));
         }
     }
   

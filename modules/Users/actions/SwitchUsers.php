@@ -23,7 +23,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 				'busername' => $currentUserModel->getName(),
 				'dusername' => '',
 				'date' => date('Y-m-d H:i:s'),
-				'ip' => Vtiger_Functions::getRemoteIP(),
+				'ip' => vtlib\Functions::getRemoteIP(),
 				'agent' => $_SERVER['HTTP_USER_AGENT'],
 				'status' => 'Failed login - No permission',
 			]);
@@ -64,7 +64,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 			'busername' => $currentUserModel->getName(),
 			'dusername' => $name,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => Vtiger_Functions::getRemoteIP(),
+			'ip' => vtlib\Functions::getRemoteIP(),
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'status' => $status,
 		]);

@@ -43,6 +43,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
 			$unitPriceField->set('name', 'qtyinstock');
 			$unitPriceField->set('column', 'qtyinstock');
 			$unitPriceField->set('label', 'FL_QTY_IN_STOCK');
+			$unitPriceField->set('fromOutsideList', true);
 			
 			$headerFields['qtyinstock'] = $unitPriceField;
 		}
@@ -52,6 +53,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
 			$unitPriceField->set('name', 'unit_price');
 			$unitPriceField->set('column', 'unit_price');
 			$unitPriceField->set('label', 'Unit Price');
+			$unitPriceField->set('fromOutsideList', true);
 			
 			$headerFields['unit_price'] = $unitPriceField;
 			
@@ -60,6 +62,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
 			$field->set('name', 'listprice');
 			$field->set('column', 'listprice');
 			$field->set('label', 'List Price');
+			$field->set('fromOutsideList', true);
 			
 			$headerFields['listprice'] = $field;
 		}

@@ -12,7 +12,6 @@
 chdir(dirname(__FILE__) . '/../../../..');
 
 include_once 'include/http/Response.php';
-include_once 'vtlib/Vtiger/Module.php';
 include_once 'include/utils/VtlibUtils.php';
 include_once 'include/recaptcha/recaptchalib.php';
 include_once 'modules/Webforms/config.captcha.php';

@@ -1,5 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+	<input type="hidden" id="alphabetSearchKey" value= "{$MODULE_MODEL->getAlphabetSearchField()}" />
+	<input type="hidden" id="Operator" value="{$OPERATOR}" />
+	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
 	{assign var = ALPHABETS_LABEL value = vtranslate('LBL_ALPHABETS', 'Vtiger')}
 	{assign var = ALPHABETS value = ','|explode:$ALPHABETS_LABEL}
 	<div class="alphabetModal" tabindex="-1">
@@ -32,9 +35,9 @@
 					</div>
 					<div class="modal-footer">
 						<div class="pull-right">
-							<a class="btn btn-danger" href="{$MODULE_MODEL->getListViewUrl()}" title="{vtranslate('LBL_REMOVE_ALPH_SEARCH_INFO', $MODULE_NAME)}" >
+							<button class="btn btn-danger removeAlfabetCondition" type="button" title="{vtranslate('LBL_REMOVE_ALPH_SEARCH_INFO', $MODULE_NAME)}" >
 								{vtranslate('LBL_REMOVE_FILTERING', $MODULE_NAME)}
-							</a>
+							</button >
 						</div>
 					</div>
 				</div>

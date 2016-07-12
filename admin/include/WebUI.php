@@ -97,7 +97,7 @@ class Admin_WebUI extends Admin_EntryPoint {
 		vglobal('log', LoggerManager::getLogger('System'));
 		Vtiger_Session::init();
 		$forceSSL = vglobal('forceSSL');
-		if ($forceSSL && !Vtiger_Functions::getBrowserInfo()->https) {
+		if ($forceSSL && !vtlib\Functions::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 		}
 
@@ -211,12 +211,12 @@ class Admin_WebUI extends Admin_EntryPoint {
 			if ($view) {
 				// Log for developement.
 				error_log($e->getTraceAsString(), E_NOTICE);
-				Vtiger_Functions::throwNewException($e->getMessage());
+				vtlib\Functions::throwNewException($e->getMessage());
 			} else {
 				$response = new Vtiger_Response();
 				$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 				$response->setError($e->getMessage());
-				//Vtiger_Functions::throwNewException($e->getMessage());
+				//vtlib\Functions::throwNewException($e->getMessage());
 			}
 		}
 

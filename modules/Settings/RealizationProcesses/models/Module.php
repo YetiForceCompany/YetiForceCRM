@@ -48,7 +48,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 		$rowsNum = $adb->num_rows($result);
 		for ($i = 0; $i < $rowsNum; $i++) {
 			$moduleId = $adb->query_result($result, $i, 'module_id');
-			$moduleName = Vtiger_Functions::getModuleName($moduleId);
+			$moduleName = vtlib\Functions::getModuleName($moduleId);
 			$return[$moduleName]['id'] = $moduleId;
 			$status = Zend_Json::decode(html_entity_decode($adb->query_result($result, $i, 'status_indicate_closing')));
 			if (!is_array($status)) {

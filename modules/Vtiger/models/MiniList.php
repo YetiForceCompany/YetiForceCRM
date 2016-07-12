@@ -96,7 +96,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if (!$this->listviewHeaders) {
 			$headerFieldModels = [];
 			foreach ($this->listviewController->getListViewHeaderFields() as $fieldName => $webserviceField) {
-				$fieldObj = Vtiger_Field::getInstance($webserviceField->getFieldId());
+				$fieldObj = vtlib\Field::getInstance($webserviceField->getFieldId());
 				$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstanceFromFieldObject($fieldObj);
 			}
 			$this->listviewHeaders = $headerFieldModels;
@@ -135,10 +135,9 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$db = PearDatabase::getInstance();
 
 			$query = $this->queryGenerator->getQuery() . $ownerSql;
-			$query .= ' ORDER BY vtiger_crmentity.modifiedtime DESC ';
-			$query .= ' LIMIT 0,' . $this->getRecordLimit();
+			$query .= sprintf(' ORDER BY vtiger_crmentity.modifiedtime DESC LIMIT 0,%d', $this->getRecordLimit());
 			$query = substr($query, 6);
-			$query = 'SELECT vtiger_crmentity.crmid as id, ' . $query;
+			$query = sprintf('SELECT vtiger_crmentity.crmid as id, %s', $query);
 			$result = $db->pquery($query, $params);
 
 			$targetModuleName = $this->getTargetModule();
@@ -182,7 +181,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 				$queryGenerator->addCondition('assigned_user_id', $user, 'om', QueryGenerator::$AND);
 			}
 			$metricsql = $queryGenerator->getQuery();
-			$metricresult = $db->query(Vtiger_Functions::mkCountQuery($metricsql));
+			$metricresult = $db->query(vtlib\Functions::mkCountQuery($metricsql));
 			if ($metricresult) {
 				$rowcount = $db->fetch_array($metricresult);
 				return $rowcount['count'];
@@ -198,7 +197,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();
 			$userName = $currenUserModel->getName();
 		} else if ($user && $user !== 'all') {
-			$userName = Vtiger_Functions::getUserRecordLabel($user);
+			$userName = vtlib\Functions::getUserRecordLabel($user);
 		}
 		return empty($userName) ? $url : $url .= '&search_params=[[["assigned_user_id","c","' . $userName . '"]]]';
 	}

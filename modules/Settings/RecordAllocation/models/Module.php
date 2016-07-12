@@ -60,4 +60,8 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 		}
 		return self::$data[$type];
 	}
+	
+	public static function resetDataVariable(){
+		self::$data = [];
+	}
 }

@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMailScanner_EmailScannerAction_Model extends OSSMailScanner_BaseScannerAction_Model
+class OSSMailScanner_EmailScannerAction_Model
 {
 
 	public function process(OSSMail_Mail_Model $mail, $moduleName)

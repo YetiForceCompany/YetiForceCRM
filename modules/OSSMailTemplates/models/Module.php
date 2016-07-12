@@ -44,9 +44,9 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 		$sourceModule = $moduleName;
 		$params = $referenceUitype = [10, 59, 53, 51, 66, 67, 68];
 		$params[] = $tabid;
-		$sql = 'SELECT vtiger_field.fieldid, fieldlabel, uitype, vtiger_fieldmodulerel.relmodule FROM vtiger_field 
+		$sql = sprintf('SELECT vtiger_field.fieldid, fieldlabel, uitype, vtiger_fieldmodulerel.relmodule FROM vtiger_field 
 				LEFT JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid 
-				WHERE uitype IN (' . $db->generateQuestionMarks($referenceUitype) . ') AND tabid = ? ';
+				WHERE uitype IN (%s) AND tabid = ? ', $db->generateQuestionMarks($referenceUitype));
 
 		$resultModuleList = $db->pquery($sql, $params);
 		$moduleList = [];

@@ -15,10 +15,8 @@ require_once 'include/Webservices/Delete.php';
 require_once 'include/Webservices/Revise.php';
 require_once 'include/Webservices/Retrieve.php';
 require_once 'include/Webservices/DataTransform.php';
-require_once 'vtlib/Vtiger/Utils.php';
 require_once 'modules/Vtiger/CRMEntity.php';
 require_once 'include/QueryGenerator/QueryGenerator.php';
-require_once 'vtlib/Vtiger/Mailer.php';
 require_once 'include/events/include.inc';
 
 class Import_Data_Action extends Vtiger_Action_Controller
@@ -185,18 +183,19 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 		$entityData = [];
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE;
-		
+		$sql = 'SELECT * FROM %s  WHERE temp_status = %s';
+		$sql = sprintf($query, $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
+
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$isInventory = $moduleModel->isInventory();
-		if($isInventory){
+		if ($isInventory) {
 			$inventoryTableName = Import_Utils_Helper::getInventoryDbTableName($this->user);
 		}
 
 		if ($this->batchImport) {
 			$configReader = new Import_Config_Model();
 			$importBatchLimit = $configReader->get('importBatchLimit');
-			$sql .= ' LIMIT ' . $importBatchLimit;
+			$sql .= sprintf(' LIMIT %s', $importBatchLimit);
 		}
 		$result = $adb->query($sql);
 		$numberOfRecords = $adb->num_rows($result);
@@ -211,13 +210,13 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		while ($row = $adb->fetchByAssoc($result)) {
 			$handlerOn = false;
 			$rowId = $row['id'];
-			
-			if($isInventory){
-				$sql = 'SELECT * FROM ' . $inventoryTableName . ' WHERE id = ' . $rowId;
-				$resultInventory = $adb->query($sql);
+
+			if ($isInventory) {
+				$sql = sprintf('SELECT * FROM %s WHERE id = ?', $inventoryTableName);
+				$resultInventory = $adb->pquery($sql, [$rowId]);
 				$inventoryFieldData = $adb->getArray($resultInventory);
 			}
-			
+
 			$entityInfo = null;
 			$fieldData = array();
 			foreach ($fieldMapping as $fieldName => $index) {
@@ -336,21 +335,21 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				}
 				if ($createRecord) {
 					$fieldData = $this->transformForImport($fieldData, $moduleMeta);
-					if($fieldData && $isInventory){
+					if ($fieldData && $isInventory) {
 						$inventoryFieldData = $this->transformInventoryForImport($inventoryFieldData);
 						$fieldData['inventoryData'] = $inventoryFieldData;
 					}
 					if ($fieldData == null) {
 						$entityInfo = null;
-					}else{
-						if($this->type){
+					} else {
+						if ($this->type) {
 							$entityInfo = $this->createRecordByModel($moduleName, $fieldData, $this->user);
 							$handlerOn = true;
 						} else {
 							try {
 								$entityInfo = vtws_create($moduleName, $fieldData, $this->user);
 							} catch (Exception $e) {
-
+								
 							}
 						}
 					}
@@ -446,7 +445,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				if ($this->inventoryFieldMapData[$mapData['field']] && $this->inventoryFieldMapData[$mapData['field']][$entityName]) {
 					$fieldObject = $this->inventoryFieldMapData[$mapData['field']][$entityName];
 				} else {
-					$moduleObject = Vtiger_Module::getInstance($entityName);
+					$moduleObject = vtlib\Module::getInstance($entityName);
 					$fieldObject = $moduleObject ? Vtiger_Field_Model::getInstance($mapData['field'], $moduleObject) : null;
 					if (!is_array($this->inventoryFieldMapData[$mapData['field']])) {
 						$this->inventoryFieldMapData[$mapData['field']] = [];
@@ -646,8 +645,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $allPicklistValues);
 
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
-			$moduleObject = Vtiger_Module::getInstance($moduleMeta->getEntityName());
-			$fieldObject = Vtiger_Field::getInstance($fieldName, $moduleObject);
+			$moduleObject = vtlib\Module::getInstance($moduleMeta->getEntityName());
+			$fieldObject = vtlib\Field::getInstance($fieldName, $moduleObject);
 			$fieldObject->setPicklistValues(array($fieldValue));
 			unset($this->allPicklistValues[$fieldName]);
 		} else {
@@ -681,9 +680,9 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$fieldInstance = $moduleFields[$fieldName];
 			if ($fieldInstance->getFieldDataType() == 'owner') {
 				$fieldData[$fieldName] = $this->transformOwner($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
-			} elseif ($fieldInstance->getFieldDataType() == 'sharedOwner') {		
+			} elseif ($fieldInstance->getFieldDataType() == 'sharedOwner') {
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue, $defaultFieldValues);
-			} elseif ($fieldInstance->getFieldDataType() == 'multipicklist') {		
+			} elseif ($fieldInstance->getFieldDataType() == 'multipicklist') {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue, $defaultFieldValues);
 			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
 				$fieldData[$fieldName] = $this->transformReference($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
@@ -811,7 +810,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$adb = PearDatabase::getInstance();
 
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$result = $adb->query('SELECT temp_status FROM ' . $tableName);
+		$query = sprintf('SELECT temp_status FROM %s', $tableName);
+		$result = $adb->query($query);
 
 		$statusCount = array('TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
 			'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0);
@@ -847,7 +847,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		$current_user = vglobal('current_user');
 		$scheduledImports = self::getScheduledImport();
-		$vtigerMailer = new Vtiger_Mailer();
+		$vtigerMailer = new vtlib\Mailer();
 		$vtigerMailer->IsHTML(true);
 		foreach ($scheduledImports as $scheduledId => $importDataController) {
 			$current_user = $importDataController->user;
@@ -880,7 +880,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 			$importDataController->finishImport();
 		}
-		Vtiger_Mailer::dispatchQueue(null);
+		vtlib\Mailer::dispatchQueue(null);
 	}
 
 	public static function getScheduledImport()
@@ -901,7 +901,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	/*
 	 *  Function to get Record details of import
 	 *  @parms $user <User Record Model> Current Users
-	 *	@parms $user <String> Imported module
+	 * 	@parms $user <String> Imported module
 	 *  @returns <Array> Import Records with the list of skipped records and failed records
 	 */
 
@@ -917,7 +917,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$numOfHeaders = count($headers);
 			for ($i = 0; $i < 10; $i++) {
 				if ($i >= 3 && $i < $numOfHeaders) {
-					$fieldModel = Vtiger_Field_Model::getInstance($headers[$i],$moduleModel);
+					$fieldModel = Vtiger_Field_Model::getInstance($headers[$i], $moduleModel);
 					$importRecords['headers'][] = $fieldModel->getFieldLabel();
 				}
 			}
@@ -957,7 +957,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 		return $temp_status;
 	}
-	
+
 	public function createRecordByModel($moduleName, $fieldData, $user)
 	{
 		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
@@ -1060,4 +1060,3 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		return $fieldData;
 	}
 }
-

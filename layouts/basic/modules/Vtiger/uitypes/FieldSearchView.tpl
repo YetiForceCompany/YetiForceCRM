@@ -23,11 +23,11 @@
 			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
 			<div  class="input-group-btn alphabetBtnContainer">
 				{if $ALPHABET_VALUE}
-					<button class=" btn btn-primary alphabetBtn">
+					<button class=" btn btn-primary alphabetBtn" type="button">
 						{$ALPHABET_VALUE}
 					</button>
 				{else}
-					<button class=" btn btn-default alphabetBtn">
+					<button class=" btn btn-default alphabetBtn" type="button">
 						<span class="glyphicon glyphicon-font"></span>
 					</button>
 				{/if}

@@ -309,9 +309,9 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
             }
         //End
 		if(null != $allowedReportIds){	
-			$sql = "SELECT count(*) AS count FROM vtiger_report
+			$sql = sprintf('SELECT count(*) AS count FROM vtiger_report
 					INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid AND 
-					vtiger_report.reportid in (".implode(',',$allowedReportIds).")";
+					vtiger_report.reportid in (%s)', implode(',',$allowedReportIds));
 			$fldrId = $this->getId();
 			if($fldrId == 'All') {
 				$fldrId = false;

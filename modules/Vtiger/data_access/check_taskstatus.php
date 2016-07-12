@@ -19,12 +19,12 @@ Class DataAccess_check_taskstatus{
 		if(is_array($config['status']))
 			$config['status'] = implode("','", $config['status']);
 			
-		$result = $db->pquery( "SELECT count(*) as num
+		$result = $db->pquery( sprintf("SELECT count(*) as num
 								FROM vtiger_projecttask 
 								INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid 
 								WHERE vtiger_crmentity.deleted = ? 
-								AND vtiger_projecttask.projecttaskstatus in ('".$config['status']."')
-								AND vtiger_projecttask.parentid = ?", 
+								AND vtiger_projecttask.projecttaskstatus in ('%s')
+								AND vtiger_projecttask.parentid = ?", $config['status']), 
 		array( 0, $ID) ,true);
 		
 		if($db->query_result($result, 0, 'num') > 0){

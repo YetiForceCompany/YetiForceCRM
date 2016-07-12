@@ -13,25 +13,24 @@ chdir(dirname(__FILE__) . '/../');
  */
 include_once 'include/Webservices/Relation.php';
 include_once 'include/main/WebUI.php';
-require_once 'vtlib/Vtiger/Cron.php';
 require_once 'modules/Emails/mail.php';
 
 Vtiger_Session::init();
 $authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
 $appUniqueKey = Vtiger_Session::get('app_unique_key');
 $user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey == AppConfig::main('application_unique_key'));
-if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5'  || $user) {
+if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $user) {
 	$log = LoggerManager::getLogger('CRON');
 	vglobal('log', $log);
 
 	$cronTasks = false;
-	Vtiger_Cron::setCronAction(true);
+	vtlib\Cron::setCronAction(true);
 	if (AppRequest::has('service')) {
 		// Run specific service
-		$cronTasks = [Vtiger_Cron::getInstance(AppRequest::get('service'))];
+		$cronTasks = [vtlib\Cron::getInstance(AppRequest::get('service'))];
 	} else {
 		// Run all service
-		$cronTasks = Vtiger_Cron::listAllActiveInstances();
+		$cronTasks = vtlib\Cron::listAllActiveInstances();
 	}
 
 	$cronStarts = date('Y-m-d H:i:s');
@@ -40,7 +39,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5'  || $u
 	$current_user = vglobal('current_user');
 	$current_user = Users::getActiveAdminUser();
 
-	if($user){
+	if ($user) {
 		echo '<pre>';
 	}
 	echo sprintf('---------------  %s | Start CRON  ----------', date('Y-m-d H:i:s')) . PHP_EOL;
@@ -87,7 +86,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5'  || $u
 			$cronTask->markFinished();
 			echo sprintf('%s | %s - End task', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 		} catch (AppException $e) {
-			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()).PHP_EOL;
+			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->getMessage() . PHP_EOL;
 			echo $e->getTraceAsString() . PHP_EOL;
 		}

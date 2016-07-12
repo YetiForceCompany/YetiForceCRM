@@ -48,7 +48,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 			. "AND ( (concat(date_start, ' ', time_start)  >= ? AND concat(date_start, ' ', time_start) <= ?) OR (concat(due_date, ' ', time_end)  >= ? AND concat(due_date, ' ', time_end) <= ?) OR (date_start < ? AND due_date > ?) ) "
 			. "ORDER BY time_start ASC", $params);
 		while ($row = $db->getRow($result)) {
-			if (Vtiger_Functions::getDateTimeMinutesDiff($startTime, $row['time_start']) >= $durationEvent) {
+			if (vtlib\Functions::getDateTimeMinutesDiff($startTime, $row['time_start']) >= $durationEvent) {
 				$date = new DateTime($row['date_start'] . ' ' . $startTime);
 				$startTime = new DateTimeField($startTime);
 				$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
@@ -63,7 +63,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));
 		$dbEndWorkHour = $dbEndDateObject->format('H:i:s');
 			
-		if (Vtiger_Functions::getDateTimeMinutesDiff(date_format($date, 'H:i:s'), $dbEndWorkHour) <= 0) {
+		if (vtlib\Functions::getDateTimeMinutesDiff(date_format($date, 'H:i:s'), $dbEndWorkHour) <= 0) {
 			$date->add(new DateInterval('P1D'));
 			while( in_array(date_format($date, 'w'), AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
 				$date->add(new DateInterval('P1D'));

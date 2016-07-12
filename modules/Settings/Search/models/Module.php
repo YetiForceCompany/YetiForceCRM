@@ -64,9 +64,9 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 		if ($name == 'searchcolumn' || $name == 'fieldname') {
 			$value = implode(',', $params['value']);
-			$adb->pquery("UPDATE vtiger_entityname SET " . $name . " = ? WHERE tabid = ?", array($value, (int) $params['tabid']));
+			$adb->update('vtiger_entityname', [$name => $value], 'tabid = ?', [(int) $params['tabid']]);
 		} elseif ($name == 'turn_off') {
-			$adb->pquery("UPDATE vtiger_entityname SET turn_off = ? WHERE tabid = ?", array($params['value'], (int) $params['tabid']));
+			$adb->update('vtiger_entityname', ['turn_off' => $params['value']], 'tabid = ?', [(int) $params['tabid']]);
 		}
 	}
 
@@ -79,7 +79,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleName = $moduleEntity['modulename'];
 		$fieldName = $moduleEntity['fieldname'];
 		$searchColumns = $moduleEntity['searchcolumn'];
-		$moduleInfo = Vtiger_Functions::getModuleFieldInfos($moduleName);
+		$moduleInfo = vtlib\Functions::getModuleFieldInfos($moduleName);
 		$columnsEntityName = explode(',', $fieldName);
 		$searchColumns = explode(',', $searchColumns);
 		$allColumns = array_unique(array_merge($columnsEntityName, $searchColumns));
@@ -151,8 +151,8 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 		$query .=' END ';
 
-		$query .= ' WHERE tabid IN (' . generateQuestionMarks($tabIdList) . ')';
-		$db->pquery($query, array($tabIdList));
+		$query .= sprintf(' WHERE tabid IN (%s)', generateQuestionMarks($tabIdList));
+		$db->pquery($query, [$tabIdList]);
 		$log->debug("Exiting Settings_Search_Module_Model::updateSequenceNumber() method ...");
 	}
 }

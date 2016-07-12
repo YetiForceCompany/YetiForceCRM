@@ -87,17 +87,13 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 					$item = implode(',', $item);
 				}
 				if ($key != 'id' && $key != 'edit') {
-					$sqlCol .= $key . ' = ?,';
-					$params[] = $item;
+					$params[$key] = $item;
 				}
 			}
 			if (!isset($data['newwindow'])) {
-				$sqlCol .= 'newwindow = ?,';
-				$params[] = 0;
+				$params['newwindow'] = 0;
 			}
-			$params[] = $this->getId();
-			$sql = 'UPDATE yetiforce_menu SET ' . trim($sqlCol, ',') . ' WHERE id = ?';
-			$db->pquery($sql, $params);
+			$db->update('yetiforce_menu', $params, 'id = ?', [$this->getId()]);
 		} else {
 			foreach ($this->getData() as $key => $item) {
 				if (is_array($item)) {
@@ -199,7 +195,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			$content .= $this->createFilterList($item);
 		}
 		$content .= '];';
-		$file = vglobal('root_directory') . 'user_privileges/menu_' . $roleId . '.php';
+		$file = ROOT_DIRECTORY . '/user_privileges/menu_' . $roleId . '.php';
 		file_put_contents($file, $content);
 	}
 
@@ -231,7 +227,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$content .= "'name'=>'" . $menu['name'] . "',";
 		$content .= "'url'=>'" . $menu['dataurl'] . "',";
 		$content .= "'parent'=>'" . $menu['parent'] . "',";
-		$content .= "'mod'=>'" . $menu['mod'] . "'"; 
+		$content .= "'mod'=>'" . $menu['mod'] . "'";
 		$content .= '],';
 		if (count($menu['childs']) > 0) {
 			foreach ($menu['childs'] as $child) {
@@ -243,7 +239,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function createFilterList($menu)
 	{
-		if(!empty($menu['filters'])) {
+		if (!empty($menu['filters'])) {
 			$content = $menu['id'] . '=>[';
 			$content .= "'module'=>'" . $menu['mod'] . "',";
 			$content .= "'filters'=>'" . $menu['filters'] . "'";
@@ -256,12 +252,12 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		return $content;
 	}
-	
+
 	/**
 	 * A function used to refresh menu files
 	 */
 	public function refreshMenuFiles()
-	{	
+	{
 		$allRoles = Settings_Roles_Record_Model::getAll();
 		$this->generateFileMenu(0);
 		foreach ($allRoles as $role) {
@@ -270,12 +266,12 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				$this->generateFileMenu($roleId);
 		}
 	}
-	
+
 	public static function getIcons()
 	{
 		return ['userIcon-VirtualDesk', 'userIcon-Home', 'userIcon-CompaniesAndContact', 'userIcon-Campaigns', 'userIcon-Support', 'userIcon-Project', 'userIcon-Bookkeeping', 'userIcon-HumanResources', 'userIcon-Secretary', 'userIcon-Database', 'userIcon-Sales', 'userIcon-VendorsAccounts'];
 	}
-	
+
 	public function getRolesContainMenu()
 	{
 		$db = PearDatabase::getInstance();

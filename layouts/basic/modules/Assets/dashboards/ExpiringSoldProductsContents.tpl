@@ -23,8 +23,8 @@
 				<div class="col-md-4">{DateTimeField::convertToUserFormat($ROW.dateinservice)}</div>
 				<div class="col-md-3">
 					{if $ROW.parent_id gt 0 }
-						{assign var="CRMTYPE" value=Vtiger_Functions::getCRMRecordType($ROW.parent_id)}
-						<a class="moduleColor_{$CRMTYPE}" href="index.php?module={$CRMTYPE}&view=Detail&record={$ROW.parent_id}" title="{vtranslate($CRMTYPE, $CRMTYPE)}">{Vtiger_Functions::getCRMRecordLabel($ROW.parent_id)}</a>
+						{assign var="CRMTYPE" value=vtlib\Functions::getCRMRecordType($ROW.parent_id)}
+						<a class="moduleColor_{$CRMTYPE}" href="index.php?module={$CRMTYPE}&view=Detail&record={$ROW.parent_id}" title="{vtranslate($CRMTYPE, $CRMTYPE)}">{vtlib\Functions::getCRMRecordLabel($ROW.parent_id)}</a>
 					{/if}
 				</div>
 			</div>

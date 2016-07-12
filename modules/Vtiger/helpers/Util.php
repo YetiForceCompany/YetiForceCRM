@@ -301,7 +301,7 @@ class Vtiger_Util_Helper
 		$db = PearDatabase::getInstance();
 
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
-		$query = 'SELECT ' . $primaryKey . ', ' . $fieldName . ' FROM vtiger_' . $fieldName . ' order by sortorderid';
+		$query = sprintf('SELECT %s, %s FROM vtiger_%s ORDER BY sortorderid', $primaryKey, $fieldName, $fieldName);
 		$values = [];
 		$result = $db->query($query);
 		while ($row = $db->fetch_array($result)) {

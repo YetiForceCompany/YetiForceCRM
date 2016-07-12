@@ -7,20 +7,18 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-
-include_once 'vtlib/Vtiger/Utils.php';
-require_once('include/database/PearDatabase.php');
+namespace vtlib;
 
 /**
  * Provides API to work with Cron tasks
  * @package vtlib
  */
-class Vtiger_Cron
+class Cron
 {
 
 	protected static $cronAction = false;
 	protected static $schemaInitialized = false;
-	protected static $instanceCache = array();
+	protected static $instanceCache = [];
 	static $STATUS_DISABLED = 0;
 	static $STATUS_ENABLED = 1;
 	static $STATUS_RUNNING = 2;
@@ -100,7 +98,7 @@ class Vtiger_Cron
 	function getLastEndDateTime()
 	{
 		if ($this->data['lastend'] != NULL) {
-			$lastEndDateTime = new DateTimeField(date('Y-m-d H:i:s', $this->data['lastend']));
+			$lastEndDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['lastend']));
 			return $lastEndDateTime->getDisplayDateTimeValue();
 		} else {
 			return '';
@@ -114,7 +112,7 @@ class Vtiger_Cron
 	function getLastStartDateTime()
 	{
 		if ($this->data['laststart'] != NULL) {
-			$lastStartDateTime = new DateTimeField(date('Y-m-d H:i:s', $this->data['laststart']));
+			$lastStartDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['laststart']));
 			return $lastStartDateTime->getDisplayDateTimeValue();
 		} else {
 			return '';
@@ -221,7 +219,7 @@ class Vtiger_Cron
 			case self::$STATUS_RUNNING:
 				break;
 			default:
-				throw new Exception('Invalid status');
+				throw new \Exception('Invalid status');
 		}
 		self::querySilent('UPDATE vtiger_cron_task SET status=? WHERE id=?', array($status, $this->getId()));
 	}
@@ -264,7 +262,7 @@ class Vtiger_Cron
 		}
 		$maxExecutionTime = intval(ini_get('max_execution_time'));
 		if ($maxExecutionTime == 0) {
-			$maxExecutionTime = AppConfig::main('maxExecutionCronTime');
+			$maxExecutionTime = \AppConfig::main('maxExecutionCronTime');
 		}
 		$time = $this->getLastEnd();
 		if ($time == 0) {
@@ -281,7 +279,7 @@ class Vtiger_Cron
 	 */
 	protected static function querySilent($sql, $params = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$old_dieOnError = $adb->dieOnError;
 
 		$adb->dieOnError = false;
@@ -296,8 +294,8 @@ class Vtiger_Cron
 	protected static function initializeSchema()
 	{
 		if (!self::$schemaInitialized) {
-			if (!Vtiger_Utils::CheckTable('vtiger_cron_task')) {
-				Vtiger_Utils::CreateTable('vtiger_cron_task', '(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+			if (!Utils::CheckTable('vtiger_cron_task')) {
+				Utils::CreateTable('vtiger_cron_task', '(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 					name VARCHAR(100) UNIQUE KEY, handler_file VARCHAR(100) UNIQUE KEY,
 					frequency int, laststart int(11) unsigned, lastend int(11) unsigned, status int,module VARCHAR(100),
                                         sequence int,description TEXT )', true);
@@ -308,7 +306,7 @@ class Vtiger_Cron
 
 	static function nextSequence()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$result = self::querySilent('SELECT MAX(sequence) as sequence FROM vtiger_cron_task ORDER BY SEQUENCE');
 		if ($result && $adb->getRowCount($result)) {
 			$sequence = $adb->getSingleValue($result);
@@ -325,7 +323,7 @@ class Vtiger_Cron
 	static function register($name, $handler_file, $frequency, $module = 'Home', $status = 1, $sequence = 0, $description = '')
 	{
 		self::initializeSchema();
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$instance = self::getInstance($name);
 		if ($sequence == 0) {
 			$sequence = self::nextSequence();
@@ -349,9 +347,9 @@ class Vtiger_Cron
 	 */
 	static function listAllActiveInstances($byStatus = 0)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
-		$instances = array();
+		$instances = [];
 		if ($byStatus == 0) {
 			$result = self::querySilent('SELECT * FROM vtiger_cron_task WHERE status <> ? ORDER BY SEQUENCE', array(self::$STATUS_DISABLED));
 		} else {
@@ -359,7 +357,7 @@ class Vtiger_Cron
 		}
 		if ($result && $adb->num_rows($result)) {
 			while ($row = $adb->fetch_array($result)) {
-				$instances[] = new Vtiger_Cron($row);
+				$instances[] = new self($row);
 			}
 		}
 		return $instances;
@@ -370,7 +368,7 @@ class Vtiger_Cron
 	 */
 	static function getInstance($name)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$instance = false;
 		if (isset(self::$instanceCache["$name"])) {
@@ -380,7 +378,7 @@ class Vtiger_Cron
 		if ($instance === false) {
 			$result = self::querySilent('SELECT * FROM vtiger_cron_task WHERE name=?', array($name));
 			if ($result && $adb->num_rows($result)) {
-				$instance = new Vtiger_Cron($adb->fetch_array($result));
+				$instance = new self($adb->fetch_array($result));
 			}
 		}
 		return $instance;
@@ -391,7 +389,7 @@ class Vtiger_Cron
 	 */
 	static function getInstanceById($id)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$instance = false;
 		if (isset(self::$instanceCache[$id])) {
 			$instance = self::$instanceCache[$id];
@@ -401,7 +399,7 @@ class Vtiger_Cron
 		if ($instance === false) {
 			$result = self::querySilent('SELECT * FROM vtiger_cron_task WHERE id=?', array($id));
 			if ($result && $adb->num_rows($result)) {
-				$instance = new Vtiger_Cron($adb->fetch_array($result));
+				$instance = new self($adb->fetch_array($result));
 			}
 		}
 		return $instance;
@@ -409,13 +407,13 @@ class Vtiger_Cron
 
 	static function listAllInstancesByModule($module)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
-		$instances = array();
+		$instances = [];
 		$result = self::querySilent('SELECT * FROM vtiger_cron_task WHERE module=?', array($module));
 		if ($result && $adb->num_rows($result)) {
 			while ($row = $adb->fetch_array($result)) {
-				$instances[] = new Vtiger_Cron($row);
+				$instances[] = new self($row);
 			}
 		}
 		return $instances;
@@ -428,11 +426,11 @@ class Vtiger_Cron
 
 	/**
 	 * Delete all cron tasks associated with module
-	 * @param Vtiger_Module Instnace of module to use
+	 * @param Module Instnace of module to use
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$db->delete('vtiger_cron_task', 'module = ?', [$moduleInstance->name]);
 	}
 

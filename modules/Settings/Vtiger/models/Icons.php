@@ -67,7 +67,7 @@ class Settings_Vtiger_Icons_Model
 		foreach ($dir as $fileinfo) {
 			$file = $fileinfo->getFilename();
 			if (!$fileinfo->isDot()) {
-				$mimeType = Vtiger_Functions::getMimeContentType($path . $file);
+				$mimeType = vtlib\Functions::getMimeContentType($path . $file);
 				$mimeTypeContents = explode('/', $mimeType);
 				if ($mimeTypeContents[0] == 'image') {
 					$images[$file] = $path . $file;

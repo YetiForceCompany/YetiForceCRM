@@ -120,7 +120,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		if (key_exists($id, self::$users)) {
 			return self::$users[$id];
 		}
-		$entityData = Vtiger_Functions::getEntityModuleInfo('Users');
+		$entityData = vtlib\Functions::getEntityModuleInfo('Users');
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($id);
 		$colums = [];
@@ -226,7 +226,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		$file = 'user_privileges/locks.php';
 		file_put_contents($file, $content);
 		$newValues = $this->getLocks();
-		$difference = Vtiger_Functions::arrayDiffAssocRecursive($newValues, $oldValues);
+		$difference = vtlib\Functions::arrayDiffAssocRecursive($newValues, $oldValues);
 		if (!empty($difference)) {
 			foreach ($difference as $id => $locks) {
 				if (strpos($id, 'H') === false) {
@@ -235,13 +235,16 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 					$name = Settings_Roles_Record_Model::getInstanceById($id);
 				}
 				$name = $name->getName();
-				$prev[$name] = implode(',', $oldValues[$id]);
+				if($oldValues[$id])
+					$prev[$name] = implode(',', $oldValues[$id]);
+				else 
+					$prev[$name] = '';
 				$post[$name] = implode(',', $newValues[$id]);
 				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 			}
 		}
 
-		$difference = Vtiger_Functions::arrayDiffAssocRecursive($oldValues, $newValues);
+		$difference = vtlib\Functions::arrayDiffAssocRecursive($oldValues, $newValues);
 		if (!empty($difference)) {
 			Settings_Vtiger_Tracker_Model::changeType('delete');
 			foreach ($difference as $id => $locks) {
@@ -252,7 +255,10 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				}
 				$name = $name->getName();
 				$prev[$name] = implode(',', $oldValues[$id]);
-				$post[$name] = implode(',', $newValues[$id]);
+				if($newValues[$id])
+					$post[$name] = implode(',', $newValues[$id]);
+				else
+					$post[$name] = '';
 				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 			}
 		}

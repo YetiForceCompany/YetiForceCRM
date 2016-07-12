@@ -86,7 +86,8 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 			return self::$casheMenu;
 		}
 		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT * FROM ' . self::$menusTable . ' ORDER BY sequence');
+		$query = sprintf('SELECT * FROM %s ORDER BY sequence', self::$menusTable);
+		$result = $db->query($query);
 
 		$menuModels = [];
 		while ($row = $db->getRow($result)) {
@@ -116,7 +117,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM ' . self::$menusTable . ' WHERE ' . self::$menuId . ' = ?';
+		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$menusTable, self::$menuId);
 		$params = array($id);
 
 		$result = $db->pquery($sql, $params);
@@ -137,8 +138,8 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM ' . self::$menusTable . ' WHERE label = ?';
-		$params = array($name);
+		$sql = sprintf('SELECT * FROM %s WHERE label = ?', self::$menusTable);
+		$params = [$name];
 
 		$result = $db->pquery($sql, $params);
 

@@ -148,7 +148,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
 			'modules.Emails.resources.MassEdit',
-			'modules.Vtiger.resources.CkEditor'
+			'modules.Vtiger.resources.CkEditor',
+			'modules.Vtiger.resources.ListSearch',
+			"modules.$moduleName.resources.ListSearch"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

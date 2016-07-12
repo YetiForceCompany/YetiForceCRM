@@ -168,7 +168,7 @@ class ProjectTask extends CRMEntity {
 
 		$current_user  = vglobal('current_user');
 		$query .= $this->getNonAdminAccessControlQuery($module,$current_user);
-		$query .= "	WHERE vtiger_crmentity.deleted = 0 ".$where;
+		$query .= sprintf('	WHERE vtiger_crmentity.deleted = 0 %s', $where);
 		return $query;
     }
 
@@ -278,7 +278,7 @@ class ProjectTask extends CRMEntity {
      * Function which will give the basic query to find duplicates
      */
     function getDuplicatesQuery($module,$table_cols,$field_values,$ui_type_arr,$select_cols='') {
-		$select_clause = "SELECT ". $this->table_name .".".$this->table_index ." AS recordid, vtiger_users_last_import.deleted,".$table_cols;
+		$select_clause = sprintf('SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s', $this->table_name, $this->table_index, $table_cols);
 
 		// Select Custom Field Table Columns if present
 		if(isset($this->customFieldTable)) $query .= ", " . $this->customFieldTable[0] . ".* ";
@@ -345,7 +345,7 @@ class ProjectTask extends CRMEntity {
 				}
 			}
 
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if(class_exists('ModComments')) ModComments::addWidgetTo(array('ProjectTask'));
@@ -366,7 +366,7 @@ class ProjectTask extends CRMEntity {
             // TODO Handle actions before this module is updated.
         } else if($event_type == 'module.postupdate') {
 
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if(class_exists('ModComments')) ModComments::addWidgetTo(array('ProjectTask'));

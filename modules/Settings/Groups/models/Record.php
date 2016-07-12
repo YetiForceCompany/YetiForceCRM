@@ -280,7 +280,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$params = array($transferGroupId, $groupId);
 		$db->pquery($query, $params);
 
-		if (Vtiger_Utils::CheckTable('vtiger_customerportal_prefs')) {
+		if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
 			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
 			$params = array($transferGroupId, 'defaultassignee', $groupId);
 			$db->pquery($query, $params);
@@ -388,7 +388,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (Vtiger_Utils::isNumber($value)) {
+		if (vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_groups WHERE groupid = ?';
 		} else {
 			$sql = 'SELECT * FROM vtiger_groups WHERE groupname = ?';
@@ -437,7 +437,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$data['group_members'] = [$data['group_members']];
 		}
 		foreach ($data['modules'] as $tabId) {
-			$modules[] = Vtiger_Functions::getModuleName($tabId);
+			$modules[] = vtlib\Functions::getModuleName($tabId);
 		}
 		$modules = implode(',', $modules);
 		$data['modules'] = $modules;

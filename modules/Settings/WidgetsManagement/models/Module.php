@@ -145,14 +145,14 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$numRows = $db->getRowCount($result);
 		for ($i = 0; $i < $numRows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
-			$moduleName = Vtiger_Functions::getModuleName($row['tabid']);
+			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
 			if ($row['linklabel'] == 'Tag Cloud') {
 				$isTagCloudExists = getTagCloudView($currentUser->getId());
 				if ($isTagCloudExists == 'false') {
 					continue;
 				}
 			}
-			$moduleName = Vtiger_Functions::getModuleName($row['tabid']);
+			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
 			$widgets[$moduleName][] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
@@ -239,7 +239,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		if ($addToUser) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$module = Vtiger_Functions::getModuleId($moduleName);
+			$module = vtlib\Functions::getModuleId($moduleName);
 
 			$active = 0;
 			if ($data['isdefault'])
@@ -276,7 +276,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$authorizedName = $adb->query_result($result, $i, 'rolename');
 			$tabId = $adb->query_result($result, $i, 'tabid');
 			$authorized = $adb->query_result($result, $i, 'authorized');
-			$moduleName = Vtiger_Functions::getModuleName($tabId);
+			$moduleName = vtlib\Functions::getModuleName($tabId);
 			$data[$moduleName][$blockId]['name'] = $authorizedName;
 			$data[$moduleName][$blockId]['code'] = $authorized;
 		}
@@ -311,8 +311,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSpecialWidgets($moduleName) method ...");
 		$db = PearDatabase::getInstance();
 		$tabId = getTabid($moduleName);
-		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? AND linklabel IN (?, ?, ?, ?)';
-		$result = $db->pquery($query, [$tabId, 'Mini List', 'Notebook', 'Chart', 'ChartFilter']);
+		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? AND linklabel IN (?, ?, ?, ?, ?)';
+		$result = $db->pquery($query, [$tabId, 'Mini List', 'Notebook', 'Chart', 'ChartFilter', 'Rss']);
 		$widgets = [];
 		while ($row = $db->fetch_array($result)) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);

@@ -21,7 +21,6 @@
  * ****************************************************************************** */
 
 require_once('include/database/PearDatabase.php');
-require_once('include/ComboUtil.php'); //new
 require_once('include/utils/CommonUtils.php'); //new
 require_once('user_privileges/default_module_view.php'); //new
 require_once('include/utils/UserInfoUtil.php');
@@ -65,9 +64,9 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_crmentity.smownerid = vtiger_users.id
 			LEFT JOIN vtiger_products
-				ON vtiger_products.productid = vtiger_troubletickets.product_id";
-			$query .= ' ' . getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_products.productid = vtiger_troubletickets.product_id %s 
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 
 		Case "Accounts":
@@ -86,9 +85,9 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_account vtiger_account2
-				ON vtiger_account.parentid = vtiger_account2.accountid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_account.parentid = vtiger_account2.accountid %s 
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 		Case "Leads":
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
@@ -107,9 +106,9 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_groups
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.converted = 0 " . $where;
+				ON vtiger_users.id = vtiger_crmentity.smownerid %s 
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.converted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 		Case 'Products':
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.description, vtiger_products.*, vtiger_productcf.*
@@ -123,10 +122,8 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_groups
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid";
-
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= ' WHERE vtiger_crmentity.deleted = 0 ' . $where;
+				ON vtiger_users.id = vtiger_crmentity.smownerid %s WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 		Case 'Documents':
 			$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,vtiger_crmentity.crmid, vtiger_crmentity.modifiedtime,
@@ -139,9 +136,9 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN `vtiger_trees_templates_data`
-				ON vtiger_notes.folderid = `vtiger_trees_templates_data`.tree";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_notes.folderid = `vtiger_trees_templates_data`.tree %s 
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 		Case "Contacts":
 			//Query modified to sort by assigned to
@@ -172,8 +169,9 @@ function getListQuery($module, $where = '')
 				$query .= " INNER JOIN vtiger_campaign_records on vtiger_campaign_records.crmid = " .
 					"vtiger_contactdetails.contactid";
 			}
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+
+			$query .= " %s WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 		Case 'Calendar':
 
@@ -240,9 +238,9 @@ function getListQuery($module, $where = '')
 			INNER JOIN vtiger_crmentity
 				ON vtiger_crmentity.crmid = vtiger_faq.id
 			LEFT JOIN vtiger_products
-				ON vtiger_faq.product_id = vtiger_products.productid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_faq.product_id = vtiger_products.productid %s
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 
 		Case "Vendors":
@@ -254,7 +252,8 @@ function getListQuery($module, $where = '')
 				ON vtiger_vendor.vendorid = vtiger_vendoraddress.vendorid
 			INNER JOIN vtiger_vendorcf
 				ON vtiger_vendor.vendorid = vtiger_vendorcf.vendorid
-			WHERE vtiger_crmentity.deleted = 0 " . $where;
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, $where);
 			break;
 		Case "PriceBooks":
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_pricebook.*, vtiger_currency_info.currency_name
@@ -265,7 +264,8 @@ function getListQuery($module, $where = '')
 				ON vtiger_pricebook.pricebookid = vtiger_pricebookcf.pricebookid
 			LEFT JOIN vtiger_currency_info
 				ON vtiger_pricebook.currency_id = vtiger_currency_info.id
-			WHERE vtiger_crmentity.deleted = 0 " . $where;
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, $where);
 			break;
 		Case "Campaigns":
 			//Query modified to sort by assigned to
@@ -282,9 +282,9 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_products
-				ON vtiger_products.productid = vtiger_campaign.product_id";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_products.productid = vtiger_campaign.product_id %s 
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 		Case "Users":
 			$query = "SELECT id,user_name,first_name,last_name,email1,is_admin,status,
@@ -292,7 +292,8 @@ function getListQuery($module, $where = '')
 				 	FROM vtiger_users
 				 	INNER JOIN vtiger_user2role ON vtiger_users.id = vtiger_user2role.userid
 				 	INNER JOIN vtiger_role ON vtiger_user2role.roleid = vtiger_role.roleid
-					WHERE deleted=0 AND status <> 'Inactive'" . $where;
+					WHERE deleted=0 AND status <> 'Inactive' %s";
+			$query = sprintf($query, $where);
 			break;
 		default:
 			// vtlib customization: Include the module file

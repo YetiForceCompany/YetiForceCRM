@@ -93,11 +93,12 @@ class DataAccess_Conditions
 	private function getListConditionsById($ID)
 	{
 		$db = PearDatabase::getInstance();
-		$sql = "SELECT " . self::$tab . ".dataaccessid, fieldname, comparator, field_type, val, required "
-			. " FROM " . self::$tab
-			. " LEFT JOIN " . self::$tab_cnd . " ON " . self::$tab_cnd . ".dataaccessid = " . self::$tab . ".dataaccessid"
-			. " WHERE " . self::$tab . ".dataaccessid = ?";
-		$result = $db->pquery($sql, array($ID), TRUE);
+		
+		$sql = sprintf('SELECT %s.dataaccessid, fieldname, comparator, field_type, val, required 
+			 FROM  %s
+			 LEFT JOIN %s ON %s.dataaccessid = %s.dataaccessid
+			 WHERE %s.dataaccessid = ?', self::$tab, self::$tab, self::$tab_cnd, self::$tab_cnd, self::$tab, self::$tab);
+		$result = $db->pquery($sql, [$ID], TRUE);
 		$output = array();
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$id = $db->query_result_raw($result, $i, 'dataaccessid');

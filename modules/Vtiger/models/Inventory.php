@@ -203,8 +203,8 @@ class Vtiger_Inventory_Model
 						$sql = '(module varchar(50) NOT NULL,field varchar(50) NOT NULL,tofield varchar(50) NOT NULL,PRIMARY KEY (`module`,`field`,`tofield`))';
 						break;
 				}
-				if (!Vtiger_Utils::CheckTable($basetable . $ends)) {
-					Vtiger_Utils::CreateTable($basetable . $ends, $sql, true);
+				if (!vtlib\Utils::CheckTable($basetable . $ends)) {
+					vtlib\Utils::CreateTable($basetable . $ends, $sql, true);
 				}
 				$i++;
 			}

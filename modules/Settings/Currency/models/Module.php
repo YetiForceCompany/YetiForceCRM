@@ -40,8 +40,6 @@ class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
 	public static function delete($recordId)
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'UPDATE ' . self::tableName . ' SET deleted=1 WHERE id=?';
-		$params = array($recordId);
-		$db->pquery($query, $params);
+		$db->update(self::tableName, ['deleted' => 1], 'id = ?', [$recordId]);
 	}
 }

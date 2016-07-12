@@ -145,17 +145,14 @@ function vtlib_moduleAlwaysActive()
 function vtlib_toggleModuleAccess($module, $enable_disable)
 {
 	global $adb, $__cache_module_activeinfo;
-
-	include_once('vtlib/Vtiger/Module.php');
-
 	$event_type = false;
 
 	if ($enable_disable === true) {
 		$enable_disable = 0;
-		$event_type = Vtiger_Module::EVENT_MODULE_ENABLED;
+		$event_type = vtlib\Module::EVENT_MODULE_ENABLED;
 	} else if ($enable_disable === false) {
 		$enable_disable = 1;
-		$event_type = Vtiger_Module::EVENT_MODULE_DISABLED;
+		$event_type = vtlib\Module::EVENT_MODULE_DISABLED;
 	}
 
 	$adb->pquery("UPDATE vtiger_tab set presence = ? WHERE name = ?", array($enable_disable, $module));
@@ -164,7 +161,7 @@ function vtlib_toggleModuleAccess($module, $enable_disable)
 
 	create_tab_data_file();
 	vtlib_RecreateUserPrivilegeFiles();
-	Vtiger_Module::fireEvent($module, $event_type);
+	vtlib\Module::fireEvent($module, $event_type);
 }
 
 /**
@@ -571,7 +568,7 @@ $__htmlpurifier_instance = false;
  */
 function vtlib_purify($input, $ignore = false)
 {
-	global $__htmlpurifier_instance, $root_directory, $default_charset;
+	global $__htmlpurifier_instance, $default_charset;
 
 	static $purified_cache = [];
 	$value = $input;
@@ -587,22 +584,18 @@ function vtlib_purify($input, $ignore = false)
 		$md5OfInput = md5(json_encode($input));
 	}
 	$use_charset = $default_charset;
-	$use_root_directory = $root_directory;
-
 
 	if (!$ignore) {
 		// Initialize the instance if it has not yet done
 		if ($__htmlpurifier_instance == false) {
 			if (empty($use_charset))
 				$use_charset = 'UTF-8';
-			if (empty($use_root_directory))
-				$use_root_directory = dirname(__FILE__) . '/../..';
 
 			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 
 			$config = HTMLPurifier_Config::createDefault();
 			$config->set('Core.Encoding', $use_charset);
-			$config->set('Cache.SerializerPath', "$use_root_directory/cache/vtlib");
+			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
 
 			$__htmlpurifier_instance = new HTMLPurifier($config);
 		}
@@ -645,7 +638,7 @@ function purifyHtmlEventAttributes($value)
 
 function vtlib_purifyForHtml($input, $ignore = false)
 {
-	global $htmlPurifierForHtml, $root_directory, $default_charset;
+	global $htmlPurifierForHtml, $default_charset;
 
 	static $purified_cache = [];
 	$value = $input;
@@ -661,16 +654,12 @@ function vtlib_purifyForHtml($input, $ignore = false)
 		$md5OfInput = md5(json_encode($input));
 	}
 	$use_charset = $default_charset;
-	$use_root_directory = $root_directory;
-
 
 	if (!$ignore) {
 		// Initialize the instance if it has not yet done
 		if ($htmlPurifierForHtml == false) {
 			if (empty($use_charset))
 				$use_charset = 'UTF-8';
-			if (empty($use_root_directory))
-				$use_root_directory = dirname(__FILE__) . '/../..';
 
 			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 
@@ -692,7 +681,7 @@ function vtlib_purifyForHtml($input, $ignore = false)
 			);
 			$config = HTMLPurifier_Config::createDefault();
 			$config->set('Core.Encoding', $use_charset);
-			$config->set('Cache.SerializerPath', "$use_root_directory/cache/vtlib");
+			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
 			$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 			$config->set('CSS.AllowTricky', true);
 			$config->set('CSS.Proprietary', true);

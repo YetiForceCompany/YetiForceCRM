@@ -33,7 +33,7 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		$structuredValues = $recordStrucure->getStructure();
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
-		$blockInstance = Vtiger_Block::getInstance($blockId, $moduleModel);
+		$blockInstance = vtlib\Block::getInstance($blockId, $moduleModel);
 		$blockLabel = $blockInstance->label;
 		$blockModelList = $moduleModel->getBlocks();
 		$blockModel = $blockModelList[$blockLabel];

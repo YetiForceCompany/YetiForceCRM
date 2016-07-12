@@ -42,7 +42,7 @@
 						<td>
 							<button type="button" id="sort" name="sort" class="btn btn-default btn-sm showModal" data-url="{$MODULE_MODEL->getSortingFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="glyphicon glyphicon-sort"></span></button>
 						</td>
-						<td>{Vtiger_Functions::getOwnerRecordLabel($item['userid'])}</td>
+						<td>{vtlib\Functions::getOwnerRecordLabel($item['userid'])}</td>
 						<td>
 							<button class="btn btn-primary marginLeftZero btn-sm update" data-cvid="{$key}" data-editurl="{$MODULE_MODEL->GetUrlToEdit($item['entitytype'],$key)}">{vtranslate('Edit',$QUALIFIED_MODULE)}</button>
 							&nbsp;&nbsp;

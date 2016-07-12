@@ -8,12 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-vimport('~vtlib/Vtiger/Module.php');
 
 /**
  * Vtiger Module Model Class
  */
-class Vtiger_Module_Model extends Vtiger_Module
+class Vtiger_Module_Model extends vtlib\Module
 {
 
 	protected $blocks = false;
@@ -656,7 +655,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$deletedCondition = $this->getDeletedRecordCondition();
 		$nonAdminQuery .= Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName());
-		$query = 'SELECT * FROM vtiger_crmentity ' . $nonAdminQuery . ' WHERE setype=? AND ' . $deletedCondition . ' AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
+		$query = sprintf('SELECT * FROM vtiger_crmentity %s WHERE setype=? AND %s AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?', $nonAdminQuery, $deletedCondition);
 		$params = array($this->getName(), $currentUserModel->id, $limit);
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
@@ -776,11 +775,11 @@ class Vtiger_Module_Model extends Vtiger_Module
 	}
 
 	/**
-	 * Function to get the instance of Vtiger Module Model from a given Vtiger_Module object
-	 * @param Vtiger_Module $moduleObj
+	 * Function to get the instance of Vtiger Module Model from a given vtlib\Module object
+	 * @param vtlib\Module $moduleObj
 	 * @return Vtiger_Module_Model instance
 	 */
-	public static function getInstanceFromModuleObject(Vtiger_Module $moduleObj)
+	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
 	{
 		$objectProperties = get_object_vars($moduleObj);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $objectProperties['name']);
@@ -831,7 +830,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 				array_push($params, 1);
 			}
 			if ($where) {
-				$query .= ' WHERE ' . implode(' AND ', $where);
+				$query .= sprintf(' WHERE %s', implode(' AND ', $where));
 			}
 
 			$result = $db->pquery($query, $params);
@@ -951,7 +950,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		if (!Vtiger_Cache::get('EntityField', 'all')) {
 			$db = PearDatabase::getInstance();
-			// Initialize meta information - to speed up instance creation (Vtiger_ModuleBasic::initialize2)
+			// Initialize meta information - to speed up instance creation (vtlib\ModuleBasic::initialize2)
 			$result = $db->pquery('SELECT modulename,tablename,entityidfield,fieldname FROM vtiger_entityname', []);
 			while ($row = $db->getRow($result)) {
 				$entiyObj = new stdClass();
@@ -1087,12 +1086,12 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$db = PearDatabase::getInstance();
 		$instance = CRMEntity::getInstance('ModComments');
 		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('ModComments');
-		$result = $db->pquery('SELECT vtiger_crmentity.*, vtiger_modcomments.* FROM vtiger_modcomments
+		$query = sprintf('SELECT vtiger_crmentity.*, vtiger_modcomments.* FROM vtiger_modcomments
 			INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
 			INNER JOIN vtiger_crmentity crmentity2 ON vtiger_modcomments.related_to = crmentity2.crmid
-			WHERE vtiger_crmentity.deleted = 0 AND crmentity2.deleted = 0 AND crmentity2.setype = ? ' . $UserAccessConditions . '
-			ORDER BY vtiger_crmentity.createdtime DESC LIMIT ?, ?', array($this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
-
+			WHERE vtiger_crmentity.deleted = 0 AND crmentity2.deleted = 0 AND crmentity2.setype = ? %s
+			ORDER BY vtiger_crmentity.createdtime DESC LIMIT ?, ?', $UserAccessConditions);
+		$result = $db->pquery($query, [$this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
@@ -1200,10 +1199,10 @@ class Vtiger_Module_Model extends Vtiger_Module
 				}
 			}
 		}
-		$query = 'SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
+		$query = sprintf('SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.' . $relationField . ' = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0';
+					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.%s = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
+					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0', $relationField);
 		$params = [$this->getName()];
 		if ($recordId) {
 			$query .= ' AND vtiger_activity.' . $relationField . ' = ?';
@@ -1236,7 +1235,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser, $recordId);
 		if ($securityParameter != '')
 			$query .= $securityParameter;
-		$query .= " ORDER BY date_start, time_start LIMIT " . $pagingModel->getStartIndex() . ", " . ($pagingModel->getPageLimit() + 1);
+		$query .= sprintf(" ORDER BY date_start, time_start LIMIT %d,%d", $pagingModel->getStartIndex(), ($pagingModel->getPageLimit() + 1));
 
 		$result = $db->pquery($query, $params);
 		$numOfRows = $db->num_rows($result);
@@ -1267,8 +1266,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 				unset($newRow['visibility']);
 			}
 
-			$sql = "SELECT * FROM u_yf_activity_invitation WHERE activityid = '" . $newRow['crmid'] . "'";
-			$result_invitees = $db->query($sql);
+			$sql = "SELECT * FROM u_yf_activity_invitation WHERE activityid = ?";
+			$result_invitees = $db->pquery($sql, [$newRow['crmid']]);
 			while ($recordinfo = $db->fetch_array($result_invitees)) {
 				$newRow['selectedusers'][] = $recordinfo['inviteeid'];
 			}
@@ -1333,51 +1332,6 @@ class Vtiger_Module_Model extends Vtiger_Module
 			return ' AND vtiger_notes.filestatus = 1 ';
 		}
 		return;
-	}
-
-	/**
-	 * Function to get where condition query for dashboards
-	 * @param <Integer> $owner
-	 * @return <String> query
-	 */
-	public function getOwnerWhereConditionForDashBoards($owner)
-	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$sharingAccessModel = Settings_SharingAccess_Module_Model::getInstance($this->getName());
-		$params = [];
-		if (!empty($owner) && $currentUserModel->isAdminUser()) {//If admin user, then allow users data
-			$ownerSql = ' smownerid = ' . $owner;
-			$params[] = $owner;
-		} else if (!empty($owner)) {//If not admin user, then check sharing access for that module
-			if ($sharingAccessModel->isPrivate()) {
-				$subordinateUserModels = $currentUserModel->getSubordinateUsers();
-				$subordinateUsers = [];
-				foreach ($subordinateUserModels as $id => $name) {
-					$subordinateUsers[] = $id;
-				}
-				if (in_array($owner, $subordinateUsers)) {
-					$ownerSql = ' smownerid = ' . $owner;
-				} else {
-					$ownerSql = ' smownerid = ' . $currentUserModel->getId();
-				}
-			} else {
-				$ownerSql = ' smownerid = ' . $owner;
-			}
-		} else {//If no owner filter, then check if the module access is Private
-			if ($sharingAccessModel->isPrivate() && (!$currentUserModel->isAdminUser())) {
-				$subordinateUserModels = $currentUserModel->getSubordinateUsers();
-				foreach ($subordinateUserModels as $id => $name) {
-					$subordinateUsers[] = $id;
-					$params[] = $id;
-				}
-				if ($subordinateUsers) {
-					$ownerSql = ' smownerid IN (' . implode(',', $subordinateUsers) . ')';
-				} else {
-					$ownerSql = ' smownerid = ' . $currentUserModel->getId();
-				}
-			}
-		}
-		return $ownerSql;
 	}
 
 	/**
@@ -1609,7 +1563,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 			$selectColumnSql = $queryGenerator->getSelectClauseColumnSQL();
 			$query = str_replace('FROM', 'from', $query);
 			$newQuery = explode('from', $query);
-			$selectColumnSql = 'SELECT DISTINCT vtiger_crmentity.crmid,' . $selectColumnSql;
+			$selectColumnSql = sprintf('SELECT DISTINCT vtiger_crmentity.crmid,%s', $selectColumnSql);
 			$query = $selectColumnSql . ' FROM ' . $newQuery[1];
 		}
 
@@ -1793,7 +1747,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 						foreach ($referenceList as $referenceModule) {
 							if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
 								$fieldValue = $recordModel->get($fieldName);
-								if ($fieldValue != 0 && Vtiger_Functions::getCRMRecordType($fieldValue) == $referenceModule)
+								if ($fieldValue != 0 && vtlib\Functions::getCRMRecordType($fieldValue) == $referenceModule)
 									$data[$fieldMap[$referenceModule]] = $fieldValue;
 							}
 						}
@@ -1827,12 +1781,12 @@ class Vtiger_Module_Model extends Vtiger_Module
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->getName(), $relatedModule->getName());
 		$basetable = $relatedModule->get('basetable');
 
-		$query = 'SELECT vtiger_crmentity.*, ' . $basetable . '.*' . ' FROM ' . $basetable;
-		$query .= ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $basetable . '.' . $relatedModule->get('basetableid');
-		$query .= ' INNER JOIN ' . $referenceInfo['table'] . ' ON ' . $referenceInfo['table'] . '.' . $referenceInfo['base'] . ' = vtiger_crmentity.crmid';
-		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
-		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= ' WHERE vtiger_crmentity.deleted = 0 AND ' . $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = ' . $recordId;
+		$query = sprintf('SELECT vtiger_crmentity.*, %s.* FROM %s 
+				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %d
+				INNER JOIN %s ON %s.%s = vtiger_crmentity.crmid
+				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
+				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
+				WHERE vtiger_crmentity.deleted = 0 AND %s.%s = %d', $basetable, $basetable, $relatedModule->get('basetableid'), $referenceInfo['table'], $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['table'], $referenceInfo['rel'], $recordId);
 		return $query;
 	}
 
@@ -1840,8 +1794,8 @@ class Vtiger_Module_Model extends Vtiger_Module
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$queryGenerator = new QueryGenerator($relatedModule->getName(), $currentUser);
-		$relatedListFields = $relationModel->getRelationFields(true); 
-		if(count($relatedListFields) == 0){
+		$relatedListFields = $relationModel->getRelationFields(true);
+		if (count($relatedListFields) == 0) {
 			$relatedListFields = $relatedModule->getRelatedListFields();
 		}
 		$queryGenerator->setFields($relatedListFields);

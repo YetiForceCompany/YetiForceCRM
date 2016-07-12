@@ -159,7 +159,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 
-		$userIPAddress = Vtiger_Functions::getRemoteIP();
+		$userIPAddress = vtlib\Functions::getRemoteIP();
 		;
 		$loginTime = date("Y-m-d H:i:s");
 		$browser = (strlen($browser)) ? $browser : '-';

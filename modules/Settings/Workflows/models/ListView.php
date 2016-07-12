@@ -60,7 +60,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 			}
 		}
 		if (!empty($orderBy)) {
-			$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $this->getForSql('sortorder');
+			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $this->getForSql('sortorder'));
 		}
 		$nextListQuery = $listQuery . ' LIMIT ' . ($startIndex + $pageLimit) . ',1';
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
@@ -118,7 +118,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		$db = PearDatabase::getInstance();
 
 		$module = $this->getModule();
-		$listQuery = 'SELECT count(*) AS count FROM ' . $module->baseTable;
+		$listQuery = sprintf('SELECT count(*) AS count FROM %s', $module->baseTable);
 
 		$sourceModule = $this->get('sourceModule');
 		if ($sourceModule) {

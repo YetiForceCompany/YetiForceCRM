@@ -14,7 +14,6 @@
 //Overrides GetRelatedList : used to get related query
 //TODO : Eliminate below hacking solution
 include_once('include/Webservices/Relation.php');
-include_once('vtlib/Vtiger/Module.php');
 include_once('include/main/WebUI.php');
 require_once('include/Webservices/Utils.php');
 require_once('include/Webservices/State.php');

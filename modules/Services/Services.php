@@ -250,7 +250,7 @@ class Services extends CRMEntity
 						ON vtiger_users.id = vtiger_crmentity.smownerid ";
 		$current_user = vglobal('current_user');
 		$query .= $this->getNonAdminAccessControlQuery($module, $current_user);
-		$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+		$query .= sprintf('WHERE vtiger_crmentity.deleted = 0 %s', $where);
 		return $query;
 	}
 
@@ -347,7 +347,7 @@ class Services extends CRMEntity
 	 */
 	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
-		$select_clause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid, vtiger_users_last_import.deleted," . $table_cols;
+		$select_clause = sprintf("SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s", $this->table_name, $this->table_index, $table_cols);
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
@@ -418,7 +418,7 @@ class Services extends CRMEntity
 		global $currentModule, $log, $singlepane_view, $mod_strings;
 		$log->debug("Entering get_service_pricebooks(" . $id . ") method ...");
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 		require_once("modules/$related_module/$related_module.php");
 		$focus = new $related_module();
@@ -440,7 +440,7 @@ class Services extends CRMEntity
 			}
 		}
 
-		$query = "SELECT vtiger_crmentity.crmid,
+		$query = sprintf('SELECT vtiger_crmentity.crmid,
 			vtiger_pricebook.*,
 			vtiger_pricebookproductrel.productid as prodid
 			FROM vtiger_pricebook
@@ -451,7 +451,7 @@ class Services extends CRMEntity
 			INNER JOIN vtiger_pricebookcf
 				ON vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
 			WHERE vtiger_crmentity.deleted = 0
-			AND vtiger_pricebookproductrel.productid = " . $id;
+			AND vtiger_pricebookproductrel.productid = %s', $id);
 		$log->debug("Exiting get_product_pricebooks method ...");
 
 		$return_value = GetRelatedList($currentModule, $related_module, $focus, $query, $button, $returnset);
@@ -492,7 +492,7 @@ class Services extends CRMEntity
 		$computeCount = AppRequest::get('withCount');
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true ||
 			((boolean) $computeCount) == true) {
-			$noofrows = $adb->query_result($adb->query(Vtiger_Functions::mkCountQuery($query)), 0, 'count');
+			$noofrows = $adb->query_result($adb->query(vtlib\Functions::mkCountQuery($query)), 0, 'count');
 		} else {
 			$noofrows = null;
 		}
@@ -750,24 +750,22 @@ class Services extends CRMEntity
 		$adb = PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
-			require_once('vtlib/Vtiger/Module.php');
-
-			$moduleInstance = Vtiger_Module::getInstance($moduleName);
+			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$moduleInstance->allowSharing();
 
-			$ttModuleInstance = Vtiger_Module::getInstance('HelpDesk');
+			$ttModuleInstance = vtlib\Module::getInstance('HelpDesk');
 			$ttModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$leadModuleInstance = Vtiger_Module::getInstance('Leads');
+			$leadModuleInstance = vtlib\Module::getInstance('Leads');
 			$leadModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$accModuleInstance = Vtiger_Module::getInstance('Accounts');
+			$accModuleInstance = vtlib\Module::getInstance('Accounts');
 			$accModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$conModuleInstance = Vtiger_Module::getInstance('Contacts');
+			$conModuleInstance = vtlib\Module::getInstance('Contacts');
 			$conModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$pbModuleInstance = Vtiger_Module::getInstance('PriceBooks');
+			$pbModuleInstance = vtlib\Module::getInstance('PriceBooks');
 			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'), 'get_pricebook_services');
 
 			// Initialize module sequence for the module
@@ -786,8 +784,8 @@ class Services extends CRMEntity
 		} else if ($eventType == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
 			//adds sharing accsess
-			$ServicesModule = Vtiger_Module::getInstance('Services');
-			Vtiger_Access::setDefaultSharing($ServicesModule);
+			$ServicesModule = vtlib\Module::getInstance('Services');
+			vtlib\Access::setDefaultSharing($ServicesModule);
 		}
 	}
 
@@ -811,8 +809,9 @@ class Services extends CRMEntity
 		if ($relatedName && $relatedName != 'get_related_list') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
-			$query = 'DELETE FROM vtiger_crmentityrel WHERE (relcrmid=' . $id . ' AND module IN (' . $return_modules . ') AND crmid IN (' . $entityIds . ')) OR (crmid=' . $id . ' AND relmodule IN (' . $return_modules . ') AND relcrmid IN (' . $entityIds . '))';
-			$this->db->pquery($query, array());
+			$where = '(relcrmid= ? AND module IN (?) AND crmid IN (?)) OR (crmid= ? AND relmodule IN (?) AND relcrmid IN (?))';
+			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
+			$this->db->delete('vtiger_crmentityrel', $where, $params);
 		}
 	}
 
@@ -830,7 +829,7 @@ class Services extends CRMEntity
 		$log->debug("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);

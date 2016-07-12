@@ -58,7 +58,7 @@ class Pdf_TimeControlList extends Vtiger_SpecialFunction_Pdf
 		foreach ($this->columnNames as $key => $column) {
 			$class = $content = '';
 			if ($column == 'sum_time') {
-				$time = Vtiger_Functions::decimalTimeFormat($summary['sum_time']);
+				$time = vtlib\Functions::decimalTimeFormat($summary['sum_time']);
 				$content = '<strong>' . $time['short'] . '</strong>';
 				$class = 'center';
 			} elseif ($column == 'name') {

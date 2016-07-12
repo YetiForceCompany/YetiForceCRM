@@ -27,9 +27,9 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	public function searchIncomingCall()
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM ' . self::moduletableName . ' AS module_table INNER JOIN ' . self::entitytableName . ' AS entity_table  WHERE module_table.callstatus IN(?,?) AND module_table.direction=? AND module_table.pbxmanagerid=entity_table.crmid AND entity_table.deleted=0';
-		$result = $db->pquery($query, array('ringing', 'in-progress', 'inbound'));
-		$recordModels = array();
+		$query = sprintf('SELECT * FROM %s AS module_table INNER JOIN %s AS entity_table  WHERE module_table.callstatus IN(?,?) AND module_table.direction=? AND module_table.pbxmanagerid=entity_table.crmid AND entity_table.deleted=0', self::moduletableName, self::entitytableName);
+		$result = $db->pquery($query, ['ringing', 'in-progress', 'inbound']);
+		$recordModels = [];
 		$rowCount = $db->num_rows($result);
 		for ($i = 0; $i < $rowCount; $i++) {
 			$rowData = $db->query_result_rowdata($result, $i);
@@ -62,10 +62,8 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	public function updateCallStatus($recordIds)
 	{
 		$db = PearDatabase::getInstance();
-		$query = "UPDATE " . self::moduletableName . " SET callstatus='no-response' 
-                  WHERE pbxmanagerid IN (" . generateQuestionMarks($recordIds) . ") 
-                  AND callstatus='ringing'";
-		$db->pquery($query, $recordIds);
+		$where = sprintf("pbxmanagerid IN (%s) AND callstatus='ringing'", generateQuestionMarks($recordIds));
+		$db->update(self::moduletableName, ['callstatus' => 'no-response'], $where, $recordIds);
 	}
 
 	/**
@@ -101,7 +99,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$sourceuuid = $this->get('sourceuuid');
-		$query = 'UPDATE ' . self::moduletableName . ' SET ';
+		$query = sprintf('UPDATE %s SET ', self::moduletableName);
 		foreach ($details as $key => $value) {
 			$query .= $key . '=?,';
 			$params[] = $value;
@@ -120,9 +118,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	{
 		$callid = $this->get('pbxmanagerid');
 		$db = PearDatabase::getInstance();
-		$query = 'UPDATE ' . self::entitytableName . ' SET smownerid=? WHERE crmid=?';
-		$params = array($userid, $callid);
-		$db->pquery($query, $params);
+		$db->update(self::entitytableName, ['smownerid' => $userid], 'crmid=?', [$callid]);
 		return true;
 	}
 
@@ -130,8 +126,8 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$record = new self();
-		$query = 'SELECT * FROM ' . self::moduletableName . ' WHERE pbxmanagerid=?';
-		$params = array($recordId);
+		$query = sprintf('SELECT * FROM %s WHERE pbxmanagerid=?', self::moduletableName);
+		$params = [$recordId];
 		$result = $db->pquery($query, $params);
 		$rowCount = $db->num_rows($result);
 		if ($rowCount) {
@@ -145,8 +141,8 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$record = new self();
-		$query = 'SELECT * FROM ' . self::moduletableName . ' WHERE sourceuuid=?';
-		$params = array($sourceuuid);
+		$query = sprintf('SELECT * FROM %s WHERE sourceuuid=?', self::moduletableName);
+		$params = [$sourceuuid];
 		$result = $db->pquery($query, $params);
 		$rowCount = $db->num_rows($result);
 		if ($rowCount) {
@@ -183,7 +179,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	public function deletePhoneLookUpRecord($recordid)
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM ' . self::lookuptableName . ' where crmid=?', array($recordid));
+		$db->delete(self::lookuptableName, 'crmid=?', [$recordid]);
 	}
 
 	/**
@@ -195,11 +191,13 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$fnumber = preg_replace('/[-()\s+]/', '', $from);
 		$rnumber = strrev($fnumber);
-		$result = $db->pquery('SELECT crmid, fieldname FROM ' . self::lookuptableName . ' WHERE fnumber LIKE "' . $fnumber . '%" OR rnumber LIKE "' . $rnumber . '%" ', array());
+		$query = sprintf('SELECT crmid, fieldname FROM %s WHERE fnumber LIKE "%s" OR rnumber LIKE "%s" ', self::lookuptableName, "$fnumber%", "$rnumber%");
+		$result = $db->query($query);
 		if ($db->num_rows($result)) {
 			$crmid = $db->query_result($result, 0, 'crmid');
 			$fieldname = $db->query_result($result, 0, 'fieldname');
-			$contact = $db->pquery('SELECT label,setype FROM ' . self::entitytableName . ' WHERE crmid=? AND deleted=0', array($crmid));
+			$query = sprintf('SELECT label,setype FROM %s WHERE crmid=? AND deleted=0', self::entitytableName);
+			$contact = $db->pquery($query, [$crmid]);
 			if ($db->num_rows($result)) {
 				$data['id'] = $crmid;
 				$data['name'] = $db->query_result($contact, 0, 'label');

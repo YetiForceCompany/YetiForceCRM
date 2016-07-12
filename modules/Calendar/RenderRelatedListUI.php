@@ -85,13 +85,13 @@ require_once('include/utils/UserInfoUtil.php');
 		$avail_date=DateTimeField::convertToDBFormat($avail_date);
 		if( $owner != $userid)
 		{
-			
-			$usr_query="select activityid,vtiger_activity.date_start,vtiger_activity.due_date, vtiger_activity.time_start,vtiger_activity.duration_hours,vtiger_activity.duration_minutes,vtiger_crmentity.smownerid from vtiger_activity,vtiger_crmentity where vtiger_crmentity.crmid=vtiger_activity.activityid and ('".$avail_date."' like date_start) and vtiger_crmentity.smownerid=? and vtiger_activity.activityid !=?  and vtiger_crmentity.deleted=0";
+			$usr_query="select activityid,vtiger_activity.date_start,vtiger_activity.due_date, vtiger_activity.time_start,vtiger_activity.duration_hours,vtiger_activity.duration_minutes,vtiger_crmentity.smownerid from vtiger_activity,vtiger_crmentity where vtiger_crmentity.crmid=vtiger_activity.activityid and ('%s' like date_start) and vtiger_crmentity.smownerid=? and vtiger_activity.activityid !=?  and vtiger_crmentity.deleted=0";
 		}
 		else
 		{
-			$usr_query="select activityid,vtiger_activity.date_start,vtiger_activity.due_date, vtiger_activity.time_start,vtiger_activity.duration_hours,vtiger_activity.duration_minutes,vtiger_crmentity.smownerid from vtiger_activity,vtiger_crmentity where vtiger_crmentity.crmid=vtiger_activity.activityid and ('".$avail_date."' like date_start) and vtiger_crmentity.smownerid=? and vtiger_activity.activityid !=? and vtiger_crmentity.deleted=0";
+			$usr_query="select activityid,vtiger_activity.date_start,vtiger_activity.due_date, vtiger_activity.time_start,vtiger_activity.duration_hours,vtiger_activity.duration_minutes,vtiger_crmentity.smownerid from vtiger_activity,vtiger_crmentity where vtiger_crmentity.crmid=vtiger_activity.activityid and ('%s' like date_start) and vtiger_crmentity.smownerid=? and vtiger_activity.activityid !=? and vtiger_crmentity.deleted=0";
 		}
+		$usr_query = sprintf($usr_query, $avail_date);
 		$result_cal=$adb->pquery($usr_query, array($userid, $activity_id));   
 		$noofrows_cal = $adb->num_rows($result_cal);
 		$avail_flag="false";
@@ -120,7 +120,8 @@ require_once('include/utils/UserInfoUtil.php');
 		}
 		if($avail_flag!="true")
 		{
-			$recur_query="SELECT vtiger_activity.activityid, vtiger_activity.time_start, vtiger_activity.duration_hours, vtiger_activity.duration_minutes , vtiger_crmentity.smownerid, vtiger_recurringevents.recurringid, vtiger_recurringevents.recurringdate as date_start from vtiger_activity inner join vtiger_crmentity on vtiger_activity.activityid = vtiger_crmentity.crmid inner join vtiger_recurringevents on vtiger_activity.activityid=vtiger_recurringevents.activityid where ('".$avail_date."' like vtiger_recurringevents.recurringdate) and vtiger_crmentity.smownerid=? and vtiger_activity.activityid !=? and vtiger_crmentity.deleted=0";
+			$recur_query="SELECT vtiger_activity.activityid, vtiger_activity.time_start, vtiger_activity.duration_hours, vtiger_activity.duration_minutes , vtiger_crmentity.smownerid, vtiger_recurringevents.recurringid, vtiger_recurringevents.recurringdate as date_start from vtiger_activity inner join vtiger_crmentity on vtiger_activity.activityid = vtiger_crmentity.crmid inner join vtiger_recurringevents on vtiger_activity.activityid=vtiger_recurringevents.activityid where ('%s' like vtiger_recurringevents.recurringdate) and vtiger_crmentity.smownerid=? and vtiger_activity.activityid !=? and vtiger_crmentity.deleted=0";
+			$recur_query = sprintf($recur_query, $avail_date);	
 			$result_cal=$adb->pquery($recur_query, array($userid, $activity_id));   
 			$noofrows_cal = $adb->num_rows($result_cal);
 			$avail_flag="false";

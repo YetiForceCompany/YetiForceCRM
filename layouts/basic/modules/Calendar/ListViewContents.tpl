@@ -15,9 +15,6 @@
 <input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 <input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 <input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
-<input type="hidden" id="alphabetSearchKey" value= "{$MODULE_MODEL->getAlphabetSearchField()}" />
-<input type="hidden" id="Operator" value="{$OPERATOR}" />
-<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
 <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 <input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
 <input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
@@ -64,25 +61,30 @@
 				{/foreach}
 			</tr>
 		</thead>
-        <tr>
-			<td>
-				<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);">
-					<span class="glyphicon glyphicon-search"></span>
-				</a>
-			</td>
-         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-             <td>
-                 {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}     
-                {include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE) 
-                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
-             </td>
-         {/foreach}
-         <td> 
-			<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
-				<span class="glyphicon glyphicon-remove"></span>
-			</a>
-         </td>
-        </tr>
+        {if $MODULE_MODEL->isQuickSearchEnabled()}
+			<tr>
+				<td>
+					<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+				</td>
+				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+					<td>
+						{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+						{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER->getName()])}
+							{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]}
+						{else}
+							{assign var=SEARCH_INFO value=[]}
+						{/if}
+						{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
+			FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
+					</td>
+				{/foreach}
+				<td>
+					<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+				</td>
+			</tr>
+		{/if}
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 			{assign var=CURRENT_USER_ID value=$USER_MODEL->getId()}
 			{assign var=RAWDATA value=$LISTVIEW_ENTRY->getRawData()}

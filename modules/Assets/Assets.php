@@ -145,8 +145,9 @@ class Assets extends CRMEntity
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
 		}
 
-		$query .= "	WHERE vtiger_crmentity.deleted = 0 " . $where;
+		$query .= '	WHERE vtiger_crmentity.deleted = 0 %s';
 		$query .= $this->getListViewSecurityParameter($module);
+		$query = sprintf($query, $where);
 		return $query;
 	}
 
@@ -223,9 +224,9 @@ class Assets extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if ($where != '')
-			$query .= " WHERE ($where) AND $where_auto";
+			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
 		else
-			$query .= " WHERE $where_auto";
+			$query .= sprintf(' where %s', $where_auto);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
@@ -253,8 +254,8 @@ class Assets extends CRMEntity
 	 */
 	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
-		$select_clause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid, vtiger_users_last_import.deleted," . $table_cols;
-
+		$select_clause = "SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s ";
+		$select_clause = sprintf($select_clause, $this->table_name, $this->table_index, $table_cols);
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
 			$query .= ", " . $this->customFieldTable[0] . ".* ";
@@ -354,23 +355,21 @@ class Assets extends CRMEntity
 
 			$this->addModuleToCustomerPortal();
 
-			include_once('vtlib/Vtiger/Module.php');
-
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 
 			//adds sharing accsess
-			$AssetsModule = Vtiger_Module::getInstance('Assets');
-			Vtiger_Access::setDefaultSharing($AssetsModule);
+			$AssetsModule = vtlib\Module::getInstance('Assets');
+			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			$assetInstance = Vtiger_Module::getInstance('Assets');
+			$assetInstance = vtlib\Module::getInstance('Assets');
 			$assetLabel = 'Assets';
 
-			$accountInstance = Vtiger_Module::getInstance('Accounts');
+			$accountInstance = vtlib\Module::getInstance('Accounts');
 			$accountInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'get_dependents_list');
 
-			$productInstance = Vtiger_Module::getInstance('Products');
+			$productInstance = vtlib\Module::getInstance('Products');
 			$productInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'get_dependents_list');
 
 			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($moduleName));

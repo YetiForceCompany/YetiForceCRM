@@ -108,7 +108,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	 */
 	public function getModuleNameFromLink($linkUrl, $linkLabel)
 	{
-		$params = Vtiger_Functions::getQueryParams($linkUrl);
+		$params = vtlib\Functions::getQueryParams($linkUrl);
 		$module = $params['module'];
 		if ($linkLabel == 'Overdue Activities' || $linkLabel == 'Upcoming Activities') {
 			$module = 'Calendar';
@@ -173,9 +173,18 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'DashBoard', $moduleName);
 		$instance = new $modelClassName();
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		return $instance->setModule($moduleModel);
+	}
+	
+	public static function getModulesWithWidgets(){
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT module FROM vtiger_module_dashboard_widgets WHERE userid = ? AND active = ?' , [$currentUser->getId(), 1]);
+		$modules = [];
+		while($row = $db->getRow($result)){
+			$modules[$row['module']] = vtlib\Functions::getModuleName($row['module']);
+		}
+		return $modules;
 	}
 }

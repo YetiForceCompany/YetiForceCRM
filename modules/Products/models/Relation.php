@@ -44,7 +44,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 			$queryGenerator->setFields($relatedListFields);
 			$selectColumnSql = $queryGenerator->getSelectClauseColumnSQL();
 			$newQuery = explode('FROM', $query);
-			$selectColumnSql = 'SELECT DISTINCT vtiger_crmentity.crmid, ' . $selectColumnSql;
+			$selectColumnSql = sprintf('SELECT DISTINCT vtiger_crmentity.crmid, %s', $selectColumnSql);
 		}
 		if ($functionName == 'get_product_pricebooks') {
 			$selectColumnSql = $selectColumnSql . ' ,vtiger_pricebookproductrel.listprice, vtiger_pricebook.currency_id, vtiger_products.unit_price';
@@ -57,8 +57,9 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		if ($selectColumnSql && $newQuery[1])
 			$query = $selectColumnSql . ' FROM ' . $newQuery[1];
 		if ($relationListView_Model) {
-			$searchParams = $relationListView_Model->get('search_params');
-			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
+			$queryGenerator = $relationListView_Model->get('query_generator');
+			$where = $queryGenerator->getWhereClause(true);
+			$query .= $where;
 		}
 		return $query;
 	}

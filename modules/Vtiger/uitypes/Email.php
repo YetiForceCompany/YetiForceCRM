@@ -28,7 +28,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			$moduleName = $this->get('field')->get('block')->module->name;
 			$fieldName = $this->get('field')->get('name');
 			$rawValue = $value;
-			$value = Vtiger_Functions::textLength($value);
+			$value = vtlib\Functions::textLength($value);
 			if ($internalMailer == 1) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();

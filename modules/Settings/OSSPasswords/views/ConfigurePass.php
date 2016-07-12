@@ -40,11 +40,13 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 	public function process(Vtiger_Request $request)
 	{
-		global $root_directory, $adb, $current_user, $log;
+		$log = LoggerManager::getInstance();
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
 
 		// config
 		// check if password encode config exists
-		$config_path = "modules/OSSPasswords/config.ini.php";
+		$config_path = 'modules/OSSPasswords/config.ini.php';
 		$config = '';
 		$config_exists = file_exists($config_path);
 
@@ -93,8 +95,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 			// update the configuration data
 			if (strlen($error) == 0 && $post_min > 0 && $post_max > 0 && strlen($aChars) > 0) {
-				$adb->pquery("UPDATE vtiger_passwords_config SET pass_length_min = '?', pass_length_max = '?', pass_allow_chars = ?, register_changes= ?;", array($post_min, $post_max, $adb->sql_escape_string($aChars), $rChanges), true);
-
+				$adb->pquery("UPDATE vtiger_passwords_config SET pass_length_min = ?, pass_length_max = ?, pass_allow_chars = ?, register_changes= ?;", array($post_min, $post_max, $adb->sql_escape_string($aChars), $rChanges), true);
 				// uaktualnij zmienne
 				$min = $post_min;
 				$max = $post_max;

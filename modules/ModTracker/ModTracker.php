@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-include_once 'vtlib/Vtiger/Event.php';
 include_once 'include/Webservices/GetUpdates.php';
 
 class ModTracker
@@ -49,7 +48,7 @@ class ModTracker
 	{
 		global $adb, $currentModule;
 
-		$modtrackerModule = Vtiger_Module::getInstance($currentModule);
+		$modtrackerModule = vtlib\Module::getInstance($currentModule);
 		$otherModuleNames = $this->getModTrackerEnabledModules();
 
 		if ($eventType == 'module.postinstall') {
@@ -119,7 +118,7 @@ class ModTracker
 			self::updateCache($tabid, 0);
 		}
 		if (self::isModtrackerLinkPresent($tabid)) {
-			$moduleInstance = Vtiger_Module::getInstance($tabid);
+			$moduleInstance = vtlib\Module::getInstance($tabid);
 			$moduleInstance->deleteLink('DETAILVIEWBASIC', 'View History');
 		}
 		$adb->pquery("UPDATE vtiger_field SET presence = 1 WHERE tabid = ? AND fieldname = ?", array($tabid, 'was_read'));
@@ -260,12 +259,12 @@ class ModTracker
 		if (empty($accessibleModules))
 			throw new Exception('Modtracker not enabled for any modules');
 
-		$query = "SELECT id, module, modifiedtime, vtiger_crmentity.crmid, smownerid, vtiger_modtracker_basic.status
+		$query = sprintf('SELECT id, module, modifiedtime, vtiger_crmentity.crmid, smownerid, vtiger_modtracker_basic.status
                 FROM vtiger_modtracker_basic
                 INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
                     AND vtiger_modtracker_basic.changedon = vtiger_crmentity.modifiedtime
-                WHERE id > ? AND changedon >= ? AND module IN(" . generateQuestionMarks($accessibleModules) . ")
-                ORDER BY id";
+                WHERE id > ? AND changedon >= ? AND module IN (%s)
+                ORDER BY id', generateQuestionMarks($accessibleModules));
 
 		$params = array($uniqueId, $datetime);
 		foreach ($accessibleModules as $entityModule) {
@@ -319,8 +318,8 @@ class ModTracker
 		$output['updated'] = $updatedRecords;
 		$output['deleted'] = $deletedRecords;
 
-		$moreQuery = "SELECT * FROM vtiger_modtracker_basic WHERE id > ? AND changedon >= ? AND module
-            IN(" . generateQuestionMarks($accessibleModules) . ")";
+		$moreQuery = sprintf('SELECT * FROM vtiger_modtracker_basic WHERE id > ? AND changedon >= ? AND module
+            IN(%s)', generateQuestionMarks($accessibleModules));
 
 		$param = array($maxUniqueId, $maxModifiedTime);
 		foreach ($accessibleModules as $entityModule) {

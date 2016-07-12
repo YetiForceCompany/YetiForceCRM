@@ -337,7 +337,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$module = Vtiger_Module_Model::getInstance($module);
 			$moduleName = $module->get('name');
 		} elseif (empty($module)) {
-			$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
 			$module = Vtiger_Module_Model::getInstance($moduleName);
 		}
 		$cacheName = $recordId . ':' . $moduleName;
@@ -392,9 +392,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$sortColumns .= 'vtiger_crmentity.label ASC,';
 		}
 
-		$query = 'SELECT label, searchlabel, crmid, setype, createdtime, smownerid FROM vtiger_crmentity ' . $join . ' WHERE vtiger_crmentity.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0' . $where;
+		$query = sprintf('SELECT label, searchlabel, crmid, setype, createdtime, smownerid FROM vtiger_crmentity %s WHERE vtiger_crmentity.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 %s', $join, $where);
 		if (!empty($sortColumns)) {
-			$query .= ' ORDER BY ' . $sortColumns;
+			$query .= sprintf(' ORDER BY %s', $sortColumns);
 			$query = rtrim($query, ',');
 		}
 
@@ -750,7 +750,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventoryField->getTableName('data');
-		$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$ID]);
+		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE id = ? ORDER BY seq', $table), [$ID]);
 		$fields = [];
 		while ($row = $db->fetch_array($result)) {
 			$fields[] = $row;

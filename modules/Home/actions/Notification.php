@@ -86,7 +86,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 			$selectedModules = [];
 		}
 		foreach ($watchingModules as $moduleId) {
-			$moduleName = Vtiger_Functions::getModuleName($moduleId);
+			$moduleName = vtlib\Functions::getModuleName($moduleId);
 			if (!in_array($moduleName, $selectedModules)) {
 				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
 				$watchdogModel->changeModuleState(0);
@@ -137,7 +137,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 			foreach ($users as $user) {
 				if (key_exists($user, $accessibleUsers)) {
 					$email = Vtiger_Util_Helper::getUserDetail($user, 'email1');
-					$name = Vtiger_Functions::getOwnerRecordLabel($user);
+					$name = vtlib\Functions::getOwnerRecordLabel($user);
 					$status = send_mail('Users', $email, $name, $from_email, $subject, $content);
 					if (!$status) {
 						$sendStatus = false;

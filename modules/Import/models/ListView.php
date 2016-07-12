@@ -125,8 +125,8 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
 
 		$user = Users_Record_Model::getCurrentUserModel();
 		$userDBTableName = Import_Utils_Helper::getDbTableName($user);
-
-		$result = $db->pquery('SELECT recordid FROM '.$userDBTableName.' WHERE temp_status NOT IN (?,?) AND recordid IS NOT NULL',Array(Import_Data_Action::$IMPORT_RECORD_FAILED,  Import_Data_Action::$IMPORT_RECORD_SKIPPED));
+		$query = sprintf('SELECT recordid FROM %s WHERE temp_status NOT IN (?,?) AND recordid IS NOT NULL', $userDBTableName);
+		$result = $db->pquery($query,[Import_Data_Action::$IMPORT_RECORD_FAILED,  Import_Data_Action::$IMPORT_RECORD_SKIPPED]);
 		$noOfRecords = $db->num_rows($result);
 
 		$importedRecordIds = array();

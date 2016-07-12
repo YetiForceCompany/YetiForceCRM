@@ -61,7 +61,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
         }
 
         foreach ($moduleNames as $moduleName) {
-            $module = Vtiger_Module::getInstance($moduleName);
+            $module = vtlib\Module::getInstance($moduleName);
             if ($module) {
                 $module->addLink($widgetType, $widgetName, "module=OSSProjectTemplates&view=GenerateProject", '', '', '');
             }

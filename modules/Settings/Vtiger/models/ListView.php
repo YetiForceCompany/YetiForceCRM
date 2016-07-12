@@ -50,7 +50,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 	public function getBasicListQuery()
 	{
 		$module = $this->getModule();
-		return 'SELECT * FROM ' . $module->getBaseTable();
+		return sprintf('SELECT * FROM %s', $module->getBaseTable());
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 			}
 		}
 		if (!empty($orderBy)) {
-			$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $this->getForSql('sortorder');
+			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $this->getForSql('sortorder'));
 		}
 		if ($module->isPagingSupported()) {
 			$nextListQuery = $listQuery . ' LIMIT ' . ($startIndex + $pageLimit) . ',1';
@@ -163,7 +163,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
 			for ($i = 1; $i < count($split); $i++) {
-				$listQuery .= ' FROM ' . $split[$i];
+				$listQuery .= sprintf(' FROM %s', $split[$i]);
 			}
 		}
 

@@ -230,7 +230,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 
 	/**
 	 * Process the UI Widget requested
-	 * @param Vtiger_Link $widgetLink
+	 * @param vtlib\Link $widgetLink
 	 * @param Current Smarty Context $context
 	 */
 	function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)

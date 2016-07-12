@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -25,6 +25,7 @@
             <input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids={ZEND_JSON::encode($EXCLUDED_IDS)} />
             <input type="hidden" id="recordsCount" name="recordsCount" />
             <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
+			<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
             <div class="relatedHeader">
                 <div class="btn-toolbar row">
                     <div class="col-md-4">
@@ -91,6 +92,7 @@
 					&nbsp;
 				</div>
 			</div>
+			{include file=vtemplate_path('ListViewAlphabet.tpl',$RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 			<div class="relatedContents contents-bottomscroll">
 				<div class="bottomscroll-div">
 					{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -120,6 +122,30 @@
 								</th>
 							</tr>
 						</thead>
+						{if $RELATED_MODULE->isQuickSearchEnabled()}
+							<tr>
+								<td>
+									<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+								</td>
+								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+									<td>
+										{assign var=FIELD_UI_TYPE_MODEL value=$HEADER_FIELD->getUITypeModel()}
+										{if isset($SEARCH_DETAILS[$HEADER_FIELD->getName()])}
+											{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$HEADER_FIELD->getName()]}
+										{else}
+											{assign var=SEARCH_INFO value=[]}
+										{/if}
+										{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$RELATED_MODULE_NAME)
+							FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE}
+									</td>
+								{/foreach}
+								<td>
+									<button type="button" class="btn btn-default removeSearchConditions">
+										<span class="glyphicon glyphicon-remove"></button>
+									</a>
+								</td>
+							</tr>
+						{/if}
 						{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 							<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
 								<td width="4%" class="{$WIDTHTYPE}">

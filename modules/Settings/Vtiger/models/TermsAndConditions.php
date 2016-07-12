@@ -31,22 +31,23 @@ class Settings_Vtiger_TermsAndConditions_Model extends Vtiger_Base_Model
 	public function save()
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT 1 FROM ' . self::tableName;
-		$result = $db->pquery($query, array());
+		$query = sprintf('SELECT 1 FROM %s', self::tableName);
+		$result = $db->pquery($query, []);
 		if ($db->num_rows($result) > 0) {
-			$query = 'UPDATE ' . self::tableName . ' SET tandc=?';
-			$params = array($this->getText());
+			$db->update(self::tableName, ['tandc' => $this->getText()]);
 		} else {
-			$query = 'INSERT INTO ' . self::tableName . ' (id,type,tandc) VALUES(?,?,?)';
-			$params = array($db->getUniqueID(self::tableName, $this->getType(), $this->getText()));
+			$db->insert(self::tableName, [
+				'id' => $db->getUniqueID(self::tableName),
+				'type' => $this->getType(),
+				'tandc' => $this->getText()
+			]);
 		}
-		$result = $db->pquery($query, $params);
 	}
 
 	public static function getInstance()
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT tandc FROM ' . self::tableName;
+		$query = sprintf('SELECT tandc FROM %s', self::tableName);
 		$result = $db->pquery($query, array());
 		$instance = new self();
 		if ($db->num_rows($result) > 0) {

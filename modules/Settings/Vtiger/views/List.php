@@ -137,6 +137,8 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			'modules.Settings.Vtiger.resources.List',
 			"modules.Settings.$moduleName.resources.List",
 			"modules.Settings.Vtiger.resources.$moduleName",
+			'modules.Vtiger.resources.ListSearch',
+			"modules.$moduleName.resources.ListSearch"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

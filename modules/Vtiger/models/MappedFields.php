@@ -75,7 +75,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);
@@ -98,8 +98,8 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$db = PearDatabase::getInstance();
-		$moduleId = Vtiger_Functions::getModuleId($moduleName);
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `tabid` = ? and `status` = ?;';
+		$moduleId = vtlib\Functions::getModuleId($moduleName);
+		$query = sprintf('SELECT * FROM `%s` WHERE `tabid` = ? and `status` = ?;', self::$baseTable);
 		$result = $db->pquery($query, [$moduleId, 'active']);
 		$templates = [];
 
@@ -133,7 +133,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `tabid` = ? AND `reltabid` = ? LIMIT 1;';
+		$query = sprintf('SELECT * FROM `%s` WHERE `tabid` = ? AND `reltabid` = ? LIMIT 1', self::$baseTable);
 		$result = $db->pquery($query, [$tabId, $relTabId]);
 		if ($result->rowCount() == 0) {
 			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -158,7 +158,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			return $mf;
 		}
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `' . self::$baseIndex . '` = ? LIMIT 1;';
+		$query = sprintf('SELECT * FROM `%s` WHERE `%s` = ? LIMIT 1;', self::$baseTable, self::$baseIndex);
 		$result = $db->pquery($query, [$recordId]);
 		if ($result->rowCount() == 0) {
 			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -190,7 +190,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT * FROM ' . self::$mappingTable . ' WHERE ' . self::$mappingIndex . ' = ?;';
+			$query = sprintf('SELECT * FROM %s WHERE %s = ?;', self::$mappingTable, self::$mappingIndex);
 			$result = $db->pquery($query, [$this->getId()]);
 			$mapping = $db->getArray($result);
 			$finalMapping = [];
@@ -229,12 +229,12 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function getName()
 	{
-		return Vtiger_Functions::getModuleName($this->get('tabid'));
+		return vtlib\Functions::getModuleName($this->get('tabid'));
 	}
 
 	public function getRelatedName()
 	{
-		return Vtiger_Functions::getModuleName($this->get('reltabid'));
+		return vtlib\Functions::getModuleName($this->get('reltabid'));
 	}
 
 	public function checkFiltersForRecord($recordId)

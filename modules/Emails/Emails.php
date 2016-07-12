@@ -221,7 +221,7 @@ class Emails extends CRMEntity {
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -243,8 +243,30 @@ class Emails extends CRMEntity {
 						" value='" . getTranslatedString('LBL_BULK_MAILS') . "'>";
 			}
 		}
-
-		$query = 'select vtiger_contactdetails.parentid, vtiger_contactdetails.contactid, vtiger_contactdetails.firstname,vtiger_contactdetails.lastname, vtiger_contactdetails.department, vtiger_contactdetails.title, vtiger_contactdetails.email, vtiger_contactdetails.phone, vtiger_contactdetails.emailoptout, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.modifiedtime from vtiger_contactdetails inner join vtiger_cntactivityrel on vtiger_cntactivityrel.contactid=vtiger_contactdetails.contactid inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_contactdetails.contactid left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid where vtiger_cntactivityrel.activityid=' . $adb->quote($id) . ' and vtiger_crmentity.deleted=0';
+		
+		$query = sprintf('SELECT 
+					vtiger_contactdetails.parentid,
+					vtiger_contactdetails.contactid,
+					vtiger_contactdetails.firstname,
+					vtiger_contactdetails.lastname,
+					vtiger_contactdetails.department,
+					vtiger_contactdetails.title,
+					vtiger_contactdetails.email,
+					vtiger_contactdetails.phone,
+					vtiger_contactdetails.emailoptout,
+					vtiger_crmentity.crmid,
+					vtiger_crmentity.smownerid,
+					vtiger_crmentity.modifiedtime 
+				  FROM
+					vtiger_contactdetails 
+					INNER JOIN vtiger_cntactivityrel 
+					  ON vtiger_cntactivityrel.contactid = vtiger_contactdetails.contactid 
+					INNER JOIN vtiger_crmentity 
+					  ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid 
+					LEFT JOIN vtiger_groups 
+					  ON vtiger_groups.groupid = vtiger_crmentity.smownerid 
+				  WHERE vtiger_cntactivityrel.activityid = %s 
+					AND vtiger_crmentity.deleted = 0;', $adb->quote($id));
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 

@@ -7,13 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Utils.php');
+namespace vtlib;
 
 /**
  * Provides API to work with vtiger CRM Menu
  * @package vtlib
  */
-class Vtiger_Menu
+class Menu
 {
 
 	/** ID of this menu instance */
@@ -21,14 +21,6 @@ class Vtiger_Menu
 	var $label = false;
 	var $sequence = false;
 	var $visible = 0;
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		
-	}
 
 	/**
 	 * Initialize this instance
@@ -49,10 +41,7 @@ class Vtiger_Menu
 	 */
 	static function getInstance($value)
 	{
-		$adb = PearDatabase::getInstance();
-		$query = false;
-		$instance = false;
-		return $instance;
+		return false;
 	}
 
 	/**
@@ -63,26 +52,22 @@ class Vtiger_Menu
 	 */
 	static function log($message, $delim = true)
 	{
-		Vtiger_Utils::Log($message, $delim);
+		Utils::Log($message, $delim);
 	}
-	
+
 	/**
 	 * Delete all menus associated with module
-	 * @param Vtiger_Module Instnace of module to use
+	 * @param Module Instnace of module to use
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT id FROM  yetiforce_menu WHERE module=?', [$moduleInstance->id]);
+		$db = \PearDatabase::getInstance();
+		$result = $db->pquery('SELECT id FROM yetiforce_menu WHERE module=?', [$moduleInstance->id]);
 		$db->delete('yetiforce_menu', 'module = ?', [$moduleInstance->id]);
 		$numRows = $db->getRowCount($result);
-		if($numRows){
-			$menuRecordModel = new Settings_Menu_Record_Model();
+		if ($numRows) {
+			$menuRecordModel = new \Settings_Menu_Record_Model();
 			$menuRecordModel->refreshMenuFiles();
 		}
 	}
-	
-
 }
-
-?>
