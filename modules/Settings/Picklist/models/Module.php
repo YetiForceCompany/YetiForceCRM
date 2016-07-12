@@ -32,26 +32,25 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		return $fields;
 	}
 
-	public function addPickListValues($fieldModel, $newValue, $rolesSelected = array())
+	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [])
 	{
 		$db = PearDatabase::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$id = $db->getUniqueID("vtiger_$pickListFieldName");
-		$picklist_valueid = $db->getUniqueID('vtiger_picklistvalues');
+		$picklistValueId = $db->getUniqueID('vtiger_picklistvalues');
 		$tableName = 'vtiger_' . $pickListFieldName;
-		$maxSeqQuery = 'SELECT max(sortorderid) as maxsequence FROM ' . $tableName;
-		$result = $db->pquery($maxSeqQuery, []);
-		$sequence = $db->query_result($result, 0, 'maxsequence');
+		$maxSeqQuery = sprintf('SELECT max(sortorderid) as maxsequence FROM %s', $tableName);
+		$result = $db->query($maxSeqQuery);
+		$sequence = $db->getSingleValue($result);
 		$columnNames = $db->getColumnNames($tableName);
-
 
 		if ($fieldModel->isRoleBased()) {
 			if (in_array('color', $columnNames)) {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?,?)';
-				$result = $db->pquery($sql, [$id, $newValue, 1, $picklist_valueid, ++$sequence, '#E6FAD8']);
+				$result = $db->pquery($sql, [$id, $newValue, 1, $picklistValueId, ++$sequence, '#E6FAD8']);
 			} else {
 				$sql = 'INSERT INTO ' . $tableName . ' VALUES (?,?,?,?,?)';
-				$result = $db->pquery($sql, [$id, $newValue, 1, $picklist_valueid, ++$sequence]);
+				$result = $db->pquery($sql, [$id, $newValue, 1, $picklistValueId, ++$sequence]);
 			}
 		} else {
 			if (in_array('color', $columnNames)) {
@@ -64,9 +63,9 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		}
 
 		if ($fieldModel->isRoleBased() && !empty($rolesSelected)) {
-			$sql = "select picklistid from vtiger_picklist where name=?";
-			$result = $db->pquery($sql, array($pickListFieldName));
-			$picklistid = $db->query_result($result, 0, "picklistid");
+			$sql = 'SELECT picklistid FROM vtiger_picklist WHERE `name` = ?;';
+			$result = $db->pquery($sql, [$pickListFieldName]);
+			$picklistid = $db->getSingleValue($result);
 			//add the picklist values to the selected roles
 			for ($j = 0; $j < count($rolesSelected); $j++) {
 				$roleid = $rolesSelected[$j];
@@ -75,14 +74,17 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
                        FROM vtiger_role2picklist left join vtiger_$pickListFieldName
                            on vtiger_$pickListFieldName.picklist_valueid=vtiger_role2picklist.picklistvalueid
                        WHERE roleid=? and picklistid=?";
-				$sortid = $db->query_result($db->pquery($sql, array($roleid, $picklistid)), 0, 'sortid');
+				$sortid = $db->getSingleValue($db->pquery($sql, [$roleid, $picklistid]));
 
-				$sql = "insert into vtiger_role2picklist values(?,?,?,?)";
-				$db->pquery($sql, array($roleid, $picklist_valueid, $picklistid, $sortid));
+				$db->insert('vtiger_role2picklist', [
+					'roleid' => $roleid,
+					'picklistvalueid' => $picklistValueId,
+					'picklistid' => $picklistid,
+					'sortid' => $sortid
+				]);
 			}
 		}
-		return array('picklistValueId' => $picklist_valueid,
-			'id' => $id);
+		return ['picklistValueId' => $picklistValueId, 'id' => $id];
 	}
 
 	public function renamePickListValues($pickListFieldName, $oldValue, $newValue, $moduleName, $id)
