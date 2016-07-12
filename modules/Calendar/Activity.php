@@ -36,7 +36,7 @@ class Activity extends CRMEntity
 	var $reminder_table = 'vtiger_activity_reminder';
 	var $tab_name = Array('vtiger_crmentity', 'vtiger_activity', 'vtiger_activitycf');
 	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_recurringevents' => 'activityid', 'vtiger_activitycf' => 'activityid');
-	var $column_fields = Array();
+	var $column_fields = [];
 	var $sortby_fields = Array('subject', 'due_date', 'date_start', 'smownerid', 'activitytype', 'lastname'); //Sorting is added for due date and start date
 	// This is used to retrieve related vtiger_fields from form posts.
 	var $additional_column_fields = Array('assigned_user_name', 'assigned_user_id', 'contactname', 'contact_phone', 'contact_email', 'parent_name');
@@ -124,7 +124,7 @@ class Activity extends CRMEntity
 		$this->insertIntoInviteeTable($module);
 
 		//Inserting into sales man activity rel
-		$this->insertIntoSmActivityRel($module);
+		//$this->insertIntoSmActivityRel($module);
 		$adb->pquery('UPDATE vtiger_activity SET smownerid = ? WHERE `activityid` = ?;', array($this->column_fields['assigned_user_id'], $recordId));
 		$this->insertIntoActivityReminderPopup($module);
 	}
@@ -266,7 +266,7 @@ class Activity extends CRMEntity
 
 		if ($flag == "true") {
 			$max_recurid_qry = 'select max(recurringid) AS recurid from vtiger_recurringevents;';
-			$result = $adb->pquery($max_recurid_qry, array());
+			$result = $adb->pquery($max_recurid_qry, []);
 			$noofrows = $adb->num_rows($result);
 			$recur_id = 0;
 			if ($noofrows > 0) {
@@ -341,9 +341,8 @@ class Activity extends CRMEntity
 			$adb->pquery($sql_qry, array($this->column_fields['assigned_user_id'], $this->id));
 
 			if (!AppRequest::isEmpty('inviteesid')) {
-				$selected_users_string = AppRequest::get('inviteesid');
-				$invitees_array = explode(';', $selected_users_string);
-				foreach ($invitees_array as $inviteeid) {
+				$invitees = AppRequest::get('inviteesid');
+				foreach ($invitees as $inviteeid) {
 					if ($inviteeid != '') {
 						$resultcheck = $adb->pquery("select * from vtiger_salesmanactivityrel where activityid=? and smid=?", array($this->id, $inviteeid));
 						if ($adb->num_rows($resultcheck) != 1) {
@@ -451,7 +450,7 @@ class Activity extends CRMEntity
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		$log->debug("Exiting get_contacts method ...");
@@ -482,7 +481,7 @@ class Activity extends CRMEntity
 		$return_data = GetRelatedList('Calendar', 'Users', $focus, $query, $button, $returnset);
 
 		if ($return_data == null)
-			$return_data = Array();
+			$return_data = [];
 		$return_data['CUSTOM_BUTTON'] = $button;
 
 		$log->debug("Exiting get_users method ...");
@@ -572,10 +571,10 @@ class Activity extends CRMEntity
 		$log = vglobal('log');
 		$log->debug("Entering process_list_query1(" . $query . ") method ...");
 		$result = & $this->db->query($query, true, "Error retrieving $this->object_name list: ");
-		$list = Array();
+		$list = [];
 		$rows_found = $this->db->getRowCount($result);
 		if ($rows_found != 0) {
-			$task = Array();
+			$task = [];
 			for ($index = 0, $row = $this->db->fetchByAssoc($result, $index); $row && $index < $rows_found; $index++, $row = $this->db->fetchByAssoc($result, $index)) {
 				foreach ($this->range_fields as $columnName) {
 					if (isset($row[$columnName])) {
@@ -597,7 +596,7 @@ class Activity extends CRMEntity
 			}
 		}
 
-		$response = Array();
+		$response = [];
 		$response['list'] = $list;
 		$response['row_count'] = $rows_found;
 		$response['next_offset'] = $next_offset;
@@ -671,11 +670,11 @@ class Activity extends CRMEntity
 
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select tablename,columnname from vtiger_field where tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.presence in (0,2)";
-			$params1 = array();
+			$params1 = [];
 		} else {
 			$profileList = getCurrentUserProfileList();
 			$sql1 = "select tablename,columnname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.displaytype in (1,2,4,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
+			$params1 = [];
 			if (count($profileList) > 0) {
 				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
 				array_push($params1, $profileList);
@@ -692,7 +691,7 @@ class Activity extends CRMEntity
 			  } */
 		}
 		$permitted_lists = array_chunk($permitted_lists, 2);
-		$column_table_lists = array();
+		$column_table_lists = [];
 		for ($i = 0; $i < count($permitted_lists); $i++) {
 			$column_table_lists[] = implode(".", $permitted_lists[$i]);
 		}
@@ -725,11 +724,11 @@ class Activity extends CRMEntity
 
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select tablename,columnname from vtiger_field where tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.presence in (0,2)";
-			$params1 = array();
+			$params1 = [];
 		} else {
 			$profileList = getCurrentUserProfileList();
 			$sql1 = "select tablename,columnname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.displaytype in (1,2,4,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
+			$params1 = [];
 			if (count($profileList) > 0) {
 				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
 				array_push($params1, $profileList);
@@ -749,7 +748,7 @@ class Activity extends CRMEntity
 			}
 		}
 		$permitted_lists = array_chunk($permitted_lists, 2);
-		$column_table_lists = array();
+		$column_table_lists = [];
 		for ($i = 0; $i < count($permitted_lists); $i++) {
 			$column_table_lists[] = implode(".", $permitted_lists[$i]);
 		}
@@ -911,7 +910,7 @@ class Activity extends CRMEntity
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared " .
 			"int(1) default 0) ignore " . $query;
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery($query, array());
+		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			$query = "REPLACE INTO $tableName (id) SELECT userid as id FROM vtiger_sharedcalendar WHERE sharedid = ?";
 			$result = $db->pquery($query, array($user->id));

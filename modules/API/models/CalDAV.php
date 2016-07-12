@@ -356,6 +356,7 @@ class API_CalDAV_Model
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 				$record->save();
+				$db = PearDatabase::getInstance();
 				$db->update('dav_calendarobjects', [
 					'crmid' => $record->getId()
 					], 'id = ?', [$cal['id']]

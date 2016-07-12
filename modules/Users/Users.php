@@ -172,7 +172,7 @@ class Users extends CRMEntity
 			if (isset($_SESSION["USER_PREFERENCES"]))
 				$this->user_preferences = $_SESSION["USER_PREFERENCES"];
 			else
-				$this->user_preferences = array();
+				$this->user_preferences = [];
 		}
 		if (!array_key_exists($name, $this->user_preferences) || $this->user_preferences[$name] != $value) {
 			$this->log->debug("Saving To Preferences:" . $name . "=" . $value);
@@ -723,7 +723,7 @@ class Users extends CRMEntity
 
 		if ($insertion_mode == 'edit') {
 			$update = '';
-			$update_params = array();
+			$update_params = [];
 			$tabid = getTabid($module);
 			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,5) and vtiger_field.presence in (0,2)";
 			$params = array($tabid, $table_name);
@@ -1117,8 +1117,8 @@ class Users extends CRMEntity
 			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'CVLVT', 'HLT',
 				'GRT', 'MNL', 'LTFAQ');
 		}
-		$return_array = Array();
-		$homeorder = Array();
+		$return_array = [];
+		$homeorder = [];
 		if ($id != '') {
 			$qry = " select distinct(vtiger_homedefault.hometype) from vtiger_homedefault inner join vtiger_homestuff  on vtiger_homestuff.stuffid=vtiger_homedefault.stuffid where vtiger_homestuff.visible=0 and vtiger_homestuff.userid=?";
 			$res = $adb->pquery($qry, array($id));
@@ -1211,34 +1211,34 @@ class Users extends CRMEntity
 		$tc = $adb->getUniqueID("vtiger_homestuff");
 		$visibility = 0;
 		$sql = "insert into vtiger_homestuff values($tc, 15, 'Tag Cloud', $uid, $visibility, 'Tag Cloud')";
-		$adb->pquery($sql, array());
+		$adb->pquery($sql, []);
 
 		$sql = "insert into vtiger_homedefault values(" . $s1 . ",'ALVT',5,'Accounts')";
-		$adb->pquery($sql, array());
+		$adb->pquery($sql, []);
 
 		$sql = "insert into vtiger_homedefault values(" . $s2 . ",'HDB',5,'Dashboard')";
-		$adb->pquery($sql, array());
+		$adb->pquery($sql, []);
 
 		$sql = "insert into vtiger_homedefault values(" . $s5 . ",'CVLVT',5,'NULL')";
-		$adb->pquery($sql, array());
+		$adb->pquery($sql, []);
 
 		$sql = "insert into vtiger_homedefault values(" . $s6 . ",'HLT',5,'HelpDesk')";
-		$adb->pquery($sql, array());
+		$adb->pquery($sql, []);
 
 		$sql = "insert into vtiger_homedefault values(" . $s7 . ",'UA',5,'Calendar')";
-		$adb->pquery($sql, array());
+		$adb->pquery($sql, []);
 
 		$sql = "insert into vtiger_homedefault values(" . $s8 . ",'GRT',5,'NULL')";
-		$adb->pquery($sql, array());
+		$adb->pquery($sql, []);
 
 		$sql = "insert into vtiger_homedefault values(" . $s11 . ",'MNL',5,'Leads')";
-		$adb->pquery($sql, array());
+		$adb->pquery($sql, []);
 
 		$sql = "insert into vtiger_homedefault values(" . $s13 . ",'PA',5,'Calendar')";
-		$adb->pquery($sql, array());
+		$adb->pquery($sql, []);
 
 		$sql = "insert into vtiger_homedefault values(" . $s14 . ",'LTFAQ',5,'Faq')";
-		$adb->pquery($sql, array());
+		$adb->pquery($sql, []);
 	}
 
 	/** function to save the order in which the modules have to be displayed in the home page for the specified user id
@@ -1405,7 +1405,7 @@ class Users extends CRMEntity
 			return $cache->getAdminUserId();
 		} else {
 			$sql = "SELECT id FROM vtiger_users WHERE is_admin = 'on' AND status = 'Active' limit 1";
-			$result = $adb->pquery($sql, array());
+			$result = $adb->pquery($sql, []);
 			$adminId = 1;
 			$it = new SqlResultIterator($adb, $result);
 			foreach ($it as $row) {
