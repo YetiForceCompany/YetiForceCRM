@@ -929,10 +929,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 						var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 						relatedController.deleteRelation([relatedRecordid]).then(function (response) {
 							if (response.result) {
-								thisInstance.loadWidget(element.closest('.widgetContentBlock'));
-								var updatesWidget = detailContentsHolder.find("[data-type='Updates']");
-								if (updatesWidget.length > 0) {
-									thisInstance.loadWidget(updatesWidget);
+								var widget = element.closest('.widgetContentBlock');
+								if (widget.length) {
+									thisInstance.loadWidget(widget);
+									var updatesWidget = detailContentsHolder.find("[data-type='Updates']");
+									if (updatesWidget.length > 0) {
+										thisInstance.loadWidget(updatesWidget);
+									}
+								} else {
+									thisInstance.reloadTabContent();
 								}
 							} else {
 								Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
