@@ -1517,4 +1517,5 @@ $jsLanguageStrings = [
 	'JS_RECORD_INFO' => 'Informacje o rekordzie',
 	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
 	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Czas pracy nie powinien być dłuższy niż 24 h',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER' => 'Czy jesteś pewien, ze chcesz usunąć filtr? Usunięte zostaną również wszystkie widgety na podsumowaniach modułu i stronie głównej powiązane z tym filtrem.',
 ];
