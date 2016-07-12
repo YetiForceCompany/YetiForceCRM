@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 vimport('~include/Webservices/ConvertLead.php');
 
@@ -46,7 +47,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		$assignId = $request->get('assigned_user_id');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$entityValues = array();
+		$entityValues = [];
 		$entityValues['transferRelatedRecordsTo'] = $request->get('transferModule');
 		$entityValues['assignedTo'] = vtws_getWebserviceEntityId(vtws_getOwnerType($assignId), $assignId);
 		$entityValues['leadId'] = vtws_getWebserviceEntityId($request->getModule(), $recordId);
@@ -115,6 +116,13 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		}
 
 		if (!empty($accountId)) {
+			$mappingFields = $recordModel->get('mappingFields');
+			if (isset($mappingFields['Accounts']['shownerid'])) {
+				$leadShownerField = Vtiger_Field_Model::getInstance('shownerid', $recordModel->getModule());
+				$accRecordModel = Vtiger_Record_Model::getInstanceById($accountId, 'Accounts');
+				$accRecordModel->set('shownerid', $leadShownerField->getUITypeModel()->getEditViewDisplayValue('', $recordId));
+				Users_Privileges_Model::setSharedOwner($accRecordModel);
+			}
 			ModTracker_Record_Model::addConvertToAccountRelation('Accounts', $accountId, $assignId);
 			header("Location: index.php?view=Detail&module=Accounts&record=$accountId");
 		} elseif (!empty($contactId)) {
