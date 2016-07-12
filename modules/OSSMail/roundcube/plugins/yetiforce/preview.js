@@ -2,7 +2,27 @@
 window.rcmail && rcmail.addEventListener('init', function (evt) {
 	window.crm = getCrmWindow();
 	loadActionBar();
-});
+	rcmail.env.message_commands.push('yetiforce.importICS');
+	rcmail.register_command('yetiforce.importICS', function (ics, element, e) {
+		window.crm.AppConnector.request({
+			async: true,
+			dataType: 'json',
+			data: {
+				module: 'Calendar',
+				action: 'ImportICS',
+				ics: ics
+			}
+		}).then(function (response) {
+			window.crm.Vtiger_Helper_Js.showPnotify({
+				text: response['result'],
+				type: 'info',
+				animation: 'show'
+			});
+			$(element).closest('.icalattachments').remove();
+		})
+	}, true);
+}
+);
 function loadActionBar() {
 	var content = $('#ytActionBarContent');
 	var params = {

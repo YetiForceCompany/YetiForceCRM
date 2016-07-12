@@ -29,7 +29,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$param[] = $currentUserModel->getId();
 		}
 		if ($where) {
-			$sql .= sprintf(' WHERE %s ' , substr($where, 4));
+			$sql .= sprintf(' WHERE %s ', substr($where, 4));
 		}
 		$result = $db->pquery($sql, $param);
 		if ($db->getRowCount($result) == 0) {
@@ -614,7 +614,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function getAccountByHash($hash)
 	{
 		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM roundcube_users WHERE preferences LIKE "%s"', "%:$hash;%");
+		$query = sprintf('SELECT * FROM roundcube_users WHERE preferences LIKE \'%s\'', "%:\"$hash\";%");
 		$result = $db->query($query);
 		if ($db->getRowCount($result) > 0) {
 			return $db->getRow($result);

@@ -38,7 +38,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 			$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder);
 			$return = OSSMailScanner_Record_Model::executeActions($account, $mailModel->getMail($mbox, $uid), $folder, $params);
-			if(isset($return['CreatedEmail'])){
+			if (isset($return['CreatedEmail'])) {
 				$record = $return['CreatedEmail'];
 			}
 		}
