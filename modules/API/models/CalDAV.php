@@ -16,7 +16,6 @@ class API_CalDAV_Model
 	const CALENDAR_NAME = 'YFCalendar';
 	const COMPONENTS = 'VEVENT,VTODO';
 
-	public $pdo = false;
 	public $log = false;
 	public $user = false;
 	public $record = false;
@@ -28,9 +27,6 @@ class API_CalDAV_Model
 
 	function __construct()
 	{
-		$dbconfig = vglobal('dbconfig');
-		$this->pdo = new PDO('mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
-		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // Autoloader
 		require_once 'libraries/SabreDAV/autoload.php';
 	}
@@ -48,12 +44,12 @@ class API_CalDAV_Model
 		$result = $db->query($query);
 		while ($row = $db->getRow($result)) {
 			$this->record = $row;
-			$this->saveCalendar();
+			$this->davSync();
 		}
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
-	public function saveCalendar()
+	public function davSync()
 	{
 		foreach ($this->davUsers as &$user) {
 			$this->calendarId = $user->get('calendarsid');
@@ -62,20 +58,20 @@ class API_CalDAV_Model
 				$currentUser = vglobal('current_user');
 				vglobal('current_user', $user);
 
-				$vcalendar = $this->getCalendarDetail();
+				$vcalendar = $this->getDavDetail();
 				if ($vcalendar === false) {// Creating
-					$this->createCalendar();
+					$this->davCreate();
 //} elseif($this->record['deleted'] == 1){
 				} elseif (strtotime($this->record['modifiedtime']) > $vcalendar['lastmodified']) { // Updating
-					$this->updateCalendar($vcalendar);
+					$this->davUpdate($vcalendar);
 				}
 				vglobal('current_user', $currentUser);
 			}
 		}
-		$this->markComplete();
+		$this->recordMarkComplete();
 	}
 
-	public function createCalendar()
+	public function davCreate()
 	{
 		$record = $this->record;
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
@@ -131,32 +127,32 @@ class API_CalDAV_Model
 			$component->add($vcalendar->createProperty('TRANSP', $state));
 		}
 		if ($calType == 'VEVENT') {
-			$this->saveAttendeeDav($record, $vcalendar, $component);
+			$this->davSaveAttendee($record, $vcalendar, $component);
 		}
 		$component->SEQUENCE = 0;
 		$vcalendar->add($component);
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$stmt = $this->pdo->prepare('INSERT INTO dav_calendarobjects (calendarid, uri, calendardata, lastmodified, etag, size, componenttype, firstoccurence, lastoccurence, uid, crmid) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
-		$stmt->execute([
-			$this->calendarId,
-			$calUri,
-			$calendarData,
-			$modifiedtime,
-			$extraData['etag'],
-			$extraData['size'],
-			$extraData['componentType'],
-			$extraData['firstOccurence'],
-			$extraData['lastOccurence'],
-			$uid,
-			$record['crmid']
+		$db = PearDatabase::getInstance();
+		$db->insert('dav_calendarobjects', [
+			'calendarid' => $this->calendarId,
+			'uri' => $calUri,
+			'calendardata' => $calendarData,
+			'lastmodified' => $modifiedtime,
+			'etag' => $extraData['etag'],
+			'size' => $extraData['size'],
+			'componenttype' => $extraData['componentType'],
+			'firstoccurence' => $extraData['firstOccurence'],
+			'lastoccurence' => $extraData['lastOccurence'],
+			'uid' => $uid,
+			'crmid' => $record['crmid']
 		]);
 		$this->addChange($calUri, 1);
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
-	public function updateCalendar($calendar)
+	public function davUpdate($calendar)
 	{
 		$record = $this->record;
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
@@ -209,27 +205,36 @@ class API_CalDAV_Model
 					$component->SEQUENCE = 1;
 				}
 				if ($calType == 'VEVENT') {
-					$this->saveAttendeeDav($record, $vcalendar, $component);
+					$this->davSaveAttendee($record, $vcalendar, $component);
 				}
 			}
 		}
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$stmt = $this->pdo->prepare('UPDATE dav_calendarobjects SET calendardata = ?, lastmodified = ?, etag = ?, size = ?, componenttype = ?, firstoccurence = ?, lastoccurence = ?, uid = ?, crmid = ? WHERE id = ?');
-		$stmt->execute([$calendarData, $modifiedtime, $extraData['etag'], $extraData['size'], $extraData['componentType'], $extraData['firstOccurence'], $extraData['lastOccurence'], $extraData['uid'], $record['crmid'], $calendar['id']]);
+		$db = PearDatabase::getInstance();
+		$db->update('dav_calendarobjects', [
+			'calendardata' => $calendarData,
+			'lastmodified' => $modifiedtime,
+			'etag' => $extraData['etag'],
+			'size' => $extraData['size'],
+			'componenttype' => $extraData['componentType'],
+			'firstoccurence' => $extraData['firstOccurence'],
+			'lastoccurence' => $extraData['lastOccurence'],
+			'uid' => $extraData['uid'],
+			'crmid' => $record['crmid']
+			], 'id = ?', [$calendar['id']]
+		);
 		$this->addChange($calendar['uri'], 2);
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
-	public function deletedCal($calendar)
+	public function davDelete($calendar)
 	{
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Calendar ID:' . $card['id']);
 		$this->addChange($calendar['uri'], 3);
-		$stmt = $this->pdo->prepare('DELETE FROM dav_calendarobjects WHERE id = ?;');
-		$stmt->execute([
-			$calendar['id']
-		]);
+		$db = PearDatabase::getInstance();
+		$db->delete('dav_calendarobjects', 'id = ?', [$calendar['id']]);
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
@@ -241,12 +246,12 @@ class API_CalDAV_Model
 			$this->user = $user;
 			$current_user = vglobal('current_user');
 			$current_user = $user;
-			$this->syncDavCalendar();
+			$this->recordSync();
 		}
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
-	public function syncDavCalendar()
+	public function recordSync()
 	{
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
@@ -256,18 +261,18 @@ class API_CalDAV_Model
 		$create = $deletes = $updates = 0;
 		while ($row = $db->getRow($result)) {
 			if (!$row['crmid']) { //Creating
-				$this->createRecord($row);
+				$this->recordCreate($row);
 				$create++;
 			} elseif ($this->toDelete($row)) {
 // Deleting $cal['crmid']
-				$this->deletedCal($row);
+				$this->davDelete($row);
 				$deletes++;
 			} else {
 				$crmLMT = strtotime($row['modifiedtime']);
 				$cardLMT = $row['lastmodified'];
 				if ($crmLMT < $cardLMT) { // Updating
 					$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
-					$this->updateRecord($recordModel, $row);
+					$this->recordUpdate($recordModel, $row);
 					$updates++;
 				}
 			}
@@ -276,7 +281,7 @@ class API_CalDAV_Model
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
-	public function createRecord($cal)
+	public function recordCreate($cal)
 	{
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Cal ID' . $cal['id']);
 
@@ -315,7 +320,7 @@ class API_CalDAV_Model
 					], 'crmid = ?', [$record->getId()]
 				);
 				if ($component->name == 'VEVENT') {
-					$this->saveAttendeeRecord($record, $component);
+					$this->recordSaveAttendee($record, $component);
 				}
 			}
 		}
@@ -323,7 +328,7 @@ class API_CalDAV_Model
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
-	public function updateRecord($record, $cal)
+	public function recordUpdate($record, $cal)
 	{
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Cal ID:' . $card['id']);
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
@@ -351,19 +356,16 @@ class API_CalDAV_Model
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 				$record->save();
-				$stmt = $this->pdo->prepare('UPDATE dav_calendarobjects SET crmid = ? WHERE id = ?;');
-				$stmt->execute([
-					$record->getId(),
-					$cal['id']
-				]);
-				$stmt = $this->pdo->prepare('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?;');
-				$stmt->execute([
-					date('Y-m-d H:i:s', $cal['lastmodified']),
-					$record->getId()
-				]);
-
+				$db->update('dav_calendarobjects', [
+					'crmid' => $record->getId()
+					], 'id = ?', [$cal['id']]
+				);
+				$db->update('vtiger_crmentity', [
+					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified'])
+					], 'crmid = ?', [$record->getId()]
+				);
 				if ($component->name == 'VEVENT') {
-					$this->saveAttendeeRecord($record, $component);
+					$this->recordSaveAttendee($record, $component);
 				}
 			}
 		}
@@ -502,7 +504,7 @@ class API_CalDAV_Model
 		return $return;
 	}
 
-	public function getCalendarDetail()
+	public function getDavDetail()
 	{
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM dav_calendarobjects WHERE calendarid = ? AND crmid = ?;';
@@ -520,31 +522,19 @@ class API_CalDAV_Model
 	 */
 	protected function addChange($objectUri, $operation)
 	{
-		/*
-		  $stmt = $this->pdo->prepare('DELETE FROM dav_calendarchanges WHERE uri = ? AND calendarid = ?;');
-		  $stmt->execute([
-		  $objectUri,
-		  $this->calendarId
-		  ]);
-		 */
-		$stmt = $this->pdo->prepare('INSERT INTO dav_calendarchanges (uri, synctoken, calendarid, operation) SELECT ?, synctoken, ?, ? FROM dav_calendars WHERE id = ?');
-		$stmt->execute([
-			$objectUri,
-			$this->calendarId,
-			$operation,
-			$this->calendarId,
-		]);
-		$stmt = $this->pdo->prepare('UPDATE dav_calendars SET synctoken = synctoken + 1 WHERE id = ?');
-		$stmt->execute([
-			$this->calendarId,
-		]);
+		$db = PearDatabase::getInstance();
+		$query = 'INSERT INTO dav_calendarchanges (uri, synctoken, calendarid, operation) SELECT ?, synctoken, ?, ? FROM dav_calendars WHERE id = ?';
+		$db->pquery($query, [$objectUri, $this->calendarId, $operation, $this->calendarId]);
+		$db->pquery('UPDATE dav_calendars SET synctoken = synctoken + 1 WHERE id = ?', [$this->calendarId]);
 	}
 
-	protected function markComplete()
+	protected function recordMarkComplete()
 	{
-		$query = 'UPDATE vtiger_activity SET dav_status = ? WHERE activityid = ?;';
-		$stmt = $this->pdo->prepare($query);
-		$stmt->execute([0, $this->record['crmid']]);
+		$db = PearDatabase::getInstance();
+		$db->update('vtiger_activity', [
+			'dav_status' => 0
+			], 'activityid = ?', [$this->record['crmid']]
+		);
 	}
 
 	protected function toDelete($cal)
@@ -714,7 +704,7 @@ class API_CalDAV_Model
 		return $vt;
 	}
 
-	protected function saveAttendeeRecord(Vtiger_Record_Model $record, Sabre\VObject\Component\VEvent $component)
+	protected function recordSaveAttendee(Vtiger_Record_Model $record, Sabre\VObject\Component\VEvent $component)
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record->getId()]);
@@ -730,6 +720,12 @@ class API_CalDAV_Model
 		$attendees = $component->select('ATTENDEE');
 		foreach ($attendees as &$attendee) {
 			$value = ltrim($attendee->getValue(), 'mailto:');
+			if ($attendee['ROLE']->getValue() == 'CHAIR') {
+				$users = includes\fields\Email::findCrmidByEmail($value, ['Users']);
+				if (!empty($users)) {
+					continue;
+				}
+			}
 			$crmid = 0;
 			$records = includes\fields\Email::findCrmidByEmail($value, array_keys(Vtiger_ModulesHierarchy_Model::getModulesByLevel()));
 			if (!empty($records)) {
@@ -765,7 +761,7 @@ class API_CalDAV_Model
 		}
 	}
 
-	protected function saveAttendeeDav(array $record, Sabre\VObject\Component\VCalendar $vcalendar, Sabre\VObject\Component\VEvent $component)
+	protected function davSaveAttendee(array $record, Sabre\VObject\Component\VCalendar $vcalendar, Sabre\VObject\Component\VEvent $component)
 	{
 		$db = PearDatabase::getInstance();
 		$owner = Users_Privileges_Model::getInstanceById($record['smownerid']);
@@ -779,15 +775,17 @@ class API_CalDAV_Model
 		}
 		$attendees = $component->select('ATTENDEE');
 		if (empty($attendees)) {
-			$organizer = $vcalendar->createProperty('ORGANIZER', 'mailto:' . $owner->get('email1'));
-			$organizer->add('CN', $owner->getName());
-			$component->add($organizer);
-			$attendee = $vcalendar->createProperty('ATTENDEE', 'mailto:' . $owner->get('email1'));
-			$attendee->add('CN', $owner->getName());
-			$attendee->add('ROLE', 'CHAIR');
-			$attendee->add('PARTSTAT', 'ACCEPTED');
-			$attendee->add('RSVP', 'FALSE');
-			$component->add($attendee);
+			if (!empty($invities)) {
+				$organizer = $vcalendar->createProperty('ORGANIZER', 'mailto:' . $owner->get('email1'));
+				$organizer->add('CN', $owner->getName());
+				$component->add($organizer);
+				$attendee = $vcalendar->createProperty('ATTENDEE', 'mailto:' . $owner->get('email1'));
+				$attendee->add('CN', $owner->getName());
+				$attendee->add('ROLE', 'CHAIR');
+				$attendee->add('PARTSTAT', 'ACCEPTED');
+				$attendee->add('RSVP', 'FALSE');
+				$component->add($attendee);
+			}
 		} else {
 			foreach ($attendees as &$attendee) {
 				$value = ltrim($attendee->getValue(), 'mailto:');
