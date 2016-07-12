@@ -72,7 +72,7 @@ class API_CalDAV_Model
 				vglobal('current_user', $currentUser);
 			}
 		}
-		//$this->markComplete();
+		$this->markComplete();
 	}
 
 	public function createCalendar()
@@ -160,10 +160,9 @@ class API_CalDAV_Model
 	{
 		$record = $this->record;
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
+
 		$calType = $record['activitytype'] == 'Task' ? 'VTODO' : 'VEVENT';
 		$endField = $this->getEndFieldName($calType);
-
-		echo $calendar['calendardata'] . PHP_EOL . '---------------------' . PHP_EOL . PHP_EOL;
 
 		$vcalendar = Sabre\VObject\Reader::read($calendar['calendardata']);
 		$vcalendar->PRODID = '-//' . self::PRODID . ' V' . vglobal('YetiForce_current_version') . '//';
@@ -189,7 +188,6 @@ class API_CalDAV_Model
 		}
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if ($component->name = $calType) {
-//$component->__set('LAST-MODIFIED', $vcalendar->createProperty('LAST-MODIFIED', new DateTime($record['modifiedtime'])));
 				$component->DTSTART = $dtstart;
 				$component->$endField = $dtend;
 				$component->SUMMARY = $record['subject'];
@@ -216,14 +214,11 @@ class API_CalDAV_Model
 			}
 		}
 		$calendarData = $vcalendar->serialize();
-		echo $calendarData;
-		/*
-		  $modifiedtime = strtotime($record['modifiedtime']);
-		  $extraData = $this->getDenormalizedData($calendarData);
-		  $stmt = $this->pdo->prepare('UPDATE dav_calendarobjects SET calendardata = ?, lastmodified = ?, etag = ?, size = ?, componenttype = ?, firstoccurence = ?, lastoccurence = ?, uid = ?, crmid = ? WHERE id = ?');
-		  $stmt->execute([$calendarData, $modifiedtime, $extraData['etag'], $extraData['size'], $extraData['componentType'], $extraData['firstOccurence'], $extraData['lastOccurence'], $extraData['uid'], $record['crmid'], $calendar['id']]);
-		  $this->addChange($calendar['uri'], 2);
-		 */
+		$modifiedtime = strtotime($record['modifiedtime']);
+		$extraData = $this->getDenormalizedData($calendarData);
+		$stmt = $this->pdo->prepare('UPDATE dav_calendarobjects SET calendardata = ?, lastmodified = ?, etag = ?, size = ?, componenttype = ?, firstoccurence = ?, lastoccurence = ?, uid = ?, crmid = ? WHERE id = ?');
+		$stmt->execute([$calendarData, $modifiedtime, $extraData['etag'], $extraData['size'], $extraData['componentType'], $extraData['firstOccurence'], $extraData['lastOccurence'], $extraData['uid'], $record['crmid'], $calendar['id']]);
+		$this->addChange($calendar['uri'], 2);
 		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
@@ -684,14 +679,16 @@ class API_CalDAV_Model
 				$t_dst = $trans['ts'];
 				$dst = $vcalendar->createComponent('DAYLIGHT');
 				$cmp = $dst;
+				$cmpName = 'DAYLIGHT';
 			}
 // standard time definition
 			else {
 				$t_std = $trans['ts'];
 				$std = $vcalendar->createComponent('STANDARD');
 				$cmp = $std;
+				$cmpName = 'STANDARD';
 			}
-			if ($cmp) {
+			if ($cmp && empty($vt->select($cmpName))) {
 				$dt = new DateTime($trans['time']);
 				$offset = $trans['offset'] / 3600;
 				$cmp->DTSTART = $dt->format('Ymd\THis');
