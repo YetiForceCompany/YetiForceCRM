@@ -429,8 +429,8 @@ class CRMEntity
 			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-				$sql = "select * from vtiger_field where tabid in (" . generateQuestionMarks($tabid) . ") and tablename=? and presence in (0,2) group by columnname";
-				$params = array($tabid, $table_name);
+				$sql = sprintf('SELECT * FROM vtiger_field WHERE tabid in (%s) AND tablename = ? AND presence IN (0,2) GROUP BY columnname', $adb->generateQuestionMarks($tabid));
+				$params = [$tabid, $table_name];
 			} else {
 				$profileList = getCurrentUserProfileList();
 

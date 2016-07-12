@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
@@ -131,14 +132,12 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		$leadId = $leadModel->getId();
 
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT fieldid, fieldlabel, uitype, typeofdata, fieldname, tablename, tabid FROM vtiger_field WHERE fieldid IN (' . generateQuestionMarks($fieldIdsList) . ')', $fieldIdsList);
-		$numOfRows = $db->num_rows($result);
+		$sql = sprintf('SELECT fieldid, fieldlabel, uitype, typeofdata, fieldname, tablename, tabid FROM vtiger_field WHERE fieldid IN (%s)', $db->generateQuestionMarks($fieldIdsList));
+		$result = $db->pquery($sql, $fieldIdsList);
 
-		$fieldLabelsList = array();
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$rowData = $db->query_result_rowdata($result, $i);
-
-			$fieldInfo = array('id' => $rowData['fieldid'], 'label' => $rowData['fieldlabel']);
+		$fieldLabelsList = [];
+		while ($rowData = $db->getRow($result)) {
+			$fieldInfo = ['id' => $rowData['fieldid'], 'label' => $rowData['fieldlabel']];
 			if ($rowData['tabid'] === $leadId) {
 				$fieldModel = Settings_Leads_Field_Model::getCleanInstance();
 				$fieldModel->set('uitype', $rowData['uitype']);
@@ -148,7 +147,6 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 				$fieldInfo['fieldDataType'] = $fieldModel->getFieldDataType();
 			}
-
 			$fieldLabelsList[$rowData['fieldid']] = $fieldInfo;
 		}
 		return $fieldLabelsList;
@@ -186,7 +184,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		}
 
 		if ($deleteMappingsList) {
-			$db->pquery('DELETE FROM vtiger_convertleadmapping WHERE editable = 1 AND cfmid IN (' . generateQuestionMarks($deleteMappingsList) . ')', $deleteMappingsList);
+			self::deleteMapping($deleteMappingsList, ' AND editable = 1');
 		}
 
 		if ($createMappingsList) {
@@ -279,9 +277,13 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 * Function to delate the mapping
 	 * @param <Array> $mappingIdsList
 	 */
-	public static function deleteMapping($mappingIdsList)
+	public static function deleteMapping($mappingIdsList, $conditions = false)
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_convertleadmapping WHERE cfmid IN (' . generateQuestionMarks($mappingIdsList) . ')', $mappingIdsList);
+		$sql = sprintf('DELETE FROM vtiger_convertleadmapping WHERE cfmid IN (%s) ', generateQuestionMarks($mappingIdsList));
+		if ($conditions) {
+			$sql .= $conditions;
+		}
+		$db->pquery($sql, $mappingIdsList);
 	}
 }
