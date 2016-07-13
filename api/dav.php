@@ -66,8 +66,8 @@ if ($enableCardDAV) {//CardDav integration
 }
 if ($enableCalDAV) {//CalDAV integration
 	$server->addPlugin(new Sabre\CalDAV\Plugin());
-	//$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
-	//$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
+	$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
+	$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
 	//$server->addPlugin(new Yeti\CalDAV_Schedule());
 }
 if ($enableWebDAV) {//WebDAV integration

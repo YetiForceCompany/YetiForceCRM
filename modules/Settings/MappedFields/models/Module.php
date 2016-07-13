@@ -263,7 +263,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public function importsAllowed()
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT 1 FROM `' . $this->baseTable . '` WHERE `tabid` = ? AND `reltabid` = ? ;';
+		$query = sprintf('SELECT 1 FROM `%s` WHERE `tabid` = ? AND `reltabid` = ? ;', $this->baseTable);
 		$result = $db->pquery($query, [$this->get('tabid'), $this->get('reltabid')]);
 		return $result->rowCount();
 	}

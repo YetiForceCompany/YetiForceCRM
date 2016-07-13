@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
@@ -363,14 +364,14 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function checkFieldLableExists($fieldLabel)
 	{
 		$db = PearDatabase::getInstance();
-		$tabId = array($this->getId());
+		$tabId = [$this->getId()];
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
 			//Check for fiel exists in both calendar and events module
-			$tabId = array('9', '16');
+			$tabId = ['9', '16'];
 		}
-		$query = 'SELECT 1 FROM vtiger_field WHERE tabid IN (' . generateQuestionMarks($tabId) . ') AND fieldlabel=?';
-		$result = $db->pquery($query, array($tabId, $fieldLabel));
-		return ($db->num_rows($result) > 0 ) ? true : false;
+		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) AND fieldlabel = ?', $db->generateQuestionMarks($tabId));
+		$result = $db->pquery($query, [$tabId, $fieldLabel]);
+		return ($db->getRowCount($result) > 0 ) ? true : false;
 	}
 
 	public function checkFieldNameExists($fieldName)
@@ -380,9 +381,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
 			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
 		}
-		$query = 'SELECT 1 FROM vtiger_field WHERE tabid IN (' . generateQuestionMarks($tabId) . ') AND (fieldname = ? OR columnname = ?)';
+		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) AND (fieldname = ? OR columnname = ?)', $db->generateQuestionMarks($tabId));
 		$result = $db->pquery($query, [$tabId, $fieldName, $fieldName]);
-		return ($db->num_rows($result) > 0 ) ? true : false;
+		return ($db->getRowCount($result) > 0 ) ? true : false;
 	}
 
 	public function checkFieldNameIsAnException($fieldName, $moduleName)
@@ -428,19 +429,14 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
 
-		$presence = array(0, 2);
-		$restrictedModules = array('SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter');
+		$presence = [0, 2];
+		$restrictedModules = ['SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter'];
 
-		$query = 'SELECT name FROM vtiger_tab WHERE
-						presence IN (' . generateQuestionMarks($presence) . ')
-						AND isentitytype = ?
-						AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ')';
-		$result = $db->pquery($query, array($presence, 1, $restrictedModules));
-		$numOfRows = $db->num_rows($result);
+		$query = sprintf('SELECT `name` FROM vtiger_tab WHERE presence IN (%s) AND isentitytype = ? AND `name` NOT IN (%s)', $db->generateQuestionMarks($presence), $db->generateQuestionMarks($restrictedModules));
+		$result = $db->pquery($query, [$presence, 1, $restrictedModules]);
 
 		$modulesList = [];
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$moduleName = $db->query_result($result, $i, 'name');
+		while (($moduleName = $db->getSingleValue($result)) !== false) {
 			$modulesList[$moduleName] = $moduleName;
 		}
 		// If calendar is disabled we should not show events module too

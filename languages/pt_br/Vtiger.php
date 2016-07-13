@@ -1498,4 +1498,5 @@ $jsLanguageStrings = [
 	'JS_RECORD_INFO' => 'Record info',
 	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
 	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Working time should not exceed 24hours',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER' => 'Are you sure you want to remove the filter? All widgets related to this filter in module summary and the homepage will also be removed.',
 ];

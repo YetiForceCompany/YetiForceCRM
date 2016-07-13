@@ -292,17 +292,17 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
 			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
 		}
-		if($lockRecords){
+		if ($lockRecords) {
 			$crmEntityModel = Vtiger_CRMEntity::getInstance($moduleName);
 			$lockFields = $crmEntityModel->getLockFields();
-			foreach($lockFields as $fieldName => $fieldValues){
-				$listQuery .=' AND ' . $baseTableName .'.' . $fieldName . ' NOT IN (' . generateQuestionMarks($fieldValues) . ')'; 
+			foreach ($lockFields as $fieldName => $fieldValues) {
+				$listQuery .=' AND ' . $baseTableName . '.' . $fieldName . ' NOT IN (' . generateQuestionMarks($fieldValues) . ')';
 				$params = array_merge($params, $fieldValues);
 			}
 		}
 		$result = $db->pquery($listQuery, $params);
 		$recordIds = [];
-		while($row = $db->getRow($result)){
+		while ($row = $db->getRow($result)) {
 			$recordIds[] = $row[$baseTableId];
 		}
 		return $recordIds;
@@ -363,15 +363,15 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$cvId = $this->getId();
 
-		$db->pquery('DELETE FROM vtiger_customview WHERE cvid = ?', [$cvId]);
-		$db->pquery('DELETE FROM vtiger_cvcolumnlist WHERE cvid = ?', [$cvId]);
-		$db->pquery('DELETE FROM vtiger_cvstdfilter WHERE cvid = ?', [$cvId]);
-		$db->pquery('DELETE FROM vtiger_cvadvfilter WHERE cvid = ?', [$cvId]);
-		$db->pquery('DELETE FROM vtiger_cvadvfilter_grouping WHERE cvid = ?', [$cvId]);
+		$db->delete('vtiger_customview', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvcolumnlist', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvstdfilter', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvadvfilter', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvadvfilter_grouping', 'cvid = ?', [$cvId]);
 		$db->delete('vtiger_user_module_preferences', 'default_cvid = ?', [$cvId]);
 
 		// To Delete the mini list widget associated with the filter 
-		$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE filterid = ?', [$cvId]);
+		$db->delete('vtiger_module_dashboard', 'filterid = ?', [$cvId]);
 	}
 
 	/**

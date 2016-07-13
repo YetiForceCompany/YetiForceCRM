@@ -235,7 +235,7 @@ class PackageImport extends PackageExport
 		return $parameters;
 	}
 
-	function initParameters(Vtiger_Request $request)
+	function initParameters(\Vtiger_Request $request)
 	{
 		$data = [];
 		foreach ($request->getAll() as $name => $value) {

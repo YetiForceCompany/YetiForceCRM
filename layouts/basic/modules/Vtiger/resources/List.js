@@ -1483,7 +1483,7 @@ jQuery.Class("Vtiger_List_Js", {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
-				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
+				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER');
 				Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 						function (e) {
 							var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);

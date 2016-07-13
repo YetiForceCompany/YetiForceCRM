@@ -26,7 +26,7 @@ class Accounts extends CRMEntity
 
 	var $log;
 	var $db;
-	var $table_name = "vtiger_account";
+	var $table_name = 'vtiger_account';
 	var $table_index = 'accountid';
 	var $tab_name = Array('vtiger_crmentity', 'vtiger_account', 'vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_entity_stats');
 	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_account' => 'accountid', 'vtiger_accountaddress' => 'accountaddressid', 'vtiger_accountscf' => 'accountid', 'vtiger_entity_stats' => 'crmid');
@@ -35,8 +35,8 @@ class Accounts extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	var $customFieldTable = Array('vtiger_accountscf', 'accountid');
-	var $entity_table = "vtiger_crmentity";
-	var $column_fields = Array();
+	var $entity_table = 'vtiger_crmentity';
+	var $column_fields = [];
 	var $sortby_fields = Array('accountname', 'bill_city', 'website', 'phone', 'smownerid');
 	// This is the list of vtiger_fields that are in the lists.
 	var $list_fields = Array(
@@ -61,7 +61,7 @@ class Accounts extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 	);
 	// This is the list of vtiger_fields that are required
-	var $required_fields = array();
+	var $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'accountname');
@@ -137,7 +137,7 @@ class Accounts extends CRMEntity
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		$log->debug("Exiting get_campaigns method ...");
@@ -205,7 +205,7 @@ class Accounts extends CRMEntity
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		$log->debug("Exiting get_contacts method ...");
@@ -266,7 +266,7 @@ class Accounts extends CRMEntity
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		$log->debug("Exiting get_tickets method ...");
@@ -330,7 +330,7 @@ class Accounts extends CRMEntity
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		$log->debug("Exiting get_products method ...");
@@ -393,11 +393,11 @@ class Accounts extends CRMEntity
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "SELECT fieldlabel FROM vtiger_field WHERE tabid = 6 and vtiger_field.presence in (0,2)";
-			$params1 = array();
+			$params1 = [];
 		} else {
 			$profileList = getCurrentUserProfileList();
 			$sql1 = "select vtiger_field.fieldid,fieldlabel from vtiger_field INNER JOIN vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=6 and vtiger_field.displaytype in (1,2,4) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
+			$params1 = [];
 			if (count($profileList) > 0) {
 				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")  group by fieldid";
 				array_push($params1, $profileList);
@@ -735,7 +735,7 @@ class Accounts extends CRMEntity
 		$con_q = 'SELECT contactid FROM vtiger_contactdetails WHERE parentid = ?';
 		$con_res = $this->db->pquery($con_q, array($id));
 		if ($this->db->num_rows($con_res) > 0) {
-			$con_ids_list = array();
+			$con_ids_list = [];
 			for ($k = 0; $k < $this->db->num_rows($con_res); $k++) {
 				$con_ids_list[] = $this->db->query_result($con_res, $k, "contactid");
 			}
@@ -750,7 +750,7 @@ class Accounts extends CRMEntity
 		$tkt_q = 'SELECT ticketid FROM vtiger_troubletickets WHERE parent_id = ?';
 		$tkt_res = $this->db->pquery($tkt_q, array($id));
 		if ($this->db->num_rows($tkt_res) > 0) {
-			$tkt_ids_list = array();
+			$tkt_ids_list = [];
 			for ($k = 0; $k < $this->db->num_rows($tkt_res); $k++) {
 				$tkt_ids_list[] = $this->db->query_result($tkt_res, $k, "ticketid");
 			}
@@ -817,7 +817,7 @@ class Accounts extends CRMEntity
 
 	function getListButtons($app_strings, $mod_strings = false)
 	{
-		$list_buttons = Array();
+		$list_buttons = [];
 
 		if (isPermitted('Accounts', 'Delete', '') == 'yes') {
 			$list_buttons['del'] = $app_strings[LBL_MASS_DELETE];
@@ -896,7 +896,7 @@ class Accounts extends CRMEntity
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 		return $return_value;
 	}
@@ -1021,7 +1021,7 @@ class Accounts extends CRMEntity
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		return $return_value;
@@ -1033,7 +1033,7 @@ class Accounts extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($id == null)
 			$id = $this->id;
-		$entityIds = array();
+		$entityIds = [];
 		$query = 'SELECT contactid FROM vtiger_contactdetails
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid
 				WHERE vtiger_contactdetails.parentid = ? AND vtiger_crmentity.deleted = 0';

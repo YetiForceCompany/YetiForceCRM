@@ -4130,6 +4130,15 @@ html,body,.baseContainer
 .listViewActionsDiv .pageInfo {
 	max-height:34px;
 }
+#convertLeadMapping th:not(.blockHeader), #convertLeadMapping tbody tr td,
+#convertLeadMapping .blockHeader th:not(:last-child){
+	width: 25%;
+	text-align: center;
+}
+#convertLeadMapping .blockHeader th:last-child{
+	width: 50%;
+	text-align: center;
+}
 #mappingToGenerate th:not(.defaultHeader):not(.actionsHeader){
 	width: 24%;
 }
