@@ -259,7 +259,7 @@
 										<div class="col-md-8 controls">
 											<select class="widgets form-control" name="widgets" data-validation-engine="validate[required]"  >
 												{foreach from=$WIDGETS item=WIDGET}
-													{if $WIDGET->getTitle() eq 'Mini List' || $WIDGET->getTitle() eq 'Notebook'}
+													{if array_key_exists($WIDGET->getTitle(), $SPECIAL_WIDGETS)}
 														{continue}
 													{/if}
 													<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
