@@ -45,7 +45,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$user = parent::getLogin();
 		if (!$user) {
 			$userid = Vtiger_Session::get('AUTHUSERID', $_SESSION['authenticated_user_id']);
-			if ($userid) {
+			if ($userid && AppConfig::main('application_unique_key') == Vtiger_Session::get('app_unique_key')) {
 				$user = CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
 				$this->setLogin($user);

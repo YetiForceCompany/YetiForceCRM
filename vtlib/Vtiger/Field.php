@@ -250,9 +250,9 @@ class Field extends FieldBasic
 				$queryParams = Array($blockInstance->id);
 			}
 			$result = $adb->pquery($query, $queryParams);
-			for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+			while ($row = $adb->getRow($result)) {
 				$instance = new self();
-				$instance->initialize($adb->fetch_array($result), $moduleInstance, $blockInstance);
+				$instance->initialize($row, $moduleInstance, $blockInstance);
 				$instances[] = $instance;
 			}
 			$cache->setBlockFields($blockInstance->id, $moduleInstance->id, $instances);
@@ -269,13 +269,13 @@ class Field extends FieldBasic
 		$adb = \PearDatabase::getInstance();
 		$instances = false;
 
-		$query = "SELECT * FROM vtiger_field WHERE tabid=? ORDER BY block,sequence";
+		$query = 'SELECT * FROM vtiger_field LEFT JOIN vtiger_blocks ON vtiger_field.block=vtiger_blocks.blockid WHERE vtiger_field.tabid=? ORDER BY vtiger_blocks.sequence,vtiger_field.sequence';
 		$queryParams = Array($moduleInstance->id);
 
 		$result = $adb->pquery($query, $queryParams);
-		for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+		while ($row = $adb->getRow($result)) {
 			$instance = new self();
-			$instance->initialize($adb->fetch_array($result), $moduleInstance);
+			$instance->initialize($row, $moduleInstance);
 			$instances[] = $instance;
 		}
 		return $instances;

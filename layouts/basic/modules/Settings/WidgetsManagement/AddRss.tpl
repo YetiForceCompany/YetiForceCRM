@@ -3,7 +3,7 @@
 	<div id="addRssWidgetContainer" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 					<button type="button" class="btn btn-primary addChannel pull-right marginRight10">{vtranslate('LBL_ADD_CHANNEL', $MODULE)}</button>
 					<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_ADD_RSS', $MODULE)}</h3>

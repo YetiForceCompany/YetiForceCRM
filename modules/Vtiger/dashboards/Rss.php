@@ -25,16 +25,18 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 		$data = Zend_Json::decode(decode_html($data));
 		$rssContent = fetch_rss($data['channels'][0]);
 		$listSubjects = [];
-		foreach ($rssContent->items as $item) {
-			$date = new DateTime($item['pubdate']);
-			$date = DateTimeField::convertToUserFormat($date->format('Y-m-d H:i:s'));
-			$listSubjects[] =[
-				'title' => strlen($item['title']) > 40 ? substr($item['title'], 0, 40) . '...' : $item['title'],
-				'link' => $item['link'],
-				'date' => $date,
-				'fullTitle' => $item['title'],
-				'source' => $data['channels'][0]
-			];
+		if(!empty($rssContent)){
+			foreach ($rssContent->items as $item) {
+				$date = new DateTime($item['pubdate']);
+				$date = DateTimeField::convertToUserFormat($date->format('Y-m-d H:i:s'));
+				$listSubjects[] =[
+					'title' => strlen($item['title']) > 40 ? substr($item['title'], 0, 40) . '...' : $item['title'],
+					'link' => $item['link'],
+					'date' => $date,
+					'fullTitle' => $item['title'],
+					'source' => $data['channels'][0]
+				];
+			}
 		}
 		$viewer->assign('LIST_SUCJECTS', $listSubjects);
 		$viewer->assign('WIDGET', $widget);

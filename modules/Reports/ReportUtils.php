@@ -142,7 +142,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			}
 			$date = new DateTimeField($value . ' ' . $endTime);
 			$fieldvalue = $date->getDisplayDate();
-		} else if (!($field->getUIType() == '5')) {
+		} else if (!($field->getUIType() == '5' || $field->getUiType() == '23')) {
 			$date = new DateTimeField($fieldvalue);
 			$fieldvalue = $date->getDisplayDateTimeValue();
 		}
@@ -250,5 +250,3 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	}
 	return htmlentities($fieldvalue, ENT_QUOTES, $default_charset);
 }
-
-?>

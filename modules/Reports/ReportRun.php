@@ -3407,13 +3407,12 @@ class ReportRun extends CRMEntity
 
 		$currentModule = vglobal('currentModule');
 		$current_language = vglobal('current_language');
-		$mod_strings = return_module_language($current_language, $currentModule);
 
 		$reportData = $this->GenerateReport("PDF", $filterlist);
 		$arr_val = $reportData['data'];
 
 		$fp = fopen($fileName, 'w+');
-
+		fputs($fp, chr(239) . chr(187) . chr(191)); //UTF-8 byte order mark
 		if (isset($arr_val)) {
 			$csv_values = array();
 			// Header

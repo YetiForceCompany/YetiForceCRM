@@ -104,7 +104,7 @@ class CustomView extends CRMEntity
 			$viewname = AppRequest::get('viewname');
 			if (!is_numeric($viewname)) {
 				$viewid = $this->getViewIdByName($viewname, $module);
-				if(!$viewid){
+				if (!$viewid) {
 					$viewid = $this->getDefaultCvId($module);
 				}
 			} else {
@@ -352,7 +352,7 @@ class CustomView extends CRMEntity
 			$profileList = getCurrentUserProfileList();
 			$sql = 'select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid ';
 			$sql.= ' where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and';
-			$sql.= $display_type .'and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)';
+			$sql.= $display_type . 'and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)';
 
 			$params = array($tab_ids, $block_ids);
 
@@ -1334,7 +1334,7 @@ class CustomView extends CRMEntity
 			} else {
 				$query = 'select %s ,vtiger_crmentity.crmid %s';
 			}
-			
+
 			$query = sprintf($query, $this->getCvColumnListSQL($viewid), $listviewquery);
 			$stdfiltersql = $this->getCVStdFilterSQL($viewid);
 			$advfiltersql = $this->getCVAdvFilterSQL($viewid);
@@ -1504,27 +1504,19 @@ class CustomView extends CRMEntity
 				$userid = $status_userid_info['userid'];
 
 				if ($status == CV_STATUS_DEFAULT) {
-					$log->debug("Entering when status=0");
-					if ($action == 'List' || $action == $module . "Ajax" || $action == 'index' || $action == 'Detail') {
-						$permission = "yes";
-					} else
-						$permission = "no";
-				}
-				elseif ($is_admin) {
+					$log->debug('Entering when status=0');
+					$permission = 'yes';
+				} elseif ($is_admin) {
 					$permission = 'yes';
 				} elseif ($action != 'ChangeStatus') {
 					if ($userid == $current_user->id) {
 						$log->debug("Entering when $userid=$current_user->id");
-						$permission = "yes";
+						$permission = 'yes';
 					} elseif ($status == CV_STATUS_PUBLIC) {
-						$log->debug("Entering when status=3");
-						if ($action == 'List' || $action == $module . "Ajax" || $action == 'index' || $action == 'Detail') {
-							$permission = "yes";
-						} else
-							$permission = "no";
-					}
-					elseif ($status == CV_STATUS_PRIVATE || $status == CV_STATUS_PENDING) {
-						$log->debug("Entering when status=1 or 2");
+						$log->debug('Entering when status=3');
+						$permission = 'yes';
+					} elseif ($status == CV_STATUS_PRIVATE || $status == CV_STATUS_PENDING) {
+						$log->debug('Entering when status=1 or 2');
 						if ($userid == $current_user->id)
 							$permission = "yes";
 						else {
@@ -1553,21 +1545,21 @@ class CustomView extends CRMEntity
 							$user_array = $temp_result;
 							if (sizeof($user_array) > 0) {
 								if (!in_array($current_user->id, $user_array))
-									$permission = "no";
+									$permission = 'no';
 								else
-									$permission = "yes";
+									$permission = 'yes';
 							} else
-								$permission = "no";
+								$permission = 'no';
 						}
 					} else
-						$permission = "yes";
+						$permission = 'yes';
 				}
 				else {
-					$log->debug("Entering else condition............");
-					$permission = "no";
+					$log->debug('Entering else condition............');
+					$permission = 'no';
 				}
 			} else {
-				$log->debug("Enters when count =0");
+				$log->debug('Enters when count =0');
 				$permission = 'no';
 			}
 		}

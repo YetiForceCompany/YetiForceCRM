@@ -15,7 +15,7 @@ class Vtiger_CssScript_Model extends Vtiger_Base_Model
 {
 
 	const DEFAULT_REL = 'stylesheet';
-	const DEFAULT_MEDIA = 'screen';
+	const DEFAULT_MEDIA = 'all';
 	const DEFAULT_TYPE = 'text/css';
 	const LESS_REL = 'stylesheet/less';
 

@@ -3,9 +3,9 @@
 	<div id="addNotePadWidgetContainer" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-					<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_ADD', $MODULE)} {vtranslate('LBL_NOTEPAD', $MODULE)}</h3>
+					<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_ADD', $MODULE)} {vtranslate('LBL_ADD_WIDGET_CHARTS', $MODULE)}</h3>
 				</div>
 				<form class="form-horizontal validateForm sendByAjax" >
 					<input type="hidden" name="module" value="{$MODULE_NAME}">
