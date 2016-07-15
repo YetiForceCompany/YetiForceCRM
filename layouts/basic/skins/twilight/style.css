@@ -3055,6 +3055,9 @@ span[name=existingImages] img{
 .marginRightMinus20{
 	margin-right:-20px;
 }
+.marginTop2{
+	margin-top: 2px !important;
+}
 .marginTop5{
 	margin-top: 5px !important;
 }

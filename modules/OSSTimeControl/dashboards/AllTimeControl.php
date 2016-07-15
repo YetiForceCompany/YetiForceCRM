@@ -43,7 +43,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		while ($row = $db->fetch_array($result)) {
 			$colors[$row['timecontrol_type']] = $row['color'];
 		}
-		$module = 'HelpDesk';
+		$module = 'OSSTimeControl';
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		$param[] = 'OSSTimeControl';

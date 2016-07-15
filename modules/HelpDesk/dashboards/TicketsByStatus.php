@@ -12,6 +12,8 @@
 class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 {
 
+	private $conditions = false;
+
 	function getSearchParams($value, $assignedto = '')
 	{
 
@@ -58,6 +60,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($ticketStatus)) {
 			$ticketStatusSearch = implode("','", $ticketStatus);
 			$sql .= " AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
+			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
 		if (!empty($securityParameter))
 			$sql .= $securityParameter;
@@ -143,8 +146,8 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$data['links'][$i][0] = $i;
 			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($data['name'][$i], $owner);
 		}
-		//Include special script and css needed for this widget
 
+		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);

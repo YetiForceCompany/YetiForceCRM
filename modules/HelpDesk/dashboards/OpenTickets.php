@@ -6,10 +6,13 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 
 class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 {
+
+	private $conditions = false;
 
 	/**
 	 * Function returns Tickets grouped by Status
@@ -26,7 +29,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-	
+
 		$sql = sprintf('SELECT count(*) AS count, case when (%s not like "") then
 			%s else vtiger_groups.groupname end as name, 
 			case when (%s not like "") then
@@ -42,7 +45,9 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($ticketStatus)) {
 			$ticketStatusSearch = implode("','", $ticketStatus);
 			$sql .= " AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
+			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
+
 		if (!empty($owner)) {
 			$sql .= ' AND smownerid = ' . $owner;
 		}
@@ -56,7 +61,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 			$data['data'] = $row['count'];
 			$data['color'] = $row['color'];
 			$data['links'] = $listViewUrl . $this->getSearchParams($row['name']);
-			$chartData[] = $data;
+			$chartData[$row['id']] = $data;
 		}
 		return $chartData;
 	}
@@ -100,6 +105,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$accessibleGroups = $currentUser->getAccessibleGroupForModule($moduleName);
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
+		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		//Include special script and css needed for this widget
 		$viewer->assign('CURRENTUSER', $currentUser);
 

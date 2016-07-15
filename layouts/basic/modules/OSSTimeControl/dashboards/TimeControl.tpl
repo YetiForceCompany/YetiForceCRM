@@ -88,12 +88,17 @@
 			</div>	
 		</div>
 		<div class="col-md-6">
+			{if $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+				{assign var=USERS_GROUP_LIST value=$WIDGET->getUsersAndGroupsList($SOURCE_MODULE, $USER_CONDITIONS)}
+				{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
+			{else}
+				{assign var=ACCESSIBLE_USERS value=$CURRENTUSER->getAccessibleUsers()}
+			{/if}
 			<div class="input-group input-group-sm">
 				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
-				{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
 				<select class="widgetFilter width90 form-control" title="{vtranslate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" >
 					<optgroup label="{vtranslate('LBL_USERS')}">
-						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+						{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
 							<option title="{$OWNER_NAME}" {if $OWNER_ID eq $USERID } selected {/if} value="{$OWNER_ID}">
 								{$OWNER_NAME}
 							</option>
