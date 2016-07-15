@@ -1798,6 +1798,22 @@ class Vtiger_Module_Model extends vtlib\Module
 		if (count($relatedListFields) == 0) {
 			$relatedListFields = $relatedModule->getRelatedListFields();
 		}
+		if(in_array('assigned_user_id',$relatedListFields)){
+			$queryGenerator->setCustomFrom([
+				'joinType' => 'LEFT',
+				'relatedTable' => 'vtiger_users',
+				'relatedIndex' => 'id',
+				'baseTable' => 'vtiger_crmentity',
+				'baseIndex' => 'smownerid',
+			]);
+			$queryGenerator->setCustomFrom([
+				'joinType' => 'LEFT',
+				'relatedTable' => 'vtiger_groups',
+				'relatedIndex' => 'groupid',
+				'baseTable' => 'vtiger_crmentity',
+				'baseIndex' => 'smownerid',
+			]);
+		}
 		$queryGenerator->setFields($relatedListFields);
 		$queryGenerator->setCustomColumn('crmid');
 		$queryGenerator->permissions = false;

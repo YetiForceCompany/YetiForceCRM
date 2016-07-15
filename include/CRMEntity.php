@@ -624,7 +624,9 @@ class CRMEntity
 			}
 
 			if ($insertion_mode == 'edit') {
-				$updateColumns[$columname] = $fldvalue;
+				if($uitype != '4'){
+					$updateColumns[$columname] = $fldvalue;
+				}
 			} else {
 				array_push($column, $columname);
 				array_push($value, $fldvalue);
