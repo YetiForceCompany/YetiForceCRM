@@ -43,7 +43,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		return 'HistoryRelationConfig';
 	}
 
-	public function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
+	public static function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
 	{
 		$db = PearDatabase::getInstance();
 		$recordId = $request->get('record');
@@ -76,7 +76,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			if (strpos($row['type'], 'OSSMailView') !== false) {
 				$row['type'] = 'OSSMailView';
 			}
-			$row['url'] = $this->getUrlRelatedRecord($row['type'], $row['id']);
+			$row['url'] = self::getUrlRelatedRecord($row['type'], $row['id']);
 			$history[] = $row;
 		}
 		return $history;
@@ -135,7 +135,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		return $sql;
 	}
 
-	public function getUrlRelatedRecord($type, $ID)
+	public static function getUrlRelatedRecord($type, $ID)
 	{
 		$url = '';
 		$permitted = Users_Privileges_Model::isPermitted($type, 'DetailView', $ID);
