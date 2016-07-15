@@ -75,10 +75,8 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$row['class'] = self::$colors[$row['type']];
 			if (strpos($row['type'], 'OSSMailView') !== false) {
 				$row['type'] = 'OSSMailView';
-				$row['url'] = Vtiger_Module_Model::getInstance('OSSMailView')->getPreviewViewUrl($row['id']);
-			} else {
-				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getDetailViewUrl($row['id']);
 			}
+			$row['url'] = $this->getUrlRelatedRecord($row['type'], $row['id']);
 			$history[] = $row;
 		}
 		return $history;
@@ -135,5 +133,17 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		}
 		$sql .= ' ORDER BY time DESC';
 		return $sql;
+	}
+
+	public function getUrlRelatedRecord($type, $ID)
+	{
+		$url = '';
+		$permitted = Users_Privileges_Model::isPermitted($type, 'DetailView', $ID);
+		if ($permitted && $type == 'OSSMailView') {
+			$url = Vtiger_Module_Model::getInstance($type)->getPreviewViewUrl($ID);
+		} elseif ($permitted) {
+			$url = Vtiger_Module_Model::getInstance($type)->getDetailViewUrl($ID);
+		}
+		return $url;
 	}
 }
