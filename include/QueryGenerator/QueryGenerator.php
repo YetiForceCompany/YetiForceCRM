@@ -973,9 +973,9 @@ class QueryGenerator
 			$valueAndOp = $this->getSqlOperator($operator, $value);
 			if (is_array($valueAndOp)) {
 				$value = $valueAndOp[1];
-				$operator = $valueAndOp[0];
+				$operator = $valueAndOp[0] ? $valueAndOp[0] : $operator;
 			} else {
-				$operator = $valueAndOp[0];
+				$operator = $valueAndOp ? $valueAndOp : $operator;
 			}
 			$sql .= ' ' . $where['glue'] . ' ' . $where['column'] . ' ' . $operator . ' ' . $value;
 		}
