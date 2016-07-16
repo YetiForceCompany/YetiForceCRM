@@ -78,7 +78,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 		$relData = $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
 		foreach ($qtyInStock as $ID => $value) {
 			if (array_key_exists($ID, $relData)) {
-				$where = $referenceInfo['base'] . ' = ? AND ' . $referenceInfo['rel'] . '` = ?;';
+				$where = $referenceInfo['base'] . ' = ? AND `' . $referenceInfo['rel'] . '` = ?;';
 				$db->update($referenceInfo['table'], ['qtyinstock' => $qty], $where , [$value, $storageId, $ID]);
 			} else {
 				$db->insert($referenceInfo['table'], [$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $ID, 'qtyinstock' => $operator == '+' ? $value : $operator . $value]);

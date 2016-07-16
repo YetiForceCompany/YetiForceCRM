@@ -39,6 +39,7 @@ $languageStrings = [
 	'time' => 'Время',
 	'url' => 'Ссылка',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Преобразовать в Контрагента',
+	'sharedOwner' => ' ',
 
 ];
 
@@ -66,5 +67,6 @@ $jsLanguageStrings = [
 	'JS_url' => 'Ссылка',
 	'JS_WITH' => 'с',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Сохранено',
+	'JS_sharedOwner' => ' ',
 
 ];

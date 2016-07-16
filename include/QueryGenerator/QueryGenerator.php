@@ -966,9 +966,18 @@ class QueryGenerator
 			$this->conditionalWhere = $groupSql;
 			$sql .= $groupSql;
 		}
-		
+
 		foreach ($this->whereClauseCustom as $where) {
-			$sql .= ' ' . $where['glue'] . ' ' . $where['column'] . ' ' . $where['operator'] . ' ' . $where['value'];
+			$value = $where['value'];
+			$operator = $where['operator'];
+			$valueAndOp = $this->getSqlOperator($operator, $value);
+			if (is_array($valueAndOp)) {
+				$value = $valueAndOp[1];
+				$operator = $valueAndOp[0] ? $valueAndOp[0] : $operator;
+			} else {
+				$operator = $valueAndOp ? $valueAndOp : $operator;
+			}
+			$sql .= ' ' . $where['glue'] . ' ' . $where['column'] . ' ' . $operator . ' ' . $value;
 		}
 
 		if (!$onlyWhereQuery) {
@@ -1572,6 +1581,12 @@ class QueryGenerator
 				break;
 			case 'k': $sqlOperator = 'NOT LIKE';
 				$value = '%' . $value . '%';
+				break;
+			case 'in': $sqlOperator = 'IN';
+				$value = '(' . $value . ')';
+				break;
+			case 'nin': $sqlOperator = 'NOT IN';
+				$value = '(' . $value . ')';
 				break;
 			case 'l': $sqlOperator = '<';
 				break;

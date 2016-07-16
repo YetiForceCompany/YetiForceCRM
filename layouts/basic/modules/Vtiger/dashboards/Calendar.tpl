@@ -32,16 +32,19 @@
 	<div class="row" >
 		<div class="col-sm-6">
 			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
-				<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{vtranslate('LBL_CUSTOM_FILTER')}">
-					{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
-					{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-						<optgroup label='{vtranslate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
-							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
-								<option value="{$CUSTOM_VIEW->get('cvid')}" {if $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{vtranslate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
-							{/foreach}
-						</optgroup>
-					{/foreach}
-				</select>
+				<div class="input-group input-group-sm">
+					<span class="input-group-addon"><span class="glyphicon glyphicon-filter iconMiddle margintop3"></span></span>
+					<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{vtranslate('LBL_CUSTOM_FILTER')}">
+						{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
+						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+							<optgroup label='{vtranslate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
+								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
+									<option value="{$CUSTOM_VIEW->get('cvid')}" {if $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{vtranslate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
+								{/foreach}
+							</optgroup>
+						{/foreach}
+					</select>
+				</div>
 			{/if}
 			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'switch'}
 				{assign var=CURRENT_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
@@ -54,7 +57,7 @@
 			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 		</div>
 	</div>
-	<div class="row">
+	<div class="row marginTop2">
 		<div class="col-sm-12">
 			<div class="headerCalendar pinUnpinShortCut row" >
 				<div class="col-xs-2">

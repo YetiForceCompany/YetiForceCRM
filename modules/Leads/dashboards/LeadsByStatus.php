@@ -12,6 +12,8 @@
 class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 {
 
+	private $conditions = false;
+
 	function getSearchParams($value, $assignedto, $dates)
 	{
 		$listSearchParams = [];
@@ -65,6 +67,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($leadsClosed['status'])) {
 			$leadStatusSearch = implode("','", $leadsClosed['status']);
 			$sql .= " AND vtiger_leaddetails.leadstatus NOT IN ('$leadStatusSearch')";
+			$this->conditions = ['vtiger_leaddetails.leadstatus', "'$leadStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
 
 		$sql .= ' GROUP BY leadstatusvalue ORDER BY vtiger_leadstatus.sortorderid ';
@@ -134,6 +137,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('OWNER', $ownerForwarded);
+		$viewer->assign('USER_CONDITIONS', $this->conditions);
 
 		$content = $request->get('content');
 		if (!empty($content)) {

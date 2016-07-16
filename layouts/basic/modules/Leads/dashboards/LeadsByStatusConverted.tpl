@@ -38,10 +38,7 @@
 			</div>
 		</div>
 		<div class="col-sm-6">
-			<div class="input-group input-group-sm">
-				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle margintop3" title="{vtranslate('Assigned To', $MODULE_NAME)}"></span></span>
-				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
-			</div>
+			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 		</div>
 	</div>
 </div>

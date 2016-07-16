@@ -84,7 +84,7 @@ jQuery.Class("Settings_LeadMapping_Js",{
 	registerEventForAddingNewMapping : function(){
 		jQuery('#addMapping').on('click',function(e){
 			var convertLeadMappingTable = jQuery('#convertLeadMapping');
-			var lastSequenceNumber = convertLeadMappingTable.find('tr:last[sequence-number]').attr('sequence-number');
+			var lastSequenceNumber = convertLeadMappingTable.find('tr:not(.newMapping):last[sequence-number]').attr('sequence-number');
 			var newSequenceNumber = parseInt(lastSequenceNumber)+1;
 			var newMapping = jQuery('.newMapping').clone(true,true);
 			newMapping.attr('sequence-number',newSequenceNumber);
@@ -280,7 +280,7 @@ jQuery.Class("Settings_LeadMapping_Js",{
 					'type' : 'error'
 				};
 				Settings_Vtiger_Index_Js.showMessage(notificationParams);
-				selectElement.select2("data",params);
+				selectElement.val(0).trigger('change');
 			} else if(duplicateOption == false){
 				selectElement.attr('selectedId',selectedOptionId);
 			}

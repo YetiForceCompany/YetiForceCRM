@@ -23,7 +23,11 @@
 									</span>
 								</div>
 								<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
-								<a href="{$HISTORY['url']}" target="_blank">{$HISTORY['content']}</a>
+								{if $HISTORY['url']}
+									<a href="{$HISTORY['url']}" target="_blank">{$HISTORY['content']}</a>
+								{else}
+									{$HISTORY['content']}
+								{/if}
 							</div>
 						</div>
 					</li>

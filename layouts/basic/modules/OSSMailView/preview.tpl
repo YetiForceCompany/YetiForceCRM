@@ -125,14 +125,14 @@
 									<span class="col-md-9">
 										<span id="emailPreview_attachment" class="">
 											{foreach item=ATTACHMENT from=$ATTACHMENTS}
-												<a &nbsp;
+												<a class="btn btn-xs btn-primary" title="{$ATTACHMENT['name']}"
 													{if array_key_exists('docid',$ATTACHMENT)}
-														&nbsp; href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['docid']}
+														 href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['docid']}
 														&fileid={$ATTACHMENT['id']}"
 													{else}
-														&nbsp; href="index.php?module=Emails&action=DownloadFile&attachment_id={$ATTACHMENT['id']}"
+														 href="index.php?module=Emails&action=DownloadFile&attachment_id={$ATTACHMENT['id']}"
 													{/if}
-													>{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
+													><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
 											{/foreach}
 										</span>
 									</span>

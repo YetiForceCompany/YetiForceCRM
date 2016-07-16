@@ -11,8 +11,9 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 
 	public static $colors = [
 		'ModComments' => 'bgBlue',
-		'OSSMailView' => 'bgOrange',
-		'Calendar' => 'bgGreen',
+		'OSSMailViewReceived' => 'bgGreen',
+		'OSSMailViewSent' => 'bgDanger',
+		'Calendar' => 'bgOrange',
 	];
 
 	static public function getActions()
@@ -42,7 +43,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		return 'HistoryRelationConfig';
 	}
 
-	public function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
+	public static function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
 	{
 		$db = PearDatabase::getInstance();
 		$recordId = $request->get('record');
@@ -71,13 +72,11 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				$row['isGroup'] = false;
 				$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
 			}
-			if ($row['type'] == 'OSSMailView') {
-				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getPreviewViewUrl($row['id']);
-			} else {
-				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getDetailViewUrl($row['id']);
-			}
-
 			$row['class'] = self::$colors[$row['type']];
+			if (strpos($row['type'], 'OSSMailView') !== false) {
+				$row['type'] = 'OSSMailView';
+			}
+			$row['url'] = self::getUrlRelatedRecord($row['type'], $row['id']);
 			$history[] = $row;
 		}
 		return $history;
@@ -111,7 +110,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$queries[] = $sql;
 		}
 		if (in_array('Emails', $type)) {
-			$sql = sprintf('SELECT CONCAT(\'OSSMailView\') AS type,o.ossmailviewid AS id,o.subject AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
+			$sql = sprintf('SELECT CONCAT(\'OSSMailView\', o.ossmailview_sendtype) AS `type`,o.ossmailviewid AS id,o.subject AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
 				FROM vtiger_ossmailview o
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = o.ossmailviewid 
 				INNER JOIN vtiger_ossmailview_relation r ON r.ossmailviewid = o.ossmailviewid 
@@ -134,5 +133,17 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		}
 		$sql .= ' ORDER BY time DESC';
 		return $sql;
+	}
+
+	public static function getUrlRelatedRecord($type, $ID)
+	{
+		$url = '';
+		$permitted = Users_Privileges_Model::isPermitted($type, 'DetailView', $ID);
+		if ($permitted && $type == 'OSSMailView') {
+			$url = Vtiger_Module_Model::getInstance($type)->getPreviewViewUrl($ID);
+		} elseif ($permitted) {
+			$url = Vtiger_Module_Model::getInstance($type)->getDetailViewUrl($ID);
+		}
+		return $url;
 	}
 }

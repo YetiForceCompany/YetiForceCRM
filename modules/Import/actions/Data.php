@@ -184,7 +184,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$entityData = [];
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
 		$sql = 'SELECT * FROM %s  WHERE temp_status = %s';
-		$sql = sprintf($query, $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
+		$sql = sprintf($sql, $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$isInventory = $moduleModel->isInventory();

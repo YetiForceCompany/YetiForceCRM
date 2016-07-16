@@ -1,3 +1,5 @@
+RedirectMatch 403 (?i).*\.log$
+
 <IfModule mod_autoindex.c>
 	Options -Indexes
 </ifModule>

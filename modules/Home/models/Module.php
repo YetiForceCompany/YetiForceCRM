@@ -97,8 +97,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$orderBy .= ' ' . $sortOrder;
 		}
-		
-		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
+
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		$instance = CRMEntity::getInstance('Calendar');
@@ -118,25 +117,19 @@ class Home_Module_Model extends Vtiger_Module_Model
 			AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($paramsMore['status']) ."))";
 			$params = array_merge($params, $paramsMore['status']);
 		} elseif ($mode === 'overdue') {
-			$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
 			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
 			AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?))";
-			//AND CONCAT(due_date,' ',time_end) < '$nowInDBFormat'";
-			array_push($params, $overdueActivityLabels);
+			array_push($params, $paramsMore);
 		} elseif ($mode === 'assigned_upcoming') {
-			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($stateActivityLabels) .")) AND vtiger_crmentity.smcreatorid = ?";
-			$params = array_merge($params, $stateActivityLabels);
-			$params[] = $currentUser->getId();
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($paramsMore['status']) .")) AND vtiger_crmentity.smcreatorid = ?";
+			$params = array_merge($params, $paramsMore);
 		} elseif ($mode === 'assigned_over') {
 			$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
 			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?)) AND vtiger_crmentity.smcreatorid = ?";
-			array_push($params, $overdueActivityLabels, $currentUser->getId());
+			array_push($params, $paramsMore['status'], $paramsMore['user']);
 		} elseif ($mode === 'createdByMeButNotMine') {
-			$status = [$stateActivityLabels['overdue'], $stateActivityLabels['not_started'], $stateActivityLabels['in_realization']];
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($status) .")) AND vtiger_crmentity.smcreatorid = ? AND vtiger_crmentity.smownerid NOT IN (?) ";
-			$params = array_merge($params, $status);
-			array_push($params, $currentUser->getId(), $currentUser->getId());
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($paramsMore['status']) .")) AND vtiger_crmentity.smcreatorid = ? AND vtiger_crmentity.smownerid NOT IN (?) ";
+			array_push($params, $paramsMore['status'], $paramsMore['user'], $paramsMore['user']);
 		}
 
 		$accessibleUsers = $currentUser->getAccessibleUsers();

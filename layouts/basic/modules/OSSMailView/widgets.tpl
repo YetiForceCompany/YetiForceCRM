@@ -44,7 +44,14 @@
 				</div>
 				<div class="col-md-12">
 					<div class="pull-left">
-						<span class="firstLetter">
+						{if $ROW['type'] eq 0}
+							{assign var=FIRST_LETTER_CLASS value='bgDanger'}
+						{elseif $ROW['type'] eq 1}
+							{assign var=FIRST_LETTER_CLASS value='bgGreen'}
+						{elseif $ROW['type'] eq 2}
+							{assign var=FIRST_LETTER_CLASS value='bgBlue'}
+						{/if}
+						<span class="firstLetter {$FIRST_LETTER_CLASS}">
 							{$ROW['firstLetter']}
 						</span>
 					</div>

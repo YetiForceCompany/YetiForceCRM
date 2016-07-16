@@ -16,7 +16,7 @@ class VTEventTrigger
 
 	private static $cache = [];
 	private static $cacheLookupType = '';
-	private static $mandatoryEventClass = array('VTEntityDelta', 'ModTrackerHandler');
+	private static $mandatoryEventClass = array('VTEntityDelta', 'ModTrackerHandler', 'PBXManagerBatchHandler');
 
 	const CACHE_LOOKUP_TYPE_ALL = 'ALL';
 

@@ -43,12 +43,12 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		while ($row = $db->fetch_array($result)) {
 			$colors[$row['timecontrol_type']] = $row['color'];
 		}
-		$module = 'HelpDesk';
+		$module = 'OSSTimeControl';
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		$param[] = 'OSSTimeControl';
 		$param = array_merge($param, $user);
-		$sql = sprinft('SELECT sum_time AS daytime, due_date, timecontrol_type, vtiger_crmentity.smownerid FROM vtiger_osstimecontrol
+		$sql = sprintf('SELECT sum_time AS daytime, due_date, timecontrol_type, vtiger_crmentity.smownerid FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.smownerid IN (%s) ', generateQuestionMarks($user));
 		if ($securityParameter != '')

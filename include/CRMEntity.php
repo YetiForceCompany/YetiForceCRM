@@ -624,7 +624,9 @@ class CRMEntity
 			}
 
 			if ($insertion_mode == 'edit') {
-				$updateColumns[$columname] = $fldvalue;
+				if($uitype != '4'){
+					$updateColumns[$columname] = $fldvalue;
+				}
 			} else {
 				array_push($column, $columname);
 				array_push($value, $fldvalue);
@@ -2498,6 +2500,9 @@ class CRMEntity
 					$i++;
 				}
 			}
+		}
+		if ($this->table_name == 'vtiger_leaddetails') {
+			$query .= " AND $this->table_name.converted = 0 ";
 		}
 		return $query;
 	}
