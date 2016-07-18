@@ -280,16 +280,17 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (!$this->listViewCount) {
-			$this->listViewCount = $listViewModel->getListViewCount();
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+			if (!$this->listViewCount) {
+				$this->listViewCount = $listViewModel->getListViewCount();
+			}
+			$pagingModel->set('totalCount', (int) $this->listViewCount);
+			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
 		}
-		$totalCount = $this->listViewCount;
-		$pagingModel->set('totalCount', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('LIST_VIEW_MODEL', $listViewModel);
 		$viewer->assign('GROUPS_IDS', Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId()));
