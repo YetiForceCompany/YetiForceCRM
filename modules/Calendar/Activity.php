@@ -609,42 +609,42 @@ class Activity extends CRMEntity
 
 	/**
 	 * Function to get reminder for activity
-	 * @param  integer   $activity_id     - activity id
-	 * @param  string    $reminder_time   - reminder time
-	 * @param  integer   $reminder_sent   - 0 or 1
+	 * @param  integer   $activityId     - activity id
+	 * @param  string    $reminderTime   - reminder time
+	 * @param  integer   $reminderSent   - 0 or 1
 	 * @param  integer   $recurid         - recuring eventid
-	 * @param  string    $remindermode    - string like 'edit'
+	 * @param  string    $reminderMode    - string like 'edit'
 	 */
-	function activity_reminder($activity_id, $reminder_time, $reminder_sent = 0, $recurid, $remindermode = '')
+	function activity_reminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
 	{
 		$log = LoggerManager::getInstance();
-		$log->debug("Entering vtiger_activity_reminder($activity_id,$reminder_time,$reminder_sen,$recurid,$remindermode) method ...");
+		$log->debug("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
 		//Check for vtiger_activityid already present in the reminder_table
 		$query = sprintf('SELECT activity_id FROM %s WHERE activity_id = ?', $this->reminder_table);
-		$resultExist = $this->db->pquery($query, array($activity_id));
+		$resultExist = $this->db->pquery($query, array($activityId));
 
-		if ($remindermode == 'edit') {
+		if ($reminderMode == 'edit') {
 			if ($this->db->getRowCount($resultExist) > 0) {
 				$this->db->update($this->reminder_table, [
-					'semodule' => $reminder_time,
-					'reminder_sent' => $reminder_sent
-					], 'activity_id = ?', [$activity_id]
+					'reminder_time' => $reminderTime,
+					'reminder_sent' => $reminderSent
+					], 'activity_id = ?', [$activityId]
 				);
 			} else {
 				$this->db->insert($this->reminder_table, [
-					'recordid' => $activity_id,
-					'semodule' => $reminder_time,
+					'activity_id' => $activityId,
+					'reminder_time' => $reminderTime,
 					'reminder_sent' => 0,
 					'recurringid' => $recurid
 				]);
 			}
-		} elseif (($remindermode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
-			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activity_id]);
+		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
+			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activityId]);
 		} else {
 			if (AppRequest::get('set_reminder') == 'Yes') {
 				$this->db->insert($this->reminder_table, [
-					'recordid' => $activity_id,
-					'semodule' => $reminder_time,
+					'activity_id' => $activityId,
+					'reminder_time' => $reminderTime,
 					'reminder_sent' => 0,
 					'recurringid' => $recurid
 				]);
