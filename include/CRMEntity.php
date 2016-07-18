@@ -2569,11 +2569,12 @@ class CRMEntity
 				if ($rparentRecord) {
 					$relatedRecord = $rparentRecord;
 				}
-			}
-			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($relatedRecord);
-			$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
-			if ($recordPermission) {
-				return '';
+			} elseif ($role->get('listrelatedrecord') == 1) {
+				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($relatedRecord);
+				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
+				if ($recordPermission) {
+					return '';
+				}
 			}
 		}
 
