@@ -236,7 +236,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	public function loadCondition($moduleName)
 	{
 		$queryGenerator = $this->get('query_generator');
-		if(empty($queryGenerator)){
+		if (empty($queryGenerator)) {
 			$queryGenerator = new QueryGenerator($moduleName, Users_Record_Model::getCurrentUserModel());
 		}
 		$srcRecord = $this->get('src_record');
@@ -519,7 +519,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 		if (!$relationModel) {
 			$relationModel = false;
-		}else{
+		} else {
 			$queryGenerator = new QueryGenerator($relatedModuleModel->getName(), Users_Record_Model::getCurrentUserModel());
 		}
 		$instance->setRelationModel($relationModel)->set('query_generator', $queryGenerator);
@@ -589,7 +589,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 
 		if (stripos($relationQuery, 'WHERE')) {
-			$split = preg_split('/WHERE/i', $relationQuery);
+			$split = preg_split('/WHERE/i', $relationQuery, 2);
 			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' AND ' . $condition;
 		} else {
 			$updatedQuery = "$relationQuery WHERE $condition";
@@ -632,7 +632,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		AND u_yf_favorites.relmodule = ? 
 		AND u_yf_favorites.crmid = ? 
 		AND u_yf_favorites.userid = ?';
-		$result = $db->pquery($query,[$moduleName, $relModuleName, $recordId, $currentUser->getId()]);
+		$result = $db->pquery($query, [$moduleName, $relModuleName, $recordId, $currentUser->getId()]);
 		return $db->getArrayColumn($result, 'relcrmid');
 	}
 
