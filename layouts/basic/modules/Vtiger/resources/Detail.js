@@ -2555,7 +2555,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				data.find('.expandAllMails').click();
 				data.find('.showMailModal').click(function (e) {
 					var progressIndicatorElement = jQuery.progressIndicator();
-					app.showModalWindow("", $(e.currentTarget).data('url'), function () {
+					var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
+					app.showModalWindow("", url, function () {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					});
 				});
@@ -2575,7 +2576,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
-				app.showModalWindow("", $(e.currentTarget).data('url'), function (data) {
+				var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
+				app.showModalWindow("", url, function (data) {
 					Vtiger_Index_Js.registerMailButtons(data);
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				});
