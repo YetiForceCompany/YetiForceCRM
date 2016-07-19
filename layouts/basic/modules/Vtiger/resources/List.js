@@ -653,15 +653,16 @@ jQuery.Class("Vtiger_List_Js", {
 			orderby: orderBy,
 			sortorder: sortOrder
 		}
-
-		var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
-		params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
-		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-			params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
-			params['search_value'] = searchValue;
-			params['operator'] = 's';
+		var listSearchInstance = this.getListSearchInstance();
+		if (listSearchInstance !== false) {
+			var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
+			params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
+			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
+				params['search_value'] = searchValue;
+				params['operator'] = 's';
+			}
 		}
-
 		return params;
 	},
 	/*
@@ -691,13 +692,16 @@ jQuery.Class("Vtiger_List_Js", {
 						'mode': 'hide'
 					})
 					var listViewContentsContainer = jQuery('#listViewContents')
+					var searchInstance = thisInstance.getListSearchInstance();
 					listViewContentsContainer.html(data);
 					app.showSelect2ElementView(listViewContentsContainer.find('select.select2'));
 					thisInstance.registerListViewSpecialOptiopn();
 					app.changeSelectElementView(listViewContentsContainer);
 					app.showPopoverElementView(listViewContentsContainer.find('.popoverTooltip'));
 					jQuery('body').trigger(jQuery.Event('LoadRecordList.PostLoad'), data);
-					thisInstance.getListSearchInstance().registerBasicEvents();
+					if (searchInstance !== false) {
+						searchInstance.registerBasicEvents();
+					}
 					Vtiger_Index_Js.registerMailButtons(listViewContentsContainer);
 					//thisInstance.triggerDisplayTypeEvent();
 					Vtiger_Helper_Js.showHorizontalTopScrollBar();
@@ -1230,13 +1234,15 @@ jQuery.Class("Vtiger_List_Js", {
 		params['page'] = pageNumber;
 		params['mode'] = 'getPagination';
 		params['sourceModule'] = jQuery('#moduleFilter').val();
-
-		var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
-		params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
-		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-			params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
-			params['search_value'] = searchValue;
-			params['operator'] = 's';
+		var searchInstance = this.getListSearchInstance();
+		if (searchInstance !== false) {
+			var searchValue = searchInstance.getAlphabetSearchValue();
+			params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
+			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
+				params['search_value'] = searchValue;
+				params['operator'] = 's';
+			}
 		}
 		params['noOfEntries'] = jQuery('#noOfEntries').val();
 		AppConnector.request(params).then(function (data) {
