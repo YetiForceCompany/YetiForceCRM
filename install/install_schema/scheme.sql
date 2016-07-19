@@ -5470,7 +5470,7 @@ CREATE TABLE `vtiger_leaddetails` (
   `campaign` varchar(30) DEFAULT NULL,
   `leadstatus` varchar(50) DEFAULT NULL,
   `leadsource` varchar(200) DEFAULT NULL,
-  `converted` int(1) DEFAULT '0',
+  `converted` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `licencekeystatus` varchar(50) DEFAULT NULL,
   `space` varchar(250) DEFAULT NULL,
   `comments` text,
@@ -5505,6 +5505,7 @@ CREATE TABLE `vtiger_leaddetails` (
   KEY `leaddetails_converted_leadstatus_idx` (`converted`,`leadstatus`),
   KEY `email_idx` (`email`),
   KEY `lastname` (`lastname`),
+  KEY `converted` (`converted`),
   CONSTRAINT `fk_1_vtiger_leaddetails` FOREIGN KEY (`leadid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
