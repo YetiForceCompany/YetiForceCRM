@@ -289,6 +289,18 @@
 																							</label>
 																						</span>
 																					{/if}
+																					<div class="padding1per" style="padding : 0px 10px 0px 25px;">
+																						{vtranslate('LBL_MAX_LENGTH_TEXT', $QUALIFIED_MODULE)}
+																						<div class="input-group">
+																							<input type="text" class="form-control" name="maxlengthtext" value="{$FIELD_MODEL->get('maxlengthtext')}" />&nbsp;
+																						</div>
+																					</div>
+																					<div class="padding1per" style="padding : 0px 10px 0px 25px;">
+																						{vtranslate('LBL_MAX_WIDTH_COLUMN', $QUALIFIED_MODULE)}
+																						<div class="form-inline">
+																							<input type="text" class="form-control" name="maxwidthcolumn" value="{$FIELD_MODEL->get('maxwidthcolumn')}" />&nbsp;
+																						</div>
+																					</div>
 																				</div>
 																				<div class="modal-footer" style="padding: 0px;">
 																					<span class="pull-right">
@@ -494,6 +506,18 @@
 																						</span>
 																					{/if}
 																				</div>
+																				<div class="padding1per" style="padding : 0px 10px 0px 25px;">
+																					{vtranslate('LBL_MAX_LENGTH_TEXT', $QUALIFIED_MODULE)}
+																					<div class="input-group">
+																						<input type="text" class="form-control" name="maxlengthtext" value="{$FIELD_MODEL->get('maxlengthtext')}" />&nbsp;
+																					</div>
+																				</div>
+																				<div class="padding1per" style="padding : 0px 10px 0px 25px;">
+																					{vtranslate('LBL_MAX_WIDTH_COLUMN', $QUALIFIED_MODULE)}
+																					<div class="form-inline">
+																						<input type="text" class="form-control" name="maxwidthcolumn" value="{$FIELD_MODEL->get('maxwidthcolumn')}" />&nbsp;
+																					</div>
+																				</div>
 																				<div class="modal-footer" style="padding: 0px;">
 																					<span class="pull-right">
 																						<div class="pull-right"><a href="javascript:void(0)" class="cancel btn btn-warning" style="margin: 5px;">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
@@ -661,6 +685,18 @@
 																</label>
 															</span>
 														{/if}
+														<div class="padding1per" style="padding : 0px 10px 0px 25px;">
+															{vtranslate('LBL_MAX_LENGTH_TEXT', $QUALIFIED_MODULE)}
+															<div class="input-group">
+																<input type="text" class="form-control" name="maxlengthtext" value="{$FIELD_MODEL->get('maxlengthtext')}" />&nbsp;
+															</div>
+														</div>
+														<div class="padding1per" style="padding : 0px 10px 0px 25px;">
+															{vtranslate('LBL_MAX_WIDTH_COLUMN', $QUALIFIED_MODULE)}
+															<div class="form-inline">
+																<input type="text" class="form-control" name="maxwidthcolumn" value="{$FIELD_MODEL->get('maxwidthcolumn')}" />&nbsp;
+															</div>
+														</div>
 													</div>
 													<div class="modal-footer" style="padding: 0px;">
 														<span class="pull-right">

@@ -4750,6 +4750,8 @@ CREATE TABLE `vtiger_field` (
   `summaryfield` int(10) NOT NULL DEFAULT '0',
   `fieldparams` varchar(255) DEFAULT '',
   `header_field` varchar(15) DEFAULT NULL,
+  `maxlengthtext` smallint(3) unsigned DEFAULT '0',
+  `maxwidthcolumn` smallint(3) unsigned DEFAULT '0',
   PRIMARY KEY (`fieldid`),
   KEY `field_tabid_idx` (`tabid`),
   KEY `field_fieldname_idx` (`fieldname`),
