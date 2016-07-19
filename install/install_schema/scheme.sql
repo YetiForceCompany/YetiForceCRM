@@ -947,9 +947,11 @@ CREATE TABLE `u_yf_competitioncf` (
 
 CREATE TABLE `u_yf_crmentity_last_changes` (
   `crmid` int(11) NOT NULL,
-  `fieldname` varchar(255) NOT NULL,
+  `fieldname` varchar(50) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `date_updated` datetime NOT NULL
+  `date_updated` datetime NOT NULL,
+  KEY `crmid` (`crmid`,`fieldname`),
+  CONSTRAINT `u_yf_crmentity_last_changes_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_rel_tree` */
