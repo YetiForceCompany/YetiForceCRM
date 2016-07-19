@@ -100,6 +100,7 @@ $languageStrings = [
 	'PLL_COMPLETED' => 'Выполнено',
 	'LBL_REMAIND_HOURS' => 'Напомнить после выбранного количества часов',
 	'LBL_REMAIND_MINS' => 'RНапомнить после выбранного количества минут',
+	'LBL_SELECT_INVITE' => 'Invite others',
 ];
 
 $jsLanguageStrings = [
