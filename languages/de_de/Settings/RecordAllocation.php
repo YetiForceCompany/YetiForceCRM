@@ -1,6 +1,10 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'LBL_OWNER_ALLOCATION' => 'Assign owner',
+	'LBL_OWNER_ALLOCATION_DESCRIPTION' => ' ',
+	'LBL_MULTIOWNER_ALLOCATION' => 'Assign sharing users',
+	'LBL_MULTIOWNER_ALLOCATION_DESCRIPTION' => ' ',
 	'LBL_SORTING_SETTINGS_WORNING' => 'Warnung!<br> Diese Einstellungen gelten nur, wenn Sie dies in der Rollensicht aktiviert haben',
 	'LBL_ADD_PANEL_TO_MODULE' => 'Zuteilung zu diesem Modul erteilen',
 	'LBL_SELECT_MODULE' => 'Modul wählen',
