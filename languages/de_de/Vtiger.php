@@ -1246,7 +1246,9 @@ $languageStrings = [
 	'LBL_SEPTENDECILLIONSS' => 'septendecillion',
     'LBL_NOVEMDECILLION' => 'novemdecillion',
 	'LBL_NOVEMDECILLIONS' => 'novemdecillion',
-	'LBL_NOVEMDECILLIONSS' => 'novemdecillion'
+	'LBL_NOVEMDECILLIONSS' => 'novemdecillion',
+	'LBL_SOURCE' => 'Source',
+	'LBL_DATE' => 'Date',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
