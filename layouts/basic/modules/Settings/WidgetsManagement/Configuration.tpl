@@ -331,7 +331,7 @@
 				<li class="newCustomFieldCopy hide col-md-12">
 					<div class="marginLeftZero border1px" data-field-id="" data-linkid="" data-sequence="">
 						<div class="row padding1per">
-							<div class="col-md-10 " style="word-wrap: break-word;">
+							<div class="pull-left" style="word-wrap: break-word;">
 								<span class="fieldLabel marginLeft20"></span>
 							</div>
 							<span class="btn-group pull-right marginRight20 actions">
