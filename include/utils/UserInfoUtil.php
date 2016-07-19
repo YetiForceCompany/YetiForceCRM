@@ -237,25 +237,22 @@ function getRoleName($roleid)
 function isPermitted($module, $actionname, $record_id = '')
 {
 	$log = LoggerManager::getInstance();
-	$log->debug('Entering isPermitted(' . $module . ',' . $actionname . ',' . $record_id . ') method ...');
+	$log->debug("Entering isPermitted($module,$actionname,$record_id) method ...");
 
-	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
+	$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($current_user->id);
 
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 	$permission = 'no';
 	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && AppRequest::get('parenttab') != 'Settings') {
 		//These modules dont have security right now
-		$permission = 'yes';
 		vglobal('isPermittedLog', 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT');
 		$log->debug('Exiting isPermitted method ...');
-		return $permission;
+		return 'yes';
 	}
 
 	//Checking the Access for the Settings Module
 	if ($module == 'Settings' || $module == 'Administration' || $module == 'System' || AppRequest::get('parenttab') == 'Settings') {
-		if (!$is_admin) {
+		if (!$userPrivileges['is_admin']) {
 			$permission = 'no';
 		} else {
 			$permission = 'yes';
@@ -277,16 +274,15 @@ function isPermitted($module, $actionname, $record_id = '')
 	if (vtlib_isModuleActive($checkModule)) {
 
 		//Checking whether the user is admin
-		if ($is_admin) {
-			$permission = 'yes';
+		if ($userPrivileges['is_admin']) {
 			vglobal('isPermittedLog', 'SEC_USER_IS_ADMIN');
 			$log->debug('Exiting isPermitted method ...');
-			return $permission;
+			return 'yes';
 		}
 
 		//If no actionid, then allow action is vtiger_tab permission is available
 		if ($actionid === '' || $actionid === null) {
-			if ($profileTabsPermission[$tabid] == 0) {
+			if ($userPrivileges['profile_tabs_permission'][$tabid] == 0) {
 				$permission = 'yes';
 			} else {
 				$permission = 'no';
@@ -296,83 +292,73 @@ function isPermitted($module, $actionname, $record_id = '')
 			return $permission;
 		}
 		//Checking for vtiger_tab permission
-		if ($profileTabsPermission[$tabid] != 0) {
-			$permission = 'no';
+		if ($userPrivileges['profile_tabs_permission'][$tabid] != 0) {
 			vglobal('isPermittedLog', 'SEC_MODULE_PERMISSIONS_NO');
 			$log->debug('Exiting isPermitted method ... - no');
-			return $permission;
+			return 'no';
 		}
 
 		if ($actionid === false) {
-			$permission = 'no';
 			vglobal('isPermittedLog', 'SEC_ACTION_DOES_NOT_EXIST');
 			$log->debug('Exiting isPermitted method ... - no');
-			return $permission;
+			return 'no';
 		}
-		$action = getActionname($actionid);
 		//Checking for Action Permission
-		if (!isset($profileActionPermission[$tabid][$actionid])) {
-			$permission = 'no';
+		if (!isset($userPrivileges['profile_action_permission'][$tabid][$actionid])) {
 			vglobal('isPermittedLog', 'SEC_MODULE_NO_ACTION_TOOL');
 			$log->debug('Exiting isPermitted method ... - no');
-			return $permission;
+			return 'no';
 		}
-		if (strlen($profileActionPermission[$tabid][$actionid]) < 1 && $profileActionPermission[$tabid][$actionid] == '') {
-			$permission = 'yes';
+		if (strlen($userPrivileges['profile_action_permission'][$tabid][$actionid]) < 1 && $userPrivileges['profile_action_permission'][$tabid][$actionid] == '') {
 			vglobal('isPermittedLog', 'SEC_MODULE_RIGHTS_TO_ACTION');
 			$log->debug('Exiting isPermitted method ...');
-			return $permission;
+			return 'yes';
 		}
 
-		if ($profileActionPermission[$tabid][$actionid] != 0 && $profileActionPermission[$tabid][$actionid] != '') {
-			$permission = 'no';
+		if ($userPrivileges['profile_action_permission'][$tabid][$actionid] != 0 && $userPrivileges['profile_action_permission'][$tabid][$actionid] != '') {
 			vglobal('isPermittedLog', 'SEC_MODULE_NO_RIGHTS_TO_ACTION');
 			$log->debug('Exiting isPermitted method ... - no');
-			return $permission;
+			return 'no';
 		}
 		//Checking for view all permission
-		if ($profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
 			if ($actionid == 3 || $actionid == 4) {
-				$permission = 'yes';
 				vglobal('isPermittedLog', 'SEC_MODULE_VIEW_ALL_PERMISSION');
 				$log->debug('Exiting isPermitted method ...');
-				return $permission;
+				return 'yes';
 			}
 		}
 		//Checking for edit all permission
-		if ($profileGlobalPermission[2] == 0) {
+		if ($userPrivileges['profile_global_permission'][2] == 0) {
 			if ($actionid == 3 || $actionid == 4 || $actionid == 0 || $actionid == 1) {
-				$permission = 'yes';
 				vglobal('isPermittedLog', 'SEC_MODULE_EDIT_ALL_PERMISSION');
 				$log->debug('Exiting isPermitted method ...');
-				return $permission;
+				return 'yes';
 			}
 		}
 		//Checking and returning true if recorid is null
 		if ($record_id == '') {
-			$permission = 'yes';
 			vglobal('isPermittedLog', 'SEC_RECORID_IS_NULL');
 			$log->debug('Exiting isPermitted method ...');
-			return $permission;
+			return 'yes';
 		}
 
 		//If modules is Products,Vendors,Faq,PriceBook then no sharing
 		if ($record_id != '') {
 			if (getTabOwnedBy($module) == 1) {
-				$permission = 'yes';
 				vglobal('isPermittedLog', 'SEC_MODULE_IS_OWNEDBY');
 				$log->debug('Exiting isPermitted method ...');
-				return $permission;
+				return 'yes';
 			}
 		}
 
 		$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record_id);
-		if(!isset($recordMetaData) || $recordMetaData['deleted'] == 1){
+		if (!isset($recordMetaData) || $recordMetaData['deleted'] == 1) {
 			vglobal('isPermittedLog', 'SEC_RECORD_DOES_NOT_EXIST');
 			$log->debug('Exiting isPermitted method ... - no');
 			return 'no';
 		}
-		
+
 		//Retreiving the RecordOwnerId
 		$recOwnType = '';
 		$recOwnId = '';
@@ -382,37 +368,33 @@ function isPermitted($module, $actionname, $record_id = '')
 			$recOwnType = $type;
 			$recOwnId = $id;
 		}
-		if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $current_user_groups)) > 0) {
-			$permission = 'yes';
+		if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 			vglobal('isPermittedLog', 'SEC_RECORD_SHARED_OWNER');
 			$log->debug('Exiting isPermitted method ... - Shared Owner');
-			return $permission;
+			return 'yes';
 		}
 		if ($recOwnType == 'Users') {
 			//Checking if the Record Owner is the current User
 			if ($current_user->id == $recOwnId) {
-				$permission = 'yes';
 				vglobal('isPermittedLog', 'SEC_RECORD_OWNER_CURRENT_USER');
 				$log->debug('Exiting isPermitted method ...');
-				return $permission;
+				return 'yes';
 			}
 
 			//Checking if the Record Owner is the Subordinate User
-			foreach ($subordinate_roles_users as $roleid => $userids) {
+			foreach ($userPrivileges['subordinate_roles_users'] as $roleid => $userids) {
 				if (in_array($recOwnId, $userids)) {
-					$permission = 'yes';
 					vglobal('isPermittedLog', 'SEC_RECORD_OWNER_SUBORDINATE_USER');
 					$log->debug('Exiting isPermitted method ...');
-					return $permission;
+					return 'yes';
 				}
 			}
 		} elseif ($recOwnType == 'Groups') {
 			//Checking if the record owner is the current user's group
-			if (in_array($recOwnId, $current_user_groups)) {
-				$permission = 'yes';
+			if (in_array($recOwnId, $userPrivileges['groups'])) {
 				vglobal('isPermittedLog', 'SEC_RECORD_OWNER_CURRENT_GROUP');
 				$log->debug('Exiting isPermitted method ...');
-				return $permission;
+				return 'yes';
 			}
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -427,7 +409,7 @@ function isPermitted($module, $actionname, $record_id = '')
 				foreach ($permissionsRelatedField as &$row) {
 					switch ($row) {
 						case 0:
-							$relatedPermission = $recordMetaData['smownerid'] == $current_user->id || in_array($recordMetaData['smownerid'], $current_user_groups);
+							$relatedPermission = $recordMetaData['smownerid'] == $current_user->id || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
 							break;
 						case 1:
 							$relatedPermission = in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
@@ -446,14 +428,14 @@ function isPermitted($module, $actionname, $record_id = '')
 			}
 		}
 		$permission = isPermittedBySharing($module, $tabid, $actionid, $record_id);
-		
+
 		vglobal('isPermittedLog', 'SEC_RECORD_BY_SHARING_' . strtoupper($permission));
 		$log->debug('Exiting isPermitted method ... - isPermittedBySharing');
 	} else {
 		$permission = 'no';
 		vglobal('isPermittedLog', 'SEC_MODULE_IS_INACTIVE');
 	}
-	
+
 	$log->debug('Exiting isPermitted method ...');
 	return $permission;
 }
@@ -1065,7 +1047,7 @@ function deleteRoleRelatedSharingRules($roleId)
 		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
 		$params = array($roleId);
 		if (sizeof($colNameArr) > 1) {
-			$query .= sprintf(" OR %s = ?" ,$colNameArr[1]) ;
+			$query .= sprintf(" OR %s = ?", $colNameArr[1]);
 			array_push($params, $roleId);
 		}
 
@@ -1676,7 +1658,7 @@ function get_current_user_access_groups($module)
 		$result = $adb->pquery($query, $params);
 		$noof_group_rows = $adb->num_rows($result);
 	} elseif (count($sharing_write_group_list) > 0) {
-		$query .= sprintf(" WHERE groupid IN (%s)", generateQuestionMarks($sharing_write_group_list) );
+		$query .= sprintf(" WHERE groupid IN (%s)", generateQuestionMarks($sharing_write_group_list));
 		array_push($params, $sharing_write_group_list);
 		$result = $adb->pquery($query, $params);
 		$noof_group_rows = $adb->num_rows($result);
