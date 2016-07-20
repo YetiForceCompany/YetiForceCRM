@@ -17,7 +17,7 @@
 		<button type="button" class="btn btn-default" id="addFieldBtn">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
 	</div><br>
 	<div class="row conditionsContainer" id="save_fieldvaluemapping">
-		{assign var=FIELD_VALUE_MAPPING value=ZEND_JSON::decode($TASK_OBJECT->field_value_mapping)}
+		{assign var=FIELD_VALUE_MAPPING value=\includes\utils\Json::decode($TASK_OBJECT->field_value_mapping)}
 		<input type="hidden" id="fieldValueMapping" name="field_value_mapping" value='{Vtiger_Util_Helper::toSafeHTML($TASK_OBJECT->field_value_mapping)}' />
 		{foreach from=$FIELD_VALUE_MAPPING item=FIELD_MAP}
 			<div class="row conditionRow padding-bottom1per">
@@ -30,7 +30,7 @@
                             {/if}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
-							<option value="{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $FIELD_MODEL->get('name')}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' >
+							<option value="{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $FIELD_MODEL->get('name')}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo='{\includes\utils\Json::encode($FIELD_INFO)}' >
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 								{else}
@@ -61,7 +61,7 @@
 					{/if}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
-					<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' >
+					<option value="{$FIELD_MODEL->get('name')}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo='{\includes\utils\Json::encode($FIELD_INFO)}' >
 						{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 							({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 						{else}

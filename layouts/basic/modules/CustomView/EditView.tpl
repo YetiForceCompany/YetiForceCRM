@@ -19,7 +19,7 @@
 		<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
 		<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
 		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
-		<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
+		<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATE_FILTERS))}' />
 		<div class='widget_header row customViewHeader'>
 			<div class="col-sm-5 col-xs-12">
 				{if !$RECORD_ID}
@@ -112,8 +112,8 @@
 									{/foreach}
 								</select>
 							</div>
-							<input type="hidden" name="columnslist" value='{ZEND_JSON::encode($SELECTED_FIELDS)}' />
-							<input id="mandatoryFieldsList" type="hidden" value='{ZEND_JSON::encode($MANDATORY_FIELDS)}' />
+							<input type="hidden" name="columnslist" value='{\includes\utils\Json::encode($SELECTED_FIELDS)}' />
+							<input id="mandatoryFieldsList" type="hidden" value='{\includes\utils\Json::encode($MANDATORY_FIELDS)}' />
 						</div>
 					</div>
 					<div class="form-group marginbottomZero">

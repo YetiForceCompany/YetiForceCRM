@@ -16,16 +16,16 @@
 		<hr style='margin:5px 0;width:100%'>
 	</div>
 	<form class="form-horizontal" id="massEmailForm" method="post" action="index.php" enctype="multipart/form-data" name="massEmailForm">
-		<input type="hidden" name="selected_ids" value='{ZEND_JSON::encode($SELECTED_IDS)}' />
-		<input type="hidden" name="excluded_ids" value='{ZEND_JSON::encode($EXCLUDED_IDS)}' />
+		<input type="hidden" name="selected_ids" value='{\includes\utils\Json::encode($SELECTED_IDS)}' />
+		<input type="hidden" name="excluded_ids" value='{\includes\utils\Json::encode($EXCLUDED_IDS)}' />
 		<input type="hidden" name="viewname" value="{$VIEWNAME}" />
 		<input type="hidden" name="module" value="{$MODULE}"/>
-                <input type="hidden" name="selectedFields" value='{ZEND_JSON::encode($SELECTED_FIELDS)}'/>  
+                <input type="hidden" name="selectedFields" value='{\includes\utils\Json::encode($SELECTED_FIELDS)}'/>  
 		<input type="hidden" name="mode" value="massSave" />
-		<input type="hidden" name="toemailinfo" value='{ZEND_JSON::encode($TOMAIL_INFO)}' />
+		<input type="hidden" name="toemailinfo" value='{\includes\utils\Json::encode($TOMAIL_INFO)}' />
 		<input type="hidden" name="view" value="MassSaveAjax" />
-		<input type="hidden"  name="to" value='{ZEND_JSON::encode($TO)}' />
-		<input type="hidden"  name="toMailNamesList" value='{ZEND_JSON::encode($TOMAIL_NAMES_LIST)}' />
+		<input type="hidden"  name="to" value='{\includes\utils\Json::encode($TO)}' />
+		<input type="hidden"  name="toMailNamesList" value='{\includes\utils\Json::encode($TOMAIL_NAMES_LIST)}' />
 		<input type="hidden" id="flag" name="flag" value="" />
 		<input type="hidden" id="maxUploadSize" value="{$MAX_UPLOAD_SIZE}" />
 		<input type="hidden" id="documentIds" name="documentids" value="" />
@@ -40,7 +40,7 @@
         <input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
         <input type="hidden" name="operator" value="{$OPERATOR}" />
         <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-        <input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
+        <input type="hidden" name="search_params" value='{\includes\utils\Json::encode($SEARCH_PARAMS)}' />
         
 		<div class="row toEmailField padding10">
 			<span class="col-md-8">
@@ -173,7 +173,7 @@
             <input type="hidden" name="related_load" value={$RELATED_LOAD} />
         {/if}
 		<textarea id="description" name="description">{$DESCRIPTION}</textarea>
-		<input type="hidden" name="attachments" value='{ZEND_JSON::encode($ATTACHMENTS)}' />
+		<input type="hidden" name="attachments" value='{\includes\utils\Json::encode($ATTACHMENTS)}' />
 	</form>
 </div>
 

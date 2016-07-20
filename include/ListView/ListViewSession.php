@@ -67,7 +67,6 @@ class ListViewSession
 		$current_user = vglobal('current_user');
 		$list_max_entries_per_page = vglobal('list_max_entries_per_page');
 
-		Zend_Json::$useBuiltinEncoderDecoder = true;
 		$reUseData = false;
 		$displayBufferRecordCount = 10;
 		$bufferRecordCount = 15;
@@ -245,9 +244,9 @@ class ListViewSession
 	 */
 	public static function setCurrentView($module, $viewId, $pjax = true)
 	{
-		if($pjax && AppRequest::has('_pjax')){
+		if ($pjax && AppRequest::has('_pjax')) {
 			$_SESSION['lvs'][$module]['viewname'] = $viewId;
-		}elseif(empty($pjax)){
+		} elseif (empty($pjax)) {
 			$_SESSION['lvs'][$module]['viewname'] = $viewId;
 		}
 	}
@@ -270,9 +269,9 @@ class ListViewSession
 			return $_SESSION['lvs'][$module]['sorder'];
 		}
 	}
-	
+
 	public static function setSorder($module, $order)
-	{	
+	{
 		$_SESSION['lvs'][$module]['sorder'] = $order;
 	}
 
@@ -282,9 +281,9 @@ class ListViewSession
 			return $_SESSION['lvs'][$module]['sortby'];
 		}
 	}
-	
+
 	public static function setSortby($module, $order)
-	{	
+	{
 		$_SESSION['lvs'][$module]['sortby'] = $order;
 	}
 

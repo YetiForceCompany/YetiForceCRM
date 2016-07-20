@@ -16,7 +16,7 @@
 		<div class="row detailViewTitle">
 			<div class="">
 				<div class="row">
-					<div class="col-md-12 marginBottom5px widget_header row no-margin">
+					<div class="col-md-12 marginBottom5px widget_header row no-ZEND_JSONmargin">
 						<div class="">
 							<div class="col-md-6 paddingLRZero">
 								{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -67,7 +67,7 @@
 		<div class="detailViewInfo row">
 			{include file="RelatedListButtons.tpl"|vtemplate_path:$MODULE}
 			<div class="col-md-12 {if !empty($DETAILVIEW_LINKS['DETAILVIEWTAB']) || !empty($DETAILVIEW_LINKS['DETAILVIEWRELATED']) } details {/if}">
-				<form id="detailView" data-name-fields='{ZEND_JSON::encode($MODULE_MODEL->getNameFields())}' method="POST">
+				<form id="detailView" data-name-fields='{\includes\utils\Json::encode($MODULE_MODEL->getNameFields())}' method="POST">
 					{if !empty($PICKLIST_DEPENDENCY_DATASOURCE)} 
 						<input type="hidden" name="picklistDependency" value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_DEPENDENCY_DATASOURCE)}"> 
 					{/if} 

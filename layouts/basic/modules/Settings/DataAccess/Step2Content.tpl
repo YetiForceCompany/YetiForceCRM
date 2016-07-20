@@ -36,7 +36,7 @@
 											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($item['info']))}"
 															>{vtranslate($item['label'], $BASE_MODULE)}</option>
 												{/foreach}
 											</optgroup>
@@ -101,7 +101,7 @@
 											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($item['info']))}"
 															>{vtranslate($item['label'], $BASE_MODULE)}</option>
 												{/foreach}
 											</optgroup>
@@ -165,4 +165,4 @@
 	</div>
 	<div class="clearfix"></div>
 </form>
-<div id="condition_list" style="display: none;">{ZEND_JSON::encode($CONDITION_BY_TYPE)}</div>
+<div id="condition_list" style="display: none;">{\includes\utils\Json::encode($CONDITION_BY_TYPE)}</div>

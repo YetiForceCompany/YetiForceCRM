@@ -5,7 +5,7 @@
 	{/if}
 	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('Public',$MODULE_NAME)}
 	<div class="panelItem">
-		<input type="hidden" id="{$MODULE_NAME}{$INDEX}" class="moduleAllocationData" value="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}" />
+		<input type="hidden" id="{$MODULE_NAME}{$INDEX}" class="moduleAllocationData" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATA))}" />
 		<div class="panel panel-default" data-index="{$INDEX}" data-moduleid="{$MODULE_ID}" data-modulename="{$MODULE_NAME}">
 			<div class="panel-heading">
 				<div class="row">

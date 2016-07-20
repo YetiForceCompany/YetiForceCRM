@@ -24,7 +24,7 @@
 				<input type="hidden" name="action" value="SaveAjax" />
 				<input type="hidden" name="mode" value="rename" />
 				<input type="hidden" name="picklistName" value="{$FIELD_MODEL->get('name')}" />
-				<input type="hidden" name="pickListValues" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}' />
+				<input type="hidden" name="pickListValues" value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
 						<div class="col-md-3 control-label">{vtranslate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>

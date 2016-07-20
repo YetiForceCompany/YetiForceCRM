@@ -10,9 +10,9 @@
 		{assign var="MODULES_LEVEL_0" value=Vtiger_ModulesHierarchy_Model::getModulesByLevel()}
 		{assign var="MODULES_LEVEL_1" value=Vtiger_ModulesHierarchy_Model::getModulesByLevel(1)}
 		{assign var="MODULES_LEVEL_2" value=Vtiger_ModulesHierarchy_Model::getModulesByLevel(2)}
-		<input type="hidden" id="modulesLevel0" value="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode(array_keys($MODULES_LEVEL_0)))}" />
-		<input type="hidden" id="modulesLevel1" value="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode(array_keys($MODULES_LEVEL_1)))}" />
-		<input type="hidden" id="modulesLevel2" value="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode(array_keys($MODULES_LEVEL_2)))}" />
+		<input type="hidden" id="modulesLevel0" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_0)))}" />
+		<input type="hidden" id="modulesLevel1" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_1)))}" />
+		<input type="hidden" id="modulesLevel2" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_2)))}" />
 		<div class="head row">
 			{if !empty($MODULES_LEVEL_0)}
 				<div class="col-4" data-type="link">
