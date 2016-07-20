@@ -495,20 +495,6 @@ class Documents extends CRMEntity
 		}
 	}
 
-	function getQueryByModuleField($module, $fieldname, $srcrecord, $query)
-	{
-		if ($module == 'MailManager') {
-			$tempQuery = preg_split('/WHERE/i', $query);
-			if (!empty($tempQuery[1])) {
-				$where = " vtiger_notes.filelocationtype = 'I' AND vtiger_notes.filename != '' AND vtiger_notes.filestatus != 0 AND ";
-				$overRideQuery = $listQuery . ' AND ' . $where;
-			} else {
-				$query = $tempQuery[0] . ' WHERE ' . $tempQuery;
-			}
-			return $query;
-		}
-	}
-
 	function getRelatedRecord($id, $curTabId, $relTabId, $actions = false)
 	{
 		global $currentModule, $singlepane_view;
@@ -563,7 +549,7 @@ class Documents extends CRMEntity
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
 		$query .= " WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.notesid = $id";
-		
+
 		$query = sprintf($query, $other->table_name);
 		$returnValue = GetRelatedList($thisModule, $relatedModule, $other, $query, $button, $returnset);
 		if ($returnValue == null)

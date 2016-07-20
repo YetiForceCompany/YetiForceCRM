@@ -206,13 +206,13 @@ class ListViewController
 				$uitype = $field->getUIType();
 				$rawValue = $this->db->query_result($result, $i, $field->getColumnName());
 				$rawData[$recordId][$fieldName] = $rawValue;
+				$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field->getFieldId());
 				if (in_array($uitype, array(15, 33, 16))) {
 					$value = html_entity_decode($rawValue, ENT_QUOTES, $default_charset);
 				} else {
 					$value = $rawValue;
 				}
 				if ($uitype == 308) {
-					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field->getFieldId());
 					$value = $fieldModel->getUITypeModel()->getListViewDisplayValue($value);
 				} elseif ($module == 'Documents' && $fieldName == 'filename') {
 					$downloadtype = $db->query_result($result, $i, 'filelocationtype');
@@ -228,13 +228,13 @@ class ListViewController
 							$value = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
 								' href="index.php?module=Documents&action=DownloadFile&record=' . $recordId . '&fileid=' . $fileId . '"' .
 								' title="' . getTranslatedString('LBL_DOWNLOAD_FILE', $module) .
-								'" >' . textlength_check($value) .
+								'" >' . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) .
 								'</a>';
 						} elseif ($downloadType == 'E') {
 							$value = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
 								' href="' . $fileName . '" target="_blank"' .
 								' title="' . getTranslatedString('LBL_DOWNLOAD_FILE', $module) .
-								'" >' . textlength_check($value) .
+								'" >' . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) .
 								'</a>';
 						} else {
 							$value = ' --';
@@ -280,7 +280,7 @@ class ListViewController
 					$value = vtlib\Functions::textLength($value);
 				} elseif ($field->getFieldDataType() == 'picklist') {
 					$value = Vtiger_Language_Handler::getTranslatedString($value, $module);
-					$value = textlength_check($value);
+					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} elseif ($field->getFieldDataType() == 'date' || $field->getFieldDataType() == 'datetime') {
 					if ($value != '' && $value != '0000-00-00') {
 						$fieldDataType = $field->getFieldDataType();
@@ -340,9 +340,9 @@ class ListViewController
 					$matchPattern = "^[\w]+:\/\/^";
 					preg_match($matchPattern, $rawValue, $matches);
 					if (!empty($matches[0])) {
-						$value = '<a class="urlField cursorPointer" title="' . $rawValue . '" href="' . $rawValue . '" target="_blank">' . textlength_check($value) . '</a>';
+						$value = '<a class="urlField cursorPointer" title="' . $rawValue . '" href="' . $rawValue . '" target="_blank">' . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) . '</a>';
 					} else {
-						$value = '<a class="urlField cursorPointer" title="' . $rawValue . '" href="http://' . $rawValue . '" target="_blank">' . textlength_check($value) . '</a>';
+						$value = '<a class="urlField cursorPointer" title="' . $rawValue . '" href="http://' . $rawValue . '" target="_blank">' . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) . '</a>';
 					}
 				} elseif ($field->getFieldDataType() == 'email') {
 					$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -368,7 +368,7 @@ class ListViewController
 						$value = '--';
 					}
 				} elseif ($field->getUIType() == 98) {
-					$value = '<a href="index.php?module=Roles&parent=Settings&view=Edit&record=' . $value . '">' . textlength_check(getRoleName($value)) . '</a>';
+					$value = '<a href="index.php?module=Roles&parent=Settings&view=Edit&record=' . $value . '">' . vtlib\Functions::textLength(getRoleName($value), $fieldModel->get('maxlengthtext')) . '</a>';
 				} elseif ($field->getFieldDataType() == 'multipicklist') {
 					$value = ($value != "") ? str_replace(' |##| ', ', ', $value) : "";
 					if (!$is_admin && $value != '') {
@@ -385,10 +385,14 @@ class ListViewController
 							}
 						}
 						$value = implode(', ', $tmpArray);
-						$value = textlength_check($value);
+						$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 					}
 				} elseif ($field->getFieldDataType() == 'skype') {
-					$value = ($value != '') ? "<a href='skype:$value?call'>" . textlength_check($value) . "</a>" : "";
+					if(empty($value)){
+						$value = '';
+					} else {
+						$value = "<a href='skype:$value?call'>" . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) . '</a>';
+					}
 				} elseif ($field->getUIType() == 11) {
 					$moduleInstance = Vtiger_Module_Model::getInstance("PBXManager");
 					if ($moduleInstance && $moduleInstance->isActive()) {
@@ -397,7 +401,8 @@ class ListViewController
 					$outgoingMobilePermission = Vtiger_Mobile_Model::checkPermissionForOutgoingCall();
 					if ($outgoingCallPermission && !empty($value)) {
 						$phoneNumber = preg_replace('/[-()\s+]/', '', $value);
-						$value = textlength_check($value) . '<a class="phoneField" data-value="' . $phoneNumber . '" record="' . $recordId . '"onclick="Vtiger_PBXManager_Js.registerPBXOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')"> <img style="vertical-align:middle;" src="layouts/basic/skins/images/small_Call.png"/></a>';
+						$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
+						$value = $value . '<a class="phoneField" data-value="' . $phoneNumber . '" record="' . $recordId . '"onclick="Vtiger_PBXManager_Js.registerPBXOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')"> <img style="vertical-align:middle;" src="layouts/basic/skins/images/small_Call.png"/></a>';
 					} elseif ($outgoingMobilePermission && !empty($value)) {
 						$phoneNumber = preg_replace('/[-()\s]/', '', $value);
 						$value = '<a class="phoneField" data-phoneNumber="' . $phoneNumber . '" record="' . $recordId . '" onclick="Vtiger_Mobile_Js.registerOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')">' . textlength_check($value) . '</a>';
@@ -410,7 +415,7 @@ class ListViewController
 							$value .= '</select><br /><a class="btn btn-success popoverCallOK">' . vtranslate('LBL_BTN_CALL', $module) . '</a>   <a class="btn btn-inverse popoverCallCancel">' . vtranslate('LBL_CANCEL', $module) . '</a>\' data-trigger="manual"><i class="icon-user"></i></a>';
 						}
 					} else {
-						$value = textlength_check($value);
+						$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 					}
 				} elseif (in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
 					$referenceFieldInfoList = $this->queryGenerator->getReferenceFieldInfoList();
@@ -423,7 +428,7 @@ class ListViewController
 					if (!empty($value) && !empty($this->nameList[$fieldName]) && !empty($parentModule)) {
 						$parentMeta = $this->queryGenerator->getMeta($parentModule);
 						$ID = $value;
-						$value = textlength_check($this->nameList[$fieldName][$ID]);
+						$value = vtlib\Functions::textLength($this->nameList[$fieldName][$ID], $fieldModel->get('maxlengthtext'));
 						if ($parentMeta->isModuleEntity() && $parentModule != 'Users' && Users_Privileges_Model::isPermitted($parentModule, 'DetailView', $ID)) {
 							$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&" .
 								"record=$rawValue' title='" . getTranslatedString($parentModule, $parentModule) . "'>$value</a>";
@@ -432,7 +437,7 @@ class ListViewController
 						$value = '--';
 					}
 				} elseif ($field->getFieldDataType() == 'owner') {
-					$value = textlength_check($this->ownerNameList[$fieldName][$value]);
+					$value = vtlib\Functions::textLength($this->ownerNameList[$fieldName][$value], $fieldModel->get('maxlengthtext'));
 				} elseif ($field->getUIType() == 8) {
 					if (!empty($value)) {
 						$temp_val = html_entity_decode($value, ENT_QUOTES, $default_charset);
@@ -451,7 +456,7 @@ class ListViewController
 							}
 						}
 						$value = implode(', ', $tmpArray);
-						$value = vtlib\Functions::textLength($value);
+						$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 					}
 				} elseif ($field->getFieldDataType() == 'inventoryLimit') {
 					if (!empty($value)) {
@@ -465,31 +470,28 @@ class ListViewController
 							}
 						}
 						$value = implode(', ', $tmpArray);
-						$value = vtlib\Functions::textLength($value);
+						$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 					}
 				} elseif ($field->getFieldDataType() == 'multiReferenceValue') {
-					$params = $field->getFieldParams();
-					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($params['field']);
 					$valueTmp = trim($value, '|#|');
 					$valueTmp = ($valueTmp != "") ? explode('|#|', $valueTmp) : [];
 					foreach ($valueTmp as $index => $tmp) {
 						$valueTmp[$index] = $fieldModel->getUITypeModel()->getDisplayValue($tmp);
 					}
 					$value = implode(', ', $valueTmp);
-					$value = vtlib\Functions::textLength($value);
+					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} elseif ($field->getFieldDataType() == 'posList') {
-					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field->getFieldId());
-					$value = vtlib\Functions::textLength($fieldModel->getUITypeModel()->getDisplayValue($value));
+					$value = vtlib\Functions::textLength($fieldModel->getUITypeModel()->getDisplayValue($value), $fieldModel->get('maxlengthtext'));
 				} elseif (in_array($uitype, array(7, 9, 90))) {
-					$value = textlength_check($value);
+					$value = vtlib\Functions::textLength($value,$fieldModel->get('maxlengthtext'));
 				} elseif ($uitype == 307) {
 					if ($value === null) {
 						$value = '--';
 					} else {
-						$value = "<span align='right'>" . textlength_check($value) . '</span>';
+						$value = "<span align='right'>" . vtlib\Functions::textLength($value,$fieldModel->get('maxlengthtext')) . '</span>';
 					}
 				} else {
-					$value = vtlib\Functions::textLength($value);
+					$value = vtlib\Functions::textLength($value,$fieldModel->get('maxlengthtext'));
 				}
 				$row[$fieldName] = $value;
 			}

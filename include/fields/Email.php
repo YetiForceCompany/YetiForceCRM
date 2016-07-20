@@ -9,7 +9,7 @@
 class Email
 {
 
-	public function findCrmidByPrefix($value, $moduleName)
+	public static function findCrmidByPrefix($value, $moduleName)
 	{
 		$moduleModel = \Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($moduleName);
 		$moduleData = $moduleModel->getModuleCustomNumberingData();
@@ -75,5 +75,11 @@ class Email
 			$rows[] = ['crmid' => $row['id'], 'modules' => $row['setype'], 'label' => isset($row['label']) ? $row['label'] : false];
 		}
 		return $rows;
+	}
+
+	public static function getUserMail($userId)
+	{
+		$userModel = \Users_Privileges_Model::getInstanceById($userId);
+		return $userModel->get('email1');
 	}
 }

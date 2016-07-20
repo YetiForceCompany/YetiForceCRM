@@ -12,6 +12,8 @@
 class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 {
 
+	private $conditions = false;
+
 	function getSearchParams($value, $assignedto = '')
 	{
 
@@ -20,7 +22,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		if ($assignedto != '')
 			array_push($conditions, array('assigned_user_id', 'e', getUserFullName($assignedto)));
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . json_encode($listSearchParams);
+		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
 	/**
@@ -58,6 +60,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($ticketStatus)) {
 			$ticketStatusSearch = implode("','", $ticketStatus);
 			$sql .= " AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
+			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
 		if (!empty($securityParameter))
 			$sql .= $securityParameter;
@@ -143,17 +146,12 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$data['links'][$i][0] = $i;
 			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($data['name'][$i], $owner);
 		}
-		//Include special script and css needed for this widget
 
+		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
-
-		$accessibleUsers = $currentUser->getAccessibleUsersForModule($moduleName);
-		$accessibleGroups = $currentUser->getAccessibleGroupForModule($moduleName);
-		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
-		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('OWNER', $ownerForwarded);
 
 		$content = $request->get('content');

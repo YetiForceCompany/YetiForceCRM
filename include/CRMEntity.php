@@ -624,7 +624,7 @@ class CRMEntity
 			}
 
 			if ($insertion_mode == 'edit') {
-				if($uitype != '4'){
+				if ($uitype != '4') {
 					$updateColumns[$columname] = $fldvalue;
 				}
 			} else {
@@ -2570,10 +2570,12 @@ class CRMEntity
 					$relatedRecord = $rparentRecord;
 				}
 			}
-			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($relatedRecord);
-			$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
-			if ($recordPermission) {
-				return '';
+			if ($role->get('listrelatedrecord') != 0) {
+				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($relatedRecord);
+				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
+				if ($recordPermission) {
+					return '';
+				}
 			}
 		}
 

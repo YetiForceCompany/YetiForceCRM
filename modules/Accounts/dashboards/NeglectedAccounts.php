@@ -9,6 +9,8 @@
 class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 {
 
+	private $conditions = [];
+
 	private function getAccounts($moduleName, $user, $pagingModel)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -38,6 +40,8 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['smownerid']);
 			$accounts[$row['crmid']] = $row;
 		}
+		$this->conditions[] = ['vtiger_entity_stats.crmactivity', 'IS NULL', '', QueryGenerator::$AND, 'tablename' => 'vtiger_entity_stats'];
+		$this->conditions[] = ['vtiger_entity_stats.crmactivity', 0, 'm', QueryGenerator::$OR];
 		return $accounts;
 	}
 
@@ -57,7 +61,7 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$user = array_keys($accessibleUsers);
 		}
 		$page = $request->get('page');
-		if(empty($page)){
+		if (empty($page)) {
 			$page = 1;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
@@ -73,6 +77,7 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
+		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/NeglectedAccountsContents.tpl', $moduleName);

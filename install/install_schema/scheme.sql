@@ -947,9 +947,11 @@ CREATE TABLE `u_yf_competitioncf` (
 
 CREATE TABLE `u_yf_crmentity_last_changes` (
   `crmid` int(11) NOT NULL,
-  `fieldname` varchar(255) NOT NULL,
+  `fieldname` varchar(50) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `date_updated` datetime NOT NULL
+  `date_updated` datetime NOT NULL,
+  KEY `crmid` (`crmid`,`fieldname`),
+  CONSTRAINT `u_yf_crmentity_last_changes_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_rel_tree` */
@@ -4750,6 +4752,8 @@ CREATE TABLE `vtiger_field` (
   `summaryfield` int(10) NOT NULL DEFAULT '0',
   `fieldparams` varchar(255) DEFAULT '',
   `header_field` varchar(15) DEFAULT NULL,
+  `maxlengthtext` smallint(3) unsigned DEFAULT '0',
+  `maxwidthcolumn` smallint(3) unsigned DEFAULT '0',
   PRIMARY KEY (`fieldid`),
   KEY `field_tabid_idx` (`tabid`),
   KEY `field_fieldname_idx` (`fieldname`),
@@ -5468,7 +5472,7 @@ CREATE TABLE `vtiger_leaddetails` (
   `campaign` varchar(30) DEFAULT NULL,
   `leadstatus` varchar(50) DEFAULT NULL,
   `leadsource` varchar(200) DEFAULT NULL,
-  `converted` int(1) DEFAULT '0',
+  `converted` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `licencekeystatus` varchar(50) DEFAULT NULL,
   `space` varchar(250) DEFAULT NULL,
   `comments` text,
@@ -5503,6 +5507,7 @@ CREATE TABLE `vtiger_leaddetails` (
   KEY `leaddetails_converted_leadstatus_idx` (`converted`,`leadstatus`),
   KEY `email_idx` (`email`),
   KEY `lastname` (`lastname`),
+  KEY `converted` (`converted`),
   CONSTRAINT `fk_1_vtiger_leaddetails` FOREIGN KEY (`leadid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

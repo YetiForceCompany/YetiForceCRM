@@ -27,8 +27,17 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
+		$params = [];
+		$params['status'] = Calendar_Module_Model::getComponentActivityStateLabel('current');
+		$params['user'] = $currentUser->getId();
+		$conditions = [
+			['vtiger_activity.status', "'" . implode(',', $params['status']) . "'", 'in', QueryGenerator::$AND],
+			['vtiger_crmentity.smcreatorid', $params['user'], 'e', QueryGenerator::$AND],
+			['vtiger_crmentity.smownerid', $params['user'], 'n', QueryGenerator::$AND]
+		];
+
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMine', $pagingModel, $owner, false);
+		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMine', $pagingModel, $owner, false, $params);
 
 		$viewer = $this->getViewer($request);
 
@@ -43,6 +52,7 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('USER_CONDITIONS', $conditions);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

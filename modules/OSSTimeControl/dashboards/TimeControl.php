@@ -199,6 +199,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('LOGGEDUSERID', $loggedUserId);
+		$viewer->assign('SOURCE_MODULE', 'OSSTimeControl');
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/TimeControlContents.tpl', $moduleName);

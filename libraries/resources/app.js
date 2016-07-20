@@ -1379,9 +1379,9 @@ var app = {
 			error = error.statusText;
 		}
 		console.error(error);
-		console.error(err);
-		console.error(errorThrown);
-		console.error('-----------------');
+		console.warn(err);
+		console.warn(errorThrown);
+		console.log('-----------------');
 	},
 	registerModal: function (container) {
 		if (typeof container == 'undefined') {
