@@ -80,7 +80,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$conditions = array(array('assigned_user_id', 'e', $value));
 		array_push($conditions, array('ticketstatus', 'e', "$openTicketsStatus"));
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . json_encode($listSearchParams);
+		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
 	function process(Vtiger_Request $request)
@@ -100,11 +100,6 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-
-		$accessibleUsers = $currentUser->getAccessibleUsersForModule($moduleName);
-		$accessibleGroups = $currentUser->getAccessibleGroupForModule($moduleName);
-		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
-		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		//Include special script and css needed for this widget
 		$viewer->assign('CURRENTUSER', $currentUser);

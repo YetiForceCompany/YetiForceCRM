@@ -22,7 +22,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		if ($assignedto != '')
 			array_push($conditions, array('assigned_user_id', 'e', getUserFullName($assignedto)));
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . json_encode($listSearchParams);
+		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
 	/**
@@ -152,11 +152,6 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
-
-		$accessibleUsers = $currentUser->getAccessibleUsersForModule($moduleName);
-		$accessibleGroups = $currentUser->getAccessibleGroupForModule($moduleName);
-		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
-		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('OWNER', $ownerForwarded);
 
 		$content = $request->get('content');
