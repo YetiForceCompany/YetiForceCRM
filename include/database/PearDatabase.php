@@ -73,16 +73,12 @@ class PearDatabase
 	public static function &getInstance($type = 'base')
 	{
 		if (key_exists($type, self::$dbCache)) {
-			$db = self::$dbCache[$type];
-			vglobal('adb', $db);
-			return $db;
-		} else if (key_exists('base', self::$dbCache)) {
-			$db = self::$dbCache['base'];
-			vglobal('adb', $db);
-			return $db;
+			return self::$dbCache[$type];
 		}
-
 		$config = self::getDBConfig($type);
+		if ($config === false && key_exists('base', self::$dbCache)) {
+			return self::$dbCache['base'];
+		}
 		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
 
 		if ($db->database == NULL) {
@@ -91,7 +87,9 @@ class PearDatabase
 			return false;
 		} else {
 			self::$dbCache[$type] = $db;
-			vglobal('adb', $db);
+			if ($type == 'base') {
+				vglobal('adb', $db);
+			}
 		}
 		return $db;
 	}
@@ -130,7 +128,7 @@ class PearDatabase
 		if (self::$dbConfig[$type]['db_server'] != '_SERVER_') {
 			return self::$dbConfig[$type];
 		}
-		return self::$dbConfig['base'];
+		return false;
 	}
 
 	protected function loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port)
