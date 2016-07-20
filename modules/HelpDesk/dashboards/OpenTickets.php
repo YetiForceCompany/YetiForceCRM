@@ -19,7 +19,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 	 * @param type $data
 	 * @return <Array>
 	 */
-	public function getOpenTickets($owner)
+	public function getOpenTickets()
 	{
 		$db = PearDatabase::getInstance();
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
@@ -48,9 +48,6 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
 
-		if (!empty($owner)) {
-			$sql .= ' AND smownerid = ' . $owner;
-		}
 		$sql .= ' GROUP BY smownerid';
 		$result = $db->query($sql);
 		$listViewUrl = $moduleModel->getListViewUrl();
@@ -90,13 +87,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
-		else
-			$owner = $request->get('owner');
-		if ($owner == 'all')
-			$owner = '';
-		$data = $this->getOpenTickets($owner);
+		$data = $this->getOpenTickets();
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
