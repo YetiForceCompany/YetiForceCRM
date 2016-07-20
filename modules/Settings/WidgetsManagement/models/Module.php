@@ -97,7 +97,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities',
 			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks',
 			'Delagated Events/To Dos', 'Delegated (overdue) Events/ToDos', 'Calendar',
-			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'Open Tickets', 'LBL_ALL_TIME_CONTROL',
+			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
 			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS'
 		];
 	}
