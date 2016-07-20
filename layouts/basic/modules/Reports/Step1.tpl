@@ -117,7 +117,7 @@
 					<div class='row {if $scheduleid neq 2} hide {/if}' id='scheduledWeekDay' style='padding:5px 0px;'>
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}</div>
 						<div class='col-md-4'>
-							{assign var=dayOfWeek value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdayoftheweek'))}
+							{assign var=dayOfWeek value=\includes\utils\Json::decode($SCHEDULEDREPORTS->get('schdayoftheweek'))}
 							<select style='width:230px;' multiple class='chosen form-control' title="{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name='schdayoftheweek' id='schdayoftheweek'>
 								<option value="7" {if is_array($dayOfWeek) && in_array('7', $dayOfWeek)} selected {/if}>{vtranslate('LBL_DAY0', 'Calendar')}</option>
 								<option value="1" {if is_array($dayOfWeek) && in_array('1', $dayOfWeek)} selected {/if}>{vtranslate('LBL_DAY1', 'Calendar')}</option>
@@ -134,7 +134,7 @@
 					<div class='row {if $scheduleid neq 3} hide {/if}' id='scheduleMonthByDates' style="padding:5px 0px;">
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}</div>
 						<div class='col-md-4'>
-							{assign var=dayOfMonth value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdayofthemonth'))}
+							{assign var=dayOfMonth value=\includes\utils\Json::decode($SCHEDULEDREPORTS->get('schdayofthemonth'))}
 							<select style="width: 281px !important;" multiple class="chosen-select col-md-6 form-control" title="{vtranslate('LBL_ON_THESE_DAYS', $MODULE)}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name='schdayofthemonth' id='schdayofthemonth' >
 								{section name=foo loop=31}
 									<option value={$smarty.section.foo.iteration} {if is_array($dayOfMonth) && in_array($smarty.section.foo.iteration, $dayOfMonth)}selected{/if}>{$smarty.section.foo.iteration}</option>
@@ -147,7 +147,7 @@
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'><span class="redColor">*</span>{vtranslate('LBL_CHOOSE_DATE', $MODULE)}</div>
 						<div class='col-md-6'>
 							<div class='input-group date' style='width: 185px;'>
-								{assign var=specificDate value=Zend_Json::decode($SCHEDULEDREPORTS->get('schdate'))}
+								{assign var=specificDate value=\includes\utils\Json::decode($SCHEDULEDREPORTS->get('schdate'))}
 								{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
 								<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
 								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -166,7 +166,7 @@
 							<div style='padding-bottom:5px;'>{vtranslate('LBL_SELECTED_DATES', $MODULE)}</div>
 							<div>
 								<input type="hidden" id=hiddenAnnualDates value='{$SCHEDULEDREPORTS->get('schannualdates')}' />
-								{assign var=ANNUAL_DATES value=Zend_Json::decode($SCHEDULEDREPORTS->get('schannualdates'))}
+								{assign var=ANNUAL_DATES value=\includes\utils\Json::decode($SCHEDULEDREPORTS->get('schannualdates'))}
 								<select multiple class="chosen-select" id='annualDates' name='schannualdates' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
 									{foreach item=DATES from=$ANNUAL_DATES}
 										<option value="{$DATES}" selected>{$DATES}</option>
@@ -196,7 +196,7 @@
 						<div class='col-md-4'>
 							{assign var=ALL_ACTIVEUSER_LIST value=$CURRENT_USER->getAccessibleUsers()}
 							{assign var=ALL_ACTIVEGROUP_LIST value=$CURRENT_USER->getAccessibleGroups()}
-							{assign var=recipients value=Zend_Json::decode($SCHEDULEDREPORTS->get('recipients'))}
+							{assign var=recipients value=\includes\utils\Json::decode($SCHEDULEDREPORTS->get('recipients'))}
 							<select multiple data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" title="{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}" class="chosen-select col-md-6 form-control" id='recipients' name='recipients' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" style="width: 281px !important;">
 								<optgroup label="{vtranslate('LBL_USERS')}">
 									{foreach key=USER_ID item=USER_NAME from=$ALL_ACTIVEUSER_LIST}
@@ -224,7 +224,7 @@
 							{vtranslate('LBL_SPECIFIC_EMAIL_ADDRESS', $MODULE)}
 						</div>
 						<div class='col-md-4'>
-							{assign var=specificemailids value=Zend_Json::decode($SCHEDULEDREPORTS->get('specificemails'))}
+							{assign var=specificemailids value=\includes\utils\Json::decode($SCHEDULEDREPORTS->get('specificemails'))}
 							<input id="specificemails" style="width: 281px !important;" class="col-md-6 form-control" title="{vtranslate('LBL_SPECIFIC_EMAIL_ADDRESS', $MODULE)}" type="text" value="{$specificemailids}" name="specificemails" data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]"></input>
 						</div>
 					</div>

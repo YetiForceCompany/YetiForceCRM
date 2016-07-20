@@ -20,7 +20,6 @@ require_once("modules/Users/Users.php");
 require_once("include/Webservices/State.php");
 require_once("include/Webservices/OperationManager.php");
 require_once("include/Webservices/SessionManager.php");
-require_once("include/Zend/Json.php");
 require_once 'include/Webservices/WebserviceField.php';
 require_once 'include/Webservices/EntityMeta.php';
 require_once 'include/Webservices/VtigerWebserviceObject.php';

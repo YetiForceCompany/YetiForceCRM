@@ -97,7 +97,7 @@ class Vtiger_Block_Model extends vtlib\Block
 
 		$showBlock = false;
 		foreach ($hideBlocks as $hideBlock) {
-			$expr = Zend_Json::decode($hideBlock['conditions']);
+			$expr = \includes\utils\Json::decode($hideBlock['conditions']);
 			if (!$record->getId() && $expr) {
 				continue;
 			}

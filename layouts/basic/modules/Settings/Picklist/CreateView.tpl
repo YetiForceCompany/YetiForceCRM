@@ -28,7 +28,7 @@
 				<div class="modal-body tabbable">
 					<div class="form-group">
 						<div class="col-md-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
-						<div class="col-md-9 controls"><input class="form-control" type="text" data-prompt-position="topLeft:70" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
+						<div class="col-md-9 controls"><input class="form-control" type="text" data-prompt-position="topLeft:70" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\includes\utils\Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
 					</div>
 					{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
 						<div class="form-group">	

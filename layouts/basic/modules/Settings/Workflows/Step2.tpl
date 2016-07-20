@@ -22,9 +22,9 @@
 		<input type="hidden" name="schtypeid" value="{$WORKFLOW_MODEL->get('schtypeid')}" />
 		<input type="hidden" name="schtime" value="{$WORKFLOW_MODEL->get('schtime')}" />
 		<input type="hidden" name="schdate" value={$WORKFLOW_MODEL->get('schdate')} />
-		<input type="hidden" name="schdayofweek" value={Zend_Json::encode($WORKFLOW_MODEL->get('schdayofweek'))} />
-		<input type="hidden" name="schdayofmonth" value={Zend_Json::encode($WORKFLOW_MODEL->get('schdayofmonth'))} />
-		<input type="hidden" name="schannualdates" value={Zend_Json::encode($WORKFLOW_MODEL->get('schannualdates'))} />
+		<input type="hidden" name="schdayofweek" value={\includes\utils\Json::encode($WORKFLOW_MODEL->get('schdayofweek'))} />
+		<input type="hidden" name="schdayofmonth" value={\includes\utils\Json::encode($WORKFLOW_MODEL->get('schdayofmonth'))} />
+		<input type="hidden" name="schannualdates" value={\includes\utils\Json::encode($WORKFLOW_MODEL->get('schannualdates'))} />
 		<div class="" style="border:1px solid #ccc;">
 				{if $IS_FILTER_SAVED_NEW == false}
 					<div class="alert alert-info">

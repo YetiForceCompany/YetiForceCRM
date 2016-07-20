@@ -86,7 +86,7 @@ class Vtiger_DependencyPicklist {
 			$mapping = $valueMapping[$i];
 			$sourceValue = $mapping['sourcevalue'];
 			$targetValues = $mapping['targetvalues'];
-			$serializedTargetValues = Zend_Json::encode($targetValues);
+			$serializedTargetValues = \includes\utils\Json::encode($targetValues);
 
 			$optionalsourcefield = $mapping['optionalsourcefield'];
 			$optionalsourcevalues = $mapping['optionalsourcevalues'];
@@ -95,7 +95,7 @@ class Vtiger_DependencyPicklist {
 				$criteria = array();
 				$criteria["fieldname"] = $optionalsourcefield;
 				$criteria["fieldvalues"] = $optionalsourcevalues;
-				$serializedCriteria = Zend_Json::encode($criteria);
+				$serializedCriteria = \includes\utils\Json::encode($criteria);
 			} else {
 				$serializedCriteria = null;
 			}
@@ -142,7 +142,7 @@ class Vtiger_DependencyPicklist {
 		for($i=0; $i<$noOfMapping; ++$i) {
 			$sourceValue = $adb->query_result($result, $i, 'sourcevalue');
 			$targetValues = $adb->query_result($result, $i, 'targetvalues');
-			$unserializedTargetValues = Zend_Json::decode(html_entity_decode($targetValues));
+			$unserializedTargetValues = \includes\utils\Json::decode(html_entity_decode($targetValues));
 
 			$mapping = array();
 			$mapping['sourcevalue'] = $sourceValue;
@@ -170,9 +170,9 @@ class Vtiger_DependencyPicklist {
 			$targetField = $adb->query_result($result, $i, 'targetfield');
 			$sourceValue = decode_html($adb->query_result($result, $i, 'sourcevalue'));
 			$targetValues = decode_html($adb->query_result($result, $i, 'targetvalues'));
-			$unserializedTargetValues = Zend_Json::decode(html_entity_decode($targetValues));
+			$unserializedTargetValues = \includes\utils\Json::decode(html_entity_decode($targetValues));
 			$criteria = decode_html($adb->query_result($result, $i, 'criteria'));
-			$unserializedCriteria = Zend_Json::decode(html_entity_decode($criteria));
+			$unserializedCriteria = \includes\utils\Json::decode(html_entity_decode($criteria));
 
 			if(!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] != null) {
 				$conditionValue = array(
@@ -195,7 +195,7 @@ class Vtiger_DependencyPicklist {
 
 	static function getJSPicklistDependencyDatasource($module) {
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($module);
-		return Zend_Json::encode($picklistDependencyDatasource);
+		return \includes\utils\Json::encode($picklistDependencyDatasource);
 	}
 
 	static function checkCyclicDependency($module, $sourceField, $targetField) {

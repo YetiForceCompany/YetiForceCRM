@@ -784,7 +784,7 @@
 											</div>
 											<div class="col-md-8 controls">
 												<input type="text" maxlength="50" name="fieldLabel" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control"
-													   data-validator={Zend_Json::encode([['name'=>'FieldLabel']])} />
+													   data-validator={\includes\utils\Json::encode([['name'=>'FieldLabel']])} />
 											</div>
 										</div>
 										<div class="form-group">
@@ -794,7 +794,7 @@
 											</div>
 											<div class="col-md-8 controls">
 												<input type="text" maxlength="30" name="fieldName" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control"
-													   data-validator={Zend_Json::encode([['name'=>'fieldName']])} />
+													   data-validator={\includes\utils\Json::encode([['name'=>'fieldName']])} />
 											</div>
 										</div>
 										<div class="form-group">
@@ -834,7 +834,7 @@
 											</div>
 											<div class="col-md-8 controls">
 												<select id="picklistUi" class="form-control" name="pickListValues" multiple="" tabindex="-1" aria-hidden="true" placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" 
-														data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'PicklistFieldValues']])}>
+														data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\includes\utils\Json::encode([['name'=>'PicklistFieldValues']])}>
 												</select>
 											</div>
 										</div>

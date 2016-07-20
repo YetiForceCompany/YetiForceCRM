@@ -128,7 +128,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				$request->set('merge_type', 0);
 				$request->set('merge_fields', '');
 			} else {
-				$viewer->assign('MERGE_FIELDS', Zend_Json::encode($request->get('merge_fields')));
+				$viewer->assign('MERGE_FIELDS', \includes\utils\Json::encode($request->get('merge_fields')));
 			}
 
 			$moduleName = $request->getModule();
@@ -156,7 +156,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			}
 
 			$viewer->assign('AVAILABLE_BLOCKS', $moduleMeta->getImportableFields(true));
-			$viewer->assign('ENCODED_MANDATORY_FIELDS', Zend_Json::encode($moduleMeta->getMandatoryFields()));
+			$viewer->assign('ENCODED_MANDATORY_FIELDS', \includes\utils\Json::encode($moduleMeta->getMandatoryFields()));
 			$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
 			$viewer->assign('USERS_LIST', Import_Utils_Helper::getAssignedToUserList($moduleName));
 			$viewer->assign('GROUPS_LIST', Import_Utils_Helper::getAssignedToGroupList($moduleName));

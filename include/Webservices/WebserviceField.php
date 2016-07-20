@@ -192,7 +192,7 @@ class WebserviceField
 
 	public function getFieldParams()
 	{
-		return Zend_Json::decode($this->fieldparams);
+		return \includes\utils\Json::decode($this->fieldparams);
 	}
 
 	public function isReadOnly()

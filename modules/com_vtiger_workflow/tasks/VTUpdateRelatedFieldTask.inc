@@ -25,7 +25,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 		
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
-			$fieldValueMapping = Zend_Json::decode($this->field_value_mapping);
+			$fieldValueMapping = \includes\utils\Json::decode($this->field_value_mapping);
 		}
 		if (!empty($fieldValueMapping)) {
 			$util->loggedInUser();

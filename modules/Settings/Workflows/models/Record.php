@@ -104,7 +104,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 		$wf = $this->getWorkflowObject();
 		$wf->description = $this->get('summary');
-		$wf->test = Zend_Json::encode($this->get('conditions'));
+		$wf->test = \includes\utils\Json::encode($this->get('conditions'));
 		$wf->moduleName = $this->get('module_name');
 		$wf->executionCondition = $this->get('execution_condition');
 		$wf->filtersavedinnew = $this->get('filtersavedinnew');
@@ -212,7 +212,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$workflowModel = new self();
 
 		$workflowModel->set('summary', $wf->description);
-		$workflowModel->set('conditions', Zend_Json::decode($wf->test));
+		$workflowModel->set('conditions', \includes\utils\Json::decode($wf->test));
 		$workflowModel->set('execution_condition', $wf->executionCondition);
 		$workflowModel->set('module_name', $wf->moduleName);
 		$workflowModel->set('workflow_id', $wf->id);

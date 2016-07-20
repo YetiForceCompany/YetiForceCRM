@@ -27,7 +27,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
-			$this->extraData = Zend_Json::decode(decode_html($this->extraData));
+			$this->extraData = \includes\utils\Json::decode(decode_html($this->extraData));
 		}
 		if ($this->extraData == NULL) {
 			throw new Exception("Invalid data");

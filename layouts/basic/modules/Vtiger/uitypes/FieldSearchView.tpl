@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-    {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var="LABEL" value=$FIELD_MODEL->getFieldInfo()}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUE value=$SEARCH_INFO['searchValue']}

@@ -124,7 +124,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 		$dayStartPicklistValues = Users_Record_Model::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign("DAY_STARTS", Zend_Json::encode($dayStartPicklistValues));
+		$viewer->assign("DAY_STARTS", \includes\utils\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 
 		return parent::process($request);

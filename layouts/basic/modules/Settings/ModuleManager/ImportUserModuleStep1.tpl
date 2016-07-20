@@ -44,7 +44,7 @@
 										<td class="fieldValue">
 											<input type="file" name="moduleZip" id="moduleZip" size="80px" 
 												   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-												   data-validator={Zend_Json::encode([['name'=>'UploadModuleZip']])}
+												   data-validator={\includes\utils\Json::encode([['name'=>'UploadModuleZip']])}
 												   />
 										</td>
 									</tr>

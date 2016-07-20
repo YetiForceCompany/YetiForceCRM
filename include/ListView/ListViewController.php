@@ -388,7 +388,7 @@ class ListViewController
 						$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 					}
 				} elseif ($field->getFieldDataType() == 'skype') {
-					if(empty($value)){
+					if (empty($value)) {
 						$value = '';
 					} else {
 						$value = "<a href='skype:$value?call'>" . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) . '</a>';
@@ -441,8 +441,7 @@ class ListViewController
 				} elseif ($field->getUIType() == 8) {
 					if (!empty($value)) {
 						$temp_val = html_entity_decode($value, ENT_QUOTES, $default_charset);
-						$json = new Zend_Json();
-						$value = vt_suppressHTMLTags(implode(',', $json->decode($temp_val)));
+						$value = vt_suppressHTMLTags(implode(',', \includes\utils\Json::decode($temp_val)));
 					}
 				} elseif ($field->getFieldDataType() == 'taxes') {
 					if (!empty($value)) {
@@ -483,15 +482,15 @@ class ListViewController
 				} elseif ($field->getFieldDataType() == 'posList') {
 					$value = vtlib\Functions::textLength($fieldModel->getUITypeModel()->getDisplayValue($value), $fieldModel->get('maxlengthtext'));
 				} elseif (in_array($uitype, array(7, 9, 90))) {
-					$value = vtlib\Functions::textLength($value,$fieldModel->get('maxlengthtext'));
+					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} elseif ($uitype == 307) {
 					if ($value === null) {
 						$value = '--';
 					} else {
-						$value = "<span align='right'>" . vtlib\Functions::textLength($value,$fieldModel->get('maxlengthtext')) . '</span>';
+						$value = "<span align='right'>" . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) . '</span>';
 					}
 				} else {
-					$value = vtlib\Functions::textLength($value,$fieldModel->get('maxlengthtext'));
+					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				}
 				$row[$fieldName] = $value;
 			}

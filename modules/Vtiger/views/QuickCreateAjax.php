@@ -43,7 +43,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 
 		$viewer = $this->getViewer($request);
 
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode($picklistDependencyDatasource));
 		$recordStructure = $recordStructureInstance->getStructure();
 		$mappingRelatedField = Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName);
 
@@ -62,7 +62,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 			}
 		}
 
-		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($mappingRelatedField));
+		$viewer->assign('MAPPING_RELATED_FIELD', \includes\utils\Json::encode($mappingRelatedField));
 		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);

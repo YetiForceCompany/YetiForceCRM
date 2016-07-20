@@ -41,7 +41,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-md-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}</div>
-						<div class="col-md-9 controls"><input type="text" class="form-control" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
+						<div class="col-md-9 controls"><input type="text" class="form-control" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\includes\utils\Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
 					</div>
 					{if $SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES}
 					<div class="form-group">

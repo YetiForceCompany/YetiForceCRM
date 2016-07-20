@@ -80,7 +80,7 @@ class ListViewSession
 		$cv = new CustomView();
 		$viewId = $cv->getViewId($currentModule);
 		if (!empty($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId])) {
-			$recordNavigationInfo = Zend_Json::decode($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId]);
+			$recordNavigationInfo = \includes\utils\Json::decode($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId]);
 			$pageNumber = 0;
 			if (count($recordNavigationInfo) == 1) {
 				foreach ($recordNavigationInfo as $recordIdList) {
@@ -181,7 +181,7 @@ class ListViewSession
 					$recordNavigationInfo[$current][] = $recordId;
 				}
 			}
-			$_SESSION[$currentModule . '_DetailView_Navigation' . $viewId] = Zend_Json::encode($recordNavigationInfo);
+			$_SESSION[$currentModule . '_DetailView_Navigation' . $viewId] = \includes\utils\Json::encode($recordNavigationInfo);
 		}
 		return $recordNavigationInfo;
 	}

@@ -27,7 +27,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	public function get($key)
 	{
 		if (in_array($key, ['conditions', 'params']) && !is_array(parent::get($key))) {
-			return Zend_Json::decode(html_entity_decode(parent::get($key)));
+			return \includes\utils\Json::decode(html_entity_decode(parent::get($key)));
 		} else {
 			return parent::get($key);
 		}

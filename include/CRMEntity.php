@@ -25,7 +25,6 @@ require_once('include/logging.php');
 require_once('include/Tracker.php');
 require_once('include/utils/utils.php');
 require_once('include/utils/UserInfoUtil.php');
-require_once("include/Zend/Json.php");
 
 class CRMEntity
 {
@@ -588,8 +587,7 @@ class CRMEntity
 				} elseif ($uitype == 8) {
 					$this->column_fields[$fieldname] = rtrim($this->column_fields[$fieldname], ',');
 					$ids = explode(',', $this->column_fields[$fieldname]);
-					$json = new Zend_Json();
-					$fldvalue = $json->encode($ids);
+					$fldvalue = \includes\utils\Json::encode($ids);
 				} elseif ($uitype == 12) {
 
 					// Bulk Sae Mode: Consider the FROM email address as specified, if not lookup

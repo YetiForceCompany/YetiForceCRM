@@ -35,7 +35,7 @@ class PBXManager_Server_Model extends Vtiger_Base_Model
 			$rowData = $db->query_result_rowdata($gatewatResult, 0);
 			$serverModel->set('gateway', $rowData['gateway']);
 			$serverModel->set('id', $rowData['id']);
-			$parameters = Zend_Json::decode(decode_html($rowData['parameters']));
+			$parameters = \includes\utils\Json::decode(decode_html($rowData['parameters']));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}

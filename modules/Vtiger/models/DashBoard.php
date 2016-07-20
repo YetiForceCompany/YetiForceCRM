@@ -89,7 +89,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 			$module = $this->getModuleNameFromLink($url, $label);
 
 			if ($module == 'Home' && !empty($filterid) && !empty($data)) {
-				$filterData = Zend_Json::decode(htmlspecialchars_decode($data));
+				$filterData = \includes\utils\Json::decode(htmlspecialchars_decode($data));
 				$module = $filterData['module'];
 			}
 			if (!$currentUserPrivilegeModel->hasModulePermission(getTabid($module))) {

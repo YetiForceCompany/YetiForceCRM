@@ -31,7 +31,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	public function getCurrencyParam($currencies, $param = false)
 	{
 		if ($param !== false) {
-			return Zend_Json::decode($param);
+			return \includes\utils\Json::decode($param);
 		} else {
 			foreach ($currencies as $currency) {
 				$return[$currency['id']] = vtlib\Functions::getConversionRateInfo($currency['id']);

@@ -53,7 +53,7 @@
 					<input id="emailField" name="toEmail" type="text" class="row autoComplete sourceField select2"
 					value="{$TO_EMAILS}" data-validation-engine="validate[required, funcCall[Vtiger_To_Email_Validator_Js.invokeValidation]]"
 					data-fieldinfo='{$FIELD_INFO}'
-					{if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
+					{if !empty($SPECIAL_VALIDATOR)}data-validator='{\includes\utils\Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
 				</span>
 			</span>
 			</span>
