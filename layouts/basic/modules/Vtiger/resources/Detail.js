@@ -2727,6 +2727,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						widgetContent.find("#relatedHistoryCurrentPage").remove();
 						widgetContent.find("#moreRelatedUpdates").remove();
 						widgetContent.html(data);
+						Vtiger_Index_Js.registerMailButtons(widgetContent);
 					}
 			);
 		});
@@ -2839,6 +2840,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				url += 'history';
 			recentActivitiesTab.data('url', url);
 			recentActivitiesTab.trigger('click');
+		});
+		detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"] .widget_contents').on(thisInstance.widgetPostLoad, function(e){
+			thisInstance.registerEmailEvents($(e.currentTarget));
 		});
 		thisInstance.registerEventForRelatedList();
 		thisInstance.registerEventForRelatedListPagination();

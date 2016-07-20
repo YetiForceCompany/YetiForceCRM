@@ -48,7 +48,7 @@
 									{/if}
 									{if Users_Privileges_Model::isPermitted($MODULENAME, 'PrintMail')}
 										<span class="btn-group">
-											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
+											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-default" data-mode="previewPrint">
 												<span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;
 												<strong>{vtranslate('LBL_PRINT',$MODULENAME)}</strong>
 											</button>
@@ -56,7 +56,7 @@
 									{/if}
 									{if $ISMODAL}
 										<span class="btn-group">
-											<button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+											<button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</span>
@@ -126,13 +126,13 @@
 										<span id="emailPreview_attachment" class="">
 											{foreach item=ATTACHMENT from=$ATTACHMENTS}
 												<a class="btn btn-xs btn-primary" title="{$ATTACHMENT['name']}"
-													{if array_key_exists('docid',$ATTACHMENT)}
-														 href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['docid']}
-														&fileid={$ATTACHMENT['id']}"
-													{else}
-														 href="index.php?module=Emails&action=DownloadFile&attachment_id={$ATTACHMENT['id']}"
-													{/if}
-													><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
+												   {if array_key_exists('docid',$ATTACHMENT)}
+													   href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['docid']}
+													   &fileid={$ATTACHMENT['id']}"
+												   {else}
+													   href="index.php?module=Emails&action=DownloadFile&attachment_id={$ATTACHMENT['id']}"
+												   {/if}
+												   ><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
 											{/foreach}
 										</span>
 									</span>
