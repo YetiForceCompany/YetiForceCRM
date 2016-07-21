@@ -3739,10 +3739,10 @@ CREATE TABLE `vtiger_convertleadmapping` (
 
 CREATE TABLE `vtiger_crmentity` (
   `crmid` int(19) NOT NULL,
-  `smcreatorid` int(19) NOT NULL DEFAULT '0',
-  `smownerid` int(19) NOT NULL DEFAULT '0',
+  `smcreatorid` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `smownerid` smallint(5) unsigned NOT NULL DEFAULT '0',
   `shownerid` tinyint(1) DEFAULT NULL,
-  `modifiedby` int(19) NOT NULL DEFAULT '0',
+  `modifiedby` smallint(5) unsigned NOT NULL DEFAULT '0',
   `setype` varchar(30) NOT NULL,
   `description` text,
   `attention` text,
@@ -3751,9 +3751,9 @@ CREATE TABLE `vtiger_crmentity` (
   `viewedtime` datetime DEFAULT NULL,
   `closedtime` datetime DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
-  `version` int(19) NOT NULL DEFAULT '0',
-  `presence` tinyint(1) DEFAULT '1',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `version` int(19) unsigned NOT NULL DEFAULT '0',
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `label` varchar(255) DEFAULT NULL,
   `searchlabel` varchar(255) DEFAULT NULL,
   `was_read` tinyint(1) DEFAULT '0',
@@ -3765,7 +3765,8 @@ CREATE TABLE `vtiger_crmentity` (
   KEY `vtiger_crmentity_labelidx` (`label`),
   KEY `searchlabel` (`setype`,`label`),
   KEY `setype` (`setype`,`deleted`,`searchlabel`),
-  KEY `crmid` (`crmid`,`deleted`)
+  KEY `crmid` (`crmid`,`deleted`),
+  KEY `crmid_2` (`crmid`,`setype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentity_seq` */
