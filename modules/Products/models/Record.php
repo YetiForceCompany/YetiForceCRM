@@ -282,18 +282,24 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT label, searchlabel, crmid, setype, createdtime FROM vtiger_crmentity WHERE searchlabel LIKE ? AND vtiger_crmentity.deleted = 0';
+		$query = 'SELECT label, vtiger_crmentity_search.searchlabel, vtiger_crmentity.crmid, setype, createdtime FROM vtiger_crmentity 
+				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_crmentity_search.crmid
+				WHERE vtiger_crmentity_search.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0';
 		$params = array("%$searchKey%");
 
 		if ($module !== false) {
 			$query .= ' AND setype = ?';
 			if ($module == 'Products') {
-				$query = 'SELECT label,searchlabel, crmid, setype, createdtime FROM vtiger_crmentity INNER JOIN vtiger_products ON 
-							vtiger_products.productid = vtiger_crmentity.crmid WHERE searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 
-							AND vtiger_products.discontinued = 1 AND setype = ?';
+				$query = 'SELECT label, vtiger_crmentity_search.searchlabel, vtiger_crmentity.crmid, setype, createdtime FROM vtiger_crmentity 
+					INNER JOIN vtiger_products ON vtiger_products.productid = vtiger_crmentity.crmid
+					INNER JOIN vtiger_crmentity_search ON vtiger_crmentity.crmid = vtiger_crmentity_search.crmid
+					WHERE vtiger_crmentity_search.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 
+							AND vtiger_products.discontinued = 1 AND vtiger_crmentity.setype = ?';
 			} else if ($module == 'Services') {
-				$query = 'SELECT label,searchlabel, crmid, setype, createdtime FROM vtiger_crmentity INNER JOIN vtiger_service ON 
-							vtiger_service.serviceid = vtiger_crmentity.crmid WHERE searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 
+				$query = 'SELECT label, vtiger_crmentity_search.searchlabel, crmid, setype, createdtime FROM vtiger_crmentity 
+					INNER JOIN vtiger_service ON vtiger_service.serviceid = vtiger_crmentity.crmid 
+					INNER JOIN vtiger_crmentity_search ON vtiger_crmentity.crmid = vtiger_crmentity_search.crmid
+					WHERE vtiger_crmentity_search.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 
 							AND vtiger_service.discontinued = 1 AND setype = ?';
 			}
 			$params[] = $module;

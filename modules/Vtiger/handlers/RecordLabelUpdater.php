@@ -9,21 +9,31 @@
  * *********************************************************************************** */
 require_once 'include/events/VTEventHandler.inc';
 
-class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler {
+class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler
+{
 
-	function handleEvent($eventName, $data) {
-		$adb = PearDatabase::getInstance();
+	function handleEvent($eventName, $data)
+	{
+		$db = PearDatabase::getInstance();
 
 		if ($eventName == 'vtiger.entity.aftersave') {
-            $module = $data->getModuleName();
-            if($module != "Users"){
-                $labelInfo = vtlib\Functions::computeCRMRecordLabels($module, $data->getId(),true);
+			$module = $data->getModuleName();
+			if ($module != "Users") {
+				$labelInfo = vtlib\Functions::computeCRMRecordLabels($module, $data->getId(), true);
 				if (count($labelInfo) > 0) {
 					$label = decode_html($labelInfo[$data->getId()]['name']);
 					$search = decode_html($labelInfo[$data->getId()]['search']);
-					$adb->pquery('UPDATE vtiger_crmentity SET label=?,searchlabel=? WHERE crmid=?', array($label, $search, $data->getId()));
+					if ($data->focus->mode == 'edit') {
+						$db->pquery('UPDATE vtiger_crmentity 
+						INNER JOIN vtiger_crmentity_search ON vtiger_crmentity_search.crmid = vtiger_crmentity.crmid
+						SET vtiger_crmentity.label = ?, vtiger_crmentity_search.searchlabel = ? WHERE vtiger_crmentity.crmid = ?', [$label, $search, $data->getId()]);
+					} else {
+						$db->pquery('UPDATE vtiger_crmentity 
+							SET vtiger_crmentity.label = ? WHERE crmid = ?', [$label, $data->getId()]);
+						$db->insert('vtiger_crmentity_search', ['crmid' => $data->getId(), 'searchlabel' => $search]);
+					}
 				}
-            }
+			}
 		}
 	}
 }

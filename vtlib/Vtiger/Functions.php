@@ -342,7 +342,10 @@ class Functions
 		}
 
 		if ($missing) {
-			$sql = sprintf("SELECT crmid, setype, deleted, smcreatorid, smownerid, label, searchlabel FROM vtiger_crmentity WHERE %s ", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
+			$sql = sprintf("SELECT vtiger_crmentity.crmid, setype, deleted, smcreatorid, smownerid, label, vtiger_crmentity_search.searchlabel 
+				FROM vtiger_crmentity 
+				INNER JOIN vtiger_crmentity_search ON vtiger_crmentity_search.crmid = vtiger_crmentity.crmid 
+				WHERE %s ", implode(' OR ', array_fill(0, count($missing), 'vtiger_crmentity.crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->fetch_array($result)) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;

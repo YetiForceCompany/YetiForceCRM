@@ -110,7 +110,8 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$sql = 'UPDATE vtiger_crmentity';
 		$sql .= self::getFromClauseByColumn($moduleName, $moduleInfoExtend, $allColumns);
 		$sql .= $sqlExt;
-		$sql .= " SET vtiger_crmentity.label = CONCAT_WS(' ' $entityColumnName), vtiger_crmentity.searchlabel = CONCAT_WS(' ' $searchColumnName)";
+		$sql .= ' INNER JOIN vtiger_crmentity_search ON vtiger_crmentity_search.crmid = vtiger_crmentity.crmid';
+		$sql .= " SET vtiger_crmentity.label = CONCAT_WS(' ' $entityColumnName), vtiger_crmentity_search.searchlabel = CONCAT_WS(' ' $searchColumnName)";
 		$sql .= " WHERE vtiger_crmentity.setype = '$moduleName'";
 		$adb->query($sql);
 	}
