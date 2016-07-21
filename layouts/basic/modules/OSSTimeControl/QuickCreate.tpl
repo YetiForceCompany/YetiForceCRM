@@ -94,14 +94,15 @@
 		Vtiger_Edit_Js("OSSTimeControl_QuickCreate_Js",{},
 				{
 					differenceDays: function () {
-						var firstDate = jQuery('input[name="date_start"]');
+						var container = $('.recordEditView[name="QuickCreate"]');
+						var firstDate = container.find('input[name="date_start"]');
 						var firstDateFormat = firstDate.data('date-format');
 						var firstDateValue = firstDate.val();
-						var secondDate = jQuery('input[name="due_date"]');
+						var secondDate = container.find('input[name="due_date"]');
 						var secondDateFormat = secondDate.data('date-format');
 						var secondDateValue = secondDate.val();
-						var firstTime = jQuery('input[name="time_start"]');
-						var secondTime = jQuery('input[name="time_end"]');
+						var firstTime = container.find('input[name="time_start"]');
+						var secondTime = container.find('input[name="time_end"]');
 						var firstTimeValue = firstTime.val();
 						var secondTimeValue = secondTime.val();
 						var firstDateTimeValue = firstDateValue + ' ' + firstTimeValue;
