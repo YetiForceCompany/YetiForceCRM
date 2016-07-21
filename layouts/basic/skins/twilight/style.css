@@ -5512,3 +5512,11 @@ select.form-control {
 	top: 3px;
 	right: 0;
 }
+.iconsInFooter{
+	margin: 7px 5px 0 5px;
+	float: left;
+}
+.iconsInFooter span{
+	color: #fff;
+	font-size: 20px;
+}
