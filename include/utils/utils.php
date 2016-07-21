@@ -1304,9 +1304,9 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 	$timeOfCall = date('Y-m-d H:i:s');
 
 	$query = "INSERT INTO vtiger_crmentity (crmid,smcreatorid,smownerid,modifiedby,setype,description,createdtime,
-			modifiedtime,viewedtime,status,version,presence,deleted,label) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	$adb->pquery($query, array($crmID, $userID, $userID, 0, "PBXManager", "", $timeOfCall, $timeOfCall, NULL, NULL, 0, 1, 0, $callerName));
-
+			modifiedtime,viewedtime,status,version,presence,deleted) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	$adb->pquery($query, array($crmID, $userID, $userID, 0, "PBXManager", "", $timeOfCall, $timeOfCall, NULL, NULL, 0, 1, 0));
+	$adb->pquery("INSERT INTO vtiger_crmentity_label INNER JOIN (crmid,label) VALUES (?,?)", [$crmID, $callerName]); 
 	$sql = "insert into vtiger_pbxmanager (pbxmanagerid,callfrom,callto,timeofcall,status)values (?,?,?,?,?)";
 	$params = array($crmID, $callerName, $receiver, $timeOfCall, $status);
 	$adb->pquery($sql, $params);

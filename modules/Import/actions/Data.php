@@ -382,7 +382,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				}
 
 				$label = trim($label);
-				$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $recordId));
+				$adb->update('vtiger_crmentity_label', ['label' => $label], 'crmid = ?', [$recordId]);
 			}
 
 			$this->importedRecordInfo[$rowId] = $entityInfo;
@@ -794,7 +794,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 
 		$label = trim($label);
-		$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $recordId));
+		$adb->update('vtiger_crmentity_label', ['label' => $label], 'crmid = ?', [$recordId]);
 
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$focus = $recordModel->getEntity();

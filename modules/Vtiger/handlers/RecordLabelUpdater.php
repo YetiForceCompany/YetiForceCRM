@@ -26,10 +26,10 @@ class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler
 					if ($data->focus->mode == 'edit') {
 						$db->pquery('UPDATE vtiger_crmentity 
 						INNER JOIN vtiger_crmentity_search ON vtiger_crmentity_search.crmid = vtiger_crmentity.crmid
-						SET vtiger_crmentity.label = ?, vtiger_crmentity_search.searchlabel = ? WHERE vtiger_crmentity.crmid = ?', [$label, $search, $data->getId()]);
+						INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid
+						SET vtiger_crmentity_label.label = ?, vtiger_crmentity_search.searchlabel = ? WHERE vtiger_crmentity.crmid = ?', [$label, $search, $data->getId()]);
 					} else {
-						$db->pquery('UPDATE vtiger_crmentity 
-							SET vtiger_crmentity.label = ? WHERE crmid = ?', [$label, $data->getId()]);
+						$db->insert('vtiger_crmentity_label', ['crmid' => $data->getId(), 'label' => $label]);
 						$db->insert('vtiger_crmentity_search', ['crmid' => $data->getId(), 'searchlabel' => $search]);
 					}
 				}

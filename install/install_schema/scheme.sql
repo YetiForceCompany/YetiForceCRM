@@ -3754,18 +3754,24 @@ CREATE TABLE `vtiger_crmentity` (
   `version` int(19) unsigned NOT NULL DEFAULT '0',
   `presence` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `label` varchar(255) DEFAULT NULL,
   `was_read` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
   KEY `crmentity_modifiedby_idx` (`modifiedby`),
   KEY `crmentity_deleted_idx` (`deleted`),
   KEY `crm_ownerid_del_setype_idx` (`smownerid`,`deleted`,`setype`),
-  KEY `vtiger_crmentity_labelidx` (`label`),
-  KEY `searchlabel` (`setype`,`label`),
   KEY `crmid` (`crmid`,`deleted`),
   KEY `crmid_2` (`crmid`,`setype`),
-  KEY `setype` (`setype`,`deleted`)
+  KEY `setype` (`setype`,`deleted`),
+  KEY `searchlabel` (`setype`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_crmentity_label` */
+
+CREATE TABLE `vtiger_crmentity_label` (
+  `crmid` int(11) unsigned NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentity_search` */

@@ -30,8 +30,8 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = "SELECT vtiger_activity.activityid as act_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype,
-		vtiger_activity.*, relcrm.setype AS linkmod, relcrm.label AS linklabel, procrm.label AS processlabel, procrm.setype AS processmod,
-		subprocrm.label AS subprocesslabel, subprocrm.setype AS subprocessmod
+		vtiger_activity.*, relcrm.setype AS linkmod, relcrmlab.label AS linklabel, procrmlab.label AS processlabel, procrm.setype AS processmod,
+		subprocrmlab.label AS subprocesslabel, subprocrm.setype AS subprocessmod
 		FROM vtiger_activity
 		LEFT JOIN vtiger_activitycf
 			ON vtiger_activitycf.activityid = vtiger_activity.activityid
@@ -39,9 +39,15 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			ON vtiger_crmentity.crmid = vtiger_activity.activityid
 		LEFT JOIN vtiger_crmentity relcrm
 			ON relcrm.crmid = vtiger_activity.link
+		LEFT JOIN vtiger_crmentity_label relcrmlab
+			ON relcrm.crmid = relcrmlab.crmid
 		LEFT JOIN vtiger_crmentity procrm
 			ON procrm.crmid = vtiger_activity.process
+		LEFT JOIN vtiger_crmentity_label procrmlab
+			ON procrm.crmid = vtiger_activity.process
 		LEFT JOIN vtiger_crmentity subprocrm
+			ON subprocrm.crmid = vtiger_activity.subprocess
+		LEFT JOIN vtiger_crmentity_label subprocrmlab
 			ON subprocrm.crmid = vtiger_activity.subprocess
 		WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
 		$instance = CRMEntity::getInstance($this->getModuleName());
