@@ -8788,7 +8788,8 @@ CREATE TABLE `vtiger_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
-  KEY `user_user_password_idx` (`user_password`)
+  KEY `user_user_password_idx` (`user_password`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_users2group` */
