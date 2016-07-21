@@ -488,7 +488,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($instance !== false) {
 			return $instance;
 		}
-		$instance = null;
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
@@ -496,9 +495,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($db->getRowCount($result) > 0) {
 			$instance = new self();
 			$instance->setData($db->getRow($result));
+			Vtiger_Cache::set('Settings_Roles_Record_Model', $roleId, $instance);
 			return $instance;
 		}
-		Vtiger_Cache::set('Settings_Roles_Record_Model', $roleId, $instance);
 		return $instance;
 	}
 

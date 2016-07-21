@@ -47,7 +47,7 @@ class PBXManager_Server_Model extends Vtiger_Base_Model
 	public static function checkPermissionForOutgoingCall()
 	{
 		$permission = Vtiger_Cache::get('outgoingCall', 'PBXManager');
-		if ($colorList !== false) {
+		if ($permission !== false) {
 			return $permission ? true : false;
 		}
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
