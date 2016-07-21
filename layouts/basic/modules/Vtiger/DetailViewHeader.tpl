@@ -16,7 +16,7 @@
 		<div class="row detailViewTitle">
 			<div class="">
 				<div class="row">
-					<div class="col-md-12 marginBottom5px widget_header row no-ZEND_JSONmargin">
+					<div class="col-md-12 marginBottom5px widget_header row no-margin">
 						<div class="">
 							<div class="col-md-6 paddingLRZero">
 								{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
