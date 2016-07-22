@@ -680,22 +680,22 @@ class Vtiger_Field_Model extends vtlib\Field
 			$this->fieldInfo['decimal_seperator'] = $currentUser->get('currency_decimal_separator');
 			$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
 		}
+		if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+			if ($this->getFieldDataType() == 'owner') {
+				$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
+				$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $this->getFieldDataType());
+				$pickListValues = [];
+				$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
+				$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+				$this->fieldInfo['picklistvalues'] = $pickListValues;
+			}
 
-		if ($this->getFieldDataType() == 'owner') {
-			$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
-			$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $this->getFieldDataType());
-			$pickListValues = [];
-			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
-			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
-			$this->fieldInfo['picklistvalues'] = $pickListValues;
+			if ($this->getFieldDataType() == 'sharedOwner') {
+				$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
+				$pickListValues = [];
+				$this->fieldInfo['picklistvalues'] = $userList;
+			}
 		}
-
-		if ($this->getFieldDataType() == 'sharedOwner') {
-			$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
-			$pickListValues = [];
-			$this->fieldInfo['picklistvalues'] = $userList;
-		}
-
 		if ($this->getFieldDataType() == 'modules') {
 			foreach ($this->getModulesListValues() as $moduleId => $module) {
 				$modulesList[$module['name']] = $module['label'];

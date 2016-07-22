@@ -1,13 +1,13 @@
 {*<!--
 /*********************************************************************************
-  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-   * ("License"); You may not use this file except in compliance with the License
-   * The Original Code is:  vtiger CRM Open Source
-   * The Initial Developer of the Original Code is vtiger.
-   * Portions created by vtiger are Copyright (C) vtiger.
-   * All Rights Reserved.
-  *
- ********************************************************************************/
+** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*
+********************************************************************************/
 -->*}
 {strip}
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
@@ -24,30 +24,35 @@
 			{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 		{/if}
 		{assign var=FOUND_SELECT_VALUE value=0}
-	<select class="chzn-select form-control {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\includes\utils\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}>
-			{if $VIEW eq 'MassEdit'}<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
-			<optgroup label="{vtranslate('LBL_USERS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-					<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}
-							data-userId="{$CURRENT_USER_ID}">
+		<select class="select2 form-control {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\includes\utils\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if} 
+				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
+					data-ajax="1" data-ajax-url=""
+				{/if}>
+			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+				{if $VIEW eq 'MassEdit'}<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
+				<optgroup label="{vtranslate('LBL_USERS')}">
+					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}
+								data-userId="{$CURRENT_USER_ID}">
+							{$OWNER_NAME}
+						</option>
+					{/foreach}
+				</optgroup>
+				<optgroup label="{vtranslate('LBL_GROUPS')}">
+					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_MODEL->get('fieldvalue') eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}>
+							{vtranslate($OWNER_NAME, $MODULE)}
+						</option>
+					{/foreach}
+				</optgroup>
+				{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0 && !($ROLE_RECORD_MODEL->get('allowassignedrecordsto') == 5 && count($ALL_ACTIVEGROUP_LIST) != 0 && $FIELD_MODEL->get('fieldvalue') == '')}
+					{assign var=OWNER_NAME value=vtlib\Functions::getOwnerRecordLabel($FIELD_VALUE)}
+					<option value="{$FIELD_VALUE}" data-picklistvalue="{$OWNER_NAME}" selected data-userId="{$CURRENT_USER_ID}">
 						{$OWNER_NAME}
 					</option>
-				{/foreach}
-			</optgroup>
-			<optgroup label="{vtranslate('LBL_GROUPS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-					<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_MODEL->get('fieldvalue') eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}>
-						{vtranslate($OWNER_NAME, $MODULE)}
-					</option>
-				{/foreach}
-			</optgroup>
-			{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0 && !($ROLE_RECORD_MODEL->get('allowassignedrecordsto') == 5 && count($ALL_ACTIVEGROUP_LIST) != 0 && $FIELD_MODEL->get('fieldvalue') == '')}
-				{assign var=OWNER_NAME value=vtlib\Functions::getOwnerRecordLabel($FIELD_VALUE)}
-				<option value="{$FIELD_VALUE}" data-picklistvalue="{$OWNER_NAME}" selected data-userId="{$CURRENT_USER_ID}">
-					{$OWNER_NAME}
-				</option>
+				{/if}
 			{/if}
 		</select>
-{/if}
-{* TODO - UI type 52 needs to be handled *}
+	{/if}
+	{* TODO - UI type 52 needs to be handled *}
 {/strip}
