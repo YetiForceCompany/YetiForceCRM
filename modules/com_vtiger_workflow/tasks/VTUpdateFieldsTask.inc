@@ -39,7 +39,7 @@ class VTUpdateFieldsTask extends VTTask
 
 		$fieldValueMapping = array();
 		if (!empty($this->field_value_mapping)) {
-			$fieldValueMapping = Zend_Json::decode($this->field_value_mapping);
+			$fieldValueMapping = \includes\utils\Json::decode($this->field_value_mapping);
 		}
 
 		if (!empty($fieldValueMapping) && count($fieldValueMapping) > 0) {

@@ -201,7 +201,7 @@ class Vtiger_Response
 	 */
 	protected function emitJSON()
 	{
-		echo Zend_Json::encode($this->prepareResponse());
+		echo \includes\utils\Json::encode($this->prepareResponse());
 	}
 
 	/**
@@ -213,12 +213,12 @@ class Vtiger_Response
 			if (is_string($this->error))
 				echo $this->error;
 			else
-				echo Zend_Json::encode($this->prepareResponse());
+				echo \includes\utils\Json::encode($this->prepareResponse());
 		} else {
 			if (is_string($this->result))
 				echo $this->result;
 			else
-				echo Zend_Json::encode($this->prepareResponse());
+				echo \includes\utils\Json::encode($this->prepareResponse());
 		}
 	}
 

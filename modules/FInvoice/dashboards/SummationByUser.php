@@ -28,7 +28,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
-		$param = Zend_Json::decode($widget->get('data'));
+		$param = \includes\utils\Json::decode($widget->get('data'));
 		$data = $this->getWidgetData($moduleName, $param, $time);
 
 		$viewer->assign('DTIME', $time);

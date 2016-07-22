@@ -77,7 +77,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 			'linkKey' => 'LBL_RECORD_SUMMARY',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDocumentRelations',
 			'linkicon' => '',
-			'related' => Zend_Json::encode(Documents_Record_Model::getReferenceModuleByDocId($recordModel->getId())),
+			'related' => \includes\utils\Json::encode(Documents_Record_Model::getReferenceModuleByDocId($recordModel->getId())),
 			'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
 		];
 		return $relatedLinks;

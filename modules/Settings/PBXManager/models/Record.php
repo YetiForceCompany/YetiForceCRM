@@ -45,7 +45,7 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 			$rowData = $db->query_result_rowdata($gatewatResult, 0);
 			$serverModel->set('gateway', $rowData['gateway']);
 			$serverModel->set('id', $rowData['id']);
-			$parameters = Zend_Json::decode(decode_html($rowData['parameters']));
+			$parameters = \includes\utils\Json::decode(decode_html($rowData['parameters']));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}
@@ -68,7 +68,7 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 			$recordModel = new self();
 			$recordModel->setData($rowData);
 
-			$parameters = Zend_Json::decode(decode_html($recordModel->get('parameters')));
+			$parameters = \includes\utils\Json::decode(decode_html($recordModel->get('parameters')));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$recordModel->set($fieldName, $fieldValue);
 			}
@@ -87,7 +87,7 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($connector->getSettingsParameters() as $field => $type) {
 			$parameters[$field] = $this->get($field);
 		}
-		$this->set('parameters', Zend_Json::encode($parameters));
+		$this->set('parameters', \includes\utils\Json::encode($parameters));
 		$params = [
 			'gateway' => $selectedGateway,
 			'parameters' => $this->get('parameters')

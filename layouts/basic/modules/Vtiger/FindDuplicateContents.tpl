@@ -17,7 +17,7 @@
 <input type="hidden" id="pageNumber" value= "{$PAGE_NUMBER}"/>
 <input type="hidden" id="pageLimit" value= "{$PAGING_MODEL->getPageLimit()}" />
 <input type="hidden" id="noOfEntries" value= "{$LISTVIEW_ENTRIES_COUNT}" />
-<input type="hidden" id="duplicateSearchFields" value={Zend_Json::encode($DUPLICATE_SEARCH_FIELDS)} />
+<input type="hidden" id="duplicateSearchFields" value={\includes\utils\Json::encode($DUPLICATE_SEARCH_FIELDS)} />
 <input type="hidden" id="viewName" value="{$VIEW_NAME}" />
 <input type="hidden" id="totalCount" value="{$TOTAL_COUNT}" />
 <input type='hidden' id='ignoreEmpty' value="{$IGNORE_EMPTY}" />

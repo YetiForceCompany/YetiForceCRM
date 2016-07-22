@@ -46,7 +46,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 
 	public function getReferenceModules()
 	{
-		$params = Zend_Json::decode($this->get('params'));
+		$params = \includes\utils\Json::decode($this->get('params'));
 		return $params['modules'];
 	}
 

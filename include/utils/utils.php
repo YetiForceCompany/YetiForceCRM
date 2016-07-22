@@ -107,16 +107,18 @@ function get_user_array($add_blank = true, $status = 'Active', $assigned_user = 
 {
 	$log = LoggerManager::getInstance();
 	$log->debug('Entering get_user_array(' . $add_blank . ',' . $status . ',' . $assigned_user . ',' . $private . ') method ...');
-	$current_user = vglobal('current_user');
-	if (isset($current_user) && $current_user->id != '') {
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	}
-	static $user_array = null;
+
 	if (!$module) {
 		$module = AppRequest::get('module');
 	}
-	if ($user_array == null) {
+
+	$user_array = Vtiger_Cache::get('get_user_array', $module . $add_blank . $status . $assigned_user . $private);
+	if ($user_array === false) {
+		$current_user = vglobal('current_user');
+		if (isset($current_user) && $current_user->id != '') {
+			require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+			require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		}
 		require_once('include/database/PearDatabase.php');
 		$db = PearDatabase::getInstance();
 		$temp_result = [];
@@ -159,8 +161,8 @@ function get_user_array($add_blank = true, $status = 'Active', $assigned_user = 
 				$temp_result[$row['id']] = getFullNameFromArray('Users', $row);
 			}
 		}
-
-		$user_array = &$temp_result;
+		Vtiger_Cache::set('get_user_array', $module . $add_blank . $status . $assigned_user . $private, $temp_result);
+		$user_array = $temp_result;
 	}
 
 	$log->debug('Exiting get_user_array method ...');
@@ -1302,9 +1304,9 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 	$timeOfCall = date('Y-m-d H:i:s');
 
 	$query = "INSERT INTO vtiger_crmentity (crmid,smcreatorid,smownerid,modifiedby,setype,description,createdtime,
-			modifiedtime,viewedtime,status,version,presence,deleted,label) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	$adb->pquery($query, array($crmID, $userID, $userID, 0, "PBXManager", "", $timeOfCall, $timeOfCall, NULL, NULL, 0, 1, 0, $callerName));
-
+			modifiedtime,viewedtime,status,version,presence,deleted) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	$adb->pquery($query, array($crmID, $userID, $userID, 0, "PBXManager", "", $timeOfCall, $timeOfCall, NULL, NULL, 0, 1, 0));
+	$adb->pquery("INSERT INTO vtiger_crmentity_label INNER JOIN (crmid,label) VALUES (?,?)", [$crmID, $callerName]); 
 	$sql = "insert into vtiger_pbxmanager (pbxmanagerid,callfrom,callto,timeofcall,status)values (?,?,?,?,?)";
 	$params = array($crmID, $callerName, $receiver, $timeOfCall, $status);
 	$adb->pquery($sql, $params);

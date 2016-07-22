@@ -37,7 +37,7 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$notification = Home_Notification_Model::getInstance();
-		$viewer->assign('NOTIFICATION_TYPES', Zend_Json::encode($notification->getTypesForTree()));
+		$viewer->assign('NOTIFICATION_TYPES', \includes\utils\Json::encode($notification->getTypesForTree()));
 		$viewer->view('NotificationsListPostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}

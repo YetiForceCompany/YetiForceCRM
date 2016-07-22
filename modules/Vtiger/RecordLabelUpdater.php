@@ -19,7 +19,7 @@ class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler {
 
 			if ($labelInfo) {
 				$label = decode_html($labelInfo[$data->getId()]);
-				$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $data->getId()));
+				$adb->pquery('UPDATE vtiger_crmentity_label SET label=? WHERE crmid=?', array($label, $data->getId()));
 			}
 		}
 	}

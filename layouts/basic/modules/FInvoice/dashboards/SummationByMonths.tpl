@@ -1,5 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-{assign var=CONF_DATA value=Zend_Json::decode(html_entity_decode($WIDGET->get('data')))}
+{assign var=CONF_DATA value=\includes\utils\Json::decode(html_entity_decode($WIDGET->get('data')))}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Summationbymonths_Widget_Js',{}, {
 		loadChart: function () {

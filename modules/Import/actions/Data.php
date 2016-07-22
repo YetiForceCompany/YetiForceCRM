@@ -70,7 +70,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$defaultValues = array();
 		if (!empty($this->defaultValues)) {
 			if (!is_array($this->defaultValues)) {
-				$this->defaultValues = Zend_Json::decode($this->defaultValues);
+				$this->defaultValues = \includes\utils\Json::decode($this->defaultValues);
 			}
 			if ($this->defaultValues != null) {
 				$defaultValues = $this->defaultValues;
@@ -382,7 +382,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				}
 
 				$label = trim($label);
-				$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $recordId));
+				$adb->update('vtiger_crmentity_label', ['label' => $label], 'crmid = ?', [$recordId]);
 			}
 
 			$this->importedRecordInfo[$rowId] = $entityInfo;
@@ -424,7 +424,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 								$newCurrencyParam[$valueData] = $currencyData;
 							}
 						}
-						$data['currencyparam'] = Zend_Json::encode($newCurrencyParam);
+						$data['currencyparam'] = \includes\utils\Json::encode($newCurrencyParam);
 					} elseif (array_key_exists($fieldName, $maps)) {
 						$value = $this->transformInventoryFieldFromMap($value, $maps[$fieldName]);
 					}
@@ -794,7 +794,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 
 		$label = trim($label);
-		$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $recordId));
+		$adb->update('vtiger_crmentity_label', ['label' => $label], 'crmid = ?', [$recordId]);
 
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$focus = $recordModel->getEntity();
@@ -1051,7 +1051,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$invDat['inventoryItemsNo'] = $i;
 			foreach ($data as $name => $value) {
 				if (in_array($name, $jsonFields)) {
-					$value = Zend_Json::decode($value);
+					$value = \includes\utils\Json::decode($value);
 				}
 				$invDat[$name . $i] = $value;
 			}

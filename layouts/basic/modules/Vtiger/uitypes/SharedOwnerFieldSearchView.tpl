@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-    {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
     <div class="picklistSearchField">
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 		{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}

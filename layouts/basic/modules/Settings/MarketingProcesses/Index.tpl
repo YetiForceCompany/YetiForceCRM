@@ -56,7 +56,7 @@
 								<th class="blockHeader">{vtranslate('Leads', $QUALIFIED_MODULE)}</th>
 								<th class="blockHeader">{vtranslate('Accounts', $QUALIFIED_MODULE)}</th>
 							</tr>
-							{assign var=MAPPING value=ZEND_JSON::decode($CONVERSION.mapping)}
+							{assign var=MAPPING value=\includes\utils\Json::decode($CONVERSION.mapping)}
 							{assign var=LEAD_FIELDS value=$LEADS_MODULE_MODEL->getFields()}
 							{assign var=ACCOUNT_FIELDS value=$ACCOUNTS_MODULE_MODEL->getFields()}
 							{foreach item=MAPPING_ARRAY from=$MAPPING  name="mappingLoop"}

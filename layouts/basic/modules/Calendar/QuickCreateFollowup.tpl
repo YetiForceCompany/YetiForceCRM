@@ -32,7 +32,7 @@
 				<input type="hidden" name="record" value="{$RECORD_ID}" />
 				<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 				<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
-				<input class="dateField" type="hidden" name="date_start" value="{$STARTDATE}" data-date-format="{$dateFormat}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($STARTDATEFIELDMODEL))}"/>
+				<input class="dateField" type="hidden" name="date_start" value="{$STARTDATE}" data-date-format="{$dateFormat}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($STARTDATEFIELDMODEL))}"/>
 				<div class="modal-body" style="padding:0px">
 					{$FIELD_INFO['label'] = {$FOLLOW_UP_LABEL}}
 					<br />
@@ -45,7 +45,7 @@
 						<div class="controls">
 								<div class="input-group row">
 									<div class="col-md-10 row date">
-										<input name="followup_date_start" type="text" class="col-md-9 dateField" data-date-format="{$dateFormat}" type="text"  data-fieldinfo= '{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'
+										<input name="followup_date_start" type="text" class="col-md-9 dateField" data-date-format="{$dateFormat}" type="text"  data-fieldinfo= '{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_INFO))}'
 											   value="{$currentDate}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]] validate[funcCall[Vtiger_greaterThanDependentField_Validator_Js.invokeValidation,]]" />
 										<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 									</div>	

@@ -43,10 +43,11 @@ class Email
 				$tableIndex = $instance->tab_name_index[$tablename];
 				if ($isEntityType) {
 					$selest = ',label,setype';
+					$query .= sprintf(' UNION (SELECT %s AS id %s FROM %s INNER JOIN vtiger_crmentity_label ON %s.%s = vtiger_crmentity_label.crmid ', $tableIndex, $selest, $tablename, $tablename, $tableIndex);
 				} else {
-					$selest = ",'$moduleName' AS setype";
+					$selest = ",NULL AS `label`,'$moduleName' AS setype";
+					$query .= sprintf(' UNION (SELECT %s AS id %s FROM %s', $tableIndex, $selest, $tablename);
 				}
-				$query .= sprintf(' UNION (SELECT %s AS id %s FROM %s', $tableIndex, $selest, $tablename);
 				foreach ($columns as $columnName => &$row) {
 					$join[$tablename] = $row;
 					$where[] = $tablename . '.' . $columnName;

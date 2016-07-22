@@ -121,7 +121,7 @@
 											{else}
 												{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId())}
 												{if $FIELD_VALUE|is_array}
-													{assign var=FIELD_VALUE value=Zend_Json::encode($FIELD_VALUE)}
+													{assign var=FIELD_VALUE value=\includes\utils\Json::encode($FIELD_VALUE)}
 												{/if}
 												<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_VALUE)}' />
 											{/if}

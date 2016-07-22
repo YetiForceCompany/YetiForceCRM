@@ -83,7 +83,7 @@ class OSSMail_compose_View extends OSSMail_index_View
 		}
 
 		if ($request->has('emails')) {
-			$post['emails'] = Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($request->get('emails')));
+			$post['emails'] = Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($request->get('emails')));
 		}
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT vars FROM roundcube_session WHERE sess_id=?', [$_COOKIE['roundcube_sessid']]);

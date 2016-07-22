@@ -19,7 +19,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	{
 		$largerSizedWidgets = array('GroupedBySalesPerson', 'GroupedBySalesStage', 'Funnel Amount', 'LeadsByIndustry');
 		$title = $this->getName();
-		$size = Zend_Json::decode(html_entity_decode($this->get('size')));
+		$size = \includes\utils\Json::decode(html_entity_decode($this->get('size')));
 		$width = $size['width'];
 		$this->set('width', $width);
 
@@ -32,7 +32,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	public function getHeight()
 	{
 		//Special case for History widget
-		$size = Zend_Json::decode(html_entity_decode($this->get('size')));
+		$size = \includes\utils\Json::decode(html_entity_decode($this->get('size')));
 		$height = $size['height'];
 		$this->set('height', $height);
 
@@ -46,7 +46,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	{
 		$position = $this->get('position');
 		if ($position) {
-			$position = Zend_Json::decode(decode_html($position));
+			$position = \includes\utils\Json::decode(decode_html($position));
 			return intval($position['col']);
 		}
 		return $default;
@@ -56,7 +56,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	{
 		$position = $this->get('position');
 		if ($position) {
-			$position = Zend_Json::decode(decode_html($position));
+			$position = \includes\utils\Json::decode(decode_html($position));
 			return intval($position['row']);
 		}
 		return $default;

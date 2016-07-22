@@ -35,7 +35,7 @@
 							{if $SOURCE_MODULE eq 'Home'}
 								<div class="textAlignCenter">{vtranslate('LBL_PLEASE_SELECT_MODULE',$MODULE)}</div>
 							{else}
-								<input type="hidden" name="labelFields" data-value='{ZEND_JSON::encode($SOURCE_MODULE_MODEL->getNameFields())}' />
+								<input type="hidden" name="labelFields" data-value='{\includes\utils\Json::encode($SOURCE_MODULE_MODEL->getNameFields())}' />
 								{include file='AdvanceFilter.tpl'|@vtemplate_path}
 							{/if}	
 						</form>

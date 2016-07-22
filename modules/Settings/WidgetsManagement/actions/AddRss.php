@@ -18,8 +18,8 @@ class Settings_WidgetsManagement_AddRss_Action extends Settings_Vtiger_Basic_Act
 		$isDefault = $request->get('isDefault');
 		$width = $request->get('width');
 		$height = $request->get('height');
-		$size = Zend_Json::encode(['width' => $width, 'height' => $height]);
-		$data = Zend_Json::encode(['channels' => $request->get('channelRss')]);
+		$size = \includes\utils\Json::encode(['width' => $width, 'height' => $height]);
+		$data = \includes\utils\Json::encode(['channels' => $request->get('channelRss')]);
 		$paramsToInsert = [
 			'linkid' => $linkId,
 			'blockid' => $blockid,

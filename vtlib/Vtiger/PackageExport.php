@@ -34,13 +34,13 @@ class PackageExport
 	/** Output Handlers */
 
 	/** @access private */
-	function openNode($node, $delimiter = '\n')
+	function openNode($node, $delimiter = PHP_EOL)
 	{
 		$this->__write("<$node>$delimiter");
 	}
 
 	/** @access private */
-	function closeNode($node, $delimiter = "\n")
+	function closeNode($node, $delimiter = PHP_EOL)
 	{
 		$this->__write("</$node>$delimiter");
 	}

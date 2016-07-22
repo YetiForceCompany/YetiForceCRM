@@ -19,7 +19,6 @@ require_once('include/Webservices/Utils.php');
 require_once('include/Webservices/State.php');
 require_once('include/Webservices/OperationManager.php');
 require_once('include/Webservices/SessionManager.php');
-require_once('include/Zend/Json.php');
 
 require_once('config/api.php');
 if (!in_array('webservices', $enabledServices)) {

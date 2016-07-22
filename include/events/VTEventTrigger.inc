@@ -143,7 +143,7 @@ class VTEventTrigger
 
 						$dependentEventsNotCompleted = false;
 						$dependentOn = $eventInfo['dependent_on'];
-						$dependentEvents = Zend_Json::decode($dependentOn);
+						$dependentEvents = \includes\utils\Json::decode($dependentOn);
 						foreach ($dependentEvents as $eventHandlerClass) {
 							if (!in_array($eventHandlerClass, $completedEvents)) {
 								$dependentEventsNotCompleted = true;

@@ -51,10 +51,10 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 				array($db->getUniqueID('vtiger_import_queue'),
 						$user->id,
 						getTabid($request->get('module')),
-						Zend_Json::encode($request->get('field_mapping')),
-						Zend_Json::encode($request->get('default_values')),
+						\includes\utils\Json::encode($request->get('field_mapping')),
+						\includes\utils\Json::encode($request->get('default_values')),
 						$request->get('merge_type'),
-						Zend_Json::encode($request->get('merge_fields')),
+						\includes\utils\Json::encode($request->get('merge_fields')),
 						$request->get('createRecordsByModel'),
 						$temp_status));
 	}
@@ -141,10 +141,10 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 		return [
 			'id' => $rowData['importid'],
 			'module' => getTabModuleName($rowData['tabid']),
-			'field_mapping' => Zend_Json::decode($rowData['field_mapping']),
-			'default_values' => Zend_Json::decode($rowData['default_values']),
+			'field_mapping' => \includes\utils\Json::decode($rowData['field_mapping']),
+			'default_values' => \includes\utils\Json::decode($rowData['default_values']),
 			'merge_type' => $rowData['merge_type'],
-			'merge_fields' => Zend_Json::decode($rowData['merge_fields']),
+			'merge_fields' => \includes\utils\Json::decode($rowData['merge_fields']),
 			'user_id' => $rowData['userid'],
 			'type' => $rowData['type'],
 			'temp_status' => $rowData['temp_status']

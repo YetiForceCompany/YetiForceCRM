@@ -22,7 +22,7 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$data = $widget->get('data');
-		$data = Zend_Json::decode(decode_html($data));
+		$data = \includes\utils\Json::decode(decode_html($data));
 		$rssContent = fetch_rss($data['channels'][0]);
 		$listSubjects = [];
 		if(!empty($rssContent)){

@@ -8,7 +8,7 @@
 	</div>
 	<div class="modal-body col-md-12">
 		<input type="hidden" id="url" value="{OSSMail_Module_Model::getComposeUrl($SOURCE_MODULE,$SOURCE_RECORD)}" />
-		<input type="hidden" id="emails" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($RECORDS))}" />
+		<input type="hidden" id="emails" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($RECORDS))}" />
 		<h4>{vtranslate('LBL_NUMBER_OF_SELECTED_RECORDS', $MODULE)}: {$ALL_RECORDS}</h4>
 		<h4>{vtranslate('LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES', $MODULE)}: {$EMAIL_RECORDS}</h4>
 	</div>

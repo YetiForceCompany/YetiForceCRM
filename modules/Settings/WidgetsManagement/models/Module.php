@@ -40,7 +40,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$accessibleUsers = $currentUser->getAccessibleUsers();
 			$accessibleGroups = $currentUser->getAccessibleGroups();
 		}
-		$owners = Zend_Json::decode(html_entity_decode($widgetModel->get('owners')));
+		$owners = \includes\utils\Json::decode(html_entity_decode($widgetModel->get('owners')));
 		$defaultSelected = $owners['default'];
 
 		if (!is_array($owners['available']))
@@ -175,7 +175,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$params = [$data['id']];
 		$result = $adb->pquery($query, $params);
 		if ($adb->num_rows($result) > 0) {
-			$size = Zend_Json::encode(['width' => $data['width'], 'height' => $data['height']]);
+			$size = \includes\utils\Json::encode(['width' => $data['width'], 'height' => $data['height']]);
 			$insert = [
 				'isdefault' => $data['isdefault'],
 				'size' => $size,
@@ -183,13 +183,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				'cache' => $data['cache'],
 			];
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
-				$insert['owners'] = Zend_Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
+				$insert['owners'] = \includes\utils\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
 			}
 			if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
-				$insert['data'] = Zend_Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
+				$insert['data'] = \includes\utils\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
 			}
 			if ($data['type'] == 'DW_SUMMATION_BY_USER') {
-				$insert['data'] = Zend_Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
+				$insert['data'] = \includes\utils\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
 			}
 			$adb->update('vtiger_module_dashboard', $insert, '`id` = ?', [$data['id']]);
 
@@ -230,8 +230,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$query = 'INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`,`isdefault`, `cache`) VALUES(?,?,?,?,?,?,?,?,?,?);';
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1')
 			$data['isdefault'] = 0;
-		$size = Zend_Json::encode(array('width' => $data['width'], 'height' => $data['height']));
-		$owners = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
+		$size = \includes\utils\Json::encode(array('width' => $data['width'], 'height' => $data['height']));
+		$owners = \includes\utils\Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
 		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $owners, $data['isdefault'], $data['cache']);
 
 		$adb->pquery($query, $params);

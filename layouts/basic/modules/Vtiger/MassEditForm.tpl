@@ -31,13 +31,13 @@
 				<input type="hidden" name="module" value="{$MODULE}" />
 				<input type="hidden" name="action" value="MassSave" />
 				<input type="hidden" name="viewname" value="{$CVID}" />
-				<input type="hidden" name="selected_ids" value={ZEND_JSON::encode($SELECTED_IDS)}>
-				<input type="hidden" name="excluded_ids" value={ZEND_JSON::encode($EXCLUDED_IDS)}>
+				<input type="hidden" name="selected_ids" value={\includes\utils\Json::encode($SELECTED_IDS)}>
+				<input type="hidden" name="excluded_ids" value={\includes\utils\Json::encode($EXCLUDED_IDS)}>
 				<input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
 				<input type="hidden" name="operator" value="{$OPERATOR}" />
 				<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-				<input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
-				<input type="hidden" id="massEditFieldsNameList" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($MASS_EDIT_FIELD_DETAILS))}' />
+				<input type="hidden" name="search_params" value='{\includes\utils\Json::encode($SEARCH_PARAMS)}' />
+				<input type="hidden" id="massEditFieldsNameList" data-value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($MASS_EDIT_FIELD_DETAILS))}' />
 				<div name='massEditContent'>
 					<div class="modal-body tabbable">
 						<ul class="nav nav-tabs massEditTabs">

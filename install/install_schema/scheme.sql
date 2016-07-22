@@ -3739,10 +3739,10 @@ CREATE TABLE `vtiger_convertleadmapping` (
 
 CREATE TABLE `vtiger_crmentity` (
   `crmid` int(19) NOT NULL,
-  `smcreatorid` int(19) NOT NULL DEFAULT '0',
-  `smownerid` int(19) NOT NULL DEFAULT '0',
+  `smcreatorid` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `smownerid` smallint(5) unsigned NOT NULL DEFAULT '0',
   `shownerid` tinyint(1) DEFAULT NULL,
-  `modifiedby` int(19) NOT NULL DEFAULT '0',
+  `modifiedby` smallint(5) unsigned NOT NULL DEFAULT '0',
   `setype` varchar(30) NOT NULL,
   `description` text,
   `attention` text,
@@ -3751,21 +3751,35 @@ CREATE TABLE `vtiger_crmentity` (
   `viewedtime` datetime DEFAULT NULL,
   `closedtime` datetime DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
-  `version` int(19) NOT NULL DEFAULT '0',
-  `presence` tinyint(1) DEFAULT '1',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `label` varchar(255) DEFAULT NULL,
-  `searchlabel` varchar(255) DEFAULT NULL,
+  `version` int(19) unsigned NOT NULL DEFAULT '0',
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `was_read` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
   KEY `crmentity_modifiedby_idx` (`modifiedby`),
   KEY `crmentity_deleted_idx` (`deleted`),
   KEY `crm_ownerid_del_setype_idx` (`smownerid`,`deleted`,`setype`),
-  KEY `vtiger_crmentity_labelidx` (`label`),
-  KEY `searchlabel` (`setype`,`label`),
-  KEY `setype` (`setype`,`deleted`,`searchlabel`),
-  KEY `crmid` (`crmid`,`deleted`)
+  KEY `crmid` (`crmid`,`deleted`),
+  KEY `crmid_2` (`crmid`,`setype`),
+  KEY `setype` (`setype`,`deleted`),
+  KEY `searchlabel` (`setype`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_crmentity_label` */
+
+CREATE TABLE `vtiger_crmentity_label` (
+  `crmid` int(11) unsigned NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`crmid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_crmentity_search` */
+
+CREATE TABLE `vtiger_crmentity_search` (
+  `crmid` int(11) unsigned NOT NULL,
+  `searchlabel` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentity_seq` */
@@ -7408,17 +7422,17 @@ CREATE TABLE `vtiger_rel_mod_seq` (
 /*Table structure for table `vtiger_relatedlists` */
 
 CREATE TABLE `vtiger_relatedlists` (
-  `relation_id` int(19) NOT NULL,
-  `tabid` int(10) DEFAULT NULL,
-  `related_tabid` int(10) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `sequence` int(10) DEFAULT NULL,
-  `label` varchar(100) DEFAULT NULL,
-  `presence` int(10) NOT NULL DEFAULT '0',
+  `relation_id` smallint(19) unsigned NOT NULL,
+  `tabid` smallint(10) unsigned NOT NULL,
+  `related_tabid` smallint(10) unsigned NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `sequence` tinyint(5) unsigned NOT NULL,
+  `label` varchar(50) NOT NULL,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `actions` varchar(50) NOT NULL DEFAULT '',
-  `favorites` tinyint(1) DEFAULT '0',
-  `creator_detail` tinyint(1) DEFAULT '0',
-  `relation_comment` tinyint(1) DEFAULT '0',
+  `favorites` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `creator_detail` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `relation_comment` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`relation_id`),
   KEY `relatedlists_relation_id_idx` (`relation_id`),
   KEY `tabid` (`tabid`),
@@ -8336,24 +8350,25 @@ CREATE TABLE `vtiger_systems` (
 CREATE TABLE `vtiger_tab` (
   `tabid` int(19) NOT NULL DEFAULT '0',
   `name` varchar(25) NOT NULL,
-  `presence` int(19) NOT NULL DEFAULT '1',
-  `tabsequence` int(10) DEFAULT NULL,
+  `presence` tinyint(19) unsigned NOT NULL DEFAULT '1',
+  `tabsequence` smallint(5) NOT NULL DEFAULT '0',
   `tablabel` varchar(25) NOT NULL,
-  `modifiedby` int(19) DEFAULT NULL,
+  `modifiedby` smallint(5) DEFAULT NULL,
   `modifiedtime` int(19) DEFAULT NULL,
-  `customized` int(19) DEFAULT NULL,
-  `ownedby` int(19) DEFAULT NULL,
-  `isentitytype` int(11) NOT NULL DEFAULT '1',
+  `customized` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `ownedby` tinyint(1) NOT NULL DEFAULT '0',
+  `isentitytype` tinyint(1) NOT NULL DEFAULT '1',
   `version` varchar(10) DEFAULT NULL,
   `parent` varchar(30) DEFAULT NULL,
   `color` varchar(30) DEFAULT NULL,
-  `coloractive` tinyint(1) DEFAULT '0',
-  `type` tinyint(1) DEFAULT '0',
+  `coloractive` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`tabid`),
   UNIQUE KEY `tab_name_idx` (`name`),
   KEY `tab_modifiedby_idx` (`modifiedby`),
   KEY `tab_tabid_idx` (`tabid`),
-  KEY `name` (`name`,`presence`)
+  KEY `name` (`name`,`presence`),
+  KEY `presence` (`presence`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_tab_info` */
@@ -8788,7 +8803,8 @@ CREATE TABLE `vtiger_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
-  KEY `user_user_password_idx` (`user_password`)
+  KEY `user_user_password_idx` (`user_password`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_users2group` */

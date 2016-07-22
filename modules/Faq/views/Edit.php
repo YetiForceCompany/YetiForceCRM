@@ -75,8 +75,8 @@ class Faq_Edit_View extends Vtiger_Edit_View {
 				}
 			}
 		}
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',Zend_Json::encode($picklistDependencyDatasource));
-		$viewer->assign('MAPPING_RELATED_FIELD',Zend_Json::encode(Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',\includes\utils\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('MAPPING_RELATED_FIELD',\includes\utils\Json::encode(Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);

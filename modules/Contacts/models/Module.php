@@ -23,28 +23,32 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 	{
 		if ($parentId && $parentModule == 'Accounts') {
 			$query = "SELECT * FROM vtiger_crmentity
+						INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid
 						INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-						WHERE deleted = 0 AND vtiger_contactdetails.parentid = $parentId AND label like '%$searchValue%'";
+						WHERE vtiger_crmentity.deleted = 0 AND vtiger_contactdetails.parentid = $parentId AND vtiger_crmentity_label.label LIKE '%$searchValue%'";
 			return $query;
 		} else if ($parentId && $parentModule == 'HelpDesk') {
 			$query = "SELECT * FROM vtiger_crmentity
+						INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid
                         INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
                         INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.contact_id = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_troubletickets.ticketid  = $parentId  AND label like '%$searchValue%'";
+                        WHERE vtiger_crmentity.deleted=0 AND vtiger_troubletickets.ticketid  = $parentId  AND vtiger_crmentity_label.label LIKE '%$searchValue%'";
 
 			return $query;
 		} else if ($parentId && $parentModule == 'Campaigns') {
 			$query = "SELECT * FROM vtiger_crmentity
+						INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid
                         INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
                         INNER JOIN vtiger_campaign_records ON vtiger_campaign_records.crmid = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_campaign_records.campaignid = $parentId AND label like '%$searchValue%'";
+                        WHERE deleted=0 AND vtiger_campaign_records.campaignid = $parentId AND vtiger_crmentity_label.label LIKE '%$searchValue%'";
 
 			return $query;
 		} else if ($parentId && $parentModule == 'Vendors') {
 			$query = "SELECT vtiger_crmentity.* FROM vtiger_crmentity
+						INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid
                         INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
                         INNER JOIN vtiger_vendorcontactrel ON vtiger_vendorcontactrel.contactid = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_vendorcontactrel.vendorid = $parentId AND label like '%$searchValue%'";
+                        WHERE deleted=0 AND vtiger_vendorcontactrel.vendorid = $parentId AND vtiger_crmentity_label.label LIKE '%$searchValue%'";
 
 			return $query;
 		}

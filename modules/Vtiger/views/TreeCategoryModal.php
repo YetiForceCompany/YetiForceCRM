@@ -37,7 +37,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$treeCategoryModel->set('srcModule', $srcModule);
 		$this->relationType = $treeCategoryModel->getRelationType();
 
-		$viewer->assign('TREE', Zend_Json::encode($treeCategoryModel->getTreeData()));
+		$viewer->assign('TREE', \includes\utils\Json::encode($treeCategoryModel->getTreeData()));
 		$viewer->assign('SRC_RECORD', $srcRecord);
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('TEMPLATE', $treeCategoryModel->getTemplate());

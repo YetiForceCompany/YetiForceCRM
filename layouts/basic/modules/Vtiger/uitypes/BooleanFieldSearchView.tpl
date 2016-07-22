@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-    {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}
     <div class="boolenSearchField">
     <select class="select2 listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-fieldinfo='{$FIELD_INFO|escape}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>

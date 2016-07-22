@@ -67,7 +67,6 @@ class ListViewSession
 		$current_user = vglobal('current_user');
 		$list_max_entries_per_page = vglobal('list_max_entries_per_page');
 
-		Zend_Json::$useBuiltinEncoderDecoder = true;
 		$reUseData = false;
 		$displayBufferRecordCount = 10;
 		$bufferRecordCount = 15;
@@ -80,7 +79,7 @@ class ListViewSession
 		$cv = new CustomView();
 		$viewId = $cv->getViewId($currentModule);
 		if (!empty($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId])) {
-			$recordNavigationInfo = Zend_Json::decode($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId]);
+			$recordNavigationInfo = \includes\utils\Json::decode($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId]);
 			$pageNumber = 0;
 			if (count($recordNavigationInfo) == 1) {
 				foreach ($recordNavigationInfo as $recordIdList) {
@@ -181,7 +180,7 @@ class ListViewSession
 					$recordNavigationInfo[$current][] = $recordId;
 				}
 			}
-			$_SESSION[$currentModule . '_DetailView_Navigation' . $viewId] = Zend_Json::encode($recordNavigationInfo);
+			$_SESSION[$currentModule . '_DetailView_Navigation' . $viewId] = \includes\utils\Json::encode($recordNavigationInfo);
 		}
 		return $recordNavigationInfo;
 	}
@@ -245,9 +244,9 @@ class ListViewSession
 	 */
 	public static function setCurrentView($module, $viewId, $pjax = true)
 	{
-		if($pjax && AppRequest::has('_pjax')){
+		if ($pjax && AppRequest::has('_pjax')) {
 			$_SESSION['lvs'][$module]['viewname'] = $viewId;
-		}elseif(empty($pjax)){
+		} elseif (empty($pjax)) {
 			$_SESSION['lvs'][$module]['viewname'] = $viewId;
 		}
 	}
@@ -270,9 +269,9 @@ class ListViewSession
 			return $_SESSION['lvs'][$module]['sorder'];
 		}
 	}
-	
+
 	public static function setSorder($module, $order)
-	{	
+	{
 		$_SESSION['lvs'][$module]['sorder'] = $order;
 	}
 
@@ -282,9 +281,9 @@ class ListViewSession
 			return $_SESSION['lvs'][$module]['sortby'];
 		}
 	}
-	
+
 	public static function setSortby($module, $order)
-	{	
+	{
 		$_SESSION['lvs'][$module]['sortby'] = $order;
 	}
 

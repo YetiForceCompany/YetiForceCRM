@@ -24,7 +24,6 @@ require_once('include/database/PearDatabase.php');
 require_once('include/utils/CommonUtils.php'); //new
 require_once('user_privileges/default_module_view.php'); //new
 require_once('include/utils/UserInfoUtil.php');
-require_once('include/Zend/Json.php');
 
 /** Function to get the list query for a module
  * @param $module -- module name:: Type string

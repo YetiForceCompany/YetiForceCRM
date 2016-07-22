@@ -45,8 +45,8 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		$dataValue['contents'] = $noteBookContent;
 		$dataValue['lastSavedOn'] = $date;
 
-		$data = Zend_Json::encode((object) $dataValue);
-		$size = Zend_Json::encode(array('width' => $width, 'height' => $height));
+		$data = \includes\utils\Json::encode((object) $dataValue);
+		$size = \includes\utils\Json::encode(array('width' => $width, 'height' => $height));
 		$query = "INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `isdefault`, `size`) VALUES(?,?,?,?,?,?,?)";
 		$params = array($linkId, $blockid, 0, $noteBookName, $data, $isdefault, $size);
 		$adb->pquery($query, $params);
