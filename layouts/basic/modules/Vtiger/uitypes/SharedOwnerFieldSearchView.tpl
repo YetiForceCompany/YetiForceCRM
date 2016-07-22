@@ -19,24 +19,35 @@
 		{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 		{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
 
-		<select id="{$ASSIGNED_USER_ID}" class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"  name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
-			<optgroup label="{vtranslate('LBL_USERS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-                    <option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if in_array($OWNER_ID,$SEARCH_VALUES)} selected {/if}
-							data-userId="{$CURRENT_USER_ID}">
+		<select id="{$ASSIGNED_USER_ID}" class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"  name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}'
+				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
+					data-ajax="1" data-ajax-url=""
+				{/if}>
+			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
+				{foreach from=$SEARCH_VALUES item=OWNER_NAME}
+					<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
 						{$OWNER_NAME}
-                    </option>
+					</option>
 				{/foreach}
-			</optgroup>
-			{if count($ALL_ACTIVEGROUP_LIST) gt 0}
-				<optgroup label="{vtranslate('LBL_GROUPS')}">
-					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim($OWNER_ID),$SEARCH_VALUES)} selected {/if}>
+			{else}
+				<optgroup label="{vtranslate('LBL_USERS')}">
+					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+						<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if in_array($OWNER_ID,$SEARCH_VALUES)} selected {/if}
+								data-userId="{$CURRENT_USER_ID}">
 							{$OWNER_NAME}
 						</option>
 					{/foreach}
 				</optgroup>
-			{/if}
+				{if count($ALL_ACTIVEGROUP_LIST) gt 0}
+					<optgroup label="{vtranslate('LBL_GROUPS')}">
+						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim($OWNER_ID),$SEARCH_VALUES)} selected {/if}>
+								{$OWNER_NAME}
+							</option>
+						{/foreach}
+					</optgroup>
+				{/if}
+			{/if}			
 		</select>
     </div>
 {/strip}

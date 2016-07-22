@@ -684,19 +684,21 @@ class Vtiger_Field_Model extends vtlib\Field
 			$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
 		}
 
-		if ($this->getFieldDataType() == 'owner') {
-			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
-			$groupList = $currentUser->getAccessibleGroups('', $this->getModuleName(), $this->getFieldDataType());
-			$pickListValues = [];
-			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
-			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
-			$this->fieldInfo['picklistvalues'] = $pickListValues;
-		}
+		if(!AppConfig::performance('SEARCH_OWNERS_BY_AJAX')){
+			if ($this->getFieldDataType() == 'owner') {
+				$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
+				$groupList = $currentUser->getAccessibleGroups('', $this->getModuleName(), $this->getFieldDataType());
+				$pickListValues = [];
+				$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
+				$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+				$this->fieldInfo['picklistvalues'] = $pickListValues;
+			}
 
-		if ($this->getFieldDataType() == 'sharedOwner') {
-			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
-			$pickListValues = [];
-			$this->fieldInfo['picklistvalues'] = $userList;
+			if ($this->getFieldDataType() == 'sharedOwner') {
+				$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
+				$pickListValues = [];
+				$this->fieldInfo['picklistvalues'] = $userList;
+			}
 		}
 
 		if ($this->getFieldDataType() == 'modules') {

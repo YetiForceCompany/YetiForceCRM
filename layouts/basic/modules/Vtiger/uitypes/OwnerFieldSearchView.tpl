@@ -1,13 +1,13 @@
 {*<!--
 /*********************************************************************************
-  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-   * ("License"); You may not use this file except in compliance with the License
-   * The Original Code is:  vtiger CRM Open Source
-   * The Initial Developer of the Original Code is vtiger.
-   * Portions created by vtiger are Copyright (C) vtiger.
-   * All Rights Reserved.
-  *
- ********************************************************************************/
+** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*
+********************************************************************************/
 -->*}
 {strip}
     {assign var=FIELD_INFO value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
@@ -26,34 +26,46 @@
 	{else}
 		{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
 		{if $ASSIGNED_USER_ID neq 'modifiedby'}
-		{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups()}
+			{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups()}
 		{else}
 			{assign var=ALL_ACTIVEGROUP_LIST value=array()}
 		{/if}
 	{/if}
-	
+
 	{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 	{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
 	<div class="picklistSearchField">
-	<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}"  name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
-		{if count($ALL_ACTIVEUSER_LIST) gt 0}
-			<optgroup label="{vtranslate('LBL_USERS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+		<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}"  name="{$ASSIGNED_USER_ID}" multiple{/strip} {strip}
+				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+					data-ajax="1" data-ajax-url=""{/strip} {strip}
+				{/if}
+				data-fieldinfo='{$FIELD_INFO|escape}'>
+			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+				{foreach from=$SEARCH_VALUES item=OWNER_NAME}
 					<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
-					{$OWNER_NAME}
+						{$OWNER_NAME}
 					</option>
 				{/foreach}
-			</optgroup>
-		{/if}
-        {if count($ALL_ACTIVEGROUP_LIST) gt 0}
-			<optgroup label="{vtranslate('LBL_GROUPS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-					<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim($OWNER_NAME),$SEARCH_VALUES)} selected {/if} >
-					{$OWNER_NAME}
-					</option>
-				{/foreach}
-			</optgroup>
-        {/if}
-	</select>
+			{else}
+				{if count($ALL_ACTIVEUSER_LIST) gt 0}
+					<optgroup label="{vtranslate('LBL_USERS')}">
+						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+							<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
+								{$OWNER_NAME}
+							</option>
+						{/foreach}
+					</optgroup>
+				{/if}
+				{if count($ALL_ACTIVEGROUP_LIST) gt 0}
+					<optgroup label="{vtranslate('LBL_GROUPS')}">
+						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+							<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim($OWNER_NAME),$SEARCH_VALUES)} selected {/if} >
+								{$OWNER_NAME}
+							</option>
+						{/foreach}
+					</optgroup>
+				{/if}
+			{/if}
+		</select>
 	</div>
 {/strip}

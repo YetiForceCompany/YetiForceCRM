@@ -263,6 +263,43 @@ var app = {
 		} else if (!params.placeholder) {
 			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		}
+
+		if (selectElement.data('ajax') === 1) {
+			params.ajax = {
+				url: selectElement.data('ajaxUrl'),
+				dataType: 'json',
+				delay: 250,
+				data: function (params) {
+					return {
+						q: params.term, // search term
+						page: params.page
+					};
+				},
+				processResults: function (data, params) {
+					params.page = params.page || 1;
+					return {
+						results: data.items,
+						pagination: {
+							more: (params.page * 30) < data.total_count
+						}
+					};
+				},
+				cache: false
+			};
+			params.escapeMarkup = function (markup) {
+				return markup;
+			};
+			params.minimumInputLength = app.getMainParams('gsMinLength');
+			params.templateResult = function (data) {
+				return '<span>' + data.name + '</span>';
+			};
+			params.templateSelection = function (data, container) {
+				if(typeof data.name == 'undefined'){
+					return data.text;
+				}
+				return data.name;
+			};
+		}
 		var selectElementNew = selectElement;
 		selectElementNew.select2(params)
 				.on("select2:open", function (e) {
@@ -1478,7 +1515,9 @@ var app = {
 jQuery(document).ready(function () {
 	app.changeSelectElementView();
 	//register all select2 Elements
-	app.showSelect2ElementView(jQuery('body').find('select.select2'));
+	jQuery('body').find('select.select2').each(function(e){
+		app.showSelect2ElementView($(this));
+	});
 	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
