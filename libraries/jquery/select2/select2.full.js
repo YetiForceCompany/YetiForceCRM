@@ -2034,7 +2034,17 @@ S2.define('select2/selection/search',[
     var width = '';
 
     if (this.$search.attr('placeholder') !== '') {
-      width = this.$selection.find('.select2-selection__rendered').innerWidth();
+		// <--------   YetiForce Sp. z o.o.   -------->
+		width = this.$selection.find('.select2-selection__rendered').css('width');
+		var widthLiEl = this.$selection.find('.select2-search--inline').css("width");
+		if(widthLiEl != '100%')
+			this.$selection.find('.select2-search--inline').css("width", "100%");
+		if(width != '100%'){
+			width = this.$selection.find('.select2-selection__rendered').innerWidth();
+		}
+		// orginal code
+		// width = this.$selection.find('.select2-selection__rendered').innerWidth();
+		// <--------   YetiForce Sp. z o.o.   -------->
     } else {
       var minimumWidth = this.$search.val().length + 1;
 
