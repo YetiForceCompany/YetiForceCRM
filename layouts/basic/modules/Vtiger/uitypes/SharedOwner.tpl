@@ -3,8 +3,8 @@
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{if $FIELD_MODEL->get('uitype') eq '120'}
-		{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers('', $MODULE, $FIELD_MODEL->getFieldDataType())}
-		{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('', $MODULE, $FIELD_MODEL->getFieldDataType())}
+		{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance($MODULE)->getAccessibleUsers('',$FIELD_MODEL->getFieldDataType())}
+		{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance($MODULE)->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 
@@ -13,7 +13,7 @@
 		{elseif $MODE neq 'massedit' && $RECORD}
 			{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue('', $RECORD->getId())}
 		{/if}
-		
+
 		{if $FIELD_VALUE neq '' }
 			{assign var=FIELD_VALUE value=vtlib\Functions::getArrayFromValue($FIELD_VALUE)}
 			{assign var=NOT_DISPLAY_LIST value=array_diff_key(array_flip($FIELD_VALUE), $ALL_ACTIVEUSER_LIST, $ALL_ACTIVEGROUP_LIST)}

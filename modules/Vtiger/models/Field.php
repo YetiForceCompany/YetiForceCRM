@@ -668,25 +668,22 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 
 		if ($this->getFieldDataType() == 'date' || $this->getFieldDataType() == 'datetime') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['date-format'] = $currentUser->get('date_format');
 		}
 
 		if ($this->getFieldDataType() == 'time') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['time-format'] = $currentUser->get('hour_format');
 		}
 
 		if ($this->getFieldDataType() == 'currency') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
 			$this->fieldInfo['decimal_seperator'] = $currentUser->get('currency_decimal_separator');
 			$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
 		}
 
 		if ($this->getFieldDataType() == 'owner') {
-			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
-			$groupList = $currentUser->getAccessibleGroups('', $this->getModuleName(), $this->getFieldDataType());
+			$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
+			$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $this->getFieldDataType());
 			$pickListValues = [];
 			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
 			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
@@ -694,7 +691,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 
 		if ($this->getFieldDataType() == 'sharedOwner') {
-			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
+			$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
 			$pickListValues = [];
 			$this->fieldInfo['picklistvalues'] = $userList;
 		}
