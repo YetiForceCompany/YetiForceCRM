@@ -141,7 +141,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 			//operation=0 or 1 is create/edit operation. precise 0 create and 1 edit.
 			//operation=3 index or popup. //ignored for websevices.
 			//operation=4 is view operation.
-			$sql = sprintf("select * from vtiger_profile2standardpermissions where profileid in (%s) and tabid=?",  generateQuestionMarks($profileList));
+			$sql = sprintf("select * from vtiger_profile2standardpermissions where profileid in (%s) and tabid=?", generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList, $this->getTabId()));
 
 			$noofrows = $adb->num_rows($result);
@@ -386,7 +386,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	private function retrieveUserHierarchy()
 	{
 
-		$heirarchyUsers = get_user_array(false, "ACTIVE", $this->user->id);
+		$heirarchyUsers = \includes\fields\Owner::getInstance()->getUsers(false, 'Active', $this->user->id);
 		$groupUsers = vtws_getUsersInTheSameGroup($this->user->id);
 		$this->assignUsers = $heirarchyUsers + $groupUsers;
 		$this->assign = true;
@@ -497,11 +497,11 @@ class VtigerCRMObjectMeta extends EntityMeta
 				$exists = true;
 			} else {
 				$sql = "select 1 from vtiger_users where id = ? and deleted = 0 and status = ?";
-				$params []= 'Active';
+				$params [] = 'Active';
 			}
 		} else {
 			$sql = "select 1 from vtiger_crmentity where crmid = ? and deleted = 0 and setype = ?";
-			$params []= $this->getTabName();
+			$params [] = $this->getTabName();
 		}
 
 		if ($sql) {
