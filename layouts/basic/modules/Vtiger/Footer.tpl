@@ -19,21 +19,25 @@
 	<input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}"/>
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 		<div class="vtFooter">
-			<div class="pull-left">
-				<a class="iconsInFooter" href="https://www.linkedin.com/company/yetiforce-sp.-z-o.o.?trk=ppro_cprof">
-					<span class="AdditionalIcon-Linkedin" title="Linkendin"/>
-				</a>
-				<a class="iconsInFooter" href="https://twitter.com/YetiForceEN">
-					<span class="AdditionalIcon-Twitter" title="Twitter"/>
-				</a>
-				<a class="iconsInFooter" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
-					<span class="AdditionalIcon-Facebook" title="Facebook"/>
-				</a>
-			</div>
+			{if $USER_MODEL->is_admin == 'on'}
+				<div class="pull-left">
+					<a class="iconsInFooter" href="https://www.linkedin.com/company/yetiforce-sp.-z-o.o.?trk=ppro_cprof">
+						<span class="AdditionalIcon-Linkedin" title="Linkendin"/>
+					</a>
+					<a class="iconsInFooter" href="https://twitter.com/YetiForceEN">
+						<span class="AdditionalIcon-Twitter" title="Twitter"/>
+					</a>
+					<a class="iconsInFooter" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
+						<span class="AdditionalIcon-Facebook" title="Facebook"/>
+					</a>
+				</div>
+			{/if}
 			<div class="pull-right">
-				<a class="iconsInFooter" href="https://github.com/YetiForceCompany/YetiForceCRM">
-					<span class="AdditionalIcon-Github" title="Github"/>
-				</a>
+				{if $USER_MODEL->is_admin == 'on'}
+					<a class="iconsInFooter" href="https://github.com/YetiForceCompany/YetiForceCRM">
+						<span class="AdditionalIcon-Github" title="Github"/>
+					</a>
+				{/if}
 				{if AppConfig::main('isVisibleLogoInFooter') == 'true'}
 					{assign var=ADDRESS value='https://yetiforce.com'}
 					<a href='{$ADDRESS}'>
