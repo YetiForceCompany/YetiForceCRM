@@ -33,4 +33,6 @@ $PERFORMANCE_CONFIG = [
 	'SEARCH_SHOW_OWNER_ONLY_IN_LIST' => true,
 	// Time to update number of notifications in seconds
 	'INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK' => 10,
+	// Search owners by AJAX. We recommend selecting the "true" value if there are numerous users in the system.
+	'SEARCH_OWNERS_BY_AJAX' => false,
 ];
