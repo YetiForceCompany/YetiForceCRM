@@ -21,7 +21,10 @@
 			{assign var=FIELD_VALUE value=[]}
 		{/if}
 
-		<select class="chzn-select form-control {if !empty($NOT_DISPLAY_LIST)}hideSelected{/if} {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-validNOT_DISPLAY_LISTation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}[]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\includes\utils\Json::encode($SPECIAL_VALIDATOR)}{/if} multiple>
+		<select class="select2 form-control {if !empty($NOT_DISPLAY_LIST)}hideSelected{/if} {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}[]" data-fieldinfo='{$FIELD_INFO}' multiple {if !empty($SPECIAL_VALIDATOR)}  data-validator={\includes\utils\Json::encode($SPECIAL_VALIDATOR)}{/if} 
+				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
+					data-ajax="1" data-ajax-url=""
+				{/if}>
 			<optgroup label="{vtranslate('LBL_USERS')}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 					<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" 
@@ -43,7 +46,7 @@
 				{/foreach}
 			</optgroup>
 			{foreach from=$NOT_DISPLAY_LIST key=OWNER_ID item=OWNER_NAME}
-				<option value="{$OWNER_ID}" {if in_array(Vtiger_Util_Helper::toSafeHTML($OWNER_NAME), $FIELD_VALUE)}selected{/if} class="hide">{$OWNER_NAME}</option>
+				<option value="{$OWNER_ID}" {if in_array(Vtiger_Util_Helper::toSafeHTML($OWNER_NAME), $FIELD_VALUE)}selected{/if} disabled class="hide">{$OWNER_NAME}</option>
 			{/foreach}
 		</select>
 	{/if}

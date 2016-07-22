@@ -14,7 +14,6 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -166,8 +165,8 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			}
 		}
 
-		$userList = $currentUser->getAccessibleUsers();
-		$groupList = $currentUser->getAccessibleGroups();
+		$userList = \includes\fields\Owner::getInstance()->getAccessibleUsers();
+		$groupList = \includes\fields\Owner::getInstance()->getAccessibleGroups();
 		$assignedToValues = array();
 		$assignedToValues[vtranslate('LBL_USERS', 'Vtiger')] = $userList;
 		$assignedToValues[vtranslate('LBL_GROUPS', 'Vtiger')] = $groupList;

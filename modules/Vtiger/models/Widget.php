@@ -250,39 +250,4 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 			}
 		}
 	}
-
-	function getUsersAndGroupsList($module, $conditions = false)
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
-		$queryGenerator = new QueryGenerator($module, $currentUser);
-		if ($view) {
-			$queryGenerator->initForCustomViewById($view);
-		}
-		if ($conditions) {
-			if(!is_array(current($conditions))){
-				$conditions = [$conditions];
-			}
-			foreach($conditions as $condition){
-				$conditionParam = ['column' => $condition[0], 'value' => $condition[1], 'operator' => $condition[2], 'glue' => $condition[3]];
-				if(isset($condition['tablename'])){
-					$conditionParam['tablename'] = $condition['tablename'];
-				}
-				$queryGenerator->setCustomCondition($conditionParam);
-			}
-		}
-		$queryGenerator->setFields(['assigned_user_id']);
-		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
-		$result = $db->query($listQuery);
-		$ids = $db->getArrayColumn($result);
-
-		$users = $groups = [];
-		$users = vtlib\Functions::getCRMRecordLabels('Users', $ids);
-		$diffIds = array_diff($ids, array_keys($users));
-		if ($diffIds) {
-			$groups = vtlib\Functions::getCRMRecordLabels('Groups', array_values($diffIds));
-		}
-		return [ 'users' => $users, 'group' => $groups];
-	}
 }

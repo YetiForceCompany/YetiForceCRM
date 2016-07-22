@@ -1,19 +1,17 @@
 {*<!--
 /*********************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- ********************************************************************************/
+* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+* in compliance with the License.
+* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+* See the License for the specific language governing rights and limitations under the License.
+* The Original Code is YetiForce.
+* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+* All Rights Reserved.
+********************************************************************************/
 -->*}
-
 <script type="text/javascript">
-	
-	YetiForce_Bar_Widget_Js('YetiForce_Timecontrol_Widget_Js',{},{
-		loadChart : function() {
+	YetiForce_Bar_Widget_Js('YetiForce_Timecontrol_Widget_Js',{}, {
+		loadChart: function () {
 			var thisInstance = this;
 			var chartData = thisInstance.generateData();
 			var options = {
@@ -21,8 +19,8 @@
 					minTickSize: 1,
 					ticks: chartData['ticks']
 				},
-				yaxis: { 
-					min: 0 ,
+				yaxis: {
+					min: 0,
 					tickDecimals: 0
 				},
 				grid: {
@@ -40,14 +38,14 @@
 					stack: true
 				},
 				legend: {
-			        show: true,
-			        labelFormatter: function(label, series) {
-			      		return('<b>'+label+'</b>: '+chartData['legend'][label]+' h');
-		       	}
-	   		}
-		};
+					show: true,
+					labelFormatter: function (label, series) {
+						return('<b>' + label + '</b>: ' + chartData['legend'][label] + ' h');
+					}
+				}
+			};
 			thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
-	}
+		}
 	});
 </script>
 <div class="dashboardWidgetHeader">
@@ -64,7 +62,8 @@
 		<div class="col-md-4">
 			<div class="box pull-right">
 				{if Users_Privileges_Model::isPermitted('OSSTimeControl', 'CreateView')}
-					<a class="btn btn-xs btn-default" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl'); return false;">
+					<a class="btn btn-xs btn-default" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl');
+							return false;">
 						<span class='glyphicon glyphicon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
@@ -89,10 +88,10 @@
 		</div>
 		<div class="col-md-6">
 			{if $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
-				{assign var=USERS_GROUP_LIST value=$WIDGET->getUsersAndGroupsList($SOURCE_MODULE, $USER_CONDITIONS)}
+				{assign var=USERS_GROUP_LIST value=\includes\fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
 				{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
 			{else}
-				{assign var=ACCESSIBLE_USERS value=$CURRENTUSER->getAccessibleUsers()}
+				{assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
 			{/if}
 			<div class="input-group input-group-sm">
 				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
@@ -109,8 +108,6 @@
 		</div>
 	</div>
 </div>
-
 <div class="dashboardWidgetContent">
 	{include file="dashboards/TimeControlContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
-

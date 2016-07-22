@@ -122,9 +122,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 
 	public function createMail(Vtiger_Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$accessibleUsers = $userPrivilegesModel->getAccessibleUsers();
-
+		$accessibleUsers = \includes\fields\Owner::getInstance()->getAccessibleUsers();
 		$content = $request->get('message');
 		$subject = $request->get('title');
 		$users = $request->get('users');

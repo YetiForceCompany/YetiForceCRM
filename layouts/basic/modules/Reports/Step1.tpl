@@ -194,8 +194,8 @@
 							<span class="redColor">*</span>{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}
 						</div>
 						<div class='col-md-4'>
-							{assign var=ALL_ACTIVEUSER_LIST value=$CURRENT_USER->getAccessibleUsers()}
-							{assign var=ALL_ACTIVEGROUP_LIST value=$CURRENT_USER->getAccessibleGroups()}
+							{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+							{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
 							{assign var=recipients value=\includes\utils\Json::decode($SCHEDULEDREPORTS->get('recipients'))}
 							<select multiple data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" title="{vtranslate('LBL_SELECT_RECIEPIENTS', $MODULE)}" class="chosen-select col-md-6 form-control" id='recipients' name='recipients' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" style="width: 281px !important;">
 								<optgroup label="{vtranslate('LBL_USERS')}">

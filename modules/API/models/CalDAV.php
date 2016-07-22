@@ -53,7 +53,7 @@ class API_CalDAV_Model
 	{
 		foreach ($this->davUsers as &$user) {
 			$this->calendarId = $user->get('calendarsid');
-			$accessibleGroups = $user->getAccessibleGroups();
+			$accessibleGroups = \includes\fields\Owner::getInstance(false, $user)->getAccessibleGroups();
 			if ($this->record['smownerid'] == $user->get('id') || $this->record['visibility'] == 'Public' || array_key_exists($this->record['smownerid'], $accessibleGroups)) {
 				$currentUser = vglobal('current_user');
 				vglobal('current_user', $user);
@@ -543,7 +543,7 @@ class API_CalDAV_Model
 		if ($cal['smownerid'] == '') {
 			return true;
 		}
-		$accessibleGroups = $this->user->getAccessibleGroups();
+		$accessibleGroups = \includes\fields\Owner::getInstance(false, $this->user)->getAccessibleGroups();
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT visibility FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE activityid = ? And vtiger_crmentity.deleted=?';
 		$result = $db->pquery($query, [$cal['crmid'], 0]);

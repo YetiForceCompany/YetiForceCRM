@@ -48,20 +48,18 @@ class Settings_Webforms_ModuleField_Model extends Vtiger_Field_Model
 		}
 
 		if ($this->getFieldDataType() == 'date' || $this->getFieldDataType() == 'datetime') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$fieldInfo['date-format'] = $currentUser->get('date_format');
 		}
 
 		if ($this->getFieldDataType() == 'currency') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
 			$fieldInfo['decimalSeperator'] = $currentUser->get('currency_decimal_separator');
 			$fieldInfo['groupSeperator'] = $currentUser->get('currency_grouping_separator');
 		}
 
 		if ($this->getFieldDataType() == 'owner') {
-			$userList = $currentUser->getAccessibleUsers();
-			$groupList = $currentUser->getAccessibleGroups();
+			$userList = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
+			$groupList = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 			$pickListValues = array();
 			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
 			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;

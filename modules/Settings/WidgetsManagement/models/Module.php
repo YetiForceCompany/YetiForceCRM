@@ -21,24 +21,24 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getWidgetsWithLimit()
 	{
-		$widgetWithLimit = ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'LBL_EXPIRING_SOLD_PRODUCTS', 
-			"LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES",'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS'];
+		$widgetWithLimit = ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'LBL_EXPIRING_SOLD_PRODUCTS',
+			"LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES", 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS'];
 		return $widgetWithLimit;
 	}
 
-	public static function getDefaultUserId($widgetModel, $module = false)
+	public static function getDefaultUserId($widgetModel, $moduleName = false)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...");
+		$log = LoggerManager::getInstance();
+		$log->debug('Entering Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$user = '';
 
-		if ($module) {
-			$accessibleUsers = $currentUser->getAccessibleUsersForModule($module);
-			$accessibleGroups = $currentUser->getAccessibleGroupForModule($module);
+		if ($moduleName) {
+			$accessibleUsers = \includes\fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
+			$accessibleGroups = \includes\fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
 		} else {
-			$accessibleUsers = $currentUser->getAccessibleUsers();
-			$accessibleGroups = $currentUser->getAccessibleGroups();
+			$accessibleUsers = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
+			$accessibleGroups = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		}
 		$owners = \includes\utils\Json::decode(html_entity_decode($widgetModel->get('owners')));
 		$defaultSelected = $owners['default'];
@@ -369,7 +369,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$data[$row['blockid']][$i] = $minilistWidget;
-			} else if($row['linklabel'] == 'ChartFilter'){
+			} else if ($row['linklabel'] == 'ChartFilter') {
 				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);

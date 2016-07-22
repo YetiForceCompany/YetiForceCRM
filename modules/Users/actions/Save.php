@@ -122,7 +122,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 			$sharedType = $request->get('calendarsharedtype');
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-			$accessibleUsers = $currentUserModel->getAccessibleUsersForModule('Calendar');
+			$accessibleUsers = \includes\fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
 
 			if ($sharedType == 'private') {
 				$calendarModuleModel->deleteSharedUsers($currentUserModel->id);
