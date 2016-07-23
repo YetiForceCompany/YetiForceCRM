@@ -44,9 +44,11 @@ try {
 
 	$_SERVER['HTTP_X_REQUESTED_WITH'] = true;
 
-	if (file_exists('Test.zip')) {
+	$testModule = 'TestModule.zip';
+	file_put_contents($testModule, file_get_contents('https://tests.yetiforce.com/' . $_SERVER['YETI_KEY']));
+	if (file_exists($testModule)) {
 		$package = new vtlib\Package();
-		$package->import('Test.zip');
+		$package->import($testModule);
 	} else {
 		throw new Exception('No file');
 	}
