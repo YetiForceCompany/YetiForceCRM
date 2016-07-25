@@ -44,11 +44,11 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		LEFT JOIN vtiger_crmentity procrm
 			ON procrm.crmid = vtiger_activity.process
 		LEFT JOIN u_yf_crmentity_label procrmlab
-			ON procrm.crmid = vtiger_activity.process
+			ON procrmlab.crmid = vtiger_activity.process
 		LEFT JOIN vtiger_crmentity subprocrm
 			ON subprocrm.crmid = vtiger_activity.subprocess
 		LEFT JOIN u_yf_crmentity_label subprocrmlab
-			ON subprocrm.crmid = vtiger_activity.subprocess
+			ON subprocrmlab.crmid = vtiger_activity.subprocess
 		WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
 		$instance = CRMEntity::getInstance($this->getModuleName());
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getModuleName(), $currentUser);
