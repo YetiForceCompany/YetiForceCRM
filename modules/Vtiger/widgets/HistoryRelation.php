@@ -43,7 +43,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		return 'HistoryRelationConfig';
 	}
 
-	public function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
+	public static function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
 	{
 		$db = PearDatabase::getInstance();
 		$recordId = $request->get('record');
