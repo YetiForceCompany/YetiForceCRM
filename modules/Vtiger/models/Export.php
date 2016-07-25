@@ -141,7 +141,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		$this->accessibleFields = $queryGenerator->getFields();
 
 		switch ($mode) {
-			case 'ExportAllData' : 
+			case 'ExportAllData' :
 				$query .= sprintf(' LIMIT %d', AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				return $query;
 				break;
@@ -290,8 +290,8 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			} elseif ($type == 'reference') {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = vtlib\Functions::getCRMRecordType($value);
-					$displayValueArray = vtlib\Functions::computeCRMRecordLabels($recordModule, $value);
+					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$displayValueArray = \includes\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;
@@ -328,7 +328,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = vtlib\Functions::getCRMRecordType($value);
-					$displayValueArray = vtlib\Functions::computeCRMRecordLabels($recordModule, $value);
+					$displayValueArray = includes\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;

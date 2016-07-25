@@ -40,7 +40,7 @@ class GenerateRecords {
             
             $db = PearDatabase::getInstance();
             $db->query("update {$childeModule->table_name} set {$childeModule->list_link_field} = replace({$childeModule->list_link_field}, '&oacute;', 'ó') WHERE {$childeModule->table_index} = {$childeModule->id}", TRUE);
-            $db->query("update vtiger_crmentity INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid SET vtiger_crmentity_label.label = replace(vtiger_crmentity_label.label, '&oacute;', 'ó') WHERE vtiger_crmentity.crmid = {$childeModule->id}", TRUE);
+            $db->query("update vtiger_crmentity INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid SET u_yf_crmentity_label.label = replace(u_yf_crmentity_label.label, '&oacute;', 'ó') WHERE vtiger_crmentity.crmid = {$childeModule->id}", TRUE);
         }
     }
 
@@ -66,7 +66,7 @@ class GenerateRecords {
         }
         $db = PearDatabase::getInstance();
         $db->query("update {$baseModule->table_name} set {$baseModule->list_link_field} = replace({$baseModule->list_link_field}, '&oacute;', 'ó') WHERE {$baseModule->table_index} = $id", TRUE);
-		$db->query("update vtiger_crmentity INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid SET vtiger_crmentity_label.label = replace(vtiger_crmentity_label.label, '&oacute;', 'ó') WHERE vtiger_crmentity.crmid = $id", TRUE);
+		$db->query("update vtiger_crmentity INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid SET u_yf_crmentity_label.label = replace(u_yf_crmentity_label.label, '&oacute;', 'ó') WHERE vtiger_crmentity.crmid = $id", TRUE);
         return $id;
     }
 

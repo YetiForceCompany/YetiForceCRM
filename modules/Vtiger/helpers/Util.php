@@ -214,8 +214,8 @@ class Vtiger_Util_Helper
 	{
 		$adb = PearDatabase::getInstance();
 
-		$query = 'SELECT vtiger_crmentity_label.label FROM vtiger_crmentity 
-			INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid 
+		$query = 'SELECT u_yf_crmentity_label.label FROM vtiger_crmentity 
+			INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid 
 			WHERE vtiger_crmentity.crmid = ?';
 		if ($checkDelete) {
 			$query.= ' AND vtiger_crmentity.deleted = 0';
@@ -517,9 +517,9 @@ class Vtiger_Util_Helper
 	public static function getLabel($recordId, $ignoreDelete = true)
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_crmentity_label.label
+		$query = 'SELECT u_yf_crmentity_label.label
 			FROM vtiger_crmentity
-			INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid
+			INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.crmid = ?';
 		if ($ignoreDelete) {
 			$query .= ' AND vtiger_crmentity.deleted=0';

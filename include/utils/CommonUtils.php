@@ -204,7 +204,7 @@ function create_tab_data_file()
 function getEntityName($module, $ids_list, $compute = true)
 {
 	if ($compute) {
-		return vtlib\Functions::computeCRMRecordLabels($module, $ids_list);
+		return includes\Record::computeLabels($module, $ids_list);
 	} else {
 		return vtlib\Functions::getCRMRecordLabels($module, $ids_list);
 	}
@@ -488,14 +488,7 @@ function decimalFormat($value)
 	return vtlib\Functions::formatDecimal($value);
 }
 
-function updateRecordLabel($module, $recordId)
-{
-	return vtlib\Functions::updateCRMRecordLabel($module, $recordId);
-}
-
 function get_group_options()
 {
 	return vtlib\Functions::get_group_options();
 }
-
-?>
