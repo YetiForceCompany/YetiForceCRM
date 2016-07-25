@@ -1518,4 +1518,6 @@ $jsLanguageStrings = [
 	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
 	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Czas pracy nie powinien być dłuższy niż 24 h',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER' => 'Czy jesteś pewien, że chcesz usunąć filtr? Usunięte zostaną również wszystkie widgety na podsumowaniach modułu i stronie głównej powiązane z tym filtrem.',
+	'JS_SEARCHING' => 'Trwa szukanie...',
+	'JS_INPUT_TOO_SHORT' => 'Wprowadzić _LENGTH_ lub więcej znaków',
 ];

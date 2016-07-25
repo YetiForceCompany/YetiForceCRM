@@ -93,6 +93,14 @@ class Owner
 		return $accessibleUser;
 	}
 
+	public function getAccessible($private = '', $fieldType = false, $translate = false)
+	{
+		return [
+			'users' => $this->getAccessibleUsers($private, $fieldType),
+			'groups' => $this->getAccessibleGroups($private, $fieldType, $translate)
+		];
+	}
+
 	/**
 	 * Function to get same level and subordinates Users
 	 * @return <array> Users

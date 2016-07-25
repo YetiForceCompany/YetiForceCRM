@@ -265,22 +265,35 @@ var app = {
 		}
 
 		if (selectElement.data('ajax') === 1) {
+			params.language.searching = function () {
+				return app.vtranslate('JS_SEARCHING');
+			}
+			params.language.inputTooShort = function (args) {
+				var remainingChars = args.minimum - args.input.length;
+				return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
+			}
+			params.language.errorLoading = function () {
+				return app.vtranslate('JS_NO_RESULTS_FOUND');
+			}
 			params.ajax = {
 				url: selectElement.data('ajaxUrl'),
 				dataType: 'json',
 				delay: 250,
 				data: function (params) {
 					return {
-						q: params.term, // search term
+						value: params.term, // search term
 						page: params.page
 					};
 				},
 				processResults: function (data, params) {
-					params.page = params.page || 1;
+					var items = [];
+					if (data.success == true) {
+						items = data.result.items;
+					}
 					return {
-						results: data.items,
+						results: items,
 						pagination: {
-							more: (params.page * 30) < data.total_count
+							more: false
 						}
 					};
 				},
@@ -289,14 +302,22 @@ var app = {
 			params.escapeMarkup = function (markup) {
 				return markup;
 			};
-			params.minimumInputLength = app.getMainParams('gsMinLength');
+			var minimumInputLength = 3;
+			if (selectElement.data('minimumInput') != 'undefined') {
+				minimumInputLength = selectElement.data('minimumInput');
+			}
+			params.minimumInputLength = minimumInputLength;
 			params.templateResult = function (data) {
-				return '<span>' + data.name + '</span>';
-			};
-			params.templateSelection = function (data, container) {
-				if(typeof data.name == 'undefined'){
+				if (typeof data.name == 'undefined') {
 					return data.text;
 				}
+				if (data.type == 'optgroup') {
+					return '<strong>' + data.name + '</strong>';
+				} else {
+					return '<span>' + data.name + '</span>';
+				}
+			};
+			params.templateSelection = function (data, container) {
 				return data.name;
 			};
 		}
@@ -1515,7 +1536,7 @@ var app = {
 jQuery(document).ready(function () {
 	app.changeSelectElementView();
 	//register all select2 Elements
-	jQuery('body').find('select.select2').each(function(e){
+	jQuery('body').find('select.select2').each(function (e) {
 		app.showSelect2ElementView($(this));
 	});
 	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
