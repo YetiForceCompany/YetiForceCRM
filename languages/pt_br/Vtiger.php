@@ -1161,6 +1161,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Horizontal bar chart',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Vertical bar chart',
 	'LBL_LINE_CHART' => 'Line chart',
+	'LBL_FUNNEL_CHART' => 'Sales funnel',
 	'LBL_SELECT_CHART' => 'Select chart',
 	'LBL_GROUP_FIELD' => 'Group by',
 	// numbers in words

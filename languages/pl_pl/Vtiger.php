@@ -1164,6 +1164,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Wykres słupkowy pionowy',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Wykres słupkowy poziomy',
 	'LBL_LINE_CHART' => 'Wykres liniowy',
+	'LBL_FUNNEL_CHART' => 'Lejek sprzedażowy',
 	'LBL_SELECT_CHART' => 'Wybierz wykres',
 	'LBL_GROUP_FIELD' => 'Grupuj po',
 	// numbers in words
