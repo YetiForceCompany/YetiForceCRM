@@ -22,29 +22,39 @@
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
 					data-ajax="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 				{/if}>
-			<optgroup label="{vtranslate('LBL_USERS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-					<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" 
-							{foreach item=USER from=$FIELD_VALUE}
-								{if $USER eq $OWNER_ID } selected {/if}
-							{/foreach}>
+			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
+				{foreach item=USER from=$FIELD_VALUE}
+					{assign var=OWNER_NAME value=vtlib\Functions::getOwnerRecordLabel($USER)}
+					<option value="{$USER}" data-picklistvalue="{$OWNER_NAME}" selected="selected">
 						{$OWNER_NAME}
 					</option>
 				{/foreach}
-			</optgroup>
-			<optgroup label="{vtranslate('LBL_GROUPS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-					<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" 
-							{foreach item=GROUP from=$FIELD_VALUE}
-								{if $GROUP eq $OWNER_ID } selected {/if}
-							{/foreach}>
-						{vtranslate($OWNER_NAME, $MODULE)}
-					</option>
+			{else}
+				<optgroup label="{vtranslate('LBL_USERS')}">
+					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" 
+								{foreach item=USER from=$FIELD_VALUE}
+									{if $USER eq $OWNER_ID } selected {/if}
+								{/foreach}>
+							{$OWNER_NAME}
+						</option>
+					{/foreach}
+				</optgroup>
+				<optgroup label="{vtranslate('LBL_GROUPS')}">
+					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" 
+								{foreach item=GROUP from=$FIELD_VALUE}
+									{if $GROUP eq $OWNER_ID } selected {/if}
+								{/foreach}>
+							{vtranslate($OWNER_NAME, $MODULE)}
+						</option>
+					{/foreach}
+				</optgroup>
+				{foreach from=$NOT_DISPLAY_LIST key=OWNER_ID item=OWNER_NAME}
+					<option value="{$OWNER_ID}" {if in_array(Vtiger_Util_Helper::toSafeHTML($OWNER_NAME), $FIELD_VALUE)}selected{/if} disabled class="hide">{$OWNER_NAME}</option>
 				{/foreach}
-			</optgroup>
-			{foreach from=$NOT_DISPLAY_LIST key=OWNER_ID item=OWNER_NAME}
-				<option value="{$OWNER_ID}" {if in_array(Vtiger_Util_Helper::toSafeHTML($OWNER_NAME), $FIELD_VALUE)}selected{/if} disabled class="hide">{$OWNER_NAME}</option>
-			{/foreach}
+			{/if}
+
 		</select>
 	{/if}
 {/strip}

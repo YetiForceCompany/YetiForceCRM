@@ -263,8 +263,8 @@ var app = {
 		} else if (!params.placeholder) {
 			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		}
-
 		if (selectElement.data('ajax') === 1) {
+			params.tags = false;
 			params.language.searching = function () {
 				return app.vtranslate('JS_SEARCHING');
 			}
@@ -300,7 +300,8 @@ var app = {
 				cache: false
 			};
 			params.escapeMarkup = function (markup) {
-				return markup;
+				if(markup !== 'undefined')
+					return markup;
 			};
 			var minimumInputLength = 3;
 			if (selectElement.data('minimumInput') != 'undefined') {
@@ -318,7 +319,10 @@ var app = {
 				}
 			};
 			params.templateSelection = function (data, container) {
-				return data.name;
+				if(data.text === ''){
+					return data.name;
+				}
+				return data.text;
 			};
 		}
 		var selectElementNew = selectElement;
