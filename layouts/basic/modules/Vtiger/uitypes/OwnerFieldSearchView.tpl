@@ -18,7 +18,6 @@
 		{assign var=SEARCH_VALUE value=[]}
 	{/if}
     {assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUE)}
-
 	{if $VIEWID && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 		{assign var=USERS_GROUP_LIST value=\includes\fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID)}
 		{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
@@ -34,7 +33,7 @@
 	<div class="picklistSearchField">
 		<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}"  name="{$ASSIGNED_USER_ID}" multiple{/strip} {strip}
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-					data-ajax="1" data-ajax-url="index.php?module=Accounts&action=Fields&mode=getOwners&type=List" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{/strip} {strip}
+					data-ajax="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=List" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{/strip} {strip}
 				{/if}
 				data-fieldinfo='{$FIELD_INFO|escape}'>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
