@@ -33,7 +33,7 @@
 	<div class="picklistSearchField">
 		<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}"  name="{$ASSIGNED_USER_ID}" multiple{/strip} {strip}
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-					data-ajax="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=List" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{/strip} {strip}
+					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=List" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{/strip} {strip}
 				{/if}
 				data-fieldinfo='{$FIELD_INFO|escape}'>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}

@@ -263,7 +263,7 @@ var app = {
 		} else if (!params.placeholder) {
 			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		}
-		if (selectElement.data('ajax') === 1) {
+		if (selectElement.data('ajaxSearch') === 1) {
 			params.tags = false;
 			params.language.searching = function () {
 				return app.vtranslate('JS_SEARCHING');
@@ -324,6 +324,8 @@ var app = {
 				}
 				return data.text;
 			};
+		} else {
+			
 		}
 		var selectElementNew = selectElement;
 		selectElementNew.select2(params)
