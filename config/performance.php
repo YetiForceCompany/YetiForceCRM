@@ -37,4 +37,6 @@ $PERFORMANCE_CONFIG = [
 	'SEARCH_OWNERS_BY_AJAX' => false,
 	// Max number of exported records
 	'MAX_NUMBER_EXPORT_RECORDS' => 5000,
+	// Minimum number of characters to search for record owner
+	'OWNER_MINIMUM_INPUT_LENGTH' => 2,
 ];
