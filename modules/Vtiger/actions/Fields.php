@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************** */
 
+/**
+ * Fields Action Class
+ * @package YetiForce.Actions
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class Vtiger_Fields_Action extends Vtiger_Action_Controller
 {
 
@@ -73,17 +70,6 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 			}
 			$response->setResult(['items' => $data]);
 		}
-		/*
-		  $permitted = Users_Privileges_Model::isPermitted($sourceModule, 'DetailView', $record);
-		  if ($permitted) {
-		  vglobal('showsAdditionalLabels', true);
-		  $recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
-		  $data = $recordModel->getData();
-		  $response->setResult(array('success' => true, 'data' => array_map('decode_html', $data)));
-		  } else {
-		  $response->setResult(array('success' => false, 'message' => vtranslate('LBL_PERMISSION_DENIED')));
-		  }
-		 */
 		$response->emit();
 	}
 }
