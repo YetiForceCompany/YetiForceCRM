@@ -35,4 +35,6 @@ $PERFORMANCE_CONFIG = [
 	'INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK' => 10,
 	// Search owners by AJAX. We recommend selecting the "true" value if there are numerous users in the system.
 	'SEARCH_OWNERS_BY_AJAX' => false,
+	// Max number of exported records
+	'MAX_NUMBER_EXPORT_RECORDS' => 5000,
 ];

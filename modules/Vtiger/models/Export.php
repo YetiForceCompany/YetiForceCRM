@@ -141,7 +141,9 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		$this->accessibleFields = $queryGenerator->getFields();
 
 		switch ($mode) {
-			case 'ExportAllData' : return $query;
+			case 'ExportAllData' : 
+				$query .= sprintf(' LIMIT %d', AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				return $query;
 				break;
 
 			case 'ExportCurrentPage' : $pagingModel = new Vtiger_Paging_Model();
@@ -171,6 +173,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				} else {
 					$query .= ' AND ' . $baseTable . '.' . $baseTableColumnId . ' NOT IN (' . implode(',', $request->get('excluded_ids')) . ')';
 				}
+				$query .= sprintf(' LIMIT %d', AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				return $query;
 				break;
 
