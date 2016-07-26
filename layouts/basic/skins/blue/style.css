@@ -1,1 +1,42 @@
-
+.bodyHeader {
+	background: #00285f;	
+}
+.userDetailsContainer{
+	background-color: #00509e;
+}
+.baseContainer .leftPanel .userDetailsContainer a{
+	color: #fff;
+}
+.baseContainer .leftPanel:after{
+	background: #fff;
+}
+.baseContainer .leftPanel a{
+	color: #003c7d;
+}
+.baseContainer .leftPanel .menuContainer a:hover, 
+.baseContainer .leftPanel .menuContainer a:focus{
+	color: #fff;
+}
+.nav > li > a:hover, 
+.nav > li > a:focus{
+	background-color: #00509e;
+}
+.leftPanel .nav .subMenu:after{
+	background: #00509e;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a:hover,
+.baseContainer .leftPanel .menuContainer .subMenu a:focus,
+.baseContainer .leftPanel .menuContainer .subMenu button:hover,
+.baseContainer .leftPanel .menuContainer .subMenu button:focus{
+	background: #fff;
+	color: #00509e;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a{
+	color: #fff;
+}
+.vtFooter p{
+	background: #00285f;
+}
+.baseContainer .basePanel {
+	border-left: 2px solid #00285f;
+}
