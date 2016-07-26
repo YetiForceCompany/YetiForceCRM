@@ -1,16 +1,16 @@
 {*<!--
 /*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+* in compliance with the License.
+* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+* See the License for the specific language governing rights and limitations under the License.
+* The Original Code is YetiForce.
+* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+* All Rights Reserved.
+*************************************************************************************************************************************/
 -->*}
-{assign var=ACCESSIBLE_USERS value=$CURRENTUSER->getAccessibleUsers()}
-{assign var=ACCESSIBLE_GROUPS value=$CURRENTUSER->getAccessibleGroups()}
+{assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+{assign var=ACCESSIBLE_GROUPS value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
 	<div class="row">
@@ -20,7 +20,8 @@
 		<div class="col-xs-4">
 			<div class="box pull-right">
 				{if Users_Privileges_Model::isPermitted('Calendar', 'CreateView')}
-					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar'); return false;">
+					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
+							return false;">
 						<span class='glyphicon glyphicon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}

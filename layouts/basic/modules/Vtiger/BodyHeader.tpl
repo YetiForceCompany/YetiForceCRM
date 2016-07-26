@@ -2,8 +2,8 @@
 {strip}
     {assign var='count' value=0}
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} menuOpen{/if}">
-		<div class="row noSpaces">			
-			<div class="rightHeader">
+		<div class="row noSpaces">
+			<div class="rightHeader paddingRight10">
 				<div class="pull-right rightHeaderBtn">
 					<div class="dropdown quickAction historyBtn">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">

@@ -75,8 +75,11 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$row['class'] = self::$colors[$row['type']];
 			if (strpos($row['type'], 'OSSMailView') !== false) {
 				$row['type'] = 'OSSMailView';
+				$row['url'] = Vtiger_Module_Model::getInstance('OSSMailView')->getPreviewViewUrl($row['id']);
+			} else {
+				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getDetailViewUrl($row['id']);
 			}
-			$row['url'] = self::getUrlRelatedRecord($row['type'], $row['id']);
+			$row['body'] = vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($row['body']))), 100);
 			$history[] = $row;
 		}
 		return $history;
@@ -88,7 +91,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 
 		if (in_array('Calendar', $type)) {
-			$sql = sprintf('SELECT CONCAT(\'Calendar\') AS type, vtiger_crmentity.crmid AS id,a.subject AS content,vtiger_crmentity.smownerid AS user,concat(a.date_start, " ", a.time_start) AS `time`
+			$sql = sprintf('SELECT NULL AS `body`, CONCAT(\'Calendar\') AS type, vtiger_crmentity.crmid AS id,a.subject AS content,vtiger_crmentity.smownerid AS user,concat(a.date_start, " ", a.time_start) AS `time`
 				FROM vtiger_activity a
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = a.activityid 
 				WHERE vtiger_crmentity.deleted = 0 AND a.%s = %d', $field, $recordId);
@@ -99,7 +102,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$queries[] = $sql;
 		}
 		if (in_array('ModComments', $type)) {
-			$sql = sprintf('SELECT CONCAT(\'ModComments\') AS type,m.modcommentsid AS id,m.commentcontent AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
+			$sql = sprintf('SELECT NULL AS `body`, CONCAT(\'ModComments\') AS type,m.modcommentsid AS id,m.commentcontent AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
 				FROM vtiger_modcomments m
 				INNER JOIN vtiger_crmentity ON m.modcommentsid = vtiger_crmentity.crmid 
 				WHERE vtiger_crmentity.deleted = 0 AND related_to = %d', $recordId);
@@ -110,7 +113,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$queries[] = $sql;
 		}
 		if (in_array('Emails', $type)) {
-			$sql = sprintf('SELECT CONCAT(\'OSSMailView\', o.ossmailview_sendtype) AS `type`,o.ossmailviewid AS id,o.subject AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
+			$sql = sprintf('SELECT o.content AS `body`, CONCAT(\'OSSMailView\', o.ossmailview_sendtype) AS `type`,o.ossmailviewid AS id,o.subject AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
 				FROM vtiger_ossmailview o
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = o.ossmailviewid 
 				INNER JOIN vtiger_ossmailview_relation r ON r.ossmailviewid = o.ossmailviewid 
@@ -133,17 +136,5 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		}
 		$sql .= ' ORDER BY time DESC';
 		return $sql;
-	}
-
-	public static function getUrlRelatedRecord($type, $ID)
-	{
-		$url = '';
-		$permitted = Users_Privileges_Model::isPermitted($type, 'DetailView', $ID);
-		if ($permitted && $type == 'OSSMailView') {
-			$url = Vtiger_Module_Model::getInstance($type)->getPreviewViewUrl($ID);
-		} elseif ($permitted) {
-			$url = Vtiger_Module_Model::getInstance($type)->getDetailViewUrl($ID);
-		}
-		return $url;
 	}
 }

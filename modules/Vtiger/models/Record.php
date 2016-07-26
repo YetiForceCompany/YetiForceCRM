@@ -392,7 +392,12 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$sortColumns .= 'vtiger_crmentity.label ASC,';
 		}
 
-		$query = sprintf('SELECT label, searchlabel, crmid, setype, createdtime, smownerid FROM vtiger_crmentity %s WHERE vtiger_crmentity.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 %s', $join, $where);
+		$query = sprintf('SELECT u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel, vtiger_crmentity.crmid, setype, createdtime, smownerid 
+			FROM vtiger_crmentity 
+			INNER JOIN u_yf_crmentity_search_label ON vtiger_crmentity.crmid = u_yf_crmentity_search_label.crmid 
+			INNER JOIN u_yf_crmentity_label ON vtiger_crmentity.crmid = u_yf_crmentity_label.crmid 
+			%s 
+			WHERE u_yf_crmentity_search_label.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 %s', $join, $where);
 		if (!empty($sortColumns)) {
 			$query .= sprintf(' ORDER BY %s', $sortColumns);
 			$query = rtrim($query, ',');

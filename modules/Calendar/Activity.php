@@ -609,43 +609,48 @@ class Activity extends CRMEntity
 
 	/**
 	 * Function to get reminder for activity
-	 * @param  integer   $activity_id     - activity id
-	 * @param  string    $reminder_time   - reminder time
-	 * @param  integer   $reminder_sent   - 0 or 1
+	 * @param  integer   $activityId     - activity id
+	 * @param  string    $reminderTime   - reminder time
+	 * @param  integer   $reminderSent   - 0 or 1
 	 * @param  integer   $recurid         - recuring eventid
-	 * @param  string    $remindermode    - string like 'edit'
+	 * @param  string    $reminderMode    - string like 'edit'
 	 */
-	function activity_reminder($activity_id, $reminder_time, $reminder_sent = 0, $recurid, $remindermode = '')
+	function activity_reminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
 	{
 		$log = LoggerManager::getInstance();
-		$log->debug('Entering vtiger_activity_reminder(' . $activity_id . "," . $reminder_time . "," . $reminder_sent . "," . $recurid . "," . $remindermode . ") method ...");
+		$log->debug("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
 		//Check for vtiger_activityid already present in the reminder_table
-		$query_exist = 'SELECT activity_id FROM %s WHERE activity_id = ?';
-		$query_exist = sprintf($query_exist, $this->reminder_table);
-		$result_exist = $this->db->pquery($query_exist, array($activity_id));
+		$query = sprintf('SELECT activity_id FROM %s WHERE activity_id = ?', $this->reminder_table);
+		$resultExist = $this->db->pquery($query, array($activityId));
 
-		if ($remindermode == 'edit') {
-			if ($this->db->num_rows($result_exist) > 0) {
-				$query = 'UPDATE %s SET reminder_sent = ?, reminder_time = ? WHERE activity_id =?';
-				$params = array($reminder_sent, $reminder_time, $activity_id);
+		if ($reminderMode == 'edit') {
+			if ($this->db->getRowCount($resultExist) > 0) {
+				$this->db->update($this->reminder_table, [
+					'reminder_time' => $reminderTime,
+					'reminder_sent' => $reminderSent
+					], 'activity_id = ?', [$activityId]
+				);
 			} else {
-				$query = 'INSERT INTO %s VALUES (?,?,?,?)';
-				$params = array($activity_id, $reminder_time, 0, $recurid);
+				$this->db->insert($this->reminder_table, [
+					'activity_id' => $activityId,
+					'reminder_time' => $reminderTime,
+					'reminder_sent' => 0,
+					'recurringid' => $recurid
+				]);
 			}
-		} elseif (($remindermode == 'delete') && ($this->db->num_rows($result_exist) > 0)) {
-			$query = 'DELETE FROM %s WHERE activity_id = ?';
-			$params = array($activity_id);
+		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
+			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activityId]);
 		} else {
 			if (AppRequest::get('set_reminder') == 'Yes') {
-				$query = 'INSERT INTO %s VALUES (?,?,?,?)';
-				$params = array($activity_id, $reminder_time, 0, $recurid);
+				$this->db->insert($this->reminder_table, [
+					'activity_id' => $activityId,
+					'reminder_time' => $reminderTime,
+					'reminder_sent' => 0,
+					'recurringid' => $recurid
+				]);
 			}
 		}
-		if (!empty($query)) {
-			$query_exist = sprintf($query, $this->reminder_table);
-			$this->db->pquery($query, $params, true, "Error in processing vtiger_table $this->reminder_table");
-		}
-		$log->debug("Exiting vtiger_activity_reminder method ...");
+		$log->debug('Exiting vtiger_activity_reminder method ...');
 	}
 
 	//Used for vtigerCRM Outlook Add-In
@@ -657,7 +662,7 @@ class Activity extends CRMEntity
 	function get_tasksforol($username)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering get_tasksforol(" . $username . ") method ...");
 		$current_user = vglobal('current_user');
 		require_once("modules/Users/Users.php");

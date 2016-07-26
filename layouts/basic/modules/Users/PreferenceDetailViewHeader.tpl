@@ -56,6 +56,6 @@
         </div>
         <div class="detailViewInfo userPreferences row">
             <div class="details col-md-12">
-                <form id="detailView" data-name-fields='{ZEND_JSON::encode($MODULE_MODEL->getNameFields())}' method="POST">
+                <form id="detailView" data-name-fields='{\includes\utils\Json::encode($MODULE_MODEL->getNameFields())}' method="POST">
                     <div class="contents">
 					{/strip}

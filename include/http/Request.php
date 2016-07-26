@@ -63,13 +63,10 @@ class Vtiger_Request
 			}
 		}
 		if ($isJSON) {
-			$oldValue = Zend_Json::$useBuiltinEncoderDecoder;
-			Zend_Json::$useBuiltinEncoderDecoder = false;
-			$decodeValue = Zend_Json::decode($value);
+			$decodeValue = \includes\utils\Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
 			}
-			Zend_Json::$useBuiltinEncoderDecoder = $oldValue;
 		}
 
 		//Handled for null because vtlib_purify returns empty string
@@ -118,13 +115,10 @@ class Vtiger_Request
 			}
 		}
 		if ($isJSON) {
-			$oldValue = Zend_Json::$useBuiltinEncoderDecoder;
-			Zend_Json::$useBuiltinEncoderDecoder = false;
-			$decodeValue = Zend_Json::decode($value);
+			$decodeValue = \includes\utils\Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
 			}
-			Zend_Json::$useBuiltinEncoderDecoder = $oldValue;
 		}
 
 		//Handled for null because vtlib_purifyForHtml returns empty string

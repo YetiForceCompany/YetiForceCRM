@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-    {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=UITYPE_MODEL value=$FIELD_MODEL->getUITypeModel()}
 	{assign var=PICKLIST_VALUES value=$UITYPE_MODEL->getTaxes()}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}

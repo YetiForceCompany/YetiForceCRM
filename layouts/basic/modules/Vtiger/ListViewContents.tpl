@@ -48,18 +48,18 @@
 							<input type="checkbox" id="listViewEntriesMainCheckBox" title="{vtranslate('LBL_SELECT_ALL')}" />
 						</th>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							<th {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}columnSorted{/if}">
+							<th {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}columnSorted{/if}">
 								<a href="javascript:void(0);" class="listViewHeaderValues pull-left" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}</a>
 									{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-									<div class='pull-left'>
-										<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
-											  data-content="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
-											<span class="glyphicon glyphicon-info-sign"></span>
-										</span>
-										<input type="checkbox" id="searchInSubcategories" title="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['specialOption']} checked {/if}>
-									</div>
-								{/if}
+								<div class='pull-left'>
+									<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
+										  data-content="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
+										<span class="glyphicon glyphicon-info-sign"></span>
+									</span>
+									<input type="checkbox" id="searchInSubcategories" title="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['specialOption']} checked {/if}>
+								</div>
+							{/if}
 							</th>
 						{/foreach}
 					</tr>

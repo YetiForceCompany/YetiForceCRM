@@ -28,6 +28,8 @@ class FieldBasic
 	var $helpinfo = '';
 	var $summaryfield = 0;
 	var $header_field = false;
+	var $maxlengthtext = 0;
+	var $maxwidthcolumn = 0;
 	var $masseditable = 1; // Default: Enable massedit for field
 	var $uitype = 1;
 	var $typeofdata = 'V~O';
@@ -64,6 +66,8 @@ class FieldBasic
 		$this->helpinfo = $valuemap['helpinfo'];
 		$this->masseditable = $valuemap['masseditable'];
 		$this->header_field = $valuemap['header_field'];
+		$this->maxlengthtext = $valuemap['maxlengthtext'];
+		$this->maxwidthcolumn = $valuemap['maxwidthcolumn'];
 		$this->displaytype = $valuemap['displaytype'];
 		$this->generatedtype = $valuemap['generatedtype'];
 		$this->readonly = $valuemap['readonly'];

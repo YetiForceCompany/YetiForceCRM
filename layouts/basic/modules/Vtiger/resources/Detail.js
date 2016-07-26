@@ -2555,7 +2555,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				data.find('.expandAllMails').click();
 				data.find('.showMailModal').click(function (e) {
 					var progressIndicatorElement = jQuery.progressIndicator();
-					app.showModalWindow("", $(e.currentTarget).data('url'), function () {
+					var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
+					app.showModalWindow("", url, function () {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					});
 				});
@@ -2575,7 +2576,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
-				app.showModalWindow("", $(e.currentTarget).data('url'), function (data) {
+				var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
+				app.showModalWindow("", url, function (data) {
 					Vtiger_Index_Js.registerMailButtons(data);
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				});
@@ -2725,6 +2727,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						widgetContent.find("#relatedHistoryCurrentPage").remove();
 						widgetContent.find("#moreRelatedUpdates").remove();
 						widgetContent.html(data);
+						Vtiger_Index_Js.registerMailButtons(widgetContent);
 					}
 			);
 		});
@@ -2837,6 +2840,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				url += 'history';
 			recentActivitiesTab.data('url', url);
 			recentActivitiesTab.trigger('click');
+		});
+		detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"] .widget_contents').on(thisInstance.widgetPostLoad, function(e){
+			thisInstance.registerEmailEvents($(e.currentTarget));
 		});
 		thisInstance.registerEventForRelatedList();
 		thisInstance.registerEventForRelatedListPagination();

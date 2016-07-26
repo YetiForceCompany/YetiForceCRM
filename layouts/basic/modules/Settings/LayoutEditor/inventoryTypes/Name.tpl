@@ -27,8 +27,8 @@
 </div>
 {if $FIELD_INSTANCE->getParams()}
 	<div class="paramsJson">
-		<input id="params" class="" type="hidden" value='{ZEND_JSON::encode($FIELD_INSTANCE->getParams())}'/>
-		{assign var='PARAMS' value=ZEND_JSON::decode($FIELD_INSTANCE->get('params'))}
+		<input id="params" class="" type="hidden" value='{\includes\utils\Json::encode($FIELD_INSTANCE->getParams())}'/>
+		{assign var='PARAMS' value=\includes\utils\Json::decode($FIELD_INSTANCE->get('params'))}
 		{foreach from=$FIELD_INSTANCE->getParams() item=ITEM key=KEY}
 			<div class="form-group paramsJson">
 				<label class="col-md-4 control-label">{vtranslate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}:</label>

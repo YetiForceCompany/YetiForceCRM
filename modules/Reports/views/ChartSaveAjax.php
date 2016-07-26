@@ -45,7 +45,7 @@ class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View {
 		$dataFields = $request->get('datafields', 'count(*)');
 		if(is_string($dataFields)) $dataFields = array($dataFields);
 
-		$reportModel->set('reporttypedata', Zend_Json::encode(array(
+		$reportModel->set('reporttypedata', \includes\utils\Json::encode(array(
 																'type'=>$request->get('charttype', 'pieChart'),
 																'groupbyfield'=>$request->get('groupbyfield'),
 																'datafields'=>$dataFields)

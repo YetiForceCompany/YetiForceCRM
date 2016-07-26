@@ -1164,7 +1164,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Horizontales Balkendiagramm',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Vertikales Balkendiagramm',
 	'LBL_LINE_CHART' => 'Liniendiagramm',
-	'LBL_SELECT_CHART' => 'Diagramm wählen',
+	'LBL_FUNNEL_CHART' => 'Sales funnel',
 	'LBL_GROUP_FIELD' => 'Gruppieren',
 	// numbers in words
 	'LBL_MINUS' => 'Minus',
@@ -1246,7 +1246,9 @@ $languageStrings = [
 	'LBL_SEPTENDECILLIONSS' => 'septendecillion',
     'LBL_NOVEMDECILLION' => 'novemdecillion',
 	'LBL_NOVEMDECILLIONS' => 'novemdecillion',
-	'LBL_NOVEMDECILLIONSS' => 'novemdecillion'
+	'LBL_NOVEMDECILLIONSS' => 'novemdecillion',
+	'LBL_SOURCE' => 'Source',
+	'LBL_DATE' => 'Date',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1513,4 +1515,6 @@ $jsLanguageStrings = [
 	'JS_NOTIFY_COPY_TEXT' => 'In die Zwischenablage kopiert',
 	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Arbeitszeit sollte die 24 Stunden nicht überschreiten',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER' => 'Wollen Sie wirklich diesen Filter löschen? Alle abhängigen Widgets werden dann ebenfalls gelöscht!',
+	'JS_INPUT_TOO_SHORT' => 'Enter _LENGTH_ or more characters',
+	'JS_SEARCHING' => 'Searching...',
 ];

@@ -12,9 +12,9 @@
 {strip}
     <div>
         <div class="reportsDetailHeader">
-			<input type="hidden" name="date_filters" data-value='{ZEND_JSON::encode($DATE_FILTERS)}' />
+			<input type="hidden" name="date_filters" data-value='{\includes\utils\Json::encode($DATE_FILTERS)}' />
             <form id="detailView" onSubmit="return false;">
-				<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
+				<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATE_FILTERS))}' />
 				<br>
 				<div class="reportHeader row">
 					<div class="col-md-3">

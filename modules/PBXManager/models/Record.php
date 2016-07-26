@@ -196,7 +196,9 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		if ($db->num_rows($result)) {
 			$crmid = $db->query_result($result, 0, 'crmid');
 			$fieldname = $db->query_result($result, 0, 'fieldname');
-			$query = sprintf('SELECT label,setype FROM %s WHERE crmid=? AND deleted=0', self::entitytableName);
+			$query = sprintf('SELECT u_yf_crmentity_label.label, setype FROM %s 
+				INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
+				WHERE vtiger_crmentity.crmid = ? AND deleted=0', self::entitytableName);
 			$contact = $db->pquery($query, [$crmid]);
 			if ($db->num_rows($result)) {
 				$data['id'] = $crmid;

@@ -50,7 +50,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 			$moduleId = $adb->query_result($result, $i, 'module_id');
 			$moduleName = vtlib\Functions::getModuleName($moduleId);
 			$return[$moduleName]['id'] = $moduleId;
-			$status = Zend_Json::decode(html_entity_decode($adb->query_result($result, $i, 'status_indicate_closing')));
+			$status = \includes\utils\Json::decode(html_entity_decode($adb->query_result($result, $i, 'status_indicate_closing')));
 			if (!is_array($status)) {
 				$status = [$status];
 			}
@@ -71,7 +71,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 		$log = vglobal('log');
 		$log->debug("Entering Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
 		$query = "UPDATE `vtiger_realization_process` SET `status_indicate_closing` = ? WHERE `module_id` = ?";
-		$data = Zend_Json::encode($status);
+		$data = \includes\utils\Json::encode($status);
 		$adb->pquery($query, array($data, $moduleId));
 		$log->debug("Exiting Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
 		return TRUE;

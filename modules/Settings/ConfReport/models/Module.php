@@ -42,7 +42,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'User image directory' => 'storage/Users/',
 		'Contact image directory' => 'storage/Contacts/',
 		'Logo directory' => 'storage/Logo/',
-		'MailView attachments directory' => 'storage/OSSMailView/',
+		'MailView attachments directory' => 'storage/OSSMailView/'
 	);
 	public static $library = array(
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],

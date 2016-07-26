@@ -342,7 +342,11 @@ class Functions
 		}
 
 		if ($missing) {
-			$sql = sprintf("SELECT crmid, setype, deleted, smcreatorid, smownerid, label, searchlabel FROM vtiger_crmentity WHERE %s ", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
+			$sql = sprintf("SELECT vtiger_crmentity.crmid, setype, deleted, smcreatorid, smownerid, u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel 
+				FROM vtiger_crmentity 
+				LEFT JOIN u_yf_crmentity_search_label ON u_yf_crmentity_search_label.crmid = vtiger_crmentity.crmid 
+				LEFT JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid 
+				WHERE %s ", implode(' OR ', array_fill(0, count($missing), 'vtiger_crmentity.crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->fetch_array($result)) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
@@ -392,7 +396,7 @@ class Functions
 
 		if ($module == 'Users' || $module == 'Groups') {
 			// TODO Cache separately?
-			return self::computeCRMRecordLabels($module, $ids);
+			return \includes\Record::computeLabels($module, $ids);
 		} else {
 			$metadatas = self::getCRMRecordMetadata($ids);
 			$result = [];
@@ -400,21 +404,6 @@ class Functions
 				$result[$data['crmid']] = $data['label'];
 			}
 			return $result;
-		}
-	}
-
-	static function updateCRMRecordLabel($module, $id, $label)
-	{
-		$adb = \PearDatabase::getInstance();
-		$labelInfo = self::computeCRMRecordLabels($module, $id);
-		if ($labelInfo) {
-			$label = decode_html($labelInfo[$id]);
-			$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $id));
-			self::$crmRecordIdMetadataCache[$id] = array(
-				'setype' => $module,
-				'crmid' => $id,
-				'label' => $labelInfo[$id]
-			);
 		}
 	}
 
@@ -451,91 +440,6 @@ class Functions
 		}
 
 		return $nameList;
-	}
-
-	static function computeCRMRecordLabels($module, $ids, $search = false)
-	{
-		$adb = \PearDatabase::getInstance();
-
-		if (!is_array($ids))
-			$ids = [$ids];
-
-		if ($module == 'Events') {
-			$module = 'Calendar';
-		}
-
-		if ($module) {
-			$entityDisplay = [];
-
-			if ($ids) {
-				if ($module == 'Groups') {
-					$metainfo = ['tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname'];
-				} else {
-					$metainfo = self::getEntityModuleInfo($module);
-				}
-
-				$table = $metainfo['tablename'];
-				$idcolumn = $metainfo['entityidfield'];
-				$columnsName = explode(',', $metainfo['fieldname']);
-				$columnsSearch = explode(',', $metainfo['searchcolumn']);
-				$columns = array_unique(array_merge($columnsName, $columnsSearch));
-
-				$moduleInfo = self::getModuleFieldInfos($module);
-				$moduleInfoExtend = [];
-				if (count($moduleInfo) > 0) {
-					foreach ($moduleInfo as $field => $fieldInfo) {
-						$moduleInfoExtend[$fieldInfo['columnname']] = $fieldInfo;
-					}
-				}
-				$leftJoin = '';
-				$leftJoinTables = [];
-				$paramsCol = [];
-				if ($module != 'Groups') {
-					$focus = \CRMEntity::getInstance($module);
-					foreach (array_filter($columns) as $column) {
-						if (array_key_exists($column, $moduleInfoExtend)) {
-							$paramsCol[] = $column;
-							if ($moduleInfoExtend[$column]['tablename'] != $table && !in_array($moduleInfoExtend[$column]['tablename'], $leftJoinTables)) {
-								$otherTable = $moduleInfoExtend[$column]['tablename'];
-								$leftJoinTables[] = $otherTable;
-								$focusTables = $focus->tab_name_index;
-								$leftJoin .= ' LEFT JOIN ' . $otherTable . ' ON ' . $otherTable . '.' . $focusTables[$otherTable] . ' = ' . $table . '.' . $focusTables[$table];
-							}
-						}
-					}
-				} else {
-					$paramsCol = $columnsName;
-				}
-				$paramsCol[] = $idcolumn;
-				$ids = array_unique($ids);
-				$sql = sprintf('SELECT %s AS id FROM %s %s WHERE %s IN (%s)', implode(',', $paramsCol), $table, $leftJoin, $idcolumn, generateQuestionMarks($ids));
-				$result = $adb->pquery($sql, $ids);
-
-				for ($i = 0; $i < $adb->num_rows($result); $i++) {
-					$row = $adb->raw_query_result_rowdata($result, $i);
-					$label_name = [];
-					$label_search = [];
-					foreach ($columnsName as $columnName) {
-						if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
-							$label_name[] = self::getCRMRecordLabel($row[$columnName]);
-						else
-							$label_name[] = $row[$columnName];
-					}
-					if ($search) {
-						foreach ($columnsSearch as $columnName) {
-							if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
-								$label_search[] = self::getCRMRecordLabel($row[$columnName]);
-							else
-								$label_search[] = $row[$columnName];
-						}
-						$entityDisplay[$row['id']] = ['name' => implode(' ', $label_name), 'search' => implode(' ', $label_search)];
-					}else {
-						$entityDisplay[$row['id']] = trim(implode(' ', $label_name));
-					}
-				}
-			}
-			return $entityDisplay;
-		}
 	}
 
 	protected static $groupIdNameCache = [];

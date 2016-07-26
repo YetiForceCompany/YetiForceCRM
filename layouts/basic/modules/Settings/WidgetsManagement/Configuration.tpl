@@ -56,8 +56,8 @@
 				</div>
 
 				<div id="moduleBlocks">
-					<input type="hidden" name="filter_users" value='{Zend_Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
-					<input type="hidden" name="filter_restrict" value='{Zend_Json::encode($RESTRICT_FILTER)}'>
+					<input type="hidden" name="filter_users" value='{\includes\utils\Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
+					<input type="hidden" name="filter_restrict" value='{\includes\utils\Json::encode($RESTRICT_FILTER)}'>
 					{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 						{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
 						<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} marginBottom10px border1px blockSortable" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;background: white;">
@@ -331,7 +331,7 @@
 				<li class="newCustomFieldCopy hide col-md-12">
 					<div class="marginLeftZero border1px" data-field-id="" data-linkid="" data-sequence="">
 						<div class="row padding1per">
-							<div class="col-md-10 " style="word-wrap: break-word;">
+							<div class="pull-left" style="word-wrap: break-word;">
 								<span class="fieldLabel marginLeft20"></span>
 							</div>
 							<span class="btn-group pull-right marginRight20 actions">

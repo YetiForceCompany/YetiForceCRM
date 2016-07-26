@@ -39,7 +39,7 @@ class Project_Detail_View extends Vtiger_Detail_View {
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getGanttProject($recordId);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DATA', Zend_Json::encode($data));
+		$viewer->assign('DATA', \includes\utils\Json::encode($data));
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
 	}
 	public function getHeaderCss(Vtiger_Request $request) {

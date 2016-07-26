@@ -52,7 +52,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
-		
+
 		$query = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leaddetails.leadsource IS NULL OR vtiger_leaddetails.leadsource = "" THEN "" 
 						ELSE vtiger_leaddetails.leadsource END AS leadsourcevalue FROM vtiger_leaddetails 
 						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
@@ -119,8 +119,8 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
 
-		$accessibleUsers = $currentUser->getAccessibleUsersForModule('Leads');
-		$accessibleGroups = $currentUser->getAccessibleGroupForModule('Leads');
+		$accessibleUsers = \includes\fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule();
+		$accessibleGroups = \includes\fields\Owner::getInstance('Leads', $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('OWNER', $ownerForwarded);

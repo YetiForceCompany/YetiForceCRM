@@ -1164,6 +1164,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Wykres słupkowy pionowy',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Wykres słupkowy poziomy',
 	'LBL_LINE_CHART' => 'Wykres liniowy',
+	'LBL_FUNNEL_CHART' => 'Lejek sprzedażowy',
 	'LBL_SELECT_CHART' => 'Wybierz wykres',
 	'LBL_GROUP_FIELD' => 'Grupuj po',
 	// numbers in words
@@ -1518,4 +1519,6 @@ $jsLanguageStrings = [
 	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
 	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Czas pracy nie powinien być dłuższy niż 24 h',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER' => 'Czy jesteś pewien, że chcesz usunąć filtr? Usunięte zostaną również wszystkie widgety na podsumowaniach modułu i stronie głównej powiązane z tym filtrem.',
+	'JS_SEARCHING' => 'Trwa szukanie...',
+	'JS_INPUT_TOO_SHORT' => 'Wprowadzić _LENGTH_ lub więcej znaków',
 ];

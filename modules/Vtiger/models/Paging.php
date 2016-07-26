@@ -57,10 +57,10 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 			if (empty($pageLimit)) {
 				$pageLimit = self::PAGE_LIMIT;
 			}
-		}elseif($pageLimit == 'no_limit'){
+		} elseif ($pageLimit == 'no_limit') {
 			$pageLimit = self::PAGE_MAX_LIMIT;
 		}
-		return $pageLimit;
+		return (int) $pageLimit;
 	}
 
 	function getStartIndex()
@@ -76,8 +76,11 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 	 */
 	function getRecordStartRange()
 	{
-		$rangeInfo = $this->getRecordRange();
-		return $rangeInfo['start'];
+		if ($this->has('range')) {
+			$rangeInfo = $this->getRecordRange();
+			return $rangeInfo['start'];
+		}
+		return $this->getPageLimit() * ((int) $this->getCurrentPage() - 1);
 	}
 
 	/**
@@ -86,8 +89,11 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 	 */
 	function getRecordEndRange()
 	{
-		$rangeInfo = $this->getRecordRange();
-		return $rangeInfo['end'];
+		if ($this->has('range')) {
+			$rangeInfo = $this->getRecordRange();
+			return $rangeInfo['end'];
+		}
+		return $this->getPageLimit() * ((int) $this->getCurrentPage() - 1) + $this->get('noOfEntries');
 	}
 
 	/**
@@ -107,9 +113,8 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 	 */
 	public function isPrevPageExists()
 	{
-		$prevPageExists = $this->get('prevPageExists');
-		if (isset($prevPageExists)) {
-			return $prevPageExists;
+		if ($this->has('prevPageExists')) {
+			return $this->get('prevPageExists');
 		}
 		return true;
 	}
@@ -120,9 +125,11 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 	 */
 	public function isNextPageExists()
 	{
-		$nextPageExists = $this->get('nextPageExists');
-		if (isset($nextPageExists)) {
-			return $nextPageExists;
+		if ($this->has('nextPageExists')) {
+			return $this->get('nextPageExists');
+		}
+		if ($this->has('noOfEntries')) {
+			return $this->get('noOfEntries') == $this->getPageLimit();
 		}
 		return true;
 	}
@@ -162,7 +169,7 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Function to return info about the number of pages
 	 * @return <int> - Number of pages
@@ -170,9 +177,12 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 	public function getPageCount()
 	{
 		$pageLimit = $this->getPageLimit();
-		$totalCount = $this->get('totalCount');
-		$pageCount = ceil($totalCount / (int) $pageLimit);
-
+		if ($this->has('totalCount')) {
+			$totalCount = $this->get('totalCount');
+			$pageCount = ceil($totalCount / (int) $pageLimit);
+		} else {
+			$pageCount = $this->get('page');
+		}
 		if ($pageCount == 0) {
 			$pageCount = 1;
 		}

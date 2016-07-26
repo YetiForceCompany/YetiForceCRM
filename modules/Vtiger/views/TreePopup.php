@@ -47,7 +47,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 			$type = 'category';
 		}
 		$tree = $recordModel->getTree($type);
-		$viewer->assign('TREE', Zend_Json::encode($tree));
+		$viewer->assign('TREE', \includes\utils\Json::encode($tree));
 		$viewer->assign('SRC_RECORD', $srcRecord);
 		$viewer->assign('SRC_FIELD', $srcField);
 		$viewer->assign('TEMPLATE', $template);

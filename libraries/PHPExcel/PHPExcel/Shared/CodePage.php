@@ -22,7 +22,7 @@
  * @package    PHPExcel_Shared
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.8.0, 2014-03-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 
@@ -83,12 +83,16 @@ class PHPExcel_Shared_CodePage
 			case 1258:	return 'CP1258';			break;	//	ANSI Vietnamese
 			case 1361:	return 'CP1361';			break;	//	ANSI Korean (Johab)
 			case 10000:	return 'MAC';				break;	//	Apple Roman
+			case 10001:	return 'CP932';				break;	//	Macintosh Japanese
+			case 10002:	return 'CP950';				break;	//	Macintosh Chinese Traditional
+			case 10003:	return 'CP1361';			break;	//	Macintosh Korean
 			case 10006:	return 'MACGREEK';			break;	//	Macintosh Greek
-			case 10007:	return 'MACCYRILLIC';		break;	//	Macintosh Cyrillic
-            case 10008: return 'CP936';             break;  //  Macintosh - Simplified Chinese (GB 2312)
-			case 10029:	return 'MACCENTRALEUROPE';	break;	//	Macintosh Central Europe
-			case 10079: return 'MACICELAND';		break;	//	Macintosh Icelandic
-			case 10081: return 'MACTURKISH';		break;	//	Macintosh Turkish
+			case 10007:	return 'MACCYRILLIC';			break;	//	Macintosh Cyrillic
+                        case 10008:	return 'CP936';				break;  //	Macintosh - Simplified Chinese (GB 2312)
+			case 10029:	return 'MACCENTRALEUROPE';		break;	//	Macintosh Central Europe
+			case 10079:	return 'MACICELAND';			break;	//	Macintosh Icelandic
+			case 10081:	return 'MACTURKISH';			break;	//	Macintosh Turkish
+			case 21010:	return 'UTF-16LE';			break;	//	UTF-16 (BIFF8) This isn't correct, but some Excel writer libraries erroneously use Codepage 21010 for UTF-16LE
 			case 32768:	return 'MAC';				break;	//	Apple Roman
 			case 32769:	throw new PHPExcel_Exception('Code page 32769 not supported.');
 													break;	//	ANSI Latin I (BIFF2-BIFF3)

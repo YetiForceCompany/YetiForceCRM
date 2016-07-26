@@ -70,7 +70,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		}
 	}
 
-	public static function UpdateLabels($params)
+	public static function updateLabels($params)
 	{
 		$adb = PearDatabase::getInstance();
 		$tabId = (int) $params['tabid'];
@@ -110,7 +110,9 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$sql = 'UPDATE vtiger_crmentity';
 		$sql .= self::getFromClauseByColumn($moduleName, $moduleInfoExtend, $allColumns);
 		$sql .= $sqlExt;
-		$sql .= " SET vtiger_crmentity.label = CONCAT_WS(' ' $entityColumnName), vtiger_crmentity.searchlabel = CONCAT_WS(' ' $searchColumnName)";
+		$sql .= ' INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid';
+		$sql .= ' INNER JOIN u_yf_crmentity_search_label ON u_yf_crmentity_search_label.crmid = vtiger_crmentity.crmid';
+		$sql .= " SET u_yf_crmentity_label.label = CONCAT_WS(' ' $entityColumnName), u_yf_crmentity_search_label.searchlabel = CONCAT_WS(' ' $searchColumnName)";
 		$sql .= " WHERE vtiger_crmentity.setype = '$moduleName'";
 		$adb->query($sql);
 	}

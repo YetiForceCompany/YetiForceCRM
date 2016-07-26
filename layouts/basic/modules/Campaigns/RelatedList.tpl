@@ -21,8 +21,8 @@
             <input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
             <input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
             <input type="hidden" id="recordsCount" value=""/>
-            <input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids={ZEND_JSON::encode($SELECTED_IDS)} />
-            <input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids={ZEND_JSON::encode($EXCLUDED_IDS)} />
+            <input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids={\includes\utils\Json::encode($SELECTED_IDS)} />
+            <input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids={\includes\utils\Json::encode($EXCLUDED_IDS)} />
             <input type="hidden" id="recordsCount" name="recordsCount" />
             <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
 			<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>

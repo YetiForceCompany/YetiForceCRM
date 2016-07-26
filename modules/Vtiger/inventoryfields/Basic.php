@@ -58,7 +58,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	public function getParamsConfig()
 	{
-		return Zend_Json::decode($this->get('params'));
+		return \includes\utils\Json::decode($this->get('params'));
 	}
 
 	/**

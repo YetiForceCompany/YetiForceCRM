@@ -132,8 +132,8 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
 
-		$accessibleUsers = $currentUser->getAccessibleUsersForModule('Leads');
-		$accessibleGroups = $currentUser->getAccessibleGroupForModule('Leads');
+		$accessibleUsers = \includes\fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule();
+		$accessibleGroups = \includes\fields\Owner::getInstance('Leads', $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('OWNER', $ownerForwarded);

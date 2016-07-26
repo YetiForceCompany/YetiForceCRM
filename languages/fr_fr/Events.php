@@ -105,5 +105,6 @@ $languageStrings = [
 	'PLL_COMPLETED' => 'Terminé',
 	'LBL_REMAIND_HOURS' => 'Remind after selected numer of hours',
 	'LBL_REMAIND_MINS' => 'Remind after selected numer of minutes',
+	'LBL_SELECT_INVITE' => 'Invite others',
 ];
 

@@ -64,10 +64,9 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 				$viewer->view('Step3.tpl', $qualifiedModuleName);
 				break;
 			case 'step2':
-				$currentUser = Users_Record_Model::getCurrentUserModel();
 				$assignedToValues = [];
-				$assignedToValues['LBL_USERS'] = $currentUser->getAccessibleUsers();;
-				$assignedToValues['LBL_GROUPS'] = $currentUser->getAccessibleGroups();;
+				$assignedToValues['LBL_USERS'] = \includes\fields\Owner::getInstance()->getAccessibleUsers();
+				$assignedToValues['LBL_GROUPS'] = \includes\fields\Owner::getInstance()->getAccessibleGroups();
 				$viewer->assign('SEL_MODULE_MODEL', Settings_MappedFields_Module_Model::getInstance($moduleInstance->get('tabid')));
 				$viewer->assign('REL_MODULE_MODEL', Settings_MappedFields_Module_Model::getInstance($moduleInstance->get('reltabid')));
 				$viewer->assign('USERS_LIST', $assignedToValues);

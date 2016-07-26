@@ -27,7 +27,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	public function get($key)
 	{
 		if (in_array($key, ['conditions', 'params']) && !is_array(parent::get($key))) {
-			return Zend_Json::decode(html_entity_decode(parent::get($key)));
+			return \includes\utils\Json::decode(html_entity_decode(parent::get($key)));
 		} else {
 			return parent::get($key);
 		}
@@ -278,7 +278,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
 			$return = true;
 		} elseif (array_key_exists('Groups', $getTypes)) {
-			$accessibleGroups = array_keys($currentUser->getAccessibleGroupForModule($this->get('module_name')));
+			$accessibleGroups = array_keys(\includes\fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
 			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
 			if (array_intersect($groups, $accessibleGroups)) {
 				$return = true;

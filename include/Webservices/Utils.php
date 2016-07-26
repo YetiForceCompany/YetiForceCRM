@@ -942,8 +942,8 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 		require_once("modules/com_vtiger_workflow/VTTaskManager.inc");
 		require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.inc';
 		$unserializeTask = unserialize($task);
-		if (array_key_exists("field_value_mapping", $unserializeTask)) {
-			$fieldMapping = Zend_Json::decode($unserializeTask->field_value_mapping);
+		if (array_key_exists('field_value_mapping', $unserializeTask)) {
+			$fieldMapping = \includes\utils\Json::decode($unserializeTask->field_value_mapping);
 			if (!empty($fieldMapping)) {
 				foreach ($fieldMapping as $key => $condition) {
 					if ($condition['fieldname'] == 'assigned_user_id') {
@@ -956,7 +956,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 					}
 					$fieldMapping[$key] = $condition;
 				}
-				$updatedTask = Zend_Json::encode($fieldMapping);
+				$updatedTask = \includes\utils\Json::encode($fieldMapping);
 				$unserializeTask->field_value_mapping = $updatedTask;
 				$serializeTask = serialize($unserializeTask);
 

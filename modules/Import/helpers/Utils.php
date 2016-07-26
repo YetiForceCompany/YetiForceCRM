@@ -202,7 +202,7 @@ class Import_Utils_Helper
 		if ($cache->getUserList($module, $current_user->id)) {
 			return $cache->getUserList($module, $current_user->id);
 		} else {
-			$userList = get_user_array(FALSE, "Active", $current_user->id);
+			$userList = \includes\fields\Owner::getInstance()->getUsers(false, 'Active', $current_user->id);
 			$cache->setUserList($module, $userList, $current_user->id);
 			return $userList;
 		}
@@ -214,7 +214,7 @@ class Import_Utils_Helper
 		if ($cache->getGroupList($module, $current_user->id)) {
 			return $cache->getGroupList($module, $current_user->id);
 		} else {
-			$groupList = get_group_array(FALSE, "Active", $current_user->id);
+			$groupList = \includes\fields\Owner::getInstance()->getGroups(false, 'Active', $current_user->id);
 			$cache->setGroupList($module, $groupList, $current_user->id);
 			return $groupList;
 		}

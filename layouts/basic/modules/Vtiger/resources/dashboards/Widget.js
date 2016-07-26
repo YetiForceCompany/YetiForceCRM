@@ -505,39 +505,30 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 	loadChart: function () {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
-		var labels = new Array();
 		var dataInfo = JSON.parse(data);
-		for (var i = 0; i < dataInfo.length; i++) {
-			labels[i] = dataInfo[i][2];
-			dataInfo[i][1] = parseFloat(dataInfo[i][1]);
-		}
 		this.getPlotContainer(false).jqplot([dataInfo], {
 			seriesDefaults: {
 				renderer: jQuery.jqplot.FunnelRenderer,
 				rendererOptions: {
-					sectionMargin: 12,
+					sectionMargin: 0,
 					widthRatio: 0.1,
 					showDataLabels: true,
 					dataLabelThreshold: 0,
-					dataLabels: 'value'
+					dataLabels: 'value',
+					highlightMouseDown:true
 				}
 			},
 			legend: {
 				show: true,
-				location: 'ne',
-				placement: 'outside',
-				labels: labels,
-				xoffset: 20
+				location: 'e',			
 			}
 		});
 	},
 	registerSectionClick: function () {
-		this.getContainer().on('jqplotDataClick', function () {
-			var sectionData = arguments[3];
-			var salesStageValue = sectionData[0];
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+			var sectionData = arguments[2];
 			//TODO : we need to construct the list url with the sales stage and filters
-		})
-
+		});
 	}
 });
 

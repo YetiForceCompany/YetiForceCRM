@@ -20,7 +20,7 @@ class Mobile_WS_DeleteRecords extends Mobile_WS_Controller {
 		if (empty($records)) {
 			$records = array($request->get('record'));
 		} else {
-			$records = Zend_Json::decode($records);
+			$records = \includes\utils\Json::decode($records);
 		}
 		
 		$deleted = array();

@@ -73,16 +73,12 @@ class PearDatabase
 	public static function &getInstance($type = 'base')
 	{
 		if (key_exists($type, self::$dbCache)) {
-			$db = self::$dbCache[$type];
-			vglobal('adb', $db);
-			return $db;
-		} else if (key_exists('base', self::$dbCache)) {
-			$db = self::$dbCache['base'];
-			vglobal('adb', $db);
-			return $db;
+			return self::$dbCache[$type];
 		}
-
 		$config = self::getDBConfig($type);
+		if ($config === false && key_exists('base', self::$dbCache)) {
+			return self::$dbCache['base'];
+		}
 		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
 
 		if ($db->database == NULL) {
@@ -91,7 +87,9 @@ class PearDatabase
 			return false;
 		} else {
 			self::$dbCache[$type] = $db;
-			vglobal('adb', $db);
+			if ($type == 'base') {
+				vglobal('adb', $db);
+			}
 		}
 		return $db;
 	}
@@ -130,7 +128,7 @@ class PearDatabase
 		if (self::$dbConfig[$type]['db_server'] != '_SERVER_') {
 			return self::$dbConfig[$type];
 		}
-		return self::$dbConfig['base'];
+		return false;
 	}
 
 	protected function loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port)
@@ -327,7 +325,7 @@ class PearDatabase
 
 	public function query($query, $dieOnError = false, $msg = '')
 	{
-		$this->log('Query: ' . $query);
+		$this->log("Start query: $query");
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
 
@@ -339,6 +337,7 @@ class PearDatabase
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage(), $dieOnError, $query);
 		}
+		$this->log('End query');
 		return $this->stmt;
 	}
 	/* Prepared statement Execution
@@ -350,7 +349,7 @@ class PearDatabase
 
 	public function pquery($query, $params = [], $dieOnError = false, $msg = '')
 	{
-		$this->log('Query: ' . $query);
+		$this->log('Start query: ' . $query);
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
 		$params = $this->flatten_array($params);
@@ -369,6 +368,7 @@ class PearDatabase
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage(), $dieOnError, $query, $params);
 		}
+		$this->log('End query');
 		return $this->stmt;
 	}
 
@@ -751,9 +751,16 @@ class PearDatabase
 		}
 	}
 
-	public function concat($list)
+	public function concat($columns, $space = '" "')
 	{
-		return 'concat(' . implode(',', $list) . ')';
+		$concat = 'CONCAT(';
+		foreach ($columns as $key => $column) {
+			if ($key != 0 && $space) {
+				$concat .= $space . ',';
+			}
+			$concat .= $column . ',';
+		}
+		return rtrim($concat, ',') . ')';
 	}
 
 	// create an IN expression from an array/list

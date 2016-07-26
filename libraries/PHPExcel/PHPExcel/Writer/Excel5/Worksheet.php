@@ -22,7 +22,7 @@
  * @package    PHPExcel_Writer_Excel5
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.8.0, 2014-03-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 // Original file header of PEAR::Spreadsheet_Excel_Writer_Worksheet (used as the base for this class):
@@ -1247,7 +1247,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 
 		$grbit |= $level;
 		if ($hidden) {
-			$grbit |= 0x0020;
+			$grbit |= 0x0030;
 		}
 		if ($height !== null) {
 			$grbit |= 0x0040; // fUnsynced

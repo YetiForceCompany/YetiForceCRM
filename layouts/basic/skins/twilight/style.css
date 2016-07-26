@@ -4616,6 +4616,13 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (min-width: 767px) {
+	.basePanel.menuOpen{
+		left:180px;
+		width: calc(100% - 180px);
+	}
+	.bodyHeader.menuOpen{
+		left: 230px;
+	}
 	.quickCreateContent .fieldsLabelValue::before{
 		content: "";
 		float: left;
@@ -4914,13 +4921,6 @@ html,body,.baseContainer
 }
 .timelineContainer{
 	z-index:1031;
-}
-.basePanel.menuOpen{
-	left:180px;
-	width: calc(100% - 180px);
-}
-.bodyHeader.menuOpen{
-	left: 230px;
 }
 .tl-slide-media-only .tl-slide-content-container .tl-slide-content .tl-text{
 	position: relative;
@@ -5511,4 +5511,12 @@ select.form-control {
 	position: absolute;
 	top: 3px;
 	right: 0;
+}
+.iconsInFooter{
+	margin: 7px 5px 0 5px;
+	float: left;
+}
+.iconsInFooter span{
+	color: #fff;
+	font-size: 20px;
 }

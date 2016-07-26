@@ -38,7 +38,7 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	public function UpdateLabels(Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		Settings_Search_Module_Model::UpdateLabels($params);
+		Settings_Search_Module_Model::updateLabels($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],

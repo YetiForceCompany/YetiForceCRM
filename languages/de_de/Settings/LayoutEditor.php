@@ -156,6 +156,8 @@ $languageStrings = [
 	'LBL_STANDARD_FIELDS' => 'Standartfelder',
 	'LBL_ADVANCED_BLOCK_FIELDS' => 'Felder Erweitert',
 	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Add advanced block fields',
+	'LBL_MAX_LENGTH_TEXT' => 'Max text length',
+	'LBL_MAX_WIDTH_COLUMN' => 'Column width [%]'
 ];
 
 $jsLanguageStrings = [

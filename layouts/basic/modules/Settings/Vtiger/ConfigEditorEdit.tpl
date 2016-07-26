@@ -74,7 +74,7 @@
 											{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
 											<div class="col-md-4">
 												<div class="input-group">
-													<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={Zend_Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
+													<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={\includes\utils\Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 													<div class="input-group-addon">{vtranslate('LBL_MB', $QUALIFIED_MODULE)}</div>
 												</div>
 											</div>
@@ -83,7 +83,7 @@
 											</label>
 										{else}
 											<div class="col-md-4">
-												<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={Zend_Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
+												<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={\includes\utils\Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 											</div>
 										{/if}
 									{/if}

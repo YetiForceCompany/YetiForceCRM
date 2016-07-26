@@ -90,22 +90,20 @@ class LanguageExport extends Package
 	 */
 	function export_Language($prefix)
 	{
-		$adb = \PearDatabase::getInstance();
-
-		$sqlresult = $adb->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
-		$languageresultrow = $adb->fetch_array($sqlresult);
-
+		$db = \PearDatabase::getInstance();
+		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
+		$languageresultrow = $db->fetch_array($sqlresult);
 		$langname = decode_html($languageresultrow['name']);
 		$langlabel = decode_html($languageresultrow['label']);
-
 		$this->openNode('module');
-		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');
+		$this->outputNode('language', 'type');
 		$this->outputNode($langname, 'name');
 		$this->outputNode($langlabel, 'label');
 		$this->outputNode($prefix, 'prefix');
-
 		$this->outputNode('language', 'type');
-
+		$this->outputNode(\AppConfig::main('default_charset'), 'encoding');
+		$this->outputNode('YetiForce - yetiforce.com', 'author');
+		$this->outputNode('YetiForce - yetiforce.com', 'license');
 		// Export dependency information
 		$this->export_Dependencies($moduleInstance);
 
@@ -119,8 +117,7 @@ class LanguageExport extends Package
 	function export_Dependencies($moduleInstance)
 	{
 		$vtigerMinVersion = vglobal('YetiForce_current_version');
-		$vtigerMaxVersion = false;
-
+		$vtigerMaxVersion = current(explode('.', $vtigerMinVersion)) . '.*';
 		$this->openNode('dependencies');
 		$this->outputNode($vtigerMinVersion, 'vtiger_version');
 		if ($vtigerMaxVersion !== false)

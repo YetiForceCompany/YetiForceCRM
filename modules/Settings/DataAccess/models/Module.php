@@ -381,17 +381,26 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			return self::$colorListCache[$record];
 		}
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
-		$db = PearDatabase::getInstance();
-		$conditions = new DataAccess_Conditions();
-		$sql = "SELECT * FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%colorList%'";
-		$result = $db->pquery($sql, [$moduleName]);
+
+		$colorList = Vtiger_Cache::get('DataAccess::colorList', $moduleName);
+		if ($colorList === false) {
+			$db = PearDatabase::getInstance();
+			$sql = "SELECT dataaccessid,data FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%colorList%'";
+			$result = $db->pquery($sql, [$moduleName]);
+			$colorList = [];
+			while ($row = $db->getRow($result)) {
+				$colorList[] = $row;
+			}
+			Vtiger_Cache::set('DataAccess::colorList', $moduleName, $colorList);
+		}
+
 		$return = [];
-		
 		$recordData = $recordModel->getRawData();
-		if(empty($recordData)){
+		if (empty($recordData)) {
 			$recordData = $recordModel->getData();
 		}
-		while ($row = $db->getRow($result)) {
+		$conditions = new DataAccess_Conditions();
+		foreach ($colorList as $row) {
 			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordData, $recordModel);
 			if ($conditionResult['test'] == true) {
 				$data = reset(unserialize($row['data']));

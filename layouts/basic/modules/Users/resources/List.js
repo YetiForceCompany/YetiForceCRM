@@ -323,14 +323,13 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 			);
 		});
 	},
-	
 	updatePaginationFilter: function () {
 		var thisInstance = this;
 		var params = {};
 		params['page'] = 1
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName(),
-		params['view'] = 'Pagination';
+				params['view'] = 'Pagination';
 		params['mode'] = 'getPagination';
 		params['search_key'] = 'status';
 		params['search_value'] = jQuery('#usersFilter').val()
@@ -340,7 +339,6 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 			thisInstance.registerPageNavigationEvents();
 		});
 	},
-	
 	updatePagination: function (pageNumber) {
 		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
 		var thisInstance = this;
@@ -351,23 +349,23 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		params['page'] = pageNumber;
 		params['mode'] = 'getPagination';
 		var searchValue = this.getAlphabetSearchValue();
-		if('status' == searchValue){
+		if ('status' == searchValue) {
 			params['search_key'] = 'status';
 			params['search_value'] = jQuery('#usersFilter').val()
 			params['operator'] = "e";
-		}else{
+		} else {
 			params['search_key'] = this.getAlphabetSearchField();
 			params['search_value'] = searchValue;
 			params['operator'] = "s";
-			
+
 		}
 		params.search_params = JSON.stringify(this.getListSearchParams());
+		params['noOfEntries'] = jQuery('#noOfEntries').val();
 		AppConnector.request(params).then(function (data) {
 			jQuery('.paginationDiv').html(data);
 			thisInstance.registerPageNavigationEvents();
 		});
 	},
-
 	registerEvents: function () {
 		this._super();
 		this.usersFilter();

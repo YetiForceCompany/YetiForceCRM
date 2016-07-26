@@ -13,9 +13,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $extraData;
 	private $targetModuleModel;
 
-	static function getInstance()
+	static function getInstance($linkId = 0, $userId = 0)
 	{
-		Users_Privileges_Model::getAll();
 		return new self();
 	}
 
@@ -38,7 +37,15 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		return $data;
 	}
-
+	public function getDataFunnel()
+	{
+		$groupData = $this->getDataFromFilter();
+		$data = [];
+		foreach ($groupData as $fieldName => $value) {
+			$data [] = [$fieldName, $value];
+		}
+		return $data;
+	}
 	public function getDataPie()
 	{
 		$groupData = $this->getDataFromFilter();
@@ -92,7 +99,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
-			$this->extraData = Zend_Json::decode(decode_html($this->extraData));
+			$this->extraData = \includes\utils\Json::decode(decode_html($this->extraData));
 		}
 		if ($this->extraData == NULL) {
 			throw new Exception("Invalid data");

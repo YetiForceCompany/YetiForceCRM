@@ -1403,6 +1403,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Horizontal bar chart',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Vertical bar chart',
 	'LBL_LINE_CHART' => 'Line chart',
+	'LBL_FUNNEL_CHART' => 'Sales funnel',
 	'LBL_SELECT_CHART' => 'Select chart',
 	'LBL_GROUP_FIELD' => 'Group by',
 	// numbers in words
@@ -1485,7 +1486,9 @@ $languageStrings = [
 	'LBL_SEPTENDECILLIONSS' => 'septendecillion',
     'LBL_NOVEMDECILLION' => 'novemdecillion',
 	'LBL_NOVEMDECILLIONS' => 'novemdecillion',
-	'LBL_NOVEMDECILLIONSS' => 'novemdecillion'
+	'LBL_NOVEMDECILLIONSS' => 'novemdecillion',
+	'LBL_SOURCE' => 'Source',
+	'LBL_DATE' => 'Date',
 ];
 $jsLanguageStrings = [
 	'JS_OLDER' => 'Самый старый',
@@ -1831,4 +1834,6 @@ $jsLanguageStrings = [
 	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
 	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Working time should not exceed 24hours',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER' => 'Are you sure you want to remove the filter? All widgets related to this filter in module summary and the homepage will also be removed.',
+	'JS_INPUT_TOO_SHORT' => 'Enter _LENGTH_ or more characters',
+	'JS_SEARCHING' => 'Searching...',
 ];

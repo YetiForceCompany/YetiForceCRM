@@ -25,16 +25,16 @@
 {else}
 	{$RAW_FIELD_INFO['type'] = 'url'}
 {/if}
-{assign var="FIELD_INFO" value=Zend_Json::encode($RAW_FIELD_INFO)}
+{assign var="FIELD_INFO" value=\includes\utils\Json::encode($RAW_FIELD_INFO)}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 
 <div class="fileUploadContainer">
 	{if $IS_EXTERNAL_LOCATION_TYPE}
 		<input type="text" class="form-control{if $FIELD_MODEL->isNameField()} nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}"
-			   value="{if $IS_EXTERNAL_LOCATION_TYPE} {$FIELD_VALUE} {/if}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
+			   value="{if $IS_EXTERNAL_LOCATION_TYPE} {$FIELD_VALUE} {/if}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\includes\utils\Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
 	{else}
 		<input type="file" class="{if $FIELD_MODEL->isNameField()}nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}"
-			   value="{if $IS_INTERNAL_LOCATION_TYPE} {$FIELD_VALUE} {/if}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
+			   value="{if $IS_INTERNAL_LOCATION_TYPE} {$FIELD_VALUE} {/if}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\includes\utils\Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
 	{/if}
 	<div class="uploadedFileDetails {if $IS_EXTERNAL_LOCATION_TYPE}hide{/if}">
 		<div class="uploadedFileSize"></div>

@@ -1573,6 +1573,7 @@ class Vtiger_Module_Model extends vtlib\Module
 		if ($securityParameter != '')
 			$query .= $securityParameter;
 
+	
 		return $query;
 	}
 
@@ -1782,7 +1783,7 @@ class Vtiger_Module_Model extends vtlib\Module
 		$basetable = $relatedModule->get('basetable');
 
 		$query = sprintf('SELECT vtiger_crmentity.*, %s.* FROM %s 
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %d
+				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %s
 				INNER JOIN %s ON %s.%s = vtiger_crmentity.crmid
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid

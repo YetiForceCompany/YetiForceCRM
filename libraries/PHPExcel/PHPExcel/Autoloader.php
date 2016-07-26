@@ -22,7 +22,7 @@
  * @package    PHPExcel
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    1.8.0, 2014-03-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 PHPExcel_Autoloader::Register();
@@ -55,7 +55,11 @@ class PHPExcel_Autoloader
             spl_autoload_register('__autoload');
         }
         //    Register ourselves with SPL
-        return spl_autoload_register(array('PHPExcel_Autoloader', 'Load'));
+        if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+            return spl_autoload_register(array('PHPExcel_Autoloader', 'Load'), true, true);
+        } else {
+            return spl_autoload_register(array('PHPExcel_Autoloader', 'Load'));
+        }
     }   //    function Register()
 
 

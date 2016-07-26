@@ -9,7 +9,7 @@
 class Email
 {
 
-	public function findCrmidByPrefix($value, $moduleName)
+	public static function findCrmidByPrefix($value, $moduleName)
 	{
 		$moduleModel = \Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($moduleName);
 		$moduleData = $moduleModel->getModuleCustomNumberingData();
@@ -43,10 +43,11 @@ class Email
 				$tableIndex = $instance->tab_name_index[$tablename];
 				if ($isEntityType) {
 					$selest = ',label,setype';
+					$query .= sprintf(' UNION (SELECT %s AS id %s FROM %s INNER JOIN u_yf_crmentity_label ON %s.%s = u_yf_crmentity_label.crmid ', $tableIndex, $selest, $tablename, $tablename, $tableIndex);
 				} else {
-					$selest = ",'$moduleName' AS setype";
+					$selest = ",NULL AS `label`,'$moduleName' AS setype";
+					$query .= sprintf(' UNION (SELECT %s AS id %s FROM %s', $tableIndex, $selest, $tablename);
 				}
-				$query .= sprintf(' UNION (SELECT %s AS id %s FROM %s', $tableIndex, $selest, $tablename);
 				foreach ($columns as $columnName => &$row) {
 					$join[$tablename] = $row;
 					$where[] = $tablename . '.' . $columnName;
@@ -75,5 +76,11 @@ class Email
 			$rows[] = ['crmid' => $row['id'], 'modules' => $row['setype'], 'label' => isset($row['label']) ? $row['label'] : false];
 		}
 		return $rows;
+	}
+
+	public static function getUserMail($userId)
+	{
+		$userModel = \Users_Privileges_Model::getInstanceById($userId);
+		return $userModel->get('email1');
 	}
 }

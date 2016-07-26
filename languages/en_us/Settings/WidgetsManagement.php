@@ -37,6 +37,10 @@ $languageStrings = [
 	'LBL_WIDGET_ADDED' => 'Widget has been added successfully',
 	'LBL_CACHE_WIDGET' => 'Cache',
 	'LBL_SHOW_USERS' => 'Display username',
+	'LBL_TITLE_WIDGET' => 'Widget title',
+	'LBL_ADDRESS_RSS' => 'RSS address ',
+	'LBL_ADD_CHANNEL' => 'Add channel',
+	'LBL_ADD_RSS' => 'Add RSS',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Block has been added successfully',

@@ -633,6 +633,8 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['quickcreate'] = $this->isQuickCreateEnabled();
 		$this->fieldInfo['masseditable'] = $this->isMassEditable();
 		$this->fieldInfo['header_field'] = $this->isHeaderField();
+		$this->fieldInfo['maxlengthtext'] = $this->get('maxlengthtext');
+		$this->fieldInfo['maxwidthcolumn'] = $this->get('maxwidthcolumn');
 		$this->fieldInfo['defaultvalue'] = $this->hasDefaultValue();
 		$this->fieldInfo['type'] = $fieldDataType;
 		$this->fieldInfo['name'] = $this->get('name');
@@ -666,37 +668,34 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 
 		if ($this->getFieldDataType() == 'date' || $this->getFieldDataType() == 'datetime') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['date-format'] = $currentUser->get('date_format');
 		}
 
 		if ($this->getFieldDataType() == 'time') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['time-format'] = $currentUser->get('hour_format');
 		}
 
 		if ($this->getFieldDataType() == 'currency') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
 			$this->fieldInfo['decimal_seperator'] = $currentUser->get('currency_decimal_separator');
 			$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
 		}
+		if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+			if ($this->getFieldDataType() == 'owner') {
+				$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
+				$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $this->getFieldDataType());
+				$pickListValues = [];
+				$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
+				$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+				$this->fieldInfo['picklistvalues'] = $pickListValues;
+			}
 
-		if ($this->getFieldDataType() == 'owner') {
-			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
-			$groupList = $currentUser->getAccessibleGroups('', $this->getModuleName(), $this->getFieldDataType());
-			$pickListValues = [];
-			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
-			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
-			$this->fieldInfo['picklistvalues'] = $pickListValues;
+			if ($this->getFieldDataType() == 'sharedOwner') {
+				$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
+				$pickListValues = [];
+				$this->fieldInfo['picklistvalues'] = $userList;
+			}
 		}
-
-		if ($this->getFieldDataType() == 'sharedOwner') {
-			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
-			$pickListValues = [];
-			$this->fieldInfo['picklistvalues'] = $userList;
-		}
-
 		if ($this->getFieldDataType() == 'modules') {
 			foreach ($this->getModulesListValues() as $moduleId => $module) {
 				$modulesList[$module['name']] = $module['label'];
@@ -1128,13 +1127,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$db = PearDatabase::getInstance();
 		$this->get('generatedtype') == 1 ? $generatedtype = 1 : $generatedtype = 2;
-		$query = 'UPDATE vtiger_field SET typeofdata=?, presence=?, quickcreate=?, masseditable=?, header_field=?, defaultvalue=?, summaryfield=?, displaytype=?, helpinfo=?, generatedtype=?, fieldparams=? WHERE fieldid=?';
+		$query = 'UPDATE vtiger_field SET typeofdata=?, presence=?, quickcreate=?, masseditable=?, header_field=?, maxlengthtext=?, maxwidthcolumn=?, defaultvalue=?, summaryfield=?, displaytype=?, helpinfo=?, generatedtype=?, fieldparams=? WHERE fieldid=?';
 		$params = array(
 			$this->get('typeofdata'),
 			$this->get('presence'),
 			$this->get('quickcreate'),
 			$this->get('masseditable'),
 			$this->get('header_field'),
+			$this->get('maxlengthtext'),
+			$this->get('maxwidthcolumn'),
 			$this->get('defaultvalue'),
 			$this->get('summaryfield'),
 			$this->get('displaytype'),
@@ -1231,7 +1232,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function getFieldParams()
 	{
-		return Zend_Json::decode($this->get('fieldparams'));
+		return \includes\utils\Json::decode($this->get('fieldparams'));
 	}
 
 	public function isActiveSearchView()

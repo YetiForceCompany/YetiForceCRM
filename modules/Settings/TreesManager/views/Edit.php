@@ -31,7 +31,7 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 			$recordModel->set('lastId', 0);
 		}
 		$tree = $recordModel->getTree();
-		$viewer->assign('TREE', Zend_Json::encode($tree));
+		$viewer->assign('TREE', \includes\utils\Json::encode($tree));
 		$viewer->assign('LAST_ID', $recordModel->get('lastId'));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
