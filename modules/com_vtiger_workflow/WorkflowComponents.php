@@ -76,8 +76,9 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 function vtJsonOwnersList($adb)
 {
 	$ownersList = [];
-	$activeUsersList = get_user_array(false);
-	$allGroupsList = get_group_array(false);
+	$owner = \includes\fields\Owner::getInstance();
+	$activeUsersList = $owner->getUsers();
+	$allGroupsList = $owner->getGroups();
 	foreach ($activeUsersList as $userId => $userName) {
 		$ownersList[] = array('label' => $userName, 'value' => getUserName($userId));
 	}

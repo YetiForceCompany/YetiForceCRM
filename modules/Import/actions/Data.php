@@ -382,7 +382,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				}
 
 				$label = trim($label);
-				$adb->update('vtiger_crmentity_label', ['label' => $label], 'crmid = ?', [$recordId]);
+				$adb->update('u_yf_crmentity_label', ['label' => $label], 'crmid = ?', [$recordId]);
 			}
 
 			$this->importedRecordInfo[$rowId] = $entityInfo;
@@ -560,7 +560,15 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			if (count($fieldValueDetails) > 1) {
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
-				$entityId = getEntityId($referenceModuleName, $entityLabel);
+				if(vtlib\Functions::getModuleId($referenceModuleName)){
+					$entityId = getEntityId($referenceModuleName, $entityLabel);
+				}else{
+					$referencedModules = $fieldInstance->getReferenceList();
+					if (isset($defaultFieldValues[$fieldName])) {
+						$referenceModuleName = $defaultFieldValues[$fieldName];
+						$entityId = getEntityId($referenceModuleName, $entityLabel);
+					}
+				}
 			} else {
 				$referencedModules = $fieldInstance->getReferenceList();
 				$entityLabel = $fieldValue;
@@ -794,7 +802,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 
 		$label = trim($label);
-		$adb->update('vtiger_crmentity_label', ['label' => $label], 'crmid = ?', [$recordId]);
+		$adb->update('u_yf_crmentity_label', ['label' => $label], 'crmid = ?', [$recordId]);
 
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$focus = $recordModel->getEntity();

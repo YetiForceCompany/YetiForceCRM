@@ -303,9 +303,61 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `u_yf_competitioncf` */
 
+/*Data for the table `u_yf_crmentity_label` */
+
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (35,'Notify Owner On Ticket Change');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (36,'Notify Account On Ticket Change');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (37,'Notify Contact On Ticket Closed');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (38,'Notify Account On Ticket Closed');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (39,'Notify Contact On Ticket Create');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (40,'Notify Account On Ticket Create');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (41,'Notify Contact On Ticket Change');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (42,'Notify Owner On Ticket Closed');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (43,'Notify Owner On Ticket Create');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (44,'Customer Portal Login Details');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (45,'Send invitations');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (46,'Send Notification Email to Record Owner');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (93,'Activity Reminder Notification');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (94,'Activity Reminder Notification');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (95,'Test mail about the mail server configuration.');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (103,'ForgotPassword');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (104,'Customer Portal - ForgotPassword');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (105,'Notify Owner On new comment added to ticket from portal');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (106,'Notify Contact On New comment added to ticket');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (107,'Security risk has been detected - Brute Force');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (108,'Backup has been made');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (109,'Notify Account On New comment added to ticket');
+insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (110,'Send notifications');
+
 /*Data for the table `u_yf_crmentity_last_changes` */
 
 /*Data for the table `u_yf_crmentity_rel_tree` */
+
+/*Data for the table `u_yf_crmentity_search_label` */
+
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (35,'Notify Owner On Ticket Change');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (36,'Notify Account On Ticket Change');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (37,'Notify Contact On Ticket Closed');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (38,'Notify Account On Ticket Closed');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (39,'Notify Contact On Ticket Create');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (40,'Notify Account On Ticket Create');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (41,'Notify Contact On Ticket Change');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (42,'Notify Owner On Ticket Closed');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (43,'Notify Owner On Ticket Create');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (44,'Customer Portal Login Details');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (45,'Send invitations');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (46,'Send Notification Email to Record Owner');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (93,'Activity Reminder Notification');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (94,'Activity Reminder Notification');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (95,'Test mail about the mail server configuration.');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (103,'ForgotPassword');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (104,'Customer Portal - ForgotPassword');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (105,'Notify Owner On new comment added to ticket from portal');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (106,'Notify Contact On New comment added to ticket');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (107,'Security risk has been detected - Brute Force');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (108,'Backup has been made');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (109,'Notify Account On New comment added to ticket');
+insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (110,'Send notifications');
 
 /*Data for the table `u_yf_crmentity_showners` */
 
@@ -1517,58 +1569,6 @@ insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`m
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`was_read`) values (108,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-03-12 07:44:12','2015-03-12 07:44:12','2015-03-12 07:44:13',NULL,NULL,0,1,0,0);
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`was_read`) values (109,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-10-23 08:16:58','2015-10-23 08:34:54','2015-10-23 08:34:54',NULL,NULL,0,1,0,0);
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`was_read`) values (110,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2016-05-24 12:40:24','2016-05-24 12:40:24','2016-05-24 12:40:24',NULL,NULL,0,1,0,0);
-
-/*Data for the table `vtiger_crmentity_label` */
-
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (35,'Notify Owner On Ticket Change');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (36,'Notify Account On Ticket Change');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (37,'Notify Contact On Ticket Closed');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (38,'Notify Account On Ticket Closed');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (39,'Notify Contact On Ticket Create');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (40,'Notify Account On Ticket Create');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (41,'Notify Contact On Ticket Change');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (42,'Notify Owner On Ticket Closed');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (43,'Notify Owner On Ticket Create');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (44,'Customer Portal Login Details');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (45,'Send invitations');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (46,'Send Notification Email to Record Owner');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (93,'Activity Reminder Notification');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (94,'Activity Reminder Notification');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (95,'Test mail about the mail server configuration.');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (103,'ForgotPassword');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (104,'Customer Portal - ForgotPassword');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (105,'Notify Owner On new comment added to ticket from portal');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (106,'Notify Contact On New comment added to ticket');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (107,'Security risk has been detected - Brute Force');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (108,'Backup has been made');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (109,'Notify Account On New comment added to ticket');
-insert  into `vtiger_crmentity_label`(`crmid`,`label`) values (110,'Send notifications');
-
-/*Data for the table `vtiger_crmentity_search` */
-
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (35,'Notify Owner On Ticket Change');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (36,'Notify Account On Ticket Change');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (37,'Notify Contact On Ticket Closed');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (38,'Notify Account On Ticket Closed');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (39,'Notify Contact On Ticket Create');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (40,'Notify Account On Ticket Create');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (41,'Notify Contact On Ticket Change');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (42,'Notify Owner On Ticket Closed');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (43,'Notify Owner On Ticket Create');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (44,'Customer Portal Login Details');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (45,'Send invitations');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (46,'Send Notification Email to Record Owner');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (93,'Activity Reminder Notification');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (94,'Activity Reminder Notification');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (95,'Test mail about the mail server configuration.');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (103,'ForgotPassword');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (104,'Customer Portal - ForgotPassword');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (105,'Notify Owner On new comment added to ticket from portal');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (106,'Notify Contact On New comment added to ticket');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (107,'Security risk has been detected - Brute Force');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (108,'Backup has been made');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (109,'Notify Account On New comment added to ticket');
-insert  into `vtiger_crmentity_search`(`crmid`,`searchlabel`) values (110,'Send notifications');
 
 /*Data for the table `vtiger_crmentity_seq` */
 
@@ -4433,7 +4433,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (15,287,'modifiedby','vtiger_crmentity',1,'52','modifiedby','Last Modified By',1,0,'',100,7,37,3,'V~O',3,NULL,'BAS',0,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (18,288,'vendorname','vtiger_vendor',1,'2','vendorname','Vendor Name',1,0,'',100,1,42,1,'V~M',0,1,'BAS',1,'',1,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (18,289,'vendor_no','vtiger_vendor',1,'4','vendor_no','Vendor No',1,0,'',100,2,42,1,'V~O',3,NULL,'BAS',0,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (18,290,'phone','vtiger_vendor',1,'1','phone','Phone',1,2,'',100,4,42,1,'V~O',2,3,'BAS',1,'',1,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (18,290,'phone','vtiger_vendor',1,'11','phone','Phone',1,2,'',100,4,42,1,'V~O',2,3,'BAS',1,'',1,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (18,291,'email','vtiger_vendor',1,'13','email','Email',1,2,'',100,3,42,1,'E~O',2,4,'BAS',1,'',1,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (18,292,'website','vtiger_vendor',1,'17','website','Website',1,2,'',100,6,42,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (18,293,'glacct','vtiger_vendor',1,'15','glacct','GL Account',1,2,'',100,5,42,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);

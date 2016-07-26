@@ -1,16 +1,16 @@
 {*<!--
 /*+**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.1
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- ************************************************************************************/
+* The contents of this file are subject to the vtiger CRM Public License Version 1.1
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+* Contributor(s): YetiForce.com
+************************************************************************************/
 -->*}
-{assign var=ACCESSIBLE_USERS value=$CURRENTUSER->getAccessibleUsers()}
-{assign var=ACCESSIBLE_GROUPS value=$CURRENTUSER->getAccessibleGroups()}
+{assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+{assign var=ACCESSIBLE_GROUPS value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
 	{include file="dashboards/WidgetHeadeAccessible.tpl"|@vtemplate_path:$MODULE_NAME}
@@ -19,18 +19,18 @@
 	{include file="dashboards/AssignedProjectsTasksContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
 <script type='text/javascript'>
-	$(document).ready(function(){
-        jQuery('.dashboardWidgetContent').off('click', 'a[name="history_more"]');
-		jQuery('.dashboardWidgetContent').on('click', 'a[name="history_more"]', function(e) {
-                var element = jQuery(e.currentTarget);
-                var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');
-                jQuery(parent).find('.slimScrollDiv').css('overflow','visible');
-                var type = parent.find("[name='type']").val();
-                var url = element.data('url')+'&content=true&type='+type;
-                AppConnector.request(url).then(function(data) {
-                    jQuery(parent).find('.dashboardWidgetContent').append(data);
-                    element.parent().remove();
-                });
+	$(document).ready(function () {
+		jQuery('.dashboardWidgetContent').off('click', 'a[name="history_more"]');
+		jQuery('.dashboardWidgetContent').on('click', 'a[name="history_more"]', function (e) {
+			var element = jQuery(e.currentTarget);
+			var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');
+			jQuery(parent).find('.slimScrollDiv').css('overflow', 'visible');
+			var type = parent.find("[name='type']").val();
+			var url = element.data('url') + '&content=true&type=' + type;
+			AppConnector.request(url).then(function (data) {
+				jQuery(parent).find('.dashboardWidgetContent').append(data);
+				element.parent().remove();
+			});
 		});
 	});
 </script>

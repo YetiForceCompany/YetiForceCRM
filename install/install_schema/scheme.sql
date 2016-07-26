@@ -943,6 +943,14 @@ CREATE TABLE `u_yf_competitioncf` (
   CONSTRAINT `fk_1_u_yf_competitioncf` FOREIGN KEY (`competitionid`) REFERENCES `u_yf_competition` (`competitionid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_crmentity_label` */
+
+CREATE TABLE `u_yf_crmentity_label` (
+  `crmid` int(11) unsigned NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`crmid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_crmentity_last_changes` */
 
 CREATE TABLE `u_yf_crmentity_last_changes` (
@@ -965,6 +973,15 @@ CREATE TABLE `u_yf_crmentity_rel_tree` (
   `rel_created_time` datetime NOT NULL,
   `rel_comment` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_crmentity_search_label` */
+
+CREATE TABLE `u_yf_crmentity_search_label` (
+  `crmid` int(19) unsigned NOT NULL,
+  `searchlabel` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`crmid`),
+  KEY `searchlabel` (`searchlabel`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_showners` */
 
@@ -3764,22 +3781,6 @@ CREATE TABLE `vtiger_crmentity` (
   KEY `crmid_2` (`crmid`,`setype`),
   KEY `setype` (`setype`,`deleted`),
   KEY `searchlabel` (`setype`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_crmentity_label` */
-
-CREATE TABLE `vtiger_crmentity_label` (
-  `crmid` int(11) unsigned NOT NULL,
-  `label` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`crmid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_crmentity_search` */
-
-CREATE TABLE `vtiger_crmentity_search` (
-  `crmid` int(11) unsigned NOT NULL,
-  `searchlabel` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentity_seq` */

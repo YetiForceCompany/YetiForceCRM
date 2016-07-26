@@ -263,6 +263,70 @@ var app = {
 		} else if (!params.placeholder) {
 			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		}
+		if (selectElement.data('ajaxSearch') === 1) {
+			params.tags = false;
+			params.language.searching = function () {
+				return app.vtranslate('JS_SEARCHING');
+			}
+			params.language.inputTooShort = function (args) {
+				var remainingChars = args.minimum - args.input.length;
+				return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
+			}
+			params.language.errorLoading = function () {
+				return app.vtranslate('JS_NO_RESULTS_FOUND');
+			}
+			params.ajax = {
+				url: selectElement.data('ajaxUrl'),
+				dataType: 'json',
+				delay: 250,
+				data: function (params) {
+					return {
+						value: params.term, // search term
+						page: params.page
+					};
+				},
+				processResults: function (data, params) {
+					var items = [];
+					if (data.success == true) {
+						items = data.result.items;
+					}
+					return {
+						results: items,
+						pagination: {
+							more: false
+						}
+					};
+				},
+				cache: false
+			};
+			params.escapeMarkup = function (markup) {
+				if(markup !== 'undefined')
+					return markup;
+			};
+			var minimumInputLength = 3;
+			if (selectElement.data('minimumInput') != 'undefined') {
+				minimumInputLength = selectElement.data('minimumInput');
+			}
+			params.minimumInputLength = minimumInputLength;
+			params.templateResult = function (data) {
+				if (typeof data.name == 'undefined') {
+					return data.text;
+				}
+				if (data.type == 'optgroup') {
+					return '<strong>' + data.name + '</strong>';
+				} else {
+					return '<span>' + data.name + '</span>';
+				}
+			};
+			params.templateSelection = function (data, container) {
+				if(data.text === ''){
+					return data.name;
+				}
+				return data.text;
+			};
+		} else {
+			
+		}
 		var selectElementNew = selectElement;
 		selectElementNew.select2(params)
 				.on("select2:open", function (e) {
@@ -1020,7 +1084,7 @@ var app = {
 	 * @return <string>
 	 */
 	vimage_path: function (img) {
-		return jQuery('body').data('skinpath') + '/images/' + img;
+		return app.getLayoutPath() + '/skins/images/' + img;
 	},
 	/*
 	 * Cache API on client-side
@@ -1478,7 +1542,9 @@ var app = {
 jQuery(document).ready(function () {
 	app.changeSelectElementView();
 	//register all select2 Elements
-	app.showSelect2ElementView(jQuery('body').find('select.select2'));
+	jQuery('body').find('select.select2').each(function (e) {
+		app.showSelect2ElementView($(this));
+	});
 	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));

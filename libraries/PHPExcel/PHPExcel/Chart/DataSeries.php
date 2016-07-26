@@ -22,7 +22,7 @@
  * @package		PHPExcel_Chart
  * @copyright	Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version	1.8.0, 2014-03-02
+ * @version	##VERSION##, ##DATE##
  */
 
 
@@ -137,7 +137,7 @@ class PHPExcel_Chart_DataSeries
 	/**
 	 * Create a new PHPExcel_Chart_DataSeries
 	 */
-	public function __construct($plotType = null, $plotGrouping = null, $plotOrder = array(), $plotLabel = array(), $plotCategory = array(), $plotValues = array(), $smoothLine = null, $plotStyle = null)
+	public function __construct($plotType = null, $plotGrouping = null, $plotOrder = array(), $plotLabel = array(), $plotCategory = array(), $plotValues = array(), $plotDirection = null, $smoothLine = null, $plotStyle = null)
 	{
 		$this->_plotType = $plotType;
 		$this->_plotGrouping = $plotGrouping;
@@ -155,6 +155,11 @@ class PHPExcel_Chart_DataSeries
 		$this->_plotCategory = $plotCategory;
 		$this->_smoothLine = $smoothLine;
 		$this->_plotStyle = $plotStyle;
+		
+		if (is_null($plotDirection)) {
+			$plotDirection = self::DIRECTION_COL;
+		}
+		$this->_plotDirection = $plotDirection;
 	}
 
 	/**

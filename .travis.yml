@@ -25,7 +25,6 @@ before_script:
 - cp tests/travis_debug.php config/debug.php
 - cp tests/.htaccess .htaccess
 - php tests/travis_install.php
-- wget https://tests.yetiforce.com/Test.zip
   
 script:
 - php tests/travis_test.php

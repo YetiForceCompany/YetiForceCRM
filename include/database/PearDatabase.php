@@ -325,7 +325,7 @@ class PearDatabase
 
 	public function query($query, $dieOnError = false, $msg = '')
 	{
-		$this->log('Query: ' . $query);
+		$this->log("Start query: $query");
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
 
@@ -337,6 +337,7 @@ class PearDatabase
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage(), $dieOnError, $query);
 		}
+		$this->log('End query');
 		return $this->stmt;
 	}
 	/* Prepared statement Execution
@@ -348,7 +349,7 @@ class PearDatabase
 
 	public function pquery($query, $params = [], $dieOnError = false, $msg = '')
 	{
-		$this->log('Query: ' . $query);
+		$this->log('Start query: ' . $query);
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
 		$params = $this->flatten_array($params);
@@ -367,6 +368,7 @@ class PearDatabase
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage(), $dieOnError, $query, $params);
 		}
+		$this->log('End query');
 		return $this->stmt;
 	}
 
@@ -749,9 +751,16 @@ class PearDatabase
 		}
 	}
 
-	public function concat($list)
+	public function concat($columns, $space = '" "')
 	{
-		return 'concat(' . implode(',', $list) . ')';
+		$concat = 'CONCAT(';
+		foreach ($columns as $key => $column) {
+			if ($key != 0 && $space) {
+				$concat .= $space . ',';
+			}
+			$concat .= $column . ',';
+		}
+		return rtrim($concat, ',') . ')';
 	}
 
 	// create an IN expression from an array/list

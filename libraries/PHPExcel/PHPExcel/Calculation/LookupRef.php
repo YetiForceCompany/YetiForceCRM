@@ -22,7 +22,7 @@
  * @package		PHPExcel_Calculation
  * @copyright	Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version		1.8.0, 2014-03-02
+ * @version		##VERSION##, ##DATE##
  */
 
 
@@ -735,11 +735,7 @@ class PHPExcel_Calculation_LookupRef {
 				return PHPExcel_Calculation_Functions::NA();
 			} else {
 				//	otherwise return the appropriate value
-				$result = $lookup_array[$rowNumber][$returnColumn];
-				if ((is_numeric($lookup_value) && is_numeric($result)) ||
-					(!is_numeric($lookup_value) && !is_numeric($result))) {
-					return $result;
-				}
+				return $lookup_array[$rowNumber][$returnColumn];
 			}
 		}
 
@@ -802,8 +798,7 @@ class PHPExcel_Calculation_LookupRef {
                 return PHPExcel_Calculation_Functions::NA();
             } else {
                 //  otherwise return the appropriate value
-                $result = $lookup_array[$returnColumn][$rowNumber];
-				return $result;
+                return $lookup_array[$returnColumn][$rowNumber];
             }
         }
 

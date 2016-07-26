@@ -281,8 +281,8 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$relations = [];
-		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.setype, vtiger_crmentity_label.label FROM vtiger_ossmailview_relation'
-			. ' INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid'
+		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.setype, u_yf_crmentity_label.label FROM vtiger_ossmailview_relation'
+			. ' INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid'
 			. ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid'
 			. ' WHERE ossmailviewid = ? AND vtiger_crmentity.deleted = ? AND vtiger_crmentity.deleted = ? ';
 		$result = $db->pquery($query, [$record, 0, 0]);

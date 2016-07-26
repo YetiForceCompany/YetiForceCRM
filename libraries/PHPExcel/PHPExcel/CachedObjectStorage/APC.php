@@ -22,7 +22,7 @@
  * @package    PHPExcel_CachedObjectStorage
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    1.8.0, 2014-03-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 
@@ -80,7 +80,7 @@ class PHPExcel_CachedObjectStorage_APC extends PHPExcel_CachedObjectStorage_Cach
      * @access  public
      * @param   string         $pCoord  Coordinate address of the cell to update
      * @param   PHPExcel_Cell  $cell    Cell to update
-     * @return  void
+     * @return  PHPExcel_Cell
      * @throws  PHPExcel_Exception
      */
     public function addCacheData($pCoord, PHPExcel_Cell $cell) {
@@ -102,7 +102,7 @@ class PHPExcel_CachedObjectStorage_APC extends PHPExcel_CachedObjectStorage_Cach
      *
      * @access  public
      * @param   string  $pCoord  Coordinate address of the cell to check
-     * @return  void
+     * @throws  PHPExcel_Exception
      * @return  boolean
      */
     public function isDataSet($pCoord) {
@@ -165,7 +165,7 @@ class PHPExcel_CachedObjectStorage_APC extends PHPExcel_CachedObjectStorage_Cach
 	/**
 	 * Get a list of all cell addresses currently held in cache
 	 *
-	 * @return  array of string
+	 * @return  string[]
 	 */
 	public function getCellList() {
 		if ($this->_currentObjectID !== null) {

@@ -10,7 +10,7 @@
 	{assign var=SOURCE_MODULE value=$MODULE_NAME}
 {/if}
 {if $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
-	{assign var=USERS_GROUP_LIST value=$WIDGET->getUsersAndGroupsList($SOURCE_MODULE, $USER_CONDITIONS)}
+	{assign var=USERS_GROUP_LIST value=\includes\fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
 	{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
 	{assign var=ACCESSIBLE_GROUPS value=$USERS_GROUP_LIST['group']}
 {/if}
@@ -27,7 +27,7 @@
 		{if !empty($ACCESSIBLE_USERS) && in_array('users', $ACCESS_OPTIONS['available'])}
 			<optgroup label="{vtranslate('LBL_USERS')}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
-						<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}" value="{$OWNER_ID}" {if $OWNER eq $OWNER_ID} selected{/if}>{$OWNER_NAME}</option>
+					<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}" value="{$OWNER_ID}" {if $OWNER eq $OWNER_ID} selected{/if}>{$OWNER_NAME}</option>
 				{/foreach}
 			</optgroup>
 		{/if}

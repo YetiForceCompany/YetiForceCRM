@@ -23,6 +23,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 					'Barchat' => 'LBL_VERTICAL_BAR_CHART',
 					'Horizontal' => 'LBL_HORIZONTAL_BAR_CHART',
 					'Line' => 'LBL_LINE_CHART',
+					'Funnel' => 'LBL_FUNNEL_CHART',
 				];
 				$viewer->assign('CHART_TYPES', $chartTypes);
 				//Since comments is not treated as seperate module 

@@ -13,9 +13,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $extraData;
 	private $targetModuleModel;
 
-	static function getInstance()
+	static function getInstance($linkId = 0, $userId = 0)
 	{
-		Users_Privileges_Model::getAll();
 		return new self();
 	}
 
@@ -38,7 +37,15 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		return $data;
 	}
-
+	public function getDataFunnel()
+	{
+		$groupData = $this->getDataFromFilter();
+		$data = [];
+		foreach ($groupData as $fieldName => $value) {
+			$data [] = [$fieldName, $value];
+		}
+		return $data;
+	}
 	public function getDataPie()
 	{
 		$groupData = $this->getDataFromFilter();

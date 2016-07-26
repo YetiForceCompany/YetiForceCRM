@@ -30,9 +30,9 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 		$deletedCondition = $this->getModule()->getDeletedRecordCondition();
 		$query = sprintf('SELECT * FROM vtiger_crmentity
-					INNER JOIN vtiger_crmentity_label ON vtiger_crmentity_label.crmid = vtiger_crmentity.crmid
+					INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
                     INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-                    WHERE vtiger_crmentity_label.label LIKE ? AND %s', $deletedCondition);
+                    WHERE u_yf_crmentity_label.label LIKE ? AND %s', $deletedCondition);
 		$params = array("%$searchKey%");
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);

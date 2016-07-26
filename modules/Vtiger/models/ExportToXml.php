@@ -1,11 +1,11 @@
 <?php
+
 /**
  * ExportToXml Model Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-
 class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 {
 
@@ -78,8 +78,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = vtlib\Functions::getCRMRecordType($value);
-					$displayValueArray = vtlib\Functions::computeCRMRecordLabels($recordModule, $value);
+					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$displayValueArray = \includes\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;
@@ -224,10 +224,10 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		}
 		return false;
 	}
-	
 	/*
 	 * TODO
 	 */
+
 	public function createXmlFromTemplate($entries, $entriesInventory)
 	{
 		

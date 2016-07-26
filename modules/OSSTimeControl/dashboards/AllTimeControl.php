@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Wdiget to show work time
  * @package YetiForce.Dashboard
@@ -15,7 +16,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if ($assignedto != '')
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		if (!empty($dateStart) && !empty($dateEnd)) {
-			array_push($conditions,['due_date', 'bw', $dateStart . ',' . $dateEnd . '']);
+			array_push($conditions, ['due_date', 'bw', $dateStart . ',' . $dateEnd . '']);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams) . '&viewname=All';
@@ -30,7 +31,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$timeDatabase['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if ($user == 'all') {
-			$accessibleUsers = $currentUser->getAccessibleUsers();
+			$accessibleUsers = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 			$user = array_keys($accessibleUsers);
 		}
 		if (!is_array($user)) {
@@ -95,7 +96,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 			$listViewUrl = 'index.php?module=OSSTimeControl&view=List&viewname=All';
 			$counter = 0;
-			foreach($ticks as $key => $value){
+			foreach ($ticks as $key => $value) {
 				$response['links'][$counter][0] = $counter;
 				$response['links'][$counter][1] = $listViewUrl . $this->getSearchParams($value[1], $time['start'], $time['end']);
 				$counter++;
@@ -118,16 +119,16 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$time = $request->get('time');
 		if ($time == NULL) {
 			$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
-			$time['end'] =  vtlib\Functions::currentUserDisplayDateNew();
+			$time['end'] = vtlib\Functions::currentUserDisplayDateNew();
 		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if ($user == NULL){
+		if ($user == NULL) {
 			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		$data = $this->getWidgetTimeControl($user, $time);
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
-		$accessibleUsers = $currentUser->getAccessibleUsersForModule($moduleName);
-		$accessibleGroups = $currentUser->getAccessibleGroupForModule($moduleName);
+		$accessibleUsers = \includes\fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
+		$accessibleGroups = \includes\fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
 		$viewer->assign('DTIME', $time);

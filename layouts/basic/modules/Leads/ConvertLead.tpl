@@ -80,15 +80,11 @@
 											{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
 											{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 											{if $FIELD_MODEL->get('uitype') eq '53'}
-												{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
-												{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups()}
+												{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+												{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
 												{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 												{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 												{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-
-												{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
-												{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
-
 												{if $FIELD_VALUE eq '' || $CONVERSION_CONFIG['change_owner'] == 'true'}
 													{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 												{/if}

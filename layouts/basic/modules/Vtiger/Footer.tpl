@@ -21,7 +21,7 @@
 		<div class="vtFooter">
 			{if $USER_MODEL->is_admin == 'on'}
 				<div class="pull-left">
-					<a class="iconsInFooter" href="https://www.linkedin.com/company/yetiforce-sp.-z-o.o.?trk=ppro_cprof">
+					<a class="iconsInFooter" href="https://www.linkedin.com/groups/8177576">
 						<span class="AdditionalIcon-Linkedin" title="Linkendin"/>
 					</a>
 					<a class="iconsInFooter" href="https://twitter.com/YetiForceEN">
