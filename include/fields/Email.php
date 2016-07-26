@@ -80,7 +80,7 @@ class Email
 
 	public static function getUserMail($userId)
 	{
-		$userModel = \Users_Privileges_Model::getInstanceById($userId);
+		$userModel = \Users_Privileges_Model::getInstanceById($userId, 'Users');
 		return $userModel->get('email1');
 	}
 }
