@@ -854,6 +854,17 @@ CREATE TABLE `s_yf_multireference` (
   KEY `source_module` (`source_module`,`dest_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_privileges_updater` */
+
+CREATE TABLE `s_yf_privileges_updater` (
+  `module` varchar(30) NOT NULL DEFAULT '',
+  `crmid` int(19) NOT NULL DEFAULT '0',
+  `priority` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `type` tinyint(1) NOT NULL DEFAULT '0',
+  UNIQUE KEY `module` (`module`,`crmid`,`type`),
+  KEY `crmid` (`crmid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_activity_invitation` */
 
 CREATE TABLE `u_yf_activity_invitation` (
@@ -978,9 +989,12 @@ CREATE TABLE `u_yf_crmentity_rel_tree` (
 
 CREATE TABLE `u_yf_crmentity_search_label` (
   `crmid` int(19) unsigned NOT NULL,
-  `searchlabel` varchar(255) DEFAULT NULL,
+  `searchlabel` varchar(255) NOT NULL,
+  `setype` varchar(30) NOT NULL,
+  `userid` text NOT NULL,
   PRIMARY KEY (`crmid`),
-  KEY `searchlabel` (`searchlabel`)
+  KEY `searchlabel` (`searchlabel`),
+  KEY `searchlabel_2` (`searchlabel`,`setype`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_showners` */
@@ -3819,7 +3833,7 @@ CREATE TABLE `vtiger_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 

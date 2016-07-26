@@ -342,7 +342,7 @@ class Functions
 		}
 
 		if ($missing) {
-			$sql = sprintf("SELECT vtiger_crmentity.crmid, setype, deleted, smcreatorid, smownerid, u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel 
+			$sql = sprintf("SELECT vtiger_crmentity.crmid, vtiger_crmentity.setype, deleted, smcreatorid, smownerid, u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel 
 				FROM vtiger_crmentity 
 				LEFT JOIN u_yf_crmentity_search_label ON u_yf_crmentity_search_label.crmid = vtiger_crmentity.crmid 
 				LEFT JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid 
