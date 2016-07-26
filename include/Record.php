@@ -45,26 +45,28 @@ class Record
 
 	protected static $crmidByLabelCache = [];
 
-	public static function findCrmidByLabel($label, $moduleName = false)
+	public static function findCrmidByLabel($label, $moduleName = false, $limit = 20)
 	{
 		if (isset(self::$crmidByLabelCache[$label])) {
 			$crmIds = self::$crmidByLabelCache[$label];
 		} else {
+			$currentUser = \Users_Record_Model::getCurrentUserModel();
 			$adb = \PearDatabase::getInstance();
 			$crmIds = [];
-			$params = ["%$label%"];
-			if ($moduleName === false) {
-				$query = 'SELECT `crmid`,`searchlabel` FROM `u_yf_crmentity_search_label` WHERE `searchlabel` LIKE ?';
-			} else {
+			$params = ['%' . $currentUser->getId() . '%', "%$label%"];
+			$query = 'SELECT `crmid`,`setype`,`searchlabel` FROM `u_yf_crmentity_search_label` WHERE `userid` LIKE ? AND `searchlabel` LIKE ?';
+			if ($moduleName !== false) {
 				$multiMode = is_array($moduleName);
-				$query = 'SELECT `crmid`,`setype`,`smownerid AS moduleName FROM vtiger_crmentity WHERE crmid IN(SELECT `crmid` FROM `u_yf_crmentity_search_label` WHERE `searchlabel` LIKE ?)';
 				if ($multiMode) {
-					$query .= sprintf(' AND `setype` IN(%s)', $adb->generateQuestionMarks($moduleName));
+					$query .= sprintf(' AND `setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
 					$params = array_merge($params, $moduleName);
 				} else {
 					$query .= ' AND `setype` = ?';
 					$params[] = $moduleName;
 				}
+			}
+			if ($limit) {
+				$query .= ' LIMIT ' . $limit;
 			}
 			$result = $adb->pquery($query, $params);
 			while ($row = $adb->getRow($result)) {

@@ -508,29 +508,6 @@ class Vtiger_Util_Helper
 
 		return $time;
 	}
-	/*	 * *
-	 * Function to get the label of the record
-	 * @param <Integer> $recordId - id of the record
-	 * @param <Boolean> $ignoreDelete - false if you want to get label for deleted records
-	 */
-
-	public static function getLabel($recordId, $ignoreDelete = true)
-	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT u_yf_crmentity_label.label
-			FROM vtiger_crmentity
-			INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
-			WHERE vtiger_crmentity.crmid = ?';
-		if ($ignoreDelete) {
-			$query .= ' AND vtiger_crmentity.deleted=0';
-		}
-		$result = $db->pquery($query, [$recordId]);
-		$name = '';
-		if ($db->num_rows($result) > 0) {
-			$name = $db->getSingleValue($result);
-		}
-		return $name;
-	}
 
 	/**
 	 * Function gets the CRM's base Currency information according to user preference

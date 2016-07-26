@@ -185,7 +185,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getUpdatesUrl()
 	{
-		return $this->getDetailViewUrl() . "&mode=showRecentActivities&page=1&tab_label=LBL_UPDATES";
+		return $this->getDetailViewUrl() . '&mode=showRecentActivities&page=1&tab_label=LBL_UPDATES';
 	}
 
 	/**
@@ -213,7 +213,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getDisplayName()
 	{
-		return Vtiger_Util_Helper::getLabel($this->getId());
+		return \includes\Record::getLabel($this->getId());
 	}
 
 	/**
@@ -374,77 +374,34 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getSearchResult($searchKey, $module = false, $limit = false)
 	{
-		$db = PearDatabase::getInstance();
-		$params = ["%$searchKey%"];
-		$sortColumns = $join = $where = '';
-
-		if ($module !== false) {
-			$where .= ' AND vtiger_crmentity.setype = ?';
-			$params[] = $module;
-		} else {
-			$join = 'INNER JOIN vtiger_entityname ON vtiger_crmentity.setype = vtiger_entityname.modulename';
-			$where .= ' AND vtiger_entityname.turn_off = ?';
-			$sortColumns .= 'vtiger_entityname.sequence ASC,';
-			$params[] = 1;
+		if (!$limit) {
+			$limit = AppConfig::main('max_number_search_result');
 		}
-
-		if (AppConfig::performance('SORT_SEARCH_RESULTS')) {
-			$sortColumns .= 'vtiger_crmentity.label ASC,';
-		}
-
-		$query = sprintf('SELECT u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel, vtiger_crmentity.crmid, setype, createdtime, smownerid 
-			FROM vtiger_crmentity 
-			INNER JOIN u_yf_crmentity_search_label ON vtiger_crmentity.crmid = u_yf_crmentity_search_label.crmid 
-			INNER JOIN u_yf_crmentity_label ON vtiger_crmentity.crmid = u_yf_crmentity_label.crmid 
-			%s 
-			WHERE u_yf_crmentity_search_label.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 %s', $join, $where);
-		if (!empty($sortColumns)) {
-			$query .= sprintf(' ORDER BY %s', $sortColumns);
-			$query = rtrim($query, ',');
-		}
-
-		$result = $db->pquery($query, $params);
-		$noOfRows = $db->num_rows($result);
-
-		$moduleModels = $matchingRecords = $leadIdsList = [];
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		$rows = \includes\Record::findCrmidByLabel($searchKey, $module, $limit);
+		$matchingRecords = $leadIdsList = [];
+		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads') {
 				$leadIdsList[] = $row['crmid'];
 			}
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
+		$recordsCount = 0;
 
-		$user = Users_Record_Model::getCurrentUserModel();
-		$roleInstance = Settings_Roles_Record_Model::getInstanceById($user->get('roleid'));
-		$searchunpriv = $roleInstance->get('searchunpriv');
-
-		for ($i = 0, $recordsCount = 0; $i < $noOfRows && $recordsCount < vglobal('max_number_search_result'); ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
-			$recordPermitted = $permitted = Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['crmid']);
-
-			if (!empty($searchunpriv)) {
-				if (in_array($row['setype'], explode(',', $searchunpriv))) {
-					$recordPermitted = true;
-				}
-			}
-
-			if ($recordPermitted) {
-				$row['id'] = $row['crmid'];
-				$row['permitted'] = $permitted;
-				$moduleName = $row['setype'];
-				if (!array_key_exists($moduleName, $moduleModels)) {
-					$moduleModels[$moduleName] = Vtiger_Module_Model::getInstance($moduleName);
-				}
-				$moduleModel = $moduleModels[$moduleName];
-				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
-				$recordInstance = new $modelClassName();
-				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
-				$recordsCount++;
-			}
+			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
+			$row['id'] = $row['crmid'];
+			$row['smownerid'] = $recordMeta['smownerid'];
+			$row['createdtime'] = $recordMeta['createdtime'];
+			$row['permitted'] = \includes\Privileges::isPermitted($row['setype'], 'DetailView', $row['crmid']);
+			$moduleName = $row['setype'];
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+			$recordInstance = new $modelClassName();
+			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
+			$recordsCount++;
 			if ($limit && $limit == $recordsCount) {
 				return $matchingRecords;
 			}
