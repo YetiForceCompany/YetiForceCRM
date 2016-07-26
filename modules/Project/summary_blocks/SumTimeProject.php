@@ -16,7 +16,7 @@ class SumTimeProject{
 	public function process( $instance ) {
 		$log = vglobal('log');
 		$log->debug("Entering SumTimeProject::process() method ...");
-		$sum_time = Vtiger_Functions::decimalTimeFormat( $instance->get('sum_time') );
+		$sum_time = vtlib\Functions::decimalTimeFormat( $instance->get('sum_time') );
 		$log->debug("Exiting SumTimeProject::process() method ...");
 		return $sum_time['short'];
 	}

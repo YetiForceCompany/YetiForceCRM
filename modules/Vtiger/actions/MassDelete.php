@@ -45,7 +45,9 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 		foreach ($recordIds as $recordId) {
 			if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
-				$recordModel->delete();
+				if($recordModel->isDeletable()){
+					$recordModel->delete();
+				}
 			} else {
 				$permission = 'No';
 			}

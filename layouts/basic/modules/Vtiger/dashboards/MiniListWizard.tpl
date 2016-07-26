@@ -31,7 +31,7 @@
 								<select class="form-control" name="module">
 									<option></option>
 									{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
-									<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+										<option value="{$MODULE_MODEL['name']}">{vtranslate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
 									{/foreach}
 								</select>
 							</td>
@@ -65,7 +65,9 @@
 	{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
 		<optgroup label="{vtranslate($FILTERGROUP,$SELECTED_MODULE)}">
 			{foreach from=$FILTERS item=FILTER key=FILTERNAME}
-				<option value="{$FILTER->getId()}">{vtranslate($FILTER->get('viewname'),$SELECTED_MODULE)}</option>
+				{if $FILTER->get('setmetrics') eq 1}
+					<option value="{$FILTER->getId()}">{vtranslate($FILTER->get('viewname'),$SELECTED_MODULE)}</option>
+				{/if}
 			{/foreach}
 		</optgroup>
 	{/foreach}

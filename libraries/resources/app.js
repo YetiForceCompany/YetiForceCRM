@@ -263,6 +263,70 @@ var app = {
 		} else if (!params.placeholder) {
 			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		}
+		if (selectElement.data('ajaxSearch') === 1) {
+			params.tags = false;
+			params.language.searching = function () {
+				return app.vtranslate('JS_SEARCHING');
+			}
+			params.language.inputTooShort = function (args) {
+				var remainingChars = args.minimum - args.input.length;
+				return app.vtranslate('JS_INPUT_TOO_SHORT').replace("_LENGTH_", remainingChars);
+			}
+			params.language.errorLoading = function () {
+				return app.vtranslate('JS_NO_RESULTS_FOUND');
+			}
+			params.ajax = {
+				url: selectElement.data('ajaxUrl'),
+				dataType: 'json',
+				delay: 250,
+				data: function (params) {
+					return {
+						value: params.term, // search term
+						page: params.page
+					};
+				},
+				processResults: function (data, params) {
+					var items = [];
+					if (data.success == true) {
+						items = data.result.items;
+					}
+					return {
+						results: items,
+						pagination: {
+							more: false
+						}
+					};
+				},
+				cache: false
+			};
+			params.escapeMarkup = function (markup) {
+				if(markup !== 'undefined')
+					return markup;
+			};
+			var minimumInputLength = 3;
+			if (selectElement.data('minimumInput') != 'undefined') {
+				minimumInputLength = selectElement.data('minimumInput');
+			}
+			params.minimumInputLength = minimumInputLength;
+			params.templateResult = function (data) {
+				if (typeof data.name == 'undefined') {
+					return data.text;
+				}
+				if (data.type == 'optgroup') {
+					return '<strong>' + data.name + '</strong>';
+				} else {
+					return '<span>' + data.name + '</span>';
+				}
+			};
+			params.templateSelection = function (data, container) {
+				if(data.text === ''){
+					return data.name;
+				}
+				return data.text;
+			};
+		} else {
+			
+		}
 		var selectElementNew = selectElement;
 		selectElementNew.select2(params)
 				.on("select2:open", function (e) {
@@ -296,19 +360,23 @@ var app = {
 		if (typeof params == 'undefined') {
 			params = {trigger: 'hover', placement: 'bottom', html: true};
 		}
-		if (selectElement.data('placement')) {
-			params.placement = selectElement.data('placement');
-		}
-
-		if (selectElement.hasClass('delay0')) {
-			params.delay = {show: 0, hide: 0}
-		}
 		params.container = 'body';
-		var data = selectElement.data();
-		if (data != null) {
-			params = jQuery.extend(data, params);
-		}
-		selectElement.popover(params);
+		var sparams;
+		selectElement.each(function (index, domElement) {
+			sparams = params;
+			var element = jQuery(domElement);
+			if (element.data('placement')) {
+				sparams.placement = element.data('placement');
+			}
+			if (element.hasClass('delay0')) {
+				sparams.delay = {show: 0, hide: 0}
+			}
+			var data = element.data();
+			if (data != null) {
+				sparams = jQuery.extend(data, sparams);
+			}
+			element.popover(sparams);
+		});
 		return selectElement;
 	},
 	/**
@@ -371,6 +439,9 @@ var app = {
 			paramsObject = data.css;
 			cb = data.cb;
 			url = data.url;
+			if (data.sendByAjaxCb != 'undefined') {
+				var sendByAjaxCb = data.sendByAjaxCb;
+			}
 			data = data.data;
 		}
 		if (typeof url == 'function') {
@@ -385,11 +456,14 @@ var app = {
 			paramsObject = url;
 			url = false;
 		}
-
 		if (typeof cb != 'function') {
 			cb = function () {
 			}
 		}
+		if (typeof sendByAjaxCb != 'function') {
+			var sendByAjaxCb = function () {}
+		}
+
 		var container = jQuery('#' + id);
 		if (container.length) {
 			container.remove();
@@ -422,21 +496,23 @@ var app = {
 							}
 						}, this))
 			};
-
-			container.find('.modal:first').modal(params);
+			var modalContainer = container.find('.modal:first');
+			modalContainer.modal(params);
 			jQuery('body').append(container);
 			// TODO Make it better with jQuery.on
-			app.changeSelectElementView(container);
+			app.changeSelectElementView(modalContainer);
 			//register all select2 Elements
-			app.showSelect2ElementView(container.find('select.select2'));
-			app.showSelectizeElementView(container.find('select.selectize'));
+			app.showSelect2ElementView(modalContainer.find('select.select2'));
+			app.showSelectizeElementView(modalContainer.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
-			app.registerEventForDatePickerFields(container);
+			app.registerEventForDatePickerFields(modalContainer);
 
-			thisInstance.registerModalEvents(container);
-			thisInstance.showPopoverElementView(container.find('.popoverTooltip'));
-			thisInstance.registerDataTables(container.find('.dataTable'));
-			cb(container);
+			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
+			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
+			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
+			modalContainer.on('shown.bs.modal', function () {
+				cb(modalContainer);
+			})
 		}
 		if (data) {
 			showModalData(data)
@@ -473,13 +549,13 @@ var app = {
 		}
 		var modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
-		var backdrop = jQuery('.modal-backdrop:first');
+		var backdrop = jQuery('.modal-backdrop:last');
 		if (backdrop.length) {
 			backdrop.remove();
 		}
 		modalContainer.one('hidden.bs.modal', callback);
 	},
-	registerModalEvents: function (container) {
+	registerModalEvents: function (container, sendByAjaxCb) {
 		var form = container.find('form');
 		var validationForm = false;
 		if (form.hasClass("validateForm")) {
@@ -500,6 +576,7 @@ var app = {
 					});
 					var formData = form.serializeFormData();
 					AppConnector.request(formData).then(function (data) {
+						sendByAjaxCb(formData, data);
 						app.hideModalWindow();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					})
@@ -1366,9 +1443,9 @@ var app = {
 			error = error.statusText;
 		}
 		console.error(error);
-		console.error(err);
-		console.error(errorThrown);
-		console.error('-----------------');
+		console.warn(err);
+		console.warn(errorThrown);
+		console.log('-----------------');
 	},
 	registerModal: function (container) {
 		if (typeof container == 'undefined') {
@@ -1454,9 +1531,9 @@ var app = {
 			var content = btn.closest('.moreContent');
 			content.find('.teaserContent').toggleClass('hide');
 			content.find('.fullContent').toggleClass('hide');
-			if(btn.text() == btn.data('on')){
+			if (btn.text() == btn.data('on')) {
 				btn.text(btn.data('off'));
-			}else{
+			} else {
 				btn.text(btn.data('on'));
 			}
 		});
@@ -1465,7 +1542,9 @@ var app = {
 jQuery(document).ready(function () {
 	app.changeSelectElementView();
 	//register all select2 Elements
-	app.showSelect2ElementView(jQuery('body').find('select.select2'));
+	jQuery('body').find('select.select2').each(function (e) {
+		app.showSelect2ElementView($(this));
+	});
 	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));

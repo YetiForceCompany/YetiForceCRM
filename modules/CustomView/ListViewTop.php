@@ -76,7 +76,7 @@ function getKeyMetrics($maxval, $calCnt)
 				$listquery = getListQuery($metriclist['module']);
 				$oCustomView = new CustomView($metriclist['module']);
 				$metricsql = $oCustomView->getModifiedCvListQuery($metriclist['id'], $listquery, $metriclist['module']);
-				$metricsql = Vtiger_Functions::mkCountQuery($metricsql);
+				$metricsql = vtlib\Functions::mkCountQuery($metricsql);
 				$metricresult = $adb->query($metricsql);
 				if ($metricresult) {
 					$rowcount = $adb->fetch_array($metricresult);
@@ -86,7 +86,7 @@ function getKeyMetrics($maxval, $calCnt)
 				$queryGenerator = new QueryGenerator($metriclist['module'], $current_user);
 				$queryGenerator->initForCustomViewById($metriclist['id']);
 				$metricsql = $queryGenerator->getQuery();
-				$metricsql = Vtiger_Functions::mkCountQuery($metricsql);
+				$metricsql = vtlib\Functions::mkCountQuery($metricsql);
 				$metricresult = $adb->query($metricsql);
 				if ($metricresult) {
 					$rowcount = $adb->fetch_array($metricresult);
@@ -129,7 +129,7 @@ function getKeyMetrics($maxval, $calCnt)
   'count'=>''
   )
  */
-function getMetricList()
+function getMetricList($filters = [])
 {
 	$db = PearDatabase::getInstance();
 	$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -140,6 +140,10 @@ function getMetricList()
 	if ($privilegesModel->isAdminUser()) {
 		$ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status =3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $privilegesModel->getId('parent_role_seq') . "::%'))";
 		array_push($sparams, $privilegesModel->getId());
+	}
+	if($filters){
+		$ssql .= ' AND vtiger_customview.cvid IN ('.$db->generateQuestionMarks($filters).')';
+		$sparams[] = $filters;
 	}
 	$ssql .= ' order by vtiger_customview.entitytype';
 

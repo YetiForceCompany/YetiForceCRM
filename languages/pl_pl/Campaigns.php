@@ -9,6 +9,20 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
+	'Campaign Name' => 'Nazwa kampanii',
+	'Campaign No' => 'Numer kampanii',
+	'Campaigns' => 'Kampanie',
+	'SINGLE_Campaigns' => 'Kampania marketingowa',
+	'LBL_ADD_RECORD' => 'Dodaj rekord',
+	'LBL_RECORDS_LIST' => 'Lista rekordów',
+	//FIELDS
+	'Budget Cost' => 'Budżet kampanii',
+	'Campaign Status' => 'Status kampanii',
+	'Campaign Type' => 'Rodzaj kampanii',
+	//BLOCKS
+	'LBL_CAMPAIGN_INFORMATION' => 'Szczegóły kampanii marketingowej',
+	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Oczekiwania i wyniki',
+	//OTHERS
 	'Complete' => 'Complete',
 	'Actual Cost' => 'Aktualny koszt kampanii',
 	'Actual Response Count' => 'Aktualna ilość odpowiedzi',
@@ -18,12 +32,6 @@ $languageStrings = [
 	'Partners' => 'Partnerzy',
 	'Average' => 'Wystarczająca',
 	'Banner Ads' => 'Banery',
-	'Budget Cost' => 'Budżet kampanii',
-	'Campaign Name' => 'Nazwa kampanii',
-	'Campaign No' => 'Numer kampanii',
-	'Campaigns' => 'Kampanie',
-	'Campaign Status' => 'Status kampanii',
-	'Campaign Type' => 'Rodzaj kampanii',
 	'Cancelled' => 'Anulowana',
 	'Contacted - Never Contact Again' => 'Kontakt bez możliwości dalszego kontaktu',
 	'Contacted - Successful' => 'Kontakt zakończony sukcesem',
@@ -38,10 +46,6 @@ $languageStrings = [
 	'Good' => 'Dobra',
 	'Inactive' => 'Nieaktywna',
 	'Active' => 'Aktywna',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
-	'LBL_CAMPAIGN_INFORMATION' => 'Szczegóły kampanii marketingowej',
-	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Oczekiwania i wyniki',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'--None--' => '--Brak--',
 	'Num Sent' => 'Liczba wysłanych',
 	'Others' => 'Inne',
@@ -50,15 +54,16 @@ $languageStrings = [
 	'Poor' => 'Słaba',
 	'Product' => 'Produkt',
 	'Referral Program' => 'Program referencyjny',
-	'SINGLE_Campaigns' => 'Kampania marketingowa',
 	'Sponsor' => 'Sponsor',
 	'Target Audience' => 'Grupa docelowa',
 	'TargetSize' => 'Rozmiar kampanii',
 	'Telemarketing' => 'Call center',
 	'Webinar' => 'Seminarium',
 	'Message sent' => 'Wysłano wiadomość',
-	'Campaign status' => 'Status kampanii',
+	'LBL_LOAD_RECORDS' => 'Wczytaj z filtru',
+	'LBL_LOAD_RECORDS_INFO' => 'Przycisk umożliwia wczytanie wszystkich rekordów które spełniają warunki określone w filtrze.',
+	'LBL_COUNT_RECORDS_WIDGET' => 'Ilość rekordów modułów powiązanych',
 ];
 $jsLanguageStrings = [
-	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Czy jesteś pewien, że chcesz dodać ten filtr rekordów?',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Czy jesteś pewien, że chcesz dodać wszystkie rekordy z filtru ?',
 ];

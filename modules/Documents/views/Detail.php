@@ -6,10 +6,17 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Documents_Detail_View extends Vtiger_Detail_View
 {
+
+	function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('showDocumentRelations');
+	}
 
 	function preProcess(Vtiger_Request $request, $display = true)
 	{
@@ -35,5 +42,20 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	function showModuleBasicView($request)
 	{
 		return $this->showModuleDetailView($request);
+	}
+
+	function showDocumentRelations(Vtiger_Request $request)
+	{
+		$recordId = $request->get('record');
+		$moduleName = $request->getModule();
+
+		$data = Documents_Record_Model::getReferenceModuleByDocId($recordId);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORDID', $recordId);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('LIMIT', 'no_limit');
+		$viewer->assign('DATA', $data);
+
+		echo $viewer->view('DetailViewDocumentRelations.tpl', $moduleName, true);
 	}
 }

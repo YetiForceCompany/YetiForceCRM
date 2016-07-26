@@ -42,7 +42,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'User image directory' => 'storage/Users/',
 		'Contact image directory' => 'storage/Contacts/',
 		'Logo directory' => 'storage/Logo/',
-		'MailView attachments directory' => 'storage/OSSMailView/',
+		'MailView attachments directory' => 'storage/OSSMailView/'
 	);
 	public static $library = array(
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
@@ -152,17 +152,17 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['mysql.connect_timeout']['status'] = true;
 		$directiveValues['mysql.connect_timeout']['current'] = ini_get('mysql.connect_timeout');
 
-		if (Vtiger_Functions::parseBytes(ini_get('memory_limit')) < 33554432)
+		if (vtlib\Functions::parseBytes(ini_get('memory_limit')) < 33554432)
 			$directiveValues['memory_limit']['status'] = true;
-		$directiveValues['memory_limit']['current'] = Vtiger_Functions::showBytes(ini_get('memory_limit'));
+		$directiveValues['memory_limit']['current'] = vtlib\Functions::showBytes(ini_get('memory_limit'));
 
-		if (Vtiger_Functions::parseBytes(ini_get('post_max_size')) < 10485760)
+		if (vtlib\Functions::parseBytes(ini_get('post_max_size')) < 10485760)
 			$directiveValues['post_max_size']['status'] = true;
-		$directiveValues['post_max_size']['current'] = Vtiger_Functions::showBytes(ini_get('post_max_size'));
+		$directiveValues['post_max_size']['current'] = vtlib\Functions::showBytes(ini_get('post_max_size'));
 
-		if (Vtiger_Functions::parseBytes(ini_get('upload_max_filesize')) < 10485760)
+		if (vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 10485760)
 			$directiveValues['upload_max_filesize']['status'] = true;
-		$directiveValues['upload_max_filesize']['current'] = Vtiger_Functions::showBytes(ini_get('upload_max_filesize'));
+		$directiveValues['upload_max_filesize']['current'] = vtlib\Functions::showBytes(ini_get('upload_max_filesize'));
 
 		if (ini_get('magic_quotes_gpc') == '1' || stripos(ini_get('magic_quotes_gpc'), 'On') !== false)
 			$directiveValues['magic_quotes_gpc']['status'] = true;
@@ -198,11 +198,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$directiveValues['magic_quotes_sybase']['current'] = self::getFlag(ini_get('magic_quotes_sybase'));
 
 		if (ini_get('log_errors') == '1' || stripos(ini_get('log_errors'), 'On') !== false)
-			$directiveValues['log_errors']['status'] = 'On';
+			$directiveValues['log_errors']['status'] = true;
 		$directiveValues['log_errors']['current'] = self::getFlag(ini_get('log_errors'));
 
 		if (ini_get('short_open_tag') != '1' || stripos(ini_get('short_open_tag'), 'Off') !== false)
-			$directiveValues['short_open_tag']['status'] = 'Off';
+			$directiveValues['short_open_tag']['status'] = true;
 		$directiveValues['short_open_tag']['current'] = self::getFlag(ini_get('short_open_tag'));
 
 		if (ini_get('session.gc_maxlifetime') < 21600)
@@ -249,7 +249,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			if ($maxAllowedPacket < 16777216) {
 				$directiveValues['max_allowed_packet']['status'] = true;
 			}
-			$directiveValues['max_allowed_packet']['current'] = Vtiger_Functions::showBytes($maxAllowedPacket);
+			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($maxAllowedPacket);
 
 			$result = $db->query('SELECT @@innodb_lock_wait_timeout');
 			$innodbLockWaitTimeout = $db->getSingleValue($result);

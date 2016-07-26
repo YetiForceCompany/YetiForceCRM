@@ -9,9 +9,9 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Install_ConfigFileUtils_Model {
+class Install_ConfigFileUtils_Model
+{
 
-	private $rootDirectory;
 	private $dbHostname;
 	private $dbPort;
 	private $dbUsername;
@@ -26,90 +26,97 @@ class Install_ConfigFileUtils_Model {
 	private $default_language;
 	private $timezone;
 
-	function Install_ConfigFileUtils_Model($configFileParameters) {
-		if (isset($configFileParameters['root_directory']))
-			$this->rootDirectory = $configFileParameters['root_directory'];
-
+	function Install_ConfigFileUtils_Model($configFileParameters)
+	{
 		if (isset($configFileParameters['db_hostname'])) {
-			if(strpos($configFileParameters['db_hostname'], ":")) {
-				list($this->dbHostname,$this->dbPort) = explode(":",$configFileParameters['db_hostname']);
+			if (strpos($configFileParameters['db_hostname'], ":")) {
+				list($this->dbHostname, $this->dbPort) = explode(":", $configFileParameters['db_hostname']);
 			} else {
 				$this->dbHostname = $configFileParameters['db_hostname'];
 			}
 		}
-		if (isset($configFileParameters['db_username'])) $this->dbUsername = $configFileParameters['db_username'];
-		if (isset($configFileParameters['db_password'])) $this->dbPassword = $configFileParameters['db_password'];
-		if (isset($configFileParameters['db_name'])) $this->dbName = $configFileParameters['db_name'];
-		if (isset($configFileParameters['db_type'])) $this->dbType = $configFileParameters['db_type'];
-		if (isset($configFileParameters['site_URL'])) $this->siteUrl = $configFileParameters['site_URL'];
-		if (isset($configFileParameters['admin_email'])) $this->adminEmail = $configFileParameters['admin_email'];
-		if (isset($configFileParameters['currency_name'])) $this->currencyName = $configFileParameters['currency_name'];
-		if (isset($configFileParameters['vt_charset'])) $this->vtCharset = $configFileParameters['vt_charset'];
+		if (isset($configFileParameters['db_username']))
+			$this->dbUsername = $configFileParameters['db_username'];
+		if (isset($configFileParameters['db_password']))
+			$this->dbPassword = $configFileParameters['db_password'];
+		if (isset($configFileParameters['db_name']))
+			$this->dbName = $configFileParameters['db_name'];
+		if (isset($configFileParameters['db_type']))
+			$this->dbType = $configFileParameters['db_type'];
+		if (isset($configFileParameters['site_URL']))
+			$this->siteUrl = $configFileParameters['site_URL'];
+		if (isset($configFileParameters['admin_email']))
+			$this->adminEmail = $configFileParameters['admin_email'];
+		if (isset($configFileParameters['currency_name']))
+			$this->currencyName = $configFileParameters['currency_name'];
+		if (isset($configFileParameters['vt_charset']))
+			$this->vtCharset = $configFileParameters['vt_charset'];
 		// update default port
-		if ($this->dbPort == '') $this->dbPort = self::getDbDefaultPort($this->dbType);
-		$this->default_language = ($GLOBALS['default_language'] != '')? $GLOBALS['default_language']: $configFileParameters['default_language'];
-		$this->timezone = ( isset($_SESSION['config_file_info']['timezone']) )? $_SESSION['config_file_info']['timezone']: $configFileParameters['timezone'];
+		if ($this->dbPort == '')
+			$this->dbPort = self::getDbDefaultPort($this->dbType);
+		$this->default_language = ($GLOBALS['default_language'] != '') ? $GLOBALS['default_language'] : $configFileParameters['default_language'];
+		$this->timezone = ( isset($_SESSION['config_file_info']['timezone']) ) ? $_SESSION['config_file_info']['timezone'] : $configFileParameters['timezone'];
 		$this->cacheDir = 'cache/';
 	}
 
-	static function getDbDefaultPort($dbType) {
-		if(Install_Utils_Model::isMySQL($dbType)) {
+	static function getDbDefaultPort($dbType)
+	{
+		if (Install_Utils_Model::isMySQL($dbType)) {
 			return "3306";
 		}
 	}
 
-	function createConfigFile() {
+	function createConfigFile()
+	{
 		/* open template configuration file read only */
 		$templateFilename = 'config/config.template.php';
 		$templateHandle = fopen($templateFilename, "r");
-		if($templateHandle) {
+		if ($templateHandle) {
 			/* open include configuration file write only */
 			$includeFilename = 'config/config.inc.php';
-	      	$includeHandle = fopen($includeFilename, "w");
-			if($includeHandle) {
-			   	while (!feof($templateHandle)) {
-	  				$buffer = fgets($templateHandle);
+			$includeHandle = fopen($includeFilename, "w");
+			if ($includeHandle) {
+				while (!feof($templateHandle)) {
+					$buffer = fgets($templateHandle);
 
-		 			/* replace _DBC_ variable */
-		  			$buffer = str_replace( "_DBC_SERVER_", $this->dbHostname, $buffer);
-		  			$buffer = str_replace( "_DBC_PORT_", $this->dbPort, $buffer);
-		  			$buffer = str_replace( "_DBC_USER_", $this->dbUsername, $buffer);
-		  			$buffer = str_replace( "_DBC_PASS_", $this->dbPassword, $buffer);
-		  			$buffer = str_replace( "_DBC_NAME_", $this->dbName, $buffer);
-		  			$buffer = str_replace( "_DBC_TYPE_", $this->dbType, $buffer);
-		  			$buffer = str_replace( "_SITE_URL_", $this->siteUrl, $buffer);
+					/* replace _DBC_ variable */
+					$buffer = str_replace("_DBC_SERVER_", $this->dbHostname, $buffer);
+					$buffer = str_replace("_DBC_PORT_", $this->dbPort, $buffer);
+					$buffer = str_replace("_DBC_USER_", $this->dbUsername, $buffer);
+					$buffer = str_replace("_DBC_PASS_", $this->dbPassword, $buffer);
+					$buffer = str_replace("_DBC_NAME_", $this->dbName, $buffer);
+					$buffer = str_replace("_DBC_TYPE_", $this->dbType, $buffer);
+					$buffer = str_replace("_SITE_URL_", $this->siteUrl, $buffer);
 
-		  			/* replace dir variable */
-		  			$buffer = str_replace( "_VT_ROOTDIR_", $this->rootDirectory, $buffer);
-		  			$buffer = str_replace( "_VT_CACHEDIR_", $this->cacheDir, $buffer);
-		  			$buffer = str_replace( "_VT_TMPDIR_", $this->cacheDir."images/", $buffer);
-			      	$buffer = str_replace( "_DB_STAT_", "true", $buffer);
+					/* replace dir variable */
+					$buffer = str_replace("_VT_CACHEDIR_", $this->cacheDir, $buffer);
+					$buffer = str_replace("_VT_TMPDIR_", $this->cacheDir . "images/", $buffer);
+					$buffer = str_replace("_DB_STAT_", "true", $buffer);
 
 					/* replace charset variable */
-					$buffer = str_replace( "_VT_CHARSET_", $this->vtCharset, $buffer);
+					$buffer = str_replace("_VT_CHARSET_", $this->vtCharset, $buffer);
 
-			      	/* replace master currency variable */
-		  			$buffer = str_replace( "_MASTER_CURRENCY_", $this->currencyName, $buffer);
+					/* replace master currency variable */
+					$buffer = str_replace("_MASTER_CURRENCY_", $this->currencyName, $buffer);
 
-			      	/* replace the application unique key variable */
-		      		$buffer = str_replace( "_VT_APP_UNIQKEY_", md5(time() + rand(1,9999999) + md5($this->rootDirectory)) , $buffer);
+					/* replace the application unique key variable */
+					$buffer = str_replace("_VT_APP_UNIQKEY_", md5(time() + rand(1, 9999999) + md5(__DIR__)), $buffer);
 
 					/* replace support email variable */
-					$buffer = str_replace( "_USER_SUPPORT_EMAIL_", $this->adminEmail, $buffer);
-					$buffer = str_replace( "_LANG_", $this->default_language ,$buffer);
-					$buffer = str_replace( "_TIMEZONE_", $this->timezone ,$buffer);
-					
-		      		fwrite($includeHandle, $buffer);
-	      		}
-	  			fclose($includeHandle);
-	  		}
-	  		fclose($templateHandle);
-	  	}
+					$buffer = str_replace("_LANG_", $this->default_language, $buffer);
+					$buffer = str_replace("_TIMEZONE_", $this->timezone, $buffer);
+
+					fwrite($includeHandle, $buffer);
+				}
+				fclose($includeHandle);
+			}
+			fclose($templateHandle);
+		}
 		$language = explode("_", $this->default_language);
-		OSSMail_Record_Model::setConfigData( array( 'language' => $language[0].'_'.strtoupper($language[1]) ) , false );
-	  	if ($templateHandle && $includeHandle) {
-	  		return true;
-	  	}
-	  	return false;
+		OSSMail_Record_Model::setConfigData(array('language' => $language[0] . '_' . strtoupper($language[1])), false);
+		if ($templateHandle && $includeHandle) {
+			return true;
+		}
+		return false;
 	}
 }

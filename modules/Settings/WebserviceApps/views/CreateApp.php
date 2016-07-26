@@ -34,7 +34,7 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 		}
 		$typesServers = Settings_WebserviceApps_Module_Model::getTypes();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode(Vtiger_Module_Model::getRelationFieldByHierarchy('SSingleOrders')));
+		$viewer->assign('MAPPING_RELATED_FIELD', \includes\utils\Json::encode(Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy('SSingleOrders')));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('TYPES_SERVERS', $typesServers);

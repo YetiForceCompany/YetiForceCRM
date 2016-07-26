@@ -85,19 +85,21 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		}
 
 		// Calculate total working time
-		$result = $db->query('SELECT SUM(vtiger_osstimecontrol.sum_time) AS sumtime' . $mainQuery);
+		$query = sprintf('SELECT SUM(vtiger_osstimecontrol.sum_time) AS sumtime %s', $mainQuery);
+		$result = $db->query($query);
 		$totalTime = $db->getSingleValue($result);
 
 		// Calculate total working time divided into users
-		$result = $db->query('SELECT SUM(vtiger_osstimecontrol.sum_time) AS sumtime, vtiger_crmentity.smownerid' . $mainQuery . ' GROUP BY vtiger_crmentity.smownerid');
+		$query = sprintf('SELECT SUM(vtiger_osstimecontrol.sum_time) AS sumtime, vtiger_crmentity.smownerid %s GROUP BY vtiger_crmentity.smownerid', $mainQuery);
+		$result = $db->query($query);
 		$userTime = [];
 		$count = 1;
 		while ($row = $db->fetch_array($result)) {
-			$smownerid = Vtiger_Functions::getOwnerRecordLabel($row['smownerid']);
+			$smownerid = vtlib\Functions::getOwnerRecordLabel($row['smownerid']);
 
 			$userTime[] = [
 				'name' => [$count, $smownerid],
-				'initial' => [$count, Vtiger_Functions::getInitials($smownerid)],
+				'initial' => [$count, vtlib\Functions::getInitials($smownerid)],
 				'data' => [$count, $row['sumtime']]
 			];
 			$count++;
@@ -108,7 +110,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	public function getTimeUsers($id, $moduleName)
 	{
 		$db = PearDatabase::getInstance();
-		$fieldName = self::getMappingRelatedField($moduleName);
+		$fieldName = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 
 		if (empty($id) || empty($fieldName))
 			$response = false;
@@ -117,11 +119,12 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getName(), false);
 			$userSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 
-			$sql = 'SELECT count(*) AS count, ' . $userSqlFullName . ' as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time FROM vtiger_osstimecontrol
+			$sql = sprintf('SELECT count(*) AS count, %s as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time FROM vtiger_osstimecontrol
 							INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
 							AND vtiger_crmentity.deleted = 0'
-				. ' WHERE vtiger_osstimecontrol.' . $fieldName . ' = ? AND vtiger_osstimecontrol.osstimecontrol_status = ? ' . $securityParameter . ' GROUP BY smownerid';
+				. ' WHERE vtiger_osstimecontrol.%s = ? AND vtiger_osstimecontrol.osstimecontrol_status = ? %s GROUP BY smownerid'
+				,$userSqlFullName, $fieldName, $securityParameter);
 			$result = $db->pquery($sql, [$id, OSSTimeControl_Record_Model::recalculateStatus]);
 
 			$data = [];

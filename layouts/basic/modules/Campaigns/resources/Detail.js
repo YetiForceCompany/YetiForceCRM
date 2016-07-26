@@ -5,14 +5,26 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
-	loadRelatedList: function (pageNumber) {
+	loadRelatedList: function (params) {
+		var aDeferred = jQuery.Deferred();
+		if (params == undefined) {
+			params = {};
+		}
 		var relatedListInstance = new Campaigns_RelatedList_Js(this.getRecordId(), app.getModuleName(), this.getSelectedTab(), this.getRelatedModuleName());
-		var params = {'page': pageNumber};
 		this.clearSelectedRecords();
-		relatedListInstance.loadRelatedList(params);
+		relatedListInstance.loadRelatedList(params).then(
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
+		);
+		return aDeferred.promise();
 	},
 	/**
 	 * Function to clear selected records
@@ -138,6 +150,58 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 					}
 			);
 		});
+		detailContentsHolder.on('click', 'a.favorites', function (e) {
+			var progressInstance = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var element = jQuery(e.currentTarget);
+			var instance = Vtiger_Detail_Js.getInstance();
+
+			var row = element.closest('tr');
+			var relatedRecordid = row.data('id');
+			var widget_contents = element.closest('.widget_contents');
+			var selectedTabElement = thisInstance.getSelectedTab();
+			var relatedModuleName = thisInstance.getRelatedModuleName();
+			if (relatedModuleName == undefined) {
+				relatedModuleName = widget_contents.find('.relatedModuleName').val();
+			}
+			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
+			relatedController.favoritesRelation(relatedRecordid, element.data('state')).then(function (response) {
+				if (response) {
+					var state = element.data('state') ? 0 : 1;
+					element.data('state', state);
+					element.find('.glyphicon').each(function () {
+						if (jQuery(this).hasClass('hide')) {
+							jQuery(this).removeClass('hide');
+						} else {
+							jQuery(this).addClass('hide');
+						}
+					})
+					progressInstance.progressIndicator({'mode': 'hide'});
+					var text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
+					if (state) {
+						text = app.vtranslate('JS_ADDED_TO_FAVORITES');
+					}
+					Vtiger_Helper_Js.showPnotify({text: text, type: 'success', animation: 'show'});
+				}
+
+			});
+		});
+		detailContentsHolder.on('click', '.relatedContents .listViewEntries td', function (e) {
+			var target = jQuery(e.target);
+			var row = target.closest('tr');
+			var inventoryRow = row.next();
+			if (inventoryRow.hasClass('listViewInventoryEntries') && !target.closest('div').hasClass('actions') && !target.is('a') && !target.is('input')) {
+				inventoryRow.toggleClass('hide');
+			}
+		});
+		var selectedTabElement = thisInstance.getSelectedTab();
+		var relatedModuleName = thisInstance.getRelatedModuleName();
+		var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
+		relatedController.registerUnreviewedCountEvent();
 	},
 	/**
 	 * Function to register event for adding related record for module
@@ -197,6 +261,11 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 						function (data) {
 							thisInstance.deSelectAllrelatedTabs();
 							thisInstance.markTabAsSelected(tabElement);
+							app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
+							Vtiger_Helper_Js.showHorizontalTopScrollBar();
+							thisInstance.registerHelpInfo();
+							app.registerModal(detailContentsHolder);
+							app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
 							element.progressIndicator({'mode': 'hide'});
 							var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
 							if (emailEnabledModule) {
@@ -231,8 +300,8 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 		relatedController.registerEvents();
 	},
 	registerEvents: function () {
-		this.registerRelatedListEvents();
 		this._super();
+		this.registerRelatedListEvents();
 		//Calling registerevents of campaigns list to handle checkboxs click of related records
 		var listInstance = Vtiger_List_Js.getInstance();
 		listInstance.registerEvents();

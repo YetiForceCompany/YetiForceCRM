@@ -62,7 +62,6 @@ jQuery.Class('Settings_Mobile_Js', {}, {
 	changePrivileges: function(e) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
-		console.log(target.val());
 		var settingMobileInstance = new Settings_Mobile_Js();
 		settingMobileInstance.registerSaveEvent('changePrivileges',{
 			'user': closestTrElement.data('user'),

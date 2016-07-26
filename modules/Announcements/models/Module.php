@@ -105,7 +105,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		if ($showAll) {
-			$users = $userModel->getAccessibleUsers('Public');
+			$users = \includes\fields\Owner::getInstance()->getAccessibleUsers('Public');
 		} else {
 			$users = $userModel->getRoleBasedSubordinateUsers();
 		}

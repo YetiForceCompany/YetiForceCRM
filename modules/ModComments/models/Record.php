@@ -71,7 +71,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 * @param <Integer> $record
 	 * @return ModComment_Record_Model
 	 */
-	public static function getInstanceById($record, $module = null)
+	public static function getInstanceById($record, $moduleName = 'ModComment')
 	{
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT 
@@ -86,10 +86,9 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				WHERE comm.`modcommentsid` = ? 
 					AND crm.`deleted` = 0;';
 		$result = $db->pquery($sql, [$record]);
-		if ($db->num_rows($result)) {
-			$row = $db->query_result_rowdata($result);
+		if ($db->getRowCount($result)) {
 			$self = new self();
-			$self->setData($row);
+			$self->setData($db->getRow($result));
 			return $self;
 		}
 		return false;
@@ -183,14 +182,10 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			'assigned_user_id', 'commentcontent', 'creator', 'id', 'customer', 'reasontoedit', 'userid', 'from_mailconverter'));
 		$queryGenerator->setSourceRecord($parentRecordId);
 		$query = $queryGenerator->getQuery();
-		$query = $query . " AND related_to = ? ORDER BY vtiger_crmentity.createdtime DESC
-							LIMIT $startIndex, $limit";
+		$query = $query . " AND related_to = ? ORDER BY vtiger_crmentity.createdtime DESC LIMIT $startIndex, $limit";
 
 		$result = $db->pquery($query, array($parentRecordId));
-		$rows = $db->num_rows($result);
-
-		for ($i = 0; $i < $rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $db->getRow($result)) {
 			$recordInstance = new self();
 			$recordInstance->setData($row);
 			$recordInstances[] = $recordInstance;
@@ -203,26 +198,37 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 * @param <Integer> $parentId
 	 * @return ModComments_Record_Model(s)
 	 */
-	public static function getAllParentComments($parentId)
+	public static function getAllParentComments($parentId, $hierarchy = false)
 	{
 		$db = PearDatabase::getInstance();
 
 		$listView = Vtiger_ListView_Model::getInstance('ModComments');
 		$queryGenerator = $listView->get('query_generator');
-		$queryGenerator->setFields(array('parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid'));
+		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
+			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid']);
 		$queryGenerator->setSourceRecord($parentId);
 		$query = $queryGenerator->getQuery();
 
+		$params = [];
+		if (empty($hierarchy) || (count($hierarchy) == 1 && reset($hierarchy) == 0)) {
+			$params[] = $parentId;
+			$query .= ' AND related_to = ?';
+		} else {
+			$recordIds = Vtiger_ModulesHierarchy_Model::getRelatedRecords($parentId, $hierarchy);
+			if (empty($recordIds)) {
+				return [];
+			}
+			$params = $recordIds;
+			$query .= ' AND related_to IN (' . $db->generateQuestionMarks($recordIds) . ')';
+		}
+
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
-		$query = $query . " AND related_to = ? AND parent_comments = '' ORDER BY vtiger_crmentity.createdtime DESC";
+		$query .= ' AND parent_comments = 0 ORDER BY vtiger_crmentity.createdtime DESC';
+		$result = $db->pquery($query, $params);
 
-		$result = $db->pquery($query, array($parentId));
-		$rows = $db->num_rows($result);
-
-		for ($i = 0; $i < $rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$recordInstances = [];
+		while ($row = $db->getRow($result)) {
 			$recordInstance = new self();
 			$recordInstance->setData($row);
 			$recordInstances[] = $recordInstance;
@@ -241,8 +247,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 		$query = 'SELECT 1 FROM vtiger_modcomments WHERE parent_comments = ? AND related_to = ?';
 		$result = $db->pquery($query, array($this->getId(), $parentRecordId));
-		if ($db->num_rows($result)) {
-			return $db->num_rows($result);
+		if ($db->getRowCount($result)) {
+			return $db->getRowCount($result);
 		} else {
 			return 0;
 		}
@@ -293,16 +299,13 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		//reference field and searches their entity names
 		$query = $query . ' AND parent_comments = ? AND related_to = ?';
 
-		$recordInstances = array();
+		$recordInstances = [];
 		$result = $db->pquery($query, array($parentCommentId, $parentRecordId));
-		$rows = $db->num_rows($result);
-		for ($i = 0; $i < $rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $db->getRow($result)) {
 			$recordInstance = new self();
 			$recordInstance->setData($row);
 			$recordInstances[] = $recordInstance;
 		}
-
 		return $recordInstances;
 	}
 

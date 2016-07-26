@@ -14,7 +14,7 @@ class API_Products_GetProducts extends BaseAction
 
 	private function getTemplate()
 	{
-		$moduleId = Vtiger_Functions::getModuleId($this->moduleName);
+		$moduleId = vtlib\Functions::getModuleId($this->moduleName);
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT templateid FROM vtiger_trees_templates WHERE module = ?';
 		return $db->getSingleValue($db->pquery($query, [$moduleId]));

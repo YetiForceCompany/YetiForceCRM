@@ -40,24 +40,7 @@ jQuery.Class("Home_NotificationsList_Js", {
 		});
 	},
 }, {
-	gridster: false,
-	getGridster: function () {
-		if (!this.gridster) {
-			this.gridster = $("ul.gridster");
-		}
-		return this.gridster;
-	},
-	registerGridster: function () {
-		var thisInstance = this;
-		var gridsterObj = this.getGridster().gridster({
-			widget_base_dimensions: [thisInstance.getGridster().width() / 12 - 14, 100],
-			widget_margins: [7, 7],
-			min_cols: 6,
-			min_rows: 20,
-			max_size_x: 12
-		});
-		gridsterObj.gridster().data('gridster').disable()
-	},
+	jstreeInstance: false,
 	registerButtons: function () {
 		var thisInstance = this;
 		$('.notificationConf').on('click', function () {
@@ -114,6 +97,7 @@ jQuery.Class("Home_NotificationsList_Js", {
 		});
 	},
 	registerNotifications: function () {
+		var thisInstance = this;
 		$(".notificationsNotice .sendNotification").click(function (e) {
 			var modalWindowParams = {
 				url: 'index.php?module=Home&view=CreateNotificationModal',
@@ -164,8 +148,62 @@ jQuery.Class("Home_NotificationsList_Js", {
 			app.showModalWindow(modalWindowParams);
 		})
 	},
+	loadNotification: function (types) {
+		var thisInstance = this;
+		var params = {
+			module: app.getModuleName(),
+			view: app.getViewName(),
+			types: types,
+		};
+		var progress = jQuery.progressIndicator();
+		AppConnector.request(params).then(function (data) {
+			$('.notificationContainer').html(data);
+			progress.progressIndicator({'mode': 'hide'});
+			app.registerDataTables($('.notificationTable'));
+		});
+	},
+	registerJstreeEvents: function () {
+		var thisInstance = this;
+		var selectedTypes = app.moduleCacheGet('selectedTypesNotifications');
+		selectedTypes = JSON.parse(selectedTypes);
+		thisInstance.jstreeInstance.on('loaded.jstree', function (event, data) {
+			if(selectedTypes == null){
+				thisInstance.jstreeInstance.jstree('select_all');
+			} else {
+				data.instance.select_node(selectedTypes);
+			}
+			thisInstance.jstreeInstance.on('changed.jstree', function (e, data) {
+				var selectedElements = thisInstance.jstreeInstance.jstree("get_selected", true);
+				var selectedIds = [];
+				var selectedOriginalIds = [];
+				$.each(selectedElements, function () {
+					selectedIds.push(this.original.record_id);
+					selectedOriginalIds.push(this.id);
+				});
+				app.moduleCacheSet('selectedTypesNotifications', JSON.stringify(selectedOriginalIds));
+				thisInstance.loadNotification(selectedIds);
+			});
+		});
+	},
+	registerJstree: function () {
+		var container = $('.siteBarContent ');
+		var data = container.find('[name="notificationTypes"]').val();
+		this.jstreeInstance = container.find('#jstreeContainer');
+		this.jstreeInstance.jstree({
+			core: {
+				data: JSON.parse(data),
+				themes: {
+					name: 'proton',
+					responsive: true
+				}
+			},
+			plugins: ['checkbox']
+		});
+		this.registerJstreeEvents();
+	},
 	registerEvents: function () {
-		this.registerGridster();
 		this.registerButtons();
+		this.registerJstree();
+		app.registerDataTables($('.notificationTable'));
 	}
 });

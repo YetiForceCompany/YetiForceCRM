@@ -50,13 +50,13 @@ class Mobile {
 	static function alert_register($handlerPath, $handlerClass) {
 		$adb = PearDatabase::getInstance();
 		if (self::alert_lookup($handlerPath, $handlerClass) === false) {
-			Vtiger_Utils::Log("Registered alert {$handlerClass} [$handlerPath]");
+			vtlib\Utils::Log("Registered alert {$handlerClass} [$handlerPath]");
 			$adb->pquery("INSERT INTO vtiger_mobile_alerts (handler_path, handler_class, deleted) VALUES(?,?,?)", array($handlerPath, $handlerClass, 0));
 		}
 	}
 	static function alert_deregister($handlerPath, $handlerClass) {
 		$adb = PearDatabase::getInstance();
-		Vtiger_Utils::Log("De-registered alert {$handlerClass} [$handlerPath]");
+		vtlib\Utils::Log("De-registered alert {$handlerClass} [$handlerPath]");
 		$adb->pquery("DELETE FROM vtiger_mobile_alerts WHERE handler_path=? AND handler_class=?", array($handlerPath, $handlerClass));
 	}
 	static function alert_markdeleted($handlerPath, $handlerClass, $flag) {
@@ -218,7 +218,7 @@ class Mobile_WS_Operation {
 			return;
 		}
 		
-		Vtiger_Utils::Log("Enabling webservice operation {$this->opName}", true);
+		vtlib\Utils::Log("Enabling webservice operation {$this->opName}", true);
 		
 		$operationid = vtws_addWebserviceOperation($this->opName, $this->opFile, $this->opClass, $this->opType);
 		for($index = 0; $index < count($this->parameters); ++$index) {

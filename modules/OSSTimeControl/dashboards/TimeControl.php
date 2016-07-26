@@ -157,8 +157,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 			$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 		}
-		$time['start'] = Vtiger_Functions::currentUserDisplayDate($time['start']);
-		$time['end'] = Vtiger_Functions::currentUserDisplayDate($time['end']);
+		$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
+		$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
 
 		if ($user == NULL)
 			$user = $loggedUserId;
@@ -168,7 +168,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$data = $this->getWidgetTimeControl($user, $time);
 		$daysAmount = count($data['ticks']);
 
-		$listViewUrl = 'index.php?module=OSSTimeControl&view=List';
+		$listViewUrl = 'index.php?module=OSSTimeControl&view=List&viewname=All';
 		for ($i = 0; $i < $daysAmount; $i++) {
 			$data['links'][$i][0] = $i;
 			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($user, $data['days'][$i]);
@@ -199,6 +199,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('LOGGEDUSERID', $loggedUserId);
+		$viewer->assign('SOURCE_MODULE', 'OSSTimeControl');
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/TimeControlContents.tpl', $moduleName);

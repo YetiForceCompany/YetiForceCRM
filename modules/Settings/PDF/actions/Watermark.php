@@ -50,7 +50,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		if ($_FILES['watermark']['size'][0] > vglobal('upload_maxsize') && $uploadOk) {
 			$uploadOk = 0;
 		}
-		$saveFile = Vtiger_Functions::validateImage([
+		$saveFile = vtlib\Functions::validateImage([
 				'type' => $_FILES['watermark']['type'][0],
 				'tmp_name' => $_FILES['watermark']['tmp_name'][0],
 				'size' => $_FILES['watermark']['size'][0],

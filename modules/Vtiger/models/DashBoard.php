@@ -71,6 +71,12 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$widgets[] = $minilistWidget;
+			} elseif ($row['linklabel'] == 'ChartFilter') {
+				$charFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
+				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
+				$chartFilterWidgetModel->setWidgetModel($charFilterWidget);
+				$charFilterWidget->set('title', $chartFilterWidgetModel->getTitle());
+				$widgets[] = $charFilterWidget;
 			} else
 				$widgets[] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
@@ -83,7 +89,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 			$module = $this->getModuleNameFromLink($url, $label);
 
 			if ($module == 'Home' && !empty($filterid) && !empty($data)) {
-				$filterData = Zend_Json::decode(htmlspecialchars_decode($data));
+				$filterData = \includes\utils\Json::decode(htmlspecialchars_decode($data));
 				$module = $filterData['module'];
 			}
 			if (!$currentUserPrivilegeModel->hasModulePermission(getTabid($module))) {
@@ -102,7 +108,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	 */
 	public function getModuleNameFromLink($linkUrl, $linkLabel)
 	{
-		$params = Vtiger_Functions::getQueryParams($linkUrl);
+		$params = vtlib\Functions::getQueryParams($linkUrl);
 		$module = $params['module'];
 		if ($linkLabel == 'Overdue Activities' || $linkLabel == 'Upcoming Activities') {
 			$module = 'Calendar';
@@ -167,9 +173,18 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'DashBoard', $moduleName);
 		$instance = new $modelClassName();
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		return $instance->setModule($moduleModel);
+	}
+	
+	public static function getModulesWithWidgets(){
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT module FROM vtiger_module_dashboard_widgets WHERE userid = ? AND active = ?' , [$currentUser->getId(), 1]);
+		$modules = [];
+		while($row = $db->getRow($result)){
+			$modules[$row['module']] = vtlib\Functions::getModuleName($row['module']);
+		}
+		return $modules;
 	}
 }

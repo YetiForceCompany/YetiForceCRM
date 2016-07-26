@@ -62,7 +62,7 @@ function fixPostgresQuery($query, $log, $debug)
 	}
 
 	// Rebuild the query
-	$query = "SELECT " . $queryFields . $queryRecord;
+	$query = sprintf("SELECT %s%s", $queryFields, $queryRecord);
 	if ($groupClause != "")
 		$groupClause = $groupClause . "," . $groupFields;
 	else

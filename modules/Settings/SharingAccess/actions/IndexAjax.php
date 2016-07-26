@@ -9,11 +9,12 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_View
+Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Action
 {
 
 	function __construct()
 	{
+		Settings_Vtiger_Tracker_Model::lockTracking();
 		parent::__construct();
 		$this->exposeMethod('saveRule');
 		$this->exposeMethod('deleteRule');
@@ -30,6 +31,8 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_
 
 	public function saveRule(Vtiger_Request $request)
 	{
+		Settings_Vtiger_Tracker_Model::lockTracking(false);
+		Settings_Vtiger_Tracker_Model::addBasic('save');
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
@@ -40,6 +43,12 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_
 		} else {
 			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 		}
+	
+		//TODO adddetail to source and target
+		$prevValues['permission'] = $ruleModel->getPermission();
+		$newValues['permission'] = $request->get('permission');
+		
+		Settings_Vtiger_Tracker_Model::addDetail($prevValues, $newValues);
 
 		$ruleModel->set('source_id', $request->get('source_id'));
 		$ruleModel->set('target_id', $request->get('target_id'));
@@ -57,6 +66,8 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_IndexAjax_
 
 	public function deleteRule(Vtiger_Request $request)
 	{
+		Settings_Vtiger_Tracker_Model::lockTracking(false);
+		Settings_Vtiger_Tracker_Model::addBasic('delete');
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 

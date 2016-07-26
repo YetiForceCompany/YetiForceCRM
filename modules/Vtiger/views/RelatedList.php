@@ -25,6 +25,9 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
+		if ($request->get('limit')) {
+			$pagingModel->set('limit', $request->get('limit'));
+		}
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
@@ -46,6 +49,38 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
+
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$relationListView->set('operator', $operator);
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('OPERATOR', $operator);
+		$viewer->assign('ALPHABET_VALUE', $searchValue);
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$relationListView->set('search_key', $searchKey);
+			$relationListView->set('search_value', $searchValue);
+		}
+
+		$searchParmams = $request->get('search_params');
+		if (empty($searchParmams) || !is_array($searchParmams)) {
+			$searchParmams = [];
+		}
+		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $relationListView->getRelationModel()->getRelationModuleModel());
+		$relationListView->set('search_params', $transformedSearchParams);
+
+		//To make smarty to get the details easily accesible
+		foreach ($searchParmams as $fieldListGroup) {
+			foreach ($fieldListGroup as $fieldSearchInfo) {
+				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
+				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+				$searchParmams[$fieldName] = $fieldSearchInfo;
+			}
+		}
+
 		$models = $relationListView->getEntries($pagingModel);
 		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
@@ -54,8 +89,11 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$relationModel = $relationListView->getRelationModel();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
+		foreach ($models as $record) {
+			$colorList[$record->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
+		}
 
-		$viewer = $this->getViewer($request);
+		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
@@ -69,11 +107,11 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
-		$viewer->assign('PAGE_NUMBER', $pageNumber);	
+		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$viewer->assign('PERFORMANCE', true);
-		
+
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PAGING', $pagingModel);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
@@ -83,7 +121,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
-		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());		
+		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$isFavorites = false;
 		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
@@ -95,8 +133,14 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->get('view'));
 
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
+	}
+
+	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
+	{
+		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 }

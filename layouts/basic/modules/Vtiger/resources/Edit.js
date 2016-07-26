@@ -215,6 +215,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 					}
 				});
 			});
+			if ('Products' == popupReferenceModule || 'Services' == popupReferenceModule) {
+				var inventoryInstance = new Vtiger_Inventory_Js();
+				inventoryInstance.registerRowAutoCompleteAfterAdding(container);
+			}
 		}
 	},
 	getRelationOperation: function () {
@@ -278,7 +282,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		popupInstance.show(urlOrParams, function (data) {
 			var responseData = JSON.parse(data);
 			var ids = responseData.id.split(',');
-			$.each(ids, function (index, value){
+			$.each(ids, function (index, value) {
 				ids[index] = 'T' + value;
 			});
 			ids.join();
@@ -563,8 +567,8 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (app.getViewName() === 'Edit' && !app.getRecordId()) {
 			var formElement = this.getForm();
 			var formData = formElement.serializeFormData();
-			for (var i in formData){
-				if (!formData[i] || jQuery.inArray(i, ['__vtrftk', 'action']) != -1){
+			for (var i in formData) {
+				if (!formData[i] || jQuery.inArray(i, ['__vtrftk', 'action']) != -1) {
 					delete formData[i];
 				}
 			}
@@ -1474,6 +1478,14 @@ jQuery.Class("Vtiger_Edit_Js", {
 			}
 		});
 	},
+	checkSubProcessModulesList: function (element) {
+		var option = element.find('option:selected');
+		if (option.data('is-quickcreate') != 1) {
+			element.closest('.fieldValue').find('.createReferenceRecord').addClass('hide');
+		} else {
+			element.closest('.fieldValue').find('.createReferenceRecord').removeClass('hide');
+		}
+	},
 	checkReferenceModulesList: function (container) {
 		var thisInstance = this;
 		var processfieldElement = container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue');
@@ -1482,6 +1494,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		Vtiger_Helper_Js.hideOptions(subProcessfieldElement.find('.referenceModulesList'), 'parent', referenceProcess);
 		var subProcessValue = subProcessfieldElement.find('.referenceModulesList').val();
 		subProcessfieldElement.find('[name="popupReferenceModule"]').val(subProcessValue);
+		thisInstance.checkSubProcessModulesList(subProcessfieldElement.find('.referenceModulesList'));
 	},
 	registerReferenceFields: function (container) {
 		var thisInstance = this;
@@ -1495,6 +1508,24 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 		container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue').find('.referenceModulesList').on('change', function () {
 			thisInstance.checkReferenceModulesList(container);
+		});
+		container.find('input[data-fieldtype="referenceSubProcess"]').closest('.fieldValue').find('.referenceModulesList').on('change', function (e) {
+			thisInstance.checkSubProcessModulesList($(e.currentTarget));
+		});
+	},
+	registerFocusFirstField: function (container) {
+		var thisInstance = this;
+		container.find('.fieldValue input.form-control:not([type=hidden],[type=checkbox])').each(function (n, e) {
+			var element = jQuery(e);
+			if (!element.prop('readonly') && !element.prop('disabled')) {
+				element = element.get(0);
+				var elemLen = element.value.length;
+
+				element.selectionStart = elemLen;
+				element.selectionEnd = elemLen;
+				element.focus();
+				return false;
+			}
 		});
 	},
 	/**
@@ -1516,6 +1547,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerMaskFields(container);
 		this.registerHelpInfo();
 		this.registerReferenceFields(container);
+		this.registerFocusFirstField(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();

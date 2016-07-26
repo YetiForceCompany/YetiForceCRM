@@ -16,6 +16,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 	relatedTabsContainer: false,
 	detailViewContainer: false,
 	relatedContentContainer: false,
+	listSearchInstance: false,
 	setSelectedTabElement: function (tabElement) {
 		this.selectedRelatedTabElement = tabElement;
 	},
@@ -24,6 +25,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 	},
 	getParentId: function () {
 		return this.parentRecordId;
+	},
+	getRelatedContainer: function () {
+		return this.relatedContentContainer;
 	},
 	loadRelatedList: function (params) {
 		var aDeferred = jQuery.Deferred();
@@ -59,15 +63,16 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 						thisInstance.selectedRelatedTabElement.addClass('active');
 						thisInstance.relatedContentContainer.html(responseData);
 						responseData = thisInstance.relatedContentContainer.html();
-						//thisInstance.triggerDisplayTypeEvent();
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
 						jQuery('.pageNumbers', thisInstance.relatedContentContainer).tooltip();
 						jQuery('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {response: responseData, params: completeParams});
 						app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 						thisInstance.registerUnreviewedCountEvent();
+						if (thisInstance.listSearchInstance) {
+							thisInstance.listSearchInstance.registerBasicEvents();
+						}
 					}
 					aDeferred.resolve(responseData);
-
 				},
 				function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
@@ -191,20 +196,36 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 	},
 	getCompleteParams: function () {
 		var params = {
-			view: "Detail",
+			view: 'Detail',
 			module: this.parentModuleName,
 			record: this.getParentId(),
 			relatedModule: this.relatedModulename,
 			sortorder: this.getSortOrder(),
 			orderby: this.getOrderBy(),
 			page: this.getCurrentPageNum(),
-			mode: "showRelatedList"
+			mode: 'showRelatedList'
 		};
 		if (this.relatedModulename == 'Calendar') {
 			if (this.relatedContentContainer.find('.switchBtn').is(':checked'))
 				params['time'] = 'current';
 			else
 				params['time'] = 'current';
+		}
+
+		if (this.listSearchInstance) {
+			var searchValue = this.listSearchInstance.getAlphabetSearchValue();
+			params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
+		}
+		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
+			params['search_value'] = searchValue;
+			params['operator'] = 's';
+		}
+		if (this.relatedModulename == 'Calendar') {
+			var switchBtn = this.getRelatedContainer().find('.switchBtn');
+			if (switchBtn.length) {
+				params.time = switchBtn.prop('checked') ? 'current' : 'history';
+			}
 		}
 		return params;
 	},
@@ -648,5 +669,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		this.detailViewContainer = this.relatedTabsContainer.closest('div.detailViewContainer');
 		this.relatedContentContainer = jQuery('div.contents', this.detailViewContainer);
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
+		app.showPopoverElementView(this.relatedContentContainer.find('.popoverTooltip'));
+		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.relatedContentContainer);
 	}
 })

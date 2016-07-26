@@ -45,5 +45,3 @@ class Vtiger_Feed_Parser extends SimplePie
 		$this->vt_fetchdone = true;
 	}
 }
-
-?>

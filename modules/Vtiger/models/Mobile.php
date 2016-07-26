@@ -62,7 +62,13 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 			$sql .= ' AND yetiforce_mobile_keys.service = ?';
 			$params[] = $service;
 		}
-		$result = $adb->pquery('SELECT yetiforce_mobile_keys.*, vtiger_users.user_name,' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ' as fullusername, vtiger_users.id AS userid FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE vtiger_users.status = ? ' . $sql, $params);
+		$query = 'SELECT yetiforce_mobile_keys.*, 
+				vtiger_users.user_name, %s as fullusername, vtiger_users.id AS userid
+				FROM yetiforce_mobile_keys 
+				INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user 
+				WHERE vtiger_users.status = ? %s';
+		$query = sprintf($query, getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), $sql);	
+		$result = $adb->pquery($query, $params);
 		$rows = $adb->num_rows($result);
 		$keys = [];
 		for ($i = 0; $i < $rows; $i++) {

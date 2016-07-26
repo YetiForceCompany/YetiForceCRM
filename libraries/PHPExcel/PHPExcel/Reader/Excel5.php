@@ -22,7 +22,7 @@
  * @package    PHPExcel_Reader_Excel5
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.8.0, 2014-03-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 // Original file header of ParseXL (used as the base for this class):
@@ -1089,6 +1089,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 				}
 			}
 		}
+        $this->_data = null;
 
 		return $this->_phpExcel;
 	}
@@ -4561,6 +4562,9 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 				$offset += 4;
 				// offset: var; size: $us; character array of the URL, no Unicode string header, always 16-bit characters, zero-terminated
 				$url = self::_encodeUTF16(substr($recordData, $offset, $us - 2), false);
+                $nullOffset = strpos($url, 0x00);
+				if ($nullOffset)
+                    $url = substr($url,0,$nullOffset);
 				$url .= $hasText ? '#' : '';
 				$offset += $us;
 				break;

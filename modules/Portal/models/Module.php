@@ -87,16 +87,16 @@ class Portal_Module_Model extends Vtiger_Module_Model {
         $params = array();
         
         if(!empty($selectedIds) && $selectedIds != 'all' && count($selectedIds) > 0) {
-            $query .= " WHERE portalid IN (".generateQuestionMarks($selectedIds).")";
+            $query .= sprintf(' WHERE portalid IN (%s)', generateQuestionMarks($selectedIds));
             $params = $selectedIds;
         } else if($selectedIds == 'all') {
             if(empty($searchValue) && count($excludedIds) > 0) {
-                $query .= " WHERE portalid NOT IN (".generateQuestionMarks($excludedIds).")";
+                $query .= sprintf(' WHERE portalid NOT IN ()', generateQuestionMarks($excludedIds));
                 $params = $excludedIds;
             } else if(!empty($searchValue) && count($excludedIds) < 1) {
-                $query .= " WHERE portalname LIKE '%".$searchValue."%'";
+                $query .= sprintf(" WHERE portalname LIKE '%%s%'", $searchValue);
             } else if(!empty($searchValue) && count($excludedIds) > 0) {
-                $query .= " WHERE portalname LIKE '%".$searchValue."%' AND portalid NOT IN (".generateQuestionMarks($excludedIds).")";
+                $query .= sprintf(" WHERE portalname LIKE '%%s%' AND portalid NOT IN (%s)", $searchValue, generateQuestionMarks($excludedIds));
                 $params = $excludedIds;
             }
         }

@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-    {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var="LABEL" value=$FIELD_MODEL->getFieldInfo()}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUE value=$SEARCH_INFO['searchValue']}
@@ -23,11 +23,11 @@
 			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
 			<div  class="input-group-btn alphabetBtnContainer">
 				{if $ALPHABET_VALUE}
-					<button class=" btn btn-primary alphabetBtn">
+					<button class=" btn btn-primary alphabetBtn" type="button">
 						{$ALPHABET_VALUE}
 					</button>
 				{else}
-					<button class=" btn btn-default alphabetBtn">
+					<button class=" btn btn-default alphabetBtn" type="button">
 						<span class="glyphicon glyphicon-font"></span>
 					</button>
 				{/if}

@@ -37,11 +37,19 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
+		$params = [];
+		$params['status'] = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
+		$params['user'] = $currentUser->getId();
+		$conditions = [
+			['vtiger_activity.status', "'" . $params['status'] . "'", 'in', QueryGenerator::$AND],
+			['vtiger_crmentity.smcreatorid', $params['user'], 'e', QueryGenerator::$AND]
+		];
+
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_over', $pagingModel, $owner);
-		
-		$colorList = ['fdgdfg'];
-		foreach($calendarActivities as $activityModel){
+		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_over', $pagingModel, $owner, false, $params);
+
+		$colorList = [];
+		foreach ($calendarActivities as $activityModel) {
 			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
 		}
 		$viewer->assign('WIDGET', $widget);
@@ -56,6 +64,7 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('USER_CONDITIONS', $conditions);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

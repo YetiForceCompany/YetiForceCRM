@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -18,6 +18,7 @@
         <input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
         <input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
         <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
+		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
         <div class="relatedHeader ">
             <div class="btn-toolbar row">
                 <div class="col-md-6">

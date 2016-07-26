@@ -20,7 +20,8 @@ class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 		$params = array_merge($params, $restrictedModules);
 		$sql = 'SELECT vtiger_tab.name,vtiger_tab.tabid, vtiger_modtracker_tabs.visible 
 				FROM vtiger_tab LEFT JOIN vtiger_modtracker_tabs ON vtiger_tab.tabid = vtiger_modtracker_tabs.tabid
-				WHERE vtiger_tab.presence IN (?,?) AND vtiger_tab.isentitytype = ? AND vtiger_tab.name NOT IN (' . generateQuestionMarks($restrictedModules) . ')';
+				WHERE vtiger_tab.presence IN (?,?) AND vtiger_tab.isentitytype = ? AND vtiger_tab.name NOT IN (%s)';
+		$sql = sprintf($sql, generateQuestionMarks($restrictedModules));
 		if ($active) {
 			$sql = ' AND vtiger_modtracker_tabs.visible = ?';
 			$params[] = 1;

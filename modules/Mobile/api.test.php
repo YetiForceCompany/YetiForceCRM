@@ -1,21 +1,20 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 chdir('../../');
 
 header('Content-type: text/plain');
 
 include_once 'vtlib/Vtiger/Net/Client.php';
-include_once 'include/Zend/Json.php';
 
 $mobileAPITestController = new Mobile_API_TestController();
-$mobileAPITestController->doLoginAndFetchModules('admin','admin');
+$mobileAPITestController->doLoginAndFetchModules('admin', 'admin');
 //$mobileAPITestController->doLogin('standarduser', 'standarduser');
 //$mobileAPITestController->doFetchModuleFilters('Leads');
 //$mobileAPITestController->doFilterDetailsWithCount('1');
@@ -31,162 +30,173 @@ $mobileAPITestController->doLoginAndFetchModules('admin','admin');
 //$mobileAPITestController->doQuery('Contacts', "SELECT * FROM Contacts;", 0, true);
 //$mobileAPITestController->doRelatedRecordsWithGrouping('3x2', 'Contacts', 1);
 //$mobileAPITestController->doDeleteRecords(array('1x198', '18x198'));
-
 //$mobileAPITestController->doHistory('Home');
 
 $mobileAPITestController->doFetchRecord('16x196', false);
 
-class Mobile_API_TestController {
-	
+class Mobile_API_TestController
+{
+
 	private $URL;
 	private $userid;
 	private $session;
 	private $listing;
-	
-	function doPost($parameters, $printResponse = false) {
+
+	function doPost($parameters, $printResponse = false)
+	{
 		$client = new Vtiger_Net_Client($this->URL);
 		$response = $client->doPost($parameters);
-		if($printResponse) echo $response;
-		$responseJSON = Zend_Json::decode($response);
+		if ($printResponse)
+			echo $response;
+		$responseJSON = \includes\utils\Json::decode($response);
 		return $responseJSON;
 	}
-	
-	function doLoginAndFetchModules($username, $password) {
+
+	function doLoginAndFetchModules($username, $password)
+	{
 		$responseJSON = $this->doPost(array(
-				'_operation' => 'loginAndFetchModules',
-				'username' => $username,
-				'password' => $password
-			));
-			
+			'_operation' => 'loginAndFetchModules',
+			'username' => $username,
+			'password' => $password
+		));
+
 		$modules = array();
-			
-		if($responseJSON['success']) {
+
+		if ($responseJSON['success']) {
 			$result = $responseJSON['result'];
-			
+
 			$this->userid = $result['login']['userid'];
-			$this->session= $result['login']['session'];
-			$this->listing= $result['modules'];
-			
+			$this->session = $result['login']['session'];
+			$this->listing = $result['modules'];
+
 			echo sprintf("Login success - User ID: %s - Session %s\n", $this->userid, $this->session);
 			echo "Accessible modules\n";
-			foreach($this->listing as $moduleinfo) {
+			foreach ($this->listing as $moduleinfo) {
 				echo sprintf("  %s - %s\n", $moduleinfo['id'], $moduleinfo['name']);
 				$modules[] = $moduleinfo['name'];
 			}
-			
 		} else {
 			$error = $responseJSON['error'];
 			echo sprintf("Login failed - %s: %s\n", $error['code'], $error['message']);
 		}
 		return $modules;
 	}
-	
-	function doLogin($username, $password) {
+
+	function doLogin($username, $password)
+	{
 		$responseJSON = $this->doPost(array(
-				'_operation' => 'login',
-				'username' => $username,
-				'password' => $password
+			'_operation' => 'login',
+			'username' => $username,
+			'password' => $password
 			), true);
-			
+
 		$modules = array();
-			
-		if($responseJSON['success']) {
+
+		if ($responseJSON['success']) {
 			$result = $responseJSON['result'];
-			
+
 			$this->userid = $result['login']['userid'];
-			$this->session= $result['login']['session'];
-			$this->listing= $result['modules'];
-			
+			$this->session = $result['login']['session'];
+			$this->listing = $result['modules'];
+
 			echo sprintf("Login success - User ID: %s - Session %s\n", $this->userid, $this->session);
-			
 		} else {
 			$error = $responseJSON['error'];
 			echo sprintf("Login failed - %s: %s\n", $error['code'], $error['message']);
 		}
 		return $modules;
 	}
-	
-	function doFetchModuleFilters($moduleName) {
+
+	function doFetchModuleFilters($moduleName)
+	{
 		$responseJSON = $this->doPost(array(
-				'_operation' => 'fetchModuleFilters',
-				'_session'=> $this->session,
-				'module' => $moduleName,
+			'_operation' => 'fetchModuleFilters',
+			'_session' => $this->session,
+			'module' => $moduleName,
 			), true);
 	}
-	
-	function doFilterDetailsWithCount($filterId) {
+
+	function doFilterDetailsWithCount($filterId)
+	{
 		$responseJSON = $this->doPost(array(
-				'_operation' => 'filterDetailsWithCount',
-				'_session'=> $this->session,
-				'filterid' => $filterId,
+			'_operation' => 'filterDetailsWithCount',
+			'_session' => $this->session,
+			'filterid' => $filterId,
 			), true);
 	}
-	
-	function doFetchAllAlerts() {
+
+	function doFetchAllAlerts()
+	{
 		$responseJSON = $this->doPost(array(
-				'_operation' => 'fetchAllAlerts',
-				'_session'=> $this->session,
+			'_operation' => 'fetchAllAlerts',
+			'_session' => $this->session,
 			), true);
 	}
-	
-	function doAlertDetailsWithMessage($alertid) {
+
+	function doAlertDetailsWithMessage($alertid)
+	{
 		$responseJSON = $this->doPost(array(
-				'_operation' => 'alertDetailsWithMessage',
-				'_session'=> $this->session,
-				'alertid' => $alertid,
+			'_operation' => 'alertDetailsWithMessage',
+			'_session' => $this->session,
+			'alertid' => $alertid,
 			), true);
 	}
-	
-	function doListModuleRecords($module) {
+
+	function doListModuleRecords($module)
+	{
 		$responseJSON = $this->doPost(array(
-				'_operation' => 'listModuleRecords',
-				'_session'=> $this->session,
-				'module' => $module,
-				//'alertid'=> '1'
-				//'filterid' => '2'
-				'search' => Zend_Json::encode(array('_sort'=>'ORDER BY modifiedtime desc')),
+			'_operation' => 'listModuleRecords',
+			'_session' => $this->session,
+			'module' => $module,
+			//'alertid'=> '1'
+			//'filterid' => '2'
+			'search' => \includes\utils\Json::encode(array('_sort' => 'ORDER BY modifiedtime desc')),
 			), true);
 	}
-	
-	function doFetchRecord($recordid, $withGrouping = false) {
+
+	function doFetchRecord($recordid, $withGrouping = false)
+	{
 		$parameters = array(
-				'_session' => $this->session,
-				'_operation' => 'fetchRecord',
-				'record' => $recordid
-			);
-			
-		if($withGrouping) {
+			'_session' => $this->session,
+			'_operation' => 'fetchRecord',
+			'record' => $recordid
+		);
+
+		if ($withGrouping) {
 			$parameters['_operation'] = 'fetchRecordWithGrouping';
 		}
 		$responseJSON = $this->doPost($parameters, true);
 	}
-	
-	function doDescribe($module) {
+
+	function doDescribe($module)
+	{
 		$responseJSON = $this->doPost(array(
-				'_session' => $this->session,
-				'_operation' => 'describe',
-				'module' => $module
+			'_session' => $this->session,
+			'_operation' => 'describe',
+			'module' => $module
 			), true);
 	}
-	
-	function doSave($module, $record, $values) {
+
+	function doSave($module, $record, $values)
+	{
 		$parameters = array(
-				'_session' => $this->session,
-				'_operation' => 'saveRecord',
-				'module' => $module,
-				'record' => $record,
-				'values' => Zend_Json::encode($values)
-			);
-			
+			'_session' => $this->session,
+			'_operation' => 'saveRecord',
+			'module' => $module,
+			'record' => $record,
+			'values' => \includes\utils\Json::encode($values)
+		);
+
 		$responseJSON = $this->doPost($parameters, true);
 	}
-	
-	function doSync($module, $page=false, $lastSyncTime = false, $mode='PUBLIC') {
+
+	function doSync($module, $page = false, $lastSyncTime = false, $mode = 'PUBLIC')
+	{
 		$parameters = array(
-				'_session' => $this->session,
-				'_operation' => 'syncModuleRecords',
-				'module' => $module,
-			);
+			'_session' => $this->session,
+			'_operation' => 'syncModuleRecords',
+			'module' => $module,
+		);
 		if ($page !== false) {
 			$parameters['page'] = $page;
 		}
@@ -194,79 +204,84 @@ class Mobile_API_TestController {
 			$parameters['syncToken'] = $lastSyncTime;
 		}
 		$parameters['mode'] = $mode;
-			
+
 		$responseJSON = $this->doPost($parameters, true);
 	}
-	
-	function doScanImage($module) {
+
+	function doScanImage($module)
+	{
 		$parameters = array(
-				'_session' => $this->session,
-				'_operation' => 'scanImage'
-			);
-			
+			'_session' => $this->session,
+			'_operation' => 'scanImage'
+		);
+
 		$responseJSON = $this->doPost($parameters, true);
 	}
-	
-	function doFetchRecordsWithGrouping($module, $key, $value) {
+
+	function doFetchRecordsWithGrouping($module, $key, $value)
+	{
 		$parameters = array(
-				'_session' => $this->session,
-				'_operation' => 'fetchRecordsWithGrouping',
-				'module' => $module,
-				$key => $value
-			);
-			
+			'_session' => $this->session,
+			'_operation' => 'fetchRecordsWithGrouping',
+			'module' => $module,
+			$key => $value
+		);
+
 		$responseJSON = $this->doPost($parameters, true);
 	}
-	
-	function doQuery($module, $query, $page=0, $withGrouping = false) {
+
+	function doQuery($module, $query, $page = 0, $withGrouping = false)
+	{
 		$parameters = array(
-				'_session' => $this->session,
-				'_operation' => ($withGrouping? 'queryWithGrouping' : 'query'),
-				'module' => $module,
-				'page' => $page,
-				'query' => $query
-			);
-			
+			'_session' => $this->session,
+			'_operation' => ($withGrouping ? 'queryWithGrouping' : 'query'),
+			'module' => $module,
+			'page' => $page,
+			'query' => $query
+		);
+
 		$responseJSON = $this->doPost($parameters, true);
 	}
-	
-	function doRelatedRecordsWithGrouping($record, $relatedmodule, $page=0) {
+
+	function doRelatedRecordsWithGrouping($record, $relatedmodule, $page = 0)
+	{
 		$parameters = array(
-				'_session' => $this->session,
-				'_operation' => 'relatedRecordsWithGrouping',
-				'record' => $record,
-				'relatedmodule' => $relatedmodule,
-				'page' => $page
-			);
-			
+			'_session' => $this->session,
+			'_operation' => 'relatedRecordsWithGrouping',
+			'record' => $record,
+			'relatedmodule' => $relatedmodule,
+			'page' => $page
+		);
+
 		$responseJSON = $this->doPost($parameters, true);
 	}
-	
-	function doDeleteRecords($recordids) {
-		$key = 'record'; $value = $recordids;
+
+	function doDeleteRecords($recordids)
+	{
+		$key = 'record';
+		$value = $recordids;
 		if (is_array($recordids)) {
 			$key = 'records';
-			$value = Zend_Json::encode($recordids);
+			$value = \includes\utils\Json::encode($recordids);
 		}
 		$parameters = array(
-				'_session' => $this->session,
-				'_operation' => 'deleteRecords',
-				$key => $value
-			);
-			
+			'_session' => $this->session,
+			'_operation' => 'deleteRecords',
+			$key => $value
+		);
+
 		$responseJSON = $this->doPost($parameters, true);
 	}
-	
-	function doHistory($module, $record='') {
+
+	function doHistory($module, $record = '')
+	{
 		$parameters = array(
 			'_session' => $this->session,
 			'_operation' => 'history',
 			'module' => empty($record) ? $module : '',
 			'record' => $record,
-			'mode'   => 'All' , // Private (not supported yet)
+			'mode' => 'All', // Private (not supported yet)
 		);
 		$responseJSON = $this->doPost($parameters, true);
 	}
-	
 }
-

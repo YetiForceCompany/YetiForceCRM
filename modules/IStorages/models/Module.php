@@ -72,13 +72,14 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 
 		// Saving the amount of product in stock.
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo('Products', 'IStorages');
-		$result = $db->pquery('SELECT ' . $referenceInfo['rel'] . ',qtyinstock FROM ' . $referenceInfo['table']
-			. ' WHERE `' . $referenceInfo['base'] . '` = ? AND `' . $referenceInfo['rel'] . '` IN (' . $db->generateQuestionMarks(array_keys($qtyInStock)) . ');', array_merge([$storageId], array_keys($qtyInStock)));
+		$query = 'SELECT %s,qtyinstock FROM %s  WHERE `%s` = ? AND `%s` IN (%s);';
+		$query = sprintf($query, $referenceInfo['rel'], $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel'], $db->generateQuestionMarks(array_keys($qtyInStock)));
+		$result = $db->pquery($query, array_merge([$storageId], array_keys($qtyInStock)));
 		$relData = $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
 		foreach ($qtyInStock as $ID => $value) {
 			if (array_key_exists($ID, $relData)) {
-				$db->pquery('UPDATE ' . $referenceInfo['table'] . ' SET `qtyinstock` = ' . $qty
-					. ' WHERE `' . $referenceInfo['base'] . '` = ? AND `' . $referenceInfo['rel'] . '` = ?;', [$value, $storageId, $ID]);
+				$where = $referenceInfo['base'] . ' = ? AND `' . $referenceInfo['rel'] . '` = ?;';
+				$db->update($referenceInfo['table'], ['qtyinstock' => $qty], $where , [$value, $storageId, $ID]);
 			} else {
 				$db->insert($referenceInfo['table'], [$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $ID, 'qtyinstock' => $operator == '+' ? $value : $operator . $value]);
 			}
@@ -98,7 +99,8 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 				}
 				$inventoryTableName = Vtiger_InventoryField_Model::getInstance($moduleName)->getTableName();
 				$focus = CRMEntity::getInstance($moduleName);
-				$sql[] = 'SELECT ' . $inventoryTableName . '.name AS productid, ' . $focus->table_name . '.storageid AS storageid,  SUM( DISTINCT ' . $inventoryTableName . '.qty) AS p_sum FROM  ' . $focus->table_name . ' LEFT JOIN (' . $inventoryTableName . ' LEFT JOIN vtiger_crmentity AS cr ON cr.crmid = ' . $inventoryTableName . '.name) ON ' . $focus->table_name . '.' . $focus->table_index . ' = ' . $inventoryTableName . '.id LEFT JOIN vtiger_crmentity ON ' . $focus->table_name . '.' . $focus->table_index . ' = vtiger_crmentity.`crmid` WHERE vtiger_crmentity.`deleted` = 0 AND cr.`deleted` = 0 AND ' . $focus->table_name . '.' . strtolower($moduleName) . '_status = "PLL_ACCEPTED" GROUP BY productid, storageid';
+				$sql[] = sprintf('SELECT %s.name AS productid, %s.storageid AS storageid,  SUM( DISTINCT %s.qty) AS p_sum FROM  %s LEFT JOIN (%s LEFT JOIN vtiger_crmentity AS cr ON cr.crmid = %s.name) ON %s.%s = %s.id LEFT JOIN vtiger_crmentity ON %s.%s = vtiger_crmentity.`crmid` WHERE vtiger_crmentity.`deleted` = 0 AND cr.`deleted` = 0 AND %s.%s_status = "PLL_ACCEPTED" GROUP BY productid, storageid',
+					$inventoryTableName, $focus->table_name, $inventoryTableName, $focus->table_name, $inventoryTableName, $inventoryTableName, $focus->table_name, $focus->table_index, $inventoryTableName, $focus->table_name, $focus->table_index, $focus->table_name, strtolower($moduleName));
 			}
 			if (!empty($sql)) {
 				$result = $db->query(implode(' UNION ALL ', $sql));

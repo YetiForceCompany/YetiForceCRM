@@ -8,17 +8,14 @@
  * All Rights Reserved.
  *
  * ******************************************************************************* */
-
-/**
- * @author MAK
- */
+namespace vtlib;
 
 /**
  * Description of LinkData
  *
  * @author MAK
  */
-class Vtiger_LinkData
+class LinkData
 {
 
 	protected $input;
@@ -28,20 +25,19 @@ class Vtiger_LinkData
 
 	public function __construct($link, $user, $input = null)
 	{
-		$currentModule = vglobal('currentModule');
 		$this->link = $link;
 		$this->user = $user;
-		$this->module = $currentModule;
+		$this->module = vglobal('currentModule');
 	}
 
 	public function getInputParameter($name)
 	{
-		return AppRequest::get($name);
+		return \AppRequest::get($name);
 	}
 
 	/**
 	 *
-	 * @return Vtiger_Link
+	 * @return vtlib\Link
 	 */
 	public function getLink()
 	{

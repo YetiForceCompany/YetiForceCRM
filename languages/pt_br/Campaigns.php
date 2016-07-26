@@ -9,6 +9,20 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 22/02/2015
  * ********************************************************************************** */
 $languageStrings = [
+	'Campaign Name' => 'Nome Campanha',
+	'Campaign No' => 'No. Campanha',
+	'Campaigns' => 'Campanhas',
+	'SINGLE_Campaigns' => 'Campanha',
+	'LBL_ADD_RECORD' => 'Adicionar registro',
+	'LBL_RECORDS_LIST' => 'Lista Campanhas',
+	//FIELDS
+	'Budget Cost' => 'Custo Orçado',
+	'Campaign Status' => 'Status Campanha',
+	'Campaign Type' => 'Tipo Campanha',
+	 //BLOCKS
+	'LBL_CAMPAIGN_INFORMATION' => 'Informação da Campanha',
+	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Previsto & Realizado',
+	//OTHERS
 	'Complete' => 'Completo',
 	'Actual Cost' => 'Custo Atual',
 	'Actual Response Count' => 'Quantidade Resposta Atual',
@@ -18,12 +32,6 @@ $languageStrings = [
 	'Partners' => 'Parceiros',
 	'Average' => 'Média',
 	'Banner Ads' => 'Banners',
-	'Budget Cost' => 'Custo Orçado',
-	'Campaign Name' => 'Nome Campanha',
-	'Campaign No' => 'No. Campanha',
-	'Campaigns' => 'Campanhas',
-	'Campaign Status' => 'Status Campanha',
-	'Campaign Type' => 'Tipo Campanha',
 	'Cancelled' => 'Cancelada',
 	'Contacted - Never Contact Again' => 'Contactado - Nunca Contactar Novamente',
 	'Contacted - Successful' => 'Contactado - Sucesso',
@@ -38,10 +46,6 @@ $languageStrings = [
 	'Good' => 'Boa',
 	'Inactive' => 'Inativa',
 	'Active' => 'Ativa',
-	'LBL_ADD_RECORD' => 'Adicionar registro',
-	'LBL_CAMPAIGN_INFORMATION' => 'Informação da Campanha',
-	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Previsto & Realizado',
-	'LBL_RECORDS_LIST' => 'Lista Campanhas',
 	'--None--' => '--Nada--',
 	'Num Sent' => 'No. Envio',
 	'Others' => 'Outros',
@@ -50,15 +54,16 @@ $languageStrings = [
 	'Poor' => 'Ruim',
 	'Product' => 'Produto',
 	'Referral Program' => 'Programa Referência',
-	'SINGLE_Campaigns' => 'Campanha',
 	'Sponsor' => 'Patrocinador',
 	'Target Audience' => 'Público Alvo',
 	'TargetSize' => 'Tamanho Alvo',
 	'Telemarketing' => 'Telemarketing',
 	'Webinar' => 'Webinar',
 	'Message sent' => 'Message sent',
-	'Campaign status' => 'Status Campanha',
+	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records',
+	'LBL_LOAD_RECORDS' => 'Load from filter',
+	'LBL_LOAD_RECORDS_INFO' => 'Button used to load all records that meet the conditions specified in filter.',
 ];
 $jsLanguageStrings = [
-	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Tem certeza que deseja adicionar este filtro de registros?',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add all records from filter?',
 ];

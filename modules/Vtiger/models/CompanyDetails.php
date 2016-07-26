@@ -39,18 +39,18 @@ class Vtiger_CompanyDetails_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($id = 1)
 	{
-		$companyDetails = Vtiger_Cache::get('vtiger', 'organization');
+		$companyDetails = Vtiger_Cache::get('organizationDetails', $id);
 		if (!$companyDetails) {
 			$db = PearDatabase::getInstance();
 			$sql = 'SELECT * FROM vtiger_organizationdetails WHERE organization_id=?';
 			$params = array($id);
 			$result = $db->pquery($sql, $params);
 			$companyDetails = new self();
-			if ($result && $db->num_rows($result) > 0) {
-				$resultRow = $db->query_result_rowdata($result, 0);
+			if ($result && $db->getRowCount($result) > 0) {
+				$resultRow = $db->getRow($result);
 				$companyDetails->setData($resultRow);
 			}
-			Vtiger_Cache::set('vtiger', 'organization', $companyDetails);
+			Vtiger_Cache::set('organizationDetails', $id, $companyDetails);
 		}
 		return $companyDetails;
 	}

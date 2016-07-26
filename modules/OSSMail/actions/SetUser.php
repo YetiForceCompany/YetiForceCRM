@@ -14,7 +14,7 @@ class OSSMail_SetUser_Action extends Vtiger_Action_Controller
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		if (!Users_Privileges_Model::isPermitted('OSSMail', 'index')) {
+		if (!Users_Privileges_Model::isPermitted('OSSMail')) {
 			throw new NoPermittedException('LBL_PERMISSION_DENIED');
 		}
 	}

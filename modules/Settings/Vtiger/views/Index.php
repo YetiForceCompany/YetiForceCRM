@@ -13,6 +13,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 	function __construct()
 	{
+		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
 		$this->exposeMethod('DonateUs');
 		$this->exposeMethod('Index');
@@ -84,12 +85,12 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$usersCount = Users_Record_Model::getCount(true);
-		$activeWorkFlows = Settings_Workflows_Record_Model::getActiveCount();
+		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
 		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
 
 		$viewer->assign('USERS_COUNT', $usersCount);
-		$viewer->assign('ACTIVE_WORKFLOWS', $activeWorkFlows);
+		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
 		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
 		$viewer->view('Index.tpl', $qualifiedModuleName);

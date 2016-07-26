@@ -43,7 +43,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		return this.summaryCurrenciesContainer;
 	},
 	getNextLineItemRowNumber: function () {
-		var rowNumber = $(this.rowClass, this.getInventoryItemsContainer()).length;
+		var rowNumber = parseInt($('#inventoryItemsNo').val());
 		$('#inventoryItemsNo').val(rowNumber + 1);
 		return ++rowNumber;
 	},
@@ -777,6 +777,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				info[param] = modal.find('[name="' + param + '"]').val();
 			}
 		});
+		thisInstance.setDiscountParam($('#blackIthemTable'), info);
 		thisInstance.setDiscountParam(parentRow, info);
 	},
 	saveTaxsParameters: function (parentRow, modal) {
@@ -798,6 +799,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 		});
 		thisInstance.setTaxParam(parentRow, info);
+		thisInstance.setTaxParam($('#blackIthemTable'), info);
 	},
 	showExpandedRow: function (row) {
 		var thisInstance = this;
@@ -961,6 +963,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var currencyParam = JSON.parse(block.find('.currencyparam').val());
 
 			if (currencyParam != false) {
+				if(typeof currencyParam[option.val()] == 'undefined'){
+					currencyParam[option.val()]['value'] = 1;
+					currencyParam[option.val()]['date'] = '';
+				}
 				modal.find('.currencyName').text(option.text());
 				modal.find('.currencyRate').val(currencyParam[option.val()]['value']);
 				modal.find('.currencyDate').text(currencyParam[option.val()]['date']);
@@ -1362,6 +1368,27 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			);
 		});
 	},
+	registerRowAutoCompleteAfterAdding: function (container) {
+		var thisInstance = this;
+		var sourceFieldElement = container.find('.rowName .sourceField');
+		var parentRow = sourceFieldElement.closest(thisInstance.rowClass);
+		var record = container.find('.sourceField').val()
+		var selectedModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
+		var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency();
+		AppConnector.request(dataUrl).then(
+				function (data) {
+					for (var id in data) {
+						if (typeof data[id] == "object") {
+							var recordData = data[id];
+							thisInstance.mapResultsToFields(selectedModule, parentRow, recordData);
+						}
+					}
+				},
+				function (error, err) {
+					console.error(error, err);
+				}
+		);
+	},
 	calculateItemNumbers: function () {
 		var thisInstance = this;
 		var items = this.getInventoryItemsContainer();
@@ -1382,9 +1409,9 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.registerRowAutoComplete(container);
 		thisInstance.checkDeleteIcon();
 		thisInstance.rowsCalculations();
+		thisInstance.updateRowSequence();
 	},
 	registerChangeQtyparam: function (container) {
-		var thisInstance = this;
 		container.on('click', '.qtyparamButton', function (e) {
 			var element = $(e.currentTarget);
 			var rowNum = element.data('rownum');

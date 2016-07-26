@@ -25,7 +25,7 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 
 		$relatedModule = $request->get('related_module');
 		if(is_numeric($relatedModule)){
-			$relatedModule = Vtiger_Functions::getModuleName($relatedModule);
+			$relatedModule = vtlib\Functions::getModuleName($relatedModule);
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);

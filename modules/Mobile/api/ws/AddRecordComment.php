@@ -29,7 +29,7 @@ class Mobile_WS_AddRecordComment extends Mobile_WS_SaveRecord {
 	
 	function process(Mobile_API_Request $request) {
 
-		$values = Zend_Json::decode($request->get('values'));
+		$values = \includes\utils\Json::decode($request->get('values'));
 		$relatedTo = $values['related_to'];
 		$commentContent = $values['commentcontent'];
 		
@@ -49,7 +49,7 @@ class Mobile_WS_AddRecordComment extends Mobile_WS_SaveRecord {
 			if (vtlib_isModuleActive($targetModule)) {
 				$request->set('module', $targetModule);
 				$values['assigned_user_id'] = sprintf('%sx%s', Mobile_WS_Utils::getEntityModuleWSId('Users'), $user->id);
-				$request->set('values', Zend_Json::encode($values) );
+				$request->set('values', \includes\utils\Json::encode($values) );
 				
 				$response = parent::process($request);
 			}

@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{assign var=CURRENCIES value=Vtiger_Functions::getAllCurrency(true)}
+	{assign var=CURRENCIES value=vtlib\Functions::getAllCurrency(true)}
 	{assign var=SELECTED_CURRENCY value=$ITEM_VALUE}
-	{assign var=FIELD_PARAMS value=Zend_Json::decode($FIELD->get('params'))}
+	{assign var=FIELD_PARAMS value=\includes\utils\Json::decode($FIELD->get('params'))}
 
 	{if $SELECTED_CURRENCY eq ''}
 		{assign var=USER_CURRENCY_ID value=$USER_MODEL->get('currency_id')}
@@ -16,7 +16,7 @@
 		{assign var=CURRENCY_PARAMS value=$FIELD->getCurrencyParam($CURRENCIES, $INVENTORY_ROWS[0]['currencyparam'])}
 	{/if}
 
-	<input name="currencyparam" type="hidden" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($CURRENCY_PARAMS))}" class="currencyparam" />
+	<input name="currencyparam" type="hidden" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($CURRENCY_PARAMS))}" class="currencyparam" />
 	<select class="select2" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}" name="{$FIELD->getColumnName()}" 
 			title="{vtranslate('LBL_CURRENCY', $MODULE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}>
 		{foreach item=CURRENCY key=count from=$CURRENCIES}

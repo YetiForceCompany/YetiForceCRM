@@ -54,7 +54,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 	/**
 	 * Overrided to add HTML content for callstatus irrespective of the filters
 	 */
-	public function getListViewEntries($pagingModel)
+	public function getListViewEntries($pagingModel, $searchResult = false)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -134,9 +134,9 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$listQuery .= ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
+				$listQuery .= sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
 			} else {
-				$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
+				$listQuery .= sprintf(' ORDER BY %s %s' , $orderBy, $sortOrder);
 			}
 		}
 

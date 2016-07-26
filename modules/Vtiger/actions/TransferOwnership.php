@@ -28,10 +28,12 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 			$recordIds = $this->getBaseModuleRecordIds($request);
 		else
 			$recordIds[] = $record;
-		$relatedModuleRecordIds = $transferModel->getRelatedModuleRecordIds($request, $recordIds);
-		$transferRecordIds = array_merge($relatedModuleRecordIds, $recordIds);
-		$transferModel->transferRecordsOwnership($module, $transferOwnerId, $transferRecordIds);
 
+		if (!empty($recordIds)) {
+			$relatedModuleRecordIds = $transferModel->getRelatedModuleRecordIds($request, $recordIds);
+			$transferRecordIds = array_merge($relatedModuleRecordIds, $recordIds);
+			$transferModel->transferRecordsOwnership($module, $transferOwnerId, $transferRecordIds);
+		}
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
@@ -43,8 +45,15 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		$module = $request->getModule();
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
+
 		if (!empty($selectedIds) && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
+				foreach ($selectedIds as $key => &$recordId) {
+					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+					if (!$recordModel->isEditable()) {
+						unset($selectedIds[$key]);
+					}
+				}
 				return $selectedIds;
 			}
 		}
@@ -52,7 +61,17 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		if ($selectedIds == 'all') {
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 			if ($customViewModel) {
-				return $customViewModel->getRecordIds($excludedIds, $module);
+				$searchKey = $request->get('search_key');
+				$searchValue = $request->get('search_value');
+				$operator = $request->get('operator');
+				if (!empty($operator)) {
+					$customViewModel->set('operator', $operator);
+					$customViewModel->set('search_key', $searchKey);
+					$customViewModel->set('search_value', $searchValue);
+				}
+
+				$customViewModel->set('search_params', $request->get('search_params'));
+				return $customViewModel->getRecordIds($excludedIds, $module, true);
 			}
 		}
 		return [];

@@ -19,7 +19,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$params = [];
 		if ($module) {
 			if (!is_numeric($module)) {
-				$module = Vtiger_Functions::getModuleId($module);
+				$module = vtlib\Functions::getModuleId($module);
 			}
 			$sql .= ' WHERE tabid = ? ';
 			$params[] = $module;
@@ -28,7 +28,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $db->pquery($sql, $params, true);
 		$widgets = array(1 => array(), 2 => array(), 3 => array());
 		while ($row = $db->getRow($result)) {
-			$row['data'] = Zend_Json::decode($row['data']);
+			$row['data'] = \includes\utils\Json::decode($row['data']);
 			$widgets[$row["wcol"]][$row["id"]] = $row;
 		}
 		return $widgets;
@@ -37,11 +37,11 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	public function getModulesList($module = false)
 	{
 		$adb = PearDatabase::getInstance();
-		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier');
-		$sql = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ')';
-		$params = array(1, $restrictedModules);
+		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier'];
+		$sql = sprintf('SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN (%s)', generateQuestionMarks($restrictedModules));
+		$params = [1, $restrictedModules];
 		$result = $adb->pquery($sql, $params);
-		$modules = array();
+		$modules = [];
 		while ($row = $adb->fetch_array($result)) {
 			$moduleModel =  Vtiger_Module_Model::getInstance($row['name']);
 			if($moduleModel->isSummaryViewSupported())
@@ -57,7 +57,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getType($module = false)
 	{
-		$moduleName = Vtiger_Functions::getModuleName($module);
+		$moduleName = vtlib\Functions::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
 		$moduleModel =  Vtiger_Module_Model::getInstance($module);
@@ -177,7 +177,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		unset($data['wid']);
 		$nomargin = isset($data['nomargin']) ? $data['nomargin'] : 0;
 		unset($data['nomargin']);
-		$serializeData = Zend_Json::encode($data);
+		$serializeData = \includes\utils\Json::encode($data);
 		$sequence = self::getLastSequence($tabid) + 1;
 		if ($wid) {
 			$sql = "UPDATE vtiger_widgets SET label = ?, nomargin = ?, `data` = ? WHERE id = ?;";
@@ -200,7 +200,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$sql = 'SELECT * FROM vtiger_widgets WHERE id = ?';
 		$result = $adb->pquery($sql, array($wid));
 		$resultrow = $adb->raw_query_result_rowdata($result);
-		$resultrow['data'] = Zend_Json::decode($resultrow['data']);
+		$resultrow['data'] = \includes\utils\Json::decode($resultrow['data']);
 		return $resultrow;
 	}
 

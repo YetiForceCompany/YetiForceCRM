@@ -38,7 +38,7 @@ class Home_CreateNotificationModal_View extends Vtiger_BasicModal_View
 		if (Users_Privileges_Model::isPermitted('Dashboard', 'NotificationSendToAll')) {
 			$private = 'Public';
 		}
-		$users = $currentUser->getAccessibleUsers($private);
+		$users = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers($private);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $currentUser);

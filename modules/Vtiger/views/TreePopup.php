@@ -39,15 +39,15 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 		if(!empty($template)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($template);
 		} else {
-			Vtiger_Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
+			vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
 		if(!$recordModel)
-			Vtiger_Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
+			vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
 		if ($request->get('multiple')) {
 			$type = 'category';
 		}
 		$tree = $recordModel->getTree($type);
-		$viewer->assign('TREE', Zend_Json::encode($tree));
+		$viewer->assign('TREE', \includes\utils\Json::encode($tree));
 		$viewer->assign('SRC_RECORD', $srcRecord);
 		$viewer->assign('SRC_FIELD', $srcField);
 		$viewer->assign('TEMPLATE', $template);

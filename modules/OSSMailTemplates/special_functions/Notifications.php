@@ -20,7 +20,7 @@ class Notifications
 		if ($data['module'] == 'System') {
 			$watchingModules = Vtiger_Watchdog_Model::getWatchingModules(false, $data['userId']);
 			foreach ($watchingModules as $moduleId) {
-				$modules[] = Vtiger_Functions::getModuleName($moduleId);
+				$modules[] = vtlib\Functions::getModuleName($moduleId);
 			}
 			$modules[] = 'Users';
 		} else {
@@ -34,8 +34,8 @@ class Notifications
 			if (array_key_exists($typeId, $entries)) {
 				$html .= '<hr><strong>' . vtranslate($type['name'], 'Home') . '</strong><ul>';
 				foreach ($entries[$typeId] as $notification) {
-					$title = Vtiger_Functions::replaceLinkAddress($notification->getTitle(), '/^index.php/', $siteURL . 'index.php');
-					$massage = Vtiger_Functions::replaceLinkAddress($notification->getMassage(), '/^index.php/', $siteURL . 'index.php');
+					$title = vtlib\Functions::replaceLinkAddress($notification->getTitle(), '/^index.php/', $siteURL . 'index.php');
+					$massage = vtlib\Functions::replaceLinkAddress($notification->getMassage(), '/^index.php/', $siteURL . 'index.php');
 					$html .= '<li>' . $title . '<br>' . $massage . '</li>';
 				}
 				$html .= '</ul><br>';

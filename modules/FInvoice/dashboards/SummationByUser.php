@@ -23,12 +23,12 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 			$time['end'] = date('Y-m-t');
 		}
 		// date parameters passed, convert them to YYYY-mm-dd
-		$time['start'] = Vtiger_Functions::currentUserDisplayDate($time['start']);
-		$time['end'] = Vtiger_Functions::currentUserDisplayDate($time['end']);
+		$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
+		$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
-		$param = Zend_Json::decode($widget->get('data'));
+		$param = \includes\utils\Json::decode($widget->get('data'));
 		$data = $this->getWidgetData($moduleName, $param, $time);
 
 		$viewer->assign('DTIME', $time);
@@ -74,7 +74,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 			if ($currentUser->getId() == $row['o']) {
 				$color = '#4979aa';
 			}
-			$owner = Vtiger_Functions::getOwnerRecordLabel($row['o']);
+			$owner = vtlib\Functions::getOwnerRecordLabel($row['o']);
 			$rawData[] = [
 				'data' => [[$i, (int) $row['s']]],
 				'label' => $owner,

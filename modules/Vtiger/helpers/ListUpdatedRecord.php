@@ -38,9 +38,9 @@ class ListUpdatedRecord
 
 		for ($i = 0; $i < count($moduleList); $i++) {
 
-			$getRecordListSql = "SELECT " . implode(',', $columnList) . "," . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . " as smownerid FROM vtiger_crmentity "
-				. " INNER JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid "
-				. " WHERE was_read = 0 AND vtiger_crmentity.deleted = 0 AND setype = ?";
+			$getRecordListSql = sprintf("SELECT %s,%s as smownerid FROM vtiger_crmentity 
+					INNER JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid 
+					WHERE was_read = 0 AND vtiger_crmentity.deleted = 0 AND setype = ?", implode(',', $columnList), getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'));
 
 			$getRecordListResult = $db->pquery($getRecordListSql, array($moduleList[$i]), TRUE);
 

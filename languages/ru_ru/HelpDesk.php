@@ -9,12 +9,12 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
-	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
-	'PLL_FOR_APPROVAL' => 'For approval',
-	'PLL_TO_CLOSE' => 'To close',
-	'Answered' => 'Awaiting realization',
+	'PLL_SUBMITTED_COMMENTS' => 'Отправил комментарии',
+	'PLL_FOR_APPROVAL' => 'Для подтверждения',
+	'PLL_TO_CLOSE' => 'Закрыть',
+	'Answered' => 'В ожидании реализации',
 	'Big Problem' => 'Большая проблема',
-	'Closed' => 'Accepted',
+	'Closed' => 'Принято',
 	'Critical' => 'Критичная',
 	'Days' => 'Дней',
 	'Dear' => 'Уважаемый(ая)',
@@ -84,8 +84,8 @@ $languageStrings = [
 	'Support_team' => 'Служба поддержки',
 	'Thanks' => 'Спасибо',
 	'The comments are' => 'Комментарии',
-	'Ticket ID' => 'Номер',
-	'Ticket No' => 'Заявка №',
+	'Ticket ID' => 'No.',
+	'Ticket No' => 'No.',
 	'Ticket Title' => 'Наименование заявки',
 	'Title' => 'Название',
 	'Update History' => 'Обновить историю',
@@ -101,13 +101,13 @@ $languageStrings = [
 	'LBL_VIEW_FINDDUPLICATES' => 'Найти дубликаты',
 	'Record Id' => 'Номер записи',
 	'ticketpriorities' => 'Приоритет',
-	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'The ticket is not related to any Account. Please create a relation.',
+	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'Тикет не связан с какой-либо счетом. Пожалуйста, создайте связь.',
 	// FIELDS
-	'FL_SERVICE_CONTRACTS' => 'Service Level Agreement',
-	'FL_SERVICE_CONTRACTS_TYPE' => 'SLA type',
-	'FL_SERVICE_CONTRACTS_DATE' => 'SLA expiry date',
-	'FL_REPORT_TIME' => 'Report time',
-	'FL_RESPONSE_TIME' => 'Response time',
+	'FL_SERVICE_CONTRACTS' => 'Соглашение об уровне обслуживания',
+	'FL_SERVICE_CONTRACTS_TYPE' => 'Тип соглашения об уровне обслуживания',
+	'FL_SERVICE_CONTRACTS_DATE' => 'Срок соглашения об уровне обслуживания',
+	'FL_REPORT_TIME' => 'Время отчета',
+	'FL_RESPONSE_TIME' => 'Время реакции',
 ];
 
 $jsLanguageStrings = [

@@ -19,15 +19,32 @@
 	<input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}"/>
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 		<div class="vtFooter">
-			{if AppConfig::main('isVisibleLogoInFooter') == 'true'}
-				<div class='pull-right'>
+			{if $USER_MODEL->is_admin == 'on'}
+				<div class="pull-left">
+					<a class="iconsInFooter" href="https://www.linkedin.com/groups/8177576">
+						<span class="AdditionalIcon-Linkedin" title="Linkendin"/>
+					</a>
+					<a class="iconsInFooter" href="https://twitter.com/YetiForceEN">
+						<span class="AdditionalIcon-Twitter" title="Twitter"/>
+					</a>
+					<a class="iconsInFooter" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
+						<span class="AdditionalIcon-Facebook" title="Facebook"/>
+					</a>
+				</div>
+			{/if}
+			<div class="pull-right">
+				{if $USER_MODEL->is_admin == 'on'}
+					<a class="iconsInFooter" href="https://github.com/YetiForceCompany/YetiForceCRM">
+						<span class="AdditionalIcon-Github" title="Github"/>
+					</a>
+				{/if}
+				{if AppConfig::main('isVisibleLogoInFooter') == 'true'}
 					{assign var=ADDRESS value='https://yetiforce.com'}
 					<a href='{$ADDRESS}'>
 						<img class="logoFooter" src="storage/Logo/white_logo_yetiforce.png" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
 					</a>
-				</div>
-			{/if}
-			
+				{/if}
+			</div>
 			{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('startTime'), 3)}
 			{if $USER_MODEL->is_admin == 'on'}
 				{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}

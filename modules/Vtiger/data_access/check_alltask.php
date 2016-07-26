@@ -18,13 +18,13 @@ Class DataAccess_check_alltask{
 		if (is_array($config['status']))
 			$config['status'] = implode("','", $config['status']);
 
-		$result = $db->pquery("SELECT count(*) as num
+		$result = $db->pquery(sprintf("SELECT count(*) as num
 								FROM vtiger_activity 
 								INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid 
 								WHERE vtiger_crmentity.deleted = ? 
 								AND vtiger_activity.activitytype = ? 
-								AND vtiger_activity.status in ('" . $config['status'] . "')
-								AND (vtiger_activity.link = ? OR vtiger_activity.process = ?)", array(0, 'Task', $ID, $ID), true);
+								AND vtiger_activity.status in ('%s')
+								AND (vtiger_activity.link = ? OR vtiger_activity.process = ?)", $config['status']), array(0, 'Task', $ID, $ID), true);
 
 		if ($db->query_result($result, 0, 'num') > 0)
 			return Array(

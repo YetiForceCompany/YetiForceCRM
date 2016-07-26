@@ -8,11 +8,12 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+namespace vtlib;
 
 /**
  * TODO need to organize into classes based on functional grouping.
  */
-class Vtiger_Functions
+class Functions
 {
 
 	static function userIsAdministrator($user)
@@ -64,21 +65,21 @@ class Vtiger_Functions
 		if ($dat_fmt == '') {
 			$dat_fmt = 'yyyy-mm-dd';
 		}
-		$date = new DateTimeField($value);
+		$date = new \DateTimeField($value);
 		return $date->getDisplayDate();
 	}
 
 	static function currentUserDisplayDateNew()
 	{
 		$current_user = vglobal('current_user');
-		$date = new DateTimeField(null);
+		$date = new \DateTimeField(null);
 		return $date->getDisplayDate($current_user);
 	}
 
 	// i18n
 	static function getTranslatedString($str, $module = '')
 	{
-		return Vtiger_Language_Handler::getTranslatedString($str, $module);
+		return \Vtiger_Language_Handler::getTranslatedString($str, $module);
 	}
 
 	// CURRENCY
@@ -86,7 +87,7 @@ class Vtiger_Functions
 
 	static function userCurrencyId($userid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		if (!isset(self::$userIdCurrencyIdCache[$userid])) {
 			$result = $adb->pquery('SELECT id,currency_id FROM vtiger_users', []);
 			while ($row = $adb->fetch_array($result)) {
@@ -101,7 +102,7 @@ class Vtiger_Functions
 	protected static function getCurrencyInfo($currencyid)
 	{
 		if (!isset(self::$currencyInfoCache[$currencyid])) {
-			$db = PearDatabase::getInstance();
+			$db = \PearDatabase::getInstance();
 			$result = $db->query('SELECT * FROM vtiger_currency_info');
 			while ($row = $db->fetch_array($result)) {
 				self::$currencyInfoCache[$row['id']] = $row;
@@ -113,7 +114,7 @@ class Vtiger_Functions
 	public static function getAllCurrency($onlyActive = false)
 	{
 		if (count(self::$currencyInfoCache) == 0) {
-			$db = PearDatabase::getInstance();
+			$db = \PearDatabase::getInstance();
 			$result = $db->query('SELECT * FROM vtiger_currency_info');
 			while ($row = $db->fetch_array($result)) {
 				self::$currencyInfoCache[$row['id']] = $row;
@@ -136,7 +137,7 @@ class Vtiger_Functions
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
 		if ($show_symbol) {
-			return sprintf("%s : %s", Vtiger_Deprecated::getTranslatedCurrencyString($currencyInfo['currency_name']), $currencyInfo['currency_symbol']);
+			return sprintf("%s : %s", Deprecated::getTranslatedCurrencyString($currencyInfo['currency_name']), $currencyInfo['currency_symbol']);
 		}
 		return $currencyInfo['currency_name'];
 	}
@@ -174,7 +175,7 @@ class Vtiger_Functions
 			}
 		}
 		if ($reload) {
-			$adb = PearDatabase::getInstance();
+			$adb = \PearDatabase::getInstance();
 			$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab', []);
 			while ($row = $adb->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
@@ -184,12 +185,12 @@ class Vtiger_Functions
 		return $id ? self::$moduleIdNameCache[$id] : self::$moduleNameIdCache[$name];
 	}
 
-	static function getAllModules($isEntityType = true, $showRestricted = false)
+	static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false)
 	{
 		$moduleList = self::$moduleIdNameCache;
 		if (empty($moduleList)) {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT tabid, name, ownedby FROM vtiger_tab', []);
+			$db = \PearDatabase::getInstance();
+			$result = $db->pquery('SELECT tabid, name, ownedby, presence FROM vtiger_tab', []);
 			while ($row = $db->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
 			}
@@ -203,6 +204,9 @@ class Vtiger_Functions
 			if ($isEntityType && $module['isentitytype'] == 0) {
 				unset($moduleList[$id]);
 			}
+			if ($presence !== false && $module['presence'] != $presence) {
+				unset($moduleList[$id]);
+			}
 		}
 		return $moduleList;
 	}
@@ -210,7 +214,7 @@ class Vtiger_Functions
 	static function getModuleData($mixed)
 	{
 		if ($mixed === false || empty($mixed)) {
-			$log = LoggerManager::getInstance();
+			$log = \LoggerManager::getInstance();
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
 			return false;
 		}
@@ -235,7 +239,7 @@ class Vtiger_Functions
 		}
 
 		if ($reload) {
-			$adb = PearDatabase::getInstance();
+			$adb = \PearDatabase::getInstance();
 			$result = $adb->query('SELECT * FROM vtiger_tab');
 			while ($row = $adb->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
@@ -278,7 +282,7 @@ class Vtiger_Functions
 			$name = $mixed;
 
 		if ($name && !isset(self::$moduleEntityCache[$name])) {
-			$adb = PearDatabase::getInstance();
+			$adb = \PearDatabase::getInstance();
 			$result = $adb->query('SELECT fieldname,modulename,tablename,entityidfield,entityidcolumn,searchcolumn from vtiger_entityname');
 			while ($row = $adb->fetch_array($result)) {
 				self::$moduleEntityCache[$row['modulename']] = $row;
@@ -325,7 +329,7 @@ class Vtiger_Functions
 
 	public static function getCRMRecordMetadata($mixedid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$multimode = is_array($mixedid);
 
@@ -338,7 +342,11 @@ class Vtiger_Functions
 		}
 
 		if ($missing) {
-			$sql = sprintf("SELECT crmid, setype, deleted, smcreatorid, smownerid, label, searchlabel FROM vtiger_crmentity WHERE %s ", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
+			$sql = sprintf("SELECT vtiger_crmentity.crmid, setype, deleted, smcreatorid, smownerid, u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel 
+				FROM vtiger_crmentity 
+				LEFT JOIN u_yf_crmentity_search_label ON u_yf_crmentity_search_label.crmid = vtiger_crmentity.crmid 
+				LEFT JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid 
+				WHERE %s ", implode(' OR ', array_fill(0, count($missing), 'vtiger_crmentity.crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->fetch_array($result)) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
@@ -388,7 +396,7 @@ class Vtiger_Functions
 
 		if ($module == 'Users' || $module == 'Groups') {
 			// TODO Cache separately?
-			return self::computeCRMRecordLabels($module, $ids);
+			return \includes\Record::computeLabels($module, $ids);
 		} else {
 			$metadatas = self::getCRMRecordMetadata($ids);
 			$result = [];
@@ -396,21 +404,6 @@ class Vtiger_Functions
 				$result[$data['crmid']] = $data['label'];
 			}
 			return $result;
-		}
-	}
-
-	static function updateCRMRecordLabel($module, $id, $label)
-	{
-		$adb = PearDatabase::getInstance();
-		$labelInfo = self::computeCRMRecordLabels($module, $id);
-		if ($labelInfo) {
-			$label = decode_html($labelInfo[$id]);
-			$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $id));
-			self::$crmRecordIdMetadataCache[$id] = array(
-				'setype' => $module,
-				'crmid' => $id,
-				'label' => $labelInfo[$id]
-			);
 		}
 	}
 
@@ -449,96 +442,11 @@ class Vtiger_Functions
 		return $nameList;
 	}
 
-	static function computeCRMRecordLabels($module, $ids, $search = false)
-	{
-		$adb = PearDatabase::getInstance();
-
-		if (!is_array($ids))
-			$ids = [$ids];
-
-		if ($module == 'Events') {
-			$module = 'Calendar';
-		}
-
-		if ($module) {
-			$entityDisplay = [];
-
-			if ($ids) {
-				if ($module == 'Groups') {
-					$metainfo = ['tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname'];
-				} else {
-					$metainfo = self::getEntityModuleInfo($module);
-				}
-
-				$table = $metainfo['tablename'];
-				$idcolumn = $metainfo['entityidfield'];
-				$columnsName = explode(',', $metainfo['fieldname']);
-				$columnsSearch = explode(',', $metainfo['searchcolumn']);
-				$columns = array_unique(array_merge($columnsName, $columnsSearch));
-
-				$moduleInfo = self::getModuleFieldInfos($module);
-				$moduleInfoExtend = [];
-				if (count($moduleInfo) > 0) {
-					foreach ($moduleInfo as $field => $fieldInfo) {
-						$moduleInfoExtend[$fieldInfo['columnname']] = $fieldInfo;
-					}
-				}
-				$leftJoin = '';
-				$leftJoinTables = [];
-				$paramsCol = [];
-				if ($module != 'Groups') {
-					$focus = CRMEntity::getInstance($module);
-					foreach (array_filter($columns) as $column) {
-						if (array_key_exists($column, $moduleInfoExtend)) {
-							$paramsCol[] = $column;
-							if ($moduleInfoExtend[$column]['tablename'] != $table && !in_array($moduleInfoExtend[$column]['tablename'], $leftJoinTables)) {
-								$otherTable = $moduleInfoExtend[$column]['tablename'];
-								$leftJoinTables[] = $otherTable;
-								$focusTables = $focus->tab_name_index;
-								$leftJoin .= ' LEFT JOIN ' . $otherTable . ' ON ' . $otherTable . '.' . $focusTables[$otherTable] . ' = ' . $table . '.' . $focusTables[$table];
-							}
-						}
-					}
-				} else {
-					$paramsCol = $columnsName;
-				}
-				$paramsCol[] = $idcolumn;
-				$ids = array_unique($ids);
-				$sql = sprintf('SELECT ' . implode(',', $paramsCol) . ' AS id FROM %s ' . $leftJoin . ' WHERE %s IN (%s)', $table, $idcolumn, generateQuestionMarks($ids));
-				$result = $adb->pquery($sql, $ids);
-
-				for ($i = 0; $i < $adb->num_rows($result); $i++) {
-					$row = $adb->raw_query_result_rowdata($result, $i);
-					$label_name = [];
-					$label_search = [];
-					foreach ($columnsName as $columnName) {
-						if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
-							$label_name[] = Vtiger_Functions::getCRMRecordLabel($row[$columnName]);
-						else
-							$label_name[] = $row[$columnName];
-					}
-					if ($search) {
-						foreach ($columnsSearch as $columnName) {
-							if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
-								$label_search[] = Vtiger_Functions::getCRMRecordLabel($row[$columnName]);
-							else
-								$label_search[] = $row[$columnName];
-						}
-						$entityDisplay[$row['id']] = ['name' => implode(' ', $label_name), 'search' => implode(' ', $label_search)];
-					}else {
-						$entityDisplay[$row['id']] = trim(implode(' ', $label_name));
-					}
-				}
-			}
-			return $entityDisplay;
-		}
-	}
-
 	protected static $groupIdNameCache = [];
 
 	static function getGroupName($id)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		if (!self::$groupIdNameCache[$id]) {
 			$result = $adb->pquery('SELECT groupid, groupname FROM vtiger_groups');
 			while ($row = $adb->fetch_array($result)) {
@@ -557,7 +465,7 @@ class Vtiger_Functions
 
 	static function getUserName($id)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		if (!self::$userIdNameCache[$id]) {
 			$result = $adb->pquery('SELECT id, user_name FROM vtiger_users');
 			while ($row = $adb->fetch_array($result)) {
@@ -571,7 +479,7 @@ class Vtiger_Functions
 
 	static function getModuleFieldInfos($mixed)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$moduleInfo = self::getModuleData($mixed);
 		$module = $moduleInfo['name'];
@@ -591,7 +499,7 @@ class Vtiger_Functions
 
 	static function getModuleFieldInfoWithId($fieldid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_field WHERE fieldid=?', array($fieldid));
 		return ($adb->num_rows($result)) ? $adb->fetch_array($result) : NULL;
 	}
@@ -690,7 +598,7 @@ class Vtiger_Functions
 
 	static function getInventoryTermsAndCondition()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$sql = "select tandc from vtiger_inventory_tandc";
 		$result = $adb->pquery($sql, []);
 		$tandc = $adb->query_result($result, 0, "tandc");
@@ -791,7 +699,7 @@ class Vtiger_Functions
 
 	static function getSingleFieldValue($tablename, $fieldname, $idname, $id)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$fieldval = $adb->query_result($adb->pquery("select $fieldname from $tablename where $idname = ?", array($id)), 0, $fieldname);
 		return $fieldval;
 	}
@@ -799,21 +707,21 @@ class Vtiger_Functions
 	static function getRecurringObjValue()
 	{
 		$recurring_data = [];
-		if (!AppRequest::isEmpty('recurringtype') && AppRequest::get('recurringtype') != '--None--') {
-			if (!AppRequest::isEmpty('date_start')) {
-				$startDate = AppRequest::get('date_start');
+		if (!\AppRequest::isEmpty('recurringtype') && \AppRequest::get('recurringtype') != '--None--') {
+			if (!\AppRequest::isEmpty('date_start')) {
+				$startDate = \AppRequest::get('date_start');
 			}
-			if (!AppRequest::isEmpty('calendar_repeat_limit_date')) {
-				$endDate = AppRequest::get('calendar_repeat_limit_date');
+			if (!\AppRequest::isEmpty('calendar_repeat_limit_date')) {
+				$endDate = \AppRequest::get('calendar_repeat_limit_date');
 				$recurring_data['recurringenddate'] = $endDate;
-			} elseif (!AppRequest::isEmpty('due_date')) {
-				$endDate = AppRequest::get('due_date');
+			} elseif (!\AppRequest::isEmpty('due_date')) {
+				$endDate = \AppRequest::get('due_date');
 			}
-			if (!AppRequest::isEmpty('time_start')) {
-				$startTime = AppRequest::get('time_start');
+			if (!\AppRequest::isEmpty('time_start')) {
+				$startTime = \AppRequest::get('time_start');
 			}
-			if (!AppRequest::isEmpty('time_end')) {
-				$endTime = AppRequest::get('time_end');
+			if (!\AppRequest::isEmpty('time_end')) {
+				$endTime = \AppRequest::get('time_end');
 			}
 
 			$recurring_data['startdate'] = $startDate;
@@ -821,35 +729,35 @@ class Vtiger_Functions
 			$recurring_data['enddate'] = $endDate;
 			$recurring_data['endtime'] = $endTime;
 
-			$recurring_data['type'] = AppRequest::get('recurringtype');
-			if (AppRequest::get('recurringtype') == 'Weekly') {
-				if (!AppRequest::isEmpty('sun_flag'))
+			$recurring_data['type'] = \AppRequest::get('recurringtype');
+			if (\AppRequest::get('recurringtype') == 'Weekly') {
+				if (!\AppRequest::isEmpty('sun_flag'))
 					$recurring_data['sun_flag'] = true;
-				if (!AppRequest::isEmpty('mon_flag'))
+				if (!\AppRequest::isEmpty('mon_flag'))
 					$recurring_data['mon_flag'] = true;
-				if (!AppRequest::isEmpty('tue_flag'))
+				if (!\AppRequest::isEmpty('tue_flag'))
 					$recurring_data['tue_flag'] = true;
-				if (!AppRequest::isEmpty('wed_flag'))
+				if (!\AppRequest::isEmpty('wed_flag'))
 					$recurring_data['wed_flag'] = true;
-				if (!AppRequest::isEmpty('thu_flag'))
+				if (!\AppRequest::isEmpty('thu_flag'))
 					$recurring_data['thu_flag'] = true;
-				if (!AppRequest::isEmpty('fri_flag'))
+				if (!\AppRequest::isEmpty('fri_flag'))
 					$recurring_data['fri_flag'] = true;
-				if (!AppRequest::isEmpty('sat_flag'))
+				if (!\AppRequest::isEmpty('sat_flag'))
 					$recurring_data['sat_flag'] = true;
 			}
-			elseif (AppRequest::get('recurringtype') == 'Monthly') {
-				if (!AppRequest::isEmpty('repeatMonth'))
-					$recurring_data['repeatmonth_type'] = AppRequest::get('repeatMonth');
+			elseif (\AppRequest::get('recurringtype') == 'Monthly') {
+				if (!\AppRequest::isEmpty('repeatMonth'))
+					$recurring_data['repeatmonth_type'] = \AppRequest::get('repeatMonth');
 				if ($recurring_data['repeatmonth_type'] == 'date') {
-					if (!AppRequest::isEmpty('repeatMonth_date'))
-						$recurring_data['repeatmonth_date'] = AppRequest::get('repeatMonth_date');
+					if (!\AppRequest::isEmpty('repeatMonth_date'))
+						$recurring_data['repeatmonth_date'] = \AppRequest::get('repeatMonth_date');
 					else
 						$recurring_data['repeatmonth_date'] = 1;
 				}
 				elseif ($recurring_data['repeatmonth_type'] == 'day') {
-					$recurring_data['repeatmonth_daytype'] = AppRequest::get('repeatMonth_daytype');
-					switch (AppRequest::get('repeatMonth_day')) {
+					$recurring_data['repeatmonth_daytype'] = \AppRequest::get('repeatMonth_daytype');
+					switch (\AppRequest::get('repeatMonth_day')) {
 						case 0 :
 							$recurring_data['sun_flag'] = true;
 							break;
@@ -874,17 +782,17 @@ class Vtiger_Functions
 					}
 				}
 			}
-			if (!AppRequest::isEmpty('repeat_frequency'))
-				$recurring_data['repeat_frequency'] = AppRequest::get('repeat_frequency');
+			if (!\AppRequest::isEmpty('repeat_frequency'))
+				$recurring_data['repeat_frequency'] = \AppRequest::get('repeat_frequency');
 
-			$recurObj = RecurringType::fromUserRequest($recurring_data);
+			$recurObj = \RecurringType::fromUserRequest($recurring_data);
 			return $recurObj;
 		}
 	}
 
 	static function getTicketComments($ticketid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$moduleName = getSalesEntityType($ticketid);
 		$commentlist = '';
 		$sql = "SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ?";
@@ -916,7 +824,7 @@ class Vtiger_Functions
 
 	static function getTagCloudView($id = "")
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		if ($id == '') {
 			$tag_cloud_status = 1;
 		} else {
@@ -993,10 +901,10 @@ class Vtiger_Functions
 
 	static function getPickListValuesFromTableForRole($tablename, $roleid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$query = "select $tablename from vtiger_$tablename inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$tablename.picklist_valueid where roleid=? and picklistid in (select picklistid from vtiger_picklist) order by sortid";
 		$result = $adb->pquery($query, array($roleid));
-		$fldVal = Array();
+		$fldVal = [];
 		while ($row = $adb->fetch_array($result)) {
 			$fldVal [] = $row[$tablename];
 		}
@@ -1005,7 +913,7 @@ class Vtiger_Functions
 
 	static function getActivityType($id)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$query = "select activitytype from vtiger_activity where activityid=?";
 		$res = $adb->pquery($query, array($id));
 		$activity_type = $adb->query_result($res, 0, "activitytype");
@@ -1020,7 +928,7 @@ class Vtiger_Functions
 
 		//Strip of the current SELECT fields and replace them by "select count(*) as count"
 		// Space across FROM has to be retained here so that we do not have a clash with string "from" found in select clause
-		$query = "SELECT count(*) AS count " . substr($query, stripos($query, ' FROM '), strlen($query));
+		$query = sprintf('SELECT count(*) AS count %s', substr($query, stripos($query, ' FROM '), strlen($query)));
 
 		//Strip of any "GROUP BY" clause
 		if (stripos($query, 'GROUP BY') > 0)
@@ -1039,7 +947,7 @@ class Vtiger_Functions
 	 */
 	static function getUnitPrice($productid, $module = 'Products')
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		if ($module == 'Services') {
 			$query = "select unit_price from vtiger_service where serviceid=?";
 		} else {
@@ -1147,43 +1055,43 @@ class Vtiger_Functions
 	public static function throwNewException($message, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
 		if (REQUEST_MODE == 'API') {
-			throw new APIException($message, 401);
+			throw new \APIException($message, 401);
 		}
-		$request = AppRequest::init();
+		$request = \AppRequest::init();
 		if ($request->isAjax()) {
-			$response = new Vtiger_Response();
-			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+			$response = new \Vtiger_Response();
+			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 			$response->setError($message);
 			$response->emit();
 		} else {
-			$viewer = new Vtiger_Viewer();
+			$viewer = new \Vtiger_Viewer();
 			$viewer->assign('MESSAGE', $message);
 			$viewer->view($tpl, 'Vtiger');
 		}
 		if ($die) {
-			exit();
+			throw new \Exception('');
 		}
 	}
 
 	static function removeHtmlTags(array $tags, $html)
 	{
-		$crmUrl = AppConfig::main('site_URL');
+		$crmUrl = \AppConfig::main('site_URL');
 
-		$doc = new DOMDocument('1.0', 'UTF-8');
+		$doc = new \DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(TRUE);
 		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html);
 		libxml_clear_errors();
 		libxml_use_internal_errors($previousValue);
 
 		foreach ($tags as $tag) {
-			$xPath = new DOMXPath($doc);
+			$xPath = new \DOMXPath($doc);
 			$nodes = $xPath->query('//' . $tag);
 			for ($i = 0; $i < $nodes->length; $i++) {
 				if ('img' === $tag) {
 					$htmlNode = $nodes->item($i)->ownerDocument->saveHTML($nodes->item($i));
-					$imgDom = new DOMDocument();
+					$imgDom = new \DOMDocument();
 					$imgDom->loadHTML($htmlNode);
-					$xpath = new DOMXPath($imgDom);
+					$xpath = new \DOMXPath($imgDom);
 					$src = $xpath->evaluate("string(//img/@src)");
 					if ($src == '' || 0 !== strpos('index.php', $src) || FALSE === strpos($crmUrl, $src)) {
 						$nodes->item($i)->parentNode->removeChild($nodes->item($i));
@@ -1228,7 +1136,7 @@ class Vtiger_Functions
 
 	public function recurseDelete($src)
 	{
-		$rootDir = vglobal('root_directory');
+		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src))
 			return;
 		$dirs = [];
@@ -1253,7 +1161,7 @@ class Vtiger_Functions
 
 	public function recurseCopy($src, $dest, $delete = false)
 	{
-		$rootDir = vglobal('root_directory');
+		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src))
 			return;
 
@@ -1273,7 +1181,7 @@ class Vtiger_Functions
 		if (!self::$browerCache) {
 			$HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);
 
-			$browser = new stdClass;
+			$browser = new \stdClass;
 			$browser->ver = 0;
 			$browser->https = false;
 			$browser->win = strpos($HTTP_USER_AGENT, 'win') != false;
@@ -1407,10 +1315,10 @@ class Vtiger_Functions
 	{
 		switch ($type) {
 			case 'js':
-				$return = AppConfig::developer('MINIMIZE_JS');
+				$return = \AppConfig::developer('MINIMIZE_JS');
 				break;
 			case 'css':
-				$return = AppConfig::developer('MINIMIZE_CSS');
+				$return = \AppConfig::developer('MINIMIZE_CSS');
 				break;
 		}
 		return $return;
@@ -1427,7 +1335,6 @@ class Vtiger_Functions
 	public static function getBacktrace($ignore = 1)
 	{
 		$trace = '';
-		$rootDirectory = rtrim(AppConfig::main('root_directory'), '/');
 		foreach (debug_backtrace() as $k => $v) {
 			if ($k < $ignore) {
 				continue;
@@ -1455,7 +1362,7 @@ class Vtiger_Functions
 				}
 				$args = rtrim($args, ',');
 			}
-			$file = str_replace($rootDirectory . DIRECTORY_SEPARATOR, '', $v['file']);
+			$file = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $v['file']);
 			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '(' . $args . ') in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
 		}
 
@@ -1465,7 +1372,7 @@ class Vtiger_Functions
 	public function getDiskSpace($dir = '')
 	{
 		if ($dir == '') {
-			$dir = vglobal('root_directory');
+			$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		}
 		$total = disk_total_space($dir);
 		$free = disk_free_space($dir);
@@ -1476,12 +1383,12 @@ class Vtiger_Functions
 	public static function textLength($text, $length = false, $addDots = true)
 	{
 		if (!$length) {
-			$length = AppConfig::main('listview_max_textlength');
+			$length = \AppConfig::main('listview_max_textlength');
 		}
 		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $text);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($newText)) > $length) {
-				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, AppConfig::main('default_charset'));
+				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, \AppConfig::main('default_charset'));
 				if ($addDots) {
 					$newText .= '...';
 				}
@@ -1571,6 +1478,15 @@ class Vtiger_Functions
 			'Đż' => 'p', 'Ń€' => 'r', 'Ń' => 's', 'Ń‚' => 't', 'Ń' => 'u', 'Ń„' => 'f', 'Ń…' => 'h', 'Ń†' => 'c',
 			'Ń‡' => 'ch', 'Ń' => 'sh', 'Ń‰' => 'sh', 'ŃŠ' => '', 'Ń‹' => 'y', 'ŃŚ' => '', 'ŃŤ' => 'e', 'ŃŽ' => 'yu',
 			'ŃŹ' => 'ya',
+			// Russian by vovpff
+			'Ж' => 'Zh', 'Ч' => 'Ch', 'Ш' => 'Sh', 'Щ' => 'Sh', 'Ю' => 'Yu', 'Я' => 'Ya', 'А' => 'A', 'Б' => 'B',
+			'В' => 'V', 'Г' => 'G', 'Д' => 'D', 'Е' => 'E', 'Ё' => 'E', 'З' => 'Z', 'И' => 'I', 'Й' => 'Y', 'К' => 'K',
+			'Л' => 'L', 'М' => 'M', 'Н' => 'N', 'О' => 'O', 'П' => 'P', 'Р' => 'R', 'С' => 'S', 'Т' => 'T', 'У' => 'U',
+			'Ф' => 'F', 'Х' => 'H', 'Ц' => 'C', 'Ъ' => '', 'Ы' => 'I', 'Ь' => '', 'Э' => 'E', 'ж' => 'zh', 'ч' => 'ch',
+			'ш' => 'sh', 'щ' => 'sh', 'ю' => 'yu', 'я' => 'ya', 'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g',
+			'д' => 'd', 'е' => 'e', 'ё' => 'e', 'з' => 'z', 'и' => 'i', 'й' => 'y', 'к' => 'k', 'л' => 'l', 'м' => 'm',
+			'н' => 'n', 'о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h',
+			'ц' => 'c', 'ъ' => '', 'ы' => 'i', 'ь' => '', 'э' => 'e',
 			// Ukrainian
 			'Đ„' => 'Ye', 'Đ†' => 'I', 'Đ‡' => 'Yi', 'Ň' => 'G',
 			'Ń”' => 'ye', 'Ń–' => 'i', 'Ń—' => 'yi', 'Ň‘' => 'g',
@@ -1611,7 +1527,7 @@ class Vtiger_Functions
 
 	public static function getConversionRateInfo($currencyId, $date = '')
 	{
-		$currencyUpdateModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+		$currencyUpdateModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$defaultCurrencyId = self::getDefaultCurrencyInfo()['id'];
 		$info = [];
 
@@ -1659,11 +1575,11 @@ class Vtiger_Functions
 	 */
 	public static function getDateTimeMinutesDiff($startDateTime, $endDateTime)
 	{
-		$start = new DateTime($startDateTime);
-		$end = new DateTime($endDateTime);
+		$start = new \DateTime($startDateTime);
+		$end = new \DateTime($endDateTime);
 		$interval = $start->diff($end);
 
-		$intervalInSeconds = (new DateTime())->setTimeStamp(0)->add($interval)->getTimeStamp();
+		$intervalInSeconds = (new \DateTime())->setTimeStamp(0)->add($interval)->getTimeStamp();
 		$intervalInMinutes = ($intervalInSeconds / 60);
 
 		return $intervalInMinutes;
@@ -1685,5 +1601,44 @@ class Vtiger_Functions
 		$queryStr = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
 		parse_str($queryStr, $queryParams);
 		return $queryParams;
+	}
+
+	static public function encrypt($data)
+	{
+		require_once('include/utils/encryption.php');
+		$encryption = new \Encryption();
+		if (isset($data)) {
+			$encrypted = $encryption->encrypt($data);
+		}
+		return $encrypted;
+	}
+
+	static public function decrypt($data)
+	{
+		require_once('include/utils/encryption.php');
+		$encryption = new \Encryption();
+		if (isset($data)) {
+			$decrypted = $encryption->decrypt($data);
+		}
+		return $decrypted;
+	}
+
+	static function arrayDiffAssocRecursive($array1, $array2)
+	{
+		$difference = [];
+		foreach ($array1 as $key => $value) {
+			if (is_array($value)) {
+				if (!isset($array2[$key]) || !is_array($array2[$key])) {
+					$difference[$key] = $value;
+				} else {
+					$newDiff = self::arrayDiffAssocRecursive($value, $array2[$key]);
+					if (!empty($newDiff))
+						$difference[$key] = $newDiff;
+				}
+			} else if (!array_key_exists($key, $array2) || $array2[$key] !== $value) {
+				$difference[$key] = $value;
+			}
+		}
+		return $difference;
 	}
 }

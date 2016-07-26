@@ -26,8 +26,8 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 	public static function add($request, $user) {
 		$db = PearDatabase::getInstance();
 
-		if (!Vtiger_Utils::CheckTable('vtiger_import_queue')) {
-			Vtiger_Utils::CreateTable(
+		if (!vtlib\Utils::CheckTable('vtiger_import_queue')) {
+			vtlib\Utils::CreateTable(
 							'vtiger_import_queue',
 							"(importid INT NOT NULL PRIMARY KEY,
 								userid INT NOT NULL,
@@ -51,24 +51,24 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 				array($db->getUniqueID('vtiger_import_queue'),
 						$user->id,
 						getTabid($request->get('module')),
-						Zend_Json::encode($request->get('field_mapping')),
-						Zend_Json::encode($request->get('default_values')),
+						\includes\utils\Json::encode($request->get('field_mapping')),
+						\includes\utils\Json::encode($request->get('default_values')),
 						$request->get('merge_type'),
-						Zend_Json::encode($request->get('merge_fields')),
+						\includes\utils\Json::encode($request->get('merge_fields')),
 						$request->get('createRecordsByModel'),
 						$temp_status));
 	}
 
 	public static function remove($importId) {
 		$db = PearDatabase::getInstance();
-		if(Vtiger_Utils::CheckTable('vtiger_import_queue')) {
+		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$db->pquery('DELETE FROM vtiger_import_queue WHERE importid=?', array($importId));
 		}
 	}
 
 	public static function removeForUser($user) {
 		$db = PearDatabase::getInstance();
-		if(Vtiger_Utils::CheckTable('vtiger_import_queue')) {
+		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$db->pquery('DELETE FROM vtiger_import_queue WHERE userid=?', array($user->id));
 		}
 	}
@@ -76,7 +76,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 	public static function getUserCurrentImportInfo($user) {
 		$db = PearDatabase::getInstance();
 
-		if(Vtiger_Utils::CheckTable('vtiger_import_queue')) {
+		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', array($user->id));
 
 			if($queueResult && $db->num_rows($queueResult) > 0) {
@@ -90,7 +90,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 	public static function getImportInfo($module, $user) {
 		$db = PearDatabase::getInstance();
 
-		if(Vtiger_Utils::CheckTable('vtiger_import_queue')) {
+		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE tabid=? AND userid=?',
 											array(getTabid($module), $user->id));
 
@@ -105,7 +105,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 	public static function getImportInfoById($importId) {
 		$db = PearDatabase::getInstance();
 
-		if(Vtiger_Utils::CheckTable('vtiger_import_queue')) {
+		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE importid=?', array($importId));
 
 			if($queueResult && $db->num_rows($queueResult) > 0) {
@@ -141,10 +141,10 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 		return [
 			'id' => $rowData['importid'],
 			'module' => getTabModuleName($rowData['tabid']),
-			'field_mapping' => Zend_Json::decode($rowData['field_mapping']),
-			'default_values' => Zend_Json::decode($rowData['default_values']),
+			'field_mapping' => \includes\utils\Json::decode($rowData['field_mapping']),
+			'default_values' => \includes\utils\Json::decode($rowData['default_values']),
 			'merge_type' => $rowData['merge_type'],
-			'merge_fields' => Zend_Json::decode($rowData['merge_fields']),
+			'merge_fields' => \includes\utils\Json::decode($rowData['merge_fields']),
 			'user_id' => $rowData['userid'],
 			'type' => $rowData['type'],
 			'temp_status' => $rowData['temp_status']

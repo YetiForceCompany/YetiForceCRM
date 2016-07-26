@@ -23,8 +23,9 @@ class IStorages_Relation_Model extends Vtiger_Relation_Model
 			$query = implode('FROM', $query);
 		}
 		if ($relationListView_Model) {
-			$searchParams = $relationListView_Model->get('search_params');
-			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
+			$queryGenerator = $relationListView_Model->get('query_generator');
+			$where = $queryGenerator->getWhereClause(true);
+			$query .= $where;
 		}
 		return $query;
 	}

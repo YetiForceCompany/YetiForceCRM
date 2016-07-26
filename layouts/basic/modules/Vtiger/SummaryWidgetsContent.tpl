@@ -1,7 +1,7 @@
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="listViewEntriesDiv contents-bottomscroll">
-		<table class="table noStyle">
+		<table class="table noStyle listViewEntriesTable">
 			<thead>
 				<tr class="">
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
@@ -22,6 +22,9 @@
 				<tr class="listViewEntries" data-id="{$RELATED_RECORD->getId()}"
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
+					{/if}
+					{if !empty($COLOR_LIST[$RELATED_RECORD->getId()])}
+						style="background: {$COLOR_LIST[$RELATED_RECORD->getId()]['background']}; color: {$COLOR_LIST[$RELATED_RECORD->getId()]['text']}"
 					{/if}>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
@@ -42,7 +45,18 @@
 							{if $HEADER_FIELD@last}
 							</td><td nowrap class="{$WIDTHTYPE}">
 								<div class="pull-right actions">
+									{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
+										<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed">
+											<span class="badge bgDanger"></span>&nbsp;
+										</a>&nbsp;
+									{/if}
 									<span class="actionImages">
+										{if $RELATED_MODULE->isPermitted('WatchingRecords') && $RELATED_RECORD->isViewable()}
+											{assign var=WATCHING_STATE value=(!$RELATED_RECORD->isWatchingRecord())|intval}
+											<a href="#" onclick="Vtiger_Index_Js.changeWatching(this)" title="{vtranslate('BTN_WATCHING_RECORD', $MODULE)}" data-record="{$RELATED_RECORD->getId()}" data-value="{$WATCHING_STATE}" class="noLinkBtn{if !$WATCHING_STATE} info-color{/if}" data-on="info-color" data-off="" data-icon-on="glyphicon-eye-open" data-icon-off="glyphicon-eye-close" data-module="{$RELATED_MODULE_NAME}">
+												<span class="glyphicon {if $WATCHING_STATE}glyphicon-eye-close{else}glyphicon-eye-open{/if} alignMiddle"></span>
+											</a>&nbsp;
+										{/if}
 										{if $RELATED_MODULE_NAME eq 'Calendar'}
 											{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
 											{if $IS_EDITABLE && in_array($RELATED_RECORD->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
@@ -66,20 +80,15 @@
 												   class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
 													<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>
 												</a>
-											{elseif $RELATED_MODULE_NAME eq 'Calendar'}
-												{if $RELATED_MODULE->isEditable()}
-													<a href='{$RELATED_RECORD->getEditViewUrl()}'>
-														<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
-													</a>
-												{/if}
 											{elseif $RELATED_RECORD->isEditable()}
-												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
+												<a href='{$RELATED_RECORD->getEditViewUrl()}'>
+													<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
 												</a>
 											{/if}
 										{/if}
 										{if $IS_DELETABLE}
 											{if $RELATED_MODULE_NAME eq 'Calendar'}
-												{if $RELATED_MODULE->isDeletable()}
+												{if $RELATED_RECORD->isDeletable()}
 													<a class="relationDelete">
 														<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
 													</a>

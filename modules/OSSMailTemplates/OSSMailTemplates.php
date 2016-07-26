@@ -85,7 +85,7 @@ class OSSMailTemplates extends Vtiger_CRMEntity
 
 			$adb->query("UPDATE vtiger_tab SET customized = 0 WHERE name = '$moduleName'", true);
 
-			$Module = Vtiger_Module::getInstance($moduleName);
+			$Module = vtlib\Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
@@ -104,7 +104,7 @@ class OSSMailTemplates extends Vtiger_CRMEntity
 			// TODO Handle actions before this module is updated.
 		} else if ($eventType == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
-			$Module = Vtiger_Module::getInstance($moduleName);
+			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.02', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);

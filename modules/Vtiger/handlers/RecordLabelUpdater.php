@@ -9,21 +9,16 @@
  * *********************************************************************************** */
 require_once 'include/events/VTEventHandler.inc';
 
-class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler {
+class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler
+{
 
-	function handleEvent($eventName, $data) {
-		$adb = PearDatabase::getInstance();
-
+	function handleEvent($eventName, $data)
+	{
 		if ($eventName == 'vtiger.entity.aftersave') {
-            $module = $data->getModuleName();
-            if($module != "Users"){
-                $labelInfo = Vtiger_Functions::computeCRMRecordLabels($module, $data->getId(),true);
-				if (count($labelInfo) > 0) {
-					$label = decode_html($labelInfo[$data->getId()]['name']);
-					$search = decode_html($labelInfo[$data->getId()]['search']);
-					$adb->pquery('UPDATE vtiger_crmentity SET label=?,searchlabel=? WHERE crmid=?', array($label, $search, $data->getId()));
-				}
-            }
+			$module = $data->getModuleName();
+			if ($module != 'Users') {
+				\includes\Record::updateLabel($module, $data->getId(), $data->focus->mode);
+			}
 		}
 	}
 }

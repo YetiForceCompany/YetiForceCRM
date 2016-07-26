@@ -12,6 +12,8 @@
 class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 {
 
+	private $conditions = false;
+
 	public function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -31,6 +33,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 				$stateActivityLabels['in_realization']
 			]
 		];
+		$this->conditions = ['vtiger_activity.status', "'" . implode("','", $params['status']) . "'", 'in', QueryGenerator::$AND];
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
@@ -48,7 +51,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 
 		$colorList = [];
-		foreach($calendarActivities as $activityModel){
+		foreach ($calendarActivities as $activityModel) {
 			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
 		}
 		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
@@ -67,6 +70,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NODATAMSGLABLE', $msgLabel);
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

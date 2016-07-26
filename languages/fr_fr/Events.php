@@ -37,8 +37,7 @@ $languageStrings = [
 	'LBL_FIRST' => 'Premier',
 	'LBL_HOLD_FOLLOWUP_ON' => 'Suivi fait le',
 	'LBL_HOURS' => 'Heures',
-	'LBL_INVITE_USER_BLOCK' => 'Invitation',
-	'LBL_INVITE_USERS' => 'Inviter utilisateurs',
+	'LBL_INVITE_RECORDS' => 'Inviter utilisateurs',
 	'LBL_LAST' => 'Dernier',
 	'LBL_MONTHS_TYPE' => 'Mois',
 	'LBL_ON' => 'le',
@@ -106,5 +105,6 @@ $languageStrings = [
 	'PLL_COMPLETED' => 'Terminé',
 	'LBL_REMAIND_HOURS' => 'Remind after selected numer of hours',
 	'LBL_REMAIND_MINS' => 'Remind after selected numer of minutes',
+	'LBL_SELECT_INVITE' => 'Invite others',
 ];
 

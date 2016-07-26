@@ -506,7 +506,7 @@ class iCalendar_event extends iCalendar_component {
 
 	function iCalendar_event_attendee($activity){
 		$adb = PearDatabase::getInstance();
-		$users_res = $adb->pquery("SELECT inviteeid FROM vtiger_invitees WHERE activityid=?", array($activity['id']));
+		$users_res = $adb->pquery("SELECT inviteeid FROM u_yf_activity_invitation WHERE activityid=?", array($activity['id']));
 		if($adb->num_rows($users_res)>0){
 			for($i=0;$i<$adb->num_rows($users_res);$i++){
 				$inviteeid = $adb->query_result($users_res,$i,'inviteeid');

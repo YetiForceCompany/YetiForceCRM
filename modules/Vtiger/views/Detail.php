@@ -147,7 +147,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (is_array($detailViewLinks['DETAILVIEWTAB'])) {
 			foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
 				if ($link->getLabel() == $selectedTabLabel) {
-					$params = Vtiger_Functions::getQueryParams($link->getUrl());
+					$params = vtlib\Functions::getQueryParams($link->getUrl());
 					$this->defaultMode = $params['mode'];
 					break;
 				}
@@ -169,7 +169,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
-		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
+		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode($picklistDependencyDatasource));
 
 		if ($display) {
 			$this->preProcessDisplay($request);
@@ -229,6 +229,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Emails.resources.MassEdit',
 			'modules.Vtiger.resources.Widgets',
+			'modules.Vtiger.resources.ListSearch',
+			"modules.$moduleName.resources.ListSearch",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -391,6 +393,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('NEW_CHANGE', $newChange);
+		$viewer->assign('PARENT_RACORD_ID', $parentRecordId);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
@@ -525,18 +528,33 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
+		$hierarchy = [];
+		if($request->has('hierarchy')){
+			$hierarchy = explode(',',$request->get('hierarchy'));
+		}
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $hierarchy);
 		$currentCommentModel = [];
 		if (!empty($commentRecordId)) {
 			$currentCommentModel = ModComments_Record_Model::getInstanceById($commentRecordId);
 		}
 
+		$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
+		$level = Vtiger_ModulesHierarchy_Model::getModuleLevel($request->getModule());
+		if ($level > 0) {
+			unset($hierarchyList[1]);
+			if ($level > 1) {
+				unset($hierarchyList[2]);
+			}
+		}
+		
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
+		$viewer->assign('PARENT_RECORD', $parentRecordId);
+		$viewer->assign('HIERARCHY', $hierarchy);
+		$viewer->assign('HIERARCHY_LIST', $hierarchyList);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
@@ -595,7 +613,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
 
 			$colorList = [];
-			foreach($relatedActivities as $activityModel){
+			foreach ($relatedActivities as $activityModel) {
 				$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
 			}
 			$viewer = $this->getViewer($request);
@@ -647,7 +665,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			if (is_numeric($relatedModuleName))
-				$relatedModuleName = Vtiger_Functions::getModuleName($relatedModuleName);
+				$relatedModuleName = vtlib\Functions::getModuleName($relatedModuleName);
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;
@@ -678,8 +696,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($columns) {
 			$header = array_splice($header, 0, $columns);
 		}
-
+		foreach ($models as $record) {
+			$colorList[$record->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
+		}
 		$viewer = $this->getViewer($request);
+		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $request->get('limit'));
 		$viewer->assign('RELATED_RECORDS', $models);
@@ -794,12 +815,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('limit', $limitPage);
-
+		$config = OSSMail_Module_Model::getComposeParameters();
 		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('RECORD_ID', $request->get('record'));
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
+		$viewer->assign('POPUP', $config['popup']);
+		$viewer->assign('USER_PRIVILEGES_MODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
 	}
 }

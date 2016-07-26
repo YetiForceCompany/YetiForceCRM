@@ -34,13 +34,13 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: " . print_r($type, true) . " | Name: " . print_r($name, true));
 		$db = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($type);
-		$sql = 'SELECT * FROM `' . $tableName . '`';
+		$sql = sprintf('SELECT * FROM `%s`', $tableName);
 		if ($name && !is_array($name)) {
 			$name = [$name];
 		}
 		$params = [];
 		if ($name) {
-			$sql .= ' WHERE `param` IN (' . generateQuestionMarks($name) . ')';
+			$sql .= sprintf(' WHERE `param` IN (%s)', generateQuestionMarks($name));
 			$params = $name;
 		}
 		$result = $db->pquery($sql, $params);
@@ -58,7 +58,7 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($type);
-		$db->pquery('UPDATE `' . $tableName . '` SET `value` = ? WHERE `param` = ?;', [$param['value'],$param['param']]);
+		$db->update($tableName, ['value' => $param['value']], '`param` = ?', [$param['param']] );
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;
 	}

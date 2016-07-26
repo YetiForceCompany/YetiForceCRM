@@ -266,8 +266,9 @@ class Documents extends CRMEntity
 		if ($where != "")
 			$query .= "  WHERE ($where) AND " . $where_auto;
 		else
-			$query .= "  WHERE " . $where_auto;
+			$query .= '  WHERE %s';
 
+		$query = sprintf($query, $where_auto);
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
 	}
@@ -494,18 +495,67 @@ class Documents extends CRMEntity
 		}
 	}
 
-	function getQueryByModuleField($module, $fieldname, $srcrecord, $query)
+	function getRelatedRecord($id, $curTabId, $relTabId, $actions = false)
 	{
-		if ($module == 'MailManager') {
-			$tempQuery = preg_split('/WHERE/i', $query);
-			if (!empty($tempQuery[1])) {
-				$where = " vtiger_notes.filelocationtype = 'I' AND vtiger_notes.filename != '' AND vtiger_notes.filestatus != 0 AND ";
-				$overRideQuery = $listQuery . ' AND ' . $where;
-			} else {
-				$query = $tempQuery[0] . ' WHERE ' . $tempQuery;
+		global $currentModule, $singlepane_view;
+		$thisModule = $currentModule;
+
+		$relatedModule = vtlib\Functions::getModuleName($relTabId);
+		$other = CRMEntity::getInstance($relatedModule);
+
+		// Some standard module class doesn't have required variables
+		// that are used in the query, they are defined in this generic API
+		vtlib_setup_modulevars($relatedModule, $other);
+
+		// To make the edit or del link actions to return back to same view.
+		if ($singlepane_view == 'true')
+			$returnset = "&return_module=$thisModule&return_action=DetailView&return_id=$id";
+		else
+			$returnset = "&return_module=$thisModule&return_action=CallRelatedList&return_id=$id";
+
+		$joinTables = [];
+		$join = '';
+		$tables = '';
+		foreach ($other->tab_name_index as $table => $index) {
+			if ($table == $other->table_name) {
+				continue;
 			}
-			return $query;
+			$joinTables[] = $table;
+			$join .= ' INNER JOIN ' . $table . ' ON ' . $table . '.' . $index . ' = ' . $other->table_name . '.' . $other->table_index;
 		}
+
+		if (!empty($other->related_tables)) {
+			foreach ($other->related_tables as $tname => $relmap) {
+				$tables .= ", $tname.*";
+				if (in_array($tname, $joinTables)) {
+					continue;
+				}
+				// Setup the default JOIN conditions if not specified
+				if (empty($relmap[1]))
+					$relmap[1] = $other->table_name;
+				if (empty($relmap[2]))
+					$relmap[2] = $relmap[0];
+				$join .= " LEFT JOIN $tname ON $tname.$relmap[0] = $relmap[1].$relmap[2]";
+			}
+		}
+		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
+		$userNameSql = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name',
+			'last_name' => 'vtiger_users.last_name'], 'Users');
+		$query .= $tables;
+		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
+		$query .= ' FROM %s';
+		$query .= $join;
+		$query .= ' INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid';
+		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
+		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
+		$query .= " WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.notesid = $id";
+
+		$query = sprintf($query, $other->table_name);
+		$returnValue = GetRelatedList($thisModule, $relatedModule, $other, $query, $button, $returnset);
+		if ($returnValue == null)
+			$returnValue = [];
+		$returnValue['CUSTOM_BUTTON'] = $button;
+		return $returnValue;
 	}
 
 	/**

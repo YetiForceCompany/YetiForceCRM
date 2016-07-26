@@ -21,13 +21,13 @@
             <input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
             <input type="hidden" name="action" value="ExportData" />
             <input type="hidden" name="viewname" value="{$VIEWID}" />
-            <input type="hidden" name="selected_ids" value="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SELECTED_IDS))}">
-            <input type="hidden" name="excluded_ids" value="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($EXCLUDED_IDS))}">
+            <input type="hidden" name="selected_ids" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($SELECTED_IDS))}">
+            <input type="hidden" name="excluded_ids" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($EXCLUDED_IDS))}">
             <input type="hidden" id="page" name="page" value="{$PAGE}" />
             <input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
             <input type="hidden" name="operator" value="{$OPERATOR}" />
             <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-            <input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
+            <input type="hidden" name="search_params" value='{\includes\utils\Json::encode($SEARCH_PARAMS)}' />
 
             <div>
                 <div class="col-md-8">

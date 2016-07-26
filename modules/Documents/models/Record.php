@@ -113,4 +113,16 @@ class Documents_Record_Model extends Vtiger_Record_Model {
 	function getDownloadCountUpdateUrl() {
 		return "index.php?module=Documents&action=UpdateDownloadCount&record=".$this->getId();
 	}
+
+	public static function getReferenceModuleByDocId($record)
+	{
+		$db = PearDatabase::getInstance();
+		$sql = 'SELECT DISTINCT vtiger_crmentity.setype 
+			   FROM vtiger_crmentity INNER JOIN vtiger_senotesrel 
+				   ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid 
+			   WHERE vtiger_crmentity.deleted = 0 
+				 AND vtiger_senotesrel.notesid = ?';
+		$result = $db->pquery($sql, [$record]);
+		return $db->getArrayColumn($result);
+	}
 }

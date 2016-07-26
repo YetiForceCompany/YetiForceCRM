@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -21,10 +21,11 @@
             <input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
             <input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
             <input type="hidden" id="recordsCount" value=""/>
-            <input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids={ZEND_JSON::encode($SELECTED_IDS)} />
-            <input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids={ZEND_JSON::encode($EXCLUDED_IDS)} />
+            <input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids={\includes\utils\Json::encode($SELECTED_IDS)} />
+            <input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids={\includes\utils\Json::encode($EXCLUDED_IDS)} />
             <input type="hidden" id="recordsCount" name="recordsCount" />
             <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
+			<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
             <div class="relatedHeader">
                 <div class="btn-toolbar row">
                     <div class="col-md-4">
@@ -47,25 +48,33 @@
 						{/foreach}
 						&nbsp;
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-2">
 						<span class="customFilterMainSpan">
 							{if $CUSTOM_VIEWS|@count gt 0}
 								<select id="recordsFilter" class="col-md-12" data-placeholder="{vtranslate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
 									{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-										<optgroup label=' {if $GROUP_LABEL eq 'Mine'} &nbsp; {else if} {vtranslate($GROUP_LABEL)} {/if}' >
+										<optgroup label="{vtranslate($GROUP_LABEL)}">
 											{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 												<option id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}">{if $CUSTOM_VIEW->get('viewname') eq 'All'}{vtranslate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)} {vtranslate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}{else}{vtranslate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)}{/if}{if $GROUP_LABEL neq 'Mine'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
 											{/foreach}
 										</optgroup>
 									{/foreach}
 								</select>
-								<img class="filterImage" src="{'filter.png'|vimage_path}" style="display:none;height:13px;margin-right:2px;vertical-align: middle;">
+								<span class="filterImage">
+									<span class="glyphicon glyphicon-filter"></span>
+								</span>
 							{else}
 								<input type="hidden" value="0" id="customFilter" />
 							{/if}
 						</span>
 					</div>
-					<div class="col-md-5">
+					<div class="col-md-2">
+						<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{vtranslate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
+							<span class="glyphicon glyphicon-filter"></span>&nbsp;
+							<strong>{vtranslate('LBL_LOAD_RECORDS',$MODULE)}</strong>
+						</button>
+					</div>
+					<div class="col-md-4">
 						<div class="paginationDiv pull-right">
 							{include file='RelatedListPagination.tpl'|@vtemplate_path:$MODULE}
 						</div>
@@ -83,6 +92,7 @@
 					&nbsp;
 				</div>
 			</div>
+			{include file=vtemplate_path('ListViewAlphabet.tpl',$RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 			<div class="relatedContents contents-bottomscroll">
 				<div class="bottomscroll-div">
 					{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -94,8 +104,8 @@
 								</th>
 								{if $IS_FAVORITES}
 									<th></th>
-								{/if}
-								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+									{/if}
+									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									<th nowrap>
 										{if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists' }
 											<a href="javascript:void(0);" class="noSorting">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
@@ -112,6 +122,30 @@
 								</th>
 							</tr>
 						</thead>
+						{if $RELATED_MODULE->isQuickSearchEnabled()}
+							<tr>
+								<td>
+									<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+								</td>
+								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+									<td>
+										{assign var=FIELD_UI_TYPE_MODEL value=$HEADER_FIELD->getUITypeModel()}
+										{if isset($SEARCH_DETAILS[$HEADER_FIELD->getName()])}
+											{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$HEADER_FIELD->getName()]}
+										{else}
+											{assign var=SEARCH_INFO value=[]}
+										{/if}
+										{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$RELATED_MODULE_NAME)
+							FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE}
+									</td>
+								{/foreach}
+								<td>
+									<button type="button" class="btn btn-default removeSearchConditions">
+										<span class="glyphicon glyphicon-remove"></button>
+									</a>
+								</td>
+							</tr>
+						{/if}
 						{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 							<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
 								<td width="4%" class="{$WIDTHTYPE}">

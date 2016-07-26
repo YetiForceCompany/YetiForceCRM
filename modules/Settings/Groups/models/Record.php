@@ -280,7 +280,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$params = array($transferGroupId, $groupId);
 		$db->pquery($query, $params);
 
-		if (Vtiger_Utils::CheckTable('vtiger_customerportal_prefs')) {
+		if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
 			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
 			$params = array($transferGroupId, 'defaultassignee', $groupId);
 			$db->pquery($query, $params);
@@ -388,7 +388,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (Vtiger_Utils::isNumber($value)) {
+		if (vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_groups WHERE groupid = ?';
 		} else {
 			$sql = 'SELECT * FROM vtiger_groups WHERE groupname = ?';
@@ -424,5 +424,40 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			return $role;
 		}
 		return null;
+	}
+
+	public function getDisplayData()
+	{
+		$data = $this->getData();
+		$modules = [];
+		if(!is_array($data['modules'])){
+			$data['modules'] = [$data['modules']];
+		}
+		if(!is_array($data['group_members'])){
+			$data['group_members'] = [$data['group_members']];
+		}
+		foreach ($data['modules'] as $tabId) {
+			$modules[] = vtlib\Functions::getModuleName($tabId);
+		}
+		$modules = implode(',', $modules);
+		$data['modules'] = $modules;
+		$groupMembers = [];
+		foreach ($data['group_members'] as $member) {
+			$info = explode(':', $member);
+			if ($info[0] == 'Users') {
+				$userModel = Users_Record_Model::getInstanceById($info[1], 'Users');
+				$groupMembers[] = $userModel->getName();
+			}
+			if ($info[0] == 'Roles' || $info[0] == 'RoleAndSubordinates') {
+				$roleModel = Settings_Roles_Record_Model::getInstanceById($info[1]);
+				$groupMembers[] = $roleModel->getName();
+			}
+			if ($info[0] == 'Groups') {
+				$groupModel = Settings_Groups_Record_Model::getInstance($info[1]);
+				$groupMembers[] = $groupModel->getName();
+			}
+		}
+		$data['group_members'] = implode(',', $groupMembers);
+		return $data;
 	}
 }

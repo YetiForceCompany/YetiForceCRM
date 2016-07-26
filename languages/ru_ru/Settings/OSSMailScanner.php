@@ -22,7 +22,6 @@ $languageStrings = [
 	'Junk' => 'Спам',
 	'Sent' => 'Отправленные',
 ];
-
 $jsLanguageStrings = [
 	'start_cron' => 'Планировщик запущен',
 	'end_cron_ok' => 'Планировщик завершил работу',
@@ -36,6 +35,7 @@ $jsLanguageStrings = [
 	'In progress' => 'В процессе',
 	'whether_remove_an_identity' => 'Следует ли удалять удостоверение',
 	'removed_identity' => 'Удостоверение удалено',
+	'LBL_LOADING_LIST_OF_FOLDERS' => 'Loading folders list in progress.</br>It make take up to several minutes...',
 ];
 
 

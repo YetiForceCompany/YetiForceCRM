@@ -282,18 +282,28 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT label, searchlabel, crmid, setype, createdtime FROM vtiger_crmentity WHERE searchlabel LIKE ? AND vtiger_crmentity.deleted = 0';
+		$query = 'SELECT u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel, vtiger_crmentity.crmid, setype, createdtime 
+				FROM vtiger_crmentity 
+				INNER JOIN u_yf_crmentity_search_label ON vtiger_crmentity.crmid = u_yf_crmentity_search_label.crmid
+				INNER JOIN u_yf_crmentity_label ON vtiger_crmentity.crmid = u_yf_crmentity_label.crmid
+				WHERE u_yf_crmentity_search_label.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0';
 		$params = array("%$searchKey%");
 
 		if ($module !== false) {
 			$query .= ' AND setype = ?';
 			if ($module == 'Products') {
-				$query = 'SELECT label,searchlabel, crmid, setype, createdtime FROM vtiger_crmentity INNER JOIN vtiger_products ON 
-							vtiger_products.productid = vtiger_crmentity.crmid WHERE searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 
-							AND vtiger_products.discontinued = 1 AND setype = ?';
+				$query = 'SELECT u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel, vtiger_crmentity.crmid, setype, createdtime FROM vtiger_crmentity 
+					INNER JOIN vtiger_products ON vtiger_products.productid = vtiger_crmentity.crmid
+					INNER JOIN u_yf_crmentity_search_label ON vtiger_crmentity.crmid = u_yf_crmentity_search_label.crmid
+					INNER JOIN u_yf_crmentity_label ON vtiger_crmentity.crmid = u_yf_crmentity_label.crmid
+					WHERE u_yf_crmentity_search_label.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 
+							AND vtiger_products.discontinued = 1 AND vtiger_crmentity.setype = ?';
 			} else if ($module == 'Services') {
-				$query = 'SELECT label,searchlabel, crmid, setype, createdtime FROM vtiger_crmentity INNER JOIN vtiger_service ON 
-							vtiger_service.serviceid = vtiger_crmentity.crmid WHERE searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 
+				$query = 'SELECT u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel, crmid, setype, createdtime FROM vtiger_crmentity 
+					INNER JOIN vtiger_service ON vtiger_service.serviceid = vtiger_crmentity.crmid 
+					INNER JOIN u_yf_crmentity_search_label ON vtiger_crmentity.crmid = u_yf_crmentity_search_label.crmid
+					INNER JOIN u_yf_crmentity_label ON vtiger_crmentity.crmid = u_yf_crmentity_label.crmid
+					WHERE u_yf_crmentity_search_label.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 
 							AND vtiger_service.discontinued = 1 AND setype = ?';
 			}
 			$params[] = $module;

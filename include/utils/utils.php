@@ -20,7 +20,6 @@
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 require_once 'include/database/PearDatabase.php';
-require_once 'include/ComboUtil.php'; //new
 require_once 'include/utils/ListViewUtils.php';
 require_once 'include/utils/EditViewUtils.php';
 require_once 'include/utils/CommonUtils.php';
@@ -33,10 +32,7 @@ require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';
 require_once 'include/CRMEntity.php';
 include_once 'modules/Vtiger/CRMEntity.php';
-require_once 'vtlib/Vtiger/Language.php';
 require_once 'include/ListView/ListViewSession.php';
-require_once 'vtlib/Vtiger/Functions.php';
-require_once 'vtlib/Vtiger/Deprecated.php';
 require_once 'include/runtime/Cache.php';
 require_once 'modules/Vtiger/helpers/Util.php';
 
@@ -98,158 +94,6 @@ function return_name(&$row, $first_column, $last_column)
 	return $full_name;
 }
 
-/** Function returns the user key in user array
- * @param $add_blank -- boolean:: Type boolean
- * @param $status -- user status:: Type string
- * @param $assigned_user -- user id:: Type string
- * @param $private -- sharing type:: Type string
- * @returns $user_array -- user array:: Type array
- *
- */
-//used in module file
-function get_user_array($add_blank = true, $status = 'Active', $assigned_user = '', $private = '', $module = false)
-{
-	$log = LoggerManager::getInstance();
-	$log->debug('Entering get_user_array(' . $add_blank . ',' . $status . ',' . $assigned_user . ',' . $private . ') method ...');
-	$current_user = vglobal('current_user');
-	if (isset($current_user) && $current_user->id != '') {
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	}
-	static $user_array = null;
-	if (!$module) {
-		$module = AppRequest::get('module');
-	}
-	if ($user_array == null) {
-		require_once('include/database/PearDatabase.php');
-		$db = PearDatabase::getInstance();
-		$temp_result = [];
-		// Including deleted vtiger_users for now.
-		if (empty($status)) {
-			$query = 'SELECT id, user_name, is_admin from vtiger_users';
-			$params = [];
-		} else {
-			if ($private == 'private') {
-				$log->debug('Sharing is Private. Only the current user should be listed');
-				$query = "select id as id,user_name as user_name,first_name,last_name,is_admin from vtiger_users where id=? and status='Active' union select vtiger_user2role.userid as id,vtiger_users.user_name as user_name ,
-							  vtiger_users.first_name as first_name ,vtiger_users.last_name as last_name, is_admin 
-							  from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ? and status='Active' union
-							  select shareduserid as id,vtiger_users.user_name as user_name ,
-							  vtiger_users.first_name as first_name ,vtiger_users.last_name as last_name, is_admin from vtiger_tmp_write_user_sharing_per inner join vtiger_users on vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid where status='Active' and vtiger_tmp_write_user_sharing_per.userid=? and vtiger_tmp_write_user_sharing_per.tabid=?";
-				$params = array($current_user->id, $current_user_parent_role_seq . "::%", $current_user->id, getTabid($module));
-			} else {
-				$log->debug('Sharing is Public. All vtiger_users should be listed');
-				$query = 'SELECT id, user_name,first_name,last_name,is_admin from vtiger_users WHERE status=?';
-				$params = array($status);
-			}
-		}
-		
-		if (!empty($assigned_user)) {
-			$query .= ' OR id=?';
-			array_push($params, $assigned_user);
-		}
-
-		$query .= ' ORDER BY last_name ASC, first_name ASC';
-		$result = $db->pquery($query, $params);
-
-		if ($add_blank == true) {
-			// Add in a blank row
-			$temp_result[''] = '';
-		}
-
-		// Get the id and the name.
-		while ($row = $db->fetchByAssoc($result)) {
-			if ($current_user->is_admin == 'on' || !(!AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST') && $row['is_admin'] == 'on')) {
-				$temp_result[$row['id']] = getFullNameFromArray('Users', $row);
-			}
-		}
-
-		$user_array = &$temp_result;
-	}
-
-	$log->debug('Exiting get_user_array method ...');
-	return $user_array;
-}
-
-function get_group_array($add_blank = true, $status = 'Active', $assigned_user = '', $private = '', $module = false)
-{
-	$log = LoggerManager::getInstance();
-	$log->debug('Entering get_user_array(' . $add_blank . ',' . $status . ',' . $assigned_user . ',' . $private . ') method ...');
-
-	if (!$module && AppRequest::get('parent') != 'Settings') {
-		$module = AppRequest::get('module');
-	}
-
-	$name = $add_blank . $status . $assigned_user . $private . $module;
-	$tempResult = Vtiger_Cache::get('get_group_array', $name);
-	if ($tempResult !== false) {
-		return $tempResult;
-	}
-
-	$current_user = vglobal('current_user');
-	if (isset($current_user) && $current_user->id != '') {
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	}
-
-	require_once('include/database/PearDatabase.php');
-	$db = PearDatabase::getInstance();
-	$tempResult = [];
-	$tabid = getTabid($module);
-	// Including deleted vtiger_users for now.
-	$log->debug('Sharing is Public. All vtiger_users should be listed');
-	$query = 'SELECT groupid, groupname FROM vtiger_groups';
-	$params = [];
-
-	if ($module && $module != 'CustomView') {
-		$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
-		$params[] = $tabid;
-	}
-	if ($private == 'private') {
-		if (strpos($query, 'WHERE') === false)
-			$query .= ' WHERE';
-		else
-			$query .= ' AND';
-		$query .= ' groupid=?';
-		array_push($params, $current_user->id);
-
-		if (count($current_user_groups) != 0) {
-			$query .= ' OR vtiger_groups.groupid in (' . generateQuestionMarks($current_user_groups) . ')';
-			array_push($params, $current_user_groups);
-		}
-		$log->debug('Sharing is Private. Only the current user should be listed');
-		$query .= ' union select vtiger_group2role.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_group2role inner join vtiger_groups on vtiger_groups.groupid=vtiger_group2role.groupid inner join vtiger_role on vtiger_role.roleid=vtiger_group2role.roleid where vtiger_role.parentrole like ?';
-		array_push($params, $current_user_parent_role_seq . "::%");
-
-		if (count($current_user_groups) != 0) {
-			$query .= ' union select vtiger_groups.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_groups inner join vtiger_group2rs on vtiger_groups.groupid=vtiger_group2rs.groupid where vtiger_group2rs.roleandsubid in (' . generateQuestionMarks($parent_roles) . ')';
-			array_push($params, $parent_roles);
-		}
-
-		$query .= ' union select sharedgroupid as groupid,vtiger_groups.groupname as groupname from vtiger_tmp_write_group_sharing_per inner join vtiger_groups on vtiger_groups.groupid=vtiger_tmp_write_group_sharing_per.sharedgroupid where vtiger_tmp_write_group_sharing_per.userid=?';
-		array_push($params, $current_user->id);
-
-		$query .= ' and vtiger_tmp_write_group_sharing_per.tabid=?';
-		array_push($params, $tabid);
-	}
-	$query .= ' order by groupname ASC';
-
-	$result = $db->pquery($query, $params, true, 'Error filling in user array: ');
-
-	if ($add_blank == true) {
-		// Add in a blank row
-		$tempResult[''] = '';
-	}
-
-	// Get the id and the name.
-	while ($row = $db->fetchByAssoc($result)) {
-		$tempResult[$row['groupid']] = $row['groupname'];
-	}
-	Vtiger_Cache::set('get_group_array', $name, $tempResult);
-	$log->debug('Exiting get_user_array method ...');
-	return $tempResult;
-}
-
 /** This function retrieves an application language file and returns the array of strings included in the $app_list_strings var.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
@@ -257,7 +101,7 @@ function get_group_array($add_blank = true, $status = 'Active', $assigned_user =
  * If you are using the current language, do not call this function unless you are loading it for the first time */
 function return_app_list_strings_language($language)
 {
-	return Vtiger_Deprecated::return_app_list_strings_language($language);
+	return vtlib\Deprecated::return_app_list_strings_language($language);
 }
 
 /**
@@ -265,7 +109,7 @@ function return_app_list_strings_language($language)
  */
 function return_app_currency_strings_language($language)
 {
-	return Vtiger_Deprecated::return_app_list_strings_language($language);
+	return vtlib\Deprecated::return_app_list_strings_language($language);
 }
 
 /** This function retrieves an application language file and returns the array of strings included.
@@ -275,7 +119,7 @@ function return_app_currency_strings_language($language)
  * If you are using the current language, do not call this function unless you are loading it for the first time */
 function return_application_language($language)
 {
-	return Vtiger_Deprecated::return_app_list_strings_language($language);
+	return vtlib\Deprecated::return_app_list_strings_language($language);
 }
 
 /** This function retrieves a module's language file and returns the array of strings included.
@@ -285,14 +129,14 @@ function return_application_language($language)
  * If you are in the current module, do not call this function unless you are loading it for the first time */
 function return_module_language($language, $module)
 {
-	return Vtiger_Deprecated::getModuleTranslationStrings($language, $module);
+	return vtlib\Deprecated::getModuleTranslationStrings($language, $module);
 }
 /* This function returns the mod_strings for the current language and the specified module
  */
 
 function return_specified_module_language($language, $module)
 {
-	return Vtiger_Deprecated::return_app_list_strings_language($language, $module);
+	return vtlib\Deprecated::return_app_list_strings_language($language, $module);
 }
 
 /**
@@ -411,7 +255,7 @@ function getTabname($tabid)
  */
 function getTabModuleName($tabid)
 {
-	return Vtiger_Functions::getModuleName($tabid);
+	return vtlib\Functions::getModuleName($tabid);
 }
 
 /** Function to get column fields for a given module
@@ -428,7 +272,7 @@ function getColumnFields($module)
 	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 
 	if ($cachedModuleFields === false) {
-		$fieldsInfo = Vtiger_Functions::getModuleFieldInfos($module);
+		$fieldsInfo = vtlib\Functions::getModuleFieldInfos($module);
 		if (!empty($fieldsInfo)) {
 			foreach ($fieldsInfo as $resultrow) {
 				// Update information to cache for re-use
@@ -585,7 +429,7 @@ function getRecordOwnerId($record)
 	$adb = PearDatabase::getInstance();
 	$ownerArr = [];
 
-	$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
+	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
 
 	if ($recordMetaData) {
 		$ownerId = $recordMetaData['smownerid'];
@@ -774,7 +618,7 @@ function getTableNameForField($module, $fieldname)
 	if ($module == 'Calendar') {
 		$tabid = array('9', '16');
 	}
-	$sql = "select tablename from vtiger_field where tabid in (" . generateQuestionMarks($tabid) . ") and vtiger_field.presence in (0,2) and columnname like ?";
+	$sql = sprintf("select tablename from vtiger_field where tabid in (%s) and vtiger_field.presence in (0,2) and columnname like ?", generateQuestionMarks($tabid));
 	$res = $adb->pquery($sql, array($tabid, '%' . $fieldname . '%'));
 
 	$tablename = '';
@@ -1306,9 +1150,9 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 	$timeOfCall = date('Y-m-d H:i:s');
 
 	$query = "INSERT INTO vtiger_crmentity (crmid,smcreatorid,smownerid,modifiedby,setype,description,createdtime,
-			modifiedtime,viewedtime,status,version,presence,deleted,label) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	$adb->pquery($query, array($crmID, $userID, $userID, 0, "PBXManager", "", $timeOfCall, $timeOfCall, NULL, NULL, 0, 1, 0, $callerName));
-
+			modifiedtime,viewedtime,status,version,presence,deleted) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	$adb->pquery($query, array($crmID, $userID, $userID, 0, "PBXManager", "", $timeOfCall, $timeOfCall, NULL, NULL, 0, 1, 0));
+	$adb->pquery("INSERT INTO u_yf_crmentity_label INNER JOIN (crmid,label) VALUES (?,?)", [$crmID, $callerName]);
 	$sql = "insert into vtiger_pbxmanager (pbxmanagerid,callfrom,callto,timeofcall,status)values (?,?,?,?,?)";
 	$params = array($crmID, $callerName, $receiver, $timeOfCall, $status);
 	$adb->pquery($sql, $params);
@@ -1469,13 +1313,11 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 		return;
 	$_installOrUpdateVtlibModule[$packagename . $packagepath] = 'install';
 
-	require_once('vtlib/Vtiger/Package.php');
-	require_once('vtlib/Vtiger/Module.php');
 	$Vtiger_Utils_Log = defined('INSTALLATION_MODE_DEBUG') ? INSTALLATION_MODE_DEBUG : true;
-	$package = new Vtiger_Package();
+	$package = new vtlib\Package();
 
 	if ($package->isLanguageType($packagepath)) {
-		$package = new Vtiger_Language();
+		$package = new vtlib\Language();
 		$package->import($packagepath, true);
 		return;
 	}
@@ -1483,8 +1325,7 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 
 	// Customization
 	if ($package->isLanguageType()) {
-		require_once('vtlib/Vtiger/Language.php');
-		$languagePack = new Vtiger_Language();
+		$languagePack = new vtlib\Language();
 		@$languagePack->import($packagepath, true);
 		return;
 	}
@@ -1494,14 +1335,14 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 	$module_dir_exists = false;
 	if ($module == null) {
 		$log->fatal("$packagename Module zipfile is not valid!");
-	} else if (Vtiger_Module::getInstance($module)) {
+	} else if (vtlib\Module::getInstance($module)) {
 		$log->fatal("$module already exists!");
 		$module_exists = true;
 	}
 	if ($module_exists == false) {
 		$log->debug("$module - Installation starts here");
 		$package->import($packagepath, true);
-		$moduleInstance = Vtiger_Module::getInstance($module);
+		$moduleInstance = vtlib\Module::getInstance($module);
 		if (empty($moduleInstance)) {
 			$log->fatal("$module module installation failed!");
 		}
@@ -1522,14 +1363,11 @@ function updateVtlibModule($module, $packagepath)
 		return;
 	$_installOrUpdateVtlibModule[$module . $packagepath] = 'update';
 
-	require_once('vtlib/Vtiger/Package.php');
-	require_once('vtlib/Vtiger/Module.php');
 	$Vtiger_Utils_Log = defined('INSTALLATION_MODE_DEBUG') ? INSTALLATION_MODE_DEBUG : true;
-	$package = new Vtiger_Package();
+	$package = new vtlib\Package();
 
 	if ($package->isLanguageType($packagepath)) {
-		require_once('vtlib/Vtiger/Language.php');
-		$languagePack = new Vtiger_Language();
+		$languagePack = new vtlib\Language();
 		$languagePack->update(null, $packagepath, true);
 		return;
 	}
@@ -1537,7 +1375,7 @@ function updateVtlibModule($module, $packagepath)
 	if ($module == null) {
 		$log->fatal("Module name is invalid");
 	} else {
-		$moduleInstance = Vtiger_Module::getInstance($module);
+		$moduleInstance = vtlib\Module::getInstance($module);
 		if ($moduleInstance || $package->isModuleBundle($packagepath)) {
 			$log->debug("$module - Module instance found - Update starts here");
 			$package->update($moduleInstance, $packagepath);
@@ -1590,7 +1428,7 @@ function com_vtGetModules($adb)
  */
 function isRecordExists($recordId, $cache = true)
 {
-	$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($recordId);
+	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($recordId);
 	return (isset($recordMetaData) && $recordMetaData['deleted'] == 0 ) ? true : false;
 }
 
@@ -1667,7 +1505,7 @@ function getValidDBInsertDateTimeValue($value)
  */
 function sanitizeUploadFileName($fileName, $badFileExtensions)
 {
-	$fileName = Vtiger_Functions::slug($fileName);
+	$fileName = vtlib\Functions::slug($fileName);
 	$fileName = rtrim($fileName, '\\/<>?*:"<>|');
 
 	$fileNameParts = explode(".", $fileName);
@@ -1840,15 +1678,14 @@ function getInventoryModules()
 function initUpdateVtlibModule($module, $packagepath)
 {
 	$log = LoggerManager::getInstance();
-	require_once('vtlib/Vtiger/Package.php');
-	require_once('vtlib/Vtiger/Module.php');
+
 	$Vtiger_Utils_Log = true;
-	$package = new Vtiger_Package();
+	$package = new vtlib\Package();
 
 	if ($module == null) {
 		$log->fatal("Module name is invalid");
 	} else {
-		$moduleInstance = Vtiger_Module::getInstance($module);
+		$moduleInstance = vtlib\Module::getInstance($module);
 		if ($moduleInstance) {
 			$log->debug("$module - Module instance found - Init Update starts here");
 			$package->initUpdate($moduleInstance, $packagepath, true);
@@ -2042,7 +1879,7 @@ function getExportRecordIds($moduleName, $viewid, $input)
 		$limit_start_rec = ($current_page - 1) * $list_max_entries_per_page;
 		if ($limit_start_rec < 0)
 			$limit_start_rec = 0;
-		$query .= ' LIMIT ' . $limit_start_rec . ',' . $list_max_entries_per_page;
+		$query .= sprintf(' LIMIT %s,%s', $limit_start_rec, $list_max_entries_per_page);
 
 		$result = $adb->pquery($query, []);
 		$idstring = [];
@@ -2081,14 +1918,10 @@ function getCombinations($array, $tempString = '')
 
 function getCompanyDetails()
 {
-	$adb = PearDatabase::getInstance();
+	$db = PearDatabase::getInstance();
+	$result = $db->query('select * from vtiger_organizationdetails');
 
-	$sql = 'select * from vtiger_organizationdetails';
-	$result = $adb->pquery($sql, []);
-
-	$companyDetails = [];
-	$companyDetails = $adb->query_result_rowdata($result);
-
+	$companyDetails = $db->getRow($result);
 	return $companyDetails;
 }
 

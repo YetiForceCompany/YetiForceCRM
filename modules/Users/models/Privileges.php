@@ -20,7 +20,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public function getName()
 	{
-		$entityData = Vtiger_Functions::getEntityModuleInfo('Users');
+		$entityData = vtlib\Functions::getEntityModuleInfo('Users');
 		$colums = [];
 		foreach (explode(',', $entityData['fieldname']) as $fieldname) {
 			$colums[] = $this->get($fieldname);
@@ -237,8 +237,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$db = PearDatabase::getInstance();
 		$userIds = $recordModel->get('shownerid');
 		$record = $recordModel->getId();
-
-		if (AppRequest::get('action') == 'SaveAjax' && AppRequest::get('field') != 'shownerid') {
+		if (AppRequest::get('action') == 'SaveAjax' && AppRequest::has('field') && AppRequest::get('field') != 'shownerid') {
 			$saveFull = false;
 		}
 		if ($saveFull) {
@@ -288,7 +287,9 @@ class Users_Privileges_Model extends Users_Record_Model
 
 			if ($addUserString !== false) {
 				$usersExist = [];
-				$result = $db->query('SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(' . $addUserString . ') AND crmid IN (' . $sqlRecords . ')');
+				$query = 'SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(%s) AND crmid IN (%s)';
+				$query = sprintf($query, $addUserString, $sqlRecords);				
+				$result = $db->query($query);
 				while ($row = $db->getRow($result)) {
 					$usersExist[$row['crmid']][$row['userid']] = true;
 				}
@@ -373,7 +374,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$currentUserId = $userPrivilegesModel->getId();
 		$currentUserGroups = $userPrivilegesModel->get('groups');
 		if (!$moduleName) {
-			$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($record);
+			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
 		}
 		if ($moduleName == 'Events') {
@@ -381,7 +382,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 
 		$parentRecord = false;
-		if ($parentModule = Vtiger_Module_Model::getModulesMap1M($moduleName)) {
+		if ($parentModule = Vtiger_ModulesHierarchy_Model::getModulesMap1M($moduleName)) {
 			$parentModuleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$parentModelFields = $parentModuleModel->getFields();
 
@@ -402,13 +403,13 @@ class Users_Privileges_Model extends Users_Record_Model
 				}
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
-		} else if (in_array($moduleName, Vtiger_Module_Model::getModulesMapMMBase())) {
+		} else if (in_array($moduleName, Vtiger_ModulesHierarchy_Model::getModulesMapMMBase())) {
 			$db = PearDatabase::getInstance();
 			$role = $userPrivilegesModel->getRoleDetail();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? OR relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
-				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
+				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 				$permissionsRelatedField = empty($permissionsRoleForRelatedField) ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
@@ -438,14 +439,15 @@ class Users_Privileges_Model extends Users_Record_Model
 					}
 				}
 			}
-		} else if ($relationInfo = Vtiger_Module_Model::getModulesMapMMCustom($moduleName)) {
+		} else if ($relationInfo = Vtiger_ModulesHierarchy_Model::getModulesMapMMCustom($moduleName)) {
 			$db = PearDatabase::getInstance();
 			$role = $userPrivilegesModel->getRoleDetail();
-			$query = 'SELECT ' . $relationInfo['rel'] . ' AS crmid FROM `' . $relationInfo['table'] . '` WHERE ' . $relationInfo['base'] . ' = ?';
+			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
+			$query = sprintf($query,$relationInfo['rel'],$relationInfo['table'],$relationInfo['base']);
 			$result = $db->pquery($query, [$record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'];
-				$recordMetaData = Vtiger_Functions::getCRMRecordMetadata($id);
+				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRelatedField = empty($role->get('permissionsrelatedfield')) ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as &$row) {

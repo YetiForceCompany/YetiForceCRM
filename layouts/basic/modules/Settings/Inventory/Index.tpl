@@ -2,7 +2,7 @@
 {strip}
 {if $VIEW == 'CreditLimits'}
 	{assign var=CURRENCY_BOOL value=true}
-	<input type="hidden" id="currency" value='{Zend_Json::encode($CURRENCY)}' />
+	<input type="hidden" id="currency" value='{\includes\utils\Json::encode($CURRENCY)}' />
 {/if}
 <input type="hidden" id="view" value="{$VIEW}" />
 <div class="" id="inventory">

@@ -140,7 +140,6 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('FOLLOW_UP_TIME', $followUpTime);
 		$viewer->assign('RECURRING_INFORMATION', $recordModel->getRecurrenceInformation());
 		$viewer->assign('TOMORROWDATE', Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d', time() + 86400)));
-
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('RECORD', $recordModel);
@@ -148,14 +147,8 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
-		$accessibleUsers = $currentUser->getAccessibleUsers();
-
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
-		$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
-		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($mappingRelatedField));
-		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode(Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName)));
+		$viewer->assign('MAPPING_RELATED_FIELD', \includes\utils\Json::encode(Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
 		$viewer->assign('CURRENT_USER', $currentUser);
 

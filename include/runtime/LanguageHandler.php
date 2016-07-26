@@ -237,7 +237,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function getAllLanguages()
 	{
-		return Vtiger_Language::getAll();
+		return vtlib\Language::getAll();
 	}
 
 	/**
@@ -252,6 +252,11 @@ class Vtiger_Language_Handler
 			return $db->query_result($languageResult, 0, 'label');
 		}
 		return false;
+	}
+
+	public static function getTranslateSingularModuleName($moduleName)
+	{
+		return Vtiger_Language_Handler::getTranslatedString("SINGLE_$moduleName", $moduleName);
 	}
 }
 

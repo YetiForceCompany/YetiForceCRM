@@ -39,7 +39,7 @@ class VTUpdateFieldsTask extends VTTask
 
 		$fieldValueMapping = array();
 		if (!empty($this->field_value_mapping)) {
-			$fieldValueMapping = Zend_Json::decode($this->field_value_mapping);
+			$fieldValueMapping = \includes\utils\Json::decode($this->field_value_mapping);
 		}
 
 		if (!empty($fieldValueMapping) && count($fieldValueMapping) > 0) {
@@ -102,7 +102,7 @@ class VTUpdateFieldsTask extends VTTask
 							if (!empty($rightOperandFieldInstance)) {
 								$referenceList = $rightOperandFieldInstance->getReferenceList();
 								if ((count($referenceList) == 1) && $referenceList[0] == 'Users') {
-									$userRecordLabels = Vtiger_Functions::getOwnerRecordLabels($fieldValue);
+									$userRecordLabels = vtlib\Functions::getOwnerRecordLabels($fieldValue);
 									$fieldValue = $userRecordLabels[$fieldValue];
 								} elseif ((count($referenceList) == 1) && $referenceList[0] == 'Currency') {
 									$fieldValue = getCurrencyName($fieldValue);

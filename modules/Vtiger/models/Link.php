@@ -8,12 +8,10 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-include_once 'vtlib/Vtiger/Link.php';
-
 /**
  * Vtiger Link Model Class
  */
-class Vtiger_Link_Model extends Vtiger_Link
+class Vtiger_Link_Model extends vtlib\Link
 {
 
 	// Class variable to store the child links
@@ -293,17 +291,17 @@ class Vtiger_Link_Model extends Vtiger_Link
 	}
 
 	/**
-	 * Function to get the instance of Vtiger Link Model from a given Vtiger_Link object
-	 * @param Vtiger_Link $linkObj
+	 * Function to get the instance of Vtiger Link Model from a given vtlib\Link object
+	 * @param vtlib\Link $linkObj
 	 * @return Vtiger_Link_Model instance
 	 */
-	public static function getInstanceFromLinkObject(Vtiger_Link $linkObj)
+	public static function getInstanceFromLinkObject(vtlib\Link $linkObj)
 	{
 		$objectProperties = get_object_vars($linkObj);
 		$linkModel = new self();
 
 		if (!empty($objectProperties['params'])) {
-			$params = Zend_Json::decode($objectProperties['params']);
+			$params = \includes\utils\Json::decode($objectProperties['params']);
 			if (!empty($params)) {
 				foreach ($params as $properName => $propertyValue) {
 					$linkModel->$properName = $propertyValue;
@@ -318,9 +316,9 @@ class Vtiger_Link_Model extends Vtiger_Link
 		if (strpos($linkModel->linkurl, '_layoutName_') !== false) {
 			$filePath1 = str_replace('_layoutName_', Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
 			$filePath2 = str_replace('_layoutName_', Yeti_Layout::getActiveLayout(), $linkModel->linkurl);
-			if (is_file(vglobal('root_directory') . $filePath1)) {
+			if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath1)) {
 				$linkModel->linkurl = $filePath1;
-			} else if (is_file(vglobal('root_directory') . $filePath2)) {
+			} else if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath2)) {
 				$linkModel->linkurl = $filePath2;
 			}
 		}
@@ -345,7 +343,10 @@ class Vtiger_Link_Model extends Vtiger_Link
 		$linkModels = [];
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
-				$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
+				$queryParams = vtlib\Functions::getQueryParams($linkObject->linkurl);
+				if (!(isset($queryParams['module']) && !Users_Privileges_Model::isPermitted($queryParams['module']))) {
+					$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
+				}
 			}
 		}
 
@@ -369,7 +370,7 @@ class Vtiger_Link_Model extends Vtiger_Link
 	{
 		$relatedModuleName = $defaultModuleName;
 		if (empty($this->relatedModuleName)) {
-			$queryParams = Vtiger_Functions::getQueryParams($this->get('linkurl'));
+			$queryParams = vtlib\Functions::getQueryParams($this->get('linkurl'));
 			if (!empty($fieldname)) {
 				$this->relatedModuleName = $relatedModuleName = $queryParams['module'];
 			}

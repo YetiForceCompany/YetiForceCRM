@@ -102,7 +102,9 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		if (isset(self::$transformedUrlMapping[$url])) {
 			$url = self::$transformedUrlMapping[$url];
 		}
-		$url .= '&block=' . $this->getMenu()->getId() . '&fieldid=' . $this->getId();
+		if (!empty($this->menu)) {
+			$url .= '&block=' . $this->getMenu()->getId() . '&fieldid=' . $this->getId();
+		}
 		return $url;
 	}
 
@@ -140,14 +142,11 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	private function updatePinStatus($pinned = false)
 	{
 		$db = PearDatabase::getInstance();
-
 		$pinnedStaus = 0;
 		if ($pinned) {
 			$pinnedStaus = 1;
 		}
-
-		$query = 'UPDATE ' . self::$itemsTable . ' SET pinned=' . $pinnedStaus . ' WHERE ' . self::$itemId . '=' . $this->getId();
-		$db->pquery($query, array());
+		$db->update(self::$itemsTable, ['pinned' => $pinnedStaus], self::$itemId . ' = ?', [$this->getId()]);
 	}
 
 	/**
@@ -186,8 +185,8 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM ' . self::$itemsTable . ' WHERE name = ?';
-		$params = array($name);
+		$sql = sprintf('SELECT * FROM %s WHERE name = ?', self::$itemsTable);
+		$params = [$name];
 
 		if ($menuModel) {
 			$sql .= ' WHERE blockid = ?';
@@ -218,7 +217,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM ' . self::$itemsTable . ' WHERE ' . self::$itemId . ' = ?';
+		$sql = sprintf('SELECT * FROM %s WHERE %s = ?',self::$itemsTable, self::$itemId);
 		$params = array($id);
 
 		if ($menuModel) {
@@ -252,8 +251,8 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', 'Webforms Configuration Editor');
 
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM ' . self::$itemsTable;
-		$params = array();
+		$sql = sprintf('SELECT * FROM %s', self::$itemsTable);
+		$params = [];
 
 		$conditionsSqls = [];
 		if ($menuModel != false) {
@@ -264,7 +263,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 			$conditionsSqls[] = 'active = 0';
 		}
 		if (count($conditionsSqls) > 0) {
-			$sql .= ' WHERE ' . implode(' AND ', $conditionsSqls);
+			$sql .= sprintf(' WHERE %s', implode(' AND ', $conditionsSqls));
 		}
 		$sql .= ' AND name NOT IN (' . generateQuestionMarks($skipMenuItemList) . ')';
 
@@ -298,7 +297,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT * FROM ' . self::$itemsTable . ' WHERE pinned=1 AND active = 0';
+		$query = sprintf('SELECT * FROM %s WHERE pinned = 1 AND active = 0', self::$itemsTable);
 		if (!empty($fieldList)) {
 			if (!is_array($fieldList)) {
 				$fieldList = array($fieldList);
@@ -342,7 +341,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	 */
 	public function getModule()
 	{
-		$urlParams = Vtiger_Functions::getQueryParams($this->getUrl());
+		$urlParams = vtlib\Functions::getQueryParams($this->getUrl());
 		return $urlParams['module'];
 	}
 }

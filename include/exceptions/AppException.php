@@ -27,9 +27,9 @@ class NoPermittedException extends Exception
 		$dbLog->insert('o_yf_access_for_user', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => Vtiger_Functions::getRemoteIP(),
+			'ip' => vtlib\Functions::getRemoteIP(),
 			'module' => $request->getModule(),
-			'url' => Vtiger_Functions::getBrowserInfo()->url,
+			'url' => vtlib\Functions::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
@@ -51,10 +51,10 @@ class NoPermittedToRecordException extends Exception
 		$dbLog->insert('o_yf_access_to_record', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => Vtiger_Functions::getRemoteIP(),
+			'ip' => vtlib\Functions::getRemoteIP(),
 			'record' => $request->get('record'),
 			'module' => $request->getModule(),
-			'url' => Vtiger_Functions::getBrowserInfo()->url,
+			'url' => vtlib\Functions::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
@@ -76,9 +76,9 @@ class NoPermittedForAdminException extends Exception
 		$dbLog->insert('o_yf_access_for_admin', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => Vtiger_Functions::getRemoteIP(),
+			'ip' => vtlib\Functions::getRemoteIP(),
 			'module' => $request->getModule(),
-			'url' => Vtiger_Functions::getBrowserInfo()->url,
+			'url' => vtlib\Functions::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
@@ -99,9 +99,9 @@ class CsrfException extends Exception
 		$dbLog->insert('o_yf_csrf', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => Vtiger_Functions::getRemoteIP(),
+			'ip' => vtlib\Functions::getRemoteIP(),
 			'referer' => $_SERVER['HTTP_REFERER'],
-			'url' => Vtiger_Functions::getBrowserInfo()->url,
+			'url' => vtlib\Functions::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 		]);
 	}
@@ -121,8 +121,8 @@ class APINoPermittedException extends Exception
 		$dbLog->insert('o_yf_access_for_api', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => Vtiger_Functions::getRemoteIP(),
-			'url' => Vtiger_Functions::getBrowserInfo()->url,
+			'ip' => vtlib\Functions::getRemoteIP(),
+			'url' => vtlib\Functions::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 		]);

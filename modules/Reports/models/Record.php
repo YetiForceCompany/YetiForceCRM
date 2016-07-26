@@ -425,8 +425,9 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			$this->saveSelectedFields();
 
 			$this->saveSortFields();
-
-			$this->saveCalculationFields();
+			if ($this->get('reporttype') != 'chart') {
+				$this->saveCalculationFields();
+			}
 
 			$this->saveStandardFilter();
 
@@ -456,7 +457,9 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			$this->saveSortFields();
 
 			$db->pquery('DELETE FROM vtiger_reportsummary WHERE reportsummaryid = ?', array($reportId));
-			$this->saveCalculationFields();
+			if ($this->get('reporttype') != 'chart') {
+				$this->saveCalculationFields();
+			}
 
 			$db->pquery('DELETE FROM vtiger_reportdatefilter WHERE datefilterid = ?', array($reportId));
 			$this->saveStandardFilter();
@@ -702,7 +705,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$from = preg_split('/ from /i', $query);
 		//If we select the same field in select and grouping/soring then it will include order by and query failure will happen
 		$fromAndWhereQuery = explode(' order by ', $from[1]);
-		$sql = 'SELECT count(*) AS count FROM ' . $fromAndWhereQuery[0];
+		$sql = sprintf('SELECT count(*) AS count FROM %s', $fromAndWhereQuery[0]);
 		return $sql;
 	}
 
@@ -746,10 +749,9 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$rootDirectory = vglobal('root_directory');
 		$tmpDir = vglobal('tmp_dir');
 
-		$tempFileName = tempnam($rootDirectory . $tmpDir, 'xls');
+		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$fileName = decode_html($this->getName()) . '.xls';
 		$reportRun->writeReportToExcelFile($tempFileName, $advanceFilterSql);
 
@@ -774,10 +776,9 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$rootDirectory = vglobal('root_directory');
 		$tmpDir = vglobal('tmp_dir');
 
-		$tempFileName = tempnam($rootDirectory . $tmpDir, 'csv');
+		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'csv');
 		$reportRun->writeReportToCSVFile($tempFileName, $advanceFilterSql);
 		$fileName = decode_html($this->getName()) . '.csv';
 
@@ -1043,16 +1044,13 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	public function checkDuplicate()
 	{
 		$db = PearDatabase::getInstance();
-
-		$query = "SELECT 1 FROM vtiger_report WHERE reportname = ?";
-		$params = array($this->getName());
-
 		$record = $this->getId();
-		if ($record && !$this->get('isDuplicate')) {
-			$query .= " AND reportid != ?";
-			array_push($params, $record);
+		$params = [];
+		$query = "SELECT 1 FROM vtiger_report WHERE reportname = ?";
+		$params [] = $this->getName();
+		if (!empty($record) && empty($this->get('isDuplicate'))) {
+			return false;
 		}
-
 		$result = $db->pquery($query, $params);
 		if ($db->num_rows($result)) {
 			return true;

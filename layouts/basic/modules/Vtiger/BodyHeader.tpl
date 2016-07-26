@@ -2,8 +2,8 @@
 {strip}
     {assign var='count' value=0}
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} menuOpen{/if}">
-		<div class="row noSpaces">			
-			<div class="rightHeader">
+		<div class="row noSpaces">
+			<div class="rightHeader paddingRight10">
 				<div class="pull-right rightHeaderBtn">
 					<div class="dropdown quickAction historyBtn">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
@@ -103,8 +103,6 @@
 							<button class="btn btn-default searchIcon" type="button">
 								<span class="glyphicon glyphicon-search"></span>
 							</button>
-						</span>
-						<span class="input-group-btn">
 							<button class="btn btn-default globalSearch" title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">
 								<span class="glyphicon glyphicon-th-large"></span>
 							</button>

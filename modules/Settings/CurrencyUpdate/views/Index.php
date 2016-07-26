@@ -40,7 +40,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 			$dateCur = date('Y-m-d', $dateCur);
 		}
 
-		$dateCur = Vtiger_Functions::getLastWorkingDay($dateCur);
+		$dateCur = vtlib\Functions::getLastWorkingDay($dateCur);
 
 		// get currency if not already archived
 		if ($downloadBtn) {
@@ -67,7 +67,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		// number of currencies
 		$curr_num = $moduleModel->getCurrencyNum();
 		// get info about main currency
-		$mainCurrencyInfo = Vtiger_Functions::getDefaultCurrencyInfo();
+		$mainCurrencyInfo = vtlib\Functions::getDefaultCurrencyInfo();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);

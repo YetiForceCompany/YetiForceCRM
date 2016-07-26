@@ -151,7 +151,8 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 			"modules.$moduleName.resources.ChartEdit",
 			"modules.$moduleName.resources.ChartEdit2",
 			"modules.$moduleName.resources.ChartEdit3",
-			"modules.$moduleName.resources.ChartDetail",
+			"modules.$moduleName.resources.ChartDetailView",
+			"modules.$moduleName.resources.TypeCharts",
 
 			'~libraries/jquery/jqplot/jquery.jqplot.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',

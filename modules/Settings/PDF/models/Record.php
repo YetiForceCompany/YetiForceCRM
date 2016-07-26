@@ -110,17 +110,13 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$fields = [];
 				foreach ($stepFields as $field) {
 					if ($field === 'conditions') {
-						$params[] = json_encode($pdfModel->get($field));
+						$params = json_encode($pdfModel->get($field));
 					} else {
-						$params[] = $pdfModel->get($field);
+						$params= $pdfModel->get($field);
 					}
-					$fields[] = "`$field` = ?";
+					$fields[$field] = $params;
 				}
-
-				$params[] = $pdfModel->getId();
-
-				$query = 'UPDATE `a_yf_pdf` SET ' . implode(',', $fields) . ' WHERE `pdfid` = ? LIMIT 1;';
-				$result = $db->pquery($query, $params);
+				$db->update('a_yf_pdf', $fields, '`pdfid` = ? LIMIT 1', [$pdfModel->getId()]);
 				return $pdfModel->get('pdfid');
 
 			case 1:
@@ -134,16 +130,11 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 					$pdfModel->set('pdfid', $db->getLastInsertID());
 				} else {
-					$params = [];
 					$fields = [];
 					foreach ($stepFields as $field) {
-						$params[] = $pdfModel->get($field);
-						$fields[] = "`$field` = ?";
+						$fields[$field] = $pdfModel->get($field);
 					}
-
-					$params[] = $pdfModel->getId();
-					$query = 'UPDATE `a_yf_pdf` SET ' . implode(',', $fields) . ' WHERE `pdfid` = ? LIMIT 1;';
-					$result = $db->pquery($query, $params);
+					$db->update('a_yf_pdf', $fields, '`pdfid` = ? LIMIT 1', [$pdfModel->getId()]);
 				}
 				return $pdfModel->get('pdfid');
 

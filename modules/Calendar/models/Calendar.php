@@ -30,8 +30,8 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = "SELECT vtiger_activity.activityid as act_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype,
-		vtiger_activity.*, relcrm.setype AS linkmod, relcrm.label AS linklabel, procrm.label AS processlabel, procrm.setype AS processmod,
-		subprocrm.label AS subprocesslabel, subprocrm.setype AS subprocessmod
+		vtiger_activity.*, relcrm.setype AS linkmod, relcrmlab.label AS linklabel, procrmlab.label AS processlabel, procrm.setype AS processmod,
+		subprocrmlab.label AS subprocesslabel, subprocrm.setype AS subprocessmod
 		FROM vtiger_activity
 		LEFT JOIN vtiger_activitycf
 			ON vtiger_activitycf.activityid = vtiger_activity.activityid
@@ -39,10 +39,16 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			ON vtiger_crmentity.crmid = vtiger_activity.activityid
 		LEFT JOIN vtiger_crmentity relcrm
 			ON relcrm.crmid = vtiger_activity.link
+		LEFT JOIN u_yf_crmentity_label relcrmlab
+			ON relcrm.crmid = relcrmlab.crmid
 		LEFT JOIN vtiger_crmentity procrm
 			ON procrm.crmid = vtiger_activity.process
+		LEFT JOIN u_yf_crmentity_label procrmlab
+			ON procrmlab.crmid = vtiger_activity.process
 		LEFT JOIN vtiger_crmentity subprocrm
 			ON subprocrm.crmid = vtiger_activity.subprocess
+		LEFT JOIN u_yf_crmentity_label subprocrmlab
+			ON subprocrmlab.crmid = vtiger_activity.subprocess
 		WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
 		$instance = CRMEntity::getInstance($this->getModuleName());
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getModuleName(), $currentUser);
@@ -124,7 +130,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['sta'] = $record['status'];
 			$item['vis'] = $record['visibility'];
 			$item['state'] = $record['state'];
-			$item['smownerid'] = Vtiger_Functions::getOwnerRecordLabel($record['smownerid']);
+			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
 
 			//translate
 			$item['labels']['sta'] = vtranslate($record['status'], $this->getModuleName());
@@ -157,7 +163,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 				}
 				$tabInfo = $this->relationAcounts[$findMod];
 				if ($tabInfo) {
-					$findResult = $db->pquery('SELECT accountid, accountname FROM vtiger_account '
+					$findResult = $db->pquery('SELECT vtiger_account.accountid, vtiger_account.accountname FROM vtiger_account '
 						. 'INNER JOIN ' . $tabInfo[0] . ' ON vtiger_account.accountid = ' . $tabInfo[0] . '.' . $tabInfo[2]
 						. ' WHERE ' . $tabInfo[1] . ' = ?;', [$findId]);
 					if ($db->num_rows($findResult) > 0) {
@@ -193,8 +199,8 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$hours = Vtiger_Functions::getDateTimeHoursDiff($item['start'], $item['end']);
-			$item['hours'] = Vtiger_Functions::decimalTimeFormat($hours)['short'];
+			$hours = vtlib\Functions::getDateTimeHoursDiff($item['start'], $item['end']);
+			$item['hours'] = vtlib\Functions::decimalTimeFormat($hours)['short'];
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $activitytype;
 			$return[] = $item;

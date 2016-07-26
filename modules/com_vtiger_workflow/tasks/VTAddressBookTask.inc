@@ -38,7 +38,7 @@ class VTAddressBookTask extends VTTask {
 		$userInstance = new Users();
 		$users = $name = '';
 		$table = $this->tables[$module];
-		$metainfo = Vtiger_Functions::getEntityModuleInfo($module);
+		$metainfo = vtlib\Functions::getEntityModuleInfo($module);
 		$entityNames = explode(',', $metainfo['fieldname']);
 		foreach ($entityNames as $entityName) {
 			$name .= ' ' . $entity->get($entityName);
@@ -53,7 +53,7 @@ class VTAddressBookTask extends VTTask {
 		}
 
 		$db->delete($table, 'id = ?', [$entityId]);
-		$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;', [Vtiger_Functions::getModuleId($module), 13]);
+		$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;', [vtlib\Functions::getModuleId($module), 13]);
 		while ($fieldname = $db->getSingleValue($result)) {
 			if ($entity->get($fieldname) != '') {
 				$db->insert($table, ['id' => $entityId, 'email' => $entity->get($fieldname), 'name' => trim($name), 'users' => trim($users, ',')]);

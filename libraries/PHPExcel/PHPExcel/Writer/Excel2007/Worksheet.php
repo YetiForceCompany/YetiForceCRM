@@ -22,7 +22,7 @@
  * @package	PHPExcel_Writer_Excel2007
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license	http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version	1.8.0, 2014-03-02
+ * @version	##VERSION##, ##DATE##
  */
 
 
@@ -326,8 +326,8 @@ class PHPExcel_Writer_Excel2007_Worksheet extends PHPExcel_Writer_Excel2007_Writ
 			}
 
 			// Set Zero Height row
-			if ((string)$pSheet->getDefaultRowDimension()->getzeroHeight()  == '1' ||
-				strtolower((string)$pSheet->getDefaultRowDimension()->getzeroHeight()) == 'true' ) {
+			if ((string)$pSheet->getDefaultRowDimension()->getZeroHeight()  == '1' ||
+				strtolower((string)$pSheet->getDefaultRowDimension()->getZeroHeight()) == 'true' ) {
 				$objWriter->writeAttribute('zeroHeight', '1');
 			}
 

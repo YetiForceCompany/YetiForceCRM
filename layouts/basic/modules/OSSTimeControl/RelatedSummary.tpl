@@ -19,7 +19,7 @@
 			margin-right: 5px;
 		}
 		</style>
-		{assign var=TOTALTIME value=Vtiger_Functions::decimalTimeFormat($RELATED_SUMMARY['totalTime'])}
+		{assign var=TOTALTIME value=vtlib\Functions::decimalTimeFormat($RELATED_SUMMARY['totalTime'])}
 		{if count($RELATED_SUMMARY['userTime']) gt 0 }
 			<div class="row">
 				<div class="col-md-12">
@@ -31,7 +31,7 @@
 			</div>
 			<div class="row chartContainer">
 				<div class="col-md-12">
-					<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($RELATED_SUMMARY['userTime']))}' />
+					<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($RELATED_SUMMARY['userTime']))}' />
 					<div class="legendContainer">
 						{vtranslate('LBL_SUM', $RELATED_MODULE_NAME)}: {$TOTALTIME['full']}<br />
 					</div>

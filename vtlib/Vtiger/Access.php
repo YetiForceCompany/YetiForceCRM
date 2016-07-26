@@ -7,15 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-include_once('include/utils/UserInfoUtil.php');
-include_once('vtlib/Vtiger/Utils.php');
-include_once('vtlib/Vtiger/Profile.php');
+namespace vtlib;
 
 /**
  * Provides API to control Access like Sharing, Tools etc. for vtiger CRM Module
  * @package vtlib
  */
-class Vtiger_Access
+class Access
 {
 
 	/**
@@ -26,7 +24,7 @@ class Vtiger_Access
 	 */
 	static function log($message, $delim = true)
 	{
-		Vtiger_Utils::Log($message, $delim);
+		Utils::Log($message, $delim);
 	}
 
 	/**
@@ -35,7 +33,7 @@ class Vtiger_Access
 	 */
 	static function __getDefaultSharingAccessId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_def_org_share');
 	}
 
@@ -53,13 +51,13 @@ class Vtiger_Access
 
 	/**
 	 * Enable or Disable sharing access control to module
-	 * @param Vtiger_Module Instance of the module to use
+	 * @param Module Instance of the module to use
 	 * @param Boolean true to enable sharing access, false disable sharing access
 	 * @access private
 	 */
 	static function allowSharing($moduleInstance, $enable = true)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$ownedby = $enable ? 0 : 1;
 		$adb->pquery("UPDATE vtiger_tab set ownedby=? WHERE tabid=?", Array($ownedby, $moduleInstance->id));
 		self::log(($enable ? "Enabled" : "Disabled") . " sharing access control ... DONE");
@@ -67,13 +65,13 @@ class Vtiger_Access
 
 	/**
 	 * Initialize sharing access.
-	 * @param Vtiger_Module Instance of the module to use
+	 * @param Module Instance of the module to use
 	 * @access private
-	 * @internal This method is called from Vtiger_Module during creation.
+	 * @internal This method is called from Module during creation.
 	 */
 	static function initSharing($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$result = $adb->query("SELECT share_action_id from vtiger_org_share_action_mapping WHERE share_action_name in
 			('Public: Read Only', 'Public: Read, Create/Edit', 'Public: Read, Create/Edit, Delete', 'Private')");
@@ -87,26 +85,26 @@ class Vtiger_Access
 
 	/**
 	 * Delete sharing access setup for module
-	 * @param Vtiger_Module Instance of module to use
+	 * @param Module Instance of module to use
 	 * @access private
-	 * @internal This method is called from Vtiger_Module during deletion.
+	 * @internal This method is called from Module during deletion.
 	 */
 	static function deleteSharing($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_org_share_action2tab WHERE tabid=?", Array($moduleInstance->id));
 		self::log("Deleting sharing access ... DONE");
 	}
 
 	/**
 	 * Set default sharing for a module
-	 * @param Vtiger_Module Instance of the module
+	 * @param Module Instance of the module
 	 * @param String Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
 	 * @access private
 	 */
 	static function setDefaultSharing($moduleInstance, $permission_text = 'Public_ReadWriteDelete')
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$permission_text = strtolower($permission_text);
 
@@ -137,7 +135,7 @@ class Vtiger_Access
 
 	/**
 	 * Enable tool for module.
-	 * @param Vtiger_Module Instance of module to use
+	 * @param Module Instance of module to use
 	 * @param String Tool (action name) like Import, Export, Merge
 	 * @param Boolean true to enable tool, false to disable
 	 * @param Integer (optional) profile id to use, false applies to all profile.
@@ -145,18 +143,18 @@ class Vtiger_Access
 	 */
 	static function updateTool($moduleInstance, $toolAction, $flag, $profileid = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$result = $adb->pquery("SELECT actionid FROM vtiger_actionmapping WHERE actionname=?", Array($toolAction));
 		if ($adb->num_rows($result)) {
 			$actionid = $adb->query_result($result, 0, 'actionid');
 			$permission = ($flag == true) ? '0' : '1';
 
-			$profileids = Array();
+			$profileids = [];
 			if ($profileid) {
 				$profileids[] = $profileid;
 			} else {
-				$profileids = Vtiger_Profile::getAllIds();
+				$profileids = Profile::getAllIds();
 			}
 
 			self::log(($flag ? 'Enabling' : 'Disabling') . " $toolAction for Profile [", false);
@@ -180,14 +178,12 @@ class Vtiger_Access
 
 	/**
 	 * Delete tool (actions) of the module
-	 * @param Vtiger_Module Instance of module to use
+	 * @param Module Instance of module to use
 	 */
 	static function deleteTools($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_profile2utility WHERE tabid=?", Array($moduleInstance->id));
 		self::log("Deleting tools ... DONE");
 	}
 }
-
-?>

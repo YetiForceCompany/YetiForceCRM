@@ -28,7 +28,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		$modulesFields = self::getAllField();
 		foreach ($modulesFields AS $key => $fields) {
 			foreach ($fields AS $field) {
-				$instance[$key][] = Vtiger_Functions::getModuleFieldInfo(getTabid($field['module']), $field['nameField']);
+				$instance[$key][] = vtlib\Functions::getModuleFieldInfo(getTabid($field['module']), $field['nameField']);
 			}
 		}
 		return $instance;
@@ -103,7 +103,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$primaryKey = Vtiger_Util_Helper::getPickListId($params['field']);
-		$adb->pquery('UPDATE ' . $params['table'] . ' SET color = ? WHERE ' . $primaryKey . ' = ?;', array($params['color'], $params['id']));
+		$adb->update($params['table'], ['color' => $params['color']], $primaryKey . ' = ?', [$params['id']]);
 	}
 
 	public static function getValuesFromField($fieldName)
@@ -111,7 +111,8 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
-		$query = 'SELECT * FROM vtiger_' . $fieldName . ' order by sortorderid';
+		$query = 'SELECT * FROM vtiger_%s order by sortorderid';
+		$query = sprintf($query, $fieldName);
 		$groupColors = [];
 		$result = $db->query($query);
 		while ($row = $db->getRow($result)) {

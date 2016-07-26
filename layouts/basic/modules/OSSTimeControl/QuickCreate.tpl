@@ -88,25 +88,21 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		setTimeout(function () {
-			Vtiger_Edit_Js("OSSTimeControl_QuickCreate_Js",{},
+</div>
+<script>
+	setTimeout(function () {
+		Vtiger_Edit_Js("OSSTimeControl_QuickCreate_Js",{},
 				{
-					/*sumHours : function () {	
-					 var sumeTime = this.differenceDays();
-					 var hours = (Math.round( (sumeTime/3600000) * 100 ) / 100).toFixed(2);
-					 return hours
-					 },	
-					 */
 					differenceDays: function () {
-						var firstDate = jQuery('input[name="date_start"]');
+						var container = $('.recordEditView[name="QuickCreate"]');
+						var firstDate = container.find('input[name="date_start"]');
 						var firstDateFormat = firstDate.data('date-format');
 						var firstDateValue = firstDate.val();
-						var secondDate = jQuery('input[name="due_date"]');
+						var secondDate = container.find('input[name="due_date"]');
 						var secondDateFormat = secondDate.data('date-format');
 						var secondDateValue = secondDate.val();
-						var firstTime = jQuery('input[name="time_start"]');
-						var secondTime = jQuery('input[name="time_end"]');
+						var firstTime = container.find('input[name="time_start"]');
+						var secondTime = container.find('input[name="time_end"]');
 						var firstTimeValue = firstTime.val();
 						var secondTimeValue = secondTime.val();
 						var firstDateTimeValue = firstDateValue + ' ' + firstTimeValue;
@@ -121,40 +117,41 @@
 						return 'Error';
 					},
 					registerRecordPreSaveEvent: function () {
-						var differenceDays = this.differenceDays();
-						/*var sumHours = this.sumHours();
-
-						 if(sumHours > 24){
-						 var params = {
-						 text: app.vtranslate('JS_HOURS_SHOULD_BE_SMALLER_THAN'),
-						 type: 'error'
-						 };
-						 Vtiger_Helper_Js.showPnotify(params);
-						 return false;
-
-						 }*/
-
-						if (differenceDays == 'Error') {
-							var params = {
-								text: app.vtranslate('JS_DATE_SHOULD_BE_GREATER_THAN'),
-								type: 'error'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-							return false;
-						}
+						var thisInstance = this;
+						var form = $('.recordEditView[name="QuickCreate"]');
+						form.on(Vtiger_Edit_Js.recordPreSave, function () {
+							var sumeTime2 = thisInstance.differenceDays();
+							if (sumeTime2 == 'Error') {
+								var parametres = {
+									text: app.vtranslate('JS_DATE_SHOULD_BE_GREATER_THAN'),
+									type: 'error'
+								};
+								Vtiger_Helper_Js.showPnotify(parametres);
+								return false;
+							} else {
+								sumeTime2 = sumeTime2 / 1000 / 60 / 60;
+								if (sumeTime2 > 24) {
+									var parametres = {
+										text: app.vtranslate('JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H'),
+										type: 'error'
+									};
+									Vtiger_Helper_Js.showPnotify(parametres);
+									return false;
+								}
+							}
+						});
 					},
 					registerEvents: function () {
 						this._super();
 						this.registerRecordPreSaveEvent();
 					}
 				}
-			);
-			jQuery(document).ready(function () {
-				var currencyInstance = new OSSTimeControl_QuickCreate_Js();
-				$(".btn-success").click(function () {
-					currencyInstance.registerRecordPreSaveEvent();
-				});
-			})
-		}, 1000);
-	</script>
+		);
+		jQuery(document).ready(function () {
+			var currencyInstance = new OSSTimeControl_QuickCreate_Js();
+			currencyInstance.registerRecordPreSaveEvent();
+
+		})
+	}, 1000);
+</script>
 {/strip}

@@ -14,4 +14,18 @@ Follow us on [Twitter](https://twitter.com/YetiForceEN) to get real-time info ab
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
 
+Gallery:
+
+![](https://yetiforce.com/images/yeti/Home_page_1.png)
+
+![](https://yetiforce.com/images/yeti/Home_page_3.png)
+
+![](https://yetiforce.com/images/yeti/Calendar_2.png)
+
+![](https://yetiforce.com/images/yeti/List_Accounts.png)
+
+![](https://yetiforce.com/images/yeti/Detail_Accounts.png)
+
+![](https://yetiforce.com/images/yeti/Detail_Projects_Gantt_Months.png)
+
 The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/en/developer-documentation/changes.html).

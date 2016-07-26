@@ -7,14 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once("include/Zend/Json.php");
 
 class VTJsonCondition
 {
 
 	function evaluate($condition, $entityCache, $id)
 	{
-		$expr = Zend_Json::decode($condition);
+		$expr = \includes\utils\Json::decode($condition);
 		$finalResult = TRUE;
 		if (is_array($expr)) {
 			$entityData = $entityCache->forId($id);

@@ -21,7 +21,7 @@ $languageStrings = [
 	'FL_ACTUAL_DATE' => 'Rzeczywisty termin',
 	'FL_PROBABILITY' => 'Prawdopodobieństwo',
 	'FL_SOURCE' => 'Źródło pozyskania',
-	'FL_TYPE' => 'Typ',
+	'FL_TYPE' => 'Rodzaj',
 	'FL_STATUS' => 'Status',
 	
 	//Picklist

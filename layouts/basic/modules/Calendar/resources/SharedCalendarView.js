@@ -54,7 +54,6 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 		});
 		this.multipleEvents = false;
 		thisInstance.multipleEventsOnLoad = 0;
-		//console.log(thisInstance.getCalendarView().fullCalendar('getView'));
 	},
         
 	fetchCalendarFeed : function(feedcheckbox) {
@@ -62,29 +61,24 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 
 		//var type = feedcheckbox.data('calendar-sourcekey');
 		this.calendarfeedDS[feedcheckbox.data('calendar-sourcekey')] = function(start, end, callback) {
-		//console.log('multipleEventsToLoad > 0');
 			if(typeof thisInstance.multipleEvents != 'undefined' && thisInstance.multipleEvents != false){
 				var events = thisInstance.multipleEvents[feedcheckbox.data('calendar-userid')];
 				
 				if(events !== false && multipleEventsToLoad > 0){
-					//console.log('multipleEventsToLoad > 0');
 					$.merge( thisInstance.multipleEventsToCalnedar , events );
 					return;
 				}
 
 				if(thisInstance.multipleEventsToCalnedar.length != 0) {
-					//console.log('thisInstance.multipleEventsToCalnedar !== false');
 					callback(thisInstance.multipleEventsToCalnedar);
 					return;
 				}else if(events !== false) {
-					//console.log('events !== false');
 					callback(events);
 					return;
 				}
 			}
 			
 			if(feedcheckbox.not(':checked').length > 0) {
-				//console.log('feedcheckbox.not(:checked).length > 0');
 				callback([]);
 				return;
 			}

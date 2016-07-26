@@ -41,7 +41,7 @@
 {if $FIELD_MODEL->get('hidden') neq 1}<td><label>{vtranslate($FIELD_MODEL->get('label'), {$SOURCE_MODULE})}{if $FIELD_MODEL->get('required') eq 1}*{/if}</label></td>{/if}
 <td>
                                         {if ($DATA_TYPE eq 'picklist' || $DATA_TYPE eq 'multipicklist')}
-                                            {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+                                            {assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
                                             {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
                                             {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
                                             {if Settings_Webforms_Record_Model::isCustomField($FIELD_NAME)}

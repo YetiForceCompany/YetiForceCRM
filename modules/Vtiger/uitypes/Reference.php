@@ -54,7 +54,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			if ($rawText || $referenceModuleName == 'Users' || ($value && !Users_Privileges_Model::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
-			$name = Vtiger_Functions::textLength($name, vglobal('href_max_length'));
+			$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
 			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . vtranslate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}

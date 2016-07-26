@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<input type="hidden" id="fieldType" value="{$TYPE}"/>
-	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers('Public')}
+	{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers('Public')}
 	{assign var=ALL_MODULE_LIST value=Vtiger_Module_Model::getAll([0],[],true)}
 	<div class="">
 		<div class="alert alert-danger fade in">

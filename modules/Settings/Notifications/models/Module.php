@@ -27,10 +27,11 @@ class Settings_Notifications_Module_Model extends Settings_Vtiger_Module_Model
 		$presence = array(0, 2);
 		$restrictedModules = array('SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter');
 
-		$query = 'SELECT name FROM vtiger_tab WHERE
-						presence IN (' . generateQuestionMarks($presence) . ')
+		$query = sprintf('SELECT name FROM vtiger_tab WHERE
+						presence IN (%s)
 						AND isentitytype = ?
-						AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ')';
+						AND name NOT IN (%s)',
+			generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
 		$result = $db->pquery($query, array($presence, 1, $restrictedModules));
 		$numOfRows = $db->num_rows($result);
 		$modulesList = array();

@@ -14,7 +14,7 @@ class SSalesProcesses_DetailView_Model extends Vtiger_DetailView_Model
 	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
-		$parentModuleModel = $this->getModule();
+
 		$relatedLinks = Vtiger_DetailView_Model::getDetailViewRelatedLinks();
 		$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') || vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices') || vtlib_isModuleActive('Assets') || vtlib_isModuleActive('OSSSoldServices');
 

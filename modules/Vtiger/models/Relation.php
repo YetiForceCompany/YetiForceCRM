@@ -131,8 +131,9 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$functionName = $this->get('name');
 		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
 		if ($relationListView_Model) {
-			$searchParams = $relationListView_Model->get('search_params');
-			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
+			$queryGenerator = $relationListView_Model->get('query_generator');
+			$where = $queryGenerator->getWhereClause(true);
+			$query .= $where;
 		}
 		return $query;
 	}
@@ -260,10 +261,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		if (key_exists($relKey, self::$_cached_instance)) {
 			return self::$_cached_instance[$relKey];
 		}
-		if ($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) {
+		if (($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) || $parentModuleModel->getName() == 'Documents') {
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			if (method_exists($relationModel, 'setExceptionData')) {
+				$relationModel->setExceptionData();
+			}
 			self::$_cached_instance[$relKey] = $relationModel;
 			return $relationModel;
 		}
@@ -289,7 +293,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return false;
 	}
 
-	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true)
+	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -313,7 +317,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		while ($row = $db->getRow($result)) {
 			//$relationModuleModel = Vtiger_Module_Model::getCleanInstance($moduleName);
 			// Skip relation where target module does not exits or is no permitted for view.
-			if (!$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
+			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
 			}
 			$relationModel = new $relationModelClassName();

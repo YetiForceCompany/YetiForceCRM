@@ -60,12 +60,11 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function isWatchingRecord()
 	{
-		if(!isset($this->isWatchingRecord)){
+		if (!isset($this->isWatchingRecord)) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
 			$this->isWatchingRecord = (bool) $watchdog->isWatchingRecord();
 		}
 		return $this->isWatchingRecord;
-		
 	}
 
 	/**
@@ -105,7 +104,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getEntity()
 	{
-		if(empty($this->entity)){
+		if (empty($this->entity)) {
 			return false;
 		}
 		return $this->entity;
@@ -128,7 +127,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getRawData()
 	{
-		
+
 		return isset($this->rawData) ? $this->rawData : false;
 	}
 
@@ -338,7 +337,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$module = Vtiger_Module_Model::getInstance($module);
 			$moduleName = $module->get('name');
 		} elseif (empty($module)) {
-			$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
 			$module = Vtiger_Module_Model::getInstance($moduleName);
 		}
 		$cacheName = $recordId . ':' . $moduleName;
@@ -393,9 +392,14 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$sortColumns .= 'vtiger_crmentity.label ASC,';
 		}
 
-		$query = 'SELECT label, searchlabel, crmid, setype, createdtime, smownerid FROM vtiger_crmentity ' . $join . ' WHERE vtiger_crmentity.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0' . $where;
+		$query = sprintf('SELECT u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel, vtiger_crmentity.crmid, setype, createdtime, smownerid 
+			FROM vtiger_crmentity 
+			INNER JOIN u_yf_crmentity_search_label ON vtiger_crmentity.crmid = u_yf_crmentity_search_label.crmid 
+			INNER JOIN u_yf_crmentity_label ON vtiger_crmentity.crmid = u_yf_crmentity_label.crmid 
+			%s 
+			WHERE u_yf_crmentity_search_label.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 %s', $join, $where);
 		if (!empty($sortColumns)) {
-			$query .= ' ORDER BY ' . $sortColumns;
+			$query .= sprintf(' ORDER BY %s', $sortColumns);
 			$query = rtrim($query, ',');
 		}
 
@@ -710,6 +714,19 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
 	}
 
+	public function getInventoryDefaultDataFields()
+	{
+		$lastItem = end($this->getInventoryData());
+		$defaultData = [];
+		if (!empty($lastItem)) {
+			$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
+			foreach ($items as $key) {
+				$defaultData[$key] = isset($lastItem[$key]) ? $lastItem[$key] : null;
+			}
+		}
+		return $defaultData;
+	}
+
 	/**
 	 * Loading the inventory data
 	 * @return array inventory data
@@ -738,7 +755,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventoryField->getTableName('data');
-		$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$ID]);
+		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE id = ? ORDER BY seq', $table), [$ID]);
 		$fields = [];
 		while ($row = $db->fetch_array($result)) {
 			$fields[] = $row;

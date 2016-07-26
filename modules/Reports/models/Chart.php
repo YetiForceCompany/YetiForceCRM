@@ -18,7 +18,7 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 		$result = $db->pquery('SELECT * FROM vtiger_reporttype WHERE reportid = ?', array($reportModel->getId()));
 		$data = $db->query_result($result, 0, 'data');
 		if (!empty($data)) {
-			$decodeData = Zend_Json::decode(decode_html($data));
+			$decodeData = \includes\utils\Json::decode(decode_html($data));
 			$self->setData($decodeData);
 			$self->setParent($reportModel);
 			$self->setId($reportModel->getId());
@@ -461,8 +461,7 @@ class PieChart extends Base_Chart
 	function generateData()
 	{
 		$db = PearDatabase::getInstance();
-		$values = array();
-
+		$values = [];
 		$chartSQL = $this->getQuery();
 		$result = $db->pquery($chartSQL, array());
 		$rows = $db->num_rows($result);
@@ -470,13 +469,13 @@ class PieChart extends Base_Chart
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 		if (is_array($queryColumnsByFieldModel)) {
 			foreach ($queryColumnsByFieldModel as $field) {
-				$sector = strtolower($field->get('reportlabel'));
+				$sector = $field->get('reportlabel');
 				$sectorField = $field;
 			}
 		}
 
 		if ($this->isRecordCount()) {
-			$sector = strtolower('RECORD_COUNT');
+			$sector = 'RECORD_COUNT';
 		}
 
 		$groupByColumnsByFieldModel = $this->getGroupbyColumnsByFieldModel();
@@ -494,27 +493,26 @@ class PieChart extends Base_Chart
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$value = (float) $row[$sector];
-
 			if (!$this->isRecordCount()) {
 				if ($sectorField) {
 					if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
 						$value = (float) ($row[$sector]);
 						$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
+					} elseif ($sectorField->get('uitype') == '7') {
+						$value = (float) ($row[$sector]);
 					} else {
 						$value = (int) $sectorField->getDisplayValue($row[$sector]);
 					}
 				}
 			}
-
 			$values[] = $value;
-
 			//translate picklist and multiselect picklist values
 			if ($legendField) {
 				$fieldDataType = $legendField->getFieldDataType();
 				if ($fieldDataType == 'picklist') {
-					$label = vtranslate($row[strtolower($legend)], $legendField->getModuleName());
+					$label = vtranslate($row[$legend], $legendField->getModuleName());
 				} else if ($fieldDataType == 'multipicklist') {
-					$multiPicklistValue = $row[strtolower($legend)];
+					$multiPicklistValue = $row[$legend];
 					$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 					foreach ($multiPicklistValues as $multiPicklistValue) {
 						$labelList[] = vtranslate($multiPicklistValue, $legendField->getModuleName());
@@ -525,10 +523,10 @@ class PieChart extends Base_Chart
 				} else if ($fieldDataType == 'datetime') {
 					$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else {
-					$label = $row[strtolower($legend)];
+					$label = $row[$legend];
 				}
 			} else {
-				$label = $row[strtolower($legend)];
+				$label = $row[$legend];
 			}
 			$labels[] = (strlen($label) > 30) ? substr($label, 0, 30) . '..' : $label;
 			$links[] = $this->generateLink($legendField->get('reportcolumninfo'), $row[strtolower($legend)]);
@@ -572,16 +570,16 @@ class VerticalbarChart extends Base_Chart
 			$row = $db->query_result_rowdata($result, $i);
 
 			if ($recordCountLabel) {
-				$values[$i][] = (int) $row[strtolower($recordCountLabel)];
+				$values[$i][] = (int) $row[$recordCountLabel];
 			}
 
 			if ($queryColumnsByFieldModel) {
 				foreach ($queryColumnsByFieldModel as $fieldModel) {
 					if ($fieldModel->get('uitype') == '71' || $fieldModel->get('uitype') == '72') {
-						$value = (float) ($row[strtolower($fieldModel->get('reportlabel'))]);
+						$value = (float) ($row[$fieldModel->get('reportlabel')]);
 						$values[$i][] = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 					} else {
-						$values[$i][] = (int) $row[strtolower($fieldModel->get('reportlabel'))];
+						$values[$i][] = (float) $row[$fieldModel->get('reportlabel')];
 					}
 				}
 			}
@@ -590,23 +588,23 @@ class VerticalbarChart extends Base_Chart
 				foreach ($groupByColumnsByFieldModel as $gFieldModel) {
 					$fieldDataType = $gFieldModel->getFieldDataType();
 					if ($fieldDataType == 'picklist') {
-						$label = vtranslate($row[strtolower($gFieldModel->get('reportlabel'))], $gFieldModel->getModuleName());
+						$label = vtranslate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
 					} else if ($fieldDataType == 'multipicklist') {
-						$multiPicklistValue = $row[strtolower($gFieldModel->get('reportlabel'))];
+						$multiPicklistValue = $row[$gFieldModel->get('reportlabel')];
 						$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 						foreach ($multiPicklistValues as $multiPicklistValue) {
 							$labelList[] = vtranslate($multiPicklistValue, $gFieldModel->getModuleName());
 						}
 						$label = implode(',', $labelList);
 					} else if ($fieldDataType == 'date') {
-						$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($gFieldModel->get('reportlabel'))]);
+						$label = Vtiger_Date_UIType::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
 					} else if ($fieldDataType == 'datetime') {
-						$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($gFieldModel->get('reportlabel'))]);
+						$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[$gFieldModel->get('reportlabel')]);
 					} else {
-						$label = $row[strtolower($gFieldModel->get('reportlabel'))];
+						$label = $row[$gFieldModel->get('reportlabel')];
 					}
 					$labels[] = (strlen($label) > 30) ? substr($label, 0, 30) . '..' : $label;
-					$links[] = $this->generateLink($gFieldModel->get('reportcolumninfo'), $row[strtolower($gFieldModel->get('reportlabel'))]);
+					$links[] = $this->generateLink($gFieldModel->get('reportcolumninfo'), $row[$gFieldModel->get('reportlabel')]);
 				}
 			}
 		}

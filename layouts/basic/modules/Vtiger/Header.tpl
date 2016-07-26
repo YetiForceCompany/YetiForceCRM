@@ -38,7 +38,7 @@
 		{/if}
 	</head>
 	<body data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>
-		<div id="js_strings" class="hide noprint">{Zend_Json::encode($LANGUAGE_STRINGS)}</div>
+		<div id="js_strings" class="hide noprint">{\includes\utils\Json::encode($LANGUAGE_STRINGS)}</div>
 		<input type="hidden" id="start_day" value="{$USER_MODEL->get('dayoftheweek')}" />
 		<input type="hidden" id="row_type" value="{$USER_MODEL->get('rowheight')}" />
 		<input type="hidden" id="current_user_id" value="{$USER_MODEL->get('id')}" />
@@ -56,7 +56,7 @@
 		<input type="hidden" id="module" value="{$MODULE}"/>
 		<input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
 		<input type="hidden" id="view" value="{$VIEW}"/>
-		<input type="hidden" id="sounds" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(AppConfig::sounds()))}"/>
+		<input type="hidden" id="sounds" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(AppConfig::sounds()))}"/>
 		<input type="hidden" id="intervalForNotificationNumberCheck" value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}"/>
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->

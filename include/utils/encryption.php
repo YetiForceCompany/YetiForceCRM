@@ -12,96 +12,56 @@
 class Encryption
 {
 
-	function encrypt($message)
-	{
-		//converting a string to binary
-		$enc_message = $this->asc2bin($message);
-		$enc_message = $this->xor_string($enc_message);
-		$enc_message = $this->urlsafe_b64encode($enc_message);
-		return $enc_message;
-	}
+	protected $method = false;
+	protected $pass = false;
+	protected $vector = false;
+	protected $options = true;
 
-	function asc2bin($inputString, $byteLength = 8)
+	function __construct()
 	{
-		$binaryOutput = '';
-		$strSize = strlen($inputString);
-		for ($x = 0; $x < $strSize; $x++) {
-			$charBin = decbin(ord($inputString{$x}));
-			$charBin = str_pad($charBin, $byteLength, '0', STR_PAD_LEFT);
-			$binaryOutput .= $charBin;
+		$db = PearDatabase::getInstance();
+		$result = $db->query('SELECT * FROM a_yf_encryption');
+		if ($row = $db->getRow($result)) {
+			$this->method = $row['method'];
+			$this->vector = $row['pass'];
+			$this->pass = AppConfig::securityKeys('encryptionPass');
 		}
-
-		return $binaryOutput;
 	}
 
-	function bin2asc($binaryInput, $byteLength = 8)
+	function encrypt($decrypted)
 	{
-		if (strlen($binaryInput) % $byteLength) {
+		if (!$this->isActive()) {
+			return $decrypted;
+		}
+		$encrypted = openssl_encrypt($decrypted, $this->method, $this->pass, $this->options, $this->vector);
+		return base64_encode($encrypted);
+	}
+
+	function decrypt($encrypted)
+	{
+		if (!$this->isActive()) {
+			return $encrypted;
+		}
+		$decrypted = openssl_decrypt(base64_decode($encrypted), $this->method, $this->pass, $this->options, $this->vector);
+		return $decrypted;
+	}
+
+	function getMethods()
+	{
+		return openssl_get_cipher_methods();
+	}
+
+	function isActive()
+	{
+		if (!function_exists('openssl_encrypt')) {
+			return false;
+		} elseif (empty($this->method)) {
+			return false;
+		} elseif ($this->method != AppConfig::securityKeys('encryptionMethod')) {
+			return false;
+		} elseif (!in_array($this->method, $this->getMethods())) {
 			return false;
 		}
-		// why run strlen() so many times in a loop? Use of constants = speed increase.
-		$strSize = strlen($binaryInput);
-		$origStr = '';
-		// jump between bytes.
-		for ($x = 0; $x < $strSize; $x += $byteLength) {
-			// extract character's binary code
-			$charBinary = substr($binaryInput, $x, $byteLength);
-			$origStr .= chr(bindec($charBinary)); // conversion to ASCII.
-		}
-		return $origStr;
-	}
-
-	function decrypt($message)
-	{
-		$dec_message = $this->urlsafe_b64decode($message);
-		$dec_message = $this->xor_string($dec_message);
-		$dec_message = $this->bin2asc($dec_message);
-		return $dec_message;
-	}
-
-	function xor_string($string)
-	{
-		$buf = '';
-		$size = strlen($string);
-		for ($i = 0; $i < $size; $i++)
-			$buf .= chr(ord($string[$i]) ^ 255);
-		return $buf;
-	}
-
-	function urlsafe_b64encode($string)
-	{
-		$data = base64_encode($string);
-		$data = str_replace(array('+', '/', '='), array('-', '_', '.'), $data);
-		return $data;
-	}
-
-	function urlsafe_b64decode($string)
-	{
-		$data = str_replace(array('-', '_'), array('+', '/'), $string);
-		$mod4 = strlen($data) % 4;
-		if ($mod4) {
-			$data .= substr('====', $mod4);
-		}
-		return base64_decode($data);
-	}
-
-	function x_Encrypt($string, $key)
-	{
-		for ($i = 0; $i < strlen($string); $i++) {
-			for ($j = 0; $j < strlen($key); $j++) {
-				$string[$i] = $string[$i] ^ $key[$j];
-			}
-		}
-		return $string;
-	}
-
-	function x_Decrypt($string, $key)
-	{
-		for ($i = 0; $i < strlen($string); $i++) {
-			for ($j = 0; $j < strlen($key); $j++) {
-				$string[$i] = $key[$j] ^ $string[$i];
-			}
-		}
-		return $string;
+		return true;
 	}
 }

@@ -134,9 +134,9 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$listQuery .= ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
+				$listQuery .= sprintf(' ORDER BY %s',implode(',', $referenceNameFieldOrderBy));
 			} else {
-				$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
+				$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			}
 		}
 
@@ -252,7 +252,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
 			for ($i = 1; $i < count($split); $i++) {
-				$listQuery .= ' FROM ' . $split[$i];
+				$listQuery .= sprintf(' FROM %s', $split[$i]);
 			}
 		}
 

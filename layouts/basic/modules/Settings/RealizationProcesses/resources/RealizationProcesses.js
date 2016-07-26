@@ -26,8 +26,6 @@ jQuery.Class('Settings_RealizationProcesses_Js', {
 				mode: 'save'
 			
 			};
-			console.log(params);
-			//return false;
 			params.async = false;
 			params.dataType = 'json';
 			AppConnector.request(params).then(

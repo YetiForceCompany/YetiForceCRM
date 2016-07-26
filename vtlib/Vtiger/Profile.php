@@ -8,13 +8,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Utils.php');
+namespace vtlib;
 
 /**
  * Provides API to work with vtiger CRM Profile
  * @package vtlib
  */
-class Vtiger_Profile
+class Profile
 {
 
 	var $id;
@@ -32,7 +32,7 @@ class Vtiger_Profile
 
 	private function create()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$this->id = $adb->getUniqueID('vtiger_profile');
 		$sql = "INSERT INTO vtiger_profile (profileid, profilename, description) 
 						VALUES (?,?,?)";
@@ -59,7 +59,7 @@ class Vtiger_Profile
 
 	private function update()
 	{
-		throw new Exception("Not implemented");
+		throw new \Exception('Not implemented');
 	}
 
 	/**
@@ -70,17 +70,17 @@ class Vtiger_Profile
 	 */
 	static function log($message, $delimit = true)
 	{
-		Vtiger_Utils::Log($message, $delimit);
+		Utils::Log($message, $delimit);
 	}
 
 	/**
 	 * Initialize profile setup for Field
-	 * @param Vtiger_Field Instance of the field
+	 * @param Field Instance of the field
 	 * @access private
 	 */
 	static function initForField($fieldInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		// Allow field access to all
 		$adb->pquery("INSERT INTO vtiger_def_org_field (tabid, fieldid, visible, readonly) VALUES(?,?,?,?)", Array($fieldInstance->getModuleId(), $fieldInstance->id, '0', '0'));
@@ -93,12 +93,12 @@ class Vtiger_Profile
 
 	/**
 	 * Delete profile information related with field.
-	 * @param Vtiger_Field Instance of the field
+	 * @param Field Instance of the field
 	 * @access private
 	 */
 	static function deleteForField($fieldInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$adb->pquery("DELETE FROM vtiger_def_org_field WHERE fieldid=?", Array($fieldInstance->id));
 		$adb->pquery("DELETE FROM vtiger_profile2field WHERE fieldid=?", Array($fieldInstance->id));
@@ -110,9 +110,9 @@ class Vtiger_Profile
 	 */
 	static function getAllIds()
 	{
-		$adb = PearDatabase::getInstance();
-		$profileids = Array();
-		$result = $adb->pquery('SELECT profileid FROM vtiger_profile', array());
+		$adb = \PearDatabase::getInstance();
+		$profileids = [];
+		$result = $adb->pquery('SELECT profileid FROM vtiger_profile', []);
 		for ($index = 0; $index < $adb->num_rows($result); ++$index) {
 			$profileids[] = $adb->query_result($result, $index, 'profileid');
 		}
@@ -121,12 +121,12 @@ class Vtiger_Profile
 
 	/**
 	 * Initialize profile setup for the module
-	 * @param Vtiger_Module Instance of module
+	 * @param Module Instance of module
 	 * @access private
 	 */
 	static function initForModule($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$actionids = [];
 		$result = $adb->pquery("SELECT actionid from vtiger_actionmapping WHERE actionname IN 
@@ -151,17 +151,17 @@ class Vtiger_Profile
 				}
 			}
 		}
-		self::log("Initializing module permissions ... DONE");
+		self::log('Initializing module permissions ... DONE');
 	}
 
 	/**
 	 * Delete profile setup of the module
-	 * @param Vtiger_Module Instance of module
+	 * @param Module Instance of module
 	 * @access private
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$db->delete('vtiger_def_org_field', 'tabid = ?', [$moduleInstance->id]);
 		$db->delete('vtiger_def_org_share', 'tabid = ?', [$moduleInstance->id]);
 		$db->delete('vtiger_profile2field', 'tabid = ?', [$moduleInstance->id]);
@@ -169,5 +169,3 @@ class Vtiger_Profile
 		$db->delete('vtiger_profile2tab', 'tabid = ?', [$moduleInstance->id]);
 	}
 }
-
-?>

@@ -28,16 +28,16 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
 
-		$presence = array(0, 2);
-		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter');
-		$module = array('Project', 'HelpDesk');
+		$presence = [0, 2];
+		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter'];
+		$module = ['Project', 'HelpDesk'];
 
 		$query = 'SELECT name FROM vtiger_tab WHERE
-                    presence IN (' . generateQuestionMarks($presence) . ')
+                    presence IN (%s)
                     AND isentitytype = ?
-                    AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ') AND name IN (' . generateQuestionMarks($module) . ')';
-
-		$result = $db->pquery($query, array($presence, 1, $restrictedModules, $module));
+                    AND name NOT IN (%s) AND name IN (%s)';
+		$query = sprintf($query, generateQuestionMarks($presence), generateQuestionMarks($restrictedModules), generateQuestionMarks($module));
+		$result = $db->pquery($query, [$presence, 1, $restrictedModules, $module]);
 		$numOfRows = $db->num_rows($result);
 
 		$modulesList = array();

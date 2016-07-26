@@ -36,7 +36,7 @@
         {assign var=value value=array_push($MAPPED_SOURCE_PICKLIST_VALUES, $MAPPING['sourcevalue'])}
         {$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['targetvalues']}
     {/foreach}
-    <input type="hidden" class="allSourceValues" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SOURCE_PICKLIST_VALUES))}' />
+    <input type="hidden" class="allSourceValues" value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($SOURCE_PICKLIST_VALUES))}' />
 
     <div class="row depandencyTable no-margin">
         <div class="col-md-2 col-sm-2 col-xs-2 paddingRightZero">

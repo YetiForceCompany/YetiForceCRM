@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Documents_DetailView_Model extends Vtiger_DetailView_Model
@@ -57,5 +58,28 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 		}
 
 		return $linkModelList;
+	}
+
+	/**
+	 * Function to get the detail view related links
+	 * @return <array> - list of links parameters
+	 */
+	public function getDetailViewRelatedLinks()
+	{
+		$recordModel = $this->getRecord();
+		$moduleName = $recordModel->getModuleName();
+		$parentModuleModel = $this->getModule();
+		$relatedLinks = parent::getDetailViewRelatedLinks();
+
+		$relatedLinks[] = [
+			'linktype' => 'DETAILVIEWTAB',
+			'linklabel' => vtranslate('LBL_RELATIONS', $moduleName),
+			'linkKey' => 'LBL_RECORD_SUMMARY',
+			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDocumentRelations',
+			'linkicon' => '',
+			'related' => \includes\utils\Json::encode(Documents_Record_Model::getReferenceModuleByDocId($recordModel->getId())),
+			'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
+		];
+		return $relatedLinks;
 	}
 }

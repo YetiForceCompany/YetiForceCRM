@@ -42,8 +42,7 @@ $languageStrings = [
 	'LBL_FIRST' => 'Первая',
 	'LBL_HOLD_FOLLOWUP_ON' => 'Последующее напоминание в',
 	'LBL_HOURS' => 'часов',
-	'LBL_INVITE_USERS' => 'Пользователи',
-	'LBL_INVITE_USER_BLOCK' => 'Пригласить',
+	'LBL_INVITE_RECORDS' => 'Пользователи',
 	'LBL_LAST' => 'Последняя',
 	'LBL_MONTHS_TYPE' => 'Месяц',
 	'LBL_NO_DESCRIPTION' => 'Нет описания',
@@ -99,8 +98,9 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Отложено',
 	'PLL_CANCELLED' => 'Отменено',
 	'PLL_COMPLETED' => 'Выполнено',
-	'LBL_REMAIND_HOURS' => 'Remind after selected numer of hours',
-	'LBL_REMAIND_MINS' => 'Remind after selected numer of minutes',
+	'LBL_REMAIND_HOURS' => 'Напомнить после выбранного количества часов',
+	'LBL_REMAIND_MINS' => 'RНапомнить после выбранного количества минут',
+	'LBL_SELECT_INVITE' => 'Invite others',
 ];
 
 $jsLanguageStrings = [

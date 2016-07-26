@@ -302,7 +302,6 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			var moduleName = trElement.data('moduleName');
 			var customRuleListContainer = jQuery('.'+thisInstance.getCustomRuleContainerClassName(moduleName),contentTable);
 			if(customRuleListContainer.length > 0) {
-				console.log(app.isHidden(customRuleListContainer))
 				if(app.isHidden(customRuleListContainer)) {
 					customRuleListContainer.show();
 					jQuery('.ruleListContainer', customRuleListContainer).slideDown('slow');

@@ -55,7 +55,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getId()
 	{
-		return Vtiger_Functions::getModuleId($this->getName());
+		return vtlib\Functions::getModuleId($this->getName());
 	}
 
 	public static function getFieldsByStep($step = 1)
@@ -204,7 +204,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function returns fields of module
-	 * @return <Array of Vtiger_Field>
+	 * @return <Array of vtlib\Field>
 	 */
 	public function getFields($source = false)
 	{
@@ -263,7 +263,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public function importsAllowed()
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT 1 FROM `' . $this->baseTable . '` WHERE `tabid` = ? AND `reltabid` = ? ;';
+		$query = sprintf('SELECT 1 FROM `%s` WHERE `tabid` = ? AND `reltabid` = ? ;', $this->baseTable);
 		$result = $db->pquery($query, [$this->get('tabid'), $this->get('reltabid')]);
 		return $result->rowCount();
 	}
@@ -278,7 +278,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		foreach ($fields as $field) {
 			$value = $this->record->get($field);
 			if (in_array($field, ['conditions', 'params'])) {
-				$params[$field] = Zend_Json::encode($value);
+				$params[$field] = \includes\utils\Json::encode($value);
 			} elseif (is_array($value)) {
 				$params[$field] = implode(',', $value);
 			} else {
@@ -365,7 +365,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$xml = simplexml_load_file($uploadedXml);
 		foreach ($xml as $fieldsKey => $fieldsValue) {
 			if (array_key_exists($fieldsKey, $combine)) {
-				$value = (int) Vtiger_Functions::getModuleId((string) $fieldsValue);
+				$value = (int) vtlib\Functions::getModuleId((string) $fieldsValue);
 				if (empty($value)) {
 					break;
 				}

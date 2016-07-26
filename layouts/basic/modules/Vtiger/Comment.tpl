@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
+	{assign var="HIERARCHY" value=isset($PARENT_RECORD) && $PARENT_RECORD != $COMMENT->get('related_to')}
 	<div class="commentDiv">
 		<div class="singleComment">
 			<div class="commentInfoHeader row no-margin" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
@@ -22,7 +23,18 @@
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 					<div class="col-xs-8 pull-left commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
-						<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span><br>
+						<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span><br> 
+						{if $HIERARCHY}
+							{assign var=RELATED_MODULE value=vtlib\Functions::getCRMRecordType($COMMENT->get('related_to'))}
+							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$COMMENT->get('related_to')}">
+								<strong>
+									{vtranslate($RELATED_MODULE,$RELATED_MODULE)}: 
+								</strong>
+								<strong class="commentRelatedTitle">
+									{vtlib\Functions::getCRMRecordLabel($COMMENT->get('related_to'))}
+								</strong>
+							</a>
+						{/if}
 						<div class="commentInfoContent ">
 							{nl2br($COMMENT->get('commentcontent'))}
 						</div>
@@ -34,7 +46,6 @@
 						<div class="clearfix"></div>
 					</div>
 				</div>
-				
 			</div>
 			<div class="commentActionsContainer row no-margin">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}

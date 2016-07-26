@@ -34,7 +34,7 @@
 			{/foreach}
 		{if count($NEW_ACCOUNTS) eq $PAGING_MODEL->getPageLimit()}
 			<div class="pull-right padding5">
-				<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">{vtranslate('LBL_MORE', $MODULE_NAME)}</button>
+				<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}&time[start]={$DTIME['start']}&time[end]={$DTIME['end']}">{vtranslate('LBL_MORE', $MODULE_NAME)}</button>
 			</div>
 		{/if}
 	{else}

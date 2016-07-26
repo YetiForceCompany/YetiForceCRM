@@ -36,7 +36,7 @@ class Activity extends CRMEntity
 	var $reminder_table = 'vtiger_activity_reminder';
 	var $tab_name = Array('vtiger_crmentity', 'vtiger_activity', 'vtiger_activitycf');
 	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_recurringevents' => 'activityid', 'vtiger_activitycf' => 'activityid');
-	var $column_fields = Array();
+	var $column_fields = [];
 	var $sortby_fields = Array('subject', 'due_date', 'date_start', 'smownerid', 'activitytype', 'lastname'); //Sorting is added for due date and start date
 	// This is used to retrieve related vtiger_fields from form posts.
 	var $additional_column_fields = Array('assigned_user_name', 'assigned_user_id', 'contactname', 'contact_phone', 'contact_email', 'parent_name');
@@ -96,7 +96,7 @@ class Activity extends CRMEntity
 		$this->db = PearDatabase::getInstance();
 		$this->column_fields = getColumnFields('Calendar');
 	}
-	
+
 	function save_module($module)
 	{
 		$adb = PearDatabase::getInstance();
@@ -121,10 +121,10 @@ class Activity extends CRMEntity
 		$this->insertIntoReminderTable('vtiger_activity_reminder', $module, "");
 
 		//Handling for invitees
-		$this->insertIntoInviteeTable($module, explode(';', AppRequest::get('inviteesid')));
+		$this->insertIntoInviteeTable($module);
 
 		//Inserting into sales man activity rel
-		$this->insertIntoSmActivityRel($module);
+		//$this->insertIntoSmActivityRel($module);
 		$adb->pquery('UPDATE vtiger_activity SET smownerid = ? WHERE `activityid` = ?;', array($this->column_fields['assigned_user_id'], $recordId));
 		$this->insertIntoActivityReminderPopup($module);
 	}
@@ -266,7 +266,7 @@ class Activity extends CRMEntity
 
 		if ($flag == "true") {
 			$max_recurid_qry = 'select max(recurringid) AS recurid from vtiger_recurringevents;';
-			$result = $adb->pquery($max_recurid_qry, array());
+			$result = $adb->pquery($max_recurid_qry, []);
 			$noofrows = $adb->num_rows($result);
 			$recur_id = 0;
 			if ($noofrows > 0) {
@@ -283,27 +283,44 @@ class Activity extends CRMEntity
 		}
 	}
 
-	/** Function to insert values in vtiger_invitees table for the specified module,tablename ,invitees_array
+	/** Function to insert values in u_yf_activity_invitation table for the specified module,tablename ,invitees_array
 	 * @param $table_name -- table name:: Type varchar
 	 * @param $module -- module:: Type varchar
 	 * @param $invitees_array Array
 	 */
-	function insertIntoInviteeTable($module, $invitees_array)
+	function insertIntoInviteeTable($module)
 	{
-		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering insertIntoInviteeTable(" . $module . "," . $invitees_array . ") method ...");
-		if ($this->mode == 'edit') {
-			$sql = "delete from vtiger_invitees where activityid=?";
-			$adb->pquery($sql, array($this->id));
+		$log = LoggerManager::getInstance();
+		if (!AppRequest::has('inviteesid')) {
+			$log->fatal('No invitations in request, Exiting insertIntoInviteeTable method ...');
+			return;
 		}
-		foreach ($invitees_array as $inviteeid) {
-			if ($inviteeid != '') {
-				$query = "insert into vtiger_invitees values(?,?)";
-				$adb->pquery($query, array($this->id, $inviteeid));
+		$log->debug("Entering insertIntoInviteeTable($module) method ...");
+
+		$inviteesRequest = AppRequest::get('inviteesid');
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$this->id]);
+		$invities = [];
+		while ($row = $db->getRow($result)) {
+			$invities[$row['inviteesid']] = $row;
+		}
+		if (!empty($inviteesRequest)) {
+			foreach ($inviteesRequest as &$invitation) {
+				if (isset($invities[$invitation[2]])) {
+					unset($invities[$invitation[2]]);
+				} else {
+					$db->insert('u_yf_activity_invitation', [
+						'email' => $invitation[0],
+						'crmid' => $invitation[1],
+						'activityid' => $this->id
+					]);
+				}
 			}
 		}
-		$log->debug("Exiting insertIntoInviteeTable method ...");
+		foreach ($invities as &$invitation) {
+			$db->delete('u_yf_activity_invitation', 'inviteesid = ?', [$invitation['inviteesid']]);
+		}
+		$log->debug('Exiting insertIntoInviteeTable method ...');
 	}
 
 	/** Function to insert values in vtiger_salesmanactivityrel table for the specified module
@@ -318,15 +335,14 @@ class Activity extends CRMEntity
 			$adb->pquery($sql, array($this->id));
 		}
 
-		$userName = Vtiger_Functions::getUserName($this->column_fields['assigned_user_id']);
+		$userName = vtlib\Functions::getUserName($this->column_fields['assigned_user_id']);
 		if (!empty($userName)) {
 			$sql_qry = "insert into vtiger_salesmanactivityrel (smid,activityid) values(?,?)";
 			$adb->pquery($sql_qry, array($this->column_fields['assigned_user_id'], $this->id));
 
 			if (!AppRequest::isEmpty('inviteesid')) {
-				$selected_users_string = AppRequest::get('inviteesid');
-				$invitees_array = explode(';', $selected_users_string);
-				foreach ($invitees_array as $inviteeid) {
+				$invitees = AppRequest::get('inviteesid');
+				foreach ($invitees as $inviteeid) {
 					if ($inviteeid != '') {
 						$resultcheck = $adb->pquery("select * from vtiger_salesmanactivityrel where activityid=? and smid=?", array($this->id, $inviteeid));
 						if ($adb->num_rows($resultcheck) != 1) {
@@ -405,7 +421,7 @@ class Activity extends CRMEntity
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -434,7 +450,7 @@ class Activity extends CRMEntity
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
-			$return_value = Array();
+			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
 		$log->debug("Exiting get_contacts method ...");
@@ -460,12 +476,12 @@ class Activity extends CRMEntity
 
 		$returnset = '&return_module=Calendar&return_action=CallRelatedList&return_id=' . $id;
 
-		$query = 'SELECT vtiger_users.id, vtiger_users.first_name,vtiger_users.last_name, vtiger_users.user_name, vtiger_users.email1, vtiger_users.status, vtiger_users.is_admin, vtiger_user2role.roleid, vtiger_users.phone_home, vtiger_users.phone_work, vtiger_users.phone_mobile, vtiger_users.phone_other, vtiger_users.phone_fax,vtiger_activity.date_start,vtiger_activity.due_date,vtiger_activity.time_start,vtiger_activity.duration_hours,vtiger_activity.duration_minutes from vtiger_users inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.smid=vtiger_users.id  inner join vtiger_activity on vtiger_activity.activityid=vtiger_salesmanactivityrel.activityid inner join vtiger_user2role on vtiger_user2role.userid=vtiger_users.id where vtiger_activity.activityid=' . $id;
-
+		$query = 'SELECT vtiger_users.id, vtiger_users.first_name,vtiger_users.last_name, vtiger_users.user_name, vtiger_users.email1, vtiger_users.status, vtiger_users.is_admin, vtiger_user2role.roleid, vtiger_users.phone_home, vtiger_users.phone_work, vtiger_users.phone_mobile, vtiger_users.phone_other, vtiger_users.phone_fax,vtiger_activity.date_start,vtiger_activity.due_date,vtiger_activity.time_start,vtiger_activity.duration_hours,vtiger_activity.duration_minutes from vtiger_users inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.smid=vtiger_users.id  inner join vtiger_activity on vtiger_activity.activityid=vtiger_salesmanactivityrel.activityid inner join vtiger_user2role on vtiger_user2role.userid=vtiger_users.id where vtiger_activity.activityid= %d';
+		$query = sprintf($query, $id);
 		$return_data = GetRelatedList('Calendar', 'Users', $focus, $query, $button, $returnset);
 
 		if ($return_data == null)
-			$return_data = Array();
+			$return_data = [];
 		$return_data['CUSTOM_BUTTON'] = $button;
 
 		$log->debug("Exiting get_users method ...");
@@ -555,10 +571,10 @@ class Activity extends CRMEntity
 		$log = vglobal('log');
 		$log->debug("Entering process_list_query1(" . $query . ") method ...");
 		$result = & $this->db->query($query, true, "Error retrieving $this->object_name list: ");
-		$list = Array();
+		$list = [];
 		$rows_found = $this->db->getRowCount($result);
 		if ($rows_found != 0) {
-			$task = Array();
+			$task = [];
 			for ($index = 0, $row = $this->db->fetchByAssoc($result, $index); $row && $index < $rows_found; $index++, $row = $this->db->fetchByAssoc($result, $index)) {
 				foreach ($this->range_fields as $columnName) {
 					if (isset($row[$columnName])) {
@@ -580,7 +596,7 @@ class Activity extends CRMEntity
 			}
 		}
 
-		$response = Array();
+		$response = [];
 		$response['list'] = $list;
 		$response['row_count'] = $rows_found;
 		$response['next_offset'] = $next_offset;
@@ -593,42 +609,48 @@ class Activity extends CRMEntity
 
 	/**
 	 * Function to get reminder for activity
-	 * @param  integer   $activity_id     - activity id
-	 * @param  string    $reminder_time   - reminder time
-	 * @param  integer   $reminder_sent   - 0 or 1
+	 * @param  integer   $activityId     - activity id
+	 * @param  string    $reminderTime   - reminder time
+	 * @param  integer   $reminderSent   - 0 or 1
 	 * @param  integer   $recurid         - recuring eventid
-	 * @param  string    $remindermode    - string like 'edit'
+	 * @param  string    $reminderMode    - string like 'edit'
 	 */
-	function activity_reminder($activity_id, $reminder_time, $reminder_sent = 0, $recurid, $remindermode = '')
+	function activity_reminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
 	{
 		$log = LoggerManager::getInstance();
-		$log->debug('Entering vtiger_activity_reminder(' . $activity_id . "," . $reminder_time . "," . $reminder_sent . "," . $recurid . "," . $remindermode . ") method ...");
+		$log->debug("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
 		//Check for vtiger_activityid already present in the reminder_table
-		$query_exist = "SELECT activity_id FROM " . $this->reminder_table . " WHERE activity_id = ?";
-		$result_exist = $this->db->pquery($query_exist, array($activity_id));
+		$query = sprintf('SELECT activity_id FROM %s WHERE activity_id = ?', $this->reminder_table);
+		$resultExist = $this->db->pquery($query, array($activityId));
 
-		if ($remindermode == 'edit') {
-			if ($this->db->num_rows($result_exist) > 0) {
-				$query = "UPDATE " . $this->reminder_table . ' SET';
-				$query .=" reminder_sent = ?, reminder_time = ? WHERE activity_id =?";
-				$params = array($reminder_sent, $reminder_time, $activity_id);
+		if ($reminderMode == 'edit') {
+			if ($this->db->getRowCount($resultExist) > 0) {
+				$this->db->update($this->reminder_table, [
+					'reminder_time' => $reminderTime,
+					'reminder_sent' => $reminderSent
+					], 'activity_id = ?', [$activityId]
+				);
 			} else {
-				$query = "INSERT INTO " . $this->reminder_table . ' VALUES (?,?,?,?)';
-				$params = array($activity_id, $reminder_time, 0, $recurid);
+				$this->db->insert($this->reminder_table, [
+					'activity_id' => $activityId,
+					'reminder_time' => $reminderTime,
+					'reminder_sent' => 0,
+					'recurringid' => $recurid
+				]);
 			}
-		} elseif (($remindermode == 'delete') && ($this->db->num_rows($result_exist) > 0)) {
-			$query = "DELETE FROM " . $this->reminder_table . ' WHERE activity_id = ?';
-			$params = array($activity_id);
+		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
+			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activityId]);
 		} else {
 			if (AppRequest::get('set_reminder') == 'Yes') {
-				$query = "INSERT INTO " . $this->reminder_table . ' VALUES (?,?,?,?)';
-				$params = array($activity_id, $reminder_time, 0, $recurid);
+				$this->db->insert($this->reminder_table, [
+					'activity_id' => $activityId,
+					'reminder_time' => $reminderTime,
+					'reminder_sent' => 0,
+					'recurringid' => $recurid
+				]);
 			}
 		}
-		if (!empty($query)) {
-			$this->db->pquery($query, $params, true, "Error in processing vtiger_table $this->reminder_table");
-		}
-		$log->debug("Exiting vtiger_activity_reminder method ...");
+		$log->debug('Exiting vtiger_activity_reminder method ...');
 	}
 
 	//Used for vtigerCRM Outlook Add-In
@@ -640,7 +662,7 @@ class Activity extends CRMEntity
 	function get_tasksforol($username)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering get_tasksforol(" . $username . ") method ...");
 		$current_user = vglobal('current_user');
 		require_once("modules/Users/Users.php");
@@ -653,11 +675,11 @@ class Activity extends CRMEntity
 
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select tablename,columnname from vtiger_field where tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.presence in (0,2)";
-			$params1 = array();
+			$params1 = [];
 		} else {
 			$profileList = getCurrentUserProfileList();
 			$sql1 = "select tablename,columnname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.displaytype in (1,2,4,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
+			$params1 = [];
 			if (count($profileList) > 0) {
 				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
 				array_push($params1, $profileList);
@@ -674,14 +696,16 @@ class Activity extends CRMEntity
 			  } */
 		}
 		$permitted_lists = array_chunk($permitted_lists, 2);
-		$column_table_lists = array();
+		$column_table_lists = [];
 		for ($i = 0; $i < count($permitted_lists); $i++) {
 			$column_table_lists[] = implode(".", $permitted_lists[$i]);
 		}
 
-		$query = "select vtiger_activity.activityid as taskid, " . implode(',', $column_table_lists) . " from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
+		$query = "select vtiger_activity.activityid as taskid, %s from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
 			 inner join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-			 where vtiger_users.user_name='" . $username . "' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
+			 where vtiger_users.user_name='%s' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
+		$columnTableList = implode(',', $column_table_lists, $username);
+		$query = sprintf($query, $columnTableList);
 		$log->debug("Exiting get_tasksforol method ...");
 		return $query;
 	}
@@ -705,11 +729,11 @@ class Activity extends CRMEntity
 
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select tablename,columnname from vtiger_field where tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.presence in (0,2)";
-			$params1 = array();
+			$params1 = [];
 		} else {
 			$profileList = getCurrentUserProfileList();
 			$sql1 = "select tablename,columnname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.displaytype in (1,2,4,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
+			$params1 = [];
 			if (count($profileList) > 0) {
 				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
 				array_push($params1, $profileList);
@@ -729,17 +753,19 @@ class Activity extends CRMEntity
 			}
 		}
 		$permitted_lists = array_chunk($permitted_lists, 2);
-		$column_table_lists = array();
+		$column_table_lists = [];
 		for ($i = 0; $i < count($permitted_lists); $i++) {
 			$column_table_lists[] = implode(".", $permitted_lists[$i]);
 		}
 
-		$query = "select vtiger_activity.activityid as clndrid, " . implode(',', $column_table_lists) . " from vtiger_activity
+		$query = "select vtiger_activity.activityid as clndrid, %s from vtiger_activity
 				inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.activityid=vtiger_activity.activityid
 				inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid
 				left join vtiger_contactdetails on vtiger_contactdetails.contactid=vtiger_activity.link
 				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
-				where vtiger_users.user_name='" . $user_name . "' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting'";
+				where vtiger_users.user_name='%s' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting'";
+		$columnTableLists = implode(',', $column_table_lists);
+		$query = sprintf($query, $columnTableLists, $user_name);
 		$log->debug("Exiting get_calendarsforol method ...");
 		return $query;
 	}
@@ -889,7 +915,7 @@ class Activity extends CRMEntity
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared " .
 			"int(1) default 0) ignore " . $query;
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery($query, array());
+		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			$query = "REPLACE INTO $tableName (id) SELECT userid as id FROM vtiger_sharedcalendar WHERE sharedid = ?";
 			$result = $db->pquery($query, array($user->id));
@@ -932,7 +958,7 @@ class Activity extends CRMEntity
 		if ($fieldRes->rowCount()) {
 			$results = $this->db->getArray($fieldRes);
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [Vtiger_Functions::getModuleId($module)]);
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
 			while ($row = $this->db->getRow($fieldRes)) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();

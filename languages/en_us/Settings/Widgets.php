@@ -60,6 +60,7 @@ $languageStrings = [
 	'LBL_SHITCH_HEADER' => 'Switch in header',
 	'LBL_SHITCH_HEADER_INFO' => 'Switch can be found in the widget\'s header.',
 	'HistoryRelation' => 'Timeline',
+	'CountRecords' => 'Number of records'
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Loading...',

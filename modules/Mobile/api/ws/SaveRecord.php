@@ -30,7 +30,7 @@ class Mobile_WS_SaveRecord extends Mobile_WS_FetchRecordWithGrouping {
 		
 		$values = "";
 		if(!empty($valuesJSONString) && is_string($valuesJSONString)) {
-			$values = Zend_Json::decode($valuesJSONString);
+			$values = \includes\utils\Json::decode($valuesJSONString);
 		} else {
 			$values = $valuesJSONString; // Either empty or already decoded.
 		}

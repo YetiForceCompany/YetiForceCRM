@@ -116,7 +116,7 @@ function vtws_history($element, $user)
 	// Minor optimizatin to avoid 2nd query run when there is nothing to expect.
 	if (!empty($orderedIds)) {
 		$sql = 'SELECT vtiger_modtracker_detail.* FROM vtiger_modtracker_detail';
-		$sql .= ' WHERE vtiger_modtracker_detail.id IN (' . generateQuestionMarks($orderedIds) . ')';
+		$sql .= sprintf(' WHERE vtiger_modtracker_detail.id IN (%s)', generateQuestionMarks($orderedIds));
 
 		// LIMIT here is not required as $ids extracted is with limit at record level earlier.
 		$params = $orderedIds;

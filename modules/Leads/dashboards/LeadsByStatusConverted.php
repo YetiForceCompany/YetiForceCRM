@@ -44,6 +44,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		if ($owner == 'all')
 			$owner = '';
 
+		$dates = [];
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
 			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
@@ -53,8 +54,8 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = ($owner === false) ? array() : $moduleModel->getLeadsByStatusConverted($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
-		for ($i = 0; $i < count($data); $i++) {
-			$data[$i]["links"] = $listViewUrl . $this->getSearchParams($data[$i][2], $owner, $dates);
+		foreach ($data as &$value) {
+			$value['links'] = $listViewUrl . $this->getSearchParams($value[2], $owner, $dates);
 		}
 		//Include special script and css needed for this widget
 
@@ -63,8 +64,8 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
 
-		$accessibleUsers = $currentUser->getAccessibleUsersForModule('Leads');
-		$accessibleGroups = $currentUser->getAccessibleGroupForModule('Leads');
+		$accessibleUsers = \includes\fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule();
+		$accessibleGroups = \includes\fields\Owner::getInstance('Leads', $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('OWNER', $ownerForwarded);

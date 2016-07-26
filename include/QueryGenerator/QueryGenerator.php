@@ -62,6 +62,7 @@ class QueryGenerator
 	private $fromClauseCustom;
 	private $whereClauseCustom;
 	private $customTable;
+	public $permissions = true;
 
 	/**
 	 * Import Feature
@@ -615,17 +616,22 @@ class QueryGenerator
 		}
 		$baseTable = $this->meta->getEntityBaseTable();
 		$sql = " FROM $baseTable ";
-		unset($tableList[$baseTable]);
-		foreach ($defaultTableList as $tableName) {
-			$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable." .
-				"$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]";
-			unset($tableList[$tableName]);
-		}
 		foreach ($this->customTable as $table) {
 			$tableName = $table['name'];
 			$tableList[$tableName] = $tableName;
 			$tableJoinMapping[$tableName] = $table['join'];
 		}
+		foreach ($this->whereClauseCustom as &$where) {
+			if (isset($where['tablename']) && ($baseTable != $where['tablename'] && !in_array($where['tablename'], $tableList))) {
+				$tableList[] = $where['tablename'];
+				$tableJoinMapping[$where['tablename']] = 'LEFT JOIN';
+			}
+		}
+		foreach ($defaultTableList as $tableName) {
+			$sql .= " $tableJoinMapping[$tableName] $tableName ON $baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]";
+			unset($tableList[$tableName]);
+		}
+		unset($tableList[$baseTable]);
 		foreach ($tableList as $tableName) {
 			if ($tableName == 'vtiger_users') {
 				$field = $moduleFields[$ownerField];
@@ -640,13 +646,6 @@ class QueryGenerator
 					"$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]";
 			}
 		}
-
-		/* if( $this->meta->getTabName() == 'Documents') {
-		  $tableJoinCondition['folderid'] = array(
-		  'vtiger_attachmentsfolderfolderid'=>"$baseTable.folderid = vtiger_attachmentsfolderfolderid.folderid"
-		  );
-		  $tableJoinMapping['vtiger_attachmentsfolderfolderid'] = 'INNER JOIN vtiger_attachmentsfolder';
-		  } */
 
 		foreach ($tableJoinCondition as $fieldName => $conditionInfo) {
 			foreach ($conditionInfo as $tableName => $condition) {
@@ -814,7 +813,7 @@ class QueryGenerator
 						$concatSql = getSqlForNameInDisplayFormat(array('first_name' => "vtiger_users$fieldName.first_name", 'last_name' => "vtiger_users$fieldName.last_name"), 'Users');
 						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql)";
 					} else {
-						$entityFields = Vtiger_Functions::getEntityModuleInfoFieldsFormatted('Users');
+						$entityFields = vtlib\Functions::getEntityModuleInfoFieldsFormatted('Users');
 						if (count($entityFields['fieldname']) > 1) {
 							$columns = [];
 							foreach ($entityFields['fieldname'] as $i => $fieldname) {
@@ -959,10 +958,6 @@ class QueryGenerator
 			}
 		}
 
-		foreach ($this->whereClauseCustom as $where) {
-			$sql .= ' ' . $where['glue'] . ' ' . $where['column'] . ' ' . $where['operator'] . ' ' . $where['value'];
-		}
-
 		// This is needed as there can be condition in different order and there is an assumption in makeGroupSqlReplacements API
 		// that it expects the array in an order and then replaces the sql with its the corresponding place
 		ksort($fieldSqlList);
@@ -971,10 +966,26 @@ class QueryGenerator
 			$this->conditionalWhere = $groupSql;
 			$sql .= $groupSql;
 		}
+
+		foreach ($this->whereClauseCustom as $where) {
+			$value = $where['value'];
+			$operator = $where['operator'];
+			$valueAndOp = $this->getSqlOperator($operator, $value);
+			if (is_array($valueAndOp)) {
+				$value = $valueAndOp[1];
+				$operator = $valueAndOp[0] ? $valueAndOp[0] : $operator;
+			} else {
+				$operator = $valueAndOp ? $valueAndOp : $operator;
+			}
+			$sql .= ' ' . $where['glue'] . ' ' . $where['column'] . ' ' . $operator . ' ' . $value;
+		}
+
 		if (!$onlyWhereQuery) {
 			$sql .= " AND $baseTable.$baseTableIndex > 0";
-			$instance = CRMEntity::getInstance($baseModule);
-			$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user, $this->getSourceRecord());
+			if ($this->permissions) {
+				$instance = CRMEntity::getInstance($baseModule);
+				$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user, $this->getSourceRecord());
+			}
 		}
 		$this->whereClause = $sql;
 		return $sql;
@@ -1169,9 +1180,9 @@ class QueryGenerator
 			}
 			if (trim($value) == '' && in_array($operator, ['wr', 'nwr']) && in_array($field->getFieldName(), $this->ownerFields)) {
 				$userId = Users_Record_Model::getCurrentUserModel()->get('id');
-				$watchingSql = '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' AND module = ' . Vtiger_Functions::getModuleId($this->module) . ') > 0 AND ';
+				$watchingSql = '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' AND module = ' . vtlib\Functions::getModuleId($this->module) . ') > 0 AND ';
 				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' AND record = vtiger_crmentity.crmid AND state = 0) = 0) OR ';
-				$watchingSql .= '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' AND module = ' . Vtiger_Functions::getModuleId($this->module) . ') = 0 AND ';
+				$watchingSql .= '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' AND module = ' . vtlib\Functions::getModuleId($this->module) . ') = 0 AND ';
 				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' AND record = vtiger_crmentity.crmid AND state = 1) > 0)';
 				$sql[] = $watchingSql;
 				continue;
@@ -1466,22 +1477,22 @@ class QueryGenerator
 			$leadSource = AppRequest::get('leadsource');
 		}
 		if (AppRequest::has('date_closed')) {
-			$leadSource = AppRequest::get('date_closed');
+			$dateClosed = AppRequest::get('date_closed');
 		}
 		if (AppRequest::has('sales_stage')) {
-			$leadSource = AppRequest::get('sales_stage');
+			$salesStage = AppRequest::get('sales_stage');
 		}
 		if (AppRequest::has('closingdate_start')) {
-			$leadSource = AppRequest::get('closingdate_start');
+			$dateClosedStart = AppRequest::get('closingdate_start');
 		}
 		if (AppRequest::has('closingdate_end')) {
-			$leadSource = AppRequest::get('closingdate_end');
+			$dateClosedEnd = AppRequest::get('closingdate_end');
 		}
 		if (AppRequest::has('owner')) {
-			$leadSource = AppRequest::get('owner');
+			$owner = AppRequest::get('owner');
 		}
 		if (AppRequest::has('campaignid')) {
-			$leadSource = AppRequest::get('campaignid');
+			$campaignId = AppRequest::get('campaignid');
 		}
 
 		$conditionList = [];
@@ -1555,6 +1566,8 @@ class QueryGenerator
 		switch ($operator) {
 			case 'e': $sqlOperator = '=';
 				break;
+			case 'om': $sqlOperator = '=';
+				break;
 			case 'n': $sqlOperator = '<>';
 				break;
 			case 's': $sqlOperator = 'LIKE';
@@ -1568,6 +1581,12 @@ class QueryGenerator
 				break;
 			case 'k': $sqlOperator = 'NOT LIKE';
 				$value = '%' . $value . '%';
+				break;
+			case 'in': $sqlOperator = 'IN';
+				$value = '(' . $value . ')';
+				break;
+			case 'nin': $sqlOperator = 'NOT IN';
+				$value = '(' . $value . ')';
 				break;
 			case 'l': $sqlOperator = '<';
 				break;

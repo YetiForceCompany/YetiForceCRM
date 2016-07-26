@@ -116,7 +116,7 @@
 								<div class="accordion-heading">
 									{assign var=TABLE value='vtiger_'|cat:$ITEM.fieldname}
 									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{$TABLE}">
-										{assign var=MODULE_NAME value=Vtiger_Functions::getModuleName($ITEM.tabid)}
+										{assign var=MODULE_NAME value=vtlib\Functions::getModuleName($ITEM.tabid)}
 										{vtranslate($MODULE_NAME, $MODULE_NAME)}
 										:&ensp;
 										{vtranslate($ITEM.fieldlabel, $MODULE_NAME)}

@@ -39,6 +39,7 @@ $languageStrings = [
 	'time' => 'Pole czasu',
 	'url' => 'Adres WWW',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Konwersja na kontrahenta',
+	'sharedOwner' => ' ',
 ];
 
 $jsLanguageStrings = [
@@ -65,5 +66,6 @@ $jsLanguageStrings = [
 	'JS_url' => 'Adres WWW',
 	'JS_WITH' => 'z',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Zapisano mapowanie pól',
+	'JS_sharedOwner' => ' ',
 
 ];

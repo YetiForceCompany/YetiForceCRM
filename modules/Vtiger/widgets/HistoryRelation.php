@@ -11,8 +11,9 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 
 	public static $colors = [
 		'ModComments' => 'bgBlue',
-		'OSSMailView' => 'bgOrange',
-		'Calendar' => 'bgGreen',
+		'OSSMailViewReceived' => 'bgGreen',
+		'OSSMailViewSent' => 'bgDanger',
+		'Calendar' => 'bgOrange',
 	];
 
 	static public function getActions()
@@ -42,7 +43,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		return 'HistoryRelationConfig';
 	}
 
-	public function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
+	public static function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
 	{
 		$db = PearDatabase::getInstance();
 		$recordId = $request->get('record');
@@ -71,13 +72,14 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				$row['isGroup'] = false;
 				$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
 			}
-			if ($row['type'] == 'OSSMailView') {
-				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getPreviewViewUrl($row['id']);
+			$row['class'] = self::$colors[$row['type']];
+			if (strpos($row['type'], 'OSSMailView') !== false) {
+				$row['type'] = 'OSSMailView';
+				$row['url'] = Vtiger_Module_Model::getInstance('OSSMailView')->getPreviewViewUrl($row['id']);
 			} else {
 				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getDetailViewUrl($row['id']);
 			}
-
-			$row['class'] = self::$colors[$row['type']];
+			$row['body'] = vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($row['body']))), 100);
 			$history[] = $row;
 		}
 		return $history;
@@ -86,13 +88,13 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	public function getQuery($recordId, $moduleName, $type)
 	{
 		$queries = [];
-		$field = Vtiger_Module_Model::getMappingRelatedField($moduleName);
+		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 
 		if (in_array('Calendar', $type)) {
-			$sql = 'SELECT CONCAT(\'Calendar\') AS type, vtiger_crmentity.crmid AS id,a.subject AS content,vtiger_crmentity.smownerid AS user,concat(a.date_start, " ", a.time_start) AS `time`
+			$sql = sprintf('SELECT NULL AS `body`, CONCAT(\'Calendar\') AS type, vtiger_crmentity.crmid AS id,a.subject AS content,vtiger_crmentity.smownerid AS user,concat(a.date_start, " ", a.time_start) AS `time`
 				FROM vtiger_activity a
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = a.activityid 
-				WHERE vtiger_crmentity.deleted = 0 AND a.' . $field . ' = ' . $recordId;
+				WHERE vtiger_crmentity.deleted = 0 AND a.%s = %d', $field, $recordId);
 			$instance = CRMEntity::getInstance('Calendar');
 			$securityParameter = $instance->getUserAccessConditionsQuerySR('Calendar', false, $recordId);
 			if ($securityParameter != '')
@@ -100,10 +102,10 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$queries[] = $sql;
 		}
 		if (in_array('ModComments', $type)) {
-			$sql = 'SELECT CONCAT(\'ModComments\') AS type,m.modcommentsid AS id,m.commentcontent AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
+			$sql = sprintf('SELECT NULL AS `body`, CONCAT(\'ModComments\') AS type,m.modcommentsid AS id,m.commentcontent AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
 				FROM vtiger_modcomments m
 				INNER JOIN vtiger_crmentity ON m.modcommentsid = vtiger_crmentity.crmid 
-				WHERE vtiger_crmentity.deleted = 0 AND related_to = ' . $recordId;
+				WHERE vtiger_crmentity.deleted = 0 AND related_to = %d', $recordId);
 			$instance = CRMEntity::getInstance('ModComments');
 			$securityParameter = $instance->getUserAccessConditionsQuerySR('ModComments', false, $recordId);
 			if ($securityParameter != '')
@@ -111,11 +113,11 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$queries[] = $sql;
 		}
 		if (in_array('Emails', $type)) {
-			$sql = 'SELECT CONCAT(\'OSSMailView\') AS type,o.ossmailviewid AS id,o.subject AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
+			$sql = sprintf('SELECT o.content AS `body`, CONCAT(\'OSSMailView\', o.ossmailview_sendtype) AS `type`,o.ossmailviewid AS id,o.subject AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
 				FROM vtiger_ossmailview o
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = o.ossmailviewid 
 				INNER JOIN vtiger_ossmailview_relation r ON r.ossmailviewid = o.ossmailviewid 
-				WHERE vtiger_crmentity.deleted = 0 AND r.crmid = ' . $recordId;
+				WHERE vtiger_crmentity.deleted = 0 AND r.crmid = %d', $recordId);
 			$instance = CRMEntity::getInstance('OSSMailView');
 			$securityParameter = $instance->getUserAccessConditionsQuerySR('OSSMailView', false, $recordId);
 			if ($securityParameter != '')

@@ -64,7 +64,7 @@ class VTCreateTodoTask extends VTTask
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 					WHERE vtiger_crmentity.deleted = 0 AND (vtiger_activity.link = ? OR vtiger_activity.process = ?) 
 					AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
-			$status = Vtiger_Functions::getArrayFromValue($this->duplicateStatus);
+			$status = vtlib\Functions::getArrayFromValue($this->duplicateStatus);
 			if (count($status) > 0) {
 				$sql .= " AND vtiger_activity.status NOT IN ('" . implode("','", $status) . "')";
 			}

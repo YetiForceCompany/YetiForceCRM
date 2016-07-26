@@ -56,7 +56,7 @@
 								<th class="blockHeader">{vtranslate('Leads', $QUALIFIED_MODULE)}</th>
 								<th class="blockHeader">{vtranslate('Accounts', $QUALIFIED_MODULE)}</th>
 							</tr>
-							{assign var=MAPPING value=ZEND_JSON::decode($CONVERSION.mapping)}
+							{assign var=MAPPING value=\includes\utils\Json::decode($CONVERSION.mapping)}
 							{assign var=LEAD_FIELDS value=$LEADS_MODULE_MODEL->getFields()}
 							{assign var=ACCOUNT_FIELDS value=$ACCOUNTS_MODULE_MODEL->getFields()}
 							{foreach item=MAPPING_ARRAY from=$MAPPING  name="mappingLoop"}
@@ -137,7 +137,7 @@
 					<tr>
 						<td><label>{vtranslate('LBL_GROUPS_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-md-6">
-							{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('Leads')}
+							{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance('Leads')->getAccessibleGroups()}
 							<select class="chzn-select configField" name="groups" data-type="lead" multiple>
 								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $LEAD['groups'])}selected{/if} >

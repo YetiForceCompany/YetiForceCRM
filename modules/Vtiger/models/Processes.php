@@ -27,7 +27,7 @@ class Vtiger_Processes_Model
 			return $cache;
 		}
 
-		$result = $db->pquery('SELECT * FROM ' . $processList[$process] . ' WHERE type = ?;', [$type]);
+		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE type = ?;', $processList[$process]), [$type]);
 		if ($db->num_rows($result) == 0) {
 			return [];
 		}

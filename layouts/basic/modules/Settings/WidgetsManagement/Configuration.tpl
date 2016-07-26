@@ -56,8 +56,8 @@
 				</div>
 
 				<div id="moduleBlocks">
-					<input type="hidden" name="filter_users" value='{Zend_Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
-					<input type="hidden" name="filter_restrict" value='{Zend_Json::encode($RESTRICT_FILTER)}'>
+					<input type="hidden" name="filter_users" value='{\includes\utils\Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
+					<input type="hidden" name="filter_restrict" value='{\includes\utils\Json::encode($RESTRICT_FILTER)}'>
 					{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 						{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
 						<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} marginBottom10px border1px blockSortable" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;background: white;">
@@ -74,11 +74,27 @@
 												<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 											</button>
 										</div>
+										{if $SPECIAL_WIDGETS['Rss']}
+											{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
+											<div class="btn-group">
+												<button class="btn btn-success addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+													<strong>{vtranslate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
+												</button>
+											</div>
+										{/if}
 										{if $SPECIAL_WIDGETS['Mini List']}
 											{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 											<div class="btn-group">
 												<button class="btn btn-success addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 													<strong>{vtranslate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
+												</button>
+											</div>
+										{/if}
+										{if $SPECIAL_WIDGETS['ChartFilter']}
+											{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
+											<div class="btn-group">
+												<button class="btn btn-success addChartFilter" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>&nbsp;
+													<strong>{vtranslate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
 										{/if}
@@ -89,7 +105,15 @@
 													<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
-										{/if}	
+										{/if}
+										{if $SPECIAL_WIDGETS['Chart']}
+											{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
+											<div class="btn-group">
+												<button class="btn btn-success addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+													<strong>{vtranslate('LBL_ADD_WIDGET_CHARTS', $QUALIFIED_MODULE)}</strong>
+												</button>
+											</div>
+										{/if}
 										<div class="btn-group actions">
 											<a href="javascript:void(0)" class="deleteCustomBlock btn btn-danger" >
 												<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
@@ -164,6 +188,14 @@
 										<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 									</button>
 								</div>
+								{if $SPECIAL_WIDGETS['Rss']}
+									{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
+									<div class="btn-group">
+										<button class="btn btn-success addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>
+											<strong>{vtranslate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
+										</button>
+									</div>
+								{/if}
 								{if $SPECIAL_WIDGETS['Mini List']}
 									{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 									<div class="btn-group">
@@ -172,11 +204,27 @@
 										</button>
 									</div>
 								{/if}
+								{if $SPECIAL_WIDGETS['ChartFilter']}
+									{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
+									<div class="btn-group">
+										<button class="btn btn-success addChartFilter specialWidget" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
+											<strong>{vtranslate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
+										</button>
+									</div>
+								{/if}
 								{if $SPECIAL_WIDGETS['Notebook']}
 									{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 									<div class="btn-group">
 										<button class="btn btn-success addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
 											<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
+										</button>
+									</div>
+								{/if}
+								{if $SPECIAL_WIDGETS['Chart']}
+									{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
+									<div class="btn-group">
+										<button class="btn btn-success addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+											<strong>{vtranslate('LBL_ADD_WIDGET_CHARTS', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
 								{/if}
@@ -211,7 +259,7 @@
 										<div class="col-md-8 controls">
 											<select class="widgets form-control" name="widgets" data-validation-engine="validate[required]"  >
 												{foreach from=$WIDGETS item=WIDGET}
-													{if $WIDGET->getTitle() eq 'Mini List' || $WIDGET->getTitle() eq 'Notebook'}
+													{if array_key_exists($WIDGET->getTitle(), $SPECIAL_WIDGETS)}
 														{continue}
 													{/if}
 													<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
@@ -283,7 +331,7 @@
 				<li class="newCustomFieldCopy hide col-md-12">
 					<div class="marginLeftZero border1px" data-field-id="" data-linkid="" data-sequence="">
 						<div class="row padding1per">
-							<div class="col-md-10 " style="word-wrap: break-word;">
+							<div class="pull-left" style="word-wrap: break-word;">
 								<span class="fieldLabel marginLeft20"></span>
 							</div>
 							<span class="btn-group pull-right marginRight20 actions">

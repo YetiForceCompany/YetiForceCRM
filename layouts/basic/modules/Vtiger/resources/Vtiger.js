@@ -55,22 +55,30 @@ var Vtiger_Index_Js = {
 	},
 	registerMailButtons: function (container) {
 		var thisInstance = this;
-		container.find('.sendMailBtn').click(function (e) {
+		container.find('.sendMailBtn:not(.mailBtnActive)').each(function (e) {
 			var sendButton = jQuery(this);
-			var url = sendButton.data("url");
-			var module = sendButton.data("module");
-			var record = sendButton.data("record");
-			var popup = sendButton.data("popup");
-			if (module != undefined && record != undefined) {
-				thisInstance.getEmailFromRecord(record, module).then(function (data) {
-					if (data != '') {
-						url += '&to=' + data;
-					}
+			sendButton.addClass('mailBtnActive');
+			sendButton.click(function (e) {
+				e.stopPropagation();
+				var url = sendButton.data("url");
+				var module = sendButton.data("module");
+				var record = sendButton.data("record");
+				var popup = sendButton.data("popup");
+				var toMail = sendButton.data("to");
+				if (toMail) {
+					url += '&to=' + toMail;
+				}
+				if (module != undefined && record != undefined && !toMail) {
+					thisInstance.getEmailFromRecord(record, module).then(function (data) {
+						if (data != '') {
+							url += '&to=' + data;
+						}
+						thisInstance.sendMailWindow(url, popup);
+					});
+				} else {
 					thisInstance.sendMailWindow(url, popup);
-				});
-			} else {
-				thisInstance.sendMailWindow(url, popup);
-			}
+				}
+			});
 		});
 	},
 	sendMailWindow: function (url, popup, postData) {
@@ -324,21 +332,28 @@ var Vtiger_Index_Js = {
 				});
 			}
 			var badge = $(".notificationsNotice .badge");
-			var number = parseInt(badge.text()) - 1;
-			if (number > 0) {
-				badge.text(number);
-			} else {
-				badge.text('');
-			}
+			badge.each(function (n, e) {
+				var singleBadge = jQuery(e);
+				var number = parseInt(singleBadge.text()) - 1;
+				if (number > 0) {
+					singleBadge.text(number);
+				} else {
+					singleBadge.text('');
+				}
+			})
+			app.cacheSet('NotificationsNextCheckTime', 0);
 		});
 	},
 	markAllNotifications: function (element) {
-		var thisInstance = this;
 		var ids = [];
-		var li = $(element).closest('li');
-		li.find('.noticeRow').each(function (index) {
+		var li = $(element).closest('.notificationContainer');
+		li.find('.notificationEntries .noticeRow').each(function (index) {
 			ids.push($(this).data('id'));
 		});
+		if (ids.length == 0) {
+			element.remove();
+			return false;
+		}
 		var params = {
 			module: 'Home',
 			action: 'Notification',
@@ -352,9 +367,6 @@ var Vtiger_Index_Js = {
 				title: app.vtranslate('JS_MESSAGE'),
 				text: app.vtranslate('JS_MARKED_AS_READ'),
 				type: 'info'
-			});
-			li.fadeOut(300, function () {
-				row.remove();
 			});
 			var badge = $(".notificationsNotice .badge");
 			var number = parseInt(badge.text()) - 1;

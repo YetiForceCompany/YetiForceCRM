@@ -21,7 +21,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', $recordInstance);
-		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SCRIPTS', $this->getScripts($request));
 		$viewer->view('ActivityStateModal.tpl', $moduleName);
 	}

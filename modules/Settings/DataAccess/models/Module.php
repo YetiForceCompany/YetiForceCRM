@@ -30,14 +30,14 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
 
-		$presence = array(0, 2);
-		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter');
-		$query = 'SELECT name FROM vtiger_tab WHERE
-                    presence IN (' . generateQuestionMarks($presence) . ')
+		$presence = [0, 2];
+		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter'];
+		$query = sprintf('SELECT name FROM vtiger_tab WHERE
+                    presence IN (%s)
                     AND isentitytype = ?
-                    AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ') ';
+                    AND name NOT IN (%s) ', generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
 
-		$result = $db->pquery($query, array($presence, 1, $restrictedModules));
+		$result = $db->pquery($query, [$presence, 1, $restrictedModules]);
 		$numOfRows = $db->num_rows($result);
 
 		$modulesList = array('All' => 'All');
@@ -381,17 +381,26 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			return self::$colorListCache[$record];
 		}
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
-		$db = PearDatabase::getInstance();
-		$conditions = new DataAccess_Conditions();
-		$sql = "SELECT * FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%colorList%'";
-		$result = $db->pquery($sql, [$moduleName]);
+
+		$colorList = Vtiger_Cache::get('DataAccess::colorList', $moduleName);
+		if ($colorList === false) {
+			$db = PearDatabase::getInstance();
+			$sql = "SELECT dataaccessid,data FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%colorList%'";
+			$result = $db->pquery($sql, [$moduleName]);
+			$colorList = [];
+			while ($row = $db->getRow($result)) {
+				$colorList[] = $row;
+			}
+			Vtiger_Cache::set('DataAccess::colorList', $moduleName, $colorList);
+		}
+
 		$return = [];
-		
 		$recordData = $recordModel->getRawData();
-		if(empty($recordData)){
+		if (empty($recordData)) {
 			$recordData = $recordModel->getData();
 		}
-		while ($row = $db->getRow($result)) {
+		$conditions = new DataAccess_Conditions();
+		foreach ($colorList as $row) {
 			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordData, $recordModel);
 			if ($conditionResult['test'] == true) {
 				$data = reset(unserialize($row['data']));

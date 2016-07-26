@@ -157,8 +157,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	{
 		$adb = PearDatabase::getInstance();
 		if (!isset(self::$userIdNameCache[$id])) {
-			$userModuleInfo = Vtiger_Functions::getEntityModuleSQLColumnString('Users');
-			$result = $adb->query('SELECT id,' . $userModuleInfo['colums'] . ' FROM vtiger_users');
+			$userModuleInfo = vtlib\Functions::getEntityModuleSQLColumnString('Users');
+			$result = $adb->query(sprintf('SELECT id,%s FROM vtiger_users', $userModuleInfo['colums']));
 			while ($row = $adb->getRow($result)) {
 				$userid = $row['id'];
 				unset($row['id']);

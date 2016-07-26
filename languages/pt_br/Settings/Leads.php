@@ -38,6 +38,7 @@ $languageStrings = [
 	'time' => 'Hora',
 	'url' => 'Url',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Converter para Organização',
+	'sharedOwner' => ' ',
 
 ];
 
@@ -65,5 +66,6 @@ $jsLanguageStrings = [
 	'JS_url' => 'Url',
 	'JS_WITH' => 'com',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'O Mapeamento de Campos foi salvo',
+	'JS_sharedOwner' => ' ',
 
 ];

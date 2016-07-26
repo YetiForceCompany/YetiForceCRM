@@ -60,8 +60,7 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 		$storageSubjectList = rtrim($storageSubjectList, ', ');
 		// Gets the sum of products quantity in all storages
 		$productsQty = [];
-		$query = 'SELECT qtyinstock, relcrmid, crmid FROM u_yf_istorages_products ';
-		$query.= 'WHERE crmid IN ('. generateQuestionMarks($storageIdsArray) .')';
+		$query = sprintf('SELECT qtyinstock, relcrmid, crmid FROM u_yf_istorages_products WHERE crmid IN (%s)', generateQuestionMarks($storageIdsArray));
 		$result = $db->pquery($query,[$storageIdsArray]);
 		
 		while ($row = $db->getRow($result)) {

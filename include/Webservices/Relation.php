@@ -8,9 +8,12 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-function GetRelatedList($module, $relatedmodule, $focus, $query, $button, $returnset, $id = '', $edit_val = '', $del_val = '', $skipActions = false)
-{
-	return array('query' => $query, 'entries' => []);
+if (!function_exists('GetRelatedList')) {
+
+	function GetRelatedList($module, $relatedmodule, $focus, $query, $button, $returnset, $id = '', $edit_val = '', $del_val = '', $skipActions = false)
+	{
+		return array('query' => $query, 'entries' => []);
+	}
 }
 
 /**
@@ -21,5 +24,3 @@ function GetHistory($parentmodule, $query, $id)
 {
 	return array('query' => $query);
 }
-
-?>

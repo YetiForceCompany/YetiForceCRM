@@ -154,7 +154,7 @@ class VTWorkflowTemplateManager{
 			);
 			$arr[] = $el;
 		}
-		return Zend_Json::encode($arr);
+		return \includes\utils\Json::encode($arr);
 	}
 	
 	/**
@@ -163,7 +163,7 @@ class VTWorkflowTemplateManager{
 	 * @param $str The string dump generated from dumpAllTemplates
 	 */
 	public function loadTemplates($str){
-			$arr = Zend_Json::decode($str);
+			$arr = \includes\utils\Json::decode($str);
 			foreach($arr as $el){
 				$template = new VTWorkflowTemplate();
 				$template->moduleName = $el['moduleName'];

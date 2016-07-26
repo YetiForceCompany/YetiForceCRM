@@ -6,31 +6,32 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BaseScannerAction_Model
+class OSSMailScanner_CreatedHelpDesk_ScannerAction
 {
 
 	public function process(OSSMail_Mail_Model $mail)
 	{
 		$id = 0;
 		$accountOwner = $mail->getAccountOwner();
-		$prefix = $this->findEmailPrefix('HelpDesk', $mail->get('subject'));
-
+		$prefix = includes\fields\Email::findCrmidByPrefix($mail->get('subject'), 'HelpDesk');
 		$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
 		if (!empty($exceptionsAll['crating_tickets'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_tickets']);
 			foreach ($exceptions as $exception) {
-				if (strpos($mail->get('fromaddress'), $exception) !== FALSE) {
+				if (strpos($mail->get('fromaddress'), $exception) !== false) {
 					return '';
 				}
 			}
 		}
-
+		$create = true;
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT ticketid FROM vtiger_troubletickets where ticket_no = ?;', [$prefix]);
-		if ($db->getRowCount($result) == 0) {
+		if ($prefix !== false) {
+			$result = $db->pquery('SELECT ticketid FROM vtiger_troubletickets where ticket_no = ?;', [$prefix]);
+			$create = $db->getRowCount($result) == 0;
+		}
+		if ($create) {
 			$contactId = $mail->findEmailAdress('fromaddress', 'Contacts', false);
 			$parentId = $mail->findEmailAdress('fromaddress', 'Accounts', false);
-
 			$record = Vtiger_Record_Model::getCleanInstance('HelpDesk');
 			$record->set('assigned_user_id', $accountOwner);
 			$record->set('ticket_title', $mail->get('subject'));

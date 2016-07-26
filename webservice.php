@@ -14,13 +14,11 @@
 //Overrides GetRelatedList : used to get related query
 //TODO : Eliminate below hacking solution
 include_once('include/Webservices/Relation.php');
-include_once('vtlib/Vtiger/Module.php');
 include_once('include/main/WebUI.php');
 require_once('include/Webservices/Utils.php');
 require_once('include/Webservices/State.php');
 require_once('include/Webservices/OperationManager.php');
 require_once('include/Webservices/SessionManager.php');
-require_once('include/Zend/Json.php');
 
 require_once('config/api.php');
 if (!in_array('webservices', $enabledServices)) {

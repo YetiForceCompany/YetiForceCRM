@@ -214,11 +214,13 @@ class Vtiger_Util_Helper
 	{
 		$adb = PearDatabase::getInstance();
 
-		$query = 'SELECT label from vtiger_crmentity where crmid=?';
+		$query = 'SELECT u_yf_crmentity_label.label FROM vtiger_crmentity 
+			INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid 
+			WHERE vtiger_crmentity.crmid = ?';
 		if ($checkDelete) {
-			$query.= ' AND deleted=0';
+			$query.= ' AND vtiger_crmentity.deleted = 0';
 		}
-		$result = $adb->pquery($query, array($recordId));
+		$result = $adb->pquery($query, [$recordId]);
 
 		$num_rows = $adb->num_rows($result);
 		if ($num_rows) {
@@ -301,7 +303,7 @@ class Vtiger_Util_Helper
 		$db = PearDatabase::getInstance();
 
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
-		$query = 'SELECT ' . $primaryKey . ', ' . $fieldName . ' FROM vtiger_' . $fieldName . ' order by sortorderid';
+		$query = sprintf('SELECT %s, %s FROM vtiger_%s ORDER BY sortorderid', $primaryKey, $fieldName, $fieldName);
 		$values = [];
 		$result = $db->query($query);
 		while ($row = $db->fetch_array($result)) {
@@ -515,9 +517,12 @@ class Vtiger_Util_Helper
 	public static function getLabel($recordId, $ignoreDelete = true)
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT label FROM vtiger_crmentity WHERE crmid=?';
+		$query = 'SELECT u_yf_crmentity_label.label
+			FROM vtiger_crmentity
+			INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
+			WHERE vtiger_crmentity.crmid = ?';
 		if ($ignoreDelete) {
-			$query .= ' AND deleted=0';
+			$query .= ' AND vtiger_crmentity.deleted=0';
 		}
 		$result = $db->pquery($query, [$recordId]);
 		$name = '';

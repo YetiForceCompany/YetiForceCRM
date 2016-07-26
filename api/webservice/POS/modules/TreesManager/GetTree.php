@@ -13,7 +13,7 @@ class API_TreesManager_GetTree extends BaseAction
 
 	private function getTemplateId($moduleName)
 	{
-		$moduleId = Vtiger_Functions::getModuleId($moduleName);
+		$moduleId = vtlib\Functions::getModuleId($moduleName);
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT templateid FROM vtiger_trees_templates WHERE module = ?';
 		return $db->getSingleValue($db->pquery($query, [$moduleId]));

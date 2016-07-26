@@ -103,7 +103,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			}
 
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
+			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1))) {
 				$subject = '&subject=';
 				if ($type == 'new') {
@@ -111,7 +111,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				}
 				$recordNumber = $recordModel->getRecordNumber();
 				if (!empty($recordNumber)) {
-					$subject .= $recordNumber;
+					$subject .= '[' . $recordNumber . ']';
 				}
 				$url .= $subject;
 			}
@@ -158,7 +158,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
 
-			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
+			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1))) {
 				$db = PearDatabase::getInstance();
 				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);
@@ -206,7 +206,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!empty($srecord) && !empty($smoduleName)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
-			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
+			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
 				$db = PearDatabase::getInstance();
 				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);
@@ -229,7 +229,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 		$config = HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', vglobal('default_charset'));
-		$config->set('Cache.SerializerPath', vglobal('root_directory') . '/cache/vtlib');
+		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . '/cache/vtlib');
 		$config->set('CSS.AllowTricky', false);
 		$config->set('HTML.AllowedElements', 'div,p,br');
 		$config->set('HTML.AllowedAttributes', '');

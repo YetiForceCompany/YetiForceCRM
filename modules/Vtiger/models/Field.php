@@ -8,12 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-include_once 'vtlib/Vtiger/Field.php';
 
 /**
  * Vtiger Field Model Class
  */
-class Vtiger_Field_Model extends Vtiger_Field
+class Vtiger_Field_Model extends vtlib\Field
 {
 
 	var $webserviceField = false;
@@ -342,7 +341,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 			array_push($params, 0);
 			array_push($params, 1);
 		}
-		$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab' . $where, $params);
+		$result = $adb->pquery(sprintf('SELECT tabid, name, ownedby FROM vtiger_tab %s', $where), $params);
 		while ($row = $adb->fetch_array($result)) {
 			$modules[$row['tabid']] = array('name' => $row['name'], 'label' => vtranslate($row['name'], $row['name']));
 		}
@@ -514,11 +513,11 @@ class Vtiger_Field_Model extends Vtiger_Field
 	}
 
 	/**
-	 * Static Function to get the instance fo Vtiger Field Model from a given Vtiger_Field object
-	 * @param Vtiger_Field $fieldObj - vtlib field object
+	 * Static Function to get the instance fo Vtiger Field Model from a given vtlib\Field object
+	 * @param vtlib\Field $fieldObj - vtlib field object
 	 * @return Vtiger_Field_Model instance
 	 */
-	public static function getInstanceFromFieldObject(Vtiger_Field $fieldObj)
+	public static function getInstanceFromFieldObject(vtlib\Field $fieldObj)
 	{
 		$objectProperties = get_object_vars($fieldObj);
 		$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $fieldObj->getModuleName());
@@ -634,6 +633,8 @@ class Vtiger_Field_Model extends Vtiger_Field
 		$this->fieldInfo['quickcreate'] = $this->isQuickCreateEnabled();
 		$this->fieldInfo['masseditable'] = $this->isMassEditable();
 		$this->fieldInfo['header_field'] = $this->isHeaderField();
+		$this->fieldInfo['maxlengthtext'] = $this->get('maxlengthtext');
+		$this->fieldInfo['maxwidthcolumn'] = $this->get('maxwidthcolumn');
 		$this->fieldInfo['defaultvalue'] = $this->hasDefaultValue();
 		$this->fieldInfo['type'] = $fieldDataType;
 		$this->fieldInfo['name'] = $this->get('name');
@@ -667,37 +668,34 @@ class Vtiger_Field_Model extends Vtiger_Field
 		}
 
 		if ($this->getFieldDataType() == 'date' || $this->getFieldDataType() == 'datetime') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['date-format'] = $currentUser->get('date_format');
 		}
 
 		if ($this->getFieldDataType() == 'time') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['time-format'] = $currentUser->get('hour_format');
 		}
 
 		if ($this->getFieldDataType() == 'currency') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
 			$this->fieldInfo['decimal_seperator'] = $currentUser->get('currency_decimal_separator');
 			$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
 		}
+		if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+			if ($this->getFieldDataType() == 'owner') {
+				$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
+				$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $this->getFieldDataType());
+				$pickListValues = [];
+				$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
+				$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+				$this->fieldInfo['picklistvalues'] = $pickListValues;
+			}
 
-		if ($this->getFieldDataType() == 'owner') {
-			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
-			$groupList = $currentUser->getAccessibleGroups('', $this->getModuleName(), $this->getFieldDataType());
-			$pickListValues = [];
-			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
-			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
-			$this->fieldInfo['picklistvalues'] = $pickListValues;
+			if ($this->getFieldDataType() == 'sharedOwner') {
+				$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
+				$pickListValues = [];
+				$this->fieldInfo['picklistvalues'] = $userList;
+			}
 		}
-
-		if ($this->getFieldDataType() == 'sharedOwner') {
-			$userList = $currentUser->getAccessibleUsers('', $this->getModuleName(), $this->getFieldDataType());
-			$pickListValues = [];
-			$this->fieldInfo['picklistvalues'] = $userList;
-		}
-
 		if ($this->getFieldDataType() == 'modules') {
 			foreach ($this->getModulesListValues() as $moduleId => $module) {
 				$modulesList[$module['name']] = $module['label'];
@@ -1098,10 +1096,11 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 		if (count($profilelist) > 0) {
 			if ($accessmode == 'readonly') {
-				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (" . generateQuestionMarks($profilelist) . ") AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
+				$query = 'SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid';
 			} else {
-				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (" . generateQuestionMarks($profilelist) . ") AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
+				$query = 'SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid';
 			}
+			$query = sprintf($query, generateQuestionMarks($profilelist));
 			$params = array($tabid, $profilelist);
 		} else {
 			if ($accessmode == 'readonly') {
@@ -1128,13 +1127,15 @@ class Vtiger_Field_Model extends Vtiger_Field
 	{
 		$db = PearDatabase::getInstance();
 		$this->get('generatedtype') == 1 ? $generatedtype = 1 : $generatedtype = 2;
-		$query = 'UPDATE vtiger_field SET typeofdata=?, presence=?, quickcreate=?, masseditable=?, header_field=?, defaultvalue=?, summaryfield=?, displaytype=?, helpinfo=?, generatedtype=?, fieldparams=? WHERE fieldid=?';
+		$query = 'UPDATE vtiger_field SET typeofdata=?, presence=?, quickcreate=?, masseditable=?, header_field=?, maxlengthtext=?, maxwidthcolumn=?, defaultvalue=?, summaryfield=?, displaytype=?, helpinfo=?, generatedtype=?, fieldparams=? WHERE fieldid=?';
 		$params = array(
 			$this->get('typeofdata'),
 			$this->get('presence'),
 			$this->get('quickcreate'),
 			$this->get('masseditable'),
 			$this->get('header_field'),
+			$this->get('maxlengthtext'),
+			$this->get('maxwidthcolumn'),
 			$this->get('defaultvalue'),
 			$this->get('summaryfield'),
 			$this->get('displaytype'),
@@ -1212,7 +1213,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		if ($fieldModel) {
 			return $fieldModel;
 		}
-		$field = Vtiger_Functions::getModuleFieldInfoWithId($fieldId);
+		$field = vtlib\Functions::getModuleFieldInfoWithId($fieldId);
 		$fieldModel = new self();
 		$fieldModel->initialize($field);
 		Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
@@ -1231,11 +1232,14 @@ class Vtiger_Field_Model extends Vtiger_Field
 
 	public function getFieldParams()
 	{
-		return Zend_Json::decode($this->get('fieldparams'));
+		return \includes\utils\Json::decode($this->get('fieldparams'));
 	}
 
 	public function isActiveSearchView()
 	{
+		if ($this->fromOutsideList) {
+			return false;
+		}
 		return $this->getUITypeModel()->isActiveSearchView();
 	}
 }

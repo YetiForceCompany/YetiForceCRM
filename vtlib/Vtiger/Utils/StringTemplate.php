@@ -19,7 +19,7 @@ class Vtiger_StringTemplate
 {
 
 	// Template variables set dynamically
-	var $tplvars = Array();
+	var $tplvars = [];
 
 	/**
 	 * Identify variable with the following pattern
@@ -61,7 +61,7 @@ class Vtiger_StringTemplate
 	 */
 	function clear($exceptvars = false)
 	{
-		$restorevars = Array();
+		$restorevars = [];
 		if ($exceptvars) {
 			foreach ($exceptvars as $varkey) {
 				$restorevars[$varkey] = $this->get($varkey);
@@ -69,7 +69,7 @@ class Vtiger_StringTemplate
 		}
 		unset($this->tplvars);
 
-		$this->tplvars = Array();
+		$this->tplvars = [];
 		foreach ($restorevars as $key => $val)
 			$this->assign($key, $val);
 	}
@@ -88,7 +88,7 @@ class Vtiger_StringTemplate
 		if (!$avoidLookup) {
 
 			/** Look for variables */
-			$matches = Array();
+			$matches = [];
 			preg_match_all($this->_lookfor, $instring, $matches);
 
 			/** Replace variables found with value assigned. */
@@ -122,5 +122,3 @@ class Vtiger_StringTemplate
 		return $value;
 	}
 }
-
-?>

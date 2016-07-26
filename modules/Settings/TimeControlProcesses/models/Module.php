@@ -29,7 +29,7 @@ class Settings_TimeControlProcesses_Module_Model extends Vtiger_Base_Model
 		}
 		$params = [];
 		if ($type) {
-			$sql .= ' WHERE `type` IN (' . generateQuestionMarks($type) . ')';
+			$sql .= sprintf(' WHERE `type` IN (%s)', generateQuestionMarks($type));
 			$params = $type;
 		}
 		$result = $db->pquery($sql, $params);

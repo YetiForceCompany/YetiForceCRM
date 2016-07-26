@@ -31,6 +31,26 @@
 		</div>
 	{/if}
 </div>
+{if count($HIERARCHY_LIST) != 1}
+	<div class="col-md-12 row commentsHeader marginTop10">
+		<div class="col-md-4"> </div>
+		<div class="col-md-4">
+			<div class="input-group">
+			  <span class="input-group-addon" id="commentSearchAddon">
+				  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 
+			  </span>
+			  <input type="text" class="form-control commentSearch" placeholder="{vtranslate('LBL_COMMENTS_SEARCH','ModComments')}" aria-describedby="commentSearchAddon">
+			</div>
+		</div>
+		<div class="col-md-4">
+			<select class="chzn-select form-control commentsHierarchy" multiple>
+				{foreach key=NAME item=LABEL from=$HIERARCHY_LIST}
+					<option value="{$NAME}" {if in_array($NAME, $HIERARCHY)}selected{/if}>{vtranslate($LABEL, 'ModComments')}</option>
+				{/foreach}
+			</select>
+		</div>
+	</div>
+{/if}	
 <div class="commentContainer">
 	<div class="commentsList commentsBody  col-md-12 paddingLRZero">
 	{include file='CommentsList.tpl'|@vtemplate_path COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}

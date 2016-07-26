@@ -110,13 +110,13 @@ class PaymentsOut extends Vtiger_CRMEntity {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
 			$ModuleInstance->setModuleSeqNumber("configure",$modulename,'','1'); 
 	
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if(class_exists('ModComments')) ModComments::addWidgetTo(array('Payments'));
 			}
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
-			$tabid = Vtiger_Functions::getModuleId($modulename);
+			$tabid = vtlib\Functions::getModuleId($modulename);
 			include_once('modules/ModTracker/ModTracker.php');
 			$moduleModTrackerInstance = new ModTracker();
 			if(!$moduleModTrackerInstance->isModulePresent($tabid)){
@@ -127,7 +127,7 @@ class PaymentsOut extends Vtiger_CRMEntity {
 				$moduleModTrackerInstance->updateCache($tabid,1);
 			}
 			if(!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)){
-				$moduleInstance=Vtiger_Module::getInstance($tabid);
+				$moduleInstance=vtlib\Module::getInstance($tabid);
 				$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')",'','',array('path'=>'modules/ModTracker/ModTracker.php','class'=>'ModTracker','method'=>'isViewPermitted'));
 			}
 			$this->addWorkflow($modulename);

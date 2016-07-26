@@ -15,7 +15,7 @@ $languageStrings = [
 	'LBL_DATAACCESS' => 'Recording Control',
 	'DataAccess' => 'Zugriffsberechtigung',
 	'LBL_NEW_TPL' => 'Neue Bedingung hinzufügen',
-	'LBL_MODULE_NAME' => 'Modul Name',
+	'LBL_MODULE_NAME' => 'Modulname',
 	'LBL_NO_PROJECT_TPL_ADDED' => 'Keine Bedingungen hinzugefügt',
 	'LBL_NO_TPL_ADDED' => 'Keine Bedingungen hinzugefügt',
 	'LBL_CREATING_TPL' => 'Bedingung hinzufügen',
@@ -73,11 +73,11 @@ $languageStrings = [
 	'Check if there are any tasks that are not closed' => 'Prüfen ob alle Aufgaben erledigt sind',
 	'Date validation' => 'Datumsüberprüfung',
 	'Check parent task' => 'Prüfe übergeordnete Aufgabe',
-	'Check for duplicates' => 'Check for duplicates',
+	'Check for duplicates' => 'Auf Dubletten prüfen',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Prüfe ob alle Mussfelder bei Schnelleditieren gefüllt sind',
 	'Lock edit on the status' => 'Bearbeiten Sperren bei folgendem Status',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'ist aktiviert',
+	'is disabled' => 'ist deaktiviert',
 ];
 
 $jsLanguageStrings = [
@@ -110,6 +110,6 @@ $jsLanguageStrings = [
 	'more than hours before' => 'mehr als Stunden vor',
 	'more than hours later' => 'mehr als Stunden später',
 	'has changed' => 'hat geändert',
-	'is enabled' => 'is enabled',
-	'is disabled' => 'is disabled',
+	'is enabled' => 'ist aktiviert',
+	'is disabled' => 'ist deaktiviert',
 ];

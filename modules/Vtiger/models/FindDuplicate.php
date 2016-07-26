@@ -194,8 +194,8 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		$result = $db->query($query);
 
 		$recordIds = [];
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$recordIds[] = $db->query_result($result, $i, 'recordid');
+		while($row = $db->getRow($result)){
+			$recordIds[] = $row['recordid'];
 		}
 
 		$excludedIds = $request->get('excluded_ids');

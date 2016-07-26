@@ -93,7 +93,12 @@ class Vtiger_Theme extends Vtiger_Viewer
 	{
 		return 'layouts' . '/' . self::getLayoutName() . '/skins';
 	}
-
+	/**
+	 *  * @return <string> -  path to base style
+	 */
+	public static function getBaseStylePath(){
+		return self::getBaseThemePath() . '/style.css';
+	}
 	/**
 	 * Function to get the selected theme folder path
 	 * @return <string> -  selected theme path

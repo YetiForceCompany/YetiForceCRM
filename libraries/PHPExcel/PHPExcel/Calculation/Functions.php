@@ -22,7 +22,7 @@
  * @package		PHPExcel_Calculation
  * @copyright	Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version		1.8.0, 2014-03-02
+ * @version		##VERSION##, ##DATE##
  */
 
 
@@ -496,7 +496,7 @@ class PHPExcel_Calculation_Functions {
 	 * @return	string	Version information
 	 */
 	public static function VERSION() {
-		return 'PHPExcel 1.8.0, 2014-03-02';
+		return 'PHPExcel 1.8.1, 2015-04-30';
 	}	//	function VERSION()
 
 
@@ -578,7 +578,6 @@ class PHPExcel_Calculation_Functions {
 				return 4;
 		} elseif(is_array($value)) {
 				return 64;
-				break;
 		} elseif(is_string($value)) {
 			//	Errors
 			if ((strlen($value) > 0) && ($value{0} == '#')) {
@@ -711,7 +710,7 @@ if ((!function_exists('mb_str_replace')) &&
 		}
 
 		foreach((array) $search as $key => $s) {
-			if($s == '') {
+			if($s == '' && $s !== 0) {
 				continue;
 			}
 			$r = !is_array($replace) ? $replace : (array_key_exists($key, $replace) ? $replace[$key] : '');

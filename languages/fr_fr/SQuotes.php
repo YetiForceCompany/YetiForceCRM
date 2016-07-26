@@ -23,6 +23,7 @@ $languageStrings = [
 	'FL_MARGIN' => 'Marge totale',
 	'FL_SUM_GROSS' => 'Montant',
 	'FL_SUM_DISCOUNT' => 'Montant discounté',
+	'FL_VALID_UNTIL' => 'Valid until',
 
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Brouillon',

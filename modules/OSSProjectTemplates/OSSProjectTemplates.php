@@ -52,7 +52,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
 				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Project Templates', '', 'LBL_PROJECT_TEMPLATES_DESCRIPTION', 'index.php?module=' . $moduleName . '&parent=Settings&view=Index'));
     }
 
-    private function addWidgetToListView($moduleNames, $widgetName, $widgetType = 'LISTVIEWSIDEBARWIDGET') {
+    private function addWidgetToListView($moduleNames, $widgetName, $widgetType = 'LIST_VIEW_HEADER') {
         if (empty($moduleNames))
             return;
 
@@ -61,7 +61,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
         }
 
         foreach ($moduleNames as $moduleName) {
-            $module = Vtiger_Module::getInstance($moduleName);
+            $module = vtlib\Module::getInstance($moduleName);
             if ($module) {
                 $module->addLink($widgetType, $widgetName, "module=OSSProjectTemplates&view=GenerateProject", '', '', '');
             }

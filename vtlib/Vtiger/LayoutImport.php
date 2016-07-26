@@ -7,13 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/LayoutExport.php');
+namespace vtlib;
 
 /**
  * Provides API to import layout into vtiger CRM
  * @package vtlib
  */
-class Vtiger_LayoutImport extends Vtiger_LayoutExport
+class LayoutImport extends LayoutExport
 {
 
 	/**
@@ -69,7 +69,7 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 		$label = $this->_modulexml->label;
 
 		self::log("Importing $name ... STARTED");
-		$unzip = new Vtiger_Unzip($zipfile);
+		$unzip = new Unzip($zipfile);
 		$filelist = $unzip->getList();
 		$vtiger6format = false;
 
@@ -107,7 +107,7 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 						$targetdir = "layouts/$name/" . str_replace("layouts/$name", "", $targetdir);
 						@mkdir($targetdir, 0755, true);
 					}
-					$filepath = 'zip://' . vglobal('root_directory') . $zipfile . '#' . $filename;
+					$filepath = 'zip://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $zipfile . '#' . $filename;
 					$fileInfo = pathinfo($filepath);
 					if (in_array($fileInfo['extension'], $badFileExtensions)) {
 						$fileValidation = false;

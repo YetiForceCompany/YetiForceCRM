@@ -57,7 +57,7 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 				$queryGenerator->addCondition('activitytype', "Emails", 'n', QueryGenerator::$AND);
 			}
 			$metricsql = $queryGenerator->getQuery();
-			$metricresult = $adb->query(Vtiger_Functions::mkCountQuery($metricsql));
+			$metricresult = $adb->query(vtlib\Functions::mkCountQuery($metricsql));
 			if ($metricresult) {
 				$rowcount = $adb->fetch_array($metricresult);
 				$metriclists[$key]['count'] = $rowcount['count'];

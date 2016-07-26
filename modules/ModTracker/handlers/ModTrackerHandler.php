@@ -134,7 +134,7 @@ class ModTrackerHandler extends VTEventHandler
 					ModTracker::linkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
 					$watchdogTitle = 'LBL_ADDED';
 					if (AppConfig::module('ModTracker', 'WATCHDOG')) {
-						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . Vtiger_Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
+						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
 						$watchdogMessage .= ' (translate: [LBL_WITH]) ';
 						$watchdogMessage .= '<a href="index.php?module=' . $extendedData['destinationModule'] . '&view=Detail&record=' . $extendedData['destinationRecordId'] . '">(general: RecordLabel)</a>';
 					}
@@ -147,7 +147,7 @@ class ModTrackerHandler extends VTEventHandler
 					ModTracker::unLinkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
 					$watchdogTitle = 'LBL_REMOVED';
 					if (AppConfig::module('ModTracker', 'WATCHDOG')) {
-						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . Vtiger_Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
+						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
 						$watchdogMessage .= ' (translate: [LBL_WITH]) ';
 						$watchdogMessage .= '<a href="index.php?module=' . $extendedData['destinationModule'] . '&view=Detail&record=' . $extendedData['destinationRecordId'] . '">(general: RecordLabel)</a>';
 					}

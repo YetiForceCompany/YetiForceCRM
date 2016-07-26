@@ -30,17 +30,14 @@
 	</div>
 	<hr class="widgetHr"/>
 	<div class="row" >
-		<div class="col-md-6">
+		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
 				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
 				<input type="text" name="time" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter width90 form-control" value="{implode(',',$DTIME)}"/>
 			</div>	
 		</div>
-		<div class="col-md-6">
-			<div class="input-group input-group-sm">
-				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
-					{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
-			</div>
+		<div class="col-sm-6">
+			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 		</div>
 	</div>
 </div>

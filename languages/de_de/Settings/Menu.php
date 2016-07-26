@@ -63,6 +63,7 @@ $languageStrings = array(
 	'LBL_CANCEL' => 'Abbrechen',
 	//End Remove modal
 	'LBL_MORE_INFO' => 'Hier klicken, für mehr Information',
+	'LBL_COPY_MENU' => 'Copy menu',
 );
 $jsLanguageStrings = array(
 	'JS_EDIT' => 'Ändern',

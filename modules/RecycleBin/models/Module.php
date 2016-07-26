@@ -142,11 +142,11 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model {
 	public function deleteRecords($recordIds){
 		$db = PearDatabase::getInstance(); 
 		//Delete the records in vtiger crmentity and relatedlists.
-		$query = 'DELETE FROM vtiger_crmentity WHERE deleted = ? and crmid in('.generateQuestionMarks($recordIds).')';
-		$db->pquery($query, array(1, $recordIds));
+		$where = sprintf('deleted = ? and crmid in(%s)', generateQuestionMarks($recordIds));
+		$db->delete('vtiger_crmentity', $where, [1,$recordIds]);
 		
-		$query = 'DELETE FROM vtiger_relatedlists_rb WHERE entityid in('.generateQuestionMarks($recordIds).')';
-		$db->pquery($query, array($recordIds));
+		$where = sprintf('entityid in(%s)', generateQuestionMarks($recordIds));
+		$db->delete('vtiger_relatedlists_rb', $where, [$recordIds]);
 
 		// Delete entries of attachments from vtiger_attachments and vtiger_seattachmentsrel
 		$this->deleteFiles($recordIds);
@@ -158,19 +158,19 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model {
 	 */
 	public function deleteFiles($recordIds){
 		$db = PearDatabase::getInstance(); 
-		$getAttachmentsIdQuery='SELECT * FROM vtiger_seattachmentsrel WHERE crmid in('.generateQuestionMarks($recordIds).')';
-		$result=$db->pquery($getAttachmentsIdQuery,array($recordIds));
-		$attachmentsIds=array();
+		$getAttachmentsIdQuery= sprintf('SELECT * FROM vtiger_seattachmentsrel WHERE crmid in(%s)', generateQuestionMarks($recordIds));
+		$result=$db->pquery($getAttachmentsIdQuery, [$recordIds]);
+		$attachmentsIds= [];
 		if($db->num_rows($result)){
 			for($i=0;$i<($db->num_rows($result));$i++){
 			$attachmentsIds[$i]=$db->query_result($result,$i,'attachmentsid');
 			}
 		}
 		if(!empty($attachmentsIds)){
-			$deleteRelQuery='DELETE FROM vtiger_seattachmentsrel WHERE crmid in('.generateQuestionMarks($recordIds).')';
+			$deleteRelQuery= sprintf('DELETE FROM vtiger_seattachmentsrel WHERE crmid in(%s)', generateQuestionMarks($recordIds));
 			$db->pquery($deleteRelQuery,array($recordIds));
 			$attachmentsLocation=array();
-			$getPathQuery='SELECT * FROM vtiger_attachments WHERE attachmentsid in ('.generateQuestionMarks($attachmentsIds).')';
+			$getPathQuery= sprintf('SELECT * FROM vtiger_attachments WHERE attachmentsid in (%s)', generateQuestionMarks($attachmentsIds));
 			$pathResult=$db->pquery($getPathQuery,array($attachmentsIds));
 			if($db->num_rows($pathResult)){
 				for($i=0;$i<($db->num_rows($pathResult));$i++){
@@ -184,8 +184,8 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model {
 					}
 				}
 			}
-			$deleteAttachmentQuery='DELETE FROM vtiger_attachments WHERE attachmentsid in ('.generateQuestionMarks($attachmentsIds).')';
-			$db->pquery($deleteAttachmentQuery,array($attachmentsIds));
+			$where = sprintf('attachmentsid in (%s)', generateQuestionMarks($attachmentsIds));
+			$db->delete('vtiger_attachments', $where, [$attachmentsIds]);
 		}
 	}
 	/**

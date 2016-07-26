@@ -472,18 +472,6 @@ class VTCacheUtils
 		}
 	}
 
-	static $_outgoingMailFromEmailAddress;
-
-	public static function setOutgoingMailFromEmailAddress($email)
-	{
-		self::$_outgoingMailFromEmailAddress = $email;
-	}
-
-	public static function getOutgoingMailFromEmailAddress()
-	{
-		return self::$_outgoingMailFromEmailAddress;
-	}
-
 	static $_userSignature = [];
 
 	public static function setUserSignature($userName, $signature)

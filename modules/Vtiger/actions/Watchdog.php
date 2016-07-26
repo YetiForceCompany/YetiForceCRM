@@ -23,8 +23,7 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 			}
 		}
 		if ($request->has('user')) {
-			$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$userList = array_keys($currentUser->getAccessibleUsers());
+			$userList = array_keys(\includes\fields\Owner::getInstance()->getAccessibleUsers());
 			if (!in_array($request->get('user'), $userList)) {
 				throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}

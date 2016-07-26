@@ -1,38 +1,38 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'SQuotes' => 'Quotes',
-	'SINGLE_SQuotes' => 'Quote', 
+	'SQuotes' => 'Angebote',
+	'SINGLE_SQuotes' => 'Angebot', 
 	
 	//BLOCKS
 	'LBL_SQUOTES_INFORMATION' => 'Informationen',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Beschreibung Details',
-	'LBL_STATISTICS' => 'Statistics',
+	'LBL_STATISTICS' => 'Statistik',
 
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
 	'LBL_NUMBER' => 'Nummer',
 	'LBL_STATUS' => 'Status',
 	'LBL_CLOSED_TIME' => 'Beendigungszeit',
-	'LBL_RESPONSE_TIME' => 'Respone time',
-	'LBL_COMPANY_NAME' => 'Company name',
+	'LBL_RESPONSE_TIME' => 'Antwortzeit',
+	'LBL_COMPANY_NAME' => 'Firmenname',
 	'SINGLE_SSalesProcesses' => 'Verkaufschance',
-	'FL_TOTAL_PRICE' => 'Net Total',
-	'FL_MARGINP' => 'Total margin Percentage',
-	'FL_MARGIN' => 'Total margin',
-	'FL_SUM_GROSS' => 'Gross amount',
-	'FL_SUM_DISCOUNT' => 'Discount amount',
+	'FL_TOTAL_PRICE' => 'Gesamt Netto',
+	'FL_MARGINP' => 'Gesamtmarge in Prozent',
+	'FL_MARGIN' => 'Gesamtmarge',
+	'FL_SUM_GROSS' => 'Bruttobetrag',
+	'FL_SUM_DISCOUNT' => 'Rabattbetrag',
+	'FL_VALID_UNTIL' => 'Gültig Bis',
 
 	//PICKLIST VALUES
-	'PLL_DRAFT' => 'Draft',
-	'PLL_IN_REALIZATION' => 'In realization',
-	'PLL_FOR_VERIFICATION' => 'For verification',
-	'PLL_AWAITING_DECISION' => 'Awaiting decision',
+	'PLL_DRAFT' => 'Entwurf',
+	'PLL_IN_REALIZATION' => 'In Bearbeitung',
+	'PLL_FOR_VERIFICATION' => 'Zur Prüfung',
+	'PLL_AWAITING_DECISION' => 'Wartena auf Entscheidung',
 	'PLL_NEGOTIATIONS' => 'Negotiations',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_ACCEPTED' => 'Accepted',
+	'PLL_CANCELLED' => 'Abgelehnt',
+	'PLL_ACCEPTED' => 'Angenommen',
 
-	'LBL_CHANGE_STATUS' => 'Change Status',
-
+	'LBL_CHANGE_STATUS' => 'Status ändern',
 ];

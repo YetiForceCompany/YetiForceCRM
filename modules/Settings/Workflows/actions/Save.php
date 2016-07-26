@@ -50,9 +50,9 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 			$annualDates = null;
 
 			if ($workflowScheduleType == Workflow::$SCHEDULED_WEEKLY) {
-				$dayOfWeek = Zend_Json::encode($request->get('schdayofweek'));
+				$dayOfWeek = \includes\utils\Json::encode($request->get('schdayofweek'));
 			} else if ($workflowScheduleType == Workflow::$SCHEDULED_MONTHLY_BY_DATE) {
-				$dayOfMonth = Zend_Json::encode($request->get('schdayofmonth'));
+				$dayOfMonth = \includes\utils\Json::encode($request->get('schdayofmonth'));
 			} else if ($workflowScheduleType == Workflow::$SCHEDULED_ON_SPECIFIC_DATE) {
 				$date = $request->get('schdate');
 				$dateDBFormat = DateTimeField::convertToDBFormat($date);
@@ -63,9 +63,9 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 				} else {
 					$workflowModel->set('nexttrigger_time', date('Y-m-d H:i:s', strtotime('+10 year')));
 				}
-				$annualDates = Zend_Json::encode(array($dateDBFormat));
+				$annualDates = \includes\utils\Json::encode(array($dateDBFormat));
 			} else if ($workflowScheduleType == Workflow::$SCHEDULED_ANNUALLY) {
-				$annualDates = Zend_Json::encode($request->get('schannualdates'));
+				$annualDates = \includes\utils\Json::encode($request->get('schannualdates'));
 			}
 			$workflowModel->set('schdayofmonth', $dayOfMonth);
 			$workflowModel->set('schdayofweek', $dayOfWeek);

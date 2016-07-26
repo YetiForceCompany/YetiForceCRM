@@ -165,6 +165,12 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler,
 		$entityFields = $entityHandler->getMeta()->getModuleFields();
 		$row = $adb->fetch_array($result);
 		$count = 1;
+		foreach ($entityFields as $fieldname => $field) {
+			$defaultvalue = $field->getDefault();
+			if ($defaultvalue && $entity[$fieldname] == '') {
+				$entity[$fieldname] = $defaultvalue;
+			}
+		}
 		do {
 			$entityField = vtws_getFieldfromFieldId($row[$column], $entityFields);
 			if ($entityField == null) {

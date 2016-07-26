@@ -63,7 +63,8 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	public function updateProgress($stage, $value, $time = 0)
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_backup_tmp SET b' . $stage . ' = ?,t' . $stage . ' = t' . $stage . ' + ' . $time . ' WHERE id = ?;', [ $value, $this->get('id')]);
+		$query = sprintf('UPDATE vtiger_backup_tmp SET b%s = ?,t%s = t%s + %s  WHERE id = ?;', $stage, $stage, $stage,$time);
+		$adb->pquery($query, [ $value, $this->get('id')]);
 	}
 
 	public function runBackup()
@@ -148,7 +149,8 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	public function addTableToBackup($tableName)
 	{
 		$db = PearDatabase::getInstance();
-		$countResult = $db->query('SELECT COUNT(*) AS count FROM ' . $tableName);
+		$query = sprintf('SELECT COUNT(*) AS count FROM %s', $tableName);
+		$countResult = $db->query($query);
 		$count = $db->query_result_raw($countResult, 0, 'count');
 		$db->pquery('INSERT INTO vtiger_backup_db (tablename,count) VALUES (?,?);', [$tableName, $count]);
 	}
@@ -180,8 +182,8 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				$offset = $dbOffset + ($k * $rowLimit);
 				$sqlLimit = " LIMIT $offset, $rowLimit";
 				$numRows = $offset;
-
-				$contentResult = $db->query('SELECT * FROM ' . $tableName . $sqlLimit);
+				$query = sprintf('SELECT * FROM %s %s', $tableName, $sqlLimit);	
+				$contentResult = $db->query($query);
 				$numFields = $db->getFieldsCount($contentResult);
 				$fields = $db->getFieldsArray($contentResult);
 				$fieldsList = '';
@@ -554,7 +556,8 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 			$where = 'vtiger_backup_tmp.status = 0';
 		}
 
-		$query = $adb->query('SELECT vtiger_backup_tmp.*, vtiger_backup.filename FROM vtiger_backup_tmp LEFT JOIN vtiger_backup ON vtiger_backup.id = vtiger_backup_tmp.id WHERE ' . $where);
+		$query = sprintf('SELECT vtiger_backup_tmp.*, vtiger_backup.filename FROM vtiger_backup_tmp LEFT JOIN vtiger_backup ON vtiger_backup.id = vtiger_backup_tmp.id WHERE %s', $where);
+		$query = $adb->query($query);
 		$result = $adb->fetch_array($query);
 		if (!$result) {
 			return false;

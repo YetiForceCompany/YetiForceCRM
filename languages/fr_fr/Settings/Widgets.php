@@ -60,6 +60,7 @@ $languageStrings = [
 	'LBL_SHITCH_HEADER' => 'Basculer dans l\'en-tête',
 	'LBL_SHITCH_HEADER_INFO' => 'Basculer peut être trouvé dans l\'en-tête du widget.',
 	'HistoryRelation' => 'Timeline',
+	'CountRecords' => 'Number of records'
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Chargement...',

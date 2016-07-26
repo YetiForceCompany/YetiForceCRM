@@ -11,9 +11,19 @@
 				</div>
 				<div class="pull-right">
 					{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
-						<a target="_blank" class="btn btn-default" href="index.php?module=OSSMail&view=compose&mod={Vtiger_Functions::getCRMRecordType($RECORD->get('link'))}&record={$RECORD->get('link')}" title="{vtranslate('LBL_SEND_EMAIL')}">
-							<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-						</a>
+						{if $USER_MODEL->get('internal_mailer') == 1}
+							{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(vtlib\Functions::getCRMRecordType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
+							<a target="_blank" class="btn btn-default" href="{$COMPOSE_URL}" title="{vtranslate('LBL_SEND_EMAIL')}">
+								<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+							</a>
+						{else}
+							{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(vtlib\Functions::getCRMRecordType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
+							{if $URLDATA && $URLDATA != 'mailto:?'}
+								<a class="btn btn-default" href="{$URLDATA}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
+									<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+								</a>
+							{/if}
+						{/if}
 					{/if}
 					{if $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default"><span class="glyphicon glyphicon-pencil summaryViewEdit" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></a>
@@ -96,12 +106,12 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{vtranslate('Created By',$MODULE_NAME)}: </label>
 						<div class="col-sm-8 textOverflowEllipsis">
-							{Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('created_user_id') )}
+							{vtlib\Functions::getOwnerRecordLabel( $RECORD->get('created_user_id') )}
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{vtranslate('Assigned To',$MODULE_NAME)}: </label>
-						<div class="col-sm-8 textOverflowEllipsis">{Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('assigned_user_id') )}</div>
+						<div class="col-sm-8 textOverflowEllipsis">{vtlib\Functions::getOwnerRecordLabel( $RECORD->get('assigned_user_id') )}</div>
 					</div>
 					{if $RECORD->get('shownerid')}
 						<div class="form-group">

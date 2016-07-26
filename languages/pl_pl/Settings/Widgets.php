@@ -60,6 +60,7 @@ $languageStrings = [
 	'LBL_SHITCH_HEADER' => 'Przełącznik w nagłówku',
 	'LBL_SHITCH_HEADER_INFO' => 'Przełącznik (switch) umieszczony w nagłówku widgetu.',
 	'HistoryRelation' => 'Oś czasu',
+	'CountRecords' => 'Ilość rekordów'
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Ładowanie danych...',

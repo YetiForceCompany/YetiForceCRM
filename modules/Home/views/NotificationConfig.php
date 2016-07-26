@@ -13,7 +13,7 @@ class Home_NotificationConfig_View extends Vtiger_BasicModal_View
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleList = Vtiger_Functions::getAllModules(true, true);
+		$moduleList = vtlib\Functions::getAllModules(true, true);
 		foreach ($moduleList as $tabId => &$module) {
 			if ($module['name'] == 'Events' || !Users_Privileges_Model::isPermitted($module['name'], 'WatchingModule')) {
 				unset($moduleList[$tabId]);
@@ -30,7 +30,7 @@ class Home_NotificationConfig_View extends Vtiger_BasicModal_View
 		$viewer->assign('SELECT_ALL_MODULES', $selectAllModules);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('FREQUENCY', $frequency);
-		$viewer->assign('CRON_INFO', Vtiger_Cron::getInstance('LBL_SEND_NOTIFICATIONS'));
+		$viewer->assign('CRON_INFO', vtlib\Cron::getInstance('LBL_SEND_NOTIFICATIONS'));
 		$viewer->view('NotificationConfig.tpl', $moduleName);
 	}
 }

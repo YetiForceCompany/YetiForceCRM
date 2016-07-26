@@ -270,6 +270,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$get_emails = true;
 			}
 		} else if ($msgno < $num_msg) {
+			++$msgno;
 			$get_emails = true;
 		}
 
