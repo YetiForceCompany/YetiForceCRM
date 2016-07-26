@@ -22,7 +22,7 @@
  * @package    PHPExcel_Worksheet
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.8.0, 2014-03-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 
@@ -633,7 +633,11 @@ class PHPExcel_Worksheet_AutoFilter
 						);
 					} else {
 						//	Filter on date group values
-						$arguments = array();
+						$arguments = array(
+                            'date' => array(),
+                            'time' => array(),
+                            'dateTime' => array(),
+                        );
 						foreach($ruleDataSet as $ruleValue) {
 							$date = $time = '';
 							if ((isset($ruleValue[PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_RULETYPE_DATEGROUP_YEAR])) &&

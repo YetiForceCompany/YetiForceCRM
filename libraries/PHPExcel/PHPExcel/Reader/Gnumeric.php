@@ -22,7 +22,7 @@
  * @package    PHPExcel_Reader
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.8.0, 2014-03-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 
@@ -116,8 +116,8 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 		}
 
 		$xml = new XMLReader();
-		$xml->open(
-			'compress.zlib://'.realpath($pFilename), null, PHPExcel_Settings::getLibXmlLoaderOptions()
+		$xml->xml(
+			$this->securityScanFile('compress.zlib://'.realpath($pFilename)), null, PHPExcel_Settings::getLibXmlLoaderOptions()
 		);
 		$xml->setParserProperty(2,true);
 
@@ -150,8 +150,8 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 		}
 
 		$xml = new XMLReader();
-		$xml->open(
-			'compress.zlib://'.realpath($pFilename), null, PHPExcel_Settings::getLibXmlLoaderOptions()
+		$xml->xml(
+			$this->securityScanFile('compress.zlib://'.realpath($pFilename)), null, PHPExcel_Settings::getLibXmlLoaderOptions()
 		);
 		$xml->setParserProperty(2,true);
 
@@ -243,7 +243,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 //		echo htmlentities($gFileData,ENT_QUOTES,'UTF-8');
 //		echo '</pre><hr />';
 //
-		$xml = simplexml_load_string($gFileData, 'SimpleXMLElement', PHPExcel_Settings::getLibXmlLoaderOptions());
+		$xml = simplexml_load_string($this->securityScan($gFileData), 'SimpleXMLElement', PHPExcel_Settings::getLibXmlLoaderOptions());
 		$namespacesMeta = $xml->getNamespaces(true);
 
 //		var_dump($namespacesMeta);
