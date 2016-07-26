@@ -1084,7 +1084,7 @@ var app = {
 	 * @return <string>
 	 */
 	vimage_path: function (img) {
-		return jQuery('body').data('skinpath') + '/images/' + img;
+		return app.getLayoutPath() + '/skins/images/' + img;
 	},
 	/*
 	 * Cache API on client-side
