@@ -454,7 +454,6 @@ hr {
 }
 .gridster ul li.dashboardWidget .widgetFooterContent .row:first-child{
 	position: relative;
-	top: -20px;
 	background-color: #f5f5f5;
 	padding-top: 3px;
 	padding-bottom: 2px;
