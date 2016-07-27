@@ -19,8 +19,11 @@ body{
 .btn-success:hover,
 .btn-info:hover,
 .btn-default:hover,
-.btn-danger:hover{
-	color: #000;
+.btn-danger:hover,
+.alphabetSearch:hover,
+.alphabetSearch a:hover,
+.dropdown-menu > li > a:hover{
+	color: #000 !important;
 }
 .leftPanel .nav .subMenu:after{
 	background: #00285f;
@@ -142,7 +145,7 @@ btn-danger:hover{
 }
 .bgOrange,
 .btn-info,
-.alphabetSearch a.btn{
+.alphabetSearch a{
 	background-color: #00a8e4 !important;
 	color: #fff;
 }
@@ -195,6 +198,7 @@ btn-danger:hover{
 	color: #ff0000;
 }
 .btn-danger,
+.btn-warning,
 .btn-warning:hover,
 .btn-info:hover,
 .btn-success:hover{
@@ -205,4 +209,16 @@ btn-danger:hover{
 }
 .userDetailsContainer{
 	background-color: #00285f;
+}
+.dropdown-menu > li > a{
+	color: #00a8e4;
+}
+.dropdown-menu>li>a:hover{
+	background-color: transparent;
+}
+.chosen-container .chosen-results li.highlighted{
+	background: #00a8e4  !important;
+}
+.form-control:focus{
+	border-color: #00a8e4 !important;
 }
