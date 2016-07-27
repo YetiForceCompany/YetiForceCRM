@@ -54,14 +54,18 @@ hr {
 	margin-bottom: 8px;
 	border-bottom: 1px solid #dddddd;
 }
-.imageHolder {
+.imageHolder{
 	margin: 0 auto;
 	background-position: center;
-	background: radial-gradient(#fff 25%, transparent 70%);
-	padding: 40px 0;
+	padding: 10px 0;
 	width: 70%;
 }
+.blockProgressContainer.imageHolder {
+	padding: 40px 0;
+	background: radial-gradient(#fff 25%, transparent 70%);
+}
 .message{
+	font-weight: bold;
 	color: #4a5364;
 }
 .sk-cube-grid {
