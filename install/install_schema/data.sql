@@ -307,59 +307,11 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `u_yf_crmentity_label` */
 
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (35,'Notify Owner On Ticket Change');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (36,'Notify Account On Ticket Change');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (37,'Notify Contact On Ticket Closed');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (38,'Notify Account On Ticket Closed');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (39,'Notify Contact On Ticket Create');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (40,'Notify Account On Ticket Create');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (41,'Notify Contact On Ticket Change');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (42,'Notify Owner On Ticket Closed');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (43,'Notify Owner On Ticket Create');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (44,'Customer Portal Login Details');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (45,'Send invitations');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (46,'Send Notification Email to Record Owner');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (93,'Activity Reminder Notification');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (94,'Activity Reminder Notification');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (95,'Test mail about the mail server configuration.');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (103,'ForgotPassword');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (104,'Customer Portal - ForgotPassword');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (105,'Notify Owner On new comment added to ticket from portal');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (106,'Notify Contact On New comment added to ticket');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (107,'Security risk has been detected - Brute Force');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (108,'Backup has been made');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (109,'Notify Account On New comment added to ticket');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (110,'Send notifications');
-
 /*Data for the table `u_yf_crmentity_last_changes` */
 
 /*Data for the table `u_yf_crmentity_rel_tree` */
 
 /*Data for the table `u_yf_crmentity_search_label` */
-
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (35,'Notify Owner On Ticket Change','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (36,'Notify Account On Ticket Change','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (37,'Notify Contact On Ticket Closed','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (38,'Notify Account On Ticket Closed','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (39,'Notify Contact On Ticket Create','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (40,'Notify Account On Ticket Create','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (41,'Notify Contact On Ticket Change','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (42,'Notify Owner On Ticket Closed','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (43,'Notify Owner On Ticket Create','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (44,'Customer Portal Login Details','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (45,'Send invitations','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (46,'Send Notification Email to Record Owner','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (93,'Activity Reminder Notification','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (94,'Activity Reminder Notification','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (95,'Test mail about the mail server configuration.','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (103,'ForgotPassword','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (104,'Customer Portal - ForgotPassword','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (105,'Notify Owner On new comment added to ticket from portal','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (106,'Notify Contact On New comment added to ticket','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (107,'Security risk has been detected - Brute Force','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (108,'Backup has been made','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (109,'Notify Account On New comment added to ticket','','');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`,`setype`,`userid`) values (110,'Send notifications','','');
 
 /*Data for the table `u_yf_crmentity_showners` */
 
