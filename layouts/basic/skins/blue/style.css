@@ -25,6 +25,9 @@ body{
 .nav > li > a:focus{
 	background-color: #00509e;
 }
+.nav > li > a:focus{
+	color: #000;
+}
 .leftPanel .nav .subMenu:after{
 	background: #00509e;
 }
@@ -70,14 +73,19 @@ body{
 .detailViewInfo .related .nav-pills .active > a:hover{
 	background: #00509e;
 }
+.detailViewInfo .related .nav-pills a:hover{
+	color: #000;
+}
 .related .nav-pills li a:hover {
 	color: #fff;
+	background-color: #00509e;
 	border-radius: 1px;
 }
 .related .nav-pills{
 	border-bottom: 3px solid #00509e
 }
-.listViewEntriesTable .listViewHeaders a.listViewHeaderValues{
+.listViewEntriesTable .listViewHeaders a.listViewHeaderValues,
+.widget_header h4{
 	color: #323232;
 }
 .listViewEntriesTable .listViewEntries{
@@ -102,15 +110,63 @@ body{
 .btn-info{
 	background-color: #84d0f0;
 }
-.btn-success{
+.btn-success,
+.btn-success:hover{
 	background-color: #8cc83c;
+	border-color: transparent;
 }
 .formError .formErrorContent{
 	background: #ff0000;
 }
-.bgDanger{
-	background-color: #ff0000;
+.bgDanger,
+.btn-warning,
+.btn-warning:hover,
+.btn-warning:focus{
+	background-color: #ff0000 !important;
 }
 .blockProgressContainer .sk-cube-grid .sk-cube{
 	background-color: #00a8e4;
 }
+.bgOrange,
+.btn-info,
+.btn-default{
+	background-color: #00a8e4 !important;
+	color: #fff;
+}
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{
+	background-color: #003c7d;
+}
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default{
+	color: #fff;
+	background-color: #00a8e4;
+}
+.bootstrap-switch.bootstrap-switch-focused{
+	background-color: #003c7d;
+}
+.actionImages span.glyphicon{
+	color: #00285f;
+}
+.bgGreen{
+	background-color: #8cc83c !important;
+}
+.bgDarkBlue{
+	background-color: #00285f;
+}
+.tagAsterisk,
+.tagText,
+#tagRecord{
+	background-color: #00a8e4;
+	border-color: transparent;
+}
+.widget_header{
+	background-color: #00509e;
+}
+.widget_header,
+.widget_header a{
+	color: #fff;
+}
+.navbar-default{
+	background-color: #00285f;
+	border-color: transparent;
+}
+
