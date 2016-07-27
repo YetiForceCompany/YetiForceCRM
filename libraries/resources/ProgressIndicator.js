@@ -37,7 +37,8 @@
 		}
 
 		this.showTopCSS = {
-			'left': '48.2%',
+			width: '25%',
+			'left': '37.5%',
 			'position': 'fixed',
 			'top': '4.5%',
 			'z-index': '100000'

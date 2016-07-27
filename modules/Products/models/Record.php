@@ -278,67 +278,74 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 * @param <String> $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getSearchResult($searchKey, $module = false, $limit = false)
+	public static function getSearchResult($searchKey, $moduleName = false, $limit = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel, vtiger_crmentity.crmid, setype, createdtime 
-				FROM vtiger_crmentity 
-				INNER JOIN u_yf_crmentity_search_label ON vtiger_crmentity.crmid = u_yf_crmentity_search_label.crmid
-				INNER JOIN u_yf_crmentity_label ON vtiger_crmentity.crmid = u_yf_crmentity_label.crmid
-				WHERE u_yf_crmentity_search_label.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0';
-		$params = array("%$searchKey%");
-
-		if ($module !== false) {
-			$query .= ' AND setype = ?';
-			if ($module == 'Products') {
-				$query = 'SELECT u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel, vtiger_crmentity.crmid, setype, createdtime FROM vtiger_crmentity 
-					INNER JOIN vtiger_products ON vtiger_products.productid = vtiger_crmentity.crmid
-					INNER JOIN u_yf_crmentity_search_label ON vtiger_crmentity.crmid = u_yf_crmentity_search_label.crmid
-					INNER JOIN u_yf_crmentity_label ON vtiger_crmentity.crmid = u_yf_crmentity_label.crmid
-					WHERE u_yf_crmentity_search_label.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 
-							AND vtiger_products.discontinued = 1 AND vtiger_crmentity.setype = ?';
-			} else if ($module == 'Services') {
-				$query = 'SELECT u_yf_crmentity_label.label, u_yf_crmentity_search_label.searchlabel, crmid, setype, createdtime FROM vtiger_crmentity 
-					INNER JOIN vtiger_service ON vtiger_service.serviceid = vtiger_crmentity.crmid 
-					INNER JOIN u_yf_crmentity_search_label ON vtiger_crmentity.crmid = u_yf_crmentity_search_label.crmid
-					INNER JOIN u_yf_crmentity_label ON vtiger_crmentity.crmid = u_yf_crmentity_label.crmid
-					WHERE u_yf_crmentity_search_label.searchlabel LIKE ? AND vtiger_crmentity.deleted = 0 
-							AND vtiger_service.discontinued = 1 AND setype = ?';
+		$query = false;
+		if ($moduleName !== false && ($moduleName == 'Products' || $moduleName == 'Services' )) {
+			$currentUser = \Users_Record_Model::getCurrentUserModel();
+			$adb = \PearDatabase::getInstance();
+			$params = ['%' . $currentUser->getId() . '%', "%$searchKey%"];
+			$query = 'SELECT u_yf_crmentity_search_label.`crmid`,u_yf_crmentity_search_label.`setype`,u_yf_crmentity_search_label.`searchlabel` FROM `u_yf_crmentity_search_label`';
+			$where = ' WHERE u_yf_crmentity_search_label.`userid` LIKE ? AND u_yf_crmentity_search_label.`searchlabel` LIKE ?';
+			if ($moduleName !== false) {
+				$multiMode = is_array($moduleName);
+				if ($multiMode) {
+					$where .= sprintf(' AND u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
+					$params = array_merge($params, $moduleName);
+				} else {
+					$where .= ' AND `setype` = ?';
+					$params[] = $moduleName;
+				}
 			}
-			$params[] = $module;
+			if ($moduleName == 'Products') {
+				$query .= ' INNER JOIN vtiger_products ON vtiger_products.productid = u_yf_crmentity_label.crmid';
+				$where .= ' AND vtiger_products.discontinued = 1';
+			} else if ($moduleName == 'Services') {
+				$query .= ' INNER JOIN vtiger_service ON vtiger_service.serviceid = u_yf_crmentity_label.crmid';
+				$where .= ' AND vtiger_service.discontinued = 1';
+			}
 		}
-		//Remove the ordering for now to improve the speed
-		//$query .= ' ORDER BY createdtime DESC';
-
-		$result = $db->pquery($query, $params);
-		$noOfRows = $db->num_rows($result);
-
-		$moduleModels = $matchingRecords = $leadIdsList = array();
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		if (!$limit) {
+			$limit = AppConfig::main('max_number_search_result');
+		}
+		$rows = [];
+		if (!$query) {
+			$rows = \includes\Record::findCrmidByLabel($searchKey, $moduleName, $limit);
+		} else {
+			$query = $query . $where;
+			if ($limit) {
+				$query .= ' LIMIT ' . $limit;
+			}
+			$result = $adb->pquery($query, $params);
+			while ($row = $adb->getRow($result)) {
+				$rows[] = $row;
+			}
+		}
+		$matchingRecords = $leadIdsList = [];
+		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads') {
 				$leadIdsList[] = $row['crmid'];
 			}
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
-
-		for ($i = 0, $recordsCount = 0; $i < $noOfRows && $recordsCount < 100; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		$recordsCount = 0;
+		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
-			if (Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['crmid'])) {
-				$row['id'] = $row['crmid'];
-				$moduleName = $row['setype'];
-				if (!array_key_exists($moduleName, $moduleModels)) {
-					$moduleModels[$moduleName] = Vtiger_Module_Model::getInstance($moduleName);
-				}
-				$moduleModel = $moduleModels[$moduleName];
-				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
-				$recordInstance = new $modelClassName();
-				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
-				$recordsCount++;
+			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
+			$row['id'] = $row['crmid'];
+			$row['smownerid'] = $recordMeta['smownerid'];
+			$row['createdtime'] = $recordMeta['createdtime'];
+			$row['permitted'] = \includes\Privileges::isPermitted($row['setype'], 'DetailView', $row['crmid']);
+			$moduleName = $row['setype'];
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+			$recordInstance = new $modelClassName();
+			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
+			$recordsCount++;
+			if ($limit && $limit == $recordsCount) {
+				return $matchingRecords;
 			}
 		}
 		return $matchingRecords;

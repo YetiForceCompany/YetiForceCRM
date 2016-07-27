@@ -54,14 +54,19 @@ hr {
 	margin-bottom: 8px;
 	border-bottom: 1px solid #dddddd;
 }
+.imageHolder{
+	margin: 0 auto;
+	background-position: center;
+	padding: 10px 0;
+	width: 70%;
+}
+.blockProgressContainer.imageHolder {
+	padding: 40px 0;
+	background: radial-gradient(#fff 25%, transparent 70%);
+}
 .message{
-	color: #ccc;
-}
-.blockProgressContainer .sk-cube-grid .sk-cube{
-	background-color: #fff;
-}
-.blockProgressContainer .message{
-	color: #fff;
+	font-weight: bold;
+	color: #4a5364;
 }
 .sk-cube-grid {
 	width: 4em;
@@ -71,7 +76,7 @@ hr {
 .sk-cube-grid .sk-cube {
 	width: 33%;
 	height: 33%;
-	background-color: #ccc;
+	background-color: #4a5364;
 	float: left;
 	-webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
 	animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
@@ -2230,13 +2235,7 @@ th.htColHeader,
 .vtFooter p a {
 	color: #ffffff;
 }
-/* Footer */
-/*****Loading message **********/
-.imageHolder {
-	color: #fff;
-	background-position: center;
-	padding: 10px 0;
-}
+
 .crumbs {
 	height: 40px;
 	margin: 0;

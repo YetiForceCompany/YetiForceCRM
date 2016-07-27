@@ -50,8 +50,8 @@ class PearDatabase
 		PDO::PARAM_BOOL => 'bool',
 		PDO::PARAM_NULL => 'null',
 		PDO::PARAM_INT => 'int',
-		PDO::PARAM_STR => 'string',
 		PDO::PARAM_LOB => 'blob',
+		PDO::PARAM_STR => 'string',
 		PDO::PARAM_STMT => 'statement',
 	];
 
@@ -103,7 +103,7 @@ class PearDatabase
 		$options = array(
 			PDO::ATTR_PERSISTENT => true,
 			PDO::ATTR_EMULATE_PREPARES => false,
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 		);
 
 		if ($this->isdb_default_utf8_charset) {
@@ -361,7 +361,7 @@ class PearDatabase
 
 		try {
 			$this->stmt = $this->database->prepare($query);
-			$success = $this->stmt->execute($params);
+			$this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (PDOException $e) {
 			$error = $this->database->errorInfo();

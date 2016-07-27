@@ -289,6 +289,8 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `s_yf_multireference` */
 
+/*Data for the table `s_yf_privileges_updater` */
+
 /*Data for the table `u_yf_activity_invitation` */
 
 /*Data for the table `u_yf_announcement` */
@@ -305,59 +307,11 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `u_yf_crmentity_label` */
 
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (35,'Notify Owner On Ticket Change');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (36,'Notify Account On Ticket Change');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (37,'Notify Contact On Ticket Closed');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (38,'Notify Account On Ticket Closed');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (39,'Notify Contact On Ticket Create');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (40,'Notify Account On Ticket Create');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (41,'Notify Contact On Ticket Change');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (42,'Notify Owner On Ticket Closed');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (43,'Notify Owner On Ticket Create');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (44,'Customer Portal Login Details');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (45,'Send invitations');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (46,'Send Notification Email to Record Owner');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (93,'Activity Reminder Notification');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (94,'Activity Reminder Notification');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (95,'Test mail about the mail server configuration.');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (103,'ForgotPassword');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (104,'Customer Portal - ForgotPassword');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (105,'Notify Owner On new comment added to ticket from portal');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (106,'Notify Contact On New comment added to ticket');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (107,'Security risk has been detected - Brute Force');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (108,'Backup has been made');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (109,'Notify Account On New comment added to ticket');
-insert  into `u_yf_crmentity_label`(`crmid`,`label`) values (110,'Send notifications');
-
 /*Data for the table `u_yf_crmentity_last_changes` */
 
 /*Data for the table `u_yf_crmentity_rel_tree` */
 
 /*Data for the table `u_yf_crmentity_search_label` */
-
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (35,'Notify Owner On Ticket Change');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (36,'Notify Account On Ticket Change');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (37,'Notify Contact On Ticket Closed');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (38,'Notify Account On Ticket Closed');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (39,'Notify Contact On Ticket Create');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (40,'Notify Account On Ticket Create');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (41,'Notify Contact On Ticket Change');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (42,'Notify Owner On Ticket Closed');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (43,'Notify Owner On Ticket Create');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (44,'Customer Portal Login Details');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (45,'Send invitations');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (46,'Send Notification Email to Record Owner');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (93,'Activity Reminder Notification');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (94,'Activity Reminder Notification');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (95,'Test mail about the mail server configuration.');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (103,'ForgotPassword');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (104,'Customer Portal - ForgotPassword');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (105,'Notify Owner On new comment added to ticket from portal');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (106,'Notify Contact On New comment added to ticket');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (107,'Security risk has been detected - Brute Force');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (108,'Backup has been made');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (109,'Notify Account On New comment added to ticket');
-insert  into `u_yf_crmentity_search_label`(`crmid`,`searchlabel`) values (110,'Send notifications');
 
 /*Data for the table `u_yf_crmentity_showners` */
 
@@ -1580,7 +1534,7 @@ insert  into `vtiger_crmentity_seq`(`id`) values (110);
 
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (1,'Workflow','cron/modules/com_vtiger_workflow/com_vtiger_workflow.service',900,NULL,NULL,1,'com_vtiger_workflow',1,'Recommended frequency for Workflow is 15 mins');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (3,'SendReminder','cron/SendReminder.service',900,NULL,NULL,1,'Calendar',3,'Recommended frequency for SendReminder is 15 mins');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (4,'LBL_CURRENCY_UPDATE','modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php',86400,1440171630,1440171632,1,'CurrencyUpdate',4,'Recommended frequency for Currency Update is 24 hours');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (4,'LBL_CURRENCY_UPDATE','modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php',86400,NULL,NULL,1,'CurrencyUpdate',4,'Recommended frequency for Currency Update is 24 hours');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (8,'Scheduled Import','cron/modules/Import/ScheduledImport.service',900,NULL,NULL,1,'Import',6,'Recommended frequency for MailScanner is 15 mins');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (9,'ScheduleReports','cron/modules/Reports/ScheduleReports.service',900,NULL,NULL,1,'Reports',7,'Recommended frequency for ScheduleReports is 15 mins');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (10,'MailScannerAction','modules/OSSMailScanner/cron/action.php',200,NULL,NULL,1,'OSSMailScanner',8,'');
@@ -1595,6 +1549,8 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (19,'Assets Renewal','modules/Assets/cron/Renewal.php',86400,NULL,NULL,1,'Assets',17,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (20,'SoldServices Renewal','modules/OSSSoldServices/cron/Renewal.php',86400,NULL,NULL,1,'OSSSoldServices',18,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (21,'LBL_SEND_NOTIFICATIONS','modules/Home/cron/Notifications.php',900,NULL,NULL,1,'Home',19,'');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (22,'RecordLabelUpdater','cron/LabelUpdater.php',900,NULL,NULL,1,'Vtiger',20,'');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (23,'PrivilegesUpdater','cron/PrivilegesUpdater.php',900,NULL,NULL,1,'Vtiger',21,'');
 
 /*Data for the table `vtiger_currencies` */
 

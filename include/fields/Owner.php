@@ -214,7 +214,6 @@ class Owner
 		$tempResult = \Vtiger_Cache::get('getUsers', $cacheKey);
 		if ($tempResult === false) {
 			$db = \PearDatabase::getInstance();
-			$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($this->currentUser->getId());
 			$entityData = \vtlib\Functions::getEntityModuleSQLColumnString('Users');
 			$entityName = $db->concat(explode(',', $entityData['colums']));
 
@@ -224,6 +223,7 @@ class Owner
 				$params = [];
 			} else {
 				if ($private == 'private') {
+					$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($this->currentUser->getId());
 					$log->debug('Sharing is Private. Only the current user should be listed');
 					$query = "SELECT id,%s,is_admin FROM vtiger_users WHERE id=? AND `status`='Active' UNION SELECT vtiger_user2role.userid AS id,%s,is_admin FROM vtiger_user2role 
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ? AND `status`='Active' UNION
@@ -421,5 +421,24 @@ class Owner
 			$groups = \vtlib\Functions::getCRMRecordLabels('Groups', array_values($diffIds));
 		}
 		return ['users' => $users, 'group' => $groups];
+	}
+
+	protected static $usersIdsCache = [];
+
+	function getUsersIds($status = 'Active')
+	{
+		if (!isset(self::$usersIdsCache[$status])) {
+			$db = \PearDatabase::getInstance();
+			$params = [];
+			$query = 'SELECT id FROM `vtiger_users`';
+			if ($status) {
+				$query .= ' WHERE status = ?';
+				$params[] = $status;
+			}
+			$result = $db->pquery($query, $params);
+			$matchingRecords = $db->getArrayColumn($result);
+			self::$usersIdsCache[$status] = $matchingRecords;
+		}
+		return self::$usersIdsCache[$status];
 	}
 }

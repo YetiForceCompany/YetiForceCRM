@@ -5,44 +5,52 @@ body{
 .bodyHeader {
 	background: #00285f;	
 }
-.userDetailsContainer{
-	background-color: #00509e;
-}
-.baseContainer .leftPanel .userDetailsContainer a{
-	color: #fff;
-}
 .baseContainer .leftPanel:after{
 	background: #fff;
 }
 .baseContainer .leftPanel a{
 	color: #003c7d;
 }
-.baseContainer .leftPanel .menuContainer a:hover, 
-.baseContainer .leftPanel .menuContainer a:focus{
-	color: #fff;
-}
-.nav > li > a:hover, 
-.nav > li > a:focus{
-	background-color: #00509e;
+.nav > li > a:focus,
+.reminderPostpone:hover,
+.relatedHeader .btn-default.addButton:hover,
+.listViewActionsDiv .btn-toolbar .btn:hover,
+.btn-primary:hover,
+.btn-warning:hover,
+.btn-success:hover,
+.btn-info:hover,
+.btn-default:hover,
+.btn-danger:hover,
+.alphabetSearch:hover,
+.alphabetSearch a:hover,
+.dropdown-menu > li > a:hover,
+.widgetFooterContent .badge:hover{
+	color: #000 !important;
 }
 .leftPanel .nav .subMenu:after{
-	background: #00509e;
+	background: #00285f;
 }
 .baseContainer .leftPanel .menuContainer .subMenu a:hover,
 .baseContainer .leftPanel .menuContainer .subMenu a:focus,
 .baseContainer .leftPanel .menuContainer .subMenu button:hover,
 .baseContainer .leftPanel .menuContainer .subMenu button:focus{
-	background: #fff;
-	color: #00509e;
+	background: #fff !important;
+	color: #00285f !important;
 }
 .baseContainer .leftPanel .menuContainer .subMenu a{
 	color: #fff;
 }
+.baseContainer .leftPanel .menuLabel > a:hover,
+.baseContainer .leftPanel .menuModule > a:hover {
+ background: #00285f
+}
 .subMenu .menuSeparator{
 	background: #00285f;
 }
-.vtFooter p{
+.vtFooter p,
+.vtFooter a{
 	background: #00285f;
+	color: #969696 ;
 }
 .baseContainer .basePanel {
 	border-left: 2px solid #00285f;
@@ -53,20 +61,52 @@ body{
 .highlightBackgroundColor{
 	background: #84d0f0 !important;
 }
-.nav-pills > li.active > a, 
-.nav-pills > li.active > a:hover, 
-.nav-pills > li.active > a:focus{
-	background: #00509e;
-	color: #fff;
-}
+
 .nav.massEditTabs li a:hover strong{
 	color: #fff;
 }
-.nav.massEditTabs li.active a{
+.nav li.active a{
 	background: #00509e;
 	color: #fff;
 }
-.listViewEntriesTable .listViewHeaders a.listViewHeaderValues{
+.detailViewInfo .related .nav-pills .active > a,
+.nav > li > a:focus{
+	background: #fff;
+	color: #00a8e4;	
+}
+.detailViewInfo .related .nav-pills .active > a:hover{
+	background: #fff;
+	color: #323232;
+}
+.btn-primary,
+.btn-primary:hover,
+.widget_header,
+.iconsInFooter{
+	background: #00509e;
+}
+.related .nav .relatedNav, 
+.related .nav .dropdown .mainNav, 
+.related .nav .dropdown{
+	background: #fff;
+}
+.related .nav-pills li a{
+	color: #003c7d;
+}
+.related .nav-pills li a:hover {
+	color: #323232;
+	background-color: #fff;
+	border-radius: 1px;
+}
+.related .nav-pills{
+	border-bottom: 3px solid #00509e
+}
+.related .nav li.active{
+	border-bottom: 4px solid #00a8e1;
+	margin-bottom: -3px;
+	height: 41px;
+}
+.listViewEntriesTable .listViewHeaders a.listViewHeaderValues,
+.widget_header h4{
 	color: #323232;
 }
 .listViewEntriesTable .listViewEntries{
@@ -79,8 +119,8 @@ body{
 	color: #003c7d;
 }
 .columnSorted{
-	background: #00a8e4 !important;
-	text-shadow: 0 1px  #84d0f0 !important;
+	background: #00509e !important;
+	text-shadow: none;
 }
 #selectAllMsgDiv,
 #deSelectAllMsgDiv{
@@ -88,3 +128,106 @@ body{
 	border-radius: 3px;
 	padding: 3px 0 3px 0;
 }
+.btn-info{
+	background-color: #84d0f0;
+}
+.btn-success,
+.btn-success:hover{
+	background-color: #8cc83c;
+	border-color: transparent;
+}
+.formError .formErrorContent{
+	background: #ff0000;
+}
+.bgDanger,
+.btn-warning,
+.btn-warning:hover,
+.btn-warning:focus,
+.alert-danger,
+.btn-danger,
+btn-danger:hover{
+	background-color: #ff0000 !important;
+}
+.sk-cube-grid .sk-cube{
+	background-color: #00a8e4;
+}
+.bgOrange,
+.btn-info,
+.alphabetSearch a{
+	background-color: #00a8e4 !important;
+	color: #fff;
+}
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
+.nav.massEditTabs li.active a{
+	background-color: #003c7d;
+}
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default{
+	color: #fff;
+	background-color: #00a8e4;
+}
+.bootstrap-switch.bootstrap-switch-focused{
+	background-color: #003c7d;
+}
+.actionImages span.glyphicon,
+.conditionRow .deleteCondition{
+	color: #00285f;
+}
+.bgGreen{
+	background-color: #8cc83c !important;
+}
+.bgDarkBlue{
+	background-color: #00285f;
+}
+.tagAsterisk,
+.tagText,
+#tagRecord,
+.reminderPostpone,
+.relatedHeader .btn-default.addButton,
+.listViewActionsDiv .btn-toolbar .btn{
+	background-color: #00a8e4 !important;
+	border-color: transparent !important;
+}
+.widget_header,
+.alert-danger,
+.relatedHeader .btn-default.addButton,
+.listViewActionsDiv .btn-toolbar .btn,
+.columnSorted a,
+.baseContainer .leftPanel .userDetailsContainer a,
+.baseContainer .leftPanel .menuContainer a:hover, 
+.baseContainer .leftPanel .menuContainer a:focus{
+	color: #fff !important;
+}
+.navbar-default{
+	background-color: #00285f;
+	border-color: transparent;
+}
+.redColor{
+	color: #ff0000;
+}
+.btn-danger,
+.btn-warning,
+.btn-warning:hover,
+.btn-info:hover,
+.btn-success:hover{
+	border-color: transparent;
+}
+.table th{
+	text-shadow: none;
+}
+.userDetailsContainer{
+	background-color: #00285f;
+}
+.dropdown-menu > li > a{
+	color: #00a8e4;
+}
+.dropdown-menu>li>a:hover{
+	background-color: transparent;
+}
+.chosen-container .chosen-results li.highlighted,
+.widgetFooterContent .badge{
+	background: #00a8e4 !important;
+}
+.form-control:focus{
+	border-color: #00a8e4 !important;
+}
+
