@@ -11,9 +11,9 @@ $result = $adb->query("SELECT `vtiger_crmentity`.crmid,`vtiger_crmentity`.setype
 WHERE `vtiger_crmentity`.deleted = '0' AND (u_yf_crmentity_label.label IS NULL OR u_yf_crmentity_search_label.searchlabel IS NULL) LIMIT 1000");
 while ($row = $adb->getRow($result)) {
 	$updater = false;
-	if ($row['label'] === null) {
+	if ($row['label'] === null && $row['searchlabel'] !== null) {
 		$updater = 'label';
-	} elseif ($row['searchlabel'] === null) {
+	} elseif ($row['searchlabel'] === null && $row['label'] !== null) {
 		$updater = 'searchlabel';
 	}
 	\includes\Record::updateLabel($row['setype'], $row['crmid'], 'new', $updater);

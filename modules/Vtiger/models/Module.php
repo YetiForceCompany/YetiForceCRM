@@ -658,11 +658,9 @@ class Vtiger_Module_Model extends vtlib\Module
 		$query = sprintf('SELECT * FROM vtiger_crmentity %s WHERE setype=? AND %s AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?', $nonAdminQuery, $deletedCondition);
 		$params = array($this->getName(), $currentUserModel->id, $limit);
 		$result = $db->pquery($query, $params);
-		$noOfRows = $db->num_rows($result);
 
 		$recentRecords = [];
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $db->getRow($result)) {
 			$row['id'] = $row['crmid'];
 			$recentRecords[$row['id']] = $this->getRecordFromArray($row);
 		}
@@ -834,9 +832,7 @@ class Vtiger_Module_Model extends vtlib\Module
 			}
 
 			$result = $db->pquery($query, $params);
-			$noOfModules = $db->num_rows($result);
-			for ($i = 0; $i < $noOfModules; ++$i) {
-				$row = $db->query_result_rowdata($result, $i);
+			while ($row = $db->getRow($result)) {
 				$moduleModels[$row['tabid']] = self::getInstanceFromArray($row);
 				Vtiger_Cache::set('module', $row['tabid'], $moduleModels[$row['tabid']]);
 				Vtiger_Cache::set('module', $row['name'], $moduleModels[$row['tabid']]);
@@ -928,10 +924,8 @@ class Vtiger_Module_Model extends vtlib\Module
 		$searchableModules = [];
 		$sql = 'SELECT tabid FROM vtiger_entityname WHERE turn_off = 0';
 		$result = $db->query($sql);
-		$noOfModules = $db->num_rows($result);
 		$turnOffModules = [];
-		for ($i = 0; $i < $noOfModules; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $db->getRow($result)) {
 			$turnOffModules[$row['tabid']] = $row['tabid'];
 		}
 
