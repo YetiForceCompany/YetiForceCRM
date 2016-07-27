@@ -62,9 +62,20 @@ body{
 .nav.massEditTabs li a:hover strong{
 	color: #fff;
 }
-.nav.massEditTabs li.active a{
+.nav li.active a{
 	background: #00509e;
 	color: #fff;
+}
+.detailViewInfo .related .nav-pills .active > a, 
+.detailViewInfo .related .nav-pills .active > a:hover{
+	background: #00509e;
+}
+.related .nav-pills li a:hover {
+	color: #fff;
+	border-radius: 1px;
+}
+.related .nav-pills{
+	border-bottom: 3px solid #00509e
 }
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues{
 	color: #323232;
@@ -87,4 +98,19 @@ body{
 	background-color: #00a8e4 !important;
 	border-radius: 3px;
 	padding: 3px 0 3px 0;
+}
+.btn-info{
+	background-color: #84d0f0;
+}
+.btn-success{
+	background-color: #8cc83c;
+}
+.formError .formErrorContent{
+	background: #ff0000;
+}
+.bgDanger{
+	background-color: #ff0000;
+}
+.blockProgressContainer .sk-cube-grid .sk-cube{
+	background-color: #00a8e4;
 }
