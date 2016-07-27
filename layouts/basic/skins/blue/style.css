@@ -25,7 +25,8 @@ body{
 .nav > li > a:focus{
 	background-color: #00509e;
 }
-.nav > li > a:focus{
+.nav > li > a:focus,
+.reminderPostpone:hover{
 	color: #000;
 }
 .leftPanel .nav .subMenu:after{
@@ -70,11 +71,10 @@ body{
 	color: #fff;
 }
 .detailViewInfo .related .nav-pills .active > a, 
-.detailViewInfo .related .nav-pills .active > a:hover{
+.detailViewInfo .related .nav-pills .active > a:hover,
+.btn-primary,
+.btn-primary:hover{
 	background: #00509e;
-}
-.detailViewInfo .related .nav-pills a:hover{
-	color: #000;
 }
 .related .nav-pills li a:hover {
 	color: #fff;
@@ -121,7 +121,10 @@ body{
 .bgDanger,
 .btn-warning,
 .btn-warning:hover,
-.btn-warning:focus{
+.btn-warning:focus,
+.alert-danger,
+.btn-danger,
+btn-danger:hover{
 	background-color: #ff0000 !important;
 }
 .blockProgressContainer .sk-cube-grid .sk-cube{
@@ -129,11 +132,12 @@ body{
 }
 .bgOrange,
 .btn-info,
-.btn-default{
+.alphabetSearch a.btn{
 	background-color: #00a8e4 !important;
 	color: #fff;
 }
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
+.nav.massEditTabs li.active a{
 	background-color: #003c7d;
 }
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default{
@@ -143,7 +147,8 @@ body{
 .bootstrap-switch.bootstrap-switch-focused{
 	background-color: #003c7d;
 }
-.actionImages span.glyphicon{
+.actionImages span.glyphicon,
+.conditionRow .deleteCondition{
 	color: #00285f;
 }
 .bgGreen{
@@ -154,19 +159,24 @@ body{
 }
 .tagAsterisk,
 .tagText,
-#tagRecord{
-	background-color: #00a8e4;
-	border-color: transparent;
+#tagRecord,
+.reminderPostpone{
+	background-color: #00a8e4 !important;
+	border-color: transparent !important;
 }
 .widget_header{
 	background-color: #00509e;
 }
 .widget_header,
-.widget_header a{
+.widget_header a,
+.alert-danger{
 	color: #fff;
 }
 .navbar-default{
 	background-color: #00285f;
 	border-color: transparent;
+}
+.redColor{
+	color: #ff0000;
 }
 
