@@ -35,11 +35,14 @@ body{
 .baseContainer .leftPanel .menuContainer .subMenu a{
 	color: #fff;
 }
+.baseContainer .leftPanel .menuLabel > a:hover{
+	background: #00285f
+}
 .subMenu .menuSeparator{
 	background: #00285f;
 }
 .vtFooter p,
-.vtFooter p a{
+.vtFooter a{
 	background: #00285f;
 	color: #969696 ;
 }
@@ -52,30 +55,40 @@ body{
 .highlightBackgroundColor{
 	background: #84d0f0 !important;
 }
-.nav li.active a,
-.nav-pills > li.active > a, 
-.nav-pills > li.active > a:hover, 
-.nav-pills > li.active > a:focus,
-.nav > li > a:hover, 
-.nav > li > a:focus{
-	background: #00285f !important; 
-	color: #fff;
-}
+
 .nav.massEditTabs li a:hover strong{
 	color: #fff;
 }
-
-.detailViewInfo .related .nav-pills .active > a, 
-.detailViewInfo .related .nav-pills .active > a:hover,
+.nav li.active a{
+	background: #00509e;
+	color: #fff;
+}
+.detailViewInfo .related .nav-pills .active > a,
+.nav > li > a:focus{
+	background: #fff;
+	color: #00a8e4;	
+}
+.detailViewInfo .related .nav-pills .active > a:hover{
+	background: #fff;
+	color: #323232;
+}
 .btn-primary,
 .btn-primary:hover,
 .widget_header,
 .iconsInFooter{
 	background: #00509e;
 }
+.related .nav .relatedNav, 
+.related .nav .dropdown .mainNav, 
+.related .nav .dropdown{
+	background: #fff;
+}
+.related .nav-pills li a{
+	color: #003c7d;
+}
 .related .nav-pills li a:hover {
-	color: #fff;
-	background-color: #00509e;
+	color: #323232;
+	background-color: #fff;
 	border-radius: 1px;
 }
 .related .nav-pills{
