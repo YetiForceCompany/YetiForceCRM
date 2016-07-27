@@ -428,10 +428,16 @@ class ListViewController
 					if (!empty($value) && !empty($this->nameList[$fieldName]) && !empty($parentModule)) {
 						$parentMeta = $this->queryGenerator->getMeta($parentModule);
 						$ID = $value;
-						$value = vtlib\Functions::textLength($this->nameList[$fieldName][$ID], $fieldModel->get('maxlengthtext'));
 						if ($parentMeta->isModuleEntity() && $parentModule != 'Users' && Users_Privileges_Model::isPermitted($parentModule, 'DetailView', $ID)) {
-							$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&" .
-								"record=$rawValue' title='" . getTranslatedString($parentModule, $parentModule) . "'>$value</a>";
+							$className = $fieldModel->getModule()->getName() . '_' . ucwords($fieldModel->get('name')) . '_Field';
+							if (class_exists($className)) {
+								$customField = new $className();
+								$value = $customField->getListViewDisplayValue($rawValue, $fieldModel);
+							} else {
+								$value = vtlib\Functions::textLength($this->nameList[$fieldName][$ID], $fieldModel->get('maxlengthtext'));
+								$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&" .
+									"record=$rawValue' title='" . getTranslatedString($parentModule, $parentModule) . "'>$value</a>";
+							}
 						}
 					} else {
 						$value = '--';
