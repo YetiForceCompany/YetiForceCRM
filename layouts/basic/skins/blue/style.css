@@ -15,6 +15,7 @@ body{
 .reminderPostpone:hover,
 .relatedHeader .btn-default.addButton:hover,
 .listViewActionsDiv .btn-toolbar .btn:hover,
+.btn-primary:hover,
 .btn-warning:hover,
 .btn-success:hover,
 .btn-info:hover,
@@ -22,7 +23,8 @@ body{
 .btn-danger:hover,
 .alphabetSearch:hover,
 .alphabetSearch a:hover,
-.dropdown-menu > li > a:hover{
+.dropdown-menu > li > a:hover,
+.widgetFooterContent .badge:hover{
 	color: #000 !important;
 }
 .leftPanel .nav .subMenu:after{
@@ -38,8 +40,9 @@ body{
 .baseContainer .leftPanel .menuContainer .subMenu a{
 	color: #fff;
 }
-.baseContainer .leftPanel .menuLabel > a:hover{
-	background: #00285f
+.baseContainer .leftPanel .menuLabel > a:hover,
+.baseContainer .leftPanel .menuModule > a:hover {
+ background: #00285f
 }
 .subMenu .menuSeparator{
 	background: #00285f;
@@ -96,6 +99,11 @@ body{
 }
 .related .nav-pills{
 	border-bottom: 3px solid #00509e
+}
+.related .nav li.active{
+	border-bottom: 4px solid #00a8e1;
+	margin-bottom: -3px;
+	height: 41px;
 }
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues,
 .widget_header h4{
@@ -180,7 +188,6 @@ btn-danger:hover{
 	border-color: transparent !important;
 }
 .widget_header,
-.widget_header a,
 .alert-danger,
 .relatedHeader .btn-default.addButton,
 .listViewActionsDiv .btn-toolbar .btn,
@@ -216,9 +223,11 @@ btn-danger:hover{
 .dropdown-menu>li>a:hover{
 	background-color: transparent;
 }
-.chosen-container .chosen-results li.highlighted{
-	background: #00a8e4  !important;
+.chosen-container .chosen-results li.highlighted,
+.widgetFooterContent .badge{
+	background: #00a8e4 !important;
 }
 .form-control:focus{
 	border-color: #00a8e4 !important;
 }
+
