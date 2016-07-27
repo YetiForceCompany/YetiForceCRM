@@ -178,22 +178,33 @@ class Record
 			$adb = \PearDatabase::getInstance();
 			$label = decode_html($labelInfo[$id]['name']);
 			$search = decode_html($labelInfo[$id]['search']);
-			if ($mode == 'edit') {
-				if (!empty($label)) {
-					$adb->update('u_yf_crmentity_label', ['label' => $label], 'crmid = ?', [$id]);
-				} else {
-					$adb->delete('u_yf_crmentity_label', 'crmid = ?', [$id]);
-				}
-				if (!empty($search)) {
-					$adb->update('u_yf_crmentity_search_label', ['searchlabel' => $search], 'crmid = ?', [$id]);
-				} else {
-					$adb->delete('u_yf_crmentity_search_label', 'crmid = ?', [$id]);
-				}
+			$insertMode = $mode != 'edit';
+			$rowCount = 0;
+			if (empty($label)) {
+				$adb->delete('u_yf_crmentity_label', 'crmid = ?', [$id]);
 			} else {
-				if (!empty($label) && $updater != 'searchlabel') {
+				if (!$insertMode) {
+					$rowCount = $adb->update('u_yf_crmentity_label', ['label' => $label], 'crmid = ?', [$id]);
+					if ($rowCount == 0) {
+						$result = $adb->pquery('SELECT 1 FROM `u_yf_crmentity_label` WHERE `crmid` = ?', [$id]);
+						$rowCount = $adb->getRowCount($result);
+					}
+				}
+				if (($insertMode || $rowCount == 0) && $updater != 'searchlabel') {
 					$adb->insert('u_yf_crmentity_label', ['crmid' => $id, 'label' => $label]);
 				}
-				if (!empty($search) && $updater != 'label') {
+			}
+			if (empty($search)) {
+				$adb->delete('u_yf_crmentity_search_label', 'crmid = ?', [$id]);
+			} else {
+				if (!$insertMode) {
+					$rowCount = $adb->update('u_yf_crmentity_search_label', ['searchlabel' => $search], 'crmid = ?', [$id]);
+					if ($rowCount == 0) {
+						$result = $adb->pquery('SELECT 1 FROM `u_yf_crmentity_search_label` WHERE `crmid` = ?', [$id]);
+						$rowCount = $adb->getRowCount($result);
+					}
+				}
+				if (($insertMode || $rowCount == 0) && $updater != 'label') {
 					$adb->insert('u_yf_crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName]);
 				}
 			}
