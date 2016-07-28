@@ -77,19 +77,7 @@ try {
 	} else {
 		throw new Exception('No file');
 	}
-
-	echo 'Start cron 1' . PHP_EOL;
-
-	$cronTasks = vtlib\Cron::listAllActiveInstances();
-	foreach ($cronTasks as $cronTask) {
-		$cronTask->markRunning();
-		checkFileAccess($cronTask->getHandlerFile());
-		require_once $cronTask->getHandlerFile();
-		$cronTask->markFinished();
-	}
-
-	echo 'Start cron 2' . PHP_EOL;
-
+	echo 'Start cron' . PHP_EOL;
 	require 'cron/vtigercron.php';
 
 	echo 'Checking language files' . PHP_EOL;
