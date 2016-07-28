@@ -100,7 +100,7 @@ try {
 		'entityfieldlabel' => 'Test',
 	]);
 	echo 'Removing a module' . PHP_EOL;
-	$moduleInstance = Vtiger_Module::getInstance('Test');
+	$moduleInstance = \vtlib\Module::getInstance('Test');
 	$moduleInstance->delete();
 } catch (\Exception $e) {
 	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
