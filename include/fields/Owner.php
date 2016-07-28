@@ -47,7 +47,7 @@ class Owner
 		if ($accessibleGroups === false) {
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
 			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
-				$accessibleGroups = $this->getAllocation($this->moduleName, 'groups', $private, $fieldType);
+				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
 			} else {
 				$accessibleGroups = $this->getGroups(false, 'Active', '', $private);
 			}
