@@ -88,7 +88,7 @@ try {
 
 	echo 'Exporting language pack' . PHP_EOL;
 	$package = new vtlib\LanguageExport();
-	$package->export('pl_pl', ROOT_DIRECTORY, 'PL.zip');
+	$package->export('pl_pl', getcwd(), 'PL.zip');
 } catch (\Exception $e) {
 	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
 } catch (\AppException $e) {
