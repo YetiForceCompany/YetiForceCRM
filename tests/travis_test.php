@@ -9,16 +9,22 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 chdir(dirname(__FILE__) . '/../');
 
 try {
+	echo 'Start tests' . PHP_EOL;
+
 	$startTime = microtime(true);
 	define('REQUEST_MODE', 'WebUI');
 	define('ROOT_DIRECTORY', getcwd());
 
 	require 'include/main/WebUI.php';
 
+	echo 'Test login page' . PHP_EOL;
+
 	ob_start();
 	$webUI = new Vtiger_WebUI();
 	$webUI->process(AppRequest::init());
 	ob_end_clean();
+
+	echo 'Login to the system' . PHP_EOL;
 
 	$user = CRMEntity::getInstance('Users');
 	$user->column_fields['user_name'] = 'admin';
@@ -59,6 +65,7 @@ try {
 
 	$_SERVER['HTTP_X_REQUESTED_WITH'] = true;
 
+	echo 'Installing the test module' . PHP_EOL;
 
 	ob_start();
 	$testModule = 'TestModule.zip';
@@ -70,7 +77,9 @@ try {
 	} else {
 		throw new Exception('No file');
 	}
+
 	echo 'Start cron 1' . PHP_EOL;
+
 	$cronTasks = vtlib\Cron::listAllActiveInstances();
 	foreach ($cronTasks as $cronTask) {
 		$cronTask->markRunning();
@@ -78,7 +87,9 @@ try {
 		require_once $cronTask->getHandlerFile();
 		$cronTask->markFinished();
 	}
+
 	echo 'Start cron 2' . PHP_EOL;
+
 	require 'cron/vtigercron.php';
 
 	echo 'Checking language files' . PHP_EOL;
