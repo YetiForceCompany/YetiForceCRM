@@ -10,6 +10,8 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 Read the [documentation] (https://yetiforce.com/en/documentation.html) to learn more.
 
+Join our [LinkedIn group] (https://www.linkedin.com/groups/8177576) and connect with other users and community members to discuss topics surrounding CRM and YetiForce.
+
 Follow us on [Twitter](https://twitter.com/YetiForceEN) to get real-time info about new articles and functionalities. 
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
