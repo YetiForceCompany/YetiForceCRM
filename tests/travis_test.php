@@ -9,15 +9,11 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 chdir(dirname(__FILE__) . '/../');
 
 try {
-	echo 'Start tests' . PHP_EOL;
-
 	$startTime = microtime(true);
 	define('REQUEST_MODE', 'WebUI');
 	define('ROOT_DIRECTORY', getcwd());
 
 	require 'include/main/WebUI.php';
-
-	echo 'Test login page' . PHP_EOL;
 
 	ob_start();
 	$webUI = new Vtiger_WebUI();
