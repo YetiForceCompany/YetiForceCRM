@@ -16,15 +16,20 @@ try {
 	require 'include/main/WebUI.php';
 
 	ob_start();
-	$request = AppRequest::init();
-	$request->set('module', 'Users');
-	$request->set('action', 'Login');
-	$request->set('username', 'admin');
-	$request->set('password', 'admin');
-
 	$webUI = new Vtiger_WebUI();
-	$webUI->process($request);
+	$webUI->process(AppRequest::init());
 	ob_end_clean();
+
+	$user = CRMEntity::getInstance('Users');
+	$user->column_fields['user_name'] = 'admin';
+	if ($user->doLogin('admin')) {
+		Vtiger_Session::set('AUTHUSERID', $userid);
+		Vtiger_Session::set('authenticated_user_id', $userid);
+		Vtiger_Session::set('app_unique_key', AppConfig::main('application_unique_key'));
+		Vtiger_Session::set('authenticated_user_language', AppConfig::main('default_language'));
+		Vtiger_Session::set('user_name', $username);
+		Vtiger_Session::set('full_user_name', vtlib\Functions::getUserRecordLabel($userid));
+	}
 
 	echo 'Creating a user' . PHP_EOL;
 
