@@ -11,6 +11,3 @@ $mod_strings = [
 'Mobile' => 'Mobil',
 
 ];
-
-?>
-

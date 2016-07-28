@@ -10,5 +10,3 @@
 $mod_strings = [
 'WSAPP' => 'WSAPP',
 ];
-?>
-
