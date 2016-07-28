@@ -566,5 +566,3 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return true;
 	}
 }
-
-?>

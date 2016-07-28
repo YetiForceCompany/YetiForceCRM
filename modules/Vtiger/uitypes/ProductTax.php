@@ -21,4 +21,4 @@ class Vtiger_ProductTax_UIType extends Vtiger_Base_UIType
 	}
 }
 
-?>
+

@@ -643,5 +643,3 @@ function getUsersPasswordInfo()
 	}
 	return $usersList;
 }
-
-?>

@@ -59,5 +59,3 @@ class VtigerCompanyDetails extends VtigerActorOperation
 		return parent::revise($element);
 	}
 }
-
-?>

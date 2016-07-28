@@ -58,5 +58,3 @@ class VTWS_PreserveGlobal
 		}
 	}
 }
-
-?>

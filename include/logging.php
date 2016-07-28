@@ -30,6 +30,6 @@ require_once(LOG4PHP_DIR . '/LoggerPropertyConfigurator.php');
 
 $config = new LoggerPropertyConfigurator();
 $config->configure('config/log4php.properties');
- 
+
 global $log;
 $log = LoggerManager::getLogger('System');

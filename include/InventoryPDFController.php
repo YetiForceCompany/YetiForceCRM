@@ -453,5 +453,3 @@ class Vtiger_InventoryPDFController
 		return DateTimeField::convertToUserFormat($value);
 	}
 }
-
-?>

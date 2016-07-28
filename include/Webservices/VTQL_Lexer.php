@@ -336,5 +336,3 @@ class VTQL_Lexer
 		return false;
 	}
 }
-
-?>

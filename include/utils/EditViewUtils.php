@@ -372,5 +372,3 @@ function split_validationdataArray($validationData)
 	$log->debug("Exiting split_validationdataArray method ...");
 	return $data;
 }
-
-?>

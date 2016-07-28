@@ -135,5 +135,3 @@ class SessionManager
 		HTTP_Session::destroy();
 	}
 }
-
-?>

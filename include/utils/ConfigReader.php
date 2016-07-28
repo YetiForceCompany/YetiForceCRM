@@ -51,5 +51,3 @@ class ConfigReader
 		return $this->properties[$key];
 	}
 }
-
-?>

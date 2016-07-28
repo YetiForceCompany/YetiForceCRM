@@ -142,4 +142,4 @@ $currencies = array(
 	'Afghanistan, Afghanis'=>array('SAR','﷼'),	
 	'Cambodia, Riels'=>array('SAR','﷼'),	
 */
-?>
+

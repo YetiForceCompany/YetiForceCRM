@@ -124,5 +124,3 @@ class VtigerWebserviceObject
 		return $this->handlerClass;
 	}
 }
-
-?>

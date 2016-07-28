@@ -197,5 +197,3 @@ function expandRecord($table, $log)
 	//return out new string
 	return( $result);
 }
-
-?>

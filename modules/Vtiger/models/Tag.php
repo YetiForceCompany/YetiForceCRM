@@ -73,4 +73,4 @@ class Vtiger_Tag_Model extends Vtiger_Base_Model
 	}
 }
 
-?>
+

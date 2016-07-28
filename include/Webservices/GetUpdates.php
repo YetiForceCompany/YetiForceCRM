@@ -303,5 +303,3 @@ function getSelectClauseFields($module, $moduleMeta, $user)
 	}
 	return array_keys($moduleFieldNames);
 }
-
-?>
