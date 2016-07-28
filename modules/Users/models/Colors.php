@@ -37,12 +37,10 @@ class Users_Colors_Model extends Vtiger_Record_Model
 	public static function getUserColors()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_users");
-		$rows = $adb->num_rows($result);
+		$result = $adb->query('SELECT * FROM vtiger_users');
 
 		$userColors = [];
-		for ($i = 0; $i < $rows; $i++) {
-			$activityTypes = $adb->query_result_rowdata($result, $i);
+		while ($activityTypes = $adb->getRow($result)) {
 			$userColors[] = array(
 				'id' => $activityTypes['id'],
 				'first' => $activityTypes['first_name'],
@@ -78,12 +76,10 @@ class Users_Colors_Model extends Vtiger_Record_Model
 	public static function getGroupColors()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_groups");
-		$rows = $adb->num_rows($result);
+		$result = $adb->query('SELECT * FROM vtiger_groups');
 
 		$groupColors = [];
-		for ($i = 0; $i < $rows; $i++) {
-			$activityTypes = $adb->query_result_rowdata($result, $i);
+		while ($activityTypes = $adb->getRow($result)) {
 			$groupColors[] = array(
 				'id' => $activityTypes['groupid'],
 				'groupname' => $activityTypes['groupname'],
@@ -128,23 +124,15 @@ class Users_Colors_Model extends Vtiger_Record_Model
 
 	public static function getModulesColors($active = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$sql_params = [];
-		$sql = '';
-		if ($active) {
-			$sql = 'WHERE coloractive = ?';
-			$sql_params[] = 1;
-		}
-		$result = $adb->pquery("SELECT * FROM vtiger_tab $sql;", $sql_params);
-		$rows = $adb->num_rows($result);
+		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
+
 		$modules = [];
-		for ($i = 0; $i < $rows; $i++) {
-			$row = $adb->query_result_rowdata($result, $i);
+		foreach ($allModules as $tabid => $module) {
 			$modules[] = array(
-				'id' => $row['tabid'],
-				'module' => $row['name'],
-				'color' => $row['color'] != '' ? '#' . $row['color'] : '',
-				'active' => $row['coloractive'],
+				'id' => $tabid,
+				'module' => $module['name'],
+				'color' => $module['color'] != '' ? '#' . $module['color'] : '',
+				'active' => $module['coloractive'],
 			);
 		}
 		return $modules;

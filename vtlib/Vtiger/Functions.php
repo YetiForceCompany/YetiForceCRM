@@ -185,14 +185,16 @@ class Functions
 		return $id ? self::$moduleIdNameCache[$id] : self::$moduleNameIdCache[$name];
 	}
 
-	static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false)
+	static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false, $colorActive = false)
 	{
 		$moduleList = self::$moduleIdNameCache;
 		if (empty($moduleList)) {
 			$db = \PearDatabase::getInstance();
-			$result = $db->pquery('SELECT tabid, name, ownedby, presence FROM vtiger_tab', []);
+			$result = $db->query('SELECT * FROM vtiger_tab');
 			while ($row = $db->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
+				self::$moduleNameIdCache[$row['name']] = $row;
+				self::$moduleIdDataCache[$row['tabid']] = $row;
 			}
 			$moduleList = self::$moduleIdNameCache;
 		}
@@ -205,6 +207,9 @@ class Functions
 				unset($moduleList[$id]);
 			}
 			if ($presence !== false && $module['presence'] != $presence) {
+				unset($moduleList[$id]);
+			}
+			if ($colorActive !== false && $module['coloractive'] != 1) {
 				unset($moduleList[$id]);
 			}
 		}

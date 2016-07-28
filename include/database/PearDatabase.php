@@ -432,7 +432,7 @@ class PearDatabase
 		foreach ($data as $column => $cur) {
 			$columns .= ($columns ? ',' : '') . $this->quote($column, false);
 		}
-		$insert = 'INSERT INTO ' . $table . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
+		$insert = 'INSERT INTO ' . $this->quote($table, false) . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
 		$this->pquery($insert, $data);
 		return ['rowCount' => $this->stmt->rowCount(), 'id' => $this->database->lastInsertId()];
 	}
@@ -893,8 +893,20 @@ class PearDatabase
 			}
 			if ($calleridx < $callerscount) {
 				$callerfunc = $callers[$calleridx + 1]['function'];
+				if (isset($callers[$calleridx + 1]['args'])) {
+					$args = '';
+					foreach ($callers[$calleridx + 1]['args'] as &$arg) {
+						if (!is_array($arg) && !is_object($arg) && !is_resource($arg)) {
+							$args .= "'$arg'";
+						}
+						$args .= ',';
+					}
+					$args = rtrim($args, ',');
+				}
 				if (!empty($callerfunc))
-					$callerfunc = " ($callerfunc) ";
+					$callerfunc = " ($callerfunc)";
+				if (!empty($args))
+					$callerfunc .= "[$args] ";
 			}
 			$data[] = 'CALLER: (' . $callers[$calleridx]['line'] . ') ' . $callers[$calleridx]['file'] . $callerfunc;
 		}
