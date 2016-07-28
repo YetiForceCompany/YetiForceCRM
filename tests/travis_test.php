@@ -16,8 +16,14 @@ try {
 	require 'include/main/WebUI.php';
 
 	ob_start();
+	$request = AppRequest::init();
+	$request->set('module', 'Users');
+	$request->set('action', 'Login');
+	$request->set('username', 'admin');
+	$request->set('password', 'admin');
+
 	$webUI = new Vtiger_WebUI();
-	$webUI->process(AppRequest::init());
+	$webUI->process($request);
 	ob_end_clean();
 
 	$user = Vtiger_Record_Model::getCleanInstance('Users');
