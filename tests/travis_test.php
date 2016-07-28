@@ -89,6 +89,19 @@ try {
 	echo 'Exporting language pack' . PHP_EOL;
 	$package = new vtlib\LanguageExport();
 	$package->export('pl_pl', ROOT_DIRECTORY . 'PL.zip', 'PL.zip');
+
+	echo 'Creating a module' . PHP_EOL;
+	$moduleManagerModel = new Settings_ModuleManager_Module_Model();
+	$moduleManagerModel->createModule([
+		'module_name' => 'Test',
+		'entityfieldname' => 'test',
+		'module_label' => 'Test',
+		'entitytype' => 1,
+		'entityfieldlabel' => 'Test',
+	]);
+	echo 'Removing a module' . PHP_EOL;
+	$moduleInstance = Vtiger_Module::getInstance('Test');
+	$moduleInstance->delete();
 } catch (\Exception $e) {
 	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
 } catch (\AppException $e) {
