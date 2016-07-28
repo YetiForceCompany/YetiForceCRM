@@ -11,7 +11,6 @@ body{
 .baseContainer .leftPanel a{
 	color: #003c7d;
 }
-.nav > li > a:focus,
 .reminderPostpone:hover,
 .relatedHeader .btn-default.addButton:hover,
 .listViewActionsDiv .btn-toolbar .btn:hover,
@@ -61,22 +60,14 @@ body{
 .highlightBackgroundColor{
 	background: #84d0f0 !important;
 }
-
-.nav.massEditTabs li a:hover strong{
-	color: #fff;
-}
-.nav li.active a{
-	background: #00509e;
-	color: #fff;
-}
-.detailViewInfo .related .nav-pills  > a{
-	background-color: red;
-}
 .detailViewInfo .related .nav-pills .active > a,
 .detailViewInfo .related .nav-pills .active>a:hover,
 .nav > li > a:focus{
 	background: #ebebeb;
 	color: #00a8e4;	
+}
+.detailViewInfo .related .nav-pills .active > a{
+	color: #00a8e1;
 }
 .btn-primary,
 .btn-primary:hover,
@@ -155,8 +146,7 @@ btn-danger:hover{
 	background-color: #00a8e4 !important;
 	color: #fff;
 }
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
-.nav.massEditTabs li.active a{
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{
 	background-color: #003c7d;
 }
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default{
@@ -239,4 +229,40 @@ btn-danger:hover{
 }
 .breadcrumbsLinks{
 	font-size: 12px;
+}
+.selectDashboradView::after{
+	height: 0;
+}
+.nav.massEditTabs{
+	border-bottom: 3px solid #00509e;
+}
+.nav-tabs > li > a{
+	border-radius: 0;
+}
+.nav.massEditTabs li a{
+	background-color: #ccc;
+	color: #00417d !important;
+}
+.nav.massEditTabs li a:hover{
+	border-bottom: 0px;
+}
+.nav.massEditTabs li.active a{
+	color: #00a8e1 !important;
+	background-color: #ebebeb;
+}
+.nav-tabs>li>a:hover{
+	border-color: transparent;
+}
+.nav-tabs>li>a,
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li.active>a:hover{
+	border: 0px
+}
+.nav-tabs>li{
+	margin-bottom: 0;
+}
+.nav-tabs>li.active{
+	border-bottom: 3px solid #00a8e1;
+	margin-bottom: -3px;
 }
