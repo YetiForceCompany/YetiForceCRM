@@ -11,7 +11,6 @@ body{
 .baseContainer .leftPanel a{
 	color: #003c7d;
 }
-.nav > li > a:focus,
 .reminderPostpone:hover,
 .relatedHeader .btn-default.addButton:hover,
 .listViewActionsDiv .btn-toolbar .btn:hover,
@@ -61,26 +60,17 @@ body{
 .highlightBackgroundColor{
 	background: #84d0f0 !important;
 }
-
-.nav.massEditTabs li a:hover strong{
-	color: #fff;
-}
-.nav li.active a{
-	background: #00509e;
-	color: #fff;
-}
 .detailViewInfo .related .nav-pills .active > a,
+.detailViewInfo .related .nav-pills .active>a:hover,
 .nav > li > a:focus{
-	background: #fff;
+	background: #ebebeb;
 	color: #00a8e4;	
 }
-.detailViewInfo .related .nav-pills .active > a:hover{
-	background: #fff;
-	color: #323232;
+.detailViewInfo .related .nav-pills .active > a{
+	color: #00a8e1;
 }
 .btn-primary,
 .btn-primary:hover,
-.widget_header,
 .iconsInFooter{
 	background: #00509e;
 }
@@ -91,11 +81,7 @@ body{
 }
 .related .nav-pills li a{
 	color: #003c7d;
-}
-.related .nav-pills li a:hover {
-	color: #323232;
-	background-color: #fff;
-	border-radius: 1px;
+	background-color: #ccc;
 }
 .related .nav-pills{
 	border-bottom: 3px solid #00509e
@@ -104,6 +90,9 @@ body{
 	border-bottom: 4px solid #00a8e1;
 	margin-bottom: -3px;
 	height: 41px;
+}
+.nav-pills > li > a{
+	border-radius: 0px;
 }
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues,
 .widget_header h4{
@@ -132,7 +121,8 @@ body{
 	background-color: #84d0f0;
 }
 .btn-success,
-.btn-success:hover{
+.btn-success:hover,
+.btn-success:active:focus {
 	background-color: #8cc83c;
 	border-color: transparent;
 }
@@ -157,8 +147,7 @@ btn-danger:hover{
 	background-color: #00a8e4 !important;
 	color: #fff;
 }
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
-.nav.massEditTabs li.active a{
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary{
 	background-color: #003c7d;
 }
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default{
@@ -187,7 +176,6 @@ btn-danger:hover{
 	background-color: #00a8e4 !important;
 	border-color: transparent !important;
 }
-.widget_header,
 .alert-danger,
 .relatedHeader .btn-default.addButton,
 .listViewActionsDiv .btn-toolbar .btn,
@@ -230,4 +218,262 @@ btn-danger:hover{
 .form-control:focus{
 	border-color: #00a8e4 !important;
 }
+.breadCrumbs,
+.breadCrumbs a{
+	color: #808080;
+}
+.breadCrumbs a:hover{
+	color: #000;
+}
+.widget_header{
+	background-color: #fff;
+}
+.breadcrumbsLinks{
+	font-size: 12px;
+}
+.selectDashboradView::after{
+	height: 0;
+}
+.nav.massEditTabs{
+	border-bottom: 3px solid #00509e;
+}
+.nav-tabs > li > a{
+	border-radius: 0;
+}
+.nav.massEditTabs li a{
+	background-color: #ccc;
+	color: #00417d !important;
+}
+.nav.massEditTabs li a:hover{
+	border-bottom: 0px;
+}
+.nav.massEditTabs li.active a{
+	color: #00a8e1 !important;
+	background-color: #ebebeb;
+}
+.nav-tabs>li>a:hover{
+	border-color: transparent;
+}
+.nav-tabs>li>a,
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li.active>a:hover{
+	border: 0px
+}
+.nav-tabs>li{
+	margin-bottom: 0;
+}
+.nav-tabs>li.active{
+	border-bottom: 3px solid #00a8e1;
+	margin-bottom: -3px;
+}
 
+
+.editViewContainer .form-control[disabled], 
+.editViewContainer .form-control[readonly], 
+.editViewContainer fieldset[disabled] .form-control{
+	background-color : #efefef !important;
+	border-color: #BFBFBF #DEDEDE #DEDEDE #BFBFBF;
+	border-radius: 1px;
+}
+.input-group-addon,
+.editViewContainer input,
+.detailViewInfo input{
+	border-radius: 1px;
+}
+.editViewContainer .btn-success,
+.btn-success:active:focus{
+	background: #00a8e4;
+	border-color: #00a8e4;
+}
+.narrow.fieldValue input:not([type='checkbox']){
+	height: 23px;
+}
+.editViewContainer  .blockContainer .blockContent .fieldLabel.narrow label{
+	padding-top: 4px;
+}
+.editViewContainer .narrow .select2-container .select2-selection--multiple{
+	min-height: 23px;
+}
+.editViewContainer .narrow .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field,
+.editViewContainer .narrow .select2-container--bootstrap .select2-selection--single{
+	padding-top: 2px;
+	height: 23px;
+}
+.editViewContainer .narrow.fieldValue .referenceGroup button.btn{
+	height: 23px;
+    padding: 2px 12px;
+}
+.narrow.fieldValue .input-group-addon{
+	padding: 0px 8px;
+}
+.narrow .input-group-sm > .input-group-addon{
+	height: 23px;
+}
+.chosen-container-single .chosen-single {
+	border-radius: 1px;
+}
+.chosen-container-active .chosen-choices{
+	border-radius: 1px;
+}
+.select2-container--bootstrap .select2-selection {
+	border-radius: 1px;
+}
+.input-group-btn:last-child > .btn{
+	border-radius: 1px;
+}
+.panel-default{
+	border: 0 solid #fff;
+}
+.panel h4,
+.blockToggle{
+	 text-transform: uppercase;
+	color: #003c7d;
+}
+
+.panel-default > .panel-heading{
+	background-color: #fff;
+}
+.panel{
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+}
+.select2-container--bootstrap .select2-results__option--highlighted[aria-selected]{
+	background: #00a8e4;
+}
+.detailViewTable .fieldsLabelValue .fieldLabel{
+	border-right: 0px solid #ddd;
+}
+.detailViewTable .fieldsLabelValue::before{
+	border-right: 0px solid #ddd;
+}
+.detailViewTable .blockContent{
+	border-bottom: 1px solid #ddd;
+}
+.detailViewTable .fieldsLabelValue:nth-child(even){
+	border-right: 0px solid #ddd;
+}
+/* MENU */
+.userDetailsContainer{
+	background-color: #fff;
+	position: fixed;
+	top: 0;
+}
+.baseContainer .leftPanel .userDetailsContainer a{
+	color: #00285f !important;
+}
+.baseContainer:not(.leftPanelOpen){
+	margin-left: 0px;
+}
+.baseContainer .leftPanel{
+	background: #fff;
+	position: fixed;
+    left: 0;
+    top: 50px;
+	height: 42px;
+    bottom: 33px;
+    width: 100%;
+    color: #00285f;
+	font-weight: bold;
+    z-index: 1030;
+}
+.bodyHeader{
+	left:0;
+}
+.mainBody{
+	top:0;
+}
+.basePanel{
+	top:92px !important;
+}
+.nav.modulesList{
+	border-bottom: 3px solid #00285f;
+}
+.modulesList > li{
+	float:left;
+}
+.iconContainer{
+	height: 15px;
+	font-size: 13px;
+	min-width: inherit;
+}
+.labelConstainer{
+	height: 15px;
+	width: auto;
+	padding-top:8px;
+	font-size: 13px;
+}
+.baseContainer .leftPanel .menuLabel > a:hover,
+.baseContainer .leftPanel .menuModule > a:hover {
+	background: #fff
+}
+.baseContainer .leftPanel .menuContainer a:hover, 
+.baseContainer .leftPanel .menuContainer a:focus{
+	color: #000;
+}
+.leftPanel .menuContainer .modulesList .menuIcon,
+.ui-draggable-menuShortcut .menuIcon{
+	padding-right: 8px;
+}
+.leftPanel .nav .subMenu:after{
+	bottom: 0px;
+	display: none;
+}
+.nav li:hover > .slimScrollDiv >.subMenu{
+	border-top: 3px solid #00285f;
+	background: #E7E7E7;
+	border-bottom: 1px solid #969696;
+	left: 0px;
+	top: 39px;
+	width: 100% !important;
+	height: auto !important;
+	max-height: 250px;
+	display: flex;
+	flex-flow: column wrap;
+}
+.leftPanel .nav .subMenu li{
+	position: relative;
+	flex: 0 0 auto;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a{
+	color: #00285f;
+}
+.leftPanel .menuContainer .modulesList .subMenu .menuIcon{
+	font-size: 15px;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a .menuName,
+.baseContainer .leftPanel .menuContainer .subMenu button .menuName{
+	top: 0;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a .menuName{
+	font-size: 13px;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a:hover,
+.baseContainer .leftPanel .menuContainer .subMenu a:focus,
+.baseContainer .leftPanel .menuContainer .subMenu button:hover,
+.baseContainer .leftPanel .menuContainer .subMenu button:focus{
+	background: #E7E7E7 !important;
+	color: #323232 !important;
+}
+.baseContainer .basePanel:after{
+	width: auto;
+	height: auto;
+}
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
+.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
+	transition: left ease-in-out 0.3s 0.8s, z-index 0.3s 0.3s;
+	left:0;
+}
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
+	left:0;
+	transition: left ease-in-out 0.3s 0.8s,  z-index 0.3s 0.3s;
+}
+.baseContainer .leftPanel:after{
+	width: 0;
+}
+.selectSearch{
+	float: right !important;
+}
+.leftPanel  .slimScrollDiv{
+	height: 100% !important;
+}

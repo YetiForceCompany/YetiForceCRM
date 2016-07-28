@@ -44,11 +44,6 @@
 				<li class="pageNumber{if $PAGE_NUMBER eq $PAGE_COUNT} active disabled{/if}" data-id="{$PAGE_COUNT}">
 					<a>{$PAGE_COUNT}</a>
 				</li>
-				{if !AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') && $PAGING_MODEL->isNextPageExists()}
-					<li class="pageNumber" data-id="{$PAGE_COUNT+1}">
-						<a>{$PAGE_COUNT+1}</a>
-					</li>
-				{/if}
 			{/if}
 			<li class="{if (!$PAGING_MODEL->isNextPageExists())}disabled{/if}" id="listViewNextPageButton">
 				<span aria-hidden="true">&raquo;</span>

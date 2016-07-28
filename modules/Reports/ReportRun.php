@@ -3569,7 +3569,7 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_vendorRelProducts';
 				} elseif ($moduleName == 'ModComments' && $referenceModule == 'Users') {
 					$referenceTableName = 'vtiger_usersModComments';
-				} elseif (in_array($referenceModule, $reportSecondaryModules)) {
+				} elseif (in_array($referenceModule, $reportSecondaryModules) && $moduleName != getTabModuleName($fieldInstance->getTabId())) {
 					$referenceTableName = "{$entityTableName}Rel$referenceModule";
 					$dependentTableName = "vtiger_crmentityRel{$referenceModule}{$fieldInstance->getFieldId()}";
 				} elseif (in_array($moduleName, $reportSecondaryModules)) {

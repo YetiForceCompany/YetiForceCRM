@@ -29,8 +29,9 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($recordId);
-		if($recordModel){
-			$recordModel->set('accountsModel', Vtiger_Record_Model::getInstanceById($recordModel->get('accounts_id')));
+		$accountId = $recordModel->get('accounts_id');
+		if($recordModel && !empty($accountId)){
+			$recordModel->set('accountsModel', Vtiger_Record_Model::getInstanceById($accountId));
 		}
 		$typesServers = Settings_WebserviceApps_Module_Model::getTypes();
 		$viewer = $this->getViewer($request);
