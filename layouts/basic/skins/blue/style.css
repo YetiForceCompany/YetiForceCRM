@@ -121,7 +121,8 @@ body{
 	background-color: #84d0f0;
 }
 .btn-success,
-.btn-success:hover{
+.btn-success:hover,
+.btn-success:active:focus {
 	background-color: #8cc83c;
 	border-color: transparent;
 }
@@ -280,7 +281,8 @@ btn-danger:hover{
 .detailViewInfo input{
 	border-radius: 1px;
 }
-.editViewContainer .btn-success{
+.editViewContainer .btn-success,
+.btn-success:active:focus{
 	background: #00a8e4;
 	border-color: #00a8e4;
 }
@@ -320,24 +322,36 @@ btn-danger:hover{
 .input-group-btn:last-child > .btn{
 	border-radius: 1px;
 }
-.editViewContainer .panel-default{
+.panel-default{
 	border: 0 solid #fff;
 }
-.editViewContainer .panel h4,
-.editViewContainer .blockToggle,
-.detailViewInfo .panel h4,
-.detailViewInfo .blockToggle {
+.panel h4,
+.blockToggle{
 	 text-transform: uppercase;
 	color: #003c7d;
 }
-.editViewContainer .panel-default > .panel-heading,
-.detailViewInfo .panel-default > .panel-heading{
+
+.panel-default > .panel-heading{
 	background-color: #fff;
 }
-.editViewContainer .panel,
-.detailViewInfo .panel{
+.panel{
 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+}
+.select2-container--bootstrap .select2-results__option--highlighted[aria-selected]{
+	background: #00a8e4;
+}
+.detailViewTable .fieldsLabelValue .fieldLabel{
+	border-right: 0px solid #ddd;
+}
+.detailViewTable .fieldsLabelValue::before{
+	border-right: 0px solid #ddd;
+}
+.detailViewTable .blockContent{
+	border-bottom: 1px solid #ddd;
+}
+.detailViewTable .fieldsLabelValue:nth-child(even){
+	border-right: 0px solid #ddd;
 }
 /* MENU */
 .userDetailsContainer{
