@@ -339,3 +339,127 @@ btn-danger:hover{
 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
 }
+/* MENU */
+.userDetailsContainer{
+	background-color: #fff;
+	position: fixed;
+	top: 0;
+}
+.baseContainer .leftPanel .userDetailsContainer a{
+	color: #00285f !important;
+}
+.baseContainer:not(.leftPanelOpen){
+	margin-left: 0px;
+}
+.baseContainer .leftPanel{
+	background: #fff;
+	position: fixed;
+    left: 0;
+    top: 50px;
+	height: 42px;
+    bottom: 33px;
+    width: 100%;
+    color: #00285f;
+	font-weight: bold;
+    z-index: 1030;
+}
+.bodyHeader{
+	left:0;
+}
+.mainBody{
+	top:0;
+}
+.basePanel{
+	top:92px !important;
+}
+.nav.modulesList{
+	border-bottom: 3px solid #00285f;
+}
+.modulesList > li{
+	float:left;
+}
+.iconContainer{
+	height: 15px;
+	font-size: 13px;
+	min-width: inherit;
+}
+.labelConstainer{
+	height: 15px;
+	width: auto;
+	padding-top:8px;
+	font-size: 13px;
+}
+.baseContainer .leftPanel .menuLabel > a:hover,
+.baseContainer .leftPanel .menuModule > a:hover {
+	background: #fff
+}
+.baseContainer .leftPanel .menuContainer a:hover, 
+.baseContainer .leftPanel .menuContainer a:focus{
+	color: #000;
+}
+.leftPanel .menuContainer .modulesList .menuIcon,
+.ui-draggable-menuShortcut .menuIcon{
+	padding-right: 8px;
+}
+.leftPanel .nav .subMenu:after{
+	bottom: 0px;
+	display: none;
+}
+.nav li:hover > .slimScrollDiv >.subMenu{
+	border-top: 3px solid #00285f;
+	background: #E7E7E7;
+	border-bottom: 1px solid #969696;
+	left: 0px;
+	top: 39px;
+	width: 100% !important;
+	height: auto !important;
+	max-height: 250px;
+	display: flex;
+	flex-flow: column wrap;
+}
+.leftPanel .nav .subMenu li{
+	position: relative;
+	flex: 0 0 auto;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a{
+	color: #00285f;
+}
+.leftPanel .menuContainer .modulesList .subMenu .menuIcon{
+	font-size: 15px;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a .menuName,
+.baseContainer .leftPanel .menuContainer .subMenu button .menuName{
+	top: 0;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a .menuName{
+	font-size: 13px;
+}
+.baseContainer .leftPanel .menuContainer .subMenu a:hover,
+.baseContainer .leftPanel .menuContainer .subMenu a:focus,
+.baseContainer .leftPanel .menuContainer .subMenu button:hover,
+.baseContainer .leftPanel .menuContainer .subMenu button:focus{
+	background: #E7E7E7 !important;
+	color: #323232 !important;
+}
+.baseContainer .basePanel:after{
+	width: auto;
+	height: auto;
+}
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
+.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
+	transition: left ease-in-out 0.3s 0.8s, z-index 0.3s 0.3s;
+	left:0;
+}
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
+	left:0;
+	transition: left ease-in-out 0.3s 0.8s,  z-index 0.3s 0.3s;
+}
+.baseContainer .leftPanel:after{
+	width: 0;
+}
+.selectSearch{
+	float: right !important;
+}
+.leftPanel  .slimScrollDiv{
+	height: 100% !important;
+}
