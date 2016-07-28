@@ -2,9 +2,6 @@ body{
 	font-family: 'Tahoma' !important;
 	color: #323232;
 }
-.bodyHeader {
-	background: #00285f;	
-}
 .baseContainer .leftPanel:after{
 	background: #fff;
 }
@@ -180,9 +177,7 @@ btn-danger:hover{
 .relatedHeader .btn-default.addButton,
 .listViewActionsDiv .btn-toolbar .btn,
 .columnSorted a,
-.baseContainer .leftPanel .userDetailsContainer a,
-.baseContainer .leftPanel .menuContainer a:hover, 
-.baseContainer .leftPanel .menuContainer a:focus{
+.baseContainer .leftPanel .userDetailsContainer a{
 	color: #fff !important;
 }
 .navbar-default{
@@ -225,7 +220,8 @@ btn-danger:hover{
 .breadCrumbs a:hover{
 	color: #000;
 }
-.widget_header{
+.widget_header,
+.bodyHeader{
 	background-color: #fff;
 }
 .breadcrumbsLinks{
@@ -267,8 +263,6 @@ btn-danger:hover{
 	border-bottom: 3px solid #00a8e1;
 	margin-bottom: -3px;
 }
-
-
 .editViewContainer .form-control[disabled], 
 .editViewContainer .form-control[readonly], 
 .editViewContainer fieldset[disabled] .form-control{
@@ -327,7 +321,7 @@ btn-danger:hover{
 }
 .panel h4,
 .blockToggle{
-	 text-transform: uppercase;
+	text-transform: uppercase;
 	color: #003c7d;
 }
 
@@ -409,7 +403,7 @@ btn-danger:hover{
 }
 .baseContainer .leftPanel .menuContainer a:hover, 
 .baseContainer .leftPanel .menuContainer a:focus{
-	color: #000;
+	color: #003c7d;
 }
 .leftPanel .menuContainer .modulesList .menuIcon,
 .ui-draggable-menuShortcut .menuIcon{
@@ -476,4 +470,7 @@ btn-danger:hover{
 }
 .leftPanel  .slimScrollDiv{
 	height: 100% !important;
+}
+.siteBarRight{
+	top: 93px;
 }
