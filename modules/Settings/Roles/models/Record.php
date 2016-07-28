@@ -336,7 +336,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'permissionsrelatedfield' => $permissionsRelatedField,
 			'globalsearchadv' => $this->get('globalsearchadv')
 		];
-
 		if ($mode == 'edit') {
 			$db->update('vtiger_role', $values, 'roleid = ?', [$roleId]);
 		} else {
@@ -346,8 +345,19 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				FROM vtiger_role2picklist WHERE roleid = ?";
 			$db->pquery($picklist2RoleSQL, array($parentRole->getId()));
 		}
-
 		$profileIds = $this->get('profileIds');
+		$oldRole = Vtiger_Cache::get('RolesArray', $roleId);
+		if ($oldRole !== false) {
+			$oldProfileIds = array_keys($this->getProfiles());
+			if (!empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds))) ||
+				$oldRole['listrelatedrecord'] != $this->get('listrelatedrecord') ||
+				$oldRole['previewrelatedrecord'] != $this->get('previewrelatedrecord') ||
+				$oldRole['editrelatedrecord'] != $this->get('editrelatedrecord') ||
+				$oldRole['permissionsrelatedfield'] != $permissionsRelatedField ||
+				$oldRole['searchunpriv'] != $searchunpriv) {
+				\includes\Privileges::setAllUpdater();
+			}
+		}
 		if (empty($profileIds)) {
 			$profiles = $this->getProfiles();
 			if (!empty($profiles) && count($profiles) > 0) {
@@ -416,6 +426,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				createUserSharingPrivilegesfile($userid);
 			}
 		}
+		\includes\Privileges::setAllUpdater();
 	}
 
 	/**
@@ -493,9 +504,11 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
 		$result = $db->pquery($sql, [$roleId]);
 		if ($db->getRowCount($result) > 0) {
+			$row = $db->getRow($result);
 			$instance = new self();
-			$instance->setData($db->getRow($result));
+			$instance->setData($row);
 			Vtiger_Cache::set('Settings_Roles_Record_Model', $roleId, $instance);
+			Vtiger_Cache::set('RolesArray', $roleId, $row);
 			return $instance;
 		}
 		return $instance;
