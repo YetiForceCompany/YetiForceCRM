@@ -53,7 +53,7 @@ class Record
 			$currentUser = \Users_Record_Model::getCurrentUserModel();
 			$adb = \PearDatabase::getInstance();
 			$crmIds = [];
-			$params = ['%' . $currentUser->getId() . '%', "%$label%"];
+			$params = ['%,' . $currentUser->getId() . ',%', "%$label%"];
 			$query = 'SELECT `crmid`,`setype`,`searchlabel` FROM `u_yf_crmentity_search_label` WHERE `userid` LIKE ? AND `searchlabel` LIKE ?';
 			if ($moduleName !== false) {
 				$multiMode = is_array($moduleName);

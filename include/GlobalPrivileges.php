@@ -29,7 +29,7 @@ class GlobalPrivileges
 		if (self::globalSearchByModule($moduleName, $userId)) {
 			return true;
 		}
-		return self::isPermitted($moduleName, 'DetailView', $record, $userId);
+		return Privileges::isPermitted($moduleName, 'DetailView', $record, $userId);
 	}
 
 	public static function updateGlobalSearch($record, $moduleName)

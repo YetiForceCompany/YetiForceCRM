@@ -846,6 +846,7 @@ class PearDatabase
 	/* SQLTime logging */
 
 	protected $logSqlTimeID = false;
+	protected $logSqlTimeGroup = 1;
 
 	public function logSqlTime($startat, $endat, $sql, $params = false)
 	{
@@ -854,7 +855,7 @@ class PearDatabase
 		}
 		$db = PearDatabase::getInstance('log');
 		$now = date('Y-m-d H:i:s');
-		$group = rand(0, 99999999);
+		$group = $this->logSqlTimeGroup;
 		$logTable = 'l_yf_sqltime';
 		$logQuery = 'INSERT INTO ' . $logTable . '(`id`, `type`, `qtime`, `content`, `date`, `group`) VALUES (?,?,?,?,?,?)';
 
@@ -912,5 +913,6 @@ class PearDatabase
 		}
 		$stmt = $db->database->prepare($logQuery);
 		$stmt->execute([$this->logSqlTimeID, $type, NULL, implode(PHP_EOL, $data), $now, $group]);
+		$this->logSqlTimeGroup++;
 	}
 }
