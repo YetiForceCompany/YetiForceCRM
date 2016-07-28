@@ -26,6 +26,8 @@ try {
 	$webUI->process($request);
 	ob_end_clean();
 
+	echo 'Creating a user' . PHP_EOL;
+
 	$user = Vtiger_Record_Model::getCleanInstance('Users');
 	$user->set('user_name', 'demo1');
 	$user->set('email1', 'd1emo@yetiforce.com');
@@ -35,6 +37,8 @@ try {
 	$user->set('confirm_password', 'demo');
 	$user->set('roleid', 'H2');
 	$user->save();
+
+	echo 'Generating test data' . PHP_EOL;
 
 	$rekord = Vtiger_Record_Model::getCleanInstance('Accounts');
 	$rekord->set('accountname', 'YetiForce Sp. z o.o.');
@@ -50,6 +54,7 @@ try {
 
 	$_SERVER['HTTP_X_REQUESTED_WITH'] = true;
 
+
 	ob_start();
 	$testModule = 'TestModule.zip';
 	file_put_contents($testModule, file_get_contents('https://tests.yetiforce.com/' . $_SERVER['YETI_KEY']));
@@ -60,17 +65,18 @@ try {
 	} else {
 		throw new Exception('No file');
 	}
-	/*
-	  $cronTasks = vtlib\Cron::listAllActiveInstances();
-	  foreach ($cronTasks as $cronTask) {
-	  $cronTask->markRunning();
-	  checkFileAccess($cronTask->getHandlerFile());
-	  require_once $cronTask->getHandlerFile();
-	  $cronTask->markFinished();
-	  }
-	 */
+	echo 'Start cron 1' . PHP_EOL;
+	$cronTasks = vtlib\Cron::listAllActiveInstances();
+	foreach ($cronTasks as $cronTask) {
+		$cronTask->markRunning();
+		checkFileAccess($cronTask->getHandlerFile());
+		require_once $cronTask->getHandlerFile();
+		$cronTask->markFinished();
+	}
+	echo 'Start cron 2' . PHP_EOL;
 	require 'cron/vtigercron.php';
 
+	echo 'Checking language files' . PHP_EOL;
 	$templatepath = 'languages/';
 	$flags = FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS;
 	$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($templatepath, $flags), RecursiveIteratorIterator::SELF_FIRST);
