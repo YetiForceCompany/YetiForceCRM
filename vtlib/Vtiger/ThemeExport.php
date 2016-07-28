@@ -134,7 +134,7 @@ class ThemeExport extends Package
 	 */
 	function export_Dependencies()
 	{
-		$vtigerMinVersion = AppConfig::main('YetiForce_current_version');
+		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
 		$vtigerMaxVersion = false;
 
 		$this->openNode('dependencies');

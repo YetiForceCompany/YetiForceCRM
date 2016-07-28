@@ -21,7 +21,7 @@ class Version
 	 */
 	static function current()
 	{
-		return AppConfig::main('YetiForce_current_version');
+		return \AppConfig::main('YetiForce_current_version');
 	}
 
 	/**
