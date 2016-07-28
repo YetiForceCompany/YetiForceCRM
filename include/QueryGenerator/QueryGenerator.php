@@ -492,7 +492,7 @@ class QueryGenerator
 		return $this->columns;
 	}
 
-	public function getFromClause()
+	public function getFromClause($onlyTableJoin = false)
 	{
 		$current_user = vglobal('current_user');
 		if (!empty($this->query) || !empty($this->fromClause)) {
@@ -503,6 +503,7 @@ class QueryGenerator
 		$tableList = [];
 		$tableJoinMapping = [];
 		$tableJoinCondition = [];
+		$tableJoinSql = '';
 		$i = 1;
 
 		$moduleTableIndexList = $this->meta->getEntityTableIndexList();
@@ -655,10 +656,15 @@ class QueryGenerator
 				} else {
 					$tableNameAlias = '';
 				}
-				$sql .= " $tableJoinMapping[$tableName] $tableName $tableNameAlias ON $condition";
+				$tableJoinSql .= " $tableJoinMapping[$tableName] $tableName $tableNameAlias ON $condition";
 			}
 		}
 
+		if ($onlyTableJoin) {
+			return $tableJoinSql;
+		}
+
+		$sql .= $tableJoinSql;
 		foreach ($this->manyToManyRelatedModuleConditions as $conditionInfo) {
 			$relatedModuleMeta = RelatedModuleMeta::getInstance($this->meta->getTabName(), $conditionInfo['relatedModule']);
 			$relationInfo = $relatedModuleMeta->getRelationMeta();
@@ -774,9 +780,9 @@ class QueryGenerator
 					} else {
 						$moduleList = $this->referenceFieldInfoList[$fieldName];
 						foreach ($moduleList as $module) {
+							$meta = $this->getMeta($module);
 							$nameFields = $this->moduleNameFields[$module];
 							$nameFieldList = explode(',', $nameFields);
-							$meta = $this->getMeta($module);
 							$columnList = [];
 							foreach ($nameFieldList as $column) {
 								if ($module == 'Users') {

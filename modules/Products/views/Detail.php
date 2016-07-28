@@ -155,18 +155,16 @@ class Products_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			$totalCount = $relationListView->getRelatedEntriesCount();
-			$pageLimit = $pagingModel->getPageLimit();
-			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+		$totalCount = $relationListView->getRelatedEntriesCount();
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
-			if ($pageCount == 0) {
-				$pageCount = 1;
-			}
-			$viewer->assign('PAGE_COUNT', $pageCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
-			$viewer->assign('PERFORMANCE', true);
-		}
+		$viewer->assign('PAGE_NUMBER', $requestedPage);
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+		$viewer->assign('PERFORMANCE', true);
 
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
@@ -183,6 +181,7 @@ class Products_Detail_View extends Vtiger_Detail_View
 
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
 	}
+
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
 	{
 		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
