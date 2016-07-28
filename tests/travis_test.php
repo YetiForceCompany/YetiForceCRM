@@ -60,14 +60,16 @@ try {
 	} else {
 		throw new Exception('No file');
 	}
-
-	$cronTasks = vtlib\Cron::listAllActiveInstances();
-	foreach ($cronTasks as $cronTask) {
-		$cronTask->markRunning();
-		checkFileAccess($cronTask->getHandlerFile());
-		require_once $cronTask->getHandlerFile();
-		$cronTask->markFinished();
-	}
+	/*
+	  $cronTasks = vtlib\Cron::listAllActiveInstances();
+	  foreach ($cronTasks as $cronTask) {
+	  $cronTask->markRunning();
+	  checkFileAccess($cronTask->getHandlerFile());
+	  require_once $cronTask->getHandlerFile();
+	  $cronTask->markFinished();
+	  }
+	 */
+	require 'cron/vtigercron.php';
 
 	$templatepath = 'languages/';
 	$flags = FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS;
