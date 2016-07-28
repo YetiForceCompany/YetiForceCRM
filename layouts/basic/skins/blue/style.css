@@ -69,18 +69,17 @@ body{
 	background: #00509e;
 	color: #fff;
 }
-.detailViewInfo .related .nav-pills .active > a,
-.nav > li > a:focus{
-	background: #fff;
-	color: #00a8e4;	
+.detailViewInfo .related .nav-pills  > a{
+	background-color: red;
 }
-.detailViewInfo .related .nav-pills .active > a:hover{
-	background: #fff;
-	color: #323232;
+.detailViewInfo .related .nav-pills .active > a,
+.detailViewInfo .related .nav-pills .active>a:hover,
+.nav > li > a:focus{
+	background: #ebebeb;
+	color: #00a8e4;	
 }
 .btn-primary,
 .btn-primary:hover,
-.widget_header,
 .iconsInFooter{
 	background: #00509e;
 }
@@ -91,11 +90,7 @@ body{
 }
 .related .nav-pills li a{
 	color: #003c7d;
-}
-.related .nav-pills li a:hover {
-	color: #323232;
-	background-color: #fff;
-	border-radius: 1px;
+	background-color: #ccc;
 }
 .related .nav-pills{
 	border-bottom: 3px solid #00509e
@@ -104,6 +99,9 @@ body{
 	border-bottom: 4px solid #00a8e1;
 	margin-bottom: -3px;
 	height: 41px;
+}
+.nav-pills > li > a{
+	border-radius: 0px;
 }
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues,
 .widget_header h4{
@@ -187,7 +185,6 @@ btn-danger:hover{
 	background-color: #00a8e4 !important;
 	border-color: transparent !important;
 }
-.widget_header,
 .alert-danger,
 .relatedHeader .btn-default.addButton,
 .listViewActionsDiv .btn-toolbar .btn,
@@ -230,4 +227,16 @@ btn-danger:hover{
 .form-control:focus{
 	border-color: #00a8e4 !important;
 }
-
+.breadCrumbs,
+.breadCrumbs a{
+	color: #808080;
+}
+.breadCrumbs a:hover{
+	color: #000;
+}
+.widget_header{
+	background-color: #fff;
+}
+.breadcrumbsLinks{
+	font-size: 12px;
+}
