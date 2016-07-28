@@ -45,7 +45,8 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		if ($limit) {
-			$query .= ' LIMIT ' . $limit;
+			$query .= ' LIMIT ';
+			$query .= $limit;
 		}
 		$rows = [];
 		$result = $adb->pquery($query, $params);

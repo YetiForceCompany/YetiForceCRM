@@ -66,7 +66,8 @@ class Record
 				}
 			}
 			if ($limit) {
-				$query .= ' LIMIT ' . $limit;
+				$query .= ' LIMIT ';
+				$query .= $limit;
 			}
 			$result = $adb->pquery($query, $params);
 			while ($row = $adb->getRow($result)) {

@@ -314,7 +314,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 		} else {
 			$query = $query . $where;
 			if ($limit) {
-				$query .= ' LIMIT ' . $limit;
+				$query .= ' LIMIT ';
+				$query .= $limit;
 			}
 			$result = $adb->pquery($query, $params);
 			while ($row = $adb->getRow($result)) {
