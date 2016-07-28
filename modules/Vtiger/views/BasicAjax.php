@@ -201,7 +201,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('MATCHING_RECORDS', $matchingRecordsList);
 			$viewer->assign('IS_ADVANCE_SEARCH', $isAdvanceSearch);
 			echo $viewer->view('UnifiedSearchResults.tpl', '', true);
-		}else{
+		} else {
 			foreach ($matchingRecordsList as $module => $modules) {
 				foreach ($modules as $recordID => $recordModel) {
 					$label = decode_html($recordModel->getName());

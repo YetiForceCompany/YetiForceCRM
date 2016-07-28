@@ -44,7 +44,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	/**
 	 * Function to set main conatainer 
 	 */
-	setMainContainer:function(container){
+	setMainContainer: function (container) {
 		this.mainConatiner = container;
 		return this;
 	},

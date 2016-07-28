@@ -1,32 +1,35 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
-/*********************************************************************************
+ * ********************************************************************************** */
+/* * *******************************************************************************
  * $Header$
  * Description:  Contains a variety of utility functions used to display UI
  * components such as top level menus,more menus,header links,crm logo,global search
  * and quick links of header part
  * footer is also loaded
  * function that connect to db connector to get data
- ********************************************************************************/
+ * ****************************************************************************** */
 
-abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
+abstract class Vtiger_Basic_View extends Vtiger_Footer_View
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 	}
 
-	function preProcess (Vtiger_Request $request, $display=true) {
+	function preProcess(Vtiger_Request $request, $display = true)
+	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
-		
-		if($activeReminder = vtlib_isModuleActive('Calendar')){
+
+		if ($activeReminder = vtlib_isModuleActive('Calendar')) {
 			$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
@@ -42,34 +45,40 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$viewer->assign('PARENT_MODULE', $request->get('parent'));
 		$viewer->assign('MENUS', $this->getMenu());
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('COMPANY_LOGO',$companyLogo);
+		$viewer->assign('COMPANY_LOGO', $companyLogo);
 
 		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-		$viewer->assign('MENU_HEADER_LINKS',$this->getMenuHeaderLinks($request));
+		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
 		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
+		if (AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
+			$viewer->assign('SEARCHED_MODULE', $selectedModule);
+		}
 		$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
-		if($display) {
+		if ($display) {
 			$this->preProcessDisplay($request);
 		}
 	}
 
-	protected function getMenu() {
+	protected function getMenu()
+	{
 		return Vtiger_Menu_Model::getAll(true);
 	}
-	
-	protected function preProcessTplName(Vtiger_Request $request) {
+
+	protected function preProcessTplName(Vtiger_Request $request)
+	{
 		return 'BasicHeader.tpl';
 	}
 
 	//Note: To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/*function preProcessParentTplName(Vtiger_Request $request) {
-		return parent::preProcessTplName($request);
-	}*/
+	/* function preProcessParentTplName(Vtiger_Request $request) {
+	  return parent::preProcessTplName($request);
+	  } */
 
-	function postProcess(Vtiger_Request $request){
+	function postProcess(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		//$viewer->assign('GUIDERSJSON', Vtiger_Guider_Model::toJsonList($this->getGuiderModels($request)));
 		parent::postProcess($request);
@@ -80,19 +89,20 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
+	function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
 			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
-			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.'.Vtiger_Language_Handler::getShortLanguageName().'.js',
+			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . Vtiger_Language_Handler::getShortLanguageName() . '.js',
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
 			'~libraries/jquery/inputmask/jquery.inputmask.js',
 			'~libraries/jquery/mousetrap/mousetrap.min.js',
 			'modules.Vtiger.resources.Menu',
-            'modules.Vtiger.resources.Header',
+			'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
 			"modules.$moduleName.resources.Edit",
 			'modules.Vtiger.resources.Popup',
@@ -116,11 +126,12 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances,$jsScriptInstances);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
 
-	function getGuiderModels(Vtiger_Request $request) {
+	function getGuiderModels(Vtiger_Request $request)
+	{
 		return [];
 	}
 }
