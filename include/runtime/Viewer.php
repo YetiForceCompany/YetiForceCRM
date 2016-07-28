@@ -44,7 +44,7 @@ class Vtiger_Viewer extends SmartyBC
 	{
 		parent::__construct();
 		$this->debugging = AppConfig::debug('DISPLAY_DEBUG_VIEWER');
-		
+
 		$THISDIR = dirname(__FILE__);
 		$compileDir = '';
 		$templateDir = [];
@@ -228,7 +228,6 @@ function vtemplate_path($templateName, $moduleName = '')
  */
 function vresource_url($url)
 {
-	global $YetiForce_current_version;
 	if (stripos($url, '://') === false && $fs = @filemtime($url)) {
 		$url = $url . '?s=' . $fs;
 	}

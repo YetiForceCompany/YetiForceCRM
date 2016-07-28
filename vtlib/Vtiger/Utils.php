@@ -278,9 +278,8 @@ class Utils
 	static function ModuleLog($module, $mixed, $extra = [])
 	{
 		if (ALLOW_MODULE_LOGGING) {
-			global $site_URL;
 			$date = date('Y-m-d H:i:s');
-			$log = array($site_URL, $module, $date);
+			$log = array(\AppConfig::main('site_URL'), $module, $date);
 			if ($mixed instanceof Exception) {
 				array_push($log, $mixed->getMessage());
 				array_push($log, $mixed->getTraceAsString());

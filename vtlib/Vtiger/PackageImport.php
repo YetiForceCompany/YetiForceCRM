@@ -253,7 +253,6 @@ class PackageImport extends PackageExport
 	 */
 	function checkZip($zipfile)
 	{
-		global $YetiForce_current_version;
 		$unzip = new Unzip($zipfile);
 		$filelist = $unzip->getList();
 
@@ -328,12 +327,12 @@ class PackageImport extends PackageExport
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
 
-			if (version_compare($moduleVersion, $YetiForce_current_version, '>=') === true) {
+			if (version_compare($moduleVersion, AppConfig::main('YetiForce_current_version'), '>=') === true) {
 				$moduleVersionFound = true;
 			} else {
 				$_errorText = vtranslate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
 				$_errorText = str_replace('__MODULEVERSION__', $moduleVersion, $_errorText);
-				$_errorText = str_replace('__CRMVERSION__', $YetiForce_current_version, $_errorText);
+				$_errorText = str_replace('__CRMVERSION__', AppConfig::main('YetiForce_current_version'), $_errorText);
 				$this->_errorText = $_errorText;
 			}
 		}

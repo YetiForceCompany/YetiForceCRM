@@ -1133,10 +1133,9 @@ class Functions
 	 */
 	static function get_group_options()
 	{
-		global $adb, $noof_group_rows;
+		$adb = PearDatabase::getInstance();
 		$sql = "select groupname,groupid from vtiger_groups";
 		$result = $adb->pquery($sql, []);
-		$noof_group_rows = $adb->num_rows($result);
 		return $result;
 	}
 
