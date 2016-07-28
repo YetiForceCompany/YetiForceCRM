@@ -1074,6 +1074,7 @@ class Functions
 			$viewer->view($tpl, 'Vtiger');
 		}
 		if ($die) {
+			trigger_error($message, E_USER_ERROR);
 			throw new \Exception('');
 		}
 	}
