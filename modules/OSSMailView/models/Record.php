@@ -88,7 +88,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$moduleName = 'OSSMailView';
 			$instance = CRMEntity::getInstance($moduleName);
-			$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
+			$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser, $srecord);
 			if ($securityParameter != '')
 				$query .= $securityParameter;
 			$query .= ' ORDER BY date DESC';
