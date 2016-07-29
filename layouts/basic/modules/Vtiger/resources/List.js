@@ -1914,7 +1914,6 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerEvents: function () {
-		
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
 		this.registerPageNavigationEvents();
@@ -1949,8 +1948,6 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
-	//	listSearchInstance = new YetiForce_ListSearch_Js();
-	
 	},
 	registerListViewSpecialOptiopn: function () {
 		var thisInstance = this;
