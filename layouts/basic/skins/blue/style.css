@@ -207,7 +207,7 @@ btn-danger:hover{
 }
 .userDetailsContainer{
 	background-color: #00285f;
-	width: 400px;
+	width: 50px;
 }
 .dropdown-menu > li > a{
 	color: #00a8e4;
@@ -359,6 +359,9 @@ btn-danger:hover{
 .related .nav-pills li a strong{
 	font-weight: normal;
 }
+.selectSearch{
+	padding-left: 50px;
+}
 /* MENU */
 .userDetailsContainer{
 	background-color: #fff;
@@ -486,9 +489,6 @@ btn-danger:hover{
 .baseContainer .leftPanel:after{
 	width: 0;
 }
-.selectSearch{
-	float: right !important;
-}
 .leftPanel  .slimScrollDiv{
 	height: 100% !important;
 }
@@ -545,6 +545,11 @@ btn-danger:hover{
 .userDetails{
 	margin-top: 9px;
 }
+.userDetails .name,
+.userDetails .companyName{
+	display: none;
+}
+
 .modulesList .menuName,
 .modulesList .menuIcon{
 	padding-top: 8px;
@@ -555,4 +560,7 @@ btn-danger:hover{
 }
 .userDetails .name:nth-child(2){
 	line-height: 18px;
+}
+.infoUser{
+	background: #00509e;
 }

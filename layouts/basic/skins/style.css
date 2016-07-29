@@ -5599,3 +5599,13 @@ select.form-control {
 	color: #fff;
 	font-size: 20px;
 }
+.infoUser{
+	padding:0 5px;
+	position: fixed;
+	height: 17px;
+	color: #fff;
+	width: 100%;
+	bottom: 33px;
+	z-index: 1030;
+	left: 0;
+}
