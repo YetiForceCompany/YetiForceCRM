@@ -140,7 +140,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 //			'history_max_viewed'			=> array('label' => 'LBL_MAX_HISTORY_VIEWED',				'fieldType' => 'input'),
 			'default_module' => array('label' => 'LBL_DEFAULT_MODULE', 'fieldType' => 'picklist'),
 			'listview_max_textlength' => array('label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW', 'fieldType' => 'input'),
-			'max_number_search_result' => array('label' => 'LBL_MAX_SEARCH_RESULT', 'fieldType' => 'input'),
 			'list_max_entries_per_page' => array('label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input'),
 			'defaultLayout' => array('label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist'),
 			'popupType' => ['label' => 'LBL_POPUP_TYPE', 'fieldType' => 'input'],
@@ -171,7 +170,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 					$fieldValue = $fieldValue * 1048576; //(1024 * 1024)
 					$patternString = "\$%s = %s;";
 				}
-				if (in_array($fieldName, ['layoutInLoginView','langInLoginView'])) {
+				if (in_array($fieldName, ['layoutInLoginView', 'langInLoginView'])) {
 					$patternString = "\$%s = %s;";
 				}
 				$pattern = '/\$' . $fieldName . '[\s]+=([^;]+);/';
@@ -198,7 +197,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			return 'LBL_INVALID_SUPPORT_NAME';
 		} else if (!preg_match('/[a-zA-z0-9]/', $updatedFields['default_module'])) {
 			return 'LBL_INVALID_MODULE';
-		} else if (!filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['listview_max_textlength'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['max_number_search_result'], '0'), FILTER_VALIDATE_INT)) {
+		} else if (!filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['listview_max_textlength'], '0'), FILTER_VALIDATE_INT)) {
 			return 'LBL_INVALID_NUMBER';
 		}
 		return true;

@@ -285,38 +285,47 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$currentUser = \Users_Record_Model::getCurrentUserModel();
 			$adb = \PearDatabase::getInstance();
 			$params = ['%' . $currentUser->getId() . '%', "%$searchKey%"];
-			$query = 'SELECT u_yf_crmentity_search_label.`crmid`,u_yf_crmentity_search_label.`setype`,u_yf_crmentity_search_label.`searchlabel` FROM `u_yf_crmentity_search_label`';
-			$where = ' WHERE u_yf_crmentity_search_label.`userid` LIKE ? AND u_yf_crmentity_search_label.`searchlabel` LIKE ?';
+			$queryFrom = 'SELECT u_yf_crmentity_search_label.`crmid`,u_yf_crmentity_search_label.`setype`,u_yf_crmentity_search_label.`searchlabel` FROM `u_yf_crmentity_search_label`';
+			$queryWhere = ' WHERE u_yf_crmentity_search_label.`userid` LIKE ? AND u_yf_crmentity_search_label.`searchlabel` LIKE ?';
+			$orderWhere = '';
 			if ($moduleName !== false) {
 				$multiMode = is_array($moduleName);
 				if ($multiMode) {
-					$where .= sprintf(' AND u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
+					$queryWhere .= sprintf(' AND u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
 					$params = array_merge($params, $moduleName);
 				} else {
-					$where .= ' AND `setype` = ?';
+					$queryWhere .= ' AND `setype` = ?';
 					$params[] = $moduleName;
 				}
+			} elseif (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 2) {
+				$queryFrom .= ' LEFT JOIN vtiger_entityname ON vtiger_entityname.modulename = u_yf_crmentity_search_label.setype';
+				$queryWhere .= ' AND vtiger_entityname.`turn_off` = 1 ';
+				$orderWhere = ' vtiger_entityname.sequence';
 			}
 			if ($moduleName == 'Products') {
-				$query .= ' INNER JOIN vtiger_products ON vtiger_products.productid = u_yf_crmentity_label.crmid';
-				$where .= ' AND vtiger_products.discontinued = 1';
+				$queryFrom .= ' INNER JOIN vtiger_products ON vtiger_products.productid = u_yf_crmentity_label.crmid';
+				$queryWhere .= ' AND vtiger_products.discontinued = 1';
 			} else if ($moduleName == 'Services') {
-				$query .= ' INNER JOIN vtiger_service ON vtiger_service.serviceid = u_yf_crmentity_label.crmid';
-				$where .= ' AND vtiger_service.discontinued = 1';
+				$queryFrom .= ' INNER JOIN vtiger_service ON vtiger_service.serviceid = u_yf_crmentity_label.crmid';
+				$queryWhere .= ' AND vtiger_service.discontinued = 1';
 			}
-		}
-		if (!$limit) {
-			$limit = AppConfig::main('max_number_search_result');
-		}
-		$rows = [];
-		if (!$query) {
-			$rows = \includes\Record::findCrmidByLabel($searchKey, $moduleName, $limit);
-		} else {
-			$query = $query . $where;
+			$query = $queryFrom . $queryWhere;
+			if (!empty($orderWhere)) {
+				$query .= sprintf(' ORDER BY %s', $orderWhere);
+			}
+			if (!$limit) {
+				$limit = AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
+			}
 			if ($limit) {
 				$query .= ' LIMIT ';
 				$query .= $limit;
 			}
+		}
+
+		$rows = [];
+		if (!$query) {
+			$rows = \includes\Record::findCrmidByLabel($searchKey, $moduleName, $limit);
+		} else {
 			$result = $adb->pquery($query, $params);
 			while ($row = $adb->getRow($result)) {
 				$rows[] = $row;

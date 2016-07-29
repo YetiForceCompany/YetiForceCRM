@@ -100,7 +100,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (typeof searchModule != 'undefined') {
 			params.searchModule = searchModule;
 		}
-
+		params.curentModule = app.getModuleName();
 		return this._search(params);
 	},
 	/**
