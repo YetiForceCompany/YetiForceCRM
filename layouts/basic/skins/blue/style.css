@@ -359,9 +359,6 @@ btn-danger:hover{
 .related .nav-pills li a strong{
 	font-weight: normal;
 }
-.globalSearchInput .chosen-container{
-	display: none;
-} 
 /* MENU */
 .userDetailsContainer{
 	background-color: #fff;
@@ -501,10 +498,6 @@ btn-danger:hover{
 .divider {
 	display: none !important;
 }
-.rightHeader .headerLinksMails,
-.globalSearchInput .chosen-container{
-	display: none;
-}
 .headerLink{
 	position: fixed;
 	right: 0;
@@ -554,7 +547,6 @@ btn-danger:hover{
 }
 .modulesList .menuName,
 .modulesList .menuIcon{
-
 	padding-top: 8px;
 }
 .modulesList .menuIcon,
