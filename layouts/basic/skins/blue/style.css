@@ -41,7 +41,9 @@ body{
 	height: 39px;
 }
 .baseContainer .leftPanel .modulesList > .menuModule a{
+	padding-top: 7px;
 	font-size: 13px;
+	text-transform: uppercase;
 }
 .baseContainer .leftPanel .menuLabel > a:hover,
 .baseContainer .leftPanel .menuModule > a:hover {
@@ -355,6 +357,12 @@ btn-danger:hover{
 .detailViewTable .fieldsLabelValue:nth-child(even){
 	border-right: 0px solid #ddd;
 }
+.related .nav-pills li a strong{
+	font-weight: normal;
+}
+.globalSearchInput .chosen-container{
+	display: none;
+} 
 /* MENU */
 .userDetailsContainer{
 	background-color: #fff;
@@ -394,16 +402,21 @@ btn-danger:hover{
 .modulesList > li{
 	float:left;
 }
-.iconContainer{
-	height: 15px;
-	font-size: 13px;
-	min-width: inherit;
+.baseContainer .leftPanel .menuContainer a{
+	padding-left: 10px;
+}
+.baseContainer .leftPanel .menuContainer a .glyphicon, 
+.baseContainer .leftPanel .menuContainer a.hasIcon img,
+.iconContainer,
+.leftPanel .menuContainer .modulesList .subMenu .menuIcon{
+	display: none;
 }
 .labelConstainer{
 	height: 15px;
 	width: auto;
 	padding-top:8px;
 	font-size: 13px;
+	text-transform: uppercase;
 }
 .baseContainer .leftPanel .menuLabel > a:hover,
 .baseContainer .leftPanel .menuModule > a:hover {
@@ -426,10 +439,12 @@ btn-danger:hover{
 	background: #E7E7E7;
 	border-bottom: 1px solid #969696;
 	left: 0px;
-	top: 39px;
+	top: 37px;
 	width: 100% !important;
 	height: auto !important;
 	max-height: 150px;
+	padding:0 10px;
+	min-height: 50px;
 	display: flex;
 	flex-flow: column wrap;
 }
@@ -438,7 +453,8 @@ btn-danger:hover{
 	flex: 0 0 auto;
 }
 .baseContainer .leftPanel .menuContainer .subMenu a{
-	color: #00285f;
+	font-weight: normal;
+	color: #646464;
 }
 .leftPanel .menuContainer .modulesList .subMenu .menuIcon{
 	font-size: 15px;
@@ -456,6 +472,10 @@ btn-danger:hover{
 .baseContainer .leftPanel .menuContainer .subMenu button:focus{
 	background: #E7E7E7 !important;
 	color: #323232 !important;
+}
+.baseContainer .leftPanel .menuContainer .subMenu  a.hasIcon,
+.baseContainer .leftPanel .menuContainer .subMenu  button .hasIcon{
+	padding: 4px 10px;
 }
 .baseContainer .basePanel:after{
 	width: auto;
