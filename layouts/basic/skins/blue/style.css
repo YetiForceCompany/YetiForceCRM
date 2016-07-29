@@ -207,7 +207,7 @@ btn-danger:hover{
 }
 .userDetailsContainer{
 	background-color: #00285f;
-	width: 300px;
+	width: 400px;
 }
 .dropdown-menu > li > a{
 	color: #00a8e4;
@@ -544,4 +544,23 @@ btn-danger:hover{
 }
 .headerLink li{
 	float: right;
+}
+.userDetails p{
+	float: left;
+	font-size: 13px !important;
+}
+.userDetails{
+	margin-top: 9px;
+}
+.modulesList .menuName,
+.modulesList .menuIcon{
+
+	padding-top: 8px;
+}
+.modulesList .menuIcon,
+.modulesList .menuName{
+	font-size: 13px !important;
+}
+.userDetails .name:nth-child(2){
+	line-height: 18px;
 }
