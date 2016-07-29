@@ -502,7 +502,6 @@ btn-danger:hover{
 	position: fixed;
 	right: 0;
 	top: 3px;
-	width: 193px;
 }
 .rightHeader{
 	padding-right: 220px !important;
@@ -535,9 +534,6 @@ btn-danger:hover{
 .headerLink a span.glyphicon {
 	font-size: 18px;
 }
-.headerLink li{
-	float: right;
-}
 .userDetails p{
 	float: left;
 	font-size: 13px !important;
@@ -549,7 +545,6 @@ btn-danger:hover{
 .userDetails .companyName{
 	display: none;
 }
-
 .modulesList .menuName,
 .modulesList .menuIcon{
 	padding-top: 8px;
@@ -563,4 +558,14 @@ btn-danger:hover{
 }
 .infoUser{
 	background: #00509e;
+}
+.remindersNoticeContainer,
+#AJAXChatBlock{
+	top: 90px !important;
+}
+.signOutButtonBlue .glyphicon{
+	color: #ff0000;
+}	
+.signOutButtonBlue{
+	border: 1px solid #ff0000 !important;
 }
