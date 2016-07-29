@@ -185,8 +185,7 @@ btn-danger:hover{
 .alert-danger,
 .relatedHeader .btn-default.addButton,
 .listViewActionsDiv .btn-toolbar .btn,
-.columnSorted a,
-.baseContainer .leftPanel .userDetailsContainer a{
+.columnSorted a{
 	color: #fff !important;
 }
 .navbar-default{
@@ -369,9 +368,6 @@ btn-danger:hover{
 	position: fixed;
 	top: 0;
 }
-.baseContainer .leftPanel .userDetailsContainer a{
-	color: #00285f !important;
-}
 .baseContainer:not(.leftPanelOpen){
 	margin-left: 0px;
 }
@@ -504,4 +500,48 @@ btn-danger:hover{
 }
 .divider {
 	display: none !important;
+}
+.rightHeader .headerLinksMails,
+.globalSearchInput .chosen-container{
+	display: none;
+}
+.headerLink{
+	position: fixed;
+	left: 90%;
+	top: 3px;
+	width: 193px;
+}
+.rightHeader{
+	padding-right: 220px !important;
+}
+.headerLink a{
+	height: 34px;
+	padding: 5px 10px !important;
+	font-size: 12px !important;
+	line-height: 1.5;
+	border-radius: 3px !important;
+	color: #333 !important;
+	background-color: #fff;
+	border:1px solid #ccc;
+	display: inline-block;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	background-image: none;
+}
+.headerLink a span.glyphicon {
+	font-size: 18px;
+}
+.headerLink li{
+	float: right;
 }
