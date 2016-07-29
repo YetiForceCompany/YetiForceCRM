@@ -191,7 +191,7 @@ $languageStrings = [
 	'LBL_HEIGHT_LOGO' => 'Hauteur Logo',
 	//YetiForce
 	'vatid' => 'ID TVA',
-	'id1'=>'ID 1',
+	'id1' => 'ID 1',
 	'id2' => 'ID 2',
 	'LBL_SECURITY_MANAGEMENT' => 'Sécurité',
 	'LBL_MAIL_TOOLS' => 'Outils Mail',
@@ -214,7 +214,7 @@ $languageStrings = [
 	'LBL_ADDING_ERROR' => 'Erreur lors de l\'ajout d\'un champ',
 	'LBL_ADDED_COMPANY_FIELD' => 'Champ ajouté',
 	'LBL_FIELD_NOT_VALID' => 'Champ doit contenir uniquement des lettres',
-	'LBL_EXTENDED_MODULES'=>'Modules étendus',
+	'LBL_EXTENDED_MODULES' => 'Modules étendus',
 	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logo société visible dans le système',
 	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logo société visible dans la mire de connexion',
 	/* settings menu */

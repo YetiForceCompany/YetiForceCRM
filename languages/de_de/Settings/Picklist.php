@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Picklist' => 'Picklist',
 	'Calendar' => 'Kalender',
@@ -39,7 +39,7 @@ $languageStrings = [
 	'LBL_SELECT_PICKLIST_IN' => 'Auswahlliste wählen in',
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Um mehrere Elemente zu löschen, während der Auswahl die Strg-Taste drücken',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Einer Rolle zugewiesene Werte',
-    'NO_PICKLIST_FIELDS'=> 'hat keine Auswahllisten-Felder',
+	'NO_PICKLIST_FIELDS' => 'hat keine Auswahllisten-Felder',
 	'LBL_NEW_VALUE' => 'Neuer Wert',
 ];
 
@@ -52,9 +52,9 @@ $jsLanguageStrings = [
 	'JS_MORE_THAN_ONE_ITEM_SELECTED' => 'Mehr als ein Eintrag ausgewählt',
 	'JS_NO_ITEM_SELECTED' => 'Kein Eintrag ausgewählt',
 	'JS_NOT_ALLOWED' => 'ist nicht erlaubt',
-    'JS_PLEASE_SELECT_MODULE' => 'Bitte Modul auswählen',
+	'JS_PLEASE_SELECT_MODULE' => 'Bitte Modul auswählen',
 	'JS_SEQUENCE_UPDATED_SUCCESSFULLY' => 'Reihenfolge erfolgreich geändert',
 	'JS_SPECIAL_CHARACTERS' => 'Sonderzeichen wie',
 	'JS_VALUE_ASSIGNED_SUCCESSFULLY' => 'Wert erfolgreich zugewiesen',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_VALUES' => 'Sie können nicht alle Werte löschen',
-];	
+];

@@ -126,7 +126,6 @@ $languageStrings = [
 	'LBL_ON_SWITCH' => 'ON',
 	'LBL_OFF_SWITCH' => 'OFF',
 	'LBL_FOLLOWUP' => 'Related event',
-	
 	'PLL_PLANNED' => 'Planned',
 	'PLL_IN_REALIZATION' => 'To be realized',
 	'PLL_OVERDUE' => 'Overdue',

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_CHOISE_AUTHORIZED' => 'Rolle wählen',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Zusammenfassungsblock zum Modul hinzufügen',
@@ -23,7 +23,6 @@ $languageStrings = [
 	'LBL_CREATE_CUSTOM_FIELD' => 'Widget zur Leiste hinzufügen',
 	'LBL_ADD_CONDITION' => 'Rolle hinzufügen',
 	'LBL_INVALID_DATA' => 'Fehlerhafte Daten',
-
 	'WidgetsManagement' => 'Widget Rollenzuordnung',
 	'LBL_WIDGETS_MANAGEMENT' => 'Widgets – Configuration',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => 'Widgets bestimmten Rollen zuordnen ',

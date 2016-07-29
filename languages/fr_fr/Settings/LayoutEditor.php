@@ -1,21 +1,21 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_FIELD_MASK' => 'Masque de saisie',
 	'Calendar' => 'Tâche',
 	'Checkbox' => 'Case à cocher',
-	'Currency'=>'Devise',
-	'Date'=>'Date',
-	'Decimal'=>'Décimale',
-	'Email'=>'Email',
-	'Integer'=>'Entier',
+	'Currency' => 'Devise',
+	'Date' => 'Date',
+	'Decimal' => 'Décimale',
+	'Email' => 'Email',
+	'Integer' => 'Entier',
 	'LayoutEditor' => 'Editeur de la disposition',
 	'LBL_ACTIONS' => 'Actions',
 	'LBL_ACTIVE' => 'Actif',
@@ -54,19 +54,18 @@ $languageStrings = [
 	'LBL_SELECT_MODULE' => 'Sélectionner module..',
 	'LBL_SUMMARY_FIELD' => 'Vue synthétique',
 	'LBL_WRONG_FIELD_TYPE' => 'Mauvais type de champs',
-	'MultiSelectCombo'=>'Liste déroulante multi-sélection',
-	'Percent'=>'Pourcentage',
-	'Phone'=>'Téléphone',
-	'Picklist'=>'Liste déroulante',
-	'Skype'=>'Skype',
+	'MultiSelectCombo' => 'Liste déroulante multi-sélection',
+	'Percent' => 'Pourcentage',
+	'Phone' => 'Téléphone',
+	'Picklist' => 'Liste déroulante',
+	'Skype' => 'Skype',
 	'TextArea' => 'Zone de texte',
-	'Text'=>'Texte',
-	'Time'=>'Heure',
+	'Text' => 'Texte',
+	'Time' => 'Heure',
 	'URL' => 'site web',
-    'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Editer les modules liés',
+	'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Editer les modules liés',
 	'LBL_VISIBLE' => 'Visible',
 	'LBL_HIDDEN' => 'Caché',
-	
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Sélectionner les modules',
 	'LBL_FIELD_NAME' => 'Nom du champ',
@@ -91,7 +90,6 @@ $languageStrings = [
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Champ lié',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Filtre par champ',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filtre par valeur',
-	
 	'LBL_ADD_RELATION' => 'Ajouter une relation',
 	'LBL_REMOVE_RELATION' => 'Supprimer une relation',
 	'LBL_RELATION_TYPE' => 'Type de relation',
@@ -104,7 +102,6 @@ $languageStrings = [
 	'PLL_SPLITED_RELATED_LIST' => 'Plusieurs à plusieurs - avec séparation des données',
 	'PLL_ADD' => 'Ajouter',
 	'PLL_SELECT' => 'Sélectionner',
-	
 	// inventory tab
 	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Gestion des blocs avancées',
 	'LBL_HEADLINE' => 'Gros Titre',
@@ -112,7 +109,6 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Ligne additionelle',
 	'LBL_ADVANCED_MODULE' => 'Avancé',
 	'LBL_BASIC_MODULE' => 'Basic',
-	
 	'LBL_EDITING_INVENTORY_FIELD' => 'Editer',
 	'LBL_CREATING_INVENTORY_FIELD' => 'Ajouter',
 	'LBL_NAME_FIELD' => 'Nom',

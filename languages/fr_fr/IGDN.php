@@ -20,6 +20,5 @@ $languageStrings = [
 	'PLL_FOR_APPROVAL' => 'Pour approbation',
 	'PLL_CANCELLED' => 'Annulé',
 	'PLL_ACCEPTED' => 'Accepté',
-	
 	'LBL_CHANGE_STATUS' => 'Changer le statut',
 ];

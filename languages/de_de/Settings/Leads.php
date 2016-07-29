@@ -33,7 +33,6 @@ $languageStrings = [
 	'url' => 'Url',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'In Organisation konvertieren',
 	'sharedOwner' => ' ',
-
 ];
 
 $jsLanguageStrings = [
@@ -61,5 +60,4 @@ $jsLanguageStrings = [
 	'JS_WITH' => 'mit',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Feld Zuordnung gespeichert',
 	'JS_sharedOwner' => ' ',
-
 ];

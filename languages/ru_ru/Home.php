@@ -37,7 +37,6 @@ $languageStrings = [
 	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Частота запуска планировщика',
 	'LBL_SCHEDULE' => 'Расписание',
 	'LBL_CRON' => 'Планировщик',
-
 	'PLL_5_MIN' => '5 минут',
 	'PLL_15_MIN' => '15 минут',
 	'PLL_30_MIN' => '30 минут',

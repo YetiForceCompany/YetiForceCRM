@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - valmir@ttcasolucoes.com.br
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Conversion Rate' => 'Taxa Câmbio',
 	'Currency' => 'Moeda',
@@ -23,14 +23,13 @@ $languageStrings = [
 	'LBL_EDIT_CURRENCY' => 'Editar Moeda',
 	'LBL_ENTER_CONVERSION_RATE' => 'Digitar Taxa Câmbio',
 	'LBL_TRANSFER_CURRENCY' => 'Transferir Moeda',
-
 	//currency names
 	'Afghanistan, Afghanis' => 'Afghanistan, Afghanis',
 	'Albania, Leke' => 'Albania, Leke',
 	'Argentina, Pesos' => 'Argentina, Pesos',
 	'Aruba, Guilders' => 'Aruba, Guilders',
 	'Australia, Dollars' => 'Australia, Dollars',
-	'Azerbaijan, New Manats'=> 'Azerbaijan, New Manats',
+	'Azerbaijan, New Manats' => 'Azerbaijan, New Manats',
 	'Bahamas, Dollars' => 'Bahamas, Dollars',
 	'Bahrain, Dinar' => 'Bahrain, Dinar',
 	'Barbados, Dollars' => 'Barbados, Dollars',
@@ -46,7 +45,7 @@ $languageStrings = [
 	'Canada, Dollars' => 'Canada, Dollars',
 	'Cayman Islands, Dollars' => 'Cayman Islands, Dollars',
 	'Chile, Pesos' => 'Chile, Pesos',
-	'China, Yuan Renminbi' 	=> 'China, Yuan Renminbi', //Duplicated key-value pair
+	'China, Yuan Renminbi' => 'China, Yuan Renminbi', //Duplicated key-value pair
 	'Colombia, Pesos' => 'Colombia, Pesos',
 	'Convertible Marka' => 'Convertible Marka',
 	'Costa Rica, Colón' => 'Costa Rica, Colón',
@@ -81,14 +80,14 @@ $languageStrings = [
 	'Jamaica, Dollars' => 'Jamaica, Dollars',
 	'Japan, Yen' => 'Japan, Yen',
 	'Jersey, Pounds' => 'Jersey, Pounds',
-	'Jordan, Dinar'	=> 'Jordan, Dinar',
+	'Jordan, Dinar' => 'Jordan, Dinar',
 	'Kazakhstan, Tenge' => 'Kazakhstan, Tenge',
 	'Kenya, Shilling' => 'Kenya, Shilling',
 	'Korea (North), Won' => 'Korea (North), Won',
 	'Korea (South), Won' => 'Korea (South), Won',
 	'Kyrgyzstan, Soms' => 'Kyrgyzstan, Soms',
 	'Laos, Kips' => 'Laos, Kips',
-	'Latvia, Lati' 	=> 'Latvia, Lati',
+	'Latvia, Lati' => 'Latvia, Lati',
 	'Lebanon, Pounds' => 'Lebanon, Pounds',
 	'Liberia, Dollars' => 'Liberia, Dollars',
 	'Lithuania, Litai' => 'Lithuania, Litai',
@@ -102,11 +101,11 @@ $languageStrings = [
 	'Mexico, Pesos' => 'Mexico, Pesos',
 	'Mongolia, Tugriks' => 'Mongolia, Tugriks',
 	'Moroccan, Dirham' => 'Moroccan, Dirham',
-	'Mozambique, Meticais' 	=> 'Mozambique, Meticais',
+	'Mozambique, Meticais' => 'Mozambique, Meticais',
 	'Namibia, Dollars' => 'Namibia, Dollars',
 	'Nepal, Rupees' => 'Nepal, Rupees',
 	'Netherlands Antilles, Guilders' => 'Netherlands Antilles, Guilders',
-	'New Zealand, Dollars' 	=> 'New Zealand, Dollars',
+	'New Zealand, Dollars' => 'New Zealand, Dollars',
 	'Nicaragua, Cordobas' => 'Nicaragua, Cordobas',
 	'Nigeria, Nairas' => 'Nigeria, Nairas',
 	'North Korea, Won' => 'North Korea, Won',

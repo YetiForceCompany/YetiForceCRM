@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,21 +7,21 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
-	'Answer'=>'Odpowiedź',
-	'Comments'=>'Komentarze',
-	'Draft'=>'Szkic',
+	'Answer' => 'Odpowiedź',
+	'Comments' => 'Komentarze',
+	'Draft' => 'Szkic',
 	'Faq' => 'Instrukcje',
 	'Faq No' => 'Numer',
-	'General'=>'Ogólny',
+	'General' => 'Ogólny',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
-	'LBL_COMMENT_INFORMATION' =>  'Komentarze',
+	'LBL_COMMENT_INFORMATION' => 'Komentarze',
 	'LBL_FAQ_INFORMATION' => 'Informacje dotyczące instrukcji',
 	'LBL_RECORDS_LIST' => 'Lista instrukcji',
 	'LBL_SOLUTION' => 'Rozwiązanie',
-	'Obsolete'=>'Zdezaktualizowany',
-	'Published'=>'Opublikowany',
-	'Question'=>'Pytanie',
+	'Obsolete' => 'Zdezaktualizowany',
+	'Published' => 'Opublikowany',
+	'Question' => 'Pytanie',
 	'SINGLE_Faq' => 'Instrukcja',
 ];

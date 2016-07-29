@@ -8,8 +8,7 @@
 $languageStrings = [
 	'FCorectingInvoice' => 'Rechnungskorrekturen',
 	'SINGLE_FCorectingInvoice' => 'Rechnungskorrektur',
-	
-		//BLOCKS
+	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'Systeminformationen',
 	'LBL_INVOICE_ADDRESS' => 'Rechnungsadresse',
 	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Lieferadresse',

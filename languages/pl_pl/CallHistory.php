@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,19 +7,17 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'CallHistory' => 'Historia połączeń',
 	'SINGLE_CallHistory' => 'Historia połączenia',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
-	
 	//Bloks
 	'LBL_CALLHISTORY_INFORMATION' => 'Informacje o połączeniu',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje dodatkowe',
 	'LBL_PHONE_INFORMATION' => 'Informacje o telefonie',
 	'LBL_RELATED_INFORMATION' => 'Informacje o powiązaniach',
-	
 	//Fields
 	'LBL_TYPE' => 'Rodzaj',
 	'LBL_FROM_NUMBER' => 'Numer telefonu OD',
@@ -38,12 +36,11 @@ $languageStrings = [
 	'LBL_DESTINATION' => 'Do kogo dzwoniono',
 	'LBL_SOURCE' => 'Źródło rozmowy',
 	'Record Id' => 'Id rekordu',
-	
 	//pick list values
 	'Outgoing missed' => 'Wychodząca nieodebrana',
 	'Outgoing received' => 'Wychodząca odebrana',
 	'Incoming' => 'Przychodząca odebrana',
 	'Missed' => 'Przychodząca nieodebrana',
 	'Voicemail' => 'Przychodząca poczta głosowa',
-	'Call history'	=> 'Call History',
+	'Call history' => 'Call History',
 ];

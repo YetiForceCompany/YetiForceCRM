@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,10 +7,10 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Users' => 'Usuários',
-    'USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
+	'USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
 	'LBL_USERS_COLORS' => 'Cores Usuário',
 	'LBL_USERS_COLORS_DESCRIPTION' => ' ',
 	'LBL_UPDATE_COLOR' => 'Mudar Cor',
@@ -25,7 +25,6 @@ $languageStrings = [
 	'LBL_COLORS' => 'Cores',
 	'LBL_PRIORITY' => 'Prioridade',
 	'LBL_MODULE' => 'Módulo',
-	
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
@@ -36,10 +35,8 @@ $languageStrings = [
 	'LBL_LDAP_USERS' => 'Acesso automático ativo para Usuários',
 	'LBL_SAVE_CONFIG' => 'A configuração foi salva',
 	'LBL_LDAP_DOMAIN' => 'Domínio (adicionado automaticamente ao acessar)',
-	
 	'LBL_VIEW_AUTH' => 'Autorização',
 	'LBL_VIEW_COLORS' => 'Cores',
-	
 	'LBL_SWITCH_USERS' => 'Switch users',
 	'LBL_SWITCH_USERS_DESCRIPTION' => 'Tool that allows switching users in the system.',
 	'LBL_SU_BASE_ACCESS' => 'User',
@@ -55,7 +52,7 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Lock dragging',
 ];
 $jsLanguageStrings = [
-    'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
+	'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'O separador de casas decimais e separador de milhar não podem ser iguais',
 	'Changed password successfully' => 'Changed password successfully',
 ];

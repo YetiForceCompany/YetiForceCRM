@@ -18,7 +18,7 @@ $languageStrings = [
 	'Budget Cost' => 'Budget',
 	'Campaign Status' => 'Kampagnenstatus',
 	'Campaign Type' => 'Kampagnentyp',
-	 //BLOCKS
+	//BLOCKS
 	'LBL_CAMPAIGN_INFORMATION' => 'Kampagnen Information',
 	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Erwartungen & Aktuelles',
 	//OTHERS

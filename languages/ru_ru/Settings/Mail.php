@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_AUTOLOGIN' => 'Почта - Автовход',
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Конфигурация автоматического входа для модуля электронной почты',
@@ -26,7 +26,6 @@ $languageStrings = [
 	'LBL_ADD_SIGNATURE' => 'Включить общую подпись для всех исходящих сообщений',
 	'LBL_SIGNATURE' => 'Общая подпись',
 	'LBL_SAVED_SIGNATURE' => 'Изменить подпись',
-	
 	'LBL_VIEW_AUTOLOGIN' => 'Автовход',
 	'LBL_VIEW_CONFIG' => 'Конфигурация',
 ];

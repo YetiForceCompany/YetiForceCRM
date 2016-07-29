@@ -3,19 +3,17 @@
 $languageStrings = [
 	'SQuotes' => 'Предложения',
 	'SINGLE_SQuotes' => 'Предложение',
-
 	//BLOCKS
 	'LBL_SQUOTES_INFORMATION' => 'Основная информация',
 	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
-    'LBL_DESCRIPTION_INFORMATION' => 'Детальная информация',
-    'LBL_STATISTICS' => 'Статистика',
-
+	'LBL_DESCRIPTION_INFORMATION' => 'Детальная информация',
+	'LBL_STATISTICS' => 'Статистика',
 	//FIELDS
-    'LBL_CLOSED_TIME' => 'Время закрытия',
-    'LBL_SUBJECT' => 'Тема',
-    'LBL_NUMBER' => 'Номер',
-    'LBL_STATUS' => 'Статус',
-    'LBL_RESPONSE_TIME' => 'Время отклика',
+	'LBL_CLOSED_TIME' => 'Время закрытия',
+	'LBL_SUBJECT' => 'Тема',
+	'LBL_NUMBER' => 'Номер',
+	'LBL_STATUS' => 'Статус',
+	'LBL_RESPONSE_TIME' => 'Время отклика',
 	'LBL_COMPANY_NAME' => 'Название компании',
 	'SINGLE_SSalesProcesses' => 'Сделка',
 	'FL_TOTAL_PRICE' => 'Net Total',
@@ -24,15 +22,13 @@ $languageStrings = [
 	'FL_SUM_GROSS' => 'Gross amount',
 	'FL_SUM_DISCOUNT' => 'Discount amount',
 	'FL_VALID_UNTIL' => 'Valid until',
-	
-    //PICKLIST VALUES
-    'PLL_DRAFT' => 'Черновик',
-    'PLL_IN_REALIZATION' => 'In realization',
+	//PICKLIST VALUES
+	'PLL_DRAFT' => 'Черновик',
+	'PLL_IN_REALIZATION' => 'In realization',
 	'PLL_FOR_VERIFICATION' => 'For verification',
 	'PLL_AWAITING_DECISION' => 'Awaiting decision',
 	'PLL_NEGOTIATIONS' => 'Negotiations',
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_ACCEPTED' => 'Accepted',
-	
-    'LBL_CHANGE_STATUS' => 'Изменить статус',
+	'LBL_CHANGE_STATUS' => 'Изменить статус',
 ];
