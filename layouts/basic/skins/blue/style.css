@@ -569,3 +569,15 @@ btn-danger:hover{
 .signOutButtonBlue{
 	border: 1px solid #ff0000 !important;
 }
+.baseContainer .leftPanel .menuContainer .modulesList > .menuShortcut a .menuName{
+	text-transform: uppercase;
+}
+.leftPanel .menuContainer .modulesList > .menuShortcut .menuIcon{
+	display: none;
+}
+.indexContainer{
+	border-top: 0 solid #fff;
+}
+.massEditContent{
+	border-top: 0 solid #fff;
+}
