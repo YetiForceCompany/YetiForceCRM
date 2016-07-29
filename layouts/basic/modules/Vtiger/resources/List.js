@@ -596,7 +596,7 @@ jQuery.Class("Vtiger_List_Js", {
 		if (events != undefined) {
 			this.noEventsListSearch = events;
 		}
-		if (this.listSearchInstance == false && this.getListViewContainer().find('.searchField').length) {
+		if (this.listSearchInstance == false && (this.getListViewContainer().find('.searchField').length || this.getListViewContainer().find('.picklistSearchField').length)) {
 			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.getListViewContainer(), this.noEventsListSearch);
 		}
 		return this.listSearchInstance;
@@ -1914,6 +1914,7 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerEvents: function () {
+		
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
 		this.registerPageNavigationEvents();
@@ -1948,6 +1949,8 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
+	//	listSearchInstance = new YetiForce_ListSearch_Js();
+	
 	},
 	registerListViewSpecialOptiopn: function () {
 		var thisInstance = this;
