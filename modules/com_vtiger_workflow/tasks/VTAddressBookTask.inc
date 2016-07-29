@@ -12,18 +12,21 @@ require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once('modules/Users/Users.php');
 
-class VTAddressBookTask extends VTTask {
+class VTAddressBookTask extends VTTask
+{
 
 	public $executeImmediately = false;
 	public $tables = [ 'Contacts' => 'vtiger_contactsbookmails', 'OSSEmployees' => 'vtiger_ossemployeesbookmails',
 		'Accounts' => 'vtiger_accountbookmails', 'Leads' => 'vtiger_leadbookmails',
 		'Vendors' => 'vtiger_vendorbookmails'];
 
-	public function getFieldNames() {
+	public function getFieldNames()
+	{
 		return array('test');
 	}
 
-	public function doTask($entity) {
+	public function doTask($entity)
+	{
 		$db = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -38,7 +41,7 @@ class VTAddressBookTask extends VTTask {
 		$userInstance = new Users();
 		$users = $name = '';
 		$table = $this->tables[$module];
-		$metainfo = vtlib\Functions::getEntityModuleInfo($module);
+		$metainfo = \includes\Modules::getEntityModuleInfo($module);
 		$entityNames = explode(',', $metainfo['fieldname']);
 		foreach ($entityNames as $entityName) {
 			$name .= ' ' . $entity->get($entityName);
@@ -68,9 +71,9 @@ class VTAddressBookTask extends VTTask {
 	 * @param <Object> $entity
 	 * @return <Array> contents
 	 */
-	public function getContents($entity, $entityCache = false) {
+	public function getContents($entity, $entityCache = false)
+	{
 		$this->contents = true;
 		return $this->contents;
 	}
-
 }

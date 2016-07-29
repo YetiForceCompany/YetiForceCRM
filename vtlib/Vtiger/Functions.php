@@ -276,32 +276,10 @@ class Functions
 		return $moduleInfo ? $moduleInfo['ownedby'] : NULL;
 	}
 
-	protected static $moduleEntityCache = [];
-
-	static function getEntityModuleInfo($mixed)
-	{
-		$name = NULL;
-		if (is_numeric($mixed))
-			$name = self::getModuleName($mixed);
-		else
-			$name = $mixed;
-
-		if ($name && !isset(self::$moduleEntityCache[$name])) {
-			$adb = \PearDatabase::getInstance();
-			$result = $adb->query('SELECT fieldname,modulename,tablename,entityidfield,entityidcolumn,searchcolumn from vtiger_entityname');
-			while ($row = $adb->fetch_array($result)) {
-				self::$moduleEntityCache[$row['modulename']] = $row;
-			}
-		}
-
-		return isset(self::$moduleEntityCache[$name]) ?
-			self::$moduleEntityCache[$name] : NULL;
-	}
-
 	static function getEntityModuleSQLColumnString($mixed)
 	{
 		$data = [];
-		$info = self::getEntityModuleInfo($mixed);
+		$info = \includes\Modules::getEntityModuleInfo($mixed);
 		if ($info) {
 			$data['tablename'] = $info['tablename'];
 			$fieldnames = $info['fieldname'];
@@ -320,7 +298,7 @@ class Functions
 
 	static function getEntityModuleInfoFieldsFormatted($mixed)
 	{
-		$info = self::getEntityModuleInfo($mixed);
+		$info = \includes\Modules::getEntityModuleInfo($mixed);
 		$fieldnames = $info ? $info['fieldname'] : NULL;
 		if ($fieldnames && stripos($fieldnames, ',') !== false) {
 			$fieldnames = explode(',', $fieldnames);

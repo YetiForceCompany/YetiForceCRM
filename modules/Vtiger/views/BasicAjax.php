@@ -177,6 +177,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
 			$searchKey = $request->get('value');
+			$limit = $request->get('limit') != 'false' ? $request->get('limit') : false;
 			$searchModule = false;
 
 			if ($request->get('searchModule')) {
@@ -185,24 +186,32 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
-			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $request->get('limit'));
+			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit);
 		}
 
-		$recordsList = $matchingRecordsList = [];
-		if ($matchingRecords[$moduleName]) {
-			$matchingRecordsList[$moduleName] = $matchingRecords[$moduleName];
+		if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 1) {
+			$matchingRecordsList = [];
+			foreach (\includes\Modules::getAllEntityModuleInfo(true) as $module) {
+				if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
+					$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
+				}
+			}
+			$matchingRecords = $matchingRecordsList;
 		}
-		foreach ($matchingRecords as $module => $recordModelsList) {
-			$matchingRecordsList[$module] = $recordModelsList;
+		$curentModule = $request->get('curentModule');
+		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$curentModule])) {
+			$pushTop = $matchingRecords[$curentModule];
+			unset($matchingRecords[$curentModule]);
+			$matchingRecords = [$curentModule => $pushTop] + $matchingRecords;
 		}
-
 		if ($request->get('html') == 'true') {
 			$viewer->assign('MODULE', $moduleName);
-			$viewer->assign('MATCHING_RECORDS', $matchingRecordsList);
+			$viewer->assign('MATCHING_RECORDS', $matchingRecords);
 			$viewer->assign('IS_ADVANCE_SEARCH', $isAdvanceSearch);
 			echo $viewer->view('UnifiedSearchResults.tpl', '', true);
 		} else {
-			foreach ($matchingRecordsList as $module => $modules) {
+			$recordsList = [];
+			foreach ($matchingRecords as $module => $modules) {
 				foreach ($modules as $recordID => $recordModel) {
 					$label = decode_html($recordModel->getName());
 					$label.= ' (' . vtlib\Functions::getOwnerRecordLabel($recordModel->get('smownerid')) . ')';
