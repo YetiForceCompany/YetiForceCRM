@@ -581,3 +581,6 @@ btn-danger:hover{
 .massEditContent{
 	border-top: 0 solid #fff;
 }
+.userDetails ul.headerLink li a:hover{
+	background-color: #e6e6e6;
+}
