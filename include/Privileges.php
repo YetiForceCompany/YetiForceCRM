@@ -9,64 +9,6 @@
 class Privileges
 {
 
-	protected static $globalSearchCache = [];
-
-	public static function globalSearchByModule($moduleName, $userId = false)
-	{
-		if (!$userId) {
-			$user = \Users_Record_Model::getCurrentUserModel();
-			$userId = $user->getId();
-		}
-		$users = self::getGlobalSearchUsers();
-		if (isset($users[$userId]) && in_array($moduleName, $users[$userId])) {
-			return true;
-		}
-		return false;
-	}
-
-	public static function globalSearchById($record, $moduleName, $userId = false)
-	{
-		if (self::globalSearchByModule($moduleName, $userId)) {
-			return true;
-		}
-		return self::isPermitted($moduleName, 'DetailView', $record, $userId);
-	}
-
-	public static function updateGlobalSearch($record, $moduleName)
-	{
-		$adb = \PearDatabase::getInstance();
-		$glabalPrivileges = '';
-		$currentUser = vglobal('current_user');
-		$user = new \Users();
-		$users = \includes\fields\Owner::getUsersIds();
-		foreach ($users as &$userId) {
-			vglobal('current_user', $user->retrieveCurrentUserInfoFromFile($userId));
-			if (self::globalSearchById($record, $moduleName, $userId)) {
-				$glabalPrivileges .= ',' . $userId; //sprintf("%'.05d", $userId)
-			}
-		}
-		if (!empty($glabalPrivileges)) {
-			$glabalPrivileges .= ',';
-		}
-		$adb->update('u_yf_crmentity_search_label', ['userid' => $glabalPrivileges], 'crmid = ?', [$record]);
-		vglobal('current_user', $currentUser);
-	}
-
-	protected static $globalSearchUsersCache = [];
-
-	public static function getGlobalSearchUsers()
-	{
-		if (empty(self::$globalSearchUsersCache)) {
-			$adb = \PearDatabase::getInstance();
-			$query = 'SELECT `userid`,`searchunpriv` FROM `vtiger_user2role` LEFT JOIN `vtiger_role` ON vtiger_role.roleid = vtiger_user2role.roleid WHERE vtiger_role.`searchunpriv` <> \'\'';
-			$result = $adb->query($query);
-			while ($row = $adb->getRow($result)) {
-				self::$globalSearchUsersCache[$row['userid']] = explode(',', $row['searchunpriv']);
-			}
-		}
-		return self::$globalSearchUsersCache;
-	}
-
 	protected static $isPermittedLevel = [];
 
 	/**
@@ -277,5 +219,22 @@ class Privileges
 
 		$log->debug('Exiting isPermitted method ...');
 		return $permission;
+	}
+
+	/**
+	 * Add to global permissions update queue.
+	 * @param string $moduleName Module name
+	 * @param int $record If type = 1 starting number if type = 0 record ID
+	 * @param int $priority
+	 * @param int $type
+	 */
+	public static function setUpdater($moduleName, $record = false, $priority = false, $type = 1)
+	{
+		GlobalPrivileges::setUpdater($moduleName, $record, $priority, $type);
+	}
+
+	public static function setAllUpdater()
+	{
+		GlobalPrivileges::setAllUpdater();
 	}
 }

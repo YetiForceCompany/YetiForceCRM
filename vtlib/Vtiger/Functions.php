@@ -185,14 +185,16 @@ class Functions
 		return $id ? self::$moduleIdNameCache[$id] : self::$moduleNameIdCache[$name];
 	}
 
-	static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false)
+	static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false, $colorActive = false)
 	{
 		$moduleList = self::$moduleIdNameCache;
 		if (empty($moduleList)) {
 			$db = \PearDatabase::getInstance();
-			$result = $db->pquery('SELECT tabid, name, ownedby, presence FROM vtiger_tab', []);
+			$result = $db->query('SELECT * FROM vtiger_tab');
 			while ($row = $db->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
+				self::$moduleNameIdCache[$row['name']] = $row;
+				self::$moduleIdDataCache[$row['tabid']] = $row;
 			}
 			$moduleList = self::$moduleIdNameCache;
 		}
@@ -205,6 +207,9 @@ class Functions
 				unset($moduleList[$id]);
 			}
 			if ($presence !== false && $module['presence'] != $presence) {
+				unset($moduleList[$id]);
+			}
+			if ($colorActive !== false && $module['coloractive'] != 1) {
 				unset($moduleList[$id]);
 			}
 		}
@@ -271,32 +276,10 @@ class Functions
 		return $moduleInfo ? $moduleInfo['ownedby'] : NULL;
 	}
 
-	protected static $moduleEntityCache = [];
-
-	static function getEntityModuleInfo($mixed)
-	{
-		$name = NULL;
-		if (is_numeric($mixed))
-			$name = self::getModuleName($mixed);
-		else
-			$name = $mixed;
-
-		if ($name && !isset(self::$moduleEntityCache[$name])) {
-			$adb = \PearDatabase::getInstance();
-			$result = $adb->query('SELECT fieldname,modulename,tablename,entityidfield,entityidcolumn,searchcolumn from vtiger_entityname');
-			while ($row = $adb->fetch_array($result)) {
-				self::$moduleEntityCache[$row['modulename']] = $row;
-			}
-		}
-
-		return isset(self::$moduleEntityCache[$name]) ?
-			self::$moduleEntityCache[$name] : NULL;
-	}
-
 	static function getEntityModuleSQLColumnString($mixed)
 	{
 		$data = [];
-		$info = self::getEntityModuleInfo($mixed);
+		$info = \includes\Modules::getEntityModuleInfo($mixed);
 		if ($info) {
 			$data['tablename'] = $info['tablename'];
 			$fieldnames = $info['fieldname'];
@@ -315,7 +298,7 @@ class Functions
 
 	static function getEntityModuleInfoFieldsFormatted($mixed)
 	{
-		$info = self::getEntityModuleInfo($mixed);
+		$info = \includes\Modules::getEntityModuleInfo($mixed);
 		$fieldnames = $info ? $info['fieldname'] : NULL;
 		if ($fieldnames && stripos($fieldnames, ',') !== false) {
 			$fieldnames = explode(',', $fieldnames);
@@ -1069,6 +1052,7 @@ class Functions
 			$viewer->view($tpl, 'Vtiger');
 		}
 		if ($die) {
+			trigger_error(print_r($message, true), E_USER_ERROR);
 			throw new \Exception('');
 		}
 	}
@@ -1127,10 +1111,9 @@ class Functions
 	 */
 	static function get_group_options()
 	{
-		global $adb, $noof_group_rows;
+		$adb = PearDatabase::getInstance();
 		$sql = "select groupname,groupid from vtiger_groups";
 		$result = $adb->pquery($sql, []);
-		$noof_group_rows = $adb->num_rows($result);
 		return $result;
 	}
 

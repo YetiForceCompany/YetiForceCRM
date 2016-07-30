@@ -47,5 +47,3 @@ function vtws_delete($id, $user)
 	VTWS_PreserveGlobal::flush();
 	return $entity;
 }
-
-?>

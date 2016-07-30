@@ -16,5 +16,3 @@ class VTEventConditionSymbol
 		$this->name = $name;
 	}
 }
-
-?>

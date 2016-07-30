@@ -3,12 +3,10 @@
 $languageStrings = [
 	'Competition' => 'Konkurenci',
 	'SINGLE_Competition' => 'Konkurent',
-	
 	//BLOCKS
 	'LBL_COMPETITION_INFORMATION' => 'Informacje podstawowe',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
 	'LBL_DESCRIPTION_INFORMATION' => 'Informacje opisowe',
-	
 	//FIELDS
 	'LBL_SUBJECT' => 'Temat',
 	'LBL_NUMBER' => 'Numer',

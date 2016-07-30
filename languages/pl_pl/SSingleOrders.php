@@ -3,13 +3,11 @@
 $languageStrings = [
 	'SSingleOrders' => 'Zamówienia jednorazowe',
 	'SINGLE_SSingleOrders' => 'Zamówienie jednorazowe',
-	
 	//BLOCKS
 	'LBL_SSINGLEORDERS_INFORMATION' => 'Informacje podstawowe',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
 	'LBL_DESCRIPTION_INFORMATION' => 'Informacje Opisowe',
 	'LBL_STATISTICS' => 'Statystyka',
-	
 	//FIELDS
 	'LBL_SUBJECT' => 'Temat',
 	'LBL_NUMBER' => 'Numer',
@@ -30,7 +28,6 @@ $languageStrings = [
 	'FL_NUMBER_TABLE' => 'Numer stolika',
 	'FL_NUMBER_SEAT' => 'Numer siedzenia',
 	'FL_STORAGE' => 'Magazyn',
-
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Wersja robocza',
 	'PLL_IN_REALIZATION' => ' W realizacji',
@@ -38,7 +35,6 @@ $languageStrings = [
 	'PLL_AWAITING_SIGNATURES' => 'Oczekiwanie na podpisy',
 	'PLL_CANCELLED' => 'Anulowana',
 	'PLL_ACCEPTED' => 'Zaakceptowana',
-
 	'LBL_CHANGE_STATUS' => 'Zmień status',
 	'LBL_SYNCHRONIZE_POS' => 'Synchronizacja POS',
 	'FL_SOURCE' => 'Źródło',

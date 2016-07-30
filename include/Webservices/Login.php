@@ -62,5 +62,3 @@ function vtws_getUserAccessKey($userId)
 	}
 	return null;
 }
-
-?>

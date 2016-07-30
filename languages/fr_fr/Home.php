@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,14 +7,14 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
 	'ALVT' => 'Top Organisations',
 	'CVLVT' => 'Métriques clés',
 	'GRT' => 'Assignations - mon groupe',
 	'HDB' => 'Tableau de bord page d\'acceuil',
 	'HLT' => 'Top Tickets de support',
-	'Home'=> 'Ma page d\'acceuil',
+	'Home' => 'Ma page d\'acceuil',
 	'ILTI' => 'Top Factures',
 	'LTFAQ' => 'Mes FAQs récentes',
 	'OLTPO' => 'Top Achats',
@@ -33,7 +33,6 @@ $languageStrings = [
 	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Cron launching frequency',
 	'LBL_SCHEDULE' => 'Schedule',
 	'LBL_CRON' => 'Cron',
-	
 	'PLL_5_MIN' => '5 minutes',
 	'PLL_15_MIN' => '15 minutes',
 	'PLL_30_MIN' => '30 minutes',

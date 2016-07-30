@@ -281,5 +281,3 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 		return $this->getDescribeFieldArray($moduleFields[$fieldName]);
 	}
 }
-
-?>

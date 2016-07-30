@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
- 
+
 $languageStrings = [
 	'LBL_ADD_TEMPLATE' => 'Dodaj mapowanie',
 	'LBL_IMPORT_TEMPLATE' => 'Importuj szablon',
@@ -39,7 +39,6 @@ $languageStrings = [
 	'LBL_NO_PERMISSION_TO_IMPORT' => 'Wystąpił błąd lub kolizja. Nie dokonano importu.',
 	'LBL_IMPORT_OK' => 'Poprawnie zaimportowano szablon',
 	'LBL_MODULE_NOT_EXIST' => 'Moduł w szablonie, który próbujesz zaimportować nie istnieje.',
-
 	'multipicklist' => 'Pole słownikowe (multiwyboru)',
 	'percent' => 'Pole procentowe',
 	'phone' => 'Pole telefonu',

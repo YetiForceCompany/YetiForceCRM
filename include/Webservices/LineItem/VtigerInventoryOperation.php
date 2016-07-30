@@ -91,7 +91,7 @@ class VtigerInventoryOperation extends VtigerModuleOperation
 			// while saving Invoice and Purchase Order we are also depending on the same action file names to
 			// not to update stock if its an ajax save. In this case also we do not want line items to change.
 			AppRequest::set('action', 'FROM_WS');
-			
+
 			$parent = parent::revise($element);
 			AppRequest::set('action', $prevAction);
 		}
@@ -168,5 +168,3 @@ class VtigerInventoryOperation extends VtigerModuleOperation
 		return $describe;
 	}
 }
-
-?>

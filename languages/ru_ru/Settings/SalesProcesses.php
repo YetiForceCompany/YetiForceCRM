@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'SalesProcesses' => 'Процесс продаж',
 	'LBL_SALES_PROCESSES' => 'Продажи',
@@ -22,13 +22,11 @@ $languageStrings = [
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Статусы, определяющие, что товар реализуется',
 	'LBL_CREATE_POTENTIALS' => 'Заблокировать возможность создания Счетов, организациям у которых нет ответственного',
 	'SalesProcesses' => 'Процесс продаж',
-	
 	'LBL_SQUOTEENQUIRIES' => 'Запросы предложений',
 	'LBL_SREQUIREMENTSCARD' => 'Sales Requirements',
 	'LBL_SCALCULATIONS' => 'Расчеты',
 	'LBL_SQUOTES' => 'Предложения',
 	'LBL_SSALESORDER' => 'Sales Order',
-	
 	'LBL_STATUSES_CLOSED_SSALESORDER' => 'Statuses that define closing a sales order',
 	'LBL_STATUSES_CLOSED_SQUOTEENQUIRIES' => 'Statuses that define closing a quote enquiry',
 	'LBL_STATUSES_CLOSED_SREQUIREMENTSCARD' => 'Statuses that define closing a sales requirements',

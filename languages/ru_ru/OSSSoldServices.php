@@ -36,17 +36,17 @@ $languageStrings = [
 	'FL_RENEWAL_INVOICE' => 'Renewal invoice',
 	// picklist values
 	'FL_RENEWAL' => 'Renewal',
-	'PLL_DRAFT'=>'Draft',
-	'PLL_WAITING_FOR_VERIFICATION'=>'Waiting for verification',
-	'PLL_WAITING_FOR_ACCEPTANCE'=>'Waiting for acceptance',
-	'PLL_ACCEPTED'=>'Accepted',
-	'PLL_CANCELLED'=>'Cancelled',
-	'PLL_PLANNED'=>'Planned',
-	'PLL_WAITING_FOR_RENEWAL'=>'Waiting for renewal',
-	'PLL_RENEWED'=>'Renewed',
-	'PLL_NOT_RENEWED'=>'Not renewed',
-	'PLL_NOT_APPLICABLE'=>'Not applicable',
+	'PLL_DRAFT' => 'Draft',
+	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
+	'PLL_WAITING_FOR_ACCEPTANCE' => 'Waiting for acceptance',
+	'PLL_ACCEPTED' => 'Accepted',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_PLANNED' => 'Planned',
+	'PLL_WAITING_FOR_RENEWAL' => 'Waiting for renewal',
+	'PLL_RENEWED' => 'Renewed',
+	'PLL_NOT_RENEWED' => 'Not renewed',
+	'PLL_NOT_APPLICABLE' => 'Not applicable',
 	'LBL_SET_RENEWAL' => 'Set renewal',
 ];
 
-?>
+

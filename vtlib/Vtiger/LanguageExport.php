@@ -116,7 +116,7 @@ class LanguageExport extends Package
 	 */
 	function export_Dependencies($moduleInstance)
 	{
-		$vtigerMinVersion = vglobal('YetiForce_current_version');
+		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
 		$vtigerMaxVersion = current(explode('.', $vtigerMinVersion)) . '.*';
 		$this->openNode('dependencies');
 		$this->outputNode($vtigerMinVersion, 'vtiger_version');
@@ -137,8 +137,8 @@ class LanguageExport extends Package
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
 				name VARCHAR(50), prefix VARCHAR(10), label VARCHAR(30), lastupdated DATETIME, sequence INT, isdefault INT(1), active INT(1))', true
 			);
-			global $languages, $adb;
-			foreach ($languages as $langkey => $langlabel) {
+			$adb = PearDatabase::getInstance();
+			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
 				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,prefix,label,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));
 			}

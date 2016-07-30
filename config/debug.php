@@ -19,7 +19,7 @@ $DEBUG_CONFIG = [
 	 * Configure a user-defined error handler function
 	 * ************************************************************** */
 	'EXCEPTION_ERROR_HANDLER' => false,
-	// Save logs to file
+	// Save logs to file (cache/logs/errors.log)
 	'EXCEPTION_ERROR_TO_FILE' => false,
 	// Display errors
 	'EXCEPTION_ERROR_TO_SHOW' => false,
@@ -39,7 +39,6 @@ $DEBUG_CONFIG = [
 	'WEBSERVICE_SHOW_ERROR' => false,
 	// web service logs
 	'WEBSERVICE_DEBUG' => false,
-	
 	/* +***************************************************************
 	 * 	ROUNDCUBE MAIL
 	 * ************************************************************** */

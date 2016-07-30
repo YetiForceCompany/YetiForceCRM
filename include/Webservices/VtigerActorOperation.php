@@ -164,7 +164,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 
 	public function __update($element, $id)
 	{
-		$query = sprintf('UPDATE %s SET %s = ? WHERE %s = ?',$this->entityTableName,  implode('=?,', array_keys($element)), $this->meta->getObectIndexColumn()) ;
+		$query = sprintf('UPDATE %s SET %s = ? WHERE %s = ?', $this->entityTableName, implode('=?,', array_keys($element)), $this->meta->getObectIndexColumn());
 		$params = array_values($element);
 		array_push($params, $id);
 		$result = null;
@@ -188,7 +188,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 
 	public function __revise($element, $id)
 	{
-		$query = sprintf('UPDATE %s SET %s = ? WHERE %s = ?',$this->entityTableName,  implode('=?,', array_keys($element)), $this->meta->getObectIndexColumn()) ;
+		$query = sprintf('UPDATE %s SET %s = ? WHERE %s = ?', $this->entityTableName, implode('=?,', array_keys($element)), $this->meta->getObectIndexColumn());
 		$params = array_values($element);
 		array_push($params, $id);
 		$result = null;
@@ -343,5 +343,3 @@ class VtigerActorOperation extends WebserviceEntityOperation
 		return $this->element;
 	}
 }
-
-?>

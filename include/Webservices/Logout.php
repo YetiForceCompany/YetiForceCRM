@@ -29,5 +29,3 @@ function vtws_logout($sessionId, $user)
 //	$sessionManager->setExpire(1);
 	return array("message" => "successfull");
 }
-
-?>

@@ -29,6 +29,8 @@ $current_user = $user->retrieveCurrentUserInfoFromFile($userid);
 
 $NAMESPACE = 'http://www.yetiforce.com';
 $server = new soap_server;
+$server->soap_defencoding = AppConfig::main('default_charset');
+$server->decode_utf8 = false;
 $server->configureWSDL('customerportal');
 
 $server->wsdl->addComplexType(

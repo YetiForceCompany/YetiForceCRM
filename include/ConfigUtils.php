@@ -14,6 +14,7 @@ class AppConfig
 	protected static $relation = [];
 	protected static $modules = [];
 	protected static $sounds = [];
+	protected static $search = [];
 
 	public static function load($key, $config)
 	{
@@ -22,11 +23,11 @@ class AppConfig
 
 	public static function main($key, $value = false)
 	{
-		if (key_exists($key, $GLOBALS)) {
+		if (isset(self::$main[$key])) {
+			return self::$main[$key];
+		} elseif (isset($GLOBALS[$key])) {
 			self::$main[$key] = $GLOBALS[$key];
 			return $GLOBALS[$key];
-		} elseif (key_exists($key, self::$main)) {
-			return self::$main[$key];
 		}
 		return $value;
 	}
@@ -39,7 +40,7 @@ class AppConfig
 		if ($argsLength == 2) {
 			$key = $args[1];
 		}
-		if (key_exists($module, self::$modules)) {
+		if (isset(self::$modules[$module])) {
 			switch ($argsLength) {
 				case 1:
 					return self::$modules[$module];
@@ -77,41 +78,78 @@ class AppConfig
 
 	public static function debug($key, $defvalue = false)
 	{
+		if (empty(self::$debug)) {
+			require_once 'config/debug.php';
+			AppConfig::load('debug', $DEBUG_CONFIG);
+		}
 		return self::$debug[$key];
 	}
 
 	public static function developer($key, $defvalue = false)
 	{
+		if (empty(self::$developer)) {
+			require_once 'config/developer.php';
+			AppConfig::load('developer', $DEVELOPER_CONFIG);
+		}
 		return self::$developer[$key];
 	}
 
 	public static function security($key, $defvalue = false)
 	{
+		if (empty(self::$security)) {
+			require_once 'config/security.php';
+			AppConfig::load('security', $SECURITY_CONFIG);
+		}
 		return self::$security[$key];
 	}
 
 	public static function securityKeys($key, $defvalue = false)
 	{
+		if (empty(self::$securityKeys)) {
+			require_once 'config/secret_keys.php';
+			AppConfig::load('securityKeys', $SECURITY_KEYS_CONFIG);
+		}
 		return self::$securityKeys[$key];
 	}
 
 	public static function performance($key, $defvalue = false)
 	{
+		if (empty(self::$performance)) {
+			require_once 'config/performance.php';
+			AppConfig::load('performance', $PERFORMANCE_CONFIG);
+		}
 		return self::$performance[$key];
 	}
 
 	public static function relation($key, $defvalue = false)
 	{
+		if (empty(self::$relation)) {
+			require_once 'config/relation.php';
+			AppConfig::load('relation', $RELATION_CONFIG);
+		}
 		return self::$relation[$key];
 	}
 
 	public static function sounds()
 	{
+		if (empty(self::$sounds)) {
+			require_once 'config/sounds.php';
+			AppConfig::load('sounds', $SOUNDS_CONFIG);
+		}
 		if (func_num_args() == 0) {
 			return self::$sounds;
 		}
 		$key = func_get_args(1);
 		return self::$sounds[$key];
+	}
+
+	public static function search($key, $defvalue = false)
+	{
+		if (empty(self::$search)) {
+			require_once 'config/search.php';
+			AppConfig::load('search', $CONFIG);
+		}
+		return self::$search[$key];
 	}
 
 	public static function iniSet($key, $value)
@@ -126,23 +164,9 @@ if (ROOT_DIRECTORY == 'ROOT_DIRECTORY') {
 
 require_once 'config/api.php';
 require_once 'config/config.php';
-require_once 'config/debug.php';
-require_once 'config/developer.php';
-require_once 'config/performance.php';
-require_once 'config/relation.php';
-require_once 'config/secret_keys.php';
-require_once 'config/security.php';
 require_once 'config/version.php';
-require_once 'config/sounds.php';
 require_once('include/autoload.php');
 
-AppConfig::load('debug', $DEBUG_CONFIG);
-AppConfig::load('developer', $DEVELOPER_CONFIG);
-AppConfig::load('security', $SECURITY_CONFIG);
-AppConfig::load('securityKeys', $SECURITY_KEYS_CONFIG);
-AppConfig::load('performance', $PERFORMANCE_CONFIG);
-AppConfig::load('relation', $RELATION_CONFIG);
-AppConfig::load('sounds', $SOUNDS_CONFIG);
 AppConfig::load('api', $API_CONFIG);
 
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');

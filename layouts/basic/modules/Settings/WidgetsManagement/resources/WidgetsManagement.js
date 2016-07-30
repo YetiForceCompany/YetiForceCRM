@@ -373,7 +373,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			params.binded = false,
 					params.onValidationComplete = function (form, valid) {
 						if (valid) {
-							paramsForm = form.serializeFormData();
+							if (form == undefined) {
+								return true;
+							}
+							var paramsForm = form.serializeFormData();
 							if (form.find('[name="isdefault"]').prop("checked"))
 								paramsForm['isdefault'] = 1;
 							if (form.find('[name="cache"]').prop("checked"))
@@ -395,7 +398,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 						return false;
 					}
 			dropDownMenu.find('form').validationEngine(params);
-
 			//handled registration of selectize for select element
 			var selectElements = basicDropDown.find('select[name="owners_all"]');
 			if (selectElements.length > 0) {
@@ -527,16 +529,42 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					});
 				});
 				container.find('[name="blockid"]').val(element.data('blockId'));
-				container.find('[name="linkId"]').val(element.data('linkid'));
+				container.find('[name="linkid"]').val(element.data('linkid'));
+				var form = container.find('form');
+				var submit = form.find('[type="submit"]');
+				submit.on('click', function (e) {
+					e.preventDefault();
+					var channels = [];
+					if (form.validationEngine('validate')) {
+						form.find('.channelRss:not(:disabled)').each(function () {
+							channels.push(jQuery(this).val());
+						})
+						var paramsForm = form.serializeFormData();
+						paramsForm.data = JSON.stringify({channels: channels});
+						thisInstance.save(paramsForm, 'save').then(
+								function (data) {
+									paramsForm.label = paramsForm.title;
+									thisInstance.saveAfterInfo(data, paramsForm)
+								}
+						);
+					}
+				})
 			},
-			sendByAjaxCb: function (form, data) {
-				var widgetId = data.result.widgetId;
-				form['id'] = widgetId;
-				form['label'] = form['widgetTitle'];
-				thisInstance.showCustomField(form);
-			}
 		};
 		app.showModalWindow(objectToShowModal);
+	},
+	saveAfterInfo: function (data, paramsForm) {
+		var thisInstance = this;
+		var result = data['result'];
+		var params = {};
+		if (data['success']) {
+			app.hideModalWindow();
+			paramsForm['id'] = result['id'];
+			paramsForm['status'] = result['status'];
+			params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+			Settings_Vtiger_Index_Js.showMessage(params);
+			thisInstance.showCustomField(paramsForm);
+		}
 	},
 	addChartFilterWidget: function (element) {
 		var thisInstance = this;

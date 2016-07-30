@@ -205,5 +205,3 @@ function CheckColumnPermission($tablename, $columnname, $module)
 
 	return $cache[$cachekey];
 }
-
-?>

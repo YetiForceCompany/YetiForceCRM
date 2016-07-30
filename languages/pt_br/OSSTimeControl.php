@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * Contributor(s): Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PLL_HOLIDAY' => 'Feriado',
 	'PLL_BREAK_TIME' => 'Parada trabalho',
@@ -41,7 +41,6 @@ $languageStrings = [
 	'Free' => 'Gratuíto',
 	'LBL_CALENDAR_VIEW' => 'Agenda',
 	'LBL_TIMECONTROL_TYPE' => 'Tipo',
-
 	// Settings
 	'SETTINGS' => 'Configurações',
 	'LBL_HELP_SETTINGS' => 'Ajuda',
@@ -56,47 +55,43 @@ $languageStrings = [
 	'1 hour' => '1 hora',
 	'MSG_EDIT_OK' => 'Você realizou ajustes nas configurações com sucesso.',
 	'MSG_EDIT_ERROR' => 'Falha ao salvar os ajustes.',
-
 	//YetiForce
-	'Calculations'=>'Cálculos',
-	'As part of the order'=>'Como parte do Contrato de Serviços',
-	'As part of the support'=>'Como parte do Suporte',
-	'Extra cost'=>'Custo extra',
-	'Free'=>'Gratuíto',
-	'LBL_STATUS'=>'Status',
-	'LBL_PRODUCT_INFORMATION'=>'Descrição',
-	'To approval'=>'Para aprovar',
-	'Accepted'=>'Aceito',
+	'Calculations' => 'Cálculos',
+	'As part of the order' => 'Como parte do Contrato de Serviços',
+	'As part of the support' => 'Como parte do Suporte',
+	'Extra cost' => 'Custo extra',
+	'Free' => 'Gratuíto',
+	'LBL_STATUS' => 'Status',
+	'LBL_PRODUCT_INFORMATION' => 'Descrição',
+	'To approval' => 'Para aprovar',
+	'Accepted' => 'Aceito',
 	'Brutto' => 'Bruto',
-
 	/*  subject  */
-	'Telephone contact'=>'Telefone de contato',
-	'Email contact'=>'Email de contato',
-	'Data verification'=>'Verificação de dados',
-	'Information completing'=>'Completando informação',
-	'Company presentation'=>'Apresentação Empresa',
-	'Product/service presentation'=>'Apresentação Produto/Serviço',
-	'Calculations preparation'=>'Preparação cálculos',
-	'Quote preparation'=>'Preparação Cotação',
-	'Order/Service preparation'=>'Preparação Pedido/Serviço',
-	'Project preparation'=>'Preparação Projeto',
-	'Task realization'=>'Realização Tarefa',
-	'Event realization'=>'Realização Evento',
-	'Support'=>'Suporte',
-	'Document Verification'=>'Verificação Documento',
-	'Visits at Organizations'=>'Visitas a Organizações',
-	'Trips to Organizations'=>'Viagens para Organizações',
-	'Office work'=>'Trabalho Escritório',
-	'Administrative work'=>'Trabalho Administrativo',
-	'Accounting work'=>'Trabalho Contábil',
-	
+	'Telephone contact' => 'Telefone de contato',
+	'Email contact' => 'Email de contato',
+	'Data verification' => 'Verificação de dados',
+	'Information completing' => 'Completando informação',
+	'Company presentation' => 'Apresentação Empresa',
+	'Product/service presentation' => 'Apresentação Produto/Serviço',
+	'Calculations preparation' => 'Preparação cálculos',
+	'Quote preparation' => 'Preparação Cotação',
+	'Order/Service preparation' => 'Preparação Pedido/Serviço',
+	'Project preparation' => 'Preparação Projeto',
+	'Task realization' => 'Realização Tarefa',
+	'Event realization' => 'Realização Evento',
+	'Support' => 'Suporte',
+	'Document Verification' => 'Verificação Documento',
+	'Visits at Organizations' => 'Visitas a Organizações',
+	'Trips to Organizations' => 'Viagens para Organizações',
+	'Office work' => 'Trabalho Escritório',
+	'Administrative work' => 'Trabalho Administrativo',
+	'Accounting work' => 'Trabalho Contábil',
 	//widget
 	'LBL_Holidays' => 'Férias',
 	'LBL_YEAR' => 'Ano:',
 	'LBL_Used_Entitled' => 'Utilizada / Direito:',
 	'LBL_DAYS' => 'dias',
 	'Brak danych' => 'Sem dados',
-
 	'LBL_DAYWORKSUM' => 'Tempo de trabalho',
 	'LBL_ALLDAYS_INFO' => 'Todos os dias',
 	'LBL_WEEKENDDAYS_INFO' => 'Fim de semana',

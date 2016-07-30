@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Picklist' => 'Pole słownikowe',
 	'Calendar' => 'Do wykonania',
@@ -40,7 +40,7 @@ $languageStrings = [
 	'LBL_SELECT_PICKLIST_IN' => 'Zaznacz pole słownikowe w module:',
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Aby usunąć kilka pozycji przytrzymaj klawisz Ctrl podczas wybierania pozycji w dół',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Wartości przypisane do roli',
-    'NO_PICKLIST_FIELDS'=> 'nie mają żadnych pól słownikowych',
+	'NO_PICKLIST_FIELDS' => 'nie mają żadnych pól słownikowych',
 	'LBL_NEW_VALUE' => 'Nowa wartość',
 ];
 
@@ -53,9 +53,9 @@ $jsLanguageStrings = [
 	'JS_MORE_THAN_ONE_ITEM_SELECTED' => 'Więcej niż jedna wartość zaznaczona',
 	'JS_NO_ITEM_SELECTED' => 'Nie zaznaczono wartości',
 	'JS_NOT_ALLOWED' => 'nie są dozwolone',
-    'JS_PLEASE_SELECT_MODULE' => 'Proszę wybrać moduł',
+	'JS_PLEASE_SELECT_MODULE' => 'Proszę wybrać moduł',
 	'JS_SEQUENCE_UPDATED_SUCCESSFULLY' => 'Kolejność zaktualizowana poprawnie',
 	'JS_SPECIAL_CHARACTERS' => 'Znaki specjalne takie jak',
 	'JS_VALUE_ASSIGNED_SUCCESSFULLY' => 'Wartość powiązana poprawnie',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_VALUES' => 'Nie możesz usunąć wszystkich wartości',
-];	
+];

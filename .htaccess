@@ -37,9 +37,13 @@ RedirectMatch 403 (?i).*\.log$
 	php_flag	suhosin.session.encrypt		Off
 
 	php_flag	session.auto_start			Off
-	php_value	session.gc_maxlifetime		21600
+	# 86400 = 3600*24
+	php_value	session.gc_maxlifetime		86400 
+	# 1440 = 60*24
+	php_value	session.cache_expire		1440
 	php_value	session.gc_divisor			500
 	php_value	session.gc_probability		1
+	php_value	session.save_path			cache/session
 	php_value	error_log					cache/logs/phpError.log
 </IfModule>
 <IfModule fcgid_module.c>

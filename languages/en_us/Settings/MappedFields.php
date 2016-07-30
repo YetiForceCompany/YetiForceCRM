@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
- 
+
 $languageStrings = [
 	'LBL_ADD_TEMPLATE' => 'Add mapping',
 	'LBL_IMPORT_TEMPLATE' => 'Import template',
@@ -39,7 +39,6 @@ $languageStrings = [
 	'LBL_NO_PERMISSION_TO_IMPORT' => 'Error or conflict occurred. Import not finished.',
 	'LBL_IMPORT_OK' => 'Template imported successfully.',
 	'LBL_MODULE_NOT_EXIST' => 'Module in the template you are trying to import does not exist.',
-
 	'multipicklist' => 'Picklist field (multi select)',
 	'percent' => 'Percent field',
 	'phone' => 'Phone field',

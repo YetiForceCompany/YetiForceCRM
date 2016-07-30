@@ -122,5 +122,3 @@ class RelatedListViewSession
 		return $start;
 	}
 }
-
-?>

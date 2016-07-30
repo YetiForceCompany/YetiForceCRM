@@ -49,14 +49,12 @@ class Field extends FieldBasic
 	 */
 	function setPicklistValues($values)
 	{
-		global $adb, $default_charset;
-
 		// Non-Role based picklist values
 		if ($this->uitype == '16') {
 			$this->setNoRolePicklistValues($values);
 			return;
 		}
-
+		$adb = PearDatabase::getInstance();
 		$picklist_table = 'vtiger_' . $this->name;
 		$picklist_idcol = $this->name . 'id';
 		if (!Utils::CheckTable($picklist_table)) {

@@ -47,15 +47,13 @@ class Vtiger_Net_Client
 	{
 		$headers = [];
 		if (isset($_SERVER)) {
-			global $site_URL;
-			$headers['referer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ($site_URL . "?noreferer");
+			$headers['referer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : (AppConfig::main('site_URL') . "?noreferer");
 
 			if (isset($_SERVER['HTTP_USER_AGENT'])) {
 				$headers['user-agent'] = $_SERVER['HTTP_USER_AGENT'];
 			}
 		} else {
-			global $site_URL;
-			$headers['referer'] = ($site_URL . "?noreferer");
+			$headers['referer'] = (AppConfig::main('site_URL') . "?noreferer");
 		}
 
 		$this->setHeaders($headers);

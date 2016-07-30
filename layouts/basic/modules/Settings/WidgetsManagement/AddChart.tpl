@@ -23,9 +23,9 @@
 						</div>
 					</div>
 					<div class="form-group margin0px padding1per">
-						<label class="col-sm-3 control-label">{vtranslate('LBL_REPORT', $MODULE)}</label>
+						<label class="col-sm-3 control-label">{vtranslate('LBL_REPORT', $MODULE)}<span class="redColor">*</span></label>
 						<div class="col-sm-8 controls">
-							<select class="select2 widgetFilter width90 form-control" title="{vtranslate('LBL_SELECT_USER')}" name="reportId" style="margin-bottom:0;" >
+							<select class="select2 widgetFilter width90 form-control" title="{vtranslate('LBL_SELECT_USER')}" name="reportId" style="margin-bottom:0;" data-validation-engine="validate[required]">
 								{foreach item=REPORT_DATA key=REPORT_ID from=$LIST_REPORTS}
 									<option value="{$REPORT_ID}">{$REPORT_DATA['reportname']}</option>
 								{/foreach}

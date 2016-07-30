@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_AUTOLOGIN' => 'Mail – Auto Login',
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Descrição Acesso Automático',
@@ -26,7 +26,6 @@ $languageStrings = [
 	'LBL_ADD_SIGNATURE' => 'Ativar um rodapé geral para todos os emails enviados',
 	'LBL_SIGNATURE' => 'Assinatura Global',
 	'LBL_SAVED_SIGNATURE' => 'Assinatura Salva',
-	
 	'LBL_VIEW_AUTOLOGIN' => 'Acesso automático',
 	'LBL_VIEW_CONFIG' => 'Configuração Geral',
 ];

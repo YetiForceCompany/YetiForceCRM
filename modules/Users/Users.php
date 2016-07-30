@@ -646,7 +646,7 @@ class Users extends CRMEntity
 				$this->column_fields[$column] = $value;
 			}
 		}
-		
+
 		if (empty($this->column_fields['currency_decimal_separator']) && $this->column_fields['currency_decimal_separator'] != ' ') {
 			$this->column_fields['currency_decimal_separator'] = '.';
 		}
@@ -910,12 +910,10 @@ class Users extends CRMEntity
 		$tabid = getTabid($module);
 		$sql1 = 'select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)';
 		$result1 = $adb->pquery($sql1, array($tabid));
-		$noofrows = $adb->num_rows($result1);
-
-		for ($i = 0; $i < $noofrows; $i++) {
-			$fieldcolname = $adb->query_result($result1, $i, "columnname");
-			$tablename = $adb->query_result($result1, $i, "tablename");
-			$fieldname = $adb->query_result($result1, $i, "fieldname");
+		while ($row = $adb->getRow($result1)) {
+			$fieldcolname = $row['columnname'];
+			$tablename = $row['tablename'];
+			$fieldname = $row['fieldname'];
 
 			$fld_value = $adb->query_result($result[$tablename], 0, $fieldcolname);
 			$this->column_fields[$fieldname] = $fld_value;
@@ -1061,16 +1059,20 @@ class Users extends CRMEntity
 				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_USER_EXISTS'));
 				return false;
 			}
-		}
-		// update dashboard widgets when changing users role
-		else {
+			\includes\Privileges::setAllUpdater();
+		} else {// update dashboard widgets when changing users role
 			$query = 'SELECT `roleid` FROM `vtiger_user2role` WHERE `userid` = ? LIMIT 1;';
 			$oldRoleResult = $adb->pquery($query, [$this->id]);
 			$oldRole = $adb->query_result($oldRoleResult, 0, 'roleid');
 
+			$privilegesModel = Users_Privileges_Model::getInstanceById($this->id);
+			if ($this->column_fields['is_admin'] != $privilegesModel->get('is_admin')) {
+				\includes\Privileges::setAllUpdater();
+			}
 			if ($oldRole != $this->column_fields['roleid']) {
 				$query = 'DELETE FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ?;';
 				$adb->pquery($query, [$this->id]);
+				\includes\Privileges::setAllUpdater();
 			}
 		}
 		//Save entity being called with the modulename as parameter
@@ -1257,7 +1259,7 @@ class Users extends CRMEntity
 					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid = ? and vtiger_homedefault.hometype= ?"; //To show the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);
 				} else {
-					
+
 					$qry = "update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=1 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid= ? and vtiger_homedefault.hometype=?"; //To hide the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);
 				}

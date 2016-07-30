@@ -160,9 +160,9 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 
 		$userIPAddress = vtlib\Functions::getRemoteIP();
-		;
-		$loginTime = date("Y-m-d H:i:s");
-		$browser = (strlen($browser)) ? $browser : '-';
+		$userIPAddress = empty($userIPAddress) ? '-' : $userIPAddress;
+		$loginTime = date('Y-m-d H:i:s');
+		$browser = empty($browser) ? $browser : '-';
 		$query = "INSERT INTO vtiger_loginhistory (user_name, user_ip, logout_time, login_time, status, browser) VALUES (?,?,?,?,?,?)";
 		$params = array($username, $userIPAddress, '0000-00-00 00:00:00', $loginTime, $status, $browser);
 		$adb->pquery($query, $params);

@@ -67,5 +67,3 @@ function vtws_query($q, $user)
 	VTWS_PreserveGlobal::flush();
 	return $result;
 }
-
-?>

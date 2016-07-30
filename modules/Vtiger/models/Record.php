@@ -375,7 +375,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public static function getSearchResult($searchKey, $module = false, $limit = false)
 	{
 		if (!$limit) {
-			$limit = AppConfig::main('max_number_search_result');
+			$limit = AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 		}
 		$rows = \includes\Record::findCrmidByLabel($searchKey, $module, $limit);
 		$matchingRecords = $leadIdsList = [];

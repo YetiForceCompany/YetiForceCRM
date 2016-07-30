@@ -521,5 +521,3 @@ Class ChartUtils
 		}
 	}
 }
-
-?>

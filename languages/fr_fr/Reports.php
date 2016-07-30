@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,11 +7,11 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'PRIMARY_MODULE' => 'Module principal',
 	'Report Name' => 'Nom du rapport',
-	'Reports'=>'Rapports',
+	'Reports' => 'Rapports',
 	'SINGLE_Reports' => 'Rapport',
 	'LBL_ADD_FOLDER' => 'Ajouter un dossier',
 	'LBL_ADD_NEW_FOLDER' => 'Ajouter un nouveau dossier',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_AVERAGE' => 'Moyenne',
 	'LBL_AVG' => 'Moy',
 	'LBL_CALCULATION_CONVERSION_MESSAGE' => 'Les calculs sont faits en utilisant la devise de base du CRM',
-	'LBL_CALCULATIONS' =>'Calculs',
+	'LBL_CALCULATIONS' => 'Calculs',
 	'LBL_CHOOSE_DATE' => 'Choisir une date',
 	'LBL_COLUMNS' => 'Colonnes',
 	'LBL_CREATING_REPORT' => 'Créer un rapport',
@@ -51,7 +51,7 @@ $languageStrings = [
 	'LBL_MAX' => 'MAX',
 	'LBL_MIN' => 'MIN',
 	'LBL_MONTHLY_BY_DATE' => 'Mensuellement par date',
-    'LBL_MORE_RECORDS_TXT'=>'Seuls 1000 enregistrements sont affichés. Veuillez faire un export pour visualiser l\'ensemble des enregistrements',
+	'LBL_MORE_RECORDS_TXT' => 'Seuls 1000 enregistrements sont affichés. Veuillez faire un export pour visualiser l\'ensemble des enregistrements',
 	'LBL_MOVE_REPORT' => 'Déplacer les rapports',
 	'LBL_NEXT' => 'Suivant',
 	'LBL_NEXT_TRIGGER_TIME' => 'Prochaine génération à',
@@ -68,7 +68,7 @@ $languageStrings = [
 	'LBL_REPORT_PRINT' => 'Imprimer',
 	'LBL_REPORTS_LIST' => 'Liste des rapports',
 	'LBL_REPORTS' => 'Rapports',
-	'LBL_RUN_REPORT' =>'Générer le  rapport',
+	'LBL_RUN_REPORT' => 'Générer le  rapport',
 	'LBL_SAME_LEVEL_ROLES' => 'Roles de même niveau',
 	'LBL_SCHEDULE_REPORTS' => 'Rapports programmés',
 	'LBL_SELECT_COLUMNS' => 'Sélectionner les colonnes',
@@ -89,7 +89,6 @@ $languageStrings = [
 	'LBL_YEARLY' => 'Annuel',
 	'LBL_MAIN' => 'Principal',
 	'LBL_SELECT_REPORT' => 'Sélectionner un rapport',
-
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Sélectionner type de graphique',
 	'LBL_CLICK_THROUGH_NOT_AVAILABLE' => 'Click through non disponible comme vous avez sélectionné plusieurs modules',
@@ -113,8 +112,8 @@ $languageStrings = [
 	'LBL_FOR_BAR_GRAPH_AND_LINE_GRAPH_SELECT_3_MAX_DATA_FIELDS' => 'Pour les diagrammes et les lignes, vous pouvez sélectionner au maximum 3 champs de données.',
 	'LBL_DETAIL_REPORT' => 'Rapport détail',
 	'LBL_CHARTS' => 'Graphiques',
-    //Schedule Reports - Mail Content
-    'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Ceci est un mail automatique pour l\'envoi des rapports.',
+	//Schedule Reports - Mail Content
+	'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Ceci est un mail automatique pour l\'envoi des rapports.',
 	'LBL_PIVOT_REPORT' => 'Rapport pivot',
 	'LBL_VIEW_CHARTDETAIL' => 'Chart preview',
 ];

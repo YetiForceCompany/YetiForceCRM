@@ -547,5 +547,3 @@ class RecurringType
 		}
 	}
 }
-
-?>

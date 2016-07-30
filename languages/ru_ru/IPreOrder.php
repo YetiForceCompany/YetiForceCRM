@@ -11,13 +11,11 @@ $languageStrings = [
 	'FL_SUBJECT' => 'Предмет',
 	'FL_STORAGE' => 'Склад',
 	'FL_STATUS' => 'Статус',
-
 	'PLL_DRAFT' => 'Черновик',
 	'PLL_IN_REALIZATION' => 'На реализации',
 	'PLL_OBJECTIONS' => 'Возражения',
 	'PLL_FOR_APPROVAL' => 'Для подтверждения',
 	'PLL_CANCELLED' => 'Отмененный',
 	'PLL_ACCEPTED' => 'Подтвержден',
-
 	'LBL_CHANGE_STATUS' => 'Изменить статус',
 ];

@@ -576,7 +576,7 @@ jQuery.Class("Vtiger_Header_Js", {
 					var basicSearch = new Vtiger_BasicSearch_Js();
 					basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
 					basicSearch.returnHtml = false;
-					basicSearch.setMainContainer(jQuery(this).closest('.globalSearchInput'));
+					basicSearch.setMainContainer(this.element.closest('.globalSearchInput'));
 					basicSearch.search(request.term).then(function (data) {
 						var data = jQuery.parseJSON(data);
 						var serverDataFormat = data.result;

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Webforms' => 'Formularze WWW',
 	'SINGLE_Settings:Webforms' => 'Formularz WWW',
@@ -18,13 +18,11 @@ $languageStrings = [
 	'Module' => 'Moduł',
 	'Return Url' => 'Adres zwrotny (url)',
 	'Post Url' => 'Adres docelowy (url)',
-    'Captcha Enabled' => 'Captcha Włączone',
+	'Captcha Enabled' => 'Captcha Włączone',
 	'SINGLE_Webforms' => 'Formularz WWW',
-
 	//Actions
 	'LBL_SHOW_FORM' => 'Pokaż formularz',
 	'LBL_DUPLICATES_EXIST' => 'Nazwa formularza już istnieje',
-
 	//Blocks
 	'LBL_WEBFORM_INFORMATION' => 'Informacje o formularzu',
 	'LBL_FIELD_INFORMATION' => 'Informacje o polach',
@@ -38,12 +36,12 @@ $languageStrings = [
 	'LBL_EMBED_THE_FOLLOWING_FORM_IN_YOUR_WEBSITE' => 'Wstaw poniższy formularz na swojej stronie WWW',
 	'LBL_SELECT_VALUE' => 'Wybierz wartość',
 	'LBL_LABEL' => 'Etykieta',
-	'LBL_SAVE_FIELDS_ORDER' => 'Zapisz kolejność pól', 
+	'LBL_SAVE_FIELDS_ORDER' => 'Zapisz kolejność pól',
 	'LBL_HIDDEN' => 'Ukryty',
 	'LBL_ENABLE_TARGET_MODULES_FOR_WEBFORM' => 'Aktywuj moduł dla formularzy WWW',
 	'LBL_ASSIGN_USERS' => 'Przypisanie użytkownika',
-    'LBL_ASSIGN_ROUND_ROBIN' => 'Losowe przypisywanie użytkowników',
-    'LBL_ROUNDROBIN_USERS_LIST' => 'Losuj z użytkowników',
+	'LBL_ASSIGN_ROUND_ROBIN' => 'Losowe przypisywanie użytkowników',
+	'LBL_ROUNDROBIN_USERS_LIST' => 'Losuj z użytkowników',
 ];
 $jsLanguageStrings = [
 	'JS_WEBFORM_DELETED_SUCCESSFULLY' => 'Formularz WWW usunięty poprawnie',
