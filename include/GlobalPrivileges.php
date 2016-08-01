@@ -37,7 +37,7 @@ class GlobalPrivileges
 		$adb = \PearDatabase::getInstance();
 		$glabalPrivileges = '';
 		$currentUser = vglobal('current_user');
-		$user = new \Users();
+		$user = \CRMEntity::getInstance('Users');
 		$users = \includes\fields\Owner::getUsersIds();
 		foreach ($users as &$userId) {
 			vglobal('current_user', $user->retrieveCurrentUserInfoFromFile($userId));
