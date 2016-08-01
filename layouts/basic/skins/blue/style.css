@@ -70,27 +70,35 @@ body{
 	background: #84d0f0 !important;
 }
 .detailViewInfo .related .nav-pills .active > a,
-.detailViewInfo .related .nav-pills .active>a:hover,
 .nav > li > a:focus{
-	background: #ebebeb;
+	background: #00509e;
 	color: #00a8e4;	
 }
+.detailViewInfo .related .nav-pills .active>a:hover{
+	background: #00509e;
+}
 .detailViewInfo .related .nav-pills .active > a{
-	color: #00a8e1;
+	color: #fff;
 }
 .btn-primary,
 .btn-primary:hover,
 .iconsInFooter{
 	background: #00509e;
 }
-.related .nav .relatedNav, 
 .related .nav .dropdown .mainNav, 
 .related .nav .dropdown{
 	background: #fff;
 }
+.related .nav .dropdown .mainNav{
+	border-top-right-radius: 0;
+}
 .related .nav-pills li a{
 	color: #003c7d;
-	background-color: #ccc;
+	background-color: #e7e7e7;
+}
+.related .nav-pills li a,
+.detailViewInfo .related .nav-pills .active > a{
+	border-top-right-radius: 10px;
 }
 .related .nav-pills{
 	border-bottom: 3px solid #00509e
@@ -258,6 +266,9 @@ btn-danger:hover{
 	color: #00a8e1 !important;
 	background-color: #ebebeb;
 }
+.massEditTabs li.active{
+	border-bottom: none !important;
+}
 .nav-tabs>li>a:hover{
 	border-color: transparent;
 }
@@ -335,7 +346,6 @@ btn-danger:hover{
 	text-transform: uppercase;
 	color: #003c7d;
 }
-
 .panel-default > .panel-heading{
 	background-color: #fff;
 }
@@ -361,9 +371,6 @@ btn-danger:hover{
 .related .nav-pills li a strong{
 	font-weight: normal;
 }
-.selectSearch{
-	padding-left: 50px;
-}
 /* MENU */
 .userDetailsContainer{
 	background-color: #fff;
@@ -387,7 +394,7 @@ btn-danger:hover{
 }
 .bodyHeader{
 	left:50px;
-	width: 87%
+	right: 188px;
 }
 .mainBody{
 	top:0;
@@ -505,11 +512,9 @@ btn-danger:hover{
 	background-color: #fff;
 	position: fixed;
 	height: 50px;
-	right: -2px;
+	right: 0;
 	top: 0;
 	padding-top: 3px !important;
-	width: 194px;
-
 }
 .headerLink a{
 	height: 34px;
@@ -589,7 +594,6 @@ btn-danger:hover{
 .userDetails ul.headerLink li a:hover{
 	background-color: #e6e6e6;
 }
-
 .dashboardWidgetHeader .input-group-addon{
 	background: #00a8e4;
 	color: #fff;
