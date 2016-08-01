@@ -41,9 +41,8 @@ class VTAddressBookTask extends VTTask
 		$userInstance = new Users();
 		$users = $name = '';
 		$table = $this->tables[$module];
-		$metainfo = \includes\Modules::getEntityModuleInfo($module);
-		$entityNames = explode(',', $metainfo['fieldname']);
-		foreach ($entityNames as $entityName) {
+		$metainfo = \includes\Modules::getEntityInfo($module);
+		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $entity->get($entityName);
 		}
 

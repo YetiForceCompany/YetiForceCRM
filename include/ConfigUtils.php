@@ -156,6 +156,11 @@ class AppConfig
 	{
 		@ini_set($key, $value);
 	}
+
+	public static function set($type, $key, $value)
+	{
+		self::$$type[$key] = $value;
+	}
 }
 
 if (ROOT_DIRECTORY == 'ROOT_DIRECTORY') {

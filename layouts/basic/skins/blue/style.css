@@ -70,27 +70,35 @@ body{
 	background: #84d0f0 !important;
 }
 .detailViewInfo .related .nav-pills .active > a,
-.detailViewInfo .related .nav-pills .active>a:hover,
 .nav > li > a:focus{
-	background: #ebebeb;
+	background: #00509e;
 	color: #00a8e4;	
 }
+.detailViewInfo .related .nav-pills .active>a:hover{
+	background: #00509e;
+}
 .detailViewInfo .related .nav-pills .active > a{
-	color: #00a8e1;
+	color: #fff;
 }
 .btn-primary,
 .btn-primary:hover,
 .iconsInFooter{
 	background: #00509e;
 }
-.related .nav .relatedNav, 
 .related .nav .dropdown .mainNav, 
 .related .nav .dropdown{
 	background: #fff;
 }
+.related .nav .dropdown .mainNav{
+	border-top-right-radius: 0;
+}
 .related .nav-pills li a{
 	color: #003c7d;
-	background-color: #ccc;
+	background-color: #e7e7e7;
+}
+.related .nav-pills li a,
+.detailViewInfo .related .nav-pills .active > a{
+	border-top-right-radius: 10px;
 }
 .related .nav-pills{
 	border-bottom: 3px solid #00509e
@@ -258,6 +266,9 @@ btn-danger:hover{
 	color: #00a8e1 !important;
 	background-color: #ebebeb;
 }
+.massEditTabs li.active{
+	border-bottom: none !important;
+}
 .nav-tabs>li>a:hover{
 	border-color: transparent;
 }
@@ -287,8 +298,11 @@ btn-danger:hover{
 	border-radius: 1px;
 }
 .editViewContainer .btn-success,
-.btn-success:active:focus{
-	background: #00a8e4;
+.editViewContaine .btn-success:active:focus,
+.editViewContaine .btn-success:active:hover,
+.editViewContaine .btn-success:active,
+.editViewContaine .btn-success:focus{
+	background: #00a8e4 !important;
 	border-color: #00a8e4;
 }
 .narrow.fieldValue input:not([type='checkbox']){
@@ -335,7 +349,6 @@ btn-danger:hover{
 	text-transform: uppercase;
 	color: #003c7d;
 }
-
 .panel-default > .panel-heading{
 	background-color: #fff;
 }
@@ -361,9 +374,6 @@ btn-danger:hover{
 .related .nav-pills li a strong{
 	font-weight: normal;
 }
-.selectSearch{
-	padding-left: 50px;
-}
 /* MENU */
 .userDetailsContainer{
 	background-color: #fff;
@@ -387,10 +397,12 @@ btn-danger:hover{
 }
 .bodyHeader{
 	left:50px;
-	width: 87%
+	right: 188px;
+	z-index: 1030;
 }
 .mainBody{
 	top:0;
+	bottom: 50px;
 }
 .basePanel{
 	top:92px !important;
@@ -480,12 +492,15 @@ btn-danger:hover{
 	width: auto;
 	height: auto;
 }
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
-.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader{
+	left: 50px;
+}
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel, 
+.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .bodyHeader + .basePanel{
 	transition: left ease-in-out 0.3s 0.8s, z-index 0.3s 0.3s;
 	left:0;
 }
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel {
 	left:0;
 	transition: left ease-in-out 0.3s 0.8s,  z-index 0.3s 0.3s;
 }
@@ -505,11 +520,9 @@ btn-danger:hover{
 	background-color: #fff;
 	position: fixed;
 	height: 50px;
-	right: -2px;
+	right: 0;
 	top: 0;
 	padding-top: 3px !important;
-	width: 194px;
-
 }
 .headerLink a{
 	height: 34px;
@@ -588,4 +601,48 @@ btn-danger:hover{
 }
 .userDetails ul.headerLink li a:hover{
 	background-color: #e6e6e6;
+}
+.dashboardWidgetHeader .input-group-addon{
+	background: #00a8e4;
+	color: #fff;
+}
+.dashboardWidgetContent a{
+	color: #003c7d;
+}
+.datepickerBorderT,
+.datepickerBorderB, 
+.datepickerBorderL,
+.datepickerBorderR,
+.datepickerBorderTL,
+.datepickerBorderTR,
+.datepickerBorderBL,
+.datepickerBorderBR,
+.datepickerContainer {
+	background: #eee;
+}
+.datepickerContainer .datepickerViewDays a{
+	color:#003c7d;
+}
+.datepickerContainer .datepickerViewDays .datepickerNotInMonth a{
+	color: #969696;
+}
+.datepickerContainer .datepickerViewDays .datepickerDoW th{
+	color: #323232;
+	font-weight: bold;
+}
+.datepickerContainer .datepickerViewDays .datepickerWeek a{
+	font-weight: bold;
+}
+.datepickerContainer .datepickerDays td.datepickerSelected{
+	background: #00285f;
+}
+.datepickerContainer .datepickerDays td.datepickerSelected a {
+	color: #fff;
+}
+.datepickerContainer .datepickerNotInMonth.datepickerSelected{
+	background: #00285f !important;
+}
+.datepickerContainer .datepickerNotInMonth.datepickerSelected a{
+	color: #969696 !important;
+	font-weight: bold;
 }

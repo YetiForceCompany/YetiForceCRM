@@ -281,9 +281,9 @@ class HelpDesk extends CRMEntity
 			if (!empty($assigned_group_name) && $assigntype == 'T') {
 				$updatelog .= " group " . (is_array($assigned_group_name) ? $assigned_group_name[0] : $assigned_group_name);
 			} elseif ($focus->column_fields['assigned_user_id'] != '') {
-				$updatelog .= " user " . getUserFullName($focus->column_fields['assigned_user_id']);
+				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
 			} else {
-				$updatelog .= " user " . getUserFullName($current_user->id);
+				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($current_user->id);
 			}
 
 			$fldvalue = date("l dS F Y h:i:s A") . ' by ' . $current_user->user_name;
@@ -436,7 +436,7 @@ class HelpDesk extends CRMEntity
 			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_troubletickets' => 'ticketid'),
 			'Services' => array('vtiger_crmentityrel' => array('crmid', 'relcrmid'), 'vtiger_troubletickets' => 'ticketid'),
 		);
-		if($secmodule === false){
+		if ($secmodule === false) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];

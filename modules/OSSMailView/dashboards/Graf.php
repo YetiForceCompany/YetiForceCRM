@@ -38,10 +38,9 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 		if ($assignedto != 'all') {
 			$ownerType = vtws_getOwnerType($assignedto);
 			if ($ownerType == 'Users')
-				array_push($conditions, array("assigned_user_id", "e", getUserFullName($assignedto)));
+				array_push($conditions, array("assigned_user_id", "e", \includes\fields\Owner::getUserLabel($assignedto)));
 			else {
-				$groupName = getGroupName($assignedto);
-				$groupName = $groupName[0];
+				$groupName = \includes\fields\Owner::getGroupName($assignedto);
 				array_push($conditions, array("assigned_user_id", "e", $groupName));
 			}
 		}

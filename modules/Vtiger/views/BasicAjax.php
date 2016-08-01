@@ -214,7 +214,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			foreach ($matchingRecords as $module => $modules) {
 				foreach ($modules as $recordID => $recordModel) {
 					$label = decode_html($recordModel->getName());
-					$label.= ' (' . vtlib\Functions::getOwnerRecordLabel($recordModel->get('smownerid')) . ')';
+					$label.= ' (' . \includes\fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
 						$label.= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';
 					}

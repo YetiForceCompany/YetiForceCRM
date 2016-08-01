@@ -30,7 +30,7 @@ try {
 		Vtiger_Session::set('app_unique_key', AppConfig::main('application_unique_key'));
 		Vtiger_Session::set('authenticated_user_language', AppConfig::main('default_language'));
 		Vtiger_Session::set('user_name', $username);
-		Vtiger_Session::set('full_user_name', vtlib\Functions::getUserRecordLabel($userid));
+		Vtiger_Session::set('full_user_name', \includes\fields\Owner::getUserLabel($userid));
 	}
 
 	echo 'Creating a user' . PHP_EOL;

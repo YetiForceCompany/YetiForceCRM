@@ -20,9 +20,9 @@
 			{assign var=STATUS value=$RECORD->get('status')}
 			{assign var=SHAREDOWNER value=Vtiger_SharedOwner_UIType::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
 			<div class="activityEntries padding5"
-				{if !empty($COLOR_LIST[$RECORD->getId()])}
-					style="background: {$COLOR_LIST[$RECORD->getId()]['background']}; color: {$COLOR_LIST[$RECORD->getId()]['text']}" 
-				{/if}>
+				 {if !empty($COLOR_LIST[$RECORD->getId()])}
+					 style="background: {$COLOR_LIST[$RECORD->getId()]['background']}; color: {$COLOR_LIST[$RECORD->getId()]['text']}" 
+				 {/if}>
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
 				<div class="row">
 					<span class="col-md-6">
@@ -105,7 +105,7 @@
 									  {if $smarty.foreach.sowner.last}
 										  ,&nbsp;
 									  {/if}
-									  {vtlib\Functions::getUserRecordLabel($SOWNERID)}
+									  {\includes\fields\Owner::getUserLabel($SOWNERID)}
 								  {/foreach}
 								  </div>
 							  {/if}

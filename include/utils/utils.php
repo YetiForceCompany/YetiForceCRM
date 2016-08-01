@@ -1121,7 +1121,7 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 		$result = $adb->pquery($sql, array($callfrom));
 		if ($adb->num_rows($result) > 0) {
 			$userid = $adb->query_result($result, 0, "userid");
-			$callerName = getUserFullName($userid);
+			$callerName = \includes\fields\Owner::getUserLabel($userid);
 		}
 
 		$receiver = $useCallerInfo;
@@ -1136,7 +1136,7 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 		$result = $adb->pquery($sql, array($callto));
 		if ($adb->num_rows($result) > 0) {
 			$userid = $adb->query_result($result, 0, "userid");
-			$receiver = getUserFullName($userid);
+			$receiver = \includes\fields\Owner::getUserLabel($userid);
 		}
 		$callerName = $useCallerInfo;
 		if (empty($callerName)) {

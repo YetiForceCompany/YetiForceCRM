@@ -194,16 +194,15 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$query = sprintf('SELECT crmid, fieldname FROM %s WHERE fnumber LIKE "%s" OR rnumber LIKE "%s" ', self::lookuptableName, "$fnumber%", "$rnumber%");
 		$result = $db->query($query);
 		if ($db->num_rows($result)) {
-			$crmid = $db->query_result($result, 0, 'crmid');
-			$fieldname = $db->query_result($result, 0, 'fieldname');
-			$query = sprintf('SELECT u_yf_crmentity_label.label, setype FROM %s 
-				INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
-				WHERE vtiger_crmentity.crmid = ? AND deleted=0', self::entitytableName);
-			$contact = $db->pquery($query, [$crmid]);
-			if ($db->num_rows($result)) {
+			$row = $db->getRow($result);
+			$crmid = $row['crmid'];
+			$fieldname = $row['fieldname'];
+			$contact = $db->pquery('SELECT setype FROM vtiger_crmentity WHERE crmid = ? AND deleted=0', [$crmid]);
+			if ($db->num_rows($contact)) {
+				$rowCrm = $db->getRow($contact);
 				$data['id'] = $crmid;
-				$data['name'] = $db->query_result($contact, 0, 'label');
-				$data['setype'] = $db->query_result($contact, 0, 'setype');
+				$data['name'] = \includes\Record::getLabel($crmid);
+				$data['setype'] = $rowCrm['setype'];
 				$data['fieldname'] = $fieldname;
 				return $data;
 			} else

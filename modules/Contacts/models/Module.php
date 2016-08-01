@@ -21,41 +21,33 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 	 */
 	function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
+		$queryFrom = 'SELECT `u_yf_crmentity_search_label`.`crmid`,`u_yf_crmentity_search_label`.`setype`,`u_yf_crmentity_search_label`.`searchlabel` FROM `u_yf_crmentity_search_label` ';
+		$queryWhere = ' WHERE `u_yf_crmentity_search_label`.`userid` LIKE \'%s\' AND `u_yf_crmentity_search_label`.`searchlabel` LIKE \'%s\' ';
+
 		if ($parentId && $parentModule == 'Accounts') {
-			$query = "SELECT * FROM vtiger_crmentity
-						INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
-						INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-						WHERE vtiger_crmentity.deleted = 0 AND vtiger_contactdetails.parentid = $parentId AND u_yf_crmentity_label.label LIKE '%$searchValue%'";
-			return $query;
+			$currentUser = \Users_Record_Model::getCurrentUserModel();
+			$queryFrom .= 'INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid';
+			$queryWhere .= 'AND vtiger_contactdetails.parentid = %s';
+			return sprintf($queryFrom . $queryWhere, '%,' . $currentUser->getId() . ',%', "%$searchValue%", $parentId);
 		} else if ($parentId && $parentModule == 'HelpDesk') {
-			$query = "SELECT * FROM vtiger_crmentity
-						INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.contact_id = vtiger_contactdetails.contactid
-                        WHERE vtiger_crmentity.deleted=0 AND vtiger_troubletickets.ticketid  = $parentId  AND u_yf_crmentity_label.label LIKE '%$searchValue%'";
-
-			return $query;
+			$currentUser = \Users_Record_Model::getCurrentUserModel();
+			$queryFrom .= 'INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid INNER JOIN vtiger_contactdetails ON ON vtiger_troubletickets.contact_id = vtiger_contactdetails.contactid';
+			$queryWhere .= 'AND vtiger_troubletickets.ticketid = %s';
+			return sprintf($queryFrom . $queryWhere, '%,' . $currentUser->getId() . ',%', "%$searchValue%", $parentId);
 		} else if ($parentId && $parentModule == 'Campaigns') {
-			$query = "SELECT * FROM vtiger_crmentity
-						INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_campaign_records ON vtiger_campaign_records.crmid = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_campaign_records.campaignid = $parentId AND u_yf_crmentity_label.label LIKE '%$searchValue%'";
-
-			return $query;
+			$currentUser = \Users_Record_Model::getCurrentUserModel();
+			$queryFrom .= 'INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid INNER JOIN vtiger_campaign_records ON vtiger_campaign_records.crmid = vtiger_contactdetails.contactid';
+			$queryWhere .= 'AND vtiger_campaign_records.campaignid = %s';
+			return sprintf($queryFrom . $queryWhere, '%,' . $currentUser->getId() . ',%', "%$searchValue%", $parentId);
 		} else if ($parentId && $parentModule == 'Vendors') {
-			$query = "SELECT vtiger_crmentity.* FROM vtiger_crmentity
-						INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
-                        INNER JOIN vtiger_vendorcontactrel ON vtiger_vendorcontactrel.contactid = vtiger_contactdetails.contactid
-                        WHERE deleted=0 AND vtiger_vendorcontactrel.vendorid = $parentId AND u_yf_crmentity_label.label LIKE '%$searchValue%'";
-
-			return $query;
+			$currentUser = \Users_Record_Model::getCurrentUserModel();
+			$queryFrom .= 'INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid INNER JOIN vtiger_vendorcontactrel ON vtiger_vendorcontactrel.contactid = vtiger_contactdetails.contactid';
+			$queryWhere .= 'AND vtiger_vendorcontactrel.vendorid = %s';
+			return sprintf($queryFrom . $queryWhere, '%,' . $currentUser->getId() . ',%', "%$searchValue%", $parentId);
 		}
-
 		return parent::getSearchRecordsQuery($parentId, $parentModule);
 	}
-	
+
 	/**
 	 * Function to get list view query for popup window
 	 * @param <String> $sourceModule Parent module

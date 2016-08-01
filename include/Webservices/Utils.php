@@ -46,7 +46,7 @@ function vtws_getUsersInTheSameGroup($id)
 		$usersInGroup = $groupUsers->group_users;
 		foreach ($usersInGroup as $user) {
 			if ($user != $id) {
-				$allUsers[$user] = getUserFullName($user);
+				$allUsers[$user] = \includes\fields\Owner::getUserLabel($user);
 			}
 		}
 	}

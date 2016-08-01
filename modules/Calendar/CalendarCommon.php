@@ -90,7 +90,7 @@ function getActivityDetails($description, $user_id, $from = '')
 		$end_date_lable = $mod_strings['Due Date'];
 	}
 
-	$name = getUserFullName($user_id);
+	$name = \includes\fields\Owner::getUserLabel($user_id);
 
 	// Show the start date and end date in the users date format and in his time zone
 	$inviteeUser = CRMEntity::getInstance('Users');
@@ -103,7 +103,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	else
 		$msg = getTranslatedString($mod_strings['LBL_ACTIVITY_NOTIFICATION']);
 
-	$current_username = getUserFullName($current_user->id);
+	$current_username = \includes\fields\Owner::getUserLabel($current_user->id);
 	$status = getTranslatedString($description['status'], 'Calendar');
 	$list = $name . ',';
 	$list .= '<br><br>' . $msg . ' ' . $reply . '.<br> ' . $mod_strings['LBL_DETAILS_STRING'] . ':<br>';

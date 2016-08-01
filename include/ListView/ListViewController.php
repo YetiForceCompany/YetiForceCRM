@@ -93,7 +93,7 @@ class ListViewController
 			$meta = $this->queryGenerator->getMeta($module);
 			if ($meta->isModuleEntity()) {
 				if ($module == 'Users') {
-					$nameList = getOwnerNameList($idList);
+					$nameList = \includes\fields\Owner::getLabel($idList);
 				} else {
 					//TODO handle multiple module names overriding each other.
 					$nameList = getEntityName($module, $idList);
@@ -165,11 +165,11 @@ class ListViewController
 				}
 				if (count($idList) > 0) {
 					if (isset($this->ownerNameList[$fieldName]) && !is_array($this->ownerNameList[$fieldName])) {
-						$this->ownerNameList[$fieldName] = getOwnerNameList($idList);
+						$this->ownerNameList[$fieldName] = \includes\fields\Owner::getLabel($idList);
 					} else {
 						//array_merge API loses key information so need to merge the arrays
 						// manually.
-						$newOwnerList = getOwnerNameList($idList);
+						$newOwnerList = \includes\fields\Owner::getLabel($idList);
 						foreach ($newOwnerList as $id => $name) {
 							$this->ownerNameList[$fieldName][$id] = $name;
 						}

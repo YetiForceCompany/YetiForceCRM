@@ -174,7 +174,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
 				if (!Vtiger_Util_Helper::isUserDeleted($userId)) {
-					$userName = getUserFullName($userId);
+					$userName = \includes\fields\Owner::getUserLabel($userId);
 					$userEmail = getUserEmail($userId);
 					if (!in_array($userEmail, $recipientsEmails)) {
 						$recipientsEmails[$userName] = $userEmail;
@@ -239,7 +239,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		}
 		//Added cc to account owner
 		$accountOwnerId = Users::getActiveAdminId();
-		$vtigerMailer->AddCC(getUserEmail($accountOwnerId), getUserFullName($accountOwnerId));
+		$vtigerMailer->AddCC(getUserEmail($accountOwnerId), \includes\fields\Owner::getUserLabel($accountOwnerId));
 		$status = $vtigerMailer->Send(true);
 
 		foreach ($attachments as $attachmentName => $path) {

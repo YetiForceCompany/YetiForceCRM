@@ -149,9 +149,8 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			case 'CurrentDate':
 				if ($this->get('recordModel')->has('assigned_user_id')) {
 					$userId = $this->get('recordModel')->get('assigned_user_id');
-					$nameList = vtlib\Functions::getCRMRecordLabels('Users', [$userId]);
-					$diffIds = array_diff([$userId], array_keys($nameList));
-					if ($diffIds) {
+					$nameList = \includes\fields\Owner::getUserLabel($userId);
+					if (empty($nameList)) {
 						$recordMeta = vtlib\Functions::getCRMRecordMetadata($this->get('record'));
 						$userId = Vtiger_Util_Helper::getCreator($recordMeta['smcreatorid']);
 					}

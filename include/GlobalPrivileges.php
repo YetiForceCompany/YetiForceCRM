@@ -52,11 +52,12 @@ class GlobalPrivileges
 		vglobal('current_user', $currentUser);
 	}
 
-	protected static $globalSearchUsersCache = [];
+	protected static $globalSearchUsersCache = false;
 
 	public static function getGlobalSearchUsers()
 	{
-		if (empty(self::$globalSearchUsersCache)) {
+		if (self::$globalSearchUsersCache === false) {
+			self::$globalSearchUsersCache = [];
 			$adb = \PearDatabase::getInstance();
 			$query = 'SELECT `userid`,`searchunpriv` FROM `vtiger_user2role` LEFT JOIN `vtiger_role` ON vtiger_role.roleid = vtiger_user2role.roleid WHERE vtiger_role.`searchunpriv` <> \'\'';
 			$result = $adb->query($query);

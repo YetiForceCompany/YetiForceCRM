@@ -819,10 +819,10 @@ class QueryGenerator
 						$concatSql = getSqlForNameInDisplayFormat(array('first_name' => "vtiger_users$fieldName.first_name", 'last_name' => "vtiger_users$fieldName.last_name"), 'Users');
 						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql)";
 					} else {
-						$entityFields = vtlib\Functions::getEntityModuleInfoFieldsFormatted('Users');
-						if (count($entityFields['fieldname']) > 1) {
+						$entityFields = \includes\Modules::getEntityInfo('Users');
+						if (count($entityFields['fieldnameArr']) > 1) {
 							$columns = [];
-							foreach ($entityFields['fieldname'] as $i => $fieldname) {
+							foreach ($entityFields['fieldnameArr'] as &$fieldname) {
 								$columns[$fieldname] = $entityFields['tablename'] . '.' . $fieldname;
 							}
 							$concatSql = getSqlForNameInDisplayFormat($columns, 'Users');

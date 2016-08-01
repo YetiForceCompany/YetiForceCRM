@@ -120,11 +120,11 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		if (key_exists($id, self::$users)) {
 			return self::$users[$id];
 		}
-		$entityData = \includes\Modules::getEntityModuleInfo('Users');
+		$entityData = \includes\Modules::getEntityInfo('Users');
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($id);
 		$colums = [];
-		foreach (explode(',', $entityData['fieldname']) as &$fieldname) {
+		foreach ($entityData['fieldnameArr'] as &$fieldname) {
 			$colums[] = $currentUser->column_fields[$fieldname];
 		}
 		$name = implode(' ', $colums);

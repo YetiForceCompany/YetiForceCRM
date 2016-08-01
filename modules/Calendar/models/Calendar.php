@@ -30,8 +30,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = "SELECT vtiger_activity.activityid as act_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype,
-		vtiger_activity.*, relcrm.setype AS linkmod, relcrmlab.label AS linklabel, procrmlab.label AS processlabel, procrm.setype AS processmod,
-		subprocrmlab.label AS subprocesslabel, subprocrm.setype AS subprocessmod
+		vtiger_activity.*, relcrm.setype AS linkmod, procrm.setype AS processmod, subprocrm.setype AS subprocessmod
 		FROM vtiger_activity
 		LEFT JOIN vtiger_activitycf
 			ON vtiger_activitycf.activityid = vtiger_activity.activityid
@@ -39,16 +38,10 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			ON vtiger_crmentity.crmid = vtiger_activity.activityid
 		LEFT JOIN vtiger_crmentity relcrm
 			ON relcrm.crmid = vtiger_activity.link
-		LEFT JOIN u_yf_crmentity_label relcrmlab
-			ON relcrm.crmid = relcrmlab.crmid
 		LEFT JOIN vtiger_crmentity procrm
 			ON procrm.crmid = vtiger_activity.process
-		LEFT JOIN u_yf_crmentity_label procrmlab
-			ON procrmlab.crmid = vtiger_activity.process
 		LEFT JOIN vtiger_crmentity subprocrm
 			ON subprocrm.crmid = vtiger_activity.subprocess
-		LEFT JOIN u_yf_crmentity_label subprocrmlab
-			ON subprocrmlab.crmid = vtiger_activity.subprocess
 		WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
 		$instance = CRMEntity::getInstance($this->getModuleName());
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getModuleName(), $currentUser);
@@ -94,7 +87,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 				$filterInstance = new $filterClassName();
 				$condition = $filterInstance->getCondition($filter['value']);
 				if (!empty($condition)) {
-					$query .= ' '.$condition;
+					$query .= ' ' . $condition;
 				}
 			}
 		}
@@ -115,8 +108,23 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$data = $this->getQuery();
 		$result = $db->pquery($data['query'], $data['params']);
-		$return = [];
+		$return = $records = $ids = [];
+
 		while ($record = $db->fetch_array($result)) {
+			$records[] = $record;
+			if (!empty($record['link'])) {
+				$ids[] = $record['link'];
+			}
+			if (!empty($record['process'])) {
+				$ids[] = $record['process'];
+			}
+			if (!empty($record['subprocess'])) {
+				$ids[] = $record['subprocess'];
+			}
+		}
+		$labels = \includes\Record::getLabel($ids);
+
+		foreach ($records as &$record) {
 			$item = [];
 			$crmid = $record['activityid'];
 			$activitytype = $record['activitytype'];
@@ -139,15 +147,15 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 			//Relation
 			$item['link'] = $record['link'];
-			$item['linkl'] = $record['linklabel'];
+			$item['linkl'] = $labels[$record['link']];
 			$item['linkm'] = $record['linkmod'];
 			//Process
 			$item['process'] = $record['process'];
-			$item['procl'] = $record['processlabel'];
+			$item['procl'] = $labels[$record['process']];
 			$item['procm'] = $record['processmod'];
 			//Subprocess
 			$item['subprocess'] = $record['subprocess'];
-			$item['subprocl'] = $record['subprocesslabel'];
+			$item['subprocl'] = $labels[$record['subprocess']];
 			$item['subprocm'] = $record['subprocessmod'];
 
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
@@ -266,8 +274,8 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance()
 	{
-		$instance = Vtiger_Cache::get('calendar','instance');
-		if(!$instance){
+		$instance = Vtiger_Cache::get('calendar', 'instance');
+		if (!$instance) {
 			$instance = new self();
 			Vtiger_Cache::set('calendar', 'instance', $instance);
 		}
