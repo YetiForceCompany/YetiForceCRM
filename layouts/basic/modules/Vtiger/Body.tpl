@@ -10,7 +10,12 @@
 			<div class="leftPanel noSpaces">
 				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
 			</div>
-			<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
+			{if $USER_MODEL->get('theme') eq 'blue'}
 				{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
+			{/if}
+			<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
+				{if $USER_MODEL->get('theme') eq 'twilight'}
+					{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
+				{/if}
 				{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
 {/strip}
