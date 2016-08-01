@@ -93,7 +93,7 @@ class Record
 	protected static $computeLabelsInfoExtendCache = [];
 	protected static $computeLabelsColumnsSearchCache = [];
 
-	static function computeLabels($moduleName, $ids, $search = false)
+	public static function computeLabels($moduleName, $ids, $search = false)
 	{
 		$adb = \PearDatabase::getInstance();
 		if (!is_array($ids))
@@ -108,12 +108,12 @@ class Record
 					if ($moduleName == 'Groups') {
 						$metainfo = ['tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname'];
 					} else {
-						$metainfo = Modules::getEntityModuleInfo($moduleName);
+						$metainfo = Modules::getEntityInfo($moduleName);
 					}
 					$table = $metainfo['tablename'];
 					$idcolumn = $metainfo['entityidfield'];
-					$columnsName = explode(',', $metainfo['fieldname']);
-					$columnsSearch = explode(',', $metainfo['searchcolumn']);
+					$columnsName = $metainfo['fieldnameArr'];
+					$columnsSearch = $metainfo['searchcolumnArr'];
 					$columns = array_unique(array_merge($columnsName, $columnsSearch));
 
 					$moduleInfo = Functions::getModuleFieldInfos($moduleName);
@@ -182,7 +182,7 @@ class Record
 		}
 	}
 
-	static function updateLabel($moduleName, $id, $mode = 'edit', $updater = false)
+	public static function updateLabel($moduleName, $id, $mode = 'edit', $updater = false)
 	{
 		$labelInfo = self::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
@@ -221,5 +221,17 @@ class Record
 			}
 			self::$recordLabelCache[$id] = $labelInfo[$id]['name'];
 		}
+	}
+
+	public static function isExists($recordId)
+	{
+		$recordMetaData = Functions::getCRMRecordMetadata($recordId);
+		return (isset($recordMetaData) && $recordMetaData['deleted'] == 0 ) ? true : false;
+	}
+
+	public static function getType($recordId)
+	{
+		$metadata = Functions::getCRMRecordMetadata($recordId);
+		return $metadata ? $metadata['setype'] : NULL;
 	}
 }

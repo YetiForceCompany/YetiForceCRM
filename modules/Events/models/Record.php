@@ -57,7 +57,7 @@ class Events_Record_Model extends Calendar_Record_Model
 
 	static public function getInvitionStatus($status = false)
 	{
-		$statuses = [0 => 'LBL_NEEDS-ACTION',1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
+		$statuses = [0 => 'LBL_NEEDS-ACTION', 1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
 		return $status !== false ? $statuses[$status] : $statuses;
 	}
 
@@ -78,7 +78,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$cont_name = '';
 		foreach ($cont_id as $key => $id) {
 			if ($id != '') {
-				$contact_name = Vtiger_Util_Helper::getRecordName($id);
+				$contact_name = \includes\Record::getLabel($id);
 				$cont_name .= $contact_name . ', ';
 			}
 		}
@@ -86,7 +86,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$parentId = $this->get('parent_id');
 		$parentName = '';
 		if ($parentId != '') {
-			$parentName = Vtiger_Util_Helper::getRecordName($parentId);
+			$parentName = \includes\Record::getLabel($parentId);
 		}
 
 		$cont_name = trim($cont_name, ', ');
@@ -101,7 +101,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$mail_data['contact_name'] = $cont_name;
 		$mail_data['description'] = $this->get('description');
 		$mail_data['assign_type'] = $this->get('assigntype');
-		$mail_data['group_name'] = getGroupName($this->get('assigned_user_id'));
+		$mail_data['group_name'] = \includes\fields\Owner::getGroupName($this->get('assigned_user_id'));
 		$mail_data['mode'] = $this->get('mode');
 
 		$value = getaddEventPopupTime(AppRequest::get('time_start'), AppRequest::get('time_end'), '24');

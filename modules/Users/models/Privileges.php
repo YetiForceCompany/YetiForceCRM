@@ -20,9 +20,9 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public function getName()
 	{
-		$entityData = \includes\Modules::getEntityModuleInfo('Users');
+		$entityData = \includes\Modules::getEntityInfo('Users');
 		$colums = [];
-		foreach (explode(',', $entityData['fieldname']) as $fieldname) {
+		foreach ($entityData['fieldnameArr'] as $fieldname) {
 			$colums[] = $this->get($fieldname);
 		}
 		return implode(' ', $colums);

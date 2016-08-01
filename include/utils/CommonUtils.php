@@ -131,19 +131,9 @@ function getSoName($so_id)
 	return vtlib\Functions::getCRMRecordLabel($so_id);
 }
 
-function getGroupName($groupid)
-{
-	return vtlib\Functions::getGroupName($groupid);
-}
-
 function getUserName($userid)
 {
 	return vtlib\Functions::getUserName($userid);
-}
-
-function getUserFullName($userid)
-{
-	return vtlib\Functions::getUserRecordLabel($userid);
 }
 
 function getParentName($parent_id)
@@ -201,12 +191,14 @@ function create_tab_data_file()
 	return vtlib\Deprecated::createModuleMetaFile();
 }
 
-function getEntityName($module, $ids_list, $compute = true)
+function getEntityName($module, $ids, $compute = true)
 {
-	if ($compute) {
-		return includes\Record::computeLabels($module, $ids_list);
+	if ($module == 'Users' || $module == 'Groups') {
+		return \includes\fields\Owner::getLabel($ids);
+	} elseif ($compute) {
+		return \includes\Record::computeLabels($module, $ids);
 	} else {
-		return vtlib\Functions::getCRMRecordLabels($module, $ids_list);
+		return \includes\Record::getLabel($ids);
 	}
 }
 
@@ -417,12 +409,6 @@ function getOwnerName($id)
 	return vtlib\Functions::getOwnerRecordLabel($id);
 }
 
-/** Function to get owner name either user or group */
-function getOwnerNameList($idList)
-{
-	return vtlib\Functions::getOwnerRecordLabels($idList);
-}
-
 /**
  * This function is used to get the blockid of the settings block for a given label.
  * @param $label - settings label
@@ -441,17 +427,6 @@ function getSettingsBlockId($label)
 function getEntityField($module)
 {
 	return vtlib\Functions::getEntityModuleSQLColumnString($module);
-}
-
-/**
- * this function returns the entity information for a given module; for e.g. for Contacts module
- * it returns the information of tablename, modulename, fieldsname and id gets from vtiger_entityname
- * @param string $module - the module name
- * @return array $data - the entity information for the module
- */
-function getEntityFieldNames($module)
-{
-	return vtlib\Functions::getEntityModuleInfoFieldsFormatted($module);
 }
 
 /**

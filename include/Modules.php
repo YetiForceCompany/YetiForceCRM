@@ -12,7 +12,7 @@ class Modules
 	protected static $moduleEntityCacheByName = [];
 	protected static $moduleEntityCacheById = [];
 
-	static public function getEntityModuleInfo($mixed = false)
+	static public function getEntityInfo($mixed = false)
 	{
 		$entity = false;
 		if ($mixed) {
@@ -24,10 +24,11 @@ class Modules
 		if (!$entity) {
 			$adb = \PearDatabase::getInstance();
 			$result = $adb->query('SELECT * from vtiger_entityname');
-			while ($row = $adb->getRow($result)) { {
-					self::$moduleEntityCacheByName[$row['modulename']] = $row;
-					self::$moduleEntityCacheById[$row['tabid']] = $row;
-				}
+			while ($row = $adb->getRow($result)) {
+				$row['fieldnameArr'] = explode(',', $row['fieldname']);
+				$row['searchcolumnArr'] = explode(',', $row['searchcolumn']);
+				self::$moduleEntityCacheByName[$row['modulename']] = $row;
+				self::$moduleEntityCacheById[$row['tabid']] = $row;
 			}
 			if ($mixed) {
 				if (is_numeric($mixed))
@@ -42,7 +43,7 @@ class Modules
 	static public function getAllEntityModuleInfo($sort = false)
 	{
 		if (empty(self::$moduleEntityCacheById)) {
-			self::getEntityModuleInfo();
+			self::getEntityInfo();
 		}
 		$entity = [];
 		if ($sort) {

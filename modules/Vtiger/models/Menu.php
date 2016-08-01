@@ -146,7 +146,7 @@ class Vtiger_Menu_Model
 						$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
 					if ($request->get('record') != '' && $moduleName == 'Users') {
-						$recordLabel = vtlib\Functions::getUserRecordLabel($request->get('record'));
+						$recordLabel = \includes\fields\Owner::getUserLabel($request->get('record'));
 						if ($recordLabel != '') {
 							$breadcrumbs[] = [ 'name' => $recordLabel];
 						}

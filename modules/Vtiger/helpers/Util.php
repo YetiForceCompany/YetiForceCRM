@@ -210,25 +210,6 @@ class Vtiger_Util_Helper
 		return str_replace(' ', '_', $string);
 	}
 
-	public static function getRecordName($recordId, $checkDelete = false)
-	{
-		$adb = PearDatabase::getInstance();
-
-		$query = 'SELECT u_yf_crmentity_label.label FROM vtiger_crmentity 
-			INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.crmid = ?';
-		if ($checkDelete) {
-			$query.= ' AND vtiger_crmentity.deleted = 0';
-		}
-		$result = $adb->pquery($query, [$recordId]);
-
-		$num_rows = $adb->num_rows($result);
-		if ($num_rows) {
-			return $adb->query_result($result, 0, 'label');
-		}
-		return false;
-	}
-
 	/**
 	 * Function to parse dateTime into Days
 	 * @param <DateTime> $dateTime

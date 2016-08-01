@@ -1457,7 +1457,8 @@ class Vtiger_Module_Model extends vtlib\Module
 	 */
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
-		return "SELECT * FROM vtiger_crmentity WHERE label LIKE '%$searchValue%' AND vtiger_crmentity.deleted = 0";
+		$currentUser = \Users_Record_Model::getCurrentUserModel();
+		return sprintf('SELECT `crmid`,`setype`,`searchlabel` FROM `u_yf_crmentity_search_label` WHERE `userid` LIKE \'%s\' AND `searchlabel` LIKE \'%s\'', '%,' . $currentUser->getId() . ',%', "%$searchValue%");
 	}
 
 	/**
@@ -1473,7 +1474,24 @@ class Vtiger_Module_Model extends vtlib\Module
 		if (empty($searchValue)) {
 			return [];
 		}
-		return Vtiger_Record_Model::getSearchResult($searchValue, $this->getName());
+		if (empty($parentId) || empty($parentModule)) {
+			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchValue, $this->getName());
+		} else if ($parentId && $parentModule) {
+			$adb = PearDatabase::getInstance();
+			$result = $adb->query($this->getSearchRecordsQuery($searchValue, $parentId, $parentModule));
+
+			while ($row = $adb->getRow($result)) {
+				$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
+				$row['id'] = $row['crmid'];
+				$row['smownerid'] = $recordMeta['smownerid'];
+				$row['createdtime'] = $recordMeta['createdtime'];
+				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+				$recordInstance = new $modelClassName();
+				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
+			}
+		}
+		return $matchingRecords;
 	}
 
 	/**

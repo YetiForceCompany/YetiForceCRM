@@ -63,14 +63,15 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		while ($row = $adb->getRow($result)) {
 			$rows[] = $row;
 		}
-		$matchingRecords = $leadIdsList = [];
+		$ids = $matchingRecords = $leadIdsList = [];
 		foreach ($rows as &$row) {
+			$ids[] = $row['crmid'];
 			if ($row['setype'] === 'Leads') {
 				$leadIdsList[] = $row['crmid'];
 			}
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
-		$recordsCount = 0;
+		$labels = \includes\Record::getLabel($ids);
 
 		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
@@ -78,6 +79,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			}
 			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
 			$row['id'] = $row['crmid'];
+			$row['label'] = $labels[$row['crmid']];
 			$row['smownerid'] = $recordMeta['smownerid'];
 			$row['createdtime'] = $recordMeta['createdtime'];
 			$row['permitted'] = \includes\Privileges::isPermitted($row['setype'], 'DetailView', $row['crmid']);
@@ -86,10 +88,6 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
-			$recordsCount++;
-			if ($limit && $limit == $recordsCount) {
-				return $matchingRecords;
-			}
 		}
 		return $matchingRecords;
 	}
