@@ -655,3 +655,12 @@ btn-danger:hover{
 	color: #969696 !important;
 	font-weight: bold;
 }
+.calendarRightPanel .panel h4{
+	color: #323232;
+}
+#cur_events td,
+#cur_events .table th,
+.quickCreateContent #Calendar_editView_fieldName_date_start{
+	background-color: #00a8e4;
+	color: #fff
+}
