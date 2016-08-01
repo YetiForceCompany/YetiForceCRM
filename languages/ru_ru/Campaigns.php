@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+* Contributor(s): iRsystem by YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
 	'Campaign Name' => 'Наименование',
@@ -22,17 +23,16 @@ $languageStrings = [
 	'LBL_CAMPAIGN_INFORMATION' => 'Основная информация',
 	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Ожидания и результаты',
 	//OTHERS
-	'--None--' => '--Нет--',
-	'Active' => 'Активно',
+	'Complete' => 'Завершена',
 	'Actual Cost' => 'Затраты',
-	'Actual ROI' => 'Фактическая рентабельность',
 	'Actual Response Count' => 'Фактический отклик',
+	'Actual ROI' => 'Фактическая рентабельность',
 	'Actual Sales Count' => 'Фактическое кол-во продаж',
 	'Advertisement' => 'Реклама',
+	'Partners' => 'Партнеры',
 	'Average' => 'Средне',
 	'Banner Ads' => 'Реклама',
 	'Cancelled' => 'Отменена',
-	'Complete' => 'Завершена',
 	'Contacted - Never Contact Again' => 'Никогда не контактировать',
 	'Contacted - Successful' => 'Успешный Контакт',
 	'Contacted - Unsuccessful' => 'Неудачный Контакт',
@@ -45,10 +45,12 @@ $languageStrings = [
 	'Expected Sales Count' => 'Плановые продажи',
 	'Good' => 'Хорошо',
 	'Inactive' => 'Неактивна',
+	'Active' => 'Активно',
+	'--None--' => '--Нет--',
 	'Num Sent' => 'Отправлено',
 	'Others' => 'Другое',
-	'Partners' => 'Partners',
 	'Planning' => 'Планируется',
+	'Completed' => 'Завершена',
 	'Poor' => 'Плохо',
 	'Product' => 'Товар',
 	'Referral Program' => 'Целенаправленная программа',
@@ -58,13 +60,10 @@ $languageStrings = [
 	'Telemarketing' => 'Теле маркетинг',
 	'Webinar' => 'Семинар',
 	'Message sent' => 'Message sent',
-	'Completed' => 'Завершена',
-	'Partners' => 'Партнеры',
-	'Campaign status' => 'Статус',
-	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records',
-	'LBL_LOAD_RECORDS' => 'Load from filter',
-	'LBL_LOAD_RECORDS_INFO' => 'Button used to load all records that meet the conditions specified in filter.',
+	'LBL_COUNT_RECORDS_WIDGET' => 'Количество связанных модулей записей',
+	'LBL_LOAD_RECORDS' => 'Загрузка из фильтра',
+	'LBL_LOAD_RECORDS_INFO' => 'Кнопка используется для загрузки всех записей, удовлетворяющие условиям, указанным в фильтре.',
 ];
 $jsLanguageStrings = [
-	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add all records from filter?',
+		'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Вы уверены, что хотите добавить все записи из фильтра?',
 ];
