@@ -23977,7 +23977,7 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`
 
 /*Data for the table `vtiger_settings_blocks_seq` */
 
-insert  into `vtiger_settings_blocks_seq`(`id`) values (16);
+insert  into `vtiger_settings_blocks_seq`(`id`) values (17);
 
 /*Data for the table `vtiger_settings_field` */
 
