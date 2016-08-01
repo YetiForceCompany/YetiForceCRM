@@ -3571,13 +3571,13 @@ span[name=existingImages] img{
 	height: 100%;
 }
 
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader{
 	left: 230px;
 	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 }
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
-.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel, 
+.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .bodyHeader + .basePanel{
 	left: 180px;
 	z-index: 0;
 	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
@@ -3650,7 +3650,7 @@ span[name=existingImages] img{
 	top: 0;
 	right: 0;
 	left: 50px;
-	z-index: 1030;
+	z-index: 1031;
 	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition-delay: 0.5s;
@@ -4043,9 +4043,6 @@ html,body,.baseContainer
 .gridster .gs-w[data-col="1"] {
 	left: 0px!important;
 }
-.modal-backdrop{
-	z-index: 1029;
-}
 .modal-body .fieldLabel{
 	font-weight:900;
 }
@@ -4194,7 +4191,7 @@ html,body,.baseContainer
 	padding: 0;
 }
 .modal-backdrop{
-	z-index: 1030;
+	z-index: 1031;
 }
 .commonActionsContainer .badge{
 	font-size: 11px;

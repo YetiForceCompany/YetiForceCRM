@@ -170,5 +170,4 @@
 			</div>
 		</div>
 	</div>
-	<div class="mainBody">
 	{/strip}

@@ -298,8 +298,11 @@ btn-danger:hover{
 	border-radius: 1px;
 }
 .editViewContainer .btn-success,
-.btn-success:active:focus{
-	background: #00a8e4;
+.editViewContaine .btn-success:active:focus,
+.editViewContaine .btn-success:active:hover,
+.editViewContaine .btn-success:active,
+.editViewContaine .btn-success:focus{
+	background: #00a8e4 !important;
 	border-color: #00a8e4;
 }
 .narrow.fieldValue input:not([type='checkbox']){
@@ -395,9 +398,11 @@ btn-danger:hover{
 .bodyHeader{
 	left:50px;
 	right: 188px;
+	z-index: 1030;
 }
 .mainBody{
 	top:0;
+	bottom: 50px;
 }
 .basePanel{
 	top:92px !important;
@@ -487,12 +492,15 @@ btn-danger:hover{
 	width: auto;
 	height: auto;
 }
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
-.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader{
+	left: 50px;
+}
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel, 
+.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .bodyHeader + .basePanel{
 	transition: left ease-in-out 0.3s 0.8s, z-index 0.3s 0.3s;
 	left:0;
 }
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel {
 	left:0;
 	transition: left ease-in-out 0.3s 0.8s,  z-index 0.3s 0.3s;
 }
