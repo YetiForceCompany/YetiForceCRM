@@ -209,7 +209,6 @@ btn-danger:hover{
 	text-shadow: none;
 }
 .userDetailsContainer{
-	background-color: #00285f;
 	width: 50px;
 }
 .dropdown-menu > li > a{
@@ -387,7 +386,8 @@ btn-danger:hover{
     z-index: 1030;
 }
 .bodyHeader{
-	left:0;
+	left:50px;
+	width: 87%
 }
 .mainBody{
 	top:0;
@@ -502,12 +502,14 @@ btn-danger:hover{
 	display: none !important;
 }
 .headerLink{
+	background-color: #fff;
 	position: fixed;
-	right: 0;
-	top: 3px;
-}
-.rightHeader{
-	padding-right: 220px !important;
+	height: 50px;
+	right: -2px;
+	top: 0;
+	padding-top: 3px !important;
+	width: 194px;
+
 }
 .headerLink a{
 	height: 34px;
