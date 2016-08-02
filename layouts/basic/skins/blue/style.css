@@ -473,16 +473,18 @@ btn-danger:hover{
 	left: 0px;
 	top: 37px;
 	width: 100% !important;
-	height: auto !important;
-	max-height: 150px;
+	height: 150px !important;
 	padding:0 10px;
-	min-height: 50px;
-	display: flex;
-	flex-flow: column wrap;
+	display: block;
+	-moz-column-fill: auto;
+	column-fill: auto;
+	column-count: 6;
+	-webkit-column-count: 6;
+    -moz-column-count: 6;
+	overflow: inherit !important;
 }
 .leftPanel .nav .subMenu li{
 	position: relative;
-	flex: 0 0 auto;
 }
 .baseContainer .leftPanel .menuContainer .subMenu a{
 	font-weight: normal;
