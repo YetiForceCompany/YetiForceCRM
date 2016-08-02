@@ -165,7 +165,7 @@ class File
 		foreach ($fileNameParts as $key => &$partOfFileName) {
 			if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
 				$badExtensionFound = true;
-				$fileNameParts[$i] = $partOfFileName . 'file';
+				$fileNameParts[$i] = $partOfFileName;
 			}
 		}
 		$newFileName = implode('.', $fileNameParts);
