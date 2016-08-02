@@ -1498,35 +1498,6 @@ function getValidDBInsertDateTimeValue($value)
 	}
 }
 
-/** Function to sanitize the upload file name when the file name is detected to have bad extensions
- * @param String -- $fileName - File name to be sanitized
- * @return String - Sanitized file name
- */
-function sanitizeUploadFileName($fileName, $badFileExtensions)
-{
-	$fileName = vtlib\Functions::slug($fileName);
-	$fileName = rtrim($fileName, '\\/<>?*:"<>|');
-
-	$fileNameParts = explode(".", $fileName);
-	$countOfFileNameParts = count($fileNameParts);
-	$badExtensionFound = false;
-
-	for ($i = 0; $i < $countOfFileNameParts; ++$i) {
-		$partOfFileName = $fileNameParts[$i];
-		if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
-			$badExtensionFound = true;
-			$fileNameParts[$i] = $partOfFileName . 'file';
-		}
-	}
-
-	$newFileName = implode(".", $fileNameParts);
-
-	if ($badExtensionFound) {
-		$newFileName .= ".txt";
-	}
-	return $newFileName;
-}
-
 /** Function to get the tab meta information for a given id
  * @param $tabId -- tab id :: Type integer
  * @returns $tabInfo -- array of preference name to preference value :: Type array

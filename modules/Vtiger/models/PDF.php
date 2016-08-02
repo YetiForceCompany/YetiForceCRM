@@ -626,7 +626,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		foreach ($fileNames as $file) {
 			unlink($file);
 		}
-		$mimeType = vtlib\Functions::getMimeContentType($fileName);
+		$mimeType = \includes\fields\File::getMimeContentType($fileName);
 		$size = filesize($fileName);
 		$name = basename($fileName);
 

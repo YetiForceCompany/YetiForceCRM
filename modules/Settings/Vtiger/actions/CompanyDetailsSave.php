@@ -16,23 +16,18 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Vtiger_CompanyDetails_Model::getInstance();
 		$status = false;
-		$images=['logo','panellogo'];
+		$images = ['logo', 'panellogo'];
 		if ($request->get('organizationname')) {
-			foreach($images as $image){
-				$saveLogo[$image] = $status = true;	
+			foreach ($images as $image) {
+				$saveLogo[$image] = $status = true;
 				if (!empty($_FILES[$image]['name'])) {
 					$logoDetails[$image] = $_FILES[$image];
-					$fileType = explode('/', $logoDetails[$image]['type']);
-					$fileType = $fileType[1];
-					//mime type check 
-					$mimeType = vtlib\Functions::getMimeContentType($_FILES[$image]["tmp_name"]);
-					$mimeTypeContents = explode('/', $mimeType);
-					if (!$logoDetails[$image]['size'] || $mimeTypeContents[0] != 'image' || !in_array($mimeTypeContents[1], Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
+					$fileInstance = \includes\fields\File::loadFromRequest($logoDetails[$image]);
+					if (!$fileInstance->validate()) {
 						$saveLogo[$image] = false;
 					}
-					// Check for php code injection
-					$imageContents = file_get_contents($_FILES[$image]["tmp_name"]);
-					if (preg_match('/(<\?php?(.*?))/i', $imageContents) == 1) {
+					//mime type check
+					if ($fileInstance->getShortMimeType(0) != 'image' || !in_array($fileInstance->getShortMimeType(1), Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
 						$saveLogo[$image] = false;
 					}
 					if ($saveLogo[$image]) {

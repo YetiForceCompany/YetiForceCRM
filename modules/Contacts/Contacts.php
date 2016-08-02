@@ -705,7 +705,8 @@ class Contacts extends CRMEntity
 	 */
 	function insertIntoAttachment($id, $module)
 	{
-		global $log, $adb, $upload_badext;
+		$log = LoggerManager::getInstance();
+		$adb = PearDatabase::getInstance();
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -719,7 +720,6 @@ class Contacts extends CRMEntity
 				}
 			}
 		}
-
 
 		$imageNameSql = 'SELECT name FROM vtiger_seattachmentsrel INNER JOIN vtiger_attachments ON
 								vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid LEFT JOIN vtiger_contactdetails ON

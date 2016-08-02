@@ -51,7 +51,10 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 					}
 				}
 			}
-	
+			$fileInstance = \includes\fields\File::loadFromRequest($_FILES['upload']);
+			if (!$fileInstance->validate()) {
+				return false;
+			}
 			switch ($fileType) {
 				default:
 					$response = vtranslate('ERR_NOT_ALLOWED', $moduleName);
@@ -59,19 +62,18 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 				case 'img':
 					// Image width and height
 					$saveFile = 'true';
-					$saveFile = validateImageFile($_FILES['upload']);
-					if ($saveFile == 'false') {
+					if (!$fileInstance->validate('image')) {
 						return false;
 					} else {
 						list($width, $height) = getimagesize($_FILES['upload']['tmp_name']);
 						if (isset($width) && isset($height)) {
 							if ($width > $iConf['maxwidth'] || $height > $iConf['maxheight']) {
 								$response = '\\n ' . vtranslate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . ' \\n '
-								. vtranslate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['maxwidth'] . ' x ' . $iConf['maxheight'];
+									. vtranslate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['maxwidth'] . ' x ' . $iConf['maxheight'];
 							}
 							if ($width < $iConf['minwidth'] || $height < $iConf['minheight']) {
 								$response = '\\n ' . vtranslate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . '\\n '
-								. vtranslate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['minwidth'] . ' x ' . $iConf['minheight'];
+									. vtranslate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['minwidth'] . ' x ' . $iConf['minheight'];
 							}
 							if ($_FILES['upload']['size'] > $iConf['maxsize'] * 1000) {
 								$response = '\\n ' . vtranslate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $iConf['maxsize'] . ' KB.';
@@ -90,14 +92,14 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 					}
 					break;
 			}
-	
+
 			$fullUploadDir = $_SERVER['DOCUMENT_ROOT'] . '/' . $uploadDir;
 			$newFileName = $this->setFileName($fullUploadDir, $fileName, ".$type", 0, $rename);
 			// Full file path
-			$newFileName = sanitizeUploadFileName($newFileName, AppConfig::main('upload_badext'));
+			$newFileName = \includes\fields\File::sanitizeUploadFileName($newFileName);
 			$uploadPath = $_SERVER['DOCUMENT_ROOT'] . '/' . $uploadDir . $newFileName;
 			// If there is no errors no errors, upload the image, else, output the errors
-			if (! $response) {
+			if (!$response) {
 				if (move_uploaded_file($_FILES['upload']['tmp_name'], $uploadPath)) {
 					$CKEditorFuncNum = $_GET['CKEditorFuncNum'];
 					$url = $site . $uploadDir . $newFileName;
@@ -110,25 +112,25 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 							break;
 						case 'audio':
 							$response = 'var cke_ob = window.parent.CKEDITOR;'
-							. 'for(var ckid in cke_ob.instances)'
-							. '{if(cke_ob.instances[ckid].focusManager.hasFocus) break;}'
-							. 'cke_ob.instances[ckid].insertHtml'
-							. '(\'<div><audio src="' . $url . '" controls></audio></div><p></p>\', \'unfiltered_html\');'
-							. 'alert("' . $msg . '");'
-							. 'var dialog = cke_ob.dialog.getCurrent();'
-							. 'dialog.hide()';
+								. 'for(var ckid in cke_ob.instances)'
+								. '{if(cke_ob.instances[ckid].focusManager.hasFocus) break;}'
+								. 'cke_ob.instances[ckid].insertHtml'
+								. '(\'<div><audio src="' . $url . '" controls></audio></div><p></p>\', \'unfiltered_html\');'
+								. 'alert("' . $msg . '");'
+								. 'var dialog = cke_ob.dialog.getCurrent();'
+								. 'dialog.hide()';
 							break;
 						case 'video':
 							$response = 'var cke_ob = window.parent.CKEDITOR;'
-							. 'for(var ckid in cke_ob.instances)'
-							. '{if(cke_ob.instances[ckid].focusManager.hasFocus) break;}'
-							. 'cke_ob.instances[ckid].insertHtml'
-							. '(\'<div><video src="' . $url . '" class="' . $vConf['tagclass'] . '" controls></video></div><p></p>\', \'unfiltered_html\');'
-							. 'alert("' . $msg . '");'
-							. 'var dialog = cke_ob.dialog.getCurrent();'
-							. 'dialog.hide()';
+								. 'for(var ckid in cke_ob.instances)'
+								. '{if(cke_ob.instances[ckid].focusManager.hasFocus) break;}'
+								. 'cke_ob.instances[ckid].insertHtml'
+								. '(\'<div><video src="' . $url . '" class="' . $vConf['tagclass'] . '" controls></video></div><p></p>\', \'unfiltered_html\');'
+								. 'alert("' . $msg . '");'
+								. 'var dialog = cke_ob.dialog.getCurrent();'
+								. 'dialog.hide()';
 							break;
-					} 
+					}
 				} else {
 					$response = 'alert("' . vtranslate('ERR_UNABLE_TO_UPLOAD', $moduleName) . '")';
 				}
@@ -141,27 +143,28 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 		$vtigerResponse->setEmitType(2);
 		$vtigerResponse->emit();
 	}
+
 	/**
-	* Sets filename
-	* @param string $dirPath directory path
-	* @param string $fileName filename to check
-	* @param string $extension extension
-	* @param int $i index to rename
-	* @param string $fileName filename
-	* @param int $rename checks if file should be rename or overwrite 
-	* @return string filename with extension
-	*/
-   function setFileName($dirPath, $fileName, $extension, $i, $rename)
-   {
-	   if ($rename == 1 && file_exists($dirPath . $fileName . $extension)) {
-		   $ending = '_' . $i;
-		   while (file_exists($dirPath . $fileName . $ending . $extension)) {
-			   $ending = '_' . $i;
-			   $i++;
-		   }
-		   return $fileName . $ending . $extension;
-	   } else {
-		   return $fileName . $extension;
-	   }
-   }
+	 * Sets filename
+	 * @param string $dirPath directory path
+	 * @param string $fileName filename to check
+	 * @param string $extension extension
+	 * @param int $i index to rename
+	 * @param string $fileName filename
+	 * @param int $rename checks if file should be rename or overwrite 
+	 * @return string filename with extension
+	 */
+	function setFileName($dirPath, $fileName, $extension, $i, $rename)
+	{
+		if ($rename == 1 && file_exists($dirPath . $fileName . $extension)) {
+			$ending = '_' . $i;
+			while (file_exists($dirPath . $fileName . $ending . $extension)) {
+				$ending = '_' . $i;
+				$i++;
+			}
+			return $fileName . $ending . $extension;
+		} else {
+			return $fileName . $extension;
+		}
+	}
 }

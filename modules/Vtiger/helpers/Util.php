@@ -332,36 +332,6 @@ class Vtiger_Util_Helper
 	}
 
 	/**
-	 * Function to sanitize the uploaded file name
-	 * @param <String> $fileName
-	 * @param <Array> $badFileExtensions
-	 * @return <String> sanitized file name
-	 */
-	public static function sanitizeUploadFileName($fileName, $badFileExtensions)
-	{
-		$fileName = preg_replace('/\s+/', '_', $fileName); //replace space with _ in filename
-		$fileName = rtrim($fileName, '\\/<>?*:"<>|');
-
-		$fileNameParts = explode('.', $fileName);
-		$countOfFileNameParts = count($fileNameParts);
-		$badExtensionFound = false;
-
-		for ($i = 0; $i < $countOfFileNameParts; $i++) {
-			$partOfFileName = $fileNameParts[$i];
-			if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
-				$badExtensionFound = true;
-				$fileNameParts[$i] = $partOfFileName . 'file';
-			}
-		}
-
-		$newFileName = implode('.', $fileNameParts);
-		if ($badExtensionFound) {
-			$newFileName .= ".txt";
-		}
-		return $newFileName;
-	}
-
-	/**
 	 * Function to get maximum upload size
 	 * @return <Float> maximum upload size
 	 */
