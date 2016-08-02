@@ -76,7 +76,6 @@ body{
 }
 .detailViewInfo .related .nav-pills .active > a:hover,
 .nav-pills > li.active > a:hover,
-.nav>li>a:hover,
 .nav-pills>li.active>a,
 .nav-pills>li.active>a:focus{
 	background: #00509e;
@@ -266,21 +265,22 @@ btn-danger:hover{
 	height: 0;
 }
 .nav.massEditTabs{
-	border-bottom: 3px solid #00509e;
+	background: #003c7d;
+	border-bottom: 3px solid #00285f;
 }
 .nav-tabs > li > a{
 	border-radius: 0;
 }
 .nav.massEditTabs li a{
-	background-color: #ccc;
-	color: #00417d !important;
+	background-color: #00509e;
+	color: #fff !important;
 }
 .nav.massEditTabs li a:hover{
 	border-bottom: 0px;
 }
 .nav.massEditTabs li.active a{
-	color: #00a8e1 !important;
-	background-color: #ebebeb;
+	color: #fff !important;
+	background-color: #00509e;
 }
 .massEditTabs li.active{
 	border-bottom: none !important;
@@ -298,7 +298,8 @@ btn-danger:hover{
 	margin-bottom: 0;
 }
 .nav-tabs>li.active{
-	border-bottom: 3px solid #00a8e1;
+	background: #00509e;
+	border-bottom: 3px solid #00a8e1 !important;
 	margin-bottom: -3px;
 }
 .editViewContainer .form-control[disabled], 
@@ -418,7 +419,7 @@ btn-danger:hover{
 }
 .mainBody{
 	top:0;
-	bottom: 50px;
+	bottom: 33px;
 }
 .basePanel{
 	top:92px !important;
@@ -452,6 +453,7 @@ btn-danger:hover{
 .baseContainer .leftPanel .menuContainer a:hover, 
 .baseContainer .leftPanel .menuContainer a:focus{
 	color: #003c7d;
+	background: #fff;
 }
 .leftPanel .menuContainer .modulesList .menuIcon,
 .ui-draggable-menuShortcut .menuIcon{
