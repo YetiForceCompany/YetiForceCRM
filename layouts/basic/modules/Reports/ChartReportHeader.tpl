@@ -78,7 +78,7 @@
 								<div class="form-group col-xs-6">
 									<label>{vtranslate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}<span class="redColor">*</span></label>
 									<div class="col-md-12 paddingLRZero">
-										<select id='groupbyfield' name='groupbyfield' class="form-control" data-validation-engine="validate[required]"></select>
+										<select id='groupbyfield' name='groupbyfieldSelect' class="form-control" data-validation-engine="validate[required]"></select>
 									</div>
 								</div>
 								<div class="form-group col-xs-6">
