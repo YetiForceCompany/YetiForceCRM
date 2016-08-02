@@ -122,6 +122,9 @@ class File
 		if (!getimagesize($this->path)) {
 			throw new \Exception('Wrong image');
 		}
+		if (preg_match('[\x01-\x08\x0c-\x1f]', $this->getContents())) {
+			throw new \Exception('Wrong image');
+		}
 	}
 
 	public function validateCodeInjection()
