@@ -1,30 +1,35 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
-	function __construct() {
+class Emails_MassSaveAjax_View extends Vtiger_Footer_View
+{
+
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('massSave');
 	}
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save')) {
-			throw new AppException(vtranslate($moduleName).' '.vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$mode = $request->getMode();
-		if(!empty($mode)) {
+		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
@@ -34,9 +39,9 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 	 * Function Sends/Saves mass emails
 	 * @param <Vtiger_Request> $request
 	 */
-	public function massSave(Vtiger_Request $request) {
-        global $upload_badext;
-        $adb = PearDatabase::getInstance();
+	public function massSave(Vtiger_Request $request)
+	{
+		$adb = PearDatabase::getInstance();
 
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -49,87 +54,85 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['file'];
 
-        $recordId = $request->get('record');
+		$recordId = $request->get('record');
 
-        if(!empty($recordId)) {
-            $recordModel = Vtiger_Record_Model::getInstanceById($recordId,$moduleName);
-            $recordModel->set('mode', 'edit');
-        }else{
-            $recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-            $recordModel->set('mode', '');
-        }
+		if (!empty($recordId)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel->set('mode', 'edit');
+		} else {
+			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$recordModel->set('mode', '');
+		}
 
 
-        $parentEmailId = $request->get('parent_id',null);
-        $attachmentsWithParentEmail = array();
-        if(!empty($parentEmailId) && !empty ($recordId)) {
-            $parentEmailModel = Vtiger_Record_Model::getInstanceById($parentEmailId);
-            $attachmentsWithParentEmail = $parentEmailModel->getAttachmentDetails();
-        }
-        $existingAttachments = $request->get('attachments',array());
-        if(empty($recordId)) {
-			if(is_array($existingAttachments)) {
-				foreach ($existingAttachments as $index =>  $existingAttachInfo) {
+		$parentEmailId = $request->get('parent_id', null);
+		$attachmentsWithParentEmail = array();
+		if (!empty($parentEmailId) && !empty($recordId)) {
+			$parentEmailModel = Vtiger_Record_Model::getInstanceById($parentEmailId);
+			$attachmentsWithParentEmail = $parentEmailModel->getAttachmentDetails();
+		}
+		$existingAttachments = $request->get('attachments', array());
+		if (empty($recordId)) {
+			if (is_array($existingAttachments)) {
+				foreach ($existingAttachments as $index => $existingAttachInfo) {
 					$existingAttachInfo['tmp_name'] = $existingAttachInfo['name'];
 					$existingAttachments[$index] = $existingAttachInfo;
-					if(array_key_exists('docid',$existingAttachInfo)) {
+					if (array_key_exists('docid', $existingAttachInfo)) {
 						$documentIds[] = $existingAttachInfo['docid'];
 						unset($existingAttachments[$index]);
 					}
-
 				}
 			}
-        }else{
-            //If it is edit view unset the exising attachments
-            //remove the exising attachments if it is in edit view
+		} else {
+			//If it is edit view unset the exising attachments
+			//remove the exising attachments if it is in edit view
 
-            $attachmentsToUnlink = array();
-            $documentsToUnlink = array();
+			$attachmentsToUnlink = array();
+			$documentsToUnlink = array();
 
 
-            foreach($attachmentsWithParentEmail as $i => $attachInfo) {
-                $found = false;
-                foreach ($existingAttachments as $index =>  $existingAttachInfo) {
-                    if($attachInfo['fileid'] == $existingAttachInfo['fileid']) {
-                        $found = true;
-                        break;
-                    }
-                }
-                //Means attachment is deleted
-                if(!$found) {
-                    if(array_key_exists('docid',$attachInfo)) {
-                        $documentsToUnlink[] = $attachInfo['docid'];
-                    }else{
-                        $attachmentsToUnlink[] = $attachInfo;
-                    }
-                }
-                unset($attachmentsWithParentEmail[$i]);
-            }
-            //Make the attachments as empty for edit view since all the attachments will already be there
-            $existingAttachments = array();
-            if(!empty($documentsToUnlink)) {
-                $recordModel->deleteDocumentLink($documentsToUnlink);
-            }
+			foreach ($attachmentsWithParentEmail as $i => $attachInfo) {
+				$found = false;
+				foreach ($existingAttachments as $index => $existingAttachInfo) {
+					if ($attachInfo['fileid'] == $existingAttachInfo['fileid']) {
+						$found = true;
+						break;
+					}
+				}
+				//Means attachment is deleted
+				if (!$found) {
+					if (array_key_exists('docid', $attachInfo)) {
+						$documentsToUnlink[] = $attachInfo['docid'];
+					} else {
+						$attachmentsToUnlink[] = $attachInfo;
+					}
+				}
+				unset($attachmentsWithParentEmail[$i]);
+			}
+			//Make the attachments as empty for edit view since all the attachments will already be there
+			$existingAttachments = array();
+			if (!empty($documentsToUnlink)) {
+				$recordModel->deleteDocumentLink($documentsToUnlink);
+			}
 
-            if(!empty($attachmentsToUnlink)){
-                $recordModel->deleteAttachment($attachmentsToUnlink);
-            }
-
-        }
+			if (!empty($attachmentsToUnlink)) {
+				$recordModel->deleteAttachment($attachmentsToUnlink);
+			}
+		}
 
 
 		// This will be used for sending mails to each individual
 		$toMailInfo = $request->get('toemailinfo');
 
 		$to = $request->get('to');
-		if(is_array($to)) {
-			$to = implode(',',$to);
+		if (is_array($to)) {
+			$to = implode(',', $to);
 		}
 
 
 		$recordModel->set('description', $request->get('description'));
 		$recordModel->set('subject', $request->get('subject'));
-        $recordModel->set('toMailNamesList',$request->get('toMailNamesList'));
+		$recordModel->set('toMailNamesList', $request->get('toMailNamesList'));
 		$recordModel->set('saved_toid', $to);
 		$recordModel->set('ccmail', $request->get('cc'));
 		$recordModel->set('bccmail', $request->get('bcc'));
@@ -138,11 +141,11 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 		$recordModel->set('documentids', $documentIds);
 
 		$recordModel->set('toemailinfo', $toMailInfo);
-		foreach($toMailInfo as $recordId=>$emailValueList) {
-			if($recordModel->getEntityType($recordId) == 'Users'){
-				$parentIds .= $recordId.'@-1|';
-			}else{
-				$parentIds .= $recordId.'@1|';
+		foreach ($toMailInfo as $recordId => $emailValueList) {
+			if ($recordModel->getEntityType($recordId) == 'Users') {
+				$parentIds .= $recordId . '@-1|';
+			} else {
+				$parentIds .= $recordId . '@1|';
 			}
 		}
 		$recordModel->set('parent_id', $parentIds);
@@ -155,24 +158,24 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 		if ($recordModel->checkUploadSize($documentIds)) {
 			$recordModel->save();
 
-            //To Handle existing attachments
-            $current_user = Users_Record_Model::getCurrentUserModel();
-            $ownerId = $recordModel->get('assigned_user_id');
-            $date_var = date("Y-m-d H:i:s");
-			if(is_array($existingAttachments)) {
-				foreach ($existingAttachments as $index =>  $existingAttachInfo) {
+			//To Handle existing attachments
+			$current_user = Users_Record_Model::getCurrentUserModel();
+			$ownerId = $recordModel->get('assigned_user_id');
+			$date_var = date('Y-m-d H:i:s');
+			if (is_array($existingAttachments)) {
+				foreach ($existingAttachments as $index => $existingAttachInfo) {
 					$file_name = $existingAttachInfo['attachment'];
 					$path = $existingAttachInfo['path'];
 					$fileId = $existingAttachInfo['fileid'];
 
 					$oldFileName = $file_name;
 					//SEND PDF mail will not be having file id
-					if(!empty ($fileId)) {
-						$oldFileName = $existingAttachInfo['fileid'].'_'.$file_name;
+					if (!empty($fileId)) {
+						$oldFileName = $existingAttachInfo['fileid'] . '_' . $file_name;
 					}
-					$oldFilePath = $path.'/'.$oldFileName;
+					$oldFilePath = $path . '/' . $oldFileName;
 
-					$binFile = sanitizeUploadFileName($file_name, $upload_badext);
+					$binFile = \includes\fields\File::sanitizeUploadFileName($file_name);
 
 					$current_id = $adb->getUniqueID("vtiger_crmentity");
 
@@ -199,7 +202,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 				}
 			}
 			$success = true;
-			if($flag == 'SENT') {
+			if ($flag == 'SENT') {
 				$status = $recordModel->send();
 				if ($status === true) {
 					// This is needed to set vtiger_email_track table as it is used in email reporting
@@ -209,16 +212,15 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 					$message = $status;
 				}
 			}
-
 		} else {
-			$message = vtranslate('LBL_MAX_UPLOAD_SIZE', $moduleName).' '.vtranslate('LBL_EXCEEDED', $moduleName);
+			$message = vtranslate('LBL_MAX_UPLOAD_SIZE', $moduleName) . ' ' . vtranslate('LBL_EXCEEDED', $moduleName);
 		}
 		$viewer->assign('SUCCESS', $success);
 		$viewer->assign('MESSAGE', $message);
-        $loadRelatedList = $request->get('related_load');
-        if(!empty($loadRelatedList)){
-            $viewer->assign('RELATED_LOAD',true);
-        }
+		$loadRelatedList = $request->get('related_load');
+		if (!empty($loadRelatedList)) {
+			$viewer->assign('RELATED_LOAD', true);
+		}
 		$viewer->view('SendEmailResult.tpl', $moduleName);
 	}
 
@@ -227,18 +229,19 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 	 * @param Vtiger_Request $request
 	 * @return integer
 	 */
-	public function getRecordsListFromRequest(Vtiger_Request $request) {
+	public function getRecordsListFromRequest(Vtiger_Request $request)
+	{
 		$cvId = $request->get('viewname');
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 
-		if(!empty($selectedIds) && $selectedIds != 'all') {
-			if(!empty($selectedIds) && count($selectedIds) > 0) {
+		if (!empty($selectedIds) && $selectedIds != 'all') {
+			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				return $selectedIds;
 			}
 		}
 
-		if($selectedIds == 'all'){
+		if ($selectedIds == 'all') {
 			$sourceRecord = $request->get('sourceRecord');
 			$sourceModule = $request->get('sourceModule');
 			if ($sourceRecord && $sourceModule) {
@@ -247,18 +250,18 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 			}
 
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
-			if($customViewModel) {
+			if ($customViewModel) {
 				$searchKey = $request->get('search_key');
 				$searchValue = $request->get('search_value');
 				$operator = $request->get('operator');
-                if(!empty($operator)) {
-                    $customViewModel->set('operator', $operator);
-                    $customViewModel->set('search_key', $searchKey);
-                    $customViewModel->set('search_value', $searchValue);
-                }
+				if (!empty($operator)) {
+					$customViewModel->set('operator', $operator);
+					$customViewModel->set('search_key', $searchKey);
+					$customViewModel->set('search_value', $searchValue);
+				}
 				return $customViewModel->getRecordIds($excludedIds);
 			}
 		}
-        return array();
+		return array();
 	}
 }

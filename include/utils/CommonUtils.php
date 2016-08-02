@@ -212,16 +212,6 @@ function decideFilePath($module = false)
 }
 
 /**
- * 	This function is used to check whether the attached file is a image file or not
- * 	@param string $file_details  - vtiger_files array which contains all the uploaded file details
- * 	return string $save_image - true or false. if the image can be uploaded then true will return otherwise false.
- */
-function validateImageFile($file_details)
-{
-	return vtlib\Functions::validateImage($file_details);
-}
-
-/**
  * 	This function is used to get the Email Template Details like subject and content for particular template.
  * 	@param integer $templateid  - Template Id for an Email Template
  * 	return array $returndata - Returns Subject, Body of Template of the the particular email template.

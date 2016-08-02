@@ -54,7 +54,7 @@ class Field extends FieldBasic
 			$this->setNoRolePicklistValues($values);
 			return;
 		}
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$picklist_table = 'vtiger_' . $this->name;
 		$picklist_idcol = $this->name . 'id';
 		if (!Utils::CheckTable($picklist_table)) {

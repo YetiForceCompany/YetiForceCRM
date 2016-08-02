@@ -5614,3 +5614,7 @@ select.form-control {
 	z-index: 1030;
 	left: 0;
 }
+#convertLeadForm table{
+	table-layout: fixed;
+	word-wrap: break-word;
+}
