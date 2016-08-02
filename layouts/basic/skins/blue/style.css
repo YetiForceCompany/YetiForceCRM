@@ -175,7 +175,8 @@ btn-danger:hover{
 }
 .bgOrange,
 .btn-info,
-.alphabetSearch a{
+.alphabetSearch a,
+.currencyField + span.input-group-addon{
 	background-color: #00a8e4 !important;
 	color: #fff;
 }
@@ -384,6 +385,8 @@ btn-danger:hover{
 }
 .detailViewTable .blockContent{
 	border-bottom: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 }
 .detailViewTable .fieldsLabelValue:nth-child(even){
 	border-right: 0px solid #ddd;
@@ -673,4 +676,42 @@ btn-danger:hover{
 .panel-primary>.panel-heading{
 	background-color: #00509e;
 	border-color: transparent;
+}
+.quickCreateContent .fieldsLabelValue.medium{
+	padding: 0;
+}
+.quickCreateContent .fieldLabel{
+	padding: 12px 0;
+}
+.quickCreateContent .fieldValue{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.quickCreateContent .fieldsLabelValue::before,
+.quickCreateContent .fieldLabel,
+.modal-body .fieldLabel{
+	border-right: 0px solid #ddd;
+}
+.modal-body .fieldValue{
+	border-left: 0px solid #ddd;
+}
+.modal-content{
+	border-radius: 3px;
+}
+.moduleSelection{
+	border: transparent !important;
+}
+#leadAccordion .panel-heading{
+	padding-left: 0;
+	padding-right: 0;
+	border-color: transparent;
+	text-transform: uppercase;
+}
+#leadAccordion .form-control-static.checkbox{
+	background-color: #fff;
+	color: #003c7d;
+	padding-right: 10px;
+}
+#leadAccordion .fieldValue{
+	background-color: #fff;
 }
