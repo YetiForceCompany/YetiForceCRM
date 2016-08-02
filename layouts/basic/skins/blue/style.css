@@ -74,13 +74,20 @@ body{
 	background: #00509e;
 	color: #00a8e4;	
 }
-.detailViewInfo .related .nav-pills .active > a:hover{
-	background: #00509e;
+.detailViewInfo .related .nav-pills .active > a:hover,
+.nav-pills > li.active > a:hover,
+.nav>li>a:hover,
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus{
+	background: #00509e !important;
 }
-.related .nav-pills .dropdown-menu{
+.related .nav-pills .dropdown-menu,
+.nav-pills > li.active > a{
 	background:#003c7d;
 }
-.detailViewInfo .related .nav-pills .active > a{
+.detailViewInfo .related .nav-pills .active > a,
+.nav>li>a:hover,
+.calendarRightPanel .panel h4{
 	color: #fff;
 }
 .btn-primary,
@@ -655,12 +662,13 @@ btn-danger:hover{
 	color: #969696 !important;
 	font-weight: bold;
 }
-.calendarRightPanel .panel h4{
-	color: #323232;
-}
 #cur_events td,
 #cur_events .table th,
 .quickCreateContent #Calendar_editView_fieldName_date_start{
 	background-color: #00a8e4;
 	color: #fff
+}
+.panel-primary>.panel-heading{
+	background-color: #00509e;
+	border-color: transparent;
 }
