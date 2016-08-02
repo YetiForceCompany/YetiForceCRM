@@ -101,7 +101,7 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 
 	public function getMassage()
 	{
-		return nl2br($this->get('message'));
+		return $this->get('message');
 	}
 
 	public function getTitle()
