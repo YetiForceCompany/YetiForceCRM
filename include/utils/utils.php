@@ -435,10 +435,9 @@ function getRecordOwnerId($record)
 		$ownerId = $recordMetaData['smownerid'];
 		// Look at cache first for information
 		$count = VTCacheUtils::lookupOwnerType($ownerId);
-
 		if ($count === false) {
-			$sql_result = $adb->pquery("select count(*) as count from vtiger_users where id = ?", array($ownerId));
-			$count = $adb->query_result($sql_result, 0, 'count');
+			$result = $adb->pquery("select 1 from vtiger_users where id = ?", array($ownerId));
+			$count = $adb->getRowCount($result);
 			// Update cache for re-use
 			VTCacheUtils::updateOwnerType($ownerId, $count);
 		}

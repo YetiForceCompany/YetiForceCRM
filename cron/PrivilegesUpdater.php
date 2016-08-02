@@ -9,7 +9,7 @@ $adb = PearDatabase::getInstance();
 $limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_PRIVILEGES_UPDATER');
 
 $i = 0;
-$result = $adb->query('SELECT * FROM u_yf_crmentity_search_label WHERE `userid` = \'\'');
+$result = $adb->query(sprintf('SELECT * FROM u_yf_crmentity_search_label WHERE `userid` = \'\' LIMIT %s', $limit));
 while ($row = $adb->getRow($result)) {
 	\includes\GlobalPrivileges::updateGlobalSearch($row['crmid'], $row['setype']);
 	$i++;
@@ -17,7 +17,7 @@ while ($row = $adb->getRow($result)) {
 		return;
 	}
 }
-$resultUpdater = $adb->query('SELECT * FROM s_yf_privileges_updater ORDER BY `priority` DESC');
+$resultUpdater = $adb->query(sprintf('SELECT * FROM s_yf_privileges_updater ORDER BY `priority` DESC LIMIT %s', $limit));
 while ($row = $adb->getRow($resultUpdater)) {
 	$crmid = $row['crmid'];
 	if ($row['type'] == 0) {
@@ -27,7 +27,7 @@ while ($row = $adb->getRow($resultUpdater)) {
 			return;
 		}
 	} else {
-		$resultCrm = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE setype =? AND crmid > ?', [$row['module'], $crmid]);
+		$resultCrm = $adb->pquery(sprintf('SELECT crmid FROM vtiger_crmentity WHERE setype =? AND crmid > ? LIMIT %s', $limit), [$row['module'], $crmid]);
 		while ($rowCrm = $adb->getRow($resultCrm)) {
 			\includes\GlobalPrivileges::updateGlobalSearch($rowCrm['crmid'], $row['module']);
 			$affected = $adb->update('s_yf_privileges_updater', ['crmid' => $rowCrm['crmid']], 'module =? AND type =? AND crmid =?', [$row['module'], 1, $crmid]);

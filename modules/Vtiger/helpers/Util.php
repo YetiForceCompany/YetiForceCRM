@@ -678,19 +678,16 @@ class Vtiger_Util_Helper
 		return $value;
 	}
 
+	protected static $userPrivilegesCache = false;
+
 	public static function getUserPrivilegesFile($userId)
 	{
 		if (empty($userId))
 			return null;
 
-		$instance = Vtiger_Cache::get('UserPrivilegesFile', $userId);
-		if ($instance) {
-			return $instance;
+		if (isset(self::$userPrivilegesCache[$userId])) {
+			return self::$userPrivilegesCache[$userId];
 		}
-		if (!file_exists("user_privileges/user_privileges_$userId.php")) {
-			return null;
-		}
-
 		require("user_privileges/user_privileges_$userId.php");
 		require("user_privileges/sharing_privileges_$userId.php");
 
@@ -712,7 +709,7 @@ class Vtiger_Util_Helper
 			$valueMap['defaultOrgSharingPermission'] = $defaultOrgSharingPermission;
 			$valueMap['related_module_share'] = $related_module_share;
 		}
-		Vtiger_Cache::set('UserPrivilegesFile', $userId, $valueMap);
+		self::$userPrivilegesCache[$userId] = $valueMap;
 		return $valueMap;
 	}
 

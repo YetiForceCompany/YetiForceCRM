@@ -60,6 +60,11 @@ hr {
 	padding: 10px 0;
 	width: 70%;
 }
+.modal .imageHolder{
+	margin-left: 14% !important;
+	width: 27%;
+	z-index: 1;
+}
 .blockProgressContainer.imageHolder {
 	padding: 40px 0;
 	background: radial-gradient(#fff 25%, transparent 70%);
@@ -68,9 +73,12 @@ hr {
 	font-weight: bold;
 	color: #4a5364;
 }
+.modal .imageHolder .message{
+	font-size: 16px;
+}
 .sk-cube-grid {
-	width: 4em;
-	height: 4em;
+	width: 45px;
+	height: 45px;
 	margin: 10px auto;
 }
 .sk-cube-grid .sk-cube {

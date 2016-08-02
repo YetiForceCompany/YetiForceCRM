@@ -74,7 +74,8 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$result = $db->pquery($sql, $params);
 
 		$response = [];
-		if ($db->num_rows($result) > 0) {
+		$i = 0;
+		if ($db->getRowCount($result) > 0) {
 			while ($row = $db->getRow($result)) {
 				$data[$i]['label'] = vtranslate($row['leadstatusvalue'], 'Leads');
 				$ticks[$i][0] = $i;
@@ -82,6 +83,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 				$data[$i]['data'][0][0] = $i;
 				$data[$i]['data'][0][1] = $row['count'];
 				$name[] = $row['leadstatusvalue'];
+				$i++;
 			}
 			$response['chart'] = $data;
 			$response['ticks'] = $ticks;

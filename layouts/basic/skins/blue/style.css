@@ -74,10 +74,19 @@ body{
 	background: #00509e;
 	color: #00a8e4;	
 }
-.detailViewInfo .related .nav-pills .active>a:hover{
+.detailViewInfo .related .nav-pills .active > a:hover,
+.nav-pills > li.active > a:hover,
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus{
 	background: #00509e;
 }
-.detailViewInfo .related .nav-pills .active > a{
+.related .nav-pills .dropdown-menu,
+.nav-pills > li.active > a{
+	background:#003c7d;
+}
+.detailViewInfo .related .nav-pills .active > a,
+.nav>li>a:hover,
+.calendarRightPanel .panel h4{
 	color: #fff;
 }
 .btn-primary,
@@ -93,20 +102,26 @@ body{
 	border-top-right-radius: 0;
 }
 .related .nav-pills li a{
-	color: #003c7d;
-	background-color: #e7e7e7;
+	color: #fff;
 }
-.related .nav-pills li a,
-.detailViewInfo .related .nav-pills .active > a{
-	border-top-right-radius: 10px;
+.related .nav-pills li a.dropdown-toggle{
+	background: #003c7d;
+}
+.related .nav-pills,
+.related .nav .relatedNav,
+.related .nav .dropdown {
+	background: #003c7d;
 }
 .related .nav-pills{
-	border-bottom: 3px solid #00509e
+	border-bottom: 3px solid #00285f;
 }
 .related .nav li.active{
 	border-bottom: 4px solid #00a8e1;
 	margin-bottom: -3px;
 	height: 41px;
+}
+.related .nav > li > a:hover{
+	background: #00509e;
 }
 .nav-pills > li > a{
 	border-radius: 0px;
@@ -250,21 +265,22 @@ btn-danger:hover{
 	height: 0;
 }
 .nav.massEditTabs{
-	border-bottom: 3px solid #00509e;
+	background: #003c7d;
+	border-bottom: 3px solid #00285f;
 }
 .nav-tabs > li > a{
 	border-radius: 0;
 }
 .nav.massEditTabs li a{
-	background-color: #ccc;
-	color: #00417d !important;
+	background-color: #00509e;
+	color: #fff !important;
 }
 .nav.massEditTabs li a:hover{
 	border-bottom: 0px;
 }
 .nav.massEditTabs li.active a{
-	color: #00a8e1 !important;
-	background-color: #ebebeb;
+	color: #fff !important;
+	background-color: #00509e;
 }
 .massEditTabs li.active{
 	border-bottom: none !important;
@@ -282,7 +298,8 @@ btn-danger:hover{
 	margin-bottom: 0;
 }
 .nav-tabs>li.active{
-	border-bottom: 3px solid #00a8e1;
+	background: #00509e;
+	border-bottom: 3px solid #00a8e1 !important;
 	margin-bottom: -3px;
 }
 .editViewContainer .form-control[disabled], 
@@ -402,7 +419,7 @@ btn-danger:hover{
 }
 .mainBody{
 	top:0;
-	bottom: 50px;
+	bottom: 33px;
 }
 .basePanel{
 	top:92px !important;
@@ -436,6 +453,7 @@ btn-danger:hover{
 .baseContainer .leftPanel .menuContainer a:hover, 
 .baseContainer .leftPanel .menuContainer a:focus{
 	color: #003c7d;
+	background: #fff;
 }
 .leftPanel .menuContainer .modulesList .menuIcon,
 .ui-draggable-menuShortcut .menuIcon{
@@ -645,4 +663,14 @@ btn-danger:hover{
 .datepickerContainer .datepickerNotInMonth.datepickerSelected a{
 	color: #969696 !important;
 	font-weight: bold;
+}
+#cur_events td,
+#cur_events .table th,
+.quickCreateContent #Calendar_editView_fieldName_date_start{
+	background-color: #00a8e4;
+	color: #fff
+}
+.panel-primary>.panel-heading{
+	background-color: #00509e;
+	border-color: transparent;
 }

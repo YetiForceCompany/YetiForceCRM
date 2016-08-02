@@ -216,7 +216,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		return false;
 	},
 	getNearCalendarEvent: function (data, module) {
-		var showCompanies = $('[name="showCompanies').val();
+		var showCompanies = $('[name="showCompanies"]').val();
 		var daysWork = app.getMainParams('hiddenDays', true);
 		var thisInstance = this;
 		var typeActive = data.find('ul li.active a').data('tab-name');
@@ -266,8 +266,8 @@ jQuery.Class("Vtiger_Header_Js", {
 			module: 'Calendar',
 			action: 'Calendar',
 			mode: 'getEvents',
-			start: app.getDateInVtigerFormat(dateStartFormat, new Date(firstDay)),
-			end: app.getDateInVtigerFormat(dateStartFormat, new Date(dateEnd)),
+			start: app.getDateInVtigerFormat(dateStartFormat, Date.parse(firstDay)),
+			end: app.getDateInVtigerFormat(dateStartFormat, Date.parse(dateEnd)),
 			user: user.val(),
 			time: 'current'
 		}
@@ -321,13 +321,13 @@ jQuery.Class("Vtiger_Header_Js", {
 				data.find('.modal-body').css({'max-height': '', 'overflow-y': ''});
 			}
 		});
-		var day1 = app.getDateInVtigerFormat(dateStartFormat, new Date(firstDay));
-		var day2 = app.getDateInVtigerFormat(dateStartFormat, new Date(secondDay));
-		var day3 = app.getDateInVtigerFormat(dateStartFormat, new Date(thirdDay));
-		var day4 = app.getDateInVtigerFormat(dateStartFormat, new Date(currentDay));
-		var day5 = app.getDateInVtigerFormat(dateStartFormat, new Date(fifthDay));
-		var day6 = app.getDateInVtigerFormat(dateStartFormat, new Date(sixthDay));
-		var day7 = app.getDateInVtigerFormat(dateStartFormat, new Date(seventhDay));
+		var day1 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(firstDay));
+		var day2 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(secondDay));
+		var day3 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(thirdDay));
+		var day4 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(currentDay));
+		var day5 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(fifthDay));
+		var day6 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(sixthDay));
+		var day7 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(seventhDay));
 
 		data.find('.taskPrevThreeDaysAgo').html('<span class="cursorPointer dateBtn">' + day1 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(firstDayWeek) + ')');
 		data.find('.taskPrevTwoDaysAgo').html('<span class="cursorPointer dateBtn">' + day2 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(secondDayWeek) + ')');
@@ -374,7 +374,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var dateStartEl = data.find('[name="date_start"]')
 			var startDay = dateStartEl.val();
 			var dateStartFormat = dateStartEl.data('date-format');
-			startDay = app.getDateInVtigerFormat(dateStartFormat, new Date(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+7', ' ')));
+			startDay = app.getDateInVtigerFormat(dateStartFormat, Date.parse(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+7', ' ')));
 			dateStartEl.val(startDay);
 			dateEnd.val(startDay);
 			data.find('.addedNearCalendarEvent').remove();
@@ -384,7 +384,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var dateStartEl = data.find('[name="date_start"]')
 			var startDay = dateStartEl.val();
 			var dateStartFormat = dateStartEl.data('date-format');
-			startDay = app.getDateInVtigerFormat(dateStartFormat, new Date(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-7', ' ')));
+			startDay = app.getDateInVtigerFormat(dateStartFormat, Date.parse(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-7', ' ')));
 			dateStartEl.val(startDay);
 			dateEnd.val(startDay);
 			data.find('.addedNearCalendarEvent').remove();

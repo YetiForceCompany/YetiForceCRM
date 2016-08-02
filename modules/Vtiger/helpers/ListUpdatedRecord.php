@@ -38,7 +38,8 @@ class ListUpdatedRecord
 
 		for ($i = 0; $i < count($moduleList); $i++) {
 
-			$getRecordListSql = sprintf("SELECT %s,%s as smownerid FROM vtiger_crmentity 
+			$getRecordListSql = sprintf("SELECT %s,%s as smownerid FROM vtiger_crmentity
+					LEFT JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
 					INNER JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid 
 					WHERE was_read = 0 AND vtiger_crmentity.deleted = 0 AND setype = ?", implode(',', $columnList), getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'));
 

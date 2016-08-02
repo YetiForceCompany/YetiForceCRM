@@ -123,6 +123,8 @@ class Users_Privileges_Model extends Users_Record_Model
 		return $instance;
 	}
 
+	protected static $userPrivilegesModelCache = [];
+
 	/**
 	 * Static Function to get the instance of the User Privileges model, given the User id
 	 * @param <Number> $userId
@@ -133,16 +135,15 @@ class Users_Privileges_Model extends Users_Record_Model
 		if (empty($userId))
 			return null;
 
-		$instance = Vtiger_Cache::get('CurrentUserPrivilegesModel', $userId);
-		if ($instance) {
-			return $instance;
+		if (isset(self::$userPrivilegesModelCache[$userId])) {
+			return self::$userPrivilegesModelCache[$userId];
 		}
 		$valueMap = Vtiger_Util_Helper::getUserPrivilegesFile($userId);
 		if (is_array($valueMap['user_info'])) {
 			$valueMap = array_merge($valueMap, $valueMap['user_info']);
 		}
 		$instance = self::getInstance($valueMap);
-		Vtiger_Cache::set('CurrentUserPrivilegesModel', $userId, $instance);
+		self::$userPrivilegesModelCache[$userId] = $instance;
 		return $instance;
 	}
 

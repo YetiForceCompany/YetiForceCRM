@@ -590,11 +590,12 @@ class Users extends CRMEntity
 	 */
 	function retrieveCurrentUserInfoFromFile($userid)
 	{
-		$detail = Vtiger_Util_Helper::getUserDetail($userid);
+		$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($userid);
+		$userInfo = $userPrivileges['user_info'];
 		foreach ($this->column_fields as $field => $value_iter) {
-			if (isset($detail[$field])) {
-				$this->$field = $detail[$field];
-				$this->column_fields[$field] = $detail[$field];
+			if (isset($userInfo[$field])) {
+				$this->$field = $userInfo[$field];
+				$this->column_fields[$field] = $userInfo[$field];
 			}
 		}
 		$this->id = $userid;
