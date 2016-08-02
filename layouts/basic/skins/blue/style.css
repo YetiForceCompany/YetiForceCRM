@@ -79,7 +79,7 @@ body{
 .nav>li>a:hover,
 .nav-pills>li.active>a,
 .nav-pills>li.active>a:focus{
-	background: #00509e !important;
+	background: #00509e;
 }
 .related .nav-pills .dropdown-menu,
 .nav-pills > li.active > a{
