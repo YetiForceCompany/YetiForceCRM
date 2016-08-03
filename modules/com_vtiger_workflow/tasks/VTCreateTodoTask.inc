@@ -167,11 +167,9 @@ class VTCreateTodoTask extends VTTask
 			'visibility' => 'Private',
 			//'eventstatus' => ''
 		);
-		if (in_array($moduleName, ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
-			$fields['link'] = $id;
-		}
-		if (in_array($moduleName, ['Campaigns', 'HelpDesk', 'Project', 'ServiceContracts'])) {
-			$fields['process'] = $id;
+		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+		if ($field) {
+			$fields[$field] = $id;
 		}
 
 		$todo = vtws_create('Calendar', $fields, $adminUser);
