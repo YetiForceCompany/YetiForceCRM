@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Accounts_Record_Model extends Vtiger_Record_Model {
@@ -14,19 +15,21 @@ class Accounts_Record_Model extends Vtiger_Record_Model {
 	 * Function returns the details of Accounts Hierarchy
 	 * @return <Array>
 	 */
-	function getAccountHierarchy() {
+	function getAccountHierarchy()
+	{
 		$focus = CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getAccountHierarchy($this->getId());
-		$i=0;
-		foreach($hierarchy['entries'] as $accountId => $accountInfo) {
-			preg_match('/<a href="+/', $accountInfo[0], $matches);
-			if($matches != null) {
-				preg_match('/[.\s]+/', $accountInfo[0], $dashes);
-				preg_match("/<a(.*)>(.*)<\/a>/i",$accountInfo[0], $name);
+		$i = 0;
+		foreach ($hierarchy['entries'] as $accountId => $accountInfo) {
+			$link = $accountInfo[0]['data'];
+			preg_match('/<a href="+/', $link, $matches);
+			if ($matches != null) {
+				preg_match('/[.\s]+/', $link, $dashes);
+				preg_match("/<a(.*)>(.*)<\/a>/i", $link, $name);
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('Accounts');
 				$recordModel->setId($accountId);
-				$hierarchy['entries'][$accountId][0] = $dashes[0]."<a href=".$recordModel->getDetailViewUrl().">".$name[2]."</a>";
+				$hierarchy['entries'][$accountId][0]['data'] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
 			}
 		}
 		return $hierarchy;
