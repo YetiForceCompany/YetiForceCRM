@@ -23,7 +23,7 @@ $languageStrings = [
 	'UA' => 'Ближайшие События',
 	'Home' => 'Главная',
 	'OLTPO' => 'Последние Закупки',
-	'LBL_WATCHING_MODULES' => 'Watched modules',
+	'LBL_WATCHING_MODULES' => 'Подписаные модули',
 	'LBL_NO_NOTIFICATIONS' => ' Нет уведомлений',
 	'Notifications' => 'Уведомления',
 	'LBL_CREATING_NOTIFICATION' => 'Отправить уведомление',
@@ -37,7 +37,6 @@ $languageStrings = [
 	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Частота запуска планировщика',
 	'LBL_SCHEDULE' => 'Расписание',
 	'LBL_CRON' => 'Планировщик',
-
 	'PLL_5_MIN' => '5 минут',
 	'PLL_15_MIN' => '15 минут',
 	'PLL_30_MIN' => '30 минут',
@@ -46,10 +45,10 @@ $languageStrings = [
 	'PLL_12_H' => '12 часов',
 	'PLL_24_H' => '24 часа',
 	'LBL_NOTIFICATION_SETTINGS' => 'Настройки уведомлений',
-	'LBL_TYPE_NOTIFICATIONS' => 'Notification types',
-	'LBL_TITLE' => 'Title',
-	'LBL_MESSAGE' => 'Message',
-	'LBL_TIME' => 'Time',
+	'LBL_TYPE_NOTIFICATIONS' => 'Типы уведомлений',
+	'LBL_TITLE' => 'Заголовок',
+	'LBL_MESSAGE' => 'Сообщение',
+	'LBL_TIME' => 'Время',
 ];
 
 $jsLanguageStrings = [

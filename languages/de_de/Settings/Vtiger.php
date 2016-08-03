@@ -196,7 +196,7 @@ $languageStrings = [
 	'LBL_HEIGHT_LOGO' => 'Logo height',
 	//YetiForce
 	'vatid' => 'USt ID',
-	'id1'=>'ID 1',
+	'id1' => 'ID 1',
 	'id2' => 'ID 2',
 	'LBL_SECURITY_MANAGEMENT' => 'Sicherheit',
 	'LBL_MAIL_TOOLS' => 'Mailtools',
@@ -361,7 +361,6 @@ $languageStrings = [
 $jsLanguageStrings = [
 	'JS_AUTHORIZATION_COMPLETE' => 'Zugriff erfolgreich',
 	'JS_ADDED_ISSUE_COMPLETE' => 'Neue Meldung erfolgreich hinzugefügt',
-
 	'JS_ERROR_KEY' => 'Zugriffsfehler. Prüfen ob alle Schlüssel gültig sind.',
 	'JS_ANNOUNCEMENT_SAVED' => 'Bekanntmachung gespeichert',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Konfigurationsdetails gespeichert',

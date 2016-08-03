@@ -24,5 +24,3 @@ function vtws_extendSession()
 		throw new WebServiceException(WebServiceErrorCode::$AUTHFAILURE, "Authencation Failed");
 	}
 }
-
-?>

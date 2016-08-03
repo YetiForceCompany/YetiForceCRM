@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -8,17 +8,15 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Lista de Registros',
 	// Basic Strings
 	'OutsourcedProducts' => 'Produtos Terceirizados',
 	'SINGLE_OutsourcedProducts' => 'Produto Terceirizado',
 	'LBL_ADD_RECORD' => 'Adicionar registro',
-
 	// Blocks
 	'LBL_INFORMATION' => 'Produtos Terceirizados',
-
 	//Field Labels
 	'Assigned To' => 'Responsável',
 	'LBL_RODZAJUMOWY' => 'Tipo de Contrato',
@@ -37,7 +35,7 @@ $languageStrings = [
 	'Where bought' => 'Onde comprou',
 	'Number' => 'Número',
 	'Save' => 'Salvo',
-	'Selling proposition'=>'Oportunidade',
+	'Selling proposition' => 'Oportunidade',
 	'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
 	'Active' => 'Ativo',
 	'Inactive' => 'Inativo',

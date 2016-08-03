@@ -261,14 +261,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if (!isset($this->profile_tab_permissions)) {
 			$profile2TabPermissions = [];
 			if ($this->getId()) {
-				$sql = 'SELECT * FROM vtiger_profile2tab WHERE profileid=?';
-				$params = array($this->getId());
-				$result = $db->pquery($sql, $params);
-				$noOfRows = $db->num_rows($result);
-				for ($i = 0; $i < $noOfRows; ++$i) {
-					$tabId = $db->query_result($result, $i, 'tabid');
-					$permissionId = $db->query_result($result, $i, 'permissions');
-					$profile2TabPermissions[$tabId] = $permissionId;
+				$result = $db->pquery('SELECT * FROM vtiger_profile2tab WHERE profileid=?', [$this->getId()]);
+				while ($row = $db->getRow($result)) {
+					$profile2TabPermissions[$row['tabid']] = $row['permissions'];
 				}
 			}
 			$this->profile_tab_permissions = $profile2TabPermissions;
@@ -518,9 +513,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$profileId = $this->getId();
 		$tabId = $moduleModel->getId();
+		$profileTabPermissions = $this->getProfileTabPermissions();
+		$profileTabPermissions = isset($profileTabPermissions[$tabId]) ? $profileTabPermissions[$tabId] : false;
 		$profileActionPermissions = $this->getProfileActionPermissions();
 		$profileActionPermissions = isset($profileActionPermissions[$tabId]) ? $profileActionPermissions[$tabId] : false;
-
 		$db->pquery('DELETE FROM vtiger_profile2tab WHERE profileid=? AND tabid=?', array($profileId, $tabId));
 
 		$actionPermissions = [];
@@ -625,6 +621,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$isModulePermitted = $this->tranformInputPermissionValue($permissions['is_permitted']);
 		} else {
 			$isModulePermitted = Settings_Profiles_Module_Model::NOT_PERMITTED_VALUE;
+		}
+		if ($isModulePermitted != $profileTabPermissions) {
+			\includes\Privileges::setUpdater($moduleModel->getName());
 		}
 		$sql = 'INSERT INTO vtiger_profile2tab(profileid, tabid, permissions) VALUES (?,?,?)';
 		$params = array($profileId, $tabId, $isModulePermitted);

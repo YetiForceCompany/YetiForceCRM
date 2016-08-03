@@ -2,15 +2,13 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'SRecurringOrders' => 'Dauerauftrag',
-	'SINGLE_SRecurringOrders' => 'Dauerauftrag', 
-	
+	'SINGLE_SRecurringOrders' => 'Dauerauftrag',
 	//BLOCKS
 	'LBL_SRECURRINGORDERS_INFORMATION' => 'Informationen',
 	'LBL_CUSTOM_INFORMATION' => 'Systeminformation',
 	'LBL_DESCRIPTION_INFORMATION' => 'Beschreibung Details',
 	'LBL_STATISTICS' => 'Statistiken',
 	'LBL_PERIODIC_GENERATION' => 'Periodisch wiederholen',
-
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
 	'LBL_NUMBER' => 'Nummer',
@@ -22,12 +20,10 @@ $languageStrings = [
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Aktuelles Fertigstellungsdatum',
 	'LBL_COMPANY_NAME' => 'Firmenname',
 	'SINGLE_SSalesProcesses' => 'Verkaufschance',
-	
 	'LBL_END_PERIOD' => 'Ende Periode',
 	'LBL_FREQUENCY' => 'Frequenz',
 	'LBL_START_PERIOD' => 'Start Periode',
 	'LBL_TARGET_MODULE' => 'Zielmodul',
-
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Entwurf',
 	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'zu ergänzen',
@@ -38,7 +34,6 @@ $languageStrings = [
 	'PLL_AUTOMATIC_GENERATION' => 'automatisch generiert',
 	'PLL_UNREALIZED' => 'nicht umgesetzt',
 	'PLL_REALIZED' => 'umgesetzt ',
-	
 	'+1 day' => 'täglich',
 	'+7 days' => 'wöchentlich',
 	'+14 days' => 'Alle 2 Wochen',
@@ -58,7 +53,5 @@ $languageStrings = [
 	'last day of next month' => 'Letzter Tag des nächsten Monats',
 	'first day of +3 months' => 'Erster Tag des nächsten Quartals',
 	'last day of +3 months' => 'Letzter tag des nächsten Quartals',
-
 	'LBL_CHANGE_STATUS' => 'Ändere Status',
-
 ];

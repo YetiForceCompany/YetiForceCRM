@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,11 +7,11 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'PRIMARY_MODULE' => 'Hauptmodul',
 	'Report Name' => 'Berichtsname',
-	'Reports'=>'Berichte',
+	'Reports' => 'Berichte',
 	'SINGLE_Reports' => 'Bericht',
 	'LBL_ADD_FOLDER' => 'Verzeichnis hinzufügen',
 	'LBL_ADD_NEW_FOLDER' => 'Neues Verzeichnis hinzufügen',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_AVERAGE' => 'Durchschnitt',
 	'LBL_AVG' => 'Durchschnitt',
 	'LBL_CALCULATION_CONVERSION_MESSAGE' => 'Berechnung basiert auf der eingestellten Währung des CRM Systems',
-	'LBL_CALCULATIONS' =>'Kalkulationen',
+	'LBL_CALCULATIONS' => 'Kalkulationen',
 	'LBL_CHOOSE_DATE' => 'Wähle Datum',
 	'LBL_COLUMNS' => 'Spalten',
 	'LBL_CREATING_REPORT' => 'Erstelle den Bericht',
@@ -51,11 +51,11 @@ $languageStrings = [
 	'LBL_MAX' => 'MAX',
 	'LBL_MIN' => 'MIN',
 	'LBL_MONTHLY_BY_DATE' => 'Monatlich nach Datum',
-    'LBL_MORE_RECORDS_TXT'=>'Es werden nur 1000 Einträgen angezeigt. Bitte CSV oder Excel Export nutzen, um alle Datensätze zu sehen',
+	'LBL_MORE_RECORDS_TXT' => 'Es werden nur 1000 Einträgen angezeigt. Bitte CSV oder Excel Export nutzen, um alle Datensätze zu sehen',
 	'LBL_MOVE_REPORT' => 'Bericht verschieben',
 	'LBL_NEXT' => 'Weiter',
 	'LBL_NEXT_TRIGGER_TIME' => 'Nächster Zeitpunkt',
-	'LBL_NO' => 'Kein',	
+	'LBL_NO' => 'Kein',
 	'LBL_NO_OF_RECORDS' => 'Anzahl Datensätze : ',
 	'LBL_ON_THESE_DAYS' => 'An diesen Tagen',
 	'LBL_PRINT_REPORT' => 'Bericht drucken',
@@ -69,7 +69,7 @@ $languageStrings = [
 	'LBL_REPORT_PRINT' => 'Drucken',
 	'LBL_REPORTS_LIST' => 'Liste Berichte',
 	'LBL_REPORTS' => 'Berichte',
-	'LBL_RUN_REPORT' =>'Bericht ausführen',
+	'LBL_RUN_REPORT' => 'Bericht ausführen',
 	'LBL_SAME_LEVEL_ROLES' => 'Rollen auf gleicher Ebene',
 	'LBL_SCHEDULE_REPORTS' => 'Bericht einplanen',
 	'LBL_SELECT_COLUMNS' => 'Spalten wählen',
@@ -90,7 +90,6 @@ $languageStrings = [
 	'LBL_YEARLY' => 'Jährlich',
 	'LBL_MAIN' => 'Haupt',
 	'LBL_SELECT_REPORT' => 'Bericht wählen',
-
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Wählen Sie die Diagrammart',
 	'LBL_CLICK_THROUGH_NOT_AVAILABLE' => 'Durchklicken nicht möglich, weil Sie mehr als ein Modul ausgewählt haben',
@@ -110,12 +109,12 @@ $languageStrings = [
 	'LBL_SELECT_GROUP_BY_FIELD' => 'Wählen Sie eine Feldgruppe',
 	'LBL_SELECT_DATA_FIELD' => 'Wählen Sie Datenfelder',
 	'LBL_MODIFY_CONDITION' => 'Bedingungen ändern',
-	'LBL_PLEASE_SELECT_ATLEAST_ONE_GROUP_FIELD_AND_DATA_FIELD'=> 'Bitte wählen Sie mindestens ein Feld und eine Feldgruppe.',
-	'LBL_FOR_BAR_GRAPH_AND_LINE_GRAPH_SELECT_3_MAX_DATA_FIELDS'=> 'Für Balken-und Linendiagramme können Sie maximal 3 Datenfelder auswählen.',
+	'LBL_PLEASE_SELECT_ATLEAST_ONE_GROUP_FIELD_AND_DATA_FIELD' => 'Bitte wählen Sie mindestens ein Feld und eine Feldgruppe.',
+	'LBL_FOR_BAR_GRAPH_AND_LINE_GRAPH_SELECT_3_MAX_DATA_FIELDS' => 'Für Balken-und Linendiagramme können Sie maximal 3 Datenfelder auswählen.',
 	'LBL_DETAIL_REPORT' => 'Detailbericht',
 	'LBL_CHARTS' => 'Diagramme',
-    //Schedule Reports - Mail Content
-    'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Dies ist eine automatisch generierte EMail.',
+	//Schedule Reports - Mail Content
+	'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Dies ist eine automatisch generierte EMail.',
 	'LBL_PIVOT_REPORT' => 'Pivot-Bericht',
 	'LBL_VIEW_CHARTDETAIL' => 'Diagramm Vorschau',
 ];

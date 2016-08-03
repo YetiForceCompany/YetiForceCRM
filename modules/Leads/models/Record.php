@@ -24,29 +24,67 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	 * @param <String> $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getSearchResult($searchKey, $module = false, $limit = false)
+	public static function getSearchResult($searchKey, $moduleName = false, $limit = false)
 	{
-		$db = PearDatabase::getInstance();
+		if (!$limit) {
+			$limit = AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
+		}
+		$currentUser = \Users_Record_Model::getCurrentUserModel();
+		$adb = \PearDatabase::getInstance();
 
-		$deletedCondition = $this->getModule()->getDeletedRecordCondition();
-		$query = sprintf('SELECT * FROM vtiger_crmentity
-					INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
-                    INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-                    WHERE u_yf_crmentity_label.label LIKE ? AND %s', $deletedCondition);
-		$params = array("%$searchKey%");
-		$result = $db->pquery($query, $params);
-		$noOfRows = $db->num_rows($result);
-
-		$moduleModels = array();
-		$matchingRecords = array();
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
-			$row['id'] = $row['crmid'];
-			$moduleName = $row['setype'];
-			if (!array_key_exists($moduleName, $moduleModels)) {
-				$moduleModels[$moduleName] = Vtiger_Module_Model::getInstance($moduleName);
+		$params = ['%' . $currentUser->getId() . '%', "%$label%"];
+		$queryFrom = 'SELECT u_yf_crmentity_search_label.`crmid`,u_yf_crmentity_search_label.`setype`,u_yf_crmentity_search_label.`searchlabel` FROM `u_yf_crmentity_search_label` INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = u_yf_crmentity_search_label.crmid';
+		$queryWhere = ' WHERE u_yf_crmentity_search_label.`userid` LIKE ? AND u_yf_crmentity_search_label.`searchlabel` LIKE ? AND vtiger_leaddetails.converted = 0';
+		$orderWhere = '';
+		if ($moduleName !== false) {
+			$multiMode = is_array($moduleName);
+			if ($multiMode) {
+				$queryWhere .= sprintf(' AND `setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
+				$params = array_merge($params, $moduleName);
+			} else {
+				$queryWhere .= ' AND `setype` = ?';
+				$params[] = $moduleName;
 			}
-			$moduleModel = $moduleModels[$moduleName];
+		} elseif (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 2) {
+			$queryFrom .= ' LEFT JOIN vtiger_entityname ON vtiger_entityname.modulename = u_yf_crmentity_search_label.setype';
+			$queryWhere .= ' AND vtiger_entityname.`turn_off` = 1 ';
+			$orderWhere = ' vtiger_entityname.sequence';
+		}
+		$query = $queryFrom . $queryWhere;
+		if (!empty($orderWhere)) {
+			$query .= sprintf(' ORDER BY %s', $orderWhere);
+		}
+		if ($limit) {
+			$query .= ' LIMIT ';
+			$query .= $limit;
+		}
+		$rows = [];
+		$result = $adb->pquery($query, $params);
+		while ($row = $adb->getRow($result)) {
+			$rows[] = $row;
+		}
+		$ids = $matchingRecords = $leadIdsList = [];
+		foreach ($rows as &$row) {
+			$ids[] = $row['crmid'];
+			if ($row['setype'] === 'Leads') {
+				$leadIdsList[] = $row['crmid'];
+			}
+		}
+		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
+		$labels = \includes\Record::getLabel($ids);
+
+		foreach ($rows as &$row) {
+			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
+				continue;
+			}
+			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
+			$row['id'] = $row['crmid'];
+			$row['label'] = $labels[$row['crmid']];
+			$row['smownerid'] = $recordMeta['smownerid'];
+			$row['createdtime'] = $recordMeta['createdtime'];
+			$row['permitted'] = \includes\Privileges::isPermitted($row['setype'], 'DetailView', $row['crmid']);
+			$moduleName = $row['setype'];
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);

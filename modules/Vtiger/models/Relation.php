@@ -132,6 +132,11 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
 		if ($relationListView_Model) {
 			$queryGenerator = $relationListView_Model->get('query_generator');
+			$joinTable = $queryGenerator->getFromClause(true);
+			if ($joinTable) {
+				$queryComponents = preg_split('/WHERE/i', $query);
+				$query = $queryComponents[0] . $joinTable . ' WHERE ' . $queryComponents[1];
+			}
 			$where = $queryGenerator->getWhereClause(true);
 			$query .= $where;
 		}

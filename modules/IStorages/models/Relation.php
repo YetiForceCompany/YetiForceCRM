@@ -24,6 +24,11 @@ class IStorages_Relation_Model extends Vtiger_Relation_Model
 		}
 		if ($relationListView_Model) {
 			$queryGenerator = $relationListView_Model->get('query_generator');
+			$joinTable = $queryGenerator->getFromClause(true);
+			if ($joinTable) {
+				$queryComponents = preg_split('/WHERE/i', $query);
+				$query = $queryComponents[0] . $joinTable . ' WHERE ' . $queryComponents[1];
+			}
 			$where = $queryGenerator->getWhereClause(true);
 			$query .= $where;
 		}

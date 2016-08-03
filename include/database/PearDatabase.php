@@ -50,8 +50,8 @@ class PearDatabase
 		PDO::PARAM_BOOL => 'bool',
 		PDO::PARAM_NULL => 'null',
 		PDO::PARAM_INT => 'int',
-		PDO::PARAM_STR => 'string',
 		PDO::PARAM_LOB => 'blob',
+		PDO::PARAM_STR => 'string',
 		PDO::PARAM_STMT => 'statement',
 	];
 
@@ -103,7 +103,7 @@ class PearDatabase
 		$options = array(
 			PDO::ATTR_PERSISTENT => true,
 			PDO::ATTR_EMULATE_PREPARES => false,
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 		);
 
 		if ($this->isdb_default_utf8_charset) {
@@ -305,6 +305,11 @@ class PearDatabase
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
 
+	public function getRowsByGroup(&$result)
+	{
+		return $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
+	}
+
 	public function getArray(&$result)
 	{
 		return $result->fetchAll(PDO::FETCH_ASSOC);
@@ -361,7 +366,7 @@ class PearDatabase
 
 		try {
 			$this->stmt = $this->database->prepare($query);
-			$success = $this->stmt->execute($params);
+			$this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (PDOException $e) {
 			$error = $this->database->errorInfo();
@@ -432,7 +437,7 @@ class PearDatabase
 		foreach ($data as $column => $cur) {
 			$columns .= ($columns ? ',' : '') . $this->quote($column, false);
 		}
-		$insert = 'INSERT INTO ' . $table . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
+		$insert = 'INSERT INTO ' . $this->quote($table, false) . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
 		$this->pquery($insert, $data);
 		return ['rowCount' => $this->stmt->rowCount(), 'id' => $this->database->lastInsertId()];
 	}
@@ -846,6 +851,7 @@ class PearDatabase
 	/* SQLTime logging */
 
 	protected $logSqlTimeID = false;
+	protected $logSqlTimeGroup = 1;
 
 	public function logSqlTime($startat, $endat, $sql, $params = false)
 	{
@@ -854,7 +860,7 @@ class PearDatabase
 		}
 		$db = PearDatabase::getInstance('log');
 		$now = date('Y-m-d H:i:s');
-		$group = rand(0, 99999999);
+		$group = $this->logSqlTimeGroup;
 		$logTable = 'l_yf_sqltime';
 		$logQuery = 'INSERT INTO ' . $logTable . '(`id`, `type`, `qtime`, `content`, `date`, `group`) VALUES (?,?,?,?,?,?)';
 
@@ -893,12 +899,25 @@ class PearDatabase
 			}
 			if ($calleridx < $callerscount) {
 				$callerfunc = $callers[$calleridx + 1]['function'];
+				if (isset($callers[$calleridx + 1]['args'])) {
+					$args = '';
+					foreach ($callers[$calleridx + 1]['args'] as &$arg) {
+						if (!is_array($arg) && !is_object($arg) && !is_resource($arg)) {
+							$args .= "'$arg'";
+						}
+						$args .= ',';
+					}
+					$args = rtrim($args, ',');
+				}
 				if (!empty($callerfunc))
-					$callerfunc = " ($callerfunc) ";
+					$callerfunc = " ($callerfunc)";
+				if (!empty($args))
+					$callerfunc .= "[$args] ";
 			}
 			$data[] = 'CALLER: (' . $callers[$calleridx]['line'] . ') ' . $callers[$calleridx]['file'] . $callerfunc;
 		}
 		$stmt = $db->database->prepare($logQuery);
 		$stmt->execute([$this->logSqlTimeID, $type, NULL, implode(PHP_EOL, $data), $now, $group]);
+		$this->logSqlTimeGroup++;
 	}
 }

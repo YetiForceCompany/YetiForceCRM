@@ -96,6 +96,7 @@ class Vtiger_ModulesHierarchy_Model
 
 	public static function getMappingRelatedField($moduleName, $field = false)
 	{
+		$return = false;
 		switch (self::getModuleLevel($moduleName)) {
 			case 0: $return = 'link';
 				break;

@@ -10,7 +10,6 @@ $languageStrings = [
 	'LBL_STATUS_DESC' => 'Zaznacz, aby aktywować',
 	'LBL_NAME_EXIST' => 'Wprowadzona nazwa jest już zajęta.',
 	'LBL_EDITING' => 'Edytuj',
-	
 	'LBL_TAXES' => 'Podatki - stawki',
 	'LBL_TAXES_DESCRIPTION' => ' ',
 	'LBL_TAXES_SINGLE' => 'podatek',
@@ -18,7 +17,6 @@ $languageStrings = [
 	'LBL_DISCOUNTS' => 'Rabaty - stawki',
 	'LBL_DISCOUNTS_DESCRIPTION' => ' ',
 	'LBL_DELETE_OK' => 'Pomyślnie usunięto wartość',
-	
 	'LBL_DISCOUNTCONFIGURATION' => 'Rabaty - konfiguracja',
 	'LBL_DISCOUNTCONFIGURATION_DESCRIPTION' => ' ',
 	'LBL_TAXCONFIGURATION' => 'Podatki - konfiguracja',
@@ -30,14 +28,12 @@ $languageStrings = [
 	'LBL_GROUP' => 'Grupowy',
 	'LBL_INDIVIDUAL' => 'Indywidualny',
 	'LBL_REGIONAL' => 'Regionalny',
-
 	'LBL_ARE_ACTIVE' => 'Aktywne?',
 	'LBL_SUMMATION_TYPE' => 'Typ sumowania',
 	'LBL_AVAILABLE_TAXS' => 'Dostępne podatki',
 	'LBL_AVAILABLE_DISCOUNTS' => 'Dostępne rabaty',
 	'LBL_YES' => 'Tak',
 	'LBL_NO' => 'Nie',
-	
 	//history
 	'Inventory' => 'Moduły rozszerzone',
 	'LBL_VIEW_CREDITLIMITS' => 'Baza limitów kredytowych',
@@ -45,7 +41,6 @@ $languageStrings = [
 	'LBL_VIEW_TAXCONFIGURATION' => 'Konfiguracja podatków',
 	'LBL_VIEW_DISCOUNTCONFIGURATION' => 'Konfiguracja rabatów',
 	'LBL_VIEW_DISCOUNTS' => 'Baza rabatów',
-	
 ];
 $jsLanguageStrings = [
 	'JS_SAVE_CHANGES' => 'Pomyślnie zapisano zmiany.',

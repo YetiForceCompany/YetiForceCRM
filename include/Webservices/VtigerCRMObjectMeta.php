@@ -524,13 +524,10 @@ class VtigerCRMObjectMeta extends EntityMeta
 	{
 		$adb = PearDatabase::getInstance();
 
-		$data = getEntityFieldNames(getTabModuleName($this->getEffectiveTabId()));
+		$data = \includes\Modules::getEntityInfo(getTabModuleName($this->getEffectiveTabId()));
 		$fieldNames = '';
 		if ($data) {
 			$fieldNames = $data['fieldname'];
-			if (is_array($fieldNames)) {
-				$fieldNames = implode(',', $fieldNames);
-			}
 		}
 		return $fieldNames;
 	}
@@ -566,5 +563,3 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return true;
 	}
 }
-
-?>

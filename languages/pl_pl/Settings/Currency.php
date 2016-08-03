@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Conversion Rate' => 'Kurs wymiany',
 	'Currency' => 'Waluta',
@@ -24,14 +24,13 @@ $languageStrings = [
 	'LBL_EDIT_CURRENCY' => 'Edytuj walutę',
 	'LBL_ENTER_CONVERSION_RATE' => 'Wprowadź przelicznik',
 	'LBL_TRANSFER_CURRENCY' => 'Transferuj walutę',
-	
 	//currency names
 	'Afghanistan, Afghanis' => 'Afghanistan, Afghanis',
 	'Albania, Leke' => 'Albania, Leke',
 	'Argentina, Pesos' => 'Argentina, Pesos',
 	'Aruba, Guilders' => 'Aruba, Guilders',
 	'Australia, Dollars' => 'Australia, Dollars',
-	'Azerbaijan, New Manats'=> 'Azerbaijan, New Manats',
+	'Azerbaijan, New Manats' => 'Azerbaijan, New Manats',
 	'Bahamas, Dollars' => 'Bahamas, Dollars',
 	'Bahrain, Dinar' => 'Bahrain, Dinar',
 	'Barbados, Dollars' => 'Barbados, Dollars',
@@ -65,7 +64,7 @@ $languageStrings = [
 	'Euro' => 'Euro',
 	'Falkland Islands, Pounds' => 'Falkland Islands, Pounds',
 	'Fiji, Dollars' => 'Fiji, Dollars',
-	'Ghana, Cedis'	=> 'Ghana, Cedis',
+	'Ghana, Cedis' => 'Ghana, Cedis',
 	'Gibraltar, Pounds' => 'Gibraltar, Pounds',
 	'Great Britain Pounds' => 'Great Britain Pounds',
 	'Guatemala, Quetzales' => 'Guatemala, Quetzales',
@@ -82,7 +81,7 @@ $languageStrings = [
 	'Jamaica, Dollars' => 'Jamaica, Dollars',
 	'Japan, Yen' => 'Japan, Yen',
 	'Jersey, Pounds' => 'Jersey, Pounds',
-	'Jordan, Dinar'	=> 'Jordan, Dinar',
+	'Jordan, Dinar' => 'Jordan, Dinar',
 	'Kazakhstan, Tenge' => 'Kazakhstan, Tenge',
 	'Kenya, Shilling' => 'Kenya, Shilling',
 	'Korea (North), Won' => 'Korea (North), Won',
@@ -103,7 +102,7 @@ $languageStrings = [
 	'Mexico, Pesos' => 'Mexico, Pesos',
 	'Mongolia, Tugriks' => 'Mongolia, Tugriks',
 	'Moroccan, Dirham' => 'Moroccan, Dirham',
-	'Mozambique, Meticais' 	=> 'Mozambique, Meticais',
+	'Mozambique, Meticais' => 'Mozambique, Meticais',
 	'Namibia, Dollars' => 'Namibia, Dollars',
 	'Nepal, Rupees' => 'Nepal, Rupees',
 	'Netherlands Antilles, Guilders' => 'Netherlands Antilles, Guilders',
@@ -137,7 +136,7 @@ $languageStrings = [
 	'Switzerland Francs' => 'Switzerland Francs',
 	'Switzerland, Francs' => 'Switzerland, Francs',
 	'Syria, Pounds' => 'Syria, Pounds',
-	'Taiwan, New Dollars' 	=> 'Taiwan, New Dollars',
+	'Taiwan, New Dollars' => 'Taiwan, New Dollars',
 	'Thailand, Baht' => 'Thailand, Baht',
 	'Trinidad and Tobago, Dollars' => 'Trinidad and Tobago, Dollars',
 	'Tunisian, Dinar' => 'Tunisian, Dinar',

@@ -88,7 +88,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$moduleName = 'OSSMailView';
 			$instance = CRMEntity::getInstance($moduleName);
-			$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
+			$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser, $srecord);
 			if ($securityParameter != '')
 				$query .= $securityParameter;
 			$query .= ' ORDER BY date DESC';
@@ -281,17 +281,16 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$relations = [];
-		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.setype, u_yf_crmentity_label.label FROM vtiger_ossmailview_relation'
-			. ' INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid'
+		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.setype FROM vtiger_ossmailview_relation'
 			. ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid'
-			. ' WHERE ossmailviewid = ? AND vtiger_crmentity.deleted = ? AND vtiger_crmentity.deleted = ? ';
-		$result = $db->pquery($query, [$record, 0, 0]);
+			. ' WHERE ossmailviewid = ? AND vtiger_crmentity.deleted = ? ';
+		$result = $db->pquery($query, [$record, 0]);
 		while ($row = $db->getRow($result)) {
 			$module = $row['setype'];
 			$relations[$module][] = [
 				'id' => $row['crmid'],
 				'module' => $module,
-				'label' => $row['label']
+				'label' => \includes\Record::getLabel($row['crmid'])
 			];
 		}
 		return $relations;

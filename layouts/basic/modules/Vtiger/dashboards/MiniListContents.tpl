@@ -8,7 +8,7 @@
 * Contributor(s): YetiForce.com
 *************************************************************************************}
 {strip}
-	<div class="row no-margin paddingBottom10">
+	<div class="row no-margin">
 		<div class="col-sm-12">
 			{* Comupte the nubmer of columns required *}
 			{assign var="SPANSIZE_ARRAY" value=[]}

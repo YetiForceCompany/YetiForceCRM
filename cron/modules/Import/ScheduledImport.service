@@ -20,5 +20,3 @@ require_once 'include/runtime/Globals.php';
 Import_Data_Action::runScheduledImport();
 
 $VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
-
-?>

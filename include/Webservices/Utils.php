@@ -46,7 +46,7 @@ function vtws_getUsersInTheSameGroup($id)
 		$usersInGroup = $groupUsers->group_users;
 		foreach ($usersInGroup as $user) {
 			if ($user != $id) {
-				$allUsers[$user] = getUserFullName($user);
+				$allUsers[$user] = \includes\fields\Owner::getUserLabel($user);
 			}
 		}
 	}
@@ -499,7 +499,7 @@ function vtws_getModuleHandlerFromId($id, $user)
 function vtws_CreateCompanyLogoFile($fieldname)
 {
 	$uploaddir = ROOT_DIRECTORY . '/storage/Logo/';
-	$allowedFileTypes = array("jpeg", "png", "jpg", "pjpeg", "x-png");
+	$allowedFileTypes = array('jpeg', 'png', 'jpg', 'pjpeg', 'x-png');
 	$binFile = $_FILES[$fieldname]['name'];
 	$fileType = $_FILES[$fieldname]['type'];
 	$fileSize = $_FILES[$fieldname]['size'];
@@ -508,10 +508,11 @@ function vtws_CreateCompanyLogoFile($fieldname)
 	if ($fileTypeValue == '') {
 		$fileTypeValue = substr($binFile, strrpos($binFile, '.') + 1);
 	}
-	if ($fileSize != 0) {
+	$fileInstance = \includes\fields\File::loadFromRequest($_FILES[$fieldname]);
+	if ($fileInstance->validate()) {
 		if (in_array($fileTypeValue, $allowedFileTypes)) {
-			move_uploaded_file($_FILES[$fieldname]["tmp_name"], $uploaddir . $_FILES[$fieldname]["name"]);
-			copy($uploaddir . $_FILES[$fieldname]["name"], $uploaddir . 'application.ico');
+			$fileInstance->moveFile($uploaddir . $_FILES[$fieldname]['name']);
+			copy($uploaddir . $_FILES[$fieldname]['name'], $uploaddir . 'application.ico');
 			return $binFile;
 		}
 		throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN, "$fieldname wrong file type given for upload");

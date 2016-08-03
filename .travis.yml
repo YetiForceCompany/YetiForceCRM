@@ -20,6 +20,7 @@ mysql:
   encoding: utf8
   
 before_script:
+- mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION'"
 - mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
 - cp tests/travis_config.php config/config_override.php
 - cp tests/travis_debug.php config/debug.php

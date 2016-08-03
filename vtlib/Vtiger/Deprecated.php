@@ -15,11 +15,11 @@ namespace vtlib;
 class Deprecated
 {
 
-	static function getFullNameFromQResult($result, $row_count, $module)
+	public static function getFullNameFromQResult($result, $row_count, $module)
 	{
 		$adb = \PearDatabase::getInstance();
 		$rowdata = $adb->query_result_rowdata($result, $row_count);
-		$entity_field_info = getEntityFieldNames($module);
+		$entity_field_info = \includes\Modules::getEntityInfo($module);
 		$fieldsName = $entity_field_info['fieldname'];
 		$name = '';
 		if ($rowdata != '' && count($rowdata) > 0) {
@@ -29,22 +29,22 @@ class Deprecated
 		return $name;
 	}
 
-	static function getFullNameFromArray($module, $fieldValues)
+	public static function getFullNameFromArray($module, $fieldValues)
 	{
-		$entityInfo = getEntityFieldNames($module);
+		$entityInfo = \includes\Modules::getEntityInfo($module);
 		$fieldsName = $entityInfo['fieldname'];
 		$displayName = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
 		return $displayName;
 	}
 
-	static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
+	public static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
 	{
 		$current_user = vglobal('current_user');
-		if (!is_array($fieldsName)) {
+		if (strpos($fieldsName, ',') === false) {
 			return $fieldValues[$fieldsName];
 		} else {
 			$accessibleFieldNames = [];
-			foreach ($fieldsName as $field) {
+			foreach (explode(',', $fieldsName) as $field) {
 				if ($module == 'Users' || getColumnVisibilityPermission($current_user->id, $field, $module) == '0') {
 					$accessibleFieldNames[] = $fieldValues[$field];
 				}
@@ -56,7 +56,7 @@ class Deprecated
 		return '';
 	}
 
-	static function getBlockId($tabid, $label)
+	public static function getBlockId($tabid, $label)
 	{
 		$adb = \PearDatabase::getInstance();
 		$query = "select blockid from vtiger_blocks where tabid=? and blocklabel = ?";
@@ -70,7 +70,7 @@ class Deprecated
 		return $blockid;
 	}
 
-	static function createModuleMetaFile()
+	public static function createModuleMetaFile()
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -147,7 +147,7 @@ class Deprecated
 		}
 	}
 
-	static function getTemplateDetails($templateid)
+	public static function getTemplateDetails($templateid)
 	{
 		$adb = \PearDatabase::getInstance();
 		$returndata = [];
@@ -158,7 +158,7 @@ class Deprecated
 		return $returndata;
 	}
 
-	static function getModuleTranslationStrings($language, $module)
+	public static function getModuleTranslationStrings($language, $module)
 	{
 		static $cachedModuleStrings = [];
 
@@ -171,7 +171,7 @@ class Deprecated
 		return $cachedModuleStrings[$module];
 	}
 
-	static function getTranslatedCurrencyString($str)
+	public static function getTranslatedCurrencyString($str)
 	{
 		global $app_currency_strings;
 		if (isset($app_currency_strings) && isset($app_currency_strings[$str])) {
@@ -180,7 +180,7 @@ class Deprecated
 		return $str;
 	}
 
-	static function getIdOfCustomViewByNameAll($module)
+	public static function getIdOfCustomViewByNameAll($module)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -193,7 +193,7 @@ class Deprecated
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
 	}
 
-	static function SaveTagCloudView($id = '')
+	public static function SaveTagCloudView($id = '')
 	{
 		$adb = \PearDatabase::getInstance();
 		$tag_cloud_status = \AppRequest::get('tagcloudview');
@@ -210,7 +210,7 @@ class Deprecated
 		}
 	}
 
-	static function clearSmartyCompiledFiles($path = null)
+	public static function clearSmartyCompiledFiles($path = null)
 	{
 		if ($path == null) {
 			$path = ROOT_DIRECTORY . '/cache/templates_c/';
@@ -236,7 +236,7 @@ class Deprecated
 		}
 	}
 
-	static function getSmartyCompiledTemplateFile($template_file, $path = null)
+	public static function getSmartyCompiledTemplateFile($template_file, $path = null)
 	{
 		if ($path == null) {
 			$path = ROOT_DIRECTORY . '/cache/templates_c/';
@@ -262,14 +262,14 @@ class Deprecated
 		return $compiled_file;
 	}
 
-	static function postApplicationMigrationTasks()
+	public static function postApplicationMigrationTasks()
 	{
 		self::clearSmartyCompiledFiles();
 		self::createModuleMetaFile();
 		self::createModuleMetaFile();
 	}
 
-	static function checkFileAccessForInclusion($filepath)
+	public static function checkFileAccessForInclusion($filepath)
 	{
 		$unsafeDirectories = array('storage', 'cache', 'test');
 		$realfilepath = realpath($filepath);
@@ -293,7 +293,7 @@ class Deprecated
 	}
 
 	/** Function to check the file deletion within the deletable (safe) directories */
-	static function checkFileAccessForDeletion($filepath)
+	public static function checkFileAccessForDeletion($filepath)
 	{
 		$safeDirectories = array('storage', 'cache', 'test');
 		$realfilepath = realpath($filepath);
@@ -317,7 +317,7 @@ class Deprecated
 	}
 
 	/** Function to check the file access is made within web root directory. */
-	static function checkFileAccess($filepath)
+	public static function checkFileAccess($filepath)
 	{
 		if (!self::isFileAccessible($filepath)) {
 			$log = vglobal('log');
@@ -332,7 +332,7 @@ class Deprecated
 	 * @param String $filepath relative path to the file which need to be verified
 	 * @return Boolean true if file is a valid file within vtiger root directory, false otherwise.
 	 */
-	static function isFileAccessible($filepath)
+	public static function isFileAccessible($filepath)
 	{
 		$realfilepath = realpath($filepath);
 
@@ -350,7 +350,7 @@ class Deprecated
 		return true;
 	}
 
-	static function getSettingsBlockId($label)
+	public static function getSettingsBlockId($label)
 	{
 		$adb = \PearDatabase::getInstance();
 		$blockid = '';
@@ -363,12 +363,12 @@ class Deprecated
 		return $blockid;
 	}
 
-	static function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
+	public static function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
 	{
-		$entity_field_info = Functions::getEntityModuleInfoFieldsFormatted($module);
-		$fieldsName = $entity_field_info['fieldname'];
+		$entityFieldInfo = \includes\Modules::getEntityInfo($module);
+		$fieldsName = $entityFieldInfo['fieldnameArr'];
 		if (is_array($fieldsName)) {
-			foreach ($fieldsName as $key => $value) {
+			foreach ($fieldsName as &$value) {
 				$formattedNameList[] = $input[$value];
 			}
 			$formattedNameListString = implode(",'" . $glue . "',", $formattedNameList);
@@ -379,7 +379,7 @@ class Deprecated
 		return $sqlString;
 	}
 
-	static function getModuleFieldTypeOfDataInfos($tables, $tabid = '')
+	public static function getModuleFieldTypeOfDataInfos($tables, $tabid = '')
 	{
 		$result = [];
 		if (!empty($tabid)) {
@@ -400,7 +400,7 @@ class Deprecated
 		return $result;
 	}
 
-	static function return_app_list_strings_language($language, $module = 'Vtiger')
+	public static function return_app_list_strings_language($language, $module = 'Vtiger')
 	{
 		$strings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
 		return $strings['languageStrings'];

@@ -1,5 +1,5 @@
 <?php
-/*********************************************************************************
+/* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
  * ("License"); You may not use this file except in compliance with the
  * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
@@ -11,17 +11,18 @@
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
  * Contributor(s): ______________________________________.
- ********************************************************************************/
-/*********************************************************************************
+ * ****************************************************************************** */
+/* * *******************************************************************************
  * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/modules/Emails/Emails.php,v 1.41 2005/04/28 08:11:21 rank Exp $
  * Description:  TODO: To be written.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
- ********************************************************************************/
+ * ****************************************************************************** */
 
 // Email is used to store customer information.
-class Emails extends CRMEntity {
+class Emails extends CRMEntity
+{
 
 	var $log;
 	var $db;
@@ -41,7 +42,7 @@ class Emails extends CRMEntity {
 		'Subject' => Array('activity' => 'subject'),
 		'Related to' => Array('seactivityrel' => 'parent_id'),
 		'Date Sent' => Array('activity' => 'date_start'),
-        'Time Sent' => Array('activity' => 'time_start'),
+		'Time Sent' => Array('activity' => 'time_start'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Access Count' => Array('email_track', 'access_count')
 	);
@@ -49,7 +50,7 @@ class Emails extends CRMEntity {
 		'Subject' => 'subject',
 		'Related to' => 'parent_id',
 		'Date Sent' => 'date_start',
-        'Time Sent' => 'time_start',
+		'Time Sent' => 'time_start',
 		'Assigned To' => 'assigned_user_id',
 		'Access Count' => 'access_count'
 	);
@@ -63,7 +64,8 @@ class Emails extends CRMEntity {
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
 
-	function save_module($module) {
+	function save_module($module)
+	{
 		$adb = PearDatabase::getInstance();
 		//Inserting into seactivityrel
 		//modified by Richie as raju's implementation broke the feature for addition of webmail to vtiger_crmentity.need to be more careful in future while integrating code
@@ -74,7 +76,7 @@ class Emails extends CRMEntity {
 				$actid = $_REQUEST['record'];
 			}
 			$parentid = $_REQUEST['parent_id'];
-			if ($_REQUEST['module'] != 'Emails' ) {
+			if ($_REQUEST['module'] != 'Emails') {
 				if (!$parentid) {
 					$parentid = $adb->getUniqueID('vtiger_seactivityrel');
 				}
@@ -101,8 +103,7 @@ class Emails extends CRMEntity {
 			}
 		} else {
 			if (isset($this->column_fields['parent_id']) && $this->column_fields['parent_id'] != '') {
-				$adb->pquery("DELETE FROM vtiger_seactivityrel WHERE crmid = ? AND activityid = ? ",
-						array($this->column_fields['parent_id'], $this->id));
+				$adb->pquery("DELETE FROM vtiger_seactivityrel WHERE crmid = ? AND activityid = ? ", array($this->column_fields['parent_id'], $this->id));
 				//$this->insertIntoEntityTable('vtiger_seactivityrel', $module);
 				$sql = 'insert into vtiger_seactivityrel values(?,?)';
 				$params = array($this->column_fields['parent_id'], $this->id);
@@ -126,8 +127,10 @@ class Emails extends CRMEntity {
 		$this->insertIntoAttachment($this->id, $module);
 	}
 
-	function insertIntoAttachment($id, $module) {
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	function insertIntoAttachment($id, $module)
+	{
+		$adb = PearDatabase::getInstance();
+		$log = vglobal('log');
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -159,15 +162,17 @@ class Emails extends CRMEntity {
 		$log->debug("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
-	function saveForwardAttachments($id, $module, $file_details) {
+	function saveForwardAttachments($id, $module, $file_details)
+	{
 		$log = vglobal('log');
 		$log->debug("Entering into saveForwardAttachments($id,$module,$file_details) method.");
-		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
-		global $upload_badext;
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
+
 		$mailbox = $_REQUEST["mailbox"];
 		$MailBox = new MailBox($mailbox);
 		$mail = $MailBox->mbox;
-		$binFile = sanitizeUploadFileName($file_details['name'], $upload_badext);
+		$binFile = \includes\fields\File::sanitizeUploadFileName($file_details['name']);
 		$filename = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
 		$filetype = $file_details['type'];
 		$filesize = $file_details['size'];
@@ -212,7 +217,8 @@ class Emails extends CRMEntity {
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions=false) {
+	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$log = vglobal('log');
@@ -239,11 +245,11 @@ class Emails extends CRMEntity {
 			}
 			if (in_array('BULKMAIL', $actions) && isPermitted($related_module, 1, '') == 'yes') {
 				$button .= "<input title='" . getTranslatedString('LBL_BULK_MAILS') . "' class='crmbutton small create'" .
-						" onclick='this.form.action.value=\"sendmail\";this.form.module.value=\"$this_module\"' type='submit' name='button'" .
-						" value='" . getTranslatedString('LBL_BULK_MAILS') . "'>";
+					" onclick='this.form.action.value=\"sendmail\";this.form.module.value=\"$this_module\"' type='submit' name='button'" .
+					" value='" . getTranslatedString('LBL_BULK_MAILS') . "'>";
 			}
 		}
-		
+
 		$query = sprintf('SELECT 
 					vtiger_contactdetails.parentid,
 					vtiger_contactdetails.contactid,
@@ -283,7 +289,8 @@ class Emails extends CRMEntity {
 	 * All Rights Reserved..
 	 * Contributor(s): Mike Crowe
 	 */
-	function getSortOrder() {
+	function getSortOrder()
+	{
 		$log = vglobal('log');
 		$log->debug("Entering getSortOrder() method ...");
 		if (isset($_REQUEST['sorder']))
@@ -300,7 +307,8 @@ class Emails extends CRMEntity {
 	 * All Rights Reserved..
 	 * Contributor(s): Mike Crowe
 	 */
-	function getOrderBy() {
+	function getOrderBy()
+	{
 		$log = vglobal('log');
 		$log->debug("Entering getOrderBy() method ...");
 
@@ -317,7 +325,6 @@ class Emails extends CRMEntity {
 		$log->debug("Exiting getOrderBy method ...");
 		return $order_by;
 	}
-
 	// Mike Crowe Mod --------------------------------------------------------
 
 	/** Returns a list of the associated vtiger_users
@@ -325,7 +332,8 @@ class Emails extends CRMEntity {
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function get_users($id) {
+	function get_users($id)
+	{
 		$log = vglobal('log');
 		$log->debug("Entering get_users(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
@@ -355,7 +363,7 @@ class Emails extends CRMEntity {
 		$header [] = $app_strings['LBL_PHONE'];
 		while ($row = $adb->fetch_array($result)) {
 
-			$current_user  = vglobal('current_user');
+			$current_user = vglobal('current_user');
 
 			$entries = Array();
 
@@ -396,9 +404,10 @@ class Emails extends CRMEntity {
 	/**
 	 * Returns a list of the Emails to be exported
 	 */
-	function create_export_query(&$order_by, &$where) {
+	function create_export_query(&$order_by, &$where)
+	{
 		$log = vglobal('log');
-		$current_user  = vglobal('current_user');
+		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $order_by . "," . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
@@ -439,7 +448,8 @@ class Emails extends CRMEntity {
 	/**
 	 * Used to releate email and contacts -- Outlook Plugin
 	 */
-	function set_emails_contact_invitee_relationship($email_id, $contact_id) {
+	function set_emails_contact_invitee_relationship($email_id, $contact_id)
+	{
 		$log = vglobal('log');
 		$log->debug("Entering set_emails_contact_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
 		$query = "insert into $this->rel_contacts_table (contactid,activityid) values(?,?)";
@@ -450,7 +460,8 @@ class Emails extends CRMEntity {
 	/**
 	 * Used to releate email and salesentity -- Outlook Plugin
 	 */
-	function set_emails_se_invitee_relationship($email_id, $contact_id) {
+	function set_emails_se_invitee_relationship($email_id, $contact_id)
+	{
 		$log = vglobal('log');
 		$log->debug("Entering set_emails_se_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
 		$query = "insert into $this->rel_serel_table (crmid,activityid) values(?,?)";
@@ -461,7 +472,8 @@ class Emails extends CRMEntity {
 	/**
 	 * Used to releate email and Users -- Outlook Plugin
 	 */
-	function set_emails_user_invitee_relationship($email_id, $user_id) {
+	function set_emails_user_invitee_relationship($email_id, $user_id)
+	{
 		$log = vglobal('log');
 		$log->debug("Entering set_emails_user_invitee_relationship(" . $email_id . "," . $user_id . ") method ...");
 		$query = "insert into $this->rel_users_table (smid,activityid) values (?,?)";
@@ -484,132 +496,136 @@ class Emails extends CRMEntity {
 		$this->db->pquery('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?', array(date('y-m-d H:i:d'), $id));
 	}
 
-	public function getNonAdminAccessControlQuery($module, $user, $scope='') {
-        require('user_privileges/user_privileges_' . $user->id . '.php');
+	public function getNonAdminAccessControlQuery($module, $user, $scope = '')
+	{
+		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
 		$tabId = getTabid($module);
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2]
-				== 1 && $defaultOrgSharingPermission[$tabId] == 3) {
+		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
 			$sharingRuleInfo = $sharingRuleInfoVariable;
 			$sharedTabId = null;
 			if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
-					count($sharingRuleInfo['GROUP']) > 0)) {
+				count($sharingRuleInfo['GROUP']) > 0)) {
 				$tableName = $tableName . '_t' . $tabId;
 				$sharedTabId = $tabId;
 			}
 			$this->setupTemporaryTable($tableName, $sharedTabId, $user, $current_user_parent_role_seq, $current_user_groups);
 			$query = " INNER JOIN $tableName $tableName$scope ON $tableName$scope.id = " .
-					"vtiger_crmentity$scope.smownerid ";
+				"vtiger_crmentity$scope.smownerid ";
 		}
-        return $query;
+		return $query;
 	}
 
-	protected function setupTemporaryTable($tableName, $tabId, $user, $parentRole, $userGroups) {
+	protected function setupTemporaryTable($tableName, $tabId, $user, $parentRole, $userGroups)
+	{
 		$module = null;
 		if (!empty($tabId)) {
 			$module = getTabname($tabId);
 		}
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
-		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared int(1) default 0) ignore ".$query;
+		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared int(1) default 0) ignore " . $query;
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery($query, array());
-		if(is_object($result)) {
+		if (is_object($result)) {
 			return true;
 		}
 		return false;
 	}
-
 	/*
-	* Function to get the relation tables for related modules
-	* @param - $secmodule secondary module name
-	* returns the array with table names and fieldnames storing relations between module and this module
-	*/
+	 * Function to get the relation tables for related modules
+	 * @param - $secmodule secondary module name
+	 * returns the array with table names and fieldnames storing relations between module and this module
+	 */
+
 	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array (
-				"Leads" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
-				"Vendors" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
-				"Contacts" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
-				"Accounts" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
+		$rel_tables = array(
+			"Leads" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
+			"Vendors" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
+			"Contacts" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
+			"Accounts" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
 		);
 		if ($secmodule === false) {
 			return $relTables;
 		}
 		return $rel_tables[$secmodule];
 	}
-
 	/*
-	* Function to get the secondary query part of a report
-	* @param - $module primary module name
-	* @param - $secmodule secondary module name
-	* returns the query string formed on fetching the related data for report for secondary module
-	*/
-	function generateReportsSecQuery($module, $secmodule, $queryPlanner){
+	 * Function to get the secondary query part of a report
+	 * @param - $module primary module name
+	 * @param - $secmodule secondary module name
+	 * returns the query string formed on fetching the related data for report for secondary module
+	 */
+
+	function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	{
 		$focus = CRMEntity::getInstance($module);
 		$matrix = $queryPlanner->newDependencyMatrix();
 
-		$matrix->setDependency("vtiger_crmentityEmails",array("vtiger_groupsEmails","vtiger_usersEmails","vtiger_lastModifiedByEmails"));
-		$matrix->setDependency("vtiger_activity",array("vtiger_crmentityEmails","vtiger_email_track"));
+		$matrix->setDependency("vtiger_crmentityEmails", array("vtiger_groupsEmails", "vtiger_usersEmails", "vtiger_lastModifiedByEmails"));
+		$matrix->setDependency("vtiger_activity", array("vtiger_crmentityEmails", "vtiger_email_track"));
 
 		if (!$queryPlanner->requireTable('vtiger_activity', $matrix)) {
 			return '';
 		}
 
-		$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity","activityid", $queryPlanner);
-		if ($queryPlanner->requireTable("vtiger_crmentityEmails")){
-		    $query .= " LEFT JOIN vtiger_crmentity AS vtiger_crmentityEmails ON vtiger_crmentityEmails.crmid=vtiger_activity.activityid and vtiger_crmentityEmails.deleted = 0";
+		$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity", "activityid", $queryPlanner);
+		if ($queryPlanner->requireTable("vtiger_crmentityEmails")) {
+			$query .= " LEFT JOIN vtiger_crmentity AS vtiger_crmentityEmails ON vtiger_crmentityEmails.crmid=vtiger_activity.activityid and vtiger_crmentityEmails.deleted = 0";
 		}
-		if ($queryPlanner->requireTable("vtiger_groupsEmails")){
-		    $query .= " LEFT JOIN vtiger_groups AS vtiger_groupsEmails ON vtiger_groupsEmails.groupid = vtiger_crmentityEmails.smownerid";
+		if ($queryPlanner->requireTable("vtiger_groupsEmails")) {
+			$query .= " LEFT JOIN vtiger_groups AS vtiger_groupsEmails ON vtiger_groupsEmails.groupid = vtiger_crmentityEmails.smownerid";
 		}
-		if ($queryPlanner->requireTable("vtiger_usersEmails")){
-		    $query .= " LEFT JOIN vtiger_users AS vtiger_usersEmails ON vtiger_usersEmails.id = vtiger_crmentityEmails.smownerid";
+		if ($queryPlanner->requireTable("vtiger_usersEmails")) {
+			$query .= " LEFT JOIN vtiger_users AS vtiger_usersEmails ON vtiger_usersEmails.id = vtiger_crmentityEmails.smownerid";
 		}
-		if ($queryPlanner->requireTable("vtiger_lastModifiedByEmails")){
-		    $query .= " LEFT JOIN vtiger_users AS vtiger_lastModifiedByEmails ON vtiger_lastModifiedByEmails.id = vtiger_crmentityEmails.modifiedby and vtiger_seactivityreltmpEmails.activityid = vtiger_activity.activityid";
+		if ($queryPlanner->requireTable("vtiger_lastModifiedByEmails")) {
+			$query .= " LEFT JOIN vtiger_users AS vtiger_lastModifiedByEmails ON vtiger_lastModifiedByEmails.id = vtiger_crmentityEmails.modifiedby and vtiger_seactivityreltmpEmails.activityid = vtiger_activity.activityid";
 		}
-        if ($queryPlanner->requireTable("vtiger_createdbyEmails")){
+		if ($queryPlanner->requireTable("vtiger_createdbyEmails")) {
 			$query .= " left join vtiger_users as vtiger_createdbyEmails on vtiger_createdbyEmails.id = vtiger_crmentityEmails.smcreatorid and vtiger_seactivityreltmpEmails.activityid = vtiger_activity.activityid";
 		}
-		if ($queryPlanner->requireTable("vtiger_email_track")){
-		    $query .= " LEFT JOIN vtiger_email_track ON vtiger_email_track.mailid = vtiger_activity.activityid and vtiger_email_track.crmid = ".$focus->table_name.".".$focus->table_index;
+		if ($queryPlanner->requireTable("vtiger_email_track")) {
+			$query .= " LEFT JOIN vtiger_email_track ON vtiger_email_track.mailid = vtiger_activity.activityid and vtiger_email_track.crmid = " . $focus->table_name . "." . $focus->table_index;
 		}
 		return $query;
 	}
-
 	/*
 	 * Function to store the email access count value of emails in 'vtiger_email_track' table
 	 * @param - $mailid
 	 */
-	function setEmailAccessCountValue($mailid) {
+
+	function setEmailAccessCountValue($mailid)
+	{
 		$adb = PearDatabase::getInstance();
 		$successIds = array();
 		$result = $adb->pquery('SELECT idlists FROM vtiger_emaildetails WHERE emailid=?', array($mailid));
-		$idlists = $adb->query_result($result,0,'idlists');
+		$idlists = $adb->query_result($result, 0, 'idlists');
 		$idlistsArray = explode('|', $idlists);
 
-		for ($i=0; $i<(count($idlistsArray)-1); $i++) {
-			$crmid = explode("@",$idlistsArray[$i]);
+		for ($i = 0; $i < (count($idlistsArray) - 1); $i++) {
+			$crmid = explode("@", $idlistsArray[$i]);
 			array_push($successIds, $crmid[0]);
 		}
 		$successIds = array_unique($successIds);
 		sort($successIds);
-		for ($i=0; $i<count($successIds); $i++) {
+		for ($i = 0; $i < count($successIds); $i++) {
 			$adb->pquery("INSERT INTO vtiger_email_track(crmid, mailid,  access_count) VALUES(?,?,?)", array($successIds[$i], $mailid, 0));
 		}
 	}
-
 }
 
 //added for attach the generated pdf with email
-function pdfAttach($obj, $module, $file_name, $id) {
+function pdfAttach($obj, $module, $file_name, $id)
+{
 	$log = vglobal('log');
 	$log->debug("Entering into pdfAttach() method.");
 
-	$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
+	$adb = PearDatabase::getInstance();
+	$current_user = vglobal('current_user');
 	global $upload_badext;
 	$date_var = date('Y-m-d H:i:s');
 
@@ -649,8 +665,9 @@ function pdfAttach($obj, $module, $file_name, $id) {
 }
 
 //this function check email fields profile permission as well as field access permission
-function emails_checkFieldVisiblityPermission($fieldname, $mode='readonly') {
-	$current_user  = vglobal('current_user');
+function emails_checkFieldVisiblityPermission($fieldname, $mode = 'readonly')
+{
+	$current_user = vglobal('current_user');
 	$ret = getFieldVisibilityPermission('Emails', $current_user->id, $fieldname, $mode);
 	return $ret;
 }

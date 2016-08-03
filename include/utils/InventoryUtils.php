@@ -1035,5 +1035,3 @@ function getLineItemFields()
 	}
 	return $lineItemdFields;
 }
-
-?>

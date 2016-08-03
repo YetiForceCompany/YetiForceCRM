@@ -87,13 +87,14 @@
 				<div class="pull-left selectSearch">
 					<div class="input-group globalSearchInput">
 						<span class="input-group-btn">
+
 							<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 								<option value="">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
-								{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
-									{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
-										<option value="{$MODULE_NAME}" selected>{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
+								{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
+									{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
+										<option value="{$SEARCHABLE_MODULE}" selected>{vtranslate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
 									{else}
-										<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
+										<option value="{$SEARCHABLE_MODULE}">{vtranslate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
 									{/if}
 								{/foreach}
 							</select>
@@ -169,5 +170,4 @@
 			</div>
 		</div>
 	</div>
-	<div class="mainBody">
 	{/strip}

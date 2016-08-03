@@ -109,7 +109,7 @@ class VTScheduledReport extends Reports
 		$recipientsEmails = array();
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
-				$userName = getUserFullName($userId);
+				$userName = \includes\fields\Owner::getUserLabel($userId);
 				$userEmail = getUserEmail($userId);
 				if (!in_array($userEmail, $recipientsEmails)) {
 					$recipientsEmails[$userName] = $userEmail;
@@ -259,24 +259,23 @@ class VTScheduledReport extends Reports
 	public static function generateRecipientOption($type, $value, $name = '')
 	{
 		switch ($type) {
-			case "users" : if (empty($name))
-					$name = getUserFullName($value);
+			case 'users' : if (empty($name))
+					$name = \includes\fields\Owner::getUserLabel($value);
 				$optionName = 'User::' . addslashes(decode_html($name));
 				$optionValue = 'users::' . $value;
 				break;
-			case "groups" : if (empty($name)) {
-					$groupInfo = getGroupName($value);
-					$name = $groupInfo[0];
+			case 'groups' : if (empty($name)) {
+					$name = \includes\fields\Owner::getGroupName($value);
 				}
 				$optionName = 'Group::' . addslashes(decode_html($name));
 				$optionValue = 'groups::' . $value;
 				break;
-			case "roles" : if (empty($name))
+			case 'roles' : if (empty($name))
 					$name = getRoleName($value);
 				$optionName = 'Roles::' . addslashes(decode_html($name));
 				$optionValue = 'roles::' . $value;
 				break;
-			case "rs" : if (empty($name))
+			case 'rs' : if (empty($name))
 					$name = getRoleName($value);
 				$optionName = 'RoleAndSubordinates::' . addslashes(decode_html($name));
 				$optionValue = 'rs::' . $value;

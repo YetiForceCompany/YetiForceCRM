@@ -49,4 +49,4 @@ $languageStrings = [
 	'LBL_SET_RENEWAL' => 'Configurer le renouvellement',
 ];
 
-?>
+

@@ -17,7 +17,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 		$listSearchParams = [];
 		$conditions = array(array('leadsource', 'e', $value));
 		if ($assignedto != '')
-			array_push($conditions, array('assigned_user_id', 'e', getUserFullName($assignedto)));
+			array_push($conditions, array('assigned_user_id', 'e', \includes\fields\Owner::getUserLabel($assignedto)));
 		if (!empty($dates)) {
 			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59'));
 		}
@@ -62,7 +62,8 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 		$result = $db->pquery($query, $params);
 
 		$response = [];
-		if ($db->num_rows($result) > 0) {
+		$i = 0;
+		if ($db->getRowCount($result) > 0) {
 			while ($row = $db->getRow($result)) {
 				$data[$i]['label'] = vtranslate($row['leadsourcevalue'], 'Leads');
 				$ticks[$i][0] = $i;
@@ -70,6 +71,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 				$data[$i]['data'][0][0] = $i;
 				$data[$i]['data'][0][1] = $row['count'];
 				$name[] = $row['leadsourcevalue'];
+				$i++;
 			}
 			$response['chart'] = $data;
 			$response['ticks'] = $ticks;

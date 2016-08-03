@@ -229,7 +229,7 @@ $languageStrings = [
 	'LBL_HEIGHT_LOGO' => 'Высота логотипа',
 	//YetiForce
 	'vatid' => 'ИНН',
-	'regon'=>'ID 1',
+	'regon' => 'ID 1',
 	'krs' => 'ID 2',
 	'LBL_SECURITY_MANAGEMENT' => 'Безопасность',
 	'LBL_MAIL_TOOLS' => 'Почта',

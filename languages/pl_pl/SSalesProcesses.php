@@ -3,14 +3,12 @@
 $languageStrings = [
 	'SSalesProcesses' => 'Szanse sprzedaży',
 	'SINGLE_SSalesProcesses' => 'Szansa sprzedaży',
-	
 	//BLOCKS
 	'LBL_SSALESPROCESSES_INFORMATION' => 'Informacje podstawowe',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
 	'LBL_DESCRIPTION_INFORMATION' => 'Informacje Opisowe',
 	'LBL_ATTENTION' => 'Uwagi',
 	'LBL_FINANCES' => 'Finanse',
-	
 	//FIELDS
 	'LBL_SUBJECT' => 'Temat',
 	'LBL_NUMBER' => 'Numer',
@@ -23,7 +21,6 @@ $languageStrings = [
 	'FL_SOURCE' => 'Źródło pozyskania',
 	'FL_TYPE' => 'Rodzaj',
 	'FL_STATUS' => 'Status',
-	
 	//Picklist
 	'PLL_WEBSITE' => 'Strona WWW',
 	'PLL_PHONE' => 'Telefon',
@@ -54,7 +51,6 @@ $languageStrings = [
 	'PLL_SALE_COMPLETED' => 'Sprzedaż zakończona',
 	'PLL_SALE_FAILED' => 'Sprzedaż nieudana',
 	'PLL_SALE_CANCELLED' => 'Sprzedaż anulowana',
-	
 	'LBL_SWITCHHEADER_ON_0' => 'Otwarte',
 	'LBL_SWITCHHEADER_OFF_0' => 'Zamknięte',
 	'LBL_HEADERSWITCH_OPEN_CLOSED' => 'Otwarte/Zamknięte',

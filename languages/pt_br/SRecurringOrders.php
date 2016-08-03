@@ -3,14 +3,12 @@
 $languageStrings = [
 	'SRecurringOrders' => 'Recurring Sales Orders',
 	'SINGLE_SRecurringOrders' => 'Recurring Sales Order',
-
 	//BLOCKS
 	'LBL_SRECURRINGORDERS_INFORMATION' => 'Informações básicas',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description Details',
 	'LBL_STATISTICS' => 'Statistics',
 	'LBL_PERIODIC_GENERATION' => 'Periodic generation',
-
 	//FIELDS
 	'LBL_SUBJECT' => 'Assunto',
 	'LBL_NUMBER' => 'Número',
@@ -22,12 +20,10 @@ $languageStrings = [
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Actual completion date',
 	'LBL_COMPANY_NAME' => 'Company name',
 	'SINGLE_SSalesProcesses' => 'Oportunidade',
-	
 	'LBL_END_PERIOD' => 'End Period',
 	'LBL_FREQUENCY' => 'Frequency',
 	'LBL_START_PERIOD' => 'Start Period',
 	'LBL_TARGET_MODULE' => 'Target module',
-
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Draft',
 	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Requires to be complemented',
@@ -38,7 +34,6 @@ $languageStrings = [
 	'PLL_AUTOMATIC_GENERATION' => 'Automatic generation',
 	'PLL_UNREALIZED' => 'Unrealized',
 	'PLL_REALIZED' => 'Realized',
-	
 	'+1 day' => 'Daily',
 	'+7 days' => 'Weekely',
 	'+14 days' => 'Every 2 weeks',
@@ -58,6 +53,5 @@ $languageStrings = [
 	'last day of next month' => 'Last day of next month',
 	'first day of +3 months' => 'First day of next quarter',
 	'last day of +3 months' => 'Last day of next quarter',
-
 	'LBL_CHANGE_STATUS' => 'Change Status',
 ];

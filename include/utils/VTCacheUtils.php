@@ -508,5 +508,3 @@ class VTCacheUtils
 		self::$_report_field_bylabel[$module][$label] = $fieldInfo;
 	}
 }
-
-?>

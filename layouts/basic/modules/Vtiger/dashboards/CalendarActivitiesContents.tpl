@@ -26,7 +26,7 @@ font-size: 75%;
 			<image src="{vimage_path_default($ACTIVITY_TYPE, Calendar)}" alt="{vtranslate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;
 		</div>
 		<div>
-			<div class="pull-left">
+			<div class="pull-left activitiesLabel">
 				{assign var=LINK value=$ACTIVITY->get('link')}
 				{assign var=PROCESS value=$ACTIVITY->get('process')}
 				{assign var=CONTRACTOR value=$ACTIVITY->get('contractor')}					

@@ -42,6 +42,9 @@ jQuery.Class("Vtiger_Helper_Js", {
 	},
 	getDay: function (date) {
 		var dateObj = new Date(date);
+		if (isNaN(dateObj.getDay())) {
+			dateObj = Date.parse(date);
+		}
 		return dateObj.getDay();
 	},
 	getLabelDayFromDate: function (day) {

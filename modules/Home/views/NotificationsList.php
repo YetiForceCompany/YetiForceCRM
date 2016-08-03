@@ -24,7 +24,7 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 		}
 		$notificationEntries = [];
 		if (!empty($types)){
-			$notificationEntries = $notification->getEntries(false,  'AND `type` IN (' . implode(',', $types) . ')' , false, false);
+			$notificationEntries = $notification->getEntries(AppConfig::module($moduleName, 'MAX_NUMBER_NOTIFICATIONS'),  'AND `type` IN (' . implode(',', $types) . ')' , false, false);
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);

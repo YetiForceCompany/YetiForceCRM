@@ -45,6 +45,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 	echo sprintf('---------------  %s | Start CRON  ----------', date('Y-m-d H:i:s')) . PHP_EOL;
 	foreach ($cronTasks as $cronTask) {
 		try {
+			$log->info($cronTask->getName() . ' - Start');
 			// Timeout could happen if intermediate cron-tasks fails
 			// and affect the next task. Which need to be handled in this cycle.				
 			if ($cronTask->hadTimeout()) {
@@ -85,6 +86,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 			// Mark the status - finished
 			$cronTask->markFinished();
 			echo sprintf('%s | %s - End task', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
+			$log->info($cronTask->getName() . ' - End');
 		} catch (AppException $e) {
 			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->getMessage() . PHP_EOL;

@@ -3510,13 +3510,13 @@ class ReportRun extends CRMEntity
 		$reportSecondaryModules = explode(':', $this->secondarymodule);
 
 		if ($moduleName != $this->primarymodule && in_array($this->primarymodule, $referenceModuleList)) {
-			$entityTableFieldNames = getEntityFieldNames($this->primarymodule);
+			$entityTableFieldNames = \includes\Modules::getEntityInfo($this->primarymodule);
 			$entityTableName = $entityTableFieldNames['tablename'];
 			$entityFieldNames = $entityTableFieldNames['fieldname'];
 
 			$columnList = array();
-			if (is_array($entityFieldNames)) {
-				foreach ($entityFieldNames as $entityColumnName) {
+			if (strpos(',', $entityFieldNames) !== false) {
+				foreach ($entityTableFieldNames['fieldnameArr'] as $entityColumnName) {
 					$columnList["$entityColumnName"] = "$entityTableName.$entityColumnName";
 				}
 			} else {
@@ -3530,7 +3530,7 @@ class ReportRun extends CRMEntity
 			$columnsSqlList[] = $columnSql;
 		} else {
 			foreach ($referenceModuleList as $referenceModule) {
-				$entityTableFieldNames = getEntityFieldNames($referenceModule);
+				$entityTableFieldNames = \includes\Modules::getEntityInfo($referenceModule);
 				$entityTableName = $entityTableFieldNames['tablename'];
 				$entityFieldNames = $entityTableFieldNames['fieldname'];
 
@@ -3569,7 +3569,7 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_vendorRelProducts';
 				} elseif ($moduleName == 'ModComments' && $referenceModule == 'Users') {
 					$referenceTableName = 'vtiger_usersModComments';
-				} elseif (in_array($referenceModule, $reportSecondaryModules)) {
+				} elseif (in_array($referenceModule, $reportSecondaryModules) && $moduleName != getTabModuleName($fieldInstance->getTabId())) {
 					$referenceTableName = "{$entityTableName}Rel$referenceModule";
 					$dependentTableName = "vtiger_crmentityRel{$referenceModule}{$fieldInstance->getFieldId()}";
 				} elseif (in_array($moduleName, $reportSecondaryModules)) {
@@ -3616,8 +3616,8 @@ class ReportRun extends CRMEntity
 					$this->queryPlanner->addTable($dependentTableName);
 				}
 				$columnList = array();
-				if (is_array($entityFieldNames)) {
-					foreach ($entityFieldNames as $entityColumnName) {
+				if (strpos(',', $entityFieldNames) !== false) {
+					foreach ($entityFieldNames['fieldnameArr'] as $entityColumnName) {
 						$columnList["$entityColumnName"] = "$referenceTableName.$entityColumnName";
 					}
 				} else {

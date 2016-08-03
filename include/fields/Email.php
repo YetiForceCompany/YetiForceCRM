@@ -25,7 +25,7 @@ class Email
 	public static function findCrmidByEmail($value, $allowedModules = [], $skipModules = [])
 	{
 		$db = \PearDatabase::getInstance();
-		$rows = $params = $fields = [];
+		$rows = $ids = $params = $fields = [];
 		$query = '';
 		$countWhere = 0;
 		$result = $db->query('SELECT vtiger_field.columnname,vtiger_field.tablename,vtiger_field.fieldlabel,vtiger_field.tabid,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = 0 AND vtiger_field.presence <> 1 AND (uitype = 13 OR uitype = 104)');
@@ -41,13 +41,7 @@ class Email
 			$join = $where = [];
 			foreach ($moduleFields as $tablename => &$columns) {
 				$tableIndex = $instance->tab_name_index[$tablename];
-				if ($isEntityType) {
-					$selest = ',label,setype';
-					$query .= sprintf(' UNION (SELECT %s AS id %s FROM %s INNER JOIN u_yf_crmentity_label ON %s.%s = u_yf_crmentity_label.crmid ', $tableIndex, $selest, $tablename, $tablename, $tableIndex);
-				} else {
-					$selest = ",NULL AS `label`,'$moduleName' AS setype";
-					$query .= sprintf(' UNION (SELECT %s AS id %s FROM %s', $tableIndex, $selest, $tablename);
-				}
+				$query .= sprintf(' UNION (SELECT %s AS id, \'%s\' AS setype FROM %s', $tableIndex, $moduleName, $tablename);
 				foreach ($columns as $columnName => &$row) {
 					$join[$tablename] = $row;
 					$where[] = $tablename . '.' . $columnName;
@@ -73,14 +67,19 @@ class Email
 		}
 		$result = $db->pquery(ltrim($query, ' UNION '), $params);
 		while ($row = $db->getRow($result)) {
+			$ids[] = $row['id'];
 			$rows[] = ['crmid' => $row['id'], 'modules' => $row['setype'], 'label' => isset($row['label']) ? $row['label'] : false];
+		}
+		$labels = \includes\Record::getLabel($ids);
+		foreach ($rows as &$row) {
+			$row['label'] = $labels[$row['crmid']];
 		}
 		return $rows;
 	}
 
 	public static function getUserMail($userId)
 	{
-		$userModel = \Users_Privileges_Model::getInstanceById($userId);
+		$userModel = \Users_Privileges_Model::getInstanceById($userId, 'Users');
 		return $userModel->get('email1');
 	}
 }

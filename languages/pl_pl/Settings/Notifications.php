@@ -15,6 +15,6 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć element?',
-	'JS_SAVE_CAHNGES' => 'Zapisano zmiany', 
+	'JS_SAVE_CAHNGES' => 'Zapisano zmiany',
 ];
 

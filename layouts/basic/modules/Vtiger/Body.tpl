@@ -10,7 +10,8 @@
 			<div class="leftPanel noSpaces">
 				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
 			</div>
+			{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
 			<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
-				{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
+				<div class="mainBody {if AppConfig::main('isVisibleUserInfoFooter')}userInfoFooter{/if}">
 				{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
 {/strip}

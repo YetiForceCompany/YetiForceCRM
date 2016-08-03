@@ -435,10 +435,9 @@ function getRecordOwnerId($record)
 		$ownerId = $recordMetaData['smownerid'];
 		// Look at cache first for information
 		$count = VTCacheUtils::lookupOwnerType($ownerId);
-
 		if ($count === false) {
-			$sql_result = $adb->pquery("select count(*) as count from vtiger_users where id = ?", array($ownerId));
-			$count = $adb->query_result($sql_result, 0, 'count');
+			$result = $adb->pquery("select 1 from vtiger_users where id = ?", array($ownerId));
+			$count = $adb->getRowCount($result);
 			// Update cache for re-use
 			VTCacheUtils::updateOwnerType($ownerId, $count);
 		}
@@ -1121,7 +1120,7 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 		$result = $adb->pquery($sql, array($callfrom));
 		if ($adb->num_rows($result) > 0) {
 			$userid = $adb->query_result($result, 0, "userid");
-			$callerName = getUserFullName($userid);
+			$callerName = \includes\fields\Owner::getUserLabel($userid);
 		}
 
 		$receiver = $useCallerInfo;
@@ -1136,7 +1135,7 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 		$result = $adb->pquery($sql, array($callto));
 		if ($adb->num_rows($result) > 0) {
 			$userid = $adb->query_result($result, 0, "userid");
-			$receiver = getUserFullName($userid);
+			$receiver = \includes\fields\Owner::getUserLabel($userid);
 		}
 		$callerName = $useCallerInfo;
 		if (empty($callerName)) {
@@ -1497,35 +1496,6 @@ function getValidDBInsertDateTimeValue($value)
 	} elseif (count($valueList == 1)) {
 		return getValidDBInsertDateValue($value);
 	}
-}
-
-/** Function to sanitize the upload file name when the file name is detected to have bad extensions
- * @param String -- $fileName - File name to be sanitized
- * @return String - Sanitized file name
- */
-function sanitizeUploadFileName($fileName, $badFileExtensions)
-{
-	$fileName = vtlib\Functions::slug($fileName);
-	$fileName = rtrim($fileName, '\\/<>?*:"<>|');
-
-	$fileNameParts = explode(".", $fileName);
-	$countOfFileNameParts = count($fileNameParts);
-	$badExtensionFound = false;
-
-	for ($i = 0; $i < $countOfFileNameParts; ++$i) {
-		$partOfFileName = $fileNameParts[$i];
-		if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
-			$badExtensionFound = true;
-			$fileNameParts[$i] = $partOfFileName . 'file';
-		}
-	}
-
-	$newFileName = implode(".", $fileNameParts);
-
-	if ($badExtensionFound) {
-		$newFileName .= ".txt";
-	}
-	return $newFileName;
 }
 
 /** Function to get the tab meta information for a given id

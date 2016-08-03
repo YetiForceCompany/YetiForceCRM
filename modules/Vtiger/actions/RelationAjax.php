@@ -203,12 +203,16 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$count = (int) current(ModTracker_Record_Model::getUnreviewed($parentId));
 			$totalCount = $count ? $count : '';
 		} else {
+			$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
 			$pagingModel = new Vtiger_Paging_Model();
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-			foreach ($relModules as $relatedModuleName) {
-				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-				if (!vtlib_isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
+			foreach ($relModules as $relModule) {
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
+				if (!vtlib_isModuleActive($relModule) || !$relationListView->getRelationModel()) {
 					continue;
+				}
+				if ($relatedModuleName == 'ProductsAndServices' && in_array($relModule, $categoryCount)) {
+					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
 				}
 				$totalCount += (int) $relationListView->getRelatedEntriesCount();
 				$pageLimit = $pagingModel->getPageLimit();

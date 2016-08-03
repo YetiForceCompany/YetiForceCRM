@@ -120,11 +120,11 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		if (key_exists($id, self::$users)) {
 			return self::$users[$id];
 		}
-		$entityData = vtlib\Functions::getEntityModuleInfo('Users');
+		$entityData = \includes\Modules::getEntityInfo('Users');
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($id);
 		$colums = [];
-		foreach (explode(',', $entityData['fieldname']) as &$fieldname) {
+		foreach ($entityData['fieldnameArr'] as &$fieldname) {
 			$colums[] = $currentUser->column_fields[$fieldname];
 		}
 		$name = implode(' ', $colums);
@@ -235,9 +235,9 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 					$name = Settings_Roles_Record_Model::getInstanceById($id);
 				}
 				$name = $name->getName();
-				if($oldValues[$id])
+				if ($oldValues[$id])
 					$prev[$name] = implode(',', $oldValues[$id]);
-				else 
+				else
 					$prev[$name] = '';
 				$post[$name] = implode(',', $newValues[$id]);
 				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
@@ -255,7 +255,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				}
 				$name = $name->getName();
 				$prev[$name] = implode(',', $oldValues[$id]);
-				if($newValues[$id])
+				if ($newValues[$id])
 					$post[$name] = implode(',', $newValues[$id]);
 				else
 					$post[$name] = '';

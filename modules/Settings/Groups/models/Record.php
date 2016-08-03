@@ -104,8 +104,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$sql = 'SELECT vtiger_tab.tabid, vtiger_tab.name FROM vtiger_group2modules INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_group2modules.tabid WHERE vtiger_group2modules.groupid=?';
 			$result = $db->pquery($sql, [$this->getId()]);
 			$modules = [];
-			for ($i = 0; $i < $db->num_rows($result); ++$i) {
-				$row = $db->query_result_rowdata($result, $i);
+			while ($row = $db->getRow($result)) {
 				$modules[$row['tabid']] = $row['name'];
 			}
 			$this->modules = $modules;
@@ -170,9 +169,20 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$modules = $this->get('modules');
 		if (is_array($modules)) {
-			$db->pquery('DELETE FROM vtiger_group2modules WHERE groupid=?', array($groupId));
-			for ($i = 0; $i < count($modules); ++$i) {
-				$db->pquery('INSERT INTO vtiger_group2modules(tabid, groupid) VALUES (?,?)', array($modules[$i], $groupId));
+			$oldModules = array_flip($this->getModules());
+			$removed = array_diff($oldModules, $modules);
+			$add = array_diff($modules, $oldModules);
+
+			foreach ($removed as $moduleName => &$tabId) {
+				$db->delete('vtiger_group2modules', 'groupid = ? AND tabid = ?', [$groupId, $tabId]);
+				\includes\Privileges::setUpdater($moduleName);
+			}
+			foreach ($add as &$tabId) {
+				$db->insert('vtiger_group2modules', [
+					'tabid' => $tabId,
+					'groupid' => $groupId
+				]);
+				\includes\Privileges::setUpdater(vtlib\Functions::getModuleName($tabId));
 			}
 		}
 		$this->recalculate($oldUsersList);
@@ -430,10 +440,10 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$data = $this->getData();
 		$modules = [];
-		if(!is_array($data['modules'])){
+		if (!is_array($data['modules'])) {
 			$data['modules'] = [$data['modules']];
 		}
-		if(!is_array($data['group_members'])){
+		if (!is_array($data['group_members'])) {
 			$data['group_members'] = [$data['group_members']];
 		}
 		foreach ($data['modules'] as $tabId) {

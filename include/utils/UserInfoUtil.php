@@ -1642,7 +1642,7 @@ function get_current_user_access_groups($module)
 {
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering get_current_user_access_groups(" . $module . ") method ...");
-	global $adb, $noof_group_rows;
+	$adb = PearDatabase::getInstance();
 	$current_user_group_list = getCurrentUserGroupList();
 	$sharing_write_group_list = getWriteSharingGroupsList($module);
 	$query = "select groupname,groupid from vtiger_groups";
@@ -1651,17 +1651,14 @@ function get_current_user_access_groups($module)
 		$query .= sprintf(" WHERE (groupid in (%s) OR groupid IN (%s))", generateQuestionMarks($current_user_group_list), generateQuestionMarks($sharing_write_group_list));
 		array_push($params, $current_user_group_list, $sharing_write_group_list);
 		$result = $adb->pquery($query, $params);
-		$noof_group_rows = $adb->num_rows($result);
 	} elseif (count($current_user_group_list) > 0) {
 		$query .= sprintf(" WHERE groupid IN (%s)", generateQuestionMarks($current_user_group_list));
 		array_push($params, $current_user_group_list);
 		$result = $adb->pquery($query, $params);
-		$noof_group_rows = $adb->num_rows($result);
 	} elseif (count($sharing_write_group_list) > 0) {
 		$query .= sprintf(" WHERE groupid IN (%s)", generateQuestionMarks($sharing_write_group_list));
 		array_push($params, $sharing_write_group_list);
 		$result = $adb->pquery($query, $params);
-		$noof_group_rows = $adb->num_rows($result);
 	}
 	$log->debug("Exiting get_current_user_access_groups method ...");
 	return $result;

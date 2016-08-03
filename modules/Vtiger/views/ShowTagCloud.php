@@ -39,4 +39,4 @@ class Vtiger_ShowTagCloud_View extends Vtiger_IndexAjax_View {
 	}
 }
 
-?>
+

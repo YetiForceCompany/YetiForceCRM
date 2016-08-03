@@ -178,20 +178,11 @@ class CRMEntity
 			$file_name = $file_details['name'];
 		}
 
-
-		$saveFile = 'true';
-		//only images are allowed for Image Attachmenttype 
-		$mimeType = vtlib\Functions::getMimeContentType($file_details['tmp_name']);
-		$mimeTypeContents = explode('/', $mimeType);
-		// For contacts and products we are sending attachmentType as value 
-		if ($attachmentType == 'Image' || ($file_details['size'] && $mimeTypeContents[0] == 'image') || ($module == 'Contacts' || $module == 'Products')) {
-			$saveFile = validateImageFile($file_details);
-		}
-		if ($saveFile == 'false') {
+		$fileInstance = \includes\fields\File::loadFromRequest($file_details);
+		if (!$fileInstance->validate()) {
 			return false;
 		}
-
-		$binFile = sanitizeUploadFileName($file_name, AppConfig::main('upload_badext'));
+		$binFile = \includes\fields\File::sanitizeUploadFileName($file_name);
 
 		$current_id = $adb->getUniqueID('vtiger_crmentity');
 
@@ -205,8 +196,7 @@ class CRMEntity
 
 		//upload the file in server
 		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . '_' . $binFile);
-
-		if ($saveFile == 'true' && $upload_status == 'true') {
+		if ($upload_status == 'true') {
 			//This is only to update the attached filename in the vtiger_notes vtiger_table for the Notes module
 			$params = [
 				'crmid' => $current_id,
@@ -218,9 +208,9 @@ class CRMEntity
 				'modifiedtime' => $adb->formatDate($date_var, true)
 			];
 			if ($module == 'Contacts' || $module == 'Products') {
-				$params['setype'] = $module . " Image";
+				$params['setype'] = $module . ' Image';
 			} else {
-				$params['setype'] = $module . " Attachment";
+				$params['setype'] = $module . ' Attachment';
 			}
 			$adb->insert('vtiger_crmentity', $params);
 
@@ -259,7 +249,7 @@ class CRMEntity
 
 			return true;
 		} else {
-			$log->debug("Skip the save attachment process.");
+			$log->debug('Skip the save attachment process.');
 			return false;
 		}
 	}

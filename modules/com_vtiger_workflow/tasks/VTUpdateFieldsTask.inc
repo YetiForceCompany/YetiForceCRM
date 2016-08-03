@@ -102,17 +102,16 @@ class VTUpdateFieldsTask extends VTTask
 							if (!empty($rightOperandFieldInstance)) {
 								$referenceList = $rightOperandFieldInstance->getReferenceList();
 								if ((count($referenceList) == 1) && $referenceList[0] == 'Users') {
-									$userRecordLabels = vtlib\Functions::getOwnerRecordLabels($fieldValue);
-									$fieldValue = $userRecordLabels[$fieldValue];
+									$fieldValue = \includes\fields\Owner::getLabel($fieldValue);
 								} elseif ((count($referenceList) == 1) && $referenceList[0] == 'Currency') {
 									$fieldValue = getCurrencyName($fieldValue);
 								} elseif ($rightOperandFieldInstance->getFieldName() == 'roleid') {
 									$fieldValue = getRoleName($fieldValue);
 								} else {
-									$fieldValue = Vtiger_Util_Helper::getRecordName($fieldValue);
+									$fieldValue = \includes\Record::getLabel($fieldValue);
 								}
 							} else {
-								$fieldValue = Vtiger_Util_Helper::getRecordName($fieldValue);
+								$fieldValue = \includes\Record::getLabel($fieldValue);
 							}
 						} else {
 							//Not value is there for reference fields . So skip this field mapping

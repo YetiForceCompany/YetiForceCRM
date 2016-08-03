@@ -293,8 +293,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				module: 'Calendar',
 				action: 'Calendar',
 				mode: 'getEvents',
-				start: app.getDateInVtigerFormat(formatDate, new Date(start_date)),
-				end: app.getDateInVtigerFormat(formatDate, new Date(end_date)),
+				start: app.getDateInVtigerFormat(formatDate, Date.parse(start_date)),
+				end: app.getDateInVtigerFormat(formatDate, Date.parse(end_date)),
 				user: user,
 				time: app.getMainParams('showType'),
 				types: types,
@@ -354,8 +354,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			if (data.length <= 0) {
 				return;
 			}
-			if(view.name != 'agendaDay' && view.name != 'agendaWeek'){
-				if(startDate == endDate){
+			if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
+				if (startDate == endDate) {
 					var defaulDuration = 0;
 					if (data.find('[name="activitytype"]').val() == 'Call') {
 						defaulDuration = data.find('[name="defaultCallDuration"]').val();

@@ -109,11 +109,9 @@ class VTCreateEventTask extends VTTask
 		$fields['visibility'] = ucfirst($sharedType);
 
 		$id = $entityData->getId();
-		if (in_array($moduleName, ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
-			$fields['link'] = $id;
-		}
-		if (in_array($moduleName, ['Campaigns', 'HelpDesk', 'Project', 'ServiceContracts'])) {
-			$fields['process'] = $id;
+		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+		if ($field) {
+			$fields[$field] = $id;
 		}
 
 		$event = vtws_create('Events', $fields, $adminUser);

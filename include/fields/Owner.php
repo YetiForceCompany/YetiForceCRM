@@ -47,7 +47,7 @@ class Owner
 		if ($accessibleGroups === false) {
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
 			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
-				$accessibleGroups = $this->getAllocation($this->moduleName, 'groups', $private, $fieldType);
+				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
 			} else {
 				$accessibleGroups = $this->getGroups(false, 'Active', '', $private);
 			}
@@ -203,7 +203,7 @@ class Owner
 	 * @returns $users -- user array:: Type array
 	 *
 	 */
-	function getUsers($addBlank = false, $status = 'Active', $assignedUser = '', $private = '', $onlyAdmin = false)
+	public function getUsers($addBlank = false, $status = 'Active', $assignedUser = '', $private = '', $onlyAdmin = false)
 	{
 		$log = \LoggerManager::getInstance();
 		$log->debug("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
@@ -214,7 +214,6 @@ class Owner
 		$tempResult = \Vtiger_Cache::get('getUsers', $cacheKey);
 		if ($tempResult === false) {
 			$db = \PearDatabase::getInstance();
-			$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($this->currentUser->getId());
 			$entityData = \vtlib\Functions::getEntityModuleSQLColumnString('Users');
 			$entityName = $db->concat(explode(',', $entityData['colums']));
 
@@ -224,6 +223,7 @@ class Owner
 				$params = [];
 			} else {
 				if ($private == 'private') {
+					$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($this->currentUser->getId());
 					$log->debug('Sharing is Private. Only the current user should be listed');
 					$query = "SELECT id,%s,is_admin FROM vtiger_users WHERE id=? AND `status`='Active' UNION SELECT vtiger_user2role.userid AS id,%s,is_admin FROM vtiger_user2role 
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ? AND `status`='Active' UNION
@@ -278,12 +278,12 @@ class Owner
 		return $users;
 	}
 
-	function getGroups($addBlank = true, $status = 'Active', $assignedUser = '', $private = '')
+	public function getGroups($addBlank = true, $status = 'Active', $assignedUser = '', $private = '')
 	{
 		$log = \LoggerManager::getInstance();
 		$log->debug("Entering getGroups($addBlank,$status,$assignedUser,$private) method ...");
 
-		if (\AppRequest::get('parent') != 'Settings') {
+		if (\AppRequest::get('parent') != 'Settings' && $this->moduleName) {
 			$moduleName = $this->moduleName;
 			$tabid = getTabid($moduleName);
 		}
@@ -293,7 +293,6 @@ class Owner
 		if ($tempResult !== false) {
 			return $tempResult;
 		}
-		$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($this->currentUser->getId());
 
 		$db = \PearDatabase::getInstance();
 		// Including deleted vtiger_users for now.
@@ -306,6 +305,7 @@ class Owner
 			$params[] = $tabid;
 		}
 		if ($private == 'private') {
+			$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($this->currentUser->getId());
 			if (strpos($query, 'WHERE') === false)
 				$query .= ' WHERE';
 			else
@@ -342,7 +342,7 @@ class Owner
 
 		// Get the id and the name.
 		while ($row = $db->getRow($result)) {
-			$tempResult[$row['groupid']] = $row['groupname'];
+			$tempResult[$row['groupid']] = decode_html($row['groupname']);
 		}
 		\Vtiger_Cache::set('getGroups', $cacheKey, $tempResult);
 		$log->debug('Exiting getGroups method ...');
@@ -415,11 +415,112 @@ class Owner
 		$ids = $db->getArrayColumn($result);
 
 		$users = $groups = [];
-		$users = \vtlib\Functions::getCRMRecordLabels('Users', $ids);
+		foreach ($ids as &$id) {
+			$name = self::getUserLabel($id);
+			if (!empty($name)) {
+				$users[$id] = $name;
+			}
+		}
 		$diffIds = array_diff($ids, array_keys($users));
 		if ($diffIds) {
-			$groups = \vtlib\Functions::getCRMRecordLabels('Groups', array_values($diffIds));
+			foreach (array_values($diffIds) as $id) {
+				$name = self::getGroupName($id);
+				if (!empty($name)) {
+					$groups[$id] = $name;
+				}
+			}
 		}
 		return ['users' => $users, 'group' => $groups];
+	}
+
+	protected static $usersIdsCache = [];
+
+	public static function getUsersIds($status = 'Active')
+	{
+		if (!isset(self::$usersIdsCache[$status])) {
+			$db = \PearDatabase::getInstance();
+			$params = [];
+			$query = 'SELECT id FROM `vtiger_users`';
+			if ($status) {
+				$query .= ' WHERE status = ?';
+				$params[] = $status;
+			}
+			$result = $db->pquery($query, $params);
+			$matchingRecords = $db->getArrayColumn($result);
+			self::$usersIdsCache[$status] = $matchingRecords;
+		}
+		return self::$usersIdsCache[$status];
+	}
+
+	protected static $ownerLabelCache = [];
+	protected static $userLabelCache = [];
+	protected static $groupLabelCache = [];
+
+	public static function getLabel($mixedId)
+	{
+		$multiMode = is_array($mixedId);
+		$ids = $multiMode ? $mixedId : [$mixedId];
+		$missing = [];
+		foreach ($ids as $id) {
+			if ($id && !isset(self::$ownerLabelCache[$id])) {
+				$missing[] = $id;
+			}
+		}
+		if (!empty($missing)) {
+			foreach ($missing as $userId) {
+				self::getUserLabel($userId);
+			}
+			$diffIds = array_diff($missing, array_keys(self::$ownerLabelCache));
+			if ($diffIds) {
+				foreach ($diffIds as $groupId) {
+					self::getGroupName($groupId);
+				}
+			}
+		}
+		$result = [];
+		foreach ($ids as $id) {
+			if (isset(self::$ownerLabelCache[$id])) {
+				$result[$id] = self::$ownerLabelCache[$id];
+			} else {
+				$result[$id] = NULL;
+			}
+		}
+		return $multiMode ? $result : array_shift($result);
+	}
+
+	public static function getGroupName($id)
+	{
+		if (isset(self::$groupLabelCache[$id])) {
+			return self::$groupLabelCache[$id];
+		}
+		$label = false;
+		$instance = new self();
+		$groups = $instance->getGroups(false);
+		if (isset($groups[$id])) {
+			$label = $groups[$id];
+			self::$groupLabelCache[$id] = $label;
+			self::$ownerLabelCache[$id] = $label;
+		}
+		return $label;
+	}
+
+	public static function getUserLabel($id)
+	{
+		if (isset(self::$userLabelCache[$id])) {
+			return self::$userLabelCache[$id];
+		}
+		$metaInfo = \includes\Modules::getEntityInfo('Users');
+		$label = false;
+		$valueMap = \Vtiger_Util_Helper::getUserPrivilegesFile($id);
+		if (!empty($valueMap)) {
+			$label = '';
+			foreach ($metaInfo['fieldnameArr'] as $fieldName) {
+				$label .= ' ' . $valueMap['user_info'][$fieldName];
+			}
+			$label = ltrim($label);
+			self::$userLabelCache[$id] = $label;
+			self::$ownerLabelCache[$id] = $label;
+		}
+		return $label;
 	}
 }

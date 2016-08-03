@@ -77,36 +77,8 @@
 											</label>
 										</td>
 										<td class="fieldValue col-xs-7">
-											{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
-											{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 											{if $FIELD_MODEL->get('uitype') eq '53'}
-												{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
-												{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
-												{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
-												{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
-												{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-												{if $FIELD_VALUE eq '' || $CONVERSION_CONFIG['change_owner'] == 'true'}
-													{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
-												{/if}
-												<select class="chzn-select {$ASSIGNED_USER_ID} form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\includes\utils\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
-													<optgroup label="{vtranslate('LBL_USERS')}">
-														{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-
-															<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' 
-																	{if $FIELD_VALUE eq $OWNER_ID} selected {/if}
-																	data-userId="{$CURRENT_USER_ID}">
-																{$OWNER_NAME}	
-															</option>
-														{/foreach}
-													</optgroup>
-													<optgroup label="{vtranslate('LBL_GROUPS')}">
-														{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-															<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if $FIELD_VALUE eq $OWNER_ID} selected {/if}>
-																{$OWNER_NAME}
-															</option>
-														{/foreach}
-													</optgroup>
-												</select>
+												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME)}
 											{/if}
 										</td>
 									</tr>

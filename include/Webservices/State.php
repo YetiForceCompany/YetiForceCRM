@@ -22,5 +22,3 @@ class State
 		$this->error = [];
 	}
 }
-
-?>

@@ -243,8 +243,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$userId = $currentUser->getId();
 		}
 		$reviewed = $this->get('last_reviewed_users');
-		$users = explode('#', $reviewed);
-		return in_array($userId, $users);
+		if (empty($reviewed)) {
+			return false;
+		}
+		return strpos($reviewed, "#$userId#") !== false;
 	}
 
 	function getModifiedBy()

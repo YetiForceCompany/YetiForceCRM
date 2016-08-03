@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Ventes',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => ' ',
@@ -21,13 +21,11 @@ $languageStrings = [
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Statuts déterminant que les produits sont vendus',
 	'LBL_CREATE_POTENTIALS' => 'Bloqué la création d\'opportunités pour les organisations qui ne sont pas assignées à un utilisateur',
 	'SalesProcesses' => 'Processus de ventes',
-	
 	'LBL_SQUOTEENQUIRIES' => 'Demande',
 	'LBL_SREQUIREMENTSCARD' => 'Exigences de ventes',
 	'LBL_SCALCULATIONS' => 'Calculs',
 	'LBL_SQUOTES' => 'Devis',
 	'LBL_SSALESORDER' => 'Commande',
-	
 	'LBL_STATUSES_CLOSED_SSALESORDER' => 'Statuts qui définissent la clôture d\'une vente',
 	'LBL_STATUSES_CLOSED_SQUOTEENQUIRIES' => 'Statuts qui définissent la clôture d\'une demande de devis',
 	'LBL_STATUSES_CLOSED_SREQUIREMENTSCARD' => 'Statuts qui définissent la clôture d\'une exigence de vente',

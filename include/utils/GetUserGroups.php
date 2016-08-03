@@ -85,5 +85,3 @@ class GetUserGroups
 		$log->debug("Exiting getAllUserGroups method...");
 	}
 }
-
-?>

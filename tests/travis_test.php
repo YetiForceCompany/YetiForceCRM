@@ -20,6 +20,21 @@ try {
 	$webUI->process(AppRequest::init());
 	ob_end_clean();
 
+	echo 'Login to the system' . PHP_EOL;
+
+	$user = CRMEntity::getInstance('Users');
+	$user->column_fields['user_name'] = 'admin';
+	if ($user->doLogin('admin')) {
+		Vtiger_Session::set('AUTHUSERID', $userid);
+		Vtiger_Session::set('authenticated_user_id', $userid);
+		Vtiger_Session::set('app_unique_key', AppConfig::main('application_unique_key'));
+		Vtiger_Session::set('authenticated_user_language', AppConfig::main('default_language'));
+		Vtiger_Session::set('user_name', $username);
+		Vtiger_Session::set('full_user_name', \includes\fields\Owner::getUserLabel($userid));
+	}
+
+	echo 'Creating a user' . PHP_EOL;
+
 	$user = Vtiger_Record_Model::getCleanInstance('Users');
 	$user->set('user_name', 'demo1');
 	$user->set('email1', 'd1emo@yetiforce.com');
@@ -29,6 +44,8 @@ try {
 	$user->set('confirm_password', 'demo');
 	$user->set('roleid', 'H2');
 	$user->save();
+
+	echo 'Generating test data' . PHP_EOL;
 
 	$rekord = Vtiger_Record_Model::getCleanInstance('Accounts');
 	$rekord->set('accountname', 'YetiForce Sp. z o.o.');
@@ -44,6 +61,8 @@ try {
 
 	$_SERVER['HTTP_X_REQUESTED_WITH'] = true;
 
+	echo 'Installing the test module' . PHP_EOL;
+
 	ob_start();
 	$testModule = 'TestModule.zip';
 	file_put_contents($testModule, file_get_contents('https://tests.yetiforce.com/' . $_SERVER['YETI_KEY']));
@@ -54,15 +73,10 @@ try {
 	} else {
 		throw new Exception('No file');
 	}
+	echo 'Start cron' . PHP_EOL;
+	require 'cron/vtigercron.php';
 
-	$cronTasks = vtlib\Cron::listAllActiveInstances();
-	foreach ($cronTasks as $cronTask) {
-		$cronTask->markRunning();
-		checkFileAccess($cronTask->getHandlerFile());
-		require_once $cronTask->getHandlerFile();
-		$cronTask->markFinished();
-	}
-
+	echo 'Checking language files' . PHP_EOL;
 	$templatepath = 'languages/';
 	$flags = FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS;
 	$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($templatepath, $flags), RecursiveIteratorIterator::SELF_FIRST);
@@ -71,6 +85,23 @@ try {
 			include_once $name;
 		}
 	}
+
+	echo 'Exporting language pack' . PHP_EOL;
+	$package = new vtlib\LanguageExport();
+	$package->export('pl_pl', ROOT_DIRECTORY . 'PL.zip', 'PL.zip');
+
+	echo 'Creating a module' . PHP_EOL;
+	$moduleManagerModel = new Settings_ModuleManager_Module_Model();
+	$moduleManagerModel->createModule([
+		'module_name' => 'Test',
+		'entityfieldname' => 'test',
+		'module_label' => 'Test',
+		'entitytype' => 1,
+		'entityfieldlabel' => 'Test',
+	]);
+	echo 'Removing a module' . PHP_EOL;
+	$moduleInstance = \vtlib\Module::getInstance('Test');
+	$moduleInstance->delete();
 } catch (\Exception $e) {
 	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
 } catch (\AppException $e) {

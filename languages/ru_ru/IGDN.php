@@ -20,6 +20,5 @@ $languageStrings = [
 	'PLL_FOR_APPROVAL' => 'Для подтверждения',
 	'PLL_CANCELLED' => 'Отменено',
 	'PLL_ACCEPTED' => 'Подтверждено',
-
 	'LBL_CHANGE_STATUS' => 'Изменить статус',
 ];
