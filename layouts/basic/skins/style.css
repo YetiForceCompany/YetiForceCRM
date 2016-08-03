@@ -3972,6 +3972,9 @@ html,body,.baseContainer
 	width: 100%;
 	overflow-x: hidden;
 }
+.mainBody.userInfoFooter{
+	bottom:50px;
+}
 .bootstrap-switch-container{
 	white-space: nowrap;
 }

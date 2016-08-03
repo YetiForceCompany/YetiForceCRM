@@ -61,7 +61,7 @@ body{
 	z-index: 1029;
 	min-height: auto;
 	position: absolute;
-	bottom: 17px;
+	bottom: 0;
 }
 .table tbody tr:nth-child(even){
 	background: #f5f5f5;
