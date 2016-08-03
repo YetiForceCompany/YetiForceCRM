@@ -37,11 +37,11 @@ body{
 	color: #fff;
 }
 .baseContainer .leftPanel .modulesList > .menuModule{
-	padding-top:6px;
+	padding-top:4px;
 	height: 39px;
 }
 .baseContainer .leftPanel .modulesList > .menuModule a{
-	padding-top: 7px;
+	padding-top: 1px;
 	font-size: 13px;
 	text-transform: uppercase;
 }
@@ -439,7 +439,8 @@ btn-danger:hover{
 .baseContainer .leftPanel .menuContainer a .glyphicon, 
 .baseContainer .leftPanel .menuContainer a.hasIcon img,
 .iconContainer,
-.leftPanel .menuContainer .modulesList .subMenu .menuIcon{
+.leftPanel .menuContainer .modulesList .subMenu .menuIcon,
+.leftPanel .menuContainer .modulesList .menuIcon{
 	display: none;
 }
 .labelConstainer{
