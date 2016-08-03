@@ -5618,3 +5618,6 @@ select.form-control {
 	table-layout: fixed;
 	word-wrap: break-word;
 }
+.dashboardWidget .activitiesLabel{
+	width: calc(100% - 36px);
+}

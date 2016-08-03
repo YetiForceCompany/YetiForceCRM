@@ -213,7 +213,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = array(array(
 					'linktype' => 'DETAILVIEWTAB',
-					'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
+					'linklabel' => 'LBL_RECORD_SUMMARY',
 					'linkKey' => 'LBL_RECORD_SUMMARY',
 					'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
 					'linkicon' => '',
@@ -223,7 +223,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = array(
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => vtranslate('LBL_RECORD_DETAILS', $moduleName),
+			'linklabel' => 'LBL_RECORD_DETAILS',
 			'linkKey' => 'LBL_RECORD_DETAILS',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',

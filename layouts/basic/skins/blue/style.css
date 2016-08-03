@@ -456,7 +456,7 @@ btn-danger:hover{
 }
 .baseContainer .leftPanel .menuContainer a:hover, 
 .baseContainer .leftPanel .menuContainer a:focus{
-	color: #003c7d;
+	color: #323232;
 	background: #fff;
 }
 .leftPanel .menuContainer .modulesList .menuIcon,
