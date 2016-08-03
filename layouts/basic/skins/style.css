@@ -4220,6 +4220,12 @@ html,body,.baseContainer
 .listViewActionsDiv .pageInfo {
 	max-height:34px;
 }
+.listViewActionsDiv .btn-toolbar > .dropdown-toggle + .dropdown-menu{
+	left: 20px;
+}
+.widget_header .dropdown-toggle + .dropdown-menu{
+	left: 15px;
+}
 #convertLeadMapping th:not(.blockHeader), #convertLeadMapping tbody tr td,
 #convertLeadMapping .blockHeader th:not(:last-child){
 	width: 25%;
