@@ -86,6 +86,8 @@ body{
 }
 .btn-primary,
 .btn-primary:hover,
+.btn-primary:active:focus,
+.btn-primary:focus,
 .iconsInFooter{
 	background: #00509e;
 }
@@ -149,7 +151,9 @@ body{
 }
 .btn-success,
 .btn-success:hover,
-.btn-success:active:focus {
+.btn-success:active:focus,
+.btn-success[disabled],
+.btn-success[disabled]:hover{
 	background-color: #8cc83c;
 	border-color: transparent;
 }
@@ -171,7 +175,9 @@ btn-danger:hover{
 .bgOrange,
 .btn-info,
 .alphabetSearch a,
-.currencyField + span.input-group-addon{
+.currencyField + span.input-group-addon,
+.input-group.date span.input-group-addon, 
+.input-group.time span.input-group-addon {
 	background-color: #00a8e4 !important;
 	color: #fff;
 }
@@ -470,7 +476,6 @@ btn-danger:hover{
 	width: 100% !important;
 	height: 0px !important;
 	padding:0 10px;
-	display: block;
 	-moz-column-fill: auto;
 	column-fill: auto;
 	column-count: 6;
@@ -731,4 +736,14 @@ btn-danger:hover{
 .leftPanel > .slimScrollDiv > .menuContainer > nav > .nav.modulesList > li > a.active{
 	background-color: #00a8e1;
 	color: #fff;
+}
+.globalSearchResults .nav > li > a:hover{
+	color: #003c7d;
+}
+.basePanel.menuOpen{
+	left: 0;
+	width: 100%;
+}
+.bodyHeader.menuOpen{
+	left: 50px;
 }
