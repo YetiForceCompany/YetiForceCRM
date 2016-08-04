@@ -491,6 +491,7 @@ btn-danger:hover{
 }
 .leftPanel .modulesList.nav > li{
 	display: inline-block;
+	margin-right: -4px;
 }
 .leftPanel .ps-scrollbar-x-rail{
 	display:none !important;
