@@ -439,7 +439,8 @@ btn-danger:hover{
 .labelConstainer{
 	height: 15px;
 	width: auto;
-	padding-top:8px;
+	padding-top:4px;
+	padding-bottom: 4px;
 	font-size: 13px;
 	text-transform: uppercase;
 }
@@ -460,14 +461,14 @@ btn-danger:hover{
 	bottom: 0px;
 	display: none;
 }
-.nav li:hover > .slimScrollDiv >.subMenu{
+.nav li > .slimScrollDiv >.subMenu{
 	border-top: 3px solid #00285f;
 	background: #E7E7E7;
 	border-bottom: 1px solid #969696;
-	left: 0px;
-	top: 37px;
+	left: 0px !important;
+	top: 37px !important;
 	width: 100% !important;
-	height: 150px !important;
+	height: 0px !important;
 	padding:0 10px;
 	display: block;
 	-moz-column-fill: auto;
@@ -475,7 +476,15 @@ btn-danger:hover{
 	column-count: 6;
 	-webkit-column-count: 6;
     -moz-column-count: 6;
-	overflow: inherit !important;
+	overflow: hidden !important;
+	position: absolute;
+	transition: height ease-in 0s 0.25s;
+}
+.nav li:hover > .slimScrollDiv >.subMenu{
+	height: 150px !important;
+}
+.leftPanel .slimScrollBar{
+	display: none !important;
 }
 .leftPanel .nav .subMenu li{
 	position: relative;
@@ -588,7 +597,8 @@ btn-danger:hover{
 }
 .modulesList .menuName,
 .modulesList .menuIcon{
-	padding-top: 8px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 .modulesList .menuIcon,
 .modulesList .menuName{
@@ -720,5 +730,4 @@ btn-danger:hover{
 .leftPanel > .slimScrollDiv > .menuContainer > nav > .nav.modulesList > li > a.active{
 	background-color: #00a8e1;
 	color: #fff;
-//	z-index: -1;
 }
