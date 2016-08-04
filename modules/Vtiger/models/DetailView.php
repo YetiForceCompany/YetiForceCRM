@@ -117,6 +117,17 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1, 'record' => $recordId],
 			];
 		}
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$homeModel = Vtiger_Module_Model::getInstance('Dashboard');
+		if ($userPrivilegesModel->hasModulePermission($homeModel->getId()) && $userPrivilegesModel->hasModuleActionPermission($homeModel->getId(), 'NotificationCreateMessage')) {
+			$detailViewLinks[] = [
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => '',
+				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
+				'linkicon' => 'glyphicon glyphicon-send',
+				'linkhint' => 'LBL_SEND_NOTIFICATION'
+			];
+		}
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
