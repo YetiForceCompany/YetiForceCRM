@@ -61,7 +61,7 @@ body{
 	z-index: 1029;
 	min-height: auto;
 	position: absolute;
-	bottom: 17px;
+	bottom: 0;
 }
 .table tbody tr:nth-child(even){
 	background: #f5f5f5;
@@ -429,9 +429,7 @@ btn-danger:hover{
 }
 .nav.modulesList{
 	border-bottom: 3px solid #00285f;
-}
-.modulesList > li{
-	float:left;
+	white-space: nowrap;
 }
 .baseContainer .leftPanel .menuContainer a{
 	padding-left: 10px;
@@ -486,6 +484,12 @@ btn-danger:hover{
 }
 .leftPanel .nav .subMenu li{
 	position: relative;
+}
+.leftPanel .modulesList.nav > li{
+	display: inline-block;
+}
+.leftPanel .ps-scrollbar-x-rail{
+	display:none !important;
 }
 .baseContainer .leftPanel .menuContainer .subMenu a{
 	font-weight: normal;

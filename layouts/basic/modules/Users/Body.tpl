@@ -16,7 +16,7 @@
 				</div>
 				{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
 				<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
-					<div class="mainBody">
+					<div class="mainBody {if AppConfig::main('isVisibleUserInfoFooter')}userInfoFooter{/if}">
 					{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
 				{/if}
 			{/strip}

@@ -849,6 +849,9 @@ jQuery.Class("Vtiger_Header_Js", {
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
 	registerScrollForMenu: function () {
+		$(".slimScrollMenu").perfectScrollbar({
+			useBothWheelAxes: true,
+		});
 		app.showScrollBar($(".slimScrollMenu"), {
 			height: '100%',
 			width: '100%',
