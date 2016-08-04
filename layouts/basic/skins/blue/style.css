@@ -175,7 +175,9 @@ btn-danger:hover{
 .bgOrange,
 .btn-info,
 .alphabetSearch a,
-.currencyField + span.input-group-addon{
+.currencyField + span.input-group-addon,
+.input-group.date span.input-group-addon, 
+.input-group.time span.input-group-addon {
 	background-color: #00a8e4 !important;
 	color: #fff;
 }
@@ -737,4 +739,11 @@ btn-danger:hover{
 }
 .globalSearchResults .nav > li > a:hover{
 	color: #003c7d;
+}
+.basePanel.menuOpen{
+	left: 0;
+	width: 100%;
+}
+.bodyHeader.menuOpen{
+	left: 50px;
 }
