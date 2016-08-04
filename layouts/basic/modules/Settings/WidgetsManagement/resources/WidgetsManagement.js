@@ -69,49 +69,35 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var form = data.find('.addBlockDashBoardForm');
 				var params = app.validationEngineOptions;
 				var block = form.find('[name="authorized"]');
-
-				params.onValidationComplete = function (form, valid) {
-					if (valid) {
-						if (block.val()) {
-							paramsForm = form.serializeFormData();
-							paramsForm['action'] = 'addBlock';
-
-							var paramsBlock = [];
-							paramsBlock['authorized'] = block.val();
-							paramsBlock['label'] = block.find(':selected').text();
-							thisInstance.save(paramsForm, 'save').then(
-									function (data) {
-										var params = {};
-										response = data.result;
-										if (response['success']) {
-											paramsBlock['id'] = response['id'];
-											thisInstance.displayNewCustomBlock(paramsBlock);
-											app.hideModalWindow();
-											params['text'] = app.vtranslate('JS_BLOCK_ADDED');
-										} else {
-											params['text'] = response['message'];
-											params['type'] = 'error';
-										}
-										Settings_Vtiger_Index_Js.showMessage(params);
-									}
-							);
-
-							return valid;
-						} else {
-							var result = app.vtranslate('JS_FIELD_EMPTY');
-							block.prev('div').validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
-							e.preventDefault();
-							return;
-						}
-					}
-				}
 				form.validationEngine(params);
 				form.submit(function (e) {
+					if (form.validationEngine('validate')) {
+						var paramsForm = form.serializeFormData();
+						paramsForm['action'] = 'addBlock';
+						var paramsBlock = [];
+						paramsBlock['authorized'] = block.val();
+						paramsBlock['label'] = block.find(':selected').text();
+						thisInstance.save(paramsForm, 'save').then(
+								function (data) {
+									var params = {};
+									var response = data.result;
+									if (response['success']) {
+										paramsBlock['id'] = response['id'];
+										thisInstance.displayNewCustomBlock(paramsBlock);
+										app.hideModalWindow();
+										params['text'] = app.vtranslate('JS_BLOCK_ADDED');
+									} else {
+										params['text'] = response['message'];
+										params['type'] = 'error';
+									}
+									Settings_Vtiger_Index_Js.showMessage(params);
+								}
+						);
+					}
 					e.preventDefault();
 				})
 			}
 			app.showModalWindow(addBlockContainer, function (data) {
-
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
@@ -533,7 +519,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var form = container.find('form');
 				var submit = form.find('[type="submit"]');
 				submit.on('click', function (e) {
-					e.preventDefault();
 					var channels = [];
 					if (form.validationEngine('validate')) {
 						form.find('.channelRss:not(:disabled)').each(function () {
@@ -548,6 +533,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 								}
 						);
 					}
+					e.preventDefault();
 				})
 			},
 		};

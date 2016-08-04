@@ -515,12 +515,12 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 					showDataLabels: true,
 					dataLabelThreshold: 0,
 					dataLabels: 'value',
-					highlightMouseDown:true
+					highlightMouseDown: true
 				}
 			},
 			legend: {
 				show: true,
-				location: 'e',			
+				location: 'e',
 			}
 		});
 	},
@@ -1229,10 +1229,13 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				var url = 'index.php?module=Calendar&view=List';
 				if (customFilter) {
 					url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
+				} else {
+					url += '&viewname=All';
 				}
 				url += '&search_params=[[';
-				if (container.find('.widgetFilter.owner option:selected').val() != 'all') {
-					url += '["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],';
+				var owner = container.find('.widgetFilter.owner option:selected');
+				if (owner.val() != 'all') {
+					url += '["assigned_user_id","c","' + owner.data('name') + '"],';
 				}
 				if (parent.find('.widgetFilterSwitch').length > 0) {
 					var status = parent.find('.widgetFilterSwitch').data();
@@ -1325,9 +1328,12 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 			} else {
 				var status = 'PLL_IN_REALIZATION,PLL_PLANNED';
 			}
-			var url = 'index.php?module=Calendar&view=List';
+			var url = 'index.php?module=Calendar&view=List&viewname=All';
 			url += '&search_params=[[';
-			url += '["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],';
+			var owner = container.find('.widgetFilter.owner option:selected');
+			if (owner.val() != 'all') {
+				url += '["assigned_user_id","c","' + owner.data('name') + '"],';
+			}
 			url += '["activitystatus","e","' + status + '"]]]';
 			window.location.href = url;
 		});
