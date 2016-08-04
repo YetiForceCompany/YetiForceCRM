@@ -753,3 +753,6 @@ btn-danger:hover{
 	margin-bottom: 3px;
 	border-bottom: 0px solid #fff !important;
 }
+.gridster ul li.dashboardWidget .dashboardWidgetHeader{
+	text-shadow: none;
+}
