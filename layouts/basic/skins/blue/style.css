@@ -36,12 +36,7 @@ body{
 .baseContainer .leftPanel .menuContainer .subMenu a{
 	color: #fff;
 }
-.baseContainer .leftPanel .modulesList > .menuModule{
-	padding-top:4px;
-	height: 39px;
-}
 .baseContainer .leftPanel .modulesList > .menuModule a{
-	padding-top: 1px;
 	font-size: 13px;
 	text-transform: uppercase;
 }
@@ -721,4 +716,9 @@ btn-danger:hover{
 }
 #leadAccordion .fieldValue{
 	background-color: #fff;
+}
+.leftPanel > .slimScrollDiv > .menuContainer > nav > .nav.modulesList > li > a.active{
+	background-color: #00a8e1;
+	color: #fff;
+//	z-index: -1;
 }
