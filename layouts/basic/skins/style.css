@@ -5627,6 +5627,8 @@ select.form-control {
 	table-layout: fixed;
 	word-wrap: break-word;
 }
-.dashboardWidget .activitiesLabel{
-	width: calc(100% - 37px);
+.dashboardWidget .rowActivities > *{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }

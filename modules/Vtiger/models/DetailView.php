@@ -385,10 +385,11 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 					continue;
 				}
 				if ($result = $instance->process($this)) {
-					$headerFields[] = $result;
+					$headerFields[$name] = $result;
 				}
 			}
 		}
+		ksort($headerFields);
 		return $headerFields;
 	}
 }

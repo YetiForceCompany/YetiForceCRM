@@ -267,7 +267,6 @@ btn-danger:hover{
 	height: 0;
 }
 .nav.massEditTabs{
-	background: #003c7d;
 	border-bottom: 3px solid #00285f;
 }
 .nav-tabs > li > a{
@@ -280,9 +279,12 @@ btn-danger:hover{
 .nav.massEditTabs li a:hover{
 	border-bottom: 0px;
 }
+.nav.massEditTabs li.active{
+	background-color: #00a8e1;
+}
 .nav.massEditTabs li.active a{
 	color: #fff !important;
-	background-color: #00509e;
+	background-color: #00a8e1;
 }
 .massEditTabs li.active{
 	border-bottom: none !important;
@@ -746,4 +748,11 @@ btn-danger:hover{
 }
 .bodyHeader.menuOpen{
 	left: 50px;
+}
+.modal .massEditTabs li{
+	margin-bottom: 3px;
+	border-bottom: 0px solid #fff !important;
+}
+.gridster ul li.dashboardWidget .dashboardWidgetHeader{
+	text-shadow: none;
 }
