@@ -3101,7 +3101,7 @@ span[name=existingImages] img{
 	padding: 5px 10px 10px 10px;
 }
 .remindersNoticeContainer .actionRow a.btn{
-	margin-right: 2%;
+	margin-right: 1%;
 }
 .cancelLink.btn[type='reset'],.cancel.btn[type='reset'],.cancelLink.btn[type='button']  {
 	float: right;
