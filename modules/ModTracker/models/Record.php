@@ -56,7 +56,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$listQuery = 'SELECT `last_reviewed_users`, `id` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? ORDER BY changedon DESC LIMIT 1;';
+		$listQuery = 'SELECT `last_reviewed_users`, `id` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? ORDER BY changedon DESC, id DESC LIMIT 1;';
 		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
 		if ($result->rowCount()) {
 			$row = $db->getRow($result);
@@ -78,7 +78,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if ($exception) {
 			$where = ' AND `id` <> ' . $exception;
 		}
-		$listQuery = sprintf('SELECT last_reviewed_users,id FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? AND last_reviewed_users LIKE "%s" %s ORDER BY changedon ASC LIMIT 1;', "%#$userId#%", $where);
+		$listQuery = sprintf('SELECT last_reviewed_users,id FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? AND last_reviewed_users LIKE "%s" %s ORDER BY changedon DESC, id DESC LIMIT 1;', "%#$userId#%", $where);
 		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
 		if ($result->rowCount()) {
 			$row = $db->getRow($result);
@@ -99,12 +99,11 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$userId = $currentUser->getId();
 		}
 
-		$listQuery = 'SELECT `last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? ORDER BY changedon DESC LIMIT 1;';
+		$listQuery = 'SELECT `last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? ORDER BY changedon DESC, id DESC LIMIT 1;';
 		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
 		$lastReviewedUsers = $db->getSingleValue($result);
 		if (!empty($lastReviewedUsers)) {
-			$lastReviewedUsers = explode('#', $lastReviewedUsers);
-			return !in_array($userId, $lastReviewedUsers);
+			return strpos($lastReviewedUsers, "#$userId#") === false;
 		}
 		return true;
 	}
@@ -120,9 +119,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if (!is_array($recordsId)) {
 			$recordsId = [$recordsId];
 		}
-		$listQuery = sprintf('SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (%s) AND status <> ? ORDER BY crmid,changedon DESC;', $db->generateQuestionMarks($recordsId));
+		$listQuery = sprintf('SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (%s) AND status <> ? ORDER BY crmid, changedon DESC, id DESC;', $db->generateQuestionMarks($recordsId));
 		$result = $db->pquery($listQuery, [$recordsId, self::DISPLAYED]);
-		foreach ($result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN) as $crmId => $reviewedUsers) {
+		$changes = $db->getColumnByGroup($result);
+		foreach ($changes as $crmId => $reviewedUsers) {
 			$count = 0;
 			foreach ($reviewedUsers as $users) {
 				if (strpos($users, "#$userId#") !== false) {

@@ -305,7 +305,7 @@ class PearDatabase
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
 
-	public function getRowsByGroup(&$result)
+	public function getColumnByGroup(&$result)
 	{
 		return $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
 	}
