@@ -1226,9 +1226,11 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 					);
 			thisInstance.getCalendarView().find(".fc-event-container a").click(function () {
 				var container = thisInstance.getContainer();
-				var url = 'index.php?module=Calendar&view=Listviewname=All';
+				var url = 'index.php?module=Calendar&view=List';
 				if (customFilter) {
 					url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
+				} else {
+					url += '&viewname=All';
 				}
 				url += '&search_params=[[';
 				var owner = container.find('.widgetFilter.owner option:selected');
