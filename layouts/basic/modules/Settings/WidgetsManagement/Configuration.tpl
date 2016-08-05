@@ -38,8 +38,8 @@
 		<div class="col-md-3">
 			<div class="pull-right col-xs-6 col-md-6 paddingLRZero">
 				<select class="chzn-select form-control" name="widgetsManagementEditorModules">
-					{foreach item=mouleName from=$SUPPORTED_MODULES}
-						<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($mouleName, $QUALIFIED_MODULE)}</option>
+					{foreach item=SUPPORTED_MODULE from=$SUPPORTED_MODULES}
+						<option value="{$SUPPORTED_MODULE}" {if $SUPPORTED_MODULE eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($SUPPORTED_MODULE, $SUPPORTED_MODULE)}</option>
 					{/foreach}
 				</select>
 			</div>
