@@ -52,7 +52,7 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 		}
 
 		if ($permission === 'No') {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 
 		$cvId = $request->get('viewname');

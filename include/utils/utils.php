@@ -1238,7 +1238,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 	} else {
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 		$focus->trash($destinationModule, $destinationRecordId);
 	}

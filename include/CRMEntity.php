@@ -117,7 +117,7 @@ class CRMEntity
 			}
 		}
 		if (!$anyValue) {
-			throw new AppException(vtranslate('LBL_MANDATORY_FIELD_MISSING'));
+			throw new \Exception\AppException(vtranslate('LBL_MANDATORY_FIELD_MISSING'));
 		}
 
 		foreach ($this->tab_name as $table_name) {
@@ -1139,7 +1139,7 @@ class CRMEntity
 
 		$recordType = vtlib\Functions::getCRMRecordType($id);
 		if ($recordType != $module) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 		if (!self::isBulkSaveMode()) {
 			require_once("include/events/include.inc");

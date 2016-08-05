@@ -87,7 +87,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 			$cronTask->markFinished();
 			echo sprintf('%s | %s - End task', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			$log->info($cronTask->getName() . ' - End');
-		} catch (AppException $e) {
+		} catch (\Exception\AppException $e) {
 			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->getMessage() . PHP_EOL;
 			echo $e->getTraceAsString() . PHP_EOL;

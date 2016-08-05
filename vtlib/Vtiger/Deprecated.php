@@ -288,7 +288,7 @@ class Deprecated
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			$log = \LoggerManager::getInstance();
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \AppException('Sorry! Attempt to access restricted file.');
+			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
@@ -312,7 +312,7 @@ class Deprecated
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
 			$log = \LoggerManager::getInstance();
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \AppException('Sorry! Attempt to access restricted file.');
+			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
@@ -322,7 +322,7 @@ class Deprecated
 		if (!self::isFileAccessible($filepath)) {
 			$log = vglobal('log');
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \AppException('Sorry! Attempt to access restricted file.');
+			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 

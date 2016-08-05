@@ -1189,7 +1189,7 @@ class Vtiger_Module_Model extends vtlib\Module
 				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
 					$relationField = '`subprocess`';
 				} else {
-					throw new AppException('LBL_HANDLER_NOT_FOUND');
+					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 				}
 			}
 		}
@@ -1820,7 +1820,7 @@ class Vtiger_Module_Model extends vtlib\Module
 				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
 					$query .= ' AND vtiger_activity.`subprocess` = ';
 				} else {
-					throw new AppException('LBL_HANDLER_NOT_FOUND');
+					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 				}
 			}
 		}

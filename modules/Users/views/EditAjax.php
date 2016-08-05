@@ -18,7 +18,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 		if ($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record) {
 			return true;
 		} else {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
