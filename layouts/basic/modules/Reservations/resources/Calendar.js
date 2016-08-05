@@ -20,7 +20,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 		);
 		this.registerColorField(widgetContainer.find('#calendarUserList'), 'userCol');
 		this.registerColorField(widgetContainer.find('#timecontrolTypes'), 'listCol');
-		widgetContainer.find('.select2').on('change', function(){
+		widgetContainer.find('.select2').on('change', function () {
 			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('hide');
 		});
 	},
@@ -152,23 +152,23 @@ jQuery.Class("Reservations_Calendar_Js", {
 			eventLimitText: app.vtranslate('JS_MORE')
 		});
 	},
-	registerButtonSelectAll: function(){
+	registerButtonSelectAll: function () {
 		var selectBtn = $('.selectAllBtn');
 		selectBtn.click(function (e) {
 			var selectAllLabel = $(this).find('.selectAll');
 			var deselectAllLabel = $(this).find('.deselectAll');
-			if(selectAllLabel.hasClass('hide')){
+			if (selectAllLabel.hasClass('hide')) {
 				selectAllLabel.removeClass('hide');
 				deselectAllLabel.addClass('hide');
 				$(this).closest('.quickWidget').find('select option').prop("selected", false);
 			}
-			else{
+			else {
 				$(this).closest('.quickWidget').find('select option').prop("selected", true);
 				deselectAllLabel.removeClass('hide');
 				selectAllLabel.addClass('hide');
 			}
 			$(this).closest('.quickWidget').find('select').trigger("change");
-		});	
+		});
 	},
 	loadCalendarData: function (allEvents) {
 		var progressInstance = jQuery.progressIndicator();
@@ -325,7 +325,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 		);
 		return aDeferred.promise();
 	},
-	registerRefreshEvent: function() {
+	registerRefreshEvent: function () {
 		var thisInstance = this;
 		$(".refreshCalendar").click(function () {
 			$(this).closest('.refreshHeader').addClass('hide');
@@ -359,9 +359,9 @@ jQuery.Class("Reservations_Calendar_Js", {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerCalendarScroll: function(){
+	registerCalendarScroll: function () {
 		var calendarContainer = $('.bodyContents');
-		app.showScrollBar(calendarContainer,{
+		app.showScrollBar(calendarContainer, {
 			railVisible: true,
 			alwaysVisible: true,
 			position: 'left'
