@@ -17,7 +17,7 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if (!$permission) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$srecord = $request->get('srecord');
@@ -25,7 +25,7 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 
 		$recordPermission = Users_Privileges_Model::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 

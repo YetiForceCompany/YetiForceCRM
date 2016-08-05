@@ -307,7 +307,7 @@ class Vtiger_Request
 	{
 		if (!$skipRequestTypeCheck) {
 			if ($_SERVER['REQUEST_METHOD'] != 'POST')
-				throw new CsrfException('Invalid request - validate Write Access');
+				throw new \Exception\Csrf('Invalid request - validate Write Access');
 		}
 		$this->validateReadAccess();
 		$this->validateCSRF();
@@ -320,7 +320,7 @@ class Vtiger_Request
 		// Referer check if present - to over come 
 		if (isset($_SERVER['HTTP_REFERER']) && $user) {//Check for user post authentication.
 			if ((stripos($_SERVER['HTTP_REFERER'], AppConfig::main('site_URL')) !== 0) && ($this->get('module') != 'Install')) {
-				throw new CsrfException('Illegal request');
+				throw new \Exception\Csrf('Illegal request');
 			}
 		}
 		return true;
@@ -329,7 +329,7 @@ class Vtiger_Request
 	protected function validateCSRF()
 	{
 		if (!csrf_check(false)) {
-			throw new CsrfException('Unsupported request');
+			throw new \Exception\Csrf('Unsupported request');
 		}
 	}
 }

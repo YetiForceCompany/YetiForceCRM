@@ -18,7 +18,7 @@ class Products_SubProducts_Action extends Vtiger_Action_Controller
 
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}

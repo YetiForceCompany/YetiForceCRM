@@ -19,7 +19,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		}
 
 		if (!Users_Privileges_Model::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

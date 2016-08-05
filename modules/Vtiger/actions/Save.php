@@ -21,12 +21,12 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if (!$recordModel->isEditable()) {
-				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			if (!$recordModel->isCreateable()) {
-				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
 	}

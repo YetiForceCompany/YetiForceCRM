@@ -13,7 +13,7 @@ class Settings_Vtiger_IconsModal_View extends Vtiger_BasicModal_View
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -15,7 +15,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

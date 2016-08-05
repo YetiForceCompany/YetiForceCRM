@@ -16,7 +16,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -10,7 +10,7 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

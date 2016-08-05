@@ -19,7 +19,7 @@ Class Settings_Webforms_Edit_View extends Settings_Vtiger_Index_View
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermitted('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 

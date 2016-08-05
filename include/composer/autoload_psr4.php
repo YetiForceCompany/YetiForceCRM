@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 return [
 	'vtlib\\' => [$baseDir . '/vtlib/Vtiger'],
 	'includes\\' => [$baseDir . '/include'],
+	'Exception\\' => [$baseDir . '/include/exceptions']
 ];
