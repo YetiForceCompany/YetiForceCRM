@@ -31,17 +31,17 @@
 					<option value=""></option>
 					{assign var=RECORD_STRUCTURE_TYPE value=$RECORD_STRUCTURE_MODEL->getStructure('email')}
 					{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE_TYPE }
-						<optgroup label='{vtranslate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}'>
+						<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 								{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
 								{assign var=KEYVAL value=$FIELD_MODEL->get(selectOption)}
 								{if $KEYVAL neq ''} 
 									<option value="{$KEYVAL}" {if $TASK_OBJECT->email_fld eq $KEYVAL}selected=""{/if}>
-										{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')} 
+										{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')} 
 											({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 										{else}
-											{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}
+											{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
 										{/if}
 									</option>
 								{/if}
