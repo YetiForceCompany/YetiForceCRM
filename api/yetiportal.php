@@ -4,8 +4,7 @@
 
 require('include/ConfigUtils.php');
 if (!in_array('yetiportal', $enabledServices)) {
-	require('include/exceptions/AppException.php');
-	$apiLog = new APINoPermittedException();
+	$apiLog = new \Exception\NoPermittedToApi();
 	$apiLog->stop(['status' => 0, 'message' => 'YetiPortal - Service is not active']);
 }
 

@@ -112,7 +112,7 @@ class PearDatabase
 		// Create a new PDO instanace
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
-		} catch (AppException $e) {
+		} catch (\Exception\AppException $e) {
 			// Catch any errors
 			$this->log('Database connect : ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage());
@@ -305,7 +305,7 @@ class PearDatabase
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
 
-	public function getRowsByGroup(&$result)
+	public function getColumnByGroup(&$result)
 	{
 		return $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
 	}
@@ -408,7 +408,7 @@ class PearDatabase
 		try {
 			$success = $this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
-		} catch (AppException $e) {
+		} catch (\Exception\AppException $e) {
 			$error = $this->database->errorInfo();
 			$this->log($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage());

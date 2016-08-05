@@ -17,7 +17,7 @@ class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleId = vtlib\Functions::getModuleId($moduleName);
 		if (!$currentUserModel->hasModulePermission($moduleId)) {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -33,7 +33,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 		}
 
 		if (!$allowed) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

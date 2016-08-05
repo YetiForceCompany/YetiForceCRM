@@ -18,7 +18,7 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$record = $request->get('record');
 		//Do not allow ajax edit of existing comments
 		if ($record) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -16,7 +16,7 @@ class Users_TransferOwner_View extends Vtiger_Index_View
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		if (!$currentUserModel->isAdminUser()) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

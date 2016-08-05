@@ -392,7 +392,8 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 					if (reponseDataList.length <= 0) {
 						reponseDataList.push({
 							label: app.vtranslate('JS_NO_RESULTS_FOUND'),
-							type: 'no results'
+							type: 'no results',
+							category: ''
 						});
 					}
 					response(reponseDataList);
@@ -405,7 +406,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				if (typeof selected.type != 'undefined' && selected.type == "no results") {
 					return false;
 				}
-				console.log(selected);
 				var recordExist = true;
 				inviteesContent.find('.inviteRow').each(function (index) {
 					if ($(this).data('crmid') == selected.id) {

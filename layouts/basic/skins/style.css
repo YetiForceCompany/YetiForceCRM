@@ -3101,7 +3101,7 @@ span[name=existingImages] img{
 	padding: 5px 10px 10px 10px;
 }
 .remindersNoticeContainer .actionRow a.btn{
-	margin-right: 2%;
+	margin-right: 1%;
 }
 .cancelLink.btn[type='reset'],.cancel.btn[type='reset'],.cancelLink.btn[type='button']  {
 	float: right;
@@ -3972,7 +3972,7 @@ html,body,.baseContainer
 	width: 100%;
 	overflow-x: hidden;
 }
-.mainBody.userInfoFooter{
+.userInfoFooter .mainBody{
 	bottom:50px;
 }
 .bootstrap-switch-container{
@@ -5627,6 +5627,8 @@ select.form-control {
 	table-layout: fixed;
 	word-wrap: break-word;
 }
-.dashboardWidget .activitiesLabel{
-	width: calc(100% - 36px);
+.dashboardWidget .rowActivities > *{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }

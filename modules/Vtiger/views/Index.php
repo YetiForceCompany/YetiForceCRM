@@ -26,7 +26,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 			if (!$permission) {
-				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
@@ -42,7 +42,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 			$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 			if (!$permission) {
-				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 
 			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));

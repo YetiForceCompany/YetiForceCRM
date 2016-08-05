@@ -28,7 +28,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 
 		$account = OSSMail_Record_Model::getAccountByHash($rcId);
 		if (!$account) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$rcId = $account['user_id'];
 		$mailViewModel = OSSMailView_Record_Model::getCleanInstance('OSSMailView');

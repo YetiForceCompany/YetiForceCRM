@@ -36,12 +36,7 @@ body{
 .baseContainer .leftPanel .menuContainer .subMenu a{
 	color: #fff;
 }
-.baseContainer .leftPanel .modulesList > .menuModule{
-	padding-top:4px;
-	height: 39px;
-}
 .baseContainer .leftPanel .modulesList > .menuModule a{
-	padding-top: 1px;
 	font-size: 13px;
 	text-transform: uppercase;
 }
@@ -91,6 +86,8 @@ body{
 }
 .btn-primary,
 .btn-primary:hover,
+.btn-primary:active:focus,
+.btn-primary:focus,
 .iconsInFooter{
 	background: #00509e;
 }
@@ -154,7 +151,9 @@ body{
 }
 .btn-success,
 .btn-success:hover,
-.btn-success:active:focus {
+.btn-success:active:focus,
+.btn-success[disabled],
+.btn-success[disabled]:hover{
 	background-color: #8cc83c;
 	border-color: transparent;
 }
@@ -176,7 +175,9 @@ btn-danger:hover{
 .bgOrange,
 .btn-info,
 .alphabetSearch a,
-.currencyField + span.input-group-addon{
+.currencyField + span.input-group-addon,
+.input-group.date span.input-group-addon, 
+.input-group.time span.input-group-addon {
 	background-color: #00a8e4 !important;
 	color: #fff;
 }
@@ -266,7 +267,6 @@ btn-danger:hover{
 	height: 0;
 }
 .nav.massEditTabs{
-	background: #003c7d;
 	border-bottom: 3px solid #00285f;
 }
 .nav-tabs > li > a{
@@ -279,9 +279,12 @@ btn-danger:hover{
 .nav.massEditTabs li a:hover{
 	border-bottom: 0px;
 }
+.nav.massEditTabs li.active{
+	background-color: #00a8e1;
+}
 .nav.massEditTabs li.active a{
 	color: #fff !important;
-	background-color: #00509e;
+	background-color: #00a8e1;
 }
 .massEditTabs li.active{
 	border-bottom: none !important;
@@ -444,7 +447,8 @@ btn-danger:hover{
 .labelConstainer{
 	height: 15px;
 	width: auto;
-	padding-top:8px;
+	padding-top:4px;
+	padding-bottom: 4px;
 	font-size: 13px;
 	text-transform: uppercase;
 }
@@ -465,28 +469,38 @@ btn-danger:hover{
 	bottom: 0px;
 	display: none;
 }
-.nav li:hover > .slimScrollDiv >.subMenu{
+.nav li > .slimScrollDiv >.subMenu{
 	border-top: 3px solid #00285f;
 	background: #E7E7E7;
-	border-bottom: 1px solid #969696;
-	left: 0px;
-	top: 37px;
+	border-bottom: 1px solid #fff;
+	left: 0px !important;
+	top: 37px !important;
 	width: 100% !important;
-	height: 150px !important;
+	height: 0px !important;
 	padding:0 10px;
-	display: block;
 	-moz-column-fill: auto;
 	column-fill: auto;
 	column-count: 6;
 	-webkit-column-count: 6;
     -moz-column-count: 6;
-	overflow: inherit !important;
+	overflow: hidden !important;
+	position: absolute;
+	transition: all ease-in 0s 0.25s;
+	display: block;
+}
+.nav li:hover > .slimScrollDiv >.subMenu{
+	border-bottom: 1px solid #969696;
+	height: 150px !important;
+}
+.leftPanel .slimScrollBar{
+	display: none !important;
 }
 .leftPanel .nav .subMenu li{
 	position: relative;
 }
 .leftPanel .modulesList.nav > li{
 	display: inline-block;
+	margin-right: -4px;
 }
 .leftPanel .ps-scrollbar-x-rail{
 	display:none !important;
@@ -593,7 +607,8 @@ btn-danger:hover{
 }
 .modulesList .menuName,
 .modulesList .menuIcon{
-	padding-top: 8px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 .modulesList .menuIcon,
 .modulesList .menuName{
@@ -721,4 +736,25 @@ btn-danger:hover{
 }
 #leadAccordion .fieldValue{
 	background-color: #fff;
+}
+.leftPanel > .slimScrollDiv > .menuContainer > nav > .nav.modulesList > li > a.active{
+	background-color: #00a8e1;
+	color: #fff;
+}
+.globalSearchResults .nav > li > a:hover{
+	color: #003c7d;
+}
+.basePanel.menuOpen{
+	left: 0;
+	width: 100%;
+}
+.bodyHeader.menuOpen{
+	left: 50px;
+}
+.modal .massEditTabs li{
+	margin-bottom: 3px;
+	border-bottom: 0px solid #fff !important;
+}
+.gridster ul li.dashboardWidget .dashboardWidgetHeader{
+	text-shadow: none;
 }

@@ -57,7 +57,7 @@
 			</button>
 			<!-- Show the add button only if it is edit view  -->
 			{if (($VIEW eq 'Edit') or ($MODULE eq 'Webforms')) && $REFERENCE_MODULE_MODEL && $REFERENCE_MODULE_MODEL->isQuickCreateSupported()}
-				<button class="btn btn-default createReferenceRecord" type="button" {if $FIELD_MODEL->isEditableReadOnly()}disabled {/if}>
+				<button class="btn btn-default createReferenceRecord" type="button" {if $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
 					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="glyphicon glyphicon-plus" title="{vtranslate('LBL_CREATE', $MODULE)}"></span>
 				</button>
 			{/if}

@@ -16,7 +16,7 @@ class Rss_GetHtml_Action extends Vtiger_Action_Controller {
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPrivilegesModel->isPermitted($moduleName, 'ListView', $record)) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

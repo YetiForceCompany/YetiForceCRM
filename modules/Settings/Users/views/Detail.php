@@ -19,7 +19,7 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		if ($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record) {
 			return true;
 		} else {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

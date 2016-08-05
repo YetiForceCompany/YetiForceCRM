@@ -74,7 +74,7 @@ class Cron_Notification
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->query('SELECT userid, id FROM l_yf_notification ORDER BY userid, `time` DESC');
-		$notifications = $db->getRowsByGroup($result);
+		$notifications = $db->getColumnByGroup($result);
 		foreach ($notifications as $userId => $noticesByUser) {
 			$noticesByUser = array_slice($noticesByUser, AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {

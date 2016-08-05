@@ -104,18 +104,6 @@ try {
 	$moduleInstance->delete();
 } catch (\Exception $e) {
 	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
-} catch (\AppException $e) {
-	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
-} catch (\NoPermittedException $e) {
-	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
-} catch (\NoPermittedToRecordException $e) {
-	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
-} catch (\NoPermittedForAdminException $e) {
-	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
-} catch (\CsrfException $e) {
-	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
-} catch (\APINoPermittedException $e) {
-	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString();
 } catch (\PDOException $e) {
 	echo PHP_EOL . 'INSTALLATION FAILED! ' . $e->getMessage() . PHP_EOL . $e->xdebug_message . PHP_EOL . $e->getTrace() . PHP_EOL . $e->__toString() . PHP_EOL . $e->getTraceAsString();
 }

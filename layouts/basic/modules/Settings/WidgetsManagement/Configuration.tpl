@@ -38,8 +38,8 @@
 		<div class="col-md-3">
 			<div class="pull-right col-xs-6 col-md-6 paddingLRZero">
 				<select class="chzn-select form-control" name="widgetsManagementEditorModules">
-					{foreach item=mouleName from=$SUPPORTED_MODULES}
-						<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($mouleName, $QUALIFIED_MODULE)}</option>
+					{foreach item=SUPPORTED_MODULE from=$SUPPORTED_MODULES}
+						<option value="{$SUPPORTED_MODULE}" {if $SUPPORTED_MODULE eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($SUPPORTED_MODULE, $SUPPORTED_MODULE)}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -159,7 +159,7 @@
 											<span class="redColor">*</span>
 										</div>
 										<div class="col-sm-6 controls">
-											<select class="authorized form-control" name="authorized" style="margin-bottom:0px;" >
+											<select class="authorized form-control validateForm" name="authorized" style="margin-bottom:0px;" data-validation-engine="validate[required]">
 												{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED key=AUTHORIZED_CODE}
 													<option value="{$AUTHORIZED_CODE}" data-label="{$AUTHORIZED->get('rolename')}">{vtranslate($AUTHORIZED->get('rolename'),$QUALIFIED_MODULE)}</option>
 												{/foreach}
@@ -191,7 +191,7 @@
 								{if $SPECIAL_WIDGETS['Rss']}
 									{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
 									<div class="btn-group">
-										<button class="btn btn-success addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>
+										<button class="btn btn-success addRss specialWidget" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>
 											<strong>{vtranslate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
@@ -223,7 +223,7 @@
 								{if $SPECIAL_WIDGETS['Chart']}
 									{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
 									<div class="btn-group">
-										<button class="btn btn-success addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+										<button class="btn btn-success addCharts specialWidget" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 											<strong>{vtranslate('LBL_ADD_WIDGET_CHARTS', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>

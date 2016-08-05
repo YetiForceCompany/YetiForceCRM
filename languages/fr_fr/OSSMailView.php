@@ -85,6 +85,7 @@ $languageStrings = [
 	'Previous week' => 'Semaine dernière',
 	'Current month' => 'Ce mois-ci',
 	'Previous month' => 'Le mois dernier',
+	'LBL_ORGINAL_MAIL_CONTENT' => 'Orginal mail content',
 ];
 $jsLanguageStrings = [
 	'From' => 'De',

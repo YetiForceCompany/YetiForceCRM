@@ -227,7 +227,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$account = OSSMail_Record_Model::getAccountByHash($params['rcId']);
 		if (!$account) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$params['folder'] = urldecode($params['folder']);
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');

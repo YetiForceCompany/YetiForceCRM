@@ -16,18 +16,18 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (!$moduleModel->isPermitted('ConvertLead')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		
 		$recordId = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		if (!Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

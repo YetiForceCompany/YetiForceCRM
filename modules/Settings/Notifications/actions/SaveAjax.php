@@ -44,8 +44,6 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 		$insertParams = [
 			'name' => $request->get('name'),
 			'role' => $request->get('roleId'),
-			'width' => $request->get('width'),
-			'height' => $request->get('height'),
 		];
 		if (($id = $request->get('id')) == 0) {
 			$insertParams['id'] = $db->getUniqueID('a_yf_notification_type');

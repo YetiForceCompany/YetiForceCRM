@@ -12,7 +12,7 @@ require_once 'api/webservice/APIResponse.php';
 
 
 if (!in_array('webservice', $enabledServices)) {
-	$apiLog = new APINoPermittedException();
+	$apiLog = new \Exception\NoPermittedToApi();
 	$apiLog->stop(['status' => 0, 'Encrypted' => 0, 'error' => ['message' => 'Webservice - Service is not active']]);
 }
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/webservice.log');

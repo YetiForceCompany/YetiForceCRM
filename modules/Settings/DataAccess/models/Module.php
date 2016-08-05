@@ -57,19 +57,22 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$sql = 'SELECT * FROM vtiger_dataaccess ';
 		if ($module) {
 			$sql .= 'WHERE module_name IN (?, ?)';
-			$result = $db->pquery($sql, ['All', $module]);
+			$params = ['All', $module];
 		} else {
 			$sql .= 'WHERE presence = ?;';
-			$result = $db->pquery($sql, [1]);
+			$params = [1];
 		}
 		$output = [];
-		while ($row = $db->getRow($result)) {
-			$output[] = [
-				'module' => $row['module_name'],
-				'summary' => $row['summary'],
-				'data' => unserialize($row['data']),
-				'id' => $row['dataaccessid'],
-			];
+		if (empty($module) || array_key_exists($module, self::getSupportedModules())) {
+			$result = $db->pquery($sql, $params);
+			while ($row = $db->getRow($result)) {
+				$output[] = [
+					'module' => $row['module_name'],
+					'summary' => $row['summary'],
+					'data' => unserialize($row['data']),
+					'id' => $row['dataaccessid'],
+				];
+			}
 		}
 		return $output;
 	}
