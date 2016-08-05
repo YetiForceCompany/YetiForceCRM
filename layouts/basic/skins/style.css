@@ -3972,7 +3972,7 @@ html,body,.baseContainer
 	width: 100%;
 	overflow-x: hidden;
 }
-.mainBody.userInfoFooter{
+.userInfoFooter .mainBody{
 	bottom:50px;
 }
 .bootstrap-switch-container{
