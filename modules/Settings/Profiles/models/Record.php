@@ -525,7 +525,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			if (isset($permissions['actions']) || $moduleModel->isUtilityActionEnabled()) {
 				$actionPermissions = $permissions['actions'];
 				$actionsIdsList = Vtiger_Action_Model::$standardActions;
-				unset($actionsIdsList[3]);
 				//Dividing on actions
 				$utilityIdsList = [];
 				foreach ($actionPermissions as $actionId => $permission) {
@@ -577,6 +576,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					$count = count($actionsIdsList);
 					$actionsInsertQuery = 'INSERT INTO vtiger_profile2standardpermissions(profileid, tabid, operation, permissions) VALUES ';
 					foreach ($actionsIdsList as $actionId => $permission) {
+						if (in_array($permission, Vtiger_Action_Model::$nonConfigurableActions)) {
+							$permission = 'on';
+						}
 						$actionEnabled = true;
 						$permissionValue = $this->tranformInputPermissionValue($permission);
 						$actionsInsertQuery .= "($profileId, $tabId, $actionId, $permissionValue)";
