@@ -692,7 +692,7 @@ class CRMEntity
 		$app_strings = vglobal('app_strings');
 
 		if (!isset($record)) {
-			throw new NoPermittedToRecordException('LBL_RECORD_NOT_FOUND');
+			throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 		}
 		// INNER JOIN is desirable if all dependent table has entries for the record.
 		// LEFT JOIN is desired if the dependent tables does not have entry.
@@ -788,11 +788,11 @@ class CRMEntity
 			$result = $adb->pquery($sql, $params);
 
 			if (!$result || $adb->num_rows($result) < 1) {
-				throw new NoPermittedToRecordException('LBL_RECORD_NOT_FOUND');
+				throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 			} else {
 				$resultrow = $adb->query_result_rowdata($result);
 				if (!empty($resultrow['deleted'])) {
-					throw new NoPermittedToRecordException('LBL_RECORD_DELETE');
+					throw new \Exception\NoPermittedToRecord('LBL_RECORD_DELETE');
 				}
 				$showsAdditionalLabels = vglobal('showsAdditionalLabels');
 				foreach ($cachedModuleFields as $fieldinfo) {

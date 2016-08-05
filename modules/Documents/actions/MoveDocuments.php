@@ -14,7 +14,7 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -16,7 +16,7 @@ class OSSMailScanner_IdentitiesDel_Action extends Vtiger_Action_Controller
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 

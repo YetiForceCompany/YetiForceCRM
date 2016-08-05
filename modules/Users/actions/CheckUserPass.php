@@ -7,7 +7,7 @@ class Users_CheckUserPass_Action extends Vtiger_Action_Controller
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

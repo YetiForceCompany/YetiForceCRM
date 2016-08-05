@@ -14,7 +14,7 @@ class SMSNotifier_CheckStatus_View extends Vtiger_IndexAjax_View {
 		$moduleName = $request->getModule();
 
 		if(!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

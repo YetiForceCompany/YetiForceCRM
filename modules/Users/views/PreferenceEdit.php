@@ -18,18 +18,18 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
 		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if ($recordModel->get('status') != 'Active') {
-				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
 			return true;
 		} else {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -17,7 +17,7 @@ class OSSEmployees_EmployeeHierarchy_View extends Vtiger_View_Controller {
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 	

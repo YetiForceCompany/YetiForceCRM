@@ -70,7 +70,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handler->checkPermission($request);
 			return;
 		}
-		throw new NoPermittedException('LBL_NOT_ACCESSIBLE');
+		throw new \Exception\NoPermitted('LBL_NOT_ACCESSIBLE');
 	}
 
 	protected function triggerPreProcess($handler, $request)
@@ -222,35 +222,17 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			} else {
 				throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
-		} catch (AppException $e) {
-			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-
-			vtlib\Functions::throwNewException($e->getMessage(), false);
-			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>' . $e->getTraceAsString() . '</pre>');
-			}
-		} catch (NoPermittedToRecordException $e) {
-			//No permissions for the record
-			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-
-			vtlib\Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
-			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>' . $e->getTraceAsString() . '</pre>');
-			}
-		} catch (WebServiceException $e) {
-			//No permissions for the record
-			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-
-			vtlib\Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
-			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>' . $e->getTraceAsString() . '</pre>');
-			}
 		} catch (Exception $e) {
 			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			$tpl = 'OperationNotPermitted.tpl';
+			if ($e instanceof \Exception\NoPermittedToRecord || $e instanceof WebServiceException) {
+				$tpl = 'NoPermissionsForRecord.tpl';
+			}
 
-			vtlib\Functions::throwNewException($e->getMessage(), false);
+			\vtlib\Functions::throwNewException($e->getMessage(), false, $tpl);
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>' . $e->getTraceAsString() . '</pre>');
+				echo '<pre>' . $e->getTraceAsString() . '</pre>';
+				$response = false;
 			}
 		}
 
@@ -265,14 +247,15 @@ if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 	function exception_error_handler($errno, $errstr, $errfile, $errline)
 	{
 		$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
-		if (AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
+		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
 			$file = 'cache/logs/errors.log';
-			$test = print_r($msg . PHP_EOL, true);
-			file_put_contents($file, $test, FILE_APPEND);
+			$content = print_r($msg, true);
+			$content .= PHP_EOL . \vtlib\Functions::getBacktrace();
+			file_put_contents($file, $content . PHP_EOL, FILE_APPEND);
 		}
 		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
-			vtlib\Functions::throwNewException($msg, false);
+			\vtlib\Functions::throwNewException($msg, false);
 		}
 	}
-	set_error_handler('exception_error_handler', AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
+	set_error_handler('exception_error_handler', \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
 }

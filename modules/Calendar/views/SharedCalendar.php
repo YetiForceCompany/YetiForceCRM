@@ -12,7 +12,7 @@ class Calendar_SharedCalendar_View extends Calendar_Calendar_View
 {
 	public function checkPermission(Vtiger_Request $request)
 	{
-		throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 	
 	public function process(Vtiger_Request $request)

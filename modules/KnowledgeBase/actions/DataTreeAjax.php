@@ -16,7 +16,7 @@ class KnowledgeBase_DataTreeAjax_Action extends Vtiger_Action_Controller
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if (!$permission) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

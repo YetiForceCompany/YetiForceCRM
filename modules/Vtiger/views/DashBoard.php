@@ -14,7 +14,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View {
 	function checkPermission(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
 		if(!Users_Privileges_Model::isPermitted($moduleName)) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 	function preProcessAjax(\Vtiger_Request $request)

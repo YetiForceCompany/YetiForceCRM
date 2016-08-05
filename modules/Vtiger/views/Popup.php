@@ -19,7 +19,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

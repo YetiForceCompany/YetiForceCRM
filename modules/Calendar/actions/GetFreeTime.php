@@ -16,7 +16,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if (!$permission) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
