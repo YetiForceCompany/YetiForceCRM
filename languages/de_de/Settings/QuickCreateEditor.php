@@ -11,7 +11,7 @@
 $languageStrings = [
 	'QuickCreateEditor' => 'Schnellerfassungs-Editor',
 	'LBL_QUICK_CREATE_EDITOR' => 'Felder – Schnellerzeugen',
-	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Modul ermöglicht, das Layout der Felder innerhalb im Schnellerfassungs-Fenster zu ändern',
+	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Modul ermöglicht das Layout der Felder innerhalb im Schnellerfassungs-Fenster zu ändern',
 	'LBL_SEQUENCE' => 'Feld Reihenfolge',
 	'LBL_SAVE_FIELD_SEQUENCE' => 'Feld Reihenfolge speichern',
 ];

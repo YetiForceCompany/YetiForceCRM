@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-	'Picklist' => 'Picklist',
+	'Picklist' => 'Auswahlliste',
 	'Calendar' => 'Kalender',
 	'LBL_ADD_ITEM_TO' => 'Eintrag hinzufügen an',
 	'LBL_ADD_VALUE' => 'Wert hinzufügen',
