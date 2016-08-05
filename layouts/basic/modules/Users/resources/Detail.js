@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 Vtiger_Detail_Js("Users_Detail_Js",{
@@ -200,6 +201,43 @@ Vtiger_Detail_Js("Users_Detail_Js",{
 		form.on(this.fieldUpdatedEvent, '[name="start_hour"]', function(e, params){
 			thisInstance.updateStartHourElement(form);
 		});
+	},
+	saveFieldValues: function (fieldDetailList) {
+		var aDeferred = jQuery.Deferred();
+		var thisInstance = this;
+		var lock = false;
+		var recordId = this.getRecordId();
+
+		var data = {};
+		if (typeof fieldDetailList != 'undefined') {
+			data = fieldDetailList;
+			if (data['field'] == 'email1') {
+				thisInstance.usersEditInstance.checkEmail(data['value']).then(
+						function (data) {
+						},
+						function (data, error) {
+							lock = true;
+							aDeferred.reject();
+						}
+				);
+			}
+		}
+		if (lock !== true) {
+			data['record'] = recordId;
+			data['module'] = app.getModuleName();
+			data['action'] = 'SaveAjax';
+
+			var params = {};
+			params.data = data;
+			params.async = false;
+			params.dataType = 'json';
+			AppConnector.request(params).then(
+					function (reponseData) {
+						aDeferred.resolve(reponseData);
+					}
+			);
+		}
+		return aDeferred.promise();
 	},
 	
 	registerEvents : function() {

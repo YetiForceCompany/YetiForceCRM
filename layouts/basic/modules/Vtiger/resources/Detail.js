@@ -1248,6 +1248,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 					},
 							function (error) {
 								//TODO : Handle error
+								editElement.addClass('hide');
+								detailViewValue.removeClass('hide');
+								actionElement.removeClass('hide');
+								jQuery(document).off('click', '*', saveHandler);
 								readRecord.prop('disabled', false);
 								currentTdElement.progressIndicator({'mode': 'hide'});
 							}
@@ -2841,7 +2845,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentActivitiesTab.data('url', url);
 			recentActivitiesTab.trigger('click');
 		});
-		detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"] .widget_contents').on(thisInstance.widgetPostLoad, function(e){
+		detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"] .widget_contents').on(thisInstance.widgetPostLoad, function (e) {
 			thisInstance.registerEmailEvents($(e.currentTarget));
 		});
 		thisInstance.registerEventForRelatedList();
