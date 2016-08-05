@@ -76,6 +76,7 @@ $languageStrings = [
 	'LBL_FILTER_ALL' => 'Alle',
 	'LBL_FILTER_ACCOUNTS' => 'Alle Organisationen',
 	'LBL_FILTER_CONTACTS' => 'Alle Kontakte',
+	'LBL_ORGINAL_MAIL_CONTENT' => 'Orginal mail content',
 ];
 $jsLanguageStrings = [
 	'From' => 'Von',
