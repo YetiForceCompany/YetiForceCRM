@@ -43,7 +43,7 @@ abstract class Vtiger_EntryPoint
 	function setLogin($login)
 	{
 		if ($this->login)
-			throw new AppException('Login is already set.');
+			throw new \Exception\AppException('Login is already set.');
 		$this->login = $login;
 	}
 

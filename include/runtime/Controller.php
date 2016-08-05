@@ -88,7 +88,7 @@ abstract class Vtiger_Controller
 		if (!empty($name) && $this->isMethodExposed($name)) {
 			return call_user_func_array(array($this, $name), $parameters);
 		}
-		throw new AppException(vtranslate('LBL_NOT_ACCESSIBLE'));
+		throw new \Exception\AppException(vtranslate('LBL_NOT_ACCESSIBLE'));
 	}
 
 	function setHeaders()
@@ -123,7 +123,7 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 
 	function getViewer(Vtiger_Request $request)
 	{
-		throw new AppException('Action - implement getViewer - JSONViewer');
+		throw new \Exception\AppException('Action - implement getViewer - JSONViewer');
 	}
 
 	function validateRequest(Vtiger_Request $request)

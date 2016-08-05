@@ -472,7 +472,7 @@ btn-danger:hover{
 .nav li > .slimScrollDiv >.subMenu{
 	border-top: 3px solid #00285f;
 	background: #E7E7E7;
-	border-bottom: 1px solid #969696;
+	border-bottom: 1px solid #fff;
 	left: 0px !important;
 	top: 37px !important;
 	width: 100% !important;
@@ -485,9 +485,11 @@ btn-danger:hover{
     -moz-column-count: 6;
 	overflow: hidden !important;
 	position: absolute;
-	transition: height ease-in 0s 0.25s;
+	transition: all ease-in 0s 0.25s;
+	display: block;
 }
 .nav li:hover > .slimScrollDiv >.subMenu{
+	border-bottom: 1px solid #969696;
 	height: 150px !important;
 }
 .leftPanel .slimScrollBar{

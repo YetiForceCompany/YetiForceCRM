@@ -5,3 +5,6 @@
 .leftPanel .ps-scrollbar-y-rail{
 	display:none !important;
 }
+.userInfoFooter .leftPanel{
+	bottom: 50px;
+}

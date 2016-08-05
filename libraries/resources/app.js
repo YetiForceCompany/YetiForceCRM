@@ -40,9 +40,9 @@ var app = {
 	getRecordId: function () {
 		var view = this.getViewName();
 		var recordId;
-		if (view == "Edit") {
+		if (view == 'Edit' || 'PreferenceEdit') {
 			recordId = this.getMainParams('recordId');
-		} else if (view == "Detail") {
+		} else if (view == 'Detail' || 'PreferenceDetail') {
 			recordId = this.getMainParams('recordId');
 		}
 		return recordId;

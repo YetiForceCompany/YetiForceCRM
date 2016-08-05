@@ -329,5 +329,6 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_CHANGE_FAILED_2' => ' failed.  The new password must be set.',
 	'JS_PASSWORD_INCORRECT_OLD' => 'Incorrect old password specified. Re-enter password information.',
 	'JS_REENTER_PASSWORDS' => 'Please re-enter passwords.  The \"new password\" and \"confirm password\" values do not match.',
+	'JS_USER_MAIL_EXIST' => 'User with this e-mail address exists',
 ];
 

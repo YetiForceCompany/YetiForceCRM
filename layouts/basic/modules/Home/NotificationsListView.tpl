@@ -36,7 +36,7 @@
 							{Vtiger_Util_Helper::formatDateDiffInStrings($ITEM->get('time'))}
 						</span>
 					</td>
-					<td>
+					<td class="text-nowrap">
 						<button type="button" class="btn btn-success btn-xs" onclick="Vtiger_Index_Js.markNotifications({$ITEM->getId()});" title="{vtranslate('LBL_MARK_AS_READ', $MODULE)}">
 							<span class="glyphicon glyphicon-ok"></span>
 						</button>&nbsp;&nbsp;

@@ -97,6 +97,7 @@ $languageStrings = [
 	'LBL_NO_MAILS' => 'Не указан адрес электронной почты',
 	//dashboards
 	'Graf' => 'Письма по статусу',
+	'LBL_ORGINAL_MAIL_CONTENT' => 'Orginal mail content',
 ];
 $jsLanguageStrings = [
 	'From' => 'От',

@@ -468,11 +468,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		// Added to support related list view from the related module, rather than the base module.
 		try {
 			$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'In' . $moduleName . 'Relation', $relatedModuleName);
-		} catch (AppException $e) {
+		} catch (\Exception\AppException $e) {
 			try {
 				// If any module wants to have same view for all the relation, then invoke this.
 				$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'InRelation', $relatedModuleName);
-			} catch (AppException $e) {
+			} catch (\Exception\AppException $e) {
 				// Default related list
 				$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'RelatedList', $moduleName);
 			}

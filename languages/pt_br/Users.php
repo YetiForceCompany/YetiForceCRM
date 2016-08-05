@@ -334,5 +334,6 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_CHANGE_FAILED_2' => ' falhou.  Uma nova senha deve ser definida.',
 	'JS_PASSWORD_INCORRECT_OLD' => 'A senha antiga está incorreta. Redigite a senha.',
 	'JS_REENTER_PASSWORDS' => 'Por favor, redigite suas senhas.  Os valores da \"nova senha\" e \"senha de confirmação\" não combinam.',
+	'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
 ];
 

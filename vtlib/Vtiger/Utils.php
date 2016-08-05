@@ -70,7 +70,7 @@ class Utils
 			if ($dieOnFail) {
 				$log = \LoggerManager::getInstance();
 				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-				throw new \AppException('Sorry! Attempt to access restricted file.');
+				throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
 		}
@@ -104,7 +104,7 @@ class Utils
 			if ($dieOnFail) {
 				$log = \LoggerManager::getInstance();
 				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-				throw new \AppException('Sorry! Attempt to access restricted file.');
+				throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
 		}

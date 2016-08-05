@@ -327,5 +327,6 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_CHANGE_FAILED_2' => ' niepowodzenie. Nowe hasło musi zostać ustawione.',
 	'JS_PASSWORD_INCORRECT_OLD' => 'Podano niepoprawne stare hasło. Wpisz ponownie.',
 	'JS_REENTER_PASSWORDS' => 'Wpisz hasła ponownie. Nowe hasło i potwierdzenie hasła nie są identyczne.',
+	'JS_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
 ];
 
