@@ -41,8 +41,8 @@ insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`defa
 
 /*Data for the table `a_yf_notification_type` */
 
-insert  into `a_yf_notification_type`(`id`,`name`,`role`,`width`,`height`,`icon`,`presence`) values (0,'LBL_MESSAGES_FROM_USERS',0,3,3,'glyphicon glyphicon-',0);
-insert  into `a_yf_notification_type`(`id`,`name`,`role`,`width`,`height`,`icon`,`presence`) values (1,'LBL_WATCHDOG',0,3,3,'glyphicon glyphicon-',0);
+insert  into `a_yf_notification_type`(`id`,`name`,`role`,`icon`,`presence`) values (0,'LBL_MESSAGES_FROM_USERS',0,'glyphicon glyphicon-',0);
+insert  into `a_yf_notification_type`(`id`,`name`,`role`,`icon`,`presence`) values (1,'LBL_WATCHDOG',0,'glyphicon glyphicon-',0);
 
 /*Data for the table `a_yf_pdf` */
 

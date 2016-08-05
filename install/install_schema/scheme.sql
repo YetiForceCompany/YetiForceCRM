@@ -86,8 +86,6 @@ CREATE TABLE `a_yf_notification_type` (
   `id` int(19) unsigned NOT NULL,
   `name` varchar(50) NOT NULL,
   `role` tinyint(5) unsigned NOT NULL DEFAULT '0',
-  `width` tinyint(2) NOT NULL DEFAULT '3',
-  `height` tinyint(2) NOT NULL DEFAULT '3',
   `icon` varchar(20) DEFAULT NULL,
   `presence` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
