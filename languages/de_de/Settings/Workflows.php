@@ -178,8 +178,8 @@ $languageStrings = [
 	//workflow add time
 	'Current Date' => 'Aktuelles Datum',
 	'Current Time' => 'Aktuelle Uhrzeit',
-	'System Timezone' => 'System Zeitzone',
-	'User Timezone' => 'User Zeitzone',
+	'System Timezone' => 'Zeitzone System',
+	'User Timezone' => 'Zeitzone Benutzer',
 	'CRM Detail View URL' => 'CRM Detailsicht URL',
 	'Portal Detail View URL' => 'Portal Detailsicht URL',
 	'Site Url' => 'Seite Url',

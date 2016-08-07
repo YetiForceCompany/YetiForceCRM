@@ -15,9 +15,9 @@ $languageStrings = [
 	'LBL_TIMEOVERLAP_VALID' => 'Zeitüberschneidung erlaubt',
 	'LBL_GENERAL_SETTINGS' => 'Allgemeine Einstellungen',
 	'TimeControlProcesses' => 'Zeiterfassungsprozesse',
-	'LBL_TIME_CONTROL_WIDGET' => 'Zitkontrolle Widget',
-	'LBL_TCW_INFO' => 'The options to hide/display icons in the time control widget can be found here.',
+	'LBL_TIME_CONTROL_WIDGET' => 'Zeitkontrolle Widget',
 	'LBL_HOLIDAYS' => 'Urlaub Icons',
+	'LBL_TCW_INFO' => 'Die Option um die Icons im Zeitkontrollwidget ein-/auszublenden steht hier zur Verfügung.',
 	'LBL_WORKING_DAYS' => 'Arbeitstage Icons',
 	'LBL_WORKING_TIME' => 'Arbeitszeit Icons',
 ];

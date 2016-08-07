@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Hinzufügen',
 	'TreesManager' => 'Baumstruktur Verwaltung',
-	'LBL_TREES_MANAGER' => 'Fields – Folders',
+	'LBL_TREES_MANAGER' => 'Felder – Baumstruktur',
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Verwalten von Vorlagen für Baumstrukturen',
 	'LBL_NO_RECORDS_FOUND' => 'Keine Vorlagen gefunden',
 	'LBL_EDIT_TEMPLATE_TREES' => 'Vorlagen ändern',
@@ -22,8 +22,8 @@ $languageStrings = [
 	'LBL_ADD_TO_TREES' => 'Hinzufügen',
 	'LBL_SAVE' => 'Speichern',
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Ändere Eintrag in Baumstruktur:',
-	'Category' => 'Category',
-	'Reservations' => 'Reservations',
+	'Category' => 'Kategorie',
+	'Reservations' => 'Einschränkungen',
 ];
 $jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'Vorlage erfolgreich gelöscht',
@@ -34,10 +34,11 @@ $jsLanguageStrings = [
 	'JS_JSTREE_CUT' => 'Ausschneiden',
 	'JS_JSTREE_COPY' => 'Kopieren',
 	'JS_JSTREE_PASTE' => 'Hinzufügen',
-	'JS_JSTREE_CHANGE_ICON' => 'Change icon',
+	'JS_JSTREE_CHANGE_ICON' => 'Ändere Icon',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Feld darf nicht leer sein',
 	'JS_NO_ITEM_SELECTED' => 'Kein Eintrag gewählt',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Es können nicht alle Einträge gelöscht werden',
-	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Der Haupteintrag kann nicht gelöscht werden', 'JS_NEW_ITEM' => 'New node',
+	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Der Haupteintrag kann nicht gelöscht werden', 
+	'JS_NEW_ITEM' => 'Neuer Knoten',
 	'JS_ONLY_ONE_ITEM_SELECTED' => 'Es kann nur ein Eintrag gewählt werden.',
 ];
