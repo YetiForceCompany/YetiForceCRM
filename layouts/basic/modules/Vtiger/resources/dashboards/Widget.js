@@ -907,8 +907,14 @@ Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
 	editNotebookContent: function () {
 		jQuery('.dashboard_notebookWidget_text', this.container).show();
 		jQuery('.dashboard_notebookWidget_view', this.container).hide();
+		$('body').on('click', function (e) {
+			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
+				$('.dashboard_notebookWidget_save').trigger('click');
+			}
+		});
 	},
 	saveNotebookContent: function () {
+		$('body').off('click');
 		var self = this;
 		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
 
