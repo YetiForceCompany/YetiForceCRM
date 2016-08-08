@@ -22,6 +22,7 @@ $languageStrings = [
 	'PLVT' => 'Principais Oportunidades',
 	'QLTQ' => 'Principais Cotações',
 	'UA' => 'Atividades Programadas',
+	'LBL_MARK_AS_READ' => 'Mark as read',
 	'LBL_WATCHING_MODULES' => 'Watched modules',
 	'LBL_NO_NOTIFICATIONS' => 'No notifications',
 	'Notifications' => 'Notifications',
