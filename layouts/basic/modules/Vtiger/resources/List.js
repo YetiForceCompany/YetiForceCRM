@@ -853,7 +853,7 @@ jQuery.Class("Vtiger_List_Js", {
 					app.hideModalWindow();
 					if (!(data.result)) {
 						var params = {
-							text: app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFULL'),
+							text: app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFUL'),
 							type: 'info'
 						};
 						Vtiger_Helper_Js.showPnotify(params);

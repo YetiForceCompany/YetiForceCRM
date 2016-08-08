@@ -1552,4 +1552,5 @@ $jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER' => 'Вы уверены, что хотите удалить фильтр? Все виджеты, связанные с этим фильтром в модуле и на домашней странице будут также удалены.',
 	'JS_SEARCHING' => 'Поиск...',
 	'JS_INPUT_TOO_SHORT' => 'Введите _LENGTH_ или более символов',
+	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Mass edition unsuccessful',
 ];

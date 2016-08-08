@@ -1518,4 +1518,5 @@ $jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER' => 'Wollen Sie wirklich diesen Filter löschen? Alle abhängigen Widgets werden dann ebenfalls gelöscht!',
 	'JS_INPUT_TOO_SHORT' => '_LENGTH_ oder mehr Zeichen eingeben',
 	'JS_SEARCHING' => 'Suchen...',
+	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Mass edition unsuccessful',
 ];
