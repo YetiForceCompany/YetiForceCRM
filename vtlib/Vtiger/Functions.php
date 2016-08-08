@@ -985,7 +985,7 @@ class Functions
 	 */
 	public static function get_group_options()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$sql = "select groupname,groupid from vtiger_groups";
 		$result = $adb->pquery($sql, []);
 		return $result;
