@@ -16,7 +16,7 @@
 {/if}
 <div class="input-group input-group-sm">
 	<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle margintop3" title="{vtranslate('Assigned To', $MODULE_NAME)}"></span></span>
-	<select class="widgetFilter width90 owner form-control input-sm" name="owner" title="{vtranslate('LBL_OWNER')}">
+	<select class="widgetFilter width90 owner form-control input-sm select2" name="owner" title="{vtranslate('LBL_OWNER')}">
 		{if in_array('mine', $ACCESS_OPTIONS.available)}
 			<option value="{$CURRENTUSER->getId()}" data-name="{$CURRENTUSER->getName()}" title="{vtranslate('LBL_MINE')}" {if $OWNER eq $CURRENTUSER->getId()} selected {/if}>{vtranslate('LBL_MINE')}</option>
 		{/if}

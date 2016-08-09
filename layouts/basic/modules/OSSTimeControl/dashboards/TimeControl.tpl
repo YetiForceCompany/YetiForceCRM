@@ -95,7 +95,7 @@
 			{/if}
 			<div class="input-group input-group-sm">
 				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
-				<select class="widgetFilter width90 form-control" title="{vtranslate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" >
+				<select class="widgetFilter width90 form-control select2" title="{vtranslate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" >
 					<optgroup label="{vtranslate('LBL_USERS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
 							<option title="{$OWNER_NAME}" {if $OWNER_ID eq $USERID } selected {/if} value="{$OWNER_ID}">
