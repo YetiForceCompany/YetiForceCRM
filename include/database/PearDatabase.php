@@ -76,8 +76,12 @@ class PearDatabase
 			return self::$dbCache[$type];
 		}
 		$config = self::getDBConfig($type);
-		if ($config === false && key_exists('base', self::$dbCache)) {
-			return self::$dbCache['base'];
+		if ($config === false) {
+			if (array_key_exists('base', self::$dbCache)) {
+				return self::$dbCache['base'];
+			} else {
+				$config = self::getDBConfig('base');
+			}
 		}
 		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
 
