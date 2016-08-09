@@ -18,8 +18,8 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 		}
 
 		form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
-			var password = jQuery('[name="password"]').val();
-			var id = jQuery('[name="record"]').val();
+			var password = form.find('[name="password"]').val();
+			var id = form.find('[name="record"]').val();
 			if(password == '**********'){
 				var params = {};
 				params.data = {
@@ -47,7 +47,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 				passwordStrength('', '');
 			
 			}
-			password = jQuery('[name="password"]').val();
+			password = form.find('[name="password"]').val();
 			var params = {}
 			params.data = { module: 'OSSPasswords', action: 'CheckPass', 'password': password , 'id': id}
 			params.async = false;
