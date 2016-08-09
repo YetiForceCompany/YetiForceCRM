@@ -24,7 +24,7 @@
 			<div  class="input-group-btn alphabetBtnContainer">
 				{if $ALPHABET_VALUE}
 					<button class=" btn btn-primary alphabetBtn" type="button">
-						{$ALPHABET_VALUE}
+						{vtranslate($ALPHABET_VALUE, $MODULE)}
 					</button>
 				{else}
 					<button class=" btn btn-default alphabetBtn" type="button">

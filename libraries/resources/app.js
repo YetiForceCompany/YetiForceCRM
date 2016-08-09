@@ -286,9 +286,16 @@ var app = {
 					};
 				},
 				processResults: function (data, params) {
-					var items = [];
+					var items = new Array;
 					if (data.success == true) {
-						items = data.result.items;
+						selectElement.find('option').each(function(){
+							var currentTarget = $(this);
+							var item = new Object();
+							item.name = currentTarget.html();
+							item.id = currentTarget.val();
+							items.push(item);
+						});
+						items = items.concat(data.result.items);
 					}
 					return {
 						results: items,

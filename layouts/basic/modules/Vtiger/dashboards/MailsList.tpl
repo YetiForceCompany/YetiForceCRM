@@ -24,7 +24,7 @@
 	<hr class="widgetHr"/>
 	<div class="row" >
 		<div class="col-md-6 pull-right">
-			<select class="mailUserList form-control input-sm" id="mailUserList" title="{vtranslate('LBL_MAIL_USERS_LIST')}" name="type">
+			<select class="mailUserList form-control input-sm select2" id="mailUserList" title="{vtranslate('LBL_MAIL_USERS_LIST')}" name="type">
 				{if count($ACCOUNTSLIST) eq 0}
 					<option value="-">{vtranslate('--None--', $MODULE_NAME)}</option>
 				{else}
