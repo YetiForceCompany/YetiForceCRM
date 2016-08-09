@@ -110,6 +110,9 @@ class Record
 					} else {
 						$metainfo = Modules::getEntityInfo($moduleName);
 					}
+					if (empty($metainfo)) {
+						return $entityDisplay;
+					}
 					$table = $metainfo['tablename'];
 					$idcolumn = $metainfo['entityidfield'];
 					$columnsName = $metainfo['fieldnameArr'];
