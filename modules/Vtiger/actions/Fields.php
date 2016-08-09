@@ -39,6 +39,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	{
 		$value = $request->get('value');
 		$type = $request->get('type');
+		$result = $request->get('result');
 		$moduleName = $request->getModule();
 		$response = new Vtiger_Response();
 		if (empty($value)) {
@@ -48,24 +49,28 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 			$owner->find($value);
 
 			$data = [];
-			$users = $owner->getAccessibleUsers('', 'owner');
-			if (!empty($users)) {
-				$data[] = ['name' => vtranslate('LBL_USERS'), 'type' => 'optgroup'];
-				foreach ($users as $key => &$value) {
-					if ($type == 'List') {
-						$key = $value;
+			if(in_array('users', $result)){
+				$users = $owner->getAccessibleUsers('', 'owner');
+				if (!empty($users)) {
+					$data[] = ['name' => vtranslate('LBL_USERS'), 'type' => 'optgroup'];
+					foreach ($users as $key => &$value) {
+						if ($type == 'List') {
+							$key = $value;
+						}
+						$data[] = ['id' => $key, 'name' => $value];
 					}
-					$data[] = ['id' => $key, 'name' => $value];
 				}
 			}
-			$grup = $owner->getAccessibleGroups('', 'owner', true);
-			if (!empty($grup)) {
-				$data[] = ['name' => vtranslate('LBL_GROUPS'), 'type' => 'optgroup'];
-				foreach ($grup as $key => &$value) {
-					if ($type == 'List') {
-						$key = $value;
+			if(in_array('groups', $result)){
+				$grup = $owner->getAccessibleGroups('', 'owner', true);
+				if (!empty($grup)) {
+					$data[] = ['name' => vtranslate('LBL_GROUPS'), 'type' => 'optgroup'];
+					foreach ($grup as $key => &$value) {
+						if ($type == 'List') {
+							$key = $value;
+						}
+						$data[] = ['id' => $key, 'name' => $value];
 					}
-					$data[] = ['id' => $key, 'name' => $value];
 				}
 			}
 			$response->setResult(['items' => $data]);
