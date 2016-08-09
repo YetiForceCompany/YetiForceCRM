@@ -1,11 +1,14 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+	{if !$VIEWNAME}
+		{assign var=VIEWNAME value='list'}
+	{/if}
 	<nav>		
 		<ul class="pagination">
 			<li class="{if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1" >
 				<span aria-hidden="true">{vtranslate('LBL_FIRST', $MODULE)}</span>
 			</li>
-			<li class="{if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if}" id="listViewPreviousPageButton">
+			<li class="{if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if}" id="{$VIEWNAME}ViewPreviousPageButton">
 				<span aria-hidden="true">&laquo;</span>
 			</li>	
 			{if $PAGE_COUNT neq 0}
@@ -17,7 +20,7 @@
 								<a id="dLabel" data-target="#" data-toggle="dropdown" role="button" aria-expanded="true">
 									...
 								</a>
-								<ul class="dropdown-menu listViewBasicAction" aria-labelledby="dLabel" id="listViewPageJumpDropDown">
+								<ul class="dropdown-menu listViewBasicAction" aria-labelledby="dLabel" id="{$VIEWNAME}ViewPageJumpDropDown">
 									<li>
 										<div>
 											<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per"><span>{vtranslate('LBL_PAGE',$MODULE)}</span></div>
@@ -45,7 +48,7 @@
 					<a>{$PAGE_COUNT}</a>
 				</li>
 			{/if}
-			<li class="{if (!$PAGING_MODEL->isNextPageExists())}disabled{/if}" id="listViewNextPageButton">
+			<li class="{if (!$PAGING_MODEL->isNextPageExists())}disabled{/if}" id="{$VIEWNAME}ViewNextPageButton">
 				<span aria-hidden="true">&raquo;</span>
 			</li>
 			{if $LISTVIEW_COUNT}

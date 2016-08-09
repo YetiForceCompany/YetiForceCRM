@@ -36,7 +36,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 	registerEventForRelatedListPagination: function () {
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.on('click', '#relatedListNextPageButton', function (e) {
+		detailContentsHolder.on('click', '#relatedViewNextPageButton', function (e) {
 			var element = jQuery(e.currentTarget);
 			if (element.attr('disabled') == "disabled") {
 				return;
@@ -51,7 +51,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 				}
 			});
 		});
-		detailContentsHolder.on('click', '#relatedListPreviousPageButton', function () {
+		detailContentsHolder.on('click', '#relatedViewPreviousPageButton', function () {
 			var selectedTabElement = thisInstance.getSelectedTab();
 			var relatedModuleName = thisInstance.getRelatedModuleName();
 			var relatedController = new Campaigns_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
