@@ -695,6 +695,10 @@ class Vtiger_Field_Model extends vtlib\Field
 				$pickListValues = [];
 				$this->fieldInfo['picklistvalues'] = $userList;
 			}
+		} else {
+			if ($this->getFieldDataType() == 'owner') {
+				$this->fieldInfo['searchOperator'] = 'om';
+			}
 		}
 		if ($this->getFieldDataType() == 'modules') {
 			foreach ($this->getModulesListValues() as $moduleId => $module) {

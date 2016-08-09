@@ -29,6 +29,7 @@ class QueryGenerator
 	private $manyToManyRelatedModuleConditions;
 	private $groupType;
 	private $whereFields;
+	private $whereOperator;
 
 	/**
 	 *
@@ -538,11 +539,11 @@ class QueryGenerator
 				  $tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
 				  $tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
 				 */
-				if ($fieldName == "created_user_id") {
+				if ($fieldName == 'created_user_id') {
 					$tableJoinCondition[$fieldName]['vtiger_users' . $fieldName] = $field->getTableName() .
-						"." . $field->getColumnName() . " = vtiger_users" . $fieldName . ".id";
+						'.' . $field->getColumnName() . ' = vtiger_users' . $fieldName . '.id';
 					$tableJoinCondition[$fieldName]['vtiger_groups' . $fieldName] = $field->getTableName() .
-						"." . $field->getColumnName() . " = vtiger_groups" . $fieldName . ".groupid";
+						'.' . $field->getColumnName() . ' = vtiger_groups' . $fieldName . '.groupid';
 					$tableJoinMapping['vtiger_users' . $fieldName] = 'LEFT JOIN vtiger_users AS';
 					$tableJoinMapping['vtiger_groups' . $fieldName] = 'LEFT JOIN vtiger_groups AS';
 				}
@@ -594,10 +595,16 @@ class QueryGenerator
 					}
 				}
 			} elseif ($field->getFieldDataType() == 'owner') {
-				$tableList['vtiger_users'] = 'vtiger_users';
-				$tableList['vtiger_groups'] = 'vtiger_groups';
-				$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
-				$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+				$add = true;
+				if (isset($this->whereOperator[$fieldName]) && $this->whereOperator[$fieldName] == 'om') {
+					$add = false;
+				}
+				if ($add) {
+					$tableList['vtiger_users'] = 'vtiger_users';
+					$tableList['vtiger_groups'] = 'vtiger_groups';
+					$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
+					$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+				}
 			} else {
 				$tableList[$field->getTableName()] = $field->getTableName();
 				$tableJoinMapping[$field->getTableName()] = $this->meta->getJoinClause($field->getTableName());
@@ -1296,6 +1303,7 @@ class QueryGenerator
 		$this->whereFields[] = $fieldname;
 		$this->ignoreComma = $ignoreComma;
 		$this->reset();
+		$this->whereOperator[$fieldname] = $operator;
 		$this->conditionals[$conditionNumber] = $this->getConditionalArray($fieldname, $value, $operator, $custom);
 	}
 

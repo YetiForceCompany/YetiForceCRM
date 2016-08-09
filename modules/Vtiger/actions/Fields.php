@@ -49,26 +49,20 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 			$owner->find($value);
 
 			$data = [];
-			if(in_array('users', $result)){
+			if (in_array('users', $result)) {
 				$users = $owner->getAccessibleUsers('', 'owner');
 				if (!empty($users)) {
 					$data[] = ['name' => vtranslate('LBL_USERS'), 'type' => 'optgroup'];
 					foreach ($users as $key => &$value) {
-						if ($type == 'List') {
-							$key = $value;
-						}
 						$data[] = ['id' => $key, 'name' => $value];
 					}
 				}
 			}
-			if(in_array('groups', $result)){
+			if (in_array('groups', $result)) {
 				$grup = $owner->getAccessibleGroups('', 'owner', true);
 				if (!empty($grup)) {
 					$data[] = ['name' => vtranslate('LBL_GROUPS'), 'type' => 'optgroup'];
 					foreach ($grup as $key => &$value) {
-						if ($type == 'List') {
-							$key = $value;
-						}
 						$data[] = ['id' => $key, 'name' => $value];
 					}
 				}
