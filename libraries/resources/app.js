@@ -620,7 +620,7 @@ var app = {
 		validateNonVisibleFields: true,
 		onBeforePromptType: function (field) {
 			var block = field.closest('.blockContainer');
-			if (block.find('tbody').is(":hidden")) {
+			if (block.find('.blockContent').is(":hidden")) {
 				block.find('.blockHeader').click();
 			}
 		},
