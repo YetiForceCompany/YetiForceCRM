@@ -39,7 +39,12 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	{
 		$value = $request->get('value');
 		$type = $request->get('type');
-		$result = $request->get('result');
+		if ($request->has('result')) {
+			$result = $request->get('result');
+		} else {
+			$result = ['users', 'groups'];
+		}
+
 		$moduleName = $request->getModule();
 		$response = new Vtiger_Response();
 		if (empty($value)) {

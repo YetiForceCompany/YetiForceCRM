@@ -20,7 +20,7 @@
 		{/if}
 		<select class="select2 form-control {if !empty($NOT_DISPLAY_LIST)}hideSelected{/if} {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}[]" data-fieldinfo='{$FIELD_INFO}' multiple {if !empty($SPECIAL_VALIDATOR)}  data-validator={\includes\utils\Json::encode($SPECIAL_VALIDATOR)}{/if} 
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
-					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit&result[]=groups&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 				{/if}>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
 				{foreach item=USER from=$FIELD_VALUE}

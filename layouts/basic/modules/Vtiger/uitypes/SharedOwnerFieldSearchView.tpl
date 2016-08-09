@@ -15,7 +15,7 @@
 		{/if}
 		<select id="{$ASSIGNED_USER_ID}" class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"  name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}' 
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit&result[]=groups&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 				{/if}>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
 				{foreach from=$SEARCH_VALUES item=OWNER_ID}
