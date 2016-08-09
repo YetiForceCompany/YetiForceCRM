@@ -92,6 +92,7 @@ $languageStrings = [
 	'Campaign status' => 'Статус Компании',
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Акаунт выключен ',
+	'SINGLE_Vendors' => 'Поставщик',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',
