@@ -96,7 +96,7 @@ class Users extends CRMEntity
 	var $emailTemplate_defaultFields = array('first_name', 'last_name', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
 	var $popup_fields = array('last_name');
 	// This is the list of fields that are in the lists.
-	var $default_order_by = "user_name";
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	var $record_id;
 	var $new_schema = true;

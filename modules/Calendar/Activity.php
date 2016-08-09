@@ -87,7 +87,7 @@ class Activity extends CRMEntity
 		'End Time' => 'time_end');
 	var $list_link_field = 'subject';
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = 'date_start';
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
 	function __construct()
