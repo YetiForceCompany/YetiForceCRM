@@ -989,7 +989,7 @@ CREATE TABLE `u_yf_crmentity_search_label` (
   `crmid` int(19) unsigned NOT NULL,
   `searchlabel` varchar(255) NOT NULL,
   `setype` varchar(30) NOT NULL,
-  `userid` text,
+  `userid` text NOT NULL,
   PRIMARY KEY (`crmid`),
   KEY `searchlabel` (`searchlabel`),
   KEY `searchlabel_2` (`searchlabel`,`setype`)
