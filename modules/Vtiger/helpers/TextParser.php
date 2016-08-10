@@ -177,7 +177,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			case 'ModuleName' : return $this->get('moduleName');
 			case 'RecordId' : return $this->get('record');
 			case 'HelpdeskSupportName' : return AppConfig::main('HELPDESK_SUPPORT_NAME');
-			case 'HelpdeskSupportEmail' : return AppConfig::main('HELPDESK_SUPPORT_EMAIL_ID');
+			case 'HelpdeskSupportEmail' : return AppConfig::main('HELPDESK_SUPPORT_EMAIL_REPLY');
 			case 'RecordLabel' : return $this->get('recordModel')->getName();
 		}
 		return $key;

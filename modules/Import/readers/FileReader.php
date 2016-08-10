@@ -143,7 +143,7 @@ class Import_FileReader_Reader
 		$db = PearDatabase::getInstance();
 
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$db->pquery('INSERT INTO ' . $tableName . ' (' . implode(',', $columnNames) . ') VALUES (' . generateQuestionMarks($fieldValues) . ')', $fieldValues);
+		$db->pquery('INSERT INTO ' . $tableName . ' (`' . implode('`,`', $columnNames) . '`) VALUES (' . generateQuestionMarks($fieldValues) . ')', $fieldValues);
 		$this->numberOfRecordsRead++;
 		if ($inventoryData) {
 			$id = $db->getLastInsertID();
@@ -173,10 +173,10 @@ class Import_FileReader_Reader
 //			if( $fieldObject->getName() == 'ItemNumber'){
 //				$columnsListQuery .= ',inv_itemnumber '.$fieldObject->getDBType();
 //			}else{
-			$columnsListQuery .= ',' . $fieldObject->getColumnName() . ' ' . $fieldObject->getDBType();
+			$columnsListQuery .= ',`' . $fieldObject->getColumnName() . '` ' . $fieldObject->getDBType();
 //			}
 		} else {
-			$columnsListQuery .= ',' . $fieldName . ' ' . $fieldTypes[$fieldObject->get('column')];
+			$columnsListQuery .= ',`' . $fieldName . '` ' . $fieldTypes[$fieldObject->get('column')];
 		}
 
 		return $columnsListQuery;

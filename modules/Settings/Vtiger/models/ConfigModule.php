@@ -134,7 +134,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 //			'WORLD_CLOCK_DISPLAY'			=> array('label' => 'LBL_WORLD_CLOCK_DISPLAY',				'fieldType' => 'checkbox'),
 //			'CALCULATOR_DISPLAY'			=> array('label' => 'LBL_CALCULATOR_DISPLAY',				'fieldType' => 'checkbox'),
 //			'USE_RTE'						=> array('label' => 'LBL_USE_RTE',							'fieldType' => 'checkbox'),
-			'HELPDESK_SUPPORT_EMAIL_ID' => array('label' => 'LBL_HELPDESK_SUPPORT_EMAILID', 'fieldType' => 'input'),
+			'HELPDESK_SUPPORT_EMAIL_REPLY' => array('label' => 'LBL_HELPDESK_SUPPORT_EMAILID', 'fieldType' => 'input'),
 			'HELPDESK_SUPPORT_NAME' => array('label' => 'LBL_HELPDESK_SUPPORT_NAME', 'fieldType' => 'input'),
 			'upload_maxsize' => array('label' => 'LBL_MAX_UPLOAD_SIZE', 'fieldType' => 'input'),
 //			'history_max_viewed'			=> array('label' => 'LBL_MAX_HISTORY_VIEWED',				'fieldType' => 'input'),
@@ -191,7 +191,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function validateFieldValues($updatedFields)
 	{
-		if (!filter_var($updatedFields['HELPDESK_SUPPORT_EMAIL_ID'], FILTER_VALIDATE_EMAIL)) {
+		if (!filter_var($updatedFields['HELPDESK_SUPPORT_EMAIL_REPLY'], FILTER_VALIDATE_EMAIL)) {
 			return 'LBL_INVALID_EMAILID';
 		} else if (preg_match('/[\'";?><]/', $updatedFields['HELPDESK_SUPPORT_NAME'])) {
 			return 'LBL_INVALID_SUPPORT_NAME';

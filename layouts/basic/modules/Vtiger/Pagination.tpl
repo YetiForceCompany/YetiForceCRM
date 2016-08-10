@@ -4,7 +4,7 @@
 		{assign var=VIEWNAME value='list'}
 	{/if}
 	<nav>		
-		<ul class="pagination">
+		<ul class="pagination" data-total-count="{$LISTVIEW_COUNT}">
 			<li class="{if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1" >
 				<span aria-hidden="true">{vtranslate('LBL_FIRST', $MODULE)}</span>
 			</li>
@@ -51,6 +51,11 @@
 			<li class="{if (!$PAGING_MODEL->isNextPageExists())}disabled{/if}" id="{$VIEWNAME}ViewNextPageButton">
 				<span aria-hidden="true">&raquo;</span>
 			</li>
+			{if !$LISTVIEW_COUNT}
+				<li id="totalCountBtn" >
+					<a>...</a>
+				</li>	
+			{/if}
 			{if $LISTVIEW_COUNT}
 				<li class="{if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage" data-id="{$PAGE_COUNT}" >
 					<span aria-hidden="true">{vtranslate('LBL_LAST', $MODULE)}</span>
