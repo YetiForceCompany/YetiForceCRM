@@ -482,14 +482,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getUserGroups($userId)
 	{
+		$groupIds = Vtiger_Cache::get('getUserGroups', $userId);
+		if ($groupIds !== false) {
+			return $groupIds;
+		}
 		$db = PearDatabase::getInstance();
 		$groupIds = [];
-		$query = "SELECT groupid FROM vtiger_users2group WHERE userid=?";
+		$query = 'SELECT groupid FROM vtiger_users2group WHERE userid=?';
 		$result = $db->pquery($query, array($userId));
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$groupId = $db->query_result($result, $i, 'groupid');
+		while (($groupId = $db->getSingleValue($result)) !== false) {
 			$groupIds[] = $groupId;
 		}
+		Vtiger_Cache::set('getUserGroups', $userId, $groupIds);
 		return $groupIds;
 	}
 	/**

@@ -127,7 +127,7 @@ class Vtiger_Language_Handler
 	public static function getModuleStringsFromFile($language, $module = 'Vtiger')
 	{
 		$module = str_replace(':', '.', $module);
-		if (empty(self::$languageContainer[$language][$module])) {
+		if (!isset(self::$languageContainer[$language][$module])) {
 			$qualifiedName = 'languages.' . $language . '.' . $module;
 			$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
 			$languageStrings = $jsLanguageStrings = [];
@@ -139,21 +139,24 @@ class Vtiger_Language_Handler
 			}
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
-
-			$qualifiedName = 'custom.languages.' . $language . '.' . $module;
-			$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
-			if (file_exists($file)) {
-				require $file;
-				foreach ($languageStrings as $key => $val) {
-					self::$languageContainer[$language][$module]['languageStrings'][$key] = $val;
-				}
-				foreach ($jsLanguageStrings as $key => $val) {
-					self::$languageContainer[$language][$module]['jsLanguageStrings'][$key] = $val;
+			if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
+				$qualifiedName = 'custom.languages.' . $language . '.' . $module;
+				$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
+				if (file_exists($file)) {
+					require $file;
+					foreach ($languageStrings as $key => $val) {
+						self::$languageContainer[$language][$module]['languageStrings'][$key] = $val;
+					}
+					foreach ($jsLanguageStrings as $key => $val) {
+						self::$languageContainer[$language][$module]['jsLanguageStrings'][$key] = $val;
+					}
 				}
 			}
 		}
 		return self::$languageContainer[$language][$module];
 	}
+
+	protected static $lang = false;
 
 	/**
 	 * Function that returns current language
@@ -161,6 +164,9 @@ class Vtiger_Language_Handler
 	 */
 	public static function getLanguage()
 	{
+		if (self::$lang) {
+			return self::$lang;
+		}
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
 		} elseif (Vtiger_Session::get('language') != '') {
@@ -169,6 +175,7 @@ class Vtiger_Language_Handler
 			$language = Users_Record_Model::getCurrentUserModel()->get('language');
 		}
 		$language = empty($language) ? vglobal('default_language') : $language;
+		self::$lang = $language;
 		return $language;
 	}
 

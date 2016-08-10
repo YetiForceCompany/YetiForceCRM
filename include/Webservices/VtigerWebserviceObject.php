@@ -41,14 +41,7 @@ class VtigerWebserviceObject
 		// If the information not available in cache?
 		if (!isset(self::$_fromNameCache[$entityName])) {
 			$cacheLength = count(self::$_fromNameCache);
-
-			$result = null;
-			if ($cacheLength == 0) {
-				$result = $adb->pquery('select * from vtiger_ws_entity where name=?', [$entityName]);
-			} else {
-				// Could repeat more number of times...so let us pull rest of details into cache.
-				$result = $adb->pquery('select * from vtiger_ws_entity', []);
-			}
+			$result = $adb->query('select * from vtiger_ws_entity');
 
 			if ($result) {
 				while ($rowData = $adb->getRow($result)) {
