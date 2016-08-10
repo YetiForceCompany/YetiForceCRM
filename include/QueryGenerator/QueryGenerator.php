@@ -820,7 +820,7 @@ class QueryGenerator
 					}
 				} elseif (in_array($fieldName, $this->ownerFields)) {
 					if ($conditionInfo['operator'] == 'om' || $conditionInfo['operator'] == 'e') {
-						$fieldSql .= $fieldGlue . $field->getTableName() . '.' . $field->getColumnName() . " $valueSql";
+						$fieldSql .= "$fieldGlue " . $field->getTableName() . '.' . $field->getColumnName() . " $valueSql";
 					} elseif ($conditionInfo['operator'] == 'wr' || $conditionInfo['operator'] == 'nwr') {
 						$fieldSql .= $fieldGlue . $valueSql;
 					} elseif ($fieldName == 'created_user_id') {
