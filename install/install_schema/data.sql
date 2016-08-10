@@ -25321,11 +25321,11 @@ insert  into `w_yf_pos_actions`(`id`,`label`,`name`) values (6,'LBL_SYNCHRONIZE_
 
 /*Data for the table `yetiforce_auth` */
 
-insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','active','false');
-insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','server','testlab.local');
-insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','port','389');
-insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','users',NULL);
-insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','domain',NULL);
+insert  into `yetiforce_auth`(`id`,`type`,`param`,`value`) values (1,'ldap','active','false');
+insert  into `yetiforce_auth`(`id`,`type`,`param`,`value`) values (2,'ldap','server','testlab.local');
+insert  into `yetiforce_auth`(`id`,`type`,`param`,`value`) values (3,'ldap','port','389');
+insert  into `yetiforce_auth`(`id`,`type`,`param`,`value`) values (4,'ldap','users',NULL);
+insert  into `yetiforce_auth`(`id`,`type`,`param`,`value`) values (5,'ldap','domain',NULL);
 
 /*Data for the table `yetiforce_currencyupdate` */
 
