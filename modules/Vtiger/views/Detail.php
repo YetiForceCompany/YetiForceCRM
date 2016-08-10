@@ -650,7 +650,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$sortOrder = $request->get('sortorder');
 		$columns = $request->get('col');
 		$moduleName = $request->getModule();
-
+		$totalCount = $request->get('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -721,11 +721,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || empty($totalCount)) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		}
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 

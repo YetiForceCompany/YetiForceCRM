@@ -255,13 +255,14 @@ jQuery.Class("Vtiger_List_Js", {
 						var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
 						var listViewInstance = Vtiger_List_Js.getInstance();
 
-						var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
-						deleteURL += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-
-						if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-							deleteURL += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
-							deleteURL += '&search_value=' + searchValue;
-							deleteURL += '&operator=s';
+						if (listViewInstance.getListSearchInstance()) {
+							var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+							deleteURL += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
+							if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+								deleteURL += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
+								deleteURL += '&search_value=' + searchValue;
+								deleteURL += '&operator=s';
+							}
 						}
 
 						var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
@@ -387,12 +388,14 @@ jQuery.Class("Vtiger_List_Js", {
 			};
 
 			var listViewInstance = Vtiger_List_Js.getInstance();
-			var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
-			postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
-				postData['search_value'] = searchValue;
-				postData['operator'] = 's';
+			if (listViewInstance.getListSearchInstance()) {
+				var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+				postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
+				if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+					postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
+					postData['search_value'] = searchValue;
+					postData['operator'] = 's';
+				}
 			}
 
 			var actionParams = {
@@ -493,13 +496,14 @@ jQuery.Class("Vtiger_List_Js", {
 		exportActionUrl += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&viewname=' + cvId + '&page=' + pageNumber;
 
 		var listViewInstance = Vtiger_List_Js.getInstance();
-		var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
-		exportActionUrl += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-
-		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-			exportActionUrl += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
-			exportActionUrl += '&search_value=' + searchValue;
-			exportActionUrl += '&operator=s';
+		if (listViewInstance.getListSearchInstance()) {
+			var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+			exportActionUrl += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
+			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				exportActionUrl += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
+				exportActionUrl += '&search_value=' + searchValue;
+				exportActionUrl += '&operator=s';
+			}
 		}
 		window.location.href = exportActionUrl;
 	},
@@ -1107,7 +1111,7 @@ jQuery.Class("Vtiger_List_Js", {
 					}
 			);
 		});
-		$('#totalCountBtn').on('click', function(){
+		$('#totalCountBtn').on('click', function () {
 			var params = thisInstance.getDefaultParams();
 			params.totalCount = -1;
 			params.view = 'Pagination';
