@@ -700,7 +700,7 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
 		var dateSpecificConditions = this.get('dateSpecificConditions');
 		if (comparatorSelectedOptionVal == 'bw' || comparatorSelectedOptionVal == 'custom') {
-			var html = '<div class="date"><input class="dateField" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
+			var html = '<div class="date"><input class="dateField form-control" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
 			var element = jQuery(html);
 			var dateFieldUi = element.find('.dateField');
 			if (dateFieldUi.val().indexOf(',') !== -1) {
