@@ -52,7 +52,7 @@
 										<optgroup label="{vtranslate('LBL_RELATIONSHIPS_BASED_ON_FIELDS')}">
 											{foreach item=RELATED from=$REL_BY_FIELDS}
 												{if !in_array($RELATED, $SKIP_MODULES)}
-													<option value="{$RELATED.name}::0::{$RELATED.field}">{vtranslate($RELATED.name, $RELATED.name)} [M:1]</option>
+													<option value="{$RELATED.name}::0::{$RELATED.field}">{vtranslate($RELATED.name, $RELATED.name)} - {vtranslate($RELATED.field)} [M:1]</option>
 												{/if}
 											{/foreach}
 										</optgroup>
