@@ -84,6 +84,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if ($fieldName == 'modifiedby') {
 			return 'uitypes/OwnerFieldSearchView.tpl';
 		}
+		if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+			return 'uitypes/ReferenceSearchView.tpl';
+		}
 		return parent::getListSearchTemplateName();
 	}
 }

@@ -667,24 +667,24 @@ class Vtiger_Field_Model extends vtlib\Field
 			}
 		}
 
-		if ($this->getFieldDataType() == 'date' || $this->getFieldDataType() == 'datetime') {
+		if ($fieldDataType == 'date' || $fieldDataType == 'datetime') {
 			$this->fieldInfo['date-format'] = $currentUser->get('date_format');
 		}
 
-		if ($this->getFieldDataType() == 'time') {
+		if ($fieldDataType == 'time') {
 			$this->fieldInfo['time-format'] = $currentUser->get('hour_format');
 		}
 
-		if ($this->getFieldDataType() == 'currency') {
+		if ($fieldDataType == 'currency') {
 			$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
 			$this->fieldInfo['decimal_seperator'] = $currentUser->get('currency_decimal_separator');
 			$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
 		}
-		if ($this->getFieldDataType() == 'owner' || $this->getFieldDataType() == 'sharedOwner') {
+		if ($fieldDataType == 'owner' || $fieldDataType == 'sharedOwner') {
 			if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || AppRequest::get('module') == 'CustomView') {
-				if ($this->getFieldDataType() == 'owner') {
-					$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
-					$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $this->getFieldDataType());
+				if ($fieldDataType == 'owner') {
+					$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
+					$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
 					$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
 					$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
@@ -693,25 +693,27 @@ class Vtiger_Field_Model extends vtlib\Field
 						$this->fieldInfo['searchOperator'] = 'e';
 					}
 				}
-				if ($this->getFieldDataType() == 'sharedOwner') {
-					$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $this->getFieldDataType());
+				if ($fieldDataType == 'sharedOwner') {
+					$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$pickListValues = [];
 					$this->fieldInfo['picklistvalues'] = $userList;
 				}
 			} else {
-				if ($this->getFieldDataType() == 'owner') {
+				if ($fieldDataType == 'owner') {
 					$this->fieldInfo['searchOperator'] = 'e';
 				}
 			}
 		}
-		if ($this->getFieldDataType() == 'modules') {
+		if ($fieldDataType == 'modules') {
 			foreach ($this->getModulesListValues() as $moduleId => $module) {
 				$modulesList[$module['name']] = $module['label'];
 			}
 			$this->fieldInfo['picklistvalues'] = $modulesList;
 		}
-
-		if ($this->getFieldDataType() == 'tree') {
+		if (in_array($fieldDataType, Vtiger_Field_Model::$REFERENCE_TYPES)) {
+			$this->fieldInfo['searchOperator'] = 'e';
+		}
+		if ($fieldDataType == 'tree') {
 			$tree = $this->getUITypeModel()->getAllValue();
 			$pickListValues = [];
 			foreach ($tree as $key => $labels) {
