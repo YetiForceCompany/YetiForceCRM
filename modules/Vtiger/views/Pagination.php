@@ -8,8 +8,41 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 	{
 		parent::__construct();
 		$this->exposeMethod('getPagination');
+		$this->exposeMethod('getRelationPagination');
 	}
 
+	public function getRelationPagination(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$pageNumber = $request->get('page');
+		$moduleName = $request->getModule();
+		
+		if (empty($pageNumber)) {
+			$pageNumber = '1';
+		}
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		$pagingModel->set('noOfEntries', $request->get('noOfEntries'));
+		$relatedModuleName = $request->get('relatedModule');
+		$parentId = $request->get('record');
+
+		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$totalCount = (int) $relationListView->getRelatedEntriesCount();
+		if(!empty($totalCount)){
+			$pagingModel->set('totalCount', (int) $totalCount);
+		}
+		$viewer->assign('LISTVIEW_COUNT',(int) $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
+
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('PAGE_NUMBER', $pageNumber);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
+		echo $viewer->view('Pagination.tpl', $moduleName, true);
+	}
+	
 	public function getPagination(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);

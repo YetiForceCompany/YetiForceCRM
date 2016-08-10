@@ -19,6 +19,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
 		$pageNumber = $request->get('page');
+		$totalCount = $request->get('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -104,12 +105,12 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		}
+		$pagingModel->set('totalCount', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);

@@ -869,7 +869,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.selectPageHandler(pageNumber);
 		});
-
+		detailContentsHolder.find('#totalCountBtn').on('click', function(){
+			var params = {
+				module: app.getModuleName(),
+				view: 'Pagination',
+				mode: 'getRelationPagination',
+				relatedModule: detailContentsHolder.find('.relatedModuleName').val(),
+				noOfEntries: $('#noOfEntries').val(),
+				page: detailContentsHolder.find('[name="currentPageNum"]').val(),
+				record: app.getRecordId(),
+			}
+			AppConnector.request(params).then(function(response){
+				detailContentsHolder.find('.paginationDiv').html(response);
+			});
+		});
 	},
 	/**
 	 * Function to register Event for Sorting

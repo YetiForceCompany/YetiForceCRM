@@ -19,6 +19,7 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$label = $request->get('tab_label');
 		$pageNumber = $request->get('page');
 		$time = $request->get('time');
+		$totalCount = $request->get('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -90,14 +91,17 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') && empty($totalCount) ) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		}
+		if(!empty($totalCount)){
+			$pagingModel->set('totalCount', (int) $totalCount);
+		}		
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
