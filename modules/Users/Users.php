@@ -546,7 +546,7 @@ class Users extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
 		$row = $adb->getRow($result);
-		if ($row) {
+		if ($row && $row['deleted'] == '0') {
 			return $row['id'];
 		}
 		return false;

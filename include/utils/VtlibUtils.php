@@ -574,7 +574,7 @@ function vtlib_purify($input, $ignore = false)
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
 		$cache = Vtiger_Cache::get('vtlibPurify', $md5OfInput);
-		if ($cache === false) {
+		if ($cache !== false) {
 			$value = $cache;
 			//to escape cleaning up again
 			$ignore = true;
@@ -642,7 +642,7 @@ function vtlib_purifyForHtml($input, $ignore = false)
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
 		$cache = Vtiger_Cache::get('vtlibPurifyForHtml', $md5OfInput);
-		if ($cache === false) {
+		if ($cache !== false) {
 			$value = $cache;
 			//to escape cleaning up again
 			$ignore = true;
