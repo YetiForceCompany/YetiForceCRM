@@ -41,7 +41,7 @@ class Vtiger_AssignedUpcomingProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$viewer->assign('SOURCE_MODULE', 'ProjectTask');
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTSTASKS', $projectsTasks);
-		$viewer->assign('PAGING', $pagingModel);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$title_max_length = vglobal('title_max_length');
 		$href_max_length = vglobal('href_max_length');

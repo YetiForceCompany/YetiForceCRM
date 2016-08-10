@@ -18,29 +18,29 @@
 		{assign var=SEARCH_VALUE value=[]}
 	{/if}
     {assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUE)}
-	{if $VIEWID && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
-		{assign var=USERS_GROUP_LIST value=\includes\fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID)}
-		{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
-		{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
-	{else}
-		{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
-		{if $ASSIGNED_USER_ID neq 'modifiedby'}
-			{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
+	{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+		{if $VIEWID && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+			{assign var=USERS_GROUP_LIST value=\includes\fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID)}
+			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
+			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
 		{else}
-			{assign var=ALL_ACTIVEGROUP_LIST value=array()}
+			{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+			{if $ASSIGNED_USER_ID neq 'modifiedby'}
+				{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
+			{else}
+				{assign var=ALL_ACTIVEGROUP_LIST value=array()}
+			{/if}
 		{/if}
 	{/if}
 	<div class="picklistSearchField">
 		<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}"  name="{$ASSIGNED_USER_ID}" multiple{/strip} {strip}
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=List&result[]=groups&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{/strip} {strip}
+					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=List" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{/strip} {strip}
 				{/if}
 				data-fieldinfo='{$FIELD_INFO|escape}'>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-				{foreach from=$SEARCH_VALUES item=OWNER_NAME}
-					<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
-						{$OWNER_NAME}
-					</option>
+				{foreach from=$SEARCH_VALUES item=OWNER_ID}
+					<option value="{$OWNER_ID}" selected>{\includes\fields\Owner::getUserLabel($OWNER_ID)}</option>
 				{/foreach}
 			{else}
 				{if count($ALL_ACTIVEUSER_LIST) gt 0}

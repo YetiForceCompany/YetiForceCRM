@@ -19,10 +19,10 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			container = jQuery('.bodyContents');
 		}
 		this.setContainer(container);
-		if(noEvents != true){
+		if (noEvents != true) {
 			this.initialize();
 		}
-		
+
 	},
 	setContainer: function (container) {
 		this.container = container;
@@ -62,7 +62,9 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		var listViewContainer = this.getContainer();
 		listViewContainer.find('.listViewEntriesTable .select2noactive').each(function (index, domElement) {
 			var select = $(domElement);
-			app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
+			if (!select.data('select2')) {
+				app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
+			}
 		});
 
 		if (app.getMainParams('autoRefreshListOnChange') == '1') {
@@ -273,11 +275,11 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	},
 	executeFunctions: function (instance) {
 		var thisInstance = this;
-		if(instance.execute){
+		if (instance.execute) {
 			var func = instance.execute;
-			for(var i in func){
+			for (var i in func) {
 				var funcName = func[i];
-				if(jQuery.isFunction(instance[funcName])){
+				if (jQuery.isFunction(instance[funcName])) {
 					instance[funcName]();
 				}
 			}
@@ -289,7 +291,11 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		this.registerTimeListSearch();
 		this.registerAlphabetClick();
 		this.registerListSearch();
-		app.showSelect2ElementView(this.getContainer().find('select.select2'));
+		this.getContainer().find('select.select2').each(function (i, obj) {
+			if (!$(obj).data('select2')) {
+				app.showSelect2ElementView($(obj));
+			}
+		});
 	},
 	/**
 	 * Function which will regiter all events for this page

@@ -45,9 +45,9 @@ font-size: 75%;
 		</span>
 	{/foreach}
 
-{if $PAGING->get('nextPageExists') eq 'true'}
+{if $PAGING_MODEL->get('nextPageExists') eq 'true'}
 	<div class='pull-right' style='margin-top:5px;padding-right:5px;'>
-        <a href="javascript:;" name="history_more" data-url="{$WIDGET->getUrl()}&page={$PAGING->getNextPage()}">{vtranslate('LBL_MORE')}...</a>
+        <a href="javascript:;" name="history_more" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">{vtranslate('LBL_MORE')}...</a>
         <br />
         <br />
         <br />

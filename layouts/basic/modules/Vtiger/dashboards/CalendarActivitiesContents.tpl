@@ -63,9 +63,9 @@ font-size: 75%;
 			{vtranslate($NODATAMSGLABLE, $MODULE_NAME)}
 		</span>
 	{/foreach}
-	{if $PAGING->get('nextPageExists') eq 'true'}
+	{if $PAGING_MODEL->get('nextPageExists') eq 'true'}
 		<div class="pull-right padding5">
-			<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING->getNextPage()}">
+			<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
 				{vtranslate('LBL_MORE')}
 			</button>
 		</div>
