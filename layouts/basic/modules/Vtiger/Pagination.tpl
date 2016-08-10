@@ -51,7 +51,7 @@
 			<li class="{if (!$PAGING_MODEL->isNextPageExists())}disabled{/if}" id="{$VIEWNAME}ViewNextPageButton">
 				<span aria-hidden="true">&raquo;</span>
 			</li>
-			{if !$LISTVIEW_COUNT}
+			{if !$LISTVIEW_COUNT && $PAGING_MODEL->isNextPageExists()}
 				<li id="totalCountBtn" >
 					<a>...</a>
 				</li>	
