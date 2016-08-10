@@ -1107,7 +1107,16 @@ jQuery.Class("Vtiger_List_Js", {
 					}
 			);
 		});
-
+		$('#totalCountBtn').on('click', function(){
+			var params = thisInstance.getDefaultParams();
+			params.totalCount = -1;
+			params.view = 'Pagination';
+			params.mode = 'getPagination';
+			AppConnector.request(params).then(function (data) {
+				jQuery('.paginationDiv').html(data);
+				thisInstance.registerPageNavigationEvents();
+			});
+		});
 		jQuery('#listViewPageJump').on('click', function (e) {
 			if (typeof Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(jQuery('#pageToJump')) != 'undefined') {
 				var pageNo = jQuery('#pageNumber').val();
@@ -1234,6 +1243,7 @@ jQuery.Class("Vtiger_List_Js", {
 		params['page'] = pageNumber;
 		params['mode'] = 'getPagination';
 		params['sourceModule'] = jQuery('#moduleFilter').val();
+		params['totalCount'] = $('.pagination').data('totalCount');
 		var searchInstance = this.getListSearchInstance();
 		if (searchInstance !== false) {
 			var searchValue = searchInstance.getAlphabetSearchValue();

@@ -25,41 +25,36 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $request->get('viewname'));
 		$pagingModel->set('noOfEntries', $request->get('noOfEntries'));
+		$totalCount = (int) $request->get('totalCount');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $request->get('viewname'));
 			$operator = $request->get('operator');
 			if (!empty($operator)) {
 				$listViewModel->set('operator', $operator);
 			}
-
 			if (!empty($searchKey) && !empty($searchValue)) {
 				$listViewModel->set('search_key', $searchKey);
 				$listViewModel->set('search_value', $searchValue);
 			}
-
 			$searchParmams = $request->get('search_params');
 			if (empty($searchParmams) || !is_array($searchParmams)) {
 				$searchParmams = [];
 			}
 			$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule());
 			$listViewModel->set('search_params', $transformedSearchParams);
-			if (!$this->listViewEntries) {
-				$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel, $searchResult);
-			}
-			if (!$this->listViewCount) {
-				$this->listViewCount = $listViewModel->getListViewCount();
-			}
-			$pagingModel->set('totalCount', (int) $this->listViewCount);
-			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
+			$totalCount = $listViewModel->getListViewCount();
 		}
+		if(!empty($totalCount)){
+			$pagingModel->set('totalCount', (int) $totalCount);		
+		}
+		$viewer->assign('LISTVIEW_COUNT',(int) $totalCount);
+		
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer->assign('OPERATOR', $operator);
-		$viewer->assign('ALPHABET_VALUE', $searchValue);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
