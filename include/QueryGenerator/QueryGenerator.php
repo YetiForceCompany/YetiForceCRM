@@ -548,6 +548,7 @@ class QueryGenerator
 					$tableJoinMapping['vtiger_groups' . $fieldName] = 'LEFT JOIN vtiger_groups AS';
 				}
 			}
+
 			$tableList[$field->getTableName()] = $field->getTableName();
 			$tableJoinMapping[$field->getTableName()] = $this->meta->getJoinClause($field->getTableName());
 		}
@@ -596,7 +597,7 @@ class QueryGenerator
 				}
 			} elseif ($field->getFieldDataType() == 'owner') {
 				$add = true;
-				if (isset($this->whereOperator[$fieldName]) && $this->whereOperator[$fieldName] == 'om') {
+				if (isset($this->whereOperator[$fieldName]) && ($this->whereOperator[$fieldName] == 'om' || $this->whereOperator[$fieldName] == 'e')) {
 					$add = false;
 				}
 				if ($add) {
@@ -818,9 +819,9 @@ class QueryGenerator
 						}
 					}
 				} elseif (in_array($fieldName, $this->ownerFields)) {
-					if ($conditionInfo['operator'] == 'om') {
+					if ($conditionInfo['operator'] == 'om' || $conditionInfo['operator'] == 'e') {
 						$fieldSql .= $fieldGlue . $field->getTableName() . '.' . $field->getColumnName() . " $valueSql";
-					} elseif (in_array($conditionInfo['operator'], ['wr', 'nwr'])) {
+					} elseif ($conditionInfo['operator'] == 'wr' || $conditionInfo['operator'] == 'nwr') {
 						$fieldSql .= $fieldGlue . $valueSql;
 					} elseif ($fieldName == 'created_user_id') {
 						$concatSql = getSqlForNameInDisplayFormat(array('first_name' => "vtiger_users$fieldName.first_name", 'last_name' => "vtiger_users$fieldName.last_name"), 'Users');

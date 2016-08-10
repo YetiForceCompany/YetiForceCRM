@@ -697,7 +697,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			}
 		} else {
 			if ($this->getFieldDataType() == 'owner') {
-				$this->fieldInfo['searchOperator'] = 'om';
+				$this->fieldInfo['searchOperator'] = 'e';
 			}
 		}
 		if ($this->getFieldDataType() == 'modules') {
