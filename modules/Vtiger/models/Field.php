@@ -710,7 +710,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			}
 			$this->fieldInfo['picklistvalues'] = $modulesList;
 		}
-		if (in_array($fieldDataType, Vtiger_Field_Model::$REFERENCE_TYPES)) {
+		if (in_array($fieldDataType, Vtiger_Field_Model::$REFERENCE_TYPES) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			$this->fieldInfo['searchOperator'] = 'e';
 		}
 		if ($fieldDataType == 'tree') {
