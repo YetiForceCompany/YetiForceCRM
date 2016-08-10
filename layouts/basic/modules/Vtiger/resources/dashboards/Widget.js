@@ -66,6 +66,18 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return this.plotContainer;
 	},
+	registerRecordsCount: function(){
+		var thisInstance = this;
+		var recordsCountBtn = thisInstance.getContainer().find('.recordCount');
+		recordsCountBtn.on('click', function(){
+			var url = recordsCountBtn.data('url');
+			AppConnector.request(url).then(function(response){
+				recordsCountBtn.find('.count').html(response.result.totalCount);
+				recordsCountBtn.find('span:not(.count)').addClass('hide');
+				recordsCountBtn.find('a').removeClass('hide');
+			});
+		});
+	},
 	restrictContentDrag: function () {
 		this.getContainer().on('mousedown.draggable', function (e) {
 			var element = jQuery(e.target);
@@ -810,6 +822,10 @@ Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
 		app.hideModalWindow();
 		this.restrictContentDrag();
 		this.registerFilterChangeEvent();
+		this.registerRecordsCount();
+	},
+	postRefreshWidget: function (){
+		this.registerRecordsCount();
 	}
 });
 Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
@@ -824,6 +840,7 @@ Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 			instance.setContainer(container);
 			instance.loadChart();
 		}
+
 	}
 });
 Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js', {}, {
@@ -1407,5 +1424,6 @@ Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
 			instance = new chartClass(container);
 			instance.loadChart();
 		}
+		this.registerRecordsCount();
 	}
 });

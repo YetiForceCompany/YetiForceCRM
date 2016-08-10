@@ -1236,6 +1236,7 @@ $languageStrings = [
 	'LBL_NOVEMDECILLIONSS' => 'novemdecillion',
 	'LBL_SOURCE' => 'Source',
 	'LBL_DATE' => 'Date',
+	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Get total amount of records',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',
