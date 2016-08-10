@@ -2842,8 +2842,11 @@ class CRMEntity
 		if (is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
+		if (is_array($additionalColumns)) {
+			$additionalColumns = implode(',', $additionalColumns);
+		}
 		if (!empty($additionalColumns)) {
-			$additionalColumns = ',' . implode(',', $additionalColumns);
+			$additionalColumns = ',' . $additionalColumns;
 		}
 		$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
 

@@ -312,7 +312,7 @@ class Functions
 			}
 		}
 		if ($missing) {
-			$sql = sprintf("SELECT crmid, setype, deleted, smcreatorid, smownerid 
+			$sql = sprintf("SELECT crmid, setype, deleted, smcreatorid, smownerid, createdtime 
 				FROM vtiger_crmentity WHERE %s ", implode(' OR ', array_fill(0, count($missing), 'vtiger_crmentity.crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->getRow($result)) {

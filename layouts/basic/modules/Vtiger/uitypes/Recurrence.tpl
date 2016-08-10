@@ -23,14 +23,14 @@
 						<span class="control-label pull-left alignMiddle">{vtranslate('LBL_REPEATEVENT', $MODULE)}</span>
 					</div>
 					<div class="col-xs-4 marginBottom10px">
-						<select class="select2 form-control" name="repeat_frequency" title="{vtranslate('LBL_REPEAT_FOR')}">
+						<select class="select2 form-control" name="repeat_frequency" title="{vtranslate('LBL_REPEAT_FOR', $MODULE)}">
 							{for $FREQUENCY = 1 to 14}
 								<option value="{$FREQUENCY}" title="{$FREQUENCY}" {if $FREQUENCY eq $RECURRING_INFORMATION['repeat_frequency']}selected{/if}>{$FREQUENCY}</option>
 							{/for}
 						</select>
 					</div>
 					<div class="col-xs-4 paddingLRZero marginBottom10px">
-						<select class="select2 form-control" name="recurringtype" id="recurringType" title="{vtranslate('LBL_RECURRING_TYPE')}">
+						<select class="select2 form-control" name="recurringtype" id="recurringType" title="{vtranslate('LBL_RECURRING_TYPE', $MODULE)} {$MODULE}">
 							<option title="{vtranslate('LBL_DAYS_TYPE', $MODULE)}" value="Daily" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Daily'} selected {/if}>{vtranslate('LBL_DAYS_TYPE', $MODULE)}</option>
 							<option title="{vtranslate('LBL_WEEKS_TYPE', $MODULE)}" value="Weekly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Weekly'} selected {/if}>{vtranslate('LBL_WEEKS_TYPE', $MODULE)}</option>
 							<option title="{vtranslate('LBL_MONTHS_TYPE', $MODULE)}" value="Monthly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Monthly'} selected {/if}>{vtranslate('LBL_MONTHS_TYPE', $MODULE)}</option>

@@ -17,7 +17,7 @@
 <div class="input-group input-group-sm">
 	<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle margintop3" title="{vtranslate('Assigned To', $MODULE_NAME)}"></span></span>
 	<select class="widgetFilter select2 width90 owner form-control input-sm" name="owner" title="{vtranslate('LBL_OWNER')}"
-		{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+		{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX') && (in_array('groups', $ACCESS_OPTIONS['available']) || in_array('users', $ACCESS_OPTIONS['available']))}
 			{assign var=AJAX_URL value="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&type=Edit"}
 			{if in_array('groups', $ACCESS_OPTIONS['available'])}
 				{assign var=AJAX_URL value=$AJAX_URL|cat:"&result[]=groups"}
