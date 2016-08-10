@@ -40,7 +40,7 @@
 				data-fieldinfo='{$FIELD_INFO|escape}'>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				{foreach from=$SEARCH_VALUES item=OWNER_ID}
-					<option value="{$OWNER_ID}" selected>{\includes\fields\Owner::getUserLabel($OWNER_ID)}</option>
+					<option value="{$OWNER_ID}" selected>{\includes\fields\Owner::getLabel($OWNER_ID)}</option>
 				{/foreach}
 			{else}
 				{if count($ALL_ACTIVEUSER_LIST) gt 0}
