@@ -218,7 +218,7 @@ class Owner
 
 			// Including deleted vtiger_users for now.
 			if (empty($status)) {
-				$query = 'SELECT * FROM vtiger_users';
+				$query = 'SELECT id,%s,is_admin FROM vtiger_users';
 				$params = [];
 			} else {
 				if ($private == 'private') {
@@ -230,10 +230,11 @@ class Owner
 					$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), getTabid($this->moduleName));
 				} else {
 					$log->debug('Sharing is Public. All vtiger_users should be listed');
-					$query = 'SELECT * FROM vtiger_users WHERE `status`=?';
+					$query = 'SELECT id,%s,is_admin FROM vtiger_users WHERE `status`=?';
 					$params = array($status);
 				}
 			}
+			$query = str_replace('%s', implode(',', $entityData['fieldnameArr']), $query);
 			if (!empty($assignedUser)) {
 				if (is_array($assignedUser)) {
 					$query .= sprintf(' AND id IN (%s)', generateQuestionMarks($assignedUser));
