@@ -86,34 +86,6 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 }
 
 /**
- * Check if module is set active (or enabled)
- */
-function vtlib_isModuleActive($module)
-{
-	global $adb, $__cache_module_activeinfo;
-
-	if (in_array($module, vtlib_moduleAlwaysActive())) {
-		return true;
-	}
-
-	if (!isset($__cache_module_activeinfo[$module])) {
-		include 'user_privileges/tabdata.php';
-		$tabId = $tab_info_array[$module];
-		$presence = $tab_seq_array[$tabId];
-		$__cache_module_activeinfo[$module] = $presence;
-	} else {
-		$presence = $__cache_module_activeinfo[$module];
-	}
-
-	$active = false;
-	//Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7991
-	if ($presence === 0 || $presence === '0')
-		$active = true;
-
-	return $active;
-}
-
-/**
  * Recreate user privileges files.
  */
 function vtlib_RecreateUserPrivilegeFiles()
@@ -125,18 +97,6 @@ function vtlib_RecreateUserPrivilegeFiles()
 			createUserPrivilegesfile($userrow['id']);
 		}
 	}
-}
-
-/**
- * Get list module names which are always active (cannot be disabled)
- */
-function vtlib_moduleAlwaysActive()
-{
-	$modules = Array(
-		'Administration', 'CustomView', 'Settings', 'Users', 'Migration',
-		'Utilities', 'uploads', 'Import', 'System', 'com_vtiger_workflow', 'PickList'
-	);
-	return $modules;
 }
 
 /**

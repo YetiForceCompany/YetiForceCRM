@@ -85,7 +85,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		$adb = PearDatabase::getInstance();
 
-		$active = vtlib_isModuleActive($this->getTabName());
+		$active = \includes\Modules::isModuleActive($this->getTabName());
 		if ($active == false) {
 			$this->hasAccess = false;
 			$this->hasReadAccess = false;

@@ -16,5 +16,5 @@ $(document).ready( function(){
 } );
 </script>
 <input type="hidden" value="" id="tempField" name="tempField"/>
-<input type="hidden" value="{vtlib_isModuleActive('OSSMailTemplates')}" id="activeMailTemplates"/>
+<input type="hidden" value="{\includes\Modules::isModuleActive('OSSMailTemplates')}" id="activeMailTemplates"/>
 <iframe id="roundcube_interface" style="width: 100%; height: 590px;margin-bottom: -5px;" frameborder="0" src="{$URL}" frameborder="0"> </iframe>

@@ -34,7 +34,7 @@ class VTCreateEntityTask extends VTTask
 		$recordId = $recordId[1];
 
 		$entityType = $this->entity_type;
-		if (!vtlib_isModuleActive($entityType)) {
+		if (!\includes\Modules::isModuleActive($entityType)) {
 			return;
 		}
 

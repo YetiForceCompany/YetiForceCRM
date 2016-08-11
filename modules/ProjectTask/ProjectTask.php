@@ -386,7 +386,7 @@ class ProjectTask extends CRMEntity {
 	 */
 	static function isLinkPermitted($linkData) {
 		$moduleName = "ProjectTask";
-		if(vtlib_isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
+		if(\includes\Modules::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}
 		return false;

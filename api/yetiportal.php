@@ -379,7 +379,7 @@ function get_combo_values($input_array)
 	}
 
 	// Gather service contract information
-	if (!vtlib_isModuleActive('ServiceContracts')) {
+	if (!\includes\Modules::isModuleActive('ServiceContracts')) {
 		//$output['serviceid']="#MODULE INACTIVE#";
 		//$output['servicename']="#MODULE INACTIVE#";
 	} else {
@@ -2816,7 +2816,7 @@ function getRelatedServiceContracts($crmid)
 	$log->debug("Entering customer portal function getRelatedServiceContracts");
 	$module = 'ServiceContracts';
 	$sc_info = [];
-	if (vtlib_isModuleActive($module) !== true) {
+	if (\includes\Modules::isModuleActive($module) !== true) {
 		return $sc_info;
 	}
 	$query = "SELECT * FROM vtiger_servicecontracts " .

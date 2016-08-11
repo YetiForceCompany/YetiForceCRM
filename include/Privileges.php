@@ -54,7 +54,7 @@ class Privileges
 			$checkModule = 'Calendar';
 		}
 
-		if (vtlib_isModuleActive($checkModule)) {
+		if (\includes\Modules::isModuleActive($checkModule)) {
 			//Checking whether the user is admin
 			if ($userPrivileges['is_admin']) {
 				self::$isPermittedLevel = 'SEC_USER_IS_ADMIN';

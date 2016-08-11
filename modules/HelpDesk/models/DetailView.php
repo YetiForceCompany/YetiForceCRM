@@ -53,7 +53,7 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Charts'
 			];
 		}
-		$showPSTab = vtlib_isModuleActive('Products') || vtlib_isModuleActive('Services') || vtlib_isModuleActive('Assets') || vtlib_isModuleActive('OSSSoldServices');
+		$showPSTab = \includes\Modules::isModuleActive('Products') || \includes\Modules::isModuleActive('Services') || \includes\Modules::isModuleActive('Assets') || \includes\Modules::isModuleActive('OSSSoldServices');
 		if ($showPSTab) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

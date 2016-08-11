@@ -28,7 +28,7 @@ class Webform_Capture
 
 		$returnURL = false;
 		try {
-			if (!vtlib_isModuleActive('Webforms'))
+			if (!\includes\Modules::isModuleActive('Webforms'))
 				throw new Exception('webforms is not active');
 
 			$webform = Webforms_Model::retrieveWithPublicId($request->get('publicid'));

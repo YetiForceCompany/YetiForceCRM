@@ -151,7 +151,7 @@ function getMetricList($filters = [])
 
 	$metriclists = [];
 	while ($row = $db->getRow($result)) {
-		if (vtlib_isModuleActive($row['entitytype'])) {
+		if (\includes\Modules::isModuleActive($row['entitytype'])) {
 			if (Users_Privileges_Model::isPermitted($row['entitytype'])) {
 				$metriclists[] = [
 					'id' => $row['cvid'],

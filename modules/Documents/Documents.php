@@ -568,7 +568,7 @@ class Documents extends CRMEntity
 	static function isLinkPermitted($linkData)
 	{
 		$moduleName = 'Documents';
-		if (vtlib_isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
+		if (\includes\Modules::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}
 		return false;
