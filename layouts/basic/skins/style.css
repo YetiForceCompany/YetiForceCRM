@@ -3243,6 +3243,9 @@ span[name=existingImages] img{
 .paginationDiv .pagination{
 	margin: 0;
 }
+.paginationDiv .pagination li.popoverTooltip{
+	display: inline-block;
+}
 .paginationDiv .pagination li{
 	cursor: pointer;
 }

@@ -1524,4 +1524,5 @@ $jsLanguageStrings = [
 	'JS_SEARCHING' => 'Trwa szukanie...',
 	'JS_INPUT_TOO_SHORT' => 'Wprowadzić _LENGTH_ lub więcej znaków',
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Masowa edycja nie powiodła się',
+	'JS_GET_PAGINATION_INFO' => 'Trwa ładowanie ilości rekordów. Czas ukończenia zależy od ilości rekordów.',
 ];

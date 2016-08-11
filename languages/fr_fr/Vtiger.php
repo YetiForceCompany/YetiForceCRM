@@ -1552,4 +1552,5 @@ $jsLanguageStrings = [
 	'JS_INPUT_TOO_SHORT' => 'Enter _LENGTH_ or more characters',
 	'JS_SEARCHING' => 'Searching...',
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Mass edition unsuccessful',
+	'JS_GET_PAGINATION_INFO' => 'Loading the amount of records in progress. Completion time depends on the total number of records.',
 ];
