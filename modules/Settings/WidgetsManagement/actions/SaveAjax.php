@@ -55,9 +55,10 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 		if (!is_array($data) || !$data) {
 			$result = array('success' => false, 'message' => vtranslate('LBL_INVALID_DATA', $moduleName));
 		} else {
-			if (!$data['action'])
-				$data['action'] = 'removeWidget';
-			$result = Settings_WidgetsManagement_Module_Model::$data['action']($data);
+			$action = $data['action'];
+			if (!$action)
+				$action = 'removeWidget';
+			$result = Settings_WidgetsManagement_Module_Model::$action($data);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
