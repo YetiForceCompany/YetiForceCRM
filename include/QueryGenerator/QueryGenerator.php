@@ -571,27 +571,29 @@ class QueryGenerator
 				$tableJoinMapping[$baseTable] = $this->meta->getJoinClause($field->getTableName());
 			}
 			if (in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
-				$moduleList = $this->referenceFieldInfoList[$fieldName];
-				// This is special condition as the data is not stored in the base table, 
-				$tableJoinMapping[$field->getTableName()] = 'INNER JOIN';
-				foreach ($moduleList as $module) {
-					$meta = $this->getMeta($module);
-					$nameFields = $this->moduleNameFields[$module];
-					$nameFieldList = explode(',', $nameFields);
-					foreach ($nameFieldList as $index => $column) {
-						$referenceField = $meta->getFieldByColumnName($column);
-						$referenceTable = $referenceField->getTableName();
-						$tableIndexList = $meta->getEntityTableIndexList();
-						$referenceTableIndex = $tableIndexList[$referenceTable];
+				if (!(AppConfig::performance('SEARCH_REFERENCE_BY_AJAX') && isset($this->whereOperator[$fieldName]) && $this->whereOperator[$fieldName] == 'e')) {
+					$moduleList = $this->referenceFieldInfoList[$fieldName];
+					// This is special condition as the data is not stored in the base table, 
+					$tableJoinMapping[$field->getTableName()] = 'INNER JOIN';
+					foreach ($moduleList as $module) {
+						$meta = $this->getMeta($module);
+						$nameFields = $this->moduleNameFields[$module];
+						$nameFieldList = explode(',', $nameFields);
+						foreach ($nameFieldList as $index => $column) {
+							$referenceField = $meta->getFieldByColumnName($column);
+							$referenceTable = $referenceField->getTableName();
+							$tableIndexList = $meta->getEntityTableIndexList();
+							$referenceTableIndex = $tableIndexList[$referenceTable];
 
-						$referenceTableName = "$referenceTable $referenceTable$fieldName";
-						$referenceTable = "$referenceTable$fieldName";
-						//should always be left join for cases where we are checking for null
-						//reference field values.
-						if (!array_key_exists($referenceTable, $tableJoinMapping)) {  // table already added in from clause
-							$tableJoinMapping[$referenceTableName] = 'LEFT JOIN';
-							$tableJoinCondition[$fieldName][$referenceTableName] = $baseTable . '.' .
-								$field->getColumnName() . ' = ' . $referenceTable . '.' . $referenceTableIndex;
+							$referenceTableName = "$referenceTable $referenceTable$fieldName";
+							$referenceTable = "$referenceTable$fieldName";
+							//should always be left join for cases where we are checking for null
+							//reference field values.
+							if (!array_key_exists($referenceTable, $tableJoinMapping)) {  // table already added in from clause
+								$tableJoinMapping[$referenceTableName] = 'LEFT JOIN';
+								$tableJoinCondition[$fieldName][$referenceTableName] = $baseTable . '.' .
+									$field->getColumnName() . ' = ' . $referenceTable . '.' . $referenceTableIndex;
+							}
 						}
 					}
 				}
@@ -785,6 +787,12 @@ class QueryGenerator
 						// We are checking for zero since many reference fields will be set to 0 if it doest not have any value
 						$fieldSql .= "$fieldGlue $tableName.$columnName $valueSql OR $tableName.$columnName = '0'";
 						$fieldGlue = ' OR';
+					} elseif (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX') && $conditionInfo['operator'] == 'e') {
+						$values = explode(',', $valueSql);
+						foreach ($values as $value) {
+							$fieldSql .= "$fieldGlue " . $field->getTableName() . '.' . $field->getColumnName() . ' ' . ltrim($value);
+							$fieldGlue = ' OR';
+						}
 					} else {
 						$moduleList = $this->referenceFieldInfoList[$fieldName];
 						foreach ($moduleList as $module) {
@@ -1040,6 +1048,9 @@ class QueryGenerator
 			$valueArray = $value;
 		} else {
 			$valueArray = [$value];
+		}
+		if ($operator == 'e' && in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+			$valueArray = explode(',', $value);
 		}
 		$sql = [];
 		if ($operator == 'between' || $operator == 'bw' || $operator == 'notequal') {

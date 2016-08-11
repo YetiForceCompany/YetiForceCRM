@@ -568,22 +568,21 @@ $__htmlpurifier_instance = false;
  */
 function vtlib_purify($input, $ignore = false)
 {
-	global $__htmlpurifier_instance, $default_charset;
-
-	static $purified_cache = [];
+	global $__htmlpurifier_instance;
 	$value = $input;
 
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
-		if (array_key_exists($md5OfInput, $purified_cache)) {
-			$value = $purified_cache[$md5OfInput];
+		$cache = Vtiger_Cache::get('vtlibPurify', $md5OfInput);
+		if ($cache !== false) {
+			$value = $cache;
 			//to escape cleaning up again
 			$ignore = true;
 		}
 	} else {
 		$md5OfInput = md5(json_encode($input));
 	}
-	$use_charset = $default_charset;
+	$use_charset = AppConfig::main('default_charset');
 
 	if (!$ignore) {
 		// Initialize the instance if it has not yet done
@@ -611,10 +610,9 @@ function vtlib_purify($input, $ignore = false)
 				$value = purifyHtmlEventAttributes($value);
 			}
 		}
-		$purified_cache[$md5OfInput] = $value;
+		$value = str_replace('&amp;', '&', $value);
+		Vtiger_Cache::set('vtlibPurify', $md5OfInput, $value);
 	}
-
-	$value = str_replace('&amp;', '&', $value);
 	return $value;
 }
 
@@ -638,22 +636,21 @@ function purifyHtmlEventAttributes($value)
 
 function vtlib_purifyForHtml($input, $ignore = false)
 {
-	global $htmlPurifierForHtml, $default_charset;
-
-	static $purified_cache = [];
+	global $htmlPurifierForHtml;
 	$value = $input;
 
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
-		if (array_key_exists($md5OfInput, $purified_cache)) {
-			$value = $purified_cache[$md5OfInput];
+		$cache = Vtiger_Cache::get('vtlibPurifyForHtml', $md5OfInput);
+		if ($cache !== false) {
+			$value = $cache;
 			//to escape cleaning up again
 			$ignore = true;
 		}
 	} else {
 		$md5OfInput = md5(json_encode($input));
 	}
-	$use_charset = $default_charset;
+	$use_charset = AppConfig::main('default_charset');
 
 	if (!$ignore) {
 		// Initialize the instance if it has not yet done
@@ -761,10 +758,9 @@ function vtlib_purifyForHtml($input, $ignore = false)
 				$value = $htmlPurifierForHtml->purify($input);
 			}
 		}
-		$purified_cache[$md5OfInput] = $value;
+		$value = str_replace('&amp;', '&', $value);
+		Vtiger_Cache::set('vtlibPurifyForHtml', $md5OfInput, $value);
 	}
-
-	$value = str_replace('&amp;', '&', $value);
 	return $value;
 }
 

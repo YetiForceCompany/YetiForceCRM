@@ -77,7 +77,7 @@ class PearDatabase
 		}
 		$config = self::getDBConfig($type);
 		if ($config === false) {
-			if (array_key_exists('base', self::$dbCache)) {
+			if (isset(self::$dbCache['base'])) {
 				return self::$dbCache['base'];
 			} else {
 				$config = self::getDBConfig('base');

@@ -49,8 +49,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$referenceModule = $this->getReferenceModule($value);
 		if ($referenceModule && !empty($value)) {
 			$referenceModuleName = $referenceModule->get('name');
-			$entityNames = getEntityName($referenceModuleName, [$value]);
-			$name = $entityNames[$value];
+			$name = \includes\Record::getLabel($value);
 			if ($rawText || $referenceModuleName == 'Users' || ($value && !Users_Privileges_Model::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
@@ -83,6 +82,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$fieldName = $fieldModel->getName();
 		if ($fieldName == 'modifiedby') {
 			return 'uitypes/OwnerFieldSearchView.tpl';
+		}
+		if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+			return 'uitypes/ReferenceSearchView.tpl';
 		}
 		return parent::getListSearchTemplateName();
 	}

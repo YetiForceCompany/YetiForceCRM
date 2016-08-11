@@ -869,7 +869,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.selectPageHandler(pageNumber);
 		});
-		detailContentsHolder.find('#totalCountBtn').on('click', function(){
+		detailContentsHolder.on('click', '#totalCountBtn', function(){
 			var params = {
 				module: app.getModuleName(),
 				view: 'Pagination',

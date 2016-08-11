@@ -830,7 +830,8 @@ CREATE TABLE `roundcube_users` (
   `password` varchar(200) DEFAULT NULL,
   `crm_user_id` int(19) DEFAULT '0',
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`,`mail_host`)
+  UNIQUE KEY `username` (`username`,`mail_host`),
+  KEY `crm_user_id` (`crm_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_users_autologin` */
@@ -887,6 +888,7 @@ CREATE TABLE `u_yf_announcement` (
   `announcementstatus` varchar(255) DEFAULT '',
   `interval` smallint(5) DEFAULT NULL,
   PRIMARY KEY (`announcementid`),
+  KEY `announcementstatus` (`announcementstatus`),
   CONSTRAINT `fk_1_u_yf_announcement` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3997,10 +3999,10 @@ CREATE TABLE `vtiger_customerportal_tabs` (
 CREATE TABLE `vtiger_customview` (
   `cvid` int(19) NOT NULL,
   `viewname` varchar(100) NOT NULL,
-  `setdefault` int(1) DEFAULT '0',
-  `setmetrics` int(1) DEFAULT '0',
+  `setdefault` tinyint(1) NOT NULL DEFAULT '0',
+  `setmetrics` tinyint(1) NOT NULL DEFAULT '0',
   `entitytype` varchar(25) NOT NULL,
-  `status` int(1) DEFAULT '1',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
   `userid` int(19) DEFAULT '1',
   `privileges` tinyint(2) DEFAULT '1',
   `featured` tinyint(1) DEFAULT '0',
@@ -4011,6 +4013,7 @@ CREATE TABLE `vtiger_customview` (
   `color` varchar(10) DEFAULT '',
   PRIMARY KEY (`cvid`),
   KEY `customview_entitytype_idx` (`entitytype`),
+  KEY `setdefault` (`setdefault`,`entitytype`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5776,7 +5779,8 @@ CREATE TABLE `vtiger_links` (
   PRIMARY KEY (`linkid`),
   KEY `link_tabidtype_idx` (`tabid`,`linktype`),
   KEY `linklabel` (`linklabel`),
-  KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`)
+  KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`),
+  KEY `linktype` (`linktype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_links_seq` */
@@ -8381,7 +8385,8 @@ CREATE TABLE `vtiger_tab` (
   KEY `tab_modifiedby_idx` (`modifiedby`),
   KEY `tab_tabid_idx` (`tabid`),
   KEY `name` (`name`,`presence`),
-  KEY `presence` (`presence`)
+  KEY `presence` (`presence`),
+  KEY `name_2` (`name`,`presence`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_tab_info` */
@@ -9313,11 +9318,13 @@ CREATE TABLE `w_yf_sessions` (
 /*Table structure for table `yetiforce_auth` */
 
 CREATE TABLE `yetiforce_auth` (
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(20) DEFAULT NULL,
   `param` varchar(20) DEFAULT NULL,
   `value` text,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `type` (`type`,`param`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_currencyupdate` */
 

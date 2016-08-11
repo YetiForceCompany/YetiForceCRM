@@ -24,6 +24,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	{
 		parent::__construct();
 		$this->exposeMethod('getOwners');
+		$this->exposeMethod('searchReference');
 	}
 
 	function process(Vtiger_Request $request)
@@ -37,7 +38,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 
 	public function getOwners(Vtiger_Request $request)
 	{
-		$value = $request->get('value');
+		$searchValue = $request->get('value');
 		$type = $request->get('type');
 		if ($request->has('result')) {
 			$result = $request->get('result');
@@ -47,11 +48,11 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 
 		$moduleName = $request->getModule();
 		$response = new Vtiger_Response();
-		if (empty($value)) {
+		if (empty($searchValue)) {
 			$response->setError('NO');
 		} else {
 			$owner = includes\fields\Owner::getInstance($moduleName);
-			$owner->find($value);
+			$owner->find($searchValue);
 
 			$data = [];
 			if (in_array('users', $result)) {
@@ -74,6 +75,32 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 			}
 			$response->setResult(['items' => $data]);
 		}
+		$response->emit();
+	}
+
+	public function searchReference(Vtiger_Request $request)
+	{
+		$fieldId = $request->get('fid');
+		$searchValue = $request->get('value');
+
+		$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
+		$reference = $fieldModel->getReferenceList();
+
+		$rows = \includes\Record::findCrmidByLabel($searchValue, $reference);
+		$data = $modules = $ids = [];
+		foreach ($rows as &$row) {
+			$ids[] = $row['crmid'];
+			$modules[$row['setype']][] = $row['crmid'];
+		}
+		$labels = \includes\Record::getLabel($ids);
+		foreach ($modules as $moduleName => &$rows) {
+			$data[] = ['name' => Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName), 'type' => 'optgroup'];
+			foreach ($rows as &$id) {
+				$data[] = ['id' => $id, 'name' => $labels[$id]];
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult(['items' => $data]);
 		$response->emit();
 	}
 }

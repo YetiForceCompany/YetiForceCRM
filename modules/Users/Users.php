@@ -541,13 +541,15 @@ class Users extends CRMEntity
 	 * @param $user_name -- user name:: Type varchar
 	 * @returns user id
 	 */
-	function retrieve_user_id($user_name)
+	function retrieve_user_id($userName)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = "SELECT id from vtiger_users where user_name=? AND deleted=0";
-		$result = $adb->pquery($query, array($user_name));
-		$userid = $adb->query_result($result, 0, 'id');
-		return $userid;
+		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
+		$row = $adb->getRow($result);
+		if ($row && $row['deleted'] == '0') {
+			return $row['id'];
+		}
+		return false;
 	}
 
 	/** Function to return the column name array

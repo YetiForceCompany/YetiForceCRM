@@ -275,6 +275,7 @@ var app = {
 			params.language.errorLoading = function () {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			}
+			params.placeholder = '';
 			params.ajax = {
 				url: selectElement.data('ajaxUrl'),
 				dataType: 'json',
@@ -288,12 +289,12 @@ var app = {
 				processResults: function (data, params) {
 					var items = new Array;
 					if (data.success == true) {
-						selectElement.find('option').each(function(){
+						selectElement.find('option').each(function () {
 							var currentTarget = $(this);
-							var item = new Object();
-							item.name = currentTarget.html();
-							item.id = currentTarget.val();
-							items.push(item);
+							items.push({
+								label: currentTarget.html(),
+								value: currentTarget.val(),
+							});
 						});
 						items = items.concat(data.result.items);
 					}

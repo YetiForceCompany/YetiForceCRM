@@ -1288,6 +1288,7 @@ jQuery.Class("Vtiger_List_Js", {
 			jQuery('#recordsCount').val('');
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text("");
+			$('.pagination').data('totalCount', 0);
 			thisInstance.getListViewRecords(urlParams).then(function () {
 				thisInstance.breadCrumbsFilter(selectOption.text());
 				thisInstance.ListViewPostOperation();

@@ -1239,6 +1239,7 @@ $languageStrings = [
 	'LBL_SOURCE' => 'Источник',
 	'LBL_DATE' => 'Дата',
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Get total amount of records',
+	'Potentials' => 'Сделки',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',
