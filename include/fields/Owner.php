@@ -194,7 +194,7 @@ class Owner
 		return $result;
 	}
 
-	private function initUsers($status = 'Active', $assignedUser = '', $private = '')
+	public function initUsers($status = 'Active', $assignedUser = '', $private = '')
 	{
 		$log = \LoggerManager::getInstance();
 		$cacheKeyMod = $private == 'private' ? $this->moduleName : '';
