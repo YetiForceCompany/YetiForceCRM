@@ -214,28 +214,26 @@ class Owner
 		$tempResult = \Vtiger_Cache::get('getUsers', $cacheKey);
 		if ($tempResult === false) {
 			$db = \PearDatabase::getInstance();
-			$entityData = \vtlib\Functions::getEntityModuleSQLColumnString('Users');
-			$entityName = $db->concat(explode(',', $entityData['colums']));
+			$entityData = \includes\Modules::getEntityInfo('Users');
 
 			// Including deleted vtiger_users for now.
 			if (empty($status)) {
-				$query = 'SELECT id, user_name,%s,is_admin from vtiger_users';
+				$query = 'SELECT * FROM vtiger_users';
 				$params = [];
 			} else {
 				if ($private == 'private') {
 					$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($this->currentUser->getId());
 					$log->debug('Sharing is Private. Only the current user should be listed');
-					$query = "SELECT id,%s,is_admin FROM vtiger_users WHERE id=? AND `status`='Active' UNION SELECT vtiger_user2role.userid AS id,%s,is_admin FROM vtiger_user2role 
+					$query = "SELECT vtiger_users.* FROM vtiger_users WHERE id=? AND `status`='Active' UNION SELECT vtiger_user2role.userid AS id,%s,is_admin FROM vtiger_user2role 
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ? AND `status`='Active' UNION
 							SELECT shareduserid AS id,%s, is_admin FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE `status`='Active' AND vtiger_tmp_write_user_sharing_per.userid=? AND vtiger_tmp_write_user_sharing_per.tabid=?";
 					$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), getTabid($this->moduleName));
 				} else {
 					$log->debug('Sharing is Public. All vtiger_users should be listed');
-					$query = 'SELECT id,%s,is_admin from vtiger_users WHERE `status`=?';
+					$query = 'SELECT * FROM vtiger_users WHERE `status`=?';
 					$params = array($status);
 				}
 			}
-			$query = str_replace('%s', $entityName . ' AS fullName', $query);
 			if (!empty($assignedUser)) {
 				if (is_array($assignedUser)) {
 					$query .= sprintf(' AND id IN (%s)', generateQuestionMarks($assignedUser));
@@ -248,6 +246,7 @@ class Owner
 				}
 			}
 			if (!empty($this->searchValue)) {
+				$entityName = $db->concat($entityData['fieldnameArr']);
 				$query .= " AND $entityName LIKE ?";
 				array_push($params, "%$this->searchValue%");
 			}
@@ -255,7 +254,11 @@ class Owner
 			$tempResult = [];
 			// Get the id and the name.
 			while ($row = $db->getRow($result)) {
-				$row['fullName'] = trim($row['fullName']);
+				$fullName = '';
+				foreach ($entityData['fieldnameArr'] as &$field) {
+					$fullName .= $row[$field];
+				}
+				$row['fullName'] = trim($fullName);
 				$tempResult[$row['id']] = $row;
 			}
 			\Vtiger_Cache::set('getUsers', $cacheKey, $tempResult);
