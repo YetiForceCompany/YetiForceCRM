@@ -10,14 +10,6 @@
 
 class Vtiger_TooltipAjax_View extends Vtiger_PopupAjax_View {
 
-	function preProcess(Vtiger_Request $request) {
-		return true;
-	}
-
-	function postProcess(Vtiger_Request $request) {
-		return true;
-	}
-
 	function process (Vtiger_Request $request) {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();

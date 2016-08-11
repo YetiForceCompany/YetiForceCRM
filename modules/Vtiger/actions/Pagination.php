@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Actions to pagination
+ * @package YetiForce.Action
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
 class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 {
 
