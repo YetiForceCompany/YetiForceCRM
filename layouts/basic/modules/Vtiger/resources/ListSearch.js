@@ -88,6 +88,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		jQuery('#pageNumber').val('1');
 		jQuery('#pageToJump').val('1');
 		jQuery('#totalPageCount').text("");
+		jQuery('.pagination').data('totalCount', 0);
 	},
 	triggerListSearch: function () {
 		var listInstance = this;
