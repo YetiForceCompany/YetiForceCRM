@@ -209,13 +209,13 @@ class Owner
 			if ($private == 'private') {
 				$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($this->currentUser->getId());
 				$log->debug('Sharing is Private. Only the current user should be listed');
-				$query = "SELECT vtiger_users.* FROM vtiger_users WHERE id=? UNION SELECT vtiger_user2role.userid AS id,%s,is_admin FROM vtiger_user2role 
+				$query = "SELECT id,%s,is_admin,cal_color,status FROM vtiger_users WHERE id=? UNION SELECT vtiger_user2role.userid AS id,%s,is_admin,cal_color,status FROM vtiger_user2role 
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ? UNION
-							SELECT shareduserid AS id,%s, is_admin FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE vtiger_tmp_write_user_sharing_per.userid=? AND vtiger_tmp_write_user_sharing_per.tabid=?";
+							SELECT shareduserid AS id,%s,is_admin,cal_color,status FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE vtiger_tmp_write_user_sharing_per.userid=? AND vtiger_tmp_write_user_sharing_per.tabid=?";
 				$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), getTabid($this->moduleName));
 			} else {
 				$log->debug('Sharing is Public. All vtiger_users should be listed');
-				$query = 'SELECT id,%s,is_admin,cal_color FROM vtiger_users';
+				$query = 'SELECT id,%s,is_admin,cal_color,status FROM vtiger_users';
 				$params = [];
 			}
 			$query = str_replace('%s', implode(',', $entityData['fieldnameArr']), $query);
