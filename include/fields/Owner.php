@@ -194,20 +194,9 @@ class Owner
 		return $result;
 	}
 
-	/** Function returns the user key in user array
-	 * @param $addBlank -- boolean:: Type boolean
-	 * @param $status -- user status:: Type string
-	 * @param $assignedUser -- user id:: Type string or array
-	 * @param $private -- sharing type:: Type string
-	 * @param $onlyAdmin -- show only admin users:: Type boolean
-	 * @returns $users -- user array:: Type array
-	 *
-	 */
-	public function getUsers($addBlank = false, $status = 'Active', $assignedUser = '', $private = '', $onlyAdmin = false)
+	private function initUsers($status = 'Active', $assignedUser = '', $private = '')
 	{
 		$log = \LoggerManager::getInstance();
-		$log->debug("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
-
 		$cacheKeyMod = $private == 'private' ? $this->moduleName : '';
 		$cacheKeyAss = is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
 		$cacheKey = $cacheKeyMod . $status . $cacheKeyAss . $private;
@@ -218,7 +207,7 @@ class Owner
 
 			// Including deleted vtiger_users for now.
 			if (empty($status)) {
-				$query = 'SELECT id,%s,is_admin FROM vtiger_users';
+				$query = 'SELECT id,%s,is_admin,cal_color FROM vtiger_users';
 				$params = [];
 			} else {
 				if ($private == 'private') {
@@ -230,7 +219,7 @@ class Owner
 					$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), getTabid($this->moduleName));
 				} else {
 					$log->debug('Sharing is Public. All vtiger_users should be listed');
-					$query = 'SELECT id,%s,is_admin FROM vtiger_users WHERE `status`=?';
+					$query = 'SELECT id,%s,is_admin,cal_color FROM vtiger_users WHERE `status`=?';
 					$params = array($status);
 				}
 			}
@@ -257,13 +246,32 @@ class Owner
 			while ($row = $db->getRow($result)) {
 				$fullName = '';
 				foreach ($entityData['fieldnameArr'] as &$field) {
-					$fullName .= $row[$field];
+					$fullName .= ' ' . $row[$field];
 				}
 				$row['fullName'] = trim($fullName);
 				$tempResult[$row['id']] = $row;
 			}
 			\Vtiger_Cache::set('getUsers', $cacheKey, $tempResult);
 		}
+		return $tempResult;
+	}
+
+	/** Function returns the user key in user array
+	 * @param $addBlank -- boolean:: Type boolean
+	 * @param $status -- user status:: Type string
+	 * @param $assignedUser -- user id:: Type string or array
+	 * @param $private -- sharing type:: Type string
+	 * @param $onlyAdmin -- show only admin users:: Type boolean
+	 * @returns $users -- user array:: Type array
+	 *
+	 */
+	public function getUsers($addBlank = false, $status = 'Active', $assignedUser = '', $private = '', $onlyAdmin = false)
+	{
+		$log = \LoggerManager::getInstance();
+		$log->debug("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
+
+		$tempResult = $this->initUsers($status, $assignedUser, $private);
+
 		$users = [];
 		if ($addBlank == true) {
 			// Add in a blank row
@@ -436,21 +444,20 @@ class Owner
 		return ['users' => $users, 'group' => $groups];
 	}
 
+	public static function getAllUsers($status = 'Active')
+	{
+		$instance = new self();
+		return $instance->initUsers($status);
+	}
+
 	protected static $usersIdsCache = [];
 
 	public static function getUsersIds($status = 'Active')
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
-			$db = \PearDatabase::getInstance();
-			$params = [];
-			$query = 'SELECT id FROM `vtiger_users`';
-			if ($status) {
-				$query .= ' WHERE status = ?';
-				$params[] = $status;
-			}
-			$result = $db->pquery($query, $params);
-			$matchingRecords = $db->getArrayColumn($result);
-			self::$usersIdsCache[$status] = $matchingRecords;
+			$instance = new self();
+			$rows = $instance->initUsers($status);
+			self::$usersIdsCache[$status] = array_keys($rows);
 		}
 		return self::$usersIdsCache[$status];
 	}
@@ -512,18 +519,12 @@ class Owner
 		if (isset(self::$userLabelCache[$id])) {
 			return self::$userLabelCache[$id];
 		}
-		$metaInfo = \includes\Modules::getEntityInfo('Users');
-		$label = false;
-		$valueMap = \Vtiger_Util_Helper::getUserPrivilegesFile($id);
-		if (!empty($valueMap)) {
-			$label = '';
-			foreach ($metaInfo['fieldnameArr'] as $fieldName) {
-				$label .= ' ' . $valueMap['user_info'][$fieldName];
-			}
-			$label = ltrim($label);
-			self::$userLabelCache[$id] = $label;
-			self::$ownerLabelCache[$id] = $label;
+		$instance = new self();
+		$users = $instance->initUsers();
+		foreach ($users as $uid => &$user) {
+			self::$userLabelCache[$uid] = $user['fullName'];
+			self::$ownerLabelCache[$uid] = $user['fullName'];
 		}
-		return $label;
+		return isset($users[$id]) ? $users[$id]['fullName'] : false;
 	}
 }

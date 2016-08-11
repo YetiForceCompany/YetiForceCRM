@@ -24,7 +24,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $adb->query("SELECT * FROM vtiger_calendar_default_activitytypes");
 		$rows = $adb->num_rows($result);
 
-		$calendarViewTypes = Array();
+		$calendarViewTypes = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$activityTypes = $adb->query_result_rowdata($result, $i);
 			$calendarViewTypes[] = array(
@@ -54,7 +54,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 	public static function addActivityTypes($module, $fieldname, $defaultcolor)
 	{
 		$adb = PearDatabase::getInstance();
-		$queryResult = $adb->pquery('SELECT id, defaultcolor FROM vtiger_calendar_default_activitytypes', array());
+		$queryResult = $adb->pquery('SELECT id, defaultcolor FROM vtiger_calendar_default_activitytypes', []);
 		$insertActivityTypesSql = 'INSERT INTO vtiger_calendar_default_activitytypes (id, module, fieldname, defaultcolor) VALUES (?,?,?,?)';
 		$insertActivityTypesParams = array($adb->getUniqueID('vtiger_calendar_default_activitytypes'), $module, $fieldname, $defaultcolor);
 	}
@@ -68,19 +68,17 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getUserColors()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_users");
-		$rows = $adb->num_rows($result);
+		$instance = new \includes\fields\Owner();
+		$users = $instance->initUsers();
 
-		$calendarViewTypes = Array();
-		for ($i = 0; $i < $rows; $i++) {
-			$activityTypes = $adb->query_result_rowdata($result, $i);
-			$calendarViewTypes[] = array(
-				'id' => $activityTypes['id'],
-				'first' => $activityTypes['first_name'],
-				'last' => $activityTypes['last_name'],
-				'color' => $activityTypes['cal_color']
-			);
+		$calendarViewTypes = [];
+		foreach ($users as $id => &$user) {
+			$calendarViewTypes[] = [
+				'id' => $id,
+				'first' => $user['first_name'],
+				'last' => $user['last_name'],
+				'color' => $user['cal_color']
+			];
 		}
 		return $calendarViewTypes;
 	}
