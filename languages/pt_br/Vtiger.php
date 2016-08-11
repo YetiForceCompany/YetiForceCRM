@@ -1248,6 +1248,7 @@ $languageStrings = [
 	'LBL_SOURCE' => 'Source',
 	'LBL_DATE' => 'Date',
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Get total amount of records',
+	'Potentials' => 'Oportunidades',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',
