@@ -251,7 +251,6 @@ class Owner
 				$query .= " AND $entityName LIKE ?";
 				array_push($params, "%$this->searchValue%");
 			}
-			$query .= ' ORDER BY fullName ASC';
 			$result = $db->pquery($query, $params);
 			$tempResult = [];
 			// Get the id and the name.
@@ -273,7 +272,7 @@ class Owner
 				$users[$key] = $row['fullName'];
 			}
 		}
-
+		sort($users);
 		$log->debug('Exiting getUsers method ...');
 		return $users;
 	}

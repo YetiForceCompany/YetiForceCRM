@@ -108,7 +108,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return true;
 	}
 
-	public static function getUnreviewed($recordsId, $userId = false)
+	public static function getUnreviewed($recordsId, $userId = false, $sort = false)
 	{
 		$db = PearDatabase::getInstance();
 		if ($userId === false) {
@@ -119,7 +119,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if (!is_array($recordsId)) {
 			$recordsId = [$recordsId];
 		}
-		$listQuery = sprintf('SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (%s) AND status <> ? ORDER BY crmid, changedon DESC, id DESC;', $db->generateQuestionMarks($recordsId));
+		$listQuery = sprintf('SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (%s) AND status <> ?', $db->generateQuestionMarks($recordsId));
+		if ($sort) {
+			$listQuery .=' ORDER BY crmid, changedon DESC, id DESC';
+		}
 		$result = $db->pquery($listQuery, [$recordsId, self::DISPLAYED]);
 		$changes = $db->getColumnByGroup($result);
 		foreach ($changes as $crmId => $reviewedUsers) {

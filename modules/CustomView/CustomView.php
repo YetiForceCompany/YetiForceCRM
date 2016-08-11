@@ -32,7 +32,7 @@ $adv_filter_options = array(
 class CustomView extends CRMEntity
 {
 
-	var $module_list = Array();
+	var $module_list = [];
 	var $customviewmodule;
 	var $list_fields;
 	var $list_fields_name;
@@ -574,7 +574,7 @@ class CustomView extends CRMEntity
 	function getStdFilterCriteria($selcriteria = "")
 	{
 		global $mod_strings;
-		$filter = array();
+		$filter = [];
 
 		$stdfilter = Array("custom" => "" . $mod_strings['Custom'] . "",
 			"prevfy" => "" . $mod_strings['Previous FY'] . "",
@@ -652,7 +652,7 @@ class CustomView extends CRMEntity
 
 	function resolveDateFilterValue($dateFilterRow)
 	{
-		$stdfilterlist = array();
+		$stdfilterlist = [];
 		$stdfilterlist['columnname'] = $dateFilterRow['columnname'];
 		$stdfilterlist['stdfilter'] = $dateFilterRow['stdfilter'];
 
@@ -742,14 +742,14 @@ class CustomView extends CRMEntity
 	function getAdvftCriteria($relcriteriarow)
 	{
 		$columnIndex = $relcriteriarow['columnindex'];
-		$criteria = array();
+		$criteria = [];
 		$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
 		$criteria['comparator'] = $relcriteriarow["comparator"];
 		$advfilterval = html_entity_decode($relcriteriarow["value"], ENT_QUOTES, $default_charset);
 		$col = explode(":", $relcriteriarow["columnname"]);
 		$temp_val = explode(",", $relcriteriarow["value"]);
 		if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
-			$val = Array();
+			$val = [];
 			for ($x = 0; $x < count($temp_val); $x++) {
 				if ($col[4] == 'D') {
 					/** while inserting in db for due_date it was taking date and time values also as it is
@@ -788,7 +788,7 @@ class CustomView extends CRMEntity
 	 *
 	 * @var String
 	 */
-	protected $_fieldby_tblcol_cache = array();
+	protected $_fieldby_tblcol_cache = [];
 
 	/**
 	 * Function to check if field is present based on
@@ -807,7 +807,7 @@ class CustomView extends CRMEntity
 			$numrows = $adb->num_rows($result);
 
 			if ($numrows) {
-				$this->_fieldby_tblcol_cache[$tablename] = array();
+				$this->_fieldby_tblcol_cache[$tablename] = [];
 				for ($index = 0; $index < $numrows; ++$index) {
 					$this->_fieldby_tblcol_cache[$tablename][] = $adb->query_result($result, $index, 'columnname');
 				}
@@ -885,7 +885,7 @@ class CustomView extends CRMEntity
 		$adb = PearDatabase::getInstance();
 
 		$stdfiltersql = '';
-		$stdfilterlist = array();
+		$stdfilterlist = [];
 
 		$sSQL = "select vtiger_cvstdfilter.* from vtiger_cvstdfilter inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvstdfilter.cvid";
 		$sSQL .= " where vtiger_cvstdfilter.cvid=?";
@@ -893,7 +893,7 @@ class CustomView extends CRMEntity
 		$result = $adb->pquery($sSQL, array($cvid));
 		$stdfilterrow = $adb->fetch_array($result);
 
-		$stdfilterlist = array();
+		$stdfilterlist = [];
 		$stdfilterlist["columnname"] = $stdfilterrow["columnname"];
 		$stdfilterlist["stdfilter"] = $stdfilterrow["stdfilter"];
 
@@ -1407,11 +1407,11 @@ class CustomView extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$current_language = vglobal('current_language');
 		$current_mod_strings = return_specified_module_language($current_language, $module);
-		$block_info = Array();
-		$modules_list = explode(",", $module);
-		if ($module == "Calendar") {
+		$blockInfo = [];
+		$modulesList = explode(',', $module);
+		if ($module == 'Calendar') {
 			$module = "Calendar','Events";
-			$modules_list = array('Calendar', 'Events');
+			$modulesList = array('Calendar', 'Events');
 		}
 
 		// Tabid mapped to the list of block labels to be skipped for that tab.
@@ -1420,45 +1420,34 @@ class CustomView extends CRMEntity
 			getTabid('Faq') => array('LBL_COMMENT_INFORMATION')
 		);
 
-		$sql = sprintf('SELECT DISTINCT 
-					block,
-					vtiger_field.tabid,
-					NAME,
-					blocklabel 
-				  FROM
-					vtiger_field 
-					INNER JOIN vtiger_blocks 
-					  ON vtiger_blocks.blockid = vtiger_field.block 
-					INNER JOIN vtiger_tab 
-					  ON vtiger_tab.tabid = vtiger_field.tabid 
-				  WHERE vtiger_tab.name IN (%s) 
-					AND vtiger_field.presence IN (0, 2) 
-				  ORDER BY block ', generateQuestionMarks($modules_list));
-		$result = $adb->pquery($sql, [$modules_list]);
+		$sql = sprintf('SELECT DISTINCT block,vtiger_field.tabid,`name`,blocklabel FROM	vtiger_field 
+					INNER JOIN vtiger_blocks ON vtiger_blocks.blockid = vtiger_field.block INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid 
+				  WHERE vtiger_tab.name IN (%s) AND vtiger_field.presence IN (0, 2)', generateQuestionMarks($modulesList));
+		$result = $adb->pquery($sql, [$modulesList]);
 		if ($module == "Calendar','Events")
-			$module = "Calendar";
+			$module = 'Calendar';
 
-		$pre_block_label = '';
-		while ($block_result = $adb->fetch_array($result)) {
-			$block_label = $block_result['blocklabel'];
-			$tabid = $block_result['tabid'];
+		$preBlockLabel = '';
+		while ($block = $adb->getRow($result)) {
+			$blockLabel = $block['blocklabel'];
+			$tabid = $block['tabid'];
 			// Skip certain blocks of certain modules
-			if (array_key_exists($tabid, $skipBlocksList) && in_array($block_label, $skipBlocksList[$tabid]))
+			if (array_key_exists($tabid, $skipBlocksList) && in_array($blockLabel, $skipBlocksList[$tabid]))
 				continue;
 
-			if (trim($block_label) == '') {
-				$block_info[$pre_block_label] = $block_info[$pre_block_label] . "," . $block_result['block'];
+			if (trim($blockLabel) == '') {
+				$blockInfo[$preBlockLabel] = $blockInfo[$preBlockLabel] . ',' . $block['block'];
 			} else {
-				$lan_block_label = $current_mod_strings[$block_label];
-				if (isset($block_info[$lan_block_label]) && $block_info[$lan_block_label] != '') {
-					$block_info[$lan_block_label] = $block_info[$lan_block_label] . "," . $block_result['block'];
+				$lanBlockLabel = $current_mod_strings[$blockLabel];
+				if (!empty($blockInfo[$lanBlockLabel])) {
+					$blockInfo[$lanBlockLabel] = $blockInfo[$lanBlockLabel] . ',' . $block['block'];
 				} else {
-					$block_info[$lan_block_label] = $block_result['block'];
+					$blockInfo[$lanBlockLabel] = $block['block'];
 				}
-				$pre_block_label = $lan_block_label;
+				$preBlockLabel = $lanBlockLabel;
 			}
 		}
-		$this->module_list[$module] = $block_info;
+		$this->module_list[$module] = $blockInfo;
 		return $this->module_list;
 	}
 
@@ -1576,7 +1565,7 @@ class CustomView extends CRMEntity
 
 		$log->debug("Entering isPermittedChangeStatus($status) method..............");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		$status_details = Array();
+		$status_details = [];
 		if ($is_admin) {
 			if ($status == CV_STATUS_PENDING) {
 				$changed_status = CV_STATUS_PUBLIC;
