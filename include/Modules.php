@@ -56,4 +56,18 @@ class Modules
 		}
 		return $entity;
 	}
+
+	protected static $isModuleActiveCache = [];
+
+	static public function isModuleActive($module)
+	{
+		$moduleAlwaysActive = ['Administration', 'CustomView', 'Settings', 'Users', 'Migration',
+			'Utilities', 'uploads', 'Import', 'System', 'com_vtiger_workflow', 'PickList'
+		];
+		if (in_array($module, $moduleAlwaysActive)) {
+			return true;
+		}
+		$data = \vtlib\Functions::getModuleData($module);
+		return $data['presence'] == 0 ? true : false;
+	}
 }

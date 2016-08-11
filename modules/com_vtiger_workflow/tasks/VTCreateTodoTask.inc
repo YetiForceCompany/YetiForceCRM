@@ -43,7 +43,7 @@ class VTCreateTodoTask extends VTTask
 
 	public function doTask($entityData)
 	{
-		if (!vtlib_isModuleActive('Calendar')) {
+		if (!\includes\Modules::isModuleActive('Calendar')) {
 			return;
 		}
 		$adb = PearDatabase::getInstance();

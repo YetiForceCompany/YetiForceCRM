@@ -4,7 +4,7 @@
 	{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
 	{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
 	{assign var='NAME' value=$MODULEMODEL->getName()}
-	{if $quickCreateModule == '1' && vtlib_isModuleActive($NAME) && ($PRIVILEGESMODEL->isAdminUser() || $PRIVILEGESMODEL->hasGlobalWritePermission() || $PRIVILEGESMODEL->hasModuleActionPermission($MENU.tabid, 'EditView') ) }
+	{if $quickCreateModule == '1' && \includes\Modules::isModuleActive($NAME) && ($PRIVILEGESMODEL->isAdminUser() || $PRIVILEGESMODEL->hasGlobalWritePermission() || $PRIVILEGESMODEL->hasModuleActionPermission($MENU.tabid, 'EditView') ) }
 		<li class="quickCreate {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU.id}" role="menuitem" tabindex="{$TABINDEX}" {if $HASCHILDS}aria-haspopup="{$HASCHILDS}"{/if}>
 			<a class="quickCreateModule {if isset($MENU['hotkey'])}hotKey{/if}" {if isset($MENU['hotkey'])}data-hotkeys="{$MENU['hotkey']}"{/if} data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)">
 				<span class="menuName">

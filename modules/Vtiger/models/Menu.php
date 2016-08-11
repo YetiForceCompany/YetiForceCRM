@@ -42,7 +42,7 @@ class Vtiger_Menu_Model
 		if (isset($moduleStrings['languageStrings'][$key])) {
 			return stripslashes($moduleStrings['languageStrings'][$key]);
 		}
-		return vtranslate($key, $module);
+		return Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
 	}
 
 	public static function getBreadcrumbs($pageTitle = false)

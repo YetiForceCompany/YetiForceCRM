@@ -473,7 +473,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			$webserviceField = $this->getWebserviceFieldObject();
 			$referenceList = $webserviceField->getReferenceList();
 			foreach ($referenceList as $key => $module) {
-				if (!vtlib_isModuleActive($module)) {
+				if (!\includes\Modules::isModuleActive($module)) {
 					unset($referenceList[$key]);
 				}
 			}

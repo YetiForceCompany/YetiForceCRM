@@ -294,7 +294,7 @@ class Reports extends CRMEntity{
 
 							$rel_mod = array();
 							foreach($old_related_modules[$module] as $key=>$name){
-								if(vtlib_isModuleActive($name) && isPermitted($name,'index','')){
+								if(\includes\Modules::isModuleActive($name) && isPermitted($name,'index','')){
 									$rel_mod[] = $name;
 								}
 							}
@@ -989,7 +989,7 @@ function getEscapedColumns($selectedfields)
 
 			$selmod_field_disabled = true;
 			foreach($selected_mod as $smod){
-				if((stripos($fieldcolname,':'.$smod.'__')>-1) && vtlib_isModuleActive($smod)){
+				if((stripos($fieldcolname,':'.$smod.'__')>-1) && \includes\Modules::isModuleActive($smod)){
 					$selmod_field_disabled = false;
 					break;
 				}
@@ -1381,7 +1381,7 @@ function getReportRelatedModules($module,$focus)
 	global $related_modules;
 	global $mod_strings;
 	$optionhtml = [];
-	if(vtlib_isModuleActive($module)){
+	if(\includes\Modules::isModuleActive($module)){
 		if(!empty($focus->related_modules[$module])) {
 			foreach($focus->related_modules[$module] as $rel_modules)
 			{

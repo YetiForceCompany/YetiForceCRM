@@ -1071,7 +1071,7 @@ function getCallerInfo($number)
 function get_use_asterisk($id)
 {
 	$adb = PearDatabase::getInstance();
-	if (!vtlib_isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
+	if (!\includes\Modules::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
 		return false;
 	}
 	$sql = "select * from vtiger_asteriskextensions where userid = ?";
