@@ -215,7 +215,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 					}
 				});
 			});
-			if (container.closest('.quickCreateContainer').length < 1 && ('Products' == popupReferenceModule || 'Services' == popupReferenceModule)) {
+			if (container.closest('.inventoryRow').length > 0 && ('Products' == popupReferenceModule || 'Services' == popupReferenceModule)) {
 				var inventoryInstance = new Vtiger_Inventory_Js();
 				inventoryInstance.registerRowAutoCompleteAfterAdding(container);
 			}
