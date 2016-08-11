@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -25,10 +25,16 @@
 					</div>
 					<div class="btn-toolbar col-md-4">
 						<span class="btn-group pull-right">
-							<button id="makeDefaultButton" class="btn btn-default">&nbsp;<strong>{vtranslate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>
+							<button id="deleteButton" class="btn btn-danger" title="{vtranslate('LBL_DELETE', $MODULE)}"><span class="glyphicon glyphicon-trash"></span></button>
 						</span>
 						<span class="btn-group pull-right">
-							<button id="deleteButton" class="btn btn-danger">&nbsp;<strong>{vtranslate('LBL_DELETE', $MODULE)}</strong></button>
+							<button id="makeDefaultButton" class="btn btn-info" title="{vtranslate('LBL_SET_AS_DEFAULT', $MODULE)}">&nbsp;<strong>{vtranslate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>
+						</span>
+						<span class="btn-group pull-right">
+							<button id="rssAddButton" class="rssAddButton btn btn-success" title="{vtranslate('LBL_ADD_FEED_SOURCE', $MODULE)}"><span class="glyphicon glyphicon-plus"></span>&nbsp;<span class="userIcon-Rss"></span></button>
+						</span>
+						<span class="btn-group pull-right">
+							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{vtranslate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="glyphicon glyphicon-transfer"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
 					</div>
 				</div>

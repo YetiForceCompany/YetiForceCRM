@@ -17,6 +17,7 @@ $languageStrings = [
 	'LBL_SENDER' => 'Expéditeur',
 	'LBL_SET_AS_DEFAULT' => 'Choisir comme défaut',
 	'SINGLE_Rss' => 'Flux RSS',
+	'LBL_CHANGE_RSS_CHANNEL' => 'Change RSS channel',
 ];
 $jsLanguageStrings = [
 	'JS_INVALID_RSS_URL' => 'URL RSS invalide',
