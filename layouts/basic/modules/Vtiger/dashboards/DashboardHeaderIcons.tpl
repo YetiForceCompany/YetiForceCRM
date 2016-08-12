@@ -9,6 +9,7 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
+{strip}
 {if isset($SETTING_EXIST)}
 	<a class="btn btn-xs btn-default" name="dfilter">
 		<span class='icon-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"></span>
@@ -22,3 +23,4 @@
 		<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_CLOSE')}" alt="{vtranslate('LBL_CLOSE')}"></span>
 	</a>
 {/if}
+{/strip}

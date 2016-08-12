@@ -33,7 +33,7 @@
 					<label class="col-sm-3 control-label">
 						{vtranslate('LBL_MAIN_MARGIN', $QUALIFIED_MODULE)}
 					</label>
-					<div class="col-sm-9 row">
+					<div class="col-sm-6 row">
 						{if $PDF_MODEL->get('margin_chkbox') === 0}
 							{assign 'MARGIN_CHECKED' false}
 						{else}

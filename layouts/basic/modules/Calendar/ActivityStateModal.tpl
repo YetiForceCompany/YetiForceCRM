@@ -1,6 +1,7 @@
 {*<!--
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
+{strip}
 <div id="activityStateModal" class="modal fade modalEditStatus" tabindex="-1">
 	{assign var=ID value=$RECORD->get('id')}
 	<div class="modal-dialog">
@@ -149,3 +150,4 @@
 {foreach key=index item=jsModel from=$SCRIPTS}
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}?&v={$YETIFORCE_VERSION}"></script>
 {/foreach}	
+{/strip}
