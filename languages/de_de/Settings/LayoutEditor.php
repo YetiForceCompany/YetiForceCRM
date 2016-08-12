@@ -103,6 +103,7 @@ $languageStrings = [
 	'LBL_RELATION_LABLE' => 'Beziehungsname',
 	'PLL_RELATED_LIST' => 'verknüpfte Einträge',
 	'PLL_DEPENDENTS_LIST' => 'abhängige Einträge',
+	'PLL_ATTACHMENTS' => 'Attachments',
 	'PLL_ADD' => 'Hinzufügen',
 	'PLL_SELECT' => 'Auswählen',
 	// inventory tab

@@ -105,6 +105,7 @@ $languageStrings = [
 	'LBL_RELATION_LABLE' => 'Метка',
 	'PLL_RELATED_LIST' => 'Многие ко многим',
 	'PLL_DEPENDENTS_LIST' => 'Один ко многим',
+	'PLL_ATTACHMENTS' => 'Attachments',
 	'PLL_ADD' => 'Добавление',
 	'PLL_SELECT' => 'Выбор',
 	// inventory tab

@@ -98,6 +98,7 @@ $languageStrings = [
 	'LBL_TARGET_MODULE' => 'Módulo Alvo',
 	'LBL_RELATION_LABLE' => 'Etiqueta Relação',
 	'PLL_RELATED_LIST' => 'Muitos para muitos',
+	'PLL_ATTACHMENTS' => 'Attachments',
 	'PLL_DEPENDENTS_LIST' => 'Um para muitos',
 	'PLL_ADD' => 'Adicionar',
 	'PLL_SELECT' => 'Selecionar',
