@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	</div>
-	<div class="siteBarRight col-xs-12">
+	<div class="{if $LEFT_PANEL_HIDE}leftPanelOpen {/if}siteBarRight col-xs-12">
 		<div class="btn btn-block toggleSiteBarRightButton hidden-xs hidden-sm" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 			<span class="glyphicon glyphicon-chevron-right"></span>
 		</div>
