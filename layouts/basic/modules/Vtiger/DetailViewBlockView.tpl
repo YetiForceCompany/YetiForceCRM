@@ -1,3 +1,4 @@
+{strip}
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -9,7 +10,6 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-{strip}
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 		{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
 	{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}

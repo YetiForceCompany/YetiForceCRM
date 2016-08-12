@@ -1,5 +1,5 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	{assign var="COMPANY_DETAILS" value=Vtiger_CompanyDetails_Model::getInstanceById()}
 	{assign var="COMPANY_LOGO" value=$COMPANY_DETAILS->getLogo()}
 	<div class="container-fluid userDetailsContainer">
