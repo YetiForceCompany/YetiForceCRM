@@ -9362,7 +9362,8 @@ CREATE TABLE `yetiforce_mail_config` (
   `type` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `value` text,
-  UNIQUE KEY `type` (`type`,`name`)
+  UNIQUE KEY `type` (`type`,`name`),
+  KEY `type_2` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mail_quantities` */
