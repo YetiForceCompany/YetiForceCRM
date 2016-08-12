@@ -5166,7 +5166,7 @@ html,body,.baseContainer
 	max-height: none !important;
 }
 .hideToggleSiteBarRightButton{
-	right: 0px;
+	right: 0px !important;
 }
 .blockContainer .blockHeader,
 .detailViewTable .blockHeader{
@@ -5634,4 +5634,10 @@ select.form-control {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+}
+.leftPanelOpen.siteBarRight{
+	width: calc(25% - 50px);
+}
+.leftPanelOpen .toggleSiteBarRightButton {
+	right: calc(25% - 50px);
 }

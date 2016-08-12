@@ -34,9 +34,11 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 
 	public function postProcess(Vtiger_Request $request)
 	{
+		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$notification = Home_Notification_Model::getInstance();
+		$viewer->assign('LEFT_PANEL_HIDE', $userModel->get('leftpanelhide'));
 		$viewer->assign('NOTIFICATION_TYPES', \includes\utils\Json::encode($notification->getTypesForTree()));
 		$viewer->view('NotificationsListPostProcess.tpl', $moduleName);
 		parent::postProcess($request);
