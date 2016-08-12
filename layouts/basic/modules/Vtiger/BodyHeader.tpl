@@ -13,7 +13,7 @@
 				</div>
 				{if $REMINDER_ACTIVE}
 					<div class="pull-right rightHeaderBtn">
-						<div class="remindersNotice quickAction">
+						<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 							<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
 								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 								<span class="badge hide">0</span>
@@ -32,7 +32,7 @@
 				{/if}
 				{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')}
 					<div class="pull-right rightHeaderBtn">
-						<div class="notificationsNotice quickAction">
+						<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 							<div class="btn-group">
 								<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Home&view=NotificationsList">
 									<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
@@ -133,41 +133,43 @@
 				</div>
 				<div class="pull-right">
 					{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
-					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
-					{if $CONFIG['showMailIcon']=='true' && count($AUTOLOGINUSERS) > 0}
-						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
-						<div class="headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
-							<div class="btn-group">
-								<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=index">
-									<div class="hidden-xs">
-										{$ITEM.username}
-										<span class="mail_user_name">{$MAIN_MAIL.username}</span>
-										<span class="noMails_{$MAIN_MAIL.rcuser_id}"></span>
-									</div>
-									<div class="visible-xs-block">
-										<span class="glyphicon glyphicon-list-alt"></span>
-									</div>
-								</a>
-								{if $CONFIG['showMailAccounts']=='true'}
-									<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span class="caret"></span>
-										<span class="sr-only">Toggle Dropdown</span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-											<li data-id="{$KEY}" {if $ITEM.active}selested{/if}>
-												<a href="#">
-													{$ITEM.username} <span class="noMails"></span>
-												</a>
-											</li>
-										{/foreach}
-									</ul>
-								{/if}
+					{if $CONFIG['showMailIcon']=='true'}
+						{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
+						{if count($AUTOLOGINUSERS) > 0}
+							{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
+							<div class="headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
+								<div class="btn-group">
+									<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=index">
+										<div class="hidden-xs">
+											{$ITEM.username}
+											<span class="mail_user_name">{$MAIN_MAIL.username}</span>
+											<span class="noMails_{$MAIN_MAIL.rcuser_id}"></span>
+										</div>
+										<div class="visible-xs-block">
+											<span class="glyphicon glyphicon-list-alt"></span>
+										</div>
+									</a>
+									{if $CONFIG['showMailAccounts']=='true'}
+										<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="caret"></span>
+											<span class="sr-only">Toggle Dropdown</span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
+												<li data-id="{$KEY}" {if $ITEM.active}selested{/if}>
+													<a href="#">
+														{$ITEM.username} <span class="noMails"></span>
+													</a>
+												</li>
+											{/foreach}
+										</ul>
+									{/if}
+								</div>
 							</div>
-						</div>
+						{/if}
 					{/if}
 				</div>
 			</div>
 		</div>
 	</div>
-	{/strip}
+{/strip}

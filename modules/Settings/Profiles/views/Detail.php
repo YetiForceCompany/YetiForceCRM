@@ -15,10 +15,11 @@ class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View
 	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$title = [['name' => vtranslate('LBL_VIEW_DETAIL', $moduleName)]];
 		if ($request->get('record')) {
 			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
-			$title[] = ['name' => $recordModel->getName()];
+			$title = $recordModel->getName();
+		} else {
+			$title = vtranslate('LBL_VIEW_DETAIL', $moduleName);
 		}
 		return $title;
 	}

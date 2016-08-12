@@ -3,4 +3,6 @@
 $CONFIG = [
 	// Max number of notifications to display, 0 - no limits
 	'MAX_NUMBER_NOTIFICATIONS' => 200,
+	// Auto refresh reminders in header
+	'AUTO_REFRESH_REMINDERS' => true, // Boolean
 ];

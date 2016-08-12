@@ -4805,11 +4805,12 @@ CREATE TABLE `vtiger_field_seq` (
 /*Table structure for table `vtiger_fieldmodulerel` */
 
 CREATE TABLE `vtiger_fieldmodulerel` (
-  `fieldid` int(11) NOT NULL,
-  `module` varchar(100) NOT NULL,
-  `relmodule` varchar(100) NOT NULL,
+  `fieldid` smallint(11) unsigned NOT NULL,
+  `module` varchar(25) NOT NULL,
+  `relmodule` varchar(25) NOT NULL,
   `status` varchar(10) DEFAULT NULL,
-  `sequence` int(11) DEFAULT NULL
+  `sequence` tinyint(1) unsigned DEFAULT '0',
+  KEY `fieldid` (`fieldid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoice_formpayment` */
@@ -5803,7 +5804,8 @@ CREATE TABLE `vtiger_loginhistory` (
   `browser` varchar(25) DEFAULT NULL,
   `unblock` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`login_id`),
-  KEY `user_name` (`user_name`)
+  KEY `user_name` (`user_name`),
+  KEY `user_ip` (`user_ip`,`login_time`,`status`,`unblock`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lout_dimensions` */
@@ -7057,12 +7059,13 @@ CREATE TABLE `vtiger_profile2globalpermissions` (
 /*Table structure for table `vtiger_profile2standardpermissions` */
 
 CREATE TABLE `vtiger_profile2standardpermissions` (
-  `profileid` int(11) NOT NULL,
-  `tabid` int(10) NOT NULL,
-  `operation` int(10) NOT NULL,
-  `permissions` int(1) DEFAULT NULL,
+  `profileid` smallint(11) unsigned NOT NULL,
+  `tabid` smallint(10) unsigned NOT NULL,
+  `operation` smallint(10) unsigned NOT NULL,
+  `permissions` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`profileid`,`tabid`,`operation`),
-  KEY `profile2standardpermissions_profileid_tabid_operation_idx` (`profileid`,`tabid`,`operation`)
+  KEY `profile2standardpermissions_profileid_tabid_operation_idx` (`profileid`,`tabid`,`operation`),
+  KEY `profileid` (`profileid`,`tabid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_profile2tab` */
@@ -9359,7 +9362,8 @@ CREATE TABLE `yetiforce_mail_config` (
   `type` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `value` text,
-  UNIQUE KEY `type` (`type`,`name`)
+  UNIQUE KEY `type` (`type`,`name`),
+  KEY `type_2` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mail_quantities` */
