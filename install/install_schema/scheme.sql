@@ -4805,11 +4805,12 @@ CREATE TABLE `vtiger_field_seq` (
 /*Table structure for table `vtiger_fieldmodulerel` */
 
 CREATE TABLE `vtiger_fieldmodulerel` (
-  `fieldid` int(11) NOT NULL,
-  `module` varchar(100) NOT NULL,
-  `relmodule` varchar(100) NOT NULL,
+  `fieldid` smallint(11) unsigned NOT NULL,
+  `module` varchar(25) NOT NULL,
+  `relmodule` varchar(25) NOT NULL,
   `status` varchar(10) DEFAULT NULL,
-  `sequence` int(11) DEFAULT NULL
+  `sequence` tinyint(1) unsigned DEFAULT '0',
+  KEY `fieldid` (`fieldid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoice_formpayment` */
@@ -5803,7 +5804,8 @@ CREATE TABLE `vtiger_loginhistory` (
   `browser` varchar(25) DEFAULT NULL,
   `unblock` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`login_id`),
-  KEY `user_name` (`user_name`)
+  KEY `user_name` (`user_name`),
+  KEY `user_ip` (`user_ip`,`login_time`,`status`,`unblock`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lout_dimensions` */
