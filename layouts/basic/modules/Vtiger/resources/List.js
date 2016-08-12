@@ -1908,7 +1908,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var ids = [];
 		var listViewContentDiv = this.getListViewContentContainer();
-		var isUnreviewedActive = listViewContentDiv.find('.unreviewed').lenght;
+		var isUnreviewedActive = listViewContentDiv.find('.unreviewed').length;
 		listViewContentDiv.find('tr.listViewEntries').each(function () {
 			var id = jQuery(this).data('id');
 			if (id) {
