@@ -218,22 +218,26 @@ class Owner
 				$query = 'SELECT id,%s,is_admin,cal_color,status FROM vtiger_users';
 				$params = [];
 			}
+			$where = '';
 			$query = str_replace('%s', implode(',', $entityData['fieldnameArr']), $query);
 			if (!empty($assignedUser)) {
 				if (is_array($assignedUser)) {
-					$query .= sprintf(' AND id IN (%s)', generateQuestionMarks($assignedUser));
+					$where .= sprintf(' AND id IN (%s)', generateQuestionMarks($assignedUser));
 					foreach ($assignedUser as $id) {
 						array_push($params, $id);
 					}
 				} else {
-					$query .= ' AND id=?';
+					$where .= ' AND id=?';
 					array_push($params, $assignedUser);
 				}
 			}
 			if (!empty($this->searchValue)) {
 				$entityName = $db->concat($entityData['fieldnameArr']);
-				$query .= " AND $entityName LIKE ?";
+				$where .= " AND $entityName LIKE ?";
 				array_push($params, "%$this->searchValue%");
+			}
+			if (!empty($where)) {
+				$query .= ' WHERE ' . ltrim($where, ' AND');
 			}
 			$result = $db->pquery($query, $params);
 			$tempResult = [];
