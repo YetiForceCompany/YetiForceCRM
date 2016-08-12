@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
+{strip}
 <div class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
@@ -16,7 +17,7 @@
 				<input type="hidden" name="wid" value="{$WID}">
 				<input type="hidden" name="type" value="{$TYPE}">
 				<div class="modal-header">
-					<button type="button" data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)">×</button>
+					<button type="button" data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
 					<h3 id="massEditHeader" class="modal-title">{vtranslate('Add widget', $QUALIFIED_MODULE)}</h3>
 				</div>
 				<div class="modal-body">
@@ -34,3 +35,4 @@
 		</div>
 	</div>
 </div>
+{/strip}

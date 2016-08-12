@@ -39,3 +39,4 @@
 		<input type="hidden" id=row value="{$ROW}" />
 		<input type="hidden" id=col value="{$COLCOUNT}" />
 	</div>
+{/strip}

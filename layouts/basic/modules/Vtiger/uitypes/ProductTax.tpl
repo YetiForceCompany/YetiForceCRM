@@ -9,6 +9,7 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 {assign var="tax_count" value=1}
 {foreach item=tax key=count from=$TAXCLASS_DETAILS}
 	{if $tax.check_value eq 1}
@@ -44,4 +45,4 @@
 		{assign var="COUNTER" value=$COUNTER+1}
 	{/if}
 {/foreach}
-
+{/strip}

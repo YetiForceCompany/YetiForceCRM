@@ -1,4 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
+{strip}
 {assign var=ACCESS_OPTIONS value=\includes\utils\Json::decode(html_entity_decode($WIDGET->get('owners')))}
 {if !is_array($ACCESS_OPTIONS.available)}
 	{$ACCESS_OPTIONS.available = array($ACCESS_OPTIONS.available)}
@@ -53,3 +54,4 @@
 		{/if}
 	</select>
 </div>
+{/strip}

@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 <!DOCTYPE html>
+{strip}
 <html>
 	<head>
 		<title>Yetiforce: {vtranslate('LBL_ERROR')}</title>
@@ -35,3 +36,4 @@
 		</div>
 	</body>
 </html>
+{/strip}
