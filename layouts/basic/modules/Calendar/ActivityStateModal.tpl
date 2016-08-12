@@ -77,7 +77,7 @@
 					{/if}
 					{if $RECORD->get('link') neq '' }
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{vtranslate('Relation',$MODULE_NAME)}: </label>
+							<label class="col-sm-4 control-label">{vtranslate('FL_RELATION',$MODULE_NAME)}: </label>
 							<div class="col-sm-8 textOverflowEllipsis">
 								{$RECORD->getDisplayValue('link')}
 							</div>
