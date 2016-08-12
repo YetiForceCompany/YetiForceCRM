@@ -512,13 +512,17 @@ class Owner
 		return $label;
 	}
 
-	public static function getUserLabel($id)
+	public static function getUserLabel($id, $single = false)
 	{
 		if (isset(self::$userLabelCache[$id])) {
 			return self::$userLabelCache[$id];
 		}
 		$instance = new self();
-		$users = $instance->initUsers();
+		if ($single) {
+			$users = $instance->initUsers('Active', $id);
+		} else {
+			$users = $instance->initUsers();
+		}
 		foreach ($users as $uid => &$user) {
 			self::$userLabelCache[$uid] = $user['fullName'];
 			self::$ownerLabelCache[$uid] = $user['fullName'];
