@@ -1,5 +1,5 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="actionMenu" aria-hidden="true">
 		<div class="row">
 			<div class="dropdown quickAction historyBtn">

@@ -1,3 +1,4 @@
+{strip}
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -9,7 +10,6 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-{strip}
 	{assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">

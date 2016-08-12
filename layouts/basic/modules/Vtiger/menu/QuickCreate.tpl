@@ -1,5 +1,5 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	{assign var='MODULEMODEL' value=Vtiger_Module_Model::getInstance($MENU.tabid)}
 	{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
 	{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
