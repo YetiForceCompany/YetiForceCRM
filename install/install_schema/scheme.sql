@@ -7059,12 +7059,13 @@ CREATE TABLE `vtiger_profile2globalpermissions` (
 /*Table structure for table `vtiger_profile2standardpermissions` */
 
 CREATE TABLE `vtiger_profile2standardpermissions` (
-  `profileid` int(11) NOT NULL,
-  `tabid` int(10) NOT NULL,
-  `operation` int(10) NOT NULL,
-  `permissions` int(1) DEFAULT NULL,
+  `profileid` smallint(11) unsigned NOT NULL,
+  `tabid` smallint(10) unsigned NOT NULL,
+  `operation` smallint(10) unsigned NOT NULL,
+  `permissions` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`profileid`,`tabid`,`operation`),
-  KEY `profile2standardpermissions_profileid_tabid_operation_idx` (`profileid`,`tabid`,`operation`)
+  KEY `profile2standardpermissions_profileid_tabid_operation_idx` (`profileid`,`tabid`,`operation`),
+  KEY `profileid` (`profileid`,`tabid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_profile2tab` */
