@@ -51,10 +51,6 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		$assignedToFieldModel = $moduleModel->getField('assigned_user_id');
 		$assignedToFieldModel->set('fieldvalue', $recordModel->get('assigned_user_id'));
 		$viewer->assign('ASSIGN_TO', $assignedToFieldModel);
-
-		$contactsModuleModel = Vtiger_Module_Model::getInstance('Contacts');
-		$accountField = Vtiger_Field_Model::getInstance('parent_id', $contactsModuleModel);
-		$viewer->assign('CONTACT_ACCOUNT_FIELD_MODEL', $accountField);
 		$viewer->view('ConvertLead.tpl', $moduleName);
 	}
 }

@@ -29,7 +29,7 @@
 				<tr class="blockHeader">
 					<th class="blockHeader">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
 					<th class="blockHeader">{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
-					<th data-hide='phone' class="blockHeader" colspan="2">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
+					<th data-hide='phone' class="blockHeader">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
 				</tr>
 			</thead>
 		</table>
@@ -47,7 +47,6 @@
 						<td>{vtranslate({$MAPPING['Leads']['label']}, 'Leads')}</td>
 						<td>{vtranslate($MAPPING['Leads']['fieldDataType'], $QUALIFIED_MODULE)}</td>
 						<td>{vtranslate({$MAPPING['Accounts']['label']}, 'Accounts')}</td>
-						<td>{vtranslate({$MAPPING['Contacts']['label']}, 'Contacts')}</td>
 					</tr>
 				{/foreach}
 			</tbody>

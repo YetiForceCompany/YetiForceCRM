@@ -47,7 +47,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getHeaders()
 	{
-		return array('Leads' => 'Leads', 'Type' => 'Type', 'Accounts' => 'Accounts', 'Contacts' => 'Contacts');
+		return array('Leads' => 'Leads', 'Type' => 'Type', 'Accounts' => 'Accounts');
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 			$finalMapping = $fieldIdsList = array();
 			foreach ($mapping as $mappingDetails) {
-				array_push($fieldIdsList, $mappingDetails['leadfid'], $mappingDetails['accountfid'], $mappingDetails['contactfid']);
+				array_push($fieldIdsList, $mappingDetails['leadfid'], $mappingDetails['accountfid']);
 			}
 			$fieldLabelsList = [];
 			if (!empty($fieldIdsList)) {
@@ -111,8 +111,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 				$finalMapping[$mappingId] = array(
 					'editable' => $mappingDetails['editable'],
 					'Leads' => $fieldLabelsList[$mappingDetails['leadfid']],
-					'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']],
-					'Contacts' => $fieldLabelsList[$mappingDetails['contactfid']]
+					'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']]
 				);
 			}
 
@@ -167,15 +166,15 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 				if ($mappingDetails['lead']) {
 					if ($mappingId) {
 //                    var_dump($mappingDetails);
-						if ((array_key_exists('deletable', $mappingDetails)) || (!$mappingDetails['account'] && !$mappingDetails['contact'])) {
+						if ((array_key_exists('deletable', $mappingDetails)) || !$mappingDetails['account']) {
 							$deleteMappingsList[] = $mappingId;
 						} else {
-							if ($mappingDetails['account'] || $mappingDetails['contact']) {
+							if ($mappingDetails['account']) {
 								$updateMappingsList[] = $mappingDetails;
 							}
 						}
 					} else {
-						if ($mappingDetails['account'] || $mappingDetails['contact']) {
+						if ($mappingDetails['account']) {
 							$createMappingsList[] = $mappingDetails;
 						}
 					}
@@ -188,12 +187,12 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		}
 
 		if ($createMappingsList) {
-			$insertQuery = 'INSERT INTO vtiger_convertleadmapping(leadfid, accountfid, contactfid) VALUES ';
+			$insertQuery = 'INSERT INTO vtiger_convertleadmapping(leadfid, accountfid) VALUES ';
 
 			$count = count($createMappingsList);
 			for ($i = 0; $i < $count; $i++) {
 				$mappingDetails = $createMappingsList[$i];
-				$insertQuery .= '(' . $mappingDetails['lead'] . ', ' . $mappingDetails['account'] . ', ' . $mappingDetails['contact'] . ')';
+				$insertQuery .= '(' . $mappingDetails['lead'] . ', ' . $mappingDetails['account'] . ')';
 				if ($i !== $count - 1) {
 					$insertQuery .= ', ';
 				}
@@ -204,19 +203,16 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		if ($updateMappingsList) {
 			$leadQuery = ' SET leadfid = CASE ';
 			$accountQuery = ' accountfid = CASE ';
-			$contactQuery = ' contactfid = CASE ';
 
 			foreach ($updateMappingsList as $mappingDetails) {
 				$mappingId = $mappingDetails['mappingId'];
 				$leadQuery .= " WHEN cfmid = $mappingId THEN " . $mappingDetails['lead'];
 				$accountQuery .= " WHEN cfmid = $mappingId THEN " . $mappingDetails['account'];
-				$contactQuery .= " WHEN cfmid = $mappingId THEN " . $mappingDetails['contact'];
 			}
 			$leadQuery .= ' ELSE leadfid END ';
 			$accountQuery .= ' ELSE accountfid END ';
-			$contactQuery .= ' ELSE contactfid END ';
 
-			$db->pquery("UPDATE vtiger_convertleadmapping $leadQuery, $accountQuery, $contactQuery WHERE editable = ?", array(1));
+			$db->pquery("UPDATE vtiger_convertleadmapping $leadQuery, $accountQuery WHERE editable = ?", array(1));
 		}
 	}
 
@@ -236,9 +232,6 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 			if ($rowData['accountfid']) {
 				$restrictedIdsList[] = $rowData['accountfid'];
 			}
-			if ($rowData['contactfid']) {
-				$restrictedIdsList[] = $rowData['contactfid'];
-			}
 		}
 		return $restrictedIdsList;
 	}
@@ -249,7 +242,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getSupportedModulesList()
 	{
-		return array('Accounts', 'Contacts');
+		return ['Accounts'];
 	}
 
 	/**

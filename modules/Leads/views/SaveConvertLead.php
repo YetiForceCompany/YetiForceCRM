@@ -55,7 +55,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $request->getModule());
 		$convertLeadFields = $recordModel->getConvertLeadFields();
-		$availableModules = array('Accounts', 'Contacts');
+		$availableModules = ['Accounts'];
 		foreach ($availableModules as $module) {
 			if (\includes\Modules::isModuleActive($module) && in_array($module, $modules)) {
 				$entityValues['entities'][$module]['create'] = true;
@@ -110,10 +110,6 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 			$accountIdComponents = vtws_getIdComponents($result['Accounts']);
 			$accountId = $accountIdComponents[1];
 		}
-		if (!empty($result['Contacts'])) {
-			$contactIdComponents = vtws_getIdComponents($result['Contacts']);
-			$contactId = $contactIdComponents[1];
-		}
 
 		if (!empty($accountId)) {
 			$mappingFields = $recordModel->get('mappingFields');
@@ -125,8 +121,6 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 			}
 			ModTracker_Record_Model::addConvertToAccountRelation('Accounts', $accountId, $assignId);
 			header("Location: index.php?view=Detail&module=Accounts&record=$accountId");
-		} elseif (!empty($contactId)) {
-			header("Location: index.php?view=Detail&module=Contacts&record=$contactId");
 		} else {
 			$this->showError($request);
 			exit;

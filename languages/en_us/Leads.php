@@ -110,7 +110,5 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_SELECT_CONTACTS' => 'Select Contacts to proceed',
-	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Conversion requires selection of Contact or Account',
 	'JS_SELECT_ORGANIZATION' => 'Select Account to proceed',
 ];

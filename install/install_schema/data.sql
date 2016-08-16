@@ -1472,31 +1472,31 @@ insert  into `vtiger_contract_type_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_convertleadmapping` */
 
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (1,43,1,0,0);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (2,49,14,0,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (3,40,3,69,NULL);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (5,44,5,0,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (7,46,9,80,0);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (8,48,4,0,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (21,65,36,109,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (24,41,0,70,0);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (25,42,0,71,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (28,47,0,74,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (30,53,10,0,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (31,51,17,0,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (32,1291,1285,1293,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (33,1292,1286,1294,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (34,1065,1089,1073,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (35,1066,1091,1075,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (36,1067,1093,1077,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (37,1068,1095,1079,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (38,1069,1097,1081,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (39,1070,1099,1083,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (40,1071,1101,1085,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (41,1072,1103,1087,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (42,967,970,0,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (43,969,972,0,1);
-insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`editable`) values (44,1737,1738,0,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (1,43,1,0);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (2,49,14,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (3,40,3,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (5,44,5,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (7,46,9,0);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (8,48,4,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (21,65,36,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (24,41,0,0);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (25,42,0,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (28,47,0,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (30,53,10,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (31,51,17,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (32,1291,1285,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (33,1292,1286,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (34,1065,1089,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (35,1066,1091,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (36,1067,1093,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (37,1068,1095,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (38,1069,1097,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (39,1070,1099,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (40,1071,1101,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (41,1072,1103,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (42,967,970,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (43,969,972,1);
+insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`editable`) values (44,1737,1738,1);
 
 /*Data for the table `vtiger_crmentity` */
 
