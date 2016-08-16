@@ -143,15 +143,15 @@ class Import_FileReader_Reader
 		$db = PearDatabase::getInstance();
 
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$db->pquery('INSERT INTO ' . $tableName . ' (`' . implode('`,`', $columnNames) . '`) VALUES (' . generateQuestionMarks($fieldValues) . ')', $fieldValues);
+		$data = array_combine($columnNames, $fieldValues);
+		$db->insert($tableName, $data);
 		$this->numberOfRecordsRead++;
 		if ($inventoryData) {
 			$id = $db->getLastInsertID();
 			$tableName = Import_Utils_Helper::getInventoryDbTableName($this->user);
 			foreach ($inventoryData as $data) {
 				$data['id'] = $id;
-				$sql = 'INSERT INTO ' . $tableName . ' (' . implode(',', array_keys($data)) . ') VALUES (' . generateQuestionMarks($data) . ')';
-				$db->pquery($sql, $data);
+				$db->insert($tableName, $data);
 			}
 		}
 	}

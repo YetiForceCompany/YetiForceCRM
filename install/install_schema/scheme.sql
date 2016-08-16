@@ -3762,7 +3762,6 @@ CREATE TABLE `vtiger_convertleadmapping` (
   `cfmid` int(19) NOT NULL AUTO_INCREMENT,
   `leadfid` int(19) NOT NULL,
   `accountfid` int(19) DEFAULT NULL,
-  `contactfid` int(19) DEFAULT NULL,
   `editable` int(19) DEFAULT '1',
   PRIMARY KEY (`cfmid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;

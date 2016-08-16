@@ -4230,12 +4230,8 @@ html,body,.baseContainer
 	left: 15px;
 }
 #convertLeadMapping th:not(.blockHeader), #convertLeadMapping tbody tr td,
-#convertLeadMapping .blockHeader th:not(:last-child){
+#convertLeadMapping .blockHeader th{
 	width: 25%;
-	text-align: center;
-}
-#convertLeadMapping .blockHeader th:last-child{
-	width: 50%;
 	text-align: center;
 }
 #mappingToGenerate th:not(.defaultHeader):not(.actionsHeader){
