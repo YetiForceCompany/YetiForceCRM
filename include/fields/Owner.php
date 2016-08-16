@@ -286,7 +286,7 @@ class Owner
 				$users[$key] = $row['fullName'];
 			}
 		}
-		sort($users);
+		asort($users);
 		$log->debug('Exiting getUsers method ...');
 		return $users;
 	}
