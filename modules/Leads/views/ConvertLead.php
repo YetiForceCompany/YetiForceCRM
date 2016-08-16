@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Leads_ConvertLead_View extends Vtiger_Index_View
@@ -23,7 +24,7 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		
+
 		$recordId = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		if (!Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {

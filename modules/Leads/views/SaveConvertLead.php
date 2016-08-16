@@ -27,7 +27,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		
+
 		$recordId = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		if (!Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
