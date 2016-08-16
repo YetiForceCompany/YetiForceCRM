@@ -1240,6 +1240,7 @@ $languageStrings = [
 	'LBL_DATE' => 'Дата',
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Get total amount of records',
 	'Potentials' => 'Сделки',
+	'LBL_PICKLIST_FIELD' => 'Select from field',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',

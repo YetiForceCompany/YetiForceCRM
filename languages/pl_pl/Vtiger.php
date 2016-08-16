@@ -1252,6 +1252,7 @@ $languageStrings = [
 	'LBL_DATE' => 'Data',
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Pobierz całkowitą ilość rekordów',
 	'Potentials' => 'Szanse sprzedaży',
+	'LBL_PICKLIST_FIELD' => 'Lista wyboru z pola',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
