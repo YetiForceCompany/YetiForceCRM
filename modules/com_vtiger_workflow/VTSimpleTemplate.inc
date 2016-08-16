@@ -213,6 +213,7 @@ class VTSimpleTemplate
 				return $recordId;
 
 			case 'supportName' : return AppConfig::main('HELPDESK_SUPPORT_NAME');
+			case 'supportEmailId' : return AppConfig::main('HELPDESK_SUPPORT_EMAIL_REPLY');
 			default: '';
 		}
 	}
