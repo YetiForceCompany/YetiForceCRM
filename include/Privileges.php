@@ -228,10 +228,9 @@ class Privileges
 
 	public static function isPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
-		$userPrivilegesModel = \Users_Privileges_Model::getInstanceById($userId);
-		$defaultOrgSharingPermission = $userPrivilegesModel->get('defaultOrgSharingPermission');
+		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
 		//Retreiving the default Organisation sharing Access
-		$othersPermissionId = $defaultOrgSharingPermission[$tabId];
+		$othersPermissionId = $sharingPrivileges['defOrgShare'][$tabId];
 		//Checking for Default Org Sharing permission
 		if ($othersPermissionId == 0) {
 			if ($actionId == 1 || $actionId == 0) {
