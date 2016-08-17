@@ -34,7 +34,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Vtiger_Request $request, $display = true) {
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');
