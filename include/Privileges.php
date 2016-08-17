@@ -21,7 +21,7 @@ class Privileges
 	public static function isPermitted($moduleName, $actionName = null, $record = false, $userId = false)
 	{
 		$log = \LoggerManager::getInstance();
-		$log->debug("Entering isPermitted($moduleName,$actionName,$record) method ...");
+		$log->debug("Entering isPermitted($moduleName,$actionName,$record,$userId) method ...");
 		if (!$userId) {
 			$current_user = vglobal('current_user');
 			$userId = $current_user->id;
