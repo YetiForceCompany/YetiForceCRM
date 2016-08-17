@@ -35,7 +35,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 		$headerLinks = [];
 		$moduleModel = $this->getModule();
-		if ($moduleModel->isPermitted('WatchingModule')) {
+		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
 			$class = 'btn-default';
 			if ($watchdog->isWatchingModule()) {

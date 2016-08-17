@@ -662,7 +662,6 @@ class Vtiger_Util_Helper
 			return null;
 		}
 		require("user_privileges/user_privileges_$userId.php");
-		require("user_privileges/sharing_privileges_$userId.php");
 
 		$valueMap = [];
 		$valueMap['id'] = $userId;
@@ -691,5 +690,23 @@ class Vtiger_Util_Helper
 		$userPrivileges = self::getUserPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
 		return $field == false ? $userInfo : $userInfo[$field];
+	}
+
+	protected static $userSharingCache = false;
+
+	public static function getUserSharingFile($userId)
+	{
+		if (empty($userId))
+			return null;
+
+		if (isset(self::$userSharingCache[$userId])) {
+			return self::$userSharingCache[$userId];
+		}
+		if (!file_exists("user_privileges/sharing_privileges_$userId.php")) {
+			return null;
+		}
+		$sharingPrivileges = require("user_privileges/sharing_privileges_$userId.php");
+		self::$userSharingCache[$userId] = $sharingPrivileges;
+		return $sharingPrivileges;
 	}
 }
