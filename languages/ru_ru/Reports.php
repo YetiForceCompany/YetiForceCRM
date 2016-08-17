@@ -10,6 +10,9 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * *********************************************************************************** */
 $languageStrings = [
+	'LBL_FILE_TYPE' => 'Тип файла',
+	'LBL_EXCEL' => 'EXCEL',
+	'LBL_CSV' => 'CSV',
 	'LBL_ADD_FOLDER' => 'Папка',
 	'LBL_ADD_NEW_FOLDER' => 'Добавление новой папки',
 	'LBL_ADD_RECORD' => 'Отчет',
@@ -115,7 +118,7 @@ $languageStrings = [
 	'Reports' => 'Отчеты',
 	'SINGLE_Reports' => 'Отчет',
 	'LBL_SELECT_REPORT' => 'Выберите отчет',
-	'LBL_VIEW_CHARTDETAIL' => 'Chart preview',
+	'LBL_VIEW_CHARTDETAIL' => 'Предварительный просмотр диаграммы',
 ];
 
 $jsLanguageStrings = [
