@@ -1,3 +1,4 @@
+{strip}
 {if $ACCOUNTSLIST}
 {assign var="MAILS" value=OSSMail_Record_Model::getMailsFromIMAP($OWNER)}
 <div>
@@ -30,3 +31,4 @@
 	</span>
 {/if}
 </div>
+{/strip}

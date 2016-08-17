@@ -21,7 +21,7 @@ $languageStrings = [
 	'Creator' => 'Ersteller',
 	'Customer' => 'Kunde',
 	'Related To Comments' => 'Bezogen auf',
-	'UserId' => 'UserId',
+	'UserId' => 'BenutzerId',
 	'ReasonToEdit' => 'Grund der Änderung',
 	//Email notifications
 	'LBL_ADDED_COMMENT_TO_TICKET' => 'Ein Kommentar dem Ticket hinzufügen',

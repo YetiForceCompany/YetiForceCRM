@@ -9,7 +9,7 @@
    * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
-
+{strip}
 <div style='padding:5px;'>
 {if $HISTORIES neq false}
 	{foreach key=$index item=HISTORY from=$HISTORIES}
@@ -155,3 +155,4 @@
 	</span>
 {/if}
 </div>
+{/strip}

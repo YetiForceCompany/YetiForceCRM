@@ -68,7 +68,7 @@ class CRMEntity
 
 		// File access security check
 		if (!class_exists($modName)) {
-			if (file_exists("custom/modules/$module/$modName.php")) {
+			if (AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$modName.php")) {
 				checkFileAccessForInclusion("custom/modules/$module/$modName.php");
 				require_once("custom/modules/$module/$modName.php");
 			} else {
@@ -117,7 +117,7 @@ class CRMEntity
 			}
 		}
 		if (!$anyValue) {
-			throw new AppException(vtranslate('LBL_MANDATORY_FIELD_MISSING'));
+			throw new \Exception\AppException(vtranslate('LBL_MANDATORY_FIELD_MISSING'));
 		}
 
 		foreach ($this->tab_name as $table_name) {
@@ -178,20 +178,11 @@ class CRMEntity
 			$file_name = $file_details['name'];
 		}
 
-
-		$saveFile = 'true';
-		//only images are allowed for Image Attachmenttype 
-		$mimeType = vtlib\Functions::getMimeContentType($file_details['tmp_name']);
-		$mimeTypeContents = explode('/', $mimeType);
-		// For contacts and products we are sending attachmentType as value 
-		if ($attachmentType == 'Image' || ($file_details['size'] && $mimeTypeContents[0] == 'image') || ($module == 'Contacts' || $module == 'Products')) {
-			$saveFile = validateImageFile($file_details);
-		}
-		if ($saveFile == 'false') {
+		$fileInstance = \includes\fields\File::loadFromRequest($file_details);
+		if (!$fileInstance->validate()) {
 			return false;
 		}
-
-		$binFile = sanitizeUploadFileName($file_name, AppConfig::main('upload_badext'));
+		$binFile = \includes\fields\File::sanitizeUploadFileName($file_name);
 
 		$current_id = $adb->getUniqueID('vtiger_crmentity');
 
@@ -205,8 +196,7 @@ class CRMEntity
 
 		//upload the file in server
 		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . '_' . $binFile);
-
-		if ($saveFile == 'true' && $upload_status == 'true') {
+		if ($upload_status == 'true') {
 			//This is only to update the attached filename in the vtiger_notes vtiger_table for the Notes module
 			$params = [
 				'crmid' => $current_id,
@@ -218,9 +208,9 @@ class CRMEntity
 				'modifiedtime' => $adb->formatDate($date_var, true)
 			];
 			if ($module == 'Contacts' || $module == 'Products') {
-				$params['setype'] = $module . " Image";
+				$params['setype'] = $module . ' Image';
 			} else {
-				$params['setype'] = $module . " Attachment";
+				$params['setype'] = $module . ' Attachment';
 			}
 			$adb->insert('vtiger_crmentity', $params);
 
@@ -259,7 +249,7 @@ class CRMEntity
 
 			return true;
 		} else {
-			$log->debug("Skip the save attachment process.");
+			$log->debug('Skip the save attachment process.');
 			return false;
 		}
 	}
@@ -702,7 +692,7 @@ class CRMEntity
 		$app_strings = vglobal('app_strings');
 
 		if (!isset($record)) {
-			throw new NoPermittedToRecordException('LBL_RECORD_NOT_FOUND');
+			throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 		}
 		// INNER JOIN is desirable if all dependent table has entries for the record.
 		// LEFT JOIN is desired if the dependent tables does not have entry.
@@ -798,11 +788,11 @@ class CRMEntity
 			$result = $adb->pquery($sql, $params);
 
 			if (!$result || $adb->num_rows($result) < 1) {
-				throw new NoPermittedToRecordException('LBL_RECORD_NOT_FOUND');
+				throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 			} else {
 				$resultrow = $adb->query_result_rowdata($result);
 				if (!empty($resultrow['deleted'])) {
-					throw new NoPermittedToRecordException('LBL_RECORD_DELETE');
+					throw new \Exception\NoPermittedToRecord('LBL_RECORD_DELETE');
 				}
 				$showsAdditionalLabels = vglobal('showsAdditionalLabels');
 				foreach ($cachedModuleFields as $fieldinfo) {
@@ -1149,7 +1139,7 @@ class CRMEntity
 
 		$recordType = vtlib\Functions::getCRMRecordType($id);
 		if ($recordType != $module) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 		if (!self::isBulkSaveMode()) {
 			require_once("include/events/include.inc");
@@ -2852,8 +2842,11 @@ class CRMEntity
 		if (is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
+		if (is_array($additionalColumns)) {
+			$additionalColumns = implode(',', $additionalColumns);
+		}
 		if (!empty($additionalColumns)) {
-			$additionalColumns = ',' . implode(',', $additionalColumns);
+			$additionalColumns = ',' . $additionalColumns;
 		}
 		$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
 

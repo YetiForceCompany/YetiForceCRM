@@ -14,8 +14,8 @@ $languageStrings = [
 	'OSSMailScanner' => 'Mail Scanner',
 	'Mail Scanner' => 'Mail Scanner',
 	'LBL_VIEW_LOGS' => 'Mail Protokolle',
-	'CRM Archive' => 'CRM Archive',
-	'CRM Archive Sent' => 'CRM Archive Sent',
+	'CRM Archive' => 'CRM Archiv',
+	'CRM Archive Sent' => 'CRM Archiv Gesendet',
 	'Drafts' => 'Drafts',
 	'INBOX' => 'INBOX',
 	'Junk' => 'JUNK',
@@ -34,7 +34,7 @@ $jsLanguageStrings = [
 	'In progress' => 'In Arbeit',
 	'whether_remove_an_identity' => 'Eine Identität entfernen',
 	'removed_identity' => 'Identität entfernt',
-	'LBL_LOADING_LIST_OF_FOLDERS' => 'Loading folders list in progress.</br>It make take up to several minutes...',
+	'LBL_LOADING_LIST_OF_FOLDERS' => 'Laden der Verzeichnisse läuft.</br>Dies kann einige Minuten dauern...',
 ];
 
 

@@ -54,6 +54,97 @@ hr {
 	margin-bottom: 8px;
 	border-bottom: 1px solid #dddddd;
 }
+.imageHolder{
+	margin: 0 auto;
+	background-position: center;
+	padding: 10px 0;
+	width: 70%;
+}
+.modal .imageHolder{
+	margin-left: 14% !important;
+	width: 27%;
+	z-index: 1;
+}
+.blockProgressContainer.imageHolder {
+	padding: 40px 0;
+	background: radial-gradient(#fff 25%, transparent 70%);
+}
+.message{
+	font-weight: bold;
+	color: #4a5364;
+}
+.modal .imageHolder .message{
+	font-size: 16px;
+}
+.sk-cube-grid {
+	width: 45px;
+	height: 45px;
+	margin: 10px auto;
+}
+.sk-cube-grid .sk-cube {
+	width: 33%;
+	height: 33%;
+	background-color: #4a5364;
+	float: left;
+	-webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+	animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+}
+.sk-cube-grid .sk-cube1 {
+	-webkit-animation-delay: 0.2s;
+	animation-delay: 0.2s;
+}
+.sk-cube-grid .sk-cube2 {
+	-webkit-animation-delay: 0.3s;
+	animation-delay: 0.3s;
+}
+.sk-cube-grid .sk-cube3 {
+	-webkit-animation-delay: 0.4s;
+	animation-delay: 0.4s;
+}
+.sk-cube-grid .sk-cube4 {
+	-webkit-animation-delay: 0.1s;
+	animation-delay: 0.1s;
+}
+.sk-cube-grid .sk-cube5 {
+	-webkit-animation-delay: 0.2s;
+	animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube6 {
+	-webkit-animation-delay: 0.3s;
+	animation-delay: 0.3s;
+}
+.sk-cube-grid .sk-cube7 {
+	-webkit-animation-delay: 0s;
+	animation-delay: 0s;
+}
+.sk-cube-grid .sk-cube8 {
+	-webkit-animation-delay: 0.1s;
+	animation-delay: 0.1s;
+}
+.sk-cube-grid .sk-cube9 {
+	-webkit-animation-delay: 0.2s;
+	animation-delay: 0.2s; 
+}
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+	0%, 70%, 100% {
+		-webkit-transform: scale3D(1, 1, 1);
+		transform: scale3D(1, 1, 1);
+	} 35% {
+		-webkit-transform: scale3D(0, 0, 1);
+		transform: scale3D(0, 0, 1); 
+	}
+}
+
+@keyframes sk-cubeGridScaleDelay {
+	0%, 70%, 100% {
+		-webkit-transform: scale3D(1, 1, 1);
+		transform: scale3D(1, 1, 1);
+	} 35% {
+		-webkit-transform: scale3D(0, 0, 1);
+		transform: scale3D(0, 0, 1);
+	} 
+}
+
 .navbar.navbar-fixed-top .navbar-collapse {
 	padding-right: 15px !important;
 }
@@ -454,7 +545,6 @@ hr {
 }
 .gridster ul li.dashboardWidget .widgetFooterContent .row:first-child{
 	position: relative;
-	top: -20px;
 	background-color: #f5f5f5;
 	padding-top: 3px;
 	padding-bottom: 2px;
@@ -913,6 +1003,9 @@ li.ui-timepicker-selected,
 }
 .listViewEntriesTable tbody tr td:first-child{
 	border-left: 0 none;
+}
+.listViewEntriesTable tbody tr td:last-child .btn{
+	float: right;
 }
 .equalSplit td:nth-child(odd) {
 	width: 20%;
@@ -2153,13 +2246,7 @@ th.htColHeader,
 .vtFooter p a {
 	color: #ffffff;
 }
-/* Footer */
-/*****Loading message **********/
-.imageHolder {
-	background: url('./images/loadback.png') repeat-y;
-	background-position: center;
-	padding: 10px 0;
-}
+
 .crumbs {
 	height: 40px;
 	margin: 0;
@@ -3014,7 +3101,7 @@ span[name=existingImages] img{
 	padding: 5px 10px 10px 10px;
 }
 .remindersNoticeContainer .actionRow a.btn{
-	margin-right: 2%;
+	margin-right: 1%;
 }
 .cancelLink.btn[type='reset'],.cancel.btn[type='reset'],.cancelLink.btn[type='button']  {
 	float: right;
@@ -3155,6 +3242,9 @@ span[name=existingImages] img{
 }
 .paginationDiv .pagination{
 	margin: 0;
+}
+.paginationDiv .pagination li.popoverTooltip{
+	display: inline-block;
 }
 .paginationDiv .pagination li{
 	cursor: pointer;
@@ -3492,13 +3582,13 @@ span[name=existingImages] img{
 	height: 100%;
 }
 
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel .bodyHeader{
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader{
 	left: 230px;
 	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 }
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
-.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel, 
+.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .bodyHeader + .basePanel{
 	left: 180px;
 	z-index: 0;
 	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
@@ -3571,7 +3661,7 @@ span[name=existingImages] img{
 	top: 0;
 	right: 0;
 	left: 50px;
-	z-index: 1030;
+	z-index: 1031;
 	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
 	transition-delay: 0.5s;
@@ -3885,6 +3975,9 @@ html,body,.baseContainer
 	width: 100%;
 	overflow-x: hidden;
 }
+.userInfoFooter .mainBody{
+	bottom:50px;
+}
 .bootstrap-switch-container{
 	white-space: nowrap;
 }
@@ -3963,9 +4056,6 @@ html,body,.baseContainer
 }
 .gridster .gs-w[data-col="1"] {
 	left: 0px!important;
-}
-.modal-backdrop{
-	z-index: 1029;
 }
 .modal-body .fieldLabel{
 	font-weight:900;
@@ -4115,7 +4205,7 @@ html,body,.baseContainer
 	padding: 0;
 }
 .modal-backdrop{
-	z-index: 1030;
+	z-index: 1031;
 }
 .commonActionsContainer .badge{
 	font-size: 11px;
@@ -4133,13 +4223,15 @@ html,body,.baseContainer
 .listViewActionsDiv .pageInfo {
 	max-height:34px;
 }
-#convertLeadMapping th:not(.blockHeader), #convertLeadMapping tbody tr td,
-#convertLeadMapping .blockHeader th:not(:last-child){
-	width: 25%;
-	text-align: center;
+.listViewActionsDiv .btn-toolbar > .dropdown-toggle + .dropdown-menu{
+	left: 20px;
 }
-#convertLeadMapping .blockHeader th:last-child{
-	width: 50%;
+.widget_header .dropdown-toggle + .dropdown-menu{
+	left: 15px;
+}
+#convertLeadMapping th:not(.blockHeader), #convertLeadMapping tbody tr td,
+#convertLeadMapping .blockHeader th{
+	width: 25%;
 	text-align: center;
 }
 #mappingToGenerate th:not(.defaultHeader):not(.actionsHeader){
@@ -4848,7 +4940,7 @@ html,body,.baseContainer
 	padding: 0 !important;
 }
 .hideSiteBar{
-	right: calc(-25% + 15px);
+	right: calc(-25% - -15px);
 }
 .hideSiteBar .siteBarContent{
 	overflow: hidden;
@@ -5070,7 +5162,7 @@ html,body,.baseContainer
 	max-height: none !important;
 }
 .hideToggleSiteBarRightButton{
-	right: 0px;
+	right: 0px !important;
 }
 .blockContainer .blockHeader,
 .detailViewTable .blockHeader{
@@ -5519,4 +5611,29 @@ select.form-control {
 .iconsInFooter span{
 	color: #fff;
 	font-size: 20px;
+}
+.infoUser{
+	padding:0 5px;
+	position: fixed;
+	height: 17px;
+	color: #fff;
+	width: 100%;
+	bottom: 33px;
+	z-index: 1030;
+	left: 0;
+}
+#convertLeadForm table{
+	table-layout: fixed;
+	word-wrap: break-word;
+}
+.dashboardWidget .rowActivities > *{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.leftPanelOpen.siteBarRight{
+	width: calc(25% - 50px);
+}
+.leftPanelOpen .toggleSiteBarRightButton {
+	right: calc(25% - 50px);
 }

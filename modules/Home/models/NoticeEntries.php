@@ -55,7 +55,7 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 		$sql = 'SELECT * FROM l_yf_notification WHERE id = ?';
 		$result = $db->pquery($sql, [$id]);
 		if ($db->getRowCount($result) == 0) {
-			throw new NoPermittedException('LBL_NOT_FOUND_NOTICE');
+			throw new \Exception\NoPermitted('LBL_NOT_FOUND_NOTICE');
 		}
 		$instance = new self();
 		$instance->setData($db->getRow($result));
@@ -101,7 +101,7 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 
 	public function getMassage()
 	{
-		return nl2br($this->get('message'));
+		return $this->get('message');
 	}
 
 	public function getTitle()

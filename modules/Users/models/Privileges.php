@@ -20,9 +20,9 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public function getName()
 	{
-		$entityData = vtlib\Functions::getEntityModuleInfo('Users');
+		$entityData = \includes\Modules::getEntityInfo('Users');
 		$colums = [];
-		foreach (explode(',', $entityData['fieldname']) as $fieldname) {
+		foreach ($entityData['fieldnameArr'] as $fieldname) {
 			$colums[] = $this->get($fieldname);
 		}
 		return implode(' ', $colums);
@@ -123,6 +123,8 @@ class Users_Privileges_Model extends Users_Record_Model
 		return $instance;
 	}
 
+	protected static $userPrivilegesModelCache = [];
+
 	/**
 	 * Static Function to get the instance of the User Privileges model, given the User id
 	 * @param <Number> $userId
@@ -133,12 +135,16 @@ class Users_Privileges_Model extends Users_Record_Model
 		if (empty($userId))
 			return null;
 
+		if (isset(self::$userPrivilegesModelCache[$userId])) {
+			return self::$userPrivilegesModelCache[$userId];
+		}
 		$valueMap = Vtiger_Util_Helper::getUserPrivilegesFile($userId);
 		if (is_array($valueMap['user_info'])) {
 			$valueMap = array_merge($valueMap, $valueMap['user_info']);
 		}
-
-		return self::getInstance($valueMap);
+		$instance = self::getInstance($valueMap);
+		self::$userPrivilegesModelCache[$userId] = $instance;
+		return $instance;
 	}
 
 	/**
@@ -150,14 +156,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		//TODO : Remove the global dependency
 		$currentUser = vglobal('current_user');
 		$currentUserId = $currentUser->id;
-
-		$instance = Vtiger_Cache::get('CurrentUserPrivilegesModel', $currentUserId);
-		if ($instance) {
-			return $instance;
-		}
-		$instance = self::getInstanceById($currentUserId);
-		Vtiger_Cache::set('CurrentUserPrivilegesModel', $currentUserId, $instance);
-		return $instance;
+		return self::getInstanceById($currentUserId);
 	}
 
 	/**
@@ -288,7 +287,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			if ($addUserString !== false) {
 				$usersExist = [];
 				$query = 'SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(%s) AND crmid IN (%s)';
-				$query = sprintf($query, $addUserString, $sqlRecords);				
+				$query = sprintf($query, $addUserString, $sqlRecords);
 				$result = $db->query($query);
 				while ($row = $db->getRow($result)) {
 					$usersExist[$row['crmid']][$row['userid']] = true;
@@ -443,7 +442,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$db = PearDatabase::getInstance();
 			$role = $userPrivilegesModel->getRoleDetail();
 			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
-			$query = sprintf($query,$relationInfo['rel'],$relationInfo['table'],$relationInfo['base']);
+			$query = sprintf($query, $relationInfo['rel'], $relationInfo['table'], $relationInfo['base']);
 			$result = $db->pquery($query, [$record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'];

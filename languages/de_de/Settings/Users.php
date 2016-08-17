@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Users' => 'Benutzer',
-    'USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
+	'USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
 	'LBL_COLORS' => 'Farben',
 	'LBL_USERS_COLORS' => 'Benutzerfarben',
 	'LBL_USERS_COLORS_DESCRIPTION' => ' ',
@@ -24,7 +24,6 @@ $languageStrings = [
 	'LBL_GROUPS_COLORS' => 'Farbgruppe',
 	'LBL_GROUP_NAME' => 'Gruppenname',
 	'LBL_PRIORITY' => 'Priorität',
-	
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
@@ -35,13 +34,11 @@ $languageStrings = [
 	'LBL_LDAP_USERS' => 'Auto login Aktiv für Benutzer',
 	'LBL_SAVE_CONFIG' => 'Konfiguration wurde gespeichert',
 	'LBL_LDAP_DOMAIN' => 'LDAP Domäne',
-	
 	'LBL_VIEW_AUTH' => 'Authorisierung',
 	'LBL_VIEW_COLORS' => 'Farben',
-	
 	'LBL_SWITCH_USERS' => 'Benutzer wechseln',
-	'LBL_SWITCH_USERS_DESCRIPTION' => 'Funktion um den User zu wechseln.',
-	'LBL_SU_BASE_ACCESS' => 'User',
+	'LBL_SWITCH_USERS_DESCRIPTION' => 'Funktion um den Benutzer zu wechseln.',
+	'LBL_SU_BASE_ACCESS' => 'Bneutzer',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Es ist erlaubt, sich anzumelden.',
 	//Locks
 	'LBL_LOCKS' => 'Sperren',
@@ -54,7 +51,7 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Verschieben sperren',
 ];
 $jsLanguageStrings = [
-    'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
+	'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
 	'Changed password successfully' => 'Passwort erfolgreich geändert',
 ];

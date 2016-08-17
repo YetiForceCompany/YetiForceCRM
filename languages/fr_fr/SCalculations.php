@@ -3,13 +3,11 @@
 $languageStrings = [
 	'SCalculations' => 'Calculs',
 	'SINGLE_SCalculations' => 'Calcul',
-	
 	//BLOCKS
 	'LBL_SCALCULATIONS_INFORMATION' => 'Information',
 	'LBL_CUSTOM_INFORMATION' => 'Information systèmes',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 	'LBL_STATISTICS' => 'Statistiques',
-	
 	//FIELDS
 	'LBL_SUBJECT' => 'Sujet',
 	'LBL_NUMBER' => 'Nombre',
@@ -20,13 +18,11 @@ $languageStrings = [
 	'FL_TOTAL_PRICE' => 'Total net',
 	'FL_MARGINP' => 'Pourcentage de marge nette',
 	'FL_MARGIN' => 'Marge totale',
-
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Brouillon',
 	'PLL_IN_REALIZATION' => 'En cours',
 	'PLL_FOR_VERIFICATION' => 'A vérifier',
 	'PLL_CANCELLED' => 'Annulé',
 	'PLL_COMPLETED' => 'Terminé',
-
 	'LBL_CHANGE_STATUS' => 'Modifier le statut',
 ];

@@ -108,7 +108,5 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_SELECT_CONTACTS' => 'Выберите контакты для продолжения',
 	'JS_SELECT_ORGANIZATION' => 'Выберите Контрагента для продолжнеия',
-	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Необходимо выбрать Контакт или Контрагент',
 ];

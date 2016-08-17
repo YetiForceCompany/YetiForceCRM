@@ -135,5 +135,3 @@ function vtws_listtypes($fieldTypeList, $user)
 		'information' => $informationArray);
 	return $types[$user->id][$fieldTypeString];
 }
-
-?>

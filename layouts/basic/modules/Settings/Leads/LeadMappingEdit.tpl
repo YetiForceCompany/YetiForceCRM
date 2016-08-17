@@ -24,23 +24,12 @@
 				</span>
 			</div>
 			<div class="contents table-responsive" id="detailView">
-				{*<div class="hidden-xs">
 				<table class="table customTableRWD table-bordered" id="convertLeadMapping">
 					<thead>
 						<tr class="blockHeader">
 							<th data-hide='phone,'  class="blockHeader">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
 							<th data-hide='phone'  class="blockHeader">{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
-							<th data-hide='phone' class="blockHeader" colspan="2">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
-						</tr>
-					</thead>
-				</table>
-			    </div>*}
-				<table class="table customTableRWD table-bordered" id="convertLeadMapping">
-					<thead>
-						<tr class="blockHeader">
-							<th data-hide='phone,'  class="blockHeader">{vtranslate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
-							<th data-hide='phone'  class="blockHeader">{vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
-							<th data-hide='phone' class="blockHeader" colspan="2">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
+							<th data-hide='phone' class="blockHeader">{vtranslate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
 						</tr>
 						<tr>
 							{foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders() name=header}
@@ -78,20 +67,6 @@
 										{/foreach}
 									</select>
 								</td>
-								<td>
-									<select class="contactFields select2" name="mapping[{$smarty.foreach.mappingLoop.iteration}][contact]">
-										<option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-										{foreach key=FIELD_TYPE item=FIELDS_INFO from=$CONTACTS_MODULE_MODEL->getFields()}
-											{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
-												{if $MAPPING_ARRAY['Leads']['fieldDataType'] eq $FIELD_TYPE}
-													<option data-type="{$FIELD_TYPE}" {if $FIELD_ID eq $MAPPING_ARRAY['Contacts']['id']} selected {/if} label="{vtranslate($FIELD_OBJECT->get('label'), $CONTACTS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-														{vtranslate($FIELD_OBJECT->get('label'), $CONTACTS_MODULE_MODEL->getName())}
-													</option>
-												{/if}
-											{/foreach}
-										{/foreach}
-									</select>
-								</td>
 							</tr>
 						{/foreach}
 						<tr class="hide newMapping listViewEntries bg-warning">
@@ -115,18 +90,6 @@
 										{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
 												<option data-type="{$FIELD_TYPE}" label="{vtranslate($FIELD_OBJECT->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
 													{vtranslate($FIELD_OBJECT->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
-												</option>
-										{/foreach}
-									{/foreach}
-								</select>
-							</td>
-							<td>
-								<select class="contactFields newSelect">
-									<option data-type="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" label="{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}" value="0">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-									{foreach key=FIELD_TYPE item=FIELDS_INFO from=$CONTACTS_MODULE_MODEL->getFields()}
-										{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS_INFO}
-												<option data-type="{$FIELD_TYPE}" label="{vtranslate($FIELD_OBJECT->get('label'), $CONTACTS_MODULE_MODEL->getName())}" value="{$FIELD_ID}">
-													{vtranslate($FIELD_OBJECT->get('label'), $CONTACTS_MODULE_MODEL->getName())}
 												</option>
 										{/foreach}
 									{/foreach}

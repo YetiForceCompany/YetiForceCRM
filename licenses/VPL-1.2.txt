@@ -168,7 +168,6 @@ Contributor(s): ______________________________________.
 
       [NOTE: The text of this Exhibit A may differ slightly from the text of the notices in the Source Code files of the Original Code. You should use the text of this Exhibit A rather than the text found in the Original Code Source Code for Your Modifications.]
 
- 
 EXHIBIT B - Vtiger CRM and Logo
 
 This License does not grant any rights to use the trademarks "Vtiger" and "Vtiger CRM" and "Vtiger" logos even if such marks are included in the Original Code or Modifications.

@@ -108,8 +108,6 @@ $languageStrings = [
 	'Campaign status' => 'Kampagnenstatus',
 ];
 $jsLanguageStrings = [
-	'JS_SELECT_CONTACTS' => 'Wähle Kontakte zum fortführen',
-	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Zum Konvertieren wählen Sie einen Kontakt oder eine Organisationen',
 	'JS_SELECT_ORGANIZATION' => 'Wählen Sie Organisationen zum fortführen',
 ];
 

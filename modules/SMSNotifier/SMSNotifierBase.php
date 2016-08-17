@@ -389,28 +389,6 @@ class SMSNotifierBase extends CRMEntity {
 			$accountsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
 			$accountsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
 		}
-
-		if($registerLinks) {
-
-			$smsnotifierModuleInstance = vtlib\Module::getInstance('SMSNotifier');
-			$smsnotifierModuleInstance->addLink("HEADERSCRIPT", "SMSNotifierCommonJS", "modules/SMSNotifier/SMSNotifierCommon.js");
-
-			$leadsModuleInstance = vtlib\Module::getInstance('Leads');
-
-			$leadsModuleInstance->addLink("LISTVIEWBASIC", "Send SMS", "SMSNotifierCommon.displaySelectWizard(this, '\$MODULE\$');");
-			$leadsModuleInstance->addLink("DETAILVIEWBASIC", "Send SMS", "javascript:SMSNotifierCommon.displaySelectWizard_DetailView('\$MODULE\$', '\$RECORD\$');");
-
-			$contactsModuleInstance = vtlib\Module::getInstance('Contacts');
-			$contactsModuleInstance->addLink('LISTVIEWBASIC', 'Send SMS', "SMSNotifierCommon.displaySelectWizard(this, '\$MODULE\$');");
-			$contactsModuleInstance->addLink("DETAILVIEWBASIC", "Send SMS", "javascript:SMSNotifierCommon.displaySelectWizard_DetailView('\$MODULE\$', '\$RECORD\$');");
-
-			$accountsModuleInstance = vtlib\Module::getInstance('Accounts');
-			$accountsModuleInstance->addLink('LISTVIEWBASIC', 'Send SMS', "SMSNotifierCommon.displaySelectWizard(this, '\$MODULE\$');");
-			$accountsModuleInstance->addLink("DETAILVIEWBASIC", "Send SMS", "javascript:SMSNotifierCommon.displaySelectWizard_DetailView('\$MODULE\$', '\$RECORD\$');");
-		}
-
-
-
 	}
 
 	function getListButtons($app_strings, $mod_strings = false) {

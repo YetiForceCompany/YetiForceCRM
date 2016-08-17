@@ -11,7 +11,7 @@ class DateTimeRange
 	 * @returns  $dateValue array in the following format
 	 *           $dateValue = Array(0=>$startdate,1=>$enddate)
 	 */
-	public static function getDateRangeByType($type, &$dateObject=null)
+	public static function getDateRangeByType($type, &$dateObject = null)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$weekStartDay = $currentUser->get('dayoftheweek');
@@ -20,8 +20,7 @@ class DateTimeRange
 			$timeZone = $timezone = new DateTimeZone($currentUser->get('time_zone'));
 			$dateObject = new DateTime();
 			$dateObject->setTimezone($timeZone);
-		}
-		else if (is_string($dateObject)) {
+		} else if (is_string($dateObject)) {
 			$dateObject = new DateTime($dateObject);
 		}
 		$thisMonth = $dateObject->format('m');

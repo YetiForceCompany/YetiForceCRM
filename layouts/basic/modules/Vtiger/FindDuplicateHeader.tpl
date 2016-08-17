@@ -9,6 +9,7 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 <div class='listViewPageDiv'>
 	<div class="widget_header row">
 		<div class="col-xs-12">
@@ -31,3 +32,4 @@
 		</div>
 	</div>
 	<div id="listViewContents" class="listViewContentDiv">
+{/strip}

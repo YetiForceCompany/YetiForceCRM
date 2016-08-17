@@ -534,12 +534,12 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$relationQuery = $this->getRelationQuery();
-		$relationQuery = preg_replace("/[ \t\n\r]+/", " ", $relationQuery);
+		$relationQuery = preg_replace("/[ \t\n\r]+/", ' ', $relationQuery);
 		$position = stripos($relationQuery, ' FROM ');
 		if ($position) {
 			$split = preg_split('/FROM/i', $relationQuery, 2);
 			$splitCount = count($split);
-			$relationQuery = 'SELECT COUNT(1) AS count';
+			$relationQuery = 'SELECT COUNT(DISTINCT vtiger_crmentity.crmid) AS count';
 			for ($i = 1; $i < $splitCount; $i++) {
 				$relationQuery = $relationQuery . ' FROM ' . $split[$i];
 			}
@@ -549,6 +549,23 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$relationQuery = $parts[0];
 		}
 		$result = $db->query($relationQuery);
+		return $db->getSingleValue($result);
+	}
+
+	/**
+	 * Function to get Total number of record in this relation
+	 * @return <Integer>
+	 */
+	public function getRelatedTreeEntriesCount()
+	{
+		$db = PearDatabase::getInstance();
+		$recordId = $this->getParentRecordModel()->getId();
+		$relModuleId = $this->getRelatedModuleModel()->getId();
+		$treeViewModel = $this->getTreeViewModel();
+		$template = $treeViewModel->getTemplate();
+		$result = $db->pquery('SELECT count(1) FROM vtiger_trees_templates_data tr '
+			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
+			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
 		return $db->getSingleValue($result);
 	}
 

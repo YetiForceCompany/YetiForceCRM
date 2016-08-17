@@ -27,7 +27,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 				'agent' => $_SERVER['HTTP_USER_AGENT'],
 				'status' => 'Failed login - No permission',
 			]);
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

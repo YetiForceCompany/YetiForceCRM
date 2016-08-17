@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="container-fluid container-fluid-main">
-		<div class="baseContainer">
+		<div class="baseContainer {if AppConfig::main('isVisibleUserInfoFooter')}userInfoFooter{/if}">
 			{if $VIEW != 'Login'}
 				{if !empty($CHILD_LINKS)}
 					<span class="caret"></span>
@@ -14,8 +14,9 @@
 				<div class="leftPanel noSpaces">
 					{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
 				</div>
-				<div class="basePanel noSpaces">
-					{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
+				{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
+				<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
+					<div class="mainBody">
 					{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
 				{/if}
 			{/strip}

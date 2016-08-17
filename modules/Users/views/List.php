@@ -16,7 +16,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -147,15 +147,17 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (!isset($this->listViewCount)) {
-			$this->listViewCount = $listViewModel->getListViewCount();
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+			if (!$this->listViewCount) {
+				$this->listViewCount = $listViewModel->getListViewCount();
+			}
+			$pagingModel->set('totalCount', (int) $this->listViewCount);
+			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
 		}
-		$pagingModel->set('totalCount', (int) $this->listViewCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('MODULE_MODEL', $listViewModel->getModule());
 		$viewer->assign('IS_MODULE_EDITABLE', $listViewModel->getModule()->isPermitted('EditView'));

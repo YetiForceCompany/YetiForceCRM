@@ -256,9 +256,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		})
 	},
 	getFreeTime: function (container) {
-		var timeStart = container.find('[name="time_start"]');
-		var timeEnd = container.find('[name="time_end"]');
-		var dateStart = container.find('[name="date_start"]');
+		var timeStart = container.find('[name="time_start"], [data-element-name="time_start"]');
+		var timeEnd = container.find('[name="time_end"], [data-element-name="time_end"]');
+		var dateStart = container.find('[name="date_start"], [data-element-name="date_start"]');
 		var params = {
 			module: 'Calendar',
 			action: 'GetFreeTime',
@@ -282,6 +282,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		container.find('.autofill').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
 			if (currentTarget.is(':checked')) {
+				container.find('.autofill').attr('checked', 'checked');
 				thisInstance.getFreeTime(container);
 				timeStart.attr('readonly', 'readonly');
 				timeEnd.attr('readonly', 'readonly');
@@ -290,6 +291,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				allDay.trigger('change');
 				dateEnd.attr('readonly', 'readonly');
 			} else {
+				container.find('.autofill').removeAttr('checked');
 				allDay.removeAttr('disabled');
 				timeStart.removeAttr('readonly');
 				timeEnd.removeAttr('readonly');
@@ -392,7 +394,8 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 					if (reponseDataList.length <= 0) {
 						reponseDataList.push({
 							label: app.vtranslate('JS_NO_RESULTS_FOUND'),
-							type: 'no results'
+							type: 'no results',
+							category: ''
 						});
 					}
 					response(reponseDataList);
@@ -405,7 +408,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				if (typeof selected.type != 'undefined' && selected.type == "no results") {
 					return false;
 				}
-				console.log(selected);
 				var recordExist = true;
 				inviteesContent.find('.inviteRow').each(function (index) {
 					if ($(this).data('crmid') == selected.id) {

@@ -16,12 +16,12 @@ class SSalesProcesses_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleName = $recordModel->getModuleName();
 
 		$relatedLinks = Vtiger_DetailView_Model::getDetailViewRelatedLinks();
-		$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') || vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices') || vtlib_isModuleActive('Assets') || vtlib_isModuleActive('OSSSoldServices');
+		$showPSTab = \includes\Modules::isModuleActive('OutsourcedProducts') || \includes\Modules::isModuleActive('Products') || \includes\Modules::isModuleActive('Services') || \includes\Modules::isModuleActive('OSSOutsourcedServices') || \includes\Modules::isModuleActive('Assets') || \includes\Modules::isModuleActive('OSSSoldServices');
 
 		if ($showPSTab) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_RECORD_SUMMARY_PRODUCTS_SERVICES', $moduleName),
+				'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',

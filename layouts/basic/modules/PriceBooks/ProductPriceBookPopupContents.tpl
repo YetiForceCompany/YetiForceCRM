@@ -72,7 +72,7 @@
 	<!--added this div for Temporarily -->
 	{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 		<div class="row">
-			<div class="emptyRecordsDiv">{vtranslate('LBL_NO', $MODULE_NAME)} {vtranslate($MODULE_NAME, $MODULE_NAME)} {vtranslate('LBL_FOUND', $MODULE_NAME)}.</div>
+			<div class="emptyRecordsDiv">{vtranslate('LBL_RECORDS_NO_FOUND')}.{if $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{vtranslate('LBL_CREATE_SINGLE_RECORD')}</a>.{/if}</div>
 		</div>
 	{/if}
 </div>

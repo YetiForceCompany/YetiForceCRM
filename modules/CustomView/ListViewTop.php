@@ -141,8 +141,8 @@ function getMetricList($filters = [])
 		$ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status =3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $privilegesModel->getId('parent_role_seq') . "::%'))";
 		array_push($sparams, $privilegesModel->getId());
 	}
-	if($filters){
-		$ssql .= ' AND vtiger_customview.cvid IN ('.$db->generateQuestionMarks($filters).')';
+	if ($filters) {
+		$ssql .= ' AND vtiger_customview.cvid IN (' . $db->generateQuestionMarks($filters) . ')';
 		$sparams[] = $filters;
 	}
 	$ssql .= ' order by vtiger_customview.entitytype';
@@ -151,13 +151,13 @@ function getMetricList($filters = [])
 
 	$metriclists = [];
 	while ($row = $db->getRow($result)) {
-		if (vtlib_isModuleActive($row['entitytype'])) {
+		if (\includes\Modules::isModuleActive($row['entitytype'])) {
 			if (Users_Privileges_Model::isPermitted($row['entitytype'])) {
 				$metriclists[] = [
 					'id' => $row['cvid'],
 					'name' => $row['viewname'],
 					'module' => $row['entitytype'],
-					'user' => getUserFullName($row['userid']),
+					'user' => \includes\fields\Owner::getUserLabel($row['userid']),
 					'count' => '',
 				];
 			}

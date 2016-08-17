@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'ConfReport' => 'Server configuration',
 	'LBL_CONFIGURATION' => 'Server configuration',
@@ -18,22 +18,21 @@ $languageStrings = [
 	'LBL_FILES_PERMISSIONS' => 'Files/Folders',
 	'LBL_FILE' => 'Name',
 	'LBL_PATH' => 'Path',
-	'LBL_PERMISSION' => 'Permission',	
+	'LBL_PERMISSION' => 'Permission',
 	'LBL_TRUE_PERMISSION' => 'Allowed',
-	'LBL_FAILED_PERMISSION' => 'Not allowed',	
+	'LBL_FAILED_PERMISSION' => 'Not allowed',
 	'On' => 'On',
 	'Off' => 'Off',
 	'NOT RECOMMENDED' => 'Not Recommended',
 	'LBL_YETIFORCE_ENGINE' => 'YetiForce Engine',
 	'LBL_CHECK_CONFIG' => 'RoundCube Engine',
-	
 	'LBL_MANDATORY' => 'Mandatory',
 	'LBL_OPTIONAL' => 'Optional',
 	'LBL_LIBRARY' => 'Support for libraries',
 	'LBL_INSTALLED' => 'Installed',
-	'LBL_PDO_SUPPORT'=>'PDO',
-	'LBL_OPEN_SSL'=>'openssl',
-	'LBL_CURL'=>'cURL',
+	'LBL_PDO_SUPPORT' => 'PDO',
+	'LBL_OPEN_SSL' => 'openssl',
+	'LBL_CURL' => 'cURL',
 	'LBL_ZLIB_SUPPORT' => 'Zlib',
 	'LBL_IMAP_SUPPORT' => 'IMAP',
 	'LBL_GD_LIBRARY' => 'GD',
@@ -44,8 +43,8 @@ $languageStrings = [
 	'LBL_SESSION_LIBRARY' => 'SESSION',
 	'LBL_DOM_LIBRARY' => 'DOM',
 	'LBL_ZIP_ARCHIVE' => 'ZIP',
-	'LBL_SPACE'=>'Capacity',
-	'LBL_SPACE_TOTAL'=>'Total',
-	'LBL_SPACE_FREE'=>'Free',
-	'LBL_SPACE_USED'=>'Used',
+	'LBL_SPACE' => 'Capacity',
+	'LBL_SPACE_TOTAL' => 'Total',
+	'LBL_SPACE_FREE' => 'Free',
+	'LBL_SPACE_USED' => 'Used',
 ];

@@ -44,27 +44,28 @@ class Vtiger_Viewer extends SmartyBC
 	{
 		parent::__construct();
 		$this->debugging = AppConfig::debug('DISPLAY_DEBUG_VIEWER');
-		
+
 		$THISDIR = dirname(__FILE__);
 		$compileDir = '';
 		$templateDir = [];
 		if (!empty($media)) {
 			self::$currentLayout = $media;
-			$customTemplatesDir = $THISDIR . '/../../custom/layouts/' . $media;
-			$templateDir[] = $THISDIR . '/../../layouts/' . $media;
-			$compileDir = $THISDIR . '/../../cache/templates_c/' . $media;
 		} else {
 			self::$currentLayout = Yeti_Layout::getActiveLayout();
-			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::$currentLayout;
-			$templateDir[] = $THISDIR . '/../../layouts/' . self::$currentLayout;
 		}
-		$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::getDefaultLayoutName();
+		if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
+			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::$currentLayout;
+		}
+		$templateDir[] = $THISDIR . '/../../layouts/' . self::$currentLayout;
+		$compileDir = $THISDIR . '/../../cache/templates_c/' . self::$currentLayout;
+		if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
+			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::getDefaultLayoutName();
+		}
 		$templateDir[] = $THISDIR . '/../../layouts/' . self::getDefaultLayoutName();
-		$compileDir = $THISDIR . '/../../cache/templates_c/' . self::getDefaultLayoutName();
 		if (!file_exists($compileDir)) {
 			mkdir($compileDir, 0777, true);
 		}
-		$this->setTemplateDir($templateDir);
+		$this->setTemplateDir(array_unique($templateDir));
 		$this->setCompileDir($compileDir);
 
 		self::$debugViewer = AppConfig::debug('DEBUG_VIEWER');
@@ -219,8 +220,7 @@ class Vtiger_Viewer extends SmartyBC
 function vtemplate_path($templateName, $moduleName = '')
 {
 	$viewerInstance = Vtiger_Viewer::getInstance();
-	$args = func_get_args();
-	return call_user_func_array(array($viewerInstance, 'getTemplatePath'), $args);
+	return $viewerInstance->getTemplatePath($templateName, $moduleName);
 }
 
 /**
@@ -228,7 +228,6 @@ function vtemplate_path($templateName, $moduleName = '')
  */
 function vresource_url($url)
 {
-	global $YetiForce_current_version;
 	if (stripos($url, '://') === false && $fs = @filemtime($url)) {
 		$url = $url . '?s=' . $fs;
 	}

@@ -64,7 +64,8 @@ class Documents extends CRMEntity
 
 	function save_module($module)
 	{
-		global $log, $adb, $upload_badext;
+		$log = LoggerManager::getInstance();
+		$adb = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
 		if (isset($this->parentid) && $this->parentid != '')
 			$relid = $this->parentid;
@@ -74,12 +75,14 @@ class Documents extends CRMEntity
 		}
 		$filetype_fieldname = $this->getFileTypeFieldName();
 		$filename_fieldname = $this->getFile_FieldName();
+
 		if ($this->column_fields[$filetype_fieldname] == 'I') {
 			if ($_FILES[$filename_fieldname]['name'] != '') {
 				$errCode = $_FILES[$filename_fieldname]['error'];
 				if ($errCode == 0) {
 					foreach ($_FILES as $fileindex => $files) {
-						if ($files['name'] != '' && $files['size'] > 0) {
+						$fileInstance = \includes\fields\File::loadFromRequest($files);
+						if ($fileInstance->validate()) {
 							$filename = $_FILES[$filename_fieldname]['name'];
 							$filename = from_html(preg_replace('/\s+/', '_', $filename));
 							$filetype = $_FILES[$filename_fieldname]['type'];
@@ -565,7 +568,7 @@ class Documents extends CRMEntity
 	static function isLinkPermitted($linkData)
 	{
 		$moduleName = 'Documents';
-		if (vtlib_isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
+		if (\includes\Modules::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}
 		return false;

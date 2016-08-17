@@ -88,7 +88,7 @@ abstract class Vtiger_Controller
 		if (!empty($name) && $this->isMethodExposed($name)) {
 			return call_user_func_array(array($this, $name), $parameters);
 		}
-		throw new AppException(vtranslate('LBL_NOT_ACCESSIBLE'));
+		throw new \Exception\AppException(vtranslate('LBL_NOT_ACCESSIBLE'));
 	}
 
 	function setHeaders()
@@ -123,7 +123,7 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 
 	function getViewer(Vtiger_Request $request)
 	{
-		throw new AppException('Action - implement getViewer - JSONViewer');
+		throw new \Exception\AppException('Action - implement getViewer - JSONViewer');
 	}
 
 	function validateRequest(Vtiger_Request $request)
@@ -281,6 +281,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/jquery-ui/jquery-ui.css',
 			'~libraries/jquery/selectize/css/selectize.bootstrap3.css',
 			'~libraries/jquery/select2/select2.css',
+			'~libraries/jquery/perfect-scrollbar/css/perfect-scrollbar.css',
 			'~libraries/jquery/select2/select2-bootstrap.css',
 			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
 			'~libraries/jquery/pnotify/pnotify.custom.css',
@@ -323,6 +324,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js',
 			'~libraries/jquery/jstorage.js',
 			'~libraries/jquery/autosize/jquery.autosize-min.js',
+			'~libraries/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
 			'~libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.js',
 			'~libraries/jquery/pnotify/pnotify.custom.js',
 			'~libraries/jquery/jquery.hoverIntent.minified.js',

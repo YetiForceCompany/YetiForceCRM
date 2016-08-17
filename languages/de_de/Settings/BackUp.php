@@ -36,7 +36,7 @@ $languageStrings = [
 	'LBL_ALERT_NO_ZIP_EXTENSION_DESC' => 'Komplette Datensicherung ist nicht möglich, Sicherung erzeugt nur eine unkomprimierte Datenbankkopie ',
 	'LBL_ALERT_CRON_NOT_ACTIVE_TITLE' => 'Cron - Datensicherung ist nicht aktiv',
 	'LBL_ALERT_CRON_NOT_ACTIVE_DESC' => 'Datensicherung ist nicht möglich, um diese zu aktivieren, gehe zu <a href="index.php?module=CronTasks&parent=Settings&view=List" target="_blank">Harmonogram</a> und aktiviere Datensicherung',
-	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGURED_TITLE' => 'Ausgangs-Mail Server ist nicht konfiguriert',
+	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGURED_TITLE' => 'E-Mail Ausgangsserver ist nicht konfiguriert',
 	'LBL_BACKUP_TIME' => 'Sicherungsdauer',
 	'LBL_LOGS' => 'Protokolle',
 	'LBL_END_TIME' => 'Fertigstellungszeit',

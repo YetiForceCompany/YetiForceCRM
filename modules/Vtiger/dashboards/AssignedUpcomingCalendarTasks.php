@@ -55,7 +55,7 @@ class Vtiger_AssignedUpcomingCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
-		$viewer->assign('PAGING', $pagingModel);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('NAMELENGHT', AppConfig::main('title_max_length'));
 		$viewer->assign('HREFNAMELENGHT', AppConfig::main('href_max_length'));

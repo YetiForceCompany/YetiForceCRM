@@ -36,6 +36,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
+		\includes\Privileges::setUpdater($forModule);
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
 		if (empty($ruleId)) {
 			$ruleModel = new Settings_SharingAccess_Rule_Model();
@@ -43,11 +44,11 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		} else {
 			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 		}
-	
+
 		//TODO adddetail to source and target
 		$prevValues['permission'] = $ruleModel->getPermission();
 		$newValues['permission'] = $request->get('permission');
-		
+
 		Settings_Vtiger_Tracker_Model::addDetail($prevValues, $newValues);
 
 		$ruleModel->set('source_id', $request->get('source_id'));
@@ -58,7 +59,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		try {
 			$ruleModel->save();
-		} catch (AppException $e) {
+		} catch (\Exception\AppException $e) {
 			$response->setError('Saving Sharing Access Rule failed');
 		}
 		$response->emit();
@@ -71,6 +72,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
+		\includes\Privileges::setUpdater(vtlib\Functions::getModuleName($forModule));
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
 		$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 
@@ -78,7 +80,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		try {
 			$ruleModel->delete();
-		} catch (AppException $e) {
+		} catch (\Exception\AppException $e) {
 			$response->setError('Deleting Sharing Access Rule failed');
 		}
 		$response->emit();

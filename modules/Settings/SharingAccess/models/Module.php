@@ -106,7 +106,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 		}
 		$result = $db->pquery($query, [$value]);
 		if ($db->num_rows($result)) {
-			$row = $db->query_result_rowdata($result, 0);
+			$row = $db->getRow($result);
 			$instance = new Settings_SharingAccess_Module_Model();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);
@@ -131,7 +131,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 		}
 		$query .= ' ORDER BY vtiger_def_org_share.tabid ASC';
 		$result = $db->pquery($query, $params);
-		while($row = $db->getRow($result)){
+		while ($row = $db->getRow($result)) {
 			$instance = new Settings_SharingAccess_Module_Model();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);

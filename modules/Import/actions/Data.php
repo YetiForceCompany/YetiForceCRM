@@ -255,7 +255,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 						$fieldInstance = $moduleFields[$mergeField];
 						if ($fieldInstance->getFieldDataType() == 'owner') {
 							$userId = getUserId_Ol($comparisonValue);
-							$comparisonValue = getUserFullName($userId);
+							$comparisonValue = \includes\fields\Owner::getUserLabel($userId);
 						}
 						if ($fieldInstance->getFieldDataType() == 'reference') {
 							if (strpos($comparisonValue, '::::') > 0) {
@@ -363,26 +363,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			if (empty($handlerOn) && ($createRecord || $mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS || $mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE)) {
 				$entityIdComponents = vtws_getIdComponents($entityInfo['id']);
 				$recordId = $entityIdComponents[1];
-				$entityfields = getEntityFieldNames($this->module);
-				switch ($this->module) {
-					case 'HelpDesk': $entityfields['fieldname'] = array('ticket_title');
-						break;
-					case 'Documents':$entityfields['fieldname'] = array('notes_title');
-						break;
-					case 'Documents': $entityfields['fieldname'] = array('notes_title');
-						break;
-				}
-				$label = '';
-				if (is_array($entityfields['fieldname'])) {
-					foreach ($entityfields['fieldname'] as $field) {
-						$label .= $fieldData[$field] . " ";
-					}
-				} else {
-					$label = $fieldData[$entityfields['fieldname']];
-				}
-
-				$label = trim($label);
-				$adb->update('u_yf_crmentity_label', ['label' => $label], 'crmid = ?', [$recordId]);
+				\includes\Record::updateLabel($this->module, $recordId);
 			}
 
 			$this->importedRecordInfo[$rowId] = $entityInfo;
@@ -560,9 +541,9 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			if (count($fieldValueDetails) > 1) {
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
-				if(vtlib\Functions::getModuleId($referenceModuleName)){
+				if (vtlib\Functions::getModuleId($referenceModuleName)) {
 					$entityId = getEntityId($referenceModuleName, $entityLabel);
-				}else{
+				} else {
 					$referencedModules = $fieldInstance->getReferenceList();
 					if (isset($defaultFieldValues[$fieldName])) {
 						$referenceModuleName = $defaultFieldValues[$fieldName];
@@ -783,26 +764,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$adb = PearDatabase::getInstance();
 		$entityIdComponents = vtws_getIdComponents($entityIdInfo['id']);
 		$recordId = $entityIdComponents[1];
-		$entityfields = getEntityFieldNames($moduleName);
-		switch ($moduleName) {
-			case 'HelpDesk': $entityfields['fieldname'] = array('ticket_title');
-				break;
-			case 'Documents':$entityfields['fieldname'] = array('notes_title');
-				break;
-			case 'Documents': $entityfields['fieldname'] = array('notes_title');
-				break;
-		}
-		$label = '';
-		if (is_array($entityfields['fieldname'])) {
-			foreach ($entityfields['fieldname'] as $field) {
-				$label .= $fieldData[$field] . " ";
-			}
-		} else {
-			$label = $fieldData[$entityfields['fieldname']];
-		}
 
-		$label = trim($label);
-		$adb->update('u_yf_crmentity_label', ['label' => $label], 'crmid = ?', [$recordId]);
+		\includes\Record::updateLabel($moduleName, $recordId);
 
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$focus = $recordModel->getEntity();

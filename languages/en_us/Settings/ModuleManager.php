@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Uploading files failed',
 	'ModuleManager' => 'Module Manager',
@@ -38,7 +38,7 @@ $languageStrings = [
 	'LBL_UPDATE_FROM_VERSION' => 'From version',
 	'LBL_UPDATE_TO_VERSION' => 'To version',
 	'LBL_LICENSE_ACCEPT_AGREEMENT' => 'I accept the license agreement.',
-	'LBL_EXISTS'=>'Exists',
+	'LBL_EXISTS' => 'Exists',
 	'LBL_PROCEED_WITH_IMPORT' => 'Do you want to proceed with the import?',
 	'LBL_VERSION_NOT_SUPPORTED' => 'Module version is not compatible with YetiForce version',
 	'LBL_FINISH' => 'Finish',
@@ -58,7 +58,6 @@ $languageStrings = [
 	'LBL_IMPORT' => 'Import',
 	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Upload limit is too small',
 	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Upload limit is too small (%s) so the file cannot be uploaded to the server. It is recommended to check the system configuration <a href="index.php?parent=Settings&module=ConfReport&view=Index">Sprawdź konfigurację serwera</a> ',
-	
 	'LBL_CREATE_MODULE' => 'Create module',
 	'LBL_CREATING_MODULE' => 'Creating new module',
 	'LBL_ENTER_MODULE_NAME' => 'Module name',

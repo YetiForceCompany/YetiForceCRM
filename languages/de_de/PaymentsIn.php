@@ -17,8 +17,8 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Zahlung hinzufügen',
 	'LBL_RECORDS_LIST' => 'Liste Eingangszahlungen',
 	'LBL_PARENTID' => 'Übergeordnete Eingangszahlung',
-	'Denied'=>'Storniert',
-	'Created'=>'Erzeugt',
+	'Denied' => 'Storniert',
+	'Created' => 'Erzeugt',
 	'Paid' => 'Bezahlt',
 	'LBL_PAYMENTSCURRENCY' => 'Währung',
 	'Account' => 'Organisationsnr.',
@@ -58,5 +58,4 @@ $languageStrings = [
 	'SGB' => 'Spółdzielcza Grupa Bankowa',
 	'Citi' => 'Citi Handlowy',
 	'idea' => 'Idea Bank S.A.',
-	
 ];

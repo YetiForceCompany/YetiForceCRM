@@ -11,12 +11,12 @@
 -->*}
 {strip}
     <div class="relatedContainer">
-        <input type="hidden" name="currentPageNum" value="{$PAGING->getCurrentPage()}" />
+        <input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
         <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
         <input type="hidden" value="{$ORDER_BY}" id="orderBy">
         <input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
         <input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
-        <input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
+        <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
         <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
 		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
         <div class="relatedHeader ">
@@ -37,7 +37,7 @@
 				</div>
 				<div class="col-md-6">
 					<div class="paginationDiv pull-right">
-						{include file='RelatedListPagination.tpl'|@vtemplate_path:$MODULE}
+						{include file='Pagination.tpl'|@vtemplate_path:$MODULE VIEWNAME='related'}
 					</div>
 				</div>
 			</div>

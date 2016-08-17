@@ -16,7 +16,7 @@ $languageStrings = [
 	'LBL_FILTER_CONTACTS' => 'Все письма контакта',
 	'LBL_FILTER_ACCOUNTS' => 'Все письма контрагента',
 	'LBL_FILTER_ALL' => 'Все',
-	'LBL_FILTER_ACCOUNTS' =>  'All in account',
+	'LBL_FILTER_ACCOUNTS' => 'All in account',
 	'LBL_FILTER_CONTACTS' => 'All in contact',
 	'LBL_CHANGE_FILTER' => 'Изменение фильтра писем',
 	'LBL_SHOW_PREVIEW_EMAILS' => 'Предварительный просмотр писем',
@@ -97,6 +97,7 @@ $languageStrings = [
 	'LBL_NO_MAILS' => 'Не указан адрес электронной почты',
 	//dashboards
 	'Graf' => 'Письма по статусу',
+	'LBL_ORGINAL_MAIL_CONTENT' => 'Orginal mail content',
 ];
 $jsLanguageStrings = [
 	'From' => 'От',

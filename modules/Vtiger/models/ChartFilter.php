@@ -137,32 +137,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 	}
-
-	public function getKeyMetricsWithCount()
-	{
-		$db = PearDatabase::getInstance();
-		$currenUserModel = Users_Record_Model::getCurrentUserModel();
-		require_once 'modules/CustomView/ListViewTop.php';
-		$metriclists = getMetricList([$this->widgetModel->get('filterid')]);
-
-		if (!empty($metriclists)) {
-			$metriclist = current($metriclists);
-			$queryGenerator = new QueryGenerator($metriclist['module'], $currenUserModel);
-			$queryGenerator->initForCustomViewById($metriclist['id']);
-			if ($metriclist['module'] == "Calendar") {
-				// For calendar we need to eliminate emails or else it will break in status empty condition
-				$queryGenerator->addCondition('activitytype', "Emails", 'n', QueryGenerator::$AND);
-			}
-			$metricsql = $queryGenerator->getQuery();
-			$metricresult = $db->query(vtlib\Functions::mkCountQuery($metricsql));
-			if ($metricresult) {
-				$rowcount = $db->fetch_array($metricresult);
-				return $rowcount['count'];
-			}
-		}
-		return false;
+	public function getGetTotalCountURL(){
+		return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
 	}
-
+	
 	public function getListViewURL()
 	{
 		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');

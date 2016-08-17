@@ -14,7 +14,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -83,7 +83,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 					header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $filePath);
 					exit;
 				} else {
-					throw new AppException(vtranslate('LBL_EXPORT_ERROR', 'Settings:PDF'));
+					throw new \Exception\AppException(vtranslate('LBL_EXPORT_ERROR', 'Settings:PDF'));
 				}
 			} else {
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);

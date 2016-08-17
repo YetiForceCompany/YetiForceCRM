@@ -64,5 +64,3 @@ class VtigerInventoryMeta extends VtigerCRMObjectMeta
 		return $field;
 	}
 }
-
-?>

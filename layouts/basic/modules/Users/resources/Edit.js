@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 Vtiger_Edit_Js("Users_Edit_Js", {
@@ -125,23 +126,14 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 					'enabled': true
 				}
 			});
-			if (thisInstance.userExistCheckCache.name != email) {
-				thisInstance.userExist(email).then(
-						function (data) {
-							thisInstance.userExistCheckCache = {name: email, status: data.result}
-						},
-						function (data, error) {
-							thisInstance.userExistCheckCache = {name: email, status: data.result}
-							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_USER_MAIL_EXIST'));
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							e.preventDefault();
-						}
-				);
-			} else if (!thisInstance.userExistCheckCache.status) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_USER_MAIL_EXIST'));
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				e.preventDefault();
-			}
+			thisInstance.checkEmail(email).then(
+					function (data) {
+					},
+					function (data, error) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						e.preventDefault();
+					}
+			);
 			if (record == '') {
 				if (newPassword != confirmPassword) {
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_REENTER_PASSWORDS'));
@@ -168,7 +160,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					e.preventDefault();
 				}
-				
+
 				if (thisInstance.passCheckCache.name != pass) {
 					thisInstance.checkPass(pass).then(
 							function (data) {
@@ -186,6 +178,27 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 				}
 			}
 		})
+	},
+	checkEmail: function (email) {
+		var aDeferred = jQuery.Deferred();
+		var thisInstance = this;
+		if (thisInstance.userExistCheckCache.name != email) {
+			thisInstance.userExist(email).then(
+					function (data) {
+						thisInstance.userExistCheckCache = {name: email, status: data.result}
+						aDeferred.resolve(true);
+					},
+					function (data, error) {
+						thisInstance.userExistCheckCache = {name: email, status: data.result}
+						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_USER_MAIL_EXIST'));
+						aDeferred.reject();
+					}
+			);
+		} else if (!thisInstance.userExistCheckCache.status) {
+			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_USER_MAIL_EXIST'));
+			aDeferred.reject();
+		}
+		return aDeferred.promise();
 	},
 	registerCalendarSharedType: function (form) {
 		form.find('select[name="calendarsharedtype"]').on('change', function (e) {

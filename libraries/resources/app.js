@@ -40,9 +40,9 @@ var app = {
 	getRecordId: function () {
 		var view = this.getViewName();
 		var recordId;
-		if (view == "Edit") {
+		if (view == 'Edit' || 'PreferenceEdit') {
 			recordId = this.getMainParams('recordId');
-		} else if (view == "Detail") {
+		} else if (view == 'Detail' || 'PreferenceDetail') {
 			recordId = this.getMainParams('recordId');
 		}
 		return recordId;
@@ -275,6 +275,7 @@ var app = {
 			params.language.errorLoading = function () {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			}
+			params.placeholder = '';
 			params.ajax = {
 				url: selectElement.data('ajaxUrl'),
 				dataType: 'json',
@@ -286,9 +287,16 @@ var app = {
 					};
 				},
 				processResults: function (data, params) {
-					var items = [];
+					var items = new Array;
 					if (data.success == true) {
-						items = data.result.items;
+						selectElement.find('option').each(function () {
+							var currentTarget = $(this);
+							items.push({
+								label: currentTarget.html(),
+								value: currentTarget.val(),
+							});
+						});
+						items = items.concat(data.result.items);
 					}
 					return {
 						results: items,
@@ -300,7 +308,7 @@ var app = {
 				cache: false
 			};
 			params.escapeMarkup = function (markup) {
-				if(markup !== 'undefined')
+				if (markup !== 'undefined')
 					return markup;
 			};
 			var minimumInputLength = 3;
@@ -319,13 +327,13 @@ var app = {
 				}
 			};
 			params.templateSelection = function (data, container) {
-				if(data.text === ''){
+				if (data.text === '') {
 					return data.name;
 				}
 				return data.text;
 			};
 		} else {
-			
+
 		}
 		var selectElementNew = selectElement;
 		selectElementNew.select2(params)
@@ -461,7 +469,8 @@ var app = {
 			}
 		}
 		if (typeof sendByAjaxCb != 'function') {
-			var sendByAjaxCb = function () {}
+			var sendByAjaxCb = function () {
+			}
 		}
 
 		var container = jQuery('#' + id);
@@ -510,7 +519,7 @@ var app = {
 			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
-			modalContainer.on('shown.bs.modal', function () {
+			modalContainer.one('shown.bs.modal', function () {
 				cb(modalContainer);
 			})
 		}
@@ -619,7 +628,7 @@ var app = {
 		validateNonVisibleFields: true,
 		onBeforePromptType: function (field) {
 			var block = field.closest('.blockContainer');
-			if (block.find('tbody').is(":hidden")) {
+			if (block.find('.blockContent').is(":hidden")) {
 				block.find('.blockHeader').click();
 			}
 		},
@@ -1084,7 +1093,7 @@ var app = {
 	 * @return <string>
 	 */
 	vimage_path: function (img) {
-		return jQuery('body').data('skinpath') + '/images/' + img;
+		return app.getLayoutPath() + '/skins/images/' + img;
 	},
 	/*
 	 * Cache API on client-side

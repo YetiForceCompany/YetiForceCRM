@@ -18,6 +18,7 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
+		$totalCount = $request->get('totalCount');
 		$requestedPage = $request->get('page');
 		if (empty($requestedPage)) {
 			$requestedPage = 1;
@@ -70,18 +71,20 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 
-	
-		$totalCount = $relationListView->getRelatedEntriesCount();
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+			$totalCount = $relationListView->getRelatedEntriesCount();
+
+		}
 		$pagingModel->set('totalCount', (int) $totalCount);
+
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
-
-		$viewer->assign('PAGE_COUNT', $pageCount);
+		
 		$viewer->assign('TOTAL_ENTRIES', $totalCount);
-		$viewer->assign('PERFORMANCE', true);
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('PAGING', $pagingModel);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('SORT_ORDER', $sortOrder);

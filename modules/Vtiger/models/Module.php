@@ -139,13 +139,10 @@ class Vtiger_Module_Model extends vtlib\Module
 		$commentsModuleModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($commentsModuleModel && $commentsModuleModel->isActive()) {
 			$relatedToFieldResult = $db->pquery('SELECT fieldid FROM vtiger_field WHERE fieldname = ? AND tabid = ?', array('related_to', $commentsModuleModel->getId()));
-			$fieldId = $db->query_result($relatedToFieldResult, 0, 'fieldid');
+			$fieldId = $db->getSingleValue($relatedToFieldResult);
 			if (!empty($fieldId)) {
 				$relatedModuleResult = $db->pquery('SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid = ?', array($fieldId));
-				$rows = $db->num_rows($relatedModuleResult);
-
-				for ($i = 0; $i < $rows; $i++) {
-					$relatedModule = $db->query_result($relatedModuleResult, $i, 'relmodule');
+				while (($relatedModule = $db->getSingleValue($relatedModuleResult)) !== false) {
 					if ($this->getName() == $relatedModule) {
 						$enabled = true;
 					}
@@ -658,11 +655,9 @@ class Vtiger_Module_Model extends vtlib\Module
 		$query = sprintf('SELECT * FROM vtiger_crmentity %s WHERE setype=? AND %s AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?', $nonAdminQuery, $deletedCondition);
 		$params = array($this->getName(), $currentUserModel->id, $limit);
 		$result = $db->pquery($query, $params);
-		$noOfRows = $db->num_rows($result);
 
 		$recentRecords = [];
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $db->getRow($result)) {
 			$row['id'] = $row['crmid'];
 			$recentRecords[$row['id']] = $this->getRecordFromArray($row);
 		}
@@ -834,9 +829,7 @@ class Vtiger_Module_Model extends vtlib\Module
 			}
 
 			$result = $db->pquery($query, $params);
-			$noOfModules = $db->num_rows($result);
-			for ($i = 0; $i < $noOfModules; ++$i) {
-				$row = $db->query_result_rowdata($result, $i);
+			while ($row = $db->getRow($result)) {
 				$moduleModels[$row['tabid']] = self::getInstanceFromArray($row);
 				Vtiger_Cache::set('module', $row['tabid'], $moduleModels[$row['tabid']]);
 				Vtiger_Cache::set('module', $row['name'], $moduleModels[$row['tabid']]);
@@ -928,10 +921,8 @@ class Vtiger_Module_Model extends vtlib\Module
 		$searchableModules = [];
 		$sql = 'SELECT tabid FROM vtiger_entityname WHERE turn_off = 0';
 		$result = $db->query($sql);
-		$noOfModules = $db->num_rows($result);
 		$turnOffModules = [];
-		for ($i = 0; $i < $noOfModules; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $db->getRow($result)) {
 			$turnOffModules[$row['tabid']] = $row['tabid'];
 		}
 
@@ -1195,7 +1186,7 @@ class Vtiger_Module_Model extends vtlib\Module
 				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
 					$relationField = '`subprocess`';
 				} else {
-					throw new AppException('LBL_HANDLER_NOT_FOUND');
+					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 				}
 			}
 		}
@@ -1463,7 +1454,8 @@ class Vtiger_Module_Model extends vtlib\Module
 	 */
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
-		return "SELECT * FROM vtiger_crmentity WHERE label LIKE '%$searchValue%' AND vtiger_crmentity.deleted = 0";
+		$currentUser = \Users_Record_Model::getCurrentUserModel();
+		return sprintf('SELECT `crmid`,`setype`,`searchlabel` FROM `u_yf_crmentity_search_label` WHERE `userid` LIKE \'%s\' AND `searchlabel` LIKE \'%s\'', '%,' . $currentUser->getId() . ',%', "%$searchValue%");
 	}
 
 	/**
@@ -1479,32 +1471,23 @@ class Vtiger_Module_Model extends vtlib\Module
 		if (empty($searchValue)) {
 			return [];
 		}
-
 		if (empty($parentId) || empty($parentModule)) {
 			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchValue, $this->getName());
 		} else if ($parentId && $parentModule) {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery($this->getSearchRecordsQuery($searchValue, $parentId, $parentModule), []);
-			$noOfRows = $db->num_rows($result);
+			$adb = PearDatabase::getInstance();
+			$result = $adb->query($this->getSearchRecordsQuery($searchValue, $parentId, $parentModule));
 
-			$moduleModels = [];
-			$matchingRecords = [];
-			for ($i = 0; $i < $noOfRows; ++$i) {
-				$row = $db->query_result_rowdata($result, $i);
-				if (Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['crmid'])) {
-					$row['id'] = $row['crmid'];
-					$moduleName = $row['setype'];
-					if (!array_key_exists($moduleName, $moduleModels)) {
-						$moduleModels[$moduleName] = Vtiger_Module_Model::getInstance($moduleName);
-					}
-					$moduleModel = $moduleModels[$moduleName];
-					$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
-					$recordInstance = new $modelClassName();
-					$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
-				}
+			while ($row = $adb->getRow($result)) {
+				$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
+				$row['id'] = $row['crmid'];
+				$row['smownerid'] = $recordMeta['smownerid'];
+				$row['createdtime'] = $recordMeta['createdtime'];
+				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
+				$recordInstance = new $modelClassName();
+				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 			}
 		}
-
 		return $matchingRecords;
 	}
 
@@ -1573,7 +1556,7 @@ class Vtiger_Module_Model extends vtlib\Module
 		if ($securityParameter != '')
 			$query .= $securityParameter;
 
-	
+
 		return $query;
 	}
 
@@ -1799,7 +1782,7 @@ class Vtiger_Module_Model extends vtlib\Module
 		if (count($relatedListFields) == 0) {
 			$relatedListFields = $relatedModule->getRelatedListFields();
 		}
-		if(in_array('assigned_user_id',$relatedListFields)){
+		if (in_array('assigned_user_id', $relatedListFields)) {
 			$queryGenerator->setCustomFrom([
 				'joinType' => 'LEFT',
 				'relatedTable' => 'vtiger_users',
@@ -1834,7 +1817,7 @@ class Vtiger_Module_Model extends vtlib\Module
 				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
 					$query .= ' AND vtiger_activity.`subprocess` = ';
 				} else {
-					throw new AppException('LBL_HANDLER_NOT_FOUND');
+					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 				}
 			}
 		}

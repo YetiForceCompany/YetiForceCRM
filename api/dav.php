@@ -4,7 +4,7 @@ chdir(__DIR__ . '/../');
 require('include/ConfigUtils.php');
 if (!in_array('dav', $enabledServices)) {
 	require('include/main/WebUI.php');
-	$apiLog = new APINoPermittedException();
+	$apiLog = new \Exception\NoPermittedToApi();
 	$apiLog->stop('Dav - Service is not active');
 }
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/davPhpError.log');

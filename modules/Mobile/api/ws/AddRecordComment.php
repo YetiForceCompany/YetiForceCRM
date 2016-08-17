@@ -46,7 +46,7 @@ class Mobile_WS_AddRecordComment extends Mobile_WS_SaveRecord {
 		if ($targetModule == 'HelpDesk') {
 			$response = $this->saveCommentToHelpDesk($commentContent, $relatedTo, $user);
 		} else {
-			if (vtlib_isModuleActive($targetModule)) {
+			if (\includes\Modules::isModuleActive($targetModule)) {
 				$request->set('module', $targetModule);
 				$values['assigned_user_id'] = sprintf('%sx%s', Mobile_WS_Utils::getEntityModuleWSId('Users'), $user->id);
 				$request->set('values', \includes\utils\Json::encode($values) );

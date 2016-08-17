@@ -111,7 +111,7 @@ class Mobile_WS_API {
 	
 	static function process(Mobile_API_Request $request, $user, $className, $handlerPath) {
 		
-		if(vtlib_isModuleActive('Mobile') === false) {
+		if(\includes\Modules::isModuleActive('Mobile') === false) {
 			throw new WebServiceException('1501', 'Service not available');
 		}
 		

@@ -112,6 +112,10 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						widgetContainer.html(data);
 						var headerHeight = widgetContainer.find('.dashboardWidgetHeader').height() + 15;
 						var adjustedHeight = widgetContainer.height() - headerHeight;
+						if (widgetContainer.find('.dashboardWidgetFooter').length) {
+							adjustedHeight -= 20;
+						}
+						app.showSelect2ElementView(widgetContainer.find('.select2'));
 						app.showScrollBar(widgetContainer.find('.dashboardWidgetContent'), {'height': adjustedHeight});
 						thisInstance.getWidgetInstance(widgetContainer);
 						widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);

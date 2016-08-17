@@ -44,7 +44,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	/**
 	 * Function to set main conatainer 
 	 */
-	setMainContainer:function(container){
+	setMainContainer: function (container) {
 		this.mainConatiner = container;
 		return this;
 	},
@@ -100,7 +100,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (typeof searchModule != 'undefined') {
 			params.searchModule = searchModule;
 		}
-
+		params.curentModule = app.getModuleName();
 		return this._search(params);
 	},
 	/**

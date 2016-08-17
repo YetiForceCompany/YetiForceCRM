@@ -50,6 +50,16 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
 			];
 		}
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$homeModel = Vtiger_Module_Model::getInstance('Dashboard');
+		if ($userPrivilegesModel->hasModulePermission($homeModel->getId()) && $userPrivilegesModel->hasModuleActionPermission($homeModel->getId(), 'NotificationCreateMessage')) {
+			$headerLinks[] = [
+				'linktype' => 'LIST_VIEW_HEADER',
+				'linkhint' => 'LBL_SEND_NOTIFICATION',
+				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
+				'linkicon' => 'glyphicon glyphicon-send'
+			];
+		}
 		foreach ($headerLinks as $headerLink) {
 			$links['LIST_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues($headerLink);
 		}

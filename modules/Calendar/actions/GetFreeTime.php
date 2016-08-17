@@ -16,7 +16,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if (!$permission) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -78,9 +78,10 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 	public function process(Vtiger_Request $request)
 	{
 		$dateStart = $request->get('dateStart');
+		$dateStart = DateTimeField::convertToDBFormat($dateStart);
 		$startDate = $this->getFreeTimeInDay($dateStart);
 		$data ['time_start'] = $startDate['time_start'];
-		$data ['date_start'] = $startDate['day'];
+		$data ['date_start'] = DateTimeField::convertToUserFormat($startDate['day']);
 		$data ['time_end'] = $startDate['time_end'];
 		$response = new Vtiger_Response();
 		$response->setResult($data);

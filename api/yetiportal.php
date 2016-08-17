@@ -4,8 +4,7 @@
 
 require('include/ConfigUtils.php');
 if (!in_array('yetiportal', $enabledServices)) {
-	require('include/exceptions/AppException.php');
-	$apiLog = new APINoPermittedException();
+	$apiLog = new \Exception\NoPermittedToApi();
 	$apiLog->stop(['status' => 0, 'message' => 'YetiPortal - Service is not active']);
 }
 
@@ -29,6 +28,8 @@ $current_user = $user->retrieveCurrentUserInfoFromFile($userid);
 
 $NAMESPACE = 'http://www.yetiforce.com';
 $server = new soap_server;
+$server->soap_defencoding = AppConfig::main('default_charset');
+$server->decode_utf8 = false;
 $server->configureWSDL('customerportal');
 
 $server->wsdl->addComplexType(
@@ -378,7 +379,7 @@ function get_combo_values($input_array)
 	}
 
 	// Gather service contract information
-	if (!vtlib_isModuleActive('ServiceContracts')) {
+	if (!\includes\Modules::isModuleActive('ServiceContracts')) {
 		//$output['serviceid']="#MODULE INACTIVE#";
 		//$output['servicename']="#MODULE INACTIVE#";
 	} else {
@@ -1202,7 +1203,6 @@ function add_ticket_attachment($input_array)
 {
 	$adb = PearDatabase::getInstance();
 	$log = LoggerManager::getInstance();
-	global $upload_badext;
 	$log->debug("Entering customer portal function add_ticket_attachment");
 	$adb->println("INPUT ARRAY for the function add_ticket_attachment");
 	$adb->println($input_array);
@@ -1223,7 +1223,7 @@ function add_ticket_attachment($input_array)
 	$attachmentid = $adb->getUniqueID("vtiger_crmentity");
 
 	//fix for space in file name
-	$filename = sanitizeUploadFileName($filename, $upload_badext);
+	$filename = \includes\fields\File::sanitizeUploadFileName($filename);
 	$new_filename = $attachmentid . '_' . $filename;
 
 	$data = base64_decode($filecontents);
@@ -2005,7 +2005,7 @@ function get_details($id, $module, $customerid, $sessionid)
 			"ON vtiger_productcf.productid = vtiger_products.productid " .
 			"LEFT JOIN vtiger_vendor
 			ON vtiger_vendor.vendorid = vtiger_products.vendor_id " .
-			"WHERE vtiger_products.productid = (%s) AND vtiger_crmentity.deleted = 0", generateQuestionMarks($id)) ;
+			"WHERE vtiger_products.productid = (%s) AND vtiger_crmentity.deleted = 0", generateQuestionMarks($id));
 	} else if ($module == 'Assets') {
 		$query = sprintf("SELECT vtiger_assets.*, vtiger_assetscf.*, vtiger_crmentity.*
 		FROM vtiger_assets
@@ -2816,7 +2816,7 @@ function getRelatedServiceContracts($crmid)
 	$log->debug("Entering customer portal function getRelatedServiceContracts");
 	$module = 'ServiceContracts';
 	$sc_info = [];
-	if (vtlib_isModuleActive($module) !== true) {
+	if (\includes\Modules::isModuleActive($module) !== true) {
 		return $sc_info;
 	}
 	$query = "SELECT * FROM vtiger_servicecontracts " .

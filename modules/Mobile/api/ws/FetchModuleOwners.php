@@ -52,9 +52,8 @@ class Mobile_WS_FetchModuleOwners extends Mobile_WS_Controller
 		$groupsList = array();
 		$groupsWSId = Mobile_WS_Utils::getEntityModuleWSId('Groups');
 		foreach ($groupIds as $groupId) {
-			$groupName = getGroupName($groupId);
 			$groupsList[] = array('value' => $groupsWSId . 'x' . $groupId,
-				'label' => $groupName[0]
+				'label' => \includes\fields\Owner::getGroupName($groupId)
 			);
 		}
 		return $groupsList;

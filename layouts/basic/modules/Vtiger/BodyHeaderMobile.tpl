@@ -1,5 +1,5 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="actionMenu" aria-hidden="true">
 		<div class="row">
 			<div class="dropdown quickAction historyBtn">
@@ -15,7 +15,7 @@
 		</div>
 		{if $REMINDER_ACTIVE}
 			<div class="row">
-				<div class="remindersNotice quickAction">
+				<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
 						{vtranslate('LBL_REMINDER',$MODULE)}
 					</div>	
@@ -44,7 +44,7 @@
 		{/if}
 		{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')}
 			<div class="row">
-				<div class="notificationsNotice quickAction">
+				<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="btn-group">
 						<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Home&view=NotificationsList">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>

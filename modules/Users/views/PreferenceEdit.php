@@ -18,18 +18,18 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
 		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if ($recordModel->get('status') != 'Active') {
-				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
 			return true;
 		} else {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -43,7 +43,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		if ($this->checkPermission($request)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
-			if ($activeReminder = vtlib_isModuleActive('Calendar')) {
+			if ($activeReminder = \includes\Modules::isModuleActive('Calendar')) {
 				$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 				$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
@@ -66,7 +66,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 			$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
-			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
+			$viewer->assign('CHAT_ACTIVE', \includes\Modules::isModuleActive('AJAXChat'));
 			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 			//Additional parameters

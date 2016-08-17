@@ -72,7 +72,7 @@
 				</a>
 				{if !$WIDGET->isDefault()}
 					<a class="btn btn-xs btn-default" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></span>
+						<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_CLOSE')}" alt="{vtranslate('LBL_CLOSE')}"></span>
 					</a>
 				{/if}
 			</div>
@@ -95,14 +95,19 @@
 			{/if}
 			<div class="input-group input-group-sm">
 				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
-				<select class="widgetFilter width90 form-control" title="{vtranslate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" >
-					<optgroup label="{vtranslate('LBL_USERS')}">
-						{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
-							<option title="{$OWNER_NAME}" {if $OWNER_ID eq $USERID } selected {/if} value="{$OWNER_ID}">
-								{$OWNER_NAME}
-							</option>
-						{/foreach}
-					</optgroup>
+				<select class="widgetFilter width90 form-control select2" title="{vtranslate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" 
+					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+						data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&type=Edit&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+					{/if}>
+					{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+						<optgroup label="{vtranslate('LBL_USERS')}">
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
+								<option title="{$OWNER_NAME}" {if $OWNER_ID eq $USERID } selected {/if} value="{$OWNER_ID}">
+									{$OWNER_NAME}
+								</option>
+							{/foreach}
+						</optgroup>
+					{/if}
 				</select>
 			</div>
 		</div>

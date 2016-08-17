@@ -29,6 +29,7 @@ class QueryGenerator
 	private $manyToManyRelatedModuleConditions;
 	private $groupType;
 	private $whereFields;
+	private $whereOperator;
 
 	/**
 	 *
@@ -492,7 +493,7 @@ class QueryGenerator
 		return $this->columns;
 	}
 
-	public function getFromClause()
+	public function getFromClause($onlyTableJoin = false)
 	{
 		$current_user = vglobal('current_user');
 		if (!empty($this->query) || !empty($this->fromClause)) {
@@ -503,6 +504,7 @@ class QueryGenerator
 		$tableList = [];
 		$tableJoinMapping = [];
 		$tableJoinCondition = [];
+		$tableJoinSql = '';
 		$i = 1;
 
 		$moduleTableIndexList = $this->meta->getEntityTableIndexList();
@@ -537,15 +539,16 @@ class QueryGenerator
 				  $tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
 				  $tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
 				 */
-				if ($fieldName == "created_user_id") {
+				if ($fieldName == 'created_user_id') {
 					$tableJoinCondition[$fieldName]['vtiger_users' . $fieldName] = $field->getTableName() .
-						"." . $field->getColumnName() . " = vtiger_users" . $fieldName . ".id";
+						'.' . $field->getColumnName() . ' = vtiger_users' . $fieldName . '.id';
 					$tableJoinCondition[$fieldName]['vtiger_groups' . $fieldName] = $field->getTableName() .
-						"." . $field->getColumnName() . " = vtiger_groups" . $fieldName . ".groupid";
+						'.' . $field->getColumnName() . ' = vtiger_groups' . $fieldName . '.groupid';
 					$tableJoinMapping['vtiger_users' . $fieldName] = 'LEFT JOIN vtiger_users AS';
 					$tableJoinMapping['vtiger_groups' . $fieldName] = 'LEFT JOIN vtiger_groups AS';
 				}
 			}
+
 			$tableList[$field->getTableName()] = $field->getTableName();
 			$tableJoinMapping[$field->getTableName()] = $this->meta->getJoinClause($field->getTableName());
 		}
@@ -568,35 +571,43 @@ class QueryGenerator
 				$tableJoinMapping[$baseTable] = $this->meta->getJoinClause($field->getTableName());
 			}
 			if (in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
-				$moduleList = $this->referenceFieldInfoList[$fieldName];
-				// This is special condition as the data is not stored in the base table, 
-				$tableJoinMapping[$field->getTableName()] = 'INNER JOIN';
-				foreach ($moduleList as $module) {
-					$meta = $this->getMeta($module);
-					$nameFields = $this->moduleNameFields[$module];
-					$nameFieldList = explode(',', $nameFields);
-					foreach ($nameFieldList as $index => $column) {
-						$referenceField = $meta->getFieldByColumnName($column);
-						$referenceTable = $referenceField->getTableName();
-						$tableIndexList = $meta->getEntityTableIndexList();
-						$referenceTableIndex = $tableIndexList[$referenceTable];
+				if (!(AppConfig::performance('SEARCH_REFERENCE_BY_AJAX') && isset($this->whereOperator[$fieldName]) && $this->whereOperator[$fieldName] == 'e')) {
+					$moduleList = $this->referenceFieldInfoList[$fieldName];
+					// This is special condition as the data is not stored in the base table, 
+					$tableJoinMapping[$field->getTableName()] = 'INNER JOIN';
+					foreach ($moduleList as $module) {
+						$meta = $this->getMeta($module);
+						$nameFields = $this->moduleNameFields[$module];
+						$nameFieldList = explode(',', $nameFields);
+						foreach ($nameFieldList as $index => $column) {
+							$referenceField = $meta->getFieldByColumnName($column);
+							$referenceTable = $referenceField->getTableName();
+							$tableIndexList = $meta->getEntityTableIndexList();
+							$referenceTableIndex = $tableIndexList[$referenceTable];
 
-						$referenceTableName = "$referenceTable $referenceTable$fieldName";
-						$referenceTable = "$referenceTable$fieldName";
-						//should always be left join for cases where we are checking for null
-						//reference field values.
-						if (!array_key_exists($referenceTable, $tableJoinMapping)) {  // table already added in from clause
-							$tableJoinMapping[$referenceTableName] = 'LEFT JOIN';
-							$tableJoinCondition[$fieldName][$referenceTableName] = $baseTable . '.' .
-								$field->getColumnName() . ' = ' . $referenceTable . '.' . $referenceTableIndex;
+							$referenceTableName = "$referenceTable $referenceTable$fieldName";
+							$referenceTable = "$referenceTable$fieldName";
+							//should always be left join for cases where we are checking for null
+							//reference field values.
+							if (!array_key_exists($referenceTable, $tableJoinMapping)) {  // table already added in from clause
+								$tableJoinMapping[$referenceTableName] = 'LEFT JOIN';
+								$tableJoinCondition[$fieldName][$referenceTableName] = $baseTable . '.' .
+									$field->getColumnName() . ' = ' . $referenceTable . '.' . $referenceTableIndex;
+							}
 						}
 					}
 				}
 			} elseif ($field->getFieldDataType() == 'owner') {
-				$tableList['vtiger_users'] = 'vtiger_users';
-				$tableList['vtiger_groups'] = 'vtiger_groups';
-				$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
-				$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+				$add = true;
+				if (isset($this->whereOperator[$fieldName]) && ($this->whereOperator[$fieldName] == 'om' || $this->whereOperator[$fieldName] == 'e')) {
+					$add = false;
+				}
+				if ($add) {
+					$tableList['vtiger_users'] = 'vtiger_users';
+					$tableList['vtiger_groups'] = 'vtiger_groups';
+					$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
+					$tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
+				}
 			} else {
 				$tableList[$field->getTableName()] = $field->getTableName();
 				$tableJoinMapping[$field->getTableName()] = $this->meta->getJoinClause($field->getTableName());
@@ -655,10 +666,15 @@ class QueryGenerator
 				} else {
 					$tableNameAlias = '';
 				}
-				$sql .= " $tableJoinMapping[$tableName] $tableName $tableNameAlias ON $condition";
+				$tableJoinSql .= " $tableJoinMapping[$tableName] $tableName $tableNameAlias ON $condition";
 			}
 		}
 
+		if ($onlyTableJoin) {
+			return $tableJoinSql;
+		}
+
+		$sql .= $tableJoinSql;
 		foreach ($this->manyToManyRelatedModuleConditions as $conditionInfo) {
 			$relatedModuleMeta = RelatedModuleMeta::getInstance($this->meta->getTabName(), $conditionInfo['relatedModule']);
 			$relationInfo = $relatedModuleMeta->getRelationMeta();
@@ -771,12 +787,18 @@ class QueryGenerator
 						// We are checking for zero since many reference fields will be set to 0 if it doest not have any value
 						$fieldSql .= "$fieldGlue $tableName.$columnName $valueSql OR $tableName.$columnName = '0'";
 						$fieldGlue = ' OR';
+					} elseif (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX') && $conditionInfo['operator'] == 'e') {
+						$values = explode(',', $valueSql);
+						foreach ($values as $value) {
+							$fieldSql .= "$fieldGlue " . $field->getTableName() . '.' . $field->getColumnName() . ' ' . ltrim($value);
+							$fieldGlue = ' OR';
+						}
 					} else {
 						$moduleList = $this->referenceFieldInfoList[$fieldName];
 						foreach ($moduleList as $module) {
+							$meta = $this->getMeta($module);
 							$nameFields = $this->moduleNameFields[$module];
 							$nameFieldList = explode(',', $nameFields);
-							$meta = $this->getMeta($module);
 							$columnList = [];
 							foreach ($nameFieldList as $column) {
 								if ($module == 'Users') {
@@ -805,18 +827,18 @@ class QueryGenerator
 						}
 					}
 				} elseif (in_array($fieldName, $this->ownerFields)) {
-					if ($conditionInfo['operator'] == 'om') {
-						$fieldSql .= $fieldGlue . $field->getTableName() . '.' . $field->getColumnName() . " $valueSql";
-					} elseif (in_array($conditionInfo['operator'], ['wr', 'nwr'])) {
+					if ($conditionInfo['operator'] == 'om' || $conditionInfo['operator'] == 'e') {
+						$fieldSql .= "$fieldGlue " . $field->getTableName() . '.' . $field->getColumnName() . " $valueSql";
+					} elseif ($conditionInfo['operator'] == 'wr' || $conditionInfo['operator'] == 'nwr') {
 						$fieldSql .= $fieldGlue . $valueSql;
 					} elseif ($fieldName == 'created_user_id') {
 						$concatSql = getSqlForNameInDisplayFormat(array('first_name' => "vtiger_users$fieldName.first_name", 'last_name' => "vtiger_users$fieldName.last_name"), 'Users');
 						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql)";
 					} else {
-						$entityFields = vtlib\Functions::getEntityModuleInfoFieldsFormatted('Users');
-						if (count($entityFields['fieldname']) > 1) {
+						$entityFields = \includes\Modules::getEntityInfo('Users');
+						if (count($entityFields['fieldnameArr']) > 1) {
 							$columns = [];
-							foreach ($entityFields['fieldname'] as $i => $fieldname) {
+							foreach ($entityFields['fieldnameArr'] as &$fieldname) {
 								$columns[$fieldname] = $entityFields['tablename'] . '.' . $fieldname;
 							}
 							$concatSql = getSqlForNameInDisplayFormat($columns, 'Users');
@@ -1026,6 +1048,9 @@ class QueryGenerator
 			$valueArray = $value;
 		} else {
 			$valueArray = [$value];
+		}
+		if ($operator == 'e' && in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+			$valueArray = explode(',', $value);
 		}
 		$sql = [];
 		if ($operator == 'between' || $operator == 'bw' || $operator == 'notequal') {
@@ -1290,6 +1315,7 @@ class QueryGenerator
 		$this->whereFields[] = $fieldname;
 		$this->ignoreComma = $ignoreComma;
 		$this->reset();
+		$this->whereOperator[$fieldname] = $operator;
 		$this->conditionals[$conditionNumber] = $this->getConditionalArray($fieldname, $value, $operator, $custom);
 	}
 

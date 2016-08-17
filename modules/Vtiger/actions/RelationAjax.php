@@ -31,7 +31,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 		if (!$permission) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -155,7 +155,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 					$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
 				}
 			} else {
-				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (!empty($categoryToAdd)) {
@@ -169,7 +169,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 					$relationModel->deleteRelTree($sourceRecordId, $category);
 				}
 			} else {
-				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 
@@ -190,7 +190,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$label = $request->get('tab_label');
 		$totalCount = 0;
 		if (!is_array($relatedModuleName)) {
-			$relModules = [$relatedModuleName];
+			$relModules = !empty($relatedModuleName) ? [$relatedModuleName] : [];
 		}
 		$pageCount = 0;
 		if (in_array('ProductsAndServices', $relModules)) {
@@ -203,12 +203,16 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$count = (int) current(ModTracker_Record_Model::getUnreviewed($parentId));
 			$totalCount = $count ? $count : '';
 		} else {
+			$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
 			$pagingModel = new Vtiger_Paging_Model();
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-			foreach ($relModules as $relatedModuleName) {
-				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-				if (!vtlib_isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
+			foreach ($relModules as $relModule) {
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
+				if (!\includes\Modules::isModuleActive($relModule) || !$relationListView->getRelationModel()) {
 					continue;
+				}
+				if ($relatedModuleName == 'ProductsAndServices' && in_array($relModule, $categoryCount)) {
+					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
 				}
 				$totalCount += (int) $relationListView->getRelatedEntriesCount();
 				$pageLimit = $pagingModel->getPageLimit();

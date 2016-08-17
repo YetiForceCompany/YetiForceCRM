@@ -21,14 +21,16 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 		if (!$permission) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	function postProcess(Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
+		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('LEFT_PANEL_HIDE', $userModel->get('leftpanelhide'));
 		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}

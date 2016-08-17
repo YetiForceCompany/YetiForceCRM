@@ -78,14 +78,6 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'glyphicon' => 'glyphicon glyphicon-tasks',
 			];
 		}
-
-		$headerLinks[] = [
-			'linktype' => 'HEADERLINK',
-			'linklabel' => 'LBL_SIGN_OUT',
-			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
-			'glyphicon' => 'glyphicon glyphicon-off',
-		];
-
 		if (Users_Module_Model::getSwitchUsers()) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
@@ -97,6 +89,13 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'linkclass' => 'showModal',
 			];
 		}
+		$headerLinks[] = [
+			'linktype' => 'HEADERLINK',
+			'linklabel' => 'LBL_SIGN_OUT',
+			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
+			'glyphicon' => 'glyphicon glyphicon-off',
+			'linkclass' => 'signOutButtonBlue'
+		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
 			$headerLinkInstance = Vtiger_Link_Model::getInstanceFromValues($headerLink);

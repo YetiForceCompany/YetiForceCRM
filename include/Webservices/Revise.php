@@ -83,5 +83,3 @@ function vtws_revise($element, $user)
 	VTWS_PreserveGlobal::flush();
 	return $entity;
 }
-
-?>

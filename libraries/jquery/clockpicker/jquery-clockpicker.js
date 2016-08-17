@@ -146,8 +146,8 @@
 			//         self.amOrPm = "PM";
 			//        $('.clockpicker-span-am-pm').empty().append('PM');
 			//    });
-	
-			$('<button type="button" class="btn btn-sm btn-default clockpicker-button am-button">' + "AM" + '</button>')
+
+			$('<div class="btn btn-sm btn-default clockpicker-button am-button">' + "AM" + '</div>') // YetiForce Sp. z o.o. - Changed element type from button to div, because 'click' event in modal window did not work properly.
 				.on("click", function() {
 					// <--------   YetiForce Sp. z o.o.   -------->
 					// self.amOrPm = "AM";
@@ -157,7 +157,7 @@
 				}).appendTo(this.amPmBlock);
 				
 				
-			$('<button type="button" class="btn btn-sm btn-default clockpicker-button pm-button">' + "PM" + '</button>')
+			$('<div class="btn btn-sm btn-default clockpicker-button pm-button">' + "PM" + '</div>') // YetiForce Sp. z o.o. - Changed element type from button to div, because 'click' event in modal window did not work properly.
 				.on("click", function() {
 					// <--------   YetiForce Sp. z o.o.   -------->
 					// self.amOrPm = 'PM';

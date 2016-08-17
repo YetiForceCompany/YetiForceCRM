@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_DAV_KEYS' => 'DAV Anwendungen',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Anlegen und Bearbeiten von DAV Schlüssel',
@@ -16,7 +16,7 @@ $languageStrings = [
 	'LBL_DELETE_KEY' => 'Schlüssel löschen',
 	'LBL_ADD_KEY' => 'Schlüssel hinzufügen',
 	'LBL_DISPLAY_NAME' => 'Anwender',
-	'LBL_EMAIL' => 'Email',
+	'LBL_EMAIL' => 'E-Mail',
 	'LBL_LOGIN' => 'Login',
 	'LBL_SELECT_USER' => 'Wähle Benutzer:',
 	'LBL_ALERT_DAV_NO_ACTIVE_TITLE' => 'DAV Anwendung ist nicht aktiv',

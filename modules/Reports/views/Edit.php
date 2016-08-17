@@ -23,14 +23,14 @@ Class Reports_Edit_View extends Vtiger_Edit_View {
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$record = $request->get('record');
 		if ($record) {
 			$reportModel = Reports_Record_Model::getCleanInstance($record);
 			if (!$reportModel->isEditable()) {
-				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}

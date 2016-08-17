@@ -24,7 +24,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 

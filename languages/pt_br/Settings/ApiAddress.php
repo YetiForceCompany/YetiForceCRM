@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 
 $languageStrings = [
 	'LBL_SAVE' => 'Salvar',
@@ -28,8 +28,8 @@ $languageStrings = [
 	'LBL_NUMBER_SEARCH_RESULTS' => 'Número resultados da busca',
 ];
 $jsLanguageStrings = [
-    'Invalid API key' => 'Chave da API inválida',
-    'JS_ERROR' => 'Erro',
-    'JS_LOADING_PLEASE_WAIT' => 'Carregando, por favor aguarde.',
+	'Invalid API key' => 'Chave da API inválida',
+	'JS_ERROR' => 'Erro',
+	'JS_LOADING_PLEASE_WAIT' => 'Carregando, por favor aguarde.',
 	'JS_WRONG_NUMBER' => 'Caracteres permitidos: dígitos maior que 1.',
 ];

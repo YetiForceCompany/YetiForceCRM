@@ -46,18 +46,18 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 		if ($parentModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_CHARTS', $moduleName),
+				'linklabel' => 'LBL_CHARTS',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showCharts&requestMode=charts',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'Charts'
 			];
 		}
-		$showPSTab = vtlib_isModuleActive('Products') || vtlib_isModuleActive('Services') || vtlib_isModuleActive('Assets') || vtlib_isModuleActive('OSSSoldServices');
+		$showPSTab = \includes\Modules::isModuleActive('Products') || \includes\Modules::isModuleActive('Services') || \includes\Modules::isModuleActive('Assets') || \includes\Modules::isModuleActive('OSSSoldServices');
 		if ($showPSTab) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_RECORD_SUMMARY_PRODUCTS_SERVICES', $moduleName),
+				'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',

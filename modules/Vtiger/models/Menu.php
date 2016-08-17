@@ -39,10 +39,10 @@ class Vtiger_Menu_Model
 	{
 		$language = Vtiger_Language_Handler::getLanguage();
 		$moduleStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, 'Menu');
-		if (array_key_exists($key, $moduleStrings['languageStrings'])) {
+		if (isset($moduleStrings['languageStrings'][$key])) {
 			return stripslashes($moduleStrings['languageStrings'][$key]);
 		}
-		return vtranslate($key, $module);
+		return Vtiger_Language_Handler::getTranslatedString($key, $module);
 	}
 
 	public static function getBreadcrumbs($pageTitle = false)
@@ -146,7 +146,7 @@ class Vtiger_Menu_Model
 						$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
 					if ($request->get('record') != '' && $moduleName == 'Users') {
-						$recordLabel = vtlib\Functions::getUserRecordLabel($request->get('record'));
+						$recordLabel = \includes\fields\Owner::getUserLabel($request->get('record'));
 						if ($recordLabel != '') {
 							$breadcrumbs[] = [ 'name' => $recordLabel];
 						}

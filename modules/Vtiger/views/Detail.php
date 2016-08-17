@@ -42,7 +42,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
@@ -128,20 +128,26 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$selectedTabLabel = $request->get('tab_label');
-		if (empty($selectedTabLabel)) {
+		$requestMode = $request->get('requestMode');
+		$mode = $request->getMode();
+		if (empty($selectedTabLabel) && !empty($requestMode)) {
+			if ($requestMode == 'full') {
+				$selectedTabLabel = 'LBL_RECORD_DETAILS';
+			} else {
+				$selectedTabLabel = 'LBL_RECORD_SUMMARY';
+			}
+		} elseif (empty($requestMode) && empty($mode)) {
 			$selectedTabLabel = AppConfig::module($moduleName, 'DEFAULT_VIEW_RECORD');
 			if (empty($selectedTabLabel)) {
 				if ($currentUserModel->get('default_record_view') === 'Detail') {
-					$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
+					$selectedTabLabel = 'LBL_RECORD_DETAILS';
 				} else {
 					if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
-						$selectedTabLabel = vtranslate('LBL_RECORD_SUMMARY', $moduleName);
+						$selectedTabLabel = 'LBL_RECORD_SUMMARY';
 					} else {
-						$selectedTabLabel = vtranslate('LBL_RECORD_DETAILS', $moduleName);
+						$selectedTabLabel = 'LBL_RECORD_DETAILS';
 					}
 				}
-			} else {
-				$selectedTabLabel = vtranslate($selectedTabLabel, $moduleName);
 			}
 		}
 		if (is_array($detailViewLinks['DETAILVIEWTAB'])) {
@@ -462,11 +468,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		// Added to support related list view from the related module, rather than the base module.
 		try {
 			$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'In' . $moduleName . 'Relation', $relatedModuleName);
-		} catch (AppException $e) {
+		} catch (\Exception\AppException $e) {
 			try {
 				// If any module wants to have same view for all the relation, then invoke this.
 				$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'InRelation', $relatedModuleName);
-			} catch (AppException $e) {
+			} catch (\Exception\AppException $e) {
 				// Default related list
 				$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'RelatedList', $moduleName);
 			}
@@ -529,8 +535,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
 		$hierarchy = [];
-		if($request->has('hierarchy')){
-			$hierarchy = explode(',',$request->get('hierarchy'));
+		if ($request->has('hierarchy')) {
+			$hierarchy = explode(',', $request->get('hierarchy'));
 		}
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -549,7 +555,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				unset($hierarchyList[2]);
 			}
 		}
-		
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('PARENT_RECORD', $parentRecordId);
@@ -644,7 +650,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$sortOrder = $request->get('sortorder');
 		$columns = $request->get('col');
 		$moduleName = $request->getModule();
-
+		$totalCount = $request->get('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -714,19 +720,19 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			$totalCount = $relationListView->getRelatedEntriesCount();
-			$pageLimit = $pagingModel->getPageLimit();
-			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
 
-			if ($pageCount == 0) {
-				$pageCount = 1;
-			}
-			$viewer->assign('PAGE_COUNT', $pageCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
-			$viewer->assign('PERFORMANCE', true);
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || empty($totalCount)) {
+			$totalCount = $relationListView->getRelatedEntriesCount();
+			$pagingModel->set('totalCount', (int) $totalCount);
 		}
-		$viewer->assign('PAGING', $pagingModel);
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
+
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('PAGE_NUMBER', $pageNumber);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);

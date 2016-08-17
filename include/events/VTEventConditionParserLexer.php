@@ -645,5 +645,3 @@ class VTEventConditionParserLexer extends AntlrLexer
 		}
 	}
 }
-
-?>

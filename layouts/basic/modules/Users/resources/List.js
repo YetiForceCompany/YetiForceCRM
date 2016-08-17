@@ -317,7 +317,10 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 						});
 						jQuery('#listViewContents').html(data);
 						thisInstance.updatePaginationFilter();
-						thisInstance.registerListViewSelect();
+						var listSearchInstance = thisInstance.getListSearchInstance();
+						if (listSearchInstance !== false) {
+							listSearchInstance.registerEvents();
+						}
 						app.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
 					}
 			);
@@ -359,7 +362,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 			params['operator'] = "s";
 
 		}
-		params.search_params = JSON.stringify(this.getListSearchParams());
+		params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
 		params['noOfEntries'] = jQuery('#noOfEntries').val();
 		AppConnector.request(params).then(function (data) {
 			jQuery('.paginationDiv').html(data);

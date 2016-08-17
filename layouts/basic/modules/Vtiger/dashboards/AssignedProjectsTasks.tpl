@@ -9,6 +9,7 @@
 * Contributor(s): YetiForce.com
 ************************************************************************************/
 -->*}
+{strip}
 {assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
 {assign var=ACCESSIBLE_GROUPS value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
@@ -18,6 +19,7 @@
 <div name="history" class="dashboardWidgetContent">
 	{include file="dashboards/AssignedProjectsTasksContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
+{/strip}
 <script type='text/javascript'>
 	$(document).ready(function () {
 		jQuery('.dashboardWidgetContent').off('click', 'a[name="history_more"]');

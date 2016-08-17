@@ -157,22 +157,21 @@ class Products_Detail_View extends Vtiger_Detail_View
 
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
-			$pageLimit = $pagingModel->getPageLimit();
-			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-			if ($pageCount == 0) {
-				$pageCount = 1;
-			}
-			$viewer->assign('PAGE_COUNT', $pageCount);
+			$pagingModel->set('totalCount', (int) $totalCount);
 			$viewer->assign('TOTAL_ENTRIES', $totalCount);
-			$viewer->assign('PERFORMANCE', true);
 		}
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
+
+		$viewer->assign('PAGE_NUMBER', $requestedPage);
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('PAGING', $pagingModel);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
@@ -183,6 +182,7 @@ class Products_Detail_View extends Vtiger_Detail_View
 
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
 	}
+
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
 	{
 		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);

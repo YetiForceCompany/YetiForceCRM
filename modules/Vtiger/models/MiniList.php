@@ -157,37 +157,16 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		return $this->listviewRecords;
 	}
 
-	public function getKeyMetricsWithCount($user = false)
+	public function getGetTotalCountURL($user = false)
 	{
-		$db = PearDatabase::getInstance();
-		$currenUserModel = Users_Record_Model::getCurrentUserModel();
+		$url = 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
 		if (!$user) {
-			$user = $currenUserModel->getId();
-		} else if ($user === 'all') {
-			$user = '';
+			$currenUserModel = Users_Record_Model::getCurrentUserModel();
+			$userName = $currenUserModel->getName();
+		} else if ($user && $user !== 'all') {
+			$userName = \includes\fields\Owner::getUserLabel($user);
 		}
-		require_once 'modules/CustomView/ListViewTop.php';
-		$metriclists = getMetricList([$this->widgetModel->get('filterid')]);
-
-		if (!empty($metriclists)) {
-			$metriclist = current($metriclists);
-			$queryGenerator = new QueryGenerator($metriclist['module'], $currenUserModel);
-			$queryGenerator->initForCustomViewById($metriclist['id']);
-			if ($metriclist['module'] == "Calendar") {
-				// For calendar we need to eliminate emails or else it will break in status empty condition
-				$queryGenerator->addCondition('activitytype', "Emails", 'n', QueryGenerator::$AND);
-			}
-			if (!empty($user)) {
-				$queryGenerator->addCondition('assigned_user_id', $user, 'om', QueryGenerator::$AND);
-			}
-			$metricsql = $queryGenerator->getQuery();
-			$metricresult = $db->query(vtlib\Functions::mkCountQuery($metricsql));
-			if ($metricresult) {
-				$rowcount = $db->fetch_array($metricresult);
-				return $rowcount['count'];
-			}
-		}
-		return false;
+		return empty($userName) ? $url : $url .= '&search_params=[[["assigned_user_id","c","' . $userName . '"]]]';
 	}
 
 	public function getListViewURL($user = false)
@@ -197,7 +176,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();
 			$userName = $currenUserModel->getName();
 		} else if ($user && $user !== 'all') {
-			$userName = vtlib\Functions::getUserRecordLabel($user);
+			$userName = \includes\fields\Owner::getUserLabel($user);
 		}
 		return empty($userName) ? $url : $url .= '&search_params=[[["assigned_user_id","c","' . $userName . '"]]]';
 	}

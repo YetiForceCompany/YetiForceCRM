@@ -82,5 +82,3 @@ function vtws_create($elementType, $element, $user)
 		return null;
 	}
 }
-
-?>

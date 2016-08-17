@@ -6,16 +6,26 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-class Rss_ViewTypes_View extends Vtiger_IndexAjax_View {
+class Rss_ViewTypes_View extends Vtiger_BasicModal_View {
 
     function __construct() {
         parent::__construct();
         $this->exposeMethod('getRssWidget');
         $this->exposeMethod('getRssAddForm');
     }
-        
+    
+	function process(Vtiger_Request $request)
+	{
+		$mode = $request->get('mode');
+		if (!empty($mode)) {
+			$this->invokeExposedMethod($mode, $request);
+			return;
+		}
+	}
+
 	/**
      * Function to display rss sidebar widget
      * @param <Vtiger_Request> $request 
@@ -27,7 +37,9 @@ class Rss_ViewTypes_View extends Vtiger_IndexAjax_View {
         $viewer = $this->getViewer($request);
         $viewer->assign('MODULE', $module);
         $viewer->assign('RSS_SOURCES', $rssSources);
-        echo $viewer->view('RssWidgetContents.tpl', $module, true);
+		$this->preProcess($request);
+		$viewer->view('RssWidgetContents.tpl', $module);
+		$this->postProcess($request);
     }
     
     /**
@@ -39,7 +51,9 @@ class Rss_ViewTypes_View extends Vtiger_IndexAjax_View {
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE',$module);
-        $viewer->view('RssAddForm.tpl', $module);
+		$this->preProcess($request);
+		$viewer->view('RssAddForm.tpl', $module);
+		$this->postProcess($request);
     }
    
 }

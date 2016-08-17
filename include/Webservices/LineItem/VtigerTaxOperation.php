@@ -112,5 +112,3 @@ class VtigerTaxOperation extends VtigerActorOperation
 		return 'tax1';
 	}
 }
-
-?>

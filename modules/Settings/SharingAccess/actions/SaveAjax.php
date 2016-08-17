@@ -26,10 +26,13 @@ Class Settings_SharingAccess_SaveAjax_Action extends Settings_Vtiger_Save_Action
 			if ($permissionOld != $permission) {
 				$prevValues[$tabId] = $permissionOld;
 				$postValues[$tabId] = $moduleModel->get('permission');
+				if ($permissionOld == 3 || $moduleModel->get('permission') == 3) {
+					\includes\Privileges::setUpdater(vtlib\Functions::getModuleName($tabId));
+				}
 			}
 			try {
 				$moduleModel->save();
-			} catch (AppException $e) {
+			} catch (\Exception\AppException $e) {
 				
 			}
 		}

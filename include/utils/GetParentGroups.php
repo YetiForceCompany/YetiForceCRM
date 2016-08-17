@@ -41,5 +41,3 @@ class GetParentGroups
 		$log->debug("Exiting getAllParentGroups method...");
 	}
 }
-
-?>

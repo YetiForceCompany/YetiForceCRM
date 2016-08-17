@@ -337,6 +337,6 @@ $usertimezonesClass = new UserTimeZones();
 $arrayOfSupportedTimeZones = $usertimezonesClass->userTimeZones();
 $combo_strings['time_zone_dom'] = array_combine($arrayOfSupportedTimeZones, $arrayOfSupportedTimeZones);
 
-?>
+
 
 

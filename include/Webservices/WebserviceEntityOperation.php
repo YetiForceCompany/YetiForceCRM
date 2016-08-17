@@ -128,5 +128,3 @@ abstract class WebserviceEntityOperation
 
 	abstract protected function getMetaInstance();
 }
-
-?>

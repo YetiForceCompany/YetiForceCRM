@@ -117,6 +117,17 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1, 'record' => $recordId],
 			];
 		}
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$homeModel = Vtiger_Module_Model::getInstance('Dashboard');
+		if ($userPrivilegesModel->hasModulePermission($homeModel->getId()) && $userPrivilegesModel->hasModuleActionPermission($homeModel->getId(), 'NotificationCreateMessage')) {
+			$detailViewLinks[] = [
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => '',
+				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
+				'linkicon' => 'glyphicon glyphicon-send',
+				'linkhint' => 'LBL_SEND_NOTIFICATION'
+			];
+		}
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
@@ -213,7 +224,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = array(array(
 					'linktype' => 'DETAILVIEWTAB',
-					'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
+					'linklabel' => 'LBL_RECORD_SUMMARY',
 					'linkKey' => 'LBL_RECORD_SUMMARY',
 					'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
 					'linkicon' => '',
@@ -223,7 +234,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = array(
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => vtranslate('LBL_RECORD_DETAILS', $moduleName),
+			'linklabel' => 'LBL_RECORD_DETAILS',
 			'linkKey' => 'LBL_RECORD_DETAILS',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
@@ -385,10 +396,11 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 					continue;
 				}
 				if ($result = $instance->process($this)) {
-					$headerFields[] = $result;
+					$headerFields[$name] = $result;
 				}
 			}
 		}
+		ksort($headerFields);
 		return $headerFields;
 	}
 }

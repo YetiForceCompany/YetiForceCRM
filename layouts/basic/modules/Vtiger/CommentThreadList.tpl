@@ -9,6 +9,7 @@
 *
 ********************************************************************************/
 -->*}
+{strip}
 <div class="commentDiv">
 	<div class="singleComment">
 		<div class="commentInfoHeader"  data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
@@ -80,3 +81,4 @@
 		</div>
 	</div>
 </div>
+{/strip}

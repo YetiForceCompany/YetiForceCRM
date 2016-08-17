@@ -17,6 +17,16 @@
 	</div>
 	<div class="clearfix"></div>
 	<input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}"/>
+	{if AppConfig::main('isVisibleUserInfoFooter') == 'true'}
+		<div class="infoUser">
+			{$USER_MODEL->getName()}&nbsp;(
+			{$USER_MODEL->get('email1')}&nbsp;
+			{if !empty({$USER_MODEL->get('phone_crm_extension')})} 
+				,&nbsp; {$USER_MODEL->get('phone_crm_extension')}
+			{/if}
+			)
+		</div>
+	{/if}	
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 		<div class="vtFooter">
 			{if $USER_MODEL->is_admin == 'on'}

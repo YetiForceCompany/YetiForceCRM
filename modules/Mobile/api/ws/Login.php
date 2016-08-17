@@ -22,7 +22,7 @@ class Mobile_WS_Login extends Mobile_WS_Controller {
 		$current_user = CRMEntity::getInstance('Users');
 		$current_user->column_fields['user_name'] = $username;
 
-		if(vtlib_isModuleActive('Mobile') === false) {
+		if(\includes\Modules::isModuleActive('Mobile') === false) {
 			$response->setError(1501, 'Service not available');
 			return $response;
 		}

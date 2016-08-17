@@ -82,10 +82,8 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	private function computeAccess()
 	{
-
 		$adb = PearDatabase::getInstance();
-
-		$active = vtlib_isModuleActive($this->getTabName());
+		$active = \includes\Modules::isModuleActive($this->getTabName());
 		if ($active == false) {
 			$this->hasAccess = false;
 			$this->hasReadAccess = false;
@@ -93,31 +91,27 @@ class VtigerCRMObjectMeta extends EntityMeta
 			$this->hasDeleteAccess = false;
 			return;
 		}
-
-		require('user_privileges/user_privileges_' . $this->user->id . '.php');
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($this->user->id);
+		if ($userPrivileges['is_admin'] == true || $userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
 			$this->hasAccess = true;
 			$this->hasReadAccess = true;
 			$this->hasWriteAccess = true;
 			$this->hasDeleteAccess = true;
 		} else {
-
 			//TODO get oer sort out the preference among profile2tab and profile2globalpermissions.
 			//TODO check whether create/edit seperate controls required for web sevices?
 			$profileList = getCurrentUserProfileList();
 
-			$sql = sprintf('SELECT * FROM vtiger_profile2globalpermissions WHERE profileid IN (%s)', generateQuestionMarks($profileList));
+			$sql = sprintf('SELECT globalactionpermission,globalactionid FROM vtiger_profile2globalpermissions WHERE profileid IN (%s)', generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList));
-
-			$noofrows = $adb->num_rows($result);
 			//globalactionid=1 is view all action.
 			//globalactionid=2 is edit all action.
-			for ($i = 0; $i < $noofrows; $i++) {
-				$permission = $adb->query_result($result, $i, "globalactionpermission");
-				$globalactionid = $adb->query_result($result, $i, "globalactionid");
-				if ($permission != 1 || $permission != "1") {
+			while ($row = $adb->getRow($result)) {
+				$permission = $row['globalactionpermission'];
+				$globalactionid = $row['globalactionid'];
+				if ($permission != 1 || $permission != '1') {
 					$this->hasAccess = true;
-					if ($globalactionid == 2 || $globalactionid == "2") {
+					if ($globalactionid == 2 || $globalactionid == '2') {
 						$this->hasWriteAccess = true;
 						$this->hasDeleteAccess = true;
 					} else {
@@ -126,11 +120,11 @@ class VtigerCRMObjectMeta extends EntityMeta
 				}
 			}
 
-			$sql = sprintf('select * from vtiger_profile2tab where profileid in (%s) and tabid = ?', generateQuestionMarks($profileList));
+			$sql = sprintf('select permissions from vtiger_profile2tab where profileid in (%s) and tabid = ?', generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList, $this->getTabId()));
 			$standardDefined = false;
-			$permission = $adb->query_result($result, 1, "permissions");
-			if ($permission == 1 || $permission == "1") {
+			$permission = $adb->getSingleValue($result);
+			if ($permission == 1 || $permission == '1') {
 				$this->hasAccess = false;
 				return;
 			} else {
@@ -143,25 +137,19 @@ class VtigerCRMObjectMeta extends EntityMeta
 			//operation=4 is view operation.
 			$sql = sprintf("select * from vtiger_profile2standardpermissions where profileid in (%s) and tabid=?", generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList, $this->getTabId()));
-
-			$noofrows = $adb->num_rows($result);
-			for ($i = 0; $i < $noofrows; $i++) {
+			while ($row = $adb->getRow($result)) {
 				$standardDefined = true;
-				$permission = $adb->query_result($result, $i, "permissions");
-				$operation = $adb->query_result($result, $i, "Operation");
-				if (!$operation) {
-					$operation = $adb->query_result($result, $i, "operation");
-				}
-
-				if ($permission != 1 || $permission != "1") {
+				$permission = $row['permissions'];
+				$operation = $row['operation'];
+				if ($permission != 1 || $permission != '1') {
 					$this->hasAccess = true;
-					if ($operation == 0 || $operation == "0") {
+					if ($operation == 0 || $operation == '0') {
 						$this->hasWriteAccess = true;
-					} else if ($operation == 1 || $operation == "1") {
+					} else if ($operation == 1 || $operation == '1') {
 						$this->hasWriteAccess = true;
-					} else if ($operation == 2 || $operation == "2") {
+					} else if ($operation == 2 || $operation == '2') {
 						$this->hasDeleteAccess = true;
-					} else if ($operation == 4 || $operation == "4") {
+					} else if ($operation == 4 || $operation == '4') {
 						$this->hasReadAccess = true;
 					}
 				}
@@ -524,13 +512,10 @@ class VtigerCRMObjectMeta extends EntityMeta
 	{
 		$adb = PearDatabase::getInstance();
 
-		$data = getEntityFieldNames(getTabModuleName($this->getEffectiveTabId()));
+		$data = \includes\Modules::getEntityInfo(getTabModuleName($this->getEffectiveTabId()));
 		$fieldNames = '';
 		if ($data) {
 			$fieldNames = $data['fieldname'];
-			if (is_array($fieldNames)) {
-				$fieldNames = implode(',', $fieldNames);
-			}
 		}
 		return $fieldNames;
 	}
@@ -566,5 +551,3 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return true;
 	}
 }
-
-?>

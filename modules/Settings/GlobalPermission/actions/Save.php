@@ -22,7 +22,7 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -26,7 +26,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -57,7 +57,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 		$folderModel->set('description', $request->get('description'));
 
 		if ($folderModel->checkDuplicate()) {
-			throw new AppException(vtranslate('LBL_DUPLICATES_EXIST', $moduleName));
+			throw new \Exception\AppException(vtranslate('LBL_DUPLICATES_EXIST', $moduleName));
 		}
 
 		$folderModel->save();

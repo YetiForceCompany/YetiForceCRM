@@ -28,7 +28,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		$queryGenerator = $listView->get('query_generator');
 		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime']);
 		$query = $queryGenerator->getQuery();
-		$query .= ' AND announcementstatus = ? AND announcementid';
+		$query .= ' AND announcementstatus = ?';
 
 		$result = $db->pquery($query, ['PLL_PUBLISHED']);
 		while ($row = $db->getRow($result)) {

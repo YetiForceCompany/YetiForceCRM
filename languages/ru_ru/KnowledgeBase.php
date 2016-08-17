@@ -28,5 +28,12 @@ $languageStrings = [
 	'LBL_ARTICLE' => 'Статья',
 	'LBL_DESCRIPTION_BLOCK' => 'Описание',
 	'LBL_ATTENTION_BLOCK' => 'Коментарии',
-	'LBL_FULL_SCREEN' => 'Полный экран'
+	'LBL_FULL_SCREEN' => 'Полный экран',
+	'LBL_WIDTH_HEIGHT' => 'Width x Height',
+	'LBL_ALLOWED_WIDTH_HEIGHT' => 'The maximum Width x Height must be',
+	'LBL_MAX_FILE_SIZE' => 'Maximum file size must be',
+	'LBL_FILE_UPLOADED' => 'successfully uploaded',
+	'LBL_SIZE' => 'Size',
+	'ERR_NOT_ALLOWED' => 'The file has not the allowed extension type',
+	'ERR_UNABLE_TO_UPLOAD' => 'Unable to upload the file'
 ];

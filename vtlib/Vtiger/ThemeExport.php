@@ -134,9 +134,7 @@ class ThemeExport extends Package
 	 */
 	function export_Dependencies()
 	{
-		global $YetiForce_current_version, $adb;
-
-		$vtigerMinVersion = $YetiForce_current_version;
+		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
 		$vtigerMaxVersion = false;
 
 		$this->openNode('dependencies');
@@ -158,8 +156,8 @@ class ThemeExport extends Package
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
                             name VARCHAR(50), label VARCHAR(30), parent VARCHAR(100), lastupdated DATETIME, isdefault INT(1), active INT(1))', true
 			);
-			global $languages, $adb;
-			foreach ($languages as $langkey => $langlabel) {
+			$adb = \PearDatabase::getInstance();
+			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
 				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,label,parent,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));
 			}

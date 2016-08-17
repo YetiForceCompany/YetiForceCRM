@@ -66,6 +66,18 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return this.plotContainer;
 	},
+	registerRecordsCount: function(){
+		var thisInstance = this;
+		var recordsCountBtn = thisInstance.getContainer().find('.recordCount');
+		recordsCountBtn.on('click', function(){
+			var url = recordsCountBtn.data('url');
+			AppConnector.request(url).then(function(response){
+				recordsCountBtn.find('.count').html(response.result.totalCount);
+				recordsCountBtn.find('span:not(.count)').addClass('hide');
+				recordsCountBtn.find('a').removeClass('hide');
+			});
+		});
+	},
 	restrictContentDrag: function () {
 		this.getContainer().on('mousedown.draggable', function (e) {
 			var element = jQuery(e.target);
@@ -515,12 +527,12 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 					showDataLabels: true,
 					dataLabelThreshold: 0,
 					dataLabels: 'value',
-					highlightMouseDown:true
+					highlightMouseDown: true
 				}
 			},
 			legend: {
 				show: true,
-				location: 'e',			
+				location: 'e',
 			}
 		});
 	},
@@ -810,6 +822,10 @@ Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
 		app.hideModalWindow();
 		this.restrictContentDrag();
 		this.registerFilterChangeEvent();
+		this.registerRecordsCount();
+	},
+	postRefreshWidget: function (){
+		this.registerRecordsCount();
 	}
 });
 Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
@@ -824,6 +840,7 @@ Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 			instance.setContainer(container);
 			instance.loadChart();
 		}
+
 	}
 });
 Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js', {}, {
@@ -907,8 +924,14 @@ Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
 	editNotebookContent: function () {
 		jQuery('.dashboard_notebookWidget_text', this.container).show();
 		jQuery('.dashboard_notebookWidget_view', this.container).hide();
+		$('body').on('click', function (e) {
+			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
+				$('.dashboard_notebookWidget_save').trigger('click');
+			}
+		});
 	},
 	saveNotebookContent: function () {
+		$('body').off('click');
 		var self = this;
 		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
 
@@ -1229,10 +1252,13 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				var url = 'index.php?module=Calendar&view=List';
 				if (customFilter) {
 					url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
+				} else {
+					url += '&viewname=All';
 				}
 				url += '&search_params=[[';
-				if (container.find('.widgetFilter.owner option:selected').val() != 'all') {
-					url += '["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],';
+				var owner = container.find('.widgetFilter.owner option:selected');
+				if (owner.val() != 'all') {
+					url += '["assigned_user_id","c","' + owner.data('name') + '"],';
 				}
 				if (parent.find('.widgetFilterSwitch').length > 0) {
 					var status = parent.find('.widgetFilterSwitch').data();
@@ -1325,9 +1351,12 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 			} else {
 				var status = 'PLL_IN_REALIZATION,PLL_PLANNED';
 			}
-			var url = 'index.php?module=Calendar&view=List';
+			var url = 'index.php?module=Calendar&view=List&viewname=All';
 			url += '&search_params=[[';
-			url += '["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],';
+			var owner = container.find('.widgetFilter.owner option:selected');
+			if (owner.val() != 'all') {
+				url += '["assigned_user_id","c","' + owner.data('name') + '"],';
+			}
 			url += '["activitystatus","e","' + status + '"]]]';
 			window.location.href = url;
 		});
@@ -1395,5 +1424,6 @@ Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
 			instance = new chartClass(container);
 			instance.loadChart();
 		}
+		this.registerRecordsCount();
 	}
 });

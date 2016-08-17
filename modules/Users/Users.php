@@ -96,11 +96,11 @@ class Users extends CRMEntity
 	var $emailTemplate_defaultFields = array('first_name', 'last_name', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
 	var $popup_fields = array('last_name');
 	// This is the list of fields that are in the lists.
-	var $default_order_by = "user_name";
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	var $record_id;
 	var $new_schema = true;
-	var $DEFAULT_PASSWORD_CRYPT_TYPE; //'BLOWFISH', /* before PHP5.3*/ MD5;
+	var $DEFAULT_PASSWORD_CRYPT_TYPE = 'PHP5.3MD5'; //'BLOWFISH', /* before PHP5.3*/ MD5;
 	//Default Widgests
 	var $default_widgets = array('CVLVT', 'UA');
 
@@ -112,8 +112,6 @@ class Users extends CRMEntity
 	{
 		$this->log = LoggerManager::getInstance(get_class($this));
 		$this->db = PearDatabase::getInstance();
-		$this->DEFAULT_PASSWORD_CRYPT_TYPE = (version_compare(PHP_VERSION, '5.3.0') >= 0) ?
-			'PHP5.3MD5' : 'MD5';
 		$this->column_fields = getColumnFields('Users');
 		$this->column_fields['currency_name'] = '';
 		$this->column_fields['currency_code'] = '';
@@ -541,13 +539,15 @@ class Users extends CRMEntity
 	 * @param $user_name -- user name:: Type varchar
 	 * @returns user id
 	 */
-	function retrieve_user_id($user_name)
+	function retrieve_user_id($userName)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = "SELECT id from vtiger_users where user_name=? AND deleted=0";
-		$result = $adb->pquery($query, array($user_name));
-		$userid = $adb->query_result($result, 0, 'id');
-		return $userid;
+		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
+		$row = $adb->getRow($result);
+		if ($row && $row['deleted'] == '0') {
+			return $row['id'];
+		}
+		return false;
 	}
 
 	/** Function to return the column name array
@@ -590,11 +590,12 @@ class Users extends CRMEntity
 	 */
 	function retrieveCurrentUserInfoFromFile($userid)
 	{
-		$detail = Vtiger_Util_Helper::getUserDetail($userid);
+		$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($userid);
+		$userInfo = $userPrivileges['user_info'];
 		foreach ($this->column_fields as $field => $value_iter) {
-			if (isset($detail[$field])) {
-				$this->$field = $detail[$field];
-				$this->column_fields[$field] = $detail[$field];
+			if (isset($userInfo[$field])) {
+				$this->$field = $userInfo[$field];
+				$this->column_fields[$field] = $userInfo[$field];
 			}
 		}
 		$this->id = $userid;
@@ -646,7 +647,7 @@ class Users extends CRMEntity
 				$this->column_fields[$column] = $value;
 			}
 		}
-		
+
 		if (empty($this->column_fields['currency_decimal_separator']) && $this->column_fields['currency_decimal_separator'] != ' ') {
 			$this->column_fields['currency_decimal_separator'] = '.';
 		}
@@ -910,12 +911,10 @@ class Users extends CRMEntity
 		$tabid = getTabid($module);
 		$sql1 = 'select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)';
 		$result1 = $adb->pquery($sql1, array($tabid));
-		$noofrows = $adb->num_rows($result1);
-
-		for ($i = 0; $i < $noofrows; $i++) {
-			$fieldcolname = $adb->query_result($result1, $i, "columnname");
-			$tablename = $adb->query_result($result1, $i, "tablename");
-			$fieldname = $adb->query_result($result1, $i, "fieldname");
+		while ($row = $adb->getRow($result1)) {
+			$fieldcolname = $row['columnname'];
+			$tablename = $row['tablename'];
+			$fieldname = $row['fieldname'];
 
 			$fld_value = $adb->query_result($result[$tablename], 0, $fieldcolname);
 			$this->column_fields[$fieldname] = $fld_value;
@@ -968,7 +967,6 @@ class Users extends CRMEntity
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
 		$current_user = vglobal('current_user');
-		global $upload_badext;
 
 		$date_var = date('Y-m-d H:i:s');
 
@@ -977,17 +975,12 @@ class Users extends CRMEntity
 		if (!isset($ownerid) || $ownerid == '')
 			$ownerid = $current_user->id;
 
-		$saveFile = 'true';
-		//only images are allowed for these modules 
-		if ($module == 'Users') {
-			$saveFile = validateImageFile($file_details);
+		$fileInstance = \includes\fields\File::loadFromRequest($file_details);
+		if (!$fileInstance->validate('image')) {
+			$log->debug('Skip the save attachment process.');
+			return false;
 		}
-		if ($saveFile == 'false') {
-			return;
-		}
-
-		$file = $file_details['name'];
-		$binFile = sanitizeUploadFileName($file, $upload_badext);
+		$binFile = $fileInstance->getSanitizeName();
 
 		$filename = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
 		$filetype = $file_details['type'];
@@ -1001,31 +994,25 @@ class Users extends CRMEntity
 		//upload the file in server
 		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . "_" . $binFile);
 
-		if ($saveFile == 'true') {
+		$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?,?,?,?,?,?,?)";
+		$params1 = array($current_id, $current_user->id, $ownerid, $module . " Attachment", $this->column_fields['description'], $this->db->formatDate($date_var, true), $this->db->formatDate($date_var, true));
+		$this->db->pquery($sql1, $params1);
 
-			$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?,?,?,?,?,?,?)";
-			$params1 = array($current_id, $current_user->id, $ownerid, $module . " Attachment", $this->column_fields['description'], $this->db->formatDate($date_var, true), $this->db->formatDate($date_var, true));
-			$this->db->pquery($sql1, $params1);
+		$sql2 = "insert into vtiger_attachments(attachmentsid, name, description, type, path) values(?,?,?,?,?)";
+		$params2 = array($current_id, $filename, $this->column_fields['description'], $filetype, $upload_file_path);
+		$result = $this->db->pquery($sql2, $params2);
 
-			$sql2 = "insert into vtiger_attachments(attachmentsid, name, description, type, path) values(?,?,?,?,?)";
-			$params2 = array($current_id, $filename, $this->column_fields['description'], $filetype, $upload_file_path);
-			$result = $this->db->pquery($sql2, $params2);
-
-			if ($id != '') {
-				$delquery = 'delete from vtiger_salesmanattachmentsrel where smid = ?';
-				$this->db->pquery($delquery, array($id));
-			}
-
-			$sql3 = 'insert into vtiger_salesmanattachmentsrel values(?,?)';
-			$this->db->pquery($sql3, array($id, $current_id));
-
-			//we should update the imagename in the users table
-			$this->db->pquery("update vtiger_users set imagename=? where id=?", array($filename, $id));
-		} else {
-			$log->debug("Skip the save attachment process.");
+		if ($id != '') {
+			$delquery = 'delete from vtiger_salesmanattachmentsrel where smid = ?';
+			$this->db->pquery($delquery, array($id));
 		}
-		$log->debug("Exiting from uploadAndSaveFile($id,$module,$file_details) method.");
 
+		$sql3 = 'insert into vtiger_salesmanattachmentsrel values(?,?)';
+		$this->db->pquery($sql3, array($id, $current_id));
+
+		//we should update the imagename in the users table
+		$this->db->pquery("update vtiger_users set imagename=? where id=?", array($filename, $id));
+		$log->debug("Exiting from uploadAndSaveFile($id,$module,$file_details) method.");
 		return;
 	}
 
@@ -1061,16 +1048,20 @@ class Users extends CRMEntity
 				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_USER_EXISTS'));
 				return false;
 			}
-		}
-		// update dashboard widgets when changing users role
-		else {
+			\includes\Privileges::setAllUpdater();
+		} else {// update dashboard widgets when changing users role
 			$query = 'SELECT `roleid` FROM `vtiger_user2role` WHERE `userid` = ? LIMIT 1;';
 			$oldRoleResult = $adb->pquery($query, [$this->id]);
 			$oldRole = $adb->query_result($oldRoleResult, 0, 'roleid');
 
+			$privilegesModel = Users_Privileges_Model::getInstanceById($this->id);
+			if ($this->column_fields['is_admin'] != $privilegesModel->get('is_admin')) {
+				\includes\Privileges::setAllUpdater();
+			}
 			if ($oldRole != $this->column_fields['roleid']) {
 				$query = 'DELETE FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ?;';
 				$adb->pquery($query, [$this->id]);
+				\includes\Privileges::setAllUpdater();
 			}
 		}
 		//Save entity being called with the modulename as parameter
@@ -1257,7 +1248,7 @@ class Users extends CRMEntity
 					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid = ? and vtiger_homedefault.hometype= ?"; //To show the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);
 				} else {
-					
+
 					$qry = "update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=1 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid= ? and vtiger_homedefault.hometype=?"; //To hide the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);
 				}

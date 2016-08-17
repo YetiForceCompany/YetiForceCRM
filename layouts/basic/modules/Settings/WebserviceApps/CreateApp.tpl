@@ -84,19 +84,19 @@
 							<div class="input-group referenceGroup">
 								<input id="accountsid_display" name="accountsid_display" type="text" title=""
 									   class="marginLeftZero form-control autoComplete ui-autocomplete-input" 
-									   value="{if $RECORD_MODEL}{$RECORD_MODEL->get('accountsModel')->getName()}{/if}"
+									   value="{if $RECORD_MODEL && $RECORD_MODEL->get('accountsModel')}{$RECORD_MODEL->get('accountsModel')->getName()}{/if}"
 									   {if $RECORD_MODEL} readonly {/if}
 									   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" 
-									   placeholder="Wpisz szukaną frazę" 
+									   placeholder="{vtranslate('LBL_TYPE_SEARCH', $QUALIFIED_MODULE)}" 
 									   autocomplete="off">
 								<span class="input-group-btn cursorPointer">
 									<button class="btn btn-default clearReferenceSelection" type="button">
 										<span class="glyphicon glyphicon-remove-sign" 
-											  title="Wyczyść"></span>
+											  title="{vtranslate('LBL_CLEAR', $QUALIFIED_MODULE)}"></span>
 									</button>
 									<button class="btn btn-default relatedPopup" type="button">
 										<span class="glyphicon glyphicon-search" 
-											  title="Wybierz z listy"></span>
+											title="{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}"></span>
 									</button>
 								</span>
 							</div>

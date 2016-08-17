@@ -238,7 +238,7 @@ class EmailTemplate
 	public function isModuleActive($module)
 	{
 		include_once 'include/utils/VtlibUtils.php';
-		if (vtlib_isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
+		if (\includes\Modules::isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
 			return true;
 		}
 		return false;
@@ -257,5 +257,3 @@ class EmailTemplate
 			return false;
 	}
 }
-
-?>

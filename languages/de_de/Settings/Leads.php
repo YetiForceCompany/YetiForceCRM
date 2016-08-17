@@ -21,7 +21,7 @@ $languageStrings = [
 	'LBL_OPPORTUNITIES' => 'Verkaufschancen',
 	'LBL_ORGANIZATIONS' => 'Organisationen',
 	'LBL_SAVED_SUCCESSFULLY' => 'Erfolgreich gespeichert',
-	'multiSelectCombo' => 'Mehrfachauswahl-Box',
+	'multiSelectCombo' => 'Mehrfachauswahlliste',
 	'percent' => 'Prozent',
 	'phone' => 'Telefon',
 	'picklist' => 'Auswahlliste',
@@ -33,7 +33,6 @@ $languageStrings = [
 	'url' => 'Url',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'In Organisation konvertieren',
 	'sharedOwner' => ' ',
-
 ];
 
 $jsLanguageStrings = [
@@ -46,7 +45,7 @@ $jsLanguageStrings = [
 	'JS_integer' => 'Integer',
 	'JS_IS_ALREADY_BEEN_MAPPED' => 'ist bereits zugeordnet',
 	'JS_MAPPING_DELETED_SUCCESSFULLY' => 'Zuordnung erfolgreich gelöscht',
-	'JS_multiSelectCombo' => 'Mehrfach-Auswahl-Box',
+	'JS_multiSelectCombo' => 'Mehrfachauswahlliste',
 	'JS_NONE' => 'Keine',
 	'JS_None' => 'Keine',
 	'JS_percent' => 'Prozent',
@@ -61,5 +60,4 @@ $jsLanguageStrings = [
 	'JS_WITH' => 'mit',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Feld Zuordnung gespeichert',
 	'JS_sharedOwner' => ' ',
-
 ];

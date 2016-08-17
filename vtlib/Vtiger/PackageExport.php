@@ -243,11 +243,11 @@ class PackageExport
 	 */
 	function export_Dependencies($moduleInstance)
 	{
-		global $YetiForce_current_version, $adb;
+		$adb = \PearDatabase::getInstance();
 		$moduleid = $moduleInstance->id;
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_tab_info WHERE tabid = ?", array($moduleid));
-		$vtigerMinVersion = $YetiForce_current_version;
+		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
 		$vtigerMaxVersion = false;
 		$noOfPreferences = $adb->num_rows($sqlresult);
 		for ($i = 0; $i < $noOfPreferences; ++$i) {

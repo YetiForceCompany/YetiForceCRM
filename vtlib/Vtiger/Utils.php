@@ -70,7 +70,7 @@ class Utils
 			if ($dieOnFail) {
 				$log = \LoggerManager::getInstance();
 				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-				throw new \AppException('Sorry! Attempt to access restricted file.');
+				throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
 		}
@@ -104,7 +104,7 @@ class Utils
 			if ($dieOnFail) {
 				$log = \LoggerManager::getInstance();
 				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-				throw new \AppException('Sorry! Attempt to access restricted file.');
+				throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
 		}
@@ -278,9 +278,8 @@ class Utils
 	static function ModuleLog($module, $mixed, $extra = [])
 	{
 		if (ALLOW_MODULE_LOGGING) {
-			global $site_URL;
 			$date = date('Y-m-d H:i:s');
-			$log = array($site_URL, $module, $date);
+			$log = array(\AppConfig::main('site_URL'), $module, $date);
 			if ($mixed instanceof Exception) {
 				array_push($log, $mixed->getMessage());
 				array_push($log, $mixed->getTraceAsString());

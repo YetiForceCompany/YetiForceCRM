@@ -23,19 +23,21 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$data = $widget->get('data');
 		$data = \includes\utils\Json::decode(decode_html($data));
-		$rssContent = fetch_rss($data['channels'][0]);
 		$listSubjects = [];
-		if(!empty($rssContent)){
-			foreach ($rssContent->items as $item) {
-				$date = new DateTime($item['pubdate']);
-				$date = DateTimeField::convertToUserFormat($date->format('Y-m-d H:i:s'));
-				$listSubjects[] =[
-					'title' => strlen($item['title']) > 40 ? substr($item['title'], 0, 40) . '...' : $item['title'],
-					'link' => $item['link'],
-					'date' => $date,
-					'fullTitle' => $item['title'],
-					'source' => $data['channels'][0]
-				];
+		foreach ($data['channels'] as $rss) {
+			$rssContent = fetch_rss($rss);
+			if (!empty($rssContent)) {
+				foreach ($rssContent->items as $item) {
+					$date = new DateTime($item['pubdate']);
+					$date = DateTimeField::convertToUserFormat($date->format('Y-m-d H:i:s'));
+					$listSubjects[] = [
+						'title' => strlen($item['title']) > 40 ? substr($item['title'], 0, 40) . '...' : $item['title'],
+						'link' => $item['link'],
+						'date' => $date,
+						'fullTitle' => $item['title'],
+						'source' => $rss
+					];
+				}
 			}
 		}
 		$viewer->assign('LIST_SUCJECTS', $listSubjects);

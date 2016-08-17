@@ -1,21 +1,21 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_FIELD_MASK' => 'Field Mask',
 	'Calendar' => 'To Do',
 	'Checkbox' => 'Checkbox',
-	'Currency'=>'Currency',
-	'Date'=>'Date',
-	'Decimal'=>'Decimal',
-	'Email'=>'Email',
-	'Integer'=>'Integer',
+	'Currency' => 'Currency',
+	'Date' => 'Date',
+	'Decimal' => 'Decimal',
+	'Email' => 'Email',
+	'Integer' => 'Integer',
 	'LayoutEditor' => 'Layout Editor',
 	'LBL_ACTIONS' => 'Actions',
 	'LBL_ACTIVE' => 'Active',
@@ -54,19 +54,18 @@ $languageStrings = [
 	'LBL_SELECT_MODULE' => 'Select module..',
 	'LBL_SUMMARY_FIELD' => 'Summary view',
 	'LBL_WRONG_FIELD_TYPE' => 'Wrong field type',
-	'MultiSelectCombo'=>'Multi-select combo box',
-	'Percent'=>'Percent',
-	'Phone'=>'Phone',
-	'Picklist'=>'Pick list',
-	'Skype'=>'Skype',
+	'MultiSelectCombo' => 'Multi-select combo box',
+	'Percent' => 'Percent',
+	'Phone' => 'Phone',
+	'Picklist' => 'Pick list',
+	'Skype' => 'Skype',
 	'TextArea' => 'Text area',
-	'Text'=>'Text',
-	'Time'=>'Time',
+	'Text' => 'Text',
+	'Time' => 'Time',
 	'URL' => 'Website',
-    'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Edit related modules',
+	'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Edit related modules',
 	'LBL_VISIBLE' => 'Visible',
 	'LBL_HIDDEN' => 'Hidden',
-	
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Select modules',
 	'LBL_FIELD_NAME' => 'Field name',
@@ -91,7 +90,6 @@ $languageStrings = [
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Related field',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Filter by field',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filter by value',
-	
 	'LBL_ADD_RELATION' => 'Add relation',
 	'LBL_REMOVE_RELATION' => 'Remove relation',
 	'LBL_RELATION_TYPE' => 'Relation type',
@@ -101,10 +99,10 @@ $languageStrings = [
 	'LBL_RELATION_LABLE' => 'Label',
 	'PLL_RELATED_LIST' => 'Many to many',
 	'PLL_DEPENDENTS_LIST' => 'One to many',
+	'PLL_ATTACHMENTS' => 'Attachments',
 	'PLL_SPLITED_RELATED_LIST' => 'Many to many - With separation of data',
 	'PLL_ADD' => 'Add',
 	'PLL_SELECT' => 'Select',
-	
 	// inventory tab
 	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Managing an advanced block',
 	'LBL_HEADLINE' => 'Headline',
@@ -112,7 +110,6 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Additional line',
 	'LBL_ADVANCED_MODULE' => 'Advanced',
 	'LBL_BASIC_MODULE' => 'Basic',
-	
 	'LBL_EDITING_INVENTORY_FIELD' => 'Edit',
 	'LBL_CREATING_INVENTORY_FIELD' => 'Add',
 	'LBL_NAME_FIELD' => 'Name',

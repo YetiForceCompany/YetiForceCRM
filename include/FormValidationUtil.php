@@ -21,5 +21,3 @@ function getDBValidationData($tablearray, $tabid = '')
 {
 	return vtlib\Deprecated::getModuleFieldTypeOfDataInfos($tablearray, $tabid);
 }
-
-?>

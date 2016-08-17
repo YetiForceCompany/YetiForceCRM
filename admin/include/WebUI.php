@@ -23,7 +23,7 @@ class Admin_WebUI extends Admin_EntryPoint
 	/**
 	 * Function to check if the User has logged in
 	 * @param Vtiger_Request $request
-	 * @throws AppException
+	 * @throws \Exception\AppException
 	 */
 	protected function checkLogin(Vtiger_Request $request)
 	{
@@ -35,7 +35,7 @@ class Admin_WebUI extends Admin_EntryPoint
 				Vtiger_Session::set('return_params', $return_params);
 			}
 			header('Location: index.php');
-			throw new NoPermittedException('Login is required');
+			throw new \Exception\NoPermitted('Login is required');
 		}
 	}
 
@@ -63,7 +63,7 @@ class Admin_WebUI extends Admin_EntryPoint
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
+			throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -73,7 +73,7 @@ class Admin_WebUI extends Admin_EntryPoint
 			$handler->checkPermission($request);
 			return;
 		}
-		throw new NoPermittedException('LBL_NOT_ACCESSIBLE');
+		throw new \Exception\NoPermitted('LBL_NOT_ACCESSIBLE');
 	}
 
 	protected function triggerPreProcess($handler, $request)
@@ -220,7 +220,7 @@ class Admin_WebUI extends Admin_EntryPoint
 				$response = $handler->process($request);
 				$this->triggerPostProcess($handler, $request);
 			} else {
-				throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
+				throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
 		} catch (Exception $e) {
 			if ($view) {

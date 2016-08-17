@@ -3,12 +3,10 @@
 $languageStrings = [
 	'Partners' => 'Partnerzy',
 	'SINGLE_Partners' => 'Partner',
-	
 	//BLOCKS
 	'LBL_PARTNERS_INFORMATION' => 'Informacje podstawowe',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
 	'LBL_DESCRIPTION_INFORMATION' => 'Informacje Opisowe',
-	
 	//FIELDS
 	'LBL_SUBJECT' => 'Temat',
 	'LBL_NUMBER' => 'Numer',

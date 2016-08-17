@@ -153,9 +153,6 @@ $title_max_length = 60;
 // Maximum length for href tag
 $href_max_length = 35;
 
-// Maximum number of displayed search results
-$max_number_search_result = 100;
-
 //Should menu breadcrumbs be visible? true = show, false = hide
 $breadcrumbs = true;
 
@@ -191,14 +188,6 @@ $csrfProtection = true;
 
 // enable encrypt backup
 $encryptBackup = false;
-
-// autocomplete global search - Whether or not automated search should be turned on"
-$gsAutocomplete = 1; // 0 or 1
-// autocomplete global search - The minimum number of characters a user must type before a search is performed. 
-$gsMinLength = 3;
-
-// autocomplete global search - Amount of returned results.
-$gsAmountResponse = 10;
 
 // Is sending emails active. 
 $isActiveSendingMails = true;

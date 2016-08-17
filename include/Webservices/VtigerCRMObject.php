@@ -216,5 +216,3 @@ class VtigerCRMObject
 		return $seType;
 	}
 }
-
-?>

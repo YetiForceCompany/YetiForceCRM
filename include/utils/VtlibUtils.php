@@ -86,34 +86,6 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 }
 
 /**
- * Check if module is set active (or enabled)
- */
-function vtlib_isModuleActive($module)
-{
-	global $adb, $__cache_module_activeinfo;
-
-	if (in_array($module, vtlib_moduleAlwaysActive())) {
-		return true;
-	}
-
-	if (!isset($__cache_module_activeinfo[$module])) {
-		include 'user_privileges/tabdata.php';
-		$tabId = $tab_info_array[$module];
-		$presence = $tab_seq_array[$tabId];
-		$__cache_module_activeinfo[$module] = $presence;
-	} else {
-		$presence = $__cache_module_activeinfo[$module];
-	}
-
-	$active = false;
-	//Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7991
-	if ($presence === 0 || $presence === '0')
-		$active = true;
-
-	return $active;
-}
-
-/**
  * Recreate user privileges files.
  */
 function vtlib_RecreateUserPrivilegeFiles()
@@ -125,18 +97,6 @@ function vtlib_RecreateUserPrivilegeFiles()
 			createUserPrivilegesfile($userrow['id']);
 		}
 	}
-}
-
-/**
- * Get list module names which are always active (cannot be disabled)
- */
-function vtlib_moduleAlwaysActive()
-{
-	$modules = Array(
-		'Administration', 'CustomView', 'Settings', 'Users', 'Migration',
-		'Utilities', 'uploads', 'Import', 'System', 'com_vtiger_workflow', 'PickList'
-	);
-	return $modules;
 }
 
 /**
@@ -568,22 +528,21 @@ $__htmlpurifier_instance = false;
  */
 function vtlib_purify($input, $ignore = false)
 {
-	global $__htmlpurifier_instance, $default_charset;
-
-	static $purified_cache = [];
+	global $__htmlpurifier_instance;
 	$value = $input;
 
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
-		if (array_key_exists($md5OfInput, $purified_cache)) {
-			$value = $purified_cache[$md5OfInput];
+		$cache = Vtiger_Cache::get('vtlibPurify', $md5OfInput);
+		if ($cache !== false) {
+			$value = $cache;
 			//to escape cleaning up again
 			$ignore = true;
 		}
 	} else {
 		$md5OfInput = md5(json_encode($input));
 	}
-	$use_charset = $default_charset;
+	$use_charset = AppConfig::main('default_charset');
 
 	if (!$ignore) {
 		// Initialize the instance if it has not yet done
@@ -611,10 +570,9 @@ function vtlib_purify($input, $ignore = false)
 				$value = purifyHtmlEventAttributes($value);
 			}
 		}
-		$purified_cache[$md5OfInput] = $value;
+		$value = str_replace('&amp;', '&', $value);
+		Vtiger_Cache::set('vtlibPurify', $md5OfInput, $value);
 	}
-
-	$value = str_replace('&amp;', '&', $value);
 	return $value;
 }
 
@@ -638,22 +596,21 @@ function purifyHtmlEventAttributes($value)
 
 function vtlib_purifyForHtml($input, $ignore = false)
 {
-	global $htmlPurifierForHtml, $default_charset;
-
-	static $purified_cache = [];
+	global $htmlPurifierForHtml;
 	$value = $input;
 
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
-		if (array_key_exists($md5OfInput, $purified_cache)) {
-			$value = $purified_cache[$md5OfInput];
+		$cache = Vtiger_Cache::get('vtlibPurifyForHtml', $md5OfInput);
+		if ($cache !== false) {
+			$value = $cache;
 			//to escape cleaning up again
 			$ignore = true;
 		}
 	} else {
 		$md5OfInput = md5(json_encode($input));
 	}
-	$use_charset = $default_charset;
+	$use_charset = AppConfig::main('default_charset');
 
 	if (!$ignore) {
 		// Initialize the instance if it has not yet done
@@ -761,10 +718,9 @@ function vtlib_purifyForHtml($input, $ignore = false)
 				$value = $htmlPurifierForHtml->purify($input);
 			}
 		}
-		$purified_cache[$md5OfInput] = $value;
+		$value = str_replace('&amp;', '&', $value);
+		Vtiger_Cache::set('vtlibPurifyForHtml', $md5OfInput, $value);
 	}
-
-	$value = str_replace('&amp;', '&', $value);
 	return $value;
 }
 

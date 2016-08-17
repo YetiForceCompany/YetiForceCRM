@@ -34,5 +34,3 @@ function vtws_describe_partial($elementType, $user)
 	VTWS_PreserveGlobal::flush();
 	return $entity;
 }
-
-?>

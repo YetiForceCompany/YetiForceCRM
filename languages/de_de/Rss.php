@@ -17,6 +17,7 @@ $languageStrings = [
 	'LBL_SENDER' => 'Sender',
 	'LBL_SET_AS_DEFAULT' => 'Als Standard festlegen',
 	'SINGLE_Rss' => 'RSS Feed',
+	'LBL_CHANGE_RSS_CHANNEL' => 'Change RSS channel',
 ];
 
 $jsLanguageStrings = [

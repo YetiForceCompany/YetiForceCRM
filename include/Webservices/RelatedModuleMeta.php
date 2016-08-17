@@ -49,9 +49,9 @@ class RelatedModuleMeta
 	private function getRelationMetaInfo($relationId)
 	{
 		return [
-		'relationTable' => 'vtiger_campaign_records',
-		'Campaigns' => 'campaignid',
-		'Contacts' => 'crmid'
+			'relationTable' => 'vtiger_campaign_records',
+			'Campaigns' => 'campaignid',
+			'Contacts' => 'crmid'
 		];
 	}
 }
