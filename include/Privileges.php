@@ -146,11 +146,13 @@ class Privileges
 			$recOwnId = $recordMetaData['smownerid'];
 			$recOwnType = \includes\fields\Owner::getType($recOwnId);
 
-			$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
-			if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
-				self::$isPermittedLevel = 'SEC_RECORD_SHARED_OWNER';
-				$log->debug('Exiting isPermitted method ... - Shared Owner');
-				return true;
+			if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+				$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
+				if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
+					self::$isPermittedLevel = 'SEC_RECORD_SHARED_OWNER';
+					$log->debug('Exiting isPermitted method ... - Shared Owner');
+					return true;
+				}
 			}
 			if ($recOwnType == 'Users') {
 				//Checking if the Record Owner is the current User
@@ -159,13 +161,14 @@ class Privileges
 					$log->debug('Exiting isPermitted method ...');
 					return true;
 				}
-
-				//Checking if the Record Owner is the Subordinate User
-				foreach ($userPrivileges['subordinate_roles_users'] as $roleid => $userids) {
-					if (in_array($recOwnId, $userids)) {
-						self::$isPermittedLevel = 'SEC_RECORD_OWNER_SUBORDINATE_USER';
-						$log->debug('Exiting isPermitted method ...');
-						return true;
+				if (\AppConfig::security('PERMITTED_BY_ROLES')) {
+					//Checking if the Record Owner is the Subordinate User
+					foreach ($userPrivileges['subordinate_roles_users'] as $roleid => $userids) {
+						if (in_array($recOwnId, $userids)) {
+							self::$isPermittedLevel = 'SEC_RECORD_OWNER_SUBORDINATE_USER';
+							$log->debug('Exiting isPermitted method ...');
+							return true;
+						}
 					}
 				}
 			} elseif ($recOwnType == 'Groups') {
@@ -176,36 +179,42 @@ class Privileges
 					return true;
 				}
 			}
-			$userPrivilegesModel = \Users_Privileges_Model::getInstanceById($userId);
-			$role = $userPrivilegesModel->getRoleDetail();
-			if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
-				$parentRecord = \Users_Privileges_Model::getParentRecord($record, $moduleName, $role->get('previewrelatedrecord'), $actionid);
-				if ($parentRecord) {
-					$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($parentRecord);
-					$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
-					$permissionsRelatedField = empty($permissionsRoleForRelatedField) ? [] : explode(',', $role->get('permissionsrelatedfield'));
-					$relatedPermission = false;
-					foreach ($permissionsRelatedField as &$row) {
-						switch ($row) {
-							case 0:
-								$relatedPermission = $recordMetaData['smownerid'] == $userId || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
-								break;
-							case 1:
-								$relatedPermission = in_array($userId, \Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
-								break;
-							case 2:
-								$relatedPermission = self::isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord, $userId);
-								break;
-						}
-						if ($relatedPermission) {
-							self::$isPermittedLevel = 'SEC_RECORD_HIERARCHY_USER';
-							$log->debug('Exiting isPermitted method ... - Parent Record Owner');
-							return true;
+			if (\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
+				$userPrivilegesModel = \Users_Privileges_Model::getInstanceById($userId);
+				$role = $userPrivilegesModel->getRoleDetail();
+				if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
+					$parentRecord = \Users_Privileges_Model::getParentRecord($record, $moduleName, $role->get('previewrelatedrecord'), $actionid);
+					if ($parentRecord) {
+						$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($parentRecord);
+						$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
+						$permissionsRelatedField = empty($permissionsRoleForRelatedField) ? [] : explode(',', $role->get('permissionsrelatedfield'));
+						$relatedPermission = false;
+						foreach ($permissionsRelatedField as &$row) {
+							switch ($row) {
+								case 0:
+									$relatedPermission = $recordMetaData['smownerid'] == $userId || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
+									break;
+								case 1:
+									$relatedPermission = in_array($userId, \Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
+									break;
+								case 2:
+									if (\AppConfig::security('PERMITTED_BY_SHARING')) {
+										$relatedPermission = self::isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord, $userId);
+									}
+									break;
+							}
+							if ($relatedPermission) {
+								self::$isPermittedLevel = 'SEC_RECORD_HIERARCHY_USER';
+								$log->debug('Exiting isPermitted method ... - Parent Record Owner');
+								return true;
+							}
 						}
 					}
 				}
 			}
-			$permission = self::isPermittedBySharing($moduleName, $tabid, $actionid, $record, $userId);
+			if (\AppConfig::security('PERMITTED_BY_SHARING')) {
+				$permission = self::isPermittedBySharing($moduleName, $tabid, $actionid, $record, $userId);
+			}
 			self::$isPermittedLevel = 'SEC_RECORD_BY_SHARING_' . $permission;
 			$log->debug('Exiting isPermitted method ... - isPermittedBySharing');
 		} else {
