@@ -189,12 +189,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		return jQuery('#orderBy').val();
 	},
 	/**
-	 * Function to get total count in the list 
-	 */
-	getTotalCount: function(){
-		return $('.pagination').data('totalCount');
-	},
-	/**
 	 * Function to get Sort Order
 	 */
 	getSortOrder: function () {
@@ -209,9 +203,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 			sortorder: this.getSortOrder(),
 			orderby: this.getOrderBy(),
 			page: this.getCurrentPageNum(),
-			mode: 'showRelatedList',
-			totalCount: this.getTotalCount(),
+			mode: 'showRelatedList'
 		};
+		if ($('.pagination').length) {
+			params['totalCount'] = $('.pagination').data('totalCount');
+		}
 		if (this.relatedModulename == 'Calendar') {
 			if (this.relatedContentContainer.find('.switchBtn').is(':checked'))
 				params['time'] = 'current';
@@ -491,8 +487,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		params['action'] = "RelationAjax";
 		params['module'] = this.parentModuleName;
 		params['record'] = this.getParentId(),
-		params['relatedModule'] = this.relatedModulename,
-		params['tab_label'] = this.selectedRelatedTabElement.data('label-key');
+				params['relatedModule'] = this.relatedModulename,
+				params['tab_label'] = this.selectedRelatedTabElement.data('label-key');
 		params['mode'] = "getRelatedListPageCount"
 
 		var element = jQuery('#totalPageCount');

@@ -2574,14 +2574,12 @@ class CRMEntity
 				$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN (' . implode(',', $shownerid) . '))';
 			}
 		}
-		if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
-			if ($securityParameter != '') {
-				$query .= " AND ( ($securityParameter) OR ($sharedParameter) )";
-			} elseif ($sharedParameter != '') {
-				$query .= ' AND (' . $sharedParameter . ')';
-			}
-		} else {
-			$query .= $securityParameter;
+		if (!empty($securityParameter) && !empty($sharedParameter)) {
+			$query .= " AND (($securityParameter) OR ($sharedParameter))";
+		} elseif (!empty($sharedParameter)) {
+			$query .= " AND ($sharedParameter)";
+		} elseif (!empty($securityParameter)) {
+			$query .= " AND ($securityParameter)";
 		}
 		return $query;
 	}

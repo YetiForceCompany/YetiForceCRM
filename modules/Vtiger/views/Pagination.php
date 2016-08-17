@@ -16,7 +16,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->get('page');
 		$moduleName = $request->getModule();
-		
+
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
@@ -29,10 +29,10 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$totalCount = (int) $relationListView->getRelatedEntriesCount();
-		if(!empty($totalCount)){
+		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', (int) $totalCount);
 		}
-		$viewer->assign('LISTVIEW_COUNT',(int) $totalCount);
+		$viewer->assign('LISTVIEW_COUNT', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
@@ -42,7 +42,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		echo $viewer->view('Pagination.tpl', $moduleName, true);
 	}
-	
+
 	public function getPagination(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -79,11 +79,12 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 			$listViewModel->set('search_params', $transformedSearchParams);
 			$totalCount = $listViewModel->getListViewCount();
 		}
-		if(!empty($totalCount)){
-			$pagingModel->set('totalCount', (int) $totalCount);		
+		if (!empty($totalCount)) {
+			$pagingModel->set('totalCount', $totalCount);
+			$viewer->assign('LISTVIEW_COUNT', $totalCount);
+			$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		}
-		$viewer->assign('LISTVIEW_COUNT',(int) $totalCount);
-		
+
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
