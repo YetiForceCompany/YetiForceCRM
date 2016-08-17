@@ -1002,12 +1002,9 @@ class QueryGenerator
 			$sql .= ' ' . $where['glue'] . ' ' . $where['column'] . ' ' . $operator . ' ' . $value;
 		}
 
-		if (!$onlyWhereQuery) {
-			$sql .= " AND $baseTable.$baseTableIndex > 0";
-			if ($this->permissions) {
-				$instance = CRMEntity::getInstance($baseModule);
-				$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user, $this->getSourceRecord());
-			}
+		if (!$onlyWhereQuery && $this->permissions) {
+			$instance = CRMEntity::getInstance($baseModule);
+			$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user, $this->getSourceRecord());
 		}
 		$this->whereClause = $sql;
 		return $sql;
