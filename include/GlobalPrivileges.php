@@ -36,11 +36,8 @@ class GlobalPrivileges
 	{
 		$adb = \PearDatabase::getInstance();
 		$glabalPrivileges = '';
-		$currentUser = vglobal('current_user');
-		$user = \CRMEntity::getInstance('Users');
 		$users = \includes\fields\Owner::getUsersIds();
 		foreach ($users as &$userId) {
-			vglobal('current_user', $user->retrieveCurrentUserInfoFromFile($userId));
 			if (self::globalSearchById($record, $moduleName, $userId)) {
 				$glabalPrivileges .= ',' . $userId; //sprintf("%'.05d", $userId)
 			}
@@ -49,7 +46,6 @@ class GlobalPrivileges
 			$glabalPrivileges .= ',';
 		}
 		$adb->update('u_yf_crmentity_search_label', ['userid' => $glabalPrivileges], 'crmid = ?', [$record]);
-		vglobal('current_user', $currentUser);
 	}
 
 	protected static $globalSearchUsersCache = false;

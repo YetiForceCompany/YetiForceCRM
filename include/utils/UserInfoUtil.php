@@ -920,18 +920,7 @@ function getRoleUsers($roleId)
  */
 function getRoleUserIds($roleId)
 {
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering getRoleUserIds(" . $roleId . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?";
-	$result = $adb->pquery($query, array($roleId));
-	$num_rows = $adb->num_rows($result);
-	$roleRelatedUsers = [];
-	for ($i = 0; $i < $num_rows; $i++) {
-		$roleRelatedUsers[] = $adb->query_result($result, $i, 'userid');
-	}
-	$log->debug("Exiting getRoleUserIds method ...");
-	return $roleRelatedUsers;
+	return \includes\PrivilegesUtils::getRoleUserIds($roleId);
 }
 
 /** Function to get the vtiger_role and subordinate vtiger_users

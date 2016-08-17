@@ -142,14 +142,11 @@ class Privileges
 			}
 
 			//Retreiving the RecordOwnerId
-			$recOwnType = '';
-			$recOwnId = '';
-			$recordOwnerArr = getRecordOwnerId($record);
+			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
+			$recOwnId = $recordMetaData['smownerid'];
+			$recOwnType = \includes\fields\Owner::getType($recOwnId);
+
 			$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
-			foreach ($recordOwnerArr as $type => $id) {
-				$recOwnType = $type;
-				$recOwnId = $id;
-			}
 			if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 				self::$isPermittedLevel = 'SEC_RECORD_SHARED_OWNER';
 				$log->debug('Exiting isPermitted method ... - Shared Owner');
@@ -197,8 +194,7 @@ class Privileges
 								$relatedPermission = in_array($userId, \Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = self::isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord, $userId);
 								break;
 						}
 						if ($relatedPermission) {
@@ -209,7 +205,7 @@ class Privileges
 					}
 				}
 			}
-			$permission = isPermittedBySharing($moduleName, $tabid, $actionid, $record) == 'yes' ? true : false;
+			$permission = self::isPermittedBySharing($moduleName, $tabid, $actionid, $record, $userId);
 			self::$isPermittedLevel = 'SEC_RECORD_BY_SHARING_' . $permission;
 			$log->debug('Exiting isPermitted method ... - isPermittedBySharing');
 		} else {
@@ -219,6 +215,222 @@ class Privileges
 
 		$log->debug('Exiting isPermitted method ...');
 		return $permission;
+	}
+
+	public static function isPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
+	{
+		$userPrivilegesModel = \Users_Privileges_Model::getInstanceById($userId);
+		$defaultOrgSharingPermission = $userPrivilegesModel->get('defaultOrgSharingPermission');
+		//Retreiving the default Organisation sharing Access
+		$othersPermissionId = $defaultOrgSharingPermission[$tabId];
+		//Checking for Default Org Sharing permission
+		if ($othersPermissionId == 0) {
+			if ($actionId == 1 || $actionId == 0) {
+				return self::isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId);
+			} elseif ($actionId == 2) {
+				return false;
+			} else {
+				return true;
+			}
+		} elseif ($othersPermissionId == 1) {
+			if ($actionId == 2) {
+				return false;
+			} else {
+				return true;
+			}
+		} elseif ($othersPermissionId == 2) {
+			return true;
+		} elseif ($othersPermissionId == 3) {
+			if ($actionId == 3 || $actionId == 4) {
+				return self::isReadPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId);
+			} elseif ($actionId == 0 || $actionId == 1) {
+				return self::isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId);
+			} elseif ($actionId == 2) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+		return false;
+	}
+
+	/** Function to check if the currently logged in user has Read Access due to Sharing for the specified record
+	 * @param $moduleName -- Module Name:: Type varchar
+	 * @param $actionId -- Action Id:: Type integer
+	 * @param $recordId -- Record Id:: Type integer
+	 * @param $tabId -- Tab Id:: Type integer
+	 * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
+	 */
+	public static function isReadPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
+	{
+		$log = LoggerManager::getInstance();
+		$log->debug("Entering isReadPermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
+		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
+
+		if (!isset($sharingPrivileges[$moduleName])) {
+			return false;
+		}
+		$sharingPrivilegesModule = $sharingPrivileges[$moduleName];
+
+		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($recordId);
+		$ownerId = $recordMetaData['smownerid'];
+		$ownerType = \includes\fields\Owner::getType($ownerId);
+
+		$read = $sharingPrivilegesModule['read'];
+		if ($ownerType == 'Users') {
+			//Checking the Read Sharing Permission Array in Role Users
+			foreach ($read['ROLE'] as $userids) {
+				if (in_array($ownerId, $userids)) {
+					$log->debug('Exiting isReadPermittedBySharing method ...');
+					return true;
+				}
+			}
+			//Checking the Read Sharing Permission Array in Groups Users
+			foreach ($read['GROUP'] as $userids) {
+				if (in_array($ownerId, $userids)) {
+					$log->debug('Exiting isReadPermittedBySharing method ...');
+					return true;
+				}
+			}
+		} else {
+			if (isset($read['GROUP'][$ownerId])) {
+				$log->debug('Exiting isReadPermittedBySharing method ...');
+				return true;
+			}
+		}
+
+		//Checking for the Related Sharing Permission
+		$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
+		if (is_array($relatedModuleArray)) {
+			foreach ($relatedModuleArray as $parModId) {
+				$parRecordOwner = PrivilegesUtils::getParentRecordOwner($tabId, $parModId, $recordId);
+				if (sizeof($parRecordOwner) > 0) {
+					$parModName = \vtlib\Functions::getModuleName($parModId);
+					if (isset($sharingPrivileges[$parModName . '_' . $moduleName])) {
+						$readRelated = $sharingPrivileges[$parModName . '_' . $moduleName]['read'];
+
+						$relOwnerType = '';
+						$relOwnerId = '';
+						foreach ($parRecordOwner as $rel_type => $rel_id) {
+							$relOwnerType = $rel_type;
+							$relOwnerId = $rel_id;
+						}
+						if ($relOwnerType == 'Users') {
+							//Checking in Role Users
+							foreach ($readRelated['ROLE'] as $userids) {
+								if (in_array($relOwnerId, $userids)) {
+									$log->debug('Exiting isReadPermittedBySharing method ...');
+									return true;
+								}
+							}
+							//Checking in Group Users
+							foreach ($readRelated['GROUP'] as $userids) {
+								if (in_array($relOwnerId, $userids)) {
+									$log->debug('Exiting isReadPermittedBySharing method ...');
+									return true;
+								}
+							}
+						} else {
+							if (isset($readRelated['GROUP'][$relOwnerId])) {
+								$log->debug('Exiting isReadPermittedBySharing method ...');
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		$log->debug('Exiting isReadPermittedBySharing method ...');
+		return false;
+	}
+
+	/** Function to check if the currently logged in user has Write Access due to Sharing for the specified record
+	 * @param $moduleName -- Module Name:: Type varchar
+	 * @param $actionid -- Action Id:: Type integer
+	 * @param $recordid -- Record Id:: Type integer
+	 * @param $tabid -- Tab Id:: Type integer
+	 * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
+	 */
+	public static function isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
+	{
+		$log = LoggerManager::getInstance();
+		$log->debug("Entering isReadWritePermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
+		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
+		if (!isset($sharingPrivileges[$moduleName])) {
+			return false;
+		}
+		$sharingPrivilegesModule = $sharingPrivileges[$moduleName];
+
+		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($recordId);
+		$ownerId = $recordMetaData['smownerid'];
+		$ownerType = \includes\fields\Owner::getType($ownerId);
+
+		$write = $sharingPrivilegesModule['write'];
+		if ($ownerType == 'Users') {
+			//Checking the Write Sharing Permission Array in Role Users
+			foreach ($write['ROLE'] as $userids) {
+				if (in_array($ownerId, $userids)) {
+					$log->debug('Exiting isReadWritePermittedBySharing method ...');
+					return true;
+				}
+			}
+			//Checking the Write Sharing Permission Array in Groups Users
+			foreach ($write['GROUP'] as $userids) {
+				if (in_array($ownerId, $userids)) {
+					$log->debug('Exiting isReadWritePermittedBySharing method ...');
+					return true;
+				}
+			}
+		} elseif ($ownerType == 'Groups') {
+			if (isset($write['GROUP'][$ownerId])) {
+				$log->debug('Exiting isReadWritePermittedBySharing method ...');
+				return true;
+			}
+		}
+		//Checking for the Related Sharing Permission
+		$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
+		if (is_array($relatedModuleArray)) {
+			foreach ($relatedModuleArray as $parModId) {
+				$parRecordOwner = PrivilegesUtils::getParentRecordOwner($tabId, $parModId, $recordId);
+				if (!empty($parRecordOwner)) {
+					$parModName = \vtlib\Functions::getModuleName($parModId);
+					if (isset($sharingPrivileges[$parModName . '_' . $moduleName])) {
+						$writeRelated = $sharingPrivileges[$parModName . '_' . $moduleName]['write'];
+						$relOwnerType = '';
+						$relOwnerId = '';
+						foreach ($parRecordOwner as $rel_type => $rel_id) {
+							$relOwnerType = $rel_type;
+							$relOwnerId = $rel_id;
+						}
+						if ($relOwnerType == 'Users') {
+							//Checking in Role Users
+							foreach ($writeRelated['ROLE'] as $userids) {
+								if (in_array($relOwnerId, $userids)) {
+									$log->debug('Exiting isReadWritePermittedBySharing method ...');
+									return true;
+								}
+							}
+							//Checking in Group Users
+							foreach ($writeRelated['GROUP'] as $userids) {
+								if (in_array($relOwnerId, $userids)) {
+									$log->debug('Exiting isReadWritePermittedBySharing method ...');
+									return true;
+								}
+							}
+						} else {
+							if (isset($writeRelated['GROUP'][$relOwnerId])) {
+								$log->debug('Exiting isReadWritePermittedBySharing method ...');
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		$log->debug('Exiting isReadWritePermittedBySharing method ...');
+		return false;
 	}
 
 	/**

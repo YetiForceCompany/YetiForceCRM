@@ -533,4 +533,18 @@ class Owner
 		}
 		return isset($users[$id]) ? $users[$id]['fullName'] : false;
 	}
+
+	protected static $typeCache = [];
+
+	public static function getType($id)
+	{
+		if (isset(self::$typeCache[$id])) {
+			return self::$typeCache[$id];
+		}
+		$instance = new self();
+		$users = $instance->initUsers();
+		$result = isset($users[$id]) ? 'Users' : 'Groups';
+		self::$typeCache[$id] = $result;
+		return $result;
+	}
 }
