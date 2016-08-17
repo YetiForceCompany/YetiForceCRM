@@ -22,13 +22,13 @@
 				{assign var=LINK value=$RECORD->get('link')}
 				{if !empty($LINK)}
 					<div class="paddingLeft5px">
-						<span class="muted">{vtranslate('Relation',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('link')}</span>
+						<span class="muted">{vtranslate('LBL_RELATION',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('link')}</span>
 					</div>
 				{/if}
 				{assign var=PROCESS value=$RECORD->get('process')}
 				{if !empty($PROCESS)}
 					<div class="paddingLeft5px">
-						<span class="muted">{vtranslate('Process',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('process')}</span>
+						<span class="muted">{vtranslate('LBL_PROCESS',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('process')}</span>
 					</div>
 				{/if}
 				<div class="paddingLeft5px">

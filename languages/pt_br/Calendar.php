@@ -149,6 +149,7 @@ $languageStrings = [
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Fill the start date based on the first available date',
 	'LBL_CACHE_SELECTED_FILTERS' => 'Standard view in calendar changed. Click "Clear view" to clear it.',
 	'LBL_CACHE_CLEAR' => 'Clear view',
+	'LBL_PROCESS' => 'Process',
 ];
 
 $jsLanguageStrings = [
