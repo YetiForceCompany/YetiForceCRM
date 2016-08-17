@@ -2523,7 +2523,7 @@ class CRMEntity
 				$query .= " OR vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$parentRoleSeq::%')";
 			}
 			if (count($userPrivileges['groups']) > 0) {
-				$query .= ' OR vtiger_crmentity.smownerid IN (SELECT groupid FROM vtiger_groups where groupid in (' . implode(',', $userPrivileges['groups']) . '))';
+				$query .= ' OR vtiger_crmentity.smownerid IN (' . implode(',', $userPrivileges['groups']) . ')';
 			}
 		}
 		if (\AppConfig::security('PERMITTED_BY_SHARING') && !empty($moduleName)) {
