@@ -285,7 +285,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		if (typeof types == 'string') {
 			types = [types];
 		}
-		types.forEach(function (entry) {
+		if (types) types.forEach(function (entry) {
 			if (entry == 'individual') {
 				var discountValue = discountParams.individualDiscount;
 				var discountType = discountParams.individualDiscountType;
@@ -321,7 +321,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		if (typeof types == 'string') {
 			types = [types];
 		}
-		types.forEach(function (entry) {
+		if (types) types.forEach(function (entry) {
 			var taxValue = 0;
 			if (entry == 'individual') {
 				taxValue = taxParams.individualTax;
@@ -452,7 +452,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				if (typeof param.aggregationType == 'string') {
 					param.aggregationType = [param.aggregationType];
 				}
-				$.each(param.aggregationType, function (index, name) {
+				if (param.aggregationType) $.each(param.aggregationType, function (index, name) {
 					var name = name + 'Tax';
 					var precent = param[name];
 					var old = 0;
