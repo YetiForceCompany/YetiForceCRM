@@ -138,6 +138,7 @@ $languageStrings = [
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Bitte das Startdatum auf das erste verfügbare Datum setzen',
 	'LBL_CACHE_SELECTED_FILTERS' => 'Standardsicht des Kalenders geändert. Klicke "View leeren" um zu löschen.',
 	'LBL_CACHE_CLEAR' => 'View leeren',
+	'LBL_PROCESS' => 'Process',
 ];
 $jsLanguageStrings = [
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',

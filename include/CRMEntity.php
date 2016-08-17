@@ -2510,48 +2510,48 @@ class CRMEntity
 		return 'INNER JOIN';
 	}
 
-	function getUserAccessConditionsQuery($module, $user)
+	function getUserAccessConditionsQuery($moduleName, $user)
 	{
-		require('user_privileges/user_privileges_' . $user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $user->id . '.php');
+		$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($user->id);
+
 		$query = '';
-		$tabId = getTabid($module);
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
-			$query .= " vtiger_crmentity.smownerid = '$user->id' OR vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$current_user_parent_role_seq::%')";
-			if (count($current_user_groups) > 0) {
-				$query .= " OR vtiger_crmentity.smownerid IN (SELECT groupid FROM vtiger_groups where groupid in (" . implode(",", $current_user_groups) . "))";
+		$tabId = \vtlib\Functions::getModuleId($moduleName);
+		if ($userPrivileges['is_admin'] == false && $userPrivileges['profile_global_permission'][1] == 1 && $userPrivileges['profile_global_permission'][2] == 1 && $userPrivileges['defaultOrgSharingPermission'][$tabId] == 3) {
+			$parentRoleSeq = $userPrivileges['parent_role_seq'];
+			$query .= " vtiger_crmentity.smownerid = '$user->id'";
+			if (\AppConfig::security('PERMITTED_BY_ROLES')) {
+				$query .= " OR vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$parentRoleSeq::%')";
+			}
+			if (count($userPrivileges['groups']) > 0) {
+				$query .= ' OR vtiger_crmentity.smownerid IN (SELECT groupid FROM vtiger_groups where groupid in (' . implode(',', $userPrivileges['groups']) . '))';
 			}
 		}
-		if (!empty($module)) {
-			$sharingRuleInfoVariable = $module . '_share_read_permission';
-			$sharingRuleInfo = $$sharingRuleInfoVariable;
-			if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 || count($sharingRuleInfo['GROUP']) > 0)) {
-				$moduleAccessQuery = " OR vtiger_crmentity.smownerid IN (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per WHERE userid=$user->id AND tabid=$tabId) OR vtiger_crmentity.smownerid IN (SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid FROM vtiger_tmp_read_group_sharing_per WHERE userid=$user->id AND tabid=$tabId)";
-			}
-			if (!empty($moduleAccessQuery)) {
-				$query .= $moduleAccessQuery;
+		if (\AppConfig::security('PERMITTED_BY_SHARING') && !empty($moduleName)) {
+			$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($user->id);
+			if (isset($sharingPrivileges[$moduleName])) {
+				$sharingPrivilegesModule = $sharingPrivileges[$moduleName];
+				$sharingRuleInfo = $sharingPrivilegesModule['read'];
+				if (count($sharingRuleInfo['ROLE']) > 0 || count($sharingRuleInfo['GROUP']) > 0) {
+					$query .= " OR vtiger_crmentity.smownerid IN (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per WHERE userid=$user->id AND tabid=$tabId) OR vtiger_crmentity.smownerid IN (SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid FROM vtiger_tmp_read_group_sharing_per WHERE userid=$user->id AND tabid=$tabId)";
+				}
 			}
 		}
 		return $query;
 	}
 
-	function getUserAccessConditionsQuerySR($module, $current_user = false, $relatedRecord = false)
+	function getUserAccessConditionsQuerySR($module, $currentUser = false, $relatedRecord = false)
 	{
-		if ($current_user == false)
-			$current_user = vglobal('current_user');
+		if ($currentUser == false)
+			$currentUser = vglobal('current_user');
 
-		$userid = $current_user->id;
-		require('user_privileges/user_privileges_' . $userid . '.php');
-		require('user_privileges/sharing_privileges_' . $userid . '.php');
+		$userid = $currentUser->id;
+		$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($userid);
 
-		$sharedParameter = $securityParameter = '';
-		$query = '';
-		$tabId = getTabid($module);
-
-		if ($relatedRecord) {
+		$query = $sharedParameter = $securityParameter = '';
+		$tabId = \vtlib\Functions::getModuleId($module);
+		if ($relatedRecord && \AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$role = $userModel->getRoleDetail();
-
 			if ($role->get('listrelatedrecord') == 2) {
 				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
 				if ($rparentRecord) {
@@ -2567,12 +2567,14 @@ class CRMEntity
 			}
 		}
 
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
-			$securityParameter = $this->getUserAccessConditionsQuery($module, $current_user);
-			$shownerid = array_merge([$userid], $current_user_groups);
-			$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN (' . implode(',', $shownerid) . '))';
+		if ($userPrivileges['is_admin'] == false && $userPrivileges['profile_global_permission'][1] == 1 && $userPrivileges['profile_global_permission'][2] == 1 && $userPrivileges['defaultOrgSharingPermission'][$tabId] == 3) {
+			$securityParameter = $this->getUserAccessConditionsQuery($module, $currentUser);
+			$shownerid = array_merge([$userid], $userPrivileges['groups']);
+			if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+				$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN (' . implode(',', $shownerid) . '))';
+			}
 		}
-		if (AppConfig::main('shared_owners') == true) {
+		if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 			if ($securityParameter != '') {
 				$query .= " AND ( ($securityParameter) OR ($sharedParameter) )";
 			} elseif ($sharedParameter != '') {

@@ -363,15 +363,18 @@ function isPermitted($module, $actionname, $record_id = '')
 		$recOwnType = '';
 		$recOwnId = '';
 		$recordOwnerArr = getRecordOwnerId($record_id);
-		$shownerids = Vtiger_SharedOwner_UIType::getSharedOwners($record_id, $module);
+
 		foreach ($recordOwnerArr as $type => $id) {
 			$recOwnType = $type;
 			$recOwnId = $id;
 		}
-		if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
-			vglobal('isPermittedLog', 'SEC_RECORD_SHARED_OWNER');
-			$log->debug('Exiting isPermitted method ... - Shared Owner');
-			return 'yes';
+		if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+			$shownerids = Vtiger_SharedOwner_UIType::getSharedOwners($record_id, $module);
+			if (in_array($current_user->id, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
+				vglobal('isPermittedLog', 'SEC_RECORD_SHARED_OWNER');
+				$log->debug('Exiting isPermitted method ... - Shared Owner');
+				return 'yes';
+			}
 		}
 		if ($recOwnType == 'Users') {
 			//Checking if the Record Owner is the current User
@@ -381,12 +384,14 @@ function isPermitted($module, $actionname, $record_id = '')
 				return 'yes';
 			}
 
-			//Checking if the Record Owner is the Subordinate User
-			foreach ($userPrivileges['subordinate_roles_users'] as $roleid => $userids) {
-				if (in_array($recOwnId, $userids)) {
-					vglobal('isPermittedLog', 'SEC_RECORD_OWNER_SUBORDINATE_USER');
-					$log->debug('Exiting isPermitted method ...');
-					return 'yes';
+			if (\AppConfig::security('PERMITTED_BY_ROLES')) {
+				//Checking if the Record Owner is the Subordinate User
+				foreach ($userPrivileges['subordinate_roles_users'] as $roleid => $userids) {
+					if (in_array($recOwnId, $userids)) {
+						vglobal('isPermittedLog', 'SEC_RECORD_OWNER_SUBORDINATE_USER');
+						$log->debug('Exiting isPermitted method ...');
+						return 'yes';
+					}
 				}
 			}
 		} elseif ($recOwnType == 'Groups') {
@@ -397,38 +402,43 @@ function isPermitted($module, $actionname, $record_id = '')
 				return 'yes';
 			}
 		}
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$role = $userPrivilegesModel->getRoleDetail();
-		if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
-			$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role->get('previewrelatedrecord'), $actionid);
-			if ($parentRecord) {
-				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($parentRecord);
-				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
-				$permissionsRelatedField = empty($permissionsRoleForRelatedField) ? [] : explode(',', $role->get('permissionsrelatedfield'));
-				$relatedPermission = false;
-				foreach ($permissionsRelatedField as &$row) {
-					switch ($row) {
-						case 0:
-							$relatedPermission = $recordMetaData['smownerid'] == $current_user->id || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
-							break;
-						case 1:
-							$relatedPermission = in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
-							break;
-						case 2:
-							$permission = isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord);
-							$relatedPermission = $permission == 'yes' ? true : false;
-							break;
-					}
-					if ($relatedPermission) {
-						vglobal('isPermittedLog', 'SEC_RECORD_HIERARCHY_USER');
-						$log->debug('Exiting isPermitted method ... - Parent Record Owner');
-						return 'yes';
+		if (\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
+			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$role = $userPrivilegesModel->getRoleDetail();
+			if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
+				$parentRecord = Users_Privileges_Model::getParentRecord($record_id, $module, $role->get('previewrelatedrecord'), $actionid);
+				if ($parentRecord) {
+					$recordMetaData = vtlib\Functions::getCRMRecordMetadata($parentRecord);
+					$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
+					$permissionsRelatedField = empty($permissionsRoleForRelatedField) ? [] : explode(',', $role->get('permissionsrelatedfield'));
+					$relatedPermission = false;
+					foreach ($permissionsRelatedField as &$row) {
+						switch ($row) {
+							case 0:
+								$relatedPermission = $recordMetaData['smownerid'] == $current_user->id || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
+								break;
+							case 1:
+								$relatedPermission = in_array($current_user->id, Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
+								break;
+							case 2:
+								if (\AppConfig::security('PERMITTED_BY_SHARING')) {
+									$permission = isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord);
+									$relatedPermission = $permission == 'yes' ? true : false;
+								}
+								break;
+						}
+						if ($relatedPermission) {
+							vglobal('isPermittedLog', 'SEC_RECORD_HIERARCHY_USER');
+							$log->debug('Exiting isPermitted method ... - Parent Record Owner');
+							return 'yes';
+						}
 					}
 				}
 			}
 		}
-		$permission = isPermittedBySharing($module, $tabid, $actionid, $record_id);
-
+		if (\AppConfig::security('PERMITTED_BY_SHARING')) {
+			$permission = isPermittedBySharing($module, $tabid, $actionid, $record_id);
+		}
 		vglobal('isPermittedLog', 'SEC_RECORD_BY_SHARING_' . strtoupper($permission));
 		$log->debug('Exiting isPermitted method ... - isPermittedBySharing');
 	} else {
@@ -920,18 +930,7 @@ function getRoleUsers($roleId)
  */
 function getRoleUserIds($roleId)
 {
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering getRoleUserIds(" . $roleId . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?";
-	$result = $adb->pquery($query, array($roleId));
-	$num_rows = $adb->num_rows($result);
-	$roleRelatedUsers = [];
-	for ($i = 0; $i < $num_rows; $i++) {
-		$roleRelatedUsers[] = $adb->query_result($result, $i, 'userid');
-	}
-	$log->debug("Exiting getRoleUserIds method ...");
-	return $roleRelatedUsers;
+	return \includes\PrivilegesUtils::getRoleUserIds($roleId);
 }
 
 /** Function to get the vtiger_role and subordinate vtiger_users

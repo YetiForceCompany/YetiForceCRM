@@ -91,17 +91,17 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') && empty($totalCount) ) {
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
-		if(!empty($totalCount)){
+		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', (int) $totalCount);
-		}		
-		$viewer->assign('TOTAL_ENTRIES', $totalCount);
+			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
+			$viewer->assign('LISTVIEW_COUNT', (int) $totalCount);
+		}
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
-		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);

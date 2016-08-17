@@ -139,6 +139,7 @@ $languageStrings = [
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Wypełnienie daty rozpoczęcia na podstawie pierwszego wolnego terminu',
 	'LBL_CACHE_SELECTED_FILTERS' => 'Zmieniłeś standardowy widok w kalendarzu, aby go wyczyścić wciśnij przycisk "Wyczyść widok".',
 	'LBL_CACHE_CLEAR' => 'Wyczyść widok',
+	'LBL_PROCESS' => 'Proces',
 ];
 $jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Dodano kalendarz',

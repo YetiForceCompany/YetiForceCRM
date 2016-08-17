@@ -230,22 +230,7 @@ function to_html($string, $encode = true)
  */
 function getTabname($tabid)
 {
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering getTabname(" . $tabid . ") method ...");
-	$log->info("tab id is " . $tabid);
-	$adb = PearDatabase::getInstance();
-
-	static $cache = [];
-
-	if (!isset($cache[$tabid])) {
-		$sql = "select tablabel from vtiger_tab where tabid=?";
-		$result = $adb->pquery($sql, array($tabid));
-		$tabname = $adb->query_result($result, 0, "tablabel");
-		$cache[$tabid] = $tabname;
-	}
-
-	$log->debug("Exiting getTabname method ...");
-	return $cache[$tabid];
+	return \vtlib\Functions::getModuleName($tabid);
 }
 
 /** Function to get the tab module name for a given id
@@ -425,28 +410,16 @@ function getActionname($actionid)
 function getRecordOwnerId($record)
 {
 	$log = LoggerManager::getInstance();
-	$log->debug("Entering getRecordOwnerId(" . $record . ") method ...");
-	$adb = PearDatabase::getInstance();
+	$log->debug("Entering getRecordOwnerId($record) method ...");
 	$ownerArr = [];
 
 	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
-
 	if ($recordMetaData) {
 		$ownerId = $recordMetaData['smownerid'];
-		// Look at cache first for information
-		$count = VTCacheUtils::lookupOwnerType($ownerId);
-		if ($count === false) {
-			$result = $adb->pquery("select 1 from vtiger_users where id = ?", array($ownerId));
-			$count = $adb->getRowCount($result);
-			// Update cache for re-use
-			VTCacheUtils::updateOwnerType($ownerId, $count);
-		}
-		if ($count > 0)
-			$ownerArr['Users'] = $ownerId;
-		else
-			$ownerArr['Groups'] = $ownerId;
+		$type = \includes\fields\Owner::getType($ownerId);
+		$ownerArr[$type] = $ownerId;
 	}
-	$log->debug("Exiting getRecordOwnerId method ...");
+	$log->debug('Exiting getRecordOwnerId method ...');
 	return $ownerArr;
 }
 
@@ -640,8 +613,8 @@ function getParentRecordOwner($tabid, $parModId, $record_id)
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering getParentRecordOwner(" . $tabid . "," . $parModId . "," . $record_id . ") method ...");
 	$parentRecOwner = [];
-	$parentTabName = getTabname($parModId);
-	$relTabName = getTabname($tabid);
+	$parentTabName = \vtlib\Functions::getModuleName($parModId);
+	$relTabName = \vtlib\Functions::getModuleName($tabid);
 	$fn_name = "get" . $relTabName . "Related" . $parentTabName;
 	$ent_id = $fn_name($record_id);
 	if ($ent_id != '') {

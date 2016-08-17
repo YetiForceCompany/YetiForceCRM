@@ -3179,9 +3179,11 @@ CREATE TABLE `vtiger_asterisk` (
 /*Table structure for table `vtiger_asteriskextensions` */
 
 CREATE TABLE `vtiger_asteriskextensions` (
-  `userid` int(11) DEFAULT NULL,
+  `userid` smallint(11) unsigned NOT NULL,
   `asterisk_extension` varchar(50) DEFAULT NULL,
-  `use_asterisk` varchar(3) DEFAULT NULL
+  `use_asterisk` varchar(3) DEFAULT NULL,
+  PRIMARY KEY (`userid`),
+  KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_asteriskincomingcalls` */

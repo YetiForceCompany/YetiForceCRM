@@ -101,7 +101,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				];
 			}
 		}
-		if ($moduleModel->isPermitted('WatchingRecords')) {
+		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 			$class = 'btn-default';
 			if ($watchdog->isWatchingRecord()) {
