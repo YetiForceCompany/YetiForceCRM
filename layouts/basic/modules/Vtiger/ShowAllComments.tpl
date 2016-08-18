@@ -31,7 +31,7 @@
 		</div>
 	{/if}
 </div>
-{if count($HIERARCHY_LIST) != 1}
+{if count($HIERARCHY_LIST) != 1 && $HIERARCHY}
 	<div class="col-md-12 row commentsHeader marginTop10">
 		<div class="col-md-4"> </div>
 		<div class="col-md-4">

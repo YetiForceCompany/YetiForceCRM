@@ -2523,7 +2523,7 @@ class CRMEntity
 				$query .= " OR vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$parentRoleSeq::%')";
 			}
 			if (count($userPrivileges['groups']) > 0) {
-				$query .= ' OR vtiger_crmentity.smownerid IN (SELECT groupid FROM vtiger_groups where groupid in (' . implode(',', $userPrivileges['groups']) . '))';
+				$query .= ' OR vtiger_crmentity.smownerid IN (' . implode(',', $userPrivileges['groups']) . ')';
 			}
 		}
 		if (\AppConfig::security('PERMITTED_BY_SHARING') && !empty($moduleName)) {
@@ -2574,14 +2574,12 @@ class CRMEntity
 				$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN (' . implode(',', $shownerid) . '))';
 			}
 		}
-		if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
-			if ($securityParameter != '') {
-				$query .= " AND ( ($securityParameter) OR ($sharedParameter) )";
-			} elseif ($sharedParameter != '') {
-				$query .= ' AND (' . $sharedParameter . ')';
-			}
-		} else {
-			$query .= $securityParameter;
+		if (!empty($securityParameter) && !empty($sharedParameter)) {
+			$query .= " AND (($securityParameter) OR ($sharedParameter))";
+		} elseif (!empty($sharedParameter)) {
+			$query .= " AND ($sharedParameter)";
+		} elseif (!empty($securityParameter)) {
+			$query .= " AND ($securityParameter)";
 		}
 		return $query;
 	}
