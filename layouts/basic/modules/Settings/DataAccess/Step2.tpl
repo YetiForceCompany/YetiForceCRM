@@ -10,8 +10,8 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-    <div class="editContainer" style="padding-left: 3%;padding-right: 3%">
-		{include file='Header.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+	{include file='Header.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+    <div class="editContainer">
         <div id="step">
             {include file='Step2Content.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
         </div>
