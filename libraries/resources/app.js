@@ -533,8 +533,9 @@ var app = {
 		}
 		container.one('hidden.bs.modal', function () {
 			container.remove();
-			var backdrop = jQuery('.modal-backdrop:first');
-			if (backdrop.length) {
+			var backdrop = jQuery('.modal-backdrop');
+			var modalContainers = jQuery('.modalContainer');
+			if (modalContainers.length == 0 && backdrop.length) {
 				backdrop.remove();
 			}
 		});
