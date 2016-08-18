@@ -21,11 +21,11 @@ $languageStrings = [
 	'FL_NUMBER' => 'Счет №',
 	'FL_ACCOUNT' => 'Контрагент',
 	'FL_TOTAL' => 'Чистый',
-	'FL_GROSS' => 'Валовый',
+	'FL_GROSS' => 'Брутто',
 	'FL_STATUS' => 'Статус',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'Банковский перевод',
-	'PLL_CASH' => 'Налиные',
+	'PLL_CASH' => 'Наличные',
 	//OTHERS
 	'LBL_YEAR' => 'Год',
 ];
