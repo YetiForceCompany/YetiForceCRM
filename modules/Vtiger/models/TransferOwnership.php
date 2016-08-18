@@ -45,7 +45,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 						$fieldModel = $relationModel->getRelationField();
 						$tablename = $fieldModel->get('table');
 						$tabIndex = $instance->table_index;
-						$relIndex = $this->getRelatedFieldName($relatedModule, $basicModule);
+						$relIndex = $this->getRelatedColumnName($relatedModule, $basicModule);
 
 						if (!$relIndex) {
 							break;
@@ -165,17 +165,15 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 		return $relatedModules;
 	}
 
-	public function getRelatedFieldName($relatedModule, $findModule)
+	public function getRelatedColumnName($relatedModule, $findModule)
 	{
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relatedModelFields = $relatedModuleModel->getFields();
 		foreach ($relatedModelFields as $fieldName => $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
-				foreach ($referenceList as $relation) {
-					if ($relation == $findModule) {
-						return $fieldName;
-					}
+				if (in_array($findModule, $referenceList)){
+					return $fieldModel->get('column');
 				}
 			}
 		}
