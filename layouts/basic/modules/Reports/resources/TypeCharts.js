@@ -136,7 +136,7 @@ Vtiger_Pie_Widget_Js('Report_Piechart_Js', {}, {
 	},
 	generateData: function () {
 
-		var jsonData = jQuery('input[name=data]').val();
+		var jsonData = this.getContainer().find('input[name=data]').val();
 		var data = this.data = JSON.parse(jsonData);
 		var values = data['values'];
 
@@ -155,7 +155,7 @@ Vtiger_Pie_Widget_Js('Report_Piechart_Js', {}, {
 Report_Verticalbarchart_Js('Report_Linechart_Js', {}, {
 	generateData: function () {
 
-		var jsonData = jQuery('input[name=data]').val();
+		var jsonData = this.getContainer().find('input[name=data]').val();
 		var data = this.data = JSON.parse(jsonData);
 		var values = data['values'];
 
@@ -219,7 +219,7 @@ Report_Verticalbarchart_Js('Report_Linechart_Js', {}, {
 Report_Verticalbarchart_Js('Report_Horizontalbarchart_Js', {}, {
 	generateChartData: function () {
 
-		var jsonData = jQuery('input[name=data]').val();
+		var jsonData = this.getContainer().find('input[name=data]').val();
 		var data = this.data = JSON.parse(jsonData);
 		var values = data['values'];
 
