@@ -520,6 +520,10 @@ var app = {
 			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 			modalContainer.one('shown.bs.modal', function () {
+				var backdrop = jQuery('.modal-backdrop');
+				if(backdrop.length > 1){
+					jQuery('.modal-backdrop:not(:first)').remove();
+				}
 				cb(modalContainer);
 			})
 		}
@@ -560,7 +564,8 @@ var app = {
 		var modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
 		var backdrop = jQuery('.modal-backdrop:last');
-		if (backdrop.length) {
+		var modalContainers = jQuery('.modalContainer');
+		if (modalContainers.length == 0 && backdrop.length) {
 			backdrop.remove();
 		}
 		modalContainer.one('hidden.bs.modal', callback);
