@@ -13,8 +13,7 @@
 				<input type="hidden" name="tabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('tabid')}" />
 				<input type="hidden" name="reltabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('reltabid')}" />
 			{/if}
-			<div class="col-md-2"></div>
-			<div class="col-md-8">
+			<div class="col-md-12 paddingLRZero">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<label>
@@ -76,7 +75,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-2"></div>
 		</form>
 	</div>
 {/strip}

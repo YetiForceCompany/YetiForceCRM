@@ -8,8 +8,7 @@
 			<input type="hidden" name="parent" value="{$MAPPEDFIELDS_MODULE_MODEL->getParentName()}" />
 			<input type="hidden" class="step" value="4" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
-			<div class="col-md-2"></div>
-			<div class="col-md-8">
+			<div class="col-md-12 paddingLRZero">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<label>
@@ -43,7 +42,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-2"></div>
 		</form>
 	</div>
 {/strip}

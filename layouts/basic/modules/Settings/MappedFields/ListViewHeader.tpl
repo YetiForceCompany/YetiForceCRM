@@ -8,7 +8,6 @@
 					{vtranslate('LBL_MAPPEDFIELDS_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
 			</div>
-			<hr>
 			<div class="row">
 				<div class="col-md-4 btn-toolbar">
 					<button class="btn btn-default addButton" id="addButton" data-url="{$MODULE_MODEL->getCreateRecordUrl()}">

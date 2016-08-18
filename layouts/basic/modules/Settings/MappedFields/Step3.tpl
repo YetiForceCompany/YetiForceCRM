@@ -9,8 +9,7 @@
 			<input type="hidden" class="step" value="3" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			<input type="hidden" name="conditions" id="advanced_filter" value='' />
-			<div class="col-md-1"></div>
-			<div class="col-md-10">
+			<div class="col-md-12 paddingLRZero">
 				<div class="panel panel-default">
 					<div class="panel-body padding0">
 						{include file='AdvanceFilterExpressions.tpl'|@vtemplate_path}
@@ -24,7 +23,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-1"></div>
 		</form>
 	</div>
 {/strip}
