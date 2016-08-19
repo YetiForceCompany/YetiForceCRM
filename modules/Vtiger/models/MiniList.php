@@ -135,13 +135,15 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$db = PearDatabase::getInstance();
 
 			$query = $this->queryGenerator->getQuery() . $ownerSql;
-			$query .= sprintf(' ORDER BY vtiger_crmentity.modifiedtime DESC LIMIT 0,%d', $this->getRecordLimit());
+			$targetModuleName = $this->getTargetModule();
+			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
+			if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
+				$query .= sprintf(' ORDER BY %s %s', $targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
+			}
+			$query .= sprintf(' LIMIT 0,%d', $this->getRecordLimit());
 			$query = substr($query, 6);
 			$query = sprintf('SELECT vtiger_crmentity.crmid as id, %s', $query);
 			$result = $db->pquery($query, $params);
-
-			$targetModuleName = $this->getTargetModule();
-			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
 
 			$entries = $this->listviewController->getListViewRecords($targetModuleFocus, $targetModuleName, $result);
 
