@@ -13,9 +13,11 @@
 	<div class="col-md-12 paddingLRZero row">
 		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				<span class="hierarchy">
-					<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
-				</span>
+				{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+					<span class="hierarchy">
+						<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
+					</span>
+				{/if}
 				<span class="detailViewIcon cursorPointer userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 			</div>
 			<div class="paddingLeft5px">
