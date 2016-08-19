@@ -9,8 +9,7 @@
 			<input type="hidden" class="step" value="2" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			{assign var="PARAMS" value=$MAPPEDFIELDS_MODULE_MODEL->get('params')}
-			<div class="col-md-1"></div>
-			<div class="col-md-10">
+			<div class="col-md-12 paddingLRZero">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<label>
@@ -140,7 +139,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-1"></div>
+
 	</div>
 </form>
 </div>

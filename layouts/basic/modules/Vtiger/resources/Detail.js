@@ -869,7 +869,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.selectPageHandler(pageNumber);
 		});
-		detailContentsHolder.on('click', '#totalCountBtn', function(){
+		detailContentsHolder.on('click', '#totalCountBtn', function () {
 			var params = {
 				module: app.getModuleName(),
 				view: 'Pagination',
@@ -879,7 +879,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				page: detailContentsHolder.find('[name="currentPageNum"]').val(),
 				record: app.getRecordId(),
 			}
-			AppConnector.request(params).then(function(response){
+			AppConnector.request(params).then(function (response) {
 				detailContentsHolder.find('.paginationDiv').html(response);
 			});
 		});
@@ -1992,27 +1992,28 @@ jQuery.Class("Vtiger_Detail_Js", {
 			thisInstance.registerTagClickEvent(data);
 		});
 	},
-	registerGetAllTagCloudWidgetLoad: function () {
+	registerGetAllTagCloudWidgetLoad: function (detailViewContainer) {
 		var thisInstance = this;
-		var params = {
-			module: app.getModuleName(),
-			mode: 'showTags',
-			source_module: app.getModuleName(),
-			record: this.getRecordId(),
-			view: 'ShowTagCloudTop'
-		};
-
-		AppConnector.request(params).then(function (data) {
-			if (data.length > 0) {
-				data = $(data);
-				$(".detailViewTitle .tagContainer").append(data);
-				thisInstance.registerDeleteEventForTag(data);
-				thisInstance.registerRemovePromptEventForTagCloud(data);
-				thisInstance.registerTagClickEvent(data);
-				thisInstance.registerClickEventForAddingTagRecord();
-				thisInstance.registerEnterClickEventForTagRecord();
-			}
-		});
+		var tagContainer = detailViewContainer.find('.tagContainer');
+		if (tagContainer.length) {
+			AppConnector.request({
+				module: app.getModuleName(),
+				mode: 'showTags',
+				source_module: app.getModuleName(),
+				record: this.getRecordId(),
+				view: 'ShowTagCloudTop'
+			}).then(function (data) {
+				if (data.length > 0) {
+					data = $(data);
+					tagContainer.append(data);
+					thisInstance.registerDeleteEventForTag(data);
+					thisInstance.registerRemovePromptEventForTagCloud(data);
+					thisInstance.registerTagClickEvent(data);
+					thisInstance.registerClickEventForAddingTagRecord();
+					thisInstance.registerEnterClickEventForTagRecord();
+				}
+			});
+		}
 	},
 	registerEventForRelatedTabClick: function () {
 		var thisInstance = this;
@@ -3014,7 +3015,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.loadWidgets();
 
 		this.registerEventForTotalRecordsCount();
-		this.registerGetAllTagCloudWidgetLoad();
+		this.registerGetAllTagCloudWidgetLoad(detailViewContainer);
 		var header = Vtiger_Header_Js.getInstance();
 		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
 	}

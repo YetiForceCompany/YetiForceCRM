@@ -964,8 +964,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 
 			if (currencyParam != false) {
 				if(typeof currencyParam[option.val()] == 'undefined'){
-					currencyParam[option.val()]['value'] = 1;
-					currencyParam[option.val()]['date'] = '';
+					var defaultCurrencyParams = [];
+					defaultCurrencyParams['value'] = 1;
+					defaultCurrencyParams['date'] = '';
+					currencyParam[option.val()] = defaultCurrencyParams;
 				}
 				modal.find('.currencyName').text(option.text());
 				modal.find('.currencyRate').val(currencyParam[option.val()]['value']);
@@ -977,8 +979,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				var conversionRate = 1 / app.parseNumberToFloat(rate);
 
 				option.data('conversionRate', conversionRate);
-				currencyParam[option.val()]['value'] = value;
-				currencyParam[option.val()]['conversion'] = conversionRate;
+				currencyParam[option.val()] = {
+					value: value.toString(),
+					conversion: conversionRate.toString()
+				};
 				block.find('.currencyparam').val(JSON.stringify(currencyParam));
 
 				thisInstance.currencyConvertValues(select, option);

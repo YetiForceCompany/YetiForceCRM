@@ -27,11 +27,11 @@ $languageStrings = [
 	'LBL_AT_RESTORE_P' => 'Востановленный',
 	'LBL_AT_LINK_P' => 'Связанный',
 	'LBL_AT_UNLINK_P' => 'Разорванный',
-	'LBL_AT_CONVERTTOACCOUNT_P' => 'Converted to Account',
-	'LBL_AT_DISPLAY_P' => 'Viewed',
-	'LBL_REVIEW_HISTORY' => 'Review history',
-	'LBL_REVIEWED' => 'Reviewed',
-	'BTN_CHANGES_REVIEWED_ON' => 'Changes reviewed on',
+	'LBL_AT_CONVERTTOACCOUNT_P' => 'Преобразован в Контрагента',
+	'LBL_AT_DISPLAY_P' => 'Просмотренный',
+	'LBL_REVIEW_HISTORY' => 'Обзор истории',
+	'LBL_REVIEWED' => 'Непросмотренный',
+	'BTN_CHANGES_REVIEWED_ON' => 'Изменено на просмотренный',
 ];
 
 $jsLanguageStrings = [

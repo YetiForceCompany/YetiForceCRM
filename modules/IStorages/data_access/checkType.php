@@ -15,8 +15,10 @@ class DataAccess_checkType
 	{
 		if ((empty($recordData['storage_type']) || $recordData['storage_type'] == 'PLL_INTERNAL') && empty($recordData['parentid'])) {
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT istorageid FROM u_yf_istorages WHERE parentid = ?';
-			$result = $db->pquery($query, [0]);
+			$query = 'SELECT u_yf_istorages.istorageid FROM u_yf_istorages 
+				INNER JOIN vtiger_crmentity ON u_yf_istorages.istorageid = vtiger_crmentity.crmid 
+				WHERE parentid = ? AND vtiger_crmentity.deleted = ?';
+			$result = $db->pquery($query, [0, 0]);
 			if ($db->getRowCount($result) > 0) {
 				$row = $db->getSingleValue($result);
 				if (!empty($id) && $row == $id) {
