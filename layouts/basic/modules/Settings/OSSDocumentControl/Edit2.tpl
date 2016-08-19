@@ -10,16 +10,12 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-    <div class="editContainer" style="padding-left: 3%;padding-right: 3%">
-        <h3>
-            {if $RECORDID eq ''}
-                {vtranslate('LBL_CREATING_TPL',$MODULE_NAME)}
-            {else}
-                {vtranslate('LBL_EDITING_TPL',$MODULE_NAME)}
-            {/if}
-        </h3>
-
-        <hr>
+	<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+	</div>
+    <div class="editContainer">
         <div id="breadcrumb">
             <ul class="crumbs marginLeftZero">
                 <li class="first step" style="z-index:9" id="Step1">
