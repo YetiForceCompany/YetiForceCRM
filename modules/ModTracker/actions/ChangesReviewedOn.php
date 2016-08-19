@@ -52,7 +52,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 	public function getUnreviewed(Vtiger_Request $request)
 	{
 		$records = $request->get('recordsId');
-		$result = ModTracker_Record_Model::getUnreviewed($records);
+		$result = ModTracker_Record_Model::getUnreviewed($records, false, true);
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

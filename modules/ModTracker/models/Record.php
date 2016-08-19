@@ -121,7 +121,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		}
 		$listQuery = sprintf('SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (%s) AND status <> ?', $db->generateQuestionMarks($recordsId));
 		if ($sort) {
-			$listQuery .=' ORDER BY crmid, changedon DESC, id DESC';
+			$listQuery .=' ORDER BY crmid, id DESC';
 		}
 		$result = $db->pquery($listQuery, [$recordsId, self::DISPLAYED]);
 		$changes = $db->getColumnByGroup($result);
