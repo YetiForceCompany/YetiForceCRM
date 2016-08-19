@@ -16,7 +16,6 @@
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div>
 		</div>
-		<hr>
 		<form>
 			<table>
 				<tr>

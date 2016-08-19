@@ -7,7 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
-    <div class="workFlowContents" style="padding-left: 3%;padding-right: 3%">
+    <div class="workFlowContents">
         <form name="EditWorkflow" action="index.php" method="post" id="workflow_step1" class="form-horizontal">
             <input type="hidden" name="module" value="Workflows">
             <input type="hidden" name="view" value="Edit">

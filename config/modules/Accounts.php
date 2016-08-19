@@ -5,4 +5,6 @@ $CONFIG = [
 	'COLUMNS_IN_HIERARCHY' => [],
 	// Max depth of hierarchy
 	'MAX_HIERARCHY_DEPTH' => 50,
+	// Count Accounts in hierarchy
+	'COUNT_IN_HIERARCHY' => true,
 ];
