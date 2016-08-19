@@ -124,7 +124,7 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 							}
 							if ($fieldModel->isViewable() && $DataType) {
 								$name = "($parentFieldName : ($refModule) $fieldName)";
-								$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ' : (' . vtranslate($refModule, $refModule) . ') ' . vtranslate($fieldModel->get('label'), $refModule);
+								$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ': (' . vtranslate($refModule, $refModule) . ') ' . vtranslate($fieldModel->get('label'), $refModule);
 
 								switch ($fieldModel->getFieldDataType()) {
 									case 'date' : if (($moduleName === 'Events' && in_array($fieldName, array('date_start', 'due_date'))) ||
@@ -160,7 +160,7 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 					$commentFieldModelsList = Settings_Workflows_Field_Model::getCommentFieldsListForTasks($moduleModel);
 					foreach ($commentFieldModelsList as $commentFieldName => $commentFieldModel) {
 						$name = "($parentFieldName : ($refModule) $commentFieldName)";
-						$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ' : (' .
+						$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ': (' .
 							vtranslate($refModule, $refModule) . ') ' .
 							vtranslate($commentFieldModel->get('label'), $refModule);
 
