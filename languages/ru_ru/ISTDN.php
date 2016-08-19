@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'ISTDN' => 'Storage Transfer Dispatched Notes',
+	'ISTDN' => 'Внешние поставки',
 	'SINGLE_ISTDN' => 'Storage Transfer Dispatched Note',
 	'LBL_DESCRIPTION_BLOCK' => 'Description',
 	'LBL_ATTENTION_BLOCK' => 'Comments',
