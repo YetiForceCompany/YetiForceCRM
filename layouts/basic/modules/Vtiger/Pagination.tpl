@@ -52,7 +52,7 @@
 				<span aria-hidden="true">&raquo;</span>
 			</li>
 			{if !$LISTVIEW_COUNT && $PAGING_MODEL->isNextPageExists()}
-				<li class="popoverTooltip" id="totalCountBtn" title="{vtranslate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
+				<li class="popoverTooltip" id="totalCountBtn" data-content="{vtranslate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}" >
 					<a><span class="glyphicon glyphicon-equalizer"></span></a>
 				</li>
 			{/if}

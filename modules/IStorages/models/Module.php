@@ -78,8 +78,9 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 		$relData = $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
 		foreach ($qtyInStock as $ID => $value) {
 			if (array_key_exists($ID, $relData)) {
-				$where = $referenceInfo['base'] . ' = ? AND `' . $referenceInfo['rel'] . '` = ?;';
-				$db->update($referenceInfo['table'], ['qtyinstock' => $qty], $where , [$value, $storageId, $ID]);
+				$query = 'UPDATE %s SET `qtyinstock` = %s WHERE `%s` = ? AND `%s` = ? '; 
+				$query = sprintf($query, $referenceInfo['table'], $qty, $referenceInfo['base'], $referenceInfo['rel']);
+				$db->pquery($query, [$value, $storageId, $ID]);
 			} else {
 				$db->insert($referenceInfo['table'], [$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $ID, 'qtyinstock' => $operator == '+' ? $value : $operator . $value]);
 			}

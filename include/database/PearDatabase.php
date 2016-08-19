@@ -924,4 +924,16 @@ class PearDatabase
 		$stmt->execute([$this->logSqlTimeID, $type, NULL, implode(PHP_EOL, $data), $now, $group]);
 		$this->logSqlTimeGroup++;
 	}
+
+	public static function whereEquals($val)
+	{
+		if (is_array($val)) {
+			if (count($val) > 1) {
+				return 'IN (\'' . implode("','", $val) . '\')';
+			} else {
+				$val = array_shift($val);
+			}
+		}
+		return '=\'' . $val . '\'';
+	}
 }

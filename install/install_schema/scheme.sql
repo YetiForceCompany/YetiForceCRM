@@ -2949,7 +2949,7 @@ CREATE TABLE `vtiger_activity` (
   `visibility` varchar(50) NOT NULL DEFAULT 'all',
   `recurringtype` varchar(200) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
-  `smownerid` int(19) DEFAULT NULL,
+  `smownerid` smallint(19) unsigned DEFAULT NULL,
   `allday` tinyint(1) DEFAULT NULL,
   `dav_status` tinyint(1) DEFAULT '1',
   `state` varchar(255) DEFAULT NULL,
@@ -2967,9 +2967,9 @@ CREATE TABLE `vtiger_activity` (
   KEY `link` (`link`),
   KEY `process` (`process`),
   KEY `followup` (`followup`),
-  KEY `activitytype` (`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`deleted`,`smownerid`),
   KEY `subprocess` (`subprocess`),
   KEY `activitytype_3` (`activitytype`,`status`),
+  KEY `smownerid` (`smownerid`),
   CONSTRAINT `fk_1_vtiger_activity` FOREIGN KEY (`activityid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

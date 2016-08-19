@@ -27,25 +27,17 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 	public function getQuery()
 	{
-		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$query = "SELECT vtiger_activity.activityid as act_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype,
-		vtiger_activity.*, relcrm.setype AS linkmod, procrm.setype AS processmod, subprocrm.setype AS subprocessmod
+		$query = 'SELECT vtiger_activity.*, relcrm.setype AS linkmod, procrm.setype AS processmod, subprocrm.setype AS subprocessmod
 		FROM vtiger_activity
-		LEFT JOIN vtiger_activitycf
-			ON vtiger_activitycf.activityid = vtiger_activity.activityid
-		LEFT JOIN vtiger_crmentity
-			ON vtiger_crmentity.crmid = vtiger_activity.activityid
-		LEFT JOIN vtiger_crmentity relcrm
-			ON relcrm.crmid = vtiger_activity.link
-		LEFT JOIN vtiger_crmentity procrm
-			ON procrm.crmid = vtiger_activity.process
-		LEFT JOIN vtiger_crmentity subprocrm
-			ON subprocrm.crmid = vtiger_activity.subprocess
-		WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
+		LEFT JOIN vtiger_activitycf ON vtiger_activitycf.activityid = vtiger_activity.activityid
+		LEFT JOIN vtiger_crmentity relcrm ON relcrm.crmid = vtiger_activity.link
+		LEFT JOIN vtiger_crmentity procrm ON procrm.crmid = vtiger_activity.process
+		LEFT JOIN vtiger_crmentity subprocrm ON subprocrm.crmid = vtiger_activity.subprocess
+		WHERE vtiger_activity.deleted = 0 ';
 		$instance = CRMEntity::getInstance($this->getModuleName());
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getModuleName(), $currentUser);
-		if ($securityParameter != '')
+		if (!empty($securityParameter))
 			$query.= $securityParameter;
 
 		$params = [];
@@ -65,21 +57,21 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$params[] = $dbEndDate;
 		}
 		if ($this->get('types')) {
-			$query.= " AND vtiger_activity.activitytype IN ('" . implode("','", $this->get('types')) . "')";
+			$query .= ' AND vtiger_activity.activitytype ' . \PearDatabase::whereEquals($this->get('types'));
 		}
 		if ($this->get('time') == 'current') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$query .= " AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "')";
+			$query .= ' AND vtiger_activity.status ' . \PearDatabase::whereEquals($stateActivityLabels);
 		}
 		if ($this->get('time') == 'history') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
-			$query .= " AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "')";
+			$query .= ' AND vtiger_activity.status ' . \PearDatabase::whereEquals($stateActivityLabels);
 		}
 		if ($this->get('activitystatus')) {
-			$query .= " AND vtiger_activity.status IN ('" . $this->get('activitystatus') . "')";
+			$query .= ' AND vtiger_activity.status ' . \PearDatabase::whereEquals($this->get('activitystatus'));
 		}
 		if ($this->get('restrict') && is_array($this->get('restrict'))) {
-			$query .= " AND vtiger_activity.activityid IN ('" . implode("','", $this->get('restrict')) . "')";
+			$query .= ' AND vtiger_activity.activityid ' . \PearDatabase::whereEquals($this->get('restrict'));
 		}
 		if ($this->has('filters')) {
 			foreach ($this->get('filters') as $filter) {
@@ -92,11 +84,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			}
 		}
 		if ($this->get('user')) {
-			if (is_array($this->get('user'))) {
-				$query.= ' AND vtiger_crmentity.smownerid IN (' . implode(",", $this->get('user')) . ')';
-			} else {
-				$query.= ' AND vtiger_crmentity.smownerid IN (' . $this->get('user') . ')';
-			}
+			$query .= ' AND vtiger_activity.smownerid ' . \PearDatabase::whereEquals($this->get('user'));
 		}
 		$query.= ' ORDER BY date_start,time_start ASC';
 		return ['query' => $query, 'params' => $params];
@@ -110,7 +98,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		$result = $db->pquery($data['query'], $data['params']);
 		$return = $records = $ids = [];
 
-		while ($record = $db->fetch_array($result)) {
+		while ($record = $db->getRow($result)) {
 			$records[] = $record;
 			if (!empty($record['link'])) {
 				$ids[] = $record['link'];
