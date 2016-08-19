@@ -79,6 +79,7 @@ $languageStrings = [
 	'Lock edit on the status' => 'Verouiller l\'édition par rapport au statut',
 	'is enabled' => 'est activé',
 	'is disabled' => 'est désactivé',
+	'has changed to' => 'a changé à',
 ];
 
 $jsLanguageStrings = [
@@ -113,4 +114,5 @@ $jsLanguageStrings = [
 	'has changed' => 'a changé',
 	'is enabled' => 'est activé',
 	'is disabled' => 'est désactivé',
+	'has changed to' => 'a changé à',
 ];
