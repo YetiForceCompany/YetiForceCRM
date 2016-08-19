@@ -42,48 +42,51 @@
 						</div>
 					</div>
 				{/if}
-				<div class="pull-right rightHeaderBtn">
-					<div class="dropdown quickAction">
-						<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-						</a>
-						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
-							<li class="quickCreateModules">
-								<div class="panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></h4>
-									</div>
-									<div class="panel-body paddingLRZero">
-										{foreach key=NAME item=MODULEMODEL from=Vtiger_Module_Model::getQuickCreateModules(true)}
-											{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
-											{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
-											{if $singularLabel == 'SINGLE_Calendar'}
-												{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-											{/if}	
-											{if $quickCreateModule == '1'}
-												{if $count % 3 == 0}
-													<div class="">
-													{/if}
-													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
-														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
-															<span>{vtranslate($singularLabel,$NAME)}</span>
-														</a>
-													</div>
-													{if $count % 3 == 2}
-													</div>
-												{/if}
-												{assign var='count' value=$count+1}
-											{/if}
-										{/foreach}
-										{if $count % 3 >= 1}
+				{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
+				{if !empty($QUICKCREATE_MODULES)}
+					<div class="pull-right rightHeaderBtn">
+						<div class="dropdown quickAction">
+							<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
+								<li class="quickCreateModules">
+									<div class="panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></h4>
 										</div>
-									{/if}
-								</div>
-								</div>
-							</li>
-						</ul>
+										<div class="panel-body paddingLRZero">
+											{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
+												{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
+												{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
+												{if $singularLabel == 'SINGLE_Calendar'}
+													{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
+												{/if}	
+												{if $quickCreateModule == '1'}
+													{if $count % 3 == 0}
+														<div class="">
+														{/if}
+														<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
+															<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
+																<span>{vtranslate($singularLabel,$NAME)}</span>
+															</a>
+														</div>
+														{if $count % 3 == 2}
+														</div>
+													{/if}
+													{assign var='count' value=$count+1}
+												{/if}
+											{/foreach}
+											{if $count % 3 >= 1}
+											</div>
+										{/if}
+									</div>
+									</div>
+								</li>
+							</ul>
+						</div>
 					</div>
-				</div>
+				{/if}
 				<div class="pull-left selectSearch">
 					<div class="input-group globalSearchInput">
 						<span class="input-group-btn">
