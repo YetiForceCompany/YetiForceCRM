@@ -156,7 +156,7 @@ class ThemeExport extends Package
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
                             name VARCHAR(50), label VARCHAR(30), parent VARCHAR(100), lastupdated DATETIME, isdefault INT(1), active INT(1))', true
 			);
-			$adb = PearDatabase::getInstance();
+			$adb = \PearDatabase::getInstance();
 			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
 				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,label,parent,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));

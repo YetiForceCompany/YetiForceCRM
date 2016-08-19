@@ -94,6 +94,7 @@ $languageStrings = [
 	'PLL_UFCIITS' => 'Przedsiębiorstwo zbiorowego inwestowania w zbywalne papiery wartościowe',
 	'Campaign status' => 'Status kampanii',
 	'LBL_DEACTIVATED_BY' => 'Kontrahent został dezaktywowany przez ',
+	'SINGLE_Vendors' => 'Dostawca',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Taki kontrahent istnieje. Czy chcesz utworzyć duplikat?',

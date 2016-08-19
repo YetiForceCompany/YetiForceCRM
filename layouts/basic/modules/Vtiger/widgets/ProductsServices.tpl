@@ -1,3 +1,4 @@
+{strip}
 {if count($DATA) gt 0 }
 	<div>
 		<div class="row">
@@ -30,3 +31,4 @@
 		</div>
 	{/if}
 {/if}
+{/strip}

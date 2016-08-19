@@ -76,8 +76,12 @@ class PearDatabase
 			return self::$dbCache[$type];
 		}
 		$config = self::getDBConfig($type);
-		if ($config === false && key_exists('base', self::$dbCache)) {
-			return self::$dbCache['base'];
+		if ($config === false) {
+			if (isset(self::$dbCache['base'])) {
+				return self::$dbCache['base'];
+			} else {
+				$config = self::getDBConfig('base');
+			}
 		}
 		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
 
@@ -919,5 +923,17 @@ class PearDatabase
 		$stmt = $db->database->prepare($logQuery);
 		$stmt->execute([$this->logSqlTimeID, $type, NULL, implode(PHP_EOL, $data), $now, $group]);
 		$this->logSqlTimeGroup++;
+	}
+
+	public static function whereEquals($val)
+	{
+		if (is_array($val)) {
+			if (count($val) > 1) {
+				return 'IN (\'' . implode("','", $val) . '\')';
+			} else {
+				$val = array_shift($val);
+			}
+		}
+		return '=\'' . $val . '\'';
 	}
 }

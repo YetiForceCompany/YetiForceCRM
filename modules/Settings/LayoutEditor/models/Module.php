@@ -253,7 +253,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
 				$uitype = 71;
-				$dbfldlength = $fieldLength + $decimal + 1;
+				if(1 == $fieldLength)
+					$dbfldlength = $fieldLength + $decimal + 2;
+				else 
+					$dbfldlength = $fieldLength + $decimal + 1;
 				$decimal = $decimal + 3;
 				$type = "NUMERIC(" . $dbfldlength . "," . $decimal . ")";
 				$uichekdata = 'N~O';

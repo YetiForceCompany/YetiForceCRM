@@ -134,7 +134,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * @param <String> $module
 	 * @return <Reports_Record_Model>
 	 */
-	public static function getInstanceById($recordId)
+	public static function getInstanceById($recordId, $module = null)
 	{
 		$db = PearDatabase::getInstance();
 

@@ -662,7 +662,7 @@ class Vtiger_Util_Helper
 			return null;
 		}
 		require("user_privileges/user_privileges_$userId.php");
-		require("user_privileges/sharing_privileges_$userId.php");
+		$sharingPrivileges = self::getUserSharingFile($userId);
 
 		$valueMap = [];
 		$valueMap['id'] = $userId;
@@ -679,8 +679,8 @@ class Vtiger_Util_Helper
 			$valueMap['subordinate_roles'] = $subordinate_roles;
 			$valueMap['parent_roles'] = $parent_roles;
 			$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
-			$valueMap['defaultOrgSharingPermission'] = $defaultOrgSharingPermission;
-			$valueMap['related_module_share'] = $related_module_share;
+			$valueMap['defaultOrgSharingPermission'] = $sharingPrivileges['defOrgShare'];
+			$valueMap['related_module_share'] = $sharingPrivileges['relatedModuleShare'];
 		}
 		self::$userPrivilegesCache[$userId] = $valueMap;
 		return $valueMap;
@@ -691,5 +691,23 @@ class Vtiger_Util_Helper
 		$userPrivileges = self::getUserPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
 		return $field == false ? $userInfo : $userInfo[$field];
+	}
+
+	protected static $userSharingCache = [];
+
+	public static function getUserSharingFile($userId)
+	{
+		if (empty($userId))
+			return null;
+
+		if (isset(self::$userSharingCache[$userId])) {
+			return self::$userSharingCache[$userId];
+		}
+		if (!file_exists("user_privileges/sharing_privileges_$userId.php")) {
+			return null;
+		}
+		$sharingPrivileges = require("user_privileges/sharing_privileges_$userId.php");
+		self::$userSharingCache[$userId] = $sharingPrivileges;
+		return $sharingPrivileges;
 	}
 }

@@ -175,6 +175,8 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			'sharedOwner' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
 			'recurrence' => array('is', 'is not'),
 			'comment' => array('is added'),
+			'rangeTime' => ['is empty', 'is not empty'],
+			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
 		);
 		if (NULL != $type) {
 			return $list[$type];

@@ -266,6 +266,10 @@ var Vtiger_Index_Js = {
 	},
 	registerCheckNotifications: function () {
 		var thisInstance = this;
+		var notificationsButton = jQuery('.notificationsNotice.quickAction.autoRefreshing');
+		if (notificationsButton.length < 1) {
+			return false;
+		}
 		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
 		var currentTime = new Date().getTime();
 		var nextActivityReminderCheck = app.cacheGet('NotificationsNextCheckTime', 0);
@@ -382,7 +386,7 @@ var Vtiger_Index_Js = {
 	 */
 	registerActivityReminder: function () {
 		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
-		if (activityReminder != 0) {
+		if (activityReminder != 0 && jQuery('.remindersNotice.quickAction.autoRefreshing').length) {
 			Vtiger_Index_Js.requestReminder();
 			window.reminder = setInterval(function () {
 				Vtiger_Index_Js.requestReminder();
@@ -416,11 +420,12 @@ var Vtiger_Index_Js = {
 		});
 	},
 	refreshNumberNotifications: function (content) {
-		var badge = $(".remindersNotice .badge");
+		var remindersNotice = $(".remindersNotice");
+		var badge = remindersNotice.find('.badge');
 		var count = content.find('.panel:visible').length;
 		badge.text(count);
 		badge.removeClass('hide');
-		if (count > 0) {
+		if (count > 0 && remindersNotice.hasClass('autoRefreshing')) {
 			$(".remindersNotice .isBadge").effect("pulsate", 1500);
 			if (app.cacheGet('countRemindersNotice') != count) {
 				app.playSound('REMINDERS');

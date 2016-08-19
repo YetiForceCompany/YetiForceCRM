@@ -1,3 +1,4 @@
+{strip}
 {assign var=modules value=$SAVED_DATA['modules']}
 <div class="row">
 	<div class="col-md-12 padding-bottom1per">
@@ -9,3 +10,4 @@
 		</select>
 	</div>
 </div>
+{/strip}

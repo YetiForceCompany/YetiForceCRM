@@ -3243,6 +3243,9 @@ span[name=existingImages] img{
 .paginationDiv .pagination{
 	margin: 0;
 }
+.paginationDiv .pagination li.popoverTooltip{
+	display: inline-block;
+}
 .paginationDiv .pagination li{
 	cursor: pointer;
 }
@@ -4227,12 +4230,8 @@ html,body,.baseContainer
 	left: 15px;
 }
 #convertLeadMapping th:not(.blockHeader), #convertLeadMapping tbody tr td,
-#convertLeadMapping .blockHeader th:not(:last-child){
+#convertLeadMapping .blockHeader th{
 	width: 25%;
-	text-align: center;
-}
-#convertLeadMapping .blockHeader th:last-child{
-	width: 50%;
 	text-align: center;
 }
 #mappingToGenerate th:not(.defaultHeader):not(.actionsHeader){
@@ -5163,7 +5162,7 @@ html,body,.baseContainer
 	max-height: none !important;
 }
 .hideToggleSiteBarRightButton{
-	right: 0px;
+	right: 0px !important;
 }
 .blockContainer .blockHeader,
 .detailViewTable .blockHeader{
@@ -5631,4 +5630,10 @@ select.form-control {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+}
+.leftPanelOpen.siteBarRight{
+	width: calc(25% - 50px);
+}
+.leftPanelOpen .toggleSiteBarRightButton {
+	right: calc(25% - 50px);
 }

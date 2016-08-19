@@ -205,6 +205,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 			page: this.getCurrentPageNum(),
 			mode: 'showRelatedList'
 		};
+		if ($('.pagination').length) {
+			params['totalCount'] = $('.pagination').data('totalCount');
+		}
 		if (this.relatedModulename == 'Calendar') {
 			if (this.relatedContentContainer.find('.switchBtn').is(':checked'))
 				params['time'] = 'current';
@@ -634,7 +637,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		var thisInstance = this;
 		var ids = [];
 		var listViewRelatedContentDiv = this.relatedContentContainer;
-		var isUnreviewedActive = listViewRelatedContentDiv.find('.unreviewed').lenght;
+		var isUnreviewedActive = listViewRelatedContentDiv.find('.unreviewed').length;
 		listViewRelatedContentDiv.find('tr.listViewEntries').each(function () {
 			var id = jQuery(this).data('id');
 			if (id) {

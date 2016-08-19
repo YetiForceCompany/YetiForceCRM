@@ -18,6 +18,7 @@ $languageStrings = [
 	'LBL_FEED_SOURCE' => 'Kanał Źródło',
 	'LBL_ENTER_FEED_SOURCE' => 'Wprowadź podawania źródła',
 	'SINGLE_Rss' => 'Kanał RSS',
+	'LBL_CHANGE_RSS_CHANNEL' => 'Zmień kanał RSS',
 ];
 
 $jsLanguageStrings = [

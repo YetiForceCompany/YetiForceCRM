@@ -20,7 +20,7 @@
         <input type="hidden" name="tpl_id" value="{$TPL_ID}" />
     {/if}
 
-    <div class="row padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);">
+    <div class="row padding1per contentsBackground no-margin" style="border:1px solid #ccc;box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);">
         <div id="advanceFilterContainer" class="row padding1per contentsBackground col-md-12">
             <div class="allConditionContainer conditionGroup contentsBackground well">
                 <table style="width: 70%;">

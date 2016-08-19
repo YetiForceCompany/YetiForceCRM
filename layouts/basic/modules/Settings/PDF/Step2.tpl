@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="pdfTemplateContents leftRightPadding3p">
+	<div class="pdfTemplateContents">
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step2" class="form-horizontal">
 			<input type="hidden" name="module" value="PDF">
 			<input type="hidden" name="view" value="Edit">
@@ -33,7 +33,7 @@
 					<label class="col-sm-3 control-label">
 						{vtranslate('LBL_MAIN_MARGIN', $QUALIFIED_MODULE)}
 					</label>
-					<div class="col-sm-9 row">
+					<div class="col-sm-6 row">
 						{if $PDF_MODEL->get('margin_chkbox') === 0}
 							{assign 'MARGIN_CHECKED' false}
 						{else}

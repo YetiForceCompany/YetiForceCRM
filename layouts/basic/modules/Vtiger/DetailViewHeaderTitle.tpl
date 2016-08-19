@@ -1,3 +1,4 @@
+{strip}
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -9,7 +10,6 @@
 *
 ********************************************************************************/
 -->*}
-{strip}
 	<div class="col-md-12 paddingLRZero row">
 		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">

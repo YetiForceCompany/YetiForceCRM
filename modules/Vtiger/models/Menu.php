@@ -39,10 +39,10 @@ class Vtiger_Menu_Model
 	{
 		$language = Vtiger_Language_Handler::getLanguage();
 		$moduleStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, 'Menu');
-		if (array_key_exists($key, $moduleStrings['languageStrings'])) {
+		if (isset($moduleStrings['languageStrings'][$key])) {
 			return stripslashes($moduleStrings['languageStrings'][$key]);
 		}
-		return vtranslate($key, $module);
+		return Vtiger_Language_Handler::getTranslatedString($key, $module);
 	}
 
 	public static function getBreadcrumbs($pageTitle = false)

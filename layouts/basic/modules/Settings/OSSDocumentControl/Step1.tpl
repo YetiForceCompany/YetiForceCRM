@@ -9,7 +9,6 @@
 * All Rights Reserved.
 *************************************************************************************************************************************/
 -->*}
-<div class="row">
 	<form class="form-horizontal" method="post" action="index.php">
 		<input type="hidden" name="view" value="Edit2" />
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -55,4 +54,4 @@
 		</div>
 		<div class="clearfix"></div>
 	</form>
-</div> 
+

@@ -154,9 +154,6 @@ if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
 	@date_default_timezone_set($default_timezone);
 }
 
-// Enable sharing of records?
-$shared_owners = true;
-
 // Maximum length of characters for title
 $title_max_length = 60;
 

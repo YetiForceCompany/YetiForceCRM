@@ -206,10 +206,10 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			if (jQuery.inArray(fieldInfo.type, ['rangeTime']) != -1 && jQuery.inArray(conditionList[key], ['y', 'ny']) == -1) {
 				continue;
 			}
-			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules', 'tree',]) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
+			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules', 'tree']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
 				continue;
 			}
-			if (jQuery.inArray(conditionList[key], ['om', 'wr', 'nwr']) != -1 && jQuery.inArray(fieldInfo.type, ['owner','sharedOwner']) == -1 ) {
+			if (jQuery.inArray(conditionList[key], ['om', 'wr', 'nwr']) != -1 && jQuery.inArray(fieldInfo.type, ['owner', 'sharedOwner']) == -1) {
 				continue;
 			}
 			//IE Browser consider the prototype properties also, it should consider has own properties only.
@@ -447,6 +447,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 				}
 				var fieldDataInfo = fieldSelectElement.find('option:selected').data('fieldinfo');
 				var fieldType = fieldDataInfo.type;
+				var searchOperator = fieldDataInfo.hasOwnProperty("searchOperator");
 				var rowValues = {};
 				if (fieldType == 'owner') {
 					for (var key in fieldList) {
@@ -455,7 +456,11 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 							var selectedOptions = valueSelectElement.find('option:selected');
 							var newvaluesArr = [];
 							jQuery.each(selectedOptions, function (i, e) {
-								newvaluesArr.push(jQuery.trim(jQuery(e).text()));
+								if (searchOperator) {
+									newvaluesArr.push(jQuery.trim(jQuery(e).val()));
+								} else {
+									newvaluesArr.push(jQuery.trim(jQuery(e).text()));
+								}
 							});
 							if (selectedOptions.length == 0) {
 								rowValues[field] = '';
@@ -468,6 +473,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 						} else {
 							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
 						}
+
 					}
 				} else if ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue']) > -1) {
 					for (var key in fieldList) {
@@ -649,7 +655,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 				for (var option in optionGroupValues) {
 					html += '<option value="' + option + '" ';
 					//comparing with the value instead of key , because saved value is giving username instead of id.
-					if (jQuery.inArray(jQuery.trim(optionGroupValues[option]), selectedOptionsArray) != -1) {
+					if (jQuery.inArray(option, selectedOptionsArray) != -1) {
 						html += ' selected ';
 					}
 					html += '>' + optionGroupValues[option] + '</option>';
@@ -694,7 +700,7 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
 		var dateSpecificConditions = this.get('dateSpecificConditions');
 		if (comparatorSelectedOptionVal == 'bw' || comparatorSelectedOptionVal == 'custom') {
-			var html = '<div class="date"><input class="dateField" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
+			var html = '<div class="date"><input class="dateField form-control" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
 			var element = jQuery(html);
 			var dateFieldUi = element.find('.dateField');
 			if (dateFieldUi.val().indexOf(',') !== -1) {

@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 Vtiger_List_Js("Rss_List_Js",{},
@@ -17,63 +18,63 @@ Vtiger_List_Js("Rss_List_Js",{},
         return jQuery(document).height();
     },
     
-    registerRssAddButtonClickEvent : function() {
-        var thisInstance = this;
-        jQuery(document).on('click', '.rssAddButton',function(e) {
-            thisInstance.showRssAddForm();
-        })
-    },
+	registerRssButtonClickEvent: function (container) {
+		var thisInstance = this;
+		container.on('click', '.rssAddButton', function (e) {
+			thisInstance.showRssModal('getRssAddForm').then(function (data) {
+				var callBackFunction = function (data) {
+					var params = app.validationEngineOptions;
+					var form = data.find('#rssAddForm');
+					params.onValidationComplete = function (form, valid) {
+						if (valid) {
+							thisInstance.rssFeedSave(form);
+						}
+						return false;
+					}
+					form.validationEngine(params);
+				}
+				app.showModalWindow(data, callBackFunction);
+			});
+		})
+		container.on('click', '.changeFeedSource', function (e) {
+			thisInstance.showRssModal('getRssWidget').then(function (data) {
+				var callBackFunction = function (data) {
+					data.on('click', '.rssLink', function (e) {
+						var element = jQuery(e.currentTarget);
+						var id = element.data('id');
+						thisInstance.getRssFeeds(id).then(function () {
+							app.hideModalWindow();
+						});
+					});
+				}
+				app.showModalWindow(data, callBackFunction);
+			});
+		})
+	},
+	breadCrumbsFilter: function(text){
+		return;
+	},
     
     /**
      * Function show rssAddForm model
      */
-    showRssAddForm : function() {
+    showRssModal : function(mode) {
         var thisInstance = this;
+		var aDeferred = jQuery.Deferred();
         var progressInstance = jQuery.progressIndicator({});
-        thisInstance.getRssAddFormUi().then(function(data) {
-                progressInstance.progressIndicator({'mode': 'hide'})
-                var callBackFunction = function(data) {
-                    var params = app.validationEngineOptions;
-                    var form = data.find('#rssAddForm');
-                    params.onValidationComplete = function(form, valid){
-                        if(valid) {
-                            thisInstance.rssFeedSave(form);
-                        }
-                        return false;
-                    }
-                    form.validationEngine(params);
-                }
-                app.showModalWindow(data, callBackFunction);
-        });
-    },
-    
-    /**
-     * Function to get the rss add form
-     * @param <string> url
-     */
-    getRssAddFormUi : function(url) {
-        var aDeferred = jQuery.Deferred();
-        var resetPasswordContainer = jQuery('.rssAddFormContainer');
-        var resetPasswordUi = resetPasswordContainer.find('#rssAddFormUi');
-        if(resetPasswordUi.length == 0) {
-            var actionParams = {
-                    'module' : app.getModuleName(),
-                    'view' : 'ViewTypes',
-                    'mode' : 'getRssAddForm'
-            };
-            AppConnector.request(actionParams).then(
-                function(data){
-                    resetPasswordContainer.html(data);
-                    aDeferred.resolve(data);
-                },
-                function(textStatus, errorThrown){
-                    aDeferred.reject(textStatus, errorThrown);
-                }
-            );
-        } else {
-            aDeferred.resolve();
-        }
-        return aDeferred.promise();
+		var actionParams = {
+			'module' : app.getModuleName(),
+			'view' : 'ViewTypes',
+			'mode' : mode
+		};
+		AppConnector.request(actionParams).then(
+			function(data){
+				progressInstance.progressIndicator({'mode': 'hide'})
+				aDeferred.resolve(data);
+			},
+			function(textStatus, errorThrown){}
+		);
+		return aDeferred.promise();  
     },
     
     /**
@@ -101,17 +102,7 @@ Vtiger_List_Js("Rss_List_Js",{},
                 });
                 if(result.result.success){
                     app.hideModalWindow();
-                    thisInstance.getRssFeeds(result.result.id).then(function() {
-                        thisInstance.loadRssWidget().then(function() { 
-                            var params = {
-                                    title : app.vtranslate('JS_MESSAGE'),
-                                    text: app.vtranslate(result.result.message),
-                                    animation: 'show',
-                                    type: 'info'
-                            };
-                            Vtiger_Helper_Js.showPnotify(params);
-                        });
-                    });
+                    thisInstance.getRssFeeds(result.result.id);
                 } else {
                     var params = {
                                 title : app.vtranslate('JS_MESSAGE'),
@@ -122,18 +113,6 @@ Vtiger_List_Js("Rss_List_Js",{},
                 }
             }
         );
-    },
-    
-    /**
-     * Function to register click on the rss sidebar link
-     */
-    registerRssUrlClickEvent : function() {
-        var thisInstance = this;
-        jQuery('.quickWidgetContainer').on('click','.rssLink', function(e) {
-            var element = jQuery(e.currentTarget);
-            var id = element.data('id');
-            thisInstance.getRssFeeds(id);
-        });
     },
     
     /**
@@ -281,9 +260,7 @@ Vtiger_List_Js("Rss_List_Js",{},
 							'mode' : 'hide'
 						})
 						if(data.success) {
-                            thisInstance.getRssFeeds().then(function() {
-                                thisInstance.loadRssWidget();
-                            });
+                            thisInstance.getRssFeeds();
 						} else {
 							var  params = {
 								text : app.vtranslate(data.error.message),
@@ -354,22 +331,10 @@ Vtiger_List_Js("Rss_List_Js",{},
         );
     },
     
-    loadRssWidget : function () {
-        var aDeferred = jQuery.Deferred();
-        var widgetContainer = jQuery('.widgetContainer');
-        var url = widgetContainer.data('url');
-        AppConnector.request(url).then(function(data) {
-            aDeferred.resolve(data);
-            widgetContainer.html(data);
-        });
-        return aDeferred.promise();
-    },
-    
     registerEvents : function() {
         this._super();
         var container = this.getListViewContainer();
-        this.registerRssAddButtonClickEvent();
-        this.registerRssUrlClickEvent();
+        this.registerRssButtonClickEvent(container);
         this.registerFeedClickEvent(container);
         this.registerMakeDefaultClickEvent(container);
         this.setFeedContainerHeight(container);

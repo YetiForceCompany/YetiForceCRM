@@ -200,7 +200,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		if (in_array('Comments', $relModules)) {
 			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
 		} elseif ($relatedModuleName == 'Updates') {
-			$count = (int) current(ModTracker_Record_Model::getUnreviewed($parentId));
+			$count = (int) current(ModTracker_Record_Model::getUnreviewed($parentId, false, true));
 			$totalCount = $count ? $count : '';
 		} else {
 			$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
@@ -208,7 +208,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 			foreach ($relModules as $relModule) {
 				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
-				if (!vtlib_isModuleActive($relModule) || !$relationListView->getRelationModel()) {
+				if (!\includes\Modules::isModuleActive($relModule) || !$relationListView->getRelationModel()) {
 					continue;
 				}
 				if ($relatedModuleName == 'ProductsAndServices' && in_array($relModule, $categoryCount)) {

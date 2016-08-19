@@ -534,7 +534,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$relationQuery = $this->getRelationQuery();
-		$relationQuery = preg_replace("/[ \t\n\r]+/", " ", $relationQuery);
+		$relationQuery = preg_replace("/[ \t\n\r]+/", ' ', $relationQuery);
 		$position = stripos($relationQuery, ' FROM ');
 		if ($position) {
 			$split = preg_split('/FROM/i', $relationQuery, 2);

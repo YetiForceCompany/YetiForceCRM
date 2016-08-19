@@ -84,7 +84,7 @@ class Vtiger_Base_Model
 	 */
 	public function has($key)
 	{
-		return array_key_exists($key, $this->valueMap);
+		return isset($this->valueMap[$key]);
 	}
 
 	/**

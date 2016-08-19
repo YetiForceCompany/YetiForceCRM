@@ -89,6 +89,7 @@ $languageStrings = [
 	'PLL_UFCIITS' => 'Organismen für gemeinsame Anlagen in Wertpapieren <OGAW>',
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Organisation deaktiviert von ',
+	'SINGLE_Vendors' => 'Lieferant',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Organisationsname ist bereits vorhanden. Möchten Sie einen doppelten Datensatz erstellen?',

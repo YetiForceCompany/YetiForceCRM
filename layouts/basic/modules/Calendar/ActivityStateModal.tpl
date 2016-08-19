@@ -1,6 +1,7 @@
 {*<!--
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 -->*}
+{strip}
 <div id="activityStateModal" class="modal fade modalEditStatus" tabindex="-1">
 	{assign var=ID value=$RECORD->get('id')}
 	<div class="modal-dialog">
@@ -77,7 +78,7 @@
 					{/if}
 					{if $RECORD->get('link') neq '' }
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{vtranslate('Relation',$MODULE_NAME)}: </label>
+							<label class="col-sm-4 control-label">{vtranslate('FL_RELATION',$MODULE_NAME)}: </label>
 							<div class="col-sm-8 textOverflowEllipsis">
 								{$RECORD->getDisplayValue('link')}
 							</div>
@@ -149,3 +150,4 @@
 {foreach key=index item=jsModel from=$SCRIPTS}
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}?&v={$YETIFORCE_VERSION}"></script>
 {/foreach}	
+{/strip}

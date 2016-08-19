@@ -115,6 +115,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						if (widgetContainer.find('.dashboardWidgetFooter').length) {
 							adjustedHeight -= 20;
 						}
+						app.showSelect2ElementView(widgetContainer.find('.select2'));
 						app.showScrollBar(widgetContainer.find('.dashboardWidgetContent'), {'height': adjustedHeight});
 						thisInstance.getWidgetInstance(widgetContainer);
 						widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);

@@ -294,7 +294,7 @@ class Reports extends CRMEntity{
 
 							$rel_mod = array();
 							foreach($old_related_modules[$module] as $key=>$name){
-								if(vtlib_isModuleActive($name) && isPermitted($name,'index','')){
+								if(\includes\Modules::isModuleActive($name) && isPermitted($name,'index','')){
 									$rel_mod[] = $name;
 								}
 							}
@@ -487,22 +487,23 @@ class Reports extends CRMEntity{
 		$result = $adb->pquery($sql, $params);
 
 		$report = $adb->fetch_array($result);
-		if(count($report)>0)
+		$numRows = $adb->getRowCount($result);
+		if($numRows)
 		{
 			do
 			{
 				$report_details = [];
-				$report_details ['customizable'] = $report["customizable"];
-				$report_details ['reportid'] = $report["reportid"];
-				$report_details ['primarymodule'] = $report["primarymodule"];
-				$report_details ['secondarymodules'] = $report["secondarymodules"];
-				$report_details ['state'] = $report["state"];
-				$report_details ['description'] = $report["description"];
-				$report_details ['reportname'] = $report["reportname"];
-                $report_details ['reporttype'] = $report["reporttype"];
-				$report_details ['sharingtype'] = $report["sharingtype"];
+				$report_details['customizable'] = $report["customizable"];
+				$report_details['reportid'] = $report["reportid"];
+				$report_details['primarymodule'] = $report["primarymodule"];
+				$report_details['secondarymodules'] = $report["secondarymodules"];
+				$report_details['state'] = $report["state"];
+				$report_details['description'] = $report["description"];
+				$report_details['reportname'] = $report["reportname"];
+                $report_details['reporttype'] = $report["reporttype"];
+				$report_details['sharingtype'] = $report["sharingtype"];
 				if($is_admin==true || in_array($report["owner"],$subordinate_users) || $report["owner"]==$current_user->id)
-					$report_details ['editable'] = 'true';
+					$report_details['editable'] = 'true';
 				else
 					$report_details['editable'] = 'false';
 
@@ -989,7 +990,7 @@ function getEscapedColumns($selectedfields)
 
 			$selmod_field_disabled = true;
 			foreach($selected_mod as $smod){
-				if((stripos($fieldcolname,':'.$smod.'__')>-1) && vtlib_isModuleActive($smod)){
+				if((stripos($fieldcolname,':'.$smod.'__')>-1) && \includes\Modules::isModuleActive($smod)){
 					$selmod_field_disabled = false;
 					break;
 				}
@@ -1381,7 +1382,7 @@ function getReportRelatedModules($module,$focus)
 	global $related_modules;
 	global $mod_strings;
 	$optionhtml = [];
-	if(vtlib_isModuleActive($module)){
+	if(\includes\Modules::isModuleActive($module)){
 		if(!empty($focus->related_modules[$module])) {
 			foreach($focus->related_modules[$module] as $rel_modules)
 			{

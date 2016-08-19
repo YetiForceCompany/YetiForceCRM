@@ -224,6 +224,6 @@ $matches[2] = array_pop($parts);
 $matches[1] = array_pop($parts);
 
 // Process the request
-if (vtlib_isModuleActive('Mobile')) {
+if (\includes\Modules::isModuleActive('Mobile')) {
 	Mobile_ICAL::process($matches[1], $matches[2]);
 }

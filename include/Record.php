@@ -62,6 +62,7 @@ class Record
 				if ($multiMode) {
 					$queryWhere .= sprintf(' AND `setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
 					$params = array_merge($params, $moduleName);
+					$orderWhere = 'setype';
 				} else {
 					$queryWhere .= ' AND `setype` = ?';
 					$params[] = $moduleName;
@@ -69,7 +70,7 @@ class Record
 			} elseif (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 2) {
 				$queryFrom .= ' LEFT JOIN vtiger_entityname ON vtiger_entityname.modulename = u_yf_crmentity_search_label.setype';
 				$queryWhere .= ' AND vtiger_entityname.`turn_off` = 1 ';
-				$orderWhere = ' vtiger_entityname.sequence';
+				$orderWhere = 'vtiger_entityname.sequence';
 			}
 			$query = $queryFrom . $queryWhere;
 			if (!empty($orderWhere)) {
@@ -109,6 +110,9 @@ class Record
 						$metainfo = ['tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname'];
 					} else {
 						$metainfo = Modules::getEntityInfo($moduleName);
+					}
+					if (empty($metainfo)) {
+						return $entityDisplay;
 					}
 					$table = $metainfo['tablename'];
 					$idcolumn = $metainfo['entityidfield'];

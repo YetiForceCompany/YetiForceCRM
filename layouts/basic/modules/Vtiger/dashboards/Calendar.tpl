@@ -9,6 +9,7 @@
 * All Rights Reserved.
 *************************************************************************************************************************************/
 -->*}
+{strip}
 {assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
 {assign var=ACCESSIBLE_GROUPS value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
@@ -75,3 +76,4 @@
 <div class="dashboardWidgetContent dashboardWidgetCalendar">
 	{include file="dashboards/CalendarContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
+{/strip}

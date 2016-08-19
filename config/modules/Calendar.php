@@ -30,4 +30,6 @@ $CONFIG = [
 	'HIDDEN_DAYS_IN_CALENDAR_VIEW' => [0, 6],
 	// Send mail notification to participants
 	'SEND_REMINDER_INVITATION' => true, // Boolean
+	// Auto refresh reminders
+	'AUTO_REFRESH_REMINDERS' => true, // Boolean
 ];

@@ -12,7 +12,7 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler
 
 	function handleEvent($eventName, $entityData)
 	{
-		if ($eventName == 'vtiger.entity.aftersave.final' && AppConfig::main('shared_owners') == true) {
+		if ($eventName == 'vtiger.entity.aftersave.final' && \AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 			$moduleName = $entityData->getModuleName();
 			$recordId = $entityData->getId();
 			$vtEntityDelta = new VTEntityDelta();

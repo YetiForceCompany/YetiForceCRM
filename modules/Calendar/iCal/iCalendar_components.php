@@ -226,7 +226,8 @@ class iCalendar_component
 				}
 				$this->add_property($key, $component);
 			} else if (!empty($components['function'])) {
-				$this->$components['function']($activity);
+				$function = $components['function'];
+				$this->$function($activity);
 			}
 		}
 		return true;

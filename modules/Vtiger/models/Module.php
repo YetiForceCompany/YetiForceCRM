@@ -139,13 +139,10 @@ class Vtiger_Module_Model extends vtlib\Module
 		$commentsModuleModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($commentsModuleModel && $commentsModuleModel->isActive()) {
 			$relatedToFieldResult = $db->pquery('SELECT fieldid FROM vtiger_field WHERE fieldname = ? AND tabid = ?', array('related_to', $commentsModuleModel->getId()));
-			$fieldId = $db->query_result($relatedToFieldResult, 0, 'fieldid');
+			$fieldId = $db->getSingleValue($relatedToFieldResult);
 			if (!empty($fieldId)) {
 				$relatedModuleResult = $db->pquery('SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid = ?', array($fieldId));
-				$rows = $db->num_rows($relatedModuleResult);
-
-				for ($i = 0; $i < $rows; $i++) {
-					$relatedModule = $db->query_result($relatedModuleResult, $i, 'relmodule');
+				while (($relatedModule = $db->getSingleValue($relatedModuleResult)) !== false) {
 					if ($this->getName() == $relatedModule) {
 						$enabled = true;
 					}

@@ -50,7 +50,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 			$return = $inventoryField->addField($name, $param);
 			$id = $return['id'];
 		}
-		$arrayInstane = $inventoryField->getFields(false, [$id]);
+		$arrayInstane = $inventoryField->getFields(false, [$id], 'Settings');
 		$data = [];
 		if (current($arrayInstane)) {
 			$data = current($arrayInstane)->getData();

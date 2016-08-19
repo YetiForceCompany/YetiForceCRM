@@ -1,3 +1,4 @@
+{strip}
 <div  class="summaryWidgetContainer activityWidgetContainer">
 	<div class="widget_header row">
 		<div class="col-xs-5">
@@ -27,3 +28,4 @@
 		</div>
 	</div>
 </div>
+{/strip}

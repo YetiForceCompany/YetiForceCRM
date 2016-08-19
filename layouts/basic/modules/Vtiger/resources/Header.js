@@ -735,7 +735,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		$('#page').before('<div class="remindersNoticeContainer"></div>');
 		var block = $('.remindersNoticeContainer');
-		$('.remindersNotice').click(function () {
+		var remindersNotice = $('.remindersNotice');
+		remindersNotice.click(function () {
+			if(!remindersNotice.hasClass('autoRefreshing')){
+				Vtiger_Index_Js.requestReminder();
+			}
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 		});

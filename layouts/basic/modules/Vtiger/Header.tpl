@@ -1,3 +1,4 @@
+{strip}
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -9,7 +10,7 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-{strip}
+
 	<!DOCTYPE html>
 	<html lang="{$HTMLLANG}">
 		<head>

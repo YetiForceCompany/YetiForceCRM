@@ -96,11 +96,11 @@ class Users extends CRMEntity
 	var $emailTemplate_defaultFields = array('first_name', 'last_name', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
 	var $popup_fields = array('last_name');
 	// This is the list of fields that are in the lists.
-	var $default_order_by = "user_name";
+	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 	var $record_id;
 	var $new_schema = true;
-	var $DEFAULT_PASSWORD_CRYPT_TYPE; //'BLOWFISH', /* before PHP5.3*/ MD5;
+	var $DEFAULT_PASSWORD_CRYPT_TYPE = 'PHP5.3MD5'; //'BLOWFISH', /* before PHP5.3*/ MD5;
 	//Default Widgests
 	var $default_widgets = array('CVLVT', 'UA');
 
@@ -112,8 +112,6 @@ class Users extends CRMEntity
 	{
 		$this->log = LoggerManager::getInstance(get_class($this));
 		$this->db = PearDatabase::getInstance();
-		$this->DEFAULT_PASSWORD_CRYPT_TYPE = (version_compare(PHP_VERSION, '5.3.0') >= 0) ?
-			'PHP5.3MD5' : 'MD5';
 		$this->column_fields = getColumnFields('Users');
 		$this->column_fields['currency_name'] = '';
 		$this->column_fields['currency_code'] = '';
@@ -541,13 +539,15 @@ class Users extends CRMEntity
 	 * @param $user_name -- user name:: Type varchar
 	 * @returns user id
 	 */
-	function retrieve_user_id($user_name)
+	function retrieve_user_id($userName)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = "SELECT id from vtiger_users where user_name=? AND deleted=0";
-		$result = $adb->pquery($query, array($user_name));
-		$userid = $adb->query_result($result, 0, 'id');
-		return $userid;
+		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
+		$row = $adb->getRow($result);
+		if ($row && $row['deleted'] == '0') {
+			return $row['id'];
+		}
+		return false;
 	}
 
 	/** Function to return the column name array

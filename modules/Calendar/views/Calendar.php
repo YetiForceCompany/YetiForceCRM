@@ -88,10 +88,12 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 
 	function postProcess(Vtiger_Request $request)
 	{
+		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$calendarFilters = Calendar_CalendarFilters_Model::getCleanInstance();
 		$viewer->assign('CALENDAR_FILTERS', $calendarFilters);
+		$viewer->assign('LEFT_PANEL_HIDE', $userModel->get('leftpanelhide'));
 		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}

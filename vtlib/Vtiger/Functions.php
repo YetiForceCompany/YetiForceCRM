@@ -185,7 +185,7 @@ class Functions
 		return $id ? self::$moduleIdNameCache[$id] : self::$moduleNameIdCache[$name];
 	}
 
-	public static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false, $colorActive = false)
+	public static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false, $colorActive = false, $ownedby = false)
 	{
 		$moduleList = self::$moduleIdNameCache;
 		if (empty($moduleList)) {
@@ -210,6 +210,9 @@ class Functions
 				unset($moduleList[$id]);
 			}
 			if ($colorActive !== false && $module['coloractive'] != 1) {
+				unset($moduleList[$id]);
+			}
+			if ($ownedby !== false && $module['ownedby'] != $ownedby) {
 				unset($moduleList[$id]);
 			}
 		}
@@ -312,7 +315,7 @@ class Functions
 			}
 		}
 		if ($missing) {
-			$sql = sprintf("SELECT crmid, setype, deleted, smcreatorid, smownerid 
+			$sql = sprintf("SELECT crmid, setype, deleted, smcreatorid, smownerid, createdtime 
 				FROM vtiger_crmentity WHERE %s ", implode(' OR ', array_fill(0, count($missing), 'vtiger_crmentity.crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->getRow($result)) {
@@ -985,7 +988,7 @@ class Functions
 	 */
 	public static function get_group_options()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$sql = "select groupname,groupid from vtiger_groups";
 		$result = $adb->pquery($sql, []);
 		return $result;
@@ -1479,5 +1482,19 @@ class Functions
 			}
 		}
 		return $difference;
+	}
+
+	public static function varExportMin($var)
+	{
+		if (is_array($var)) {
+			$toImplode = [];
+			foreach ($var as $key => $value) {
+				$toImplode[] = var_export($key, true) . '=>' . self::varExportMin($value);
+			}
+			$code = '[' . implode(',', $toImplode) . ']';
+			return $code;
+		} else {
+			return var_export($var, true);
+		}
 	}
 }

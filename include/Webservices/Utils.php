@@ -769,7 +769,7 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
 
 function vtws_transferComments($sourceRecordId, $destinationRecordId)
 {
-	if (vtlib_isModuleActive('ModComments')) {
+	if (\includes\Modules::isModuleActive('ModComments')) {
 		CRMEntity::getInstance('ModComments');
 		ModComments::transferRecords($sourceRecordId, $destinationRecordId);
 	}

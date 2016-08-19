@@ -1250,6 +1250,9 @@ $languageStrings = [
 	'LBL_NOVEMDECILLIONSS' => 'novemdecillion',
 	'LBL_SOURCE' => 'Source',
 	'LBL_DATE' => 'Date',
+	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Get total amount of records',
+	'Potentials' => 'Verkaufschancen',
+	'LBL_PICKLIST_FIELD' => 'Select from field',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1519,4 +1522,5 @@ $jsLanguageStrings = [
 	'JS_INPUT_TOO_SHORT' => '_LENGTH_ oder mehr Zeichen eingeben',
 	'JS_SEARCHING' => 'Suchen...',
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Mass edition unsuccessful',
+	'JS_GET_PAGINATION_INFO' => 'Loading the amount of records in progress. Completion time depends on the total number of records.',
 ];

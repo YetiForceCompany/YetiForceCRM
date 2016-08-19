@@ -99,6 +99,7 @@ $languageStrings = [
 	'LBL_RELATION_LABLE' => 'Label',
 	'PLL_RELATED_LIST' => 'Plusieurs à plusieurs',
 	'PLL_DEPENDENTS_LIST' => 'Une à plusieurs',
+	'PLL_ATTACHMENTS' => 'Attachments',
 	'PLL_SPLITED_RELATED_LIST' => 'Plusieurs à plusieurs - avec séparation des données',
 	'PLL_ADD' => 'Ajouter',
 	'PLL_SELECT' => 'Sélectionner',

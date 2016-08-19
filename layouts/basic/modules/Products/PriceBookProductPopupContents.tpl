@@ -74,7 +74,7 @@
 		<!--added this div for Temporarily -->
 		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 			<div>
-				<div class="emptyRecordsDiv">{vtranslate('LBL_NO', $MODULE_NAME)} {vtranslate($MODULE_NAME, $MODULE_NAME)} {vtranslate('LBL_FOUND', $MODULE_NAME)}.</div>
+				<div class="emptyRecordsDiv">{vtranslate('LBL_RECORDS_NO_FOUND')}</div>
 			</div>
 		{/if}
 	</div>

@@ -24,6 +24,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	{
 		parent::__construct();
 		$this->exposeMethod('getOwners');
+		$this->exposeMethod('searchReference');
 	}
 
 	function process(Vtiger_Request $request)
@@ -37,39 +38,69 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 
 	public function getOwners(Vtiger_Request $request)
 	{
-		$value = $request->get('value');
+		$searchValue = $request->get('value');
 		$type = $request->get('type');
+		if ($request->has('result')) {
+			$result = $request->get('result');
+		} else {
+			$result = ['users', 'groups'];
+		}
+
 		$moduleName = $request->getModule();
 		$response = new Vtiger_Response();
-		if (empty($value)) {
+		if (empty($searchValue)) {
 			$response->setError('NO');
 		} else {
 			$owner = includes\fields\Owner::getInstance($moduleName);
-			$owner->find($value);
+			$owner->find($searchValue);
 
 			$data = [];
-			$users = $owner->getAccessibleUsers('', 'owner');
-			if (!empty($users)) {
-				$data[] = ['name' => vtranslate('LBL_USERS'), 'type' => 'optgroup'];
-				foreach ($users as $key => &$value) {
-					if ($type == 'List') {
-						$key = $value;
+			if (in_array('users', $result)) {
+				$users = $owner->getAccessibleUsers('', 'owner');
+				if (!empty($users)) {
+					$data[] = ['name' => vtranslate('LBL_USERS'), 'type' => 'optgroup'];
+					foreach ($users as $key => &$value) {
+						$data[] = ['id' => $key, 'name' => $value];
 					}
-					$data[] = ['id' => $key, 'name' => $value];
 				}
 			}
-			$grup = $owner->getAccessibleGroups('', 'owner', true);
-			if (!empty($grup)) {
-				$data[] = ['name' => vtranslate('LBL_GROUPS'), 'type' => 'optgroup'];
-				foreach ($grup as $key => &$value) {
-					if ($type == 'List') {
-						$key = $value;
+			if (in_array('groups', $result)) {
+				$grup = $owner->getAccessibleGroups('', 'owner', true);
+				if (!empty($grup)) {
+					$data[] = ['name' => vtranslate('LBL_GROUPS'), 'type' => 'optgroup'];
+					foreach ($grup as $key => &$value) {
+						$data[] = ['id' => $key, 'name' => $value];
 					}
-					$data[] = ['id' => $key, 'name' => $value];
 				}
 			}
 			$response->setResult(['items' => $data]);
 		}
+		$response->emit();
+	}
+
+	public function searchReference(Vtiger_Request $request)
+	{
+		$fieldId = $request->get('fid');
+		$searchValue = $request->get('value');
+
+		$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
+		$reference = $fieldModel->getReferenceList();
+
+		$rows = \includes\Record::findCrmidByLabel($searchValue, $reference);
+		$data = $modules = $ids = [];
+		foreach ($rows as &$row) {
+			$ids[] = $row['crmid'];
+			$modules[$row['setype']][] = $row['crmid'];
+		}
+		$labels = \includes\Record::getLabel($ids);
+		foreach ($modules as $moduleName => &$rows) {
+			$data[] = ['name' => Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName), 'type' => 'optgroup'];
+			foreach ($rows as &$id) {
+				$data[] = ['id' => $id, 'name' => $labels[$id]];
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult(['items' => $data]);
 		$response->emit();
 	}
 }
