@@ -2672,7 +2672,7 @@ table.summary-table .summaryViewEdit{
 .textAlignRight {
 	text-align: right;
 }
-.alignMiddle {
+.alignMiddle, .tableMiddle td, tableMiddle th {
 	vertical-align: middle !important;
 }
 .alignTop {
