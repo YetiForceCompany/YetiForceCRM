@@ -263,7 +263,14 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	 */
 	public static function getCleanInstance()
 	{
-		return new self();
+		$instance = Vtiger_Cache::get('calendarModels', 'Calendar');
+		if ($instance === false) {
+			$instance = new self();
+			Vtiger_Cache::set('calendarModels', 'Calendar', clone $instance);
+			return $instance;
+		} else {
+			return clone $instance;
+		}
 	}
 
 	public static function getCalendarTypes()

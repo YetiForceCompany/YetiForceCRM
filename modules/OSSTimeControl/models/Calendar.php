@@ -90,11 +90,14 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance()
 	{
-		$instance = Vtiger_Cache::get('calendar', $value);
-		if (!$instance) {
+		$instance = Vtiger_Cache::get('ossTimeControlModels', 'Calendar');
+		if ($instance === false) {
 			$instance = new self();
+			Vtiger_Cache::set('ossTimeControlModels', 'Calendar', clone $instance);
+			return $instance;
+		} else {
+			return clone $instance;
 		}
-		return $instance;
 	}
 
 	public static function getCalendarTypes()
