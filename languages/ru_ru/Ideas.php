@@ -18,7 +18,7 @@ $languageStrings = [
 	'LBL_STATUS' => 'Статус',
 	'Description' => 'Краткое описание',
 	'LBL_EXTENT_DESCRIPTION' => 'Полное описание',
-	'Attention' => 'Комментирии',
+	'Attention' => 'Комментарии',
 	'LBL_NO' => 'Номер',
 	//pick list values
 	'Draft' => 'Черновик',

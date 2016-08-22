@@ -9,9 +9,10 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
+	'Import' => 'Импорт',
 	'xml' => 'XML',
 	'zip' => 'ZIP',
-	'LBL_EXTENSION_TYPE' => 'Expanded zipped files',
+	'LBL_EXTENSION_TYPE' => 'Расширения файлов в архиве',
 	'LBL_XML_EXPORT_TPL' => 'Шаблон',
 	'LBL_STANDARD_FIELDS' => 'Стандартные поля',
 	'LBL_INVENTORY_FIELDS' => 'Расширенные поля',

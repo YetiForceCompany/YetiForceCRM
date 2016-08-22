@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 vimport('modules.Vtiger.helpers.ListUpdatedRecord');
@@ -20,12 +21,15 @@ class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
-		$number = $request->get('number');
+		if($request->get('number'))
+			$number = $request->get('number');
+		else 
+			$number = 'all';
 		$linkId = $request->get('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$data = $request->getAll();
 
-		$columnList = array('LBL_NAME' => 'label', 'LBL_MODULE_NAME' => 'setype', 'Last Modified By' => 'modifiedtime', 'LBL_OWNER' => 'smownerid');
+		$columnList = ['LBL_NAME' => 'label', 'LBL_MODULE_NAME' => 'setype', 'Last Modified By' => 'modifiedtime', 'LBL_OWNER' => 'smownerid'];
 
 		$recordList = ListUpdatedRecord::getListRecord(NULL, $columnList, $number);
 

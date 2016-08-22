@@ -66,12 +66,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return this.plotContainer;
 	},
-	registerRecordsCount: function(){
+	registerRecordsCount: function () {
 		var thisInstance = this;
 		var recordsCountBtn = thisInstance.getContainer().find('.recordCount');
-		recordsCountBtn.on('click', function(){
+		recordsCountBtn.on('click', function () {
 			var url = recordsCountBtn.data('url');
-			AppConnector.request(url).then(function(response){
+			AppConnector.request(url).then(function (response) {
 				recordsCountBtn.find('.count').html(response.result.totalCount);
 				recordsCountBtn.find('span:not(.count)').addClass('hide');
 				recordsCountBtn.find('a').removeClass('hide');
@@ -824,7 +824,7 @@ Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
 		this.registerFilterChangeEvent();
 		this.registerRecordsCount();
 	},
-	postRefreshWidget: function (){
+	postRefreshWidget: function () {
 		this.registerRecordsCount();
 	}
 });
@@ -1425,5 +1425,42 @@ Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
 			instance.loadChart();
 		}
 		this.registerRecordsCount();
+	}
+});
+YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
+	loadChart: function () {
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		var options = {
+			xaxis: {
+				minTickSize: 1,
+				ticks: chartData['ticks']
+			},
+			yaxis: {
+				min: 0,
+				tickDecimals: 0
+			},
+			grid: {
+				hoverable: true,
+				clickable: true
+			},
+			series: {
+				bars: {
+					show: true,
+					barWidth: 0.8,
+					dataLabels: false,
+					align: "center",
+					lineWidth: 0,
+				},
+				stack: true
+			},
+			legend: {
+				show: true,
+				labelFormatter: function (label, series) {
+					return('<b>' + label + '</b>: ' + chartData['legend'][label] + ' h');
+				}
+			}
+		};
+		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	}
 });

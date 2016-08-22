@@ -12,6 +12,10 @@
  /* NOTE: Should be inline with Calendar language translation but few variations */
 
 $languageStrings = [
+	'LBL_AUTO_FILL_DESCRIPTION' => 'Заполнение даты начала на основе первой доступной даты',
+	'LBL_DECLINED' => 'Отменено',
+	'LBL_ACCEPTED' => 'Общепринятый',
+	'LBL_NEEDS-ACTION' => 'В ожидании подтверждения',
 	'Activity Type' => 'Тип действия',
 	'Busy' => 'Занят',
 	'Call' => 'Звонок',
@@ -104,6 +108,6 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Отменено',
 	'PLL_COMPLETED' => 'Выполнено',
 	'LBL_REMAIND_HOURS' => 'Напомнить после выбранного количества часов',
-	'LBL_REMAIND_MINS' => 'RНапомнить после выбранного количества минут',
+	'LBL_REMAIND_MINS' => 'Напомнить после выбранного количества минут',
 	'LBL_SELECT_INVITE' => 'Пригласить',
 ];

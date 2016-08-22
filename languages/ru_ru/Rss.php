@@ -18,7 +18,7 @@ $languageStrings = [
 	'LBL_SENDER' => 'Источник',
 	'LBL_SET_AS_DEFAULT' => 'Установить по умолчанию',
 	'SINGLE_Rss' => 'RSS-лента',
-	'LBL_CHANGE_RSS_CHANNEL' => 'Change RSS channel',
+	'LBL_CHANGE_RSS_CHANNEL' => 'Изменить RSS адрес',
 ];
 $jsLanguageStrings = [
 	'JS_INVALID_RSS_URL' => 'Неверный RSS адрес',

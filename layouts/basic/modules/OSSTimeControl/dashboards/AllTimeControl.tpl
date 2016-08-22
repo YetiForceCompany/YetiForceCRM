@@ -1,51 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-<script type="text/javascript">
-	
-	YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js',{},{
-		loadChart : function() {
-			var thisInstance = this;
-			var chartData = thisInstance.generateData();
-			var options = {
-				xaxis: {
-					minTickSize: 1,
-					ticks: chartData['ticks']
-				},
-				yaxis: {
-					min: 0 ,
-					tickDecimals: 0
-				},
-				grid: {
-					hoverable: true,
-					clickable: true
-				},
-				series: {
-					bars: {
-						show: true,
-						barWidth: 0.8,
-						dataLabels: false,
-						align: "center",
-						lineWidth: 0,
-					},
-					stack: true
-				},
-				legend: {
-					show: true,
-			        labelFormatter: function(label, series) {
-			      		return('<b>'+label+'</b>: '+chartData['legend'][label]+' h');
-					}
-				}
-			};
-			thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
-		}
-	});
-</script>
 <div class="dashboardWidgetHeader">
-	{foreach key=index item=cssModel from=$STYLES}
-		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
-	{/foreach}
-	{foreach key=index item=jsModel from=$SCRIPTS}
-		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-	{/foreach}
 	<div class="row">
 		<div class="col-md-8">
 			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>

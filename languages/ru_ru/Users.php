@@ -10,6 +10,9 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
+	'LBL_SWITCH_TO_YOURSELF' => 'Сменить',
+	'LBL_SWITCH_USER' => 'Сменить пользователя',
+	'LBL_SWITCH' => 'Смена пользователя',
 	'LBL_SELECT_LAYOUT' => 'Выберите макет',
 	'SINGLE_Users' => 'Пользователь',
 	'yyyy/mm/dd' => 'гггг/мм/дд',

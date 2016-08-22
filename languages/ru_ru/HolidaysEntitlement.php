@@ -12,7 +12,7 @@ $languageStrings = [
 	'HolidaysEntitlement' => 'Ежегодные отпуска',
 	'SINGLE_HolidaysEntitlement' => 'Ежегодный отпуск',
 	//Bloks
-	'LBL_HOLIDAYSENTITLEMENT_INFORMATION' => 'Базовая информация',
+	'LBL_HOLIDAYSENTITLEMENT_INFORMATION' => 'Основная информация',
 	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
 	//Fields
 	'LBL_YEAR' => 'Год',
