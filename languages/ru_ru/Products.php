@@ -10,8 +10,9 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
+	'FL_POS' => 'Позиций',
 	// Field Labels
-	'FL_RENEWABLE' => 'Renewable',
+	'FL_RENEWABLE' => 'Возобновляемый',
 	// 
 	'--None--' => 'Нет',
 	'300-Sales-Software' => '300-Продажи-ПО',
@@ -67,7 +68,7 @@ $languageStrings = [
 	'Product Sheet' => 'Характеристики',
 	'Products' => 'Товары',
 	'Qty In Demand' => 'Минимальный заказ',
-	'Qty In Stock' => 'Product quantity',
+	'Qty In Stock' => 'Количество',
 	'Qty/Unit' => 'Кол-во/Ед.',
 	'Reams' => 'Стопка',
 	'Reorder Level' => 'Пороговый остаток для заказа',
@@ -88,10 +89,10 @@ $languageStrings = [
 	'Support Group' => 'Поддержка',
 	'Marketing Group' => 'Маркетинг',
 	'Team Selling' => 'Продажи',
-	'pcs' => 'pcs',
-	'pack' => 'pack',
+	'pcs' => 'Штук',
+	'pack' => 'Упаковок',
 	'LBL_TAXES' => 'Taxes',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Ограниченный список продуктов и услуг, связанных с возможностью продажи',
 	'FL_EAN_13' => 'EAN-13',
-	'FL_QTY_IN_STOCK' => 'Quantity of product in stock',
+	'FL_QTY_IN_STOCK' => 'Количество на складе',
 ];
