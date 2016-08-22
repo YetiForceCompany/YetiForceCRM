@@ -1,4 +1,5 @@
-<?php
+<?php namespace includes\utils;
+
 /* * *******************************************************************************
  * * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -19,12 +20,12 @@ class Encryption
 
 	function __construct()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$result = $db->query('SELECT * FROM a_yf_encryption');
 		if ($row = $db->getRow($result)) {
 			$this->method = $row['method'];
 			$this->vector = $row['pass'];
-			$this->pass = AppConfig::securityKeys('encryptionPass');
+			$this->pass = \AppConfig::securityKeys('encryptionPass');
 		}
 	}
 
@@ -57,7 +58,7 @@ class Encryption
 			return false;
 		} elseif (empty($this->method)) {
 			return false;
-		} elseif ($this->method != AppConfig::securityKeys('encryptionMethod')) {
+		} elseif ($this->method != \AppConfig::securityKeys('encryptionMethod')) {
 			return false;
 		} elseif (!in_array($this->method, $this->getMethods())) {
 			return false;
