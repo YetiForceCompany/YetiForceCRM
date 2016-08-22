@@ -2105,6 +2105,23 @@ CREATE TABLE `u_yf_knowledgebasecf` (
   CONSTRAINT `fk_1_vtiger_knowledgebasecf` FOREIGN KEY (`knowledgebaseid`) REFERENCES `u_yf_knowledgebase` (`knowledgebaseid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_mail_autologin` */
+
+CREATE TABLE `u_yf_mail_autologin` (
+  `userid` smallint(11) unsigned NOT NULL,
+  `key` varchar(50) NOT NULL,
+  KEY `userid` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_mail_compose_data` */
+
+CREATE TABLE `u_yf_mail_compose_data` (
+  `userid` smallint(11) unsigned NOT NULL,
+  `key` varchar(32) NOT NULL,
+  `data` text NOT NULL,
+  UNIQUE KEY `userid` (`userid`,`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_partners` */
 
 CREATE TABLE `u_yf_partners` (
