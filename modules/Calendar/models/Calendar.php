@@ -260,14 +260,9 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	 * Static Function to get the instance of Vtiger Module Model for the given id or name
 	 * @param mixed id or name of the module
 	 */
-	public static function getInstance()
+	public static function getCleanInstance()
 	{
-		$instance = Vtiger_Cache::get('calendar', 'instance');
-		if (!$instance) {
-			$instance = new self();
-			Vtiger_Cache::set('calendar', 'instance', $instance);
-		}
-		return $instance;
+		return new self();
 	}
 
 	public static function getCalendarTypes()

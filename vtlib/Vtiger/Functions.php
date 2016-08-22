@@ -221,7 +221,7 @@ class Functions
 
 	public static function getModuleData($mixed)
 	{
-		if ($mixed === false || empty($mixed)) {
+		if (empty($mixed)) {
 			$log = \LoggerManager::getInstance();
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
 			return false;

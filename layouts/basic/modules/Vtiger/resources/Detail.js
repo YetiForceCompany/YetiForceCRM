@@ -2749,6 +2749,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 			);
 		});
+		detailContentsHolder.on('click', '.moreProductsService', function(){
+			jQuery('.related .mainNav[data-reference="ProductsAndServices"]:not(.hide)').trigger('click');
+		});
 		detailContentsHolder.on('click', '.moreRelatedUpdates', function () {
 			var widgetContainer = jQuery(this).closest('.widgetContentBlock');
 			var widgetContent = widgetContainer.find('.widgetContent');
