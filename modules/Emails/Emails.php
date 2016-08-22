@@ -542,7 +542,7 @@ class Emails extends CRMEntity
 
 	function setRelationTables($secmodule = false)
 	{
-		$rel_tables = array(
+		$relTables = array(
 			"Leads" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
 			"Vendors" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
 			"Contacts" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
@@ -551,7 +551,7 @@ class Emails extends CRMEntity
 		if ($secmodule === false) {
 			return $relTables;
 		}
-		return $rel_tables[$secmodule];
+		return $relTables[$secmodule];
 	}
 	/*
 	 * Function to get the secondary query part of a report

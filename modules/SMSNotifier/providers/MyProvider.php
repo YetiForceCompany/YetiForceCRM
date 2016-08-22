@@ -1,27 +1,30 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model {
+class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model
+{
 
 	private $userName;
 	private $password;
 	private $parameters = array();
 
 	const SERVICE_URI = 'http://localhost:9898';
+
 	private static $REQUIRED_PARAMETERS = array('app_id');
 
 	/**
 	 * Function to get provider name
 	 * @return <String> provider name
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return 'MyProvider';
 	}
 
@@ -29,7 +32,8 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 	 * Function to get required parameters other than (userName, password)
 	 * @return <array> required parameters list
 	 */
-	public function getRequiredParams() {
+	public function getRequiredParams()
+	{
 		return self::$REQUIRED_PARAMETERS;
 	}
 
@@ -37,11 +41,12 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 	 * Function to get service URL to use for a given type
 	 * @param <String> $type like SEND, PING, QUERY
 	 */
-	public function getServiceURL($type = false) {
-		if($type) {
-			switch(strtoupper($type)) {
-				case self::SERVICE_AUTH: return  self::SERVICE_URI . '/http/auth';
-				case self::SERVICE_SEND: return  self::SERVICE_URI . '/http/sendmsg';
+	public function getServiceURL($type = false)
+	{
+		if ($type) {
+			switch (strtoupper($type)) {
+				case self::SERVICE_AUTH: return self::SERVICE_URI . '/http/auth';
+				case self::SERVICE_SEND: return self::SERVICE_URI . '/http/sendmsg';
 				case self::SERVICE_QUERY: return self::SERVICE_URI . '/http/querymsg';
 			}
 		}
@@ -53,7 +58,8 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 	 * @param <String> $userName
 	 * @param <String> $password
 	 */
-	public function setAuthParameters($userName, $password) {
+	public function setAuthParameters($userName, $password)
+	{
 		$this->userName = $userName;
 		$this->password = $password;
 	}
@@ -63,7 +69,8 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 	 * @param <String> $key
 	 * @param <String> $value
 	 */
-	public function setParameter($key, $value) {
+	public function setParameter($key, $value)
+	{
 		$this->parameters[$key] = $value;
 	}
 
@@ -73,8 +80,9 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 	 * @param <String> $defaultValue
 	 * @return <String> value/$default value
 	 */
-	public function getParameter($key, $defaultValue = false) {
-		if(isset($this->parameters[$key])) {
+	public function getParameter($key, $defaultValue = false)
+	{
+		if (isset($this->parameters[$key])) {
 			return $this->parameters[$key];
 		}
 		return $defaultValue;
@@ -84,7 +92,8 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 	 * Function to prepare parameters
 	 * @return <Array> parameters
 	 */
-	protected function prepareParameters() {
+	protected function prepareParameters()
+	{
 		$params = array('user' => $this->userName, 'pwd' => $this->password);
 		foreach (self::$REQUIRED_PARAMETERS as $key) {
 			$params[$key] = $this->getParameter($key);
@@ -97,8 +106,9 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 	 * @param <String> $message
 	 * @param <Mixed> $toNumbers One or Array of numbers
 	 */
-	public function send($message, $toNumbers) {
-		if(!is_array($toNumbers)) {
+	public function send($message, $toNumbers)
+	{
+		if (!is_array($toNumbers)) {
 			$toNumbers = array($toNumbers);
 		}
 
@@ -109,23 +119,24 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 		$serviceURL = $this->getServiceURL(self::SERVICE_SEND);
 		$httpClient = new Vtiger_Net_Client($serviceURL);
 		$response = $httpClient->doPost($params);
-		$responseLines = explode('\n', $response);
+		$responseLines = explode("\n", $response);
 
 		$results = array();
-		foreach($responseLines as $responseLine) {
+		foreach ($responseLines as $responseLine) {
 			$responseLine = trim($responseLine);
-			if(empty($responseLine)) continue;
+			if (empty($responseLine))
+				continue;
 
-			$result = array( 'error' => false, 'statusmessage' => '' );
-			if(preg_match("/ERR:(.*)/", trim($responseLine), $matches)) {
+			$result = array('error' => false, 'statusmessage' => '');
+			if (preg_match("/ERR:(.*)/", trim($responseLine), $matches)) {
 				$result['error'] = true;
 				$result['to'] = $toNumbers[$i++];
 				$result['statusmessage'] = $matches[0]; // Complete error message
-			} else if(preg_match("/ID: ([^ ]+)TO:(.*)/", $responseLine, $matches)) {
+			} else if (preg_match("/ID: ([^ ]+)TO:(.*)/", $responseLine, $matches)) {
 				$result['id'] = trim($matches[1]);
 				$result['to'] = trim($matches[2]);
 				$result['status'] = self::MSG_STATUS_PROCESSING;
-			} else if(preg_match("/ID: (.*)/", $responseLine, $matches)) {
+			} else if (preg_match("/ID: (.*)/", $responseLine, $matches)) {
 				$result['id'] = trim($matches[1]);
 				$result['to'] = $toNumbers[0];
 				$result['status'] = self::MSG_STATUS_PROCESSING;
@@ -139,7 +150,8 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 	 * Function to get query for status using messgae id
 	 * @param <Number> $messageId
 	 */
-	public function query($messageId) {
+	public function query($messageId)
+	{
 		$params = $this->prepareParameters();
 		$params['apimsgid'] = $messageId;
 
@@ -148,21 +160,21 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 		$response = $httpClient->doPost($params);
 		$response = trim($response);
 
-		$result = array( 'error' => false, 'needlookup' => 1 );
+		$result = array('error' => false, 'needlookup' => 1);
 
-		if(preg_match("/ERR: (.*)/", $response, $matches)) {
+		if (preg_match("/ERR: (.*)/", $response, $matches)) {
 			$result['error'] = true;
 			$result['needlookup'] = 0;
 			$result['statusmessage'] = $matches[0];
-		} else if(preg_match("/ID: ([^ ]+) Status: ([^ ]+)/", $response, $matches)) {
+		} else if (preg_match("/ID: ([^ ]+) Status: ([^ ]+)/", $response, $matches)) {
 			$result['id'] = trim($matches[1]);
 			$status = trim($matches[2]);
 
 			// Capture the status code as message by default.
 			$result['statusmessage'] = "CODE: $status";
-			if($status === '1') {
+			if ($status === '1') {
 				$result['status'] = self::MSG_STATUS_PROCESSING;
-			} else if($status === '2') {
+			} else if ($status === '2') {
 				$result['status'] = self::MSG_STATUS_DISPATCHED;
 				$result['needlookup'] = 0;
 			}
@@ -170,4 +182,5 @@ class SMSNotifier_MyProvider_Provider implements SMSNotifier_ISMSProvider_Model 
 		return $result;
 	}
 }
+
 ?>
