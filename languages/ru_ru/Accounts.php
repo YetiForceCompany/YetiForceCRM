@@ -9,6 +9,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
+	'LBL_NUMBER_OF_ACTIVE_CONTRACTS' => 'Количество активных контрактов',
+	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Товары и Услуги',
 	'Account Name' => 'Контрагент',
 	'Account No' => 'Контрагент №',
 	'Accounts' => 'Контрагенты',

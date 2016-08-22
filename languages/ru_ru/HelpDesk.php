@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC' => 'Нажмите эту кнопку, чтобы связать это соглашение с уведомлением',
+	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'SLA не активен',
+	'LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK' => 'Не подключен SLA',
 	'PLL_SUBMITTED_COMMENTS' => 'Отправил комментарии',
 	'PLL_FOR_APPROVAL' => 'Для подтверждения',
 	'PLL_TO_CLOSE' => 'Закрыть',
@@ -71,7 +74,7 @@ $languageStrings = [
 	'Major' => 'Значительная',
 	'Minor' => 'Незначительная',
 	'Normal' => 'Нормальный',
-	'Open' => 'Awaiting verification',
+	'Open' => 'Подтверждение',
 	'Other Problem' => 'Другая проблема',
 	'P&S Sold' => 'Товары / Услуги',
 	'Re' => 'Ответ:',
@@ -91,7 +94,7 @@ $languageStrings = [
 	'Update History' => 'Обновить историю',
 	'Urgent' => 'Чрезвычайный',
 	'Wait For Response' => 'Ожидание ответа',
-	'created' => 'создано',
+	'created' => 'Создано',
 	'customer_portal' => ' в клиентском портале ',
 	'link' => 'Вы можете использовать приведенную ссылку для просмотра комментариев:',
 	'replied' => 'отвечено',
