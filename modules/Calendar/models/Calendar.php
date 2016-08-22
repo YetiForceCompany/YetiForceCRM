@@ -31,6 +31,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		$query = 'SELECT vtiger_activity.*, relcrm.setype AS linkmod, procrm.setype AS processmod, subprocrm.setype AS subprocessmod
 		FROM vtiger_activity
 		LEFT JOIN vtiger_activitycf ON vtiger_activitycf.activityid = vtiger_activity.activityid
+		LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 		LEFT JOIN vtiger_crmentity relcrm ON relcrm.crmid = vtiger_activity.link
 		LEFT JOIN vtiger_crmentity procrm ON procrm.crmid = vtiger_activity.process
 		LEFT JOIN vtiger_crmentity subprocrm ON subprocrm.crmid = vtiger_activity.subprocess
