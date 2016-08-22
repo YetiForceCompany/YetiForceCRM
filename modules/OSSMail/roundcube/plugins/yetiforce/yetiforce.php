@@ -53,7 +53,7 @@ class yetiforce extends rcube_plugin
 
 	public function startup($args)
 	{
-		if (empty($_SESSION['user_id']) && !empty($_GET['_autologin']) && $this->is_localhost()) {
+		if (empty($_SESSION['user_id']) && !empty($_GET['_autologin'])) {
 			$args['action'] = 'login';
 		}
 		return $args;
@@ -61,7 +61,7 @@ class yetiforce extends rcube_plugin
 
 	public function authenticate($args)
 	{
-		if (empty($_GET['_autologin']) || !$this->is_localhost()) {
+		if (empty($_GET['_autologin'])) {
 			return $args;
 		}
 		$key = rcube_utils::get_input_value('_autologinKey', rcube_utils::INPUT_GPC);
@@ -69,7 +69,7 @@ class yetiforce extends rcube_plugin
 		$sqlResult = $db->query('SELECT roundcube_users.* FROM u_yf_mail_autologin INNER JOIN roundcube_users ON roundcube_users.user_id = u_yf_mail_autologin.userid WHERE roundcube_users.password <> \'\' AND u_yf_mail_autologin.`key` = ?;', $key);
 		$row = $db->fetch_assoc($sqlResult);
 
-		if (!empty($row) && !empty($_GET['_autologin']) && $this->is_localhost()) {
+		if (!empty($row) && !empty($_GET['_autologin'])) {
 			$host = false;
 			foreach ($this->rc->config->get('default_host') as $key => $value) {
 				if (strpos($key, $row['mail_host']) !== false) {
@@ -86,11 +86,6 @@ class yetiforce extends rcube_plugin
 			$sqlResult = $db->query('DELETE FROM `u_yf_mail_autologin` WHERE `userid` = ?;', $row['user_id']);
 		}
 		return $args;
-	}
-
-	public function is_localhost()
-	{
-		return $_SERVER['REMOTE_ADDR'] == '::1' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1';
 	}
 
 	public function loginAfter($args)
