@@ -20,7 +20,7 @@ $languageStrings = [
 	'FL_MARGIN' => 'Прибыль',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Черновик',
-	'PLL_IN_REALIZATION' => 'На реализации',
+	'PLL_IN_REALIZATION' => 'Обработка',
 	'PLL_FOR_VERIFICATION' => 'На проверке',
 	'PLL_CANCELLED' => 'Отмененный',
 	'PLL_COMPLETED' => 'Завершенный',
