@@ -5956,16 +5956,17 @@ CREATE TABLE `vtiger_modcommentscf` (
 /*Table structure for table `vtiger_modentity_num` */
 
 CREATE TABLE `vtiger_modentity_num` (
-  `num_id` int(19) NOT NULL,
-  `semodule` varchar(50) NOT NULL,
+  `num_id` int(19) unsigned NOT NULL,
+  `semodule` varchar(25) NOT NULL,
   `prefix` varchar(50) NOT NULL DEFAULT '',
-  `postfix` varchar(50) NOT NULL,
-  `start_id` varchar(50) NOT NULL,
-  `cur_id` varchar(50) NOT NULL,
-  `active` varchar(2) NOT NULL,
+  `postfix` varchar(50) NOT NULL DEFAULT '',
+  `start_id` int(19) unsigned NOT NULL,
+  `cur_id` int(19) unsigned NOT NULL,
+  `active` smallint(1) unsigned NOT NULL,
   PRIMARY KEY (`num_id`),
   UNIQUE KEY `num_idx` (`num_id`),
-  KEY `semodule_active_idx` (`semodule`,`active`)
+  KEY `semodule_active_idx` (`semodule`,`active`),
+  KEY `semodule` (`semodule`,`cur_id`,`active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modentity_num_seq` */

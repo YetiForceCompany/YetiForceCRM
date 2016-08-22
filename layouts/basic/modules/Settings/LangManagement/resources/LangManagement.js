@@ -207,7 +207,7 @@ var Settings_Index_Js = {
 		e = $(this).closest('.active');
 		Settings_Index_Js.LoadEditLang(e);
 	},
-	changeTranslation: function (e, position) {
+	changeTranslation: function (e, position, mod) {
 
 		var target = $(e.currentTarget);
 		if (typeof e.currentTarget == 'undefined')
@@ -220,9 +220,12 @@ var Settings_Index_Js = {
 				'enabled': true
 			}
 		});
+		if (mod == undefined) {
+			mod = jQuery(".LangManagement " + position + " #mods_list").data('target') ? jQuery(".LangManagement " + position + " #mods_list").data('target') : jQuery(".LangManagement " + position + " #mods_list").val();
+		}
 		Settings_Index_Js.registerSaveEvent('SaveTranslation', {
 			'lang': target.data('lang'),
-			'mod': jQuery(".LangManagement " + position + " #mods_list").data('target') ? jQuery(".LangManagement " + position + " #mods_list").data('target') : jQuery(".LangManagement " + position + " #mods_list").val(),
+			'mod': mod,
 			'type': target.data('type'),
 			'langkey': closestTrElement.data('langkey'),
 			'val': target.val(),
@@ -413,6 +416,7 @@ var Settings_Index_Js = {
 		})
 	},
 	showStats: function (data, modules) {
+		var thisInstance = this;
 		var html = '<div class="col-md-8"><div class="panel panel-default"><div class="panel-body">';
 		var langStats = 0;
 		var shortages = [];
@@ -423,15 +427,14 @@ var Settings_Index_Js = {
 				var max = data[k][0];
 				langStats += max;
 				delete data[k][0];
-				html += '<div class="row"><label class="col-md-3 control-label">' + modules[i][k] + ': </label><div class="font-larger form-control-static col-md-9">'
+				html += '<div class="row moduleRow" data-module="' + k + '"><label class="col-md-3 form-control-static control-label marginTop2">' + modules[i][k] + ': </label><div class="form-control-static col-md-9">'
 				for (var q in data[k]) {
 					if (typeof shortages[q] == 'undefined') {
 						shortages[q] = 0;
 					}
 					shortages[q] += data[k][q].length;
 					var x = data[k][q].length * 100 / max
-
-					html += '<span class="label label-primary"> ' + jQuery('select option[value="' + q + '"]').text() + ' - ' + x.toFixed(2) + '% </span>&nbsp;';
+					html += '<button class="btn btn-xs btn-primary" data-lang="' + q + '"> ' + jQuery('select option[value="' + q + '"]').text() + ' - ' + x.toFixed(2) + '% </button>&nbsp;';
 				}
 				html += '</div></div>';
 			}
@@ -443,6 +446,35 @@ var Settings_Index_Js = {
 			height: '400px',
 			railVisible: true,
 		});
+		thisInstance.registerStatsEvent();
+	},
+	registerStatsEvent: function () {
+		var thisInstance = this;
+		jQuery('.statsData .btn').on('click', function (e) {
+			var progress = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					'enabled': true
+				}
+			});
+			var element = jQuery(e.currentTarget);
+			var row = element.closest('.moduleRow');
+			var url =
+					'index.php?module=' + app.getModuleName() +
+					'&parent=' + app.getParentModuleName() +
+					'&view=GetLabels' +
+					'&langBase=' + jQuery('[name="langs_basic"]').val() +
+					'&lang=' + element.data('lang') +
+					'&sourceModule=' + row.data('module');
+			app.showModalWindow(null, url, function (data) {
+				progress.progressIndicator({'mode': 'hide'});
+				data.find('button:not(.close)').on('click', function (e) {
+					var button = jQuery(e.currentTarget);
+					var input = button.closest('tr').find('input');
+					thisInstance.changeTranslation(input, 'html', input.data('mod'))
+				});
+			});
+		})
 	},
 	getDataCharts: function (shortages, max) {
 		var k = 1;
