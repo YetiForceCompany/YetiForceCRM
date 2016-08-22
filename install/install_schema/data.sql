@@ -647,6 +647,10 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 /*Data for the table `u_yf_knowledgebasecf` */
 
+/*Data for the table `u_yf_mail_autologin` */
+
+/*Data for the table `u_yf_mail_compose_data` */
+
 /*Data for the table `u_yf_partners` */
 
 /*Data for the table `u_yf_partners_address` */

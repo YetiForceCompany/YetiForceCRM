@@ -11,11 +11,12 @@ class yetiforce extends rcube_plugin
 
 	private $rc;
 
-	function init()
+	public function init()
 	{
 		$this->rc = rcmail::get_instance();
-		$this->add_hook('login_after', [$this, 'savePassword']);
-
+		$this->add_hook('login_after', [$this, 'loginAfter']);
+		$this->add_hook('startup', [$this, 'startup']);
+		$this->add_hook('authenticate', [$this, 'authenticate']);
 
 		if ($this->rc->task == 'mail') {
 			$this->register_action('plugin.yetiforce.addFilesToMail', [$this, 'addFilesToMail']);
@@ -30,13 +31,13 @@ class yetiforce extends rcube_plugin
 				$this->add_hook('render_page', [$this, 'loadSignature']);
 
 				$id = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
-				if ($id && array_key_exists('module', $_SESSION['compose_data_' . $id]['param'])) {
+				if ($id && isset($_SESSION['compose_data_' . $id]['param']['module'])) {
 					$this->rc->output->set_env('crmModule', $_SESSION['compose_data_' . $id]['param']['module']);
 				}
-				if ($id && array_key_exists('record', $_SESSION['compose_data_' . $id]['param'])) {
+				if ($id && isset($_SESSION['compose_data_' . $id]['param']['record'])) {
 					$this->rc->output->set_env('crmRecord', $_SESSION['compose_data_' . $id]['param']['record']);
 				}
-				if ($id && array_key_exists('view', $_SESSION['compose_data_' . $id]['param'])) {
+				if ($id && isset($_SESSION['compose_data_' . $id]['param']['view'])) {
 					$this->rc->output->set_env('crmView', $_SESSION['compose_data_' . $id]['param']['view']);
 				}
 			}
@@ -48,6 +49,66 @@ class yetiforce extends rcube_plugin
 				$this->add_hook('message_load', [$this, 'messageLoad']);
 			}
 		}
+	}
+
+	public function startup($args)
+	{
+		if (empty($_SESSION['user_id']) && !empty($_GET['_autologin']) && $this->is_localhost()) {
+			$args['action'] = 'login';
+		}
+		return $args;
+	}
+
+	public function authenticate($args)
+	{
+		if (empty($_GET['_autologin']) || !$this->is_localhost()) {
+			return $args;
+		}
+		$key = rcube_utils::get_input_value('_autologinKey', rcube_utils::INPUT_GPC);
+		$db = $this->rc->get_dbh();
+		$sqlResult = $db->query('SELECT roundcube_users.* FROM u_yf_mail_autologin INNER JOIN roundcube_users ON roundcube_users.user_id = u_yf_mail_autologin.userid WHERE roundcube_users.password <> \'\' AND u_yf_mail_autologin.`key` = ?;', $key);
+		$row = $db->fetch_assoc($sqlResult);
+
+		if (!empty($row) && !empty($_GET['_autologin']) && $this->is_localhost()) {
+			$host = false;
+			foreach ($this->rc->config->get('default_host') as $key => $value) {
+				if (strpos($key, $row['mail_host']) !== false) {
+					$host = $key;
+				}
+			}
+			if ($host) {
+				$args['user'] = $row['username'];
+				$args['pass'] = $row['password'];
+				$args['host'] = $host;
+				$args['cookiecheck'] = false;
+				$args['valid'] = true;
+			}
+			$sqlResult = $db->query('DELETE FROM `u_yf_mail_autologin` WHERE `userid` = ?;', $row['user_id']);
+		}
+		return $args;
+	}
+
+	public function is_localhost()
+	{
+		return $_SERVER['REMOTE_ADDR'] == '::1' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1';
+	}
+
+	public function loginAfter($args)
+	{
+		//	Password saving
+		$this->rc = rcmail::get_instance();
+		$pass = rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST);
+		if (!empty($pass)) {
+			$sql = "UPDATE " . $this->rc->db->table_name('users') . " SET password = ? WHERE user_id = ?";
+			call_user_func_array(array($this->rc->db, 'query'), array_merge(array($sql), array($pass, $this->rc->get_user_id())));
+			$this->rc->db->affected_rows();
+		}
+		if ($_GET['_autologin'] && !empty($_REQUEST['_composeKey'])) {
+			$args['_action'] = 'compose';
+			$args['_task'] = 'mail';
+			$args['_composeKey'] = rcube_utils::get_input_value('_composeKey', rcube_utils::INPUT_GET);
+		}
+		return $args;
 	}
 
 	public function messageLoad($args)
@@ -69,86 +130,75 @@ class yetiforce extends rcube_plugin
 		$this->rc->output->set_env('fromMail', $fromMail);
 	}
 
-	function messageComposeHead($args)
+	public function messageComposeHead($args)
 	{
 		$this->rc = rcmail::get_instance();
 		$db = $this->rc->get_dbh();
 		global $COMPOSE_ID;
 
-		$id = $COMPOSE_ID;
-		$type = rcube_utils::get_input_value('type', rcube_utils::INPUT_GPC);
-		$crmid = rcube_utils::get_input_value('crmid', rcube_utils::INPUT_GPC);
-		$crmModule = rcube_utils::get_input_value('crmmodule', rcube_utils::INPUT_GPC);
-		$crmRecord = rcube_utils::get_input_value('crmrecord', rcube_utils::INPUT_GPC);
-		$crmView = rcube_utils::get_input_value('crmview', rcube_utils::INPUT_GPC);
-		$crmSubject = rcube_utils::get_input_value('subject', rcube_utils::INPUT_GPC);
-		$emails = rcube_utils::get_input_value('emails', rcube_utils::INPUT_GPC);
-		$pdfPath = rcube_utils::get_input_value('pdf_path', rcube_utils::INPUT_GPC);
-		if (!empty($emails)) {
-			$args['param']['bcc'] = implode(',', json_decode($emails, true));
-		}
-		if ($crmModule) {
-			$_SESSION['compose_data_' . $id]['param']['module'] = $crmModule;
-		}
-		if ($crmRecord) {
-			$_SESSION['compose_data_' . $id]['param']['record'] = $crmrecord;
-		}
-		if ($crmView) {
-			$_SESSION['compose_data_' . $id]['param']['view'] = $crmView;
-		}
+		$compose = &$_SESSION['compose_data_' . $COMPOSE_ID];
+		$composeKey = rcube_utils::get_input_value('_composeKey', rcube_utils::INPUT_GET);
+		$result = $db->query('SELECT * FROM `u_yf_mail_compose_data` WHERE `key` = ?', $composeKey);
+		$params = $db->fetch_assoc($result);
+		$db->query('DELETE FROM `u_yf_mail_compose_data` WHERE `key` = ?;', $composeKey);
+		if (!empty($params)) {
+			$params = json_decode($params['data'], true);
 
-		if ($crmModule == 'Documents' || $pdfPath) {
-			$userid = $this->rc->user->ID;
-			list($usec, $sec) = explode(' ', microtime());
-			$dId = preg_replace('/[^0-9]/', '', $userid . $sec . $usec);
-			foreach (self::getAttachment($crmRecord, $pdfPath) as $index => $attachment) {
-				$attachment['group'] = $id;
-				$attachment['id'] = $dId . $index;
-				$args['attachments'][$attachment['id']] = $attachment;
+			foreach ($params as $key => &$value) {
+				$compose['param'][$key] = $value;
 			}
+			if ((isset($params['crmmodule']) && $params['crmmodule'] == 'Documents') || (isset($params['filePath']) && $params['filePath'])) {
+				$userid = $this->rc->user->ID;
+				list($usec, $sec) = explode(' ', microtime());
+				$dId = preg_replace('/[^0-9]/', '', $userid . $sec . $usec);
+				foreach (self::getAttachment($params['crmrecord'], $params['filePath']) as $index => $attachment) {
+					$attachment['group'] = $COMPOSE_ID;
+					$attachment['id'] = $dId . $index;
+					$args['attachments'][$attachment['id']] = $attachment;
+				}
+			}
+			if (!isset($params['mailId'])) {
+				return $args;
+			}
+			$mailId = $params['mailId'];
+			$result = $db->query('SELECT content,reply_to_email,date,from_email,to_email,cc_email,subject FROM vtiger_ossmailview WHERE ossmailviewid = ?;', $mailId);
+			$row = $db->fetch_assoc($result);
+			$compose['param']['type'] = $params['type'];
+			$compose['param']['mailData'] = $row;
+			switch ($params['type']) {
+				case 'replyAll':
+					$cc = $row['to_email'];
+					$cc .= ',' . $row['cc_email'];
+					$cc = str_replace($row['from_email'] . ',', '', $cc);
+					$cc = trim($cc, ',');
+				case 'reply':
+					$to = $row['reply_to_email'];
+					if (preg_match('/^re:/i', $row['subject']))
+						$subject = $row['subject'];
+					else
+						$subject = 'Re: ' . $row['subject'];
+					$subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
+					break;
+				case 'forward':
+					if (preg_match('/^fwd:/i', $row['subject']))
+						$subject = $row['subject'];
+					else
+						$subject = 'Fwd: ' . $row['subject'];
+					break;
+			}
+			if (!empty($params['subject'])) {
+				$subject .= ' [' . $params['subject'] . ']';
+			}
+			$args['param']['to'] = $to;
+			$args['param']['cc'] = $cc;
+			$args['param']['subject'] = $subject;
 		}
-		if (!$crmid) {
-			return $args;
-		}
-		$crmid = filter_var($crmid, FILTER_SANITIZE_STRING);
-		$result = $db->query("SELECT content,reply_to_email,date,from_email,to_email,cc_email,subject FROM vtiger_ossmailview WHERE ossmailviewid = '$crmid';");
-		$row = $db->fetch_assoc($result);
-		$_SESSION['compose_data_' . $id]['param']['type'] = $type;
-		$_SESSION['compose_data_' . $id]['param']['mailData'] = $row;
-		switch ($type) {
-			case 'replyAll':
-				$cc = $row['to_email'];
-				$cc .= ',' . $row['cc_email'];
-				$cc = str_replace($row['from_email'] . ',', '', $cc);
-				$cc = trim($cc, ',');
-			case 'reply':
-				$to = $row['reply_to_email'];
-				if (preg_match('/^re:/i', $row['subject']))
-					$subject = $row['subject'];
-				else
-					$subject = 'Re: ' . $row['subject'];
-				$subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
-				break;
-			case 'forward':
-				if (preg_match('/^fwd:/i', $row['subject']))
-					$subject = $row['subject'];
-				else
-					$subject = 'Fwd: ' . $row['subject'];
-				break;
-		}
-		if (!empty($crmSubject)) {
-			$subject .= ' [' . $crmSubject . ']';
-		}
-		$args['param']['to'] = $to;
-		$args['param']['cc'] = $cc;
-		$args['param']['subject'] = $subject;
 		return $args;
 	}
 
-	function messageComposeBody($args)
+	public function messageComposeBody($args)
 	{
 		$this->rc = rcmail::get_instance();
-		$db = $this->rc->get_dbh();
 
 		$id = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
 		$row = $_SESSION['compose_data_' . $id]['param']['mailData'];
@@ -213,7 +263,7 @@ class yetiforce extends rcube_plugin
 				$body = $txt->get_text();
 				$body = preg_replace('/\r?\n/', "\n", $body);
 				$body = trim($body, "\n");
-				$body = rcmail_wrap_and_quote($body, $LINE_LENGTH);
+				$body = rcmailWrapAndQuote($body, $LINE_LENGTH);
 				$prefix .= "\n";
 				$body = $prefix . $body . $suffix;
 			} else {
@@ -225,19 +275,8 @@ class yetiforce extends rcube_plugin
 		return $args;
 	}
 
-	//	Password saving
-	function savePassword($args)
-	{
-		$this->rc = rcmail::get_instance();
-		$pass = rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST);
-		$sql = "UPDATE " . $this->rc->db->table_name('users') . " SET password = ? WHERE user_id = ?";
-		call_user_func_array(array($this->rc->db, 'query'), array_merge(array($sql), array($pass, $this->rc->get_user_id())));
-		$this->rc->db->affected_rows();
-		return $args;
-	}
-
 	//	Loading signature
-	function loadSignature($response)
+	public function loadSignature($response)
 	{
 		global $OUTPUT;
 		if ($this->checkAddSignature()) {
@@ -255,7 +294,7 @@ class yetiforce extends rcube_plugin
 		$OUTPUT->set_env('signatures', $a_signatures);
 	}
 
-	function getGlobalSignature()
+	public function getGlobalSignature()
 	{
 		global $RCMAIL;
 		$db = $RCMAIL->get_dbh();
@@ -269,7 +308,7 @@ class yetiforce extends rcube_plugin
 		return $result;
 	}
 
-	function checkAddSignature()
+	public function checkAddSignature()
 	{
 		global $RCMAIL;
 		$db = $RCMAIL->get_dbh();
@@ -358,17 +397,11 @@ if (window && window.rcmail) {
 		return $files;
 	}
 
-	public function getAttachment($ids = false, $pdfs = false)
+	public function getAttachment($ids, $files)
 	{
 
 		$attachments = [];
-		if (!$ids) {
-			$ids = rcube_utils::get_input_value('ids', rcube_utils::INPUT_GPC);
-		}
-		if (!$pdfs) {
-			$pdfs = rcube_utils::get_input_value('pdf_path', rcube_utils::INPUT_GPC);
-		}
-		if (empty($ids) && empty($pdfs)) {
+		if (empty($ids) && empty($files)) {
 			return $attachments;
 		}
 		if (is_array($ids)) {
@@ -397,8 +430,8 @@ if (window && window.rcmail) {
 				$index++;
 			}
 		}
-		if ($pdfs) {
-			$orgFile = $this->rc->config->get('root_directory') . $pdfs;
+		if ($files) {
+			$orgFile = $this->rc->config->get('root_directory') . $files;
 			list($usec, $sec) = explode(' ', microtime());
 			$filepath = $this->rc->config->get('root_directory') . 'modules/OSSMail/roundcube/temp/' . $sec . $userid . $index . '.tmp';
 			if (file_exists($orgFile)) {
@@ -416,13 +449,12 @@ if (window && window.rcmail) {
 		return $attachments;
 	}
 
-	function rcmail_wrap_and_quote($text, $length = 72)
+	public function rcmailWrapAndQuote($text, $length = 72)
 	{
 		// Rebuild the message body with a maximum of $max chars, while keeping quoted message.
 		$max = max(75, $length + 8);
 		$lines = preg_split('/\r?\n/', trim($text));
 		$out = '';
-
 		foreach ($lines as $line) {
 			// don't wrap already quoted lines
 			if ($line[0] == '>') {
@@ -438,15 +470,12 @@ if (window && window.rcmail) {
 				}
 
 				$line = rtrim($newline);
-			}
-			else {
+			} else {
 				$line = '> ' . $line;
 			}
-
 			// Append the line
 			$out .= $line . "\n";
 		}
-
 		return rtrim($out, "\n");
 	}
 }
