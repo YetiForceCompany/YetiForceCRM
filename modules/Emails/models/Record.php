@@ -339,8 +339,8 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		$db->update('vtiger_crmentity', ['deleted' => 0], $where, $attachmentIdList);
 		$where = sprintf('attachmentsid IN (%s)', generateQuestionMarks($attachmentIdList));
 		$db->delete('vtiger_attachments', $where, $attachmentIdList);
-		$where = sprintf('crmid=? and attachmentsid IN(%s)');
-		$db->delete('vtiger_seattachmentsrel', $where, array_merge(array($this->getId()), $attachmentIdList));
+		$where = sprintf('crmid=? and attachmentsid IN(%s)', generateQuestionMarks($attachmentIdList));
+		$db->delete('vtiger_seattachmentsrel', $where, array_merge([$this->getId()], $attachmentIdList));
 	
 	}
 
