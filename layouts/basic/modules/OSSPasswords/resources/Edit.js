@@ -79,7 +79,9 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 				return false;
 		})
 	},
-	generatePassword: function () {
+	generatePassword: function (e) {
+		var element = jQuery(e.currentTarget);
+		var form = element.closest('form');
 		var min = parseInt(jQuery('#minChars').val());
 		var max = parseInt(jQuery('#maxChars').val());
 		var allowedChars = jQuery('#allowedLetters').val();
@@ -104,15 +106,15 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 			password += chArray[charIndex];
 		}
 		// get desired text field
-		var passForm = jQuery('[name ="password"]');
+		var passForm = form.find('[name ="password"]');
 		// change its value to the generated password
 		passForm.val(password);
 		passForm.trigger('change');
 	},
 	registerButtonsEvents : function(){
 		var thisInstance = this;
-		$('.generatePass').click(function() {
-			thisInstance.generatePassword();
+		$('.generatePass').click(function(e) {
+			thisInstance.generatePassword(e);
 		});
 	},
 	registerBasicEvents : function(container){
