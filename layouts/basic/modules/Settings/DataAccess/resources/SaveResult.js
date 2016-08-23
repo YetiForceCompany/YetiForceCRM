@@ -56,6 +56,7 @@ function SaveResult() {
 	}
 	this.executeTask = function (data, key, form) {
 		var instance = this;
+		data.type = parseInt(data.type)
 		switch (data.type) {
 			case 0:
 				this.showNotify(data.info)
