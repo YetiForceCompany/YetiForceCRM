@@ -29,7 +29,7 @@ $languageStrings = [
 	'LBL_NAME' => 'Имя',
 	'LBL_TEST_IT' => 'Тестировать',
 	'LBL_MENU_TYPE' => 'Тип меню',
-	'LBL_AVAILABLE_FILTERS' => 'Available filters',
+	'LBL_AVAILABLE_FILTERS' => 'Доступные фильтры',
 	'LBL_ICON_NAME' => 'Иконки',
 	//Menu types
 	'LBL_MODULE' => 'Модуль',
@@ -49,7 +49,7 @@ $languageStrings = [
 	'LBL_CUSTOMFILTER' => 'Фильтр',
 	'LBL_CUSTOMFILTER_DESC' => 'Пункт меню перенаправлен на выбранный фильтр.',
 	'LBL_PROFILE' => 'Профили',
-	'LBL_PROFILE_DESC' => "Menu item that allows changing the user's settings.",
+	'LBL_PROFILE_DESC' => 'Пункт меню, позволяющий изменять настройки пользователя.',
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'Пункт меню удален',
 	'LBL_SAVED_MAP_MENU' => 'Структура меню сохранена',
@@ -60,8 +60,8 @@ $languageStrings = [
 	'LBL_REMOVE' => 'Удалить',
 	'LBL_CANCEL' => 'Отмена',
 	//End remove modal
-	'LBL_MORE_INFO' => 'Click here for more information',
-	'LBL_COPY_MENU' => 'Copy menu',
+	'LBL_MORE_INFO' => 'Для получения дополнительной информации нажмите здесь',
+	'LBL_COPY_MENU' => 'Копировать меню',
 ];
 $jsLanguageStrings = [
 	'JS_EDIT' => 'Редактировать',

@@ -284,6 +284,15 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return $directiveValues;
 	}
 
+	public static function getSystemInfo()
+	{
+		return [
+			'LBL_PHPINI' => php_ini_loaded_file(),
+			'LBL_LOG_FILE' => ini_get('error_log'),
+			'LBL_CRM_DIR' => ROOT_DIRECTORY,
+		];
+	}
+
 	/**
 	 * Function returns permissions to the core files and folder
 	 * @return <Array>

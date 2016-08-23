@@ -787,7 +787,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if (isset($this->privileges['editFieldByModal']) && $this->privileges['editFieldByModal'] === true && $profileAction) {
 			return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
 		}
-		return false;
+		return (bool) $this->privileges['editFieldByModal'];
 	}
 
 	public function setInventoryData($data)

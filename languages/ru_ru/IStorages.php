@@ -21,5 +21,5 @@ $languageStrings = [
 	'LBL_SECONDARY_STORAGES' => 'Вторичный склад',
 	'LBL_ROW_NUM' => '№',
 	'LBL_STORAGE_OWNER' => 'Ответственный',
-	'FL_POS' => 'Позиция',
+	'FL_POS' => 'Точка продаж',
 ];

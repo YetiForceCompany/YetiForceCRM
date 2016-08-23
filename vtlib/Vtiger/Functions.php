@@ -1445,26 +1445,6 @@ class Functions
 		return $queryParams;
 	}
 
-	static public function encrypt($data)
-	{
-		require_once('include/utils/encryption.php');
-		$encryption = new \Encryption();
-		if (isset($data)) {
-			$encrypted = $encryption->encrypt($data);
-		}
-		return $encrypted;
-	}
-
-	static public function decrypt($data)
-	{
-		require_once('include/utils/encryption.php');
-		$encryption = new \Encryption();
-		if (isset($data)) {
-			$decrypted = $encryption->decrypt($data);
-		}
-		return $decrypted;
-	}
-
 	public static function arrayDiffAssocRecursive($array1, $array2)
 	{
 		$difference = [];

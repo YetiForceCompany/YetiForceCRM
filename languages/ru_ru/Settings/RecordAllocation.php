@@ -1,17 +1,17 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'LBL_OWNER_ALLOCATION' => 'Assign owner',
-	'LBL_OWNER_ALLOCATION_DESCRIPTION' => ' ',
-	'LBL_MULTIOWNER_ALLOCATION' => 'Assign sharing users',
-	'LBL_MULTIOWNER_ALLOCATION_DESCRIPTION' => ' ',
-	'LBL_SORTING_SETTINGS_WORNING' => 'Warning!<br> The configuration will work only when you enable it in the Roles panel',
-	'LBL_ADD_PANEL_TO_MODULE' => 'Add allocation to module',
-	'LBL_SELECT_MODULE' => 'Select module',
-	'LBL_GO_TO_PANEL' => 'go to the panel',
-	'LBL_USERS_AND_GROUPS' => 'Users and groups',
+	'LBL_OWNER_ALLOCATION' => 'Назначение владельца',
+	'LBL_OWNER_ALLOCATION_DESCRIPTION' => ' Назначение владельца',
+	'LBL_MULTIOWNER_ALLOCATION' => 'Назначение пользователей общего доступа',
+	'LBL_MULTIOWNER_ALLOCATION_DESCRIPTION' => ' Назначение пользователей общего доступа',
+	'LBL_SORTING_SETTINGS_WORNING' => 'ВНИМАНИЕ!<br /> Данная функция будет работать, только если она включена в настройках Ролей',
+	'LBL_ADD_PANEL_TO_MODULE' => 'Добавить распределение для модуля',
+	'LBL_SELECT_MODULE' => 'Выбрать модуль',
+	'LBL_GO_TO_PANEL' => 'Перейти на панель',
+	'LBL_USERS_AND_GROUPS' => 'Пользователи и группы',
 ];
 $jsLanguageStrings = [
-	'JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL' => 'Are you sure you want to remove all allocations in this module?',
+	'JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL' => 'Вы уверены, что хотите удалить все распределения в этом модуле?',
 ];
 

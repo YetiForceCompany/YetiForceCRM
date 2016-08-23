@@ -796,7 +796,7 @@ class Reports extends CRMEntity
 				$sql .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
 				array_push($params, $profileList);
 			}
-			$sql .= " order by vtiger_field.sequence";
+			$sql .= ' order by vtiger_field.sequence';
 		}
 
 		$result = $adb->pquery($sql, $params);

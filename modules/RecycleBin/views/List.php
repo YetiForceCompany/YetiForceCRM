@@ -123,7 +123,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 
-		$viewer->assign('LISTVIEW_LINKS', $moduleModel->getListViewLinks());
+		$viewer->assign('LISTVIEW_LINKS', $moduleModel->getListViewLinks(false));
 		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels);
 
 		$viewer->assign('PAGING_MODEL', $pagingModel);
