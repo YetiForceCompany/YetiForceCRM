@@ -1,6 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'LBL_UNTRANSLATED_LABELS' => 'Не переведенные переменные',
 	'Language editor' => 'Редактор языков',
 	'Translations' => 'Редактор языков',
 	'No data available in table' => 'Не найдено ни одной записи',
@@ -50,10 +51,10 @@ $languageStrings = [
 	'LBL_SHOW_EMPTY_VALUES' => 'Показать пустые значения',
 	'LBL_SHOW_IN' => 'Показать в',
 	'LBL_EDIT_HELP_ICON' => 'Иконка справки',
-	'LBL_BASE_LANGUAGE' => 'Base language',
+	'LBL_BASE_LANGUAGE' => 'Основной язык',
 	'LBL_LANGUAGE' => 'Язык',
-	'LBL_SHOW' => 'Show',
-	'LBL_STATS_INFO' => 'The presented statistical values determine the ratio of untranslated labels to all labels that exist in the base language file(s) in percentage.',
+	'LBL_SHOW' => 'Показать',
+	'LBL_STATS_INFO' => 'Представленные статистические значения определяют соотношение количества непереведенных меток для всех меток, которые существуют в файле базового языка в процентах.',
 ];
 $jsLanguageStrings = [
 	'JS_NOTRANSLATION' => 'Не найдено ни одной записи',

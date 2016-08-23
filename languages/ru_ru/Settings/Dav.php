@@ -10,7 +10,7 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Dav' => 'Синхронизация',
-	'LBL_DAV_KEYS' => 'DAV Applications',
+	'LBL_DAV_KEYS' => 'Синхронизация',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Настройка Синхронизации',
 	'LBL_TOOLS' => 'Инструменты',
 	'LBL_DELETE_KEY' => 'Удалить ключ',
@@ -33,8 +33,8 @@ $languageStrings = [
 	'Dav' => 'Синхронизация',
 	'LBL_VIEW_KEYS' => 'Синхронизация',
 	'LBL_DUPLICATE_USER_SERVICES' => 'Ключ для этого приложения уже существует.',
-	'LBL_ALERT_DAV_CONFIG_TITLE' => 'Configuration info',
-	'LBL_ALERT_DAV_CONFIG_DESC' => 'Examples of DAV server connection configuration for different apps and systems:<br><b>DAVdroid</b><br>Address: https://gitdeveloper.yetiforce.com/api/dav.php<br>Preventive authorization NO<br><b>Thunderbird CalDAV</b><br>Address: https://gitdeveloper.yetiforce.com/api/dav.php/calendars/demo/YFCalendar/<br><b>iOS</b><br>Address: http://gitdeveloper.yetiforce.com/api/dav.php/principals/demo/ <br>For SSL connections: <br> http://gitdeveloper.yetiforce.com:443/api/dav.php/principals/demo/',
+	'LBL_ALERT_DAV_CONFIG_TITLE' => 'Информация о конфигурации',
+	'LBL_ALERT_DAV_CONFIG_DESC' => 'Примеры конфигурации подключения к серверу DAV для различных приложений и систем:<br /><b>DAVdroid</b><br />ссылка: https://gitdeveloper.yetiforce.com/api/dav.php<br />Отключение привентивной авторизации<br /><b>Thunderbird CalDAV</b><br />ссылка: https://gitdeveloper.yetiforce.com/api/dav.php/calendars/demo/YFCalendar/<br /><b>iOS</b><br />ссылка: http://gitdeveloper.yetiforce.com/api/dav.php/principals/demo/ <br />С поддержкой SSL: <br /> http://gitdeveloper.yetiforce.com:443/api/dav.php/principals/demo/',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Добавление ключа',

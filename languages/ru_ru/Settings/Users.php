@@ -43,14 +43,14 @@ $languageStrings = [
 	'LBL_SU_BASE_ACCESS' => 'Пользователь',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Разрешено входить под',
 	// Locks
-	'LBL_LOCKS' => 'Locks',
-	'LBL_LOCKS_DESCRIPTION' => 'Tool to block browser actions (copy, cut, etc)',
-	'LBL_LOCK_COPY' => 'Lock copying',
-	'LBL_LOCK_CUT' => 'Lock cutting',
-	'LBL_LOCK_PASTE' => 'Lock pasting',
-	'LBL_LOCK_RIGHT_MENU' => 'Lock right mouse button',
-	'LBL_LOCK_SELECT_TEXT' => 'Lock selecting',
-	'LBL_LOCK_DRAG' => 'Lock dragging',
+	'LBL_LOCKS' => 'Блокировки',
+	'LBL_LOCKS_DESCRIPTION' => 'Инструмент для блокирования действия браузера (копировать, вырезать, и т.д.)',
+	'LBL_LOCK_COPY' => 'Блокировать копирование',
+	'LBL_LOCK_CUT' => 'Блокировать вырезку',
+	'LBL_LOCK_PASTE' => 'Блокировать вставку',
+	'LBL_LOCK_RIGHT_MENU' => 'Блокировать правую кнопку мыши',
+	'LBL_LOCK_SELECT_TEXT' => 'Блокировать выбор',
+	'LBL_LOCK_DRAG' => 'Блокировать перемещение',
 ];
 $jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST' => 'Пользователь с такой электронной почтой уже существует',
