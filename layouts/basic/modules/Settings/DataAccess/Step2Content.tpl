@@ -54,7 +54,7 @@
 									</select>
 								</div>
 								<div class="col-md-4 fieldUiHolder">
-									{if $cnd_item['field_type'] eq 'picklist'}
+									{if $cnd_item['field_type'] eq 'picklist' || $cnd_item['field_type'] eq 'tree' }
 										<select name="val" data-value=value" class="form-control select2">
 											{foreach from=$cnd_item['info']['picklistvalues'] key=pick_key item=pick_item}
 												<option value="{$pick_key}" {if $cnd_item['val'] eq $pick_key}selected{/if}>{$pick_item}</option>
