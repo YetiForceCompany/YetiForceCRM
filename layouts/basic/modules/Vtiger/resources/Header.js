@@ -609,7 +609,12 @@ jQuery.Class("Vtiger_Header_Js", {
 			return false;
 		}
 		var basicSearch = new Vtiger_BasicSearch_Js();
-		var progress = jQuery.progressIndicator();
+		var progress = jQuery.progressIndicator({
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
+			}
+		});
 		basicSearch.setMainContainer(currentTarget.closest('.globalSearchInput'));
 		basicSearch.search(val).then(function (data) {
 			basicSearch.showSearchResults(data);
@@ -737,7 +742,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		var block = $('.remindersNoticeContainer');
 		var remindersNotice = $('.remindersNotice');
 		remindersNotice.click(function () {
-			if(!remindersNotice.hasClass('autoRefreshing')){
+			if (!remindersNotice.hasClass('autoRefreshing')) {
 				Vtiger_Index_Js.requestReminder();
 			}
 			thisInstance.hideActionMenu();

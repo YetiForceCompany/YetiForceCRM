@@ -34,7 +34,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		return $widgets;
 	}
 
-	public function getModulesList($module = false)
+	public function getModulesList()
 	{
 		$adb = PearDatabase::getInstance();
 		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier'];

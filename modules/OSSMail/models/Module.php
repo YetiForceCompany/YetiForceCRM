@@ -92,40 +92,72 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	function getComposeUrlParam($moduleName = false, $record = false, $type = false, $view = false)
+	function getComposeParam(Vtiger_Request $request)
 	{
-		$url = '';
+		$moduleName = $request->get('crmModule');
+		$record = $request->get('crmRecord');
+		$type = $request->get('type');
+
+		$return = [];
 		if (!empty($record) && isRecordExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {
 			$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
-				$url = '&to=' . $email;
+				$return['to'] = $email;
 			}
-
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
-			if (!in_array($moduleName, array_keys($modulesLevel1))) {
-				$subject = '&subject=';
-				if ($type == 'new') {
+			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName == 'Campaigns') {
+				$subject = '';
+				if ($type == 'new' || $moduleName == 'Campaigns') {
 					$subject .= $recordModel->getName() . ' - ';
 				}
 				$recordNumber = $recordModel->getRecordNumber();
 				if (!empty($recordNumber)) {
 					$subject .= '[' . $recordNumber . ']';
 				}
-				$url .= $subject;
+				$return['subject'] = $subject;
 			}
 		}
 		if (!empty($moduleName)) {
-			$url .= '&crmmodule=' . $moduleName;
+			$return['crmmodule'] = $moduleName;
 		}
 		if (!empty($record)) {
-			$url .= '&crmrecord=' . $record;
+			$return['crmrecord'] = $record;
 		}
-		if (!empty($view)) {
-			$url .= '&crmview=' . $view;
+		if (!$request->isEmpty('crmView')) {
+			$return['crmview'] = $request->get('crmView');
 		}
-		return $url;
+		if (!$request->isEmpty('mid') && !empty($type)) {
+			$return['mailId'] = (int) $request->get('mid');
+			$return['type'] = $type;
+		}
+		if (!$request->isEmpty('pdf_path')) {
+			$return['filePath'] = $request->get('pdf_path');
+		}
+		if (!empty($moduleName)) {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$moduleConfig = AppConfig::module($moduleName);
+			if ($moduleConfig && isset($moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')])) {
+				$return['from'] = $moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')];
+			}
+		}
+		if (!$request->isEmpty('to')) {
+			$return['to'] = $request->get('to');
+		}
+		if (!$request->isEmpty('cc')) {
+			$return['cc'] = $request->get('cc');
+		}
+		if (!$request->isEmpty('bcc')) {
+			$return['bcc'] = $request->get('bcc');
+		}
+		if (!$request->isEmpty('subject')) {
+			$return['subject'] = $request->get('subject');
+		}
+		if (!$request->isEmpty('emails')) {
+			$return['bcc'] = implode(',', $request->get('emails'));
+		}
+		return $return;
 	}
 
 	protected static $composeParam = false;

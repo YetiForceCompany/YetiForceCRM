@@ -27,10 +27,8 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 
 	function postProcess(Vtiger_Request $request)
 	{
-		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('LEFT_PANEL_HIDE', $userModel->get('leftpanelhide'));
 		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}

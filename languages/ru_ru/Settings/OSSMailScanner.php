@@ -9,6 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
+	'ERR_INCORRECT_ACCESS_DATA' => 'Неверный доступ к данным',
 	'LBL_PAGE_NUMBER' => 'Перейти к номеру страницы',
 	'Mail Scanner' => 'Почта - Сканнер',
 	'OSSMailScanner' => 'Настройка почты',
@@ -35,7 +36,7 @@ $jsLanguageStrings = [
 	'In progress' => 'В процессе',
 	'whether_remove_an_identity' => 'Следует ли удалять удостоверение',
 	'removed_identity' => 'Удостоверение удалено',
-	'LBL_LOADING_LIST_OF_FOLDERS' => 'Loading folders list in progress.</br>It make take up to several minutes...',
+	'LBL_LOADING_LIST_OF_FOLDERS' => 'Загрузка списка папок продолжается.  BR&gt; Это может занять до нескольких минут ...',
 ];
 
 

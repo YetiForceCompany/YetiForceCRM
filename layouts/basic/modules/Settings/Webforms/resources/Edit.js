@@ -756,7 +756,6 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 	registerEvents : function() {
 		var form = this.getForm();
 		this._super();
-		form.find('.selectizeElement').select2('destroy');
 		this.registerEventToHandleChangeofTargetModule();
 		this.registerBasicEvents(form);
 		var targetModule = form.find('[name="targetModule"]').val();

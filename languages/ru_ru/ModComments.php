@@ -30,10 +30,10 @@ $languageStrings = [
 	'LBL_NOTICE_FOOTER' => 'Если вы не хотите получать уведомления от нашей системы управления проектами, пожалуйста, сообщите нам, отправив письмо на <a href=\"mailto:help@yetiforce.com\">help@yetiforce.com</a>. Если вы не являетесь адресатом этого сообщения, пожалуйста, сообщите нам об этом и удалить сообщение.',
 	'LBL_NOTICE_CREATED' => 'Успешно',
 	//Others
-	'LBL_COMMENTS_0' => 'Current record',
-	'LBL_COMMENTS_1' => 'Processes',
-	'LBL_COMMENTS_2' => 'Subprocesses',
-	'LBL_COMMENTS_SEARCH' => 'Search',
+	'LBL_COMMENTS_0' => 'Текущая запись',
+	'LBL_COMMENTS_1' => 'Процесс',
+	'LBL_COMMENTS_2' => 'Субпроцесс',
+	'LBL_COMMENTS_SEARCH' => 'Поиск',
 ];
 $jsLanguageStrings = [
 ];

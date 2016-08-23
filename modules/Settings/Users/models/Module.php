@@ -262,7 +262,5 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 			}
 		}
-		$content = print_r($difference, true);
-		file_put_contents('xxxxx.txt', $content);
 	}
 }

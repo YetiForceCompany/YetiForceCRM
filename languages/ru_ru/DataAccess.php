@@ -24,7 +24,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL1' => 'Нет',
 	'LBL_LOCKS_SAVE_LABEL2' => 'Да - Если одно из условий выполнено',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Да - Если оба условия выполнены',
-	'LBL_LOCKS_SAVE_LABEL4' => 'Yes - Modal window',
+	'LBL_LOCKS_SAVE_LABEL4' => 'Да - Модальное окно',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Проверка двух полей',
 	'LBL_MESSAGE_LOCK0' => 'Сообщение отображаемое при сохранении записи.',
 	'LBL_MESSAGE_LOCK1' => 'Сообщение при выполнении первого условия',
@@ -85,7 +85,7 @@ $languageStrings = [
 	'LBL_PAST_EVENTS' => 'Прошедшие события',
 	//
 	'Action_unique_account' => 'Проверка дубликатов контрагентов',
-	'Action_Desc_unique_account' => 'Check if account is unique in the module.',
+	'Action_Desc_unique_account' => 'Проверьте, что учетная запись является уникальной в модуле.',
 	'LBL_DUPLICATED_FOUND' => 'Найдены дубликаты',
 	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Найден дубликат. Уверенны что хотите сохранить?',
 	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Была сделана попытка изменить значения в записи в режиме Быстрого редактирования. <br> Выберите флажок ниже, для того, чтобы изменения вступили в силу. <br> Внимание! <br> Повторные изменения в записи.',

@@ -495,13 +495,12 @@ class PieChart extends Base_Chart
 			$value = (float) $row[$sector];
 			if (!$this->isRecordCount()) {
 				if ($sectorField) {
-					if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
-						$value = (float) ($row[$sector]);
-						$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
-					} elseif ($sectorField->get('uitype') == '7') {
-						$value = (float) ($row[$sector]);
-					} else {
-						$value = (int) $sectorField->getDisplayValue($row[$sector]);
+					if ($sectorField->get('uitype') != '7'){
+						if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
+							$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
+						} else {
+							$value = (int) $sectorField->getDisplayValue($row[$sector]);
+						}
 					}
 				}
 			}

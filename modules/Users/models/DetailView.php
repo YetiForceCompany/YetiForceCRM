@@ -38,7 +38,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				$detailViewLinks[] = array(
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => 'LBL_CHANGE_PASSWORD',
-					'linkurl' => "javascript:Users_Detail_Js.triggerChangePassword('index.php?module=Users&view=EditAjax&mode=changePassword&recordId=$recordId','Users')",
+					'linkurl' => "javascript:Users_Detail_Js.triggerChangePassword('index.php?module=Users&view=EditAjax&mode=changePassword&record=$recordId','Users')",
 					'linkicon' => ''
 				);
 			}
@@ -50,7 +50,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				$detailViewPreferenceLinks[] = array(
 					'linktype' => 'DETAILVIEWPREFERENCE',
 					'linklabel' => 'LBL_CHANGE_PASSWORD',
-					'linkurl' => "javascript:Users_Detail_Js.triggerChangePassword('index.php?module=Users&view=EditAjax&mode=changePassword&recordId=$recordId','Users')",
+					'linkurl' => "javascript:Users_Detail_Js.triggerChangePassword('index.php?module=Users&view=EditAjax&mode=changePassword&record=$recordId','Users')",
 					'linkicon' => ''
 				);
 			}

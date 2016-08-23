@@ -281,7 +281,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$lang_array = explode("|", $lang);
 				unset($langs[$key]);
 				$settings[$key] = vtranslate($lang_array[1], 'Settings:' . $lang_array[1]);
-			}else{
+			} else {
 				$langs[$key] = vtranslate($key, $key);
 			}
 		}
@@ -412,22 +412,25 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$log->debug("Exiting Settings_LangManagement_Module_Model::setAsDefault() method ...");
 		return array('success' => $status, 'prefixOld' => $prefixOld);
 	}
-	
-	function getStatsData($langBase, $langs)
+
+	function getStatsData($langBase, $langs, $byModule = false)
 	{
 		$filesName = $this->getModFromLang($langBase);
 		if (strpos($langs, $langBase) === false) {
 			$langs .= ',' . $langBase;
 		}
+		$data = [];
 		foreach ($filesName as $gropu) {
 			foreach ($gropu as $mode => $name) {
-				$data[$mode] = $this->getStats($this->loadLangTranslation($langs, $mode), $langBase, $mode);
+				if ($byModule === false || $byModule === $mode) {
+					$data[$mode] = $this->getStats($this->loadLangTranslation($langs, $mode), $langBase, $byModule);
+				}
 			}
 		}
 		return $data;
 	}
 
-	function getStats($data, $langBase, $mode)
+	function getStats($data, $langBase, $byModule)
 	{
 		$differences = [];
 		$i = 0;
@@ -441,12 +444,19 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 						continue;
 					}
 					if (!empty($langs[$langBase]) && ($value == $langs[$langBase] || empty($value))) {
-						$differences[$lang][] = $key;
+						if ($byModule !== false) {
+							$differences[$id][$key][$langBase] = $langs[$langBase];
+							$differences[$id][$key][$lang] = $value;
+						} else {
+							$differences[$lang][] = $key;
+						}
 					}
 				}
 			}
 		}
-		array_unshift($differences, $i);
+		if ($byModule === false) {
+			array_unshift($differences, $i);
+		}
 		return $differences;
 	}
 }

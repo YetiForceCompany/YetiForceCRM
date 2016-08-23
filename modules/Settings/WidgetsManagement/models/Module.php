@@ -26,6 +26,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		return $widgetWithLimit;
 	}
 
+	static public function getWidgetSpecial()
+	{
+		return ['Mini List', 'Notebook', 'Chart', 'ChartFilter', 'Rss'];
+	}
+
 	public static function getDefaultUserId($widgetModel, $moduleName = false)
 	{
 		$log = LoggerManager::getInstance();
@@ -312,7 +317,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db = PearDatabase::getInstance();
 		$tabId = getTabid($moduleName);
 		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? AND linklabel IN (?, ?, ?, ?, ?)';
-		$result = $db->pquery($query, [$tabId, 'Mini List', 'Notebook', 'Chart', 'ChartFilter', 'Rss']);
+		$result = $db->pquery($query, array_merge([$tabId], self::getWidgetSpecial()));
 		$widgets = [];
 		while ($row = $db->fetch_array($result)) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);

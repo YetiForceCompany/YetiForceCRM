@@ -21,12 +21,7 @@
 	{if $SHOWMORE}
 		<div class="row">
 			<div class="pull-right">
-				<script type='text/javascript'>
-					function showMoreRecordProductsServices() {
-						jQuery('.related .mainNav[data-reference="ProductsAndServices"]:not(.hide)').trigger('click');
-					}
-				</script>
-				<button type="button" class="btn btn-primary btn-xs marginRight10 marginTop10" onClick="showMoreRecordProductsServices()" >{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
+				<button type="button" class="btn btn-primary btn-xs marginRight10 marginTop10 moreProductsService">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
 			</div>
 		</div>
 	{/if}

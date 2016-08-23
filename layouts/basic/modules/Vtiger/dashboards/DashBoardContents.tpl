@@ -15,18 +15,13 @@
 			{assign var=COLUMNS value=2}
 			{assign var=ROW value=1}
 			{assign var=COLCOUNT value=1}
+			{assign var=SPECIAL_WIDTGETS value=['ChartFilter', 'MiniList', 'Notebook', 'Charts', 'Rss']}
 			{foreach from=$WIDGETS item=WIDGET name=count}
 				{if $WIDGET->get('active') eq 0}
 					{continue}
 				{/if}
 				{assign var=WIDGETDOMID value=$WIDGET->get('linkid')}
-				{if $WIDGET->getName() eq 'MiniList'}
-					{assign var=WIDGETDOMID value=$WIDGET->get('linkid')|cat:'-':$WIDGET->get('widgetid')}
-				{elseif $WIDGET->getName() eq 'Notebook'}
-					{assign var=WIDGETDOMID value=$WIDGET->get('linkid')|cat:'-':$WIDGET->get('widgetid')}
-				{elseif $WIDGET->getName() eq 'Charts'}
-					{assign var=WIDGETDOMID value=$WIDGET->get('linkid')|cat:'-':$WIDGET->get('widgetid')}
-				{elseif $WIDGET->getName() eq 'ChartFilter'}
+				{if in_array($WIDGET->getName(), $SPECIAL_WIDTGETS)}
 					{assign var=WIDGETDOMID value=$WIDGET->get('linkid')|cat:'-':$WIDGET->get('widgetid')}
 				{/if}
 				<li id="{$WIDGETDOMID}" {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0} data-row="{$WIDGET->getPositionRow($ROW)}" {else} data-row="{$WIDGET->getPositionRow($ROW)}" {/if}

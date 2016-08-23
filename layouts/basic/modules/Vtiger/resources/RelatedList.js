@@ -212,7 +212,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 			if (this.relatedContentContainer.find('.switchBtn').is(':checked'))
 				params['time'] = 'current';
 			else
-				params['time'] = 'current';
+				params['time'] = 'history';
 		}
 
 		if (this.listSearchInstance) {

@@ -14,7 +14,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$record = $request->get('recordId');
+		$record = $request->get('record');
 		if ($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record) {
 			return true;
 		} else {
@@ -42,7 +42,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->get('module');
-		$userId = $request->get('recordId');
+		$userId = $request->get('record');
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USERID', $userId);
