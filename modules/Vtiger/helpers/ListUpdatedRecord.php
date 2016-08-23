@@ -41,6 +41,7 @@ class ListUpdatedRecord
 		$params = array_merge($moduleList, [$limit]);
 		$getRecordListResult = $db->pquery($query, $params);
 		while ($row = $db->getRow($getRecordListResult)) {
+			$row['setype'] = vtranslate($row['setype'], $row['setype']);
 			$recordList [] = $row;
 		}
 		if (!count($recordList)) {

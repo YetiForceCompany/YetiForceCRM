@@ -20,19 +20,25 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		$module = $request->getModule();
 		$transferOwnerId = $request->get('transferOwnerId');
 		$record = $request->get('record');
-
+		$relatedModules = $request->get('related_modules');
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 		$transferModel = new $modelClassName();
 
 		if (empty($record))
 			$recordIds = $this->getBaseModuleRecordIds($request);
 		else
-			$recordIds[] = $record;
-
+			$recordIds = [$record];
 		if (!empty($recordIds)) {
-			$relatedModuleRecordIds = $transferModel->getRelatedModuleRecordIds($request, $recordIds);
-			$transferRecordIds = array_merge($relatedModuleRecordIds, $recordIds);
-			$transferModel->transferRecordsOwnership($module, $transferOwnerId, $transferRecordIds);
+			$transferModel->transferRecordsOwnership($module, $transferOwnerId, $recordIds);
+		}
+		if (!empty($relatedModules)) {
+			foreach ($relatedModules as $relatedData) {
+				$relatedModule = reset(explode('::', $relatedData));
+				$relatedModuleRecordIds = $transferModel->getRelatedModuleRecordIds($request, $recordIds, $relatedData);
+				if (!empty($relatedModuleRecordIds)) {
+					$transferModel->transferRecordsOwnership($relatedModule, $transferOwnerId, $relatedModuleRecordIds);
+				}
+			}
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(true);

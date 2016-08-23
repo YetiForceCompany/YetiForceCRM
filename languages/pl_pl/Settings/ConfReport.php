@@ -48,4 +48,8 @@ $languageStrings = [
 	'LBL_SPACE_TOTAL' => 'Całkowita',
 	'LBL_SPACE_FREE' => 'Wolnych',
 	'LBL_SPACE_USED' => 'Zajętych',
+	'LBL_VALUE' => 'Wartość',
+	'LBL_PHPINI' => 'Konfiguracja PHP',
+	'LBL_LOG_FILE' => 'Logi błedów',
+	'LBL_CRM_DIR' => 'Katalog lokalny CRM',
 ];

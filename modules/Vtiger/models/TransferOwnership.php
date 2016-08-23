@@ -11,73 +11,65 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 		return $this->skipModules;
 	}
 
-	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = [])
+	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = [], $relModData)
 	{
 		$db = PearDatabase::getInstance();
 		$basicModule = $request->getModule();
-
-		$relatedModules = $request->get('related_modules');
 		$parentModuleModel = Vtiger_Module_Model::getInstance($basicModule);
-
 		$relatedIds = [];
-		if (!empty($relatedModules)) {
-			foreach ($relatedModules as $relModData) {
-				$relModData = explode('::', $relModData);
-				$relatedModule = $relModData[0];
-				$type = $relModData[1];
-				switch ($type) {
-					case 0:
+		$relModData = explode('::', $relModData);
+		$relatedModule = $relModData[0];
+		$type = $relModData[1];
+		switch ($type) {
+			case 0:
 
-						$field = $relModData[2];
-						foreach ($recordIds as $recordId) {
-							$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
-							if ($recordModel->get($field) != 0 && vtlib\Functions::getCRMRecordType($recordModel->get($field)) == $relatedModule) {
-								$relatedIds[] = $recordModel->get($field);
-							}
-						}
-
-						break;
-					case 1:
-
-						$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-						$instance = CRMEntity::getInstance($relatedModule);
-						$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel);
-						$fieldModel = $relationModel->getRelationField();
-						$tablename = $fieldModel->get('table');
-						$tabIndex = $instance->table_index;
-						$relIndex = $this->getRelatedColumnName($relatedModule, $basicModule);
-
-						if (!$relIndex) {
-							break;
-						}
-						$sql = "SELECT vtiger_crmentity.crmid FROM vtiger_crmentity INNER JOIN $tablename ON $tablename.$tabIndex = vtiger_crmentity.crmid
-						WHERE $tablename.$relIndex IN (" . $db->generateQuestionMarks($recordIds) . ")";
-						$result = $db->pquery($sql, $recordIds);
-						while ($crmid = $db->getSingleValue($result)) {
-							$relatedIds[] = $crmid;
-						}
-
-						break;
-					case 2:
-
-						foreach ($recordIds as $recordId) {
-							$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
-							$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModule);
-							$query = $relationListView->getRelationQuery();
-							$queryEx = explode('FROM', $query, 2);
-							$query = sprintf('SELECT DISTINCT vtiger_crmentity.crmid FROM %s', $queryEx[1]);
-							$result = $db->query($query);
-							while ($crmid = $db->getSingleValue($result)) {
-								$relatedIds[] = $crmid;
-							}
-						}
-
-						break;
+				$field = $relModData[2];
+				foreach ($recordIds as $recordId) {
+					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
+					if ($recordModel->get($field) != 0 && vtlib\Functions::getCRMRecordType($recordModel->get($field)) == $relatedModule) {
+						$relatedIds[] = $recordModel->get($field);
+					}
 				}
-				$relatedIds = array_unique($relatedIds);
-			}
+
+				break;
+			case 1:
+
+				$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+				$instance = CRMEntity::getInstance($relatedModule);
+				$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel);
+				$fieldModel = $relationModel->getRelationField();
+				$tablename = $fieldModel->get('table');
+				$tabIndex = $instance->table_index;
+				$relIndex = $this->getRelatedColumnName($relatedModule, $basicModule);
+
+				if (!$relIndex) {
+					break;
+				}
+				$sql = "SELECT vtiger_crmentity.crmid FROM vtiger_crmentity INNER JOIN $tablename ON $tablename.$tabIndex = vtiger_crmentity.crmid
+						WHERE $tablename.$relIndex IN (" . $db->generateQuestionMarks($recordIds) . ")";
+				$result = $db->pquery($sql, $recordIds);
+				while ($crmid = $db->getSingleValue($result)) {
+					$relatedIds[] = $crmid;
+				}
+
+				break;
+			case 2:
+
+				foreach ($recordIds as $recordId) {
+					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
+					$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModule);
+					$query = $relationListView->getRelationQuery();
+					$queryEx = explode('FROM', $query, 2);
+					$query = sprintf('SELECT DISTINCT vtiger_crmentity.crmid FROM %s', $queryEx[1]);
+					$result = $db->query($query);
+					while ($crmid = $db->getSingleValue($result)) {
+						$relatedIds[] = $crmid;
+					}
+				}
+
+				break;
 		}
-		return $relatedIds;
+		return array_unique($relatedIds);
 	}
 
 	public function transferRecordsOwnership($module, $transferOwnerId, $relatedModuleRecordIds)
@@ -90,7 +82,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 			'modifiedtime' => date('Y-m-d H:i:s'),
 			], 'crmid IN (' . implode(',', $relatedModuleRecordIds) . ')'
 		);
-		
+
 		vimport('~modules/ModTracker/ModTracker.php');
 		$flag = ModTracker::isTrackingEnabledForModule($module);
 		if ($flag) {
@@ -106,8 +98,8 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 				$db->insert('vtiger_modtracker_detail', [
 					'id' => $id,
 					'fieldname' => 'assigned_user_id',
-					'postvalue' => $currentUser->id,
-					'prevalue' => $record
+					'postvalue' => $transferOwnerId,
+					'prevalue' => $currentUser->id
 				]);
 			}
 		}
@@ -172,7 +164,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 		foreach ($relatedModelFields as $fieldName => $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
-				if (in_array($findModule, $referenceList)){
+				if (in_array($findModule, $referenceList)) {
 					return $fieldModel->get('column');
 				}
 			}

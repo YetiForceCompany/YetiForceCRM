@@ -169,7 +169,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		switch ($moduleName) {
 			case 'Documents': $action = 'action=DownloadFile';
 				break;
-			case 'OSSMailView': $action = 'view=Preview';
+			case 'OSSMailView': $action = 'view=preview';
 				break;
 			default: $action = 'view=Detail';
 				break;

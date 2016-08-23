@@ -221,7 +221,7 @@ class Functions
 
 	public static function getModuleData($mixed)
 	{
-		if ($mixed === false || empty($mixed)) {
+		if (empty($mixed)) {
 			$log = \LoggerManager::getInstance();
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
 			return false;
@@ -1443,26 +1443,6 @@ class Functions
 		$queryStr = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
 		parse_str($queryStr, $queryParams);
 		return $queryParams;
-	}
-
-	static public function encrypt($data)
-	{
-		require_once('include/utils/encryption.php');
-		$encryption = new \Encryption();
-		if (isset($data)) {
-			$encrypted = $encryption->encrypt($data);
-		}
-		return $encrypted;
-	}
-
-	static public function decrypt($data)
-	{
-		require_once('include/utils/encryption.php');
-		$encryption = new \Encryption();
-		if (isset($data)) {
-			$decrypted = $encryption->decrypt($data);
-		}
-		return $decrypted;
 	}
 
 	public static function arrayDiffAssocRecursive($array1, $array2)

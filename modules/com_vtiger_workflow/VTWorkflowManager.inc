@@ -354,7 +354,7 @@ class Workflow
 			$this->defaultworkflow = $row['defaultworkflow'];
 		}
 		$this->filtersavedinnew = isset($row['filtersavedinnew']) ? $row['filtersavedinnew'] : '';
-		$this->nexttrigger_time = isset($row['nexttrigger_time']) ? $row['filtersavedinnew'] : '';
+		$this->nexttrigger_time = isset($row['nexttrigger_time']) ? $row['nexttrigger_time'] : '';
 	}
 
 	function evaluate($entityCache, $id)
