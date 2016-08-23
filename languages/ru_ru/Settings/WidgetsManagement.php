@@ -9,15 +9,17 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
+	'LBL_MAXIMUM_VALUE' => 'Максимальное значение',
+	'LBL_TICK_SIZE' => 'Размер шкалы',
 	'LBL_CHOISE_AUTHORIZED' => 'Роль',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Добавить Блок Виджетов для Роли',
 	'LBL_WIDTH' => 'Ширина',
 	'LBL_HEIGHT' => 'Высота',
 	'LBL_ADD_WIDGET' => 'Виджет',
 	'LBL_ADD_NOTEBOOK' => 'Блокнот',
-	'LBL_ADD_WIDGET_CHARTS' => 'Chart',
-	'LBL_REPORT' => 'Report',
-	'LBL_NAME_CHART' => 'Chart name',
+	'LBL_ADD_WIDGET_CHARTS' => 'Диаграмма',
+	'LBL_REPORT' => 'Отчет',
+	'LBL_NAME_CHART' => 'Название диаграммы',
 	'LBL_ADD_MINILIST' => 'Виджет с фильтром',
 	'LBL_SELECT_WIDGET' => 'Виджет',
 	'LBL_CREATE_CUSTOM_FIELD' => 'Добавление Виджета',
@@ -35,11 +37,11 @@ $languageStrings = [
 	'LBL_VIEW_CONFIGURATION' => 'Настройка вида',
 	'LBL_WIDGET_ADDED' => 'Виджет успешно добавлен',
 	'LBL_CACHE_WIDGET' => 'Кэш',
-	'LBL_SHOW_USERS' => 'Display username',
-	'LBL_TITLE_WIDGET' => 'Widget title',
-	'LBL_ADDRESS_RSS' => 'RSS address ',
-	'LBL_ADD_CHANNEL' => 'Add channel',
-	'LBL_ADD_RSS' => 'Add RSS',
+	'LBL_SHOW_USERS' => 'Показать имя пользователя',
+	'LBL_TITLE_WIDGET' => 'Заголовок Виджета',
+	'LBL_ADDRESS_RSS' => 'RSS канал',
+	'LBL_ADD_CHANNEL' => 'Добавить канал',
+	'LBL_ADD_RSS' => 'Добавить RSS',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Блок Виджетов успешно добавлен',
