@@ -2,6 +2,8 @@
 // The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html
 
 $languageStrings = [
+	'NBR' => 'Национальный банк Румынии',
+	'CBR' => 'Центральный банк Российской Федерации',
 	'CurrencyUpdate' => 'Обновление курса Валют',
 	'LBL_CURRENCY_UPDATE' => 'Обновление курса Валют',
 	'LBL_CURRENCY_UPDATE_DESCRIPTION' => 'Настройка обновления курса Валют',
