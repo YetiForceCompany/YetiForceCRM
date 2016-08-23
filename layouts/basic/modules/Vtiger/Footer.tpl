@@ -17,7 +17,7 @@
 	</div>
 	<div class="clearfix"></div>
 	<input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}"/>
-	{if AppConfig::main('isVisibleUserInfoFooter') == 'true'}
+	{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 		<div class="infoUser">
 			{$USER_MODEL->getName()}&nbsp;(
 			{$USER_MODEL->get('email1')}&nbsp;
@@ -48,7 +48,7 @@
 						<span class="AdditionalIcon-Github" title="Github"/>
 					</a>
 				{/if}
-				{if AppConfig::main('isVisibleLogoInFooter') == 'true'}
+				{if AppConfig::main('isVisibleLogoInFooter')}
 					{assign var=ADDRESS value='https://yetiforce.com'}
 					<a href='{$ADDRESS}'>
 						<img class="logoFooter" src="storage/Logo/white_logo_yetiforce.png" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
