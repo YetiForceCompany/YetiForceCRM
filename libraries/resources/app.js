@@ -332,8 +332,6 @@ var app = {
 				}
 				return data.text;
 			};
-		} else {
-
 		}
 		var selectElementNew = selectElement;
 		selectElementNew.select2(params)
