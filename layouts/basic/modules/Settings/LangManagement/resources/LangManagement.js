@@ -346,7 +346,6 @@ var Settings_Index_Js = {
 		});
 		if (SaveEvent.resp) {
 			container.find('.AddNewTranslationMondal').modal('hide');
-		//	$(".AddNewTranslationMondal input[name='variable']").val('');
 		}
 		Settings_Index_Js.LoadEditLang(jQuery('#edit_lang'));
 		e.preventDefault();
