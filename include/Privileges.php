@@ -273,7 +273,7 @@ class Privileges
 	 */
 	public static function isReadPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
-		$log = LoggerManager::getInstance();
+		$log = \LoggerManager::getInstance();
 		$log->debug("Entering isReadPermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
 		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
 
@@ -363,7 +363,7 @@ class Privileges
 	 */
 	public static function isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
-		$log = LoggerManager::getInstance();
+		$log = \LoggerManager::getInstance();
 		$log->debug("Entering isReadWritePermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
 		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
 		if (!isset($sharingPrivileges[$moduleName])) {

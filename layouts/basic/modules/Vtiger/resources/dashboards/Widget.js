@@ -1464,3 +1464,24 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	}
 });
+YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {
+	registerSectionClick: function () {
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
+			if (item) {
+				$(this).css('cursor', 'pointer');
+			} else {
+				$(this).css('cursor', 'auto');
+			}
+		});
+		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
+			if (item) {
+				$(chartData['links']).each(function () {
+					if (item.seriesIndex == this[0])
+						window.location.href = this[1];
+				});
+			}
+		});
+	}
+});

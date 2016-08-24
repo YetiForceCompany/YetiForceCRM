@@ -17,12 +17,7 @@ $notifications->markAsRead();
 class Cron_Notification
 {
 
-	function __construct()
-	{
-		
-	}
-
-	function executeScheduled($row)
+	public function executeScheduled($row)
 	{
 		$db = PearDatabase::getInstance();
 		$currentTime = time();
@@ -45,7 +40,7 @@ class Cron_Notification
 		}
 	}
 
-	function existNotifications($userId, $startDate, $endDate)
+	private function existNotifications($userId, $startDate, $endDate)
 	{
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT 1 FROM l_yf_notification WHERE `userid` = ?';
@@ -62,7 +57,7 @@ class Cron_Notification
 		return (bool) $result->rowCount();
 	}
 
-	function getEndDate($currentTime, $timestampEndDate, $frequency)
+	private function getEndDate($currentTime, $timestampEndDate, $frequency)
 	{
 		while ($timestampEndDate <= $currentTime && ($nextEndDateTime = $timestampEndDate + ($frequency * 60)) <= $currentTime) {
 			$timestampEndDate = $nextEndDateTime;
@@ -70,7 +65,7 @@ class Cron_Notification
 		return date('Y-m-d H:i:s', $timestampEndDate);
 	}
 
-	function markAsRead()
+	public function markAsRead()
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->query('SELECT userid, id FROM l_yf_notification ORDER BY userid, `time` DESC');

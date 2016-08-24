@@ -830,7 +830,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('POPUP', $config['popup']);
-		$viewer->assign('USER_PRIVILEGES_MODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
 	}
 }
