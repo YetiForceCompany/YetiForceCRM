@@ -2,7 +2,6 @@
 {strip}
 	<div class="widgetFooterContent">
 		<div class="row no-margin">
-			<input type="hidden" name="targetModule" value="{$MINILIST_WIDGET_MODEL->getTargetModule()}">
 			{if $OWNER eq false}
 				{assign var="MINILIST_WIDGET_RECORDS" value=array()}
 			{else}

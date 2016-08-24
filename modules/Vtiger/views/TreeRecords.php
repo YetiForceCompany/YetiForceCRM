@@ -34,10 +34,8 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 
 	public function postProcess(Vtiger_Request $request, $display = true)
 	{
-		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName));
 		if ($display) {
 			$this->postProcessDisplay($request);

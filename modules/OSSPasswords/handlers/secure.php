@@ -34,12 +34,12 @@ class SECURE extends VTEventHandler {
 					$toUpdate = [];
 					for ($i=0; $i<$num; $i++)
 						$toUpdate[] = (int)$adb->query_result($result, $i, 'id');
-		
 					// register changes: show prevalue, hide postvalue
+					$where = sprintf("`id` IN (%s) AND `fieldname` = 'password'", generateQuestionMarks($toUpdate));
 					if ( $conf['register_changes'] == 1 )
-						$adb->update('vtiger_modtracker_detail', ['postvalue' => '**********'], "`id` IN (?) AND `fieldname` = 'password'", [implode(',',$toUpdate)]);
+						$adb->update('vtiger_modtracker_detail', ['postvalue' => '**********'], $where, [implode(',',$toUpdate)]);
 					else
-						$adb->update('vtiger_modtracker_detail', ['postvalue' => '**********', 'prevalue' => '**********'], "`id` IN (?) AND `fieldname` = 'password'", [implode(',',$toUpdate)]);
+						$adb->update('vtiger_modtracker_detail', ['postvalue' => '**********', 'prevalue' => '**********'], $where, [implode(',',$toUpdate)]);
 				}
             }
         }
