@@ -23,7 +23,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 		}
 	}
 	
-	function preProcess(Vtiger_Request $request) {
+	public function preProcess(Vtiger_Request $request, $display = true) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
