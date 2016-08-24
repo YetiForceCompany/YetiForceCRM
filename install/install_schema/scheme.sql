@@ -3812,8 +3812,8 @@ CREATE TABLE `vtiger_crmentity` (
   KEY `crm_ownerid_del_setype_idx` (`smownerid`,`deleted`,`setype`),
   KEY `crmid` (`crmid`,`deleted`),
   KEY `crmid_2` (`crmid`,`setype`),
-  KEY `setype` (`setype`,`deleted`),
-  KEY `setype_2` (`setype`)
+  KEY `setypedeleted` (`setype`,`deleted`),
+  KEY `setype` (`setype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentity_seq` */
