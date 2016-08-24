@@ -32,4 +32,6 @@ $CONFIG = [
 	'SEND_REMINDER_INVITATION' => true, // Boolean
 	// Auto refresh reminders
 	'AUTO_REFRESH_REMINDERS' => true, // Boolean
+	// Display days below the form in quick create
+	'SHOW_DAYS_QUICKCREATE' => false, // Boolean
 ];
