@@ -49,7 +49,8 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$referenceModule = $this->getReferenceModule($value);
 		if ($referenceModule && !empty($value)) {
 			$referenceModuleName = $referenceModule->get('name');
-			$name = \includes\Record::getLabel($value);
+			$entityNames = getEntityName($referenceModuleName, [$value]);
+			$name = $entityNames[$value];
 			if ($rawText || $referenceModuleName == 'Users' || ($value && !Users_Privileges_Model::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
