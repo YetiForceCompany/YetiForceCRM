@@ -138,9 +138,9 @@ class PrivilegesUtils
 	public static function getRoleUserIds($roleId)
 	{
 		if (!isset(self::$roleUserCache[$roleId])) {
-			$log = LoggerManager::getInstance();
+			$log = \LoggerManager::getInstance();
 			$log->debug("Entering getRoleUserIds($roleId) method ...");
-			$adb = PearDatabase::getInstance();
+			$adb = \PearDatabase::getInstance();
 			$query = 'select vtiger_user2role.userid,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?';
 			$result = $adb->pquery($query, array($roleId));
 			$roleRelatedUsers = [];
