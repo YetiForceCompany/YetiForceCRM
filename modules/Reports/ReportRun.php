@@ -3293,6 +3293,25 @@ class ReportRun extends CRMEntity
 		return $fieldlists;
 	}
 
+	/**
+	 * Returns PhpExcel type constant based on value
+	 *
+	 * @param mixed $value any value
+	 *
+	 * @return string PhpExcel value type PHPExcel_Cell_DataType::TYPE_*
+	 */
+	private function getPhpExcelTypeFromValue($value)
+	{
+		if (is_integer($value) || is_float($value)) {
+			return PHPExcel_Cell_DataType::TYPE_NUMERIC;
+		} else if (is_null($value)) {
+			return PHPExcel_Cell_DataType::TYPE_NULL;
+		} else if (is_bool($value)) {
+			return PHPExcel_Cell_DataType::TYPE_BOOL;
+		}
+		return PHPExcel_Cell_DataType::TYPE_STRING;
+	}
+
 	function writeReportToExcelFile($fileName, $filterlist = '')
 	{
 
@@ -3335,12 +3354,15 @@ class ReportRun extends CRMEntity
 				$count = 0;
 				array_pop($array_value); // removed action link in details
 				foreach ($array_value as $hdr => $value) {
-					if ($hdr == 'ACTION')
+					if ($hdr == 'ACTION') {
 						continue;
-					$value = decode_html($value);
+					}
+					if (is_string($value)) {
+						$value = decode_html($value);
+					}
 					// TODO Determine data-type based on field-type.
 					// String type helps having numbers prefixed with 0 intact.
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_STRING);
+					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, $this->getPhpExcelTypeFromValue($value));
 					$count = $count + 1;
 				}
 				$rowcount++;
@@ -3378,18 +3400,12 @@ class ReportRun extends CRMEntity
 
 	function writeReportToCSVFile($fileName, $filterlist = '')
 	{
-
-		$currentModule = vglobal('currentModule');
-		$current_language = vglobal('current_language');
-		$mod_strings = return_module_language($current_language, $currentModule);
-
 		$reportData = $this->GenerateReport("PDF", $filterlist);
 		$arr_val = $reportData['data'];
 
 		$fp = fopen($fileName, 'w+');
 
 		if (isset($arr_val)) {
-			$csv_values = array();
 			// Header
 			$csv_values = array_keys($arr_val[0]);
 			array_pop($csv_values);   //removed header in csv file
@@ -3596,5 +3612,3 @@ class ReportRun extends CRMEntity
 		return $columnsSqlList;
 	}
 }
-
-?>
