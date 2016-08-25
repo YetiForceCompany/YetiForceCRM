@@ -6126,7 +6126,7 @@ CREATE TABLE `vtiger_notes` (
   `filename` varchar(200) DEFAULT NULL,
   `notecontent` text,
   `folderid` varchar(255) NOT NULL,
-  `filetype` varchar(50) DEFAULT NULL,
+  `filetype` varchar(100) DEFAULT NULL,
   `filelocationtype` varchar(5) DEFAULT NULL,
   `filedownloadcount` int(19) DEFAULT NULL,
   `filestatus` int(19) DEFAULT NULL,
