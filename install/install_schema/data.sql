@@ -2253,11 +2253,7 @@ insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldnam
 
 /*Data for the table `vtiger_datashare_relatedmodules` */
 
-insert  into `vtiger_datashare_relatedmodules`(`datashare_relatedmodule_id`,`tabid`,`relatedto_tabid`) values (1,6,2);
 insert  into `vtiger_datashare_relatedmodules`(`datashare_relatedmodule_id`,`tabid`,`relatedto_tabid`) values (2,6,13);
-insert  into `vtiger_datashare_relatedmodules`(`datashare_relatedmodule_id`,`tabid`,`relatedto_tabid`) values (3,6,20);
-insert  into `vtiger_datashare_relatedmodules`(`datashare_relatedmodule_id`,`tabid`,`relatedto_tabid`) values (4,6,22);
-insert  into `vtiger_datashare_relatedmodules`(`datashare_relatedmodule_id`,`tabid`,`relatedto_tabid`) values (5,6,23);
 
 /*Data for the table `vtiger_datashare_relatedmodules_seq` */
 

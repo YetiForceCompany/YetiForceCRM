@@ -22,25 +22,34 @@
 						<div class="form-group">
 							<div class="col-sm-4 control-label">{vtranslate('LBL_ASSIGNED_TO', $MODULE)}</div>
 							<div class="col-sm-7 controls">
-								{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
-								{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
-								{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
-								<select class="chzn-select form-control" data-validation-engine="validate[ required]" title="{vtranslate('LBL_TRANSFER_OWNERSHIP', $MODULE)}" name="transferOwnerId" id="transferOwnerId">
-									<optgroup label="{vtranslate('LBL_USERS')}">
-										{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-											<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
-													data-userId="{$CURRENT_USER_ID}">
-												{$OWNER_NAME}
-											</option>
-										{/foreach}
-									</optgroup>
-									<optgroup label="{vtranslate('LBL_GROUPS')}">
-										{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-											<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}'>
-												{$OWNER_NAME}
-											</option>
-										{/foreach}
-									</optgroup>
+								<select class="select2 form-control" data-validation-engine="validate[ required]" title="{vtranslate('LBL_TRANSFER_OWNERSHIP', $MODULE)}" name="transferOwnerId" id="transferOwnerId"
+									{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
+										data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+									{/if}>
+									{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+										<option value="{$USER_MODEL->get('id')}" data-picklistvalue="{$USER_MODEL->getName()}">
+											{$USER_MODEL->getName()}
+										</option>
+									{else}
+										{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+										{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
+										{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
+										<optgroup label="{vtranslate('LBL_USERS')}">
+											{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+												<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
+														data-userId="{$CURRENT_USER_ID}">
+													{$OWNER_NAME}
+												</option>
+											{/foreach}
+										</optgroup>
+										<optgroup label="{vtranslate('LBL_GROUPS')}">
+											{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+												<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}">
+													{$OWNER_NAME}
+												</option>
+											{/foreach}
+										</optgroup>
+									{/if}
 								</select>
 							</div>
 						</div>

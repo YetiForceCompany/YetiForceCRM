@@ -13,6 +13,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $extraData;
 	private $targetModuleModel;
 
+	function getSearchParams($column, $value)
+	{
+		return '&search_params=' . json_encode([[[$column, 'e', $value]]]);
+	}
 	static function getInstance($linkId = 0, $userId = 0)
 	{
 		return new self();
@@ -33,7 +37,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$groupData = $this->getDataFromFilter();
 		$data = [];
 		foreach ($groupData as $fieldName => $value) {
-			$data [] = [$value, $fieldName];
+			$data [] = [$value['count'], $fieldName, $value['link']];
 		}
 		return $data;
 	}
@@ -42,8 +46,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$groupData = $this->getDataFromFilter();
 		$data = [];
 		foreach ($groupData as $fieldName => $value) {
-			$data [] = [$fieldName, $value];
+			$data [] = [$fieldName, $value['count'], $value['link']];
 		}
+		
 		return $data;
 	}
 	public function getDataPie()
@@ -51,7 +56,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$groupData = $this->getDataFromFilter();
 		$data = [];
 		foreach ($groupData as $fieldName => $value) {
-			$data [] = ['last_name' => $fieldName, 'id' => $value];
+			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
 		}
 		return $data;
 	}
@@ -72,11 +77,17 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$result = $db->query($queryGenerator->getQuery());
 		$groupData = [];
 		while ($row = $db->getRow($result)) {
-			$displayValue = $groupFieldModel->getDisplayValue($row[$groupField]);
-			if (!isset($groupData[$displayValue])) {
-				$groupData[$displayValue] = 1;
-			} else {
-				$groupData[$displayValue] ++;
+			if(!empty($row[$groupField])){
+				$displayValue = $groupFieldModel->getDisplayValue($row[$groupField]);
+				if (!isset($groupData[$displayValue]['count'])) {
+					$groupData[$displayValue]['count'] = 1;
+				} else {
+					$groupData[$displayValue]['count'] ++;
+				}
+				if(!isset($groupData[$displayValue]['link'])){
+					$moduleModel = $this->getTargetModuleModel();
+					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . '&viewname=All' . $this->getSearchParams($groupField, $row[$groupField]);
+				}		
 			}
 		}
 		return $groupData;

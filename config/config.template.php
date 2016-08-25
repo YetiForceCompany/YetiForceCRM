@@ -217,7 +217,4 @@ $defaultLayout = 'basic';
 // Logo is visible in footer.
 $isVisibleLogoInFooter = true;
 
-// Show information about logged user in footer
-$isVisibleUserInfoFooter = true;
-
 $forceRedirect = true;
