@@ -89,7 +89,9 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$result = $db->pquery('SELECT count(*) FROM l_yf_notification WHERE userid = ?', [$currentUser->getId()]);
-		return $db->getSingleValue($result);
+		$count = $db->getSingleValue($result);
+		$max = AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
+		return $count > $max ? $max : $count;
 	}
 
 	public function save($parseContent = true)
