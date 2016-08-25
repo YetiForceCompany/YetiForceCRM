@@ -6090,6 +6090,7 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   `cache` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_widgets_ibfk_1` (`templateid`),
+  KEY `userid` (`userid`,`active`,`module`),
   CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
