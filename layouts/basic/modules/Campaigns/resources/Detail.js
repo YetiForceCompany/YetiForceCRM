@@ -128,22 +128,33 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 						var relatedModuleName = thisInstance.getRelatedModuleName();
 						var relatedController = new Campaigns_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 						relatedController.deleteRelation([relatedRecordid]).then(function (response) {
-							relatedController.loadRelatedList().then(function (data) {
-								var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
-								var listInstance = Vtiger_List_Js.getInstance();
-								var selectedIds = listInstance.readSelectedIds();
-								if (selectedIds != 'all') {
-									relatedRecordid = relatedRecordid.toString();
-									var idIndex = jQuery.inArray(relatedRecordid, selectedIds);
-									if (idIndex != -1) {
-										selectedIds.splice(idIndex, 1);
-										listInstance.writeSelectedIds(selectedIds);
+							var widget = element.closest('.widgetContentBlock');
+							if (widget.length) {
+								thisInstance.loadWidget(widget);
+								var updatesWidget = detailContentsHolder.find("[data-type='Updates']");
+								if (updatesWidget.length > 0) {
+									thisInstance.loadWidget(updatesWidget);
+								}
+							} else {
+								relatedController.loadRelatedList().then(function (data) {
+									var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
+									if (jQuery('#selectedIds').length) {
+										var listInstance = Vtiger_List_Js.getInstance();
+										var selectedIds = listInstance.readSelectedIds();
+										if (selectedIds != 'all') {
+											relatedRecordid = relatedRecordid.toString();
+											var idIndex = jQuery.inArray(relatedRecordid, selectedIds);
+											if (idIndex != -1) {
+												selectedIds.splice(idIndex, 1);
+												listInstance.writeSelectedIds(selectedIds);
+											}
+										}
 									}
-								}
-								if (emailEnabledModule) {
-									thisInstance.registerEmailEnabledActions();
-								}
-							});
+									if (emailEnabledModule) {
+										thisInstance.registerEmailEnabledActions();
+									}
+								});
+							}
 						});
 					},
 					function (error, err) {
@@ -218,12 +229,13 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 				return;
 			}
 
-			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
+			var relatedController = new Campaigns_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.addRelatedRecord(element).then(function (data) {
 				var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
 				if (emailEnabledModule) {
 					thisInstance.registerEmailEnabledActions();
 				}
+				relatedController.registerEvents();
 			});
 		})
 	},
