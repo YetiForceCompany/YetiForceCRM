@@ -5973,24 +5973,15 @@ CREATE TABLE `vtiger_modcommentscf` (
 /*Table structure for table `vtiger_modentity_num` */
 
 CREATE TABLE `vtiger_modentity_num` (
-  `num_id` int(19) unsigned NOT NULL,
-  `semodule` varchar(25) NOT NULL,
+  `id` smallint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tabid` int(11) unsigned NOT NULL,
   `prefix` varchar(50) NOT NULL DEFAULT '',
   `postfix` varchar(50) NOT NULL DEFAULT '',
   `start_id` int(19) unsigned NOT NULL,
   `cur_id` int(19) unsigned NOT NULL,
-  `active` smallint(1) unsigned NOT NULL,
-  PRIMARY KEY (`num_id`),
-  UNIQUE KEY `num_idx` (`num_id`),
-  KEY `semodule_active_idx` (`semodule`,`active`),
-  KEY `semodule` (`semodule`,`cur_id`,`active`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_modentity_num_seq` */
-
-CREATE TABLE `vtiger_modentity_num_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `semodule` (`cur_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_basic` */
 
