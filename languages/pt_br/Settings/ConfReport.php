@@ -47,4 +47,8 @@ $languageStrings = [
 	'LBL_SPACE_TOTAL' => 'Total',
 	'LBL_SPACE_FREE' => 'Free',
 	'LBL_SPACE_USED' => 'Used',
+	'LBL_VALUE' => 'Value',
+	'LBL_PHPINI' => 'PHP configuraton',
+ 	'LBL_LOG_FILE' => 'Logs',
+ 	'LBL_CRM_DIR' => 'CRM Local directory',
 ];
