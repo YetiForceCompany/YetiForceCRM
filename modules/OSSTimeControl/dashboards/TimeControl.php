@@ -17,7 +17,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$conditions = array();
 		$listSearchParams = array();
 		if ($assignedto != '')
-			array_push($conditions, array('assigned_user_id', 'e', \includes\fields\Owner::getUserLabel($assignedto)));
+			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
 		if (!empty($date)) {
 			array_push($conditions, array('due_date', 'bw', $date . ',' . $date . ''));
 		}
