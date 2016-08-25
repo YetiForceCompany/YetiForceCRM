@@ -56,9 +56,12 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
 	/**
 	 * Function to register recordpresave event
 	 */
-	registerRecordPreSaveEvent : function(){
+	registerRecordPreSaveEvent : function(container){
 		var thisInstance = this;
-		var form = this.getForm();
+		var form = $('.recordEditView[name="QuickCreate"]');
+		if(form.length == 0){
+			form = this.getForm();
+		}
 		form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
 			var sumeTime2 = thisInstance.differenceDays();
 			if(sumeTime2 == 'Error'){
@@ -150,10 +153,13 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
         string = string.replace(new RegExp(thisInstance.escapeRegExp('&Oacute;'), 'g'), 'Ó');
         return string.replace(new RegExp(thisInstance.escapeRegExp(find), 'g'), replace);
     },
+	registerBasicEvents: function (container) {
+		this._super(container);
+		this.registerRecordPreSaveEvent(container);
+	},
 	registerEvents: function(){
 		this._super();
 		this.registerGenerateTCFieldTimeAndCost();
 		this.registerGenerateTCFromHelpDesk();
-		this.registerRecordPreSaveEvent();
 	}
 });

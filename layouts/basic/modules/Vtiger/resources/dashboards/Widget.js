@@ -518,28 +518,34 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
 		var dataInfo = JSON.parse(data);
-		this.getPlotContainer(false).jqplot([dataInfo], {
-			seriesDefaults: {
-				renderer: jQuery.jqplot.FunnelRenderer,
-				rendererOptions: {
-					sectionMargin: 0,
-					widthRatio: 0.1,
-					showDataLabels: true,
-					dataLabelThreshold: 0,
-					dataLabels: 'value',
-					highlightMouseDown: true
+		if (dataInfo.length > 0) {
+			this.getPlotContainer(false).jqplot([dataInfo], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.FunnelRenderer,
+					rendererOptions: {
+						sectionMargin: 0,
+						widthRatio: 0.1,
+						showDataLabels: true,
+						dataLabelThreshold: 0,
+						dataLabels: 'value',
+						highlightMouseDown: true
+					}
+				},
+				legend: {
+					show: true,
+					location: 'e',
 				}
-			},
-			legend: {
-				show: true,
-				location: 'e',
-			}
-		});
+			});
+			this.registerSectionClick();
+		}
 	},
 	registerSectionClick: function () {
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
 		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
-			var sectionData = arguments[2];
-			//TODO : we need to construct the list url with the sales stage and filters
+			var url = dataInfo[pointIndex][2];
+			window.location.href = url;
 		});
 	}
 });
@@ -564,29 +570,32 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 	},
 	loadChart: function () {
 		var chartData = this.generateData();
-
-		this.getPlotContainer(false).jqplot([chartData['chartData']], {
-			seriesDefaults: {
-				renderer: jQuery.jqplot.PieRenderer,
-				rendererOptions: {
-					showDataLabels: true,
-					dataLabels: 'value'
-				}
-			},
-			legend: {
-				show: true,
-				location: 'e'
-			},
-			title: chartData['title']
-		});
+		if (chartData['chartData'].length > 0) {
+			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.PieRenderer,
+					rendererOptions: {
+						showDataLabels: true,
+						dataLabels: 'value'
+					}
+				},
+				legend: {
+					show: true,
+					location: 'e'
+				},
+				title: chartData['title']
+			});
+			this.registerSectionClick();
+		}
 	},
 	registerSectionClick: function () {
-		this.getPlotContainer().on('jqplotDataClick', function () {
-			var sectionData = arguments[3];
-			var assignedUserId = sectionData[2];
-			//TODO : we need to construct the list url with the sales stage and filters
-		})
-
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+			var url = dataInfo[pointIndex][2];
+			window.location.href = url;
+		});
 	}
 });
 
@@ -614,44 +623,57 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 	},
 	loadChart: function () {
 		var data = this.generateChartData();
-		this.getPlotContainer(false).jqplot(data['chartData'], {
-			title: data['title'],
-			animate: !$.jqplot.use_excanvas,
-			seriesDefaults: {
-				renderer: jQuery.jqplot.BarRenderer,
-				rendererOptions: {
-					showDataLabels: true,
-					dataLabels: 'value',
-					barDirection: 'vertical'
+		if (data['chartData'][0].length > 0) {
+			this.getPlotContainer(false).jqplot(data['chartData'], {
+				title: data['title'],
+				animate: !$.jqplot.use_excanvas,
+				seriesDefaults: {
+					renderer: jQuery.jqplot.BarRenderer,
+					rendererOptions: {
+						showDataLabels: true,
+						dataLabels: 'value',
+						barDirection: 'vertical'
+					},
+					pointLabels: {show: true, edgeTolerance: -15}
 				},
-				pointLabels: {show: true, edgeTolerance: -15}
-			},
-			axes: {
-				xaxis: {
-					tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-					renderer: jQuery.jqplot.CategoryAxisRenderer,
-					ticks: data['labels'],
-					tickOptions: {
-						angle: -45
+				axes: {
+					xaxis: {
+						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+						renderer: jQuery.jqplot.CategoryAxisRenderer,
+						ticks: data['labels'],
+						tickOptions: {
+							angle: -45
+						}
+					},
+					yaxis: {
+						min: 0,
+						max: data['yMaxValue'],
+						tickOptions: {
+							formatString: '%d'
+						},
+						pad: 1.2
 					}
 				},
-				yaxis: {
-					min: 0,
-					max: data['yMaxValue'],
-					tickOptions: {
-						formatString: '%d'
-					},
-					pad: 1.2
+				legend: {
+					show: (data['data_labels']) ? true : false,
+					location: 'e',
+					placement: 'outside',
+					showLabels: (data['data_labels']) ? true : false,
+					showSwatch: (data['data_labels']) ? true : false,
+					labels: data['data_labels']
 				}
-			},
-			legend: {
-				show: (data['data_labels']) ? true : false,
-				location: 'e',
-				placement: 'outside',
-				showLabels: (data['data_labels']) ? true : false,
-				showSwatch: (data['data_labels']) ? true : false,
-				labels: data['data_labels']
-			}
+			});
+			this.registerSectionClick();
+		}
+	},
+	registerSectionClick: function () {
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+			console.log(dataInfo[pointIndex]);
+			var url = dataInfo[pointIndex][2];
+			window.location.href = url;
 		});
 	}
 });
@@ -694,36 +716,38 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
 	loadChart: function () {
 		var data = this.generateChartData();
-		this.getPlotContainer(false).jqplot(data['chartData'], {
-			title: data['title'],
-			legend: {
-				show: false,
-				labels: data['labels'],
-				location: 'ne',
-				showSwatch: true,
-				showLabels: true,
-				placement: 'outside'
-			},
-			seriesDefaults: {
-				pointLabels: {
+		if (data['chartData'][0].length > 0) {
+			this.getPlotContainer(false).jqplot(data['chartData'], {
+				title: data['title'],
+				legend: {
+					show: false,
+					labels: data['labels'],
+					location: 'ne',
+					showSwatch: true,
+					showLabels: true,
+					placement: 'outside'
+				},
+				seriesDefaults: {
+					pointLabels: {
+						show: true
+					}
+				},
+				axes: {
+					xaxis: {
+						min: 0,
+						pad: 1,
+						renderer: $.jqplot.CategoryAxisRenderer,
+						ticks: data['labels'],
+						tickOptions: {
+							formatString: '%b %#d'
+						}
+					}
+				},
+				cursor: {
 					show: true
 				}
-			},
-			axes: {
-				xaxis: {
-					min: 0,
-					pad: 1,
-					renderer: $.jqplot.CategoryAxisRenderer,
-					ticks: data['labels'],
-					tickOptions: {
-						formatString: '%b %#d'
-					}
-				}
-			},
-			cursor: {
-				show: true
-			}
-		});
+			});
+		}
 	}
 });
 Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {

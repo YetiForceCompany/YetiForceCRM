@@ -293,6 +293,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'skins.icons.adminIcons',
 			'skins.icons.additionalIcons',
 			'libraries.resources.styles',
+			'~libraries/font-awesome/css/font-awesome.css',
 		];
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;

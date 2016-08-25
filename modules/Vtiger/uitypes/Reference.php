@@ -49,7 +49,11 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$referenceModule = $this->getReferenceModule($value);
 		if ($referenceModule && !empty($value)) {
 			$referenceModuleName = $referenceModule->get('name');
-			$name = \includes\Record::getLabel($value);
+			if ($referenceModuleName == 'Users' || $referenceModuleName == 'Groups') {
+				$name = \includes\fields\Owner::getLabel($value);
+			} else {
+				$name = \includes\Record::getLabel($value);
+			}
 			if ($rawText || $referenceModuleName == 'Users' || ($value && !Users_Privileges_Model::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}

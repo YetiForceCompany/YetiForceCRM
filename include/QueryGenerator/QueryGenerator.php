@@ -745,7 +745,7 @@ class QueryGenerator
 			$field = $moduleFieldList[$fieldName];
 			if ($fieldName == 'id') {
 				$sqlOperator = $this->getSqlOperator($conditionInfo['operator']);
-				$fieldSqlList[$index] = $baseTable . '.' . $baseTableIndex . $sqlOperator . $conditionInfo['value'];
+				$fieldSqlList[$index] = $baseTable . '.' . $baseTableIndex . $sqlOperator . '"'.$conditionInfo['value'] .'"';
 				continue;
 			}
 			if (empty($field) || $conditionInfo['operator'] == 'None') {
