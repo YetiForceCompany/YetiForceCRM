@@ -5980,7 +5980,9 @@ CREATE TABLE `vtiger_modentity_num` (
   `start_id` int(19) unsigned NOT NULL,
   `cur_id` int(19) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `semodule` (`cur_id`)
+  KEY `semodule` (`cur_id`),
+  KEY `prefix` (`prefix`,`postfix`,`cur_id`),
+  KEY `tabid` (`tabid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_basic` */
