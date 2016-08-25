@@ -97,7 +97,7 @@ class Reservations extends Vtiger_CRMEntity
 		$log = vglobal('log');
 		if ($event_type == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Reservations');
-			$moduleInstance->setModuleSeqNumber("configure", 'Reservations', 'RES', '1');
+			\includes\fields\RecordNumber::setConfiguration('Reservations', 'RES', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Reservations'));
 			$moduleInstance = vtlib\Module::getInstance($modulename);
 			$targetModule = vtlib\Module::getInstance('Accounts');

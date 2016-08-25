@@ -83,12 +83,12 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		$postfix = $this->get('postfix');
 		$sequenceNumber = $this->get('sequenceNumber');
 
-		$status = $this->getFocus()->setModuleSeqNumber('configure', $moduleName, $prefix, $sequenceNumber, $postfix);
-
+		$status = \includes\fields\RecordNumber::setConfiguration($moduleName, $prefix, $sequenceNumber, $postfix);
+		
 		$success = array('success' => $status);
 		if (!$status) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT cur_id FROM vtiger_modentity_num WHERE semodule = ? AND prefix = ? AND postfix = ?;', [$moduleName, $prefix, $postfix]);
+			$result = $db->pquery('SELECT cur_id FROM vtiger_modentity_num WHERE tabid = ? AND prefix = ? AND postfix = ?;', [$moduleId, $prefix, $postfix]);
 			$success['sequenceNumber'] = $db->query_result($result, 0, 'cur_id');
 		}
 

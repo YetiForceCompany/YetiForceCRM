@@ -80,8 +80,7 @@ class SQuoteEnquiries extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('SQuoteEnquiries');
-			$moduleInstance->setModuleSeqNumber("configure", 'SQuoteEnquiries', 'S-QE', '1');
+			\includes\fields\RecordNumber::setConfiguration('SQuoteEnquiries', 'S-QE', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SQuoteEnquiries']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

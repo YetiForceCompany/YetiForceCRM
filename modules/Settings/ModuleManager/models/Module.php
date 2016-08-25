@@ -210,8 +210,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 		// Create files
 		$module->createFiles($field1);
-		$moduleInstance = CRMEntity::getInstance($module->name);
-		$moduleInstance->setModuleSeqNumber('configure', $module->name, 'N', '1');
+		\includes\fields\RecordNumber::setConfiguration($module->name, 'N', '1');
 	}
 
 	public static function toAlphaNumeric($value)

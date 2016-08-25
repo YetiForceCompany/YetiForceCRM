@@ -80,8 +80,7 @@ class SCalculations extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('SCalculations');
-			$moduleInstance->setModuleSeqNumber("configure", 'SCalculations', 'S-C', '1');
+			\includes\fields\RecordNumber::setConfiguration('SCalculations', 'S-C', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SCalculations']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
@@ -103,6 +102,7 @@ class SCalculations extends Vtiger_CRMEntity
 					$moduleModTrackerInstance->updateCache($tabid, 1);
 				}
 				if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)) {
+					$moduleInstance = CRMEntity::getInstance('SCalculations');
 					$moduleInstance = vtlib\Module::getInstance($tabid);
 					$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
 				}

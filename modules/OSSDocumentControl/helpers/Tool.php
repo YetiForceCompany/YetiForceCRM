@@ -246,9 +246,7 @@ class Oss_Tool
 	{
 		if (self::checkArg(func_get_args(), 1)) {
 			vglobal('Vtiger_Utils_Log', TRUE);
-
-			$myCustomEntity = CRMEntity::getInstance($moduleName);
-			$myCustomEntity->setModuleSeqNumber("configure", $moduleName, $prefix, $startNumber);
+			\includes\fields\RecordNumber::setConfiguration($moduleName, $prefix, $startNumber);
 		}
 	}
 

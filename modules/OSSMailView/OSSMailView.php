@@ -323,10 +323,9 @@ class OSSMailView extends CRMEntity
 		require_once('include/utils/utils.php');
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$myCustomEntity = CRMEntity::getInstance($moduleName);
 			$myCustomPrefix = "M_";
 			$sequenceStart = '1';
-			$myCustomEntity->setModuleSeqNumber("configure", $moduleName, $myCustomPrefix, $sequenceStart);
+			\includes\fields\RecordNumber::setConfiguration($moduleName, $myCustomPrefix, $sequenceStart);
 			$displayLabel = 'OSSMailView';
 			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='$displayLabel'");
 
