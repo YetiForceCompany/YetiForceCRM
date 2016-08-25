@@ -5641,3 +5641,6 @@ select.form-control {
 .leftPanelOpen .toggleSiteBarRightButton {
 	right: calc(25% - 50px);
 }
+.detailViewIcon.fa{
+	display: inline;
+}

@@ -524,7 +524,7 @@ class ModuleBasic
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = \PearDatabase::getInstance();
-		$db->delete('vtiger_modentity_num', 'semodule = ?', [$this->name]);
+		$db->delete('vtiger_modentity_num', 'tabid = ?', [$this->id]);
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
 

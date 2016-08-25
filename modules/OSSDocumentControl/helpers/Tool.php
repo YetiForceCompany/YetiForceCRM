@@ -238,23 +238,6 @@ class Oss_Tool
 	/**
 	 * Funkcja ustawia numerację modułu
 	 *
-	 * @param string $moduleName - nazwa modułu
-	 * @param int $startNumber - liczba od której ma zacząć się numeracj
-	 * @param string $prefix - prefiks numeru
-	 */
-	public static function setNumberingModule($moduleName, $startNumber = 1, $prefix = "")
-	{
-		if (self::checkArg(func_get_args(), 1)) {
-			vglobal('Vtiger_Utils_Log', TRUE);
-
-			$myCustomEntity = CRMEntity::getInstance($moduleName);
-			$myCustomEntity->setModuleSeqNumber("configure", $moduleName, $prefix, $startNumber);
-		}
-	}
-
-	/**
-	 * Funkcja ustawia numerację modułu
-	 *
 	 * @param string $moduleName nazwa modułu
 	 * @param string $methodName nazwa metody
 	 * @param string $functionPath ścieżka do metody

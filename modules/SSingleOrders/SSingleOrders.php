@@ -81,8 +81,7 @@ class SSingleOrders extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('SSingleOrders');
-			$moduleInstance->setModuleSeqNumber("configure", 'SSingleOrders', 'S-SO', '1');
+			\includes\fields\RecordNumber::setNumber($moduleName, 'S-SO', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SSingleOrders']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

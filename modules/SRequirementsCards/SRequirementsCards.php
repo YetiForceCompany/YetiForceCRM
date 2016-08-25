@@ -80,8 +80,7 @@ class SRequirementsCards extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('SRequirementsCards');
-			$moduleInstance->setModuleSeqNumber("configure", 'SRequirementsCards', 'S-RC', '1');
+			\includes\fields\RecordNumber::setNumber($moduleName, 'S-RC', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SRequirementsCards']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

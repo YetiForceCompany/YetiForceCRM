@@ -111,11 +111,8 @@ class OSSSoldServices extends Vtiger_CRMEntity {
      * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
      */
     function vtlib_handler($modulename, $event_type) {
-		$adb = PearDatabase::getInstance();
         if($event_type == 'module.postinstall') {
-			$ModuleInstance = CRMEntity::getInstance($modulename);
-			$ModuleInstance->setModuleSeqNumber("configure",$modulename,'US','1'); 
-
+			\includes\fields\RecordNumber::setNumber($modulename, 'US', '1');
         } else if($event_type == 'module.disabled') {
             // TODO Handle actions when this module is disabled.
         } else if($event_type == 'module.enabled') {

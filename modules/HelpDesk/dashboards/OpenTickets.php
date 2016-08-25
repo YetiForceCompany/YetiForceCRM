@@ -57,7 +57,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 			$data['label'] = trim($row['name']);
 			$data['data'] = $row['count'];
 			$data['color'] = $row['color'];
-			$data['links'] = $listViewUrl . $this->getSearchParams($row['name']);
+			$data['links'] = $listViewUrl . $this->getSearchParams($row['id']);
 			$chartData[$row['id']] = $data;
 		}
 		return $chartData;
