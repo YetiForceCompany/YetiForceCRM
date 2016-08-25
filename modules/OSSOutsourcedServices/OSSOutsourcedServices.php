@@ -111,7 +111,7 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity {
      */
     function vtlib_handler($modulename, $event_type) {
         if($event_type == 'module.postinstall') {
-			\includes\fields\RecordNumber::setConfiguration($modulename, 'UO', '1');
+			\includes\fields\RecordNumber::setNumber($modulename, 'UO', '1');
         } else if($event_type == 'module.disabled') {
             // TODO Handle actions when this module is disabled.
         } else if($event_type == 'module.enabled') {

@@ -80,7 +80,7 @@ class SCalculations extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			\includes\fields\RecordNumber::setConfiguration('SCalculations', 'S-C', '1');
+			\includes\fields\RecordNumber::setNumber($moduleName, 'S-C', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SCalculations']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

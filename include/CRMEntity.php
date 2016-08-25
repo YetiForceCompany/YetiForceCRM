@@ -502,7 +502,7 @@ class CRMEntity
 				$fldvalue = '';
 				// Bulk Save Mode: Avoid generation of module sequence number, take care later.
 				if (!CRMEntity::isBulkSaveMode()) {
-					$fldvalue = \includes\fields\RecordNumber::setIncrementSeqNumber($tabid);
+					$fldvalue = \includes\fields\RecordNumber::incrementNumber($tabid);
 				}
 				$this->column_fields[$fieldname] = $fldvalue;
 			}
@@ -1369,34 +1369,8 @@ class CRMEntity
 			$this->sortby_fields[] = 'crmid';
 		$log->debug("Exiting initSortByField");
 	}
-	
-	/* Function to check if module sequence numbering is configured for the given module or not */
-	function isModuleSequenceConfigured($module)
-	{
-		$adb = PearDatabase::getInstance();
-		$module = \vtlib\Functions::getModuleId($module);
-		$result = $adb->pquery('SELECT 1 FROM vtiger_modentity_num WHERE tabid = ?', [$module]);
-		if ($result && $adb->num_rows($result) > 0) {
-			return true;
-		}
-		return false;
-	}
-	/* Function to get the next module sequence number for a given module */
-
-	function getModuleSeqInfo($module)
-	{
-		$adb = PearDatabase::getInstance();
-		$module = \vtlib\Functions::getModuleId($module);
-		$check = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE tabid = ? ', [$module]);
-		$prefix = $adb->query_result($check, 0, 'prefix');
-		$curid = $adb->query_result($check, 0, 'cur_id');
-		$postfix = $adb->query_result($check, 0, 'postfix');
-		return [$prefix, $curid, $postfix];
-	}
-
-	// END
-
 	/* Function to check if the mod number already exits */
+
 	function checkModuleSeqNumber($table, $column, $no)
 	{
 		$adb = PearDatabase::getInstance();
@@ -1441,20 +1415,17 @@ class CRMEntity
 					$returninfo['totalrecords'] = $adb->num_rows($records);
 					$returninfo['updatedrecords'] = 0;
 
-					$modseqinfo = $this->getModuleSeqInfo($module);
-					$prefix = $modseqinfo[0];
-					$cur_id = $modseqinfo[1];
-					$postfix = $modseqinfo[2];
+					$moduleData = \includes\fields\RecordNumber::getNumber($tabid);
+					$sequenceNumber = $moduleData['sequenceNumber'];
 
-					$old_cur_id = $cur_id;
-					while ($recordinfo = $adb->fetch_array($records)) {
-						$value = $prefix . $cur_id . $postfix;
-						$adb->update($fld_table, [$fld_column => $value], $this->table_index . ' = ?', [$recordinfo['recordid']]);
-						$cur_id += 1;
+					$oldNumber = $sequenceNumber;
+					while ($recordinfo = $adb->getRow($records)) {
+						$adb->update($fld_table, [$fld_column => $moduleData['number']], $this->table_index . ' = ?', [$recordinfo['recordid']]);
+						$sequenceNumber += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
 					}
-					if ($old_cur_id != $cur_id) {
-						\includes\fields\RecordNumber::updateSeqNumber($cur_id, $tabid);
+					if ($oldNumber != $sequenceNumber) {
+						\includes\fields\RecordNumber::updateNumber($sequenceNumber, $tabid);
 					}
 				}
 			} else {

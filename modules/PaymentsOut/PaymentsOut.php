@@ -108,7 +108,7 @@ class PaymentsOut extends Vtiger_CRMEntity {
 		$adb = PearDatabase::getInstance();
 		if($event_type == 'module.postinstall') {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
-			\includes\fields\RecordNumber::setConfiguration($modulename, '', '1');
+			\includes\fields\RecordNumber::setNumber($modulename, '', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

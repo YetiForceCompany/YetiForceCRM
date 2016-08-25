@@ -81,7 +81,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			\includes\fields\RecordNumber::setConfiguration('SSalesProcesses', 'S-SP', '1');
+			\includes\fields\RecordNumber::setNumber($moduleName, 'S-SP', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SSalesProcesses']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

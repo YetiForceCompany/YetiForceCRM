@@ -91,7 +91,7 @@ class Ideas extends Vtiger_CRMEntity
 		if ($eventType == 'module.postinstall') {
 
 			$ModuleInstance = CRMEntity::getInstance('Ideas');
-			\includes\fields\RecordNumber::setConfiguration('Ideas', 'ID', '1');
+			\includes\fields\RecordNumber::setNumber($moduleName, 'ID', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Ideas'));
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

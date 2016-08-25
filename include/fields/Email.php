@@ -11,8 +11,7 @@ class Email
 
 	public static function findCrmidByPrefix($value, $moduleName)
 	{
-		$moduleModel = \Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($moduleName);
-		$moduleData = $moduleModel->getModuleCustomNumberingData();
+		$moduleData = \includes\fields\RecordNumber::getNumber($moduleName);
 		$redex = '/\[' . $moduleData['prefix'] . '([0-9]*)\]/';
 		preg_match($redex, $value, $match);
 		if (!empty($match)) {

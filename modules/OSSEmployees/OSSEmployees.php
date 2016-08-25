@@ -333,7 +333,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			$tabid = getTabid($modulename);
 			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid AND `columnname` IN ('ossemployees_no','employee_status','name','last_name','pesel','id_card','employee_education','parentid','business_mail');", true);
 
-			\includes\fields\RecordNumber::setConfiguration($modulename, 'P', '1');
+			\includes\fields\RecordNumber::setNumber($modulename, 'P', '1');
 			// block with comments
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

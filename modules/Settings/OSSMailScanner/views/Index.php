@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package YetiForce.Views
  * @license licenses/License.html
@@ -22,7 +23,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 				$identityList[$account['user_id']] = $mailScannerRecordModel->getIdentities($account['user_id']);
 			}
 		}
-		
+
 		$actionsList = $mailScannerRecordModel->getActionsList();
 		$ConfigFolderList = $mailScannerRecordModel->getConfigFolderList();
 		$emailSearch = $mailScannerRecordModel->getEmailSearch();
@@ -31,9 +32,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
 		foreach ($supportedModules as $supportedModule) {
 			if (in_array($supportedModule->name, $this->prefixesForModules)) {
-				$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($supportedModule->name);
-				$moduleData = $moduleModel->getModuleCustomNumberingData();
-				$RecordNumbering[$supportedModule->name] = $moduleData;
+				$numbering[$supportedModule->name] = \includes\fields\RecordNumber::getNumber($supportedModule->name);
 			}
 		}
 
@@ -46,7 +45,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('WIDGET_CFG', $widgetCfg);
 		$viewer->assign('EMAILSEARCH', $emailSearch);
 		$viewer->assign('EMAILSEARCHLIST', $emailSearchList);
-		$viewer->assign('RECORDNUMBERING', $RecordNumbering);
+		$viewer->assign('RECORDNUMBERING', $numbering);
 		$viewer->assign('ERRORNOMODULE', !$mailModuleActive);
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('IDENTITYLIST', $identityList);
