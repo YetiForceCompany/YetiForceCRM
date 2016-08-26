@@ -12,6 +12,9 @@ class RecordNumber
 	public static function isModuleSequenceConfigured($tabid)
  	{
 		$db = \PearDatabase::getInstance();
+		if (is_string($tabId)) {
+			$tabId = \vtlib\Functions::getModuleId($tabId);
+		}
 		$result = $db->pquery('SELECT 1 FROM vtiger_modentity_num WHERE tabid = ?', [$tabid]);
 		if ($result && $db->num_rows($result) > 0) {
 			return true;

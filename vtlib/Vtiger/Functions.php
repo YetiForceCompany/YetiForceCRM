@@ -994,7 +994,7 @@ class Functions
 		return $result;
 	}
 
-	public function recurseDelete($src)
+	public static function recurseDelete($src)
 	{
 		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src))

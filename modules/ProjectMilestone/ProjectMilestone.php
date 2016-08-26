@@ -337,11 +337,7 @@ class ProjectMilestone extends CRMEntity {
 				}
 			}
 
-			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($modulename));
-			if (!($adb->num_rows($result))) {
-				//Initialize module sequence for the module
-				$adb->pquery("INSERT INTO vtiger_modentity_num values(?,?,?,?,?,?)", array($adb->getUniqueId("vtiger_modentity_num"), $modulename, 'PM', 1, 1, 1));
-			}
+			\includes\fields\RecordNumber::setNumber($modulename,'PM', 1);
 
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
@@ -353,12 +349,7 @@ class ProjectMilestone extends CRMEntity {
 			// TODO Handle actions before this module is updated.
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
-
-			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($modulename));
-			if (!($adb->num_rows($result))) {
-				//Initialize module sequence for the module
-				$adb->pquery("INSERT INTO vtiger_modentity_num values(?,?,?,?,?,?)", array($adb->getUniqueId("vtiger_modentity_num"), $modulename, 'PM', 1, 1, 1));
-			}
+			\includes\fields\RecordNumber::setNumber($modulename,'PM', 1);
 		}
 	}
 
