@@ -1,7 +1,7 @@
 <?php namespace includes\fields;
 
 /**
- * Recurd Numer class
+ * Record number class
  * @package YetiForce.Include
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
@@ -9,23 +9,37 @@
 class RecordNumber
 {
 
-	public static function isModuleSequenceConfigured($tabid)
- 	{
+	/**
+	 * Function that checks if a module has serial number configuration.
+	 * @param int $tabId
+	 * @return boolean
+	 */
+	public static function isModuleSequenceConfigured($tabId)
+	{
 		$db = \PearDatabase::getInstance();
-		if (is_string($tabId)) {
+		if (!is_numeric($tabId)) {
 			$tabId = \vtlib\Functions::getModuleId($tabId);
 		}
-		$result = $db->pquery('SELECT 1 FROM vtiger_modentity_num WHERE tabid = ?', [$tabid]);
+		$result = $db->pquery('SELECT 1 FROM vtiger_modentity_num WHERE tabid = ?', [$tabId]);
 		if ($result && $db->num_rows($result) > 0) {
 			return true;
 		}
 		return false;
- 	}
+	}
+
+	/**
+	 * Function to set number sequence of recoords for module
+	 * @param mixed $tabId
+	 * @param string $prefix
+	 * @param int $no
+	 * @param string $postfix
+	 * @return boolean
+	 */
 	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '')
 	{
 		if ($no != '') {
 			$db = \PearDatabase::getInstance();
-			if (is_string($tabId)) {
+			if (!is_numeric($tabId)) {
 				$tabId = \vtlib\Functions::getModuleId($tabId);
 			}
 			$query = 'SELECT cur_id FROM vtiger_modentity_num WHERE tabid = ?';
@@ -51,6 +65,11 @@ class RecordNumber
 		}
 	}
 
+	/**
+	 * Function that gets the next sequence number of a record
+	 * @param int $moduleId Number id for module
+	 * @return string
+	 */
 	public static function incrementNumber($moduleId)
 	{
 		$db = \PearDatabase::getInstance();
