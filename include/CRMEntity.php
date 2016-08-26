@@ -1391,11 +1391,9 @@ class CRMEntity
 		$log->debug("Entered updateMissingSeqNumber function");
 
 		vtlib_setup_modulevars($module, $this);
-
-		if (!$this->isModuleSequenceConfigured($module))
-			return;
-
 		$tabid = getTabid($module);
+		if (!\includes\fields\RecordNumber::isModuleSequenceConfigured($tabid))
+			return;
 		$fieldinfo = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? AND uitype = 4", Array($tabid));
 
 		$returninfo = [];

@@ -9,6 +9,15 @@
 class RecordNumber
 {
 
+	public static function isModuleSequenceConfigured($tabid)
+ 	{
+		$db = \PearDatabase::getInstance();
+		$result = $db->pquery('SELECT 1 FROM vtiger_modentity_num WHERE tabid = ?', [$tabid]);
+		if ($result && $db->num_rows($result) > 0) {
+			return true;
+		}
+		return false;
+ 	}
 	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '')
 	{
 		if ($no != '') {
@@ -16,8 +25,8 @@ class RecordNumber
 			if (is_string($tabId)) {
 				$tabId = \vtlib\Functions::getModuleId($tabId);
 			}
-			$query = 'SELECT cur_id FROM vtiger_modentity_num WHERE tabid = ? AND prefix = ? AND postfix = ?;';
-			$check = $db->pquery($query, [$tabId, $prefix, $postfix]);
+			$query = 'SELECT cur_id FROM vtiger_modentity_num WHERE tabid = ?';
+			$check = $db->pquery($query, [$tabId]);
 			$numRows = $db->getRowCount($check);
 			if ($numRows == 0) {
 				$db->insert('vtiger_modentity_num', [
@@ -32,7 +41,7 @@ class RecordNumber
 				if ($no < $db->getSingleValue($check)) {
 					return false;
 				} else {
-					$db->update('vtiger_modentity_num', ['cur_id' => $no], 'prefix = ? AND postfix = ? AND tabid = ?', [$prefix, $postfix, $tabId]);
+					$db->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix], 'tabid = ?', [$tabId]);
 					return true;
 				}
 			}
@@ -94,7 +103,7 @@ class RecordNumber
 			'prefix' => $row['prefix'],
 			'sequenceNumber' => $row['cur_id'],
 			'postfix' => $row['postfix'],
-			'number' => $row['prefix'] . $row['cur_id'] . $row['postfix']
+			'number' => self::parse($row['prefix'] . $row['cur_id'] . $row['postfix'])
 		];
 	}
 }
