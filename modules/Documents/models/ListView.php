@@ -126,6 +126,9 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		if ($moduleName == $this->get('src_module') && !empty($srcRecord)) {
 			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
+		$fields = $queryGenerator->getFields();
+		$fields[] = 'filetype';
+		$queryGenerator->setFields($fields);
 
 		$folderKey = $this->get('folder_id');
 		$folderValue = $this->get('folder_value');
