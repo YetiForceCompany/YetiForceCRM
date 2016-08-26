@@ -27,7 +27,9 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-
+		if (empty($value)) {
+			return null;
+		}
 		$value = explode(' |##| ', $value);
 		$trValue = [];
 
