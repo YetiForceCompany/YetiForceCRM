@@ -45,7 +45,7 @@ class EmailTemplates_DetailView_Model extends Vtiger_DetailView_Model
 
 		$deletelinkModel = array(
 			'linktype' => 'DETAILVIEW',
-			'linklabel' => 'LBL_DELETE',
+			'linklabel' => 'LBL_DELETE_RECORD',
 			'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 			'linkicon' => ''
 		);
