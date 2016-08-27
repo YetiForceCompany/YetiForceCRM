@@ -126,4 +126,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery($sql, [$record]);
 		return $db->getArrayColumn($result);
 	}
+	
+	public static function getFileIconByFileType($fileType)
+	{
+		$fileIcon = \includes\utils\Icon::getIconByFileType($fileType);
+		return $fileIcon;
+	}
 }

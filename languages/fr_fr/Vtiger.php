@@ -1131,7 +1131,7 @@ $languageStrings = [
 	'Api Address' => 'Chercher adresse',
 	'Notifications' => 'Notifications',
 	'Mails' => 'Mails',
-	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_',
+	'LBL_CATEGORY_MULTIPICKLIST' => 'List of categories',
 	// popup
 	'LBL_POPUP_SWITCH_BUTTON' => 'Bouton de switch',
 	'LBL_POPUP_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to module',

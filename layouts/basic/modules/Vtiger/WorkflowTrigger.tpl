@@ -25,13 +25,20 @@
 						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
 					</div>
 					<div class="row">
-						{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
 						{assign var=ROLE_RECORD_MODEL value=Settings_Roles_Record_Model::getInstanceById($USER_MODEL->get('roleid'))}
 						<div class="col-md-5">
-							<select class="chzn-select form-control" title="{vtranslate('LBL_USER', $MODULE)}" name="user" {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}>
-								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-									<option value="{$OWNER_ID}" {if $USER_MODEL->getId() eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
-								{/foreach}
+							<select class="select2 form-control" title="{vtranslate('LBL_USER', $MODULE)}" name="user" {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}
+								{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
+									data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+								{/if}>
+								{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+									{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+										<option value="{$OWNER_ID}" {if $USER_MODEL->getId() eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
+									{/foreach}
+								{else}
+									<option value="{$USER_MODEL->getId()}">{$USER_MODEL->getName()}</option>
+								{/if}
 							</select>
 						</div>
 					</div>

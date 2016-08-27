@@ -26,7 +26,7 @@ Class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', '');
 		}
 
-		$viewer->assign('MEMBER_GROUPS', Settings_Groups_Member_Model::getAll(false));
+		$viewer->assign('MEMBER_GROUPS', Settings_Groups_Member_Model::getAll(true));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);

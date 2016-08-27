@@ -1530,6 +1530,7 @@ class Vtiger_Module_Model extends vtlib\Module
 			if ($relatedModuleName == 'Documents') {
 				$relatedListFields['filelocationtype'] = 'filelocationtype';
 				$relatedListFields['filestatus'] = 'filestatus';
+				$relatedListFields['filetype'] = 'filetype';
 			}
 		}
 		if (count($relatedListFields) > 0) {

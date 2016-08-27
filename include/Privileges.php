@@ -5,6 +5,7 @@
  * @package YetiForce.Include
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Privileges
 {
@@ -187,7 +188,7 @@ class Privileges
 					if ($parentRecord) {
 						$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($parentRecord);
 						$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
-						$permissionsRelatedField = empty($permissionsRoleForRelatedField) ? [] : explode(',', $role->get('permissionsrelatedfield'));
+						$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 						$relatedPermission = false;
 						foreach ($permissionsRelatedField as &$row) {
 							switch ($row) {
@@ -277,10 +278,10 @@ class Privileges
 		$log->debug("Entering isReadPermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
 		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
 
-		if (!isset($sharingPrivileges[$moduleName])) {
+		if (!isset($sharingPrivileges['permission'][$moduleName])) {
 			return false;
 		}
-		$sharingPrivilegesModule = $sharingPrivileges[$moduleName];
+		$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 
 		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($recordId);
 		$ownerId = $recordMetaData['smownerid'];
@@ -316,8 +317,8 @@ class Privileges
 				$parRecordOwner = PrivilegesUtils::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (sizeof($parRecordOwner) > 0) {
 					$parModName = \vtlib\Functions::getModuleName($parModId);
-					if (isset($sharingPrivileges[$parModName . '_' . $moduleName])) {
-						$readRelated = $sharingPrivileges[$parModName . '_' . $moduleName]['read'];
+					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
+						$readRelated = $sharingPrivileges['permission'][$parModName . '_' . $moduleName]['read'];
 
 						$relOwnerType = '';
 						$relOwnerId = '';
@@ -366,10 +367,10 @@ class Privileges
 		$log = \LoggerManager::getInstance();
 		$log->debug("Entering isReadWritePermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
 		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
-		if (!isset($sharingPrivileges[$moduleName])) {
+		if (!isset($sharingPrivileges['permission'][$moduleName])) {
 			return false;
 		}
-		$sharingPrivilegesModule = $sharingPrivileges[$moduleName];
+		$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 
 		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($recordId);
 		$ownerId = $recordMetaData['smownerid'];
@@ -404,8 +405,8 @@ class Privileges
 				$parRecordOwner = PrivilegesUtils::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (!empty($parRecordOwner)) {
 					$parModName = \vtlib\Functions::getModuleName($parModId);
-					if (isset($sharingPrivileges[$parModName . '_' . $moduleName])) {
-						$writeRelated = $sharingPrivileges[$parModName . '_' . $moduleName]['write'];
+					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
+						$writeRelated = $sharingPrivileges['permission'][$parModName . '_' . $moduleName]['write'];
 						$relOwnerType = '';
 						$relOwnerId = '';
 						foreach ($parRecordOwner as $rel_type => $rel_id) {

@@ -74,8 +74,9 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 
 	public function transferRecordsOwnership($module, $transferOwnerId, $relatedModuleRecordIds)
 	{
-		$currentUser = vglobal('current_user');
 		$db = PearDatabase::getInstance();
+		$oldOwners = \vtlib\Functions::getCRMRecordMetadata($relatedModuleRecordIds);
+		$currentUser = vglobal('current_user');
 		$db->update('vtiger_crmentity', [
 			'smownerid' => $transferOwnerId,
 			'modifiedby' => $currentUser->id,
@@ -99,7 +100,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 					'id' => $id,
 					'fieldname' => 'assigned_user_id',
 					'postvalue' => $transferOwnerId,
-					'prevalue' => $currentUser->id
+					'prevalue' => $oldOwners[$record]['smownerid']
 				]);
 			}
 		}

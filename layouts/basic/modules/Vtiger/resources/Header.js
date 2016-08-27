@@ -224,7 +224,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		var dateStartEl = data.find('[name="date_start"]');
 		var dateStartVal = dateStartEl.val();
 		var dateStartFormat = dateStartEl.data('date-format');
-		if (typeof dateStartVal == 'undefined') {
+		if (typeof dateStartVal == 'undefined' || !data.find('.eventsTable').length) {
 			return;
 		}
 		var days = [];

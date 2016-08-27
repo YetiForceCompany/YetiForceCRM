@@ -82,7 +82,7 @@ class Competition extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Competition');
-			$moduleInstance->setModuleSeqNumber("configure", 'Competition', 'CMP', '1');
+			\includes\fields\RecordNumber::setNumber($moduleName, 'CMP', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Competition']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

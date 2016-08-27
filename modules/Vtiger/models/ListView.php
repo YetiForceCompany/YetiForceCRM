@@ -557,7 +557,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 					'linktype' => 'LISTVIEWBASIC',
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => vtranslate('LBL_EXPORT_PDF')
+					'linkhint' => vtranslate('LBL_EXPORT_PDF')
 				];
 			}
 		}

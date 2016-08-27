@@ -118,12 +118,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-
-			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($moduleName));
-			if (!($adb->num_rows($result))) {
-				//Initialize module sequence for the module
-				$adb->pquery("INSERT INTO vtiger_modentity_num values(?,?,?,?,?,?)", array($adb->getUniqueId("vtiger_modentity_num"), $moduleName, 'UP', 1, 1, 1));
-			}
+			\includes\fields\RecordNumber::setNumber($moduleName,'UP', 1);
 		} else if ($eventType == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
 		} else if ($eventType == 'module.enabled') {

@@ -410,7 +410,7 @@ function isPermitted($module, $actionname, $record_id = '')
 				if ($parentRecord) {
 					$recordMetaData = vtlib\Functions::getCRMRecordMetadata($parentRecord);
 					$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
-					$permissionsRelatedField = empty($permissionsRoleForRelatedField) ? [] : explode(',', $role->get('permissionsrelatedfield'));
+					$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 					$relatedPermission = false;
 					foreach ($permissionsRelatedField as &$row) {
 						switch ($row) {

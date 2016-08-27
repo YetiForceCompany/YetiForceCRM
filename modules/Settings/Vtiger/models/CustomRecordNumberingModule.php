@@ -59,20 +59,6 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	}
 
 	/**
-	 * Function to get module custom numbering data
-	 * @return <Array> data of custom numbering data
-	 */
-	public function getModuleCustomNumberingData()
-	{
-		$moduleInfo = $this->getFocus()->getModuleSeqInfo($this->getName());
-		return array(
-			'prefix' => $moduleInfo[0],
-			'sequenceNumber' => $moduleInfo[1],
-			'postfix' => $moduleInfo[2]
-		);
-	}
-
-	/**
 	 * Function to set Module sequence
 	 * @return <Array> result of success
 	 */
@@ -83,12 +69,13 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		$postfix = $this->get('postfix');
 		$sequenceNumber = $this->get('sequenceNumber');
 
-		$status = $this->getFocus()->setModuleSeqNumber('configure', $moduleName, $prefix, $sequenceNumber, $postfix);
+		$tabId = \vtlib\Functions::getModuleId($moduleName);
+		$status = \includes\fields\RecordNumber::setNumber($tabId, $prefix, $sequenceNumber, $postfix);
 
 		$success = array('success' => $status);
 		if (!$status) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT cur_id FROM vtiger_modentity_num WHERE semodule = ? AND prefix = ? AND postfix = ?;', [$moduleName, $prefix, $postfix]);
+			$result = $db->pquery('SELECT cur_id FROM vtiger_modentity_num WHERE tabid = ? AND prefix = ? AND postfix = ?;', [$tabId, $prefix, $postfix]);
 			$success['sequenceNumber'] = $db->query_result($result, 0, 'cur_id');
 		}
 
@@ -103,27 +90,4 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	{
 		return $this->getFocus()->updateMissingSeqNumber($this->getName());
 	}
-
-	/**
-	 * Converts record numbering variables to values
-	 * @param string $content
-	 * @return string
-	 */
-	public static function parseNumberingVariables($content) {
-		$fullYear = date('Y');
-		$year = date('y');
-		$fullMonth = date('m');
-		$month = date('n');
-		$fullDay = date('d');
-		$day = date('j');
-
-		$content = str_replace('{{YYYY}}', $fullYear, $content);
-		$content = str_replace('{{YY}}', $year, $content);
-		$content = str_replace('{{MM}}', $fullMonth, $content);
-		$content = str_replace('{{M}}', $month, $content);
-		$content = str_replace('{{DD}}', $fullDay, $content);
-		$content = str_replace('{{D}}', $day, $content);
-
-		return $content;
-	} 
 }

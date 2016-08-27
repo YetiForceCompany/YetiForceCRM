@@ -502,7 +502,7 @@ class CRMEntity
 				$fldvalue = '';
 				// Bulk Save Mode: Avoid generation of module sequence number, take care later.
 				if (!CRMEntity::isBulkSaveMode()) {
-					$fldvalue = $this->setModuleSeqNumber("increment", $module);
+					$fldvalue = \includes\fields\RecordNumber::incrementNumber($tabid);
 				}
 				$this->column_fields[$fieldname] = $fldvalue;
 			}
@@ -1369,87 +1369,8 @@ class CRMEntity
 			$this->sortby_fields[] = 'crmid';
 		$log->debug("Exiting initSortByField");
 	}
-	/* Function to set the Sequence string and sequence number starting value */
-
-	function setModuleSeqNumber($mode, $module, $req_str = '', $req_no = '', $reqPostfix = '')
-	{
-		$adb = PearDatabase::getInstance();
-		//when we configure the invoice number in Settings this will be used
-		if ($mode == 'configure' && $req_no != '') {
-			$query = 'SELECT cur_id FROM vtiger_modentity_num WHERE semodule = ? AND prefix = ? AND postfix = ?;';
-			$check = $adb->pquery($query, [$module, $req_str, $reqPostfix]);
-			$numRows = $adb->num_rows($check);
-			if ($numRows == 0) {
-				$numid = $adb->getUniqueId('vtiger_modentity_num');
-				$active = $adb->pquery('SELECT num_id FROM vtiger_modentity_num WHERE semodule = ? AND active = 1;', [$module]);
-				$adb->update('vtiger_modentity_num', ['active' => 0], 'num_id = ?', [$adb->getSingleValue($active)]);
-
-				$params = [
-					'num_id' => $numid,
-					'semodule' => $module,
-					'prefix' => $req_str,
-					'postfix' => $reqPostfix,
-					'start_id' => $req_no,
-					'cur_id' => $req_no,
-					'active' => 1
-				];
-				$adb->insert('vtiger_modentity_num', $params);
-				return true;
-			} else if ($numRows != 0) {
-				$num_check = $adb->query_result($check, 0, 'cur_id');
-				if ($req_no < $num_check) {
-					return false;
-				} else {
-					$adb->update('vtiger_modentity_num', ['active' => 0], 'active = 1 AND semodule = ?', [$module]);
-					$adb->update('vtiger_modentity_num', ['cur_id' => $req_no, 'active' => 1], 'prefix = ? AND postfix = ? AND semodule = ?', [$req_str, $reqPostfix, $module]);
-					return true;
-				}
-			}
-		} else if ($mode == "increment") {
-			//when we save new invoice we will increment the invoice id and write
-			$check = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE semodule = ? AND active = 1;', [$module]);
-			$prefix = $adb->query_result($check, 0, 'prefix');
-			$postfix = $adb->query_result($check, 0, 'postfix');
-			$curid = $adb->query_result($check, 0, 'cur_id');
-			$fullPrefix = Settings_Vtiger_CustomRecordNumberingModule_Model::parseNumberingVariables($prefix . $curid . $postfix);
-			$strip = strlen($curid) - strlen($curid + 1);
-			if ($strip < 0) {
-				$strip = 0;
-			}
-			$temp = str_repeat('0', $strip);
-			$req_no .= $temp . ($curid + 1);
-			$adb->update('vtiger_modentity_num', ['cur_id' => $req_no], 'cur_id = ? AND active = 1 AND semodule = ?', [$curid, $module]);
-			return decode_html($fullPrefix);
-		}
-	}
-
-	// END
-
-	/* Function to check if module sequence numbering is configured for the given module or not */
-	function isModuleSequenceConfigured($module)
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1', array($module));
-		if ($result && $adb->num_rows($result) > 0) {
-			return true;
-		}
-		return false;
-	}
-	/* Function to get the next module sequence number for a given module */
-
-	function getModuleSeqInfo($module)
-	{
-		$adb = PearDatabase::getInstance();
-		$check = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE semodule = ? AND active = 1;', [$module]);
-		$prefix = $adb->query_result($check, 0, 'prefix');
-		$curid = $adb->query_result($check, 0, 'cur_id');
-		$postfix = $adb->query_result($check, 0, 'postfix');
-		return [$prefix, $curid, $postfix];
-	}
-
-	// END
-
 	/* Function to check if the mod number already exits */
+
 	function checkModuleSeqNumber($table, $column, $no)
 	{
 		$adb = PearDatabase::getInstance();
@@ -1470,11 +1391,9 @@ class CRMEntity
 		$log->debug("Entered updateMissingSeqNumber function");
 
 		vtlib_setup_modulevars($module, $this);
-
-		if (!$this->isModuleSequenceConfigured($module))
-			return;
-
 		$tabid = getTabid($module);
+		if (!\includes\fields\RecordNumber::isModuleSequenceConfigured($tabid))
+			return;
 		$fieldinfo = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? AND uitype = 4", Array($tabid));
 
 		$returninfo = [];
@@ -1494,20 +1413,17 @@ class CRMEntity
 					$returninfo['totalrecords'] = $adb->num_rows($records);
 					$returninfo['updatedrecords'] = 0;
 
-					$modseqinfo = $this->getModuleSeqInfo($module);
-					$prefix = $modseqinfo[0];
-					$cur_id = $modseqinfo[1];
-					$postfix = $modseqinfo[2];
+					$moduleData = \includes\fields\RecordNumber::getNumber($tabid);
+					$sequenceNumber = $moduleData['sequenceNumber'];
 
-					$old_cur_id = $cur_id;
-					while ($recordinfo = $adb->fetch_array($records)) {
-						$value = $prefix . $cur_id . $postfix;
-						$adb->update($fld_table, [$fld_column => $value], $this->table_index . ' = ?', [$recordinfo['recordid']]);
-						$cur_id += 1;
+					$oldNumber = $sequenceNumber;
+					while ($recordinfo = $adb->getRow($records)) {
+						$adb->update($fld_table, [$fld_column => $moduleData['number']], $this->table_index . ' = ?', [$recordinfo['recordid']]);
+						$sequenceNumber += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
 					}
-					if ($old_cur_id != $cur_id) {
-						$adb->update('vtiger_modentity_num', ['cur_id' => $cur_id], 'semodule = ? and active = 1', [$module]);
+					if ($oldNumber != $sequenceNumber) {
+						\includes\fields\RecordNumber::updateNumber($sequenceNumber, $tabid);
 					}
 				}
 			} else {

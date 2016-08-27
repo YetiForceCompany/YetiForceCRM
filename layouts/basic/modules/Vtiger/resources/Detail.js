@@ -1170,9 +1170,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 					return;
 				}
+				function toStr(v) {
+					return v === undefined || v === null ? '' : (v + '');
+				}
 				fieldElement.validationEngine('hide');
 				//Before saving ajax edit values we need to check if the value is changed then only we have to save
-				if ((previousValue != undefined ? previousValue.toString() : previousValue) == (ajaxEditNewValue != undefined ? ajaxEditNewValue.toString() : ajaxEditNewValue)) {
+				if (toStr(previousValue) === toStr(ajaxEditNewValue)) {
 					editElement.addClass('hide');
 					detailViewValue.removeClass('hide');
 					actionElement.removeClass('hide');

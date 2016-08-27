@@ -1338,16 +1338,18 @@ function populateSharingtmptables($userid)
 	//Populating Values into the temp related sharing tables
 	foreach ($related_module_share as $rel_tab_id => $tabid_arr) {
 		$rel_tab_name = getTabname($rel_tab_id);
-		foreach ($tabid_arr as $taid) {
-			$tab_name = getTabname($taid);
+		if (!empty($rel_tab_name)) {
+			foreach ($tabid_arr as $taid) {
+				$tab_name = getTabname($taid);
 
-			$relmodule_sharing_read_permvar = $tab_name . '_' . $rel_tab_name . '_share_read_permission';
-			$relmodule_sharing_write_permvar = $tab_name . '_' . $rel_tab_name . '_share_write_permission';
+				$relmodule_sharing_read_permvar = $tab_name . '_' . $rel_tab_name . '_share_read_permission';
+				$relmodule_sharing_write_permvar = $tab_name . '_' . $rel_tab_name . '_share_write_permission';
 
-			populateRelatedSharingPrivileges('USER', $userid, $tab_name, $rel_tab_name, 'read', $$relmodule_sharing_read_permvar);
-			populateRelatedSharingPrivileges('USER', $userid, $tab_name, $rel_tab_name, 'write', $$relmodule_sharing_write_permvar);
-			populateRelatedSharingPrivileges('GROUP', $userid, $tab_name, $rel_tab_name, 'read', $$relmodule_sharing_read_permvar);
-			populateRelatedSharingPrivileges('GROUP', $userid, $tab_name, $rel_tab_name, 'write', $$relmodule_sharing_write_permvar);
+				populateRelatedSharingPrivileges('USER', $userid, $tab_name, $rel_tab_name, 'read', $$relmodule_sharing_read_permvar);
+				populateRelatedSharingPrivileges('USER', $userid, $tab_name, $rel_tab_name, 'write', $$relmodule_sharing_write_permvar);
+				populateRelatedSharingPrivileges('GROUP', $userid, $tab_name, $rel_tab_name, 'read', $$relmodule_sharing_read_permvar);
+				populateRelatedSharingPrivileges('GROUP', $userid, $tab_name, $rel_tab_name, 'write', $$relmodule_sharing_write_permvar);
+			}
 		}
 	}
 }

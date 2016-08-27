@@ -1145,7 +1145,7 @@ $languageStrings = [
 	'Api Address' => 'Adresssuche',
 	'Notifications' => 'Benachrichtigung',
 	'Mails' => 'E-Mails',
-	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_',
+	'LBL_CATEGORY_MULTIPICKLIST' => 'List of categories',
 	// popup
 	'LBL_POPUP_SWITCH_BUTTON' => 'Button umschalten',
 	'LBL_POPUP_NARROW_DOWN_RECORDS_LIST' => 'Nur die relevanten Datensätze anzeigen',
