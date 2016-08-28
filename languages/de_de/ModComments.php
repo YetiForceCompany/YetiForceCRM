@@ -30,8 +30,8 @@ $languageStrings = [
 	'LBL_NOTICE_FOOTER' => 'Wenn Sie keine Benachrichtigung von unserem Projektmanagementsystem erhalten möchten, informieren Sie uns bitte über folgende EMailadresse <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. Sind Sie nicht der Empänger der EMail, bitte informieren Sie uns und löschen diese Mail.',
 	'LBL_NOTICE_CREATED' => 'Erzeugt von',
 	//Others
-	'LBL_COMMENTS_0' => 'Current record',
-	'LBL_COMMENTS_1' => 'Processes',
-	'LBL_COMMENTS_2' => 'Subprocesses',
-	'LBL_COMMENTS_SEARCH' => 'Search',
+	'LBL_COMMENTS_0' => 'Aktueller Datensatz',
+	'LBL_COMMENTS_1' => 'Prozesse',
+	'LBL_COMMENTS_2' => 'Unterprozesse',
+	'LBL_COMMENTS_SEARCH' => 'Suche',
 ];

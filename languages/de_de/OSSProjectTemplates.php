@@ -43,5 +43,5 @@ $languageStrings = [
 	'ONLY_WORK_DAY' => 'Nur Arbeitstage',
 	'TPL_VISIBILITY' => 'Welche Gruppen können die Vorlage nutzen',
 	// help
-	'LBL_VIEW_GENERATEPROJECT' => 'Create project',
+	'LBL_VIEW_GENERATEPROJECT' => 'Projekt erzeugen',
 ];

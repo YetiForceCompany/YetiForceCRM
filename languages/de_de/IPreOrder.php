@@ -17,5 +17,5 @@ $languageStrings = [
 	'PLL_FOR_APPROVAL' => 'Zur Freigabe',
 	'PLL_CANCELLED' => 'Stoniert',
 	'PLL_ACCEPTED' => 'Bestätigt',
-	'LBL_CHANGE_STATUS' => 'Change Status',
+	'LBL_CHANGE_STATUS' => 'Status ändern',
 ];

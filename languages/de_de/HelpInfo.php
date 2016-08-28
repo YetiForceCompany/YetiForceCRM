@@ -10,6 +10,6 @@
  * *********************************************************************************************************************************** */
 // Action translation
 $languageStrings = [
-	'Announcements|FL_INTERVAL' => 'Frequency of reminders in days, if a user did not review changes. If the field remains empty the reminder will not be displayed again.',
-	'Accounts|Account Name' => 'This field is intended for company name',
+	'Announcements|FL_INTERVAL' => 'Frequenz der Erinnerungen in Tagen, falls ein Benutzer die Änderungen nicht anschaut. Ist das Feld leer, wird die Erinnerung nicht noch einmal angezeigt.',
+	'Accounts|Account Name' => 'Diese Feld ist für den Firmenname gedacht',
 ];
