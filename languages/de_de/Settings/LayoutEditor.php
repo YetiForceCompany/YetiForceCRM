@@ -141,24 +141,24 @@ $languageStrings = [
 	'LBL_TOTAL_PRICE_DESC' => 'Non-editable field calculated automatically, contains the Net price for a given element. (Quantity * Unit price).',
 	'LBL_DISCOUNT_PRICE_DESC' => 'Non-editable field calculated automatically, contains the Net price after discount (Net price - Discount).',
 	'LBL_TAX_DESC' => 'Numeric field used to enter the tax value for a given element, tax can be selected from the list of available taxes.  Summation can be customized in system administration.',
-	'LBL_VALUE_DESC' => 'Additional field used to enter any value by the user.',
+	'LBL_VALUE_DESC' => 'Zusätzliches Feld um einen Wert vom Benutzer zu hinterlegen.',
 	'LBL_REFERENCE_DESC' => 'Additional field used to relate a given element with any record in the system.',
 	'LBL_PURCHASE_DESC' => 'Numeric field used to enter the purchase/acquisition value of a given element.',
 	'LBL_MARGIN_DESC' => 'Non-editable field calculated automatically, contains the profit value for a given element (Price after discount – Purchase), does not include tax.',
-	'LBL_MARGIN_PERCENT_DESC' => 'Non-editable field calculated automatically, contains the profit value, expressed as a percentage.',
+	'LBL_MARGIN_PERCENT_DESC' => 'Nicht editierbare Felder werden automatisch berechnet, enthalten den prozentualen Gewinnwert.',
 	'LBL_ITEM_NUMBER' => 'Item number',
-	'LBL_ITEM_NUMBER_DESC' => 'Field contains the item number',
-	'LBL_PICKLIST_FIELD' => 'Select from field',
-	'LBL_PICKLIST_FIELD_DESC' => 'Selection list with values taken from any field in the selected module',
-	'LBL_DEACTIVATE_FAVORITES' => 'Deactivate function: Add to favorites',
-	'LBL_ACTIVATE_FAVORITES' => 'Activate function: Add to favorites',
-	'LBL_HEADER_FIELD' => 'Visible in preview header',
-	'LBL_COPY' => 'Copy',
+	'LBL_ITEM_NUMBER_DESC' => 'Feld enthält die Item Number',
+	'LBL_PICKLIST_FIELD' => 'Wähle Feld',
+	'LBL_PICKLIST_FIELD_DESC' => 'Selektionsliste mit Werten aus irgendeinem Feld in dem selektierten Modul',
+	'LBL_DEACTIVATE_FAVORITES' => 'Funktion deaktivieren: Zu Favoriten hinzufügen',
+	'LBL_ACTIVATE_FAVORITES' => 'Funktion aktivieren: Zu Favoriten hinzufügen',
+	'LBL_HEADER_FIELD' => 'Sichtbar in Vorschau',
+	'LBL_COPY' => 'Kopieren',
 	'LBL_STANDARD_FIELDS' => 'Standartfelder',
-	'LBL_ADVANCED_BLOCK_FIELDS' => 'Felder Erweitert',
-	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Add advanced block fields',
-	'LBL_MAX_LENGTH_TEXT' => 'Max text length',
-	'LBL_MAX_WIDTH_COLUMN' => 'Column width [%]'
+	'LBL_ADVANCED_BLOCK_FIELDS' => 'Felder erweitert',
+	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Advanced Block Felder hinzufügen',
+	'LBL_MAX_LENGTH_TEXT' => 'Maximale Textlänge',
+	'LBL_MAX_WIDTH_COLUMN' => 'Spaltenbreite [%]'
 ];
 
 $jsLanguageStrings = [
@@ -192,7 +192,7 @@ $jsLanguageStrings = [
 	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Sind Sie sich sicher, dass Element aus dem Block zu löschen?',
 	'JS_EXTENDED_MODULE' => 'Sind Sie sich sicher, den Modultyp zu ändern?',
 	'JS_SAVE_CHANGES' => 'Änderungen wurden erfolgreich gesichert.',
-	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
+	'JS_NOTIFY_COPY_TEXT' => 'In die Zwischenablage kopieren',
 	'JS_NOTIFY_COPY_TITLE' => 'Text',
 ];
 

@@ -69,8 +69,8 @@ $languageStrings = [
 	'LBL_MODULE_TYPE' => 'Modultyp',
 	'LBL_BASE_MODULE' => 'Basis Modul',
 	'LBL_INVENTORY_MODULE' => 'Erweitertes Modul',
-	'LBL_EXTENSION_MODULE' => 'Extensions module',
-	'LBL_LANGUAGE_MODULE' => 'Sprach Modul',
+	'LBL_EXTENSION_MODULE' => 'Erweiterungs Modul',
+	'LBL_LANGUAGE_MODULE' => 'Sprachmodul',
 	'LBL_VIEW_MODULEIMPORT' => 'Import',
 ];
 $jsLanguageStrings = [
