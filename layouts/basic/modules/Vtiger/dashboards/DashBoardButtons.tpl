@@ -15,7 +15,7 @@
 								</p>
 								<span class="glyphicon glyphicon-th visible-xs-block"></span>
 							</button>
-							<ul class="dropdown-menu widgetsList pull-left" style="min-width:100%;text-align:left;">
+							<ul class="dropdown-menu widgetsList pull-left addWidgetDropDown" style="min-width:100%;text-align:left;">
 								<li class="visible-xs-block">
 									<a href="#" class="addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
 										{vtranslate('LBL_ADD_FILTER')}
@@ -25,7 +25,12 @@
 								{foreach from=$WIDGETS item=WIDGET}
 									<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
 										   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}" data-width="{$WIDGET->getWidth()}" data-height=	"{$WIDGET->getHeight()}" data-id="{$WIDGET->get('widgetid')}">
-											{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</a>
+											{vtranslate($WIDGET->getTitle(), $MODULE_NAME)} </a>
+										{if $WIDGET->get('deleteFromList')}
+											<button data-widget-id="{$WIDGET->get('id')}" class="removeWidgetFromList btn btn-xs btn-danger">
+												<span class='glyphicon glyphicon-trash'></span>
+											</button>
+										{/if}
 									</li>
 								{/foreach}
 							</ul>

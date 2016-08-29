@@ -158,11 +158,15 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		if ($db->num_rows($result)) {
 			$row = $db->query_result_rowdata($result, 0);
 			if ($row['linklabel'] == 'Mini List') {
+				if(!$row['isdeafult'])
+					$row['deleteFromList'] = true;
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$row['title'] = $minilistWidgetModel->getTitle();
 			} else if ($row['linklabel'] == 'ChartFilter') {
+				if(!$row['isdeafult'])
+					$row['deleteFromList'] = true;
 				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
@@ -249,5 +253,16 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 				}
 			}
 		}
+	}
+	
+	public static function removeWidgetFromList($id)
+	{
+		$db = PearDatabase::getInstance();
+		$query = "SELECT templateid FROM vtiger_module_dashboard_widgets WHERE id = ?";
+		$result = $db->pquery($query, [$id]);
+		$templateId = $db->getSingleValue($result);
+		if($templateId)
+			$db->delete('vtiger_module_dashboard', 'id = ?', [$templateId]);
+		$db->delete('vtiger_module_dashboard_widgets', 'id = ?', [$id]);
 	}
 }

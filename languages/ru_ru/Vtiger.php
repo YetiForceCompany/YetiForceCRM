@@ -1567,4 +1567,5 @@ $jsLanguageStrings = [
 	'JS_INPUT_TOO_SHORT' => 'Введите _LENGTH_ или более символов',
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Ошибка массового изменения',
 	'JS_GET_PAGINATION_INFO' => 'Загружаются записи. Время завершения зависит от общего числа записей.',
+	'JS_WIDGET_DELETED' => 'Widget deleted',
 ];
