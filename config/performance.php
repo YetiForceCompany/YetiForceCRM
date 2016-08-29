@@ -44,4 +44,6 @@ $PERFORMANCE_CONFIG = [
 	// Parameter that allows to disable file overwriting. After enabling it the system will additionally check whether the file exists in the custom directory.
 	// Ex. custom/modules/Assets/Assets.php 
 	'LOAD_CUSTOM_FILES' => false,
+	// In how many records should the label be updated in cron
+	'CRON_MAX_NUMERS_RECORD_LABELS_UPDATER' => 1000,
 ];
