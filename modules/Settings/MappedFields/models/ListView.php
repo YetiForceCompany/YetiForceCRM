@@ -36,7 +36,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$params = [];
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
-			$sourceModule = Vtiger_Functions::getModuleName($sourceModule);
+			$sourceModule = vtlib\Functions::getModuleName($sourceModule);
 			$listQuery .= ' WHERE `tabid` = ?';
 			$params[] = $sourceModule;
 		}
@@ -47,7 +47,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$orderBy = $this->getForSql('orderby');
 
 		if (!empty($orderBy)) {
-			$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $this->getForSql('sortorder');
+			$listQuery .= sprintf(' ORDER BY %s %s ', $orderBy, $this->getForSql('sortorder'));
 		}
 		$nextListQuery = $listQuery . ' LIMIT ' . ($startIndex + $pageLimit) . ',1';
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
@@ -57,8 +57,8 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$listViewRecordModels = [];
 		while ($row = $db->getRow($listResult)) {
 			$recordModel = new $recordModelClass();
-			$moduleName = Vtiger_Functions::getModuleName($row['tabid']);
-			$relModuleName = Vtiger_Functions::getModuleName($row['reltabid']);
+			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
+			$relModuleName = vtlib\Functions::getModuleName($row['reltabid']);
 
 			$row['tabid'] = vtranslate($moduleName, $moduleName);
 			$row['reltabid'] = vtranslate($relModuleName, $relModuleName);
@@ -93,7 +93,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 
 		$module = $this->getModule();
 		$params = [];
-		$listQuery = 'SELECT COUNT(1) AS count FROM ' . $module->baseTable;
+		$listQuery = sprintf('SELECT COUNT(1) AS count FROM %s', $module->baseTable);
 
 		$sourceModule = $this->get('sourceModule');
 		if ($sourceModule) {

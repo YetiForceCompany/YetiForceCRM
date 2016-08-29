@@ -3,13 +3,11 @@
 $languageStrings = [
 	'SQuotes' => 'Devis',
 	'SINGLE_SQuotes' => 'Devis',
-	
 	//BLOCKS
 	'LBL_SQUOTES_INFORMATION' => 'Information',
 	'LBL_CUSTOM_INFORMATION' => 'Information système',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 	'LBL_STATISTICS' => 'Statistiques',
-	
 	//FIELDS
 	'LBL_SUBJECT' => 'Sujet',
 	'LBL_NUMBER' => 'Nombre',
@@ -23,7 +21,7 @@ $languageStrings = [
 	'FL_MARGIN' => 'Marge totale',
 	'FL_SUM_GROSS' => 'Montant',
 	'FL_SUM_DISCOUNT' => 'Montant discounté',
-
+	'FL_VALID_UNTIL' => 'Valid until',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Brouillon',
 	'PLL_IN_REALIZATION' => 'En cours',
@@ -32,6 +30,5 @@ $languageStrings = [
 	'PLL_NEGOTIATIONS' => 'Négociations',
 	'PLL_CANCELLED' => 'Annulé',
 	'PLL_ACCEPTED' => 'Accepté',
-
 	'LBL_CHANGE_STATUS' => 'Changer le statut',
 ];

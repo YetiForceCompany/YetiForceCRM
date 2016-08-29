@@ -26,7 +26,8 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT `publicholidayid`, `holidaydate`, `holidayname`, `holidaytype` FROM `vtiger_publicholiday`';
 		$params = array();
-
+		$date[0] = DateTimeField::convertToDBFormat($date[0]);
+		$date[1] = DateTimeField::convertToDBFormat($date[1]);
 		if (is_array($date)) {
 			$sql .= ' WHERE holidaydate BETWEEN ? AND ?';
 			$params[] = $date[0];

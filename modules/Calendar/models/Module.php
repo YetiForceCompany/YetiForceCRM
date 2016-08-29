@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-vimport('~vtlib/Vtiger/Module.php');
-
 /**
  * Calendar Module Model Class
  */
@@ -148,7 +146,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_LIST',
-				'linkurl' => 'javascript:Calendar_CalendarView_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl(). '&viewname=All");',
+				'linkurl' => 'javascript:Calendar_CalendarView_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
 				'linkicon' => '',
 			];
 		}
@@ -223,7 +221,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUserModel->getId();
-		$query = "SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_activity_reminder.reminder_time FROM vtiger_activity
+		$query = "SELECT vtiger_activity.*, vtiger_crmentity.description,vtiger_crmentity.smownerid as assigned_user_id, vtiger_activity_reminder.reminder_time FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid
 					LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = 0
 					WHERE vtiger_crmentity.deleted = 0 AND vtiger_crmentity.smownerid = $userId AND vtiger_activity.activitytype NOT IN ('Emails')";
@@ -377,8 +375,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$calendarViewTypes = Array();
 		for ($i = 0; $i < $rows; $i++) {
 			$activityTypes = $db->query_result_rowdata($result, $i);
-			$moduleInstance = Vtiger_Module::getInstance($activityTypes['module']);
-			$fieldInstance = Vtiger_Field::getInstance($activityTypes['fieldname'], $moduleInstance);
+			$moduleInstance = vtlib\Module::getInstance($activityTypes['module']);
+			$fieldInstance = vtlib\Field::getInstance($activityTypes['fieldname'], $moduleInstance);
 			if ($fieldInstance) {
 				$fieldLabel = $fieldInstance->label;
 			} else {
@@ -434,7 +432,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 * @param type $currentUserId
 	 * @param type $sharedIds
 	 */
-	public function getSharedType($currentUserId)
+	public static function getSharedType($currentUserId)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -471,8 +469,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		if ($nonAdminQuery) {
 			$query .= " INNER JOIN vtiger_activity ON vtiger_crmentity.crmid = vtiger_activity.activityid " . $nonAdminQuery;
 		}
-		$query .= ' WHERE setype=? AND ' . $deletedCondition . ' AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
-		$params = array($this->getName(), $currentUserModel->id, $limit);
+		$query .= ' WHERE setype=? AND %s AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
+		$params = [$this->getName(), $currentUserModel->id, $limit];
+		$query = sprintf($query, $deletedCondition);
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
 		$recentRecords = [];
@@ -523,9 +522,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link != '' && $link != 0 && $permissionToSendEmail) {
-					$url = "index.php?module=OSSMail&view=compose&mod=" . Vtiger_Functions::getCRMRecordType($link) . "&record=$link";
-				}
-				if ($url != '') {
+					$url = "index.php?module=OSSMail&view=compose&mod=" . vtlib\Functions::getCRMRecordType($link) . "&record=$link";
 					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . vtranslate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;

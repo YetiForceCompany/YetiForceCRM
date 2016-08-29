@@ -19,7 +19,6 @@ require_once('include/database/PearDatabase.php');
 require_once('include/CRMEntity.php');
 require_once("modules/Reports/Reports.php");
 require_once 'modules/Reports/ReportUtils.php';
-require_once("vtlib/Vtiger/Module.php");
 require_once('modules/Vtiger/helpers/Util.php');
 require_once('include/RelatedListView.php');
 
@@ -1838,6 +1837,9 @@ class ReportRun extends CRMEntity
 			$query = "from vtiger_account
 				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_account.accountid";
 
+			if ($this->queryPlanner->requireTable('vtiger_entity_stats')) {
+				$query .= " inner join vtiger_entity_stats on vtiger_account.accountid=vtiger_entity_stats.crmid";
+			}
 			if ($this->queryPlanner->requireTable('vtiger_accountaddress')) {
 				$query .= " inner join vtiger_accountaddress on vtiger_account.accountid=vtiger_accountaddress.accountaddressid";
 			}
@@ -2116,6 +2118,30 @@ class ReportRun extends CRMEntity
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" WHERE vtiger_crmentity.deleted = 0";
+		} else if ($module == "OSSTimeControl") {
+			$query = "FROM vtiger_osstimecontrol
+			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_osstimecontrol.osstimecontrolid";
+			if ($this->queryPlanner->requireTable("vtiger_account")) {
+				$query .= " LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_osstimecontrol.link";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_contactdetails")) {
+				$query .= " LEFT JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_osstimecontrol.link";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_leaddetails")) {
+				$query .= " LEFT JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_osstimecontrol.link";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_vendor")) {
+				$query .= " LEFT JOIN vtiger_vendor ON vtiger_vendor.vendorid = vtiger_osstimecontrol.link";
+			}
+			if ($this->queryPlanner->requireTable("u_yf_partners")) {
+				$query .= " LEFT JOIN u_yf_partners ON u_yf_partners.partnersid = vtiger_osstimecontrol.link";
+			}
+			if ($this->queryPlanner->requireTable("u_yf_competition")) {
+				$query .= " LEFT JOIN u_yf_competition ON u_yf_competition.competitionid = vtiger_osstimecontrol.link";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_ossemployees")) {
+				$query .= " LEFT JOIN vtiger_ossemployees ON vtiger_ossemployees.ossemployeesid = vtiger_osstimecontrol.link";
+			}
 		} else {
 			if ($module != '') {
 				$focus = CRMEntity::getInstance($module);
@@ -2194,7 +2220,7 @@ class ReportRun extends CRMEntity
 
 		if ($type == 'COLUMNSTOTOTAL') {
 			if ($columnstotalsql != '') {
-				$reportquery = "select " . $columnstotalsql . " " . $reportquery . " " . $wheresql;
+				$reportquery = sprintf('select %s %s %s ', $columnstotalsql, $reportquery, $wheresql);
 			}
 		} else {
 			if ($selectedcolumns == '') {
@@ -2203,16 +2229,16 @@ class ReportRun extends CRMEntity
 				$selectedcolumns = "''"; // "''" to get blank column name
 				$allColumnsRestricted = true;
 			}
-			$reportquery = "select DISTINCT " . $selectedcolumns . " " . $reportquery . " " . $wheresql;
+			$reportquery = sprintf('select DISTINCT %s %s %s ', $selectedcolumns, $reportquery, $wheresql);
 		}
 
 		$reportquery = listQueryNonAdminChange($reportquery, $this->primarymodule);
 
 		if (trim($groupsquery) != "" && $type !== 'COLUMNSTOTOTAL') {
 			if ($chartReport == true) {
-				$reportquery .= "group by " . $this->GetFirstSortByField($reportid);
+				$reportquery .= sprintf(' group by %s', $this->GetFirstSortByField($reportid));
 			} else {
-				$reportquery .= " order by " . $groupsquery;
+				$reportquery .= sprintf(' order by %s', $groupsquery);
 			}
 		}
 
@@ -3237,7 +3263,7 @@ class ReportRun extends CRMEntity
 		if ($this->secondarymodule != '')
 			array_push($id, getTabid($this->secondarymodule));
 
-		$query = 'select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(' . generateQuestionMarks($id) . ') and uitype in (15,33,55)'; //and columnname in (?)';
+		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
 		$roleid = $current_user->roleid;
 		$subrole = getRoleSubordinates($roleid);
@@ -3292,26 +3318,25 @@ class ReportRun extends CRMEntity
 		}
 		return $fieldlists;
 	}
-
 	/**
-	 * Returns PhpExcel type constant based on value
-	 *
-	 * @param mixed $value any value
-	 *
-	 * @return string PhpExcel value type PHPExcel_Cell_DataType::TYPE_*
-	 */
-	private function getPhpExcelTypeFromValue($value)
-	{
-		if (is_integer($value) || is_float($value)) {
-			return PHPExcel_Cell_DataType::TYPE_NUMERIC;
-		} else if (is_null($value)) {
-			return PHPExcel_Cell_DataType::TYPE_NULL;
-		} else if (is_bool($value)) {
-			return PHPExcel_Cell_DataType::TYPE_BOOL;
-		}
-		return PHPExcel_Cell_DataType::TYPE_STRING;
-	}
-
+ 	 * Returns PhpExcel type constant based on value
+ 	 *
+ 	 * @param mixed $value any value
+ 	 *
+ 	 * @return string PhpExcel value type PHPExcel_Cell_DataType::TYPE_*
+ 	 */
+ 	private function getPhpExcelTypeFromValue($value)
+ 	{
+ 		if (is_integer($value) || is_float($value)) {
+ 			return PHPExcel_Cell_DataType::TYPE_NUMERIC;
+ 		} else if (is_null($value)) {
+ 			return PHPExcel_Cell_DataType::TYPE_NULL;
+ 		} else if (is_bool($value)) {
+ 			return PHPExcel_Cell_DataType::TYPE_BOOL;
+ 		}
+ 		return PHPExcel_Cell_DataType::TYPE_STRING;
+ 	}	
+	
 	function writeReportToExcelFile($fileName, $filterlist = '')
 	{
 
@@ -3359,7 +3384,7 @@ class ReportRun extends CRMEntity
 					}
 					if (is_string($value)) {
 						$value = decode_html($value);
-					}
+ 					}
 					// TODO Determine data-type based on field-type.
 					// String type helps having numbers prefixed with 0 intact.
 					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, $this->getPhpExcelTypeFromValue($value));
@@ -3404,7 +3429,7 @@ class ReportRun extends CRMEntity
 		$arr_val = $reportData['data'];
 
 		$fp = fopen($fileName, 'w+');
-
+		fputs($fp, chr(239) . chr(187) . chr(191)); //UTF-8 byte order mark
 		if (isset($arr_val)) {
 			// Header
 			$csv_values = array_keys($arr_val[0]);
@@ -3501,13 +3526,13 @@ class ReportRun extends CRMEntity
 		$reportSecondaryModules = explode(':', $this->secondarymodule);
 
 		if ($moduleName != $this->primarymodule && in_array($this->primarymodule, $referenceModuleList)) {
-			$entityTableFieldNames = getEntityFieldNames($this->primarymodule);
+			$entityTableFieldNames = \includes\Modules::getEntityInfo($this->primarymodule);
 			$entityTableName = $entityTableFieldNames['tablename'];
 			$entityFieldNames = $entityTableFieldNames['fieldname'];
 
 			$columnList = array();
-			if (is_array($entityFieldNames)) {
-				foreach ($entityFieldNames as $entityColumnName) {
+			if (strpos(',', $entityFieldNames) !== false) {
+				foreach ($entityTableFieldNames['fieldnameArr'] as $entityColumnName) {
 					$columnList["$entityColumnName"] = "$entityTableName.$entityColumnName";
 				}
 			} else {
@@ -3521,7 +3546,7 @@ class ReportRun extends CRMEntity
 			$columnsSqlList[] = $columnSql;
 		} else {
 			foreach ($referenceModuleList as $referenceModule) {
-				$entityTableFieldNames = getEntityFieldNames($referenceModule);
+				$entityTableFieldNames = \includes\Modules::getEntityInfo($referenceModule);
 				$entityTableName = $entityTableFieldNames['tablename'];
 				$entityFieldNames = $entityTableFieldNames['fieldname'];
 
@@ -3560,12 +3585,33 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_vendorRelProducts';
 				} elseif ($moduleName == 'ModComments' && $referenceModule == 'Users') {
 					$referenceTableName = 'vtiger_usersModComments';
-				} elseif (in_array($referenceModule, $reportSecondaryModules)) {
+				} elseif (in_array($referenceModule, $reportSecondaryModules) && $moduleName != vtlib\Functions::getModuleName($fieldInstance->getTabId())) {
 					$referenceTableName = "{$entityTableName}Rel$referenceModule";
 					$dependentTableName = "vtiger_crmentityRel{$referenceModule}{$fieldInstance->getFieldId()}";
 				} elseif (in_array($moduleName, $reportSecondaryModules)) {
 					$referenceTableName = "{$entityTableName}Rel$moduleName";
 					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldInstance->getFieldId()}";
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Accounts') {
+					$referenceTableName = "vtiger_account";
+					$dependentTableName = "vtiger_account";
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Contacts') {
+					$referenceTableName = "vtiger_contactdetails";
+					$dependentTableName = "vtiger_contactdetails";
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Leads') {
+					$referenceTableName = "vtiger_leaddetails";
+					$dependentTableName = "vtiger_leaddetails";
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Vendors') {
+					$referenceTableName = "vtiger_vendor";
+					$dependentTableName = "vtiger_vendor";
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Partners') {
+					$referenceTableName = "u_yf_partners";
+					$dependentTableName = "u_yf_partners";
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Competition') {
+					$referenceTableName = "u_yf_competition";
+					$dependentTableName = "u_yf_competition";
+				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'OSSEmployees') {
+					$referenceTableName = "vtiger_ossemployees";
+					$dependentTableName = "vtiger_ossemployees";
 				} else {
 					$referenceTableName = "{$entityTableName}Rel{$moduleName}{$fieldInstance->getFieldId()}";
 					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldInstance->getFieldId()}";
@@ -3586,8 +3632,8 @@ class ReportRun extends CRMEntity
 					$this->queryPlanner->addTable($dependentTableName);
 				}
 				$columnList = array();
-				if (is_array($entityFieldNames)) {
-					foreach ($entityFieldNames as $entityColumnName) {
+				if (strpos(',', $entityFieldNames) !== false) {
+					foreach ($entityFieldNames['fieldnameArr'] as $entityColumnName) {
 						$columnList["$entityColumnName"] = "$referenceTableName.$entityColumnName";
 					}
 				} else {
@@ -3612,3 +3658,5 @@ class ReportRun extends CRMEntity
 		return $columnsSqlList;
 	}
 }
+
+?>

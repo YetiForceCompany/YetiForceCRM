@@ -10,8 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
+	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	{* Change to this also refer: AddCommentForm.tpl *}
-	{include file='CommentModal.tpl'|@vtemplate_path}
 	<div class="commentContainer recentComments">
 		<div class="commentTitle">
 			{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
@@ -20,17 +20,13 @@
 						<span class="input-group-addon" >
 							<span class="glyphicon glyphicon-comment"></span>
 						</span>
-						<input type="text"  name="commentcontent" class="commentcontent form-control" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" >
-						<span class="input-group-btn" >
-							<button class="btn btn-primary detailViewCommentModalBtn" type="button" data-mode="add">
-								<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>
-							</button>
-							<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add">
-								<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
-								<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
-							</button>
-						</span>
+						<textarea name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="commentcontent form-control" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 					</div>
+					<button class="btn btn-success detailViewSaveComment  marginTop10 pull-right" type="button" data-mode="add">
+						<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+						<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+					</button>
+					<div class="clearfix"></div>
 				</div>
 			{/if}
 		</div>
@@ -77,34 +73,34 @@
 												</small>
 											</p>
 										</span>
-										{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-											<span class="pull-right visible-lg-block">
-												<p class="muted pull-right">
-													<small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
-													<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small>
-												</p>
-											</span>
-										{/if}
 									</div>
+									{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
+										<div class="clearfix"></div>
+										<span class="pull-left visible-lg-block">
+											<p class="muted pull-right">
+												<small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
+												<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small>
+											</p>
+										</span>
+									{/if}
 									<div class="pull-right commentActions">
 										{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 											<span>
-												<a class="cursorPointer replyComment feedback">
+												<button type="button" class="btn btn-xs btn-success replyComment feedback">
 													<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;
 													{vtranslate('LBL_REPLY',$MODULE_NAME)}
-												</a>
+												</button>
 												{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-													&nbsp;<span>|</span><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
-													<a class="cursorPointer editComment feedback">
+													<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
+														<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
 														{vtranslate('LBL_EDIT',$MODULE_NAME)}
-													</a>
+													</button>
 												{/if}
 											</span>
 										{/if}
 										<span>
 											{if $PARENT_COMMENT_MODEL neq false or $CHILD_COMMENTS_MODEL neq null}
-												{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}&nbsp;<span>|</span>&nbsp;{/if}
-												<a href="javascript:void(0);" class="cursorPointer detailViewThread">{vtranslate('LBL_VIEW_THREAD',$MODULE_NAME)}</a>
+												<button type="button" class="btn btn-xs btn-info detailViewThread marginLeft5">{vtranslate('LBL_VIEW_THREAD',$MODULE_NAME)}</button>
 											{/if}
 										</span>
 									</div>
@@ -133,21 +129,16 @@
 						<span class="input-group-addon" >
 							<span class="glyphicon glyphicon-comment"></span>
 						</span>
-						<input class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}">
-						<span class="input-group-btn">
-							<button class="btn btn-primary detailViewCommentModalBtn" type="button" data-mode="add">
-								<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>
-							</button>
-							<button class="btn btn-success saveComment" type="button" data-mode="add">
-								<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
-								<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
-							</button>
-							<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">
-								<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
-								<strong class="hidden-xs">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong>
-							</button>
-						</span>
+						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
+					<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning pull-right cancel" type="reset">
+						<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
+						<strong class="hidden-xs">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong>
+					</button>
+					<button class="btn btn-success saveComment marginTop10 pull-right" type="button" data-mode="add">
+						<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+						<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+					</button>
 				</div>
 			</div>
 			<div class="clearfix"></div>
@@ -155,31 +146,25 @@
 		<div class="hide basicEditCommentBlock" >
 			<div class="row">
 				<div class="col-md-12 marginTop10 marginBottom10px">
-						<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
+					<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
 				</div>
 			</div>
 			<div class="row">
-
 				<div class="col-md-12 marginBottom10px">
 					<div class="input-group">
 						<span class="input-group-addon" >
 							<span class="glyphicon glyphicon-comment"></span>
 						</span>
-						<input  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" >
-						<span class="input-group-btn">
-							<button class="btn btn-primary detailViewCommentModalBtn" type="button" data-mode="edit">
-								<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>
-							</button>
-							<button class="btn btn-success saveComment" type="button" data-mode="edit">
-								<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
-								<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
-							</button>
-							<button class="cursorPointer closeCommentBlock btn btn-warning" type="reset">
-								<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
-								<strong class="hidden-xs">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong>
-							</button>
-						</span>
+						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 					</div>
+					<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning pull-right cancel" type="reset">
+						<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
+						<strong class="hidden-xs">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</strong>
+					</button>
+					<button class="btn btn-success saveComment marginTop10 pull-right" type="button" data-mode="edit">
+						<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+						<strong class="hidden-xs">{vtranslate('LBL_POST', $MODULE_NAME)}</strong>
+					</button>
 				</div>
 			</div>
 			<div class="clearfix"></div>

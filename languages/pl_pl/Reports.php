@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,11 +7,11 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PRIMARY_MODULE' => 'Podstawowy moduł',
 	'Report Name' => 'Nazwa raportu',
-	'Reports'=>'Raporty',
+	'Reports' => 'Raporty',
 	'SINGLE_Reports' => 'Raport',
 	'LBL_ADD_FOLDER' => 'Dodaj folder',
 	'LBL_ADD_NEW_FOLDER' => 'Dodaj nowy folder',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_AVERAGE' => 'Średnia',
 	'LBL_AVG' => 'Średnia',
 	'LBL_CALCULATION_CONVERSION_MESSAGE' => 'Kalkulacje są oparte o bazową walutę w Twoim systemie CRM',
-	'LBL_CALCULATIONS' =>'Kalkulacje',
+	'LBL_CALCULATIONS' => 'Kalkulacje',
 	'LBL_CHOOSE_DATE' => 'Wybierz datę',
 	'LBL_COLUMNS' => 'Kolumny',
 	'LBL_CREATING_REPORT' => 'Tworzenie raportu',
@@ -51,7 +51,7 @@ $languageStrings = [
 	'LBL_MAX' => 'Najwyższa wartość',
 	'LBL_MIN' => 'Najniższa wartość',
 	'LBL_MONTHLY_BY_DATE' => 'Co miesiąc w terminie',
-    'LBL_MORE_RECORDS_TXT'=>'Tylko 1000 rekordów zostało pokazanych poniżej. Eksportuj, aby zobaczyć wszystkie rekordy',
+	'LBL_MORE_RECORDS_TXT' => 'Tylko 1000 rekordów zostało pokazanych poniżej. Eksportuj, aby zobaczyć wszystkie rekordy',
 	'LBL_MOVE_REPORT' => 'Przenieś raporty',
 	'LBL_NEXT' => 'Następny',
 	'LBL_NEXT_TRIGGER_TIME' => 'Następnym razem, wyzwalanie',
@@ -68,7 +68,7 @@ $languageStrings = [
 	'LBL_REPORT_PRINT' => 'Drukuj',
 	'LBL_REPORTS_LIST' => 'Lista raportów',
 	'LBL_REPORTS' => 'Lista raportów',
-	'LBL_RUN_REPORT' =>'Uruchom raport',
+	'LBL_RUN_REPORT' => 'Uruchom raport',
 	'LBL_SAME_LEVEL_ROLES' => 'Taki sam poziom Roli',
 	'LBL_SCHEDULE_REPORTS' => 'Harmonogram raportów',
 	'LBL_SELECT_COLUMNS' => 'Wybierz kolumny',
@@ -89,7 +89,9 @@ $languageStrings = [
 	'LBL_YEARLY' => 'Rocznie',
 	'LBL_MAIN' => 'Główny',
 	'LBL_SELECT_REPORT' => 'Wybierz raport',
-	
+	'LBL_FILE_TYPE' => 'Typ pliku',
+	'LBL_CSV' => 'CSV',
+	'LBL_EXCEL' => 'EXCEL',
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Wybierz rodzaj wykresu',
 	'LBL_CLICK_THROUGH_NOT_AVAILABLE' => 'Opcja serii kliknięć nie jest dostępna, ponieważ wybrano więcej niż jednen moduł.',
@@ -113,11 +115,11 @@ $languageStrings = [
 	'LBL_FOR_BAR_GRAPH_AND_LINE_GRAPH_SELECT_3_MAX_DATA_FIELDS' => 'Dla wykresu słupkowego i liniowego możesz wybrać maksymalnie 3 pola danych.',
 	'LBL_DETAIL_REPORT' => 'Raport szczegółowy',
 	'LBL_CHARTS' => 'Wykresy',
-    //Schedule Reports - Mail Content
-    'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Ten email został wygenerowany automatycznie i wysłany na rzecz harmonogramu raportów.',
+	//Schedule Reports - Mail Content
+	'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Ten email został wygenerowany automatycznie i wysłany na rzecz harmonogramu raportów.',
 	'LBL_PIVOT_REPORT' => 'Pivot Report',
+	'LBL_VIEW_CHARTDETAIL' => 'Podgląd wykresu',
 ];
-
 $jsLanguageStrings = [
 	'JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION' => 'Ograniczenie: Pola (Cena, Rabat i Ilość) mogą zostać użyte tylko gdy inne pola kalkulacji nie są wybrane.',
 	'JS_DUPLICATE_RECORD' => 'Duplikuj raport',

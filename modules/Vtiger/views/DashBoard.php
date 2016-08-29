@@ -13,11 +13,35 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View {
 
 	function checkPermission(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
-		if(!Users_Privileges_Model::isPermitted($moduleName, $actionName)) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		if(!Users_Privileges_Model::isPermitted($moduleName)) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
-
+	function preProcessAjax(\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		
+		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
+		//check profile permissions for Dashboards
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		if($permission) {
+			$dashBoardModel->verifyDashboard($moduleName);
+			$widgets = $dashBoardModel->getDashboards('Header');
+		} else {
+			$widgets = [];
+		}
+		$modulesWithwidget = Vtiger_DashBoard_Model::getModulesWithWidgets();
+		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithwidget);
+		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
+		$viewer->assign('MODULE_PERMISSION', $permission);
+		$viewer->assign('WIDGETS', $widgets);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->view('dashboards/DashBoardPreProcessAjax.tpl', $moduleName);
+	}
 	function preProcess(Vtiger_Request $request, $display=true) {
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);

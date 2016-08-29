@@ -21,7 +21,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 		if (!$permission) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -79,7 +79,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$viewer->assign('EVENT_LIMIT', AppConfig::module('Calendar', 'EVENT_LIMIT'));
 		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
 		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
-		$viewer->assign('ACTIVITY_STATE_LABELS', Zend_Json::encode([
+		$viewer->assign('ACTIVITY_STATE_LABELS', \includes\utils\Json::encode([
 				'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
 				'history' => Calendar_Module_Model::getComponentActivityStateLabel('history')
 		]));

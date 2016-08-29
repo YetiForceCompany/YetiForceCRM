@@ -13,13 +13,13 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$mode = $request->get('mode');
 		if ($mode == 'delete' && !$currentUserModel->isAdminUser()) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 		$sourceModule = $request->get('sourceModule');
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Save')) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 	}
 
@@ -40,7 +40,8 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 		} else {
 			if (!$data['action'])
 				$data['action'] = 'saveDetails';
-			$result = Settings_WidgetsManagement_Module_Model::$data['action']($data, $moduleName, $addToUser);
+			$action = $data['action'];
+			$result = Settings_WidgetsManagement_Module_Model::$action($data, $moduleName, $addToUser);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -54,9 +55,10 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 		if (!is_array($data) || !$data) {
 			$result = array('success' => false, 'message' => vtranslate('LBL_INVALID_DATA', $moduleName));
 		} else {
-			if (!$data['action'])
-				$data['action'] = 'removeWidget';
-			$result = Settings_WidgetsManagement_Module_Model::$data['action']($data);
+			$action = $data['action'];
+			if (!$action)
+				$action = 'removeWidget';
+			$result = Settings_WidgetsManagement_Module_Model::$action($data);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

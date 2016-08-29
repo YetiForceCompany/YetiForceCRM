@@ -32,7 +32,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 			$isPermited = $recordModel->isCreateable();
 		}
 		if (!$isPermited) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
@@ -56,11 +56,12 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$record = $request->get('record');
 		if (!empty($record) && $request->get('isDuplicate') == true) {
 			$viewer->assign('MODE', '');
+			$viewer->assign('RECORD_ID', '');
 			$recordModel = $this->getDuplicate($record, $moduleName);
 		} else if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
+			$viewer->assign('RECORD_ID', $record);
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$referenceId = $request->get('reference_id');
@@ -69,6 +70,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 				$recordModel->setRecordFieldValues($parentRecordModel);
 			}
 			$viewer->assign('MODE', '');
+			$viewer->assign('RECORD_ID', '');
 		}
 		if (!$this->record) {
 			$this->record = $recordModel;
@@ -118,7 +120,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 
 			$viewer->assign('SOURCE_MODULE', $sourceModule);
 			$viewer->assign('SOURCE_RECORD', $sourceRecord);
-			$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $sourceModule, $sourceRecord);
+			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 			foreach ($recordStructure as &$block) {
 				foreach ($sourceRelatedField as $field => &$value) {
 					if (isset($block[$field])) {
@@ -130,8 +132,8 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 				}
 			}
 		}
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
-		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($moduleModel->getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('MAPPING_RELATED_FIELD', \includes\utils\Json::encode(Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);

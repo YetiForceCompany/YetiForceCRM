@@ -21,7 +21,7 @@ class HelpDesk extends CRMEntity
 	var $table_name = "vtiger_troubletickets";
 	var $table_index = 'ticketid';
 	var $tab_name = Array('vtiger_crmentity', 'vtiger_troubletickets', 'vtiger_ticketcf', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_ticketcomments' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
+	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
@@ -92,22 +92,8 @@ class HelpDesk extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'ticket_title';
 
-	/** 	Constructor which will set the column_fields in this object
-	 */
-	function HelpDesk()
-	{
-		$this->log = LoggerManager::getLogger('helpdesk');
-		$this->log->debug("Entering HelpDesk() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('HelpDesk');
-		$this->log->debug("Exiting HelpDesk method ...");
-	}
-
 	function save_module($module)
 	{
-		//Inserting into Ticket Comment Table
-		$this->insertIntoTicketCommentTable("vtiger_ticketcomments", $module);
-
 		//Inserting into vtiger_attachments
 		$this->insertIntoAttachment($this->id, $module);
 
@@ -132,34 +118,6 @@ class HelpDesk extends CRMEntity
 			$serviceContract->updateServiceContractState($with_crmid);
 		} else {
 			parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
-		}
-	}
-
-	/** Function to insert values in vtiger_ticketcomments  for the specified tablename and  module
-	 * @param $table_name -- table name:: Type varchar
-	 * @param $module -- module:: Type varchar
-	 */
-	function insertIntoTicketCommentTable($table_name, $module)
-	{
-		$log = LoggerManager::getInstance();
-		$log->info("in insertIntoTicketCommentTable  " . $table_name . "    module is  " . $module);
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-
-		$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);
-		if ($this->column_fields['from_portal'] != 1) {
-			$ownertype = 'user';
-			$ownerId = $current_user->id;
-		} else {
-			$ownertype = 'customer';
-			$ownerId = $this->column_fields['parent_id'];
-		}
-
-		$comment = $this->column_fields['comments'];
-		if ($comment != '') {
-			$sql = "insert into vtiger_ticketcomments values(?,?,?,?,?,?)";
-			$params = array('', $this->id, from_html($comment), $ownerId, $ownertype, $current_time);
-			$adb->pquery($sql, $params);
 		}
 	}
 
@@ -199,18 +157,16 @@ class HelpDesk extends CRMEntity
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering into get_ticket_history($ticketid) method ...");
 
-		$query = "select title,update_log from vtiger_troubletickets where ticketid=?";
+		$query = 'select title,update_log from vtiger_troubletickets where ticketid=?';
 		$result = $adb->pquery($query, array($ticketid));
-		$update_log = $adb->query_result($result, 0, "update_log");
+		$row = $adb->getRow($result);
+		$updateLog = $row['update_log'];
+		$header[] = $row['title'];
+		$splitval = explode('--//--', trim($updateLog, '--//--'));
 
-		$splitval = split('--//--', trim($update_log, '--//--'));
-
-		$header[] = $adb->query_result($result, 0, "title");
-
-		$return_value = Array('header' => $header, 'entries' => $splitval);
+		$return_value = ['header' => $header, 'entries' => $splitval];
 
 		$log->debug("Exiting from get_ticket_history($ticketid) method ...");
-
 		return $return_value;
 	}
 
@@ -279,9 +235,6 @@ class HelpDesk extends CRMEntity
 		//To get the Permitted fields query and the permitted fields list
 		$sql = getPermittedFieldsQuery("HelpDesk", "detail_view");
 		$fields_list = getFieldsListFromQuery($sql);
-		//Ticket changes--5198
-		$fields_list = str_replace(",vtiger_ticketcomments.comments as 'Add Comment'", ' ', $fields_list);
-
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -305,10 +258,10 @@ class HelpDesk extends CRMEntity
 		$query .= getNonAdminAccessControlQuery('HelpDesk', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
-		if ($where != "")
-			$query .= "  WHERE ($where) AND " . $where_auto;
+		if ($where != '')
+			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
 		else
-			$query .= "  WHERE " . $where_auto;
+			$query .= sprintf(' where %s', $where_auto);
 
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
@@ -328,9 +281,9 @@ class HelpDesk extends CRMEntity
 			if (!empty($assigned_group_name) && $assigntype == 'T') {
 				$updatelog .= " group " . (is_array($assigned_group_name) ? $assigned_group_name[0] : $assigned_group_name);
 			} elseif ($focus->column_fields['assigned_user_id'] != '') {
-				$updatelog .= " user " . getUserFullName($focus->column_fields['assigned_user_id']);
+				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
 			} else {
-				$updatelog .= " user " . getUserFullName($current_user->id);
+				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($current_user->id);
 			}
 
 			$fldvalue = date("l dS F Y h:i:s A") . ' by ' . $current_user->user_name;
@@ -483,7 +436,7 @@ class HelpDesk extends CRMEntity
 			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_troubletickets' => 'ticketid'),
 			'Services' => array('vtiger_crmentityrel' => array('crmid', 'relcrmid'), 'vtiger_troubletickets' => 'ticketid'),
 		);
-		if($secmodule === false){
+		if ($secmodule === false) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];

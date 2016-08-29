@@ -34,7 +34,7 @@ class VTSendPdf extends VTTask
 
 		if (!empty($email)) {
 			$templateRecord = Vtiger_PDF_Model::getInstanceById($templateId);
-			$fileName = Vtiger_Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
+			$fileName = vtlib\Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
 			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
 			Vtiger_PDF_Model::exportToPdf($recordId, $module, $templateId, $pdfFile, 'F');
 			$data = [

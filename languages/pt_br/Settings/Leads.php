@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Leads' => 'Leads',
 	'LBL_OPPORTUNITIES' => 'Oportunidades',
@@ -38,7 +38,7 @@ $languageStrings = [
 	'time' => 'Hora',
 	'url' => 'Url',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Converter para Organização',
-
+	'sharedOwner' => ' ',
 ];
 
 $jsLanguageStrings = [
@@ -65,5 +65,5 @@ $jsLanguageStrings = [
 	'JS_url' => 'Url',
 	'JS_WITH' => 'com',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'O Mapeamento de Campos foi salvo',
-
+	'JS_sharedOwner' => ' ',
 ];

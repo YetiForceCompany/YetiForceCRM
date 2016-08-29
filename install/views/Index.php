@@ -54,9 +54,9 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->exposeMethod('mStep3');
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
-		date_default_timezone_set('Europe/London'); // to overcome the pre configuration settings
+		date_default_timezone_set('UTC'); // to overcome the pre configuration settings
 		// Added to redirect to default module if already installed
 
 		$request->set('module', 'Install');
@@ -182,13 +182,13 @@ class Install_Index_view extends Vtiger_View_Controller
 		$createDB = $request->get('create_db');
 		if ($createDB == 'on') {
 			$rootUser = $request->get('db_username');
-			$rootPassword = $request->get('db_password');
+			$rootPassword = $request->getRaw('db_password');
 			$createDataBase = true;
 		}
 		$authKey = $_SESSION['config_file_info']['authentication_key'] = md5(microtime());
 
 		//PHP 5.5+ mysqli is favourable.
-		$dbConnection = Install_Utils_Model::checkDbConnection('mysql', $request->get('db_hostname'), $request->get('db_username'), $request->get('db_password'), $request->get('db_name'), $createDataBase, true, $rootUser, $rootPassword);
+		$dbConnection = Install_Utils_Model::checkDbConnection('mysql', $request->get('db_hostname'), $request->get('db_username'), $request->getRaw('db_password'), $request->get('db_name'), $createDataBase, true, $rootUser, $rootPassword);
 
 		$webRoot = ($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
 		$webRoot .= $_SERVER["REQUEST_URI"];
@@ -201,12 +201,6 @@ class Install_Index_view extends Vtiger_View_Controller
 		$webRoot = implode('/', $tabUrl) . '/';
 		$_SESSION['config_file_info']['site_URL'] = $webRoot;
 		$viewer->assign('SITE_URL', $webRoot);
-
-		$root_directory = getcwd();
-		if (substr($root_directory, -1) != '/') {
-			$root_directory = $root_directory . '/';
-		}
-		$_SESSION['config_file_info']['root_directory'] = $root_directory;
 
 		$currencies = Install_Utils_Model::getCurrencyList();
 		$currencyName = $request->get('currency_name');
@@ -272,14 +266,14 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
-		$root_directory = getcwd();
-		if (substr($root_directory, -1) != '/') {
-			$root_directory = $root_directory . '/';
+		$rootDirectory = getcwd();
+		if (substr($rootDirectory, -1) != '/') {
+			$rootDirectory = $rootDirectory . '/';
 		}
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
-		$viewer->assign('EXAMPLE_DIRECTORY', $root_directory);
+		$viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$viewer->assign('SCHEMALISTS', $schemaLists);
 		echo $viewer->fetch('mStep0.tpl');
 	}
@@ -288,14 +282,14 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
-		$root_directory = getcwd();
-		if (substr($root_directory, -1) != '/') {
-			$root_directory = $root_directory . '/';
+		$rootDirectory = getcwd();
+		if (substr($rootDirectory, -1) != '/') {
+			$rootDirectory = $rootDirectory . '/';
 		}
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
-		$viewer->assign('EXAMPLE_DIRECTORY', $root_directory);
+		$viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$viewer->assign('SCHEMALISTS', $schemaLists);
 		echo $viewer->fetch('mStep1.tpl');
 	}
@@ -304,14 +298,14 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
-		$root_directory = getcwd();
-		if (substr($root_directory, -1) != '/') {
-			$root_directory = $root_directory . '/';
+		$rootDirectory = getcwd();
+		if (substr($rootDirectory, -1) != '/') {
+			$rootDirectory = $rootDirectory . '/';
 		}
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
-		$viewer->assign('EXAMPLE_DIRECTORY', $root_directory);
+		$viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$viewer->assign('SCHEMALISTS', $schemaLists);
 		echo $viewer->fetch('mStep2.tpl');
 	}

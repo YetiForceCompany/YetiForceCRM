@@ -30,10 +30,10 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		$records = $this->getRecordsListFromRequest($request);
 		$allRecords = $this->getRecordsCount($request);
 		$url = 'mailto:?bcc=' . implode(',', $records);
-		
+
 		if ($sourceModule == 'Campaigns' && !empty($relatedModule)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $request->get('sourceModule'));
-			$url .= '&subject='.$recordModel->get('campaign_no').' - '.$recordModel->get('campaignname');
+			$url .= '&subject=' . $recordModel->get('campaign_no') . ' - ' . $recordModel->get('campaignname');
 		}
 		$viewer->assign('URL', $url);
 		$viewer->assign('SOURCE_RECORD', $sourceRecord);
@@ -118,8 +118,8 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 
 		$db = PearDatabase::getInstance();
 		$query = $this->getQuery();
-		$exQuery = explode(' FROM ', $query);
-		$query = 'SELECT count(*) FROM ' . $exQuery[1];
+		$exQuery = preg_split('/ FROM /i', $query, 2);
+		$query = sprintf('SELECT count(*) FROM %s', $exQuery[1]);
 
 		$result = $db->query($query);
 		return $db->getSingleValue($result);
@@ -151,8 +151,17 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		if (empty($searchParams)) {
 			$searchParams = [];
 		}
+		foreach ($searchParams as $key => $value) {
+			if (empty($value)) {
+				unset($searchParams[$key]);
+			}
+		}
+		$glue = '';
+		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
+			$glue = QueryGenerator::$AND;
+		}
 		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
-		$queryGenerator->parseAdvFilterList($transformedSearchParams);
+		$queryGenerator->parseAdvFilterList($transformedSearchParams, $glue);
 
 		$emailColumns = [];
 		$emailFields = ['id'];
@@ -169,7 +178,8 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		if ($selectedIds && !empty($selectedIds) && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				$queryGenerator->setCustomCondition([
-					'column' => $baseTableName . '.' . $baseTableId,
+					'tablename' => $baseTableName,
+					'column' => $baseTableId,
 					'operator' => 'IN',
 					'value' => '(' . implode(',', $selectedIds) . ')',
 					'glue' => 'AND'

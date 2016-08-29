@@ -6,9 +6,10 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Settings_PBXManager_Edit_View extends Vtiger_Edit_View
+Class Settings_PBXManager_Edit_View extends Settings_Vtiger_Index_View
 {
 
 	function __construct()

@@ -82,7 +82,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	public static function getSharedOwners($record, $moduleName = false)
 	{
 		$shownerid = Vtiger_Cache::get('SharedOwner', $record);
-		if ($shownerid) {
+		if ($shownerid !== false) {
 			return $shownerid;
 		}
 
@@ -95,6 +95,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		Vtiger_Cache::set('SharedOwner', $record, $values);
 		return $values;
 	}
+
 	public function getSearchViewList($module, $view)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -121,50 +122,19 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 
 		$users = $group = [];
 		while ($id = $db->getSingleValue($result)) {
-			$name = self::getUserName($id);
-			if($name !== false){
+			$name = \includes\fields\Owner::getUserLabel($id);
+			if (!empty($name)) {
 				$users[$id] = $name;
 				continue;
 			}
-			$name = self::getGroupName($id);
-			if($name !== false){
+			$name = \includes\fields\Owner::getGroupName($id);
+			if ($name !== false) {
 				$group[$id] = $name;
 				continue;
 			}
 		}
-		asort ($users);
-		asort ($group);
+		asort($users);
+		asort($group);
 		return [ 'users' => $users, 'group' => $group];
-	}
-
-	protected static $groupIdNameCache = [];
-
-	public static function getGroupName($id)
-	{
-		$adb = PearDatabase::getInstance();
-		if (!isset(self::$groupIdNameCache[$id])) {
-			$result = $adb->query('SELECT groupname, groupid FROM vtiger_groups');
-			while ($row = $adb->getRow($result)) {
-				self::$groupIdNameCache[$row['groupid']] = trim($row['groupname']);
-			}
-		}
-		return (isset(self::$groupIdNameCache[$id])) ? self::$groupIdNameCache[$id] : false;
-	}
-
-	protected static $userIdNameCache = [];
-
-	public static function getUserName($id)
-	{
-		$adb = PearDatabase::getInstance();
-		if (!isset(self::$userIdNameCache[$id])) {
-			$userModuleInfo = Vtiger_Functions::getEntityModuleSQLColumnString('Users');
-			$result = $adb->query('SELECT id,' . $userModuleInfo['colums'] . ' FROM vtiger_users');
-			while ($row = $adb->getRow($result)) {
-				$userid = $row['id'];
-				unset($row['id']);
-				self::$userIdNameCache[$userid] = trim(implode(' ', $row));
-			}
-		}
-		return (isset(self::$userIdNameCache[$id])) ? self::$userIdNameCache[$id] : false;
 	}
 }

@@ -23,19 +23,19 @@ Class Reports_Edit_View extends Vtiger_Edit_View {
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$record = $request->get('record');
 		if ($record) {
 			$reportModel = Reports_Record_Model::getCleanInstance($record);
 			if (!$reportModel->isEditable()) {
-				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Vtiger_Request $request, $display = true) {
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');
@@ -229,7 +229,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View {
 		$data = $request->getAll();
 		foreach ($data as $name => $value) {
 			if($name == 'schdayoftheweek' || $name == 'schdayofthemonth' || $name == 'schannualdates' || $name == 'recipients') {
-				$value = Zend_Json::decode($value);
+				$value = \includes\utils\Json::decode($value);
 				if(!is_array($value)) {	// need to save these as json data
 					$value = array($value);
 				}
@@ -239,14 +239,14 @@ Class Reports_Edit_View extends Vtiger_Edit_View {
 		$primaryModule = $request->get('primary_module');
 		$secondaryModules = $request->get('secondary_modules');
 		$reportModel->setPrimaryModule($primaryModule);
-		if(!empty($secondaryModules)){
+		if (is_array($secondaryModules)) {
 			$secondaryModules = implode(':', $secondaryModules);
 			$reportModel->setSecondaryModule($secondaryModules);
 
-			$secondaryModules = explode(':',$secondaryModules);
-		}else{
-            $secondaryModules = array();
-        }
+			$secondaryModules = explode(':', $secondaryModules);
+		} else {
+			$secondaryModules = array();
+		}
 
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('REPORT_MODEL', $reportModel);
@@ -306,7 +306,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View {
 
 		$calculationFields = $reportModel->get('calculation_fields');
 		if($calculationFields) {
-			$calculationFields = Zend_Json::decode($calculationFields);
+			$calculationFields = \includes\utils\Json::decode($calculationFields[0]);
 			$viewer->assign('LINEITEM_FIELD_IN_CALCULATION', $reportModel->showLineItemFieldsInFilter($calculationFields));
 		}
 		if ($request->get('isDuplicate')) {

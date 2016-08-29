@@ -75,10 +75,11 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 			$listViewModel->set('search_value', $searchValue);
 		}
 
-		if(!empty($currencyId)) {
-			$listViewModel->set('currency_id', $currencyId);
+		if(empty($currencyId)) {
+			$defaultCurrency = vtlib\Functions::getDefaultCurrencyInfo();
+			$currencyId = $defaultCurrency['id'];
 		}
-
+		$listViewModel->set('currency_id', $currencyId);
 		if(!$this->listViewHeaders){
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}

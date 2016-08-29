@@ -19,7 +19,7 @@ Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View {
 		$duplicate = $request->get('duplicate');
 
 		if(is_numeric($moduleName)){
-			$moduleName = Vtiger_Functions::getModuleName($moduleName);
+			$moduleName = vtlib\Functions::getModuleName($moduleName);
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);

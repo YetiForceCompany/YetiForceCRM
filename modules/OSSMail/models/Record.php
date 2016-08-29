@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package YetiForce.models
@@ -6,11 +7,10 @@
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 class OSSMail_Record_Model extends Vtiger_Record_Model
 {
 
-	function getAccountsList($user = false, $onlyMy = false, $password = false)
+	static function getAccountsList($user = false, $onlyMy = false, $password = false)
 	{
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -29,7 +29,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$param[] = $currentUserModel->getId();
 		}
 		if ($where) {
-			$sql .= ' WHERE' . substr($where, 4);
+			$sql .= sprintf(' WHERE %s ', substr($where, 4));
 		}
 		$result = $db->pquery($sql, $param);
 		if ($db->getRowCount($result) == 0) {
@@ -110,7 +110,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		$log = vglobal('log');
 		$log->error("Error OSSMail_Record_Model::imapConnect(): " . $error);
-		Vtiger_Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
+		vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
@@ -126,7 +126,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if ($adb->query_result_raw($result, 0, 'num') > 0) {
 			return FALSE;
 		}
-		$adb->pquery('UPDATE yetiforce_mail_quantities SET `status` = ? WHERE userid IN (' . $sUsers . ');', [1]);
+		$adb->update('yetiforce_mail_quantities', ['status' => 1], 'userid IN (?)', [$sUsers]);
 		foreach ($users as $user) {
 			$account = self::get_account_detail($user);
 			if ($account !== FALSE) {
@@ -151,7 +151,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$log = vglobal('log');
 		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
-		$result = $adb->query('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (' . implode(',', $users) . ');');
+		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
+		$result = $adb->query($query);
 		$account = [];
 		for ($i = 0; $i < $adb->num_rows($result); $i++) {
 			$account[$adb->query_result_raw($result, $i, 'userid')] = $adb->query_result_raw($result, $i, 'num');
@@ -245,7 +246,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
-	public function _get_body_attach($mbox, $id, $msgno)
+	public static function _get_body_attach($mbox, $id, $msgno)
 	{
 		$struct = imap_fetchstructure($mbox, $id, FT_UID);
 		$parts = $struct->parts;
@@ -264,7 +265,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $ret;
 	}
 
-	protected function initMailPart($mbox, $mail, $partStructure, $partNum)
+	protected static function initMailPart($mbox, $mail, $partStructure, $partNum)
 	{
 		$data = $partNum ? imap_fetchbody($mbox, $mail['id'], $partNum, FT_UID | FT_PEEK) : imap_body($mbox, $mail['id'], FT_UID | FT_PEEK);
 		if ($partStructure->encoding == 1) {
@@ -414,7 +415,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 						], 'crmid = ?', [$record->getId()]
 					);
 					if ($relID && $relID != 0 && $relID != '') {
-						$dirname = Vtiger_Functions::initStorageFileDirectory('OSSMailView');
+						$dirname = vtlib\Functions::initStorageFileDirectory('OSSMailView');
 						$url_to_image = $dirname . $attachid . '_' . $filename;
 						$adb->insert('vtiger_ossmailview_files', [
 							'ossmailviewid' => $relID,
@@ -450,7 +451,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		require_once 'modules/OSSMail/MailAttachmentMIME.php';
 		$adb = PearDatabase::getInstance();
-		$dirname = Vtiger_Functions::initStorageFileDirectory('OSSMailView');
+		$dirname = vtlib\Functions::initStorageFileDirectory('OSSMailView');
 		if (!is_dir($dirname))
 			mkdir($dirname);
 		$filename = str_replace(' ', '-', $filename);
@@ -478,9 +479,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		$account = self::getAccountsList($user);
 		$account = reset($account);
-		$folders = [];
+		$folders = false;
 		$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
 		if ($mbox) {
+			$folders = [];
 			$ref = '{' . $account['mail_host'] . '}';
 			$list = imap_list($mbox, $ref, '*');
 			foreach ($list as $mailboxname) {
@@ -588,7 +590,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $site_URL;
 	}
 
-	function getMailsFromIMAP($user = false)
+	static function getMailsFromIMAP($user = false)
 	{
 		$account = self::getAccountsList($user, true);
 		$mails = [];
@@ -612,7 +614,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function getAccountByHash($hash)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT * FROM roundcube_users WHERE preferences LIKE \'%:"' . $hash . '";%\'');
+		$query = sprintf('SELECT * FROM roundcube_users WHERE preferences LIKE \'%s\'', "%:\"$hash\";%");
+		$result = $db->query($query);
 		if ($db->getRowCount($result) > 0) {
 			return $db->getRow($result);
 		} else {

@@ -50,4 +50,5 @@ $languageStrings = [
 	'NO_TPL' => 'Нет шаблонов',
 	'ONLY_WORK_DAY' => 'Только в рабочие дни',
 	'TPL_VISIBILITY' => 'Выберите какие группы могут использовать шаблон',
+	'LBL_VIEW_GENERATEPROJECT' => 'Создать проект',
 ];

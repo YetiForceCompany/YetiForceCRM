@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
 	'Member Of' => 'Membre de',
 	'Birthdate' => 'Date de naissance',
@@ -29,41 +29,33 @@ $languageStrings = [
 	'Reports To' => 'Rapporte à',
 	'Secondary Email' => 'Email secondaire',
 	'SINGLE_Contacts' => 'Contact',
-    'Support End Date'   => 'Date de fin de support',
-    'Support Start Date' => 'Date de début de support',
+	'Support End Date' => 'Date de fin de support',
+	'Support Start Date' => 'Date de début de support',
 	'Title' => 'Titre',
-	'User List'=>'Liste utilisateur',
+	'User List' => 'Liste utilisateur',
 	'Job title' => 'Intitulé du poste',
-	
 	//Added for Picklist Values
-	'Dr.'=>'Dr.',
-	'Mr.'=>'M.',
-	'Mrs.'=>'Mme.',
-	'Ms.'=>'Melle.',
-	'Prof.'=>'Prof.',
+	'Dr.' => 'Dr.',
+	'Mr.' => 'M.',
+	'Mrs.' => 'Mme.',
+	'Ms.' => 'Melle.',
+	'Prof.' => 'Prof.',
 	'Active' => 'Actif',
 	'Inactive' => 'Inactif',
-	
 	'Other Po Box' => 'Adresse additionelle : Boîte Postale',
 	'Mailing Po Box' => 'Adresse: Boîte Postale',
 	'LBL_ADDRESS_INFORMATION' => 'Adresse de la résidence principale',
 	'LBL_CONTACT_INFO' => 'Information contact',
-	'Approval for phone calls'=>'Permission d\'appeler',
-	'Approval for email'=>'Permission d\'envoyer des emails',
+	'Approval for phone calls' => 'Permission d\'appeler',
+	'Approval for email' => 'Permission d\'envoyer des emails',
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Langue de notifications',
 	'Decision maker' => 'Décisionnaire',
-	
 	//Activity Types
 	'End of support for contact' => 'Fin de support pour le contact',
 	'Birthdays of contacts' => 'Anniversaires des contacts',
 	'SINGLE_Leads' => 'Prospect',
 	'SINGLE_Vendors' => 'Vendeur',
-	
-	// popup
-	'LBL_ACCOUNT' => 'Organisation',
-	'LBL_SWITCH_BUTTON' => 'Bouton de switch',
-	'LBL_NARROW_DOWN_RECORDS_LIST' => 'Limiter les enregistrements à ceux liés à l\'organisation',
 ];
 
 $jsLanguageStrings = [
- ];
+];

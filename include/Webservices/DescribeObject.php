@@ -31,5 +31,3 @@ function vtws_describe($elementType, $user)
 	VTWS_PreserveGlobal::flush();
 	return $entity;
 }
-
-?>

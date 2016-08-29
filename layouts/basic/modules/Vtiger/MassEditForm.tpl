@@ -14,6 +14,7 @@
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 {/foreach}
 <div id="massEditContainer" class='modelContainer modal fade' tabindex="-1">
+	
 	<div class="modal-dialog modal-lg">
         <div class="modal-content">
 			<div class="modal-header contentsBackground">
@@ -21,19 +22,22 @@
 				<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_MASS_EDITING', $MODULE)} {vtranslate($MODULE, $MODULE)}</h3>
 			</div>
 			<form class="form-horizontal" id="massEdit" name="MassEdit" method="post" action="index.php">
+				{if !empty($MAPPING_RELATED_FIELD)}
+					<input type="hidden" name="mappingRelatedField" value='{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}' />
+				{/if}
 				{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 					<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 				{/if}
 				<input type="hidden" name="module" value="{$MODULE}" />
 				<input type="hidden" name="action" value="MassSave" />
 				<input type="hidden" name="viewname" value="{$CVID}" />
-				<input type="hidden" name="selected_ids" value={ZEND_JSON::encode($SELECTED_IDS)}>
-				<input type="hidden" name="excluded_ids" value={ZEND_JSON::encode($EXCLUDED_IDS)}>
+				<input type="hidden" name="selected_ids" value={\includes\utils\Json::encode($SELECTED_IDS)}>
+				<input type="hidden" name="excluded_ids" value={\includes\utils\Json::encode($EXCLUDED_IDS)}>
 				<input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
 				<input type="hidden" name="operator" value="{$OPERATOR}" />
 				<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-				<input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
-				<input type="hidden" id="massEditFieldsNameList" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($MASS_EDIT_FIELD_DETAILS))}' />
+				<input type="hidden" name="search_params" value='{\includes\utils\Json::encode($SEARCH_PARAMS)}' />
+				<input type="hidden" id="massEditFieldsNameList" data-value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($MASS_EDIT_FIELD_DETAILS))}' />
 				<div name='massEditContent'>
 					<div class="modal-body tabbable">
 						<ul class="nav nav-tabs massEditTabs">

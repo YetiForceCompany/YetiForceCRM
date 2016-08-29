@@ -172,7 +172,7 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model
 			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
 			for ($i = 1; $i < count($split); $i++) {
-				$listQuery .= ' FROM ' . $split[$i];
+				$listQuery .= sprintf(' FROM %s', $split[$i]);
 			}
 		}
 		$searchKey = $this->get('search_key');

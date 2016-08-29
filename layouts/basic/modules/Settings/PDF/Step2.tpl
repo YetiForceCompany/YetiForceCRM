@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="pdfTemplateContents leftRightPadding3p">
+	<div class="pdfTemplateContents">
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step2" class="form-horizontal">
 			<input type="hidden" name="module" value="PDF">
 			<input type="hidden" name="view" value="Edit">
@@ -16,10 +16,10 @@
 				<br>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_PAGE_FORMAT', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_PAGE_FORMAT', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="select2 form-control" id="page_format" name="page_format">
+						<select class="select2 form-control rtl" id="page_format" name="page_format" data-validation-engine="validate[required]">
 							<option value="" selected="">{vtranslate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
 							{foreach item=FORMAT from=Settings_PDF_Module_Model::getPageFormats()}
 								<option value="{$FORMAT}" {if $PDF_MODEL->get('page_format') eq $FORMAT} selected="selected" {/if}>
@@ -33,7 +33,7 @@
 					<label class="col-sm-3 control-label">
 						{vtranslate('LBL_MAIN_MARGIN', $QUALIFIED_MODULE)}
 					</label>
-					<div class="col-sm-9 row">
+					<div class="col-sm-6 row">
 						{if $PDF_MODEL->get('margin_chkbox') === 0}
 							{assign 'MARGIN_CHECKED' false}
 						{else}
@@ -88,7 +88,7 @@
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="select2 form-control" id="language" name="language">
-							{foreach from=Vtiger_Language::getAll() key=CODE item=NAME}
+							{foreach from=vtlib\Language::getAll() key=CODE item=NAME}
 								<option value="{$CODE}" {if $PDF_MODEL->get('language') eq $CODE} selected="selected" {/if}>
 									{vtranslate($NAME, $QUALIFIED_MODULE)}
 								</option>
@@ -106,11 +106,11 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_VISIBILITY', $QUALIFIED_MODULE)}
+						{vtranslate('LBL_VISIBILITY', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
 						{assign 'VISIBILITY' explode(',',$PDF_MODEL->get('visibility'))}
-						<select class="select2 form-control" data-tags="false" id="visibility" name="visibility" multiple="multiple">
+						<select class="select2 form-control rtl" data-tags="false" id="visibility" name="visibility" multiple="multiple" data-validation-engine="validate[required]">
 							<option value="PLL_LISTVIEW" {if in_array('PLL_LISTVIEW', $VISIBILITY)}selected="selected"{/if}>{vtranslate('PLL_LISTVIEW', $QUALIFIED_MODULE)}</option> 
 							<option value="PLL_DETAILVIEW" {if in_array('PLL_DETAILVIEW', $VISIBILITY)}selected="selected"{/if}>{vtranslate('PLL_DETAILVIEW', $QUALIFIED_MODULE)}</option> 
 						</select>

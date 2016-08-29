@@ -21,7 +21,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 		if (!$permission) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -42,9 +42,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 
 	public function getEvents(Vtiger_Request $request)
 	{
-		$id = $request->get('id');
-
-		$record = Calendar_Calendar_Model::getInstance();
+		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->get('user'));
 		$record->set('types', $request->get('types'));
 		$record->set('time', $request->get('time'));

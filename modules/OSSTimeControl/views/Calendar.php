@@ -26,8 +26,8 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 
 	function postProcess(Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
 		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}

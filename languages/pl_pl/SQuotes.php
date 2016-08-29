@@ -3,13 +3,11 @@
 $languageStrings = [
 	'SQuotes' => 'Oferty',
 	'SINGLE_SQuotes' => 'Oferta',
-	
 	//BLOCKS
 	'LBL_SQUOTES_INFORMATION' => 'Informacje podstawowe',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
 	'LBL_DESCRIPTION_INFORMATION' => 'Informacje Opisowe',
 	'LBL_STATISTICS' => 'Statystyka',
-	
 	//FIELDS
 	'LBL_SUBJECT' => 'Temat',
 	'LBL_NUMBER' => 'Numer',
@@ -23,7 +21,7 @@ $languageStrings = [
 	'FL_MARGIN' => 'Suma marży',
 	'FL_SUM_GROSS' => 'Suma brutto',
 	'FL_SUM_DISCOUNT' => 'Suma rabatu',
-
+	'FL_VALID_UNTIL' => 'Ważność oferty',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Wersja robocza',
 	'PLL_IN_REALIZATION' => ' W realizacji',
@@ -32,6 +30,5 @@ $languageStrings = [
 	'PLL_NEGOTIATIONS' => 'Negocjacje',
 	'PLL_CANCELLED' => 'Anulowana',
 	'PLL_ACCEPTED' => 'Zaakceptowana',
-
 	'LBL_CHANGE_STATUS' => 'Zmień status',
 ];

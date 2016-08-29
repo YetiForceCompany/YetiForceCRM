@@ -52,7 +52,6 @@ $languageStrings = [
 	'Filter info' => 'Enable data filtering by selection list',
 	'None' => 'None',
 	'ProductsServices' => 'Products services',
-	'Campaign status' => 'Campaign status',
 	'LBL_SELECT_BUTTON_INFO' => 'Enable visible select button',
 	'LBL_CONDITION' => 'Condition',
 	'LBL_CONDITION_INFO' => 'Select condition for showing records',
@@ -61,6 +60,7 @@ $languageStrings = [
 	'LBL_SHITCH_HEADER' => 'Switch in header',
 	'LBL_SHITCH_HEADER_INFO' => 'Switch can be found in the widget\'s header.',
 	'HistoryRelation' => 'Timeline',
+	'CountRecords' => 'Number of records'
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Loading...',

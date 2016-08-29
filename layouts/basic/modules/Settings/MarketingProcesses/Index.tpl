@@ -8,9 +8,13 @@
 * All Rights Reserved.
 *************************************************************************************************************************************/*}
 
-<div id="supportProcessesContainer" class=" supportProcessesContainer" style="margin-top:10px;">
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	{vtranslate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}<hr>
+<div id="supportProcessesContainer" class=" supportProcessesContainer">
+	<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{vtranslate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
+		</div>
+	</div>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 		<li class="active"><a href="#conversiontoaccount" data-toggle="tab">{vtranslate('LBL_CONVERSION', $QUALIFIED_MODULE)} </a></li>
 		<li ><a href="#lead_configuration" data-toggle="tab">{vtranslate('LBL_LEADS', $QUALIFIED_MODULE)} </a></li>
@@ -56,7 +60,7 @@
 								<th class="blockHeader">{vtranslate('Leads', $QUALIFIED_MODULE)}</th>
 								<th class="blockHeader">{vtranslate('Accounts', $QUALIFIED_MODULE)}</th>
 							</tr>
-							{assign var=MAPPING value=ZEND_JSON::decode($CONVERSION.mapping)}
+							{assign var=MAPPING value=\includes\utils\Json::decode($CONVERSION.mapping)}
 							{assign var=LEAD_FIELDS value=$LEADS_MODULE_MODEL->getFields()}
 							{assign var=ACCOUNT_FIELDS value=$ACCOUNTS_MODULE_MODEL->getFields()}
 							{foreach item=MAPPING_ARRAY from=$MAPPING  name="mappingLoop"}
@@ -137,7 +141,7 @@
 					<tr>
 						<td><label>{vtranslate('LBL_GROUPS_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-md-6">
-							{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('Leads')}
+							{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance('Leads')->getAccessibleGroups()}
 							<select class="chzn-select configField" name="groups" data-type="lead" multiple>
 								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $LEAD['groups'])}selected{/if} >

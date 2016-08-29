@@ -1,7 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="breadCrumbs" >
-		{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs($BREADCRUMB_TITLE)}
+		{if isset($BREADCRUMB_TITLE)}
+			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs($BREADCRUMB_TITLE)}
+		{else}
+			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
+		{/if}
 		{assign var=HOMEICON value='userIcon-Home'}
 		{if $BREADCRUMBS}
 			<div class="breadcrumbsContainer">
@@ -14,7 +18,7 @@
 						{if $key != 0 && $ITEM_PREV}
 							<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
 						{/if}
-						{if $item['url']}
+						{if isset($item['url'])}
 							<a href="{$item['url']}">
 								<span>{$item['name']}</span>
 							</a>

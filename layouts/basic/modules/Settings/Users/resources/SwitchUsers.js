@@ -11,9 +11,23 @@ jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 	registerAdd: function (content) {
 		var thisInstance = this;
 		content.find('.addItem').click(function (e) {
+			var data = [];
+			content.find('.switchUsersTable tbody tr').each(function (index) {
+				data.push({
+					user: $(this).find('.sufrom').val(),
+				});
+			});
 			var id = parseInt(content.find('#suCount').val()) + 1;
 			var target = $(e.currentTarget);
 			var cloneItem = content.find('.cloneItem tbody').clone(true, true);
+			var suFrom = cloneItem.find('.sufrom option')
+			suFrom.each(function (index, option) {			
+				$.each( data, function( key, selectedUser ){
+					if($(option).val() == selectedUser.user){
+						cloneItem.find(option).remove()
+					}
+				});
+			});
 			cloneItem.find('tr').attr('data-id', id).addClass('row' + id);
 			content.find('.switchUsersTable tbody').append(cloneItem.html());
 			content.find('#suCount').val(id);

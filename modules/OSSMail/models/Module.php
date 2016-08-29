@@ -20,7 +20,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
-		$settingsLinks = array();
+		$settingsLinks = [];
 
 		$db = PearDatabase::getInstance();
 		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
@@ -28,7 +28,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=index&block=4&fieldid=' . $db->query_result($result, 0, 'fieldid'),
+			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=index&block=4&fieldid=' . $db->getSingleValue($result),
 			'linkicon' => $layoutEditorImagePath
 		);
 
@@ -92,40 +92,72 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	function getComposeUrlParam($moduleName = false, $record = false, $type = false, $view = false)
+	function getComposeParam(Vtiger_Request $request)
 	{
-		$url = '';
+		$moduleName = $request->get('crmModule');
+		$record = $request->get('crmRecord');
+		$type = $request->get('type');
+
+		$return = [];
 		if (!empty($record) && isRecordExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {
 			$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
-				$url = '&to=' . $email;
+				$return['to'] = $email;
 			}
-
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
-			if (!in_array($moduleName, array_keys($modulesLevel1))) {
-				$subject = '&subject=';
-				if ($type == 'new') {
+			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
+			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName == 'Campaigns') {
+				$subject = '';
+				if ($type == 'new' || $moduleName == 'Campaigns') {
 					$subject .= $recordModel->getName() . ' - ';
 				}
 				$recordNumber = $recordModel->getRecordNumber();
 				if (!empty($recordNumber)) {
-					$subject .= $recordNumber;
+					$subject .= '[' . $recordNumber . ']';
 				}
-				$url .= $subject;
+				$return['subject'] = $subject;
 			}
 		}
 		if (!empty($moduleName)) {
-			$url .= '&crmmodule=' . $moduleName;
+			$return['crmmodule'] = $moduleName;
 		}
 		if (!empty($record)) {
-			$url .= '&crmrecord=' . $record;
+			$return['crmrecord'] = $record;
 		}
-		if (!empty($view)) {
-			$url .= '&crmview=' . $view;
+		if (!$request->isEmpty('crmView')) {
+			$return['crmview'] = $request->get('crmView');
 		}
-		return $url;
+		if (!$request->isEmpty('mid') && !empty($type)) {
+			$return['mailId'] = (int) $request->get('mid');
+			$return['type'] = $type;
+		}
+		if (!$request->isEmpty('pdf_path')) {
+			$return['filePath'] = $request->get('pdf_path');
+		}
+		if (!empty($moduleName)) {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$moduleConfig = AppConfig::module($moduleName);
+			if ($moduleConfig && isset($moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')])) {
+				$return['from'] = $moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')];
+			}
+		}
+		if (!$request->isEmpty('to')) {
+			$return['to'] = $request->get('to');
+		}
+		if (!$request->isEmpty('cc')) {
+			$return['cc'] = $request->get('cc');
+		}
+		if (!$request->isEmpty('bcc')) {
+			$return['bcc'] = $request->get('bcc');
+		}
+		if (!$request->isEmpty('subject')) {
+			$return['subject'] = $request->get('subject');
+		}
+		if (!$request->isEmpty('emails')) {
+			$return['bcc'] = implode(',', $request->get('emails'));
+		}
+		return $return;
 	}
 
 	protected static $composeParam = false;
@@ -145,7 +177,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return self::$composeParam;
 	}
 
-	function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
+	static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
 	{
 		$url = 'mailto:';
 		if (!empty($record) && isRecordExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {
@@ -158,7 +190,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
 
-			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
+			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1))) {
 				$db = PearDatabase::getInstance();
 				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);
@@ -206,7 +238,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!empty($srecord) && !empty($smoduleName)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
-			$modulesLevel1 = Vtiger_Module_Model::getModulesByLevel();
+			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
 				$db = PearDatabase::getInstance();
 				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);
@@ -229,7 +261,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 		$config = HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', vglobal('default_charset'));
-		$config->set('Cache.SerializerPath', vglobal('root_directory') . '/cache/vtlib');
+		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . '/cache/vtlib');
 		$config->set('CSS.AllowTricky', false);
 		$config->set('HTML.AllowedElements', 'div,p,br');
 		$config->set('HTML.AllowedAttributes', '');

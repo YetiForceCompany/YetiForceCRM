@@ -1,14 +1,14 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): 
- *************************************************************************************************************************************/
+ * Contributor(s):
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'DataAccess' => 'Редактор условий',
 	'LBL_NONE' => '--Нет--',
@@ -24,7 +24,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL1' => 'Нет',
 	'LBL_LOCKS_SAVE_LABEL2' => 'Да - Если одно из условий выполнено',
 	'LBL_LOCKS_SAVE_LABEL3' => 'Да - Если оба условия выполнены',
-	'LBL_LOCKS_SAVE_LABEL4' => 'Yes - Modal window',
+	'LBL_LOCKS_SAVE_LABEL4' => 'Да - Модальное окно',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Проверка двух полей',
 	'LBL_MESSAGE_LOCK0' => 'Сообщение отображаемое при сохранении записи.',
 	'LBL_MESSAGE_LOCK1' => 'Сообщение при выполнении первого условия',
@@ -76,21 +76,21 @@ $languageStrings = [
 	'Action_test' => 'Тест',
 	'Action_Desc_test' => 'Нажмите Тест для просмотра результата',
 	//
-	'Action_check_day_tasks' => 'Check the number of events for the saved day',
-	'Action_Desc_check_day_tasks' => 'The action checks the number of events for the event\'s start date, and in case it exceeds the limit, the system blocks/informs the user.',
-	'LBL_MAXIMUM_NUMBER_EVENTS_PER_DAY' => 'Maximum number of events per day',
-	'LBL_SELECT_OPTION_TO_SEARCH' => 'Select option to search for events',
-	'LBL_SET_CUSTOM_CONDITIONS' => 'Set custom conditions',
-	'LBL_CURRENT_EVENTS' => 'Current events',
-	'LBL_PAST_EVENTS' => 'Past events',
+	'Action_check_day_tasks' => 'Проверьте количество событий для сохраненного дня',
+	'Action_Desc_check_day_tasks' => 'Действие проверяет количество событий для даты начала мероприятия, и в случае, если она превышает установленный предел, информирует пользователя.',
+	'LBL_MAXIMUM_NUMBER_EVENTS_PER_DAY' => 'Максимальное число событий в день',
+	'LBL_SELECT_OPTION_TO_SEARCH' => 'Выберите опцию для поиска событий',
+	'LBL_SET_CUSTOM_CONDITIONS' => 'Установка пользовательских условий',
+	'LBL_CURRENT_EVENTS' => 'Текущие события',
+	'LBL_PAST_EVENTS' => 'Прошедшие события',
 	//
-	'Action_unique_account' => 'Check for account duplicates',
-	'Action_Desc_unique_account' => 'Check if account is unique in the module.',
-	'LBL_DUPLICATED_FOUND' => 'Duplicates found',
-	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Duplicate found. Are you sure you want to save?',
-	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'An attempt was made to change values in a record in Quick Edition mode.<br>Select the checkbox field below and accept in order to apply changes in this view.<br>Attention!<br>Re-enter the modifications in the record.',
-	'LBL_DONT_ASK_AGAIN' => 'Don\'t ask again for this record.',
-	'LBL_SEARCH_TRASH' => 'Search trash',
+	'Action_unique_account' => 'Проверка дубликатов контрагентов',
+	'Action_Desc_unique_account' => 'Проверьте, что учетная запись является уникальной в модуле.',
+	'LBL_DUPLICATED_FOUND' => 'Найдены дубликаты',
+	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Найден дубликат. Уверенны что хотите сохранить?',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Была сделана попытка изменить значения в записи в режиме Быстрого редактирования. <br> Выберите флажок ниже, для того, чтобы изменения вступили в силу. <br> Внимание! <br> Повторные изменения в записи.',
+	'LBL_DONT_ASK_AGAIN' => 'Не спрашивать бльше для этой записи.',
+	'LBL_SEARCH_TRASH' => 'Поиск мусора',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Редактор условий',

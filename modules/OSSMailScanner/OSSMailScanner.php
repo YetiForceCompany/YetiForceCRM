@@ -9,8 +9,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
-require_once('include/CRMEntity.php');
-require_once('include/Tracker.php');
 
 class OSSMailScanner
 {
@@ -35,7 +33,7 @@ class OSSMailScanner
 			$moduleModel = Settings_Picklist_Module_Model::getInstance('HelpDesk');
 			$fieldModel = Settings_Picklist_Field_Model::getInstance('ticketstatus', $moduleModel);
 			$id = $moduleModel->addPickListValues($fieldModel, 'Answered');
-			$Module = Vtiger_Module::getInstance($moduleName);
+			$Module = vtlib\Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
@@ -56,7 +54,7 @@ class OSSMailScanner
 			// TODO Handle actions before this module is updated.
 		} else if ($eventType == 'module.postupdate') {
 			$adb = PearDatabase::getInstance();
-			$Module = Vtiger_Module::getInstance($moduleName);
+			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);

@@ -10,11 +10,11 @@
 		{if isset($UPLOAD)}
 			{if $UPLOAD eq true}
 				<p class="bgMessage bgOK">
-					{vtranslate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a href="index.php?module=PDF&parent=Settings&view=Edit&record={$RECORDID}">{vtranslate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
+					{vtranslate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a class="tdUnderline" href="index.php?module=PDF&parent=Settings&view=Edit&record={$RECORDID}"> {vtranslate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
 				</p>
 			{elseif $UPLOAD eq false}
 				<p class="bgMessage bgERROR">
-					{vtranslate('LBL_UPLOAD_ERROR', $QUALIFIED_MODULE)} <a href="{Settings_PDF_Module_Model::getDefaultUrl()}">{vtranslate('LBL_RETURN', $QUALIFIED_MODULE)}</a>
+					{vtranslate('LBL_UPLOAD_ERROR', $QUALIFIED_MODULE)} <a class="tdUnderline" href="{Settings_PDF_Module_Model::getDefaultUrl()}"> {vtranslate('LBL_RETURN', $QUALIFIED_MODULE)}</a>
 				</p>
 			{/if}
 		{else}

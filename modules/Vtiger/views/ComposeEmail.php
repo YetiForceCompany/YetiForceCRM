@@ -25,8 +25,8 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View
 	{
 		$moduleName = $request->getModule();
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'CreateView')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		if (!AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail')) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -307,9 +307,9 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View
 		$recordModel = $this->record->getRecord();
 
 		$viewer = $this->getViewer($request);
-		$TO = Zend_Json::decode(html_entity_decode($recordModel->get('saved_toid')));
-		$CC = Zend_Json::decode(html_entity_decode($recordModel->get('ccmail')));
-		$BCC = Zend_Json::decode(html_entity_decode($recordModel->get('bccmail')));
+		$TO = \includes\utils\Json::decode(html_entity_decode($recordModel->get('saved_toid')));
+		$CC = \includes\utils\Json::decode(html_entity_decode($recordModel->get('ccmail')));
+		$BCC = \includes\utils\Json::decode(html_entity_decode($recordModel->get('bccmail')));
 
 		$parentId = $request->get('parentId');
 		if (empty($parentId)) {
@@ -348,9 +348,9 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View
 		}
 		$recordModel = $this->record->getRecord();
 
-		$TO = Zend_Json::decode(html_entity_decode($recordModel->get('saved_toid')));
-		$CC = Zend_Json::decode(html_entity_decode($recordModel->get('ccmail')));
-		$BCC = Zend_Json::decode(html_entity_decode($recordModel->get('bccmail')));
+		$TO = \includes\utils\Json::decode(html_entity_decode($recordModel->get('saved_toid')));
+		$CC = \includes\utils\Json::decode(html_entity_decode($recordModel->get('ccmail')));
+		$BCC = \includes\utils\Json::decode(html_entity_decode($recordModel->get('bccmail')));
 
 		$parentIds = explode('|', $recordModel->get('parent_id'));
 

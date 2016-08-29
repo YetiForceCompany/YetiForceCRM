@@ -173,8 +173,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 		var contents = jQuery('#layoutDashBoards');
 		contents.find('.editHoliday').click(function(e) {
 			var addBlockContainer = contents.find('.addDateWindowModal').clone(true, true);
-
-			var dateElement = jQuery(this).closest('div.holidayElement');
+			var dateElement = jQuery(this).closest('.holidayElement');
 			addBlockContainer.find('[name="holidayId"]').val( dateElement.data('holiday-id') );
 			addBlockContainer.find('[name="holidayDate"]').val( dateElement.data('holiday-date') );
 			addBlockContainer.find('[name="holidayName"]').val( dateElement.data('holiday-name') );
@@ -346,7 +345,6 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 					thisInstance.registerEvents();
 					progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 				});
-				console.log(formated);
 			}
 		}
 		app.registerEventForDatePickerFields(dateFilter, false, customParams);

@@ -66,10 +66,12 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 		});
 	},
 	save: function (container) {
-		var data = [];
+		var data = {
+			module: container.data('modulename'),
+			userid: container.find('select.baseUser').val(),
+			type: app.getMainParams('fieldType')
+		};
 		var userData = [];
-		var moduleName = container.data('modulename');
-		var baseUserId = container.find('select.baseUser').val();
 		var dataContainer = container.find('.dataTables_scrollBody:first tbody tr');
 		dataContainer.each(function (e) {
 			var id = jQuery(this).data('id');
@@ -81,8 +83,6 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 				userData[mode].push(id);
 			}
 		})
-		data['module'] = moduleName;
-		data['userid'] = baseUserId;
 		data['ids'] = jQuery.extend({}, userData);
 		app.saveAjax('save', jQuery.extend({}, data))
 	},
@@ -145,6 +145,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 		params['sourceModule'] = module;
 		params['view'] = 'Index';
 		params['mode'] = 'getPanel';
+		params['type'] = app.getMainParams('fieldType');
 		AppConnector.request(params).then(
 				function (data) {
 					var elements = thisInstance.getContainer().find('.panelsContainer').append(data);
@@ -197,11 +198,14 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 		this.getContainer().on('click', '.removePanel', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var panel = currentTarget.closest('.panel');
-			var moduleName = panel.data('modulename');
+			var data = {
+				module: panel.data('modulename'),
+				type: app.getMainParams('fieldType')
+			};
 			var message = app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 					function (e) {
-						app.saveAjax('removePanel', moduleName).then(function () {
+						app.saveAjax('removePanel', data).then(function () {
 							panel.fadeOut(300, function () {
 								$(this).remove();
 							});

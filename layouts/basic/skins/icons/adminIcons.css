@@ -26,10 +26,16 @@
 .adminIcon-yetiforce-shop:before {
     content: "\e95e";
 }
+.adminIcon-NotificationConfiguration:before {
+    content: "\e95f";
+}
 .adminIcon-TypeNotification:before {
+    content: "\e960";
+}
+.adminIcon-shared-owner:before {
     content: "\e95c";
 }
-.adminIcon-NotificationConfiguration:before {
+.adminIcon-owner:before {
     content: "\e95d";
 }
 .adminIcon-logistics:before {

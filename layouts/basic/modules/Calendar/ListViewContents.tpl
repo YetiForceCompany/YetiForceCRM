@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -15,9 +15,6 @@
 <input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 <input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 <input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
-<input type="hidden" id="alphabetSearchKey" value= "{$MODULE_MODEL->getAlphabetSearchField()}" />
-<input type="hidden" id="Operator" value="{$OPERATOR}" />
-<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
 <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 <input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
 <input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
@@ -64,25 +61,30 @@
 				{/foreach}
 			</tr>
 		</thead>
-        <tr>
-			<td>
-				<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);">
-					<span class="glyphicon glyphicon-search"></span>
-				</a>
-			</td>
-         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-             <td>
-                 {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}     
-                {include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE) 
-                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
-             </td>
-         {/foreach}
-         <td> 
-			<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
-				<span class="glyphicon glyphicon-remove"></span>
-			</a>
-         </td>
-        </tr>
+        {if $MODULE_MODEL->isQuickSearchEnabled()}
+			<tr>
+				<td>
+					<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+				</td>
+				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+					<td>
+						{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+						{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER->getName()])}
+							{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]}
+						{else}
+							{assign var=SEARCH_INFO value=[]}
+						{/if}
+						{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
+			FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
+					</td>
+				{/foreach}
+				<td>
+					<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+				</td>
+			</tr>
+		{/if}
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 			{assign var=CURRENT_USER_ID value=$USER_MODEL->getId()}
 			{assign var=RAWDATA value=$LISTVIEW_ENTRY->getRawData()}
@@ -113,8 +115,13 @@
 				}
 				</style>
 			{/if}
-            <td class="{$WIDTHTYPE}">
+            <td class="{$WIDTHTYPE} noWrap">
 				<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}"/>
+				{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
+					<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed">
+						<span class="badge bgDanger"></span>&nbsp;
+					</a>&nbsp;
+				{/if}
 			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 			{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
@@ -140,6 +147,12 @@
 			<td nowrap class="{$WIDTHTYPE}">		
 				<div class="actions pull-right">
 					<span class="actionImages">
+						{if $MODULE_MODEL->isPermitted('WatchingRecords') && $LISTVIEW_ENTRY->isViewable()}
+							{assign var=WATCHING_STATE value=(!$LISTVIEW_ENTRY->isWatchingRecord())|intval}
+							<a href="#" onclick="Vtiger_Index_Js.changeWatching(this)" title="{vtranslate('BTN_WATCHING_RECORD', $MODULE)}" data-record="{$LISTVIEW_ENTRY->getId()}" data-value="{$WATCHING_STATE}" class="noLinkBtn{if !$WATCHING_STATE} info-color{/if}" data-on="info-color" data-off="" data-icon-on="glyphicon-eye-open" data-icon-off="glyphicon-eye-close">
+								<span class="glyphicon {if $WATCHING_STATE}glyphicon-eye-close{else}glyphicon-eye-open{/if} alignMiddle"></span>
+							</a>&nbsp;
+						{/if}
 						{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
                         {if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && in_array($RAWDATA.status,$CURRENT_ACTIVITY_LABELS)}
                             <a class="showModal" data-url="{$LISTVIEW_ENTRY->getActivityStateModalUrl()}"><span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;

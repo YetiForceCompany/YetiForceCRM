@@ -52,7 +52,6 @@ $languageStrings = [
 	'Filter info' => 'Activer le filtrage des données par liste de sélection',
 	'None' => 'Aucun',
 	'ProductsServices' => 'Produits services',
-	'Campaign status' => 'Satuts Campagne',
 	'LBL_SELECT_BUTTON_INFO' => 'Activer le boutton sélection',
 	'LBL_CONDITION' => 'Condition',
 	'LBL_CONDITION_INFO' => 'Sélectionner une condition pour afficher les enregistrements',
@@ -61,6 +60,7 @@ $languageStrings = [
 	'LBL_SHITCH_HEADER' => 'Basculer dans l\'en-tête',
 	'LBL_SHITCH_HEADER_INFO' => 'Basculer peut être trouvé dans l\'en-tête du widget.',
 	'HistoryRelation' => 'Timeline',
+	'CountRecords' => 'Number of records'
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Chargement...',

@@ -131,8 +131,14 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$functionName = $this->get('name');
 		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
 		if ($relationListView_Model) {
-			$searchParams = $relationListView_Model->get('search_params');
-			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
+			$queryGenerator = $relationListView_Model->get('query_generator');
+			$joinTable = $queryGenerator->getFromClause(true);
+			if ($joinTable) {
+				$queryComponents = preg_split('/WHERE/i', $query);
+				$query = $queryComponents[0] . $joinTable . ' WHERE ' . $queryComponents[1];
+			}
+			$where = $queryGenerator->getWhereClause(true);
+			$query .= $where;
 		}
 		return $query;
 	}
@@ -260,10 +266,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		if (key_exists($relKey, self::$_cached_instance)) {
 			return self::$_cached_instance[$relKey];
 		}
-		if ($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) {
+		if (($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) || $parentModuleModel->getName() == 'Documents') {
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			if (method_exists($relationModel, 'setExceptionData')) {
+				$relationModel->setExceptionData();
+			}
 			self::$_cached_instance[$relKey] = $relationModel;
 			return $relationModel;
 		}
@@ -289,7 +298,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return false;
 	}
 
-	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true)
+	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -313,7 +322,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		while ($row = $db->getRow($result)) {
 			//$relationModuleModel = Vtiger_Module_Model::getCleanInstance($moduleName);
 			// Skip relation where target module does not exits or is no permitted for view.
-			if (!$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
+			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
 			}
 			$relationModel = new $relationModelClassName();
@@ -435,7 +444,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$result = $db->pquery($query, array($sourceModuleTabId, $relation_ids));
 	}
 
-	public function updateRelationPresence($relationId, $status)
+	public static function updateRelationPresence($relationId, $status)
 	{
 		$adb = PearDatabase::getInstance();
 		$presence = 0;
@@ -466,7 +475,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		}
 	}
 
-	public function updateModuleRelatedFields($relationId, $fields)
+	public static function updateModuleRelatedFields($relationId, $fields)
 	{
 		$db = PearDatabase::getInstance();
 		$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
@@ -614,7 +623,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $result;
 	}
 
-	public function updateStateFavorites($relationId, $status)
+	public static function updateStateFavorites($relationId, $status)
 	{
 		$adb = PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_relatedlists SET `favorites` = ? WHERE `relation_id` = ?;';

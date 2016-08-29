@@ -116,7 +116,7 @@ class EmailTemplate
 			}
 
 			if (count($tableList) > 0 && count($columnList) > 0) {
-				$sql = 'select ' . implode(', ', $columnList) . ' from ' . $tableList[0];
+				$sql = sprintf('SELECT %s FROM %s', implode(', ', $columnList), $tableList[0]);
 				$moduleTableIndexList = $meta->getEntityTableIndexList();
 				foreach ($tableList as $index => $tableName) {
 					if ($tableName != $tableList[0]) {
@@ -238,7 +238,7 @@ class EmailTemplate
 	public function isModuleActive($module)
 	{
 		include_once 'include/utils/VtlibUtils.php';
-		if (vtlib_isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
+		if (\includes\Modules::isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
 			return true;
 		}
 		return false;
@@ -257,5 +257,3 @@ class EmailTemplate
 			return false;
 	}
 }
-
-?>

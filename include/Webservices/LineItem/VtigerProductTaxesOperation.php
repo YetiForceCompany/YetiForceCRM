@@ -36,5 +36,3 @@ class VtigerProductTaxesOperation extends VtigerActorOperation
 		}
 	}
 }
-
-?>

@@ -126,7 +126,6 @@ $languageStrings = [
 	'LBL_ON_SWITCH' => 'ON',
 	'LBL_OFF_SWITCH' => 'OFF',
 	'LBL_FOLLOWUP' => 'Événement lié',
-	
 	'PLL_PLANNED' => 'Planifié',
 	'PLL_IN_REALIZATION' => 'A faire',
 	'PLL_OVERDUE' => 'En retard',
@@ -136,11 +135,11 @@ $languageStrings = [
 	'LBL_RECURRENCE_INFORMATION' => 'Détails de récurrence',
 	'LBL_RELATED_TO' => 'Lié à',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Pas d\'action disponible',
-	'LBL_INVITE_USER_BLOCK' => 'Inviter',
 	'LBL_CALENDAR_FILTERS' => 'Filtres',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Choisir la première date disponible comme date de début',
 	'LBL_CACHE_SELECTED_FILTERS' => 'La vue satndard du calendrier a été modifiée. Cliquez sur "Rafraichir la vue" pour la mettre à jour.',
 	'LBL_CACHE_CLEAR' => 'Rafraichir la vue',
+	'LBL_PROCESS' => 'Process',
 ];
 
 $jsLanguageStrings = [

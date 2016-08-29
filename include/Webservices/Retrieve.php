@@ -48,5 +48,3 @@ function vtws_retrieve($id, $user)
 	VTWS_PreserveGlobal::flush();
 	return $entity;
 }
-
-?>

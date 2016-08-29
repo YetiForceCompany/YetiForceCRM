@@ -67,15 +67,6 @@ class Leads extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'company';
 
-	function Leads()
-	{
-		$this->log = LoggerManager::getLogger('lead');
-		$this->log->debug("Entering Leads() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Leads');
-		$this->log->debug("Exiting Lead method ...");
-	}
-
 	/** Function to handle module specific operations when saving a entity
 	 */
 	function save_module($module)
@@ -121,10 +112,10 @@ class Leads extends CRMEntity
 		$query .= $this->getNonAdminAccessControlQuery('Leads', $current_user);
 		$where_auto = " vtiger_crmentity.deleted=0 AND vtiger_leaddetails.converted =0";
 
-		if ($where != "")
-			$query .= " where ($where) AND " . $where_auto;
+		if ($where != '')
+			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
 		else
-			$query .= " where " . $where_auto;
+			$query .= sprintf(' where %s', $where_auto);
 
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
@@ -143,7 +134,7 @@ class Leads extends CRMEntity
 		$log->debug("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -203,7 +194,7 @@ class Leads extends CRMEntity
 		$log->debug("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -463,10 +454,13 @@ class Leads extends CRMEntity
 		if (is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
-		if (!empty($additionalColumns)) {
-			$additionalColumns = ',' . implode(',', $additionalColumns);
+		if (is_array($additionalColumns)) {
+			$additionalColumns = implode(',', $additionalColumns);
 		}
-		$selectClause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid," . $tableColumnsString . $additionalColumns;
+		if (!empty($additionalColumns)) {
+			$additionalColumns = ',' . $additionalColumns;
+		}
+		$selectClause = sprintf('SELECT %s.%s AS recordid, %s %s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))

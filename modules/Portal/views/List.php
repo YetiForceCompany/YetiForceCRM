@@ -82,6 +82,7 @@ class Portal_List_View extends Vtiger_Index_View
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 		
 		$viewer->assign('PAGE_NUMBER', $pageNumber);	
+		$viewer->assign('MODULE', $moduleName);	
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_COUNT',  $pagingInfo['recordCount']);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);

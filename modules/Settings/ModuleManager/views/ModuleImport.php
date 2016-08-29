@@ -24,7 +24,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	{
 		$systemMode = vglobal('systemMode');
 		if ($systemMode == 'demo') {
-			die(Vtiger_Functions::throwNewException(vtranslate('LBL_ERROR_IMPORT_IN_DEMO')));
+			die(vtlib\Functions::throwNewException(vtranslate('LBL_ERROR_IMPORT_IN_DEMO')));
 		}
 
 		$mode = $request->getMode();
@@ -79,7 +79,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		if (!move_uploaded_file($_FILES['moduleZip']['tmp_name'], $uploadFileName)) {
 			$error = 'LBL_ERROR_MOVE_UPLOADED_FILE';
 		} else {
-			$package = new Vtiger_Package();
+			$package = new vtlib\Package();
 			$importModuleName = $package->getModuleNameFromZip($uploadFileName);
 			$importModuleDepVtVersion = $package->getDependentVtigerVersion();
 
@@ -100,7 +100,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 				$viewer->assign('MODULEIMPORT_PARAMETERS', $package->getParameters());
 
 				if (!$package->isLanguageType() && !$package->isUpdateType() && !$package->isModuleBundle()) {
-					$moduleInstance = Vtiger_Module::getInstance($importModuleName);
+					$moduleInstance = vtlib\Module::getInstance($importModuleName);
 					$moduleimport_exists = ($moduleInstance) ? "true" : "false";
 					$moduleimport_dir_name = "modules/$importModuleName";
 					$moduleimport_dir_exists = (is_dir($moduleimport_dir_name) ? "true" : "false");
@@ -126,14 +126,13 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 
 		$importType = $request->get('module_import_type');
 		if (strtolower($importType) == 'language') {
-			$package = new Vtiger_Language();
+			$package = new vtlib\Language();
 			$viewer->assign("IMPORT_MODULE_TYPE", 'Language');
 		} else if (strtolower($importType) == 'layout') {
-			vimport('vtlib.Vtiger.Layout');
-			$package = new Vtiger_Layout();
+			$package = new vtlib\Layout();
 			$viewer->assign("IMPORT_MODULE_TYPE", 'Layout');
 		} else {
-			$package = new Vtiger_Package();
+			$package = new vtlib\Package();
 		}
 		$package->initParameters($request);
 		$package->import($uploadFileName);
@@ -163,16 +162,16 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 
 		$importType = $request->get('module_import_type');
 		if (strtolower($importType) == 'language') {
-			$package = new Vtiger_Language();
+			$package = new vtlib\Language();
 		} else {
-			$package = new Vtiger_Package();
+			$package = new vtlib\Package();
 		}
 		$package->initParameters($request);
 
 		if (strtolower($importType) == 'language') {
 			$package->import($uploadFileName);
 		} else {
-			$package->update(Vtiger_Module::getInstance($importModuleName), $uploadFileName);
+			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
 		}
 
 		checkFileAccessForDeletion($uploadFileName);

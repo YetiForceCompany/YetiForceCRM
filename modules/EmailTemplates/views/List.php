@@ -107,9 +107,9 @@ class EmailTemplates_List_View extends Vtiger_Index_View
 		$operator = $request->get('operator');
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);
-			$viewer->assign('OPERATOR', $operator);
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
+		$viewer->assign('OPERATOR', $operator);
+		$viewer->assign('ALPHABET_VALUE', $searchValue);
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
@@ -183,7 +183,7 @@ class EmailTemplates_List_View extends Vtiger_Index_View
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$operator = $request->get('operator');
-		
+
 		$listViewModel = EmailTemplates_ListView_Model::getInstance($moduleName);
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'ConfReport' => 'Configuration serveur',
 	'LBL_CONFIGURATION' => 'Configuration serveur',
@@ -18,22 +18,21 @@ $languageStrings = [
 	'LBL_FILES_PERMISSIONS' => 'Fichiers/Dossiers',
 	'LBL_FILE' => 'Nom',
 	'LBL_PATH' => 'Chemin',
-	'LBL_PERMISSION' => 'Permission',	
+	'LBL_PERMISSION' => 'Permission',
 	'LBL_TRUE_PERMISSION' => 'Autorisé',
-	'LBL_FAILED_PERMISSION' => 'Non autorisé',	
+	'LBL_FAILED_PERMISSION' => 'Non autorisé',
 	'On' => 'On',
 	'Off' => 'Off',
 	'NOT RECOMMENDED' => 'Non recommandé',
 	'LBL_YETIFORCE_ENGINE' => 'Moteur YetiForce',
 	'LBL_CHECK_CONFIG' => 'Moteur RoundCube',
-	
 	'LBL_MANDATORY' => 'Obligatoire',
 	'LBL_OPTIONAL' => 'Optionel',
 	'LBL_LIBRARY' => 'Support des librairies',
 	'LBL_INSTALLED' => 'Installé',
-	'LBL_PDO_SUPPORT'=>'PDO',
-	'LBL_OPEN_SSL'=>'openssl',
-	'LBL_CURL'=>'cURL',
+	'LBL_PDO_SUPPORT' => 'PDO',
+	'LBL_OPEN_SSL' => 'openssl',
+	'LBL_CURL' => 'cURL',
 	'LBL_ZLIB_SUPPORT' => 'Zlib',
 	'LBL_IMAP_SUPPORT' => 'IMAP',
 	'LBL_GD_LIBRARY' => 'GD',
@@ -44,8 +43,12 @@ $languageStrings = [
 	'LBL_SESSION_LIBRARY' => 'SESSION',
 	'LBL_DOM_LIBRARY' => 'DOM',
 	'LBL_ZIP_ARCHIVE' => 'ZIP',
-	'LBL_SPACE'=>'Capacity',
-	'LBL_SPACE_TOTAL'=>'Total',
-	'LBL_SPACE_FREE'=>'Libre',
-	'LBL_SPACE_USED'=>'Utilisé',
+	'LBL_SPACE' => 'Capacity',
+	'LBL_SPACE_TOTAL' => 'Total',
+	'LBL_SPACE_FREE' => 'Libre',
+	'LBL_SPACE_USED' => 'Utilisé',
+	'LBL_VALUE' => 'Value',
+	'LBL_PHPINI' => 'PHP configuraton',
+ 	'LBL_LOG_FILE' => 'Logs',
+ 	'LBL_CRM_DIR' => 'CRM Local directory',
 ];

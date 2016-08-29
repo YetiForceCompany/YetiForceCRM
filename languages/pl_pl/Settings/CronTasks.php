@@ -44,6 +44,10 @@ $languageStrings = [
 	'LBL_CURRENCY_UPDATE' => 'Aktualizacja kursów walut',
 	'LBL_MULTI_REFERENCE_VALUE' => 'Aktualizacja pól multireferencji',
 	'LBL_CRMACTIVITY_DAYS' => 'Aktualizacja pól aktywności kalendarza w modułach powiązanych',
+	'Activity State' => 'Stan aktywności',
+	'Assets Renewal' => 'Odnowienie produktów sprzedanych',
+	'SoldServices Renewal' => 'Odnowienie usług sprzedanych',
+	'LBL_SEND_NOTIFICATIONS' => 'Wysyłaj powiadomienia',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',

@@ -91,7 +91,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 		$noOfEntries = count($this->listViewEntries);
-		if (!$this->listViewLinks) {
+		if (!isset($this->listViewLinks)) {
 			$this->listViewLinks = $listViewModel->getListViewLinks();
 		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
@@ -109,7 +109,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-		if (!$this->listViewCount) {
+		if (!isset($this->listViewCount)) {
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
 		$totalCount = $this->listViewCount;
@@ -137,6 +137,8 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			'modules.Settings.Vtiger.resources.List',
 			"modules.Settings.$moduleName.resources.List",
 			"modules.Settings.Vtiger.resources.$moduleName",
+			'modules.Vtiger.resources.ListSearch',
+			"modules.$moduleName.resources.ListSearch"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

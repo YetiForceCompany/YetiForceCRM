@@ -34,13 +34,13 @@ class VTCreateEntityTask extends VTTask
 		$recordId = $recordId[1];
 
 		$entityType = $this->entity_type;
-		if (!vtlib_isModuleActive($entityType)) {
+		if (!\includes\Modules::isModuleActive($entityType)) {
 			return;
 		}
 
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
-			$fieldValueMapping = Zend_Json::decode($this->field_value_mapping);
+			$fieldValueMapping = \includes\utils\Json::decode($this->field_value_mapping);
 		}
 
 		if (!empty($entityType) && !empty($fieldValueMapping) && count($fieldValueMapping) > 0 && !$this->mappingPanel) {
@@ -206,7 +206,7 @@ class VTCreateEntityTask extends VTTask
 			}
 			foreach ($data as $name => $value) {
 				if (in_array($name, $jsonFields)) {
-					$value = Zend_Json::decode($value);
+					$value = \includes\utils\Json::decode($value);
 				}
 				$invDat[$name . $i] = $value;
 			}

@@ -42,8 +42,8 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$fieldModels = $moduleModel->getFields();
 		$blockModels = $moduleModel->getBlocks();
 
-		$blockIdFieldMap = array();
-		$inactiveFields = array();
+		$blockIdFieldMap = [];
+		$inactiveFields = [];
 		foreach ($fieldModels as $fieldModel) {
 			$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
 			if (!$fieldModel->isActiveField()) {
@@ -52,8 +52,10 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		}
 
 		foreach ($blockModels as $blockLabel => $blockModel) {
-			$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
-			$blockModel->setFields($fieldModelList);
+			if (isset($blockIdFieldMap[$blockModel->get('id')])) {
+				$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
+				$blockModel->setFields($fieldModelList);
+			}
 		}
 
 		$qualifiedModule = $request->getModule(false);
@@ -66,10 +68,11 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('ADD_SUPPORTED_FIELD_TYPES', $moduleModel->getAddSupportedFieldTypes());
 		$viewer->assign('DISPLAY_TYPE_LIST', Vtiger_Field_Model::showDisplayTypeList());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
-		$viewer->assign('INVENTORY_MODAL',  Vtiger_InventoryField_Model::getInstance($sourceModule));
+		$viewer->assign('INVENTORY_MODEL', Vtiger_InventoryField_Model::getInstance($sourceModule));
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}
 
@@ -91,11 +94,12 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
 		$viewer->assign('RELATED_MODULES', $relatedModuleModels);
+		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('RelatedList.tpl', $qualifiedModule);
 	}
-	
+
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

@@ -22,7 +22,7 @@
  * @package    PHPExcel
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
- * @version    1.8.0, 2014-03-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 
@@ -461,10 +461,12 @@ class PHPExcel
      * Get active sheet
      *
      * @return PHPExcel_Worksheet
+     *
+     * @throws PHPExcel_Exception
      */
     public function getActiveSheet()
     {
-        return $this->_workSheetCollection[$this->_activeSheetIndex];
+        return $this->getSheet($this->_activeSheetIndex);
     }
 
     /**
@@ -570,16 +572,14 @@ class PHPExcel
      */
     public function getSheet($pIndex = 0)
     {
-
-        $numSheets = count($this->_workSheetCollection);
-
-        if ($pIndex > $numSheets - 1) {
+        if (!isset($this->_workSheetCollection[$pIndex])) {
+            $numSheets = $this->getSheetCount();
             throw new PHPExcel_Exception(
-            	"Your requested sheet index: {$pIndex} is out of bounds. The actual number of sheets is {$numSheets}."
-           	);
-        } else {
-            return $this->_workSheetCollection[$pIndex];
+                "Your requested sheet index: {$pIndex} is out of bounds. The actual number of sheets is {$numSheets}."
+            );
         }
+
+        return $this->_workSheetCollection[$pIndex];
     }
 
     /**
@@ -682,7 +682,7 @@ class PHPExcel
      */
     public function setActiveSheetIndex($pIndex = 0)
     {
-    		$numSheets = count($this->_workSheetCollection);
+        $numSheets = count($this->_workSheetCollection);
 
         if ($pIndex > $numSheets - 1) {
             throw new PHPExcel_Exception(
@@ -1011,7 +1011,7 @@ class PHPExcel
      */
     public function getCellStyleXfByHashCode($pValue = '')
     {
-        foreach ($this->_cellXfStyleCollection as $cellStyleXf) {
+        foreach ($this->_cellStyleXfCollection as $cellStyleXf) {
             if ($cellStyleXf->getHashCode() == $pValue) {
                 return $cellStyleXf;
             }

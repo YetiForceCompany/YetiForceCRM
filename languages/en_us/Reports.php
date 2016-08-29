@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,11 +7,11 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'PRIMARY_MODULE' => 'Primary module',
 	'Report Name' => 'Report name',
-	'Reports'=>'Reports',
+	'Reports' => 'Reports',
 	'SINGLE_Reports' => 'Report',
 	'LBL_ADD_FOLDER' => 'Add folder',
 	'LBL_ADD_NEW_FOLDER' => 'Add new folder',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_AVERAGE' => 'Average',
 	'LBL_AVG' => 'AVG',
 	'LBL_CALCULATION_CONVERSION_MESSAGE' => 'Calculations are done using the base currency of your CRM',
-	'LBL_CALCULATIONS' =>'Calculations',
+	'LBL_CALCULATIONS' => 'Calculations',
 	'LBL_CHOOSE_DATE' => 'Choose date',
 	'LBL_COLUMNS' => 'Columns',
 	'LBL_CREATING_REPORT' => 'Creating Report',
@@ -51,7 +51,7 @@ $languageStrings = [
 	'LBL_MAX' => 'MAX',
 	'LBL_MIN' => 'MIN',
 	'LBL_MONTHLY_BY_DATE' => 'Monthly by date',
-    'LBL_MORE_RECORDS_TXT'=>'Only 1000 records are shown below. Please export to see all records',
+	'LBL_MORE_RECORDS_TXT' => 'Only 1000 records are shown below. Please export to see all records',
 	'LBL_MOVE_REPORT' => 'Move Reports',
 	'LBL_NEXT' => 'Next',
 	'LBL_NEXT_TRIGGER_TIME' => 'Next trigger time on',
@@ -68,7 +68,7 @@ $languageStrings = [
 	'LBL_REPORT_PRINT' => 'Print',
 	'LBL_REPORTS_LIST' => 'Reports list',
 	'LBL_REPORTS' => 'Reports list',
-	'LBL_RUN_REPORT' =>'Run Report',
+	'LBL_RUN_REPORT' => 'Run Report',
 	'LBL_SAME_LEVEL_ROLES' => 'Same level roles',
 	'LBL_SCHEDULE_REPORTS' => 'Schedule Reports',
 	'LBL_SELECT_COLUMNS' => 'Select columns',
@@ -89,7 +89,6 @@ $languageStrings = [
 	'LBL_YEARLY' => 'Yearly',
 	'LBL_MAIN' => 'Main',
 	'LBL_SELECT_REPORT' => 'Select report',
-
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Select chart type',
 	'LBL_CLICK_THROUGH_NOT_AVAILABLE' => 'Click through not available as you have selected more than one module',
@@ -113,9 +112,10 @@ $languageStrings = [
 	'LBL_FOR_BAR_GRAPH_AND_LINE_GRAPH_SELECT_3_MAX_DATA_FIELDS' => 'For bar and line graph, you can select maximum of 3 Data fields.',
 	'LBL_DETAIL_REPORT' => 'Detail Report',
 	'LBL_CHARTS' => 'Charts',
-    //Schedule Reports - Mail Content
-    'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'This is an auto-generated email sent on behalf of a scheduled report.',
+	//Schedule Reports - Mail Content
+	'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'This is an auto-generated email sent on behalf of a scheduled report.',
 	'LBL_PIVOT_REPORT' => 'Pivot Report',
+	'LBL_VIEW_CHARTDETAIL' => 'Chart preview',
 ];
 
 $jsLanguageStrings = [

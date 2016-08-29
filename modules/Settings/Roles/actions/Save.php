@@ -15,7 +15,7 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -45,6 +45,7 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller
 				->set('editrelatedrecord', $request->get('editRelatedRecord'))
 				->set('permissionsrelatedfield', $request->get('permissionsRelatedField'))
 				->set('globalsearchadv', $request->get('globalSearchAdvanced'))
+				->set('assignedmultiowner', $request->get('assignedmultiowner'))
 				->set('clendarallorecords', $request->get('clendarallorecords'));
 			if (!empty($allowassignedrecordsto))
 				$recordModel->set('allowassignedrecordsto', $allowassignedrecordsto); // set the value of assigned records to

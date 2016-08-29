@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -9,17 +9,15 @@
  * All Rights Reserved.
  * Contributor(s): 
  * VERSION YetiForceCRM: 1.1.0 RC
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Список',
 	// Basic Strings
-	'OutsourcedProducts'        => 'Аутсорсинг Товаров',
+	'OutsourcedProducts' => 'Аутсорсинг Товаров',
 	'SINGLE_OutsourcedProducts' => 'Аутсорсинг Товаров',
 	'LBL_ADD_RECORD' => 'Товар',
-
 	// Blocks
 	'LBL_INFORMATION' => 'Основная информация',
-
 	//Field Labels
 	'Assigned To' => 'Ответственный',
 	'LBL_RODZAJUMOWY' => 'Тип соглашения',
@@ -38,7 +36,7 @@ $languageStrings = [
 	'Where bought' => 'Где купил',
 	'Number' => 'Номер',
 	'Save' => 'Сохранить',
-	'Selling proposition'=>'Сделка',
+	'Selling proposition' => 'Сделка',
 	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'Active' => 'Активный',
 	'Inactive' => 'Неактивный',

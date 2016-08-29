@@ -20,7 +20,7 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 			foreach ($records as $record) {
 				$recordPermission = Users_Privileges_Model::isPermitted($module, 'EditView', $record);
 				if (!$recordPermission) {
-					throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+					throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 				}
 			}
 		}

@@ -82,19 +82,20 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
-	
-		$totalCount = $relationListView->getRelatedEntriesCount();
-		$pagingModel->set('totalCount', (int) $totalCount);
+
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+			$totalCount = $relationListView->getRelatedEntriesCount();
+			$pagingModel->set('totalCount', (int) $totalCount);
+			$viewer->assign('TOTAL_ENTRIES', $totalCount);
+		}
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-		
+
 		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('TOTAL_ENTRIES', $totalCount);
-		$viewer->assign('PERFORMANCE', true);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('PAGING', $pagingModel);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);

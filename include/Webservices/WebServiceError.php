@@ -22,5 +22,3 @@ class WebServiceException extends Exception
 		$this->message = $msg;
 	}
 }
-
-?>

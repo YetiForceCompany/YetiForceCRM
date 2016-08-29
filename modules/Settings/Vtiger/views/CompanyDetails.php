@@ -28,6 +28,10 @@ class Settings_Vtiger_CompanyDetails_View extends Settings_Vtiger_Index_View
 		return vtranslate('LBL_COMPANY_DETAILS', $qualifiedModuleName);
 	}
 
+	function getBreadcrumbTitle(Vtiger_Request $request)
+	{
+		return vtranslate('LBL_EDIT', $request->getModule(false));
+	}
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request

@@ -71,10 +71,23 @@ $languageStrings = [
 	'RecordMappingList' => 'Générer des enregistrements de champs mappés',
 	'WatchingRecords' => 'Audit des modifications dans les enregistrements',
 	'WatchingModule' => 'Audit des modifications dans les modules',
+	'NotificationCreateMessage' => 'Send notifications',
+	'NotificationCreateMail' => 'Send email notifications',
+	'NotificationPreview' => 'Preview notifications',
+	'NotificationSendToAll' => 'Send notifications to all users',
+	'FavoriteRecords' => 'Favorite records',
+	'OpenRecord' => 'Open record',
+	'CloseRecord' => 'Close record',
+	'RemoveRelation' => 'Remove relation',
+	'ReceivingMailNotifications' => 'Receiving mail notifications',
+	'ReviewingUpdates' => 'Reviewing history of changes',
 	//end Actions
 	'Profile Related to Sales' => 'Profil liés aux ventes',
 	'Profile Related to Support' => 'Profil lié au support',
 	'Guest Profile for Test Users' => 'Profil invité pour utilisateurs de test',
+	'ActivityCancel' => 'Cancel records',
+	'ActivityComplete' => 'Close records',
+	'ActivityPostponed' => 'Postpone records',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil supprimé avec succès',

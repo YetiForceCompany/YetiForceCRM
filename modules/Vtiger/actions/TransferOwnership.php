@@ -11,7 +11,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'EditView') || !$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'MassTransferOwnership')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -20,18 +20,26 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		$module = $request->getModule();
 		$transferOwnerId = $request->get('transferOwnerId');
 		$record = $request->get('record');
-
+		$relatedModules = $request->get('related_modules');
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 		$transferModel = new $modelClassName();
 
 		if (empty($record))
 			$recordIds = $this->getBaseModuleRecordIds($request);
 		else
-			$recordIds[] = $record;
-		$relatedModuleRecordIds = $transferModel->getRelatedModuleRecordIds($request, $recordIds);
-		$transferRecordIds = array_merge($relatedModuleRecordIds, $recordIds);
-		$transferModel->transferRecordsOwnership($module, $transferOwnerId, $transferRecordIds);
-
+			$recordIds = [$record];
+		if (!empty($recordIds)) {
+			$transferModel->transferRecordsOwnership($module, $transferOwnerId, $recordIds);
+		}
+		if (!empty($relatedModules)) {
+			foreach ($relatedModules as $relatedData) {
+				$relatedModule = reset(explode('::', $relatedData));
+				$relatedModuleRecordIds = $transferModel->getRelatedModuleRecordIds($request, $recordIds, $relatedData);
+				if (!empty($relatedModuleRecordIds)) {
+					$transferModel->transferRecordsOwnership($relatedModule, $transferOwnerId, $relatedModuleRecordIds);
+				}
+			}
+		}
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
@@ -43,8 +51,15 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		$module = $request->getModule();
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
+
 		if (!empty($selectedIds) && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
+				foreach ($selectedIds as $key => &$recordId) {
+					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+					if (!$recordModel->isEditable()) {
+						unset($selectedIds[$key]);
+					}
+				}
 				return $selectedIds;
 			}
 		}
@@ -52,7 +67,17 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		if ($selectedIds == 'all') {
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 			if ($customViewModel) {
-				return $customViewModel->getRecordIds($excludedIds, $module);
+				$searchKey = $request->get('search_key');
+				$searchValue = $request->get('search_value');
+				$operator = $request->get('operator');
+				if (!empty($operator)) {
+					$customViewModel->set('operator', $operator);
+					$customViewModel->set('search_key', $searchKey);
+					$customViewModel->set('search_value', $searchValue);
+				}
+
+				$customViewModel->set('search_params', $request->get('search_params'));
+				return $customViewModel->getRecordIds($excludedIds, $module, true);
 			}
 		}
 		return [];

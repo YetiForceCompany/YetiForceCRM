@@ -61,5 +61,3 @@ function vtws_deleteUser($id, $newOwnerId, $user)
 	VTWS_PreserveGlobal::flush();
 	return array("status" => "successful");
 }
-
-?>

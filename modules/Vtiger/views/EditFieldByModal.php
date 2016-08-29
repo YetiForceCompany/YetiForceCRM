@@ -19,7 +19,7 @@ class Vtiger_EditFieldByModal_View extends Vtiger_BasicModal_View
 
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}

@@ -47,7 +47,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = [[
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
+				'linklabel' => 'LBL_RECORD_SUMMARY',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
 				'linkicon' => '',
@@ -57,7 +57,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => vtranslate('LBL_RECORD_DETAILS', $moduleName),
+			'linklabel' => 'LBL_RECORD_DETAILS',
 			'linkKey' => 'LBL_RECORD_DETAILS',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
@@ -65,20 +65,20 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		];
 
 		if ($moduleName == 'Leads') {
-			$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') || vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices');
+			$showPSTab = \includes\Modules::isModuleActive('OutsourcedProducts') || \includes\Modules::isModuleActive('Products') || \includes\Modules::isModuleActive('Services') || \includes\Modules::isModuleActive('OSSOutsourcedServices');
 		}
 		if ($moduleName == 'Accounts') {
-			$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') || vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices') || vtlib_isModuleActive('Assets') || vtlib_isModuleActive('OSSSoldServices');
+			$showPSTab = \includes\Modules::isModuleActive('OutsourcedProducts') || \includes\Modules::isModuleActive('Products') || \includes\Modules::isModuleActive('Services') || \includes\Modules::isModuleActive('OSSOutsourcedServices') || \includes\Modules::isModuleActive('Assets') || \includes\Modules::isModuleActive('OSSSoldServices');
 		}
 		if ('Contacts' != $moduleName && $showPSTab) {
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_RECORD_SUMMARY_PRODUCTS_SERVICES', $moduleName),
+				'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'ProductsAndServices',
-				'countRelated' => true
+				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -86,21 +86,23 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type=' . $modCommentsModel::getDefaultViewComments(),
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => 'Comments',
-				'countRelated' => true
+				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 
 		if ($parentModuleModel->isTrackingEnabled()) {
-			$relatedLinks[] = array(
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_UPDATES',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
-				'related' => 'Updates'
-			);
+				'related' => 'Updates',
+				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'badgeClass' => 'bgDanger'
+			];
 		}
 
 		$relationModels = $parentModuleModel->getRelations();

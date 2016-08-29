@@ -1,4 +1,4 @@
-s<?php
+<?php
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -9,6 +9,7 @@ s<?php
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
+	'ERR_INCORRECT_ACCESS_DATA' => 'Неверный доступ к данным',
 	'LBL_PAGE_NUMBER' => 'Перейти к номеру страницы',
 	'Mail Scanner' => 'Почта - Сканнер',
 	'OSSMailScanner' => 'Настройка почты',
@@ -22,7 +23,6 @@ $languageStrings = [
 	'Junk' => 'Спам',
 	'Sent' => 'Отправленные',
 ];
-
 $jsLanguageStrings = [
 	'start_cron' => 'Планировщик запущен',
 	'end_cron_ok' => 'Планировщик завершил работу',
@@ -36,6 +36,7 @@ $jsLanguageStrings = [
 	'In progress' => 'В процессе',
 	'whether_remove_an_identity' => 'Следует ли удалять удостоверение',
 	'removed_identity' => 'Удостоверение удалено',
+	'LBL_LOADING_LIST_OF_FOLDERS' => 'Загрузка списка папок продолжается.  BR&gt; Это может занять до нескольких минут ...',
 ];
 
 

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
 	'Member Of' => 'Member of',
 	'Birthdate' => 'Date of birth',
@@ -29,41 +29,33 @@ $languageStrings = [
 	'Reports To' => 'Reports to',
 	'Secondary Email' => 'Secondary email',
 	'SINGLE_Contacts' => 'Contact',
-    'Support End Date'   => 'Support end date',
-    'Support Start Date' => 'Support start date',
+	'Support End Date' => 'Support end date',
+	'Support Start Date' => 'Support start date',
 	'Title' => 'Title',
-	'User List'=>'User list',
+	'User List' => 'User list',
 	'Job title' => 'Job title',
-	
 	//Added for Picklist Values
-	'Dr.'=>'Dr.',
-	'Mr.'=>'Mr.',
-	'Mrs.'=>'Mrs.',
-	'Ms.'=>'Ms.',
-	'Prof.'=>'Prof.',
+	'Dr.' => 'Dr.',
+	'Mr.' => 'Mr.',
+	'Mrs.' => 'Mrs.',
+	'Ms.' => 'Ms.',
+	'Prof.' => 'Prof.',
 	'Active' => 'Active',
 	'Inactive' => 'Inactive',
-	
 	'Other Po Box' => 'Additional address: PO box',
 	'Mailing Po Box' => 'Primary address: PO box',
 	'LBL_ADDRESS_INFORMATION' => 'Address of permanent residence',
 	'LBL_CONTACT_INFO' => 'Contact information',
-	'Approval for phone calls'=>'Permission to call',
-	'Approval for email'=>'Permission to send emails',
+	'Approval for phone calls' => 'Permission to call',
+	'Approval for email' => 'Permission to send emails',
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Language notifications',
 	'Decision maker' => 'Decision maker',
-	
 	//Activity Types
 	'End of support for contact' => 'End of support for contact',
 	'Birthdays of contacts' => 'Birthdays of contacts',
 	'SINGLE_Leads' => 'Lead',
 	'SINGLE_Vendors' => 'Vendor',
-	
-	// popup
-	'LBL_ACCOUNT' => 'Account',
-	'LBL_SWITCH_BUTTON' => 'Switch button',
-	'LBL_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to Account',
 ];
 
 $jsLanguageStrings = [
- ];
+];

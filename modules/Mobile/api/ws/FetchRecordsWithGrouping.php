@@ -34,7 +34,7 @@ class Mobile_WS_FetchRecordsWithGrouping extends Mobile_WS_FetchRecordWithGroupi
 
 		// List of ids specified?
 		if (!empty($idlist)) {
-			$idlist = Zend_Json::decode($idlist);
+			$idlist = \includes\utils\Json::decode($idlist);
 			$records = $this->fetchRecordsWithId($module, $idlist, $current_user);	
 		} 
 		// Alert id specified?

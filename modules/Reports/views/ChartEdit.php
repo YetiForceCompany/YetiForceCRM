@@ -22,19 +22,19 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 		
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$record = $request->get('record');
 		if ($record) {
 			$reportModel = Reports_Record_Model::getCleanInstance($record);
 			if (!$reportModel->isEditable()) {
-				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request) {
+	public function preProcess(Vtiger_Request $request, $display = true) {
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');
@@ -182,7 +182,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View {
 
 		$calculationFields = $reportModel->get('calculation_fields');
 		if($calculationFields) {
-			$calculationFields = Zend_Json::decode($calculationFields);
+			$calculationFields = \includes\utils\Json::decode($calculationFields);
 			$viewer->assign('LINEITEM_FIELD_IN_CALCULATION', $reportModel->showLineItemFieldsInFilter($calculationFields));
 		}
 		if ($request->get('isDuplicate')) {

@@ -2,7 +2,7 @@
 /.settings
 /.project
 /.buildpath
-/README.md
+README.md
 /cache/templates_c
 /config/csrf_secret.php
 /config/config_override.php
@@ -10,3 +10,5 @@
 /cache/vtlib/
 /test/templates_c/basic/*.php
 /nbproject/private/
+tests/*
+.travis.yml

@@ -7,13 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/ThemeExport.php');
+namespace vtlib;
 
 /**
  * Provides API to import language into vtiger CRM
  * @package vtlib
  */
-class Vtiger_ThemeImport extends Vtiger_ThemeExport
+class ThemeImport extends ThemeExport
 {
 
 	/**
@@ -71,7 +71,7 @@ class Vtiger_ThemeImport extends Vtiger_ThemeExport
 		$parent = $this->_modulexml->parent;
 
 		self::log("Importing $label ... STARTED");
-		$unzip = new Vtiger_Unzip($zipfile);
+		$unzip = new Unzip($zipfile);
 		$filelist = $unzip->getList();
 		$vtiger6format = false;
 

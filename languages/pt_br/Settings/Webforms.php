@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - valmir@ttcasolucoes.com.br
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Webforms' => 'Online Forms',
 	'SINGLE_Settings:Webforms' => 'Webform',
@@ -17,13 +17,11 @@ $languageStrings = [
 	'Module' => 'Módulo',
 	'Return Url' => 'URL de retorno',
 	'Post Url' => 'URL Post',
-    'Captcha Enabled' => 'Habilitar Captcha',
+	'Captcha Enabled' => 'Habilitar Captcha',
 	'SINGLE_Webforms' => 'Webform',
-
 	//Actions
 	'LBL_SHOW_FORM' => 'Exibir Formulário',
 	'LBL_DUPLICATES_EXIST' => 'O nome do Webform já existe',
-
 	//Blocks
 	'LBL_WEBFORM_INFORMATION' => 'Informação do Webform',
 	'LBL_FIELD_INFORMATION' => 'Informação Campo',
@@ -41,8 +39,8 @@ $languageStrings = [
 	'LBL_HIDDEN' => 'Ocultar',
 	'LBL_ENABLE_TARGET_MODULES_FOR_WEBFORM' => 'Habilitar módulos Alvo para Webform',
 	'LBL_ASSIGN_USERS' => 'Usuário Responsável',
-    'LBL_ASSIGN_ROUND_ROBIN' => 'Designar Usuários no Round Robin',
-    'LBL_ROUNDROBIN_USERS_LIST' => 'Lista de Usuários Round Robin',
+	'LBL_ASSIGN_ROUND_ROBIN' => 'Designar Usuários no Round Robin',
+	'LBL_ROUNDROBIN_USERS_LIST' => 'Lista de Usuários Round Robin',
 ];
 $jsLanguageStrings = [
 	'JS_WEBFORM_DELETED_SUCCESSFULLY' => 'O Webform foi deletado com Sucesso',

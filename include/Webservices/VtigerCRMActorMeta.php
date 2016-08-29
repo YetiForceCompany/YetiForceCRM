@@ -15,7 +15,7 @@ class VtigerCRMActorMeta extends EntityMeta
 	protected static $fieldTypeMapping = [];
 	protected static $referenceTypeMapping = [];
 
-	function VtigerCRMActorMeta($tableName, $webserviceObject, $adb, $user)
+	function __construct($tableName, $webserviceObject, $adb, $user)
 	{
 		parent::__construct($webserviceObject, $user);
 		$this->baseTable = $tableName;
@@ -293,7 +293,7 @@ class VtigerCRMActorMeta extends EntityMeta
 	function exists($recordId)
 	{
 		$exists = false;
-		$sql = 'select 1 from ' . $this->baseTable . ' where ' . $this->getObectIndexColumn() . '=?';
+		$sql = sprintf('SELECT 1 FROM %s WHERE %s = ?', $this->baseTable, $this->getObectIndexColumn());
 		$result = $this->pearDB->pquery($sql, array($recordId));
 		if ($result != null && isset($result)) {
 			if ($this->pearDB->num_rows($result) > 0) {

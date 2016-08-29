@@ -12,18 +12,21 @@ require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once('modules/Users/Users.php');
 
-class VTAddressBookTask extends VTTask {
+class VTAddressBookTask extends VTTask
+{
 
 	public $executeImmediately = false;
 	public $tables = [ 'Contacts' => 'vtiger_contactsbookmails', 'OSSEmployees' => 'vtiger_ossemployeesbookmails',
 		'Accounts' => 'vtiger_accountbookmails', 'Leads' => 'vtiger_leadbookmails',
 		'Vendors' => 'vtiger_vendorbookmails'];
 
-	public function getFieldNames() {
+	public function getFieldNames()
+	{
 		return array('test');
 	}
 
-	public function doTask($entity) {
+	public function doTask($entity)
+	{
 		$db = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -38,9 +41,8 @@ class VTAddressBookTask extends VTTask {
 		$userInstance = new Users();
 		$users = $name = '';
 		$table = $this->tables[$module];
-		$metainfo = Vtiger_Functions::getEntityModuleInfo($module);
-		$entityNames = explode(',', $metainfo['fieldname']);
-		foreach ($entityNames as $entityName) {
+		$metainfo = \includes\Modules::getEntityInfo($module);
+		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $entity->get($entityName);
 		}
 
@@ -53,7 +55,7 @@ class VTAddressBookTask extends VTTask {
 		}
 
 		$db->delete($table, 'id = ?', [$entityId]);
-		$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;', [Vtiger_Functions::getModuleId($module), 13]);
+		$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;', [vtlib\Functions::getModuleId($module), 13]);
 		while ($fieldname = $db->getSingleValue($result)) {
 			if ($entity->get($fieldname) != '') {
 				$db->insert($table, ['id' => $entityId, 'email' => $entity->get($fieldname), 'name' => trim($name), 'users' => trim($users, ',')]);
@@ -68,9 +70,9 @@ class VTAddressBookTask extends VTTask {
 	 * @param <Object> $entity
 	 * @return <Array> contents
 	 */
-	public function getContents($entity, $entityCache = false) {
+	public function getContents($entity, $entityCache = false)
+	{
 		$this->contents = true;
 		return $this->contents;
 	}
-
 }

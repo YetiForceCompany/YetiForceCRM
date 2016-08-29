@@ -19,7 +19,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		$source = $request->get('source');
 		$sourceModule = $request->get('sourceModule');
 		if ($sourceModule != '')
-			$source = Vtiger_Functions::getModuleId($sourceModule);
+			$source = vtlib\Functions::getModuleId($sourceModule);
 		if ($source == '')
 			$source = 6;
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
@@ -27,7 +27,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('SOURCE', $source);
-		$viewer->assign('SOURCEMODULE', Vtiger_Functions::getModuleName($source));
+		$viewer->assign('SOURCEMODULE', vtlib\Functions::getModuleName($source));
 		$viewer->assign('WIDGETS', $moduleModel->getWidgets($source));
 		$viewer->assign('RELATEDMODULES', $RelatedModule);
 		$viewer->assign('FILTERS', json_encode($moduleModel->getFiletrs($RelatedModule)));

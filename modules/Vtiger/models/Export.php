@@ -92,7 +92,9 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		while ($row = $db->fetch_array($result)) {
 			$sanitizedRow = $this->sanitizeValues($row);
 			if ($isInventory) {
-				$resultInventory = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$row[$this->focus->table_index]]);
+				$query = 'SELECT * FROM %s WHERE id = ? ORDER BY seq';
+				$query = sprintf($query, $table);
+				$resultInventory = $db->pquery($query, [$row[$this->focus->table_index]]);
 				if ($db->getRowCount($resultInventory)) {
 					while ($inventoryRow = $db->fetch_array($resultInventory)) {
 						$sanitizedInventoryRow = $this->sanitizeInventoryValues($inventoryRow, $inventoryFields);
@@ -139,7 +141,9 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		$this->accessibleFields = $queryGenerator->getFields();
 
 		switch ($mode) {
-			case 'ExportAllData' : return $query;
+			case 'ExportAllData' :
+				$query .= sprintf(' LIMIT %d', AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				return $query;
 				break;
 
 			case 'ExportCurrentPage' : $pagingModel = new Vtiger_Paging_Model();
@@ -152,7 +156,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				$currentPageStart = ($currentPage - 1) * $limit;
 				if ($currentPageStart < 0)
 					$currentPageStart = 0;
-				$query .= ' LIMIT ' . $currentPageStart . ',' . $limit;
+				$query .= sprintf(' LIMIT %d,%d', $currentPageStart, $limit);
 
 				return $query;
 				break;
@@ -169,6 +173,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				} else {
 					$query .= ' AND ' . $baseTable . '.' . $baseTableColumnId . ' NOT IN (' . implode(',', $request->get('excluded_ids')) . ')';
 				}
+				$query .= sprintf(' LIMIT %d', AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				return $query;
 				break;
 
@@ -285,8 +290,8 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			} elseif ($type == 'reference') {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = Vtiger_Functions::getCRMRecordType($value);
-					$displayValueArray = Vtiger_Functions::computeCRMRecordLabels($recordModule, $value);
+					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$displayValueArray = \includes\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;
@@ -322,8 +327,8 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = Vtiger_Functions::getCRMRecordType($value);
-					$displayValueArray = Vtiger_Functions::computeCRMRecordLabels($recordModule, $value);
+					$recordModule = vtlib\Functions::getCRMRecordType($value);
+					$displayValueArray = includes\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;

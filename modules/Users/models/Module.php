@@ -159,10 +159,10 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 
-		$userIPAddress = Vtiger_Functions::getRemoteIP();
-		;
-		$loginTime = date("Y-m-d H:i:s");
-		$browser = (strlen($browser)) ? $browser : '-';
+		$userIPAddress = vtlib\Functions::getRemoteIP();
+		$userIPAddress = empty($userIPAddress) ? '-' : $userIPAddress;
+		$loginTime = date('Y-m-d H:i:s');
+		$browser = empty($browser) ? $browser : '-';
 		$query = "INSERT INTO vtiger_loginhistory (user_name, user_ip, logout_time, login_time, status, browser) VALUES (?,?,?,?,?,?)";
 		$params = array($username, $userIPAddress, '0000-00-00 00:00:00', $loginTime, $status, $browser);
 		$adb->pquery($query, $params);
@@ -239,12 +239,12 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * @return an array with the list of languages which are available in source
 	 */
-	public function getLanguagesList()
+	public static function getLanguagesList()
 	{
 		$adb = PearDatabase::getInstance();
 
 		$language_query = 'SELECT prefix, label FROM vtiger_language';
-		$result = $adb->pquery($language_query, array());
+		$result = $adb->query($language_query);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$lang_prefix = decode_html($adb->query_result($result, $i, 'prefix'));
@@ -278,7 +278,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		}
 		return true;
 	}
-	
+
 	public static function getNotAdminUsers()
 	{
 		$adb = PearDatabase::getInstance();
@@ -291,7 +291,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 		return $output;
 	}
-	
+
 	public static function getSwitchUsers()
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();

@@ -18,12 +18,11 @@ class OperationManager
 
 	private $format;
 	private $formatsData = array(
-		"json" => array(
-			"includePath" => "include/Zend/Json.php",
-			"class" => "Zend_Json",
-			"encodeMethod" => "encode",
-			"decodeMethod" => "decode",
-			"postCreate" => "setBuiltIn"
+		'json' => array(
+			'class' => '\includes\utils\Json',
+			'encodeMethod' => 'encode',
+			'decodeMethod' => 'decode',
+			'postCreate' => 'setBuiltIn'
 		)
 	);
 	private $operationMeta = null;
@@ -39,7 +38,7 @@ class OperationManager
 	private $operationId;
 	private $operationParams;
 
-	function OperationManager($adb, $operationName, $format, $sessionManager)
+	function __construct($adb, $operationName, $format, $sessionManager)
 	{
 
 		$this->format = strtolower($format);
@@ -47,12 +46,11 @@ class OperationManager
 		$this->formatObjects = [];
 
 		foreach ($this->formatsData as $frmt => $frmtData) {
-			require_once($frmtData["includePath"]);
-			$instance = new $frmtData["class"]();
-			$this->formatObjects[$frmt]["encode"] = array(&$instance, $frmtData["encodeMethod"]);
-			$this->formatObjects[$frmt]["decode"] = array(&$instance, $frmtData["decodeMethod"]);
-			if ($frmtData["postCreate"]) {
-				call_user_func($frmtData["postCreate"], $instance);
+			$instance = new $frmtData['class']();
+			$this->formatObjects[$frmt]['encode'] = array(&$instance, $frmtData['encodeMethod']);
+			$this->formatObjects[$frmt]['decode'] = array(&$instance, $frmtData['decodeMethod']);
+			if ($frmtData['postCreate']) {
+				call_user_func($frmtData['postCreate'], $instance);
 			}
 		}
 
@@ -190,5 +188,3 @@ class OperationManager
 		return $includes;
 	}
 }
-
-?>

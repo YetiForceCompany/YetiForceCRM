@@ -253,8 +253,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 * @param <Boolean> $skipRecords - List of the RecordIds to be skipped
 	 * @return <Array> List of RecordsIds
 	 */
-	public function getRecordIds($skipRecords = false, $module = false)
+	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
 	{
+		$params = [];
 		$db = PearDatabase::getInstance();
 		$cvId = $this->getId();
 		$moduleModel = $this->getModule();
@@ -291,11 +292,18 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
 			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
 		}
-		$result = $db->query($listQuery);
-		$noOfRecords = $db->num_rows($result);
+		if ($lockRecords) {
+			$crmEntityModel = Vtiger_CRMEntity::getInstance($moduleName);
+			$lockFields = $crmEntityModel->getLockFields();
+			foreach ($lockFields as $fieldName => $fieldValues) {
+				$listQuery .=' AND ' . $baseTableName . '.' . $fieldName . ' NOT IN (' . generateQuestionMarks($fieldValues) . ')';
+				$params = array_merge($params, $fieldValues);
+			}
+		}
+		$result = $db->pquery($listQuery, $params);
 		$recordIds = [];
-		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$recordIds[] = $db->query_result($result, $i, $baseTableId);
+		while ($row = $db->getRow($result)) {
+			$recordIds[] = $row[$baseTableId];
 		}
 		return $recordIds;
 	}
@@ -328,17 +336,17 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$this->updateCustomView();
 		}
 
+		$userId = 'Users:' . $currentUserModel->getId();
 		if (!empty($featured) && empty($cvIdOrg)) {
-			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, 'Users:' . $currentUserModel->getId(), 'add');
+			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
 		} elseif (empty($featured) && !empty($cvIdOrg)) {
-			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, 'Users:' . $currentUserModel->getId(), 'remove');
+			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'remove');
 		} elseif (!empty($featured)) {
-			$result = $db->pquery('SELECT 1 FROM a_yf_featured_filter WHERE a_yf_featured_filter.cvid = ? AND a_yf_featured_filter.user = ?;', [$cvId, 'Users:' . $currentUserModel->getId()]);
+			$result = $db->pquery('SELECT 1 FROM a_yf_featured_filter WHERE a_yf_featured_filter.cvid = ? AND a_yf_featured_filter.user = ?;', [$cvId, $userId]);
 			if (empty($result->rowCount())) {
-				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, 'Users:' . $currentUserModel->getId(), 'add');
+				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
 			}
 		}
-
 		if (empty($setDefault) && !empty($cvIdOrg)) {
 			$db->delete('vtiger_user_module_preferences', 'userid = ? AND tabid = ? AND default_cvid = ?', [$userId, $this->getModule()->getId(), $cvId]);
 		} elseif (!empty($setDefault)) {
@@ -355,15 +363,15 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$cvId = $this->getId();
 
-		$db->pquery('DELETE FROM vtiger_customview WHERE cvid = ?', [$cvId]);
-		$db->pquery('DELETE FROM vtiger_cvcolumnlist WHERE cvid = ?', [$cvId]);
-		$db->pquery('DELETE FROM vtiger_cvstdfilter WHERE cvid = ?', [$cvId]);
-		$db->pquery('DELETE FROM vtiger_cvadvfilter WHERE cvid = ?', [$cvId]);
-		$db->pquery('DELETE FROM vtiger_cvadvfilter_grouping WHERE cvid = ?', [$cvId]);
+		$db->delete('vtiger_customview', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvcolumnlist', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvstdfilter', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvadvfilter', 'cvid = ?', [$cvId]);
+		$db->delete('vtiger_cvadvfilter_grouping', 'cvid = ?', [$cvId]);
 		$db->delete('vtiger_user_module_preferences', 'default_cvid = ?', [$cvId]);
 
 		// To Delete the mini list widget associated with the filter 
-		$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE filterid = ?', [$cvId]);
+		$db->delete('vtiger_module_dashboard', 'filterid = ?', [$cvId]);
 	}
 
 	/**
@@ -528,6 +536,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			'userid' => $currentUser->getId(),
 			'sequence' => $seq,
 			'featured' => null,
+			'color' => $this->get('color'),
 			'description' => $this->get('description')
 		]);
 		$this->setColumnlist();
@@ -548,12 +557,12 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function updateCustomView()
 	{
 		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$cvId = $this->getId();
 		$db->update('vtiger_customview', [
 			'viewname' => $this->get('viewname'),
 			'setmetrics' => $this->get('setmetrics'),
 			'status' => $this->get('status'),
+			'color' => $this->get('color'),
 			'description' => $this->get('description')
 			], 'cvid = ?', [$cvId]
 		);
@@ -1197,7 +1206,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				$return = $return[0];
 				break;
 			case 'sortOrder':
-				$return = $return[1];
+				$return = isset($return[1]) ? $return[1] : '';
 				break;
 
 			default:

@@ -35,7 +35,6 @@ var Settings_Password_Js = {
 		});
 	},
 	saveConf: function( type , vale ) {
-		console.log(type+' | '+vale);
         var params = {
 			'module' : app.getModuleName(),
 			'parent' : app.getParentModuleName(),

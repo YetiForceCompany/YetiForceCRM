@@ -40,7 +40,7 @@
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 									<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE_MODEL->getName())}'>
 										{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-											<option value="{$FIELD_NAME}"{if $FIELD_NAME eq $SORT_ORDER_BY[0]} selected{/if}>
+											<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $SORT_ORDER_BY[0]} selected{/if}>
 												{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE_MODEL->getName())}
 											</option>
 										{/foreach}
@@ -50,7 +50,7 @@
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
 									<optgroup label='{vtranslate($BLOCK_LABEL, 'Events')}'>
 										{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-											<option value="{$FIELD_NAME}"{if $FIELD_NAME eq $SORT_ORDER_BY[0]} selected{/if}>
+											<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $SORT_ORDER_BY[0]} selected{/if}>
 												{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE_MODEL->getName())}
 											</option>
 										{/foreach}

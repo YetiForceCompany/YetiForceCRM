@@ -82,20 +82,19 @@ class Partners extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Partners');
-			$moduleInstance->setModuleSeqNumber("configure", 'Partners', 'PR', '1');
+			\includes\fields\RecordNumber::setNumber($moduleName, 'PR', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Partners']);
 
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Partners'));
 			}
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModTracker');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModTracker');
 			if ($modcommentsModuleInstance && file_exists('modules/ModTracker/ModTracker.php')) {
-				include_once('vtlib/Vtiger/Module.php');
 				include_once 'modules/ModTracker/ModTracker.php';
-				$tabid = Vtiger_Functions::getModuleId('Partners');
+				$tabid = vtlib\Functions::getModuleId('Partners');
 				$moduleModTrackerInstance = new ModTracker();
 				if (!$moduleModTrackerInstance->isModulePresent($tabid)) {
 					$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
@@ -105,7 +104,7 @@ class Partners extends Vtiger_CRMEntity
 					$moduleModTrackerInstance->updateCache($tabid, 1);
 				}
 				if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)) {
-					$moduleInstance = Vtiger_Module::getInstance($tabid);
+					$moduleInstance = vtlib\Module::getInstance($tabid);
 					$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
 				}
 			}
@@ -134,7 +133,7 @@ class Partners extends Vtiger_CRMEntity
 		$log->debug("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -204,17 +203,12 @@ class Partners extends Vtiger_CRMEntity
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
 				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", array($transferId, $entityId));
+					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
 				$res_cnt = $adb->num_rows($sel_result);
 				if ($res_cnt > 0) {
 					for ($i = 0; $i < $res_cnt; $i++) {
 						$id_field_value = $adb->query_result($sel_result, $i, $id_field);
-						$adb->update($rel_table, [
-							$entity_id_field => $entityId,
-							'time_start' => $cbtime,
-							'status' => $status,
-							], $entity_id_field . ' = ? and ' . $id_field . ' = ?', [$transferId, $id_field_value]
-						);
+						$adb->update($rel_table, [$entity_id_field => $entityId], $entity_id_field . ' = ? and ' . $id_field . ' = ?', [$transferId, $id_field_value]);
 					}
 				}
 			}
@@ -232,7 +226,7 @@ class Partners extends Vtiger_CRMEntity
 		$relTables = [
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'u_yf_partners' => 'partnersid'],
 		];
-		if($secmodule === false){
+		if ($secmodule === false) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];

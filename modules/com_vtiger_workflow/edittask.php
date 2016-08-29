@@ -81,7 +81,7 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 		$repeat_date = DateTimeField::convertToUserFormat($repeat_date);
 	}
 	$smarty->assign('REPEAT_DATE', $repeat_date);
-	$dateFields = array();
+	$dateFields = [];
 	$fieldTypes = $et->getFieldTypes();
 	$fieldLabels = $et->getFieldLabels();
 	foreach ($fieldTypes as $name => $type) {
@@ -123,9 +123,10 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 	$smarty->assign("PAGE_NAME", $mod['LBL_EDIT_TASK']);
 	$smarty->assign("PAGE_TITLE", $mod['LBL_EDIT_TASK_TITLE']);
 
-	$users = $group = array();
-	$users = get_user_array();
-	$group = get_group_array();
+	$owner = \includes\fields\Owner::getInstance();
+	$users = $group = [];
+	$users = $owner->getUsers(true);
+	$group = $owner->getGroups(true);
 	foreach ($group as $id => $name) {
 		$users[$id] = $name;
 	}

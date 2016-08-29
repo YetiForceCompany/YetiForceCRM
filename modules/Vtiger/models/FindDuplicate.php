@@ -151,11 +151,12 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 			}
 			$focus = CRMEntity::getInstance($module);
 			$ignoreEmpty = $this->get('ignoreEmpty');
+			$additionalColumns = array_diff($additionalColumns, $tableColumns);
 			$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $additionalColumns);
 
 			$position = stripos($query, 'from');
 			if ($position) {
-				$split = explode('from ', $query);
+				$split = preg_split('/ from /i', $query);
 				$splitCount = count($split);
 				$query = 'SELECT count(*) AS count ';
 				for ($i = 1; $i < $splitCount; $i++) {
@@ -193,8 +194,8 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		$result = $db->query($query);
 
 		$recordIds = [];
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$recordIds[] = $db->query_result($result, $i, 'recordid');
+		while($row = $db->getRow($result)){
+			$recordIds[] = $row['recordid'];
 		}
 
 		$excludedIds = $request->get('excluded_ids');

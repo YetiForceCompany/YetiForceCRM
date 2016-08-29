@@ -66,5 +66,3 @@ class Parser
 		return $this->error;
 	}
 }
-
-?>

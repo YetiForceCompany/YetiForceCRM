@@ -6,10 +6,23 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 {
+
+	public function getBreadcrumbTitle(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		if ($request->get('record')) {
+			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
+			$title = $recordModel->getName();
+		} else {
+			$title = vtranslate('LBL_VIEW_EDIT', $moduleName);
+		}
+		return $title;
+	}
 
 	public function process(Vtiger_Request $request)
 	{

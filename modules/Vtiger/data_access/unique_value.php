@@ -19,7 +19,7 @@ Class DataAccess_unique_value
 	public function process($moduleName, $ID, $record_form, $config)
 	{
 		$db = PearDatabase::getInstance();
-		$moduleNameID = Vtiger_Functions::getModuleId($moduleName);
+		$moduleNameID = vtlib\Functions::getModuleId($moduleName);
 		$fieldlabel = $sql_ext = '';
 		$save_record1 = true;
 		$save_record2 = true;
@@ -55,7 +55,7 @@ Class DataAccess_unique_value
 		if ($value1 != '') {
 			foreach ($wheres1 as $where) {
 				$where = explode('=', $where);
-				$DestModuleName = Vtiger_Functions::getModuleName($where[2]);
+				$DestModuleName = vtlib\Functions::getModuleName($where[2]);
 				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
@@ -84,11 +84,11 @@ Class DataAccess_unique_value
 				$num = $db->num_rows($result);
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
-					$metadata = Vtiger_Functions::getCRMRecordMetadata($id);
+					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record1 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
-						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . Vtiger_Functions::getCRMRecordLabel($id) . '</strong></a> (' . Vtiger_Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
+						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
 					}
 				}
 			}
@@ -96,7 +96,7 @@ Class DataAccess_unique_value
 		if ($value2 != '') {
 			foreach ($wheres2 as $where) {
 				$where = explode('=', $where);
-				$DestModuleName = Vtiger_Functions::getModuleName($where[2]);
+				$DestModuleName = vtlib\Functions::getModuleName($where[2]);
 				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
@@ -125,11 +125,11 @@ Class DataAccess_unique_value
 				$num = $db->num_rows($result);
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
-					$metadata = Vtiger_Functions::getCRMRecordMetadata($id);
+					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record2 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
-						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . Vtiger_Functions::getCRMRecordLabel($id) . '</strong></a> (' . Vtiger_Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
+						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
 					}
 				}
 			}

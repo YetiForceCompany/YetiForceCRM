@@ -102,12 +102,13 @@ function get_available_module_picklist($picklist_details){
  */
 function getAllPickListValues($fieldName,$lang = Array() ){
 	$db = PearDatabase::getInstance();
-	$result = $db->query('SELECT * FROM vtiger_'.$fieldName);
+	$query = sprintf('SELECT * FROM vtiger_%s', $fieldName);
+	$result = $db->query($query);
 	
 	$arr = [];
 	while($row = $db->fetchByAssoc($result)){
 		$pick_val = decode_html($row[$fieldName]);
-		if($lang[$pick_val] != ''){
+		if(!empty($lang[$pick_val])){
 			$arr[$pick_val] = $lang[$pick_val];
 		}
 		else{
@@ -199,9 +200,10 @@ function getAssignedPicklistValues($tableName, $roleid, $adb, $lang=[]){
 			$roleids[] = $role;
 		}
 
-		$sql = 'SELECT distinct '.$adb->sql_escape_string($tableName,true).' FROM '. $adb->sql_escape_string("vtiger_$tableName",true)
-				. ' inner join vtiger_role2picklist on '.$adb->sql_escape_string("vtiger_$tableName",true).'.picklist_valueid=vtiger_role2picklist.picklistvalueid'
-				. ' and roleid in ('.$adb->generateQuestionMarks($roleids).') order by sortid';
+		$sql = sprintf('SELECT distinct %s FROM %s inner join vtiger_role2picklist on %s.picklist_valueid=vtiger_role2picklist.picklistvalueid'
+				. ' and roleid in (%s) order by sortid',
+			$adb->sql_escape_string($tableName,true), $adb->sql_escape_string("vtiger_$tableName",true),
+			$adb->sql_escape_string("vtiger_$tableName",true), $adb->generateQuestionMarks($roleids));
 		$result = $adb->pquery($sql, $roleids);
 		$count = $adb->num_rows($result);
 

@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
- 
+
 $languageStrings = [
 	'LBL_ADD_TEMPLATE' => 'Dodaj mapowanie',
 	'LBL_IMPORT_TEMPLATE' => 'Importuj szablon',
@@ -39,11 +39,15 @@ $languageStrings = [
 	'LBL_NO_PERMISSION_TO_IMPORT' => 'Wystąpił błąd lub kolizja. Nie dokonano importu.',
 	'LBL_IMPORT_OK' => 'Poprawnie zaimportowano szablon',
 	'LBL_MODULE_NOT_EXIST' => 'Moduł w szablonie, który próbujesz zaimportować nie istnieje.',
-
 	'multipicklist' => 'Pole słownikowe (multiwyboru)',
 	'percent' => 'Pole procentowe',
 	'phone' => 'Pole telefonu',
 	'picklist' => 'Pole słownikowe',
+	'owner' => 'Pole właściciela',
+	'tree' => 'Pole kategorii',
+	'sharedOwner' => 'Pole osób współdzielących',
+	'documentsFileUpload' => 'Pole pliku',
+	'fileLocationType' => 'Pole typu pliku',
 	'skype' => 'Pole Skype',
 	'string' => 'Pole tekstowe (string)',
 	'textArea' => 'Obszar tekstowy',
@@ -66,6 +70,7 @@ $languageStrings = [
 	'LBL_EXAMPLE_EXPRESSION' => 'Wyrażenie',
 	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
+	'MappedFields' => 'Mapowanie',
 ];
 $jsLanguageStrings = [
 	'JS_IS_ALREADY_BEEN_MAPPED' => 'To pole jest już mapowane.',

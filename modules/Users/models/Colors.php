@@ -28,7 +28,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		$modulesFields = self::getAllField();
 		foreach ($modulesFields AS $key => $fields) {
 			foreach ($fields AS $field) {
-				$instance[$key][] = Vtiger_Functions::getModuleFieldInfo(getTabid($field['module']), $field['nameField']);
+				$instance[$key][] = vtlib\Functions::getModuleFieldInfo(getTabid($field['module']), $field['nameField']);
 			}
 		}
 		return $instance;
@@ -37,12 +37,10 @@ class Users_Colors_Model extends Vtiger_Record_Model
 	public static function getUserColors()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_users");
-		$rows = $adb->num_rows($result);
+		$result = $adb->query('SELECT * FROM vtiger_users');
 
-		$userColors = Array();
-		for ($i = 0; $i < $rows; $i++) {
-			$activityTypes = $adb->query_result_rowdata($result, $i);
+		$userColors = [];
+		while ($activityTypes = $adb->getRow($result)) {
 			$userColors[] = array(
 				'id' => $activityTypes['id'],
 				'first' => $activityTypes['first_name'],
@@ -78,12 +76,10 @@ class Users_Colors_Model extends Vtiger_Record_Model
 	public static function getGroupColors()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_groups");
-		$rows = $adb->num_rows($result);
+		$result = $adb->query('SELECT * FROM vtiger_groups');
 
-		$groupColors = Array();
-		for ($i = 0; $i < $rows; $i++) {
-			$activityTypes = $adb->query_result_rowdata($result, $i);
+		$groupColors = [];
+		while ($activityTypes = $adb->getRow($result)) {
 			$groupColors[] = array(
 				'id' => $activityTypes['groupid'],
 				'groupname' => $activityTypes['groupname'],
@@ -103,7 +99,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$primaryKey = Vtiger_Util_Helper::getPickListId($params['field']);
-		$adb->pquery('UPDATE ' . $params['table'] . ' SET color = ? WHERE ' . $primaryKey . ' = ?;', array($params['color'], $params['id']));
+		$adb->update($params['table'], ['color' => $params['color']], $primaryKey . ' = ?', [$params['id']]);
 	}
 
 	public static function getValuesFromField($fieldName)
@@ -111,16 +107,16 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
-		$query = 'SELECT * FROM vtiger_' . $fieldName . ' order by sortorderid';
-		$values = array();
-		$result = $db->pquery($query, array());
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
+		$query = 'SELECT * FROM vtiger_%s order by sortorderid';
+		$query = sprintf($query, $fieldName);
+		$groupColors = [];
+		$result = $db->query($query);
+		while ($row = $db->getRow($result)) {
 			//Need to decode the picklist values twice which are saved from old ui
 			$groupColors[] = array(
-				'id' => $db->query_result($result, $i, $primaryKey),
-				'value' => decode_html(decode_html($db->query_result($result, $i, $fieldName))),
-				'color' => $db->query_result($result, $i, 'color')
+				'id' => $row[$primaryKey],
+				'value' => decode_html(decode_html($row[$fieldName])),
+				'color' => $row['color']
 			);
 		}
 		return $groupColors;
@@ -128,23 +124,15 @@ class Users_Colors_Model extends Vtiger_Record_Model
 
 	public static function getModulesColors($active = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$sql_params = Array();
-		$sql = '';
-		if ($active) {
-			$sql = 'WHERE coloractive = ?';
-			$sql_params[] = 1;
-		}
-		$result = $adb->pquery("SELECT * FROM vtiger_tab $sql;", $sql_params);
-		$rows = $adb->num_rows($result);
+		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
+
 		$modules = [];
-		for ($i = 0; $i < $rows; $i++) {
-			$row = $adb->query_result_rowdata($result, $i);
+		foreach ($allModules as $tabid => $module) {
 			$modules[] = array(
-				'id' => $row['tabid'],
-				'module' => $row['name'],
-				'color' => $row['color'] != '' ? '#' . $row['color'] : '',
-				'active' => $row['coloractive'],
+				'id' => $tabid,
+				'module' => $module['name'],
+				'color' => $module['color'] != '' ? '#' . $module['color'] : '',
+				'active' => $module['coloractive'],
 			);
 		}
 		return $modules;
@@ -153,7 +141,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 	public function activeColor($params)
 	{
 		$adb = PearDatabase::getInstance();
-		$sql_params = Array();
+		$sql_params = [];
 		$sql = '';
 		if ($params['color'] == '') {
 			$color = self::getColor();

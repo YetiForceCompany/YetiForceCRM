@@ -15,10 +15,8 @@ require_once 'include/Webservices/Delete.php';
 require_once 'include/Webservices/Revise.php';
 require_once 'include/Webservices/Retrieve.php';
 require_once 'include/Webservices/DataTransform.php';
-require_once 'vtlib/Vtiger/Utils.php';
 require_once 'modules/Vtiger/CRMEntity.php';
 require_once 'include/QueryGenerator/QueryGenerator.php';
-require_once 'vtlib/Vtiger/Mailer.php';
 require_once 'include/events/include.inc';
 
 class Import_Data_Action extends Vtiger_Action_Controller
@@ -72,7 +70,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$defaultValues = array();
 		if (!empty($this->defaultValues)) {
 			if (!is_array($this->defaultValues)) {
-				$this->defaultValues = Zend_Json::decode($this->defaultValues);
+				$this->defaultValues = \includes\utils\Json::decode($this->defaultValues);
 			}
 			if ($this->defaultValues != null) {
 				$defaultValues = $this->defaultValues;
@@ -185,18 +183,19 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 		$entityData = [];
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$sql = 'SELECT * FROM ' . $tableName . ' WHERE temp_status = ' . Import_Data_Action::$IMPORT_RECORD_NONE;
-		
+		$sql = 'SELECT * FROM %s  WHERE temp_status = %s';
+		$sql = sprintf($sql, $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
+
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$isInventory = $moduleModel->isInventory();
-		if($isInventory){
+		if ($isInventory) {
 			$inventoryTableName = Import_Utils_Helper::getInventoryDbTableName($this->user);
 		}
 
 		if ($this->batchImport) {
 			$configReader = new Import_Config_Model();
 			$importBatchLimit = $configReader->get('importBatchLimit');
-			$sql .= ' LIMIT ' . $importBatchLimit;
+			$sql .= sprintf(' LIMIT %s', $importBatchLimit);
 		}
 		$result = $adb->query($sql);
 		$numberOfRecords = $adb->num_rows($result);
@@ -211,13 +210,13 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		while ($row = $adb->fetchByAssoc($result)) {
 			$handlerOn = false;
 			$rowId = $row['id'];
-			
-			if($isInventory){
-				$sql = 'SELECT * FROM ' . $inventoryTableName . ' WHERE id = ' . $rowId;
-				$resultInventory = $adb->query($sql);
+
+			if ($isInventory) {
+				$sql = sprintf('SELECT * FROM %s WHERE id = ?', $inventoryTableName);
+				$resultInventory = $adb->pquery($sql, [$rowId]);
 				$inventoryFieldData = $adb->getArray($resultInventory);
 			}
-			
+
 			$entityInfo = null;
 			$fieldData = array();
 			foreach ($fieldMapping as $fieldName => $index) {
@@ -256,7 +255,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 						$fieldInstance = $moduleFields[$mergeField];
 						if ($fieldInstance->getFieldDataType() == 'owner') {
 							$userId = getUserId_Ol($comparisonValue);
-							$comparisonValue = getUserFullName($userId);
+							$comparisonValue = \includes\fields\Owner::getUserLabel($userId);
 						}
 						if ($fieldInstance->getFieldDataType() == 'reference') {
 							if (strpos($comparisonValue, '::::') > 0) {
@@ -336,21 +335,21 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				}
 				if ($createRecord) {
 					$fieldData = $this->transformForImport($fieldData, $moduleMeta);
-					if($fieldData && $isInventory){
+					if ($fieldData && $isInventory) {
 						$inventoryFieldData = $this->transformInventoryForImport($inventoryFieldData);
 						$fieldData['inventoryData'] = $inventoryFieldData;
 					}
 					if ($fieldData == null) {
 						$entityInfo = null;
-					}else{
-						if($this->type){
+					} else {
+						if ($this->type) {
 							$entityInfo = $this->createRecordByModel($moduleName, $fieldData, $this->user);
 							$handlerOn = true;
 						} else {
 							try {
 								$entityInfo = vtws_create($moduleName, $fieldData, $this->user);
 							} catch (Exception $e) {
-
+								
 							}
 						}
 					}
@@ -364,26 +363,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			if (empty($handlerOn) && ($createRecord || $mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS || $mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE)) {
 				$entityIdComponents = vtws_getIdComponents($entityInfo['id']);
 				$recordId = $entityIdComponents[1];
-				$entityfields = getEntityFieldNames($this->module);
-				switch ($this->module) {
-					case 'HelpDesk': $entityfields['fieldname'] = array('ticket_title');
-						break;
-					case 'Documents':$entityfields['fieldname'] = array('notes_title');
-						break;
-					case 'Documents': $entityfields['fieldname'] = array('notes_title');
-						break;
-				}
-				$label = '';
-				if (is_array($entityfields['fieldname'])) {
-					foreach ($entityfields['fieldname'] as $field) {
-						$label .= $fieldData[$field] . " ";
-					}
-				} else {
-					$label = $fieldData[$entityfields['fieldname']];
-				}
-
-				$label = trim($label);
-				$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $recordId));
+				\includes\Record::updateLabel($this->module, $recordId);
 			}
 
 			$this->importedRecordInfo[$rowId] = $entityInfo;
@@ -425,7 +405,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 								$newCurrencyParam[$valueData] = $currencyData;
 							}
 						}
-						$data['currencyparam'] = Zend_Json::encode($newCurrencyParam);
+						$data['currencyparam'] = \includes\utils\Json::encode($newCurrencyParam);
 					} elseif (array_key_exists($fieldName, $maps)) {
 						$value = $this->transformInventoryFieldFromMap($value, $maps[$fieldName]);
 					}
@@ -446,7 +426,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				if ($this->inventoryFieldMapData[$mapData['field']] && $this->inventoryFieldMapData[$mapData['field']][$entityName]) {
 					$fieldObject = $this->inventoryFieldMapData[$mapData['field']][$entityName];
 				} else {
-					$moduleObject = Vtiger_Module::getInstance($entityName);
+					$moduleObject = vtlib\Module::getInstance($entityName);
 					$fieldObject = $moduleObject ? Vtiger_Field_Model::getInstance($mapData['field'], $moduleObject) : null;
 					if (!is_array($this->inventoryFieldMapData[$mapData['field']])) {
 						$this->inventoryFieldMapData[$mapData['field']] = [];
@@ -561,7 +541,15 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			if (count($fieldValueDetails) > 1) {
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
-				$entityId = getEntityId($referenceModuleName, $entityLabel);
+				if (vtlib\Functions::getModuleId($referenceModuleName)) {
+					$entityId = getEntityId($referenceModuleName, $entityLabel);
+				} else {
+					$referencedModules = $fieldInstance->getReferenceList();
+					if (isset($defaultFieldValues[$fieldName])) {
+						$referenceModuleName = $defaultFieldValues[$fieldName];
+						$entityId = getEntityId($referenceModuleName, $entityLabel);
+					}
+				}
 			} else {
 				$referencedModules = $fieldInstance->getReferenceList();
 				$entityLabel = $fieldValue;
@@ -646,8 +634,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $allPicklistValues);
 
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
-			$moduleObject = Vtiger_Module::getInstance($moduleMeta->getEntityName());
-			$fieldObject = Vtiger_Field::getInstance($fieldName, $moduleObject);
+			$moduleObject = vtlib\Module::getInstance($moduleMeta->getEntityName());
+			$fieldObject = vtlib\Field::getInstance($fieldName, $moduleObject);
 			$fieldObject->setPicklistValues(array($fieldValue));
 			unset($this->allPicklistValues[$fieldName]);
 		} else {
@@ -681,9 +669,9 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$fieldInstance = $moduleFields[$fieldName];
 			if ($fieldInstance->getFieldDataType() == 'owner') {
 				$fieldData[$fieldName] = $this->transformOwner($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
-			} elseif ($fieldInstance->getFieldDataType() == 'sharedOwner') {		
+			} elseif ($fieldInstance->getFieldDataType() == 'sharedOwner') {
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue, $defaultFieldValues);
-			} elseif ($fieldInstance->getFieldDataType() == 'multipicklist') {		
+			} elseif ($fieldInstance->getFieldDataType() == 'multipicklist') {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue, $defaultFieldValues);
 			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
 				$fieldData[$fieldName] = $this->transformReference($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
@@ -776,26 +764,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$adb = PearDatabase::getInstance();
 		$entityIdComponents = vtws_getIdComponents($entityIdInfo['id']);
 		$recordId = $entityIdComponents[1];
-		$entityfields = getEntityFieldNames($moduleName);
-		switch ($moduleName) {
-			case 'HelpDesk': $entityfields['fieldname'] = array('ticket_title');
-				break;
-			case 'Documents':$entityfields['fieldname'] = array('notes_title');
-				break;
-			case 'Documents': $entityfields['fieldname'] = array('notes_title');
-				break;
-		}
-		$label = '';
-		if (is_array($entityfields['fieldname'])) {
-			foreach ($entityfields['fieldname'] as $field) {
-				$label .= $fieldData[$field] . " ";
-			}
-		} else {
-			$label = $fieldData[$entityfields['fieldname']];
-		}
 
-		$label = trim($label);
-		$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $recordId));
+		\includes\Record::updateLabel($moduleName, $recordId);
 
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$focus = $recordModel->getEntity();
@@ -811,7 +781,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$adb = PearDatabase::getInstance();
 
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$result = $adb->query('SELECT temp_status FROM ' . $tableName);
+		$query = sprintf('SELECT temp_status FROM %s', $tableName);
+		$result = $adb->query($query);
 
 		$statusCount = array('TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
 			'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0);
@@ -847,7 +818,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		$current_user = vglobal('current_user');
 		$scheduledImports = self::getScheduledImport();
-		$vtigerMailer = new Vtiger_Mailer();
+		$vtigerMailer = new vtlib\Mailer();
 		$vtigerMailer->IsHTML(true);
 		foreach ($scheduledImports as $scheduledId => $importDataController) {
 			$current_user = $importDataController->user;
@@ -880,7 +851,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 			$importDataController->finishImport();
 		}
-		Vtiger_Mailer::dispatchQueue(null);
+		vtlib\Mailer::dispatchQueue(null);
 	}
 
 	public static function getScheduledImport()
@@ -901,21 +872,24 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	/*
 	 *  Function to get Record details of import
 	 *  @parms $user <User Record Model> Current Users
+	 * 	@parms $user <String> Imported module
 	 *  @returns <Array> Import Records with the list of skipped records and failed records
 	 */
 
-	public static function getImportDetails($user)
+	public static function getImportDetails($user, $forModule)
 	{
 		$adb = PearDatabase::getInstance();
 		$tableName = Import_Utils_Helper::getDbTableName($user);
 		$result = $adb->pquery("SELECT * FROM $tableName where temp_status IN (?,?)", array(self::$IMPORT_RECORD_SKIPPED, self::$IMPORT_RECORD_FAILED));
 		$importRecords = array();
 		if ($result) {
+			$moduleModel = Vtiger_Module_Model::getInstance($forModule);
 			$headers = $adb->getColumnNames($tableName);
 			$numOfHeaders = count($headers);
 			for ($i = 0; $i < 10; $i++) {
 				if ($i >= 3 && $i < $numOfHeaders) {
-					$importRecords['headers'][] = $headers[$i];
+					$fieldModel = Vtiger_Field_Model::getInstance($headers[$i], $moduleModel);
+					$importRecords['headers'][] = $fieldModel->getFieldLabel();
 				}
 			}
 			$noOfRows = $adb->num_rows($result);
@@ -954,7 +928,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 		return $temp_status;
 	}
-	
+
 	public function createRecordByModel($moduleName, $fieldData, $user)
 	{
 		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
@@ -1048,7 +1022,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$invDat['inventoryItemsNo'] = $i;
 			foreach ($data as $name => $value) {
 				if (in_array($name, $jsonFields)) {
-					$value = Zend_Json::decode($value);
+					$value = \includes\utils\Json::decode($value);
 				}
 				$invDat[$name . $i] = $value;
 			}
@@ -1057,4 +1031,3 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		return $fieldData;
 	}
 }
-

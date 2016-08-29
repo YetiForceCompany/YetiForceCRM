@@ -17,6 +17,7 @@ class Products_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
 
 		$viewer = $this->getViewer($request);
+		$viewer->assign('BASE_CURRENCY_ID', $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
 		$viewer->assign('TAXCLASS_DETAILS', $recordModel->getTaxClassDetails());

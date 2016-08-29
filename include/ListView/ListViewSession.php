@@ -67,7 +67,6 @@ class ListViewSession
 		$current_user = vglobal('current_user');
 		$list_max_entries_per_page = vglobal('list_max_entries_per_page');
 
-		Zend_Json::$useBuiltinEncoderDecoder = true;
 		$reUseData = false;
 		$displayBufferRecordCount = 10;
 		$bufferRecordCount = 15;
@@ -80,7 +79,7 @@ class ListViewSession
 		$cv = new CustomView();
 		$viewId = $cv->getViewId($currentModule);
 		if (!empty($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId])) {
-			$recordNavigationInfo = Zend_Json::decode($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId]);
+			$recordNavigationInfo = \includes\utils\Json::decode($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId]);
 			$pageNumber = 0;
 			if (count($recordNavigationInfo) == 1) {
 				foreach ($recordNavigationInfo as $recordIdList) {
@@ -136,9 +135,9 @@ class ListViewSession
 				$tablename = (($tablename != '') ? ($tablename . ".") : '');
 
 				if (!empty($order_by)) {
-					$list_query .= ' ORDER BY ' . $tablename . $order_by . ' ' . $sorder;
+					$list_query .= sprintf(' ORDER BY %s%s %s', $tablename, $order_by, $sorder);
 				} elseif (!empty($default_orderby)) {
-					$list_query .= ' ORDER BY ' . $default_orderby . '';
+					$list_query .= sprintf(' ORDER BY %s', $default_orderby);
 				}
 			}
 			if ($start != 1) {
@@ -181,7 +180,7 @@ class ListViewSession
 					$recordNavigationInfo[$current][] = $recordId;
 				}
 			}
-			$_SESSION[$currentModule . '_DetailView_Navigation' . $viewId] = Zend_Json::encode($recordNavigationInfo);
+			$_SESSION[$currentModule . '_DetailView_Navigation' . $viewId] = \includes\utils\Json::encode($recordNavigationInfo);
 		}
 		return $recordNavigationInfo;
 	}
@@ -196,7 +195,7 @@ class ListViewSession
 		if (!AppRequest::isEmpty('start')) {
 			$start = AppRequest::get('start');
 			if ($start == 'last') {
-				$count_result = $adb->query(Vtiger_Functions::mkCountQuery($query));
+				$count_result = $adb->query(vtlib\Functions::mkCountQuery($query));
 				$noofrows = $adb->query_result($count_result, 0, "count");
 				if ($noofrows > 0) {
 					$start = ceil($noofrows / $list_max_entries_per_page);
@@ -227,7 +226,7 @@ class ListViewSession
 		Vtiger_Session::set($currentModule . '_listquery', $query);
 	}
 
-	function hasViewChanged($currentModule, $viewId = false)
+	public static function hasViewChanged($currentModule, $viewId = false)
 	{
 		if (empty($_SESSION['lvs'][$currentModule]['viewname']))
 			return true;
@@ -245,9 +244,9 @@ class ListViewSession
 	 */
 	public static function setCurrentView($module, $viewId, $pjax = true)
 	{
-		if($pjax && AppRequest::has('_pjax')){
+		if ($pjax && AppRequest::has('_pjax')) {
 			$_SESSION['lvs'][$module]['viewname'] = $viewId;
-		}elseif(empty($pjax)){
+		} elseif (empty($pjax)) {
 			$_SESSION['lvs'][$module]['viewname'] = $viewId;
 		}
 	}
@@ -271,11 +270,21 @@ class ListViewSession
 		}
 	}
 
+	public static function setSorder($module, $order)
+	{
+		$_SESSION['lvs'][$module]['sorder'] = $order;
+	}
+
 	public static function getSortby($module)
 	{
 		if (!empty($_SESSION['lvs'][$module]['sortby'])) {
 			return $_SESSION['lvs'][$module]['sortby'];
 		}
+	}
+
+	public static function setSortby($module, $order)
+	{
+		$_SESSION['lvs'][$module]['sortby'] = $order;
 	}
 
 	public static function setDefaultSortOrderBy($module, $defaultSortOrderBy = [])

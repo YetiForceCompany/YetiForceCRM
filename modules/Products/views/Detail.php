@@ -99,6 +99,36 @@ class Products_Detail_View extends Vtiger_Detail_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$relationListView->set('operator', $operator);
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('OPERATOR', $operator);
+		$viewer->assign('ALPHABET_VALUE', $searchValue);
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$relationListView->set('search_key', $searchKey);
+			$relationListView->set('search_value', $searchValue);
+		}
+
+		$searchParmams = $request->get('search_params');
+		if (empty($searchParmams) || !is_array($searchParmams)) {
+			$searchParmams = [];
+		}
+		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $relationListView->getRelationModel()->getRelationModuleModel());
+		$relationListView->set('search_params', $transformedSearchParams);
+
+		//To make smarty to get the details easily accesible
+		foreach ($searchParmams as $fieldListGroup) {
+			foreach ($fieldListGroup as $fieldSearchInfo) {
+				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
+				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+				$searchParmams[$fieldName] = $fieldSearchInfo;
+			}
+		}
 		$models = $relationListView->getEntries($pagingModel);
 		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
@@ -117,7 +147,6 @@ class Products_Detail_View extends Vtiger_Detail_View
 		$relationModel = $relationListView->getRelationModel();
 		$relationField = $relationModel->getRelationField();
 
-		$viewer = $this->getViewer($request);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
@@ -128,29 +157,34 @@ class Products_Detail_View extends Vtiger_Detail_View
 
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
-			$pageLimit = $pagingModel->getPageLimit();
-			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
-
-			if ($pageCount == 0) {
-				$pageCount = 1;
-			}
-			$viewer->assign('PAGE_COUNT', $pageCount);
+			$pagingModel->set('totalCount', (int) $totalCount);
 			$viewer->assign('TOTAL_ENTRIES', $totalCount);
-			$viewer->assign('PERFORMANCE', true);
 		}
+		$pageCount = $pagingModel->getPageCount();
+		$startPaginFrom = $pagingModel->getStartPagingFrom();
+
+		$viewer->assign('PAGE_NUMBER', $requestedPage);
+		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('PAGING', $pagingModel);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
+	}
+
+	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
+	{
+		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 }

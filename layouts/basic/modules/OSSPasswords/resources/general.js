@@ -25,7 +25,6 @@ jQuery(document).ready(function ($) {
     });
     $('#myRegisterModal .okay-button').click(function() {
         //var confirm = $('#confirmRegistration').attr('checked');
-        //console.log(confirm);
         //if ( confirm === false ) {            
         var disabled = $('#confirmRegistration').attr('disabled');
         if(typeof disabled == 'undefined') {

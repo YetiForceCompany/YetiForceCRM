@@ -64,13 +64,6 @@ class Campaigns extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'campaignname';
 
-	function Campaigns()
-	{
-		$this->log = LoggerManager::getLogger('campaign');
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Campaigns');
-	}
-
 	/** Function to handle module specific operations when saving a entity
 	 */
 	function save_module($module)
@@ -91,7 +84,7 @@ class Campaigns extends CRMEntity
 		$log->debug("Entering get_campaigns_records(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 
@@ -171,8 +164,9 @@ class Campaigns extends CRMEntity
 		$query .= ' LEFT JOIN vtiger_users  ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_campaignrelstatus ON vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid';
-		$query .= ' WHERE vtiger_crmentity.deleted = 0 AND vtiger_campaign_records.campaignid = ' . $id;
-
+		$query .= ' WHERE vtiger_crmentity.deleted = 0 AND vtiger_campaign_records.campaignid = %d';
+		
+		$query = sprintf($query, $id);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)

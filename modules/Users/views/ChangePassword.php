@@ -9,30 +9,28 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Users_ChangePassword_View extends Vtiger_Index_View
+class Users_ChangePassword_View extends Vtiger_BasicModal_View
 {
+
+	public function checkPermission(Vtiger_Request $request)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$record = $request->get('record');
+		if ($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record) {
+			return true;
+		} else {
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+		}
+	}
 
 	function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$viewer->assign('SCRIPTS', $this->getScripts($request));
+		$viewer->assign('MODULE', $moduleName);
+		$this->preProcess($request);
 		$viewer->view('ChangePasswordUser.tpl', $moduleName);
-	}
-
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	function getScripts(Vtiger_Request $request)
-	{
-		$moduleName = $request->getModule();
-		$jsFileNames = array(
-			"modules.Users.resources.ChangePassword",
-		);
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		return $jsScriptInstances;
+		$this->postProcess($request);
 	}
 }

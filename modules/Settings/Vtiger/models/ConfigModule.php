@@ -106,9 +106,9 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 			$presence = array(0);
 			$restrictedModules = array('Emails', 'Integration', 'Dashboard');
-			$query = 'SELECT name, tablabel FROM vtiger_tab WHERE presence IN (' . generateQuestionMarks($presence) . ') AND isentitytype = ? AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ')';
-
-			$result = $db->pquery($query, array($presence, '1', $restrictedModules));
+			$query = 'SELECT name, tablabel FROM vtiger_tab WHERE presence IN (%s) AND isentitytype = ? AND name NOT IN (%s)';
+			$query = sprintf($query, generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
+			$result = $db->pquery($query, [$presence, '1', $restrictedModules]);
 			$numOfRows = $db->num_rows($result);
 
 			$moduleData = array('Home' => 'Home');
@@ -134,13 +134,12 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 //			'WORLD_CLOCK_DISPLAY'			=> array('label' => 'LBL_WORLD_CLOCK_DISPLAY',				'fieldType' => 'checkbox'),
 //			'CALCULATOR_DISPLAY'			=> array('label' => 'LBL_CALCULATOR_DISPLAY',				'fieldType' => 'checkbox'),
 //			'USE_RTE'						=> array('label' => 'LBL_USE_RTE',							'fieldType' => 'checkbox'),
-			'HELPDESK_SUPPORT_EMAIL_ID' => array('label' => 'LBL_HELPDESK_SUPPORT_EMAILID', 'fieldType' => 'input'),
+			'HELPDESK_SUPPORT_EMAIL_REPLY' => array('label' => 'LBL_HELPDESK_SUPPORT_EMAILID', 'fieldType' => 'input'),
 			'HELPDESK_SUPPORT_NAME' => array('label' => 'LBL_HELPDESK_SUPPORT_NAME', 'fieldType' => 'input'),
 			'upload_maxsize' => array('label' => 'LBL_MAX_UPLOAD_SIZE', 'fieldType' => 'input'),
 //			'history_max_viewed'			=> array('label' => 'LBL_MAX_HISTORY_VIEWED',				'fieldType' => 'input'),
 			'default_module' => array('label' => 'LBL_DEFAULT_MODULE', 'fieldType' => 'picklist'),
 			'listview_max_textlength' => array('label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW', 'fieldType' => 'input'),
-			'max_number_search_result' => array('label' => 'LBL_MAX_SEARCH_RESULT', 'fieldType' => 'input'),
 			'list_max_entries_per_page' => array('label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input'),
 			'defaultLayout' => array('label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist'),
 			'popupType' => ['label' => 'LBL_POPUP_TYPE', 'fieldType' => 'input'],
@@ -149,7 +148,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			'MINIMUM_CRON_FREQUENCY' => ['label' => 'LBL_MINIMUM_CRON_FREQUENCY', 'fieldType' => 'input'],
 			'listMaxEntriesMassEdit' => ['label' => 'LBL_LIST_MAX_ENTRIES_MASSEDIT', 'fieldType' => 'input'],
 			'backgroundClosingModal' => ['label' => 'LBL_BG_CLOSING_MODAL', 'fieldType' => 'checkbox'],
-			'shared_owners' => ['label' => 'LBL_ENABLE_SHARING_RECORDS', 'fieldType' => 'checkbox'],
 			'href_max_length' => ['label' => 'LBL_HREF_MAX_LEGTH', 'fieldType' => 'input'],
 			'langInLoginView' => ['label' => 'LBL_SHOW_LANG_IN_LOGIN_PAGE', 'fieldType' => 'checkbox'],
 			'layoutInLoginView' => ['label' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE', 'fieldType' => 'checkbox'],
@@ -171,7 +169,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 					$fieldValue = $fieldValue * 1048576; //(1024 * 1024)
 					$patternString = "\$%s = %s;";
 				}
-				if (in_array($fieldName, ['layoutInLoginView','langInLoginView'])) {
+				if (in_array($fieldName, ['layoutInLoginView', 'langInLoginView'])) {
 					$patternString = "\$%s = %s;";
 				}
 				$pattern = '/\$' . $fieldName . '[\s]+=([^;]+);/';
@@ -192,13 +190,13 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function validateFieldValues($updatedFields)
 	{
-		if (!filter_var($updatedFields['HELPDESK_SUPPORT_EMAIL_ID'], FILTER_VALIDATE_EMAIL)) {
+		if (!filter_var($updatedFields['HELPDESK_SUPPORT_EMAIL_REPLY'], FILTER_VALIDATE_EMAIL)) {
 			return 'LBL_INVALID_EMAILID';
 		} else if (preg_match('/[\'";?><]/', $updatedFields['HELPDESK_SUPPORT_NAME'])) {
 			return 'LBL_INVALID_SUPPORT_NAME';
 		} else if (!preg_match('/[a-zA-z0-9]/', $updatedFields['default_module'])) {
 			return 'LBL_INVALID_MODULE';
-		} else if (!filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['listview_max_textlength'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['max_number_search_result'], '0'), FILTER_VALIDATE_INT)) {
+		} else if (!filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['listview_max_textlength'], '0'), FILTER_VALIDATE_INT)) {
 			return 'LBL_INVALID_NUMBER';
 		}
 		return true;

@@ -10,8 +10,8 @@
 class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 {
 
-	protected static $fields = false;
-	protected static $columns = false;
+	protected $fields = false;
+	protected $columns = false;
 	protected $jsonFields = ['discountparam', 'taxparam', 'currencyparam'];
 
 	/**
@@ -50,7 +50,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 		$key = $returnInBlock ? 'block' : 'noBlock';
-		if (!$this->fields[$key]) {
+		if (!isset($this->fields[$key])) {
 			$db = PearDatabase::getInstance();
 			$table = $this->getTableName('fields');
 			$result = $db->query("SHOW TABLES LIKE '$table'");
@@ -63,10 +63,12 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				$where = '`id` IN (' . generateQuestionMarks($ids) . ')';
 				$params = $ids;
 			}
-			$result = $db->pquery('SELECT * FROM ' . $table . ' WHERE ' . $where . ' ORDER BY sequence', $params);
+			$query = 'SELECT * FROM %s WHERE %s ORDER BY sequence';
+			$query = sprintf($query, $table, $where);
+			$result = $db->pquery($query, $params);
 			$fields = [];
-			while ($row = $db->fetch_array($result)) {
-				if (!$this->isActiveField($row)) {
+			while ($row = $db->getRow($result)) {
+				if ($viewType != 'Settings' && !$this->isActiveField($row)) {
 					continue;
 				}
 				$inventoryFieldInstance = $this->getInventoryFieldInstance($row);
@@ -83,7 +85,17 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		} else {
 			$fields = $this->fields[$key];
 		}
-
+		if($returnInBlock) {
+			if (!isset($fields[0])) {
+				$fields[0] = [];
+			}
+			if (!isset($fields[1])) {
+				$fields[1] = [];
+			}
+			if (!isset($fields[2])) {
+				$fields[2] = [];
+			}
+		}
 		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $fields;
 	}
@@ -95,13 +107,12 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function isActiveField($row)
 	{
-		if (in_array($row['suptype'], ['Discount', 'DiscountMode'])) {
+		if (in_array($row['invtype'], ['Discount', 'DiscountMode'])) {
 			$discountsConfig = Vtiger_Inventory_Model::getDiscountsConfig();
 			if ($discountsConfig['active'] == '0') {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -206,7 +217,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		if (isset($fields)) {
 			foreach ($fields as $field) {
 				if ($field->getName() == 'Name') {
-					$params = Zend_Json::decode($field->get('params'));
+					$params = \includes\utils\Json::decode($field->get('params'));
 				}
 			}
 		}
@@ -260,7 +271,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		$fields = [];
 		foreach ($this->getAutoCompleteFields() as $row) {
-			if($row['module'] == $moduleName) {
+			if ($row['module'] == $moduleName) {
 				$fields[] = $row;
 			}
 		}
@@ -428,13 +439,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		}
 
 		if ($instance->isColumnType()) {
-			Vtiger_Utils::AddColumn($table, $columnName, $instance->getDBType());
+			vtlib\Utils::AddColumn($table, $columnName, $instance->getDBType());
 			foreach ($instance->getCustomColumn() as $column => $criteria) {
-				Vtiger_Utils::AddColumn($table, $column, $criteria);
+				vtlib\Utils::AddColumn($table, $column, $criteria);
 			}
 		}
 
-		$result = $adb->query('SELECT MAX(sequence) AS max FROM ' . $this->getTableName('fields'));
+		$result = $adb->query(sprintf('SELECT MAX(sequence) AS max FROM %s', $this->getTableName('fields')));
 		$sequence = (int) $adb->getSingleValue($result) + 1;
 
 		return $adb->insert($this->getTableName('fields'), [
@@ -445,7 +456,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				'sequence' => $sequence,
 				'block' => $params['block'],
 				'displaytype' => $params['displayType'],
-				'params' => $params['params'],
+				'params' => isset($params['params']) ? $params['params'] : '',
 				'colspan' => $colSpan,
 		]);
 	}
@@ -470,7 +481,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$id = $param['id'];
 		$params[] = $id;
 		if (!empty($set)) {
-			$db->update($this->getTableName('fields'), $set, '`id` = ?', [$id]);
+			$return = $db->update($this->getTableName('fields'), $set, '`id` = ?', [$id]);
 		}
 		return $return;
 	}
@@ -484,12 +495,12 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function saveSequence($sequenceList)
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'UPDATE `' . $this->getTableName('fields') . '` SET sequence = CASE id ';
+		$query = sprintf('UPDATE `%s` SET sequence = CASE id ', $this->getTableName('fields'));
 		foreach ($sequenceList as $sequence => $id) {
 			$query .=' WHEN ' . $id . ' THEN ' . $sequence;
 		}
 		$query .=' END ';
-		$query .= ' WHERE id IN (' . generateQuestionMarks($sequenceList) . ')';
+		$query .= sprintf(' WHERE id IN (%s)', generateQuestionMarks($sequenceList));
 		return $db->pquery($query, array_values($sequenceList));
 	}
 
@@ -520,7 +531,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function getUniqueID($instance)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = 'SELECT MAX(id) AS max FROM `' . $this->getTableName('fields') . '` WHERE `invtype` = ? ';
+		$query = sprintf('SELECT MAX(id) AS max FROM `%s` WHERE `invtype` = ? ', $this->getTableName('fields'));
 		$result = $adb->pquery($query, [$instance->getName()]);
 		return (int) $adb->getSingleValue($result) + 1;
 	}
@@ -549,7 +560,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 
 		$db = PearDatabase::getInstance();
 		$table = $this->getTableName('autofield');
-		$result = $db->pquery('SELECT * FROM ' . $table);
+		$result = $db->pquery(sprintf('SELECT * FROM %s', $table));
 		$fields = [];
 		while ($row = $db->getRow($result)) {
 			$fields[$row['tofield']] = $row;
@@ -557,6 +568,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
 		return $fields;
 	}
+
 	public function getJsonFields()
 	{
 		return $this->jsonFields;

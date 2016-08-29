@@ -78,7 +78,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('HEADER_LINKS', $listViewModel->getHederLinks($linkParams));
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEWID', $this->viewName);
-
+		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -104,7 +104,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if ($request->isAjax()) {
 			$this->viewName = CustomView_Record_Model::getViewId($request);
@@ -115,11 +114,11 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->initializeListViewContents($request, $viewer);
 			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 			$viewer->assign('MODULE_NAME', $moduleName);
+			$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 			$viewer->assign('VIEWID', $this->viewName);
 		}
 
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
@@ -145,15 +144,34 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$jsFileNames = array(
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
+			'~libraries/jquery/colorpicker/js/colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
 			'modules.Emails.resources.MassEdit',
-			'modules.Vtiger.resources.CkEditor'
+			'modules.Vtiger.resources.CkEditor',
+			'modules.Vtiger.resources.ListSearch',
+			"modules.$moduleName.resources.ListSearch"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
+	}
+
+	/**
+	 * Retrieves css styles that need to loaded in the page
+	 * @param Vtiger_Request $request - request model
+	 * @return <array> - array of Vtiger_CssScript_Model
+	 */
+	public function getHeaderCss(Vtiger_Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = array(
+			'~libraries/jquery/colorpicker/css/colorpicker.css'
+		);
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
+		return $headerCssInstances;
 	}
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
@@ -207,9 +225,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$operator = $request->get('operator');
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);
-			$viewer->assign('OPERATOR', $operator);
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
+		$viewer->assign('OPERATOR', $operator);
+		$viewer->assign('ALPHABET_VALUE', $searchValue);
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
@@ -262,16 +280,17 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (!$this->listViewCount) {
-			$this->listViewCount = $listViewModel->getListViewCount();
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+			if (!$this->listViewCount) {
+				$this->listViewCount = $listViewModel->getListViewCount();
+			}
+			$pagingModel->set('totalCount', (int) $this->listViewCount);
+			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
 		}
-		$totalCount = $this->listViewCount;
-		$pagingModel->set('totalCount', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('LIST_VIEW_MODEL', $listViewModel);
 		$viewer->assign('GROUPS_IDS', Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId()));

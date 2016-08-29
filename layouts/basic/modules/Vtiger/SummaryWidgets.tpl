@@ -25,9 +25,9 @@
 	{/if}
 	{assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}
 	{if $LIMIT neq 'no_limit' && $NUMBER_OF_RECORDS >= $LIMIT}
-		<div class="paddingBottom10">
+		<div class="container-fluid">
 			<div class="pull-right">
-				<a href="" class="moreRecentRecords cursorPointer" data-label-key="{$RELATED_MODULE_NAME}" >{vtranslate('LBL_MORE',$MODULE_NAME)}</a>
+				<button type="button" class="btn btn-primary btn-xs moreRecentRecords" data-label-key="{$RELATED_MODULE_NAME}" >{vtranslate('LBL_MORE',$MODULE_NAME)}</button>
 			</div>
 		</div>
 	{/if}

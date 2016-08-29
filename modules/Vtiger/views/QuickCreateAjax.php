@@ -17,7 +17,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 
 		if (!(Users_Privileges_Model::isPermitted($moduleName, 'CreateView'))) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -43,12 +43,12 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 
 		$viewer = $this->getViewer($request);
 
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode($picklistDependencyDatasource));
 		$recordStructure = $recordStructureInstance->getStructure();
-		$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
+		$mappingRelatedField = Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName);
 
 		$fieldValues = [];
-		$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
+		$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 		foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
 			if (isset($recordStructure[$fieldName])) {
 				$fieldvalue = $recordStructure[$fieldName]->get('fieldvalue');
@@ -62,7 +62,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 			}
 		}
 
-		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($mappingRelatedField));
+		$viewer->assign('MAPPING_RELATED_FIELD', \includes\utils\Json::encode($mappingRelatedField));
 		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);
@@ -72,7 +72,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->get('view'));
-
+		$viewer->assign('MODE', 'edit');
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());

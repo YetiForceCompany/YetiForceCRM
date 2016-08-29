@@ -294,8 +294,8 @@ class SMSNotifierBase extends CRMEntity {
 	 * Function which will give the basic query to find duplicates
 	 */
 	function getDuplicatesQuery($module,$table_cols,$field_values,$ui_type_arr,$select_cols='') {
-		$select_clause = "SELECT ". $this->table_name .".".$this->table_index ." AS recordid, vtiger_users_last_import.deleted,".$table_cols;
-
+		$select_clause = "SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s";
+		$select_clause = sprintf($select_clause, $this->table_name, $this->table_index, $table_cols);
 		// Select Custom Field Table Columns if present
 		if(isset($this->customFieldTable)) $query .= ", " . $this->customFieldTable[0] . ".* ";
 
@@ -344,8 +344,8 @@ class SMSNotifierBase extends CRMEntity {
 	function vtlib_handler($modulename, $event_type) {
 
 		//adds sharing accsess
-        $SMSNotifierModule  = Vtiger_Module::getInstance('SMSNotifier');
-        Vtiger_Access::setDefaultSharing($SMSNotifierModule);
+        $SMSNotifierModule  = vtlib\Module::getInstance('SMSNotifier');
+        vtlib\Access::setDefaultSharing($SMSNotifierModule);
 
 		$registerLinks = false;
 		$unregisterLinks = false;
@@ -374,43 +374,21 @@ class SMSNotifierBase extends CRMEntity {
 
 		if($unregisterLinks) {
 
-			$smsnotifierModuleInstance = Vtiger_Module::getInstance('SMSNotifier');
+			$smsnotifierModuleInstance = vtlib\Module::getInstance('SMSNotifier');
 			$smsnotifierModuleInstance->deleteLink("HEADERSCRIPT", "SMSNotifierCommonJS", "modules/SMSNotifier/SMSNotifierCommon.js");
 
-			$leadsModuleInstance = Vtiger_Module::getInstance('Leads');
+			$leadsModuleInstance = vtlib\Module::getInstance('Leads');
 			$leadsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
 			$leadsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
 
-			$contactsModuleInstance = Vtiger_Module::getInstance('Contacts');
+			$contactsModuleInstance = vtlib\Module::getInstance('Contacts');
 			$contactsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
 			$contactsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
 
-			$accountsModuleInstance = Vtiger_Module::getInstance('Accounts');
+			$accountsModuleInstance = vtlib\Module::getInstance('Accounts');
 			$accountsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
 			$accountsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
 		}
-
-		if($registerLinks) {
-
-			$smsnotifierModuleInstance = Vtiger_Module::getInstance('SMSNotifier');
-			$smsnotifierModuleInstance->addLink("HEADERSCRIPT", "SMSNotifierCommonJS", "modules/SMSNotifier/SMSNotifierCommon.js");
-
-			$leadsModuleInstance = Vtiger_Module::getInstance('Leads');
-
-			$leadsModuleInstance->addLink("LISTVIEWBASIC", "Send SMS", "SMSNotifierCommon.displaySelectWizard(this, '\$MODULE\$');");
-			$leadsModuleInstance->addLink("DETAILVIEWBASIC", "Send SMS", "javascript:SMSNotifierCommon.displaySelectWizard_DetailView('\$MODULE\$', '\$RECORD\$');");
-
-			$contactsModuleInstance = Vtiger_Module::getInstance('Contacts');
-			$contactsModuleInstance->addLink('LISTVIEWBASIC', 'Send SMS', "SMSNotifierCommon.displaySelectWizard(this, '\$MODULE\$');");
-			$contactsModuleInstance->addLink("DETAILVIEWBASIC", "Send SMS", "javascript:SMSNotifierCommon.displaySelectWizard_DetailView('\$MODULE\$', '\$RECORD\$');");
-
-			$accountsModuleInstance = Vtiger_Module::getInstance('Accounts');
-			$accountsModuleInstance->addLink('LISTVIEWBASIC', 'Send SMS', "SMSNotifierCommon.displaySelectWizard(this, '\$MODULE\$');");
-			$accountsModuleInstance->addLink("DETAILVIEWBASIC", "Send SMS", "javascript:SMSNotifierCommon.displaySelectWizard_DetailView('\$MODULE\$', '\$RECORD\$');");
-		}
-
-
-
 	}
 
 	function getListButtons($app_strings, $mod_strings = false) {

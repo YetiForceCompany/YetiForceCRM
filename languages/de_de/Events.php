@@ -41,8 +41,7 @@ $languageStrings = [
 	'LBL_FIRST' => 'Erster',
 	'LBL_HOLD_FOLLOWUP_ON' => 'Nachfolgendes Ereignis am',
 	'LBL_HOURS' => 'Stunden',
-	'LBL_INVITE_USER_BLOCK' => 'Einladen',
-	'LBL_INVITE_USERS' => 'Benutzer einladen',
+	'LBL_INVITE_RECORDS' => 'Benutzer einladen',
 	'LBL_LAST' => 'Letzter',
 	'LBL_MONTHS_TYPE' => 'Monat',
 	'LBL_ON' => 'Ein',
@@ -96,12 +95,13 @@ $languageStrings = [
 	'Status' => 'Status',
 	'End Date' => 'Enddatum',
 	'LBL_FOLLOWUP' => 'Relevantes Ereignis',
-	
 	'PLL_PLANNED' => 'Geplant',
 	'PLL_IN_REALIZATION' => 'Zu Realisieren',
 	'PLL_OVERDUE' => 'Überfällig',
 	'PLL_POSTPONED' => 'Zurückgestellt',
 	'PLL_CANCELLED' => 'Abgebrochen',
 	'PLL_COMPLETED' => 'Abgeschlossen',
-
+	'LBL_REMAIND_HOURS' => 'Erinnern, nach der ausgewählten Anzahl von Stunden',
+	'LBL_REMAIND_MINS' => 'Erinnern, nach der ausgewählten Anzahl von Minuten',
+	'LBL_SELECT_INVITE' => 'Weitere Teilnehmer einladen',
 ];

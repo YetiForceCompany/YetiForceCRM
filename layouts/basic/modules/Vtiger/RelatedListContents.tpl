@@ -1,16 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+	{include file=vtemplate_path('ListViewAlphabet.tpl',$RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="listViewEntriesDiv contents-bottomscroll">
 		<table class="table table-bordered listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
 					{assign var=COUNT value=0}
-					{if $IS_FAVORITES}
-						<th></th>
-						{/if}
-						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-							{if $COLUMNS != '' && $COUNT == $COLUMNS }
+					<th class="noWrap"></th>
+					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+							{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 								{break}
 							{/if}
 							{assign var=COUNT value=$COUNT+1}
@@ -34,23 +33,45 @@
 					{/if}
 				</tr>
 			</thead>
+			{if $RELATED_MODULE->isQuickSearchEnabled()}
+				<tr>
+					<td>
+						<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+					</td>
+					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+						<td>
+							{assign var=FIELD_UI_TYPE_MODEL value=$HEADER_FIELD->getUITypeModel()}
+							{if isset($SEARCH_DETAILS[$HEADER_FIELD->getName()])}
+								{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$HEADER_FIELD->getName()]}
+							{else}
+								{assign var=SEARCH_INFO value=[]}
+							{/if}
+							{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$RELATED_MODULE_NAME)
+				FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE MODULE=$RELATED_MODULE_NAME}
+						</td>
+					{/foreach}
+					<td>
+						<button type="button" class="btn btn-default removeSearchConditions">
+							<span class="glyphicon glyphicon-remove"></button>
+						</a>
+					</td>
+				</tr>
+			{/if}
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' 
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
-					{/if}>
-					{assign var=COUNT value=0}
-					{if $IS_FAVORITES}
-						<td class="{$WIDTHTYPE} text-center text-center font-larger">
-							{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
-							<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
-								<span title="{vtranslate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
-								<span title="{vtranslate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
-							</a>
-						</td>
 					{/if}
+					{if !empty($COLOR_LIST[$RELATED_RECORD->getId()])}
+						style="background: {$COLOR_LIST[$RELATED_RECORD->getId()]['background']}; color: {$COLOR_LIST[$RELATED_RECORD->getId()]['text']}"
+					{/if}
+					>
+					{assign var=COUNT value=0}
+					<td class="{$WIDTHTYPE}">
+						{include file=vtemplate_path('RelatedListLeftSide.tpl',$RELATED_MODULE_NAME)}
+					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-						{if $COLUMNS != '' && $COUNT == $COLUMNS }
+						{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 							{break}
 						{/if}
 						{assign var=COUNT value=$COUNT+1}
@@ -92,6 +113,9 @@
 					{assign var="INVENTORY_DATA" value=$RELATED_RECORD->get('inventoryData')}
 					{assign var="INVENTORY_FIELDS" value=Vtiger_InventoryField_Model::getInstance($RELATED_MODULE_NAME)->getFields()}
 					<tr class="listViewInventoryEntries hide">
+						{if $RELATED_MODULE->isQuickSearchEnabled()}
+							{$COUNT = $COUNT+1}
+						{/if}
 						<td colspan="{$COUNT+1}" class="backgroundWhiteSmoke">
 							<table class="table table-condensed no-margin">
 								<thead>
@@ -106,7 +130,7 @@
 									{foreach from=$INVENTORY_DATA item=ROWDATA}
 										<tr>
 											{if $INVENTORY_ROW['name']}
-												{assign var="ROW_MODULE" value=Vtiger_Functions::getCRMRecordType($INVENTORY_ROW['name'])}
+												{assign var="ROW_MODULE" value=vtlib\Functions::getCRMRecordType($INVENTORY_ROW['name'])}
 											{/if}
 											{foreach from=$ROWDATA item=VALUE key=NAME}
 												{assign var="FIELD" value=$INVENTORY_FIELDS[$NAME]}

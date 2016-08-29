@@ -17,16 +17,20 @@ class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_Vi
 		$log = vglobal('log');
 		$log->debug("Entering Settings_PublicHoliday_Configuration_View::process() method ...");
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-
-		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$date = $request->get('date');
-		if (!$date)
-			$date = array(date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y'))), date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y'))));
+		if (!$date) {
+			$startDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+			$startDate = new DateTimeField($startDate);
+			$endDate = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
+			$endDate = new DateTimeField($endDate);
+			$date = [
+				$startDate->getDisplayDate(),
+				$endDate->getDisplayDate(),
+			];
+		}
 		$holidays = Settings_PublicHoliday_Module_Model::getHolidays($date);
-
 		$viewer->assign('DATE', implode(" - ", $date));
-		$viewer->assign('THREE_YEARS_BACK', $minus3Years);
 		$viewer->assign('HOLIDAYS', $holidays);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));

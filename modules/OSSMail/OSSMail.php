@@ -9,8 +9,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  *************************************************************************************************************************************/
-require_once('include/CRMEntity.php');
-require_once('include/Tracker.php');
 
 class OSSMail {
     function vtlib_handler($moduleName, $eventType) {
@@ -37,7 +35,7 @@ class OSSMail {
 					  `info` varchar(100) DEFAULT NULL,
 					  PRIMARY KEY (`id`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8");
-			$Module = Vtiger_Module::getInstance($moduleName);
+			$Module = vtlib\Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
         } else if ($eventType == 'module.disabled') {
@@ -52,7 +50,7 @@ class OSSMail {
 
         } else if ($eventType == 'module.postupdate') {
 			$adb = PearDatabase::getInstance();
-			$OSSMail = Vtiger_Module::getInstance('OSSMail');
+			$OSSMail = vtlib\Module::getInstance('OSSMail');
 			if(version_compare($OSSMail->version, '1.39', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);

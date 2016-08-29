@@ -9,7 +9,7 @@
 class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixScannerAction_Model
 {
 
-	public function process($mail)
+	public function process(OSSMail_Mail_Model $mail)
 	{
 		$moduleName = 'HelpDesk';
 		$answeredStatus = 'Answered';

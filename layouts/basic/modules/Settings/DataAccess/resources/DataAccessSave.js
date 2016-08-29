@@ -119,7 +119,6 @@ function DataAccessSave() {
 		var thisInstance = this;
 		var view = app.getViewName();
 		var moduleName = app.getModuleName();
-		//console.log(moduleName);
 		jQuery('body').append('<div id="data_access_save" style="display:none;"></div>');
 		if ('Detail' == view) {
 			var form = jQuery('#detailView');
@@ -135,11 +134,9 @@ function DataAccessSave() {
 		}
 		var editViewForm = this.getForm();
 		form.on('Vtiger.Field.PreSave', function(e) {
-	console.log('666');
 			e.preventDefault();
 		})
 		form.on('Vtiger.Record.PreSave', function(e) {
-	console.log('777');
 			e.preventDefault();
 		})
 		

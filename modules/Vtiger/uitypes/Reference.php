@@ -49,12 +49,15 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$referenceModule = $this->getReferenceModule($value);
 		if ($referenceModule && !empty($value)) {
 			$referenceModuleName = $referenceModule->get('name');
-			$entityNames = getEntityName($referenceModuleName, [$value]);
-			$name = $entityNames[$value];
+			if ($referenceModuleName == 'Users' || $referenceModuleName == 'Groups') {
+				$name = \includes\fields\Owner::getLabel($value);
+			} else {
+				$name = \includes\Record::getLabel($value);
+			}
 			if ($rawText || $referenceModuleName == 'Users' || ($value && !Users_Privileges_Model::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
-			$name = Vtiger_Functions::textLength($name, vglobal('href_max_length'));
+			$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
 			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . vtranslate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
@@ -83,6 +86,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$fieldName = $fieldModel->getName();
 		if ($fieldName == 'modifiedby') {
 			return 'uitypes/OwnerFieldSearchView.tpl';
+		}
+		if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+			return 'uitypes/ReferenceSearchView.tpl';
 		}
 		return parent::getListSearchTemplateName();
 	}

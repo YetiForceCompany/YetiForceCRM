@@ -10,21 +10,20 @@
 require_once('include/utils/CommonUtils.php');
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Webservices/DescribeObject.php';
-require_once('include/Zend/Json.php');
 require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
 
 function vtJsonFields($adb, Vtiger_Request $request)
 {
 	$mem = new VTExpressionsManager($adb);
 	$fields = $mem->fields($request->getModule());
-	echo Zend_Json::encode(array('moduleFields' => $fields));
+	echo \includes\utils\Json::encode(array('moduleFields' => $fields));
 }
 
 function vtJsonFunctions($adb)
 {
 	$mem = new VTExpressionsManager($adb);
 	$functions = $mem->expressionFunctions();
-	echo Zend_Json::encode($functions);
+	echo \includes\utils\Json::encode($functions);
 }
 
 function vtJsonDependentModules($adb, Vtiger_Request $request)
@@ -52,7 +51,7 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 		if (in_array($tabModuleName, $filterModules))
 			continue;
 		if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
-			if (!vtlib_isModuleActive($tabModuleName))
+			if (!\includes\Modules::isModuleActive($tabModuleName))
 				continue;
 			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => getTranslatedString($tabModuleName, $tabModuleName));
 		} else {
@@ -71,14 +70,15 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 
 	$returnValue = array('count' => count($dependentFields), 'entities' => $dependentFields);
 
-	echo Zend_Json::encode($returnValue);
+	echo \includes\utils\Json::encode($returnValue);
 }
 
 function vtJsonOwnersList($adb)
 {
 	$ownersList = [];
-	$activeUsersList = get_user_array(false);
-	$allGroupsList = get_group_array(false);
+	$owner = \includes\fields\Owner::getInstance();
+	$activeUsersList = $owner->getUsers();
+	$allGroupsList = $owner->getGroups();
 	foreach ($activeUsersList as $userId => $userName) {
 		$ownersList[] = array('label' => $userName, 'value' => getUserName($userId));
 	}
@@ -86,7 +86,7 @@ function vtJsonOwnersList($adb)
 		$ownersList[] = array('label' => $groupName, 'value' => $groupName);
 	}
 
-	echo Zend_Json::encode($ownersList);
+	echo \includes\utils\Json::encode($ownersList);
 }
 $adb = PearDatabase::getInstance();
 $request = AppRequest::init();

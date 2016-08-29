@@ -57,7 +57,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 	function sendMailFromTemplate($data)
 	{
 		require_once('modules/Emails/mail.php');
-		global $site_URL, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID;
+
 		$id = key_exists('id', $data) ? $data['id'] : false;
 		$sysname = key_exists('sysname', $data) ? $data['sysname'] : false;
 		$output = self::getTemplete($id, $sysname);
@@ -105,7 +105,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$this->findVar($output['subject'], 0, $entityId, $module, 't', $data);
 
 		vglobal('translated_language', $translatedLanguage);
-		$mailStatus = send_mail($module, $toEmail, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID, $output['subject'], $output['content'], $cc, $bcc, $attachment, $emailid, $logo, false, $data['attachment_src']);
+		$mailStatus = send_mail($module, $toEmail, '', '', $output['subject'], $output['content'], $cc, $bcc, $attachment, $emailid, $logo, false, $data['attachment_src']);
 		return $mailStatus;
 	}
 
@@ -212,11 +212,11 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$getValueResult = $db->query($getValueSql, true);
 		$finalValue = $db->query_result_raw($getValueResult, 0, $fieldColumnName);
 		if ($uitype == 10 || $uitype == 51 || $uitype == 73 || $uitype == 66 || $uitype == 57) {
-			$finalValue = Vtiger_Functions::getCRMRecordLabel($finalValue);
+			$finalValue = vtlib\Functions::getCRMRecordLabel($finalValue);
 		} elseif ($uitype == 15 || $uitype == 16) {
 			$finalValue = vtranslate($finalValue, $module);
 		} elseif ($uitype == 53 || $uitype == 52) {
-			$finalValue = Vtiger_Functions::getOwnerRecordLabel($finalValue);
+			$finalValue = vtlib\Functions::getOwnerRecordLabel($finalValue);
 		} elseif ($uitype == 56) {
 			if (0 == $finalValue) {
 				$finalValue = vtranslate('LBL_NO');
@@ -234,7 +234,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		vimport("~~modules/$module/$module.php");
 		$IDs = explode('||', $fieldId);
-		$getFieldInfoSql = "SELECT * FROM vtiger_field WHERE fieldid = '" . $IDs[0] . "'";
+		$getFieldInfoSql = sprintf('SELECT * FROM vtiger_field WHERE fieldid = %s', $IDs[0]);
 		$getFieldInfoResult = $db->query($getFieldInfoSql, true);
 		$fieldTab = $db->query_result_raw($getFieldInfoResult, 0, 'tablename');
 		$fieldname = $db->query_result_raw($getFieldInfoResult, 0, 'fieldname');
@@ -253,11 +253,11 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$getValueResult = $db->pquery($getValueSql, array($rel_id), true);
 		$finalValue = $db->query_result_raw($getValueResult, 0, $fieldColumnName);
 		if ($uitype == 10 || $uitype == 51 || $uitype == 73 || $uitype == 66 || $uitype == 57) {
-			$finalValue = Vtiger_Functions::getCRMRecordLabel($finalValue);
+			$finalValue = vtlib\Functions::getCRMRecordLabel($finalValue);
 		} elseif ($uitype == 15 || $uitype == 16) {
 			$finalValue = vtranslate($finalValue, $module);
 		} elseif ($uitype == 53 || $uitype == 52) {
-			$finalValue = Vtiger_Functions::getOwnerRecordLabel($finalValue);
+			$finalValue = vtlib\Functions::getOwnerRecordLabel($finalValue);
 		}
 		$tpl = substr_replace($tpl, $finalValue, $start, $allLength + $positionLength);
 		return $tpl;

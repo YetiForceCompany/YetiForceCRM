@@ -28,7 +28,7 @@ class Calendar
 	/*
 	constructor
 	*/
-	function Calendar($view='',$data=Array())
+	function __construct($view='',$data=Array())
 	{
 		$this->view = $view;
 		$this->date_time = new vt_DateTime($data,true);

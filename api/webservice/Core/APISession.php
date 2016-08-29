@@ -14,21 +14,26 @@ class APISession extends Vtiger_Base_Model
 		return md5(time() . rand());
 	}
 
-	public static function init($userDetail)
+	public static function init($userDetail, $params = [])
 	{
 		$sessionId = self::regenerateId();
 		$sessionData = [
 			'id' => $sessionId,
 			'user_id' => $userDetail['id'],
 			'created' => date('Y-m-d H:i:s'),
-			'changed' => date('Y-m-d H:i:s'),
-			'ip' => '',
+			'changed' => date('Y-m-d H:i:s')
 		];
+		if(isset($params['ip'])){
+			$sessionData['ip'] = $params['ip'];
+		}
+		if(isset($params['language'])){
+			$sessionData['language'] = $params['language'];
+		}
 		$db = PearDatabase::getInstance();
 		$db->insert('w_yf_sessions', $sessionData);
 		return $sessionData;
 	}
-	
+
 	public static function checkSession($sessionId)
 	{
 		$db = PearDatabase::getInstance();
@@ -41,7 +46,9 @@ class APISession extends Vtiger_Base_Model
 			return false;
 		}
 	}
-	public static function getInstance(){
+
+	public static function getInstance()
+	{
 		return new self();
 	}
 }

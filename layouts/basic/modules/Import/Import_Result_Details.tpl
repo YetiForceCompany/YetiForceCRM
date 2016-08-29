@@ -33,7 +33,7 @@
 			<td width="30%">{$IMPORT_RESULT.SKIPPED}
 			{if $IMPORT_RESULT['SKIPPED'] neq '0'}
 				&nbsp;&nbsp;<a class="cursorPointer" 
-					onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=skipped&start=1&foruser={$OWNER_ID}','skipped','width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">
+					onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=skipped&start=1&foruser={$OWNER_ID}&forModule={$FOR_MODULE}','skipped','width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">
 				{'LBL_DETAILS'|@vtranslate:$MODULE}</a>
 			{/if}
 			</td>
@@ -49,7 +49,7 @@
 		<td width="10%">:</td>
 		<td width="30%">{$IMPORT_RESULT.FAILED} / {$IMPORT_RESULT.TOTAL}
 		{if $IMPORT_RESULT['FAILED'] neq '0'}
-			&nbsp;&nbsp;<a class="cursorPointer" onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=failed&start=1&foruser={$OWNER_ID}','failed','width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">{'LBL_DETAILS'|@vtranslate:$MODULE}</a>
+			&nbsp;&nbsp;<a class="cursorPointer" onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=failed&start=1&foruser={$OWNER_ID}&forModule={$FOR_MODULE}','failed','width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">{'LBL_DETAILS'|@vtranslate:$MODULE}</a>
 		{/if}
 		</td>
 	</tr>

@@ -23,9 +23,9 @@ class Vtiger_Language_Handler
 	 * @param <String> $module - module scope in which the translation need to be check
 	 * @return <String> - translated string
 	 */
-	public static function getTranslatedString($key, $module = '', $currentLanguage = '')
+	public static function getTranslatedString($key, $module = 'Vtiger', $currentLanguage = false)
 	{
-		if (empty($currentLanguage)) {
+		if ($currentLanguage === false) {
 			$currentLanguage = self::getLanguage();
 		}
 		//decoding for Start Date & Time and End Date & Time 
@@ -55,7 +55,7 @@ class Vtiger_Language_Handler
 	 * @param <String> $module - module name
 	 * @return <String> translated string or null if translation not found
 	 */
-	public static function getLanguageTranslatedString($language, $key, $module = '')
+	public static function getLanguageTranslatedString($language, $key, $module = 'Vtiger')
 	{
 		$moduleStrings = [];
 
@@ -77,7 +77,6 @@ class Vtiger_Language_Handler
 				return stripslashes($moduleStrings['languageStrings'][$key]);
 			}
 		}
-
 		$commonStrings = self::getModuleStringsFromFile($language);
 		if (!empty($commonStrings['languageStrings'][$key]))
 			return stripslashes($commonStrings['languageStrings'][$key]);
@@ -91,7 +90,7 @@ class Vtiger_Language_Handler
 	 * @param <String> $module - module scope in which the translation need to be check
 	 * @return <String> - translated string
 	 */
-	public static function getJSTranslatedString($language, $key, $module = '')
+	public static function getJSTranslatedString($language, $key, $module = 'Vtiger')
 	{
 		$moduleStrings = [];
 
@@ -128,31 +127,36 @@ class Vtiger_Language_Handler
 	public static function getModuleStringsFromFile($language, $module = 'Vtiger')
 	{
 		$module = str_replace(':', '.', $module);
-		if (empty(self::$languageContainer[$language][$module])) {
+		if (!isset(self::$languageContainer[$language][$module])) {
 			$qualifiedName = 'languages.' . $language . '.' . $module;
 			$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
-
 			$languageStrings = $jsLanguageStrings = [];
 			if (file_exists($file)) {
 				require $file;
-				self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
-				self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
+			} else {
+				$log = LoggerManager::getInstance();
+				$log->warn('Language file does not exist, module:' . $module . ' ,language: ' . $language);
 			}
-			$qualifiedName = 'custom.languages.' . $language . '.' . $module;
-			$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
-
-			if (file_exists($file)) {
-				require $file;
-				foreach ($languageStrings as $key => $val) {
-					self::$languageContainer[$language][$module]['languageStrings'][$key] = $val;
-				}
-				foreach ($jsLanguageStrings as $key => $val) {
-					self::$languageContainer[$language][$module]['jsLanguageStrings'][$key] = $val;
+			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
+			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
+			if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
+				$qualifiedName = 'custom.languages.' . $language . '.' . $module;
+				$file = Vtiger_Loader::resolveNameToPath($qualifiedName);
+				if (file_exists($file)) {
+					require $file;
+					foreach ($languageStrings as $key => $val) {
+						self::$languageContainer[$language][$module]['languageStrings'][$key] = $val;
+					}
+					foreach ($jsLanguageStrings as $key => $val) {
+						self::$languageContainer[$language][$module]['jsLanguageStrings'][$key] = $val;
+					}
 				}
 			}
 		}
 		return self::$languageContainer[$language][$module];
 	}
+
+	protected static $lang = false;
 
 	/**
 	 * Function that returns current language
@@ -160,6 +164,9 @@ class Vtiger_Language_Handler
 	 */
 	public static function getLanguage()
 	{
+		if (self::$lang) {
+			return self::$lang;
+		}
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
 		} elseif (Vtiger_Session::get('language') != '') {
@@ -168,6 +175,7 @@ class Vtiger_Language_Handler
 			$language = Users_Record_Model::getCurrentUserModel()->get('language');
 		}
 		$language = empty($language) ? vglobal('default_language') : $language;
+		self::$lang = $language;
 		return $language;
 	}
 
@@ -236,7 +244,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function getAllLanguages()
 	{
-		return Vtiger_Language::getAll();
+		return vtlib\Language::getAll();
 	}
 
 	/**
@@ -252,9 +260,14 @@ class Vtiger_Language_Handler
 		}
 		return false;
 	}
+
+	public static function getTranslateSingularModuleName($moduleName)
+	{
+		return Vtiger_Language_Handler::getTranslatedString("SINGLE_$moduleName", $moduleName);
+	}
 }
 
-function vtranslate($key, $moduleName = '')
+function vtranslate($key, $moduleName = 'Vtiger')
 {
 	$formattedString = Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
 	$args = func_get_args();
@@ -266,7 +279,7 @@ function vtranslate($key, $moduleName = '')
 	return $formattedString;
 }
 
-function vJSTranslate($key, $moduleName = '')
+function vJSTranslate($key, $moduleName = 'Vtiger')
 {
 	$args = func_get_args();
 	return call_user_func_array(array('Vtiger_Language_Handler', 'getJSTranslatedString'), $args);

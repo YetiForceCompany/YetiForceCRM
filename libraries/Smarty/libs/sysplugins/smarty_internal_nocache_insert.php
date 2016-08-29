@@ -42,10 +42,10 @@ class Smarty_Internal_Nocache_Insert
             $_output .= "echo {$_function}(" . var_export($_attr, true) . ",\$_smarty_tpl);?>";
         }
         $_tpl = $_template;
-        while ($_tpl->parent instanceof Smarty_Internal_Template) {
+        while (isset($_tpl->parent) && $_tpl->parent->_objType == 2) {
             $_tpl = $_tpl->parent;
         }
 
-        return "/*%%SmartyNocache:{$_tpl->properties['nocache_hash']}%%*/" . $_output . "/*/%%SmartyNocache:{$_tpl->properties['nocache_hash']}%%*/";
+        return "/*%%SmartyNocache:{$_tpl->compiled->nocache_hash}%%*/" . $_output . "/*/%%SmartyNocache:{$_tpl->compiled->nocache_hash}%%*/";
     }
 }

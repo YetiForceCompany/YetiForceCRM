@@ -25,7 +25,7 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 		return;
 	}
 
-	public function getGlobalPermissions()
+	public static function getGlobalPermissions()
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_profile2globalpermissions LEFT JOIN vtiger_profile ON vtiger_profile.profileid = vtiger_profile2globalpermissions.profileid', array());
@@ -42,8 +42,11 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 		return $globalPermissions;
 	}
 
-	public function save($profileID, $globalactionid, $checked)
+	public static function save($profileID, $globalactionid, $checked)
 	{
+		if ($globalactionid == 1) {
+			\includes\Privileges::setAllUpdater();
+		}
 		$db = PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_profile2globalpermissions WHERE profileid=? AND globalactionid=?', array($profileID, $globalactionid));
 		$sql = 'INSERT INTO vtiger_profile2globalpermissions(profileid, globalactionid, globalactionpermission) VALUES (?,?,?)';
@@ -51,12 +54,12 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 		self::recalculate();
 	}
 
-	public function recalculate()
+	public static function recalculate()
 	{
 		$php_max_execution_time = vglobal('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 		vimport('~~modules/Users/CreateUserPrivilegeFile.php');
-		$userIdsList = Settings_Profiles_Record_Model::getUsersList(true);
+		$userIdsList = Settings_Profiles_Record_Model::getUsersList();
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
 				createUserPrivilegesfile($userId);

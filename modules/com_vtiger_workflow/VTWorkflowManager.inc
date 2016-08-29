@@ -128,7 +128,7 @@ class VTWorkflowManager
 			return $this->getWorkflowsForResult($cache->getWorkflowForModule($cacheName));
 		} else {
 			$result = $adb->getColumnNames("com_vtiger_workflows");
-			if (in_array(defaultworkflow, $result)) {
+			if (in_array('defaultworkflow', $result)) {
 				$sql = 'SELECT workflow_id, module_name, summary, test, execution_condition, defaultworkflow, type, filtersavedinnew FROM com_vtiger_workflows WHERE module_name=?';
 			} else {
 				$sql = 'SELECT workflow_id, module_name, summary, test, execution_condition, type, filtersavedinnew FROM com_vtiger_workflows WHERE module_name=?';
@@ -240,7 +240,7 @@ class VTWorkflowManager
 			unset($task->workflowId);
 			$exp['tasks'][] = serialize($task);
 		}
-		return Zend_Json::encode($exp);
+		return \includes\utils\Json::encode($exp);
 	}
 
 	/**
@@ -250,7 +250,7 @@ class VTWorkflowManager
 	 */
 	public function deserializeWorkflow($str)
 	{
-		$data = Zend_Json::decode($str);
+		$data = \includes\utils\Json::decode($str);
 		$workflow = $this->newWorkflow($data['moduleName']);
 		$workflow->description = $data['description'];
 		$workflow->test = $data['test'];
@@ -306,12 +306,12 @@ class VTWorkflowManager
 
 		$commentSupportedWorkflowModels = array();
 		foreach ($workflowModels as $workflowId => $workflowModel) {
-			$conditions = Zend_Json::decode($workflowModel->test);
+			$conditions = \includes\utils\Json::decode($workflowModel->test);
 			if (is_array($conditions)) {
 				foreach ($conditions as $key => $conditionInfo) {
 					if ($conditionInfo['fieldname'] === '_VT_add_comment') {
 						unset($conditions[$key]);
-						$workflowModel->test = Zend_Json::encode($conditions);
+						$workflowModel->test = \includes\utils\Json::encode($conditions);
 						$commentSupportedWorkflowModels[$workflowId] = $workflowModel;
 					}
 				}
@@ -340,21 +340,21 @@ class Workflow
 
 	function setup($row)
 	{
-		$this->id = $row['workflow_id'];
-		$this->moduleName = $row['module_name'];
-		$this->description = to_html($row['summary']);
-		$this->test = $row['test'];
-		$this->executionCondition = $row['execution_condition'];
-		$this->schtypeid = $row['schtypeid'];
-		$this->schtime = $row['schtime'];
-		$this->schdayofmonth = $row['schdayofmonth'];
-		$this->schdayofweek = $row['schdayofweek'];
-		$this->schannualdates = $row['schannualdates'];
-		if ($row['defaultworkflow']) {
+		$this->id = isset($row['workflow_id']) ? $row['workflow_id'] : '';
+		$this->moduleName = isset($row['module_name']) ? $row['module_name'] : '';
+		$this->description = to_html(isset($row['summary']) ? $row['summary'] : '');
+		$this->test = isset($row['test']) ? $row['test'] : '';
+		$this->executionCondition = isset($row['execution_condition']) ? $row['execution_condition'] : '';
+		$this->schtypeid = isset($row['schtypeid']) ? $row['schtypeid'] : '';
+		$this->schtime = isset($row['schtime']) ? $row['schtime'] : '';
+		$this->schdayofmonth = isset($row['schdayofmonth']) ? $row['schdayofmonth'] : '';
+		$this->schdayofweek = isset($row['schdayofweek']) ? $row['schdayofweek'] : '';
+		$this->schannualdates = isset($row['schannualdates']) ? $row['schannualdates'] : '';
+		if (isset($row['defaultworkflow'])) {
 			$this->defaultworkflow = $row['defaultworkflow'];
 		}
-		$this->filtersavedinnew = $row['filtersavedinnew'];
-		$this->nexttrigger_time = $row['nexttrigger_time'];
+		$this->filtersavedinnew = isset($row['filtersavedinnew']) ? $row['filtersavedinnew'] : '';
+		$this->nexttrigger_time = isset($row['nexttrigger_time']) ? $row['nexttrigger_time'] : '';
 	}
 
 	function evaluate($entityCache, $id)
@@ -552,7 +552,7 @@ class Workflow
 		$currentTime = time();
 		$currentWeekDay = date('N', $currentTime);
 		if ($scheduledDaysOfWeek) {
-			$scheduledDaysOfWeek = Zend_Json::decode($scheduledDaysOfWeek);
+			$scheduledDaysOfWeek = \includes\utils\Json::decode($scheduledDaysOfWeek);
 			if (is_array($scheduledDaysOfWeek)) {
 				// algorithm :
 				//1. First sort all the weekdays(stored as 0,1,2,3 etc in db) and find the closest weekday which is greater than currentWeekDay
@@ -606,7 +606,7 @@ class Workflow
 	{
 		$currentDayOfMonth = date('j', time());
 		if ($scheduledDayOfMonth) {
-			$scheduledDaysOfMonth = Zend_Json::decode($scheduledDayOfMonth);
+			$scheduledDaysOfMonth = \includes\utils\Json::decode($scheduledDayOfMonth);
 			if (is_array($scheduledDaysOfMonth)) {
 				// algorithm :
 				//1. First sort all the days in ascending order and find the closest day which is greater than currentDayOfMonth
@@ -676,7 +676,7 @@ class Workflow
 	{
 		if ($annualDates) {
 			$today = date('Y-m-d');
-			$annualDates = Zend_Json::decode($annualDates);
+			$annualDates = \includes\utils\Json::decode($annualDates);
 			$nextTriggerDay = null;
 			// sort the dates
 			sort($annualDates);

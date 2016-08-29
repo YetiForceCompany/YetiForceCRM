@@ -12,34 +12,51 @@
 class OSSMail_index_View extends Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	protected $mainUrl = 'modules/OSSMail/roundcube/';
+
+	function __construct()
 	{
-		$moduleName = $request->getModule();
-		$url = OSSMail_Record_Model::GetSite_URL() . 'modules/OSSMail/roundcube/';
+		parent::__construct();
+		$this->mainUrl = OSSMail_Record_Model::GetSite_URL() . $this->mainUrl;
+	}
+
+	function initAutologin()
+	{
 		$config = Settings_Mail_Config_Model::getConfig('autologin');
 		if ($config['autologinActive'] == 'true') {
 			$account = OSSMail_Autologin_Model::getAutologinUsers();
 			if ($account) {
 				$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
-				require_once 'modules/OSSMail/RoundcubeLogin.class.php';
-				$rcl = new RoundcubeLogin($url, false);
-				try {
-					if ($rcl->isLoggedIn()) {
-						if ($rcl->getUsername() != $rcUser['username']) {
-							$rcl->logout();
-							$rcl->login($rcUser['username'], $rcUser['password']);
-						}
-					} else {
-						$rcl->login($rcUser['username'], $rcUser['password']);
-					}
-				} catch (RoundcubeLoginException $ex) {
-					$log = vglobal('log');
-					$log->error('OSSMail_index_View|RoundcubeLoginException: ' . $ex->getMessage());
+
+				$key = md5($rcUser['rcuser_id'] . microtime());
+				if (strpos($this->mainUrl, '?') !== false) {
+					$this->mainUrl .= '&';
+				} else {
+					$this->mainUrl .= '?';
 				}
+				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
+				$db = PearDatabase::getInstance();
+				$db->delete('u_yf_mail_autologin', '`userid` = ?;', [$rcUser['rcuser_id']]);
+				$db->insert('u_yf_mail_autologin', [
+					'key' => $key,
+					'userid' => $rcUser['rcuser_id']
+				]);
 			}
 		}
+	}
+
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
+		$this->initAutologin();
+
+		parent::preProcess($request, $display);
+	}
+
+	public function process(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('URL', $url);
+		$viewer->assign('URL', $this->mainUrl);
 		$viewer->view('index.tpl', $moduleName);
 	}
 }

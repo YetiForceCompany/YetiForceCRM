@@ -19,7 +19,7 @@
 				<select class="chzn-select form-control" name="template" data-validation-engine='validate[required]'>
 				<option value="">{vtranslate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 				{foreach from=$TEMPLATELIST key=key item=item}
-					<option {if $TASK_OBJECT->template eq $key}selected=""{/if} value="{$key}">{$item.name}</option>
+					<option {if $TASK_OBJECT->template eq $key}selected=""{/if} value="{$key}">{vtranslate($item.name, $QUALIFIED_MODULE)}</option>
 				{/foreach}	
 			</select>
 			</div>
@@ -37,16 +37,16 @@
 					<option value="none"></option>
 					{assign var=RECORD_STRUCTURE_TYPE value=$RECORD_STRUCTURE_MODEL->getStructure('email')}
 					{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE_TYPE }
-						<optgroup label='{vtranslate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}'>
+						<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 								{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
 								{assign var=KEYVAL value=$FIELD_MODEL->get(selectOption)}
 								<option value="{$KEYVAL}" {if $TASK_OBJECT->email eq $KEYVAL}selected=""{/if}>
-									{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')} 
+									{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')} 
 										({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 									{else}
-										{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}
+										{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
 									{/if}
 								</option>
 							{/foreach}

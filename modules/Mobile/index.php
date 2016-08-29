@@ -16,7 +16,7 @@ chdir (dirname(__FILE__) . '/../../');
 
 require_once 'include/main/WebUI.php';
 if(!in_array('mobileModule',$enabledServices)){
-	$apiLog = new APINoPermittedException();
+	$apiLog = new \Exception\NoPermittedToApi();
 	$apiLog->stop(['status' => 0, 'message' => 'MobileModule - Service is not active']);
 }
 

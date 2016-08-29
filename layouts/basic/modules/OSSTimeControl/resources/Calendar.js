@@ -300,13 +300,14 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		// convert dates to db format
 		calendarDetails.date_start.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.date_start.display_value);
 		calendarDetails.due_date.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.due_date.display_value);
+		var calendar = this.getCalendarView();
 
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.name.display_value;
-		var startDate = Date.parse(calendarDetails.date_start.display_value + 'T' + calendarDetails.time_start.display_value);
+		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value);
 		eventObject.start = startDate.toString();
-		var endDate = Date.parse(calendarDetails.due_date.display_value + 'T' + calendarDetails.time_end.display_value);
+		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value);
 		var assignedUserId = calendarDetails.assigned_user_id.value;
 		eventObject.end = endDate.toString();
 		eventObject.url = 'index.php?module=OSSTimeControl&view=Detail&record=' + calendarDetails._recordId;
@@ -361,7 +362,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerSlimScroll: function(){
+	registerCalendarScroll: function(){
 		var calendarContainer = $('.bodyContents');
 		app.showScrollBar(calendarContainer,{
 			railVisible: true,
@@ -375,6 +376,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		this.registerChangeView();
 		this.registerButtonSelectAll();
 		this.registerRefreshEvent();
-		this.registerSlimScroll();
+		this.registerCalendarScroll();
 	}
 });

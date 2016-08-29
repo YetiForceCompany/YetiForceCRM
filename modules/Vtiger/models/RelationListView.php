@@ -210,18 +210,16 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$orderByFieldModuleModel = $relationModule->getFieldByColumn($orderBy);
 			if ($orderByFieldModuleModel && $orderByFieldModuleModel->isReferenceField()) {
 				//If reference field then we need to perform a join with crmentity with the related to field
-				$queryComponents = explode('where ', $query);
-				$queryComponents = count($queryComponents) == 2 ? $queryComponents : explode('WHERE ', $query);
+				$queryComponents = preg_split('/WHERE /i', $query);
 				$selectAndFromClause = $queryComponents[0];
 				$whereCondition = $queryComponents[1];
 				$qualifiedOrderBy = 'vtiger_crmentity' . $orderByFieldModuleModel->get('column');
 				$selectAndFromClause .= ' LEFT JOIN vtiger_crmentity AS ' . $qualifiedOrderBy . ' ON ' .
 					$orderByFieldModuleModel->get('table') . '.' . $orderByFieldModuleModel->get('column') . ' = ' .
 					$qualifiedOrderBy . '.crmid ';
-				$query = $selectAndFromClause . ' WHERE ' . $whereCondition;
-				$query .= ' ORDER BY ' . $qualifiedOrderBy . '.label ' . $sortOrder;
+				$query = sprintf('%s WHERE %s ORDER BY %s.label %s', $selectAndFromClause, $whereCondition, $qualifiedOrderBy, $sortOrder);
 			} elseif ($orderByFieldModuleModel && $orderByFieldModuleModel->isOwnerField()) {
-				$query .= ' ORDER BY COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname) ' . $sortOrder;
+				$query .= sprintf(' ORDER BY COALESCE(%s,vtiger_groups.groupname) %s', getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), $sortOrder);
 			} else {
 				// Qualify the the column name with table to remove ambugity
 				$qualifiedOrderBy = $orderBy;
@@ -229,10 +227,46 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				if ($orderByField) {
 					$qualifiedOrderBy = $relationModule->getOrderBySql($qualifiedOrderBy);
 				}
-				$query = "$query ORDER BY $qualifiedOrderBy $sortOrder";
+				$query = sprintf("%s ORDER BY %s %s ", $query, $qualifiedOrderBy, $sortOrder);
 			}
 		}
 		return $query;
+	}
+
+	public function loadCondition($moduleName)
+	{
+		$queryGenerator = $this->get('query_generator');
+		if (empty($queryGenerator)) {
+			$queryGenerator = new QueryGenerator($moduleName, Users_Record_Model::getCurrentUserModel());
+		}
+		$srcRecord = $this->get('src_record');
+		if ($moduleName == $this->get('src_module') && !empty($srcRecord)) {
+			$queryGenerator->addCondition('id', $srcRecord, 'n');
+		}
+
+		$searchParams = $this->get('search_params');
+		if (empty($searchParams)) {
+			$searchParams = [];
+		}
+		$glue = '';
+		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
+			$glue = QueryGenerator::$AND;
+		}
+		$queryGenerator->parseAdvFilterList($searchParams, $glue);
+
+		$searchKey = $this->get('search_key');
+		$searchValue = $this->get('search_value');
+		$operator = $this->get('operator');
+		if (!empty($searchKey)) {
+			$queryGenerator->addUserSearchConditions(
+				[
+					'search_field' => $searchKey,
+					'search_text' => $searchValue,
+					'operator' => $operator
+				]
+			);
+		}
+		$this->set('query_generator', $queryGenerator);
 	}
 
 	public function getEntries($pagingModel)
@@ -246,7 +280,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if (count($relatedColumnFields) <= 0) {
 			$relatedColumnFields = $relationModule->getConfigureRelatedListFields();
 		}
-		if (count($relatedColumnFields) <= 0) {
+
+		if (empty($relatedColumnFields)) {
 			$relatedColumnFields = $relationModule->getRelatedListFields();
 		}
 
@@ -255,7 +290,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$relatedColumnFields[$col] = $name;
 			}
 		}
-
 		$query = $this->getRelationQuery();
 
 		if ($this->get('whereCondition')) {
@@ -308,6 +342,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			//To show the value of "Assigned to"
 			$ownerId = $row['smownerid'];
 			$newRow['assigned_user_id'] = $row['smownerid'];
+			if ($relationModuleName == 'Documents') {
+				$newRow['filetype'] = $row['filetype'];
+			}
 			if ($relationModuleName == 'Calendar') {
 				$visibleFields = array('activitytype', 'date_start', 'time_start', 'due_date', 'time_end', 'assigned_user_id', 'visibility', 'smownerid', 'parent_id');
 				$visibility = true;
@@ -340,7 +377,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				if (strlen($row['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')) {
 					$newRow['relCommentFull'] = $row['rel_comment'];
 				}
-				$newRow['relComment'] = Vtiger_Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
+				$newRow['relComment'] = vtlib\Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
 			}
 			if ($relationModule->isInventory()) {
 				$showInventoryFields = $relationModel->getRelationInventoryFields();
@@ -410,18 +447,14 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			return $this->query;
 		}
 		$relationModel = $this->getRelationModel();
+		$relatedModuleModel = $this->getRelatedModuleModel();
+		$relatedModuleName = $relatedModuleModel->getName();
+		$this->loadCondition($relationModuleName);
 		if (!empty($relationModel) && $relationModel->get('name') != NULL) {
 			$recordModel = $this->getParentRecordModel();
 			$this->query = $relationModel->getQuery($recordModel, false, $this);
 			return $this->query;
 		}
-		$searchParams = $this->get('search_params');
-		if (empty($searchParams)) {
-			$searchParams = [];
-		}
-
-		$relatedModuleModel = $this->getRelatedModuleModel();
-		$relatedModuleName = $relatedModuleModel->getName();
 
 		$relatedModuleBaseTable = $relatedModuleModel->basetable;
 		$relatedModuleEntityIdField = $relatedModuleModel->basetableid;
@@ -433,34 +466,30 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$parentModuleDirectRelatedField = $parentModuleModel->get('directRelatedFieldName');
 
 		$relatedModuleFields = array_keys($this->getHeaders());
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$queryGenerator = new QueryGenerator($relatedModuleName, $currentUserModel);
+		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->setFields($relatedModuleFields);
 
-		if (count($searchParams) > 0) {
-			$queryGenerator->parseAdvFilterList($searchParams);
-		}
 		$joinQuery = ' INNER JOIN ' . $parentModuleBaseTable . ' ON ' . $parentModuleBaseTable . '.' . $parentModuleDirectRelatedField . " = " . $relatedModuleBaseTable . '.' . $relatedModuleEntityIdField;
 
 		$query = $queryGenerator->getQuery();
-		$queryComponents = explode(' FROM ', $query);
+		$queryComponents = preg_split('/FROM/i', $query);
 		foreach ($queryComponents as $key => $val) {
 			if ($key == 0) {
-				$query = $queryComponents[0] . ' ,vtiger_crmentity.crmid';
+				$query = sprintf('%s ,vtiger_crmentity.crmid', $queryComponents[0]);
 			} else {
-				$query .= ' FROM ' . $val;
+				$query .= sprintf('FROM %s', $val);
 			}
 		}
-		$whereSplitQueryComponents = explode(' WHERE ', $query);
+		$whereSplitQueryComponents = preg_split('/WHERE/i', $query);
 		$query = $whereSplitQueryComponents[0] . $joinQuery;
 		foreach ($whereSplitQueryComponents as $key => $val) {
 			if ($key == 0) {
-				$query .= " WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId AND ";
+				$query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId AND ";
 			} else {
 				$query .= $val . ' WHERE ';
 			}
 		}
-		$this->query = trim($query, "WHERE ");
+		$this->query = trim($query, ' WHERE ');
 		return $this->query;
 	}
 
@@ -493,8 +522,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 		if (!$relationModel) {
 			$relationModel = false;
+		} else {
+			$queryGenerator = new QueryGenerator($relatedModuleModel->getName(), Users_Record_Model::getCurrentUserModel());
 		}
-		$instance->setRelationModel($relationModel);
+		$instance->setRelationModel($relationModel)->set('query_generator', $queryGenerator);
 		return $instance;
 	}
 
@@ -506,13 +537,12 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$relationQuery = $this->getRelationQuery();
-		$relationQuery = preg_replace("/[ \t\n\r]+/", " ", $relationQuery);
-		$position = stripos($relationQuery, ' from ');
+		$relationQuery = preg_replace("/[ \t\n\r]+/", ' ', $relationQuery);
+		$position = stripos($relationQuery, ' FROM ');
 		if ($position) {
-			$relationQuery = str_replace('FROM', 'from', $relationQuery);
-			$split = explode(' from ', $relationQuery);
+			$split = preg_split('/FROM/i', $relationQuery, 2);
 			$splitCount = count($split);
-			$relationQuery = 'SELECT COUNT(1) AS count';
+			$relationQuery = 'SELECT COUNT(DISTINCT vtiger_crmentity.crmid) AS count';
 			for ($i = 1; $i < $splitCount; $i++) {
 				$relationQuery = $relationQuery . ' FROM ' . $split[$i];
 			}
@@ -521,8 +551,25 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$parts = explode(' GROUP BY ', $relationQuery);
 			$relationQuery = $parts[0];
 		}
-		$result = $db->pquery($relationQuery, []);
-		return $db->query_result($result, 0, 'count');
+		$result = $db->query($relationQuery);
+		return $db->getSingleValue($result);
+	}
+
+	/**
+	 * Function to get Total number of record in this relation
+	 * @return <Integer>
+	 */
+	public function getRelatedTreeEntriesCount()
+	{
+		$db = PearDatabase::getInstance();
+		$recordId = $this->getParentRecordModel()->getId();
+		$relModuleId = $this->getRelatedModuleModel()->getId();
+		$treeViewModel = $this->getTreeViewModel();
+		$template = $treeViewModel->getTemplate();
+		$result = $db->pquery('SELECT count(1) FROM vtiger_trees_templates_data tr '
+			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
+			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
+		return $db->getSingleValue($result);
 	}
 
 	/**
@@ -536,6 +583,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$whereCondition = $this->get("whereCondition");
 		$count = count($whereCondition);
+		$appendAndCondition = false;
 		if ($count > 1) {
 			$appendAndCondition = true;
 		}
@@ -559,13 +607,12 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$condition .= " AND ";
 			}
 		}
-		$relationQuery = str_replace('where', 'WHERE', $relationQuery);
-		$pos = stripos($relationQuery, 'WHERE');
-		if ($pos) {
-			$split = explode('WHERE', $relationQuery);
-			$updatedQuery = $split[0] . ' WHERE ' . $split[1] . ' AND ' . $condition;
+
+		if (stripos($relationQuery, 'WHERE')) {
+			$split = preg_split('/WHERE/i', $relationQuery, 2);
+			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' AND ' . $condition;
 		} else {
-			$updatedQuery = $relationQuery . ' WHERE ' . $condition;
+			$updatedQuery = "$relationQuery WHERE $condition";
 		}
 		return $updatedQuery;
 	}
@@ -601,11 +648,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relModuleName = $this->getRelatedModuleModel()->getName();
 		$moduleName = $this->getParentRecordModel()->getModuleName();
 
-		$query = 'SELECT `relcrmid` FROM `u_yf_favorites` WHERE u_yf_favorites.module = "' . $moduleName . '" 
-		AND u_yf_favorites.relmodule = "' . $relModuleName . '" 
-		AND u_yf_favorites.crmid = ' . $recordId . '
-		AND u_yf_favorites.userid = ' . $currentUser->getId();
-		$result = $db->query($query);
+		$query = 'SELECT `relcrmid` FROM `u_yf_favorites` WHERE u_yf_favorites.module = ? 
+		AND u_yf_favorites.relmodule = ? 
+		AND u_yf_favorites.crmid = ? 
+		AND u_yf_favorites.userid = ?';
+		$result = $db->pquery($query, [$moduleName, $relModuleName, $recordId, $currentUser->getId()]);
 		return $db->getArrayColumn($result, 'relcrmid');
 	}
 
@@ -662,7 +709,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				if (strlen($row['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')) {
 					$tree['relCommentFull'] = $row['rel_comment'];
 				}
-				$tree['relComment'] = Vtiger_Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
+				$tree['relComment'] = vtlib\Functions::textLength($row['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'));
 			}
 
 			if (!empty($row['icon'])) {

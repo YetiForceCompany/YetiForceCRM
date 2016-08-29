@@ -9,32 +9,34 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-Class Settings_SharingAccess_SaveAjax_Action extends Vtiger_SaveAjax_Action
+Class Settings_SharingAccess_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
-
-	public function checkPermission(Vtiger_Request $request)
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUser->isAdminUser()) {
-			throw new AppException('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	public function process(Vtiger_Request $request)
 	{
 		$modulePermissions = $request->get('permissions');
 		$modulePermissions[4] = $modulePermissions[6];
 
+		$postValues = [];
+		$prevValues = [];
 		foreach ($modulePermissions as $tabId => $permission) {
 			$moduleModel = Settings_SharingAccess_Module_Model::getInstance($tabId);
+			$permissionOld = $moduleModel->get('permission');
 			$moduleModel->set('permission', $permission);
-
+			if ($permissionOld != $permission) {
+				$prevValues[$tabId] = $permissionOld;
+				$postValues[$tabId] = $moduleModel->get('permission');
+				if ($permissionOld == 3 || $moduleModel->get('permission') == 3) {
+					\includes\Privileges::setUpdater(vtlib\Functions::getModuleName($tabId));
+				}
+			}
 			try {
 				$moduleModel->save();
-			} catch (AppException $e) {
+			} catch (\Exception\AppException $e) {
 				
 			}
 		}
+		Settings_Vtiger_Tracker_Model::addDetail($prevValues, $postValues);
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
 
 		$response = new Vtiger_Response();

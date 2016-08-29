@@ -13,15 +13,6 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 {
 
 	/**
-	 * Function to get the Display Name for the record
-	 * @return <String> - Entity Display Name for the record
-	 */
-	public function getDisplayName()
-	{
-		return Vtiger_Util_Helper::getLabel($this->getId());
-	}
-
-	/**
 	 * Function to get URL for Convert FAQ
 	 * @return <String>
 	 */
@@ -67,9 +58,9 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 				$db->update('vtiger_troubletickets', ['response_time' => $currentDate], 'ticketid = ?', [$ticketId]);
 			}
 		}
-		$closedTime = Vtiger_Functions::getSingleFieldValue('vtiger_crmentity', 'closedtime', 'crmid', $ticketId);
+		$closedTime = vtlib\Functions::getSingleFieldValue('vtiger_crmentity', 'closedtime', 'crmid', $ticketId);
 		if (!empty($closedTime) && array_key_exists('report_time', $entityData->getData())) {
-			$timeMinutesRange = round(Vtiger_Functions::getDateTimeMinutesDiff($entityData->get('createdtime'), $closedTime));
+			$timeMinutesRange = round(vtlib\Functions::getDateTimeMinutesDiff($entityData->get('createdtime'), $closedTime));
 			if (!empty($timeMinutesRange)) {
 				$db->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], 'ticketid = ?', [$ticketId]);
 			}

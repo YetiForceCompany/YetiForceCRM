@@ -9,11 +9,11 @@
 class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');
-		echo '<div class="modal fade modal' . $moduleName . '' . $viewName . '" id="modal' . $viewName . '"><div class="modal-dialog"><div class="modal-content">';
+		echo '<div class="modal fade modal' . $moduleName . '' . $viewName . '" id="modal' . $viewName . '"><div class="modal-dialog ' . $this->getSize($request) . '"><div class="modal-content">';
 		foreach ($this->getModalCss($request) as $style) {
 			echo '<link rel="stylesheet" href="' . $style->getHref() . '">';
 		}
@@ -25,6 +25,11 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 			echo '<script type="' . $script->getType() . '" src="' . $script->getSrc() . '"></script>';
 		}
 		echo '</div></div></div>';
+	}
+
+	public function getSize(Vtiger_Request $request)
+	{
+		return '';
 	}
 
 	public function process(Vtiger_Request $request)

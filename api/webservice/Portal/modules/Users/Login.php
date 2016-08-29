@@ -14,19 +14,19 @@ class API_Users_Login extends BaseAction
 	public function post($userName, $password, $params)
 	{
 		$dbPortal = PearDatabase::getInstance('portal');
-		$result = $dbPortal->pquery('SELECT w_yf_portal_users.*,w_yf_servers.acceptable_url  FROM w_yf_portal_users INNER JOIN w_yf_servers ON w_yf_servers.id = w_yf_portal_users.server_id WHERE w_yf_portal_users.user_name = ? AND w_yf_portal_users.status = ? AND w_yf_servers.status = ?', [$userName, 1, 1]);
+		$result = $dbPortal->pquery('SELECT * FROM w_yf_portal_users WHERE user_name = ? AND status = ?', [$userName, 1]);
 		if ($dbPortal->getRowCount($result) != 1) {
 			throw new APIException('LBL_INVALID_DATA_ACCESS', 401);
 		}
 		$userDetail = $dbPortal->getRow($result);
-		if ($params['fromUrl'] != $userDetail['acceptable_url']) {
+		if (rtrim($this->api->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
 			throw new APIException('LBL_INVALID_SERVER_URL', 401);
 		}
 		if ($password != $userDetail['password_t']) {
 			throw new APIException('LBL_INVALID_USER_PASSWORD', 401);
 		}
 		$sessionData = APISession::init($userDetail, $params);
-		self::updateUser($userDetail['id']);
+		$this->updateUser($userDetail['id']);
 		return [
 			'sessionId' => $sessionData['id'],
 			'firstName' => $userDetail['first_name'],

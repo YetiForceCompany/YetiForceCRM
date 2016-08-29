@@ -9,7 +9,7 @@
 class OSSMailScanner_BindSSalesProcesses_ScannerAction extends OSSMailScanner_PrefixScannerAction_Model
 {
 
-	public function process($mail)
+	public function process(OSSMail_Mail_Model $mail)
 	{
 		return parent::process($mail, 'SSalesProcesses', 'u_yf_ssalesprocesses', 'ssalesprocesses_no');
 	}

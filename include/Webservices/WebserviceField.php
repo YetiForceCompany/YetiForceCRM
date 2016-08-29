@@ -61,8 +61,8 @@ class WebserviceField
 		$typeOfData = $row['typeofdata'];
 		$this->presence = $row['presence'];
 		$this->typeOfData = $typeOfData;
-		$typeOfData = explode("~", $typeOfData);
-		$this->mandatory = ($typeOfData[1] == 'M') ? true : false;
+		$typeOfData = explode('~', $typeOfData);
+		$this->mandatory = (isset($typeOfData[1]) && $typeOfData[1] == 'M') ? true : false;
 		if ($this->uitype == 4) {
 			$this->mandatory = false;
 		}
@@ -78,7 +78,7 @@ class WebserviceField
 		$this->fieldparams = $row['fieldparams'];
 		$this->readOnly = (isset($row['readonly'])) ? $row['readonly'] : 0;
 
-		if (array_key_exists('defaultvalue', $row)) {
+		if (isset($row['defaultvalue'])) {
 			$this->setDefault($row['defaultvalue']);
 		}
 	}
@@ -192,7 +192,7 @@ class WebserviceField
 
 	public function getFieldParams()
 	{
-		return Zend_Json::decode($this->fieldparams);
+		return \includes\utils\Json::decode($this->fieldparams);
 	}
 
 	public function isReadOnly()

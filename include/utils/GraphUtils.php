@@ -127,5 +127,3 @@ function get_tickspacing($max = 10)
 	$log->debug("Exiting get_tickspacing method ...");
 	return $result;
 }
-
-?>

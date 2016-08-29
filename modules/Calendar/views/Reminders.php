@@ -17,22 +17,23 @@ class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		if ('true' == $request->get('type_remainder')) {
 			$recordModels = Calendar_Module_Model::getCalendarReminder(true);
 		} else {
 			$recordModels = Calendar_Module_Model::getCalendarReminder();
 		}
-
+		$colorList = [];
 		foreach ($recordModels as $record) {
 			$record->updateReminderStatus(2);
+			$colorList[$record->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $record->getId(), $record);
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail');
+		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('RECORDS', $recordModels);
 		$viewer->view('Reminders.tpl', $moduleName);
 	}

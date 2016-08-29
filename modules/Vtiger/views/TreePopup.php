@@ -15,7 +15,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -35,20 +35,24 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 		$template = $request->get('template');
 		$srcField = $request->get('src_field');
 		$srcRecord = $request->get('src_record');
+		$type = false;
 		if(!empty($template)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($template);
 		} else {
-			Vtiger_Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
+			vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
 		if(!$recordModel)
-			Vtiger_Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
-		
-		$tree = $recordModel->getTree();
-		$viewer->assign('TREE', Zend_Json::encode($tree));
+			vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $moduleName));
+		if ($request->get('multiple')) {
+			$type = 'category';
+		}
+		$tree = $recordModel->getTree($type);
+		$viewer->assign('TREE', \includes\utils\Json::encode($tree));
 		$viewer->assign('SRC_RECORD', $srcRecord);
 		$viewer->assign('SRC_FIELD', $srcField);
 		$viewer->assign('TEMPLATE', $template);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('IS_MULTIPLE', $request->get('multiple'));
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('TreePopup.tpl', $moduleName);
@@ -69,14 +73,17 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 	function getFooterScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = array(
+		$jsFileNames = array('~libraries/jquery/jstree/jstree.js');
+		if ($request->get('multiple')) {
+			$jsFileNames[] = '~libraries/jquery/jstree/jstree.category.js';
+			$jsFileNames[] = '~libraries/jquery/jstree/jstree.checkbox.js';
+		}
+		$jsFileNames = array_merge($jsFileNames, array(
 			'libraries.jquery.jquery_windowmsg',
-			'~libraries/jquery/jstree/jstree.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
 			'modules.Vtiger.resources.TreePopup',
 			"modules.$moduleName.resources.TreePopup",
-		);
+		));
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

@@ -7,15 +7,15 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Utils.php');
-include_once('modules/Users/Users.php');
+namespace vtlib;
+
 @include_once('include/events/include.inc');
 
 /**
  * Provides API to work with vtiger CRM Eventing (available from vtiger 5.1)
  * @package vtlib
  */
-class Vtiger_Event
+class Event
 {
 
 	/** Event name like: vtiger.entity.aftersave, vtiger.entity.beforesave */
@@ -41,7 +41,7 @@ class Vtiger_Event
 	 */
 	static function log($message, $delim = true)
 	{
-		Vtiger_Utils::Log($message, $delim);
+		Utils::Log($message, $delim);
 	}
 
 	/**
@@ -50,14 +50,14 @@ class Vtiger_Event
 	static function hasSupport()
 	{
 		if (self::$is_supported === '') {
-			self::$is_supported = Vtiger_Utils::checkTable('vtiger_eventhandlers');
+			self::$is_supported = Utils::checkTable('vtiger_eventhandlers');
 		}
 		return self::$is_supported;
 	}
 
 	/**
 	 * Handle event registration for module
-	 * @param Vtiger_Module Instance of the module to use
+	 * @param Module Instance of the module to use
 	 * @param String Name of the Event like vtiger.entity.aftersave, vtiger.entity.beforesave
 	 * @param String Name of the Handler class (should extend VTEventHandler)
 	 * @param String File path which has Handler class definition
@@ -66,9 +66,9 @@ class Vtiger_Event
 	static function register($moduleInstance, $eventname, $classname, $filename, $condition = '', $dependent = '[]')
 	{
 		// Security check on fileaccess, don't die if it fails
-		if (Vtiger_Utils::checkFileAccess($filename, false)) {
-			$adb = PearDatabase::getInstance();
-			$eventsManager = new VTEventsManager($adb);
+		if (Utils::checkFileAccess($filename, false)) {
+			$adb = \PearDatabase::getInstance();
+			$eventsManager = new \VTEventsManager($adb);
 			$eventsManager->registerHandler($eventname, $filename, $classname, $condition, $dependent);
 			$eventsManager->setModuleForHandler($moduleInstance->name, $classname);
 
@@ -86,13 +86,13 @@ class Vtiger_Event
 		if (!self::hasSupport())
 			return;
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$checkres = $adb->pquery("SELECT setype, crmid, deleted FROM vtiger_crmentity WHERE crmid=?", Array($crmid));
 		if ($adb->num_rows($checkres)) {
 			$result = $adb->fetch_array($checkres, 0);
 			if ($result['deleted'] == '0') {
 				$module = $result['setype'];
-				$moduleInstance = CRMEntity::getInstance($module);
+				$moduleInstance = \CRMEntity::getInstance($module);
 				$moduleInstance->retrieve_entity_info($result['crmid'], $module);
 				$moduleInstance->id = $result['crmid'];
 
@@ -103,19 +103,19 @@ class Vtiger_Event
 				}
 
 				// Trigger the event
-				$em = new VTEventsManager($adb);
-				$em->triggerEvent($eventname, VTEntityData::fromCRMEntity($moduleInstance));
+				$em = new \VTEventsManager($adb);
+				$em->triggerEvent($eventname, \VTEntityData::fromCRMEntity($moduleInstance));
 			}
 		}
 	}
 
 	/**
 	 * Get all the registered module events
-	 * @param Vtiger_Module Instance of the module to use
+	 * @param Module Instance of the module to use
 	 */
 	static function getAll($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$events = false;
 		if (self::hasSupport()) {
 			// Get all events related to module
@@ -123,7 +123,7 @@ class Vtiger_Event
 				(SELECT handler_class FROM vtiger_eventhandler_module WHERE module_name=?)", Array($moduleInstance->name));
 			if ($records) {
 				while ($record = $adb->fetch_array($records)) {
-					$event = new Vtiger_Event();
+					$event = new self();
 					$event->eventname = $record['event_name'];
 					$event->classname = $record['handler_class'];
 					$event->filename = $record['handler_path'];
@@ -135,5 +135,3 @@ class Vtiger_Event
 		return $events;
 	}
 }
-
-?>

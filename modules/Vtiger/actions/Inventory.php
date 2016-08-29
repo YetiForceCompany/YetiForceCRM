@@ -23,7 +23,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -68,7 +68,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
 		if ($baseCurrency['id'] != $currency) {
-			$selectedCurrency = Vtiger_Functions::getCurrencySymbolandRate($currency);
+			$selectedCurrency = vtlib\Functions::getCurrencySymbolandRate($currency);
 			$price = floatval($price) * $selectedCurrency['rate'];
 			$symbol = $selectedCurrency['symbol'];
 		}

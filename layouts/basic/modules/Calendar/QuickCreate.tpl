@@ -47,7 +47,7 @@
 			<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 			<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
 			<input type="hidden" name="userChangedEndDateTime" value="0" />
-			<input type="hidden" id="hiddenDays" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
+			<input type="hidden" id="hiddenDays" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 
 			<!-- Random number is used to make specific tab is opened -->
 			{assign var="RAND_NUMBER" value=rand()}
@@ -101,57 +101,59 @@
 									{/foreach}
 									</div>
 								</div>
-								<div class="row noSpaces col-xs-12 eventsTable" style="margin-top: 5px;">
-									<div class="width1per7 paddingLRZero" id="threeDaysAgo">
-										<table class="table">
-											<tr>
-												<th class="padding5">
-													<button type="button" class="btn btn-xs btn-primary previousDayBtn"><</button>
-												</th>
-												<th class="text-center taskPrevThreeDaysAgo">
-													{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSAGO)}
-												</th>
-											</tr>
-										</table>
+								{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
+									<div class="row noSpaces col-xs-12 eventsTable" style="margin-top: 5px;">
+										<div class="width1per7 paddingLRZero" id="threeDaysAgo">
+											<table class="table">
+												<tr>
+													<th class="padding5">
+														<button type="button" class="btn btn-xs btn-primary previousDayBtn"><</button>
+													</th>
+													<th class="text-center taskPrevThreeDaysAgo">
+														{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSAGO)}
+													</th>
+												</tr>
+											</table>
+										</div>
+										<div class="width1per7 paddingLRZero" id="twoDaysAgo">
+											<table class="table">
+												<tr><th class="text-center taskPrevTwoDaysAgo">{Vtiger_Date_UIType::getDisplayDateValue($TWODAYSAGO)}</th></tr>
+											</table>
+										</div>
+										<div class="width1per7 paddingLRZero" id="oneDaysAgo">
+											<table class="table">
+												<tr><th class="text-center taskPrevOneDayAgo">{Vtiger_Date_UIType::getDisplayDateValue($ONEDAYAGO)}</th></tr>
+											</table>
+										</div>
+										<div class="width1per7 paddingLRZero" id="cur_events">
+											 <table class="table">
+												<tr><th class="text-center taskCur">{Vtiger_Date_UIType::getDisplayDateValue($CURRENTDATE)}</th></tr>
+											</table>
+										</div>
+										<div class="width1per7 paddingLRZero" id="oneDaysLater">
+											<table class="table">
+												<tr><th class="text-center taskNextOneDayLater">{Vtiger_Date_UIType::getDisplayDateValue($ONEDAYLATER)}</th></tr>
+											</table>
+										</div>
+										<div class="width1per7 paddingLRZero" id="twoDaysLater">
+											<table class="table">
+												<tr><th class="text-center taskNextTwoDaysLater">{Vtiger_Date_UIType::getDisplayDateValue($TWODAYLATER)}</th></tr>
+											</table>
+										</div>
+										<div class="width1per7 paddingLRZero" id="threeDaysLater">
+											<table class="table">
+												<tr>
+													<th class="text-center taskNextThreeDaysLater">
+														{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSLATER)}
+													</th>
+													<th class="padding5">
+														<button type="button" class="btn btn-xs btn-primary nextDayBtn">></button>
+													</th>
+												</tr>
+											</table>
+										</div>
 									</div>
-									<div class="width1per7 paddingLRZero" id="twoDaysAgo">
-										<table class="table">
-											<tr><th class="text-center taskPrevTwoDaysAgo">{Vtiger_Date_UIType::getDisplayDateValue($TWODAYSAGO)}</th></tr>
-										</table>
-									</div>
-									<div class="width1per7 paddingLRZero" id="oneDaysAgo">
-										<table class="table">
-											<tr><th class="text-center taskPrevOneDayAgo">{Vtiger_Date_UIType::getDisplayDateValue($ONEDAYAGO)}</th></tr>
-										</table>
-									</div>
-									<div class="width1per7 paddingLRZero" id="cur_events">
-										 <table class="table">
-											<tr><th class="text-center taskCur">{Vtiger_Date_UIType::getDisplayDateValue($CURRENTDATE)}</th></tr>
-										</table>
-									</div>
-									<div class="width1per7 paddingLRZero" id="oneDaysLater">
-										<table class="table">
-											<tr><th class="text-center taskNextOneDayLater">{Vtiger_Date_UIType::getDisplayDateValue($ONEDAYLATER)}</th></tr>
-										</table>
-									</div>
-									<div class="width1per7 paddingLRZero" id="twoDaysLater">
-										<table class="table">
-											<tr><th class="text-center taskNextTwoDaysLater">{Vtiger_Date_UIType::getDisplayDateValue($TWODAYLATER)}</th></tr>
-										</table>
-									</div>
-									<div class="width1per7 paddingLRZero" id="threeDaysLater">
-										<table class="table">
-											<tr>
-												<th class="text-center taskNextThreeDaysLater">
-													{Vtiger_Date_UIType::getDisplayDateValue($THREEDAYSLATER)}
-												</th>
-												<th class="padding5">
-													<button type="button" class="btn btn-xs btn-primary nextDayBtn">></button>
-												</th>
-											</tr>
-										</table>
-									</div>
-								</div>
+								{/if}
 						</div>
 					</div>
 					{/foreach}

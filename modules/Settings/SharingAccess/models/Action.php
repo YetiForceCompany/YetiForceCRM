@@ -50,7 +50,7 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$row = $db->query_result_rowdata($result, $rowNo);
-		$actionModel = new Settings_SharingAccess_Action_Model();
+		$actionModel = new self();
 		return $actionModel->setData($row);
 	}
 
@@ -58,15 +58,16 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (Vtiger_Utils::isNumber($value)) {
+		if (vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_id = ?';
 		} else {
 			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_name = ?';
 		}
 		$params = array($value);
 		$result = $db->pquery($sql, $params);
-		if ($db->num_rows($result) > 0) {
-			return self::getInstanceFromQResult($result);
+		if ($db->getRowCount($result) > 0) {
+			$actionModel = new self();
+			return $actionModel->setData($db->getRow($result));
 		}
 		return null;
 	}
@@ -76,16 +77,17 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT * FROM vtiger_org_share_action_mapping';
-		$params = array();
+		$params = [];
 		if ($configurable) {
-			$sql .= ' WHERE share_action_name NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+			$sql .= sprintf(' WHERE share_action_name NOT IN (%s)', generateQuestionMarks(self::$nonConfigurableActions));
 			array_push($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);
-		$noOfRows = $db->num_rows($result);
-		$actionModels = array();
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$actionModels[] = self::getInstanceFromQResult($result, $i);
+		$actionModels = [];
+		while ($row = $db->getRow($result)) {
+			$actionModel = new self();
+			$actionModel->setData($row);
+			$actionModels[] = $actionModel;
 		}
 		return $actionModels;
 	}

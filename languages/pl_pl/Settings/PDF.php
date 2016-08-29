@@ -59,7 +59,7 @@ $languageStrings = [
 	'PLL_LISTVIEW' => 'Lista',
 	'PLL_DETAILVIEW' => 'Rekord',
 	'LBL_DEFAULT_TPL' => 'Domyślnie zaznaczony',
-	'LBL_DOCUMENT_SETTINGS_DETAILS' => 'Document settings',
+	'LBL_DOCUMENT_SETTINGS_DETAILS' => 'Ustawienia dokumentu',
 	'LBL_MAIN_MODULE_FIELDS' => 'Pola z modułu głównego',
 	'LBL_RELATED_MODULES' => 'Powiązane moduły',
 	'LBL_RELATED_MODULES_FIELDS' => 'Pola z powiązanego modułu',
@@ -165,8 +165,8 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'Szablon pdf został zapisany.',
-	'LBL_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
-	'LBL_NOTIFY_COPY_TITLE' => 'Tekst',
+	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
+	'JS_NOTIFY_COPY_TITLE' => 'Tekst',
 	'JS_PDF_TEMPLATE_EXPORTED' => 'Szablon PDF został pomyślnie wyeksportowany.',
 	'JS_RECALCULATING' => 'Przeliczanie uprawnień...'
 ];

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,9 +7,10 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 
-Class Settings_Users_Edit_View extends Users_PreferenceEdit_View {
+Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
+{
 
 	public function checkPermission(Vtiger_Request $request)
 	{
@@ -19,17 +20,18 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View {
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if ($recordModel->get('status') != 'Active') {
-				throw new AppException('LBL_PERMISSION_DENIED');
+				throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
 			return true;
 		} else {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
-	
-	public function preProcess(Vtiger_Request $request) {
+
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IS_PREFERENCE', false);
@@ -56,18 +58,21 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View {
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcessSettings(Vtiger_Request $request) {
+	public function postProcessSettings(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcess(Vtiger_Request $request) {
+	public function postProcess(Vtiger_Request $request)
+	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
 	}
-	
-	public function getFooterScripts(Vtiger_Request $request) {
+
+	public function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
@@ -79,8 +84,9 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View {
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
-	
-	public function process(Vtiger_Request $request) {
+
+	public function process(Vtiger_Request $request)
+	{
 		parent::process($request);
 	}
 }

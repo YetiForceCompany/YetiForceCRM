@@ -106,10 +106,9 @@ $languageStrings = [
 	'LBL_RELATION' => 'Relacja',
 	'LBL_LEGAL_FORM' => 'Forma prawna',
 	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Istnieje co najmniej dwóch kontrahentów spełniających warunki łączenia, przejdź do: (Administracja > Procesy > Procesy marketingowe > Konwersja) %s',
+	'Campaign status' => 'Status kampanii',
 ];
 
 $jsLanguageStrings = [
-	'JS_SELECT_CONTACTS' => 'Zaznacz kontakt w celu kontynuowania',
-	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Konwertowanie wymaga zaznaczenia kontaktu lub kontrahenta',
 	'JS_SELECT_ORGANIZATION' => 'Zaznacz kontrahenta w celu kontynuowania',
 ];

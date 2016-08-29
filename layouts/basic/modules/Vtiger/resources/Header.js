@@ -79,20 +79,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		return true;
 	},
 	/**
-	 * Function which will align the contents container at specified height depending on the top fixed menu
-	 * It will caliculate the height by following formaula menuContianer.height+1	 *
-	 */
-	alignContentsContainer: function (show, speed, effect) {
-		var navTop = jQuery('nav.navbar-fixed-top').outerHeight();
-		if (show) {
-			var announcement = jQuery('#announcement').outerHeight();
-			navTop = (navTop + announcement);
-		}
-		var contentsContainer = this.getContentsContainer();
-		contentsContainer.animate({'margin-top': navTop}, speed, effect);
-		return this;
-	},
-	/**
 	 * Function to save the quickcreate module
 	 * @param accepts form element as parameter
 	 * @return returns deferred promise
@@ -125,55 +111,38 @@ jQuery.Class("Vtiger_Header_Js", {
 		form.addClass('not_validation');
 		form.submit();
 	},
-	setAnnouncement: function () {
-		var announcementoff = app.cacheGet('announcement.turnoff', false);
-		var announcementBtn = jQuery('.announcementBtn');
+	showAnnouncement: function () {
 		var thisInstance = this;
-		if (announcementoff === true) {
-			jQuery('#announcement').hide();
-			announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
-			thisInstance.alignContentsContainer(false, 0, 'linear');
-		} else {
-			jQuery('#announcement').show();
-			announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
-			thisInstance.alignContentsContainer(true, 0, 'linear');
+		var announcementContainer = jQuery('#announcements');
+		var announcements = announcementContainer.find('.announcement');
+		if (announcements.length > 0) {
+			var announcement = announcements.first();
+			var aid = announcement.data('id')
+
+			app.showModalWindow(announcement.find('.modal'), function (modal) {
+				announcement.remove();
+				modal.find('button').click(function (e) {
+					AppConnector.request({
+						module: 'Announcements',
+						action: 'BasicAjax',
+						mode: 'mark',
+						record: aid,
+						type: $(this).data('type')
+					}).then(function (res) {
+						app.hideModalWindow(modal);
+						thisInstance.showAnnouncement();
+					})
+				});
+			}, '', {backdrop: 'static'});
 		}
 	},
-	registerAnnouncement: function () {
+	registerAnnouncements: function () {
 		var thisInstance = this;
-		var announcementBtn = jQuery('.announcementBtn');
-		var announcementTurnOffKey = 'announcement.turnoff';
-
-		announcementBtn.click(function (e, manual) {
-			thisInstance.hideActionMenu();
-			var displayStatus = jQuery('#announcement').css('display');
-
-			if (displayStatus == 'none') {
-				jQuery('#announcement').show();
-				thisInstance.alignContentsContainer(true, 200, 'linear');
-				announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
-
-				// Turn-on always
-				if (!manual) {
-					app.cacheSet(announcementTurnOffKey, false);
-				}
-			} else {
-				thisInstance.alignContentsContainer(false, 200, 'linear');
-				jQuery('#announcement').hide();
-				announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
-
-				// Turn-off always
-				// NOTE: Add preference on server - to reenable on announcement content change.
-				if (!manual) {
-					app.cacheSet(announcementTurnOffKey, true);
-				}
-
-			}
-		});
-
-		if (app.cacheGet(announcementTurnOffKey, false)) {
-			announcementBtn.trigger('click', true);
+		var announcementContainer = jQuery('#announcements');
+		if (announcementContainer.length == 0) {
+			return false;
 		}
+		thisInstance.showAnnouncement();
 	},
 	registerCalendarButtonClickEvent: function () {
 		var element = jQuery('#calendarBtn');
@@ -247,7 +216,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		return false;
 	},
 	getNearCalendarEvent: function (data, module) {
-		var showCompanies = $('[name="showCompanies').val();
+		var showCompanies = $('[name="showCompanies"]').val();
 		var daysWork = app.getMainParams('hiddenDays', true);
 		var thisInstance = this;
 		var typeActive = data.find('ul li.active a').data('tab-name');
@@ -255,7 +224,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		var dateStartEl = data.find('[name="date_start"]');
 		var dateStartVal = dateStartEl.val();
 		var dateStartFormat = dateStartEl.data('date-format');
-		if (typeof dateStartVal == 'undefined') {
+		if (typeof dateStartVal == 'undefined' || !data.find('.eventsTable').length) {
 			return;
 		}
 		var days = [];
@@ -297,8 +266,8 @@ jQuery.Class("Vtiger_Header_Js", {
 			module: 'Calendar',
 			action: 'Calendar',
 			mode: 'getEvents',
-			start: app.getDateInVtigerFormat(dateStartFormat, new Date(firstDay)),
-			end: app.getDateInVtigerFormat(dateStartFormat, new Date(dateEnd)),
+			start: app.getDateInVtigerFormat(dateStartFormat, Date.parse(firstDay)),
+			end: app.getDateInVtigerFormat(dateStartFormat, Date.parse(dateEnd)),
 			user: user.val(),
 			time: 'current'
 		}
@@ -352,13 +321,13 @@ jQuery.Class("Vtiger_Header_Js", {
 				data.find('.modal-body').css({'max-height': '', 'overflow-y': ''});
 			}
 		});
-		var day1 = app.getDateInVtigerFormat(dateStartFormat, new Date(firstDay));
-		var day2 = app.getDateInVtigerFormat(dateStartFormat, new Date(secondDay));
-		var day3 = app.getDateInVtigerFormat(dateStartFormat, new Date(thirdDay));
-		var day4 = app.getDateInVtigerFormat(dateStartFormat, new Date(currentDay));
-		var day5 = app.getDateInVtigerFormat(dateStartFormat, new Date(fifthDay));
-		var day6 = app.getDateInVtigerFormat(dateStartFormat, new Date(sixthDay));
-		var day7 = app.getDateInVtigerFormat(dateStartFormat, new Date(seventhDay));
+		var day1 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(firstDay));
+		var day2 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(secondDay));
+		var day3 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(thirdDay));
+		var day4 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(currentDay));
+		var day5 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(fifthDay));
+		var day6 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(sixthDay));
+		var day7 = app.getDateInVtigerFormat(dateStartFormat, Date.parse(seventhDay));
 
 		data.find('.taskPrevThreeDaysAgo').html('<span class="cursorPointer dateBtn">' + day1 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(firstDayWeek) + ')');
 		data.find('.taskPrevTwoDaysAgo').html('<span class="cursorPointer dateBtn">' + day2 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(secondDayWeek) + ')');
@@ -405,7 +374,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var dateStartEl = data.find('[name="date_start"]')
 			var startDay = dateStartEl.val();
 			var dateStartFormat = dateStartEl.data('date-format');
-			startDay = app.getDateInVtigerFormat(dateStartFormat, new Date(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+7', ' ')));
+			startDay = app.getDateInVtigerFormat(dateStartFormat, Date.parse(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+7', ' ')));
 			dateStartEl.val(startDay);
 			dateEnd.val(startDay);
 			data.find('.addedNearCalendarEvent').remove();
@@ -415,7 +384,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var dateStartEl = data.find('[name="date_start"]')
 			var startDay = dateStartEl.val();
 			var dateStartFormat = dateStartEl.data('date-format');
-			startDay = app.getDateInVtigerFormat(dateStartFormat, new Date(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-7', ' ')));
+			startDay = app.getDateInVtigerFormat(dateStartFormat, Date.parse(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-7', ' ')));
 			dateStartEl.val(startDay);
 			dateEnd.val(startDay);
 			data.find('.addedNearCalendarEvent').remove();
@@ -607,7 +576,7 @@ jQuery.Class("Vtiger_Header_Js", {
 					var basicSearch = new Vtiger_BasicSearch_Js();
 					basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
 					basicSearch.returnHtml = false;
-					basicSearch.setMainContainer(jQuery(this).closest('.globalSearchInput'));
+					basicSearch.setMainContainer(this.element.closest('.globalSearchInput'));
 					basicSearch.search(request.term).then(function (data) {
 						var data = jQuery.parseJSON(data);
 						var serverDataFormat = data.result;
@@ -640,7 +609,12 @@ jQuery.Class("Vtiger_Header_Js", {
 			return false;
 		}
 		var basicSearch = new Vtiger_BasicSearch_Js();
-		var progress = jQuery.progressIndicator();
+		var progress = jQuery.progressIndicator({
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
+			}
+		});
 		basicSearch.setMainContainer(currentTarget.closest('.globalSearchInput'));
 		basicSearch.search(val).then(function (data) {
 			basicSearch.showSearchResults(data);
@@ -749,7 +723,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			};
 		}
 		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
-		if (app.getViewName() === 'Detail' || app.getViewName() === 'Edit') {
+		if ((app.getViewName() === 'Detail' || app.getViewName() === 'Edit') && app.getParentModuleName() != 'Settings') {
 			url += '&sourceModule=' + app.getModuleName();
 			url += '&sourceRecord=' + app.getRecordId();
 		}
@@ -766,7 +740,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		$('#page').before('<div class="remindersNoticeContainer"></div>');
 		var block = $('.remindersNoticeContainer');
-		$('.remindersNotice').click(function () {
+		var remindersNotice = $('.remindersNotice');
+		remindersNotice.click(function () {
+			if (!remindersNotice.hasClass('autoRefreshing')) {
+				Vtiger_Index_Js.requestReminder();
+			}
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 		});
@@ -880,6 +858,9 @@ jQuery.Class("Vtiger_Header_Js", {
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
 	registerScrollForMenu: function () {
+		$(".slimScrollMenu").perfectScrollbar({
+			useBothWheelAxes: true,
+		});
 		app.showScrollBar($(".slimScrollMenu"), {
 			height: '100%',
 			width: '100%',
@@ -899,8 +880,28 @@ jQuery.Class("Vtiger_Header_Js", {
 			$(this).parents('.btn-group').find('.dropdown-toggle .textHolder').html($(this).text());
 		});
 	},
+	listenTextAreaChange: function () {
+		var thisInstance = this;
+		$('textarea').live('keyup', function () {
+			var elem = $(this);
+			if (!elem.data('has-scroll'))
+			{
+				elem.data('has-scroll', true);
+				elem.bind('scroll keyup', function () {
+					thisInstance.resizeTextArea($(this));
+				});
+			}
+			thisInstance.resizeTextArea($(this));
+		});
+	},
+	resizeTextArea: function (elem) {
+		elem.height(1);
+		elem.scrollTop(0);
+		elem.height(elem[0].scrollHeight - elem[0].clientHeight + elem.height());
+	},
 	registerEvents: function () {
 		var thisInstance = this;
+		thisInstance.listenTextAreaChange();
 		thisInstance.recentPageViews();
 		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerScrollForMenu();
@@ -920,9 +921,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			pressEvent.which = 13;
 			currentTarget.trigger(pressEvent);
 		});
-		thisInstance.registerAnnouncement();
-		thisInstance.setAnnouncement();
-
+		thisInstance.registerAnnouncements();
 		thisInstance.registerHotKeys();
 		thisInstance.registerToggleButton();
 		//this.registerCalendarButtonClickEvent();

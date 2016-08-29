@@ -22,7 +22,7 @@
  * @package    PHPExcel_CachedObjectStorage
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.8.0, 2014-03-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 
@@ -61,11 +61,11 @@ class PHPExcel_CachedObjectStorage_PHPTemp extends PHPExcel_CachedObjectStorage_
 			$this->_currentObject->detach();
 
 			fseek($this->_fileHandle,0,SEEK_END);
-			$offset = ftell($this->_fileHandle);
-			fwrite($this->_fileHandle, serialize($this->_currentObject));
-			$this->_cellCache[$this->_currentObjectID]	= array('ptr' => $offset,
-																'sz'  => ftell($this->_fileHandle) - $offset
-															   );
+
+			$this->_cellCache[$this->_currentObjectID] = array(
+                'ptr' => ftell($this->_fileHandle),
+				'sz'  => fwrite($this->_fileHandle, serialize($this->_currentObject))
+			);
 			$this->_currentCellIsDirty = false;
 		}
 		$this->_currentObjectID = $this->_currentObject = null;
@@ -77,7 +77,7 @@ class PHPExcel_CachedObjectStorage_PHPTemp extends PHPExcel_CachedObjectStorage_
      *
      * @param	string			$pCoord		Coordinate address of the cell to update
      * @param	PHPExcel_Cell	$cell		Cell to update
-	 * @return	void
+	 * @return	PHPExcel_Cell
      * @throws	PHPExcel_Exception
      */
 	public function addCacheData($pCoord, PHPExcel_Cell $cell) {
@@ -127,7 +127,7 @@ class PHPExcel_CachedObjectStorage_PHPTemp extends PHPExcel_CachedObjectStorage_
 	/**
 	 * Get a list of all cell addresses currently held in cache
 	 *
-	 * @return  array of string
+	 * @return  string[]
 	 */
 	public function getCellList() {
 		if ($this->_currentObjectID !== null) {

@@ -21,7 +21,7 @@ Class Settings_Webforms_ShowForm_View extends Settings_Vtiger_IndexAjax_View
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$recordId || !$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

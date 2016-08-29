@@ -11,7 +11,7 @@
 class Settings_Roles_MoveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		return;
 	}
@@ -34,7 +34,7 @@ class Settings_Roles_MoveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		try {
 			$recordModel->moveTo($parentRole);
-		} catch (AppException $e) {
+		} catch (\Exception\AppException $e) {
 			$response->setError('Move Role Failed');
 		}
 		$response->emit();

@@ -136,7 +136,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		}
 	}
 
-	public function getTree()
+	public function getTree($category = false)
 	{
 		$tree = array();
 		$templateId = $this->getId();
@@ -148,7 +148,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$templateId]);
 		$module = $this->get('module');
 		if (is_numeric($module)) {
-			$module = Vtiger_Functions::getModuleName($module);
+			$module = vtlib\Functions::getModuleName($module);
 		}
 		for ($i = 0; $i < $adb->num_rows($result); $i++) {
 			$row = $adb->raw_query_result_rowdata($result, $i);
@@ -157,13 +157,17 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$parenttrre = substr($row['parenttrre'], 0, - $cut);
 			$pieces = explode('::', $parenttrre);
 			$parent = (int) str_replace('T', '', end($pieces));
-			$tree[] = [
+			$parameters = [
 				'id' => $treeID,
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => vtranslate($row['name'], $module),
 				'state' => ($row['state']) ? $row['state'] : '',
-				'icon' => $row['icon']
+				'icon' => $row['icon'],
 			];
+			if ($category) {
+				$parameters['type'] = $category;
+			}
+			$tree[] = $parameters;
 			if ($treeID > $lastId)
 				$lastId = $treeID;
 		}
@@ -219,12 +223,11 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
 			foreach ($tree as $row) {
-				$query = 'UPDATE ' . $tableName . ' SET ' . $columnName . ' = ? WHERE ' . $columnName . ' IN (' . generateQuestionMarks($row['old']) . ');';
-				$params = ['T' . current($row['new'])];
+				$params = [];
 				foreach ($row['old'] as $new) {
 					$params[] = 'T' . $new;
 				}
-				$adb->pquery($query, $params);
+				$adb->update($tableName, [$columnName => 'T' . current($row['new'])], $columnName . ' IN ( ' . generateQuestionMarks($row['old']) .')', $params);
 			}
 		}
 	}
@@ -267,20 +270,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the instance of Roles record model from query result
-	 * @param <Object> $result
-	 * @param <Number> $rowNo
-	 * @return Settings_Roles_Record_Model instance
-	 */
-	public static function getInstanceFromQResult($result, $rowNo)
-	{
-		$db = PearDatabase::getInstance();
-		$row = $db->raw_query_result_rowdata($result, $rowNo);
-		$tree = new self();
-		return $tree->setData($row);
-	}
-
-	/**
 	 * Function to get the instance of Role model, given role id
 	 * @param <Integer> $record
 	 * @return Settings_Roles_Record_Model instance, if exists. Null otherwise
@@ -291,8 +280,10 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$sql = 'SELECT * FROM vtiger_trees_templates WHERE templateid = ?';
 		$params = array($record);
 		$result = $db->pquery($sql, $params);
-		if ($db->num_rows($result) > 0) {
-			return self::getInstanceFromQResult($result, 0);
+		if ($db->getRowCount($result) > 0) {
+			$instance = new self();
+			$instance->setData($db->getRow($result));
+			return $instance;
 		}
 		return null;
 	}

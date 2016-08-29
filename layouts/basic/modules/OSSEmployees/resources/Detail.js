@@ -63,7 +63,6 @@ Vtiger_Detail_Js("OSSEmployees_Detail_Js",{
                     var response = data['result'];
                     if ( response['success'] ) {    
                         var holiday = response.holiday;
-						//console.log(holiday);
 						jQuery('span#workDay').html('<strong>'+holiday.workDay+'</strong>');
 						jQuery('span#annual_holiday_entitlement').html('<strong>'+holiday.entitlement+'</strong>');
 					}

@@ -106,10 +106,9 @@ $languageStrings = [
 	'LBL_RELATION' => 'Relation',
 	'LBL_LEGAL_FORM' => 'Legal form',
 	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'At least two Accounts meet the requirements for linking, go to : (Administration > Processes > Marketing processes > Conversion) %s',
+	'Campaign status' => 'Campaign status',
 ];
 
 $jsLanguageStrings = [
-	'JS_SELECT_CONTACTS' => 'Select Contacts to proceed',
-	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Conversion requires selection of Contact or Account',
 	'JS_SELECT_ORGANIZATION' => 'Select Account to proceed',
 ];

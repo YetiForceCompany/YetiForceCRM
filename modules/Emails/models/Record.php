@@ -49,8 +49,6 @@ class Emails_Record_Model extends Vtiger_Record_Model
 	public function send()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$rootDirectory = vglobal('root_directory');
-
 		$mailer = Emails_Mailer_Model::getInstance();
 		$mailer->IsHTML(true);
 
@@ -126,7 +124,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 				//Adding attachments to mail
 				if (is_array($attachments)) {
 					foreach ($attachments as $attachment) {
-						$fileNameWithPath = $rootDirectory . $attachment['path'] . $attachment['fileid'] . "_" . $attachment['attachment'];
+						$fileNameWithPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $attachment['path'] . $attachment['fileid'] . "_" . $attachment['attachment'];
 						if (is_file($fileNameWithPath)) {
 							$mailer->AddAttachment($fileNameWithPath, $attachment['attachment']);
 						}
@@ -336,10 +334,14 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		foreach ($emailAttachmentDetails as $index => $attachInfo) {
 			$attachmentIdList[] = $attachInfo['fileid'];
 		}
-
-		$db->pquery('UPDATE vtiger_crmentity SET deleted=0 WHERE crmid IN(' . generateQuestionMarks($attachmentIdList) . ')', $attachmentIdList);
-		$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid IN(' . generateQuestionMarks($attachmentIdList) . ')', $attachmentIdList);
-		$db->pquery('DELETE FROM vtiger_seattachmentsrel WHERE crmid=? and attachmentsid IN(' . generateQuestionMarks($attachmentIdList) . ')', array_merge(array($this->getId()), $attachmentIdList));
+		
+		$where = sprintf('crmid IN (%s)', generateQuestionMarks($attachmentIdList));
+		$db->update('vtiger_crmentity', ['deleted' => 0], $where, $attachmentIdList);
+		$where = sprintf('attachmentsid IN (%s)', generateQuestionMarks($attachmentIdList));
+		$db->delete('vtiger_attachments', $where, $attachmentIdList);
+		$where = sprintf('crmid=? and attachmentsid IN(%s)', generateQuestionMarks($attachmentIdList));
+		$db->delete('vtiger_seattachmentsrel', $where, array_merge([$this->getId()], $attachmentIdList));
+	
 	}
 
 	/**

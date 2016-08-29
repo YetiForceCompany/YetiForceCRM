@@ -9,12 +9,13 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
+	'Import' => 'Импорт',
 	'xml' => 'XML',
 	'zip' => 'ZIP',
-	'LBL_EXTENSION_TYPE' => 'Expanded zipped files',
-	'LBL_XML_EXPORT_TPL' => 'Template',
-	'LBL_STANDARD_FIELDS' => 'Standard fields',
-	'LBL_INVENTORY_FIELDS' => 'Expanded fields',
+	'LBL_EXTENSION_TYPE' => 'Расширения файлов в архиве',
+	'LBL_XML_EXPORT_TPL' => 'Шаблон',
+	'LBL_STANDARD_FIELDS' => 'Стандартные поля',
+	'LBL_INVENTORY_FIELDS' => 'Расширенные поля',
 	'ERR_FAILED_TO_LOCK_MODULE' => 'Не удалось заблокировать модуль для импорта. Пожалуйста, повторите попытку позже',
 	'ERR_IMPORT_INTERRUPTED' => 'Текущий импорт был прерван. Пожалуйста, повторите попытку позже.',
 	'ERR_UNIMPORTED_RECORDS_EXIST' => 'Есть еще некоторые не импортированные записи в очереди, которые блокируют дальнейший импорт данных. <br>Очистите их, чтобы начать импорт снова',

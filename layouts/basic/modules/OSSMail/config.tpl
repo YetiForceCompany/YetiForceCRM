@@ -146,7 +146,6 @@ jQuery("#RCConfigEditorForm").submit(function(event) {
 							animation: 'show'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
-						//console.log(response['data']);
 					} else {
 						var params = {
 							text: response['data'],

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'No data available in table' => 'Brak danych w tabeli',
 	'Translations' => 'Tłumaczenia',
@@ -16,9 +16,9 @@ $languageStrings = [
 	'LBL_Module_desc' => 'Narzędzie służy do modyfikacji i zarządzania tłumaczeniami językowymi w całym systemie.',
 	'LBL_TAB_LIST' => 'Dostępne języki',
 	'LBL_TAB_EDITLANG' => 'Edycja języka',
-	'LBL_TAB_STATS'	=> 'Statystyki',
+	'LBL_TAB_STATS' => 'Statystyki',
 	'LBL_Lang_label' => 'Język',
-	'LBL_Lang_name'	=> 'Nazwa',
+	'LBL_Lang_name' => 'Nazwa',
 	'LBL_Lang_prefix' => 'Kod',
 	'LBL_Lang_active' => 'Język dostępny dla',
 	'LBL_Lang_ac_admin' => 'Administratora',
@@ -26,13 +26,13 @@ $languageStrings = [
 	'LBL_Lang_action' => 'Akcje',
 	'LBL_SaveDataOK' => 'Zapisano zmianę',
 	'LBL_DeleteDataOK' => 'Język został usunięty',
-	'LBL_AddDataOK'	=> 'Język został dodany',
-	'LBL_ADD_LANG'	=> 'Dodaj nowy język',
+	'LBL_AddDataOK' => 'Język został dodany',
+	'LBL_ADD_LANG' => 'Dodaj nowy język',
 	'LBL_ADD_Translate' => 'Dodaj tłumaczenie',
 	'LBL_Cancel' => 'Anuluj',
 	'LBL_AddLanguage' => 'Dodaj',
 	'LBL_Delete' => 'Usuń',
-	'LBL_LangExist'	=> 'Taki kod języka już istnieje, wprowadz inny.',
+	'LBL_LangExist' => 'Taki kod języka już istnieje, wprowadz inny.',
 	'LBL_variable' => 'Zmienna językowa',
 	'LBL_LangPHPs' => 'Tłumaczenia PHP',
 	'LBL_LangJSs' => 'Tłumaczenia JS',
@@ -41,27 +41,28 @@ $languageStrings = [
 	'LBL_NoTranslation' => '--Brak tłumaczenia--',
 	'LBL_SaveTranslationError' => 'Błąd podczas zapisu',
 	'LBL_UpdateTranslationOK' => 'Zaktualizowano tłumaczenie',
-	'LBL_AddTranslationOK'	=> 'Dodano nowe tłumaczenie',
+	'LBL_AddTranslationOK' => 'Dodano nowe tłumaczenie',
 	'LBL_DeleteTranslationOK' => 'Usunięto tłumaczenie',
 	'Modules' => 'Moduły',
 	'Module' => 'Moduł',
 	'Language' => 'Język',
 	'LBL_TranslationType' => 'Typ tłumaczenia',
-	'LBL_KeyExists'	=> 'Taka zmienna językowa już istnieje',
+	'LBL_KeyExists' => 'Taka zmienna językowa już istnieje',
 	'Export' => 'Eksportuj',
-	'LBL_SHOW_MISSING_TRANSLATIONS'	=> 'Pokaż brakujące tłumaczenia',
+	'LBL_SHOW_MISSING_TRANSLATIONS' => 'Pokaż brakujące tłumaczenia',
 	'LBL_DEFAULT' => 'Domyślny',
-	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES'	=> 'Nie można dokonać zmian',
+	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES' => 'Nie można dokonać zmian',
 	'LBL_EDIT' => 'Tworzenie i edycja',
 	'LBL_DETAIL' => 'Podgląd',
 	'LBL_QUICKCREATE' => 'Szybkie tworzenie',
-	'LBL_SHOW_EMPTY_VALUES'	=> 'Pokaż puste wartości',
+	'LBL_SHOW_EMPTY_VALUES' => 'Pokaż puste wartości',
 	'LBL_SHOW_IN' => 'Pokaż w',
 	'LBL_EDIT_HELP_ICON' => 'Ikony pomocy',
 	'LBL_BASE_LANGUAGE' => 'Język bazowy',
 	'LBL_LANGUAGE' => 'Język',
 	'LBL_SHOW' => 'Pokaż',
 	'LBL_STATS_INFO' => 'Prezentowane wartości statystyczne określają stosunek etykiet nieprzetłumaczonych do wszystkich etykiet występujących w pliku(-ach) języka bazowego w procentach.',
+	'LBL_UNTRANSLATED_LABELS' => 'Nieprzetłumaczone etykiety',
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Tłumaczenia',
@@ -75,4 +76,5 @@ $jsLanguageStrings = [
 	'Search' => 'Szukaj:',
 	'No data available in table' => 'Brak tłumaczeń',
 	'JS_NOTRANSLATION' => '--Brak tłumaczenia--',
+	'JS_EXPORT' => 'Eksportuj',
 ];

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'Widgets' => 'Modules – Widgets',
+	'Widgets' => 'Module – Widgets',
 	'LBL_MODULE_DESC' => 'Widget Modulverwaltung',
 	'Add widget' => 'Widget hinzufügen',
 	'Type widget' => 'Typ',
@@ -56,15 +56,15 @@ $languageStrings = [
 	'Add button info' => 'Knopf hinzufügen, um einen Datensatz in der Widget Datensatzansicht hinzu zufügen',
 	'No left margin info' => 'Deaktiviere linken Rand im Widget.',
 	'ProductsServices' => 'Produkte Dienstleistungen',
-	'Campaign status' => 'Kampagnenstatus',
 	'LBL_SELECT_BUTTON_INFO' => 'Aktivieren Sichtbarkeit Wählen Button',
 	'LBL_CONDITION' => 'Bedingung',
 	'LBL_CONDITION_INFO' => 'Bedingung wählen um Datensätze anzuzeigen',
 	'LBL_SHOW_ALL_RECORDS' => 'Alle Datensätze anzeigen',
-	'LBL_SHOW_ALL_RECORDS_INFO' => 'No - Permissions are taken into account <br> Yes - Searching for records excluding permissions',
+	'LBL_SHOW_ALL_RECORDS_INFO' => 'Nein - Berechtigungen beziehen sich auf den Benutzer <br> Ja - Suche nach Datensätze berücksichtigen keine Berechtigungen',
 	'LBL_SHITCH_HEADER' => 'Schalter im Header',
 	'LBL_SHITCH_HEADER_INFO' => 'Schalter befindet sich im Widget\'s Header.',
-	'HistoryRelation' => 'Timeline',
+	'HistoryRelation' => 'Zeitlinie',
+	'CountRecords' => 'Anzahl Datensätze'
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Laden...',

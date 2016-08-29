@@ -210,23 +210,6 @@ class Vtiger_Util_Helper
 		return str_replace(' ', '_', $string);
 	}
 
-	public static function getRecordName($recordId, $checkDelete = false)
-	{
-		$adb = PearDatabase::getInstance();
-
-		$query = 'SELECT label from vtiger_crmentity where crmid=?';
-		if ($checkDelete) {
-			$query.= ' AND deleted=0';
-		}
-		$result = $adb->pquery($query, array($recordId));
-
-		$num_rows = $adb->num_rows($result);
-		if ($num_rows) {
-			return $adb->query_result($result, 0, 'label');
-		}
-		return false;
-	}
-
 	/**
 	 * Function to parse dateTime into Days
 	 * @param <DateTime> $dateTime
@@ -235,10 +218,21 @@ class Vtiger_Util_Helper
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime);
+		$dateTimeInUserFormat = explode(' ', Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
 
-		list($dateInUserFormat, $timeInUserFormat, $meridiem) = explode(' ', $dateTimeInUserFormat);
-		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
+		if (count($dateTimeInUserFormat) == 3) {
+			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
+		} else {
+			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
+			$meridiem = '';
+		}
+		$timeInUserFormat = explode(':', $timeInUserFormat);
+		if (count($timeInUserFormat) == 3) {
+			list($hours, $minutes, $seconds) = $timeInUserFormat;
+		} else {
+			list($hours, $minutes) = $timeInUserFormat;
+			$seconds = '';
+		}
 
 		$dateDay = vtranslate(DateTimeField::getDayFromDate($dateTime), 'Calendar');
 		$formatedDate = $dateInUserFormat;
@@ -290,7 +284,7 @@ class Vtiger_Util_Helper
 		$db = PearDatabase::getInstance();
 
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
-		$query = 'SELECT ' . $primaryKey . ', ' . $fieldName . ' FROM vtiger_' . $fieldName . ' order by sortorderid';
+		$query = sprintf('SELECT %s, %s FROM vtiger_%s ORDER BY sortorderid', $primaryKey, $fieldName, $fieldName);
 		$values = [];
 		$result = $db->query($query);
 		while ($row = $db->fetch_array($result)) {
@@ -335,36 +329,6 @@ class Vtiger_Util_Helper
 			}
 		}
 		return $picklistValues;
-	}
-
-	/**
-	 * Function to sanitize the uploaded file name
-	 * @param <String> $fileName
-	 * @param <Array> $badFileExtensions
-	 * @return <String> sanitized file name
-	 */
-	public static function sanitizeUploadFileName($fileName, $badFileExtensions)
-	{
-		$fileName = preg_replace('/\s+/', '_', $fileName); //replace space with _ in filename
-		$fileName = rtrim($fileName, '\\/<>?*:"<>|');
-
-		$fileNameParts = explode('.', $fileName);
-		$countOfFileNameParts = count($fileNameParts);
-		$badExtensionFound = false;
-
-		for ($i = 0; $i < $countOfFileNameParts; $i++) {
-			$partOfFileName = $fileNameParts[$i];
-			if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
-				$badExtensionFound = true;
-				$fileNameParts[$i] = $partOfFileName . 'file';
-			}
-		}
-
-		$newFileName = implode('.', $fileNameParts);
-		if ($badExtensionFound) {
-			$newFileName .= ".txt";
-		}
-		return $newFileName;
 	}
 
 	/**
@@ -494,26 +458,6 @@ class Vtiger_Util_Helper
 		}
 
 		return $time;
-	}
-	/*	 * *
-	 * Function to get the label of the record
-	 * @param <Integer> $recordId - id of the record
-	 * @param <Boolean> $ignoreDelete - false if you want to get label for deleted records
-	 */
-
-	public static function getLabel($recordId, $ignoreDelete = true)
-	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT label FROM vtiger_crmentity WHERE crmid=?';
-		if ($ignoreDelete) {
-			$query .= ' AND deleted=0';
-		}
-		$result = $db->pquery($query, [$recordId]);
-		$name = '';
-		if ($db->num_rows($result) > 0) {
-			$name = $db->getSingleValue($result);
-		}
-		return $name;
 	}
 
 	/**
@@ -648,7 +592,7 @@ class Vtiger_Util_Helper
 
 	public static function getAllSkins()
 	{
-		return array('twilight' => '#404952');
+		return array('twilight' => '#404952', 'blue' => '#00509e');
 	}
 
 	public static function isUserDeleted($userid)
@@ -704,40 +648,41 @@ class Vtiger_Util_Helper
 		return $value;
 	}
 
+	protected static $userPrivilegesCache = false;
+
 	public static function getUserPrivilegesFile($userId)
 	{
 		if (empty($userId))
 			return null;
 
-		$instance = Vtiger_Cache::get('UserPrivilegesFile', $userId);
-		if ($instance) {
-			return $instance;
+		if (isset(self::$userPrivilegesCache[$userId])) {
+			return self::$userPrivilegesCache[$userId];
 		}
 		if (!file_exists("user_privileges/user_privileges_$userId.php")) {
 			return null;
 		}
-		
 		require("user_privileges/user_privileges_$userId.php");
-		require("user_privileges/sharing_privileges_$userId.php");
+		$sharingPrivileges = self::getUserSharingFile($userId);
 
 		$valueMap = [];
 		$valueMap['id'] = $userId;
 		$valueMap['is_admin'] = (bool) $is_admin;
-		$valueMap['roleid'] = $current_user_roles;
-		$valueMap['parent_role_seq'] = $current_user_parent_role_seq;
-		$valueMap['profiles'] = $current_user_profiles;
-		$valueMap['profile_global_permission'] = $profileGlobalPermission;
-		$valueMap['profile_tabs_permission'] = $profileTabsPermission;
-		$valueMap['profile_action_permission'] = $profileActionPermission;
-		$valueMap['groups'] = $current_user_groups;
-		$valueMap['subordinate_roles'] = $subordinate_roles;
-		$valueMap['parent_roles'] = $parent_roles;
-		$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
-		$valueMap['defaultOrgSharingPermission'] = $defaultOrgSharingPermission;
-		$valueMap['related_module_share'] = $related_module_share;
 		$valueMap['user_info'] = $user_info;
-
-		Vtiger_Cache::set('UserPrivilegesFile', $userId, $valueMap);
+		if (!$is_admin) {
+			$valueMap['roleid'] = $current_user_roles;
+			$valueMap['parent_role_seq'] = $current_user_parent_role_seq;
+			$valueMap['profiles'] = $current_user_profiles;
+			$valueMap['profile_global_permission'] = $profileGlobalPermission;
+			$valueMap['profile_tabs_permission'] = $profileTabsPermission;
+			$valueMap['profile_action_permission'] = $profileActionPermission;
+			$valueMap['groups'] = $current_user_groups;
+			$valueMap['subordinate_roles'] = $subordinate_roles;
+			$valueMap['parent_roles'] = $parent_roles;
+			$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
+			$valueMap['defaultOrgSharingPermission'] = $sharingPrivileges['defOrgShare'];
+			$valueMap['related_module_share'] = $sharingPrivileges['relatedModuleShare'];
+		}
+		self::$userPrivilegesCache[$userId] = $valueMap;
 		return $valueMap;
 	}
 
@@ -746,5 +691,23 @@ class Vtiger_Util_Helper
 		$userPrivileges = self::getUserPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
 		return $field == false ? $userInfo : $userInfo[$field];
+	}
+
+	protected static $userSharingCache = [];
+
+	public static function getUserSharingFile($userId)
+	{
+		if (empty($userId))
+			return null;
+
+		if (isset(self::$userSharingCache[$userId])) {
+			return self::$userSharingCache[$userId];
+		}
+		if (!file_exists("user_privileges/sharing_privileges_$userId.php")) {
+			return null;
+		}
+		$sharingPrivileges = require("user_privileges/sharing_privileges_$userId.php");
+		self::$userSharingCache[$userId] = $sharingPrivileges;
+		return $sharingPrivileges;
 	}
 }

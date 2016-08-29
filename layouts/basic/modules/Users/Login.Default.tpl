@@ -41,7 +41,7 @@
 							<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback">
 								<label for="password" class="sr-only">{vtranslate('Password',$MODULE)}</label>
 								<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
-								<span class="userIcon-user-access-control form-control-feedback" aria-hidden="true"></span>
+								<span class="userIcon-OSSPasswords form-control-feedback" aria-hidden="true"></span>
 							</div>
 							{assign var=COUNTERFIELDS value=2}
 							{if $LANGUAGE_SELECTION}
@@ -79,7 +79,7 @@
 						</div>
 					</div>
 				{/if}
-				<div class="form-group">
+				<div class="form-group col-xs-12 noPadding">
 					{if $ERROR eq 1}
 						<div class="alert alert-warning">
 							<p>{vtranslate('Invalid username or password.',$MODULE)}</p>

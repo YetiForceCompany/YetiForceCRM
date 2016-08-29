@@ -35,12 +35,13 @@ class Vtiger_AssignedOverdueProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vie
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$projectsTasks = ($owner === false) ? [] : $moduleModel->getAssignedProjectsTasks('overdue', $pagingModel, $owner);
+		$currentDate = date('Y-m-d');
 
-
+		$viewer->assign('SOURCE_MODULE', 'ProjectTask');
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTSTASKS', $projectsTasks);
-		$viewer->assign('PAGING', $pagingModel);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$title_max_length = vglobal('title_max_length');
 		$href_max_length = vglobal('href_max_length');
@@ -49,6 +50,7 @@ class Vtiger_AssignedOverdueProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('DATA', $data);
+		$viewer->assign('USER_CONDITIONS', ['targetenddate', "'$currentDate'", 'l', QueryGenerator::$AND]);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/AssignedProjectsTasksContents.tpl', $moduleName);

@@ -1,19 +1,20 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'LBL_ALL_USERS' => 'Tous les utilisateurs',
 	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Assigner les droits depuis des profils existants',
 	'LBL_ASSIGN_NEW_PRIVILEGES' => 'Assigner des droits directement depuis le Rôle',
 	'LBL_ASSIGN_ROLE' => 'Assigner Rôle',
-	'LBL_CAN_ASSIGN_RECORDS_TO' => 'Peux assigner les enregistrements à',
+	'LBL_CAN_ASSIGN_OWNER_TO' => 'Peux assigner les enregistrements à',
+	'LBL_CAN_ASSIGN_MULTIOWNER_TO' => 'Share with users',
 	'LBL_CHOOSE_PROFILES' => 'Choisir profils',
 	'LBL_CLICK_TO_EDIT_OR_DRAG_TO_MOVE' => 'Cliquer pour éditer/tirer pour déplacer',
 	'LBL_COPY_PRIVILEGES_FROM' => 'Copier les  droits depuis',

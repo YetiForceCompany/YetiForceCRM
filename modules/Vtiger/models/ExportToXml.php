@@ -1,11 +1,11 @@
 <?php
+
 /**
  * ExportToXml Model Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-
 class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 {
 
@@ -58,7 +58,9 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
 		$this->inventoryFields = $inventoryFieldModel->getFields();
 		$table = $inventoryFieldModel->getTableName('data');
-		$resultInventory = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$recordData[$this->focus->table_index]]);
+		$query = 'SELECT * FROM %s WHERE id = ? ORDER BY seq';
+		$query = sprintf($query, $table);
+		$resultInventory = $db->pquery($query, [$recordData[$this->focus->table_index]]);
 		if ($db->getRowCount($resultInventory)) {
 			while ($inventoryRow = $db->getRow($resultInventory)) {
 				$entries[] = $inventoryRow;
@@ -76,8 +78,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = Vtiger_Functions::getCRMRecordType($value);
-					$displayValueArray = Vtiger_Functions::computeCRMRecordLabels($recordModule, $value);
+					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$displayValueArray = \includes\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;
@@ -107,11 +109,11 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 					$valueData = $field->getCurrencyParam([], $value);
 					$valueNewData = [];
 					foreach ($valueData as $currencyId => &$data) {
-						$currencyName = Vtiger_Functions::getCurrencyName($currencyId, false);
+						$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
 						$data['value'] = $currencyName;
 						$valueNewData[$currencyName] = $data;
 					}
-					$value = Zend_Json::encode($valueNewData);
+					$value = \includes\utils\Json::encode($valueNewData);
 					break;
 				default:
 					break;
@@ -222,10 +224,10 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		}
 		return false;
 	}
-	
 	/*
 	 * TODO
 	 */
+
 	public function createXmlFromTemplate($entries, $entriesInventory)
 	{
 		

@@ -37,7 +37,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$defaultFieldName = 'defaultactivitytype';
 		else
 			$defaultFieldName = 'defaulteventstatus';
-		$queryToGetId = 'SELECT id FROM vtiger_users WHERE ' . $defaultFieldName . ' IN (';
+		$queryToGetId = sprintf('SELECT id FROM vtiger_users WHERE %s IN (', $defaultFieldName);
 		if (is_array($oldValue)) {
 			for ($i = 0; $i < count($oldValue); $i++) {
 				$queryToGetId .= '"' . $oldValue[$i] . '"';

@@ -106,11 +106,10 @@ $languageStrings = [
 	'LBL_RELATION' => 'Relação',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
 	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Pelo menos duas contas devem cumprir os requisitos para o relacionamento, ir para: (Administração > Processos > Processos Marketing > Conversão) %s',
+	'Campaign status' => 'Campaign status',
 ];
 
 $jsLanguageStrings = [
-	'JS_SELECT_CONTACTS' => 'Selecionar Contatos para prosseguir',
-	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'A conversão requer seleção do Contato ou Organização',
 	'JS_SELECT_ORGANIZATION' => 'Selecionar Organização para prosseguir',
 ];
 

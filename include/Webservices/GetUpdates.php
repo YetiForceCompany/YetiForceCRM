@@ -150,7 +150,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$moduleFieldNames = getSelectClauseFields($elementType, $moduleMeta, $user);
 		$moduleFieldNames[] = 'id';
 		$queryGenerator->setFields($moduleFieldNames);
-		$selectClause = "SELECT " . $queryGenerator->getSelectClauseColumnSQL();
+		$selectClause = sprintf("SELECT %s", $queryGenerator->getSelectClauseColumnSQL());
 		// adding the fieldnames that are present in the delete condition to the select clause
 		// since not all fields present in delete condition will be present in the fieldnames of the module
 		foreach ($deleteColumnNames as $table_fieldName => $columnName) {
@@ -303,5 +303,3 @@ function getSelectClauseFields($module, $moduleMeta, $user)
 	}
 	return array_keys($moduleFieldNames);
 }
-
-?>

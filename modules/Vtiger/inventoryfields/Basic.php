@@ -22,6 +22,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $displayTypeBase = ['LBL_DISPLAYTYPE_ALL' => 0, 'LBL_DISPLAYTYPE_ONLY_DETAIL' => 2, 'LBL_DISPLAYTYPE_HIDDEN' => 5, 'LBL_DISPLAYTYPE_READONLY' => 10];
 	protected $blocks = [1];
 	protected $fieldDataType = 'inventory';
+	protected $params = [];
 
 	/**
 	 * Getting onlyOne field
@@ -57,7 +58,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	public function getParamsConfig()
 	{
-		return Zend_Json::decode($this->get('params'));
+		return \includes\utils\Json::decode($this->get('params'));
 	}
 
 	/**

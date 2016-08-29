@@ -8,7 +8,7 @@
 class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		echo '<div class="generateMappingModal modal fade"><div class="modal-dialog"><div class="modal-content">';
 	}

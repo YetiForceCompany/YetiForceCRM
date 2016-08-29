@@ -7,13 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Utils.php');
+namespace vtlib;
 
 /**
  * Provides API to work with vtiger CRM Webservice (available from vtiger 5.1)
  * @package vtlib
  */
-class Vtiger_Webservice
+class Webservice
 {
 
 	/**
@@ -24,12 +24,12 @@ class Vtiger_Webservice
 	 */
 	static function log($message, $delim = true)
 	{
-		Vtiger_Utils::Log($message, $delim);
+		Utils::Log($message, $delim);
 	}
 
 	/**
 	 * Initialize webservice for the given module
-	 * @param Vtiger_Module Instance of the module.
+	 * @param Module Instance of the module.
 	 */
 	static function initialize($moduleInstance)
 	{
@@ -44,7 +44,7 @@ class Vtiger_Webservice
 
 	/**
 	 * Initialize webservice for the given module
-	 * @param Vtiger_Module Instance of the module.
+	 * @param Module Instance of the module.
 	 */
 	static function uninitialize($moduleInstance)
 	{
@@ -57,5 +57,3 @@ class Vtiger_Webservice
 		}
 	}
 }
-
-?>

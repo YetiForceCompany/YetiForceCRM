@@ -324,50 +324,34 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $profiles;
 	}
 
-	/**
-	 * Function returns List of Accessible Users for a Module
-	 * @param <String> $module
-	 * @return <Array of Users_Record_Model>
-	 */
-	public function getAccessibleUsersForModule($module)
+	function getGroups()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$curentUserPrivileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		if ($currentUser->isAdminUser() || $curentUserPrivileges->hasGlobalWritePermission()) {
-			$users = $this->getAccessibleUsers("", $module);
-		} else {
-			$sharingAccessModel = Settings_SharingAccess_Module_Model::getInstance($module);
-			if ($sharingAccessModel && $sharingAccessModel->isPrivate()) {
-				$users = $this->getAccessibleUsers('private', $module);
+		if (empty($this->get('groups'))) {
+			if ($this->isAdminUser()) {
+				$userGroupFocus = new GetUserGroups();
+				$userGroupFocus->getAllUserGroups($this->getId());
+				$userGroups = $userGroupFocus->user_groups;
 			} else {
-				$users = $this->getAccessibleUsers("", $module);
+				$privilegesModel = $this->getPrivileges();
+				$userGroups = $privilegesModel->get('groups');
 			}
+			$this->set('groups', $userGroups);
 		}
-		return $users;
+		return $this->get('groups');
 	}
 
-	/**
-	 * Function returns List of Accessible Users for a Module
-	 * @param <String> $module
-	 * @return <Array of Users_Record_Model>
-	 */
-	public function getAccessibleGroupForModule($module)
+	function getParentRoles()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$curentUserPrivileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		if ($currentUser->isAdminUser() || $curentUserPrivileges->hasGlobalWritePermission()) {
-			$groups = $this->getAccessibleGroups("", $module);
-		} else {
-			$sharingAccessModel = Settings_SharingAccess_Module_Model::getInstance($module);
-			if ($sharingAccessModel && $sharingAccessModel->isPrivate()) {
-				$groups = $this->getAccessibleGroups('private', $module);
+		if (empty($this->get('parentRoles'))) {
+			if ($this->isAdminUser()) {
+				$userParentRoles = getParentRole($this->getRole());
 			} else {
-				$groups = $this->getAccessibleGroups("", $module);
+				$privilegesModel = $this->getPrivileges();
+				$userParentRoles = $privilegesModel->get('parent_roles');
 			}
+			$this->set('parentRoles', $userParentRoles);
 		}
-		return $groups;
+		return $this->get('parentRoles');
 	}
 
 	/**
@@ -386,21 +370,21 @@ class Users_Record_Model extends Vtiger_Record_Model
             LEFT JOIN vtiger_salesmanattachmentsrel ON vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
             WHERE vtiger_salesmanattachmentsrel.smid=?';
 
-			$result = $db->pquery($query, array($recordId));
+			$result = $db->pquery($query, [$recordId]);
 
-			$imageId = $db->query_result($result, 0, 'attachmentsid');
-			$imagePath = $db->query_result($result, 0, 'path');
-			$imageName = $db->query_result($result, 0, 'name');
-
-			//decode_html - added to handle UTF-8 characters in file names
-			$imageOriginalName = decode_html($imageName);
-
-			$imageDetails[] = array(
-				'id' => $imageId,
-				'orgname' => $imageOriginalName,
-				'path' => $imagePath . $imageId,
-				'name' => $imageName
-			);
+			if ($db->getRowCount($result)) {
+				$imageId = $db->query_result($result, 0, 'attachmentsid');
+				$imagePath = $db->query_result($result, 0, 'path');
+				$imageName = $db->query_result($result, 0, 'name');
+				//decode_html - added to handle UTF-8 characters in file names
+				$imageOriginalName = decode_html($imageName);
+				$imageDetails[] = array(
+					'id' => $imageId,
+					'orgname' => $imageOriginalName,
+					'path' => $imagePath . $imageId,
+					'name' => $imageName
+				);
+			}
 		}
 		return $imageDetails;
 	}
@@ -415,157 +399,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$imagePath = $image['path'] . '_' . $image['orgname'];
 		}
 		return $imagePath;
-	}
-
-	/**
-	 * Function to get all the accessible users
-	 * @return <Array>
-	 */
-	public function getAccessibleUsers($private = '', $module = false)
-	{
-		$name = $private . $module;
-		$accessibleUser = Vtiger_Cache::get('getAccessibleUsers', $name);
-		if ($accessibleUser === false) {
-			$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
-			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
-				$accessibleUser = get_user_array(false, 'ACTIVE', '', $private, $module);
-			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '2') {
-				$accessibleUser = $this->getSameLevelUsersWithSubordinates();
-			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '3') {
-				$accessibleUser = $this->getRoleBasedSubordinateUsers();
-			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '4') {
-				$accessibleUser[$this->getId()] = $this->getName();
-			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '5') {
-				$accessibleUser = $this->getFromPanel($module, 'users');
-			}
-			Vtiger_Cache::set('getAccessibleUsers', $name, $accessibleUser);
-		}
-		return $accessibleUser;
-	}
-
-	/**
-	 * Function to get same level and subordinates Users
-	 * @return <array> Users
-	 */
-	public function getSameLevelUsersWithSubordinates()
-	{
-		$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
-		$sameLevelRoles = $currentUserRoleModel->getSameLevelRoles();
-		$sameLevelUsers = $this->getAllUsersOnRoles($sameLevelRoles);
-		$subordinateUsers = $this->getRoleBasedSubordinateUsers();
-		foreach ($subordinateUsers as $userId => $userName) {
-			$sameLevelUsers[$userId] = $userName;
-		}
-		return $sameLevelUsers;
-	}
-
-	/**
-	 * Function to get subordinates Users
-	 * @return <array> Users
-	 */
-	public function getRoleBasedSubordinateUsers()
-	{
-		$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
-		$childernRoles = $currentUserRoleModel->getAllChildren();
-		$users = $this->getAllUsersOnRoles($childernRoles);
-		$currentUserDetail = array($this->getId() => $this->getDisplayName());
-		$users = $currentUserDetail + $users;
-		return $users;
-	}
-
-	public function getFromPanel($moduleName = false, $mode, $private = '')
-	{
-		$db = PearDatabase::getInstance();
-		if (empty($moduleName) && AppRequest::get('parent') != 'Settings') {
-			$moduleName = AppRequest::get('module');
-		}
-		$result = [];
-		$usersGroups = Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($moduleName);
-		$usersGroups = ($usersGroups && $usersGroups[$this->getId()]) ? $usersGroups[$this->getId()] : [];
-		if ($mode == 'users') {
-			$result[$this->getId()] = $this->getName();
-			$users = $usersGroups ? $usersGroups['users'] : [];
-			if (!empty($users)) {
-				$query = 'SELECT id, user_name, first_name, last_name, is_admin FROM vtiger_users WHERE status = ? AND id IN (' . generateQuestionMarks($users) . ')';
-				array_unshift($users, 'Active');
-				$resultQuery = $db->pquery($query, $users);
-				while ($row = $db->getRow($resultQuery)) {
-					$result[$row['id']] = getFullNameFromArray('Users', $row);
-				}
-			}
-		} else {
-			$groups = $usersGroups ? $usersGroups['groups'] : [];
-			if (!empty($groups)) {
-				$groupsAll = get_group_array(false, "ACTIVE", "", $private);
-				foreach ($groupsAll as $ID => $name) {
-					if (in_array($ID, $groups)) {
-						$result[$ID] = $name;
-					}
-				}
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * Function to get the users based on Roles
-	 * @param type $roles
-	 * @return <array>
-	 */
-	public function getAllUsersOnRoles($roles)
-	{
-		$db = PearDatabase::getInstance();
-		$roleIds = [];
-		foreach ($roles as $key => $role) {
-			$roleIds[] = $role->getId();
-		}
-
-		if (empty($roleIds)) {
-			return [];
-		}
-
-		$sql = 'SELECT userid FROM vtiger_user2role WHERE roleid IN (' . generateQuestionMarks($roleIds) . ')';
-		$result = $db->pquery($sql, $roleIds);
-		$noOfUsers = $db->num_rows($result);
-		$userIds = [];
-		$subUsers = [];
-		if ($noOfUsers > 0) {
-			for ($i = 0; $i < $noOfUsers; ++$i) {
-				$userIds[] = $db->query_result($result, $i, 'userid');
-			}
-			$entityData = Vtiger_Functions::getEntityModuleSQLColumnString('Users');
-			$query = 'SELECT id, ' . $entityData['colums'] . ' FROM vtiger_users WHERE status = ? AND id IN (' . generateQuestionMarks($userIds) . ')';
-			$query .= ' order by last_name ASC, first_name ASC';
-			$result = $db->pquery($query, array('ACTIVE', $userIds));
-			while ($row = $db->fetch_array($result)) {
-				$colums = [];
-				foreach (explode(',', $entityData['fieldname']) as $fieldname) {
-					$colums[] = $row[$fieldname];
-				}
-				$subUsers[$row['id']] = implode(' ', $colums);
-			}
-		}
-		return $subUsers;
-	}
-
-	/**
-	 * Function to get all the accessible groups
-	 * @return <Array>
-	 */
-	public function getAccessibleGroups($private = '', $module = false)
-	{
-		$accessibleGroups = Vtiger_Cache::get('vtiger-' . $private, 'accessiblegroups');
-		if (!$accessibleGroups) {
-			$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
-			if ($currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
-				$accessibleGroups = $this->getFromPanel($module, 'groups', $private);
-			} else {
-				$accessibleGroups = get_group_array(false, "ACTIVE", "", $private, $module);
-			}
-			Vtiger_Cache::set('vtiger-' . $private, 'accessiblegroups', $accessibleGroups);
-			return $accessibleGroups;
-		}
-		return $accessibleGroups;
 	}
 
 	/**
@@ -649,14 +482,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getUserGroups($userId)
 	{
+		$groupIds = Vtiger_Cache::get('getUserGroups', $userId);
+		if ($groupIds !== false) {
+			return $groupIds;
+		}
 		$db = PearDatabase::getInstance();
 		$groupIds = [];
-		$query = "SELECT groupid FROM vtiger_users2group WHERE userid=?";
+		$query = 'SELECT groupid FROM vtiger_users2group WHERE userid=?';
 		$result = $db->pquery($query, array($userId));
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$groupId = $db->query_result($result, $i, 'groupid');
+		while (($groupId = $db->getSingleValue($result)) !== false) {
 			$groupIds[] = $groupId;
 		}
+		Vtiger_Cache::set('getUserGroups', $userId, $groupIds);
 		return $groupIds;
 	}
 	/**
@@ -753,8 +590,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function isAccountOwner()
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT is_owner FROM vtiger_users WHERE id = ?';
-		$isOwner = $db->query_result($db->pquery($query, array($this->getId())), 0, 'is_owner');
+		$result = $db->pquery('SELECT is_owner FROM vtiger_users WHERE id = ?', [$this->getId()]);
+		$isOwner = $db->getSingleValue($result);
 		if ($isOwner == 1) {
 			return true;
 		}
@@ -835,29 +672,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function getDisplayName()
 	{
 		return getFullNameFromArray($this->getModuleName(), $this->getData());
-	}
-
-	public function getUsersAndGroupForModuleList($module, $view = false)
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
-		$queryGenerator = new QueryGenerator($module, $currentUser);
-		if ($view) {
-			$queryGenerator->initForCustomViewById($view);
-		}
-		$queryGenerator->setFields(['assigned_user_id']);
-		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
-		$result = $db->query($listQuery);
-		$ids = $db->getArrayColumn($result);
-
-		$users = $groups = [];
-		$users = Vtiger_Functions::getCRMRecordLabels('Users', $ids);
-		$diffIds = array_diff($ids, array_keys($users));
-		if ($diffIds) {
-			$groups = Vtiger_Functions::getCRMRecordLabels('Groups', array_values($diffIds));
-		}
-		return [ 'users' => $users, 'group' => $groups];
 	}
 
 	public function getSwitchUsersUrl()

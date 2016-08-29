@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Erro ao Mover Arquivo Atualizado',
 	'ModuleManager' => 'Gestor de Módulo',
@@ -38,7 +38,7 @@ $languageStrings = [
 	'LBL_UPDATE_FROM_VERSION' => 'Da versão',
 	'LBL_UPDATE_TO_VERSION' => 'Para versão',
 	'LBL_LICENSE_ACCEPT_AGREEMENT' => 'Aceito os termos da Licença.',
-	'LBL_EXISTS'=>'Existe',
+	'LBL_EXISTS' => 'Existe',
 	'LBL_PROCEED_WITH_IMPORT' => 'Deseja prosseguir com a importação?',
 	'LBL_VERSION_NOT_SUPPORTED' => 'A versão do Módulo não é compatível com a versão do vtiger',
 	'LBL_FINISH' => 'Final',
@@ -58,7 +58,6 @@ $languageStrings = [
 	'LBL_IMPORT' => 'Importar',
 	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'O limite de upload está muito pequeno',
 	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'O limite de upload está muito pequeno (%s), desta forma o arquivo não pode ser transferido para o Servidor. É recomendável verificar as configurações do Sistema <a href="index.php?parent=Settings&module=ConfReport&view=Index">Verificar Configuração Servidor</a>',
-
 	'LBL_CREATE_MODULE' => 'Criar módulo',
 	'LBL_CREATING_MODULE' => 'Criando novo módulo',
 	'LBL_ENTER_MODULE_NAME' => 'Nome módulo',

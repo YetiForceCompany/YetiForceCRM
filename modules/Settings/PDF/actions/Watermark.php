@@ -36,26 +36,14 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		$targetDir = Settings_PDF_Module_Model::$uploadPath;
 		$targetFile = $targetDir . $newName;
 		$uploadOk = 1;
-		$imageFileType = pathinfo($targetFile, PATHINFO_EXTENSION);
 
-		// Check if image file is a actual image or fake image
-		$check = getimagesize($_FILES['watermark']['tmp_name'][0]);
-		if ($check !== false) { // file is an image
-			$uploadOk = 1;
-		} else { // File is not an image
+		$fileInstance = \includes\fields\File::loadFromPath($_FILES['watermark']['tmp_name'][0]);
+		if (!$fileInstance->validate('image')) {
 			$uploadOk = 0;
 		}
 
 		// Check allowed upload file size
-		if ($_FILES['watermark']['size'][0] > vglobal('upload_maxsize') && $uploadOk) {
-			$uploadOk = 0;
-		}
-		$saveFile = Vtiger_Functions::validateImage([
-				'type' => $_FILES['watermark']['type'][0],
-				'tmp_name' => $_FILES['watermark']['tmp_name'][0],
-				'size' => $_FILES['watermark']['size'][0],
-		]);
-		if ($saveFile == 'false') {
+		if ($uploadOk && $_FILES['watermark']['size'][0] > vglobal('upload_maxsize')) {
 			$uploadOk = 0;
 		}
 		// Check if $uploadOk is set to 0 by an error
@@ -69,7 +57,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 				unlink($watermarkImage);
 			}
 			// successful upload
-			if (move_uploaded_file($_FILES['watermark']['tmp_name'][0], $targetFile)) {
+			if ($fileInstance->moveFile($targetFile)) {
 				$query = 'UPDATE `a_yf_pdf` SET `watermark_image` = ? WHERE `pdfid` = ? LIMIT 1;';
 				$db = $db->pquery($query, [$targetFile, $templateId]);
 			}

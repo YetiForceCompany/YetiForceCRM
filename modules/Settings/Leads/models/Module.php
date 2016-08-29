@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Settings_Leads_Module_Model extends Vtiger_Module_Model
@@ -15,7 +16,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 	 * Function to get fields of this model
 	 * @return <Array> list of field models <Settings_Leads_Field_Model>
 	 */
-	public function getFields()
+	public function getFields($blockInstance = false)
 	{
 		if (!$this->fields) {
 			$fieldModelsList = array();
@@ -36,31 +37,24 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getMappingSupportedFieldIdsList()
 	{
-		if (!$this->supportedFieldIdsList) {
+		if (empty($this->supportedFieldIdsList)) {
 			$selectedTabidsList[] = getTabid($this->getName());
-			$presense = array(0, 2);
-			$restrictedFieldNames = array('campaignrelstatus');
+			$presense = [0, 2];
+			$restrictedFieldNames = ['campaignrelstatus'];
 			$restrictedUitypes = $this->getRestrictedUitypes();
-			$selectedGeneratedTypes = array(1, 2);
+			$selectedGeneratedTypes = [1, 2];
 
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT fieldid FROM vtiger_field
-						WHERE presence IN (' . generateQuestionMarks($presense) . ')
-						AND tabid IN (' . generateQuestionMarks($selectedTabidsList) . ')
-						AND uitype NOT IN (' . generateQuestionMarks($restrictedUitypes) . ')
-						AND fieldname NOT IN (' . generateQuestionMarks($restrictedFieldNames) . ')
-						AND generatedtype IN (' . generateQuestionMarks($selectedGeneratedTypes) . ')';
+			$query = sprintf('SELECT fieldid FROM vtiger_field
+						WHERE presence IN (%s)
+						AND tabid IN (%s)
+						AND uitype NOT IN (%s)
+						AND fieldname NOT IN (%s)
+						AND generatedtype IN (%s)', generateQuestionMarks($presense), generateQuestionMarks($selectedTabidsList), generateQuestionMarks($restrictedUitypes), generateQuestionMarks($restrictedFieldNames), generateQuestionMarks($selectedGeneratedTypes));
 
 			$params = array_merge($presense, $selectedTabidsList, $restrictedUitypes, $restrictedFieldNames, $selectedGeneratedTypes);
-
 			$result = $db->pquery($query, $params);
-			$numOfRows = $db->num_rows($result);
-
-			$fieldIdsList = array();
-			for ($i = 0; $i < $numOfRows; $i++) {
-				$fieldIdsList[] = $db->query_result($result, $i, 'fieldid');
-			}
-			$this->supportedFieldIdsList = $fieldIdsList;
+			$this->supportedFieldIdsList = $db->getArrayColumn($result);
 		}
 		return $this->supportedFieldIdsList;
 	}

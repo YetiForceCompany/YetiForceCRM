@@ -62,7 +62,7 @@ class GetUserGroups
 			array_push($parentRolelist, $par_rol_id);
 		}
 		array_push($parentRolelist, $userRole);
-		$query = "select * from vtiger_group2rs where roleandsubid in (" . generateQuestionMarks($parentRolelist) . ")";
+		$query = sprintf('SELECT * FROM vtiger_group2rs WHERE roleandsubid in (%s)', generateQuestionMarks($parentRolelist));
 		$result = $adb->pquery($query, array($parentRolelist));
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
@@ -85,5 +85,3 @@ class GetUserGroups
 		$log->debug("Exiting getAllUserGroups method...");
 	}
 }
-
-?>

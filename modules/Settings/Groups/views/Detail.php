@@ -22,7 +22,6 @@ Class Settings_Groups_Detail_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 

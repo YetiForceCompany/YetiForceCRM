@@ -7,6 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
 
 class Vtiger_Menu_Model
@@ -38,10 +39,10 @@ class Vtiger_Menu_Model
 	{
 		$language = Vtiger_Language_Handler::getLanguage();
 		$moduleStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, 'Menu');
-		if (array_key_exists($key, $moduleStrings['languageStrings'])) {
+		if (isset($moduleStrings['languageStrings'][$key])) {
 			return stripslashes($moduleStrings['languageStrings'][$key]);
 		}
-		return vtranslate($key, $module);
+		return Vtiger_Language_Handler::getTranslatedString($key, $module);
 	}
 
 	public static function getBreadcrumbs($pageTitle = false)
@@ -96,7 +97,7 @@ class Vtiger_Menu_Model
 				$breadcrumbs[] = [ 'name' => vtranslate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
-				$recordLabel = Vtiger_Functions::getCRMRecordLabel($request->get('record'));
+				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->get('record'));
 				if ($recordLabel != '') {
 					$breadcrumbs[] = [ 'name' => $recordLabel];
 				}
@@ -132,17 +133,23 @@ class Vtiger_Menu_Model
 					}
 				}
 
-				if ($pageTitle) {
-					$breadcrumbs[] = [ 'name' => vtranslate($pageTitle, $moduleName)];
-				} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
-					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
-				} elseif ($view != '' && $view != 'List') {
-					$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
-				}
-				if ($request->get('record') != '') {
-					$recordLabel = Vtiger_Functions::getUserRecordLabel($request->get('record'));
-					if ($recordLabel != '') {
-						$breadcrumbs[] = [ 'name' => $recordLabel];
+				if (is_array($pageTitle)) {
+					foreach ($pageTitle as $title) {
+						$breadcrumbs[] = $title;
+					}
+				} else {
+					if ($pageTitle) {
+						$breadcrumbs[] = [ 'name' => vtranslate($pageTitle, $moduleName)];
+					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
+						$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
+					} elseif ($view != '' && $view != 'List') {
+						$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
+					}
+					if ($request->get('record') != '' && $moduleName == 'Users') {
+						$recordLabel = \includes\fields\Owner::getUserLabel($request->get('record'));
+						if ($recordLabel != '') {
+							$breadcrumbs[] = [ 'name' => $recordLabel];
+						}
 					}
 				}
 			}
@@ -171,11 +178,11 @@ class Vtiger_Menu_Model
 	 */
 	public static function getModuleNameFromUrl($url)
 	{
-		$params = Vtiger_Functions::getQueryParams($url);
-		if ($params[parent]) {
-			return ("$params[parent]:$params[module]");
+		$params = vtlib\Functions::getQueryParams($url);
+		if ($params['parent']) {
+			return ($params['parent'] . ':' . $params['module']);
 		}
-		return $params[module];
+		return $params['module'];
 	}
 
 	public static function getMenuIcon($menu, $title = '')
@@ -193,6 +200,8 @@ class Vtiger_Menu_Model
 		if (!empty($menu['icon'])) {
 			if (strpos($menu['icon'], 'glyphicon-') !== false) {
 				return '<span class="glyphicon ' . $menu['icon'] . '" aria-hidden="true"></span>';
+			} elseif (strpos($menu['icon'], 'fa-') !== false) {
+				return '<span class="' . $menu['icon'] . '" aria-hidden="true"></span>';
 			} elseif (strpos($menu['icon'], 'adminIcon-') !== false || strpos($menu['icon'], 'userIcon-') !== false || strpos($menu['icon'], 'AdditionalIcon-') !== false) {
 				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
 			}

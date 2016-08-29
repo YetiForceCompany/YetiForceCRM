@@ -13,7 +13,7 @@
 			{foreach from=$LIST_CONTENT item=RECORD}
 				<tr class="opacity" data-id="{$RECORD->getId()}">
 					<td>
-						{$RECORD->getName()}
+						{vtranslate($RECORD->getName(), $QUALIFIED_MODULE)}
 						{if $RECORD->get('presence') == 1}
 							<div class="pull-right actions">
 								<a class="edit cursorPointer" data-url="{$RECORD->getEditUrl()}">

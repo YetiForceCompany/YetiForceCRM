@@ -8,9 +8,12 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
 
- <div class=" supportProcessesContainer" style="margin-top:10px;">
- 	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	<hr>	
+ <div class=" supportProcessesContainer">
+ 	<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+	</div>	
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 		<li class="active"><a href="#project_configuration" data-toggle="tab">{vtranslate('LBL_PROJECT', $QUALIFIED_MODULE)} </a></li>
 	</ul>

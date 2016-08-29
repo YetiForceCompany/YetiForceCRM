@@ -215,6 +215,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 					}
 				});
 			});
+			if (container.closest('.inventoryRow').length > 0 && ('Products' == popupReferenceModule || 'Services' == popupReferenceModule)) {
+				var inventoryInstance = new Vtiger_Inventory_Js();
+				inventoryInstance.registerRowAutoCompleteAfterAdding(container);
+			}
 		}
 	},
 	getRelationOperation: function () {
@@ -273,11 +277,16 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (sourceRecordElement.length > 0) {
 			sourceRecordId = sourceRecordElement.val();
 		}
-		urlOrParams = 'module=' + moduleName + '&view=TreePopup&template=' + sourceFieldElement.data('treetemplate') + '&src_field=' + sourceFieldElement.attr('name') + '&src_record=' + sourceRecordId;
+		urlOrParams = 'module=' + moduleName + '&view=TreePopup&template=' + sourceFieldElement.data('treetemplate') + '&src_field=' + sourceFieldElement.attr('name') + '&src_record=' + sourceRecordId + '&multiple=' + sourceFieldElement.data('multiple');
 		var popupInstance = Vtiger_Popup_Js.getInstance();
 		popupInstance.show(urlOrParams, function (data) {
 			var responseData = JSON.parse(data);
-			sourceFieldElement.val('T' + responseData.id);
+			var ids = responseData.id.split(',');
+			$.each(ids, function (index, value) {
+				ids[index] = 'T' + value;
+			});
+			ids.join();
+			sourceFieldElement.val(ids);
 			fieldDisplayElement.val(responseData.name).attr('readonly', true);
 		});
 	},
@@ -554,9 +563,20 @@ jQuery.Class("Vtiger_Edit_Js", {
 			params.id = data.result._recordId;
 			thisInstance.setReferenceFieldValue(container, params);
 		}
-
+		var params = {callbackFunction: postQuickCreateSave};
+		if (app.getViewName() === 'Edit' && !app.getRecordId()) {
+			var formElement = this.getForm();
+			var formData = formElement.serializeFormData();
+			for (var i in formData) {
+				if (!formData[i] || jQuery.inArray(i, ['__vtrftk', 'action']) != -1) {
+					delete formData[i];
+				}
+			}
+			params.data = {};
+			params.data.sourceRecordData = formData;
+		}
 		var referenceModuleName = this.getReferencedModuleName(container);
-		Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, {callbackFunction: postQuickCreateSave});
+		Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, params);
 	},
 	/**
 	 * Function which will register event for create of reference record
@@ -1458,6 +1478,14 @@ jQuery.Class("Vtiger_Edit_Js", {
 			}
 		});
 	},
+	checkSubProcessModulesList: function (element) {
+		var option = element.find('option:selected');
+		if (option.data('is-quickcreate') != 1) {
+			element.closest('.fieldValue').find('.createReferenceRecord').addClass('hide');
+		} else {
+			element.closest('.fieldValue').find('.createReferenceRecord').removeClass('hide');
+		}
+	},
 	checkReferenceModulesList: function (container) {
 		var thisInstance = this;
 		var processfieldElement = container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue');
@@ -1466,6 +1494,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		Vtiger_Helper_Js.hideOptions(subProcessfieldElement.find('.referenceModulesList'), 'parent', referenceProcess);
 		var subProcessValue = subProcessfieldElement.find('.referenceModulesList').val();
 		subProcessfieldElement.find('[name="popupReferenceModule"]').val(subProcessValue);
+		thisInstance.checkSubProcessModulesList(subProcessfieldElement.find('.referenceModulesList'));
 	},
 	registerReferenceFields: function (container) {
 		var thisInstance = this;
@@ -1479,6 +1508,24 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 		container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue').find('.referenceModulesList').on('change', function () {
 			thisInstance.checkReferenceModulesList(container);
+		});
+		container.find('input[data-fieldtype="referenceSubProcess"]').closest('.fieldValue').find('.referenceModulesList').on('change', function (e) {
+			thisInstance.checkSubProcessModulesList($(e.currentTarget));
+		});
+	},
+	registerFocusFirstField: function (container) {
+		var thisInstance = this;
+		container.find('.fieldValue input.form-control:not([type=hidden],[type=checkbox])').each(function (n, e) {
+			var element = jQuery(e);
+			if (!element.prop('readonly') && !element.prop('disabled')) {
+				element = element.get(0);
+				var elemLen = element.value.length;
+
+				element.selectionStart = elemLen;
+				element.selectionEnd = elemLen;
+				element.focus();
+				return false;
+			}
 		});
 	},
 	/**
@@ -1500,6 +1547,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerMaskFields(container);
 		this.registerHelpInfo();
 		this.registerReferenceFields(container);
+		this.registerFocusFirstField(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();

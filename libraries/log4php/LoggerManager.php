@@ -97,6 +97,7 @@ class Logger {
 	function error($message) {
 		if($this->isLevelEnabled('ERROR')) {
 			$this->emit('ERROR', $message);
+			$this->emit('ERROR', PHP_EOL.vtlib\Functions::getBacktrace(1));
 		}
 	}
 	

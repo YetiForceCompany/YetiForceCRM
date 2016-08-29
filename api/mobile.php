@@ -15,11 +15,10 @@ chdir($crmPath);
 require_once('include/database/PearDatabase.php');
 require_once 'libraries/restler/restler.php';
 require_once('include/utils/VtlibUtils.php');
-AppConfig::iniSet('error_log', $root_directory . 'cache/logs/mobileApps.log');
+AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/mobileApps.log');
 
 if (!in_array('mobile', $enabledServices)) {
-	require_once('include/exceptions/AppException.php');
-	$apiLog = new APINoPermittedException();
+	$apiLog = new \Exception\NoPermittedToApi();
 	$apiLog->stop(['status' => 0, 'message' => 'Mobile - Service is not active']);
 }
 

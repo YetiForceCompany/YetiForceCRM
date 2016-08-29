@@ -16,7 +16,7 @@ class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action {
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		if(!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ReadRecord')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

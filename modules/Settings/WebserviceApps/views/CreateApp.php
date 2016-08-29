@@ -13,7 +13,7 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -28,13 +28,18 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
-		$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($recordId);
-		if($recordModel){
-			$recordModel->set('accountsModel', Vtiger_Record_Model::getInstanceById($recordModel->get('accounts_id')));
+		if (!empty($recordId)) {
+			$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($recordId);
+			$accountId = $recordModel->get('accounts_id');
+			if ($recordModel && !empty($accountId)) {
+				$recordModel->set('accountsModel', Vtiger_Record_Model::getInstanceById($accountId));
+			}
+		} else {
+			$recordModel = false;
 		}
 		$typesServers = Settings_WebserviceApps_Module_Model::getTypes();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode(Vtiger_Module_Model::getRelationFieldByHierarchy('SSingleOrders')));
+		$viewer->assign('MAPPING_RELATED_FIELD', \includes\utils\Json::encode(Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy('SSingleOrders')));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('TYPES_SERVERS', $typesServers);

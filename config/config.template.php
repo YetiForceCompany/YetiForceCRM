@@ -32,9 +32,8 @@ $USE_RTE = 'true';
 $PORTAL_URL = 'https://portal.yetiforce.com';
 
 // helpdesk support email id and support name (Example: 'support@yetiforce.com' and 'yetiforce support')
-$HELPDESK_SUPPORT_EMAIL_ID = '_USER_SUPPORT_EMAIL_';
 $HELPDESK_SUPPORT_NAME = 'your-support name';
-$HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
+$HELPDESK_SUPPORT_EMAIL_REPLY = '';
 
 /* database configuration
   db_server
@@ -61,9 +60,6 @@ $host_name = $dbconfig['db_hostname'];
 
 // backslash is required at the end of URL
 $site_URL = '_SITE_URL_';
-
-// root directory path
-$root_directory = '_VT_ROOTDIR_';
 
 // cache direcory path
 $cache_dir = '_VT_CACHEDIR_';
@@ -93,10 +89,6 @@ $allow_exports = 'all';
 // files with one of these extensions will have '.txt' appended to their filename on upload
 // upload_badext default value = php, php3, php4, php5, pl, cgi, py, asp, cfm, js, vbs, html, htm
 $upload_badext = array('php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm');
-
-// full path to include directory including the trailing slash
-// includeDirectory default value = $root_directory..'include/
-$includeDirectory = $root_directory . 'include/';
 
 // list_max_entries_per_page default value = 20
 $list_max_entries_per_page = '20';
@@ -162,20 +154,11 @@ if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
 	@date_default_timezone_set($default_timezone);
 }
 
-// Change of logs directory with PHP errors
-AppConfig::iniSet('error_log', $root_directory . 'cache/logs/phpError.log');
-
-// Enable sharing of records?
-$shared_owners = true;
-
 // Maximum length of characters for title
 $title_max_length = 60;
 
 // Maximum length for href tag
 $href_max_length = 35;
-
-// Maximum number of displayed search results
-$max_number_search_result = 100;
 
 //Should menu breadcrumbs be visible? true = show, false = hide
 $breadcrumbs = true;
@@ -213,14 +196,6 @@ $csrfProtection = TRUE;
 // Enable encrypt backup, Support from PHP 5.6.x
 $encryptBackup = false;
 
-// autocomplete global search - Whether or not automated search should be turned on"
-$gsAutocomplete = 1; // 0 or 1
-// autocomplete global search - The minimum number of characters a user must type before a search is performed. 
-$gsMinLength = 3;
-
-// autocomplete global search - Amount of returned results.
-$gsAmountResponse = 10;
-
 // Is sending emails active. 
 $isActiveSendingMails = true;
 
@@ -241,6 +216,5 @@ $defaultLayout = 'basic';
 
 // Logo is visible in footer.
 $isVisibleLogoInFooter = true;
-
 
 $forceRedirect = true;

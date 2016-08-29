@@ -18,7 +18,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -123,7 +123,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 
-		$viewer->assign('LISTVIEW_LINKS', $moduleModel->getListViewLinks());
+		$viewer->assign('LISTVIEW_LINKS', $moduleModel->getListViewLinks(false));
 		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels);
 
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -142,17 +142,17 @@ class RecycleBin_List_View extends Vtiger_Index_View
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('DELETED_RECORDS_TOTAL_COUNT', $moduleModel->getDeletedRecordsTotalCount());
 
-		
-		if (!$this->listViewCount) {
-			$this->listViewCount = $listViewModel->getListViewCount();
+		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+			if (!$this->listViewCount) {
+				$this->listViewCount = $listViewModel->getListViewCount();
+			}
+			$pagingModel->set('totalCount', (int) $this->listViewCount);
+			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
 		}
-		$totalCount = $this->listViewCount;
-		$pagingModel->set('totalCount', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-		
+
 		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
 	}

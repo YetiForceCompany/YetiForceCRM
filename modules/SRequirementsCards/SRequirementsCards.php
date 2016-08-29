@@ -80,21 +80,19 @@ class SRequirementsCards extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('SRequirementsCards');
-			$moduleInstance->setModuleSeqNumber("configure", 'SRequirementsCards', 'S-RC', '1');
+			\includes\fields\RecordNumber::setNumber($moduleName, 'S-RC', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SRequirementsCards']);
 
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SRequirementsCards'));
 			}
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModTracker');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModTracker');
 			if ($modcommentsModuleInstance && file_exists('modules/ModTracker/ModTracker.php')) {
-				include_once('vtlib/Vtiger/Module.php');
 				include_once 'modules/ModTracker/ModTracker.php';
-				$tabid = Vtiger_Functions::getModuleId('SRequirementsCards');
+				$tabid = vtlib\Functions::getModuleId('SRequirementsCards');
 				$moduleModTrackerInstance = new ModTracker();
 				if (!$moduleModTrackerInstance->isModulePresent($tabid)) {
 					$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
@@ -104,7 +102,7 @@ class SRequirementsCards extends Vtiger_CRMEntity
 					$moduleModTrackerInstance->updateCache($tabid, 1);
 				}
 				if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)) {
-					$moduleInstance = Vtiger_Module::getInstance($tabid);
+					$moduleInstance = vtlib\Module::getInstance($tabid);
 					$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
 				}
 			}

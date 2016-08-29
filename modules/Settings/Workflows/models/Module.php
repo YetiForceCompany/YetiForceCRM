@@ -141,7 +141,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Delete all worklflows associated with module
-	 * @param Vtiger_Module Instnace of module to use
+	 * @param vtlib\Module Instnace of module to use
 	 */
 	static function deleteForModule($moduleInstance)
 	{
@@ -166,21 +166,25 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$db->update($this->getBaseTable() . '_seq', ['id' => $workflowId]);
 
 		$messages = ['id' => $workflowId];
-		foreach($data['workflow_methods'] as $method) {
-			$this->importTaskMethod($method, $messages);
+		if($data['workflow_methods']){
+			foreach($data['workflow_methods'] as $method) {
+				$this->importTaskMethod($method, $messages);
+			}
 		}
+		
+		if($data['workflow_tasks']){
+			foreach ($data['workflow_tasks'] as $task) {
+				$db->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']]);
+				$taskId = $db->getLastInsertID();
 
-		foreach ($data['workflow_tasks'] as $task) {
-			$db->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']]);
-			$taskId = $db->getLastInsertID();
+				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
+				$taskObject = unserialize($task['task']);
+				$taskObject->workflowId = intval($workflowId);
+				$taskObject->id = intval($taskId);
 
-			include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
-			$taskObject = unserialize($task['task']);
-			$taskObject->workflowId = intval($workflowId);
-			$taskObject->id = intval($taskId);
-
-			$db->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], 'task_id = ?', [$taskId]);
-			$db->update('com_vtiger_workflowtasks_seq', ['id' => $taskId]);
+				$db->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], 'task_id = ?', [$taskId]);
+				$db->update('com_vtiger_workflowtasks_seq', ['id' => $taskId]);
+			}
 		}
 
 		return $messages;

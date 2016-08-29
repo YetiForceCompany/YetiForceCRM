@@ -25,10 +25,9 @@ class Vtiger_CRMEntity extends CRMEntity {
 	var $special_functions = Array('set_import_assigned_user');
 	
 	function __construct() {
-		$log = LoggerManager::getInstance();
 		$this->column_fields = getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
-		$this->log = $log;
+		$this->log = LoggerManager::getInstance(get_class($this));
 	}
 
 	function save_module($module) {
@@ -82,8 +81,7 @@ class Vtiger_CRMEntity extends CRMEntity {
 		}
 
 		$current_user  = vglobal('current_user');
-		$query .= $this->getNonAdminAccessControlQuery($module,$current_user);
-		$query .= "WHERE vtiger_crmentity.deleted = 0 ".$where;
+		$query .= sprintf('%s WHERE vtiger_crmentity.deleted = 0 %s', $this->getNonAdminAccessControlQuery($module,$current_user), $where);  
 		return $query;
 	}
 
@@ -188,7 +186,7 @@ class Vtiger_CRMEntity extends CRMEntity {
 	 * Function which will give the basic query to find duplicates
 	 */
 	function getDuplicatesQuery($module,$table_cols,$field_values,$ui_type_arr,$select_cols='') {
-		$select_clause = "SELECT ". $this->table_name .".".$this->table_index ." AS recordid, vtiger_users_last_import.deleted,".$table_cols;
+		$select_clause = sprintf("SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s", $this->table_name, $this->table_index, $table_cols);
 
 		// Select Custom Field Table Columns if present
 		if(isset($this->customFieldTable)) $query .= ", " . $this->customFieldTable[0] . ".* ";

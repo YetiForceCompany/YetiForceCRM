@@ -3,7 +3,7 @@
 </div>
 </div>
 </div>
-<div class="siteBarRight">
+<div class="{if $USER_MODEL->get('leftpanelhide')}leftPanelOpen {/if}siteBarRight">
 	<div class="btn btn-block toggleSiteBarRightButton" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 		<span class="glyphicon glyphicon-chevron-right"></span>
 	</div>

@@ -82,17 +82,19 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 		$query = "SELECT * FROM `vtiger_bruteforce` LIMIT 1";
 		$result = $db->pquery($query, array());
-		$ip = Vtiger_Functions::getRemoteIP();
-		$now = date("Y-m-d H:i:s");
-
+		$ip = vtlib\Functions::getRemoteIP();
 		$bruteforceSettings = $db->query_result_rowdata($result, 0);
 		$attempsNumber = $bruteforceSettings['attempsnumber'];
 		$blockTime = $bruteforceSettings['timelock'];
-
-		$query = "SELECT count(login_id) as cn FROM `vtiger_loginhistory` vlh WHERE STATUS = 'Failed login' && user_ip = ? && unblock = 0 && (UNIX_TIMESTAMP(vlh.login_time) - UNIX_TIMESTAMP(ADDDATE(?, INTERVAL -$blockTime MINUTE))) > 0";
-		$result = $db->pquery($query, array($ip, $now));
-
-		if ($db->query_result_raw($result, 0, 'cn') >= $attempsNumber) {
+	
+		$blockDate = new DateTime();
+		$blockDate->modify("-$blockTime minutes");	
+		
+		$query = "SELECT count(login_id) as cn FROM `vtiger_loginhistory` vlh 
+			WHERE STATUS = 'Failed login' AND user_ip = ? AND unblock = 0 
+			AND vlh.login_time > ?";
+		$result = $db->pquery($query, array($ip, $blockDate->format('Y-m-d H:i:s')));
+		if ($db->getSingleValue($result) >= $attempsNumber) {
 			return true;
 		}
 		return false;

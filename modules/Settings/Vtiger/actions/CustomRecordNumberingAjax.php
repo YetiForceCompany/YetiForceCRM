@@ -26,7 +26,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$sourceModule = $request->get('sourceModule');
 
 		if (!$sourceModule) {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $qualifiedModuleName));
+			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', $qualifiedModuleName));
 		}
 	}
 
@@ -46,9 +46,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	public function getModuleCustomNumberingData(Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
-
-		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($sourceModule);
-		$moduleData = $moduleModel->getModuleCustomNumberingData();
+		$moduleData = \includes\fields\RecordNumber::getNumber($sourceModule);
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);

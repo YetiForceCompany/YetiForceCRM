@@ -14,7 +14,7 @@ class API_Products_GetProducts extends BaseAction
 
 	private function getTemplate()
 	{
-		$moduleId = Vtiger_Functions::getModuleId($this->moduleName);
+		$moduleId = vtlib\Functions::getModuleId($this->moduleName);
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT templateid FROM vtiger_trees_templates WHERE module = ?';
 		return $db->getSingleValue($db->pquery($query, [$moduleId]));
@@ -44,7 +44,7 @@ class API_Products_GetProducts extends BaseAction
 		$recordModel->set('imageUrl', $imagesUrl);
 	}
 
-	public function get()
+	public function get($category)
 	{
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT vtiger_products.productname,
@@ -52,18 +52,24 @@ class API_Products_GetProducts extends BaseAction
 					vtiger_products.pscategory,
 					vtiger_products.productid,
 					vtiger_products.pos,
-					vtiger_products.unit_price
+					vtiger_products.unit_price,
+					vtiger_products.imagename, 
+					vtiger_products.category_multipicklist
 					FROM vtiger_products
 					INNER JOIN vtiger_crmentity ON  vtiger_products.productid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.deleted = ?
 					AND vtiger_products.pos LIKE ?
+					AND vtiger_products.category_multipicklist LIKE ?
 					AND vtiger_products.discontinued = ?';
-		$results = $db->pquery($query, [0, '%' . $this->api->app['id'] . '%', 1]);
+		$results = $db->pquery($query, [0, '%' . $this->api->app['id'] . '%', '%' . $category . '%' , 1]);
 		$records = [];
 		while ($product = $db->getRow($results)) {
 			$poses = explode(',', $product['pos']);
-			if (in_array($this->api->app['id'], $poses)) {
+			$categories = explode(',', $product['category_multipicklist']);
+			if (in_array($this->api->app['id'], $poses) && in_array($category, $categories)) {
 				unset($product['pos']);
+				unset($product['category_multipicklist']);
+				$product['pscategory'] = str_replace('T', '', $product['pscategory']);
 				$recordModel = Vtiger_Record_Model::getCleanInstance($this->moduleName);
 				$recordModel->setData($product)->set('id', $product['productid']);
 				$this->getInfo($recordModel);

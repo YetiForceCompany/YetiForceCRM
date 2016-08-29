@@ -1,13 +1,13 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 chdir(__DIR__ . '/../');
-require_once('include/ConfigUtils.php');
+require('include/ConfigUtils.php');
 if (!in_array('dav', $enabledServices)) {
-	require_once('include/exceptions/AppException.php');
-	$apiLog = new APINoPermittedException();
+	require('include/main/WebUI.php');
+	$apiLog = new \Exception\NoPermittedToApi();
 	$apiLog->stop('Dav - Service is not active');
 }
-AppConfig::iniSet('error_log', $root_directory . 'cache/logs/davPhpError.log');
+AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/davPhpError.log');
 
 /* Database */
 $pdo = new PDO('mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
@@ -19,9 +19,10 @@ function exception_error_handler($errno, $errstr, $errfile, $errline)
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
 set_error_handler('exception_error_handler');
+$enableWebDAV = false;
 
 // Autoloader
-require_once('libraries/SabreDAV/autoload.php');
+require('libraries/SabreDAV/autoload.php');
 
 // Backends 
 $authBackend = new Yeti\DAV_Auth_Backend_PDO($pdo);
@@ -38,14 +39,13 @@ if ($enableCardDAV) {
 	$carddavBackend = new Yeti\CardDAV_Backend_PDO($pdo);
 	$nodes[] = new Sabre\CardDAV\AddressBookRoot($principalBackend, $carddavBackend);
 }
-if (false && $enableWebDAV) {
+if ($enableWebDAV) {
 	$exData = new stdClass();
 	$exData->pdo = $pdo;
 	$exData->storageDir = $davStorageDir;
 	$exData->historyDir = $davHistoryDir;
-	$exData->rootDirectory = $root_directory;
-	$exData->localStorageDir = $exData->rootDirectory . $exData->storageDir;
-	$exData->localHistoryDir = $exData->rootDirectory . $exData->historyDir;
+	$exData->localStorageDir = ROOT_DIRECTORY . $exData->storageDir;
+	$exData->localHistoryDir = ROOT_DIRECTORY . $exData->historyDir;
 	$directory = new Yeti\WebDAV_Directory('files', $exData);
 	$directory->getRootChild();
 	$nodes[] = $directory;
@@ -57,8 +57,6 @@ $server->debugExceptions = AppConfig::debug('DAV_DEBUG_EXCEPTIONS');
 
 // Plugins
 $server->addPlugin(new Sabre\DAV\Auth\Plugin($authBackend));
-$server->addPlugin(new Sabre\DAVACL\Plugin());
-$server->addPlugin(new Sabre\DAV\Sync\Plugin());
 
 if ($enableBrowser) {
 	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
@@ -68,9 +66,15 @@ if ($enableCardDAV) {//CardDav integration
 }
 if ($enableCalDAV) {//CalDAV integration
 	$server->addPlugin(new Sabre\CalDAV\Plugin());
-	//$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
-	//$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
+	$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
+	$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
+	//$server->addPlugin(new Yeti\CalDAV_Schedule());
 }
+if ($enableWebDAV) {//WebDAV integration
+	$server->addPlugin(new Sabre\DAVACL\Plugin());
+	$server->addPlugin(new Sabre\DAV\Sync\Plugin());
+}
+
 if (AppConfig::debug('DAV_DEBUG_PLUGIN')) {
 	$server->addPlugin(new Yeti\Debug());
 }

@@ -149,10 +149,9 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			case 'CurrentDate':
 				if ($this->get('recordModel')->has('assigned_user_id')) {
 					$userId = $this->get('recordModel')->get('assigned_user_id');
-					$nameList = Vtiger_Functions::getCRMRecordLabels('Users', [$userId]);
-					$diffIds = array_diff([$userId], array_keys($nameList));
-					if ($diffIds) {
-						$recordMeta = Vtiger_Functions::getCRMRecordMetadata($this->get('record'));
+					$nameList = \includes\fields\Owner::getUserLabel($userId);
+					if (empty($nameList)) {
+						$recordMeta = vtlib\Functions::getCRMRecordMetadata($this->get('record'));
 						$userId = Vtiger_Util_Helper::getCreator($recordMeta['smcreatorid']);
 					}
 				}
@@ -178,7 +177,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			case 'ModuleName' : return $this->get('moduleName');
 			case 'RecordId' : return $this->get('record');
 			case 'HelpdeskSupportName' : return AppConfig::main('HELPDESK_SUPPORT_NAME');
-			case 'HelpdeskSupportEmail' : return AppConfig::main('HELPDESK_SUPPORT_EMAIL_ID');
+			case 'HelpdeskSupportEmail' : return AppConfig::main('HELPDESK_SUPPORT_EMAIL_REPLY');
 			case 'RecordLabel' : return $this->get('recordModel')->getName();
 		}
 		return $key;
@@ -193,6 +192,8 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		$vtEntityDelta = new VTEntityDelta();
 		$delta = $vtEntityDelta->getEntityDelta($this->get('moduleName'), $this->get('record'));
 		unset($delta['modifiedtime']);
+		unset($delta['record_id']);
+		unset($delta['record_module']);
 		if (empty($delta)) {
 			return '';
 		}
@@ -208,8 +209,6 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 				}
 				return $value;
 			case 'listOfAllValues':
-				unset($delta['record_id']);
-				unset($delta['record_module']);
 				foreach ($delta as $fieldName => $delta) {
 					$fieldModel = $this->get('recordModel')->getModule()->getField($fieldName);
 					if ($fieldModel) {

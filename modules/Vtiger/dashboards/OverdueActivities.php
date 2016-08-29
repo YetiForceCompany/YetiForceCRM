@@ -35,24 +35,30 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
+		$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('overdue', $pagingModel, $owner);
+		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('overdue', $pagingModel, $owner, false, $overdueActivityLabels);
 
+		$colorList = [];
+		foreach($overDueActivities as $activityModel){
+			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+		}
 		$viewer = $this->getViewer($request);
 
+		$viewer->assign('SOURCE_MODULE', 'Calendar');
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $overDueActivities);
-		$viewer->assign('PAGING', $pagingModel);
+		$viewer->assign('COLOR_LIST', $colorList);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$title_max_length = vglobal('title_max_length');
-		$href_max_length = vglobal('href_max_length');
-		$viewer->assign('NAMELENGHT', $title_max_length);
-		$viewer->assign('HREFNAMELENGHT', $href_max_length);
+		$viewer->assign('NAMELENGHT', AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGHT', AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('USER_CONDITIONS', ['vtiger_activity.status', "'$overdueActivityLabels'", 'in', QueryGenerator::$AND]);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

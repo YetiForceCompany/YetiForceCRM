@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@.ttcasolucoes.com.br
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Picklist' => 'Lista de Opções',
 	'Calendar' => 'Tarefa',
@@ -39,7 +39,7 @@ $languageStrings = [
 	'LBL_SELECT_PICKLIST_IN' => 'Selecionar Lista Opções em',
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Para Apagar múltiplos itens aperte a tecla Ctrl enquanto seleciona os itens',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Valores atribuídos a uma função',
-    'NO_PICKLIST_FIELDS'=> 'não existe nenhum campo Lista de Opções',
+	'NO_PICKLIST_FIELDS' => 'não existe nenhum campo Lista de Opções',
 	'LBL_NEW_VALUE' => 'Novo valor',
 ];
 
@@ -52,9 +52,9 @@ $jsLanguageStrings = [
 	'JS_MORE_THAN_ONE_ITEM_SELECTED' => 'Mais de um Item selecionado',
 	'JS_NO_ITEM_SELECTED' => 'Nenhum item Selecionado',
 	'JS_NOT_ALLOWED' => 'não são permitidos',
-    'JS_PLEASE_SELECT_MODULE' => 'Por favor, selecione um módulo',
+	'JS_PLEASE_SELECT_MODULE' => 'Por favor, selecione um módulo',
 	'JS_SEQUENCE_UPDATED_SUCCESSFULLY' => 'Sequência atualizada com Sucesso',
 	'JS_SPECIAL_CHARACTERS' => 'Caracteres Especiais como',
 	'JS_VALUE_ASSIGNED_SUCCESSFULLY' => 'Valor atribuído com Sucesso',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_VALUES' => 'Você não pode apagar todos os valores',
-];	
+];

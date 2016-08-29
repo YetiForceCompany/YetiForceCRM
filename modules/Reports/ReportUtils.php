@@ -55,7 +55,7 @@ function getFieldByReportLabel($module, $label)
 function isReferenceUIType($uitype)
 {
 	static $options = array('101', '116', '117', '26', '357',
-		'50', '51', '52', '53', '57', '58', '59', '66','67', '68',
+		'50', '51', '52', '53', '57', '58', '59', '66', '67', '68',
 		'73', '75', '76', '77', '80', '81'
 	);
 
@@ -67,7 +67,7 @@ function isReferenceUIType($uitype)
 
 function IsDateField($reportColDetails)
 {
-	if($reportColDetails == 'none'){
+	if ($reportColDetails == 'none') {
 		return false;
 	}
 
@@ -142,7 +142,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			}
 			$date = new DateTimeField($value . ' ' . $endTime);
 			$fieldvalue = $date->getDisplayDate();
-		} else if (!($field->getUIType() == '5')) {
+		} else if (!($field->getUIType() == '5' || $field->getUiType() == '23')) {
 			$date = new DateTimeField($fieldvalue);
 			$fieldvalue = $date->getDisplayDateTimeValue();
 		}
@@ -191,8 +191,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			implode(', ', $translatedValueList);
 		}
 	} elseif ($fieldType == 'double') {
-		if ($current_user->truncate_trailing_zeros == true)
-			$fieldvalue = decimalFormat($fieldvalue);
+		$fieldvalue = CurrencyField::convertToUserFormat($fieldvalue, null, true);
 	} elseif ($fieldType == 'boolean') {
 		if (strtolower($value) === 'yes' || strtolower($value) === 'on' || $value == 1) {
 			$fieldvalue = vtranslate('LBL_YES');
@@ -249,7 +248,6 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	if (!($fieldInfo['uitype'] == '19' && ($module == 'Documents' || $module == 'Emails'))) {
 		$fieldvalue = htmlentities($fieldvalue, ENT_QUOTES, $default_charset);
 	}
-
 	if ($fieldvalue !== '-' && $fieldvalue !== null && $fieldvalue !== '') {
 		switch ($fieldType) {
 			case 'double':

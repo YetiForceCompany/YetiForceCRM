@@ -16,6 +16,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 	relatedTabsContainer: false,
 	detailViewContainer: false,
 	relatedContentContainer: false,
+	listSearchInstance: false,
 	setSelectedTabElement: function (tabElement) {
 		this.selectedRelatedTabElement = tabElement;
 	},
@@ -24,6 +25,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 	},
 	getParentId: function () {
 		return this.parentRecordId;
+	},
+	getRelatedContainer: function () {
+		return this.relatedContentContainer;
 	},
 	loadRelatedList: function (params) {
 		var aDeferred = jQuery.Deferred();
@@ -59,14 +63,16 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 						thisInstance.selectedRelatedTabElement.addClass('active');
 						thisInstance.relatedContentContainer.html(responseData);
 						responseData = thisInstance.relatedContentContainer.html();
-						//thisInstance.triggerDisplayTypeEvent();
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
 						jQuery('.pageNumbers', thisInstance.relatedContentContainer).tooltip();
-						jQuery('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {response: responseData, params: completeParams});	
+						jQuery('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {response: responseData, params: completeParams});
 						app.showBtnSwitch(jQuery('body').find('.switchBtn'));
+						thisInstance.registerUnreviewedCountEvent();
+						if (thisInstance.listSearchInstance) {
+							thisInstance.listSearchInstance.registerBasicEvents();
+						}
 					}
 					aDeferred.resolve(responseData);
-
 				},
 				function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
@@ -189,16 +195,41 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		return jQuery("#sortOrder").val();
 	},
 	getCompleteParams: function () {
-		var params = {};
-		params['view'] = "Detail";
-		params['module'] = this.parentModuleName;
-		params['record'] = this.getParentId(),
-				params['relatedModule'] = this.relatedModulename,
-				params['sortorder'] = this.getSortOrder(),
-				params['orderby'] = this.getOrderBy(),
-				params['page'] = this.getCurrentPageNum();
-		params['mode'] = "showRelatedList"
+		var params = {
+			view: 'Detail',
+			module: this.parentModuleName,
+			record: this.getParentId(),
+			relatedModule: this.relatedModulename,
+			sortorder: this.getSortOrder(),
+			orderby: this.getOrderBy(),
+			page: this.getCurrentPageNum(),
+			mode: 'showRelatedList'
+		};
+		if ($('.pagination').length) {
+			params['totalCount'] = $('.pagination').data('totalCount');
+		}
+		if (this.relatedModulename == 'Calendar') {
+			if (this.relatedContentContainer.find('.switchBtn').is(':checked'))
+				params['time'] = 'current';
+			else
+				params['time'] = 'history';
+		}
 
+		if (this.listSearchInstance) {
+			var searchValue = this.listSearchInstance.getAlphabetSearchValue();
+			params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
+		}
+		if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
+			params['search_value'] = searchValue;
+			params['operator'] = 's';
+		}
+		if (this.relatedModulename == 'Calendar') {
+			var switchBtn = this.getRelatedContainer().find('.switchBtn');
+			if (switchBtn.length) {
+				params.time = switchBtn.prop('checked') ? 'current' : 'history';
+			}
+		}
 		return params;
 	},
 	/**
@@ -288,9 +319,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		 * Added a condition, because there's a switch button with
 		 * the option used in the list in the related calendar module
 		 */
-		if(this.relatedModulename == 'Calendar'){
+		if (this.relatedModulename == 'Calendar') {
 			var time = jQuery('.switchBtn').is(':checked')
-			if(time)
+			if (time)
 				selectPage['time'] = 'current';
 			else
 				selectPage['time'] = 'history';
@@ -304,7 +335,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 					aDeferred.reject(textStatus, errorThrown);
 				}
 		);
-		
+
 		return aDeferred.promise();
 	},
 	/**
@@ -343,9 +374,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 					var jumptoPageParams = {
 						'page': jumpToPage
 					}
-					if(this.relatedModulename == 'Calendar'){
+					if (this.relatedModulename == 'Calendar') {
 						var time = jQuery('.switchBtn').is(':checked')
-						if(time)
+						if (time)
 							jumptoPageParams['time'] = 'current';
 						else
 							jumptoPageParams['time'] = 'history';
@@ -537,8 +568,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 								});
 							});
 						});
-					}
-					else {
+					} else {
 						progressIndicatorInstance.hide();
 						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION', "Calendar"));
 					}
@@ -560,8 +590,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 						if (data['error']) {
 							var param = {text: app.vtranslate('JS_PERMISSION_DENIED')};
 							Vtiger_Helper_Js.showPnotify(param);
-						}
-						else if (data['result'].valid && data['result'].markedascompleted) {
+						} else if (data['result'].valid && data['result'].markedascompleted) {
 							//Update related listview and pagination
 							Vtiger_Detail_Js.reloadRelatedList();
 							if (data['result'].activitytype == 'Task')
@@ -569,8 +598,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 							else
 								var param = {text: app.vtranslate('JS_EVENT_MARKED_AS_HELD')};
 							Vtiger_Helper_Js.showMessage(param);
-						}
-						else {
+						} else {
 							var param = {text: app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD')};
 							Vtiger_Helper_Js.showPnotify(param);
 						}
@@ -594,7 +622,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		if (relcrmId) {
 			AppConnector.request(params).then(
 					function (data) {
-						if(data.result)
+						if (data.result)
 							aDeferred.resolve(true);
 					},
 					function (error, err) {
@@ -605,14 +633,46 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		}
 		return aDeferred.promise();
 	},
+	registerUnreviewedCountEvent: function () {
+		var thisInstance = this;
+		var ids = [];
+		var listViewRelatedContentDiv = this.relatedContentContainer;
+		var isUnreviewedActive = listViewRelatedContentDiv.find('.unreviewed').length;
+		listViewRelatedContentDiv.find('tr.listViewEntries').each(function () {
+			var id = jQuery(this).data('id');
+			if (id) {
+				ids.push(id);
+			}
+		});
+		if (!ids || isUnreviewedActive < 1) {
+			return;
+		}
+		var actionParams = {
+			action: 'ChangesReviewedOn',
+			mode: 'getUnreviewed',
+			module: 'ModTracker',
+			sourceModule: this.relatedModulename,
+			recordsId: ids
+		};
+		AppConnector.request(actionParams).then(function (appData) {
+			var data = appData.result;
+			for (var i in data) {
+				if (data[i] > 0) {
+					listViewRelatedContentDiv.find('tr[data-id="' + i + '"] .unreviewed .badge').text(data[i]);
+				}
+			}
+		});
+	},
 	init: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
 		this.selectedRelatedTabElement = selectedRelatedTabElement,
-		this.parentRecordId = parentId;
+				this.parentRecordId = parentId;
 		this.parentModuleName = parentModule;
 		this.relatedModulename = relatedModuleName;
 		this.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
 		this.detailViewContainer = this.relatedTabsContainer.closest('div.detailViewContainer');
 		this.relatedContentContainer = jQuery('div.contents', this.detailViewContainer);
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
+		app.showPopoverElementView(this.relatedContentContainer.find('.popoverTooltip'));
+		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.relatedContentContainer);
 	}
 })

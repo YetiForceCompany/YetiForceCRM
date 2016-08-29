@@ -319,5 +319,3 @@ abstract class EntityMeta
 
 	abstract public function isModuleEntity();
 }
-
-?>

@@ -3,13 +3,11 @@
 $languageStrings = [
 	'SQuoteEnquiries' => 'Zapytania ofertowe',
 	'SINGLE_SQuoteEnquiries' => 'Zapytanie ofertowe',
-	
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informacje podstawowe',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
 	'LBL_DESCRIPTION_INFORMATION' => 'Informacje Opisowe',
 	'LBL_STATISTICS' => 'Statystyka',
-	
 	//FIELDS
 	'LBL_SUBJECT' => 'Temat',
 	'LBL_NUMBER' => 'Numer',
@@ -17,13 +15,11 @@ $languageStrings = [
 	'LBL_STATUS' => 'Status',
 	'LBL_RESPONSE_TIME' => 'Czas reakcji',
 	'SINGLE_SSalesProcesses' => 'Szansa sprzedaży',
-
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Wersja robocza',
 	'PLL_IN_REALIZATION' => ' W realizacji',
 	'PLL_FOR_VERIFICATION' => 'Do weryfikacji',
 	'PLL_CANCELLED' => 'Anulowane',
 	'PLL_COMPLETED' => 'Wykonane',
-
 	'LBL_CHANGE_STATUS' => 'Zmień status',
 ];

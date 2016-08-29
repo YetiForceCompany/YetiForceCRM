@@ -28,11 +28,11 @@ class WorkFlowScheduler
 
 	public function getWorkflowQuery($workflow)
 	{
-		$conditions = Zend_Json :: decode(decode_html($workflow->test));
+		$conditions = \includes\utils\Json::decode(decode_html($workflow->test));
 
 		$moduleName = $workflow->moduleName;
 		$queryGenerator = new QueryGenerator($moduleName, $this->user);
-		$queryGenerator->setFields(array('id'));
+		$queryGenerator->setFields(['id']);
 		$this->addWorkflowConditionsToQueryGenerator($queryGenerator, $conditions);
 
 		if ($moduleName == 'Calendar' || $moduleName == 'Events') {
@@ -55,21 +55,20 @@ class WorkFlowScheduler
 
 	public function getEligibleWorkflowRecords($workflow)
 	{
-		$adb = $this->db;
+		$db = $this->db;
 		$query = $this->getWorkflowQuery($workflow);
-		$result = $adb->query($query);
-		$noOfRecords = $adb->num_rows($result);
-		$recordsList = array();
-		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$recordsList[] = $adb->query_result($result, $i, 0);
+		$result = $db->query($query);
+
+		$recordsList = [];
+		while (($crmid = $db->getSingleValue($result)) !== false) {
+			$recordsList[] = $crmid;
 		}
-		$result = null;
 		return $recordsList;
 	}
 
 	public function queueScheduledWorkflowTasks()
 	{
-		$default_timezone = vglobal('default_timezone');
+		$default_timezone = AppConfig::main('default_timezone');
 		$adb = $this->db;
 
 		$vtWorflowManager = new VTWorkflowManager($adb);
@@ -101,6 +100,7 @@ class WorkFlowScheduler
 					} else {
 						$moduleName = $workflow->moduleName;
 					}
+
 					$wsEntityId = vtws_getWebserviceEntityId($moduleName, $recordId);
 					$entityData = $entityCache->forId($wsEntityId);
 					$data = $entityData->getData();

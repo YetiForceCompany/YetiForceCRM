@@ -62,8 +62,13 @@ function wsapp_getRecordEntityNameIds($entityNames,$modules,$user){
         else
             $nameFields = $nameFieldsArray[0];
 
-        $query = "SELECT ".$meta->getObectIndexColumn()." as id,$nameFields as entityname FROM ".$meta->getEntityBaseTable()." as moduleentity INNER JOIN vtiger_crmentity as crmentity WHERE $nameFields IN(".generateQuestionMarks($entityNames).") AND crmentity.deleted=0 AND crmentity.crmid = moduleentity.".$meta->getObectIndexColumn()."";
-        $result = $db->pquery($query,$entityNames);
+        $query = sprintf("SELECT %s as id,%s as entityname 
+				FROM %s as moduleentity 
+				INNER JOIN vtiger_crmentity as crmentity 
+				WHERE %s IN(%s) AND crmentity.deleted=0 
+				AND crmentity.crmid = moduleentity.%s", 
+				$meta->getObectIndexColumn(), $nameFields, $meta->getEntityBaseTable(), $nameFields, generateQuestionMarks($entityNames), $meta->getObectIndexColumn());
+		$result = $db->pquery($query,$entityNames);
         $num_rows = $db->num_rows($result);
         for($i=0;$i<$num_rows;$i++){
             $id = $db->query_result($result, $i,'id');
@@ -92,16 +97,16 @@ function wsapp_convertDateTimeToTimeZone($dateTime,$toTimeZone){
 }
 
 function wsapp_checkIfRecordsAssignToUser($recordsIds,$userIds){
-    $assignedRecordIds = array();
+    $assignedRecordIds = [];
     if(!is_array($recordsIds))
-        $recordsIds = array($recordsIds);
+        $recordsIds = [$recordsIds];
     if(count($recordsIds)<=0)
         return $assignedRecordIds;
     if(!is_array($userIds))
-        $userIds = array($userIds);
+        $userIds = [$userIds];
     $db = PearDatabase::getInstance();
-    $query = "SELECT * FROM vtiger_crmentity where crmid IN (".generateQuestionMarks($recordsIds).") and smownerid in (".generateQuestionMarks($userIds).")";
-    $params = array();
+    $query = sprintf("SELECT * FROM vtiger_crmentity where crmid IN (%s) and smownerid in (%s)", generateQuestionMarks($recordsIds), generateQuestionMarks($userIds));
+    $params = [];
     foreach($recordsIds as $id){
         $params[] = $id;
     }

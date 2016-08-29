@@ -6,10 +6,10 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMailScanner_CreatedEmail_ScannerAction extends OSSMailScanner_BaseScannerAction_Model
+class OSSMailScanner_CreatedEmail_ScannerAction
 {
 
-	public function process($mail)
+	public function process(OSSMail_Mail_Model $mail)
 	{
 		$id = 0;
 		$folder = $mail->getFolder();
@@ -56,8 +56,8 @@ class OSSMailScanner_CreatedEmail_ScannerAction extends OSSMailScanner_BaseScann
 			$record->set('mbox', $mail->getFolder());
 			$record->set('type', $type);
 			$record->set('rc_user', $account['user_id']);
-			$record->set('from_id', implode(',', $fromIds));
-			$record->set('to_id', implode(',', $toIds));
+			$record->set('from_id', implode(',', array_unique($fromIds)));
+			$record->set('to_id', implode(',', array_unique($toIds)));
 			if (count($mail->get('attachments')) > 0) {
 				$record->set('attachments_exist', 1);
 			}

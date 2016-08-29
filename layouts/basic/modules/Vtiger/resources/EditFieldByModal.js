@@ -1,5 +1,19 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-jQuery.Class("Vtiger_EditFieldByModal_Js", {}, {
+jQuery.Class("Vtiger_EditFieldByModal_Js", {
+	getInstance: function () {
+		var module = jQuery('#moduleBasic').val();
+		if (typeof module != 'undefined') {
+			var moduleClassName = module + "_EditFieldByModal_Js";
+		}
+		var fallbackClassName = Vtiger_EditFieldByModal_Js;
+		if (typeof window[moduleClassName] != 'undefined') {
+			var instance = new window[moduleClassName]();
+		} else {
+			var instance = new fallbackClassName();
+		}
+		return instance;
+	}
+}, {
 	formElement: false,
 	moduleName: false,
 	registerEditState: function () {
@@ -97,6 +111,9 @@ jQuery.Class("Vtiger_EditFieldByModal_Js", {}, {
 });
 
 jQuery(document).ready(function (e) {
-	var instance = new Vtiger_EditFieldByModal_Js();
-	instance.registerEvents();
+	var init = function () {
+		var instance = Vtiger_EditFieldByModal_Js.getInstance();
+		instance.registerEvents();
+	}
+	window.setTimeout(init, 10)
 })

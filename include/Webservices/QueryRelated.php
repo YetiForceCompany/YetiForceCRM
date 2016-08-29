@@ -60,7 +60,7 @@ function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = n
 	if (!empty($relatedIds)) {
 		$relatedIdClause = "id IN ('" . implode("','", $relatedIds) . "')";
 		if (stripos($query, 'WHERE') == false) {
-			$query .= " WHERE " . $relatedIdClause;
+			$query .= sprintf(" WHERE %s", $relatedIdClause);
 		} else {
 			$queryParts = explode('WHERE', $query);
 			$query = $queryParts[0] . " WHERE " . $relatedIdClause;

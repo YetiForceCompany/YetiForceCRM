@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15 Minuten',
 	'Recommended frequency for SendReminder is 15 mins' => 'Die empfohlene Frequenz für Erinnerungen ist 15 Minuten',
@@ -42,7 +42,11 @@ $languageStrings = [
 	'MailScannerBind' => 'Mail Scanner Bind',
 	'LBL_CURRENCY_UPDATE' => 'Währungs Update',
 	'LBL_MULTI_REFERENCE_VALUE' => 'Multireferenzfelder Update',
-	'LBL_CRMACTIVITY_DAYS' => 'Update calendar activity fields in related modules',
+	'LBL_CRMACTIVITY_DAYS' => 'Kalenderaktivitäten in zugehörigen Modulen aktualisieren',
+	'Activity State' => 'Aktivitätsstatus',
+	'Assets Renewal' => 'Erneuern Bestandsverwaltung',
+	'SoldServices Renewal' => 'Eneuern Dienstleistung',
+	'LBL_SEND_NOTIFICATIONS' => 'Benachrichtigungen senden',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15min',

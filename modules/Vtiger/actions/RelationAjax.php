@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
@@ -30,7 +31,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 		if (!$permission) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -69,7 +70,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 
 		$relatedModule = $request->get('related_module');
 		if (is_numeric($relatedModule)) {
-			$relatedModule = Vtiger_Functions::getModuleName($relatedModule);
+			$relatedModule = vtlib\Functions::getModuleName($relatedModule);
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
 
@@ -154,7 +155,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 					$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
 				}
 			} else {
-				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (!empty($categoryToAdd)) {
@@ -168,7 +169,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 					$relationModel->deleteRelTree($sourceRecordId, $category);
 				}
 			} else {
-				throw new NoPermittedException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 
@@ -184,25 +185,34 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	function getRelatedListPageCount(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->get('relatedModule');
+		$relModules = $relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
 		$totalCount = 0;
-		$relModules = [$relatedModuleName];
-
+		if (!is_array($relatedModuleName)) {
+			$relModules = !empty($relatedModuleName) ? [$relatedModuleName] : [];
+		}
+		$pageCount = 0;
 		if (in_array('ProductsAndServices', $relModules)) {
 			$label = '';
 			$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
 		}
 		if (in_array('Comments', $relModules)) {
 			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
+		} elseif ($relatedModuleName == 'Updates') {
+			$count = (int) current(ModTracker_Record_Model::getUnreviewed($parentId, false, true));
+			$totalCount = $count ? $count : '';
 		} else {
+			$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
 			$pagingModel = new Vtiger_Paging_Model();
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-			foreach ($relModules as $relatedModuleName) {
-				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-				if (!vtlib_isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
+			foreach ($relModules as $relModule) {
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
+				if (!\includes\Modules::isModuleActive($relModule) || !$relationListView->getRelationModel()) {
 					continue;
+				}
+				if ($relatedModuleName == 'ProductsAndServices' && in_array($relModule, $categoryCount)) {
+					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
 				}
 				$totalCount += (int) $relationListView->getRelatedEntriesCount();
 				$pageLimit = $pagingModel->getPageLimit();

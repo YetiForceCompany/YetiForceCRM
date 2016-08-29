@@ -43,9 +43,8 @@ class DateTimeField
 		if (count($value) == 2) {
 			$value[0] = self::convertToUserFormat($value[0]);
 		}
-
-		$insert_time = '';
-		if ($value[1] != '') {
+		$insert_date = '';
+		if (!empty($value[1])) {
 			$date = self::convertToDBTimeZone($this->datetime, $user);
 			$insert_date = $date->format('Y-m-d');
 		} else {
@@ -215,11 +214,11 @@ class DateTimeField
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date) . ' | ' . $format);
 		$date = self::convertToInternalFormat($date);
 		$separator = '-';
-		if (strpos($date[0], "-") !== false) {
+		if (strpos($date[0], '-') !== false) {
 			$separator = '-';
-		} elseif (strpos($date[0], ".") !== false) {
+		} elseif (strpos($date[0], '.') !== false) {
 			$separator = '.';
-		} elseif (strpos($date[0], "/") !== false) {
+		} elseif (strpos($date[0], '/') !== false) {
 			$separator = '/';
 		}
 		list($y, $m, $d) = explode($separator, $date[0]);
@@ -245,7 +244,7 @@ class DateTimeField
 				break;
 		}
 
-		if ($date[1] != '') {
+		if (isset($date[1]) && $date[1] != '') {
 			$userDate = $date[0] . ' ' . $date[1];
 		} else {
 			$userDate = $date[0];
@@ -361,17 +360,13 @@ class DateTimeField
 	 */
 	function getDisplayDate($user = null)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
-
 		$date_value = explode(' ', $this->datetime);
-		if ($date_value[1] != '') {
+		if (isset($date_value[1]) && $date_value[1] != '') {
 			$date = self::convertToUserTimeZone($this->datetime, $user);
 			$date_value = $date->format('Y-m-d');
 		}
 
 		$display_date = self::convertToUserFormat($date_value, $user);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $display_date;
 	}
 
@@ -419,7 +414,8 @@ class DateTimeField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		return str_replace(array('yyyy', 'mm', 'dd'), array('Y', 'm', 'd'), $user->date_format);
+		$dateFormat = empty($user->date_format) ? 'Y-m-d' : $user->date_format;
+		return str_replace(array('yyyy', 'mm', 'dd'), array('Y', 'm', 'd'), $dateFormat);
 	}
 
 	private static function sanitizeDate($value, $user)

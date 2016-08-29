@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	// Basic Strings
 	'Assets' => 'Bestandsverwaltung',
@@ -25,20 +25,20 @@ $languageStrings = [
 	'Asset Name' => 'Bestandsname',
 	'Customer Name' => 'Organisation',
 	'Notes' => 'Beschreibung',
-	'FL_RENEWAL' => 'Renewal',
-	'LBL_SET_RENEWAL' => 'Set renewal',
-	'FL_RENEWAL_INVOICE' => 'Renewal invoice',
-	/*picklist values*/
+	'FL_RENEWAL' => 'Verlängerung',
+	'LBL_SET_RENEWAL' => 'Verlängerung setzen',
+	'FL_RENEWAL_INVOICE' => 'Folgerechnung',
+	/* picklist values */
 	'PLL_DRAFT' => 'Entwurf',
-	'PLL_ACCEPTED' => 'Accepted',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_PLANNED' => 'Planned',
-	'PLL_WAITING_FOR_RENEWAL' => 'Waiting for renewal',
-	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
-	'PLL_WAITING_FOR_ACCEPTANCE' => 'Waiting for acceptance',
-	'PLL_RENEWED' => 'Renewed',
-	'PLL_NOT_RENEWED' => 'Not renewed',
-	'PLL_NOT_APPLICABLE' => 'Not applicable',
+	'PLL_ACCEPTED' => 'bestätigt',
+	'PLL_CANCELLED' => 'abgebrochen',
+	'PLL_PLANNED' => 'geplant',
+	'PLL_WAITING_FOR_RENEWAL' => 'auf Verlängerung warten',
+	'PLL_WAITING_FOR_VERIFICATION' => 'auf Überprüfung warten',
+	'PLL_WAITING_FOR_ACCEPTANCE' => 'auf Bestätigung warten',
+	'PLL_RENEWED' => 'verlängert',
+	'PLL_NOT_RENEWED' => 'nicht verlängert',
+	'PLL_NOT_APPLICABLE' => 'nicht anwendbar',
 	//YetiForce
 	'description' => 'Beschreibung',
 	'attentions' => 'Anforderungen',

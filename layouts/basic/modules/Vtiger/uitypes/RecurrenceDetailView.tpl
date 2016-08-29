@@ -9,6 +9,7 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 <div id="addEventRepeatUI">
 	<div><span>{$RECURRING_INFORMATION['recurringcheck']}</span></div>
 	{if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}
@@ -21,3 +22,4 @@
 	<div>{vtranslate('LBL_UNTIL', $MODULE)}&nbsp;&nbsp;{$RECURRING_INFORMATION['recurringenddate']}</div>
 	{/if}
 </div>
+{/strip}

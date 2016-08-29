@@ -14,7 +14,11 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $this->Data['relatedmodule'] . '&page=1&limit=' . $this->Data['limit'] . '&col=' . $this->Data['columns'] . '&r=' . $this->Data['no_result_text'];
+		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $this->Data['relatedmodule'] . '&page=1&limit=' . $this->Data['limit'] . '&col=' . $this->Data['columns'];
+		if(isset($this->Data['no_result_text'])){
+			$url .= '&r=' . $this->Data['no_result_text'];
+		}
+		return $url;
 	}
 
 	public function getWidget()
@@ -30,7 +34,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 				$this->Config['action'] = ($createPermission == true) ? 1 : 0;
 				$this->Config['actionURL'] = $model->getQuickCreateUrl();
 			}
-			if ($this->Data['showAll']) {
+			if (isset($this->Data['showAll'])) {
 				$this->Config['url'] .= '&showAll=' . $this->Data['showAll'];
 			}
 			if (isset($this->Data['switchHeader']) && $this->Data['switchHeader'] != '-') {
@@ -44,8 +48,8 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 								$whereConditionOff[$name] = ['comparison' => 'IN', 'value' => $value];
 							}
 							$this->getCheckboxLables($model, 'switchHeader', 'LBL_SWITCHHEADER_');
-							$this->Config['switchHeader']['on'] = Zend_Json::encode($whereCondition);
-							$this->Config['switchHeader']['off'] = Zend_Json::encode($whereConditionOff);
+							$this->Config['switchHeader']['on'] = \includes\utils\Json::encode($whereCondition);
+							$this->Config['switchHeader']['off'] = \includes\utils\Json::encode($whereConditionOff);
 							$whereCondition = [$whereCondition];
 							break;
 						default:
@@ -55,12 +59,12 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			}
 			if (isset($this->Data['checkbox']) && $this->Data['checkbox'] != '-') {
 				$whereCondition[][$this->Data['checkbox']] = 1;
-				$this->Config['checkbox']['on'] = Zend_Json::encode([$this->Data['checkbox'] => 1]);
-				$this->Config['checkbox']['off'] = Zend_Json::encode([$this->Data['checkbox'] => 0]);
+				$this->Config['checkbox']['on'] = \includes\utils\Json::encode([$this->Data['checkbox'] => 1]);
+				$this->Config['checkbox']['off'] = \includes\utils\Json::encode([$this->Data['checkbox'] => 0]);
 				$this->getCheckboxLables($model, 'checkbox', 'LBL_SWITCH_');
 			}
 			if (!empty($whereCondition)) {
-				$this->Config['url'] .= '&whereCondition=' . Zend_Json::encode($whereCondition);
+				$this->Config['url'] .= '&whereCondition=' . \includes\utils\Json::encode($whereCondition);
 			}
 			$widget = $this->Config;
 		}

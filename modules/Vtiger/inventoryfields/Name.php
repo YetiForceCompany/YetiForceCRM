@@ -24,7 +24,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	public function getDisplayValue($value)
 	{
 		if ($value != 0)
-			return Vtiger_Functions::getCRMRecordLabel($value);
+			return vtlib\Functions::getCRMRecordLabel($value);
 		return '';
 	}
 
@@ -42,6 +42,6 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 
 	public function getConfig()
 	{
-		return Zend_Json::decode($this->get('params'));
+		return \includes\utils\Json::decode($this->get('params'));
 	}
 }

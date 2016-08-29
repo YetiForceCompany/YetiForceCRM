@@ -42,10 +42,10 @@ class LoggerManager {
 
 	static function getInstance($name = 'ROOT')
 	{
-		if (self::$loggerCache) {
-			return self::$loggerCache;
+		if (!self::$loggerCache) {
+			self::$loggerCache = self::getLogger($name);
 		}
-		return self::getLogger($name);
+		return self::$loggerCache;
 	}
     /**
      * check if a given logger exists.

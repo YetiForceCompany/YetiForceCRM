@@ -18,7 +18,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -45,14 +45,16 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 		foreach ($recordIds as $recordId) {
 			if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
-				$recordModel->delete();
+				if($recordModel->isDeletable()){
+					$recordModel->delete();
+				}
 			} else {
 				$permission = 'No';
 			}
 		}
 
 		if ($permission === 'No') {
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 
 		$cvId = $request->get('viewname');

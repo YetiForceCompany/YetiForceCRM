@@ -85,9 +85,8 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	public function save()
 	{
 		$db = PearDatabase::getInstance();
-
 		$sql = 'UPDATE vtiger_def_org_share SET permission = ? WHERE tabid = ?';
-		$params = array($this->get('permission'), $this->getId());
+		$params = [$this->get('permission'), $this->getId()];
 		$db->pquery($sql, $params);
 	}
 
@@ -99,16 +98,15 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$instance = false;
-
 		$query = false;
-		if (Vtiger_Utils::isNumber($value)) {
+		if (vtlib\Utils::isNumber($value)) {
 			$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE vtiger_tab.tabid=?';
 		} else {
 			$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE name=?';
 		}
-		$result = $db->pquery($query, array($value));
+		$result = $db->pquery($query, [$value]);
 		if ($db->num_rows($result)) {
-			$row = $db->query_result_rowdata($result, 0);
+			$row = $db->getRow($result);
 			$instance = new Settings_SharingAccess_Module_Model();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);
@@ -121,24 +119,19 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 * Static Function to get the instance of Vtiger Module Model for all the modules
 	 * @return <Array> - List of Vtiger Module Model or sub class instances
 	 */
-	public static function getAll($editable = false)
+	public static function getAll($editable = false, $restrictedModulesList = [], $isEntityType = false)
 	{
 		$db = PearDatabase::getInstance();
-
-		$moduleModels = array();
-
+		$moduleModels = [];
 		$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE vtiger_tab.presence IN (0,2)';
-		$params = array();
+		$params = [];
 		if ($editable) {
 			$query .= ' AND editstatus = ?';
 			array_push($params, self::EDITABLE);
 		}
 		$query .= ' ORDER BY vtiger_def_org_share.tabid ASC';
-
 		$result = $db->pquery($query, $params);
-		$noOfModules = $db->num_rows($result);
-		for ($i = 0; $i < $noOfModules; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $db->getRow($result)) {
 			$instance = new Settings_SharingAccess_Module_Model();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);
@@ -154,8 +147,8 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getDependentModules()
 	{
-		$dependentModulesList = array();
-		$dependentModulesList['Accounts'] = array('HelpDesk');
+		$dependentModulesList = [];
+		$dependentModulesList['Accounts'] = ['HelpDesk'];
 
 		return $dependentModulesList;
 	}

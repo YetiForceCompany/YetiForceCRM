@@ -37,8 +37,7 @@ $languageStrings = [
 	'LBL_FIRST' => 'Primeiro',
 	'LBL_HOLD_FOLLOWUP_ON' => 'Realizar Followup em',
 	'LBL_HOURS' => 'Horas',
-	'LBL_INVITE_USER_BLOCK' => 'Convite',
-	'LBL_INVITE_USERS' => 'Convidar Usuários',
+	'LBL_INVITE_RECORDS' => 'Convidar Usuários',
 	'LBL_LAST' => 'Último',
 	'LBL_MONTHS_TYPE' => 'Mês(es)',
 	'LBL_ON' => 'em',
@@ -98,13 +97,14 @@ $languageStrings = [
 	'Status' => 'Estado',
 	'End Date' => 'Data Final',
 	'LBL_FOLLOWUP' => 'Related event',
-	
 	'PLL_PLANNED' => 'Planned',
 	'PLL_IN_REALIZATION' => 'To be realized',
 	'PLL_OVERDUE' => 'Overdue',
 	'PLL_POSTPONED' => 'Postponed',
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_COMPLETED' => 'Completed',
-
+	'LBL_REMAIND_HOURS' => 'Remind after selected numer of hours',
+	'LBL_REMAIND_MINS' => 'Remind after selected numer of minutes',
+	'LBL_SELECT_INVITE' => 'Invite others',
 ];
 

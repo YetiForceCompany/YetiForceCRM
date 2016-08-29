@@ -46,7 +46,7 @@ function vtws_getUsersInTheSameGroup($id)
 		$usersInGroup = $groupUsers->group_users;
 		foreach ($usersInGroup as $user) {
 			if ($user != $id) {
-				$allUsers[$user] = getUserFullName($user);
+				$allUsers[$user] = \includes\fields\Owner::getUserLabel($user);
 			}
 		}
 	}
@@ -498,9 +498,8 @@ function vtws_getModuleHandlerFromId($id, $user)
 
 function vtws_CreateCompanyLogoFile($fieldname)
 {
-	$root_directory = vglobal('root_directory');
-	$uploaddir = $root_directory . "/storage/Logo/";
-	$allowedFileTypes = array("jpeg", "png", "jpg", "pjpeg", "x-png");
+	$uploaddir = ROOT_DIRECTORY . '/storage/Logo/';
+	$allowedFileTypes = array('jpeg', 'png', 'jpg', 'pjpeg', 'x-png');
 	$binFile = $_FILES[$fieldname]['name'];
 	$fileType = $_FILES[$fieldname]['type'];
 	$fileSize = $_FILES[$fieldname]['size'];
@@ -509,10 +508,11 @@ function vtws_CreateCompanyLogoFile($fieldname)
 	if ($fileTypeValue == '') {
 		$fileTypeValue = substr($binFile, strrpos($binFile, '.') + 1);
 	}
-	if ($fileSize != 0) {
+	$fileInstance = \includes\fields\File::loadFromRequest($_FILES[$fieldname]);
+	if ($fileInstance->validate()) {
 		if (in_array($fileTypeValue, $allowedFileTypes)) {
-			move_uploaded_file($_FILES[$fieldname]["tmp_name"], $uploaddir . $_FILES[$fieldname]["name"]);
-			copy($uploaddir . $_FILES[$fieldname]["name"], $uploaddir . 'application.ico');
+			$fileInstance->moveFile($uploaddir . $_FILES[$fieldname]['name']);
+			copy($uploaddir . $_FILES[$fieldname]['name'], $uploaddir . 'application.ico');
 			return $binFile;
 		}
 		throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN, "$fieldname wrong file type given for upload");
@@ -769,7 +769,7 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
 
 function vtws_transferComments($sourceRecordId, $destinationRecordId)
 {
-	if (vtlib_isModuleActive('ModComments')) {
+	if (\includes\Modules::isModuleActive('ModComments')) {
 		CRMEntity::getInstance('ModComments');
 		ModComments::transferRecords($sourceRecordId, $destinationRecordId);
 	}
@@ -823,7 +823,7 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	$sql = "update vtiger_import_maps set assigned_user_id=? where assigned_user_id=?";
 	$db->pquery($sql, array($newOwnerId, $ownerId));
 
-	if (Vtiger_Utils::CheckTable('vtiger_customerportal_prefs')) {
+	if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
 		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
 		$params = array($newOwnerId, 'defaultassignee', $ownerId);
 		$db->pquery($query, $params);
@@ -929,8 +929,8 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 	$nameSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerName . '"';
 	$idSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerId . '"';
 	$fieldSearchValue = 's:16:"assigned_user_id"';
-	$query = "SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE '%" . $nameSearchValue . "%' OR task LIKE '%" . $idSearchValue .
-		"%' OR task LIKE '%" . $fieldSearchValue . "%'";
+	$query = sprintf("SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE '%s' 
+			OR task LIKE '%s' OR task LIKE '%s'", "%$nameSearchValue%", "%$idSearchValue%", "%$fieldSearchValue%");
 	$result = $db->pquery($query, []);
 
 	$num_rows = $db->num_rows($result);
@@ -943,8 +943,8 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 		require_once("modules/com_vtiger_workflow/VTTaskManager.inc");
 		require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.inc';
 		$unserializeTask = unserialize($task);
-		if (array_key_exists("field_value_mapping", $unserializeTask)) {
-			$fieldMapping = Zend_Json::decode($unserializeTask->field_value_mapping);
+		if (array_key_exists('field_value_mapping', $unserializeTask)) {
+			$fieldMapping = \includes\utils\Json::decode($unserializeTask->field_value_mapping);
 			if (!empty($fieldMapping)) {
 				foreach ($fieldMapping as $key => $condition) {
 					if ($condition['fieldname'] == 'assigned_user_id') {
@@ -957,7 +957,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 					}
 					$fieldMapping[$key] = $condition;
 				}
-				$updatedTask = Zend_Json::encode($fieldMapping);
+				$updatedTask = \includes\utils\Json::encode($fieldMapping);
 				$unserializeTask->field_value_mapping = $updatedTask;
 				$serializeTask = serialize($unserializeTask);
 

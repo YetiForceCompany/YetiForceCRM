@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_MiniList_Model extends Vtiger_Widget_Model
@@ -26,7 +27,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
-			$this->extraData = Zend_Json::decode(decode_html($this->extraData));
+			$this->extraData = \includes\utils\Json::decode(decode_html($this->extraData));
 		}
 		if ($this->extraData == NULL) {
 			throw new Exception("Invalid data");
@@ -95,7 +96,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if (!$this->listviewHeaders) {
 			$headerFieldModels = [];
 			foreach ($this->listviewController->getListViewHeaderFields() as $fieldName => $webserviceField) {
-				$fieldObj = Vtiger_Field::getInstance($webserviceField->getFieldId());
+				$fieldObj = vtlib\Field::getInstance($webserviceField->getFieldId());
 				$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstanceFromFieldObject($fieldObj);
 			}
 			$this->listviewHeaders = $headerFieldModels;
@@ -117,7 +118,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 	public function getRecords($user)
 	{
-
+		$ownerSql = '';
 		$this->initListViewController();
 		if (!$user) {
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();
@@ -134,14 +135,15 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$db = PearDatabase::getInstance();
 
 			$query = $this->queryGenerator->getQuery() . $ownerSql;
-			$query .= ' ORDER BY vtiger_crmentity.modifiedtime DESC ';
-			$query .= ' LIMIT 0,' . $this->getRecordLimit();
-			$query = substr($query, 6);
-			$query = 'SELECT vtiger_crmentity.crmid as id, ' . $query;
-			$result = $db->pquery($query, $params);
-
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
+			if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
+				$query .= sprintf(' ORDER BY %s %s', $targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
+			}
+			$query .= sprintf(' LIMIT 0,%d', $this->getRecordLimit());
+			$query = substr($query, 6);
+			$query = sprintf('SELECT vtiger_crmentity.crmid as id, %s', $query);
+			$result = $db->pquery($query, $params);
 
 			$entries = $this->listviewController->getListViewRecords($targetModuleFocus, $targetModuleName, $result);
 
@@ -155,5 +157,29 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		}
 
 		return $this->listviewRecords;
+	}
+
+	public function getGetTotalCountURL($user = false)
+	{
+		$url = 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
+		if (!$user) {
+			$currenUserModel = Users_Record_Model::getCurrentUserModel();
+			$userName = $currenUserModel->getName();
+		} else if ($user && $user !== 'all') {
+			$userName = \includes\fields\Owner::getUserLabel($user);
+		}
+		return empty($userName) ? $url : $url .= '&search_params=[[["assigned_user_id","c","' . $userName . '"]]]';
+	}
+
+	public function getListViewURL($user = false)
+	{
+		$url = 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');
+		if (!$user) {
+			$currenUserModel = Users_Record_Model::getCurrentUserModel();
+			$userName = $currenUserModel->getName();
+		} else if ($user && $user !== 'all') {
+			$userName = \includes\fields\Owner::getUserLabel($user);
+		}
+		return empty($userName) ? $url : $url .= '&search_params=[[["assigned_user_id","c","' . $userName . '"]]]';
 	}
 }

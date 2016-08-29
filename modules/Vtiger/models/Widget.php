@@ -19,7 +19,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	{
 		$largerSizedWidgets = array('GroupedBySalesPerson', 'GroupedBySalesStage', 'Funnel Amount', 'LeadsByIndustry');
 		$title = $this->getName();
-		$size = Zend_Json::decode(html_entity_decode($this->get('size')));
+		$size = \includes\utils\Json::decode(html_entity_decode($this->get('size')));
 		$width = $size['width'];
 		$this->set('width', $width);
 
@@ -32,7 +32,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	public function getHeight()
 	{
 		//Special case for History widget
-		$size = Zend_Json::decode(html_entity_decode($this->get('size')));
+		$size = \includes\utils\Json::decode(html_entity_decode($this->get('size')));
 		$height = $size['height'];
 		$this->set('height', $height);
 
@@ -46,7 +46,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	{
 		$position = $this->get('position');
 		if ($position) {
-			$position = Zend_Json::decode(decode_html($position));
+			$position = \includes\utils\Json::decode(decode_html($position));
 			return intval($position['col']);
 		}
 		return $default;
@@ -56,7 +56,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	{
 		$position = $this->get('position');
 		if ($position) {
-			$position = Zend_Json::decode(decode_html($position));
+			$position = \includes\utils\Json::decode(decode_html($position));
 			return intval($position['row']);
 		}
 		return $default;
@@ -162,6 +162,11 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$row['title'] = $minilistWidgetModel->getTitle();
+			} else if ($row['linklabel'] == 'ChartFilter') {
+				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
+				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
+				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
+				$row['title'] = $chartFilterWidgetModel->getTitle();
 			}
 			$self->setData($row);
 		}
@@ -225,7 +230,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 
 	/**
 	 * Process the UI Widget requested
-	 * @param Vtiger_Link $widgetLink
+	 * @param vtlib\Link $widgetLink
 	 * @param Current Smarty Context $context
 	 */
 	function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)

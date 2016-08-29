@@ -28,9 +28,6 @@ $languageStrings = [
 	'LBL_ADD_NEW_TAX' => 'Ajouter une nouvelle taxe',
 	'LBL_ADD_OR_DELETE_USERS' => 'Ajouter/Supprimer des Utilisateurs',
 	'LBL_ADD_USER' => 'Ajouter Utilisateur',
-	'LBL_ANNOUNCEMENT' => 'Messages systèmes',
-	'LBL_ANNOUNCEMENT_DESCRIPTION' => 'Gérer les annonces visible par tous les utilisateurs',
-	'LBL_ANNOUNCEMENTS' => 'Annonces',
 	'LBL_AVAILABLE_WORKLIST_LIST' => 'Workflows disponibles',
 	'LBL_CALCULATOR_DISPLAY' => 'Calculateur',
 	'LBL_COMPANY' => 'Information Société',
@@ -194,7 +191,7 @@ $languageStrings = [
 	'LBL_HEIGHT_LOGO' => 'Hauteur Logo',
 	//YetiForce
 	'vatid' => 'ID TVA',
-	'id1'=>'ID 1',
+	'id1' => 'ID 1',
 	'id2' => 'ID 2',
 	'LBL_SECURITY_MANAGEMENT' => 'Sécurité',
 	'LBL_MAIL_TOOLS' => 'Outils Mail',
@@ -217,7 +214,7 @@ $languageStrings = [
 	'LBL_ADDING_ERROR' => 'Erreur lors de l\'ajout d\'un champ',
 	'LBL_ADDED_COMPANY_FIELD' => 'Champ ajouté',
 	'LBL_FIELD_NOT_VALID' => 'Champ doit contenir uniquement des lettres',
-	'LBL_EXTENDED_MODULES'=>'Modules étendus',
+	'LBL_EXTENDED_MODULES' => 'Modules étendus',
 	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logo société visible dans le système',
 	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logo société visible dans la mire de connexion',
 	/* settings menu */
@@ -354,6 +351,10 @@ $languageStrings = [
 	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Afficher le choix de langues sur la page de connexion',
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Afficher le choix de la disposition sur la page de connexion',
 	'LBL_YETIFORCE_SHOP' => 'Boutique YetiForce',
+	'RecordAllocation' => 'Record allocation',
+	'LBL_SELECT_ICON' => 'Select icon',
+	'LBL_ICON_NAME' => 'Icon name',
+	'LBL_ICON_EXAMPLE' => 'Icon example',
 ];
 
 $jsLanguageStrings = [
@@ -381,4 +382,6 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'Type d\'image non supporté',
 	'JS_COLUMN_ADDED' => 'Champ ajouté',
 	'JS_COLUMN_EXIST' => 'Erreur lors de l\'ajout du champ',
+	'JS_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
+	'JS_NOTIFY_COPY_TITLE' => 'Texte',
 ];

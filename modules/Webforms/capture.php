@@ -10,8 +10,6 @@
 // Switch the working directory to base
 chdir(dirname(__FILE__) . '/../..');
 
-include_once 'include/Zend/Json.php';
-include_once 'vtlib/Vtiger/Module.php';
 include_once 'include/utils/VtlibUtils.php';
 include_once 'include/Webservices/Create.php';
 include_once 'modules/Webforms/model/WebformsModel.php';
@@ -30,7 +28,7 @@ class Webform_Capture
 
 		$returnURL = false;
 		try {
-			if (!vtlib_isModuleActive('Webforms'))
+			if (!\includes\Modules::isModuleActive('Webforms'))
 				throw new Exception('webforms is not active');
 
 			$webform = Webforms_Model::retrieveWithPublicId($request->get('publicid'));
@@ -94,9 +92,9 @@ class Webform_Capture
 	{
 		if (empty($url)) {
 			if ($success)
-				$response = Zend_Json::encode(array('success' => true, 'result' => $success));
+				$response = \includes\utils\Json::encode(array('success' => true, 'result' => $success));
 			else
-				$response = Zend_Json::encode(array('success' => false, 'error' => array('message' => $failure)));
+				$response = \includes\utils\Json::encode(array('success' => false, 'error' => array('message' => $failure)));
 
 			// Support JSONP
 			if (!AppRequest::isEmpty('callback')) {

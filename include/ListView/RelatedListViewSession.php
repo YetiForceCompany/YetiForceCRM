@@ -26,7 +26,7 @@ class RelatedListViewSession
 	var $sortby = null;
 	var $page_view = null;
 
-	function RelatedListViewSession()
+	function __construct()
 	{
 		$log = vglobal('log');
 		$currentModule = vglobal('currentModule');
@@ -104,7 +104,7 @@ class RelatedListViewSession
 		$start = AppRequest::get('start');
 		if (!empty($start)) {
 			if ($start == 'last') {
-				$count_result = $adb->query(Vtiger_Functions::mkCountQuery($query));
+				$count_result = $adb->query(vtlib\Functions::mkCountQuery($query));
 				$noofrows = $adb->query_result($count_result, 0, "count");
 				if ($noofrows > 0) {
 					$start = ceil($noofrows / $list_max_entries_per_page);
@@ -122,5 +122,3 @@ class RelatedListViewSession
 		return $start;
 	}
 }
-
-?>

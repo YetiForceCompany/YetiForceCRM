@@ -1,22 +1,20 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'IIDN' => 'Internal Delivery Notes',
-	'SINGLE_IIDN' => 'Internal Delivery Notes',
-	'LBL_DESCRIPTION_BLOCK' => 'Description',
-	'LBL_ATTENTION_BLOCK' => 'Comments',
-	'FL_ACCEPTANCE_DATE' => 'Date of acceptance',
-	'FL_NUMBER' => 'Number',
-	'FL_SUBJECT' => 'Subject',
-	'FL_STORAGE' => 'Storage',
-	'FL_STATUS' => 'Status',
-	
-	'PLL_DRAFT' => 'Draft',
-	'PLL_IN_REALIZATION' => 'In realization',
-	'PLL_OBJECTIONS' => 'Objections',
-	'PLL_FOR_APPROVAL' => 'For approval',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_ACCEPTED' => 'Accepted',
-	
-	'LBL_CHANGE_STATUS' => 'Change Status',
+	'IIDN' => 'Поступления на склад',
+	'SINGLE_IIDN' => 'Поступления на склад',
+	'LBL_DESCRIPTION_BLOCK' => 'Описание',
+	'LBL_ATTENTION_BLOCK' => 'Комментарии',
+	'FL_ACCEPTANCE_DATE' => 'Планируемая дата',
+	'FL_NUMBER' => 'Номер',
+	'FL_SUBJECT' => 'Наименование',
+	'FL_STORAGE' => 'Склад',
+	'FL_STATUS' => 'Статус',
+	'PLL_DRAFT' => 'Черновик',
+	'PLL_IN_REALIZATION' => 'Обработка',
+	'PLL_OBJECTIONS' => 'Не согласовано',
+	'PLL_FOR_APPROVAL' => 'На согласовании',
+	'PLL_CANCELLED' => 'Отменено',
+	'PLL_ACCEPTED' => 'Согласовано',
+	'LBL_CHANGE_STATUS' => 'Изменить статус',
 ];

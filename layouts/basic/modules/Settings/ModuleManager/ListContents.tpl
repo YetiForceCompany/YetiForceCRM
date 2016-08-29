@@ -14,6 +14,9 @@
 		<div class="widget_header row">
 			<div class="col-md-7">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{if isset($SELECTED_PAGE)}
+					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+				{/if}
 			</div>
 			<div class="col-md-5">
 				<span class="btn-toolbar pull-right margin0px">

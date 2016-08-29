@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_CHOISE_AUTHORIZED' => 'Sélectionner rôle',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Ajouter un bloc résumé pour le module',
@@ -15,12 +15,14 @@ $languageStrings = [
 	'LBL_HEIGHT' => 'Hauteur',
 	'LBL_ADD_WIDGET' => 'Widget',
 	'LBL_ADD_NOTEBOOK' => 'Bloc Note',
+	'LBL_ADD_WIDGET_CHARTS' => 'Chart',
+	'LBL_REPORT' => 'Report',
+	'LBL_NAME_CHART' => 'Chart name',
 	'LBL_ADD_MINILIST' => 'Widget avec filtre',
 	'LBL_SELECT_WIDGET' => 'Sélectionner widget',
 	'LBL_CREATE_CUSTOM_FIELD' => 'Ajouter widget au panel',
 	'LBL_ADD_CONDITION' => 'Ajouter rôle',
 	'LBL_INVALID_DATA' => 'Données invalide',
-
 	'WidgetsManagement' => 'Gestion des Widgets',
 	'LBL_WIDGETS_MANAGEMENT' => 'Widgets – Configuration',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
@@ -34,6 +36,10 @@ $languageStrings = [
 	'LBL_WIDGET_ADDED' => 'Widget a été ajouté avec succès',
 	'LBL_CACHE_WIDGET' => 'Cache',
 	'LBL_SHOW_USERS' => 'Afficher le nom d\'utilisateur',
+	'LBL_TITLE_WIDGET' => 'Widget title',
+	'LBL_ADDRESS_RSS' => 'RSS address ',
+	'LBL_ADD_CHANNEL' => 'Add channel',
+	'LBL_ADD_RSS' => 'Add RSS',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Bloc a été ajouté avec succès',

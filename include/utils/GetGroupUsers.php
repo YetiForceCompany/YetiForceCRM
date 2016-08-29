@@ -107,5 +107,3 @@ class GetGroupUsers
 		$log->debug("Exiting getAllUsersInGroup method...");
 	}
 }
-
-?>

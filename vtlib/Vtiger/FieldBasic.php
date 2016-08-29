@@ -8,17 +8,19 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+namespace vtlib;
 
 /**
  * Provides basic API to work with vtiger CRM Fields
  * @package vtlib
  */
-class Vtiger_FieldBasic
+class FieldBasic
 {
 
 	/** ID of this field instance */
 	var $id;
 	var $name;
+	var $tabid = false;
 	var $label = false;
 	var $table = false;
 	var $column = false;
@@ -26,6 +28,8 @@ class Vtiger_FieldBasic
 	var $helpinfo = '';
 	var $summaryfield = 0;
 	var $header_field = false;
+	var $maxlengthtext = 0;
+	var $maxwidthcolumn = 0;
 	var $masseditable = 1; // Default: Enable massedit for field
 	var $uitype = 1;
 	var $typeofdata = 'V~O';
@@ -43,23 +47,16 @@ class Vtiger_FieldBasic
 	var $fieldparams = '';
 
 	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		
-	}
-
-	/**
 	 * Initialize this instance
 	 * @param Array 
-	 * @param Vtiger_Module Instance of module to which this field belongs
-	 * @param Vtiger_Block Instance of block to which this field belongs
+	 * @param Module Instance of module to which this field belongs
+	 * @param vtlib\Block Instance of block to which this field belongs
 	 * @access private
 	 */
 	function initialize($valuemap, $moduleInstance = false, $blockInstance = false)
 	{
 		$this->id = $valuemap['fieldid'];
+		$this->tabid = $valuemap['tabid'];
 		$this->name = $valuemap['fieldname'];
 		$this->label = $valuemap['fieldlabel'];
 		$this->column = $valuemap['columnname'];
@@ -69,6 +66,8 @@ class Vtiger_FieldBasic
 		$this->helpinfo = $valuemap['helpinfo'];
 		$this->masseditable = $valuemap['masseditable'];
 		$this->header_field = $valuemap['header_field'];
+		$this->maxlengthtext = $valuemap['maxlengthtext'];
+		$this->maxwidthcolumn = $valuemap['maxwidthcolumn'];
 		$this->displaytype = $valuemap['displaytype'];
 		$this->generatedtype = $valuemap['generatedtype'];
 		$this->readonly = $valuemap['readonly'];
@@ -79,11 +78,11 @@ class Vtiger_FieldBasic
 		$this->quicksequence = $valuemap['quickcreatesequence'];
 		$this->summaryfield = $valuemap['summaryfield'];
 		$this->fieldparams = $valuemap['fieldparams'];
-		$this->block = $blockInstance ? $blockInstance : Vtiger_Block::getInstance($valuemap['block'], $moduleInstance);
+		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $moduleInstance);
 	}
 
 	/** Cache (Record) the schema changes to improve performance */
-	static $__cacheSchemaChanges = Array();
+	static $__cacheSchemaChanges = [];
 
 	/**
 	 * Initialize vtiger schema changes.
@@ -93,11 +92,11 @@ class Vtiger_FieldBasic
 	{
 // Add helpinfo column to the vtiger_field table
 		if (empty(self::$__cacheSchemaChanges['vtiger_field.helpinfo'])) {
-			Vtiger_Utils::AddColumn('vtiger_field', 'helpinfo', ' TEXT');
+			Utils::AddColumn('vtiger_field', 'helpinfo', ' TEXT');
 			self::$__cacheSchemaChanges['vtiger_field.helpinfo'] = true;
 		}
 		if (empty(self::$__cacheSchemaChanges['vtiger_field.summaryfield'])) {
-			Vtiger_Utils::AddColumn('vtiger_field', 'summaryfield', ' INT(10) NOT NULL DEFAULT 0');
+			Utils::AddColumn('vtiger_field', 'summaryfield', ' INT(10) NOT NULL DEFAULT 0');
 			self::$__cacheSchemaChanges['vtiger_field.summaryfield'] = 0;
 		}
 	}
@@ -108,7 +107,7 @@ class Vtiger_FieldBasic
 	 */
 	function __getUniqueId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_field');
 	}
 
@@ -118,11 +117,11 @@ class Vtiger_FieldBasic
 	 */
 	function __getNextSequence()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT MAX(sequence) AS max_seq FROM vtiger_field WHERE tabid=? AND block=?", Array($this->getModuleId(), $this->getBlockId()));
+		$db = \PearDatabase::getInstance();
+		$result = $db->pquery("SELECT MAX(sequence) AS max_seq FROM vtiger_field WHERE tabid=? AND block=?", Array($this->getModuleId(), $this->getBlockId()));
 		$maxseq = 0;
-		if ($result && $adb->num_rows($result)) {
-			$maxseq = $adb->query_result($result, 0, 'max_seq');
+		if ($result && $db->num_rows($result)) {
+			$maxseq = $db->getSingleValue($result);
 			$maxseq += 1;
 		}
 		return $maxseq;
@@ -134,7 +133,7 @@ class Vtiger_FieldBasic
 	 */
 	function __getNextQuickCreateSequence()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT MAX(quickcreatesequence) AS max_quickcreateseq FROM vtiger_field WHERE tabid=?", Array($this->getModuleId()));
 		$max_quickcreateseq = 0;
 		if ($result && $adb->num_rows($result)) {
@@ -146,14 +145,14 @@ class Vtiger_FieldBasic
 
 	/**
 	 * Create this field instance
-	 * @param Vtiger_Block Instance of the block to use
+	 * @param vtlib\Block Instance of the block to use
 	 * @access private
 	 */
 	function __create($blockInstance)
 	{
 		$this->__handleVtigerCoreSchemaChanges();
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$this->block = $blockInstance;
 
@@ -196,13 +195,13 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 // Set the field status for mass-edit (if set)
 		$adb->pquery('UPDATE vtiger_field SET masseditable=? WHERE fieldid=?', Array($this->masseditable, $this->id));
 
-		Vtiger_Profile::initForField($this);
+		Profile::initForField($this);
 
 		if (!empty($this->columntype)) {
 			$columntype = $this->columntype;
 			if ($this->uitype == 10)
 				$columntype .= ', ADD INDEX (`' . $this->column . '`)';
-			Vtiger_Utils::AddColumn($this->table, $this->column, $columntype);
+			Utils::AddColumn($this->table, $this->column, $columntype);
 		}
 
 		self::log("Creating field $this->name ... DONE");
@@ -224,9 +223,9 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	function __delete()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
-		Vtiger_Profile::deleteForField($this);
+		Profile::deleteForField($this);
 
 		$adb->pquery("DELETE FROM vtiger_field WHERE fieldid=?", Array($this->id));
 		self::log("Deleteing Field $this->name ... DONE");
@@ -245,6 +244,9 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	function getModuleId()
 	{
+		if ($this->tabid) {
+			return $this->tabid;
+		}
 		return $this->block->module->id;
 	}
 
@@ -253,6 +255,9 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	function getModuleName()
 	{
+		if ($this->tabid) {
+			return Functions::getModuleName($this->tabid);
+		}
 		return $this->block->module->name;
 	}
 
@@ -266,7 +271,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 
 	/**
 	 * Save this field instance
-	 * @param Vtiger_Block Instance of block to which this field should be added.
+	 * @param vtlib\Block Instance of block to which this field should be added.
 	 */
 	function save($blockInstance = false)
 	{
@@ -294,7 +299,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 // Make sure to initialize the core tables first
 		$this->__handleVtigerCoreSchemaChanges();
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_field SET helpinfo=? WHERE fieldid=?', Array($helptext, $this->id));
 		self::log("Updated help information of $this->name ... DONE");
 	}
@@ -305,7 +310,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	function setMassEditable($value)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_field SET masseditable=? WHERE fieldid=?', Array($value, $this->id));
 		self::log("Updated masseditable information of $this->name ... DONE");
 	}
@@ -316,7 +321,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	function setSummaryField($value)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_field SET summaryfield=? WHERE fieldid=?', Array($value, $this->id));
 		self::log("Updated summaryfield information of $this->name ... DONE");
 	}
@@ -329,8 +334,6 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	static function log($message, $delim = true)
 	{
-		Vtiger_Utils::Log($message, $delim);
+		Utils::Log($message, $delim);
 	}
 }
-
-?>

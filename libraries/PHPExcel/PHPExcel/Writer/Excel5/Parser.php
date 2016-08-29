@@ -22,7 +22,7 @@
  * @package    PHPExcel_Writer_Excel5
  * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.8.0, 2014-03-02
+ * @version    ##VERSION##, ##DATE##
  */
 
 // Original file header of PEAR::Spreadsheet_Excel_Writer_Parser (used as the base for this class):
@@ -1430,6 +1430,7 @@ class PHPExcel_Writer_Excel5_Parser
 		{
 		    if($this->_lookahead == '%'){
 		        $result = $this->_createTree('ptgPercent', $this->_current_token, '');
+                $this->_advance();  // Skip the percentage operator once we've pre-built that tree
 		    } else {
 		        $result = $this->_createTree($this->_current_token, '', '');
 		    }

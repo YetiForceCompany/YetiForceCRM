@@ -63,17 +63,6 @@ class Products extends CRMEntity
 	// Josh added for importing and exporting -added in patch2
 	var $unit_price;
 
-	/** 	Constructor which will set the column_fields in this object
-	 */
-	function Products()
-	{
-		$this->log = LoggerManager::getLogger('product');
-		$this->log->debug("Entering Products() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Products');
-		$this->log->debug("Exiting Product method ...");
-	}
-
 	function save_module($module)
 	{
 		//Inserting into product_taxrel table
@@ -209,7 +198,8 @@ class Products extends CRMEntity
 
 		$file_saved = false;
 		foreach ($_FILES as $fileindex => $files) {
-			if ($files['name'] != '' && $files['size'] > 0) {
+			$fileInstance = \includes\fields\File::loadFromRequest($files);
+			if ($fileInstance->validate('image')) {
 				if (AppRequest::get($fileindex . '_hidden') != '')
 					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
 				else
@@ -263,7 +253,7 @@ class Products extends CRMEntity
 		$log->debug("Entering get_leads(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -289,7 +279,7 @@ class Products extends CRMEntity
 			}
 		}
 
-		$query = "SELECT vtiger_leaddetails.leadid, vtiger_crmentity.crmid, vtiger_leaddetails.firstname, vtiger_leaddetails.lastname, vtiger_leaddetails.company, vtiger_leadaddress.phone, vtiger_leadsubdetails.website, vtiger_leaddetails.email, case when (vtiger_users.user_name not like \"\") then vtiger_users.user_name else vtiger_groups.groupname end as user_name, vtiger_crmentity.smownerid, vtiger_products.productname, vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_products.expiry_date
+		$query = sprintf('SELECT vtiger_leaddetails.leadid, vtiger_crmentity.crmid, vtiger_leaddetails.firstname, vtiger_leaddetails.lastname, vtiger_leaddetails.company, vtiger_leadaddress.phone, vtiger_leadsubdetails.website, vtiger_leaddetails.email, case when (vtiger_users.user_name not like \"\") then vtiger_users.user_name else vtiger_groups.groupname end as user_name, vtiger_crmentity.smownerid, vtiger_products.productname, vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_products.expiry_date
 			FROM vtiger_leaddetails
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid
 			INNER JOIN vtiger_leadaddress ON vtiger_leadaddress.leadaddressid = vtiger_leaddetails.leadid
@@ -299,7 +289,7 @@ class Products extends CRMEntity
 			INNER JOIN vtiger_leadscf ON vtiger_leaddetails.leadid = vtiger_leadscf.leadid
 			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = " . $id;
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = %s', $id);
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -324,7 +314,7 @@ class Products extends CRMEntity
 		$log->debug("Entering get_accounts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -350,7 +340,7 @@ class Products extends CRMEntity
 			}
 		}
 
-		$query = "SELECT vtiger_account.accountid, vtiger_crmentity.crmid, vtiger_account.accountname, vtiger_account.website, vtiger_account.phone, case when (vtiger_users.user_name not like \"\") then vtiger_users.user_name else vtiger_groups.groupname end as user_name, vtiger_crmentity.smownerid, vtiger_products.productname, vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_products.expiry_date
+		$query = sprintf('SELECT vtiger_account.accountid, vtiger_crmentity.crmid, vtiger_account.accountname, vtiger_account.website, vtiger_account.phone, case when (vtiger_users.user_name not like \"\") then vtiger_users.user_name else vtiger_groups.groupname end as user_name, vtiger_crmentity.smownerid, vtiger_products.productname, vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_products.expiry_date
 			FROM vtiger_account
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid
 			INNER JOIN vtiger_accountaddress ON vtiger_accountaddress.accountaddressid = vtiger_account.accountid
@@ -359,7 +349,7 @@ class Products extends CRMEntity
 			INNER JOIN vtiger_accountscf ON vtiger_account.accountid = vtiger_accountscf.accountid
 			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = " . $id;
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = %s', $id);
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -384,7 +374,7 @@ class Products extends CRMEntity
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -410,7 +400,7 @@ class Products extends CRMEntity
 			}
 		}
 
-		$query = "SELECT vtiger_contactdetails.firstname, vtiger_contactdetails.lastname, vtiger_contactdetails.title, vtiger_contactdetails.parentid, vtiger_contactdetails.email, vtiger_contactdetails.phone, vtiger_crmentity.crmid, case when (vtiger_users.user_name not like \"\") then vtiger_users.user_name else vtiger_groups.groupname end as user_name, vtiger_crmentity.smownerid, vtiger_products.productname, vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_products.expiry_date,vtiger_account.accountname
+		$query = sprintf('SELECT vtiger_contactdetails.firstname, vtiger_contactdetails.lastname, vtiger_contactdetails.title, vtiger_contactdetails.parentid, vtiger_contactdetails.email, vtiger_contactdetails.phone, vtiger_crmentity.crmid, case when (vtiger_users.user_name not like \"\") then vtiger_users.user_name else vtiger_groups.groupname end as user_name, vtiger_crmentity.smownerid, vtiger_products.productname, vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_products.expiry_date,vtiger_account.accountname
 			FROM vtiger_contactdetails
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid
 			INNER JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid=vtiger_contactdetails.contactid
@@ -422,7 +412,7 @@ class Products extends CRMEntity
 			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_contactdetails.parentid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = " . $id;
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = %s', $id);
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -447,7 +437,7 @@ class Products extends CRMEntity
 		$log->debug("Entering get_tickets(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -516,7 +506,7 @@ class Products extends CRMEntity
 		global $log, $singlepane_view, $currentModule;
 		$log->debug("Entering get_product_pricebooks(" . $id . ") method ...");
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 		require_once("modules/$related_module/$related_module.php");
 		$focus = new $related_module();
@@ -539,7 +529,7 @@ class Products extends CRMEntity
 			$returnset = '&return_module=Products&return_action=CallRelatedList&return_id=' . $id;
 
 
-		$query = "SELECT vtiger_crmentity.crmid,
+		$query = sprintf('SELECT vtiger_crmentity.crmid,
 			vtiger_pricebook.*,
 			vtiger_pricebookproductrel.productid as prodid
 			FROM vtiger_pricebook
@@ -550,7 +540,7 @@ class Products extends CRMEntity
 			INNER JOIN vtiger_pricebookcf
 				ON vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
 			WHERE vtiger_crmentity.deleted = 0
-			AND vtiger_pricebookproductrel.productid = " . $id;
+			AND vtiger_pricebookproductrel.productid = %s', $id);
 		$log->debug("Exiting get_product_pricebooks method ...");
 
 		$return_value = GetRelatedList($currentModule, $related_module, $focus, $query, $button, $returnset);
@@ -595,7 +585,7 @@ class Products extends CRMEntity
 		$log->debug("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);

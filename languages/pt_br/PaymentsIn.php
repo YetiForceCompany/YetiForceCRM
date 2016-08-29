@@ -17,8 +17,8 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Adicionar registro',
 	'LBL_RECORDS_LIST' => 'Lista registros',
 	'LBL_PARENTID' => 'Recebimento pai',
-	'Denied'=>'Negado',
-	'Created'=>'Criado',
+	'Denied' => 'Negado',
+	'Created' => 'Criado',
 	'Paid' => 'Pago',
 	'LBL_PAYMENTSCURRENCY' => 'Moeda',
 	'Account' => 'No. Conta Organização',
@@ -58,5 +58,4 @@ $languageStrings = [
 	'SGB' => '',
 	'Citi' => 'Citibank',
 	'idea' => '',
-
 ];

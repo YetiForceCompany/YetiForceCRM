@@ -4,7 +4,7 @@
 		{if $NOTIFICATIONS neq false}
 			{assign var=SHOW_TYPE value=true}
 			<div class="notificationEntries">
-				{foreach key=$TYPE_NAME item=ROWS from=$NOTIFICATIONS}
+				{foreach item=ROWS from=$NOTIFICATIONS}
 					{foreach item=ROW from=$ROWS}
 						{include file='NotificationsItem.tpl'|@vtemplate_path:$MODULE_NAME}
 					{/foreach}

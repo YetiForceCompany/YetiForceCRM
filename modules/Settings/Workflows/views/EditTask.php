@@ -14,7 +14,6 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -57,7 +56,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
-				$fieldMapping = Zend_Json::decode($taskObject->field_value_mapping);
+				$fieldMapping = \includes\utils\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
 						$userRecordModel = Users_Record_Model::getInstanceByName($mappingInfo['value']);
@@ -72,7 +71,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 						$fieldMapping[$key]['value'] = $ownerName;
 					}
 				}
-				$taskObject->field_value_mapping = Zend_Json::encode($fieldMapping);
+				$taskObject->field_value_mapping = \includes\utils\Json::encode($fieldMapping);
 			}
 		}
 		if ($taskType === 'VTUpdateFieldsTask') {
@@ -166,8 +165,8 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			}
 		}
 
-		$userList = $currentUser->getAccessibleUsers();
-		$groupList = $currentUser->getAccessibleGroups();
+		$userList = \includes\fields\Owner::getInstance()->getAccessibleUsers();
+		$groupList = \includes\fields\Owner::getInstance()->getAccessibleGroups();
 		$assignedToValues = array();
 		$assignedToValues[vtranslate('LBL_USERS', 'Vtiger')] = $userList;
 		$assignedToValues[vtranslate('LBL_GROUPS', 'Vtiger')] = $groupList;

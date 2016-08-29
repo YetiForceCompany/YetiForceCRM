@@ -30,7 +30,7 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
@@ -44,7 +44,7 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);
-		$viewer->assign('CONTENT', Vtiger_Functions::getHtmlOrPlainText($content));
+		$viewer->assign('CONTENT', vtlib\Functions::getHtmlOrPlainText($content));
 		$viewer->assign('RECORD', $record);
 		$viewer->view('mbody.tpl', 'OSSMailView');
 	}

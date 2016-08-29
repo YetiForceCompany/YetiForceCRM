@@ -38,7 +38,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$recordStructure = $recordStructureInstance->getStructure();
 			$fieldValues = [];
-			$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
+			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 			foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
 				
 				if (isset($recordStructure[$fieldName])) {
@@ -61,9 +61,9 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Zend_Json::encode($picklistDependencyDatasource));
-		$mappingRelatedField = $moduleModel->getRelationFieldByHierarchy($moduleName);
-		$viewer->assign('MAPPING_RELATED_FIELD', Zend_Json::encode($mappingRelatedField));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode($picklistDependencyDatasource));
+		$mappingRelatedField = Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName);
+		$viewer->assign('MAPPING_RELATED_FIELD', \includes\utils\Json::encode($mappingRelatedField));
 		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 		$viewer->assign('THREEDAYSAGO', date('Y-n-j', strtotime('-3 day')));
 		$viewer->assign('TWODAYSAGO', date('Y-n-j', strtotime('-2 day')));

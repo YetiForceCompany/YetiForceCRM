@@ -100,11 +100,8 @@ class OSSTimeControl extends Vtiger_CRMEntity
 
 			$tabid = getTabid($modulename);
 			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid AND `columnname` IN ('name','osstimecontrol_no','osstimecontrol_status','smownerid','date_start','time_start','time_end','due_date','sum_time','platnosc');", true);
-			$ModuleInstance = CRMEntity::getInstance($modulename);
-			$ModuleInstance->setModuleSeqNumber("configure", $modulename, 'TC', '1');
-			include_once('vtlib/Vtiger/Module.php');
-
-			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+			\includes\fields\RecordNumber::setNumber($modulename, 'TC', '1');
+			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
@@ -162,7 +159,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		if ($fieldRes->rowCount()) {
 			$results = $this->db->getArray($fieldRes);
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [Vtiger_Functions::getModuleId($currentModule)]);
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [vtlib\Functions::getModuleId($currentModule)]);
 			while ($row = $this->db->getRow($fieldRes)) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
 				$fieldModel = new $className();
@@ -179,7 +176,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		foreach ($results as $result) {
 			$columnName = $result['columnname'];
 
-			$relatedModule = Vtiger_Functions::getModuleName($result['tabid']);
+			$relatedModule = vtlib\Functions::getModuleName($result['tabid']);
 			$focusObj = CRMEntity::getInstance($relatedModule);
 
 			$columns = [$columnName => null];
@@ -188,13 +185,14 @@ class OSSTimeControl extends Vtiger_CRMEntity
 			$this->db->update($result['tablename'], $columns, $where, $params);
 		}
 	}
+
 	function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
 		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$module, $withModule]);
 		if ($fieldRes->rowCount()) {
 			$results = $this->db->getArray($fieldRes);
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [Vtiger_Functions::getModuleId($module)]);
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
 			while ($row = $this->db->getRow($fieldRes)) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();

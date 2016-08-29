@@ -26,7 +26,7 @@ class Settings_Webforms_List_View extends Settings_Vtiger_List_View
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

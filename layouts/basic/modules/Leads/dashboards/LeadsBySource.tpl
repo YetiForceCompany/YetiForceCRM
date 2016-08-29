@@ -9,38 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 -->*}
-{literal} 
-<script type="text/javascript">
-	YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js',{},{
-		registerSectionClick : function() {	
-			var thisInstance = this;
-			var chartData = thisInstance.generateData();
-			thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
-				if (item) {
-					$(this).css( 'cursor', 'pointer' );
-				}else{
-					$(this).css( 'cursor', 'auto' );
-				}
-			});
-			thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {			
-				if(item) {
-					$(chartData['links']).each(function(){
-						if(item.seriesIndex == this[0])
-							window.location.href = this[1];
-					});
-				}
-			});
-		}
-	});
-</script>
-{/literal}
 <div class="dashboardWidgetHeader">	
-{foreach key=index item=cssModel from=$STYLES}
-	<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
-{/foreach}
-{foreach key=index item=jsModel from=$SCRIPTS}
-	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-{/foreach}
 {assign var=WIDGET_WIDTH value=$WIDGET->getWidth()}
 <div class="row">
 	<div class="col-md-8">
@@ -61,20 +30,7 @@
 		</div>
 	</div>
 	<div class="col-sm-6">
-		<div class="input-group input-group-sm">
-			<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
-			{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
-			{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
-			<select class="widgetFilter width90 owner form-control" title="{vtranslate('LBL_OWNER')}" name="owner" >
-				<optgroup label="{vtranslate('LBL_USERS')}">
-					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-						<option title="{$OWNER_NAME}" {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
-							{$OWNER_NAME}
-						</option>
-					{/foreach}
-				</optgroup>
-			</select>
-		</div>
+		{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 	</div>
 </div>	
 </div>

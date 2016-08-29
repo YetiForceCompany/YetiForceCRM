@@ -7,18 +7,15 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+namespace vtlib;
+
 require_once('modules/Emails/class.phpmailer.php');
-include_once('include/utils/CommonUtils.php');
-include_once('config/config.php');
-include_once('include/database/PearDatabase.php');
-include_once('vtlib/Vtiger/Utils.php');
-include_once('vtlib/Vtiger/Event.php');
 
 /**
  * Provides API to work with PHPMailer & Email Templates
  * @package vtlib
  */
-class Vtiger_Mailer extends PHPMailer
+class Mailer extends \PHPMailer
 {
 
 	var $_serverConfigured = false;
@@ -37,7 +34,7 @@ class Vtiger_Mailer extends PHPMailer
 	 */
 	function __getUniqueId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_mailer_queue');
 	}
 
@@ -49,7 +46,7 @@ class Vtiger_Mailer extends PHPMailer
 	{
 		$this->IsSMTP();
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_systems WHERE server_type=?", Array('email'));
 		if ($adb->num_rows($result)) {
 			$this->Host = $adb->query_result($result, 0, 'server');
@@ -58,7 +55,7 @@ class Vtiger_Mailer extends PHPMailer
 			$this->SMTPAuth = $adb->query_result($result, 0, 'smtp_auth');
 
 			// To support TLS
-			$hostinfo = explode("://", $this->Host);
+			$hostinfo = explode('://', $this->Host);
 			$smtpsecure = $hostinfo[0];
 			if ($smtpsecure == 'tls') {
 				$this->SMTPSecure = $smtpsecure;
@@ -95,7 +92,7 @@ class Vtiger_Mailer extends PHPMailer
 	 */
 	function initFromTemplate($emailtemplate)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * from vtiger_emailtemplates WHERE templatename=? AND foldername=?", Array($emailtemplate, 'Public'));
 		if ($adb->num_rows($result)) {
 			$this->IsHTML(true);
@@ -114,7 +111,7 @@ class Vtiger_Mailer extends PHPMailer
 	 */
 	function addSignature($userId)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$sign = nl2br($adb->query_result($adb->pquery("select signature from vtiger_users where id=?", array($userId)), 0, "signature"));
 		$this->Signature = $sign;
 	}
@@ -171,17 +168,17 @@ class Vtiger_Mailer extends PHPMailer
 	function __initializeQueue()
 	{
 		if (!$this->_queueinitialized) {
-			if (!Vtiger_Utils::CheckTable('vtiger_mailer_queue')) {
-				Vtiger_Utils::CreateTable('vtiger_mailer_queue', '(id INT NOT NULL PRIMARY KEY,
+			if (!Utils::CheckTable('vtiger_mailer_queue')) {
+				Utils::CreateTable('vtiger_mailer_queue', '(id INT NOT NULL PRIMARY KEY,
 					fromname VARCHAR(100), fromemail VARCHAR(100),
 					mailer VARCHAR(10), content_type VARCHAR(15), subject VARCHAR(999), body TEXT, relcrmid INT,
 					failed INT(1) NOT NULL DEFAULT 0, failreason VARCHAR(255))', true);
 			}
-			if (!Vtiger_Utils::CheckTable('vtiger_mailer_queueinfo')) {
-				Vtiger_Utils::CreateTable('vtiger_mailer_queueinfo', '(id INTEGER, name VARCHAR(100), email VARCHAR(100), type VARCHAR(7))', true);
+			if (!Utils::CheckTable('vtiger_mailer_queueinfo')) {
+				Utils::CreateTable('vtiger_mailer_queueinfo', '(id INTEGER, name VARCHAR(100), email VARCHAR(100), type VARCHAR(7))', true);
 			}
-			if (!Vtiger_Utils::CheckTable('vtiger_mailer_queueattachments')) {
-				Vtiger_Utils::CreateTable('vtiger_mailer_queueattachments', '(id INTEGER, path TEXT, name VARCHAR(100), encoding VARCHAR(50), type VARCHAR(100))', true);
+			if (!Utils::CheckTable('vtiger_mailer_queueattachments')) {
+				Utils::CreateTable('vtiger_mailer_queueattachments', '(id INTEGER, path TEXT, name VARCHAR(100), encoding VARCHAR(50), type VARCHAR(100))', true);
 			}
 			$this->_queueinitialized = true;
 		}
@@ -194,7 +191,7 @@ class Vtiger_Mailer extends PHPMailer
 	function __AddToQueue($linktoid)
 	{
 		if ($this->__initializeQueue()) {
-			$adb = PearDatabase::getInstance();
+			$adb = \PearDatabase::getInstance();
 			$uniqueid = self::__getUniqueId();
 			$adb->pquery('INSERT INTO vtiger_mailer_queue(id,fromname,fromemail,content_type,subject,body,mailer,relcrmid) VALUES(?,?,?,?,?,?,?,?)', Array($uniqueid, $this->FromName, $this->From, $this->ContentType, $this->Subject, $this->Body, $this->Mailer, $linktoid));
 			$queueid = $adb->database->Insert_ID();
@@ -240,8 +237,8 @@ class Vtiger_Mailer extends PHPMailer
 	 */
 	static function dispatchQueue(Vtiger_Mailer_Listener $listener = null)
 	{
-		$adb = PearDatabase::getInstance();
-		if (!Vtiger_Utils::CheckTable('vtiger_mailer_queue'))
+		$adb = \PearDatabase::getInstance();
+		if (!Utils::CheckTable('vtiger_mailer_queue'))
 			return;
 
 		$mailer = new self();
@@ -283,7 +280,7 @@ class Vtiger_Mailer extends PHPMailer
 				}
 				$sent = $mailer->Send(true);
 				if ($sent) {
-					Vtiger_Event::trigger('vtiger.mailer.mailsent', $relcrmid);
+					Event::trigger('vtiger.mailer.mailsent', $relcrmid);
 					if ($listener) {
 						$listener->mailsent($queueid);
 					}
@@ -318,5 +315,3 @@ abstract class Vtiger_Mailer_Listener
 		
 	}
 }
-
-?>

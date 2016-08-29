@@ -14,7 +14,7 @@
 class Vtiger_Action_Model extends Vtiger_Base_Model
 {
 
-	static $standardActions = array('0' => 'Save', '1' => 'EditView', '2' => 'Delete', '3' => 'index', '4' => 'DetailView','7' => 'CreateView');
+	static $standardActions = array('0' => 'Save', '1' => 'EditView', '2' => 'Delete', '3' => 'index', '4' => 'DetailView', '7' => 'CreateView');
 	static $nonConfigurableActions = array('Save', 'index', 'SavePriceBook', 'SaveVendor',
 		'DetailViewAjax', 'PriceBookEditView', 'QuickCreate', 'VendorEditView',
 		'DeletePriceBook', 'DeleteVendor', 'Popup', 'PriceBookDetailView',
@@ -55,10 +55,8 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		return false;
 	}
 
-	public static function getInstanceFromQResult($result, $rowNo = 0)
+	public static function getInstanceFromRow($row)
 	{
-		$db = PearDatabase::getInstance();
-		$row = $db->query_result_rowdata($result, $rowNo);
 		$className = 'Vtiger_Action_Model';
 		$actionName = $row['actionname'];
 		if (!in_array($actionName, self::$standardActions)) {
@@ -76,7 +74,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 			self::$cachedInstances = self::getAll();
 		}
 		if (self::$cachedInstances) {
-			$actionid = Vtiger_Utils::isNumber($value) ? $value : false;
+			$actionid = vtlib\Utils::isNumber($value) ? $value : false;
 			foreach (self::$cachedInstances as $instance) {
 				if ($actionid !== false) {
 					if ($instance->get('actionid') == $actionid) {
@@ -96,15 +94,15 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		if (Vtiger_Utils::isNumber($value)) {
+		if (vtlib\Utils::isNumber($value)) {
 			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionid=? LIMIT 1';
 		} else {
 			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionname=?';
 		}
 		$params = array($value);
 		$result = $db->pquery($sql, $params);
-		if ($db->num_rows($result) > 0) {
-			return self::getInstanceFromQResult($result);
+		if ($db->getRowCount($result) > 0) {
+			return self::getInstanceFromRow($db->getRow($result));
 		}
 		return null;
 	}
@@ -118,14 +116,13 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 			$sql = 'SELECT * FROM vtiger_actionmapping';
 			$params = [];
 			if ($configurable) {
-				$sql .= ' WHERE actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+				$sql .= sprintf(' WHERE actionname NOT IN (%s)', generateQuestionMarks(self::$nonConfigurableActions));
 				array_push($params, self::$nonConfigurableActions);
 			}
 			$result = $db->pquery($sql, $params);
-			$noOfRows = $db->num_rows($result);
 			$actionModels = [];
-			for ($i = 0; $i < $noOfRows; ++$i) {
-				$actionModels[] = self::getInstanceFromQResult($result, $i);
+			while ($row = $db->getRow($result)) {
+				$actionModels[] = self::getInstanceFromRow($row);
 			}
 			Vtiger_Cache::set('vtiger', 'actions', $actionModels);
 		}
@@ -137,17 +134,16 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 
 		$basicActionIds = array_keys(self::$standardActions);
-		$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionid IN (' . generateQuestionMarks($basicActionIds) . ')';
+		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', generateQuestionMarks($basicActionIds));
 		$params = $basicActionIds;
 		if ($configurable) {
 			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			$params = array_merge($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);
-		$noOfRows = $db->num_rows($result);
 		$actionModels = [];
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$actionModels[] = self::getInstanceFromQResult($result, $i);
+		while ($row = $db->getRow($result)) {
+			$actionModels[] = self::getInstanceFromRow($row);
 		}
 		return $actionModels;
 	}
@@ -157,17 +153,16 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 
 		$basicActionIds = array_keys(self::$standardActions);
-		$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (' . generateQuestionMarks($basicActionIds) . ')';
+		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', generateQuestionMarks($basicActionIds));
 		$params = $basicActionIds;
 		if ($configurable) {
 			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			$params = array_merge($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);
-		$noOfRows = $db->num_rows($result);
 		$actionModels = [];
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$actionModels[] = self::getInstanceFromQResult($result, $i);
+		while ($row = $db->getRow($result)) {
+			$actionModels[] = self::getInstanceFromRow($row);
 		}
 		return $actionModels;
 	}

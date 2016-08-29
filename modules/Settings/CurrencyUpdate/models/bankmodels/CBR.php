@@ -72,10 +72,10 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 		$yesterday = date('Y-m-d', strtotime('-1 day'));
 
 		// check if data is correct, currency rates can be retrieved only for working days
-		$lastWorkingDay = Vtiger_Functions::getLastWorkingDay($yesterday);
+		$lastWorkingDay = vtlib\Functions::getLastWorkingDay($yesterday);
 
 		$today = date('Y-m-d');
-		$mainCurrency = Vtiger_Functions::getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrency = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
 
 		$dateCur = $dateParam;
 

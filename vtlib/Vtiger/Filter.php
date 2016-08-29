@@ -8,14 +8,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Utils.php');
-include_once('vtlib/Vtiger/Version.php');
+namespace vtlib;
 
 /**
  * Provides API to work with vtiger CRM Custom View (Filter)
  * @package vtlib
  */
-class Vtiger_Filter
+class Filter
 {
 
 	/** ID of this filter instance */
@@ -33,53 +32,45 @@ class Vtiger_Filter
 	var $module;
 
 	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		
-	}
-
-	/**
 	 * Get unique id for this instance
 	 * @access private
 	 */
 	function __getUniqueId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_customview');
 	}
 
 	/**
 	 * Initialize this filter instance
-	 * @param Vtiger_Module Instance of the module to which this filter is associated.
+	 * @param Module Instance of the module to which this filter is associated.
 	 * @access private
 	 */
 	function initialize($valuemap, $moduleInstance = false)
 	{
 		$this->id = $valuemap[cvid];
 		$this->name = $valuemap[viewname];
-		$this->module = $moduleInstance ? $moduleInstance : Vtiger_Module::getInstance($valuemap[tabid]);
+		$this->module = $moduleInstance ? $moduleInstance : Module::getInstance($valuemap[tabid]);
 	}
 
 	/**
 	 * Create this instance
-	 * @param Vtiger_Module Instance of the module to which this filter should be associated with
+	 * @param Module Instance of the module to which this filter should be associated with
 	 * @access private
 	 */
 	function __create($moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$this->module = $moduleInstance;
 
 		$this->id = $this->__getUniqueId();
 		$this->isdefault = ($this->isdefault === true || $this->isdefault == 'true') ? 1 : 0;
 		$this->inmetrics = ($this->inmetrics === true || $this->inmetrics == 'true') ? 1 : 0;
-		if(!$this->sequence){
+		if (!isset($this->sequence)) {
 			$result = $db->pquery('SELECT MAX(sequence) AS max  FROM vtiger_customview WHERE entitytype = ?;', [$this->module->name]);
 			$this->sequence = $result->rowCount() ? (int) $db->getSingleValue($result) + 1 : 0;
 		}
-		if (!$this->status) {
+		if (!isset($this->status)) {
 			if ($this->presence == 0)
 				$this->status = '0'; // Default
 			else
@@ -119,7 +110,7 @@ class Vtiger_Filter
 	 */
 	function __delete()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_cvadvfilter WHERE cvid=?", Array($this->id));
 		$adb->pquery("DELETE FROM vtiger_cvcolumnlist WHERE cvid=?", Array($this->id));
 		$adb->pquery("DELETE FROM vtiger_customview WHERE cvid=?", Array($this->id));
@@ -127,7 +118,7 @@ class Vtiger_Filter
 
 	/**
 	 * Save this instance
-	 * @param Vtiger_Module Instance of the module to use
+	 * @param Module Instance of the module to use
 	 */
 	function save($moduleInstance = false)
 	{
@@ -149,12 +140,12 @@ class Vtiger_Filter
 
 	/**
 	 * Get the column value to use in custom view tables.
-	 * @param Vtiger_Field Instance of the field
+	 * @param Field Instance of the field
 	 * @access private
 	 */
 	function __getColumnValue($fieldInstance)
 	{
-		$tod = split('~', $fieldInstance->typeofdata);
+		$tod = explode('~', $fieldInstance->typeofdata);
 		$displayinfo = $fieldInstance->getModuleName() . '_' . str_replace(' ', '_', $fieldInstance->label) . ':' . $tod[0];
 		$cvcolvalue = "$fieldInstance->table:$fieldInstance->column:$fieldInstance->name:$displayinfo";
 		return $cvcolvalue;
@@ -162,12 +153,12 @@ class Vtiger_Filter
 
 	/**
 	 * Add the field to this filer instance
-	 * @param Vtiger_Field Instance of the field
+	 * @param Field Instance of the field
 	 * @param Integer Index count to use
 	 */
 	function addField($fieldInstance, $index = 0)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$cvcolvalue = $this->__getColumnValue($fieldInstance);
 
@@ -180,7 +171,7 @@ class Vtiger_Filter
 
 	/**
 	 * Add rule to this filter instance
-	 * @param Vtiger_Field Instance of the field
+	 * @param Field Instance of the field
 	 * @param String One of [EQUALS, NOT_EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS, DOES_NOT_CONTAINS, LESS_THAN, 
 	 *                       GREATER_THAN, LESS_OR_EQUAL, GREATER_OR_EQUAL]
 	 * @param String Value to use for comparision
@@ -188,7 +179,7 @@ class Vtiger_Filter
 	 */
 	function addRule($fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		if (empty($comparator))
 			return $this;
@@ -199,7 +190,7 @@ class Vtiger_Filter
 		$adb->pquery("UPDATE vtiger_cvadvfilter set columnindex=columnindex+1 WHERE cvid=? AND columnindex>=? ORDER BY columnindex DESC", Array($this->id, $index));
 		$adb->pquery("INSERT INTO vtiger_cvadvfilter(cvid, columnindex, columnname, comparator, value, groupid, column_condition) VALUES(?,?,?,?,?,?,?)", Array($this->id, $index, $cvcolvalue, $comparator, $comparevalue, $group, $condition));
 
-		Vtiger_Utils::Log("Adding Condition " . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE");
+		Utils::Log("Adding Condition " . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE");
 
 		return $this;
 	}
@@ -207,7 +198,6 @@ class Vtiger_Filter
 	/**
 	 * Translate comparator (condition) to long or short form.
 	 * @access private
-	 * @internal Used from Vtiger_PackageExport also
 	 */
 	static function translateComparator($value, $tolongform = false)
 	{
@@ -268,22 +258,22 @@ class Vtiger_Filter
 	 */
 	static function log($message, $delim = true)
 	{
-		Vtiger_Utils::Log($message, $delim);
+		Utils::Log($message, $delim);
 	}
 
 	/**
 	 * Get instance by filterid or filtername
 	 * @param mixed filterid or filtername
-	 * @param Vtiger_Module Instance of the module to use when filtername is used
+	 * @param Module Instance of the module to use when filtername is used
 	 */
 	static function getInstance($value, $moduleInstance = false)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$instance = false;
 
 		$query = false;
 		$queryParams = false;
-		if (Vtiger_Utils::isNumber($value)) {
+		if (Utils::isNumber($value)) {
 			$query = "SELECT * FROM vtiger_customview WHERE cvid=?";
 			$queryParams = Array($value);
 		} else {
@@ -300,11 +290,11 @@ class Vtiger_Filter
 
 	/**
 	 * Get all instances of filter for the module
-	 * @param Vtiger_Module Instance of module
+	 * @param Module Instance of module
 	 */
 	static function getAllForModule($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$instances = false;
 
 		$query = "SELECT * FROM vtiger_customview WHERE entitytype=?";
@@ -321,11 +311,11 @@ class Vtiger_Filter
 
 	/**
 	 * Delete filter associated for module
-	 * @param Vtiger_Module Instance of module
+	 * @param Module Instance of module
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 
 		$cvidres = $db->pquery('SELECT cvid FROM vtiger_customview WHERE entitytype=?', [$moduleInstance->name]);
 		$cvids = [];

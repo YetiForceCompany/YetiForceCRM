@@ -5,6 +5,7 @@
  * @package YetiForce.Modal
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 {
@@ -15,7 +16,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -24,7 +25,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		return '';
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');
@@ -55,8 +56,8 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		$viewName = $request->get('view');
 
 		$scripts = array(
-			"modules.$moduleName.resources.$viewName",
-			"modules.Vtiger.resources.$viewName"
+			"modules.Vtiger.resources.$viewName",
+			"modules.$moduleName.resources.$viewName"
 		);
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);

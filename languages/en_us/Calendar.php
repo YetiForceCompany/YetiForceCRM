@@ -126,7 +126,6 @@ $languageStrings = [
 	'LBL_ON_SWITCH' => 'ON',
 	'LBL_OFF_SWITCH' => 'OFF',
 	'LBL_FOLLOWUP' => 'Related event',
-	
 	'PLL_PLANNED' => 'Planned',
 	'PLL_IN_REALIZATION' => 'To be realized',
 	'PLL_OVERDUE' => 'Overdue',
@@ -136,11 +135,11 @@ $languageStrings = [
 	'LBL_RECURRENCE_INFORMATION' => 'Recurrence details',
 	'LBL_RELATED_TO' => 'Related to',
 	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
-	'LBL_INVITE_USER_BLOCK' => 'Invite',
 	'LBL_CALENDAR_FILTERS' => 'Filters',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Fill the start date based on the first available date',
 	'LBL_CACHE_SELECTED_FILTERS' => 'Standard view in calendar changed. Click "Clear view" to clear it.',
 	'LBL_CACHE_CLEAR' => 'Clear view',
+	'LBL_PROCESS' => 'Process',
 ];
 
 $jsLanguageStrings = [

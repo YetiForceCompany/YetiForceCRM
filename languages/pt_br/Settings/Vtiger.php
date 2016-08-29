@@ -28,9 +28,6 @@ $languageStrings = [
 	'LBL_ADD_NEW_TAX' => 'Adicionar Novo Imposto',
 	'LBL_ADD_OR_DELETE_USERS' => 'AdicionarApagar Usuários',
 	'LBL_ADD_USER' => 'Adicionar Usuário',
-	'LBL_ANNOUNCEMENT' => 'System Messages',
-	'LBL_ANNOUNCEMENT_DESCRIPTION' => 'Gerenciar Anúncios da Empresa',
-	'LBL_ANNOUNCEMENTS' => 'Anúncios',
 	'LBL_AVAILABLE_WORKLIST_LIST' => 'Workflows Disponíveis',
 	'LBL_CALCULATOR_DISPLAY' => 'Exibir Calculadora',
 	'LBL_COMPANY' => 'Company Information',
@@ -198,7 +195,7 @@ $languageStrings = [
 	'LBL_HEIGHT_LOGO' => 'Logo height',
 	//YetiForce
 	'vatid' => 'CNPJ',
-	'id1'=>'ID 1',
+	'id1' => 'ID 1',
 	'id2' => 'ID 2',
 	'LBL_SECURITY_MANAGEMENT' => 'Segurança',
 	'LBL_MAIL_TOOLS' => 'Mail Tools',
@@ -221,7 +218,7 @@ $languageStrings = [
 	'LBL_ADDING_ERROR' => 'Erro ao adicionar um campo',
 	'LBL_ADDED_COMPANY_FIELD' => 'Campo adicionado',
 	'LBL_FIELD_NOT_VALID' => 'O campo deve conter somente letras',
-	'LBL_EXTENDED_MODULES'=>'Extended modules',
+	'LBL_EXTENDED_MODULES' => 'Extended modules',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Editor Criar Rápido',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'O módulo permite alterar o layout dos campos na janela criar rápido',
@@ -354,6 +351,10 @@ $languageStrings = [
 	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Show language selection on the login page',
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Show layout selection on the login page',
 	'LBL_YETIFORCE_SHOP' => 'YetiForce Shop',
+	'RecordAllocation' => 'Record allocation',
+	'LBL_SELECT_ICON' => 'Select icon',
+	'LBL_ICON_NAME' => 'Icon name',
+	'LBL_ICON_EXAMPLE' => 'Icon example',
 ];
 
 $jsLanguageStrings = [
@@ -381,4 +382,6 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'o tipo de imagem não é suportado',
 	'JS_COLUMN_ADDED' => 'Campo adicionado',
 	'JS_COLUMN_EXIST' => 'Erro ao adicionar campo',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
+	'JS_NOTIFY_COPY_TITLE' => 'Text',
 ];

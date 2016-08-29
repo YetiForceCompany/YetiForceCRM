@@ -12,15 +12,17 @@
 class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 {
 
+	private $conditions = false;
+
 	function getSearchParams($value, $assignedto = '')
 	{
 
-		$listSearchParams = array();
+		$listSearchParams = [];
 		$conditions = array(array('ticketstatus', 'e', $value));
-		if ($assignedto != '')
-			array_push($conditions, array('assigned_user_id', 'e', getUserFullName($assignedto)));
+		if (!empty($assignedto))
+			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . json_encode($listSearchParams);
+		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
 	/**
@@ -33,9 +35,8 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$db = PearDatabase::getInstance();
 		$module = 'HelpDesk';
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		$ownerSql = $moduleModel->getOwnerWhereConditionForDashBoards($owner);
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
-		$params = array();
+		$params = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
@@ -53,31 +54,25 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 					ON vtiger_ticketpriorities.`ticketpriorities` = vtiger_troubletickets.`priority`
 				WHERE
 					vtiger_crmentity.`deleted` = 0';
-		if (!empty($ownerSql)) {
-			$sql .= ' AND ' . $ownerSql;
+		if (!empty($owner)) {
+			$sql .= ' AND smownerid = ' . $owner;
 		}
 		if (!empty($ticketStatus)) {
 			$ticketStatusSearch = implode("','", $ticketStatus);
 			$sql .= " AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
+			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
-		if ($securityParameter != '')
+		if (!empty($securityParameter))
 			$sql .= $securityParameter;
 
-		$sql .= ' GROUP BY 
-					statusvalue, priority 
-				ORDER BY
-				vtiger_ticketstatus.sortorderid';
+
+		$sql .= ' GROUP BY statusvalue, priority ORDER BY vtiger_ticketstatus.sortorderid';
 
 		$result = $db->query($sql);
-		$response = array();
-		$priorities = [];
-		$status = [];
+		$colors = $status = $priorities = $tickets = $response = [];
 		$counter = 0;
-		$colors = [];
-		$numRows = $db->num_rows($result);
 
-		for ($i = 0; $i < $numRows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $db->getRow($result)) {
 			$tickets[$row['statusvalue']][$row['priority']] = $row['count'];
 			if (!array_key_exists($row['priority'], $priorities)) {
 				$priorities[$row['priority']] = $counter++;
@@ -86,9 +81,9 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			if (!in_array($row['statusvalue'], $status))
 				$status[] = $row['statusvalue'];
 		}
-		if ($numRows > 0) {
+		if (!empty($tickets)) {
 			$counter = 0;
-			$result = array();
+			$result = [];
 
 			foreach ($tickets as $ticketKey => $ticketValue) {
 				foreach ($priorities as $priorityKey => $priorityValue) {
@@ -143,7 +138,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = ($owner === false) ? array() : $this->getTicketsByStatus($owner);
+		$data = ($owner === false) ? [] : $this->getTicketsByStatus($owner);
 
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$statusmount = count($data['name']);
@@ -151,17 +146,12 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$data['links'][$i][0] = $i;
 			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($data['name'][$i], $owner);
 		}
-		//Include special script and css needed for this widget
 
+		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
-
-		$accessibleUsers = $currentUser->getAccessibleUsersForModule($moduleName);
-		$accessibleGroups = $currentUser->getAccessibleGroupForModule($moduleName);
-		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
-		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('OWNER', $ownerForwarded);
 
 		$content = $request->get('content');

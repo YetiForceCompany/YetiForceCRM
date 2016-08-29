@@ -21,32 +21,6 @@
 						<input name="name" value="{$RECORD->getName()}" data-validation-engine="validate[required]" class="form-control"> 
 					</div>
 				</div>
-				<div class="form-group">
-					<div class="col-sm-3 control-label">
-						<label>{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}</label>
-					</div>
-					<div class="col-sm-8">
-						{assign var=WIDTH value=$RECORD->get('width')}
-						<select class="width form-control pull-left" name="width">
-							{foreach from=$LIST_SIZE item=SIZE}
-								<option value="{$SIZE}" {if $WIDTH eq $SIZE} selected {/if} >{$SIZE}</option>
-							{/foreach}
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-3 control-label">
-						<label>{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}</label>
-					</div>
-					<div class="col-sm-8">
-						{assign var=HEIGHT value=$RECORD->get('height')}
-						<select class="width form-control pull-left" name="height">
-							{foreach from=$LIST_SIZE item=SIZE}
-								<option value="{$SIZE}" {if $HEIGHT eq $SIZE} selected {/if} >{$SIZE}</option>
-							{/foreach}
-						</select>
-					</div>
-				</div>
 			</div>
 		</div>
 		{include file='ModalFooter.tpl'|@vtemplate_path}

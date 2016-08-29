@@ -19,8 +19,8 @@
 		<input type="hidden" name="folderid" value="{$REPORT_MODEL->get('folderid')}" />
 		<input type="hidden" name="description" value="{$REPORT_MODEL->get('description')}" />
 		<input type="hidden" name="primary_module" value="{$PRIMARY_MODULE}" />
-		<input type="hidden" name="secondary_modules" value={ZEND_JSON::encode($SECONDARY_MODULES)} />
-		<input type="hidden" name="selected_fields" id="seleted_fields" value='{ZEND_JSON::encode($SELECTED_FIELDS)}' />
+		<input type="hidden" name="secondary_modules" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($SECONDARY_MODULES))}" />
+		<input type="hidden" name="selected_fields" id="seleted_fields" value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($SELECTED_FIELDS))}' />
 		<input type="hidden" name="selected_sort_fields" id="selected_sort_fields" value="" />
 		<input type="hidden" name="calculation_fields" id="calculation_fields" value="" />
 		<input type="hidden" id="maxReportColumn" value="{AppConfig::module('Reports','MAX_REPORT_COLUMN')}" />
@@ -29,13 +29,13 @@
 		<input type="hidden" name="enable_schedule" value="{$REPORT_MODEL->get('enable_schedule')}">
 		<input type="hidden" name="schtime" value="{$REPORT_MODEL->get('schtime')}">
 		<input type="hidden" name="schdate" value="{$REPORT_MODEL->get('schdate')}">
-		<input type="hidden" name="schdayoftheweek" value={ZEND_JSON::encode($REPORT_MODEL->get('schdayoftheweek'))}>
-		<input type="hidden" name="schdayofthemonth" value={ZEND_JSON::encode($REPORT_MODEL->get('schdayofthemonth'))}>
-		<input type="hidden" name="schannualdates" value={ZEND_JSON::encode($REPORT_MODEL->get('schannualdates'))}>
-		<input type="hidden" name="recipients" value={ZEND_JSON::encode($REPORT_MODEL->get('recipients'))}>
-        <input type="hidden" name="specificemails" value={ZEND_JSON::encode($REPORT_MODEL->get('specificemails'))}>
+		<input type="hidden" name="schdayoftheweek" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($REPORT_MODEL->get('schdayoftheweek')))}">
+		<input type="hidden" name="schdayofthemonth" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($REPORT_MODEL->get('schdayofthemonth')))}">
+		<input type="hidden" name="schannualdates" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($REPORT_MODEL->get('schannualdates')))}">
+		<input type="hidden" name="recipients" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($REPORT_MODEL->get('recipients')))}">
+        <input type="hidden" name="specificemails" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($REPORT_MODEL->get('specificemails')))}">
 		<input type="hidden" name="schtypeid" value="{$REPORT_MODEL->get('schtypeid')}">
-
+		<input type="hidden" name="scheduleFileType" value="{$REPORT_MODEL->get('scheduleFileType')}">
 		<input type="hidden" class="step" value="2" />
 		<div class="well contentsBackground col-xs-12">
 			<div class="block marginBottom10px col-xs-12 paddingLRZero">

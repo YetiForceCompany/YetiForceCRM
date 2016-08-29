@@ -5,6 +5,11 @@
 	{assign var=FIELD_TO_EDIT value=$FIELD_DATA['name']}
 	{assign var=BASIC_FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
+	{if $RELATED_EXISTS}
+		<input type="hidden" class="relatedRecord" id="relatedRecord" value="{$RELATED_RECORD}">
+		<input type="hidden" class="relatedModuleBasic" id="relatedModuleBasic" value="{$RELATED_MODULE_BASIC}">
+		<input type="hidden" class="relatedModule" id="relatedModule" value="{$RELATED_MODULE}">
+	{/if}
 	<div class="modal-header">
 		<div class="col-xs-10">
 			<h3 class="modal-title">{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}</h3>
@@ -12,10 +17,10 @@
 		<div class="pull-right btn-group">
 			{if $RECORD->isEditable()}
 				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
-			{/if}
-			{if $RECORD->isViewable()}
+				{/if}
+				{if $RECORD->isViewable()}
 				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
-			{/if}
+				{/if}
 		</div>
 		<div class="clearfix"></div>
 	</div>
@@ -35,7 +40,7 @@
 								<a href="#" class="helpInfoPopover" title="{vtranslate('LBL_PREVIEW',$MODULE_NAME)}" data-placement="auto right" data-content="{htmlspecialchars($VALUE)}"> <span title="{vtranslate('LBL_PREVIEW',$MODULE_NAME)}" class="glyphicon glyphicon-modal-window"></span> </a>
 								{assign var=CONVERT value=true}
 							{/if}
-						:</label>
+							:</label>
 						<div class="col-sm-8 textOverflowEllipsis {if $CONVERT}convert{/if}">
 							{$VALUE}
 						</div>
@@ -43,43 +48,53 @@
 				{/foreach}	
 			</div>
 		{/if}
-	</div>
-<div class="modal-footer">
-	<div class="pull-left">
-		<div class="btn-toolbar">
-			{if $RECORD->isViewable()}
-				{assign var=IS_EDITABLE_READONLY value=$BASIC_FIELD_MODEL->set('isEditableReadOnly', false)}
-				{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
-				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
-					<button type="button" class="btn btn-danger dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						{foreach  key=KEY item=ITEM from=$PICKLIST}
-							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
-							<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
-						{/foreach}
-					</ul>
+		{if $RELATED_EXISTS}
+			<br>
+			<div class="relatedRecordsContents">
+				<hr>
+				{\includes\Record::getLabel($RELATED_RECORD)} >> {vtranslate($RELATED_MODULE, $RELATED_MODULE)}
+				<div class="message text-center hide">
+					{vtranslate('LBL_NO_RECORDS', $RECORD->getModuleName())}
 				</div>
-				{if $RECORD->get($FIELD_TO_EDIT) eq 'PLL_ACCEPTED'}
-					{assign var=RENEW_FIELD_MODEL value=Vtiger_Field_Model::getInstance('assets_renew', $RECORD->getModule())}
-					{assign var=IS_EDITABLE_READONLY value=$RENEW_FIELD_MODEL->set('isEditableReadOnly', false)}
-					{assign var=PICKLIST value=$RENEW_FIELD_MODEL->getPicklistValues()}
-					<div class="btn-group fieldButton" data-name="assets_renew">
-						<button type="button" class="btn btn-primary dropdown-toggle{if $RENEW_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							{vtranslate($RENEW_FIELD_MODEL->get('label'), $MODULE_NAME)} <span class="caret"></span>
+			</div>
+		{/if}
+	</div>
+	<div class="modal-footer">
+		<div class="pull-left">
+			<div class="btn-toolbar">
+				{if $RECORD->isViewable()}
+					{assign var=IS_EDITABLE_READONLY value=$BASIC_FIELD_MODEL->set('isEditableReadOnly', false)}
+					{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
+					<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
+						<button type="button" class="btn btn-danger dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu">
 							{foreach  key=KEY item=ITEM from=$PICKLIST}
 								{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
 								<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
-							{/foreach}
+								{/foreach}
 						</ul>
 					</div>
+					{if $RECORD->get($FIELD_TO_EDIT) eq 'PLL_ACCEPTED'}
+						{assign var=RENEW_FIELD_MODEL value=Vtiger_Field_Model::getInstance('assets_renew', $RECORD->getModule())}
+						{assign var=IS_EDITABLE_READONLY value=$RENEW_FIELD_MODEL->set('isEditableReadOnly', false)}
+						{assign var=PICKLIST value=$RENEW_FIELD_MODEL->getPicklistValues()}
+						<div class="btn-group fieldButton" data-name="assets_renew">
+							<button type="button" class="btn btn-primary dropdown-toggle{if $RENEW_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								{vtranslate($RENEW_FIELD_MODEL->get('label'), $MODULE_NAME)} <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								{foreach  key=KEY item=ITEM from=$PICKLIST}
+									{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
+									<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
+									{/foreach}
+							</ul>
+						</div>
+					{/if}
 				{/if}
-			{/if}
+			</div>
 		</div>
+		<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
 	</div>
-	<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
-</div>
 {/strip}

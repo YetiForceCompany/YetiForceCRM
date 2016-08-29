@@ -55,24 +55,30 @@ var Vtiger_Index_Js = {
 	},
 	registerMailButtons: function (container) {
 		var thisInstance = this;
-
-		container.find('.sendMailBtn').click(function (e) {
+		container.find('.sendMailBtn:not(.mailBtnActive)').each(function (e) {
 			var sendButton = jQuery(this);
-			var url = sendButton.data("url");
-			var module = sendButton.data("module");
-			var record = sendButton.data("record");
-			var popup = sendButton.data("popup");
-
-			if (module != undefined && record != undefined) {
-				thisInstance.getEmailFromRecord(record, module).then(function (data) {
-					if (data != '') {
-						url += '&to=' + data;
-					}
+			sendButton.addClass('mailBtnActive');
+			sendButton.click(function (e) {
+				e.stopPropagation();
+				var url = sendButton.data("url");
+				var module = sendButton.data("module");
+				var record = sendButton.data("record");
+				var popup = sendButton.data("popup");
+				var toMail = sendButton.data("to");
+				if (toMail) {
+					url += '&to=' + toMail;
+				}
+				if (module != undefined && record != undefined && !toMail) {
+					thisInstance.getEmailFromRecord(record, module).then(function (data) {
+						if (data != '') {
+							url += '&to=' + data;
+						}
+						thisInstance.sendMailWindow(url, popup);
+					});
+				} else {
 					thisInstance.sendMailWindow(url, popup);
-				});
-			} else {
-				thisInstance.sendMailWindow(url, popup);
-			}
+				}
+			});
 		});
 	},
 	sendMailWindow: function (url, popup, postData) {
@@ -129,7 +135,7 @@ var Vtiger_Index_Js = {
 	 */
 	loadWidgets: function (widgetContainer, open) {
 		var message = jQuery('.loadingWidgetMsg').html();
-		if (widgetContainer.find('.panel-body').html() != '') {
+		if (widgetContainer.find('.panel-body').html().trim()) {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
 			imageEle.attr('src', imagePath);
@@ -145,6 +151,7 @@ var Vtiger_Index_Js = {
 		}
 		AppConnector.request(listViewWidgetParams).then(
 				function (data) {
+
 					if (typeof open == 'undefined')
 						open = true;
 					if (open) {
@@ -179,10 +186,8 @@ var Vtiger_Index_Js = {
 			e.stopPropagation();
 			var currentElement = jQuery(e.currentTarget);
 			currentElement.closest('#themeContainer').hide();
-
 			var progressElement = jQuery('#progressDiv');
 			progressElement.progressIndicator();
-
 			var params = {
 				'module': 'Users',
 				'action': 'SaveAjax',
@@ -259,74 +264,26 @@ var Vtiger_Index_Js = {
 		})
 
 	},
-	registerNotifications: function () {
-		$(".notificationsNotice .sendNotification").click(function (e) {
-			var modalWindowParams = {
-				url: 'index.php?module=Home&view=CreateNotificationModal',
-				id: 'CreateNotificationModal',
-				cb: function (container) {
-					var form, text, link, htmlLink;
-
-					text = container.find('#notificationMessage');
-					form = container.find('form');
-					container.find('#notificationTitle').val(app.getPageTitle());
-					link = $("<a/>", {
-						name: "link",
-						href: window.location.href,
-						text: app.vtranslate('JS_NOTIFICATION_LINK')
-					});
-					htmlLink = $('<div>').append(link.clone()).html();
-					text.val('<br/><hr/>' + htmlLink);
-					var ckEditorInstance = new Vtiger_CkEditor_Js();
-					ckEditorInstance.loadCkEditor(text);
-					container.find(".externalMail").click(function (e) {
-						if (form.validationEngine('validate')) {
-							var editor = CKEDITOR.instances.notificationMessage;
-							var text = $('<div>' + editor.getData() + '</div>');
-							text.find("a[href]").each(function (i, el) {
-								var href = $(this);
-								href.text(href.attr('href'));
-							});
-							var emails = [];
-							container.find("#notificationUsers option:selected").each(function (index) {
-								emails.push($(this).data('mail'))
-							});
-							$(this).attr('href', 'mailto:' + emails.join() + '?subject=' + encodeURIComponent(container.find("#notificationTitle").val()) + '&body=' + encodeURIComponent(text.text()))
-							app.hideModalWindow(container, 'CreateNotificationModal');
-						} else {
-							e.preventDefault();
-						}
-					});
-					container.find('[type="submit"]').click(function (e) {
-						var element = $(this);
-						form.find('[name="mode"]').val(element.data('mode'));
-					});
-					form.submit(function (e) {
-						if (form.validationEngine('validate')) {
-							app.hideModalWindow(container, 'CreateNotificationModal');
-						}
-					});
-				},
-			}
-			app.showModalWindow(modalWindowParams);
-		})
-	},
-	registerCheckNotifications: function () {
+	registerCheckNotifications: function (repeat) {
 		var thisInstance = this;
+		var notificationsButton = jQuery('.notificationsNotice.quickAction.autoRefreshing');
+		if (notificationsButton.length < 1) {
+			return false;
+		}
 		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
-
 		var currentTime = new Date().getTime();
 		var nextActivityReminderCheck = app.cacheGet('NotificationsNextCheckTime', 0);
-
 		if ((currentTime - delay) > nextActivityReminderCheck) {
 			Vtiger_Index_Js.requestNotification();
-
 			var currentTime = new Date().getTime();
 			app.cacheSet('NotificationsNextCheckTime', (currentTime + delay));
 		} else {
 			thisInstance.setNotification(app.cacheGet('NotificationsData', 0));
 		}
-		setTimeout('Vtiger_Index_Js.registerCheckNotifications()', delay);
+		if (repeat !== false) {
+			setTimeout('Vtiger_Index_Js.registerCheckNotifications()', delay);
+		}
+
 	},
 	requestNotification: function () {
 		var thisInstance = this;
@@ -381,32 +338,27 @@ var Vtiger_Index_Js = {
 					});
 				});
 			}
-			var badge = $(".notificationsNotice .badge");
-			var number = parseInt(badge.text()) - 1;
-			if (number > 0) {
-				badge.text(number);
-			} else {
-				badge.text('');
-			}
+			app.cacheSet('NotificationsNextCheckTime', 0);
+			Vtiger_Index_Js.registerCheckNotifications(false);
 		});
 	},
 	markAllNotifications: function (element) {
-		var thisInstance = this;
-
 		var ids = [];
-		var li = $(element).closest('li');
-		li.find('.noticeRow').each(function (index) {
+		var li = $(element).closest('.notificationContainer');
+		li.find('.notificationEntries .noticeRow').each(function (index) {
 			ids.push($(this).data('id'));
-			console.log($(this).data('id'));
 		});
-
+		if (ids.length == 0) {
+			element.remove();
+			return false;
+		}
 		var params = {
 			module: 'Home',
 			action: 'Notification',
 			mode: 'setMark',
 			ids: ids
 		}
-		li.progressIndicator({'position' : 'html'});
+		li.progressIndicator({'position': 'html'});
 		AppConnector.request(params).then(function (data) {
 			li.progressIndicator({'mode': 'hide'});
 			Vtiger_Helper_Js.showPnotify({
@@ -414,18 +366,8 @@ var Vtiger_Index_Js = {
 				text: app.vtranslate('JS_MARKED_AS_READ'),
 				type: 'info'
 			});
-
-			li.fadeOut(300, function () {
-				row.remove();
-			});
-
-			var badge = $(".notificationsNotice .badge");
-			var number = parseInt(badge.text()) - 1;
-			if (number > 0) {
-				badge.text(number);
-			} else {
-				badge.text('');
-			}
+			app.cacheSet('NotificationsNextCheckTime', 0);
+			Vtiger_Index_Js.registerCheckNotifications(false);
 		});
 	},
 	/**
@@ -433,7 +375,7 @@ var Vtiger_Index_Js = {
 	 */
 	registerActivityReminder: function () {
 		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
-		if (activityReminder != 0) {
+		if (activityReminder != 0 && jQuery('.remindersNotice.quickAction.autoRefreshing').length) {
 			Vtiger_Index_Js.requestReminder();
 			window.reminder = setInterval(function () {
 				Vtiger_Index_Js.requestReminder();
@@ -451,7 +393,6 @@ var Vtiger_Index_Js = {
 			content.html(data);
 			thisInstance.refreshNumberNotifications(content);
 			app.registerModal(content);
-
 			content.find('.reminderPostpone').on('click', function (e) {
 				var currentElement = jQuery(e.currentTarget);
 				var recordID = currentElement.closest('.panel').data('record');
@@ -468,11 +409,12 @@ var Vtiger_Index_Js = {
 		});
 	},
 	refreshNumberNotifications: function (content) {
-		var badge = $(".remindersNotice .badge");
+		var remindersNotice = $(".remindersNotice");
+		var badge = remindersNotice.find('.badge');
 		var count = content.find('.panel:visible').length;
 		badge.text(count);
 		badge.removeClass('hide');
-		if (count > 0) {
+		if (count > 0 && remindersNotice.hasClass('autoRefreshing')) {
 			$(".remindersNotice .isBadge").effect("pulsate", 1500);
 			if (app.cacheGet('countRemindersNotice') != count) {
 				app.playSound('REMINDERS');
@@ -540,14 +482,12 @@ var Vtiger_Index_Js = {
 	registerTooltipEvents: function () {
 		var references = jQuery.merge(jQuery('[data-field-type="reference"] > a'), jQuery('[data-field-type="multireference"] > a'));
 		var lastPopovers = [];
-
 		// Fetching reference fields often is not a good idea on a given page.
 		// The caching is done based on the URL so we can reuse.
 		var CACHE_ENABLED = true; // TODO - add cache timeout support.
 
 		function prepareAndShowTooltipView() {
 			hideAllTooltipViews();
-
 			var el = jQuery(this);
 			var url = el.attr('href') ? el.attr('href') : '';
 			if (url == '') {
@@ -556,7 +496,6 @@ var Vtiger_Index_Js = {
 
 			// Rewrite URL to retrieve Tooltip view.
 			url = url.replace('view=', 'xview=') + '&view=TooltipAjax';
-
 			var cachedView = CACHE_ENABLED ? jQuery('[data-url-cached="' + url + '"]') : null;
 			if (cachedView && cachedView.length) {
 				showTooltip(el, cachedView.html());
@@ -620,7 +559,6 @@ var Vtiger_Index_Js = {
 				out: hideAllTooltipViews
 			});
 		});
-
 		function registerToolTipDestroy() {
 			jQuery('button[name="vtTooltipClose"]').on('click', function (e) {
 				var lastPopover = lastPopovers.pop();
@@ -629,14 +567,69 @@ var Vtiger_Index_Js = {
 			});
 		}
 	},
-	updateWatchingModule: function (module, value) {
+	changeWatching: function (instance) {
+		var value, module, state, className, user, record;
+		if (instance != undefined) {
+			instance = $(instance);
+			value = instance.data('value');
+			if (instance.data('module') != undefined) {
+				module = instance.data('module');
+			} else {
+				module = app.getModuleName();
+			}
+			if (instance.data('user') != undefined) {
+				user = instance.data('user');
+			}
+			if (instance.data('record') != undefined) {
+				record = instance.data('record');
+			}
+		}
+		bootbox.dialog({
+			message: app.vtranslate('JS_WATCHING_MESSAGE' + value),
+			title: app.vtranslate('JS_WATCHING_TITLE'),
+			buttons: {
+				success: {
+					label: app.vtranslate('LBL_YES'),
+					className: "btn-success",
+					callback: function () {
+						Vtiger_Index_Js.updateWatching(module, value, user, record).then(function (data) {
+							if (instance != undefined) {
+								state = data.result == 1 ? 0 : 1;
+								instance.data('value', state);
+								if (state == 1) {
+									instance.toggleClass(instance.data('off') + ' ' + instance.data('on'));
+									instance.children().toggleClass(instance.data('iconOff') + ' ' + instance.data('iconOn'));
+								} else {
+									instance.toggleClass(instance.data('on') + ' ' + instance.data('off'));
+									instance.children().toggleClass(instance.data('iconOn') + ' ' + instance.data('iconOff'));
+								}
+							}
+						});
+					}
+				},
+				danger: {
+					label: app.vtranslate('LBL_NO'),
+					className: "btn-warning",
+					callback: function () {
+					}
+				}
+			}
+		});
+	},
+	updateWatching: function (module, value, user, record) {
 		var aDeferred = jQuery.Deferred();
-		AppConnector.request({
+		var params = {
 			module: module,
 			action: 'Watchdog',
-			mode: 'updateModule',
 			state: value
-		}).then(function (data) {
+		};
+		if (user != undefined) {
+			params['user'] = user;
+		}
+		if (record != undefined && record != 0) {
+			params['record'] = record;
+		}
+		AppConnector.request(params).then(function (data) {
 			aDeferred.resolve(data);
 		}, function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
@@ -644,21 +637,54 @@ var Vtiger_Index_Js = {
 		});
 		return aDeferred.promise();
 	},
-	updateWatchingRecord: function (module, record, value) {
-		var aDeferred = jQuery.Deferred();
-		AppConnector.request({
-			module: module,
-			action: 'Watchdog',
-			mode: 'updateRecord',
-			record: record,
-			state: value
-		}).then(function (data) {
-			aDeferred.resolve(data);
-		}, function (textStatus, errorThrown) {
-			aDeferred.reject(textStatus, errorThrown);
-			app.errorLog(textStatus, errorThrown);
-		});
-		return aDeferred.promise();
+	sendNotification: function () {
+		var modalWindowParams = {
+			url: 'index.php?module=Home&view=CreateNotificationModal',
+			id: 'CreateNotificationModal',
+			cb: function (container) {
+				var form, text, link, htmlLink;
+				text = container.find('#notificationMessage');
+				form = container.find('form');
+				container.find('#notificationTitle').val(app.getPageTitle());
+				link = $("<a/>", {
+					name: "link",
+					href: window.location.href,
+					text: app.vtranslate('JS_NOTIFICATION_LINK')
+				});
+				htmlLink = $('<div>').append(link.clone()).html();
+				text.val('<br/><hr/>' + htmlLink);
+				var ckEditorInstance = new Vtiger_CkEditor_Js();
+				ckEditorInstance.loadCkEditor(text);
+				container.find(".externalMail").click(function (e) {
+					if (form.validationEngine('validate')) {
+						var editor = CKEDITOR.instances.notificationMessage;
+						var text = $('<div>' + editor.getData() + '</div>');
+						text.find("a[href]").each(function (i, el) {
+							var href = $(this);
+							href.text(href.attr('href'));
+						});
+						var emails = [];
+						container.find("#notificationUsers option:selected").each(function (index) {
+							emails.push($(this).data('mail'))
+						});
+						$(this).attr('href', 'mailto:' + emails.join() + '?subject=' + encodeURIComponent(container.find("#notificationTitle").val()) + '&body=' + encodeURIComponent(text.text()))
+						app.hideModalWindow(container, 'CreateNotificationModal');
+					} else {
+						e.preventDefault();
+					}
+				});
+				container.find('[type="submit"]').click(function (e) {
+					var element = $(this);
+					form.find('[name="mode"]').val(element.data('mode'));
+				});
+				form.submit(function (e) {
+					if (form.validationEngine('validate')) {
+						app.hideModalWindow(container, 'CreateNotificationModal');
+					}
+				});
+			},
+		}
+		app.showModalWindow(modalWindowParams);
 	},
 	loadPreSaveRecord: function (form) {
 		SaveResult = new SaveResult()
@@ -669,7 +695,6 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerActivityReminder();
 		Vtiger_Index_Js.registerCheckNotifications();
-		Vtiger_Index_Js.registerNotifications();
 		Vtiger_Index_Js.adjustTopMenuBarItems();
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();
@@ -679,8 +704,6 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerTooltipEvents();
 	}
 }
-
-
 //On Page Load
 jQuery(document).ready(function () {
 	Vtiger_Index_Js.registerEvents();

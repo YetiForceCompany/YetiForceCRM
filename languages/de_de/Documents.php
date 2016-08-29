@@ -51,6 +51,7 @@ $languageStrings = [
 	'Sprawdzono' => 'geprüft',
 	'Default' => 'Standard',
 	'LBL_SELECT_Documents' => 'Dokument auswählen',
+	'LBL_RELATIONS' => 'Beziehungen',
 ];
 $jsLanguageStrings = [
 	'JS_NOT_ALLOWED' => 'sind nicht erlaubt',

@@ -64,7 +64,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{assign var=USERS_ENTITY_INFO value=Vtiger_Functions::getEntityModuleInfoFieldsFormatted('Users')}
+					{assign var=USERS_ENTITY_INFO value=\includes\Modules::getEntityInfo('Users')}
 					{foreach from=$ACCOUNTS_LIST item=row}
 						{assign var=FOLDERS value=$RECORD_MODEL->getFolders($row['crm_user_id'])}
 						<tr id="row_account_{$row['user_id']}" style="{cycle values="'',background-color: #f9f9f9"}">
@@ -88,7 +88,7 @@
 											<option value="0" id="user_list_none">{vtranslate('None', 'OSSMailScanner')}</option>
 										{/if}
 										{foreach item=item from=$RECORD_MODEL->getUserList()}
-											<option value="{$item['id']}" {if $row['crm_user_id'] == $item['id']} selected="selected"{/if} >{foreach from=$USERS_ENTITY_INFO['fieldname'] item=ENTITY}{$item[$ENTITY]} {/foreach}</option>
+											<option value="{$item['id']}" {if $row['crm_user_id'] == $item['id']} selected="selected"{/if} >{foreach from=$USERS_ENTITY_INFO['fieldnameArr'] item=ENTITY}{$item[$ENTITY]} {/foreach}</option>
 										{/foreach}
 									</optgroup>
 									<optgroup label="{vtranslate('Group list', 'OSSMailScanner')}">
@@ -107,7 +107,7 @@
 										<button title="{vtranslate('LBL_EDIT_FOLDER_ACCOUNT', 'OSSMailScanner')}" type="button" data-user="{$row['user_id']}" class="btn btn-default editFolders">
 											<span class="glyphicon glyphicon-folder-open"></span>
 										</button>
-										<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont">
+										<button title="{vtranslate('LBL_DELETE_ACCOUNT', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont">
 											<span class="glyphicon glyphicon-trash"></span>
 										</button>
 									</div>

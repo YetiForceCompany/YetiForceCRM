@@ -101,14 +101,14 @@ class Install_Utils_Model
 					$query = "CREATE DATABASE " . $db_name;
 					if ($create_utf8_db == 'true') {
 						if (self::isMySQL($db_type))
-							$query .= " DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
+							$query .= ' DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci';
 						$db_utf8_support = true;
 					}
 					if ($conn->query($query)) {
 						$db_creation_failed = false;
 					}
 				}
-				$stmt = $conn->query("SHOW DATABASES LIKE '$db_name'");
+				$stmt = $conn->query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$db_name'");
 				if ($stmt->rowCount() == 1) {
 					$db_exist_status = true;
 				}

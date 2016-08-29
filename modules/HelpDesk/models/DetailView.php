@@ -1,14 +1,15 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
+class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
+{
 
 	/**
 	 * Function to get the detail view links (links and widgets)
@@ -16,7 +17,8 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
 	 * @return <array> - array of link models in the format as below
 	 *                   array('linktype'=>list of link models);
 	 */
-	public function getDetailViewLinks($linkParams) {
+	public function getDetailViewLinks($linkParams)
+	{
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
@@ -38,21 +40,31 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model {
 	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
-		$relatedLinks = [];
 
-		$relatedLinks = Vtiger_DetailView_Model::getDetailViewRelatedLinks();
+		$relatedLinks = parent::getDetailViewRelatedLinks();
 		$parentModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
 		if ($parentModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_CHARTS', $moduleName),
+				'linklabel' => 'LBL_CHARTS',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showCharts&requestMode=charts',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'Charts'
 			];
 		}
-
+		$showPSTab = \includes\Modules::isModuleActive('Products') || \includes\Modules::isModuleActive('Services') || \includes\Modules::isModuleActive('Assets') || \includes\Modules::isModuleActive('OSSSoldServices');
+		if ($showPSTab) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
+				'linkicon' => '',
+				'linkKey' => 'LBL_RECORD_SUMMARY',
+				'related' => 'ProductsAndServices',
+				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
+			];
+		}
 		return $relatedLinks;
 	}
 }

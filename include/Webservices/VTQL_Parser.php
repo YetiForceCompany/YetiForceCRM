@@ -88,7 +88,7 @@ class VTQL_ParseryyToken implements ArrayAccess
 class VTQL_ParseryyStackEntry
 {
 
-	public $stateno;	/* The state-number */
+	public $stateno; /* The state-number */
 	public $major;   /* The major token value.  This is the code
 	 * * number for the token at this stack level */
 	public $minor; /* The user-supplied minor token value.  This
@@ -663,12 +663,12 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	/**
 	 * @var int
 	 */
-	public $yyidx;	 /* Index of top element in stack */
+	public $yyidx;  /* Index of top element in stack */
 
 	/**
 	 * @var int
 	 */
-	public $yyerrcnt;	 /* Shifts left before out of the error */
+	public $yyerrcnt;  /* Shifts left before out of the error */
 
 	/**
 	 * @var array

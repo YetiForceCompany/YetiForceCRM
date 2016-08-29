@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Users' => 'Użytkownicy',
 	'USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
@@ -25,7 +25,6 @@ $languageStrings = [
 	'LBL_GROUP_NAME' => 'Nazwa grupy',
 	'LBL_PRIORITY' => 'Priorytet',
 	'LBL_MODULE' => 'Moduł',
-	
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
@@ -36,7 +35,6 @@ $languageStrings = [
 	'LBL_LDAP_USERS' => 'Autologowanie aktywne dla użytkowników',
 	'LBL_SAVE_CONFIG' => 'Zapisano konfigurację',
 	'LBL_LDAP_DOMAIN' => 'Domena (automatycznie dodawana do loginu)',
-	
 	'LBL_VIEW_AUTH' => 'Autoryzacja',
 	'LBL_VIEW_COLORS' => 'Kolory',
 	'LBL_SWITCH_USERS' => 'Przełączanie użytkowników',
@@ -54,7 +52,7 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Blokada przeciągania elementów strony',
 ];
 $jsLanguageStrings = [
-    'JS_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
+	'JS_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 	'Changed password successfully' => 'Hasło zmienione poprawnie',
 ];

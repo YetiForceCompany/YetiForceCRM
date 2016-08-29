@@ -8,17 +8,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Module.php');
-include_once('vtlib/Vtiger/Menu.php');
-include_once('vtlib/Vtiger/Event.php');
-include_once('vtlib/Vtiger/Zip.php');
-include_once('vtlib/Vtiger/Cron.php');
+namespace vtlib;
 
 /**
  * Provides API to package vtiger CRM module and associated files.
  * @package vtlib
  */
-class Vtiger_PackageExport
+class PackageExport
 {
 
 	var $_export_tmpdir = 'cache/vtlib';
@@ -29,7 +25,7 @@ class Vtiger_PackageExport
 	/**
 	 * Constructor
 	 */
-	function Vtiger_PackageExport()
+	function __construct()
 	{
 		if (is_dir($this->_export_tmpdir) === FALSE) {
 			mkdir($this->_export_tmpdir);
@@ -38,13 +34,13 @@ class Vtiger_PackageExport
 	/** Output Handlers */
 
 	/** @access private */
-	function openNode($node, $delimiter = "\n")
+	function openNode($node, $delimiter = PHP_EOL)
 	{
 		$this->__write("<$node>$delimiter");
 	}
 
 	/** @access private */
-	function closeNode($node, $delimiter = "\n")
+	function closeNode($node, $delimiter = PHP_EOL)
 	{
 		$this->__write("</$node>$delimiter");
 	}
@@ -87,7 +83,7 @@ class Vtiger_PackageExport
 	{
 		if ($this->moduleInstance->isentitytype) {
 			// We will be including the file, so do a security check.
-			Vtiger_Utils::checkFileAccessForInclusion("modules/$module/$module.php");
+			Utils::checkFileAccessForInclusion("modules/$module/$module.php");
 		}
 		$this->_export_modulexml_file = fopen($this->__getManifestFilePath(), 'w');
 		$this->__write("<?xml version='1.0'?>\n");
@@ -118,7 +114,7 @@ class Vtiger_PackageExport
 
 	/**
 	 * Export Module as a zip file.
-	 * @param Vtiger_Module Instance of module
+	 * @param Module Instance of module
 	 * @param Path Output directory path
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
@@ -140,7 +136,7 @@ class Vtiger_PackageExport
 		$zipfilename = $this->moduleInstance->name . '_' . date('Y-m-d-Hi') . '_' . $this->moduleInstance->version . '.zip';
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
-		$zip = new Vtiger_Zip($zipfilename);
+		$zip = new Zip($zipfilename);
 
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
@@ -157,18 +153,18 @@ class Vtiger_PackageExport
 			$zip->copyDirectoryFromDisk("cron/modules/$module", "cron");
 
 		//Copy module templates files
-		if (is_dir('layouts/' . Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module))
-			$zip->copyDirectoryFromDisk('layouts/' . Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
+		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module))
+			$zip->copyDirectoryFromDisk('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/modules/' . $module, 'templates');
 
 		//Copy Settings module templates files, if any
-		if (is_dir("layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module"))
-			$zip->copyDirectoryFromDisk("layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", "settings/templates");
+		if (is_dir('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module"))
+			$zip->copyDirectoryFromDisk('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module", "settings/templates");
 
 		//Support to multiple layouts of module
 		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
 
 		foreach ($layoutDirectories as $key => $layoutName) {
-			if ($layoutName != 'layouts/' . Vtiger_Viewer::getDefaultLayoutName()) {
+			if ($layoutName != 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName()) {
 				$moduleLayout = $layoutName . "/modules/$module";
 				if (is_dir($moduleLayout)) {
 					$zip->copyDirectoryFromDisk($moduleLayout, $moduleLayout);
@@ -183,12 +179,12 @@ class Vtiger_PackageExport
 
 		//Copy language files
 		$this->__copyLanguageFiles($zip, $module);
-		
+
 		//Copy image file
-		if (file_exists('layouts/' . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
-			$zip->copyFileFromDisk('layouts/' . Vtiger_Viewer::getDefaultLayoutName() . '/skins/images', '', "$module.png");
+		if (file_exists('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
+			$zip->copyFileFromDisk('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/skins/images', '', "$module.png");
 		}
-		
+
 		// Copty config files
 		if (file_exists("config/modules/$module.php")) {
 			$zip->copyFileFromDisk("config/modules/", 'config/', "$module.php");
@@ -209,15 +205,15 @@ class Vtiger_PackageExport
 
 	/**
 	 * Function copies language files to zip
-	 * @param <Vtiger_Zip> $zip
+	 * @param <vtlib\Zip> $zip
 	 * @param <String> $module
 	 */
 	function __copyLanguageFiles($zip, $module)
 	{
-		$languageFolder = "languages";
+		$languageFolder = 'languages';
 		if ($dir = @opendir($languageFolder)) {  // open languages folder
 			while (($langName = readdir($dir)) !== false) {
-				if ($langName != ".." && $langName != "." && is_dir($languageFolder . "/" . $langName)) {
+				if ($langName != '..' && $langName != '.' && is_dir($languageFolder . "/" . $langName)) {
 					$langDir = @opendir($languageFolder . '/' . $langName);  //open languages/en_us folder
 					while (($moduleLangFile = readdir($langDir)) !== false) {
 						$langFilePath = $languageFolder . '/' . $langName . '/' . $moduleLangFile;
@@ -247,11 +243,11 @@ class Vtiger_PackageExport
 	 */
 	function export_Dependencies($moduleInstance)
 	{
-		global $YetiForce_current_version, $adb;
+		$adb = \PearDatabase::getInstance();
 		$moduleid = $moduleInstance->id;
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_tab_info WHERE tabid = ?", array($moduleid));
-		$vtigerMinVersion = $YetiForce_current_version;
+		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
 		$vtigerMaxVersion = false;
 		$noOfPreferences = $adb->num_rows($sqlresult);
 		for ($i = 0; $i < $noOfPreferences; ++$i) {
@@ -278,7 +274,7 @@ class Vtiger_PackageExport
 	 */
 	function export_Module()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$moduleid = $this->moduleInstance->id;
 
@@ -357,7 +353,7 @@ class Vtiger_PackageExport
 		$this->openNode('tables');
 
 		if ($this->moduleInstance->isentitytype) {
-			$focus = CRMEntity::getInstance($modulename);
+			$focus = \CRMEntity::getInstance($modulename);
 
 			// Setup required module variables which is need for vtlib API's
 			vtlib_setup_modulevars($modulename, $focus);
@@ -368,7 +364,7 @@ class Vtiger_PackageExport
 			foreach ($tables as $table) {
 				$this->openNode('table');
 				$this->outputNode($table, 'name');
-				$this->outputNode('<![CDATA[' . Vtiger_Utils::CreateTableSql($table) . ']]>', 'sql');
+				$this->outputNode('<![CDATA[' . Utils::CreateTableSql($table) . ']]>', 'sql');
 				$this->closeNode('table');
 
 				$_exportedTables[] = $table;
@@ -383,7 +379,7 @@ class Vtiger_PackageExport
 	 */
 	function export_Blocks($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_blocks WHERE tabid = ?", Array($moduleInstance->id));
 		$resultrows = $adb->num_rows($sqlresult);
 
@@ -429,7 +425,7 @@ class Vtiger_PackageExport
 	 */
 	function export_Fields($moduleInstance, $blockid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$fieldresult = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid=? AND block=?", Array($moduleInstance->id, $blockid));
 		$fieldcount = $adb->num_rows($fieldresult);
@@ -546,7 +542,7 @@ class Vtiger_PackageExport
 	 */
 	function export_CustomViews($moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 
 		$customviewres = $db->pquery("SELECT * FROM vtiger_customview WHERE entitytype = ?", [$moduleInstance->name]);
 		if (!$customviewres->rowCount())
@@ -582,7 +578,7 @@ class Vtiger_PackageExport
 				if ($cvcolumnruleres->rowCount()) {
 					$this->openNode('rules');
 					while ($rulesRow = $db->getRow($cvcolumnruleres)) {
-						$cvColumnRuleComp = Vtiger_Filter::translateComparator($rulesRow['comparator'], true);
+						$cvColumnRuleComp = Filter::translateComparator($rulesRow['comparator'], true);
 						$this->openNode('rule');
 						$this->outputNode($rulesRow['columnindex'], 'columnindex');
 						$this->outputNode($cvColumnRuleComp, 'comparator');
@@ -605,7 +601,7 @@ class Vtiger_PackageExport
 	 */
 	function export_SharingAccess($moduleInstance)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$deforgshare = $adb->pquery("SELECT * FROM vtiger_def_org_share WHERE tabid=?", Array($moduleInstance->id));
 		$deforgshareCount = $adb->num_rows($deforgshare);
@@ -639,7 +635,7 @@ class Vtiger_PackageExport
 	 */
 	function export_Events($moduleInstance)
 	{
-		$events = Vtiger_Event::getAll($moduleInstance);
+		$events = Event::getAll($moduleInstance);
 		if (!$events)
 			return;
 
@@ -666,7 +662,7 @@ class Vtiger_PackageExport
 		if (!$moduleInstance->isentitytype)
 			return;
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT distinct(actionname) FROM vtiger_profile2utility, vtiger_actionmapping
 			WHERE vtiger_profile2utility.activityid=vtiger_actionmapping.actionid and tabid=?', Array($moduleInstance->id));
 
@@ -692,7 +688,7 @@ class Vtiger_PackageExport
 		if (!$moduleInstance->isentitytype)
 			return;
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE tabid = ?", Array($moduleInstance->id));
 		if ($adb->num_rows($result)) {
 			$this->openNode('relatedlists');
@@ -701,7 +697,7 @@ class Vtiger_PackageExport
 				$row = $adb->fetch_array($result);
 				$this->openNode('relatedlist');
 
-				$relModuleInstance = Vtiger_Module::getInstance($row['related_tabid']);
+				$relModuleInstance = Module::getInstance($row['related_tabid']);
 				$this->outputNode($relModuleInstance->name, 'relatedmodule');
 				$this->outputNode($row['name'], 'function');
 				$this->outputNode($row['label'], 'label');
@@ -732,7 +728,7 @@ class Vtiger_PackageExport
 				$row = $adb->fetch_array($result);
 				$this->openNode('inrelatedlist');
 
-				$relModuleInstance = Vtiger_Module::getInstance($row['tabid']);
+				$relModuleInstance = Module::getInstance($row['tabid']);
 				$this->outputNode($relModuleInstance->name, 'inrelatedmodule');
 				$this->outputNode($row['name'], 'function');
 				$this->outputNode($row['label'], 'label');
@@ -785,7 +781,7 @@ class Vtiger_PackageExport
 	 */
 	function export_CronTasks($moduleInstance)
 	{
-		$cronTasks = Vtiger_Cron::listAllInstancesByModule($moduleInstance->name);
+		$cronTasks = Cron::listAllInstancesByModule($moduleInstance->name);
 		$this->openNode('crons');
 		foreach ($cronTasks as $cronTask) {
 			$this->openNode('cron');
@@ -808,7 +804,7 @@ class Vtiger_PackageExport
 	 */
 	static function log($message, $delim = true)
 	{
-		Vtiger_Utils::Log($message, $delim);
+		Utils::Log($message, $delim);
 	}
 
 	/**
@@ -817,11 +813,11 @@ class Vtiger_PackageExport
 	 */
 	function exportInventory()
 	{
-		$db = PearDatabase::getInstance();
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleInstance->name);
+		$db = \PearDatabase::getInstance();
+		$inventoryFieldModel = \Vtiger_InventoryField_Model::getInstance($this->moduleInstance->name);
 		$tableName = $inventoryFieldModel->getTableName('fields');
 
-		$result = $db->query('SELECT * FROM ' . $tableName);
+		$result = $db->query(sprintf('SELECT * FROM %s', $tableName));
 		if ($db->getRowCount($result) == 0)
 			return false;
 

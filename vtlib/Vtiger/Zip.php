@@ -7,13 +7,15 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+namespace vtlib;
+
 require_once('vtlib/thirdparty/dZip.inc.php');
 
 /**
  * Wrapper class over dZip.
  * @package vtlib
  */
-class Vtiger_Zip extends dZip
+class Zip extends \dZip
 {
 
 	/**
@@ -119,5 +121,3 @@ class Vtiger_Zip extends dZip
 		$this->addFile("$path$file", "$zippath$file");
 	}
 }
-
-?>

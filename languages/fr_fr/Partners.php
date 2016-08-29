@@ -3,16 +3,13 @@
 $languageStrings = [
 	'Partners' => 'Partenaires',
 	'SINGLE_Partners' => 'Partenaire',
-
 	//BLOCKS
 	'LBL_PARTNERS_INFORMATION' => 'Information standard',
 	'LBL_CUSTOM_INFORMATION' => 'Information systeme',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description détaillée',
-
 	//FIELDS
 	'LBL_SUBJECT' => 'Sujet',
 	'LBL_NUMBER' => 'Nombre',
 	'LBL_CLOSED_TIME' => 'Heure de fermeture',
 	'LBL_VAT_ID' => 'ID TVA',
-
 ];

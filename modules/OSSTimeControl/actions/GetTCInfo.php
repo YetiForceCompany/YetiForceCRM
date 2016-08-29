@@ -20,7 +20,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if (!$permission) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$srecord = $request->get('id');
@@ -28,7 +28,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 
 		$recordPermission = Users_Privileges_Model::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
@@ -47,17 +47,18 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 			$entity = $record->getEntity();
 			$sourceData = $entity->column_fields;
 			if ($sourceModule == 'HelpDesk') {
-				$sourceData['contact_label'] = Vtiger_Functions::getCRMRecordLabel($sourceData['contact_id']);
-				if (Vtiger_Functions::getCRMRecordType($sourceData['parent_id']) != 'Accounts')
+				$sourceData['contact_label'] = vtlib\Functions::getCRMRecordLabel($sourceData['contact_id']);
+				if (vtlib\Functions::getCRMRecordType($sourceData['parent_id']) != 'Accounts')
 					unset($sourceData['parent_id']);
 				else
-					$sourceData['account_label'] = Vtiger_Functions::getCRMRecordLabel($sourceData['parent_id']);
+					$sourceData['account_label'] = vtlib\Functions::getCRMRecordLabel($sourceData['parent_id']);
 			} else if ($sourceModule == 'Project') {
-				$ifExist = $adb->query("select * from vtiger_account where accountid = " . $sourceData['linktoaccountscontacts'] . "", true, "Błąd podczas pobierania danych z vtiger_crmentityrel");
+				$query = sprintf("select * from vtiger_account where accountid = %s", $sourceData['linktoaccountscontacts']);
+				$ifExist = $adb->query($query, true, "Błąd podczas pobierania danych z vtiger_crmentityrel");
 				if ($adb->num_rows($ifExist) > 0)
-					$sourceData['account_label'] = Vtiger_Functions::getCRMRecordLabel($sourceData['linktoaccountscontacts']);
+					$sourceData['account_label'] = vtlib\Functions::getCRMRecordLabel($sourceData['linktoaccountscontacts']);
 				else
-					$sourceData['contact_label'] = Vtiger_Functions::getCRMRecordLabel($sourceData['linktoaccountscontacts']);
+					$sourceData['contact_label'] = vtlib\Functions::getCRMRecordLabel($sourceData['linktoaccountscontacts']);
 			}
 		}
 

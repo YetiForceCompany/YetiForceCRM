@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Webforms' => 'Online forms',
 	'SINGLE_Settings:Webforms' => 'Webform',
@@ -17,13 +17,11 @@ $languageStrings = [
 	'Module' => 'Module',
 	'Return Url' => 'Return url',
 	'Post Url' => 'Post url',
-    'Captcha Enabled' => 'Captcha enabled',
+	'Captcha Enabled' => 'Captcha enabled',
 	'SINGLE_Webforms' => 'Webform',
-
 	//Actions
 	'LBL_SHOW_FORM' => 'Show form',
 	'LBL_DUPLICATES_EXIST' => 'Webform name already exists',
-
 	//Blocks
 	'LBL_WEBFORM_INFORMATION' => 'Webform information',
 	'LBL_FIELD_INFORMATION' => 'Field information',
@@ -37,12 +35,12 @@ $languageStrings = [
 	'LBL_EMBED_THE_FOLLOWING_FORM_IN_YOUR_WEBSITE' => 'Embed the following form in your website',
 	'LBL_SELECT_VALUE' => 'Select value',
 	'LBL_LABEL' => 'Label',
-	'LBL_SAVE_FIELDS_ORDER' => 'Save fields order', 
+	'LBL_SAVE_FIELDS_ORDER' => 'Save fields order',
 	'LBL_HIDDEN' => 'Hidden',
 	'LBL_ENABLE_TARGET_MODULES_FOR_WEBFORM' => 'Enable target modules for webform',
 	'LBL_ASSIGN_USERS' => 'User assignment',
-    'LBL_ASSIGN_ROUND_ROBIN' => 'Assign users in round-robin',
-    'LBL_ROUNDROBIN_USERS_LIST' => 'Round-robin users list',
+	'LBL_ASSIGN_ROUND_ROBIN' => 'Assign users in round-robin',
+	'LBL_ROUNDROBIN_USERS_LIST' => 'Round-robin users list',
 ];
 $jsLanguageStrings = [
 	'JS_WEBFORM_DELETED_SUCCESSFULLY' => 'Webform deleted successfully',

@@ -10,6 +10,9 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * *********************************************************************************************************************************** */
 $languageStrings = [
+	'LBL_CRM_DIR' => 'Локальный каталог системы',
+	'LBL_LOG_FILE' => 'Журнал ошибок',
+	'LBL_PHPINI' => 'Конфигурация PHP',
 	'Logo Directory' => 'Папка хранения Логотипа компании',
 	'Contact Image Directory' => 'Папка хранения изображения Контакта',
 	'User Image Directory' => 'Папка хранения изображения Пользователя',
@@ -64,4 +67,8 @@ $languageStrings = [
 	'LBL_SPACE_TOTAL' => 'Всего',
 	'LBL_SPACE_FREE' => 'Свободно',
 	'LBL_SPACE_USED' => 'Занято',
+	'LBL_VALUE' => 'Value',
+	'LBL_PHPINI' => 'PHP configuraton',
+ 	'LBL_LOG_FILE' => 'Logs',
+ 	'LBL_CRM_DIR' => 'CRM Local directory',
 ];

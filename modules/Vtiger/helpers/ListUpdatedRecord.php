@@ -13,56 +13,40 @@
 class ListUpdatedRecord
 {
 
-	public static function getListRecord($module = NULL, array $columnList)
+	public static function getListRecord($module = NULL, array $columnList, $limit)
 	{
 		$db = PearDatabase::getInstance();
-
 		$moduleList = [];
-
+		$recordList = [];
 		if (!$module) {
 			$getListModuleSql = "SELECT name FROM vtiger_tab WHERE isentitytype = 1 AND vtiger_tab.presence != 1";
-			$getListModuleResult = $db->pquery($getListModuleSql, [], TRUE);
-
-			for ($i = 0; $i < $db->getFieldsCount($getListModuleResult); $i++) {
-				$moduleList[] = $db->query_result($getListModuleResult, $i, 'name');
+			$getListModuleResult = $db->query($getListModuleSql);
+			while ($row = $db->getRow($getListModuleResult)) {
+				$moduleList [] = $row['name'];
 			}
 		} else {
 			$moduleList[] = $module;
 		}
-
-		$recordList = [];
-
 		if (!in_array('smownerid', $columnList)) {
 			$columnList[] = 'smownerid';
 		}
-
-		for ($i = 0; $i < count($moduleList); $i++) {
-
-			$getRecordListSql = "SELECT " . implode(',', $columnList) . "," . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . " as smownerid FROM vtiger_crmentity "
-				. " INNER JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid "
-				. " WHERE was_read = 0 AND vtiger_crmentity.deleted = 0 AND setype = ?";
-
-			$getRecordListResult = $db->pquery($getRecordListSql, array($moduleList[$i]), TRUE);
-
-
-			for ($k = 0; $k < $db->num_rows($getRecordListResult); $k++) {
-
-				$singelRecord = [];
-
-				foreach ($columnList as $col) {
-					$singelRecord[$col] = $db->query_result($getRecordListResult, $k, $col);
-				}
-
-				if (!empty($singelRecord)) {
-					$recordList[] = $singelRecord;
-				}
-			}
+		$query = 'SELECT %s,%s as smownerid FROM vtiger_crmentity
+				LEFT JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid
+				INNER JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid 
+				WHERE was_read = 0 AND vtiger_crmentity.deleted = 0 AND setype IN (%s) LIMIT ?';
+		$query = sprintf($query, implode(',', $columnList), getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), generateQuestionMarks($moduleList));
+		if ($limit == 'all') {
+			$limit = 200;
 		}
-
+		$params = array_merge($moduleList, [$limit]);
+		$getRecordListResult = $db->pquery($query, $params);
+		while ($row = $db->getRow($getRecordListResult)) {
+			$row['setype'] = vtranslate($row['setype'], $row['setype']);
+			$recordList [] = $row;
+		}
 		if (!count($recordList)) {
 			return false;
 		}
-
 		return $recordList;
 	}
 }

@@ -20,8 +20,8 @@ var Settings_Index_Js = {
 			document.showDiff = false;
 			Settings_Index_Js.LoadEditLang(this)
 		});
-		$('#AddNewLangMondal .btn-primary').click(Settings_Index_Js.AddLangMondal);
-		$('#AddNewTranslationMondal .btn-primary').click(Settings_Index_Js.AddTranslationMondal);
+		$('.AddNewLangMondal .btn-primary').click(Settings_Index_Js.AddLangMondal);
+		$('.AddNewTranslationMondal .btn-primary').click(Settings_Index_Js.AddTranslationMondal);
 		$('#lang_list tr').each(function (index, element) {
 			element = $(element);
 			Settings_Index_Js.initEvant(element);
@@ -207,7 +207,7 @@ var Settings_Index_Js = {
 		e = $(this).closest('.active');
 		Settings_Index_Js.LoadEditLang(e);
 	},
-	changeTranslation: function (e, position) {
+	changeTranslation: function (e, position, mod) {
 
 		var target = $(e.currentTarget);
 		if (typeof e.currentTarget == 'undefined')
@@ -220,9 +220,12 @@ var Settings_Index_Js = {
 				'enabled': true
 			}
 		});
+		if (mod == undefined) {
+			mod = jQuery(".LangManagement " + position + " #mods_list").data('target') ? jQuery(".LangManagement " + position + " #mods_list").data('target') : jQuery(".LangManagement " + position + " #mods_list").val();
+		}
 		Settings_Index_Js.registerSaveEvent('SaveTranslation', {
 			'lang': target.data('lang'),
-			'mod': jQuery(".LangManagement " + position + " #mods_list").data('target') ? jQuery(".LangManagement " + position + " #mods_list").data('target') : jQuery(".LangManagement " + position + " #mods_list").val(),
+			'mod': mod,
 			'type': target.data('type'),
 			'langkey': closestTrElement.data('langkey'),
 			'val': target.val(),
@@ -260,7 +263,7 @@ var Settings_Index_Js = {
 			trigger: 'manual',
 			placement: 'left',
 			html: 'true',
-			content: '<div class="popover_block"><button class="btn btn-danger deleteItem">' + app.vtranslate('LBL_YES') + '</button>   <button class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</button></div>'
+			content: '<div class="popover_block"><button class="btn btn-danger deleteItem marginLeft10">' + app.vtranslate('LBL_YES') + '</button>   <button class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</button></div>'
 		}
 		var makeSureOptions = {
 			title: app.vtranslate('JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'),
@@ -297,47 +300,52 @@ var Settings_Index_Js = {
 	},
 	ShowLangMondal: function (e) {
 		var target = $(e.currentTarget);
-		app.showModalWindow($('#AddNewLangMondal'));
-		$("#AddNewLangMondal").css("z-index", "9999999");
+		var cloneModal = $('.AddNewLangMondal').clone(true, true);
+		app.showModalWindow($(cloneModal));
+		$(cloneModal).css("z-index", "9999999");
 	},
 	ShowTranslationMondal: function (e) {
 		var langs_list = $(".LangManagement #langs_list").val();
 		var langs_fields = '';
-		$('#AddNewTranslationMondal input[name="langs"]').val(JSON.stringify(langs_list));
+		var cloneModal = $('.AddNewTranslationMondal').clone(true, true);
+		cloneModal.find('input[name="langs"]').val(JSON.stringify(langs_list));
 		$.each(langs_list, function (key) {
 			langs_fields += '<div class="form-group"><label class="col-md-4 control-label">' + langs_list[key] + ':</label><div class="col-md-8"><input name="' + langs_list[key] + '" class="form-control" type="text" /></div></div>';
 		});
-		$('#AddNewTranslationMondal .add_translation_block').html(langs_fields);
+		cloneModal.find('.add_translation_block').html(langs_fields);
 		var target = $(e.currentTarget);
-		app.showModalWindow($('#AddNewTranslationMondal'));
-		$("#AddNewTranslationMondal").css("z-index", "9999999");
+
+		app.showModalWindow($(cloneModal));
+		$(cloneModal).css("z-index", "9999999");
 	},
 	AddLangMondal: function (e) {
+		var currentTarget = $(e.currentTarget);
+		var container = currentTarget.closest('.modalContainer');
 		var SaveEvent = Settings_Index_Js.registerSaveEvent('add', {
 			'type': 'Add',
-			'label': $("#AddNewLangMondal input[name='label']").val(),
-			'name': $("#AddNewLangMondal input[name='name']").val(),
-			'prefix': $("#AddNewLangMondal input[name='prefix']").val()
+			'label': container.find("input[name='label']").val(),
+			'name': container.find("input[name='name']").val(),
+			'prefix': container.find("input[name='prefix']").val()
 		});
 		if (SaveEvent.resp) {
-			$('#lang_list table tbody').append('<tr data-prefix="' + SaveEvent.params.prefix + '"><td>' + SaveEvent.params.label + '</td><td>' + SaveEvent.params.name + '</td><td>' + SaveEvent.params.prefix + '</td><td><button class="btn btn-danger" data-toggle="confirmation" data-original-title="" id="deleteItemC">' + app.vtranslate('Delete') + '</button></td></tr>');
+			$('#lang_list table tbody').append('<tr data-prefix="' + SaveEvent.params.prefix + '"><td>' + SaveEvent.params.label + '</td><td>' + SaveEvent.params.name + '</td><td>' + SaveEvent.params.prefix + '</td><td><a href="index.php?module=LangManagement&parent=Settings&action=Export&lang=' + SaveEvent.params.prefix + '" class="btn btn-primary btn-xs marginLeft10">' + app.vtranslate('JS_EXPORT') + '</a> <button class="btn btn-success btn-xs marginLeft10" data-toggle="confirmation" id="setAsDefault">' + app.vtranslate('JS_DEFAULT') + '</button> <button class="btn btn-danger btn-xs" data-toggle="confirmation" data-original-title="" id="deleteItemC">' + app.vtranslate('Delete') + '</button></td></tr>');
 			var element = $('#lang_list tr[data-prefix=' + SaveEvent.params.prefix + ']')
 			Settings_Index_Js.initEvant(element);
-			$('#AddNewLangMondal').modal('hide');
-			$("#AddNewLangMondal input[name='label']").val('');
-			$("#AddNewLangMondal input[name='name']").val('');
-			$("#AddNewLangMondal input[name='prefix']").val('');
+			container.find('.AddNewLangMondal').modal('hide');
+			$(".AddNewLangMondal input[name='label']").val('');
+			$(".AddNewLangMondal input[name='name']").val('');
+			$(".AddNewLangMondal input[name='prefix']").val('');
 		}
 	},
 	AddTranslationMondal: function (e) {
-		var target = $(e.currentTarget);
+		var currentTarget = $(e.currentTarget);
+		var container = currentTarget.closest('.modalContainer');
 		var SaveEvent = Settings_Index_Js.registerSaveEvent('AddTranslation', {
 			'mod': $(".LangManagement #mods_list").val(),
-			'form_data': $("#AddTranslationForm").serializeFormData()
+			'form_data': container.find(".AddTranslationForm").serializeFormData()
 		});
 		if (SaveEvent.resp) {
-			$('#AddNewTranslationMondal').modal('hide');
-			$("#AddNewTranslationMondal input[name='variable']").val('');
+			container.find('.AddNewTranslationMondal').modal('hide');
 		}
 		Settings_Index_Js.LoadEditLang(jQuery('#edit_lang'));
 		e.preventDefault();
@@ -413,6 +421,7 @@ var Settings_Index_Js = {
 		})
 	},
 	showStats: function (data, modules) {
+		var thisInstance = this;
 		var html = '<div class="col-md-8"><div class="panel panel-default"><div class="panel-body">';
 		var langStats = 0;
 		var shortages = [];
@@ -423,15 +432,14 @@ var Settings_Index_Js = {
 				var max = data[k][0];
 				langStats += max;
 				delete data[k][0];
-				html += '<div class="row"><label class="col-md-3 control-label">' + modules[i][k] + ': </label><div class="font-larger form-control-static col-md-9">'
+				html += '<div class="row moduleRow" data-module="' + k + '"><label class="col-md-3 form-control-static control-label marginTop2">' + modules[i][k] + ': </label><div class="form-control-static col-md-9">'
 				for (var q in data[k]) {
 					if (typeof shortages[q] == 'undefined') {
 						shortages[q] = 0;
 					}
 					shortages[q] += data[k][q].length;
 					var x = data[k][q].length * 100 / max
-
-					html += '<span class="label label-primary"> ' + jQuery('select option[value="' + q + '"]').text() + ' - ' + x.toFixed(2) + '% </span>&nbsp;';
+					html += '<button class="btn btn-xs btn-primary" data-lang="' + q + '"> ' + jQuery('select option[value="' + q + '"]').text() + ' - ' + x.toFixed(2) + '% </button>&nbsp;';
 				}
 				html += '</div></div>';
 			}
@@ -443,6 +451,35 @@ var Settings_Index_Js = {
 			height: '400px',
 			railVisible: true,
 		});
+		thisInstance.registerStatsEvent();
+	},
+	registerStatsEvent: function () {
+		var thisInstance = this;
+		jQuery('.statsData .btn').on('click', function (e) {
+			var progress = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					'enabled': true
+				}
+			});
+			var element = jQuery(e.currentTarget);
+			var row = element.closest('.moduleRow');
+			var url =
+					'index.php?module=' + app.getModuleName() +
+					'&parent=' + app.getParentModuleName() +
+					'&view=GetLabels' +
+					'&langBase=' + jQuery('[name="langs_basic"]').val() +
+					'&lang=' + element.data('lang') +
+					'&sourceModule=' + row.data('module');
+			app.showModalWindow(null, url, function (data) {
+				progress.progressIndicator({'mode': 'hide'});
+				data.find('button:not(.close)').on('click', function (e) {
+					var button = jQuery(e.currentTarget);
+					var input = button.closest('tr').find('input');
+					thisInstance.changeTranslation(input, 'html', input.data('mod'))
+				});
+			});
+		})
 	},
 	getDataCharts: function (shortages, max) {
 		var k = 1;

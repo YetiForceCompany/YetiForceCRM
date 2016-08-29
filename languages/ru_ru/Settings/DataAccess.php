@@ -75,11 +75,12 @@ $languageStrings = [
 	'Date validation' => 'Проверка данных',
 	'Check parent task' => 'Проверка родительской задачи',
 	'Check if there are any tasks that are not closed' => 'Проверка, есть ли какие-либо задачи, которые не выполнены',
-	'Check for duplicates' => 'Check for duplicates',
+	'Check for duplicates' => 'Проверка на наличие дубликатов',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Проверка, все ли поля заполнены в форме Быстрого создания',
 	'Lock edit on the status' => 'Блокировка изменения статуса',
 	'is enabled' => 'Включено',
 	'is disabled' => 'Отключено',
+	'has changed to' => 'изменилось на',
 ];
 
 $jsLanguageStrings = [
@@ -114,4 +115,5 @@ $jsLanguageStrings = [
 	'has changed' => 'изменено',
 	'is enabled' => 'Включено',
 	'is disabled' => 'Отключено',
+	'has changed to' => 'изменилось на',
 ];

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 Class Users_PreferenceEdit_View extends Vtiger_Edit_View
@@ -17,18 +18,18 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
 		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if ($recordModel->get('status') != 'Active') {
-				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
 			return true;
 		} else {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -42,7 +43,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		if ($this->checkPermission($request)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
-			if($activeReminder = vtlib_isModuleActive('Calendar')){
+			if ($activeReminder = \includes\Modules::isModuleActive('Calendar')) {
 				$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 				$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
@@ -64,9 +65,8 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 			$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
-			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
+			$viewer->assign('CHAT_ACTIVE', \includes\Modules::isModuleActive('AJAXChat'));
 			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 			//Additional parameters
@@ -114,26 +114,10 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		$dayStartPicklistValues = Users_Record_Model::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign("DAY_STARTS", Zend_Json::encode($dayStartPicklistValues));
+		$viewer->assign("DAY_STARTS", \includes\utils\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		parent::process($request);
-	}
-
-	public function getFooterScripts(Vtiger_Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-		$moduleDetailFile = 'modules.' . $moduleName . '.resources.PreferenceEdit';
-		unset($headerScriptInstances[$moduleDetailFile]);
-
-		$jsFileNames = array(
-			'modules.Users.resources.Edit',
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
 	}
 }

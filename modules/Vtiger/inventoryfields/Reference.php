@@ -25,8 +25,8 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if ($value == 0) {
 			return '';
 		}
-		$metaData = Vtiger_Functions::getCRMRecordMetadata($value);
-		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . vtranslate($metaData['setype'], $metaData['setype']) . '">' . $metaData['label'] . '</a>';
+		$metaData = vtlib\Functions::getCRMRecordMetadata($value);
+		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . vtranslate($metaData['setype'], $metaData['setype']) . '">' . \includes\Record::getLabel($value) . '</a>';
 		return $linkValue;
 	}
 
@@ -40,20 +40,20 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($value)) {
 			return '';
 		}
-		$value = Vtiger_Functions::getCRMRecordLabel($value, $default = '');
+		$value = vtlib\Functions::getCRMRecordLabel($value, $default = '');
 		return $value;
 	}
 
 	public function getReferenceModules()
 	{
-		$params = Zend_Json::decode($this->get('params'));
+		$params = \includes\utils\Json::decode($this->get('params'));
 		return $params['modules'];
 	}
 
 	public function getReferenceModule($record)
 	{
 		if (!empty($record)) {
-			$metadata = Vtiger_Functions::getCRMRecordMetadata($record);
+			$metadata = vtlib\Functions::getCRMRecordMetadata($record);
 			return $metadata['setype'];
 		}
 		return '';

@@ -12,6 +12,14 @@
 class Users_MassSave_Action extends Vtiger_MassSave_Action
 {
 
+	function checkPermission(Vtiger_Request $request)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
+
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();

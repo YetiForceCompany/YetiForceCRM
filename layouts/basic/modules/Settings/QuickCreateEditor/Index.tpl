@@ -25,7 +25,7 @@ padding: 0 20px 20px 20px;
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
 		<div class="col-md-8">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 			{vtranslate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="pull-right col-md-4 h3">
@@ -103,7 +103,7 @@ padding: 0 20px 20px 20px;
 											{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
 												<li>
-													<div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
+													<div class="opacity editFields marginLeftZero border1px" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
 														<div class="row padding1per">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 															<span class="col-sm-1 col-xs-2 col-md-2">&nbsp;

@@ -9,8 +9,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  *************************************************************************************************************************************/
-require_once('include/CRMEntity.php');
-require_once('include/Tracker.php');
 
 class OSSPasswords extends CRMEntity {
 	var $db, $log; // Used in class functions of CRMEntity
@@ -105,15 +103,6 @@ class OSSPasswords extends CRMEntity {
 
 	var $unit_price;
 
-	/**	Constructor which will set the column_fields in this object
-	 */
-	function __construct() {
-		$log = vglobal('log');
-		$this->column_fields = getColumnFields(get_class($this));
-		$this->db = PearDatabase::getInstance();
-		$this->log = $log;
-	}
-
 	function save_module($module){
 		//module specific save
 	}
@@ -164,7 +153,7 @@ class OSSPasswords extends CRMEntity {
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
 		}
 
-		$query .= "	WHERE vtiger_crmentity.deleted = 0 ".$where;
+		$query .= sprintf('	WHERE vtiger_crmentity.deleted = 0 %s ', $where);
 		$query .= $this->getListViewSecurityParameter($module);
 		return $query;
 	}
@@ -268,7 +257,7 @@ class OSSPasswords extends CRMEntity {
 	 * Function which will give the basic query to find duplicates
 	 */
 	function getDuplicatesQuery($module,$table_cols,$field_values,$ui_type_arr,$select_cols='') {
-		$select_clause = "SELECT ". $this->table_name .".".$this->table_index ." AS recordid, vtiger_users_last_import.deleted,".$table_cols;
+		$select_clause = sprintf('SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s', $this->table_name, $this->table_index, $table_cols);
 
 		// Select Custom Field Table Columns if present
 		if(isset($this->customFieldTable)) $query .= ", " . $this->customFieldTable[0] . ".* ";
@@ -390,7 +379,7 @@ class OSSPasswords extends CRMEntity {
 				$moduleModTrackerInstance->updateCache($tabId,1);
 			}
 			if ( !$moduleModTrackerInstance->isModTrackerLinkPresent($tabId) ) {
-				$moduleInstance=Vtiger_Module::getInstance($tabId);
+				$moduleInstance=vtlib\Module::getInstance($tabId);
 				$moduleInstance->addLink(
 					'DETAILVIEWBASIC',
 					'View History',

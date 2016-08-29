@@ -113,7 +113,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function saveLogo($name)
 	{
-		$uploadDir = vglobal('root_directory') . '/' . $this->logoPath;
+		$uploadDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $this->logoPath;
 		$logoName = $uploadDir . $_FILES[$name]["name"];
 		move_uploaded_file($_FILES[$name]["tmp_name"], $logoName);
 		copy($logoName, $uploadDir . 'application.ico');
@@ -233,7 +233,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 		$field = trim($field);
 		$field = mysql_escape_string($field);
 		$lenght = strlen($field);
-		$field = str_replace(" ", "_", $field);
+		$field = str_replace(' ', '_', $field);
 		$field = strtolower($field);
 		if ('' == $field)
 			$result = 'not valid';

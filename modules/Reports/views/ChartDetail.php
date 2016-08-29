@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Reports_ChartDetail_View extends Vtiger_Index_View {
@@ -19,11 +20,11 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId()) && !$reportModel->isEditable()) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 	
-	function preProcess(Vtiger_Request $request) {
+	public function preProcess(Vtiger_Request $request, $display = true) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -151,7 +152,8 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 			"modules.$moduleName.resources.ChartEdit",
 			"modules.$moduleName.resources.ChartEdit2",
 			"modules.$moduleName.resources.ChartEdit3",
-			"modules.$moduleName.resources.ChartDetail",
+			"modules.$moduleName.resources.ChartDetailView",
+			"modules.$moduleName.resources.TypeCharts",
 
 			'~libraries/jquery/jqplot/jquery.jqplot.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',

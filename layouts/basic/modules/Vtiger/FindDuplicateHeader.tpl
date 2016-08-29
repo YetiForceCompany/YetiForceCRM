@@ -9,9 +9,13 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 <div class='listViewPageDiv'>
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	<hr>
+	<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+	</div>
 	<div class="row  listViewActionsDiv pushDown">
 		<div class="btn-toolbar col-xs-4">
 			<span class="btn-group listViewMassActions">
@@ -28,3 +32,4 @@
 		</div>
 	</div>
 	<div id="listViewContents" class="listViewContentDiv">
+{/strip}

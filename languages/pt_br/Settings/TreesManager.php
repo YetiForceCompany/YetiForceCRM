@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.ocm.br
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Adicionar',
 	'TreesManager' => 'Gerenciar Árvore',
@@ -22,6 +22,8 @@ $languageStrings = [
 	'LBL_ADD_TO_TREES' => 'Adicionar',
 	'LBL_SAVE' => 'Salvar',
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Mudar item da Árvore para:',
+	'Category' => 'Category',
+	'Reservations' => 'Reservations',
 ];
 $jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'O modelo da Árvore foi apagada com sucesso',

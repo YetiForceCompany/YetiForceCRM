@@ -5,6 +5,7 @@
  * @package YetiForce.Action
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
  */
 class Home_Notification_Action extends Vtiger_Action_Controller
 {
@@ -15,15 +16,15 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 		$notice = Home_NoticeEntries_Model::getInstanceById($id);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->getId() != $notice->getUserId()) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$mode = $request->getMode();
 		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif (in_array($mode, ['setMark', 'getNumberOfNotifications', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -44,20 +45,20 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
 	public function setMark(Vtiger_Request $request)
 	{
 		$ids = $request->get('ids');
-		if(!is_array($ids)){
+		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
 		foreach ($ids as $id) {
 			$notice = Home_NoticeEntries_Model::getInstanceById($id);
 			$notice->setMarked();
 		}
-		
+
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
@@ -75,6 +76,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 	{
 		$selectedModules = $request->get('selctedModules');
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
+		Vtiger_Watchdog_Model::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
 		if (!empty($selectedModules)) {
 			foreach ($selectedModules as $moduleName) {
 				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
@@ -84,7 +86,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 			$selectedModules = [];
 		}
 		foreach ($watchingModules as $moduleId) {
-			$moduleName = Vtiger_Functions::getModuleName($moduleId);
+			$moduleName = vtlib\Functions::getModuleName($moduleId);
 			if (!in_array($moduleName, $selectedModules)) {
 				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
 				$watchdogModel->changeModuleState(0);
@@ -120,9 +122,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 
 	public function createMail(Vtiger_Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$accessibleUsers = $userPrivilegesModel->getAccessibleUsers();
-
+		$accessibleUsers = \includes\fields\Owner::getInstance()->getAccessibleUsers();
 		$content = $request->get('message');
 		$subject = $request->get('title');
 		$users = $request->get('users');
@@ -135,7 +135,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 			foreach ($users as $user) {
 				if (key_exists($user, $accessibleUsers)) {
 					$email = Vtiger_Util_Helper::getUserDetail($user, 'email1');
-					$name = Vtiger_Functions::getOwnerRecordLabel($user);
+					$name = vtlib\Functions::getOwnerRecordLabel($user);
 					$status = send_mail('Users', $email, $name, $from_email, $subject, $content);
 					if (!$status) {
 						$sendStatus = false;

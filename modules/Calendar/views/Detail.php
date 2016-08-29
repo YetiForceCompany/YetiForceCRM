@@ -134,9 +134,6 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('RECURRING_INFORMATION', $recordModel->getRecurringDetails());
 
 		if ($moduleName == 'Events') {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$accessibleUsers = $currentUser->getAccessibleUsers();
-			$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 			$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
 		}
 
@@ -147,7 +144,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	function showModuleBasicView($request)
+	public function showModuleBasicView(Vtiger_Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}

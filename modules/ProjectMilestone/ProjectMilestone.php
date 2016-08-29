@@ -96,13 +96,6 @@ class ProjectMilestone extends CRMEntity {
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectmilestonename', 'projectid', 'assigned_user_id');
 
-	function __construct() {
-		global $log, $currentModule;
-		$this->column_fields = getColumnFields(get_class($this));
-		$this->db = PearDatabase::getInstance();
-		$this->log = $log;
-	}
-
 	function save_module($module) {
 	}
 
@@ -166,7 +159,7 @@ class ProjectMilestone extends CRMEntity {
 
 		$current_user  = vglobal('current_user');
 		$query .= $this->getNonAdminAccessControlQuery($module,$current_user);
-		$query .= "	WHERE vtiger_crmentity.deleted = 0 ".$where;
+		$query .= sprintf('	WHERE vtiger_crmentity.deleted = 0 %s', $where);
 		return $query;
 	}
 
@@ -276,7 +269,7 @@ class ProjectMilestone extends CRMEntity {
 	 * Function which will give the basic query to find duplicates
 	 */
 	function getDuplicatesQuery($module,$table_cols,$field_values,$ui_type_arr,$select_cols='') {
-		$select_clause = "SELECT ". $this->table_name .".".$this->table_index ." AS recordid, vtiger_users_last_import.deleted,".$table_cols;
+		$select_clause = sprintf('SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s', $this->table_name, $this->table_index, $table_cols);
 
 		// Select Custom Field Table Columns if present
 		if(isset($this->customFieldTable)) $query .= ", " . $this->customFieldTable[0] . ".* ";
@@ -344,11 +337,7 @@ class ProjectMilestone extends CRMEntity {
 				}
 			}
 
-			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($modulename));
-			if (!($adb->num_rows($result))) {
-				//Initialize module sequence for the module
-				$adb->pquery("INSERT INTO vtiger_modentity_num values(?,?,?,?,?,?)", array($adb->getUniqueId("vtiger_modentity_num"), $modulename, 'PM', 1, 1, 1));
-			}
+			\includes\fields\RecordNumber::setNumber($modulename,'PM', 1);
 
 		} else if($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
@@ -360,12 +349,7 @@ class ProjectMilestone extends CRMEntity {
 			// TODO Handle actions before this module is updated.
 		} else if($event_type == 'module.postupdate') {
 			// TODO Handle actions after this module is updated.
-
-			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($modulename));
-			if (!($adb->num_rows($result))) {
-				//Initialize module sequence for the module
-				$adb->pquery("INSERT INTO vtiger_modentity_num values(?,?,?,?,?,?)", array($adb->getUniqueId("vtiger_modentity_num"), $modulename, 'PM', 1, 1, 1));
-			}
+			\includes\fields\RecordNumber::setNumber($modulename,'PM', 1);
 		}
 	}
 

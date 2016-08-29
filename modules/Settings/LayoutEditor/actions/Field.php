@@ -47,7 +47,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	{
 		$fieldId = $request->get('fieldid');
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
-		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable','header_field' ,'displaytype'];
+		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable','header_field' ,'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
 		foreach ($request->getAll() as $key => $value) {
 			if ($key == 'mandatory') {
 				$fieldInstance->updateTypeofDataFromMandatory($value);

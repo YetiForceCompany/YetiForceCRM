@@ -66,6 +66,18 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		return this.plotContainer;
 	},
+	registerRecordsCount: function () {
+		var thisInstance = this;
+		var recordsCountBtn = thisInstance.getContainer().find('.recordCount');
+		recordsCountBtn.on('click', function () {
+			var url = recordsCountBtn.data('url');
+			AppConnector.request(url).then(function (response) {
+				recordsCountBtn.find('.count').html(response.result.totalCount);
+				recordsCountBtn.find('span:not(.count)').addClass('hide');
+				recordsCountBtn.find('a').removeClass('hide');
+			});
+		});
+	},
 	restrictContentDrag: function () {
 		this.getContainer().on('mousedown.draggable', function (e) {
 			var element = jQuery(e.target);
@@ -294,7 +306,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			params.data = jQuery.extend(params.data, this.getFilterData())
 		}
 		var refreshContainer = parent.find('.dashboardWidgetContent');
+		var refreshContainerFooter = parent.find('.dashboardWidgetFooter');
 		refreshContainer.html('');
+		refreshContainerFooter.html('');
 		refreshContainer.progressIndicator();
 
 		if (this.paramCache) {
@@ -303,10 +317,19 @@ jQuery.Class('Vtiger_Widget_Js', {
 
 		AppConnector.request(params).then(
 				function (data) {
-
+					var data = jQuery(data);
+					var footer = data.filter('.widgetFooterContent');
 					refreshContainer.progressIndicator({'mode': 'hide'});
+					if (footer.length) {
+						footer = footer.clone(true, true);
+						refreshContainerFooter.html(footer);
+						data.each(function (n, e) {
+							if (jQuery(this).hasClass('widgetFooterContent')) {
+								data.splice(n, 1);
+							}
+						})
+					}
 					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
-
 				},
 				function () {
 					refreshContainer.progressIndicator({'mode': 'hide'});
@@ -367,8 +390,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var thisInstance = this;
 		var parent = thisInstance.getContainer();
 		var contentContainer = parent.find('.dashboardWidgetContent');
-		contentContainer.off('click', 'a.showMoreHistory');
-		contentContainer.on('click', 'a.showMoreHistory', function (e) {
+		contentContainer.off('click', '.showMoreHistory');
+		contentContainer.on('click', '.showMoreHistory', function (e) {
 			var element = jQuery(e.currentTarget);
 			element.hide();
 			var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');
@@ -494,39 +517,36 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 	loadChart: function () {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
-		var labels = new Array();
 		var dataInfo = JSON.parse(data);
-		for (var i = 0; i < dataInfo.length; i++) {
-			labels[i] = dataInfo[i][2];
-			dataInfo[i][1] = parseFloat(dataInfo[i][1]);
-		}
-		this.getPlotContainer(false).jqplot([dataInfo], {
-			seriesDefaults: {
-				renderer: jQuery.jqplot.FunnelRenderer,
-				rendererOptions: {
-					sectionMargin: 12,
-					widthRatio: 0.1,
-					showDataLabels: true,
-					dataLabelThreshold: 0,
-					dataLabels: 'value'
+		if (dataInfo.length > 0) {
+			this.getPlotContainer(false).jqplot([dataInfo], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.FunnelRenderer,
+					rendererOptions: {
+						sectionMargin: 0,
+						widthRatio: 0.1,
+						showDataLabels: true,
+						dataLabelThreshold: 0,
+						dataLabels: 'value',
+						highlightMouseDown: true
+					}
+				},
+				legend: {
+					show: true,
+					location: 'e',
 				}
-			},
-			legend: {
-				show: true,
-				location: 'ne',
-				placement: 'outside',
-				labels: labels,
-				xoffset: 20
-			}
-		});
+			});
+			this.registerSectionClick();
+		}
 	},
 	registerSectionClick: function () {
-		this.getContainer().on('jqplotDataClick', function () {
-			var sectionData = arguments[3];
-			var salesStageValue = sectionData[0];
-			//TODO : we need to construct the list url with the sales stage and filters
-		})
-
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+			var url = dataInfo[pointIndex][2];
+			window.location.href = url;
+		});
 	}
 });
 
@@ -550,29 +570,32 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 	},
 	loadChart: function () {
 		var chartData = this.generateData();
-
-		this.getPlotContainer(false).jqplot([chartData['chartData']], {
-			seriesDefaults: {
-				renderer: jQuery.jqplot.PieRenderer,
-				rendererOptions: {
-					showDataLabels: true,
-					dataLabels: 'value'
-				}
-			},
-			legend: {
-				show: true,
-				location: 'e'
-			},
-			title: chartData['title']
-		});
+		if (chartData['chartData'].length > 0) {
+			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.PieRenderer,
+					rendererOptions: {
+						showDataLabels: true,
+						dataLabels: 'value'
+					}
+				},
+				legend: {
+					show: true,
+					location: 'e'
+				},
+				title: chartData['title']
+			});
+			this.registerSectionClick();
+		}
 	},
 	registerSectionClick: function () {
-		this.getPlotContainer().on('jqplotDataClick', function () {
-			var sectionData = arguments[3];
-			var assignedUserId = sectionData[2];
-			//TODO : we need to construct the list url with the sales stage and filters
-		})
-
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+			var url = dataInfo[pointIndex][2];
+			window.location.href = url;
+		});
 	}
 });
 
@@ -600,56 +623,133 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 	},
 	loadChart: function () {
 		var data = this.generateChartData();
+		if (data['chartData'][0].length > 0) {
+			this.getPlotContainer(false).jqplot(data['chartData'], {
+				title: data['title'],
+				animate: !$.jqplot.use_excanvas,
+				seriesDefaults: {
+					renderer: jQuery.jqplot.BarRenderer,
+					rendererOptions: {
+						showDataLabels: true,
+						dataLabels: 'value',
+						barDirection: 'vertical'
+					},
+					pointLabels: {show: true, edgeTolerance: -15}
+				},
+				axes: {
+					xaxis: {
+						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+						renderer: jQuery.jqplot.CategoryAxisRenderer,
+						ticks: data['labels'],
+						tickOptions: {
+							angle: -45
+						}
+					},
+					yaxis: {
+						min: 0,
+						max: data['yMaxValue'],
+						tickOptions: {
+							formatString: '%d'
+						},
+						pad: 1.2
+					}
+				},
+				legend: {
+					show: (data['data_labels']) ? true : false,
+					location: 'e',
+					placement: 'outside',
+					showLabels: (data['data_labels']) ? true : false,
+					showSwatch: (data['data_labels']) ? true : false,
+					labels: data['data_labels']
+				}
+			});
+			this.registerSectionClick();
+		}
+	},
+	registerSectionClick: function () {
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+			console.log(dataInfo[pointIndex]);
+			var url = dataInfo[pointIndex][2];
+			window.location.href = url;
+		});
+	}
+});
+Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
+	loadChart: function () {
+		var data = this.generateChartData();
 		this.getPlotContainer(false).jqplot(data['chartData'], {
 			title: data['title'],
 			animate: !$.jqplot.use_excanvas,
 			seriesDefaults: {
-				renderer: jQuery.jqplot.BarRenderer,
+				renderer: $.jqplot.BarRenderer,
+				showDataLabels: true,
+				pointLabels: {show: true, location: 'e', edgeTolerance: -15},
+				shadowAngle: 135,
 				rendererOptions: {
-					showDataLabels: true,
-					dataLabels: 'value',
-					barDirection: 'vertical'
-				},
-				pointLabels: {show: true, edgeTolerance: -15}
+					barDirection: 'horizontal'
+				}
 			},
 			axes: {
-				xaxis: {
+				yaxis: {
 					tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
 					renderer: jQuery.jqplot.CategoryAxisRenderer,
 					ticks: data['labels'],
 					tickOptions: {
 						angle: -45
 					}
-				},
-				yaxis: {
-					min: 0,
-					max: data['yMaxValue'],
-					tickOptions: {
-						formatString: '%d'
-					},
-					pad: 1.2
 				}
 			},
 			legend: {
-				show: (data['data_labels']) ? true : false,
+				show: false,
 				location: 'e',
 				placement: 'outside',
-				showLabels: (data['data_labels']) ? true : false,
-				showSwatch: (data['data_labels']) ? true : false,
+				showSwatch: true,
+				showLabels: true,
 				labels: data['data_labels']
 			}
 		});
-//		this.getPlotContainer(false).on('jqPlotDataClick', function(){
-//			console.log('here');
-//		});
-//		jQuery.jqplot.eventListenerHooks.push(['jqPlotDataClick', myClickHandler]);
 	}
-
-//	registerSectionClick : function() {
-//		this.getPlotContainer(false);
-//	}
 });
-
+Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
+	loadChart: function () {
+		var data = this.generateChartData();
+		if (data['chartData'][0].length > 0) {
+			this.getPlotContainer(false).jqplot(data['chartData'], {
+				title: data['title'],
+				legend: {
+					show: false,
+					labels: data['labels'],
+					location: 'ne',
+					showSwatch: true,
+					showLabels: true,
+					placement: 'outside'
+				},
+				seriesDefaults: {
+					pointLabels: {
+						show: true
+					}
+				},
+				axes: {
+					xaxis: {
+						min: 0,
+						pad: 1,
+						renderer: $.jqplot.CategoryAxisRenderer,
+						ticks: data['labels'],
+						tickOptions: {
+							formatString: '%b %#d'
+						}
+					}
+				},
+				cursor: {
+					show: true
+				}
+			});
+		}
+	}
+});
 Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 	/**
 	 * Function which will give char related Data like data , x labels and legend labels as map
@@ -746,9 +846,27 @@ Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
 		app.hideModalWindow();
 		this.restrictContentDrag();
 		this.registerFilterChangeEvent();
+		this.registerRecordsCount();
+	},
+	postRefreshWidget: function () {
+		this.registerRecordsCount();
 	}
 });
+Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
+	loadChart: function () {
+		var container = this.getContainer();
+		var chartType = container.find('[name="typeChart"]').val();
+		var chartClassName = chartType.toCamelCase();
+		var chartClass = window["Report_" + chartClassName + "_Js"];
+		var instance = false;
+		if (typeof chartClass != 'undefined') {
+			instance = new chartClass();
+			instance.setContainer(container);
+			instance.loadChart();
+		}
 
+	}
+});
 Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js', {}, {
 	postLoadWidget: function () {
 		this._super();
@@ -830,8 +948,14 @@ Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
 	editNotebookContent: function () {
 		jQuery('.dashboard_notebookWidget_text', this.container).show();
 		jQuery('.dashboard_notebookWidget_view', this.container).hide();
+		$('body').on('click', function (e) {
+			if ($(e.target).closest('.dashboard_notebookWidget_view').length === 0 && $(e.target).closest('.dashboard_notebookWidget_text').length === 0) {
+				$('.dashboard_notebookWidget_save').trigger('click');
+			}
+		});
 	},
 	saveNotebookContent: function () {
+		$('body').off('click');
 		var self = this;
 		var textarea = jQuery('.dashboard_notebookWidget_textarea', this.container);
 
@@ -1152,10 +1276,13 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				var url = 'index.php?module=Calendar&view=List';
 				if (customFilter) {
 					url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
+				} else {
+					url += '&viewname=All';
 				}
 				url += '&search_params=[[';
-				if (container.find('.widgetFilter.owner option:selected').val() != 'all') {
-					url += '["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],';
+				var owner = container.find('.widgetFilter.owner option:selected');
+				if (owner.val() != 'all') {
+					url += '["assigned_user_id","c","' + owner.data('name') + '"],';
 				}
 				if (parent.find('.widgetFilterSwitch').length > 0) {
 					var status = parent.find('.widgetFilterSwitch').data();
@@ -1248,9 +1375,12 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 			} else {
 				var status = 'PLL_IN_REALIZATION,PLL_PLANNED';
 			}
-			var url = 'index.php?module=Calendar&view=List';
+			var url = 'index.php?module=Calendar&view=List&viewname=All';
 			url += '&search_params=[[';
-			url += '["assigned_user_id","c","' + container.find('.widgetFilter.owner option:selected').data('name') + '"],';
+			var owner = container.find('.widgetFilter.owner option:selected');
+			if (owner.val() != 'all') {
+				url += '["assigned_user_id","c","' + owner.data('name') + '"],';
+			}
 			url += '["activitystatus","e","' + status + '"]]]';
 			window.location.href = url;
 		});
@@ -1306,4 +1436,76 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	}
 });
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
+Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
+	loadChart: function () {
+		var container = this.getContainer();
+		var chartType = container.find('[name="typeChart"]').val();
+		var chartClassName = chartType.toCamelCase();
+		var chartClass = window["Vtiger_" + chartClassName + "_Widget_Js"];
 
+		var instance = false;
+		if (typeof chartClass != 'undefined') {
+			instance = new chartClass(container);
+			instance.loadChart();
+		}
+		this.registerRecordsCount();
+	}
+});
+YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
+	loadChart: function () {
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		var options = {
+			xaxis: {
+				minTickSize: 1,
+				ticks: chartData['ticks']
+			},
+			yaxis: {
+				min: 0,
+				tickDecimals: 0
+			},
+			grid: {
+				hoverable: true,
+				clickable: true
+			},
+			series: {
+				bars: {
+					show: true,
+					barWidth: 0.8,
+					dataLabels: false,
+					align: "center",
+					lineWidth: 0,
+				},
+				stack: true
+			},
+			legend: {
+				show: true,
+				labelFormatter: function (label, series) {
+					return('<b>' + label + '</b>: ' + chartData['legend'][label] + ' h');
+				}
+			}
+		};
+		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+	}
+});
+YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {
+	registerSectionClick: function () {
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
+			if (item) {
+				$(this).css('cursor', 'pointer');
+			} else {
+				$(this).css('cursor', 'auto');
+			}
+		});
+		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
+			if (item) {
+				$(chartData['links']).each(function () {
+					if (item.seriesIndex == this[0])
+						window.location.href = this[1];
+				});
+			}
+		});
+	}
+});

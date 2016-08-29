@@ -100,8 +100,9 @@ class VTEventConditionParserLexer extends AntlrLexer
 
 	public function reportError($e)
 	{
-		print_r($e);
-		throw new Exception("The condition you provided is invalid");
+		$log = LoggerManager::getInstance();
+		$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+		throw new Exception('The condition you provided is invalid');
 	}
 
 	// delegates
@@ -644,5 +645,3 @@ class VTEventConditionParserLexer extends AntlrLexer
 		}
 	}
 }
-
-?>

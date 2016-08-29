@@ -1,12 +1,12 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
 	'Sharing Rules' => 'Regras de Compartilhamento',
 	'SharingAccess' => 'Regras de Compartilhamento',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_READ' => 'Leitura',
 	'LBL_READ_WRITE' => 'Leitura e Escrita',
 	'LBL_RULE_NO' => 'Número Regra',
-	'LBL_SHARING_RULE' =>  'Regras de Compartilhamento',
+	'LBL_SHARING_RULE' => 'Regras de Compartilhamento',
 	'LBL_WITH_PERMISSIONS' => 'Com Permissões de',
 	'Read Only' => 'Somente Leitura',
 	'Read Write' => 'Leitura/Escrita',

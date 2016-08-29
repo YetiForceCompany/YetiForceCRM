@@ -98,6 +98,7 @@ $languageStrings = [
 	'LBL_TARGET_MODULE' => 'Módulo Alvo',
 	'LBL_RELATION_LABLE' => 'Etiqueta Relação',
 	'PLL_RELATED_LIST' => 'Muitos para muitos',
+	'PLL_ATTACHMENTS' => 'Attachments',
 	'PLL_DEPENDENTS_LIST' => 'Um para muitos',
 	'PLL_ADD' => 'Adicionar',
 	'PLL_SELECT' => 'Selecionar',
@@ -152,6 +153,8 @@ $languageStrings = [
 	'LBL_STANDARD_FIELDS' => 'Standard fields',
 	'LBL_ADVANCED_BLOCK_FIELDS' => 'Advanced block fields',
 	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Add advanced block fields',
+	'LBL_MAX_LENGTH_TEXT' => 'Max text length',
+	'LBL_MAX_WIDTH_COLUMN' => 'Column width [%]'
 ];
 
 $jsLanguageStrings = [
@@ -185,6 +188,6 @@ $jsLanguageStrings = [
 	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Tem certeza que desena remover o elemento do bloco?',
 	'JS_EXTENDED_MODULE' => 'Tem certeza que desena alterar o tipo do módulo?',
 	'JS_SAVE_CHANGES' => 'Alterações salvas com sucesso.',
-	'LBL_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
-	'LBL_NOTIFY_COPY_TITLE' => 'Text',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied to clipboard',
+	'JS_NOTIFY_COPY_TITLE' => 'Text',
 ];

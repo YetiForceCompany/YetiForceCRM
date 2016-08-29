@@ -20,10 +20,10 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 		$query = getListQuery($module);
 		$params = array();
 		if ($this->get('start') && $this->get('end')) {
-			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
+			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'),null, false);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbStartDate = $dbStartDateOject->format('Y-m-d');
-			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
+			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$query.= " AND ((concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) >= ? AND concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) <= ?) OR (concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) >= ? AND concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) <= ?) OR (vtiger_osstimecontrol.date_start < ? AND vtiger_osstimecontrol.due_date > ?) )";
@@ -90,11 +90,14 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstance()
 	{
-		$instance = Vtiger_Cache::get('calendar', $value);
-		if (!$instance) {
+		$instance = Vtiger_Cache::get('ossTimeControlModels', 'Calendar');
+		if ($instance === false) {
 			$instance = new self();
+			Vtiger_Cache::set('ossTimeControlModels', 'Calendar', clone $instance);
+			return $instance;
+		} else {
+			return clone $instance;
 		}
-		return $instance;
 	}
 
 	public static function getCalendarTypes()

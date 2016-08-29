@@ -10,34 +10,33 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-		<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
-	</div>
     <div class="">
+		<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATE_FILTERS))}' />
+		<div class="widget_header row marginBottom10px">
+			<div class="col-sm-8">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
+			<div class="col-sm-4">
+				<div class="btn-toolbar pull-right">
+					{if $REPORT_MODEL->isEditable() eq true}
+						<div class="btn-group">
+							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-primary">
+								<strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
+								<span class="glyphicon glyphicon-pencil"></span>
+							</button>
+						</div>
+					{/if}
+					<div class="btn-group">
+						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-success">
+							<strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
         <div class="reportsDetailHeader">
-            <input type="hidden" name="date_filters" data-value='{ZEND_JSON::encode($DATE_FILTERS)}' />
-            <div class="reportHeader row">
-                <div class='col-md-8'>
-                    <h3>{$REPORT_MODEL->getName()}</h3>
-                </div>
-
-                <div class='col-md-4 h4'>
-                    <div class="btn-toolbar pull-right">
-                        {if $REPORT_MODEL->isEditable() eq true}
-                            <div class="btn-group">
-                                <button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-default">
-                                    <strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </button>
-                            </div>
-                        {/if}
-                        <div class="btn-group">
-                            <button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-default">
-                                <strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+			<div class="reportHeader">
+				<h4>{$REPORT_MODEL->getName()}</h4>
             </div>
 			<div class="well">
 				<form name='chartDetailForm' id='chartDetailForm'>
@@ -48,10 +47,10 @@
 					<input type="hidden" name="folderid" value="{$REPORT_MODEL->get('folderid')}" />
 					<input type="hidden" name="reports_description" value="{$REPORT_MODEL->get('reports_description')}" />
 					<input type="hidden" name="primary_module" value="{$PRIMARY_MODULE}" />
-					<input type="hidden" name="secondary_modules" value={ZEND_JSON::encode($SECONDARY_MODULES)} />
-					<input type="hidden" name="advanced_filter" id="advanced_filter" value={ZEND_JSON::encode($ADVANCED_FILTERS)} />
+					<input type="hidden" name="secondary_modules" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($SECONDARY_MODULES))}" />
+					<input type="hidden" name="advanced_filter" id="advanced_filter" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($ADVANCED_FILTERS))}" />
 					<input type="hidden" name='groupbyfield' value={$CHART_MODEL->getGroupByField()} />
-					<input type="hidden" name='datafields' value={Zend_JSON::encode($CHART_MODEL->getDataFields())} />
+					<input type="hidden" name='datafields' value={Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($CHART_MODEL->getDataFields()))} />
 					<input type="hidden" name='charttype' value="{$CHART_MODEL->getChartType()}" />
 
 					{assign var=RECORD_STRUCTURE value=array()}
@@ -79,7 +78,7 @@
 								<div class="form-group col-xs-6">
 									<label>{vtranslate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}<span class="redColor">*</span></label>
 									<div class="col-md-12 paddingLRZero">
-										<select id='groupbyfield' name='groupbyfield' class="form-control" data-validation-engine="validate[required]"></select>
+										<select id='groupbyfield' name='groupbyfieldSelect' class="form-control" data-validation-engine="validate[required]"></select>
 									</div>
 								</div>
 								<div class="form-group col-xs-6">
@@ -98,7 +97,7 @@
 						<div class="clearfix">
 							<div class='h3'>
 								{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
-								<button class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
+								<button type="button" class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
 									<strong>{vtranslate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
 									<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-down {/if}"></span>
 								</button>
@@ -109,7 +108,7 @@
 						</div>
 					</div>
 					<div class="row textAlignCenter">
-						<button class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>
+						<button type="button" class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>
 						<strong>{vtranslate('LBL_SAVE',$MODULE)}</strong>
 						</button>
 					</div>

@@ -17,7 +17,7 @@
 <br>
 <div style="margin:0px 20px;">
 	<div class='border1px' style="padding:30px 100px;">
-		<div id='chartcontent' style="min-height:400px;" ></div>
+		<div class='chartcontent' style="min-height:400px;" ></div>
 		<br>
 		{if $CLICK_THROUGH neq 'true'}
 			<div class='row alert alert-info'>

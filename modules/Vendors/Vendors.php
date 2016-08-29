@@ -64,17 +64,6 @@ class Vendors extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'vendorname';
 
-	/** 	Constructor which will set the column_fields in this object
-	 */
-	function Vendors()
-	{
-		$this->log = LoggerManager::getLogger('vendor');
-		$this->log->debug("Entering Vendors() method ...");
-		$this->db = PearDatabase::getInstance();
-		$this->column_fields = getColumnFields('Vendors');
-		$this->log->debug("Exiting Vendor method ...");
-	}
-
 	function save_module($module)
 	{
 		
@@ -93,7 +82,7 @@ class Vendors extends CRMEntity
 		$log->debug("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
@@ -175,9 +164,9 @@ class Vendors extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != "")
-			$query .= "  WHERE ($where) AND " . $where_auto;
+			$query .= sprintf("  WHERE (%s) AND %s",$where, $where_auto);
 		else
-			$query .= "  WHERE " . $where_auto;
+			$query .= sprintf("  WHERE %s", $where_auto);
 
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
@@ -196,7 +185,7 @@ class Vendors extends CRMEntity
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
@@ -260,7 +249,7 @@ class Vendors extends CRMEntity
 		$log->debug("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = Vtiger_Functions::getModuleName($rel_tab_id);
+		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
 		vtlib_setup_modulevars($related_module, $other);
@@ -318,11 +307,11 @@ class Vendors extends CRMEntity
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array('Products' => 'vtiger_products', 'Contacts' => 'vtiger_vendorcontactrel', 'Campaigns' => 'vtiger_campaign_records');
+		$rel_table_arr = ['Products' => 'vtiger_products', 'Contacts' => 'vtiger_vendorcontactrel', 'Campaigns' => 'vtiger_campaign_records'];
 
-		$tbl_field_arr = Array('vtiger_products' => 'productid', 'vtiger_vendorcontactrel' => 'contactid', 'vtiger_campaign_records' => 'campaignid');
+		$tbl_field_arr = ['vtiger_products' => 'productid', 'vtiger_vendorcontactrel' => 'contactid', 'vtiger_campaign_records' => 'campaignid'];
 
-		$entity_tbl_field_arr = Array('vtiger_products' => 'vendor_id', 'vtiger_vendorcontactrel' => 'vendorid', 'vtiger_campaign_records' => 'crmid');
+		$entity_tbl_field_arr = ['vtiger_products' => 'vendor_id', 'vtiger_vendorcontactrel' => 'vendorid', 'vtiger_campaign_records' => 'crmid'];
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {
@@ -330,17 +319,12 @@ class Vendors extends CRMEntity
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
 				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", array($transferId, $entityId));
+					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
 				$res_cnt = $adb->num_rows($sel_result);
 				if ($res_cnt > 0) {
 					for ($i = 0; $i < $res_cnt; $i++) {
 						$id_field_value = $adb->query_result($sel_result, $i, $id_field);
-						$adb->update($rel_table, [
-							$entity_id_field => $entityId,
-							'time_start' => $cbtime,
-							'status' => $status,
-							], $entity_id_field . ' = ? and ' . $id_field . ' = ?', [$transferId, $id_field_value]
-						);
+						$adb->update($rel_table, [$entity_id_field => $entityId], $entity_id_field . ' = ? and ' . $id_field . ' = ?', [$transferId, $id_field_value]);
 					}
 				}
 			}

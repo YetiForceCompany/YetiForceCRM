@@ -78,6 +78,10 @@ $languageStrings = [
 	'LBL_ADD_HELPDESK' => 'Add ticket',
 	'LBL_ADD_PRODUCTS' => 'Add product',
 	'LBL_ADD_SERVICES' => 'Add service',
+	'LBL_SEND_MASS_EMAIL' => 'Send mass email',
+	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Number of found email addresses',
+	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Number of selected records',
+	'LBL_MINIMIZE_BAR' => 'Minimize bar',
 ];
 $jsLanguageStrings = [
 	'NoFindEmailInRecord' => 'Record does not have email address',

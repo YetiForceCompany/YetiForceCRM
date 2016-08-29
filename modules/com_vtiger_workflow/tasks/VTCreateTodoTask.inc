@@ -43,7 +43,7 @@ class VTCreateTodoTask extends VTTask
 
 	public function doTask($entityData)
 	{
-		if (!vtlib_isModuleActive('Calendar')) {
+		if (!\includes\Modules::isModuleActive('Calendar')) {
 			return;
 		}
 		$adb = PearDatabase::getInstance();
@@ -64,7 +64,7 @@ class VTCreateTodoTask extends VTTask
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 					WHERE vtiger_crmentity.deleted = 0 AND (vtiger_activity.link = ? OR vtiger_activity.process = ?) 
 					AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
-			$status = Vtiger_Functions::getArrayFromValue($this->duplicateStatus);
+			$status = vtlib\Functions::getArrayFromValue($this->duplicateStatus);
 			if (count($status) > 0) {
 				$sql .= " AND vtiger_activity.status NOT IN ('" . implode("','", $status) . "')";
 			}
@@ -167,11 +167,9 @@ class VTCreateTodoTask extends VTTask
 			'visibility' => 'Private',
 			//'eventstatus' => ''
 		);
-		if (in_array($moduleName, ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
-			$fields['link'] = $id;
-		}
-		if (in_array($moduleName, ['Campaigns', 'HelpDesk', 'Project', 'ServiceContracts'])) {
-			$fields['process'] = $id;
+		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+		if ($field) {
+			$fields[$field] = $id;
 		}
 
 		$todo = vtws_create('Calendar', $fields, $adminUser);
