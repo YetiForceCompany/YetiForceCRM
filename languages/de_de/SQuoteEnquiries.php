@@ -12,7 +12,7 @@ $languageStrings = [
 	'LBL_SUBJECT' => 'Bezeichnung',
 	'LBL_NUMBER' => 'Nummer',
 	'LBL_STATUS' => 'Status',
-	'LBL_CLOSED_TIME' => 'Beendigungszeit',
+	'LBL_CLOSED_TIME' => 'Geschlossen am',
 	'LBL_RESPONSE_TIME' => 'Reaktionszeit',
 	'SINGLE_SSalesProcesses' => 'Verkaufschance',
 	//PICKLIST VALUES

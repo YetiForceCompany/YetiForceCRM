@@ -27,7 +27,7 @@ $languageStrings = [
 	'Usage Unit' => 'Nutzungseinheit',
 	'Tax Class' => 'Steuerklasse',
 	'Website' => 'Webseite',
-	'FL_RENEWABLE' => 'Renewable',
+	'FL_RENEWABLE' => 'zu erneuern',
 	//Services popup of pricebook
 	'LBL_ADD_TO_PRICEBOOKS' => 'Zu Preisliste hinzufügen',
 	//YetiForce

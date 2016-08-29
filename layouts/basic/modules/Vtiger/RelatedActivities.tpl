@@ -98,23 +98,26 @@
 						</span>&nbsp&nbsp;
 						<span class="editDescription cursorPointer"><span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></span>
 						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
-							  data-content="{vtranslate('Status',$MODULE_NAME)}: {vtranslate($STATUS,$MODULE_NAME)}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{vtranslate('Created By',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{vtranslate('Assigned To',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
-							  {if $SHAREDOWNER}<div> 
-								  {vtranslate('Share with users',$MODULE_NAME)}:&nbsp;
-								  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
-									  {if $smarty.foreach.sowner.last}
-										  ,&nbsp;
-									  {/if}
-									  {\includes\fields\Owner::getUserLabel($SOWNERID)}
-								  {/foreach}
-								  </div>
-							  {/if}
-							  {if count($RECORD->get('selectedusers')) > 0}
-								  <br />{vtranslate('LBL_INVITE_RECORDS',$MODULE_NAME)}: 
-								  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-								  {if $USER}{vtlib\Functions::getOwnerRecordLabel( $USER )}{/if}
-							  {/foreach}
-						{/if}" >
+								data-content="{vtranslate('Status',$MODULE_NAME)}: {vtranslate($STATUS,$MODULE_NAME)}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{vtranslate('Created By',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{vtranslate('Assigned To',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
+								{if $SHAREDOWNER}<div> 
+									{vtranslate('Share with users',$MODULE_NAME)}:&nbsp;
+									{foreach $SHAREDOWNER item=SOWNERID name=sowner}
+										{if $smarty.foreach.sowner.last}
+											,&nbsp;
+										{/if}
+										{\includes\fields\Owner::getUserLabel($SOWNERID)}
+									{/foreach}
+									</div>
+								{/if}
+								{if $MODULE_NAME eq 'Events'}
+									{if count($RECORD->get('selectedusers')) > 0}
+										<br />{vtranslate('LBL_INVITE_RECORDS',$MODULE_NAME)}: 
+										{foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
+											{if $USER}{vtlib\Functions::getOwnerRecordLabel( $USER )}{/if}
+										{/foreach}
+									{/if}
+								{/if}
+								">
 						<span class="glyphicon glyphicon-info-sign"></span>
 					</span>
 					{if $RECORD->isEditable()}
