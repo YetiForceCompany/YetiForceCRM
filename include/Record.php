@@ -31,6 +31,13 @@ class Record
 			while ($row = $adb->getRow($result)) {
 				self::$recordLabelCache[$row['crmid']] = $row['label'];
 			}
+			foreach ($ids as $id) {
+				if ($id && !isset(self::$recordLabelCache[$id])) {
+					$metainfo = \vtlib\Functions::getCRMRecordMetadata($id);
+					$computeLabel = self::computeLabels($metainfo['setype'], $id);
+					self::$recordLabelCache[$id] = $computeLabel[$id];
+				}
+			}
 		}
 		$result = [];
 		foreach ($ids as $id) {
@@ -177,7 +184,7 @@ class Record
 								$labelSearch[] = $row[$columnName];
 						}
 						$entityDisplay[$row['id']] = ['name' => implode(' ', $labelName), 'search' => implode(' ', $labelSearch)];
-					}else {
+						}else {
 						$entityDisplay[$row['id']] = trim(implode(' ', $labelName));
 					}
 				}
