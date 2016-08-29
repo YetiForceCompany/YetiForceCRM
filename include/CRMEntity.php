@@ -298,13 +298,13 @@ class CRMEntity
 				];
 			} else {
 				$profileList = getCurrentUserProfileList();
-				$perm_qry = sprintf('SELECT columnname FROM vtiger_field 
-					INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid 
-					INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid 
-					WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 
-					AND vtiger_profile2field.readonly = 0 
-					AND vtiger_profile2field.profileid IN (%s) 
-					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=\'vtiger_crmentity\' 
+				$perm_qry = sprintf('SELECT columnname FROM vtiger_field
+					INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid
+					INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
+					WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0
+					AND vtiger_profile2field.readonly = 0
+					AND vtiger_profile2field.profileid IN (%s)
+					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=\'vtiger_crmentity\'
 					and vtiger_field.presence in (0,2)', generateQuestionMarks($profileList));
 				$perm_result = $adb->pquery($perm_qry, [$tabid, $profileList]);
 				while ($columnname = $adb->getSingleValue($perm_result)) {
@@ -2444,8 +2444,8 @@ class CRMEntity
 		}
 		if (\AppConfig::security('PERMITTED_BY_SHARING') && !empty($moduleName)) {
 			$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($user->id);
-			if (isset($sharingPrivileges[$moduleName])) {
-				$sharingPrivilegesModule = $sharingPrivileges[$moduleName];
+			if (isset($sharingPrivileges['permission'][$moduleName])) {
+				$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 				$sharingRuleInfo = $sharingPrivilegesModule['read'];
 				if (count($sharingRuleInfo['ROLE']) > 0 || count($sharingRuleInfo['GROUP']) > 0) {
 					$query .= " OR vtiger_crmentity.smownerid IN (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per WHERE userid=$user->id AND tabid=$tabId) OR vtiger_crmentity.smownerid IN (SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid FROM vtiger_tmp_read_group_sharing_per WHERE userid=$user->id AND tabid=$tabId)";
