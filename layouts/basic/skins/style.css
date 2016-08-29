@@ -5644,3 +5644,15 @@ select.form-control {
 .detailViewIcon.fa{
 	display: inline;
 }
+.addWidgetDropDown.dropdown-menu > li{
+	display: inline-block;
+	padding: 2px;
+	width: 100%;
+	white-space: nowrap;
+}
+.addWidgetDropDown.dropdown-menu > li > a{
+	display: inline;
+}
+.addWidgetDropDown .removeWidgetFromList{
+	float: none;
+}

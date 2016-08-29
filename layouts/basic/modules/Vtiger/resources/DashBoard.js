@@ -168,7 +168,11 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 											Vtiger_DashBoard_Js.gridster.remove_widget(element.closest('li'));
 											jQuery('.widgetsList').prev('button').css('visibility', 'visible');
 											var data = '<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" href="javascript:void(0);"';
-											data += 'data-width=' + width + ' data-height=' + height + ' data-linkid=' + response.result.linkid + ' data-name=' + response.result.name + '>' + response.result.title + '</a></li>';
+											data += 'data-width=' + width + ' data-height=' + height + ' data-linkid=' + response.result.linkid + ' data-name=' + response.result.name + '>' + response.result.title + '</a>';
+											if(response.result.deleteFromList){
+												data += "<button data-widget-id='"+ response.result.id +"' class='removeWidgetFromList btn btn-xs btn-danger'><span class='glyphicon glyphicon-trash'></span></button>" ;
+											}
+											data += '</li>';
 											var divider = jQuery('.widgetsList .divider');
 											if (divider.length) {
 												jQuery(data).insertBefore(divider);
@@ -553,6 +557,28 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			});
 		});
 	},
+	removeWidgetFromList: function(){
+		$('.dashboardHeading').on('click', '.removeWidgetFromList', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var id = currentTarget.data('widget-id');
+			var params = {
+				module: 'Vtiger',
+				action: "RemoveWidgetFromList",
+				id: id
+			}
+			AppConnector.request(params).then(function (data) {
+				var params = {
+					text: app.vtranslate('JS_WIDGET_DELETED'),
+					type: 'success',
+					animation: 'show'
+				};
+				Vtiger_Helper_Js.showMessage(params);
+				var parent = currentTarget.closest('li');
+				$(parent).remove();
+
+			})
+		});
+	},
 	registerEvents: function () {
 		this.registerGridster();
 		this.loadWidgets();
@@ -565,5 +591,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		this.registerMiniListWidget();
 		this.registerChartFilterWidget();
 		this.registerTabModules();
-	},
+		this.removeWidgetFromList();
+	}
 });
