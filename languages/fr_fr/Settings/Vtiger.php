@@ -352,6 +352,9 @@ $languageStrings = [
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Afficher le choix de la disposition sur la page de connexion',
 	'LBL_YETIFORCE_SHOP' => 'Boutique YetiForce',
 	'RecordAllocation' => 'Record allocation',
+	'LBL_SELECT_ICON' => 'Select icon',
+	'LBL_ICON_NAME' => 'Icon name',
+	'LBL_ICON_EXAMPLE' => 'Icon example',
 ];
 
 $jsLanguageStrings = [

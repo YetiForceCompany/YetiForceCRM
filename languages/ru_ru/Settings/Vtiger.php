@@ -377,6 +377,9 @@ $languageStrings = [
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Показать возможность выбора макета на странице входа',
 	'LBL_YETIFORCE_SHOP' => 'Магазин YetiForce',
 	'RecordAllocation' => 'Распределение записей',
+	'LBL_SELECT_ICON' => 'Select icon',
+	'LBL_ICON_NAME' => 'Icon name',
+	'LBL_ICON_EXAMPLE' => 'Icon example',
 ];
 
 $jsLanguageStrings = [
