@@ -4944,7 +4944,7 @@ html,body,.baseContainer
 	padding: 0 !important;
 }
 .hideSiteBar{
-	right: calc(-25% - -15px);
+	right: -25%;
 }
 .hideSiteBar .siteBarContent{
 	overflow: hidden;
