@@ -10,6 +10,7 @@ class yetiforce extends rcube_plugin
 {
 
 	private $rc;
+	private $autologin;
 
 	public function init()
 	{
@@ -53,6 +54,19 @@ class yetiforce extends rcube_plugin
 
 	public function startup($args)
 	{
+		$row = $this->getAutoLogin();
+		if (!$row || empty($_GET['_autologin'])) {
+			return $args;
+		}
+		if (!empty($_SESSION['user_id']) && $_SESSION['user_id'] != $row['user_id']) {
+			$this->rc->logout_actions();
+			$this->rc->kill_session();
+			$this->rc->plugins->exec_hook('logout_after', [
+				'user' => $_SESSION['username'],
+				'host' => $_SESSION['storage_host'],
+				'lang' => $this->rc->user->language
+			]);
+		}
 		if (empty($_SESSION['user_id']) && !empty($_GET['_autologin'])) {
 			$args['action'] = 'login';
 		}
@@ -64,12 +78,8 @@ class yetiforce extends rcube_plugin
 		if (empty($_GET['_autologin'])) {
 			return $args;
 		}
-		$key = rcube_utils::get_input_value('_autologinKey', rcube_utils::INPUT_GPC);
-		$db = $this->rc->get_dbh();
-		$sqlResult = $db->query('SELECT roundcube_users.* FROM u_yf_mail_autologin INNER JOIN roundcube_users ON roundcube_users.user_id = u_yf_mail_autologin.userid WHERE roundcube_users.password <> \'\' AND u_yf_mail_autologin.`key` = ?;', $key);
-		$row = $db->fetch_assoc($sqlResult);
-
-		if (!empty($row) && !empty($_GET['_autologin'])) {
+		$row = $this->getAutoLogin();
+		if ($row) {
 			$host = false;
 			foreach ($this->rc->config->get('default_host') as $key => $value) {
 				if (strpos($key, $row['mail_host']) !== false) {
@@ -83,7 +93,8 @@ class yetiforce extends rcube_plugin
 				$args['cookiecheck'] = false;
 				$args['valid'] = true;
 			}
-			$sqlResult = $db->query('DELETE FROM `u_yf_mail_autologin` WHERE `userid` = ?;', $row['user_id']);
+			$db = $this->rc->get_dbh();
+			$db->query('DELETE FROM `u_yf_mail_autologin` WHERE `userid` = ?;', $row['user_id']);
 		}
 		return $args;
 	}
@@ -472,5 +483,24 @@ if (window && window.rcmail) {
 			$out .= $line . "\n";
 		}
 		return rtrim($out, "\n");
+	}
+
+	protected function getAutoLogin()
+	{
+		if (empty($_GET['_autologinKey'])) {
+			return false;
+		}
+		if (isset($this->autologin)) {
+			return $this->autologin;
+		}
+		$key = rcube_utils::get_input_value('_autologinKey', rcube_utils::INPUT_GPC);
+		$db = $this->rc->get_dbh();
+		$sqlResult = $db->query('SELECT roundcube_users.* FROM u_yf_mail_autologin INNER JOIN roundcube_users ON roundcube_users.user_id = u_yf_mail_autologin.userid WHERE roundcube_users.password <> \'\' AND u_yf_mail_autologin.`key` = ?;', $key);
+		$autologin = false;
+		if ($row = $db->fetch_assoc($sqlResult)) {
+			$autologin = $row;
+		}
+		$this->autologin = $autologin;
+		return $autologin;
 	}
 }
