@@ -142,30 +142,25 @@
 							{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
 							<div class="headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 								<div class="btn-group">
-									<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=index">
-										<div class="hidden-xs">
-											{$ITEM.username}
-											<span class="mail_user_name">{$MAIN_MAIL.username}</span>
-											<span class="noMails_{$MAIN_MAIL.rcuser_id}"></span>
-										</div>
-										<div class="visible-xs-block">
-											<span class="glyphicon glyphicon-list-alt"></span>
-										</div>
-									</a>
-									{if $CONFIG['showMailAccounts']=='true'}
-										<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span class="caret"></span>
-											<span class="sr-only">Toggle Dropdown</span>
-										</button>
-										<ul class="dropdown-menu" role="menu">
+									{if count($AUTOLOGINUSERS) eq 1}
+										<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=index">
+											<div class="hidden-xs">
+												{$ITEM.username}
+												<span class="mail_user_name">{$MAIN_MAIL.username}</span>
+												<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
+											</div>
+											<div class="visible-xs-block">
+												<span class="glyphicon glyphicon-list-alt"></span>
+											</div>
+										</a>
+									{elseif $CONFIG['showMailAccounts']=='true'}
+										<select class="form-control" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 											{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-												<li data-id="{$KEY}" {if $ITEM.active}selested{/if}>
-													<a href="#">
-														{$ITEM.username} <span class="noMails"></span>
-													</a>
-												</li>
+												<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
+													{$ITEM.username}
+												</option>
 											{/foreach}
-										</ul>
+										</select>
 									{/if}
 								</div>
 							</div>
