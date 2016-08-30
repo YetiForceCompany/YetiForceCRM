@@ -2444,8 +2444,8 @@ class CRMEntity
 		}
 		if (\AppConfig::security('PERMITTED_BY_SHARING') && !empty($moduleName)) {
 			$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($user->id);
-			if (isset($sharingPrivileges[$moduleName])) {
-				$sharingPrivilegesModule = $sharingPrivileges[$moduleName];
+			if (isset($sharingPrivileges['permission'][$moduleName])) {
+				$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 				$sharingRuleInfo = $sharingPrivilegesModule['read'];
 				if (count($sharingRuleInfo['ROLE']) > 0 || count($sharingRuleInfo['GROUP']) > 0) {
 					$query .= " OR vtiger_crmentity.smownerid IN (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per WHERE userid=$user->id AND tabid=$tabId) OR vtiger_crmentity.smownerid IN (SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid FROM vtiger_tmp_read_group_sharing_per WHERE userid=$user->id AND tabid=$tabId)";
