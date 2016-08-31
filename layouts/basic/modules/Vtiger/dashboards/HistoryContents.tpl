@@ -43,7 +43,7 @@
 					{if $HISTORY->isUpdate()}
 						{assign var=FIELDS value=$HISTORY->getFieldInstances()}
 						<div class="">
-							<div><strong>{$USER->getName()}</strong> {vtranslate('LBL_UPDATED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<div><strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_UPDATED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								{$PARENT->getName()}</a>
 							</div>
@@ -72,13 +72,13 @@
 						</div>
 					{else if $HISTORY->isCreate()}
 						<div style='margin-top:5px'>
-							<strong>{$USER->getName()}</strong> {vtranslate('LBL_ADDED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_ADDED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								&nbsp;{$PARENT->getName()}</a>
 						</div>
 					{else if $HISTORY->isDisplayed()}
 						<div style='margin-top:5px'>
-							<strong>{$USER->getName()}</strong> {vtranslate('LBL_DISPLAYED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_DISPLAYED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								&nbsp;{$PARENT->getName()}</a>
 						</div>
@@ -87,7 +87,7 @@
 						{assign var=LINKED_RECORD_DETAIL_URL value=$RELATION->getLinkedRecord()->getDetailViewUrl()}
 						{assign var=PARENT_DETAIL_URL value=$RELATION->getParent()->getParent()->getDetailViewUrl()}
 						<div class='' style='margin-top:5px'>
-							<strong>{$USER->getName()}</strong>
+							<strong>{$USER->getName()}&nbsp;</strong>
 								{if $HISTORY->isRelationLink()}
 									{vtranslate('LBL_ADDED', $MODULE_NAME)}
 								{else}
@@ -109,13 +109,13 @@
 						</div>
 					{else if $HISTORY->isRestore()}
 						<div class=''  style='margin-top:5px'>
-							<strong>{$USER->getName()}</strong> {vtranslate('LBL_RESTORED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_RESTORED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								{$PARENT->getName()}</a>
 						</div>
 					{else if $HISTORY->isDelete()}
 						<div class=''  style='margin-top:5px'>
-							<strong>{$USER->getName()}</strong> {vtranslate('LBL_DELETED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_DELETED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								{$PARENT->getName()}</a>
 						</div>
