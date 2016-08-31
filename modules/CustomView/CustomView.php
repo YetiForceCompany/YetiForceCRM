@@ -1525,7 +1525,7 @@ class CustomView extends CRMEntity
 											ON vtiger_users.id = vtiger_user2role.userid 
 										  INNER JOIN vtiger_role 
 											ON vtiger_role.roleid = vtiger_user2role.roleid 
-										WHERE vtiger_role.parentrole LIKE "%%s::%")', $current_user_parent_role_seq);
+										WHERE vtiger_role.parentrole LIKE %s)', "'%$current_user_parent_role_seq::%'");
 							$result = $adb->pquery($sql, [$record_id]);
 
 							while ($row = $adb->fetchByAssoc($result)) {
