@@ -939,7 +939,7 @@ var app = {
 				}
 			}
 		});
-		table.dataTable();
+		return table.DataTable();
 	},
 	/**
 	 * Function which will register time fields

@@ -113,7 +113,12 @@ jQuery.Class("Home_NotificationsList_Js", {
 		AppConnector.request(params).then(function (data) {
 			$('.notificationContainer').html(data);
 			progress.progressIndicator({'mode': 'hide'});
-			app.registerDataTables($('.notificationTable'));
+			var table = app.registerDataTables($('.notificationTable'));
+			var cacheSearch = app.moduleCacheGet('searchDataTable');
+			table.search(cacheSearch).draw();
+			$('.notificationTable').on('search.dt', function (e){
+				app.moduleCacheSet('searchDataTable', table.search());
+			});
 		});
 	},
 	registerJstreeEvents: function () {
