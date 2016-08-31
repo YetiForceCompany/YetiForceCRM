@@ -5656,3 +5656,6 @@ select.form-control {
 .addWidgetDropDown .removeWidgetFromList{
 	float: none;
 }
+.headerLinksMails .select2-selection__rendered:hover {
+	background: #f5f5f5 !important;
+}

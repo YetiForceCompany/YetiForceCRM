@@ -60,6 +60,16 @@ function registerUserList() {
 		},
 		closeOnSelect: true
 	});
+	var select2Instance = selectUsers.data('select2');
+	select2Instance.$dropdown.on('mouseup', 'li', function (e) {
+		if (jQuery(e.currentTarget).attr('aria-selected') == 'true') {
+			selectUsers.trigger('change')
+		}
+	})
+	select2Instance.$container.find('.select2-selection__rendered').on('mousedown', function (e) {
+		e.stopPropagation();
+		selectUsers.trigger('change')
+	})
 }
 function startCheckMails() {
 	var users = [];
