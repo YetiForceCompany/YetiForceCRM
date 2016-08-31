@@ -10,10 +10,9 @@ class Icon
 {
 
 	private static $extensionIcon = [
-		'application/pdf' => 'fa-file-pdf-o',
+		'application/pdf' => 'fa fa-file-pdf-o',
 		'application/msword' => 'fa fa-file-word-o',
 		'application/vnd.openxmlformats-officedocument.word' => 'fa fa-file-word-o',
-		
 		'application/vnd.oasis.opendocument.text' => 'fa fa-file-word-o',
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'fa fa-file-excel-o',
 		'application/vnd.oasis.opendocument.spreadsheet' => 'fa fa-file-excel-o',
