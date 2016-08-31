@@ -17,7 +17,7 @@ class Vendors extends CRMEntity
 	var $table_name = "vtiger_vendor";
 	var $table_index = 'vendorid';
 	var $tab_name = Array('vtiger_crmentity', 'vtiger_vendor', 'vtiger_vendoraddress', 'vtiger_vendorcf', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_vendor' => 'vendorid', 'vtiger_vendoraddress' => 'vendorid', 'vtiger_vendorcf' => 'vendorid', 'vtiger_entity_stats' => 'crmid');
+	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_vendor' => 'vendorid', 'vtiger_vendoraddress' => 'vendorid', 'vtiger_vendorcf' => 'vendorid', 'vtiger_entity_stats' => 'crmid', 'u_yf_openstreetmap' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.

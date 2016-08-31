@@ -4832,7 +4832,7 @@ CREATE TABLE `vtiger_field` (
   KEY `presence` (`presence`),
   KEY `tabid_2` (`tabid`,`fieldname`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2359 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2381 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
