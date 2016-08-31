@@ -651,6 +651,8 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 /*Data for the table `u_yf_mail_compose_data` */
 
+/*Data for the table `u_yf_openstreetmap` */
+
 /*Data for the table `u_yf_partners` */
 
 /*Data for the table `u_yf_partners_address` */
@@ -4105,10 +4107,11 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (51,'vtiger.entity.afterrestore','modules/Calendar/handlers/CalendarHandler.php','CalendarHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (52,'vtiger.entity.aftersave.final','modules/IStorages/handlers/RecalculateStockHandler.php','RecalculateStockHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (53,'vtiger.entity.aftersave.final','modules/Accounts/handlers/SaveChanges.php','SaveChanges','',1,'[]');
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (54,'vtiger.entity.aftersave.final','modules/OpenStreetMap/handlers/OpenStreetMapHandler.php','OpenStreetMapHandler','moduleName in [\'Accounts\', \'Leads\', \'Partners\', \'Vendors\', \'Competition\', \'Contacts\']',1,'[]');
 
 /*Data for the table `vtiger_eventhandlers_seq` */
 
-insert  into `vtiger_eventhandlers_seq`(`id`) values (53);
+insert  into `vtiger_eventhandlers_seq`(`id`) values (54);
 
 /*Data for the table `vtiger_eventstatus` */
 

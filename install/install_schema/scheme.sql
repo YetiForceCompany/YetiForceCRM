@@ -2126,6 +2126,19 @@ CREATE TABLE `u_yf_mail_compose_data` (
   UNIQUE KEY `userid` (`userid`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_openstreetmap` */
+
+CREATE TABLE `u_yf_openstreetmap` (
+  `crmid` int(19) unsigned NOT NULL,
+  `lata` float DEFAULT NULL,
+  `lona` float DEFAULT NULL,
+  `latb` float DEFAULT NULL,
+  `lonb` float DEFAULT NULL,
+  `latc` float DEFAULT NULL,
+  `lonc` float DEFAULT NULL,
+  PRIMARY KEY (`crmid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_partners` */
 
 CREATE TABLE `u_yf_partners` (
@@ -4639,7 +4652,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `dependent_on` varchar(255) DEFAULT '[]',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventhandlers_seq` */
 
