@@ -2629,6 +2629,33 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerEmailEvents: function (detailContentsHolder) {
 		Vtiger_Index_Js.registerMailButtons(detailContentsHolder);
 	},
+	registerMapsEvents: function (container) {
+		var coordinates = container.find('#coordinates').val();
+		if (container.find('#coordinates').length) {
+			coordinates = JSON.parse(coordinates);
+			var startCoordinate = [0,0];
+			var startZoom = 2;
+			if(coordinates.length){
+				startCoordinate = coordinates[0];
+				startZoom = 6;
+			}
+			var postionTop = $('#mapid').position();
+			var positionBottom = $('.footerContainer ').position();
+			console.log(postionTop);
+			$('#mapid').css({
+				height: positionBottom.top - postionTop.top - 281
+			});
+			var mymap = L.map('mapid').setView(startCoordinate, startZoom);
+			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				maxZoom: 19,
+				attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+
+			}).addTo(mymap);
+			coordinates.forEach(function (e) {
+				L.marker(e).addTo(mymap);
+			});
+		}
+	},
 	registerBasicEvents: function () {
 		var thisInstance = this;
 		var detailContentsHolder = thisInstance.getContentHolder();
@@ -2637,6 +2664,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 		thisInstance.registerCommentEvents(detailContentsHolder);
 		thisInstance.registerEmailEvents(detailContentsHolder);
+		thisInstance.registerMapsEvents(detailContentsHolder);
 		app.registerEventForDatePickerFields(detailContentsHolder);
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
@@ -2752,7 +2780,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 			);
 		});
-		detailContentsHolder.on('click', '.moreProductsService', function(){
+		detailContentsHolder.on('click', '.moreProductsService', function () {
 			jQuery('.related .mainNav[data-reference="ProductsAndServices"]:not(.hide)').trigger('click');
 		});
 		detailContentsHolder.on('click', '.moreRelatedUpdates', function () {

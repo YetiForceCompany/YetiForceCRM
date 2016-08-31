@@ -1244,6 +1244,7 @@ $languageStrings = [
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Get total amount of records',
 	'Potentials' => 'Oportunidades',
 	'LBL_PICKLIST_FIELD' => 'Select from field',
+	'LBL_MAP' => 'Map'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumo',
