@@ -115,7 +115,8 @@ jQuery.Class("Home_NotificationsList_Js", {
 			progress.progressIndicator({'mode': 'hide'});
 			var table = app.registerDataTables($('.notificationTable'));
 			var cacheSearch = app.moduleCacheGet('searchDataTable');
-			table.search(cacheSearch).draw();
+			if(cacheSearch)
+				table.search(cacheSearch).draw();
 			$('.notificationTable').on('search.dt', function (e){
 				app.moduleCacheSet('searchDataTable', table.search());
 			});
