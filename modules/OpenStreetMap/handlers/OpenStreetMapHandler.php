@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Save Changes Handler Class
+ * Save geographical coordinates Handler Class
  * @package YetiForce.Handlers
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>

@@ -9,16 +9,9 @@
 class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 {
 
-	public $allowModules = ['Accounts', 'Contacts', 'Competition', 'Vendors', 'Partners', 'Leads'];
-
-	public function isAllowModules($moduleName)
-	{
-		return in_array($moduleName, $this->allowModules);
-	}
-
 	private static function getCoordinates($address)
 	{
-		$url = 'http://nominatim.openstreetmap.org/?';
+		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
 		$data = [
 			'format' => 'json',
 			'addressdetails' => 1,
