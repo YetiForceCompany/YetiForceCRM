@@ -93,6 +93,7 @@ $languageStrings = [
 	'ActivityCancel' => 'Anulowanie rekordów',
 	'ActivityComplete' => 'Zamykanie rekordów',
 	'ActivityPostponed' => 'Przekładanie rekordów',
+	'Emails' => 'Wysyłka maili [SMTP]'
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',
