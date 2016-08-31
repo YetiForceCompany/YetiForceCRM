@@ -68,8 +68,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 					mdw.limit,
 					mdw.cache,
 					mdw.owners,
-					mdw.isdefault,
-					mdw.id
+					mdw.isdefault
 				  FROM
 					vtiger_links 
 					LEFT JOIN vtiger_module_dashboard_widgets mdw 
