@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="container-fluid container-fluid-main">
-		<div class="baseContainer {if AppConfig::main('isVisibleUserInfoFooter')}userInfoFooter{/if}">
+		<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 			{if $VIEW != 'Login'}
 				{if !empty($CHILD_LINKS)}
 					<span class="caret"></span>
