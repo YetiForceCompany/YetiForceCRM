@@ -2641,7 +2641,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 			var postionTop = $('#mapid').position();
 			var positionBottom = $('.footerContainer ').position();
-			console.log(postionTop);
 			$('#mapid').css({
 				height: positionBottom.top - postionTop.top - 281
 			});

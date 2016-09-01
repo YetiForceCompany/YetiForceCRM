@@ -250,7 +250,6 @@ class Cron
 	function markFinished()
 	{
 		$lock = $this->getLockStatus();
-		var_dump($lock);
 		$time = time();
 		$query = 'UPDATE vtiger_cron_task SET lastend = ?';
 		$params = [$time];
