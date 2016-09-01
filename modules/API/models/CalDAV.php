@@ -115,6 +115,9 @@ class API_CalDAV_Model
 		if (!empty($record['description'])) {
 			$component->add($vcalendar->createProperty('DESCRIPTION', $record['description']));
 		}
+		if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
+			$record['visibility'] = AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
+		}
 		$component->add($vcalendar->createProperty('CLASS', $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC'));
 		$component->add($vcalendar->createProperty('PRIORITY', $this->getPriority($record['priority'], false)));
 
@@ -181,6 +184,9 @@ class API_CalDAV_Model
 			$dtz = date_default_timezone_get();
 			$vTimeZone = self::getVTimeZone($vcalendar, $dtz, $startDT->getTimestamp(), $endDT->getTimestamp());
 			$vcalendar->add($vTimeZone);
+		}
+		if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
+			$record['visibility'] = AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if ($component->name = $calType) {
@@ -448,15 +454,19 @@ class API_CalDAV_Model
 	public function getVisibility($component)
 	{
 		$visibility = 'Private';
-		if (isset($component->CLASS)) {
-			switch (strtolower($component->CLASS->getValue())) {
-				case 'public':
-					$visibility = 'Public';
-					break;
-				case 'private':
-					$visibility = 'Private';
-					break;
+		if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') === false) {
+			if (isset($component->CLASS)) {
+				switch (strtolower($component->CLASS->getValue())) {
+					case 'public':
+						$visibility = 'Public';
+						break;
+					case 'private':
+						$visibility = 'Private';
+						break;
+				}
 			}
+		} else {
+			$visibility = AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		return $visibility;
 	}
