@@ -68,6 +68,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$groupField = $this->extraData['groupField'];
 		$groupFieldModel = Vtiger_Field_Model::getInstance($groupField, $this->getTargetModuleModel());
 		$groupField = $groupFieldModel->get('column');
+		$fieldName = $groupFieldModel->get('name');
 		$queryGenerator = new QueryGenerator($this->getTargetModule(), $currentUserModel);
 		$queryGenerator->initForCustomViewById($filterId);
 		$fields = $queryGenerator->getFields();
@@ -86,7 +87,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				}
 				if(!isset($groupData[$displayValue]['link'])){
 					$moduleModel = $this->getTargetModuleModel();
-					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . '&viewname=All' . $this->getSearchParams($groupField, $row[$groupField]);
+					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . '&viewname=All' . $this->getSearchParams($fieldName, $row[$groupField]);
 				}		
 			}
 		}
