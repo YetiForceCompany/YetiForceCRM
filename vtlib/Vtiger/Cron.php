@@ -38,7 +38,7 @@ class Cron
 	 * set the value to the data
 	 * @param type $value,$key
 	 */
-	protected function set($key, $value)
+	public function set($key, $value)
 	{
 		$this->data[$key] = $value;
 		return $this;
@@ -162,7 +162,9 @@ class Cron
 	{
 		return $this->data['description'];
 	}
-
+	function getLockStatus(){
+		return isset($this->data['lockStatus']) ? $this->data['lockStatus'] : false;
+	}
 	/**
 	 * Check if task is right state for running.
 	 */
@@ -247,8 +249,18 @@ class Cron
 	 */
 	function markFinished()
 	{
+		$lock = $this->getLockStatus();
+		var_dump($lock);
 		$time = time();
-		self::querySilent('UPDATE vtiger_cron_task SET status=?, lastend=? WHERE id=?', array(self::$STATUS_ENABLED, $time, $this->getId()));
+		$query = 'UPDATE vtiger_cron_task SET lastend = ?';
+		$params = [$time];
+		if(!$lock){
+			$query .= ' ,status = ?';
+			$params []= self::$STATUS_ENABLED;
+		}
+		$query .= ' WHERE id = ?';
+		$params []= $this->getId();
+		self::querySilent($query, $params);
 		return $this->set('lastend', $time);
 	}
 

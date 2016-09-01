@@ -1,4 +1,10 @@
 <?php
+/**
+ * Cron task to update coordinates
+ * @package YetiForce.CRON
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
 $db = PearDatabase::getInstance();
 $result = $db->query('SELECT crmid FROM u_yf_openstreetmap_address_updater');
 if ($lastUpdatedCrmId = $db->getRow($result)) {
