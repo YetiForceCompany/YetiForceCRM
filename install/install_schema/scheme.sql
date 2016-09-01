@@ -2139,6 +2139,12 @@ CREATE TABLE `u_yf_openstreetmap` (
   PRIMARY KEY (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_openstreetmap_address_updater` */
+
+CREATE TABLE `u_yf_openstreetmap_address_updater` (
+  `crmid` int(19) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_partners` */
 
 CREATE TABLE `u_yf_partners` (
@@ -3870,7 +3876,7 @@ CREATE TABLE `vtiger_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 

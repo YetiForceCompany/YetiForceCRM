@@ -9,6 +9,11 @@
 class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 {
 
+	public function isAllowModules($moduleName)
+	{
+		return in_array($moduleName, AppConfig::module($this->getName(), 'ALLOW_MODULES'));
+	}
+
 	private static function getCoordinates($address)
 	{
 		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';

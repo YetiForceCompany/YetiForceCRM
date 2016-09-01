@@ -3,5 +3,8 @@
 $CONFIG = [
 	// Address URL to seaching
 	'ADDRESS_TO_SEARCH' => 'http://nominatim.openstreetmap.org',
-	
+	// Max number to update addresses
+	'CRON_MAX_UPDATED_ADDRESSES' => 1000,
+	// Allow modules
+	'ALLOW_MODULES' => ['Accounts', 'Contacts', 'Competition', 'Vendors', 'Partners', 'Leads']
 ];

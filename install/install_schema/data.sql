@@ -653,6 +653,10 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 /*Data for the table `u_yf_openstreetmap` */
 
+/*Data for the table `u_yf_openstreetmap_address_updater` */
+
+insert  into `u_yf_openstreetmap_address_updater`(`crmid`) values (0);
+
 /*Data for the table `u_yf_partners` */
 
 /*Data for the table `u_yf_partners_address` */
@@ -1558,6 +1562,7 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (21,'LBL_SEND_NOTIFICATIONS','modules/Home/cron/Notifications.php',900,NULL,NULL,1,'Home',19,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (22,'RecordLabelUpdater','cron/LabelUpdater.php',900,NULL,NULL,1,'Vtiger',20,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (23,'PrivilegesUpdater','cron/PrivilegesUpdater.php',900,NULL,NULL,1,'Vtiger',21,'');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (24,'UpdaterCoordinates','modules/OpenStreetMap/cron/UpdaterCoordinates.php',60,NULL,NULL,1,'OpenStreetMap',22,'');
 
 /*Data for the table `vtiger_currencies` */
 
