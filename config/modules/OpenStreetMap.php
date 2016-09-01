@@ -6,5 +6,13 @@ $CONFIG = [
 	// Max number to update addresses
 	'CRON_MAX_UPDATED_ADDRESSES' => 1000,
 	// Allow modules
-	'ALLOW_MODULES' => ['Accounts', 'Contacts', 'Competition', 'Vendors', 'Partners', 'Leads']
+	'ALLOW_MODULES' => ['Accounts', 'Contacts', 'Competition', 'Vendors', 'Partners', 'Leads'],
+	'FIELDS_IN_POPUP' => [
+		'Accounts' => ['accountname', 'email1', 'phone'],
+		'Leads' => ['company', 'firstname', 'lastname', 'email'],
+		'Partners' => ['subject', 'email'],
+		'Competition' => ['subject', 'email'],
+		'Vendors' => ['vendorname', 'email', 'website'],
+		'Contacts' => ['firstname', 'lastname', 'email', 'phone']
+	]
 ];

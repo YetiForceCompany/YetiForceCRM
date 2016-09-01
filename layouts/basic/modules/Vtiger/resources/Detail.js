@@ -2652,7 +2652,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 			}).addTo(mymap);
 			coordinates.forEach(function (e) {
-				L.marker(e).addTo(mymap);
+				L.marker([e[0], e[1]]).addTo(mymap).bindPopup(e[2]);
 			});
 		}
 	},

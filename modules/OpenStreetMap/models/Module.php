@@ -68,17 +68,38 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 		return $coordinates;
 	}
 
+	public static function getLabelsToPopupById($crmid){
+		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
+		$recodMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
+		$moduleName = $recodMetaData['setype'];
+		$queryGenerator = new QueryGenerator($moduleName, $currentUserModel);
+		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$queryGenerator->setFields($fields[$moduleName]);
+		
+		$query = $queryGenerator->getQuery();
+		$db = PearDatabase::getInstance();
+		$result = $db->query($query);
+		$row = $db->getRow($result);
+		$html = '';
+		foreach ($row as $fieldName => $value){
+			if(!empty($value)){
+				$html .=  $value . '<br>';
+			}
+		}
+		return $html;
+	}
 	public static function readCoordinates($recordId)
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_openstreetmap WHERE crmid = ?', [$recordId]);
+		$popup =  self::getLabelsToPopupById($recordId);
 		$coordinates = [];
 		if ($row = $db->getRow($result)) {
 			foreach (['a', 'b', 'c'] as $numAddress) {
 				$latName = 'lat' . $numAddress;
 				$lonName = 'lon' . $numAddress;
 				if (!empty($row[$latName] && !empty($row[$lonName]))) {
-					$coordinates[] = [$row[$latName], $row[$lonName]];
+					$coordinates[] = [$row[$latName], $row[$lonName], $popup];
 				}
 			}
 		}
