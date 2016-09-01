@@ -56,9 +56,11 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 					$recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
 				}
 			} else {
-				$fieldModel = $fieldList[$fieldName];
-				$fieldModel->set('fieldvalue', $fieldValue);
-				$fieldValues[$fieldName] = $fieldModel;
+				if (isset($fieldList[$fieldName])) {
+					$fieldModel = $fieldList[$fieldName];
+					$fieldModel->set('fieldvalue', $fieldValue);
+					$fieldValues[$fieldName] = $fieldModel;
+				}
 			}
 		}
 
