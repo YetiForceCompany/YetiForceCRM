@@ -8,6 +8,9 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
+	'PrintMail' => 'Печатать из почты',
+	'CreateDashboardChartFilter' => 'Создавать диаграмму по Фильтру',
+	'Administrator' => 'Профиль - Администратор',
 	'LBL_ADD_RECORD' => 'Добавить Профиль',
 	'LBL_CHOOSE_PROFILES' => 'Выбрать профили',
 	'LBL_CREATE_PROFILE' => 'Создать Профиль',
@@ -83,16 +86,16 @@ $languageStrings = [
 	'Profile Related to Sales' => 'Профиль связанный с продажами',
 	'Profile Related to Support' => 'Профиль связанный с поддержкой',
 	'Guest Profile for Test Users' => 'Профиль для гостей (Например для тестирования системы)',
-	'Admin Profile' => 'Профиль - Администратор',
+	'Admin Profile' => 'Профиль администратора системы',
 	'Support Profile' => 'Профиль - Поддержка',
 	'Sales Profile' => 'Профиль - Продажи',
 	'Guest Profile' => 'Профиль - Гость',
-	'RemoveRelation' => 'Удить связь',
+	'RemoveRelation' => 'Удалить связь',
 	'ReceivingMailNotifications' => 'Получать уведомления по почте',
 	'ActivityCancel' => 'Отмена зписи',
 	'ActivityComplete' => 'Закритые записи',
 	'ActivityPostponed' => 'Отложить записи',
-	'Emails' => 'Send emails [SMTP]'
+	'Emails' => 'Отправить почту [SMTP]',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Профиль успешно удален',
