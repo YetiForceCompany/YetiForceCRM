@@ -161,7 +161,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		if ($recordModel->isDeletable()) {
 			$deletelinkModel = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => sprintf("%s %s", getTranslatedString('LBL_DELETE', $moduleName), vtranslate('SINGLE_' . $moduleName, $moduleName)),
+				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
 				'title' => vtranslate('LBL_DELETE_RECORD')
@@ -374,7 +374,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$recordModel->trackView();
+		//$recordModel->trackView();
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
 	}
 

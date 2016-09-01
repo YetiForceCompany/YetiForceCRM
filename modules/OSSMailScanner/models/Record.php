@@ -387,7 +387,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$countEmails = 0;
 		$scanId = 0;
-		$accounts = $mailModel->getAccountsList();
+		$accounts = OSSMail_Record_Model::getAccountsList();
 		if (!$accounts) {
 			$log->warn('There are no accounts to be scanned');
 			return false;

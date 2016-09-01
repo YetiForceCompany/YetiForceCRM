@@ -78,8 +78,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		if ($onlyActive) {
 			$presence = [0];
 			$nonVisibleModules = self::getNonVisibleModulesList();
-			$query .= sprintf(' WHERE presence IN (%s) AND name NOT IN (%s)', 
-				generateQuestionMarks($presence), generateQuestionMarks($nonVisibleModules));
+			$query .= sprintf(' WHERE presence IN (%s) AND name NOT IN (%s)', generateQuestionMarks($presence), generateQuestionMarks($nonVisibleModules));
 			array_push($params, $presence, $nonVisibleModules);
 		}
 		$result = $db->pquery($query, $params);
@@ -210,8 +209,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 		// Create files
 		$module->createFiles($field1);
-		$moduleInstance = CRMEntity::getInstance($module->name);
-		$moduleInstance->setModuleSeqNumber('configure', $module->name, 'N', '1');
+		\includes\fields\RecordNumber::setNumber($module->name, 'N', 1);
 	}
 
 	public static function toAlphaNumeric($value)

@@ -682,6 +682,12 @@ $languageStrings = [
 	'AddressLevel6' => 'Region miasta',
 	'AddressLevel7' => 'Kod pocztowy',
 	'AddressLevel8' => 'Ulica',
+	'FL_LATA' => 'Szerokość geograficzna adresu głównego',
+	'FL_LONA' => 'Długość geograficzna adresu głównego',
+	'FL_LATB' => 'Szerokość geograficzna adresu korespondencji',
+	'FL_LONB' => 'Długość geograficzna adresu korespondencji',
+	'FL_LATC' => 'Szerokość geograficzna adresu magazynu',
+	'FL_LONC' => 'Długość geograficzna adresu magazynu',
 	'Building number' => 'Numer budynku',
 	'Local number' => 'Numer lokalu',
 	'Verification data' => 'Wymagają weryfikacji',
@@ -1247,6 +1253,7 @@ $languageStrings = [
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Pobierz całkowitą ilość rekordów',
 	'Potentials' => 'Szanse sprzedaży',
 	'LBL_PICKLIST_FIELD' => 'Lista wyboru z pola',
+	'LBL_MAP' => 'Mapa'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1520,4 +1527,5 @@ $jsLanguageStrings = [
 	'JS_INPUT_TOO_SHORT' => 'Wprowadzić _LENGTH_ lub więcej znaków',
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Masowa edycja nie powiodła się',
 	'JS_GET_PAGINATION_INFO' => 'Trwa ładowanie ilości rekordów. Czas ukończenia zależy od ilości rekordów.',
+	'JS_WIDGET_DELETED' => 'Usunięto widget',
 ];

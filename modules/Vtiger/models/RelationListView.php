@@ -342,6 +342,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			//To show the value of "Assigned to"
 			$ownerId = $row['smownerid'];
 			$newRow['assigned_user_id'] = $row['smownerid'];
+			if ($relationModuleName == 'Documents') {
+				$newRow['filetype'] = $row['filetype'];
+			}
 			if ($relationModuleName == 'Calendar') {
 				$visibleFields = array('activitytype', 'date_start', 'time_start', 'due_date', 'time_end', 'assigned_user_id', 'visibility', 'smownerid', 'parent_id');
 				$visibility = true;

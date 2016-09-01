@@ -33,6 +33,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showRelatedTree');
 		$this->exposeMethod('showRecentRelation');
+		$this->exposeMethod('showOpenStreetMap');
 	}
 
 	function checkPermission(Vtiger_Request $request)
@@ -225,6 +226,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
+	public function getHeaderCss(Vtiger_Request $request)
+	{
+		$parentCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = [
+			'~libraries/leaflet/leaflet.css'
+		];
+		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$cssInstances = array_merge($parentCssInstances, $modalInstances);
+		return $cssInstances;
+	}
+
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
@@ -237,8 +249,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.Widgets',
 			'modules.Vtiger.resources.ListSearch',
 			"modules.$moduleName.resources.ListSearch",
+			'~libraries/leaflet/leaflet.js',
+			'~libraries/leaflet-osm/leaflet-osm.js'
 		);
-
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
@@ -831,5 +844,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('POPUP', $config['popup']);
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
+	}
+
+	public function showOpenStreetMap($request)
+	{
+		$moduleName = $request->getModule();
+		$recordId = $request->get('record');
+		$coordinates = OpenStreetMap_Module_Model::readCoordinates($recordId);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('COORRDINATES', $coordinates);
+		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
 	}
 }

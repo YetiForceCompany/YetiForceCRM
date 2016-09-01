@@ -104,7 +104,15 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'badgeClass' => 'bgDanger'
 			];
 		}
-
+		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
+		if($openStreetMapModuleModel->isActive()){
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_MAP',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showOpenStreetMap',
+				'linkicon' => '',
+			];
+		}
 		$relationModels = $parentModuleModel->getRelations();
 
 		foreach ($relationModels as $relation) {

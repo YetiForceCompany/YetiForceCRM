@@ -730,6 +730,12 @@ $languageStrings = [
 	'AddressLevel6' => 'Район',
 	'AddressLevel7' => 'Индекс',
 	'AddressLevel8' => 'Улица',
+	'FL_LATA' => 'Primary address latitude',
+	'FL_LONA' => 'Primary address longitude',
+	'FL_LATB' => 'Correspondence address latitude',
+	'FL_LONB' => 'Correspondence address longitude',
+	'FL_LATC' => 'Storage address latitude',
+	'FL_LONC' => 'Storage address longitude',
 	'Building number' => 'Номер дома',
 	'Local number' => 'Номер офиса',
 	'LBL_REGISTERING_INFORMATION' => 'Регистрационная информация',
@@ -1251,6 +1257,7 @@ $languageStrings = [
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Получить общее количество записей',
 	'Potentials' => 'Сделки',
 	'LBL_PICKLIST_FIELD' => 'Выберите одно из полей',
+	'LBL_MAP' => 'Map'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',
@@ -1567,4 +1574,5 @@ $jsLanguageStrings = [
 	'JS_INPUT_TOO_SHORT' => 'Введите _LENGTH_ или более символов',
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Ошибка массового изменения',
 	'JS_GET_PAGINATION_INFO' => 'Загружаются записи. Время завершения зависит от общего числа записей.',
+	'JS_WIDGET_DELETED' => 'Widget deleted',
 ];

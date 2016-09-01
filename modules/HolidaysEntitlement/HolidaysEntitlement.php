@@ -90,7 +90,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('HolidaysEntitlement');
-			$moduleInstance->setModuleSeqNumber("configure", 'HolidaysEntitlement', 'HE', '1');
+			\includes\fields\RecordNumber::setNumber($moduleName, 'HE', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('HolidaysEntitlement'));
 			$moduleInstance = vtlib\Module::getInstance('HolidaysEntitlement');
 			$targetModule = vtlib\Module::getInstance('OSSEmployees');

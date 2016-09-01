@@ -716,6 +716,12 @@ $languageStrings = [
 	'AddressLevel6' => 'Arrondissement',
 	'AddressLevel7' => 'Code postal',
 	'AddressLevel8' => 'Rue',
+	'FL_LATA' => 'Primary address latitude',
+	'FL_LONA' => 'Primary address longitude',
+	'FL_LATB' => 'Correspondence address latitude',
+	'FL_LONB' => 'Correspondence address longitude',
+	'FL_LATC' => 'Storage address latitude',
+	'FL_LONC' => 'Storage address longitude',
 	'Building number' => 'Numéro',
 	'Local number' => 'Numéro de bureau',
 	'LBL_REGISTERING_INFORMATION' => 'Information de registre',
@@ -1131,7 +1137,7 @@ $languageStrings = [
 	'Api Address' => 'Chercher adresse',
 	'Notifications' => 'Notifications',
 	'Mails' => 'Mails',
-	'LBL_CATEGORY_MULTIPICKLIST' => '_UNTRANSLATED_',
+	'LBL_CATEGORY_MULTIPICKLIST' => 'List of categories',
 	// popup
 	'LBL_POPUP_SWITCH_BUTTON' => 'Bouton de switch',
 	'LBL_POPUP_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to module',
@@ -1233,6 +1239,7 @@ $languageStrings = [
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Get total amount of records',
 	'Potentials' => 'Opportunités',
 	'LBL_PICKLIST_FIELD' => 'Select from field',
+	'LBL_MAP' => 'Map'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',
@@ -1548,4 +1555,5 @@ $jsLanguageStrings = [
 	'JS_SEARCHING' => 'Searching...',
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Mass edition unsuccessful',
 	'JS_GET_PAGINATION_INFO' => 'Loading the amount of records in progress. Completion time depends on the total number of records.',
+	'JS_WIDGET_DELETED' => 'Widget deleted',
 ];

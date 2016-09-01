@@ -334,22 +334,30 @@ var app = {
 			};
 		}
 		var selectElementNew = selectElement;
-		selectElementNew.select2(params)
-				.on("select2:open", function (e) {
-					if (selectElementNew.data('unselecting')) {
-						selectElementNew.removeData('unselecting');
-						setTimeout(function (e) {
-							selectElementNew.each(function () {
-								jQuery(this).select2('close');
-							});
-						}, 1);
-					}
-					var element = jQuery(e.currentTarget);
-					var instance = element.data('select2');
-					instance.$dropdown.css('z-index', 1000002);
-				}).on("select2:unselect", function (e) {
-			selectElementNew.data('unselecting', true);
-		});
+		selectElement.each(function (e) {
+			var select = $(this);
+			if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
+				var selectNew = select.clone().addClass('hide');
+				select.parent().append(selectNew);
+				select.prop('disabled', true);
+			}
+			select.select2(params)
+					.on("select2:open", function (e) {
+						if (select.data('unselecting')) {
+							select.removeData('unselecting');
+							setTimeout(function (e) {
+								select.each(function () {
+									jQuery(this).select2('close');
+								});
+							}, 1);
+						}
+						var element = jQuery(e.currentTarget);
+						var instance = element.data('select2');
+						instance.$dropdown.css('z-index', 1000002);
+					}).on("select2:unselect", function (e) {
+				select.data('unselecting', true);
+			});
+		})
 		return selectElement;
 	},
 	/**
@@ -519,7 +527,7 @@ var app = {
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 			modalContainer.one('shown.bs.modal', function () {
 				var backdrop = jQuery('.modal-backdrop');
-				if(backdrop.length > 1){
+				if (backdrop.length > 1) {
 					jQuery('.modal-backdrop:not(:first)').remove();
 				}
 				cb(modalContainer);
@@ -931,7 +939,7 @@ var app = {
 				}
 			}
 		});
-		table.dataTable();
+		return table.DataTable();
 	},
 	/**
 	 * Function which will register time fields

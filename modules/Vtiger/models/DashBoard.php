@@ -54,11 +54,31 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 		if ($action == 'Header')
 			$action = 0;
-		$sql = " SELECT vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid, mdw.id as widgetid, mdw.position as position, vtiger_links.linkid as id, mdw.limit, mdw.cache, mdw.owners 
-			FROM vtiger_links 
-			LEFT JOIN vtiger_module_dashboard_widgets mdw ON vtiger_links.linkid = mdw.linkid
-			WHERE mdw.userid = ? AND vtiger_links.linktype = ? AND mdw.module = ? AND `active` = ?";
-		$params = array($currentUser->getId(), 'DASHBOARDWIDGET', $moduleModel->getId(), $action);
+		$sql = " SELECT 
+					vtiger_links.*,
+					mdw.userid,
+					mdw.data,
+					mdw.active,
+					mdw.title,
+					mdw.size,
+					mdw.filterid,
+					mdw.id AS widgetid,
+					mdw.position AS POSITION,
+					vtiger_links.linkid AS id,
+					mdw.limit,
+					mdw.cache,
+					mdw.owners,
+					mdw.isdefault
+				  FROM
+					vtiger_links 
+					LEFT JOIN vtiger_module_dashboard_widgets mdw 
+					  ON vtiger_links.linkid = mdw.linkid 
+				  WHERE mdw.userid = ? 
+					AND vtiger_links.linktype = ? 
+					AND mdw.module = ? 
+					AND `active` = ?";
+		$params = [$currentUser->getId(), 'DASHBOARDWIDGET', $moduleModel->getId(), $action];
+	
 		$result = $db->pquery($sql, $params);
 
 		$widgets = [];
@@ -66,12 +86,16 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 		while ($row = $db->fetch_array($result)) {
 			$row['linkid'] = $row['id'];
 			if ($row['linklabel'] == 'Mini List') {
+				if(!$row['isdeafult'])
+					$row['deleteFromList'] = true;
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$widgets[] = $minilistWidget;
 			} elseif ($row['linklabel'] == 'ChartFilter') {
+				if(!$row['isdeafult'])
+					$row['deleteFromList'] = true;
 				$charFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
 				$chartFilterWidgetModel->setWidgetModel($charFilterWidget);

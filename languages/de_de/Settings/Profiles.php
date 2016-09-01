@@ -65,7 +65,7 @@ $languageStrings = [
 	'QuickExportToExcel' => 'Excelexport',
 	'CreateDashboardFilter' => 'Filter Widgets erzeugen',
 	'DetailTransferOwnership' => 'Vorschau Datensatz - Zuständigen ändern',
-	'ExportPdf' => 'Export to PDF',
+	'ExportPdf' => 'Als PDF exportieren',
 	'RecordMapping' => 'Vorschau Datensatz - Generating mapped fields record',
 	'RecordMappingList' => 'Generating mapped fields records',
 	'WatchingRecords' => 'Änderungen im Datensatz protokollieren',
@@ -91,6 +91,7 @@ $languageStrings = [
 	'ActivityCancel' => 'Datensätze abbrechen',
 	'ActivityComplete' => 'Datensätze schließen',
 	'ActivityPostponed' => 'Datensätze verschieben',
+	'Emails' => 'Send emails [SMTP]'
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil erfolgreich gelöscht',

@@ -52,7 +52,7 @@
 
 			<div class="tab-pane active" id="layoutDashBoards">
 				<div class="btn-toolbar marginBottom10px">
-					<button type="button" class="btn btn-success addBlockDashBoard"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
+					<button type="button" class="btn btn-success addBlockDashBoard btn-xs"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
 				</div>
 
 				<div id="moduleBlocks">
@@ -70,14 +70,14 @@
 								<div class="col-sm-7 marginLeftZero pull-right">
 									<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 										<div class="btn-group">
-											<button class="btn btn-success btn-sm addCustomField" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;
+											<button class="btn btn-success btn-xs addCustomField" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;
 												<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 											</button>
 										</div>
 										{if $SPECIAL_WIDGETS['Rss']}
 											{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
 											<div class="btn-group">
-												<button class="btn btn-success btn-sm addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+												<button class="btn btn-success btn-xs addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 													<strong>{vtranslate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
@@ -85,7 +85,7 @@
 										{if $SPECIAL_WIDGETS['Mini List']}
 											{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 											<div class="btn-group">
-												<button class="btn btn-success btn-sm addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+												<button class="btn btn-success btn-xs addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 													<strong>{vtranslate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
@@ -93,7 +93,7 @@
 										{if $SPECIAL_WIDGETS['ChartFilter']}
 											{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 											<div class="btn-group">
-												<button class="btn btn-success btn-sm addChartFilter" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>&nbsp;
+												<button class="btn btn-success btn-xs addChartFilter" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>&nbsp;
 													<strong>{vtranslate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
@@ -101,7 +101,7 @@
 										{if $SPECIAL_WIDGETS['Notebook']}
 											{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 											<div class="btn-group">
-												<button class="btn btn-success btn-sm addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+												<button class="btn btn-success btn-xs addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 													<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
@@ -109,13 +109,13 @@
 										{if $SPECIAL_WIDGETS['Chart']}
 											{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
 											<div class="btn-group">
-												<button class="btn btn-success btn-sm addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+												<button class="btn btn-success btn-xs addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 													<strong>{vtranslate('LBL_ADD_WIDGET_CHARTS', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
 										{/if}
 										<div class="btn-group actions">
-											<a href="javascript:void(0)" class="deleteCustomBlock btn btn-sm btn-danger" >
+											<a href="javascript:void(0)" class="deleteCustomBlock btn btn-xs btn-danger" >
 												<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 											</a>
 										</div>

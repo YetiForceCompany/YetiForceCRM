@@ -18,7 +18,7 @@
 		<input type="hidden" name="folderid" value="{$REPORT_MODEL->get('folderid')}" >
 		<input type="hidden" name="reports_description" value="{$REPORT_MODEL->get('description')}" >
 		<input type="hidden" name="primary_module" value="{$PRIMARY_MODULE}" >
-		<input type="hidden" name="secondary_modules" value={Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($SECONDARY_MODULES))} >
+		<input type="hidden" name="secondary_modules" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($SECONDARY_MODULES))}">
 		<input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" >
 		<input type="hidden" class="step" value="2" >
 		<input type="hidden" name="mode" value="step3" >

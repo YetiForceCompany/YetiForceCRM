@@ -3534,6 +3534,7 @@ span[name=existingImages] img{
 	height: 20px;
 }
 .baseContainer .leftPanel .menuContainer a .glyphicon,
+.baseContainer .leftPanel .menuContainer a .fa,
 .baseContainer .leftPanel .menuContainer a.hasIcon img
 {
 	margin-right: 12px;
@@ -3541,7 +3542,10 @@ span[name=existingImages] img{
 	padding-right: 7px;
 	padding-left: 3px;
 }
-
+.baseContainer .leftPanel .menuContainer a .fa{
+	position: relative;
+	top: 2px;
+}
 .leftPanel li.menuLabel .slimScrollDiv{
 	position: static !important;
 }
@@ -4940,7 +4944,7 @@ html,body,.baseContainer
 	padding: 0 !important;
 }
 .hideSiteBar{
-	right: calc(-25% - -15px);
+	right: -25%;
 }
 .hideSiteBar .siteBarContent{
 	overflow: hidden;
@@ -5347,6 +5351,10 @@ select.form-control {
 	margin-top: 0;
 	padding: 7px 7px 0px 7px;
 }
+.notificationContainer .noticeRow hr + a{
+	font-weight: bold;
+	color: #337ab7 !important;
+}
 .notificationContainer .noticeIcon{
 	font-size: 20px;
 }
@@ -5636,4 +5644,22 @@ select.form-control {
 }
 .leftPanelOpen .toggleSiteBarRightButton {
 	right: calc(25% - 50px);
+}
+.detailViewIcon.fa{
+	display: inline;
+}
+.addWidgetDropDown.dropdown-menu > li{
+	display: inline-block;
+	padding: 2px;
+	width: 100%;
+	white-space: nowrap;
+}
+.addWidgetDropDown.dropdown-menu > li > a{
+	display: inline;
+}
+.addWidgetDropDown .removeWidgetFromList{
+	float: none;
+}
+.headerLinksMails .select2-selection__rendered:hover {
+	background: #f5f5f5 !important;
 }

@@ -245,8 +245,17 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	}
 
 	// Added to render html tag for description fields
-	if ($fieldInfo['uitype'] == '19' && ($module == 'Documents' || $module == 'Emails')) {
-		return $fieldvalue;
+	if (!($fieldInfo['uitype'] == '19' && ($module == 'Documents' || $module == 'Emails'))) {
+		$fieldvalue = htmlentities($fieldvalue, ENT_QUOTES, $default_charset);
 	}
-	return htmlentities($fieldvalue, ENT_QUOTES, $default_charset);
+	if ($fieldvalue !== '-' && $fieldvalue !== null && $fieldvalue !== '') {
+		switch ($fieldType) {
+			case 'double':
+			case 'currency':
+				return (double)$fieldvalue;
+			case 'boolean':
+				return (bool)$fieldvalue;
+		}
+	}
+	return $fieldvalue;
 }

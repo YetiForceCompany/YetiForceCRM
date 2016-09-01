@@ -30,7 +30,8 @@ class Partners extends Vtiger_CRMEntity
 		'u_yf_partners' => 'partnersid',
 		'u_yf_partnerscf' => 'partnersid',
 		'u_yf_partners_address' => 'partneraddressid',
-		'vtiger_entity_stats' => 'crmid');
+		'vtiger_entity_stats' => 'crmid',
+		'u_yf_openstreetmap' => 'crmid');
 
 	/**
 	 * Mandatory for Listing (Related listview)
@@ -82,7 +83,7 @@ class Partners extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Partners');
-			$moduleInstance->setModuleSeqNumber("configure", 'Partners', 'PR', '1');
+			\includes\fields\RecordNumber::setNumber($moduleName, 'PR', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Partners']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

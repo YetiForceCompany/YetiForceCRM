@@ -264,7 +264,7 @@ var Vtiger_Index_Js = {
 		})
 
 	},
-	registerCheckNotifications: function () {
+	registerCheckNotifications: function (repeat) {
 		var thisInstance = this;
 		var notificationsButton = jQuery('.notificationsNotice.quickAction.autoRefreshing');
 		if (notificationsButton.length < 1) {
@@ -280,7 +280,10 @@ var Vtiger_Index_Js = {
 		} else {
 			thisInstance.setNotification(app.cacheGet('NotificationsData', 0));
 		}
-		setTimeout('Vtiger_Index_Js.registerCheckNotifications()', delay);
+		if (repeat !== false) {
+			setTimeout('Vtiger_Index_Js.registerCheckNotifications()', delay);
+		}
+
 	},
 	requestNotification: function () {
 		var thisInstance = this;
@@ -335,17 +338,8 @@ var Vtiger_Index_Js = {
 					});
 				});
 			}
-			var badge = $(".notificationsNotice .badge");
-			badge.each(function (n, e) {
-				var singleBadge = jQuery(e);
-				var number = parseInt(singleBadge.text()) - 1;
-				if (number > 0) {
-					singleBadge.text(number);
-				} else {
-					singleBadge.text('');
-				}
-			})
 			app.cacheSet('NotificationsNextCheckTime', 0);
+			Vtiger_Index_Js.registerCheckNotifications(false);
 		});
 	},
 	markAllNotifications: function (element) {
@@ -372,13 +366,8 @@ var Vtiger_Index_Js = {
 				text: app.vtranslate('JS_MARKED_AS_READ'),
 				type: 'info'
 			});
-			var badge = $(".notificationsNotice .badge");
-			var number = parseInt(badge.text()) - 1;
-			if (number > 0) {
-				badge.text(number);
-			} else {
-				badge.text('');
-			}
+			app.cacheSet('NotificationsNextCheckTime', 0);
+			Vtiger_Index_Js.registerCheckNotifications(false);
 		});
 	},
 	/**

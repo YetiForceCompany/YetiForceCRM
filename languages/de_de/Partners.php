@@ -10,6 +10,6 @@ $languageStrings = [
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
 	'LBL_NUMBER' => 'Nummer',
-	'LBL_CLOSED_TIME' => 'Beendigungszeit',
+	'LBL_CLOSED_TIME' => 'Geschlossen am',
 	'LBL_VAT_ID' => 'MwSt',
 ];

@@ -12,7 +12,7 @@ $languageStrings = [
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
 	'LBL_NUMBER' => 'Nummer',
-	'LBL_CLOSED_TIME' => 'Beendigungszeit',
+	'LBL_CLOSED_TIME' => 'Geschlossen am',
 	'FL_ESTIMATED' => 'Voraussichtlicher Wert',
 	'FL_ACTUAL_SALE' => 'tatsächlichen Verkaufspreis',
 	'FL_ESTIMATED_DATE' => 'Voraussichtliche Datum ',
