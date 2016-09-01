@@ -284,20 +284,29 @@ class yetiforce extends rcube_plugin
 	//	Loading signature
 	public function loadSignature($response)
 	{
-		global $OUTPUT;
+		global $OUTPUT, $MESSAGE;
 		if ($this->checkAddSignature()) {
 			return;
 		}
 		$gS = $this->getGlobalSignature();
-		if ($gS['html'] == '') {
+		if (empty($gS['html'])) {
 			return;
 		}
-		$a_signatures = array();
-		foreach ($OUTPUT->get_env('signatures') as $identity_id => $signature) {
-			$a_signatures[$identity_id]['text'] = $signature['text'] . PHP_EOL . $gS['text'];
-			$a_signatures[$identity_id]['html'] = $signature['html'] . '<div class="pre global">' . $gS['html'] . '</div>';
+		$signatures = [];
+		foreach ($OUTPUT->get_env('signatures') as $identityId => $signature) {
+			$signatures[$identityId]['text'] = $signature['text'] . PHP_EOL . $gS['text'];
+			$signatures[$identityId]['html'] = $signature['html'] . '<div class="pre global">' . $gS['html'] . '</div>';
 		}
-		$OUTPUT->set_env('signatures', $a_signatures);
+		if (count($MESSAGE->identities)) {
+			foreach ($MESSAGE->identities as &$identity) {
+				$identityId = $identity['identity_id'];
+				if (!isset($signatures[$identityId])) {
+					$signatures[$identityId]['text'] = "--\n" . $gS['text'];
+					$signatures[$identityId]['html'] = '--<br><div class="pre global">' . $gS['html'] . '</div>';
+				}
+			}
+		}
+		$OUTPUT->set_env('signatures', $signatures);
 	}
 
 	public function getGlobalSignature()
