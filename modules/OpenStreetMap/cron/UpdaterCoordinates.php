@@ -9,11 +9,11 @@ $db = PearDatabase::getInstance();
 $result = $db->query('SELECT crmid FROM u_yf_openstreetmap_address_updater');
 if ($lastUpdatedCrmId = $db->getRow($result)) {
 	$lastUpdatedCrmId = $lastUpdatedCrmId['crmid'];
-	$query = 'SELECT crmid, setype FROM vtiger_crmentity WHERE crmid > ? LIMIT ?';
+	$query = 'SELECT crmid, setype, deleted FROM vtiger_crmentity WHERE crmid > ? LIMIT ?';
 	$result = $db->pquery($query, [$lastUpdatedCrmId, AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES')]);
 	$moduleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
 	while ($row = $db->getRow($result)) {
-		if ($moduleModel->isAllowModules($row['setype'])) {
+		if ($moduleModel->isAllowModules($row['setype']) && $row['deleted'] == 0) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
 			$coordinates = OpenStreetMap_Module_Model::getCoordinatesByRecord($recordModel);
 			foreach ($coordinates as $typeAddress => $coordinate) {
@@ -36,7 +36,7 @@ if ($lastUpdatedCrmId = $db->getRow($result)) {
 	
 	$lastRecordId = $db->query('SELECT id FROM vtiger_crmentity_seq');
 	$lastRecordId = $db->getSingleValue($lastRecordId);
-	if ($lastRecordId - 1 == $lastUpdatedCrmId) {
+	if ($lastRecordId  == $lastUpdatedCrmId) {
 		$db->update('u_yf_openstreetmap_address_updater', ['crmid' => 0]);
 		$cronTask->updateStatus(\vtlib\Cron::$STATUS_DISABLED);
 		$cronTask->set('lockStatus', true);
