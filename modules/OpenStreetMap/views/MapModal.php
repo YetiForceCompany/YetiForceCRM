@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Tree Category Modal Class
+ * Map Modal Class
  * @package YetiForce.ModalView
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
