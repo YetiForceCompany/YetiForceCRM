@@ -456,7 +456,8 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 							var selectedOptions = valueSelectElement.find('option:selected');
 							var newvaluesArr = [];
 							jQuery.each(selectedOptions, function (i, e) {
-								if (searchOperator) {
+								var comparator = jQuery('[name="comparator"]', rowElement).val();
+								if ((comparator != 'n' && searchOperator) || comparator == 'e') {
 									newvaluesArr.push(jQuery.trim(jQuery(e).val()));
 								} else {
 									newvaluesArr.push(jQuery.trim(jQuery(e).text()));
@@ -655,7 +656,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 				for (var option in optionGroupValues) {
 					html += '<option value="' + option + '" ';
 					//comparing with the value instead of key , because saved value is giving username instead of id.
-					if (jQuery.inArray(option, selectedOptionsArray) != -1) {
+					if ((comparatorSelectedOptionVal == 'e' && jQuery.inArray(option, selectedOptionsArray) != -1) || (comparatorSelectedOptionVal == 'n' && jQuery.inArray(jQuery.trim(optionGroupValues[option]), selectedOptionsArray) != -1)) {
 						html += ' selected ';
 					}
 					html += '>' + optionGroupValues[option] + '</option>';
