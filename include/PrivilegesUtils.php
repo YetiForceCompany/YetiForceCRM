@@ -25,7 +25,7 @@ class PrivilegesUtils
 		$fn_name = 'get' . $relTabName . 'Related' . $parentTabName;
 		$entId = self::$fn_name($recordId);
 		if ($entId != '') {
-			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($entId);
+			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($entId);
 			if ($recordMetaData) {
 				$ownerId = $recordMetaData['smownerid'];
 				$type = \includes\fields\Owner::getType($ownerId);
