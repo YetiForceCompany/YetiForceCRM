@@ -8,10 +8,6 @@
  */
 class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View {
 
-	public function checkPermission(Vtiger_Request $request) {
-		return true;
-	}
-
 	public function getSize(Vtiger_Request $request) {
 		return 'modal-full';
 	}

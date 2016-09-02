@@ -6,24 +6,21 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action {
+class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
+{
 
-	public function checkPermission(Vtiger_Request $request) {
-		return true;
-	}
-
-	
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$records = $this->getRecordIds($request);
 		$data = [];
-		foreach($records as $recordId){
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		foreach ($records as $recordId) {
 			$data = array_merge($data, OpenStreetMap_Module_Model::readCoordinates($recordId));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($data);
 		$response->emit();
 	}
+
 	protected function getRecordIds(Vtiger_Request $request)
 	{
 		$cvId = $request->get('viewname');
@@ -55,10 +52,9 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action {
 					$customViewModel->set('search_value', $searchValue);
 				}
 				$customViewModel->set('search_params', $request->get('search_params'));
-				return $customViewModel->getRecordIds($excludedIds, $module, true);
+				return $customViewModel->getRecordIds($excludedIds, $module);
 			}
 		}
 		return [];
 	}
-
 }

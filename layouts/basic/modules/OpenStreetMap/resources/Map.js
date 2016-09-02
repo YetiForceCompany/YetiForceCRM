@@ -17,6 +17,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		return myMap;
 	},
 	registerModalView: function (container) {
+		var progressIndicatorElement = jQuery.progressIndicator({
+			'position' : container,
+			'blockInfo' : {
+				'enabled' : true
+			}
+		});
 		this.container = container;
 		var startCoordinate = [0, 0];
 		var startZoom = 2;
@@ -30,11 +36,20 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			srcModule: app.getModuleName(),
 		};
 		$.extend(params, this.selectedParams);
+		var markerArray = [];
 		AppConnector.request(params).then(function (response) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'})
 			var coordinates = response.result;
 			coordinates.forEach(function (e) {
-				L.marker([e[0], e[1]]).addTo(myMap).bindPopup(e[2]);
+				markerArray.push([e[0], e[1]]);
+				var marker = L.marker([e[0], e[1]], {
+					icon: L.divIcon({
+						className: 'fa fa-map-marker fa-3x',
+					})
+				}).addTo(myMap).bindPopup(e[2]);
+				marker.valueOf()._icon.style.color = e['color']; //or any color
 			});
+			myMap.fitBounds(markerArray);
 		});
 	},
 	registerDetailView: function (container) {
