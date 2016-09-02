@@ -2130,12 +2130,9 @@ CREATE TABLE `u_yf_mail_compose_data` (
 
 CREATE TABLE `u_yf_openstreetmap` (
   `crmid` int(19) unsigned NOT NULL,
-  `lata` float DEFAULT NULL,
-  `lona` float DEFAULT NULL,
-  `latb` float DEFAULT NULL,
-  `lonb` float DEFAULT NULL,
-  `latc` float DEFAULT NULL,
-  `lonc` float DEFAULT NULL,
+  `type` char(1) NOT NULL,
+  `lat` decimal(10,7) DEFAULT NULL,
+  `lon` decimal(10,7) DEFAULT NULL,
   PRIMARY KEY (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

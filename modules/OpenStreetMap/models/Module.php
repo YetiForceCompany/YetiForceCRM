@@ -6,16 +6,13 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMap_Module_Model extends Vtiger_Module_Model
-{
+class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 
-	public function isAllowModules($moduleName)
-	{
+	public function isAllowModules($moduleName) {
 		return in_array($moduleName, AppConfig::module($this->getName(), 'ALLOW_MODULES'));
 	}
 
-	private static function getCoordinates($address)
-	{
+	private static function getCoordinates($address) {
 		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
 		$data = [
 			'format' => 'json',
@@ -43,8 +40,7 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public static function getCoordinatesByRecord($recordModel)
-	{
+	public static function getCoordinatesByRecord($recordModel) {
 		$coordinates = [];
 		foreach (['a', 'b', 'c'] as $numAddress) {
 			$address = [
@@ -57,52 +53,53 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 			$coordinatesDetails = self::getCoordinates($address);
 			if ($coordinatesDetails === false)
 				break;
-			if (!empty($coordinatesDetails)) {
-				$coordinatesDetails = reset($coordinatesDetails);
-				$coordinates [$numAddress] = [
-					'lat' => $coordinatesDetails['lat'],
-					'lon' => $coordinatesDetails['lon']
-				];
-			}
+			$coordinatesDetails = reset($coordinatesDetails);
+			$coordinates [$numAddress] = [
+				'lat' => $coordinatesDetails['lat'],
+				'lon' => $coordinatesDetails['lon']
+			];
 		}
 		return $coordinates;
 	}
 
-	public static function getLabelsToPopupById($crmid){
+	public static function getLabelsToPopupById($crmid) {
 		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$recodMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
 		$moduleName = $recodMetaData['setype'];
 		$queryGenerator = new QueryGenerator($moduleName, $currentUserModel);
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$queryGenerator->setFields($fields[$moduleName]);
-		
+		$queryGenerator->setCustomCondition([
+			'glue' => 'AND',
+			'tablename' => 'vtiger_crmentity',
+			'column' => 'crmid',
+			'operator' => '=',
+			'value' => $crmid
+		]);
 		$query = $queryGenerator->getQuery();
 		$db = PearDatabase::getInstance();
 		$result = $db->query($query);
 		$row = $db->getRow($result);
 		$html = '';
-		foreach ($row as $fieldName => $value){
-			if(!empty($value)){
-				$html .=  $value . '<br>';
+		foreach ($row as $fieldName => $value) {
+			if (!empty($value)) {
+				$html .= $value . '<br>';
 			}
 		}
 		return $html;
 	}
-	public static function readCoordinates($recordId)
-	{
+
+	public static function readCoordinates($recordId) {
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_openstreetmap WHERE crmid = ?', [$recordId]);
-		$popup =  self::getLabelsToPopupById($recordId);
+		$popup = self::getLabelsToPopupById($recordId);
 		$coordinates = [];
-		if ($row = $db->getRow($result)) {
-			foreach (['a', 'b', 'c'] as $numAddress) {
-				$latName = 'lat' . $numAddress;
-				$lonName = 'lon' . $numAddress;
-				if (!empty($row[$latName] && !empty($row[$lonName]))) {
-					$coordinates[] = [$row[$latName], $row[$lonName], $popup];
-				}
+		while ($row = $db->getRow($result)) {
+			if (!empty($row['lat'] && !empty($row['lon']))) {
+				$coordinates[] = [$row['lat'], $row['lon'], $popup];
 			}
 		}
 		return $coordinates;
 	}
+
 }

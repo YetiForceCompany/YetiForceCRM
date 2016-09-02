@@ -250,7 +250,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.ListSearch',
 			"modules.$moduleName.resources.ListSearch",
 			'~libraries/leaflet/leaflet.js',
-			'~libraries/leaflet-osm/leaflet-osm.js'
+			'~libraries/leaflet-osm/leaflet-osm.js',
+			"modules.OpenStreetMap.resources.Map",
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

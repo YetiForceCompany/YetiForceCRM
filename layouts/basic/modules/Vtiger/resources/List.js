@@ -583,6 +583,19 @@ jQuery.Class("Vtiger_List_Js", {
 		app.showModalWindow(null, url, function () {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'})
 		});
+	},
+	showMap: function () {
+		var selectedParams = Vtiger_List_Js.getSelectedRecordsParams();
+		if (selectedParams === false) {
+			return false;
+		}
+		var url = 'index.php?module=OpenStreetMap&view=MapModal';
+		app.showModalWindow(null, url, function (container) {
+			var mapView = new OpenStreetMap_Map_Js();
+			mapView.setSelectedParams(selectedParams);
+			mapView.registerModalView(container);
+			
+		});
 	}
 }, {
 	//contains the List View element.

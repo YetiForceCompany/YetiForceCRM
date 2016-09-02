@@ -60,6 +60,15 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => 'glyphicon glyphicon-send'
 			];
 		}
+		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
+		if ($openStreetMapModuleModel->isActive() && $openStreetMapModuleModel->isAllowModules($moduleModel->getName())) {
+			$headerLinks[] = [
+				'linktype' => 'LIST_VIEW_HEADER',
+				'linkhint' => 'LBL_SHOW_MAP',
+				'linkurl' => 'javascript:Vtiger_List_Js.showMap()',
+				'linkicon' => 'fa fa-globe'
+			];
+		}
 		foreach ($headerLinks as $headerLink) {
 			$links['LIST_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues($headerLink);
 		}

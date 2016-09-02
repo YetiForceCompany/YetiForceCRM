@@ -2632,27 +2632,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerMapsEvents: function (container) {
 		var coordinates = container.find('#coordinates').val();
 		if (container.find('#coordinates').length) {
-			coordinates = JSON.parse(coordinates);
-			var startCoordinate = [0,0];
-			var startZoom = 2;
-			if(coordinates.length){
-				startCoordinate = coordinates[0];
-				startZoom = 6;
-			}
-			var postionTop = $('#mapid').position();
-			var positionBottom = $('.footerContainer ').position();
-			$('#mapid').css({
-				height: positionBottom.top - postionTop.top - 281
-			});
-			var mymap = L.map('mapid').setView(startCoordinate, startZoom);
-			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-				maxZoom: 19,
-				attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-
-			}).addTo(mymap);
-			coordinates.forEach(function (e) {
-				L.marker([e[0], e[1]]).addTo(mymap).bindPopup(e[2]);
-			});
+			var mapView = new OpenStreetMap_Map_Js();
+			mapView.registerDetailView(container);
 		}
 	},
 	registerBasicEvents: function () {
