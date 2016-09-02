@@ -2152,6 +2152,7 @@ CREATE TABLE `u_yf_partners` (
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `email` varchar(50) DEFAULT '',
   `active` tinyint(1) DEFAULT '0',
+  `category` varchar(255) DEFAULT '',
   PRIMARY KEY (`partnersid`),
   CONSTRAINT `fk_1_u_yf_partners` FOREIGN KEY (`partnersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4835,7 +4836,7 @@ CREATE TABLE `vtiger_field` (
   KEY `presence` (`presence`),
   KEY `tabid_2` (`tabid`,`fieldname`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2381 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2382 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8701,7 +8702,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `access` int(1) DEFAULT '1',
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 
