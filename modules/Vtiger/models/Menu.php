@@ -211,7 +211,7 @@ class Vtiger_Menu_Model
 				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
 		}
-		if ($menu['type'] == 'Module') {
+		if (isset($menu['type']) && $menu['type'] == 'Module') {
 			return '<span class="menuIcon userIcon-' . $menu['mod'] . '" aria-hidden="true"></span>';
 		}
 		return '';
