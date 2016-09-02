@@ -5,11 +5,8 @@
 		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_MAP', $MODULE)}</h3>
 	</div>
 	<div class="modal-body container-fluid">
-		<div class="col-xs-9">
+		<div class="col-xs-12 paddingLRZero">
 			<div id="mapid"></div>
-		</div>
-		<div class="col-xs-3">
-			
 		</div>
 	</div>
 	<div class="modal-footer">

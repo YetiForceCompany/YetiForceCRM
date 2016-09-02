@@ -61,7 +61,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
-		if ($openStreetMapModuleModel->isActive() && $openStreetMapModuleModel->isAllowModules($moduleModel->getName())) {
+		if ($openStreetMapModuleModel->isActive() && ($openStreetMapModuleModel->isAllowModules($moduleModel->getName()) || in_array($moduleModel->getName(), array_keys(Vtiger_ModulesHierarchy_Model::getModulesByLevel(1))))) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SHOW_MAP',
