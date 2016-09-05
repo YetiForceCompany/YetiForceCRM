@@ -9,7 +9,7 @@
 class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 {
 
-	protected $functionMap = ['general', 'companyDetail', 'recordChanges'];
+	protected $functionMap = ['general', 'companyDetail', 'recordChanges', 'employeeDetail'];
 
 	public static function getFunctionVariables()
 	{
@@ -28,6 +28,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			'Record Label' => '(general: RecordLabel)',
 			'LBL_HELPDESK_SUPPORT_NAME' => '(general: HelpdeskSupportName)',
 			'LBL_HELPDESK_SUPPORT_EMAILID' => '(general: HelpdeskSupportEmail)',
+			'Employee Name' => '(employeeDetail: last_name)',
 		];
 	}
 
@@ -68,8 +69,8 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		if ($this->has('recordModel')) {
 			$this->parseFieldsValue();
 			$this->parseFieldsLabel();
-			$this->parseFunctions();
 		}
+		$this->parseFunctions();
 		return $this->get('content');
 	}
 
@@ -155,7 +156,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 						$userId = Vtiger_Util_Helper::getCreator($recordMeta['smcreatorid']);
 					}
 				}
-				$ownerObject = new Users();
+				$ownerObject = CRMEntity::getInstance('Users');
 				$ownerObject->retrieveCurrentUserInfoFromFile($userId);
 
 				$date = new DateTimeField(null);
@@ -309,5 +310,35 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			return '(translate: [' . $value . '])';
 		}
 		return $value;
+	}
+
+	protected static $employee = [];
+
+	private function employeeDetail($fieldName)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$userId = $currentUserModel->getId();
+		if (!isset(self::$employee[$userId])) {
+			$db = PearDatabase::getInstance();
+			$query = 'SELECT * FROM vtiger_ossemployees INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid INNER JOIN vtiger_ossemployeescf ON vtiger_ossemployeescf.ossemployeesid = vtiger_ossemployees.ossemployeesid WHERE vtiger_crmentity.deleted = ? AND vtiger_crmentity.smownerid = ? LIMIT 1;';
+			$result = $db->pquery($query, [0, $userId]);
+			if ($db->getRowCount($result)) {
+				$columns = $db->getRow($result);
+				$fields = [];
+				$moduleModel = Vtiger_Module_Model::getInstance('OSSEmployees');
+				foreach ($moduleModel->getFields() as $fieldModel) {
+					if ($columns[$fieldModel->get('column')] != '') {
+						$fields[$fieldModel->getFieldName()] = $fieldModel->getDisplayValue($columns[$fieldModel->get('column')], $columns['ossemployeesid'], false, true);
+					}
+				}
+				self::$employee[$userId] = $fields;
+			} else {
+				return '';
+			}
+		}
+		if (isset(self::$employee[$userId][$fieldName])) {
+			return self::$employee[$userId][$fieldName];
+		}
+		return '';
 	}
 }
