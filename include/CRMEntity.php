@@ -2420,7 +2420,7 @@ class CRMEntity
 	{
 		if (strripos($tableName, 'rel') === (strlen($tableName) - 3)) {
 			return 'LEFT JOIN';
-		} else if ($tableName == 'vtiger_entity_stats') {
+		} else if ($tableName == 'vtiger_entity_stats' || $tableName == 'u_yf_openstreetmap') {
 			return 'LEFT JOIN';
 		}
 		return 'INNER JOIN';
