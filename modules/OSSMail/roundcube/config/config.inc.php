@@ -76,3 +76,4 @@ $config['smtp_conn_options'] = [
 $config['root_directory'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 $config['site_URL'] = $site_URL;
 $config['imap_open_add_connection_type'] = true;
+$config['enable_variables_in_signature'] = false;

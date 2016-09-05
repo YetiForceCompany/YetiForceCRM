@@ -11,6 +11,7 @@ class yetiforce extends rcube_plugin
 
 	private $rc;
 	private $autologin;
+	private $currentUser;
 
 	public function init()
 	{
@@ -94,7 +95,7 @@ class yetiforce extends rcube_plugin
 				$args['valid'] = true;
 			}
 			$db = $this->rc->get_dbh();
-			$db->query('DELETE FROM `u_yf_mail_autologin` WHERE `userid` = ?;', $row['user_id']);
+			$db->query('DELETE FROM `u_yf_mail_autologin` WHERE `cuid` = ?;', $row['cuid']);
 		}
 		return $args;
 	}
@@ -113,6 +114,9 @@ class yetiforce extends rcube_plugin
 			$args['_action'] = 'compose';
 			$args['_task'] = 'mail';
 			$args['_composeKey'] = rcube_utils::get_input_value('_composeKey', rcube_utils::INPUT_GET);
+		}
+		if ($row = $this->getAutoLogin()) {
+			$_SESSION['crm']['id'] = $row['cuid'];
 		}
 		return $args;
 	}
@@ -285,6 +289,14 @@ class yetiforce extends rcube_plugin
 	public function loadSignature($response)
 	{
 		global $OUTPUT, $MESSAGE;
+		if ($this->rc->config->get('enable_variables_in_signature')) {
+			$signatures = [];
+			foreach ($OUTPUT->get_env('signatures') as $identityId => $signature) {
+				$signatures[$identityId]['text'] = $this->parseVariables($signature['text']);
+				$signatures[$identityId]['html'] = $this->parseVariables($signature['html']);
+			}
+			$OUTPUT->set_env('signatures', $signatures);
+		}
 		if ($this->checkAddSignature()) {
 			return;
 		}
@@ -504,12 +516,39 @@ if (window && window.rcmail) {
 		}
 		$key = rcube_utils::get_input_value('_autologinKey', rcube_utils::INPUT_GPC);
 		$db = $this->rc->get_dbh();
-		$sqlResult = $db->query('SELECT roundcube_users.* FROM u_yf_mail_autologin INNER JOIN roundcube_users ON roundcube_users.user_id = u_yf_mail_autologin.userid WHERE roundcube_users.password <> \'\' AND u_yf_mail_autologin.`key` = ?;', $key);
+		$sqlResult = $db->query('SELECT * FROM u_yf_mail_autologin INNER JOIN roundcube_users ON roundcube_users.user_id = u_yf_mail_autologin.ruid WHERE roundcube_users.password <> \'\' AND u_yf_mail_autologin.`key` = ?;', $key);
 		$autologin = false;
 		if ($row = $db->fetch_assoc($sqlResult)) {
 			$autologin = $row;
 		}
 		$this->autologin = $autologin;
 		return $autologin;
+	}
+
+	protected function parseVariables($text)
+	{
+		$currentPath = getcwd();
+		chdir($this->rc->config->get('root_directory'));
+		$this->loadCurrentUser();
+
+		$textParser = Vtiger_TextParser_Helper::getCleanInstance();
+		$textParser->setContent($text);
+		$text = $textParser->parse();
+
+		chdir($currentPath);
+		return $text;
+	}
+
+	protected function loadCurrentUser()
+	{
+		if (isset($this->currentUser)) {
+			return true;
+		}
+		require 'include/main/WebUI.php';
+		$ownerObject = CRMEntity::getInstance('Users');
+		$ownerObject->retrieveCurrentUserInfoFromFile($_SESSION['crm']['id']);
+		$this->currentUser = $ownerObject;
+		vglobal('current_user', $ownerObject);
+		return true;
 	}
 }

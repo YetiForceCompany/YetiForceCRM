@@ -5,13 +5,21 @@ $search = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC, true);
 $sid = rcube_utils::get_input_value('_reqid', rcube_utils::INPUT_GPC);
 if (strlen($search)) {
 	$contacts = [];
-
-	$addressBookFile = '../../../cache/addressBook/mails_' . $RCMAIL->user->data['crm_user_id'] . '.php';
-	if (is_file($addressBookFile)) {
-		include $addressBookFile;
-		foreach ($bookMails as $row) {
-			if (strpos($row, $search) !== false) {
-				$contacts[] = $row;
+	$crmUserId = false;
+	if (isset($_SESSION['crm']['id'])) {
+		$crmUserId = $_SESSION['crm']['id'];
+	}
+	if ($RCMAIL->user->data['crm_user_id']) {
+		$crmUserId = $RCMAIL->user->data['crm_user_id'];
+	}
+	if ($crmUserId) {
+		$addressBookFile = '../../../cache/addressBook/mails_' . $crmUserId . '.php';
+		if (is_file($addressBookFile)) {
+			include $addressBookFile;
+			foreach ($bookMails as $row) {
+				if (strpos($row, $search) !== false) {
+					$contacts[] = $row;
+				}
 			}
 		}
 	}

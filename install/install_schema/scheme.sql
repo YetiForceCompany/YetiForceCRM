@@ -2112,9 +2112,12 @@ CREATE TABLE `u_yf_knowledgebasecf` (
 /*Table structure for table `u_yf_mail_autologin` */
 
 CREATE TABLE `u_yf_mail_autologin` (
-  `userid` smallint(11) unsigned NOT NULL,
+  `ruid` smallint(11) unsigned NOT NULL,
   `key` varchar(50) NOT NULL,
-  KEY `userid` (`userid`)
+  `cuid` smallint(11) unsigned NOT NULL,
+  KEY `ruid` (`ruid`),
+  KEY `cuid` (`cuid`),
+  KEY `key` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_mail_compose_data` */

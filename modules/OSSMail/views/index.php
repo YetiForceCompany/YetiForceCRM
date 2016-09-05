@@ -36,10 +36,14 @@ class OSSMail_index_View extends Vtiger_Index_View
 				}
 				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
 				$db = PearDatabase::getInstance();
-				$db->delete('u_yf_mail_autologin', '`userid` = ?;', [$rcUser['rcuser_id']]);
+				$currentUserModel = Users_Record_Model::getCurrentUserModel();
+				$userId = $currentUserModel->getId();
+
+				$db->delete('u_yf_mail_autologin', '`cuid` = ?;', [$userId]);
 				$db->insert('u_yf_mail_autologin', [
 					'key' => $key,
-					'userid' => $rcUser['rcuser_id']
+					'ruid' => $rcUser['rcuser_id'],
+					'cuid' => $userId
 				]);
 			}
 		}
