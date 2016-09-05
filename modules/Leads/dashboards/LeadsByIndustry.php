@@ -61,6 +61,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$result = $db->pquery($query, $params);
 		$response = [];
 		if ($db->num_rows($result) > 0) {
+			$i = 0;
 			while ($row = $db->getRow($result)) {
 				$data[$i]['label'] = vtranslate($row['industryvalue'], 'Leads');
 				$ticks[$i][0] = $i;
@@ -68,6 +69,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 				$data[$i]['data'][0][0] = $i;
 				$data[$i]['data'][0][1] = $row['count'];
 				$name[] = $row['industryvalue'];
+				$i++;
 			}
 			$response['chart'] = $data;
 			$response['ticks'] = $ticks;
