@@ -25,10 +25,10 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$result = array();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$value = $recordModel->get($fieldName);
-			if(!is_array($value)) {
+			if (!is_array($value)) {
 				$fieldValue = Vtiger_Util_Helper::toSafeHTML($value);
 			} else {
-				foreach ($value as $key => $item){
+				foreach ($value as $key => $item) {
 					$fieldValue[$key] = Vtiger_Util_Helper::toSafeHTML($item);
 				}
 			}
@@ -180,7 +180,9 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$recordModel->set('visibility', $visibility);
 			}
 		}
-
+		if ($request->has('saveAndClose')) {
+			$recordModel->set('activitystatus', $request->get('saveAndClose'));
+		}
 		if (empty($visibility)) {
 			$assignedUserId = $recordModel->get('assigned_user_id');
 			$sharedType = Calendar_Module_Model::getSharedType($assignedUserId);

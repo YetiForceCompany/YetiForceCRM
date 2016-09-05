@@ -110,4 +110,5 @@ $languageStrings = [
 	'LBL_REMAIND_HOURS' => 'Напомнить после выбранного количества часов',
 	'LBL_REMAIND_MINS' => 'Напомнить после выбранного количества минут',
 	'LBL_SELECT_INVITE' => 'Пригласить',
+	'LBL_SAVE_AND_CLOSE' => 'Save and close',
 ];

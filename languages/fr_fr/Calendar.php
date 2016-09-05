@@ -140,6 +140,7 @@ $languageStrings = [
 	'LBL_CACHE_SELECTED_FILTERS' => 'La vue satndard du calendrier a été modifiée. Cliquez sur "Rafraichir la vue" pour la mettre à jour.',
 	'LBL_CACHE_CLEAR' => 'Rafraichir la vue',
 	'LBL_PROCESS' => 'Process',
+	'LBL_SAVE_AND_CLOSE' => 'Save and close',
 ];
 
 $jsLanguageStrings = [

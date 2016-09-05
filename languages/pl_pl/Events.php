@@ -109,5 +109,6 @@ $languageStrings = [
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Wypełnienie daty rozpoczęcia na podstawie pierwszego wolnego terminu',
 	'LBL_REMAIND_HOURS' => 'Przypomnij po wybranej ilości godzin',
 	'LBL_REMAIND_MINS' => 'Przypomnij po wybranej ilości minut',
+	'LBL_SAVE_AND_CLOSE' => 'Zapisz i zamknij',
 ];
 

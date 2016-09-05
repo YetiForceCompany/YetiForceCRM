@@ -30,7 +30,6 @@
 								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
 							{/if}
 							<button class="btn btn-default" id="goToFullForm" type="button" data-edit-view-url="{$EDIT_VIEW_URL}"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
-							<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 							<button class="cancelLink btn btn-warning" type="reset" aria-hidden="true" data-dismiss="modal"
 									type="button" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 						</div>
@@ -100,6 +99,10 @@
 										</div>
 									{/foreach}
 									</div>
+								</div>
+								<div class="pull-right marginTB10">
+									<button class="btn btn-primary saveAndComplete" type="button">{vtranslate('LBL_SAVE_AND_CLOSE', $MODULE)}</button> 
+									<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 								</div>
 								{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
 									<div class="row noSpaces col-xs-12 eventsTable" style="margin-top: 5px;">

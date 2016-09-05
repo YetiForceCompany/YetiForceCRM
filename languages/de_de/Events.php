@@ -104,4 +104,5 @@ $languageStrings = [
 	'LBL_REMAIND_HOURS' => 'Erinnern, nach der ausgewählten Anzahl von Stunden',
 	'LBL_REMAIND_MINS' => 'Erinnern, nach der ausgewählten Anzahl von Minuten',
 	'LBL_SELECT_INVITE' => 'Weitere Teilnehmer einladen',
+	'LBL_SAVE_AND_CLOSE' => 'Save and close',
 ];

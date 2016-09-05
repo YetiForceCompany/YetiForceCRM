@@ -51,5 +51,5 @@ $languageStrings = [
 	'Average daily working time' => 'Średni dzienny czas pracy',
 	'LBL_USER_EXISTS' => 'Pracownik już istnieje',
 	'FL_POSITION' => 'Stanowisko',
-	'FL_SECONDARY_PHONE' => 'Telefon dodatkowy',
+	'FL_SECONDARY_PHONE' => 'Tel. dodatkowy',
 ];

@@ -207,7 +207,23 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			}
 		});
 	},
+	setVisibilityBtnSaveAndClose: function(container){
+		var secondDate = container.find('input[name="due_date"]');
+		var secondDateFormat = secondDate.data('date-format');
+		var secondDateValue = secondDate.val();
+		var secondTime = container.find('input[name="time_end"]');
+		var secondTimeValue = secondTime.val();
+		var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
+		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue,secondDateFormat);
+		var timeBetweenDates =  secondDateInstance - new Date();
+		if(timeBetweenDates >= 0){
+			container.find('.saveAndComplete').addClass('hide');
+		} else {
+			container.find('.saveAndComplete').removeClass('hide');
+		}
+	},
 	registerEndDateTimeChangeLogger: function (container) {
+		var thisInstance = this;
 		container.find('[name="time_end"]').on('change', function (e) {
 			var timeElement = jQuery(e.currentTarget);
 			var result = Vtiger_Time_Validator_Js.invokeValidation(timeElement);
@@ -225,6 +241,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			if (result != true) {
 				return;
 			}
+			thisInstance.setVisibilityBtnSaveAndClose(container);
 			jQuery('[name="userChangedEndDateTime"]').val('1');
 			dueDateElement.data('userChangedTime', true);
 		});
@@ -299,6 +316,15 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			}
 		});
 	},
+	registerSaveAndCloseBtn: function(container){
+		container.find('.saveAndComplete').on('click', function(){
+			var invalidFields = container.data('jqv').InvalidFields;
+			if (invalidFields.length == 0) {
+				container.append('<input type=hidden name="saveAndClose" value="PLL_COMPLETED">');
+			}
+			container.find('[type="submit"]').trigger('click');
+		});
+	},
 	registerBasicEvents: function (container) {
 		this._super(container);
 		this.toggleTimesInputs(container);
@@ -307,6 +333,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		this.registerActivityTypeChangeEvent(container);
 		this.registerEndDateTimeChangeLogger(container);
 		this.registerAutoFillHours(container);
+		this.registerSaveAndCloseBtn(container);
 	},
 	toggleTimesInputs: function (container) {
 		container.find(':checkbox').change(function () {

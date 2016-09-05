@@ -163,6 +163,7 @@ $languageStrings = [
 	'LBL_CACHE_SELECTED_FILTERS' => 'Стандартный вид в календаре изменен. Нажмите кнопку \"Очистить вид\", чтобы очистить его.',
 	'LBL_CACHE_CLEAR' => 'Очистить вид',
 	'LBL_PROCESS' => 'Процесс',
+	'LBL_SAVE_AND_CLOSE' => 'Save and close',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => '+ Событие | Задача',

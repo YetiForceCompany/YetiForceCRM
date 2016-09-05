@@ -140,6 +140,7 @@ $languageStrings = [
 	'LBL_CACHE_SELECTED_FILTERS' => 'Zmieniłeś standardowy widok w kalendarzu, aby go wyczyścić wciśnij przycisk "Wyczyść widok".',
 	'LBL_CACHE_CLEAR' => 'Wyczyść widok',
 	'LBL_PROCESS' => 'Proces',
+	'LBL_SAVE_AND_CLOSE' => 'Zapisz i zamknij',
 ];
 $jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Dodano kalendarz',

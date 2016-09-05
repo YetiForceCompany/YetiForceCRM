@@ -150,6 +150,7 @@ $languageStrings = [
 	'LBL_CACHE_SELECTED_FILTERS' => 'Standard view in calendar changed. Click "Clear view" to clear it.',
 	'LBL_CACHE_CLEAR' => 'Clear view',
 	'LBL_PROCESS' => 'Process',
+	'LBL_SAVE_AND_CLOSE' => 'Save and close',
 ];
 
 $jsLanguageStrings = [
