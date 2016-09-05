@@ -63,7 +63,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 					mdw.size,
 					mdw.filterid,
 					mdw.id AS widgetid,
-					mdw.position AS POSITION,
+					mdw.position,
 					vtiger_links.linkid AS id,
 					mdw.limit,
 					mdw.cache,
