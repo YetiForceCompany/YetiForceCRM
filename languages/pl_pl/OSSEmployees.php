@@ -26,7 +26,7 @@ $languageStrings = [
 	'LBL_IDCARD' => 'Dowód osobisty',
 	'LBL_EDUCATION' => 'Wykształcenie',
 	'LBL_BIRTHDATE' => 'Data urodzenia',
-	'LBL_BUSINESSPHONE' => 'Tel. służbowy',
+	'LBL_BUSINESSPHONE' => 'Tel. podstawowy',
 	'LBL_PRIVATEPHONE' => 'Tel. prywatny',
 	'LBL_BUSINESSMAIL' => 'Mail służbowy',
 	'LBL_PRIVATEMAIL' => 'Mail prywatny',
@@ -50,4 +50,6 @@ $languageStrings = [
 	'Inactive' => 'Nieaktywny',
 	'Average daily working time' => 'Średni dzienny czas pracy',
 	'LBL_USER_EXISTS' => 'Pracownik już istnieje',
+	'FL_POSITION' => 'Stanowisko',
+	'FL_SECONDARY_PHONE' => 'Telefon dodatkowy',
 ];

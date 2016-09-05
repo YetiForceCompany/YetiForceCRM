@@ -50,6 +50,8 @@ $languageStrings = [
 	'Inactive' => 'Уволен',
 	'Average daily working time' => 'Рабочее время',
 	'LBL_USER_EXISTS' => 'Сотрудник уже существует',
+	'FL_POSITION' => 'Position',
+	'FL_SECONDARY_PHONE' => 'Secondary phone',
 ];
 
 $jsLanguageStrings = [

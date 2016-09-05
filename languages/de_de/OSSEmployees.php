@@ -42,4 +42,6 @@ $languageStrings = [
 	'Inactive' => 'Inaktiv',
 	'Average daily working time' => 'durchschnittliche Arbeitszeit',
 	'LBL_USER_EXISTS' => 'Benutzer für Mitarbeiter angelegt',
+	'FL_POSITION' => 'Position',
+	'FL_SECONDARY_PHONE' => 'Secondary phone',
 ];
