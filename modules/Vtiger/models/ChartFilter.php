@@ -87,7 +87,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				}
 				if(!isset($groupData[$displayValue]['link'])){
 					$moduleModel = $this->getTargetModuleModel();
-					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . '&viewname=All' . $this->getSearchParams($fieldName, $row[$groupField]);
+					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . "&viewname=$filterId" . $this->getSearchParams($fieldName, $row[$groupField]);
 				}		
 			}
 		}
