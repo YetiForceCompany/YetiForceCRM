@@ -308,4 +308,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 		}
 		return [];
 	}
+	
+	public function getDefaultUrl() {
+		return 'index.php?module='.$this->get('name').'&view='.$this->getListViewName().'&parent=Settings';
+	}
 }
