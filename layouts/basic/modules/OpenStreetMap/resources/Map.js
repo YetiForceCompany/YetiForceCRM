@@ -16,11 +16,70 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		this.mapInstance = myMap;
 		return myMap;
 	},
+	setMarkersByResponse: function (response) {
+		var markerArray = [];
+		var coordinates = response.result.coordinates;
+		var map = this.mapInstance;
+		var markers = L.markerClusterGroup({
+			spiderfyOnMaxZoom: true,
+			showCoverageOnHover: true,
+			zoomToBoundsOnClick: true,
+			maxClusterRadius: 10
+		});
+		coordinates.forEach(function (e) {
+			markerArray.push([e.lat, e.lon]);
+			var marker = L.marker([e.lat, e.lon], {
+				icon: L.AwesomeMarkers.icon({
+					icon: 'home',
+					markerColor: 'blue',
+					prefix: 'fa',
+					iconColor: e.color
+				})
+			}).bindPopup(e.label);
+			markers.addLayer(marker);
+		});
+		map.addLayer(markers);
+		
+		if (typeof response.result.legend != 'undefined') {
+			var footer = this.container.find('.modal-footer');
+			var html = '';
+			var legend = response.result.legend;
+			legend.forEach(function (e) {
+				html += '<div class="pull-left"><span class="leegendIcon" style="background:' + e.color + '"></span> '+e.value+'</div>'
+			});
+			footer.html(html);
+		}
+		map.fitBounds(markerArray);
+	},
+	registerBasicModal: function () {
+		var thisInstance = this;
+		var container = this.container;
+		container.find('.groupBy').on('click', function () {
+			var progressIndicatorElement = jQuery.progressIndicator({
+				'position': container,
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var params = {
+				module: 'OpenStreetMap',
+				action: 'GetMarkers',
+				srcModule: app.getModuleName(),
+				groupBy: container.find('.fieldsToGroup').val()
+			};
+			$.extend(params, thisInstance.selectedParams);
+			AppConnector.request(params).then(function (response) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				thisInstance.setMarkersByResponse(response);
+			});
+		});
+	},
 	registerModalView: function (container) {
+		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : container,
-			'blockInfo' : {
-				'enabled' : true
+			'position': container,
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		this.container = container;
@@ -36,20 +95,10 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			srcModule: app.getModuleName(),
 		};
 		$.extend(params, this.selectedParams);
-		var markerArray = [];
 		AppConnector.request(params).then(function (response) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'})
-			var coordinates = response.result;
-			coordinates.forEach(function (e) {
-				markerArray.push([e[0], e[1]]);
-				var marker = L.marker([e[0], e[1]], {
-					icon: L.divIcon({
-						className: 'fa fa-map-marker fa-3x',
-					})
-				}).addTo(myMap).bindPopup(e[2]);
-				marker.valueOf()._icon.style.color = e['color']; //or any color
-			});
-			myMap.fitBounds(markerArray);
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			thisInstance.setMarkersByResponse(response);
+			thisInstance.registerBasicModal();
 		});
 	},
 	registerDetailView: function (container) {
@@ -68,9 +117,24 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			height: positionBottom.top - postionTop.top - 281
 		});
 		var myMap = this.registerMap(startCoordinate, startZoom);
-		coordinates.forEach(function (e) {
-			L.marker([e[0], e[1]]).addTo(myMap).bindPopup(e[2]);
+		var markers = L.markerClusterGroup({
+			spiderfyOnMaxZoom: true,
+			showCoverageOnHover: true,
+			zoomToBoundsOnClick: true,
+			maxClusterRadius: 10
 		});
+		coordinates.forEach(function (e) {
+			var marker = L.marker([e.lat, e.lon], {
+				icon: L.AwesomeMarkers.icon({
+					icon: 'home',
+					markerColor: 'blue',
+					prefix: 'fa',
+					iconColor: e.color
+				})
+			}).bindPopup(e.label);
+			markers.addLayer(marker);
+		});
+		myMap.addLayer(markers);
 	}
 });
 

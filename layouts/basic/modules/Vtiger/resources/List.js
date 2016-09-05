@@ -589,7 +589,7 @@ jQuery.Class("Vtiger_List_Js", {
 		if (selectedParams === false) {
 			return false;
 		}
-		var url = 'index.php?module=OpenStreetMap&view=MapModal';
+		var url = 'index.php?module=OpenStreetMap&view=MapModal&srcModule=' + app.getModuleName();
 		app.showModalWindow(null, url, function (container) {
 			var mapView = new OpenStreetMap_Map_Js();
 			mapView.setSelectedParams(selectedParams);

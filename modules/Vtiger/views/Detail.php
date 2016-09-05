@@ -230,7 +230,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~libraries/leaflet/leaflet.css'
+			'~libraries/leaflet/leaflet.css',
+			'~libraries/leaflet/plugins/markercluster/MarkerCluster.Default.css',
+			'~libraries/leaflet/plugins/markercluster/MarkerCluster.css',
+			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.css',
 		];
 		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$cssInstances = array_merge($parentCssInstances, $modalInstances);
@@ -250,7 +253,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.ListSearch',
 			"modules.$moduleName.resources.ListSearch",
 			'~libraries/leaflet/leaflet.js',
-			'~libraries/leaflet-osm/leaflet-osm.js',
+			'~libraries/leaflet/plugins/markercluster/leaflet.markercluster.js',
+			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.js',
 			"modules.OpenStreetMap.resources.Map",
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

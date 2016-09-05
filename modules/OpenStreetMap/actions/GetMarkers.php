@@ -11,30 +11,41 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 
 	public function process(Vtiger_Request $request)
 	{
-		$records = $this->getRecordIds($request);
+		$data = [];
 		$sourceModule = $request->get('srcModule');
 		$srcModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
 		if (!$moduleModel->isAllowModules($sourceModule)) {
-			$modelFields = $srcModuleModel->getFields();
-			$referenceListModules = [];
-			$referenceField = false;
-			foreach ($modelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField()) {
-					$referenceList = $fieldModel->getReferenceList();
-					if (!empty($referenceList)) {
-						foreach ($referenceList as $referenceModule) {
-							$fieldMap[$referenceModule] = $fieldName;
-						}
-					}
-				}
+			$records = $this->getRecordIds($request);
+			$coordinates = [];
+			$parentRecords = [];
+			foreach ($records as $record) {
+				$parentRecords [] = Vtiger_ModulesHierarchy_Model::getParentRecord($record, $sourceModule, 2);
 			}
-
-			$records = $this->getRecordsForParentModule($srcModuleModel, $moduleModel, $records, $fieldMap);
+			$parentRecords = array_unique($parentRecords);
+			foreach ($parentRecords as $parentRecord) {
+				if(!empty($parentRecord))
+					$coordinates = array_merge($coordinates, OpenStreetMap_Module_Model::readCoordinates($parentRecord));
+			}
+			$data ['coordinates'] = $coordinates;
+		} else {
+			$selectedIds = $request->get('selected_ids');
+			if ($selectedIds == 'all') {
+				$data ['coordinates'] = OpenStreetMap_Module_Model::readAllCoordinatesFromCustomeView($request, $srcModuleModel);
+			} else {
+				$records = $this->getRecordIds($request);
+				$data ['coordinates'] = OpenStreetMap_Module_Model::readAllCoordinates($records, $srcModuleModel, $request->get('groupBy'));
+			}
 		}
-		$data = [];
-		foreach ($records as $recordId) {
-			$data = array_merge($data, OpenStreetMap_Module_Model::readCoordinates($recordId));
+		if ($request->has('groupBy')) {
+			$legend = [];
+			foreach (OpenStreetMap_Module_Model::$colors as $key => $value) {
+				$legend [] = [
+					'value' => vtranslate($key, $sourceModule),
+					'color' => $value
+				];
+			}
+			$data ['legend'] = $legend;
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($data);
@@ -60,7 +71,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 				$db = PearDatabase::getInstance();
 				$result = $db->query($query);
 				while ($row = $db->getRow($result)) {
-					if(!empty($row[$fieldName]))
+					if (!empty($row[$fieldName]))
 						$recordsToReturn [$row[$fieldName]] = $row[$fieldName];
 				}
 			}
@@ -75,17 +86,8 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 		if (!empty($selectedIds) && $selectedIds != 'all') {
-			if (!empty($selectedIds) && count($selectedIds) > 0) {
-				foreach ($selectedIds as $key => &$recordId) {
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-					if (!$recordModel->isEditable()) {
-						unset($selectedIds[$key]);
-					}
-				}
-				return $selectedIds;
-			}
+			return $selectedIds;
 		}
-
 		if ($selectedIds == 'all') {
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 			if ($customViewModel) {

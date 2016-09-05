@@ -5663,3 +5663,9 @@ select.form-control {
 .headerLinksMails .select2-selection__rendered:hover {
 	background: #f5f5f5 !important;
 }
+.leegendIcon{
+	margin: 0 5px 0 15px;
+	height: 15px;
+	width: 15px;
+	float: left;
+}
