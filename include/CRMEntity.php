@@ -688,8 +688,6 @@ class CRMEntity
 	function retrieve_entity_info($record, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$app_strings = vglobal('app_strings');
 
 		if (!isset($record)) {
 			throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
@@ -790,7 +788,7 @@ class CRMEntity
 			if (!$result || $adb->num_rows($result) < 1) {
 				throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 			} else {
-				$resultrow = $adb->query_result_rowdata($result);
+				$resultrow = $adb->getRow($result);
 				if (!empty($resultrow['deleted'])) {
 					throw new \Exception\NoPermittedToRecord('LBL_RECORD_DELETE');
 				}
