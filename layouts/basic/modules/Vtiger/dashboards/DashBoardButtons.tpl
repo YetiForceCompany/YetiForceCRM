@@ -27,7 +27,7 @@
 										   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}" data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}" data-id="{$WIDGET->get('widgetid')}">
 											{vtranslate($WIDGET->getTitle(), $MODULE_NAME)} </a>
 										{if $WIDGET->get('deleteFromList')}
-											<button data-widget-id="{$WIDGET->get('id')}" class="removeWidgetFromList btn btn-xs btn-danger">
+											<button data-widget-id="{$WIDGET->get('widgetid')}" class="removeWidgetFromList btn btn-xs btn-danger pull-right">
 												<span class='glyphicon glyphicon-trash'></span>
 											</button>
 										{/if}

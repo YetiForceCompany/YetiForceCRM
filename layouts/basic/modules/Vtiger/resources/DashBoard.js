@@ -171,7 +171,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 											var data = '<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" href="javascript:void(0);"';
 											data += 'data-width=' + width + ' data-height=' + height + ' data-linkid=' + response.result.linkid + ' data-name=' + response.result.name + '>' + response.result.title + '</a>';
 											if(response.result.deleteFromList){
-												data += "<button data-widget-id='"+ response.result.id +"' class='removeWidgetFromList btn btn-xs btn-danger'><span class='glyphicon glyphicon-trash'></span></button>" ;
+												data += "<button data-widget-id='"+ response.result.id +"' class='removeWidgetFromList btn btn-xs btn-danger pull-right'><span class='glyphicon glyphicon-trash'></span></button>" ;
 											}
 											data += '</li>';
 											var divider = jQuery('.widgetsList .divider');
