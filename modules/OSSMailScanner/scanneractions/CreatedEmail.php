@@ -55,6 +55,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$record->set('ossmailview_sendtype', $mail->getTypeEmail(true));
 			$record->set('mbox', $mail->getFolder());
 			$record->set('type', $type);
+			$record->set('mid', $mail->get('id'));
 			$record->set('rc_user', $account['user_id']);
 			$record->set('from_id', implode(',', array_unique($fromIds)));
 			$record->set('to_id', implode(',', array_unique($toIds)));
@@ -76,8 +77,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				], 'crmid = ?', [$id]
 			);
 			$db->update('vtiger_ossmailview', [
-				'date' => $mail->get('udate_formated'),
-				'id' => $mail->get('id')
+				'date' => $mail->get('udate_formated')
 				], 'ossmailviewid = ?', [$id]
 			);
 		}
