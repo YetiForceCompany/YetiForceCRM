@@ -650,7 +650,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 						ticks: data['labels'],
 						tickOptions: {
 							angle: -45,
-							labelPosition: 'middle'
+							labelPosition: 'auto'
 						}
 					},
 					yaxis: {
