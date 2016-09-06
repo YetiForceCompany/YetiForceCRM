@@ -649,7 +649,8 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 						renderer: jQuery.jqplot.CategoryAxisRenderer,
 						ticks: data['labels'],
 						tickOptions: {
-							angle: -45
+							angle: -45,
+							labelPosition: 'middle'
 						}
 					},
 					yaxis: {
