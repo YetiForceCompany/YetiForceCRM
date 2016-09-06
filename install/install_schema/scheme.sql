@@ -2136,7 +2136,7 @@ CREATE TABLE `u_yf_openstreetmap` (
   `type` char(1) NOT NULL,
   `lat` decimal(10,7) DEFAULT NULL,
   `lon` decimal(10,7) DEFAULT NULL,
-  PRIMARY KEY (`crmid`)
+  KEY `u_yf_openstreetmap_lat_lon` (`lat`,`lon`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap_address_updater` */
@@ -7134,7 +7134,8 @@ CREATE TABLE `vtiger_profile2utility` (
   `activityid` int(11) NOT NULL,
   `permission` int(1) DEFAULT NULL,
   PRIMARY KEY (`profileid`,`tabid`,`activityid`),
-  KEY `profile2utility_profileid_tabid_activityid_idx` (`profileid`,`tabid`,`activityid`),
+  KEY `profile2utility_tabid_activityid_idx` (`tabid`,`activityid`),
+  KEY `profile2utility_profileid` (`profileid`),
   CONSTRAINT `vtiger_profile2utility_ibfk_1` FOREIGN KEY (`profileid`) REFERENCES `vtiger_profile` (`profileid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
