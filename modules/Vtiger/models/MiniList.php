@@ -77,16 +77,18 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	public function getTitle($prefix = '')
 	{
 		$this->initListViewController();
-
-		$db = PearDatabase::getInstance();
-
-		$suffix = '';
-		$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
-		if ($db->num_rows($customviewrs)) {
-			$customview = $db->fetch_array($customviewrs);
-			$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
+		$title = $this->widgetModel->get('title');
+		if (empty($title)) {
+			$db = PearDatabase::getInstance();
+			$suffix = '';
+			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
+			if ($db->num_rows($customviewrs)) {
+				$customview = $db->fetch_array($customviewrs);
+				$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
+			}
+			return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
-		return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
+		return $title;
 	}
 
 	public function getHeaders()

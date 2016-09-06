@@ -951,6 +951,7 @@ $languageStrings = [
 	//Widget
 	'LIST_OF_LAST_UPDATED_RECORD' => 'Последнее обновление записи',
 	'LBL_NAME' => 'Запись',
+	'LBL_WIDGET_NAME' => 'Widget name',
 	'LBL_MODULE_NAME' => 'Модуль',
 	'LBL_NO_MOD_RECORDS' => 'Нет измененных записей',
 	'LBL_HOLIDAY' => 'Праздники',

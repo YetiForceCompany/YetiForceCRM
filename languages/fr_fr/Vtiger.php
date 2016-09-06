@@ -933,6 +933,7 @@ $languageStrings = [
 	//Widget
 	'LIST_OF_LAST_UPDATED_RECORD' => 'Liste des enregistrements mis à jour',
 	'LBL_NAME' => 'Nom de l\'enregistrement',
+	'LBL_WIDGET_NAME' => 'Widget name',
 	'LBL_MODULE_NAME' => 'Nom Module',
 	'LBL_NO_MOD_RECORDS' => 'Aucun enregistrement modifié',
 	'PLL_HOLIDAY_TIME' => 'Congé',

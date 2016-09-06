@@ -16,6 +16,12 @@
 				<table class="table table-bordered">
 					<tbody>
 						<tr>
+							<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_WIDGET_NAME'|vtranslate}</td>
+							<td class="fieldValue">
+								<input type="text" class="form-control" name="widgetTitle" value="">
+							</td>
+						</tr>
+						<tr>
 							<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SELECT_CHART'|vtranslate}</td>
 							<td class="fieldValue">
 								<select class="form-control select2" name="chartType">

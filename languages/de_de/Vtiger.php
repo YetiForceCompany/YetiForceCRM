@@ -947,6 +947,7 @@ $languageStrings = [
 	'LIST_OF_LAST_UPDATED_RECORD' => 'Letzte geänderte Datensätze',
 	'LBL_NAME' => 'Datensatzbezeichnung',
 	'LBL_MODULE_NAME' => 'Modulname',
+	'LBL_WIDGET_NAME' => 'Widget name',
 	'LBL_NO_MOD_RECORDS' => 'Keine geänderte Datensätze',
 	'PLL_HOLIDAY_TIME' => 'Ferien',
 	'PLL_BREAK_TIME' => 'Unterbrechung der Arbeit',

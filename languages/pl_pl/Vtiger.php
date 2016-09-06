@@ -931,6 +931,7 @@ $languageStrings = [
 	'LBL_SELECT_USER_TO_CALL' => 'Wybierz do kogo chcesz zadzwonić',
 	//Widget
 	'LIST_OF_LAST_UPDATED_RECORD' => 'Lista ostatnio zaktualizowanych rekordów',
+	'LBL_WIDGET_NAME' => 'Nazwa widżetu',
 	'LBL_NAME' => 'Nazwa rekordu',
 	'LBL_MODULE_NAME' => 'Nazwa modułu',
 	'LBL_NO_MOD_RECORDS' => 'Brak zmodyfikowanych rekordów',
@@ -1253,7 +1254,8 @@ $languageStrings = [
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Pobierz całkowitą ilość rekordów',
 	'Potentials' => 'Szanse sprzedaży',
 	'LBL_PICKLIST_FIELD' => 'Lista wyboru z pola',
-	'LBL_MAP' => 'Mapa'
+	'LBL_MAP' => 'Mapa',
+	'LBL_SHOW_MAP' => 'Pokaż na mapie'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
