@@ -2564,6 +2564,9 @@ i {
 .marginLeft10{
 	margin-left:10px;
 }
+.marginLeft20{
+	margin-left: 20px;
+}
 .marginbottomZero {
 	margin-bottom: 0 !important;
 }
@@ -3138,6 +3141,9 @@ span[name=existingImages] img{
 }
 .marginRight10{
 	margin-right: 10px;
+}
+.marginRight20{
+	margin-right: 20px;
 }
 .marginRightMinus20{
 	margin-right:-20px;
