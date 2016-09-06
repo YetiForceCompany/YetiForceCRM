@@ -3,6 +3,8 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	container: false,
 	mapInstance: false,
 	selectedParams: false,
+	layerMarkers: false,
+	markers: false,
 	setSelectedParams: function (params) {
 		this.selectedParams = params;
 	},
@@ -26,6 +28,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			zoomToBoundsOnClick: true,
 			maxClusterRadius: 10
 		});
+		map.removeLayer(this.layerMarkers);
 		coordinates.forEach(function (e) {
 			markerArray.push([e.lat, e.lon]);
 			var marker = L.marker([e.lat, e.lon], {
@@ -38,6 +41,8 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			}).bindPopup(e.label);
 			markers.addLayer(marker);
 		});
+		this.markers = coordinates;
+		this.layerMarkers = markers;
 		map.addLayer(markers);
 		
 		if (typeof response.result.legend != 'undefined') {
@@ -50,6 +55,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			footer.html(html);
 		}
 		map.fitBounds(markerArray);
+		this.container.find('.groupNeighbours').prop('checked', true);
 	},
 	registerBasicModal: function () {
 		var thisInstance = this;
@@ -73,9 +79,51 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				thisInstance.setMarkersByResponse(response);
 			});
 		});
+		container.find('.groupNeighbours').on('change', function(e){
+			var currentTarget = $(e.currentTarget);
+			var map = thisInstance.mapInstance;
+			map.removeLayer(thisInstance.layerMarkers);
+			var markers = thisInstance.markers;
+			if(currentTarget.is(':checked')){
+				var layer = L.markerClusterGroup({
+					spiderfyOnMaxZoom: true,
+					showCoverageOnHover: true,
+					zoomToBoundsOnClick: true,
+					maxClusterRadius: 10
+				});
+				markers.forEach(function (e) {
+					var marker = L.marker([e.lat, e.lon], {
+						icon: L.AwesomeMarkers.icon({
+							icon: 'home',
+							markerColor: 'blue',
+							prefix: 'fa',
+							iconColor: e.color
+						})
+					}).bindPopup(e.label);
+					layer.addLayer(marker);
+				});
+			} else {
+				var markerArray = [];
+				markers.forEach(function (e) {
+					var marker = L.marker([e.lat, e.lon], {
+						icon: L.AwesomeMarkers.icon({
+							icon: 'home',
+							markerColor: 'blue',
+							prefix: 'fa',
+							iconColor: e.color
+						})
+					}).bindPopup(e.label);
+					markerArray.push(marker);
+				});
+				var layer = L.featureGroup(markerArray);
+			}			
+			thisInstance.layerMarkers = layer;
+			map.addLayer(layer);
+		});
 	},
 	registerModalView: function (container) {
 		var thisInstance = this;
+		app.showBtnSwitch(container.find('.switchBtn'));
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': container,
 			'blockInfo': {

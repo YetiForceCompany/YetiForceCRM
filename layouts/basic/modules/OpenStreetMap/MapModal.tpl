@@ -1,8 +1,20 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_MAP', $MODULE_NAME)}</h3>
+	<div class="modal-header container-fluid">
+		<div class="col-xs-6">
+			<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_MAP', $MODULE_NAME)}</h3>
+		</div>
+		<div class="col-xs-6 ">
+			<button type="button" class="btn btn-warning pull-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<div class="pull-right">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" checked="checked" class="groupNeighbours">
+						{vtranslate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}
+					</label>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="modal-body container-fluid">
 		<div class="col-xs-9 paddingLRZero">
