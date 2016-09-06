@@ -129,7 +129,7 @@ class API_CalDAV_Model
 		$component->add($vcalendar->createProperty('CLASS', $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC'));
 		$component->add($vcalendar->createProperty('PRIORITY', $this->getPriority($record['priority'], false)));
 
-		$status = $this->getStatus($record['status'], false);
+		$status = $this->getStatus($record['status'], false, $calType);
 		if ($status) {
 			$component->add($vcalendar->createProperty('STATUS', $status));
 		}
@@ -205,7 +205,7 @@ class API_CalDAV_Model
 				$component->DESCRIPTION = $record['description'];
 				$component->CLASS = $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC';
 				$component->PRIORITY = $this->getPriority($record['priority'], false);
-				$status = $this->getStatus($record['status'], false);
+				$status = $this->getStatus($record['status'], false, $calType);
 				if ($status)
 					$component->STATUS = $status;
 				$state = $this->getState($record['state'], false);
@@ -312,7 +312,7 @@ class API_CalDAV_Model
 				$record->set('due_date', $dates['due_date']);
 				$record->set('time_start', $dates['time_start']);
 				$record->set('time_end', $dates['time_end']);
-				$record->set('activitystatus', $this->getStatus($component));
+				$record->set('activitystatus', $this->getStatus($component, true, $component->name));
 				if ($component->name == 'VTODO') {
 					$record->set('activitytype', 'Task');
 				} else {
@@ -370,7 +370,7 @@ class API_CalDAV_Model
 				$record->set('due_date', $dates['due_date']);
 				$record->set('time_start', $dates['time_start']);
 				$record->set('time_end', $dates['time_end']);
-				$record->set('activitystatus', $this->getStatus($component));
+				$record->set('activitystatus', $this->getStatus($component, true, $component->name));
 				if ($component->name == 'VTODO') {
 					$record->set('activitytype', 'Task');
 				} else {
@@ -521,23 +521,34 @@ class API_CalDAV_Model
 		return $return;
 	}
 
-	public function getStatus($component, $toCrm = true)
+	public function getStatus($component, $toCrm = true, $calType)
 	{
-		$values = [
-			'PLL_PLANNED' => 'TENTATIVE',
-			'PLL_OVERDUE' => 'CANCELLED',
-			'PLL_POSTPONED' => 'CANCELLED',
-			'PLL_CANCELLED' => 'CANCELLED',
-			'PLL_COMPLETED' => 'CONFIRMED'
-		];
+		if ($calType == 'VEVENT') {
+			$values = [
+				'PLL_PLANNED' => 'TENTATIVE',
+				'PLL_OVERDUE' => 'CANCELLED',
+				'PLL_POSTPONED' => 'CANCELLED',
+				'PLL_CANCELLED' => 'CANCELLED',
+				'PLL_COMPLETED' => 'CONFIRMED'
+			];
+		} else {
+			$values = [
+				'PLL_PLANNED' => 'NEEDS-ACTION',
+				'PLL_IN_REALIZATION' => 'IN-PROCESS',
+				'PLL_OVERDUE' => 'CANCELLED',
+				'PLL_POSTPONED' => 'CANCELLED',
+				'PLL_CANCELLED' => 'CANCELLED',
+				'PLL_COMPLETED' => 'COMPLETED'
+			];
+		}
+
 		if ($toCrm) {
-			$return = 'PLL_PLANNED';
 			$values = array_flip($values);
 			$value = isset($component->STATUS) ? $component->STATUS->getValue() : false;
 		} else {
-			$return = 'NEEDS-ACTION';
 			$value = $component;
 		}
+		$return = reset($values);
 		if ($value && isset($values[$value])) {
 			$return = $values[$value];
 		}
