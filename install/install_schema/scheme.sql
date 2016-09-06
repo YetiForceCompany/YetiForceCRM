@@ -4620,16 +4620,16 @@ CREATE TABLE `vtiger_entity_stats` (
 
 CREATE TABLE `vtiger_entityname` (
   `tabid` int(19) NOT NULL DEFAULT '0',
-  `modulename` varchar(50) NOT NULL,
-  `tablename` varchar(100) NOT NULL,
-  `fieldname` varchar(150) NOT NULL,
-  `entityidfield` varchar(150) NOT NULL,
-  `entityidcolumn` varchar(150) NOT NULL,
+  `modulename` varchar(25) NOT NULL,
+  `tablename` varchar(50) NOT NULL,
+  `fieldname` varchar(100) NOT NULL,
+  `entityidfield` varchar(30) NOT NULL,
+  `entityidcolumn` varchar(30) NOT NULL,
   `searchcolumn` varchar(150) NOT NULL,
-  `turn_off` int(1) NOT NULL DEFAULT '1',
-  `sequence` int(19) NOT NULL,
+  `turn_off` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `sequence` smallint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`tabid`),
-  KEY `entityname_tabid_idx` (`tabid`),
+  KEY `turn_off` (`turn_off`),
   CONSTRAINT `fk_1_vtiger_entityname` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
