@@ -1006,7 +1006,7 @@ CREATE TABLE `u_yf_crmentity_search_label` (
 
 CREATE TABLE `u_yf_crmentity_showners` (
   `crmid` int(19) DEFAULT NULL,
-  `userid` int(19) DEFAULT NULL,
+  `userid` smallint(11) unsigned NOT NULL,
   UNIQUE KEY `mix` (`crmid`,`userid`),
   KEY `crmid` (`crmid`),
   KEY `userid` (`userid`),
@@ -2137,7 +2137,8 @@ CREATE TABLE `u_yf_openstreetmap` (
   `type` char(1) NOT NULL,
   `lat` decimal(10,7) DEFAULT NULL,
   `lon` decimal(10,7) DEFAULT NULL,
-  KEY `u_yf_openstreetmap_lat_lon` (`lat`,`lon`)
+  KEY `u_yf_openstreetmap_lat_lon` (`lat`,`lon`),
+  KEY `crmid_type` (`crmid`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap_address_updater` */
@@ -4651,12 +4652,12 @@ CREATE TABLE `vtiger_eventhandler_module_seq` (
 /*Table structure for table `vtiger_eventhandlers` */
 
 CREATE TABLE `vtiger_eventhandlers` (
-  `eventhandler_id` int(11) NOT NULL AUTO_INCREMENT,
+  `eventhandler_id` smallint(11) unsigned NOT NULL AUTO_INCREMENT,
   `event_name` varchar(100) NOT NULL,
   `handler_path` varchar(400) NOT NULL,
   `handler_class` varchar(100) NOT NULL,
   `cond` text,
-  `is_active` int(1) NOT NULL,
+  `is_active` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `dependent_on` varchar(255) DEFAULT '[]',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
@@ -4839,6 +4840,7 @@ CREATE TABLE `vtiger_field` (
   KEY `quickcreate` (`quickcreate`),
   KEY `presence` (`presence`),
   KEY `tabid_2` (`tabid`,`fieldname`),
+  KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2384 DEFAULT CHARSET=utf8;
 
