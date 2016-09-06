@@ -35,6 +35,12 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	public function getDataBarchat()
 	{
 		$groupData = $this->getDataFromFilter();
+		uasort($groupData, function($first, $second) {
+			if ($first['count'] == $second['count']) {
+				return 0;
+			}
+			return ($first['count'] < $second['count']) ? 1 : -1;
+		});
 		$data = [];
 		foreach ($groupData as $fieldName => $value) {
 			$data [] = [$value['count'], $fieldName, $value['link']];
