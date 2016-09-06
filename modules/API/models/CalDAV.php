@@ -97,6 +97,9 @@ class API_CalDAV_Model
 		$dtstart = $vcalendar->createProperty('DTSTART', $startDT);
 		$createdTime = new \DateTime($record['createdtime']);
 		$created = $vcalendar->createProperty('CREATED', $createdTime);
+		$tz = new \DateTimeZone('UTC');
+		$created->setDateTime(new DateTimeImmutable('now', $tz));
+
 		if ($record['allday']) {
 			$endDT = new DateTime($end);
 			$endDT->modify('+1 day');
