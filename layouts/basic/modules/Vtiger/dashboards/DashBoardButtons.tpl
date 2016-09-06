@@ -24,7 +24,7 @@
 								{assign var="WIDGET" value=""}
 								{foreach from=$WIDGETS item=WIDGET}
 									<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
-										   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}" data-width="{$WIDGET->getWidth()}" data-height=	"{$WIDGET->getHeight()}" data-id="{$WIDGET->get('widgetid')}">
+										   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}" data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}" data-id="{$WIDGET->get('widgetid')}">
 											{vtranslate($WIDGET->getTitle(), $MODULE_NAME)} </a>
 										{if $WIDGET->get('deleteFromList')}
 											<button data-widget-id="{$WIDGET->get('id')}" class="removeWidgetFromList btn btn-xs btn-danger">

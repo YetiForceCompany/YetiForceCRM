@@ -311,7 +311,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		refreshContainerFooter.html('');
 		refreshContainer.progressIndicator();
 
-		if (this.paramCache) {
+		if (this.paramCache && widgetFilters.length > 0) {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
 

@@ -16,11 +16,12 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var element = jQuery(element);
 		var linkId = element.data('linkid');
 		var name = element.data('name');
+		var widgetId = element.data('id');
 		jQuery(element).parent().remove();
 		if (jQuery('ul.widgetsList li').size() < 1) {
 			jQuery('ul.widgetsList').prev('button').css('visibility', 'hidden');
 		}
-		var widgetContainer = jQuery('<li class="new dashboardWidget" id="' + linkId + '" data-name="' + name + '" data-mode="open"></li>');
+		var widgetContainer = jQuery('<li class="new dashboardWidget" id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open"></li>');
 		widgetContainer.data('url', url);
 		var width = element.data('width');
 		var height = element.data('height');
@@ -361,7 +362,8 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						params['text'] = result['text'];
 						params['type'] = 'success';
 						var linkElement = element.clone();
-						linkElement.data('name', 'ChartFilter')
+						linkElement.data('name', 'ChartFilter');
+						linkElement.data('id', result['wid']);
 						Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0')
 						Vtiger_Helper_Js.showMessage(params);
 					} else {
@@ -495,7 +497,8 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						params['text'] = result['text'];
 						params['type'] = 'success';
 						var linkElement = element.clone();
-						linkElement.data('name', 'MiniList')
+						linkElement.data('name', 'MiniList');
+						linkElement.data('id', result['wid']);
 						Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0')
 						Vtiger_Helper_Js.showMessage(params);
 					} else {
