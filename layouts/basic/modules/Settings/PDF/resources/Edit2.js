@@ -103,5 +103,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 		app.showSelect2ElementView(container.find('.select2'));
 		this.registerCancelStepClickEvent(container);
 		this.registerMarginCheckboxClickEvent(container);
+		app.showPopoverElementView(container.find('.popoverTooltip'));
 	}
 });

@@ -131,6 +131,7 @@ CREATE TABLE `a_yf_pdf` (
   `watermark_angle` smallint(3) unsigned NOT NULL,
   `watermark_image` varchar(255) NOT NULL,
   `template_members` text NOT NULL,
+  `one_pdf` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`pdfid`),
   KEY `module_name` (`module_name`,`status`),
   KEY `module_name_2` (`module_name`)

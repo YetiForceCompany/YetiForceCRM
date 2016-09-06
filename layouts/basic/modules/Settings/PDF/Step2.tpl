@@ -129,6 +129,23 @@
 						<input type="checkbox" id="default" name="default" value="1" {if $DEFAULT eq 'true'}checked="checked"{/if} />
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">
+						{vtranslate('LBL_GENERATE_ONE_PDF', $QUALIFIED_MODULE)}
+						<span class="popoverTooltip delay0"  data-placement="top"
+							  data-content="{vtranslate('LBL_GENERATE_ONE_PDF_INFO',$QUALIFIED_MODULE)}">
+							<span class="glyphicon glyphicon-info-sign"></span>
+						</span>
+					</label>
+					<div class="col-sm-6">
+						{if $PDF_MODEL->get('one_pdf') === 0}
+							{assign 'ONE_PDF' false}
+						{else}
+							{assign 'ONE_PDF' true}
+						{/if}
+						<input type="checkbox" id="one_pdf" name="one_pdf" value="1" {if $ONE_PDF eq 'true'}checked="checked"{/if} />
+					</div>
+				</div>
 			</div>
 			<br>
 			<div class="pull-right">

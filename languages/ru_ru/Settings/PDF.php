@@ -108,6 +108,8 @@ $languageStrings = [
 	'LBL_FOOTER_HEIGHT' => 'Отступ нижнего колонтитула',
 	'LBL_HEADER_IN_MILIMETERS' => 'Отступ верхнего колонтитула в миллиметрах',
 	'LBL_FOOTER_IN_MILIMETERS' => 'Отступ нижнего колонтитула в миллиметрах',
+	'LBL_GENERATE_ONE_PDF' => 'Generate one PDF for many records',
+	'LBL_GENERATE_ONE_PDF_INFO' => 'In case when PDF includes a special function that generates one table for many records, checking this box will result in generating one PDF file.',	
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',

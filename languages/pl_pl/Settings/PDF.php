@@ -106,6 +106,8 @@ $languageStrings = [
 	'LBL_FOOTER_HEIGHT' => 'Margines stopki',
 	'LBL_HEADER_IN_MILIMETERS' => 'Margines nagłówka od górnej krawędzi strony w milimetrach',
 	'LBL_FOOTER_IN_MILIMETERS' => 'Margines stopki od górnej krawędzi strony w milimetrach',
+	'LBL_GENERATE_ONE_PDF' => 'Generuj jeden pdf dla wielu rekordów',
+	'LBL_GENERATE_ONE_PDF_INFO' => 'W przypadku gdy PDF zawiera funkcje specjalną  generującą jedną tabelę  dla wielu rekordów, zaznaczenie tego pola spowoduje wygenerowanie jednego pliku PDF.',	
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',
