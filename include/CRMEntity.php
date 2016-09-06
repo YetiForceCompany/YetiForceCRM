@@ -1410,13 +1410,14 @@ class CRMEntity
 				if ($records && $adb->num_rows($records)) {
 					$returninfo['totalrecords'] = $adb->num_rows($records);
 					$returninfo['updatedrecords'] = 0;
-
 					$moduleData = \includes\fields\RecordNumber::getNumber($tabid);
 					$sequenceNumber = $moduleData['sequenceNumber'];
-
+					$prefix = $moduleData['prefix'];
+					$postfix = $moduleData['postfix'];
 					$oldNumber = $sequenceNumber;
 					while ($recordinfo = $adb->getRow($records)) {
-						$adb->update($fld_table, [$fld_column => $moduleData['number']], $this->table_index . ' = ?', [$recordinfo['recordid']]);
+						$recordNumber = \includes\fields\RecordNumber::parse($prefix . $sequenceNumber . $postfix);
+						$adb->update($fld_table, [$fld_column => $recordNumber], $this->table_index . ' = ?', [$recordinfo['recordid']]);
 						$sequenceNumber += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
 					}
