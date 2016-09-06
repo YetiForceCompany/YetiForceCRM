@@ -185,7 +185,6 @@ class API_CalDAV_Model
 			$dtend = $vcalendar->createProperty($endField, $endDT);
 			$dtend['VALUE'] = 'DATE';
 			$dtstart['VALUE'] = 'DATE';
-			$created['VALUE'] = 'DATE';
 		} else {
 			$endDT = new \DateTime($end);
 			$dtend = $vcalendar->createProperty($endField, $endDT);
