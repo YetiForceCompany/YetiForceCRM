@@ -622,6 +622,12 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 		return {'chartData': [chartData], 'yMaxValue': yMaxValue, 'labels': xLabels};
 	},
 	loadChart: function () {
+		var isColored = false;
+		var container = this.getContainer();
+		var isColoredInput = container.find('.color');
+		if(isColoredInput.length){
+			isColored = isColoredInput.val() == 0 ? false : true;
+		}
 		var data = this.generateChartData();
 		if (data['chartData'][0].length > 0) {
 			this.getPlotContainer(false).jqplot(data['chartData'], {
@@ -632,7 +638,8 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 					rendererOptions: {
 						showDataLabels: true,
 						dataLabels: 'value',
-						barDirection: 'vertical'
+						barDirection: 'vertical',
+						varyBarColor: isColored
 					},
 					pointLabels: {show: true, edgeTolerance: -15}
 				},
@@ -679,6 +686,12 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 });
 Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 	loadChart: function () {
+		var isColored = false;
+		var container = this.getContainer();
+		var isColoredInput = container.find('.color');
+		if(isColoredInput.length){
+			isColored = isColoredInput.val() == 0 ? false : true;
+		}
 		var data = this.generateChartData();
 		this.getPlotContainer(false).jqplot(data['chartData'], {
 			title: data['title'],
@@ -689,7 +702,8 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 				pointLabels: {show: true, location: 'e', edgeTolerance: -15},
 				shadowAngle: 135,
 				rendererOptions: {
-					barDirection: 'horizontal'
+					barDirection: 'horizontal',
+					varyBarColor: isColored
 				}
 			},
 			axes: {

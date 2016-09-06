@@ -930,6 +930,7 @@ $languageStrings = [
 	'LIST_OF_LAST_UPDATED_RECORD' => 'Lista dos últimos registros atualizados',
 	'LBL_NAME' => 'Nome registro',
 	'LBL_WIDGET_NAME' => 'Widget name',
+	'LBL_CHART_COLOR_DESCRIPTION' => 'Multi-color chart',
 	'LBL_MODULE_NAME' => 'Nome módulo',
 	'LBL_NO_MOD_RECORDS' => 'Nenhum registro modificado',
 	'PLL_HOLIDAY_TIME' => 'Feriado',

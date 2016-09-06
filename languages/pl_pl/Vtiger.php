@@ -934,6 +934,7 @@ $languageStrings = [
 	'LBL_WIDGET_NAME' => 'Nazwa widżetu',
 	'LBL_NAME' => 'Nazwa rekordu',
 	'LBL_MODULE_NAME' => 'Nazwa modułu',
+	'LBL_CHART_COLOR_DESCRIPTION' => 'Wykres wielokolorowy',
 	'LBL_NO_MOD_RECORDS' => 'Brak zmodyfikowanych rekordów',
 	'PLL_BREAK_TIME' => 'Przerwa w pracy',
 	'PLL_WORKING_TIME' => 'Czas pracy',

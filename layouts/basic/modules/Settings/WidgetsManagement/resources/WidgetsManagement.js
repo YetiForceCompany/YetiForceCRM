@@ -583,7 +583,15 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			filteridSelectDOM.closest('tr').hide();
 			fieldsSelectDOM.closest('tr').hide();
 			footer.hide();
-
+			chartType.on('change', function(e) {
+				var currentTarget= $(e.currentTarget);
+				var value = currentTarget.val();
+				if (value == 'Barchat' || value == 'Horizontal') {
+					form.find('.isColorContainer').removeClass('hide');
+				} else {
+					form.find('.isColorContainer').addClass('hide');
+				}
+			});
 			moduleNameSelect2.change(function () {
 				if (!moduleNameSelect2.val())
 					return;
@@ -630,10 +638,16 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var selectedFilterId = filteridSelect2.val();
 				var selectedFilterLabel = filteridSelect2.find(':selected').text();
 				var fieldLabel = fieldsSelect2.find(':selected').text();
+				var isColorValue = 0;
+				var isColor = form.find('.isColor');
+				if(!isColor.hasClass('hide') && isColor.is(':checked')){
+					isColorValue = 1;
+				}
 				var data = {
 					module: selectedModule,
 					groupField: fieldsSelect2.val(),
 					chartType: chartType.val(),
+					color: isColorValue
 				};
 				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, fieldLabel, data, form);
 			});

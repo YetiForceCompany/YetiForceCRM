@@ -931,6 +931,7 @@ $languageStrings = [
 	'LIST_OF_LAST_UPDATED_RECORD' => 'List of last updated record',
 	'LBL_NAME' => 'Record name',
 	'LBL_WIDGET_NAME' => 'Widget name',
+	'LBL_CHART_COLOR_DESCRIPTION' => 'Multi-color chart',
 	'LBL_MODULE_NAME' => 'Module name',
 	'LBL_NO_MOD_RECORDS' => 'No modified records',
 	'PLL_HOLIDAY_TIME' => 'Holiday',
