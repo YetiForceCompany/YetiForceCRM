@@ -33,14 +33,14 @@ class yetiforce extends rcube_plugin
 				$this->add_hook('render_page', [$this, 'loadSignature']);
 
 				$id = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
-				if ($id && isset($_SESSION['compose_data_' . $id]['param']['module'])) {
-					$this->rc->output->set_env('crmModule', $_SESSION['compose_data_' . $id]['param']['module']);
+				if ($id && isset($_SESSION['compose_data_' . $id]['param']['crmmodule'])) {
+					$this->rc->output->set_env('crmModule', $_SESSION['compose_data_' . $id]['param']['crmmodule']);
 				}
-				if ($id && isset($_SESSION['compose_data_' . $id]['param']['record'])) {
-					$this->rc->output->set_env('crmRecord', $_SESSION['compose_data_' . $id]['param']['record']);
+				if ($id && isset($_SESSION['compose_data_' . $id]['param']['crmrecord'])) {
+					$this->rc->output->set_env('crmRecord', $_SESSION['compose_data_' . $id]['param']['crmrecord']);
 				}
-				if ($id && isset($_SESSION['compose_data_' . $id]['param']['view'])) {
-					$this->rc->output->set_env('crmView', $_SESSION['compose_data_' . $id]['param']['view']);
+				if ($id && isset($_SESSION['compose_data_' . $id]['param']['crmview'])) {
+					$this->rc->output->set_env('crmView', $_SESSION['compose_data_' . $id]['param']['crmview']);
 				}
 			}
 			if ($this->rc->action == 'preview' || $this->rc->action == 'show') {
