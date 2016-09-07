@@ -40,10 +40,10 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		if ($err) {
 			return false;
 		} else {
-			return json_decode($response, true);
+			return \includes\utils\Json::decode($response);
 		}
 	}
-	private static function getCoordinates($address) {
+	public static function getCoordinates($address) {
 		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
 		$data = [
 			'format' => 'json',
@@ -64,20 +64,25 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 			return ['lat' => $coordinatesDetails['lat'], 'lon' => $coordinatesDetails['lon']];
 		}
 	}
-	
+	public static function getUrlParamsToSearching($recordModel, $type){
+		$address = [
+			'state' => $recordModel->get('addresslevel2' . $type),
+			'county' => $recordModel->get('addresslevel3' . $type),
+			'city' => $recordModel->get('addresslevel5' . $type),
+			'street' => $recordModel->get('addresslevel8' . $type) . ' ' . $recordModel->get('buildingnumber' . $type),
+			'country' => $recordModel->get('addresslevel1' . $type),
+		];
+		return $address;
+	}
 	public static function getCoordinatesByRecord($recordModel) {
 		$coordinates = [];
 		foreach (['a', 'b', 'c'] as $numAddress) {
-			$address = [
-				'state' => $recordModel->get('addresslevel2' . $numAddress),
-				'county' => $recordModel->get('addresslevel5' . $numAddress),
-				'city' => $recordModel->get('addresslevel4' . $numAddress),
-				'street' => $recordModel->get('addresslevel8' . $numAddress) . ' ' . $recordModel->get('buildingnumber' . $numAddress),
-				'country' => $recordModel->get('addresslevel1' . $numAddress),
-			];
+			$address = self::getUrlParamsToSearching($recordModel, $numAddress);
 			$coordinatesDetails = self::getCoordinates($address);
 			if ($coordinatesDetails === false)
 				break;
+			if(empty($coordinatesDetails))
+				continue;
 			$coordinatesDetails = reset($coordinatesDetails);
 			$coordinates [$numAddress] = [
 				'lat' => $coordinatesDetails['lat'],

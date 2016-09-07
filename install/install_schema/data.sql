@@ -657,6 +657,8 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 insert  into `u_yf_openstreetmap_address_updater`(`crmid`) values (0);
 
+/*Data for the table `u_yf_openstreetmap_record_updater` */
+
 /*Data for the table `u_yf_partners` */
 
 /*Data for the table `u_yf_partners_address` */
@@ -1563,6 +1565,7 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (22,'RecordLabelUpdater','cron/LabelUpdater.php',900,NULL,NULL,1,'Vtiger',20,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (23,'PrivilegesUpdater','cron/PrivilegesUpdater.php',900,NULL,NULL,1,'Vtiger',21,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (24,'UpdaterCoordinates','modules/OpenStreetMap/cron/UpdaterCoordinates.php',60,NULL,NULL,1,'OpenStreetMap',22,'');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (25,'UpdaterRecordsCoordinates','modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php',300,NULL,NULL,1,'OpenStreetMap',23,'');
 
 /*Data for the table `vtiger_currencies` */
 
@@ -24941,7 +24944,7 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`mo
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (44,'RecycleBin',0,-1,'Recycle Bin',NULL,NULL,0,0,0,'1.5','Tools',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (45,'SMSNotifier',0,-1,'SMSNotifier',NULL,NULL,0,0,1,'1.9','Tools',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (46,'Webforms',0,-1,'Webforms',NULL,NULL,0,0,0,'1.5','',NULL,0,0);
-insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (48,'OSSMail',0,-1,'OSSMail',NULL,NULL,0,0,0,'1.50','Tools',NULL,0,0);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (48,'OSSMail',1,-1,'OSSMail',NULL,NULL,0,0,0,'1.50','Tools',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (49,'OSSMailTemplates',0,-1,'OSSMailTemplates',NULL,NULL,0,0,1,'1.04','Tools',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (50,'Password',0,-1,'Password',NULL,NULL,0,0,0,'1.00','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (51,'OSSTimeControl',0,-1,'OSSTimeControl',NULL,NULL,0,0,1,'1.0.4','Tools',NULL,0,0);

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Cron task to update coordinates
  * @package YetiForce.CRON
@@ -42,7 +41,7 @@ if ($lastUpdatedCrmId = $db->getRow($result)) {
 	if ($lastRecordId == $lastUpdatedCrmId) {
 		$db->update('u_yf_openstreetmap_address_updater', ['crmid' => 0]);
 		$cronTask->updateStatus(\vtlib\Cron::$STATUS_DISABLED);
-			$cronTask->set('lockStatus', true);
+		$cronTask->set('lockStatus', true);
 	} else {
 		$db->update('u_yf_openstreetmap_address_updater', ['crmid' => $lastUpdatedCrmId]);
 	}
