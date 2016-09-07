@@ -1,7 +1,0 @@
-<div id='openpgpjs_key_search' class="propform popupdialog">
-  <div><roundcube:label name="rc_openpgpjs.search_description" /></div><br />
-  <div><roundcube:label name="email" />: <input type="text" id="openpgpjs_search_input" /> <input type="submit" value='<roundcube:label name="search" />' id="openpgpjs_search_submit" onclick='rcmail.http_post("plugin.pks_search", "search=" + $("#openpgpjs_search_input").val() + "&op=index"); $("#openpgpjs_search_input").attr("disabled", "disabled"); $(this).attr("disabled", "disabled");' /><textarea id='importPubkeyField' style='visibility:hidden;'></textarea></div>
-  <table id="openpgpjs_search_results">
-  </table>
-</div>
-
