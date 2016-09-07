@@ -53,7 +53,7 @@ class Settings_ModuleManager_Library_Model
 		$compressedName = $lib['name'] . '-' . $mode;
 
 		if (!file_exists($path)) {
-			if ($file = file_get_contents($url)) {
+			if ($file = file_get_contents($url, false, stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]))) {
 				file_put_contents($path, $file);
 			}
 		}
