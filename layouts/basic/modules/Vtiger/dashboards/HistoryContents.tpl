@@ -65,7 +65,7 @@
 								</div>
 								{/if}
 							{else}
-								<a href="{$PARENT->getUpdatesUrl()}">{vtranslate('LBL_MORE')}</a>
+								<a class="btn btn-info btn-xs moreBtn" href="{$PARENT->getUpdatesUrl()}">{vtranslate('LBL_MORE')}</a>
 								{break}
 							{/if}
 							{/foreach}
@@ -144,7 +144,7 @@
 	{if $NEXTPAGE}
 	<div class="row">
 		<div class="col-md-12">
-			<button class="load-more btn btn-xs btn-primary" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{vtranslate('LBL_MORE')}</button>
+			<button class="load-more btn btn-xs btn-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{vtranslate('LBL_MORE')}</button>
 		</div>
 	</div>
 	{/if}
