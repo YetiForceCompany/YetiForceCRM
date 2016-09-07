@@ -21,6 +21,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('checkModuleName');
 		$this->exposeMethod('createModule');
 		$this->exposeMethod('deleteModule');
+		$this->exposeMethod('downloadLibrary');
 	}
 
 	function process(Vtiger_Request $request)
@@ -39,13 +40,16 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 
-		if ($updateStatus == 'true') {
-			$moduleManagerModel->enableModule($moduleName);
-		} else {
-			$moduleManagerModel->disableModule($moduleName);
-		}
-
 		$response = new Vtiger_Response();
+		try {
+			if ($updateStatus == 'true') {
+				$moduleManagerModel->enableModule($moduleName);
+			} else {
+				$moduleManagerModel->disableModule($moduleName);
+			}
+		} catch (\Exception\NotAllowedMethod $e) {
+			$response->setError($e->getMessage());
+		}
 		$response->emit();
 	}
 
@@ -158,5 +162,16 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
+	}
+
+	public function downloadLibrary(Vtiger_Request $request)
+	{
+		if ($request->has('name')) {
+			Settings_ModuleManager_Library_Model::download($request->get('name'));
+		} else {
+			Settings_ModuleManager_Library_Model::downloadAll();
+		}
+		$httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'index.php?module=ModuleManager&parent=Settings&view=List';
+		header("Location: $httpReferer");
 	}
 }
