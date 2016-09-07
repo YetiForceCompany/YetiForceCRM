@@ -9,6 +9,6 @@ README.md
 /cache/logs/*.log
 /cache/vtlib/
 /test/templates_c/basic/*.php
-/nbproject/private/
-tests/*
-.travis.yml
+/nbproject/
+/libraries/mPDF/
+/modules/OSSMail/roundcube/
