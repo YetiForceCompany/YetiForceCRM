@@ -72,6 +72,10 @@ $languageStrings = [
 	'LBL_EXTENSION_MODULE' => 'Extensions module',
 	'LBL_LANGUAGE_MODULE' => 'Language pack',
 	'LBL_VIEW_MODULEIMPORT' => 'Import',
+	'LBL_MISSING_LIBRARY_TITLE' => 'Required libraries are missing!!!',
+	'LBL_MISSING_LIBRARY_DESC' => 'We detected that required libraries are not installed. Some features were disabled. In order to enable them, please download the following libraries.',
+	'BTN_DOWNLOAD' => 'Download',
+	'BTN_DOWNLOAD_ALL' => 'Download all',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Update Successful',
