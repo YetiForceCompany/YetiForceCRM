@@ -1,4 +1,9 @@
 <?php
+/* Cron task to update coordinates in records
+ * @package YetiForce.Cron
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
 $db = PearDatabase::getInstance();
 $query = 'SELECT * FROM u_yf_openstreetmap_record_updater LIMIT ?';
 $result = $db->pquery($query, [AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES')]);
