@@ -282,10 +282,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
 		fieldContainer.addClass('opacity editFieldsWidget').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
-		if(result['title'].length == 0){
-			fieldContainer.find('.fieldLabel').html(result['label']);
-		} else {
+		if(result['title']){
 			fieldContainer.find('.fieldLabel').html(result['title']);
+		} else {
+			fieldContainer.find('.fieldLabel').html(result['label']);
 		}
 		if (!result['status'])
 			fieldContainer.find('input[name="limit"]').closest('div.limit').remove();
