@@ -71,6 +71,10 @@ $languageStrings = [
 	'LBL_EXTENSION_MODULE' => 'Moduł rozszerzeń',
 	'LBL_LANGUAGE_MODULE' => 'Pakiet językowy',
 	'LBL_VIEW_MODULEIMPORT' => 'Import',
+	'LBL_MISSING_LIBRARY_TITLE' => 'Brak wymaganych bibliotek !!!',
+	'LBL_MISSING_LIBRARY_DESC' => 'Wykryto że nie zostały zainstalowane wymagane biblioteki. Część funkcjonalności została zablokowana, w celu odblokowania należy pobrać następujące biblioteki.',
+	'BTN_DOWNLOAD' => 'Pobierz',
+	'BTN_DOWNLOAD_ALL' => 'Pobierz wszystkie',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Aktualizacja przebiegła pomyślnie.',

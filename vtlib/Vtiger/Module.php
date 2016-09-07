@@ -259,15 +259,45 @@ class Module extends ModuleBasic
 	/**
 	 * Fire the event for the module (if vtlib_handler is defined)
 	 */
-	static function fireEvent($modulename, $event_type)
+	static function fireEvent($modulename, $eventType)
 	{
+		$return = false;
 		$instance = self::getClassInstance((string) $modulename);
 		if ($instance) {
 			if (method_exists($instance, 'vtlib_handler')) {
-				self::log("Invoking vtlib_handler for $event_type ...START");
-				$instance->vtlib_handler((string) $modulename, (string) $event_type);
-				self::log("Invoking vtlib_handler for $event_type ...DONE");
+				self::log("Invoking vtlib_handler for $eventType ...START");
+				$fire = $instance->vtlib_handler((string) $modulename, (string) $eventType);
+				if ($fire === null || $fire === true) {
+					$return = true;
+				}
+				self::log("Invoking vtlib_handler for $eventType ...DONE");
 			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Toggle the module (enable/disable)
+	 */
+	public static function toggleModuleAccess($moduleName, $enableDisable)
+	{
+		$eventType = false;
+		if ($enableDisable === true) {
+			$enableDisable = 0;
+			$eventType = Module::EVENT_MODULE_ENABLED;
+		} else if ($enableDisable === false) {
+			$enableDisable = 1;
+			$eventType = Module::EVENT_MODULE_DISABLED;
+		}
+		$fire = self::fireEvent($moduleName, $eventType);
+		if ($fire) {
+			$db = \PearDatabase::getInstance();
+			$db->update('vtiger_tab', [
+				'presence' => $enableDisable
+				], 'name = ?', [$moduleName]
+			);
+			Deprecated::createModuleMetaFile();
+			vtlib_RecreateUserPrivilegeFiles();
 		}
 	}
 }

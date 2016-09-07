@@ -459,9 +459,9 @@ class ModuleBasic
 	 */
 	static function syncfile()
 	{
-		self::log("Updating tabdata file ... ", false);
-		create_tab_data_file();
-		self::log("DONE");
+		self::log('Updating tabdata file ... ', false);
+		Deprecated::createModuleMetaFile();
+		self::log('DONE');
 	}
 
 	/**

@@ -186,11 +186,6 @@ function getBlockId($tabid, $label)
 	return vtlib\Deprecated::getBlockId($tabid, $label);
 }
 
-function create_tab_data_file()
-{
-	return vtlib\Deprecated::createModuleMetaFile();
-}
-
 function getEntityName($module, $ids, $compute = true)
 {
 	if ($module == 'Users' || $module == 'Groups') {

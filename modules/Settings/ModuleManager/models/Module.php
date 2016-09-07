@@ -42,7 +42,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public function disableModule($moduleName)
 	{
 		//Handling events after disable module
-		vtlib_toggleModuleAccess($moduleName, false);
+		\vtlib\Module::toggleModuleAccess($moduleName, false);
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public function enableModule($moduleName)
 	{
 		//Handling events after enable module
-		vtlib_toggleModuleAccess($moduleName, true);
+		\vtlib\Module::toggleModuleAccess($moduleName, true);
 	}
 
 	/**

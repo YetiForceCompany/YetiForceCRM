@@ -8,38 +8,38 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class('Settings_Module_Manager_Js', {
-	registerMondalCreateModule : function(data) {
+	registerMondalCreateModule: function (data) {
 		data.find('[name="saveButton"]').attr("disabled", true);
 		var thisInstance = new Settings_Module_Manager_Js();
-		data.find('input').on('change', function(e) {
-			if( $( this ).attr("name") == 'module_name'){
-				thisInstance.checkModuleName( $( this ).val(), data );
-			}else{
-				if( $( this ).val() != ''){
-					$( this ).attr("check", true);
-				}else{
-					$( this ).attr("check", false);
+		data.find('input').on('change', function (e) {
+			if ($(this).attr("name") == 'module_name') {
+				thisInstance.checkModuleName($(this).val(), data);
+			} else {
+				if ($(this).val() != '') {
+					$(this).attr("check", true);
+				} else {
+					$(this).attr("check", false);
 				}
 			}
 			var status = true;
-			data.find('input[name]').each(function() {
-				if( $( this ).attr("check") == 'false' || $( this ).attr("check") == undefined){
+			data.find('input[name]').each(function () {
+				if ($(this).attr("check") == 'false' || $(this).attr("check") == undefined) {
 					status = false;
 				}
 			});
-			if( status ){
+			if (status) {
 				data.find('[name="saveButton"]').attr("disabled", false);
-			}else{
+			} else {
 				data.find('[name="saveButton"]').attr("disabled", true);
 			}
 		})
-		data.find('[name="saveButton"]').click(function(e) {
+		data.find('[name="saveButton"]').click(function (e) {
 			var form = data.find('form');
 			var formData = form.serializeFormData();
 			var progress = $.progressIndicator({
-				'message' : app.vtranslate('Adding a Key'),
-				'blockInfo' : {
-					'enabled' : true
+				'message': app.vtranslate('Adding a Key'),
+				'blockInfo': {
+					'enabled': true
 				}
 			});
 			var params = {}
@@ -49,42 +49,41 @@ jQuery.Class('Settings_Module_Manager_Js', {
 			params['mode'] = 'createModule';
 			params['formData'] = formData;
 			AppConnector.request(params).then(
-				function(data) {
-					var result = data.result;
-					if( !result.success ){
-						var params = {
-							text: result.text,
-							animation: 'show',
-							type: 'error'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-					}else{
-						window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule='+result.text;
+					function (data) {
+						var result = data.result;
+						if (!result.success) {
+							var params = {
+								text: result.text,
+								animation: 'show',
+								type: 'error'
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+						} else {
+							window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
+						}
 					}
-				}
 			);
 			progress.progressIndicator({'mode': 'hide'});
 		});
-		
+
 	}
 }, {
-	
 	/*
 	 * function to update the module status for the module
 	 * @params: currentTarget - checkbox related to module.
 	 */
-	updateModuleStatus : function(currentTarget) {
+	updateModuleStatus: function (currentTarget) {
 		var aDeferred = jQuery.Deferred();
 		var forModule = currentTarget.data('module');
 		var status = currentTarget.is(':checked');
-		
+
 		var progressIndicatorElement = jQuery.progressIndicator({
-				'position' : 'html',
-				'blockInfo' : {
-					'enabled' : true
-				}
-			});
-			
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
+			}
+		});
+
 		var params = {}
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
@@ -92,28 +91,28 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		params['forModule'] = forModule
 		params['action'] = 'Basic';
 		params['mode'] = 'updateModuleStatus';
-		
+
 		AppConnector.request(params).then(
-			function(data) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.resolve(data);
-			},
-			function(error) {
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				//TODO : Handle error
-				aDeferred.reject(error);
-			}
+				function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					aDeferred.resolve(data);
+				},
+				function (error) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					//TODO : Handle error
+					aDeferred.reject(error);
+				}
 		);
 		return aDeferred.promise();
 	},
-	createModule : function(currentTarget) {
+	createModule: function (currentTarget) {
 		var progressIndicatorElement = jQuery.progressIndicator();
-		app.showModalWindow(null, "index.php?module=ModuleManager&parent=Settings&view=CreateModule", function(wizardContainer){
-			progressIndicatorElement.progressIndicator({'mode' : 'hide'});
+		app.showModalWindow(null, "index.php?module=ModuleManager&parent=Settings&view=CreateModule", function (wizardContainer) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			Settings_Module_Manager_Js.registerMondalCreateModule(wizardContainer);
 		});
 	},
-	checkModuleName : function(name , wizardContainer) {
+	checkModuleName: function (name, wizardContainer) {
 		var progressIndicatorElement = jQuery.progressIndicator();
 		wizardContainer.find('[name="module_name"]').attr("check", false);
 		var params = {}
@@ -127,35 +126,35 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		params.async = false;
 		params.dataType = 'json';
 		AppConnector.request(params).then(
-			function(data) {
-				var result = data.result;
-				if( result.success ){
-					wizardContainer.find('[name="module_name"]').attr("check", true);
-				}else{
-					wizardContainer.find('[name="module_name"]').attr("check", false);
-					var params = {
-						text: result.text,
-						animation: 'show',
-						type: 'error'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					wizardContainer.find('[name="saveButton"]').attr("disabled", true);
+				function (data) {
+					var result = data.result;
+					if (result.success) {
+						wizardContainer.find('[name="module_name"]').attr("check", true);
+					} else {
+						wizardContainer.find('[name="module_name"]').attr("check", false);
+						var params = {
+							text: result.text,
+							animation: 'show',
+							type: 'error'
+						};
+						Vtiger_Helper_Js.showPnotify(params);
+						wizardContainer.find('[name="saveButton"]').attr("disabled", true);
+					}
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				}
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-			}
 		);
 	},
 	//This will show the notification message using pnotify
-	showNotify : function(customParams) {
+	showNotify: function (customParams) {
 		var params = {
-			title : app.vtranslate('JS_MESSAGE'),
-			text: customParams.text,
+			title: app.vtranslate('JS_MESSAGE'),
+			text: '',
 			animation: 'show',
 			type: 'info'
 		};
+		$.extend(params, customParams);
 		Vtiger_Helper_Js.showPnotify(params);
 	},
-	
 	deleteModule: function (container) {
 		container.on('click', '.deleteModule', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -182,65 +181,64 @@ jQuery.Class('Settings_Module_Manager_Js', {
 			);
 		});
 	},
-	
-	registerEvents : function(e){
+	registerEvents: function (e) {
 		var thisInstance = this;
 		var container = jQuery('#moduleManagerContents');
 		container.find('.createModule').click(thisInstance.createModule);
 		thisInstance.deleteModule(container)
 		//register click event for check box to update the module status
-		container.on('click', '[name="moduleStatus"]', function(e){
+		container.on('click', '[name="moduleStatus"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var moduleBlock = currentTarget.closest('.moduleManagerBlock');
 			var actionButtons = moduleBlock.find('.actions');
 			var forModule = currentTarget.data('moduleTranslation');
 			var moduleDetails = moduleBlock.find('.moduleImage, .moduleName');
-			
-			if(currentTarget.is(':checked')){
+
+			if (currentTarget.is(':checked')) {
 				//show the settings button for the module.
 				actionButtons.removeClass('hide');
-				
+
 				//changing opacity of the block if the module is enabled
 				moduleDetails.removeClass('dull');
-				
+
 				//update the module status as enabled
-				thisInstance.updateModuleStatus(currentTarget).then(
-					function(data) {
-						var params = {
-							text: forModule+' '+app.vtranslate('JS_MODULE_ENABLED')
-						}
-						thisInstance.showNotify(params);
-					},
-					function(error){
-						//TODO: Handle Error
+				thisInstance.updateModuleStatus(currentTarget).then(function (data) {
+					var params = {
+						text: forModule + ' ' + app.vtranslate('JS_MODULE_ENABLED'),
 					}
-				);
-					
+					if (data.success == false) {
+						params.type = 'error';
+						params.text = data.error.message;
+
+					}
+					thisInstance.showNotify(params);
+				}, function (error) {
+					//TODO: Handle Error
+				});
+
 			} else {
 				//hide the settings button for the module.
 				actionButtons.addClass('hide');
-				
+
 				//changing opacity of the block if the module is disabled
 				moduleDetails.addClass('dull');
-				
+
 				//update the module status as disabled
-				thisInstance.updateModuleStatus(currentTarget).then(
-					function(data) {
-						var params = {
-							text: forModule+' '+app.vtranslate('JS_MODULE_DISABLED')
-						}
-						thisInstance.showNotify(params);
-					},
-					function(error){
-						//TODO: Handle Error
+				thisInstance.updateModuleStatus(currentTarget).then(function (data) {
+					console.log(data);
+					var params = {
+						text: forModule + ' ' + app.vtranslate('JS_MODULE_DISABLED')
 					}
-				);
+					thisInstance.showNotify(params);
+				}, function (error) {
+					//TODO: Handle Error
+				});
 			}
-			
+
 		});
 	}
 });
-jQuery(document).ready(function(){
+jQuery(document).ready(function () {
 	var settingModuleManagerInstance = new Settings_Module_Manager_Js();
 	settingModuleManagerInstance.registerEvents();
 })

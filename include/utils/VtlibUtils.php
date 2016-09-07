@@ -100,31 +100,6 @@ function vtlib_RecreateUserPrivilegeFiles()
 }
 
 /**
- * Toggle the module (enable/disable)
- */
-function vtlib_toggleModuleAccess($module, $enable_disable)
-{
-	global $adb, $__cache_module_activeinfo;
-	$event_type = false;
-
-	if ($enable_disable === true) {
-		$enable_disable = 0;
-		$event_type = vtlib\Module::EVENT_MODULE_ENABLED;
-	} else if ($enable_disable === false) {
-		$enable_disable = 1;
-		$event_type = vtlib\Module::EVENT_MODULE_DISABLED;
-	}
-
-	$adb->pquery("UPDATE vtiger_tab set presence = ? WHERE name = ?", array($enable_disable, $module));
-
-	$__cache_module_activeinfo[$module] = $enable_disable;
-
-	create_tab_data_file();
-	vtlib_RecreateUserPrivilegeFiles();
-	vtlib\Module::fireEvent($module, $event_type);
-}
-
-/**
  * Get list of module with current status which can be controlled.
  */
 function vtlib_getToggleModuleInfo()
