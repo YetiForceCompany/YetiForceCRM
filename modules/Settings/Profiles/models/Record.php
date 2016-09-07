@@ -513,8 +513,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$profileId = $this->getId();
 		$tabId = $moduleModel->getId();
-		$profileTabPermissions = $this->getProfileTabPermissions();
-		$profileTabPermissions = isset($profileTabPermissions[$tabId]) ? $profileTabPermissions[$tabId] : false;
+		$profileUtilityPermissions = $this->getProfileUtilityPermissions();
+		$profileTabPermissionsBase = $this->getProfileTabPermissions();
+		$profileTabPermissions = isset($profileTabPermissionsBase[$tabId]) ? $profileTabPermissionsBase[$tabId] : false;
 		$profileActionPermissions = $this->getProfileActionPermissions();
 		$profileActionPermissions = isset($profileActionPermissions[$tabId]) ? $profileActionPermissions[$tabId] : false;
 		$db->pquery('DELETE FROM vtiger_profile2tab WHERE profileid=? AND tabid=?', array($profileId, $tabId));
@@ -528,19 +529,23 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				//Dividing on actions
 				$utilityIdsList = [];
 				foreach ($actionPermissions as $actionId => $permission) {
-					if (isset(Vtiger_Action_Model::$standardActions[$actionId])) {
+					if (isset($actionsIdsList[$actionId])) {
 						$actionsIdsList[$actionId] = $permission;
 					} else {
 						$utilityIdsList[$actionId] = $permission;
 					}
 				}
-
 				//Update process
-				if ($profileActionPermissions || $moduleModel->isUtilityActionEnabled()) {
+				if ($profileActionPermissions || isset($profileTabPermissionsBase[$tabId]) || isset($profileUtilityPermissions[$tabId])) {
 					//Standard permissions
-					if ($actionsIdsList) {
+					if (!$moduleModel->isEntityModule() || $this->isRestrictedModule($moduleModel->getName())) {
+						$actionEnabled = true;
+					} elseif ($actionsIdsList) {
 						$actionsUpdateQuery = 'UPDATE vtiger_profile2standardpermissions SET permissions = CASE ';
 						foreach ($actionsIdsList as $actionId => $permission) {
+							if (in_array($permission, Vtiger_Action_Model::$nonConfigurableActions)) {
+								$permission = 'on';
+							}
 							$permissionValue = $this->tranformInputPermissionValue($permission);
 							if (isset(Vtiger_Action_Model::$standardActions[$actionId])) {
 								if ($permission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
@@ -588,8 +593,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						}
 						$i++;
 					}
-					if ($actionsIdsList) {
-						$db->pquery($actionsInsertQuery, []);
+					if ($actionsIdsList && ($moduleModel->isEntityModule() && !$this->isRestrictedModule($moduleModel->getName()))) {
+						$db->query($actionsInsertQuery);
 					}
 
 					//Utility permissions
