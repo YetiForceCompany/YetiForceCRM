@@ -5675,3 +5675,6 @@ select.form-control {
 	width: 15px;
 	float: left;
 }
+.modal-fullscreen{
+	width: 98%;
+}

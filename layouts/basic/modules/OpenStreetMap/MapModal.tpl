@@ -21,7 +21,7 @@
 			<div id="mapid"></div>
 		</div>
 		<div class="col-xs-3">
-			<div class="input-group group-btn">
+			<div class="input-group group-btn form-group">
 				<select class="select2 fieldsToGroup">
 					{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}
 						<option value="{$FIELD_MODEL->getFieldName()}">{vtranslate($FIELD_MODEL->getFieldLabel(), $SRC_MODULE)}</option>
@@ -31,6 +31,17 @@
 					<button class="btn btn-primary groupBy">{vtranslate('LBL_GROUP_BY', $MODULE_NAME)}</button>
 				</div>
 			</div>
+				<div class="form-group">
+					<input type="text" class="searchValue form-control" placeholder="{vtranslate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}">
+				</div>
+				<div class="form-group">
+					{vtranslate('LBL_IN_RADIUS', $MODULE_NAME)}
+					<input type="text" class="form-control radius" placeholder="{vtranslate('LBL_IN_RADIUS', $MODULE_NAME)}">
+				</div>
+				<div class="form-group pull-right">
+					<button class="btn btn-primary searchBtn">{vtranslate('LBL_SEARCH', $MODULE_NAME)}</button>
+				</div>
+			
 		</div>
 	</div>
 	<div class="modal-footer">

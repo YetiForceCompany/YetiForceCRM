@@ -9,7 +9,7 @@
 class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View {
 
 	public function getSize(Vtiger_Request $request) {
-		return 'modal-full';
+		return 'modal-fullscreen';
 	}
 
 	public function process(Vtiger_Request $request) {

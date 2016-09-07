@@ -5,6 +5,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	selectedParams: false,
 	layerMarkers: false,
 	markers: false,
+	polygonLayer: false,
 	setSelectedParams: function (params) {
 		this.selectedParams = params;
 	},
@@ -21,11 +22,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	setMarkersByResponse: function (response) {
 		var markerArray = [];
 		var coordinates = response.result.coordinates;
+		var container = this.container;
 		var map = this.mapInstance;
 		var markers = L.markerClusterGroup({
-			spiderfyOnMaxZoom: true,
-			showCoverageOnHover: true,
-			zoomToBoundsOnClick: true,
 			maxClusterRadius: 10
 		});
 		map.removeLayer(this.layerMarkers);
@@ -41,20 +40,55 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			}).bindPopup(e.label);
 			markers.addLayer(marker);
 		});
+		map.removeLayer(this.polygonLayer);
+		if (typeof response.result.coordinatesCeneter != 'undefined') {
+			if (typeof response.result.coordinatesCeneter.error == 'undefined') {
+				var radius = container.find('.radius').val();
+				markerArray.push([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon]);
+				var marker = L.marker([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon], {
+					icon: L.AwesomeMarkers.icon({
+						icon: 'search',
+						markerColor: 'red',
+						prefix: 'fa',
+					})
+				});
+				markers.addLayer(marker);
+				if($.isNumeric(radius)){
+					radius = parseInt(radius) * 1000;
+					var circle = L.circle([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon], radius, {
+						color: 'red',
+						fillColor: '#f03',
+						fillOpacity: 0.3
+					});
+					this.polygonLayer = L.featureGroup([circle]);
+					map.addLayer(this.polygonLayer);
+				}
+			} else {
+				var params = {
+					title: app.vtranslate('JS_LBL_PERMISSION'),
+					text: response.result.coordinatesCeneter.error,
+					type: 'error',
+					animation: 'show'
+				};
+				Vtiger_Helper_Js.showMessage(params);
+			}
+		}
 		this.markers = coordinates;
 		this.layerMarkers = markers;
 		map.addLayer(markers);
-		
+		var footer = this.container.find('.modal-footer');
 		if (typeof response.result.legend != 'undefined') {
-			var footer = this.container.find('.modal-footer');
 			var html = '';
 			var legend = response.result.legend;
 			legend.forEach(function (e) {
-				html += '<div class="pull-left"><span class="leegendIcon" style="background:' + e.color + '"></span> '+e.value+'</div>'
+				html += '<div class="pull-left"><span class="leegendIcon" style="background:' + e.color + '"></span> ' + e.value + '</div>'
 			});
 			footer.html(html);
+		} else {
+			footer.html('');
 		}
-		map.fitBounds(markerArray);
+		if (markerArray.length)
+			map.fitBounds(markerArray);
 		this.container.find('.groupNeighbours').prop('checked', true);
 	},
 	registerBasicModal: function () {
@@ -71,7 +105,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				module: 'OpenStreetMap',
 				action: 'GetMarkers',
 				srcModule: app.getModuleName(),
-				groupBy: container.find('.fieldsToGroup').val()
+				groupBy: container.find('.fieldsToGroup').val(),
+				searchValue: container.find('.searchValue').val(),
+				radius: container.find('.radius').val()
 			};
 			$.extend(params, thisInstance.selectedParams);
 			AppConnector.request(params).then(function (response) {
@@ -79,16 +115,13 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				thisInstance.setMarkersByResponse(response);
 			});
 		});
-		container.find('.groupNeighbours').on('change', function(e){
+		container.find('.groupNeighbours').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var map = thisInstance.mapInstance;
 			map.removeLayer(thisInstance.layerMarkers);
 			var markers = thisInstance.markers;
-			if(currentTarget.is(':checked')){
+			if (currentTarget.is(':checked')) {
 				var layer = L.markerClusterGroup({
-					spiderfyOnMaxZoom: true,
-					showCoverageOnHover: true,
-					zoomToBoundsOnClick: true,
 					maxClusterRadius: 10
 				});
 				markers.forEach(function (e) {
@@ -116,9 +149,29 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					markerArray.push(marker);
 				});
 				var layer = L.featureGroup(markerArray);
-			}			
+			}
 			thisInstance.layerMarkers = layer;
 			map.addLayer(layer);
+		});
+		container.find('.searchBtn').on('click', function (e) {
+			var progressIndicatorElement = jQuery.progressIndicator({
+				'position': container,
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var params = {
+				module: 'OpenStreetMap',
+				action: 'GetMarkers',
+				srcModule: app.getModuleName(),
+				searchValue: container.find('.searchValue').val(),
+				radius: container.find('.radius').val()
+			};
+			$.extend(params, thisInstance.selectedParams);
+			AppConnector.request(params).then(function (response) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				thisInstance.setMarkersByResponse(response);
+			});
 		});
 	},
 	registerModalView: function (container) {
@@ -136,7 +189,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		$('#mapid').css({
 			height: 500
 		});
-		var myMap = this.registerMap(startCoordinate, startZoom);
+		this.registerMap(startCoordinate, startZoom);
 		var params = {
 			module: 'OpenStreetMap',
 			action: 'GetMarkers',
@@ -166,9 +219,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		});
 		var myMap = this.registerMap(startCoordinate, startZoom);
 		var markers = L.markerClusterGroup({
-			spiderfyOnMaxZoom: true,
-			showCoverageOnHover: true,
-			zoomToBoundsOnClick: true,
 			maxClusterRadius: 10
 		});
 		coordinates.forEach(function (e) {

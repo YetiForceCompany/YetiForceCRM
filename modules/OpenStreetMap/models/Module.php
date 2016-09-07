@@ -11,21 +11,25 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 	public function isAllowModules($moduleName) {
 		return in_array($moduleName, AppConfig::module($this->getName(), 'ALLOW_MODULES'));
 	}
-
-	private static function getCoordinates($address) {
-		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
-		$data = [
-			'format' => 'json',
-			'addressdetails' => 1,
-			'limit' => 1
+	private static function getMargins($coordinates, $radius){
+		$earthRadius = 6378137;
+		$lat = $coordinates['lat'];
+		$long = $coordinates['lon'];
+		$radius = $radius * 1000;
+		return [
+			'latMax' => $lat + rad2deg($radius  / $earthRadius),
+			'latMin' => $lat - rad2deg($radius / $earthRadius),
+			'lonMax' => $long + rad2deg($radius / $earthRadius / cos(deg2rad($lat))),
+			'lonMin' => $long - rad2deg($radius / $earthRadius / cos(deg2rad($lat)))
 		];
-		$url .= http_build_query(array_merge($data, $address));
+	}
+	private static function doRequest($url){
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 			CURLOPT_URL => $url,
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
-			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_MAXREDIRS => 3,
 			CURLOPT_TIMEOUT => 10,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => "GET",
@@ -39,7 +43,28 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 			return json_decode($response, true);
 		}
 	}
-
+	private static function getCoordinates($address) {
+		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
+		$data = [
+			'format' => 'json',
+			'addressdetails' => 1,
+			'limit' => 1
+		];
+		$url .= http_build_query(array_merge($data, $address));
+		return self::doRequest($url);
+	}
+	public static function getCoordinatesBySearching($searchValue){
+		$coordinatesDetails = self::getCoordinates(['q' => $searchValue]);
+		if ($coordinatesDetails === false)
+			return [];
+		$coordinatesDetails = reset($coordinatesDetails);
+		if(empty($coordinatesDetails)) {
+			return ['error' => vtranslate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
+		} else {
+			return ['lat' => $coordinatesDetails['lat'], 'lon' => $coordinatesDetails['lon']];
+		}
+	}
+	
 	public static function getCoordinatesByRecord($recordModel) {
 		$coordinates = [];
 		foreach (['a', 'b', 'c'] as $numAddress) {
@@ -195,7 +220,8 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		return $color;
 	}
 
-	public static function readAllCoordinates($records, $moduleModel, $groupByField) {
+	public static function readAllCoordinates($records, $moduleModel, $groupByField, $coordinatesCenter = [], $radius = false ) {
+		$params = [];
 		$moduleName = $moduleModel->getName();
 		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
@@ -209,7 +235,6 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		$queryGenerator->setFields($fields);
 		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lat');
 		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lon');
-		$queryGenerator->setCustomColumn('u_yf_openstreetmap.type');
 		$queryGenerator->setCustomFrom([
 			'joinType' => 'LEFT',
 			'relatedTable' => 'u_yf_openstreetmap',
@@ -218,9 +243,15 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 			'baseIndex' => 'crmid',
 		]);
 		$query = $queryGenerator->getQuery();
-		$query .= sprintf(' AND vtiger_crmentity.crmid IN (%s)', generateQuestionMarks($records));
+		$query .= sprintf(' AND vtiger_crmentity.crmid IN (%s) AND u_yf_openstreetmap.type = \'a\' ', generateQuestionMarks($records));
+		$params = $records;
+		if (!empty($coordinatesCenter) && !empty($radius)){
+			$query .= ' AND u_yf_openstreetmap.lat < ? AND u_yf_openstreetmap.lat > ? AND u_yf_openstreetmap.lon < ? AND u_yf_openstreetmap.lon > ?';
+			$params = array_merge($params, array_values(self::getMargins($coordinatesCenter, $radius)));
+		}
+		
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery($query, $records);
+		$result = $db->pquery($query, $params);
 		$coordinates = [];
 		while ($row = $db->getRow($result)) {
 			if (!empty($row['lat'] && !empty($row['lon']))) {
@@ -235,7 +266,7 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		return $coordinates;
 	}
 
-	public static function readAllCoordinatesFromCustomeView(Vtiger_Request $request, $moduleModel) {
+	public static function readAllCoordinatesFromCustomeView(Vtiger_Request $request, $moduleModel, $coordinatesCenter = [], $radius = false) {
 		$moduleName = $moduleModel->getName();
 		$filterId = $request->get('viewname');
 		$excludedIds = $request->get('excluded_ids');
@@ -243,7 +274,7 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		$searchValue = $request->get('search_value');
 		$operator = $request->get('operator');
 		$groupByField = $request->get('groupBy');
-
+		$params = [];
 		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
@@ -257,7 +288,6 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		$queryGenerator->setFields($fields);
 		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lat');
 		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lon');
-		$queryGenerator->setCustomColumn('u_yf_openstreetmap.type');
 		$queryGenerator->setCustomFrom([
 			'joinType' => 'LEFT',
 			'relatedTable' => 'u_yf_openstreetmap',
@@ -285,11 +315,16 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
 		$queryGenerator->parseAdvFilterList($transformedSearchParams, $glue);
 		$query = $queryGenerator->getQuery();
+		$query .= ' AND u_yf_openstreetmap.type = \'a\' ';
 		if ($excludedIds && !empty($excludedIds) && is_array($excludedIds) && count($excludedIds) > 0) {
 			$query .= ' AND vtiger_crmentity.crmid NOT IN (' . implode(',', $excludedIds) . ')';
 		}
+		if (!empty($coordinatesCenter) && !empty($radius) ){
+			$query .= ' AND u_yf_openstreetmap.lat < ? AND u_yf_openstreetmap.lat > ? AND u_yf_openstreetmap.lon < ? AND u_yf_openstreetmap.lon > ?';
+			$params = array_values(self::getMargins($coordinatesCenter, $radius));
+		}
 		$db = PearDatabase::getInstance();
-		$result = $db->query($query);
+		$result = $db->pquery($query, $params);
 		$coordinates = [];
 		while ($row = $db->getRow($result)) {
 			if (!empty($row['lat'] && !empty($row['lon']))) {
