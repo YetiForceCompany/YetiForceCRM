@@ -66,7 +66,7 @@
 				</thead>
 				{if $MODULE_MODEL->isQuickSearchEnabled()}
 					<tr>
-						<td>
+						<td class="listViewSearchTd">
 							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -88,15 +88,16 @@
 						</td>
 					</tr>
 				{/if}
+				{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 					{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
 					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList}style="background-color: {$LISTVIEW_ENTRY->colorList['background']};color: {$LISTVIEW_ENTRY->colorList['text']};"{/if}>
-						<td class="{$WIDTHTYPE} noWrap">
+						<td class="{$WIDTHTYPE} noWrap leftRecordActions">
 							{include file=vtemplate_path('ListViewLeftSide.tpl',$MODULE_NAME)}
 						</td>
-						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
+							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" {if $smarty.foreach.listHeaderForeach.iteration eq $LISTVIEW_HEADER_COUNT}colspan="2"{/if}>
 								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
 									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 										{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
@@ -114,11 +115,6 @@
 										{/if}
 									{/if}
 							</td>
-							{if $LISTVIEW_HEADER@last}
-								<td class="{$WIDTHTYPE} noWrap">
-									{include file=vtemplate_path('ListViewRecordActions.tpl',$MODULE_NAME)}
-								</td>
-							{/if}
 						{/foreach}
 					</tr>
 				{/foreach}

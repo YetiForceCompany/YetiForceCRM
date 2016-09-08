@@ -12,21 +12,23 @@
 					<span class="glyphicon {if $WATCHING_STATE}glyphicon-eye-close{else}glyphicon-eye-open{/if}"></span>
 				</a>&nbsp;
 			{/if}
-			<a href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}">
-				<span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list"></span>
-			</a>&nbsp;
-			{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->isEditable()}
-				<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'>
+			{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
+			{if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && in_array($RAWDATA.status,$CURRENT_ACTIVITY_LABELS)}
+				<a class="showModal" data-url="{$LISTVIEW_ENTRY->getActivityStateModalUrl()}">
+					<span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-ok"></span>
+				</a>&nbsp;
+			{/if}
+			{if $FULL_DETAIL_VIEW_URL}
+				<a href="{$FULL_DETAIL_VIEW_URL}">
+					<span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list"></span>
+				</a>&nbsp;
+			{/if}
+			{if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL}
+				<a href='{$EDIT_VIEW_URL}'>
 					<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil"></span>
 				</a>&nbsp;
 			{/if}
-			{if ($IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->isEditable() && $LISTVIEW_ENTRY->editFieldByModalPermission()) || $LISTVIEW_ENTRY->editFieldByModalPermission(true)}
-				{assign var=FIELD_BY_EDIT_DATA value=$LISTVIEW_ENTRY->getFieldToEditByModal()}
-				<a class="showModal {$FIELD_BY_EDIT_DATA['listViewClass']}" data-url="{$LISTVIEW_ENTRY->getEditFieldByModalUrl()}">
-					<span title="{vtranslate({$FIELD_BY_EDIT_DATA['titleTag']}, $MODULE)}" class="glyphicon {$FIELD_BY_EDIT_DATA['iconClass']}"></span>
-				</a>&nbsp;
-			{/if}
-			{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->isDeletable()}
+			{if $IS_MODULE_DELETABLE && $IS_DELETE}
 				<a class="deleteRecordButton">
 					<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash"></span>
 				</a>

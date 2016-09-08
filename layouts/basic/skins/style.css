@@ -1017,8 +1017,7 @@ td.fieldValue input,
 td.fieldValue .input-group {
 	margin-bottom: 0;
 }
-.actionImage,
-.actionImages {
+.actionImage {
 	opacity: 0;
 	/*for IE*/
 
@@ -5275,7 +5274,7 @@ select.form-control {
 	color: #000;
 	min-height: 450px;
 }
-.knowledgePresentationControl {
+.knowledgePresentationControl, .listViewSearchTd {
 	width: 5%;
 }
 .knowledgePresentationInner {
@@ -5680,4 +5679,11 @@ select.form-control {
 }
 .marginRight15{
 	margin-right: 15px;
+}
+.leftRecordActions:hover .actions .toolsAction{
+	display: none;
+}
+.leftRecordActions:hover .actions .actionImages,
+.leftRecordActions div {
+	display: inline-block !important;
 }
