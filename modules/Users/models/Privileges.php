@@ -169,11 +169,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function isPermitted($moduleName, $actionName = null, $record = false)
 	{
-		$permission = isPermitted($moduleName, $actionName, $record);
-		if ($permission == 'yes') {
-			return true;
-		}
-		return false;
+		return \includes\Privileges::isPermitted($moduleName, $actionName, $record);
 	}
 
 	public static function getLastPermittedAccessLog()

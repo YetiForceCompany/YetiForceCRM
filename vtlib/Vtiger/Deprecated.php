@@ -122,13 +122,20 @@ class Deprecated
 					exit;
 				}
 				require_once('modules/Users/CreateUserPrivilegeFile.php');
-				$newbuf = '';
-				$newbuf .="<?php\n";
+				$newbuf = "<?php\n";
 				$newbuf .= "\$tab_info_array=" . \vtlib\Functions::varExportMin($result_array) . ";\n";
 				$newbuf .= "\$tab_seq_array=" . \vtlib\Functions::varExportMin($seq_array) . ";\n";
 				$newbuf .= "\$tab_ownedby_array=" . \vtlib\Functions::varExportMin($ownedby_array) . ";\n";
 				$newbuf .= "\$action_id_array=" . \vtlib\Functions::varExportMin($actionid_array) . ";\n";
 				$newbuf .= "\$action_name_array=" . \vtlib\Functions::varExportMin($actionname_array) . ";\n";
+				$tabdata = [
+					'tabId' => $result_array,
+					'tabPresence' => $seq_array,
+					'tabOwnedby' => $ownedby_array,
+					'actionId' => $actionid_array,
+					'actionName' => $actionname_array,
+				];
+				$newbuf .= 'return ' . \vtlib\Functions::varExportMin($tabdata) . ";\n";
 				fputs($handle, $newbuf);
 				fclose($handle);
 			} else {

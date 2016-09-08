@@ -69,7 +69,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		$postfix = $this->get('postfix');
 		$sequenceNumber = $this->get('sequenceNumber');
 
-		$tabId = \vtlib\Functions::getModuleId($moduleName);
+		$tabId = \includes\Modules::getModuleId($moduleName);
 		$status = \includes\fields\RecordNumber::setNumber($tabId, $prefix, $sequenceNumber, $postfix);
 
 		$success = array('success' => $status);

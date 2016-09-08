@@ -358,11 +358,9 @@ function getActionid($action)
 		$log->debug('Exiting getActionid method ... - ' . $actionid);
 		return $actionid;
 	}
-	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
-		include('user_privileges/tabdata.php');
-		if (isset($action_id_array[$action])) {
-			$actionid = $action_id_array[$action];
-		}
+	$actionIds = \includes\Modules::getTabData('actionId');
+	if (isset($actionIds[$action])) {
+		$actionid = $actionIds[$action];
 	}
 	if (empty($actionid)) {
 		$db = PearDatabase::getInstance();

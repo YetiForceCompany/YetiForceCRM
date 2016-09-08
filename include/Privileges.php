@@ -47,7 +47,7 @@ class Privileges
 			return $permission;
 		}
 		//Retreiving the Tabid and Action Id
-		$tabid = \vtlib\Functions::getModuleId($moduleName);
+		$tabid = Modules::getModuleId($moduleName);
 		$actionid = getActionid($actionName);
 		$checkModule = $moduleName;
 

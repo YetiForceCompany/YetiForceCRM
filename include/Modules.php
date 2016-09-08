@@ -67,7 +67,23 @@ class Modules
 		if (in_array($module, $moduleAlwaysActive)) {
 			return true;
 		}
-		$data = \vtlib\Functions::getModuleData($module);
-		return $data['presence'] == 0 ? true : false;
+		$tabPresence = self::getTabData('tabPresence');
+		return $tabPresence[$module] == 0 ? true : false;
+	}
+
+	protected static $tabdataCache = false;
+
+	static public function getTabData($type)
+	{
+		if (self::$tabdataCache === false) {
+			self::$tabdataCache = require 'user_privileges/tabdata.php';
+		}
+		return isset(self::$tabdataCache[$type]) ? self::$tabdataCache[$type] : false;
+	}
+
+	public static function getModuleId($name)
+	{
+		$tabId = self::getTabData('tabId');
+		return isset($tabId[$name]) ? $tabId[$name] : false;
 	}
 }

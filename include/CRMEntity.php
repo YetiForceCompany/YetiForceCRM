@@ -2430,7 +2430,7 @@ class CRMEntity
 		$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($user->id);
 
 		$query = '';
-		$tabId = \vtlib\Functions::getModuleId($moduleName);
+		$tabId = \includes\Modules::getModuleId($moduleName);
 		if ($userPrivileges['is_admin'] == false && $userPrivileges['profile_global_permission'][1] == 1 && $userPrivileges['profile_global_permission'][2] == 1 && $userPrivileges['defaultOrgSharingPermission'][$tabId] == 3) {
 			$parentRoleSeq = $userPrivileges['parent_role_seq'];
 			$query .= " vtiger_crmentity.smownerid = '$user->id'";
@@ -2463,7 +2463,7 @@ class CRMEntity
 		$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($userid);
 
 		$query = $sharedParameter = $securityParameter = '';
-		$tabId = \vtlib\Functions::getModuleId($module);
+		$tabId = \includes\Modules::getModuleId($module);
 		if ($relatedRecord && \AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$role = $userModel->getRoleDetail();
