@@ -640,88 +640,105 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
 
-		if (in_array($fieldDataType, ['picklist', 'multipicklist', 'multiowner', 'multiReferenceValue', 'posList'])) {
-			$pickListValues = $this->getPicklistValues();
-			if (!empty($pickListValues)) {
-				$this->fieldInfo['picklistvalues'] = $pickListValues;
-			} else {
-				$this->fieldInfo['picklistvalues'] = [];
-			}
-		}
-
-		if ($fieldDataType == 'taxes') {
-			$taxs = $this->getUITypeModel()->getTaxes();
-			if (!empty($taxs)) {
-				$this->fieldInfo['picklistvalues'] = $taxs;
-			} else {
-				$this->fieldInfo['picklistvalues'] = [];
-			}
-		}
-
-		if ($fieldDataType == 'inventoryLimit') {
-			$limits = $this->getUITypeModel()->getLimits();
-			if (!empty($limits)) {
-				$this->fieldInfo['picklistvalues'] = $limits;
-			} else {
-				$this->fieldInfo['picklistvalues'] = [];
-			}
-		}
-
-		if ($fieldDataType == 'date' || $fieldDataType == 'datetime') {
-			$this->fieldInfo['date-format'] = $currentUser->get('date_format');
-		}
-
-		if ($fieldDataType == 'time') {
-			$this->fieldInfo['time-format'] = $currentUser->get('hour_format');
-		}
-
-		if ($fieldDataType == 'currency') {
-			$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
-			$this->fieldInfo['decimal_seperator'] = $currentUser->get('currency_decimal_separator');
-			$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
-		}
-		if ($fieldDataType == 'owner' || $fieldDataType == 'sharedOwner') {
-			if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || AppRequest::get('module') == 'CustomView') {
-				if ($fieldDataType == 'owner') {
-					$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
-					$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
-					$pickListValues = [];
-					$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
-					$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+		switch ($fieldDataType) {
+			case 'picklist' :
+			case 'multipicklist':
+			case 'multiowner':
+			case 'multiReferenceValue':
+			case 'posList':
+				$pickListValues = $this->getPicklistValues();
+				if (!empty($pickListValues)) {
 					$this->fieldInfo['picklistvalues'] = $pickListValues;
-					if (AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+				} else {
+					$this->fieldInfo['picklistvalues'] = [];
+				}
+				break;
+			case 'taxes':
+				$taxs = $this->getUITypeModel()->getTaxes();
+				if (!empty($taxs)) {
+					$this->fieldInfo['picklistvalues'] = $taxs;
+				} else {
+					$this->fieldInfo['picklistvalues'] = [];
+				}
+				break;
+			case 'inventoryLimit':
+				$limits = $this->getUITypeModel()->getLimits();
+				if (!empty($limits)) {
+					$this->fieldInfo['picklistvalues'] = $limits;
+				} else {
+					$this->fieldInfo['picklistvalues'] = [];
+				}
+				break;
+			case 'date':
+			case 'datetime':
+				$this->fieldInfo['date-format'] = $currentUser->get('date_format');
+				break;
+			case 'time':
+				$this->fieldInfo['time-format'] = $currentUser->get('hour_format');
+				break;
+			case 'currency':
+				$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
+				$this->fieldInfo['decimal_seperator'] = $currentUser->get('currency_decimal_separator');
+				$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
+				break;
+			case 'owner':
+			case 'sharedOwner':
+				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || AppRequest::get('module') == 'CustomView') {
+					if ($fieldDataType == 'owner') {
+						$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
+						$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
+						$pickListValues = [];
+						$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
+						$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+						$this->fieldInfo['picklistvalues'] = $pickListValues;
+						if (AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+							$this->fieldInfo['searchOperator'] = 'e';
+						}
+					}
+					if ($fieldDataType == 'sharedOwner') {
+						$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
+						$pickListValues = [];
+						$this->fieldInfo['picklistvalues'] = $userList;
+					}
+				} else {
+					if ($fieldDataType == 'owner') {
 						$this->fieldInfo['searchOperator'] = 'e';
 					}
 				}
-				if ($fieldDataType == 'sharedOwner') {
-					$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
-					$pickListValues = [];
-					$this->fieldInfo['picklistvalues'] = $userList;
+				break;
+			case 'modules':
+				foreach ($this->getModulesListValues() as $moduleId => $module) {
+					$modulesList[$module['name']] = $module['label'];
 				}
-			} else {
-				if ($fieldDataType == 'owner') {
-					$this->fieldInfo['searchOperator'] = 'e';
+				$this->fieldInfo['picklistvalues'] = $modulesList;
+				break;
+			case 'tree':
+				$tree = $this->getUITypeModel()->getAllValue();
+				$pickListValues = [];
+				foreach ($tree as $key => $labels) {
+					$pickListValues[$key] = $labels[0];
 				}
-			}
+				$this->fieldInfo['picklistvalues'] = $pickListValues;
+				break;
+			case 'email':
+				if (AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
+					$validate = false;
+					if (empty(AppConfig::security('RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), AppConfig::security('RESTRICTED_DOMAINS_ALLOWED'))) {
+						$validate = true;
+					}
+					if (in_array($this->getModuleName(), AppConfig::security('RESTRICTED_DOMAINS_EXCLUDED'))) {
+						$validate = false;
+					}
+					if ($validate) {
+						$this->fieldInfo['restrictedDomains'] = AppConfig::security('RESTRICTED_DOMAINS_VALUES');
+					}
+				}
+				break;
 		}
-		if ($fieldDataType == 'modules') {
-			foreach ($this->getModulesListValues() as $moduleId => $module) {
-				$modulesList[$module['name']] = $module['label'];
-			}
-			$this->fieldInfo['picklistvalues'] = $modulesList;
-		}
+
 		if (in_array($fieldDataType, Vtiger_Field_Model::$REFERENCE_TYPES) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			$this->fieldInfo['searchOperator'] = 'e';
 		}
-		if ($fieldDataType == 'tree') {
-			$tree = $this->getUITypeModel()->getAllValue();
-			$pickListValues = [];
-			foreach ($tree as $key => $labels) {
-				$pickListValues[$key] = $labels[0];
-			}
-			$this->fieldInfo['picklistvalues'] = $pickListValues;
-		}
-
 		return $this->fieldInfo;
 	}
 

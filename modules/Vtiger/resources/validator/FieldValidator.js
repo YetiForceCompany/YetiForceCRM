@@ -38,14 +38,21 @@ Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 		var illegalChars = /[\(\)\<\>\,\;\:\\\"\[\]]/;
 
 		if (!emailFilter.test(fieldValue)) {
-			var errorInfo = app.vtranslate('JS_PLEASE_ENTER_VALID_EMAIL_ADDRESS');
-			this.setError(errorInfo);
+			this.setError(app.vtranslate('JS_PLEASE_ENTER_VALID_EMAIL_ADDRESS'));
 			return false;
 
 		} else if (fieldValue.match(illegalChars)) {
-			var errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
-			this.setError(errorInfo);
+			this.setError(app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS'));
 			return false;
+		}
+		var field = this.getElement();
+		var fieldData = field.data();
+		var fieldInfo = fieldData.fieldinfo;
+		if (fieldInfo.restrictedDomains) {
+			if (fieldInfo.restrictedDomains.indexOf(fieldValue.split('@').pop()) != -1) {
+				this.setError(app.vtranslate('JS_EMAIL_RESTRICTED_DOMAINS'));
+				return false;
+			}
 		}
 		return true;
 	}
@@ -380,8 +387,7 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanToday_Validator_Js", {}, {
 		var fieldValue = this.getFieldValue();
 		try {
 			var fieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
-		}
-		catch (err) {
+		} catch (err) {
 			this.setError(err);
 			return false;
 		}
@@ -412,8 +418,7 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanOrEqualToToday_Validator_Js", {}, {
 		var fieldValue = this.getFieldValue();
 		try {
 			var fieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
-		}
-		catch (err) {
+		} catch (err) {
 			this.setError(err);
 			return false;
 		}
@@ -444,8 +449,7 @@ Vtiger_Base_Validator_Js('Vtiger_greaterThanOrEqualToToday_Validator_Js', {}, {
 		var fieldValue = this.getFieldValue();
 		try {
 			var fieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
-		}
-		catch (err) {
+		} catch (err) {
 			this.setError(err);
 			return false;
 		}
@@ -519,8 +523,7 @@ Vtiger_Base_Validator_Js("Vtiger_greaterThanDependentField_Validator_Js", {
 		var fieldValue = field.val();
 		try {
 			var dateTimeInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, dateFormat);
-		}
-		catch (err) {
+		} catch (err) {
 			this.setError(err);
 			return false;
 		}
@@ -650,8 +653,7 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanDependentField_Validator_Js", {}, {
 		var fieldValue = field.val();
 		try {
 			var dateTimeInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, dateFormat);
-		}
-		catch (err) {
+		} catch (err) {
 			this.setError(err);
 			return false;
 		}
@@ -749,7 +751,7 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 		var decimalSeparator = app.getMainParams('currencyDecimalSeparator');
 		var groupSeparator = app.getMainParams('currencyGroupingSeparator');
 		fieldValue = fieldValue.split(groupSeparator).join("");
-		
+
 		var spacePattern = /\s/;
 		if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator))
 			fieldValue = fieldValue.replace(/ /g, '');
@@ -849,8 +851,7 @@ Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 		var fieldValue = this.getFieldValue();
 		try {
 			Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
-		}
-		catch (err) {
+		} catch (err) {
 			var errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_DATE");
 			this.setError(errorInfo);
 			return false;
@@ -938,8 +939,7 @@ Vtiger_Base_Validator_Js('Calendar_greaterThanToday_Validator_Js', {}, {
 		var fieldValue = this.getFieldValue();
 		try {
 			var fieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
-		}
-		catch (err) {
+		} catch (err) {
 			this.setError(err);
 			return false;
 		}
