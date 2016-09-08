@@ -16,7 +16,7 @@ class WebUI extends TestCase {
 	$webUI->process(AppRequest::init());
 	$response = ob_get_contents();
 	ob_end_clean();
-	file_put_contents('WebUI.txt',$response);
+	file_put_contents('tests/WebUI.txt',$response);
     }
 
 }
