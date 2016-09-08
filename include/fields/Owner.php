@@ -237,7 +237,7 @@ class Owner
 				array_push($params, "%$this->searchValue%");
 			}
 			if (!empty($where)) {
-				$query .= ' WHERE ' . ltrim($where, ' AND');
+				$query .= ' WHERE ' . ltrim($where, ' &&');
 			}
 			$result = $db->pquery($query, $params);
 			$tempResult = [];
@@ -327,7 +327,7 @@ class Owner
 			array_push($params, $this->currentUser->getId());
 
 			if (count($userPrivileges['groups']) != 0) {
-				$query .= ' OR vtiger_groups.groupid in (' . generateQuestionMarks($userPrivileges['groups']) . ')';
+				$query .= ' || vtiger_groups.groupid in (' . generateQuestionMarks($userPrivileges['groups']) . ')';
 				array_push($params, $userPrivileges['groups']);
 			}
 			$log->debug('Sharing is Private. Only the current user should be listed');

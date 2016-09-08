@@ -177,7 +177,7 @@ class ProjectMilestone extends CRMEntity {
 		if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1
 			&& $defaultOrgSharingPermission[$tabid] == 3) {
 
-				$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
+				$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
 					(
 						SELECT vtiger_user2role.userid FROM vtiger_user2role
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
@@ -194,7 +194,7 @@ class ProjectMilestone extends CRMEntity {
 
 					// Build the query based on the group association of current user.
 					if(sizeof($current_user_groups) > 0) {
-						$sec_query .= " vtiger_groups.groupid IN (". implode(",", $current_user_groups) .") OR ";
+						$sec_query .= " vtiger_groups.groupid IN (". implode(",", $current_user_groups) .") || ";
 					}
 					$sec_query .= " vtiger_groups.groupid IN
 						(

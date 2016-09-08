@@ -729,7 +729,7 @@ class ReportRun extends CRMEntity
 				$rtvalue = " is NOT NULL";
 			} elseif (trim($value) != "") {
 				if ($columnName)
-					$rtvalue = " <> " . $adb->quote($value) . " OR " . $columnName . " IS NULL ";
+					$rtvalue = " <> " . $adb->quote($value) . " || " . $columnName . " IS NULL ";
 				else
 					$rtvalue = " <> " . $adb->quote($value);
 			}elseif (trim($value) == "" && $datatype == "V") {
@@ -1178,9 +1178,9 @@ class ReportRun extends CRMEntity
 							$fieldvalue = 'trim(' . getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
 								$this->getAdvComparator($comparator, trim($value), $datatype);
 						} elseif ($selectedfields[0] == "vtiger_activity" && ($selectedfields[1] == 'status' || $selectedfields[1] == 'activitystatus')) {
-							// for "Is Empty" condition we need to check with "value NOT NULL" OR "value = ''" conditions
+							// for "Is Empty" condition we need to check with "value NOT NULL" || "value = ''" conditions
 							if ($comparator == 'y') {
-								$fieldvalue = "(case when vtiger_activity.status IS NULL OR vtiger_activity.status = ''";
+								$fieldvalue = "(case when vtiger_activity.status IS NULL || vtiger_activity.status = ''";
 							} else {
 								$fieldvalue = "vtiger_activity.status" . $this->getAdvComparator($comparator, trim($value), $datatype);
 							}
@@ -1194,9 +1194,9 @@ class ReportRun extends CRMEntity
 								$selectedfields[0] = 'vtiger_inventoryproductrel' . $moduleName;
 							}
 							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
-								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL OR " . $selectedfields[0] . "." . $selectedfields[1] . " = '' OR " . $selectedfields[0] . "." . $selectedfields[1] . " = '0')";
+								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL || " . $selectedfields[0] . "." . $selectedfields[1] . " = '' || " . $selectedfields[0] . "." . $selectedfields[1] . " = '0')";
 							else
-								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL OR " . $selectedfields[0] . "." . $selectedfields[1] . " = '')";
+								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL || " . $selectedfields[0] . "." . $selectedfields[1] . " = '')";
 						} elseif ($selectedfields[0] == 'vtiger_inventoryproductrel') {
 							if ($selectedfields[1] == 'productid') {
 								$fieldvalue = "vtiger_products$moduleName.productname " . $this->getAdvComparator($comparator, trim($value), $datatype);
@@ -1218,7 +1218,7 @@ class ReportRun extends CRMEntity
 							foreach ($fieldSqlColumns as $columnSql) {
 								$fieldSqls[] = $columnSql . $comparatorValue;
 							}
-							$fieldvalue = ' (' . implode(' OR ', $fieldSqls) . ') ';
+							$fieldvalue = ' (' . implode(' || ', $fieldSqls) . ') ';
 						} else {
 							$fieldvalue = $selectedfields[0] . "." . $selectedfields[1] . $this->getAdvComparator($comparator, trim($value), $datatype);
 						}

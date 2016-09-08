@@ -145,7 +145,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 		$sql = "SELECT * FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.smownerid = ? "; 
-		$sql .= "AND (vtiger_osstimecontrol.date_start = DATE(NOW()) OR vtiger_osstimecontrol.due_date = DATE(NOW()))";
+		$sql .= "AND (vtiger_osstimecontrol.date_start = DATE(NOW()) || vtiger_osstimecontrol.due_date = DATE(NOW()))";
 		$result = $adb->pquery( $sql, array('OSSTimeControl',$current_user->id ), true );
 		$today = date('Y-m-d');
 		for($i=0;$i<$adb->num_rows( $result );$i++){

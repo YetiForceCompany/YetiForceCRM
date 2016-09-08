@@ -75,14 +75,14 @@ class PDO extends AbstractBackend {
             if ($currentPath) $currentPath .= '/';
             $currentPath .= $part;
 
-            $query .= ' OR (depth!=0 && uri = ?)';
+            $query .= ' || (depth!=0 && uri = ?)';
             $params[] = $currentPath;
 
         }
 
         if ($returnChildLocks) {
 
-            $query .= ' OR (uri LIKE ?)';
+            $query .= ' || (uri LIKE ?)';
             $params[] = $uri . '/%';
 
         }

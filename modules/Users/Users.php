@@ -1047,7 +1047,7 @@ class Users extends CRMEntity
 		}
 
 		if ($this->mode != 'edit') {
-			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
+			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? || email1 = ?';
 			$result = $adb->pquery($sql, array($this->column_fields['user_name'], $this->column_fields['email1']));
 			if ($adb->num_rows($result) > 0) {
 				vtlib\Functions::throwNewException('LBL_USER_EXISTS');

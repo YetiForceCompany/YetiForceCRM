@@ -598,7 +598,7 @@ class Vtiger_Util_Helper
 	public static function isUserDeleted($userid)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? OR deleted=?)', array($userid, 'Inactive', 1));
+		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', array($userid, 'Inactive', 1));
 		$count = $db->num_rows($result);
 		if ($count > 0)
 			return true;

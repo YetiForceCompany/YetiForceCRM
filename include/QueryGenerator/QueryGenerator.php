@@ -785,7 +785,7 @@ class QueryGenerator
 						$columnName = $field->getColumnName();
 						$tableName = $field->getTableName();
 						// We are checking for zero since many reference fields will be set to 0 if it doest not have any value
-						$fieldSql .= "$fieldGlue $tableName.$columnName $valueSql OR $tableName.$columnName = '0'";
+						$fieldSql .= "$fieldGlue $tableName.$columnName $valueSql || $tableName.$columnName = '0'";
 						$fieldGlue = ' OR';
 					} elseif (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX') && $conditionInfo['operator'] == 'e') {
 						$values = explode(',', $valueSql);
@@ -842,10 +842,10 @@ class QueryGenerator
 								$columns[$fieldname] = $entityFields['tablename'] . '.' . $fieldname;
 							}
 							$concatSql = getSqlForNameInDisplayFormat($columns, 'Users');
-							$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql OR " . "vtiger_groups.groupname $valueSql)";
+							$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql || " . "vtiger_groups.groupname $valueSql)";
 						} else {
 							$columnSql = $entityFields['tablename'] . '.' . $entityFields['fieldname'];
-							$fieldSql .= "$fieldGlue (trim($columnSql) $valueSql OR " . "vtiger_groups.groupname $valueSql)";
+							$fieldSql .= "$fieldGlue (trim($columnSql) $valueSql || " . "vtiger_groups.groupname $valueSql)";
 						}
 					}
 				} elseif ($field->getUIType() == 120) {
@@ -914,13 +914,13 @@ class QueryGenerator
 
 					$specialCondition = '';
 					$specialConditionForOtherField = '';
-					$conditionGlue = ' OR ';
+					$conditionGlue = ' || ';
 					if ($conditionInfo['operator'] == 'n' || $conditionInfo['operator'] == 'k' || $conditionInfo['operator'] == 'y') {
 						$conditionGlue = ' && ';
 						if ($conditionInfo['operator'] == 'n') {
-							$specialCondition = ' OR ' . $field->getTableName() . '.' . $field->getColumnName() . ' IS NULL ';
+							$specialCondition = ' || ' . $field->getTableName() . '.' . $field->getColumnName() . ' IS NULL ';
 							if (!empty($otherField))
-								$specialConditionForOtherField = ' OR ' . $otherField->getTableName() . '.' . $otherField->getColumnName() . ' IS NULL ';
+								$specialConditionForOtherField = ' || ' . $otherField->getTableName() . '.' . $otherField->getColumnName() . ' IS NULL ';
 						}
 					}
 
@@ -1107,7 +1107,7 @@ class QueryGenerator
 				$value = trim($value);
 			}
 			if ($operator == 'empty' || $operator == 'y') {
-				$sql[] = sprintf("IS NULL OR %s = ''", $this->getSQLColumn($field->getFieldName()));
+				$sql[] = sprintf("IS NULL || %s = ''", $this->getSQLColumn($field->getFieldName()));
 				continue;
 			}
 			if ($operator == 'ny') {
@@ -1203,7 +1203,7 @@ class QueryGenerator
 			if (trim($value) == '' && in_array($operator, ['wr', 'nwr']) && in_array($field->getFieldName(), $this->ownerFields)) {
 				$userId = Users_Record_Model::getCurrentUserModel()->get('id');
 				$watchingSql = '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' && module = ' . vtlib\Functions::getModuleId($this->module) . ') > 0 && ';
-				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' && record = vtiger_crmentity.crmid && state = 0) = 0) OR ';
+				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' && record = vtiger_crmentity.crmid && state = 0) = 0) || ';
 				$watchingSql .= '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' && module = ' . vtlib\Functions::getModuleId($this->module) . ') = 0 && ';
 				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' && record = vtiger_crmentity.crmid && state = 1) > 0)';
 				$sql[] = $watchingSql;

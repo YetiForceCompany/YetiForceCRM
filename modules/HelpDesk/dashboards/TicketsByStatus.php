@@ -43,7 +43,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 		$sql = 'SELECT COUNT(*) as count
 					, priority, vtiger_ticketpriorities.color,
-					CASE WHEN vtiger_troubletickets.status IS NULL OR vtiger_troubletickets.status = "" THEN "" ELSE vtiger_troubletickets.status END AS statusvalue 
+					CASE WHEN vtiger_troubletickets.status IS NULL || vtiger_troubletickets.status = "" THEN "" ELSE vtiger_troubletickets.status END AS statusvalue 
 				FROM
 					vtiger_troubletickets
 				INNER JOIN vtiger_crmentity

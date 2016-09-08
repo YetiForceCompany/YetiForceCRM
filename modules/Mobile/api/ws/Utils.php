@@ -319,7 +319,7 @@ class Mobile_WS_Utils
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-			$querySuffix .= " && (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN 
+			$querySuffix .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN 
 					(
 						SELECT vtiger_user2role.userid FROM vtiger_user2role 
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid 
@@ -336,7 +336,7 @@ class Mobile_WS_Utils
 
 			// Build the query based on the group association of current user.
 			if (sizeof($current_user_groups) > 0) {
-				$querySuffix .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") OR ";
+				$querySuffix .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") || ";
 			}
 			$querySuffix .= " vtiger_groups.groupid IN 
 						(

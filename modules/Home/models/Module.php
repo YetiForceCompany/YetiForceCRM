@@ -114,21 +114,21 @@ class Home_Module_Model extends Vtiger_Module_Model
 				$paramsMore['status'] = [$paramsMore['status']];
 			}
 			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
-			AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . "))";
+			AND (vtiger_activity.status is NULL || vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . "))";
 			$params = array_merge($params, $paramsMore['status']);
 		} elseif ($mode === 'overdue') {
 			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
-			AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?))";
+			AND (vtiger_activity.status is NULL || vtiger_activity.status IN (?))";
 			array_push($params, $paramsMore);
 		} elseif ($mode === 'assigned_upcoming') {
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) && vtiger_crmentity.smcreatorid = ?";
+			$query .= "AND (vtiger_activity.status is NULL || vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) && vtiger_crmentity.smcreatorid = ?";
 			$params = array_merge($params, $paramsMore);
 		} elseif ($mode === 'assigned_over') {
 			$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?)) && vtiger_crmentity.smcreatorid = ?";
+			$query .= "AND (vtiger_activity.status is NULL || vtiger_activity.status IN (?)) && vtiger_crmentity.smcreatorid = ?";
 			array_push($params, $paramsMore['status'], $paramsMore['user']);
 		} elseif ($mode === 'createdByMeButNotMine') {
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) && vtiger_crmentity.smcreatorid = ? && vtiger_crmentity.smownerid NOT IN (?) ";
+			$query .= "AND (vtiger_activity.status is NULL || vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) && vtiger_crmentity.smcreatorid = ? && vtiger_crmentity.smownerid NOT IN (?) ";
 			array_push($params, $paramsMore['status'], $paramsMore['user'], $paramsMore['user']);
 		}
 

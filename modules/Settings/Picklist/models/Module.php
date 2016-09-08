@@ -254,7 +254,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$query = 'INSERT IGNORE INTO vtiger_role2picklist (roleid,picklistvalueid,picklistid) VALUES ' . implode(',', $insertValueList);
 		$result = $db->pquery($query, array());
 		if ($deleteValueList) {
-			$db->delete('vtiger_role2picklist', implode(' OR ', $deleteValueList));
+			$db->delete('vtiger_role2picklist', implode(' || ', $deleteValueList));
 		}
 		//retaining to older value
 		$db->dieOnError = $dieOnErrorOldValue;

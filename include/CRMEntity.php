@@ -1250,7 +1250,7 @@ class CRMEntity
 
 	function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
-		$where = '(crmid=? && relmodule=? && relcrmid=?) OR (relcrmid=? && module=? && crmid=?)';
+		$where = '(crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
 		$params = [$crmid, $withModule, $withCrmid, $crmid, $withModule, $withCrmid];
 		$this->db->delete('vtiger_crmentityrel', $where, $params);
 	}
@@ -1343,7 +1343,7 @@ class CRMEntity
 			$tabid = array('9', '16');
 		}
 		$sql = "SELECT columnname FROM vtiger_field " .
-			" WHERE (fieldname not like '%\_id' OR fieldname in ('assigned_user_id'))" .
+			" WHERE (fieldname not like '%\_id' || fieldname in ('assigned_user_id'))" .
 			" && tabid in (" . generateQuestionMarks($tabid) . ") and vtiger_field.presence in (0,2)";
 		$params = array($tabid);
 		if (count($exclude_columns) > 0) {
@@ -1405,7 +1405,7 @@ class CRMEntity
 
 			if ($fld_table == $this->table_name) {
 				$records = $adb->query("SELECT $this->table_index AS recordid FROM $this->table_name " .
-					"WHERE $fld_column = '' OR $fld_column is NULL");
+					"WHERE $fld_column = '' || $fld_column is NULL");
 
 				if ($records && $adb->num_rows($records)) {
 					$returninfo['totalrecords'] = $adb->num_rows($records);
@@ -1644,7 +1644,7 @@ class CRMEntity
 			if ($withModule == 'Documents') {
 				$db->delete('vtiger_senotesrel', 'crmid=? && notesid=?', [$crmid, $relcrmid]);
 			} else {
-				$db->delete('vtiger_crmentityrel', '(crmid=? && module=? && relcrmid=? && relmodule=?) OR (relcrmid=? && relmodule=? && crmid=? && module=?)', [$crmid, $module, $relcrmid, $withModule, $crmid, $module, $relcrmid, $withModule]
+				$db->delete('vtiger_crmentityrel', '(crmid=? && module=? && relcrmid=? && relmodule=?) || (relcrmid=? && relmodule=? && crmid=? && module=?)', [$crmid, $module, $relcrmid, $withModule, $crmid, $module, $relcrmid, $withModule]
 				);
 			}
 		}
@@ -1715,11 +1715,11 @@ class CRMEntity
 
 		$query .= " FROM $other->table_name";
 		$query .= " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $other->table_name.$other->table_index";
-		$query .= " INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)";
+		$query .= " INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid || vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)";
 		$query .= $more_relation;
 		$query .= " LEFT  JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
 		$query .= " LEFT  JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid = $id OR vtiger_crmentityrel.relcrmid = $id)";
+		$query .= " WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid = $id || vtiger_crmentityrel.relcrmid = $id)";
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
@@ -2399,7 +2399,7 @@ class CRMEntity
 					if ($i == 0 || $i == ($columnCount))
 						$query .= sprintf("%s = '%s'", $columnname, $value);
 					else
-						$query .= sprintf(" OR %s = '%s'", $columnname, $value);
+						$query .= sprintf(" || %s = '%s'", $columnname, $value);
 					$i++;
 				}
 			}
@@ -2435,10 +2435,10 @@ class CRMEntity
 			$parentRoleSeq = $userPrivileges['parent_role_seq'];
 			$query .= " vtiger_crmentity.smownerid = '$user->id'";
 			if (\AppConfig::security('PERMITTED_BY_ROLES')) {
-				$query .= " OR vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$parentRoleSeq::%')";
+				$query .= " || vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$parentRoleSeq::%')";
 			}
 			if (count($userPrivileges['groups']) > 0) {
-				$query .= ' OR vtiger_crmentity.smownerid IN (' . implode(',', $userPrivileges['groups']) . ')';
+				$query .= ' || vtiger_crmentity.smownerid IN (' . implode(',', $userPrivileges['groups']) . ')';
 			}
 		}
 		if (\AppConfig::security('PERMITTED_BY_SHARING') && !empty($moduleName)) {
@@ -2447,7 +2447,7 @@ class CRMEntity
 				$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 				$sharingRuleInfo = $sharingPrivilegesModule['read'];
 				if (count($sharingRuleInfo['ROLE']) > 0 || count($sharingRuleInfo['GROUP']) > 0) {
-					$query .= " OR vtiger_crmentity.smownerid IN (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per WHERE userid=$user->id && tabid=$tabId) OR vtiger_crmentity.smownerid IN (SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid FROM vtiger_tmp_read_group_sharing_per WHERE userid=$user->id && tabid=$tabId)";
+					$query .= " || vtiger_crmentity.smownerid IN (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per WHERE userid=$user->id && tabid=$tabId) || vtiger_crmentity.smownerid IN (SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid FROM vtiger_tmp_read_group_sharing_per WHERE userid=$user->id && tabid=$tabId)";
 				}
 			}
 		}
@@ -2490,7 +2490,7 @@ class CRMEntity
 			}
 		}
 		if (!empty($securityParameter) && !empty($sharedParameter)) {
-			$query .= " && (($securityParameter) OR ($sharedParameter))";
+			$query .= " && (($securityParameter) || ($sharedParameter))";
 		} elseif (!empty($sharedParameter)) {
 			$query .= " && ($sharedParameter)";
 		} elseif (!empty($securityParameter)) {
@@ -2615,7 +2615,7 @@ class CRMEntity
 					"vtiger_crmentity$scope.smownerid ";
 			} else {
 				$query = " INNER JOIN $tableName $tableName$scope ON $tableName$scope.id = " .
-					"vtiger_crmentity$scope.smownerid OR vtiger_crmentity$scope.smownerid IS NULL";
+					"vtiger_crmentity$scope.smownerid || vtiger_crmentity$scope.smownerid IS NULL";
 			}
 		}
 		return $query;

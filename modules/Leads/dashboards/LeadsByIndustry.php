@@ -52,7 +52,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
 
-		$query = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leaddetails.industry IS NULL OR vtiger_leaddetails.industry = "" THEN "" 
+		$query = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leaddetails.industry IS NULL || vtiger_leaddetails.industry = "" THEN "" 
 						ELSE vtiger_leaddetails.industry END AS industryvalue FROM vtiger_leaddetails 
 						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
 						AND deleted=0 && converted = 0 %s %s %s

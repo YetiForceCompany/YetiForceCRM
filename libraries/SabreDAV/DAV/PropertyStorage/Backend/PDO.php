@@ -162,7 +162,7 @@ class PDO implements BackendInterface {
      */
     function delete($path) {
 
-        $stmt = $this->pdo->prepare("DELETE FROM " . $this->tableName . "  WHERE path = ? OR path LIKE ? ESCAPE '='");
+        $stmt = $this->pdo->prepare("DELETE FROM " . $this->tableName . "  WHERE path = ? || path LIKE ? ESCAPE '='");
         $childPath = strtr(
             $path,
             [
@@ -193,7 +193,7 @@ class PDO implements BackendInterface {
         // also compatible across db engines, so we're letting PHP do all the
         // updates. Much slower, but it should still be pretty fast in most
         // cases.
-        $select = $this->pdo->prepare('SELECT id, path FROM ' . $this->tableName . '  WHERE path = ? OR path LIKE ?');
+        $select = $this->pdo->prepare('SELECT id, path FROM ' . $this->tableName . '  WHERE path = ? || path LIKE ?');
         $select->execute([$source, $source . '/%']);
 
         $update = $this->pdo->prepare('UPDATE ' . $this->tableName . ' SET path = ? WHERE id = ?');

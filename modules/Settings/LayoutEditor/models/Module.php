@@ -384,7 +384,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
 			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
 		}
-		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) && (fieldname = ? OR columnname = ?)', $db->generateQuestionMarks($tabId));
+		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) && (fieldname = ? || columnname = ?)', $db->generateQuestionMarks($tabId));
 		$result = $db->pquery($query, [$tabId, $fieldName, $fieldName]);
 		return ($db->getRowCount($result) > 0 ) ? true : false;
 	}

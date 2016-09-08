@@ -86,14 +86,14 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			foreach ($explodedListQuery as $key => $value) {
 				$newListQuery .= 'INNER JOIN' . $value;
 				if ($key == 0 && $moduleName == 'Products') {
-					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_products.productid OR vtiger_crmentityrel.crmid = vtiger_products.productid) ';
+					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_products.productid || vtiger_crmentityrel.crmid = vtiger_products.productid) ';
 				} elseif ($key == 0 && $moduleName == 'Services') {
-					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_service.serviceid OR vtiger_crmentityrel.crmid = vtiger_service.serviceid) ';
+					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_service.serviceid || vtiger_crmentityrel.crmid = vtiger_service.serviceid) ';
 				}
 			}
 			$newListQuery = trim($newListQuery, 'INNER JOIN');
 			if (in_array($moduleName, ['Products', 'Services'])) {
-				$newListQuery .= " && ( (vtiger_crmentityrel.crmid = '$salesProcessId' && module = 'SSalesProcesses') OR (vtiger_crmentityrel.relcrmid = '$salesProcessId' && relmodule = 'SSalesProcesses')) ";
+				$newListQuery .= " && ( (vtiger_crmentityrel.crmid = '$salesProcessId' && module = 'SSalesProcesses') || (vtiger_crmentityrel.relcrmid = '$salesProcessId' && relmodule = 'SSalesProcesses')) ";
 			}
 			$listQuery = $newListQuery;
 		}

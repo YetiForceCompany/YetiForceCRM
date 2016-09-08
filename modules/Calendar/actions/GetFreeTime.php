@@ -43,7 +43,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action {
 		$startTime = $dbStartDateOject->format('H:i:s');
 		$result = $db->pquery('SELECT date_start, time_start, time_end FROM vtiger_activity 
 				WHERE deleted = ? && smownerid=? '
-				. "AND ( (concat(date_start, ' ', time_start)  >= ? && concat(date_start, ' ', time_start) <= ?) OR (concat(due_date, ' ', time_end)  >= ? && concat(due_date, ' ', time_end) <= ?) OR (date_start < ? && due_date > ?) ) "
+				. "AND ( (concat(date_start, ' ', time_start)  >= ? && concat(date_start, ' ', time_start) <= ?) || (concat(due_date, ' ', time_end)  >= ? && concat(due_date, ' ', time_end) <= ?) || (date_start < ? && due_date > ?) ) "
 				. 'ORDER BY time_start ASC', $params);
 		while ($row = $db->getRow($result)) {
 			if (vtlib\Functions::getDateTimeMinutesDiff($startTime, $row['time_start']) >= $durationEvent) {

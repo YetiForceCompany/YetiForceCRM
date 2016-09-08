@@ -892,7 +892,7 @@ class Vtiger_Module_Model extends vtlib\Module
 		self::preModuleInitialize2();
 
 		$sql = 'SELECT DISTINCT vtiger_tab.* FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
-				 WHERE (quickcreate=0 OR quickcreate=2) && vtiger_tab.presence != 1 && vtiger_tab.type <> 1';
+				 WHERE (quickcreate=0 || quickcreate=2) && vtiger_tab.presence != 1 && vtiger_tab.type <> 1';
 		if ($restrictList) {
 			$sql .= " && vtiger_tab.name NOT IN ('ModComments','PriceBooks','Events')";
 		}
@@ -1207,11 +1207,11 @@ class Vtiger_Module_Model extends vtlib\Module
 			$params = array_merge($params, $currentActivityLabels);
 		} elseif ($mode === 'upcoming') {
 			$query .= " && (vtiger_activity.activitytype NOT IN ('Emails'))
-					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
+					AND (vtiger_activity.status is NULL || vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
 			$query .= " && due_date >= '$currentDate'";
 		} elseif ($mode === 'overdue') {
 			$query .= " && (vtiger_activity.activitytype NOT IN ('Emails'))
-					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
+					AND (vtiger_activity.status is NULL || vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
 			$query .= " && due_date < '$currentDate'";
 		}
 

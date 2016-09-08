@@ -149,7 +149,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		global $log, $currentModule;
 		$results = [];
 
-		$where = '(crmid=? && relmodule=? && relcrmid=?) OR (relcrmid=? && module=? && crmid=?)';
+		$where = '(crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
 		$params = [$id, $returnModule, $returnId, $id, $returnModule, $returnId];
 		$this->db->delete('vtiger_crmentityrel', $where, $params);
 

@@ -391,7 +391,7 @@ function get_combo_values($input_array)
 		$params = array($id);
 		$showAll = show_all('HelpDesk');
 		if ($showAll == 'true') {
-			$servicequery .= ' OR vtiger_servicecontracts.sc_related_to = (SELECT parentid FROM vtiger_contactdetails WHERE contactid=? && parentid <> 0)
+			$servicequery .= ' || vtiger_servicecontracts.sc_related_to = (SELECT parentid FROM vtiger_contactdetails WHERE contactid=? && parentid <> 0)
 								OR vtiger_servicecontracts.sc_related_to IN
 											(SELECT contactid FROM vtiger_contactdetails WHERE parentid =
 													(SELECT parentid FROM vtiger_contactdetails WHERE contactid=? && parentid <> 0))
@@ -574,7 +574,7 @@ function get_tickets_list($input_array)
 		if ($match == 'all' || $match == '') {
 			$join_type = " && ";
 		} elseif ($match == 'any') {
-			$join_type = " OR ";
+			$join_type = " || ";
 		}
 		$where = explode("&&&", $where);
 		$where_conditions = implode($join_type, $where);
@@ -587,7 +587,7 @@ function get_tickets_list($input_array)
 		$contactquery = "SELECT contactid, parentid FROM vtiger_contactdetails " .
 			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid" .
 			" && vtiger_crmentity.deleted = 0 " .
-			" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?)  && parentid != 0) OR contactid = ?";
+			" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?)  && parentid != 0) || contactid = ?";
 		$contactres = $adb->pquery($contactquery, array($id, $id));
 		$no_of_cont = $adb->num_rows($contactres);
 		for ($i = 0; $i < $no_of_cont; $i++) {
@@ -1466,7 +1466,7 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 		$contactquery = "SELECT contactid, parentid FROM vtiger_contactdetails " .
 			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid" .
 			" && vtiger_crmentity.deleted = 0 " .
-			" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?)  && parentid != 0) OR contactid = ?";
+			" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?)  && parentid != 0) || contactid = ?";
 		$contactres = $adb->pquery($contactquery, array($id, $id));
 		$no_of_cont = $adb->num_rows($contactres);
 		for ($i = 0; $i < $no_of_cont; $i++) {
@@ -1602,6 +1602,9 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 				if ($fieldname == 'projectname') {
 					$fieldid = $adb->query_result($res, $j, 'projectid');
 					$fieldvalue = '<a href="index.php?module=Project&action=index&id=' . $fieldid . '">' . $fieldvalue . '</a>';
+				}
+				if ($fieldname == 'projecttype') {
+					$fieldvalue = Vtiger_Language_Handler::getTranslatedString($fieldvalue, $module, vglobal('default_language'));
 				}
 			}
 			if ($module == 'ProjectTask') {
@@ -1836,7 +1839,7 @@ function get_product_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 		$contactquery = "SELECT contactid, parentid FROM vtiger_contactdetails " .
 			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid" .
 			" && vtiger_crmentity.deleted = 0 " .
-			" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?)  && parentid != 0) OR contactid = ?";
+			" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?)  && parentid != 0) || contactid = ?";
 		$contactres = $adb->pquery($contactquery, array($id, $id));
 		$no_of_cont = $adb->num_rows($contactres);
 		for ($i = 0; $i < $no_of_cont; $i++) {
@@ -2228,7 +2231,7 @@ function check_permission($customerid, $module, $entityid)
 		$contactquery = "SELECT contactid, parentid FROM vtiger_contactdetails " .
 			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid" .
 			" && vtiger_crmentity.deleted = 0 " .
-			" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?) && parentid != 0) OR contactid = ?";
+			" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?) && parentid != 0) || contactid = ?";
 		$contactres = $adb->pquery($contactquery, array($customerid, $customerid));
 		$no_of_cont = $adb->num_rows($contactres);
 		for ($i = 0; $i < $no_of_cont; $i++) {
@@ -2301,7 +2304,7 @@ function check_permission($customerid, $module, $entityid)
 
 			$query = sprintf("SELECT vtiger_troubletickets.ticketid FROM vtiger_troubletickets
 									INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_troubletickets.ticketid
-									INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)
+									INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid || vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)
 									WHERE vtiger_crmentity.deleted = 0 AND
 											(vtiger_crmentityrel.crmid IN
 												(SELECT projectid FROM vtiger_project WHERE linktoaccountscontacts
@@ -2320,8 +2323,8 @@ function check_permission($customerid, $module, $entityid)
 
 		case 'Services' : $query = sprintf("SELECT vtiger_service.serviceid FROM vtiger_service
 									INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_service.serviceid && vtiger_crmentity.deleted = 0
-									LEFT JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid=vtiger_service.serviceid OR vtiger_crmentityrel.crmid=vtiger_service.serviceid)
-									WHERE (vtiger_crmentityrel.crmid IN (%s)  OR " .
+									LEFT JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid=vtiger_service.serviceid || vtiger_crmentityrel.crmid=vtiger_service.serviceid)
+									WHERE (vtiger_crmentityrel.crmid IN (%s)  || " .
 				"(vtiger_crmentityrel.relcrmid IN (%s) && vtiger_crmentityrel.module = 'Services'))
 									AND vtiger_service.serviceid = ?", generateQuestionMarks($allowed_contacts_and_accounts), generateQuestionMarks($allowed_contacts_and_accounts));
 			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
@@ -2577,8 +2580,8 @@ function get_project_tickets($id, $module, $customerid, $sessionid)
 
 	$query = "SELECT vtiger_troubletickets.*, vtiger_crmentity.smownerid FROM vtiger_troubletickets
 		INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_troubletickets.ticketid
-		INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)
-		WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid = ? OR vtiger_crmentityrel.relcrmid = ?)";
+		INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid || vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)
+		WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid = ? || vtiger_crmentityrel.relcrmid = ?)";
 
 	$params = array($id, $id);
 	$res = $adb->pquery($query, $params);
@@ -2655,7 +2658,7 @@ function get_service_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 		$contactquery = "SELECT contactid, parentid FROM vtiger_contactdetails " .
 			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid" .
 			" && vtiger_crmentity.deleted = 0 " .
-			" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?)  && parentid != 0) OR contactid = ?";
+			" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?)  && parentid != 0) || contactid = ?";
 		$contactres = $adb->pquery($contactquery, array($id, $id));
 		$no_of_cont = $adb->num_rows($contactres);
 		for ($i = 0; $i < $no_of_cont; $i++) {
@@ -2685,7 +2688,7 @@ function get_service_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 		"inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_service.serviceid " .
 		"left join vtiger_crmentityrel on (vtiger_crmentityrel.relcrmid=vtiger_service.serviceid or vtiger_crmentityrel.crmid=vtiger_service.serviceid) " .
 		"where vtiger_crmentity.deleted = 0 and " .
-		"( vtiger_crmentityrel.crmid in (" . generateQuestionMarks($entity_ids_list) . ") OR " .
+		"( vtiger_crmentityrel.crmid in (" . generateQuestionMarks($entity_ids_list) . ") || " .
 		"(vtiger_crmentityrel.relcrmid in (" . generateQuestionMarks($entity_ids_list) . ") && vtiger_crmentityrel.module = 'Services')" .
 		")";
 
@@ -2850,7 +2853,7 @@ function get_summary_widgets($id, $type)
 	$contactquery = "SELECT contactid, parentid FROM vtiger_contactdetails " .
 		" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid" .
 		" && vtiger_crmentity.deleted = 0 " .
-		" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?) && parentid != 0) OR contactid = ?";
+		" WHERE (parentid = (SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?) && parentid != 0) || contactid = ?";
 	$contactres = $adb->pquery($contactquery, array($id, $id));
 	$no_of_cont = $adb->num_rows($contactres);
 	for ($i = 0; $i < $no_of_cont; $i++) {
@@ -2894,7 +2897,7 @@ function get_summary_widgets($id, $type)
 		}
 	}
 	if (in_array('TicketsByStatus', $type) || in_array('all', $type)) {
-		$sql = 'SELECT count(*) AS count, CASE WHEN vtiger_troubletickets.status IS NULL OR vtiger_troubletickets.status = "" THEN "" ELSE vtiger_troubletickets.status END AS statusvalue
+		$sql = 'SELECT count(*) AS count, CASE WHEN vtiger_troubletickets.status IS NULL || vtiger_troubletickets.status = "" THEN "" ELSE vtiger_troubletickets.status END AS statusvalue
 			FROM vtiger_troubletickets
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = 0';

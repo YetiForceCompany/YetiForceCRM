@@ -1046,7 +1046,7 @@ function deleteRoleRelatedSharingRules($roleId)
 		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
 		$params = array($roleId);
 		if (sizeof($colNameArr) > 1) {
-			$query .= sprintf(" OR %s = ?", $colNameArr[1]);
+			$query .= sprintf(" || %s = ?", $colNameArr[1]);
 			array_push($params, $roleId);
 		}
 
@@ -1647,7 +1647,7 @@ function get_current_user_access_groups($module)
 	$query = "select groupname,groupid from vtiger_groups";
 	$params = [];
 	if (count($current_user_group_list) > 0 && count($sharing_write_group_list) > 0) {
-		$query .= sprintf(" WHERE (groupid in (%s) OR groupid IN (%s))", generateQuestionMarks($current_user_group_list), generateQuestionMarks($sharing_write_group_list));
+		$query .= sprintf(" WHERE (groupid in (%s) || groupid IN (%s))", generateQuestionMarks($current_user_group_list), generateQuestionMarks($sharing_write_group_list));
 		array_push($params, $current_user_group_list, $sharing_write_group_list);
 		$result = $adb->pquery($query, $params);
 	} elseif (count($current_user_group_list) > 0) {

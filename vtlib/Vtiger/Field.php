@@ -290,7 +290,7 @@ class Field extends FieldBasic
 		self::deletePickLists($moduleInstance);
 		self::deleteUiType10Fields($moduleInstance);
 		$adb->delete('vtiger_field', 'tabid=?', [$moduleInstance->id]);
-		$adb->delete('vtiger_fieldmodulerel', 'module = ? OR relmodule = ?', [$moduleInstance->name, $moduleInstance->name]);
+		$adb->delete('vtiger_fieldmodulerel', 'module = ? || relmodule = ?', [$moduleInstance->name, $moduleInstance->name]);
 		self::log("Deleting fields of the module ... DONE");
 	}
 

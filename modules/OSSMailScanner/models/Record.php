@@ -305,7 +305,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$ifwhere = 'AND vtiger_tab.name = ? ';
 			$queryParams[] = $module;
 		}
-		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' OR uitype = '104') && vtiger_field.presence <> '1' $ifwhere ORDER BY name", [$queryParams]);
+		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' || uitype = '104') && vtiger_field.presence <> '1' $ifwhere ORDER BY name", [$queryParams]);
 		while ($row = $db->getRow($result)) {
 			$return[] = [
 				'key' => $row['tablename'] . '=' . $row['columnname'] . '=' . $row['name'],

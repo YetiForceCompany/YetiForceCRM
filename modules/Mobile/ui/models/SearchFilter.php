@@ -47,7 +47,7 @@ class Mobile_UI_SearchFilterModel extends Mobile_WS_SearchFilterModel {
 		if(isset($fieldinfos['id'])) unset($fieldinfos['id']);
 		if(!empty($fieldinfos)) {
 			$fieldinfos['_'] = ''; // Hack to build the where clause at once
-			$whereClause = sprintf("WHERE %s", implode(" LIKE '%{$searchString}%' OR ", array_keys($fieldinfos)));
+			$whereClause = sprintf("WHERE %s", implode(" LIKE '%{$searchString}%' || ", array_keys($fieldinfos)));
 			$whereClause = rtrim($whereClause, 'OR _');
 		}
 		

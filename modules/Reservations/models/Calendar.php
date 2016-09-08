@@ -25,7 +25,7 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), $currentUser, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query.= " && ((concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) >= ? && concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) <= ?) OR (concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) >= ? && concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) <= ?) OR (vtiger_reservations.date_start < ? && vtiger_reservations.due_date > ?) )";
+			$query.= " && ((concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) >= ? && concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) <= ?) || (concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) >= ? && concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) <= ?) || (vtiger_reservations.date_start < ? && vtiger_reservations.due_date > ?) )";
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;

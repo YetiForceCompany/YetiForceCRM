@@ -43,7 +43,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if (!empty($searchValue)) {
 			$db = PearDatabase::getInstance();
 
-			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? OR last_name LIKE ?) && status = ?';
+			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? || last_name LIKE ?) && status = ?';
 			$params = array("%$searchValue%", "%$searchValue%", 'Active');
 
 			$result = $db->pquery($query, $params);

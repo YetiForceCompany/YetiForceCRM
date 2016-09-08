@@ -1012,11 +1012,11 @@ class Accounts extends CRMEntity
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*,
 				CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name FROM $other->table_name
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $other->table_name.$other->table_index
-				INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)
+				INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid || vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)
 				$more_relation
 				LEFT  JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 				LEFT  JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid IN (" . $entityIds . ") OR vtiger_crmentityrel.relcrmid IN (" . $entityIds . "))";
+				WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid IN (" . $entityIds . ") || vtiger_crmentityrel.relcrmid IN (" . $entityIds . "))";
 
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
