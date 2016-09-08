@@ -2662,7 +2662,7 @@ table.summary-table .summaryViewEdit{
 	color: red;
 }
 .highlightBackgroundColor {
-	background: #eeeff2;
+	background: #eeeff2 !important;
 }
 .contentsBackground {
 	background: #ffffff;
@@ -5680,9 +5680,26 @@ select.form-control {
 .leftRecordActions:hover .actions .toolsAction{
 	display: none;
 }
-.leftRecordActions:hover .actions .actionImages,
-.leftRecordActions div {
+.leftRecordActions .actions{
+	white-space: nowrap;
+	position: absolute;
+}
+.leftRecordActions > div,
+.leftRecordActions:hover .actions .actionImages{
 	display: inline-block !important;
+}
+.leftRecordActions .actions{
+	background: inherit;
+	padding: 4px 10px 0 0;
+}
+.listViewEntries{
+	background: #fff;
+}
+.leftRecordActions{
+	background: inherit;
+}
+.leftRecordActions .actions .actionImages a{
+	color: inherit;
 }
 .listViewSearchTd{
 	width: 1%;
