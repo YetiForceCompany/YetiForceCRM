@@ -25,7 +25,7 @@ class Accounts_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = $this->getModule();
 
 		$massActionLinks = [];
-		if ($currentUserModel->hasModulePermission($emailModuleModel->getId()) && $moduleModel->isPermitted('MassComposeEmail')) {
+		if ($currentUserModel->hasModulePermission($emailModuleModel->getId()) && $moduleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',

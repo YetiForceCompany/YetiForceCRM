@@ -29,7 +29,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			$fieldName = $this->get('field')->get('name');
 			$rawValue = $value;
 			$value = vtlib\Functions::textLength($value);
-			if ($internalMailer == 1) {
+			if ($internalMailer == 1 && Users_Privileges_Model::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
 				$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . vtranslate('LBL_SEND_EMAIL') . ">$value</a>";
