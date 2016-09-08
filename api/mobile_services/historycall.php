@@ -87,7 +87,7 @@ class HistoryCall{
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->info("Start HistoryCall::checkPermissions | ".print_r( $authorization,true));
 		$return = false;	
-		$result = $adb->pquery("SELECT yetiforce_mobile_keys.user FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE service = ? AND `key` = ? AND vtiger_users.user_name = ?",array('historycall', $authorization->phoneKey, $authorization->userName),true);
+		$result = $adb->pquery("SELECT yetiforce_mobile_keys.user FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE service = ? && `key` = ? && vtiger_users.user_name = ?",array('historycall', $authorization->phoneKey, $authorization->userName),true);
 		if($adb->num_rows($result) > 0 ){
 			$this->userID = $adb->query_result_raw($result, 0, 'user');
 			$return = true;	
@@ -100,7 +100,7 @@ class HistoryCall{
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$crmid = false;
 		$modulesInstance = array();
-		$sql = "SELECT columnname,tablename,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = 0 AND uitype = '11' AND vtiger_tab.name IN ('Contacts','Accounts','Leads','OSSEmployees','Vendors')";
+		$sql = "SELECT columnname,tablename,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = 0 && uitype = '11' && vtiger_tab.name IN ('Contacts','Accounts','Leads','OSSEmployees','Vendors')";
 		$result = $adb->query($sql,true);
 		for($i = 0; $i < $adb->num_rows($result); $i++){
 			$module = $adb->query_result_raw($result, $i, 'name');
@@ -119,7 +119,7 @@ class HistoryCall{
 			foreach (str_split($number) as $num) {
 				$sqlNumber .= '[^0-9]*'.$num;
 			}
-			$sql = "SELECT crmid FROM $tablename INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $tablename.$table_index WHERE vtiger_crmentity.deleted = 0 AND $columnname RLIKE '$sqlNumber';";
+			$sql = "SELECT crmid FROM $tablename INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $tablename.$table_index WHERE vtiger_crmentity.deleted = 0 && $columnname RLIKE '$sqlNumber';";
 			$resultData = $adb->query($sql,true);
 			if($adb->num_rows($resultData) > 0 ){
 				$crmid = $adb->query_result_raw($resultData, 0, 'crmid');

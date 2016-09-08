@@ -275,7 +275,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
-			$listQuery .= ' AND vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
+			$listQuery .= ' && vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
 		}
 		unset($searchResult);
 		$sourceModule = $this->get('src_module');
@@ -383,7 +383,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 
 		if ($this->getModule()->get('name') == 'Calendar') {
-			$listQuery .= ' AND activitytype <> "Emails"';
+			$listQuery .= ' && activitytype <> "Emails"';
 		}
 
 		$listResult = $db->query($listQuery);

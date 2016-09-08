@@ -34,7 +34,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model {
 	function getProductsListPrice($relatedRecordId) {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT listprice FROM vtiger_pricebookproductrel WHERE pricebookid = ? AND productid = ?',
+		$result = $db->pquery('SELECT listprice FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?',
 				array($this->getId(), $relatedRecordId));
 
 		if($db->num_rows($result)) {
@@ -51,10 +51,10 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model {
 	function updateListPrice($relatedRecordId, $price) {
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT * FROM vtiger_pricebookproductrel WHERE pricebookid = ? AND productid = ?',
+		$result = $db->pquery('SELECT * FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?',
 				array($this->getId(), $relatedRecordId));
 		if($db->num_rows($result)) {
-			 $db->pquery('UPDATE vtiger_pricebookproductrel SET listprice = ? WHERE pricebookid = ? AND productid = ?',
+			 $db->pquery('UPDATE vtiger_pricebookproductrel SET listprice = ? WHERE pricebookid = ? && productid = ?',
 					 array($price, $this->getId(), $relatedRecordId));
 		} else {
 			$db->pquery('INSERT INTO vtiger_pricebookproductrel (pricebookid,productid,listprice,usedcurrency) values(?,?,?,?)',
@@ -68,7 +68,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model {
 	 */
 	function deleteListPrice($relatedRecordId) {
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_pricebookproductrel WHERE pricebookid = ? AND productid = ?',
+		$db->pquery('DELETE FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?',
 					array($this->getId(), $relatedRecordId));
 	}
 }

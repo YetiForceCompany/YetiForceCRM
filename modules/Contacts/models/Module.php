@@ -22,7 +22,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 	function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
 		$queryFrom = 'SELECT `u_yf_crmentity_search_label`.`crmid`,`u_yf_crmentity_search_label`.`setype`,`u_yf_crmentity_search_label`.`searchlabel` FROM `u_yf_crmentity_search_label` ';
-		$queryWhere = ' WHERE `u_yf_crmentity_search_label`.`userid` LIKE \'%s\' AND `u_yf_crmentity_search_label`.`searchlabel` LIKE \'%s\' ';
+		$queryWhere = ' WHERE `u_yf_crmentity_search_label`.`userid` LIKE \'%s\' && `u_yf_crmentity_search_label`.`searchlabel` LIKE \'%s\' ';
 
 		if ($parentId && $parentModule == 'Accounts') {
 			$currentUser = \Users_Record_Model::getCurrentUserModel();
@@ -86,7 +86,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 
 			$position = stripos($listQuery, 'where');
 			if ($position) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
+				$overRideQuery = $listQuery . ' && ' . $condition;
 			} else {
 				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}

@@ -174,7 +174,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$add = array_diff($modules, $oldModules);
 
 			foreach ($removed as $moduleName => &$tabId) {
-				$db->delete('vtiger_group2modules', 'groupid = ? AND tabid = ?', [$groupId, $tabId]);
+				$db->delete('vtiger_group2modules', 'groupid = ? && tabid = ?', [$groupId, $tabId]);
 				\includes\Privileges::setUpdater($moduleName);
 			}
 			foreach ($add as &$tabId) {
@@ -291,11 +291,11 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$db->pquery($query, $params);
 
 		if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
-			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
+			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? && prefvalue = ?';
 			$params = array($transferGroupId, 'defaultassignee', $groupId);
 			$db->pquery($query, $params);
 
-			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
+			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? && prefvalue = ?';
 			$params = array($transferGroupId, 'userid', $groupId);
 			$db->pquery($query, $params);
 		}
@@ -337,7 +337,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$db->pquery('DELETE FROM vtiger_group2role WHERE groupid=?', array($groupId));
 		$db->pquery('DELETE FROM vtiger_group2rs WHERE groupid=?', array($groupId));
 		$db->pquery('DELETE FROM vtiger_users2group WHERE groupid=?', array($groupId));
-		$db->pquery("DELETE FROM vtiger_reportsharing WHERE shareid=? AND setype='groups'", array($groupId));
+		$db->pquery("DELETE FROM vtiger_reportsharing WHERE shareid=? && setype='groups'", array($groupId));
 		$db->pquery('DELETE FROM vtiger_group2modules WHERE groupid=?', array($groupId));
 		$db->pquery('DELETE FROM vtiger_groups WHERE groupid=?', array($groupId));
 	}
@@ -423,7 +423,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$params = array($name);
 
 		if (!empty($excludedRecordId)) {
-			$sql.= ' AND groupid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
+			$sql.= ' && groupid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
 			$params = array_merge($params, $excludedRecordId);
 		}
 

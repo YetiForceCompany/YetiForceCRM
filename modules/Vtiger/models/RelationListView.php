@@ -484,7 +484,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$query = $whereSplitQueryComponents[0] . $joinQuery;
 		foreach ($whereSplitQueryComponents as $key => $val) {
 			if ($key == 0) {
-				$query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId AND ";
+				$query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId && ";
 			} else {
 				$query .= $val . ' WHERE ';
 			}
@@ -568,7 +568,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$template = $treeViewModel->getTemplate();
 		$result = $db->pquery('SELECT count(1) FROM vtiger_trees_templates_data tr '
 			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
-			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
+			. 'WHERE tr.templateid = ? && rel.crmid = ? && rel.relmodule = ?', [$template, $recordId, $relModuleId]);
 		return $db->getSingleValue($result);
 	}
 
@@ -604,13 +604,13 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$condition .= " $fieldName = '$fieldValue' ";
 			}
 			if ($appendAndCondition && ($i++ != $count)) {
-				$condition .= " AND ";
+				$condition .= " && ";
 			}
 		}
 
 		if (stripos($relationQuery, 'WHERE')) {
 			$split = preg_split('/WHERE/i', $relationQuery, 2);
-			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' AND ' . $condition;
+			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' && ' . $condition;
 		} else {
 			$updatedQuery = "$relationQuery WHERE $condition";
 		}
@@ -682,7 +682,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$result = $db->pquery('SELECT tr.*,rel.crmid,rel.rel_created_time,rel.rel_created_user,rel.rel_comment FROM vtiger_trees_templates_data tr '
 			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
-			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
+			. 'WHERE tr.templateid = ? && rel.crmid = ? && rel.relmodule = ?', [$template, $recordId, $relModuleId]);
 		$trees = [];
 		while ($row = $db->getRow($result)) {
 			$treeID = $row['tree'];
@@ -691,7 +691,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$parent = prev($pieces);
 			$parentName = '';
 			if ($row['depth'] > 0) {
-				$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
+				$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $parent]);
 				$parentName = $db->getSingleValue($result2);
 				$parentName = '(' . vtranslate($parentName, $relModuleName) . ') ';
 			}

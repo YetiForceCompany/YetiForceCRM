@@ -108,7 +108,7 @@ function vtlib_getToggleModuleInfo()
 
 	$modinfo = [];
 
-	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM vtiger_tab WHERE name NOT IN ('Users','Home') AND presence IN (0,1) ORDER BY name");
+	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM vtiger_tab WHERE name NOT IN ('Users','Home') && presence IN (0,1) ORDER BY name");
 	$num_rows = $adb->num_rows($sqlresult);
 	for ($idx = 0; $idx < $num_rows; ++$idx) {
 		$module = $adb->query_result($sqlresult, $idx, 'name');

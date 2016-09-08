@@ -315,7 +315,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid
 				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE  vtiger_crmentity.deleted = 0 AND vtiger_crmentity.`smownerid`= " . $userId;
+				WHERE  vtiger_crmentity.deleted = 0 && vtiger_crmentity.`smownerid`= " . $userId;
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 		if ($return_value == null)
@@ -331,7 +331,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		if ($event_type == 'module.postinstall') {
 			//block with fields in summary
 			$tabid = getTabid($modulename);
-			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid AND `columnname` IN ('ossemployees_no','employee_status','name','last_name','pesel','id_card','employee_education','parentid','business_mail');", true);
+			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('ossemployees_no','employee_status','name','last_name','pesel','id_card','employee_education','parentid','business_mail');", true);
 
 			\includes\fields\RecordNumber::setNumber($modulename, 'P', '1');
 			// block with comments

@@ -142,7 +142,7 @@ function getMetricList($filters = [])
 		array_push($sparams, $privilegesModel->getId());
 	}
 	if ($filters) {
-		$ssql .= ' AND vtiger_customview.cvid IN (' . $db->generateQuestionMarks($filters) . ')';
+		$ssql .= ' && vtiger_customview.cvid IN (' . $db->generateQuestionMarks($filters) . ')';
 		$sparams[] = $filters;
 	}
 	$ssql .= ' order by vtiger_customview.entitytype';

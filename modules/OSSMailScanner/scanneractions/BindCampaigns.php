@@ -28,7 +28,7 @@ class OSSMailScanner_BindCampaigns_ScannerAction extends OSSMailScanner_PrefixSc
 				foreach ($crmIds as $recordId) {
 					$db->update('vtiger_campaign_records', [
 						'campaignrelstatusid' => 1
-						], 'campaignid = ? AND crmid = ?', [$campaignId, $recordId]
+						], 'campaignid = ? && crmid = ?', [$campaignId, $recordId]
 					);
 				}
 			}

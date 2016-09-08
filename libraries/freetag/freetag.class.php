@@ -425,7 +425,7 @@ class freetag {
 		// check to look for a tag by this particular user. Otherwise, the following
 		// query will reveal whether that tag exists on that object for ANY user.
 		if ($this->_block_multiuser_tag_on_object == 0) {
-			$tagger_sql = " AND tagger_id = ? ";
+			$tagger_sql = " && tagger_id = ? ";
 			array_push($params, $tagger_id);
 		} else $tagger_sql = "";
 		$sql = "SELECT COUNT(*) as count 
@@ -523,7 +523,7 @@ class freetag {
 		if($tag_id > 0) {
 
 			$sql = "DELETE FROM ${prefix}freetagged_objects
-				WHERE tagger_id = ? AND object_id = ? AND tag_id = ? LIMIT 1";
+				WHERE tagger_id = ? && object_id = ? && tag_id = ? LIMIT 1";
 			$params = array($tagger_id, $object_id, $tag_id);
 			$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");	
 			return true;
@@ -583,7 +583,7 @@ class freetag {
 		if($object_id > 0) {
 
 			$sql = "DELETE FROM ${prefix}freetagged_objects
-				WHERE tagger_id = ? AND object_id = ?";	
+				WHERE tagger_id = ? && object_id = ?";	
 			$rs = $adb->pquery($sql, array($tagger_id, $object_id)) or die("Syntax Error: $sql");	
 			return true;
 		} else {
@@ -942,21 +942,21 @@ class freetag {
 		$adb = PearDatabase::getInstance();
 		$params = array();
 		if(isset($tagger_id) && ($tagger_id > 0)) {
-			$tagger_sql = " AND tagger_id = ?";
+			$tagger_sql = " && tagger_id = ?";
 			array_push($params, $tagger_id);
 		} else {
 			$tagger_sql = "";
 		}
 
 		if($module != "") {
-			$tagger_sql .= " AND module = ?";
+			$tagger_sql .= " && module = ?";
 			array_push($params, $module);
 		} else {
 			$tagger_sql .= "";
 		}
 
 		if(isset($obj_id) && $obj_id > 0) {
-  			$tagger_sql .= " AND object_id = ?";
+  			$tagger_sql .= " && object_id = ?";
 			array_push($params, $obj_id);
 		} else {
 			$tagger_sql .= "";
@@ -1029,7 +1029,7 @@ class freetag {
 			INNER JOIN ${prefix}freetags t1 ON ( t1.id = o1.tag_id )
 			INNER JOIN ${prefix}freetagged_objects o2 ON ( o1.object_id = o2.object_id )
 			INNER JOIN ${prefix}freetags t2 ON ( t2.id = o2.tag_id )
-			WHERE t2.tag = ? AND t1.tag != ?
+			WHERE t2.tag = ? && t1.tag != ?
 			GROUP BY o1.tag_id
 			ORDER BY quantity DESC
 			LIMIT 0, ?";

@@ -47,7 +47,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 				FROM
 					vtiger_troubletickets
 				INNER JOIN vtiger_crmentity
-					ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted=0
+					ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid && vtiger_crmentity.deleted=0
 				INNER JOIN vtiger_ticketstatus
 					ON vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus
 				INNER JOIN vtiger_ticketpriorities
@@ -55,11 +55,11 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 				WHERE
 					vtiger_crmentity.`deleted` = 0';
 		if (!empty($owner)) {
-			$sql .= ' AND smownerid = ' . $owner;
+			$sql .= ' && smownerid = ' . $owner;
 		}
 		if (!empty($ticketStatus)) {
 			$ticketStatusSearch = implode("','", $ticketStatus);
-			$sql .= " AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
+			$sql .= " && vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
 		if (!empty($securityParameter))

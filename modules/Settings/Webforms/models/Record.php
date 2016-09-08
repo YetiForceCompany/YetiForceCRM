@@ -379,7 +379,7 @@ class Settings_Webforms_Record_Model extends Settings_Vtiger_Record_Model
 
 		$record = $this->getId();
 		if ($record) {
-			$query .= " AND id != ?";
+			$query .= " && id != ?";
 			array_push($params, $record);
 		}
 

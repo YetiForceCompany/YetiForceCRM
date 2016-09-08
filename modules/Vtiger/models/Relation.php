@@ -167,7 +167,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				$crmid = $relatedRecordId;
 			}
 			$db = PearDatabase::getInstance();
-			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? AND ossmailviewid = ?', [$crmid, $mailId]) > 0) {
+			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? && ossmailviewid = ?', [$crmid, $mailId]) > 0) {
 				return true;
 			} else {
 				return false;
@@ -207,7 +207,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	{
 		$sourceModule = $this->getParentModuleModel();
 		$db = PearDatabase::getInstance();
-		$db->delete('u_yf_crmentity_rel_tree', 'crmid = ? AND tree = ? AND module = ? AND relmodule = ?', [$crmid, $tree, $sourceModule->getId(), $this->getRelationModuleModel()->getId()]);
+		$db->delete('u_yf_crmentity_rel_tree', 'crmid = ? && tree = ? && module = ? && relmodule = ?', [$crmid, $tree, $sourceModule->getId(), $this->getRelationModuleModel()->getId()]);
 	}
 
 	public function isDirectRelation()
@@ -278,11 +278,11 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		}
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename FROM vtiger_relatedlists
-					INNER JOIN vtiger_tab on vtiger_tab.tabid = vtiger_relatedlists.related_tabid AND vtiger_tab.presence != 1
-					WHERE vtiger_relatedlists.tabid = ? AND related_tabid = ?';
+					INNER JOIN vtiger_tab on vtiger_tab.tabid = vtiger_relatedlists.related_tabid && vtiger_tab.presence != 1
+					WHERE vtiger_relatedlists.tabid = ? && related_tabid = ?';
 		$params = [$parentModuleModel->getId(), $relatedModuleModel->getId()];
 		if (!empty($label)) {
-			$query .= ' AND label = ?';
+			$query .= ' && label = ?';
 			$params[] = $label;
 		}
 
@@ -304,13 +304,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename,vtiger_tab.tabid as moduleid FROM vtiger_relatedlists 
                     INNER JOIN vtiger_tab on vtiger_relatedlists.related_tabid = vtiger_tab.tabid
-                    WHERE vtiger_relatedlists.tabid = ? AND related_tabid != 0';
+                    WHERE vtiger_relatedlists.tabid = ? && related_tabid != 0';
 
 		if ($selected) {
-			$query .= ' AND vtiger_relatedlists.presence <> 1';
+			$query .= ' && vtiger_relatedlists.presence <> 1';
 		}
 		if ($onlyActive) {
-			$query .= ' AND vtiger_tab.presence <> 1 ';
+			$query .= ' && vtiger_tab.presence <> 1 ';
 		}
 		$query .= ' ORDER BY sequence'; // TODO: Need to handle entries that has related_tabid 0
 
@@ -440,7 +440,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$presence = $relatedInfo['presence'];
 			$query .= ' WHEN relation_id=' . $relation_id . ' THEN ' . $presence;
 		}
-		$query .= ' END WHERE tabid=? AND relation_id IN (' . generateQuestionMarks($relation_ids) . ')';
+		$query .= ' END WHERE tabid=? && relation_id IN (' . generateQuestionMarks($relation_ids) . ')';
 		$result = $db->pquery($query, array($sourceModuleTabId, $relation_ids));
 	}
 
@@ -510,7 +510,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$relationId = $this->getId();
-		$query = 'SELECT vtiger_field.columnname, vtiger_field.fieldname FROM vtiger_relatedlists_fields INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid WHERE vtiger_relatedlists_fields.relation_id = ? AND vtiger_field.presence IN (0,2);';
+		$query = 'SELECT vtiger_field.columnname, vtiger_field.fieldname FROM vtiger_relatedlists_fields INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid WHERE vtiger_relatedlists_fields.relation_id = ? && vtiger_field.presence IN (0,2);';
 		$result = $adb->pquery($query, [$relationId]);
 		if ($onlyFields) {
 			$fields = [];
@@ -617,7 +617,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				'userid' => $currentUser->getId()
 			]);
 		} elseif ('delete' == $action) {
-			$where = 'crmid = ? AND module = ? AND relcrmid = ?  AND relmodule = ? AND userid = ?';
+			$where = 'crmid = ? && module = ? && relcrmid = ?  && relmodule = ? && userid = ?';
 			$result = $db->delete('u_yf_favorites', $where, [$data['crmid'], $moduleName, $data['relcrmid'], $this->getRelationModuleName(), $currentUser->getId()]);
 		}
 		return $result;

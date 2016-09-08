@@ -78,7 +78,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		if ($onlyActive) {
 			$presence = [0];
 			$nonVisibleModules = self::getNonVisibleModulesList();
-			$query .= sprintf(' WHERE presence IN (%s) AND name NOT IN (%s)', generateQuestionMarks($presence), generateQuestionMarks($nonVisibleModules));
+			$query .= sprintf(' WHERE presence IN (%s) && name NOT IN (%s)', generateQuestionMarks($presence), generateQuestionMarks($nonVisibleModules));
 			array_push($params, $presence, $nonVisibleModules);
 		}
 		$result = $db->pquery($query, $params);
@@ -93,7 +93,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static function getModulesSupportingSequenceNumbering()
 	{
 		$db = PearDatabase::getInstance();
-		$sql = "SELECT tabid, name FROM vtiger_tab WHERE isentitytype = 1 AND presence = 0 AND tabid IN
+		$sql = "SELECT tabid, name FROM vtiger_tab WHERE isentitytype = 1 && presence = 0 && tabid IN
 			(SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = '4')";
 		$result = $db->pquery($sql, array());
 

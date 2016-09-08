@@ -211,7 +211,7 @@ class Owner
 				$log->debug('Sharing is Private. Only the current user should be listed');
 				$query = "SELECT id,%s,is_admin,cal_color,status FROM vtiger_users WHERE id=? UNION SELECT vtiger_user2role.userid AS id,%s,is_admin,cal_color,status FROM vtiger_user2role 
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ? UNION
-							SELECT shareduserid AS id,%s,is_admin,cal_color,status FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE vtiger_tmp_write_user_sharing_per.userid=? AND vtiger_tmp_write_user_sharing_per.tabid=?";
+							SELECT shareduserid AS id,%s,is_admin,cal_color,status FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE vtiger_tmp_write_user_sharing_per.userid=? && vtiger_tmp_write_user_sharing_per.tabid=?";
 				$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), getTabid($this->moduleName));
 			} else {
 				$log->debug('Sharing is Public. All vtiger_users should be listed');
@@ -222,18 +222,18 @@ class Owner
 			$query = str_replace('%s', implode(',', $entityData['fieldnameArr']), $query);
 			if (!empty($assignedUser)) {
 				if (is_array($assignedUser)) {
-					$where .= sprintf(' AND id IN (%s)', generateQuestionMarks($assignedUser));
+					$where .= sprintf(' && id IN (%s)', generateQuestionMarks($assignedUser));
 					foreach ($assignedUser as $id) {
 						array_push($params, $id);
 					}
 				} else {
-					$where .= ' AND id=?';
+					$where .= ' && id=?';
 					array_push($params, $assignedUser);
 				}
 			}
 			if (!empty($this->searchValue)) {
 				$entityName = $db->concat($entityData['fieldnameArr']);
-				$where .= " AND $entityName LIKE ?";
+				$where .= " && $entityName LIKE ?";
 				array_push($params, "%$this->searchValue%");
 			}
 			if (!empty($where)) {

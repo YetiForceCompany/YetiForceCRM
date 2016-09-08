@@ -67,7 +67,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		$db->pquery('UPDATE yetiforce_proc_sales SET value = ? WHERE type = ? AND param = ?;', [$value, $param['type'], $param['param']]);
+		$db->pquery('UPDATE yetiforce_proc_sales SET value = ? WHERE type = ? && param = ?;', [$value, $param['type'], $param['param']]);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;
 	}

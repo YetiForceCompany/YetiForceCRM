@@ -224,7 +224,7 @@ class Webforms_Model {
 
 		$model = false;
 		// Retrieve model and populate information
-		$result = $adb->pquery("SELECT * FROM vtiger_webforms WHERE publicid=? AND enabled=?", array($publicid, 1));
+		$result = $adb->pquery("SELECT * FROM vtiger_webforms WHERE publicid=? && enabled=?", array($publicid, 1));
 		if ($adb->num_rows($result)) {
 			$model = new Webforms_Model($adb->fetch_array($result));
 			$model->retrieveFields();
@@ -265,7 +265,7 @@ class Webforms_Model {
 	static function isWebformField($webformid, $fieldname) {
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
-		$checkSQL = "SELECT 1 from vtiger_webforms_field where webformid=? AND fieldname=?";
+		$checkSQL = "SELECT 1 from vtiger_webforms_field where webformid=? && fieldname=?";
 		$result = $adb->pquery($checkSQL, array($webformid, $fieldname));
 		return (($adb->num_rows($result)) ? true : false);
 	}
@@ -279,7 +279,7 @@ class Webforms_Model {
 
 	static function isRequired($webformid, $fieldname) {
 		$adb = PearDatabase::getInstance();
-		$sql = "SELECT required FROM vtiger_webforms_field where webformid=? AND fieldname=?";
+		$sql = "SELECT required FROM vtiger_webforms_field where webformid=? && fieldname=?";
 		$result = $adb->pquery($sql, array($webformid, $fieldname));
 		$required = false;
 		if ($adb->num_rows($result)) {
@@ -319,7 +319,7 @@ class Webforms_Model {
 	static function isActive($field, $mod) {
 		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($mod);
-		$query = 'SELECT 1 FROM vtiger_field WHERE fieldname = ?  AND tabid = ? AND presence IN (0,2)';
+		$query = 'SELECT 1 FROM vtiger_field WHERE fieldname = ?  && tabid = ? && presence IN (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));
 		$rows = $adb->num_rows($res);
 		if ($rows > 0) {

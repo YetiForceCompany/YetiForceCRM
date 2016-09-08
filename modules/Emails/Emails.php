@@ -103,7 +103,7 @@ class Emails extends CRMEntity
 			}
 		} else {
 			if (isset($this->column_fields['parent_id']) && $this->column_fields['parent_id'] != '') {
-				$adb->pquery("DELETE FROM vtiger_seactivityrel WHERE crmid = ? AND activityid = ? ", array($this->column_fields['parent_id'], $this->id));
+				$adb->pquery("DELETE FROM vtiger_seactivityrel WHERE crmid = ? && activityid = ? ", array($this->column_fields['parent_id'], $this->id));
 				//$this->insertIntoEntityTable('vtiger_seactivityrel', $module);
 				$sql = 'insert into vtiger_seactivityrel values(?,?)';
 				$params = array($this->column_fields['parent_id'], $this->id);
@@ -439,7 +439,7 @@ class Emails extends CRMEntity
 			LEFT JOIN vtiger_attachments
 				ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid";
 		$query .= getNonAdminAccessControlQuery('Emails', $current_user);
-		$query .= "WHERE vtiger_activity.activitytype='Emails' AND vtiger_crmentity.deleted=0 ";
+		$query .= "WHERE vtiger_activity.activitytype='Emails' && vtiger_crmentity.deleted=0 ";
 
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
@@ -486,10 +486,10 @@ class Emails extends CRMEntity
 	{
 		$log = vglobal('log');
 
-		$sql = 'DELETE FROM vtiger_seactivityrel WHERE activityid=? AND crmid = ?';
+		$sql = 'DELETE FROM vtiger_seactivityrel WHERE activityid=? && crmid = ?';
 		$this->db->pquery($sql, array($id, $returnId));
 
-		$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+		$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? && relmodule=? && relcrmid=?) OR (relcrmid=? && module=? && crmid=?)';
 		$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
 		$this->db->pquery($sql, $params);
 

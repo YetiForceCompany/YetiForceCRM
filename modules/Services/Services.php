@@ -268,7 +268,7 @@ class Services extends CRMEntity
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-			$sec_query .= " AND (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
+			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
 					(
 						SELECT vtiger_user2role.userid FROM vtiger_user2role
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
@@ -278,7 +278,7 @@ class Services extends CRMEntity
 					OR vtiger_crmentity.smownerid IN
 					(
 						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
-						WHERE userid=" . $current_user->id . " AND tabid=" . $tabid . "
+						WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
 					)
 					OR
 						(";
@@ -322,12 +322,12 @@ class Services extends CRMEntity
 		}
 
 		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id AND vtiger_users.status='Active'";
+		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id && vtiger_users.status='Active'";
 		$query .= $this->getNonAdminAccessControlQuery('Services', $current_user);
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if ($where != '')
-			$query .= " WHERE ($where) AND $where_auto";
+			$query .= " WHERE ($where) && $where_auto";
 		else
 			$query .= " WHERE $where_auto";
 
@@ -808,7 +808,7 @@ class Services extends CRMEntity
 		if ($relatedName && $relatedName != 'get_related_list') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
-			$where = '(relcrmid= ? AND module IN (?) AND crmid IN (?)) OR (crmid= ? AND relmodule IN (?) AND relcrmid IN (?))';
+			$where = '(relcrmid= ? && module IN (?) && crmid IN (?)) OR (crmid= ? && relmodule IN (?) && relcrmid IN (?))';
 			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
 			$this->db->delete('vtiger_crmentityrel', $where, $params);
 		}
@@ -863,12 +863,12 @@ class Services extends CRMEntity
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_service.serviceid
 			INNER JOIN vtiger_servicecf
 				ON vtiger_service.serviceid = vtiger_servicecf.serviceid
-			LEFT JOIN vtiger_crmentityrel ON vtiger_crmentityrel.relcrmid = vtiger_service.serviceid AND vtiger_crmentityrel.module='Services'
+			LEFT JOIN vtiger_crmentityrel ON vtiger_crmentityrel.relcrmid = vtiger_service.serviceid && vtiger_crmentityrel.module='Services'
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_crmentityrel.crmid = $id ";
+			WHERE vtiger_crmentity.deleted = 0 && vtiger_crmentityrel.crmid = $id ";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 

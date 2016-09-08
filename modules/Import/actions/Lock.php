@@ -41,7 +41,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller {
 			$query = 'DELETE FROM vtiger_import_locks WHERE userid=?';
 			$params = array(method_exists($user, 'get')?$user->get('id'):$user->id);
 			if($module != false) {
-				$query .= ' AND tabid=?';
+				$query .= ' && tabid=?';
 				array_push($params, getTabid($module));
 			}
 			$adb->pquery($query, $params);

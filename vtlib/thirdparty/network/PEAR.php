@@ -772,7 +772,7 @@ function _PEAR_call_destructors()
 	}
 
 	// Now call the shutdown functions
-	if (is_array($GLOBALS['_PEAR_shutdown_funcs']) AND ! empty($GLOBALS['_PEAR_shutdown_funcs'])) {
+	if (is_array($GLOBALS['_PEAR_shutdown_funcs']) && ! empty($GLOBALS['_PEAR_shutdown_funcs'])) {
 		foreach ($GLOBALS['_PEAR_shutdown_funcs'] as $value) {
 			call_user_func_array($value[0], $value[1]);
 		}

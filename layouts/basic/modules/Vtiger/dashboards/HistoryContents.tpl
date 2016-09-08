@@ -43,7 +43,7 @@
 					{if $HISTORY->isUpdate()}
 						{assign var=FIELDS value=$HISTORY->getFieldInstances()}
 						<div class="">
-							<div><strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_UPDATED')} <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+							<div><strong>{$USER->getName()}&nbsp;</strong> {vtranslate('LBL_UPDATED')}&nbsp; <a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
 								onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
 								{$PARENT->getName()}</a>
 							</div>
@@ -53,14 +53,14 @@
 								<div class='font-x-small'>
 									<span>{vtranslate($FIELD->getName(), $FIELD->getModuleName())}</span>
 									{if $FIELD->get('prevalue') neq '' && $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELD->get('postvalue') eq '0' || $FIELD->get('prevalue') eq '0'))}
-										&nbsp;{vtranslate('LBL_FROM')} <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</strong>
+										&nbsp;{vtranslate('LBL_FROM')}&nbsp; <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</strong>
 									{else if $FIELD->get('postvalue') eq '' || ($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
 	                                    &nbsp; <strong> {vtranslate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('prevalue'))))}</del> )
 	                                {else}
 										&nbsp;{vtranslate('LBL_CHANGED')}
 									{/if}
 	                                {if $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
-										{vtranslate('LBL_TO')} <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('postvalue'))))}</strong>
+										&nbsp;{vtranslate('LBL_TO')}&nbsp;<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(decode_html($FIELD->get('postvalue'))))}</strong>
 	                                {/if}    
 								</div>
 								{/if}
@@ -89,7 +89,7 @@
 						<div class='' style='margin-top:5px'>
 							<strong>{$USER->getName()}&nbsp;</strong>
 								{if $HISTORY->isRelationLink()}
-									{vtranslate('LBL_ADDED', $MODULE_NAME)}
+									{vtranslate('LBL_ADDED', $MODULE_NAME)}&nbsp;
 								{else}
 									{vtranslate('LBL_REMOVED', $MODULE_NAME)}
 								{/if}

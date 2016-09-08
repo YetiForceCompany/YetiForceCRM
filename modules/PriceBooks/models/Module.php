@@ -69,13 +69,13 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model {
 			$pos = stripos($listQuery, ' where ');
 			if ($currencyId && in_array($field, array('productid', 'serviceid'))) {
 				$condition = " vtiger_pricebook.pricebookid IN (SELECT pricebookid FROM vtiger_pricebookproductrel WHERE productid = $record)
-								AND vtiger_pricebook.currency_id = $currencyId AND vtiger_pricebook.active = 1";
+								AND vtiger_pricebook.currency_id = $currencyId && vtiger_pricebook.active = 1";
 			} else if($field == 'productsRelatedList') {
 				$condition = "vtiger_pricebook.pricebookid NOT IN (SELECT pricebookid FROM vtiger_pricebookproductrel WHERE productid = $record)
 								AND vtiger_pricebook.active = 1";
 			}
 			if ($pos) {
-				$overRideQuery = $listQuery. ' AND ' . $condition;
+				$overRideQuery = $listQuery. ' && ' . $condition;
 			} else {
 				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}

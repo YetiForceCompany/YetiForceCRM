@@ -159,7 +159,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		$params = [$label];
 
 		if (!empty($excludedIds)) {
-			$query .= " AND `id` NOT IN (" . generateQuestionMarks($excludedIds) . ")";
+			$query .= " && `id` NOT IN (" . generateQuestionMarks($excludedIds) . ")";
 			$params = array_merge($params, $excludedIds);
 		}
 		$result = $db->pquery($query, $params);

@@ -42,7 +42,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		];
 		$query = 'SELECT notesid FROM vtiger_senotesrel '
 			. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_senotesrel.notesid '
-			. 'WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.crmid = ?';
+			. 'WHERE vtiger_crmentity.deleted = 0 && vtiger_senotesrel.crmid = ?';
 		$res = $db->pquery($query, [$id]);
 		$aid = [];
 		while ($notesid = $db->getSingleValue($res)) {

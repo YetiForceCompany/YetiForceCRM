@@ -263,9 +263,9 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 			$conditionsSqls[] = 'active = 0';
 		}
 		if (count($conditionsSqls) > 0) {
-			$sql .= sprintf(' WHERE %s', implode(' AND ', $conditionsSqls));
+			$sql .= sprintf(' WHERE %s', implode(' && ', $conditionsSqls));
 		}
-		$sql .= ' AND name NOT IN (' . generateQuestionMarks($skipMenuItemList) . ')';
+		$sql .= ' && name NOT IN (' . generateQuestionMarks($skipMenuItemList) . ')';
 
 		$sql .= ' ORDER BY sequence';
 		$result = $db->pquery($sql, array_merge($params, $skipMenuItemList));
@@ -297,14 +297,14 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 
 		$db = PearDatabase::getInstance();
 
-		$query = sprintf('SELECT * FROM %s WHERE pinned = 1 AND active = 0', self::$itemsTable);
+		$query = sprintf('SELECT * FROM %s WHERE pinned = 1 && active = 0', self::$itemsTable);
 		if (!empty($fieldList)) {
 			if (!is_array($fieldList)) {
 				$fieldList = array($fieldList);
 			}
-			$query .=' AND ' . self::$itemsId . ' IN (' . generateQuestionMarks($fieldList) . ')';
+			$query .=' && ' . self::$itemsId . ' IN (' . generateQuestionMarks($fieldList) . ')';
 		}
-		$query .= ' AND name NOT IN (' . generateQuestionMarks($skipMenuItemList) . ')';
+		$query .= ' && name NOT IN (' . generateQuestionMarks($skipMenuItemList) . ')';
 
 		$result = $db->pquery($query, array_merge($fieldList, $skipMenuItemList));
 		$noOfMenus = $db->num_rows($result);

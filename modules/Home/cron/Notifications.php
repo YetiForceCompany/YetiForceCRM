@@ -46,10 +46,10 @@ class Cron_Notification
 		$query = 'SELECT 1 FROM l_yf_notification WHERE `userid` = ?';
 		$params = [$userId];
 		if (empty($startDate)) {
-			$query .= ' AND `time` <= ?';
+			$query .= ' && `time` <= ?';
 			$params[] = $endDate;
 		} else {
-			$query .= ' AND `time` BETWEEN ? AND ?';
+			$query .= ' && `time` BETWEEN ? && ?';
 			array_push($params, $startDate, $endDate);
 		}
 		$query .= ' LIMIT 1';

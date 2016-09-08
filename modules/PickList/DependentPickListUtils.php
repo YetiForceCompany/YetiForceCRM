@@ -101,7 +101,7 @@ class Vtiger_DependencyPicklist {
 			}
 			//to handle Accent Sensitive search in MySql
 			//reference Links http://dev.mysql.com/doc/refman/5.0/en/charset-convert.html , http://stackoverflow.com/questions/500826/how-to-conduct-an-accent-sensitive-search-in-mysql
-			$checkForExistenceResult = $adb->pquery("SELECT id FROM vtiger_picklist_dependency WHERE tabid=? AND sourcefield=? AND targetfield=? AND sourcevalue=CAST(? AS CHAR CHARACTER SET utf8) COLLATE utf8_bin",
+			$checkForExistenceResult = $adb->pquery("SELECT id FROM vtiger_picklist_dependency WHERE tabid=? && sourcefield=? && targetfield=? && sourcevalue=CAST(? AS CHAR CHARACTER SET utf8) COLLATE utf8_bin",
 					array($tabId, $sourceField, $targetField, $sourceValue));
 			if($adb->num_rows($checkForExistenceResult) > 0) {
 				$dependencyId = $adb->query_result($checkForExistenceResult, 0, 'id');
@@ -121,7 +121,7 @@ class Vtiger_DependencyPicklist {
 
 		$tabId = getTabid($module);
 
-		$adb->pquery("DELETE FROM vtiger_picklist_dependency WHERE tabid=? AND sourcefield=? AND targetfield=?",
+		$adb->pquery("DELETE FROM vtiger_picklist_dependency WHERE tabid=? && sourcefield=? && targetfield=?",
 				array($tabId, $sourceField, $targetField));
 	}
 
@@ -133,7 +133,7 @@ class Vtiger_DependencyPicklist {
 		$dependencyMap['sourcefield'] = $sourceField;
 		$dependencyMap['targetfield'] = $targetField;
 
-		$result = $adb->pquery('SELECT * FROM vtiger_picklist_dependency WHERE tabid=? AND sourcefield=? AND targetfield=?',
+		$result = $adb->pquery('SELECT * FROM vtiger_picklist_dependency WHERE tabid=? && sourcefield=? && targetfield=?',
 				array($tabId,$sourceField,$targetField));
 		$noOfMapping = $adb->num_rows($result);
 
@@ -203,7 +203,7 @@ class Vtiger_DependencyPicklist {
 
 		// If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
 		$result = $adb->pquery('SELECT 1 FROM vtiger_picklist_dependency
-									WHERE tabid = ? AND targetfield = ? AND sourcefield != ?',
+									WHERE tabid = ? && targetfield = ? && sourcefield != ?',
 				array(getTabid($module), $targetField, $sourceField));
 		if($adb->num_rows($result) > 0) {
 			return true;

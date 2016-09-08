@@ -23,8 +23,8 @@ class Mobile_WS_AlertModel_EventsOfMineToday extends Mobile_WS_AlertModel {
 		$today = date('Y-m-d');
 		$sql = "SELECT crmid, activitytype FROM vtiger_activity INNER JOIN 
 				vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_activity.activityid
-				WHERE vtiger_crmentity.deleted=0 AND vtiger_crmentity.smownerid=? AND 
-				vtiger_activity.activitytype <> 'Emails' AND 
+				WHERE vtiger_crmentity.deleted=0 && vtiger_crmentity.smownerid=? && 
+				vtiger_activity.activitytype <> 'Emails' && 
 				(vtiger_activity.date_start = '{$today}' OR vtiger_activity.due_date = '{$today}')";
 		return $sql;
 	}

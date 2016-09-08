@@ -161,11 +161,11 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 			$excludedIds = [$excludedIds];
 		}
 
-		$query = sprintf('SELECT * FROM %s WHERE deleted = ? AND currency_status = ?', Settings_Currency_Module_Model::tableName);
+		$query = sprintf('SELECT * FROM %s WHERE deleted = ? && currency_status = ?', Settings_Currency_Module_Model::tableName);
 		$params = [0, 'Active'];
 		if (!empty($excludedIds)) {
 			$params[] = $excludedIds;
-			$query .= ' AND id NOT IN (' . generateQuestionMarks($excludedIds) . ')';
+			$query .= ' && id NOT IN (' . generateQuestionMarks($excludedIds) . ')';
 		}
 		$result = $db->pquery($query, $params);
 		$instanceList = [];

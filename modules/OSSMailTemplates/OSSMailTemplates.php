@@ -90,12 +90,12 @@ class OSSMailTemplates extends Vtiger_CRMEntity
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
 
-			$adb->pquery("UPDATE vtiger_settings_field SET active = '1' WHERE name = '$moduleName' AND linkto = 'index.php?module=$moduleName&view=Index&parent=Settings'");
+			$adb->pquery("UPDATE vtiger_settings_field SET active = '1' WHERE name = '$moduleName' && linkto = 'index.php?module=$moduleName&view=Index&parent=Settings'");
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_DisabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.enabled') {
 
-			$adb->query("UPDATE vtiger_settings_field SET active = '0' WHERE name = '$moduleName' AND linkto = 'index.php?module=$moduleName&view=Index&parent=Settings'");
+			$adb->query("UPDATE vtiger_settings_field SET active = '0' WHERE name = '$moduleName' && linkto = 'index.php?module=$moduleName&view=Index&parent=Settings'");
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_EnabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.preuninstall') {

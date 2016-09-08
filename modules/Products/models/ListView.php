@@ -93,7 +93,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			}
 			$newListQuery = trim($newListQuery, 'INNER JOIN');
 			if (in_array($moduleName, ['Products', 'Services'])) {
-				$newListQuery .= " AND ( (vtiger_crmentityrel.crmid = '$salesProcessId' AND module = 'SSalesProcesses') OR (vtiger_crmentityrel.relcrmid = '$salesProcessId' AND relmodule = 'SSalesProcesses')) ";
+				$newListQuery .= " && ( (vtiger_crmentityrel.crmid = '$salesProcessId' && module = 'SSalesProcesses') OR (vtiger_crmentityrel.relcrmid = '$salesProcessId' && relmodule = 'SSalesProcesses')) ";
 			}
 			$listQuery = $newListQuery;
 		}
@@ -178,10 +178,10 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	public function addSubProductsQuery($listQuery)
 	{
 		$splitQuery = preg_split('/WHERE/i', $listQuery, 2);
-		$query = " LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_seproductsrel.setype='Products'";
+		$query = " LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid && vtiger_seproductsrel.setype='Products'";
 		$splitQuery[0] .= $query;
 		$productId = $this->get('productId');
-		$query1 = " AND vtiger_seproductsrel.productid = $productId";
+		$query1 = " && vtiger_seproductsrel.productid = $productId";
 		$splitQuery[1] .= $query1;
 		$listQuery = $splitQuery[0] . ' WHERE ' . $splitQuery[1];
 		return $listQuery;
@@ -194,7 +194,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			$db = PearDatabase::getInstance();
 			$result = $db->pquery("SELECT vtiger_seproductsrel.crmid from vtiger_seproductsrel INNER JOIN
                 vtiger_crmentity ON vtiger_seproductsrel.crmid = vtiger_crmentity.crmid 
-					AND vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.setype=? 
+					AND vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.setype=? 
 				WHERE vtiger_seproductsrel.productid=?", array($this->getModule()->get('name'), $subProductId));
 			if ($db->num_rows($result) > 0) {
 				$flag = true;
@@ -257,7 +257,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		if ($this->getModule()->get('name') == 'Calendar') {
-			$listQuery .= ' AND activitytype <> "Emails"';
+			$listQuery .= ' && activitytype <> "Emails"';
 		}
 
 		$listResult = $db->query($listQuery);

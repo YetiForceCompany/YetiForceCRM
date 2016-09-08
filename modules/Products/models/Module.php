@@ -27,18 +27,18 @@ class Products_Module_Model extends Vtiger_Module_Model {
 
 			$condition = " vtiger_products.discontinued = 1 ";
 			if ($sourceModule === $this->getName()) {
-				$condition .= " AND vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_seproductsrel WHERE productid = '$record') AND vtiger_products.productid <> '$record' ";
+				$condition .= " && vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_seproductsrel WHERE productid = '$record') && vtiger_products.productid <> '$record' ";
 			} elseif ($sourceModule === 'PriceBooks') {
-				$condition .= " AND vtiger_products.productid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
+				$condition .= " && vtiger_products.productid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
 			} elseif ($sourceModule === 'Vendors') {
-				$condition .= " AND vtiger_products.vendor_id != '$record' ";
+				$condition .= " && vtiger_products.vendor_id != '$record' ";
 			} elseif (in_array($sourceModule, $supportedModulesList) && $skipSelected === false) {
-				$condition .= " AND vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE crmid = '$record')";
+				$condition .= " && vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE crmid = '$record')";
 			}
 
 			$pos = stripos($listQuery, 'where');
 			if ($pos) {
-				$overRideQuery = $listQuery. ' AND ' . $condition;
+				$overRideQuery = $listQuery. ' && ' . $condition;
 			} else {
 				$overRideQuery = $listQuery. ' WHERE ' . $condition;
 			}

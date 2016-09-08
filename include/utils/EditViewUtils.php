@@ -60,7 +60,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
  		                        INNER JOIN vtiger_crmentity
  		                                ON vtiger_crmentity.crmid=vtiger_products.productid
  		                        WHERE vtiger_crmentity.deleted=0
- 		                                AND productid=?";
+ 		                                && productid=?";
 		$params = array($seid);
 	} elseif ($module == 'Services') {
 		$query = "SELECT
@@ -76,7 +76,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
  		                        INNER JOIN vtiger_crmentity
  		                                ON vtiger_crmentity.crmid=vtiger_service.serviceid
  		                        WHERE vtiger_crmentity.deleted=0
- 		                                AND serviceid=?";
+ 		                                && serviceid=?";
 		$params = array($seid);
 	}
 
@@ -124,9 +124,9 @@ function getAssociatedProducts($module, $focus, $seid = '')
 			$product_Detail[$i]['delRow' . $i] = "Del";
 		}
 		if (empty($focus->mode) && $seid != '') {
-			$sub_prod_query = $adb->pquery("SELECT crmid as prod_id from vtiger_seproductsrel WHERE productid=? AND setype='Products'", array($seid));
+			$sub_prod_query = $adb->pquery("SELECT crmid as prod_id from vtiger_seproductsrel WHERE productid=? && setype='Products'", array($seid));
 		} else {
-			$sub_prod_query = $adb->pquery("SELECT productid as prod_id from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($focus->id, $i));
+			$sub_prod_query = $adb->pquery("SELECT productid as prod_id from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($focus->id, $i));
 		}
 		$subprodid_str = '';
 		$subprodname_str = '';

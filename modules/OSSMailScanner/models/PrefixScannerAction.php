@@ -46,7 +46,7 @@ class OSSMailScanner_PrefixScannerAction_Model
 			$moduleObject = new $moduleName();
 			$tableIndex = $moduleObject->tab_name_index[$tableName];
 
-			$query = sprintf('SELECT %s FROM %s INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %s.%s WHERE vtiger_crmentity.deleted = 0  AND %s = ? ', $tableIndex, $tableName, $tableName, $tableIndex, $tableColumn);
+			$query = sprintf('SELECT %s FROM %s INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %s.%s WHERE vtiger_crmentity.deleted = 0  && %s = ? ', $tableIndex, $tableName, $tableName, $tableIndex, $tableColumn);
 			$result = $db->pquery($query, [$prefix]);
 
 			if ($db->getRowCount($result) > 0) {

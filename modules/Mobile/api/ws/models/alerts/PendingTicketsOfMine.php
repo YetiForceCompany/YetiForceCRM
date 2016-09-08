@@ -22,7 +22,7 @@ class Mobile_WS_AlertModel_PendingTicketsOfMine extends Mobile_WS_AlertModel {
 	function query() {
 		$sql = "SELECT crmid FROM vtiger_troubletickets INNER JOIN 
 				vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_troubletickets.ticketid 
-				WHERE vtiger_crmentity.deleted=0 AND vtiger_crmentity.smownerid=? AND 
+				WHERE vtiger_crmentity.deleted=0 && vtiger_crmentity.smownerid=? && 
 				vtiger_troubletickets.status <> 'Closed'";
 		return $sql;
 	}

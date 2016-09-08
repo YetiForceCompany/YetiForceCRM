@@ -28,17 +28,17 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		$queryGenerator = $listView->get('query_generator');
 		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime']);
 		$query = $queryGenerator->getQuery();
-		$query .= ' AND announcementstatus = ?';
+		$query .= ' && announcementstatus = ?';
 
 		$result = $db->pquery($query, ['PLL_PUBLISHED']);
 		while ($row = $db->getRow($result)) {
-			$query = 'SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? AND userid = ?';
+			$query = 'SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ?';
 			$paramsMark = [$row['announcementid'], $userModel->getId()];
 			if (!empty($row['interval'])) {
 				$date = date('Y-m-d H:i:s', strtotime('+' . $row['interval'] . ' day', strtotime('now')));
 				$paramsMark[] = 0;
 				$paramsMark[] = $date;
-				$query .= ' AND status = ? AND date < ?';
+				$query .= ' && status = ? && date < ?';
 			}
 			$resultMark = $db->pquery($query, $paramsMark);
 			if ($db->getRowCount($resultMark) == 1) {
@@ -64,7 +64,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$params = [$record, $userModel->getId()];
 
-		$result = $db->pquery('SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? AND userid = ?', $params);
+		$result = $db->pquery('SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ?', $params);
 		if ($db->getRowCount($result) == 0) {
 			$db->insert('u_yf_announcement_mark', [
 				'announcementid' => $record,
@@ -76,7 +76,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 			$db->update('u_yf_announcement_mark', [
 				'date' => date('Y-m-d H:i:s'),
 				'status' => $state
-				], 'announcementid = ? AND userid = ?', $params
+				], 'announcementid = ? && userid = ?', $params
 			);
 		}
 		$this->checkStatus($record);
@@ -88,7 +88,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$users = $this->getUsers(true);
 		foreach ($users as $userId => $name) {
-			$result = $db->pquery('SELECT count(*) FROM u_yf_announcement_mark WHERE announcementid = ? AND userid = ? AND status = ?', [$record, $userId, 1]);
+			$result = $db->pquery('SELECT count(*) FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ? && status = ?', [$record, $userId, 1]);
 			if ($db->getSingleValue($result) == 0) {
 				$archive = false;
 			}
@@ -115,7 +115,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	public function getMarkInfo($record, $userId)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? AND userid = ?', [$record, $userId]);
+		$result = $db->pquery('SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ?', [$record, $userId]);
 		while ($row = $db->getRow($result)) {
 			return $row;
 		}

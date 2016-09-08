@@ -62,21 +62,21 @@ class Record
 			$crmIds = [];
 			$params = ['%,' . $currentUser->getId() . ',%', "%$label%"];
 			$queryFrom = 'SELECT `crmid`,`setype`,`searchlabel` FROM `u_yf_crmentity_search_label`';
-			$queryWhere = ' WHERE `userid` LIKE ? AND `searchlabel` LIKE ?';
+			$queryWhere = ' WHERE `userid` LIKE ? && `searchlabel` LIKE ?';
 			$orderWhere = '';
 			if ($moduleName !== false) {
 				$multiMode = is_array($moduleName);
 				if ($multiMode) {
-					$queryWhere .= sprintf(' AND `setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
+					$queryWhere .= sprintf(' && `setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
 					$params = array_merge($params, $moduleName);
 					$orderWhere = 'setype';
 				} else {
-					$queryWhere .= ' AND `setype` = ?';
+					$queryWhere .= ' && `setype` = ?';
 					$params[] = $moduleName;
 				}
 			} elseif (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 2) {
 				$queryFrom .= ' LEFT JOIN vtiger_entityname ON vtiger_entityname.modulename = u_yf_crmentity_search_label.setype';
-				$queryWhere .= ' AND vtiger_entityname.`turn_off` = 1 ';
+				$queryWhere .= ' && vtiger_entityname.`turn_off` = 1 ';
 				$orderWhere = 'vtiger_entityname.sequence';
 			}
 			$query = $queryFrom . $queryWhere;

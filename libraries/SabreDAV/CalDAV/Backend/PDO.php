@@ -384,7 +384,7 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
      */
     function getCalendarObject($calendarId, $objectUri) {
 
-        $stmt = $this->pdo->prepare('SELECT id, uri, lastmodified, etag, calendarid, size, calendardata, componenttype FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ? AND uri = ?');
+        $stmt = $this->pdo->prepare('SELECT id, uri, lastmodified, etag, calendarid, size, calendardata, componenttype FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ? && uri = ?');
         $stmt->execute([$calendarId, $objectUri]);
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -417,7 +417,7 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
      */
     function getMultipleCalendarObjects($calendarId, array $uris) {
 
-        $query = 'SELECT id, uri, lastmodified, etag, calendarid, size, calendardata, componenttype FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ? AND uri IN (';
+        $query = 'SELECT id, uri, lastmodified, etag, calendarid, size, calendardata, componenttype FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ? && uri IN (';
         // Inserting a whole bunch of question marks
         $query .= implode(',', array_fill(0, count($uris), '?'));
         $query .= ')';
@@ -508,7 +508,7 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
 
         $extraData = $this->getDenormalizedData($calendarData);
 
-        $stmt = $this->pdo->prepare('UPDATE ' . $this->calendarObjectTableName . ' SET calendardata = ?, lastmodified = ?, etag = ?, size = ?, componenttype = ?, firstoccurence = ?, lastoccurence = ?, uid = ? WHERE calendarid = ? AND uri = ?');
+        $stmt = $this->pdo->prepare('UPDATE ' . $this->calendarObjectTableName . ' SET calendardata = ?, lastmodified = ?, etag = ?, size = ?, componenttype = ?, firstoccurence = ?, lastoccurence = ?, uid = ? WHERE calendarid = ? && uri = ?');
         $stmt->execute([$calendarData, time(), $extraData['etag'], $extraData['size'], $extraData['componentType'], $extraData['firstOccurence'], $extraData['lastOccurence'], $extraData['uid'], $calendarId, $objectUri]);
 
         $this->addChange($calendarId, $objectUri, 2);
@@ -610,7 +610,7 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
      */
     function deleteCalendarObject($calendarId, $objectUri) {
 
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ? AND uri = ?');
+        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ? && uri = ?');
         $stmt->execute([$calendarId, $objectUri]);
 
         $this->addChange($calendarId, $objectUri, 3);
@@ -712,16 +712,16 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
         ];
 
         if ($componentType) {
-            $query .= " AND componenttype = :componenttype";
+            $query .= " && componenttype = :componenttype";
             $values['componenttype'] = $componentType;
         }
 
         if ($timeRange && $timeRange['start']) {
-            $query .= " AND lastoccurence > :startdate";
+            $query .= " && lastoccurence > :startdate";
             $values['startdate'] = $timeRange['start']->getTimeStamp();
         }
         if ($timeRange && $timeRange['end']) {
-            $query .= " AND firstoccurence < :enddate";
+            $query .= " && firstoccurence < :enddate";
             $values['enddate'] = $timeRange['end']->getTimeStamp();
         }
 
@@ -861,7 +861,7 @@ SQL;
 
         if ($syncToken) {
 
-            $query = "SELECT uri, operation FROM " . $this->calendarChangesTableName . " WHERE synctoken >= ? AND synctoken < ? AND calendarid = ? ORDER BY synctoken";
+            $query = "SELECT uri, operation FROM " . $this->calendarChangesTableName . " WHERE synctoken >= ? && synctoken < ? && calendarid = ? ORDER BY synctoken";
             if ($limit > 0) $query .= " LIMIT " . (int)$limit;
 
             // Fetching all changes
@@ -1131,7 +1131,7 @@ SQL;
      */
     function getSchedulingObject($principalUri, $objectUri) {
 
-        $stmt = $this->pdo->prepare('SELECT uri, calendardata, lastmodified, etag, size FROM ' . $this->schedulingObjectTableName . ' WHERE principaluri = ? AND uri = ?');
+        $stmt = $this->pdo->prepare('SELECT uri, calendardata, lastmodified, etag, size FROM ' . $this->schedulingObjectTableName . ' WHERE principaluri = ? && uri = ?');
         $stmt->execute([$principalUri, $objectUri]);
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -1187,7 +1187,7 @@ SQL;
      */
     function deleteSchedulingObject($principalUri, $objectUri) {
 
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->schedulingObjectTableName . ' WHERE principaluri = ? AND uri = ?');
+        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->schedulingObjectTableName . ' WHERE principaluri = ? && uri = ?');
         $stmt->execute([$principalUri, $objectUri]);
 
     }

@@ -50,7 +50,7 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 
 		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets 
 			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid 
-			WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, $currentUser->getId()]);
+			WHERE linktype = ? && vtiger_module_dashboard_widgets.id = ? && vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, $currentUser->getId()]);
 		$self = new self();
 		if ($db->num_rows($result)) {
 			$row = $db->query_result_rowdata($result, 0);

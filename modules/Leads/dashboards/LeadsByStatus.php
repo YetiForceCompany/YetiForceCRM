@@ -43,12 +43,12 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 		$dateFilterSql = $ownerSql = '';
 		if (!empty($owner)) {
-			$ownerSql = ' AND smownerid = ' . $owner;
+			$ownerSql = ' && smownerid = ' . $owner;
 		}
 
 		$params = $response = [];
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
+			$dateFilterSql = ' && createdtime BETWEEN ? && ? ';
 			//client is not giving time frame so we are appending it
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
@@ -59,14 +59,14 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 				FROM vtiger_leaddetails 
 				INNER JOIN vtiger_crmentity
 					ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-					AND deleted=0 AND converted = 0 %s %s
+					AND deleted=0 && converted = 0 %s %s
 			INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus ', $ownerSql, $dateFilterSql);
 		if (!empty($securityParameter))
 			$sql .= $securityParameter;
 
 		if (!empty($leadsClosed['status'])) {
 			$leadStatusSearch = implode("','", $leadsClosed['status']);
-			$sql .= " AND vtiger_leaddetails.leadstatus NOT IN ('$leadStatusSearch')";
+			$sql .= " && vtiger_leaddetails.leadstatus NOT IN ('$leadStatusSearch')";
 			$this->conditions = ['vtiger_leaddetails.leadstatus', "'$leadStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
 

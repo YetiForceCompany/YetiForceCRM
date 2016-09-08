@@ -17,13 +17,13 @@ if ($lastUpdatedCrmId = $db->getRow($result)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
 			$coordinates = OpenStreetMap_Module_Model::getCoordinatesByRecord($recordModel);
 			foreach ($coordinates as $typeAddress => $coordinate) {
-				$isCoordinateExists = $db->pquery('SELECT 1 FROM u_yf_openstreetmap WHERE type = ? AND crmid = ?', [$typeAddress, $recordModel->getId()]);
+				$isCoordinateExists = $db->pquery('SELECT 1 FROM u_yf_openstreetmap WHERE type = ? && crmid = ?', [$typeAddress, $recordModel->getId()]);
 				$isCoordinateExists = $db->getSingleValue($isCoordinateExists);
 				if ($isCoordinateExists) {
 					if (empty($coordinate['lat']) && empty($coordinate['lon'])) {
-						$db->delete('u_yf_openstreetmap', 'type = ? AND crmid = ?', [$typeAddress, $recordModel->getId()]);
+						$db->delete('u_yf_openstreetmap', 'type = ? && crmid = ?', [$typeAddress, $recordModel->getId()]);
 					} else {
-						$db->update('u_yf_openstreetmap', $coordinate, 'type = ? AND crmid = ?', [$typeAddress, $recordModel->getId()]);
+						$db->update('u_yf_openstreetmap', $coordinate, 'type = ? && crmid = ?', [$typeAddress, $recordModel->getId()]);
 					}
 				} else {
 					if (!empty($coordinate['lat']) && !empty($coordinate['lon'])) {

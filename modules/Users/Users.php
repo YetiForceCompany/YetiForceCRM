@@ -256,7 +256,7 @@ class Users extends CRMEntity
 	{
 		$usr_name = $this->column_fields["user_name"];
 
-		$query = "SELECT * from $this->table_name where user_name=? AND user_hash=?";
+		$query = "SELECT * from $this->table_name where user_name=? && user_hash=?";
 		$params = array($usr_name, $password);
 		$result = $this->db->requirePsSingleResult($query, $params, false);
 
@@ -352,7 +352,7 @@ class Users extends CRMEntity
 		}
 		$cryptType = $this->db->getSingleValue($result);
 		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
-		$query = "SELECT 1 from $this->table_name where user_name=? AND user_password=? AND status = ?";
+		$query = "SELECT 1 from $this->table_name where user_name=? && user_password=? && status = ?";
 		$result = $this->db->pquery($query, [$userName, $encryptedPassword, 'Active']);
 		if ($result->rowCount() == 1) {
 			$this->log->debug("Authentication OK. User: $userName");
@@ -573,7 +573,7 @@ class Users extends CRMEntity
 
 	function fill_in_additional_detail_fields()
 	{
-		$query = "SELECT u1.first_name, u1.last_name from vtiger_users u1, vtiger_users u2 where u1.id = u2.reports_to_id AND u2.id = ? and u1.deleted=0";
+		$query = "SELECT u1.first_name, u1.last_name from vtiger_users u1, vtiger_users u2 where u1.id = u2.reports_to_id && u2.id = ? and u1.deleted=0";
 		$result = $this->db->pquery($query, array($this->id), true, "Error filling in additional detail vtiger_fields");
 
 		$row = $this->db->fetchByAssoc($result);
@@ -1333,10 +1333,10 @@ class Users extends CRMEntity
 		if ($this->db->num_rows($res1) > 0) {
 			$attachmentId = $this->db->query_result($res1, 0, 'attachmentsid');
 
-			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? AND setype='Users Attachments'";
+			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? && setype='Users Attachments'";
 			$this->db->pquery($sql2, array($attachmentId));
 
-			$sql3 = 'DELETE FROM vtiger_salesmanattachmentsrel WHERE smid=? AND attachmentsid=?';
+			$sql3 = 'DELETE FROM vtiger_salesmanattachmentsrel WHERE smid=? && attachmentsid=?';
 			$this->db->pquery($sql3, array($this->id, $attachmentId));
 
 			$sql2 = "UPDATE vtiger_users SET imagename='' WHERE id=?";
@@ -1410,7 +1410,7 @@ class Users extends CRMEntity
 					}
 				}
 			} else {
-				$result = $db->query("SELECT id FROM vtiger_users WHERE is_admin = 'on' AND status = 'Active' limit 1");
+				$result = $db->query("SELECT id FROM vtiger_users WHERE is_admin = 'on' && status = 'Active' limit 1");
 				$adminId = 1;
 				while (($id = $db->getSingleValue($result)) !== false) {
 					$adminId = $id;

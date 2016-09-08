@@ -121,9 +121,9 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 			$sql = sprintf('SELECT count(*) AS count, %s as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time FROM vtiger_osstimecontrol
 							INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
-							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
+							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid && vtiger_users.status="ACTIVE"
 							AND vtiger_crmentity.deleted = 0'
-				. ' WHERE vtiger_osstimecontrol.%s = ? AND vtiger_osstimecontrol.osstimecontrol_status = ? %s GROUP BY smownerid'
+				. ' WHERE vtiger_osstimecontrol.%s = ? && vtiger_osstimecontrol.osstimecontrol_status = ? %s GROUP BY smownerid'
 				,$userSqlFullName, $fieldName, $securityParameter);
 			$result = $db->pquery($sql, [$id, OSSTimeControl_Record_Model::recalculateStatus]);
 

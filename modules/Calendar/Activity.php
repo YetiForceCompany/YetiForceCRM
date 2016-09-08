@@ -901,7 +901,7 @@ class Activity extends CRMEntity
 	{
 		$sharedUsers = $this->getListViewAccessibleUsers($user->id);
 		$this->setupTemporaryTable($tableName, $tabId, $user, $parent_roles, $groups);
-		$query = "SELECT id FROM $tableName WHERE $tableName.shared=0 AND $tableName.id IN ($sharedUsers)";
+		$query = "SELECT id FROM $tableName WHERE $tableName.shared=0 && $tableName.id IN ($sharedUsers)";
 		return $query;
 	}
 
@@ -938,7 +938,7 @@ class Activity extends CRMEntity
 		;
 		$query = "SELECT vtiger_users.id as userid FROM vtiger_sharedcalendar
 					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
-					WHERE sharedid=? OR (vtiger_users.status='Active' AND vtiger_users.calendarsharedtype='public' AND vtiger_users.id <> ?);";
+					WHERE sharedid=? OR (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
 		$result = $db->pquery($query, array($sharedid, $sharedid));
 		$rows = $db->num_rows($result);
 		if ($db->num_rows($result) != 0) {
@@ -954,11 +954,11 @@ class Activity extends CRMEntity
 
 	function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
-		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$module, $withModule]);
+		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule=?)', [$module, $withModule]);
 		if ($fieldRes->rowCount()) {
 			$results = $this->db->getArray($fieldRes);
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
 			while ($row = $this->db->getRow($fieldRes)) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();
@@ -977,7 +977,7 @@ class Activity extends CRMEntity
 			$focusObj = CRMEntity::getInstance($row['name']);
 			$columnName = $row['columnname'];
 			$columns = [$columnName => null];
-			$where = "$columnName = ? AND $focusObj->table_index = ?";
+			$where = "$columnName = ? && $focusObj->table_index = ?";
 			$this->db->update($row['tablename'], $columns, $where, [$withCrmid, $crmid]);
 		}
 	}

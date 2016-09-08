@@ -20,7 +20,7 @@ class OtherTasks{
 		$query ='SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_projecttask.projecttaskid
-						WHERE vtiger_crmentity.deleted=0 AND vtiger_projecttask.projectid = ? AND vtiger_projecttask.projecttaskpriority NOT IN (?,?,?) ';
+						WHERE vtiger_crmentity.deleted=0 && vtiger_projecttask.projectid = ? && vtiger_projecttask.projecttaskpriority NOT IN (?,?,?) ';
 		$result = $adb->pquery($query, array($instance->getId(), 'high', 'low', 'normal'));
 		$count = $adb->query_result($result, 0, 'count');
 		$log->debug("Exiting OtherTasks::process() method ...");

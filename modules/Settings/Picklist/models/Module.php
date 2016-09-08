@@ -107,12 +107,12 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$db->update($tableName, [$columnName => $newValue], $columnName . ' = ?', [$oldValue]);
 		}
 
-		$query = "UPDATE vtiger_field SET defaultvalue=? WHERE defaultvalue=? AND columnname=?";
+		$query = "UPDATE vtiger_field SET defaultvalue=? WHERE defaultvalue=? && columnname=?";
 		$db->pquery($query, array($newValue, $oldValue, $columnName));
 
 		vimport('include/utils/CommonUtils.php');
 
-		$db->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], 'sourcevalue = ? AND sourcefield = ?', [$oldValue, $pickListFieldName]);
+		$db->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], 'sourcevalue = ? && sourcefield = ?', [$oldValue, $pickListFieldName]);
 
 		$em = new VTEventsManager($db);
 		$data = array();
@@ -172,9 +172,9 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$params = [];
 		array_push($params, $pickListValues);
 		array_push($params, $pickListFieldName);
-		$db->delete('vtiger_picklist_dependency', 'sourcevalue IN (' . generateQuestionMarks($pickListValues) . ') AND sourcefield = ?', $params);
+		$db->delete('vtiger_picklist_dependency', 'sourcevalue IN (' . generateQuestionMarks($pickListValues) . ') && sourcefield = ?', $params);
 
-		$query = 'SELECT tablename,columnname FROM vtiger_field WHERE fieldname=? AND presence in (0,2)';
+		$query = 'SELECT tablename,columnname FROM vtiger_field WHERE fieldname=? && presence in (0,2)';
 		$result = $db->pquery($query, array($pickListFieldName));
 		$num_row = $db->num_rows($result);
 
@@ -187,7 +187,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$params = [];
 		array_push($params, $pickListValues);
 		array_push($params, $columnName);
-		$db->update('vtiger_field', ['defaultvalue' => $replaceValue], 'defaultvalue IN (' . generateQuestionMarks($pickListValues) . ') AND columnname=?', $params);
+		$db->update('vtiger_field', ['defaultvalue' => $replaceValue], 'defaultvalue IN (' . generateQuestionMarks($pickListValues) . ') && columnname=?', $params);
 
 		$em = new VTEventsManager($db);
 		$data = array();
@@ -248,7 +248,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				}
 				$pickListValueId = $valueDetail['picklistvalueid'];
 				$picklistId = $valueDetail['picklistid'];
-				$deleteValueList[] = ' ( roleid = "' . $roleId . '" AND ' . 'picklistvalueid = "' . $pickListValueId . '") ';
+				$deleteValueList[] = ' ( roleid = "' . $roleId . '" && ' . 'picklistvalueid = "' . $pickListValueId . '") ';
 			}
 		}
 		$query = 'INSERT IGNORE INTO vtiger_role2picklist (roleid,picklistvalueid,picklistid) VALUES ' . implode(',', $insertValueList);

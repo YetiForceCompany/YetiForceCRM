@@ -107,7 +107,7 @@ class Mobile_WS_Utils
 	static function getModuleColumnTableByFieldNames($module, $fieldnames)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = sprintf('SELECT fieldname,columnname,tablename FROM vtiger_field WHERE tabid=? AND fieldname IN (%s)', generateQuestionMarks($fieldnames));
+		$query = sprintf('SELECT fieldname,columnname,tablename FROM vtiger_field WHERE tabid=? && fieldname IN (%s)', generateQuestionMarks($fieldnames));
 		$result = $adb->pquery($query, [getTabid($module), $fieldnames]
 		);
 		$columnnames = array();
@@ -142,7 +142,7 @@ class Mobile_WS_Utils
 		}
 
 		$resolveUITypes = array(10, 101, 116, 117, 26, 357, 50, 51, 52, 53, 57, 58, 59, 66, 68, 73, 75, 76, 77, 80, 81);
-		$query = sprintf('SELECT DISTINCT fieldname FROM vtiger_field WHERE uitype IN(%s) AND tabid=?', generateQuestionMarks($resolveUITypes));
+		$query = sprintf('SELECT DISTINCT fieldname FROM vtiger_field WHERE uitype IN(%s) && tabid=?', generateQuestionMarks($resolveUITypes));
 		$result = $adb->pquery($query, [$resolveUITypes, getTabid($module)]
 		);
 		$fieldnames = array();
@@ -172,8 +172,8 @@ class Mobile_WS_Utils
 
 		$result = $adb->pquery(
 			"SELECT fieldname, fieldlabel, blocklabel, uitype FROM vtiger_field INNER JOIN
-			vtiger_blocks ON vtiger_blocks.tabid=vtiger_field.tabid AND vtiger_blocks.blockid=vtiger_field.block 
-			WHERE vtiger_field.tabid=? AND vtiger_field.presence != 1 ORDER BY vtiger_blocks.sequence, vtiger_field.sequence", array(getTabid($module))
+			vtiger_blocks ON vtiger_blocks.tabid=vtiger_field.tabid && vtiger_blocks.blockid=vtiger_field.block 
+			WHERE vtiger_field.tabid=? && vtiger_field.presence != 1 ORDER BY vtiger_blocks.sequence, vtiger_field.sequence", array(getTabid($module))
 		);
 
 		$fieldgroups = array();
@@ -319,7 +319,7 @@ class Mobile_WS_Utils
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-			$querySuffix .= " AND (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN 
+			$querySuffix .= " && (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN 
 					(
 						SELECT vtiger_user2role.userid FROM vtiger_user2role 
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid 
@@ -329,7 +329,7 @@ class Mobile_WS_Utils
 					OR vtiger_crmentity.smownerid IN 
 					(
 						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per 
-						WHERE userid=" . $current_user->id . " AND tabid=" . $tabid . "
+						WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
 					) 
 					OR 
 						(";

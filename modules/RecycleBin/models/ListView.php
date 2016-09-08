@@ -148,7 +148,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		if ($this->getModule()->get('name') == 'Calendar') {
-			$listQuery .= ' AND activitytype <> "Emails"';
+			$listQuery .= ' && activitytype <> "Emails"';
 		}
 
 		$listResult = $db->query($listQuery);

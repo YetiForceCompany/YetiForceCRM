@@ -25,8 +25,8 @@ class SECURE extends VTEventHandler {
                 $conf = $recordModel->getConfiguration();
                 
                 $sql = "SELECT basic.id FROM `vtiger_modtracker_basic` basic LEFT JOIN `vtiger_modtracker_detail` detail ON detail.`id` = basic.`id` 
-                    WHERE basic.module = 'OSSPasswords' AND basic.`whodid` = '{$currentUserModel->id}'  
-                    AND basic.changedon > CURDATE() AND detail.fieldname = 'password' ORDER BY basic.id DESC LIMIT 1;";
+                    WHERE basic.module = 'OSSPasswords' && basic.`whodid` = '{$currentUserModel->id}'  
+                    && basic.changedon > CURDATE() && detail.fieldname = 'password' ORDER BY basic.id DESC LIMIT 1;";
                 $result = $adb->query($sql, true);
                 
                 $num = $adb->num_rows($result);
@@ -35,7 +35,7 @@ class SECURE extends VTEventHandler {
 					for ($i=0; $i<$num; $i++)
 						$toUpdate[] = (int)$adb->query_result($result, $i, 'id');
 					// register changes: show prevalue, hide postvalue
-					$where = sprintf("`id` IN (%s) AND `fieldname` = 'password'", generateQuestionMarks($toUpdate));
+					$where = sprintf("`id` IN (%s) && `fieldname` = 'password'", generateQuestionMarks($toUpdate));
 					if ( $conf['register_changes'] == 1 )
 						$adb->update('vtiger_modtracker_detail', ['postvalue' => '**********'], $where, [implode(',',$toUpdate)]);
 					else

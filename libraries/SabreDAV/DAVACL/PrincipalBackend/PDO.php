@@ -256,7 +256,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
                     // Unsupported property
                     return [];
             }
-            if (count($values) > 0) $query .= (strcmp($test, "anyof") == 0 ? " OR " : " AND ");
+            if (count($values) > 0) $query .= (strcmp($test, "anyof") == 0 ? " OR " : " && ");
             $query .= 'lower(' . $column . ') LIKE lower(?)';
             $values[] = '%' . $value . '%';
 

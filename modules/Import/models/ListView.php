@@ -55,7 +55,7 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
         $listViewRecordModels = array();
 		if(count($importedRecordIds) != 0) {
             $moduleModel = $this->get('module');
-            $listQuery .= ' AND '.$moduleModel->basetable.'.'.$moduleModel->basetableid.' IN ('. implode(',', $importedRecordIds).')';
+            $listQuery .= ' && '.$moduleModel->basetable.'.'.$moduleModel->basetableid.' IN ('. implode(',', $importedRecordIds).')';
 
             $listQuery .= " LIMIT $startIndex, $pageLimit";
 
@@ -88,7 +88,7 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
 		$importedRecordIds = $this->getLastImportedRecord();
 		if(count($importedRecordIds) != 0) {
 			$moduleModel = $this->get('module');
-			$listQuery .= ' AND '.$moduleModel->basetable.'.'.$moduleModel->basetableid.' IN ('. implode(',', $importedRecordIds).')';
+			$listQuery .= ' && '.$moduleModel->basetable.'.'.$moduleModel->basetableid.' IN ('. implode(',', $importedRecordIds).')';
 		}
 
 		$listResult = $db->pquery($listQuery, array());
@@ -125,7 +125,7 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
 
 		$user = Users_Record_Model::getCurrentUserModel();
 		$userDBTableName = Import_Utils_Helper::getDbTableName($user);
-		$query = sprintf('SELECT recordid FROM %s WHERE temp_status NOT IN (?,?) AND recordid IS NOT NULL', $userDBTableName);
+		$query = sprintf('SELECT recordid FROM %s WHERE temp_status NOT IN (?,?) && recordid IS NOT NULL', $userDBTableName);
 		$result = $db->pquery($query,[Import_Data_Action::$IMPORT_RECORD_FAILED,  Import_Data_Action::$IMPORT_RECORD_SKIPPED]);
 		$noOfRecords = $db->num_rows($result);
 

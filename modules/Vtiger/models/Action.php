@@ -46,7 +46,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 			return true;
 		}
 		$tabId = $module->getId();
-		$sql = 'SELECT 1 FROM vtiger_profile2standardpermissions WHERE tabid = ? AND operation = ? LIMIT 1';
+		$sql = 'SELECT 1 FROM vtiger_profile2standardpermissions WHERE tabid = ? && operation = ? LIMIT 1';
 		$params = array($tabId, $this->getId());
 		$result = $db->pquery($sql, $params);
 		if ($result && $db->num_rows($result) > 0) {
@@ -137,7 +137,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', generateQuestionMarks($basicActionIds));
 		$params = $basicActionIds;
 		if ($configurable) {
-			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+			$sql .= ' && actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			$params = array_merge($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);
@@ -156,7 +156,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', generateQuestionMarks($basicActionIds));
 		$params = $basicActionIds;
 		if ($configurable) {
-			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+			$sql .= ' && actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			$params = array_merge($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);

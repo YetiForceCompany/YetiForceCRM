@@ -167,7 +167,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getConditions()
 	{
-		$where = ' AND assetstatus = ? AND assets_renew NOT IN (?, ?, ?)';
+		$where = ' && assetstatus = ? && assets_renew NOT IN (?, ?, ?)';
 		$params = ['PLL_ACCEPTED', 'PLL_RENEWED', 'PLL_NOT_RENEWED', 'PLL_NOT_APPLICABLE'];
 		return ['where' => $where, 'params' => $params];
 	}

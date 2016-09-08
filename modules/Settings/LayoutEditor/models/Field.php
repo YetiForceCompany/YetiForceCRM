@@ -58,7 +58,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
 		if ($this->getFieldDataType() == 'picklist' || $this->getFieldDataType() == 'multipicklist') {
-			$result = $adb->pquery('SELECT * FROM `vtiger_field` WHERE `columnname` = ? AND `uitype` IN (?,?,?);', [$columnname, 15, 16, 33]);
+			$result = $adb->pquery('SELECT * FROM `vtiger_field` WHERE `columnname` = ? && `uitype` IN (?,?,?);', [$columnname, 15, 16, 33]);
 			if (!$adb->num_rows($result)) {
 				$adb->query('drop table vtiger_' . $columnname);
 				//To Delete Sequence Table 
@@ -67,7 +67,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 				}
 				$adb->pquery('delete from vtiger_picklist where name=? ', array($columnname));
 			}
-			$adb->pquery('delete from vtiger_picklist_dependency where `tabid` = ? AND (sourcefield=? or targetfield=?)', array($tabId, $columnname, $columnname));
+			$adb->pquery('delete from vtiger_picklist_dependency where `tabid` = ? && (sourcefield=? or targetfield=?)', array($tabId, $columnname, $columnname));
 		}
 	}
 
@@ -88,11 +88,11 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 		if ($olderBlockId == $newBlockId) {
 			if ($newSequence > $olderSequence) {
-				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? AND sequence <= ? AND block = ?';
+				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? && sequence <= ? && block = ?';
 				$params = array($olderSequence, $newSequence, $olderBlockId);
 				$db->pquery($updateQuery, $params);
 			} else if ($newSequence < $olderSequence) {
-				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence < ? AND sequence >= ? AND block = ?';
+				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence < ? && sequence >= ? && block = ?';
 				$params = array($olderSequence, $newSequence, $olderBlockId);
 				$db->pquery($updateQuery, $params);
 			}
@@ -100,11 +100,11 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$params = array($newSequence, $this->getId());
 			$db->pquery($query, $params);
 		} else {
-			$updateOldBlockQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? AND block = ?';
+			$updateOldBlockQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? && block = ?';
 			$params = array($olderSequence, $olderBlockId);
 			$db->pquery($updateOldBlockQuery, $params);
 
-			$updateNewBlockQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence >= ? AND block = ?';
+			$updateNewBlockQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence >= ? && block = ?';
 			$params = array($newSequence, $newBlockId);
 			$db->pquery($updateNewBlockQuery, $params);
 
@@ -117,7 +117,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	public static function makeFieldActive($fieldIdsList = array(), $blockId)
 	{
 		$db = PearDatabase::getInstance();
-		$maxSequenceQuery = "SELECT MAX(sequence) AS maxsequence FROM vtiger_field WHERE block = ? AND presence IN (0,2) ";
+		$maxSequenceQuery = "SELECT MAX(sequence) AS maxsequence FROM vtiger_field WHERE block = ? && presence IN (0,2) ";
 		$res = $db->pquery($maxSequenceQuery, array($blockId));
 		$maxSequence = $db->query_result($res, 0, 'maxsequence');
 
@@ -275,7 +275,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$blockId = array($blockId);
 		}
 
-		$query = sprintf('SELECT * FROM vtiger_field WHERE block IN(%s) AND vtiger_field.displaytype IN (1,2,4,9,10) ORDER BY sequence', generateQuestionMarks($blockId));
+		$query = sprintf('SELECT * FROM vtiger_field WHERE block IN(%s) && vtiger_field.displaytype IN (1,2,4,9,10) ORDER BY sequence', generateQuestionMarks($blockId));
 		$result = $db->pquery($query, $blockId);
 		$numOfRows = $db->num_rows($result);
 
@@ -317,7 +317,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$fieldId = array($fieldId);
 		}
 
-		$query = sprintf('SELECT * FROM vtiger_field WHERE fieldid IN (%s) AND tabid=?', generateQuestionMarks($fieldId));
+		$query = sprintf('SELECT * FROM vtiger_field WHERE fieldid IN (%s) && tabid=?', generateQuestionMarks($fieldId));
 		$result = $db->pquery($query, [$fieldId, $moduleTabId]);
 		$fieldModelList = array();
 		$num_rows = $db->num_rows($result);

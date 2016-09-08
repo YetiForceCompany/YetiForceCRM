@@ -168,10 +168,10 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				if (!empty($idList)) {
 					if (!empty($baseTable) && !empty($baseTableColumnId)) {
 						$idList = implode(',', $idList);
-						$query .= ' AND ' . $baseTable . '.' . $baseTableColumnId . ' IN (' . $idList . ')';
+						$query .= ' && ' . $baseTable . '.' . $baseTableColumnId . ' IN (' . $idList . ')';
 					}
 				} else {
-					$query .= ' AND ' . $baseTable . '.' . $baseTableColumnId . ' NOT IN (' . implode(',', $request->get('excluded_ids')) . ')';
+					$query .= ' && ' . $baseTable . '.' . $baseTableColumnId . ' NOT IN (' . implode(',', $request->get('excluded_ids')) . ')';
 				}
 				$query .= sprintf(' LIMIT %d', AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				return $query;

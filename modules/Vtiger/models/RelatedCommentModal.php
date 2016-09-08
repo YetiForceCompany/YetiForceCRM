@@ -42,7 +42,7 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 	{
 		$relationTable = $this->getRelationTable();
 		$table = key($relationTable);
-		$query = sprintf('SELECT rel_comment FROM %s WHERE %s = ? AND %s = ?', $table, $relationTable[$table][0], $relationTable[$table][1]);
+		$query = sprintf('SELECT rel_comment FROM %s WHERE %s = ? && %s = ?', $table, $relationTable[$table][0], $relationTable[$table][1]);
 		return $query;
 	}
 
@@ -60,7 +60,7 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 
 	public function getRelationTreeQuery()
 	{
-		return 'SELECT rel_comment FROM u_yf_crmentity_rel_tree WHERE crmid = ? AND tree = ? AND relmodule = ?';
+		return 'SELECT rel_comment FROM u_yf_crmentity_rel_tree WHERE crmid = ? && tree = ? && relmodule = ?';
 	}
 
 	public function isEditable()
@@ -74,14 +74,14 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 		if (substr($this->get('relatedRecord'), 0, 1) == 'T') {
 			$db->update('u_yf_crmentity_rel_tree', [
 				'rel_comment' => $comment
-				], 'crmid = ? AND tree = ? AND relmodule = ?', [$this->get('record'), $this->get('relatedRecord'), vtlib\Functions::getModuleId($this->get('relatedModuleName'))]
+				], 'crmid = ? && tree = ? && relmodule = ?', [$this->get('record'), $this->get('relatedRecord'), vtlib\Functions::getModuleId($this->get('relatedModuleName'))]
 			);
 		} else {
 			$relationTable = $this->getRelationTable();
 			$table = key($relationTable);
 			$db->update($table, [
 				'rel_comment' => $comment
-				], $relationTable[$table][0] . ' = ? AND ' . $relationTable[$table][1] . ' = ?', [$this->get('record'), $this->get('relatedRecord')]
+				], $relationTable[$table][0] . ' = ? && ' . $relationTable[$table][1] . ' = ?', [$this->get('record'), $this->get('relatedRecord')]
 			);
 		}
 	}

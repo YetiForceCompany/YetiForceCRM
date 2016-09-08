@@ -86,7 +86,7 @@ class Import_Map_Model extends Vtiger_Base_Model {
 			$table = self::$tableName;
 			$column = 'content';
 			$val = $this->getStringifiedContent();
-			$where = 'name='.$db->sql_escape_string($this->getValue('name')).' AND module='.$db->sql_escape_string($this->getValue('module'));
+			$where = 'name='.$db->sql_escape_string($this->getValue('name')).' && module='.$db->sql_escape_string($this->getValue('module'));
 			$db->updateBlob($table, $column, $val, $where);
 		}
 	}
@@ -94,7 +94,7 @@ class Import_Map_Model extends Vtiger_Base_Model {
 	public static function getAllByModule($moduleName) {
 		$current_user  = vglobal('current_user');
 		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM %s WHERE deleted=0 AND module=?', self::$tableName);
+		$query = sprintf('SELECT * FROM %s WHERE deleted=0 && module=?', self::$tableName);
 		$result = $db->pquery($query, [$moduleName]);
 		$noOfMaps = $db->num_rows($result);
 

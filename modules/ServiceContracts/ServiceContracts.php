@@ -141,7 +141,7 @@ class ServiceContracts extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -176,7 +176,7 @@ class ServiceContracts extends CRMEntity
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-			$sec_query .= " AND (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
+			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
 					(
 						SELECT vtiger_user2role.userid FROM vtiger_user2role
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
@@ -186,7 +186,7 @@ class ServiceContracts extends CRMEntity
 					OR vtiger_crmentity.smownerid IN
 					(
 						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
-						WHERE userid=" . $current_user->id . " AND tabid=" . $tabid . "
+						WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
 					)
 					OR
 						(";
@@ -280,7 +280,7 @@ class ServiceContracts extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($thismodule));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -299,7 +299,7 @@ class ServiceContracts extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if ($where != '')
-			$query .= " WHERE ($where) AND $where_auto";
+			$query .= " WHERE ($where) && $where_auto";
 		else
 			$query .= " WHERE $where_auto";
 
@@ -436,13 +436,13 @@ class ServiceContracts extends CRMEntity
 			$serviceContractsRelateToType = $this->db->query_result($serviceContractsRelateToTypeResult, 0, 'setype');
 			if ($serviceContractsRelateToType == 'Accounts') {
 				$updateQuery = "UPDATE vtiger_troubletickets, vtiger_servicecontracts SET parent_id=vtiger_servicecontracts.sc_related_to" .
-					" WHERE vtiger_servicecontracts.sc_related_to IS NOT NULL AND vtiger_servicecontracts.sc_related_to != 0" .
-					" AND vtiger_servicecontracts.servicecontractsid = ? AND vtiger_troubletickets.ticketid = ?";
+					" WHERE vtiger_servicecontracts.sc_related_to IS NOT NULL && vtiger_servicecontracts.sc_related_to != 0" .
+					" && vtiger_servicecontracts.servicecontractsid = ? && vtiger_troubletickets.ticketid = ?";
 				$this->db->pquery($updateQuery, array($focusId, $ticketId));
 			} elseif ($serviceContractsRelateToType == 'Contacts') {
 				$updateQuery = "UPDATE vtiger_troubletickets, vtiger_servicecontracts SET contact_id=vtiger_servicecontracts.sc_related_to" .
-					" WHERE vtiger_servicecontracts.sc_related_to IS NOT NULL AND vtiger_servicecontracts.sc_related_to != 0" .
-					" AND vtiger_servicecontracts.servicecontractsid = ? AND vtiger_troubletickets.ticketid = ?";
+					" WHERE vtiger_servicecontracts.sc_related_to IS NOT NULL && vtiger_servicecontracts.sc_related_to != 0" .
+					" && vtiger_servicecontracts.servicecontractsid = ? && vtiger_troubletickets.ticketid = ?";
 				$this->db->pquery($updateQuery, array($focusId, $ticketId));
 			}
 		}
@@ -456,11 +456,11 @@ class ServiceContracts extends CRMEntity
 
 		$contractTicketsResult = $this->db->pquery("SELECT relcrmid FROM vtiger_crmentityrel
 														WHERE module = 'ServiceContracts'
-														AND relmodule = 'HelpDesk' AND crmid = ?
+														AND relmodule = 'HelpDesk' && crmid = ?
 													UNION
 														SELECT crmid FROM vtiger_crmentityrel
 														WHERE relmodule = 'ServiceContracts'
-														AND module = 'HelpDesk' AND relcrmid = ?", array($focusId, $focusId));
+														AND module = 'HelpDesk' && relcrmid = ?", array($focusId, $focusId));
 
 		$noOfTickets = $this->db->num_rows($contractTicketsResult);
 		$ticketFocus = CRMEntity::getInstance('HelpDesk');
@@ -611,11 +611,11 @@ class ServiceContracts extends CRMEntity
 		if ($relatedName == 'get_many_to_many') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
-			$where = '(relcrmid= ? AND module IN (?) AND crmid IN (?)) OR (crmid= ? AND relmodule IN (?) AND relcrmid IN (?))';
+			$where = '(relcrmid= ? && module IN (?) && crmid IN (?)) OR (crmid= ? && relmodule IN (?) && relcrmid IN (?))';
 			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
 			$this->db->delete('vtiger_crmentityrel', $where, $params);
 		
-			$sql = sprintf('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN (%s))', $return_modules);
+			$sql = sprintf('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule IN (%s))', $return_modules);
 			$fieldRes = $this->db->pquery($sql, [$currentModule]);
 			$numOfFields = $this->db->num_rows($fieldRes);
 			for ($i = 0; $i < $numOfFields; $i++) {
@@ -625,7 +625,7 @@ class ServiceContracts extends CRMEntity
 				$relatedModule = vtlib\Functions::getModuleName($tabId);
 				$focusObj = CRMEntity::getInstance($relatedModule);
 
-				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) AND $focusObj->table_index=?";
+				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) && $focusObj->table_index=?";
 				$updateParams = array(null, $id);
 				$this->db->pquery($updateQuery, $updateParams);
 			}

@@ -25,7 +25,7 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), $currentUser, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query.= " AND ((concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) >= ? AND concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) <= ?) OR (concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) >= ? AND concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) <= ?) OR (vtiger_reservations.date_start < ? AND vtiger_reservations.due_date > ?) )";
+			$query.= " && ((concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) >= ? && concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) <= ?) OR (concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) >= ? && concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) <= ?) OR (vtiger_reservations.date_start < ? && vtiger_reservations.due_date > ?) )";
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
@@ -34,13 +34,13 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 			$params[] = $dbEndDate;
 		}
 		if($this->get('types')){
-			$query.= " AND vtiger_reservations.type IN ('".implode("','", $this->get('types'))."')";
+			$query.= " && vtiger_reservations.type IN ('".implode("','", $this->get('types'))."')";
 		}
 		if($this->get('user')){
 			if(is_array($this->get('user'))){
-				$query.= ' AND vtiger_crmentity.smownerid IN ('.implode(",", $this->get('user')).')';
+				$query.= ' && vtiger_crmentity.smownerid IN ('.implode(",", $this->get('user')).')';
 			}else{
-				$query.= ' AND vtiger_crmentity.smownerid IN ('.$this->get('user').')';
+				$query.= ' && vtiger_crmentity.smownerid IN ('.$this->get('user').')';
 			}
 		}
 		$instance = CRMEntity::getInstance($module);
@@ -99,7 +99,7 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 	
 	public static function getCalendarTypes() {
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?;", 
+		$result = $db->pquery("SELECT fieldparams FROM vtiger_field WHERE columnname = ? && tablename = ?;", 
 			['type','vtiger_reservations']);
 		$templateId = $db->query_result( $result, 0, 'fieldparams' );
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', [$templateId]);

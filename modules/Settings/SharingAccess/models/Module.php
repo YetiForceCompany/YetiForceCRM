@@ -126,7 +126,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 		$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE vtiger_tab.presence IN (0,2)';
 		$params = [];
 		if ($editable) {
-			$query .= ' AND editstatus = ?';
+			$query .= ' && editstatus = ?';
 			array_push($params, self::EDITABLE);
 		}
 		$query .= ' ORDER BY vtiger_def_org_share.tabid ASC';

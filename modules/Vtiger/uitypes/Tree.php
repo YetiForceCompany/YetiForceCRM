@@ -37,7 +37,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		}
 
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $tree]);
+		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $tree]);
 		$parentName = '';
 		$module = $this->get('field')->getModuleName();
 		$name = false;
@@ -49,7 +49,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 				end($pieces);
 				$parent = prev($pieces);
 
-				$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
+				$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $parent]);
 				$parentName = $adb->getSingleValue($result2);
 
 				$parentName = '(' . vtranslate($parentName, $module) . ') ';
@@ -96,7 +96,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 				$parenttrre = substr($parenttrre, 0, - $cut);
 				$pieces = explode('::', $parenttrre);
 				$parent = end($pieces);
-				$result3 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", array($template, $parent));
+				$result3 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?", array($template, $parent));
 				$parentName = $adb->getSingleValue($result3);
 				$parentName = '(' . vtranslate($parentName, $module) . ') ';
 			}
@@ -108,12 +108,12 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	public function getDisplayValueByField($tree, $field, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE tabid = ? AND fieldname = ?', array(vtlib\Functions::getModuleId($module), $field));
+		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE tabid = ? && fieldname = ?', array(vtlib\Functions::getModuleId($module), $field));
 		if ($adb->num_rows($result) == 0) {
 			return false;
 		}
 		$template = $adb->query_result_raw($result, 0, 'fieldparams');
-		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', array($template, $tree));
+		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', array($template, $tree));
 		if ($adb->num_rows($result)) {
 			return vtranslate($adb->query_result_raw($result, 0, 'name'), $module);
 		}

@@ -14,19 +14,19 @@ while ($row = $db->getRow($result)) {
 	if ($coordinates === false)
 		break;
 	if (empty($coordinates)) {
-		$db->delete('u_yf_openstreetmap_record_updater', 'crmid = ? AND type = ?', [$recordId, $typeAddress]);
+		$db->delete('u_yf_openstreetmap_record_updater', 'crmid = ? && type = ?', [$recordId, $typeAddress]);
 		continue;
 	}
 	$coordinates = reset($coordinates);
-	$isCoordinateExists = $db->pquery('SELECT 1 FROM u_yf_openstreetmap WHERE type = ? AND crmid = ?', [$typeAddress, $recordId]);
+	$isCoordinateExists = $db->pquery('SELECT 1 FROM u_yf_openstreetmap WHERE type = ? && crmid = ?', [$typeAddress, $recordId]);
 	$isCoordinateExists = $db->getSingleValue($isCoordinateExists);
 	if ($isCoordinateExists) {
 		if (empty($coordinates['lat']) && empty($coordinates['lon'])) {
-			$db->delete('u_yf_openstreetmap', 'type = ? AND crmid = ?', [$typeAddress, $recordId]);
+			$db->delete('u_yf_openstreetmap', 'type = ? && crmid = ?', [$typeAddress, $recordId]);
 		} else {
-			$db->update('u_yf_openstreetmap', ['lat' => $coordinates['lat'], 'lon' => $coordinates['lon']], 'type = ? AND crmid = ?', [$typeAddress, $recordId]);
+			$db->update('u_yf_openstreetmap', ['lat' => $coordinates['lat'], 'lon' => $coordinates['lon']], 'type = ? && crmid = ?', [$typeAddress, $recordId]);
 		}
-		$db->delete('u_yf_openstreetmap_record_updater', 'crmid = ? AND type = ?', [$recordId, $typeAddress]);
+		$db->delete('u_yf_openstreetmap_record_updater', 'crmid = ? && type = ?', [$recordId, $typeAddress]);
 	} else {
 		if (!empty($coordinates['lat']) && !empty($coordinates['lon'])) {
 			$db->insert('u_yf_openstreetmap', [
@@ -35,7 +35,7 @@ while ($row = $db->getRow($result)) {
 				'lat' => $coordinates['lat'],
 				'lon' => $coordinates['lon']
 			]);
-			$db->delete('u_yf_openstreetmap_record_updater', 'crmid = ? AND type = ?', [$recordId, $typeAddress]);
+			$db->delete('u_yf_openstreetmap_record_updater', 'crmid = ? && type = ?', [$recordId, $typeAddress]);
 		}
 	}
 }

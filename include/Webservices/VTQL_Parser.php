@@ -272,18 +272,18 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 				throw new WebServiceException(WebServiceErrorCode::$QUERYSYNTAX, "columns data inappropriate");
 			}
 			$this->query = $this->query . ")";
-			$nextToken = ' AND ';
+			$nextToken = ' && ';
 		} else {
 			if (!empty($deletedQuery)) {
 				$nextToken = " WHERE ";
 			}
 		}
 		if (strcasecmp('calendar', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . " $nextToken activitytype='Task' AND ";
+			$this->query = $this->query . " $nextToken activitytype='Task' && ";
 		} elseif (strcasecmp('events', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . "$nextToken activitytype!='Emails' AND activitytype!='Task' AND ";
+			$this->query = $this->query . "$nextToken activitytype!='Emails' && activitytype!='Task' && ";
 		} else if (strcasecmp('emails', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . "$nextToken activitytype='Emails' AND ";
+			$this->query = $this->query . "$nextToken activitytype='Emails' && ";
 		} elseif (!empty($deletedQuery)) {
 			$this->query = $this->query . $nextToken;
 		}

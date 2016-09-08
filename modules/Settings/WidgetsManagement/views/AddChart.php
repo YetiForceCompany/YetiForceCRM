@@ -10,7 +10,7 @@ class Settings_WidgetsManagement_AddChart_View extends Settings_Vtiger_BasicModa
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT reportid, reportname FROM vtiger_report WHERE reporttype = ? AND owner = ?';
+		$query = 'SELECT reportid, reportname FROM vtiger_report WHERE reporttype = ? && owner = ?';
 		$params = ['chart', $currentUser->getId()];
 		$result = $db->pquery($query, $params);
 		$recordsReport = [];

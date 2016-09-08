@@ -67,7 +67,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
-			$listQuery .= ' AND vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
+			$listQuery .= ' && vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
 		}
 		unset($searchResult);
 
@@ -259,7 +259,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		if ($this->getModule()->get('name') == 'Calendar') {
-			$listQuery .= ' AND activitytype <> "Emails"';
+			$listQuery .= ' && activitytype <> "Emails"';
 		}
 		$listResult = $db->query($listQuery);
 		return $db->getSingleValue($listResult);

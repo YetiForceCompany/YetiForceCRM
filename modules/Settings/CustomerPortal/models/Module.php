@@ -21,7 +21,7 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT prefvalue FROM vtiger_customerportal_prefs WHERE prefkey = 'userid' AND tabid = 0", array());
+		$result = $db->pquery("SELECT prefvalue FROM vtiger_customerportal_prefs WHERE prefkey = 'userid' && tabid = 0", array());
 		if ($db->num_rows($result)) {
 			return $db->query_result($result, 0, 'prefvalue');
 		}
@@ -36,7 +36,7 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT prefvalue FROM vtiger_customerportal_prefs WHERE prefkey = 'defaultassignee' AND tabid = 0", array());
+		$result = $db->pquery("SELECT prefvalue FROM vtiger_customerportal_prefs WHERE prefkey = 'defaultassignee' && tabid = 0", array());
 		if ($db->num_rows($result)) {
 			return $db->query_result($result, 0, 'prefvalue');
 		}
@@ -53,8 +53,8 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model
 			$db = PearDatabase::getInstance();
 
 			$query = "SELECT vtiger_customerportal_tabs.*, vtiger_customerportal_prefs.prefvalue, vtiger_tab.name FROM vtiger_customerportal_tabs
-					INNER JOIN vtiger_customerportal_prefs ON vtiger_customerportal_prefs.tabid = vtiger_customerportal_tabs.tabid AND vtiger_customerportal_prefs.prefkey='showrelatedinfo'
-					INNER JOIN vtiger_tab ON vtiger_customerportal_tabs.tabid = vtiger_tab.tabid AND vtiger_tab.presence = 0 ORDER BY vtiger_customerportal_tabs.sequence";
+					INNER JOIN vtiger_customerportal_prefs ON vtiger_customerportal_prefs.tabid = vtiger_customerportal_tabs.tabid && vtiger_customerportal_prefs.prefkey='showrelatedinfo'
+					INNER JOIN vtiger_tab ON vtiger_customerportal_tabs.tabid = vtiger_tab.tabid && vtiger_tab.presence = 0 ORDER BY vtiger_customerportal_tabs.sequence";
 
 			$result = $db->pquery($query, array());
 			$rows = $db->num_rows($result);

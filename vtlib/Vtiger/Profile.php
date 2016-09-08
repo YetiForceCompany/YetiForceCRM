@@ -51,7 +51,7 @@ class Profile
 		$sql = "INSERT INTO vtiger_profile2standardpermissions (profileid, tabid, Operation, permissions) 
 						SELECT ?, tabid, actionid, 0 
 				FROM vtiger_actionmapping, vtiger_tab 
-						WHERE actionname IN ('Save', 'EditView', 'Delete', 'index', 'DetailView') AND isentitytype = 1";
+						WHERE actionname IN ('Save', 'EditView', 'Delete', 'index', 'DetailView') && isentitytype = 1";
 		$binds = array($this->id);
 		$adb->pquery($sql, $binds);
 		self::log("Initializing profile permissions ... DONE");

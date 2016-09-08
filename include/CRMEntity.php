@@ -226,7 +226,7 @@ class CRMEntity
 			if (AppRequest::get('mode') == 'edit') {
 				if ($id != '' && AppRequest::get('fileid') != '') {
 					$delparams = [$id, AppRequest::get('fileid')];
-					$adb->delete('vtiger_seattachmentsrel', 'crmid = ? AND attachmentsid = ?', $delparams);
+					$adb->delete('vtiger_seattachmentsrel', 'crmid = ? && attachmentsid = ?', $delparams);
 				}
 			}
 			if ($module == 'Documents') {
@@ -237,7 +237,7 @@ class CRMEntity
 				$res = $adb->pquery($att_sql, array($id));
 				$attachmentsid = $adb->query_result($res, 0, 'attachmentsid');
 				if ($attachmentsid != '') {
-					$adb->delete('vtiger_seattachmentsrel', 'crmid = ? AND attachmentsid = ?', [$id, $attachmentsid]);
+					$adb->delete('vtiger_seattachmentsrel', 'crmid = ? && attachmentsid = ?', [$id, $attachmentsid]);
 					$adb->delete('vtiger_crmentity', 'crmid = ?', [$attachmentsid]);
 					$adb->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $current_id]);
 				} else {
@@ -301,7 +301,7 @@ class CRMEntity
 				$perm_qry = sprintf('SELECT columnname FROM vtiger_field 
 					INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid 
 					INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid 
-					WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 
+					WHERE vtiger_field.tabid = ? && vtiger_profile2field.visible = 0 
 					AND vtiger_profile2field.readonly = 0 
 					AND vtiger_profile2field.profileid IN (%s) 
 					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=\'vtiger_crmentity\' 
@@ -418,7 +418,7 @@ class CRMEntity
 			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-				$sql = sprintf('SELECT * FROM vtiger_field WHERE tabid in (%s) AND tablename = ? AND presence IN (0,2) GROUP BY columnname', $adb->generateQuestionMarks($tabid));
+				$sql = sprintf('SELECT * FROM vtiger_field WHERE tabid in (%s) && tablename = ? && presence IN (0,2) GROUP BY columnname', $adb->generateQuestionMarks($tabid));
 				$params = [$tabid, $table_name];
 			} else {
 				$profileList = getCurrentUserProfileList();
@@ -431,7 +431,7 @@ class CRMEntity
 			  			INNER JOIN vtiger_def_org_field
 			  			ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
 			  			WHERE vtiger_field.tabid = ?
-			  			AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0
+			  			AND vtiger_profile2field.visible = 0 && vtiger_profile2field.readonly = 0
 			  			AND vtiger_profile2field.profileid IN (%s)
 			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname', generateQuestionMarks($profileList));
 
@@ -444,7 +444,7 @@ class CRMEntity
 			  			INNER JOIN vtiger_def_org_field
 			  			ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
 			  			WHERE vtiger_field.tabid = ?
-			  			AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0
+			  			AND vtiger_profile2field.visible = 0 && vtiger_profile2field.readonly = 0
 			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname';
 
 					$params = array($tabid, $table_name);
@@ -777,7 +777,7 @@ class CRMEntity
 			$where_clause .= ' vtiger_crmentity.crmid = ? ';
 			$params[] = $record;
 			if ($module != '') {
-				$where_clause .= ' AND vtiger_crmentity.setype = ?';
+				$where_clause .= ' && vtiger_crmentity.setype = ?';
 				$params[] = $module;
 			}
 
@@ -1157,7 +1157,7 @@ class CRMEntity
 		$freetag = new freetag();
 		$freetag->delete_all_object_tags_for_user($current_user->id, $id);
 
-		$this->db->delete('vtiger_tracker', 'user_id = ? AND item_id = ?', [$current_user->id, $id]);
+		$this->db->delete('vtiger_tracker', 'user_id = ? && item_id = ?', [$current_user->id, $id]);
 
 		if ($em) {
 			$em->triggerEvent("vtiger.entity.afterdelete", $entityData);
@@ -1230,13 +1230,13 @@ class CRMEntity
 
 	function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
-		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$module, $withModule]);
+		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule=?)', [$module, $withModule]);
 		$numOfFields = $this->db->getRowCount($fieldRes);
 		while ($row = $this->db->getRow($fieldRes)) {
 			$focusObj = CRMEntity::getInstance($row['name']);
 			$columnName = $row['columnname'];
 			$columns = [$columnName => null];
-			$where = "$columnName = ? AND $focusObj->table_index = ?";
+			$where = "$columnName = ? && $focusObj->table_index = ?";
 			$this->db->update($row['tablename'], $columns, $where, [$withCrmid, $crmid]);
 		}
 	}
@@ -1245,12 +1245,12 @@ class CRMEntity
 	{
 		$db = PearDatabase::getInstance();
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
-		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? AND ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
+		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? && ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
 	}
 
 	function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
-		$where = '(crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+		$where = '(crmid=? && relmodule=? && relcrmid=?) OR (relcrmid=? && module=? && crmid=?)';
 		$params = [$crmid, $withModule, $withCrmid, $crmid, $withModule, $withCrmid];
 		$this->db->delete('vtiger_crmentityrel', $where, $params);
 	}
@@ -1309,7 +1309,7 @@ class CRMEntity
 				if ($rel_table == 'vtiger_crmentity' && $rel_column == 'deleted') {
 					$this->db->update($rel_table, [$rel_column => 0], "$ref_column IN (" . generateQuestionMarks($related_ids) . ")", [$related_ids]);
 				} else {
-					$this->db->update($rel_table, [$rel_column => $record], "$rel_column = 0 AND $ref_column IN (" . generateQuestionMarks($related_ids) . ")", [$related_ids]);
+					$this->db->update($rel_table, [$rel_column => $record], "$rel_column = 0 && $ref_column IN (" . generateQuestionMarks($related_ids) . ")", [$related_ids]);
 				}
 			} elseif (strtoupper($action) == RB_RECORD_DELETED) {
 				if ($rel_table == 'vtiger_seproductrel') {
@@ -1344,14 +1344,14 @@ class CRMEntity
 		}
 		$sql = "SELECT columnname FROM vtiger_field " .
 			" WHERE (fieldname not like '%\_id' OR fieldname in ('assigned_user_id'))" .
-			" AND tabid in (" . generateQuestionMarks($tabid) . ") and vtiger_field.presence in (0,2)";
+			" && tabid in (" . generateQuestionMarks($tabid) . ") and vtiger_field.presence in (0,2)";
 		$params = array($tabid);
 		if (count($exclude_columns) > 0) {
-			$sql .= " AND columnname NOT IN (" . generateQuestionMarks($exclude_columns) . ")";
+			$sql .= " && columnname NOT IN (" . generateQuestionMarks($exclude_columns) . ")";
 			array_push($params, $exclude_columns);
 		}
 		if (count($exclude_uitypes) > 0) {
-			$sql .= " AND uitype NOT IN (" . generateQuestionMarks($exclude_uitypes) . ")";
+			$sql .= " && uitype NOT IN (" . generateQuestionMarks($exclude_uitypes) . ")";
 			array_push($params, $exclude_uitypes);
 		}
 		$result = $adb->pquery($sql, $params);
@@ -1392,7 +1392,7 @@ class CRMEntity
 		$tabid = getTabid($module);
 		if (!\includes\fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
-		$fieldinfo = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? AND uitype = 4", Array($tabid));
+		$fieldinfo = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? && uitype = 4", Array($tabid));
 
 		$returninfo = [];
 
@@ -1549,7 +1549,7 @@ class CRMEntity
 	function markAsViewed($userid)
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->update('vtiger_crmentity', ['viewedtime' => date('Y-m-d H:i:s')], 'crmid = ? AND smownerid = ?', [$this->id, $userid]);
+		$adb->update('vtiger_crmentity', ['viewedtime' => date('Y-m-d H:i:s')], 'crmid = ? && smownerid = ?', [$this->id, $userid]);
 	}
 
 	/**
@@ -1582,7 +1582,7 @@ class CRMEntity
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
 
 		foreach ($withCrmid as $relcrmid) {
-			$check = $db->pquery(sprintf('SELECT 1 FROM `%s` WHERE %s = ? AND %s = ?', $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel']), [$relcrmid, $crmid]);
+			$check = $db->pquery(sprintf('SELECT 1 FROM `%s` WHERE %s = ? && %s = ?', $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel']), [$relcrmid, $crmid]);
 			// Relation already exists? No need to add again
 			if ($check && $db->getRowCount($check))
 				continue;
@@ -1599,7 +1599,7 @@ class CRMEntity
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		foreach ($withCrmid as $relcrmid) {
 			if ($withModule == 'Documents') {
-				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? AND notesid = ?', [$crmid, $relcrmid]);
+				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? && notesid = ?', [$crmid, $relcrmid]);
 				// Relation already exists? No need to add again
 				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
@@ -1609,7 +1609,7 @@ class CRMEntity
 					'notesid' => $relcrmid
 				]);
 			} else {
-				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
+				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? && module = ? && relcrmid = ? && relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
 				);
 				// Relation already exists? No need to add again
 				if ($checkpresence && $db->getRowCount($checkpresence))
@@ -1642,9 +1642,9 @@ class CRMEntity
 		foreach ($withCrmid as $relcrmid) {
 
 			if ($withModule == 'Documents') {
-				$db->delete('vtiger_senotesrel', 'crmid=? AND notesid=?', [$crmid, $relcrmid]);
+				$db->delete('vtiger_senotesrel', 'crmid=? && notesid=?', [$crmid, $relcrmid]);
 			} else {
-				$db->delete('vtiger_crmentityrel', '(crmid=? AND module=? AND relcrmid=? AND relmodule=?) OR (relcrmid=? AND relmodule=? AND crmid=? AND module=?)', [$crmid, $module, $relcrmid, $withModule, $crmid, $module, $relcrmid, $withModule]
+				$db->delete('vtiger_crmentityrel', '(crmid=? && module=? && relcrmid=? && relmodule=?) OR (relcrmid=? && relmodule=? && crmid=? && module=?)', [$crmid, $module, $relcrmid, $withModule, $crmid, $module, $relcrmid, $withModule]
 				);
 			}
 		}
@@ -1719,7 +1719,7 @@ class CRMEntity
 		$query .= $more_relation;
 		$query .= " LEFT  JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
 		$query .= " LEFT  JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " WHERE vtiger_crmentity.deleted = 0 AND (vtiger_crmentityrel.crmid = $id OR vtiger_crmentityrel.relcrmid = $id)";
+		$query .= " WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid = $id OR vtiger_crmentityrel.relcrmid = $id)";
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value == null)
@@ -1765,11 +1765,11 @@ class CRMEntity
 		$return_value = null;
 
 		$dependentFieldSql = $this->db->pquery('SELECT tabid, fieldname, columnname, tablename FROM vtiger_field WHERE uitype = 10 AND' .
-			' fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? AND module=?)', [$currentModule, $relatedModule]);
+			' fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? && module=?)', [$currentModule, $relatedModule]);
 		if ($dependentFieldSql->rowCount()) {
 			$row = $this->db->getRow($dependentFieldSql);
 		} else {
-			$depProcessFieldSql = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [$relTabId]);
+			$depProcessFieldSql = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [$relTabId]);
 			while ($rowProc = $this->db->getRow($depProcessFieldSql)) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
 				$fieldModel = new $className();
@@ -1848,7 +1848,7 @@ class CRMEntity
 		$query .= " INNER JOIN $this->table_name ON $this->table_name.$this->table_index = $dependentTable.$dependentColumn";
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 AND $this->table_name.$this->table_index = $id";
+		$query .= " WHERE vtiger_crmentity.deleted = 0 && $this->table_name.$this->table_index = $id";
 		return $query;
 	}
 
@@ -1870,30 +1870,30 @@ class CRMEntity
 		}
 		foreach ($transferEntityIds as &$transferId) {
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
-			$relatedRecords = $db->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? AND module=?' .
-				' AND relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? AND module=?)', array($transferId, $module, $entityId, $module));
+			$relatedRecords = $db->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? && module=?' .
+				' && relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? && module=?)', array($transferId, $module, $entityId, $module));
 			while ($row = $db->getRow($relatedRecords)) {
-				$where = 'relcrmid = ? AND relmodule = ? AND crmid = ? AND module = ?';
+				$where = 'relcrmid = ? && relmodule = ? && crmid = ? && module = ?';
 				$params = [$row['relcrmid'], $row['relmodule'], $transferId, $module];
 				$db->update('vtiger_crmentityrel', ['crmid' => $entityId], $where, $params);
 			}
 			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
-			$parentRecords = $db->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? AND relmodule=?' .
-				' AND crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? AND relmodule=?)', array($transferId, $module, $entityId, $module));
+			$parentRecords = $db->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?' .
+				' && crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?)', array($transferId, $module, $entityId, $module));
 			while ($row = $db->getRow($parentRecords)) {
-				$where = 'crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?';
+				$where = 'crmid = ? && module = ? && relcrmid = ? && relmodule = ?';
 				$params = [$row['crmid'], $row['module'], $transferId, $module];
 				$db->update('vtiger_crmentityrel', ['relcrmid' => $entityId], $where, $params);
 			}
 
-			$db->update('vtiger_modtracker_basic', ['crmid' => $entityId], 'crmid = ? AND status <> ?', [$transferId, 7]);
+			$db->update('vtiger_modtracker_basic', ['crmid' => $entityId], 'crmid = ? && status <> ?', [$transferId, 7]);
 			foreach ($relTables as &$relTable) {
 				$idField = current($relTable)[1];
 				$entityIdField = current($relTable)[0];
 				$relTableName = key($relTable);
 				// IN clause to avoid duplicate entries
 				$sql = "SELECT $idField FROM $relTableName WHERE $entityIdField = ? " .
-					" AND $idField NOT IN ( SELECT $idField FROM $relTableName WHERE $entityIdField = ? )";
+					" && $idField NOT IN ( SELECT $idField FROM $relTableName WHERE $entityIdField = ? )";
 				$selResult = $db->pquery($sql, [$transferId, $entityId]);
 				if ($db->getRowCount($selResult) > 0) {
 					while (($idFieldValue = $db->getSingleValue($selResult)) !== false) {
@@ -1941,7 +1941,7 @@ class CRMEntity
 		$relquery = '';
 		$matrix = $queryPlanner->newDependencyMatrix();
 
-		$fields_query = $adb->pquery("SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid AND vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)", array($module));
+		$fields_query = $adb->pquery("SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid && vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)", array($module));
 
 		if ($adb->num_rows($fields_query) > 0) {
 			for ($i = 0; $i < $adb->num_rows($fields_query); $i++) {
@@ -2047,7 +2047,7 @@ class CRMEntity
 		$relquery = '';
 		$matrix = $queryPlanner->newDependencyMatrix();
 
-		$fields_query = $adb->pquery("SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid AND vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)", array($secmodule));
+		$fields_query = $adb->pquery("SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid && vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)", array($secmodule));
 
 		if ($adb->num_rows($fields_query) > 0) {
 			for ($i = 0; $i < $adb->num_rows($fields_query); $i++) {
@@ -2106,7 +2106,7 @@ class CRMEntity
 		$query = $this->getRelationQuery($module, $secmodule, "$tablename", "$tableindex", $queryPlanner);
 
 		if ($queryPlanner->requireTable("vtiger_crmentity$secmodule", $matrix)) {
-			$query .= " left join vtiger_crmentity as vtiger_crmentity$secmodule on vtiger_crmentity$secmodule.crmid = $tablename.$tableindex AND vtiger_crmentity$secmodule.deleted=0";
+			$query .= " left join vtiger_crmentity as vtiger_crmentity$secmodule on vtiger_crmentity$secmodule.crmid = $tablename.$tableindex && vtiger_crmentity$secmodule.deleted=0";
 		}
 
 		// Add the pre-joined custom table query
@@ -2208,14 +2208,14 @@ class CRMEntity
 			$condition = "$table_name.$column_name=$tmpname.$secfieldname";
 			if ($pritablename == 'vtiger_senotesrel') {
 				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname
-                    AND $tmpname.notesid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='Documents' AND deleted = 0))";
+                    && $tmpname.notesid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='Documents' && deleted = 0))";
 			} else {
 				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname)";
 			}
 			if ($secmodule == 'Calendar') {
-				$condition .= " AND $table_name.activitytype != 'Emails'";
+				$condition .= " && $table_name.activitytype != 'Emails'";
 			} else if ($secmodule == 'Leads') {
-				$condition .= " AND $table_name.converted = 0";
+				$condition .= " && $table_name.converted = 0";
 			}
 		}
 
@@ -2376,7 +2376,7 @@ class CRMEntity
 		$entitycolumnnames = $entityfields['fieldname'];
 		$query = "select crmid as id, $querycolumnnames, $entitycolumnnames as name ";
 		$query .= " FROM $this->table_name ";
-		$query .=" INNER JOIN vtiger_crmentity ON $this->table_name.$this->table_index = vtiger_crmentity.crmid AND deleted = 0 ";
+		$query .=" INNER JOIN vtiger_crmentity ON $this->table_name.$this->table_index = vtiger_crmentity.crmid && deleted = 0 ";
 
 		//remove the base table
 		$LookupTable = array_unique($lookuptables);
@@ -2405,7 +2405,7 @@ class CRMEntity
 			}
 		}
 		if ($this->table_name == 'vtiger_leaddetails') {
-			$query .= " AND $this->table_name.converted = 0 ";
+			$query .= " && $this->table_name.converted = 0 ";
 		}
 		return $query;
 	}
@@ -2447,7 +2447,7 @@ class CRMEntity
 				$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 				$sharingRuleInfo = $sharingPrivilegesModule['read'];
 				if (count($sharingRuleInfo['ROLE']) > 0 || count($sharingRuleInfo['GROUP']) > 0) {
-					$query .= " OR vtiger_crmentity.smownerid IN (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per WHERE userid=$user->id AND tabid=$tabId) OR vtiger_crmentity.smownerid IN (SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid FROM vtiger_tmp_read_group_sharing_per WHERE userid=$user->id AND tabid=$tabId)";
+					$query .= " OR vtiger_crmentity.smownerid IN (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per WHERE userid=$user->id && tabid=$tabId) OR vtiger_crmentity.smownerid IN (SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid FROM vtiger_tmp_read_group_sharing_per WHERE userid=$user->id && tabid=$tabId)";
 				}
 			}
 		}
@@ -2490,11 +2490,11 @@ class CRMEntity
 			}
 		}
 		if (!empty($securityParameter) && !empty($sharedParameter)) {
-			$query .= " AND (($securityParameter) OR ($sharedParameter))";
+			$query .= " && (($securityParameter) OR ($sharedParameter))";
 		} elseif (!empty($sharedParameter)) {
-			$query .= " AND ($sharedParameter)";
+			$query .= " && ($sharedParameter)";
 		} elseif (!empty($securityParameter)) {
-			$query .= " AND ($securityParameter)";
+			$query .= " && ($securityParameter)";
 		}
 		return $query;
 	}
@@ -2553,9 +2553,9 @@ class CRMEntity
 		if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
 			count($sharingRuleInfo['GROUP']) > 0)) {
 			$query = " (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per " .
-				"WHERE userid=$user->id AND tabid=$tabId) UNION (SELECT " .
+				"WHERE userid=$user->id && tabid=$tabId) UNION (SELECT " .
 				"vtiger_tmp_read_group_sharing_per.sharedgroupid FROM " .
-				"vtiger_tmp_read_group_sharing_per WHERE userid=$user->id AND tabid=$tabId)";
+				"vtiger_tmp_read_group_sharing_per WHERE userid=$user->id && tabid=$tabId)";
 		}
 		return $query;
 	}
@@ -2628,7 +2628,7 @@ class CRMEntity
 		$query = preg_replace('/\s+/', ' ', $query);
 		if (strripos($query, ' WHERE ') !== false) {
 			vtlib_setup_modulevars($this->moduleName, $this);
-			$query = str_ireplace(' where ', " WHERE $this->table_name.$this->table_index > 0  AND ", $query);
+			$query = str_ireplace(' where ', " WHERE $this->table_name.$this->table_index > 0  && ", $query);
 		}
 		return $query;
 	}
@@ -2791,7 +2791,7 @@ class CRMEntity
 
 		if ($ignoreEmpty) {
 			foreach ($tableColumns as $tableColumn) {
-				$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
+				$whereClause .= " && ($tableColumn IS NOT NULL && $tableColumn != '') ";
 			}
 		}
 
@@ -2812,7 +2812,7 @@ class CRMEntity
 			$tableInfo = explode('.', $tableColumn);
 			$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
 			if (count($tableColumns) != $i++)
-				$duplicateCheckClause .= ' AND ';
+				$duplicateCheckClause .= ' && ';
 		}
 
 		$query = $selectClause . $fromClause .

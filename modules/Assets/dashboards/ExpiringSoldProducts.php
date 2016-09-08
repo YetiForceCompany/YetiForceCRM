@@ -56,13 +56,13 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View {
 		
 		if(!empty($assetStatus)){
 			$assetStatus = implode("','", $assetConfig['assetstatus']);
-			$sql .=	" AND vtiger_assets.assetstatus NOT IN ('$assetStatus')";
+			$sql .=	" && vtiger_assets.assetstatus NOT IN ('$assetStatus')";
 		}
 		$showtype = $request->get('showtype');
 		if($showtype == 'common'){
-			$sql .= ' AND vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ?)';
+			$sql .= ' && vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ?)';
 		}else{
-			$sql .=	' AND vtiger_crmentity.smownerid = ?';
+			$sql .=	' && vtiger_crmentity.smownerid = ?';
 		}
 		
 		$params[] = $currentUser->getId();

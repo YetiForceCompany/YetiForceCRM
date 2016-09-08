@@ -223,8 +223,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$userId = $currentUserModel->getId();
 		$query = "SELECT vtiger_activity.*, vtiger_crmentity.description,vtiger_crmentity.smownerid as assigned_user_id, vtiger_activity_reminder.reminder_time FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid
-					LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = 0
-					WHERE vtiger_crmentity.deleted = 0 AND vtiger_crmentity.smownerid = $userId AND vtiger_activity.activitytype NOT IN ('Emails')";
+					LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid && vtiger_activity_reminder.recurringid = 0
+					WHERE vtiger_crmentity.deleted = 0 && vtiger_crmentity.smownerid = $userId && vtiger_activity.activitytype NOT IN ('Emails')";
 		return $query;
 	}
 
@@ -319,7 +319,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$query = "SELECT vtiger_users.first_name,vtiger_users.last_name, vtiger_users.id as userid
 			FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
-			WHERE sharedid=? OR (vtiger_users.status='Active' AND vtiger_users.calendarsharedtype='public' AND vtiger_users.id <> ?);";
+			WHERE sharedid=? OR (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
 		$result = $db->pquery($query, array($id, $id));
 		$rows = $db->num_rows($result);
 
@@ -368,7 +368,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 		$query = "SELECT * FROM vtiger_calendar_user_activitytypes 
 			INNER JOIN vtiger_calendar_default_activitytypes on vtiger_calendar_default_activitytypes.id=vtiger_calendar_user_activitytypes.defaultid 
-			WHERE vtiger_calendar_user_activitytypes.userid=? AND vtiger_calendar_default_activitytypes.active = ?";
+			WHERE vtiger_calendar_user_activitytypes.userid=? && vtiger_calendar_default_activitytypes.active = ?";
 		$result = $db->pquery($query, array($id, 1));
 		$rows = $db->num_rows($result);
 
@@ -463,7 +463,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		if ($nonAdminQuery) {
 			$query .= " INNER JOIN vtiger_activity ON vtiger_crmentity.crmid = vtiger_activity.activityid " . $nonAdminQuery;
 		}
-		$query .= ' WHERE setype=? AND %s AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
+		$query .= ' WHERE setype=? && %s && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
 		$params = [$this->getName(), $currentUserModel->id, $limit];
 		$query = sprintf($query, $deletedCondition);
 		$result = $db->pquery($query, $params);
@@ -505,7 +505,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$reminderActivitiesResult .= ' WHERE vtiger_activity_reminder_popup.status = 0 ';
 			}
 
-			$reminderActivitiesResult .= " AND vtiger_crmentity.smownerid = ? AND vtiger_crmentity.deleted = 0 
+			$reminderActivitiesResult .= " && vtiger_crmentity.smownerid = ? && vtiger_crmentity.deleted = 0 
 				AND ((DATE_FORMAT(vtiger_activity_reminder_popup.date_start,'%Y-%m-%d') <= ?)
 				AND (TIME_FORMAT(vtiger_activity_reminder_popup.time_start,'%H:%i') <= ?))
 				AND vtiger_activity.status IN ('" . implode("','", Calendar_Module_Model::getComponentActivityStateLabel('current')) . "') LIMIT 20";

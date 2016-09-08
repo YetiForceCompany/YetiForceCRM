@@ -104,7 +104,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				]);
 			}
 			foreach ($toRemove as $folder) {
-				$db->delete('vtiger_ossmailscanner_folders_uid', 'user_id = ? AND type = ? AND folder = ?', [$user, $type, $folder]);
+				$db->delete('vtiger_ossmailscanner_folders_uid', 'user_id = ? && type = ? && folder = ?', [$user, $type, $folder]);
 			}
 		}
 	}
@@ -113,7 +113,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		if ($folder) {
-			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' AND value LIKE '%$folder%' ORDER BY parameter", true);
+			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' && value LIKE '%$folder%' ORDER BY parameter", true);
 			$return = $adb->query_result($result, 0, 'parameter');
 		} else {
 			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' ORDER BY parameter DESC", true);
@@ -147,9 +147,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		if ($vale == null || $vale == 'null') {
-			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = ? AND parameter = ?", [$conf_type, $type]);
+			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = ? && parameter = ?", [$conf_type, $type]);
 		} else {
-			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = ? AND parameter = ?", [$vale, $conf_type, $type]);
+			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = ? && parameter = ?", [$vale, $conf_type, $type]);
 		}
 		return vtranslate('LBL_SAVE', 'OSSMailScanner');
 	}
@@ -175,7 +175,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$uid = 0;
-		$result = $db->pquery('SELECT uid FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? AND BINARY folder = ?', [$accountID, $folder]);
+		$result = $db->pquery('SELECT uid FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? && BINARY folder = ?', [$accountID, $folder]);
 		while ($value = $db->getSingleValue($result)) {
 			$uid = $value;
 		}
@@ -284,7 +284,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				self::executeActions($account, $mail, $folder);
 				unset($mail);
 				$adb = PearDatabase::getInstance();
-				$adb->pquery('UPDATE vtiger_ossmailscanner_folders_uid SET uid=? WHERE user_id=? AND BINARY folder = ?', [$uid, $account['user_id'], $folder]);
+				$adb->pquery('UPDATE vtiger_ossmailscanner_folders_uid SET uid=? WHERE user_id=? && BINARY folder = ?', [$uid, $account['user_id'], $folder]);
 				$countEmails++;
 				self::update_scan_history($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 				if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
@@ -305,7 +305,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$ifwhere = 'AND vtiger_tab.name = ? ';
 			$queryParams[] = $module;
 		}
-		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' OR uitype = '104') AND vtiger_field.presence <> '1' $ifwhere ORDER BY name", [$queryParams]);
+		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' OR uitype = '104') && vtiger_field.presence <> '1' $ifwhere ORDER BY name", [$queryParams]);
 		while ($row = $db->getRow($result)) {
 			$return[] = [
 				'key' => $row['tablename'] . '=' . $row['columnname'] . '=' . $row['name'],
@@ -323,7 +323,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function getEmailSearchList()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT value FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' AND parameter = 'fields'", true);
+		$result = $db->query("SELECT value FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
 		if ($result->rowCount()) {
 			$value = $db->getSingleValue($result);
 			if (empty($value)) {
@@ -337,14 +337,14 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function setEmailSearchList($vale)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' AND parameter = 'fields'", true);
+		$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
 		if ($vale == null || $vale == 'null') {
-			$adb->query("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = 'emailsearch' AND parameter = 'fields'", true);
+			$adb->query("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
 		} else {
 			if ($adb->getRowCount($result) == 0) {
 				$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'fields', $vale));
 			} else {
-				$adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = 'emailsearch' AND parameter = 'fields'", array($vale), true);
+				$adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = 'emailsearch' && parameter = 'fields'", array($vale), true);
 			}
 		}
 	}
@@ -512,7 +512,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$return = false;
-		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE name = ? AND status = '2'", array('MailScannerAction'));
+		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE name = ? && status = '2'", array('MailScannerAction'));
 		if ($adb->getRowCount($result) > 0) {
 			$return = $adb->query_result_rowdata($result, 0);
 		}

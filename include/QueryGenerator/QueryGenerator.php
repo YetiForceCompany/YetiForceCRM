@@ -729,7 +729,7 @@ class QueryGenerator
 			$sql .= " WHERE $deletedQuery";
 		}
 		if ($this->conditionInstanceCount > 0) {
-			$sql .= ' AND ';
+			$sql .= ' && ';
 		} elseif (empty($deletedQuery)) {
 			$sql .= ' WHERE ';
 		}
@@ -855,7 +855,7 @@ class QueryGenerator
 						$fieldSql .= $fieldGlue . ' ' . $valueSql;
 					}
 				} elseif ($fieldName == 'date_start' && $conditionInfo['operator'] == 'ir') {
-					$fieldSql .= "$fieldGlue vtiger_activity.date_start <= $valueSql AND vtiger_activity.due_date >= $valueSql";
+					$fieldSql .= "$fieldGlue vtiger_activity.date_start <= $valueSql && vtiger_activity.due_date >= $valueSql";
 				} elseif ($field->getFieldDataType() == 'date' && ($baseModule == 'Events' || $baseModule == 'Calendar') && ($fieldName == 'date_start' || $fieldName == 'due_date')) {
 					$value = $conditionInfo['value'];
 					$operator = $conditionInfo['operator'];
@@ -916,7 +916,7 @@ class QueryGenerator
 					$specialConditionForOtherField = '';
 					$conditionGlue = ' OR ';
 					if ($conditionInfo['operator'] == 'n' || $conditionInfo['operator'] == 'k' || $conditionInfo['operator'] == 'y') {
-						$conditionGlue = ' AND ';
+						$conditionGlue = ' && ';
 						if ($conditionInfo['operator'] == 'n') {
 							$specialCondition = ' OR ' . $field->getTableName() . '.' . $field->getColumnName() . ' IS NULL ';
 							if (!empty($otherField))
@@ -926,7 +926,7 @@ class QueryGenerator
 
 					$otherFieldValueSql = $valueSql;
 					if ($conditionInfo['operator'] == 'ny' && !empty($otherField)) {
-						$otherFieldValueSql = "IS NOT NULL AND " . $otherField->getTableName() . '.' . $otherField->getColumnName() . " != ''";
+						$otherFieldValueSql = "IS NOT NULL && " . $otherField->getTableName() . '.' . $otherField->getColumnName() . " != ''";
 					}
 
 					$fieldSql .= "$fieldGlue ((" . $field->getTableName() . '.' . $field->getColumnName() . ' ' . $valueSql . " $specialCondition) ";
@@ -1054,7 +1054,7 @@ class QueryGenerator
 			if ($field->getFieldName() == 'birthday') {
 				$valueArray[0] = getValidDBInsertDateTimeValue($valueArray[0]);
 				$valueArray[1] = getValidDBInsertDateTimeValue($valueArray[1]);
-				$sql[] = "BETWEEN DATE_FORMAT(" . $db->quote($valueArray[0]) . ", '%m%d') AND " .
+				$sql[] = "BETWEEN DATE_FORMAT(" . $db->quote($valueArray[0]) . ", '%m%d') && " .
 					"DATE_FORMAT(" . $db->quote($valueArray[1]) . ", '%m%d')";
 			} else {
 				if ($this->isDateType($field->getFieldDataType())) {
@@ -1090,10 +1090,10 @@ class QueryGenerator
 				}
 
 				if ($operator == 'notequal') {
-					$sql[] = "NOT BETWEEN " . $db->quote($valueArray[0]) . " AND " .
+					$sql[] = "NOT BETWEEN " . $db->quote($valueArray[0]) . " && " .
 						$db->quote($valueArray[1]);
 				} else {
-					$sql[] = "BETWEEN " . $db->quote($valueArray[0]) . " AND " .
+					$sql[] = "BETWEEN " . $db->quote($valueArray[0]) . " && " .
 						$db->quote($valueArray[1]);
 				}
 			}
@@ -1111,7 +1111,7 @@ class QueryGenerator
 				continue;
 			}
 			if ($operator == 'ny') {
-				$sql[] = sprintf("IS NOT NULL AND %s != ''", $this->getSQLColumn($field->getFieldName()));
+				$sql[] = sprintf("IS NOT NULL && %s != ''", $this->getSQLColumn($field->getFieldName()));
 				continue;
 			}
 			if ((strtolower(trim($value)) == 'null') ||
@@ -1202,10 +1202,10 @@ class QueryGenerator
 			}
 			if (trim($value) == '' && in_array($operator, ['wr', 'nwr']) && in_array($field->getFieldName(), $this->ownerFields)) {
 				$userId = Users_Record_Model::getCurrentUserModel()->get('id');
-				$watchingSql = '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' AND module = ' . vtlib\Functions::getModuleId($this->module) . ') > 0 AND ';
-				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' AND record = vtiger_crmentity.crmid AND state = 0) = 0) OR ';
-				$watchingSql .= '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' AND module = ' . vtlib\Functions::getModuleId($this->module) . ') = 0 AND ';
-				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' AND record = vtiger_crmentity.crmid AND state = 1) > 0)';
+				$watchingSql = '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' && module = ' . vtlib\Functions::getModuleId($this->module) . ') > 0 && ';
+				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' && record = vtiger_crmentity.crmid && state = 0) = 0) OR ';
+				$watchingSql .= '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' && module = ' . vtlib\Functions::getModuleId($this->module) . ') = 0 && ';
+				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' && record = vtiger_crmentity.crmid && state = 1) > 0)';
 				$sql[] = $watchingSql;
 				continue;
 			}

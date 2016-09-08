@@ -214,7 +214,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	public function replaceValue($tree, $moduleId, $templateId)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = 'SELECT `tablename`,`columnname` FROM `vtiger_field` WHERE `tabid` = ? AND `fieldparams` = ? AND presence in (0,2)';
+		$query = 'SELECT `tablename`,`columnname` FROM `vtiger_field` WHERE `tabid` = ? && `fieldparams` = ? && presence in (0,2)';
 		$result = $adb->pquery($query, array($moduleId, $templateId));
 		$num_row = $adb->num_rows($result);
 
@@ -247,7 +247,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	public function getChildren($fieldValue, $fieldName, $moduleModel)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = 'SELECT `fieldparams` FROM `vtiger_field` WHERE `tabid` = ? AND `columnname` = ? AND presence in (0,2)';
+		$query = 'SELECT `fieldparams` FROM `vtiger_field` WHERE `tabid` = ? && `columnname` = ? && presence in (0,2)';
 		$result = $adb->pquery($query, array($moduleModel->getId(), $fieldName));
 		$templateId = $adb->query_result_raw($result, 0, 'fieldparams');
 		$values = explode(',', $fieldValue);

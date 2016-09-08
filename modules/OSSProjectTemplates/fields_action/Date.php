@@ -35,13 +35,13 @@ class Field_Model_Date extends Field_Model_Base {
                 $templateId = $partentTplId;
             }
             
-            $numDaySql = "SELECT fld_val FROM vtiger_oss_project_templates WHERE fld_name = ? AND id_tpl = ?";
+            $numDaySql = "SELECT fld_val FROM vtiger_oss_project_templates WHERE fld_name = ? && id_tpl = ?";
 
             $numDayResult = $db->pquery($numDaySql, array($dayFielddName, $templateId), true);
             $numDay = $db->query_result($numDayResult, 0, 'fld_val');
             
             $typeFielddName = $fieldName . '_day_type';
-            $onlyBusinessDaySql = "SELECT fld_val FROM vtiger_oss_project_templates WHERE fld_name = ? AND id_tpl = ? ";
+            $onlyBusinessDaySql = "SELECT fld_val FROM vtiger_oss_project_templates WHERE fld_name = ? && id_tpl = ? ";
             $onlyBusinessDayResult = $db->pquery($onlyBusinessDaySql, array($typeFielddName, $templateId), TRUE);
             $dayType = $db->query_result($onlyBusinessDayResult, 0, 'fld_val');
 			

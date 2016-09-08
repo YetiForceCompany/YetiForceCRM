@@ -359,7 +359,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? AND startdate != ? AND enddate != ?', array($this->getId(), '0000-00-00', '0000-00-00'));
+		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? && startdate != ? && enddate != ?', array($this->getId(), '0000-00-00', '0000-00-00'));
 		$standardFieldInfo = array();
 		if ($db->num_rows($result)) {
 			$standardFieldInfo['columnname'] = $db->query_result($result, 0, 'datecolumnname');

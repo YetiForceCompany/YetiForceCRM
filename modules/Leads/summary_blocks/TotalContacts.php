@@ -19,7 +19,7 @@ class TotalContacts{
 		$adb = PearDatabase::getInstance();
 		$contact ='SELECT COUNT(contactid) as count FROM vtiger_contactdetails
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_contactdetails.contactid
-			WHERE vtiger_crmentity.deleted=0 AND  vtiger_contactdetails.parentid = ?';
+			WHERE vtiger_crmentity.deleted=0 &&  vtiger_contactdetails.parentid = ?';
 		$result_contact = $adb->pquery($contact, array($instance->getId()));
 		$count = $adb->query_result($result_contact, 0, 'count');
 		$log->debug("Exiting TotalContacts::process() method ...");

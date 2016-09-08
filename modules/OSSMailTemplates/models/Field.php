@@ -20,7 +20,7 @@ class OSSMailTemplates_Field_Model extends Vtiger_Field_Model
 		$params = [];
 		$where = '';
 		if ($onlyActive) {
-			$where = ' WHERE (presence = ? AND isentitytype = ? ) or name = ?';
+			$where = ' WHERE (presence = ? && isentitytype = ? ) or name = ?';
 			array_push($params, 0, 1, 'Users');
 		}
 		$query = sprintf('SELECT tabid, name, ownedby FROM vtiger_tab %s', $where);

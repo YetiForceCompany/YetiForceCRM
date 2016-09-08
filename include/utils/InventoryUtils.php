@@ -269,7 +269,7 @@ function deleteInventoryProductDetails($focus)
 
 		if ($incrementondel) {
 			$focus->update_product_array[$focus->id][$sequence_no][$productid] = $qty;
-			$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($focus->id, $sequence_no));
+			$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($focus->id, $sequence_no));
 			if ($adb->num_rows($sub_prod_query) > 0) {
 				for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
 					$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
@@ -338,7 +338,7 @@ function updateInventoryProductRel($entity)
 			$qtyinstk = getPrdQtyInStck($productid);
 			$upd_qty = $qtyinstk - $qty;
 			updateProductQty($productid, $upd_qty);
-			$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($entity_id, $sequence_no));
+			$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($entity_id, $sequence_no));
 			if ($adb->num_rows($sub_prod_query) > 0) {
 				for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
 					$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
@@ -689,7 +689,7 @@ function deductProductsFromStock($recordId)
 		$qtyinstk = getPrdQtyInStck($productid);
 		$upd_qty = $qtyinstk - $qty;
 		updateProductQty($productid, $upd_qty);
-		$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($recordId, $sequence_no));
+		$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($recordId, $sequence_no));
 		if ($adb->num_rows($sub_prod_query) > 0) {
 			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
 				$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
@@ -715,7 +715,7 @@ function addProductsToStock($recordId)
 		$qtyinstk = getPrdQtyInStck($productid);
 		$upd_qty = $qtyinstk + $qty;
 		updateProductQty($productid, $upd_qty);
-		$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($recordId, $sequence_no));
+		$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($recordId, $sequence_no));
 		if ($adb->num_rows($sub_prod_query) > 0) {
 			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
 				$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
@@ -771,7 +771,7 @@ function createRecords($obj)
 		$sql = 'SELECT * FROM %s WHERE temp_status = %s';
 		$sql = sprintf($sql, $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
 		if (!empty($subject))
-			$sql .= ' AND subject = "' . str_replace("\"", "\\\"", $subject) . '"';
+			$sql .= ' && subject = "' . str_replace("\"", "\\\"", $subject) . '"';
 		$subjectResult = $adb->query($sql);
 		$count = $adb->num_rows($subjectResult);
 		$subjectRowIDs = [];
@@ -973,7 +973,7 @@ function undoLastImport($obj, $user)
 		exit;
 	}
 	$result = $adb->query("SELECT recordid FROM $dbTableName WHERE temp_status = " . Import_Data_Controller::$IMPORT_RECORD_CREATED
-		. " AND recordid IS NOT NULL;");
+		. " && recordid IS NOT NULL;");
 	$noOfRecords = $adb->num_rows($result);
 	$noOfRecordsDeleted = 0;
 	for ($i = 0; $i < $noOfRecords; ++$i) {
@@ -1008,7 +1008,7 @@ function getCurrencyId($fieldValue)
 {
 	$adb = PearDatabase::getInstance();
 
-	$sql = 'SELECT id FROM vtiger_currency_info WHERE currency_name = ? AND deleted = 0';
+	$sql = 'SELECT id FROM vtiger_currency_info WHERE currency_name = ? && deleted = 0';
 	$result = $adb->pquery($sql, array($fieldValue));
 	$currencyId = 1;
 	if ($adb->num_rows($result) > 0) {

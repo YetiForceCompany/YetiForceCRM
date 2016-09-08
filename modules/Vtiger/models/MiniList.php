@@ -130,7 +130,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		}
 		$params = [];
 		if (!empty($user)) {
-			$ownerSql = ' AND vtiger_crmentity.smownerid = ? ';
+			$ownerSql = ' && vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
 		if (!$this->listviewRecords) {

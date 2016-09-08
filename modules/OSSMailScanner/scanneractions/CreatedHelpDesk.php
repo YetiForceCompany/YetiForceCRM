@@ -40,7 +40,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 
 				$query = 'SELECT vtiger_servicecontracts.servicecontractsid, vtiger_servicecontracts.priority FROM vtiger_servicecontracts '
 					. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_servicecontracts.servicecontractsid '
-					. 'WHERE vtiger_crmentity.deleted = ? AND vtiger_servicecontracts.sc_related_to = ?';
+					. 'WHERE vtiger_crmentity.deleted = ? && vtiger_servicecontracts.sc_related_to = ?';
 				$result = $db->pquery($query, [0, $parentId]);
 				if ($db->getRowCount($result)) {
 					$serviceContracts = $db->getRow($result);

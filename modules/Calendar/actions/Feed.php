@@ -52,7 +52,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action {
             }
 			$userwsid = vtws_getWebserviceEntityId('Users', $user->getId());
             $userAndGroupIds = array_merge(array($userwsid),$groupWsIds);
-			$query .= " AND assigned_user_id IN ('".implode("','",$userAndGroupIds)."')";
+			$query .= " && assigned_user_id IN ('".implode("','",$userAndGroupIds)."')";
 		}
 		// TODO take care of pulling 100+ records
 		return vtws_query($query.';', $user);

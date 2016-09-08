@@ -372,11 +372,11 @@ class HTTP_Request
 	 */
 	function _generateHostHeader()
 	{
-		if ($this->_url->port != 80 AND strcasecmp($this->_url->protocol, 'http') == 0) {
+		if ($this->_url->port != 80 && strcasecmp($this->_url->protocol, 'http') == 0) {
 			$host = $this->_url->host . ':' . $this->_url->port;
-		} elseif ($this->_url->port != 443 AND strcasecmp($this->_url->protocol, 'https') == 0) {
+		} elseif ($this->_url->port != 443 && strcasecmp($this->_url->protocol, 'https') == 0) {
 			$host = $this->_url->host . ':' . $this->_url->port;
-		} elseif ($this->_url->port == 443 AND strcasecmp($this->_url->protocol, 'https') == 0 AND strpos($this->_url->url, ':443') !== false) {
+		} elseif ($this->_url->port == 443 && strcasecmp($this->_url->protocol, 'https') == 0 && strpos($this->_url->url, ':443') !== false) {
 			$host = $this->_url->host . ':' . $this->_url->port;
 		} else {
 			$host = $this->_url->host;
@@ -814,7 +814,7 @@ class HTTP_Request
 			return $this->sendRequest($saveBody);
 
 			// Too many redirects
-		} elseif ($this->_allowRedirects AND $this->_redirects > $this->_maxRedirects) {
+		} elseif ($this->_allowRedirects && $this->_redirects > $this->_maxRedirects) {
 			return PEAR::raiseError('Too many redirects', HTTP_REQUEST_ERROR_REDIRECTS);
 		}
 
@@ -910,7 +910,7 @@ class HTTP_Request
 		ini_set('arg_separator.output', $separator);
 
 		$host = isset($this->_proxy_host) ? $this->_url->protocol . '://' . $this->_url->host : '';
-		$port = (isset($this->_proxy_host) AND $this->_url->port != 80) ? ':' . $this->_url->port : '';
+		$port = (isset($this->_proxy_host) && $this->_url->port != 80) ? ':' . $this->_url->port : '';
 		$path = $this->_url->path . $querystring;
 		$url = $host . $port . $path;
 

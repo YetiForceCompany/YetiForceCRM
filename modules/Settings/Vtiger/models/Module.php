@@ -216,6 +216,6 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$blockId = vtlib\Deprecated::getSettingsBlockId($block);
-		$db->delete('vtiger_settings_field', 'name = ? AND blockid=?', [$name, $blockId]);
+		$db->delete('vtiger_settings_field', 'name = ? && blockid=?', [$name, $blockId]);
 	}
 }

@@ -60,7 +60,7 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 		} else {
 			// Attempt to lookup records from previous state
 			if ($hasAssignedToField && $isPrivateMode) {
-				$queryActive = sprintf("SELECT * FROM %s WHERE assigned_user_id = '%s' AND modifiedtime > '%s'", $module, $current_user_wsid, date("Y-m-d H:i:s", $lastSyncTime));
+				$queryActive = sprintf("SELECT * FROM %s WHERE assigned_user_id = '%s' && modifiedtime > '%s'", $module, $current_user_wsid, date("Y-m-d H:i:s", $lastSyncTime));
 			} else {
 				$queryActive = sprintf("SELECT * FROM %s WHERE modifiedtime > '%s'", $module, date("Y-m-d H:i:s", $lastSyncTime));
 			}
@@ -126,7 +126,7 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 			if ($hasAssignedToField) {
 				if ($isPrivateMode) {
 					$queryDeletedParameters[] = $current_user->id;
-					$andsmowneridequal = " AND vtiger_crmentity.smownerid=?";
+					$andsmowneridequal = " && vtiger_crmentity.smownerid=?";
 				} else {
 					$andsmowneridequal = Mobile_WS_Utils::querySecurityFromSuffix($module, $current_user);
 				}
@@ -136,7 +136,7 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 			if ($module == 'Calendar') {
 				$queryDeleted = $adb->pquery("SELECT activityid as crmid, activitytype as setype FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_activity.activityid=vtiger_crmentity.crmid
-					AND vtiger_crmentity.deleted=1 AND vtiger_crmentity.setype=? AND vtiger_crmentity.modifiedtime > ?
+					AND vtiger_crmentity.deleted=1 && vtiger_crmentity.setype=? && vtiger_crmentity.modifiedtime > ?
 					LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE 1=1	$andsmowneridequal ",
 				$queryDeletedParameters);
@@ -145,12 +145,12 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 				INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid=vtiger_crmentity.crmid
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE (vtiger_crmentity.deleted=1 OR (vtiger_crmentity.deleted=0 AND vtiger_leaddetails.converted=1)) AND vtiger_crmentity.setype=? AND vtiger_crmentity.modifiedtime > ? $andsmowneridequal", $queryDeletedParameters);
+				WHERE (vtiger_crmentity.deleted=1 OR (vtiger_crmentity.deleted=0 && vtiger_leaddetails.converted=1)) && vtiger_crmentity.setype=? && vtiger_crmentity.modifiedtime > ? $andsmowneridequal", $queryDeletedParameters);
 			} else {
 				$queryDeleted = $adb->pquery("SELECT crmid, modifiedtime, setype FROM vtiger_crmentity
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted=1 AND vtiger_crmentity.setype=? AND vtiger_crmentity.modifiedtime > ? $andsmowneridequal", $queryDeletedParameters);
+				WHERE vtiger_crmentity.deleted=1 && vtiger_crmentity.setype=? && vtiger_crmentity.modifiedtime > ? $andsmowneridequal", $queryDeletedParameters);
 			}
 
 			while($row = $adb->fetch_array($queryDeleted)) {

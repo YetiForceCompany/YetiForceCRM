@@ -27,10 +27,10 @@ while ($row = $adb->getRow($resultUpdater)) {
 			return;
 		}
 	} else {
-		$resultCrm = $adb->pquery(sprintf('SELECT crmid FROM vtiger_crmentity WHERE setype =? AND crmid > ? LIMIT %s', $limit), [$row['module'], $crmid]);
+		$resultCrm = $adb->pquery(sprintf('SELECT crmid FROM vtiger_crmentity WHERE setype =? && crmid > ? LIMIT %s', $limit), [$row['module'], $crmid]);
 		while ($rowCrm = $adb->getRow($resultCrm)) {
 			\includes\GlobalPrivileges::updateGlobalSearch($rowCrm['crmid'], $row['module']);
-			$affected = $adb->update('s_yf_privileges_updater', ['crmid' => $rowCrm['crmid']], 'module =? AND type =? AND crmid =?', [$row['module'], 1, $crmid]);
+			$affected = $adb->update('s_yf_privileges_updater', ['crmid' => $rowCrm['crmid']], 'module =? && type =? && crmid =?', [$row['module'], 1, $crmid]);
 			$crmid = $rowCrm['crmid'];
 			$i++;
 			if ($i == $limit || $affected == 0) {
@@ -38,6 +38,6 @@ while ($row = $adb->getRow($resultUpdater)) {
 			}
 		}
 	}
-	$adb->delete('s_yf_privileges_updater', 'module =? AND type =? AND crmid =?', [$row['module'], $row['type'], $crmid]);
+	$adb->delete('s_yf_privileges_updater', 'module =? && type =? && crmid =?', [$row['module'], $row['type'], $crmid]);
 }
 

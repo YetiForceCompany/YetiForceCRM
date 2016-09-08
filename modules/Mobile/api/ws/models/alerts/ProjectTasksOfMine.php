@@ -19,7 +19,7 @@ class Mobile_WS_AlertModel_ProjectTasksOfMine extends Mobile_WS_AlertModel {
 
 	function query() {
 		$sql = "SELECT crmid FROM vtiger_crmentity INNER JOIN vtiger_projecttask ON 
-                    vtiger_projecttask.projecttaskid=vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=0 AND vtiger_crmentity.smownerid=? AND
+                    vtiger_projecttask.projecttaskid=vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=0 && vtiger_crmentity.smownerid=? AND
                     vtiger_projecttask.projecttaskprogress <> '100%';";
 		return $sql;
 	}

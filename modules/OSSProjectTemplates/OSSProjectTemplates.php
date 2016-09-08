@@ -71,8 +71,8 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
     private function removeRecords() {
         $db = PearDatabase::getInstance();
         
-        $db->query("DELETE FROM vtiger_links WHERE linktype='LISTVIEWSIDEBARWIDGET' AND linklabel='LBL_GENERATE_FROM_TEMPLATE'", true);
-        $db->query("DELETE FROM `vtiger_settings_field` WHERE `name` = 'Project Templates' AND `linkto` = 'index.php?module=OSSProjectTemplates&parent=Settings&view=Index'", true);
+        $db->query("DELETE FROM vtiger_links WHERE linktype='LISTVIEWSIDEBARWIDGET' && linklabel='LBL_GENERATE_FROM_TEMPLATE'", true);
+        $db->query("DELETE FROM `vtiger_settings_field` WHERE `name` = 'Project Templates' && `linkto` = 'index.php?module=OSSProjectTemplates&parent=Settings&view=Index'", true);
     }
 
 }

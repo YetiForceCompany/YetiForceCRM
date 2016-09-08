@@ -306,7 +306,7 @@ function getUserModuleSharingObjects($module, $userid, $def_org_share, $current_
 
 		//Get roles from Role2Us
 		if (!empty($userid)) {
-			$query = 'select vtiger_datashare_role2us.* from vtiger_datashare_role2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_role2us.shareid where vtiger_datashare_module_rel.tabid=? AND vtiger_datashare_role2us.to_userid = ?';
+			$query = 'select vtiger_datashare_role2us.* from vtiger_datashare_role2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_role2us.shareid where vtiger_datashare_module_rel.tabid=? && vtiger_datashare_role2us.to_userid = ?';
 			$qparams = array($mod_tabid, $userid);
 
 			$result = $adb->pquery($query, $qparams);
@@ -481,7 +481,7 @@ function getUserModuleSharingObjects($module, $userid, $def_org_share, $current_
 		}
 
 		//Get roles from Rs2Us
-		$query = 'select vtiger_datashare_rs2us.* from vtiger_datashare_rs2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_rs2us.shareid where vtiger_datashare_module_rel.tabid=? AND to_userid=?';
+		$query = 'select vtiger_datashare_rs2us.* from vtiger_datashare_rs2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_rs2us.shareid where vtiger_datashare_module_rel.tabid=? && to_userid=?';
 		$qparams = array($mod_tabid, $userid);
 
 		$result = $adb->pquery($query, $qparams);
@@ -789,7 +789,7 @@ function getUserModuleSharingObjects($module, $userid, $def_org_share, $current_
 		}
 
 		//Get roles from Us2Us
-		$query = 'select vtiger_datashare_us2us.* from vtiger_datashare_us2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_us2us.shareid where vtiger_datashare_module_rel.tabid=? AND to_userid=?';
+		$query = 'select vtiger_datashare_us2us.* from vtiger_datashare_us2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_us2us.shareid where vtiger_datashare_module_rel.tabid=? && to_userid=?';
 		$qparams = array($mod_tabid, $userid);
 
 		$result = $adb->pquery($query, $qparams);

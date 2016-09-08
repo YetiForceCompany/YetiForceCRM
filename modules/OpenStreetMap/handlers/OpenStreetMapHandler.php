@@ -32,7 +32,7 @@ class OpenStreetMapHandler extends VTEventHandler
 		}
 		foreach (['a', 'b', 'c'] as $typeAddress) {
 			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($data->focus->mode != 'edit' || in_array($typeAddress, $typeAddressToUpdate))) {
-				$isCoordinateExists = $db->pquery('SELECT 1 FROM u_yf_openstreetmap_record_updater WHERE type = ? AND crmid = ?', [$typeAddress, $data->getId()]);
+				$isCoordinateExists = $db->pquery('SELECT 1 FROM u_yf_openstreetmap_record_updater WHERE type = ? && crmid = ?', [$typeAddress, $data->getId()]);
 				$isCoordinateExists = $db->getSingleValue($isCoordinateExists);
 				if (!$isCoordinateExists) {
 					$address = OpenStreetMap_Module_Model::getUrlParamsToSearching($recordModel, $typeAddress);

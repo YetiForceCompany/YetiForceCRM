@@ -237,7 +237,7 @@ class Conditions {
                 . "WHERE module_name = ? ";
         
         if ($forCheck) {
-            $sql .= " AND vtiger_ossdocumentcontrol.doc_request = '1'";
+            $sql .= " && vtiger_ossdocumentcontrol.doc_request = '1'";
         }
         
                $sql .= " ORDER BY vtiger_ossdocumentcontrol.doc_order ASC";

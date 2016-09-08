@@ -120,7 +120,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 
 	public function checkUser($userId,$return_id = false) {
 		$adb = PearDatabase::getInstance();	 
-		$sql = "SELECT * FROM vtiger_crmentity WHERE smownerid = ? AND setype = ? AND deleted = ?;";  
+		$sql = "SELECT * FROM vtiger_crmentity WHERE smownerid = ? && setype = ? && deleted = ?;";  
 		$result = $adb->pquery( $sql, array($userId, 'OSSEmployees', 0 ), true );
 		$num = $adb->num_rows( $result );
 		if($return_id){
@@ -144,7 +144,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();	 
 		$sql = "SELECT * FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
-					WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.smownerid = ? "; 
+					WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.smownerid = ? "; 
 		$sql .= "AND (vtiger_osstimecontrol.date_start = DATE(NOW()) OR vtiger_osstimecontrol.due_date = DATE(NOW()))";
 		$result = $adb->pquery( $sql, array('OSSTimeControl',$current_user->id ), true );
 		$today = date('Y-m-d');

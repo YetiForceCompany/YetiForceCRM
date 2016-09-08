@@ -185,7 +185,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 			$moduleName = explode('+', $moduleName)[1];
 		}
 		$tabId = getTabid($moduleName);
-		$query = 'SELECT `fieldid`, `fieldlabel`, `fieldname`, `uitype`, `block` FROM `vtiger_field` WHERE `tabid` = ? AND `presence` != ? AND `typeofdata` != ? AND `block` NOT IN (?) ORDER BY block,sequence;';
+		$query = 'SELECT `fieldid`, `fieldlabel`, `fieldname`, `uitype`, `block` FROM `vtiger_field` WHERE `tabid` = ? && `presence` != ? && `typeofdata` != ? && `block` NOT IN (?) ORDER BY block,sequence;';
 		$result = $db->pquery($query, [$tabId, 1, 'P~M', 0]);
 		$output = [];
 		$currentBlockId = '';

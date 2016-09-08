@@ -57,7 +57,7 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 			return $this->get('fieldTemp');
 		}
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, vtlib\Functions::getModuleId($this->getModuleName())]);
+		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldparams FROM vtiger_field WHERE uitype = ? && tabid = ?', [302, vtlib\Functions::getModuleId($this->getModuleName())]);
 		if ($db->getRowCount($result) == 0) {
 			vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
 		}

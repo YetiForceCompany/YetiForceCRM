@@ -29,7 +29,7 @@ class Settings_OSSProjectTemplates_UpdateTemplate_Action extends Settings_Vtiger
 		if ($fieldTab && count($fieldTab)) {
 			foreach ($fieldTab as $key => $value) {
 				$valField = $request->get($key);
-				$sql = "UPDATE vtiger_oss_project_templates SET fld_val = ? WHERE id_tpl = ? AND fld_name = ? AND module = ?";
+				$sql = "UPDATE vtiger_oss_project_templates SET fld_val = ? WHERE id_tpl = ? && fld_name = ? && module = ?";
 
 				if (is_array($valField)) {
 					$db->pquery($sql, array(json_encode($valField), $id, $key, $baseModuleName), true);
@@ -41,10 +41,10 @@ class Settings_OSSProjectTemplates_UpdateTemplate_Action extends Settings_Vtiger
 				$dateDayIntervalType = $request->get($key . '_day_type');
 
 				if ($dateDayInterval) {
-					$sql = "UPDATE vtiger_oss_project_templates SET fld_val = '$dateDayInterval' WHERE id_tpl = $id AND fld_name = '{$key}_day' AND module = '$baseModuleName'";
+					$sql = "UPDATE vtiger_oss_project_templates SET fld_val = '$dateDayInterval' WHERE id_tpl = $id && fld_name = '{$key}_day' && module = '$baseModuleName'";
 					$db->query($sql, true);
 
-					$sql = "SELECT `fld_val` FROM `vtiger_oss_project_templates` WHERE `id_tpl` = $id AND `fld_name` = '{$key}_day' AND `module` = '$baseModuleName'";
+					$sql = "SELECT `fld_val` FROM `vtiger_oss_project_templates` WHERE `id_tpl` = $id && `fld_name` = '{$key}_day' && `module` = '$baseModuleName'";
 					$result = $db->query($sql, true);
 
 					if ($db->num_rows($result) == 0) {
@@ -54,7 +54,7 @@ class Settings_OSSProjectTemplates_UpdateTemplate_Action extends Settings_Vtiger
 					}
 				}
 				if (!!$dateDayIntervalType) {
-					$sql = "DELETE FROM vtiger_oss_project_templates WHERE id_tpl = $id AND fld_name = '{$key}_day_type' AND module = '$baseModuleName'";
+					$sql = "DELETE FROM vtiger_oss_project_templates WHERE id_tpl = $id && fld_name = '{$key}_day_type' && module = '$baseModuleName'";
 					$db->query($sql, true);
 
 					//  $lastTplId = $this->getLastTplId($baseModuleName);
@@ -62,12 +62,12 @@ class Settings_OSSProjectTemplates_UpdateTemplate_Action extends Settings_Vtiger
 					$sql = "INSERT INTO vtiger_oss_project_templates VALUES(NULL, '{$key}_day_type', '$dateDayIntervalType', $id, '$parent', '$baseModuleName')";
 					$db->query($sql, true);
 				} else {
-					$sql = "DELETE FROM vtiger_oss_project_templates WHERE id_tpl = $id AND fld_name = '{$key}_day_type' AND module = '$baseModuleName'";
+					$sql = "DELETE FROM vtiger_oss_project_templates WHERE id_tpl = $id && fld_name = '{$key}_day_type' && module = '$baseModuleName'";
 					$db->query($sql, true);
 				}
 			}
 
-			$sql = "UPDATE vtiger_oss_project_templates SET fld_val = '{$request->get('tpl_name')}' WHERE id_tpl = $id AND fld_name = 'tpl_name'";
+			$sql = "UPDATE vtiger_oss_project_templates SET fld_val = '{$request->get('tpl_name')}' WHERE id_tpl = $id && fld_name = 'tpl_name'";
 			$db->query($sql, true);
 		}
 
