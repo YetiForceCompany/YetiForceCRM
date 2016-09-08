@@ -248,7 +248,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$documentRes = $db->pquery("SELECT * FROM vtiger_senotesrel
-						INNER JOIN vtiger_crmentity ON vtiger_senotesrel.notesid = vtiger_crmentity.crmid AND vtiger_senotesrel.crmid = ?
+						INNER JOIN vtiger_crmentity ON vtiger_senotesrel.notesid = vtiger_crmentity.crmid && vtiger_senotesrel.crmid = ?
 						INNER JOIN vtiger_notes ON vtiger_notes.notesid = vtiger_senotesrel.notesid
 						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.crmid = vtiger_notes.notesid
 						INNER JOIN vtiger_attachments ON vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid
@@ -392,7 +392,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT access_count FROM vtiger_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $this->getId()));
+		$result = $db->pquery("SELECT access_count FROM vtiger_email_track WHERE crmid = ? && mailid = ?", array($parentId, $this->getId()));
 		return $db->query_result($result, 0, 'access_count');
 	}
 

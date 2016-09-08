@@ -117,7 +117,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 			return $this->mailCrmId;
 		}
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? AND rc_user = ? ', [$this->get('message_id'), $this->getAccountOwner()]);
+		$result = $db->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? && rc_user = ? ', [$this->get('message_id'), $this->getAccountOwner()]);
 		if ($db->getRowCount($result) > 0) {
 			$this->mailCrmId = $db->getSingleValue($result);
 		}
@@ -186,7 +186,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 							}
 						} else {
 							$ids = [];
-							$result = $db->pquery("SELECT $table_index FROM " . $row[0] . ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $row[0] . ".$table_index WHERE vtiger_crmentity.deleted = 0 AND " . $row[1] . ' = ? ', [$email]);
+							$result = $db->pquery("SELECT $table_index FROM " . $row[0] . ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $row[0] . ".$table_index WHERE vtiger_crmentity.deleted = 0 && " . $row[1] . ' = ? ', [$email]);
 							while (($crmid = $db->getSingleValue($result)) !== false) {
 								$ids[] = $crmid;
 							}

@@ -69,7 +69,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		if( ! self::checkID($ProjectTaskID) ){ return false;}
 		$db = PearDatabase::getInstance(); 
 		$sum_time = 0;
-		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? AND reservations_status = ? AND projecttaskid = ?;", 
+		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projecttaskid = ?;", 
 			array(0,self::recalculateStatus,$ProjectTaskID) , true);
 		$sum_time = number_format($db->query_result( $sum_result, 0, 'sum' ),2);
 //		$db->pquery( "UPDATE vtiger_projecttask SET sum_time = ? WHERE projecttaskid = ?;",
@@ -80,7 +80,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		if( ! self::checkID($ServiceContractsID) ){ return false;}
 		$db = PearDatabase::getInstance(); 
 		$sum_time = 0;
-		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? AND reservations_status = ? AND servicecontractsid = ? AND projecttaskid = ? AND ticketid = ? AND projectid = ?;", 
+		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && servicecontractsid = ? && projecttaskid = ? && ticketid = ? && projectid = ?;", 
 			array(0,self::recalculateStatus,$ServiceContractsID,0,0,0) , true);
 		$sum_time = number_format($db->query_result( $sum_result, 0, 'sum' ),2);
 		//////// sum_time_h
@@ -98,11 +98,11 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		$project_result = $db->pquery("SELECT projectid 
 			FROM vtiger_project
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_project.projectid
-			WHERE deleted = ? AND servicecontractsid = ?;",  
+			WHERE deleted = ? && servicecontractsid = ?;",  
 				array(0,$ServiceContractsID) , true);
 		for($i = 0; $i < $db->num_rows($project_result); $i++){
 			$ProjectID = $db->query_result( $project_result, $i, 'projectid' );
-			$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? AND reservations_status = ? AND projectid = ? AND projecttaskid = ? AND ticketid = ?;", 
+			$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", 
 				array(0,self::recalculateStatus,$ProjectID,0,0) , true);
 			$sum_time_p += number_format($db->query_result( $sum_time_result, 0, 'sum' ),2);
 			$sql_sum_time_h = 'SELECT SUM(vtiger_reservations.sum_time) AS sum 
@@ -142,7 +142,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance(); 
 		$sum_time = 0;
 		//////// sum_time
-		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? AND reservations_status = ? AND projectid = ? AND projecttaskid = ? AND ticketid = ?;", 
+		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", 
 			array(0,self::recalculateStatus,$ProjectID,0,0) , true);
 		$sum_time = number_format($db->query_result( $sum_time_result, 0, 'sum' ),2);
 		//////// sum_time_h
@@ -176,7 +176,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		if( ! self::checkID($HelpDeskID) ){ return false;}
 		$db = PearDatabase::getInstance(); 
 		$sum_time = 0;
-		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? AND reservations_status = ? AND ticketid = ?;", 
+		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && ticketid = ?;", 
 			array(0,self::recalculateStatus,$HelpDeskID) , true);
 		$sum_time = number_format($db->query_result( $sum_result, 0, 'sum' ),2);
 //		$db->pquery( "UPDATE vtiger_troubletickets SET sum_time = ? WHERE ticketid = ?;",
@@ -188,7 +188,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model {
 		$db = PearDatabase::getInstance(); 
 		//////// sum_time
 		$projectIDS = array();
-		$sum_time_result = $db->pquery("SELECT reservationsid FROM vtiger_reservations WHERE deleted = ? AND reservations_status = ? AND projectid = ? AND projecttaskid = ? AND ticketid = ?;", 
+		$sum_time_result = $db->pquery("SELECT reservationsid FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", 
 			array(0,self::recalculateStatus,$ProjectID,0,0) , true);
 		for($i = 0; $i < $db->num_rows($sum_time_result); $i++){
 			$projectIDS[] = $db->query_result( $sum_time_result, $i, 'reservationsid' );

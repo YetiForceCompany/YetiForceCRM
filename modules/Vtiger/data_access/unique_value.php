@@ -69,13 +69,13 @@ Class DataAccess_unique_value
 				}
 				if (empty($config['searchTrash'])) {
 					if ($where[0] != 'vtiger_crmentity')
-						$searchTrash = ['query' => " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $where[0].$index ", 'params' => ' AND vtiger_crmentity.deleted = 0 '];
+						$searchTrash = ['query' => " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $where[0].$index ", 'params' => ' && vtiger_crmentity.deleted = 0 '];
 					else {
 						$searchTrash = ['query' => '', 'params' => ' vtiger_crmentity.delete = 0 '];
 					}
 				}
 				if ($DestModuleName == 'Leads') {
-					$spacialCondition = ' AND `converted` = 0';
+					$spacialCondition = ' && `converted` = 0';
 					if ('vtiger_crmentity' == $where[0]) {
 						$sqlSpecial = 'INNER JOIN vtiger_leaddetails ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid ';
 					}
@@ -109,14 +109,14 @@ Class DataAccess_unique_value
 					$sql_ext = 'AND ' . $index . ' <> ?';
 				}
 				if ($DestModuleName == 'Leads') {
-					$spacialCondition = ' AND `converted` = 0';
+					$spacialCondition = ' && `converted` = 0';
 					if ('vtiger_crmentity' == $where[0]) {
 						$sqlSpecial = 'INNER JOIN vtiger_leaddetails ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid ';
 					}
 				}
 				if (empty($config['searchTrash'])) {
 					if ($where[0] != 'vtiger_crmentity')
-						$searchTrash = ['query' => " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $where[0].$index ", 'params' => ' AND vtiger_crmentity.deleted = 0 '];
+						$searchTrash = ['query' => " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $where[0].$index ", 'params' => ' && vtiger_crmentity.deleted = 0 '];
 					else {
 						$searchTrash = ['query' => '', 'params' => ' vtiger_crmentity.delete = 0 '];
 					}
@@ -187,7 +187,7 @@ Class DataAccess_unique_value
 	public function getConfig($id, $module, $baseModule)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE vtiger_field.presence <> '1' AND vtiger_field.displaytype IN ('1','10') ORDER BY name", [], true);
+		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE vtiger_field.presence <> '1' && vtiger_field.displaytype IN ('1','10') ORDER BY name", [], true);
 		$fields = [];
 		$ModuleFields = [];
 		while ($row = $db->fetch_array($result)) {

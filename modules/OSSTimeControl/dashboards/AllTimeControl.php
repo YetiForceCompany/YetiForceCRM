@@ -51,10 +51,10 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$param = array_merge($param, $user);
 		$sql = sprintf('SELECT sum_time AS daytime, due_date, timecontrol_type, vtiger_crmentity.smownerid FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
-					WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.smownerid IN (%s) ', generateQuestionMarks($user));
+					WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.smownerid IN (%s) ', generateQuestionMarks($user));
 		if ($securityParameter != '')
 			$sql.= $securityParameter;
-		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? AND vtiger_osstimecontrol.due_date <= ?) AND vtiger_osstimecontrol.deleted = 0 ";
+		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? && vtiger_osstimecontrol.due_date <= ?) && vtiger_osstimecontrol.deleted = 0 ";
 		$param[] = $timeDatabase['start'];
 		$param[] = $timeDatabase['end'];
 		$result = $db->pquery($sql, $param);

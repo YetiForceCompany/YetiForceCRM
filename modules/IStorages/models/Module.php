@@ -72,13 +72,13 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 
 		// Saving the amount of product in stock.
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo('Products', 'IStorages');
-		$query = 'SELECT %s,qtyinstock FROM %s  WHERE `%s` = ? AND `%s` IN (%s);';
+		$query = 'SELECT %s,qtyinstock FROM %s  WHERE `%s` = ? && `%s` IN (%s);';
 		$query = sprintf($query, $referenceInfo['rel'], $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel'], $db->generateQuestionMarks(array_keys($qtyInStock)));
 		$result = $db->pquery($query, array_merge([$storageId], array_keys($qtyInStock)));
 		$relData = $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
 		foreach ($qtyInStock as $ID => $value) {
 			if (array_key_exists($ID, $relData)) {
-				$query = 'UPDATE %s SET `qtyinstock` = %s WHERE `%s` = ? AND `%s` = ? '; 
+				$query = 'UPDATE %s SET `qtyinstock` = %s WHERE `%s` = ? && `%s` = ? '; 
 				$query = sprintf($query, $referenceInfo['table'], $qty, $referenceInfo['base'], $referenceInfo['rel']);
 				$db->pquery($query, [$value, $storageId, $ID]);
 			} else {
@@ -100,7 +100,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 				}
 				$inventoryTableName = Vtiger_InventoryField_Model::getInstance($moduleName)->getTableName();
 				$focus = CRMEntity::getInstance($moduleName);
-				$sql[] = sprintf('SELECT %s.name AS productid, %s.storageid AS storageid,  SUM( DISTINCT %s.qty) AS p_sum FROM  %s LEFT JOIN (%s LEFT JOIN vtiger_crmentity AS cr ON cr.crmid = %s.name) ON %s.%s = %s.id LEFT JOIN vtiger_crmentity ON %s.%s = vtiger_crmentity.`crmid` WHERE vtiger_crmentity.`deleted` = 0 AND cr.`deleted` = 0 AND %s.%s_status = "PLL_ACCEPTED" GROUP BY productid, storageid',
+				$sql[] = sprintf('SELECT %s.name AS productid, %s.storageid AS storageid,  SUM( DISTINCT %s.qty) AS p_sum FROM  %s LEFT JOIN (%s LEFT JOIN vtiger_crmentity AS cr ON cr.crmid = %s.name) ON %s.%s = %s.id LEFT JOIN vtiger_crmentity ON %s.%s = vtiger_crmentity.`crmid` WHERE vtiger_crmentity.`deleted` = 0 && cr.`deleted` = 0 && %s.%s_status = "PLL_ACCEPTED" GROUP BY productid, storageid',
 					$inventoryTableName, $focus->table_name, $inventoryTableName, $focus->table_name, $inventoryTableName, $inventoryTableName, $focus->table_name, $focus->table_index, $inventoryTableName, $focus->table_name, $focus->table_index, $focus->table_name, strtolower($moduleName));
 			}
 			if (!empty($sql)) {

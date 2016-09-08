@@ -20,14 +20,14 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 			FROM vtiger_account
 			INNER JOIN vtiger_crmentity ON vtiger_account.accountid = vtiger_crmentity.crmid
 			INNER JOIN vtiger_entity_stats ON vtiger_entity_stats.crmid = vtiger_account.accountid
-			WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.deleted = ? AND 
+			WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.deleted = ? && 
 			(vtiger_entity_stats.crmactivity <= ? OR vtiger_entity_stats.crmactivity IS NULL)';
 		$params = [$moduleName, 0, 0];
 		if (is_array($user)) {
-			$sql .= ' AND vtiger_crmentity.smownerid IN (' . generateQuestionMarks($user) . ') ';
+			$sql .= ' && vtiger_crmentity.smownerid IN (' . generateQuestionMarks($user) . ') ';
 			$params = array_merge($params, $user);
 		} else {
-			$sql .= ' AND vtiger_crmentity.smownerid = ? ';
+			$sql .= ' && vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
 		$sql .= $securityParameter . ' ORDER BY vtiger_entity_stats.crmactivity IS NULL, vtiger_entity_stats.crmactivity  ASC  LIMIT ?, ?';

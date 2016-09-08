@@ -23,7 +23,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$settingsLinks = [];
 
 		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
+		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' && description =  'OSSMail'", true);
 
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
@@ -193,7 +193,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1))) {
 				$db = PearDatabase::getInstance();
-				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);
+				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? && uitype = ?', [$moduleModel->getId(), 4]);
 				if ($db->getRowCount($result) > 0) {
 					$subject = 'subject=';
 					if ($type == 'new') {
@@ -241,7 +241,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
 				$db = PearDatabase::getInstance();
-				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?', [$moduleModel->getId(), 4]);
+				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? && uitype = ?', [$moduleModel->getId(), 4]);
 				if ($db->getRowCount($result) > 0) {
 					$subject .= '[' . $recordModel->get($db->getSingleValue($result)) . ']';
 				}

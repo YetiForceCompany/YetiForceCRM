@@ -20,7 +20,7 @@ class LowTasks{
 		$query ='SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_projecttask.projecttaskid
-						WHERE vtiger_projecttask.projectid = ? AND vtiger_projecttask.projecttaskpriority = ? AND vtiger_crmentity.deleted=0';
+						WHERE vtiger_projecttask.projectid = ? && vtiger_projecttask.projecttaskpriority = ? && vtiger_crmentity.deleted=0';
 		$result = $adb->pquery($query, array($instance->getId(), 'low'));
 		$count = $adb->query_result($result, 0, 'count');
 		$log->debug("Exiting LowTasks::process() method ...");

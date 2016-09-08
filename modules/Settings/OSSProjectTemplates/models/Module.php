@@ -30,7 +30,7 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = "SELECT * FROM vtiger_oss_project_templates WHERE module = ? AND parent = ?";
+		$sql = "SELECT * FROM vtiger_oss_project_templates WHERE module = ? && parent = ?";
 		$result = $db->pquery($sql, array($moduleName, $parentId), true);
 
 		$output = array();

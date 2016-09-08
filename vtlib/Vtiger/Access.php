@@ -160,11 +160,11 @@ class Access
 			self::log(($flag ? 'Enabling' : 'Disabling') . " $toolAction for Profile [", false);
 
 			foreach ($profileids as $useprofileid) {
-				$result = $adb->pquery("SELECT permission FROM vtiger_profile2utility WHERE profileid=? AND tabid=? AND activityid=?", Array($useprofileid, $moduleInstance->id, $actionid));
+				$result = $adb->pquery("SELECT permission FROM vtiger_profile2utility WHERE profileid=? && tabid=? && activityid=?", Array($useprofileid, $moduleInstance->id, $actionid));
 				if ($adb->num_rows($result)) {
 					$curpermission = $adb->query_result($result, 0, 'permission');
 					if ($curpermission != $permission) {
-						$adb->pquery("UPDATE vtiger_profile2utility set permission=? WHERE profileid=? AND tabid=? AND activityid=?", Array($permission, $useprofileid, $moduleInstance->id, $actionid));
+						$adb->pquery("UPDATE vtiger_profile2utility set permission=? WHERE profileid=? && tabid=? && activityid=?", Array($permission, $useprofileid, $moduleInstance->id, $actionid));
 					}
 				} else {
 					$adb->pquery("INSERT INTO vtiger_profile2utility (profileid, tabid, activityid, permission) VALUES(?,?,?,?)", Array($useprofileid, $moduleInstance->id, $actionid, $permission));

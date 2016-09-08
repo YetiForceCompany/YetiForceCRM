@@ -171,7 +171,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 			$row['data'] = htmlspecialchars_decode($row['data']);
 			$row['size'] = htmlspecialchars_decode($row['size']);
 			$row['owners'] = htmlspecialchars_decode($row['owners']);
-			$query = 'SELECT * FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ? AND `templateid` = ?;';
+			$query = 'SELECT * FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ? && `templateid` = ?;';
 			$params = array($currentUser->getId(), $row['id']);
 			$resultVerify = $adb->pquery($query, $params);
 			if (!$adb->num_rows($resultVerify)) {
@@ -204,7 +204,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	public static function getModulesWithWidgets(){
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT module FROM vtiger_module_dashboard_widgets WHERE userid = ? AND active = ?' , [$currentUser->getId(), 1]);
+		$result = $db->pquery('SELECT module FROM vtiger_module_dashboard_widgets WHERE userid = ? && active = ?' , [$currentUser->getId(), 1]);
 		$modules = [];
 		while($row = $db->getRow($result)){
 			$modules[$row['module']] = vtlib\Functions::getModuleName($row['module']);

@@ -43,7 +43,7 @@ class PickListHandler extends VTEventHandler
 				$explodedValueArray[$arrayKey] = $newValue;
 			}
 			$value = \includes\utils\Json::encode($explodedValueArray);
-			$query = 'UPDATE vtiger_picklist_dependency SET targetvalues=? where id=? AND tabid=?';
+			$query = 'UPDATE vtiger_picklist_dependency SET targetvalues=? where id=? && tabid=?';
 			$db->pquery($query, array($value, $row['id'], $tabId));
 		}
 		$fieldModel = Vtiger_Field_Model::getInstance($pickListFieldName, $moduleModel);
@@ -85,7 +85,7 @@ class PickListHandler extends VTEventHandler
 		}
 
 		//update Workflows values
-		$query = 'SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE ?';
+		$query = 'SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? && test != "" && test IS NOT NULL && test !="null" && test LIKE ?';
 		$result = $db->pquery($query, [$moduleName, "%$oldValue%"]);
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
@@ -145,7 +145,7 @@ class PickListHandler extends VTEventHandler
 					$updatedTask = \includes\utils\Json::encode($fieldMapping);
 					$unserializeTask->field_value_mapping = $updatedTask;
 					$serializeTask = serialize($unserializeTask);
-					$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+					$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? && task_id=?';
 					$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 				}
 			} else {
@@ -172,7 +172,7 @@ class PickListHandler extends VTEventHandler
 					$value = implode(',', $explodedValueArray);
 					$unserializeTask->$pickListFieldName = $value;
 					$serializeTask = serialize($unserializeTask);
-					$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+					$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? && task_id=?';
 					$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 				}
 			}
@@ -237,7 +237,7 @@ class PickListHandler extends VTEventHandler
 
 		foreach ($valueToDelete as $value) {
 			//update Workflows values
-			$query = 'SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? AND test != "" AND test IS NOT NULL AND test !="null" AND test LIKE ?';
+			$query = 'SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? && test != "" && test IS NOT NULL && test !="null" && test LIKE ?';
 			$result = $db->pquery($query, [$moduleName, "%$value%"]);
 			$num_rows = $db->num_rows($result);
 			for ($i = 0; $i < $num_rows; $i++) {
@@ -304,7 +304,7 @@ class PickListHandler extends VTEventHandler
 						$updatedTask = \includes\utils\Json::encode($fieldMapping);
 						$unserializeTask->field_value_mapping = $updatedTask;
 						$serializeTask = serialize($unserializeTask);
-						$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+						$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? && task_id=?';
 						$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 					}
 				} else {
@@ -333,7 +333,7 @@ class PickListHandler extends VTEventHandler
 						$value = implode(',', $explodedValueArray);
 						$unserializeTask->$pickListFieldName = $value;
 						$serializeTask = serialize($unserializeTask);
-						$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+						$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? && task_id=?';
 						$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 					}
 				}

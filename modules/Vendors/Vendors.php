@@ -120,7 +120,7 @@ class Vendors extends CRMEntity
 						ON vtiger_users.id=vtiger_crmentity.smownerid
 					LEFT JOIN vtiger_groups
 						ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			  		WHERE vtiger_crmentity.deleted = 0 AND vtiger_vendor.vendorid = $id";
+			  		WHERE vtiger_crmentity.deleted = 0 && vtiger_vendor.vendorid = $id";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -164,7 +164,7 @@ class Vendors extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != "")
-			$query .= sprintf("  WHERE (%s) AND %s",$where, $where_auto);
+			$query .= sprintf("  WHERE (%s) && %s",$where, $where_auto);
 		else
 			$query .= sprintf("  WHERE %s", $where_auto);
 
@@ -480,9 +480,9 @@ class Vendors extends CRMEntity
 		if (empty($return_module) || empty($return_id))
 			return;
 		if ($return_module == 'Campaigns') {
-			$this->db->delete('vtiger_campaign_records', 'crmid=? AND campaignid=?', [$id, $return_id]);
+			$this->db->delete('vtiger_campaign_records', 'crmid=? && campaignid=?', [$id, $return_id]);
 		} elseif ($return_module == 'Contacts') {
-			$sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=? AND contactid=?';
+			$sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=? && contactid=?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);

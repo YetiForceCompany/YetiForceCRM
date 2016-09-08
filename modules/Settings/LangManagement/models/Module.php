@@ -222,7 +222,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public function loadAllFieldsFromModule($lang, $mod, $ShowDifferences = 0)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? AND `presence` IN (0,2)", array(getTabid($mod)));
+		$result = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? && `presence` IN (0,2)", array(getTabid($mod)));
 		$variablesFromFile = $this->loadLangTranslation($lang, 'HelpInfo', $ShowDifferences);
 		$output = array();
 		if (self::parse_data(',', $lang)) {

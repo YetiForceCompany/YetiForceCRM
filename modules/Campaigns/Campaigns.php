@@ -164,7 +164,7 @@ class Campaigns extends CRMEntity
 		$query .= ' LEFT JOIN vtiger_users  ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_campaignrelstatus ON vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid';
-		$query .= ' WHERE vtiger_crmentity.deleted = 0 AND vtiger_campaign_records.campaignid = %d';
+		$query .= ' WHERE vtiger_crmentity.deleted = 0 && vtiger_campaign_records.campaignid = %d';
 		
 		$query = sprintf($query, $id);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
@@ -284,10 +284,10 @@ class Campaigns extends CRMEntity
 			return;
 
 		if (in_array($returnModule, ['Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			$this->db->delete('vtiger_campaign_records', 'campaignid=? AND crmid=?', [$id, $returnId]);
+			$this->db->delete('vtiger_campaign_records', 'campaignid=? && crmid=?', [$id, $returnId]);
 		} elseif ($returnModule == 'Accounts') {
-			$this->db->delete('vtiger_campaign_records', 'campaignid=? AND crmid=?', [$id, $returnId]);
-			$sql = 'DELETE FROM vtiger_campaign_records WHERE campaignid=? AND crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE accountid=?)';
+			$this->db->delete('vtiger_campaign_records', 'campaignid=? && crmid=?', [$id, $returnId]);
+			$sql = 'DELETE FROM vtiger_campaign_records WHERE campaignid=? && crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE accountid=?)';
 			$this->db->pquery($sql, array($id, $returnId));
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
@@ -304,7 +304,7 @@ class Campaigns extends CRMEntity
 			parent::save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName);
 		} else {
 			foreach ($withCrmids as $withCrmid) {
-				$checkResult = $adb->pquery('SELECT 1 FROM vtiger_campaign_records WHERE campaignid = ? AND crmid = ?', array($crmid, $withCrmid));
+				$checkResult = $adb->pquery('SELECT 1 FROM vtiger_campaign_records WHERE campaignid = ? && crmid = ?', array($crmid, $withCrmid));
 				if ($checkResult && $adb->num_rows($checkResult) > 0) {
 					continue;
 				}

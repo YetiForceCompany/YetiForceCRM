@@ -427,7 +427,7 @@ class PackageExport
 	{
 		$adb = \PearDatabase::getInstance();
 
-		$fieldresult = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid=? AND block=?", Array($moduleInstance->id, $blockid));
+		$fieldresult = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid=? && block=?", Array($moduleInstance->id, $blockid));
 		$fieldcount = $adb->num_rows($fieldresult);
 
 		if (empty($fieldcount))
@@ -445,7 +445,7 @@ class PackageExport
 			$uitype = $fieldresultrow['uitype'];
 			$fieldid = $fieldresultrow['fieldid'];
 
-			$info_schema = $adb->pquery("SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() AND table_name = ? AND column_name = ?", Array($fieldresultrow['tablename'], $fieldresultrow['columnname']));
+			$info_schema = $adb->pquery("SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() && table_name = ? && column_name = ?", Array($fieldresultrow['tablename'], $fieldresultrow['columnname']));
 			$info_schemarow = $adb->fetchByAssoc($info_schema);
 
 			$this->outputNode($fieldname, 'fieldname');
@@ -574,7 +574,7 @@ class PackageExport
 				$this->outputNode($cvColumnNames[2], 'fieldname');
 				$this->outputNode($cvRow['columnindex'], 'columnindex');
 
-				$cvcolumnruleres = $db->pquery("SELECT * FROM vtiger_cvadvfilter WHERE cvid=? AND columnname=?", [$cvid, $cvRow['columnname']]);
+				$cvcolumnruleres = $db->pquery("SELECT * FROM vtiger_cvadvfilter WHERE cvid=? && columnname=?", [$cvid, $cvRow['columnname']]);
 				if ($cvcolumnruleres->rowCount()) {
 					$this->openNode('rules');
 					while ($rulesRow = $db->getRow($cvcolumnruleres)) {

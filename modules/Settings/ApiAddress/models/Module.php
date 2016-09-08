@@ -63,7 +63,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 				$sqlVar[] = $apiName;
 				$sqlVar[] = $key;
 
-				$sql = "UPDATE `vtiger_apiaddress` SET `val` = ? WHERE `type` = ? AND `name` = ?";
+				$sql = "UPDATE `vtiger_apiaddress` SET `val` = ? WHERE `type` = ? && `name` = ?";
 
 				$result = $db->pquery($sql, $sqlVar, true);
 			}
@@ -82,7 +82,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT COUNT(1) AS num FROM `vtiger_apiaddress` WHERE `name` = "nominatim" AND `val` > "0";';
+		$query = 'SELECT COUNT(1) AS num FROM `vtiger_apiaddress` WHERE `name` = "nominatim" && `val` > "0";';
 		$result = $db->query($query);
 
 		return (bool) $db->getSingleValue($result);

@@ -91,7 +91,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller {
 		$db = PearDatabase::getInstance();
 
 		if(vtlib\Utils::CheckTable('vtiger_import_queue')) {
-			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE tabid=? AND userid=?',
+			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE tabid=? && userid=?',
 											array(getTabid($module), $user->id));
 
 			if($queueResult && $db->num_rows($queueResult) > 0) {

@@ -118,7 +118,7 @@ class FieldBasic
 	function __getNextSequence()
 	{
 		$db = \PearDatabase::getInstance();
-		$result = $db->pquery("SELECT MAX(sequence) AS max_seq FROM vtiger_field WHERE tabid=? AND block=?", Array($this->getModuleId(), $this->getBlockId()));
+		$result = $db->pquery("SELECT MAX(sequence) AS max_seq FROM vtiger_field WHERE tabid=? && block=?", Array($this->getModuleId(), $this->getBlockId()));
 		$maxseq = 0;
 		if ($result && $db->num_rows($result)) {
 			$maxseq = $db->getSingleValue($result);

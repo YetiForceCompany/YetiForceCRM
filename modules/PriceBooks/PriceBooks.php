@@ -64,7 +64,7 @@ class PriceBooks extends CRMEntity {
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering function updateListPrices...");
 		$pricebook_currency = $this->column_fields['currency_id'];
-		$prod_res = $adb->pquery("select * from vtiger_pricebookproductrel where pricebookid=? AND usedcurrency != ?",
+		$prod_res = $adb->pquery("select * from vtiger_pricebookproductrel where pricebookid=? && usedcurrency != ?",
 							array($this->id, $pricebook_currency));
 		$numRows = $adb->num_rows($prod_res);
 

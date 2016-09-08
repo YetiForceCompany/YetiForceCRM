@@ -176,7 +176,7 @@ class Contacts extends CRMEntity
 						$contact[$columnName] = "";
 					}
 				}
-// TODO OPTIMIZE THE QUERY ACCOUNT NAME AND ID are set separetly for every vtiger_contactdetails and hence
+// TODO OPTIMIZE THE QUERY ACCOUNT NAME && ID are set separetly for every vtiger_contactdetails and hence
 // vtiger_account query goes for ecery single vtiger_account row
 
 				$list[] = $contact;
@@ -543,7 +543,7 @@ class Contacts extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != '')
-			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
+			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
@@ -905,12 +905,12 @@ class Contacts extends CRMEntity
 			$sql = 'UPDATE vtiger_contactdetails SET parentid = ? WHERE contactid = ?';
 			$this->db->pquery($sql, array(null, $id));
 		} elseif ($return_module == 'Campaigns') {
-			$this->db->delete('vtiger_campaign_records', 'crmid=? AND campaignid=?', [$id, $return_id]);
+			$this->db->delete('vtiger_campaign_records', 'crmid=? && campaignid=?', [$id, $return_id]);
 		} elseif ($return_module == 'Products') {
-			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? AND productid=?';
+			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? && productid=?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} elseif ($return_module == 'Vendors') {
-			$sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=? AND contactid=?';
+			$sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=? && contactid=?';
 			$this->db->pquery($sql, array($return_id, $id));
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);

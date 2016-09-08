@@ -47,7 +47,7 @@ class SyncServer
 		$db = PearDatabase::getInstance();
 		;
 		$result = $db->pquery(sprintf(
-				"SELECT serverid, clientid,clientmodifiedtime,servermodifiedtime,id FROM vtiger_wsapp_recordmapping WHERE appid=? AND serverid IN ('%s')", implode("','", $serverids)), array($appid));
+				"SELECT serverid, clientid,clientmodifiedtime,servermodifiedtime,id FROM vtiger_wsapp_recordmapping WHERE appid=? && serverid IN ('%s')", implode("','", $serverids)), array($appid));
 
 		$mapping = array();
 		if ($db->num_rows($result)) {
@@ -71,7 +71,7 @@ class SyncServer
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery(sprintf(
-				"SELECT serverid, clientid FROM vtiger_wsapp_recordmapping WHERE appid=? AND clientid IN ('%s')", implode("','", $clientids)), array($appid));
+				"SELECT serverid, clientid FROM vtiger_wsapp_recordmapping WHERE appid=? && clientid IN ('%s')", implode("','", $clientids)), array($appid));
 		$mapping = array();
 		if ($db->num_rows($result)) {
 			while ($row = $db->fetch_array($result)) {
@@ -249,8 +249,8 @@ class SyncServer
 		if (!empty($name) && !empty($key)) {
 			$db = PearDatabase::getInstance();
 			$uid = uniqid();
-			$db->pquery("DELETE FROM vtiger_wsapp_recordmapping WHERE appid=(SELECT appid FROM vtiger_wsapp WHERE name=? AND appkey=?)", array($name, $key));
-			$db->pquery("DELETE FROM vtiger_wsapp WHERE name=? AND appkey=?", array($name, $key));
+			$db->pquery("DELETE FROM vtiger_wsapp_recordmapping WHERE appid=(SELECT appid FROM vtiger_wsapp WHERE name=? && appkey=?)", array($name, $key));
+			$db->pquery("DELETE FROM vtiger_wsapp WHERE name=? && appkey=?", array($name, $key));
 		}
 		return array($name, $key);
 	}
@@ -297,7 +297,7 @@ class SyncServer
 				continue;
 
 			$lookupRecordId = false;
-			$lookupResult = $db->pquery("SELECT serverid,clientmodifiedtime FROM vtiger_wsapp_recordmapping WHERE appid=? AND clientid=?", array($appid, $clientRecordId));
+			$lookupResult = $db->pquery("SELECT serverid,clientmodifiedtime FROM vtiger_wsapp_recordmapping WHERE appid=? && clientid=?", array($appid, $clientRecordId));
 			if ($db->num_rows($lookupResult))
 				$lookupRecordId = $db->query_result($lookupResult, 0, 'serverid');
 			if (empty($lookupRecordId) && $record['mode'] != "delete") {

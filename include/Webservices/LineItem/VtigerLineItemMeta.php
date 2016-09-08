@@ -57,7 +57,7 @@ class VtigerLineItemMeta extends VtigerCRMActorMeta
 	private function getTaxLabelFromName($name)
 	{
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_inventorytaxinfo WHERE taxname=? AND deleted=0';
+		$sql = 'SELECT * FROM vtiger_inventorytaxinfo WHERE taxname=? && deleted=0';
 		$params = array($name);
 		$result = $db->pquery($sql, $params);
 		$it = new SqlResultIterator($db, $result);

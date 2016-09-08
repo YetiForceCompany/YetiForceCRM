@@ -57,11 +57,11 @@ class Mobile {
 	static function alert_deregister($handlerPath, $handlerClass) {
 		$adb = PearDatabase::getInstance();
 		vtlib\Utils::Log("De-registered alert {$handlerClass} [$handlerPath]");
-		$adb->pquery("DELETE FROM vtiger_mobile_alerts WHERE handler_path=? AND handler_class=?", array($handlerPath, $handlerClass));
+		$adb->pquery("DELETE FROM vtiger_mobile_alerts WHERE handler_path=? && handler_class=?", array($handlerPath, $handlerClass));
 	}
 	static function alert_markdeleted($handlerPath, $handlerClass, $flag) {
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_mobile_alerts SET deleted=? WHERE handler_path=? AND handler_class=?", array($flag, $handlerPath, $handlerClass));
+		$adb->pquery("UPDATE vtiger_mobile_alerts SET deleted=? WHERE handler_path=? && handler_class=?", array($flag, $handlerPath, $handlerClass));
 	}
 	
 	/**

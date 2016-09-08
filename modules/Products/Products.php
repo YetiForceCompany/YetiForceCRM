@@ -289,7 +289,7 @@ class Products extends CRMEntity
 			INNER JOIN vtiger_leadscf ON vtiger_leaddetails.leadid = vtiger_leadscf.leadid
 			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = %s', $id);
+			WHERE vtiger_crmentity.deleted = 0 && vtiger_products.productid = %s', $id);
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -349,7 +349,7 @@ class Products extends CRMEntity
 			INNER JOIN vtiger_accountscf ON vtiger_account.accountid = vtiger_accountscf.accountid
 			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = %s', $id);
+			WHERE vtiger_crmentity.deleted = 0 && vtiger_products.productid = %s', $id);
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -412,7 +412,7 @@ class Products extends CRMEntity
 			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_contactdetails.parentid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_products.productid = %s', $id);
+			WHERE vtiger_crmentity.deleted = 0 && vtiger_products.productid = %s', $id);
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -620,12 +620,12 @@ class Products extends CRMEntity
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
 			INNER JOIN vtiger_productcf
 				ON vtiger_products.productid = vtiger_productcf.productid
-			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_seproductsrel.setype='Products'
+			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid && vtiger_seproductsrel.setype='Products'
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = $id ";
+			WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.productid = $id ";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -667,10 +667,10 @@ class Products extends CRMEntity
 			vtiger_crmentity.crmid, vtiger_crmentity.smownerid
 			FROM vtiger_products
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
-			INNER JOIN vtiger_seproductsrel ON vtiger_seproductsrel.productid = vtiger_products.productid AND vtiger_seproductsrel.setype='Products'
+			INNER JOIN vtiger_seproductsrel ON vtiger_seproductsrel.productid = vtiger_products.productid && vtiger_seproductsrel.setype='Products'
 			INNER JOIN vtiger_productcf ON vtiger_products.productid = vtiger_productcf.productid
 
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.crmid = $id ";
+			WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.crmid = $id ";
 
 		$log->debug("Exiting get_products method ...");
 		return GetRelatedList('Products', 'Products', $focus, $query, $button, $returnset);
@@ -701,12 +701,12 @@ class Products extends CRMEntity
 				ON vtiger_vendor.vendorid = vtiger_products.vendor_id";
 
 		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id AND vtiger_users.status='Active'";
+		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id && vtiger_users.status='Active'";
 		$query .= $this->getNonAdminAccessControlQuery('Products', $current_user);
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if ($where != '')
-			$query .= " WHERE ($where) AND $where_auto";
+			$query .= " WHERE ($where) && $where_auto";
 		else
 			$query .= " WHERE $where_auto";
 
@@ -719,7 +719,7 @@ class Products extends CRMEntity
 	function isparent_check()
 	{
 		$adb = PearDatabase::getInstance();
-		$isparent_query = $adb->pquery(getListQuery("Products") . " AND (vtiger_products.productid IN (SELECT productid from vtiger_seproductsrel WHERE vtiger_seproductsrel.productid = ? AND vtiger_seproductsrel.setype='Products'))", array($this->id));
+		$isparent_query = $adb->pquery(getListQuery("Products") . " && (vtiger_products.productid IN (SELECT productid from vtiger_seproductsrel WHERE vtiger_seproductsrel.productid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
 		$isparent = $adb->num_rows($isparent_query);
 		return $isparent;
 	}
@@ -729,7 +729,7 @@ class Products extends CRMEntity
 	function ismember_check()
 	{
 		$adb = PearDatabase::getInstance();
-		$ismember_query = $adb->pquery(getListQuery("Products") . " AND (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? AND vtiger_seproductsrel.setype='Products'))", array($this->id));
+		$ismember_query = $adb->pquery(getListQuery("Products") . " && (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
 		$ismember = $adb->num_rows($ismember_query);
 		return $ismember;
 	}
@@ -805,7 +805,7 @@ class Products extends CRMEntity
 				    FROM vtiger_products
 				    LEFT JOIN vtiger_currency_info ON vtiger_products.currency_id = vtiger_currency_info.id
 				    LEFT JOIN vtiger_productcurrencyrel ON vtiger_products.productid = vtiger_productcurrencyrel.productid
-				    AND vtiger_productcurrencyrel.currencyid = " . $current_user->currency_id . "
+				    && vtiger_productcurrencyrel.currencyid = " . $current_user->currency_id . "
 			    ) AS innerProduct ON innerProduct.productid = vtiger_products.productid";
 		}
 		if ($queryplanner->requireTable("vtiger_crmentityProducts")) {
@@ -858,10 +858,10 @@ class Products extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($is_parent == 0) {
-			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? AND productid = ?";
+			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
 			$adb->pquery($sql, array($record, $return_id));
 		} else {
-			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? AND productid = ?";
+			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
 			$adb->pquery($sql, array($return_id, $record));
 		}
 	}
@@ -897,13 +897,13 @@ class Products extends CRMEntity
 			return;
 
 		if ($return_module == 'Leads' || $return_module == 'Contacts') {
-			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? AND crmid = ?';
+			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? && crmid = ?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} elseif ($return_module == 'Vendors') {
 			$sql = 'UPDATE vtiger_products SET vendor_id = ? WHERE productid = ?';
 			$this->db->pquery($sql, array(null, $id));
 		} elseif ($return_module == 'Accounts') {
-			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? AND (crmid = ? OR crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
+			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? && (crmid = ? OR crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
 			$param = array($id, $return_id, $return_id);
 			$this->db->pquery($sql, $param);
 		} else {

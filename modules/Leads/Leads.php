@@ -110,10 +110,10 @@ class Leads extends CRMEntity
 				";
 
 		$query .= $this->getNonAdminAccessControlQuery('Leads', $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0 AND vtiger_leaddetails.converted =0";
+		$where_auto = " vtiger_crmentity.deleted=0 && vtiger_leaddetails.converted =0";
 
 		if ($where != '')
-			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
+			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
@@ -233,7 +233,7 @@ class Leads extends CRMEntity
 					ON vtiger_users.id=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups
 					ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			   WHERE vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.leadid = $id";
+			   WHERE vtiger_crmentity.deleted = 0 && vtiger_leaddetails.leadid = $id";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -394,9 +394,9 @@ class Leads extends CRMEntity
 			return;
 
 		if ($return_module == 'Campaigns') {
-			$this->db->delete('vtiger_campaign_records', 'crmid=? AND campaignid=?', [$id, $return_id]);
+			$this->db->delete('vtiger_campaign_records', 'crmid=? && campaignid=?', [$id, $return_id]);
 		} elseif ($return_module == 'Products') {
-			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? AND productid=?';
+			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? && productid=?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
@@ -483,12 +483,12 @@ class Leads extends CRMEntity
 		$fromClause .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
 
-		$whereClause = " WHERE vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.converted=0 ";
+		$whereClause = " WHERE vtiger_crmentity.deleted = 0 && vtiger_leaddetails.converted=0 ";
 		$whereClause .= $this->getListViewSecurityParameter($module);
 
 		if ($ignoreEmpty) {
 			foreach ($tableColumns as $tableColumn) {
-				$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
+				$whereClause .= " && ($tableColumn IS NOT NULL && $tableColumn != '') ";
 			}
 		}
 
@@ -509,7 +509,7 @@ class Leads extends CRMEntity
 			$tableInfo = explode('.', $tableColumn);
 			$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
 			if (count($tableColumns) != $i++)
-				$duplicateCheckClause .= " AND ";
+				$duplicateCheckClause .= " && ";
 		}
 
 		$query = $selectClause . $fromClause .

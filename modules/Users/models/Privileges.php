@@ -282,12 +282,12 @@ class Users_Privileges_Model extends Users_Record_Model
 			$sqlRecords = implode(',', $records);
 
 			if ($removeUserString !== false) {
-				$db->delete('u_yf_crmentity_showners', 'userid IN(' . $removeUserString . ') AND crmid IN (' . $sqlRecords . ')');
+				$db->delete('u_yf_crmentity_showners', 'userid IN(' . $removeUserString . ') && crmid IN (' . $sqlRecords . ')');
 			}
 
 			if ($addUserString !== false) {
 				$usersExist = [];
-				$query = 'SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(%s) AND crmid IN (%s)';
+				$query = 'SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(%s) && crmid IN (%s)';
 				$query = sprintf($query, $addUserString, $sqlRecords);
 				$result = $db->query($query);
 				while ($row = $db->getRow($result)) {

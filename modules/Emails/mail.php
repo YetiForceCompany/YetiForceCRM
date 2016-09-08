@@ -115,7 +115,7 @@ function getUserEmailId($name, $val)
 	if ($val != '') {
 		$adb = PearDatabase::getInstance();
 		//done to resolve the PHP5 specific behaviour
-		$sql = sprintf("SELECT email1 from vtiger_users WHERE status='Active' AND %s = ?", $adb->sql_escape_string($name));
+		$sql = sprintf("SELECT email1 from vtiger_users WHERE status='Active' && %s = ?", $adb->sql_escape_string($name));
 		$res = $adb->pquery($sql, array($val));
 		$email = $adb->query_result($res, 0, 'email1');
 		$log->debug('Email id is selected  => ' . $email);
@@ -333,7 +333,7 @@ function addAllAttachments($mail, $record)
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
 			INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid  = vtiger_attachments.attachmentsid
 			INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.notesid = vtiger_seattachmentsrel.crmid 
-			WHERE vtiger_crmentity.deleted=0 AND vtiger_senotesrel.crmid=?';
+			WHERE vtiger_crmentity.deleted=0 && vtiger_senotesrel.crmid=?';
 	$res = $adb->pquery($sql, array($record));
 
 	while ($row = $db->getRow($result)) {

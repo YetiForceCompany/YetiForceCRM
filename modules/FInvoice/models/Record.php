@@ -17,7 +17,7 @@ class FInvoice_Record_Model extends Vtiger_Record_Model
 			$db = PearDatabase::getInstance();
 			$query = 'SELECT MAX(saledate) FROM u_yf_finvoice
 				LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = u_yf_finvoice.finvoiceid
-				WHERE vtiger_crmentity.deleted = 0 AND accountid = ?';
+				WHERE vtiger_crmentity.deleted = 0 && accountid = ?';
 			$result = $db->pquery($query, [$this->get('accountid')]);
 			$date = $db->getSingleValue($result);
 			if (!empty($date)) {

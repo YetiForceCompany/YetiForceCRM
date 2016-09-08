@@ -17,7 +17,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		$settingsLinks = parent::getSettingLinks();
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMailView' AND description =  'OSSMailView'", true);
+		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMailView' && description =  'OSSMailView'", true);
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
@@ -49,11 +49,11 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 
 		$params = array();
 		if (!empty($owner)) {
-			$ownerSql = ' AND smownerid = ? ';
+			$ownerSql = ' && smownerid = ? ';
 			$params[] = $owner;
 		}
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
+			$dateFilterSql = ' && createdtime BETWEEN ? && ? ';
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
@@ -130,7 +130,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid 
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid 
 			LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_ossmailview_relation.crmid = " . $recordId . " ";
+			WHERE vtiger_crmentity.deleted = 0 && vtiger_ossmailview_relation.crmid = " . $recordId . " ";
 		return $query;
 	}
 

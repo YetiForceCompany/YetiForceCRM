@@ -96,7 +96,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	function getRootChild() {
 		$path = '/';
 		$dirHash = sha1($path);
-		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ? AND userid IN (?,?);');
+		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ? && userid IN (?,?);');
 		$stmt->execute([$dirHash,0, $this->exData->crmUserId]);
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 		
@@ -120,7 +120,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	function getChild($file) {
 		$path = trim($this->path, 'files') . '/' . $file . '/';
 		$hash = sha1($path);
-		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ? AND userid IN (?,?);');
+		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ? && userid IN (?,?);');
 		$stmt->execute([$hash,0, $this->exData->crmUserId]);
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 		if ($row){
@@ -133,7 +133,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		}
 		$path = trim($this->path, 'files') . '/' . $file;
 		$hash = sha1($path);
-		$stmt = $this->exData->pdo->prepare('SELECT filesid, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.hash = ? AND vtiger_crmentity.deleted = ? AND vtiger_crmentity.smownerid = ?;');
+		$stmt = $this->exData->pdo->prepare('SELECT filesid, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.hash = ? && vtiger_crmentity.deleted = ? && vtiger_crmentity.smownerid = ?;');
 		$stmt->execute([$hash, 0, $this->exData->crmUserId]);
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 		if ($row){
@@ -156,7 +156,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$dirHash = sha1($path);
 		$nodes = [];
 		
-		$stmt = $this->exData->pdo->prepare('SELECT * FROM vtiger_files_dir WHERE parent_dirid = ? AND userid IN (?,?);');
+		$stmt = $this->exData->pdo->prepare('SELECT * FROM vtiger_files_dir WHERE parent_dirid = ? && userid IN (?,?);');
 		$stmt->execute([$this->dirid, 0, $this->exData->crmUserId]);
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$path = $this->path . '/' . $row['name'];
@@ -166,7 +166,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 			$directory->localPath = $row['path'];
 			$nodes[] = $directory;
 		}
-		$stmt = $this->exData->pdo->prepare('SELECT vtiger_files.* FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.dirid = ? AND vtiger_crmentity.deleted = ? AND vtiger_crmentity.smownerid = ?;');
+		$stmt = $this->exData->pdo->prepare('SELECT vtiger_files.* FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.dirid = ? && vtiger_crmentity.deleted = ? && vtiger_crmentity.smownerid = ?;');
 		$stmt->execute([$this->dirid, 0, $this->exData->crmUserId]);
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$path = $this->path . '/' . $row['name'] . '.' . $row['extension'];

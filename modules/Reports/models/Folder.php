@@ -214,7 +214,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
 
 		$folderId = $this->getId();
 		if ($folderId) {
-			$query .= ' AND folderid != ?';
+			$query .= ' && folderid != ?';
 			array_push($params, $folderId);
 		}
 
@@ -310,7 +310,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
         //End
 		if(null != $allowedReportIds){	
 			$sql = sprintf('SELECT count(*) AS count FROM vtiger_report
-					INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid AND 
+					INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid && 
 					vtiger_report.reportid in (%s)', implode(',',$allowedReportIds));
 			$fldrId = $this->getId();
 			if($fldrId == 'All') {
@@ -328,10 +328,10 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
 
 				$groupId = implode(',',$currentUserModel->get('groups'));
 				if ($groupId) {
-					$groupQuery = "(SELECT reportid from vtiger_reportsharing WHERE shareid IN ($groupId) AND setype = 'groups') OR ";
+					$groupQuery = "(SELECT reportid from vtiger_reportsharing WHERE shareid IN ($groupId) && setype = 'groups') OR ";
 				}
 
-				$sql .= " AND (vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $groupQuery shareid = ? AND setype = 'users')
+				$sql .= " && (vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $groupQuery shareid = ? && setype = 'users')
 							OR vtiger_report.sharingtype = 'Public'
 							OR vtiger_report.owner = ?
 							OR vtiger_report.owner IN (SELECT vtiger_user2role.userid FROM vtiger_user2role
@@ -382,7 +382,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
 		$listQuery = $this->getListViewQuery($folderId);
 
 		if($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
-			$listQuery .= ' AND '.$baseTableName.'.'.$baseTableId.' NOT IN ('. implode(',', $skipRecords) .')';
+			$listQuery .= ' && '.$baseTableName.'.'.$baseTableId.' NOT IN ('. implode(',', $skipRecords) .')';
 		}
 		$result = $db->query($listQuery);
 		$noOfRecords = $db->num_rows($result);

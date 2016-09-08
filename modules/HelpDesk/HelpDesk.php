@@ -259,7 +259,7 @@ class HelpDesk extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != '')
-			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
+			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
 		else
 			$query .= sprintf(' where %s', $where_auto);
 

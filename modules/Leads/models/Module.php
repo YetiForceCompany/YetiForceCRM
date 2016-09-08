@@ -17,7 +17,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getDeletedRecordCondition()
 	{
-		return 'vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.converted = 0';
+		return 'vtiger_crmentity.deleted = 0 && vtiger_leaddetails.converted = 0';
 	}
 
 	/**
@@ -34,7 +34,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$query = 'SELECT * FROM vtiger_crmentity ' .
 			' INNER JOIN vtiger_leaddetails ON
                 vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-                WHERE setype=? AND ' . $deletedCondition . ' AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
+                WHERE setype=? && ' . $deletedCondition . ' && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
 		$params = array($this->get('name'), $currentUserModel->id, $limit);
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
@@ -62,12 +62,12 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 
 		if (!empty($owner)) {
-			$ownerSql = ' AND smownerid = ' . $owner;
+			$ownerSql = ' && smownerid = ' . $owner;
 		}
 
 		$params = [];
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
+			$dateFilterSql = ' && createdtime BETWEEN ? && ? ';
 			//client is not giving time frame so we are appending it
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
@@ -76,7 +76,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$sql = sprintf('SELECT COUNT(*) AS count, date(createdtime) AS time FROM vtiger_leaddetails
 		INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
 		WHERE deleted = 0 %s %s %s', $ownerSql, $dateFilterSql, $securityParameter);
-		$sql .= ' AND converted = 0 GROUP BY week(createdtime)';
+		$sql .= ' && converted = 0 GROUP BY week(createdtime)';
 		$result = $db->pquery($sql, $params);
 
 		$response = [];
@@ -102,12 +102,12 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 
 		if (!empty($owner)) {
-			$ownerSql = ' AND smownerid = ' . $owner;
+			$ownerSql = ' && smownerid = ' . $owner;
 		}
 
 		$params = [];
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' AND createdtime BETWEEN ? AND ?';
+			$dateFilterSql = ' && createdtime BETWEEN ? && ?';
 			//client is not giving time frame so we are appending it
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
@@ -185,7 +185,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 			$position = stripos($listQuery, 'where');
 			if ($position) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
+				$overRideQuery = $listQuery . ' && ' . $condition;
 			} else {
 				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}
@@ -213,7 +213,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 				. "INNER JOIN `vtiger_accountscf` ON vtiger_accountscf.accountid=vtiger_account.accountid "
 				. "WHERE vtiger_crmentity.deleted=0";
 			foreach ($mappingFields as $fields) {
-				$sql .= ' AND `' . current($fields) . '` = ?';
+				$sql .= ' && `' . current($fields) . '` = ?';
 				$params[] = $recordModel->get(key($fields));
 			}
 			$result = $db->pquery($sql, $params);

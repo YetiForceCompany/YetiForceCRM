@@ -31,7 +31,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		$result = $db->pquery('SELECT * FROM vtiger_producttaxrel
 					INNER JOIN vtiger_inventorytaxinfo ON vtiger_inventorytaxinfo.taxid = vtiger_producttaxrel.taxid
-					INNER JOIN vtiger_crmentity ON vtiger_producttaxrel.productid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted = 0
+					INNER JOIN vtiger_crmentity ON vtiger_producttaxrel.productid = vtiger_crmentity.crmid && vtiger_crmentity.deleted = 0
 					WHERE vtiger_producttaxrel.productid = ?', [$this->getId()]);
 		$taxes = [];
 		while ($row = $db->fetch_array($result)) {
@@ -68,10 +68,10 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		$result = $db->pquery("SELECT vtiger_products.productid FROM vtiger_products
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
-			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_products.discontinued = 1 AND vtiger_seproductsrel.setype='Products'
+			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid && vtiger_products.discontinued = 1 && vtiger_seproductsrel.setype='Products'
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ? ", array($this->getId()));
+			WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.productid = ? ", array($this->getId()));
 
 		$subProductList = array();
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
@@ -241,7 +241,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype FROM vtiger_attachments
 						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Products Image' AND vtiger_seattachmentsrel.crmid = ?";
+						WHERE vtiger_crmentity.setype = 'Products Image' && vtiger_seattachmentsrel.crmid = ?";
 
 			$result = $db->pquery($sql, array($recordId));
 			$count = $db->num_rows($result);
@@ -286,28 +286,28 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$adb = \PearDatabase::getInstance();
 			$params = ['%' . $currentUser->getId() . '%', "%$searchKey%"];
 			$queryFrom = 'SELECT u_yf_crmentity_search_label.`crmid`,u_yf_crmentity_search_label.`setype`,u_yf_crmentity_search_label.`searchlabel` FROM `u_yf_crmentity_search_label`';
-			$queryWhere = ' WHERE u_yf_crmentity_search_label.`userid` LIKE ? AND u_yf_crmentity_search_label.`searchlabel` LIKE ?';
+			$queryWhere = ' WHERE u_yf_crmentity_search_label.`userid` LIKE ? && u_yf_crmentity_search_label.`searchlabel` LIKE ?';
 			$orderWhere = '';
 			if ($moduleName !== false) {
 				$multiMode = is_array($moduleName);
 				if ($multiMode) {
-					$queryWhere .= sprintf(' AND u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
+					$queryWhere .= sprintf(' && u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
 					$params = array_merge($params, $moduleName);
 				} else {
-					$queryWhere .= ' AND `setype` = ?';
+					$queryWhere .= ' && `setype` = ?';
 					$params[] = $moduleName;
 				}
 			} elseif (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 2) {
 				$queryFrom .= ' LEFT JOIN vtiger_entityname ON vtiger_entityname.modulename = u_yf_crmentity_search_label.setype';
-				$queryWhere .= ' AND vtiger_entityname.`turn_off` = 1 ';
+				$queryWhere .= ' && vtiger_entityname.`turn_off` = 1 ';
 				$orderWhere = ' vtiger_entityname.sequence';
 			}
 			if ($moduleName == 'Products') {
 				$queryFrom .= ' INNER JOIN vtiger_products ON vtiger_products.productid = u_yf_crmentity_search_label.crmid';
-				$queryWhere .= ' AND vtiger_products.discontinued = 1';
+				$queryWhere .= ' && vtiger_products.discontinued = 1';
 			} else if ($moduleName == 'Services') {
 				$queryFrom .= ' INNER JOIN vtiger_service ON vtiger_service.serviceid = u_yf_crmentity_search_label.crmid';
-				$queryWhere .= ' AND vtiger_service.discontinued = 1';
+				$queryWhere .= ' && vtiger_service.discontinued = 1';
 			}
 			$query = $queryFrom . $queryWhere;
 			if (!empty($orderWhere)) {
@@ -386,9 +386,9 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT * FROM vtiger_pricebookproductrel WHERE pricebookid = ? AND productid = ?', array($relatedRecordId, $this->getId()));
+		$result = $db->pquery('SELECT * FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?', array($relatedRecordId, $this->getId()));
 		if ($db->num_rows($result)) {
-			$db->pquery('UPDATE vtiger_pricebookproductrel SET listprice = ? WHERE pricebookid = ? AND productid = ?', array($price, $relatedRecordId, $this->getId()));
+			$db->pquery('UPDATE vtiger_pricebookproductrel SET listprice = ? WHERE pricebookid = ? && productid = ?', array($price, $relatedRecordId, $this->getId()));
 		} else {
 			$db->pquery('INSERT INTO vtiger_pricebookproductrel (pricebookid,productid,listprice,usedcurrency) values(?,?,?,?)', array($relatedRecordId, $this->getId(), $price, $currencyId));
 		}

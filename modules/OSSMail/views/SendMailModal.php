@@ -188,7 +188,7 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		}
 		$listQuery = $queryGenerator->getQuery();
 		if ($excludedIds && !empty($excludedIds) && is_array($excludedIds) && count($excludedIds) > 0) {
-			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $excludedIds) . ')';
+			$listQuery .= ' && ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $excludedIds) . ')';
 		}
 		$this->query = $listQuery;
 		return $listQuery;

@@ -58,7 +58,7 @@ class Module extends ModuleBasic
 		if (empty($label))
 			$label = $moduleInstance->name;
 
-		$result = $adb->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? AND related_tabid = ? AND name = ? AND label = ?;', [$this->id, $moduleInstance->id, $functionName, $label]);
+		$result = $adb->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? && related_tabid = ? && name = ? && label = ?;', [$this->id, $moduleInstance->id, $functionName, $label]);
 		if ($result->rowCount() > 0) {
 			self::log("Setting relation with $moduleInstance->name [$useactions_text] ... Error, the related module already exists");
 			return;
@@ -114,7 +114,7 @@ class Module extends ModuleBasic
 		if (empty($label))
 			$label = $moduleInstance->name;
 
-		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE tabid=? AND related_tabid=? AND name=? AND label=?", Array($this->id, $moduleInstance->id, $function_name, $label));
+		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE tabid=? && related_tabid=? && name=? && label=?", Array($this->id, $moduleInstance->id, $function_name, $label));
 
 		self::log("Unsetting relation with $moduleInstance->name ... DONE");
 	}

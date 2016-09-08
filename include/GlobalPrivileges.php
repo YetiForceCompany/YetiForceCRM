@@ -85,7 +85,7 @@ class GlobalPrivileges
 		}
 		$adb = \PearDatabase::getInstance();
 		$insert = $update = $row = false;
-		$result = $adb->pquery('SELECT * FROM `s_yf_privileges_updater` WHERE module = ? AND type = ?', [$moduleName, 1]);
+		$result = $adb->pquery('SELECT * FROM `s_yf_privileges_updater` WHERE module = ? && type = ?', [$moduleName, 1]);
 		if ($adb->getRowCount($result) == 1) {
 			$row = $adb->getRow($result);
 			if ($record == false) {
@@ -99,7 +99,7 @@ class GlobalPrivileges
 		} elseif ($record === false) {
 			$insert = true;
 		} else {
-			$result = $adb->pquery('SELECT * FROM `s_yf_privileges_updater` WHERE module = ? AND type = ? AND crmid = ?', [$moduleName, 0, $record]);
+			$result = $adb->pquery('SELECT * FROM `s_yf_privileges_updater` WHERE module = ? && type = ? && crmid = ?', [$moduleName, 0, $record]);
 			if ($adb->getRowCount($result) == 0) {
 				$insert = true;
 				$params['type'] = 0;
@@ -109,7 +109,7 @@ class GlobalPrivileges
 			$adb->insert('s_yf_privileges_updater', $params);
 		}
 		if ($update) {
-			$adb->update('s_yf_privileges_updater', $params, 'module = ? AND type = ?', [$moduleName, $type]);
+			$adb->update('s_yf_privileges_updater', $params, 'module = ? && type = ?', [$moduleName, $type]);
 		}
 	}
 

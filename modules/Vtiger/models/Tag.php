@@ -34,7 +34,7 @@ class Vtiger_Tag_Model extends Vtiger_Base_Model
 	public function delete()
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_freetagged_objects WHERE tag_id = ? AND object_id = ?', array($this->get('tag_id'), $this->get('record')));
+		$db->pquery('DELETE FROM vtiger_freetagged_objects WHERE tag_id = ? && object_id = ?', array($this->get('tag_id'), $this->get('record')));
 	}
 
 	/**

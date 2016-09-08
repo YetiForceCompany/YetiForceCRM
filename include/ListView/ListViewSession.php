@@ -128,7 +128,7 @@ class ListViewSession
 				$list_query = explode('ORDER BY', $list_query);
 				$default_orderby = $list_query[1];
 				$list_query = $list_query[0];
-				$list_query .= " AND vtiger_notes.folderid='$folderId'";
+				$list_query .= " && vtiger_notes.folderid='$folderId'";
 				$order_by = $instance->getOrderByForFolder($folderId);
 				$sorder = $instance->getSortOrderForFolder($folderId);
 				$tablename = getTableNameForField($currentModule, $order_by);

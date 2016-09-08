@@ -21,7 +21,7 @@ class Mobile_WS_AlertModel_IdleTicketsOfMine extends Mobile_WS_AlertModel_Pendin
 	
 	function query() {
 		$sql = parent::query();
-		$sql .= " AND DATEDIFF(CURDATE(), vtiger_crmentity.modifiedtime) > 1";
+		$sql .= " && DATEDIFF(CURDATE(), vtiger_crmentity.modifiedtime) > 1";
 		return $sql;
 	}
 }

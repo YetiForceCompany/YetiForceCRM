@@ -250,7 +250,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      */
     function getCard($addressBookId, $cardUri) {
 
-        $stmt = $this->pdo->prepare('SELECT id, carddata, uri, lastmodified, etag, size FROM ' . $this->cardsTableName . ' WHERE addressbookid = ? AND uri = ? LIMIT 1');
+        $stmt = $this->pdo->prepare('SELECT id, carddata, uri, lastmodified, etag, size FROM ' . $this->cardsTableName . ' WHERE addressbookid = ? && uri = ? LIMIT 1');
         $stmt->execute([$addressBookId, $cardUri]);
 
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -276,7 +276,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      */
     function getMultipleCards($addressBookId, array $uris) {
 
-        $query = 'SELECT id, uri, lastmodified, etag, size, carddata FROM ' . $this->cardsTableName . ' WHERE addressbookid = ? AND uri IN (';
+        $query = 'SELECT id, uri, lastmodified, etag, size, carddata FROM ' . $this->cardsTableName . ' WHERE addressbookid = ? && uri IN (';
         // Inserting a whole bunch of question marks
         $query .= implode(',', array_fill(0, count($uris), '?'));
         $query .= ')';
@@ -365,7 +365,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      */
     function updateCard($addressBookId, $cardUri, $cardData) {
 
-        $stmt = $this->pdo->prepare('UPDATE ' . $this->cardsTableName . ' SET carddata = ?, lastmodified = ?, size = ?, etag = ? WHERE uri = ? AND addressbookid =?');
+        $stmt = $this->pdo->prepare('UPDATE ' . $this->cardsTableName . ' SET carddata = ?, lastmodified = ?, size = ?, etag = ? WHERE uri = ? && addressbookid =?');
 
         $etag = md5($cardData);
         $stmt->execute([
@@ -392,7 +392,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      */
     function deleteCard($addressBookId, $cardUri) {
 
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->cardsTableName . ' WHERE addressbookid = ? AND uri = ?');
+        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->cardsTableName . ' WHERE addressbookid = ? && uri = ?');
         $stmt->execute([$addressBookId, $cardUri]);
 
         $this->addChange($addressBookId, $cardUri, 3);
@@ -475,7 +475,7 @@ class PDO extends AbstractBackend implements SyncSupport {
 
         if ($syncToken) {
 
-            $query = "SELECT uri, operation FROM " . $this->addressBookChangesTableName . " WHERE synctoken >= ? AND synctoken < ? AND addressbookid = ? ORDER BY synctoken";
+            $query = "SELECT uri, operation FROM " . $this->addressBookChangesTableName . " WHERE synctoken >= ? && synctoken < ? && addressbookid = ? ORDER BY synctoken";
             if ($limit > 0) $query .= " LIMIT " . (int)$limit;
 
             // Fetching all changes

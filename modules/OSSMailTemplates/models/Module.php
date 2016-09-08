@@ -14,7 +14,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$tabid = getTabid($moduleName);
-		$sql = "select `fieldid`, `fieldlabel`, `uitype`, `block` from vtiger_field where tabid = ? AND presence <> ? AND typeofdata <> ? AND `block` NOT IN (?)";
+		$sql = "select `fieldid`, `fieldlabel`, `uitype`, `block` from vtiger_field where tabid = ? && presence <> ? && typeofdata <> ? && `block` NOT IN (?)";
 		$result = $db->pquery($sql, array($tabid, 1, 'P~M', 0));
 		$output = array();
 		$block = ['blockId' => '', 'blockLabel' => ''];
@@ -46,7 +46,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 		$params[] = $tabid;
 		$sql = sprintf('SELECT vtiger_field.fieldid, fieldlabel, uitype, vtiger_fieldmodulerel.relmodule FROM vtiger_field 
 				LEFT JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid 
-				WHERE uitype IN (%s) AND tabid = ? ', $db->generateQuestionMarks($referenceUitype));
+				WHERE uitype IN (%s) && tabid = ? ', $db->generateQuestionMarks($referenceUitype));
 
 		$resultModuleList = $db->pquery($sql, $params);
 		$moduleList = [];
@@ -111,7 +111,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 	function getTemplates()
 	{
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_ossmailtemplates AS mail INNER JOIN vtiger_crmentity AS crm ON crm.crmid = mail.ossmailtemplatesid WHERE `deleted` = 0 AND ossmailtemplates_type = ?';
+		$sql = 'SELECT * FROM vtiger_ossmailtemplates AS mail INNER JOIN vtiger_crmentity AS crm ON crm.crmid = mail.ossmailtemplatesid WHERE `deleted` = 0 && ossmailtemplates_type = ?';
 		$result = $db->pquery($sql, ['PLL_MAIL']);
 		$output = [];
 		for ($i = 0; $i < $db->num_rows($result); $i++) {

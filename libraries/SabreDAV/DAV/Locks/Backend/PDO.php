@@ -59,7 +59,7 @@ class PDO extends AbstractBackend {
         // NOTE: the following 10 lines or so could be easily replaced by
         // pure sql. MySQL's non-standard string concatenation prevents us
         // from doing this though.
-        $query = 'SELECT owner, token, timeout, created, scope, depth, uri FROM ' . $this->tableName . ' WHERE (created > (? - timeout)) AND ((uri = ?)';
+        $query = 'SELECT owner, token, timeout, created, scope, depth, uri FROM ' . $this->tableName . ' WHERE (created > (? - timeout)) && ((uri = ?)';
         $params = [time(),$uri];
 
         // We need to check locks for every part in the uri.
@@ -75,7 +75,7 @@ class PDO extends AbstractBackend {
             if ($currentPath) $currentPath .= '/';
             $currentPath .= $part;
 
-            $query .= ' OR (depth!=0 AND uri = ?)';
+            $query .= ' OR (depth!=0 && uri = ?)';
             $params[] = $currentPath;
 
         }
@@ -170,7 +170,7 @@ class PDO extends AbstractBackend {
      */
     function unlock($uri, LockInfo $lockInfo) {
 
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->tableName . ' WHERE uri = ? AND token = ?');
+        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->tableName . ' WHERE uri = ? && token = ?');
         $stmt->execute([$uri, $lockInfo->token]);
 
         return $stmt->rowCount() === 1;

@@ -93,7 +93,7 @@ class Mailer extends \PHPMailer
 	function initFromTemplate($emailtemplate)
 	{
 		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * from vtiger_emailtemplates WHERE templatename=? AND foldername=?", Array($emailtemplate, 'Public'));
+		$result = $adb->pquery("SELECT * from vtiger_emailtemplates WHERE templatename=? && foldername=?", Array($emailtemplate, 'Public'));
 		if ($adb->num_rows($result)) {
 			$this->IsHTML(true);
 			$usesubject = $adb->query_result($result, 0, 'subject');

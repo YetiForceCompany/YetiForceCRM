@@ -162,7 +162,7 @@ class Filter
 
 		$cvcolvalue = $this->__getColumnValue($fieldInstance);
 
-		$adb->pquery("UPDATE vtiger_cvcolumnlist SET columnindex=columnindex+1 WHERE cvid=? AND columnindex>=? ORDER BY columnindex DESC", Array($this->id, $index));
+		$adb->pquery("UPDATE vtiger_cvcolumnlist SET columnindex=columnindex+1 WHERE cvid=? && columnindex>=? ORDER BY columnindex DESC", Array($this->id, $index));
 		$adb->pquery("INSERT INTO vtiger_cvcolumnlist(cvid,columnindex,columnname) VALUES(?,?,?)", Array($this->id, $index, $cvcolvalue));
 
 		$this->log("Adding $fieldInstance->name to $this->name filter ... DONE");
@@ -187,7 +187,7 @@ class Filter
 		$comparator = self::translateComparator($comparator);
 		$cvcolvalue = $this->__getColumnValue($fieldInstance);
 
-		$adb->pquery("UPDATE vtiger_cvadvfilter set columnindex=columnindex+1 WHERE cvid=? AND columnindex>=? ORDER BY columnindex DESC", Array($this->id, $index));
+		$adb->pquery("UPDATE vtiger_cvadvfilter set columnindex=columnindex+1 WHERE cvid=? && columnindex>=? ORDER BY columnindex DESC", Array($this->id, $index));
 		$adb->pquery("INSERT INTO vtiger_cvadvfilter(cvid, columnindex, columnname, comparator, value, groupid, column_condition) VALUES(?,?,?,?,?,?,?)", Array($this->id, $index, $cvcolvalue, $comparator, $comparevalue, $group, $condition));
 
 		Utils::Log("Adding Condition " . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE");
@@ -277,7 +277,7 @@ class Filter
 			$query = "SELECT * FROM vtiger_customview WHERE cvid=?";
 			$queryParams = Array($value);
 		} else {
-			$query = "SELECT * FROM vtiger_customview WHERE viewname=? AND entitytype=?";
+			$query = "SELECT * FROM vtiger_customview WHERE viewname=? && entitytype=?";
 			$queryParams = Array($value, $moduleInstance->name);
 		}
 		$result = $adb->pquery($query, $queryParams);

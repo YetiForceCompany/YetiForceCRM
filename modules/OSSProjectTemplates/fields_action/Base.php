@@ -14,7 +14,7 @@ class Field_Model_Base {
         $moduleTabId = getTabid($moduleName);
         $db = PearDatabase::getInstance();
 
-        $sql = "SELECT * FROM vtiger_field WHERE tabid = $moduleTabId AND fieldname = '$fieldName'";
+        $sql = "SELECT * FROM vtiger_field WHERE tabid = $moduleTabId && fieldname = '$fieldName'";
         $result = $db->query($sql, true);
         
         return $db->query_result($result, 0, $column);
@@ -37,7 +37,7 @@ class Field_Model_Base {
     
     function getValue($fieldName, $relId, $templateId, $baseRecord = NULL, $parentTplId = NULL) {
         $db = PearDatabase::getInstance();
-        $sql = "SELECT fld_val FROM vtiger_oss_project_templates WHERE fld_name = ? AND id_tpl = ?";
+        $sql = "SELECT fld_val FROM vtiger_oss_project_templates WHERE fld_name = ? && id_tpl = ?";
         
         if (NULL !== $baseRecord && $parentTplId !== NULL) {
             $templateId = $parentTplId;

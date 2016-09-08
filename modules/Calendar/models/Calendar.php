@@ -49,7 +49,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query.= " AND ( (concat(date_start, ' ', time_start)  >= ? AND concat(date_start, ' ', time_start) <= ?) OR (concat(due_date, ' ', time_end)  >= ? AND concat(due_date, ' ', time_end) <= ?) OR (date_start < ? AND due_date > ?) ) ";
+			$query.= " && ( (concat(date_start, ' ', time_start)  >= ? && concat(date_start, ' ', time_start) <= ?) OR (concat(due_date, ' ', time_end)  >= ? && concat(due_date, ' ', time_end) <= ?) OR (date_start < ? && due_date > ?) ) ";
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
@@ -58,21 +58,21 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$params[] = $dbEndDate;
 		}
 		if ($this->get('types')) {
-			$query .= ' AND vtiger_activity.activitytype ' . \PearDatabase::whereEquals($this->get('types'));
+			$query .= ' && vtiger_activity.activitytype ' . \PearDatabase::whereEquals($this->get('types'));
 		}
 		if ($this->get('time') == 'current') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$query .= ' AND vtiger_activity.status ' . \PearDatabase::whereEquals($stateActivityLabels);
+			$query .= ' && vtiger_activity.status ' . \PearDatabase::whereEquals($stateActivityLabels);
 		}
 		if ($this->get('time') == 'history') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
-			$query .= ' AND vtiger_activity.status ' . \PearDatabase::whereEquals($stateActivityLabels);
+			$query .= ' && vtiger_activity.status ' . \PearDatabase::whereEquals($stateActivityLabels);
 		}
 		if ($this->get('activitystatus')) {
-			$query .= ' AND vtiger_activity.status ' . \PearDatabase::whereEquals($this->get('activitystatus'));
+			$query .= ' && vtiger_activity.status ' . \PearDatabase::whereEquals($this->get('activitystatus'));
 		}
 		if ($this->get('restrict') && is_array($this->get('restrict'))) {
-			$query .= ' AND vtiger_activity.activityid ' . \PearDatabase::whereEquals($this->get('restrict'));
+			$query .= ' && vtiger_activity.activityid ' . \PearDatabase::whereEquals($this->get('restrict'));
 		}
 		if ($this->has('filters')) {
 			foreach ($this->get('filters') as $filter) {
@@ -85,7 +85,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			}
 		}
 		if ($this->get('user')) {
-			$query .= ' AND vtiger_activity.smownerid ' . \PearDatabase::whereEquals($this->get('user'));
+			$query .= ' && vtiger_activity.smownerid ' . \PearDatabase::whereEquals($this->get('user'));
 		}
 		$query.= ' ORDER BY date_start,time_start ASC';
 		return ['query' => $query, 'params' => $params];

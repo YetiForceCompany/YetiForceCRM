@@ -92,11 +92,11 @@ class Reports extends CRMEntity
 				$userGroups->getAllUserGroups($current_user->id);
 				$user_groups = $userGroups->user_groups;
 				if (!empty($user_groups) && $is_admin == false) {
-					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
+					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") && setype='groups') OR";
 					array_push($params, $user_groups);
 				}
 
-				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
+				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? && setype='users'))";
 				if ($is_admin == false) {
 					$ssql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 					array_push($params, $current_user->id);
@@ -255,7 +255,7 @@ class Reports extends CRMEntity
 					INNER JOIN vtiger_relatedlists on vtiger_tab.tabid=vtiger_relatedlists.related_tabid
 					WHERE vtiger_tab.isentitytype=1
 					AND vtiger_tab.name NOT IN(%s)
-					AND vtiger_tab.presence = 0 AND vtiger_relatedlists.label!='Activity History'
+					AND vtiger_tab.presence = 0 && vtiger_relatedlists.label!='Activity History'
 					UNION
 					SELECT relmodule, vtiger_tab.tabid FROM vtiger_fieldmodulerel
 					INNER JOIN vtiger_tab on vtiger_tab.name = vtiger_fieldmodulerel.module
@@ -432,11 +432,11 @@ class Reports extends CRMEntity
 		$userGroups->getAllUserGroups($current_user->id);
 		$user_groups = $userGroups->user_groups;
 		if (!empty($user_groups) && $is_admin == false) {
-			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
+			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") && setype='groups') OR";
 			array_push($params, $user_groups);
 		}
 
-		$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
+		$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? && setype='users'))";
 		if ($is_admin == false) {
 			$sql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 			array_push($params, $current_user->id);
@@ -627,7 +627,7 @@ class Reports extends CRMEntity
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		//Security Check
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql = sprintf("select * from vtiger_field where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_field.presence in (0,2) AND tablename NOT IN (%s) ", generateQuestionMarks($tabid), generateQuestionMarks($block), generateQuestionMarks($skipTalbes));
+			$sql = sprintf("select * from vtiger_field where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_field.presence in (0,2) && tablename NOT IN (%s) ", generateQuestionMarks($tabid), generateQuestionMarks($block), generateQuestionMarks($skipTalbes));
 
 			//fix for Ticket #4016
 			if ($module == "Calendar")
@@ -985,7 +985,7 @@ class Reports extends CRMEntity
 						inner join vtiger_relcriteria on vtiger_relcriteria.queryid = vtiger_report.queryid
 						left join vtiger_relcriteria_grouping on vtiger_relcriteria.queryid = vtiger_relcriteria_grouping.queryid
 								and vtiger_relcriteria.groupid = vtiger_relcriteria_grouping.groupid';
-			$ssql.= " where vtiger_report.reportid = ? AND vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
+			$ssql.= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
 
 			$result = $adb->pquery($ssql, array($reportid, $groupId));
 			$noOfColumns = $adb->num_rows($result);

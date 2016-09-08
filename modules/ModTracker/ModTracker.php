@@ -121,7 +121,7 @@ class ModTracker
 			$moduleInstance = vtlib\Module::getInstance($tabid);
 			$moduleInstance->deleteLink('DETAILVIEWBASIC', 'View History');
 		}
-		$adb->pquery("UPDATE vtiger_field SET presence = 1 WHERE tabid = ? AND fieldname = ?", array($tabid, 'was_read'));
+		$adb->pquery("UPDATE vtiger_field SET presence = 1 WHERE tabid = ? && fieldname = ?", array($tabid, 'was_read'));
 	}
 
 	/**
@@ -138,7 +138,7 @@ class ModTracker
 			$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 1 WHERE tabid = ?", array($tabid));
 			self::updateCache($tabid, 1);
 		}
-		$adb->pquery("UPDATE vtiger_field SET presence = 2 WHERE tabid = ? AND fieldname = ?", array($tabid, 'was_read'));
+		$adb->pquery("UPDATE vtiger_field SET presence = 2 WHERE tabid = ? && fieldname = ?", array($tabid, 'was_read'));
 	}
 
 	/**
@@ -154,7 +154,7 @@ class ModTracker
 		}
 		$tabid = getTabid($moduleName);
 		if (!self::getVisibilityForModule($tabid) || self::getVisibilityForModule($tabid) !== 0) {
-			$query = $adb->pquery('SELECT 1 FROM vtiger_modtracker_tabs WHERE vtiger_modtracker_tabs.visible = 1 AND vtiger_modtracker_tabs.tabid=?', array($tabid));
+			$query = $adb->pquery('SELECT 1 FROM vtiger_modtracker_tabs WHERE vtiger_modtracker_tabs.visible = 1 && vtiger_modtracker_tabs.tabid=?', array($tabid));
 
 			if ($adb->num_rows($query) < 1) {
 				self::updateCache($tabid, 0);
@@ -203,7 +203,7 @@ class ModTracker
 	{
 		$adb = PearDatabase::getInstance();
 		$query1 = $adb->pquery("SELECT * FROM vtiger_links WHERE linktype='DETAILVIEWBASIC' AND
-							  linklabel = 'View History' AND tabid = ?", array($tabid));
+							  linklabel = 'View History' && tabid = ?", array($tabid));
 		$row = $adb->num_rows($query1);
 		if ($row >= 1)
 			return true;
@@ -267,8 +267,8 @@ class ModTracker
 		$query = sprintf('SELECT id, module, modifiedtime, vtiger_crmentity.crmid, smownerid, vtiger_modtracker_basic.status
                 FROM vtiger_modtracker_basic
                 INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
-                    AND vtiger_modtracker_basic.changedon = vtiger_crmentity.modifiedtime
-                WHERE id > ? AND changedon >= ? AND module IN (%s)
+                    && vtiger_modtracker_basic.changedon = vtiger_crmentity.modifiedtime
+                WHERE id > ? && changedon >= ? && module IN (%s)
                 ORDER BY id', generateQuestionMarks($accessibleModules));
 
 		$params = array($uniqueId, $datetime);
@@ -323,7 +323,7 @@ class ModTracker
 		$output['updated'] = $updatedRecords;
 		$output['deleted'] = $deletedRecords;
 
-		$moreQuery = sprintf('SELECT * FROM vtiger_modtracker_basic WHERE id > ? AND changedon >= ? AND module
+		$moreQuery = sprintf('SELECT * FROM vtiger_modtracker_basic WHERE id > ? && changedon >= ? && module
             IN(%s)', generateQuestionMarks($accessibleModules));
 
 		$param = array($maxUniqueId, $maxModifiedTime);
@@ -362,7 +362,7 @@ class ModTracker
 
 		$fieldResult = $adb->pquery('SELECT * FROM vtiger_modtracker_detail
                         INNER JOIN vtiger_modtracker_basic ON vtiger_modtracker_basic.id = vtiger_modtracker_detail.id
-                        WHERE crmid = ? AND changedon >= ?', array($crmid, $date));
+                        WHERE crmid = ? && changedon >= ?', array($crmid, $date));
 		for ($i = 0; $i < $adb->num_rows($fieldResult); $i++) {
 			$fieldName = $adb->query_result($fieldResult, $i, 'fieldname');
 			if ($fieldName == 'record_id' || $fieldName == 'record_module' ||
@@ -413,7 +413,7 @@ class ModTracker
 			'targetid' => $targetId,
 			'changedon' => $currentTime,
 		]);
-		$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $sourceId));
+		$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $sourceId));
 
 		if ($adb->num_rows($isMyRecord) > 0)
 			$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($sourceId));

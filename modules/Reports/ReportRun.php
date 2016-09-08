@@ -794,7 +794,7 @@ class ReportRun extends CRMEntity
 		$module = $field[0];
 		$fieldname = trim($field[1]);
 		$tabid = getTabId($module);
-		$field_query = $adb->pquery("SELECT tablename,columnname,typeofdata,fieldname,uitype FROM vtiger_field WHERE tabid = ? AND fieldname= ?", array($tabid, $fieldname));
+		$field_query = $adb->pquery("SELECT tablename,columnname,typeofdata,fieldname,uitype FROM vtiger_field WHERE tabid = ? && fieldname= ?", array($tabid, $fieldname));
 		$fieldtablename = $adb->query_result($field_query, 0, 'tablename');
 		$fieldcolname = $adb->query_result($field_query, 0, 'columnname');
 		$typeofdata = $adb->query_result($field_query, 0, 'typeofdata');
@@ -859,7 +859,7 @@ class ReportRun extends CRMEntity
 						inner join vtiger_relcriteria on vtiger_relcriteria.queryid = vtiger_report.queryid
 						left join vtiger_relcriteria_grouping on vtiger_relcriteria.queryid = vtiger_relcriteria_grouping.queryid
 								and vtiger_relcriteria.groupid = vtiger_relcriteria_grouping.groupid';
-			$ssql.= " where vtiger_report.reportid = ? AND vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
+			$ssql.= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
 
 			$result = $adb->pquery($ssql, array($reportid, $groupId));
 			$noOfColumns = $adb->num_rows($result);
@@ -962,7 +962,7 @@ class ReportRun extends CRMEntity
 										$endDateTime = "'$endDateTime'";
 									}
 
-									$advfiltergroupsql .= "$tableColumnSql BETWEEN $startDateTime AND $endDateTime";
+									$advfiltergroupsql .= "$tableColumnSql BETWEEN $startDateTime && $endDateTime";
 									if (!empty($columncondition)) {
 										$advfiltergroupsql .= ' ' . $columncondition . ' ';
 									}
@@ -1000,9 +1000,9 @@ class ReportRun extends CRMEntity
 									$start = "'$start'";
 									$end = "'$end'";
 									if ($comparator == 'e')
-										$advfiltergroupsql .= "$tableColumnSql BETWEEN $start AND $end";
+										$advfiltergroupsql .= "$tableColumnSql BETWEEN $start && $end";
 									else
-										$advfiltergroupsql .= "$tableColumnSql NOT BETWEEN $start AND $end";
+										$advfiltergroupsql .= "$tableColumnSql NOT BETWEEN $start && $end";
 								}else if ($comparator == 'bw') {
 									$values = explode(',', $value);
 									$startDateTime = explode(' ', $values[0]);
@@ -1018,7 +1018,7 @@ class ReportRun extends CRMEntity
 									$userEndDate = $userEndDate . ' 23:59:59';
 									$end = getValidDBInsertDateTimeValue($userEndDate);
 
-									$advfiltergroupsql .= "$tableColumnSql BETWEEN '$start' AND '$end'";
+									$advfiltergroupsql .= "$tableColumnSql BETWEEN '$start' && '$end'";
 								} else if ($comparator == 'a' || $comparator == 'b') {
 									$value = explode(' ', $value);
 									$dateTime = new DateTime($value[0]);
@@ -1186,9 +1186,9 @@ class ReportRun extends CRMEntity
 							}
 						} else if ($comparator == 'ny') {
 							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
-								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL AND " . $selectedfields[0] . "." . $selectedfields[1] . " != '' AND " . $selectedfields[0] . "." . $selectedfields[1] . "  != '0')";
+								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL && " . $selectedfields[0] . "." . $selectedfields[1] . " != '' && " . $selectedfields[0] . "." . $selectedfields[1] . "  != '0')";
 							else
-								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL AND " . $selectedfields[0] . "." . $selectedfields[1] . " != '')";
+								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL && " . $selectedfields[0] . "." . $selectedfields[1] . " != '')";
 						}elseif ($comparator == 'y' || ($comparator == 'e' && (trim($value) == "NULL" || trim($value) == ''))) {
 							if ($selectedfields[0] == 'vtiger_inventoryproductrel') {
 								$selectedfields[0] = 'vtiger_inventoryproductrel' . $moduleName;
@@ -1574,8 +1574,8 @@ class ReportRun extends CRMEntity
 
 		$sreportsortsql = " SELECT vtiger_reportsortcol.*, vtiger_reportgroupbycolumn.* FROM vtiger_report";
 		$sreportsortsql .= " inner join vtiger_reportsortcol on vtiger_report.reportid = vtiger_reportsortcol.reportid";
-		$sreportsortsql .= " LEFT JOIN vtiger_reportgroupbycolumn ON (vtiger_report.reportid = vtiger_reportgroupbycolumn.reportid AND vtiger_reportsortcol.sortcolid = vtiger_reportgroupbycolumn.sortid)";
-		$sreportsortsql .= " where vtiger_report.reportid =? AND vtiger_reportsortcol.columnname IN (SELECT columnname from vtiger_selectcolumn WHERE queryid=?) order by vtiger_reportsortcol.sortcolid";
+		$sreportsortsql .= " LEFT JOIN vtiger_reportgroupbycolumn ON (vtiger_report.reportid = vtiger_reportgroupbycolumn.reportid && vtiger_reportsortcol.sortcolid = vtiger_reportgroupbycolumn.sortid)";
+		$sreportsortsql .= " where vtiger_report.reportid =? && vtiger_reportsortcol.columnname IN (SELECT columnname from vtiger_selectcolumn WHERE queryid=?) order by vtiger_reportsortcol.sortcolid";
 
 		$result = $adb->pquery($sreportsortsql, array($reportid, $reportid));
 		$grouplist = array();
@@ -1779,7 +1779,7 @@ class ReportRun extends CRMEntity
 					$ids[] = $db->query_result($result, $i, 'id');
 				}
 				if (!empty($ids)) {
-					$query = " AND vtiger_crmentity$scope.smownerid IN (" . implode(',', $ids) . ") ";
+					$query = " && vtiger_crmentity$scope.smownerid IN (" . implode(',', $ids) . ") ";
 				}
 			}
 		}
@@ -2092,7 +2092,7 @@ class ReportRun extends CRMEntity
 				" where vtiger_crmentity.deleted=0";
 		} else if ($module == "Emails") {
 			$query = "from vtiger_activity
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid AND vtiger_activity.activitytype = 'Emails'";
+			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid && vtiger_activity.activitytype = 'Emails'";
 
 			if ($this->queryPlanner->requireTable("vtiger_email_track")) {
 				$query .= " LEFT JOIN vtiger_email_track ON vtiger_email_track.mailid = vtiger_activity.activityid";

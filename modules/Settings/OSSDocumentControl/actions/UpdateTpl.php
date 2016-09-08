@@ -48,10 +48,10 @@ class Settings_OSSDocumentControl_UpdateTpl_Action extends Settings_Vtiger_Index
 
 		if ($mendatory) {
 
-			$deleteOldConditionsSql = "DELETE FROM vtiger_ossdocumentcontrol_cnd WHERE ossdocumentcontrolid = ? AND required = 1";
+			$deleteOldConditionsSql = "DELETE FROM vtiger_ossdocumentcontrol_cnd WHERE ossdocumentcontrolid = ? && required = 1";
 		} else {
 
-			$deleteOldConditionsSql = "DELETE FROM vtiger_ossdocumentcontrol_cnd WHERE ossdocumentcontrolid = ? AND required = 0";
+			$deleteOldConditionsSql = "DELETE FROM vtiger_ossdocumentcontrol_cnd WHERE ossdocumentcontrolid = ? && required = 0";
 		}
 
 		$db->pquery($deleteOldConditionsSql, array($relId), TRUE);

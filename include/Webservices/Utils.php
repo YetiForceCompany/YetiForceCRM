@@ -288,7 +288,7 @@ function vtws_addDefaultModuleTypeEntity($moduleName)
 function vtws_addModuleTypeWebserviceEntity($moduleName, $filePath, $className)
 {
 	$adb = PearDatabase::getInstance();
-	$checkres = $adb->pquery('SELECT id FROM vtiger_ws_entity WHERE name=? AND handler_path=? AND handler_class=?', array($moduleName, $filePath, $className));
+	$checkres = $adb->pquery('SELECT id FROM vtiger_ws_entity WHERE name=? && handler_path=? && handler_class=?', array($moduleName, $filePath, $className));
 	if ($checkres && $adb->num_rows($checkres) == 0) {
 		$isModule = 1;
 		$entityId = $adb->getUniqueID("vtiger_ws_entity");
@@ -764,10 +764,10 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 {
 	$db = PearDatabase::getInstance();
 	//Updating the smcreatorid,smownerid, modifiedby in vtiger_crmentity
-	$sql = "UPDATE vtiger_crmentity SET smcreatorid=? WHERE smcreatorid=? AND setype<>?";
+	$sql = "UPDATE vtiger_crmentity SET smcreatorid=? WHERE smcreatorid=? && setype<>?";
 	$db->pquery($sql, array($newOwnerId, $ownerId, 'ModComments'));
 
-	$sql = "UPDATE vtiger_crmentity SET smownerid=? WHERE smownerid=? AND setype<>?";
+	$sql = "UPDATE vtiger_crmentity SET smownerid=? WHERE smownerid=? && setype<>?";
 	$db->pquery($sql, array($newOwnerId, $ownerId, 'ModComments'));
 
 	$sql = "update vtiger_crmentity set modifiedby=? where modifiedby=?";
@@ -784,11 +784,11 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	$db->pquery($sql, array($newOwnerId, $ownerId));
 
 	if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
-		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
+		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? && prefvalue = ?';
 		$params = array($newOwnerId, 'defaultassignee', $ownerId);
 		$db->pquery($query, $params);
 
-		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
+		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? && prefvalue = ?';
 		$params = array($newOwnerId, 'userid', $ownerId);
 		$db->pquery($query, $params);
 	}
@@ -921,7 +921,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 				$unserializeTask->field_value_mapping = $updatedTask;
 				$serializeTask = serialize($unserializeTask);
 
-				$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+				$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? && task_id=?';
 				$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 			}
 		} else {
@@ -932,7 +932,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 					$unserializeTask->assigned_user_id = $newOwnerId;
 				}
 				$serializeTask = serialize($unserializeTask);
-				$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+				$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? && task_id=?';
 				$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 			}
 		}

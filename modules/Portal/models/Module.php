@@ -96,7 +96,7 @@ class Portal_Module_Model extends Vtiger_Module_Model {
             } else if(!empty($searchValue) && count($excludedIds) < 1) {
                 $query .= sprintf(" WHERE portalname LIKE '%s'", "%$searchValue%");
             } else if(!empty($searchValue) && count($excludedIds) > 0) {
-                $query .= sprintf(" WHERE portalname LIKE '%s' AND portalid NOT IN (%s)", "%$searchValue%", generateQuestionMarks($excludedIds));
+                $query .= sprintf(" WHERE portalname LIKE '%s' && portalid NOT IN (%s)", "%$searchValue%", generateQuestionMarks($excludedIds));
                 $params = $excludedIds;
             }
         }

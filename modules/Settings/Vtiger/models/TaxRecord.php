@@ -208,7 +208,7 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model
 		$params = [$label];
 
 		if (!empty($excludedIds)) {
-			$query .= " AND taxid NOT IN (" . generateQuestionMarks($excludedIds) . ")";
+			$query .= " && taxid NOT IN (" . generateQuestionMarks($excludedIds) . ")";
 			$params = array_merge($params, $excludedIds);
 		}
 		$result = $db->pquery($query, $params);

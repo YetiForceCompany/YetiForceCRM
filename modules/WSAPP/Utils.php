@@ -65,7 +65,7 @@ function wsapp_getRecordEntityNameIds($entityNames,$modules,$user){
         $query = sprintf("SELECT %s as id,%s as entityname 
 				FROM %s as moduleentity 
 				INNER JOIN vtiger_crmentity as crmentity 
-				WHERE %s IN(%s) AND crmentity.deleted=0 
+				WHERE %s IN(%s) && crmentity.deleted=0 
 				AND crmentity.crmid = moduleentity.%s", 
 				$meta->getObectIndexColumn(), $nameFields, $meta->getEntityBaseTable(), $nameFields, generateQuestionMarks($entityNames), $meta->getObectIndexColumn());
 		$result = $db->pquery($query,$entityNames);

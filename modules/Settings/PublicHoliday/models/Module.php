@@ -29,7 +29,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$date[0] = DateTimeField::convertToDBFormat($date[0]);
 		$date[1] = DateTimeField::convertToDBFormat($date[1]);
 		if (is_array($date)) {
-			$sql .= ' WHERE holidaydate BETWEEN ? AND ?';
+			$sql .= ' WHERE holidaydate BETWEEN ? && ?';
 			$params[] = $date[0];
 			$params[] = $date[1];
 		}
@@ -174,7 +174,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$params = [];
 		$sql = 'SELECT COUNT(`publicholidayid`) AS count, `holidaytype` FROM `vtiger_publicholiday` ';
 		if ($date) {
-			$sql .= ' WHERE holidaydate BETWEEN ? AND ?';
+			$sql .= ' WHERE holidaydate BETWEEN ? && ?';
 			$params[] = $date[0];
 			$params[] = $date[1];
 		}

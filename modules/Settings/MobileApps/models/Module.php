@@ -36,7 +36,7 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model
 	public function addKey($params)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;", array($params['user'], $params['service']), true);
+		$result = $adb->pquery("SELECT id FROM yetiforce_mobile_keys WHERE user = ? && service = ?;", array($params['user'], $params['service']), true);
 		$rows = $adb->num_rows($result);
 		if ($rows != 0) {
 			return 1;
@@ -52,7 +52,7 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model
 	public function deleteKey($params)
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery('DELETE FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', array($params['user'], $params['service']));
+		$adb->pquery('DELETE FROM yetiforce_mobile_keys WHERE user = ? && service = ?;', array($params['user'], $params['service']));
 	}
 
 	public function changePrivileges($params)
@@ -63,6 +63,6 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$privileges = '';
 		}
-		$adb->pquery('UPDATE yetiforce_mobile_keys SET privileges_users = ? WHERE user = ? AND service = ?;', array($privileges, $params['user'], $params['service']));
+		$adb->pquery('UPDATE yetiforce_mobile_keys SET privileges_users = ? WHERE user = ? && service = ?;', array($privileges, $params['user'], $params['service']));
 	}
 }

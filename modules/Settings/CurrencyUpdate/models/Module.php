@@ -53,7 +53,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 		$db = PearDatabase::getInstance();
 		$notifyNewRates = false;
-		$vtigerCurrencySql = 'SELECT `id`, `currency_code` FROM `vtiger_currency_info` WHERE `currency_status` = ? AND `deleted` = 0 AND `defaultid` != ?;';
+		$vtigerCurrencySql = 'SELECT `id`, `currency_code` FROM `vtiger_currency_info` WHERE `currency_status` = ? && `deleted` = 0 && `defaultid` != ?;';
 		$vtigerCurrencyResult = $db->pquery($vtigerCurrencySql, ['Active', '-11']);
 		$numToConvert = $db->num_rows($vtigerCurrencyResult);
 
@@ -69,7 +69,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 				$otherCurrencyCode[$code] = $id;
 			}
 
-			$existSql = sprintf('SELECT COUNT(*) as num FROM `yetiforce_currencyupdate` WHERE `exchange_date` = ? AND `currency_id` IN (%s) AND `bank_id` = ? LIMIT 1;', $db->generateQuestionMarks($currIds));
+			$existSql = sprintf('SELECT COUNT(*) as num FROM `yetiforce_currencyupdate` WHERE `exchange_date` = ? && `currency_id` IN (%s) && `bank_id` = ? LIMIT 1;', $db->generateQuestionMarks($currIds));
 			$params = [$dateCur];
 			$params = array_merge($params, $currIds);
 			$params[] = $selectBankId;
@@ -177,7 +177,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT `id` FROM `yetiforce_currencyupdate` WHERE  `exchange_date` = ? AND `currency_id` = ? AND `bank_id` = ? LIMIT 1;';
+		$query = 'SELECT `id` FROM `yetiforce_currencyupdate` WHERE  `exchange_date` = ? && `currency_id` = ? && `bank_id` = ? LIMIT 1;';
 		$params = [$exchangeDate, $currencyId, $bankId];
 		$result = $db->pquery($query, $params);
 
@@ -213,7 +213,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		// filter by date - if not exists then display this months history
 		$filter = $request->get('duedate');
 		if ($filter == '' && $dateCur) {
-			$query .= 'AND `exchange_date` BETWEEN ? AND ? ';
+			$query .= 'AND `exchange_date` BETWEEN ? && ? ';
 			$params[] = date('Y-m-01');
 			$params[] = date('Y-m-t');
 		} else {
@@ -271,7 +271,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		$supported = $bank->getSupportedCurrencies($bankName);
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT `currency_name`, `currency_code` FROM vtiger_currency_info WHERE `currency_status` = "Active" AND `deleted` = 0;';
+		$query = 'SELECT `currency_name`, `currency_code` FROM vtiger_currency_info WHERE `currency_status` = "Active" && `deleted` = 0;';
 		$result = $db->query($query);
 
 		$unsupported = [];
@@ -341,10 +341,10 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 					FROM 
 						`yetiforce_currencyupdate` yfc 
 						INNER JOIN `vtiger_currency_info` cur 
-							ON yfc.`currency_id` = cur.`id` AND cur.`deleted` = 0 
+							ON yfc.`currency_id` = cur.`id` && cur.`deleted` = 0 
 					WHERE 
-						yfc.`exchange_date` = ? AND 
-						yfc.`bank_id` = ? AND 
+						yfc.`exchange_date` = ? && 
+						yfc.`bank_id` = ? && 
 						cur.`currency_code` = ? 
 					LIMIT 1;';
 			$result = $db->pquery($query, [$date, $activeBankId, $to]);
@@ -359,10 +359,10 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 					FROM 
 						`yetiforce_currencyupdate` yfc 
 						INNER JOIN `vtiger_currency_info` cur 
-							ON yfc.`currency_id` = cur.`id` AND cur.`deleted` = 0 
+							ON yfc.`currency_id` = cur.`id` && cur.`deleted` = 0 
 					WHERE 
-						yfc.`exchange_date` = ? AND 
-						yfc.`bank_id` = ? AND 
+						yfc.`exchange_date` = ? && 
+						yfc.`bank_id` = ? && 
 						cur.`currency_code` = ? 
 					LIMIT 1;';
 			$result = $db->pquery($query, [$date, $activeBankId, $to]);
@@ -378,10 +378,10 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 						FROM 
 							`yetiforce_currencyupdate` yfc 
 							INNER JOIN `vtiger_currency_info` cur 
-								ON yfc.`currency_id` = cur.`id` AND cur.`deleted` = 0 
+								ON yfc.`currency_id` = cur.`id` && cur.`deleted` = 0 
 						WHERE 
-							yfc.`exchange_date` = ? AND 
-							yfc.`bank_id` = ? AND 
+							yfc.`exchange_date` = ? && 
+							yfc.`bank_id` = ? && 
 							cur.`currency_code` = ? 
 						LIMIT 1;';
 				$result = $db->pquery($query, [$date, $activeBankId, $from]);

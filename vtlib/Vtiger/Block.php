@@ -188,7 +188,7 @@ class Block
 				$query = "SELECT * FROM vtiger_blocks WHERE blockid=?";
 				$queryParams = Array($value);
 			} else {
-				$query = "SELECT * FROM vtiger_blocks WHERE blocklabel=? AND tabid=?";
+				$query = "SELECT * FROM vtiger_blocks WHERE blocklabel=? && tabid=?";
 				$queryParams = Array($value, $moduleInstance->id);
 			}
 			$result = $adb->pquery($query, $queryParams);

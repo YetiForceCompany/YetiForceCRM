@@ -119,7 +119,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets
 			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid
-			WHERE linktype = ? AND vtiger_links.linkid = ? AND userid = ?', array('DASHBOARDWIDGET', $linkId, $userId));
+			WHERE linktype = ? && vtiger_links.linkid = ? && userid = ?', array('DASHBOARDWIDGET', $linkId, $userId));
 
 		$self = new self();
 		if ($db->num_rows($result)) {
@@ -138,10 +138,10 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		$sql = 'UPDATE vtiger_module_dashboard_widgets SET position=? WHERE userid=?';
 		$params = array($position, $userId);
 		if ($linkId) {
-			$sql .= ' AND linkid = ?';
+			$sql .= ' && linkid = ?';
 			$params[] = $linkId;
 		} else if ($widgetId) {
-			$sql .= ' AND id = ?';
+			$sql .= ' && id = ?';
 			$params[] = $widgetId;
 		}
 		$db->pquery($sql, $params);
@@ -152,7 +152,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets
 			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid
-			WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND userid = ?', array('DASHBOARDWIDGET', $widgetId, $userId));
+			WHERE linktype = ? && vtiger_module_dashboard_widgets.id = ? && userid = ?', array('DASHBOARDWIDGET', $widgetId, $userId));
 
 		$self = new self();
 		if ($db->num_rows($result)) {
@@ -198,7 +198,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		if ($action == 'delete')
-			$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE id = ? AND blockid = ?', array($this->get('id'), $this->get('blockid')));
+			$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE id = ? && blockid = ?', array($this->get('id'), $this->get('blockid')));
 		else if ($action == 'hide') {
 			$query = 'UPDATE vtiger_module_dashboard_widgets SET `active` = ? WHERE id = ?';
 			$params = array(0, $this->get('id'));

@@ -357,7 +357,7 @@ class Net_URL
 				} else {
 					$return[$key][$idx] = $value;
 				}
-			} elseif (!$this->useBrackets AND ! empty($return[$key])) {
+			} elseif (!$this->useBrackets && ! empty($return[$key])) {
 				$return[$key] = (array) $return[$key];
 				$return[$key][] = $value;
 			} else {
@@ -390,12 +390,12 @@ class Net_URL
 				unset($path[$i]);
 				$path = array_values($path);
 				$i--;
-			} elseif ($path[$i] == '..' AND ( $i > 1 OR ( $i == 1 AND $path[0] != '') )) {
+			} elseif ($path[$i] == '..' && ( $i > 1 OR ( $i == 1 && $path[0] != '') )) {
 				unset($path[$i]);
 				unset($path[$i - 1]);
 				$path = array_values($path);
 				$i -= 2;
-			} elseif ($path[$i] == '..' AND $i == 1 AND $path[0] == '') {
+			} elseif ($path[$i] == '..' && $i == 1 && $path[0] == '') {
 				unset($path[$i]);
 				$path = array_values($path);
 				$i--;

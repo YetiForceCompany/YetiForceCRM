@@ -23,7 +23,7 @@ class Vtiger_Kpi_Helper {
 	public function getKpiList() {
 		$adb = PearDatabase::getInstance();
 		$list = [];
-		$sql = "SELECT serviceid as id, servicename as name FROM vtiger_service INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? AND discontinued = ?;";
+		$sql = "SELECT serviceid as id, servicename as name FROM vtiger_service INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? && discontinued = ?;";
 		$params = array(0, 1);
 		$result = $adb->pquery($sql, $params, true);
 		for($i = 0; $i < $adb->num_rows($result); $i++){
@@ -58,7 +58,7 @@ class Vtiger_Kpi_Helper {
 		$sql = "SELECT ordertime 
 			FROM vtiger_osssoldservices 
 			INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? AND serviceid = ? AND vtiger_crmentity.createdtime BETWEEN ? AND ?;";
+			WHERE vtiger_crmentity.deleted = ? && serviceid = ? && vtiger_crmentity.createdtime BETWEEN ? && ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
@@ -93,7 +93,7 @@ class Vtiger_Kpi_Helper {
 		$sql = "SELECT ordertime 
 			FROM vtiger_osssoldservices 
 			INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? AND serviceid = ? AND vtiger_crmentity.createdtime BETWEEN ? AND ?;";
+			WHERE vtiger_crmentity.deleted = ? && serviceid = ? && vtiger_crmentity.createdtime BETWEEN ? && ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
@@ -127,7 +127,7 @@ class Vtiger_Kpi_Helper {
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? AND product_id = ? AND vtiger_crmentity.createdtime BETWEEN ? AND ?;";
+			WHERE vtiger_crmentity.deleted = ? && product_id = ? && vtiger_crmentity.createdtime BETWEEN ? && ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
@@ -163,7 +163,7 @@ class Vtiger_Kpi_Helper {
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? AND product_id = ? AND priority IN ('High','Urgent') AND vtiger_crmentity.createdtime BETWEEN ? AND ?;";
+			WHERE vtiger_crmentity.deleted = ? && product_id = ? && priority IN ('High','Urgent') && vtiger_crmentity.createdtime BETWEEN ? && ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
@@ -196,7 +196,7 @@ class Vtiger_Kpi_Helper {
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? AND product_id = ? AND priority IN ('Normal','Low') AND vtiger_crmentity.createdtime BETWEEN ? AND ?;";
+			WHERE vtiger_crmentity.deleted = ? && product_id = ? && priority IN ('Normal','Low') && vtiger_crmentity.createdtime BETWEEN ? && ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
@@ -229,11 +229,11 @@ class Vtiger_Kpi_Helper {
 		$sql = "SELECT COUNT(ticketid) 
 			FROM vtiger_troubletickets 
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? AND status = 'Closed' AND pssold_id = IN 
+			WHERE vtiger_crmentity.deleted = ? && status = 'Closed' && pssold_id = IN 
 				(SELECT osssoldservicesid FROM vtiger_osssoldservices 
 				INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid 
-				WHERE vtiger_crmentity.deleted = ? AND serviceid = ? ORDER BY vtiger_crmentity.createdtime DESC LIMIT 100) 
-			AND vtiger_crmentity.createdtime BETWEEN ? AND ?;";
+				WHERE vtiger_crmentity.deleted = ? && serviceid = ? ORDER BY vtiger_crmentity.createdtime DESC LIMIT 100) 
+			AND vtiger_crmentity.createdtime BETWEEN ? && ?;";
 		$params = array(0, 0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;

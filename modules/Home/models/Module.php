@@ -37,7 +37,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			FROM vtiger_modcomments
 			INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
 			INNER JOIN vtiger_crmentity crmentity2 ON vtiger_modcomments.related_to = crmentity2.crmid
-			WHERE vtiger_crmentity.deleted = 0 AND crmentity2.deleted = 0 %s
+			WHERE vtiger_crmentity.deleted = 0 && crmentity2.deleted = 0 %s
 			ORDER BY vtiger_modcomments.modcommentsid DESC LIMIT ?, ?';
 		$sql = sprintf($sql, $UserAccessConditions);
 		$result = $db->pquery($sql, array($pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
@@ -63,7 +63,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	public function getActivityQuery($type)
 	{
 		if ($type == 'updates') {
-			$query = ' AND module != "ModComments" ';
+			$query = ' && module != "ModComments" ';
 			return $query;
 		}
 	}
@@ -121,21 +121,21 @@ class Home_Module_Model extends Vtiger_Module_Model
 			AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?))";
 			array_push($params, $paramsMore);
 		} elseif ($mode === 'assigned_upcoming') {
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) AND vtiger_crmentity.smcreatorid = ?";
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) && vtiger_crmentity.smcreatorid = ?";
 			$params = array_merge($params, $paramsMore);
 		} elseif ($mode === 'assigned_over') {
 			$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?)) AND vtiger_crmentity.smcreatorid = ?";
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?)) && vtiger_crmentity.smcreatorid = ?";
 			array_push($params, $paramsMore['status'], $paramsMore['user']);
 		} elseif ($mode === 'createdByMeButNotMine') {
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) AND vtiger_crmentity.smcreatorid = ? AND vtiger_crmentity.smownerid NOT IN (?) ";
+			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) && vtiger_crmentity.smcreatorid = ? && vtiger_crmentity.smownerid NOT IN (?) ";
 			array_push($params, $paramsMore['status'], $paramsMore['user'], $paramsMore['user']);
 		}
 
 		$accessibleUsers = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 		$accessibleGroups = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		if ($user != 'all' && $user != '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
-			$query .= ' AND vtiger_crmentity.smownerid = ?';
+			$query .= ' && vtiger_crmentity.smownerid = ?';
 			$params[] = $user;
 		}
 
@@ -223,20 +223,20 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_projecttask.*
 			FROM vtiger_projecttask
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid
-			WHERE vtiger_crmentity.deleted=0 AND vtiger_crmentity.smcreatorid = ?";
+			WHERE vtiger_crmentity.deleted=0 && vtiger_crmentity.smcreatorid = ?";
 		$params[] = $currentUser->getId();
 		$query .= $UserAccessConditions;
 		if ($mode === 'upcoming') {
-			$query .= " AND targetenddate >= ?";
+			$query .= " && targetenddate >= ?";
 		} elseif ($mode === 'overdue') {
-			$query .= " AND targetenddate < ?";
+			$query .= " && targetenddate < ?";
 		}
 		$params[] = $currentDate;
 
 		$accessibleUsers = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 		$accessibleGroups = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		if ($user != 'all' && $user != '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
-			$query .= " AND vtiger_crmentity.smownerid = ?";
+			$query .= " && vtiger_crmentity.smownerid = ?";
 			$params[] = $user;
 		}
 

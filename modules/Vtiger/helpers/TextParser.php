@@ -278,7 +278,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 				$value = Vtiger_Cache::get('recordChangesTreeData' . $template, $value);
 				if (!$value) {
 					$adb = PearDatabase::getInstance();
-					$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $value]);
+					$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $value]);
 					$parentName = '';
 					$module = $fieldModel->getModuleName();
 					$name = false;
@@ -290,7 +290,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 							end($pieces);
 							$parent = prev($pieces);
 
-							$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
+							$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $parent]);
 							$parentName = $adb->getSingleValue($result2);
 
 							$parentName = '((translate: [' . $parentName . '|||' . $module . '])) ';
@@ -320,7 +320,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		$userId = $currentUserModel->getId();
 		if (!isset(self::$employee[$userId])) {
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT * FROM vtiger_ossemployees INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid INNER JOIN vtiger_ossemployeescf ON vtiger_ossemployeescf.ossemployeesid = vtiger_ossemployees.ossemployeesid WHERE vtiger_crmentity.deleted = ? AND vtiger_crmentity.smownerid = ? LIMIT 1;';
+			$query = 'SELECT * FROM vtiger_ossemployees INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid INNER JOIN vtiger_ossemployeescf ON vtiger_ossemployeescf.ossemployeesid = vtiger_ossemployees.ossemployeesid WHERE vtiger_crmentity.deleted = ? && vtiger_crmentity.smownerid = ? LIMIT 1;';
 			$result = $db->pquery($query, [0, $userId]);
 			if ($db->getRowCount($result)) {
 				$columns = $db->getRow($result);

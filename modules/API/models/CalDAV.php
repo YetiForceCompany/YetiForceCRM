@@ -36,7 +36,7 @@ class API_CalDAV_Model
 		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description '
 			. 'FROM vtiger_activity '
 			. 'INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid '
-			. "WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.activitytype IN ('Task','Meeting') AND vtiger_activity.dav_status = 1;";
+			. "WHERE vtiger_crmentity.deleted=0 && vtiger_activity.activitytype IN ('Task','Meeting') && vtiger_activity.dav_status = 1;";
 
 		$result = $db->query($query);
 		while ($row = $db->getRow($result)) {
@@ -558,7 +558,7 @@ class API_CalDAV_Model
 	public function getDavDetail()
 	{
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM dav_calendarobjects WHERE calendarid = ? AND crmid = ?;';
+		$sql = 'SELECT * FROM dav_calendarobjects WHERE calendarid = ? && crmid = ?;';
 		$result = $db->pquery($sql, [$this->calendarId, $this->record['crmid']]);
 		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
 	}
@@ -790,7 +790,7 @@ class API_CalDAV_Model
 					$db->update('u_yf_activity_invitation', [
 						'status' => $status,
 						'time' => $timeFormated,
-						], 'activityid=? AND email=?', [$record->getId(), $value]
+						], 'activityid=? && email=?', [$record->getId(), $value]
 					);
 				}
 				unset($invities[$value]);

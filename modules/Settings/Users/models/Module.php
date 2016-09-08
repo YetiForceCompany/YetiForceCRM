@@ -46,7 +46,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		$db->pquery('UPDATE yetiforce_auth SET value = ? WHERE type = ? AND param = ?;', [$value, $param['type'], $param['param']]);
+		$db->pquery('UPDATE yetiforce_auth SET value = ? WHERE type = ? && param = ?;', [$value, $param['type'], $param['param']]);
 		return true;
 	}
 
@@ -102,7 +102,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		if (substr($data, 0, 1) == 'H') {
 			$db = PearDatabase::getInstance();
 			$return = [];
-			$result = $db->pquery('SELECT userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid WHERE roleid = ? AND deleted=0 AND status <> ?', [$data, 'Inactive']);
+			$result = $db->pquery('SELECT userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid WHERE roleid = ? && deleted=0 && status <> ?', [$data, 'Inactive']);
 			while ($userid = $db->getSingleValue($result)) {
 				$return[] = $userid;
 			}

@@ -42,14 +42,14 @@ class Vtiger_Report_Model extends Reports {
 				$userGroupsList = $userGroups->user_groups;
 
 				if(!empty($userGroupsList) && $currentUser->isAdminUser() == false) {
-					$userGroupsQuery = " (shareid IN (".generateQuestionMarks($userGroupsList).") AND setype='groups') OR";
+					$userGroupsQuery = " (shareid IN (".generateQuestionMarks($userGroupsList).") && setype='groups') OR";
 					array_push($params, $userGroupsList);
 				}
 
 				$nonAdminQuery = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing
-									WHERE $userGroupsQuery (shareid=? AND setype='users'))";
+									WHERE $userGroupsQuery (shareid=? && setype='users'))";
 				if($currentUser->isAdminUser() == false) {
-					$ssql .= " AND (($nonAdminQuery)
+					$ssql .= " && (($nonAdminQuery)
 								OR vtiger_report.sharingtype = 'Public'
 								OR vtiger_report.owner = ? OR vtiger_report.owner IN
 									(SELECT vtiger_user2role.userid FROM vtiger_user2role

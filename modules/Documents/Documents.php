@@ -267,7 +267,7 @@ class Documents extends CRMEntity
 		$query .= getNonAdminAccessControlQuery('Documents', $current_user);
 		$where_auto = " vtiger_crmentity.deleted=0";
 		if ($where != "")
-			$query .= "  WHERE ($where) AND " . $where_auto;
+			$query .= "  WHERE ($where) && " . $where_auto;
 		else
 			$query .= '  WHERE %s';
 
@@ -400,13 +400,13 @@ class Documents extends CRMEntity
 			return;
 
 		if ($returnModule == 'Accounts') {
-			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? AND (crmid = ? OR crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
+			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && (crmid = ? OR crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
 			$this->db->pquery($sql, array($id, $returnId, $returnId));
 		} else {
-			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? AND crmid = ?';
+			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && crmid = ?';
 			$this->db->pquery($sql, array($id, $returnId));
 
-			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? && relmodule=? && relcrmid=?) OR (relcrmid=? && module=? && crmid=?)';
 			$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
 			$this->db->pquery($sql, $params);
 		}
@@ -551,7 +551,7 @@ class Documents extends CRMEntity
 		$query .= ' INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid';
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.notesid = $id";
+		$query .= " WHERE vtiger_crmentity.deleted = 0 && vtiger_senotesrel.notesid = $id";
 
 		$query = sprintf($query, $other->table_name);
 		$returnValue = GetRelatedList($thisModule, $relatedModule, $other, $query, $button, $returnset);

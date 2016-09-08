@@ -185,7 +185,7 @@ class HTTP_Session_Container_DB extends HTTP_Session_Container
      */
     function read($id)
     {
-        $query = sprintf("SELECT data FROM %s WHERE id = %s AND expiry >= %d",
+        $query = sprintf("SELECT data FROM %s WHERE id = %s && expiry >= %d",
                          $this->options['table'],
                          $this->db->quoteSmart(md5($id)),
                          time());
@@ -305,7 +305,7 @@ class HTTP_Session_Container_DB extends HTTP_Session_Container
 
         } else {
             // Update existing row
-            $query = sprintf("UPDATE %s dst, %s src SET dst.expiry = src.expiry, dst.data = src.data WHERE dst.id = src.id AND src.id = %s",
+            $query = sprintf("UPDATE %s dst, %s src SET dst.expiry = src.expiry, dst.data = src.data WHERE dst.id = src.id && src.id = %s",
                              $targetTable,
                              $this->options['table'],
                              $this->db->quoteSmart(md5($id)));

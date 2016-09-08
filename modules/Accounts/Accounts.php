@@ -132,7 +132,7 @@ class Accounts extends CRMEntity
 				LEFT JOIN vtiger_campaign_records ON vtiger_campaign_records.campaignid=vtiger_campaign.campaignid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted=0 AND vtiger_campaign_records.crmid IN (" . $entityIds . ")";
+				WHERE vtiger_crmentity.deleted=0 && vtiger_campaign_records.crmid IN (" . $entityIds . ")";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -325,7 +325,7 @@ class Accounts extends CRMEntity
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
 				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.crmid IN (%s)";
+				WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.crmid IN (%s)";
 		$query = sprintf($query, $entityIds);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -373,7 +373,7 @@ class Accounts extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != '')
-			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
+			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
@@ -459,8 +459,8 @@ class Accounts extends CRMEntity
 		  // query to get all the contacts related to Accounts
 		  $relContactsQuery = "SELECT contactid FROM vtiger_contactdetails as vtiger_tmpContactCalendar
 		  INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_tmpContactCalendar.contactid
-		  WHERE vtiger_tmpContactCalendar.parentid IS NOT NULL AND vtiger_tmpContactCalendar.parentid !=''
-		  AND vtiger_crmentity.deleted=0";
+		  WHERE vtiger_tmpContactCalendar.parentid IS NOT NULL && vtiger_tmpContactCalendar.parentid !=''
+		  && vtiger_crmentity.deleted=0";
 
 		  $query = " left join vtiger_cntactivityrel as vtiger_tmpcntactivityrel ON
 		  vtiger_activity.activityid = vtiger_tmpcntactivityrel.activityid AND
@@ -772,9 +772,9 @@ class Accounts extends CRMEntity
 			return;
 
 		if ($return_module == 'Campaigns') {
-			$this->db->delete('vtiger_campaign_records', 'crmid=? AND campaignid=?', [$id, $return_id]);
+			$this->db->delete('vtiger_campaign_records', 'crmid=? && campaignid=?', [$id, $return_id]);
 		} else if ($return_module == 'Products') {
-			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? AND productid=?';
+			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? && productid=?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
@@ -801,7 +801,7 @@ class Accounts extends CRMEntity
 						'rel_created_time' => date('Y-m-d H:i:s')
 					]);
 				} elseif ($with_module == 'Campaigns') {
-					$checkResult = $db->pquery('SELECT 1 FROM vtiger_campaign_records WHERE campaignid = ? AND crmid = ?', [$with_crmid, $crmid]);
+					$checkResult = $db->pquery('SELECT 1 FROM vtiger_campaign_records WHERE campaignid = ? && crmid = ?', [$with_crmid, $crmid]);
 					if ($db->getRowCount($checkResult) > 0) {
 						continue;
 					}
@@ -943,7 +943,7 @@ class Accounts extends CRMEntity
 		$query .= $join;
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 AND $other->table_name.$dependentColumn IN ($entityIds)";
+		$query .= " WHERE vtiger_crmentity.deleted = 0 && $other->table_name.$dependentColumn IN ($entityIds)";
 		return $query;
 	}
 
@@ -1016,7 +1016,7 @@ class Accounts extends CRMEntity
 				$more_relation
 				LEFT  JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 				LEFT  JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 AND (vtiger_crmentityrel.crmid IN (" . $entityIds . ") OR vtiger_crmentityrel.relcrmid IN (" . $entityIds . "))";
+				WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid IN (" . $entityIds . ") OR vtiger_crmentityrel.relcrmid IN (" . $entityIds . "))";
 
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
@@ -1036,7 +1036,7 @@ class Accounts extends CRMEntity
 		$entityIds = [];
 		$query = 'SELECT contactid FROM vtiger_contactdetails
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid
-				WHERE vtiger_contactdetails.parentid = ? AND vtiger_crmentity.deleted = 0';
+				WHERE vtiger_contactdetails.parentid = ? && vtiger_crmentity.deleted = 0';
 		$accountContacts = $adb->pquery($query, array($id));
 		$numOfContacts = $adb->num_rows($accountContacts);
 		if ($accountContacts && $numOfContacts > 0) {

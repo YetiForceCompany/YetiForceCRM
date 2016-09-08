@@ -213,7 +213,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$db = PearDatabase::getInstance();
 		$user = Users_Record_Model::getCurrentUserModel();
 		$dbTableName = Import_Utils_Helper::getDbTableName($user);
-		$query = "SELECT recordid FROM $dbTableName WHERE temp_status = ? AND recordid IS NOT NULL";
+		$query = "SELECT recordid FROM $dbTableName WHERE temp_status = ? && recordid IS NOT NULL";
 		$result = $db->pquery($query, array(Import_Data_Action::$IMPORT_RECORD_CREATED));
 		$noOfRecords = $db->getRowCount($result);
 		$noOfRecordsDeleted = 0;

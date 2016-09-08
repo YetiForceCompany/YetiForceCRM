@@ -698,7 +698,7 @@ class CustomView extends CRMEntity
 						inner join vtiger_cvadvfilter on vtiger_cvadvfilter.cvid = vtiger_customview.cvid
 						left join vtiger_cvadvfilter_grouping on vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid
 								and vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid';
-			$ssql.= " where vtiger_customview.cvid = ? AND vtiger_cvadvfilter.groupid = ? order by vtiger_cvadvfilter.columnindex";
+			$ssql.= " where vtiger_customview.cvid = ? && vtiger_cvadvfilter.groupid = ? order by vtiger_cvadvfilter.columnindex";
 
 			$result = $adb->pquery($ssql, array($cvid, $groupId));
 			$noOfColumns = $adb->num_rows($result);
@@ -1422,7 +1422,7 @@ class CustomView extends CRMEntity
 
 		$sql = sprintf('SELECT DISTINCT block,vtiger_field.tabid,`name`,blocklabel FROM	vtiger_field 
 					INNER JOIN vtiger_blocks ON vtiger_blocks.blockid = vtiger_field.block INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid 
-				  WHERE vtiger_tab.name IN (%s) AND vtiger_field.presence IN (0, 2)', generateQuestionMarks($modulesList));
+				  WHERE vtiger_tab.name IN (%s) && vtiger_field.presence IN (0, 2)', generateQuestionMarks($modulesList));
 		$result = $adb->pquery($sql, [$modulesList]);
 		if ($module == "Calendar','Events")
 			$module = 'Calendar';

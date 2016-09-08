@@ -602,7 +602,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT id FROM vtiger_users WHERE status=? AND is_admin=?';
+		$sql = 'SELECT id FROM vtiger_users WHERE status=? && is_admin=?';
 		$result = $db->pquery($sql, array('ACTIVE', 'on'));
 
 		$noOfUsers = $db->num_rows($result);
@@ -648,7 +648,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'UPDATE vtiger_crmentity SET smcreatorid=?,smownerid=? WHERE smcreatorid=? AND setype=?';
+		$sql = 'UPDATE vtiger_crmentity SET smcreatorid=?,smownerid=? WHERE smcreatorid=? && setype=?';
 		$db->pquery($sql, array($newOwnerId, $newOwnerId, $userId, 'ModComments'));
 
 		//update history details in vtiger_modtracker_basic 

@@ -57,7 +57,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_crmentity.smownerid as o,sum(`sum_gross`) as s FROM u_yf_finvoice
 					INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid
-					WHERE vtiger_crmentity.deleted = ? AND u_yf_finvoice.saledate >= ? AND u_yf_finvoice.saledate <= ?';
+					WHERE vtiger_crmentity.deleted = ? && u_yf_finvoice.saledate >= ? && u_yf_finvoice.saledate <= ?';
 		if ($securityParameter != '')
 			$sql.= $securityParameter;
 		$sql .= ' GROUP BY smownerid ORDER BY s DESC';

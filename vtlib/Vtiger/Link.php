@@ -84,7 +84,7 @@ class Link
 	{
 		$adb = \PearDatabase::getInstance();
 		if ($tabid != 0) {
-			$checkres = $adb->pquery('SELECT linkid FROM vtiger_links WHERE tabid=? AND linktype=? AND linkurl=? AND linkicon=? AND linklabel=?', [$tabid, $type, $url, $iconpath, $label]);
+			$checkres = $adb->pquery('SELECT linkid FROM vtiger_links WHERE tabid=? && linktype=? && linkurl=? && linkicon=? && linklabel=?', [$tabid, $type, $url, $iconpath, $label]);
 		}
 		if ($tabid == 0 || !$adb->getRowCount($checkres)) {
 			$params = [
@@ -120,10 +120,10 @@ class Link
 	{
 		$adb = \PearDatabase::getInstance();
 		if ($url) {
-			$adb->pquery('DELETE FROM vtiger_links WHERE tabid=? AND linktype=? AND linklabel=? AND linkurl=?', Array($tabid, $type, $label, $url));
+			$adb->pquery('DELETE FROM vtiger_links WHERE tabid=? && linktype=? && linklabel=? && linkurl=?', Array($tabid, $type, $label, $url));
 			self::log("Deleting Link ($type - $label - $url) ... DONE");
 		} else {
-			$adb->pquery('DELETE FROM vtiger_links WHERE tabid=? AND linktype=? AND linklabel=?', Array($tabid, $type, $label));
+			$adb->pquery('DELETE FROM vtiger_links WHERE tabid=? && linktype=? && linklabel=?', Array($tabid, $type, $label));
 			self::log("Deleting Link ($type - $label) ... DONE");
 		}
 	}
@@ -178,7 +178,7 @@ class Link
 					}
 					$result = $adb->pquery($sql, Array($adb->flatten_array($params)));
 				} else {
-					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE (tabid=? OR tabid=0) AND linktype IN (' .
+					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE (tabid=? OR tabid=0) && linktype IN (' .
 						Utils::implodestr('?', count($type), ',') . ')', Array($tabid, $adb->flatten_array($type)));
 				}
 			} else {
@@ -186,7 +186,7 @@ class Link
 				if ($tabid === self::IGNORE_MODULE) {
 					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE linktype=?', Array($type));
 				} else {
-					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE (tabid=? OR tabid=0) AND linktype=?', Array($tabid, $type));
+					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE (tabid=? OR tabid=0) && linktype=?', Array($tabid, $type));
 				}
 			}
 		} else {

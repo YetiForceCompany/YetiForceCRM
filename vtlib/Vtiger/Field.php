@@ -176,7 +176,7 @@ class Field extends FieldBasic
 
 		$adb = \PearDatabase::getInstance();
 		foreach ($moduleNames as $relmodule) {
-			$checkres = $adb->pquery('SELECT * FROM vtiger_fieldmodulerel WHERE fieldid=? AND module=? AND relmodule=?', Array($this->id, $this->getModuleName(), $relmodule));
+			$checkres = $adb->pquery('SELECT * FROM vtiger_fieldmodulerel WHERE fieldid=? && module=? && relmodule=?', Array($this->id, $this->getModuleName(), $relmodule));
 
 			// If relation already exist continue
 			if ($adb->num_rows($checkres))
@@ -197,7 +197,7 @@ class Field extends FieldBasic
 	{
 		$adb = \PearDatabase::getInstance();
 		foreach ($moduleNames as $relmodule) {
-			$adb->pquery('DELETE FROM vtiger_fieldmodulerel WHERE fieldid=? AND module=? AND relmodule = ?', Array($this->id, $this->getModuleName(), $relmodule));
+			$adb->pquery('DELETE FROM vtiger_fieldmodulerel WHERE fieldid=? && module=? && relmodule = ?', Array($this->id, $this->getModuleName(), $relmodule));
 
 			Utils::Log("Unsetting $this->name relation with $relmodule ... DONE");
 		}
@@ -241,7 +241,7 @@ class Field extends FieldBasic
 			$query = false;
 			$queryParams = false;
 			if ($moduleInstance) {
-				$query = "SELECT * FROM vtiger_field WHERE block=? AND tabid=? ORDER BY sequence";
+				$query = "SELECT * FROM vtiger_field WHERE block=? && tabid=? ORDER BY sequence";
 				$queryParams = Array($blockInstance->id, $moduleInstance->id);
 			} else {
 				$query = "SELECT * FROM vtiger_field WHERE block=? ORDER BY sequence";
@@ -338,12 +338,12 @@ class Field extends FieldBasic
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = \PearDatabase::getInstance();
-		$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = ? AND  uitype IN (15, 16, 33)";
+		$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = ? &&  uitype IN (15, 16, 33)";
 		$result = $db->pquery($query, [$moduleInstance->getId()]);
 		$modulePicklists = $db->getArrayColumn($result, 'fieldname');
 		if (!empty($modulePicklists)) {
 			$params = $modulePicklists;
-			$query = sprintf("SELECT `fieldname` FROM `vtiger_field` WHERE `fieldname` IN (%s) AND `tabid` <> ? AND uitype IN (?, ?, ?)", $db->generateQuestionMarks($modulePicklists));
+			$query = sprintf("SELECT `fieldname` FROM `vtiger_field` WHERE `fieldname` IN (%s) && `tabid` <> ? && uitype IN (?, ?, ?)", $db->generateQuestionMarks($modulePicklists));
 			array_push($params, $moduleInstance->getId(), 15, 16, 33);
 			$result = $db->pquery($query, $params);
 			$picklists = $db->getArrayColumn($result, 'fieldname');

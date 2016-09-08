@@ -248,10 +248,10 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 			'baseIndex' => 'crmid',
 		]);
 		$query = $queryGenerator->getQuery();
-		$query .= sprintf(' AND vtiger_crmentity.crmid IN (%s) AND u_yf_openstreetmap.type = \'a\' ', generateQuestionMarks($records));
+		$query .= sprintf(' && vtiger_crmentity.crmid IN (%s) && u_yf_openstreetmap.type = \'a\' ', generateQuestionMarks($records));
 		$params = $records;
 		if (!empty($coordinatesCenter) && !empty($radius)){
-			$query .= ' AND u_yf_openstreetmap.lat < ? AND u_yf_openstreetmap.lat > ? AND u_yf_openstreetmap.lon < ? AND u_yf_openstreetmap.lon > ?';
+			$query .= ' && u_yf_openstreetmap.lat < ? && u_yf_openstreetmap.lat > ? && u_yf_openstreetmap.lon < ? && u_yf_openstreetmap.lon > ?';
 			$params = array_merge($params, array_values(self::getMargins($coordinatesCenter, $radius)));
 		}
 		
@@ -320,12 +320,12 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
 		$queryGenerator->parseAdvFilterList($transformedSearchParams, $glue);
 		$query = $queryGenerator->getQuery();
-		$query .= ' AND u_yf_openstreetmap.type = \'a\' ';
+		$query .= ' && u_yf_openstreetmap.type = \'a\' ';
 		if ($excludedIds && !empty($excludedIds) && is_array($excludedIds) && count($excludedIds) > 0) {
-			$query .= ' AND vtiger_crmentity.crmid NOT IN (' . implode(',', $excludedIds) . ')';
+			$query .= ' && vtiger_crmentity.crmid NOT IN (' . implode(',', $excludedIds) . ')';
 		}
 		if (!empty($coordinatesCenter) && !empty($radius) ){
-			$query .= ' AND u_yf_openstreetmap.lat < ? AND u_yf_openstreetmap.lat > ? AND u_yf_openstreetmap.lon < ? AND u_yf_openstreetmap.lon > ?';
+			$query .= ' && u_yf_openstreetmap.lat < ? && u_yf_openstreetmap.lat > ? && u_yf_openstreetmap.lon < ? && u_yf_openstreetmap.lon > ?';
 			$params = array_values(self::getMargins($coordinatesCenter, $radius));
 		}
 		$db = PearDatabase::getInstance();

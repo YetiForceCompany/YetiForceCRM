@@ -227,7 +227,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 
-		$query = 'SELECT COUNT(1) AS num FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? AND method_name = ? AND function_path = ? AND function_name = ?;';
+		$query = 'SELECT COUNT(1) AS num FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? && method_name = ? && function_path = ? && function_name = ?;';
 		$params = [$method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']];
 		$result = $db->pquery($query, $params);
 		$num = $db->getSingleValue($result);

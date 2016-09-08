@@ -87,7 +87,7 @@ class RecordNumber
 		}
 		$temp = str_repeat('0', $strip);
 		$reqNo = $temp . ($curid + 1);
-		$db->update('vtiger_modentity_num', ['cur_id' => $reqNo], 'cur_id = ? AND tabid = ?', [$curid, $moduleId]);
+		$db->update('vtiger_modentity_num', ['cur_id' => $reqNo], 'cur_id = ? && tabid = ?', [$curid, $moduleId]);
 		return decode_html($fullPrefix);
 	}
 

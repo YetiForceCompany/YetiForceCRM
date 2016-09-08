@@ -341,12 +341,12 @@ class API_CardDAV_Model
 				. 'FROM vtiger_contactdetails '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid '
 				. 'INNER JOIN vtiger_contactaddress ON vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid '
-				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_contactdetails.contactid > 0 AND vtiger_contactdetails.dav_status = 1;';
+				. 'WHERE vtiger_crmentity.deleted=0 && vtiger_contactdetails.contactid > 0 && vtiger_contactdetails.dav_status = 1;';
 		} elseif ($moduleName == 'OSSEmployees') {
 			$query = 'SELECT crmid, name, last_name, business_phone, private_phone, business_mail, private_mail, vtiger_crmentity.modifiedtime '
 				. 'FROM vtiger_ossemployees '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid '
-				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_ossemployees.ossemployeesid > 0 AND vtiger_ossemployees.dav_status = 1;';
+				. 'WHERE vtiger_crmentity.deleted=0 && vtiger_ossemployees.ossemployeesid > 0 && vtiger_ossemployees.dav_status = 1;';
 		}
 		$result = $db->query($query);
 		return $result;
@@ -355,7 +355,7 @@ class API_CardDAV_Model
 	public function getCardDetail($crmid)
 	{
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM dav_cards WHERE addressbookid = ? AND crmid = ?;';
+		$sql = 'SELECT * FROM dav_cards WHERE addressbookid = ? && crmid = ?;';
 		$result = $db->pquery($sql, [$this->addressBookId, $crmid]);
 		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
 	}
@@ -422,7 +422,7 @@ class API_CardDAV_Model
 	protected function addChange($objectUri, $operation)
 	{
 		/*
-		  $stmt = $this->pdo->prepare('DELETE FROM dav_addressbookchanges WHERE uri = ? AND addressbookid = ?;');
+		  $stmt = $this->pdo->prepare('DELETE FROM dav_addressbookchanges WHERE uri = ? && addressbookid = ?;');
 		  $stmt->execute([
 		  $objectUri,
 		  $this->addressBookId

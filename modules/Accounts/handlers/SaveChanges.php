@@ -16,13 +16,13 @@ class SaveChanges extends VTEventHandler
 		$delta = $vtEntityDelta->getEntityDelta($moduleName, $data->getId(), true);
 		if (isset($delta['active'])) {
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT (1) FROM u_yf_crmentity_last_changes WHERE crmid = ? AND fieldname = ?';
+			$query = 'SELECT (1) FROM u_yf_crmentity_last_changes WHERE crmid = ? && fieldname = ?';
 			$userModel = Users_Privileges_Model::getCurrentUserModel();
 			if ($db->getRow($db->pquery($query, [$data->getId(), 'active']))) {
 				$db->update('u_yf_crmentity_last_changes', [
 					'date_updated' => date('Y-m-d H:i:s'),
 					'user_id' => $userModel->getId(),
-					], 'crmid = ? AND fieldname = ?', [$data->getId(), 'active']);
+					], 'crmid = ? && fieldname = ?', [$data->getId(), 'active']);
 			} else {
 				$params = [
 					'user_id' => $userModel->getId(),

@@ -46,7 +46,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT tabid, name FROM vtiger_tab WHERE isentitytype = ? AND presence = ? AND tabid IN (SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = ?);';
+		$sql = 'SELECT tabid, name FROM vtiger_tab WHERE isentitytype = ? && presence = ? && tabid IN (SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = ?);';
 		$result = $db->pquery($sql, [1, 0, 4]);
 		$numOfRows = $db->num_rows($result);
 
@@ -75,7 +75,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		$success = array('success' => $status);
 		if (!$status) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT cur_id FROM vtiger_modentity_num WHERE tabid = ? AND prefix = ? AND postfix = ?;', [$tabId, $prefix, $postfix]);
+			$result = $db->pquery('SELECT cur_id FROM vtiger_modentity_num WHERE tabid = ? && prefix = ? && postfix = ?;', [$tabId, $prefix, $postfix]);
 			$success['sequenceNumber'] = $db->query_result($result, 0, 'cur_id');
 		}
 

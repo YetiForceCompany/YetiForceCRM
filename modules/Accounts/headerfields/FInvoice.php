@@ -14,7 +14,7 @@ class Accounts_FInvoice_HeaderField
 		$recordId = $viewModel->getRecord()->getId();
 
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT MAX(saledate) AS date,SUM(sum_total) AS total FROM u_yf_finvoice INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid WHERE deleted = ? AND accountid = ?';
+		$sql = 'SELECT MAX(saledate) AS date,SUM(sum_total) AS total FROM u_yf_finvoice INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid WHERE deleted = ? && accountid = ?';
 
 		$result = $db->pquery($sql, [0, $recordId]);
 		$row = $db->getRow($result);

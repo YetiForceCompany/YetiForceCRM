@@ -27,14 +27,14 @@ class Services_Module_Model extends Products_Module_Model {
 			$condition = " vtiger_service.discontinued = 1 ";
 
 			if ($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') {
-				$condition .= " AND vtiger_service.serviceid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
+				$condition .= " && vtiger_service.serviceid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
 			} elseif (in_array($sourceModule, $supportedModulesList) && $skipSelected === false) {
-				$condition .= " AND vtiger_service.serviceid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
+				$condition .= " && vtiger_service.serviceid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
 			}
 
 			$pos = stripos($listQuery, 'where');
 			if ($pos) {
-				$overRideQuery = $listQuery. ' AND ' . $condition;
+				$overRideQuery = $listQuery. ' && ' . $condition;
 			} else {
 				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}

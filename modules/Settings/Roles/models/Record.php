@@ -91,7 +91,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$parentRoleString = $this->getParentRoleString();
 			$currentRoleDepth = $this->getDepth();
 
-			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? AND depth = ?';
+			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? && depth = ?';
 			$params = array($parentRoleString . '::%', $currentRoleDepth + 1);
 			$result = $db->pquery($sql, $params);
 			$roles = [];
@@ -118,7 +118,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				else
 					$parentRoleString = $parentRoleString . '::' . $role;
 			}
-			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? AND depth = ?';
+			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? && depth = ?';
 			$params = array($parentRoleString . '::%', $currentRoleDepth);
 			$result = $db->pquery($sql, $params);
 			$roles = [];
@@ -541,7 +541,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$sql = 'SELECT * FROM vtiger_role WHERE rolename=?';
 		$params = array($name);
 		if (!empty($excludedRecordId)) {
-			$sql.= ' AND roleid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
+			$sql.= ' && roleid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
 			$params = array_merge($params, $excludedRecordId);
 		}
 		$result = $db->pquery($sql, $params);

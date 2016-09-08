@@ -164,9 +164,9 @@ function calendarview_getSelectedUserFilterQuerySuffix()
 				else
 					$user_group_ids = '';
 				$user_group_ids .= $current_user->id;
-				$qcondition = " AND vtiger_crmentity.smownerid IN (" . $user_group_ids . ")";
+				$qcondition = " && vtiger_crmentity.smownerid IN (" . $user_group_ids . ")";
 			} else {
-				$qcondition = " AND vtiger_crmentity.smownerid = " . $adb->sql_escape_string($only_for_user);
+				$qcondition = " && vtiger_crmentity.smownerid = " . $adb->sql_escape_string($only_for_user);
 			}
 		}
 	}

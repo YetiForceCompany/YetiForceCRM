@@ -25,7 +25,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	public function getProgress($id)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT value FROM vtiger_backup_settings WHERE type = ? AND param = ?', ['ftp', 'active']);
+		$result = $db->pquery('SELECT value FROM vtiger_backup_settings WHERE type = ? && param = ?', ['ftp', 'active']);
 		$ftpActive = $db->query_result_raw($result, 0, 'value');
 		if ($ftpActive) {
 			

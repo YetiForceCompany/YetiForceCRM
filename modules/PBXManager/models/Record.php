@@ -27,7 +27,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	public function searchIncomingCall()
 	{
 		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM %s AS module_table INNER JOIN %s AS entity_table  WHERE module_table.callstatus IN(?,?) AND module_table.direction=? AND module_table.pbxmanagerid=entity_table.crmid AND entity_table.deleted=0', self::moduletableName, self::entitytableName);
+		$query = sprintf('SELECT * FROM %s AS module_table INNER JOIN %s AS entity_table  WHERE module_table.callstatus IN(?,?) && module_table.direction=? && module_table.pbxmanagerid=entity_table.crmid && entity_table.deleted=0', self::moduletableName, self::entitytableName);
 		$result = $db->pquery($query, ['ringing', 'in-progress', 'inbound']);
 		$recordModels = [];
 		$rowCount = $db->num_rows($result);
@@ -62,7 +62,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	public function updateCallStatus($recordIds)
 	{
 		$db = PearDatabase::getInstance();
-		$where = sprintf("pbxmanagerid IN (%s) AND callstatus='ringing'", generateQuestionMarks($recordIds));
+		$where = sprintf("pbxmanagerid IN (%s) && callstatus='ringing'", generateQuestionMarks($recordIds));
 		$db->update(self::moduletableName, ['callstatus' => 'no-response'], $where, $recordIds);
 	}
 
@@ -197,7 +197,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			$row = $db->getRow($result);
 			$crmid = $row['crmid'];
 			$fieldname = $row['fieldname'];
-			$contact = $db->pquery('SELECT setype FROM vtiger_crmentity WHERE crmid = ? AND deleted=0', [$crmid]);
+			$contact = $db->pquery('SELECT setype FROM vtiger_crmentity WHERE crmid = ? && deleted=0', [$crmid]);
 			if ($db->num_rows($contact)) {
 				$rowCrm = $db->getRow($contact);
 				$data['id'] = $crmid;
@@ -263,7 +263,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$query .= " FROM vtiger_users";
 
 		if (!empty($lookupcolumns)) {
-			$query .=" WHERE deleted=0 AND ";
+			$query .=" WHERE deleted=0 && ";
 			$i = 0;
 			$columnCount = count($lookupcolumns);
 			foreach ($lookupcolumns as $columnname) {

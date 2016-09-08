@@ -164,7 +164,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
                 $queryWithFromClause .= ' INNER JOIN '.$fieldTableName .
                             ' ON '.$fieldTableName.'.'.$tabNameIndexList[$fieldTableName].'= vtiger_crmentity.crmid';
             }
-            $query =  $queryWithFromClause . ' WHERE vtiger_crmentity.deleted = 0 AND crmid IN ('.  generateQuestionMarks($recordIds).') AND (';
+            $query =  $queryWithFromClause . ' WHERE vtiger_crmentity.deleted = 0 && crmid IN ('.  generateQuestionMarks($recordIds).') && (';
 
             for($i=0; $i<$emailFieldCount;$i++) {
                 for($j=($i+1);$j<$emailFieldCount;$j++){
@@ -182,7 +182,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
             $num_rows = $db->num_rows($result);
 
             if($num_rows == 0) {
-                $query = $queryWithFromClause . ' WHERE vtiger_crmentity.deleted = 0 AND crmid IN ('.  generateQuestionMarks($recordIds).') AND (';
+                $query = $queryWithFromClause . ' WHERE vtiger_crmentity.deleted = 0 && crmid IN ('.  generateQuestionMarks($recordIds).') && (';
                 foreach($emailColumnNames as $index =>$columnName) {
                     $query .= " $columnName != ''";
                     //add glue or untill unless it is the last email field

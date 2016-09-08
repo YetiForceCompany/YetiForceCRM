@@ -296,10 +296,10 @@ class WebserviceField
 			$referenceTypes = [];
 			if (!in_array($this->getUIType(), [66, 67, 68])) {
 				if ($this->getUIType() != $this->genericUIType) {
-					$sql = "select vtiger_ws_referencetype.`type` from vtiger_ws_referencetype INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_ws_referencetype.`type` where fieldtypeid=? AND vtiger_tab.`presence` NOT IN (?)";
+					$sql = "select vtiger_ws_referencetype.`type` from vtiger_ws_referencetype INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_ws_referencetype.`type` where fieldtypeid=? && vtiger_tab.`presence` NOT IN (?)";
 					$params = array($fieldTypeData['fieldtypeid'], 1);
 				} else {
-					$sql = 'select relmodule as type from vtiger_fieldmodulerel INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_fieldmodulerel.`relmodule` WHERE fieldid=? AND vtiger_tab.`presence` NOT IN (?) ORDER BY sequence ASC';
+					$sql = 'select relmodule as type from vtiger_fieldmodulerel INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_fieldmodulerel.`relmodule` WHERE fieldid=? && vtiger_tab.`presence` NOT IN (?) ORDER BY sequence ASC';
 					$params = array($this->getFieldId(), 1);
 				}
 				$result = $this->pearDB->pquery($sql, $params);

@@ -23,7 +23,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 		$return = 0;
 
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', [$userId, 'pushcall']);
+		$result = $adb->pquery('SELECT id FROM yetiforce_mobile_keys WHERE user = ? && service = ?;', [$userId, 'pushcall']);
 		if ($adb->getRowCount($result)) {
 			$return = true;
 		}
@@ -55,11 +55,11 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 		$params = array('Active');
 		$sql = '';
 		if ($userid) {
-			$sql .= ' AND vtiger_users.id <> ?';
+			$sql .= ' && vtiger_users.id <> ?';
 			$params[] = $userid;
 		}
 		if ($service) {
-			$sql .= ' AND yetiforce_mobile_keys.service = ?';
+			$sql .= ' && yetiforce_mobile_keys.service = ?';
 			$params[] = $service;
 		}
 		$query = 'SELECT yetiforce_mobile_keys.*, 

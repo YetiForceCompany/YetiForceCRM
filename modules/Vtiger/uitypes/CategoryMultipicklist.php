@@ -28,7 +28,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 				if (!$db) {
 					$db = PearDatabase::getInstance();
 				}
-				$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $treeId]);
+				$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $treeId]);
 				$parentName = '';
 				$name = false;
 				if ($db->getRowCount($result)) {
@@ -38,7 +38,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 						$pieces = explode('::', $parenttrre);
 						end($pieces);
 						$parent = prev($pieces);
-						$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
+						$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $parent]);
 						$parentName = $db->getSingleValue($result2);
 						$parentName = '(' . vtranslate($parentName, $module) . ') ';
 					}

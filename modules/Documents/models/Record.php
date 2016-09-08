@@ -122,7 +122,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			   FROM vtiger_crmentity INNER JOIN vtiger_senotesrel 
 				   ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid 
 			   WHERE vtiger_crmentity.deleted = 0 
-				 AND vtiger_senotesrel.notesid = ?';
+				 && vtiger_senotesrel.notesid = ?';
 		$result = $db->pquery($sql, [$record]);
 		return $db->getArrayColumn($result);
 	}

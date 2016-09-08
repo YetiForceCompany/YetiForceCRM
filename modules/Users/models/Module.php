@@ -24,7 +24,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if ($sourceModule == 'Users' && $field == 'reports_to_id') {
 			$overRideQuery = $listQuery;
 			if (!empty($record)) {
-				$overRideQuery = $overRideQuery . " AND vtiger_users.id != " . $record;
+				$overRideQuery = $overRideQuery . " && vtiger_users.id != " . $record;
 			}
 			return $overRideQuery;
 		}
@@ -43,7 +43,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if (!empty($searchValue)) {
 			$db = PearDatabase::getInstance();
 
-			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? OR last_name LIKE ?) AND status = ?';
+			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? OR last_name LIKE ?) && status = ?';
 			$params = array("%$searchValue%", "%$searchValue%", 'Active');
 
 			$result = $db->pquery($query, $params);
@@ -180,7 +180,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$userIPAddress = $_SERVER['REMOTE_ADDR'];
 		$outtime = date("Y-m-d H:i:s");
 
-		$loginIdQuery = "SELECT MAX(login_id) AS login_id FROM vtiger_loginhistory WHERE user_name=? AND user_ip=?";
+		$loginIdQuery = "SELECT MAX(login_id) AS login_id FROM vtiger_loginhistory WHERE user_name=? && user_ip=?";
 		$result = $adb->pquery($loginIdQuery, array($userRecordModel->get('user_name'), $userIPAddress));
 		$loginid = $adb->query_result($result, 0, "login_id");
 
@@ -230,7 +230,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = "SELECT COUNT(*) as num FROM vtiger_users WHERE email1 = ? AND id != ?";
+		$sql = "SELECT COUNT(*) as num FROM vtiger_users WHERE email1 = ? && id != ?";
 		$result = $db->pquery($sql, array($email, $id), TRUE);
 
 		return !!$db->query_result($result, 0, 'num');
@@ -257,7 +257,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public static function getAdminUsers()
 	{
 		$adb = PearDatabase::getInstance();
-		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'on' AND deleted = 0";
+		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'on' && deleted = 0";
 		$result = $adb->query($query);
 		$numRows = $adb->num_rows($result);
 		for ($i = 0; $i < $numRows; $i++) {
@@ -282,7 +282,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public static function getNotAdminUsers()
 	{
 		$adb = PearDatabase::getInstance();
-		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'off' AND deleted = 0 AND status='Active'";
+		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'off' && deleted = 0 && status='Active'";
 		$result = $adb->query($query);
 		$numRows = $adb->num_rows($result);
 		for ($i = 0; $i < $numRows; $i++) {

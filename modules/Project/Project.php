@@ -145,7 +145,7 @@ class Project extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -182,7 +182,7 @@ class Project extends CRMEntity
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-			$sec_query .= " AND (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
+			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
 					(
 						SELECT vtiger_user2role.userid FROM vtiger_user2role
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
@@ -192,7 +192,7 @@ class Project extends CRMEntity
 					OR vtiger_crmentity.smownerid IN
 					(
 						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
-						WHERE userid=" . $current_user->id . " AND tabid=" . $tabid . "
+						WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
 					)
 					OR
 						(";
@@ -240,7 +240,7 @@ class Project extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($thismodule));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -258,7 +258,7 @@ class Project extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if ($where != '')
-			$query .= " WHERE ($where) AND $where_auto";
+			$query .= " WHERE ($where) && $where_auto";
 		else
 			$query .= " WHERE $where_auto";
 
@@ -488,7 +488,7 @@ class Project extends CRMEntity
 
 		$related_projecttasks = $adb->pquery("SELECT pt.* FROM vtiger_projecttask AS pt
 												INNER JOIN vtiger_crmentity AS crment ON pt.projecttaskid=crment.crmid
-												WHERE projectid=? AND crment.deleted=0 AND pt.startdate IS NOT NULL AND pt.enddate IS NOT NULL", array($record)) or die("Please install the ProjectMilestone and ProjectTasks modules first.");
+												WHERE projectid=? && crment.deleted=0 && pt.startdate IS NOT NULL && pt.enddate IS NOT NULL", array($record)) or die("Please install the ProjectMilestone and ProjectTasks modules first.");
 
 		while ($rec_related_projecttasks = $adb->fetchByAssoc($related_projecttasks)) {
 
@@ -563,11 +563,11 @@ class Project extends CRMEntity
 		if ($relatedName == 'get_many_to_many') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
-			$where = '(relcrmid= ? AND module IN (?) AND crmid IN (?)) OR (crmid= ? AND relmodule IN (?) AND relcrmid IN (?))';
+			$where = '(relcrmid= ? && module IN (?) && crmid IN (?)) OR (crmid= ? && relmodule IN (?) && relcrmid IN (?))';
 			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
 			$this->db->delete('vtiger_crmentityrel', $where, $params);
 
-			$sql = sprintf('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN (%s))', $return_modules);
+			$sql = sprintf('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule IN (%s))', $return_modules);
 			$fieldRes = $this->db->pquery($sql, [$currentModule]);
 			$numOfFields = $this->db->num_rows($fieldRes);
 
@@ -578,7 +578,7 @@ class Project extends CRMEntity
 				$relatedModule = vtlib\Functions::getModuleName($tabId);
 				$focusObj = CRMEntity::getInstance($relatedModule);
 
-				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) AND $focusObj->table_index=?";
+				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) && $focusObj->table_index=?";
 				$updateParams = array(null, $id);
 				$this->db->pquery($updateQuery, $updateParams);
 			}

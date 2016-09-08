@@ -122,7 +122,7 @@ class PDO implements BackendInterface {
         $propPatch->handleRemaining(function($properties) use ($path) {
 
             $updateStmt = $this->pdo->prepare("REPLACE INTO " . $this->tableName . " (path, name, valuetype, value) VALUES (?, ?, ?, ?)");
-            $deleteStmt = $this->pdo->prepare("DELETE FROM " . $this->tableName . " WHERE path = ? AND name = ?");
+            $deleteStmt = $this->pdo->prepare("DELETE FROM " . $this->tableName . " WHERE path = ? && name = ?");
 
             foreach ($properties as $name => $value) {
 

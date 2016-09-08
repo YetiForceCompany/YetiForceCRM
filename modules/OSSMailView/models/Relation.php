@@ -13,7 +13,7 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 	{
 		$return = false;
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?';
+		$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? && crmid = ?';
 		$result = $db->pquery($query, [$mailId, $crmid]);
 		if ($db->getRowCount($result) == 0) {
 			if (!$date) {
@@ -27,7 +27,7 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 			]);
 
 			if ($parentId = Users_Privileges_Model::getParentRecord($crmid)) {
-				$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?';
+				$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? && crmid = ?';
 				$result = $db->pquery($query, [$mailId, $parentId]);
 				if ($db->getRowCount($result) == 0) {
 					$db->insert('vtiger_ossmailview_relation', [
@@ -36,7 +36,7 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 						'date' => $date
 					]);
 					if ($parentId = Users_Privileges_Model::getParentRecord($parentId)) {
-						$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?';
+						$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? && crmid = ?';
 						$result = $db->pquery($query, [$mailId, $parentId]);
 						if ($db->getRowCount($result) == 0) {
 							$db->insert('vtiger_ossmailview_relation', [

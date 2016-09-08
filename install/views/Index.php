@@ -340,7 +340,7 @@ class Install_Index_view extends Vtiger_View_Controller
 					$salt = '$1$' . str_pad($salt, 9, '0');
 				}
 				$encrypted_password = crypt($password, $salt);
-				$query = "SELECT 1 from vtiger_users where user_name=? AND user_password=? AND status = ?";
+				$query = "SELECT 1 from vtiger_users where user_name=? && user_password=? && status = ?";
 				$result = $adb->requirePsSingleResult($query, array($username, $encrypted_password, 'Active'), true);
 				if ($adb->num_rows($result) > 0) {
 					$loginStatus = true;

@@ -18,14 +18,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$sql = 'SELECT * FROM roundcube_users';
 		$where = false;
 		if ($password) {
-			$where .= " AND password <> ''";
+			$where .= " && password <> ''";
 		}
 		if ($user) {
-			$where .= ' AND user_id = ?';
+			$where .= ' && user_id = ?';
 			$param[] = $user;
 		}
 		if ($onlyMy) {
-			$where .= ' AND crm_user_id = ?';
+			$where .= ' && crm_user_id = ?';
 			$param[] = $currentUserModel->getId();
 		}
 		if ($where) {
@@ -122,7 +122,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			return FALSE;
 		}
 		$sUsers = implode(',', $users);
-		$result = $adb->pquery("SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid IN (?) AND status = 1;", [$sUsers]);
+		$result = $adb->pquery("SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid IN (?) && status = 1;", [$sUsers]);
 		if ($adb->query_result_raw($result, 0, 'num') > 0) {
 			return FALSE;
 		}

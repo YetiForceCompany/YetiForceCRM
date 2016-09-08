@@ -106,7 +106,7 @@ function getListQuery($module, $where = '')
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid %s 
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.converted = 0 %s";
+			WHERE vtiger_crmentity.deleted = 0 && vtiger_leaddetails.converted = 0 %s";
 			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 		Case 'Products':
@@ -198,7 +198,7 @@ function getListQuery($module, $where = '')
 			}
 			//end
 			$instance = CRMEntity::getInstance($module);
-			$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
+			$query.=" WHERE vtiger_crmentity.deleted = 0 && activitytype != 'Emails' ";
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $current_user);
 			if ($securityParameter != '')
 				$query.= $securityParameter;
@@ -291,7 +291,7 @@ function getListQuery($module, $where = '')
 				 	FROM vtiger_users
 				 	INNER JOIN vtiger_user2role ON vtiger_users.id = vtiger_user2role.userid
 				 	INNER JOIN vtiger_role ON vtiger_user2role.roleid = vtiger_role.roleid
-					WHERE deleted=0 AND status <> 'Inactive' %s";
+					WHERE deleted=0 && status <> 'Inactive' %s";
 			$query = sprintf($query, $where);
 			break;
 		default:

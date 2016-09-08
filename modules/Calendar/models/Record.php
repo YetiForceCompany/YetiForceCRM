@@ -37,7 +37,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			if (empty($fieldName)) {
 				$fieldName = self::getNameByReference($refModuleName);
 			}
-			$result = $db->pquery("SELECT vtiger_activity.status,date_start FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid WHERE vtiger_crmentity.deleted = ? AND vtiger_activity.$fieldName = ? AND vtiger_activity.status IN ('" . implode("','", Calendar_Module_Model::getComponentActivityStateLabel('current')) . "') ORDER BY date_start ASC LIMIT 1;", [0, $ID]);
+			$result = $db->pquery("SELECT vtiger_activity.status,date_start FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid WHERE vtiger_crmentity.deleted = ? && vtiger_activity.$fieldName = ? && vtiger_activity.status IN ('" . implode("','", Calendar_Module_Model::getComponentActivityStateLabel('current')) . "') ORDER BY date_start ASC LIMIT 1;", [0, $ID]);
 			if ($row = $db->getRow($result)) {
 				$date = new DateTime(date('Y-m-d'));
 				$diff = $date->diff(new DateTime($row['date_start']));
@@ -217,7 +217,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		$date_start = date('Y-m-d', $datatimeSTR);
 		$db->pquery('UPDATE vtiger_activity_reminder_popup set status = ?, date_start = ?, time_start = ? WHERE recordid = ?', array(0, $date_start, $time_start, $this->getId()));
 
-		$result = $db->pquery('SELECT value FROM vtiger_calendar_config WHERE type = ? AND name = ? AND value = ?', array('reminder', 'update_event', 1));
+		$result = $db->pquery('SELECT value FROM vtiger_calendar_config WHERE type = ? && name = ? && value = ?', array('reminder', 'update_event', 1));
 		if ($db->num_rows($result) > 0) {
 			$query = 'SELECT date_start, time_start, due_date, time_end FROM vtiger_activity WHERE activityid = ?';
 			$result = $db->pquery($query, array($this->getId()));
