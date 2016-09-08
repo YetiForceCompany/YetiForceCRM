@@ -1532,5 +1532,5 @@ $jsLanguageStrings = [
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Masowa edycja nie powiodła się',
 	'JS_GET_PAGINATION_INFO' => 'Trwa ładowanie ilości rekordów. Czas ukończenia zależy od ilości rekordów.',
 	'JS_WIDGET_DELETED' => 'Usunięto widget',
-	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domana jest zastrzeżona należy wprowadzić inną.',
+	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domena jest zastrzeżona, należy wprowadzić inną.',
 ];
