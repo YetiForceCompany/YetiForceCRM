@@ -89,7 +89,6 @@ $languageStrings = [
 	'LBL_INVENTORY_BALANCE' => 'balance',
 	'LBL_DISCOUNT' => 'Discount',
 	'LBL_CREDIT_LIMIT' => 'Credit limit',
-	'Campaign status' => 'Campaign status',
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Account deactivated by ',
 	'SINGLE_Vendors' => 'Vendor',

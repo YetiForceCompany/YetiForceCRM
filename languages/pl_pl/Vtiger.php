@@ -1256,7 +1256,8 @@ $languageStrings = [
 	'Potentials' => 'Szanse sprzedaży',
 	'LBL_PICKLIST_FIELD' => 'Lista wyboru z pola',
 	'LBL_MAP' => 'Mapa',
-	'LBL_SHOW_MAP' => 'Pokaż na mapie'
+	'LBL_SHOW_MAP' => 'Pokaż na mapie',
+	'FL_CAMPAIGN_STATUS' => 'Status kampani'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

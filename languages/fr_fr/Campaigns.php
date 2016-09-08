@@ -17,7 +17,6 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'List des campagnes',
 	//FIELDS
 	'Budget Cost' => 'Coût budgeté',
-	'Campaign Status' => 'Statut Campagne',
 	'Campaign Type' => 'Type de Campagne',
 	//BLOCKS
 	'LBL_CAMPAIGN_INFORMATION' => 'Détails de la campagne',

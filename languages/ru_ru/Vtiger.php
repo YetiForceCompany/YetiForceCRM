@@ -1264,7 +1264,8 @@ $languageStrings = [
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Получить общее количество записей',
 	'Potentials' => 'Сделки',
 	'LBL_PICKLIST_FIELD' => 'Выберите одно из полей',
-	'LBL_MAP' => 'Map'
+	'LBL_MAP' => 'Map',
+	'FL_CAMPAIGN_STATUS' => 'Статус Компании',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',

@@ -106,7 +106,6 @@ $languageStrings = [
 	'LBL_RELATION' => 'Relation',
 	'LBL_LEGAL_FORM' => 'Forme légale',
 	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Au moins deux Organisations remplissent les critères de liaisons : (Administration > Processus > Processus Marketing > Conversion) %s',
-	'Campaign status' => 'Satuts Campagne',
 ];
 
 $jsLanguageStrings = [
