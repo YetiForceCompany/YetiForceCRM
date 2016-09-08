@@ -489,7 +489,7 @@ class Emails extends CRMEntity
 		$sql = 'DELETE FROM vtiger_seactivityrel WHERE activityid=? && crmid = ?';
 		$this->db->pquery($sql, array($id, $returnId));
 
-		$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? && relmodule=? && relcrmid=?) OR (relcrmid=? && module=? && crmid=?)';
+		$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
 		$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
 		$this->db->pquery($sql, $params);
 

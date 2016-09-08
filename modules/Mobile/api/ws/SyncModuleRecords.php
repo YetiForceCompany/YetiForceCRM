@@ -145,7 +145,7 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 				INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid=vtiger_crmentity.crmid
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE (vtiger_crmentity.deleted=1 OR (vtiger_crmentity.deleted=0 && vtiger_leaddetails.converted=1)) && vtiger_crmentity.setype=? && vtiger_crmentity.modifiedtime > ? $andsmowneridequal", $queryDeletedParameters);
+				WHERE (vtiger_crmentity.deleted=1 || (vtiger_crmentity.deleted=0 && vtiger_leaddetails.converted=1)) && vtiger_crmentity.setype=? && vtiger_crmentity.modifiedtime > ? $andsmowneridequal", $queryDeletedParameters);
 			} else {
 				$queryDeleted = $adb->pquery("SELECT crmid, modifiedtime, setype FROM vtiger_crmentity
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid

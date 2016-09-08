@@ -29,7 +29,7 @@ Class DataAccess_check_task
 								AND vtiger_activity.activitytype = ? 
 								AND vtiger_activity.status in ('%s')
 								AND vtiger_activity.subject = ?
-								AND (vtiger_activity.link = ? OR vtiger_activity.process = ? )", $config['status']), array(0, 'Task', $config['name'], $ID, $ID), true);
+								AND (vtiger_activity.link = ? || vtiger_activity.process = ? )", $config['status']), array(0, 'Task', $config['name'], $ID, $ID), true);
 
 		if ($db->query_result($result, 0, 'num') == 0)
 			return Array(

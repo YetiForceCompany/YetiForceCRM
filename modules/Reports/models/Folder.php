@@ -328,7 +328,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
 
 				$groupId = implode(',',$currentUserModel->get('groups'));
 				if ($groupId) {
-					$groupQuery = "(SELECT reportid from vtiger_reportsharing WHERE shareid IN ($groupId) && setype = 'groups') OR ";
+					$groupQuery = "(SELECT reportid from vtiger_reportsharing WHERE shareid IN ($groupId) && setype = 'groups') || ";
 				}
 
 				$sql .= " && (vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $groupQuery shareid = ? && setype = 'users')

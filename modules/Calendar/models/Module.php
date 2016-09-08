@@ -319,7 +319,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$query = "SELECT vtiger_users.first_name,vtiger_users.last_name, vtiger_users.id as userid
 			FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
-			WHERE sharedid=? OR (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
+			WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
 		$result = $db->pquery($query, array($id, $id));
 		$rows = $db->num_rows($result);
 
@@ -500,7 +500,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				INNER JOIN vtiger_crmentity ON vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid';
 
 			if ($allReminder) {
-				$reminderActivitiesResult .= ' WHERE (vtiger_activity_reminder_popup.status = 0 OR vtiger_activity_reminder_popup.status = 2) ';
+				$reminderActivitiesResult .= ' WHERE (vtiger_activity_reminder_popup.status = 0 || vtiger_activity_reminder_popup.status = 2) ';
 			} else {
 				$reminderActivitiesResult .= ' WHERE vtiger_activity_reminder_popup.status = 0 ';
 			}

@@ -1005,7 +1005,7 @@ class CustomView extends CRMEntity
 					elseif ($comparator == 'bw' && count($valuearray) == 2) {
 						$advfiltersql = "(" . $columns[0] . "." . $columns[1] . " between '" . getValidDBInsertDateTimeValue(trim($valuearray[0]), $datatype) . "' and '" . getValidDBInsertDateTimeValue(trim($valuearray[1]), $datatype) . "')";
 					} elseif ($comparator == 'y') {
-						$advfiltersql = sprintf("(%s.%s IS NULL OR %s.%s = '')", $columns[0], $columns[1], $columns[0], $columns[1]);
+						$advfiltersql = sprintf("(%s.%s IS NULL || %s.%s = '')", $columns[0], $columns[1], $columns[0], $columns[1]);
 					} else {
 						//Added for getting vtiger_activity Status -Jaguar
 						if ($this->customviewmodule == "Calendar" && ($columns[1] == "status")) {
@@ -1089,7 +1089,7 @@ class CustomView extends CRMEntity
 			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
 				'vtiger_users' . $tableNameSuffix . '.first_name', 'last_name' => 'vtiger_users' . $tableNameSuffix . '.last_name'), 'Users');
 			$temp_value = '( trim(' . $userNameSql . ')' . $this->getAdvComparator($comparator, $value, $datatype);
-			$temp_value.= " OR  vtiger_groups$tableNameSuffix.groupname" . $this->getAdvComparator($comparator, $value, $datatype) . ')';
+			$temp_value.= " ||  vtiger_groups$tableNameSuffix.groupname" . $this->getAdvComparator($comparator, $value, $datatype) . ')';
 			$value = $temp_value; // Hot fix: removed unbalanced closing bracket ")";
 		} elseif ($fieldname == "inventorymanager") {
 			$value = $tablename . "." . $fieldname . $this->getAdvComparator($comparator, getUserId_Ol($value), $datatype);
@@ -1130,7 +1130,7 @@ class CustomView extends CRMEntity
 			if ($this->customviewmodule == "Calendar" && ($fieldname == "status" || $fieldname == "activitystatus")) {
 				$value = " vtiger_activity.status " . $this->getAdvComparator($comparator, $value, $datatype);
 			} elseif ($comparator == 'e' && (trim($value) == "NULL" || trim($value) == '')) {
-				$value = '(' . $tablename . "." . $fieldname . ' IS NULL OR ' . $tablename . "." . $fieldname . ' = \'\')';
+				$value = '(' . $tablename . "." . $fieldname . ' IS NULL || ' . $tablename . "." . $fieldname . ' = \'\')';
 			} else {
 				$value = $tablename . "." . $fieldname . $this->getAdvComparator($comparator, $value, $datatype);
 			}

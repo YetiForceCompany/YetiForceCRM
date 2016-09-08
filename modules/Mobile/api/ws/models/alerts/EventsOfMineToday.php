@@ -25,7 +25,7 @@ class Mobile_WS_AlertModel_EventsOfMineToday extends Mobile_WS_AlertModel {
 				vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_activity.activityid
 				WHERE vtiger_crmentity.deleted=0 && vtiger_crmentity.smownerid=? && 
 				vtiger_activity.activitytype <> 'Emails' && 
-				(vtiger_activity.date_start = '{$today}' OR vtiger_activity.due_date = '{$today}')";
+				(vtiger_activity.date_start = '{$today}' || vtiger_activity.due_date = '{$today}')";
 		return $sql;
 	}
 	

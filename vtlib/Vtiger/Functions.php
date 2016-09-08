@@ -316,7 +316,7 @@ class Functions
 		}
 		if ($missing) {
 			$sql = sprintf("SELECT crmid, setype, deleted, smcreatorid, smownerid, createdtime 
-				FROM vtiger_crmentity WHERE %s ", implode(' OR ', array_fill(0, count($missing), 'vtiger_crmentity.crmid=?')));
+				FROM vtiger_crmentity WHERE %s ", implode(' || ', array_fill(0, count($missing), 'vtiger_crmentity.crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->getRow($result)) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
@@ -377,7 +377,7 @@ class Functions
 
 		if ($module && (!isset(self::$moduleFieldInfoByNameCache[$module]))) {
 			$result = ($module == 'Calendar') ?
-				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? OR tabid=?', array(9, 16)) :
+				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? || tabid=?', array(9, 16)) :
 				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=?', array(self::getModuleId($module)));
 
 			self::$moduleFieldInfoByNameCache[$module] = [];

@@ -406,7 +406,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		} else if (in_array($moduleName, Vtiger_ModulesHierarchy_Model::getModulesMapMMBase())) {
 			$db = PearDatabase::getInstance();
 			$role = $userPrivilegesModel->getRoleDetail();
-			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? OR relcrmid =?', [$record, $record]);
+			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
 				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);

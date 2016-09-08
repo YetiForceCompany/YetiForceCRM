@@ -53,7 +53,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
 
-		$query = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leaddetails.leadsource IS NULL OR vtiger_leaddetails.leadsource = "" THEN "" 
+		$query = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leaddetails.leadsource IS NULL || vtiger_leaddetails.leadsource = "" THEN "" 
 						ELSE vtiger_leaddetails.leadsource END AS leadsourcevalue FROM vtiger_leaddetails 
 						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
 						AND deleted=0 && converted = 0 %s %s %s

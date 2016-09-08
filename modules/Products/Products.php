@@ -903,7 +903,7 @@ class Products extends CRMEntity
 			$sql = 'UPDATE vtiger_products SET vendor_id = ? WHERE productid = ?';
 			$this->db->pquery($sql, array(null, $id));
 		} elseif ($return_module == 'Accounts') {
-			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? && (crmid = ? OR crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
+			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? && (crmid = ? || crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
 			$param = array($id, $return_id, $return_id);
 			$this->db->pquery($sql, $param);
 		} else {

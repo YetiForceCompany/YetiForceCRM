@@ -178,7 +178,7 @@ class Link
 					}
 					$result = $adb->pquery($sql, Array($adb->flatten_array($params)));
 				} else {
-					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE (tabid=? OR tabid=0) && linktype IN (' .
+					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE (tabid=? || tabid=0) && linktype IN (' .
 						Utils::implodestr('?', count($type), ',') . ')', Array($tabid, $adb->flatten_array($type)));
 				}
 			} else {
@@ -186,7 +186,7 @@ class Link
 				if ($tabid === self::IGNORE_MODULE) {
 					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE linktype=?', Array($type));
 				} else {
-					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE (tabid=? OR tabid=0) && linktype=?', Array($tabid, $type));
+					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE (tabid=? || tabid=0) && linktype=?', Array($tabid, $type));
 				}
 			}
 		} else {

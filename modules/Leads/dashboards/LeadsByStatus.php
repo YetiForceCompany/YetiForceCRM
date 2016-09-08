@@ -54,7 +54,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
 
-		$sql = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leadstatus.leadstatus IS NULL OR vtiger_leadstatus.leadstatus = "" THEN "" ELSE 
+		$sql = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leadstatus.leadstatus IS NULL || vtiger_leadstatus.leadstatus = "" THEN "" ELSE 
 						vtiger_leadstatus.leadstatus END AS leadstatusvalue
 				FROM vtiger_leaddetails 
 				INNER JOIN vtiger_crmentity

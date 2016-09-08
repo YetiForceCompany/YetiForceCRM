@@ -938,7 +938,7 @@ class Activity extends CRMEntity
 		;
 		$query = "SELECT vtiger_users.id as userid FROM vtiger_sharedcalendar
 					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
-					WHERE sharedid=? OR (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
+					WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
 		$result = $db->pquery($query, array($sharedid, $sharedid));
 		$rows = $db->num_rows($result);
 		if ($db->num_rows($result) != 0) {

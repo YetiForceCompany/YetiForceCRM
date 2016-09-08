@@ -791,7 +791,7 @@ class HTTP_Request
 				$this->_url->path = $redirect;
 
 				// Relative path
-			} elseif (substr($redirect, 0, 3) == '../' OR substr($redirect, 0, 2) == './') {
+			} elseif (substr($redirect, 0, 3) == '../' || substr($redirect, 0, 2) == './') {
 				if (substr($this->_url->path, -1) == '/') {
 					$redirect = $this->_url->path . $redirect;
 				} else {

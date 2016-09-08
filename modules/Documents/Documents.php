@@ -400,13 +400,13 @@ class Documents extends CRMEntity
 			return;
 
 		if ($returnModule == 'Accounts') {
-			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && (crmid = ? OR crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
+			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && (crmid = ? || crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
 			$this->db->pquery($sql, array($id, $returnId, $returnId));
 		} else {
 			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && crmid = ?';
 			$this->db->pquery($sql, array($id, $returnId));
 
-			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? && relmodule=? && relcrmid=?) OR (relcrmid=? && module=? && crmid=?)';
+			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
 			$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
 			$this->db->pquery($sql, $params);
 		}

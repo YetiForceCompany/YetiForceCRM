@@ -191,7 +191,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$fnumber = preg_replace('/[-()\s+]/', '', $from);
 		$rnumber = strrev($fnumber);
-		$query = sprintf('SELECT crmid, fieldname FROM %s WHERE fnumber LIKE "%s" OR rnumber LIKE "%s" ', self::lookuptableName, "$fnumber%", "$rnumber%");
+		$query = sprintf('SELECT crmid, fieldname FROM %s WHERE fnumber LIKE "%s" || rnumber LIKE "%s" ', self::lookuptableName, "$fnumber%", "$rnumber%");
 		$result = $db->query($query);
 		if ($db->num_rows($result)) {
 			$row = $db->getRow($result);
@@ -271,7 +271,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 					if ($i == 0 || $i == ($columnCount))
 						$query .= sprintf("%s = '%s'", $columnname, $value);
 					else
-						$query .= sprintf(" OR %s = '%s'", $columnname, $value);
+						$query .= sprintf(" || %s = '%s'", $columnname, $value);
 					$i++;
 				}
 			}

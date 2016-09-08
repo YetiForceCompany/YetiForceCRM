@@ -24,7 +24,7 @@ Class DataAccess_check_alltask{
 								WHERE vtiger_crmentity.deleted = ? 
 								AND vtiger_activity.activitytype = ? 
 								AND vtiger_activity.status in ('%s')
-								AND (vtiger_activity.link = ? OR vtiger_activity.process = ?)", $config['status']), array(0, 'Task', $ID, $ID), true);
+								AND (vtiger_activity.link = ? || vtiger_activity.process = ?)", $config['status']), array(0, 'Task', $ID, $ID), true);
 
 		if ($db->query_result($result, 0, 'num') > 0)
 			return Array(

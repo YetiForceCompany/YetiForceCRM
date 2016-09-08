@@ -51,7 +51,7 @@ class Vtiger_Report_Model extends Reports {
 				if($currentUser->isAdminUser() == false) {
 					$ssql .= " && (($nonAdminQuery)
 								OR vtiger_report.sharingtype = 'Public'
-								OR vtiger_report.owner = ? OR vtiger_report.owner IN
+								OR vtiger_report.owner = ? || vtiger_report.owner IN
 									(SELECT vtiger_user2role.userid FROM vtiger_user2role
 									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
 									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
