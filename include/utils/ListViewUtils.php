@@ -294,6 +294,21 @@ function getListQuery($module, $where = '')
 					WHERE deleted=0 && status <> 'Inactive' %s";
 			$query = sprintf($query, $where);
 			break;
+		Case "Reservations":
+			$query = "SELECT vtiger_crmentity.*, vtiger_reservations.*, vtiger_reservationscf.* FROM vtiger_reservations 
+                INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_reservations.reservationsid 
+                INNER JOIN vtiger_reservationscf ON vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid 
+                LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid 
+                LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid 
+                LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_reservations.relatedida 
+                LEFT JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_reservations.relatedida 
+                LEFT JOIN vtiger_vendor ON vtiger_vendor.vendorid = vtiger_reservations.relatedida 
+                LEFT JOIN vtiger_project ON vtiger_project.projectid = vtiger_reservations.relatedidb 
+                LEFT JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.relatedidb 
+                WHERE vtiger_reservations.reservationsid > 0 
+                && vtiger_crmentity.deleted = 0 ";
+			$query = sprintf($query, $where);
+			break;
 		default:
 			// vtlib customization: Include the module file
 			$focus = CRMEntity::getInstance($module);
