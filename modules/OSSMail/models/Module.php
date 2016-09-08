@@ -54,7 +54,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->query("SELECT * FROM $table;");
-		while ($row = $adb->fetch_array($result)) {
+		while ($row = $adb->getRow($result)) {
 			$name = $row['name'];
 			$email = $row['email'];
 			$users = $row['users'];

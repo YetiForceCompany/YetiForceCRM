@@ -457,8 +457,13 @@ class Owner
 	public static function getUsersIds($status = 'Active')
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
-			$instance = new self();
-			$rows = $instance->initUsers($status);
+			$rows = [];
+			if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+				$rows = \includes\PrivilegeFile::getUser('id');
+			} else {
+				$instance = new self();
+				$rows = $instance->initUsers($status);
+			}
 			self::$usersIdsCache[$status] = array_keys($rows);
 		}
 		return self::$usersIdsCache[$status];

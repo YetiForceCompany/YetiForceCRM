@@ -1428,7 +1428,7 @@ class Users extends CRMEntity
 	public static function getActiveAdminUser()
 	{
 		$adminId = self::getActiveAdminId();
-		$user = new Users();
+		$user = CRMEntity::getInstance('Users');
 		$user->retrieveCurrentUserInfoFromFile($adminId);
 		return $user;
 	}
