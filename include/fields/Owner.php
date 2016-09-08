@@ -237,7 +237,7 @@ class Owner
 				array_push($params, "%$this->searchValue%");
 			}
 			if (!empty($where)) {
-				$query .= ' WHERE ' . ltrim($where, ' AND');
+				$query .= ' WHERE ' . ltrim($where, ' &&');
 			}
 			$result = $db->pquery($query, $params);
 			$tempResult = [];
