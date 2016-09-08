@@ -434,14 +434,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getSharedType($currentUserId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT calendarsharedtype FROM vtiger_users WHERE id=?";
-		$result = $db->pquery($query, array($currentUserId));
-		if ($db->num_rows($result) > 0) {
-			$sharedType = $db->query_result($result, 0, 'calendarsharedtype');
-		}
-		return $sharedType;
+		$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUserId);
+		return $userPrivilegesModel->get('calendarsharedtype');
 	}
 
 	/**

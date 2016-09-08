@@ -522,7 +522,7 @@ class Owner
 			return self::$userLabelCache[$id];
 		}
 
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \includes\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
@@ -546,7 +546,7 @@ class Owner
 		if (isset(self::$typeCache[$id])) {
 			return self::$typeCache[$id];
 		}
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \includes\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
