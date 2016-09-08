@@ -679,7 +679,6 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 		var data = container.find('.widgetData').val();
 		var dataInfo = JSON.parse(data);
 		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
-			console.log(dataInfo[pointIndex]);
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});

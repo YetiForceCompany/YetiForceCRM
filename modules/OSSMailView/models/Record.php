@@ -333,4 +333,9 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$db->delete('vtiger_ossmailview_relation', 'ossmailviewid = ? && crmid = ?', [$params['mailId'], $params['crmid']]);
 		return vtranslate('Removed relationship', 'OSSMail');
 	}
+
+	public function isEditable()
+	{
+		return false;
+	}
 }

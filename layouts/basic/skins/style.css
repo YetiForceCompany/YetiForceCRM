@@ -5274,7 +5274,7 @@ select.form-control {
 	color: #000;
 	min-height: 450px;
 }
-.knowledgePresentationControl, .listViewSearchTd {
+.knowledgePresentationControl {
 	width: 5%;
 }
 .knowledgePresentationInner {
@@ -5683,4 +5683,7 @@ select.form-control {
 .leftRecordActions:hover .actions .actionImages,
 .leftRecordActions div {
 	display: inline-block !important;
+}
+.listViewSearchTd{
+	width: 1%;
 }
