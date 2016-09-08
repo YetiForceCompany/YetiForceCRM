@@ -227,49 +227,9 @@ function vtws_getModuleInstance($webserviceObject)
 	return CRMEntity::getInstance($moduleName);
 }
 
-function vtws_isRecordOwnerUser($ownerId)
-{
-	$adb = PearDatabase::getInstance();
-
-	static $cache = [];
-	if (!array_key_exists($ownerId, $cache)) {
-		$result = $adb->pquery("select first_name from vtiger_users where id = ?", array($ownerId));
-		$rowCount = $adb->num_rows($result);
-		$ownedByUser = ($rowCount > 0);
-		$cache[$ownerId] = $ownedByUser;
-	} else {
-		$ownedByUser = $cache[$ownerId];
-	}
-
-	return $ownedByUser;
-}
-
-function vtws_isRecordOwnerGroup($ownerId)
-{
-	$adb = PearDatabase::getInstance();
-
-	static $cache = [];
-	if (!array_key_exists($ownerId, $cache)) {
-		$result = $adb->pquery("select groupname from vtiger_groups where groupid = ?", array($ownerId));
-		$rowCount = $adb->num_rows($result);
-		$ownedByGroup = ($rowCount > 0);
-		$cache[$ownerId] = $ownedByGroup;
-	} else {
-		$ownedByGroup = $cache[$ownerId];
-	}
-
-	return $ownedByGroup;
-}
-
 function vtws_getOwnerType($ownerId)
 {
-	if (vtws_isRecordOwnerGroup($ownerId) == true) {
-		return 'Groups';
-	}
-	if (vtws_isRecordOwnerUser($ownerId) == true) {
-		return 'Users';
-	}
-	throw new WebServiceException(WebServiceErrorCode::$INVALIDID, "Invalid owner of the record");
+	return \includes\fields\Owner::getType($ownerId);
 }
 
 function vtws_runQueryAsTransaction($query, $params, &$result)

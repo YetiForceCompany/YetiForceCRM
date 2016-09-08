@@ -467,7 +467,9 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $seType;
 	}
 
-	function exists($recordId)
+	protected static $userExistsCache = [];
+
+	public function exists($recordId)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -475,13 +477,20 @@ class VtigerCRMObjectMeta extends EntityMeta
 		// 
 		// NOTE: We are not caching the record existence 
 		// to ensure only latest state from DB is sent.
-		static $user_exists_cache = [];
+
 
 		$exists = false;
 		$sql = '';
 		$params = [$recordId];
 		if ($this->objectName == 'Users') {
-			if (array_key_exists($recordId, $user_exists_cache)) {
+			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+				$users = \includes\PrivilegeFile::getUser('id');
+				if (isset($users[$recordId]) && $users[$recordId]['deleted'] == '0') {
+					self::$userExistsCache[$recordId] = true;
+					return true;
+				}
+			}
+			if (isset(self::$userExistsCache[$recordId])) {
 				$exists = true;
 			} else {
 				$sql = "select 1 from vtiger_users where id = ? and deleted = 0 and status = ?";
@@ -501,10 +510,9 @@ class VtigerCRMObjectMeta extends EntityMeta
 			}
 			// Cache the value for further lookup.
 			if ($this->objectName == 'Users') {
-				$user_exists_cache[$recordId] = $exists;
+				self::$userExistsCache[$recordId] = $exists;
 			}
 		}
-
 		return $exists;
 	}
 

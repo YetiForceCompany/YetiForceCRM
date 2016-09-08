@@ -27,27 +27,28 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
+		$ownerName = \includes\fields\Owner::getLabel($value);
 		if ($rawText) {
-			return getOwnerName($value);
+			return $ownerName;
 		}
-		if (self::getOwnerType($value) === 'User') {
+		if (\includes\fields\Owner::getType($value) === 'User') {
 			$userModel = Users_Record_Model::getCleanInstance('Users');
 			$userModel->set('id', $value);
 			$detailViewUrl = $userModel->getDetailViewUrl();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
-				return getOwnerName($value);
+				return $ownerName;
 			}
 		} else {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
-				return getOwnerName($value);
+				return $ownerName;
 			}
 			$recordModel = new Settings_Groups_Record_Model();
 			$recordModel->set('groupid', $value);
 			$detailViewUrl = $recordModel->getDetailViewUrl();
 		}
-		return "<a href=" . $detailViewUrl . ">" . getOwnerName($value) . "</a>";
+		return "<a href='" . $detailViewUrl . "'>$ownerName</a>";
 	}
 
 	/**
@@ -60,32 +61,16 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		return $value;
 	}
 
-	/**
-	 * Function to know owner is either User or Group
-	 * @param <Integer> userId/GroupId
-	 * @return <String> User/Group
-	 */
-	public static function getOwnerType($id)
-	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT 1 FROM vtiger_users WHERE id = ?', array($id));
-		if ($db->num_rows($result) > 0) {
-			return 'User';
-		}
-		return 'Group';
-	}
-
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/OwnerFieldSearchView.tpl';
 	}
-	
+
 	public function isAjaxEditable()
 	{
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$roleModel = Settings_Roles_Record_Model::getInstanceById($userPrivModel->get('roleid'));
-		if($roleModel->get('changeowner')){
+		if ($roleModel->get('changeowner')) {
 			return true;
 		}
 		return false;

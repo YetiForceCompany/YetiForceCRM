@@ -521,11 +521,16 @@ class Owner
 		if (isset(self::$userLabelCache[$id])) {
 			return self::$userLabelCache[$id];
 		}
-		$instance = new self();
-		if ($single) {
-			$users = $instance->initUsers('Active', $id);
+
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			$users = \includes\PrivilegeFile::getUser('id');
 		} else {
-			$users = $instance->initUsers();
+			$instance = new self();
+			if ($single) {
+				$users = $instance->initUsers('Active', $id);
+			} else {
+				$users = $instance->initUsers();
+			}
 		}
 		foreach ($users as $uid => &$user) {
 			self::$userLabelCache[$uid] = $user['fullName'];
@@ -541,8 +546,12 @@ class Owner
 		if (isset(self::$typeCache[$id])) {
 			return self::$typeCache[$id];
 		}
-		$instance = new self();
-		$users = $instance->initUsers();
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			$users = \includes\PrivilegeFile::getUser('id');
+		} else {
+			$instance = new self();
+			$users = $instance->initUsers();
+		}
 		$result = isset($users[$id]) ? 'Users' : 'Groups';
 		self::$typeCache[$id] = $result;
 		return $result;

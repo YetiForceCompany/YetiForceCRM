@@ -46,4 +46,6 @@ $PERFORMANCE_CONFIG = [
 	'LOAD_CUSTOM_FILES' => false,
 	// In how many records should the label be updated in cron
 	'CRON_MAX_NUMERS_RECORD_LABELS_UPDATER' => 1000,
+	// Enable caching of user data
+	'ENABLE_CACHING_USERS' => false,
 ];

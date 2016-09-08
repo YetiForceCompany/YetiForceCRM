@@ -314,8 +314,7 @@ class Users extends CRMEntity
 		$this->log->debug("Start of authentication for user: $userName");
 		$result = $this->db->pquery('SELECT * FROM yetiforce_auth');
 		$auth = [];
-		for ($i = 0; $i < $this->db->num_rows($result); $i++) {
-			$row = $this->db->raw_query_result_rowdata($result, $i);
+		while ($row = $this->db->getRow($result)) {
 			$auth[$row['type']][$row['param']] = $row['value'];
 		}
 		if ($auth['ldap']['active'] == 'true') {
@@ -346,14 +345,12 @@ class Users extends CRMEntity
 
 		//Default authentication
 		$this->log->debug('Using integrated/SQL authentication');
-		$query = "SELECT crypt_type, user_name FROM $this->table_name WHERE user_name=?";
-		$result = $this->db->pquery($query, [$userName]);
+		$result = $this->db->pquery("SELECT crypt_type FROM $this->table_name WHERE id=?", [$userid]);
 		if ($result->rowCount() != 1) {
 			$this->log->error("User not found: $userName");
 			return FALSE;
 		}
-		$cryptType = $this->db->query_result($result, 0, 'crypt_type');
-		$this->column_fields["user_name"] = $this->db->query_result($result, 0, 'user_name');
+		$cryptType = $this->db->getSingleValue($result);
 		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
 		$query = "SELECT 1 from $this->table_name where user_name=? AND user_password=? AND status = ?";
 		$result = $this->db->pquery($query, [$userName, $encryptedPassword, 'Active']);
@@ -541,6 +538,12 @@ class Users extends CRMEntity
 	 */
 	function retrieve_user_id($userName)
 	{
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			$users = \includes\PrivilegeFile::getUser('userName');
+			if (isset($users[$userName]) && $users[$userName]['deleted'] == '0') {
+				return $users[$userName]['id'];
+			}
+		}
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
 		$row = $adb->getRow($result);
@@ -673,15 +676,18 @@ class Users extends CRMEntity
 				$this->column_fields['roleid'] = key($roles);
 			}
 		}
-
-		require_once('modules/Users/CreateUserPrivilegeFile.php');
-		createUserPrivilegesfile($this->id);
-		unset($_SESSION['next_reminder_interval']);
-		unset($_SESSION['next_reminder_time']);
 		if ($insertion_mode != 'edit') {
 			$this->createAccessKey();
 		}
 		$db->completeTransaction();
+		require_once('modules/Users/CreateUserPrivilegeFile.php');
+		createUserPrivilegesfile($this->id);
+		unset($_SESSION['next_reminder_interval']);
+		unset($_SESSION['next_reminder_time']);
+
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			\includes\PrivilegeFile::createUsersFile();
+		}
 	}
 
 	function createAccessKey()
@@ -1390,17 +1396,25 @@ class Users extends CRMEntity
 	 */
 	public static function getActiveAdminId()
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		$cache = Vtiger_Cache::getInstance();
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();
 		} else {
-			$sql = "SELECT id FROM vtiger_users WHERE is_admin = 'on' AND status = 'Active' limit 1";
-			$result = $adb->pquery($sql, []);
-			$adminId = 1;
-			$it = new SqlResultIterator($adb, $result);
-			foreach ($it as $row) {
-				$adminId = $row->id;
+			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+				$users = \includes\PrivilegeFile::getUser('id');
+				foreach ($users as $id => $user) {
+					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {
+						$adminId = $id;
+						continue;
+					}
+				}
+			} else {
+				$result = $db->query("SELECT id FROM vtiger_users WHERE is_admin = 'on' AND status = 'Active' limit 1");
+				$adminId = 1;
+				while (($id = $db->getSingleValue($result)) !== false) {
+					$adminId = $id;
+				}
 			}
 			$cache->setAdminUserId($adminId);
 			return $adminId;
