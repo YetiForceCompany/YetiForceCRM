@@ -23,7 +23,7 @@
 								</li>
 								{assign var="WIDGET" value=""}
 								{foreach from=$WIDGETS item=WIDGET}
-									<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
+									<li><a class="pull-left" onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
 										   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}" data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}" data-id="{$WIDGET->get('widgetid')}">
 											{vtranslate($WIDGET->getTitle(), $MODULE_NAME)} </a>
 										{if $WIDGET->get('deleteFromList')}

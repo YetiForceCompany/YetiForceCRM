@@ -5655,15 +5655,12 @@ select.form-control {
 }
 .addWidgetDropDown.dropdown-menu > li{
 	display: inline-block;
-	padding: 2px;
+	padding: 0 2px;
 	width: 100%;
 	white-space: nowrap;
 }
 .addWidgetDropDown.dropdown-menu > li > a{
 	display: inline;
-}
-.addWidgetDropDown .removeWidgetFromList{
-	float: none;
 }
 .headerLinksMails .select2-selection__rendered:hover {
 	background: #f5f5f5 !important;
