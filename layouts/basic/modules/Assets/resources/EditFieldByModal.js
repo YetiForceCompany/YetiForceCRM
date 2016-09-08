@@ -26,8 +26,12 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 				function (data) {
 					data = jQuery(data);
 					data.find('.relatedContents .relationDelete').remove();
-					var totalCount = data.find('#totalCount').val();
-					if (totalCount == 0) {
+					var totalCount = data.find('table .listViewEntries');
+					var searchButton = data.find('.searchField');
+					if (searchButton.length) {
+						searchButton.closest('tr').remove();
+					}
+					if (totalCount.length == 0) {
 						form.find('.relatedRecordsContents .message').removeClass('hide');
 						progressIndicatorElement.progressIndicator({'mode': 'hide'})
 						return;
