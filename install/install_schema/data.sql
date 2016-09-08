@@ -1546,6 +1546,7 @@ insert  into `vtiger_crmentity_seq`(`id`) values (110);
 /*Data for the table `vtiger_cron_task` */
 
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (1,'Workflow','cron/modules/com_vtiger_workflow/com_vtiger_workflow.service',900,NULL,NULL,1,'com_vtiger_workflow',1,'Recommended frequency for Workflow is 15 mins');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (2,'LBL_ADDRESS_BOOCK','cron/AddressBoock.php',86400,NULL,NULL,1,'Vtiger',24,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (3,'SendReminder','cron/SendReminder.service',900,NULL,NULL,1,'Calendar',3,'Recommended frequency for SendReminder is 15 mins');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (4,'LBL_CURRENCY_UPDATE','modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php',86400,NULL,NULL,1,'CurrencyUpdate',4,'Recommended frequency for Currency Update is 24 hours');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (8,'Scheduled Import','cron/modules/Import/ScheduledImport.service',900,NULL,NULL,1,'Import',6,'Recommended frequency for MailScanner is 15 mins');
