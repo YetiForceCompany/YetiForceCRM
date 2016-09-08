@@ -11,14 +11,13 @@
 
 class Documents_ListView_Model extends Vtiger_ListView_Model
 {
+
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
 		$advancedLinks = [];
 
-		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
-		if ($exportPermission) {
+		if ($moduleModel->isPermitted('Export')) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
@@ -27,7 +26,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			);
 		}
 
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+		if ($moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -42,8 +41,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			}
 		}
 
-		$quickExportToExcelPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
-		if ($quickExportToExcelPermission) {
+		if ($moduleModel->isPermitted('QuickExportToExcel') && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -51,7 +49,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => ''
 			);
 		}
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'RecordMappingList')) {
+		if ($moduleModel->isPermitted('RecordMappingList')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');

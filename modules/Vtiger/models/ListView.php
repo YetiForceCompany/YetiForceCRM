@@ -513,7 +513,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			];
 		}
-		if ($moduleModel->isPermitted('QuickExportToExcel')) {
+		if ($moduleModel->isPermitted('QuickExportToExcel') && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',

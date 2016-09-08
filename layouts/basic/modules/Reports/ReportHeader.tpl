@@ -22,13 +22,14 @@
 							{if $REPORT_MODEL->isEditable() eq true}
 								<div class="btn-group">
 									<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-default">
+										<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
 										<strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
-										<span class="glyphicon glyphicon-pencil"></span>
 									</button>
 								</div>
 							{/if}
 							<div class="btn-group">
 								<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-default">
+									<span class="fa fa-files-o"></span>&nbsp;&nbsp;
 									<strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
 								</button>
 							</div>
@@ -51,6 +52,7 @@
 									{assign var=LINKNAME value=$DETAILVIEW_LINK->getLabel()}
 									<div class="btn-group">
 										<button class="btn reportActions btn-default" name="{$LINKNAME}" data-href="{$DETAILVIEW_LINK->getUrl()}">
+											{if $DETAILVIEW_LINK->getIcon()}<span class="{$DETAILVIEW_LINK->getIcon()}"></span>{/if}&nbsp;&nbsp;
 											<strong>{$LINKNAME}</strong>
 										</button>
 									</div>
@@ -85,16 +87,16 @@
 					<div class="row">
 						<div class="textAlignCenter">
 							<button class="btn generateReport btn-primary" data-mode="generate" value="{vtranslate('LBL_GENERATE_NOW',$MODULE)}"/>
-                            <strong>{vtranslate('LBL_GENERATE_NOW',$MODULE)}</strong>
+							<strong>{vtranslate('LBL_GENERATE_NOW',$MODULE)}</strong>
 							</button>&nbsp;
 							<button class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>
-                            <strong>{vtranslate('LBL_SAVE',$MODULE)}</strong>
+							<strong>{vtranslate('LBL_SAVE',$MODULE)}</strong>
 							</button>
 						</div>
 					</div>
 					<br>
 				</div>
 			</form>
-        </div>
+		</div>
 		<div id="reportContentsDiv">
 		{/strip}
