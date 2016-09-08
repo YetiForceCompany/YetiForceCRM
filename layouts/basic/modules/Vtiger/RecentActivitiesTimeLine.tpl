@@ -68,7 +68,7 @@
 											<span class="time pull-right">
 												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
-											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {vtranslate('LBL_UPDATED', $MODULE_NAME)}</span>
+											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {vtranslate('LBL_UPDATED', $MODULE_NAME)}</span>
 											{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 												{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
 													<div class='font-x-small updateInfoContainer'>
