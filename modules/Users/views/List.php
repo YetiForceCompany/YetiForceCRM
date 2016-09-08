@@ -96,7 +96,8 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$listViewModel->set('operator', $operator);
 		}
 		$viewer->assign('OPERATOR', $operator);
-		$viewer->assign('ALPHABET_VALUE', $searchValue);
+		if('status' != $searchKey)
+			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
