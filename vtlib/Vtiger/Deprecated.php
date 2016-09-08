@@ -123,20 +123,12 @@ class Deprecated
 				}
 				require_once('modules/Users/CreateUserPrivilegeFile.php');
 				$newbuf = '';
-				$newbuf .="<?php\n\n";
-				$newbuf .="\n";
-				$newbuf .= "//This file contains the commonly used variables \n";
-				$newbuf .= "\n";
-				$newbuf .= "\$tab_info_array=" . constructArray($result_array) . ";\n";
-				$newbuf .= "\n";
-				$newbuf .= "\$tab_seq_array=" . constructArray($seq_array) . ";\n";
-				$newbuf .= "\n";
-				$newbuf .= "\$tab_ownedby_array=" . constructArray($ownedby_array) . ";\n";
-				$newbuf .= "\n";
-				$newbuf .= "\$action_id_array=" . constructSingleStringKeyAndValueArray($actionid_array) . ";\n";
-				$newbuf .= "\n";
-				$newbuf .= "\$action_name_array=" . constructSingleStringValueArray($actionname_array) . ";\n";
-				$newbuf .= "?>";
+				$newbuf .="<?php\n";
+				$newbuf .= "\$tab_info_array=" . \vtlib\Functions::varExportMin($result_array) . ";\n";
+				$newbuf .= "\$tab_seq_array=" . \vtlib\Functions::varExportMin($seq_array) . ";\n";
+				$newbuf .= "\$tab_ownedby_array=" . \vtlib\Functions::varExportMin($ownedby_array) . ";\n";
+				$newbuf .= "\$action_id_array=" . \vtlib\Functions::varExportMin($actionid_array) . ";\n";
+				$newbuf .= "\$action_name_array=" . \vtlib\Functions::varExportMin($actionname_array) . ";\n";
 				fputs($handle, $newbuf);
 				fclose($handle);
 			} else {
