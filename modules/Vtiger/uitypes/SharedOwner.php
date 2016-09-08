@@ -37,7 +37,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 
 		$result = $db->pquery('SELECT DISTINCT userid FROM u_yf_crmentity_showners WHERE crmid = ?', [$record]);
 		while (($shownerid = $db->getSingleValue($result)) !== false) {
-			if (Vtiger_Owner_UIType::getOwnerType($shownerid) === 'User') {
+			if (\includes\fields\Owner::getType($shownerid) === 'User') {
 				if ($currentUser->isAdminUser() && !$rawText) {
 					$displayValue .= '<a href="index.php?module=User&view=Detail&record=' . $shownerid . '">' . rtrim(getOwnerName($shownerid)) . '</a>,';
 				} else {

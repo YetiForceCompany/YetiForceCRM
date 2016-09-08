@@ -1603,6 +1603,9 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 					$fieldid = $adb->query_result($res, $j, 'projectid');
 					$fieldvalue = '<a href="index.php?module=Project&action=index&id=' . $fieldid . '">' . $fieldvalue . '</a>';
 				}
+				if ($fieldname == 'projecttype') {
+					$fieldvalue = Vtiger_Language_Handler::getTranslatedString($fieldvalue, $module, vglobal('default_language'));
+				}
 			}
 			if ($module == 'ProjectTask') {
 				if ($fieldname == 'projecttaskname') {
