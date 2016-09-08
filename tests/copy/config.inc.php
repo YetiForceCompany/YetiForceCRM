@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Travis CI test script
  * @package YetiForce.Travis CI
@@ -141,7 +142,7 @@ $default_timezone = 'Europe/Warsaw';
 
 /** If timezone is configured, try to set it */
 if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
-	@date_default_timezone_set($default_timezone);
+    @date_default_timezone_set($default_timezone);
 }
 
 // Maximum length of characters for title

@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 5.5
   - 5.6
   - 7.0
   - hhvm
@@ -22,15 +21,26 @@ mysql:
   encoding: utf8
   
 before_script:
+- if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then phpenv config-add tests/travis.php.ini; fi
+- if [[ $TRAVIS_PHP_VERSION = hhvm ]]; then cat tests/travis.php.ini >> /etc/hhvm/php.ini; fi
+- sudo wget https://phar.phpunit.de/phpunit.phar
+- sudo chmod +x phpunit.phar
+- sudo mv phpunit.phar /usr/local/bin/phpunit
+- phpunit --version
 - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION'"
 - mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
-- cp tests/travis_config.php config/config_override.php
-- cp tests/travis_debug.php config/debug.php
+- cp tests/copy/config.inc.php config/config.inc.php
+- cp tests/copy/debug.php config/debug.php
 - cp tests/.htaccess .htaccess
-- php tests/travis_install.php
   
 script:
-- php tests/travis_test.php
+- cd tests
+- phpunit --debug --coverage-text --coverage-clover=coverage.clover
+    
+after_success:
+- cat WebUI.txt
+- bash <(curl -s https://codecov.io/bash) 
+- codecov
 
 branches:
   only:
