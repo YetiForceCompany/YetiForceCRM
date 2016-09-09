@@ -114,7 +114,11 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function validateRequest(Vtiger_Request $request)
 	{
-		$request->validateWriteAccess();
+		$mode = $request->getMode();
+		if ('downloadLibrary' == $mode)
+			$request->validateReadAccess();
+		else
+			$request->validateWriteAccess();
 	}
 
 	public function checkModuleName(Vtiger_Request $request)
