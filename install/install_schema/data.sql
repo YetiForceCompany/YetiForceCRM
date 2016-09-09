@@ -647,6 +647,8 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 /*Data for the table `u_yf_knowledgebasecf` */
 
+/*Data for the table `u_yf_mail_address_boock` */
+
 /*Data for the table `u_yf_mail_autologin` */
 
 /*Data for the table `u_yf_mail_compose_data` */
@@ -833,8 +835,6 @@ insert  into `u_yf_ssingleorders_invmap`(`module`,`field`,`tofield`) values ('Pr
 /*Data for the table `vtiger_account` */
 
 /*Data for the table `vtiger_accountaddress` */
-
-/*Data for the table `vtiger_accountbookmails` */
 
 /*Data for the table `vtiger_accountscf` */
 
@@ -1434,8 +1434,6 @@ insert  into `vtiger_campaigntype_seq`(`id`) values (13);
 /*Data for the table `vtiger_contactaddress` */
 
 /*Data for the table `vtiger_contactdetails` */
-
-/*Data for the table `vtiger_contactsbookmails` */
 
 /*Data for the table `vtiger_contactscf` */
 
@@ -6243,8 +6241,6 @@ insert  into `vtiger_lead_view_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_leadaddress` */
 
-/*Data for the table `vtiger_leadbookmails` */
-
 /*Data for the table `vtiger_leaddetails` */
 
 /*Data for the table `vtiger_leads_relation` */
@@ -7064,8 +7060,6 @@ insert  into `vtiger_ossdc_status_seq`(`id`) values (2);
 /*Data for the table `vtiger_ossdocumentcontrol_cnd` */
 
 /*Data for the table `vtiger_ossemployees` */
-
-/*Data for the table `vtiger_ossemployeesbookmails` */
 
 /*Data for the table `vtiger_ossemployeescf` */
 
@@ -25392,8 +25386,6 @@ insert  into `vtiger_users_seq`(`id`) values (4);
 /*Data for the table `vtiger_vendor` */
 
 /*Data for the table `vtiger_vendoraddress` */
-
-/*Data for the table `vtiger_vendorbookmails` */
 
 /*Data for the table `vtiger_vendorcf` */
 

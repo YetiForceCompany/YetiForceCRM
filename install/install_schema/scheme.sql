@@ -2110,6 +2110,18 @@ CREATE TABLE `u_yf_knowledgebasecf` (
   CONSTRAINT `fk_1_vtiger_knowledgebasecf` FOREIGN KEY (`knowledgebaseid`) REFERENCES `u_yf_knowledgebase` (`knowledgebaseid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_mail_address_boock` */
+
+CREATE TABLE `u_yf_mail_address_boock` (
+  `id` int(19) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `users` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `email` (`email`,`name`),
+  CONSTRAINT `u_yf_mail_address_boock_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_mail_autologin` */
 
 CREATE TABLE `u_yf_mail_autologin` (
@@ -2932,18 +2944,6 @@ CREATE TABLE `vtiger_accountaddress` (
   CONSTRAINT `vtiger_accountaddress_ibfk_1` FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_accountbookmails` */
-
-CREATE TABLE `vtiger_accountbookmails` (
-  `id` int(19) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `users` text NOT NULL,
-  KEY `email` (`email`,`name`),
-  KEY `id` (`id`),
-  CONSTRAINT `vtiger_accountbookmails_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_accountscf` */
 
 CREATE TABLE `vtiger_accountscf` (
@@ -3709,18 +3709,6 @@ CREATE TABLE `vtiger_contactdetails` (
   KEY `email_idx` (`email`),
   KEY `lastname` (`lastname`),
   CONSTRAINT `fk_1_vtiger_contactdetails` FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_contactsbookmails` */
-
-CREATE TABLE `vtiger_contactsbookmails` (
-  `id` int(19) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `users` text NOT NULL,
-  KEY `email` (`email`,`name`),
-  KEY `contactid` (`id`),
-  CONSTRAINT `vtiger_contactsbookmails_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactscf` */
@@ -5536,18 +5524,6 @@ CREATE TABLE `vtiger_leadaddress` (
   CONSTRAINT `fk_1_vtiger_leadaddress` FOREIGN KEY (`leadaddressid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_leadbookmails` */
-
-CREATE TABLE `vtiger_leadbookmails` (
-  `id` int(19) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `users` text NOT NULL,
-  KEY `email` (`email`,`name`),
-  KEY `id` (`id`),
-  CONSTRAINT `vtiger_leadbookmails_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_leaddetails` */
 
 CREATE TABLE `vtiger_leaddetails` (
@@ -6353,18 +6329,6 @@ CREATE TABLE `vtiger_ossemployees` (
   `position` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ossemployeesid`),
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossemployeesbookmails` */
-
-CREATE TABLE `vtiger_ossemployeesbookmails` (
-  `id` int(19) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `users` text NOT NULL,
-  KEY `email` (`email`,`name`),
-  KEY `id` (`id`),
-  CONSTRAINT `vtiger_ossemployeesbookmails_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossemployeescf` */
@@ -8988,18 +8952,6 @@ CREATE TABLE `vtiger_vendoraddress` (
   `localnumberc` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`vendorid`),
   CONSTRAINT `vtiger_vendoraddress_ibfk_1` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_vendorbookmails` */
-
-CREATE TABLE `vtiger_vendorbookmails` (
-  `id` int(19) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `users` text NOT NULL,
-  KEY `email` (`email`,`name`),
-  KEY `id` (`id`),
-  CONSTRAINT `vtiger_vendorbookmails_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_vendorcf` */

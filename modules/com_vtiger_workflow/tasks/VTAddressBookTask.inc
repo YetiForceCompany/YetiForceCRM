@@ -16,9 +16,6 @@ class VTAddressBookTask extends VTTask
 {
 
 	public $executeImmediately = false;
-	public $tables = [ 'Contacts' => 'vtiger_contactsbookmails', 'OSSEmployees' => 'vtiger_ossemployeesbookmails',
-		'Accounts' => 'vtiger_accountbookmails', 'Leads' => 'vtiger_leadbookmails',
-		'Vendors' => 'vtiger_vendorbookmails'];
 
 	public function getFieldNames()
 	{
@@ -35,7 +32,7 @@ class VTAddressBookTask extends VTTask
 		$entityId = $parts[1];
 
 		$users = $name = '';
-		$table = $this->tables[$moduleName];
+		$table = OSSMail_AddressBoock_Model::TABLE;
 		$metainfo = \includes\Modules::getEntityInfo($moduleName);
 		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $entity->get($entityName);
@@ -54,10 +51,10 @@ class VTAddressBookTask extends VTTask
 		foreach ($fields as $field) {
 			$fieldname = $field->getName();
 			if (!empty($entity->get($fieldname))) {
-				$db->insert($table, ['id' => $entityId, 'email' => $entity->get($fieldname), 'name' => trim($name), 'users' => trim($users, ',')]);
+				$db->insert($table, ['id' => $entityId, 'email' => $entity->get($fieldname), 'name' => trim($name), 'users' => $users]);
 			}
 		}
-		OSSMail_Module_Model::createBookMailsFiles($this->tables);
+		OSSMail_AddressBoock_Model::createABFile();
 	}
 
 	/**

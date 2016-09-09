@@ -48,4 +48,6 @@ $PERFORMANCE_CONFIG = [
 	'CRON_MAX_NUMERS_RECORD_LABELS_UPDATER' => 1000,
 	// Enable caching of user data
 	'ENABLE_CACHING_USERS' => false,
+	// In how many records should the address boock be updated in cron
+	'CRON_MAX_NUMERS_RECORD_ADDRESS_BOOCK_UPDATER' => 10000,
 ];
