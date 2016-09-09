@@ -46,13 +46,16 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			if (typeof response.result.coordinatesCeneter.error == 'undefined') {
 				var radius = container.find('.radius').val();
 				markerArray.push([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon]);
+				var popup = '<span class="description">'+ container.find('.searchValue').val() +'</span><br><input type=hidden class="coordinates" data-lon="' + response.result.coordinatesCeneter.lon + '" data-lat="' + response.result.coordinatesCeneter.lat + '">';
+				popup += '<button class="btn btn-success btn-xs startTrack marginRight10"><span class="fa fa-truck"></span></button>';
+				popup += '<button class="btn btn-danger btn-xs endTrack"><span class="fa fa-flag-checkered"></span></button>';
 				var marker = L.marker([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon], {
 					icon: L.AwesomeMarkers.icon({
 						icon: 'search',
 						markerColor: 'red',
 						prefix: 'fa',
 					})
-				});
+				}).bindPopup(popup);
 				markers.addLayer(marker);
 				if ($.isNumeric(radius)) {
 					radius = parseInt(radius) * 1000;
