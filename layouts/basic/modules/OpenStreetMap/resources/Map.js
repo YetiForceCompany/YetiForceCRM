@@ -6,6 +6,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	layerMarkers: false,
 	markers: false,
 	polygonLayer: false,
+	routeLayer: false,
 	setSelectedParams: function (params) {
 		this.selectedParams = params;
 	},
@@ -53,12 +54,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					})
 				});
 				markers.addLayer(marker);
-				if($.isNumeric(radius)){
+				if ($.isNumeric(radius)) {
 					radius = parseInt(radius) * 1000;
 					var circle = L.circle([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon], radius, {
 						color: 'red',
 						fillColor: '#f03',
-						fillOpacity: 0.3
+						fillOpacity: 0.05
 					});
 					this.polygonLayer = L.featureGroup([circle]);
 					map.addLayer(this.polygonLayer);
@@ -94,6 +95,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	registerBasicModal: function () {
 		var thisInstance = this;
 		var container = this.container;
+		var map = thisInstance.mapInstance;
 		container.find('.groupBy').on('click', function () {
 			var progressIndicatorElement = jQuery.progressIndicator({
 				'position': container,
@@ -117,7 +119,6 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		});
 		container.find('.groupNeighbours').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
-			var map = thisInstance.mapInstance;
 			map.removeLayer(thisInstance.layerMarkers);
 			var markers = thisInstance.markers;
 			if (currentTarget.is(':checked')) {
@@ -173,10 +174,84 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				thisInstance.setMarkersByResponse(response);
 			});
 		});
+		var startIconLayer = false;
+		container.on('click', '.startTrack', function (e) {
+			map.removeLayer(startIconLayer);
+			var currentTarget = $(e.currentTarget);
+			var containerPopup = currentTarget.closest('.leaflet-popup-content');
+			var description = containerPopup.find('.description').html();
+			var startElement = container.find('.start');
+			var coordinates = containerPopup.find('.coordinates');
+			var description = description.replace(/\<br\>/gi, ", ");
+			startElement.val(description);
+			startElement.data('lat', coordinates.data('lat'));
+			startElement.data('lon', coordinates.data('lon'));
+			var marker = L.marker([coordinates.data('lat'), coordinates.data('lon')], {
+				icon: L.AwesomeMarkers.icon({
+					icon: 'truck',
+					markerColor: 'green',
+					prefix: 'fa',
+				})
+			}).bindPopup(containerPopup.html());
+			startIconLayer = L.featureGroup([marker]);
+			map.addLayer(startIconLayer);
+		});
+		var endIconLayer = false
+		container.on('click', '.endTrack', function (e) {
+			map.removeLayer(endIconLayer);
+			var currentTarget = $(e.currentTarget);
+			var containerPopup = currentTarget.closest('.leaflet-popup-content');
+			var description = containerPopup.find('.description').html();
+			var endElement = container.find('.end');
+			var coordinates = containerPopup.find('.coordinates');
+			var description = description.replace(/\<br\>/gi, ", ");
+			endElement.val(description);
+			endElement.data('lat', coordinates.data('lat'));
+			endElement.data('lon', coordinates.data('lon'));
+			var marker = L.marker([coordinates.data('lat'), coordinates.data('lon')], {
+				icon: L.AwesomeMarkers.icon({
+					icon: 'flag-checkered',
+					markerColor: 'red',
+					prefix: 'fa',
+				})
+			}).bindPopup(containerPopup.html());
+			endIconLayer = L.featureGroup([marker]);
+			map.addLayer(endIconLayer);
+			
+		});
+		container.find('.calculateTrack').on('click', function () {
+			var endElement = container.find('.end');
+			var startElement = container.find('.start');
+			var progressIndicatorElement = jQuery.progressIndicator({
+				'position': container,
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var params = {
+				url: 'index.php',
+				data: {
+					module: 'OpenStreetMap',
+					action: 'GetRoute',
+					flon: startElement.data('lon'),
+					flat: startElement.data('lat'),
+					tlon: endElement.data('lon'),
+					tlat: endElement.data('lat')
+				},
+				dataType: 'html'
+			};
+			AppConnector.request(params).then(function (response) {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+				map.removeLayer(thisInstance.routeLayer);
+				var response = JSON.parse(response);
+				var route = L.geoJson(response);
+				thisInstance.routeLayer = L.featureGroup([route]);
+				map.addLayer(thisInstance.routeLayer);
+			});
+		});
 	},
 	registerModalView: function (container) {
 		var thisInstance = this;
-		app.showBtnSwitch(container.find('.switchBtn'));
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': container,
 			'blockInfo': {
