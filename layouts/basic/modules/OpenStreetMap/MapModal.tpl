@@ -31,17 +31,36 @@
 					<button class="btn btn-primary groupBy">{vtranslate('LBL_GROUP_BY', $MODULE_NAME)}</button>
 				</div>
 			</div>
-				<div class="form-group">
-					<input type="text" class="searchValue form-control" placeholder="{vtranslate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}">
+			<div class="form-group">
+				<input type="text" class="searchValue form-control" placeholder="{vtranslate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}">
+			</div>
+			<div class="form-group">
+				{vtranslate('LBL_IN_RADIUS', $MODULE_NAME)}
+				<input type="text" class="form-control radius" placeholder="{vtranslate('LBL_IN_RADIUS', $MODULE_NAME)}">
+			</div>
+			<div class="form-group pull-right">
+				<button class="btn btn-primary searchBtn">{vtranslate('LBL_SEARCH', $MODULE_NAME)}</button>
+			</div>
+			<div class="track pull-left">
+				<div class="input-group group-btn form-group">
+					<input type="text" readonly="readonly" class="form-control start">
+					<div class="input-group-btn">
+						<button class="btn btn-success">
+							<span class="fa fa-truck"></span>
+						</button>
+					</div>
 				</div>
-				<div class="form-group">
-					{vtranslate('LBL_IN_RADIUS', $MODULE_NAME)}
-					<input type="text" class="form-control radius" placeholder="{vtranslate('LBL_IN_RADIUS', $MODULE_NAME)}">
+				<div class="input-group group-btn form-group">
+					<input type="text" readonly="readonly" class="form-control end">
+					<div class="input-group-btn">
+						<button class="btn btn-danger">
+							<span class="fa fa-flag-checkered"></span>
+					</div>
 				</div>
-				<div class="form-group pull-right">
-					<button class="btn btn-primary searchBtn">{vtranslate('LBL_SEARCH', $MODULE_NAME)}</button>
-				</div>
-			
+			</div>
+			<div class="form-group pull-right">
+				<button class="btn btn-primary calculateTrack">{vtranslate('LBL_CALCULATE_TRACK', $MODULE_NAME)}</button>
+			</div>
 		</div>
 	</div>
 	<div class="modal-footer">

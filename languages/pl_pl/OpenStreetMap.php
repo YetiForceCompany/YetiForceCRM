@@ -5,5 +5,6 @@ $languageStrings = [
 	'LBL_GROUP_NEIGHBOURS' => 'Połącz najbliższe elementy',
 	'LBL_NOT_FOUND_PLACE' => 'Nie odnaleziono miejsca',
 	'LBL_SEARCH_VALUE_DESCRIPTION' => 'Miasto, ulica, numer budynku ...',
-	'LBL_IN_RADIUS' => 'Szukaj w promieniu [km]'
+	'LBL_IN_RADIUS' => 'Szukaj w promieniu [km]',
+	'LBL_CALCULATE_TRACK' => 'Wyznacz trasę',
 ];

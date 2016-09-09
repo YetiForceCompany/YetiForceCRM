@@ -6,24 +6,30 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
+class OpenStreetMap_Module_Model extends Vtiger_Module_Model
+{
 
-	public function isAllowModules($moduleName) {
+	public function isAllowModules($moduleName)
+	{
 		return in_array($moduleName, AppConfig::module($this->getName(), 'ALLOW_MODULES'));
 	}
-	private static function getMargins($coordinates, $radius){
+
+	private static function getMargins($coordinates, $radius)
+	{
 		$earthRadius = 6378137;
 		$lat = $coordinates['lat'];
 		$long = $coordinates['lon'];
 		$radius = $radius * 1000;
 		return [
-			'latMax' => $lat + rad2deg($radius  / $earthRadius),
+			'latMax' => $lat + rad2deg($radius / $earthRadius),
 			'latMin' => $lat - rad2deg($radius / $earthRadius),
 			'lonMax' => $long + rad2deg($radius / $earthRadius / cos(deg2rad($lat))),
 			'lonMin' => $long - rad2deg($radius / $earthRadius / cos(deg2rad($lat)))
 		];
 	}
-	private static function doRequest($url){
+
+	private static function doRequest($url)
+	{
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 			CURLOPT_URL => $url,
@@ -43,7 +49,9 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 			return \includes\utils\Json::decode($response);
 		}
 	}
-	public static function getCoordinates($address) {
+
+	public static function getCoordinates($address)
+	{
 		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
 		$data = [
 			'format' => 'json',
@@ -53,18 +61,22 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		$url .= http_build_query(array_merge($data, $address));
 		return self::doRequest($url);
 	}
-	public static function getCoordinatesBySearching($searchValue){
+
+	public static function getCoordinatesBySearching($searchValue)
+	{
 		$coordinatesDetails = self::getCoordinates(['q' => $searchValue]);
 		if ($coordinatesDetails === false)
 			return [];
 		$coordinatesDetails = reset($coordinatesDetails);
-		if(empty($coordinatesDetails)) {
+		if (empty($coordinatesDetails)) {
 			return ['error' => vtranslate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
 		} else {
 			return ['lat' => $coordinatesDetails['lat'], 'lon' => $coordinatesDetails['lon']];
 		}
 	}
-	public static function getUrlParamsToSearching($recordModel, $type){
+
+	public static function getUrlParamsToSearching($recordModel, $type)
+	{
 		$address = [
 			'state' => $recordModel->get('addresslevel2' . $type),
 			'county' => $recordModel->get('addresslevel3' . $type),
@@ -74,14 +86,16 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		];
 		return $address;
 	}
-	public static function getCoordinatesByRecord($recordModel) {
+
+	public static function getCoordinatesByRecord($recordModel)
+	{
 		$coordinates = [];
 		foreach (['a', 'b', 'c'] as $numAddress) {
 			$address = self::getUrlParamsToSearching($recordModel, $numAddress);
 			$coordinatesDetails = self::getCoordinates($address);
 			if ($coordinatesDetails === false)
 				break;
-			if(empty($coordinatesDetails))
+			if (empty($coordinatesDetails))
 				continue;
 			$coordinatesDetails = reset($coordinatesDetails);
 			$coordinates [$numAddress] = [
@@ -92,7 +106,8 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		return $coordinates;
 	}
 
-	public static function getLabelsToPopupById($crmid) {
+	public static function getLabelsToPopupById($crmid)
+	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$recodMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
 		$moduleName = $recodMetaData['setype'];
@@ -119,7 +134,8 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		return $html;
 	}
 
-	public static function readCoordinates($recordId) {
+	public static function readCoordinates($recordId)
+	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM u_yf_openstreetmap WHERE crmid = ?', [$recordId]);
 		$popup = self::getLabelsToPopupById($recordId);
@@ -137,20 +153,25 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		return $coordinates;
 	}
 
-	public static function getLabelToPopupByArray($data, $moduleName) {
-		$html = '';
+	public static function getLabelToPopupByArray($data, $moduleName)
+	{
+		$html = '<span class="description">';
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		foreach ($fields[$moduleName] as $fieldName) {
 			if (!empty($data[$fieldName])) {
 				$html .= $data[$fieldName] . '<br>';
 			}
 		}
+		$html .= '</span><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';
+		$html .= '<button class="btn btn-primary btn-xs startTrack marginTB3">Start</button><br>';
+		$html .= '<button class="btn btn-primary btn-xs endTrack marginTB3">Koniec</button>';
 		return $html;
 	}
 
 	static public $colors = [];
 
-	private static function getMarkerColor($value) {
+	private static function getMarkerColor($value)
+	{
 		static $indexColor = 0;
 		if (empty($value)) {
 			return '#000';
@@ -225,7 +246,8 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		return $color;
 	}
 
-	public static function readAllCoordinates($records, $moduleModel, $groupByField, $coordinatesCenter = [], $radius = false ) {
+	public static function readAllCoordinates($records, $moduleModel, $groupByField, $coordinatesCenter = [], $radius = false)
+	{
 		$params = [];
 		$moduleName = $moduleModel->getName();
 		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
@@ -250,11 +272,11 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		$query = $queryGenerator->getQuery();
 		$query .= sprintf(' && vtiger_crmentity.crmid IN (%s) && u_yf_openstreetmap.type = \'a\' ', generateQuestionMarks($records));
 		$params = $records;
-		if (!empty($coordinatesCenter) && !empty($radius)){
+		if (!empty($coordinatesCenter) && !empty($radius)) {
 			$query .= ' && u_yf_openstreetmap.lat < ? && u_yf_openstreetmap.lat > ? && u_yf_openstreetmap.lon < ? && u_yf_openstreetmap.lon > ?';
 			$params = array_merge($params, array_values(self::getMargins($coordinatesCenter, $radius)));
 		}
-		
+
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery($query, $params);
 		$coordinates = [];
@@ -271,7 +293,8 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		return $coordinates;
 	}
 
-	public static function readAllCoordinatesFromCustomeView(Vtiger_Request $request, $moduleModel, $coordinatesCenter = [], $radius = false) {
+	public static function readAllCoordinatesFromCustomeView(Vtiger_Request $request, $moduleModel, $coordinatesCenter = [], $radius = false)
+	{
 		$moduleName = $moduleModel->getName();
 		$filterId = $request->get('viewname');
 		$excludedIds = $request->get('excluded_ids');
@@ -324,7 +347,7 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		if ($excludedIds && !empty($excludedIds) && is_array($excludedIds) && count($excludedIds) > 0) {
 			$query .= ' && vtiger_crmentity.crmid NOT IN (' . implode(',', $excludedIds) . ')';
 		}
-		if (!empty($coordinatesCenter) && !empty($radius) ){
+		if (!empty($coordinatesCenter) && !empty($radius)) {
 			$query .= ' && u_yf_openstreetmap.lat < ? && u_yf_openstreetmap.lat > ? && u_yf_openstreetmap.lon < ? && u_yf_openstreetmap.lon > ?';
 			$params = array_values(self::getMargins($coordinatesCenter, $radius));
 		}
@@ -343,5 +366,4 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model {
 		}
 		return $coordinates;
 	}
-
 }
