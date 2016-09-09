@@ -1,16 +1,19 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="modal-header container-fluid">
+	<div class="modal-header container-fluid openStreetMapModalHeader">
 		<div class="col-xs-5">
 			<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_MAP', $MODULE_NAME)}</h3>
 		</div>
 		<div class="col-xs-6">
-			<div class="input-group group-btn form-group">
+			<div class="col-xs-8 noSpaces">
 				<input type="text" class="searchValue form-control" placeholder="{vtranslate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}">
-				<span class="input-group-btn" style="width:0px;"></span>
-				<input type="text" class="form-control radius" placeholder="{vtranslate('LBL_IN_RADIUS', $MODULE_NAME)}">
-				<div class="input-group-btn">
-					<button class="btn btn-primary searchBtn">{vtranslate('LBL_SEARCH', $MODULE_NAME)}</button>
+			</div>
+			<div class="col-xs-4 noSpaces">
+				<div class="input-group group-btn">
+					<input type="text" class="form-control radius" placeholder="{vtranslate('LBL_IN_RADIUS', $MODULE_NAME)}">
+					<div class="input-group-btn">
+						<button class="btn btn-primary searchBtn">{vtranslate('LBL_SEARCH', $MODULE_NAME)}</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -30,7 +33,7 @@
 					{/foreach}
 				</select>
 				<span class="input-group-addon">
-					<input class="popoverTooltip" type="checkbox" checked="checked" data-content="{vtranslate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours">
+					<input class="popoverTooltip groupNeighbours" type="checkbox" checked="checked" data-content="{vtranslate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours">
 				</span>
 				<div class="input-group-btn">
 					<button class="btn btn-primary groupBy">{vtranslate('LBL_GROUP_BY', $MODULE_NAME)}</button>
@@ -44,7 +47,7 @@
 					<div class="input-group group-btn form-group">
 						<input type="text" readonly="readonly" class="form-control start">
 						<div class="input-group-btn">
-							<button class="btn btn-success">
+							<button class="btn btn-success setView">
 								<span class="fa fa-truck"></span>
 							</button>
 						</div>
@@ -52,12 +55,13 @@
 					<div class="input-group group-btn form-group">
 						<input type="text" readonly="readonly" class="form-control end">
 						<div class="input-group-btn">
-							<button class="btn btn-danger">
+							<button class="btn btn-danger setView">
 								<span class="fa fa-flag-checkered"></span>
+							</button>
 						</div>
 					</div>
 					<div class="form-group pull-right">
-						<button class="btn btn-primary calculateTrack">{vtranslate('LBL_CALCULATE_TRACK', $MODULE_NAME)}</button>
+						<button class="btn btn-primary hide calculateTrack">{vtranslate('LBL_CALCULATE_TRACK', $MODULE_NAME)}</button>
 					</div>
 				</div>
 			</div>

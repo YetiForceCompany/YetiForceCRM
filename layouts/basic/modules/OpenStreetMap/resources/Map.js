@@ -92,6 +92,14 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			map.fitBounds(markerArray);
 		this.container.find('.groupNeighbours').prop('checked', true);
 	},
+	showCalculateBtn: function () {
+		var container = this.container;
+		var endAddress = container.find('.end').val();
+		var startAddress = container.find('.start').val();
+		if (endAddress.length > 0 && startAddress.length > 0) {
+			container.find('.calculateTrack').removeClass('hide');
+		}
+	},
 	registerBasicModal: function () {
 		var thisInstance = this;
 		var container = this.container;
@@ -195,6 +203,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			}).bindPopup(containerPopup.html());
 			startIconLayer = L.featureGroup([marker]);
 			map.addLayer(startIconLayer);
+			thisInstance.showCalculateBtn();
 		});
 		var endIconLayer = false
 		container.on('click', '.endTrack', function (e) {
@@ -217,7 +226,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			}).bindPopup(containerPopup.html());
 			endIconLayer = L.featureGroup([marker]);
 			map.addLayer(endIconLayer);
-			
+			thisInstance.showCalculateBtn();
 		});
 		container.find('.calculateTrack').on('click', function () {
 			var endElement = container.find('.end');
@@ -250,8 +259,17 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				container.find('.descriptionContainer').removeClass('hide');
 				container.find('.descriptionContent .instruction').html(response.properties.description);
 				container.find('.descriptionContent .distance').html(app.parseNumberToShow(response.properties.distance));
-				container.find('.descriptionContent .travelTime').html( app.parseNumberToShow(response.properties.traveltime / 60));
+				container.find('.descriptionContent .travelTime').html(app.parseNumberToShow(response.properties.traveltime / 60));
 			});
+		});
+		container.find('.setView').on('click', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var inputInstance = currentTarget.closest('.input-group').find('.end,.start');
+			var lat = inputInstance.data('lat');
+			var lon = inputInstance.data('lon');
+			if (!(typeof lat == 'undefined' && typeof lon == 'undefined')) {
+				map.setView(new L.LatLng(lat, lon), 14);
+			}
 		});
 	},
 	registerModalView: function (container) {
@@ -262,11 +280,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				'enabled': true
 			}
 		});
+		var heightMap = $('body').height();
 		this.container = container;
 		var startCoordinate = [0, 0];
 		var startZoom = 2;
 		$('#mapid').css({
-			height: 500
+			height: heightMap - 200
 		});
 		this.registerMap(startCoordinate, startZoom);
 		var params = {
