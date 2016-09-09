@@ -247,6 +247,10 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				var route = L.geoJson(response);
 				thisInstance.routeLayer = L.featureGroup([route]);
 				map.addLayer(thisInstance.routeLayer);
+				container.find('.descriptionContainer').removeClass('hide');
+				container.find('.descriptionContent .instruction').html(response.properties.description);
+				container.find('.descriptionContent .distance').html(app.parseNumberToShow(response.properties.distance));
+				container.find('.descriptionContent .travelTime').html( app.parseNumberToShow(response.properties.traveltime / 60));
 			});
 		});
 	},

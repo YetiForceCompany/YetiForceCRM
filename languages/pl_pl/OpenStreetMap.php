@@ -9,4 +9,8 @@ $languageStrings = [
 	'LBL_CALCULATE_TRACK' => 'Wyznacz trasę',
 	'LBL_START' => 'Start',
 	'LBL_END' => 'Koniec',
+	'LBL_CALCULATE_ROUTE_HEADER_BLOCK' => 'Wyznaczanie trasy',
+	'LBL_DISTANCE' => 'Dystans [km]',
+	'LBL_TRAVEL_TIME' => 'Czas podróży [min]',
+	'LBL_INSTRUCTION' => 'Instrukcja'
 ];

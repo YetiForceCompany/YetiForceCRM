@@ -5707,3 +5707,7 @@ select.form-control {
 .unreviewed{
 	margin-left: 25px;
 }
+.openStreetMapModalBody .descriptionContainer{
+	max-height: 150px;
+	overflow: auto;
+}

@@ -17,7 +17,7 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 		$tlon = $request->get('tlon');
 		$tlat = $request->get('tlat');
 		$language = vglobal('default_language');
-		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE') . "?format=geojson&flat=$flat&flon=$flon&tlat=$tlat&tlon=$tlon&lang=$language&description=1";
+		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE') . "?format=geojson&flat=$flat&flon=$flon&tlat=$tlat&tlon=$tlon&lang=$language&instructions=1";
 		$curl = curl_init();
 		curl_setopt_array($curl, [
 			CURLOPT_URL => $url,
