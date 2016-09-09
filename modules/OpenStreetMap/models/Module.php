@@ -163,8 +163,8 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		$html .= '</span><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';
-		$html .= '<button class="btn btn-primary btn-xs startTrack marginTB3">Start</button><br>';
-		$html .= '<button class="btn btn-primary btn-xs endTrack marginTB3">Koniec</button>';
+		$html .= '<button class="btn btn-primary btn-xs startTrack marginTB3">' . vtranslate('LBL_START', 'OpenStreetMap') . '</button><br>';
+		$html .= '<button class="btn btn-primary btn-xs endTrack marginTB3">' . vtranslate('LBL_END', 'OpenStreetMap') .'</button>';
 		return $html;
 	}
 

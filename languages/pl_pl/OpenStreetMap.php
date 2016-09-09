@@ -7,4 +7,6 @@ $languageStrings = [
 	'LBL_SEARCH_VALUE_DESCRIPTION' => 'Miasto, ulica, numer budynku ...',
 	'LBL_IN_RADIUS' => 'Szukaj w promieniu [km]',
 	'LBL_CALCULATE_TRACK' => 'Wyznacz trasę',
+	'LBL_START' => 'Start',
+	'LBL_END' => 'Koniec',
 ];
