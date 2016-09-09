@@ -12,7 +12,13 @@
 	{/if}
 	<div class="modal-header">
 		<div class="col-xs-10">
-			<h3 class="modal-title">{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}</h3>
+			<h3 class="modal-title">
+				{if $RECORD->get('product')}
+					{\includes\Record::getLabel($RECORD->get('product'))}
+					{if $RECORD->get('assets_renew')}<span class="marginLeft10 font-small label label-info">{vtranslate($RECORD->get('assets_renew'), $MODULE_NAME)}</span>{/if}
+				{else}
+					{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}
+				{/if}</h3>
 		</div>
 		<div class="pull-right btn-group">
 			{if $RECORD->isEditable()}
@@ -48,16 +54,6 @@
 				{/foreach}	
 			</div>
 		{/if}
-		{if $RELATED_EXISTS}
-			<br>
-			<div class="relatedRecordsContents">
-				<hr>
-				{\includes\Record::getLabel($RELATED_RECORD)} >> {vtranslate($RELATED_MODULE, $RELATED_MODULE)}
-				<div class="message text-center hide">
-					{vtranslate('LBL_NO_RECORDS', $RECORD->getModuleName())}
-				</div>
-			</div>
-		{/if}
 	</div>
 	<div class="modal-footer">
 		<div class="pull-left">
@@ -65,30 +61,16 @@
 				{if $RECORD->isViewable()}
 					{assign var=IS_EDITABLE_READONLY value=$BASIC_FIELD_MODEL->set('isEditableReadOnly', false)}
 					{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
-					<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
-						<button type="button" class="btn btn-danger dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-							{foreach  key=KEY item=ITEM from=$PICKLIST}
-								{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
-								<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
-								{/foreach}
-						</ul>
-					</div>
-					{if $RECORD->get($FIELD_TO_EDIT) eq 'PLL_ACCEPTED'}
-						{assign var=RENEW_FIELD_MODEL value=Vtiger_Field_Model::getInstance('assets_renew', $RECORD->getModule())}
-						{assign var=IS_EDITABLE_READONLY value=$RENEW_FIELD_MODEL->set('isEditableReadOnly', false)}
-						{assign var=PICKLIST value=$RENEW_FIELD_MODEL->getPicklistValues()}
-						<div class="btn-group fieldButton" data-name="assets_renew">
-							<button type="button" class="btn btn-primary dropdown-toggle{if $RENEW_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								{vtranslate($RENEW_FIELD_MODEL->get('label'), $MODULE_NAME)} <span class="caret"></span>
+					{if $RECORD->get('assetstatus') eq 'PLL_ACCEPTED'}
+						<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
+							<button type="button" class="btn btn-primary dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
 								{foreach  key=KEY item=ITEM from=$PICKLIST}
 									{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
 									<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
-									{/foreach}
+								{/foreach}
 							</ul>
 						</div>
 					{/if}
@@ -97,4 +79,12 @@
 		</div>
 		<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
 	</div>
+	{if $RELATED_EXISTS}
+		<div class="relatedRecordsContents padding10">
+			<hr>
+			<div class="message text-center hide">
+				{vtranslate('LBL_NO_RECORDS', $RECORD->getModuleName())}
+			</div>
+		</div>
+	{/if}
 {/strip}

@@ -25,7 +25,7 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 		AppConnector.request(params).then(
 				function (data) {
 					data = jQuery(data);
-					data.find('.relatedContents .relationDelete').remove();
+					data.find('.relatedContents .relationDelete, .relatedContents .favorites').remove();
 					var totalCount = data.find('table .listViewEntries');
 					var searchButton = data.find('.searchField');
 					if (searchButton.length) {

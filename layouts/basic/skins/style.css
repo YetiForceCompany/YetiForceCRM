@@ -1059,7 +1059,7 @@ td.fieldValue .input-group {
 }
 .listViewEntriesTable .listViewEntries .unreviewed .badge,
 .listViewEntriesTable .listViewEntries .actions{
-	margin: -5px 0 0 5px;
+	margin: -4px 0 0 5px;
 }
 .listViewEntriesTable td.listViewEntryValue,
 .listViewEntries td {

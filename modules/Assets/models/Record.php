@@ -19,7 +19,7 @@ class Assets_Record_Model extends Vtiger_Record_Model
 			'iconClass' => 'glyphicon-modal-window',
 			'listViewClass' => 'danger-color',
 			'titleTag' => 'LBL_SET_RECORD_STATUS',
-			'name' => 'assetstatus',
+			'name' => 'assets_renew',
 		];
 	}
 
