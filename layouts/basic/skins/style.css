@@ -5680,7 +5680,7 @@ select.form-control {
 .leftRecordActions .actions:hover .toolsAction{
 	display: none;
 }
-.leftRecordActions .actions{
+.leftRecordActions .actions:hover{
 	white-space: nowrap;
 	position: absolute;
 }
@@ -5690,7 +5690,7 @@ select.form-control {
 }
 .leftRecordActions .actions{
 	background: inherit;
-	padding: 4px 10px 0 0;
+	padding: 4px 2px 0 0;
 }
 .listViewEntries{
 	background: #fff;
@@ -5703,9 +5703,6 @@ select.form-control {
 }
 .listViewSearchTd{
 	width: 1%;
-}
-.unreviewed{
-	margin-left: 25px;
 }
 .openStreetMapModalBody .descriptionContainer{
 	max-height: 150px;
