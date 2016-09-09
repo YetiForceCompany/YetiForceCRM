@@ -72,12 +72,15 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 			// Mark the status - running		
 			$cronTask->markRunning();
 			echo sprintf('%s | %s - Start task' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+			$startTime = microtime(true);
 
 			checkFileAccess($cronTask->getHandlerFile());
 			ob_start();
 			require_once $cronTask->getHandlerFile();
 			$taskResponse = ob_get_contents();
 			ob_end_clean();
+
+			$taskTime = round(microtime(true) - $startTime, 2);
 			if ($taskResponse != '') {
 				$log->warn($cronTask->getName() . ' - The task returned a message:' . PHP_EOL . $taskResponse);
 				echo 'Task response:' . PHP_EOL . $taskResponse . PHP_EOL;
@@ -85,7 +88,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 
 			// Mark the status - finished
 			$cronTask->markFinished();
-			echo sprintf('%s | %s - End task', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
+			echo sprintf('%s | %s - End task (%s s)', date('Y-m-d H:i:s'), $cronTask->getName(), $taskTime) . PHP_EOL;
 			$log->info($cronTask->getName() . ' - End');
 		} catch (\Exception\AppException $e) {
 			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
