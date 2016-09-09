@@ -35,7 +35,7 @@
 			</thead>
 			{if $RELATED_MODULE->isQuickSearchEnabled()}
 				<tr>
-					<td>
+					<td class="listViewSearchTd">
 						<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
 					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
@@ -57,6 +57,7 @@
 					</td>
 				</tr>
 			{/if}
+			{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' 
 					{if $RELATED_RECORD->isViewable()}
@@ -67,16 +68,16 @@
 					{/if}
 					>
 					{assign var=COUNT value=0}
-					<td class="{$WIDTHTYPE}">
+					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
 						{include file=vtemplate_path('RelatedListLeftSide.tpl',$RELATED_MODULE_NAME)}
 					</td>
-					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+					{foreach item=HEADER_FIELD from=$RELATED_HEADERS name=listHeaderForeach}
 						{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 							{break}
 						{/if}
 						{assign var=COUNT value=$COUNT+1}
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
-						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
+						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap  {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 							{if $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
 								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
 							{elseif $HEADER_FIELD->fromOutsideList eq true}
@@ -95,8 +96,6 @@
 								{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
 							{/if}
 							{if $HEADER_FIELD@last}
-							</td><td nowrap class="{$WIDTHTYPE}">
-								{include file=vtemplate_path('RelatedListActions.tpl',$RELATED_MODULE_NAME)}
 							</td>
 						{/if}
 						</td>

@@ -5677,7 +5677,7 @@ select.form-control {
 .marginRight15{
 	margin-right: 15px;
 }
-.leftRecordActions:hover .actions .toolsAction{
+.leftRecordActions .actions:hover .toolsAction{
 	display: none;
 }
 .leftRecordActions .actions{
@@ -5685,7 +5685,7 @@ select.form-control {
 	position: absolute;
 }
 .leftRecordActions > div,
-.leftRecordActions:hover .actions .actionImages{
+.leftRecordActions .actions:hover .actionImages{
 	display: inline-block !important;
 }
 .leftRecordActions .actions{
@@ -5703,4 +5703,7 @@ select.form-control {
 }
 .listViewSearchTd{
 	width: 1%;
+}
+.unreviewed{
+	margin-left: 25px;
 }

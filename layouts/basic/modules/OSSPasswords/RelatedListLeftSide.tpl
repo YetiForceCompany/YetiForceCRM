@@ -1,14 +1,24 @@
-{*<!--
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="pull-right actions">
-		{* button for copying password to clipboard *}  
+	{if $IS_FAVORITES}
+		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
+		<div>
+			<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
+				<span title="{vtranslate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
+				<span title="{vtranslate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+			</a>
+		</div>
+	{/if}
+	<div>
 		<a href="#" id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $RELATED_MODULE_NAME)}"><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
-		<span class="actionImages">
+	</div>
+	<div class="actions">
+		<span class="glyphicon glyphicon-wrench toolsAction alignMiddle"></span>
+		{* button for copying password to clipboard *}  
+		<span class="actionImages hide">
 			<a href="#" class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $RELATED_MODULE_NAME)}" data-title-show="{vtranslate('LBL_ShowPassword', $RELATED_MODULE_NAME)}" data-title-hide="{vtranslate('LBL_HidePassword', $RELATED_MODULE_NAME)}" class="glyphicon adminIcon-passwords-encryption alignMiddle"></span></a>&nbsp;
-			{if $RELATED_MODULE->isPermitted('WatchingRecords') && $RELATED_RECORD->isViewable()}
-				{assign var=WATCHING_STATE value=(!$RELATED_RECORD->isWatchingRecord())|intval}
+				{if $RELATED_MODULE->isPermitted('WatchingRecords') && $RELATED_RECORD->isViewable()}
+					{assign var=WATCHING_STATE value=(!$RELATED_RECORD->isWatchingRecord())|intval}
 				<a href="#" onclick="Vtiger_Index_Js.changeWatching(this)" title="{vtranslate('BTN_WATCHING_RECORD', $MODULE)}" data-record="{$RELATED_RECORD->getId()}" data-value="{$WATCHING_STATE}" class="noLinkBtn{if !$WATCHING_STATE} info-color{/if}" data-on="info-color" data-off="" data-icon-on="glyphicon-eye-open" data-icon-off="glyphicon-eye-close" data-module="{$RELATED_MODULE_NAME}">
 					<span class="glyphicon {if $WATCHING_STATE}glyphicon-eye-close{else}glyphicon-eye-open{/if} alignMiddle"></span>
 				</a>&nbsp;
@@ -61,5 +71,11 @@
 			{/if}
 		</span>
 	</div>
+	{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
+		<div>
+			<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed alignMiddle">
+				<span class="badge bgDanger"></span>&nbsp;
+			</a>&nbsp;
+		</div>
+	{/if}
 {/strip}
-
