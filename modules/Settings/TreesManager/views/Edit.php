@@ -49,7 +49,7 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~libraries/jquery/jstree/jstree.min.js',
+			'libraries.jquery.jstree.jstree',
 			"modules.Settings.$moduleName.resources.Edit",
 		);
 
@@ -58,15 +58,13 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$moduleName = $request->getModule();
 		$cssFileNames = array(
-			'~libraries/jquery/jstree/themes/proton/style.css',
+			'libraries.jquery.jstree.themes.proton.style',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
-		return $headerCssInstances;
+		return array_merge($cssInstances, $headerCssInstances);
 	}
 }
