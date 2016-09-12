@@ -14,12 +14,12 @@
 abstract class Vtiger_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		self::setHeaders();
 	}
 
-	function loginRequired()
+	public function loginRequired()
 	{
 		return true;
 	}
@@ -28,22 +28,22 @@ abstract class Vtiger_Controller
 
 	abstract function process(Vtiger_Request $request);
 
-	function validateRequest(Vtiger_Request $request)
+	public function validateRequest(Vtiger_Request $request)
 	{
 		
 	}
 
-	function preProcessAjax(Vtiger_Request $request)
+	public function preProcessAjax(Vtiger_Request $request)
 	{
 		
 	}
 
-	function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request)
 	{
 		
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		
 	}
@@ -67,7 +67,7 @@ abstract class Vtiger_Controller
 	 * @param string $name - method name
 	 * @return boolean
 	 */
-	function isMethodExposed($name)
+	public function isMethodExposed($name)
 	{
 		if (in_array($name, $this->exposedMethods)) {
 			return true;
@@ -81,7 +81,7 @@ abstract class Vtiger_Controller
 	 * @param Vtiger_Request $request
 	 * @throws Exception
 	 */
-	function invokeExposedMethod()
+	public function invokeExposedMethod()
 	{
 		$parameters = func_get_args();
 		$name = array_shift($parameters);
@@ -91,7 +91,7 @@ abstract class Vtiger_Controller
 		throw new \Exception\AppException(vtranslate('LBL_NOT_ACCESSIBLE'));
 	}
 
-	function setHeaders()
+	public function setHeaders()
 	{
 		if (headers_sent()) {
 			return;
@@ -116,22 +116,22 @@ abstract class Vtiger_Controller
 abstract class Vtiger_Action_Controller extends Vtiger_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	function getViewer(Vtiger_Request $request)
+	public function getViewer(Vtiger_Request $request)
 	{
 		throw new \Exception\AppException('Action - implement getViewer - JSONViewer');
 	}
 
-	function validateRequest(Vtiger_Request $request)
+	public function validateRequest(Vtiger_Request $request)
 	{
 		return $request->validateReadAccess();
 	}
 
-	function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
@@ -151,7 +151,7 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 	  return false;
 	  } */
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
@@ -163,12 +163,12 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	function getViewer(Vtiger_Request $request)
+	public function getViewer(Vtiger_Request $request)
 	{
 		if (!isset($this->viewer)) {
 			$viewer = Vtiger_Viewer::getInstance();
@@ -185,7 +185,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return $this->viewer;
 	}
 
-	function getPageTitle(Vtiger_Request $request)
+	public function getPageTitle(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleLabel = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
@@ -197,7 +197,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return $title;
 	}
 
-	function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		if (!empty($this->pageTitle)) {
 			return $this->pageTitle;
@@ -205,7 +205,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return 0;
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -258,7 +258,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		  } */
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -272,7 +272,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$cssFileNames = [
 			'~libraries/bootstrap3/css/bootstrap.css',
@@ -304,7 +304,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request - request model
 	 * @return <array> - array of Vtiger_JsScript_Model
 	 */
-	function getHeaderScripts(Vtiger_Request $request)
+	public function getHeaderScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = [
 			'libraries.jquery.jquery',
@@ -314,7 +314,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return $jsScriptInstances;
 	}
 
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$jsFileNames = [
 			'~libraries/jquery/jquery.blockUI.js',
@@ -358,7 +358,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return $jsScriptInstances;
 	}
 
-	function checkAndConvertJsScripts($jsFileNames)
+	public function checkAndConvertJsScripts($jsFileNames)
 	{
 		$fileExtension = 'js';
 		$jsScriptInstances = [];
@@ -436,7 +436,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	 * First check if $cssFileName exists
 	 * if not, check under layout folder $cssFileName eg:layouts/basic/$cssFileName
 	 */
-	function checkAndConvertCssStyles($cssFileNames, $fileExtension = 'css')
+	public function checkAndConvertCssStyles($cssFileNames, $fileExtension = 'css')
 	{
 		$cssStyleInstances = [];
 		foreach ($cssFileNames as $cssFileName) {
@@ -503,7 +503,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	 * Function returns the Client side language string
 	 * @param Vtiger_Request $request
 	 */
-	function getJSLanguageStrings(Vtiger_Request $request)
+	public function getJSLanguageStrings(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		return Vtiger_Language_Handler::export($moduleName, 'jsLanguageStrings');
