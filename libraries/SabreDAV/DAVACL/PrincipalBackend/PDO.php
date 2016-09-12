@@ -98,7 +98,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
         foreach ($this->fieldMap as $key => $value) {
             $fields[] = $value['dbField'];
         }
-        $result = $this->pdo->query('SELECT ' . implode(',', $fields) . '  FROM ' . $this->tableName);
+        $result = $this->pdo->query(sprintf('SELECT %s FROM %s', implode(',', $fields), $this->tableName));
 
         $principals = [];
 
@@ -142,7 +142,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
         foreach ($this->fieldMap as $key => $value) {
             $fields[] = $value['dbField'];
         }
-        $stmt = $this->pdo->prepare('SELECT ' . implode(',', $fields) . '  FROM ' . $this->tableName . ' WHERE uri = ?');
+        $stmt = $this->pdo->prepare(sprintf('SELECT %s FROM %s WHERE uri = ?', implode(',', $fields), $this->tableName));
         $stmt->execute([$path]);
 
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -180,7 +180,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
 
         $propPatch->handle(array_keys($this->fieldMap), function($properties) use ($path) {
 
-            $query = "UPDATE " . $this->tableName . " SET ";
+            $query = sprintf('UPDATE %s SET ', $this->tableName);
             $first = true;
 
             $values = [];
@@ -242,7 +242,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
     function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
         if (count($searchProperties) == 0) return [];    //No criteria
 
-        $query = 'SELECT uri FROM ' . $this->tableName . ' WHERE ';
+        $query = sprintf('SELECT uri FROM %s WHERE ', $this->tableName);
         $values = [];
         foreach ($searchProperties as $property => $value) {
             switch ($property) {
@@ -305,7 +305,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
         $uri = null;
         switch ($scheme){
             case "mailto":
-                $query = 'SELECT uri FROM ' . $this->tableName . ' WHERE lower(email)=lower(?)';
+                $query = sprintf('SELECT uri FROM %s WHERE lower(email)=lower(?)', $this->tableName);
                 $stmt = $this->pdo->prepare($query);
                 $stmt->execute([ $value ]);
             
@@ -336,7 +336,9 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
         $principal = $this->getPrincipalByPath($principal);
         if (!$principal) throw new DAV\Exception('Principal not found');
 
-        $stmt = $this->pdo->prepare('SELECT principals.uri as uri FROM ' . $this->groupMembersTableName . ' AS groupmembers LEFT JOIN ' . $this->tableName . ' AS principals ON groupmembers.member_id = principals.id WHERE groupmembers.principal_id = ?');
+		$query = 'SELECT principals.uri as uri FROM %s AS groupmembers LEFT JOIN %s AS principals ON groupmembers.member_id = principals.id WHERE groupmembers.principal_id = ?';
+        $query = sprintf($query, $this->groupMembersTableName, $this->tableName);
+		$stmt = $this->pdo->prepare($query);
         $stmt->execute([$principal['id']]);
 
         $result = [];
@@ -358,7 +360,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
         $principal = $this->getPrincipalByPath($principal);
         if (!$principal) throw new DAV\Exception('Principal not found');
 
-        $stmt = $this->pdo->prepare('SELECT principals.uri as uri FROM ' . $this->groupMembersTableName . ' AS groupmembers LEFT JOIN ' . $this->tableName . ' AS principals ON groupmembers.principal_id = principals.id WHERE groupmembers.member_id = ?');
+        $stmt = $this->pdo->prepare(sprintf('SELECT principals.uri as uri FROM %s AS groupmembers LEFT JOIN %s AS principals ON groupmembers.principal_id = principals.id WHERE groupmembers.member_id = ?', $this->groupMembersTableName, $this->tableName));
         $stmt->execute([$principal['id']]);
 
         $result = [];
@@ -381,7 +383,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
     function setGroupMemberSet($principal, array $members) {
 
         // Grabbing the list of principal id's.
-        $stmt = $this->pdo->prepare('SELECT id, uri FROM ' . $this->tableName . ' WHERE uri IN (? ' . str_repeat(', ? ', count($members)) . ');');
+        $stmt = $this->pdo->prepare(sprintf('SELECT id, uri FROM %s WHERE uri IN (? %s);',$this->tableName, str_repeat(', ? ', count($members))));
         $stmt->execute(array_merge([$principal], $members));
 
         $memberIds = [];
@@ -397,7 +399,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
         if (!$principalId) throw new DAV\Exception('Principal not found');
 
         // Wiping out old members
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->groupMembersTableName . ' WHERE principal_id = ?;');
+        $stmt = $this->pdo->prepare(sprintf('DELETE FROM %s WHERE principal_id = ?;', $this->groupMembersTableName));
         $stmt->execute([$principalId]);
 
         foreach ($memberIds as $memberId) {
