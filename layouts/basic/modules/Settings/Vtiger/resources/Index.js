@@ -13,7 +13,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		params.animation = "show";
 		params.type = 'success';
 		params.title = app.vtranslate('JS_MESSAGE');
-
 		if (typeof customParams != 'undefined') {
 			var params = jQuery.extend(params, customParams);
 		}
@@ -65,7 +64,10 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			}
 		});
 		return aDeferred.promise();
-	}
+	},
+	showWarnings: function () {
+		jQuery('li[data-mode="systemWarnings"] a').click();
+	},
 }, {
 	registerDeleteShortCutEvent: function (shortCutBlock) {
 		var thisInstance = this;
@@ -229,7 +231,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 
 		AppConnector.request(params).then(function (data) {
 			jQuery('#settingsShortCutsContainer').html(data);
-
 		});
 	},
 	loadCkEditorElement: function () {
@@ -344,7 +345,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			});
 		});
 	},
-	registerEventsForGithub: function (container) {
+	registerGithubEvents: function (container) {
 		var thisInstance = this;
 		thisInstance.registerAuthorizedEvent();
 		thisInstance.registerPagination();
@@ -355,7 +356,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		container.find('.switchState').on('switchChange.bootstrapSwitch', function (e, state) {
 			thisInstance.loadContent('Github', 1);
 		});
-
 		$('.addIssuesBtn').on('click', function () {
 			var params = {
 				module: 'Github',
@@ -371,6 +371,110 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				});
 			});
 		});
+	},
+	registerSystemWarningsEvents: function (container) {
+		var thisInstance = this;
+		thisInstance.registerWarningsFolders(container);
+	},
+	registerWarningsFolders: function (container) {
+		var thisInstance = this;
+		var data = [];
+		var treeValues = container.find('#treeValues').val();
+		if (treeValues) {
+			data = JSON.parse(treeValues);
+		}
+		container.find('#jstreeContainer').jstree({
+			core: {
+				data: data,
+				themes: {
+					name: 'proton',
+					responsive: true,
+					icons: false
+				},
+				check_callback: true
+			},
+			plugins: ["checkbox"]
+		}).bind("loaded.jstree", function (event, data) {
+			$(this).jstree("open_all");
+		}).on('changed.jstree', function (e, data) {
+			thisInstance.getWarningsList();
+		});
+		$.extend($.fn.dataTable.defaults, {
+			language: {
+				sLengthMenu: app.vtranslate('JS_S_LENGTH_MENU'),
+				sZeroRecords: app.vtranslate('JS_NO_RESULTS_FOUND'),
+				sInfo: app.vtranslate('JS_S_INFO'),
+				sInfoEmpty: app.vtranslate('JS_S_INFO_EMPTY'),
+				sSearch: app.vtranslate('JS_SEARCH'),
+				sEmptyTable: app.vtranslate('JS_NO_RESULTS_FOUND'),
+				sInfoFiltered: app.vtranslate('JS_S_INFO_FILTERED'),
+				sLoadingRecords: app.vtranslate('JS_LOADING_OF_RECORDS'),
+				sProcessing: app.vtranslate('JS_LOADING_OF_RECORDS'),
+				oPaginate: {
+					sFirst: app.vtranslate('JS_S_FIRST'),
+					sPrevious: app.vtranslate('JS_S_PREVIOUS'),
+					sNext: app.vtranslate('JS_S_NEXT'),
+					sLast: app.vtranslate('JS_S_LAST')
+				},
+				oAria: {
+					sSortAscending: app.vtranslate('JS_S_SORT_ASCENDING'),
+					sSortDescending: app.vtranslate('JS_S_SORT_DESCENDING')
+				}
+			}
+		});
+	},
+	getWarningsList: function () {
+		var thisInstance = this;
+		var selected = thisInstance.getSelectedFolders();
+		var container = $('#warningsContent');
+		var progressIndicator = jQuery.progressIndicator({message: app.vtranslate('JS_LOADING_OF_RECORDS'), blockInfo: {enabled: true}});
+		AppConnector.request({
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			view: 'Index',
+			mode: 'getWarningsList',
+			folder: selected
+		}).then(function (data) {
+			container.html(data);
+			thisInstance.registerWarningsList(container);
+			progressIndicator.progressIndicator({mode: 'hide'});
+		}, function (error) {
+			progressIndicator.progressIndicator({mode: 'hide'});
+		})
+	},
+	registerWarningsList: function (container) {
+		var thisInstance = this;
+		container.find('table').dataTable({
+			order: [[3, "asc"]]
+		});
+		app.showPopoverElementView(container.find('.popoverTooltip'));
+		container.find('.showDescription').click(function (e) {
+			var html = $(this).closest('td').find('.showDescriptionContent').html();
+			app.showModalWindow(html);
+		});
+		container.find('.setIgnore').click(function (e) {
+			container.find('.popoverTooltip').popover('hide');
+			var data = $(this).closest('tr').data();
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'SystemWarnings',
+				mode: 'setIgnore',
+				id: data.id,
+				status: data.status,
+			}).then(function (data) {
+				thisInstance.getWarningsList(container);
+			}, function (error) {
+
+			})
+		});
+	},
+	getSelectedFolders: function () {
+		var selected = [];
+		$.each($('#jstreeContainer').jstree("get_selected", true), function (index, value) {
+			selected.push(value.original.subPath);
+		});
+		return selected;
 	},
 	loadContent: function (mode, page) {
 		var thisInstance = this;
@@ -406,8 +510,10 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				thisInstance.registerWidgetsEvents();
 				thisInstance.registerAddShortcutDragDropEvent();
 				thisInstance.registerSettingShortCutAlignmentEvent();
-			} else {
-				thisInstance.registerEventsForGithub(container);
+			} else if (mode == 'Github') {
+				thisInstance.registerGithubEvents(container);
+			} else if (mode == 'systemWarnings') {
+				thisInstance.registerSystemWarningsEvents(container);
 			}
 		});
 	},

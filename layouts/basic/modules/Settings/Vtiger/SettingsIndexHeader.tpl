@@ -9,6 +9,7 @@
 			{*<li  data-mode="DonateUs"><a data-toggle="tab"><strong>{vtranslate('LBL_DONATE_US', $QUALIFIED_MODULE)}</strong></a></li>*}
 			<li class="active" data-mode="Index"><a data-toggle="tab"><strong>{vtranslate('LBL_START', $QUALIFIED_MODULE)}</strong></a></li>
 			<li data-mode="Github"><a data-toggle="tab"><strong>{vtranslate('LBL_GITHUB', $QUALIFIED_MODULE)}</strong></a></li>
+			<li data-mode="systemWarnings"><a data-toggle="tab"><strong>{vtranslate('LBL_SYSTEM_WARNINGS', $QUALIFIED_MODULE)}</strong></a></li>
 		</ul>
 	</div>
 	<div class="indexContainer"></div>

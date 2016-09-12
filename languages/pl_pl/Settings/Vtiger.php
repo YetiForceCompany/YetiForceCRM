@@ -357,8 +357,17 @@ $languageStrings = [
 	'LBL_YETIFORCE_SHOP' => 'Sklep YetiForce',
 	'RecordAllocation' => 'Przydział rekordów',
 	'ERR_NO_REQUIRED_LIBRARY' => 'Nie znaleziono wymaganej biblioteki %s. Część funkcjonalności została zablokowana. Aby pobrać należy przejść do <a href="index.php?module=ModuleManager&parent=Settings&view=List">Moduły - instalacja</a>',
+	// System warnings
+	'LBL_SYSTEM_WARNINGS' => 'Ostrzeżenia systemowe',
+	'LBL_WARNINGS_FOLDERS' => 'Kategorie ostrzeżeń',
+	'LBL_WARNINGS_TITLE' => 'Tytuł',
+	'LBL_WARNINGS_FOLDER' => 'Kategoria',
+	'LBL_WARNINGS_PRIORITY' => 'Priorytet',
+	'LBL_WARNINGS_STATUS' => 'Status',
+	'LBL_WARNINGS_INCORRECT' => 'Niepoprawne',
+	'LBL_WARNINGS_CORRECT' => 'Ok',
+	'LBL_WARNINGS_OMITTED' => 'Pominięte',
 ];
-
 $jsLanguageStrings = [
 	'JS_AUTHORIZATION_COMPLETE' => 'Autoryzacja zakończona pomyślnie',
 	'JS_ADDED_ISSUE_COMPLETE' => 'Poprawnie dodano problem.',

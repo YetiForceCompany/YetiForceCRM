@@ -18,6 +18,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$this->exposeMethod('DonateUs');
 		$this->exposeMethod('Index');
 		$this->exposeMethod('Github');
+		$this->exposeMethod('systemWarnings');
+		$this->exposeMethod('getWarningsList');
 	}
 
 	public function checkPermission(Vtiger_Request $request)
@@ -88,7 +90,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
 		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
+		$warningsCount = includes\SystemWarnings::getWarningsCount();
 
+		$viewer->assign('WARNINGS_COUNT', $warningsCount);
 		$viewer->assign('USERS_COUNT', $usersCount);
 		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
@@ -139,6 +143,39 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->view('DonateUs.tpl', $qualifiedModuleName);
 	}
 
+	/**
+	 * Displays warnings system
+	 * 
+	 * @param Vtiger_Request $request
+	 */
+	public function systemWarnings(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$qualifiedModuleName = $request->getModule(false);
+
+		$folders = array_values(\includes\SystemWarnings::getFolders());
+		$viewer->assign('MODULE', $qualifiedModuleName);
+		$viewer->assign('FOLDERS', \includes\utils\Json::encode($folders));
+		$viewer->view('SystemWarnings.tpl', $qualifiedModuleName);
+	}
+
+	/**
+	 * Displays a list of system warnings
+	 * 
+	 * @param Vtiger_Request $request
+	 */
+	public function getWarningsList(Vtiger_Request $request)
+	{
+		$folder = $request->get('folder');
+		$viewer = $this->getViewer($request);
+		$qualifiedModuleName = $request->getModule(false);
+
+		$list = \includes\SystemWarnings::getWarnings($folder);
+		$viewer->assign('MODULE', $qualifiedModuleName);
+		$viewer->assign('WARNINGS_LIST', $list);
+		$viewer->view('SystemWarningsList.tpl', $qualifiedModuleName);
+	}
+
 	protected function getMenu()
 	{
 		return [];
@@ -156,8 +193,11 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 		$jsFileNames = array(
 			'modules.Vtiger.resources.Vtiger',
-			"libraries.jquery.ckeditor.ckeditor",
-			"libraries.jquery.ckeditor.adapters.jquery",
+			'libraries.jquery.ckeditor.ckeditor',
+			'libraries.jquery.ckeditor.adapters.jquery',
+			'libraries.jquery.jstree.jstree',
+			'~libraries/jquery/datatables/media/js/jquery.dataTables.js',
+			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
 			'modules.Vtiger.resources.CkEditor',
 			'modules.Settings.Vtiger.resources.Vtiger',
 			'modules.Settings.Vtiger.resources.Edit',
@@ -167,8 +207,24 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge($headerScriptInstances, $jsScriptInstances);
+	}
+
+	/**
+	 * Retrieves css styles that need to loaded in the page
+	 * @param Vtiger_Request $request - request model
+	 * @return <array> - array of Vtiger_CssScript_Model
+	 */
+	public function getHeaderCss(Vtiger_Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = array(
+			'libraries.jquery.jstree.themes.proton.style',
+			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
+			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
+		);
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		return array_merge($cssInstances, $headerCssInstances);
 	}
 
 	public static function getSelectedFieldFromModule($menuModels, $moduleName)
