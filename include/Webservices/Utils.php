@@ -86,7 +86,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	require('user_privileges/sharing_privileges_' . $user->id . '.php');
 	$tabName = getTabname($moduleId);
 	if ($is_admin == false && $profileGlobalPermission[2] == 1 &&
-		($defaultOrgSharingPermission[$moduleId] == 3 or $defaultOrgSharingPermission[$moduleId] == 0)) {
+		($defaultOrgSharingPermission[$moduleId] == 3 || $defaultOrgSharingPermission[$moduleId] == 0)) {
 		$result = get_current_user_access_groups($tabName);
 	} else {
 		$result = get_group_options();

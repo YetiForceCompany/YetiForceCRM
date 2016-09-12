@@ -281,10 +281,10 @@ class DateTimeRange
 		if ($month <= 3) { // 1st Quarter - January - March
 			$quarter[0] = $dateObject->format('Y-01-01');
 			$quarter[1] = $dateObject->format('Y-03-31');
-		} else if ($month > 3 and $month <= 6) { // 2nd Quarter - April - June
+		} else if ($month > 3 && $month <= 6) { // 2nd Quarter - April - June
 			$quarter[0] = $dateObject->format('Y-04-01');
 			$quarter[1] = $dateObject->format('Y-06-30');
-		} else if ($month > 6 and $month <= 9) { // 3rd Quarter - July - September
+		} else if ($month > 6 && $month <= 9) { // 3rd Quarter - July - September
 			$quarter[0] = $dateObject->format('Y-07-01');
 			$quarter[1] = $dateObject->format('Y-09-30');
 		} else { // 4th Quarter - October - December
@@ -315,10 +315,10 @@ class DateTimeRange
 			$dateObject->modify('last year');
 			$quarter[0] = $dateObject->format('Y-10-01');
 			$quarter[1] = $dateObject->format('Y-12-31');
-		} else if ($month > 3 and $month <= 6) { // 2nd Quarter - April - June
+		} else if ($month > 3 && $month <= 6) { // 2nd Quarter - April - June
 			$quarter[0] = $dateObject->format('Y-01-01');
 			$quarter[1] = $dateObject->format('Y-03-31');
-		} else if ($month > 6 and $month <= 9) { // 3rd Quarter - July - September
+		} else if ($month > 6 && $month <= 9) { // 3rd Quarter - July - September
 			$quarter[0] = $dateObject->format('Y-04-01');
 			$quarter[1] = $dateObject->format('Y-06-30');
 		} else { // 4th Quarter - October - December
@@ -348,10 +348,10 @@ class DateTimeRange
 		if ($month <= 3) { // 1st Quarter - January - March
 			$quarter[0] = $dateObject->format('Y-04-01');
 			$quarter[1] = $dateObject->format('Y-06-30');
-		} else if ($month > 3 and $month <= 6) { // 2nd Quarter - April - June
+		} else if ($month > 3 && $month <= 6) { // 2nd Quarter - April - June
 			$quarter[0] = $dateObject->format('Y-07-01');
 			$quarter[1] = $dateObject->format('Y-09-30');
-		} else if ($month > 6 and $month <= 9) { // 3rd Quarter - July - September
+		} else if ($month > 6 && $month <= 9) { // 3rd Quarter - July - September
 			$quarter[0] = $dateObject->format('Y-10-01');
 			$quarter[1] = $dateObject->format('Y-12-31');
 		} else { // 4th Quarter - October - December

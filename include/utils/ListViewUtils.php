@@ -615,7 +615,7 @@ function html_substr($str, $start, $length = NULL)
 	$chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE);
 	$html_length = count($chars);
 	// check if we can predict the return value and save some processing time
-	if (($html_length === 0) or ( $start >= $html_length) or ( isset($length) and ( $length <= -$html_length)))
+	if (($html_length === 0) || ( $start >= $html_length) || ( isset($length) and ( $length <= -$html_length)))
 		return "";
 
 	//calculate start position

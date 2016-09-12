@@ -1363,7 +1363,7 @@ class CRMEntity
 			else
 				$this->sortby_fields[] = $columnname;
 		}
-		if ($tabid == 21 or $tabid == 22)
+		if ($tabid == 21 || $tabid == 22)
 			$this->sortby_fields[] = 'crmid';
 		$log->debug("Exiting initSortByField");
 	}
