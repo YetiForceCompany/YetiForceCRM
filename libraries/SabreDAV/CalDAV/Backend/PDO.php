@@ -149,7 +149,12 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
 
         // Making fields a comma-delimited list
         $fields = implode(', ', $fields);
-        $stmt = $this->pdo->prepare("SELECT " . $fields . " FROM " . $this->calendarTableName . " WHERE principaluri = ? ORDER BY calendarorder ASC");
+				$stmt = $this->pdo->prepare(
+<<<SQL
+		SELECT $fields FROM {$this->calendarTableName}
+		WHERE principaluri = ? ORDER BY calendarorder ASC
+SQL
+		);
         $stmt->execute([$principalUri]);
 
         $calendars = [];
