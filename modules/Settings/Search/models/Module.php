@@ -12,20 +12,26 @@
 class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public function getModulesEntity($tabid = false)
+	public function getModulesEntity($tabid = false, $onlyActive = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$sql = 'SELECT * from vtiger_entityname';
-		$params = array();
-		if ($tabid) {
-			$sql .= ' WHERE tabid = ?';
-			$params[] = $tabid;
+		$db = PearDatabase::getInstance();
+		$params = [];
+		if($onlyActive){
+			$sql = 'SELECT vtiger_entityname.* FROM vtiger_entityname 
+				LEFT JOIN vtiger_tab ON vtiger_entityname.tabid = vtiger_tab.tabid 
+				WHERE vtiger_tab.presence = ?';
+			$params []= '0';
+		} else {
+			$sql = 'SELECT * FROM vtiger_entityname';
+			if ($tabid) {
+				$sql .= ' WHERE tabid = ?';
+				$params[] = $tabid;
+			}
 		}
 		$sql .= ' ORDER BY sequence';
-		$result = $adb->pquery($sql, $params, true);
-		$moduleEntity = array();
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
-			$row = $adb->query_result_rowdata($result, $i);
+		$result = $db->pquery($sql, $params);
+		$moduleEntity = [];
+		while($row = $db->getRow($result)){
 			$moduleEntity[$row['tabid']] = $row;
 		}
 		return $moduleEntity;
