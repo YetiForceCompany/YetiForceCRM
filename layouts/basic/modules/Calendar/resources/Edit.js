@@ -317,6 +317,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		});
 	},
 	registerSaveAndCloseBtn: function(container){
+		this.setVisibilityBtnSaveAndClose(container);
 		container.find('.saveAndComplete').on('click', function(){
 			var invalidFields = container.data('jqv').InvalidFields;
 			if (invalidFields.length == 0) {
