@@ -83,7 +83,7 @@ class PDO implements BackendInterface {
             return;
         }
 
-        $query = 'SELECT name, value, valuetype FROM ' . $this->tableName . ' WHERE path = ?';
+        $query = sprintf('SELECT name, value, valuetype FROM %s WHERE path = ?', $this->tableName);
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([$path]);
 
@@ -122,7 +122,7 @@ class PDO implements BackendInterface {
         $propPatch->handleRemaining(function($properties) use ($path) {
 
             $updateStmt = $this->pdo->prepare("REPLACE INTO " . $this->tableName . " (path, name, valuetype, value) VALUES (?, ?, ?, ?)");
-            $deleteStmt = $this->pdo->prepare("DELETE FROM " . $this->tableName . " WHERE path = ? && name = ?");
+            $deleteStmt = $this->pdo->prepare(sprintf("DELETE FROM %s WHERE path = ? && name = ?", $this->tableName));
 
             foreach ($properties as $name => $value) {
 
@@ -162,7 +162,7 @@ class PDO implements BackendInterface {
      */
     function delete($path) {
 
-        $stmt = $this->pdo->prepare("DELETE FROM " . $this->tableName . "  WHERE path = ? || path LIKE ? ESCAPE '='");
+        $stmt = $this->pdo->prepare(sprintf("DELETE FROM %s  WHERE path = ? || path LIKE ? ESCAPE '='", $this->tableName));
         $childPath = strtr(
             $path,
             [
@@ -193,10 +193,10 @@ class PDO implements BackendInterface {
         // also compatible across db engines, so we're letting PHP do all the
         // updates. Much slower, but it should still be pretty fast in most
         // cases.
-        $select = $this->pdo->prepare('SELECT id, path FROM ' . $this->tableName . '  WHERE path = ? || path LIKE ?');
+        $select = $this->pdo->prepare(sprintf('SELECT id, path FROM %s WHERE path = ? || path LIKE ?', $this->tableName));
         $select->execute([$source, $source . '/%']);
 
-        $update = $this->pdo->prepare('UPDATE ' . $this->tableName . ' SET path = ? WHERE id = ?');
+        $update = $this->pdo->prepare(sprintf('UPDATE %s SET path = ? WHERE id = ?', $this->tableName));
         while ($row = $select->fetch(\PDO::FETCH_ASSOC)) {
 
             // Sanity check. SQL may select too many records, such as records
