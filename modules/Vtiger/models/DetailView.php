@@ -178,7 +178,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {

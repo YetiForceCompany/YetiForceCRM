@@ -61,7 +61,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
-		if ($openStreetMapModuleModel->isActive() && $openStreetMapModuleModel->isAllowModules($moduleModel->getName())) {
+		if ($userPrivilegesModel->hasModulePermission($openStreetMapModuleModel->getId()) && $openStreetMapModuleModel->isAllowModules($moduleModel->getName())) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SHOW_MAP',
@@ -490,7 +490,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			];
 		}
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -557,7 +557,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');

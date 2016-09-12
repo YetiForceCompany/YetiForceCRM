@@ -134,39 +134,41 @@
 						</a>
 					</div>
 				</div>
-				<div class="pull-right">
-					{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
-					{if $CONFIG['showMailIcon']=='true'}
-						{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
-						{if count($AUTOLOGINUSERS) > 0}
-							{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
-							<div class="headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
-								<div class="btn-group">
-									{if count($AUTOLOGINUSERS) eq 1}
-										<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=index">
-											<div class="hidden-xs">
-												{$ITEM.username}
-												<span class="mail_user_name">{$MAIN_MAIL.username}</span>
-												<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
-											</div>
-											<div class="visible-xs-block">
-												<span class="glyphicon glyphicon-list-alt"></span>
-											</div>
-										</a>
-									{elseif $CONFIG['showMailAccounts']=='true'}
-										<select class="form-control" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
-											{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-												<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
+				{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
+					<div class="pull-right">
+						{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
+						{if $CONFIG['showMailIcon']=='true'}
+							{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
+							{if count($AUTOLOGINUSERS) > 0}
+								{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
+								<div class="headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
+									<div class="btn-group">
+										{if count($AUTOLOGINUSERS) eq 1}
+											<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=index">
+												<div class="hidden-xs">
 													{$ITEM.username}
-												</option>
-											{/foreach}
-										</select>
-									{/if}
+													<span class="mail_user_name">{$MAIN_MAIL.username}</span>
+													<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
+												</div>
+												<div class="visible-xs-block">
+													<span class="glyphicon glyphicon-list-alt"></span>
+												</div>
+											</a>
+										{elseif $CONFIG['showMailAccounts']=='true'}
+											<select class="form-control" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
+												{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
+													<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
+														{$ITEM.username}
+													</option>
+												{/foreach}
+											</select>
+										{/if}
+									</div>
 								</div>
-							</div>
+							{/if}
 						{/if}
-					{/if}
-				</div>
+					</div>
+				{/if}
 			</div>
 		</div>
 	</div>

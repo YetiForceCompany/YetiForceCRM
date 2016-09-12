@@ -26,7 +26,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			);
 		}
 
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
