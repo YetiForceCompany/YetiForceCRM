@@ -48,10 +48,12 @@ Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 		var field = this.getElement();
 		var fieldData = field.data();
 		var fieldInfo = fieldData.fieldinfo;
-		if (fieldInfo.restrictedDomains) {
-			if (fieldInfo.restrictedDomains.indexOf(fieldValue.split('@').pop()) != -1) {
-				this.setError(app.vtranslate('JS_EMAIL_RESTRICTED_DOMAINS'));
-				return false;
+		if (fieldInfo) {
+			if (fieldInfo.restrictedDomains) {
+				if (fieldInfo.restrictedDomains.indexOf(fieldValue.split('@').pop()) != -1) {
+					this.setError(app.vtranslate('JS_EMAIL_RESTRICTED_DOMAINS'));
+					return false;
+				}
 			}
 		}
 		return true;
