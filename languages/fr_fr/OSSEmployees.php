@@ -52,4 +52,5 @@ $languageStrings = [
 	'LBL_USER_EXISTS' => 'Employé existe déjà',
 	'FL_POSITION' => 'Position',
 	'FL_SECONDARY_PHONE' => 'Secondary phone',
+	'FL_RBH' => 'RBH'
 ];

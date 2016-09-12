@@ -4839,7 +4839,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2384 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2385 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6327,6 +6327,7 @@ CREATE TABLE `vtiger_ossemployees` (
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `secondary_phone` varchar(25) DEFAULT NULL,
   `position` varchar(255) DEFAULT NULL,
+  `rbh` decimal(25,8) DEFAULT NULL,
   PRIMARY KEY (`ossemployeesid`),
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
