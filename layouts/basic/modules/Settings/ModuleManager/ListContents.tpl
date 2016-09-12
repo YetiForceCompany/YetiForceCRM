@@ -36,9 +36,6 @@
 			</div>
 		</div>
 		<hr>
-		{if $MISSING_LIBRARY}
-			{include file='MissingLibrary.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-		{/if}
 		<div class="contents">
 			{assign var=COUNTER value=0}
 			<table class="table table-bordered">
