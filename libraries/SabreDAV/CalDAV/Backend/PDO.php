@@ -286,7 +286,7 @@ SQL
             foreach ($newValues as $fieldName => $value) {
                 $valuesSql[] = $fieldName . ' = ?';
             }
-			$query = sprintf("UPDATE %s SET " . implode(', ', $valuesSql) . " WHERE id = ?", $this->calendarTableName);
+			$query = sprintf('UPDATE %s SET %s WHERE id = ?', $this->calendarTableName, implode(', ', $valuesSql));
             $stmt = $this->pdo->prepare($query);
             $newValues['id'] = $calendarId;
             $stmt->execute(array_values($newValues));
@@ -1102,7 +1102,7 @@ SQL;
             foreach ($newValues as $fieldName => $value) {
                 $valuesSql[] = $fieldName . ' = ?';
             }
-			$query = sprintf("UPDATE %s SET " . implode(', ', $valuesSql) . ", lastmodified = ? WHERE id = ?", $this->calendarSubscriptionsTableName);
+			$query = sprintf('UPDATE %s SET  %s , lastmodified = ? WHERE id = ?', $this->calendarSubscriptionsTableName, implode(', ', $valuesSql));
             $stmt = $this->pdo->prepare($query);
             $newValues['lastmodified'] = time();
             $newValues['id'] = $subscriptionId;
