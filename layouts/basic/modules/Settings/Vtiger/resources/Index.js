@@ -445,7 +445,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 	registerWarningsList: function (container) {
 		var thisInstance = this;
 		container.find('table').dataTable({
-			order: [[3, "asc"]]
+			order: [[2, 'desc']]
 		});
 		app.showPopoverElementView(container.find('.popoverTooltip'));
 		container.find('.showDescription').click(function (e) {
