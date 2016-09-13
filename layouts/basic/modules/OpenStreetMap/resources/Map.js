@@ -231,6 +231,31 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			map.addLayer(endIconLayer);
 			thisInstance.showCalculateBtn();
 		});
+		container.on('click', '.searchInRadius', function (e) {
+			map.removeLayer(endIconLayer);
+			var currentTarget = $(e.currentTarget);
+			var containerPopup = currentTarget.closest('.leaflet-popup-content');
+			var coordinates = containerPopup.find('.coordinates');
+			var progressIndicatorElement = jQuery.progressIndicator({
+				'position': container,
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var params = {
+				module: 'OpenStreetMap',
+				action: 'GetMarkers',
+				srcModule: app.getModuleName(),
+				radius: container.find('.radius').val(),
+				lat: coordinates.data('lat'),
+				lon: coordinates.data('lon'),
+			};
+			$.extend(params, thisInstance.selectedParams);
+			AppConnector.request(params).then(function (response) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				thisInstance.setMarkersByResponse(response);
+			});
+		});
 		container.find('.calculateTrack').on('click', function () {
 			var endElement = container.find('.end');
 			var startElement = container.find('.start');

@@ -6,11 +6,9 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
-{
+class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action {
 
-	public function process(Vtiger_Request $request)
-	{
+	public function process(Vtiger_Request $request) {
 		$data = [];
 		$sourceModule = $request->get('srcModule');
 		$srcModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
@@ -18,8 +16,14 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		$coordinatesCenter = [];
 		$radius = (int) $request->get('radius');
 		$searchValue = $request->get('searchValue');
-		if(!empty($searchValue)){
+		if (!empty($searchValue)) {
 			$coordinatesCenter = OpenStreetMap_Module_Model::getCoordinatesBySearching($searchValue);
+		}
+		if ($request->has('lat') && $request->has('lon')) {
+			$coordinatesCenter = [
+				'lat' => $request->get('lat'),
+				'lon' => $request->get('lon')
+			];
 		}
 		if (!$moduleModel->isAllowModules($sourceModule)) {
 			$records = $this->getRecordIds($request);
@@ -30,7 +34,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 			}
 			$parentRecords = array_unique($parentRecords);
 			foreach ($parentRecords as $parentRecord) {
-				if(!empty($parentRecord))
+				if (!empty($parentRecord))
 					$coordinates = array_merge($coordinates, OpenStreetMap_Module_Model::readCoordinates($parentRecord));
 			}
 			$data ['coordinates'] = $coordinates;
@@ -53,7 +57,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 			}
 			$data ['legend'] = $legend;
 		}
-		if(!empty($coordinatesCenter)) {
+		if (!empty($coordinatesCenter)) {
 			$data['coordinatesCeneter'] = $coordinatesCenter;
 		}
 		$response = new Vtiger_Response();
@@ -61,8 +65,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	private function getRecordsForParentModule($srcModuleModel, $moduleModel, $records, $fieldMap)
-	{
+	private function getRecordsForParentModule($srcModuleModel, $moduleModel, $records, $fieldMap) {
 		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$recordsToReturn = [];
 		foreach ($fieldMap as $referenceModule => $fieldName) {
@@ -88,8 +91,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		return $recordsToReturn;
 	}
 
-	private function getRecordIds(Vtiger_Request $request)
-	{
+	private function getRecordIds(Vtiger_Request $request) {
 		$cvId = $request->get('viewname');
 		$module = $request->get('srcModule');
 		$selectedIds = $request->get('selected_ids');
@@ -114,4 +116,5 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		}
 		return [];
 	}
+
 }
