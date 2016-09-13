@@ -2830,4 +2830,14 @@ class CRMEntity
 		}
 		return false;
 	}
+	
+	/**
+	 * Invoked when special actions are performed on the module.
+	 * @param String $moduleName Module name
+	 * @param String $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 */
+	public function vtlib_handler($moduleName, $eventType)
+	{
+
+	}
 }

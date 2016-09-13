@@ -225,7 +225,6 @@ jQuery.Class('Settings_Module_Manager_Js', {
 
 				//update the module status as disabled
 				thisInstance.updateModuleStatus(currentTarget).then(function (data) {
-					console.log(data);
 					var params = {
 						text: forModule + ' ' + app.vtranslate('JS_MODULE_DISABLED')
 					}
