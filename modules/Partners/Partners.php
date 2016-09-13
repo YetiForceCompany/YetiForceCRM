@@ -30,8 +30,7 @@ class Partners extends Vtiger_CRMEntity
 		'u_yf_partners' => 'partnersid',
 		'u_yf_partnerscf' => 'partnersid',
 		'u_yf_partners_address' => 'partneraddressid',
-		'vtiger_entity_stats' => 'crmid',
-		'u_yf_openstreetmap' => 'crmid');
+		'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory for Listing (Related listview)

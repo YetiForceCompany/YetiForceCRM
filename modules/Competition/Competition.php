@@ -30,8 +30,7 @@ class Competition extends Vtiger_CRMEntity
 		'u_yf_competition' => 'competitionid',
 		'u_yf_competitioncf' => 'competitionid',
 		'u_yf_competition_address' => 'competitionaddressid',
-		'vtiger_entity_stats' => 'crmid',
-		'u_yf_openstreetmap' => 'crmid'
+		'vtiger_entity_stats' => 'crmid'
 	);
 
 	/**
