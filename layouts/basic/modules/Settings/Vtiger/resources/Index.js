@@ -397,7 +397,9 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		}).bind("loaded.jstree", function (event, data) {
 			$(this).jstree("open_all");
 		}).on('changed.jstree', function (e, data) {
-			thisInstance.getWarningsList();
+			if (data.action != 'model') {
+				thisInstance.getWarningsList();
+			}
 		});
 		$.extend($.fn.dataTable.defaults, {
 			language: {
@@ -422,17 +424,23 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				}
 			}
 		});
+		var element = app.showBtnSwitch(container.find('.switchBtn'));
+		element.on('switchChange.bootstrapSwitch', function (e, state) {
+			thisInstance.getWarningsList();
+		});
 	},
 	getWarningsList: function () {
 		var thisInstance = this;
 		var selected = thisInstance.getSelectedFolders();
 		var container = $('#warningsContent');
 		var progressIndicator = jQuery.progressIndicator({message: app.vtranslate('JS_LOADING_OF_RECORDS'), blockInfo: {enabled: true}});
+		var active = $('.warningsIndexPage input.switchBtn').bootstrapSwitch('state');
 		AppConnector.request({
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
 			view: 'Index',
 			mode: 'getWarningsList',
+			active: active,
 			folder: selected
 		}).then(function (data) {
 			container.html(data);

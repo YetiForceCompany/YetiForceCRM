@@ -167,10 +167,11 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	public function getWarningsList(Vtiger_Request $request)
 	{
 		$folder = $request->get('folder');
+		$active = $request->getBoolean('active');
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 
-		$list = \includes\SystemWarnings::getWarnings($folder);
+		$list = \includes\SystemWarnings::getWarnings($folder, $active);
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('WARNINGS_LIST', $list);
 		$viewer->view('SystemWarningsList.tpl', $qualifiedModuleName);

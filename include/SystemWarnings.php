@@ -45,7 +45,7 @@ class SystemWarnings
 	 * @param array $folders
 	 * @return array
 	 */
-	public static function getWarnings($folders)
+	public static function getWarnings($folders, $active)
 	{
 		if (empty($folders)) {
 			return [];
@@ -64,11 +64,18 @@ class SystemWarnings
 					$className = "\includes\SystemWarnings\\$folder\\$fileName";
 					$instace = new $className;
 					if ($instace->preProcess()) {
-						if ($instace->getStatus() != 2) {
+						$isIgnored = $instace->getStatus() == 2;
+						$show = true;
+						if (!$isIgnored) {
 							$instace->process();
 						}
-						$instace->setFolder($folder);
-						$actions[] = $instace;
+						if ($isIgnored && $active) {
+							$show = false;
+						}
+						if ($show) {
+							$instace->setFolder($folder);
+							$actions[] = $instace;
+						}
 					}
 				}
 			}

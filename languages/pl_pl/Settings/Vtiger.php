@@ -367,6 +367,7 @@ $languageStrings = [
 	'LBL_WARNINGS_INCORRECT' => 'Niepoprawne',
 	'LBL_WARNINGS_CORRECT' => 'Ok',
 	'LBL_WARNINGS_OMITTED' => 'Pominięte',
+	'LBL_WARNINGS_SWITCH' => 'Filtrowanie ostrzeżeń',
 ];
 $jsLanguageStrings = [
 	'JS_AUTHORIZATION_COMPLETE' => 'Autoryzacja zakończona pomyślnie',
