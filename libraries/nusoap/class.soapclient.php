@@ -990,7 +990,10 @@ class nusoap_client extends nusoap_base  {
 				}
 				$this->cookies[$i] = $newCookie;
 				$found = true;
-				$this->debug('Update cookie ' . $newName . '=' . $newCookie['value']);
+				// <--------   YetiForce Sp. z o.o.   -------->
+				$this->debug('Updated cookie ' . $newName . '=' . $newCookie['value']);
+				// original code: $this->debug('Update cookie ' . $newName . '=' . $newCookie['value']);
+				// <--------   YetiForce Sp. z o.o.   -------->
 				break;
 			}
 			if (! $found) {

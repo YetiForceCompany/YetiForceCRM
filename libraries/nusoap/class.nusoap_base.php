@@ -872,7 +872,9 @@ class nusoap_base {
 	 */
     function varDump($data) {
 		ob_start();
-		var_dump($data);
+		// <--------   YetiForce Sp. z o.o.   -------->
+		// original code: var_dump($data);
+		// <--------   YetiForce Sp. z o.o.   -------->
 		$ret_val = ob_get_contents();
 		ob_end_clean();
 		return $ret_val;

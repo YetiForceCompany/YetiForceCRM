@@ -98,7 +98,9 @@ class HTTP_Request_Listener
 		echo "Notified of event: '$event'\n";
 		if (null !== $data) {
 			echo "Additional data: ";
-			var_dump($data);
+			// <--------   YetiForce Sp. z o.o.   -------->
+			// original code: var_dump($data);
+			// <--------   YetiForce Sp. z o.o.   -------->
 		}
 	}
 }
