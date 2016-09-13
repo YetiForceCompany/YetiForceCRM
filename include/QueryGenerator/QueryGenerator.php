@@ -634,7 +634,7 @@ class QueryGenerator
 			$tableList[$tableName] = $tableName;
 			$tableJoinMapping[$tableName] = $table['join'];
 		}
-		foreach ($this->whereClauseCustom as &$where) {
+		foreach ($this->whereClauseCustom as $where) {
 			if (isset($where['tablename']) && ($baseTable != $where['tablename'] && !in_array($where['tablename'], $tableList))) {
 				$tableList[] = $where['tablename'];
 				$tableJoinMapping[$where['tablename']] = 'LEFT JOIN';
