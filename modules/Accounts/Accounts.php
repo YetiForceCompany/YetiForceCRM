@@ -508,7 +508,7 @@ class Accounts extends CRMEntity
 	 * @param  integer   $id      - accountid
 	 * returns Account hierarchy in array format
 	 */
-	function getAccountHierarchy($id)
+	function getAccountHierarchy($id, $listColumns = false)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -517,7 +517,7 @@ class Accounts extends CRMEntity
 		$listview_header = [];
 		$listview_entries = [];
 
-		$listColumns = AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = $listColumns ? $listColumns : AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
