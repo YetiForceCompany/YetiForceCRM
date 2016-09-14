@@ -5688,6 +5688,9 @@ select.form-control {
 .leftRecordActions .actions:hover .actionImages{
 	display: inline-block !important;
 }
+.leftRecordActions .actions:hover + div .unreviewed{
+	margin-left: 20px;
+}
 .leftRecordActions .actions{
 	background: inherit;
 	padding: 4px 2px 0 0;
