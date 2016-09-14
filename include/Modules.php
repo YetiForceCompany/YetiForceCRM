@@ -59,16 +59,22 @@ class Modules
 
 	protected static $isModuleActiveCache = [];
 
-	static public function isModuleActive($module)
+	static public function isModuleActive($moduleName)
 	{
+		if(isset(self::$isModuleActiveCache[$moduleName])){
+			return self::$isModuleActiveCache[$moduleName];
+		}
 		$moduleAlwaysActive = ['Administration', 'CustomView', 'Settings', 'Users', 'Migration',
 			'Utilities', 'uploads', 'Import', 'System', 'com_vtiger_workflow', 'PickList'
 		];
-		if (in_array($module, $moduleAlwaysActive)) {
+		if (in_array($moduleName, $moduleAlwaysActive)) {
+			self::$isModuleActiveCache[$moduleName] = true;
 			return true;
 		}
 		$tabPresence = self::getTabData('tabPresence');
-		return $tabPresence[$module] == 0 ? true : false;
+		$isActive = $tabPresence[self::getModuleId($moduleName)] == 0 ? true : false;
+		self::$isModuleActiveCache[$moduleName] = $isActive;
+		return $isActive;
 	}
 
 	protected static $tabdataCache = false;
