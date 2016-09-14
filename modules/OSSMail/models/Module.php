@@ -77,11 +77,13 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName == 'Campaigns') {
 				$subject = '';
 				if ($type == 'new' || $moduleName == 'Campaigns') {
-					$subject .= $recordModel->getName() . ' - ';
+					$return['title'] = $recordModel->getName();
+					$subject .= $recordModel->getName();
 				}
 				$recordNumber = $recordModel->getRecordNumber();
 				if (!empty($recordNumber)) {
-					$subject .= '[' . $recordNumber . ']';
+					$return['recordNumber'] = $recordNumber;
+					$subject .= ' [' . $recordNumber . ']';
 				}
 				$return['subject'] = $subject;
 			}
