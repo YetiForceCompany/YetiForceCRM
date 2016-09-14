@@ -9,4 +9,5 @@ $CONFIG = [
 	  GMAIL = 8036
 	 */
 	'MAILTO_LIMIT' => 2030,
+	'RESET_RELATIONS' => true,
 ];

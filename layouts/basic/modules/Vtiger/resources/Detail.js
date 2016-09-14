@@ -1450,6 +1450,18 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		})
 	},
+	registerEmailEvent: function () {
+		var thisInstance = this;
+		this.getContentHolder().find('.resetRelationsEmail').on('click', function (e) {
+			var currentElement = jQuery(e.currentTarget);
+			Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('JS_EMAIL_RESET_RELATIONS_CONFIRMATION')}).then(function (data) {
+
+			},
+					function (error, err) {
+					}
+			);
+		})
+	},
 	getFiltersDataAndLoad: function (e, params) {
 		var data = this.getFiltersData(e, params);
 		this.loadWidget(data['container'], data['params']);
@@ -1549,6 +1561,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerChangeFilterForWidget();
 		this.registerChangeSwitchForWidget();
 		this.registerFilterForAddingModuleRelatedRecordFromSummaryWidget();
+		this.registerEmailEvent();
 		if (Vtiger_Detail_Js.SaveResultInstance == false) {
 			Vtiger_Detail_Js.SaveResultInstance = new SaveResult();
 		}

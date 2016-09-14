@@ -91,6 +91,7 @@ $languageStrings = [
 	'Current month' => 'Aktualny miesiąc',
 	'Previous month' => 'Poprzedni miesiąc',
 	'LBL_ORGINAL_MAIL_CONTENT' => 'Treść oryginalnej wiadomości',
+	'BTN_RESET_RELATED_MAILS' => 'Resetuj powiązane maile',
 ];
 $jsLanguageStrings = [
 	'From' => 'Od',

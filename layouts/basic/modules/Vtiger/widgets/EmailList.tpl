@@ -19,15 +19,20 @@
 										{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 										<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$URLDATA}" data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" data-popup="{$CONFIG['popup']}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
 											<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
-										</button>
+										</button>&nbsp;
 									{else}
 										{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 										{if $URLDATA}
 											<a class="btn btn-sm btn-default" href="{$URLDATA}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
 												<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
-											</a>
+											</a>&nbsp;
 										{/if}
 									{/if}
+								{/if}
+								{if AppConfig::module('Email', 'RESET_RELATIONS')}
+									<button type="button" class="btn btn-sm btn-default resetRelationsEmail">
+										<span class="body-icon glyphicon glyphicon-retweet" title="{vtranslate('BTN_RESET_RELATED_MAILS', 'OSSMailView')}"></span>
+									</button>
 								{/if}
 							</div>
 						</div>
