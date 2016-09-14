@@ -298,6 +298,8 @@ class Module extends ModuleBasic
 			);
 			Deprecated::createModuleMetaFile();
 			vtlib_RecreateUserPrivilegeFiles();
+			$menuRecordModel = new \Settings_Menu_Record_Model();
+			$menuRecordModel->refreshMenuFiles();
 		}
 	}
 }
