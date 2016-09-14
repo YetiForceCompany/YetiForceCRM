@@ -322,16 +322,21 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public static function getEmailSearchList()
 	{
+		$cache = Vtiger_Cache::get('Mail', 'EmailSearchList');
+		if ($cache !== false) {
+			return $cache;
+		}
+		$return = [];
 		$db = PearDatabase::getInstance();
 		$result = $db->query("SELECT value FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
 		if ($result->rowCount()) {
 			$value = $db->getSingleValue($result);
-			if (empty($value)) {
-				return [];
+			if (!empty($value)) {
+				$return = explode(',', $value);
 			}
-			return explode(',', $value);
 		}
-		return [];
+		Vtiger_Cache::set('Mail', 'EmailSearchList', $return);
+		return $return;
 	}
 
 	public static function setEmailSearchList($vale)
