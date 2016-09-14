@@ -633,10 +633,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		}
 		return aDeferred.promise();
 	},
-	registerUnreviewedCountEvent: function () {
+	registerUnreviewedCountEvent: function (container) {
 		var thisInstance = this;
 		var ids = [];
-		var listViewRelatedContentDiv = this.relatedContentContainer;
+		var listViewRelatedContentDiv = container == undefined ? this.relatedContentContainer : container;
 		var isUnreviewedActive = listViewRelatedContentDiv.find('.unreviewed').length;
 		listViewRelatedContentDiv.find('tr.listViewEntries').each(function () {
 			var id = jQuery(this).data('id');

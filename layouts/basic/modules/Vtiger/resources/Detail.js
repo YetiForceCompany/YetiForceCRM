@@ -363,6 +363,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 					app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 					app.registerModal(contentContainer);
 					app.registerMoreContent(contentContainer.find('button.moreBtn'));
+					var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName);
+					relatedController.registerUnreviewedCountEvent(widgetContainer);
 					aDeferred.resolve(params);
 				},
 				function (e) {
@@ -1738,6 +1740,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * summary view widget
 	 */
 	postSummaryWidgetAddRecord: function (data, currentElement) {
+		var thisInstance = this;
 		var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
 		var widgetHeaderContainer = summaryWidgetContainer.find('.widget_header');
 		var widgetDataContainer = summaryWidgetContainer.find('.widget_contents');
@@ -1765,6 +1768,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 								widgetDataContainer.progressIndicator({'mode': 'hide'});
 								widgetDataContainer.html(data);
 								app.changeSelectElementView(documentsWidget);
+								var relatedController = new Vtiger_RelatedList_Js(recordId, module, thisInstance.getSelectedTab(), referenceModuleName);
+								relatedController.registerUnreviewedCountEvent(widgetDataContainer);
 							}
 					);
 				}
