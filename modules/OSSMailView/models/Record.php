@@ -197,19 +197,11 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public function bindAllRecords()
-	{
-		$adb = PearDatabase::getInstance();
-		$this->addLog('Action_Bind', 'all');
-		$adb->query("UPDATE vtiger_ossmailview SET `verify` = '1'; ", true);
-	}
-
 	public function bindSelectedRecords($selectedIds)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		$this->addLog('Action_Bind', count($selectedIds));
-		$selectedIdsSql = implode(",", $selectedIds);
-		$adb->pquery("UPDATE vtiger_ossmailview SET `verify` = '1' where ossmailviewid in (?); ", array($selectedIdsSql), true);
+		$db->pquery(sprintf('UPDATE vtiger_ossmailview SET `verify` = ? WHERE ossmailviewid in (%s);', $db->generateQuestionMarks($selectedIds)), [1, $selectedIds]);
 	}
 
 	public function getMailType()

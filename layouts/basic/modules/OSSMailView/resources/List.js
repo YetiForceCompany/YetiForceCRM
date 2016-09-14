@@ -15,9 +15,9 @@ Vtiger_List_Js("OSSMailView_List_Js",{
 			if ( ! confirm( app.vtranslate('JS_BIND_CONFIRM') ) ){  
 				return false;
 			}
-			var selectedIds = listInstance.readSelectedIds(true);
 			var params = {}
-			params.data = {module: 'OSSMailView', action: 'BindMails',data: selectedIds}
+			params.data = {module: 'OSSMailView', action: 'BindMails'};
+			$.extend(params.data, Vtiger_List_Js.getSelectedRecordsParams());
 			params.async = false;
 			AppConnector.request(params).then(
 				function(data) {
