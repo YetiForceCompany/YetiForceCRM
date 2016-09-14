@@ -82,7 +82,7 @@
 				{/if}
 			</div>
 			{if $RELATED_EXISTS}
-				<div class="relatedRecordsContents padding10 col-xs-7">
+				<div class="relatedRecordsContents col-xs-7">
 					<ul class="nav nav-tabs" id="myTab">
 						{foreach from=$RELATED_MODULE item=REL_MODULE_NAME name=tabs}
 							{assign var=REL_MODULE_NAME_LOWER value=$REL_MODULE_NAME|lower}

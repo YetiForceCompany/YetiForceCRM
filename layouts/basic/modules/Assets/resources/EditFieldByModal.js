@@ -123,7 +123,7 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 				height: '300px'
 			});
 		}
-		container.on('click', '.relatedContents .listViewEntries td', function (e) {
+		container.find('.relatedContents .listViewEntries td').on('click', function (e) {
 			var target = jQuery(e.target);
 			var row = target.closest('tr');
 			var inventoryRow = row.next();
