@@ -26,21 +26,26 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		$create = true;
 		$db = PearDatabase::getInstance();
 		if ($prefix !== false) {
-			$result = $db->pquery('SELECT ticketid FROM vtiger_troubletickets where ticket_no = ?;', [$prefix]);
+			$result = $db->pquery('SELECT ticketid FROM vtiger_troubletickets where ticket_no = ? LIMIT 1', [$prefix]);
 			$create = $db->getRowCount($result) == 0;
 		}
 		if ($create) {
 			$contactId = $mail->findEmailAdress('fromaddress', 'Contacts', false);
 			$parentId = $mail->findEmailAdress('fromaddress', 'Accounts', false);
 			$record = Vtiger_Record_Model::getCleanInstance('HelpDesk');
-			$record->set('assigned_user_id', $accountOwner);
-			$record->set('ticket_title', $mail->get('subject'));
-			if (!empty($parentId) && $parentId != '0') {
+
+			if (empty($parentId) && !empty($contactId)) {
+				$resultAccount = $db->pquery('SELECT parentid FROM vtiger_contactdetails where contactid = ? LIMIT 1', [$contactId]);
+				if ($db->getRowCount($resultAccount)) {
+					$parentId = $db->getSingleValue($resultAccount);
+				}
+			}
+			if (!empty($parentId)) {
 				$record->set('parent_id', $parentId);
 
 				$query = 'SELECT vtiger_servicecontracts.servicecontractsid, vtiger_servicecontracts.priority FROM vtiger_servicecontracts '
 					. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_servicecontracts.servicecontractsid '
-					. 'WHERE vtiger_crmentity.deleted = ? && vtiger_servicecontracts.sc_related_to = ?';
+					. 'WHERE vtiger_crmentity.deleted = ? && vtiger_servicecontracts.sc_related_to = ? LIMIT 1';
 				$result = $db->pquery($query, [0, $parentId]);
 				if ($db->getRowCount($result)) {
 					$serviceContracts = $db->getRow($result);
@@ -48,6 +53,8 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 					$record->set('ticketpriorities', $serviceContracts['priority']);
 				}
 			}
+			$record->set('assigned_user_id', $accountOwner);
+			$record->set('ticket_title', $mail->get('subject'));
 			$record->set('description', vtlib_purifyForHtml($mail->get('body')));
 			$record->set('ticketstatus', 'Open');
 			$record->set('mode', 'new');

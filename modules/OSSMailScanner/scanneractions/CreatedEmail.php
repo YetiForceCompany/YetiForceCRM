@@ -64,7 +64,14 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			}
 			$record->set('mode', 'new');
 			$record->set('id', '');
+
+			$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
+			vglobal('VTIGER_BULK_SAVE_MODE', true);
+
 			$record->save();
+
+			vglobal('VTIGER_BULK_SAVE_MODE', $previousBulkSaveMode);
+
 			$id = $record->getId();
 
 			$mail->setMailCrmId($id);
