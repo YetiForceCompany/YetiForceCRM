@@ -113,19 +113,29 @@ class RecordNumber
 		$db->update('vtiger_modentity_num', ['cur_id' => $curId], 'tabid = ?', [$tabId]);
 	}
 
-	public static function getNumber($tabId)
+	protected static $numberCache = [];
+
+	public static function getNumber($tabId, $cache = true)
 	{
+		if (isset(self::$numberCache[$tabId]) && $cache) {
+			return self::$numberCache[$tabId];
+		}
 		if (is_string($tabId)) {
 			$tabId = \includes\Modules::getModuleId($tabId);
 		}
 		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE tabid = ? ', [$tabId]);
 		$row = $adb->getRow($result);
-		return [
+
+		$number = [
 			'prefix' => $row['prefix'],
 			'sequenceNumber' => $row['cur_id'],
 			'postfix' => $row['postfix'],
 			'number' => self::parse($row['prefix'] . $row['cur_id'] . $row['postfix'])
 		];
+		if ($cache) {
+			self::$numberCache[$tabId] = $number;
+		}
+		return $number;
 	}
 }
