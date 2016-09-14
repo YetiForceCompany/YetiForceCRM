@@ -8,6 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-$patch_version = '20160913';
-$YetiForce_current_version = '3.2.179';
+$patch_version = '20160914';
+$YetiForce_current_version = '3.2.180';
 $_SESSION['yetiforce_version'] = $YetiForce_current_version;

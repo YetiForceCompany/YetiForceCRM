@@ -35,7 +35,6 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$fields = $request->get('fields');
-		$recordBasic = $request->get('recordBasic');
 		$hierarchyModuleName = 'Accounts';
 
 
@@ -46,7 +45,7 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		$accountIds = [];
 		$check = false;
 		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['method'])) {
-			$accountIds = $classFunction['class']::$classFunction['hierarchy']($recordBasic, array_keys($hierarchy['entries']));
+			$accountIds = $classFunction['class']::$classFunction['hierarchy'](array_keys($hierarchy['entries']));
 			$check = true;
 		}
 		foreach ($hierarchy['entries'] as $accountId => $accountInfo) {

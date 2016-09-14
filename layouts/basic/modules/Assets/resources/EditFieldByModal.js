@@ -67,8 +67,7 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 			module: this.moduleName,
 			fields: form.find('.hierarchyField').val(),
 			view: 'GetHierarchy',
-			record: hierarchyId,
-			relatedFieldId: form.find('.recordBasic').val()
+			record: hierarchyId
 		}
 		var hierarchyContainer = form.find('.hierarchyContainer');
 		AppConnector.request(params).then(
@@ -98,6 +97,11 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 		data.addClass('commentContainer');
 		data.find('.commentActionsContainer').remove();
 		container.html(data);
+		if (data.find('.singleComment').length > 6) {
+			app.showScrollBar(container.children(), {
+				height: '350px'
+			});
+		}
 	},
 	showRelatedData: function (data, container) {
 		var thisInstance = this;
@@ -112,12 +116,13 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 			var message = form.find('.message').clone(true, true);
 			container.html(message.removeClass('message hide'));
 			return false;
-		} else if (totalCount > 5) {
-			app.showScrollBar(form.find('.relatedContents'), {
-				height: '250px'
-			});
 		}
 		container.html(data.find('.relatedContents'));
+		if (totalCount.length > 10) {
+			app.showScrollBar(container.children(), {
+				height: '300px'
+			});
+		}
 		container.on('click', '.relatedContents .listViewEntries td', function (e) {
 			var target = jQuery(e.target);
 			var row = target.closest('tr');
