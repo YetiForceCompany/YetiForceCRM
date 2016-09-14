@@ -59,7 +59,7 @@
 					<span title="{vtranslate({$FIELD_BY_EDIT_DATA['titleTag']}, $MODULE)}" class="glyphicon {$FIELD_BY_EDIT_DATA['iconClass']} alignMiddle"></span>
 				</a>&nbsp;
 			{/if}
-			{if $IS_DELETABLE}
+			{if $IS_DELETABLE && $RELATED_RECORD->isDeletable()}
 				<a class="relationDelete">
 					<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
 				</a>
