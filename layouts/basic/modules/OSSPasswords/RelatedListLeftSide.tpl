@@ -40,7 +40,7 @@
 					<span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span>
 				</a>&nbsp;
 			{/if}
-			{if $IS_EDITABLE}
+			{if $IS_EDITABLE && $RELATED_RECORD->isEditable()}
 				{if $RELATED_MODULE_NAME eq 'PriceBooks'}
 					<a data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"
 					   class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
