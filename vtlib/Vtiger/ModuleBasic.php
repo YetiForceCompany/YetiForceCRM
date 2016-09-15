@@ -542,8 +542,10 @@ class ModuleBasic
 			$db->query('DROP TABLE IF EXISTS ' . $this->tableName . '_invfield');
 			$db->query('DROP TABLE IF EXISTS ' . $this->tableName . '_invmap');
 		}
-		$db->query('DROP TABLE IF EXISTS ' . $this->tableName . 'cf');
-		$db->query('DROP TABLE IF EXISTS ' . $this->tableName);
+		if (!empty($this->tableName)) {
+			$db->query('DROP TABLE IF EXISTS ' . $this->tableName . 'cf');
+			$db->query('DROP TABLE IF EXISTS ' . $this->tableName);
+		}
 		$db->query('SET foreign_key_checks = 1');
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
