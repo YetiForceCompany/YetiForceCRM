@@ -226,8 +226,16 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function _decode_text($text)
 	{
 		$data = imap_mime_header_decode($text);
-		$charset = ($data[0]->charset == 'default') ? 'ASCII' : $data[0]->charset;
-		return iconv($charset, 'UTF-8', $data[0]->text);
+		$text = '';
+		foreach ($data as &$row) {
+			$charset = ($row->charset == 'default') ? 'ASCII' : $row->charset;
+			if (function_exists('mb_convert_encoding')) {
+				$text .= mb_convert_encoding($row->text, 'utf-8', $charset);
+			} else {
+				$text .= iconv($charset, 'UTF-8', $row->text);
+			}
+		}
+		return $text;
 	}
 
 	public static function get_full_name($text)
@@ -306,7 +314,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$fileName = $attachmentId . '.' . strtolower($partStructure->subtype);
 			} else {
 				$fileName = !empty($params['filename']) ? $params['filename'] : $params['name'];
-				$fileName = self::decodeMimeStr($fileName);
+				$fileName = self::_decode_text($fileName);
 				$fileName = self::decodeRFC2231($fileName);
 			}
 			$mail['attachments'][$attachmentId]['filename'] = $fileName;
@@ -316,7 +324,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$data = base64_decode($data);
 			}
 			if (strtolower($partStructure->subtype) == 'plain') {
-				$mail['textPlain'] .= $data;
+				$uuDecode = self::uuDecode($data);
+				if (isset($uuDecode['attachments'])) {
+					$mail['attachments'] = $uuDecode['attachments'];
+				}
+				$mail['textPlain'] .= $uuDecode['text'];
 			} else {
 				$mail['textHtml'] .= $data;
 			}
@@ -335,17 +347,38 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $mail;
 	}
 
-	function decodeMimeStr($string, $charset = 'utf-8')
+	protected static function uuDecode($input)
 	{
-		$newString = '';
-		$elements = imap_mime_header_decode($string);
-		for ($i = 0; $i < count($elements); $i++) {
-			if ($elements[$i]->charset == 'default') {
-				$elements[$i]->charset = 'iso-8859-1';
+		$attachments = $parts = [];
+		$pid = 0;
+		// FIXME: line length is max.65?
+		$uu_regexp_begin = '/begin [0-7]{3,4} ([^\r\n]+)\r?\n/s';
+		$uu_regexp_end = '/`\r?\nend((\r?\n)|($))/s';
+
+		while (preg_match($uu_regexp_begin, $input, $matches, PREG_OFFSET_CAPTURE)) {
+			$startpos = $matches[0][1];
+			if (!preg_match($uu_regexp_end, $input, $m, PREG_OFFSET_CAPTURE, $startpos)) {
+				break;
 			}
-			$newString .= iconv(strtoupper($elements[$i]->charset), $charset, $elements[$i]->text);
+
+			$endpos = $m[0][1];
+			$begin_len = strlen($matches[0][0]);
+			$end_len = strlen($m[0][0]);
+
+			// extract attachment body
+			$filebody = substr($input, $startpos + $begin_len, $endpos - $startpos - $begin_len - 1);
+			$filebody = str_replace("\r\n", "\n", $filebody);
+
+			// remove attachment body from the message body
+			$input = substr_replace($input, '', $startpos, $endpos + $end_len - $startpos);
+
+			// add attachments to the structure
+			$attachments[] = [
+				'filename' => trim($matches[1][0]),
+				'attachment' => convert_uudecode($filebody)
+			];
 		}
-		return $newString;
+		return ['attachments' => $attachments, 'text' => $input];
 	}
 
 	function isUrlEncoded($string)
