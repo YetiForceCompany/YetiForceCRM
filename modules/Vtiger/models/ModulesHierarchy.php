@@ -74,9 +74,11 @@ class Vtiger_ModulesHierarchy_Model
 	{
 		self::init();
 		$modules = [];
-		foreach (self::$modulesByLevels[$level] as $module => &$details) {
-			if (Users_Privileges_Model::isPermitted($module, $actionName)) {
-				$modules[$module] = $details;
+		if (isset(self::$modulesByLevels[$level])) {
+			foreach (self::$modulesByLevels[$level] as $module => &$details) {
+				if (Users_Privileges_Model::isPermitted($module, $actionName)) {
+					$modules[$module] = $details;
+				}
 			}
 		}
 		return $modules;
