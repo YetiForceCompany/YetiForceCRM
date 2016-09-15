@@ -1242,7 +1242,7 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 		$data['destinationRecordId'] = $destinationRecordId;
 		$em->triggerEvent('vtiger.entity.link.before', $data);
 		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
-		$focus->trackLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
+		CRMEntity::trackLinkedInfo($sourceRecordId);
 		/*
 		  $wfs = new VTWorkflowManager($adb);
 		  $workflows = $wfs->getWorkflowsForModule($sourceModule, VTWorkflowManager::$ON_RELATED);

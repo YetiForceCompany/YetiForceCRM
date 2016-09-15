@@ -13,6 +13,20 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 	{
 		$return = false;
 		$db = PearDatabase::getInstance();
+		CRMEntity::trackLinkedInfo($crmid);
+		$em = new VTEventsManager($db);
+		$em->initTriggerCache();
+		$crmMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
+		$destinationModuleName = $crmMetaData['setype'];
+		$destinationModuleModel = Vtiger_Module_Model::getInstance($destinationModuleName); 
+		$data = [];
+		$data['CRMEntity'] = $destinationModuleModel->focus;
+		$data['entityData'] = VTEntityData::fromEntityId($db, $mailId);
+		$data['sourceModule'] =  $destinationModuleName;
+		$data['sourceRecordId'] = $crmid;
+		$data['destinationModule'] =  'OSSMailView';
+		$data['destinationRecordId'] = $mailId;
+		$em->triggerEvent('vtiger.entity.link.before', $data);
 		$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? && crmid = ?';
 		$result = $db->pquery($query, [$mailId, $crmid]);
 		if ($db->getRowCount($result) == 0) {
@@ -50,6 +64,7 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 			}
 			$return = true;
 		}
+		$em->triggerEvent('vtiger.entity.link.after', $data);
 		return $return;
 	}
 }

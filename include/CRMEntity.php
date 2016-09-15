@@ -2665,7 +2665,7 @@ class CRMEntity
 	/**
 	 * Function to track when a new record is linked to a given record
 	 */
-	function trackLinkedInfo($module, $crmid, $with_module, $with_crmid)
+	public static function trackLinkedInfo($crmid)
 	{
 		$current_user = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
