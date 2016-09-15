@@ -390,7 +390,8 @@ class CRMEntity
 	function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
 		$log = LoggerManager::getInstance();
-		global $current_user, $app_strings;
+		global $app_strings;
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
@@ -1045,8 +1046,8 @@ class CRMEntity
 	 */
 	function apply_field_security($moduleName = '')
 	{
-		global $current_user, $currentModule;
-
+		global $currentModule;
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($moduleName == '') {
 			$moduleName = $currentModule;
 		}
@@ -1083,7 +1084,8 @@ class CRMEntity
 	 */
 	function initImportableFields($module)
 	{
-		global $current_user, $adb;
+		$adb = PearDatabase::getInstance();
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		require_once('include/utils/UserInfoUtil.php');
 
 		$skip_uitypes = array('4'); // uitype 4 is for Mod numbers
@@ -1133,7 +1135,9 @@ class CRMEntity
 	/** Function to delete an entity with given Id */
 	function trash($module, $id)
 	{
-		global $log, $current_user, $adb;
+		$adb = PearDatabase::getInstance();
+		$log = LoggerManager::getInstance();
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$recordType = vtlib\Functions::getCRMRecordType($id);
 		if ($recordType != $module) {
@@ -1210,7 +1214,8 @@ class CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		global $log, $currentModule;
+		global $currentModule;
+		$log = LoggerManager::getInstance();
 		switch ($relatedName) {
 			case 'get_many_to_many':
 				$this->deleteRelatedM2M($currentModule, $id, $returnModule, $returnId);
@@ -2231,7 +2236,8 @@ class CRMEntity
 	 */
 	function add_related_to($module, $fieldname)
 	{
-		global $adb, $imported_ids;
+		global $imported_ids;
+		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$related_to = $this->column_fields[$fieldname];
 
@@ -2312,8 +2318,8 @@ class CRMEntity
 			return;
 		}
 
-		global $adb, $mod_strings;
-
+		global $mod_strings;
+		$adb = PearDatabase::getInstance();
 		// Look for fields that has presence value NOT IN (0,2)
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
 		if ($cachedModuleFields === false) {
@@ -2697,7 +2703,8 @@ class CRMEntity
 	 */
 	function getOrderBy()
 	{
-		global $log, $currentModule;
+		global $currentModule;
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';

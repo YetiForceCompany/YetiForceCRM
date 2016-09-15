@@ -380,7 +380,9 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 
 function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $related_module, $recordid)
 {
-	global $log, $app_strings, $adb;
+	global $app_strings;
+	$log = LoggerManager::getInstance();
+	$adb = PearDatabase::getInstance();
 	$log->debug("Entering getTableHeaderNavigation(" . $navigation_array . "," . $url_qry . "," . $module . "," . $action_val . "," . $viewid . ") method ...");
 	global $theme;
 	$relatedTabId = getTabid($related_module);
@@ -574,7 +576,8 @@ function VT_getSimpleNavigationValues($start, $size, $total)
 
 function getRecordRangeMessage($listResult, $limitStartRecord, $totalRows = '')
 {
-	global $adb, $app_strings;
+	global $app_strings;
+	$adb = PearDatabase::getInstance();
 	$numRows = $adb->num_rows($listResult);
 	$recordListRangeMsg = '';
 	if ($numRows > 0) {

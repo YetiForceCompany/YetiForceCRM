@@ -256,7 +256,10 @@ function getTaxDetailsForProduct($productid, $available = 'all')
  */
 function deleteInventoryProductDetails($focus)
 {
-	global $log, $adb, $updateInventoryProductRel_update_product_array;
+	global $updateInventoryProductRel_update_product_array;
+	$adb = PearDatabase::getInstance();
+	$log = LoggerManager::getInstance();
+
 	$log->debug("Entering into function deleteInventoryProductDetails(" . $focus->id . ").");
 
 	$product_info = $adb->pquery("SELECT productid, quantity, sequence_no, incrementondel from vtiger_inventoryproductrel WHERE id=?", array($focus->id));
@@ -286,7 +289,10 @@ function deleteInventoryProductDetails($focus)
 
 function updateInventoryProductRel($entity)
 {
-	global $log, $adb, $updateInventoryProductRel_update_product_array, $updateInventoryProductRel_deduct_stock;
+	global $updateInventoryProductRel_update_product_array, $updateInventoryProductRel_deduct_stock;
+	$adb = PearDatabase::getInstance();
+	$log = LoggerManager::getInstance();
+
 	$entity_id = vtws_getIdComponents($entity->getId());
 	$entity_id = $entity_id[1];
 	$update_product_array = $updateInventoryProductRel_update_product_array;
