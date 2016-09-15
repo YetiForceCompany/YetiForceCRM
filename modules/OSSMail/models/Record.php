@@ -207,7 +207,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		foreach ($msgs as $msg) {
 			$clean .= imap_fetchheader($mbox, $msg->msgno);
 		}
-		$mail->set('clean', $cleans);
+		$mail->set('clean', $clean);
 		return $mail;
 	}
 
@@ -217,7 +217,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$result = $adb->pquery("SELECT * FROM roundcube_users where user_id = ?", array($userid));
 		$Num = $adb->num_rows($result);
 		if ($Num > 0) {
-			return $adb->raw_query_result_rowdata($result, 0);
+			return $adb->getRow($result);
 		} else {
 			return false;
 		}
