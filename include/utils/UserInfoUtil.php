@@ -653,7 +653,7 @@ function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
 		}
 	} elseif ($ownertype == 'Groups') {
 		$write_grp_per = $write_per_arr['GROUP'];
-		if (array_key_exists($ownerid, $write_grp_per)) {
+		if (isset($write_grp_per[$ownerid])) {
 			$sharePer = 'yes';
 			$log->debug("Exiting isReadWritePermittedBySharing method ...");
 			return $sharePer;
