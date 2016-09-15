@@ -86,7 +86,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function process(Vtiger_Request $request)
 	{
-		global $default_charset;
+		$default_charset = AppConfig::main('default_charset');
 		if (empty($default_charset))
 			$default_charset = 'UTF-8';
 		$mode = $request->getMode();

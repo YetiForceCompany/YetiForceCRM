@@ -91,7 +91,8 @@ class CurrencyField
 	 */
 	public function initialize($user = null)
 	{
-		global $current_user, $default_charset;
+		$default_charset = AppConfig::main('default_charset');
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (empty($user)) {
 			$user = $current_user;
 		}

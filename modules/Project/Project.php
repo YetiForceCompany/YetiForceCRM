@@ -477,7 +477,9 @@ class Project extends CRMEntity
 
 		$entries = array();
 
-		global $adb, $tmp_dir, $default_charset;
+		global $tmp_dir;
+		$default_charset = AppConfig::main('default_charset');
+		$adb = PearDatabase::getInstance();
 		$record = $id;
 		$g = new BURAK_Gantt();
 		// set grid type
@@ -548,8 +550,8 @@ class Project extends CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		global $log, $currentModule;
-
+		global $currentModule;
+		$log = LoggerManager::getInstance();
 		if ($return_module == 'Accounts') {
 			$focus = CRMEntity::getInstance($return_module);
 			$entityIds = $focus->getRelatedContactsIds($return_id);

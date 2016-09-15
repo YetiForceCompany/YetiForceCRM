@@ -763,7 +763,8 @@ function create_ticket($input_array)
  */
 function update_ticket_comment($input_array)
 {
-	global $adb, $mod_strings;
+	global $mod_strings;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside customer portal function update_ticket_comment");
 	$adb->println($input_array);
 
@@ -800,7 +801,10 @@ function update_ticket_comment($input_array)
  */
 function close_current_ticket($input_array)
 {
-	global $adb, $mod_strings, $log;
+	global $mod_strings;
+	$adb = PearDatabase::getInstance();
+	$log = LoggerManager::getInstance();
+
 	$current_user = vglobal('current_user');
 	require_once('modules/HelpDesk/HelpDesk.php');
 	$adb->println("Inside customer portal function close_current_ticket");
@@ -1302,7 +1306,7 @@ function validateSession($id, $sessionid)
  * */
 function getServerSessionId($id)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function getServerSessionId($id)");
 
 	//To avoid SQL injection we are type casting as well as bound the id variable. In each and every function we will call this function
@@ -1666,7 +1670,7 @@ function get_filecontent_detail($id, $folderid, $module, $customerid, $sessionid
 {
 	$adb = PearDatabase::getInstance();
 	$log = LoggerManager::getInstance();
-	global $site_URL;
+	$site_URL = AppConfig::main('site_URL');
 	$log->debug("Entering customer portal function get_filecontent_detail ");
 	$isPermitted = check_permission($customerid, $module, $id);
 	if ($isPermitted == false) {
@@ -1797,7 +1801,9 @@ function get_inventory_products($id, $module, $customerid, $sessionid)
 {
 	require_once('include/utils/UserInfoUtil.php');
 	require_once('include/utils/utils.php');
-	global $adb, $site_URL, $log;
+	$adb = PearDatabase::getInstance();
+	$log = LoggerManager::getInstance();
+	$site_URL = AppConfig::main('site_URL');
 
 	$user = new Users();
 	$userid = getPortalUserid();
