@@ -294,7 +294,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		if (!empty($params['charset']) && strtolower($params['charset']) != 'utf-8') {
-			$data = iconv($params['charset'], 'utf-8', $data);
+			if (function_exists('mb_convert_encoding')) {
+				$data = mb_convert_encoding($data, 'utf-8', $params['charset']);
+			} else {
+				$data = iconv($params['charset'], 'utf-8', $data);
+			}
 		}
 		$attachmentId = $partStructure->ifid ? trim($partStructure->id, ' <>') : (isset($params['filename']) || isset($params['name']) ? mt_rand() . mt_rand() : null);
 		if ($attachmentId) {
