@@ -151,7 +151,7 @@ class IStorages extends Vtiger_CRMEntity
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
-		$hasRecordViewAccess = (is_admin($currentUser)) || (isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
+		$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($currentUser)) || (isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
 		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 		
 		if (empty($listColumns)) {

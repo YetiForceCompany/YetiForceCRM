@@ -513,7 +513,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 		if ($available == 'available') { // Create View
 			$current_user = vglobal('current_user');
 
-			$user_currency_id = fetchCurrency($current_user->id);
+			$user_currency_id = \vtlib\Functions::userCurrencyId($current_user->id);
 
 			$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
@@ -598,7 +598,7 @@ function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = '
 		$params = array($productid);
 	} else {
 		$sql = "select conversion_rate from vtiger_currency_info where id=?";
-		$params = array(fetchCurrency($current_user->id));
+		$params = array(\vtlib\Functions::userCurrencyId($current_user->id));
 	}
 
 	$result = $adb->pquery($sql, $params);
@@ -967,7 +967,7 @@ function undoLastImport($obj, $user)
 
 	$dbTableName = Import_Utils_Helper::getDbTableName($owner);
 
-	if (!is_admin($user) && $user->id != $owner->id) {
+	if (!vtlib\Functions::userIsAdministrator($user) && $user->id != $owner->id) {
 		$viewer = new Vtiger_Viewer();
 		$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
 		exit;

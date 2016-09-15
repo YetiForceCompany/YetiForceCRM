@@ -319,8 +319,8 @@ class Vtiger_InventoryPDFController
 	function buildFooterModel()
 	{
 		$footerModel = new Vtiger_PDF_Model();
-		$footerModel->set(Vtiger_PDF_InventoryFooterViewer::$DESCRIPTION_DATA_KEY, from_html($this->focusColumnValue('description')));
-		$footerModel->set(Vtiger_PDF_InventoryFooterViewer::$TERMSANDCONDITION_DATA_KEY, from_html($this->focusColumnValue('terms_conditions')));
+		$footerModel->set(Vtiger_PDF_InventoryFooterViewer::$DESCRIPTION_DATA_KEY, \vtlib\Functions::fromHTML($this->focusColumnValue('description')));
+		$footerModel->set(Vtiger_PDF_InventoryFooterViewer::$TERMSANDCONDITION_DATA_KEY, \vtlib\Functions::fromHTML($this->focusColumnValue('terms_conditions')));
 		return $footerModel;
 	}
 

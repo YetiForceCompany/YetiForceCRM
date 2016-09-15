@@ -222,7 +222,7 @@ class Appointment
 		//$this->creator           = getUserName($act_array["smcreatorid"]);
 		$this->assignedto = $act_array["user_name"];
                 $this->owner   = $act_array["user_name"];
-		if(!is_admin($current_user))
+		if(!vtlib\Functions::userIsAdministrator($current_user))
 		{
 			if($act_array["smownerid"]!=0 && $act_array["smownerid"] != $current_user->id && $act_array["visibility"] == "Public"){
 				$que = "select * from vtiger_sharedcalendar where sharedid=? and userid=?";

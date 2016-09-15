@@ -140,7 +140,7 @@ class Tracker
 				//echo '<BR>';
 				if ($module == "Users") {
 					$current_user = vglobal('current_user');
-					if (is_admin($current_user)) {
+					if (\vtlib\Functions::userIsAdministrator($current_user)) {
 						$per = 'yes';
 					}
 				} else {

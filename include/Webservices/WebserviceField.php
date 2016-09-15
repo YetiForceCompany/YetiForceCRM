@@ -289,7 +289,7 @@ class WebserviceField
 
 			$accessibleTypes = $types['types'];
 			//If it is non admin user or the edit and view is there for profile then users module will be accessible
-			if (!is_admin($current_user) && !in_array("Users", $accessibleTypes)) {
+			if (!\vtlib\Functions::userIsAdministrator($current_user) && !in_array("Users", $accessibleTypes)) {
 				array_push($accessibleTypes, 'Users');
 			}
 

@@ -216,7 +216,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$baseCurrency = $this->getProductBaseCurrency($recordId, $this->getModuleName());
 		} else {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$baseCurrency = fetchCurrency($currentUserModel->getId());
+			$baseCurrency = \vtlib\Functions::userCurrencyId($currentUserModel->getId());
 		}
 		$baseCurrencyDetails = array('currencyid' => $baseCurrency);
 
@@ -458,7 +458,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			if ($available == 'available') { // Create View
 				$current_user = vglobal('current_user');
 
-				$user_currency_id = fetchCurrency($current_user->id);
+				$user_currency_id = \vtlib\Functions::userCurrencyId($current_user->id);
 
 				$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
@@ -527,7 +527,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$params = array($productid);
 		} else {
 			$sql = 'select conversion_rate from vtiger_currency_info where id=?';
-			$params = array(fetchCurrency($current_user->id));
+			$params = array(\vtlib\Functions::userCurrencyId($current_user->id));
 		}
 
 		$res = $adb->pquery($sql, $params);

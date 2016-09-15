@@ -104,7 +104,7 @@ class Faq extends CRMEntity {
 
 		if($comment != '')
 		{
-			$params = array('', $this->id, from_html($comment), $current_time);
+			$params = array('', $this->id, \vtlib\Functions::fromHTML($comment), $current_time);
 			$sql = "insert into vtiger_faqcomments values(?, ?, ?, ?)";
 			$adb->pquery($sql, $params);
 		}

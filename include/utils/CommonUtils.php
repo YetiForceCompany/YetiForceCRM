@@ -26,36 +26,6 @@ require_once 'include/QueryGenerator/QueryGenerator.php';
 require_once 'include/ListView/ListViewController.php';
 require_once 'include/runtime/Cache.php';
 
-function is_admin($user)
-{
-	return vtlib\Functions::userIsAdministrator($user);
-}
-
-function parse_calendardate($local_format)
-{
-	return vtlib\Functions::currentUserJSDateFormat($local_format);
-}
-
-function from_html($string, $encode = true)
-{
-	return vtlib\Functions::fromHTML($string, $encode);
-}
-
-function fck_from_html($string)
-{
-	return vtlib\Functions::fromHTML_FCK($string);
-}
-
-function popup_from_html($string, $encode = true)
-{
-	return vtlib\Functions::fromHTML_Popup($string, $encode);
-}
-
-function fetchCurrency($id)
-{
-	return vtlib\Functions::userCurrencyId($id);
-}
-
 function getCurrencyName($currencyid, $show_symbol = true)
 {
 	return vtlib\Functions::getCurrencyName($currencyid, $show_symbol);

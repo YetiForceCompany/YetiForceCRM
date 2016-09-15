@@ -45,7 +45,7 @@ class Mobile_WS_FetchModuleFilters extends Mobile_WS_Controller {
 			INNER JOIN vtiger_users ON vtiger_customview.userid = vtiger_users.id WHERE vtiger_customview.entitytype=?";
 		$parameters = array($moduleName);
 
-		if(!is_admin($user)) {
+		if(!vtlib\Functions::userIsAdministrator($user)) {
 			require('user_privileges/user_privileges_'.$user->id.'.php');
 			
 			$sql .= " && (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or vtiger_customview.userid IN

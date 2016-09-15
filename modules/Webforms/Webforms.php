@@ -66,7 +66,7 @@ class Webforms {
 		}
 
 	static function checkAdminAccess($user) {
-		if (is_admin($user))
+		if (\vtlib\Functions::userIsAdministrator($user))
 			return;
 
 		echo "<table border='0' cellpadding='5' cellspacing='0' width='100%' height='450px'><tr><td align='center'>";

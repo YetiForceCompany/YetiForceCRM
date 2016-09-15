@@ -216,7 +216,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	public function hasPermission($operation, $webserviceId)
 	{
-		if (is_admin($this->user)) {
+		if (\vtlib\Functions::userIsAdministrator($this->user)) {
 			return true;
 		} else {
 			if (strcmp($operation, EntityMeta::$RETRIEVE) === 0) {
@@ -228,7 +228,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	public function hasAssignPrivilege($ownerWebserviceId)
 	{
-		if (is_admin($this->user)) {
+		if (\vtlib\Functions::userIsAdministrator($this->user)) {
 			return true;
 		} else {
 			$idComponents = vtws_getIdComponents($webserviceId);
@@ -242,7 +242,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	public function hasDeleteAccess()
 	{
-		if (is_admin($this->user)) {
+		if (\vtlib\Functions::userIsAdministrator($this->user)) {
 			return true;
 		} else {
 			return false;
@@ -261,7 +261,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	public function hasWriteAccess()
 	{
-		if (is_admin($this->user)) {
+		if (\vtlib\Functions::userIsAdministrator($this->user)) {
 			return true;
 		} else {
 			return false;

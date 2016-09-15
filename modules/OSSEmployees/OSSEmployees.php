@@ -118,7 +118,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		foreach ($rows_list as $employees_id => $account_info) {
 			$account_info_data = array();
 
-			$hasRecordViewAccess = (is_admin($current_user)) || (isPermitted('OSSEmployees', 'DetailView', $employees_id) == 'yes');
+			$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($current_user)) || (isPermitted('OSSEmployees', 'DetailView', $employees_id) == 'yes');
 			foreach ($this->list_fields_name as $fieldname => $colname) {
 				if (!$hasRecordViewAccess && $colname != 'name') {
 					$account_info_data[] = '';

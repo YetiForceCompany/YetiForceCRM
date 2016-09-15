@@ -172,7 +172,7 @@ class Products extends CRMEntity
 				}
 			}
 			if (!$currencySet) {
-				$curid = fetchCurrency($current_user->id);
+				$curid = \vtlib\Functions::userCurrencyId($current_user->id);
 				$adb->pquery("update vtiger_products set currency_id=? where productid=?", array($curid, $this->id));
 			}
 		}

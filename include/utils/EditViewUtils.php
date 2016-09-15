@@ -149,10 +149,10 @@ function getAssociatedProducts($module, $focus, $seid = '')
 
 		$product_Detail[$i]['subProductArray' . $i] = $subProductArray;
 		$product_Detail[$i]['hdnProductId' . $i] = $hdnProductId;
-		$product_Detail[$i]['productName' . $i] = from_html($productname);
+		$product_Detail[$i]['productName' . $i] = \vtlib\Functions::fromHTML($productname);
 		/* Added to fix the issue Product Pop-up name display */
 		$product_Detail[$i]['hdnProductcode' . $i] = $hdnProductcode;
-		$product_Detail[$i]['productDescription' . $i] = from_html($productdescription);
+		$product_Detail[$i]['productDescription' . $i] = \vtlib\Functions::fromHTML($productdescription);
 		if ($module == 'Products' || $module == 'Services') {
 			$product_Detail[$i]['comment' . $i] = $productdescription;
 		} else {

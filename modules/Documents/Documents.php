@@ -84,7 +84,7 @@ class Documents extends CRMEntity
 						$fileInstance = \includes\fields\File::loadFromRequest($files);
 						if ($fileInstance->validate()) {
 							$filename = $_FILES[$filename_fieldname]['name'];
-							$filename = from_html(preg_replace('/\s+/', '_', $filename));
+							$filename = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $filename));
 							$filetype = $_FILES[$filename_fieldname]['type'];
 							$filesize = $_FILES[$filename_fieldname]['size'];
 							$filelocationtype = 'I';

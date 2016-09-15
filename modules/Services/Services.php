@@ -196,7 +196,7 @@ class Services extends CRMEntity
 					$adb->pquery("update vtiger_service set currency_id=?, unit_price=? where serviceid=?", array($curid, $actualPrice, $this->id));
 				}
 			} else {
-				$curid = fetchCurrency($current_user->id);
+				$curid = \vtlib\Functions::userCurrencyId($current_user->id);
 				$adb->pquery("update vtiger_service set currency_id=? where serviceid=?", array($curid, $this->id));
 			}
 		}

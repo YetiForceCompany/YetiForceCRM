@@ -281,8 +281,8 @@ class CRMEntity
 		}
 
 		if ($this->mode == 'edit') {
-			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
-			$attention_val = from_html($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
+			$description_val = \vtlib\Functions::fromHTML($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
+			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
 			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -352,8 +352,8 @@ class CRMEntity
 			}
 			// END
 
-			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
-			$attention_val = from_html($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
+			$description_val = \vtlib\Functions::fromHTML($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
+			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$params = [
 				'crmid' => $this->id,
 				'smcreatorid' => $current_user->id,
@@ -601,7 +601,7 @@ class CRMEntity
 					$fldvalue = $this->column_fields[$fieldname];
 				}
 				if ($uitype != 33 && $uitype != 8)
-					$fldvalue = from_html($fldvalue, ($insertion_mode == 'edit') ? true : false);
+					$fldvalue = \vtlib\Functions::fromHTML($fldvalue, ($insertion_mode == 'edit') ? true : false);
 			}
 			else {
 				$fldvalue = '';

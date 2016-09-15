@@ -212,7 +212,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$adb = PearDatabase::getInstance();
 
 		// administrator's have assign privilege
-		if (is_admin($this->user))
+		if (\vtlib\Functions::userIsAdministrator($this->user))
 			return true;
 
 		$idComponents = vtws_getIdComponents($webserviceId);

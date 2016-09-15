@@ -566,7 +566,7 @@ class Accounts extends CRMEntity
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
-		$hasRecordViewAccess = (is_admin($currentUser)) || (isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
+		$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($currentUser)) || (isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
 		foreach ($this->hierarchyFields as &$field) {
 			$fieldName = $field['fieldname'];
 			$rawData = '';

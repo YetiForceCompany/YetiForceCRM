@@ -477,7 +477,7 @@ class Users extends CRMEntity
 			return false;
 		}
 
-		if (!is_admin($current_user)) {
+		if (!\vtlib\Functions::userIsAdministrator($current_user)) {
 			if (!$this->verifyPassword($userPassword)) {
 				$log->warn('Incorrect old password for ' . $usr_name);
 				$this->error_string = vtranslate('ERR_PASSWORD_INCORRECT_OLD');
@@ -800,7 +800,7 @@ class Users extends CRMEntity
 					$fldvalue = $this->column_fields[$fieldname];
 					$fldvalue = stripslashes($fldvalue);
 				}
-				$fldvalue = from_html($fldvalue, ($insertion_mode == 'edit') ? true : false);
+				$fldvalue = \vtlib\Functions::fromHTML($fldvalue, ($insertion_mode == 'edit') ? true : false);
 			} else {
 				$fldvalue = '';
 			}

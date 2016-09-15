@@ -39,7 +39,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$userAndGroupSync = true;
 	}
 
-	if ($applicationSync && !is_admin($user)) {
+	if ($applicationSync && !\vtlib\Functions::userIsAdministrator($user)) {
 		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Only admin users can perform application sync");
 	}
 

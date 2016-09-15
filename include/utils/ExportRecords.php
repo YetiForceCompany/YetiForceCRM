@@ -28,8 +28,9 @@ $smarty->assign("MODULELABEL", getTranslatedString($currentModule));
 $smarty->assign("IDSTRING", AppRequest::get('idstring'));
 $smarty->assign("EXCLUDED_RECORDS", AppRequest::get('excludedRecords'));
 $smarty->assign("PERPAGE", $list_max_entries_per_page);
-$current_user = vglobal('current_user');
-if (!is_admin($current_user) && (isPermitted($currentModule, 'Export') != 'yes')) {
+
+$current_user = Users_Privileges_Model::getCurrentUserModel();
+if (!$current_user->isAdminUser() && (isPermitted($currentModule, 'Export') != 'yes')) {
 	$smarty->display(vtlib_getModuleTemplate('Vtiger', 'OperationNotPermitted.tpl'));
 } else {
 	$smarty->display('ExportRecords.tpl');
