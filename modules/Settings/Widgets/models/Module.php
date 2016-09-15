@@ -239,7 +239,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		// type: 1-field, TODO 2-label
 		$data = [
-			getTabid('SSalesProcesses') => [ 0 =>
+			\includes\Modules::getModuleId('SSalesProcesses') => [ 0 =>
 				[
 					'type' => 1,
 					'label' => vtranslate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration

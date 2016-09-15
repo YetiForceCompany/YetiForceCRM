@@ -20,7 +20,7 @@ function getPermittedBlocks($module, $disp_view)
 	$log = vglobal('log');
 	$log->debug("Entering into the function getPermittedBlocks($module, $disp_view)");
 
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	$block_detail = [];
 	$query = "select blockid,blocklabel,show_title from vtiger_blocks where tabid=? and $disp_view=0 and visible = 0 order by sequence";
 	$result = $adb->pquery($query, array($tabid));
@@ -56,7 +56,7 @@ function getPermittedFieldsQuery($module, $disp_view)
 	//To get the permitted blocks
 	$blockid_list = getPermittedBlocks($module, $disp_view);
 
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0 || $module == "Users") {
 		$sql = sprintf("SELECT vtiger_field.columnname, vtiger_field.fieldlabel, vtiger_field.tablename FROM vtiger_field WHERE vtiger_field.tabid=%d && vtiger_field.block IN %s && vtiger_field.displaytype IN (1,2,4,5) and vtiger_field.presence in (0,2) ORDER BY block,sequence", $tabid, $blockid_list);
 	} else {

@@ -26,15 +26,8 @@ require_once 'include/QueryGenerator/QueryGenerator.php';
 require_once 'include/ListView/ListViewController.php';
 require_once 'include/runtime/Cache.php';
 
-function getCurrencyName($currencyid, $show_symbol = true)
-{
-	return vtlib\Functions::getCurrencyName($currencyid, $show_symbol);
-}
 
-function getTabid($module)
-{
-	return vtlib\Functions::getModuleId($module);
-}
+
 
 function getFieldid($tabid, $fieldname, $onlyactive = true)
 {

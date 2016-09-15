@@ -200,7 +200,7 @@ class Privileges
 									break;
 								case 2:
 									if (\AppConfig::security('PERMITTED_BY_SHARING')) {
-										$relatedPermission = self::isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord, $userId);
+										$relatedPermission = self::isPermittedBySharing($recordMetaData['setype'], \includes\Modules::getModuleId($recordMetaData['setype']), $actionid, $parentRecord, $userId);
 									}
 									break;
 							}

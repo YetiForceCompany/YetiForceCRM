@@ -198,7 +198,7 @@ class CustomView extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$tabid = getTabid($this->customviewmodule);
+		$tabid = \includes\Modules::getModuleId($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
@@ -239,7 +239,7 @@ class CustomView extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		global $app_strings;
-		$tabid = getTabid($this->customviewmodule);
+		$tabid = \includes\Modules::getModuleId($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
@@ -327,7 +327,7 @@ class CustomView extends CRMEntity
 	{
 		global $adb, $mod_strings, $app_strings;
 		$block_ids = explode(",", $block);
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if (empty($this->meta) && $module != 'Calendar') {
@@ -503,7 +503,7 @@ class CustomView extends CRMEntity
 	function getStdCriteriaByModule($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -1416,8 +1416,8 @@ class CustomView extends CRMEntity
 
 		// Tabid mapped to the list of block labels to be skipped for that tab.
 		$skipBlocksList = array(
-			getTabid('HelpDesk') => array('LBL_COMMENTS'),
-			getTabid('Faq') => array('LBL_COMMENT_INFORMATION')
+			\includes\Modules::getModuleId('HelpDesk') => array('LBL_COMMENTS'),
+			\includes\Modules::getModuleId('Faq') => array('LBL_COMMENT_INFORMATION')
 		);
 
 		$sql = sprintf('SELECT DISTINCT block,vtiger_field.tabid,`name`,blocklabel FROM	vtiger_field 

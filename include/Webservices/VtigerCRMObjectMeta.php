@@ -57,7 +57,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	public function getTabId()
 	{
 		if ($this->tabId == null) {
-			$this->tabId = getTabid($this->objectName);
+			$this->tabId = \includes\Modules::getModuleId($this->objectName);
 		}
 		return $this->tabId;
 	}
@@ -69,7 +69,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	 */
 	public function getEffectiveTabId()
 	{
-		return getTabid($this->getTabName());
+		return \includes\Modules::getModuleId($this->getTabName());
 	}
 
 	public function getTabName()

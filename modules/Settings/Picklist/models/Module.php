@@ -168,7 +168,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db->delete($this->getPickListTableName($pickListFieldName), $primaryKey . ' IN (' . generateQuestionMarks($valueToDeleteId) . ')', $valueToDeleteId);
 
 		vimport('include/utils/CommonUtils.php');
-		$tabId = getTabId($moduleName);
+		$tabId = \includes\Modules::getModuleId($moduleName);
 		$params = [];
 		array_push($params, $pickListValues);
 		array_push($params, $pickListFieldName);

@@ -286,7 +286,7 @@ class CRMEntity
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
 			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
-			$tabid = getTabid($module);
+			$tabid = \includes\Modules::getModuleId($module);
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 				$columns = [
 					'smownerid' => $ownerid,
@@ -410,9 +410,9 @@ class CRMEntity
 			}
 		}
 
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		if ($module == 'Calendar' && $this->column_fields["activitytype"] != null && $this->column_fields["activitytype"] != 'Task') {
-			$tabid = getTabid('Events');
+			$tabid = \includes\Modules::getModuleId('Events');
 		}
 		if ($insertion_mode == 'edit') {
 			$updateColumns = [];
@@ -726,7 +726,7 @@ class CRMEntity
 		}
 		if ($cachedModuleFields === false) {
 			// Pull fields and cache for further use
-			$tabid = getTabid($module);
+			$tabid = \includes\Modules::getModuleId($module);
 
 			$sql0 = "SELECT fieldname, fieldid, fieldlabel, columnname, tablename, uitype, typeofdata,presence FROM vtiger_field WHERE tabid=?";
 			// NOTE: Need to skip in-active fields which we will be done later.
@@ -962,7 +962,7 @@ class CRMEntity
 	function constructCustomQueryAddendum($tablename, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		$sql1 = "select columnname,fieldlabel from vtiger_field where generatedtype=2 and tabid=? and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql1, array($tabid));
 		$numRows = $adb->num_rows($result);
@@ -1122,7 +1122,7 @@ class CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		$tabid = getTabId($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		$sql = "select * from vtiger_field where tabid= ? and typeofdata like '%M%' and uitype not in ('53','70') and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql, array($tabid));
 		$numRows = $adb->num_rows($result);
@@ -1343,7 +1343,7 @@ class CRMEntity
 		$exclude_columns = Array('parent_id', 'vendorid', 'access_count');
 		$exclude_uitypes = [];
 
-		$tabid = getTabId($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = array('9', '16');
 		}
@@ -1394,7 +1394,7 @@ class CRMEntity
 		$log->debug("Entered updateMissingSeqNumber function");
 
 		vtlib_setup_modulevars($module, $this);
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		if (!\includes\fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
 		$fieldinfo = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? && uitype = 4", Array($tabid));
@@ -2143,7 +2143,7 @@ class CRMEntity
 
 	function getListViewSecurityParameter($module)
 	{
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		$current_user = vglobal('current_user');
 		if ($current_user) {
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -2551,7 +2551,7 @@ class CRMEntity
 	function getNonAdminModuleAccessQuery($module, $user)
 	{
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
-		$tabId = getTabid($module);
+		$tabId = \includes\Modules::getModuleId($module);
 		$sharingRuleInfoVariable = $module . '_share_read_permission';
 		$sharingRuleInfo = $$sharingRuleInfoVariable;
 		$sharedTabId = null;
@@ -2601,7 +2601,7 @@ class CRMEntity
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
-		$tabId = getTabid($module);
+		$tabId = \includes\Modules::getModuleId($module);
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';

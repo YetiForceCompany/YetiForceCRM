@@ -793,7 +793,7 @@ class ReportRun extends CRMEntity
 		$field = explode('#', $field);
 		$module = $field[0];
 		$fieldname = trim($field[1]);
-		$tabid = getTabId($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		$field_query = $adb->pquery("SELECT tablename,columnname,typeofdata,fieldname,uitype FROM vtiger_field WHERE tabid = ? && fieldname= ?", array($tabid, $fieldname));
 		$fieldtablename = $adb->query_result($field_query, 0, 'tablename');
 		$fieldcolname = $adb->query_result($field_query, 0, 'columnname');
@@ -1748,7 +1748,7 @@ class ReportRun extends CRMEntity
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
-		$tabId = getTabid($module);
+		$tabId = \includes\Modules::getModuleId($module);
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
 			$sharingRuleInfo = $$sharingRuleInfoVariable;
@@ -3259,9 +3259,9 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$id = array(getTabid($this->primarymodule));
+		$id = array(\includes\Modules::getModuleId($this->primarymodule));
 		if ($this->secondarymodule != '')
-			array_push($id, getTabid($this->secondarymodule));
+			array_push($id, \includes\Modules::getModuleId($this->secondarymodule));
 
 		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));

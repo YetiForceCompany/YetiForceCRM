@@ -165,7 +165,7 @@ class Reports extends CRMEntity
 		if (!isset($module))
 			return;
 		require_once('include/utils/utils.php');
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = [9, 16];
 		}
@@ -618,7 +618,7 @@ class Reports extends CRMEntity
 			$block = explode(",", $block);
 		$skipTalbes = array('vtiger_emaildetails', 'vtiger_attachments');
 
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = array('9', '16');
 		}
@@ -779,7 +779,7 @@ class Reports extends CRMEntity
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		foreach ($this->module_list[$module] as $key => $blockid) {
 			$blockids[] = $blockid;
 		}
@@ -1140,7 +1140,7 @@ class Reports extends CRMEntity
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
 		$sparams = array($tabid);
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {

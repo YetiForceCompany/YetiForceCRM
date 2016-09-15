@@ -210,7 +210,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::addBlock(" . $data . ", " . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$tabId = getTabid($moduleName);
+		$tabId = \includes\Modules::getModuleId($moduleName);
 		$query = 'INSERT INTO vtiger_module_dashboard_blocks (`authorized`, `tabid`) VALUES (?, ?);';
 		$params = array($data['authorized'], $tabId);
 		$adb->pquery($query, $params);
@@ -294,7 +294,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getBlocksFromModule(" . $moduleName . ", " . $authorized . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$tabId = getTabid($moduleName);
+		$tabId = \includes\Modules::getModuleId($moduleName);
 		$data = [];
 		$query = 'SELECT * FROM `vtiger_module_dashboard_blocks` WHERE `tabid` = ?';
 		$params = [$tabId];
@@ -315,7 +315,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSpecialWidgets($moduleName) method ...");
 		$db = PearDatabase::getInstance();
-		$tabId = getTabid($moduleName);
+		$tabId = \includes\Modules::getModuleId($moduleName);
 		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? && linklabel IN (?, ?, ?, ?, ?)';
 		$result = $db->pquery($query, array_merge([$tabId], self::getWidgetSpecial()));
 		$widgets = [];
@@ -336,7 +336,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getDashboardForModule(" . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$tabId = getTabid($moduleName);
+		$tabId = \includes\Modules::getModuleId($moduleName);
 		$data = array();
 
 		//$data = self::getBlocksId();

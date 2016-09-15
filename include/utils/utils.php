@@ -583,7 +583,7 @@ function getTableNameForField($module, $fieldname)
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering getTableNameForField(" . $module . "," . $fieldname . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	//Asha
 	if ($module == 'Calendar') {
 		$tabid = array('9', '16');
@@ -836,7 +836,7 @@ function getAccessPickListValues($module)
 	$current_user = vglobal('current_user');
 	$log->debug("Entering into function getAccessPickListValues($module)");
 
-	$id = getTabid($module);
+	$id = \includes\Modules::getModuleId($module);
 	$query = "select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid = ? and uitype in ('15','33','55') and vtiger_field.presence in (0,2)";
 	$result = $adb->pquery($query, array($id));
 

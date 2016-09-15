@@ -34,7 +34,7 @@ class Events_Module_Model extends Calendar_Module_Model {
 			$adb = PearDatabase::getInstance();
 
 			$query = "SELECT fieldname, tablename, entityidfield FROM vtiger_entityname WHERE tabid = ?";
-			$result = $adb->pquery($query, array(getTabid('Calendar')));
+			$result = $adb->pquery($query, array(\includes\Modules::getModuleId('Calendar')));
 			$this->nameFields = array();
 			if($result){
 				$rowCount = $adb->num_rows($result);

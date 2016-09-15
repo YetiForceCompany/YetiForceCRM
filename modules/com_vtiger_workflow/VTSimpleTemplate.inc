@@ -108,7 +108,7 @@ class VTSimpleTemplate
 									$webserviceId = $data[$fieldname];
 									$idComponents = vtws_getIdComponents($webserviceId);
 									if ($fieldname == 'currency_id' && $referenceModule == 'Users') {
-										$result = decode_html(getCurrencyName($idComponents[1]));
+										$result = decode_html(vtlib\Functions::getCurrencyName($idComponents[1]));
 									} else {
 										$result = decode_html(\includes\Record::getLabel($idComponents[1]));
 									}
@@ -319,7 +319,7 @@ class VTSimpleTemplate
 			case 'reference' : if ($fieldName == 'currency_id') {
 					$currencyId = explode('x', $fieldValue);
 					$currencyId = $currencyId[1];
-					$fieldValue = decode_html(getCurrencyName($currencyId));
+					$fieldValue = decode_html(vtlib\Functions::getCurrencyName($currencyId));
 				} else {
 					if ($fieldValue != 0 && $fieldValue != null) {
 						$id = explode('x', $fieldValue);

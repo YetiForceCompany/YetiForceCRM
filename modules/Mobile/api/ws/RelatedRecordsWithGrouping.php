@@ -39,7 +39,7 @@ class Mobile_WS_RelatedRecordsWithGrouping extends Mobile_WS_QueryWithGrouping {
 		
 		if ($functionHandler) {
 			$sourceFocus = CRMEntity::getInstance($module);
-			$relationResult = call_user_func_array(	array($sourceFocus, $functionHandler), array($recordid, getTabid($module), getTabid($relatedmodule)) );
+			$relationResult = call_user_func_array(	array($sourceFocus, $functionHandler), array($recordid, \includes\Modules::getModuleId($module), \includes\Modules::getModuleId($relatedmodule)) );
 			$query = $relationResult['query'];
 		
 			$querySEtype = "vtiger_crmentity.setype as setype";

@@ -108,7 +108,7 @@ class Mobile_WS_Utils
 	{
 		$adb = PearDatabase::getInstance();
 		$query = sprintf('SELECT fieldname,columnname,tablename FROM vtiger_field WHERE tabid=? && fieldname IN (%s)', generateQuestionMarks($fieldnames));
-		$result = $adb->pquery($query, [getTabid($module), $fieldnames]
+		$result = $adb->pquery($query, [\includes\Modules::getModuleId($module), $fieldnames]
 		);
 		$columnnames = array();
 		if ($result && $adb->num_rows($result)) {
@@ -143,7 +143,7 @@ class Mobile_WS_Utils
 
 		$resolveUITypes = array(10, 101, 116, 117, 26, 357, 50, 51, 52, 53, 57, 58, 59, 66, 68, 73, 75, 76, 77, 80, 81);
 		$query = sprintf('SELECT DISTINCT fieldname FROM vtiger_field WHERE uitype IN(%s) && tabid=?', generateQuestionMarks($resolveUITypes));
-		$result = $adb->pquery($query, [$resolveUITypes, getTabid($module)]
+		$result = $adb->pquery($query, [$resolveUITypes, \includes\Modules::getModuleId($module)]
 		);
 		$fieldnames = array();
 		while ($resultrow = $adb->fetch_array($result)) {
@@ -173,7 +173,7 @@ class Mobile_WS_Utils
 		$result = $adb->pquery(
 			"SELECT fieldname, fieldlabel, blocklabel, uitype FROM vtiger_field INNER JOIN
 			vtiger_blocks ON vtiger_blocks.tabid=vtiger_field.tabid && vtiger_blocks.blockid=vtiger_field.block 
-			WHERE vtiger_field.tabid=? && vtiger_field.presence != 1 ORDER BY vtiger_blocks.sequence, vtiger_field.sequence", array(getTabid($module))
+			WHERE vtiger_field.tabid=? && vtiger_field.presence != 1 ORDER BY vtiger_blocks.sequence, vtiger_field.sequence", array(\includes\Modules::getModuleId($module))
 		);
 
 		$fieldgroups = array();
@@ -299,7 +299,7 @@ class Mobile_WS_Utils
 	static function getRelatedFunctionHandler($sourceModule, $targetModule)
 	{
 		$adb = PearDatabase::getInstance();
-		$relationResult = $adb->pquery("SELECT name FROM vtiger_relatedlists WHERE tabid=? and related_tabid=? and presence=0", array(getTabid($sourceModule), getTabid($targetModule)));
+		$relationResult = $adb->pquery("SELECT name FROM vtiger_relatedlists WHERE tabid=? and related_tabid=? and presence=0", array(\includes\Modules::getModuleId($sourceModule), \includes\Modules::getModuleId($targetModule)));
 		$functionName = false;
 		if ($adb->num_rows($relationResult))
 			$functionName = $adb->query_result($relationResult, 0, 'name');
@@ -315,7 +315,7 @@ class Mobile_WS_Utils
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$querySuffix = '';
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 

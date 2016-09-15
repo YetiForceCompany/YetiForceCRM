@@ -168,7 +168,7 @@ function getUserModuleSharingObjects($module, $userid, $def_org_share, $current_
 {
 	$adb = PearDatabase::getInstance();
 
-	$mod_tabid = getTabid($module);
+	$mod_tabid = \includes\Modules::getModuleId($module);
 
 	$mod_share_permission;
 	$mod_share_read_permission = [];
@@ -961,8 +961,8 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 	$mod_share_read_permission['GROUP'] = [];
 	$mod_share_write_permission['GROUP'] = [];
 
-	$par_mod_id = getTabid($par_mod);
-	$share_mod_id = getTabid($share_mod);
+	$par_mod_id = \includes\Modules::getModuleId($par_mod);
+	$share_mod_id = \includes\Modules::getModuleId($share_mod);
 
 	if ($def_org_share[$share_mod_id] == 3 || $def_org_share[$share_mod_id] == 0) {
 		$role_read_per = [];
@@ -1364,7 +1364,7 @@ function populateSharingtmptables($userid)
 function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_name_arr = false)
 {
 	$adb = PearDatabase::getInstance();
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 
 	if (!$var_name_arr) {
 		checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
@@ -1442,8 +1442,8 @@ function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_na
 function populateRelatedSharingPrivileges($enttype, $userid, $module, $relmodule, $pertype, $var_name_arr = false)
 {
 	$adb = PearDatabase::getInstance();
-	$tabid = getTabid($module);
-	$reltabid = getTabid($relmodule);
+	$tabid = \includes\Modules::getModuleId($module);
+	$reltabid = \includes\Modules::getModuleId($relmodule);
 
 	if (!$var_name_arr) {
 		checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');

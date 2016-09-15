@@ -263,7 +263,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	}
 
 	//Retreiving the Tabid and Action Id
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	$actionid = getActionid($actionname);
 	$checkModule = $module;
 
@@ -422,7 +422,7 @@ function isPermitted($module, $actionname, $record_id = '')
 								break;
 							case 2:
 								if (\AppConfig::security('PERMITTED_BY_SHARING')) {
-									$permission = isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord);
+									$permission = isPermittedBySharing($recordMetaData['setype'], \includes\Modules::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
 									$relatedPermission = $permission == 'yes' ? true : false;
 								}
 								break;
@@ -1346,7 +1346,7 @@ function getCombinedUserTabsPermissions($userId)
 		}
 	}
 
-	$homeTabid = getTabid('Home');
+	$homeTabid = \includes\Modules::getModuleId('Home');
 	if (!array_key_exists($homeTabid, $userTabPerrArr)) {
 		$userTabPerrArr[$homeTabid] = 0;
 	}
@@ -1512,7 +1512,7 @@ function getWriteSharingGroupsList($module)
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 	$grp_array = [];
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	$query = "select sharedgroupid from vtiger_tmp_write_group_sharing_per where userid=? and tabid=?";
 	$result = $adb->pquery($query, array($current_user->id, $tabid));
 	$num_rows = $adb->num_rows($result);
@@ -1551,7 +1551,7 @@ function getListViewSecurityParameter($module)
 	$log->debug("Entering getListViewSecurityParameter(" . $module . ") method ...");
 	$adb = PearDatabase::getInstance();
 
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	$current_user = vglobal('current_user');
 	if ($current_user) {
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -1714,7 +1714,7 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
 		$profilelist = getCurrentUserProfileList();
 
 		//get tabid
-		$tabid = getTabid($fld_module);
+		$tabid = \includes\Modules::getModuleId($fld_module);
 
 		if (count($profilelist) > 0) {
 			if ($accessmode == 'readonly') {
@@ -1758,7 +1758,7 @@ function getColumnVisibilityPermission($userid, $columnname, $module, $accessmod
 	$adb = PearDatabase::getInstance();
 	$log = LoggerManager::getInstance();
 	$log->debug("in function getcolumnvisibilitypermission $columnname -$userid");
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 
 	// Look at cache if information is available.
 	$cacheFieldInfo = VTCacheUtils::lookupFieldInfoByColumn($tabid, $columnname);
@@ -1829,7 +1829,7 @@ function getPermittedModuleIdList()
 			}
 		}
 	}
-	$homeTabid = getTabid('Home');
+	$homeTabid = \includes\Modules::getModuleId('Home');
 	if (!in_array($homeTabid, $permittedModules)) {
 		$permittedModules[] = $homeTabid;
 	}
@@ -1886,7 +1886,7 @@ function getSharingModuleList($eliminateModules = false)
  */
 function isFieldActive($modulename, $fieldname)
 {
-	$fieldid = getFieldid(getTabid($modulename), $fieldname, true);
+	$fieldid = getFieldid(\includes\Modules::getModuleId($modulename), $fieldname, true);
 	return ($fieldid !== false);
 }
 

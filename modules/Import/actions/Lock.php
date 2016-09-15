@@ -32,7 +32,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller {
 		}
 
 		$adb->pquery('INSERT INTO vtiger_import_locks VALUES(?,?,?,?,?)',
-						array($adb->getUniqueID('vtiger_import_locks'), $user->id, getTabid($module), $importId, date('Y-m-d H:i:s')));
+						array($adb->getUniqueID('vtiger_import_locks'), $user->id, \includes\Modules::getModuleId($module), $importId, date('Y-m-d H:i:s')));
 	}
 
 	public static function unLock($user, $module=false) {
@@ -42,7 +42,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller {
 			$params = array(method_exists($user, 'get')?$user->get('id'):$user->id);
 			if($module != false) {
 				$query .= ' && tabid=?';
-				array_push($params, getTabid($module));
+				array_push($params, \includes\Modules::getModuleId($module));
 			}
 			$adb->pquery($query, $params);
 		}
@@ -52,7 +52,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller {
 		$adb = PearDatabase::getInstance();
 
 		if(vtlib\Utils::CheckTable('vtiger_import_locks')) {
-			$lockResult = $adb->pquery('SELECT * FROM vtiger_import_locks WHERE tabid=?',array(getTabid($module)));
+			$lockResult = $adb->pquery('SELECT * FROM vtiger_import_locks WHERE tabid=?',array(\includes\Modules::getModuleId($module)));
 
 			if($lockResult && $adb->num_rows($lockResult) > 0) {
 				$lockInfo = $adb->query_result_rowdata($lockResult, 0);

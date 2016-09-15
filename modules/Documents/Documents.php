@@ -419,7 +419,7 @@ class Documents extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
-		$tabid = getTabid('Documents');
+		$tabid = \includes\Modules::getModuleId('Documents');
 		$filetype_uitype = 27;
 		$res = $adb->pquery($query, array($tabid, $filetype_uitype));
 		$fieldname = null;
@@ -439,7 +439,7 @@ class Documents extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
-		$tabid = getTabid('Documents');
+		$tabid = \includes\Modules::getModuleId('Documents');
 		$filename_uitype = 28;
 		$res = $adb->pquery($query, array($tabid, $filename_uitype));
 		$fieldname = null;

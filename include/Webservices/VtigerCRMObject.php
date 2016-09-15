@@ -73,7 +73,7 @@ class VtigerCRMObject
 	{
 
 		// Use getTabid API
-		$tid = getTabid($objectName);
+		$tid = \includes\Modules::getModuleId($objectName);
 
 		if ($tid === false) {
 			$adb = PearDatabase::getInstance();

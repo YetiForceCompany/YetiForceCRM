@@ -11,7 +11,7 @@
 class Field_Model_Base {
     
     function getFieldInfo($fieldName, $moduleName, $column) {
-        $moduleTabId = getTabid($moduleName);
+        $moduleTabId = \includes\Modules::getModuleId($moduleName);
         $db = PearDatabase::getInstance();
 
         $sql = "SELECT * FROM vtiger_field WHERE tabid = $moduleTabId && fieldname = '$fieldName'";

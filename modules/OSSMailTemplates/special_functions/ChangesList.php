@@ -25,7 +25,7 @@ class ChangesList
 			if (count($delta) == 0) {
 				return '';
 			}
-			$tabid = getTabid($data['module']);
+			$tabid = \includes\Modules::getModuleId($data['module']);
 			$html = '<ul>';
 			foreach ($delta as $fieldName => $values) {
 				if ($fieldName != 'modifiedtime' && in_array($fieldName, array('record_id', 'record_module')) == false && strstr($fieldName, 'label') === false) {

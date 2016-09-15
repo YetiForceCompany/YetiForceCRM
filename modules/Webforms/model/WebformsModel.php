@@ -318,7 +318,7 @@ class Webforms_Model {
 
 	static function isActive($field, $mod) {
 		$adb = PearDatabase::getInstance();
-		$tabid = getTabid($mod);
+		$tabid = \includes\Modules::getModuleId($mod);
 		$query = 'SELECT 1 FROM vtiger_field WHERE fieldname = ?  && tabid = ? && presence IN (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));
 		$rows = $adb->num_rows($res);
