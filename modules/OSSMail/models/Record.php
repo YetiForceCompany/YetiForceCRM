@@ -229,7 +229,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$text = '';
 		foreach ($data as &$row) {
 			$charset = ($row->charset == 'default') ? 'ASCII' : $row->charset;
-			if (function_exists('mb_convert_encoding')) {
+			if (function_exists('mb_convert_encoding') && in_array($charset, mb_list_encodings())) {
 				$text .= mb_convert_encoding($row->text, 'utf-8', $charset);
 			} else {
 				$text .= iconv($charset, 'UTF-8', $row->text);
