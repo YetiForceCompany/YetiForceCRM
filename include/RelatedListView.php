@@ -178,7 +178,8 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 
 function CheckFieldPermission($fieldname, $module)
 {
-	global $current_user, $adb;
+	$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+	$adb = PearDatabase::getInstance();
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	if ($fieldname == '' || $module == '') {
 		return "false";

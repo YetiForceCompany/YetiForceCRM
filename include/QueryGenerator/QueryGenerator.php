@@ -1364,7 +1364,8 @@ class QueryGenerator
 
 	public function addUserSearchConditions($input)
 	{
-		global $log, $default_charset;
+		$log = LoggerManager::getInstance();
+		$default_charset = AppConfig::main('default_charset');
 		if ($input['searchtype'] == 'advance') {
 			$advftCriteria = AppRequest::get('advft_criteria');
 			$advftCriteriaGroups = AppRequest::get('advft_criteria_groups');

@@ -99,8 +99,8 @@ class RelatedListViewSession
 
 	public static function getRequestCurrentPage($relationId, $query)
 	{
-		global $list_max_entries_per_page, $adb;
-
+		global $list_max_entries_per_page;
+		$adb = PearDatabase::getInstance();
 		$start = AppRequest::get('start');
 		if (!empty($start)) {
 			if ($start == 'last') {

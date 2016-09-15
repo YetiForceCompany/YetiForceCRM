@@ -187,7 +187,8 @@ class ListViewSession
 
 	function getRequestCurrentPage($currentModule, $query, $viewid, $queryMode = false)
 	{
-		global $list_max_entries_per_page, $adb;
+		global $list_max_entries_per_page;
+		$adb = PearDatabase::getInstance();
 		$start = 1;
 		if (AppRequest::has('query') && AppRequest::get('query') == 'true' && AppRequest::get('start') != 'last') {
 			return ListViewSession::getRequestStartPage();
