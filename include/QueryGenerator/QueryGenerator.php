@@ -1092,10 +1092,10 @@ class QueryGenerator
 				}
 
 				if ($operator == 'notequal') {
-					$sql[] = "NOT BETWEEN " . $db->quote($valueArray[0]) . " && " .
+					$sql[] = "NOT BETWEEN " . $db->quote($valueArray[0]) . " AND " .
 						$db->quote($valueArray[1]);
 				} else {
-					$sql[] = "BETWEEN " . $db->quote($valueArray[0]) . " && " .
+					$sql[] = "BETWEEN " . $db->quote($valueArray[0]) . " AND " .
 						$db->quote($valueArray[1]);
 				}
 			}
