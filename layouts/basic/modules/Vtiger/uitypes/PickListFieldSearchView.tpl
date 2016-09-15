@@ -6,12 +6,12 @@
    * The Initial Developer of the Original Code is vtiger.
    * Portions created by vtiger are Copyright (C) vtiger.
    * All Rights Reserved.
-  *
+   *Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
     {assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
-    {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
+    {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues(true)}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
     <div class="picklistSearchField">
         <select class="select2noactive listSearchContributor form-control" name="{$FIELD_MODEL->get('name')}" multiple title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-fieldinfo='{$FIELD_INFO|escape}'>

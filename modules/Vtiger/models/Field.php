@@ -291,16 +291,17 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get all the available picklist values for the current field
+	 * @param <Boolean> $skipCheckingRole
 	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
-	public function getPicklistValues()
+	public function getPicklistValues($skipCheckingRole = false)
 	{
 		$fieldDataType = $this->getFieldDataType();
 		if ($this->getName() == 'hdnTaxType')
 			return null;
 
 		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist') {
-			if ($this->isRoleBased()) {
+			if ($this->isRoleBased() && !$skipCheckingRole) {
 				$userModel = Users_Record_Model::getCurrentUserModel();
 				$picklistValues = Vtiger_Util_Helper::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
 			} else {
