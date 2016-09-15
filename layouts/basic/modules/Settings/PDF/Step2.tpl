@@ -138,7 +138,7 @@
 						</span>
 					</label>
 					<div class="col-sm-6">
-						{if $PDF_MODEL->get('one_pdf') === 0}
+						{if $PDF_MODEL->get('one_pdf') == 0}
 							{assign 'ONE_PDF' false}
 						{else}
 							{assign 'ONE_PDF' true}
