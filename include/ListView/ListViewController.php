@@ -370,23 +370,12 @@ class ListViewController
 				} elseif ($field->getUIType() == 98) {
 					$value = '<a href="index.php?module=Roles&parent=Settings&view=Edit&record=' . $value . '">' . vtlib\Functions::textLength(getRoleName($value), $fieldModel->get('maxlengthtext')) . '</a>';
 				} elseif ($field->getFieldDataType() == 'multipicklist') {
-					$value = ($value != "") ? str_replace(' |##| ', ', ', $value) : "";
-					if (!$is_admin && $value != '') {
-						$valueArray = ($rawValue != "") ? explode(' |##| ', $rawValue) : [];
-						$tmp = '';
-						$tmpArray = [];
-						foreach ($valueArray as $index => $val) {
-							if (!$listview_max_textlength || !(strlen(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $tmp)) > $listview_max_textlength)) {
-								$tmpArray[] = $val;
-								$tmp .= ', ' . $val;
-							} else {
-								$tmpArray[] = '...';
-								$tmp .= '...';
-							}
-						}
-						$value = implode(', ', $tmpArray);
-						$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
+					$valueArray = ($value != "") ? explode(' |##| ', $value) : [];
+					foreach ($valueArray as $key => $valueSingle) {
+						$valueArray[$key] = Vtiger_Language_Handler::getTranslatedString($valueSingle, $module);
 					}
+					$value = implode(', ', $valueArray);
+					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} elseif ($field->getFieldDataType() == 'skype') {
 					if (empty($value)) {
 						$value = '';
