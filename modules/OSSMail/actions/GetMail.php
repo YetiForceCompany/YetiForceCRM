@@ -12,9 +12,8 @@ class OSSMail_GetMail_Action extends Vtiger_Action_Controller
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
+		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

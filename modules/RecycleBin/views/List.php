@@ -6,21 +6,11 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class RecycleBin_List_View extends Vtiger_Index_View
 {
-
-	function checkPermission(Vtiger_Request $request)
-	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	function preProcess(Vtiger_Request $request, $display = true)
 	{
