@@ -22,4 +22,7 @@ require 'include/Webservices/Relation.php';
 require 'include/main/WebUI.php';
 
 $webUI = new Vtiger_WebUI();
+global $mod_strings;
+var_dump($mod_strings); exit;
 $webUI->process(AppRequest::init());
+

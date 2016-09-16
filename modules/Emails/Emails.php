@@ -339,7 +339,6 @@ class Emails extends CRMEntity
 		$log = vglobal('log');
 		$log->debug("Entering get_users(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
-		global $mod_strings;
 		global $app_strings;
 
 		$id = $_REQUEST['record'];

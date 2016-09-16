@@ -19,7 +19,6 @@ class CustomerPortal {
 	function vtlib_handler($moduleName, $eventType) {
 
 		require_once('include/utils/utils.php');
-		global $mod_strings;
 		$adb = PearDatabase::getInstance();
 
  		if($eventType == 'module.postinstall') {

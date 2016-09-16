@@ -324,7 +324,6 @@ class CustomView extends CRMEntity
 	 */
 	public function getColumnsListbyBlock($module, $block)
 	{
-		global $mod_strings;
 		$adb = PearDatabase::getInstance();
 		$block_ids = explode(",", $block);
 		$tabid = \includes\Modules::getModuleId($module);
@@ -561,61 +560,6 @@ class CustomView extends CRMEntity
 			"nextmonth", "last7days", "last30days", "last60days", "last90days",
 			"last120days", "next30days", "next60days", "next90days", "next120days",
 		);
-	}
-
-	/** to get the standard filter criteria
-	 * @param $selcriteria :: Type String (optional)
-	 * @returns  $filter Array in the following format
-	 * $filter = Array( 0 => array('value'=>$filterkey,'text'=>$mod_strings[$filterkey],'selected'=>$selected)
-	 * 		     1 => array('value'=>$filterkey1,'text'=>$mod_strings[$filterkey1],'selected'=>$selected)
-	 * 		                             		|
-	 * 		     n => array('value'=>$filterkeyn,'text'=>$mod_strings[$filterkeyn],'selected'=>$selected)
-	 */
-	function getStdFilterCriteria($selcriteria = "")
-	{
-		global $mod_strings;
-		$filter = [];
-
-		$stdfilter = Array("custom" => "" . $mod_strings['Custom'] . "",
-			"prevfy" => "" . $mod_strings['Previous FY'] . "",
-			"thisfy" => "" . $mod_strings['Current FY'] . "",
-			"nextfy" => "" . $mod_strings['Next FY'] . "",
-			"prevfq" => "" . $mod_strings['Previous FQ'] . "",
-			"thisfq" => "" . $mod_strings['Current FQ'] . "",
-			"nextfq" => "" . $mod_strings['Next FQ'] . "",
-			"yesterday" => "" . $mod_strings['Yesterday'] . "",
-			"today" => "" . $mod_strings['Today'] . "",
-			"tomorrow" => "" . $mod_strings['Tomorrow'] . "",
-			"lastweek" => "" . $mod_strings['Last Week'] . "",
-			"thisweek" => "" . $mod_strings['Current Week'] . "",
-			"nextweek" => "" . $mod_strings['Next Week'] . "",
-			"lastmonth" => "" . $mod_strings['Last Month'] . "",
-			"thismonth" => "" . $mod_strings['Current Month'] . "",
-			"nextmonth" => "" . $mod_strings['Next Month'] . "",
-			"last7days" => "" . $mod_strings['Last 7 Days'] . "",
-			"last30days" => "" . $mod_strings['Last 30 Days'] . "",
-			"last60days" => "" . $mod_strings['Last 60 Days'] . "",
-			"last90days" => "" . $mod_strings['Last 90 Days'] . "",
-			"last120days" => "" . $mod_strings['Last 120 Days'] . "",
-			"next30days" => "" . $mod_strings['Next 30 Days'] . "",
-			"next60days" => "" . $mod_strings['Next 60 Days'] . "",
-			"next90days" => "" . $mod_strings['Next 90 Days'] . "",
-			"next120days" => "" . $mod_strings['Next 120 Days'] . "",
-		);
-
-		foreach ($stdfilter as $FilterKey => $FilterValue) {
-			if ($FilterKey == $selcriteria) {
-				$shtml['value'] = $FilterKey;
-				$shtml['text'] = $FilterValue;
-				$shtml['selected'] = "selected";
-			} else {
-				$shtml['value'] = $FilterKey;
-				$shtml['text'] = $FilterValue;
-				$shtml['selected'] = "";
-			}
-			$filter[] = $shtml;
-		}
-		return $filter;
 	}
 
 	/** to get the standard filter for the given customview Id

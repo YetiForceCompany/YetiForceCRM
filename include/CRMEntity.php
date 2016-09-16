@@ -2316,7 +2316,6 @@ class CRMEntity
 			return;
 		}
 
-		global $mod_strings;
 		$adb = PearDatabase::getInstance();
 		// Look for fields that has presence value NOT IN (0,2)
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
