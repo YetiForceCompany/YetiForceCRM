@@ -653,7 +653,7 @@ class Functions
 	public static function getTicketComments($ticketid)
 	{
 		$adb = \PearDatabase::getInstance();
-		$moduleName = getSalesEntityType($ticketid);
+		$moduleName = self::getCRMRecordType($ticketid);
 		$commentlist = '';
 		$sql = "SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ?";
 		$result = $adb->pquery($sql, array($ticketid));

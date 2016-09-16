@@ -420,7 +420,7 @@ class Vtiger_InventoryPDFController
 			return '';
 		}
 		if ($module === false) {
-			$module = getSalesEntityType($id);
+			$module = \vtlib\Functions::getCRMRecordType($id);
 		}
 		$label = getEntityName($module, array($id));
 		return decode_html($label[$id]);

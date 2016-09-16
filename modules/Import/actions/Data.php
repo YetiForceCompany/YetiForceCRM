@@ -842,7 +842,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$importResult . '<br/><br/>' .
 				'We recommend you to login to the CRM and check few records to confirm that the import has been successful.';
 
-			$userName = getFullNameFromArray('Users', $importDataController->user->column_fields);
+			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
 			$userEmail = $importDataController->user->email1;
 			$vtigerMailer->to = array(array($userEmail, $userName));
 			$vtigerMailer->Subject = $emailSubject;

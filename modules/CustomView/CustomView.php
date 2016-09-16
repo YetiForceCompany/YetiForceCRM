@@ -273,7 +273,7 @@ class CustomView extends CRMEntity
 			if ($cvrow['status'] == CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
 				$disp_viewname = $viewname;
 			} else {
-				$userName = getFullNameFromArray('Users', $cvrow);
+				$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $cvrow);
 				$disp_viewname = $viewname . " [" . $userName . "] ";
 			}
 

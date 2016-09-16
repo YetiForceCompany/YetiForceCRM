@@ -32,7 +32,7 @@ class Vtiger_DependencyPicklist {
 				$sourceField = $adb->query_result($result,$i,'sourcefield');
 				$targetField = $adb->query_result($result,$i,'targetfield');
 
-				if(getFieldid($fieldTabId, $sourceField) == false || getFieldid($fieldTabId, $targetField) == false) {
+				if(\vtlib\Functions::getModuleFieldId($fieldTabId, $sourceField) == false || \vtlib\Functions::getModuleFieldId($fieldTabId, $targetField) == false) {
 					continue;
 				}
 

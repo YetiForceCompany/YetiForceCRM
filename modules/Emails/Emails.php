@@ -368,9 +368,9 @@ class Emails extends CRMEntity
 			$entries = Array();
 
 			if (vtlib\Functions::userIsAdministrator($current_user)) {
-				$entries[] = getFullNameFromArray('Users', $row);
+				$entries[] = \vtlib\Deprecated::getFullNameFromArray('Users', $row);
 			} else {
-				$entries[] = getFullNameFromArray('Users', $row);
+				$entries[] = \vtlib\Deprecated::getFullNameFromArray('Users', $row);
 			}
 
 			$entries[] = $row['user_name'];

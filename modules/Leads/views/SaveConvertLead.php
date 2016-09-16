@@ -73,7 +73,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 					} elseif ($fieldModel->getFieldDataType() === 'reference' && $fieldValue) {
 						$ids = vtws_getIdComponents($fieldValue);
 						if (count($ids) === 1) {
-							$fieldValue = vtws_getWebserviceEntityId(getSalesEntityType($fieldValue), $fieldValue);
+							$fieldValue = vtws_getWebserviceEntityId(\vtlib\Functions::getCRMRecordType($fieldValue), $fieldValue);
 						}
 					}
 					$entityValues['entities'][$module][$fieldName] = $fieldValue;

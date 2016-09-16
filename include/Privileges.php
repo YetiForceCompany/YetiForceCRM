@@ -128,7 +128,7 @@ class Privileges
 
 			//If modules is Products,Vendors,Faq,PriceBook then no sharing
 			if ($record != '') {
-				if (getTabOwnedBy($moduleName) == 1) {
+				if (\vtlib\Functions::getModuleOwner($moduleName) == 1) {
 					self::$isPermittedLevel = 'SEC_MODULE_IS_OWNEDBY';
 					$log->debug('Exiting isPermitted method ...');
 					return true;

@@ -505,7 +505,7 @@ class HelpDesk extends CRMEntity
 		$desc = getTranslatedString('Ticket ID', $moduleName) . ' : ' . $entityId . '<br>'
 			. getTranslatedString('Ticket Title', $moduleName) . ' : ' . $temp . ' '
 			. $entityData->get('ticket_title');
-		$name = (!$toOwner) ? getParentName($parentId) : '';
+		$name = (!$toOwner) ? \vtlib\Functions::getCRMRecordLabel($parentId) : '';
 		$desc .= "<br><br>" . getTranslatedString('Hi', $moduleName) . " " . $name . ",<br><br>"
 			. getTranslatedString('LBL_PORTAL_BODY_MAILINFO', $moduleName) . " " . $reply . " " . getTranslatedString('LBL_DETAIL', $moduleName) . "<br>";
 		$desc .= "<br>" . getTranslatedString('Ticket No', $moduleName) . " : " . $entityData->get('ticket_no');
@@ -557,7 +557,7 @@ class HelpDesk extends CRMEntity
 		$portalUrl = "<a href='" . $PORTAL_URL . "/index.php?module=HelpDesk&action=index&ticketid=" . $entityId . "&fun=detail'>"
 			. getTranslatedString('LBL_TICKET_DETAILS', $moduleName) . "</a>";
 		$contents = getTranslatedString('Dear', $moduleName) . ' ';
-		$contents .= ($parentId) ? getParentName($parentId) : '';
+		$contents .= ($parentId) ? \vtlib\Functions::getCRMRecordLabel($parentId) : '';
 		$contents .= ",<br>";
 		$contents .= getTranslatedString('reply', $moduleName) . ' <b>' . $entityData->get('ticket_title')
 			. '</b> ' . getTranslatedString('customer_portal', $moduleName);

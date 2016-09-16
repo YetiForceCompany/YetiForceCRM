@@ -1625,7 +1625,7 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 			}
 			if ($fieldname == 'entityid' || $fieldname == 'contactid' || $fieldname == 'accountid' || $fieldname == 'account' || $fieldname == 'linktoaccountscontacts') {
 				$crmid = $fieldvalue;
-				$modulename = getSalesEntityType($crmid);
+				$modulename = \vtlib\Functions::getCRMRecordType($crmid);
 				if ($crmid != '' && $modulename != '') {
 					$fieldvalues = getEntityName($modulename, array($crmid));
 					if ($modulename == 'Contacts')
@@ -2097,7 +2097,7 @@ function get_details($id, $module, $customerid, $sessionid)
 		}
 		if ($columnname == 'parent_id' || $columnname == 'contactid' || $columnname == 'accountid' || $fieldname == 'account_id' || $fieldname == 'contact_id' || $columnname == 'linktoaccountscontacts') {
 			$crmid = $fieldvalue;
-			$modulename = getSalesEntityType($crmid);
+			$modulename = \vtlib\Functions::getCRMRecordType($crmid);
 			if ($crmid != '' && $modulename != '') {
 				$fieldvalues = getEntityName($modulename, array($crmid));
 				if ($modulename == 'Contacts')
@@ -2608,7 +2608,7 @@ function get_project_tickets($id, $module, $customerid, $sessionid)
 			}
 			if ($fieldname == 'parent_id' || $fieldname == 'contact_id') {
 				$crmid = $fieldvalue;
-				$entitymodule = getSalesEntityType($crmid);
+				$entitymodule = \vtlib\Functions::getCRMRecordType($crmid);
 				if ($crmid != '' && $entitymodule != '') {
 					$fieldvalues = getEntityName($entitymodule, array($crmid));
 					if ($entitymodule == 'Contacts')

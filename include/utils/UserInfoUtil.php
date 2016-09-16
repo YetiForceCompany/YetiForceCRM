@@ -345,7 +345,7 @@ function isPermitted($module, $actionname, $record_id = '')
 
 		//If modules is Products,Vendors,Faq,PriceBook then no sharing
 		if ($record_id != '') {
-			if (getTabOwnedBy($module) == 1) {
+			if (\vtlib\Functions::getModuleOwner($module) == 1) {
 				vglobal('isPermittedLog', 'SEC_MODULE_IS_OWNEDBY');
 				$log->debug('Exiting isPermitted method ...');
 				return 'yes';
@@ -915,7 +915,7 @@ function getRoleUsers($roleId)
 	$num_rows = $adb->num_rows($result);
 	$roleRelatedUsers = [];
 	for ($i = 0; $i < $num_rows; $i++) {
-		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = getFullNameFromQResult($result, $i, 'Users');
+		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
 	}
 
 	Vtiger_Cache::set('getRoleUsers', $roleId, $roleRelatedUsers);
@@ -1149,7 +1149,7 @@ function getAllUserName()
 	$user_details = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$userid = $adb->query_result($result, $i, 'id');
-		$username = getFullNameFromQResult($result, $i, 'Users');
+		$username = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
 		$user_details[$userid] = $username;
 	}
 	$log->debug("Exiting getAllUserName method ...");
@@ -1886,7 +1886,7 @@ function getSharingModuleList($eliminateModules = false)
  */
 function isFieldActive($modulename, $fieldname)
 {
-	$fieldid = getFieldid(\includes\Modules::getModuleId($modulename), $fieldname, true);
+	$fieldid = \vtlib\Functions::getModuleFieldId(\includes\Modules::getModuleId($modulename), $fieldname, true);
 	return ($fieldid !== false);
 }
 

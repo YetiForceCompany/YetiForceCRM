@@ -162,7 +162,7 @@ class EmailTemplate
 								$referencedObjectHandler = vtws_getModuleHandlerFromName(
 									$details[0], $this->user);
 							} else {
-								$type = getSalesEntityType(
+								$type = \vtlib\Functions::getCRMRecordType(
 									$values[$fieldName]);
 								$referencedObjectHandler = vtws_getModuleHandlerFromName($type, $this->user);
 							}

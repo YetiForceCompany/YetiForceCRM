@@ -197,7 +197,7 @@ function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, 
 		$rs = $adb->pquery("select first_name,last_name from vtiger_users where user_name=?", array($fromName));
 		$num_rows = $adb->num_rows($rs);
 		if ($num_rows > 0) {
-			$fullName = getFullNameFromQResult($rs, 0, 'Users');
+			$fullName = \vtlib\Deprecated::getFullNameFromQResult($rs, 0, 'Users');
 			VTCacheUtils::setUserFullName($fromName, $fullName);
 		}
 	} else {

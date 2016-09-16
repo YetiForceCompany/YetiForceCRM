@@ -80,7 +80,7 @@ function vtJsonOwnersList($adb)
 	$activeUsersList = $owner->getUsers();
 	$allGroupsList = $owner->getGroups();
 	foreach ($activeUsersList as $userId => $userName) {
-		$ownersList[] = array('label' => $userName, 'value' => getUserName($userId));
+		$ownersList[] = array('label' => $userName, 'value' => \vtlib\Functions::getUserName($userId));
 	}
 	foreach ($allGroupsList as $groupId => $groupName) {
 		$ownersList[] = array('label' => $groupName, 'value' => $groupName);

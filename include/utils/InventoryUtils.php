@@ -28,7 +28,7 @@ function updateStk($product_id, $qty, $mode, $ext_prod_arr, $module)
 	$log->debug("Inside updateStk function, module=" . $module);
 	$log->debug("Product Id = $product_id & Qty = $qty");
 
-	$prod_name = getProductName($product_id);
+	$prod_name = \vtlib\Functions::getCRMRecordLabel($product_id);
 	$qtyinstk = getPrdQtyInStck($product_id);
 	$log->debug("Prd Qty in Stock " . $qtyinstk);
 

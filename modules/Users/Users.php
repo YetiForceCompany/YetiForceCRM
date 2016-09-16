@@ -580,7 +580,7 @@ class Users extends CRMEntity
 		$this->log->debug("additional detail query results: $row");
 
 		if ($row != null) {
-			$this->reports_to_name = stripslashes(getFullNameFromArray('Users', $row));
+			$this->reports_to_name = stripslashes(\vtlib\Deprecated::getFullNameFromArray('Users', $row));
 		} else {
 			$this->reports_to_name = '';
 		}
