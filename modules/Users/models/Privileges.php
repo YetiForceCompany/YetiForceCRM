@@ -85,11 +85,11 @@ class Users_Privileges_Model extends Users_Record_Model
 	 * @param <Number> $tabId
 	 * @return <Boolean> true/false
 	 */
-	public function hasModulePermission($tabId)
+	public function hasModulePermission($mixed)
 	{
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
-		$moduleModel = Vtiger_Module_Model::getInstance($tabId);
-		return (($this->isAdminUser() || $profileTabsPermissions[$tabId] === 0) && $moduleModel->isActive());
+		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
+		return $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()] === 0));
 	}
 
 	/**
@@ -98,15 +98,15 @@ class Users_Privileges_Model extends Users_Record_Model
 	 * @param <String/Number> $action
 	 * @return <Boolean> true/false
 	 */
-	public function hasModuleActionPermission($tabId, $action)
+	public function hasModuleActionPermission($mixed, $action)
 	{
 		if (!is_a($action, 'Vtiger_Action_Model')) {
 			$action = Vtiger_Action_Model::getInstance($action);
 		}
 		$actionId = $action->getId();
 		$profileTabsPermissions = $this->get('profile_action_permission');
-		$moduleModel = Vtiger_Module_Model::getInstance($tabId);
-		return (($this->isAdminUser() || $profileTabsPermissions[$tabId][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) && $moduleModel->isActive());
+		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
+		return $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE));
 	}
 
 	/**

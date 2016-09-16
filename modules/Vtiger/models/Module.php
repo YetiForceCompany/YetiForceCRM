@@ -12,7 +12,7 @@
 /**
  * Vtiger Module Model Class
  */
-class Vtiger_Module_Model extends vtlib\Module
+class Vtiger_Module_Model extends \vtlib\Module
 {
 
 	protected $blocks = false;
@@ -750,20 +750,16 @@ class Vtiger_Module_Model extends vtlib\Module
 	 * Static Function to get the instance of Vtiger Module Model for the given id or name
 	 * @param mixed id or name of the module
 	 */
-	public static function getInstance($value)
+	public static function getInstance($mixed)
 	{
-		$instance = Vtiger_Cache::get('module', $value);
+		$instance = Vtiger_Cache::get('module', $mixed);
 		if (!$instance) {
 			$instance = false;
-			$moduleObject = parent::getInstance($value);
+			$moduleObject = parent::getInstance($mixed);
 			if ($moduleObject) {
 				$instance = self::getInstanceFromModuleObject($moduleObject);
-				Vtiger_Cache::set('module', $value, $instance);
-				if (is_int($value)) {
-					Vtiger_Cache::set('module', $moduleObject->id, $instance);
-				} else if (is_string($value)) {
-					Vtiger_Cache::set('module', $moduleObject->name, $instance);
-				}
+				Vtiger_Cache::set('module', $moduleObject->id, $instance);
+				Vtiger_Cache::set('module', $moduleObject->name, $instance);
 			}
 		}
 		return $instance;
