@@ -57,11 +57,18 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $config;
 	}
 
+	protected static $imapConnectCache = [];
+
 	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true)
 	{
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
 		$rcConfig = self::load_roundcube_config();
+		$cacheName = $user . $host . $folder;
+		if (isset(self::$imapConnectCache[$cacheName])) {
+			return self::$imapConnectCache[$cacheName];
+		}
+
 		if (!$host) {
 			$host = key($rcConfig['default_host']);
 		}
@@ -102,7 +109,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		} else {
 			$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password);
 		}
-		$log->debug("Exit OSSMail_Record_Model::imapConnect() method ...");
+		self::$imapConnectCache[$cacheName] = $mbox;
+		$log->debug('Exit OSSMail_Record_Model::imapConnect() method ...');
 		return $mbox;
 	}
 
@@ -211,16 +219,21 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $mail;
 	}
 
+	protected static $usersCache = [];
+
 	public static function get_account_detail($userid)
 	{
+		if (isset(self::$usersCache[$userid])) {
+			return self::$usersCache[$userid];
+		}
+		$user = false;
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM roundcube_users where user_id = ?", array($userid));
-		$Num = $adb->num_rows($result);
-		if ($Num > 0) {
-			return $adb->getRow($result);
-		} else {
-			return false;
+		if ($adb->getRowCount($result)) {
+			$user = $adb->getRow($result);
 		}
+		self::$usersCache[$userid] = $user;
+		return $user;
 	}
 
 	public static function _decode_text($text)
