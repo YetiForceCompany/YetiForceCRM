@@ -124,9 +124,4 @@ class ModComments extends ModCommentsCore
 		return new ModComments_CommentsModel($this->column_fields);
 	}
 
-	function getListButtons($app_strings, $mod_strings = false)
-	{
-		$list_buttons = Array();
-		return $list_buttons;
-	}
 }

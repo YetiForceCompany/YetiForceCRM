@@ -16,7 +16,7 @@ $smarty = new vtigerCRM_Smarty();
 
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
-require_once('modules/Vtiger/layout_utils.php');
+
 
 $smarty->assign("SESSION_WHERE", $_SESSION['export_where']);
 $smarty->assign('MOD', $mod_strings);

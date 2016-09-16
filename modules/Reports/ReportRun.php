@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 global $calpath;
-global $app_strings, $mod_strings;
+global $mod_strings;
 global $theme;
 $log = vglobal('log');
 
@@ -2310,10 +2310,9 @@ class ReportRun extends CRMEntity
 	// Performance Optimization: Added parameter directOutput to avoid building big-string!
 	function GenerateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
 	{
-		global $adb, $current_user;
 		$adb = PearDatabase::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		global $modules, $app_strings;
+		global $modules;
 		global $mod_strings;
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		$modules_selected = array();
@@ -2646,7 +2645,7 @@ class ReportRun extends CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . $app_strings['LBL_IN'] . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \includes\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")"; 
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -2757,7 +2756,7 @@ class ReportRun extends CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . $app_strings['LBL_IN'] . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \includes\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -2962,7 +2961,7 @@ class ReportRun extends CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . $app_strings['LBL_IN'] . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \includes\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -3231,7 +3230,7 @@ class ReportRun extends CRMEntity
 	 * */
 	function getLstringforReportHeaders($fldname)
 	{
-		global $modules, $app_strings;
+		global $modules;
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$rep_header = ltrim($fldname);
 		$rep_header = decode_html($rep_header);
@@ -3252,7 +3251,7 @@ class ReportRun extends CRMEntity
 		$fieldLabel = ltrim(str_replace($rep_module, '', $rep_header), '__');
 		$fieldInfo = getFieldByReportLabel($rep_module, $fieldLabel);
 		if ($fieldInfo['uitype'] == '71') {
-			$curr_symb = " (" . $app_strings['LBL_IN'] . " " . $current_user->currency_symbol . ")";
+			$curr_symb = " (" . \includes\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 		}
 		$rep_header .=$curr_symb;
 
