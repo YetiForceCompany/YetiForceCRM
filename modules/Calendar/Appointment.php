@@ -206,9 +206,10 @@ class Appointment
           * @param $act_array -- The vtiger_activity array :: Type Array
           * @param $view -- The calendar view :: Type String
          */
-	function readResult($act_array, $view)
+	public function readResult($act_array, $view)
 	{
-		global $adb,$current_user,$app_strings;
+		$adb = PearDatabase::getInstance();
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$format_sthour='';
                 $format_stmin='';
 		$this->description       = $act_array["description"];
@@ -302,7 +303,7 @@ function compare($a,$b)
 }
 function getRoleBasesdPickList($fldname,$exist_val)
 {
-	global $adb,$app_strings;
+	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 	$is_Admin = $current_user->is_admin;
 		if($is_Admin == 'off' && $fldname != '')
@@ -328,7 +329,7 @@ function getRoleBasesdPickList($fldname,$exist_val)
 				if($num_val > 0)
 				$pick_val = $exist_val;
 				else
-				$pick_val = $app_strings['LBL_NOT_ACCESSIBLE'];
+				$pick_val = \includes\Language::translate('LBL_NOT_ACCESSIBLE');
 
 
 			}else

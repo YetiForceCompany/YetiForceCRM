@@ -390,7 +390,6 @@ class CRMEntity
 	function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
 		$log = LoggerManager::getInstance();
-		global $app_strings;
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
@@ -516,7 +515,7 @@ class CRMEntity
 					}
 				} elseif ($uitype == 15 || $uitype == 16) {
 
-					if ($this->column_fields[$fieldname] == $app_strings['LBL_NOT_ACCESSIBLE']) {
+					if ($this->column_fields[$fieldname] == \includes\Language::translate('LBL_NOT_ACCESSIBLE')) {
 
 						//If the value in the request is Not Accessible for a picklist, the existing value will be replaced instead of Not Accessible value.
 						$sql = "select $columname from  $table_name where " . $this->tab_name_index[$table_name] . "=?";
@@ -1440,7 +1439,7 @@ class CRMEntity
 
 	function get_attachments($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		global $currentModule, $app_strings, $singlepane_view;
+		global $currentModule, $singlepane_view;
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -1662,7 +1661,7 @@ class CRMEntity
 	 */
 	function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		global $currentModule, $app_strings, $singlepane_view;
+		global $currentModule, $singlepane_view;
 
 		$current_module = vtlib\Functions::getModuleName($cur_tab_id);
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -1743,7 +1742,6 @@ class CRMEntity
 	 */
 	function get_dependents_list($id, $cur_tab_id, $relTabId, $actions = false)
 	{
-		$app_strings = vglobal('app_strings');
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 
@@ -2720,24 +2718,6 @@ class CRMEntity
 		return $order_by;
 	}
 	// Mike Crowe Mod --------------------------------------------------------
-
-	/**
-	 * Function to Listview buttons
-	 * return array  $list_buttons - for module (eg: 'Accounts')
-	 */
-	function getListButtons($app_strings, $mod_strings = false)
-	{
-		$list_buttons = [];
-
-		if (isPermitted($currentModule, 'Delete', '') == 'yes')
-			$list_buttons['del'] = $app_strings[LBL_MASS_DELETE];
-		if (isPermitted($currentModule, 'EditView', '') == 'yes') {
-			$list_buttons['mass_edit'] = $app_strings[LBL_MASS_EDIT];
-			// Mass Edit could be used to change the owner as well!
-			//$list_buttons['c_owner'] = $app_strings[LBL_CHANGE_OWNER];
-		}
-		return $list_buttons;
-	}
 
 	/**
 	 * Function to track when a record is unlinked to a given record

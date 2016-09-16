@@ -98,7 +98,6 @@ function color_generator($count = 1, $start = '33CCFF', $step = '221133')
 
 function get_tickspacing($max = 10)
 {
-	global $app_strings;
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering get_tickspacing(" . $max . ") method ...");
 	$result = array(1, 1);
@@ -107,7 +106,7 @@ function get_tickspacing($max = 10)
 	$coef = pow(10, floor(log10($max)));
 	if ($coef == 0) {
 		$data = 0;
-		echo "<h3>" . $app_strings['NO_DATA_AVAILABLE_WITH_SPECIFIED_PERIOD'] . "</h3>";
+		echo "<h3>" . \includes\Language::translate('NO_DATA_AVAILABLE_WITH_SPECIFIED_PERIOD') . "</h3>";
 		$log->debug("Exiting get_tickspacing method ...");
 		return $data;
 	}

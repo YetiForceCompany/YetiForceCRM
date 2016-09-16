@@ -73,7 +73,6 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	$log->debug("Entering getPriceBookRelatedProducts(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
 
 	$adb = PearDatabase::getInstance();
-	global $app_strings;
 	global $mod_strings;
 	$current_user = vglobal('current_user');
 	$current_language = vglobal('current_language');
@@ -155,14 +154,14 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 		$entries[] = CurrencyField::convertToUserFormat($listprice, null, true);
 		$action = "";
 		if (isPermitted("PriceBooks", "EditView", "") == 'yes' && isPermitted('Products', 'EditView', $entity_id) == 'yes') {
-			$action .= '<img style="cursor:pointer;" src="' . vtiger_imageurl('editfield.gif', $theme) . '" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . $app_strings["LBL_EDIT_BUTTON"] . '" title="' . $app_strings["LBL_EDIT_BUTTON"] . '"/>';
+			$action .= '<img style="cursor:pointer;" src="' . vtiger_imageurl('editfield.gif', $theme) . '" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . \includes\Language::translate('LBL_EDIT_BUTTON') . '" title="' . \includes\Language::translate('LBL_EDIT_BUTTON') . '"/>';
 		} else {
 			$action .= '<img src="' . vtiger_imageurl('blank.gif', $theme) . '" border="0" />';
 		}
 		if (isPermitted("PriceBooks", "Delete", "") == 'yes' && isPermitted('Products', 'Delete', $entity_id) == 'yes') {
 			if ($action != "")
 				$action .= '&nbsp;|&nbsp;';
-			$action .= '<img src="' . vtiger_imageurl('delete.gif', $theme) . '" onclick="if(confirm(\'' . $app_strings['ARE_YOU_SURE'] . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . $app_strings["LBL_DELETE"] . '" title="' . $app_strings["LBL_DELETE"] . '" style="cursor:pointer;" border="0">';
+			$action .= '<img src="' . vtiger_imageurl('delete.gif', $theme) . '" onclick="if(confirm(\'' . \includes\Language::translate('ARE_YOU_SURE') . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . \includes\Language::translate('LBL_DELETE') . '" title="' . \includes\Language::translate('LBL_DELETE') . '" style="cursor:pointer;" border="0">';
 		}
 		if ($action != "")
 			$entries[] = $action;

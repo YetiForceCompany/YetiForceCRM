@@ -10,7 +10,6 @@
  * ****************************************************************************** */
 require_once('include/utils/utils.php');
 require_once('modules/Calendar/Date.php');
-global $app_strings;
 
 class RecurringType
 {
@@ -482,7 +481,7 @@ class RecurringType
 				else
 					$index = $year + 1;
 				if ($index > 2037 || $index < 1970) {
-					print("<font color='red'>" . $app_strings['LBL_CAL_LIMIT_MSG'] . "</font>");
+					print("<font color='red'>" . \includes\Language::translate('LBL_CAL_LIMIT_MSG') . "</font>");
 					exit;
 				}
 				$date_arr = Array(

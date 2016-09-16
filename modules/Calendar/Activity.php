@@ -466,7 +466,6 @@ class Activity extends CRMEntity
 	{
 		$log = vglobal('log');
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
-		global $app_strings;
 
 		$focus = new Users();
 

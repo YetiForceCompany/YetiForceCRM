@@ -10,7 +10,7 @@
  * ****************************************************************************** */
 require_once('include/database/PearDatabase.php');
 require_once('include/utils/utils.php');
-global $app_strings, $mod_strings, $list_max_entries_per_page, $currentModule, $theme;
+global $mod_strings, $list_max_entries_per_page, $currentModule, $theme;
 
 $smarty = new vtigerCRM_Smarty();
 
@@ -19,7 +19,6 @@ $image_path = $theme_path . "images/";
 require_once('modules/Vtiger/layout_utils.php');
 
 $smarty->assign("SESSION_WHERE", $_SESSION['export_where']);
-$smarty->assign('APP', $app_strings);
 $smarty->assign('MOD', $mod_strings);
 $smarty->assign("THEME", $theme_path);
 $smarty->assign("IMAGE_PATH", $image_path);
