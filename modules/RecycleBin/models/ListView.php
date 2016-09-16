@@ -67,7 +67,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
+				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}
 		}
 
@@ -91,7 +91,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 						$columnList[] = $fieldModel->get('table') . '.' . $fieldModel->get('column');
 					}
 					if (count($columnList) > 1) {
-						$referenceNameFieldOrderBy[] = getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users') . ' ' . $sortOrder;
+						$referenceNameFieldOrderBy[] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users') . ' ' . $sortOrder;
 					} else {
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}

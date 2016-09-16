@@ -254,7 +254,7 @@ class Documents extends CRMEntity
 		$sql = getPermittedFieldsQuery("Documents", "detail_view");
 		$fields_list = getFieldsListFromQuery($sql);
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT $fields_list, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name" .
 			" FROM vtiger_notes
@@ -542,7 +542,7 @@ class Documents extends CRMEntity
 			}
 		}
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
-		$userNameSql = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name',
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name',
 			'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query .= $tables;
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";

@@ -465,7 +465,7 @@ class Products extends CRMEntity
 			}
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT  case when (vtiger_users.user_name not like \"\") then $userNameSql else vtiger_groups.groupname end as user_name, vtiger_users.id,
 			vtiger_products.productid, vtiger_products.productname,

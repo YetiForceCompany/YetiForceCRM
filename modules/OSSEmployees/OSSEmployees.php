@@ -169,7 +169,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			$encountered_accounts[] = $parentid;
 			$this->__getParentEmployees($parentid, $parent_accounts, $encountered_accounts);
 		}
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_ossemployees.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
@@ -207,7 +207,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
 		$log->debug("Entering __getChildEmployees(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_ossemployees.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
@@ -306,7 +306,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			}
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name, vtiger_users.id,
 				vtiger_osstimecontrol.name, vtiger_osstimecontrol.osstimecontrolid as crmid, vtiger_osstimecontrol.osstimecontrol_status, vtiger_osstimecontrol.payment,

@@ -58,7 +58,7 @@ class Appointment
 	  * @returns $list :: Type Array
 	 */
 	
-	function readAppointment($userid, &$from_datetime, &$to_datetime, $view)
+	public function readAppointment($userid, &$from_datetime, &$to_datetime, $view)
 	{
 		global $current_user,$adb;
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
@@ -81,7 +81,7 @@ class Appointment
 					)
 				)";
 		
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name'=>
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		
         	$q= "select vtiger_activity.*, vtiger_crmentity.*,

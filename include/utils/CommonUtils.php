@@ -44,37 +44,9 @@ function getTranslatedString($str, $module = 'Vtiger')
 	return vtlib\Functions::getTranslatedString($str, $module);
 }
 
-/**
- * This function is used to get the blockid of the settings block for a given label.
- * @param $label - settings label
- * @return string type value
- */
-function getSettingsBlockId($label)
-{
-	return vtlib\Deprecated::getSettingsBlockId($label);
-}
 
-/**
- * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
- * @param string $module - the module name
- * @return string $fieldsname - the entity field name for the module
- */
-function getEntityField($module)
-{
-	return vtlib\Functions::getEntityModuleSQLColumnString($module);
-}
 
-/**
- * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
- * @param1 $module - name of the module
- * @param2 $fieldsName - fieldname with respect to module (ex : 'Accounts' - 'accountname', 'Contacts' - 'lastname','firstname')
- * @param3 $fieldValues - array of fieldname and its value
- * @return string $fieldConcatName - the entity field name for the module
- */
-function getEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
-{
-	return vtlib\Deprecated::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
-}
+
 // vtiger cache utility
 require_once('include/utils/VTCacheUtils.php');
 
@@ -83,10 +55,6 @@ require_once('include/utils/VtlibUtils.php');
 
 // END
 
-function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
-{
-	return vtlib\Deprecated::getSqlForNameInDisplayFormat($input, $module, $glue);
-}
 
 function decimalFormat($value)
 {

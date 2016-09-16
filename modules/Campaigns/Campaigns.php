@@ -140,7 +140,7 @@ class Campaigns extends CRMEntity
 
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
 			'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
 

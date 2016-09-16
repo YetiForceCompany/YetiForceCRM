@@ -236,7 +236,7 @@ class HelpDesk extends CRMEntity
 		$sql = getPermittedFieldsQuery("HelpDesk", "detail_view");
 		$fields_list = getFieldsListFromQuery($sql);
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT $fields_list,case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
                        FROM " . $this->entity_table . "

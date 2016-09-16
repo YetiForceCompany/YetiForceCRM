@@ -219,7 +219,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 					$qualifiedOrderBy . '.crmid ';
 				$query = sprintf('%s WHERE %s ORDER BY %s.label %s', $selectAndFromClause, $whereCondition, $qualifiedOrderBy, $sortOrder);
 			} elseif ($orderByFieldModuleModel && $orderByFieldModuleModel->isOwnerField()) {
-				$query .= sprintf(' ORDER BY COALESCE(%s,vtiger_groups.groupname) %s', getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), $sortOrder);
+				$query .= sprintf(' ORDER BY COALESCE(%s,vtiger_groups.groupname) %s', \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), $sortOrder);
 			} else {
 				// Qualify the the column name with table to remove ambugity
 				$qualifiedOrderBy = $orderBy;

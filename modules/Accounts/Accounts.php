@@ -120,7 +120,7 @@ class Accounts extends CRMEntity
 		$entityIds[] = $id;
 		$entityIds = implode(',', $entityIds);
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
 				vtiger_campaign.campaignid, vtiger_campaign.campaignname, vtiger_campaign.campaigntype, vtiger_campaign.campaignstatus,
@@ -183,7 +183,7 @@ class Accounts extends CRMEntity
 			}
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_contactdetails.*,
 			vtiger_crmentity.crmid,
@@ -251,7 +251,7 @@ class Accounts extends CRMEntity
 			}
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name, vtiger_users.id,
 				vtiger_troubletickets.title, vtiger_troubletickets.ticketid AS crmid, vtiger_troubletickets.status, vtiger_troubletickets.priority,
@@ -623,7 +623,7 @@ class Accounts extends CRMEntity
 			return $parent_accounts;
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = 'SELECT vtiger_account.*, vtiger_accountaddress.*,' .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
@@ -676,7 +676,7 @@ class Accounts extends CRMEntity
 	 * @param  integer   $depth          - Depth at which the particular account has to be placed in the hierarchy
 	 * returns All the child accounts of the given accountid in array format
 	 */
-	function __getChildAccounts($id, &$child_accounts, $depthBase)
+	public function __getChildAccounts($id, &$child_accounts, $depthBase)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -687,7 +687,7 @@ class Accounts extends CRMEntity
 			return $child_accounts;
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_account.*, vtiger_accountaddress.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
@@ -817,7 +817,7 @@ class Accounts extends CRMEntity
 
 	/* Function to get attachments in the related list of accounts module */
 
-	function get_attachments($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_attachments($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 
 		global $currentModule, $singlepane_view;
@@ -856,7 +856,7 @@ class Accounts extends CRMEntity
 		array_push($entityIds, $id);
 		$entityIds = implode(',', $entityIds);
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
 				'Documents' ActivityType,vtiger_attachments.type  FileType,crm2.modifiedtime lastmodified,vtiger_crmentity.modifiedtime,
@@ -880,7 +880,7 @@ class Accounts extends CRMEntity
 		return $return_value;
 	}
 
-	function createDependentQuery($other, $row, $id)
+	public function createDependentQuery($other, $row, $id)
 	{
 		$dependentColumn = $row['columnname'];
 		$dependentTable = $row['tablename'];
@@ -914,7 +914,7 @@ class Accounts extends CRMEntity
 		$entityIds = implode(',', $entityIds);
 
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
 			'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query .= $tables;
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
@@ -931,7 +931,7 @@ class Accounts extends CRMEntity
 	 * NOTE: vtlib\Module::setRelatedList sets reference to this function in vtiger_relatedlists table
 	 * if function name is not explicitly specified.
 	 */
-	function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		global $currentModule, $singlepane_view;
 
@@ -986,7 +986,7 @@ class Accounts extends CRMEntity
 		array_push($entityIds, $id);
 		$entityIds = implode(',', $entityIds);
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*,
 				CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name FROM $other->table_name

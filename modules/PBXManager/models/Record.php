@@ -255,7 +255,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			}
 		}
 
-		$entityfields = getEntityField($module);
+		$entityfields = \vtlib\Functions::getEntityModuleSQLColumnString($module);
 		$querycolumnnames = implode(',', $lookupcolumns);
 		$entitycolumnnames = $entityfields['fieldname'];
 

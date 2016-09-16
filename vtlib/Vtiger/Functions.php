@@ -279,6 +279,11 @@ class Functions
 		return $moduleInfo ? $moduleInfo['ownedby'] : NULL;
 	}
 
+	/**
+	* this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
+	* @param string $mixed - the module name
+	* @return string $fieldsname - the entity field name for the module
+	*/
 	public static function getEntityModuleSQLColumnString($mixed)
 	{
 		$data = [];

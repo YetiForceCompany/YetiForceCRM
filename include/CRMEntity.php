@@ -1471,7 +1471,7 @@ class CRMEntity
 		else
 			$returnset = "&return_module=$this_module&return_action=CallRelatedList&return_id=$id";
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
 			'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "select case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name," .
 			"'Documents' ActivityType,vtiger_attachments.type  FileType,crm2.modifiedtime lastmodified,vtiger_crmentity.modifiedtime,
@@ -1699,7 +1699,7 @@ class CRMEntity
 
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
 			'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
 
@@ -1842,7 +1842,7 @@ class CRMEntity
 			}
 		}
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
 			'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query .= $tables;
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
@@ -2257,7 +2257,7 @@ class CRMEntity
 
 		$focus1 = CRMEntity::getInstance($module);
 
-		$entityNameArr = getEntityField($module);
+		$entityNameArr = \vtlib\Functions::getEntityModuleSQLColumnString($module);
 		$entityName = $entityNameArr['fieldname'];
 		$query = "SELECT vtiger_crmentity.deleted, $focus1->table_name.*
 					FROM $focus1->table_name
@@ -2375,7 +2375,7 @@ class CRMEntity
 			}
 		}
 
-		$entityfields = getEntityField($module);
+		$entityfields = \vtlib\Functions::getEntityModuleSQLColumnString($module);
 		$querycolumnnames = implode(',', $lookupcolumns);
 		$entitycolumnnames = $entityfields['fieldname'];
 		$query = "select crmid as id, $querycolumnnames, $entitycolumnnames as name ";

@@ -117,7 +117,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		else {
 			$instance = CRMEntity::getInstance($this->getName());
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getName(), false);
-			$userSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+			$userSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 
 			$sql = sprintf('SELECT count(*) AS count, %s as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time FROM vtiger_osstimecontrol
 							INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid

@@ -819,7 +819,7 @@ class QueryGenerator
 								$columnList[$column] = "$referenceTable.$column";
 							}
 							if (count($columnList) > 1) {
-								$columnSql = getSqlForNameInDisplayFormat($columnList, $module);
+								$columnSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat($columnList, $module);
 							} else {
 								$columnSql = implode('', $columnList);
 							}
@@ -834,7 +834,7 @@ class QueryGenerator
 					} elseif ($conditionInfo['operator'] == 'wr' || $conditionInfo['operator'] == 'nwr') {
 						$fieldSql .= $fieldGlue . $valueSql;
 					} elseif ($fieldName == 'created_user_id') {
-						$concatSql = getSqlForNameInDisplayFormat(array('first_name' => "vtiger_users$fieldName.first_name", 'last_name' => "vtiger_users$fieldName.last_name"), 'Users');
+						$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => "vtiger_users$fieldName.first_name", 'last_name' => "vtiger_users$fieldName.last_name"), 'Users');
 						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql)";
 					} else {
 						$entityFields = \includes\Modules::getEntityInfo('Users');
@@ -843,7 +843,7 @@ class QueryGenerator
 							foreach ($entityFields['fieldnameArr'] as &$fieldname) {
 								$columns[$fieldname] = $entityFields['tablename'] . '.' . $fieldname;
 							}
-							$concatSql = getSqlForNameInDisplayFormat($columns, 'Users');
+							$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat($columns, 'Users');
 							$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql || " . "vtiger_groups.groupname $valueSql)";
 						} else {
 							$columnSql = $entityFields['tablename'] . '.' . $entityFields['fieldname'];

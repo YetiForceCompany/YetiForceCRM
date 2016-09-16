@@ -360,7 +360,7 @@ class ReportRun extends CRMEntity
 			$fld_lbl = getTranslatedString($fld_lbl_str, $module); //fieldlabel
 			$fieldlabel = $mod_lbl . " " . $fld_lbl;
 			if (($selectedfields[0] == "vtiger_usersRel1") && ($selectedfields[1] == 'user_name') && ($selectedfields[2] == 'Quotes_Inventory_Manager')) {
-				$concatSql = getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
+				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
 				$columnslist[$fieldcolname] = "trim( $concatSql ) as " . $module . "_Inventory_Manager";
 				$this->queryPlanner->addTable($selectedfields[0]);
 				continue;
@@ -401,7 +401,7 @@ class ReportRun extends CRMEntity
 		$header_label = $selectedfields[2]; // Header label to be displayed in the reports table
 
 		list($module, $field) = explode('__', $selectedfields[2]);
-		$concatSql = getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
+		$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
 		$moduleInstance = CRMEntity::getInstance($module);
 		$this->queryPlanner->addTable($moduleInstance->table_name);
 		if ($selectedfields[4] == 'C') {
@@ -489,7 +489,7 @@ class ReportRun extends CRMEntity
 				$condition = "and vtiger_crmentity.crmid!=''";
 			}
 			if ($temp_module_from_tablename == $module) {
-				$concatSql = getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
+				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
 				$columnSQL = " case when(" . $selectedfields[0] . ".last_name NOT LIKE '' $condition ) THEN " . $concatSql . " else vtiger_groups" . $module . ".groupname end AS '" . decode_html($header_label) . "'";
 				$this->queryPlanner->addTable('vtiger_groups' . $module); // Auto-include the dependent module table.
 			} else {//Some Fields can't assigned to groups so case avoided (fields like inventory manager)
@@ -498,7 +498,7 @@ class ReportRun extends CRMEntity
 			$this->queryPlanner->addTable($selectedfields[0]);
 		} elseif (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'modifiedby')) {
 			$targetTableName = 'vtiger_lastModifiedBy' . $module;
-			$concatSql = getSqlForNameInDisplayFormat(array('last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'), 'Users');
+			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'), 'Users');
 			$columnSQL = "trim($concatSql) AS $header_label";
 			$this->queryPlanner->addTable("vtiger_crmentity$module");
 			$this->queryPlanner->addTable($targetTableName);
@@ -508,7 +508,7 @@ class ReportRun extends CRMEntity
 			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} else if (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'smcreatorid')) {
 			$targetTableName = 'vtiger_createdby' . $module;
-			$concatSql = getSqlForNameInDisplayFormat(array('last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'), 'Users');
+			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'), 'Users');
 			$columnSQL = "trim($concatSql) AS " . decode_html($header_label) . "";
 			$this->queryPlanner->addTable("vtiger_crmentity$module");
 			$this->queryPlanner->addTable($targetTableName);
@@ -622,7 +622,7 @@ class ReportRun extends CRMEntity
 		$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
 
 		if ($moduleName == 'ModComments' && $fieldName == 'creator') {
-			$concatSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_usersModComments.first_name',
+			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_usersModComments.first_name',
 				'last_name' => 'vtiger_usersModComments.last_name'), 'Users');
 			$queryColumn = "trim(case when (vtiger_usersModComments.user_name not like '' and vtiger_crmentity.crmid!='') then $concatSql end) AS ModComments_Creator";
 			$this->queryPlanner->addTable('vtiger_usersModComments');
@@ -1052,7 +1052,7 @@ class ReportRun extends CRMEntity
 						$moduleFieldLabel = $selectedfields[2];
 						list($moduleName, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
 						$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
-						$concatSql = getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
+						$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
 						// Added to handle the crmentity table name for Primary module
 						if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
 							$selectedfields[0] = "vtiger_crmentity";
@@ -1119,7 +1119,7 @@ class ReportRun extends CRMEntity
 									} else {
 										$tableName = 'vtiger_lastModifiedBy' . $this->primarymodule;
 									}
-									$advcolsql[] = 'trim(' . getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
+									$advcolsql[] = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
 										$this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
 								} else {
 									$advcolsql[] = $selectedfields[0] . "." . $selectedfields[1] . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
@@ -1166,7 +1166,7 @@ class ReportRun extends CRMEntity
 								$tableName = 'vtiger_lastModifiedBy' . $this->primarymodule;
 							}
 							$this->queryPlanner->addTable($tableName);
-							$fieldvalue = 'trim(' . getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
+							$fieldvalue = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
 								$this->getAdvComparator($comparator, trim($value), $datatype);
 						} elseif ($selectedfields[1] == 'smcreatorid') {
 							$module_from_tablename = str_replace("vtiger_crmentity", "", $selectedfields[0]);
@@ -1179,7 +1179,7 @@ class ReportRun extends CRMEntity
 								$tableName = 'vtiger_users' . $moduleName;
 							}
 							$this->queryPlanner->addTable($tableName);
-							$fieldvalue = 'trim(' . getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
+							$fieldvalue = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
 								$this->getAdvComparator($comparator, trim($value), $datatype);
 						} elseif ($selectedfields[0] == "vtiger_activity" && ($selectedfields[1] == 'status' || $selectedfields[1] == 'activitystatus')) {
 							// for "Is Empty" condition we need to check with "value NOT NULL" || "value = ''" conditions
@@ -3545,7 +3545,7 @@ class ReportRun extends CRMEntity
 				$columnList[] = "$entityTableName.$entityFieldNames";
 			}
 			if (count($columnList) > 1) {
-				$columnSql = getSqlForNameInDisplayFormat($columnList, $this->primarymodule);
+				$columnSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat($columnList, $this->primarymodule);
 			} else {
 				$columnSql = implode('', $columnList);
 			}
@@ -3646,7 +3646,7 @@ class ReportRun extends CRMEntity
 					$columnList[] = "$referenceTableName.$entityFieldNames";
 				}
 				if (count($columnList) > 1) {
-					$columnSql = getSqlForNameInDisplayFormat($columnList, $referenceModule);
+					$columnSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat($columnList, $referenceModule);
 				} else {
 					$columnSql = implode('', $columnList);
 				}

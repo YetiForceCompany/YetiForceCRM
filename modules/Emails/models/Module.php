@@ -109,7 +109,7 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 					foreach ($emailFields as $emailField) {
 						$emailFieldValue = $row[$emailField];
 						if ($emailFieldValue) {
-							$recordLabel = getEntityFieldNameDisplay($moduleName, $nameFields, $row);
+							$recordLabel = \vtlib\Deprecated::getCurrentUserEntityFieldNameDisplay($moduleName, $nameFields, $row);
 							if (strpos($emailFieldValue, $searchValue) !== false || strpos($recordLabel, $searchValue) !== false) {
 								$emailsResult[vtranslate($moduleName, $moduleName)][$row[$moduleInstance->table_index]][]
 											= array('value'	=> $emailFieldValue,

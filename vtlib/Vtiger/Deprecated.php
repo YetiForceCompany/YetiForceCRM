@@ -38,6 +38,13 @@ class Deprecated
 		return $displayName;
 	}
 
+	/**
+	* this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
+	* @param1 $module - name of the module
+	* @param2 $fieldsName - fieldname with respect to module (ex : 'Accounts' - 'accountname', 'Contacts' - 'lastname','firstname')
+	* @param3 $fieldValues - array of fieldname and its value
+	* @return string $fieldConcatName - the entity field name for the module
+	*/
 	public static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
 	{
 		$current_user = vglobal('current_user');
@@ -331,6 +338,11 @@ class Deprecated
 		return true;
 	}
 
+	/**
+	* This function is used to get the blockid of the settings block for a given label.
+	* @param $label - settings label
+	* @return string type value
+	*/
 	public static function getSettingsBlockId($label)
 	{
 		$adb = \PearDatabase::getInstance();

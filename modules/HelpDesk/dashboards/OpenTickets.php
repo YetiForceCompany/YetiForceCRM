@@ -28,7 +28,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
-		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 
 		$sql = sprintf('SELECT count(*) AS count, case when (%s not like "") then
 			%s else vtiger_groups.groupname end as name, 

@@ -213,7 +213,7 @@ class IStorages extends Vtiger_CRMEntity
 			return $parentIStorages;
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = 'SELECT u_yf_istorages.*, u_yf_istorages_address.*,' .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
@@ -280,7 +280,7 @@ class IStorages extends Vtiger_CRMEntity
 			return $childIStorages;
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(['first_name' =>
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
 			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = "SELECT u_yf_istorages.*, u_yf_istorages_address.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .

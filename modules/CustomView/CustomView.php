@@ -846,7 +846,7 @@ class CustomView extends CRMEntity
 					}
 					//Added for assigned to sorting
 					if ($list[1] == "smownerid") {
-						$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+						$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 						$sqllist_column = "case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name";
 					}
@@ -1051,7 +1051,7 @@ class CustomView extends CRMEntity
 	 * @returns  $value as a string in the following format
 	 * 	  $tablename.$fieldname comparator
 	 */
-	function getRealValues($tablename, $fieldname, $comparator, $value, $datatype)
+	public function getRealValues($tablename, $fieldname, $comparator, $value, $datatype)
 	{
 		//we have to add the fieldname/tablename.fieldname and the corresponding value (which we want) we can add here. So that when these LHS field comes then RHS value will be replaced for LHS in the where condition of the query
 		$adb = PearDatabase::getInstance();
@@ -1064,7 +1064,7 @@ class CustomView extends CRMEntity
 
 		$contactid = "vtiger_contactdetails.lastname";
 		if ($currentModule != "Contacts" && $currentModule != "Leads" && $currentModule != 'Campaigns') {
-			$contactid = getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
+			$contactid = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
 		}
 		$change_table_field = Array(
 			"product_id" => "vtiger_products.productname",
@@ -1076,7 +1076,7 @@ class CustomView extends CRMEntity
 			"vendor_id" => "vtiger_vendor.vendorname",
 			"vtiger_account.parentid" => "vtiger_account2.accountname",
 			"campaignid" => "vtiger_campaign.campaignname",
-			"vtiger_contactdetails.reportsto" => getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails2.lastname', 'firstname' => 'vtiger_contactdetails2.firstname'), 'Contacts'),
+			"vtiger_contactdetails.reportsto" => \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails2.lastname', 'firstname' => 'vtiger_contactdetails2.firstname'), 'Contacts'),
 			"vtiger_pricebook.currency_id" => "vtiger_currency_info.currency_name",
 		);
 
@@ -1086,7 +1086,7 @@ class CustomView extends CRMEntity
 			} elseif ($fieldname == "modifiedby") {
 				$tableNameSuffix = '2';
 			}
-			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
+			$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 				'vtiger_users' . $tableNameSuffix . '.first_name', 'last_name' => 'vtiger_users' . $tableNameSuffix . '.last_name'), 'Users');
 			$temp_value = '( trim(' . $userNameSql . ')' . $this->getAdvComparator($comparator, $value, $datatype);
 			$temp_value.= " ||  vtiger_groups$tableNameSuffix.groupname" . $this->getAdvComparator($comparator, $value, $datatype) . ')';
@@ -1145,7 +1145,7 @@ class CustomView extends CRMEntity
 	 * @param $datatype :: type string,
 	 * @returns  $value :: string
 	 */
-	function getSalesRelatedName($comparator, $value, $datatype, $tablename, $fieldname)
+	public function getSalesRelatedName($comparator, $value, $datatype, $tablename, $fieldname)
 	{
 		$log = vglobal('log');
 		$log->info("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
@@ -1170,7 +1170,7 @@ class CustomView extends CRMEntity
 				$value .= 'vtiger_account.accountname';
 			}
 			if ($modulename == 'Leads') {
-				$concatSql = getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_leaddetails.lastname', 'firstname' => 'vtiger_leaddetails.firstname'), 'Leads');
+				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_leaddetails.lastname', 'firstname' => 'vtiger_leaddetails.firstname'), 'Leads');
 				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
 					$value .= " $concatSql IS NULL or ";
 				}
@@ -1183,7 +1183,7 @@ class CustomView extends CRMEntity
 				$value .= ' vtiger_products.productname';
 			}
 			if ($modulename == 'Contacts') {
-				$concatSql = getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
+				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
 				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
 					$value .= " $concatSql IS NULL or ";
 				}
