@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_View
@@ -85,7 +86,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 
 			if ($importModuleName == null) {
 				$error = $package->_errorText;
-				checkFileAccessForDeletion($uploadFileName);
+				\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 				unlink($uploadFileName);
 			} else {
 				// We need these information to push for Update if module is detected to be present.
@@ -142,7 +143,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		if ($package->_errorText != '') {
 			$viewer->assign("MODULEIMPORT_ERROR", $package->_errorText);
 		}
-		checkFileAccessForDeletion($uploadFileName);
+		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
 		$viewer->assign("IMPORT_MODULE_NAME", $importModuleName);
@@ -174,7 +175,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
 		}
 
-		checkFileAccessForDeletion($uploadFileName);
+		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
 		$viewer->assign("UPDATE_MODULE_NAME", $importModuleName);

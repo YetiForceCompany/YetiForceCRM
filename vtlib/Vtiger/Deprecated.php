@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 namespace vtlib;
 
@@ -222,35 +223,6 @@ class Deprecated
 		}
 	}
 
-	/** Clear the Smarty cache files(in Smarty/smarty_c)
-	* * This function will called after migration.
-	* */
-	public static function clearSmartyCompiledFiles($path = null)
-	{
-		if ($path == null) {
-			$path = ROOT_DIRECTORY . '/cache/templates_c/';
-		}
-		if (file_exists($path) && is_dir($path)) {
-			$mydir = @opendir($path);
-			while (false !== ($file = readdir($mydir))) {
-				if ($file != '.' && $file != '..' && $file != '.svn') {
-					//chmod($path.$file, 0777);
-					if (is_dir($path . $file)) {
-						chdir('.');
-						self::clearSmartyCompiledFiles($path . $file . '/');
-						//rmdir($path.$file) or DIE("couldn't delete $path$file<br />"); // No need to delete the directories.
-					} else {
-						// Delete only files ending with .tpl.php
-						if (strripos($file, '.tpl.php') == (strlen($file) - strlen('.tpl.php'))) {
-							unlink($path . $file) or DIE("couldn't delete $path$file<br />");
-						}
-					}
-				}
-			}
-			@closedir($mydir);
-		}
-	}
-
 	public static function getSmartyCompiledTemplateFile($template_file, $path = null)
 	{
 		if ($path == null) {
@@ -263,7 +235,7 @@ class Deprecated
 				//chmod($path.$file, 0777);
 				if (is_dir($path . $file)) {
 					chdir('.');
-					$compiled_file = get_smarty_compiled_file($template_file, $path . $file . '/');
+					$compiled_file = self::getSmartyCompiledTemplateFile($template_file, $path . $file . '/');
 					//rmdir($path.$file) or DIE("couldn't delete $path$file<br />"); // No need to delete the directories.
 				} else {
 					// Check if the file name matches the required template fiel name
@@ -275,13 +247,6 @@ class Deprecated
 		}
 		@closedir($mydir);
 		return $compiled_file;
-	}
-
-	public static function postApplicationMigrationTasks()
-	{
-		self::clearSmartyCompiledFiles();
-		self::createModuleMetaFile();
-		self::createModuleMetaFile();
 	}
 
 	public static function checkFileAccessForInclusion($filepath)

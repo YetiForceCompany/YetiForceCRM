@@ -44,27 +44,6 @@ function getTranslatedString($str, $module = 'Vtiger')
 	return vtlib\Functions::getTranslatedString($str, $module);
 }
 
-
-
-
-
-
-
-/** Get Smarty compiled file for the specified template filename.
- * * @param $template_file Template filename for which the compiled file has to be returned.
- * * @return Compiled file for the specified template file.
- * */
-function get_smarty_compiled_file($template_file, $path = null)
-{
-	return vtlib\Deprecated::getSmartyCompiledTemplateFile($template_file, $path);
-}
-
-/** Function to carry out all the necessary actions after migration */
-function perform_post_migration_activities()
-{
-	vtlib\Deprecated::postApplicationMigrationTasks();
-}
-
 /** Function to get picklist values for the given field that are accessible for the given role.
  *  @ param $tablename picklist fieldname.
  *  It gets the picklist values for the given fieldname
@@ -82,36 +61,10 @@ function checkFileAccessForInclusion($filepath)
 	vtlib\Deprecated::checkFileAccessForInclusion($filepath);
 }
 
-/** Function to check the file deletion within the deletable (safe) directories */
-function checkFileAccessForDeletion($filepath)
-{
-	vtlib\Deprecated::checkFileAccessForDeletion($filepath);
-}
-
 /** Function to check the file access is made within web root directory. */
 function checkFileAccess($filepath)
 {
 	vtlib\Deprecated::checkFileAccess($filepath);
-}
-
-/**
- * function to return whether the file access is made within vtiger root directory
- * and it exists.
- * @param String $filepath relative path to the file which need to be verified
- * @return Boolean true if file is a valid file within vtiger root directory, false otherwise.
- */
-function isFileAccessible($filepath)
-{
-	return vtlib\Deprecated::isFileAccessible($filepath);
-}
-
-/** Function to get the ActivityType for the given entity id
- *  @param entityid : Type Integer
- *  return the activity type for the given id
- */
-function getActivityType($id)
-{
-	return vtlib\Functions::getActivityType($id);
 }
 
 /** Function to get owner name either user or group */
@@ -159,11 +112,6 @@ require_once('include/utils/VtlibUtils.php');
 
 // END
 
-function vt_suppressHTMLTags($string)
-{
-	return vtlib\Functions::suppressHTMLTags($string);
-}
-
 function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
 {
 	return vtlib\Deprecated::getSqlForNameInDisplayFormat($input, $module, $glue);
@@ -172,9 +120,4 @@ function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
 function decimalFormat($value)
 {
 	return vtlib\Functions::formatDecimal($value);
-}
-
-function get_group_options()
-{
-	return vtlib\Functions::get_group_options();
 }

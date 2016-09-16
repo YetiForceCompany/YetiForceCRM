@@ -71,7 +71,8 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		}
 
 		$package->import($uploadFileName);
-		checkFileAccessForDeletion($uploadFileName);
+
+		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
 		$result = array('success' => true, 'importModuleName' => $importModuleName);
@@ -103,7 +104,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
 		}
 
-		checkFileAccessForDeletion($uploadFileName);
+		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
 		$result = array('success' => true, 'importModuleName' => $importModuleName);

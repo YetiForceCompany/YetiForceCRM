@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 namespace vtlib;
 
@@ -208,7 +209,7 @@ class Link
 		while ($row = $adb->fetch_array($result)) {
 			$instance = new self();
 			$instance->initialize($row);
-			if (!empty($row['handler_path']) && isFileAccessible($row['handler_path'])) {
+			if (!empty($row['handler_path']) && \vtlib\Deprecated::isFileAccessible($row['handler_path'])) {
 				checkFileAccessForInclusion($row['handler_path']);
 				require_once $row['handler_path'];
 				$linkData = new LinkData($instance, $current_user);
