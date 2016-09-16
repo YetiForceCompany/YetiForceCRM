@@ -257,7 +257,8 @@ class ServiceContracts extends CRMEntity
 	 */
 	function create_export_query($where)
 	{
-		global $current_user, $currentModule;
+		global $currentModule;
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		include("include/utils/ExportUtils.php");
 
@@ -596,8 +597,8 @@ class ServiceContracts extends CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		global $log, $currentModule;
-
+		global $currentModule;
+		$log = LoggerManager::getInstance();
 		if ($return_module == 'Accounts') {
 			$focus = CRMEntity::getInstance($return_module);
 			$entityIds = $focus->getRelatedContactsIds($return_id);

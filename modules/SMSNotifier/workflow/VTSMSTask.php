@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 
 require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
@@ -25,8 +26,10 @@ class VTSMSTask extends VTTask {
 		
 		if(SMSNotifier::checkServer()) {
 			
-			global $adb, $current_user,$log;
-			
+			$adb = PearDatabase::getInstance();
+			$log = LoggerManager::getInstance();
+			$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+
 			$util = new VTWorkflowUtils();
 			$admin = $util->adminUser();
 			$ws_id = $entity->getId();

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 require_once('modules/Vtiger/CRMEntity.php');
 
@@ -94,7 +95,8 @@ class SMSNotifierBase extends CRMEntity {
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'message', 'assigned_user_id');
 
 	function __construct() {
-		global $log, $currentModule;
+		global $currentModule;
+		$log = LoggerManager::getInstance();
 		$this->column_fields = getColumnFields($currentModule);
 		$this->db = PearDatabase::getInstance();
 		$this->log = $log;

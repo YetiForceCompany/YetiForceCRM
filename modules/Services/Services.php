@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Services extends CRMEntity
@@ -415,7 +416,8 @@ class Services extends CRMEntity
 	 */
 	function get_service_pricebooks($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		global $currentModule, $log, $singlepane_view, $mod_strings;
+		global $currentModule, $singlepane_view, $mod_strings;
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering get_service_pricebooks(" . $id . ") method ...");
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -791,7 +793,8 @@ class Services extends CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		global $log, $currentModule;
+		global $currentModule;
+		$log = LoggerManager::getInstance();
 		$log->fatal('id:--' . $id);
 		$log->fatal('return_module:--' . $return_module);
 		$log->fatal('return_id:---' . $return_id);

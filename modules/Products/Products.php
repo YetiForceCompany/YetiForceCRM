@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Products extends CRMEntity
@@ -193,7 +194,8 @@ class Products extends CRMEntity
 
 	function insertIntoAttachment($id, $module)
 	{
-		global $log, $adb;
+		$adb = PearDatabase::getInstance();
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -503,7 +505,8 @@ class Products extends CRMEntity
 	 */
 	function get_product_pricebooks($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		global $log, $singlepane_view, $currentModule;
+		global $singlepane_view, $currentModule;
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering get_product_pricebooks(" . $id . ") method ...");
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -644,7 +647,8 @@ class Products extends CRMEntity
 	 */
 	function get_parent_products($id)
 	{
-		global $log, $singlepane_view;
+		global $singlepane_view;
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering get_products(" . $id . ") method ...");
 
 		global $app_strings;

@@ -146,7 +146,8 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	// TODO This function was placed here because uitype fields (67, 68, 69) exist in this module. Once the way of getting modules for these fields is improved, you should correct the parent::unlinkRelationship() function, and remove this one.
 	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		global $log, $currentModule;
+		global $currentModule;
+		$log = LoggerManager::getInstance();
 		$results = [];
 
 		$where = '(crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
