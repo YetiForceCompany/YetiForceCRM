@@ -46,8 +46,8 @@ class ModTracker
 	 */
 	function vtlib_handler($moduleName, $eventType)
 	{
-		global $adb, $currentModule;
-
+		global $currentModule;
+		$adb = PearDatabase::getInstance();
 		$modtrackerModule = vtlib\Module::getInstance($currentModule);
 		$otherModuleNames = $this->getModTrackerEnabledModules();
 
@@ -256,7 +256,8 @@ class ModTracker
 	 */
 	function getChangedRecords($uniqueId, $mtime, $limit = 100)
 	{
-		global $current_user, $adb;
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$adb = PearDatabase::getInstance();
 		$datetime = date('Y-m-d H:i:s', $mtime);
 
 		$accessibleModules = $this->getModTrackerEnabledModules();

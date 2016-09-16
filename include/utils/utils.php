@@ -676,7 +676,7 @@ function getHelpDeskRelatedAccounts($record_id)
  */
 function utf8RawUrlDecode($source)
 {
-	global $default_charset;
+	$default_charset = AppConfig::main('default_charset');
 	$decodedStr = "";
 	$pos = 0;
 	$len = strlen($source);
@@ -1275,7 +1275,8 @@ $_installOrUpdateVtlibModule = [];
 
 function installVtlibModule($packagename, $packagepath, $customized = false)
 {
-	global $log, $Vtiger_Utils_Log, $_installOrUpdateVtlibModule;
+	global $Vtiger_Utils_Log, $_installOrUpdateVtlibModule;
+	$log = LoggerManager::getInstance();
 	if (!file_exists($packagepath))
 		return;
 
@@ -1325,7 +1326,8 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 
 function updateVtlibModule($module, $packagepath)
 {
-	global $log, $_installOrUpdateVtlibModule;
+	global $_installOrUpdateVtlibModule;
+	$log = LoggerManager::getInstance();
 	if (!file_exists($packagepath))
 		return;
 
@@ -1682,7 +1684,8 @@ function isLeadConverted($leadId)
 
 function getSelectedRecords($input, $module, $idstring, $excludedRecords)
 {
-	global $current_user, $adb;
+	$adb = PearDatabase::getInstance();
+	$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 	if ($idstring == 'relatedListSelectAll') {
 		$recordid = vtlib_purify($input['recordid']);
 		$adb = PearDatabase::getInstance();
@@ -1737,7 +1740,7 @@ function getSelectedRecords($input, $module, $idstring, $excludedRecords)
 
 function getSelectAllQuery($input, $module)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$viewid = vtlib_purify($input['viewname']);
 
@@ -1801,8 +1804,8 @@ function dateDiff($d1, $d2)
 
 function getExportRecordIds($moduleName, $viewid, $input)
 {
-	global $adb, $list_max_entries_per_page;
-
+	global $list_max_entries_per_page;
+	$adb = PearDatabase::getInstance();
 	$idstring = vtlib_purify($input['idstring']);
 	$export_data = vtlib_purify($input['export_data']);
 

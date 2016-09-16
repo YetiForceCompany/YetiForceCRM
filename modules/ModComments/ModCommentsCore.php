@@ -84,7 +84,8 @@ class ModCommentsCore extends CRMEntity
 
 	function __construct()
 	{
-		global $log, $currentModule;
+		global $currentModule;
+		$log = LoggerManager::getInstance();
 		$this->column_fields = getColumnFields('ModComments');
 		$this->db = PearDatabase::getInstance();
 		$this->log = $log;

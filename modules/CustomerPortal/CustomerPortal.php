@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *******************************************************************************/
 
 class CustomerPortal {
@@ -18,7 +19,8 @@ class CustomerPortal {
 	function vtlib_handler($moduleName, $eventType) {
 
 		require_once('include/utils/utils.php');
-		global $adb,$mod_strings;
+		global $mod_strings;
+		$adb = PearDatabase::getInstance();
 
  		if($eventType == 'module.postinstall') {
 			$portalModules = array("HelpDesk","Faq","Products","Services","Documents",

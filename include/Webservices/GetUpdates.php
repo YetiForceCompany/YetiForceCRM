@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Webservices/ModuleTypes.php';
@@ -14,8 +15,8 @@ require_once 'include/Webservices/DescribeObject.php';
 
 function vtws_sync($mtime, $elementType, $syncType, $user)
 {
-	global $adb, $recordString, $modifiedTimeString;
-
+	global $recordString, $modifiedTimeString;
+	$adb = PearDatabase::getInstance();
 	$numRecordsLimit = 100;
 	$ignoreModules = array("Users");
 	$typed = true;

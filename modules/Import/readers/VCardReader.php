@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Import_VCardReader_Reader extends Import_FileReader_Reader {
@@ -19,7 +20,7 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader {
 	}
 
 	public function getFirstRowData($hasHeader=true) {
-		global $default_charset;
+		$default_charset = AppConfig::main('default_charset');
 
 		$filePath = $this->getFilePath();
 		if(empty(self::$fileContents)) {
@@ -45,7 +46,7 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader {
 	}
 
 	public function read() {
-		global $default_charset;
+		$default_charset = AppConfig::main('default_charset');
 
 		$filePath = $this->getFilePath();
 		$temp_status = $this->createTable();

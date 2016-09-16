@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
 // TTF Font names
@@ -98,7 +98,8 @@ function color_generator($count = 1, $start = '33CCFF', $step = '221133')
 
 function get_tickspacing($max = 10)
 {
-	global $log, $app_strings;
+	global $app_strings;
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering get_tickspacing(" . $max . ") method ...");
 	$result = array(1, 1);
 
