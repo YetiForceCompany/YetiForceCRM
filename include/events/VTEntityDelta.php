@@ -35,7 +35,7 @@ class VTEntityDelta extends VTEventHandler
 			if (!$entityData->isNew()) {
 				$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName);
 				if ($moduleName == 'HelpDesk') {
-					$entityData->set('comments', getTicketComments($recordId));
+					$entityData->set('comments', \vtlib\Functions::getTicketComments($recordId));
 				}
 				self::$oldEntity[$moduleName][$recordId] = $entityData;
 			}
@@ -51,7 +51,7 @@ class VTEntityDelta extends VTEventHandler
 		$adb = PearDatabase::getInstance();
 		$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName);
 		if ($moduleName == 'HelpDesk') {
-			$entityData->set('comments', getTicketComments($recordId));
+			$entityData->set('comments', \vtlib\Functions::getTicketComments($recordId));
 		}
 		self::$newEntity[$moduleName][$recordId] = $entityData;
 	}

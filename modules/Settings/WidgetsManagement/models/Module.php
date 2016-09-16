@@ -152,7 +152,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$row = $db->query_result_rowdata($result, $i);
 			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
 			if ($row['linklabel'] == 'Tag Cloud') {
-				$isTagCloudExists = getTagCloudView($currentUser->getId());
+				$isTagCloudExists = \vtlib\Functions::getTagCloudView($currentUser->getId());
 				if ($isTagCloudExists == 'false') {
 					continue;
 				}

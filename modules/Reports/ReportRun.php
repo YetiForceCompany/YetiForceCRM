@@ -798,7 +798,7 @@ class ReportRun extends CRMEntity
 		$fieldtablename = $adb->query_result($field_query, 0, 'tablename');
 		$fieldcolname = $adb->query_result($field_query, 0, 'columnname');
 		$typeofdata = $adb->query_result($field_query, 0, 'typeofdata');
-		$fieldtypeofdata = ChangeTypeOfData_Filter($fieldtablename, $fieldcolname, $typeofdata[0]);
+		$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $typeofdata[0]);
 		$uitype = $adb->query_result($field_query, 0, 'uitype');
 		/* if($tr[0]==$ogReport->primodule)
 		  $value = $adb->query_result($field_query,0,'tablename').".".$adb->query_result($field_query,0,'columnname');

@@ -27,7 +27,7 @@ function Contacts_createPortalLoginDetails($entityData){
 		}else{
 			$dbusername = $adb->query_result($result,0,'user_name');
 			$isactive = $adb->query_result($result,0,'isactive');
-			$password = makeRandomPassword();
+			$password = \vtlib\Functions::generateRandomPassword();
 			$truePassword = $password;
 			$password = CustomerPortalPassword::encryptPassword($password, $email);
 
@@ -46,7 +46,7 @@ function Contacts_createPortalLoginDetails($entityData){
 		}
 		
 		if($insert == true){
-			$password = makeRandomPassword();
+			$password = \vtlib\Functions::generateRandomPassword();
 			$truePassword = $password;
 
 			$password = CustomerPortalPassword::encryptPassword($password, $email);

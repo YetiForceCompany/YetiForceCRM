@@ -72,9 +72,9 @@ class PriceBooks extends CRMEntity {
 			$product_id = $adb->query_result($prod_res,$i,'productid');
 			$list_price = $adb->query_result($prod_res,$i,'listprice');
 			$used_currency = $adb->query_result($prod_res,$i,'usedcurrency');
-			$product_currency_info = getCurrencySymbolandCRate($used_currency);
+			$product_currency_info = \vtlib\Functions::getCurrencySymbolandRate($used_currency);
 			$product_conv_rate = $product_currency_info['rate'];
-			$pricebook_currency_info = getCurrencySymbolandCRate($pricebook_currency);
+			$pricebook_currency_info = \vtlib\Functions::getCurrencySymbolandRate($pricebook_currency);
 			$pb_conv_rate = $pricebook_currency_info['rate'];
 			$conversion_rate = $pb_conv_rate / $product_conv_rate;
 			$computed_list_price = $list_price * $conversion_rate;

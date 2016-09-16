@@ -537,7 +537,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 				// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 				// Both together will be the actual conversion rate for the given currency.
 				$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
-				$user_cursym_convrate = getCurrencySymbolandCRate($user_currency_id);
+				$user_cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($user_currency_id);
 				$product_base_conv_rate = 1 / $user_cursym_convrate['rate'];
 				$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 

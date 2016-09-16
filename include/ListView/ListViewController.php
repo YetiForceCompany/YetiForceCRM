@@ -318,7 +318,7 @@ class ListViewController
 						if ($field->getUIType() == 72) {
 							if ($fieldName == 'unit_price') {
 								$currencyId = getProductBaseCurrency($recordId, $module);
-								$cursym_convrate = getCurrencySymbolandCRate($currencyId);
+								$cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($currencyId);
 								$currencySymbol = $cursym_convrate['symbol'];
 							} else {
 								$currencyInfo = getInventoryCurrencyInfo($module, $recordId);

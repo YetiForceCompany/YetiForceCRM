@@ -111,7 +111,7 @@ class Activity extends CRMEntity
 		//Insert into vtiger_recurring event table
 		if (isset($this->column_fields['recurringtype']) && $this->column_fields['recurringtype'] != '' && $this->column_fields['recurringtype'] != '--None--') {
 			$recur_type = trim($this->column_fields['recurringtype']);
-			$recur_data = getrecurringObjValue();
+			$recur_data = \vtlib\Functions::getRecurringObjValue();
 			if (is_object($recur_data))
 				$this->insertIntoRecurringTable($recur_data);
 		}

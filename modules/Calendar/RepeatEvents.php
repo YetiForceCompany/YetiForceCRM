@@ -177,7 +177,7 @@ class Calendar_RepeatEvents {
 	}
 
 	static function repeatFromRequest($focus) {
-		$recurObj = getrecurringObjValue();
+		$recurObj = \vtlib\Functions::getRecurringObjValue();
 		self::repeat($focus, $recurObj);
 	}
 }

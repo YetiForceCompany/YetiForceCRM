@@ -170,6 +170,11 @@ class Deprecated
 		return $cachedModuleStrings[$module];
 	}
 
+	/**
+	* Get translated currency name string.
+	* @param String $str - input currency name
+	* @return String $str - translated currency name
+	*/
 	public static function getTranslatedCurrencyString($str)
 	{
 		global $app_currency_strings;
@@ -178,7 +183,11 @@ class Deprecated
 		}
 		return $str;
 	}
-
+	
+	/**
+	* This function is used to get cvid of default "all" view for any module.
+	* @return a cvid of a module
+	*/
 	public static function getIdOfCustomViewByNameAll($module)
 	{
 		$adb = \PearDatabase::getInstance();
@@ -192,6 +201,10 @@ class Deprecated
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
 	}
 
+	/** Stores the option in database to display  the tagclouds or not for the current user
+	* * @param $id -- user id:: Type integer
+	* * Added to provide User based Tagcloud
+	* */
 	public static function SaveTagCloudView($id = '')
 	{
 		$adb = \PearDatabase::getInstance();
@@ -209,6 +222,9 @@ class Deprecated
 		}
 	}
 
+	/** Clear the Smarty cache files(in Smarty/smarty_c)
+	* * This function will called after migration.
+	* */
 	public static function clearSmartyCompiledFiles($path = null)
 	{
 		if ($path == null) {
@@ -221,7 +237,7 @@ class Deprecated
 					//chmod($path.$file, 0777);
 					if (is_dir($path . $file)) {
 						chdir('.');
-						clear_smarty_cache($path . $file . '/');
+						self::clearSmartyCompiledFiles($path . $file . '/');
 						//rmdir($path.$file) or DIE("couldn't delete $path$file<br />"); // No need to delete the directories.
 					} else {
 						// Delete only files ending with .tpl.php

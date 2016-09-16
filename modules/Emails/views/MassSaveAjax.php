@@ -184,7 +184,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View
 					$filesize = $existingAttachInfo['size'];
 
 					//get the file path inwhich folder we want to upload the file
-					$upload_file_path = decideFilePath();
+					$upload_file_path = \vtlib\Functions::initStorageFileDirectory();
 					$newFilePath = $upload_file_path . $current_id . "_" . $binFile;
 
 					copy($oldFilePath, $newFilePath);

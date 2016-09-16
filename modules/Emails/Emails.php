@@ -189,7 +189,7 @@ class Emails extends CRMEntity
 		$ownerid = $this->column_fields['assigned_user_id'];
 		if (!isset($ownerid) || $ownerid == '')
 			$ownerid = $current_user->id;
-		$upload_file_path = decideFilePath();
+		$upload_file_path = \vtlib\Functions::initStorageFileDirectory();
 		file_put_contents($upload_file_path . $current_id . "_" . $filename, $file);
 
 		$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?,?,?,?,?,?,?)";
@@ -635,7 +635,7 @@ function pdfAttach($obj, $module, $file_name, $id)
 
 	$current_id = $adb->getUniqueID("vtiger_crmentity");
 
-	$upload_file_path = decideFilePath();
+	$upload_file_path = \vtlib\Functions::initStorageFileDirectory();
 
 	//Copy the file from temporary directory into storage directory for upload
 	$source_file_path = "storage/" . $file_name;

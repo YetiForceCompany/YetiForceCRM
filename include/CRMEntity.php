@@ -192,7 +192,7 @@ class CRMEntity
 		$filetmp_name = $file_details['tmp_name'];
 
 		//get the file path inwhich folder we want to upload the file
-		$upload_file_path = decideFilePath($module);
+		$upload_file_path = \vtlib\Functions::initStorageFileDirectory($module);
 
 		//upload the file in server
 		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . '_' . $binFile);

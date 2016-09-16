@@ -488,7 +488,7 @@ class PieChart extends Base_Chart
 		}
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$currencyRateAndSymbol = getCurrencySymbolandCRate($currentUserModel->currency_id);
+		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
@@ -562,7 +562,7 @@ class VerticalbarChart extends Base_Chart
 		$groupByColumnsByFieldModel = $this->getGroupbyColumnsByFieldModel();
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$currencyRateAndSymbol = getCurrencySymbolandCRate($currentUserModel->currency_id);
+		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 		$links = array();
 
 		for ($i = 0; $i < $rows; $i++) {

@@ -47,7 +47,7 @@ class Oss_Tool
 			vglobal('Vtiger_Utils_Log', TRUE);
 
 			$tabid = vtlib\Functions::getModuleId($moduleName);
-			$blockId = getBlockId($tabid, $blockLabel);
+			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
@@ -79,7 +79,7 @@ class Oss_Tool
 			vglobal('Vtiger_Utils_Log', TRUE);
 
 			$tabid = vtlib\Functions::getModuleId($moduleName);
-			$blockId = getBlockId($tabid, $blockLabel);
+			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
@@ -132,7 +132,7 @@ class Oss_Tool
 			//vglobal('Vtiger_Utils_Log', TRUE);
 
 			$tabid = vtlib\Functions::getModuleId($moduleName);
-			$blockId = getBlockId($tabid, $blockLabel);
+			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
@@ -200,7 +200,7 @@ class Oss_Tool
 			vglobal('Vtiger_Utils_Log', TRUE);
 
 			$tabid = vtlib\Functions::getModuleId($moduleName);
-			$blockId = getBlockId($tabid, $blockLabel);
+			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);

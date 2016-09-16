@@ -996,7 +996,7 @@ class Users extends CRMEntity
 		$current_id = $this->db->getUniqueID("vtiger_crmentity");
 
 		//get the file path inwhich folder we want to upload the file
-		$upload_file_path = decideFilePath($module);
+		$upload_file_path = \vtlib\Functions::initStorageFileDirectory($module);
 		//upload the file in server
 		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . "_" . $binFile);
 
@@ -1086,7 +1086,7 @@ class Users extends CRMEntity
 
 		//$focus->imagename = $image_upload_array['imagename'];
 		$this->saveHomeStuffOrder($this->id);
-		SaveTagCloudView($this->id);
+		\vtlib\Deprecated::SaveTagCloudView($this->id);
 
 		// Added for Reminder Popup support
 		$this->resetReminderInterval($prev_reminder_interval);

@@ -396,7 +396,7 @@ class CustomView extends CRMEntity
 			} else {
 				//Here we Changing the displaytype of the field. So that its criteria will be
 				//displayed Correctly in Custom view Advance Filter.
-				$fieldtypeofdata = ChangeTypeOfData_Filter($fieldtablename, $fieldcolname, $fieldtypeofdata);
+				$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $fieldtypeofdata);
 			}
 			if ($fieldlabel == "Start Date & Time") {
 				$fieldlabel = "Start Date";

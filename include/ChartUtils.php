@@ -448,7 +448,7 @@ Class ChartUtils
 							$link_val = "index.php?module=" . $module . "&query=true&action=index&" . $advanceSearchCondition;
 					}
 					else {
-						$cvid = getCvIdOfAll($module);
+						$cvid = \vtlib\Deprecated::getIdOfCustomViewByNameAll($module);
 						$esc_search_str = urlencode($decodedGroupFieldValue);
 						if ($single == 'DT') {
 							$esc_search_str = urlencode($groupFieldValue);

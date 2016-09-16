@@ -497,7 +497,7 @@ function popup_decode_html($str)
 	$defaultCharset = AppConfig::main('default_charset');
 	$slashes_str = \vtlib\Functions::fromHTML_Popup($str);
 	$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $defaultCharset);
-	return decode_html(br2nl($slashes_str));
+	return decode_html(\vtlib\Functions::br2nl($slashes_str));
 }
 
 //function added to check the text length in the listview.

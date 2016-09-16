@@ -567,7 +567,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($this->getFieldDataType() == 'reference') {
 			$fieldType = 'V';
 		} else {
-			$fieldType = ChangeTypeOfData_Filter($tableName, $columnName, $fieldType);
+			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
 		}
 
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
@@ -594,7 +594,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($this->getFieldDataType() == 'reference') {
 			$fieldType = 'V';
 		} else {
-			$fieldType = ChangeTypeOfData_Filter($tableName, $columnName, $fieldType);
+			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
 		}
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
 		$moduleFieldLabel = $moduleName . '_' . $escapedFieldLabel;

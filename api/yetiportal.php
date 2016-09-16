@@ -884,7 +884,7 @@ function authenticate_user($username, $password, $version, $portalLang, $login =
 
 	//During login process we will pass the value true. Other times (change password) we will pass false
 	if ($login != 'false') {
-		$sessionid = makeRandomPassword();
+		$sessionid = \vtlib\Functions::generateRandomPassword();
 		unsetServerSessionId($customerid);
 		$sql = "insert into vtiger_soapservice values(?,?,?,?)";
 		$result = $adb->pquery($sql, array($customerid, 'customer', $sessionid, $portalLang));
@@ -977,7 +977,7 @@ function send_mail_for_password($mailid)
 		$record = $adb->query_result($res, 0, 'id');
 
 		// generate new temp password for portal user
-		$password = makeRandomPassword();
+		$password = \vtlib\Functions::generateRandomPassword();
 		$truePassword = $password;
 		$password = CustomerPortalPassword::encryptPassword($password, $user_name);
 		$params = array($password, CustomerPortalPassword::getCryptType(), $truePassword, $record);
@@ -1222,7 +1222,7 @@ function add_ticket_attachment($input_array)
 		return null;
 
 	//decide the file path where we should upload the file in the server
-	$upload_filepath = decideFilePath();
+	$upload_filepath = \vtlib\Functions::initStorageFileDirectory();
 
 	$attachmentid = $adb->getUniqueID("vtiger_crmentity");
 
@@ -2999,7 +2999,7 @@ function getCurrencySymbol($result, $i, $column)
 {
 	$adb = PearDatabase::getInstance();
 	$currencyid = $adb->query_result($result, $i, $column);
-	$curr = getCurrencySymbolandCRate($currencyid);
+	$curr = \vtlib\Functions::getCurrencySymbolandRate($currencyid);
 	$value = "(" . $curr['symbol'] . ")";
 	return $value;
 }

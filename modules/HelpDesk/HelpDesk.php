@@ -515,7 +515,7 @@ class HelpDesk extends CRMEntity
 		$desc .= "<br>" . getTranslatedString('Priority', $moduleName) . " : " . $entityData->get('ticketpriorities');
 		$desc .= "<br><br>" . getTranslatedString('Description', $moduleName) . " : <br>" . $entityData->get('description');
 		$desc .= "<br><br>" . getTranslatedString('Solution', $moduleName) . " : <br>" . $entityData->get('solution');
-		$desc .= getTicketComments($entityId);
+		$desc .= \vtlib\Functions::getTicketComments($entityId);
 
 		$sql = "SELECT * FROM vtiger_ticketcf WHERE ticketid = ?";
 		$result = $adb->pquery($sql, array($entityId));

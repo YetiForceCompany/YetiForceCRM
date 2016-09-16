@@ -27,42 +27,6 @@ require_once 'include/ListView/ListViewController.php';
 require_once 'include/runtime/Cache.php';
 
 
-
-/** This function returns the conversion rate and vtiger_currency symbol
- * in array format for a given id.
- * param $id - vtiger_currency id.
- */
-function getCurrencySymbolandCRate($id)
-{
-	return vtlib\Functions::getCurrencySymbolandRate($id);
-}
-
-/** This function returns the terms and condition from the database.
- * Takes no param and the return type is text.
- */
-function getTermsandConditions()
-{
-	return vtlib\Functions::getInventoryTermsAndCondition();
-}
-
-/** This function returns a string with removed new line character, single quote, and back slash double quoute.
- * param $str - string to be converted.
- */
-function br2nl($str)
-{
-	return vtlib\Functions::br2nl($str);
-}
-
-/**
- * This function is used to get the blockid of the customblock for a given module.
- * Takes the input parameter as $tabid - module tabid and $label - custom label
- * This returns string type value
- */
-function getBlockId($tabid, $label)
-{
-	return vtlib\Deprecated::getBlockId($tabid, $label);
-}
-
 function getEntityName($module, $ids, $compute = true)
 {
 	if ($module == 'Users' || $module == 'Groups') {
@@ -74,132 +38,17 @@ function getEntityName($module, $ids, $compute = true)
 	}
 }
 
-/**
- * 	This function is used to decide the File Storage Path in where we will upload the file in the server.
- * 	return string $filepath  - filepath inwhere the file should be stored in the server will be return
- */
-function decideFilePath($module = false)
-{
-	return vtlib\Functions::initStorageFileDirectory($module);
-}
-
-/**
- * 	This function is used to get the Email Template Details like subject and content for particular template.
- * 	@param integer $templateid  - Template Id for an Email Template
- * 	return array $returndata - Returns Subject, Body of Template of the the particular email template.
- */
-function getTemplateDetails($templateid)
-{
-	return vtlib\Deprecated::getTemplateDetails($templateid);
-}
-
-/** 	Function used to retrieve a single field value from database
- * 	@param string $tablename - tablename from which we will retrieve the field value
- * 	@param string $fieldname - fieldname to which we want to get the value from database
- * 	@param string $idname	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
- * 	@param int    $id	 - entity id
- * 	return string $fieldval  - field value of the needed fieldname from database will be returned
- */
-function getSingleFieldValue($tablename, $fieldname, $idname, $id)
-{
-	return vtlib\Functions::getSingleFieldValue($tablename, $fieldname, $idname, $id);
-}
-
-/**
- *  Function to get recurring info depending on the recurring type
- *  return  $recurObj       - Object of class RecurringType
- */
-function getrecurringObjValue()
-{
-	return vtlib\Functions::getRecurringObjValue();
-}
 
 function getTranslatedString($str, $module = 'Vtiger')
 {
 	return vtlib\Functions::getTranslatedString($str, $module);
 }
 
-/**
- * Get translated currency name string.
- * @param String $str - input currency name
- * @return String $str - translated currency name
- */
-function getTranslatedCurrencyString($str)
-{
-	return vtlib\Deprecated::getTranslatedCurrencyString($str);
-}
 
-function getTicketComments($ticketid)
-{
-	return vtlib\Functions::getTicketComments($ticketid);
-}
 
-function makeRandomPassword()
-{
-	return vtlib\Functions::generateRandomPassword();
-}
 
-/**
- * This function is used to get cvid of default "all" view for any module.
- * @return a cvid of a module
- */
-function getCvIdOfAll($module)
-{
-	return vtlib\Deprecated::getIdOfCustomViewByNameAll($module);
-}
 
-/** gives the option  to display  the tagclouds or not for the current user
- * * @param $id -- user id:: Type integer
- * * @returns true or false in $tag_cloud_view
- * * Added to provide User based Tagcloud
- * */
-function getTagCloudView($id = "")
-{
-	return vtlib\Functions::getTagCloudView($id);
-}
 
-/** Stores the option in database to display  the tagclouds or not for the current user
- * * @param $id -- user id:: Type integer
- * * Added to provide User based Tagcloud
- * */
-function SaveTagCloudView($id = "")
-{
-	return vtlib\Deprecated::SaveTagCloudView($id);
-}
-
-/**     function used to change the Type of Data for advanced filters in custom view and Reports
- * *     @param string $table_name - tablename value from field table
- * *     @param string $column_nametable_name - columnname value from field table
- * *     @param string $type_of_data - current type of data of the field. It is to return the same TypeofData
- * *            if the  field is not matched with the $new_field_details array.
- * *     return string $type_of_data - If the string matched with the $new_field_details array then the Changed
- * *	       typeofdata will return, else the same typeofdata will return.
- * *
- * *     EXAMPLE: If you have a field entry like this:
- * *
- * * 		fieldlabel         | typeofdata | tablename            | columnname       |
- * *	        -------------------+------------+----------------------+------------------+
- * *		Potential Name     | I~O        | vtiger_quotes        | potentialid      |
- * *
- * *     Then put an entry in $new_field_details  like this:
- * *
- * *				"vtiger_quotes:potentialid"=>"V",
- * *
- * *	Now in customview and report's advance filter this field's criteria will be show like string.
- * *
- * */
-function ChangeTypeOfData_Filter($table_name, $column_name, $type_of_data)
-{
-	return vtlib\Functions::transformFieldTypeOfData($table_name, $column_name, $type_of_data);
-}
-
-/** Clear the Smarty cache files(in Smarty/smarty_c)
- * * This function will called after migration.
- * */
-function clear_smarty_cache($path = null)
-{
-	vtlib\Deprecated::clearSmartyCompiledFiles($path);
-}
 
 /** Get Smarty compiled file for the specified template filename.
  * * @param $template_file Template filename for which the compiled file has to be returned.

@@ -556,7 +556,14 @@ class Functions
 		}
 		return $description;
 	}
-
+	
+	/** 	Function used to retrieve a single field value from database
+	 * 	@param string $tablename - tablename from which we will retrieve the field value
+	 * 	@param string $fieldname - fieldname to which we want to get the value from database
+	 * 	@param string $idname	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
+	 * 	@param int    $id	 - entity id
+	 * 	return string $fieldval  - field value of the needed fieldname from database will be returned
+	 */
 	public static function getSingleFieldValue($tablename, $fieldname, $idname, $id)
 	{
 		$adb = \PearDatabase::getInstance();
@@ -564,6 +571,10 @@ class Functions
 		return $fieldval;
 	}
 
+	/**
+	*  Function to get recurring info depending on the recurring type
+	*  return  $recurObj       - Object of class RecurringType
+	*/
 	public static function getRecurringObjValue()
 	{
 		$recurring_data = [];
@@ -682,6 +693,11 @@ class Functions
 		return $pass;
 	}
 
+	/** gives the option  to display  the tagclouds or not for the current user
+	* * @param $id -- user id:: Type integer
+	* * @returns true or false in $tag_cloud_view
+	* * Added to provide User based Tagcloud
+	* */
 	public static function getTagCloudView($id = "")
 	{
 		$adb = \PearDatabase::getInstance();
@@ -700,6 +716,27 @@ class Functions
 		return $tag_cloud_view;
 	}
 
+	/**     function used to change the Type of Data for advanced filters in custom view and Reports
+	* *     @param string $table_name - tablename value from field table
+	* *     @param string $column_nametable_name - columnname value from field table
+	* *     @param string $type_of_data - current type of data of the field. It is to return the same TypeofData
+	* *            if the  field is not matched with the $new_field_details array.
+	* *     return string $type_of_data - If the string matched with the $new_field_details array then the Changed
+	* *	       typeofdata will return, else the same typeofdata will return.
+	* *
+	* *     EXAMPLE: If you have a field entry like this:
+	* *
+	* * 		fieldlabel         | typeofdata | tablename            | columnname       |
+	* *	        -------------------+------------+----------------------+------------------+
+	* *		Potential Name     | I~O        | vtiger_quotes        | potentialid      |
+	* *
+	* *     Then put an entry in $new_field_details  like this:
+	* *
+	* *				"vtiger_quotes:potentialid"=>"V",
+	* *
+	* *	Now in customview and report's advance filter this field's criteria will be show like string.
+	* *
+	* */
 	public static function transformFieldTypeOfData($table_name, $column_name, $type_of_data)
 	{
 		$field = $table_name . ':' . $column_name;
