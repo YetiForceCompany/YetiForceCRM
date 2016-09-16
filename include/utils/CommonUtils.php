@@ -26,7 +26,6 @@ require_once 'include/QueryGenerator/QueryGenerator.php';
 require_once 'include/ListView/ListViewController.php';
 require_once 'include/runtime/Cache.php';
 
-
 function getEntityName($module, $ids, $compute = true)
 {
 	if ($module == 'Users' || $module == 'Groups') {
@@ -44,19 +43,9 @@ function getTranslatedString($str, $module = 'Vtiger')
 	return vtlib\Functions::getTranslatedString($str, $module);
 }
 
-
-
-
 // vtiger cache utility
 require_once('include/utils/VTCacheUtils.php');
 
 // vtlib customization: Extended vtiger CRM utlitiy functions
 require_once('include/utils/VtlibUtils.php');
 
-// END
-
-
-function decimalFormat($value)
-{
-	return vtlib\Functions::formatDecimal($value);
-}

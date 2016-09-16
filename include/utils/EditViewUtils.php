@@ -160,10 +160,10 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		}
 
 		if ($focus->object_name != 'Order') {
-			$product_Detail[$i]['qtyInStock' . $i] = decimalFormat($qtyinstock);
+			$product_Detail[$i]['qtyInStock' . $i] = \vtlib\Functions::formatDecimal($qtyinstock);
 		}
 		$listprice = number_format($listprice, $no_of_decimal_places, '.', '');
-		$product_Detail[$i]['qty' . $i] = decimalFormat($qty);
+		$product_Detail[$i]['qty' . $i] = \vtlib\Functions::formatDecimal($qty);
 		$product_Detail[$i]['listPrice' . $i] = $listprice;
 		$product_Detail[$i]['unitPrice' . $i] = number_format($unitprice, $no_of_decimal_places, '.', '');
 		$product_Detail[$i]['usageUnit' . $i] = $usageunit;
@@ -174,9 +174,9 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		$product_Detail[$i]['margin' . $i] = number_format($margin, $no_of_decimal_places, '.', '');
 		$product_Detail[$i]['marginp' . $i] = number_format($marginp, $no_of_decimal_places, '.', '');
 		$product_Detail[$i]['tax' . $i] = $tax;
-		$discount_percent = decimalFormat($adb->query_result($result, $i - 1, 'discount_percent'));
+		$discount_percent = \vtlib\Functions::formatDecimal($adb->query_result($result, $i - 1, 'discount_percent'));
 		$discount_amount = $adb->query_result($result, $i - 1, 'discount_amount');
-		$discount_amount = decimalFormat(number_format($discount_amount, $no_of_decimal_places, '.', ''));
+		$discount_amount = \vtlib\Functions::formatDecimal(number_format($discount_amount, $no_of_decimal_places, '.', ''));
 		$discountTotal = '0';
 		//Based on the discount percent or amount we will show the discount details
 		//To avoid NaN javascript error, here we assign 0 initially to' %of price' and 'Direct Price reduction'(for Each Product)

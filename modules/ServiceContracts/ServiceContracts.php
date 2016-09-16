@@ -515,7 +515,7 @@ class ServiceContracts extends CRMEntity
 	}
 
 	// Function to Calculate the End Date, Planned Duration, Actual Duration and Progress of a Service Contract
-	function calculateProgress()
+	public function calculateProgress()
 	{
 		$updateCols = array();
 		$updateParams = array();
@@ -524,8 +524,8 @@ class ServiceContracts extends CRMEntity
 		$dueDate = $this->column_fields['due_date'];
 		$endDate = $this->column_fields['end_date'];
 
-		$usedUnits = decimalFormat($this->column_fields['used_units']);
-		$totalUnits = decimalFormat($this->column_fields['total_units']);
+		$usedUnits = \vtlib\Functions::formatDecimal($this->column_fields['used_units']);
+		$totalUnits = \vtlib\Functions::formatDecimal($this->column_fields['total_units']);
 
 		$contractStatus = $this->column_fields['contract_status'];
 

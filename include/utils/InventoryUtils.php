@@ -134,7 +134,7 @@ function getProductTaxPercentage($type, $productid, $default = '')
 
 	$log->debug("Exiting from getProductTaxPercentage($productid,$type) function. return value=$taxpercentage");
 	if ($current_user->truncate_trailing_zeros == true)
-		return decimalFormat($taxpercentage);
+		return \vtlib\Functions::formatDecimal($taxpercentage);
 	else
 		return $taxpercentage;
 }

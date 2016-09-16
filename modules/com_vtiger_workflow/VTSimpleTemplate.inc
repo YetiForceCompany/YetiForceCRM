@@ -332,7 +332,7 @@ class VTSimpleTemplate
 				}
 				break;
 			case 'double' : if ($moduleName === 'HelpDesk' && in_array($fieldName, array('days', 'hours'))) {
-					$fieldValue = decimalFormat($fieldValue);
+					$fieldValue = \vtlib\Functions::formatDecimal($fieldValue);
 				} else {
 					$fieldValue;
 				}
