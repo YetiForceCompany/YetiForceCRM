@@ -171,8 +171,9 @@ class Reports extends CRMEntity
 	// Initializes the module list for listing columns for report creation.
 	function initListOfModules()
 	{
-		global $adb, $current_user, $old_related_modules;
+		global $old_related_modules;
 
+		$adb = PearDatabase::getInstance();
 		$restricted_modules = array('Events');
 		$restricted_blocks = array('LBL_COMMENTS', 'LBL_COMMENT_INFORMATION');
 
@@ -219,19 +220,19 @@ class Reports extends CRMEntity
 
 						if (in_array($blocklabel, $restricted_blocks) ||
 							in_array($blockid, $this->module_list[$module]) ||
-							isset($this->module_list[$module][getTranslatedString($blocklabel, $module)])
+							isset($this->module_list[$module][\includes\Language::translate($blocklabel, $module)])
 						) {
 							continue;
 						}
 
 						if (!empty($blocklabel)) {
 							if ($module == 'Calendar' && $blocklabel == 'LBL_CUSTOM_INFORMATION')
-								$this->module_list[$module][$blockid] = getTranslatedString($blocklabel, $module);
+								$this->module_list[$module][$blockid] = \includes\Language::translate($blocklabel, $module);
 							else
-								$this->module_list[$module][$blockid] = getTranslatedString($blocklabel, $module);
+								$this->module_list[$module][$blockid] = \includes\Language::translate($blocklabel, $module);
 							$prev_block_label = $blocklabel;
 						} else {
-							$this->module_list[$module][$blockid] = getTranslatedString($prev_block_label, $module);
+							$this->module_list[$module][$blockid] = \includes\Language::translate($prev_block_label, $module);
 						}
 					}
 				}
@@ -295,7 +296,9 @@ class Reports extends CRMEntity
 	function sgetRptFldr($mode = '')
 	{
 
-		global $adb, $log, $mod_strings;
+		global $mod_strings;
+		$adb = PearDatabase::getInstance();
+		$log = LoggerManager::getInstance();
 		$returndata = [];
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, array());
@@ -342,7 +345,7 @@ class Reports extends CRMEntity
 	function sgetAllRpt($fldrId, $paramsList)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		$log = LoggerManager::getInstance();
 		$returndata = [];
 		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
 		$sql.=" inner join vtiger_reportmodules on vtiger_reportmodules.reportmodulesid = vtiger_report.reportid";
@@ -392,7 +395,7 @@ class Reports extends CRMEntity
 	{
 		$srptdetails = "";
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$log = vglobal('log');
 		$mod_strings = vglobal('mod_strings');
 		$returndata = [];
@@ -410,10 +413,10 @@ class Reports extends CRMEntity
 			$params[] = $rpt_fldr_id;
 		}
 
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
 		require_once('include/utils/GetUserGroups.php');
 		$userGroups = new GetUserGroups();
-		$userGroups->getAllUserGroups($current_user->id);
+		$userGroups->getAllUserGroups($currentUser->getId());
 		$user_groups = $userGroups->user_groups;
 		if (!empty($user_groups) && $is_admin == false) {
 			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") && setype='groups') OR";
@@ -423,8 +426,8 @@ class Reports extends CRMEntity
 		$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? && setype='users'))";
 		if ($is_admin == false) {
 			$sql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
-			array_push($params, $current_user->id);
-			array_push($params, $current_user->id);
+			array_push($params, $currentUser->getId());
+			array_push($params, $currentUser->getId());
 		}
 		if ($paramsList) {
 			$startIndex = $paramsList['startIndex'];
@@ -457,7 +460,7 @@ class Reports extends CRMEntity
 				$report_details['reportname'] = $report["reportname"];
 				$report_details['reporttype'] = $report["reporttype"];
 				$report_details['sharingtype'] = $report["sharingtype"];
-				if ($is_admin == true || in_array($report["owner"], $subordinate_users) || $report["owner"] == $current_user->id)
+				if ($is_admin == true || in_array($report["owner"], $subordinate_users) || $report["owner"] == $currentUser->getId())
 					$report_details['editable'] = 'true';
 				else
 					$report_details['editable'] = 'false';
@@ -675,7 +678,7 @@ class Reports extends CRMEntity
 			$fieldlabel1 = str_replace(" ", "__", $fieldlabel);
 			$optionvalue = $fieldtablename . ":" . $fieldcolname . ":" . $module . "__" . $fieldlabel1 . ":" . $fieldname . ":" . $fieldtypeofdata;
 
-			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . "::" . getTranslatedString($module, $module) . " " . getTranslatedString($fieldlabel, $module);
+			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . "::" . \includes\Language::translate($module, $module) . " " . \includes\Language::translate($fieldlabel, $module);
 			if (!is_array($this->adv_rel_fields[$fieldtypeofdata]) ||
 				!in_array($adv_rel_field_tod_value, $this->adv_rel_fields[$fieldtypeofdata])) {
 				$this->adv_rel_fields[$fieldtypeofdata][] = $adv_rel_field_tod_value;
@@ -930,8 +933,8 @@ class Reports extends CRMEntity
 				$mod = ($mod_arr[0] == '') ? $module : $mod_arr[0];
 				$fieldlabel = trim(str_replace('__', ' ', $fieldlabel));
 				//modified code to support i18n issue
-				$mod_lbl = getTranslatedString($mod, $module); //module
-				$fld_lbl = getTranslatedString($fieldlabel, $module); //fieldlabel
+				$mod_lbl = \includes\Language::translate($mod, $module); //module
+				$fld_lbl = \includes\Language::translate($fieldlabel, $module); //fieldlabel
 				$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
 				if (in_array($mod, $inventoryModules) && $fieldname == 'serviceid') {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
@@ -1121,13 +1124,16 @@ class Reports extends CRMEntity
 	{
 		//retreive the vtiger_tabid
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$current_user = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		
+		$log = LoggerManager::getInstance();
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
+		
+		
 		$tabid = \includes\Modules::getModuleId($module);
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
 		$sparams = array($tabid);
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($privileges['is_admin'] == true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
 			$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_field.presence in (0,2) ";
 		} else {
 			$profileList = getCurrentUserProfileList();
@@ -1189,11 +1195,11 @@ class Reports extends CRMEntity
 						}
 					}
 					if (!AppRequest::isEmpty('record')) {
-						$options['label'][] = getTranslatedString($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' -' . getTranslatedString($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+						$options['label'][] = \includes\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' -' . \includes\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					}
 
 					$columntototalrow['fieldlabel'] = str_replace(" ", "__", $columntototalrow['fieldlabel']);
-					$options [] = getTranslatedString($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . getTranslatedString($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+					$options [] = \includes\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \includes\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					if ($selectedcolumn1[2] == "cb:" . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . "__SUM:2") {
 						$options [] = '<input checked name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__SUM:2" type="checkbox" value="">';
 					} else {
@@ -1217,7 +1223,7 @@ class Reports extends CRMEntity
 						$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__MAX:5" type="checkbox" value="">';
 					}
 				} else {
-					$options [] = getTranslatedString($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . getTranslatedString($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+					$options [] = \includes\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \includes\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__SUM:2" type="checkbox" value="">';
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__AVG:3" type="checkbox" value="" >';
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__MIN:4"type="checkbox" value="" >';
@@ -1246,7 +1252,7 @@ function getReportsModuleList($focus)
 	foreach ($focus->module_list as $key => $value) {
 		if (isPermitted($key, 'index') == "yes") {
 			$count_flag = 1;
-			$modules [$key] = getTranslatedString($key, $key);
+			$modules [$key] = \includes\Language::translate($key, $key);
 		}
 	}
 	asort($modules);

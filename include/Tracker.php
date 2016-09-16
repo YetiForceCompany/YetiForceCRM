@@ -45,7 +45,7 @@ class Tracker
 		"item_summary"
 	);
 
-	function Tracker()
+	function __construct()
 	{
 		$this->log = LoggerManager::getLogger('Tracker');
 		// $this->db = PearDatabase::getInstance();
@@ -61,7 +61,7 @@ class Tracker
 	 * All Rights Reserved.
 	 * Contributor(s): ______________________________________..
 	 */
-	function track_view($user_id, $current_module, $item_id, $item_summary)
+	public function track_view($user_id, $current_module, $item_id, $item_summary)
 	{
 		$adb = PearDatabase::getInstance();
 		$this->delete_history($user_id, $item_id);
@@ -115,39 +115,32 @@ class Tracker
 	 * All Rights Reserved.
 	 * Contributor(s): ______________________________________..
 	 */
-	function get_recently_viewed($user_id, $module_name = "")
+	public function get_recently_viewed($userId, $moduleName = "")
 	{
-		if (empty($user_id)) {
+		if (empty($userId)) {
 			return;
 		}
-
-//        $query = "SELECT * from $this->table_name WHERE user_id='$user_id' ORDER BY id DESC";
 		$query = "SELECT * from $this->table_name inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_tracker.item_id WHERE user_id=? and vtiger_crmentity.deleted=0 ORDER BY id DESC";
 		$this->log->debug("About to retrieve list: $query");
-		$result = $this->db->pquery($query, array($user_id), true);
+		$result = $this->db->pquery($query, array($userId), true);
 		$list = [];
 		while ($row = $this->db->fetchByAssoc($result, -1, false)) {
-			//echo "while loppp";
-			//echo '<BR>';
 			// If the module was not specified or the module matches the module of the row, add the row to the list
-			if ($module_name == "" || $row[module_name] == $module_name) {
+			if ($moduleName == "" || $row['module_name'] == $moduleName) {
 				//Adding Security check
 				require_once('include/utils/utils.php');
 				require_once('include/utils/UserInfoUtil.php');
-				$entity_id = $row['item_id'];
+				$entityId = $row['item_id'];
 				$module = $row['module_name'];
-				//echo "module is ".$module."  id is      ".$entity_id;
-				//echo '<BR>';
-				if ($module == "Users") {
-					$current_user = vglobal('current_user');
-					if (\vtlib\Functions::userIsAdministrator($current_user)) {
-						$per = 'yes';
+				if ($module == 'Users') {
+					$currentUser = Users_Privileges_Model::getCurrentUserModel();
+					if ($currentUser->isAdminUser()) {
+						$per = true;
 					}
 				} else {
-
-					$per = isPermitted($module, 'DetailView', $entity_id);
+					$per = \includes\Privileges::isPermitted($module, 'DetailView', $entityId);
 				}
-				if ($per == 'yes') {
+				if ($per) {
 					$list[] = $row;
 				}
 			}
@@ -162,7 +155,7 @@ class Tracker
 	 * All Rights Reserved.
 	 * Contributor(s): ______________________________________..
 	 */
-	function delete_history($user_id, $item_id)
+	public function delete_history($user_id, $item_id)
 	{
 		$query = "DELETE from $this->table_name WHERE user_id=? and item_id=?";
 		$this->db->pquery($query, array($user_id, $item_id), true);
@@ -174,7 +167,7 @@ class Tracker
 	 * All Rights Reserved.
 	 * Contributor(s): ______________________________________..
 	 */
-	function delete_item_history($item_id)
+	public function delete_item_history($item_id)
 	{
 		$query = "DELETE from $this->table_name WHERE item_id=?";
 		$this->db->pquery($query, array($item_id), true);
@@ -186,7 +179,7 @@ class Tracker
 	 * All Rights Reserved.
 	 * Contributor(s): ______________________________________..
 	 */
-	function prune_history($user_id)
+	public function prune_history($user_id)
 	{
 		global $history_max_viewed;
 
