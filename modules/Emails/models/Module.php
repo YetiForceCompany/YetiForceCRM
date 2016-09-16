@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Emails_Module_Model extends Vtiger_Module_Model{
@@ -47,8 +48,7 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 			}
 		}
 		foreach ($relatedModules as $moduleName) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			if($userPrivModel->isAdminUser() || $userPrivModel->hasGlobalReadPermission() || $userPrivModel->hasModulePermission($moduleModel->getId())) {
+			if($userPrivModel->isAdminUser() || $userPrivModel->hasGlobalReadPermission() || $userPrivModel->hasModulePermission($moduleName)) {
 				$emailRelatedModules[] = $moduleName;
 			}
 		}
