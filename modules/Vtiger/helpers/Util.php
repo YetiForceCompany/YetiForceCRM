@@ -307,31 +307,6 @@ class Vtiger_Util_Helper
 	}
 
 	/**
-	 * Function to get role based picklist values
-	 * @param <String> $fieldName
-	 * @param <Integer> $roleId
-	 * @return <Array> list of role based picklist values
-	 */
-	public static function getRoleBasedPicklistValues($fieldName, $roleId)
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT $fieldName
-                  FROM vtiger_$fieldName
-                      INNER JOIN vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$fieldName.picklist_valueid
-                  WHERE roleid=? and picklistid in (select picklistid from vtiger_picklist) order by sortorderid";
-		$result = $db->pquery($query, array($roleId));
-		$picklistValues = [];
-		if ($db->num_rows($result) > 0) {
-			while ($row = $db->fetch_array($result)) {
-				//Need to decode the picklist values twice which are saved from old ui
-				$picklistValues[] = decode_html(decode_html($row[$fieldName]));
-			}
-		}
-		return $picklistValues;
-	}
-
-	/**
 	 * Function to get maximum upload size
 	 * @return <Float> maximum upload size
 	 */

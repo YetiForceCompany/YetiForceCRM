@@ -44,18 +44,6 @@ function getTranslatedString($str, $module = 'Vtiger')
 	return vtlib\Functions::getTranslatedString($str, $module);
 }
 
-/** Function to get picklist values for the given field that are accessible for the given role.
- *  @ param $tablename picklist fieldname.
- *  It gets the picklist values for the given fieldname
- *  	$fldVal = Array(0=>value,1=>value1,-------------,n=>valuen)
- *  @return Array of picklist values accessible by the user.
- */
-function getPickListValues($tablename, $roleid)
-{
-	return vtlib\Functions::getPickListValuesFromTableForRole($tablename, $roleid);
-}
-
-
 /** Function to check the file access is made within web root directory. */
 function checkFileAccess($filepath)
 {

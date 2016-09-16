@@ -556,7 +556,7 @@ class Functions
 		}
 		return $description;
 	}
-	
+
 	/** 	Function used to retrieve a single field value from database
 	 * 	@param string $tablename - tablename from which we will retrieve the field value
 	 * 	@param string $fieldname - fieldname to which we want to get the value from database
@@ -572,9 +572,9 @@ class Functions
 	}
 
 	/**
-	*  Function to get recurring info depending on the recurring type
-	*  return  $recurObj       - Object of class RecurringType
-	*/
+	 *  Function to get recurring info depending on the recurring type
+	 *  return  $recurObj       - Object of class RecurringType
+	 */
 	public static function getRecurringObjValue()
 	{
 		$recurring_data = [];
@@ -694,10 +694,10 @@ class Functions
 	}
 
 	/** gives the option  to display  the tagclouds or not for the current user
-	* * @param $id -- user id:: Type integer
-	* * @returns true or false in $tag_cloud_view
-	* * Added to provide User based Tagcloud
-	* */
+	 * * @param $id -- user id:: Type integer
+	 * * @returns true or false in $tag_cloud_view
+	 * * Added to provide User based Tagcloud
+	 * */
 	public static function getTagCloudView($id = "")
 	{
 		$adb = \PearDatabase::getInstance();
@@ -717,26 +717,26 @@ class Functions
 	}
 
 	/**     function used to change the Type of Data for advanced filters in custom view and Reports
-	* *     @param string $table_name - tablename value from field table
-	* *     @param string $column_nametable_name - columnname value from field table
-	* *     @param string $type_of_data - current type of data of the field. It is to return the same TypeofData
-	* *            if the  field is not matched with the $new_field_details array.
-	* *     return string $type_of_data - If the string matched with the $new_field_details array then the Changed
-	* *	       typeofdata will return, else the same typeofdata will return.
-	* *
-	* *     EXAMPLE: If you have a field entry like this:
-	* *
-	* * 		fieldlabel         | typeofdata | tablename            | columnname       |
-	* *	        -------------------+------------+----------------------+------------------+
-	* *		Potential Name     | I~O        | vtiger_quotes        | potentialid      |
-	* *
-	* *     Then put an entry in $new_field_details  like this:
-	* *
-	* *				"vtiger_quotes:potentialid"=>"V",
-	* *
-	* *	Now in customview and report's advance filter this field's criteria will be show like string.
-	* *
-	* */
+	 * *     @param string $table_name - tablename value from field table
+	 * *     @param string $column_nametable_name - columnname value from field table
+	 * *     @param string $type_of_data - current type of data of the field. It is to return the same TypeofData
+	 * *            if the  field is not matched with the $new_field_details array.
+	 * *     return string $type_of_data - If the string matched with the $new_field_details array then the Changed
+	 * *	       typeofdata will return, else the same typeofdata will return.
+	 * *
+	 * *     EXAMPLE: If you have a field entry like this:
+	 * *
+	 * * 		fieldlabel         | typeofdata | tablename            | columnname       |
+	 * *	        -------------------+------------+----------------------+------------------+
+	 * *		Potential Name     | I~O        | vtiger_quotes        | potentialid      |
+	 * *
+	 * *     Then put an entry in $new_field_details  like this:
+	 * *
+	 * *				"vtiger_quotes:potentialid"=>"V",
+	 * *
+	 * *	Now in customview and report's advance filter this field's criteria will be show like string.
+	 * *
+	 * */
 	public static function transformFieldTypeOfData($table_name, $column_name, $type_of_data)
 	{
 		$field = $table_name . ':' . $column_name;
@@ -794,18 +794,6 @@ class Functions
 			$type_of_data = $new_field_details[$field];
 		}
 		return $type_of_data;
-	}
-
-	public static function getPickListValuesFromTableForRole($tablename, $roleid)
-	{
-		$adb = \PearDatabase::getInstance();
-		$query = "select $tablename from vtiger_$tablename inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$tablename.picklist_valueid where roleid=? and picklistid in (select picklistid from vtiger_picklist) order by sortid";
-		$result = $adb->pquery($query, array($roleid));
-		$fldVal = [];
-		while ($row = $adb->fetch_array($result)) {
-			$fldVal [] = $row[$tablename];
-		}
-		return $fldVal;
 	}
 
 	public static function getActivityType($id)
@@ -1010,7 +998,7 @@ class Functions
 
 	public static function getHtmlOrPlainText($content)
 	{
-		if($content != strip_tags($content)) {
+		if ($content != strip_tags($content)) {
 			$content = decode_html($content);
 		} else {
 			$content = nl2br($content);

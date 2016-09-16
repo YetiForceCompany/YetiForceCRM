@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 //A collection of util functions for the workflow module
@@ -96,7 +97,8 @@ class VTWorkflowUtils
 		$moduleName = $entityData->getModuleName();
 		if ($moduleName == 'Activity') {
 			$arr = array('Task' => 'Calendar', 'Emails' => 'Emails');
-			$moduleName = $arr[getActivityType($entityData->getId())];
+			$type = \vtlib\Functions::getActivityType($entityData->getId());
+			$moduleName = $arr[$type];
 			if ($moduleName == null) {
 				$moduleName = 'Events';
 			}
