@@ -15,13 +15,11 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		$hierarchyModuleName = 'Accounts';
 
 		if (!empty($moduleName)) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+			$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
-			$moduleModel = Vtiger_Module_Model::getInstance($hierarchyModuleName);
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$permissionHierarchyModule = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+			$permissionHierarchyModule = $userPrivilegesModel->hasModulePermission($hierarchyModuleName);
 
 			if (!$permission || !$permissionHierarchyModule) {
 				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');

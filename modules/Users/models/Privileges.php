@@ -89,7 +89,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	{
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
 		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-		return $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()] === 0));
+		return !empty($moduleModel) && $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()] === 0));
 	}
 
 	/**

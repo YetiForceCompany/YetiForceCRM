@@ -6,16 +6,15 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Accounts_AccountHierarchy_View extends Vtiger_View_Controller {
 
 	public function checkPermission(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 		if(!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
