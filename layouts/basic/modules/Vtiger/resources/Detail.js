@@ -595,7 +595,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		if (commentContentValue == "") {
 			errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY')
 			commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
-			aDeferred.reject();
+			aDeferred.reject(errorMsg);
 			return aDeferred.promise();
 		}
 		if (commentMode == "edit") {
@@ -2492,35 +2492,37 @@ jQuery.Class("Vtiger_Detail_Js", {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
 								}
 							});
-				},
-						function (error, err) {
-						}
-				);
+				}, function (error, err) {
+					app.errorLog(error, err);
+				});
 			}
 		});
 		detailContentsHolder.on('click', '.detailViewSaveComment', function (e) {
 			var element = jQuery(e.currentTarget);
 			if (!element.is(":disabled")) {
-				var dataObj = thisInstance.saveComment(e);
-				dataObj.then(function () {
+				thisInstance.saveComment(e).then(function () {
 					thisInstance.registerRelatedModulesRecordCount();
 					var commentsContainer = detailContentsHolder.find("[data-type='Comments']");
 					thisInstance.loadWidget(commentsContainer).then(function () {
 						element.removeAttr('disabled');
 					});
+				}, function (error, err) {
+					element.removeAttr('disabled');
+					app.errorLog(error, err);
 				});
 			}
 		});
 		detailContentsHolder.on('click', '.saveComment', function (e) {
 			var element = jQuery(e.currentTarget);
 			if (!element.is(":disabled")) {
-				var currentTarget = jQuery(e.currentTarget);
-				var dataObj = thisInstance.saveComment(e);
-				dataObj.then(function (data) {
+				thisInstance.saveComment(e).then(function (data) {
 					var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 					thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
-					thisInstance.addComment(currentTarget, data);
+					thisInstance.addComment(element, data);
 					element.removeAttr('disabled');
+				}, function (error, err) {
+					element.removeAttr('disabled');
+					app.errorLog(error, err);
 				});
 			}
 		});
