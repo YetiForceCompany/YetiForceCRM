@@ -1182,7 +1182,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					detailViewValue.removeClass('hide');
 					actionElement.removeClass('hide');
 					readRecord.prop('disabled', false);
-					jQuery(document).off('click', '*', saveHandler);
+					editElement.off('clickoutside');
 				} else {
 					var preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
 					fieldElement.trigger(preFieldSaveEvent, {'fieldValue': fieldValue, 'recordId': thisInstance.getRecordId()});
@@ -1194,7 +1194,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						return;
 					}
 					preventDefault = false;
-					jQuery(document).off('click', '*', saveHandler);
+					editElement.off('clickoutside');
 					if (!saveTriggred && !preventDefault) {
 						saveTriggred = true;
 						if (Vtiger_Detail_Js.SaveResultInstance == false) {
@@ -1207,7 +1207,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							editElement.addClass('hide');
 							detailViewValue.removeClass('hide');
 							actionElement.removeClass('hide');
-							jQuery(document).off('click', '*', saveHandler);
+							editElement.off('clickoutside');
 							readRecord.prop('disabled', false);
 							fieldElement.val(previousValue);
 							return;
@@ -1269,15 +1269,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 								editElement.addClass('hide');
 								detailViewValue.removeClass('hide');
 								actionElement.removeClass('hide');
-								jQuery(document).off('click', '*', saveHandler);
+								editElement.off('clickoutside');
 								readRecord.prop('disabled', false);
 								currentTdElement.progressIndicator({'mode': 'hide'});
 							}
 					)
 				}
 			}
-
-			jQuery('body :not(.popover *)').click(saveHandler);
+			editElement.on('clickoutside', saveHandler);
 		})
 	},
 	triggerDisplayTypeEvent: function () {
