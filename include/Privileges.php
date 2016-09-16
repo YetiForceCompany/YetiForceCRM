@@ -24,8 +24,8 @@ class Privileges
 		$log = \LoggerManager::getInstance();
 		$log->debug("Entering isPermitted($moduleName,$actionName,$record,$userId) method ...");
 		if (!$userId) {
-			$current_user = vglobal('current_user');
-			$userId = $current_user->id;
+			$currentUser = vglobal('current_user');
+			$userId = $currentUser->id;
 		}
 		$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($userId);
 		$permission = false;

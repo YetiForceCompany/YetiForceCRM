@@ -16,15 +16,15 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 		CRMEntity::trackLinkedInfo($crmid);
 		$em = new VTEventsManager($db);
 		$em->initTriggerCache();
-		$crmMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
-		$destinationModuleName = $crmMetaData['setype'];
-		$destinationModuleModel = Vtiger_Module_Model::getInstance($destinationModuleName); 
+
+		$destinationModuleName = \includes\Record::getType($crmid);
+		$destinationModuleModel = Vtiger_Module_Model::getInstance($destinationModuleName);
 		$data = [];
 		$data['CRMEntity'] = $destinationModuleModel->focus;
 		$data['entityData'] = VTEntityData::fromEntityId($db, $mailId);
-		$data['sourceModule'] =  $destinationModuleName;
+		$data['sourceModule'] = $destinationModuleName;
 		$data['sourceRecordId'] = $crmid;
-		$data['destinationModule'] =  'OSSMailView';
+		$data['destinationModule'] = 'OSSMailView';
 		$data['destinationRecordId'] = $mailId;
 		$em->triggerEvent('vtiger.entity.link.before', $data);
 		$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? && crmid = ?';
