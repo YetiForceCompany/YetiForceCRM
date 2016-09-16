@@ -651,14 +651,12 @@ class Products extends CRMEntity
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering get_products(" . $id . ") method ...");
 
-		global $app_strings;
-
 		$focus = new Products();
 
 		$button = '';
 
 		if (isPermitted("Products", 1, "") == 'yes') {
-			$button .= '<input title="' . $app_strings['LBL_NEW_PRODUCT'] . '" accessyKey="F" class="button" onclick="this.form.action.value=\'EditView\';this.form.module.value=\'Products\';this.form.return_module.value=\'Products\';this.form.return_action.value=\'DetailView\'" type="submit" name="button" value="' . $app_strings['LBL_NEW_PRODUCT'] . '">&nbsp;';
+			$button .= '<input title="' . \includes\Language::translate('LBL_NEW_PRODUCT') . '" accessyKey="F" class="button" onclick="this.form.action.value=\'EditView\';this.form.module.value=\'Products\';this.form.return_module.value=\'Products\';this.form.return_action.value=\'DetailView\'" type="submit" name="button" value="' . \includes\Language::translate('LBL_NEW_PRODUCT') . '">&nbsp;';
 		}
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=Products&return_action=DetailView&is_parent=1&return_id=' . $id;

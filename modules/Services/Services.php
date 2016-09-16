@@ -472,13 +472,12 @@ class Services extends CRMEntity
 	 * 	@param string $returnset - return_module, return_action and return_id which are sequenced with & to pass to the URL which is optional
 	 * 	return array $return_data which will be formed like array('header'=>$header,'entries'=>$entries_list) where as $header contains all the header columns and $entries_list will contain all the Service entries
 	 */
-	function getPriceBookRelatedServices($query, $focus, $returnset = '')
+	public function getPriceBookRelatedServices($query, $focus, $returnset = '')
 	{
 		$log = vglobal('log');
 		$log->debug("Entering getPriceBookRelatedServices(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
 
 		$adb = PearDatabase::getInstance();
-		global $app_strings;
 		$current_user = vglobal('current_user');
 		$current_language = vglobal('current_language');
 		$current_module_strings = return_module_language($current_language, 'Services');
@@ -531,7 +530,7 @@ class Services extends CRMEntity
 			$header[] = $current_module_strings['LBL_SERVICE_UNIT_PRICE'];
 		$header[] = $current_module_strings['LBL_PB_LIST_PRICE'];
 		if (isPermitted("PriceBooks", "EditView", "") == 'yes' || isPermitted("PriceBooks", "Delete", "") == 'yes')
-			$header[] = $app_strings['LBL_ACTION'];
+			$header[] = \includes\Language::translate('LBL_ACTION');
 
 		$currency_id = $focus->column_fields['currency_id'];
 		$numRows = $adb->num_rows($list_result);
@@ -553,14 +552,14 @@ class Services extends CRMEntity
 			$entries[] = CurrencyField::convertToUserFormat($listprice, null, true);
 			$action = "";
 			if (isPermitted("PriceBooks", "EditView", "") == 'yes' && isPermitted('Services', 'EditView', $entity_id) == 'yes') {
-				$action .= '<img style="cursor:pointer;" src="themes/images/editfield.gif" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . $app_strings["LBL_EDIT_BUTTON"] . '" title="' . $app_strings["LBL_EDIT_BUTTON"] . '"/>';
+				$action .= '<img style="cursor:pointer;" src="themes/images/editfield.gif" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . \includes\Language::translate('LBL_EDIT_BUTTON') . '" title="' . \includes\Language::translate('LBL_EDIT_BUTTON') . '"/>';
 			} else {
 				$action .= '<img src="' . vtiger_imageurl('blank.gif', $theme) . '" border="0" />';
 			}
 			if (isPermitted("PriceBooks", "Delete", "") == 'yes' && isPermitted('Services', 'Delete', $entity_id) == 'yes') {
 				if ($action != "")
 					$action .= '&nbsp;|&nbsp;';
-				$action .= '<img src="themes/images/delete.gif" onclick="if(confirm(\'' . $app_strings['ARE_YOU_SURE'] . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . $app_strings["LBL_DELETE"] . '" title="' . $app_strings["LBL_DELETE"] . '" style="cursor:pointer;" border="0">';
+				$action .= '<img src="themes/images/delete.gif" onclick="if(confirm(\'' . \includes\Language::translate('ARE_YOU_SURE') . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . \includes\Language::translate('LBL_DELETE') . '" title="' . \includes\Language::translate('LBL_DELETE') . '" style="cursor:pointer;" border="0">';
 			}
 			if ($action != "")
 				$entries[] = $action;
