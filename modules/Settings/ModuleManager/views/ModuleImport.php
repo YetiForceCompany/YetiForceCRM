@@ -76,7 +76,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$uploadFile = 'usermodule_' . time() . '.zip';
 		$uploadFileName = "$uploadDir/$uploadFile";
 		$error = '';
-		checkFileAccess($uploadDir);
+		\vtlib\Deprecated::checkFileAccess($uploadDir);
 		if (!move_uploaded_file($_FILES['moduleZip']['tmp_name'], $uploadFileName)) {
 			$error = 'LBL_ERROR_MOVE_UPLOADED_FILE';
 		} else {
@@ -123,7 +123,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
-		checkFileAccess($uploadFileName);
+		\vtlib\Deprecated::checkFileAccess($uploadFileName);
 
 		$importType = $request->get('module_import_type');
 		if (strtolower($importType) == 'language') {
@@ -159,7 +159,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
-		checkFileAccess($uploadFileName);
+		\vtlib\Deprecated::checkFileAccess($uploadFileName);
 
 		$importType = $request->get('module_import_type');
 		if (strtolower($importType) == 'language') {

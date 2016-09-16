@@ -19,7 +19,7 @@ class ModComments_CommentsModel {
 	function author() {
 		$authorid = $this->data['smcreatorid'];
 		if(!isset(self::$ownerNamesCache[$authorid])) {
-			self::$ownerNamesCache[$authorid] = getOwnerName($authorid);
+			self::$ownerNamesCache[$authorid] = \includes\fields\Owner::getLabel($authorid);
 		}
 		return self::$ownerNamesCache[$authorid];
 	}

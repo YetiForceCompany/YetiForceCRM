@@ -44,18 +44,6 @@ function getTranslatedString($str, $module = 'Vtiger')
 	return vtlib\Functions::getTranslatedString($str, $module);
 }
 
-/** Function to check the file access is made within web root directory. */
-function checkFileAccess($filepath)
-{
-	vtlib\Deprecated::checkFileAccess($filepath);
-}
-
-/** Function to get owner name either user or group */
-function getOwnerName($id)
-{
-	return vtlib\Functions::getOwnerRecordLabel($id);
-}
-
 /**
  * This function is used to get the blockid of the settings block for a given label.
  * @param $label - settings label

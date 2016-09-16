@@ -74,7 +74,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 			echo sprintf('%s | %s - Start task' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 			$startTime = microtime(true);
 
-			checkFileAccess($cronTask->getHandlerFile());
+			vtlib\Deprecated::checkFileAccess($cronTask->getHandlerFile());
 			ob_start();
 			require_once $cronTask->getHandlerFile();
 			$taskResponse = ob_get_contents();

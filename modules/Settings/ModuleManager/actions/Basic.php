@@ -59,7 +59,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
-		checkFileAccess($uploadFileName);
+		vtlib\Deprecated::checkFileAccess($uploadFileName);
 
 		$importType = $request->get('module_import_type');
 		if (strtolower($importType) == 'language') {
@@ -87,7 +87,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
-		checkFileAccess($uploadFileName);
+		vtlib\Deprecated::checkFileAccess($uploadFileName);
 
 		$importType = strtolower($request->get('module_import_type'));
 		if ($importType == 'language') {

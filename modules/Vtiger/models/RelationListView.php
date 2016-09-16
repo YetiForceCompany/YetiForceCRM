@@ -367,7 +367,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			}
 			if ($relationModel->showCreatorDetail()) {
 				if (!empty($row['rel_created_user']) && $row['rel_created_user'] != 0) {
-					$newRow['relCreatedUser'] = getOwnerName($row['rel_created_user']);
+					$newRow['relCreatedUser'] = \includes\fields\Owner::getLabel($row['rel_created_user']);
 				}
 				if (!empty($row['rel_created_time']) && $row['rel_created_time'] != '0000-00-00 00:00:00') {
 					$newRow['relCreatedTime'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
@@ -677,7 +677,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relModuleName = $this->getRelatedModuleModel()->getName();
 		$treeViewModel = $this->getTreeViewModel();
 		$relationModel = $this->getRelationModel();
-		$fields = $treeViewModel->getTreeField();
 		$template = $treeViewModel->getTemplate();
 
 		$result = $db->pquery('SELECT tr.*,rel.crmid,rel.rel_created_time,rel.rel_created_user,rel.rel_comment FROM vtiger_trees_templates_data tr '
@@ -702,7 +701,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			];
 
 			if ($relationModel->showCreatorDetail()) {
-				$tree['relCreatedUser'] = getOwnerName($row['rel_created_user']);
+				$tree['relCreatedUser'] = \includes\fields\Owner::getLabel($row['rel_created_user']);
 				$tree['relCreatedTime'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
 			}
 			if ($relationModel->showComment()) {

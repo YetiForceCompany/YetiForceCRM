@@ -39,15 +39,15 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		while (($shownerid = $db->getSingleValue($result)) !== false) {
 			if (\includes\fields\Owner::getType($shownerid) === 'User') {
 				if ($currentUser->isAdminUser() && !$rawText) {
-					$displayValue .= '<a href="index.php?module=User&view=Detail&record=' . $shownerid . '">' . rtrim(getOwnerName($shownerid)) . '</a>,';
+					$displayValue .= '<a href="index.php?module=User&view=Detail&record=' . $shownerid . '">' . rtrim(\includes\fields\Owner::getLabel($shownerid)) . '</a>,';
 				} else {
-					$displayValue .= rtrim(getOwnerName($shownerid)) . ',';
+					$displayValue .= rtrim(\includes\fields\Owner::getLabel($shownerid)) . ',';
 				}
 			} else {
 				if ($currentUser->isAdminUser() && !$rawText) {
-					$displayValue .= '<a href="index.php?module=Groups&parent=Settings&view=Detail&record=' . $shownerid . '">' . rtrim(getOwnerName($shownerid)) . '</a>,';
+					$displayValue .= '<a href="index.php?module=Groups&parent=Settings&view=Detail&record=' . $shownerid . '">' . rtrim(\includes\fields\Owner::getLabel($shownerid)) . '</a>,';
 				} else {
-					$displayValue .= rtrim(getOwnerName($shownerid)) . ',';
+					$displayValue .= rtrim(\includes\fields\Owner::getLabel($shownerid)) . ',';
 				}
 			}
 		}

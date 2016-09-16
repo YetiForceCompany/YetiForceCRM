@@ -273,7 +273,7 @@ class HelpDesk extends CRMEntity
 	function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
 	{
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 
 		if ($mode != 'edit') {//this will be updated when we create new ticket
 			$updatelog = "Ticket created. Assigned to ";
@@ -283,10 +283,10 @@ class HelpDesk extends CRMEntity
 			} elseif ($focus->column_fields['assigned_user_id'] != '') {
 				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
 			} else {
-				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($current_user->id);
+				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($currentUser->getId());
 			}
 
-			$fldvalue = date("l dS F Y h:i:s A") . ' by ' . $current_user->user_name;
+			$fldvalue = date("l dS F Y h:i:s A") . ' by ' . $currentUser->getName();
 			$updatelog .= " -- " . $fldvalue . "--//--";
 		} else {
 			$ticketid = $focus->id;
@@ -305,11 +305,11 @@ class HelpDesk extends CRMEntity
 
 			//Assigned to change log
 			if ($focus->column_fields['assigned_user_id'] != $old_owner_id) {
-				$owner_name = getOwnerName($focus->column_fields['assigned_user_id']);
+				$ownerName = \includes\fields\Owner::getLabel($focus->column_fields['assigned_user_id']);
 				if ($assigntype == 'T')
-					$updatelog .= ' Transferred to group ' . $owner_name . '\.';
+					$updatelog .= ' Transferred to group ' . $ownerName . '\.';
 				else
-					$updatelog .= ' Transferred to user ' . decode_html($owner_name) . '\.'; // Need to decode UTF characters which are migrated from versions < 5.0.4.
+					$updatelog .= ' Transferred to user ' . decode_html($ownerName) . '\.'; // Need to decode UTF characters which are migrated from versions < 5.0.4.
 			}
 			//Status change log
 			if ($old_status != $focus->column_fields['ticketstatus'] && $focus->column_fields['ticketstatus'] != '') {
@@ -328,7 +328,7 @@ class HelpDesk extends CRMEntity
 				$updatelog .= ' Category Changed to ' . $focus->column_fields['ticketcategories'] . '\.';
 			}
 
-			$updatelog .= ' -- ' . date("l dS F Y h:i:s A") . ' by ' . $current_user->user_name . '--//--';
+			$updatelog .= ' -- ' . date("l dS F Y h:i:s A") . ' by ' . $currentUser->getName() . '--//--';
 		}
 		return $updatelog;
 	}
