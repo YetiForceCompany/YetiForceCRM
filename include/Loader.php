@@ -63,7 +63,7 @@ class Vtiger_Loader
 		}
 
 		// Check file inclusion before including it
-		checkFileAccessForInclusion($file);
+		\vtlib\Deprecated::checkFileAccessForInclusion($file);
 
 		$status = -1;
 		if ($supressWarning) {

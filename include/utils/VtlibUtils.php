@@ -438,8 +438,8 @@ function vtlib_isCustomModule($moduleName)
 {
 	$moduleFile = "modules/$moduleName/$moduleName.php";
 	if (file_exists($moduleFile)) {
-		if (function_exists('checkFileAccessForInclusion')) {
-			checkFileAccessForInclusion($moduleFile);
+		if (method_exists('\vtlib\Deprecated', 'checkFileAccessForInclusion')) {
+			\vtlib\Deprecated::checkFileAccessForInclusion($moduleFile);
 		}
 		include_once($moduleFile);
 		$focus = new $moduleName();

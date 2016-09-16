@@ -249,6 +249,7 @@ class Deprecated
 		return $compiled_file;
 	}
 
+	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
 	public static function checkFileAccessForInclusion($filepath)
 	{
 		$unsafeDirectories = array('storage', 'cache', 'test');

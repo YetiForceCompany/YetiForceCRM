@@ -78,7 +78,7 @@ abstract class Mobile_WS_AlertModel {
 			while ($handlerRow = $adb->fetch_array($handlerResult)) {
 				$handlerPath = $handlerRow['handler_path'];
 				if (file_exists($handlerPath)) {
-					checkFileAccessForInclusion($handlerPath);
+					\vtlib\Deprecated::checkFileAccessForInclusion($handlerPath);
 					include_once $handlerPath;
 					$alertModel = new $handlerRow['handler_class'];
 					$alertModel->alertid = $handlerRow['id'];

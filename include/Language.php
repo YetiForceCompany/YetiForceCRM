@@ -11,13 +11,12 @@ class Language
 
 	public static function translate($key, $moduleName = 'Vtiger')
 	{
-		$formattedString = \Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
-		return $formattedString;
+		return \Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
 	}
 
 	public static function translateArgs($key, $moduleName = 'Vtiger')
 	{
-		$formattedString = \Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
+		$formattedString = self::translate($key, $moduleName);
 		$args = func_get_args();
 		array_shift($args);
 		array_shift($args);

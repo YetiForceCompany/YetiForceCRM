@@ -55,11 +55,6 @@ function getPickListValues($tablename, $roleid)
 	return vtlib\Functions::getPickListValuesFromTableForRole($tablename, $roleid);
 }
 
-/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
-function checkFileAccessForInclusion($filepath)
-{
-	vtlib\Deprecated::checkFileAccessForInclusion($filepath);
-}
 
 /** Function to check the file access is made within web root directory. */
 function checkFileAccess($filepath)

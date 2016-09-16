@@ -247,7 +247,7 @@ class Module extends ModuleBasic
 		$instance = false;
 		$filepath = "modules/$modulename/$modulename.php";
 		if (Utils::checkFileAccessForInclusion($filepath, false)) {
-			checkFileAccessForInclusion($filepath);
+			Deprecated::checkFileAccessForInclusion($filepath);
 			include_once($filepath);
 			if (class_exists($modulename)) {
 				$instance = new $modulename();

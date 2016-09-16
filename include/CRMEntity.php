@@ -69,10 +69,10 @@ class CRMEntity
 		// File access security check
 		if (!class_exists($modName)) {
 			if (AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$modName.php")) {
-				checkFileAccessForInclusion("custom/modules/$module/$modName.php");
+				\vtlib\Deprecated::checkFileAccessForInclusion("custom/modules/$module/$modName.php");
 				require_once("custom/modules/$module/$modName.php");
 			} else {
-				checkFileAccessForInclusion("modules/$module/$modName.php");
+				\vtlib\Deprecated::checkFileAccessForInclusion("modules/$module/$modName.php");
 				require_once("modules/$module/$modName.php");
 			}
 		}
@@ -284,7 +284,7 @@ class CRMEntity
 			$description_val = \vtlib\Functions::fromHTML($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
-			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
+			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			$tabid = \includes\Modules::getModuleId($module);
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
@@ -415,7 +415,7 @@ class CRMEntity
 		}
 		if ($insertion_mode == 'edit') {
 			$updateColumns = [];
-			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
+			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 				$sql = sprintf('SELECT * FROM vtiger_field WHERE tabid in (%s) && tablename = ? && presence IN (0,2) GROUP BY columnname', $adb->generateQuestionMarks($tabid));

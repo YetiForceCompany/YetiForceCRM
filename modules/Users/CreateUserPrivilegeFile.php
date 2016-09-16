@@ -80,7 +80,7 @@ function createUserPrivilegesfile($userid)
  */
 function createUserSharingPrivilegesfile($userid)
 {
-	checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
+	\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
 	require('user_privileges/user_privileges_' . $userid . '.php');
 	$handle = @fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userid . '.php', "w+");
 
@@ -1315,7 +1315,7 @@ function constructTwoDimensionalCharIntSingleValueArray($var)
 function populateSharingtmptables($userid)
 {
 	$adb = PearDatabase::getInstance();
-	checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
+	\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 	require('user_privileges/sharing_privileges_' . $userid . '.php');
 	//Deleting from the existing vtiger_tables
 	$table_arr = Array('vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per');
@@ -1367,7 +1367,7 @@ function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_na
 	$tabid = \includes\Modules::getModuleId($module);
 
 	if (!$var_name_arr) {
-		checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
+		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 		require('user_privileges/sharing_privileges_' . $userid . '.php');
 	}
 
@@ -1446,7 +1446,7 @@ function populateRelatedSharingPrivileges($enttype, $userid, $module, $relmodule
 	$reltabid = \includes\Modules::getModuleId($relmodule);
 
 	if (!$var_name_arr) {
-		checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
+		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 		require('user_privileges/sharing_privileges_' . $userid . '.php');
 	}
 

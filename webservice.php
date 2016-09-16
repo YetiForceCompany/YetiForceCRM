@@ -123,7 +123,7 @@ try {
 	$includes = $operationManager->getOperationIncludes();
 
 	foreach ($includes as $ind => $path) {
-		checkFileAccessForInclusion($path);
+		\vtlib\Deprecated::checkFileAccessForInclusion($path);
 		require_once($path);
 	}
 	$rawOutput = $operationManager->runOperation($operationInput, $current_user);

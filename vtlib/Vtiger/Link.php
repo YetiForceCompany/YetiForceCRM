@@ -210,7 +210,7 @@ class Link
 			$instance = new self();
 			$instance->initialize($row);
 			if (!empty($row['handler_path']) && \vtlib\Deprecated::isFileAccessible($row['handler_path'])) {
-				checkFileAccessForInclusion($row['handler_path']);
+				\vtlib\Deprecated::checkFileAccessForInclusion($row['handler_path']);
 				require_once $row['handler_path'];
 				$linkData = new LinkData($instance, $current_user);
 				$ignore = call_user_func(array($row['handler_class'], $row['handler']), $linkData);

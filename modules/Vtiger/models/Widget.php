@@ -242,7 +242,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		if (preg_match("/^block:\/\/(.*)/", $widgetLink->get('linkurl'), $matches)) {
 			list($widgetControllerClass, $widgetControllerClassFile) = explode(':', $matches[1]);
 			if (!class_exists($widgetControllerClass)) {
-				checkFileAccessForInclusion($widgetControllerClassFile);
+				\vtlib\Deprecated::checkFileAccessForInclusion($widgetControllerClassFile);
 				include_once $widgetControllerClassFile;
 			}
 			if (class_exists($widgetControllerClass)) {

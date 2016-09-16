@@ -1435,7 +1435,7 @@ function get_vendor_name($vendorid)
  */
 function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 {
-	checkFileAccessForInclusion('modules/' . $module . '/' . $module . '.php');
+	\vtlib\Deprecated::checkFileAccessForInclusion('modules/' . $module . '/' . $module . '.php');
 	require_once('modules/' . $module . '/' . $module . '.php');
 	require_once('include/utils/UserInfoUtil.php');
 	$adb = PearDatabase::getInstance();
@@ -2474,7 +2474,7 @@ function get_documents($id, $module, $customerid, $sessionid)
 
 function get_project_components($id, $module, $customerid, $sessionid)
 {
-	checkFileAccessForInclusion("modules/$module/$module.php");
+	\vtlib\Deprecated::checkFileAccessForInclusion("modules/$module/$module.php");
 	require_once("modules/$module/$module.php");
 	require_once('include/utils/UserInfoUtil.php');
 

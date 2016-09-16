@@ -66,7 +66,7 @@ class Vtiger_ShortURL_Helper {
             $handlerFn = decode_html($record['handler_function']);
             $handlerData = json_decode(decode_html($record['handler_data']), true);
 
-            checkFileAccessForInclusion($handlerPath);
+            \vtlib\Deprecated::checkFileAccessForInclusion($handlerPath);
             require_once $handlerPath;
 
             $handler = new $handlerClass();
