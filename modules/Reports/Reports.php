@@ -11,7 +11,7 @@
 require_once('include/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
 global $calpath;
-global $app_strings, $mod_strings;
+global $mod_strings;
 global $app_list_strings;
 global $modules;
 global $blocks;
@@ -137,23 +137,7 @@ class Reports extends CRMEntity
 				else
 					$this->is_editable = 'false';
 			} else {
-
-				echo "<table border='0' cellpadding='5' cellspacing='0' width='100%' height='450px'><tr><td align='center'>";
-				echo "<div style='border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); width: 80%; position: relative; z-index: 10000000;'>
-
-				<table border='0' cellpadding='5' cellspacing='0' width='98%'>
-				<tbody><tr>
-				<td rowspan='2' width='11%'><img src='" . vtiger_imageurl('denied.gif', $theme) . "' ></td>
-				<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'><span class='genHeaderSmall'>You are not allowed to View this Report </span></td>
-				</tr>
-				<tr>
-				<td class='small' align='right' nowrap='nowrap'>
-				<a href='javascript:window.history.back();'>$app_strings[LBL_GO_BACK]</a><br>								   		     </td>
-				</tr>
-				</tbody></table>
-				</div>";
-				echo "</td></tr></table>";
-				exit;
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}

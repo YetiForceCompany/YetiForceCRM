@@ -403,24 +403,6 @@ class Leads extends CRMEntity
 		}
 	}
 
-	function getListButtons($app_strings, $mod_strings = false)
-	{
-		$list_buttons = Array();
-
-		if (isPermitted('Leads', 'Delete', '') == 'yes') {
-			$list_buttons['del'] = $app_strings[LBL_MASS_DELETE];
-		}
-		if (isPermitted('Leads', 'EditView', '') == 'yes') {
-			$list_buttons['mass_edit'] = $app_strings[LBL_MASS_EDIT];
-			$list_buttons['c_owner'] = $app_strings[LBL_CHANGE_OWNER];
-		}
-		if (isPermitted('Emails', 'CreateView', '') == 'yes')
-			$list_buttons['s_mail'] = $app_strings[LBL_SEND_MAIL_BUTTON];
-
-		// end of mailer export
-		return $list_buttons;
-	}
-
 	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();

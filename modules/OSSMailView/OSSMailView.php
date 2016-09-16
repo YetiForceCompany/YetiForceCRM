@@ -379,7 +379,7 @@ class OSSMailView extends CRMEntity
 
 	function get_attachments($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		global $currentModule, $app_strings, $singlepane_view;
+		global $currentModule, $singlepane_view;
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
