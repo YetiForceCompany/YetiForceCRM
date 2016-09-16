@@ -1010,7 +1010,7 @@ class Functions
 
 	public static function getHtmlOrPlainText($content)
 	{
-		if (substr($content, 0, 1) == '<') {
+		if($content != strip_tags($content)) {
 			$content = decode_html($content);
 		} else {
 			$content = nl2br($content);
