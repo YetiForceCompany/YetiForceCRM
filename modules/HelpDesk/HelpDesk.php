@@ -471,7 +471,7 @@ class HelpDesk extends CRMEntity
 
 	public static function getTicketEmailContents($entityData, $toOwner = false)
 	{
-		global $HELPDESK_SUPPORT_NAME;
+		$HELPDESK_SUPPORT_NAME = AppConfig::main('HELPDESK_SUPPORT_NAME');
 		$adb = PearDatabase::getInstance();
 		$moduleName = $entityData->getModuleName();
 		$wsId = $entityData->getId();
@@ -535,8 +535,8 @@ class HelpDesk extends CRMEntity
 	public static function getPortalTicketEmailContents($entityData)
 	{
 		require_once 'config/config.php';
-		global $PORTAL_URL, $HELPDESK_SUPPORT_NAME;
-
+		$PORTAL_URL = AppConfig::main('PORTAL_URL');
+		$HELPDESK_SUPPORT_NAME = AppConfig::main('HELPDESK_SUPPORT_NAME');
 		$moduleName = $entityData->getModuleName();
 		$wsId = $entityData->getId();
 

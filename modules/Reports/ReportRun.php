@@ -698,7 +698,10 @@ class ReportRun extends CRMEntity
 	function getAdvComparator($comparator, $value, $datatype = "", $columnName = '')
 	{
 
-		global $log, $adb, $default_charset, $ogReport;
+		global $ogReport;
+		$adb = PearDatabase::getInstance();
+		$log = LoggerManager::getInstance();
+		$default_charset = AppConfig::main('default_charset');
 		$value = html_entity_decode(trim($value), ENT_QUOTES, $default_charset);
 		$value_len = strlen($value);
 		$is_field = false;
@@ -782,7 +785,8 @@ class ReportRun extends CRMEntity
 	 */
 	function getFilterComparedField($field)
 	{
-		global $adb, $ogReport;
+		global $ogReport;
+		$adb = PearDatabase::getInstance();
 		if (!empty($this->secondarymodule)) {
 			$secModules = explode(':', $this->secondarymodule);
 			foreach ($secModules as $secModule) {
@@ -2306,7 +2310,9 @@ class ReportRun extends CRMEntity
 	// Performance Optimization: Added parameter directOutput to avoid building big-string!
 	function GenerateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
 	{
-		global $adb, $current_user, $php_max_execution_time;
+		global $adb, $current_user;
+		$adb = PearDatabase::getInstance();
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		global $modules, $app_strings;
 		global $mod_strings;
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -3040,8 +3046,8 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		global $log, $current_user;
-
+		$log = LoggerManager::getInstance();
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		static $modulename_cache = array();
 
 		$query = "select * from vtiger_reportmodules where reportmodulesid =?";
@@ -3225,7 +3231,8 @@ class ReportRun extends CRMEntity
 	 * */
 	function getLstringforReportHeaders($fldname)
 	{
-		global $modules, $current_user, $app_strings;
+		global $modules, $app_strings;
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$rep_header = ltrim($fldname);
 		$rep_header = decode_html($rep_header);
 		$labelInfo = explode('__', $rep_header);
