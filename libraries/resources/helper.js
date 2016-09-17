@@ -227,8 +227,8 @@ jQuery.Class("Vtiger_Helper_Js", {
 			params.type = 'info';
 		}
 		params.animation = "show";
-		params.title = app.vtranslate('JS_MESSAGE'),
-				Vtiger_Helper_Js.showPnotify(params);
+		params.title = app.vtranslate('JS_MESSAGE');
+		Vtiger_Helper_Js.showPnotify(params);
 	},
 	/*
 	 * Function to show pnotify message

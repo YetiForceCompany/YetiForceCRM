@@ -1454,11 +1454,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.getContentHolder().find('.resetRelationsEmail').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('JS_EMAIL_RESET_RELATIONS_CONFIRMATION')}).then(function (data) {
-
-			},
-					function (error, err) {
-					}
-			);
+				AppConnector.request({
+					module: 'OSSMailView',
+					action: 'Relation',
+					moduleName: app.getModuleName(),
+					record: app.getRecordId()
+				}).then(function (d) {
+					Vtiger_Helper_Js.showMessage({text: d.result});
+				})
+			});
 		})
 	},
 	getFiltersDataAndLoad: function (e, params) {

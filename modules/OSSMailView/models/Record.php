@@ -330,4 +330,12 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	{
 		return false;
 	}
+
+	public function setReloadRelationRecord($moduleName, $record = 0)
+	{
+		PearDatabase::getInstance()->insert('s_yf_mail_relation_updater', [
+			'tabid' => \includes\Modules::getModuleId($moduleName),
+			'crmid' => $record
+		]);
+	}
 }

@@ -1533,5 +1533,5 @@ $jsLanguageStrings = [
 	'JS_GET_PAGINATION_INFO' => 'Trwa ładowanie ilości rekordów. Czas ukończenia zależy od ilości rekordów.',
 	'JS_WIDGET_DELETED' => 'Usunięto widget',
 	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domena jest zastrzeżona, należy wprowadzić inną.',
-	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Czy jesteś pewien, że chcesz ponownie zresetować powiązane maile? Powiązania, które zostały utworzone ręcznie mogą nie zostać przywrócone.',
+	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Czy jesteś pewien, że chcesz ponownie zresetować powiązane maile?',
 ];
