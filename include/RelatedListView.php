@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
 
@@ -78,7 +78,7 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	$current_language = vglobal('current_language');
 	$current_module_strings = return_module_language($current_language, 'PriceBook');
 	$no_of_decimal_places = getCurrencyDecimalPlaces();
-	global $list_max_entries_per_page;
+	$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');
 	global $urlPrefix;
 
 	global $theme;
@@ -106,21 +106,21 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	if (AppRequest::has('relmodule') && AppRequest::get('relmodule') == $relatedmodule) {
 		$relmodule = AppRequest::get('relmodule');
 		if ($_SESSION['rlvs'][$module][$relmodule]) {
-			setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $list_max_entries_per_page, $module, $relmodule);
+			setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $listMaxEntriesPerPage , $module, $relmodule);
 		}
 	}
 	global $relationId;
 	$start = RelatedListViewSession::getRequestCurrentPage($relationId, $query);
-	$navigation_array = VT_getSimpleNavigationValues($start, $list_max_entries_per_page, $noofrows);
+	$navigation_array = VT_getSimpleNavigationValues($start, $listMaxEntriesPerPage , $noofrows);
 
-	$limit_start_rec = ($start - 1) * $list_max_entries_per_page;
+	$limit_start_rec = ($start - 1) * $listMaxEntriesPerPage ;
 
 	if ($adb->isPostgres())
 		$list_result = $adb->pquery($query .
-			" OFFSET $limit_start_rec LIMIT $list_max_entries_per_page", []);
+			" OFFSET $limit_start_rec LIMIT $listMaxEntriesPerPage ", []);
 	else
 		$list_result = $adb->pquery($query .
-			" LIMIT $limit_start_rec, $list_max_entries_per_page", []);
+			" LIMIT $limit_start_rec, $listMaxEntriesPerPage ", []);
 
 	$header = [];
 	$header[] = $mod_strings['LBL_LIST_PRODUCT_NAME'];

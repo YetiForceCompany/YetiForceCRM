@@ -92,7 +92,7 @@ class Services extends CRMEntity
 	var $default_sort_order = 'ASC';
 	var $unit_price;
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		//Inserting into service_taxrel table
 		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassEditSave' && AppRequest::get('action') != 'ProcessDuplicates') {
@@ -108,7 +108,7 @@ class Services extends CRMEntity
 	 * 	@param string $module	 - current module name
 	 * 	$return void
 	 */
-	function insertTaxInformation($tablename, $module)
+	public function insertTaxInformation($tablename, $module)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -151,7 +151,7 @@ class Services extends CRMEntity
 	 * 	@param string $module	 - current module name
 	 * 	$return void
 	 */
-	function insertPriceInformation($tablename, $module)
+	public function insertPriceInformation($tablename, $module)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -205,7 +205,7 @@ class Services extends CRMEntity
 		$log->debug("Exiting from insertPriceInformation($tablename, $module) method ...");
 	}
 
-	function updateUnitPrice()
+	public function updateUnitPrice()
 	{
 		$prod_res = $this->db->pquery("select unit_price, currency_id from vtiger_service where serviceid=?", array($this->id));
 		$prod_unit_price = $this->db->query_result($prod_res, 0, 'unit_price');
@@ -220,7 +220,7 @@ class Services extends CRMEntity
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord)
+	public function getQueryByModuleField($module, $fieldname, $srcrecord)
 	{
 		// $srcrecord could be empty
 	}
@@ -228,7 +228,7 @@ class Services extends CRMEntity
 	/**
 	 * Get list view query.
 	 */
-	function getListQuery($module, $where = '')
+	public function getListQuery($module, $where = '')
 	{
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
@@ -258,7 +258,7 @@ class Services extends CRMEntity
 	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	function getListViewSecurityParameter($module)
+	public function getListViewSecurityParameter($module)
 	{
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -303,7 +303,7 @@ class Services extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -338,7 +338,7 @@ class Services extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	function transform_export_value($key, $value)
+	public function transform_export_value($key, $value)
 	{
 		return parent::transform_export_value($key, $value);
 	}
@@ -346,7 +346,7 @@ class Services extends CRMEntity
 	/**
 	 * Function which will give the basic query to find duplicates
 	 */
-	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
 		$select_clause = sprintf("SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s", $this->table_name, $this->table_index, $table_cols);
 
@@ -414,7 +414,7 @@ class Services extends CRMEntity
 	 * 	@param int $id - service id
 	 * 	@return array - array which will be returned from the function GetRelatedList
 	 */
-	function get_service_pricebooks($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_service_pricebooks($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		global $currentModule, $singlepane_view, $mod_strings;
 		$log = LoggerManager::getInstance();
@@ -482,7 +482,7 @@ class Services extends CRMEntity
 		$current_language = vglobal('current_language');
 		$current_module_strings = return_module_language($current_language, 'Services');
 		$no_of_decimal_places = getCurrencyDecimalPlaces();
-		global $list_max_entries_per_page;
+		$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');
 		global $urlPrefix;
 
 		global $theme;
@@ -508,21 +508,21 @@ class Services extends CRMEntity
 		if (AppRequest::get('relmodule') == $relatedmodule) {
 			$relmodule = AppRequest::get('relmodule');
 			if ($_SESSION['rlvs'][$module][$relmodule]) {
-				setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $list_max_entries_per_page, $module, $relmodule);
+				setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $listMaxEntriesPerPage, $module, $relmodule);
 			}
 		}
 		global $relationId;
 		$start = RelatedListViewSession::getRequestCurrentPage($relationId, $query);
-		$navigation_array = VT_getSimpleNavigationValues($start, $list_max_entries_per_page, $noofrows);
+		$navigation_array = VT_getSimpleNavigationValues($start, $listMaxEntriesPerPage, $noofrows);
 
-		$limit_start_rec = ($start - 1) * $list_max_entries_per_page;
+		$limit_start_rec = ($start - 1) * $listMaxEntriesPerPage;
 
 		if ($adb->isPostgres())
 			$list_result = $adb->pquery($query .
-				" OFFSET $limit_start_rec LIMIT $list_max_entries_per_page", array());
+				" OFFSET $limit_start_rec LIMIT $listMaxEntriesPerPage", array());
 		else
 			$list_result = $adb->pquery($query .
-				" LIMIT $limit_start_rec, $list_max_entries_per_page", array());
+				" LIMIT $limit_start_rec, $listMaxEntriesPerPage", array());
 
 		$header = array();
 		$header[] = $current_module_strings['LBL_LIST_SERVICE_NAME'];
@@ -579,7 +579,7 @@ class Services extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -617,7 +617,7 @@ class Services extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsQuery($module, $queryPlanner)
+	public function generateReportsQuery($module, $queryPlanner)
 	{
 		$current_user = vglobal('current_user');
 
@@ -670,7 +670,7 @@ class Services extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
 	{
 		$current_user = vglobal('current_user');
 		$matrix = $queryPlanner->newDependencyMatrix();
@@ -718,7 +718,7 @@ class Services extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			'PriceBooks' => array('vtiger_pricebookproductrel' => array('productid', 'pricebookid'), 'vtiger_service' => 'serviceid'),
@@ -731,7 +731,7 @@ class Services extends CRMEntity
 	}
 
 	// Function to unlink all the dependent entities of the given Entity by Id
-	function unlinkDependencies($module, $id)
+	public function unlinkDependencies($module, $id)
 	{
 		$log = vglobal('log');
 		$this->db->pquery('DELETE from vtiger_seproductsrel WHERE productid=? or crmid=?', array($id, $id));
@@ -744,7 +744,7 @@ class Services extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 
 		require_once('include/utils/utils.php');
@@ -790,7 +790,7 @@ class Services extends CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		global $currentModule;
 		$log = LoggerManager::getInstance();
@@ -821,7 +821,7 @@ class Services extends CRMEntity
 	 * @param  integer   $id      - productid
 	 * returns related Products record in array format
 	 */
-	function get_services($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_services($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');

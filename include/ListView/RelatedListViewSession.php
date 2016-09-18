@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
 require_once('include/logging.php');
@@ -99,7 +99,7 @@ class RelatedListViewSession
 
 	public static function getRequestCurrentPage($relationId, $query)
 	{
-		global $list_max_entries_per_page;
+		$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');
 		$adb = PearDatabase::getInstance();
 		$start = AppRequest::get('start');
 		if (!empty($start)) {
@@ -107,7 +107,7 @@ class RelatedListViewSession
 				$count_result = $adb->query(vtlib\Functions::mkCountQuery($query));
 				$noofrows = $adb->query_result($count_result, 0, "count");
 				if ($noofrows > 0) {
-					$start = ceil($noofrows / $list_max_entries_per_page);
+					$start = ceil($noofrows / $listMaxEntriesPerPage);
 				}
 			}
 			if (!is_numeric($start)) {
