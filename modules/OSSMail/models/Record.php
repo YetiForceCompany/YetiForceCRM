@@ -104,7 +104,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		imap_timeout(IMAP_OPENTIMEOUT, 5);
 		$log->debug("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password) method ...");
 		if ($dieOnError) {
-			$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password) OR
+			$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password) ||
 				die(self::imapThrowError(imap_last_error()));
 		} else {
 			$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password);

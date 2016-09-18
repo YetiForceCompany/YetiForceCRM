@@ -671,7 +671,7 @@ class Reports extends CRMEntity
 			}
 
 			$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
-			if ($module == 'Emails' and $fieldlabel == 'Date & Time Sent') {
+			if ($module == 'Emails' && $fieldlabel == 'Date & Time Sent') {
 				$fieldlabel = 'Date Sent';
 				$fieldtypeofdata = 'D';
 			}

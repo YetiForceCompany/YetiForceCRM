@@ -782,7 +782,7 @@ class PHPMailer {
       } else {
           //No PCRE! Do something _very_ approximate!
           //Check the address is 3 chars or longer and contains an @ that's not the first or last char
-          return (strlen($address) >= 3 and strpos($address, '@') >= 1 and strpos($address, '@') != strlen($address) - 1);
+          return (strlen($address) >= 3 && strpos($address, '@') >= 1 && strpos($address, '@') != strlen($address) - 1);
       }
   }
 

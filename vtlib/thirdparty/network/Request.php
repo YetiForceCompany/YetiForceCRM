@@ -774,10 +774,10 @@ class HTTP_Request
 
 		// Check for redirection
 		if ($this->_allowRedirects
-			AND $this->_redirects <= $this->_maxRedirects
-			AND $this->getResponseCode() > 300
-			AND $this->getResponseCode() < 399
-			AND ! empty($this->_response->_headers['location'])) {
+			&& $this->_redirects <= $this->_maxRedirects
+			&& $this->getResponseCode() > 300
+			&& $this->getResponseCode() < 399
+			&& ! empty($this->_response->_headers['location'])) {
 
 
 			$redirect = $this->_response->_headers['location'];

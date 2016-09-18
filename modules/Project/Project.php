@@ -490,7 +490,7 @@ class Project extends CRMEntity
 
 		$related_projecttasks = $adb->pquery("SELECT pt.* FROM vtiger_projecttask AS pt
 												INNER JOIN vtiger_crmentity AS crment ON pt.projecttaskid=crment.crmid
-												WHERE projectid=? && crment.deleted=0 && pt.startdate IS NOT NULL && pt.enddate IS NOT NULL", array($record)) or die("Please install the ProjectMilestone and ProjectTasks modules first.");
+												WHERE projectid=? && crment.deleted=0 && pt.startdate IS NOT NULL && pt.enddate IS NOT NULL", array($record)) || die("Please install the ProjectMilestone and ProjectTasks modules first.");
 
 		while ($rec_related_projecttasks = $adb->fetchByAssoc($related_projecttasks)) {
 
@@ -507,7 +507,7 @@ class Project extends CRMEntity
 
 		$related_projectmilestones = $adb->pquery("SELECT pm.* FROM vtiger_projectmilestone AS pm
 													INNER JOIN vtiger_crmentity AS crment on pm.projectmilestoneid=crment.crmid
-													WHERE projectid=? and crment.deleted=0", array($record)) or die("Please install the ProjectMilestone and ProjectTasks modules first.");
+													WHERE projectid=? and crment.deleted=0", array($record)) || die("Please install the ProjectMilestone and ProjectTasks modules first.");
 
 		while ($rec_related_projectmilestones = $adb->fetchByAssoc($related_projectmilestones)) {
 			$rec_related_projectmilestones['projectmilestonename'] = iconv($default_charset, "ISO-8859-2//TRANSLIT", $rec_related_projectmilestones['projectmilestonename']);
