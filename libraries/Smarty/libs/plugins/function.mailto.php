@@ -102,7 +102,6 @@ function smarty_function_mailto($params)
 
         return;
     }
-    // FIXME: (rodneyrehm) document.write() excues me what? 1998 has passed!
     if ($encode == 'javascript') {
         $string = 'document.write(\'<a href="mailto:' . $address . '" ' . $extra . '>' . $text . '</a>\');';
 

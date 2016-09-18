@@ -364,7 +364,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		$attachments = $parts = [];
 		$pid = 0;
-		// FIXME: line length is max.65?
+
 		$uu_regexp_begin = '/begin [0-7]{3,4} ([^\r\n]+)\r?\n/s';
 		$uu_regexp_end = '/`\r?\nend((\r?\n)|($))/s';
 
