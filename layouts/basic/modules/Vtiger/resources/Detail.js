@@ -1239,6 +1239,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 							displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
 						}
 						detailViewValue.html(displayValue);
+						if (postSaveRecordDetails['isEditable'] == false) {
+							var progressIndicatorElement = jQuery.progressIndicator({
+								'position': 'html',
+								'blockInfo': {
+									'enabled': true
+								}
+							});
+							window.location.reload();
+						}
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent, {'old': previousValue, 'new': fieldValue});
 						elementTarget.data('prevValue', ajaxEditNewValue);
 						fieldElement.data('selectedValue', ajaxEditNewValue);

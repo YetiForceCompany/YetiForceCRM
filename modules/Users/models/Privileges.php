@@ -201,7 +201,6 @@ class Users_Privileges_Model extends Users_Record_Model
 			return $return;
 		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$currentUserId = $currentUserModel->getId();
 
 		vimport('~~modules/com_vtiger_workflow/include.inc');
 		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
@@ -221,6 +220,15 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		self::$lockEditCache[$moduleName . $record] = $return;
 		return $return;
+	}
+
+	public static function clearLockEditCache($cacheName = false)
+	{
+		if ($cacheName) {
+			unset(self::$lockEditCache[$cacheName]);
+		} else {
+			self::$lockEditCache = [];
+		}
 	}
 
 	/**

@@ -794,4 +794,17 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$this->inventoryData = $data;
 	}
+
+	public function clearPrivilegesCache($name = false)
+	{
+		$privilegesName = ['isEditable', 'isCreateable', 'isViewable'];
+		foreach ($privilegesName as $name) {
+			if (!empty($name) && isset($this->privileges[$name])) {
+				unset($this->privileges[$name]);
+			}
+		}
+		Users_Privileges_Model::clearLockEditCache($this->getModuleName() . $this->getId());
+		$wsId = vtws_getWebserviceEntityId($this->getModuleName(), $this->getId());
+		VTEntityCache::setCachedEntity($wsId, false);
+	}
 }
