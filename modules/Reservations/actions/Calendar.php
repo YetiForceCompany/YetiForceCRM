@@ -1,31 +1,36 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-class Reservations_Calendar_Action extends Vtiger_Action_Controller {
+class Reservations_Calendar_Action extends Vtiger_Action_Controller
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('getEvent');
 		$this->exposeMethod('updateEvent');
 	}
-	
-	public function process(Vtiger_Request $request) {
+
+	public function process(Vtiger_Request $request)
+	{
 		$mode = $request->getMode();
-		if(!empty($mode)) {
+		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
 		}
 	}
-	
-	function checkPermission(Vtiger_Request $request) {
+
+	function checkPermission(Vtiger_Request $request)
+	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function getEvent(Vtiger_Request $request) {
+	public function getEvent(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
-		$id = $request->get( 'id' ); 
+		$id = $request->get('id');
 
 		$record = Reservations_Calendar_Model::getInstance();
 		$record->set('user', $request->get('user'));
@@ -35,27 +40,28 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller {
 			$record->set('end', $request->get('end'));
 		}
 		$entity = $record->getEntity();
-   
+
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();
 	}
-	
-	public function updateEvent(Vtiger_Request $request) {
+
+	public function updateEvent(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');
-		$date_start = date('Y-m-d', strtotime($request->get('start')) );
-		$time_start = date('H:i:s', strtotime($request->get('start')) );
+		$date_start = date('Y-m-d', strtotime($request->get('start')));
+		$time_start = date('H:i:s', strtotime($request->get('start')));
 		$succes = false;
-		if(isPermitted($moduleName, 'EditView', $recordId) === 'no'){
-            $succes = false;
-        }else{
+		if (isPermitted($moduleName, 'EditView', $recordId) === 'no') {
+			$succes = false;
+		} else {
 			if (!empty($recordId)) {
 				try {
 					$delta = $request->get('delta');
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 					$recordData = $recordModel->entity->column_fields;
-					$end = self::changeDateTime($recordData['due_date'].' '.$recordData['time_end'],$delta);
+					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
 					$due_date = $end['date'];
 					$time_end = $end['time'];
 					$recordModel->set('id', $recordId);
@@ -75,17 +81,19 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller {
 		$response->setResult($succes);
 		$response->emit();
 	}
-    public function changeDateTime($datetime,$delta){
+
+	public function changeDateTime($datetime, $delta)
+	{
 		$date = new DateTime($datetime);
-		if($delta['days'] != 0){
-			$date = $date->modify('+'.$delta['days'].' days');
+		if ($delta['days'] != 0) {
+			$date = $date->modify('+' . $delta['days'] . ' days');
 		}
-		if($delta['hours'] != 0){
-			$date = $date->modify('+'.$delta['hours'].' hours');
+		if ($delta['hours'] != 0) {
+			$date = $date->modify('+' . $delta['hours'] . ' hours');
 		}
-		if($delta['minutes'] != 0){
-			$date = $date->modify('+'.$delta['minutes'].' minutes');
+		if ($delta['minutes'] != 0) {
+			$date = $date->modify('+' . $delta['minutes'] . ' minutes');
 		}
-        return ['date' => $date->format('Y-m-d'), 'time' => $date->format('H:i:s')];
-    }
+		return ['date' => $date->format('Y-m-d'), 'time' => $date->format('H:i:s')];
+	}
 }

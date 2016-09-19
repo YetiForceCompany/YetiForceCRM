@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,38 +7,44 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class Reports_ExportReport_View extends Vtiger_View_Controller {
+class Reports_ExportReport_View extends Vtiger_View_Controller
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('GetPrintReport');
 		$this->exposeMethod('GetXLS');
 		$this->exposeMethod('GetCSV');
 	}
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Vtiger_Request $request)
+	{
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function preProcess(Vtiger_Request $request) {
+	function preProcess(Vtiger_Request $request)
+	{
 		return false;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	function postProcess(Vtiger_Request $request)
+	{
 		return false;
 	}
 
-	function process(Vtiger_request $request) {
+	function process(Vtiger_request $request)
+	{
 		$mode = $request->getMode();
-		if(!empty($mode)) {
+		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 		}
 	}
@@ -47,10 +53,11 @@ class Reports_ExportReport_View extends Vtiger_View_Controller {
 	 * Function exports the report in a Excel sheet
 	 * @param Vtiger_Request $request
 	 */
-	function GetXLS(Vtiger_Request $request) {
+	function GetXLS(Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
-        $reportModel->set('advancedFilter', $request->get('advanced_filter'));
+		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$reportModel->getReportXLS();
 	}
 
@@ -58,10 +65,11 @@ class Reports_ExportReport_View extends Vtiger_View_Controller {
 	 * Function exports report in a CSV file
 	 * @param Vtiger_Request $request
 	 */
-	function GetCSV(Vtiger_Request $request) {
+	function GetCSV(Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
-        $reportModel->set('advancedFilter', $request->get('advanced_filter'));
+		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$reportModel->getReportCSV();
 	}
 
@@ -69,13 +77,14 @@ class Reports_ExportReport_View extends Vtiger_View_Controller {
 	 * Function displays the report in printable format
 	 * @param Vtiger_Request $request
 	 */
-	function GetPrintReport(Vtiger_Request $request) {
+	function GetPrintReport(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
-        $reportModel->set('advancedFilter', $request->get('advanced_filter'));
+		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$printData = $reportModel->getReportPrint();
 
 		$viewer->assign('REPORT_NAME', $reportModel->getName());
