@@ -17,4 +17,5 @@ if (!class_exists('Vtiger_WebUI')) {
 }
 Vtiger_Session::init();
 //$_SERVER['HTTP_X_REQUESTED_WITH'] = true;
-
+defined('INSTALLATION_MODE_DEBUG', true);
+vglobal('Vtiger_Utils_Log', true);

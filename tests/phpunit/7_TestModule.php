@@ -16,12 +16,12 @@ class TestModule extends TestCase
 		$testModule = 'TestModule.zip';
 		try {
 			file_put_contents($testModule, file_get_contents('https://tests.yetiforce.com/' . $_SERVER['YETI_KEY']));
-			if (file_exists($testModule)) {
-				$package = new vtlib\Package();
-				$package->import($testModule);
-			} else {
-				throw new Exception('No file');
-			}
-		} catch (Exception $exc) {}
+		} catch (Exception $exc) {
+			
+		}
+		if (file_exists($testModule)) {
+			$package = new vtlib\Package();
+			$package->import($testModule);
+		}
 	}
 }
