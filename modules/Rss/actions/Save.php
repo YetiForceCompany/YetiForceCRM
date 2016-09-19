@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 require_once('libraries/magpierss/rss_fetch.inc');
 
@@ -14,10 +15,8 @@ class Rss_Save_Action extends Vtiger_Save_Action
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$moduleId = vtlib\Functions::getModuleId($moduleName);
-		if (!$currentUserModel->hasModulePermission($moduleId)) {
+		if (!$currentUserModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}

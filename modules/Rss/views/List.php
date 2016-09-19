@@ -11,25 +11,22 @@
 
 class Rss_List_View extends Vtiger_Index_View {
 
-	function checkPermission(Vtiger_Request $request) {
-		$moduleName = $request->getModule();
-        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
+	public function checkPermission(Vtiger_Request $request) {
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
+		if(!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function preProcess(Vtiger_Request $request, $display=true) {
+	public function preProcess(Vtiger_Request $request, $display=true) {
 		parent::preProcess($request);
 	}
     
-    function preProcessTplName(Vtiger_Request $request) {
+    public function preProcessTplName(Vtiger_Request $request) {
 		return 'ListViewPreProcess.tpl';
 	}
     
-    function process (Vtiger_Request $request) {
+   public  function process (Vtiger_Request $request) {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -38,7 +35,7 @@ class Rss_List_View extends Vtiger_Index_View {
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
-    function postProcess(Vtiger_Request $request) {
+    public function postProcess(Vtiger_Request $request) {
         $viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 
@@ -73,7 +70,7 @@ class Rss_List_View extends Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
+	public function getFooterScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View {
@@ -15,13 +16,10 @@ class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View {
 		if (!$record) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-
-		$moduleName = $request->getModule();
-		$moduleModel = Reports_Module_Model::getInstance($moduleName);
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId()) && !$reportModel->isEditable()) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) && !$reportModel->isEditable()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

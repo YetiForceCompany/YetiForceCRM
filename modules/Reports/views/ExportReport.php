@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 
 class Reports_ExportReport_View extends Vtiger_View_Controller {
@@ -18,14 +19,11 @@ class Reports_ExportReport_View extends Vtiger_View_Controller {
 	}
 
 	function checkPermission(Vtiger_Request $request) {
-		$moduleName = $request->getModule();
-		$moduleModel = Reports_Module_Model::getInstance($moduleName);
-
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
+		if(!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

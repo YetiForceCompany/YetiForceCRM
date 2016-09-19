@@ -12,14 +12,11 @@
 class Reports_ChartDetail_View extends Vtiger_Index_View {
 
 	public function checkPermission(Vtiger_Request $request) {
-		$moduleName = $request->getModule();
-		$moduleModel = Reports_Module_Model::getInstance($moduleName);
-
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId()) && !$reportModel->isEditable()) {
+		if(!$currentUserPriviligesModel->hasModulePermission($request->getModule()) && !$reportModel->isEditable()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -38,11 +35,10 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 
 		$primaryModule = $reportModel->getPrimaryModule();
 		$secondaryModules = $reportModel->getSecondaryModules();
-		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
-		$permission = $userPrivilegesModel->hasModulePermission($primaryModuleModel->getId());
+		$permission = $userPrivilegesModel->hasModulePermission($primaryModule);
 
 		if(!$permission) {
 			$viewer->assign('MODULE', $primaryModule);
