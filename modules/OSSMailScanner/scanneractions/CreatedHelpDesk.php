@@ -13,7 +13,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 	{
 		$id = 0;
 		$accountOwner = $mail->getAccountOwner();
-		$prefix = includes\fields\Email::findCrmidByPrefix($mail->get('subject'), 'HelpDesk');
+		$prefix = includes\fields\Email::findRecordNumber($mail->get('subject'), 'HelpDesk');
 		$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
 		if (!empty($exceptionsAll['crating_tickets'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_tickets']);

@@ -9,13 +9,13 @@
 class Email
 {
 
-	public static function findCrmidByPrefix($value, $moduleName)
+	public static function findRecordNumber($value, $moduleName)
 	{
 		$moduleData = \includes\fields\RecordNumber::getNumber($moduleName);
-		$redex = '/\[' . $moduleData['prefix'] . '([0-9]*)\]/';
+		$redex = '/\[' . $moduleData['prefix'] . '([0-9]*)' . $moduleData['postfix'] . '\]/';
 		preg_match($redex, $value, $match);
 		if (!empty($match)) {
-			return $match[1];
+			return $moduleData['prefix'] . $match[1] . $moduleData['postfix'];
 		} else {
 			return false;
 		}

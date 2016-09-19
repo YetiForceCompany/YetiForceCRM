@@ -598,47 +598,37 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $this->group;
 	}
 
-	public function BindRecords()
+	public function bindMail($row)
 	{
-		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$actions = array('BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk', 'BindProject', 'BindServiceContracts', 'BindCampaigns');
-		$result = $adb->query("SELECT * FROM vtiger_ossmailview WHERE verify = '1' ");
-		$getRowCount = $adb->getRowCount($result);
-		if ($getRowCount == 0) {
+		if (empty($row['actions'])) {
 			return false;
 		}
-		$return = [];
-		$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$scan_id = $OSSMailScannerModel->add_scan_history(['user' => PHP_SAPI]);
-		while ($row = $adb->getRow($result)) {
-			$mail = new OSSMail_Mail_Model();
-			$mail->setMailCrmId($row['ossmailviewid']);
-			$mail->setFolder($row['mbox']);
-			$mail->set('message_id', $row['uid']);
-			$mail->set('toaddress', $row['to_email']);
-			$mail->set('fromaddress', $row['from_email']);
-			$mail->set('reply_to_email', $row['reply_to_email']);
-			$mail->set('ccaddress', $row['cc_email']);
-			$mail->set('bccaddress', $row['bcc_email']);
-			$mail->set('subject', $row['subject']);
-			$mail->set('udate_formated', $row['date']);
-			$mail->set('body', $row['content']);
-
-			foreach ($actions as $action) {
-				$handlerClass = Vtiger_Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
-				$handler = new $handlerClass();
-				if ($handler) {
-					$log->debug('Start action: ' . $action);
-					$return[$row['ossmailviewid']][$action] = $handler->process($mail);
-					$log->debug('End action');
-				}
-			}
-			$adb->pquery("update vtiger_ossmailview set verify = '0' WHERE ossmailviewid = ?", array($row['ossmailviewid']));
-			self::update_scan_history($scan_id, Array('status' => '1', 'count' => $i, 'action' => 'Action_CronBind'));
+		$actions = array_diff(explode(',', $row['actions']), ['CreatedEmail', 'CreatedHelpDesk']);
+		if (empty($actions)) {
+			return false;
 		}
-		$OSSMailScannerModel->update_scan_history($scan_id, Array('status' => '0', 'count' => $getRowCount, 'action' => 'Action_CronBind'));
-		return $return;
+
+		$mail = new OSSMail_Mail_Model();
+		$mail->setMailCrmId($row['ossmailviewid']);
+		$mail->setFolder($row['mbox']);
+		$mail->set('message_id', $row['uid']);
+		$mail->set('toaddress', $row['to_email']);
+		$mail->set('fromaddress', $row['from_email']);
+		$mail->set('reply_to_email', $row['reply_to_email']);
+		$mail->set('ccaddress', $row['cc_email']);
+		$mail->set('bccaddress', $row['bcc_email']);
+		$mail->set('subject', $row['subject']);
+		$mail->set('udate_formated', $row['date']);
+		$mail->set('body', $row['content']);
+
+		foreach ($actions as $action) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
+			$handler = new $handlerClass();
+			if ($handler) {
+				$handler->process($mail);
+			}
+		}
+		return true;
 	}
 
 	public static function AccontDelete($id)

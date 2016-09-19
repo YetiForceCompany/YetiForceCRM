@@ -136,7 +136,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		$adb->update('yetiforce_mail_quantities', ['status' => 1], 'userid IN (?)', [$sUsers]);
 		foreach ($users as $user) {
-			$account = self::get_account_detail($user);
+			$account = self::getMailAccountDetail($user);
 			if ($account !== FALSE) {
 				$result = $adb->pquery("SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid = ?;", [$user]);
 				$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', FALSE);
@@ -221,14 +221,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	protected static $usersCache = [];
 
-	public static function get_account_detail($userid)
+	public static function getMailAccountDetail($userid)
 	{
 		if (isset(self::$usersCache[$userid])) {
 			return self::$usersCache[$userid];
 		}
 		$user = false;
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * FROM roundcube_users where user_id = ?", array($userid));
+		$result = $adb->pquery('SELECT * FROM roundcube_users where user_id = ?', [$userid]);
 		if ($adb->getRowCount($result)) {
 			$user = $adb->getRow($result);
 		}

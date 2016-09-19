@@ -19,45 +19,41 @@ class OSSMailScanner_PrefixScannerAction_Model
 		$returnIds = [];
 		$result = $db->pquery('SELECT crmid FROM vtiger_ossmailview_relation WHERE ossmailviewid = ?;', [$mailId]);
 		while ($crmid = $db->getSingleValue($result)) {
-			$type = vtlib\Functions::getCRMRecordType($crmid);
+			$type = \includes\Record::getType($crmid);
 			if ($type == $moduleName) {
 				$returnIds[] = $crmid;
 			}
 		}
-		if (count($returnIds) > 0) {
+		if (!empty($returnIds)) {
 			return $returnIds;
 		}
 
-		$prefix = includes\fields\Email::findCrmidByPrefix($mail->get('subject'), $moduleName);
+		$prefix = \includes\fields\Email::findRecordNumber($mail->get('subject'), $moduleName);
 		if (!$prefix) {
 			return false;
 		}
-
-		$name = 'MSFindPrevix';
-		$cache = Vtiger_Cache::get($name, $prefix);
+		$cache = Vtiger_Cache::get('MSFindPrevix', $prefix);
 		if ($cache !== false) {
 			$status = OSSMailView_Relation_Model::addRelation($mailId, $cache, $mail->get('udate_formated'));
 			if ($status) {
 				$returnIds[] = $cache;
 			}
-			return $returnIds;
 		} else {
-			require_once("modules/$moduleName/$moduleName.php");
-			$moduleObject = new $moduleName();
+			$moduleObject = CRMEntity::getInstance($moduleName);
 			$tableIndex = $moduleObject->tab_name_index[$tableName];
 
-			$query = sprintf('SELECT %s FROM %s INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %s.%s WHERE vtiger_crmentity.deleted = 0  && %s = ? ', $tableIndex, $tableName, $tableName, $tableIndex, $tableColumn);
+			$query = sprintf('SELECT %s FROM %s INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %s.%s WHERE vtiger_crmentity.deleted = 0  && %s = ? ', $tableIndex, $tableName, $tableName, $tableIndex, $tableName . '.' . $tableColumn);
 			$result = $db->pquery($query, [$prefix]);
-
-			if ($db->getRowCount($result) > 0) {
+			if ($db->getRowCount($result)) {
 				$crmid = $db->getSingleValue($result);
 
 				$status = OSSMailView_Relation_Model::addRelation($mailId, $crmid, $mail->get('udate_formated'));
 				if ($status) {
 					$returnIds[] = $crmid;
 				}
+				Vtiger_Cache::set('MSFindPrevix', $prefix, $crmid);
 			}
-			return $returnIds;
 		}
+		return $returnIds;
 	}
 }
