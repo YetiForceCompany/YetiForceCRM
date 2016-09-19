@@ -9,5 +9,6 @@ $CONFIG = [
 	  GMAIL = 8036
 	 */
 	'MAILTO_LIMIT' => 2030,
-	'RESET_RELATIONS' => true,
+	// List of of modules from which you can choose e-mail address in the mail
+	'RC_COMPOSE_ADDRESS_MODULES' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
 ];
