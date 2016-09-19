@@ -7,7 +7,7 @@
  */
 use PHPUnit\Framework\TestCase;
 
-class WebUI extends TestCase
+class ListView extends TestCase
 {
 
 	public function test()
@@ -21,6 +21,6 @@ class WebUI extends TestCase
 		$webUI->process($request);
 		$response = ob_get_contents();
 		ob_end_clean();
-		file_put_contents('tests/EditView.txt', $response);
+		file_put_contents('tests/ListView.txt', $response);
 	}
 }

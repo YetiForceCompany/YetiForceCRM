@@ -22,8 +22,6 @@ class TestModule extends TestCase
 			} else {
 				throw new Exception('No file');
 			}
-		} catch (Exception $exc) {
-			
-		}
+		} catch (Exception $exc) {}
 	}
 }
