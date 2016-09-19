@@ -2136,6 +2136,7 @@ CREATE TABLE `u_yf_mail_autologin` (
   `ruid` smallint(11) unsigned NOT NULL,
   `key` varchar(50) NOT NULL,
   `cuid` smallint(11) unsigned NOT NULL,
+  `params` text NOT NULL,
   KEY `ruid` (`ruid`),
   KEY `cuid` (`cuid`),
   KEY `key` (`key`)
