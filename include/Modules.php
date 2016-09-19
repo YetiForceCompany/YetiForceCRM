@@ -61,7 +61,7 @@ class Modules
 
 	static public function isModuleActive($moduleName)
 	{
-		if(isset(self::$isModuleActiveCache[$moduleName])){
+		if (isset(self::$isModuleActiveCache[$moduleName])) {
 			return self::$isModuleActiveCache[$moduleName];
 		}
 		$moduleAlwaysActive = ['Administration', 'CustomView', 'Settings', 'Users', 'Migration',
@@ -91,5 +91,10 @@ class Modules
 	{
 		$tabId = self::getTabData('tabId');
 		return isset($tabId[$name]) ? $tabId[$name] : false;
+	}
+
+	public static function getModuleName($tabId)
+	{
+		return \vtlib\Functions::getModuleName($tabId);
 	}
 }
