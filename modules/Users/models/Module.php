@@ -267,18 +267,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 		return $output;
 	}
 
-	public function deleteLangFiles()
-	{
-		$languagesList = Users_Module_Model::getLanguagesList();
-		foreach ($languagesList as $key => $value) {
-			$langPath = "languages/$key/Install.php";
-			if (file_exists($langPath)) {
-				unlink($langPath);
-			}
-		}
-		return true;
-	}
-
 	public static function getNotAdminUsers()
 	{
 		$adb = PearDatabase::getInstance();
@@ -308,8 +296,9 @@ class Users_Module_Model extends Vtiger_Module_Model
 		}
 		return [];
 	}
-	
-	public function getDefaultUrl() {
-		return 'index.php?module='.$this->get('name').'&view='.$this->getListViewName().'&parent=Settings';
+
+	public function getDefaultUrl()
+	{
+		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getListViewName() . '&parent=Settings';
 	}
 }

@@ -25,15 +25,6 @@ class Users_Login_Action extends Vtiger_Action_Controller
 	{
 		$username = $request->get('username');
 		$password = $request->getRaw('password');
-		if ($request->get('mode') == 'install') {
-			Users_Module_Model::deleteLangFiles();
-			$configTemplate = "config/config.template.php";
-			if (file_exists($configTemplate)) {
-				unlink($configTemplate);
-			}
-			vtlib\Functions::recurseDelete('install');
-			vtlib\Functions::recurseDelete('tests');
-		}
 
 		$checkBlocked = Settings_BruteForce_Module_Model::checkBlocked();
 		$bruteForceSettings = Settings_BruteForce_Module_Model::getBruteForceSettings();

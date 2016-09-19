@@ -100,8 +100,11 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		$viewer = new Vtiger_Viewer();
 		$viewer->setTemplateDir('install/tpl/');
-		$moduleName = $request->getModule();
+		$mode = $request->getMode();
 		echo $viewer->fetch('InstallPostProcess.tpl');
+		if ($mode == 'Step7') {
+			$this->cleanInstallationFiles();
+		}
 	}
 
 	public function Step1(Vtiger_Request $request)
@@ -381,5 +384,23 @@ class Install_Index_view extends Vtiger_View_Controller
 	public function validateRequest(Vtiger_Request $request)
 	{
 		return $request->validateWriteAccess(true);
+	}
+
+	public function cleanInstallationFiles()
+	{
+		$languagesList = Users_Module_Model::getLanguagesList();
+		foreach ($languagesList as $key => $value) {
+			$langPath = "languages/$key/Install.php";
+			if (file_exists($langPath)) {
+				unlink($langPath);
+			}
+		}
+		\vtlib\Functions::recurseDelete('install');
+		\vtlib\Functions::recurseDelete('tests');
+		\vtlib\Functions::recurseDelete('config/config.template.php');
+		\vtlib\Functions::recurseDelete('.github');
+		\vtlib\Functions::recurseDelete('.gitattributes');
+		\vtlib\Functions::recurseDelete('.gitignore');
+		\vtlib\Functions::recurseDelete('.travis.yml');
 	}
 }
