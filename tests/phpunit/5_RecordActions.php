@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Cron test class
  * @package YetiForce.Tests
@@ -8,20 +7,21 @@
  */
 use PHPUnit\Framework\TestCase;
 
-class RecordActions extends TestCase {
+class RecordActions extends TestCase
+{
 
-    public function test() {
-	$rekord = Vtiger_Record_Model::getCleanInstance('Accounts');
-	$rekord->set('accountname', 'YetiForce Sp. z o.o.');
-	$rekord->set('assigned_user_id', TESTS_USER_ID);
-	$rekord->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
-	$rekord->save();
-	$rekord->isEditable();
-	$rekord->isWatchingRecord();
-	$rekord->set('accounttype', 'Customer');
-	$rekord->set('mode', 'edit');
-	$rekord->save();
-	$rekord->delete();
-    }
-
+	public function test()
+	{
+		$record = Vtiger_Record_Model::getCleanInstance('Accounts');
+		$record->set('accountname', 'YetiForce Sp. z o.o.');
+		$record->set('assigned_user_id', TESTS_USER_ID);
+		$record->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
+		$record->save();
+		$record->isEditable();
+		$record->isWatchingRecord();
+		$record->set('accounttype', 'Customer');
+		$record->set('mode', 'edit');
+		$record->save();
+		define('ACCOUNT_ID', $record->getId());
+	}
 }

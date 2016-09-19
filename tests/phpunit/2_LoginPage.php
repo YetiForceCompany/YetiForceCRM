@@ -7,15 +7,16 @@
  */
 use PHPUnit\Framework\TestCase;
 
-class Install extends TestCase
+class LoginPage extends TestCase
 {
 
 	public function test()
 	{
-		require_once('install/models/InitSchema.php');
-
-		$db = PearDatabase::getInstance();
-		$initSchema = new Install_InitSchema_Model($db);
-		$initSchema->initialize();
+		ob_start();
+		$webUI = new Vtiger_WebUI();
+		$webUI->process(AppRequest::init());
+		$response = ob_get_contents();
+		ob_end_clean();
+		file_put_contents('tests/LoginPage.txt', $response);
 	}
 }
