@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
-	 backupStaticAttributes="false"
-	 colors="true"
-	 processIsolation="false"
-	 stopOnFailure="true"
-	 syntaxCheck="false"
-	 bootstrap="tests_init.php"
+		 backupStaticAttributes="false"
+		 colors="true"
+		 processIsolation="false"
+		 stopOnFailure="true"
+		 syntaxCheck="false"
+		 bootstrap="tests_init.php"
 >
-    <testsuites>
-	<testsuite name="AllTests">
-	    <directory suffix=".php">./phpunit/</directory>
-	</testsuite>
-    </testsuites>
-    <filter>
-	<whitelist processUncoveredFilesFromWhitelist="true">
-	    <directory suffix=".php">./</directory>
-	</whitelist>
-    </filter>
+	<testsuites>
+		<testsuite name="AllTests">
+			<directory suffix=".php">./phpunit/</directory>
+			<exclude>./phpunit/copy/</exclude>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">./</directory>
+		</whitelist>
+	</filter>
 </phpunit>
