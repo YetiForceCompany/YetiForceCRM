@@ -294,7 +294,7 @@ class RecurringType
 
 		$recurringInfo = $this->getUserRecurringInfo();
 
-		$displayRecurringData['recurringcheck'] = getTranslatedString('LBL_YES', $currentModule);
+		$displayRecurringData['recurringcheck'] = \includes\Language::translate('LBL_YES', $currentModule);
 		$displayRecurringData['repeat_frequency'] = $this->getRecurringFrequency();
 		$displayRecurringData['recurringtype'] = $this->getRecurringType();
 
@@ -302,25 +302,25 @@ class RecurringType
 			$noOfDays = count($recurringInfo['dayofweek_to_repeat']);
 			$translatedRepeatDays = [];
 			for ($i = 0; $i < $noOfDays; ++$i) {
-				$translatedRepeatDays[] = getTranslatedString('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][$i], $currentModule);
+				$translatedRepeatDays[] = \includes\Language::translate('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][$i], $currentModule);
 			}
-			$displayRecurringData['repeat_str'] = getTranslatedString('On', $currentModule) . ' ' . implode(',', $translatedRepeatDays);
+			$displayRecurringData['repeat_str'] = \includes\Language::translate('On', $currentModule) . ' ' . implode(',', $translatedRepeatDays);
 		} elseif ($this->getRecurringType() == 'Monthly') {
 
 			$translatedRepeatDays = [];
 			$displayRecurringData['repeatMonth'] = $recurringInfo['repeatmonth_type'];
 			if ($recurringInfo['repeatmonth_type'] == 'date') {
 				$displayRecurringData['repeatMonth_date'] = $recurringInfo['repeatmonth_date'];
-				$displayRecurringData['repeat_str'] = getTranslatedString('on', $currentModule)
+				$displayRecurringData['repeat_str'] = \includes\Language::translate('on', $currentModule)
 					. ' ' . $recurringInfo['repeatmonth_date']
-					. ' ' . getTranslatedString('day of the month', $currentModule);
+					. ' ' . \includes\Language::translate('day of the month', $currentModule);
 			} else {
 				$displayRecurringData['repeatMonth_daytype'] = $recurringInfo['repeatmonth_daytype'];
 				$displayRecurringData['repeatMonth_day'] = $recurringInfo['dayofweek_to_repeat'][0];
-				$translatedRepeatDay = getTranslatedString('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][0], $currentModule);
+				$translatedRepeatDay = \includes\Language::translate('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][0], $currentModule);
 
-				$displayRecurringData['repeat_str'] = getTranslatedString('On', $currentModule)
-					. ' ' . getTranslatedString($recurringInfo['repeatmonth_daytype'], $currentModule)
+				$displayRecurringData['repeat_str'] = \includes\Language::translate('On', $currentModule)
+					. ' ' . \includes\Language::translate($recurringInfo['repeatmonth_daytype'], $currentModule)
 					. ' ' . $translatedRepeatDay;
 			}
 		}

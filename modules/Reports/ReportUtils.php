@@ -167,10 +167,10 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 					$value, $picklistArray[$dbField->name])) {
 				$fieldvalue = \includes\Language::translate('LBL_NOT_ACCESSIBLE');
 			} else {
-				$fieldvalue = getTranslatedString($value, $module);
+				$fieldvalue = \includes\Language::translate($value, $module);
 			}
 		} else {
-			$fieldvalue = getTranslatedString($value, $module);
+			$fieldvalue = \includes\Language::translate($value, $module);
 		}
 	} elseif ($fieldType == "multipicklist" && !empty($value)) {
 		if (is_array($picklistArray[1])) {
@@ -181,7 +181,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 						$value, $picklistArray[1][$dbField->name])) {
 					$translatedValueList[] = \includes\Language::translate('LBL_NOT_ACCESSIBLE');
 				} else {
-					$translatedValueList[] = getTranslatedString($value, $module);
+					$translatedValueList[] = \includes\Language::translate($value, $module);
 				}
 			}
 		}

@@ -23,7 +23,7 @@ $smarty->assign('MOD', $mod_strings);
 $smarty->assign("THEME", $theme_path);
 $smarty->assign("IMAGE_PATH", $image_path);
 $smarty->assign("MODULE", $currentModule);
-$smarty->assign("MODULELABEL", getTranslatedString($currentModule));
+$smarty->assign("MODULELABEL", \includes\Language::translate($currentModule));
 $smarty->assign("IDSTRING", AppRequest::get('idstring'));
 $smarty->assign("EXCLUDED_RECORDS", AppRequest::get('excludedRecords'));
 $smarty->assign("PERPAGE", $list_max_entries_per_page);

@@ -227,13 +227,13 @@ class ListViewController
 						if ($downloadType == 'I') {
 							$value = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
 								' href="index.php?module=Documents&action=DownloadFile&record=' . $recordId . '&fileid=' . $fileId . '"' .
-								' title="' . getTranslatedString('LBL_DOWNLOAD_FILE', $module) .
+								' title="' . \includes\Language::translate('LBL_DOWNLOAD_FILE', $module) .
 								'" >' . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) .
 								'</a>';
 						} elseif ($downloadType == 'E') {
 							$value = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
 								' href="' . $fileName . '" target="_blank"' .
-								' title="' . getTranslatedString('LBL_DOWNLOAD_FILE', $module) .
+								' title="' . \includes\Language::translate('LBL_DOWNLOAD_FILE', $module) .
 								'" >' . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) .
 								'</a>';
 						} else {
@@ -256,9 +256,9 @@ class ListViewController
 					}
 				} elseif ($module == 'Documents' && $fieldName == 'filestatus') {
 					if ($value == 1)
-						$value = getTranslatedString('yes', $module);
+						$value = \includes\Language::translate('yes', $module);
 					elseif ($value == 0)
-						$value = getTranslatedString('no', $module);
+						$value = \includes\Language::translate('no', $module);
 					else
 						$value = '--';
 				} elseif ($module == 'Documents' && $fieldName == 'filetype') {
@@ -271,15 +271,15 @@ class ListViewController
 					$value = $value['short'];
 				} elseif ($field->getUIType() == '27') {
 					if ($value == 'I') {
-						$value = getTranslatedString('LBL_INTERNAL', $module);
+						$value = \includes\Language::translate('LBL_INTERNAL', $module);
 					} elseif ($value == 'E') {
-						$value = getTranslatedString('LBL_EXTERNAL', $module);
+						$value = \includes\Language::translate('LBL_EXTERNAL', $module);
 					} else {
 						$value = ' --';
 					}
 					$value = vtlib\Functions::textLength($value);
 				} elseif ($field->getFieldDataType() == 'picklist') {
-					$value = Vtiger_Language_Handler::getTranslatedString($value, $module);
+					$value = \includes\Language::translate($value, $module);
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} elseif ($field->getFieldDataType() == 'date' || $field->getFieldDataType() == 'datetime') {
 					if ($value != '' && $value != '0000-00-00') {
@@ -361,9 +361,9 @@ class ListViewController
 						$value = 0;
 					}
 					if ($value == 1) {
-						$value = getTranslatedString('yes', $module);
+						$value = \includes\Language::translate('yes', $module);
 					} elseif ($value == 0) {
-						$value = getTranslatedString('no', $module);
+						$value = \includes\Language::translate('no', $module);
 					} else {
 						$value = '--';
 					}
@@ -372,7 +372,7 @@ class ListViewController
 				} elseif ($field->getFieldDataType() == 'multipicklist') {
 					$valueArray = ($value != "") ? explode(' |##| ', $value) : [];
 					foreach ($valueArray as $key => $valueSingle) {
-						$valueArray[$key] = Vtiger_Language_Handler::getTranslatedString($valueSingle, $module);
+						$valueArray[$key] = \includes\Language::translate($valueSingle, $module);
 					}
 					$value = implode(', ', $valueArray);
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
@@ -425,7 +425,7 @@ class ListViewController
 							} else {
 								$value = vtlib\Functions::textLength($this->nameList[$fieldName][$ID], $fieldModel->get('maxlengthtext'));
 								$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&" .
-									"record=$rawValue' title='" . getTranslatedString($parentModule, $parentModule) . "'>$value</a>";
+									"record=$rawValue' title='" . \includes\Language::translate($parentModule, $parentModule) . "'>$value</a>";
 							}
 						}
 					} else {

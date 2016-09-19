@@ -48,7 +48,7 @@ class Mobile_WS_FilterDetailsWithCount extends Mobile_WS_FetchModuleFilters {
 			}
 				
 			$filter = $this->prepareFilterDetailUsingResultRow($resultrow);
-			$filter['userName'] = \vtlib\Functions::getUserName($resultrow['userid']);
+			$filter['userName'] = \includes\fields\Owner::getLabel($resultrow['userid']);
 			$filter['count'] = $count;
 				
 			return $filter;

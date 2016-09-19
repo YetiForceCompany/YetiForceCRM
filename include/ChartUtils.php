@@ -369,7 +369,7 @@ Class ChartUtils
 		}
 
 		if (is_array($restrictedModules) && count($restrictedModules) > 0) {
-			$ChartDataArray['error'] = '<h4>' . getTranslatedString('LBL_NO_ACCESS', 'Reports') . ' - ' . implode(',', $restrictedModules) . "</h4>";
+			$ChartDataArray['error'] = '<h4>' . \includes\Language::translate('LBL_NO_ACCESS', 'Reports') . ' - ' . implode(',', $restrictedModules) . "</h4>";
 			return $ChartDataArray;
 		}
 
@@ -397,7 +397,7 @@ Class ChartUtils
 		if ($rows > 0) {
 			$resultRow = $adb->query_result_rowdata($queryResult, 0);
 			if (!array_key_exists($groupbyField, $resultRow)) {
-				$ChartDataArray['error'] = "<h4>" . getTranslatedString('LBL_NO_PERMISSION_FIELD', 'Dashboard') . "</h4>";
+				$ChartDataArray['error'] = "<h4>" . \includes\Language::translate('LBL_NO_PERMISSION_FIELD', 'Dashboard') . "</h4>";
 				return $ChartDataArray;
 			}
 		}
@@ -476,7 +476,7 @@ Class ChartUtils
 			}
 		}
 		if (count($groupByFields) == 0) {
-			$ChartDataArray['error'] = "<div class='componentName'>" . getTranslatedString('LBL_NO_DATA', 'Reports') . "</div";
+			$ChartDataArray['error'] = "<div class='componentName'>" . \includes\Language::translate('LBL_NO_DATA', 'Reports') . "</div";
 		}
 		$ChartDataArray['xaxisData'] = $groupByFields;
 		$ChartDataArray['yaxisData'] = $yaxisArray;

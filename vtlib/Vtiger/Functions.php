@@ -680,7 +680,7 @@ class Functions
 			}
 		}
 		if ($commentlist != '')
-			$commentlist = '<br><br>' . getTranslatedString("The comments are", $moduleName) . ' : ' . $commentlist;
+			$commentlist = '<br><br>' . \includes\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
 		return $commentlist;
 	}
 

@@ -36,16 +36,8 @@ function getEntityName($module, $ids, $compute = true)
 		return \includes\Record::getLabel($ids);
 	}
 }
-
-
-function getTranslatedString($str, $module = 'Vtiger')
-{
-	return vtlib\Functions::getTranslatedString($str, $module);
-}
-
 // vtiger cache utility
 require_once('include/utils/VTCacheUtils.php');
-
 // vtlib customization: Extended vtiger CRM utlitiy functions
 require_once('include/utils/VtlibUtils.php');
 

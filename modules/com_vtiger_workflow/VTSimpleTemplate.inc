@@ -179,7 +179,7 @@ class VTSimpleTemplate
 				if ($ownerId) {
 					$ownerFocus = CRMEntity::getInstance('Users');
 					$ownerFocus->retrieve_entity_info($ownerId, 'Users');
-					return getTranslatedString($ownerFocus->column_fields['time_zone'], 'Users');
+					return \includes\Language::translate($ownerFocus->column_fields['time_zone'], 'Users');
 				}
 				return '';
 			case 'crmdetailviewurl' : $wsId = $this->parent->getId();

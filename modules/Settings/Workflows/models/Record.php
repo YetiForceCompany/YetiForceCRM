@@ -386,7 +386,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
 				if (!\includes\Modules::isModuleActive($tabModuleName))
 					continue;
-				$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => getTranslatedString($tabModuleName, $tabModuleName));
+				$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \includes\Language::translate($tabModuleName, $tabModuleName));
 			} else {
 				$dataTypeInfo = explode('~', $typeOfData);
 				if ($dataTypeInfo[1] == 'M') { // If the current reference field is mandatory

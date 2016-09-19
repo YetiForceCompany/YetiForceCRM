@@ -179,12 +179,12 @@ class Mobile_WS_Utils
 
 		$fieldgroups = array();
 		while ($resultrow = $adb->fetch_array($result)) {
-			$blocklabel = getTranslatedString($resultrow['blocklabel'], $module);
+			$blocklabel = \includes\Language::translate($resultrow['blocklabel'], $module);
 			if (!isset($fieldgroups[$blocklabel])) {
 				$fieldgroups[$blocklabel] = array();
 			}
 			$fieldgroups[$blocklabel][$resultrow['fieldname']] = array(
-					'label' => getTranslatedString($resultrow['fieldlabel'], $module),
+					'label' => \includes\Language::translate($resultrow['fieldlabel'], $module),
 					'uitype' => self::fixUIType($module, $resultrow['fieldname'], $resultrow['uitype'])
 			);
 		}

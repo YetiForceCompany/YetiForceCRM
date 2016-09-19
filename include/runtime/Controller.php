@@ -172,7 +172,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		if (!isset($this->viewer)) {
 			$viewer = Vtiger_Viewer::getInstance();
-			$viewer->assign('APPTITLE', getTranslatedString('APPTITLE'));
+			$viewer->assign('APPTITLE', \includes\Language::translate('APPTITLE'));
 			$viewer->assign('YETIFORCE_VERSION', vglobal('YetiForce_current_version'));
 			if ($request->isAjax()) {
 				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

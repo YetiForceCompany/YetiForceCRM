@@ -1388,7 +1388,7 @@ function com_vtGetModules($adb)
 	$modules = [];
 	foreach ($it as $row) {
 		if (isPermitted($row->name, 'index') == "yes") {
-			$modules[$row->name] = getTranslatedString($row->name);
+			$modules[$row->name] = \includes\Language::translate($row->name);
 		}
 	}
 	return $modules;
@@ -1554,17 +1554,17 @@ function dateDiffAsString($d1, $d2)
 	$seconds = $dateDiff['seconds'];
 
 	if ($years > 0) {
-		$diffString = "$years " . getTranslatedString('LBL_YEARS', $currentModule);
+		$diffString = "$years " . \includes\Language::translate('LBL_YEARS', $currentModule);
 	} elseif ($months > 0) {
-		$diffString = "$months " . getTranslatedString('LBL_MONTHS', $currentModule);
+		$diffString = "$months " . \includes\Language::translate('LBL_MONTHS', $currentModule);
 	} elseif ($days > 0) {
-		$diffString = "$days " . getTranslatedString('LBL_DAYS', $currentModule);
+		$diffString = "$days " . \includes\Language::translate('LBL_DAYS', $currentModule);
 	} elseif ($hours > 0) {
-		$diffString = "$hours " . getTranslatedString('LBL_HOURS', $currentModule);
+		$diffString = "$hours " . \includes\Language::translate('LBL_HOURS', $currentModule);
 	} elseif ($minutes > 0) {
-		$diffString = "$minutes " . getTranslatedString('LBL_MINUTES', $currentModule);
+		$diffString = "$minutes " . \includes\Language::translate('LBL_MINUTES', $currentModule);
 	} else {
-		$diffString = "$seconds " . getTranslatedString('LBL_SECONDS', $currentModule);
+		$diffString = "$seconds " . \includes\Language::translate('LBL_SECONDS', $currentModule);
 	}
 	return $diffString;
 }
