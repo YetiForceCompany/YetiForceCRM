@@ -8,7 +8,7 @@
 class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$mode = $request->get('mode');
@@ -16,14 +16,13 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 		$sourceModule = $request->get('sourceModule');
-		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Save')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'Save')) {
 			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 	}
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('save');

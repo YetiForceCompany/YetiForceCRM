@@ -6,36 +6,35 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action {
 	
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 		$this->exposeMethod('restoreRecords');
 		$this->exposeMethod('emptyRecycleBin');
 		$this->exposeMethod('deleteRecords');
 	}
 	
-	function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Vtiger_Request $request) {
         if($request->get('mode') == 'emptyRecycleBin') {
             //we dont check for permissions since recylebin axis will not be there for non admin users
             return true;
         }
 		$targetModuleName = $request->get('sourceModule', $request->get('module'));
-		$moduleModel = Vtiger_Module_Model::getInstance($targetModuleName);
-
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
+		if(!$currentUserPriviligesModel->hasModuleActionPermission($targetModuleName, 'Delete')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function preProcess(Vtiger_Request $request) {
+	public function preProcess(Vtiger_Request $request) {
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	public function postProcess(Vtiger_Request $request) {
 		return true;
 	}
 

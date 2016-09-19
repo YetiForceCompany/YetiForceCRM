@@ -12,13 +12,10 @@
 class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Save')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -46,7 +43,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	function getRecordModelsFromRequest(Vtiger_Request $request)
+	public function getRecordModelsFromRequest(Vtiger_Request $request)
 	{
 
 		$moduleName = $request->getModule();

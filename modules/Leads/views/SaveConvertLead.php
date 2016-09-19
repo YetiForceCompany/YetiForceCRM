@@ -13,22 +13,21 @@ vimport('~include/Webservices/ConvertLead.php');
 class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$recordId = $request->get('record');
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ConvertLead')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'ConvertLead')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
+		$recordPermission = \includes\Privileges::isPermitted($moduleName, 'EditView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 
-		$recordId = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		if (!Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
