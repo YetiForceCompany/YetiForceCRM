@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Users_PreferenceDetail_View extends Vtiger_Detail_View
@@ -50,9 +51,8 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 		if ($this->checkPermission($request)) {
 			$viewer = $this->getViewer($request);
 			if ($activeReminder = \includes\Modules::isModuleActive('Calendar')) {
-				$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-				$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
+				$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 			}
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$selectedModule = $request->getModule();

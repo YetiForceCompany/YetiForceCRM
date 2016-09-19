@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vendors_ListView_Model extends Vtiger_ListView_Model
@@ -21,26 +22,24 @@ class Vendors_ListView_Model extends Vtiger_ListView_Model
 		$links = parent::getListViewMassActions($linkParams);
 		$moduleModel = $this->getModule();
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$emailModuleModel = Vtiger_Module_Model::getInstance('Emails');
 
 		$massActionLinks = [];
-		if ($currentUserModel->hasModulePermission($emailModuleModel->getId()) && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassComposeEmail') && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail') && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')) {
-			$massActionLinks[] = array(
+		if ($currentUserModel->hasModulePermission('Emails') && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassComposeEmail') && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail') && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')) {
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail();',
 				'linkicon' => ''
-			);
+			];
 		}
 
-		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
-		if (!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId()) && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassSendSMS')) {
-			$massActionLinks[] = array(
+		if ($currentUserModel->hasModulePermission('SMSNotifier') && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassSendSMS')) {
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_SMS',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendSms("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
 				'linkicon' => ''
-			);
+			];
 		}
 
 		foreach ($massActionLinks as $massActionLink) {
