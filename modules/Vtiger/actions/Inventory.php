@@ -18,11 +18,8 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 
 	function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

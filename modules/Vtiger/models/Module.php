@@ -992,14 +992,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 			],
 		];
 
-		$moduleModel = Vtiger_Module_Model::getInstance('Dashboard');
-		if ($userPrivilegesModel->hasModulePermission($moduleModel->getId()) && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
-			$quickLinks[] = array(
+		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
+			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_DASHBOARD',
 				'linkurl' => $this->getDashBoardUrl(),
 				'linkicon' => '',
-			);
+			];
 		}
 
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($this);

@@ -12,10 +12,8 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -25,7 +23,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		return '';
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');

@@ -51,8 +51,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$homeModel = Vtiger_Module_Model::getInstance('Dashboard');
-		if ($userPrivilegesModel->hasModulePermission($homeModel->getId()) && $userPrivilegesModel->hasModuleActionPermission($homeModel->getId(), 'NotificationCreateMessage')) {
+		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission('Dashboard', 'NotificationCreateMessage')) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SEND_NOTIFICATION',

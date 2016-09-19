@@ -15,7 +15,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	protected $record = false;
 	public $defaultMode = false;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showDetailViewByMode');
@@ -36,7 +36,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showOpenStreetMap');
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -54,7 +54,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return vtranslate('LBL_VIEW_DETAIL', $moduleName);
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -604,10 +604,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function getActivities(Vtiger_Request $request)
 	{
 		$moduleName = 'Calendar';
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
+		if ($currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			$moduleName = $request->getModule();
 			$recordId = $request->get('record');
 			$pageNumber = $request->get('page');

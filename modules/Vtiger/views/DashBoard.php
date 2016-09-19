@@ -12,8 +12,8 @@
 class Vtiger_DashBoard_View extends Vtiger_Index_View {
 
 	function checkPermission(Vtiger_Request $request) {
-		$moduleName = $request->getModule();
-		if(!Users_Privileges_Model::isPermitted($moduleName)) {
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -80,9 +80,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View {
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		
 		//check profile permissions for Dashboards
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 		if($permission) {
 			$widgets = $dashBoardModel->getDashboards();
 		} else {

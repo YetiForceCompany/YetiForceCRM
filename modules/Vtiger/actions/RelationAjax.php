@@ -24,11 +24,8 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
