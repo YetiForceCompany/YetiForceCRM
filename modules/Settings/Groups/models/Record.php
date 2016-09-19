@@ -257,27 +257,31 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		foreach ($members['RoleAndSubordinates'] as $memberModel) {
-			$roleModel = new Settings_Roles_Record_Model();
-			$roleModel->set('roleid', $memberModel->get('roleId'));
-
+			$roleModel = Settings_Roles_Record_Model::getInstanceById($memberModel->get('roleId'));
 			$roleUsers = $roleModel->getUsers();
 			foreach ($roleUsers as $userId => $userRecordModel) {
 				$userIdsList[$userId] = $userId;
 			}
-		}
+			$childernRoles = $roleModel->getAllChildren();
+			foreach ($childernRoles as $role) {
+				$childRoleModel = new Settings_Roles_Record_Model();
+				$childRoleModel->set('roleid', $role->getId());
 
-		if (array_key_exists(1, $userIdsList)) {
-			unset($userIdsList[1]);
-		}
-
-		foreach ($userIdsList as $userId) {
-			$userRecordModel = Users_Record_Model::getInstanceById($userId, 'Users');
-			if ($nonAdmin && $userRecordModel->isAdminUser()) {
-				continue;
+				$roleUsers = $childRoleModel->getUsers();
+				foreach ($roleUsers as $userId => $userRecordModel) {
+					$userIdsList[$userId] = $userId;
+				}
 			}
-			$usersList[$userId] = $userRecordModel;
 		}
-		return $usersList;
+		if ($nonAdmin) {
+			foreach ($userIdsList as $key => $userId) {
+				$userRecordModel = Users_Record_Model::getInstanceById($userId, 'Users');
+				if ($userRecordModel->isAdminUser()) {
+					unset($userIdsList[$key]);
+				}
+			}
+		}
+		return $userIdsList;
 	}
 
 	protected function transferOwnership($transferToGroup)
