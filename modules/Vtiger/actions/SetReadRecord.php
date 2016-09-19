@@ -1,5 +1,5 @@
 F<?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,18 +7,21 @@ F<?php
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action {
-	
-	public function checkPermission(Vtiger_Request $request) {
+class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
+{
+
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'ReadRecord')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'ReadRecord')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
@@ -26,7 +29,7 @@ class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action {
 
 		$cvId = $request->get('viewname');
 		$response = new Vtiger_Response();
-		$response->setResult(array('viewname'=>$cvId, 'module'=>$moduleName));
+		$response->setResult(array('viewname' => $cvId, 'module' => $moduleName));
 		$response->emit();
 	}
 }
