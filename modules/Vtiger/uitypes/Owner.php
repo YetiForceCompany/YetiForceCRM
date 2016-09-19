@@ -31,7 +31,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			return $ownerName;
 		}
-		if (\includes\fields\Owner::getType($value) === 'User') {
+		if (\includes\fields\Owner::getType($value) === 'Users') {
 			$userModel = Users_Record_Model::getCleanInstance('Users');
 			$userModel->set('id', $value);
 			$detailViewUrl = $userModel->getDetailViewUrl();
