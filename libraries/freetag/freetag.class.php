@@ -176,7 +176,7 @@ class freetag {
 			ORDER BY object_id ASC
 			LIMIT $offset, $limit";
         echo $sql;
-		$rs = $adb->pquery($sql, $params)|| die("Error: $sql");
+		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		$retarr = array();
 		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = $row['object_id'];
@@ -221,7 +221,7 @@ class freetag {
 			ORDER BY object_id ASC
 			";
         	//echo $sql;
-		$rs = $adb->pquery($sql, $params)|| die("Error: $sql");
+		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		$retarr = array();
 		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = $row['object_id'];
@@ -280,7 +280,7 @@ class freetag {
 			HAVING uniques = $numTags
 			LIMIT $offset, $limit";
 		$this->debug_text("Tag combo: " . join("+", $tagArray) . " SQL: $sql");
-		$rs = $adb->pquery($sql, $params)|| die("Error: $sql");
+		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = $row['object_id'];
 		}
@@ -324,7 +324,7 @@ class freetag {
 			WHERE $where
 			ORDER BY object_id ASC
 			LIMIT $offset, $limit ";
-		$rs = $adb->pquery($sql, $params)|| die("Error: $sql");
+		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		$retarr = array();
 		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = $row['object_id'];
@@ -381,7 +381,7 @@ class freetag {
 			$limit_sql
 			";
 			//echo ' <br><br>get_tags_on_object sql is ' .$sql;
-		$rs = $adb->pquery($sql, $params)|| die("Error: $sql");
+		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		$retarr = [];
 		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = [
@@ -436,7 +436,7 @@ class freetag {
 			AND tag = ? ";
 			
 		array_push($params, $object_id, $normalized_tag);
-		$rs = $adb->pquery($sql, $params)|| die("Syntax Error: $sql");
+		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
 		if($rs->fields['count'] > 0) {
 			return true;
 		}
@@ -444,7 +444,7 @@ class freetag {
 		$sql = "SELECT id 
 			FROM ${prefix}freetags 
 			WHERE raw_tag = ? ";
-		$rs = $adb->pquery($sql, array($tag))|| die("Syntax Error: $sql");
+		$rs = $adb->pquery($sql, array($tag)) or die("Syntax Error: $sql");
 		$row = $adb->fetch_array($rs);
 		if($row) {
 			$tag_id = $row['id'];
@@ -453,7 +453,7 @@ class freetag {
 			$tag_id = $adb->getUniqueId('vtiger_freetags');
 			$sql = "INSERT INTO ${prefix}freetags (id, tag, raw_tag) VALUES (?,?,?)";
 			$params = array($tag_id, $normalized_tag, $tag);
-			$rs = $adb->pquery($sql, $params)|| die("Syntax Error: $sql");
+			$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
 			
 		}
 		if(!($tag_id > 0)) {
@@ -462,7 +462,7 @@ class freetag {
 		$sql = "INSERT INTO ${prefix}freetagged_objects
 			(tag_id, tagger_id, object_id, tagged_on, module) VALUES (?,?,?, NOW(),?)";
 		$params = array($tag_id, $tagger_id, $object_id, $module);
-		$rs = $adb->pquery($sql, $params)|| die("Syntax error: $sql");
+		$rs = $adb->pquery($sql, $params) or die("Syntax error: $sql");
 
 		return true;
 	}
@@ -472,7 +472,7 @@ class freetag {
 	 *
 	 * This is a utility function used to take a raw tag and convert it to normalized form.
 	 * Normalized form is essentially lowercased alphanumeric characters only, 
-	 * with no spaces|| special characters.
+	 * with no spaces or special characters.
 	 *
 	 * Customize the normalized valid chars with your own set of special characters
 	 * in regex format within the option 'normalized_valid_chars'. It acts as a filter
@@ -481,7 +481,7 @@ class freetag {
 	 * After the filter is applied, the function also lowercases the characters using strtolower 
 	 * in the current locale.
 	 *
-	 * The default for normalized_valid_chars is a-zA-Z0-9,|| english alphanumeric.
+	 * The default for normalized_valid_chars is a-zA-Z0-9, or english alphanumeric.
 	 *
 	 * @param string An individual tag in raw form that should be normalized.
 	 *
@@ -525,7 +525,7 @@ class freetag {
 			$sql = "DELETE FROM ${prefix}freetagged_objects
 				WHERE tagger_id = ? && object_id = ? && tag_id = ? LIMIT 1";
 			$params = array($tagger_id, $object_id, $tag_id);
-			$rs = $adb->pquery($sql, $params)|| die("Syntax Error: $sql");	
+			$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");	
 			return true;
 		} else {
 			return false;	
@@ -550,7 +550,7 @@ class freetag {
 		if($object_id > 0) {
 			$sql = "DELETE FROM ${prefix}freetagged_objects
 				WHERE object_id = ? ";	
-				$rs = $adb->pquery($sql, array($object_id))|| die("Syntax Error: $sql");	
+				$rs = $adb->pquery($sql, array($object_id)) or die("Syntax Error: $sql");	
 			return true;
 		} else {
 			return false;	
@@ -584,7 +584,7 @@ class freetag {
 
 			$sql = "DELETE FROM ${prefix}freetagged_objects
 				WHERE tagger_id = ? && object_id = ?";	
-			$rs = $adb->pquery($sql, array($tagger_id, $object_id))|| die("Syntax Error: $sql");	
+			$rs = $adb->pquery($sql, array($tagger_id, $object_id)) or die("Syntax Error: $sql");	
 			return true;
 		} else {
 			return false;	
@@ -614,7 +614,7 @@ class freetag {
 
 		$sql = "SELECT id FROM ${prefix}freetags
 			WHERE tag = ? LIMIT 1 ";	
-			$rs = $adb->pquery($sql, array($tag))|| die("Syntax Error: $sql");	
+			$rs = $adb->pquery($sql, array($tag)) or die("Syntax Error: $sql");	
 		return $rs->fields['id'];
 
 	}
@@ -641,7 +641,7 @@ class freetag {
 
 		$sql = "SELECT id FROM ${prefix}freetags
 			WHERE raw_tag = ? LIMIT 1 ";	
-			$rs = $adb->pquery($sql, array($tag))|| die("Syntax Error: $sql");	
+			$rs = $adb->pquery($sql, array($tag)) or die("Syntax Error: $sql");	
 		return $rs->fields['id'];
 
 	}
@@ -802,7 +802,7 @@ class freetag {
 			ORDER BY count DESC, tag ASC
 			LIMIT $offset, $limit";
 
-		$rs = $adb->pquery($sql, $params)|| die("Syntax Error: $sql");
+		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
 		$retarr = array();
 		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = array(
@@ -844,7 +844,7 @@ class freetag {
 			$tagger_sql
 			";
 
-		$rs = $adb->pquery($sql, $params)|| die("Syntax Error: $sql");
+		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
 		while ($row = $adb->fetch_array($rs)) {
 			return $row['count'];
 		}
@@ -926,7 +926,7 @@ class freetag {
 	 *
 	 * This is a function built explicitly to set up a page with most popular tags
 	 * that contains an alphabetically sorted list of tags, which can then be sized
-	 *|| colored by popularity.
+	 * or colored by popularity.
 	 *
 	 * Also known more popularly as Tag Clouds!
 	 *
@@ -971,7 +971,7 @@ class freetag {
 			GROUP BY tag
 			ORDER BY quantity DESC LIMIT 0, $max";
         //echo $sql;
-		$rs = $adb->pquery($sql, $params)|| die("Syntax Error: $sql");
+		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
 		$retarr = array();
 		while ($row = $adb->fetch_array($rs)) {
 			$row['tag'] = to_html($row['tag']); 
@@ -989,12 +989,12 @@ class freetag {
 	/**
 	 * similar_tags
 	 *
-	 * Finds tags that are "similar"|| related to the given tag.
+	 * Finds tags that are "similar" or related to the given tag.
 	 * It does this by looking at the other tags on objects tagged with the tag specified.
 	 * Confusing? Think of it like e-commerce's "Other vtiger_users who bought this also bought," 
 	 * as that's exactly how this works.
 	 *
-	 * Returns an empty array if no tag is passed,|| if no related tags are found.
+	 * Returns an empty array if no tag is passed, or if no related tags are found.
 	 * Hint: You can detect related tags returned with count($retarr > 0)
 	 *
 	 * It's important to note that the quantity passed back along with each tag
@@ -1034,7 +1034,7 @@ class freetag {
 			ORDER BY quantity DESC
 			LIMIT 0, ?";
 
-		$rs = $adb->pquery($sql, array($tag, $tag, $max))|| die("Syntax Error: $sql");
+		$rs = $adb->pquery($sql, array($tag, $tag, $max)) or die("Syntax Error: $sql");
 		while ($row = $adb->fetch_array($rs)) {
 			$retarr[$row['tag']] = $row['quantity'];
 		}
@@ -1109,7 +1109,7 @@ class freetag {
 			ORDER BY num_common_tags DESC
 			LIMIT 0, ? ";
 
-		$rs = $adb->pquery($sql, array($tagArray, $threshold, $max_objects))|| die("Syntax Error: $sql, Error: " . $adb->ErrorMsg());
+		$rs = $adb->pquery($sql, array($tagArray, $threshold, $max_objects)) or die("Syntax Error: $sql, Error: " . $adb->ErrorMsg());
 		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = array (
 				'object_id' => $row['object_id'],
