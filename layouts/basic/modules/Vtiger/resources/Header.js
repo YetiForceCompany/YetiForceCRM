@@ -934,7 +934,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 
 		thisInstance.basicSearch();
-		jQuery('.quickCreateModules,#compactquickCreate,#topMenus').on("click", ".quickCreateModule", function (e, params) {
+		jQuery('.quickCreateModules').on("click", ".quickCreateModule", function (e, params) {
 			var moduleName = jQuery(e.currentTarget).data('name');
 			thisInstance.quickCreateModule(moduleName);
 		});
