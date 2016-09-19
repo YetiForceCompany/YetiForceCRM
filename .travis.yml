@@ -35,7 +35,7 @@ before_script:
   
 script:
 - cd tests
-- phpunit --debug --coverage-text --coverage-clover=coverage.clover
+- phpunit --debug --verbose --coverage-text --coverage-clover=coverage.clover
     
 after_success:
 - cat WebUI.txt
