@@ -3268,7 +3268,7 @@ span[name=existingImages] img{
 	min-width: 90px;
 }
 .listViewEntriesTable .searchField{
-	min-width: 100px;
+	min-width: 50px;
 }
 .paginationDiv .pageInfo {
 	border: 1px solid #ddd;
