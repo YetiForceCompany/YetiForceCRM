@@ -7,15 +7,21 @@
  */
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers Permissions::<public>
+ */
 class ModuleManager extends TestCase
 {
 
-	public function test()
+	public function testLanguageExport()
 	{
-		$package = new vtlib\LanguageExport();
+		$package = new \vtlib\LanguageExport();
 		$package->export('pl_pl', ROOT_DIRECTORY . 'PL.zip', 'PL.zip');
-
-		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
+	}
+	
+	public function testCreateModule()
+	{
+		$moduleManagerModel = new \Settings_ModuleManager_Module_Model();
 		$moduleManagerModel->createModule([
 			'module_name' => 'Test',
 			'entityfieldname' => 'test',
@@ -23,8 +29,21 @@ class ModuleManager extends TestCase
 			'entitytype' => 1,
 			'entityfieldlabel' => 'Test',
 		]);
-
+	}
+	
+	public function testDeleteModule()
+	{
 		$moduleInstance = \vtlib\Module::getInstance('Test');
 		$moduleInstance->delete();
 	}
+	
+	public function testToggleModuleAccess()
+	{
+		$tabs = \includes\Modules::getTabData('tabId');
+		foreach ($tabs as $moduleName => $value) {
+			Settings_ModuleManager_Module_Model::disableModule($moduleName);
+			Settings_ModuleManager_Module_Model::enableModule($moduleName);
+		}
+	}
 }
+
