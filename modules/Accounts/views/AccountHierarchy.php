@@ -21,7 +21,7 @@ class Accounts_AccountHierarchy_View extends Vtiger_View_Controller {
 		}
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true) {
+	public function preProcess(Vtiger_Request $request, $display = true) {
 	}
 	private function getLastModified($id){
 		$db = PearDatabase::getInstance();
@@ -56,6 +56,6 @@ class Accounts_AccountHierarchy_View extends Vtiger_View_Controller {
 		$viewer->view('AccountHierarchy.tpl', $moduleName);
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	public function postProcess(Vtiger_Request $request) {
 	}
 }

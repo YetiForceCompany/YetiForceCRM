@@ -122,7 +122,7 @@ abstract class AntlrLexer extends BaseRecognizer{
 		return $token;
 	}
 	
-	function matchString($s){
+	public function matchString($s){
 		$i = 0;
 		while ( $i<strlen($s)) {
 			if ( $this->input->LA(1)!=charAt($s, $i) ) {

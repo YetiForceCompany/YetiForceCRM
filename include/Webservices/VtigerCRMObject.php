@@ -15,7 +15,7 @@ class VtigerCRMObject
 	private $moduleId;
 	private $instance;
 
-	function VtigerCRMObject($moduleCredential, $isId = false)
+	public function VtigerCRMObject($moduleCredential, $isId = false)
 	{
 
 		if ($isId) {
@@ -186,7 +186,7 @@ class VtigerCRMObject
 		return $this->instance->column_fields;
 	}
 
-	function exists($id)
+	public function exists($id)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -201,7 +201,7 @@ class VtigerCRMObject
 		return $exists;
 	}
 
-	function getSEType($id)
+	public function getSEType($id)
 	{
 		$adb = PearDatabase::getInstance();
 

@@ -17,12 +17,12 @@ class VTEntityDelta extends VTEventHandler
 	private static $newEntity;
 	private static $entityDelta;
 
-	function __construct()
+	public function __construct()
 	{
 		
 	}
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		$adb = PearDatabase::getInstance();
 		if (!is_object($entityData)) {
@@ -46,7 +46,7 @@ class VTEntityDelta extends VTEventHandler
 		}
 	}
 
-	function fetchEntity($moduleName, $recordId)
+	public function fetchEntity($moduleName, $recordId)
 	{
 		$adb = PearDatabase::getInstance();
 		$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName);
@@ -56,7 +56,7 @@ class VTEntityDelta extends VTEventHandler
 		self::$newEntity[$moduleName][$recordId] = $entityData;
 	}
 
-	function computeDelta($moduleName, $recordId)
+	public function computeDelta($moduleName, $recordId)
 	{
 
 		$delta = [];
@@ -86,7 +86,7 @@ class VTEntityDelta extends VTEventHandler
 		self::$entityDelta[$moduleName][$recordId] = $delta;
 	}
 
-	function getEntityDelta($moduleName, $recordId, $forceFetch = false)
+	public function getEntityDelta($moduleName, $recordId, $forceFetch = false)
 	{
 		if ($forceFetch) {
 			$this->fetchEntity($moduleName, $recordId);
@@ -95,29 +95,29 @@ class VTEntityDelta extends VTEventHandler
 		return self::$entityDelta[$moduleName][$recordId];
 	}
 
-	function getOldValue($moduleName, $recordId, $fieldName)
+	public function getOldValue($moduleName, $recordId, $fieldName)
 	{
 		$entityDelta = self::$entityDelta[$moduleName][$recordId];
 		return $entityDelta[$fieldName]['oldValue'];
 	}
 
-	function getCurrentValue($moduleName, $recordId, $fieldName)
+	public function getCurrentValue($moduleName, $recordId, $fieldName)
 	{
 		$entityDelta = self::$entityDelta[$moduleName][$recordId];
 		return $entityDelta[$fieldName]['currentValue'];
 	}
 
-	function getOldEntity($moduleName, $recordId)
+	public function getOldEntity($moduleName, $recordId)
 	{
 		return self::$oldEntity[$moduleName][$recordId];
 	}
 
-	function getNewEntity($moduleName, $recordId)
+	public function getNewEntity($moduleName, $recordId)
 	{
 		return self::$newEntity[$moduleName][$recordId];
 	}
 
-	function hasChanged($moduleName, $recordId, $fieldName, $fieldValue = NULL)
+	public function hasChanged($moduleName, $recordId, $fieldName, $fieldValue = NULL)
 	{
 		if (empty(self::$oldEntity[$moduleName][$recordId])) {
 			return false;

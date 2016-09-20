@@ -161,7 +161,7 @@ class DFA {
 
 	}
 
-	function noViableAlt($s, $input){
+	public function noViableAlt($s, $input){
 		if ($this->recognizer->state->backtracking>0) {
 			$this->recognizer->state->failed=true;
 			return;
@@ -178,7 +178,7 @@ class DFA {
 	/** A hook for debugging interface */
 	protected function error($nvae) { ; }
 
-	function specialStateTransition($s, $input)
+	public function specialStateTransition($s, $input)
 	{
 		return -1;
 	}
@@ -207,7 +207,7 @@ class DFA {
 		return $data;
 	}
 	
-	function __call($fn, $params){
+	public function __call($fn, $params){
 		return call_user_func_array(array($this->recognizer, $fn), $params);
 	}
 }

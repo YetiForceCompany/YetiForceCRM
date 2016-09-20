@@ -439,7 +439,7 @@ class CurrencyField
 		return $amount * $conversionRate;
 	}
 
-	function currencyDecimalFormat($value, $user = null)
+	public function currencyDecimalFormat($value, $user = null)
 	{
 		$current_user = vglobal('current_user');
 		if (!$user) {

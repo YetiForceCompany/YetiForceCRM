@@ -40,7 +40,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 * Function to get the instance of the logged in User
 	 * @return Users object
 	 */
-	function getLogin()
+	public function getLogin()
 	{
 		$user = parent::getLogin();
 		if (!$user) {
@@ -90,7 +90,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$handler->postProcess($request);
 	}
 
-	function isInstalled()
+	public function isInstalled()
 	{
 		$dbconfig = AppConfig::main('dbconfig');
 		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
@@ -99,7 +99,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$log = LoggerManager::getLogger('System');
 		vglobal('log', $log);
@@ -244,7 +244,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 
-	function exception_error_handler($errno, $errstr, $errfile, $errline)
+	public function exception_error_handler($errno, $errstr, $errfile, $errline)
 	{
 		$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
 		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {

@@ -43,7 +43,7 @@ class Admin_WebUI extends Admin_EntryPoint
 	 * Function to get the instance of the logged in User
 	 * @return Users object
 	 */
-	function getLogin()
+	public function getLogin()
 	{
 		$user = parent::getLogin();
 		if (!$user) {
@@ -92,7 +92,7 @@ class Admin_WebUI extends Admin_EntryPoint
 		$handler->postProcess($request);
 	}
 
-	function isInstalled()
+	public function isInstalled()
 	{
 		global $dbconfig;
 		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
@@ -101,7 +101,7 @@ class Admin_WebUI extends Admin_EntryPoint
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		vglobal('log', LoggerManager::getLogger('System'));
 		Vtiger_Session::init();

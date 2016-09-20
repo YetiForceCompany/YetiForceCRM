@@ -43,7 +43,7 @@ class HistoryCall{
         return $resultData;
     }
 	
-	function addCallLogs($data){
+	public function addCallLogs($data){
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		include_once 'include/main/WebUI.php';
 		$log->info("Start HistoryCall::addCallLogs | user id: ".$this->userID);
@@ -83,7 +83,7 @@ class HistoryCall{
 		return $resultData;
 	}
 	
-	function checkPermissions($authorization){
+	public function checkPermissions($authorization){
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->info("Start HistoryCall::checkPermissions | ".print_r( $authorization,true));
 		$return = false;	
@@ -96,7 +96,7 @@ class HistoryCall{
 		return $return;
 	}
 	
-	function findPhoneNumber($number){
+	public function findPhoneNumber($number){
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$crmid = false;
 		$modulesInstance = array();
@@ -128,7 +128,7 @@ class HistoryCall{
 		}
 		return $crmid;
 	}
-	function getType($type, $duration){
+	public function getType($type, $duration){
 		if($type == 2){
 			return $duration > 0 ? $this->outgoingStatus[1] : $this->outgoingStatus[0];
 		}else{
@@ -136,7 +136,7 @@ class HistoryCall{
 		}
 	}
 	
-	function getDate($timestamp){
+	public function getDate($timestamp){
 		$timestamp = substr($timestamp, 0, 10);
 		return date("Y-m-d H:i:s", $timestamp);
 	}

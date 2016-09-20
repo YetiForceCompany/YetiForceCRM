@@ -380,7 +380,7 @@ class WebserviceField
 		}
 	}
 
-	function getPicklistDetails()
+	public function getPicklistDetails()
 	{
 		$cache = Vtiger_Cache::getInstance();
 		if ($cache->getPicklistDetails($this->getTabId(), $this->getFieldName())) {
@@ -407,7 +407,7 @@ class WebserviceField
 		}
 	}
 
-	function getPickListOptions()
+	public function getPickListOptions()
 	{
 		$fieldName = $this->getFieldName();
 
@@ -448,14 +448,14 @@ class WebserviceField
 		return $options;
 	}
 
-	function getPresence()
+	public function getPresence()
 	{
 		return $this->presence;
 	}
 
 	private static $treeDetails = [];
 
-	function getTreeDetails()
+	public function getTreeDetails()
 	{
 		if (count(self::$treeDetails) > 0) {
 			return self::$treeDetails;

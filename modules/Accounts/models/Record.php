@@ -16,7 +16,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 	 * Function returns the details of Accounts Hierarchy
 	 * @return <Array>
 	 */
-	function getAccountHierarchy()
+	public function getAccountHierarchy()
 	{
 		$focus = CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getAccountHierarchy($this->getId());
@@ -40,7 +40,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 	 * Function returns the url for create event
 	 * @return <String>
 	 */
-	function getCreateEventUrl()
+	public function getCreateEventUrl()
 	{
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
@@ -50,7 +50,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 	 * Function returns the url for create todo
 	 * @retun <String>
 	 */
-	function getCreateTaskUrl()
+	public function getCreateTaskUrl()
 	{
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();

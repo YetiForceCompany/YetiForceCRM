@@ -11,7 +11,7 @@
 class VTEventCondition
 {
 
-	function __construct($expr)
+	public function __construct($expr)
 	{
 		if ($expr != '') {
 			$parser = $this->getParser($expr);
@@ -21,7 +21,7 @@ class VTEventCondition
 		}
 	}
 
-	function test($obj)
+	public function test($obj)
 	{
 		$this->data = $obj;
 		if ($this->expr == null) {

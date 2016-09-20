@@ -34,7 +34,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @param resource|string $data Initial payload
 	 * @return null|string
 	 */
-	function createFile($name, $data = null) {
+	public function createFile($name, $data = null) {
 		if($this->dirid == 0)
 			throw new DAV\Exception\Forbidden('Permission denied to create file: '.$name);
 		include_once 'include/main/WebUI.php';
@@ -80,7 +80,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @param string $name
 	 * @return void
 	 */
-	function createDirectory($name) {
+	public function createDirectory($name) {
 		if($this->dirid == 0)
 			throw new DAV\Exception\Forbidden('Permission denied to create directory: '.$name);
 		$path = trim($this->path, 'files') . '/' . $name . '/';
@@ -93,7 +93,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$stmt->execute([$name, $newPath, $parent_dirid, $dirHash, $this->exData->crmUserId]);
 	}
 
-	function getRootChild() {
+	public function getRootChild() {
 		$path = '/';
 		$dirHash = sha1($path);
 		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ? && userid IN (?,?);');
@@ -117,7 +117,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @throws DAV\Exception\NotFound
 	 * @return DAV\INode
 	 */
-	function getChild($file) {
+	public function getChild($file) {
 		$path = trim($this->path, 'files') . '/' . $file . '/';
 		$hash = sha1($path);
 		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ? && userid IN (?,?);');
@@ -151,7 +151,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 *
 	 * @return DAV\INode[]
 	 */
-	function getChildren() {
+	public function getChildren() {
 		$path = trim($this->path, 'files') . '/';
 		$dirHash = sha1($path);
 		$nodes = [];
@@ -185,7 +185,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @param string $name
 	 * @return bool
 	 */
-	function childExists($name) {
+	public function childExists($name) {
 		$path = $this->path . '/' . $name;
 		return file_exists($path);
 	}
@@ -195,7 +195,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 *
 	 * @return void
 	 */
-	function delete() {
+	public function delete() {
 		foreach ($this->getChildren() as $child)
 			$child->delete();
 		//rmdir($this->path);
@@ -206,7 +206,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 *
 	 * @return array
 	 */
-	function getQuotaInfo() {
+	public function getQuotaInfo() {
 		$path = $this->exData->localStorageDir . $this->localPath;
 		return [
 			disk_total_space($path) - disk_free_space($path),
@@ -220,7 +220,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @param string $name The new name
 	 * @return void
 	 */
-	function setName($name) {
+	public function setName($name) {
 		list($parentLocalPath, ) = URLUtil::splitPath($this->localPath);
 		list($parentPath, ) = URLUtil::splitPath($this->path);
 		list(, $newName) = URLUtil::splitPath($name);

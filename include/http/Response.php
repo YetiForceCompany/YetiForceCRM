@@ -59,7 +59,7 @@ class Vtiger_Response
 	/**
 	 * Set headers to send
 	 */
-	function setHeader($header)
+	public function setHeader($header)
 	{
 		$this->headers[] = $header;
 	}
@@ -67,7 +67,7 @@ class Vtiger_Response
 	/**
 	 * Set error data to send
 	 */
-	function setError($code, $message = null)
+	public function setError($code, $message = null)
 	{
 		if ($message == null)
 			$message = $code;
@@ -78,7 +78,7 @@ class Vtiger_Response
 	/**
 	 * Set emit type.
 	 */
-	function setEmitType($type)
+	public function setEmitType($type)
 	{
 		$this->emitType = $type;
 	}
@@ -86,7 +86,7 @@ class Vtiger_Response
 	/**
 	 * Set padding method name for JSONP emit type.
 	 */
-	function setEmitJSONP($fn)
+	public function setEmitJSONP($fn)
 	{
 		$this->setEmitType(self::$EMIT_JSONP);
 		$this->emitJSONPFn = $fn;
@@ -95,7 +95,7 @@ class Vtiger_Response
 	/**
 	 * Is emit type configured to JSON?
 	 */
-	function isJSON()
+	public function isJSON()
 	{
 		return $this->emitType == self::$EMIT_JSON;
 	}
@@ -103,7 +103,7 @@ class Vtiger_Response
 	/**
 	 * Get the error data
 	 */
-	function getError()
+	public function getError()
 	{
 		return $this->error;
 	}
@@ -111,7 +111,7 @@ class Vtiger_Response
 	/**
 	 * Check the presence of error data
 	 */
-	function hasError()
+	public function hasError()
 	{
 		return !is_null($this->error);
 	}
@@ -119,7 +119,7 @@ class Vtiger_Response
 	/**
 	 * Set the result data.
 	 */
-	function setResult($result)
+	public function setResult($result)
 	{
 		$this->result = $result;
 	}
@@ -127,7 +127,7 @@ class Vtiger_Response
 	/**
 	 * Update the result data.
 	 */
-	function updateResult($key, $value)
+	public function updateResult($key, $value)
 	{
 		$this->result[$key] = $value;
 	}
@@ -135,7 +135,7 @@ class Vtiger_Response
 	/**
 	 * Get the result data.
 	 */
-	function getResult()
+	public function getResult()
 	{
 		return $this->result;
 	}
@@ -159,7 +159,7 @@ class Vtiger_Response
 	/**
 	 * Send response to client.
 	 */
-	function emit()
+	public function emit()
 	{
 
 		$contentTypeSent = false;

@@ -75,7 +75,7 @@ class Accounts extends CRMEntity
 
 	/** Function to handle module specific operations when saving a entity
 	 */
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}
@@ -85,7 +85,7 @@ class Accounts extends CRMEntity
 	 * @param $id -- campaign id :: Type Integer
 	 * @returns list of campaigns in array format
 	 */
-	function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$singlepane_view = vglobal('singlepane_view');
@@ -149,7 +149,7 @@ class Accounts extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$singlepane_view = vglobal('singlepane_view');
@@ -217,7 +217,7 @@ class Accounts extends CRMEntity
 	 * @param  integer   $id      - accountid
 	 * returns related Ticket record in array format
 	 */
-	function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$singlepane_view = vglobal('singlepane_view');
@@ -278,7 +278,7 @@ class Accounts extends CRMEntity
 	 * @param  integer   $id      - accountid
 	 * returns related Products record in array format
 	 */
-	function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$singlepane_view = vglobal('singlepane_view');
@@ -341,7 +341,7 @@ class Accounts extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Accounts Query.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -385,7 +385,7 @@ class Accounts extends CRMEntity
 	 * Used By vtigerCRM Word Plugin
 	 * Returns the Merge Fields for Word Plugin
 	 */
-	function getColumnNames_Acnt()
+	public function getColumnNames_Acnt()
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -420,7 +420,7 @@ class Accounts extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			'Contacts' => array('vtiger_contactdetails' => array('parentid', 'contactid'), 'vtiger_account' => 'accountid'),
@@ -443,7 +443,7 @@ class Accounts extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
 	{
 
 		$matrix = $queryPlanner->newDependencyMatrix();
@@ -508,7 +508,7 @@ class Accounts extends CRMEntity
 	 * @param  integer   $id      - accountid
 	 * returns Account hierarchy in array format
 	 */
-	function getAccountHierarchy($id, $listColumns = false)
+	public function getAccountHierarchy($id, $listColumns = false)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -559,7 +559,7 @@ class Accounts extends CRMEntity
 	 * @param  array   $listviewEntries 
 	 * returns All the parent accounts of the given accountid in array format
 	 */
-	function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
+	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
@@ -612,7 +612,7 @@ class Accounts extends CRMEntity
 	 * @param  array   $parent_accounts   - Array of all the parent accounts
 	 * returns All the parent accounts of the given accountid in array format
 	 */
-	function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts, $depthBase = 0)
+	public function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts, $depthBase = 0)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -728,7 +728,7 @@ class Accounts extends CRMEntity
 	}
 
 	// Function to unlink the dependent records of the given record by id
-	function unlinkDependencies($module, $id)
+	public function unlinkDependencies($module, $id)
 	{
 		$log = vglobal('log');
 		//Backup Contact-Account Relation
@@ -765,7 +765,7 @@ class Accounts extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))
@@ -781,7 +781,7 @@ class Accounts extends CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -1007,7 +1007,7 @@ class Accounts extends CRMEntity
 	}
 	/* Function to get related contact ids for an account record */
 
-	function getRelatedContactsIds($id = null)
+	public function getRelatedContactsIds($id = null)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($id == null)

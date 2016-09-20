@@ -15,7 +15,7 @@ class VtigerCRMActorMeta extends EntityMeta
 	protected static $fieldTypeMapping = [];
 	protected static $referenceTypeMapping = [];
 
-	function __construct($tableName, $webserviceObject, $adb, $user)
+	public function __construct($tableName, $webserviceObject, $adb, $user)
 	{
 		parent::__construct($webserviceObject, $user);
 		$this->baseTable = $tableName;
@@ -278,7 +278,7 @@ class VtigerCRMActorMeta extends EntityMeta
 		return $this->webserviceObject->getEntityId();
 	}
 
-	function getObjectEntityName($webserviceId)
+	public function getObjectEntityName($webserviceId)
 	{
 
 		$idComponents = vtws_getIdComponents($webserviceId);
@@ -290,7 +290,7 @@ class VtigerCRMActorMeta extends EntityMeta
 		return null;
 	}
 
-	function exists($recordId)
+	public function exists($recordId)
 	{
 		$exists = false;
 		$sql = sprintf('SELECT 1 FROM %s WHERE %s = ?', $this->baseTable, $this->getObectIndexColumn());

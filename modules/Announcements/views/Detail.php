@@ -9,13 +9,13 @@
 class Announcements_Detail_View extends Vtiger_Detail_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showUsers');
 	}
 
-	function showUsers(Vtiger_Request $request)
+	public function showUsers(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

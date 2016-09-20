@@ -11,7 +11,7 @@
 class Test{
 	public $restler;
 	
-	function post($app_name = ''){
+	public function post($app_name = ''){
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->info('Start Test metod');
 		$return = 'false';

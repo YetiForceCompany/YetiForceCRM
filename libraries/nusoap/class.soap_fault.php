@@ -45,7 +45,7 @@ class nusoap_fault extends nusoap_base {
     * @param string $faultstring human readable error message
     * @param mixed $faultdetail detail, typically a string or array of string
 	*/
-	function nusoap_fault($faultcode,$faultactor='',$faultstring='',$faultdetail=''){
+	public function nusoap_fault($faultcode,$faultactor='',$faultstring='',$faultdetail=''){
 		parent::nusoap_base();
 		$this->faultcode = $faultcode;
 		$this->faultactor = $faultactor;
@@ -59,7 +59,7 @@ class nusoap_fault extends nusoap_base {
 	* @return	string	The serialization of the fault instance.
 	* @access   public
 	*/
-	function serialize(){
+	public function serialize(){
 		$ns_string = '';
 		foreach($this->namespaces as $k => $v){
 			$ns_string .= "\n  xmlns:$k=\"$v\"";

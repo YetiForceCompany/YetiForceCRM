@@ -15,7 +15,7 @@ class State
 	var $result;
 	var $error;
 
-	function State()
+	public function State()
 	{
 		$this->success = false;
 		$this->result = [];

@@ -8,13 +8,13 @@
 
 class Accounts_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getHierarchyCount');
 	}
 	
-	function getHierarchyCount($request)
+	public function getHierarchyCount($request)
 	{
 		$sourceModule = $request->getModule();
 		$recordId = $request->get('record');

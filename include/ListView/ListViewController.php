@@ -129,7 +129,7 @@ class ListViewController
 		return $headerFields;
 	}
 
-	function getListViewRecords($focus, $module, $result)
+	public function getListViewRecords($focus, $module, $result)
 	{
 		$listview_max_textlength = vglobal('listview_max_textlength');
 		$default_charset = vglobal('default_charset');

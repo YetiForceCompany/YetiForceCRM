@@ -16,7 +16,7 @@ class CalDAV_Schedule extends DAV\ServerPlugin
 	const DEBUG_FILE = 'cache/logs/davDebug.log';
 	const EXCEPTION_FILE = 'cache/logs/davException.log';
 
-	function initialize(DAV\Server $server)
+	public function initialize(DAV\Server $server)
 	{
 		$this->server = $server;
 		$server->on('schedule', [$this, 'schedule'], 120);
@@ -28,7 +28,7 @@ class CalDAV_Schedule extends DAV\ServerPlugin
 	 * @param ITip\Message $iTipMessage
 	 * @return void
 	 */
-	function schedule(ITip\Message $iTipMessage)
+	public function schedule(ITip\Message $iTipMessage)
 	{
 
 		// Not sending any emails if the system considers the update
@@ -91,7 +91,7 @@ class CalDAV_Schedule extends DAV\ServerPlugin
 	 *
 	 * @return string
 	 */
-	function getPluginName()
+	public function getPluginName()
 	{
 		return 'Yeti CalDAV Schedule';
 	}
@@ -108,7 +108,7 @@ class CalDAV_Schedule extends DAV\ServerPlugin
 	 *
 	 * @return array
 	 */
-	function getPluginInfo()
+	public function getPluginInfo()
 	{
 		return [
 			'name' => $this->getPluginName(),

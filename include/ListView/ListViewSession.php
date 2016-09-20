@@ -38,7 +38,7 @@ class ListViewSession
 		$this->start = 1;
 	}
 
-	function getCurrentPage($currentModule, $viewId)
+	public function getCurrentPage($currentModule, $viewId)
 	{
 		if (!empty($_SESSION['lvs'][$currentModule][$viewId]['start'])) {
 			return $_SESSION['lvs'][$currentModule][$viewId]['start'];
@@ -46,7 +46,7 @@ class ListViewSession
 		return 1;
 	}
 
-	function getRequestStartPage()
+	public function getRequestStartPage()
 	{
 		$start = AppRequest::get('start');
 		if (!is_numeric($start)) {

@@ -30,7 +30,7 @@ class RecurringType
 	 * Constructor for class RecurringType
 	 * @param array  $repeat_arr     - array contains recurring info
 	 */
-	function RecurringType($repeat_arr)
+	public function RecurringType($repeat_arr)
 	{
 
 		$st_date = explode("-", $repeat_arr["startdate"]);
@@ -201,22 +201,22 @@ class RecurringType
 		return new RecurringType($repeatInfo);
 	}
 
-	function getRecurringType()
+	public function getRecurringType()
 	{
 		return $this->recur_type;
 	}
 
-	function getRecurringFrequency()
+	public function getRecurringFrequency()
 	{
 		return $this->recur_freq;
 	}
 
-	function getRecurringEndDate()
+	public function getRecurringEndDate()
 	{
 		return $this->recurringenddate;
 	}
 
-	function getDBRecurringInfoString()
+	public function getDBRecurringInfoString()
 	{
 		$recurringType = $this->getRecurringType();
 		$recurringInfo = '';
@@ -240,7 +240,7 @@ class RecurringType
 		return $recurringInfo;
 	}
 
-	function getUserRecurringInfo()
+	public function getUserRecurringInfo()
 	{
 		$recurringType = $this->getRecurringType();
 		$recurringInfo = [];
@@ -286,7 +286,7 @@ class RecurringType
 		return $recurringInfo;
 	}
 
-	function getDisplayRecurringInfo()
+	public function getDisplayRecurringInfo()
 	{
 		$currentModule = vglobal('currentModule');
 
@@ -333,7 +333,7 @@ class RecurringType
 	 *  return  array   $recurringDates     -  Recurring Dates in format
 	 * 	Recurring date will be returned in DB Time Zone, as well as DB format
 	 */
-	function _getRecurringDates()
+	public function _getRecurringDates()
 	{
 		$startdateObj = $this->startdate;
 		$startdate = $startdateObj->get_DB_formatted_date();
@@ -506,7 +506,7 @@ class RecurringType
 	 *  @param $dateObj     -- date object  :: Type vt_DateTime Object
 	 *  return $dateObj -- the date object on which the event repeats :: Type vt_DateTime Object
 	 */
-	function getFistdayofmonth($dayofweek, & $dateObj)
+	public function getFistdayofmonth($dayofweek, & $dateObj)
 	{
 		if ($dayofweek < $dateObj->dayofweek) {
 			$index = (7 - $dateObj->dayofweek) + $dayofweek;
@@ -529,7 +529,7 @@ class RecurringType
 	 *  @param $dateObj     -- date object  :: Type vt_DateTime Object
 	 *  return $dateObj -- the date object on which the event repeats :: Type vt_DateTime Object
 	 */
-	function getLastdayofmonth($dayofweek, & $dateObj)
+	public function getLastdayofmonth($dayofweek, & $dateObj)
 	{
 		if ($dayofweek == $dateObj->dayofweek) {
 			return $dateObj;

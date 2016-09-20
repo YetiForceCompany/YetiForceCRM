@@ -9,7 +9,7 @@
 class SaveChanges extends VTEventHandler
 {
 
-	function handleEvent($eventName, $data)
+	public function handleEvent($eventName, $data)
 	{
 		$moduleName = $data->getModuleName();
 		$vtEntityDelta = new VTEntityDelta();

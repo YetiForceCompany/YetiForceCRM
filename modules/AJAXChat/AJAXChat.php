@@ -9,7 +9,7 @@
 class AJAXChat
 {
 
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
 			

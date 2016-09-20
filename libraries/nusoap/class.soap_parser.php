@@ -57,7 +57,7 @@ class nusoap_parser extends nusoap_base {
 	* @param    string $decode_utf8 whether to decode UTF-8 to ISO-8859-1
 	* @access   public
 	*/
-	function nusoap_parser($xml,$encoding='UTF-8',$method='',$decode_utf8=true){
+	public function nusoap_parser($xml,$encoding='UTF-8',$method='',$decode_utf8=true){
 		parent::nusoap_base();
 		$this->xml = $xml;
 		$this->xml_encoding = $encoding;
@@ -151,7 +151,7 @@ class nusoap_parser extends nusoap_base {
 	* @param    array $attrs associative array of attributes
 	* @access   private
 	*/
-	function start_element($parser, $name, $attrs) {
+	public function start_element($parser, $name, $attrs) {
 		// position in a total number of elements, starting from 0
 		// update class level pos
 		$pos = $this->position++;
@@ -306,7 +306,7 @@ class nusoap_parser extends nusoap_base {
 	* @param    string $name element name
 	* @access   private
 	*/
-	function end_element($parser, $name) {
+	public function end_element($parser, $name) {
 		// position of current element is equal to the last value left in depth_array for my depth
 		$pos = $this->depth_array[$this->depth--];
 
@@ -412,7 +412,7 @@ class nusoap_parser extends nusoap_base {
 	* @param    string $data element content
 	* @access   private
 	*/
-	function character_data($parser, $data){
+	public function character_data($parser, $data){
 		$pos = $this->depth_array[$this->depth];
 		if ($this->xml_encoding=='UTF-8'){
 			// TODO: add an option to disable this for folks who want
@@ -438,7 +438,7 @@ class nusoap_parser extends nusoap_base {
 	* @access   public
 	* @deprecated	use get_soapbody instead
 	*/
-	function get_response(){
+	public function get_response(){
 		return $this->soapresponse;
 	}
 
@@ -448,7 +448,7 @@ class nusoap_parser extends nusoap_base {
 	* @return	mixed
 	* @access   public
 	*/
-	function get_soapbody(){
+	public function get_soapbody(){
 		return $this->soapresponse;
 	}
 
@@ -458,7 +458,7 @@ class nusoap_parser extends nusoap_base {
 	* @return	mixed
 	* @access   public
 	*/
-	function get_soapheader(){
+	public function get_soapheader(){
 		return $this->soapheader;
 	}
 
@@ -468,7 +468,7 @@ class nusoap_parser extends nusoap_base {
 	* @return	string XML or empty if no Header
 	* @access   public
 	*/
-	function getHeaders(){
+	public function getHeaders(){
 	    return $this->responseHeaders;
 	}
 
@@ -481,7 +481,7 @@ class nusoap_parser extends nusoap_base {
 	* @return	mixed PHP value
 	* @access   private
 	*/
-	function decodeSimple($value, $type, $typens) {
+	public function decodeSimple($value, $type, $typens) {
 		// TODO: use the namespace!
 		if ((!isset($type)) || $type == 'string' || $type == 'long' || $type == 'unsignedLong') {
 			return (string) $value;
@@ -525,7 +525,7 @@ class nusoap_parser extends nusoap_base {
 	* @return	mixed	PHP value
 	* @access   private
 	*/
-	function buildVal($pos){
+	public function buildVal($pos){
 		if(!isset($this->message[$pos]['type'])){
 			$this->message[$pos]['type'] = '';
 		}

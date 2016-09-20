@@ -15,7 +15,7 @@ class Install_InitSchema_Model
 	protected $migration_schema = 'install/migrate_schema/';
 	protected $db = false;
 
-	function __construct($db = '')
+	public function __construct($db = '')
 	{
 		$this->db = $db;
 	}

@@ -179,12 +179,12 @@ abstract class EntityMeta
 		return $this->columnTableMapping;
 	}
 
-	function getUser()
+	public function getUser()
 	{
 		return $this->user;
 	}
 
-	function hasMandatoryFields($row)
+	public function hasMandatoryFields($row)
 	{
 
 		$mandatoryFields = $this->getMandatoryFields();

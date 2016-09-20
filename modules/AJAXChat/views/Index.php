@@ -18,7 +18,7 @@ class AJAXChat_Index_View extends Vtiger_Basic_View
 		
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		return true;
 	}

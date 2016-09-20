@@ -32,7 +32,7 @@ abstract class WebDAV_Node implements DAV\INode {
 	 *
 	 * @param string $path
 	 */
-	function __construct($path, $exData) {
+	public function __construct($path, $exData) {
 		$this->path = $path;
 		$this->exData = $exData;
 	}
@@ -42,7 +42,7 @@ abstract class WebDAV_Node implements DAV\INode {
 	 *
 	 * @return string
 	 */
-	function getName() {
+	public function getName() {
 		list(, $name) = URLUtil::splitPath($this->path);
 		return $name;
 	}
@@ -52,7 +52,7 @@ abstract class WebDAV_Node implements DAV\INode {
 	 *
 	 * @return int
 	 */
-	function getLastModified() {
+	public function getLastModified() {
 		if (isset($this->mtime)) {
 			return $this->mtime;
 		}
@@ -61,7 +61,7 @@ abstract class WebDAV_Node implements DAV\INode {
 	}
 
 	
-	function getCurrentUser() {
+	public function getCurrentUser() {
 		$digest = $_SERVER['PHP_AUTH_DIGEST'];
 		$needed_parts = array('nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1, 'username'=>1, 'uri'=>1, 'response'=>1);
 		$data = array();

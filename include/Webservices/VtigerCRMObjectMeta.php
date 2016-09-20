@@ -20,7 +20,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	private $hasDeleteAccess;
 	private $assignUsers;
 
-	function VtigerCRMObjectMeta($webserviceObject, $user)
+	public function VtigerCRMObjectMeta($webserviceObject, $user)
 	{
 
 		parent::__construct($webserviceObject, $user);
@@ -162,7 +162,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		}
 	}
 
-	function hasAccess()
+	public function hasAccess()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -170,7 +170,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $this->hasAccess;
 	}
 
-	function hasWriteAccess()
+	public function hasWriteAccess()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -178,7 +178,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $this->hasWriteAccess;
 	}
 
-	function hasReadAccess()
+	public function hasReadAccess()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -186,7 +186,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $this->hasReadAccess;
 	}
 
-	function hasDeleteAccess()
+	public function hasDeleteAccess()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -194,7 +194,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $this->hasDeleteAccess;
 	}
 
-	function hasPermission($operation, $webserviceId)
+	public function hasPermission($operation, $webserviceId)
 	{
 
 		$idComponents = vtws_getIdComponents($webserviceId);
@@ -207,7 +207,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return false;
 	}
 
-	function hasAssignPrivilege($webserviceId)
+	public function hasAssignPrivilege($webserviceId)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -247,7 +247,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		}
 	}
 
-	function getUserAccessibleColumns()
+	public function getUserAccessibleColumns()
 	{
 
 		if (!$this->meta) {
@@ -264,7 +264,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getModuleFields();
 	}
 
-	function getColumnTableMapping()
+	public function getColumnTableMapping()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -272,7 +272,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getColumnTableMapping();
 	}
 
-	function getFieldColumnMapping()
+	public function getFieldColumnMapping()
 	{
 
 		if (!$this->meta) {
@@ -290,7 +290,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $this->fieldColumnMapping;
 	}
 
-	function getMandatoryFields()
+	public function getMandatoryFields()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -298,7 +298,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getMandatoryFields();
 	}
 
-	function getReferenceFieldDetails()
+	public function getReferenceFieldDetails()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -306,7 +306,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getReferenceFieldDetails();
 	}
 
-	function getOwnerFields()
+	public function getOwnerFields()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -314,17 +314,17 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getOwnerFields();
 	}
 
-	function getEntityName()
+	public function getEntityName()
 	{
 		return $this->objectName;
 	}
 
-	function getEntityId()
+	public function getEntityId()
 	{
 		return $this->objectId;
 	}
 
-	function getEmailFields()
+	public function getEmailFields()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -332,7 +332,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getEmailFields();
 	}
 
-	function getFieldIdFromFieldName($fieldName)
+	public function getFieldIdFromFieldName($fieldName)
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -345,7 +345,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return null;
 	}
 
-	function retrieveMeta()
+	public function retrieveMeta()
 	{
 
 		require_once('modules/CustomView/CustomView.php');
@@ -435,7 +435,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		}
 	}
 
-	function getObjectEntityName($webserviceId)
+	public function getObjectEntityName($webserviceId)
 	{
 		$adb = PearDatabase::getInstance();
 

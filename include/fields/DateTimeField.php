@@ -35,7 +35,7 @@ class DateTimeField
 	 * @param $user -- value :: Type Users
 	 * @returns $insert_date -- insert_date :: Type string
 	 */
-	function getDBInsertDateValue($user = null)
+	public function getDBInsertDateValue($user = null)
 	{
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
@@ -348,7 +348,7 @@ class DateTimeField
 	 * @param $user -- value :: Type Users
 	 * @returns $insert_date -- insert_date :: Type string
 	 */
-	function getDBInsertTimeValue($user = null)
+	public function getDBInsertTimeValue($user = null)
 	{
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
@@ -363,7 +363,7 @@ class DateTimeField
 	 * @global Users $current_user
 	 * @return string
 	 */
-	function getDisplayDate($user = null)
+	public function getDisplayDate($user = null)
 	{
 		$date_value = explode(' ', $this->datetime);
 		if (isset($date_value[1]) && $date_value[1] != '') {
@@ -375,7 +375,7 @@ class DateTimeField
 		return $display_date;
 	}
 
-	function getDisplayTime($user = null)
+	public function getDisplayTime($user = null)
 	{
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
@@ -391,7 +391,7 @@ class DateTimeField
 		return $time;
 	}
 
-	function getFullcalenderTime($user = null)
+	public function getFullcalenderTime($user = null)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering getDisplayTime(" . $this->datetime . ") method ...");

@@ -27,7 +27,7 @@ class GetGroupUsers
 	 * @returns the vtiger_users present in the group in the variable $parent_groups of the class
 	 * @returns the sub vtiger_groups present in the group in the variable $group_subgroups of the class
 	 */
-	function getAllUsersInGroup($groupid)
+	public function getAllUsersInGroup($groupid)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');

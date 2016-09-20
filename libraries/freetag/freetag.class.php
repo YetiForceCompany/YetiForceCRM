@@ -101,7 +101,7 @@ class freetag {
 	 * - MAX_TAG_LENGTH: maximum length of normalized tags in chars. [default: 30]
 	 * 
 	 */ 
-	function __construct($options = NULL) {
+	public function __construct($options = NULL) {
 /*
 		$available_options = array('debug', 'db', 'db_user', 'db_pass', 'db_host', 'db_name', 'table_prefix', 'normalize_tags', 'normalized_valid_chars', 'block_multiuser_tag_on_object', 'MAX_TAG_LENGTH', 'ADODB_DIR', 'PCONNECT');
 		if (is_array($options)) {
@@ -154,7 +154,7 @@ class freetag {
 	 *
 	 * @return An array of Object ID numbers that reference your original objects.
 	 */ 
-	function get_objects_with_tag($tag, $offset = 0, $limit = 100, $tagger_id = NULL) {
+	public function get_objects_with_tag($tag, $offset = 0, $limit = 100, $tagger_id = NULL) {
 		if(!isset($tag)) {
 			return false;
 		}		
@@ -200,7 +200,7 @@ class freetag {
 	 *
 	 * @return An array of Object ID numbers that reference your original objects.
 	 */ 
-	function get_objects_with_tag_all($tag, $tagger_id = NULL) {
+	public function get_objects_with_tag_all($tag, $tagger_id = NULL) {
 		if(!isset($tag)) {
 			return false;
 		}		
@@ -303,7 +303,7 @@ class freetag {
 	 *
 	 * @return An array of Object ID numbers that reference your original objects.
 	 */ 
-	function get_objects_with_tag_id($tag_id, $offset = 0, $limit = 100, $tagger_id = NULL) {
+	public function get_objects_with_tag_id($tag_id, $offset = 0, $limit = 100, $tagger_id = NULL) {
 		if(!isset($tag_id)) {
 			return false;
 		}		
@@ -352,7 +352,7 @@ class freetag {
 	 *	 - 'raw_tag' => The raw-form tag
 	 *	 - 'tagger_id' => The unique ID of the person who tagged the object with this tag.
 	 */ 
-	function get_tags_on_object($object_id, $offset = 0, $limit = 10, $tagger_id = NULL) {
+	public function get_tags_on_object($object_id, $offset = 0, $limit = 10, $tagger_id = NULL) {
 		if(!isset($object_id)) {
 			return false;
 		}	
@@ -409,7 +409,7 @@ class freetag {
 	 * @return boolean Returns true if successful, false otherwise. Does not operate as a transaction.
 	 */ 
 
-	function safe_tag($tagger_id, $object_id, $tag, $module) {
+	public function safe_tag($tagger_id, $object_id, $tag, $module) {
 		if(!isset($tagger_id)||!isset($object_id)||!isset($tag)) {
 			die("safe_tag argument missing");
 			return false;
@@ -487,7 +487,7 @@ class freetag {
 	 *
 	 * @return string Returns the tag in normalized form.
 	 */ 
-	function normalize_tag($tag) {
+	public function normalize_tag($tag) {
 		if ($this->_normalize_tags) {
 			$normalized_valid_chars = $this->_normalized_valid_chars;
 			$normalized_tag = preg_replace("/[^$normalized_valid_chars]/", "", $tag);
@@ -512,7 +512,7 @@ class freetag {
 	 *
 	 * @return string Returns the tag in normalized form.
 	 */ 
-	function delete_object_tag($tagger_id, $object_id, $tag) {
+	public function delete_object_tag($tagger_id, $object_id, $tag) {
 		if(!isset($tagger_id)||!isset($object_id)||!isset($tag)) {
 			die("delete_object_tag argument missing");
 			return false;
@@ -544,7 +544,7 @@ class freetag {
 	 *
 	 * @return boolean Returns true if successful, false otherwise. It will return true if the tagged object does not exist.
 	 */ 
-	function delete_all_object_tags($object_id) {
+	public function delete_all_object_tags($object_id) {
 		$adb = PearDatabase::getInstance();
 		$prefix = $this->_table_prefix;
 		if($object_id > 0) {
@@ -573,7 +573,7 @@ class freetag {
 	 * @return boolean Returns true if successful, false otherwise. It will return true if the tagged object does not exist.
 	 */ 
 
-	function delete_all_object_tags_for_user($tagger_id, $object_id) {
+	public function delete_all_object_tags_for_user($tagger_id, $object_id) {
 		if(!isset($tagger_id)||!isset($object_id)) {
 			die("delete_all_object_tags_for_user argument missing");
 			return false;
@@ -603,7 +603,7 @@ class freetag {
 	 *
 	 * @return string Returns the tag in normalized form.
 	 */ 
-	function get_tag_id($tag) {
+	public function get_tag_id($tag) {
 		if(!isset($tag)) {
 			die("get_tag_id argument missing");
 			return false;
@@ -631,7 +631,7 @@ class freetag {
 	 * @return string Returns the tag in normalized form.
 	 */ 
 
-	function get_raw_tag_id($tag) {
+	public function get_raw_tag_id($tag) {
 		if(!isset($tag)) {
 			die("get_tag_id argument missing");
 			return false;
@@ -664,7 +664,7 @@ class freetag {
 	 *
 	 * @return string Returns the tag in normalized form.
 	 */
-	function tag_object($tagger_id, $object_id, $tag_string, $module, $skip_updates = 1) {
+	public function tag_object($tagger_id, $object_id, $tag_string, $module, $skip_updates = 1) {
 		if($tag_string == '') {
 			// If an empty string was passed, just return true, don't die.
 			// die("Empty tag string passed");
@@ -705,7 +705,7 @@ class freetag {
 	 *
 	 * @return boolean True if successful, false otherwise.
 	 */
-	function _tag_object_array($tagger_id, $object_id, $tagArray, $module) {
+	public function _tag_object_array($tagger_id, $object_id, $tagArray, $module) {
 		foreach($tagArray as $tag) {
 			$tag = trim($tag);
 			if(($tag != '') && (strlen($tag) <= $this->_MAX_TAG_LENGTH)) {
@@ -728,7 +728,7 @@ class freetag {
 	 * @return array Returns an array of the raw "tags" parsed according to the freetag settings.
 	 */
 
-	function _parse_tags($tag_string) {
+	public function _parse_tags($tag_string) {
 		$newwords = array();
 		if ($tag_string == '') {
 			// If the tag string is empty, return the empty set.
@@ -783,7 +783,7 @@ class freetag {
 	 *	 - 'count' => The number of objects tagged with this tag.
 	 */
 
-	function get_most_popular_tags($tagger_id = NULL, $offset = 0, $limit = 25) {
+	public function get_most_popular_tags($tagger_id = NULL, $offset = 0, $limit = 25) {
 		$adb = PearDatabase::getInstance();
 		$params = array();
 		if(isset($tagger_id) && ($tagger_id > 0)) {
@@ -827,7 +827,7 @@ class freetag {
 	 *
 	 * @return int Returns the count 
 	 */
-	function count_tags($tagger_id = NULL) {
+	public function count_tags($tagger_id = NULL) {
 		$adb = PearDatabase::getInstance();
 		$params = array();
 		if(isset($tagger_id) && ($tagger_id > 0)) {
@@ -874,7 +874,7 @@ class freetag {
 	 * @return string Returns an HTML snippet that can be used directly as a tag cloud.
 	 */
 
-	function get_tag_cloud_html($module="",$tagger_id = NULL,$obj_id= NULL,$num_tags = 100, $min_font_size = 10, $max_font_size = 20, $font_units = 'px', $span_class = '', $tag_page_url = '/tag/') {
+	public function get_tag_cloud_html($module="",$tagger_id = NULL,$obj_id= NULL,$num_tags = 100, $min_font_size = 10, $max_font_size = 20, $font_units = 'px', $span_class = '', $tag_page_url = '/tag/') {
 		global $theme;
 		$theme_path="themes/".$theme."/";
 		$image_path=$theme_path."images/";	
@@ -938,7 +938,7 @@ class freetag {
 	 * values are numeric quantity of objects tagged with that tag.
 	 */
 
-	function get_tag_cloud_tags($max = 100, $tagger_id = NULL,$module = "",$obj_id = NULL) {
+	public function get_tag_cloud_tags($max = 100, $tagger_id = NULL,$module = "",$obj_id = NULL) {
 		$adb = PearDatabase::getInstance();
 		$params = array();
 		if(isset($tagger_id) && ($tagger_id > 0)) {
@@ -1012,7 +1012,7 @@ class freetag {
 	 * number of occurences of that tag (high to low).
 	 */ 
 
-	function similar_tags($tag, $max = 100) {
+	public function similar_tags($tag, $max = 100) {
 		$retarr = array();
 		if(!isset($tag)) {
 			return $retarr;
@@ -1067,7 +1067,7 @@ class freetag {
 	 * - 'object_id' => Unique ID of the matched object
 	 *
 	 */
-	function similar_objects($object_id, $threshold = 1, $max_objects = 5, $tagger_id = NULL) {
+	public function similar_objects($object_id, $threshold = 1, $max_objects = 5, $tagger_id = NULL) {
 		$adb = PearDatabase::getInstance();	
 		$retarr = array();
 
@@ -1127,7 +1127,7 @@ class freetag {
 	 * @param string The text to output
 	 * @return boolean Always returns true
 	 */
-	function debug_text($text) {
+	public function debug_text($text) {
 		if ($this->_debug) {
 			echo "$text<br>\n";
 		}

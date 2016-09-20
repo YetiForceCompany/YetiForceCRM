@@ -122,24 +122,24 @@ class simple_html_dom_node
 	public $tag_start = 0;
 	private $dom = null;
 
-	function __construct($dom)
+	public function __construct($dom)
 	{
 		$this->dom = $dom;
 		$dom->nodes[] = $this;
 	}
 
-	function __destruct()
+	public function __destruct()
 	{
 		$this->clear();
 	}
 
-	function __toString()
+	public function __toString()
 	{
 		return $this->outertext();
 	}
 
 	// clean up memory due to php5 circular references memory leak...
-	function clear()
+	public function clear()
 	{
 		$this->dom = null;
 		$this->nodes = null;
@@ -148,7 +148,7 @@ class simple_html_dom_node
 	}
 
 	// dump node's tree
-	function dump($show_attr = true, $deep = 0)
+	public function dump($show_attr = true, $deep = 0)
 	{
 		$lead = str_repeat('    ', $deep);
 
@@ -169,7 +169,7 @@ class simple_html_dom_node
 	}
 
 	// Debugging function to dump a single dom node with a bunch of information about it.
-	function dump_node($echo = true)
+	public function dump_node($echo = true)
 	{
 
 		$string = $this->tag;
@@ -222,7 +222,7 @@ class simple_html_dom_node
 
 	// returns the parent of node
 	// If a node is passed in, it will reset the parent of the current node to that one.
-	function parent($parent = null)
+	public function parent($parent = null)
 	{
 	// I am SURE that this doesn't work properly.
 	// It fails to unset the current node from it's current parents nodes or children list first.

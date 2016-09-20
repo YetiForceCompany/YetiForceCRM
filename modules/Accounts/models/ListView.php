@@ -54,7 +54,7 @@ class Accounts_ListView_Model extends Vtiger_ListView_Model
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
 	 */
-	function getListViewLinks($linkParams)
+	public function getListViewLinks($linkParams)
 	{
 		$links = parent::getListViewLinks($linkParams);
 
