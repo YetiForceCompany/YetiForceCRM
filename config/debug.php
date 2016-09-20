@@ -15,6 +15,8 @@ $DEBUG_CONFIG = [
 	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console
 	'DISPLAY_DEBUG_VIEWER' => false,
+	// Display Main Debug Console
+	'DISPLAY_DEBUG_CONSOLE' => false,
 	/* +***************************************************************
 	 * Configure a user-defined error handler function
 	 * ************************************************************** */

@@ -105,7 +105,6 @@ class PearDatabase
 
 		// Set options
 		$options = array(
-			PDO::ATTR_PERSISTENT => true,
 			PDO::ATTR_EMULATE_PREPARES => false,
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 		);
@@ -116,6 +115,11 @@ class PearDatabase
 		// Create a new PDO instanace
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
+			if (AppConfig::debug('DISPLAY_DEBUG_CONSOLE')) {
+				$pdo = new DebugBar\DataCollector\PDO\TraceablePDO($this->database);
+				\includes\Debuger::getDebugBar()->addCollector(new DebugBar\DataCollector\PDO\PDOCollector($pdo));
+				$this->database = $pdo;
+			}
 		} catch (\Exception\AppException $e) {
 			// Catch any errors
 			$this->log('Database connect : ' . $e->getMessage(), 'error');
