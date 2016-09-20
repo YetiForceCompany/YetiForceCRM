@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class WebUI extends TestCase
 {
 
-	public function listView()
+	public function testListView()
 	{
 		ob_start();
 		$request = AppRequest::init();
@@ -24,7 +24,7 @@ class WebUI extends TestCase
 		file_put_contents('tests/ListView.txt', $response);
 	}
 
-	public function detailView()
+	public function testDetailView()
 	{
 		ob_start();
 		$request = AppRequest::init();
@@ -39,7 +39,7 @@ class WebUI extends TestCase
 		file_put_contents('tests/DetailView.txt', $response);
 	}
 
-	public function editView()
+	public function testEditView()
 	{
 		ob_start();
 		$request = AppRequest::init();
