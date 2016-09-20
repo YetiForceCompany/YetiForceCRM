@@ -42,7 +42,6 @@ class ModuleManager extends TestCase
 		$tabs = \includes\Modules::getTabData('tabId');
 		foreach ($tabs as $moduleName => $value) {
 			Settings_ModuleManager_Module_Model::disableModule($moduleName);
-			Settings_ModuleManager_Module_Model::enableModule($moduleName);
 		}
 	}
 }
