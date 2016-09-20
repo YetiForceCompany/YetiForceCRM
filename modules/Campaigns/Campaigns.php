@@ -66,7 +66,7 @@ class Campaigns extends CRMEntity
 
 	/** Function to handle module specific operations when saving a entity
 	 */
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}
@@ -76,7 +76,7 @@ class Campaigns extends CRMEntity
 	 * @param  integer   $id      - campaignid
 	 * returns related Contacts record in array format
 	 */
-	function get_campaigns_records($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_campaigns_records($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = LoggerManager::getInstance();
 		$singlepane_view = vglobal('singlepane_view');
@@ -188,7 +188,7 @@ class Campaigns extends CRMEntity
 	 * returns true on success
 	 */
 
-	function add_status_popup($related_list, $status_column = 7, $related_module)
+	public function add_status_popup($related_list, $status_column = 7, $related_module)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -218,7 +218,7 @@ class Campaigns extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
 	{
 		$matrix = $queryplanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_crmentityCampaigns', array('vtiger_groupsCampaigns', 'vtiger_usersCampaignss', 'vtiger_lastModifiedByCampaigns', 'vtiger_campaignscf'));
@@ -259,7 +259,7 @@ class Campaigns extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			'Contacts' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
@@ -277,7 +277,7 @@ class Campaigns extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($returnModule) || empty($returnId))
@@ -294,7 +294,7 @@ class Campaigns extends CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 

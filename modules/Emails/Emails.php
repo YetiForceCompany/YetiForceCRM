@@ -66,7 +66,7 @@ class Emails extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		$adb = PearDatabase::getInstance();
 		//Inserting into seactivityrel
@@ -129,7 +129,7 @@ class Emails extends CRMEntity
 		$this->insertIntoAttachment($this->id, $module);
 	}
 
-	function insertIntoAttachment($id, $module)
+	public function insertIntoAttachment($id, $module)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -164,7 +164,7 @@ class Emails extends CRMEntity
 		$log->debug("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
-	function saveForwardAttachments($id, $module, $file_details)
+	public function saveForwardAttachments($id, $module, $file_details)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering into saveForwardAttachments($id,$module,$file_details) method.");
@@ -219,7 +219,7 @@ class Emails extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -291,7 +291,7 @@ class Emails extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): Mike Crowe
 	 */
-	function getSortOrder()
+	public function getSortOrder()
 	{
 		$log = vglobal('log');
 		$log->debug("Entering getSortOrder() method ...");
@@ -309,7 +309,7 @@ class Emails extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): Mike Crowe
 	 */
-	function getOrderBy()
+	public function getOrderBy()
 	{
 		$log = vglobal('log');
 		$log->debug("Entering getOrderBy() method ...");
@@ -334,7 +334,7 @@ class Emails extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function get_users($id)
+	public function get_users($id)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering get_users(" . $id . ") method ...");
@@ -405,7 +405,7 @@ class Emails extends CRMEntity
 	/**
 	 * Returns a list of the Emails to be exported
 	 */
-	function create_export_query(&$order_by, &$where)
+	public function create_export_query(&$order_by, &$where)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -449,7 +449,7 @@ class Emails extends CRMEntity
 	/**
 	 * Used to releate email and contacts -- Outlook Plugin
 	 */
-	function set_emails_contact_invitee_relationship($email_id, $contact_id)
+	public function set_emails_contact_invitee_relationship($email_id, $contact_id)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering set_emails_contact_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
@@ -461,7 +461,7 @@ class Emails extends CRMEntity
 	/**
 	 * Used to releate email and salesentity -- Outlook Plugin
 	 */
-	function set_emails_se_invitee_relationship($email_id, $contact_id)
+	public function set_emails_se_invitee_relationship($email_id, $contact_id)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering set_emails_se_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
@@ -473,7 +473,7 @@ class Emails extends CRMEntity
 	/**
 	 * Used to releate email and Users -- Outlook Plugin
 	 */
-	function set_emails_user_invitee_relationship($email_id, $user_id)
+	public function set_emails_user_invitee_relationship($email_id, $user_id)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering set_emails_user_invitee_relationship(" . $email_id . "," . $user_id . ") method ...");
@@ -483,7 +483,7 @@ class Emails extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$log = vglobal('log');
 
@@ -541,7 +541,7 @@ class Emails extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			"Leads" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
@@ -561,7 +561,7 @@ class Emails extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
 	{
 		$focus = CRMEntity::getInstance($module);
 		$matrix = $queryPlanner->newDependencyMatrix();
@@ -599,7 +599,7 @@ class Emails extends CRMEntity
 	 * @param - $mailid
 	 */
 
-	function setEmailAccessCountValue($mailid)
+	public function setEmailAccessCountValue($mailid)
 	{
 		$adb = PearDatabase::getInstance();
 		$successIds = array();

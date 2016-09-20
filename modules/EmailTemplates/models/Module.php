@@ -111,7 +111,7 @@ class EmailTemplates_Module_Model extends Vtiger_Module_Model {
 	 * @param type $currentUserModel
 	 * @return <arrau>
 	 */
-	function getRelatedFields($module, $currentUserModel) {
+	public function getRelatedFields($module, $currentUserModel) {
 		$handler = vtws_getModuleHandlerFromName($module, $currentUserModel);
 		$meta = $handler->getMeta();
 		$moduleFields = $meta->getModuleFields();
@@ -142,7 +142,7 @@ class EmailTemplates_Module_Model extends Vtiger_Module_Model {
 	 * @return null
 	 */
 	
-	function getRelatedModuleFieldList($relModule, $user) {
+	public function getRelatedModuleFieldList($relModule, $user) {
 		$handler = vtws_getModuleHandlerFromName($relModule, $user);
 		$relMeta = $handler->getMeta();
 		if (!$relMeta->isModuleEntity()) {

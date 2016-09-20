@@ -20,7 +20,7 @@ class Emails_Mailer_Model extends vtlib\Mailer
 	 * Function returns error from phpmailer
 	 * @return <String>
 	 */
-	function getError()
+	public function getError()
 	{
 		return $this->ErrorInfo;
 	}

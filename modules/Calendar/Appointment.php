@@ -43,7 +43,7 @@ class Appointment
 	var $recurring;
 	var $dur_hour;
 
-	function Appointment()
+	public function Appointment()
 	{
 		$this->participant = Array();
 		$this->participant_state = Array();

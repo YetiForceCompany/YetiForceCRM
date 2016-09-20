@@ -10,7 +10,7 @@
 class Assets_Renewal_Handler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		$moduleName = $entityData->getModuleName();
 		if ($eventName == 'vtiger.entity.beforesave.final' && $moduleName == 'Assets') {

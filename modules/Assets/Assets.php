@@ -91,7 +91,7 @@ class Assets extends CRMEntity
 	var $default_sort_order = 'ASC';
 	var $unit_price;
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		//module specific save
 	}
@@ -100,7 +100,7 @@ class Assets extends CRMEntity
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord)
+	public function getQueryByModuleField($module, $fieldname, $srcrecord)
 	{
 		// $srcrecord could be empty
 	}
@@ -108,7 +108,7 @@ class Assets extends CRMEntity
 	/**
 	 * Get list view query.
 	 */
-	function getListQuery($module, $where = '')
+	public function getListQuery($module, $where = '')
 	{
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
@@ -154,7 +154,7 @@ class Assets extends CRMEntity
 	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	function getListViewSecurityParameter($module)
+	public function getListViewSecurityParameter($module)
 	{
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -199,7 +199,7 @@ class Assets extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -252,7 +252,7 @@ class Assets extends CRMEntity
 	/**
 	 * Function which will give the basic query to find duplicates
 	 */
-	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
 		$select_clause = "SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s ";
 		$select_clause = sprintf($select_clause, $this->table_name, $this->table_index, $table_cols);
@@ -333,7 +333,7 @@ class Assets extends CRMEntity
 	 */
 	// function generateReportsSecQuery($module,$secmodule){ }
 	// Function to unlink all the dependent entities of the given Entity by Id
-	function unlinkDependencies($module, $id)
+	public function unlinkDependencies($module, $id)
 	{
 		$log = vglobal('log');
 		parent::unlinkDependencies($module, $id);
@@ -344,7 +344,7 @@ class Assets extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		require_once('include/utils/utils.php');
 		$adb = PearDatabase::getInstance();
@@ -387,7 +387,7 @@ class Assets extends CRMEntity
 		}
 	}
 
-	function addModuleToCustomerPortal()
+	public function addModuleToCustomerPortal()
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -414,7 +414,7 @@ class Assets extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');

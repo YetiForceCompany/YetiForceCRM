@@ -11,7 +11,7 @@ include_once dirname(__FILE__) . '/models/Alert.php';
 
 class Mobile_WS_FetchAllAlerts extends Mobile_WS_Controller {
 	
-	function process(Mobile_API_Request $request) {
+	public function process(Mobile_API_Request $request) {
 		$response = new Mobile_API_Response();
 
 		$current_user = $this->getActiveUser();
@@ -23,7 +23,7 @@ class Mobile_WS_FetchAllAlerts extends Mobile_WS_Controller {
 		return $response;
 	}
 	
-	function getAlertDetails() {
+	public function getAlertDetails() {
 		$alertModels = Mobile_WS_AlertModel::models();
 		
 		$alerts = array();

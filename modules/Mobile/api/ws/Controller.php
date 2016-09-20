@@ -12,7 +12,7 @@ include_once 'modules/Mobile/Mobile.php';
 include_once dirname(__FILE__) . '/Utils.php';
 
 class Mobile_WS_Controller {
-	function requireLogin() {
+	public function requireLogin() {
 		return true;
 	}
 	
@@ -37,16 +37,16 @@ class Mobile_WS_Controller {
 		return $this->activeUser;
 	}
 	
-	function hasActiveUser() {
+	public function hasActiveUser() {
 		$user = $this->getActiveUser();
 		return ($user !== false);
 	}
 	
-	function sessionGet($key, $defvaule = '') {
+	public function sessionGet($key, $defvaule = '') {
 		return Mobile_API_Session::get($key, $defvalue);
 	}
 	
-	function sessionSet($key, $value) {
+	public function sessionSet($key, $value) {
 		Mobile_API_Session::set($key, $value);
 	}
 }

@@ -15,7 +15,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function returns the url for converting lead
 	 */
-	function getConvertLeadUrl()
+	public function getConvertLeadUrl()
 	{
 		return 'index.php?module=' . $this->getModuleName() . '&view=ConvertLead&record=' . $this->getId();
 	}
@@ -97,7 +97,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	 * Function returns Account fields for Lead Convert
 	 * @return Array
 	 */
-	function getAccountFieldsForLeadConvert()
+	public function getAccountFieldsForLeadConvert()
 	{
 		$accountsFields = array();
 		$privilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -151,7 +151,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	 * @param <String> $fieldName
 	 * @return <String>
 	 */
-	function getConvertLeadMappedField($fieldName, $moduleName)
+	public function getConvertLeadMappedField($fieldName, $moduleName)
 	{
 		$mappingFields = $this->get('mappingFields');
 
@@ -192,7 +192,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	 * Function returns the fields required for Lead Convert
 	 * @return <Array of Vtiger_Field_Model>
 	 */
-	function getConvertLeadFields()
+	public function getConvertLeadFields()
 	{
 		$convertFields = array();
 		$accountFields = $this->getAccountFieldsForLeadConvert();
@@ -206,7 +206,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	 * Function returns the url for create event
 	 * @return <String>
 	 */
-	function getCreateEventUrl()
+	public function getCreateEventUrl()
 	{
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
@@ -216,7 +216,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	 * Function returns the url for create todo
 	 * @return <String>
 	 */
-	function getCreateTaskUrl()
+	public function getCreateTaskUrl()
 	{
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
@@ -226,7 +226,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	 * Function to check whether the lead is converted or not
 	 * @return True if the Lead is Converted false otherwise.
 	 */
-	function isLeadConverted()
+	public function isLeadConverted()
 	{
 		$db = PearDatabase::getInstance();
 		$id = $this->getId();

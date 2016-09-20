@@ -9,7 +9,7 @@
 class Home_NotificationsList_View extends Vtiger_Index_View
 {
 
-	function preProcessTplName(Vtiger_Request $request)
+	public function preProcessTplName(Vtiger_Request $request)
 	{
 		return 'NotificationsListPreProcess.tpl';
 	}
@@ -44,7 +44,7 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
-	function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		return vtranslate('LBL_NOTIFICATIONS');
 	}

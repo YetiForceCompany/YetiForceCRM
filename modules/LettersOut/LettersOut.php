@@ -89,7 +89,7 @@ class LettersOut extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'title', 'assigned_user_id');
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}
@@ -98,7 +98,7 @@ class LettersOut extends CRMEntity
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord)
+	public function getQueryByModuleField($module, $fieldname, $srcrecord)
 	{
 		// $srcrecord could be empty
 	}
@@ -106,7 +106,7 @@ class LettersOut extends CRMEntity
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
 	 */
-	function getListQuery($module, $where = '')
+	public function getListQuery($module, $where = '')
 	{
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
@@ -164,7 +164,7 @@ class LettersOut extends CRMEntity
 	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	function getListViewSecurityParameter($module)
+	public function getListViewSecurityParameter($module)
 	{
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -209,7 +209,7 @@ class LettersOut extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -261,7 +261,7 @@ class LettersOut extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	function transform_export_value($key, $value)
+	public function transform_export_value($key, $value)
 	{
 		return parent::transform_export_value($key, $value);
 	}
@@ -269,7 +269,7 @@ class LettersOut extends CRMEntity
 	/**
 	 * Function which will give the basic query to find duplicates
 	 */
-	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
 		$select_clause = sprintf('SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s', $this->table_name, $this->table_index, $table_cols);
 
@@ -319,7 +319,7 @@ class LettersOut extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {

@@ -9,7 +9,7 @@
 class Documents_Relation_Model extends Vtiger_Relation_Model
 {
 
-	function setExceptionData()
+	public function setExceptionData()
 	{
 		$data = [
 			'tabid' => $this->getParentModuleModel()->getId(),

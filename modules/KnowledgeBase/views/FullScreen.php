@@ -8,7 +8,7 @@
  */
 class KnowledgeBase_FullScreen_View extends Vtiger_Popup_View
 {
-	function process (Vtiger_Request $request) {
+	public function process (Vtiger_Request $request) {
 		$previewView = new KnowledgeBase_PreviewContent_View();
 		$previewView->process($request, false);
 		$moduleName = $request->getModule();

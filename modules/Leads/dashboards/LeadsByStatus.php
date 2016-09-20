@@ -14,7 +14,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 	private $conditions = false;
 
-	function getSearchParams($value, $assignedto, $dates)
+	public function getSearchParams($value, $assignedto, $dates)
 	{
 		$listSearchParams = [];
 		$conditions = array(array('leadstatus', 'e', $value));

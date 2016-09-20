@@ -12,7 +12,7 @@
 class Documents_Record_Model extends Vtiger_Record_Model
 {
 
-	function getDownloadFileURL()
+	public function getDownloadFileURL()
 	{
 		if ($this->get('filelocationtype') == 'I') {
 			$fileDetails = $this->getFileDetails();
@@ -22,12 +22,12 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	function checkFileIntegrityURL()
+	public function checkFileIntegrityURL()
 	{
 		return "javascript:Documents_Detail_Js.checkFileIntegrity('index.php?module=" . $this->getModuleName() . "&action=CheckFileIntegrity&record=" . $this->getId() . "')";
 	}
 
-	function checkFileIntegrity()
+	public function checkFileIntegrity()
 	{
 		$recordId = $this->get('id');
 		$downloadType = $this->get('filelocationtype');
@@ -48,7 +48,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		return $returnValue;
 	}
 
-	function getFileDetails()
+	public function getFileDetails()
 	{
 		$db = PearDatabase::getInstance();
 		$fileDetails = array();
@@ -63,7 +63,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		return $fileDetails;
 	}
 
-	function downloadFile()
+	public function downloadFile()
 	{
 		$fileDetails = $this->getFileDetails();
 		$fileContent = false;
@@ -93,13 +93,13 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		echo $fileContent;
 	}
 
-	function updateFileStatus($status)
+	public function updateFileStatus($status)
 	{
 		$db = PearDatabase::getInstance();
 		$db->pquery("UPDATE vtiger_notes SET filestatus = ? WHERE notesid= ?", array($status, $this->get('id')));
 	}
 
-	function updateDownloadCount()
+	public function updateDownloadCount()
 	{
 		$db = PearDatabase::getInstance();
 		$notesId = $this->get('id');
@@ -110,7 +110,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$db->pquery("UPDATE vtiger_notes SET filedownloadcount = ? WHERE notesid = ?", array($downloadCount, $notesId));
 	}
 
-	function getDownloadCountUpdateUrl()
+	public function getDownloadCountUpdateUrl()
 	{
 		return "index.php?module=Documents&action=UpdateDownloadCount&record=" . $this->getId();
 	}

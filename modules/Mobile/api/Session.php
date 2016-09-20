@@ -11,7 +11,7 @@ include_once 'libraries/HTTP_Session/Session.php';
 
 class Mobile_API_Session {
 
-	function __construct() {
+	public function __construct() {
 	}
 
 	static function destroy($sessionid = false) {

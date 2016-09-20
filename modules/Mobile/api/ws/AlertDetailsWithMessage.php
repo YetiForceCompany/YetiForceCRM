@@ -12,7 +12,7 @@ include_once dirname(__FILE__) . '/FetchAllAlerts.php';
 
 class Mobile_WS_AlertDetailsWithMessage extends Mobile_WS_FetchAllAlerts {
 	
-	function process(Mobile_API_Request $request) {
+	public function process(Mobile_API_Request $request) {
 		$current_user  = vglobal('current_user');
 
 		$response = new Mobile_API_Response();
@@ -32,7 +32,7 @@ class Mobile_WS_AlertDetailsWithMessage extends Mobile_WS_FetchAllAlerts {
 		return $response;
 	}
 	
-	function getAlertDetails($alertid) {
+	public function getAlertDetails($alertid) {
 		
 		$alertModel = Mobile_WS_AlertModel::modelWithId($alertid);
 		

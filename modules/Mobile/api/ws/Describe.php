@@ -11,7 +11,7 @@ include_once 'include/Webservices/DescribeObject.php';
 
 class Mobile_WS_Describe extends Mobile_WS_Controller {
 	
-	function process(Mobile_API_Request $request) {
+	public function process(Mobile_API_Request $request) {
 		$current_user = $this->getActiveUser();
 		
 		$module = $request->get('module');

@@ -14,38 +14,38 @@ class Mobile_API_Response
 	private $error = NULL;
 	private $result = NULL;
 
-	function setError($code, $message)
+	public function setError($code, $message)
 	{
 		$error = array('code' => $code, 'message' => $message);
 		$this->error = $error;
 	}
 
-	function getError()
+	public function getError()
 	{
 		return $this->error;
 	}
 
-	function hasError()
+	public function hasError()
 	{
 		return !is_null($this->error);
 	}
 
-	function setResult($result)
+	public function setResult($result)
 	{
 		$this->result = $result;
 	}
 
-	function getResult()
+	public function getResult()
 	{
 		return $this->result;
 	}
 
-	function addToResult($key, $value)
+	public function addToResult($key, $value)
 	{
 		$this->result[$key] = $value;
 	}
 
-	function prepareResponse()
+	public function prepareResponse()
 	{
 		$response = array();
 		if ($this->result === NULL) {
@@ -58,12 +58,12 @@ class Mobile_API_Response
 		return $response;
 	}
 
-	function emitJSON()
+	public function emitJSON()
 	{
 		return \includes\utils\Json::encode($this->prepareResponse());
 	}
 
-	function emitHTML()
+	public function emitHTML()
 	{
 		if ($this->result === NULL)
 			return (is_string($this->error)) ? $this->error : var_export($this->error, true);

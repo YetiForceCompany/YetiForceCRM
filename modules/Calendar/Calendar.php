@@ -28,7 +28,7 @@ class Calendar
 	/*
 	constructor
 	*/
-	function __construct($view='',$data=Array())
+	public function __construct($view='',$data=Array())
 	{
 		$this->view = $view;
 		$this->date_time = new vt_DateTime($data,true);
@@ -39,7 +39,7 @@ class Calendar
 	 * @param string  $view   - calendarview
 	 * return string  - calendarview Label 
 	*/
-	function getCalendarView($view)
+	public function getCalendarView($view)
 	{
 		switch($view)
                 {
@@ -57,7 +57,7 @@ class Calendar
 	/**
 	 * Function to set values for calendar object depends on calendar view
 	*/
-	function constructLayout()
+	public function constructLayout()
 	{
 		$current_user  = vglobal('current_user');
 		switch($this->view)
@@ -133,7 +133,7 @@ class Calendar
 	 * @param  string   $type  - string 'increment' or 'decrment'
 	 */
 
-	function get_datechange_info($type)
+	public function get_datechange_info($type)
 	{
 		if($type == 'next')
 			$mode = 'increment';	
@@ -164,7 +164,7 @@ class Calendar
 	 * @param  array $current_user  - user data
 	 * @param  string $free_busy    - 
 	 */
-	function add_Activities($current_user,$free_busy='')
+	public function add_Activities($current_user,$free_busy='')
 	{
 		if(isset($current_user->start_hour) && $current_user->start_hour !='')
 		{
@@ -256,7 +256,7 @@ class Layout
 	* @param  string   $time - time string 
 	*/
 
-	function Layout($view,$time)
+	public function Layout($view,$time)
         {
                 $this->view = $view;
                 $this->start_time = $time;
@@ -273,7 +273,7 @@ class Layout
 	* return currentview
 	*/
 
-	function getView()
+	public function getView()
 	{
 		return $this->view;
 	}

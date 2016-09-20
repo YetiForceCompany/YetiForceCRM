@@ -22,7 +22,7 @@ class API_CalDAV_Model
 
 	const MAX_DATE = '2038-01-01';
 
-	function __construct()
+	public function __construct()
 	{
 // Autoloader
 		require_once 'libraries/SabreDAV/autoload.php';
@@ -682,7 +682,7 @@ class API_CalDAV_Model
 		];
 	}
 
-	function getVTimeZone($vcalendar, $tzid, $from = 0, $to = 0)
+	public function getVTimeZone($vcalendar, $tzid, $from = 0, $to = 0)
 	{
 		if (!$from)
 			$from = time();

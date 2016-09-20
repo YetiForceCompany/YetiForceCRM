@@ -11,7 +11,7 @@ include_once 'include/Webservices/Delete.php';
 
 class Mobile_WS_DeleteRecords extends Mobile_WS_Controller {
 	
-	function process(Mobile_API_Request $request) {
+	public function process(Mobile_API_Request $request) {
 		$current_user  = vglobal('current_user');
 		
 		$current_user = $this->getActiveUser();

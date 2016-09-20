@@ -11,7 +11,7 @@ include_once dirname(__FILE__) . '/SaveRecord.php';
 
 class Mobile_WS_AddRecordComment extends Mobile_WS_SaveRecord {
 	
-	function saveCommentToHelpDesk($commentcontent, $record, $user) {
+	public function saveCommentToHelpDesk($commentcontent, $record, $user) {
 		$current_user  = vglobal('current_user');
 		$current_user = $user;
 		
@@ -27,7 +27,7 @@ class Mobile_WS_AddRecordComment extends Mobile_WS_SaveRecord {
 		return false;
 	}
 	
-	function process(Mobile_API_Request $request) {
+	public function process(Mobile_API_Request $request) {
 
 		$values = \includes\utils\Json::decode($request->get('values'));
 		$relatedTo = $values['related_to'];

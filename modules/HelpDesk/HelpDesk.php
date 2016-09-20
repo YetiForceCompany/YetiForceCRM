@@ -92,7 +92,7 @@ class HelpDesk extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'ticket_title';
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		//Inserting into vtiger_attachments
 		$this->insertIntoAttachment($this->id, $module);
@@ -109,7 +109,7 @@ class HelpDesk extends CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName = false)
+	public function save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName = false)
 	{
 		if ($with_module == 'ServiceContracts') {
 			parent::save_related_module($module, $crmid, $with_module, $with_crmid);
@@ -126,7 +126,7 @@ class HelpDesk extends CRMEntity
 	 *      @param int $id  - entity id to which the vtiger_files to be uploaded
 	 *      @param string $module  - the current module name
 	 */
-	function insertIntoAttachment($id, $module)
+	public function insertIntoAttachment($id, $module)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
@@ -151,7 +151,7 @@ class HelpDesk extends CRMEntity
 	  entries=>array('0'=>'info1','1'=>'info2',etc.,)
 	  )
 	 */
-	function get_ticket_history($ticketid)
+	public function get_ticket_history($ticketid)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -170,10 +170,10 @@ class HelpDesk extends CRMEntity
 		return $return_value;
 	}
 
-	/** 	Function to get the HelpDesk field labels in caps letters without space
+	/** 	public function to get the HelpDesk field labels in caps letters without space
 	 * 	@return array $mergeflds - array(	key => val	)    where   key=0,1,2..n & val = ASSIGNEDTO,RELATEDTO, .,etc
 	 * */
-	function getColumnNames_Hd()
+	public function getColumnNames_Hd()
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -207,7 +207,7 @@ class HelpDesk extends CRMEntity
 	 *      @param  int    $id   - Ticket id
 	 *      @return string $customername - The contact name
 	 * */
-	function getCustomerName($id)
+	public function getCustomerName($id)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering getCustomerName(" . $id . ") method ...");
@@ -224,7 +224,7 @@ class HelpDesk extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Tickets Query.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -270,7 +270,7 @@ class HelpDesk extends CRMEntity
 	/** Function to get the update ticket history for the specified ticketid
 	 * @param $id -- $ticketid:: Type Integer
 	 */
-	function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
+	public function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
 	{
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
@@ -339,7 +339,7 @@ class HelpDesk extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -377,7 +377,7 @@ class HelpDesk extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
 	{
 		$matrix = $queryplanner->newDependencyMatrix();
 
@@ -430,7 +430,7 @@ class HelpDesk extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_troubletickets' => 'ticketid'),
@@ -443,7 +443,7 @@ class HelpDesk extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = LoggerManager::getInstance();
 		if (empty($return_module) || empty($return_id))
@@ -567,7 +567,7 @@ class HelpDesk extends CRMEntity
 		return $contents;
 	}
 
-	function clearSingletonSaveFields()
+	public function clearSingletonSaveFields()
 	{
 		$this->column_fields['comments'] = '';
 	}

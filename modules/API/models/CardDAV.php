@@ -27,7 +27,7 @@ class API_CardDAV_Model
 		'OSSEmployees' => ['business_phone' => 'WORK', 'private_phone' => 'CELL'],
 	];
 
-	function __construct()
+	public function __construct()
 	{
 		$dbconfig = vglobal('dbconfig');
 		$this->pdo = new PDO('mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);

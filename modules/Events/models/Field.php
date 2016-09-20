@@ -14,7 +14,7 @@
 class Events_Field_Model extends Calendar_Field_Model
 {
 
-	function get($propertyName)
+	public function get($propertyName)
 	{
 		if (property_exists($this, $propertyName)) {
 			$fieldName = $this->getName();

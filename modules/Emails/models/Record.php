@@ -169,7 +169,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 	 * Returns the From Email address that will be used for the sent mails
 	 * @return <String> - from email address
 	 */
-	function getFromEmailAddress()
+	public function getFromEmailAddress()
 	{
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -199,7 +199,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 	 * Function returns the attachment details for a email
 	 * @return <Array> List of attachments
 	 */
-	function getAttachmentDetails()
+	public function getAttachmentDetails()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -439,7 +439,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
-	function getEntityType($id)
+	public function getEntityType($id)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();

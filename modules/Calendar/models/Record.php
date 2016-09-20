@@ -52,7 +52,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Entity Name of Record Model
 	 * @return <String>
 	 */
-	function getName()
+	public function getName()
 	{
 		$name = $this->get('subject');
 		if (empty($name)) {
@@ -77,7 +77,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Module Name based on the activity type
 	 * @return <String>
 	 */
-	function getType()
+	public function getType()
 	{
 		$activityType = $this->get('activitytype');
 		if ($activityType == 'Task') {
@@ -134,7 +134,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		return $recurringData;
 	}
 
-	function save()
+	public function save()
 	{
 		//Time should changed to 24hrs format
 		AppRequest::set('time_start', Vtiger_Time_UIType::getTimeValueWithSeconds(AppRequest::get('time_start')));

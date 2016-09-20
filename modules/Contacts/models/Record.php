@@ -14,7 +14,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model {
 	 * Function returns the url for create event
 	 * @return <String>
 	 */
-	function getCreateEventUrl() {
+	public function getCreateEventUrl() {
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl().'&link='.$this->getId();
 	}
@@ -23,7 +23,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model {
 	 * Function returns the url for create todo
 	 * @return <String>
 	 */
-	function getCreateTaskUrl() {
+	public function getCreateTaskUrl() {
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl().'&link='.$this->getId();
 	}

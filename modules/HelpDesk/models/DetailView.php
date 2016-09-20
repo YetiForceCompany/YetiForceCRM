@@ -36,7 +36,7 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 		return $linkModelList;
 	}
 
-	function getDetailViewRelatedLinks()
+	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();

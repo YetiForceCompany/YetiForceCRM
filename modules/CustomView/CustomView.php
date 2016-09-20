@@ -52,7 +52,7 @@ class CustomView extends CRMEntity
 	 * @param $module -- The module Name:: Type String(optional)
 	 * @returns  nothing
 	 */
-	function __construct($module = '')
+	public function __construct($module = '')
 	{
 		global $current_user;
 		$this->customviewmodule = $module;
@@ -84,7 +84,7 @@ class CustomView extends CRMEntity
 	 * @param $module -- The module Name:: Type String
 	 * @returns  customViewId :: Type Integer
 	 */
-	function getViewId($module)
+	public function getViewId($module)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
@@ -118,14 +118,14 @@ class CustomView extends CRMEntity
 		return $viewid;
 	}
 
-	function getMandatoryFilter($module)
+	public function getMandatoryFilter($module)
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT cvid FROM vtiger_customview WHERE presence = ? and entitytype = ?;', [0, $module]);
 		return $db->getSingleValue($result);
 	}
 
-	function getDefaultCvId($module)
+	public function getDefaultCvId($module)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -170,7 +170,7 @@ class CustomView extends CRMEntity
 		return $db->getSingleValue($result);
 	}
 
-	function getViewIdByName($viewname, $module)
+	public function getViewIdByName($viewname, $module)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -194,7 +194,7 @@ class CustomView extends CRMEntity
 	 *                         'setdefault'=>defaultchk,
 	 *                         'setmetrics'=>setmetricschk)
 	 */
-	function getCustomViewByCvid($cvid)
+	public function getCustomViewByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -434,7 +434,7 @@ class CustomView extends CRMEntity
 
 
 	 */
-	function getModuleColumnsList($module)
+	public function getModuleColumnsList($module)
 	{
 
 		$module_info = $this->getCustomViewModuleInfo($module);
@@ -456,7 +456,7 @@ class CustomView extends CRMEntity
 	 * 					|
 	 * 			 $columnindexn => $columnnamen)
 	 */
-	function getColumnsListByCvid($cvid)
+	public function getColumnsListByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -499,7 +499,7 @@ class CustomView extends CRMEntity
 	 * 					|
 	 * 			 $tablenamen:$columnnamen:$fieldnamen:$module_$fieldlabeln => $fieldlabeln)
 	 */
-	function getStdCriteriaByModule($module)
+	public function getStdCriteriaByModule($module)
 	{
 		$adb = PearDatabase::getInstance();
 		$tabid = \includes\Modules::getModuleId($module);
@@ -552,7 +552,7 @@ class CustomView extends CRMEntity
 	 *  Function which will give condition list for date fields
 	 * @return array of std filter conditions
 	 */
-	function getStdFilterConditions()
+	public function getStdFilterConditions()
 	{
 		return Array("custom", "prevfy", "thisfy", "nextfy", "prevfq",
 			"thisfq", "nextfq", "yesterday", "today", "tomorrow",
@@ -567,7 +567,7 @@ class CustomView extends CRMEntity
 	 * @returns  $stdfilterlist Array in the following format
 	 * $stdfilterlist = Array( 'columnname' =>  $tablename:$columnname:$fieldname:$module_$fieldlabel,'stdfilter'=>$stdfilter,'startdate'=>$startdate,'enddate'=>$enddate)
 	 */
-	function getStdFilterByCvid($cvid)
+	public function getStdFilterByCvid($cvid)
 	{
 		$stdFilter = Vtiger_Cache::get('getStdFilterByCvid', $cvid);
 		if ($stdFilter !== false) {
@@ -594,7 +594,7 @@ class CustomView extends CRMEntity
 		return $stdFilter;
 	}
 
-	function resolveDateFilterValue($dateFilterRow)
+	public function resolveDateFilterValue($dateFilterRow)
 	{
 		$stdfilterlist = [];
 		$stdfilterlist['columnname'] = $dateFilterRow['columnname'];
@@ -623,7 +623,7 @@ class CustomView extends CRMEntity
 	 * @param $cvid :: Type Integer
 	 * @returns  $advfilterlist Array
 	 */
-	function getAdvFilterByCvid($cvid)
+	public function getAdvFilterByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 		$default_charset = vglobal('default_charset');
@@ -683,7 +683,7 @@ class CustomView extends CRMEntity
 		return $advft_criteria;
 	}
 
-	function getAdvftCriteria($relcriteriarow)
+	public function getAdvftCriteria($relcriteriarow)
 	{
 		$columnIndex = $relcriteriarow['columnindex'];
 		$criteria = [];
@@ -740,7 +740,7 @@ class CustomView extends CRMEntity
 	 * @param String $columnname
 	 * @param String $tablename
 	 */
-	function isFieldPresent_ByColumnTable($columnname, $tablename)
+	public function isFieldPresent_ByColumnTable($columnname, $tablename)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -771,7 +771,7 @@ class CustomView extends CRMEntity
 	 *                     $tablename.$columnname,$tablename1.$columnname1, ------ $tablenamen.$columnnamen
 	 *
 	 */
-	function getCvColumnListSQL($cvid)
+	public function getCvColumnListSQL($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 		$columnslist = $this->getColumnsListByCvid($cvid);
@@ -824,7 +824,7 @@ class CustomView extends CRMEntity
 	 * This function will return the standard filter criteria for the given customfield
 	 *
 	 */
-	function getCVStdFilterSQL($cvid)
+	public function getCVStdFilterSQL($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -908,7 +908,7 @@ class CustomView extends CRMEntity
 	 */
 	// Needs to be modified according to the new advanced filter (support for grouping).
 	// Not modified as of now, as this function is not used for now (Instead Query Generator is used for better performance).
-	function getCVAdvFilterSQL($cvid)
+	public function getCVAdvFilterSQL($cvid)
 	{
 		$current_user = vglobal('current_user');
 
@@ -1158,7 +1158,7 @@ class CustomView extends CRMEntity
 	 * @param $value :: type string
 	 * @returns  $rtvalue in the format $comparator $value
 	 */
-	function getAdvComparator($comparator, $value, $datatype = '')
+	public function getAdvComparator($comparator, $value, $datatype = '')
 	{
 
 		global $adb, $default_charset;
@@ -1244,7 +1244,7 @@ class CustomView extends CRMEntity
 	 * @returns  $datevalue array in the following format
 	 *             $datevalue = Array(0=>$startdate,1=>$enddate)
 	 */
-	function getDateforStdFilterBytype($type)
+	public function getDateforStdFilterBytype($type)
 	{
 		return DateTimeRange::getDateRangeByType($type);
 	}
@@ -1256,7 +1256,7 @@ class CustomView extends CRMEntity
 	 * @returns  $query
 	 */
 	//CHANGE : TO IMPROVE PERFORMANCE
-	function getModifiedCvListQuery($viewid, $listquery, $module)
+	public function getModifiedCvListQuery($viewid, $listquery, $module)
 	{
 		if ($viewid != "" && $listquery != "") {
 
@@ -1298,7 +1298,7 @@ class CustomView extends CRMEntity
 	 * @param $module (Module Name):: type string
 	 * @returns  $query
 	 */
-	function getMetricsCvListQuery($viewid, $listquery, $module)
+	public function getMetricsCvListQuery($viewid, $listquery, $module)
 	{
 		if ($viewid != "" && $listquery != "") {
 			$listviewquery = substr($listquery, strpos($listquery, 'FROM'), strlen($listquery));
@@ -1326,7 +1326,7 @@ class CustomView extends CRMEntity
 	  'content'=>$content,
 	  'cvid'=>$custom view id)
 	 */
-	function getCustomActionDetails($cvid)
+	public function getCustomActionDetails($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -1346,7 +1346,7 @@ class CustomView extends CRMEntity
 	 * and return the array
 	 */
 
-	function getCustomViewModuleInfo($module)
+	public function getCustomViewModuleInfo($module)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_language = vglobal('current_language');
@@ -1401,7 +1401,7 @@ class CustomView extends CRMEntity
 	 * @param Integer $viewid
 	 * @return Array
 	 */
-	function getStatusAndUserid($viewid)
+	public function getStatusAndUserid($viewid)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -1419,7 +1419,7 @@ class CustomView extends CRMEntity
 	}
 
 	//Function to check if the current user is able to see the customView
-	function isPermittedCustomView($record_id, $action, $module)
+	public function isPermittedCustomView($record_id, $action, $module)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -1501,7 +1501,7 @@ class CustomView extends CRMEntity
 		return $permission;
 	}
 
-	function isPermittedChangeStatus($status)
+	public function isPermittedChangeStatus($status)
 	{
 		global $current_user, $log;
 		$current_language = vglobal('current_language');

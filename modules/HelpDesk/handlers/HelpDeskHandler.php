@@ -14,7 +14,7 @@ require_once 'modules/Emails/mail.php';
 class HelpDeskHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();

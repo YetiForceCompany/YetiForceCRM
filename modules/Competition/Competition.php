@@ -78,7 +78,7 @@ class Competition extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
@@ -125,7 +125,7 @@ class Competition extends Vtiger_CRMEntity
 	 * @param $id -- campaign id :: Type Integer
 	 * @returns list of campaigns in array format
 	 */
-	function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -186,7 +186,7 @@ class Competition extends Vtiger_CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -222,7 +222,7 @@ class Competition extends Vtiger_CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'u_yf_competition' => 'competitionid'],
@@ -234,7 +234,7 @@ class Competition extends Vtiger_CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$log = LoggerManager::getInstance();
 		if (empty($returnModule) || empty($returnId))
@@ -246,7 +246,7 @@ class Competition extends Vtiger_CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 

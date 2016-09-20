@@ -11,7 +11,7 @@
 class Leads_Detail_View extends Vtiger_Detail_View
 {
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \includes\utils\Json::encode(Leads_Module_Model::getConversionAvaibleStatuses()));

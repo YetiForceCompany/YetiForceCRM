@@ -1089,7 +1089,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 * match ALL conditions group and the rest of it will be placed under match Any group.
 	 * @return <Array>
 	 */
-	function transformToNewAdvancedFilter()
+	public function transformToNewAdvancedFilter()
 	{
 		$standardFilter = $this->transformStandardFilter();
 		$advancedFilter = $this->getAdvancedCriteria();

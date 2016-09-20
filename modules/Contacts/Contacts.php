@@ -122,7 +122,7 @@ class Contacts extends CRMEntity
 	 *  @param varchar $user name - Assigned to User
 	 *  Returns the count of contacts assigned to user.
 	 */
-	function getCount($user_name)
+	public function getCount($user_name)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering getCount(" . $user_name . ") method ...");
@@ -143,7 +143,7 @@ class Contacts extends CRMEntity
 	 *  @param integer $offset - Count of the subsequent records to be displayed.
 	 *  Returns Query.
 	 */
-	function get_contacts($user_name, $from_index, $offset)
+	public function get_contacts($user_name, $from_index, $offset)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering get_contacts(" . $user_name . "," . $from_index . "," . $offset . ") method ...");
@@ -157,7 +157,7 @@ class Contacts extends CRMEntity
 	 *  @param $query
 	 *  Returns the results of query in array format
 	 */
-	function process_list_query1($query)
+	public function process_list_query1($query)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering process_list_query1(" . $query . ") method ...");
@@ -198,7 +198,7 @@ class Contacts extends CRMEntity
 	 *  @param $query
 	 *  Returns the results of query in array format
 	 */
-	function plugin_process_list_query($query)
+	public function plugin_process_list_query($query)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -261,7 +261,7 @@ class Contacts extends CRMEntity
 	 * @param  integer   $id      - contactid
 	 * returns related Ticket records in array format
 	 */
-	function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -324,7 +324,7 @@ class Contacts extends CRMEntity
 	 * @param  integer   $id  - contactid
 	 * returns related Products record in array format
 	 */
-	function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -391,7 +391,7 @@ class Contacts extends CRMEntity
 	 * @param $id -- campaign id :: Type Integer
 	 * @returns list of campaigns in array format
 	 */
-	function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -454,7 +454,7 @@ class Contacts extends CRMEntity
 	 * @param  integer   $id      - contactid
 	 * returns related vendor records in array format
 	 */
-	function get_vendors($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_vendors($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -514,7 +514,7 @@ class Contacts extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Contacts Query.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -556,7 +556,7 @@ class Contacts extends CRMEntity
 	 * Used By vtigerCRM Word Plugin
 	 * Returns the Merge Fields for Word Plugin
 	 */
-	function getColumnNames()
+	public function getColumnNames()
 	{
 		$current_user = vglobal('current_user');
 		$log = vglobal('log');
@@ -593,7 +593,7 @@ class Contacts extends CRMEntity
 	 * Used By vtigerCRM Outlook Plugin
 	 * Returns the Query
 	 */
-	function get_searchbyemailid($username, $emailaddress)
+	public function get_searchbyemailid($username, $emailaddress)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -635,7 +635,7 @@ class Contacts extends CRMEntity
 	 *  @param varchar $user_name - User Name
 	 *  Returns query
 	 */
-	function get_contactsforol($user_name)
+	public function get_contactsforol($user_name)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -693,7 +693,7 @@ class Contacts extends CRMEntity
 
 	/** Function to handle module specific operations when saving a entity
 	 */
-	function save_module($module)
+	public function save_module($module)
 	{
 		$this->insertIntoAttachment($this->id, $module);
 	}
@@ -703,7 +703,7 @@ class Contacts extends CRMEntity
 	 *      @param int $id  - entity id to which the vtiger_files to be uploaded
 	 *      @param string $module  - the current module name
 	 */
-	function insertIntoAttachment($id, $module)
+	public function insertIntoAttachment($id, $module)
 	{
 		$log = LoggerManager::getInstance();
 		$adb = PearDatabase::getInstance();
@@ -751,7 +751,7 @@ class Contacts extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -797,7 +797,7 @@ class Contacts extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
 	{
 		$matrix = $queryplanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_crmentityContacts', array('vtiger_groupsContacts', 'vtiger_usersContacts', 'vtiger_lastModifiedByContacts'));
@@ -855,7 +855,7 @@ class Contacts extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [
 			'Products' => ['vtiger_seproductsrel' => ['crmid', 'productid'], 'vtiger_contactdetails' => 'contactid'],
@@ -869,7 +869,7 @@ class Contacts extends CRMEntity
 	}
 
 	// Function to unlink all the dependent entities of the given Entity by Id
-	function unlinkDependencies($module, $id)
+	public function unlinkDependencies($module, $id)
 	{
 		$log = vglobal('log');
 
@@ -895,7 +895,7 @@ class Contacts extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))
@@ -917,7 +917,7 @@ class Contacts extends CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName = false)
+	public function save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();

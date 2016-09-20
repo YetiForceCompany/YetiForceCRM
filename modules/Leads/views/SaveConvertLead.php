@@ -126,7 +126,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		}
 	}
 
-	function showError($request, $exception = false, $message = '')
+	public function showError($request, $exception = false, $message = '')
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

@@ -10,7 +10,7 @@
 class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$id = $request->get('record');
@@ -31,7 +31,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getScripts(Vtiger_Request $request)
+	public function getScripts(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = array(

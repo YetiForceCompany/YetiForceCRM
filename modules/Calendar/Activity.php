@@ -90,14 +90,14 @@ class Activity extends CRMEntity
 	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
-	function __construct()
+	public function __construct()
 	{
 		$this->log = LoggerManager::getLogger('Calendar');
 		$this->db = PearDatabase::getInstance();
 		$this->column_fields = getColumnFields('Calendar');
 	}
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		$adb = PearDatabase::getInstance();
 		//Handling module specific save
@@ -132,7 +132,7 @@ class Activity extends CRMEntity
 	/** Function to insert values in vtiger_activity_reminder_popup table for the specified module
 	 * @param $cbmodule -- module:: Type varchar
 	 */
-	function insertIntoActivityReminderPopup($cbmodule)
+	public function insertIntoActivityReminderPopup($cbmodule)
 	{
 
 		$adb = PearDatabase::getInstance();
@@ -183,7 +183,7 @@ class Activity extends CRMEntity
 	 * @param $table_name -- table name:: Type varchar
 	 * @param $module -- module:: Type varchar
 	 */
-	function insertIntoReminderTable($table_name, $module, $recurid)
+	public function insertIntoReminderTable($table_name, $module, $recurid)
 	{
 		$log = LoggerManager::getInstance();
 		$log->info('in insertIntoReminderTable  ' . $table_name . '    module is  ' . $module);
@@ -216,7 +216,7 @@ class Activity extends CRMEntity
 	/** Function to insert values in vtiger_recurringevents table for the specified tablename,module
 	 * @param $recurObj -- Recurring Object:: Type varchar
 	 */
-	function insertIntoRecurringTable(& $recurObj)
+	public function insertIntoRecurringTable(& $recurObj)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -288,7 +288,7 @@ class Activity extends CRMEntity
 	 * @param $module -- module:: Type varchar
 	 * @param $invitees_array Array
 	 */
-	function insertIntoInviteeTable($module)
+	public function insertIntoInviteeTable($module)
 	{
 		$log = LoggerManager::getInstance();
 		if (!AppRequest::has('inviteesid')) {
@@ -326,7 +326,7 @@ class Activity extends CRMEntity
 	/** Function to insert values in vtiger_salesmanactivityrel table for the specified module
 	 * @param $module -- module:: Type varchar
 	 */
-	function insertIntoSmActivityRel($module)
+	public function insertIntoSmActivityRel($module)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -372,7 +372,7 @@ class Activity extends CRMEntity
 	 * Function to get sort order
 	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
 	 */
-	function getSortOrder()
+	public function getSortOrder()
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering getSortOrder() method ...');
@@ -388,7 +388,7 @@ class Activity extends CRMEntity
 	 * Function to get order by
 	 * return string  $order_by    - fieldname(eg: 'subject')
 	 */
-	function getOrderBy()
+	public function getOrderBy()
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering getOrderBy() method ...");
@@ -413,7 +413,7 @@ class Activity extends CRMEntity
 	 * @param  integer   $id      - activityid
 	 * returns related Contacts record in array format
 	 */
-	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = LoggerManager::getInstance();
 		$singlepane_view = vglobal('singlepane_view');
@@ -462,7 +462,7 @@ class Activity extends CRMEntity
 	 * @param  integer   $id      - activityid
 	 * returns related Users record in array format
 	 */
-	function get_users($id)
+	public function get_users($id)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
@@ -493,7 +493,7 @@ class Activity extends CRMEntity
 	 * @param  string   $user_name        - User Name
 	 * return  integer  $row["count(*)"]  - count
 	 */
-	function getCount_Meeting($user_name)
+	public function getCount_Meeting($user_name)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering getCount_Meeting(" . $user_name . ") method ...");
@@ -505,7 +505,7 @@ class Activity extends CRMEntity
 		return $row["count(*)"];
 	}
 
-	function get_calendars($user_name, $from_index, $offset)
+	public function get_calendars($user_name, $from_index, $offset)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering get_calendars(" . $user_name . "," . $from_index . "," . $offset . ") method ...");
@@ -526,7 +526,7 @@ class Activity extends CRMEntity
 	 * @param  string   $user_name        - User Name
 	 * return  integer  $row["count(*)"]  - count
 	 */
-	function getCount($user_name)
+	public function getCount($user_name)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering getCount(" . $user_name . ") method ...");
@@ -546,7 +546,7 @@ class Activity extends CRMEntity
 	 * @param  string   $offset           - query string
 	 * returns tasks in array format
 	 */
-	function get_tasks($user_name, $from_index, $offset)
+	public function get_tasks($user_name, $from_index, $offset)
 	{
 		$log = vglobal('log');
 		$log->debug('Entering get_tasks(' . $user_name . ',' . $from_index . ',' . $offset . ') method ...');
@@ -565,7 +565,7 @@ class Activity extends CRMEntity
 	 * @param  string   $query     - query string
 	 * return  array    $response  - activity lists
 	 */
-	function process_list_query1($query)
+	public function process_list_query1($query)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering process_list_query1(" . $query . ") method ...");
@@ -614,7 +614,7 @@ class Activity extends CRMEntity
 	 * @param  integer   $recurid         - recuring eventid
 	 * @param  string    $reminderMode    - string like 'edit'
 	 */
-	function activity_reminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
+	public function activity_reminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
@@ -658,7 +658,7 @@ class Activity extends CRMEntity
 	 * @param   string    $username     -  User name
 	 * return   string    $query        -  sql query
 	 */
-	function get_tasksforol($username)
+	public function get_tasksforol($username)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -712,7 +712,7 @@ class Activity extends CRMEntity
 	/**
 	 * Function to get calendar query for outlookplugin
 	 * @param   string    $username     -  User name                                                                            * return   string    $query        -  sql query                                                                            */
-	function get_calendarsforol($user_name)
+	public function get_calendarsforol($user_name)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -770,7 +770,7 @@ class Activity extends CRMEntity
 	}
 
 	// Function to unlink all the dependent entities of the given Entity by Id
-	function unlinkDependencies($module, $id)
+	public function unlinkDependencies($module, $id)
 	{
 		$log = vglobal('log');
 
@@ -788,7 +788,7 @@ class Activity extends CRMEntity
 	 * @param string $status - the status of the activity flag to set
 	 * @return:: true if successful; false otherwise
 	 */
-	function setActivityReminder($status)
+	public function setActivityReminder($status)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($status == "on") {
@@ -809,7 +809,7 @@ class Activity extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
 	{
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_crmentityCalendar', array('vtiger_groupsCalendar', 'vtiger_usersCalendar', 'vtiger_lastModifiedByCalendar'));
@@ -951,7 +951,7 @@ class Activity extends CRMEntity
 		return $shared_ids;
 	}
 
-	function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
+	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
 		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule=?)', [$module, $withModule]);
 		if ($fieldRes->rowCount()) {

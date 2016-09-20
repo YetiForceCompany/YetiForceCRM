@@ -11,7 +11,7 @@
 class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('deleteUserCalendar');
 		$this->exposeMethod('addUserCalendar');
@@ -43,7 +43,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	function deleteUserCalendar(Vtiger_Request $request)
+	public function deleteUserCalendar(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
@@ -68,7 +68,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	function addUserCalendar(Vtiger_Request $request)
+	public function addUserCalendar(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
@@ -95,7 +95,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	function deleteCalendarView(Vtiger_Request $request)
+	public function deleteCalendarView(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
@@ -119,7 +119,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	function addCalendarView(Vtiger_Request $request)
+	public function addCalendarView(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();

@@ -21,7 +21,7 @@ class IStorages_Hierarchy_View extends Vtiger_View_Controller
 		}
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		
 	}
@@ -40,7 +40,7 @@ class IStorages_Hierarchy_View extends Vtiger_View_Controller
 		$viewer->view('Hierarchy.tpl', $moduleName);
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		
 	}

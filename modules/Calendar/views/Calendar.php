@@ -84,7 +84,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

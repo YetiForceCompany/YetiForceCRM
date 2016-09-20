@@ -9,7 +9,7 @@
 class IGDNC_Field_Model extends Vtiger_Field_Model
 {
 
-	function isAjaxEditable()
+	public function isAjaxEditable()
 	{
 		$edit = parent::isAjaxEditable();
 		if ($edit && $this->getName() === 'igdnc_status') {

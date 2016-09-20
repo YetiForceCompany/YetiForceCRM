@@ -69,7 +69,7 @@ class Leads extends CRMEntity
 
 	/** Function to handle module specific operations when saving a entity
 	 */
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}
@@ -79,7 +79,7 @@ class Leads extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Leads Query.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -125,7 +125,7 @@ class Leads extends CRMEntity
 	 * @param $id -- campaign id :: Type Integer
 	 * @returns list of campaigns in array format
 	 */
-	function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -185,7 +185,7 @@ class Leads extends CRMEntity
 	 * @param  integer   $id      - leadid
 	 * returns related Products record in array format
 	 */
-	function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -249,7 +249,7 @@ class Leads extends CRMEntity
 	 * Used By vtigerCRM Word Plugin
 	 * Returns the Merge Fields for Word Plugin
 	 */
-	function getColumnNames_Lead()
+	public function getColumnNames_Lead()
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -285,7 +285,7 @@ class Leads extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -326,7 +326,7 @@ class Leads extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
 	{
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_leaddetails', array('vtiger_crmentityLeads', 'vtiger_leadaddress', 'vtiger_leadsubdetails', 'vtiger_leadscf', 'vtiger_email_trackLeads'));
@@ -372,7 +372,7 @@ class Leads extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			'Products' => array('vtiger_seproductsrel' => array('crmid', 'productid'), 'vtiger_leaddetails' => 'leadid'),
@@ -387,7 +387,7 @@ class Leads extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = LoggerManager::getInstance();
 		if (empty($return_module) || empty($return_id))
@@ -403,7 +403,7 @@ class Leads extends CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -431,7 +431,7 @@ class Leads extends CRMEntity
 		}
 	}
 
-	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false, $additionalColumns = '')
+	public function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false, $additionalColumns = '')
 	{
 		if (is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);

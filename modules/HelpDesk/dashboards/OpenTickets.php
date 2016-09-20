@@ -63,7 +63,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		return $chartData;
 	}
 
-	function getSearchParams($value)
+	public function getSearchParams($value)
 	{
 		$openTicketsStatus = Settings_SupportProcesses_Module_Model::getOpenTicketStatus();
 		if ($openTicketsStatus)
@@ -80,7 +80,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

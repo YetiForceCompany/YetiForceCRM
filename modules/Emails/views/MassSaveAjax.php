@@ -11,7 +11,7 @@
 class Emails_MassSaveAjax_View extends Vtiger_Footer_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('massSave');

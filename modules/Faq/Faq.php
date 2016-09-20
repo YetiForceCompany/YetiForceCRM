@@ -77,7 +77,7 @@ class Faq extends CRMEntity {
 	// For Alphabetical search
 	var $def_basicsearch_col = 'question';
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		//Inserting into Faq comment table
 		$this->insertIntoFAQCommentTable('vtiger_faqcomments', $module);
@@ -89,7 +89,7 @@ class Faq extends CRMEntity {
   	  * @param $table_name -- table name:: Type varchar
   	  * @param $module -- module:: Type varchar
  	 */
-	function insertIntoFAQCommentTable($table_name, $module)
+	public function insertIntoFAQCommentTable($table_name, $module)
 	{
 		$log = vglobal('log');
 		$log->info("in insertIntoFAQCommentTable  ".$table_name."    module is  ".$module);
@@ -116,7 +116,7 @@ class Faq extends CRMEntity {
 	 * @param - $module Primary module name
 	 * returns the query string formed on fetching the related data for report for primary module
 	 */
-	function generateReportsQuery($module, $queryPlanner) {
+	public function generateReportsQuery($module, $queryPlanner) {
 	 			$moduletable = $this->table_name;
 	 			$moduleindex = $this->table_index;
 
@@ -136,7 +136,7 @@ class Faq extends CRMEntity {
 	 * @param - $secmodule secondary module name
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
-	function setRelationTables($secmodule = false){
+	public function setRelationTables($secmodule = false){
 		$relTables = array (
 			'Documents' => array('vtiger_senotesrel'=>array('crmid','notesid'),'vtiger_faq'=>'id'),
 		);
@@ -146,7 +146,7 @@ class Faq extends CRMEntity {
 		return $relTables[$secmodule];
 	}
 
-	function clearSingletonSaveFields() {
+	public function clearSingletonSaveFields() {
 		$this->column_fields['comments'] = '';
 	}
 

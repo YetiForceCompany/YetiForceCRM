@@ -19,7 +19,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 	 * @param <String> $parentModule - parent module name
 	 * @return <String> - query
 	 */
-	function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
+	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
 		$queryFrom = 'SELECT `u_yf_crmentity_search_label`.`crmid`,`u_yf_crmentity_search_label`.`setype`,`u_yf_crmentity_search_label`.`searchlabel` FROM `u_yf_crmentity_search_label` ';
 		$queryWhere = ' WHERE `u_yf_crmentity_search_label`.`userid` LIKE \'%s\' && `u_yf_crmentity_search_label`.`searchlabel` LIKE \'%s\' ';

@@ -34,7 +34,7 @@ class Assets_Field_Model extends Vtiger_Field_Model
 		return ['sum_time'];
 	}
 	
-	function isAjaxEditable()
+	public function isAjaxEditable()
 	{
 		$edit = parent::isAjaxEditable();
 		if ($edit && $this->getName() === 'assetstatus') {

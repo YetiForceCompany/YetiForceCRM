@@ -11,7 +11,7 @@
 
 class HelpDesk_Detail_View extends Vtiger_Detail_View {
 	
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showCharts');
@@ -38,7 +38,7 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View {
 		return $headerScriptInstances;
 	}
 
-	function showCharts(Vtiger_Request $request)
+	public function showCharts(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

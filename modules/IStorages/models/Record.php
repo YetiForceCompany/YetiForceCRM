@@ -13,7 +13,7 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 	 * Function returns the details of IStorages Hierarchy
 	 * @return <Array>
 	 */
-	function getHierarchy() {
+	public function getHierarchy() {
 		$focus = CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getHierarchy($this->getId());
 		foreach($hierarchy['entries'] as $storageId => $storageInfo) {

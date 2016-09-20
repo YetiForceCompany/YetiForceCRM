@@ -10,7 +10,7 @@
 
 class EmailTemplates_Delete_Action extends Vtiger_Delete_Action {
 	
-	function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Vtiger_Request $request) {
 		return true;
 	}
 

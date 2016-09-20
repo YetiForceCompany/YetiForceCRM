@@ -14,7 +14,7 @@ class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 		return 'modal-fullscreen';
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$ID = $request->get('record');

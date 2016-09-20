@@ -77,7 +77,7 @@ class ISTN extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		if ($eventType == 'module.postinstall') {
 // TODO Handle actions after this module is installed.

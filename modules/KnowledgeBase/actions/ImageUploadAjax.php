@@ -9,7 +9,7 @@
 class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -153,7 +153,7 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 	 * @param int $rename checks if file should be rename or overwrite 
 	 * @return string filename with extension
 	 */
-	function setFileName($dirPath, $fileName, $extension, $i, $rename)
+	public function setFileName($dirPath, $fileName, $extension, $i, $rename)
 	{
 		if ($rename == 1 && file_exists($dirPath . $fileName . $extension)) {
 			$ending = '_' . $i;

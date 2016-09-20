@@ -75,7 +75,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	 * Function to get query to get List of records in the current page
 	 * @return <String> query
 	 */
-	function getQuery()
+	public function getQuery()
 	{
 		$queryGenerator = $this->get('query_generator');
 		// Added to remove emails from the calendar list

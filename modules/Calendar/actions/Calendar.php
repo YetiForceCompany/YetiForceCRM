@@ -23,7 +23,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getEvents');

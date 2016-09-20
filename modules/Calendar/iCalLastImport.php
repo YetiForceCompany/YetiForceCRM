@@ -15,7 +15,7 @@ class iCalLastImport
 	var $fields = array('id', 'userid', 'entitytype', 'crmid');
 	var $fieldData = [];
 
-	function clearRecords($userId)
+	public function clearRecords($userId)
 	{
 		$adb = PearDatabase::getInstance();
 		if (vtlib\Utils::CheckTable($this->tableName)) {
@@ -24,7 +24,7 @@ class iCalLastImport
 		}
 	}
 
-	function setFields($data)
+	public function setFields($data)
 	{
 		if (!empty($data)) {
 			foreach ($data as $name => $value) {
@@ -33,7 +33,7 @@ class iCalLastImport
 		}
 	}
 
-	function save()
+	public function save()
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -53,7 +53,7 @@ class iCalLastImport
 		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . generateQuestionMarks($fieldValues) . ')', array($fieldValues));
 	}
 
-	function undo($moduleName, $userId)
+	public function undo($moduleName, $userId)
 	{
 		$adb = PearDatabase::getInstance();
 		if (vtlib\Utils::CheckTable($this->tableName)) {

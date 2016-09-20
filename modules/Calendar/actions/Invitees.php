@@ -13,13 +13,13 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('find');
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 

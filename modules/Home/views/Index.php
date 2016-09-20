@@ -10,7 +10,7 @@
 
 class Home_Index_View extends Vtiger_Index_View {
 
-	function process (Vtiger_Request $request) {
+	public function process (Vtiger_Request $request) {
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 		//$viewer->assign('HOME_PAGES', Home_Page_Model::getAll());

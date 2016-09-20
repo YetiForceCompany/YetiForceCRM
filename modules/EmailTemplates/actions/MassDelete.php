@@ -10,15 +10,15 @@
 
 class EmailTemplates_MassDelete_Action extends Vtiger_Mass_Action {
 
-	function checkPermission(){
+	public function checkPermission(){
 		return true;
 	}
 
-	function preProcess(Vtiger_Request $request) {
+	public function preProcess(Vtiger_Request $request) {
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request) {
+	public function postProcess(Vtiger_Request $request) {
 		return true;
 	}
 

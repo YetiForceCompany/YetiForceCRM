@@ -12,7 +12,7 @@
 class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	function getSearchParams($value, $assignedto, $dates)
+	public function getSearchParams($value, $assignedto, $dates)
 	{
 		$listSearchParams = [];
 		$conditions = array(array('leadsource', 'e', $value));

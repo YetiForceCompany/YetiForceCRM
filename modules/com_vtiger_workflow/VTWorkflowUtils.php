@@ -17,7 +17,7 @@ class VTWorkflowUtils
 	static $userStack;
 	static $loggedInUser;
 
-	function __construct()
+	public function __construct()
 	{
 		$current_user = vglobal('current_user');
 		if (empty(self::$userStack)) {
@@ -28,7 +28,7 @@ class VTWorkflowUtils
 	/**
 	 * Check whether the given identifier is valid.
 	 */
-	function validIdentifier($identifier)
+	public function validIdentifier($identifier)
 	{
 		if (is_string($identifier)) {
 			return preg_match("/^[a-zA-Z][a-zA-Z_0-9]+$/", $identifier);
@@ -42,7 +42,7 @@ class VTWorkflowUtils
 	 * and make it the $current_user
 	 *
 	 */
-	function adminUser()
+	public function adminUser()
 	{
 		$user = Users::getActiveAdminUser();
 		$current_user = vglobal('current_user');
@@ -58,7 +58,7 @@ class VTWorkflowUtils
 	 * Push the logged in user on the user stack
 	 * and make it the $current_user
 	 */
-	function loggedInUser()
+	public function loggedInUser()
 	{
 		$user = self::$loggedInUser;
 		$current_user = vglobal('current_user');
@@ -70,7 +70,7 @@ class VTWorkflowUtils
 	/**
 	 * Revert to the previous use on the user stack
 	 */
-	function revertUser()
+	public function revertUser()
 	{
 		$current_user = vglobal('current_user');
 		if (count(self::$userStack) != 0) {
@@ -84,7 +84,7 @@ class VTWorkflowUtils
 	/**
 	 * Get the current user
 	 */
-	function currentUser()
+	public function currentUser()
 	{
 		return $current_user;
 	}
@@ -92,7 +92,7 @@ class VTWorkflowUtils
 	/**
 	 * The the webservice entity type of an EntityData object
 	 */
-	function toWSModuleName($entityData)
+	public function toWSModuleName($entityData)
 	{
 		$moduleName = $entityData->getModuleName();
 		if ($moduleName == 'Activity') {
@@ -109,7 +109,7 @@ class VTWorkflowUtils
 	/**
 	 * Insert redirection script
 	 */
-	function redirectTo($to, $message)
+	public function redirectTo($to, $message)
 	{
 
 		?>

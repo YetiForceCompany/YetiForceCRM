@@ -158,7 +158,7 @@ class Documents_Module_Model extends Vtiger_Module_Model {
 	 * Added function that returns the folders in a Document
 	 * @return <Array>
 	 */
-	function getAllFolders() {
+	public function getAllFolders() {
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT `tree`,`name` FROM
 				`vtiger_trees_templates_data` 

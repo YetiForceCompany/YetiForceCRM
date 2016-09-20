@@ -11,7 +11,7 @@
 
 class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller{
 
-	function __construct() {
+	public function __construct() {
 		$this->exposeMethod('postpone');
 	}
 
@@ -34,7 +34,7 @@ class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller{
 
 	}
 
-	function postpone(Vtiger_Request $request) {
+	public function postpone(Vtiger_Request $request) {
 		$recordId = $request->get('record');
 		$time = $request->get('time');
 		$module = $request->getModule();

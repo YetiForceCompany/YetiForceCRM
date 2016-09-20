@@ -76,7 +76,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	 * @param <String> $recordId - record id
 	 * @return <Array>
 	 */
-	function getCalendarActivities($mode, $pagingModel, $user, $recordId = false, $paramsMore = [])
+	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false, $paramsMore = [])
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
@@ -204,7 +204,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	 * @param <String> $recordId - record id
 	 * @return <Array>
 	 */
-	function getAssignedProjectsTasks($mode, $pagingModel, $user, $recordId = false)
+	public function getAssignedProjectsTasks($mode, $pagingModel, $user, $recordId = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();

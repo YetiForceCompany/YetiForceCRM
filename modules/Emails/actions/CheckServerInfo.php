@@ -12,7 +12,7 @@
 class Emails_CheckServerInfo_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -21,7 +21,7 @@ class Emails_CheckServerInfo_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$response = new Vtiger_Response();

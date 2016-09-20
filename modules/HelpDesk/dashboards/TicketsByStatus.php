@@ -14,7 +14,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 	private $conditions = false;
 
-	function getSearchParams($value, $assignedto = '')
+	public function getSearchParams($value, $assignedto = '')
 	{
 
 		$listSearchParams = [];

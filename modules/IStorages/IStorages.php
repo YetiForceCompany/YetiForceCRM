@@ -77,7 +77,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		if ($eventType == 'module.postinstall') {
 		// TODO Handle actions after this module is installed.
@@ -97,7 +97,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param integer $id - istorageid
 	 * returns Storage hierarchy in array format
 	 */
-	function getHierarchy($id, $getRawData = false, $getLinks = true)
+	public function getHierarchy($id, $getRawData = false, $getLinks = true)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -144,7 +144,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param array $listviewEntries 
 	 * returns All the parent storages of the given Storage in array format
 	 */
-	function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries, $getRawData = false, $getLinks = true)
+	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries, $getRawData = false, $getLinks = true)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
@@ -202,7 +202,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param array $parentIStorages - Array of all the parent storages
 	 * returns All the parent Storages of the given istorageid in array format
 	 */
-	function getParentIStorages($id, &$parentIStorages, &$encounteredIStorages, $depthBase = 0)
+	public function getParentIStorages($id, &$parentIStorages, &$encounteredIStorages, $depthBase = 0)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -269,7 +269,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param integer $depth - Depth at which the particular storage has to be placed in the hierarchy
 	 * returns All the child storages of the given istorageid in array format
 	 */
-	function getChildIStorages($id, &$childIStorages, $depthBase)
+	public function getChildIStorages($id, &$childIStorages, $depthBase)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();

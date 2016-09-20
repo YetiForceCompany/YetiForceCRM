@@ -5,18 +5,18 @@ class iCal
 
 	var $folders;
 
-	function iCal()
+	public function iCal()
 	{
 		$this->folders = 'cache/import/';
 	}
 
-	function iCalReader($filename, $rootDirectory = '')
+	public function iCalReader($filename, $rootDirectory = '')
 	{
 		$iCaltoArray = $this->iCalDecoder($filename, $rootDirectory);
 		return $iCaltoArray;
 	}
 
-	function iCalDecoder($file, $rootDirectory)
+	public function iCalDecoder($file, $rootDirectory)
 	{
 		$ical = file_get_contents($rootDirectory . $this->folders . $file);
 		preg_match_all('/BEGIN:VEVENT.*?END:VEVENT/si', $ical, $eventresult, PREG_PATTERN_ORDER);
