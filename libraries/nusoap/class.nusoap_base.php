@@ -739,7 +739,6 @@ class nusoap_base {
 	*/
 	public function contractQname($qname){
 		// get element namespace
-		//$this->xdebug("Contract $qname");
 		if (strrpos($qname, ':')) {
 			// get unqualified name
 			$name = substr($qname, strrpos($qname, ':') + 1);
@@ -823,7 +822,6 @@ class nusoap_base {
 		if (isset($this->namespaces[$prefix])) {
 			return $this->namespaces[$prefix];
 		}
-		//$this->setError("No namespace registered for prefix '$prefix'");
 		return false;
 	}
 

@@ -33,8 +33,6 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		}
 		$this->set('activitytype', 'Emails');
 
-		//$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		//$this->set('assigned_user_id', $currentUserModel->getId());
 		$this->getModule()->saveRecord($this);
 		$documentIds = $this->get('documentids');
 		if (!empty($documentIds)) {

@@ -740,7 +740,6 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 			}
 			$count++;
 		}
-		//$tar->compress(Phar::GZ);
 	}
 
 	public function getStatusName($id)

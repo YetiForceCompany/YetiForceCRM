@@ -19,9 +19,6 @@ global $report_modules;
 global $related_modules;
 global $old_related_modules;
 
-//$report_modules = Array('Faq','Rss','Portal','Recyclebin','Emails','Reports','Dashboard','Home','Activities'
-//	       );
-
 $old_related_modules = Array('Accounts' => Array('Contacts', 'Products'),
 	'Contacts' => Array('Accounts'),
 	'Calendar' => Array('Leads', 'Accounts', 'Contacts'),
@@ -498,7 +495,6 @@ class Reports extends CRMEntity
 	 */
 	public function getPriModuleColumnsList($module)
 	{
-		//$this->updateModuleList($module);
 		$allColumnsListByBlocks = & $this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
 		foreach ($this->module_list[$module] as $key => $value) {
 			$temp = $allColumnsListByBlocks[$key];
@@ -534,7 +530,6 @@ class Reports extends CRMEntity
 		if ($module != "") {
 			$secmodule = explode(":", $module);
 			for ($i = 0; $i < count($secmodule); $i++) {
-				//$this->updateModuleList($secmodule[$i]);
 				if ($this->module_list[$secmodule[$i]]) {
 					$this->sec_module_columnslist[$secmodule[$i]] = $this->getModuleFieldList(
 						$secmodule[$i]);
@@ -1074,7 +1069,6 @@ class Reports extends CRMEntity
 		$options = [];
 		$options [] = $this->sgetColumnstoTotalHTML($primarymodule, 0);
 		if (!empty($secondarymodule)) {
-			//$secondarymodule = explode(":",$secondarymodule);
 			for ($i = 0; $i < count($secondarymodule); $i++) {
 				$options [] = $this->sgetColumnstoTotalHTML($secondarymodule[$i], ($i + 1));
 			}

@@ -44,8 +44,6 @@ Class Settings_OSSDocumentControl_Edit2_View extends Settings_OSSDocumentControl
 			}
 			$viewer->assign('OPTIONAL_CONDITIONS', $docInfo['optional_conditions']);
 			$viewer->assign('TPL_ID', $idTpl);
-
-			//$fieldModel = Vtiger_Field_Model::getInstance($value->get('name'), $baseModuleModel);
 		}
 
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -53,7 +51,6 @@ Class Settings_OSSDocumentControl_Edit2_View extends Settings_OSSDocumentControl
 		$viewer->assign('BASE_MODULE', $baseModule);
 		$viewer->assign('QUALIFIED_MODULE', $moduleSettingsName);
 		$viewer->assign('FIELD_LIST', Settings_OSSDocumentControl_Module_Model::getListBaseModuleField($baseModule));
-		//$viewer->assign('FOLDER_LIST', Documents_Module_Model::getAllFolders());
 		$viewer->assign('CONDITION_BY_TYPE', Settings_OSSDocumentControl_Module_Model::getConditionByType());
 
 		echo $viewer->view('Edit2.tpl', $moduleSettingsName, true);

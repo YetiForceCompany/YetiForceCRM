@@ -15,8 +15,6 @@ class Home_Index_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		//$viewer->assign('HOME_PAGES', Home_Page_Model::getAll());
-		//$viewer->assign('HOME_PAGE_WIDGETS', Home_Widget_Model::getAll());
 
 		$viewer->view('Index.tpl', $moduleName);
 	}

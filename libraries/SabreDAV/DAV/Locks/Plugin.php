@@ -239,7 +239,6 @@ class Plugin extends DAV\ServerPlugin {
             // Edit: looks like this is not used, and causing problems now.
             //
             // See Issue 222
-            // $this->server->emit('beforeWriteContent',array($uri));
 
         } catch (DAV\Exception\NotFound $e) {
 

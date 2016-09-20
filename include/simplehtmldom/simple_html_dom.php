@@ -66,7 +66,6 @@ define('MAX_FILE_SIZE', 600000);
 // helper functions
 // -----------------------------------------------------------------------------
 // get html dom from file
-// $maxlen is defined in the code as PHP_STREAM_COPY_ALL which is defined as -1.
 function file_get_html($url, $use_include_path = false, $context = null, $offset = -1, $maxLen = -1, $lowercase = true, $forceTagsClosed = true, $target_charset = DEFAULT_TARGET_CHARSET, $stripRN = true, $defaultBRText = DEFAULT_BR_TEXT, $defaultSpanText = DEFAULT_SPAN_TEXT)
 {
 	// We DO force the tags to be terminated.
@@ -74,7 +73,6 @@ function file_get_html($url, $use_include_path = false, $context = null, $offset
 	// For sourceforge users: uncomment the next line and comment the retreive_url_contents line 2 lines down if it is not already done.
 	$contents = file_get_contents($url, $use_include_path, $context, $offset);
 	// Paperg - use our own mechanism for getting the contents as we want to control the timeout.
-	//$contents = retrieve_url_contents($url);
 	if (empty($contents) || strlen($contents) > MAX_FILE_SIZE) {
 		return false;
 	}
@@ -587,7 +585,6 @@ for ($i = $this->_[HDOM_INFO_BEGIN] + 1; $i < $end; ++$i) {
 	if ($pass && $key && $val && $val !== '*') {
 		// If they have told us that this is a "plaintext" search then we want the plaintext of the node - right?
 		if ($key == "plaintext") {
-			// $node->plaintext actually returns $node->text();
 			$nodeKeyValue = $node->text();
 		} else {
 			// this is a normal search, we want the value of that attribute of the tag.
@@ -1359,7 +1356,6 @@ $this->char = ( ++$this->pos < $this->size) ? $this->doc[$this->pos] : null; // 
 if ($this->char === '/') {
 	$this->char = ( ++$this->pos < $this->size) ? $this->doc[$this->pos] : null; // next
 	// This represents the change in the simple_html_dom trunk from revision 180 to 181.
-	// $this->skip($this->token_blank_t);
 	$this->skip($this->token_blank);
 	$tag = $this->copy_until_char('>');
 

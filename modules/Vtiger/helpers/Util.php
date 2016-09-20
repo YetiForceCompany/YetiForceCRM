@@ -186,7 +186,6 @@ class Vtiger_Util_Helper
 			}
 			$formatedDate = $userDate . " ($tomorrowInfo)";
 		} else {
-			//$formatToConvert = str_replace( array('/','.'), array('-','-'), $format);
 			if ($currentUser->get('date_format') === 'mm-dd-yyyy') {
 				$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
 			}

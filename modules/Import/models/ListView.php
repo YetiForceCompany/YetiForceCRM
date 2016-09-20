@@ -85,7 +85,6 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		$db = PearDatabase::getInstance();
 
 		$queryGenerator = $this->get('query_generator');
-		//$queryGenerator->setFields(array('id'));
 
 		$listQuery = $queryGenerator->getQuery();
 

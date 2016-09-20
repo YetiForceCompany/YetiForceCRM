@@ -102,10 +102,6 @@ function smarty_function_html_select_date($params)
     $field_separator = "\n";
     $option_separator = "\n";
     $time = null;
-    // $all_empty = null;
-    // $day_empty = null;
-    // $month_empty = null;
-    // $year_empty = null;
     $extra_attrs = '';
     $all_id = null;
     $day_id = null;

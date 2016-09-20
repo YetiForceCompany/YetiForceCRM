@@ -19,8 +19,6 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      */
     function put($data) {
 		
-		//$path = $this->exData->localStorageDir . $this->localPath;
-        //file_put_contents($path,$data);
     }
 
     /**

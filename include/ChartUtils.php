@@ -127,7 +127,6 @@ Class ChartUtils
 		//You can change the width of the bars if you like
 		if (!empty($xaxisData))
 			$bplot->setBarWidth($barwidth / count($xaxisData), "%");
-		//$bplot->setPadding(array('top'=>10));
 		$bplot->setBackground(Image_Graph::factory('gradient', array(IMAGE_GRAPH_GRAD_HORIZONTAL, 'white', 'white')));
 		$xaxis = & $plotarea->getAxis(IMAGE_GRAPH_AXIS_X);
 		$yaxis = & $plotarea->getAxis(IMAGE_GRAPH_AXIS_Y);

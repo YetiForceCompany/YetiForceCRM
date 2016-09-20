@@ -102,7 +102,6 @@ class EmailTemplates_DetailView_Model extends Vtiger_DetailView_Model
 
 		$moduleModel = EmailTemplates_Module_Model::getInstance($moduleName);
 		$recordModel = EmailTemplates_Record_Model::getInstanceById($recordId, $moduleName);
-		//$recordModel->trackView();
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
 	}
 }

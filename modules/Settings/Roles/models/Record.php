@@ -70,7 +70,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$parentRoleString = $this->getParentRoleString();
 			$parentComponents = explode('::', $parentRoleString);
 			$noOfRoles = count($parentComponents);
-			// $currentRole = $parentComponents[$noOfRoles-1];
 			if ($noOfRoles > 1) {
 				$this->parent = self::getInstanceById($parentComponents[$noOfRoles - 2]);
 			} else {

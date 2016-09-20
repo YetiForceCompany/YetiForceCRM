@@ -327,7 +327,7 @@ class VTQL_Lexer
 			}
 			$handler = 'handle' . $this->optional_states[$this->current_state];
 			$this->token = $handler($this, $this->value);
-		}//$this->yypushstate($this->value);
+		}
 	}
 
 	public function yy_r1_4($yy_subpatterns)

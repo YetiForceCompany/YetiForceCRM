@@ -256,7 +256,6 @@ class Mobile_WS_Utils
 					$fieldInfo['uitype'] = self::fixUIType($module, $fieldInfo['name'], $fieldInfo['uitype']);
 					$fieldInfo['type']['name'] = 'picklist';
 					$fieldInfo['type']['picklistValues'] = $picklistValues;
-					//$fieldInfo['type']['defaultValue'] = $picklistValues[0];
 
 					$describeInfo['fields'][$index] = $fieldInfo;
 				}
@@ -266,7 +265,6 @@ class Mobile_WS_Utils
 				if ($fieldInfo['name'] == 'folderid') {
 					$picklistValues = self::documentFoldersInfo();
 					$fieldInfo['type']['picklistValues'] = $picklistValues;
-					//$fieldInfo['type']['defaultValue'] = $picklistValues[0];
 
 					$describeInfo['fields'][$index] = $fieldInfo;
 				}

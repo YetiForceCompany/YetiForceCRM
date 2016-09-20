@@ -136,17 +136,11 @@ class HTMLPurifier_ConfigSchema_InterchangeBuilder
 		}
 
 		if (isset($hash['ALLOWED'])) {
-			// <--------   YetiForce Sp. z o.o.   -------->
 			throw new BadMethodCallException('Eval: ALLOWED');
-			//$directive->allowed = $this->lookup($this->evalArray($hash->offsetGet('ALLOWED')));
-			// <--------   YetiForce Sp. z o.o.   -------->
 		}
 
 		if (isset($hash['VALUE-ALIASES'])) {
-			// <--------   YetiForce Sp. z o.o.   -------->
 			throw new BadMethodCallException('Eval: VALUE-ALIASES');
-			//$directive->valueAliases = $this->evalArray($hash->offsetGet('VALUE-ALIASES'));
-			// <--------   YetiForce Sp. z o.o.   -------->
 		}
 
 		if (isset($hash['ALIASES'])) {

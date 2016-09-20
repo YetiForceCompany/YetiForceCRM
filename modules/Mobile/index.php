@@ -42,7 +42,7 @@ class Mobile_Index_Controller
 	static function process(Mobile_API_Request $request)
 	{
 		$operation = $request->getOperation();
-		$sessionid = HTTP_Session::detectId(); //$request->getSession();
+		$sessionid = HTTP_Session::detectId();
 
 		if (empty($operation))
 			$operation = 'login';
@@ -105,8 +105,6 @@ function stripslashes_recursive($value)
 	return $value;
 }
 if (get_magic_quotes_gpc()) {
-	//$_GET     = stripslashes_recursive($_GET   );
-	//$_POST    = stripslashes_recursive($_POST  );
 	$_REQUEST = stripslashes_recursive($_REQUEST);
 }
 /** END * */

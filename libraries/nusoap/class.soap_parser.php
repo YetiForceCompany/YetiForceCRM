@@ -353,7 +353,6 @@ class nusoap_parser extends nusoap_base {
 				$this->message[$pos]['result'] = $this->message[$pos]['xattrs'];
 			// set value of simpleType (or nil complexType)
 			} else {
-            	//$this->debug('adding data for scalar value '.$this->message[$pos]['name'].' of value '.$this->message[$pos]['cdata']);
 				if (isset($this->message[$pos]['nil']) && $this->message[$pos]['nil']) {
 					$this->message[$pos]['xattrs']['!'] = null;
 				} elseif (isset($this->message[$pos]['type'])) {

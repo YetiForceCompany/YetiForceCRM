@@ -339,8 +339,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$tabId = \includes\Modules::getModuleId($moduleName);
 		$data = array();
 
-		//$data = self::getBlocksId();
-
 		$query = 'SELECT 
 				  mdw.blockid,
 				  mdw.data,

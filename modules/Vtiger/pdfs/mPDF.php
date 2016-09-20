@@ -28,8 +28,6 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 	{
 		$this->setLibraryName('mPDF');
 		$this->pdf = new mPDF($mode, $format, $defaultFontSize, $defaultFont, $leftMargin, $rightMargin, $topMargin, $bottomMargin, $headerMargin, $footerMargin, $orientation);
-		//$this->pdf->debugfonts = true;
-		//$this->pdf->debug = true;
 	}
 
 	/**

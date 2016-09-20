@@ -714,7 +714,6 @@ class QueryGenerator
 			$sql .= ' ' . $where['joinType'] . ' JOIN ' . $where['relatedTable'] . ' ON ' . $where['relatedTable'] . '.' . $where['relatedIndex'] .
 				'=' . $where['baseTable'] . '.' . $where['baseIndex'];
 		}
-		//$sql .= $this->meta->getEntityAccessControlQuery();
 		$this->fromClause = $sql;
 		return $sql;
 	}

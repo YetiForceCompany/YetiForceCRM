@@ -80,7 +80,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	public function postProcess(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		//$viewer->assign('GUIDERSJSON', Vtiger_Guider_Model::toJsonList($this->getGuiderModels($request)));
 		parent::postProcess($request);
 	}
 

@@ -3089,7 +3089,6 @@ class ReportRun extends CRMEntity
 					}
 				}
 
-				//$field_columnalias = $fieldlist[3];
 				$field_permitted = false;
 				if (CheckColumnPermission($field_tablename, $field_columnname, $premod) != "false") {
 					$field_permitted = true;
@@ -3115,8 +3114,6 @@ class ReportRun extends CRMEntity
 						$stdfilterlist[$fieldcolname] = "sum($field) '" . $field_columnalias . "'";
 					}
 					if ($fieldlist[4] == 3) {
-						//Fixed average calculation issue due to NULL values ie., when we use avg() function, NULL values will be ignored.to avoid this we use (sum/count) to find average.
-						//$stdfilterlist[$fieldcolname] = "avg(".$fieldlist[1].".".$fieldlist[2].") '".$fieldlist[3]."'";
 						$stdfilterlist[$fieldcolname] = "(sum($field)/count(*)) '" . $field_columnalias . "'";
 					}
 					if ($fieldlist[4] == 4) {
@@ -3374,9 +3371,6 @@ class ReportRun extends CRMEntity
 			foreach ($arrayFirstRowValues as $key => $value) {
 				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $key, true);
 				$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
-
-				// NOTE Performance overhead: http://stackoverflow.com/questions/9965476/phpexcel-column-size-issues
-				//$worksheet->getColumnDimensionByColumn($count)->setAutoSize(true);
 
 				$count = $count + 1;
 			}

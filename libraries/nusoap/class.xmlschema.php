@@ -200,10 +200,7 @@ class nusoap_xmlschema extends nusoap_base  {
         	foreach($attrs as $k => $v){
                 // if ns declarations, add to class level array of valid namespaces
 				if(preg_match('/^xmlns/',$k)){
-                	//$this->xdebug("$k: $v");
-                	//$this->xdebug('ns_prefix: '.$this->getPrefix($k));
                 	if($ns_prefix = substr(strrchr($k,':'),1)){
-                		//$this->xdebug("Add namespace[$ns_prefix] = $v");
 						$this->namespaces[$ns_prefix] = $v;
 					} else {
 						$this->defaultNamespace[$pos] = $v;
@@ -233,14 +230,10 @@ class nusoap_xmlschema extends nusoap_base  {
 			case 'choice':
 			case 'group':
 			case 'sequence':
-				//$this->xdebug("compositor $name for currentComplexType: $this->currentComplexType and currentElement: $this->currentElement");
 				$this->complexTypes[$this->currentComplexType]['compositor'] = $name;
-				//if($name == 'all' || $name == 'sequence'){
-				//	$this->complexTypes[$this->currentComplexType]['phpType'] = 'struct';
-				//}
+
 			break;
 			case 'attribute':	// complexType attribute
-            	//$this->xdebug("parsing attribute $attrs[name] $attrs[ref] of value: ".$attrs['http://schemas.xmlsoap.org/wsdl/:arrayType']);
             	$this->xdebug("parsing attribute:");
             	$this->appendDebug($this->varDump($attrs));
 				if (!isset($attrs['form'])) {
@@ -302,7 +295,6 @@ class nusoap_xmlschema extends nusoap_base  {
 					// TODO: what is the scope of named complexTypes that appear
 					//       nested within other c complexTypes?
 					$this->xdebug('processing named complexType '.$attrs['name']);
-					//$this->currentElement = false;
 					$this->currentComplexType = $attrs['name'];
 					$this->complexTypes[$this->currentComplexType] = $attrs;
 					$this->complexTypes[$this->currentComplexType]['typeClass'] = 'complexType';
@@ -323,7 +315,6 @@ class nusoap_xmlschema extends nusoap_base  {
 					$name = $this->CreateTypeName($this->currentElement);
 					$this->xdebug('processing unnamed complexType for element ' . $this->currentElement . ' named ' . $name);
 					$this->currentComplexType = $name;
-					//$this->currentElement = false;
 					$this->complexTypes[$this->currentComplexType] = $attrs;
 					$this->complexTypes[$this->currentComplexType]['typeClass'] = 'complexType';
 					// This is for constructs like
@@ -480,7 +471,6 @@ class nusoap_xmlschema extends nusoap_base  {
 					$name = $this->CreateTypeName($this->currentComplexType . '_' . $this->currentElement);
 					$this->xdebug('processing unnamed simpleType for element ' . $this->currentElement . ' named ' . $name);
 					$this->currentSimpleType = $name;
-					//$this->currentElement = false;
 					$this->simpleTypes[$this->currentSimpleType] = $attrs;
 					$this->simpleTypes[$this->currentSimpleType]['phpType'] = 'scalar';
 				}
@@ -519,7 +509,6 @@ class nusoap_xmlschema extends nusoap_base  {
 			$this->xdebug('done processing complexType ' . ($this->currentComplexType ? $this->currentComplexType : '(unknown)'));
 			$this->xdebug($this->varDump($this->complexTypes[$this->currentComplexType]));
 			$this->currentComplexType = array_pop($this->complexTypeStack);
-			//$this->currentElement = false;
 		}
 		if($name == 'element'){
 			$this->xdebug('done processing element ' . ($this->currentElement ? $this->currentElement : '(unknown)'));
@@ -717,7 +706,6 @@ class nusoap_xmlschema extends nusoap_base  {
     * @see addElement
     */
 	public function getTypeDef($type){
-		//$this->debug("in getTypeDef for type $type");
 		if (substr($type, -1) == '^') {
 			$is_element = 1;
 			$type = substr($type, 0, -1);

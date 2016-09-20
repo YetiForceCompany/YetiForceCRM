@@ -45,7 +45,6 @@ function createUserPrivilegesfile($userid)
 
 			$globalPermissionArr = getCombinedUserGlobalPermissions($userid);
 			$tabsPermissionArr = getCombinedUserTabsPermissions($userid);
-			//$tabsPermissionArr=getCombinedUserTabsPermissions($userid);
 			$actionPermissionArr = getCombinedUserActionPermissions($userid);
 			$user_role = fetchUserRole($userid);
 			$user_role_info = getRoleInformation($user_role);

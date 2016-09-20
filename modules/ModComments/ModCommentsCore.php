@@ -187,7 +187,6 @@ class ModCommentsCore extends CRMEntity
 			}
 		}
 		$current_user = vglobal('current_user');
-		//$query .= getNonAdminAccessControlQuery($module, $current_user);
 		$query .= "	WHERE vtiger_crmentity.deleted = 0 ";
 		if ($usewhere) {
 			$query .= $usewhere;

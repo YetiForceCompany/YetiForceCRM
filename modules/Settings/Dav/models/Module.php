@@ -95,7 +95,5 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$davStorageDir = vglobal('davStorageDir');
 		@mkdir($davStorageDir . $path);
 
-		//$adb->pquery('INSERT INTO vtiger_files_dir (name,path,parent_dirid,hash,mtime,userid) VALUES (?,?,?,?, NOW(),?);', 
-		//	array($user_name, $path, $parent_dirid, $dirHash, $params['user']));
 	}
 }

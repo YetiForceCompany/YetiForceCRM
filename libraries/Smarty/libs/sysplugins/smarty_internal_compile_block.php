@@ -95,9 +95,8 @@ class Smarty_Internal_Compile_Block extends Smarty_Internal_Compile_Shared_Inher
             $i = 0;
         }
         $compiler->nocache = $compiler->nocache | $compiler->tag_nocache;
-        // $compiler->suppressNocacheProcessing = true;
         if ($_attr[ 'nocache' ] === true) {
-            //$compiler->trigger_template_error('nocache option not allowed', $compiler->parser->lex->taglineno);
+
         }
         $compiler->parser->current_buffer = new Smarty_Internal_ParseTree_Template();
         $compiler->template->compiled->has_nocache_code = false;
@@ -189,7 +188,6 @@ class Smarty_Internal_Compile_Blockclose extends Smarty_Internal_Compile_Shared_
             $output .= "public \${$property} = {$value};\n";
         }
         $output .= "public function callBlock(Smarty_Internal_Template \$_smarty_tpl) {\n";
-        //$output .= "/*/%%SmartyNocache:{$compiler->template->compiled->nocache_hash}%%*/\n";
         if ($compiler->template->compiled->has_nocache_code) {
             $output .= "\$_smarty_tpl->cached->hashes['{$compiler->template->compiled->nocache_hash}'] = true;\n";
         }

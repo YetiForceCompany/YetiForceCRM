@@ -854,13 +854,10 @@ class CRMEntity
 	{
 		$this->log->debug("CRMEntity:process_full_list_query");
 		$result = & $this->db->query($query, false);
-		//$this->log->debug("CRMEntity:process_full_list_query: result is ".$result);
 
 
 		if ($this->db->getRowCount($result) > 0) {
 
-			//	$this->db->println("process_full mid=".$this->table_index." mname=".$this->module_name);
-			// We have some data.
 			while ($row = $this->db->fetchByAssoc($result)) {
 				$rowid = $row[$this->table_index];
 

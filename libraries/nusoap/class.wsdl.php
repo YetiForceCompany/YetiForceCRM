@@ -114,7 +114,6 @@ class wsdl extends nusoap_base {
 		                		 * because of error "Warning: attempt to modify property of non-object"
 		                		 * GitHub issue #1
 		                		 */
-		                		//$this->schemas[$ns]->imports[$ns2][$ii]['loaded'] = true;
 		                		$list2[$ii]['loaded'] = true;
 		                		$url = $list2[$ii]['location'];
 								if ($url != '') {
@@ -224,8 +223,6 @@ class wsdl extends nusoap_base {
 			}
 			$tr->setEncoding('gzip, deflate');
 			$wsdl_string = $tr->send('', $this->timeout, $this->response_timeout);
-			//$this->debug("WSDL request\n" . $tr->outgoing_payload);
-			//$this->debug("WSDL response\n" . $tr->incoming_payload);
 			$this->appendDebug($tr->getDebug());
 			// catch errors
 			if($err = $tr->getError() ){
@@ -310,7 +307,6 @@ class wsdl extends nusoap_base {
             $this->currentSchema->clearDebug();
         } elseif (preg_match('/schema$/', $name)) {
         	$this->debug('Parsing WSDL schema');
-            // $this->debug("startElement for $name ($attrs[name]). status = $this->status (".$this->getLocalPart($name).")");
             $this->status = 'schema';
             $this->currentSchema = new nusoap_xmlschema('', '', $this->namespaces);
             $this->currentSchema->schemaStartElement($parser, $name, $attrs);
@@ -533,7 +529,6 @@ class wsdl extends nusoap_base {
 		// end documentation
 		if ($this->documentation) {
 			//TODO: track the node to which documentation should be assigned; it can be a part, message, etc.
-			//$this->portTypes[$this->currentPortType][$this->currentPortOperation]['documentation'] = $this->documentation;
 			$this->documentation = false;
 		} 
 	} 
@@ -606,8 +601,6 @@ class wsdl extends nusoap_base {
 				// binding type of port matches parameter
 				if ($portData['bindingType'] == $bindingType) {
 					$this->debug("getOperations found port $port bindingType $bindingType");
-					//$this->debug("port data: " . $this->varDump($portData));
-					//$this->debug("bindings: " . $this->varDump($this->bindings[ $portData['binding'] ]));
 					// merge bindings
 					if (isset($this->bindings[ $portData['binding'] ]['operations'])) {
 						$ops = array_merge ($ops, $this->bindings[ $portData['binding'] ]['operations']);

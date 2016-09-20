@@ -847,7 +847,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$vtigerMailer->to = array(array($userEmail, $userName));
 			$vtigerMailer->Subject = $emailSubject;
 			$vtigerMailer->Body = $emailData;
-			//$vtigerMailer->Send();
 
 			$importDataController->finishImport();
 		}

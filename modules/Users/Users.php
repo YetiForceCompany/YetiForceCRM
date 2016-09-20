@@ -834,7 +834,6 @@ class Users extends CRMEntity
 			}
 			if ($fldvalue == '') {
 				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
-				//$fldvalue =null;
 			}
 			if ($insertion_mode == 'edit') {
 				if ($i == 0) {
@@ -1084,7 +1083,6 @@ class Users extends CRMEntity
 		$query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?", array($this->id));
 		$prev_reminder_interval = $adb->query_result($query_prev_interval, 0, 'reminder_interval');
 
-		//$focus->imagename = $image_upload_array['imagename'];
 		$this->saveHomeStuffOrder($this->id);
 		\vtlib\Deprecated::SaveTagCloudView($this->id);
 

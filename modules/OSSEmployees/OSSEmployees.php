@@ -136,8 +136,6 @@ class OSSEmployees extends Vtiger_CRMEntity
 						}
 						$account_depth = str_repeat(" .. ", $account_info['depth'] * 2);
 						$data = $account_depth . $data;
-						//} else if ($colname == 'last_name') {
-						//$data = '<a href="http://'. $data .'" target="_blank">'.$data.'</a>';
 					} else if ($colname == 'parentid' || $colname == 'projectid' || $colname == 'ticketid' || $colname == 'relategid') {
 						$data = '<a href="index.php?module=' . vtlib\Functions::getCRMRecordType($data) . '&action=DetailView&record=' . $data . '">' . vtlib\Functions::getCRMRecordLabel($data) . '</a>';
 					}
@@ -342,7 +340,6 @@ class OSSEmployees extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('OSSEmployees'));
 			}
 			// blok EH
-			//$this->addWidgetTo(array('OSSEmployees'));
 		} else if ($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
 		} else if ($event_type == 'module.enabled') {

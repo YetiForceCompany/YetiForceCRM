@@ -320,7 +320,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		while ($row = $db->getRow($result)) {
-			//$relationModuleModel = Vtiger_Module_Model::getCleanInstance($moduleName);
 			// Skip relation where target module does not exits or is no permitted for view.
 			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;

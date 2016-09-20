@@ -15,22 +15,6 @@ include_once 'vtlib/Vtiger/Net/Client.php';
 
 $mobileAPITestController = new Mobile_API_TestController();
 $mobileAPITestController->doLoginAndFetchModules('admin', 'admin');
-//$mobileAPITestController->doLogin('standarduser', 'standarduser');
-//$mobileAPITestController->doFetchModuleFilters('Leads');
-//$mobileAPITestController->doFilterDetailsWithCount('1');
-//$mobileAPITestController->doFetchAllAlerts();
-//$mobileAPITestController->doAlertDetailsWithMessage(5);
-//$mobileAPITestController->doListModuleRecords('Calendar');
-//$mobileAPITestController->doFetchRecord('9x0', true);
-//$mobileAPITestController->doDescribe('Documents');
-//$mobileAPITestController->doSave('Leads', '2x0', array('lastname'=>'Testing', 'company'=>'Company'));
-//$mobileAPITestController->doSync('HelpDesk');//, 0, 1277646523, 'public');//, 0, 1277234885);// 1271240542);
-//$mobileAPITestController->doScanImage();
-//$mobileAPITestController->doQuery('Contacts', "SELECT firstname,lastname,account_id FROM Contacts LIMIT 1,2;");
-//$mobileAPITestController->doQuery('Contacts', "SELECT * FROM Contacts;", 0, true);
-//$mobileAPITestController->doRelatedRecordsWithGrouping('3x2', 'Contacts', 1);
-//$mobileAPITestController->doDeleteRecords(array('1x198', '18x198'));
-//$mobileAPITestController->doHistory('Home');
 
 $mobileAPITestController->doFetchRecord('16x196', false);
 

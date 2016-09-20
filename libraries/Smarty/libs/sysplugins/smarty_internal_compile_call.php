@@ -57,7 +57,6 @@ class Smarty_Internal_Compile_Call extends Smarty_Internal_CompileBase
             // output will be stored in a smarty variable instead of being displayed
             $_assign = $_attr[ 'assign' ];
         }
-        //$_name = trim($_attr['name'], "'\"");
         $_name = $_attr[ 'name' ];
         unset($_attr[ 'name' ], $_attr[ 'assign' ], $_attr[ 'nocache' ]);
         // set flag (compiled code of {function} must be included in cache file
@@ -75,7 +74,6 @@ class Smarty_Internal_Compile_Call extends Smarty_Internal_CompileBase
             }
         }
         $_params = 'array(' . implode(",", $_paramsArray) . ')';
-        //$compiler->suppressNocacheProcessing = true;
         // was there an assign attribute
         if (isset($_assign)) {
             $_output =

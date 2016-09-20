@@ -265,7 +265,6 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$this->get('query_generator')->setConditionField($orderByFieldName);
-				//$queryGenerator->whereFields[] = $orderByFieldName;
 
 				$referenceModules = $orderByFieldModel->getReferenceList();
 				$referenceNameFieldOrderBy = [];

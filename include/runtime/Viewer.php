@@ -74,7 +74,6 @@ class Vtiger_Viewer extends SmartyBC
 		// Escape all {$variable} to overcome XSS
 		// We need to use {$variable nofilter} to overcome double escaping
 		// TODO: Until we review the use disabled.
-		//$this->registerFilter('variable', array($this, 'safeHtmlFilter'));
 		// FOR DEBUGGING: We need to have this only once.
 		static $debugViewerURI = false;
 		if (self::$debugViewer && $debugViewerURI === false) {

@@ -27,10 +27,7 @@ class HTMLPurifier_VarParser_Native extends HTMLPurifier_VarParser
 	protected function evalExpression($expr)
 	{
 		$var = null;
-		// <--------   YetiForce Sp. z o.o.   -------->
 		throw new BadMethodCallException('Eval: evalExpression');
-		//$result = eval("\$var = $expr;");
-		// <--------   YetiForce Sp. z o.o.   -------->
 		if ($result === false) {
 			throw new HTMLPurifier_VarParserException("Fatal error in evaluated code");
 		}

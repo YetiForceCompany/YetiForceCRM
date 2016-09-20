@@ -431,7 +431,6 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
                     if ($tpl->source->filepath == $_file_to_check[ 0 ]) {
                         // do not recheck current template
                         continue;
-                        //$mtime = $tpl->source->getTimeStamp();
                     } else {
                         // file and php types can be checked without loading the respective resource handlers
                         $mtime = is_file($_file_to_check[ 0 ]) ? filemtime($_file_to_check[ 0 ]) : false;

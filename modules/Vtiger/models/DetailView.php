@@ -373,7 +373,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		//$recordModel->trackView();
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
 	}
 

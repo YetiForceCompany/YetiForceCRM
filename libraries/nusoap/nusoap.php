@@ -769,7 +769,6 @@ class nusoap_base
 	public function contractQname($qname)
 	{
 		// get element namespace
-		//$this->xdebug("Contract $qname");
 		if (!is_array($qname) && strrpos($qname, ':')) {
 			// get unqualified name
 			$name = substr($qname, strrpos($qname, ':') + 1);
@@ -857,7 +856,6 @@ class nusoap_base
 		if (isset($this->namespaces[$prefix])) {
 			return $this->namespaces[$prefix];
 		}
-		//$this->setError("No namespace registered for prefix '$prefix'");
 		return false;
 	}
 
@@ -1323,10 +1321,8 @@ class nusoap_xmlschema extends nusoap_base
 			foreach ($attrs as $k => $v) {
 				// if ns declarations, add to class level array of valid namespaces
 				if (preg_match('/^xmlns/', $k)) {
-					//$this->xdebug("$k: $v");
-					//$this->xdebug('ns_prefix: '.$this->getPrefix($k));
 					if ($ns_prefix = substr(strrchr($k, ':'), 1)) {
-						//$this->xdebug("Add namespace[$ns_prefix] = $v");
+
 						$this->namespaces[$ns_prefix] = $v;
 					} else {
 						$this->defaultNamespace[$pos] = $v;
@@ -1356,14 +1352,9 @@ class nusoap_xmlschema extends nusoap_base
 			case 'choice':
 			case 'group':
 			case 'sequence':
-				//$this->xdebug("compositor $name for currentComplexType: $this->currentComplexType and currentElement: $this->currentElement");
 				$this->complexTypes[$this->currentComplexType]['compositor'] = $name;
-				//if($name == 'all' || $name == 'sequence'){
-				//	$this->complexTypes[$this->currentComplexType]['phpType'] = 'struct';
-				//}
 				break;
 			case 'attribute': // complexType attribute
-				//$this->xdebug("parsing attribute $attrs[name] $attrs[ref] of value: ".$attrs['http://schemas.xmlsoap.org/wsdl/:arrayType']);
 				$this->xdebug("parsing attribute:");
 				$this->appendDebug($this->varDump($attrs));
 				if (!isset($attrs['form'])) {
@@ -1425,7 +1416,6 @@ class nusoap_xmlschema extends nusoap_base
 					// TODO: what is the scope of named complexTypes that appear
 					//       nested within other c complexTypes?
 					$this->xdebug('processing named complexType ' . $attrs['name']);
-					//$this->currentElement = false;
 					$this->currentComplexType = $attrs['name'];
 					$this->complexTypes[$this->currentComplexType] = $attrs;
 					$this->complexTypes[$this->currentComplexType]['typeClass'] = 'complexType';
@@ -1446,7 +1436,6 @@ class nusoap_xmlschema extends nusoap_base
 					$name = $this->CreateTypeName($this->currentElement);
 					$this->xdebug('processing unnamed complexType for element ' . $this->currentElement . ' named ' . $name);
 					$this->currentComplexType = $name;
-					//$this->currentElement = false;
 					$this->complexTypes[$this->currentComplexType] = $attrs;
 					$this->complexTypes[$this->currentComplexType]['typeClass'] = 'complexType';
 					// This is for constructs like
@@ -1603,7 +1592,6 @@ class nusoap_xmlschema extends nusoap_base
 					$name = $this->CreateTypeName($this->currentComplexType . '_' . $this->currentElement);
 					$this->xdebug('processing unnamed simpleType for element ' . $this->currentElement . ' named ' . $name);
 					$this->currentSimpleType = $name;
-					//$this->currentElement = false;
 					$this->simpleTypes[$this->currentSimpleType] = $attrs;
 					$this->simpleTypes[$this->currentSimpleType]['phpType'] = 'scalar';
 				}
@@ -1643,7 +1631,6 @@ class nusoap_xmlschema extends nusoap_base
 			$this->xdebug('done processing complexType ' . ($this->currentComplexType ? $this->currentComplexType : '(unknown)'));
 			$this->xdebug($this->varDump($this->complexTypes[$this->currentComplexType]));
 			$this->currentComplexType = array_pop($this->complexTypeStack);
-			//$this->currentElement = false;
 		}
 		if ($name == 'element') {
 			$this->xdebug('done processing element ' . ($this->currentElement ? $this->currentElement : '(unknown)'));
@@ -1846,7 +1833,6 @@ class nusoap_xmlschema extends nusoap_base
 	 */
 	public function getTypeDef($type)
 	{
-		//$this->debug("in getTypeDef for type $type");
 		if (substr($type, -1) == '^') {
 			$is_element = 1;
 			$type = substr($type, 0, -1);
@@ -2527,7 +2513,6 @@ class soap_transport_http extends nusoap_base
 				// the code when it used CURLOPT_CUSTOMREQUEST to send the request.
 				// The way we send data, we cannot use persistent connections, since
 				// there will be some "junk" at the end of our request.
-				//$this->setCurlOption(CURL_HTTP_VERSION_1_1, true);
 				$this->persistentConnection = false;
 				$this->setHeader('Connection', 'close');
 			}
@@ -2543,8 +2528,7 @@ class soap_transport_http extends nusoap_base
 				$this->debug('set cURL SSL verify options');
 				// recent versions of cURL turn on peer/host checking by default,
 				// while PHP binaries are not compiled with a default location for the
-				// CA cert bundle, so disable peer/host checking.
-				//$this->setCurlOption(CURLOPT_CAINFO, 'f:\php-4.3.2-win32\extensions\curl-ca-bundle.crt');		
+				// CA cert bundle, so disable peer/host checking.	
 				$this->setCurlOption(CURLOPT_SSL_VERIFYPEER, 0);
 				$this->setCurlOption(CURLOPT_SSL_VERIFYHOST, 0);
 
@@ -2985,7 +2969,6 @@ class soap_transport_http extends nusoap_base
 			// cURL does say this should only be the verb, and in fact it
 			// turns out that the URI and HTTP version are appended to this, which
 			// some servers refuse to work with (so we no longer use this method!)
-			//$this->setCurlOption(CURLOPT_CUSTOMREQUEST, $this->outgoing_payload);
 			$curl_headers = array();
 			foreach ($this->outgoing_headers as $k => $v) {
 				if ($k == 'Connection' || $k == 'Content-Length' || $k == 'Host' || $k == 'Authorization' || $k == 'Proxy-Authorization') {
@@ -3330,7 +3313,6 @@ class soap_transport_http extends nusoap_base
 			if (strtolower($this->incoming_headers['content-encoding']) == 'deflate' || strtolower($this->incoming_headers['content-encoding']) == 'gzip') {
 				// if decoding works, use it. else assume data wasn't gzencoded
 				if (function_exists('gzinflate')) {
-					//$timer->setMarker('starting decoding of gzip/deflated content');
 					// IIS 5 requires gzinflate instead of gzuncompress (similar to IE 5 and gzdeflate v. gzcompress)
 					// this means there are no Zlib headers, although there should be
 					$this->debug('The gzinflate function exists');
@@ -3368,7 +3350,6 @@ class soap_transport_http extends nusoap_base
 							$this->setError('Error using gzinflate to un-gzip the payload');
 						}
 					}
-					//$timer->setMarker('finished decoding of gzip/deflated content');
 					//print "<xmp>\nde-inflated:\n---------------\n$data\n-------------\n</xmp>";
 					// set decoded payload
 					$this->incoming_payload = $header_data . $lb . $lb . $data;
@@ -4297,8 +4278,6 @@ class nusoap_server extends nusoap_base
 			// Some combinations of PHP+Web server allow the Status
 			// to come through as a header.  Since OK is the default
 			// just do nothing.
-			// $this->outgoing_headers[] = "HTTP/1.0 200 OK";
-			// $this->outgoing_headers[] = "Status: 200 OK";
 		}
 		// add debug data if in debug mode
 		if (isset($this->debug_flag) && $this->debug_flag) {
@@ -4308,7 +4287,6 @@ class nusoap_server extends nusoap_base
 		preg_match('/\$Revisio' . 'n: ([^ ]+)/', $this->revision, $rev);
 		$this->outgoing_headers[] = "X-SOAP-Server: $this->title/$this->version (" . $rev[1] . ")";
 		// Let the Web server decide about this
-		//$this->outgoing_headers[] = "Connection: Close\r\n";
 		$payload = $this->getHTTPBody($payload);
 		$type = $this->getHTTPContentType();
 		$charset = $this->getHTTPContentTypeCharset();
@@ -4791,7 +4769,6 @@ class wsdl extends nusoap_base
 								 * because of error "Warning: attempt to modify property of non-object"
 								 * GitHub issue #1
 								 */
-								//$this->schemas[$ns]->imports[$ns2][$ii]['loaded'] = true;
 								$list2[$ii]['loaded'] = true;
 								$url = $list2[$ii]['location'];
 								if ($url != '') {
@@ -4900,8 +4877,6 @@ class wsdl extends nusoap_base
 			}
 			$tr->setEncoding('gzip, deflate');
 			$wsdl_string = $tr->send('', $this->timeout, $this->response_timeout);
-			//$this->debug("WSDL request\n" . $tr->outgoing_payload);
-			//$this->debug("WSDL response\n" . $tr->incoming_payload);
 			$this->appendDebug($tr->getDebug());
 			// catch errors
 			if ($err = $tr->getError()) {
@@ -4983,7 +4958,6 @@ class wsdl extends nusoap_base
 			$this->currentSchema->clearDebug();
 		} elseif (preg_match('/schema$/', $name)) {
 			$this->debug('Parsing WSDL schema');
-			// $this->debug("startElement for $name ($attrs[name]). status = $this->status (".$this->getLocalPart($name).")");
 			$this->status = 'schema';
 			$this->currentSchema = new nusoap_xmlschema('', '', $this->namespaces);
 			$this->currentSchema->schemaStartElement($parser, $name, $attrs);
@@ -5207,7 +5181,6 @@ class wsdl extends nusoap_base
 		// end documentation
 		if ($this->documentation) {
 			//TODO: track the node to which documentation should be assigned; it can be a part, message, etc.
-			//$this->portTypes[$this->currentPortType][$this->currentPortOperation]['documentation'] = $this->documentation;
 			$this->documentation = false;
 		}
 	}
@@ -5282,8 +5255,6 @@ class wsdl extends nusoap_base
 				// binding type of port matches parameter
 				if ($portData['bindingType'] == $bindingType) {
 					$this->debug("getOperations found port $port bindingType $bindingType");
-					//$this->debug("port data: " . $this->varDump($portData));
-					//$this->debug("bindings: " . $this->varDump($this->bindings[ $portData['binding'] ]));
 					// merge bindings
 					if (isset($this->bindings[$portData['binding']]['operations'])) {
 						$ops = array_merge($ops, $this->bindings[$portData['binding']]['operations']);
@@ -6976,7 +6947,6 @@ class nusoap_parser extends nusoap_base
 				$this->message[$pos]['result'] = $this->message[$pos]['xattrs'];
 				// set value of simpleType (or nil complexType)
 			} else {
-				//$this->debug('adding data for scalar value '.$this->message[$pos]['name'].' of value '.$this->message[$pos]['cdata']);
 				if (isset($this->message[$pos]['nil']) && $this->message[$pos]['nil']) {
 					$this->message[$pos]['xattrs']['!'] = null;
 				} elseif (isset($this->message[$pos]['type'])) {

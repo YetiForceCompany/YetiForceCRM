@@ -48,7 +48,6 @@ class Tracker
 	public function __construct()
 	{
 		$this->log = LoggerManager::getLogger('Tracker');
-		// $this->db = PearDatabase::getInstance();
 		$adb = PearDatabase::getInstance();
 		$this->db = $adb;
 	}

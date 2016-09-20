@@ -456,7 +456,6 @@ class SyncServer
 		$deleteQueueSyncServerIds = array();
 		$serverKey = wsapp_getAppKey("vtigerCRM");
 		$serverAppId = $this->appid_with_key($serverKey);
-		//$lookups = $this->idmap_get_clientmap($appid, array_values($createDetails));
 		foreach ($createDetails as $clientid => $serverDetails) {
 			$this->idmap_put($appid, $serverDetails['serverid'], $clientid, $serverDetails['modifiedtime'], $serverDetails['_modifiedtime'], $serverAppId, $this->create);
 		}

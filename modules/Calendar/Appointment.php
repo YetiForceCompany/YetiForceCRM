@@ -214,7 +214,6 @@ class Appointment
 		$this->duration_hour = $act_array["duration_hours"];
 		$this->duration_minute = $act_array["duration_minutes"];
 		$this->creatorid = $act_array["smcreatorid"];
-		//$this->creator           = getUserName($act_array["smcreatorid"]);
 		$this->assignedto = $act_array["user_name"];
 		$this->owner = $act_array["user_name"];
 		if (!vtlib\Functions::userIsAdministrator($current_user)) {

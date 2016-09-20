@@ -162,9 +162,6 @@ $server->register(
 $server->register(
 	'get_product_urllist', array('customerid' => 'xsd:string', 'productid' => 'xsd:string', 'block' => 'xsd:string'), array('return' => 'tns:field_datalist_array'), $NAMESPACE);
 
-//$server->register(
-//	'get_pdf', array('id' => 'xsd:string', 'block' => 'xsd:string', 'contactid' => 'xsd:string', 'sessionid' => 'xsd:string'), array('return' => 'tns:field_datalist_array'), $NAMESPACE);
-
 $server->register(
 	'get_filecontent_detail', array('id' => 'xsd:string', 'folderid' => 'xsd:string', 'block' => 'xsd:string', 'contactid' => 'xsd:string', 'sessionid' => 'xsd:string'), array('return' => 'tns:get_ticket_attachments_array'), $NAMESPACE);
 
@@ -343,8 +340,6 @@ function get_combo_values($input_array)
 	for ($i = 0; $i < $noofrows; $i++) {
 		$check = checkModuleActive('Products');
 		if ($check == false) {
-			//$output['productid']="#MODULE INACTIVE#";
-			//$output['productname']="#MODULE INACTIVE#";
 			break;
 		}
 		$output['productid'][$i] = $adb->query_result($result, $i, "productid");
@@ -380,8 +375,7 @@ function get_combo_values($input_array)
 
 	// Gather service contract information
 	if (!\includes\Modules::isModuleActive('ServiceContracts')) {
-		//$output['serviceid']="#MODULE INACTIVE#";
-		//$output['servicename']="#MODULE INACTIVE#";
+		
 	} else {
 		$servicequery = "SELECT vtiger_servicecontracts.servicecontractsid,vtiger_servicecontracts.subject
 							FROM vtiger_servicecontracts
@@ -703,7 +697,6 @@ function create_ticket($input_array)
 	$parent_id = (int) $input_array['parent_id'];
 	$product_id = (int) $input_array['product_id'];
 	$module = $input_array['module'];
-	//$assigned_to = $input_array['assigned_to'];
 	$servicecontractid = (int) $input_array['serviceid'];
 	$projectid = (int) $input_array['projectid'];
 
@@ -1141,8 +1134,6 @@ function get_ticket_attachments($input_array)
 		$filesize = filesize($filepath . $fileid . "_" . $filename);
 		$filetype = $adb->query_result_raw($res, $i, 'type');
 		$filelocationtype = $adb->query_result_raw($res, $i, 'filelocationtype');
-		//Now we will not pass the file content to CP, when the customer click on the link we will retrieve
-		//$filecontents = base64_encode(file_get_contents($filepath.$fileid."_".$filename));//fread(fopen($filepath.$filename, "r"), $filesize));
 
 		$output[$i]['fileid'] = $fileid;
 		$output[$i]['filename'] = $filename;

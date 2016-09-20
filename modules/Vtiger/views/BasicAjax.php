@@ -166,7 +166,6 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			}
 			$query = $queryGenerator->getQuery();
 			//Remove the ordering for now to improve the speed
-			//$query .= ' ORDER BY createdtime DESC';
 			$result = $db->query($query);
 			while ($row = $db->fetch_array($result)) {
 				$recordInstance = Vtiger_Record_Model::getInstanceById(current($row));

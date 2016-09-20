@@ -29,7 +29,7 @@
 
 /** A mismatched char or Token or tree node */
 class MismatchedTokenException extends RecognitionException {
-	//$expecting = $Token_INVALID_TOKEN_TYPE
+
 	public function __construct($expecting=0, $input=null) {
 		parent::__construct($input);
 		$this->expecting = $expecting;

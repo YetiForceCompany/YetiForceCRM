@@ -247,7 +247,7 @@ class freetag {
 			return false;
 		}
 		$adb = PearDatabase::getInstance();
-		//$db = &$this->db;
+
 		$retarr = array();
 		if (count($tagArray) == 0) {
 			return $retarr;

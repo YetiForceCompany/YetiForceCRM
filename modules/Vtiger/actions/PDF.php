@@ -119,7 +119,6 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 					$pdf->setLanguage($template->get('language'));
 					vglobal('default_language', $template->get('language'));
 					$template->getParameters();
-					//$pdf->parseParams($template->getParameters());
 
 					$styles .= " @page template_{$record}_{$firstTemplate} {
 						sheet-size: {$template->getFormat()};
@@ -145,7 +144,6 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 
 						// building parameters
 						$parameters = $template->getParameters();
-						//$pdf->parseParams($parameters);
 
 						$styles .= " @page template_{$record}_{$id} {
 							sheet-size: {$template->getFormat()};

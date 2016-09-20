@@ -152,7 +152,6 @@ class VTScheduledReport extends Reports
 			$filePath = 'storage/' . $fileName;
 			$attachments[$fileName] = $filePath;
 			$pdf = $oReportRun->getReportPDF();
-			//$pdf->Output($filePath,'F');
 		}
 		if ($reportFormat == 'excel' || $reportFormat == 'both') {
 			$fileName = $baseFileName . '.xls';

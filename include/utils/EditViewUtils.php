@@ -313,7 +313,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		if ($taxtype == 'group')
 			$tax_percent = $adb->query_result($result, 0, $tax_name);
 		else
-			$tax_percent = $allTaxes[$tax_count]['percentage']; //$adb->query_result($result,0,$tax_name);
+			$tax_percent = $allTaxes[$tax_count]['percentage'];
 
 		if ($tax_percent == '' || $tax_percent == 'NULL')
 			$tax_percent = '0';

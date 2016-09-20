@@ -124,7 +124,6 @@ class Activity extends CRMEntity
 		$this->insertIntoInviteeTable($module);
 
 		//Inserting into sales man activity rel
-		//$this->insertIntoSmActivityRel($module);
 		$adb->pquery('UPDATE vtiger_activity SET smownerid = ? WHERE `activityid` = ?;', array($this->column_fields['assigned_user_id'], $recordId));
 		$this->insertIntoActivityReminderPopup($module);
 	}

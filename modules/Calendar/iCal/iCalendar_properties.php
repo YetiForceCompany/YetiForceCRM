@@ -514,8 +514,6 @@ class iCalendar_property_priority extends iCalendar_property
 			return false;
 		}
 		return true;
-		//$value = intval($value);
-		//return ($value >= 0 && $value <= 9);
 	}
 }
 

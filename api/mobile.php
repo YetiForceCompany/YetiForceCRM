@@ -34,6 +34,5 @@ $r = new Restler();
 $r->addAPIClass('Test');
 $r->addAPIClass('HistoryCall');
 $r->addAPIClass('PushCall');
-//$r->addAPIClass('PushMessage');
 $r->handle();
 $log->info('End mobile service');

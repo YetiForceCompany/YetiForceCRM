@@ -462,8 +462,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$output[$i]['status'] = self::getHistoryStatus($adb->query_result($result, $i, 'status'));
 			$output[$i]['user'] = $adb->query_result($result, $i, 'user');
 			$output[$i]['stop_user'] = $adb->query_result($result, $i, 'stop_user');
-			//$output[$i]['folder'] = $adb->query_result($result, $i, 'folder'); 
-			///$output[$i]['action'] = $adb->query_result($result, $i, 'action'); 
 			$output[$i]['count'] = $adb->query_result($result, $i, 'count');
 			$output[$i]['action'] = vtranslate($adb->query_result($result, $i, 'action'), 'OSSMailScanner');
 			$output[$i]['info'] = $adb->query_result($result, $i, 'info');

@@ -264,12 +264,10 @@ class DateAndOrTime extends Property {
         $parts     = DateTimeParser::parseVCardDateAndOrTime($this->getValue());
         $value     = '';
 
-        // $d = defined
         $d = function($part) use ($parts) {
             return !is_null($parts[$part]);
         };
 
-        // $r = read
         $r = function($part) use ($parts) {
             return $parts[$part];
         };
