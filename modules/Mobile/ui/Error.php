@@ -13,12 +13,12 @@ class Mobile_UI_Error extends Mobile_WS_Controller
 
 	protected $error;
 
-	function setError($e)
+	public function setError($e)
 	{
 		$this->error = $e;
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$viewer = new Mobile_UI_Viewer();
 		$viewer->assign('errorcode', $this->error['code']);

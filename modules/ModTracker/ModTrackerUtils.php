@@ -14,7 +14,7 @@ class ModTrackerUtils
 		}
 	}
 
-	function modTrac_getModuleinfo()
+	public function modTrac_getModuleinfo()
 	{
 		$adb = PearDatabase::getInstance();
 		$query = $adb->pquery("SELECT vtiger_modtracker_tabs.visible,vtiger_tab.name,vtiger_tab.tabid

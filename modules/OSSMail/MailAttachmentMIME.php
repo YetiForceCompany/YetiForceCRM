@@ -85,7 +85,7 @@ class MailAttachmentMIME extends mimetype
 class mimetype
 {
 
-	function getType($filename)
+	public function getType($filename)
 	{
 		// get base name of the filename provided by user
 		$filename = basename($filename);
@@ -100,7 +100,7 @@ class mimetype
 		return $this->privFindType($filename);
 	}
 
-	function privFindType($ext)
+	public function privFindType($ext)
 	{
 		// create mimetypes array
 		$mimetypes = $this->privBuildMimeArray();
@@ -114,7 +114,7 @@ class mimetype
 		}
 	}
 
-	function privBuildMimeArray()
+	public function privBuildMimeArray()
 	{
 		return array(
 			"ez" => "application/andrew-inset",

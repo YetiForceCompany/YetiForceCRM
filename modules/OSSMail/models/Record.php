@@ -43,7 +43,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	function ComposeEmail($params, $ModuleName)
+	public function ComposeEmail($params, $ModuleName)
 	{
 		header('Location: ' . self::GetSite_URL() . 'index.php?module=OSSMail&view=compose');
 	}
@@ -394,7 +394,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return ['attachments' => $attachments, 'text' => $input];
 	}
 
-	function isUrlEncoded($string)
+	public function isUrlEncoded($string)
 	{
 		$string = str_replace('%20', '+', $string);
 		$decoded = urldecode($string);
@@ -413,7 +413,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $string;
 	}
 
-	function _SaveAttachements($relID, $mail)
+	public function _SaveAttachements($relID, $mail)
 	{
 		$adb = PearDatabase::getInstance();
 		$attachments = $mail->get('attachments');
@@ -497,7 +497,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $IDs;
 	}
 
-	function _SaveAttachmentFile($attachid, $filename, $filecontent)
+	public function _SaveAttachmentFile($attachid, $filename, $filecontent)
 	{
 		require_once 'modules/OSSMail/MailAttachmentMIME.php';
 		$adb = PearDatabase::getInstance();
@@ -543,7 +543,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $folders;
 	}
 
-	function convertCharacterEncoding($value, $toCharset, $fromCharset)
+	public function convertCharacterEncoding($value, $toCharset, $fromCharset)
 	{
 		if (function_exists('mb_convert_encoding')) {
 			$value = mb_convert_encoding($value, $toCharset, $fromCharset);
@@ -609,7 +609,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return vtranslate('JS_save_config_info', 'OSSMailScanner');
 	}
 
-	function getEditableFields()
+	public function getEditableFields()
 	{
 		return array(
 			'product_name' => array('label' => 'LBL_RC_product_name', 'fieldType' => 'text', 'required' => 1),
@@ -631,7 +631,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		);
 	}
 
-	function GetSite_URL()
+	public function GetSite_URL()
 	{
 		$site_URL = AppConfig::main('site_URL');
 		if (substr($site_URL, -1) != '/') {

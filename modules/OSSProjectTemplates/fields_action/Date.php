@@ -24,7 +24,7 @@ class Field_Model_Date extends Field_Model_Base
 		return $viewer->view($this->tplAddress, "Settings:OSSProjectTemplates", true);
 	}
 
-	function getValue($fieldName, $relId, $templateId, $baseRecord = NULL, $partentTplId = NULL)
+	public function getValue($fieldName, $relId, $templateId, $baseRecord = NULL, $partentTplId = NULL)
 	{
 		$val = parent::getValue($fieldName, $relId, $templateId, $baseRecord, $partentTplId);
 

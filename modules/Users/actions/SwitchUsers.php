@@ -9,7 +9,7 @@
 class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$userId = $request->get('id');
 		require('user_privileges/switchUsers.php');
@@ -31,7 +31,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getId();

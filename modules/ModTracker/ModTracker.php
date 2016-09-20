@@ -44,7 +44,7 @@ class ModTracker
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		global $currentModule;
 		$adb = PearDatabase::getInstance();
@@ -85,7 +85,7 @@ class ModTracker
 	/**
 	 * function gives an array of module names for which modtracking is enabled
 	 */
-	function getModTrackerEnabledModules()
+	public function getModTrackerEnabledModules()
 	{
 		$adb = PearDatabase::getInstance();
 		$moduleResult = $adb->pquery('SELECT * FROM vtiger_modtracker_tabs', array());
@@ -254,7 +254,7 @@ class ModTracker
 	 * @param <type> $user
 	 * @param <type> $limit 
 	 */
-	function getChangedRecords($uniqueId, $mtime, $limit = 100)
+	public function getChangedRecords($uniqueId, $mtime, $limit = 100)
 	{
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$adb = PearDatabase::getInstance();

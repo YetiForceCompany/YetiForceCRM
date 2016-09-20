@@ -3,7 +3,7 @@
 class Users_ExportData_Action extends Vtiger_ExportData_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -15,7 +15,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	 * Function exports the data based on the mode
 	 * @param Vtiger_Request $request
 	 */
-	function ExportData(Vtiger_Request $request)
+	public function ExportData(Vtiger_Request $request)
 	{
 		$adb = PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
@@ -42,7 +42,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	 * @param Vtiger_Request $request
 	 * @return <String> export query
 	 */
-	function getExportQuery(Vtiger_Request $request)
+	public function getExportQuery(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$cvId = $request->get('viewname');

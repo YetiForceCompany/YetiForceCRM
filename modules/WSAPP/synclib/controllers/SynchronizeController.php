@@ -34,7 +34,7 @@ abstract class WSAPP_SynchronizeController
 
 	abstract function getSyncType();
 
-	function __construct($user)
+	public function __construct($user)
 	{
 		$this->targetConnector = $this->getTargetConnector();
 		$this->sourceConnector = $this->getSourceConnector();
@@ -42,7 +42,7 @@ abstract class WSAPP_SynchronizeController
 		$this->user = $user;
 	}
 
-	function getSourceConnector()
+	public function getSourceConnector()
 	{
 		$connector = new WSAPP_VtigerConnector();
 		$connector->setSynchronizeController($this);
@@ -53,22 +53,22 @@ abstract class WSAPP_SynchronizeController
 		return $connector->setName('Vtiger_' . $targetName);
 	}
 
-	function getTargetRecordModel($data)
+	public function getTargetRecordModel($data)
 	{
 		return new WSAPP_TargetModel($data);
 	}
 
-	function getSourceRecordModel($data)
+	public function getSourceRecordModel($data)
 	{
 		return new WSAPP_VtigerModel($data);
 	}
 
-	function getSyncStateModel($connector)
+	public function getSyncStateModel($connector)
 	{
 		return $connector->getSyncState($this->getSourceType())->setType($this->getSourceType());
 	}
 
-	function updateSyncStateModel($connector, WSAPP_SyncStateModel $syncStateModel)
+	public function updateSyncStateModel($connector, WSAPP_SyncStateModel $syncStateModel)
 	{
 		return $connector->updateSyncState($syncStateModel);
 	}
@@ -108,7 +108,7 @@ abstract class WSAPP_SynchronizeController
 		return $synchronizedRecords;
 	}
 
-	function synchronizePush()
+	public function synchronizePush()
 	{
 		$synchronizedRecords = array();
 		$sourceType = $this->getSourceType();

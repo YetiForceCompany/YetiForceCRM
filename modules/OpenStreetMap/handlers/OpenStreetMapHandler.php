@@ -9,7 +9,7 @@
 class OpenStreetMapHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $data)
+	public function handleEvent($eventName, $data)
 	{
 		$fieldAddress = [
 			'addresslevel', 'buildingnumber', 'localnumber', 'pobox'

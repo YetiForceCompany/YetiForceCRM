@@ -12,7 +12,7 @@
 class Field_Model_Base
 {
 
-	function getFieldInfo($fieldName, $moduleName, $column)
+	public function getFieldInfo($fieldName, $moduleName, $column)
 	{
 		$moduleTabId = \includes\Modules::getModuleId($moduleName);
 		$db = PearDatabase::getInstance();
@@ -23,12 +23,12 @@ class Field_Model_Base
 		return $db->query_result($result, 0, $column);
 	}
 
-	function getFieldLabel($fieldName, $moduleName)
+	public function getFieldLabel($fieldName, $moduleName)
 	{
 		return $this->getFieldInfo($fieldName, $moduleName, 'fieldlabel');
 	}
 
-	function fieldIsRequired($fieldName, $moduleName)
+	public function fieldIsRequired($fieldName, $moduleName)
 	{
 		$result = $this->getFieldInfo($fieldName, $moduleName, 'typeofdata');
 		$pos = strpos($result, 'M');
@@ -39,7 +39,7 @@ class Field_Model_Base
 		}
 	}
 
-	function getValue($fieldName, $relId, $templateId, $baseRecord = NULL, $parentTplId = NULL)
+	public function getValue($fieldName, $relId, $templateId, $baseRecord = NULL, $parentTplId = NULL)
 	{
 		$db = PearDatabase::getInstance();
 		$sql = "SELECT fld_val FROM vtiger_oss_project_templates WHERE fld_name = ? && id_tpl = ?";

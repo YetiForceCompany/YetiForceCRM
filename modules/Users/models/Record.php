@@ -234,7 +234,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Subordinate users
 	 * @return <Array>
 	 */
-	function getSubordinateUsers()
+	public function getSubordinateUsers()
 	{
 		$privilegesModel = $this->get('privileges');
 
@@ -259,7 +259,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Users Parent Role
 	 * @return <String>
 	 */
-	function getParentRoleSequence()
+	public function getParentRoleSequence()
 	{
 		$privilegesModel = $this->get('privileges');
 
@@ -275,7 +275,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Users Current Role
 	 * @return <String>
 	 */
-	function getRole()
+	public function getRole()
 	{
 		$privilegesModel = $this->get('privileges');
 
@@ -287,7 +287,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $privilegesModel->get('roleid');
 	}
 
-	function getRoleDetail()
+	public function getRoleDetail()
 	{
 		$roleDetail = $this->get('roleDetail');
 		if (!empty($roleDetail)) {
@@ -307,7 +307,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Users Current Role
 	 * @return <String>
 	 */
-	function getProfiles()
+	public function getProfiles()
 	{
 		$userProfiles = $this->get('profiles');
 		if (empty($userProfiles)) {
@@ -324,7 +324,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $profiles;
 	}
 
-	function getGroups()
+	public function getGroups()
 	{
 		if (empty($this->get('groups'))) {
 			if ($this->isAdminUser()) {
@@ -340,7 +340,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $this->get('groups');
 	}
 
-	function getParentRoles()
+	public function getParentRoles()
 	{
 		if (empty($this->get('parentRoles'))) {
 			if ($this->isAdminUser()) {
@@ -505,7 +505,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function returns the users activity reminder in seconds
 	 * @return string
 	 */
-	function getCurrentUserActivityReminderInSeconds()
+	public function getCurrentUserActivityReminderInSeconds()
 	{
 		$activityReminder = $this->reminder_interval;
 		$activityReminderInSeconds = '';

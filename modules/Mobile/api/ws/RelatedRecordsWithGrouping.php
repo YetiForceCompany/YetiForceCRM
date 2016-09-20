@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . '/QueryWithGrouping.php';
 class Mobile_WS_RelatedRecordsWithGrouping extends Mobile_WS_QueryWithGrouping
 {
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		global $current_user, $adb, $currentModule;
 		$current_user = $this->getActiveUser();

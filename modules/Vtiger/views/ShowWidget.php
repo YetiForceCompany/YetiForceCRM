@@ -12,7 +12,7 @@
 class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 

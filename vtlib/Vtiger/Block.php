@@ -35,7 +35,7 @@ class Block
 	 * Get unquie id for this instance
 	 * @access private
 	 */
-	function __getUniqueId()
+	public function __getUniqueId()
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -48,7 +48,7 @@ class Block
 	 * Get next sequence value to use for this block instance
 	 * @access private
 	 */
-	function __getNextSequence()
+	public function __getNextSequence()
 	{
 		$db = \PearDatabase::getInstance();
 		$result = $db->pquery('SELECT MAX(sequence) as max_sequence from vtiger_blocks where tabid = ?', [$this->module->id]);
@@ -65,7 +65,7 @@ class Block
 	 * @param Module Instance of module to which this block is associated
 	 * @access private
 	 */
-	function initialize($valuemap, $moduleInstance = false)
+	public function initialize($valuemap, $moduleInstance = false)
 	{
 		$this->id = $valuemap['blockid'];
 		$this->label = $valuemap['blocklabel'];
@@ -79,7 +79,7 @@ class Block
 	 * Create vtiger CRM block
 	 * @access private
 	 */
-	function __create($moduleInstance)
+	public function __create($moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -103,7 +103,7 @@ class Block
 	 * @access private
 	 * @internal TODO
 	 */
-	function __update()
+	public function __update()
 	{
 		self::log("Updating Block $this->label ... DONE");
 	}
@@ -112,7 +112,7 @@ class Block
 	 * Delete this instance
 	 * @access private
 	 */
-	function __delete()
+	public function __delete()
 	{
 		$adb = \PearDatabase::getInstance();
 		self::log("Deleting Block $this->label ... ", false);
@@ -124,7 +124,7 @@ class Block
 	 * Save this block instance
 	 * @param Module Instance of the module to which this block is associated
 	 */
-	function save($moduleInstance = false)
+	public function save($moduleInstance = false)
 	{
 		if ($this->id)
 			$this->__update();
@@ -137,7 +137,7 @@ class Block
 	 * Delete block instance
 	 * @param Boolean True to delete associated fields, False to avoid it
 	 */
-	function delete($recursive = true)
+	public function delete($recursive = true)
 	{
 		if ($recursive) {
 			$fields = Field::getAllForBlock($this);
@@ -152,7 +152,7 @@ class Block
 	 * @param Field Instance of field to add to this block.
 	 * @return Reference to this block instance
 	 */
-	function addField($fieldInstance)
+	public function addField($fieldInstance)
 	{
 		$fieldInstance->save($this);
 		return $this;

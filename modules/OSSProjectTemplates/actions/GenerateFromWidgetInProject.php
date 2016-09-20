@@ -12,7 +12,7 @@
 class OSSProjectTemplates_GenerateFromWidgetInProject_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		return;
 	}

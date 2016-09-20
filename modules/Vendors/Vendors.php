@@ -64,7 +64,7 @@ class Vendors extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'vendorname';
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}
@@ -73,7 +73,7 @@ class Vendors extends CRMEntity
 	 * 	@param int $id - vendor id
 	 * 	@return array - array which will be returned from the function GetRelatedList
 	 */
-	function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -137,7 +137,7 @@ class Vendors extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Vendors Query.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -176,7 +176,7 @@ class Vendors extends CRMEntity
 	 * 	@param int $id - vendor id
 	 * 	@return array - array which will be returned from the function GetRelatedList
 	 */
-	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -240,7 +240,7 @@ class Vendors extends CRMEntity
 	 * @param $id -- campaign id :: Type Integer
 	 * @returns list of campaigns in array format
 	 */
-	function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -301,7 +301,7 @@ class Vendors extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -337,7 +337,7 @@ class Vendors extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for primary module
 	 */
 
-	function generateReportsQuery($module, $queryPlanner)
+	public function generateReportsQuery($module, $queryPlanner)
 	{
 		$moduletable = $this->table_name;
 		$moduleindex = $this->table_index;
@@ -361,7 +361,7 @@ class Vendors extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
 	{
 
 		$matrix = $queryplanner->newDependencyMatrix();
@@ -399,7 +399,7 @@ class Vendors extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			'Products' => array('vtiger_products' => array('vendor_id', 'productid'), 'vtiger_vendor' => 'vendorid'),
@@ -413,7 +413,7 @@ class Vendors extends CRMEntity
 	}
 
 	// Function to unlink all the dependent entities of the given Entity by Id
-	function unlinkDependencies($module, $id)
+	public function unlinkDependencies($module, $id)
 	{
 		$log = vglobal('log');
 		//Backup Product-Vendor Relation
@@ -449,7 +449,7 @@ class Vendors extends CRMEntity
 		parent::unlinkDependencies($module, $id);
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 		if (!is_array($with_crmids))
@@ -474,7 +474,7 @@ class Vendors extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))

@@ -24,7 +24,7 @@ class Field_Model_AutoRel extends Field_Model_Base
 		return $viewer->view($this->tplAddress, "Settings:OSSProjectTemplates", true);
 	}
 
-	function getValue($fieldName, $relId, $templateId, $baseRecord = NULL, $parentTplId = NULL)
+	public function getValue($fieldName, $relId, $templateId, $baseRecord = NULL, $parentTplId = NULL)
 	{
 		$val = parent::getValue($fieldName, $relId, $templateId, $baseRecord, $parentTplId);
 

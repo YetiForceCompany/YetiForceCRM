@@ -42,7 +42,7 @@ class Reports_Charts_Dashboard extends Vtiger_IndexAjax_View
 		}
 	}
 
-	function getScripts($chartType)
+	public function getScripts($chartType)
 	{
 		$jsFileNames = array(
 			'modules.Reports.resources.TypeCharts',

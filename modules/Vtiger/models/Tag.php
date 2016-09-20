@@ -15,7 +15,7 @@ class Vtiger_Tag_Model extends Vtiger_Base_Model
 	private $_freetag = false;
 	static $TAG_FETCH_LIMIT = 100;
 
-	function __construct()
+	public function __construct()
 	{
 		$this->_freetag = new freetag();
 	}

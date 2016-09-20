@@ -12,7 +12,7 @@
 class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -21,7 +21,7 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();

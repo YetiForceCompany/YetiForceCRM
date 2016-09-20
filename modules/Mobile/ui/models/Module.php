@@ -15,22 +15,22 @@ class Mobile_UI_ModuleModel
 
 	private $data;
 
-	function initData($moduleData)
+	public function initData($moduleData)
 	{
 		$this->data = $moduleData;
 	}
 
-	function id()
+	public function id()
 	{
 		return $this->data['id'];
 	}
 
-	function name()
+	public function name()
 	{
 		return $this->data['name'];
 	}
 
-	function label()
+	public function label()
 	{
 		return $this->data['label'];
 	}

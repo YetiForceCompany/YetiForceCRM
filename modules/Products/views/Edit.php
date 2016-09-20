@@ -36,7 +36,7 @@ Class Products_Edit_View extends Vtiger_Edit_View
 		parent::process($request);
 	}
 
-	function getDuplicate($record, $moduleName)
+	public function getDuplicate($record, $moduleName)
 	{
 		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$recordModel->set('id', '');
@@ -59,7 +59,7 @@ Class Products_Edit_View extends Vtiger_Edit_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 

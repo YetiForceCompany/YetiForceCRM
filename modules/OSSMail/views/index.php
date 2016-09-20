@@ -14,13 +14,13 @@ class OSSMail_index_View extends Vtiger_Index_View
 
 	protected $mainUrl = 'modules/OSSMail/roundcube/';
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->mainUrl = OSSMail_Record_Model::GetSite_URL() . $this->mainUrl;
 	}
 
-	function initAutologin()
+	public function initAutologin()
 	{
 		$config = Settings_Mail_Config_Model::getConfig('autologin');
 		if ($config['autologinActive'] == 'true') {

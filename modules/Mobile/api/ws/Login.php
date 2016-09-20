@@ -11,12 +11,12 @@
 class Mobile_WS_Login extends Mobile_WS_Controller
 {
 
-	function requireLogin()
+	public function requireLogin()
 	{
 		return false;
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$response = new Mobile_API_Response();
 
@@ -64,7 +64,7 @@ class Mobile_WS_Login extends Mobile_WS_Controller
 		return $response;
 	}
 
-	function postProcess(Mobile_API_Response $response)
+	public function postProcess(Mobile_API_Response $response)
 	{
 		return $response;
 	}

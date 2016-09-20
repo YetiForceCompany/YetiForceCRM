@@ -12,7 +12,7 @@
 class Vtiger_Mobile_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -24,7 +24,7 @@ class Vtiger_Mobile_Action extends Vtiger_Action_Controller
 		return true;
 	}
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('performCall');
@@ -38,7 +38,7 @@ class Vtiger_Mobile_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function performCall(Vtiger_Request $request)
+	public function performCall(Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$phoneNumber = $request->get('phoneNumber');

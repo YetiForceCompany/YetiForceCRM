@@ -25,7 +25,7 @@ class PackageExport
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		if (is_dir($this->_export_tmpdir) === FALSE) {
 			mkdir($this->_export_tmpdir);
@@ -34,19 +34,19 @@ class PackageExport
 	/** Output Handlers */
 
 	/** @access private */
-	function openNode($node, $delimiter = PHP_EOL)
+	public function openNode($node, $delimiter = PHP_EOL)
 	{
 		$this->__write("<$node>$delimiter");
 	}
 
 	/** @access private */
-	function closeNode($node, $delimiter = PHP_EOL)
+	public function closeNode($node, $delimiter = PHP_EOL)
 	{
 		$this->__write("</$node>$delimiter");
 	}
 
 	/** @access private */
-	function outputNode($value, $node = '')
+	public function outputNode($value, $node = '')
 	{
 		if ($node != '')
 			$this->openNode($node, '');
@@ -56,7 +56,7 @@ class PackageExport
 	}
 
 	/** @access private */
-	function __write($value)
+	public function __write($value)
 	{
 		fwrite($this->_export_modulexml_file, $value);
 	}
@@ -66,7 +66,7 @@ class PackageExport
 	 * return its temporary path.
 	 * @access private
 	 */
-	function __getManifestFilePath()
+	public function __getManifestFilePath()
 	{
 		if (empty($this->_export_modulexml_filename)) {
 			// Set the module xml filename to be written for exporting.
@@ -79,7 +79,7 @@ class PackageExport
 	 * Initialize Export
 	 * @access private
 	 */
-	function __initExport($module)
+	public function __initExport($module)
 	{
 		if ($this->moduleInstance->isentitytype) {
 			// We will be including the file, so do a security check.
@@ -93,7 +93,7 @@ class PackageExport
 	 * Post export work.
 	 * @access private
 	 */
-	function __finishExport()
+	public function __finishExport()
 	{
 		if (!empty($this->_export_modulexml_file)) {
 			fclose($this->_export_modulexml_file);
@@ -105,7 +105,7 @@ class PackageExport
 	 * Clean up the temporary files created.
 	 * @access private
 	 */
-	function __cleanupExport()
+	public function __cleanupExport()
 	{
 		if (!empty($this->_export_modulexml_filename)) {
 			unlink($this->__getManifestFilePath());
@@ -119,7 +119,7 @@ class PackageExport
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	function export($moduleInstance, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export($moduleInstance, $todir = '', $zipfilename = '', $directDownload = false)
 	{
 		$this->moduleInstance = $moduleInstance;
 		$module = $this->moduleInstance->name;
@@ -208,7 +208,7 @@ class PackageExport
 	 * @param <vtlib\Zip> $zip
 	 * @param <String> $module
 	 */
-	function __copyLanguageFiles($zip, $module)
+	public function __copyLanguageFiles($zip, $module)
 	{
 		$languageFolder = 'languages';
 		if ($dir = @opendir($languageFolder)) {  // open languages folder
@@ -241,7 +241,7 @@ class PackageExport
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	function export_Dependencies($moduleInstance)
+	public function export_Dependencies($moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 		$moduleid = $moduleInstance->id;
@@ -272,7 +272,7 @@ class PackageExport
 	 * Export Module Handler
 	 * @access private
 	 */
-	function export_Module()
+	public function export_Module()
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -345,7 +345,7 @@ class PackageExport
 	 * Export module base and related tables
 	 * @access private
 	 */
-	function export_Tables()
+	public function export_Tables()
 	{
 		$_exportedTables = [];
 		$modulename = $this->moduleInstance->name;
@@ -377,7 +377,7 @@ class PackageExport
 	 * Export module blocks with its related fields
 	 * @access private
 	 */
-	function export_Blocks($moduleInstance)
+	public function export_Blocks($moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_blocks WHERE tabid = ?", Array($moduleInstance->id));
@@ -423,7 +423,7 @@ class PackageExport
 	 * Export fields related to a module block
 	 * @access private
 	 */
-	function export_Fields($moduleInstance, $blockid)
+	public function export_Fields($moduleInstance, $blockid)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -540,7 +540,7 @@ class PackageExport
 	 * Export Custom views of the module
 	 * @access private
 	 */
-	function export_CustomViews($moduleInstance)
+	public function export_CustomViews($moduleInstance)
 	{
 		$db = \PearDatabase::getInstance();
 
@@ -599,7 +599,7 @@ class PackageExport
 	 * Export Sharing Access of the module
 	 * @access private
 	 */
-	function export_SharingAccess($moduleInstance)
+	public function export_SharingAccess($moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -633,7 +633,7 @@ class PackageExport
 	 * Export Events of the module
 	 * @access private
 	 */
-	function export_Events($moduleInstance)
+	public function export_Events($moduleInstance)
 	{
 		$events = Event::getAll($moduleInstance);
 		if (!$events)
@@ -656,7 +656,7 @@ class PackageExport
 	 * TODO: Need to pickup values based on status for all user (profile)
 	 * @access private
 	 */
-	function export_Actions($moduleInstance)
+	public function export_Actions($moduleInstance)
 	{
 
 		if (!$moduleInstance->isentitytype)
@@ -682,7 +682,7 @@ class PackageExport
 	 * Export related lists associated with module.
 	 * @access private
 	 */
-	function export_RelatedLists($moduleInstance)
+	public function export_RelatedLists($moduleInstance)
 	{
 
 		if (!$moduleInstance->isentitytype)
@@ -754,7 +754,7 @@ class PackageExport
 	 * Export custom links of the module.
 	 * @access private
 	 */
-	function export_CustomLinks($moduleInstance)
+	public function export_CustomLinks($moduleInstance)
 	{
 		$customlinks = $moduleInstance->getLinksForExport();
 		if (!empty($customlinks)) {
@@ -779,7 +779,7 @@ class PackageExport
 	 * Export cron tasks for the module.
 	 * @access private
 	 */
-	function export_CronTasks($moduleInstance)
+	public function export_CronTasks($moduleInstance)
 	{
 		$cronTasks = Cron::listAllInstancesByModule($moduleInstance->name);
 		$this->openNode('crons');
@@ -811,7 +811,7 @@ class PackageExport
 	 * Export module inventory fields
 	 * @access private
 	 */
-	function exportInventory()
+	public function exportInventory()
 	{
 		$db = \PearDatabase::getInstance();
 		$inventoryFieldModel = \Vtiger_InventoryField_Model::getInstance($this->moduleInstance->name);

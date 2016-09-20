@@ -39,7 +39,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Fuction to get the Name of the Report
 	 * @return <String>
 	 */
-	function getName()
+	public function getName()
 	{
 		return $this->get('reportname');
 	}
@@ -48,7 +48,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function deletes the Report
 	 * @return Boolean
 	 */
-	function delete()
+	public function delete()
 	{
 		return $this->getModule()->deleteRecord($this);
 	}
@@ -57,7 +57,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function to get the detail view url
 	 * @return <String>
 	 */
-	function getDetailViewUrl()
+	public function getDetailViewUrl()
 	{
 		$module = $this->getModule();
 		$reporttype = $this->get('reporttype');
@@ -73,7 +73,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function to get the edit view url
 	 * @return <String>
 	 */
-	function getEditViewUrl()
+	public function getEditViewUrl()
 	{
 		$module = $this->getModule();
 		$reporttype = $this->get('reporttype');
@@ -105,7 +105,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns the url that generates Report in Excel format
 	 * @return <String>
 	 */
-	function getReportExcelURL()
+	public function getReportExcelURL()
 	{
 		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=GetXLS&record=' . $this->getId();
 	}
@@ -114,7 +114,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns the url that generates Report in CSV format
 	 * @return <String>
 	 */
-	function getReportCSVURL()
+	public function getReportCSVURL()
 	{
 		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=GetCSV&record=' . $this->getId();
 	}
@@ -123,7 +123,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns the url that generates Report in printable format
 	 * @return <String>
 	 */
-	function getReportPrintURL()
+	public function getReportPrintURL()
 	{
 		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=GetPrintReport&record=' . $this->getId();
 	}
@@ -170,7 +170,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function initializes Report
 	 */
-	function initialize()
+	public function initialize()
 	{
 		$reportId = $this->getId();
 		$this->report = Vtiger_Report_Model::getInstance($reportId);
@@ -180,7 +180,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Primary Module of the Report
 	 * @return <String>
 	 */
-	function getPrimaryModule()
+	public function getPrimaryModule()
 	{
 		return $this->report->primodule;
 	}
@@ -189,7 +189,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Secondary Module of the Report
 	 * @return <String>
 	 */
-	function getSecondaryModules()
+	public function getSecondaryModules()
 	{
 		return $this->report->secmodule;
 	}
@@ -198,7 +198,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function sets the Primary Module of the Report
 	 * @param <String> $module
 	 */
-	function setPrimaryModule($module)
+	public function setPrimaryModule($module)
 	{
 		$this->report->primodule = $module;
 	}
@@ -207,7 +207,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function sets the Secondary Modules for the Report
 	 * @param <String> $modules, modules separated with colon(:)
 	 */
-	function setSecondaryModule($modules)
+	public function setSecondaryModule($modules)
 	{
 		$this->report->secmodule = $modules;
 	}
@@ -216,7 +216,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Report Type(Summary/Tabular)
 	 * @return <String>
 	 */
-	function getReportType()
+	public function getReportType()
 	{
 		$reportType = $this->get('reporttype');
 		if (!empty($reportType)) {
@@ -229,7 +229,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Returns the Reports Owner
 	 * @return <Number>
 	 */
-	function getOwner()
+	public function getOwner()
 	{
 		return $this->get('owner');
 	}
@@ -238,7 +238,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function checks if the Report is editable
 	 * @return boolean
 	 */
-	function isEditable()
+	public function isEditable()
 	{
 		return ($this->report->isEditable());
 	}
@@ -247,13 +247,13 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Report enabled Modules
 	 * @return type
 	 */
-	function getReportRelatedModules()
+	public function getReportRelatedModules()
 	{
 		$report = $this->report;
 		return $report->related_modules;
 	}
 
-	function getModulesList()
+	public function getModulesList()
 	{
 		return $this->report->getModulesList();
 	}
@@ -262,7 +262,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Primary Module Fields
 	 * @return <Array>
 	 */
-	function getPrimaryModuleFields()
+	public function getPrimaryModuleFields()
 	{
 		$report = $this->report;
 		$primaryModule = $this->getPrimaryModule();
@@ -275,7 +275,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Secondary Module fields
 	 * @return <Array>
 	 */
-	function getSecondaryModuleFields()
+	public function getSecondaryModuleFields()
 	{
 		$report = $this->report;
 		$secondaryModule = $this->getSecondaryModules();
@@ -287,7 +287,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Report Selected Fields
 	 * @return <Array>
 	 */
-	function getSelectedFields()
+	public function getSelectedFields()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -314,7 +314,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Report Calculation Fields
 	 * @return type
 	 */
-	function getSelectedCalculationFields()
+	public function getSelectedCalculationFields()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -333,7 +333,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Report Sort Fields
 	 * @return type
 	 */
-	function getSelectedSortFields()
+	public function getSelectedSortFields()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -355,7 +355,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Reports Standard Filters
 	 * @return type
 	 */
-	function getSelectedStandardFilter()
+	public function getSelectedStandardFilter()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -391,7 +391,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns Reports Advanced Filters
 	 * @return type
 	 */
-	function getSelectedAdvancedFilter()
+	public function getSelectedAdvancedFilter()
 	{
 		$report = $this->report;
 		$report->getAdvancedFilterList($this->getId());
@@ -401,7 +401,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function saves a Report
 	 */
-	function save()
+	public function save()
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -473,7 +473,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function saves Reports Sorting Fields
 	 */
-	function saveSortFields()
+	public function saveSortFields()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -498,7 +498,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function saves Reports Calculation Fields information
 	 */
-	function saveCalculationFields()
+	public function saveCalculationFields()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -511,7 +511,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function saves Reports Standard Filter information
 	 */
-	function saveStandardFilter()
+	public function saveStandardFilter()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -526,7 +526,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function saves Reports Sharing information
 	 */
-	function saveSharingInformation()
+	public function saveSharingInformation()
 	{
 		$db = PearDatabase::getInstance();
 		$sharingInfo = $this->get('sharingInfo');
@@ -544,7 +544,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Functions saves Reports selected fields
 	 */
-	function saveSelectedFields()
+	public function saveSelectedFields()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -562,7 +562,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function saves Reports Filter information
 	 */
-	function saveAdvancedFilters()
+	public function saveAdvancedFilters()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -661,7 +661,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function saves Reports Scheduling information
 	 */
-	function saveScheduleInformation()
+	public function saveScheduleInformation()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -676,7 +676,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function deletes report scheduling information
 	 */
-	function deleteScheduling()
+	public function deleteScheduling()
 	{
 		$db = PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_scheduled_reports WHERE reportid = ?', array($this->getId()));
@@ -688,7 +688,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * @param <String> $format
 	 * @return <String>
 	 */
-	function getReportSQL($advancedFilterSQL = false, $format = false)
+	public function getReportSQL($advancedFilterSQL = false, $format = false)
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$sql = $reportRun->sGetSQLforReport($this->getId(), $advancedFilterSQL, $format);
@@ -700,7 +700,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * @param <String> $query (with all columns)
 	 * @return <String> $query (by removing all columns)
 	 */
-	function generateCountQuery($query)
+	public function generateCountQuery($query)
 	{
 		$from = preg_split('/ from /i', $query);
 		//If we select the same field in select and grouping/soring then it will include order by and query failure will happen
@@ -715,14 +715,14 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * @param <String> $filterQuery
 	 * @return <Array>
 	 */
-	function getReportData($pagingModel = false, $filterQuery = false)
+	public function getReportData($pagingModel = false, $filterQuery = false)
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$data = $reportRun->GenerateReport('PDF', $filterQuery, true, $pagingModel->getStartIndex(), $pagingModel->getPageLimit());
 		return $data;
 	}
 
-	function getReportsCount($query = null)
+	public function getReportsCount($query = null)
 	{
 		if ($query == null)
 			$query = $this->get('recordCountQuery');
@@ -735,7 +735,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		return $count;
 	}
 
-	function getReportCalulationData($filterQuery = false)
+	public function getReportCalulationData($filterQuery = false)
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$data = $reportRun->GenerateReport('TOTALXLS', $filterQuery, true);
@@ -745,7 +745,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function exports reports data into a Excel file
 	 */
-	function getReportXLS()
+	public function getReportXLS()
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
@@ -772,7 +772,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function exports reports data into a csv file
 	 */
-	function getReportCSV()
+	public function getReportCSV()
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
@@ -799,7 +799,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns data in printable format
 	 * @return <Array>
 	 */
-	function getReportPrint()
+	public function getReportPrint()
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
@@ -813,7 +813,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns reports is default or not
 	 * @return <boolean>
 	 */
-	function isDefault()
+	public function isDefault()
 	{
 		if ($this->get('state') == 'SAVED') {
 			return true;
@@ -825,7 +825,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function move report to another specified folder
 	 * @param folderid
 	 */
-	function move($folderId)
+	public function move($folderId)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -836,7 +836,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function to get Calculation fields for Primary module
 	 * @return <Array> Primary module calculation fields
 	 */
-	function getPrimaryModuleCalculationFields()
+	public function getPrimaryModuleCalculationFields()
 	{
 		$primaryModule = $this->getPrimaryModule();
 		$primaryModuleFields = $this->getPrimaryModuleFields();
@@ -861,7 +861,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function to get Calculation fields for Secondary modules
 	 * @return <Array> Secondary modules calculation fields
 	 */
-	function getSecondaryModuleCalculationFields()
+	public function getSecondaryModuleCalculationFields()
 	{
 		$secondaryModuleCalculationFields = array();
 		$secondaryModules = $this->getSecondaryModules();
@@ -896,7 +896,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function to get Calculation fields for entire Report
 	 * @return <Array> report calculation fields
 	 */
-	function getCalculationFields()
+	public function getCalculationFields()
 	{
 		$primaryModuleCalculationFields = $this->getPrimaryModuleCalculationFields();
 		$secondaryModuleCalculationFields = $this->getSecondaryModuleCalculationFields();
@@ -912,7 +912,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * match ALL conditions group and the rest of it will be placed under match Any group.
 	 * @return <Array>
 	 */
-	function transformToNewAdvancedFilter()
+	public function transformToNewAdvancedFilter()
 	{
 		$standardFilter = $this->transformStandardFilter();
 		$advancedFilter = $this->getSelectedAdvancedFilter();
@@ -982,7 +982,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Advanced filter SQL
 	 * @return <String>
 	 */
-	function getAdvancedFilterSQL()
+	public function getAdvancedFilterSQL()
 	{
 		$advancedFilter = $this->get('advancedFilter');
 
@@ -1064,7 +1064,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * calculation otherwise it should not be shown
 	 * @return boolean
 	 */
-	function showLineItemFieldsInFilter($calculationFields = false)
+	public function showLineItemFieldsInFilter($calculationFields = false)
 	{
 		if ($calculationFields == false)
 			$calculationFields = $this->getSelectedCalculationFields();
@@ -1109,7 +1109,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	function getModuleCalculationFieldsForReport()
+	public function getModuleCalculationFieldsForReport()
 	{
 		$aggregateFunctions = $this->getAggregateFunctions();
 		$moduleFields = array();
@@ -1132,7 +1132,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		return $moduleFields;
 	}
 
-	function getAggregateFunctions()
+	public function getAggregateFunctions()
 	{
 		$functions = array('SUM', 'AVG', 'MIN', 'MAX');
 		return $functions;
@@ -1141,7 +1141,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to save reprot tyep data
 	 */
-	function saveReportType()
+	public function saveReportType()
 	{
 		$db = PearDatabase::getInstance();
 		$data = $this->get('reporttypedata');
@@ -1151,7 +1151,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	function getReportTypeInfo()
+	public function getReportTypeInfo()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -1169,7 +1169,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * as these fields are not generally used for grouping records
 	 * @return $fields - array of report field columns
 	 */
-	function getPrimaryModuleFieldsForAdvancedReporting()
+	public function getPrimaryModuleFieldsForAdvancedReporting()
 	{
 		$fields = $this->getPrimaryModuleFields();
 		$primaryModule = $this->getPrimaryModule();
@@ -1199,7 +1199,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 * as these fields are not generally used for grouping records
 	 * @return $fields - array of report field columns
 	 */
-	function getSecondaryModuleFieldsForAdvancedReporting()
+	public function getSecondaryModuleFieldsForAdvancedReporting()
 	{
 		$fields = $this->getSecondaryModuleFields();
 		$secondaryModules = $this->getSecondaryModules();

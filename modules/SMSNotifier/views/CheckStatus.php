@@ -11,7 +11,7 @@
 class SMSNotifier_CheckStatus_View extends Vtiger_IndexAjax_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -20,7 +20,7 @@ class SMSNotifier_CheckStatus_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

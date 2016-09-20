@@ -16,7 +16,7 @@ class RecycleBin
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 
 		require_once('include/utils/utils.php');

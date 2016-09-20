@@ -72,7 +72,7 @@ class Reports extends CRMEntity
 	 *  This function accepts the vtiger_reportid as argument
 	 *  It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given vtiger_reportid
 	 */
-	function __construct($reportid = "")
+	public function __construct($reportid = "")
 	{
 		global $adb, $current_user, $theme, $mod_strings;
 		$this->initListOfModules();
@@ -143,7 +143,7 @@ class Reports extends CRMEntity
 	}
 
 	// Update the module list for listing columns for report creation.
-	function updateModuleList($module)
+	public function updateModuleList($module)
 	{
 		$adb = PearDatabase::getInstance();
 		if (!isset($module))
@@ -169,7 +169,7 @@ class Reports extends CRMEntity
 	}
 
 	// Initializes the module list for listing columns for report creation.
-	function initListOfModules()
+	public function initListOfModules()
 	{
 		global $old_related_modules;
 
@@ -293,7 +293,7 @@ class Reports extends CRMEntity
 	 *  This generate the Reports view page and returns a string
 	 *  contains HTML
 	 */
-	function sgetRptFldr($mode = '')
+	public function sgetRptFldr($mode = '')
 	{
 
 		global $mod_strings;
@@ -342,7 +342,7 @@ class Reports extends CRMEntity
 	 *  This Generates the Reports under each Reports module
 	 *  This Returns a HTML sring
 	 */
-	function sgetAllRpt($fldrId, $paramsList)
+	public function sgetAllRpt($fldrId, $paramsList)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -391,7 +391,7 @@ class Reports extends CRMEntity
 	 *  This Generates the Reports under each Reports module
 	 *  This Returns a HTML sring
 	 */
-	function sgetRptsforFldr($rpt_fldr_id, $paramsList = false)
+	public function sgetRptsforFldr($rpt_fldr_id, $paramsList = false)
 	{
 		$srptdetails = "";
 		$adb = PearDatabase::getInstance();
@@ -484,7 +484,7 @@ class Reports extends CRMEntity
 	 *  It returns the array of ids
 	 *  Array('1RptFldr','2RptFldr',........,'9RptFldr','10RptFldr')
 	 */
-	function sgetJsRptFldr()
+	public function sgetJsRptFldr()
 	{
 		$srptfldr_js = "var ReportListArray=new Array(" . $this->srptfldridjs . ")
 			setExpandCollapse()";
@@ -496,7 +496,7 @@ class Reports extends CRMEntity
 	 *  It accepts the Primary module as the argument and set the vtiger_fields of the module
 	 *  to the varialbe pri_module_columnslist and returns true if sucess
 	 */
-	function getPriModuleColumnsList($module)
+	public function getPriModuleColumnsList($module)
 	{
 		//$this->updateModuleList($module);
 		$allColumnsListByBlocks = & $this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
@@ -529,7 +529,7 @@ class Reports extends CRMEntity
 	 *  It accepts the module as the argument and set the vtiger_fields of the module
 	 *  to the varialbe sec_module_columnslist and returns true if sucess
 	 */
-	function getSecModuleColumnsList($module)
+	public function getSecModuleColumnsList($module)
 	{
 		if ($module != "") {
 			$secmodule = explode(":", $module);
@@ -595,7 +595,7 @@ class Reports extends CRMEntity
 	 *  returns the array column lists
 	 *  Array module_columnlist[ vtiger_fieldtablename:fieldcolname:module_fieldlabel1:fieldname:fieldtypeofdata]=fieldlabel
 	 */
-	function getColumnsListbyBlock($module, $block, $group_res_by_block = false)
+	public function getColumnsListbyBlock($module, $block, $group_res_by_block = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -701,7 +701,7 @@ class Reports extends CRMEntity
 	 *  and set the values to the corresponding variables
 	 *  It accepts the repordid as argument
 	 */
-	function getSelectedStandardCriteria($reportid)
+	public function getSelectedStandardCriteria($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		$sSQL = "select vtiger_reportdatefilter.* from vtiger_reportdatefilter inner join vtiger_report on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid where vtiger_report.reportid=?";
@@ -727,7 +727,7 @@ class Reports extends CRMEntity
 	 *  This function get the combo values for the standard filter for the given vtiger_report
 	 *  and return a HTML string
 	 */
-	function getSelectedStdFilterCriteria($selecteddatefilter = "")
+	public function getSelectedStdFilterCriteria($selecteddatefilter = "")
 	{
 		global $mod_strings;
 
@@ -759,7 +759,7 @@ class Reports extends CRMEntity
 	 *  which is selected for vtiger_reports as an array
 	 *  Array stdcriteria_list[fieldtablename:fieldcolname:module_fieldlabel1]=fieldlabel
 	 */
-	function getStdCriteriaByModule($module)
+	public function getStdCriteriaByModule($module)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -805,7 +805,7 @@ class Reports extends CRMEntity
 		return $stdcriteria_list;
 	}
 
-	function getEscapedColumns($selectedfields)
+	public function getEscapedColumns($selectedfields)
 	{
 		$fieldname = $selectedfields[3];
 		if ($fieldname == "parent_id") {
@@ -823,7 +823,7 @@ class Reports extends CRMEntity
 		return $querycolumn;
 	}
 
-	function getaccesfield($module)
+	public function getaccesfield($module)
 	{
 		$current_user = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
@@ -863,7 +863,7 @@ class Reports extends CRMEntity
 	 *  returns the array array_list which has the column responsible for the grouping
 	 *  Array array_list[0]=columnname
 	 */
-	function getSelctedSortingColumns($reportid)
+	public function getSelctedSortingColumns($reportid)
 	{
 
 		$adb = PearDatabase::getInstance();
@@ -892,7 +892,7 @@ class Reports extends CRMEntity
 	 *  for the given vtiger_reportid and it forms a combo lists and returns
 	 *  HTML of the combo values
 	 */
-	function getSelectedColumnsList($reportid)
+	public function getSelectedColumnsList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -950,7 +950,7 @@ class Reports extends CRMEntity
 		return $shtml;
 	}
 
-	function getAdvancedFilterList($reportid)
+	public function getAdvancedFilterList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
@@ -1047,7 +1047,7 @@ class Reports extends CRMEntity
 	 *  a combo values of the folders and return
 	 *  HTML of the combo values
 	 */
-	function sgetRptFldrSaveReport()
+	public function sgetRptFldrSaveReport()
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -1069,7 +1069,7 @@ class Reports extends CRMEntity
 	 *  and generated the html for that vtiger_fields
 	 *  It returns the HTML of the vtiger_fields along with the check boxes
 	 */
-	function sgetColumntoTotal($primarymodule, $secondarymodule)
+	public function sgetColumntoTotal($primarymodule, $secondarymodule)
 	{
 		$options = [];
 		$options [] = $this->sgetColumnstoTotalHTML($primarymodule, 0);
@@ -1087,7 +1087,7 @@ class Reports extends CRMEntity
 	 *  and generated the html for that vtiger_fields
 	 *  It returns the HTML of the vtiger_fields along with the check boxes
 	 */
-	function sgetColumntoTotalSelected($primarymodule, $secondarymodule, $reportid)
+	public function sgetColumntoTotalSelected($primarymodule, $secondarymodule, $reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -1120,7 +1120,7 @@ class Reports extends CRMEntity
 	 *  vtiger_fields along with four checkboxes
 	 *  It returns the HTML of the vtiger_fields along with the check boxes
 	 */
-	function sgetColumnstoTotalHTML($module)
+	public function sgetColumnstoTotalHTML($module)
 	{
 		//retreive the vtiger_tabid
 		$adb = PearDatabase::getInstance();

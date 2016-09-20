@@ -18,7 +18,7 @@ class Vtiger_Report_Model extends Reports
 		return $self->Reports($reportId);
 	}
 
-	function Reports($reportId = "")
+	public function Reports($reportId = "")
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -111,12 +111,12 @@ class Vtiger_Report_Model extends Reports
 		return $this;
 	}
 
-	function isEditable()
+	public function isEditable()
 	{
 		return $this->is_editable;
 	}
 
-	function getModulesList()
+	public function getModulesList()
 	{
 		foreach ($this->module_list as $key => $value) {
 			if (isPermitted($key, 'index') == "yes") {

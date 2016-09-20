@@ -69,7 +69,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		return $entries;
 	}
 
-	function sanitizeInventoryValue($value, $columnName, $formated = false)
+	public function sanitizeInventoryValue($value, $columnName, $formated = false)
 	{
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
 		$inventoryFields = $inventoryFieldModel->getFields();

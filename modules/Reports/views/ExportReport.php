@@ -12,7 +12,7 @@
 class Reports_ExportReport_View extends Vtiger_View_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('GetPrintReport');
@@ -20,7 +20,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 		$this->exposeMethod('GetCSV');
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
@@ -31,17 +31,17 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 		}
 	}
 
-	function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request)
 	{
 		return false;
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return false;
 	}
 
-	function process(Vtiger_request $request)
+	public function process(Vtiger_request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -53,7 +53,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 * Function exports the report in a Excel sheet
 	 * @param Vtiger_Request $request
 	 */
-	function GetXLS(Vtiger_Request $request)
+	public function GetXLS(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
@@ -65,7 +65,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 * Function exports report in a CSV file
 	 * @param Vtiger_Request $request
 	 */
-	function GetCSV(Vtiger_Request $request)
+	public function GetCSV(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
@@ -77,7 +77,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 * Function displays the report in printable format
 	 * @param Vtiger_Request $request
 	 */
-	function GetPrintReport(Vtiger_Request $request)
+	public function GetPrintReport(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

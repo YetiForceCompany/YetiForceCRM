@@ -25,7 +25,7 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 		return $listQuery . " && vtiger_ossemployees.employee_status = 'Employee'";
 	}
 
-	function getWorkingDays($startDate, $endDate)
+	public function getWorkingDays($startDate, $endDate)
 	{
 		$begin = strtotime($startDate);
 		$end = strtotime($endDate);
@@ -47,7 +47,7 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	function getBarChartColors($chartData)
+	public function getBarChartColors($chartData)
 	{
 		$numSelectedTimeTypes = count($chartData);
 		$i = 0;

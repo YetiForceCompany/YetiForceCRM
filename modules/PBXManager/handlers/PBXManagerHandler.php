@@ -11,7 +11,7 @@
 class PBXManagerHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		$moduleName = $entityData->getModuleName();
 
@@ -87,7 +87,7 @@ class PBXManagerHandler extends VTEventHandler
 class PBXManagerBatchHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityDatas)
+	public function handleEvent($eventName, $entityDatas)
 	{
 		foreach ($entityDatas as $entityData) {
 			$moduleName = $entityData->getModuleName();

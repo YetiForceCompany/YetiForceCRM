@@ -15,7 +15,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * Function to get the id of the folder
 	 * @return <Number>
 	 */
-	function getId()
+	public function getId()
 	{
 		return $this->get('folderid');
 	}
@@ -24,7 +24,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * Function to set the if for the folder
 	 * @param <Number>
 	 */
-	function setId($value)
+	public function setId($value)
 	{
 		$this->set('folderid', $value);
 	}
@@ -33,7 +33,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * Function to get the name of the folder
 	 * @return <String>
 	 */
-	function getName()
+	public function getName()
 	{
 		return $this->get('foldername');
 	}
@@ -50,7 +50,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	/**
 	 * Function saves the folder
 	 */
-	function save()
+	public function save()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -69,7 +69,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	/**
 	 * Function deletes the folder
 	 */
-	function delete()
+	public function delete()
 	{
 		$db = PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_reportfolder WHERE folderid = ?', array($this->getId()));
@@ -80,7 +80,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * @param <Vtiger_Paging_Model> $pagingModel
 	 * @return <Reports_Record_Model>
 	 */
-	function getReports($pagingModel)
+	public function getReports($pagingModel)
 	{
 		$paramsList = array(
 			'startIndex' => $pagingModel->getStartIndex(),
@@ -143,7 +143,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * Function to get the description of the folder
 	 * @return <String>
 	 */
-	function getDescription()
+	public function getDescription()
 	{
 		return $this->get('description');
 	}
@@ -152,7 +152,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * Function to get the url for edit folder from list view of the module
 	 * @return <string> - url
 	 */
-	function getEditUrl()
+	public function getEditUrl()
 	{
 		return 'index.php?module=Reports&view=EditFolder&folderid=' . $this->getId();
 	}
@@ -161,7 +161,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * Function to get the url for delete folder from list view of the module
 	 * @return <string> - url
 	 */
-	function getDeleteUrl()
+	public function getDeleteUrl()
 	{
 		return 'index.php?module=Reports&action=Folder&mode=delete&folderid=' . $this->getId();
 	}
@@ -218,7 +218,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * Function returns duplicate record status of the module
 	 * @return true if duplicate records exists else false
 	 */
-	function checkDuplicate()
+	public function checkDuplicate()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -243,7 +243,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * Function returns whether reports are exist or not in this folder
 	 * @return true if exists else false
 	 */
-	function hasReports()
+	public function hasReports()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -259,7 +259,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * Function returns whether folder is Default or not
 	 * @return true if it is read only else false
 	 */
-	function isDefault()
+	public function isDefault()
 	{
 		if ($this->get('state') == 'SAVED') {
 			return true;
@@ -418,7 +418,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 * Function returns Report Models for the folder
 	 * @return <Reports_Record_Model>
 	 */
-	function getListViewQuery($folderId)
+	public function getListViewQuery($folderId)
 	{
 		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report 
                 inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid 

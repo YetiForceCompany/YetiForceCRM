@@ -597,7 +597,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 * Function to set record module field values
 	 * @param parent record model
 	 */
-	function setRecordFieldValues($parentRecordModel)
+	public function setRecordFieldValues($parentRecordModel)
 	{
 		$newInvData = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -663,7 +663,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 	}
 
-	function getListFieldsToGenerate($parentModuleName, $moduleName)
+	public function getListFieldsToGenerate($parentModuleName, $moduleName)
 	{
 		$module = CRMEntity::getInstance($parentModuleName);
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];

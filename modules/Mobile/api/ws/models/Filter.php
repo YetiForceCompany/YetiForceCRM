@@ -16,30 +16,30 @@ class Mobile_WS_FilterModel
 	var $user;
 	protected $customView;
 
-	function __construct($moduleName)
+	public function __construct($moduleName)
 	{
 		$this->moduleName = $moduleName;
 		$this->customView = new CustomView($moduleName);
 	}
 
-	function setUser($userInstance)
+	public function setUser($userInstance)
 	{
 		$this->user = $userInstance;
 	}
 
-	function getUser()
+	public function getUser()
 	{
 		return $this->user;
 	}
 
-	function query()
+	public function query()
 	{
 		$listquery = getListQuery($this->moduleName);
 		$query = $this->customView->getModifiedCvListQuery($this->filterid, $listquery, $this->moduleName);
 		return $query;
 	}
 
-	function queryParameters()
+	public function queryParameters()
 	{
 		return false;
 	}

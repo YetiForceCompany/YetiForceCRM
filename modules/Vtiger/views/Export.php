@@ -12,7 +12,7 @@
 class Vtiger_Export_View extends Vtiger_Index_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Export')) {
@@ -20,7 +20,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 

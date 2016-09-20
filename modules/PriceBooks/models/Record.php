@@ -18,7 +18,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 * Function return the url to fetch List Price of the Product for the current PriceBook
 	 * @return <String>
 	 */
-	function getProductUnitPriceURL()
+	public function getProductUnitPriceURL()
 	{
 		$url = 'module=PriceBooks&action=ProductListPrice&record=' . $this->getId();
 		$rawData = $this->getRawData();
@@ -34,7 +34,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 * @param <Integer> $relatedRecordId - Product/Service Id
 	 * @return <Integer>
 	 */
-	function getProductsListPrice($relatedRecordId)
+	public function getProductsListPrice($relatedRecordId)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -51,7 +51,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 * @param <Integer> $relatedRecordId - Product/Service Id
 	 * @param <Integer> $price - listprice
 	 */
-	function updateListPrice($relatedRecordId, $price)
+	public function updateListPrice($relatedRecordId, $price)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -67,7 +67,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 * Function deletes the List Price for PriceBooks-Product/Services relationship
 	 * @param <Integer> $relatedRecordId - Product/Service Id
 	 */
-	function deleteListPrice($relatedRecordId)
+	public function deleteListPrice($relatedRecordId)
 	{
 		$db = PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?', array($this->getId(), $relatedRecordId));

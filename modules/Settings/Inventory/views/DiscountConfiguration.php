@@ -32,7 +32,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
-	function getPageLabels(Vtiger_Request $request)
+	public function getPageLabels(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$view = $this->getView();

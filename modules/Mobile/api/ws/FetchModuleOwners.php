@@ -11,7 +11,7 @@
 class Mobile_WS_FetchModuleOwners extends Mobile_WS_Controller
 {
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$current_user = vglobal('current_user');
 
@@ -30,7 +30,7 @@ class Mobile_WS_FetchModuleOwners extends Mobile_WS_Controller
 		return $response;
 	}
 
-	function getUsers($currentUserModel, $moduleName)
+	public function getUsers($currentUserModel, $moduleName)
 	{
 		$users = \includes\fields\Owner::getInstance($moduleName, $currentUserModel)->getAccessibleUsersForModule();
 		$userIds = array_keys($users);
@@ -45,7 +45,7 @@ class Mobile_WS_FetchModuleOwners extends Mobile_WS_Controller
 		return $usersList;
 	}
 
-	function getGroups($currentUserModel, $moduleName)
+	public function getGroups($currentUserModel, $moduleName)
 	{
 		$groups = \includes\fields\Owner::getInstance($moduleName, $currentUserModel)->getAccessibleGroupForModule();
 		$groupIds = array_keys($groups);

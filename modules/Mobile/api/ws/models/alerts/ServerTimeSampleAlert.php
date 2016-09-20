@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . '/../Alert.php';
 class Mobile_WS_AlertModel_ServerTimeSampleAlert extends Mobile_WS_AlertModel
 {
 
-	function __construct()
+	public function __construct()
 	{
 		// Mandatory call to parent constructor
 		parent::__construct();
@@ -26,18 +26,18 @@ class Mobile_WS_AlertModel_ServerTimeSampleAlert extends Mobile_WS_AlertModel
 		// If set to true $this->moduleName needs to be set.
 	}
 
-	function message()
+	public function message()
 	{
 		return date('Y-m-d H:i:s');
 	}
 
 	/** Override base class methods */
-	function query()
+	public function query()
 	{
 		return false;
 	}
 
-	function queryParameters()
+	public function queryParameters()
 	{
 		return false;
 	}

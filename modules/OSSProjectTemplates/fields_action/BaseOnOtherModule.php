@@ -33,7 +33,7 @@ class Field_Model_BaseOnOtherModule extends Field_Model_Select
 		return $viewer->view($this->tplAddress, "Settings:OSSProjectTemplates", true);
 	}
 
-	function getValue($fieldName, $relId, $templateId, $baseRecord = NULL, $parentTplId = NULL)
+	public function getValue($fieldName, $relId, $templateId, $baseRecord = NULL, $parentTplId = NULL)
 	{
 		$val = parent::getValue($fieldName, $relId, $templateId, $baseRecord, $parentTplId);
 

@@ -15,7 +15,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 	 * Function deletes report
 	 * @param Reports_Record_Model $reportModel
 	 */
-	function deleteRecord($reportModel)
+	public function deleteRecord($reportModel)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$subOrdinateUsers = $currentUser->getSubordinateUsers();
@@ -57,7 +57,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 	 * Function returns quick links for the module
 	 * @return <Array of Vtiger_Link_Model>
 	 */
-	function getSideBarLinks($linkParams = '')
+	public function getSideBarLinks($linkParams = '')
 	{
 		$quickLinks = array(
 			array(
@@ -91,7 +91,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 	 * @param <Number> $limit
 	 * @return <Array of Reports_Record_Model>
 	 */
-	function getRecentRecords($limit = 10)
+	public function getRecentRecords($limit = 10)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -110,7 +110,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 	 * Function returns the report folders
 	 * @return <Array of Reports_Folder_Model>
 	 */
-	function getFolders()
+	public function getFolders()
 	{
 		return Reports_Folder_Model::getAll();
 	}
@@ -119,7 +119,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 	 * Function to get the url for add folder from list view of the module
 	 * @return <string> - url
 	 */
-	function getAddFolderUrl()
+	public function getAddFolderUrl()
 	{
 		return 'index.php?module=' . $this->get('name') . '&view=EditFolder';
 	}

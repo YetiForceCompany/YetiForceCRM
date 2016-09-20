@@ -89,7 +89,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Detect if the task was started by never finished.
 	 */
-	function hadTimedout()
+	public function hadTimedout()
 	{
 		if ($this->get('lastend') === 0 && $this->get('laststart') != 0)
 			return intval($this->get('lastend'));
@@ -98,7 +98,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Get the user datetimefeild
 	 */
-	function getLastEndDateTime()
+	public function getLastEndDateTime()
 	{
 		if ($this->get('lastend') != NULL) {
 			$lastScannedTime = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
@@ -118,7 +118,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Get Time taken to complete task
 	 */
-	function getTimeDiff()
+	public function getTimeDiff()
 	{
 		$lastStart = intval($this->get('laststart'));
 		$lastEnd = intval($this->get('lastend'));

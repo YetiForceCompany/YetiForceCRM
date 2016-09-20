@@ -72,7 +72,7 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model
 	 * Function returns the Primary Module Record Structure
 	 * @return <Vtiger_RecordStructure_Model>
 	 */
-	function getPrimaryModuleRecordStructure()
+	public function getPrimaryModuleRecordStructure()
 	{
 		$this->moduleName = $this->getRecord()->getPrimaryModule();
 		$primaryModuleRecordStructure = $this->getStructure();
@@ -83,7 +83,7 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model
 	 * Function returns the Secondary Modules Record Structure
 	 * @return <Array of Vtiger_RecordSructure_Models>
 	 */
-	function getSecondaryModuleRecordStructure()
+	public function getSecondaryModuleRecordStructure()
 	{
 		$recordStructureInstances = array();
 

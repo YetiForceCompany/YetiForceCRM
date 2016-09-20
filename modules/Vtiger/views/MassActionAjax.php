@@ -11,7 +11,7 @@
 class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showMassEditForm');
@@ -22,7 +22,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('transferOwnership');
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -35,7 +35,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 * Function returns the mass edit form
 	 * @param Vtiger_Request $request
 	 */
-	function showMassEditForm(Vtiger_Request $request)
+	public function showMassEditForm(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -87,7 +87,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 * Function returns the Add Comment form
 	 * @param Vtiger_Request $request
 	 */
-	function showAddCommentForm(Vtiger_Request $request)
+	public function showAddCommentForm(Vtiger_Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$moduleName = 'ModComments';
@@ -124,7 +124,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 * Function returns the Compose Email form
 	 * @param Vtiger_Request $request
 	 */
-	function showComposeEmailForm(Vtiger_Request $request)
+	public function showComposeEmailForm(Vtiger_Request $request)
 	{
 		$moduleName = 'Emails';
 		$sourceModule = $request->getModule();
@@ -271,7 +271,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 * Function shows form that will lets you send SMS
 	 * @param Vtiger_Request $request
 	 */
-	function showSendSMSForm(Vtiger_Request $request)
+	public function showSendSMSForm(Vtiger_Request $request)
 	{
 
 		$sourceModule = $request->getModule();
@@ -320,7 +320,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 * @param Vtiger_Request $request
 	 * @return integer
 	 */
-	function getRecordsListFromRequest(Vtiger_Request $request, $module = false)
+	public function getRecordsListFromRequest(Vtiger_Request $request, $module = false)
 	{
 		$cvId = $request->get('viewname');
 		$selectedIds = $request->get('selected_ids');
@@ -360,7 +360,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 * Function shows the List of Mail Merge Templates
 	 * @param Vtiger_Request $request
 	 */
-	function showMailMergeTemplates(Vtiger_Request $request)
+	public function showMailMergeTemplates(Vtiger_Request $request)
 	{
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
@@ -382,7 +382,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 * Function shows the duplicate search form
 	 * @param Vtiger_Request $request
 	 */
-	function showDuplicatesSearchForm(Vtiger_Request $request)
+	public function showDuplicatesSearchForm(Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
@@ -394,7 +394,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->view('showDuplicateSearch.tpl', $module);
 	}
 
-	function transferOwnership(Vtiger_Request $request)
+	public function transferOwnership(Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$transferModel = Vtiger_TransferOwnership_Model::getInstance($module);

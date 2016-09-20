@@ -19,7 +19,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');

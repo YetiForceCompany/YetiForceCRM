@@ -24,7 +24,7 @@ class Vtiger_Feed_Parser extends SimplePie
 	 * @param String Feed url (RSS, ATOM etc)
 	 * @param Integer Timeout value (to try connecting to url)
 	 */
-	function vt_dofetch($url, $timeout = 10)
+	public function vt_dofetch($url, $timeout = 10)
 	{
 		$this->set_timeout($timeout);
 		$this->set_feed_url($url);
@@ -38,7 +38,7 @@ class Vtiger_Feed_Parser extends SimplePie
 	 * Parse the content as feed.
 	 * @param String Feed content
 	 */
-	function vt_doparse($content)
+	public function vt_doparse($content)
 	{
 		$this->set_raw_data($content);
 		$this->init();

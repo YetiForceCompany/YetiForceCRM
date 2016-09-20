@@ -92,7 +92,7 @@ class Vtiger_ShortURL_Helper
 		echo base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=');
 	}
 
-	function getInstance($id)
+	public function getInstance($id)
 	{
 		$db = PearDatabase::getInstance();
 		$self = new self();
@@ -109,7 +109,7 @@ class Vtiger_ShortURL_Helper
 		return $self;
 	}
 
-	function compareEquals($data)
+	public function compareEquals($data)
 	{
 		$valid = true;
 		if ($this->handler_data) {
@@ -125,7 +125,7 @@ class Vtiger_ShortURL_Helper
 		return $valid;
 	}
 
-	function delete()
+	public function delete()
 	{
 		$db = PearDatabase::getInstance();
 		$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', array($this->id));

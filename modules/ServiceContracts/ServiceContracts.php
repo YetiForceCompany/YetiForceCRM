@@ -94,7 +94,7 @@ class ServiceContracts extends CRMEntity
 	var $default_order_by = '';
 	var $default_sort_order = 'ASC';
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		$return_action = AppRequest::get('return_action');
 		$for_module = AppRequest::get('return_module');
@@ -111,7 +111,7 @@ class ServiceContracts extends CRMEntity
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord)
+	public function getQueryByModuleField($module, $fieldname, $srcrecord)
 	{
 		// $srcrecord could be empty
 	}
@@ -119,7 +119,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * Get list view query.
 	 */
-	function getListQuery($module, $where = '')
+	public function getListQuery($module, $where = '')
 	{
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
@@ -165,7 +165,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	function getListViewSecurityParameter($module)
+	public function getListViewSecurityParameter($module)
 	{
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -213,7 +213,7 @@ class ServiceContracts extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
 	{
 
 		$matrix = $queryplanner->newDependencyMatrix();
@@ -255,7 +255,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		global $currentModule;
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -310,7 +310,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * Function which will give the basic query to find duplicates
 	 */
-	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
 		$select_clause = sprintf("SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s", $this->table_name, $this->table_index, $table_cols);
 
@@ -359,7 +359,7 @@ class ServiceContracts extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 
 		require_once('include/utils/utils.php');
@@ -404,7 +404,7 @@ class ServiceContracts extends CRMEntity
 	 * NOTE: This function has been added to CRMEntity (base class).
 	 * You can override the behavior by re-defining it here.
 	 */
-	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		if (!is_array($with_crmids))
 			$with_crmids = Array($with_crmids);
@@ -420,7 +420,7 @@ class ServiceContracts extends CRMEntity
 	}
 
 	// Function to Update the parent_id of HelpDesk with sc_related_to of ServiceContracts if the parent_id is not set.
-	function updateHelpDeskRelatedTo($focusId, $entityIds)
+	public function updateHelpDeskRelatedTo($focusId, $entityIds)
 	{
 
 		if (!is_array($entityIds))
@@ -450,7 +450,7 @@ class ServiceContracts extends CRMEntity
 	}
 
 	// Function to Compute and Update the Used Units and Progress of the Service Contract based on all the related Trouble tickets.
-	function updateServiceContractState($focusId)
+	public function updateServiceContractState($focusId)
 	{
 		$this->id = $focusId;
 		$this->retrieve_entity_info($focusId, 'ServiceContracts');
@@ -482,7 +482,7 @@ class ServiceContracts extends CRMEntity
 	}
 
 	// Function to Upate the Used Units of the Service Contract based on the given Ticket id.
-	function computeUsedUnits($ticketData, $operator = '+')
+	public function computeUsedUnits($ticketData, $operator = '+')
 	{
 		$trackingUnit = strtolower($this->column_fields['tracking_unit']);
 		$workingHoursPerDay = 24;
@@ -507,7 +507,7 @@ class ServiceContracts extends CRMEntity
 	}
 
 	// Function to Upate the Used Units of the Service Contract.
-	function updateUsedUnits($usedUnits)
+	public function updateUsedUnits($usedUnits)
 	{
 		$this->column_fields['used_units'] = $usedUnits;
 		$updateQuery = "UPDATE vtiger_servicecontracts SET used_units = $usedUnits WHERE servicecontractsid = ?";
@@ -580,7 +580,7 @@ class ServiceContracts extends CRMEntity
 	 * NOTE: This function has been added to CRMEntity (base class).
 	 * You can override the behavior by re-defining it here.
 	 */
-	function delete_related_module($module, $crmid, $with_module, $with_crmid)
+	public function delete_related_module($module, $crmid, $with_module, $with_crmid)
 	{
 		parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
 		if ($with_module == 'HelpDesk') {
@@ -595,7 +595,7 @@ class ServiceContracts extends CRMEntity
 	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 
 	/** Function to unlink an entity with given Id from another entity */
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		global $currentModule;
 		$log = LoggerManager::getInstance();
@@ -639,7 +639,7 @@ class ServiceContracts extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');

@@ -845,7 +845,7 @@ class nusoap_server extends nusoap_base
 	 * @return	mixed	value of the message, decoded into a PHP type
 	 * @access   private
 	 */
-	function parseRequest($headers, $data)
+	public function parseRequest($headers, $data)
 	{
 		$this->debug('Entering parseRequest() for data of length ' . strlen($data) . ' headers:');
 		$this->appendDebug($this->varDump($headers));
@@ -1053,7 +1053,7 @@ class nusoap_server extends nusoap_base
 	 * @param string $transport optional SOAP transport
 	 * @param mixed $schemaTargetNamespace optional 'types' targetNamespace for service schema or false
 	 */
-	function configureWSDL($serviceName, $namespace = false, $endpoint = false, $style = 'rpc', $transport = 'http://schemas.xmlsoap.org/soap/http', $schemaTargetNamespace = false)
+	public function configureWSDL($serviceName, $namespace = false, $endpoint = false, $style = 'rpc', $transport = 'http://schemas.xmlsoap.org/soap/http', $schemaTargetNamespace = false)
 	{
 		global $HTTP_SERVER_VARS;
 

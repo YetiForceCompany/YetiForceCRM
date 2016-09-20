@@ -16,7 +16,7 @@ class Mobile_UI_ModuleRecordModel
 	private $_id;
 	private $_blocks = array();
 
-	function initData($recordData)
+	public function initData($recordData)
 	{
 		$this->data = $recordData;
 		if (isset($recordData['blocks'])) {
@@ -27,22 +27,22 @@ class Mobile_UI_ModuleRecordModel
 		}
 	}
 
-	function setId($newId)
+	public function setId($newId)
 	{
 		$this->_id = $newId;
 	}
 
-	function id()
+	public function id()
 	{
 		return $this->data['id'];
 	}
 
-	function label()
+	public function label()
 	{
 		return $this->data['label'];
 	}
 
-	function blocks()
+	public function blocks()
 	{
 		return $this->_blocks;
 	}

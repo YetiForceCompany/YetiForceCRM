@@ -14,7 +14,7 @@ include_once 'include/utils/utils.php';
 class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('searchIncomingCalls');
 		$this->exposeMethod('createRecord');
@@ -154,7 +154,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	function checkPermissionForPolling(Vtiger_Request $request)
+	public function checkPermissionForPolling(Vtiger_Request $request)
 	{
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$callPermission = Users_Privileges_Model::isPermitted('PBXManager', 'ReceiveIncomingCalls');

@@ -25,14 +25,14 @@ class Webform_CheckCaptcha
 	/**
 	 * Function to intialize captch keys
 	 */
-	function __construct()
+	public function __construct()
 	{
 		global $captchaConfig;
 		$this->PUBLIC_KEY = $captchaConfig['VTIGER_RECAPTCHA_PUBLIC_KEY'];
 		$this->PRIVATE_KEY = $captchaConfig['VTIGER_RECAPTCHA_PRIVATE_KEY'];
 	}
 
-	function checkCaptchaNow($request)
+	public function checkCaptchaNow($request)
 	{
 		$request = AppRequest::init();
 		// to store the response from reCAPTCHA

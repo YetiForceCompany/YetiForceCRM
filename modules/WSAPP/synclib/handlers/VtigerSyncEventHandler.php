@@ -16,7 +16,7 @@ class WSAPP_VtigerSyncEventHandler extends SyncHandler
 
 	private $putOperationClientIdAndSyncKeyMapping = array();
 
-	function __construct($appkey)
+	public function __construct($appkey)
 	{
 		$this->syncServer = $this->getSyncServerInstance();
 		$this->key = $appkey;

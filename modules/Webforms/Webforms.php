@@ -17,7 +17,7 @@ class Webforms
 	// Cache to speed up describe information store
 	protected static $moduleDescribeCache = array();
 
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 
 		require_once('include/utils/utils.php');
@@ -49,7 +49,7 @@ class Webforms
 		}
 	}
 
-	function updateSettings()
+	public function updateSettings()
 	{
 		$adb = PearDatabase::getInstance();
 

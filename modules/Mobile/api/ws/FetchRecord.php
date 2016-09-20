@@ -33,7 +33,7 @@ class Mobile_WS_FetchRecord extends Mobile_WS_Controller
 		return $record;
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$current_user = $this->getActiveUser();
 		$record = $this->processRetrieve($request);
@@ -46,7 +46,7 @@ class Mobile_WS_FetchRecord extends Mobile_WS_Controller
 		return $response;
 	}
 
-	function resolveRecordValues(&$record, $user, $ignoreUnsetFields = false)
+	public function resolveRecordValues(&$record, $user, $ignoreUnsetFields = false)
 	{
 		if (empty($record))
 			return $record;
@@ -65,7 +65,7 @@ class Mobile_WS_FetchRecord extends Mobile_WS_Controller
 		}
 	}
 
-	function fetchRecordLabelForId($id, $user)
+	public function fetchRecordLabelForId($id, $user)
 	{
 		$value = null;
 

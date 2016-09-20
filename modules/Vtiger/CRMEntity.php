@@ -23,14 +23,14 @@ class Vtiger_CRMEntity extends CRMEntity
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
 
-	function __construct()
+	public function __construct()
 	{
 		$this->column_fields = getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
 		$this->log = LoggerManager::getInstance(get_class($this));
 	}
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		// Custom Save for Module
 	}
@@ -39,7 +39,7 @@ class Vtiger_CRMEntity extends CRMEntity
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord)
+	public function getQueryByModuleField($module, $fieldname, $srcrecord)
 	{
 		// $srcrecord could be empty
 	}
@@ -47,7 +47,7 @@ class Vtiger_CRMEntity extends CRMEntity
 	/**
 	 * Get list view query.
 	 */
-	function getListQuery($module, $where = '')
+	public function getListQuery($module, $where = '')
 	{
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
@@ -92,7 +92,7 @@ class Vtiger_CRMEntity extends CRMEntity
 	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	function getListViewSecurityParameter($module)
+	public function getListViewSecurityParameter($module)
 	{
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -137,7 +137,7 @@ class Vtiger_CRMEntity extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		global $current_user, $currentModule;
 
@@ -191,7 +191,7 @@ class Vtiger_CRMEntity extends CRMEntity
 	/**
 	 * Function which will give the basic query to find duplicates
 	 */
-	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
 		$select_clause = sprintf("SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s", $this->table_name, $this->table_index, $table_cols);
 

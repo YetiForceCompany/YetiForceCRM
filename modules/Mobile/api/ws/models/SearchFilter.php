@@ -15,27 +15,27 @@ class Mobile_WS_SearchFilterModel extends Mobile_WS_FilterModel
 
 	protected $criterias;
 
-	function __construct($moduleName)
+	public function __construct($moduleName)
 	{
 		$this->moduleName = $moduleName;
 	}
 
-	function query()
+	public function query()
 	{
 		return false;
 	}
 
-	function queryParameters()
+	public function queryParameters()
 	{
 		return false;
 	}
 
-	function setCriterias($criterias)
+	public function setCriterias($criterias)
 	{
 		$this->criterias = $criterias;
 	}
 
-	function execute($fieldnames, $pagingModel = false)
+	public function execute($fieldnames, $pagingModel = false)
 	{
 
 		$selectClause = sprintf("SELECT %s", implode(',', $fieldnames));

@@ -12,7 +12,7 @@
 class PriceBooks_ProductListPrice_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -20,7 +20,7 @@ class PriceBooks_ProductListPrice_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleModel = $request->getModule();

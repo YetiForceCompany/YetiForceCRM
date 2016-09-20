@@ -15,20 +15,20 @@ class dZip
 	var $files_count = 0;
 	var $fh;
 
-	Function dZip($filename, $overwrite = true)
+	public function dZip($filename, $overwrite = true)
 	{
 		$this->filename = $filename;
 		$this->overwrite = $overwrite;
 	}
 
-	Function addDir($dirname, $fileComments = '')
+	public function addDir($dirname, $fileComments = '')
 	{
 		if (substr($dirname, -1) != '/')
 			$dirname .= '/';
 		$this->addFile(false, $dirname, $fileComments);
 	}
 
-	Function addFile($filename, $cfilename, $fileComments = '', $data = false)
+	public function addFile($filename, $cfilename, $fileComments = '', $data = false)
 	{
 		if (!($fh = &$this->fh))
 			$fh = fopen($this->filename, $this->overwrite ? 'wb' : 'a+b');
@@ -101,12 +101,12 @@ class dZip
 		$this->files_count++;
 	}
 
-	Function setExtra($filename, $property, $value)
+	public function setExtra($filename, $property, $value)
 	{
 		$this->centraldirs[$filename][$property] = $value;
 	}
 
-	Function save($zipComments = '')
+	public function save($zipComments = '')
 	{
 		if (!($fh = &$this->fh))
 			$fh = fopen($this->filename, $this->overwrite ? 'w' : 'a+');
@@ -151,7 +151,7 @@ class dZip
 	}
 
 	// Private
-	Function appendCentralDir($filename, $properties)
+	public function appendCentralDir($filename, $properties)
 	{
 		$this->centraldirs[$filename] = $properties;
 	}

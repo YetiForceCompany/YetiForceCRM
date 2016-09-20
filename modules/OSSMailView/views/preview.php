@@ -12,7 +12,7 @@
 Class OSSMailView_preview_View extends Vtiger_Index_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');

@@ -99,7 +99,7 @@ class Mobile_WS_FetchRecordWithGrouping extends Mobile_WS_FetchRecord
 		return parent::processRetrieve($request);
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$response = parent::process($request);
 		return $this->processWithGrouping($request, $response);

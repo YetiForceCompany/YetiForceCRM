@@ -11,7 +11,7 @@
 class Settings_Vtiger_IndexAjax_View extends Settings_Vtiger_Index_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getSettingsShortCutBlock');

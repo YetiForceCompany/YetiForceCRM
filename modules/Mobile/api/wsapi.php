@@ -109,7 +109,7 @@ class Mobile_WS_API
 
 	private $controller;
 
-	function initController($className, $handlerPath, $user)
+	public function initController($className, $handlerPath, $user)
 	{
 		include_once dirname(__FILE__) . "/$handlerPath";
 
@@ -119,7 +119,7 @@ class Mobile_WS_API
 		return $this->controller;
 	}
 
-	function getController()
+	public function getController()
 	{
 		return $this->controller;
 	}

@@ -11,7 +11,7 @@
 class Vtiger_MergeRecord_View extends Vtiger_Popup_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$records = $request->get('records');
 		$records = explode(',', $records);

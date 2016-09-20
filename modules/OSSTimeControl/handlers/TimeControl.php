@@ -10,7 +10,7 @@
 class TimeControlHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $data)
+	public function handleEvent($eventName, $data)
 	{
 		if (!is_object($data)) {
 			$data = $data['entityData'];

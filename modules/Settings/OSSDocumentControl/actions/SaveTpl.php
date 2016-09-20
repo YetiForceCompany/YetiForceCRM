@@ -12,7 +12,7 @@
 class Settings_OSSDocumentControl_SaveTpl_Action extends Settings_Vtiger_Index_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		return;
 	}
@@ -41,7 +41,7 @@ class Settings_OSSDocumentControl_SaveTpl_Action extends Settings_Vtiger_Index_A
 		header("Location: index.php?module=OSSDocumentControl&parent=Settings&view=Index");
 	}
 
-	function addConditions($conditions, $relId, $mendatory = TRUE)
+	public function addConditions($conditions, $relId, $mendatory = TRUE)
 	{
 		$db = PearDatabase::getInstance();
 

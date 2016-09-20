@@ -312,7 +312,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function transforms Advance filter to workflow conditions
 	 */
-	function transformAdvanceFilterToWorkFlowFilter()
+	public function transformAdvanceFilterToWorkFlowFilter()
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');

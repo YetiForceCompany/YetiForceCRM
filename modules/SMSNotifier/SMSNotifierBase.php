@@ -84,7 +84,7 @@ class SMSNotifierBase extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'message', 'assigned_user_id');
 
-	function __construct()
+	public function __construct()
 	{
 		global $currentModule;
 		$log = LoggerManager::getInstance();
@@ -93,7 +93,7 @@ class SMSNotifierBase extends CRMEntity
 		$this->log = $log;
 	}
 
-	function getSortOrder()
+	public function getSortOrder()
 	{
 		$currentModule = vglobal('currentModule');
 
@@ -106,7 +106,7 @@ class SMSNotifierBase extends CRMEntity
 		return $sortorder;
 	}
 
-	function getOrderBy()
+	public function getOrderBy()
 	{
 		$orderby = $this->default_order_by;
 		if (!AppRequest::isEmpty('order_by'))
@@ -116,7 +116,7 @@ class SMSNotifierBase extends CRMEntity
 		return $orderby;
 	}
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}
@@ -125,7 +125,7 @@ class SMSNotifierBase extends CRMEntity
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord)
+	public function getQueryByModuleField($module, $fieldname, $srcrecord)
 	{
 		// $srcrecord could be empty
 	}
@@ -133,7 +133,7 @@ class SMSNotifierBase extends CRMEntity
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
 	 */
-	function getListQuery($module, $usewhere = false)
+	public function getListQuery($module, $usewhere = false)
 	{
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
@@ -182,7 +182,7 @@ class SMSNotifierBase extends CRMEntity
 	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	function getListViewSecurityParameter($module)
+	public function getListViewSecurityParameter($module)
 	{
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -227,7 +227,7 @@ class SMSNotifierBase extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$current_user = vglobal('current_user');
 		$thismodule = AppRequest::get('module');
@@ -289,7 +289,7 @@ class SMSNotifierBase extends CRMEntity
 	/**
 	 * Transform the value while exporting (if required)
 	 */
-	function transform_export_value($key, $value)
+	public function transform_export_value($key, $value)
 	{
 		return parent::transform_export_value($key, $value);
 	}
@@ -297,7 +297,7 @@ class SMSNotifierBase extends CRMEntity
 	/**
 	 * Function which will give the basic query to find duplicates
 	 */
-	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
 		$select_clause = "SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s";
 		$select_clause = sprintf($select_clause, $this->table_name, $this->table_index, $table_cols);
@@ -347,7 +347,7 @@ class SMSNotifierBase extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 
 		//adds sharing accsess

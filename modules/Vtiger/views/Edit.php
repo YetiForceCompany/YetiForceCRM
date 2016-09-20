@@ -14,7 +14,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 
 	protected $record = false;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
@@ -149,7 +149,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 
-	function getDuplicate($record, $moduleName)
+	public function getDuplicate($record, $moduleName)
 	{
 		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$recordModel->set('id', '');
@@ -171,7 +171,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$parentScript = parent::getFooterScripts($request);
 

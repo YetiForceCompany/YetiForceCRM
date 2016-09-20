@@ -103,7 +103,7 @@ class OSSSoldServices extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
 			\includes\fields\RecordNumber::setNumber($modulename, 'US', '1');

@@ -12,7 +12,7 @@
 class Settings_OSSProjectTemplates_UpdateTemplate_Action extends Settings_Vtiger_Index_Action
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 
 		$baseModuleName = $request->get('base_module');
@@ -77,7 +77,7 @@ class Settings_OSSProjectTemplates_UpdateTemplate_Action extends Settings_Vtiger
 		header("Location: index.php?module=OSSProjectTemplates&parent=Settings&view=" . $backView . '&tpl_id=' . $backIdTpl);
 	}
 
-	function getLastTplId($moduleName)
+	public function getLastTplId($moduleName)
 	{
 		$db = PearDatabase::getInstance();
 

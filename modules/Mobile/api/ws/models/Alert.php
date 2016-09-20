@@ -19,22 +19,22 @@ abstract class Mobile_WS_AlertModel
 	var $recordsLinked; // TRUE if message is based on records of module, FALSE otherwise
 	protected $user;
 
-	function __construct()
+	public function __construct()
 	{
 		$this->recordsLinked = true;
 	}
 
-	function setUser($userInstance)
+	public function setUser($userInstance)
 	{
 		$this->user = $userInstance;
 	}
 
-	function getUser()
+	public function getUser()
 	{
 		return $this->user;
 	}
 
-	function serializeToSend()
+	public function serializeToSend()
 	{
 		$category = $this->moduleName;
 		if (empty($category)) {
@@ -54,7 +54,7 @@ abstract class Mobile_WS_AlertModel
 
 	abstract function queryParameters();
 
-	function message()
+	public function message()
 	{
 		return (string) $this->executeCount();
 	}
@@ -64,7 +64,7 @@ abstract class Mobile_WS_AlertModel
 	  return $result;
 	  } */
 
-	function executeCount()
+	public function executeCount()
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery($this->countQuery(), $this->queryParameters());

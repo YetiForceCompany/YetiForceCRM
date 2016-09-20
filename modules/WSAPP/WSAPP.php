@@ -18,7 +18,7 @@ class WSAPP
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
 			$this->initCustomWebserviceOperations();
@@ -43,7 +43,7 @@ class WSAPP
 		}
 	}
 
-	function initCustomWebserviceOperations()
+	public function initCustomWebserviceOperations()
 	{
 		$operations = array();
 
@@ -75,7 +75,7 @@ class WSAPP
 		$this->registerCustomWebservices($operations);
 	}
 
-	function registerCustomWebservices($operations)
+	public function registerCustomWebservices($operations)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -106,7 +106,7 @@ class WSAPP
 		}
 	}
 
-	function registerHandlers()
+	public function registerHandlers()
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -128,7 +128,7 @@ class WSAPP
 			$adb->pquery("INSERT INTO vtiger_wsapp_handlerdetails VALUES(?,?,?)", array($appHandlerDetails['type'], $appHandlerDetails['handlerclass'], $appHandlerDetails['handlerpath']));
 	}
 
-	function registerVtigerCRMApp()
+	public function registerVtigerCRMApp()
 	{
 		$db = PearDatabase::getInstance();
 		$appName = "vtigerCRM";
@@ -137,7 +137,7 @@ class WSAPP
 		$db->pquery("INSERT INTO vtiger_wsapp (name, appkey,type) VALUES(?,?,?)", array($appName, $uid, $type));
 	}
 
-	function registerWsappWorkflowhandler()
+	public function registerWsappWorkflowhandler()
 	{
 		$db = PearDatabase::getInstance();
 		$em = new VTEventsManager($db);
@@ -146,7 +146,7 @@ class WSAPP
 		$em->registerHandler('vtiger.entity.aftersave', 'modules/WSAPP/WorkFlowHandlers/WSAPPAssignToTracker.php', 'WSAPPAssignToTracker', '', $dependentEventHandlersJson);
 	}
 
-	function registerSynclibEventHandler()
+	public function registerSynclibEventHandler()
 	{
 		$className = 'WSAPP_VtigerSyncEventHandler';
 		$path = 'modules/WSAPP/synclib/handlers/VtigerSyncEventHandler.php';

@@ -12,7 +12,7 @@
 Class Reports_ChartEdit_View extends Vtiger_Edit_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('step1');
@@ -77,7 +77,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$this->step1($request);
 	}
 
-	function step1(Vtiger_Request $request)
+	public function step1(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -130,7 +130,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$viewer->view('ChartEditStep1.tpl', $moduleName);
 	}
 
-	function step2(Vtiger_Request $request)
+	public function step2(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -197,7 +197,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$viewer->view('ChartEditStep2.tpl', $moduleName);
 	}
 
-	function step3(Vtiger_request $request)
+	public function step3(Vtiger_request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -249,7 +249,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

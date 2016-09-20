@@ -9,7 +9,7 @@
 class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	function getSearchParams($assignedto = '', $dateStart, $dateEnd)
+	public function getSearchParams($assignedto = '', $dateStart, $dateEnd)
 	{
 		$conditions = [];
 		$listSearchParams = [];

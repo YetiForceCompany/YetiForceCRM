@@ -9,7 +9,7 @@
 class Settings_Users_Locks_View extends Settings_Vtiger_Index_View
 {
 
-	function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		return vtranslate('LBL_LOCKS', $request->getModule(false));
 	}
@@ -28,7 +28,7 @@ class Settings_Users_Locks_View extends Settings_Vtiger_Index_View
 		$viewer->view('Locks.tpl', $qualifiedModuleName);
 	}
 
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

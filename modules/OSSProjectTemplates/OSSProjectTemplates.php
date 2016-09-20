@@ -14,7 +14,7 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class OSSProjectTemplates extends Vtiger_CRMEntity
 {
 
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 
 		$db = PearDatabase::getInstance();

@@ -9,7 +9,7 @@
 class OpenStreetMap
 {
 
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		if ($eventType == 'module.postinstall') {
 			$db = PearDatabase::getInstance();

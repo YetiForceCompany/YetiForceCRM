@@ -31,7 +31,7 @@ class Vtiger_Inventory_Model
 	/**
 	 * Initialize this instance
 	 */
-	function initialize($name)
+	public function initialize($name)
 	{
 		$this->name = $name;
 	}

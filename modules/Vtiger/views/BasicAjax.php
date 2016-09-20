@@ -12,29 +12,29 @@
 class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showAdvancedSearch');
 		$this->exposeMethod('showSearchResults');
 	}
 
-	function checkPermission()
+	public function checkPermission()
 	{
 		
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -47,7 +47,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 * Function to display the UI for advance search on any of the module
 	 * @param Vtiger_Request $request
 	 */
-	function showAdvancedSearch(Vtiger_Request $request)
+	public function showAdvancedSearch(Vtiger_Request $request)
 	{
 		//Modules for which search is excluded
 		$excludedModuleForSearch = array('Vtiger', 'Reports');
@@ -107,7 +107,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 * Function to display the Search Results
 	 * @param Vtiger_Request $request
 	 */
-	function showSearchResults(Vtiger_Request $request)
+	public function showSearchResults(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
 

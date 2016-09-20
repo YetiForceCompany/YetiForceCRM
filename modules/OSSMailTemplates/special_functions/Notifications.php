@@ -11,7 +11,7 @@ class Notifications
 
 	private $moduleList = ['all'];
 
-	function process($data)
+	public function process($data)
 	{
 		$siteURL = vglobal('site_URL');
 		$html = '';
@@ -47,7 +47,7 @@ class Notifications
 		return $html;
 	}
 
-	function getNotificationsConditions($data, $modules)
+	public function getNotificationsConditions($data, $modules)
 	{
 		$db = PearDatabase::getInstance();
 		$conditions = '';
@@ -65,7 +65,7 @@ class Notifications
 		return $conditions;
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

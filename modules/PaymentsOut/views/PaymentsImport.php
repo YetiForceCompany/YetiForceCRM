@@ -12,7 +12,7 @@
 class PaymentsOut_PaymentsImport_View extends Vtiger_Index_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 
 		$type = array();

@@ -16,7 +16,7 @@ class Mobile_WS_QueryWithGrouping extends Mobile_WS_Query
 
 	private $queryModule;
 
-	function processQueryResultRecord($record, $user)
+	public function processQueryResultRecord($record, $user)
 	{
 		parent::processQueryResultRecord($record, $user);
 
@@ -30,7 +30,7 @@ class Mobile_WS_QueryWithGrouping extends Mobile_WS_Query
 		return $transformedRecord;
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$this->queryModule = $request->get('module');
 		return parent::process($request);

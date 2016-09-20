@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . '/PendingTicketsOfMine.php';
 class Mobile_WS_AlertModel_IdleTicketsOfMine extends Mobile_WS_AlertModel_PendingTicketsOfMine
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->name = 'Idle Ticket Alert';
@@ -22,7 +22,7 @@ class Mobile_WS_AlertModel_IdleTicketsOfMine extends Mobile_WS_AlertModel_Pendin
 		$this->description = 'Alert sent when ticket has not been updated in 24 hours';
 	}
 
-	function query()
+	public function query()
 	{
 		$sql = parent::query();
 		$sql .= " && DATEDIFF(CURDATE(), vtiger_crmentity.modifiedtime) > 1";

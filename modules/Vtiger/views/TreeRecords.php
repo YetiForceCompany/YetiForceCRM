@@ -49,7 +49,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$branches = $request->get('branches');
 		$filter = $request->get('filter');

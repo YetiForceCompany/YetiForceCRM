@@ -14,13 +14,13 @@ include_once 'include/Webservices/Query.php';
 class Mobile_WS_Query extends Mobile_WS_FetchRecordWithGrouping
 {
 
-	function processQueryResultRecord(&$record, $user)
+	public function processQueryResultRecord(&$record, $user)
 	{
 		$this->resolveRecordValues($record, $user);
 		return $record;
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$current_user = $this->getActiveUser();
 

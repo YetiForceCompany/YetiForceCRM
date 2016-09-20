@@ -12,7 +12,7 @@
 class Products_Widget_View extends Vtiger_Index_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showProductsServices');
@@ -27,7 +27,7 @@ class Products_Widget_View extends Vtiger_Index_View
 		}
 	}
 
-	function showProductsServices(Vtiger_Request $request)
+	public function showProductsServices(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$fromModule = $request->get('fromModule');

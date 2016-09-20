@@ -170,7 +170,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * @param String $moduleName
 	 * @return Array(success:true/false)
 	 * */
-	function saveDetails($data, $moduleName)
+	public function saveDetails($data, $moduleName)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::saveDetails($moduleName) method ...");

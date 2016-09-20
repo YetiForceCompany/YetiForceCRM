@@ -93,7 +93,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	 * @param  integer   $id      - employeeid
 	 * returns Employees hierarchy in array format
 	 */
-	function getEmployeeHierarchy($id)
+	public function getEmployeeHierarchy($id)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -151,7 +151,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		return $hierarchy;
 	}
 
-	function __getParentEmployees($id, &$parent_accounts, &$encountered_accounts)
+	public function __getParentEmployees($id, &$parent_accounts, &$encountered_accounts)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -202,7 +202,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		return $parent_accounts;
 	}
 
-	function __getChildEmployees($id, &$child_accounts, $depth)
+	public function __getChildEmployees($id, &$child_accounts, $depth)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -264,7 +264,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function get_osstimecontrol($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_osstimecontrol($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -325,7 +325,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		return $return_value;
 	}
 
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {

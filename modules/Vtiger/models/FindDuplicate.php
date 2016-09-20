@@ -21,7 +21,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		return $this->module;
 	}
 
-	function getListViewHeaders()
+	public function getListViewHeaders()
 	{
 		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
@@ -37,7 +37,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		return $listViewHeaders;
 	}
 
-	function getListViewEntries(Vtiger_Paging_Model $paging)
+	public function getListViewEntries(Vtiger_Paging_Model $paging)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();

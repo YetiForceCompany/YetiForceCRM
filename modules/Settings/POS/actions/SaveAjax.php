@@ -9,7 +9,7 @@
 class Settings_POS_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
 
-	function checkIfUsersExists($userId)
+	public function checkIfUsersExists($userId)
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT 1 FROM w_yf_pos_users WHERE user_id = ?', [$userId]);
@@ -19,7 +19,7 @@ class Settings_POS_SaveAjax_Action extends Settings_Vtiger_Index_Action
 		return false;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$keyLength = 32;
 		$userId = $request->get('user');

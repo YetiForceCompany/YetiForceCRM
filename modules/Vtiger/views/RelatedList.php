@@ -12,7 +12,7 @@
 class Vtiger_RelatedList_View extends Vtiger_Index_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');

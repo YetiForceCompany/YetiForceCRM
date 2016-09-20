@@ -183,12 +183,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 	}
 
-	function preProcessTplName(Vtiger_Request $request)
+	public function preProcessTplName(Vtiger_Request $request)
 	{
 		return 'DetailViewPreProcess.tpl';
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -262,7 +262,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	function showDetailViewByMode($request)
+	public function showDetailViewByMode($request)
 	{
 		$requestMode = $request->get('requestMode');
 		if ($requestMode == 'full') {
@@ -302,7 +302,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
 	}
 
-	function showModuleSummaryView($request)
+	public function showModuleSummaryView($request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -379,7 +379,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Function returns recent changes made on the record
 	 * @param Vtiger_Request $request
 	 */
-	function showRecentActivities(Vtiger_Request $request)
+	public function showRecentActivities(Vtiger_Request $request)
 	{
 		$type = 'changes';
 		$parentRecordId = $request->get('record');
@@ -440,7 +440,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showRecentComments(Vtiger_Request $request)
+	public function showRecentComments(Vtiger_Request $request)
 	{
 		$parentId = $request->get('record');
 		$pageNumber = $request->get('page');
@@ -477,7 +477,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showRelatedList(Vtiger_Request $request)
+	public function showRelatedList(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
@@ -506,7 +506,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showChildComments(Vtiger_Request $request)
+	public function showChildComments(Vtiger_Request $request)
 	{
 		$parentCommentId = $request->get('commentid');
 		$parentCommentModel = ModComments_Record_Model::getInstanceById($parentCommentId);
@@ -527,7 +527,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showThreadComments(Vtiger_Request $request)
+	public function showThreadComments(Vtiger_Request $request)
 	{
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
@@ -548,7 +548,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showAllComments(Vtiger_Request $request)
+	public function showAllComments(Vtiger_Request $request)
 	{
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
@@ -591,7 +591,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Record_Model record model
 	 * @return <boolean> true/false
 	 */
-	function isAjaxEnabled($recordModel)
+	public function isAjaxEnabled($recordModel)
 	{
 		return $recordModel->isEditable();
 	}
@@ -655,7 +655,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showRelatedRecords(Vtiger_Request $request)
+	public function showRelatedRecords(Vtiger_Request $request)
 	{
 		$parentId = $request->get('record');
 		$pageNumber = $request->get('page');
@@ -763,7 +763,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, 'true');
 	}
 
-	function showRelatedTree(Vtiger_Request $request)
+	public function showRelatedTree(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$parentId = $request->get('record');
@@ -788,7 +788,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('RelatedTreeContent.tpl', $moduleName, 'true');
 	}
 
-	function showRelatedProductsServices(Vtiger_Request $request)
+	public function showRelatedProductsServices(Vtiger_Request $request)
 	{
 
 		$recordId = $request->get('record');

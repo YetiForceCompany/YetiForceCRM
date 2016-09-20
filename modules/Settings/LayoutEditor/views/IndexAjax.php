@@ -11,7 +11,7 @@
 class Settings_LayoutEditor_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('getFieldUI');
 	}

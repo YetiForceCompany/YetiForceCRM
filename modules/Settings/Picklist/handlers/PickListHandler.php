@@ -3,7 +3,7 @@
 class PickListHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -19,7 +19,7 @@ class PickListHandler extends VTEventHandler
 	 * Function to perform operation after picklist rename
 	 * @param type $entityData
 	 */
-	function operationsAfterPicklistRename($entityData)
+	public function operationsAfterPicklistRename($entityData)
 	{
 
 		$db = PearDatabase::getInstance();
@@ -183,7 +183,7 @@ class PickListHandler extends VTEventHandler
 	 * Function to perform operation after picklist delete
 	 * @param type $entityData
 	 */
-	function operationsAfterPicklistDelete($entityData)
+	public function operationsAfterPicklistDelete($entityData)
 	{
 		$db = PearDatabase::getInstance();
 		$pickListFieldName = $entityData['fieldname'];

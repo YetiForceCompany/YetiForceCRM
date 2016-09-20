@@ -237,7 +237,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	 * @param vtlib\Link $widgetLink
 	 * @param Current Smarty Context $context
 	 */
-	function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
+	public function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
 	{
 		if (preg_match("/^block:\/\/(.*)/", $widgetLink->get('linkurl'), $matches)) {
 			list($widgetControllerClass, $widgetControllerClassFile) = explode(':', $matches[1]);

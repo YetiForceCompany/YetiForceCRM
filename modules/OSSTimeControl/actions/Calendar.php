@@ -4,7 +4,7 @@
 class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getEvent');
@@ -19,7 +19,7 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {

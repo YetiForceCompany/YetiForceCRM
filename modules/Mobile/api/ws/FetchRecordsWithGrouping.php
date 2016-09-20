@@ -15,7 +15,7 @@ include_once dirname(__FILE__) . '/models/Alert.php';
 class Mobile_WS_FetchRecordsWithGrouping extends Mobile_WS_FetchRecordWithGrouping
 {
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$response = new Mobile_API_Response();
 		$current_user = $this->getActiveUser();
@@ -58,7 +58,7 @@ class Mobile_WS_FetchRecordsWithGrouping extends Mobile_WS_FetchRecordWithGroupi
 		return $response;
 	}
 
-	function fetchRecordsWithId($module, $idlist, $user)
+	public function fetchRecordsWithId($module, $idlist, $user)
 	{
 		if (empty($idlist))
 			return array();
@@ -74,7 +74,7 @@ class Mobile_WS_FetchRecordsWithGrouping extends Mobile_WS_FetchRecordWithGroupi
 		return $resolvedRecords;
 	}
 
-	function fetchAlertRecords($module, $alert)
+	public function fetchAlertRecords($module, $alert)
 	{
 		$adb = PearDatabase::getInstance();
 

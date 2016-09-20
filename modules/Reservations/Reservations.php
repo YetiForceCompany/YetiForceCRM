@@ -90,7 +90,7 @@ class Reservations extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		$registerLink = false;
 		$adb = PearDatabase::getInstance();
@@ -123,7 +123,7 @@ class Reservations extends Vtiger_CRMEntity
 		}
 	}
 
-	function retrieve_entity_info($record, $module)
+	public function retrieve_entity_info($record, $module)
 	{
 		parent::retrieve_entity_info($record, $module);
 		$start = DateTimeField::convertToUserTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
@@ -132,7 +132,7 @@ class Reservations extends Vtiger_CRMEntity
 		$this->column_fields['due_date'] = $end->format('Y-m-d');
 	}
 
-	function saveentity($module_name, $fileid = '')
+	public function saveentity($module_name, $fileid = '')
 	{
 		$date_start = $this->column_fields['date_start'];
 		$due_date = $this->column_fields['due_date'];

@@ -19,7 +19,7 @@ class LayoutImport extends LayoutExport
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_export_tmpdir;
@@ -29,7 +29,7 @@ class LayoutImport extends LayoutExport
 	 * Initialize Import
 	 * @access private
 	 */
-	function initImport($zipfile, $overwrite)
+	public function initImport($zipfile, $overwrite)
 	{
 		$name = $this->getModuleNameFromZip($zipfile);
 		return $name;
@@ -40,7 +40,7 @@ class LayoutImport extends LayoutExport
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function import($zipfile, $overwrite = false)
+	public function import($zipfile, $overwrite = false)
 	{
 		$this->initImport($zipfile, $overwrite);
 
@@ -54,7 +54,7 @@ class LayoutImport extends LayoutExport
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function update($instance, $zipfile, $overwrite = true)
+	public function update($instance, $zipfile, $overwrite = true)
 	{
 		$this->import($zipfile, $overwrite);
 	}
@@ -63,7 +63,7 @@ class LayoutImport extends LayoutExport
 	 * Import Layout
 	 * @access private
 	 */
-	function import_Layout($zipfile)
+	public function import_Layout($zipfile)
 	{
 		$name = $this->_modulexml->name;
 		$label = $this->_modulexml->label;

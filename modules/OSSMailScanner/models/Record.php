@@ -223,7 +223,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $mail->getActionResult();
 	}
 
-	function manualScanMail($params)
+	public function manualScanMail($params)
 	{
 		$account = OSSMail_Record_Model::getAccountByHash($params['rcId']);
 		if (!$account) {

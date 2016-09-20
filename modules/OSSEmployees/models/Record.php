@@ -16,7 +16,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 	 * Function returns the details of Employees Hierarchy
 	 * @return <Array>
 	 */
-	function getEmployeeHierarchy()
+	public function getEmployeeHierarchy()
 	{
 		$focus = CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getEmployeeHierarchy($this->getId());
@@ -93,7 +93,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 		return $allWorkDay;
 	}
 
-	function workDays($firstDate, $secondDate)
+	public function workDays($firstDate, $secondDate)
 	{
 		$firstDate = strtotime($firstDate);
 		$secondDate = strtotime($secondDate);

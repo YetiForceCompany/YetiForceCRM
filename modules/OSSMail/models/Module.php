@@ -59,7 +59,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	function getComposeParam(Vtiger_Request $request)
+	public function getComposeParam(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('crmModule');
 		$record = $request->get('crmRecord');
@@ -186,7 +186,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	function getExternalUrlForWidget($record, $type, $srecord = false, $smoduleName = false)
+	public function getExternalUrlForWidget($record, $type, $srecord = false, $smoduleName = false)
 	{
 		if (is_object($record)) {
 			$body = $record->get('content');

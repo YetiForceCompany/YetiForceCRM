@@ -11,7 +11,7 @@
 class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('updateFieldPinnedStatus');
@@ -25,7 +25,7 @@ class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {

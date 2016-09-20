@@ -48,7 +48,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	 * @return <Boolean> - true if fetched new exchange rates, false otherwise
 	 */
 
-	function fetchCurrencyRates($dateCur, $cron = false)
+	public function fetchCurrencyRates($dateCur, $cron = false)
 	{
 
 		$db = PearDatabase::getInstance();

@@ -15,52 +15,52 @@ class Mobile_WS_PagingModel
 	var $_limit;
 	var $_page;
 
-	function __construct()
+	public function __construct()
 	{
 		$this->_limit = Mobile::config('API_RECORD_FETCH_LIMIT', 20);
 	}
 
-	function start()
+	public function start()
 	{
 		return $this->_start;
 	}
 
-	function limit()
+	public function limit()
 	{
 		return $this->_limit;
 	}
 
-	function currentCount()
+	public function currentCount()
 	{
 		return ($this->current() * $this->limit());
 	}
 
-	function current()
+	public function current()
 	{
 		return $this->_page;
 	}
 
-	function next()
+	public function next()
 	{
 		return ($this->current() + 1);
 	}
 
-	function previous()
+	public function previous()
 	{
 		return ($this->current() < 1 ? 0 : ($this->current() - 1));
 	}
 
-	function hasNext($countOnPage)
+	public function hasNext($countOnPage)
 	{
 		return ($countOnPage >= $this->limit());
 	}
 
-	function hasPrevious()
+	public function hasPrevious()
 	{
 		return ($this->start() != 0);
 	}
 
-	function initStart($page)
+	public function initStart($page)
 	{
 
 		if (empty($page))
@@ -73,7 +73,7 @@ class Mobile_WS_PagingModel
 			$this->_start = ($page * $this->_limit);
 	}
 
-	function setLimit($limit)
+	public function setLimit($limit)
 	{
 		$this->_limit = $limit;
 	}

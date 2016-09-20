@@ -11,7 +11,7 @@
 class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
@@ -62,7 +62,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {

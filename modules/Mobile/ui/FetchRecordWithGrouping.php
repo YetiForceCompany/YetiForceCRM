@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . '/../api/ws/FetchRecordWithGrouping.php';
 class Mobile_UI_FetchRecordWithGrouping extends Mobile_WS_FetchRecordWithGrouping
 {
 
-	function cachedModuleLookupWithRecordId($recordId)
+	public function cachedModuleLookupWithRecordId($recordId)
 	{
 		$recordIdComponents = explode('x', $recordId);
 		$modules = $this->sessionGet('_MODULES'); // Should be available post login
@@ -25,7 +25,7 @@ class Mobile_UI_FetchRecordWithGrouping extends Mobile_WS_FetchRecordWithGroupin
 		return false;
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$wsResponse = parent::process($request);
 

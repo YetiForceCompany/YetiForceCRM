@@ -17,12 +17,12 @@ class Settings_POS_CreateKey_View extends Settings_Vtiger_BasicModal_View
 		}
 	}
 
-	function getSize()
+	public function getSize()
 	{
 		return 'modal-lg';
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();

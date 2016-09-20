@@ -33,7 +33,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		}
 	}
 
-	function preProcessTplName(Vtiger_Request $request)
+	public function preProcessTplName(Vtiger_Request $request)
 	{
 		return 'UserEditViewPreProcess.tpl';
 	}

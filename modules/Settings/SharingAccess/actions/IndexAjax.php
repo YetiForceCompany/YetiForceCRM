@@ -12,7 +12,7 @@
 Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking();
 		parent::__construct();

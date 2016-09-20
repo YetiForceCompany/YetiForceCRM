@@ -17,7 +17,7 @@ class Mobile_UI_LoginAndFetchModules extends Mobile_WS_LoginAndFetchModules
 		$this->sessionSet("_MODULES", $modules);
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$wsResponse = parent::process($request);
 

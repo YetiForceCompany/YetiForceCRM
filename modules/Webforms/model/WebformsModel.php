@@ -15,7 +15,7 @@ class Webforms_Model
 	public $data;
 	protected $fields = array();
 
-	function __construct($values = array())
+	public function __construct($values = array())
 	{
 		$this->setData($values);
 	}
@@ -25,7 +25,7 @@ class Webforms_Model
 		$this->fields[] = $field;
 	}
 
-	function setData($data)
+	public function setData($data)
 	{
 		$this->data = $data;
 		if (isset($data["fields"])) {
@@ -42,22 +42,22 @@ class Webforms_Model
 		}
 	}
 
-	function hasId()
+	public function hasId()
 	{
 		return !empty($this->data['id']);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->data["id"] = $id;
 	}
 
-	function setName($name)
+	public function setName($name)
 	{
 		$this->data["name"] = $name;
 	}
 
-	function setTargetModule($module)
+	public function setTargetModule($module)
 	{
 		$this->data["targetmodule"] = $module;
 	}
@@ -67,27 +67,27 @@ class Webforms_Model
 		$this->data["publicid"] = $publicid;
 	}
 
-	function setEnabled($enabled)
+	public function setEnabled($enabled)
 	{
 		$this->data["enabled"] = $enabled;
 	}
 
-	function setDescription($description)
+	public function setDescription($description)
 	{
 		$this->data["description"] = $description;
 	}
 
-	function setReturnUrl($returnurl)
+	public function setReturnUrl($returnurl)
 	{
 		$this->data["returnurl"] = $returnurl;
 	}
 
-	function setOwnerId($ownerid)
+	public function setOwnerId($ownerid)
 	{
 		$this->data["ownerid"];
 	}
 
-	function setFields(array $fieldNames, $required, $value)
+	public function setFields(array $fieldNames, $required, $value)
 	{
 		require_once 'include/fields/DateTimeField.php';
 		foreach ($fieldNames as $ind => $fieldname) {
@@ -121,52 +121,52 @@ class Webforms_Model
 		}
 	}
 
-	function getId()
+	public function getId()
 	{
 		return vtlib_purify($this->data["id"]);
 	}
 
-	function getName()
+	public function getName()
 	{
 		return html_entity_decode(vtlib_purify($this->data["name"]));
 	}
 
-	function getTargetModule()
+	public function getTargetModule()
 	{
 		return vtlib_purify($this->data["targetmodule"]);
 	}
 
-	function getPublicId()
+	public function getPublicId()
 	{
 		return vtlib_purify($this->data["publicid"]);
 	}
 
-	function getEnabled()
+	public function getEnabled()
 	{
 		return vtlib_purify($this->data["enabled"]);
 	}
 
-	function getDescription()
+	public function getDescription()
 	{
 		return vtlib_purify($this->data["description"]);
 	}
 
-	function getReturnUrl()
+	public function getReturnUrl()
 	{
 		return vtlib_purify($this->data["returnurl"]);
 	}
 
-	function getOwnerId()
+	public function getOwnerId()
 	{
 		return vtlib_purify($this->data["ownerid"]);
 	}
 
-	function getRoundrobin()
+	public function getRoundrobin()
 	{
 		return vtlib_purify($this->data["roundrobin"]);
 	}
 
-	function getRoundrobinOwnerId()
+	public function getRoundrobinOwnerId()
 	{
 		$adb = PearDatabase::getInstance();
 		$roundrobin_userid = vtlib_purify($this->data["roundrobin_userid"]);
@@ -180,12 +180,12 @@ class Webforms_Model
 		return vtlib_purify($roundrobinOwnerId);
 	}
 
-	function getFields()
+	public function getFields()
 	{
 		return $this->fields;
 	}
 
-	function generatePublicId($name)
+	public function generatePublicId($name)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -193,7 +193,7 @@ class Webforms_Model
 		return $uid;
 	}
 
-	function retrieveFields()
+	public function retrieveFields()
 	{
 		$adb = PearDatabase::getInstance();
 		$fieldsResult = $adb->pquery("SELECT * FROM vtiger_webforms_field WHERE webformid=?", array($this->getId()));
@@ -203,7 +203,7 @@ class Webforms_Model
 		return $this;
 	}
 
-	function save()
+	public function save()
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -240,7 +240,7 @@ class Webforms_Model
 		return true;
 	}
 
-	function delete()
+	public function delete()
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');

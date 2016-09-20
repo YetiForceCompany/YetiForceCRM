@@ -16,7 +16,7 @@ require_once( 'modules/Users/models/Record.php' );
 class SECURE extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		global $log, $adb, $current;
 		$moduleName = $entityData->getModuleName();

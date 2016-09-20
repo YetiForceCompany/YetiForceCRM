@@ -90,7 +90,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		$registerLink = false;
 		$displayLabel = 'Time Control';
@@ -120,7 +120,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		}
 	}
 
-	function retrieve_entity_info($record, $module)
+	public function retrieve_entity_info($record, $module)
 	{
 		parent::retrieve_entity_info($record, $module);
 		$start = DateTimeField::convertToUserTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
@@ -129,7 +129,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		$this->column_fields['due_date'] = $end->format('Y-m-d');
 	}
 
-	function saveentity($module_name, $fileid = '')
+	public function saveentity($module_name, $fileid = '')
 	{
 		$date_start = $this->column_fields['date_start'];
 		$due_date = $this->column_fields['due_date'];
@@ -144,7 +144,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 
 	/** Function to unlink an entity with given Id from another entity */
 	// TODO This function was placed here because uitype fields (67, 68, 69) exist in this module. Once the way of getting modules for these fields is improved, you should correct the parent::unlinkRelationship() function, and remove this one.
-	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $currentModule;
 		$log = LoggerManager::getInstance();
@@ -187,7 +187,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		}
 	}
 
-	function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
+	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
 		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule=?)', [$module, $withModule]);
 		if ($fieldRes->rowCount()) {

@@ -807,7 +807,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 		$db->pquery('UPDATE `vtiger_cron_task` SET `laststart` = ? WHERE `module` = ?;', [0, 'BackUp']);
 	}
 
-	function getTime()
+	public function getTime()
 	{
 		$a = explode(' ', microtime());
 		return (double) $a[0] + $a[1];

@@ -615,7 +615,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * fields its reference_field_name : (reference_module_name) field - salesorder_id: (SalesOrder) subject
 	 * @return <String>
 	 */
-	function getWorkFlowFilterColumnName()
+	public function getWorkFlowFilterColumnName()
 	{
 		return $this->get('workflow_columnname');
 	}
@@ -743,7 +743,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		return $this->fieldInfo;
 	}
 
-	function setFieldInfo($fieldInfo)
+	public function setFieldInfo($fieldInfo)
 	{
 		$this->fieldInfo = $fieldInfo;
 	}
@@ -906,7 +906,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Added function that returns the folders in a Document
 	 * @return <Array>
 	 */
-	function getDocumentFolders()
+	public function getDocumentFolders()
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT `tree`,`name` FROM
@@ -929,7 +929,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Function checks if the current Field is Read/Write
 	 * @return <Boolean>
 	 */
-	function getProfileReadWritePermission()
+	public function getProfileReadWritePermission()
 	{
 		return $this->getPermissions('readwrite');
 	}
@@ -939,7 +939,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * @return <Array> [name=>Name of the Validator, params=>Extra Parameters]
 	 */
 	/*	 * TODO: field validator need to be handled in specific module getValidator api  * */
-	function getValidator()
+	public function getValidator()
 	{
 		$validator = [];
 		$fieldName = $this->getName();

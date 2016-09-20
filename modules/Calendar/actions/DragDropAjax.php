@@ -11,7 +11,7 @@
 class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('updateDeltaOnResize');
 		$this->exposeMethod('updateDeltaOnDrop');

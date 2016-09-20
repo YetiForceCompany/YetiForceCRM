@@ -42,7 +42,7 @@ class Mobile_API_TestController
 	private $session;
 	private $listing;
 
-	function doPost($parameters, $printResponse = false)
+	public function doPost($parameters, $printResponse = false)
 	{
 		$client = new Vtiger_Net_Client($this->URL);
 		$response = $client->doPost($parameters);
@@ -52,7 +52,7 @@ class Mobile_API_TestController
 		return $responseJSON;
 	}
 
-	function doLoginAndFetchModules($username, $password)
+	public function doLoginAndFetchModules($username, $password)
 	{
 		$responseJSON = $this->doPost(array(
 			'_operation' => 'loginAndFetchModules',
@@ -82,7 +82,7 @@ class Mobile_API_TestController
 		return $modules;
 	}
 
-	function doLogin($username, $password)
+	public function doLogin($username, $password)
 	{
 		$responseJSON = $this->doPost(array(
 			'_operation' => 'login',
@@ -107,7 +107,7 @@ class Mobile_API_TestController
 		return $modules;
 	}
 
-	function doFetchModuleFilters($moduleName)
+	public function doFetchModuleFilters($moduleName)
 	{
 		$responseJSON = $this->doPost(array(
 			'_operation' => 'fetchModuleFilters',
@@ -116,7 +116,7 @@ class Mobile_API_TestController
 			), true);
 	}
 
-	function doFilterDetailsWithCount($filterId)
+	public function doFilterDetailsWithCount($filterId)
 	{
 		$responseJSON = $this->doPost(array(
 			'_operation' => 'filterDetailsWithCount',
@@ -125,7 +125,7 @@ class Mobile_API_TestController
 			), true);
 	}
 
-	function doFetchAllAlerts()
+	public function doFetchAllAlerts()
 	{
 		$responseJSON = $this->doPost(array(
 			'_operation' => 'fetchAllAlerts',
@@ -133,7 +133,7 @@ class Mobile_API_TestController
 			), true);
 	}
 
-	function doAlertDetailsWithMessage($alertid)
+	public function doAlertDetailsWithMessage($alertid)
 	{
 		$responseJSON = $this->doPost(array(
 			'_operation' => 'alertDetailsWithMessage',
@@ -142,7 +142,7 @@ class Mobile_API_TestController
 			), true);
 	}
 
-	function doListModuleRecords($module)
+	public function doListModuleRecords($module)
 	{
 		$responseJSON = $this->doPost(array(
 			'_operation' => 'listModuleRecords',
@@ -154,7 +154,7 @@ class Mobile_API_TestController
 			), true);
 	}
 
-	function doFetchRecord($recordid, $withGrouping = false)
+	public function doFetchRecord($recordid, $withGrouping = false)
 	{
 		$parameters = array(
 			'_session' => $this->session,
@@ -168,7 +168,7 @@ class Mobile_API_TestController
 		$responseJSON = $this->doPost($parameters, true);
 	}
 
-	function doDescribe($module)
+	public function doDescribe($module)
 	{
 		$responseJSON = $this->doPost(array(
 			'_session' => $this->session,
@@ -177,7 +177,7 @@ class Mobile_API_TestController
 			), true);
 	}
 
-	function doSave($module, $record, $values)
+	public function doSave($module, $record, $values)
 	{
 		$parameters = array(
 			'_session' => $this->session,
@@ -190,7 +190,7 @@ class Mobile_API_TestController
 		$responseJSON = $this->doPost($parameters, true);
 	}
 
-	function doSync($module, $page = false, $lastSyncTime = false, $mode = 'PUBLIC')
+	public function doSync($module, $page = false, $lastSyncTime = false, $mode = 'PUBLIC')
 	{
 		$parameters = array(
 			'_session' => $this->session,
@@ -208,7 +208,7 @@ class Mobile_API_TestController
 		$responseJSON = $this->doPost($parameters, true);
 	}
 
-	function doScanImage($module)
+	public function doScanImage($module)
 	{
 		$parameters = array(
 			'_session' => $this->session,
@@ -218,7 +218,7 @@ class Mobile_API_TestController
 		$responseJSON = $this->doPost($parameters, true);
 	}
 
-	function doFetchRecordsWithGrouping($module, $key, $value)
+	public function doFetchRecordsWithGrouping($module, $key, $value)
 	{
 		$parameters = array(
 			'_session' => $this->session,
@@ -230,7 +230,7 @@ class Mobile_API_TestController
 		$responseJSON = $this->doPost($parameters, true);
 	}
 
-	function doQuery($module, $query, $page = 0, $withGrouping = false)
+	public function doQuery($module, $query, $page = 0, $withGrouping = false)
 	{
 		$parameters = array(
 			'_session' => $this->session,
@@ -243,7 +243,7 @@ class Mobile_API_TestController
 		$responseJSON = $this->doPost($parameters, true);
 	}
 
-	function doRelatedRecordsWithGrouping($record, $relatedmodule, $page = 0)
+	public function doRelatedRecordsWithGrouping($record, $relatedmodule, $page = 0)
 	{
 		$parameters = array(
 			'_session' => $this->session,
@@ -256,7 +256,7 @@ class Mobile_API_TestController
 		$responseJSON = $this->doPost($parameters, true);
 	}
 
-	function doDeleteRecords($recordids)
+	public function doDeleteRecords($recordids)
 	{
 		$key = 'record';
 		$value = $recordids;
@@ -273,7 +273,7 @@ class Mobile_API_TestController
 		$responseJSON = $this->doPost($parameters, true);
 	}
 
-	function doHistory($module, $record = '')
+	public function doHistory($module, $record = '')
 	{
 		$parameters = array(
 			'_session' => $this->session,

@@ -11,7 +11,7 @@
 class Vtiger_FindDuplicates_View extends Vtiger_List_View
 {
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
@@ -23,7 +23,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		return 'FindDuplicatePreProcess.tpl';
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -38,7 +38,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -138,7 +138,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 	 * Function returns the number of records for the current filter
 	 * @param Vtiger_Request $request
 	 */
-	function getRecordsCount(Vtiger_Request $request)
+	public function getRecordsCount(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$duplicateSearchFields = $request->get('fields');

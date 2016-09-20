@@ -15,7 +15,7 @@ class OSSMailTemplates_GetListField_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$tplModule = $request->get('tpl_module');

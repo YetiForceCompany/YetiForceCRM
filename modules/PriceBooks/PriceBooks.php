@@ -48,7 +48,7 @@ class PriceBooks extends CRMEntity
 	// For Alphabetical search
 	var $def_basicsearch_col = 'bookname';
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		// Update the list prices in the price book with the unit price, if the Currency has been changed
 		$this->updateListPrices();
@@ -56,7 +56,7 @@ class PriceBooks extends CRMEntity
 	/* Function to Update the List prices for all the products of a current price book
 	  with its Unit price, if the Currency for Price book has changed. */
 
-	function updateListPrices()
+	public function updateListPrices()
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -87,7 +87,7 @@ class PriceBooks extends CRMEntity
 	 * 	@param int $id - pricebook id
 	 *      @return array - return an array which will be returned from the function getPriceBookRelatedProducts
 	 * */
-	function get_pricebook_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_pricebook_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -143,7 +143,7 @@ class PriceBooks extends CRMEntity
 	 * 	@param int $id - pricebook id
 	 *      @return array - return an array which will be returned from the function getPriceBookRelatedServices
 	 * */
-	function get_pricebook_services($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_pricebook_services($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -199,7 +199,7 @@ class PriceBooks extends CRMEntity
 	 * 	@param int $id - product id
 	 * 	@return true or false - if there are no pricebooks available or associated pricebooks for the product is equal to total number of pricebooks then return false, else return true
 	 */
-	function get_pricebook_noproduct($id)
+	public function get_pricebook_noproduct($id)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering get_pricebook_noproduct(" . $id . ") method ...");
@@ -231,7 +231,7 @@ class PriceBooks extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for primary module
 	 */
 
-	function generateReportsQuery($module, $queryplanner)
+	public function generateReportsQuery($module, $queryplanner)
 	{
 		$moduletable = $this->table_name;
 		$moduleindex = $this->table_index;
@@ -269,7 +269,7 @@ class PriceBooks extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
 	{
 
 		$matrix = $queryplanner->newDependencyMatrix();
@@ -308,7 +308,7 @@ class PriceBooks extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			'Products' => array('vtiger_pricebookproductrel' => array('pricebookid', 'productid'), 'vtiger_pricebook' => 'pricebookid'),

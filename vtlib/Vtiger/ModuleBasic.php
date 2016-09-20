@@ -50,7 +50,7 @@ class ModuleBasic
 	 * Initialize this instance
 	 * @access private
 	 */
-	function initialize($valuemap)
+	public function initialize($valuemap)
 	{
 		$this->id = $valuemap['tabid'];
 		$this->name = $valuemap['name'];
@@ -76,7 +76,7 @@ class ModuleBasic
 	 * Initialize more information of this instance
 	 * @access private
 	 */
-	function initialize2()
+	public function initialize2()
 	{
 		$entitydata = \includes\Modules::getEntityInfo($this->name);
 		if ($entitydata) {
@@ -89,7 +89,7 @@ class ModuleBasic
 	 * Get unique id for this instance
 	 * @access private
 	 */
-	function __getUniqueId()
+	public function __getUniqueId()
 	{
 		$adb = \PearDatabase::getInstance();
 		$result = $adb->query("SELECT MAX(tabid) AS max_seq FROM vtiger_tab");
@@ -101,7 +101,7 @@ class ModuleBasic
 	 * Get next sequence to use for this instance
 	 * @access private
 	 */
-	function __getNextSequence()
+	public function __getNextSequence()
 	{
 		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT MAX(tabsequence) AS max_tabseq FROM vtiger_tab", []);
@@ -113,7 +113,7 @@ class ModuleBasic
 	 * Initialize vtiger schema changes.
 	 * @access private
 	 */
-	function __handleVtigerCoreSchemaChanges()
+	public function __handleVtigerCoreSchemaChanges()
 	{
 		// Add version column to the table first
 		Utils::AddColumn('vtiger_tab', 'version', ' VARCHAR(10)');
@@ -124,7 +124,7 @@ class ModuleBasic
 	 * Create this module instance
 	 * @access private
 	 */
-	function __create()
+	public function __create()
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -197,7 +197,7 @@ class ModuleBasic
 	 * Update this instance
 	 * @access private
 	 */
-	function __update()
+	public function __update()
 	{
 		self::log("Updating Module $this->name ... DONE");
 	}
@@ -206,7 +206,7 @@ class ModuleBasic
 	 * Delete this instance
 	 * @access private
 	 */
-	function __delete()
+	public function __delete()
 	{
 		Module::fireEvent($this->name, Module::EVENT_MODULE_PREUNINSTALL);
 
@@ -223,7 +223,7 @@ class ModuleBasic
 	 * Update module version information
 	 * @access private
 	 */
-	function __updateVersion($newversion)
+	public function __updateVersion($newversion)
 	{
 		$this->__handleVtigerCoreSchemaChanges();
 		$adb = \PearDatabase::getInstance();
@@ -235,7 +235,7 @@ class ModuleBasic
 	/**
 	 * Save this instance
 	 */
-	function save()
+	public function save()
 	{
 		if ($this->id)
 			$this->__update();
@@ -247,7 +247,7 @@ class ModuleBasic
 	/**
 	 * Delete this instance
 	 */
-	function delete()
+	public function delete()
 	{
 		$moduleInstance = \Vtiger_Module_Model::getInstance($this->name);
 		require_once "modules/$this->name/$this->name.php";
@@ -293,7 +293,7 @@ class ModuleBasic
 	 * customtable name is basetable + 'cf'<br>
 	 * grouptable name is basetable + 'grouprel'<br>
 	 */
-	function initTables($basetable = false, $basetableid = false)
+	public function initTables($basetable = false, $basetableid = false)
 	{
 		$this->basetable = $basetable;
 		$this->basetableid = $basetableid;
@@ -322,7 +322,7 @@ class ModuleBasic
 	 * Set entity identifier field for this module
 	 * @param Field Instance of field to use
 	 */
-	function setEntityIdentifier($fieldInstance)
+	public function setEntityIdentifier($fieldInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -347,7 +347,7 @@ class ModuleBasic
 	/**
 	 * Unset entity identifier information
 	 */
-	function unsetEntityIdentifier()
+	public function unsetEntityIdentifier()
 	{
 		$adb = \PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_entityname WHERE tabid=?', Array($this->id));
@@ -358,7 +358,7 @@ class ModuleBasic
 	 * Configure default sharing access for the module
 	 * @param String Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
 	 */
-	function setDefaultSharing($permission_text = 'Public_ReadWriteDelete')
+	public function setDefaultSharing($permission_text = 'Public_ReadWriteDelete')
 	{
 		Access::setDefaultSharing($this, $permission_text);
 	}
@@ -366,7 +366,7 @@ class ModuleBasic
 	/**
 	 * Allow module sharing control
 	 */
-	function allowSharing()
+	public function allowSharing()
 	{
 		Access::allowSharing($this, true);
 	}
@@ -374,7 +374,7 @@ class ModuleBasic
 	/**
 	 * Disallow module sharing control
 	 */
-	function disallowSharing()
+	public function disallowSharing()
 	{
 		Access::allowSharing($this, false);
 	}
@@ -383,7 +383,7 @@ class ModuleBasic
 	 * Enable tools for this module
 	 * @param mixed String or Array with value ['Import', 'Export', 'Merge']
 	 */
-	function enableTools($tools)
+	public function enableTools($tools)
 	{
 		if (is_string($tools)) {
 			$tools = [$tools];
@@ -398,7 +398,7 @@ class ModuleBasic
 	 * Disable tools for this module
 	 * @param mixed String or Array with value ['Import', 'Export', 'Merge']
 	 */
-	function disableTools($tools)
+	public function disableTools($tools)
 	{
 		if (is_string($tools)) {
 			$tools = Array(0 => $tools);
@@ -412,7 +412,7 @@ class ModuleBasic
 	 * Add block to this module
 	 * @param vtlib\Block Instance of block to add
 	 */
-	function addBlock($blockInstance)
+	public function addBlock($blockInstance)
 	{
 		$blockInstance->save($this);
 		return $this;
@@ -422,7 +422,7 @@ class ModuleBasic
 	 * Add filter to this module
 	 * @param vtlib\Filter Instance of filter to add
 	 */
-	function addFilter($filterInstance)
+	public function addFilter($filterInstance)
 	{
 		$filterInstance->save($this);
 		return $this;
@@ -432,7 +432,7 @@ class ModuleBasic
 	 * Get all the fields of the module or block
 	 * @param vtlib\Block Instance of block to use to get fields, false to get all the block fields
 	 */
-	function getFields($blockInstance = false)
+	public function getFields($blockInstance = false)
 	{
 		$fields = false;
 		if ($blockInstance)
@@ -558,10 +558,10 @@ class ModuleBasic
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$modulePath = 'modules/' . $moduleInstance->name;
-		Functions::recurseDelete($modulePath);
+		public functions::recurseDelete($modulePath);
 		foreach (\Yeti_Layout::getAllLayouts() as $name => $label) {
 			$layoutPath = 'layouts/' . $name . '/modules/' . $moduleInstance->name;
-			Functions::recurseDelete($layoutPath);
+			public functions::recurseDelete($layoutPath);
 		}
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}

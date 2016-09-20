@@ -21,7 +21,7 @@ class Zip extends \dZip
 	/**
 	 * Push out the file content for download.
 	 */
-	function forceDownload($zipfileName)
+	public function forceDownload($zipfileName)
 	{
 		header("Pragma: public");
 		header("Expires: 0");
@@ -42,7 +42,7 @@ class Zip extends \dZip
 	/**
 	 * Get relative path (w.r.t base)
 	 */
-	function __getRelativePath($basepath, $srcpath)
+	public function __getRelativePath($basepath, $srcpath)
 	{
 		$base_realpath = $this->__normalizePath(realpath($basepath));
 		$src_realpath = $this->__normalizePath(realpath($srcpath));
@@ -60,7 +60,7 @@ class Zip extends \dZip
 	/**
 	 * Check and add '/' directory separator
 	 */
-	function __fixDirSeparator($path)
+	public function __fixDirSeparator($path)
 	{
 		if ($path != '' && (strripos($path, '/') != strlen($path) - 1))
 			$path .= '/';
@@ -70,7 +70,7 @@ class Zip extends \dZip
 	/**
 	 * Normalize the directory path separators.
 	 */
-	function __normalizePath($path)
+	public function __normalizePath($path)
 	{
 		if ($path && strpos($path, '\\') !== false)
 			$path = preg_replace("/\\\\/", "/", $path);
@@ -80,7 +80,7 @@ class Zip extends \dZip
 	/**
 	 * Copy the directory on the disk into zip file.
 	 */
-	function copyDirectoryFromDisk($dirname, $zipdirname = null, $excludeList = null, $basedirname = null)
+	public function copyDirectoryFromDisk($dirname, $zipdirname = null, $excludeList = null, $basedirname = null)
 	{
 		$dir = opendir($dirname);
 		if (strripos($dirname, '/') != strlen($dirname) - 1)
@@ -114,7 +114,7 @@ class Zip extends \dZip
 	/**
 	 * Copy the disk file into the zip.
 	 */
-	function copyFileFromDisk($path, $zippath, $file)
+	public function copyFileFromDisk($path, $zippath, $file)
 	{
 		$path = $this->__fixDirSeparator($path);
 		$zippath = $this->__fixDirSeparator($zippath);

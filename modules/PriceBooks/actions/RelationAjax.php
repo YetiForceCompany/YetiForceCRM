@@ -11,7 +11,7 @@
 class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode) && method_exists($this, "$mode")) {
@@ -24,7 +24,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 * Function adds PriceBooks-Products Relation
 	 * @param type $request
 	 */
-	function addListPrice($request)
+	public function addListPrice($request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('src_record');
@@ -45,7 +45,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 * @param <array> $request
 	 */
 
-	function addRelation($request)
+	public function addRelation($request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('src_record');
@@ -71,7 +71,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 * Function to delete the relation for specified source record id and related record id list
 	 * @param <array> $request
 	 */
-	function deleteRelation($request)
+	public function deleteRelation($request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('src_record');

@@ -39,7 +39,7 @@ class Link
 	/**
 	 * Initialize this instance.
 	 */
-	function initialize($valuemap)
+	public function initialize($valuemap)
 	{
 		foreach ($valuemap as $key => $value) {
 			if ($key == 'linkurl' || $key == 'linkicon') {
@@ -53,7 +53,7 @@ class Link
 	/**
 	 * Get module name.
 	 */
-	function module()
+	public function module()
 	{
 		if (!empty($this->tabid)) {
 			return getTabModuleName($this->tabid);

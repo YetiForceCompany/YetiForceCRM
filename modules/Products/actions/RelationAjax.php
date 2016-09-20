@@ -11,7 +11,7 @@
 class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('addListPrice');
@@ -21,7 +21,7 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 * @param <array> $request
 	 */
 
-	function addRelation($request)
+	public function addRelation($request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('src_record');
@@ -53,7 +53,7 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 * Function adds Products/Services-PriceBooks Relation
 	 * @param type $request
 	 */
-	function addListPrice($request)
+	public function addListPrice($request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('src_record');

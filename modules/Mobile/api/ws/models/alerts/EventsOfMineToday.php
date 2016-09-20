@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . '/../Alert.php';
 class Mobile_WS_AlertModel_EventsOfMineToday extends Mobile_WS_AlertModel
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->name = 'Your events for the day';
@@ -22,7 +22,7 @@ class Mobile_WS_AlertModel_EventsOfMineToday extends Mobile_WS_AlertModel
 		$this->description = 'Alert sent when events are scheduled for the day';
 	}
 
-	function query()
+	public function query()
 	{
 		$today = date('Y-m-d');
 		$sql = "SELECT crmid, activitytype FROM vtiger_activity INNER JOIN 
@@ -33,7 +33,7 @@ class Mobile_WS_AlertModel_EventsOfMineToday extends Mobile_WS_AlertModel
 		return $sql;
 	}
 
-	function queryParameters()
+	public function queryParameters()
 	{
 		return array($this->getUser()->id);
 	}

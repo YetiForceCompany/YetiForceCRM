@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . '/models/SearchFilter.php';
 class Mobile_UI_ListModuleRecords extends Mobile_WS_ListModuleRecords
 {
 
-	function cachedModule($moduleName)
+	public function cachedModule($moduleName)
 	{
 		$modules = $this->sessionGet('_MODULES'); // Should be available post login
 		foreach ($modules as $module) {
@@ -23,7 +23,7 @@ class Mobile_UI_ListModuleRecords extends Mobile_WS_ListModuleRecords
 		return false;
 	}
 
-	function getPagingModel(Mobile_API_Request $request)
+	public function getPagingModel(Mobile_API_Request $request)
 	{
 		$pagingModel = Mobile_WS_PagingModel::modelWithPageStart($request->get('page'));
 		$pagingModel->setLimit(Mobile::config('Navigation.Limit', 100));
@@ -31,13 +31,13 @@ class Mobile_UI_ListModuleRecords extends Mobile_WS_ListModuleRecords
 	}
 
 	/** For search capability */
-	function cachedSearchFields($module)
+	public function cachedSearchFields($module)
 	{
 		$cachekey = "_MODULE.{$module}.SEARCHFIELDS";
 		return $this->sessionGet($cachekey, false);
 	}
 
-	function getSearchFilterModel($module, $search)
+	public function getSearchFilterModel($module, $search)
 	{
 		$searchFilter = false;
 		if (!empty($search)) {
@@ -49,7 +49,7 @@ class Mobile_UI_ListModuleRecords extends Mobile_WS_ListModuleRecords
 	}
 
 	/** END */
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$wsResponse = parent::process($request);
 

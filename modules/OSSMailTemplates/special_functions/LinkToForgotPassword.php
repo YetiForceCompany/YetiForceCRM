@@ -14,12 +14,12 @@ class LinkToForgotPassword
 
 	private $moduleList = array('Users');
 
-	function process($data)
+	public function process($data)
 	{
 		return '<a target="_blank" href=' . $data['trackURL'] . '>' . $data['trackURL'] . '</a>';
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

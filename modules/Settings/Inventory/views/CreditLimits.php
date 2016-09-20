@@ -36,7 +36,7 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	function getPageLabels(Vtiger_Request $request)
+	public function getPageLabels(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if ($request->get('type')) {

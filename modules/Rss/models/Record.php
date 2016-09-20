@@ -41,7 +41,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 * Fuction to get the Name of the Record
 	 * @return <String>
 	 */
-	function getName()
+	public function getName()
 	{
 		return $this->get('rsstitle');
 	}

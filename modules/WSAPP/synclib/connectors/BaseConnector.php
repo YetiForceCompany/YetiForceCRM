@@ -14,7 +14,7 @@ abstract class WSAPP_BaseConnector
 
 	protected $syncController;
 
-	function __construct()
+	public function __construct()
 	{
 		
 	}
@@ -29,34 +29,34 @@ abstract class WSAPP_BaseConnector
 		return false;
 	}
 
-	function postEvent($type, $synchronizedRecords, $syncStateModel)
+	public function postEvent($type, $synchronizedRecords, $syncStateModel)
 	{
 		return false;
 	}
 
-	function preEvent($type)
+	public function preEvent($type)
 	{
 		return false;
 	}
 
 	abstract function getName();
 
-	function getSyncState()
+	public function getSyncState()
 	{
 		return new WSAPP_SyncStateModel();
 	}
 
-	function updateSyncState()
+	public function updateSyncState()
 	{
 		
 	}
 
-	function getSynchronizeController()
+	public function getSynchronizeController()
 	{
 		return $this->syncController;
 	}
 
-	function setSynchronizeController($syncController)
+	public function setSynchronizeController($syncController)
 	{
 		$this->syncController = $syncController;
 	}

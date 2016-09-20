@@ -149,7 +149,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
-	function Step3(Vtiger_Request $request)
+	public function Step3(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -201,7 +201,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

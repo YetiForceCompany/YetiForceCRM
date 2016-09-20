@@ -13,7 +13,7 @@
 class OSSMailScanner
 {
 
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		$registerLink = false;
 		$adb = PearDatabase::getInstance();
@@ -62,7 +62,7 @@ class OSSMailScanner
 		}
 	}
 
-	function turn_on($moduleName)
+	public function turn_on($moduleName)
 	{
 		$adb = PearDatabase::getInstance();
 		$blockid = $adb->query_result(
@@ -81,7 +81,7 @@ class OSSMailScanner
 			VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence + 1, 'Mail Logs', '', 'LBL_MAIL_LOGS_DESCRIPTION', 'index.php?module=OSSMailScanner&parent=Settings&view=logs'));
 	}
 
-	function turn_off($moduleName)
+	public function turn_off($moduleName)
 	{
 		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array('Mail Scanner'));

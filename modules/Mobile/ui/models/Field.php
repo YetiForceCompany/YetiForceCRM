@@ -13,17 +13,17 @@ class Mobile_UI_FieldModel
 
 	private $data;
 
-	function initData($fieldData)
+	public function initData($fieldData)
 	{
 		$this->data = $fieldData;
 	}
 
-	function name()
+	public function name()
 	{
 		return $this->data['name'];
 	}
 
-	function value()
+	public function value()
 	{
 		$rawValue = $this->data['value'];
 		if (is_array($rawValue))
@@ -31,7 +31,7 @@ class Mobile_UI_FieldModel
 		return $rawValue;
 	}
 
-	function valueLabel()
+	public function valueLabel()
 	{
 		$rawValue = $this->data['value'];
 		if (is_array($rawValue))
@@ -39,12 +39,12 @@ class Mobile_UI_FieldModel
 		return $rawValue;
 	}
 
-	function label()
+	public function label()
 	{
 		return $this->data['label'];
 	}
 
-	function isReferenceType()
+	public function isReferenceType()
 	{
 		static $options = array('101', '116', '117', '26', '357',
 			'50', '51', '52', '53', '57', '58', '59', '66',
@@ -65,7 +65,7 @@ class Mobile_UI_FieldModel
 		return $this->isMultiReferenceType();
 	}
 
-	function isMultiReferenceType()
+	public function isMultiReferenceType()
 	{
 		static $options = array('10', '68');
 

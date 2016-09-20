@@ -14,7 +14,7 @@ include_once 'include/Webservices/History.php';
 class Mobile_WS_History extends Mobile_WS_FetchRecord
 {
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$current_user = $this->getActiveUser();
 

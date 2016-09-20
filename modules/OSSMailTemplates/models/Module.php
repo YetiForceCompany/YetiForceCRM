@@ -10,7 +10,7 @@
 class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 {
 
-	function getListFiledOfModule($moduleName, $relID = false)
+	public function getListFiledOfModule($moduleName, $relID = false)
 	{
 		$db = PearDatabase::getInstance();
 		$tabid = \includes\Modules::getModuleId($moduleName);
@@ -37,7 +37,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 		return $output;
 	}
 
-	function getListFiledOfRelatedModule($moduleName)
+	public function getListFiledOfRelatedModule($moduleName)
 	{
 		$db = PearDatabase::getInstance();
 		$tabid = \includes\Modules::getModuleId($moduleName);
@@ -81,7 +81,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 		return $moduleList;
 	}
 
-	function getListSpecialFunction($path, $module)
+	public function getListSpecialFunction($path, $module)
 	{
 		$specialFunctionList = array();
 		$numFile = 0;
@@ -108,7 +108,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 		return $specialFunctionList;
 	}
 
-	function getTemplates()
+	public function getTemplates()
 	{
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_ossmailtemplates AS mail INNER JOIN vtiger_crmentity AS crm ON crm.crmid = mail.ossmailtemplatesid WHERE `deleted` = 0 && ossmailtemplates_type = ?';

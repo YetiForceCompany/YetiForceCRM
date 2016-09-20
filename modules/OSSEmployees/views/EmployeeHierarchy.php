@@ -13,7 +13,7 @@ class OSSEmployees_EmployeeHierarchy_View extends Vtiger_View_Controller
 		}
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		
 	}
@@ -32,7 +32,7 @@ class OSSEmployees_EmployeeHierarchy_View extends Vtiger_View_Controller
 		$viewer->view('EmployeeHierarchy.tpl', $moduleName);
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		
 	}

@@ -12,7 +12,7 @@
 class Users_List_View extends Settings_Vtiger_List_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -20,7 +20,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		}
 	}
 
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
@@ -171,7 +171,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	 * Function returns the number of records for the current filter
 	 * @param Vtiger_Request $request
 	 */
-	function getRecordsCount(Vtiger_Request $request)
+	public function getRecordsCount(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -192,7 +192,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	 * Function to get listView count
 	 * @param Vtiger_Request $request
 	 */
-	function getListViewCount(Vtiger_Request $request)
+	public function getListViewCount(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = CustomView_Record_Model::getViewId($request);
@@ -226,7 +226,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	function getPageCount(Vtiger_Request $request)
+	public function getPageCount(Vtiger_Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
 		$pagingModel = new Vtiger_Paging_Model();

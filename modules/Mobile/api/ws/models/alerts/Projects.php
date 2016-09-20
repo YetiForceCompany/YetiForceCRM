@@ -12,7 +12,7 @@ include_once dirname(__FILE__) . '/../Alert.php';
 class Mobile_WS_AlertModel_Projects extends Mobile_WS_AlertModel
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->name = 'My Projects';
@@ -21,7 +21,7 @@ class Mobile_WS_AlertModel_Projects extends Mobile_WS_AlertModel
 		$this->description = 'Projects Related To Me';
 	}
 
-	function query()
+	public function query()
 	{
 		$sql = "SELECT crmid FROM vtiger_crmentity INNER JOIN vtiger_project ON
                     vtiger_project.projectid=vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=0 && vtiger_crmentity.smownerid=? AND
@@ -29,7 +29,7 @@ class Mobile_WS_AlertModel_Projects extends Mobile_WS_AlertModel
 		return $sql;
 	}
 
-	function queryParameters()
+	public function queryParameters()
 	{
 		return array($this->getUser()->id);
 	}

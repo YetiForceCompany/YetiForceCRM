@@ -180,17 +180,17 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return "index.php?module=$moduleName&$action&record=" . $this->get('crmid');
 	}
 
-	function setParent($id, $moduleName)
+	public function setParent($id, $moduleName)
 	{
 		$this->parent = Vtiger_Record_Model::getInstanceById($id, $moduleName);
 	}
 
-	function getParent()
+	public function getParent()
 	{
 		return $this->parent;
 	}
 
-	function checkStatus($callerStatus)
+	public function checkStatus($callerStatus)
 	{
 		$status = $this->get('status');
 		if ($status == $callerStatus) {
@@ -199,47 +199,47 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
-	function isConvertToAccount()
+	public function isConvertToAccount()
 	{
 		return $this->checkStatus(self::CONVERTTOACCOUNT);
 	}
 
-	function isCreate()
+	public function isCreate()
 	{
 		return $this->checkStatus(self::CREATE);
 	}
 
-	function isUpdate()
+	public function isUpdate()
 	{
 		return $this->checkStatus(self::UPDATE);
 	}
 
-	function isDelete()
+	public function isDelete()
 	{
 		return $this->checkStatus(self::DELETE);
 	}
 
-	function isRestore()
+	public function isRestore()
 	{
 		return $this->checkStatus(self::RESTORE);
 	}
 
-	function isRelationLink()
+	public function isRelationLink()
 	{
 		return $this->checkStatus(self::LINK);
 	}
 
-	function isRelationUnLink()
+	public function isRelationUnLink()
 	{
 		return $this->checkStatus(self::UNLINK);
 	}
 
-	function isDisplayed()
+	public function isDisplayed()
 	{
 		return $this->checkStatus(self::DISPLAYED);
 	}
 
-	function isReviewed($userId = false)
+	public function isReviewed($userId = false)
 	{
 		if ($userId === false) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -252,25 +252,25 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return strpos($reviewed, "#$userId#") !== false;
 	}
 
-	function getModifiedBy()
+	public function getModifiedBy()
 	{
 		$changeUserId = $this->get('whodid');
 		return Users_Record_Model::getInstanceById($changeUserId, 'Users');
 	}
 
-	function getDisplayActivityTime()
+	public function getDisplayActivityTime()
 	{
 		$time = $this->getActivityTime();
 		$time = new DateTimeField($time);
 		return $time->getFullcalenderDateTimevalue();
 	}
 
-	function getActivityTime()
+	public function getActivityTime()
 	{
 		return $this->get('changedon');
 	}
 
-	function getFieldInstances()
+	public function getFieldInstances()
 	{
 		$id = $this->get('id');
 		$db = PearDatabase::getInstance();
@@ -296,7 +296,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $fieldInstances;
 	}
 
-	function getRelationInstance()
+	public function getRelationInstance()
 	{
 		$id = $this->get('id');
 		$db = PearDatabase::getInstance();

@@ -1152,7 +1152,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 * @param <String> $recordId - record id
 	 * @return <Array>
 	 */
-	function getCalendarActivities($mode, $pagingModel, $user, $recordId = false)
+	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
@@ -1279,7 +1279,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 * @param <String> $module
 	 * @return <Array> list of fields
 	 */
-	function getRequiredFields($module = '')
+	public function getRequiredFields($module = '')
 	{
 		$moduleInstance = CRMEntity::getInstance($this->getName());
 		$requiredFields = $moduleInstance->required_fields;

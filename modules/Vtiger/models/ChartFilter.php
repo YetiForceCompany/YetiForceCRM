@@ -13,7 +13,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $extraData;
 	private $targetModuleModel;
 
-	function getSearchParams($column, $value)
+	public function getSearchParams($column, $value)
 	{
 		return '&search_params=' . json_encode([[[$column, 'e', $value]]]);
 	}

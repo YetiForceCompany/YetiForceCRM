@@ -81,7 +81,7 @@ class Mobile
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 
 		$registerWSAPI = false;
@@ -215,7 +215,7 @@ class Mobile_WS_Operation
 	var $opName, $opClass, $opFile, $opType;
 	var $parameters = array();
 
-	function __construct($apiName, $className, $handlerFile, $reqType)
+	public function __construct($apiName, $className, $handlerFile, $reqType)
 	{
 		$this->opName = $apiName;
 		$this->opClass = $className;
@@ -223,13 +223,13 @@ class Mobile_WS_Operation
 		$this->opType = $reqType;
 	}
 
-	function addParameter($name, $type)
+	public function addParameter($name, $type)
 	{
 		$this->parameters[] = array('name' => $name, 'type' => $type);
 		return $this;
 	}
 
-	function register()
+	public function register()
 	{
 		$adb = PearDatabase::getInstance();
 		$checkresult = $adb->pquery("SELECT 1 FROM vtiger_ws_operation WHERE name = ?", array($this->opName));

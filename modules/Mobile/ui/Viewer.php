@@ -15,12 +15,12 @@ class Mobile_UI_Viewer extends Vtiger_Viewer
 
 	private $parameters = array();
 
-	function assign($key, $value)
+	public function assign($key, $value)
 	{
 		$this->parameters[$key] = $value;
 	}
 
-	function viewController()
+	public function viewController()
 	{
 		$smarty = new Vtiger_Viewer();
 
@@ -33,7 +33,7 @@ class Mobile_UI_Viewer extends Vtiger_Viewer
 		return $smarty;
 	}
 
-	function process($templateName)
+	public function process($templateName)
 	{
 		$smarty = $this->viewController();
 		$response = new Mobile_API_Response();

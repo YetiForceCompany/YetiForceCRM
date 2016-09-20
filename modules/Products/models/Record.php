@@ -16,7 +16,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 * Function to get Taxes Url
 	 * @return <String> Url
 	 */
-	function getTaxesURL()
+	public function getTaxesURL()
 	{
 		return 'index.php?module=Inventory&action=GetTaxes&record=' . $this->getId();
 	}
@@ -25,7 +25,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 * Function to get available taxes for this record
 	 * @return <Array> List of available taxes
 	 */
-	function getTaxes()
+	public function getTaxes()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -62,7 +62,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 * Function to get subproducts for this record
 	 * @return <Array> of subproducts
 	 */
-	function getSubProducts()
+	public function getSubProducts()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -88,7 +88,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 * @param <Object> $focus
 	 * @return <Array> List of individual taxes
 	 */
-	function getDetailsForInventoryModule($focus)
+	public function getDetailsForInventoryModule($focus)
 	{
 		$productId = $this->getId();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -382,7 +382,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 * @param <Integer> $price - listprice
 	 * @param <Integer> $currencyId - currencyId
 	 */
-	function updateListPrice($relatedRecordId, $price, $currencyId)
+	public function updateListPrice($relatedRecordId, $price, $currencyId)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -394,7 +394,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
+	public function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -499,7 +499,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		return $price_details;
 	}
 
-	function getProductBaseCurrency($productid, $module = 'Products')
+	public function getProductBaseCurrency($productid, $module = 'Products')
 	{
 		$adb = PearDatabase::getInstance();
 		if ($module == 'Services') {
@@ -512,7 +512,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		return $currencyid;
 	}
 
-	function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
+	public function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');

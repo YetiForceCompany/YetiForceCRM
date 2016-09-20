@@ -12,14 +12,14 @@
 class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getRssWidget');
 		$this->exposeMethod('getRssAddForm');
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

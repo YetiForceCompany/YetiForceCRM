@@ -12,7 +12,7 @@
 class Settings_DataAccess_UpdateTpl_Action extends Settings_Vtiger_Index_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		return;
 	}

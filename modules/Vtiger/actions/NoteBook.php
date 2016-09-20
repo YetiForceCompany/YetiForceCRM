@@ -12,12 +12,12 @@
 class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('NoteBookCreate');
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -26,7 +26,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function NoteBookCreate(Vtiger_Request $request)
+	public function NoteBookCreate(Vtiger_Request $request)
 	{
 		$adb = PearDatabase::getInstance();
 		$userModel = Users_Record_Model::getCurrentUserModel();

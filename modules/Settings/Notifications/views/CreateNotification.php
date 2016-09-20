@@ -9,7 +9,7 @@
 class Settings_Notifications_CreateNotification_View extends Settings_Vtiger_BasicModal_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();

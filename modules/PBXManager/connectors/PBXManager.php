@@ -29,7 +29,7 @@ class PBXManager_PBXManager_Connector
 	const OUTGOING_TYPE = 'outbound';
 	const USER_PHONE_FIELD = 'phone_crm_extension';
 
-	function __construct()
+	public function __construct()
 	{
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$this->setServerParameters($serverModel);
@@ -326,7 +326,7 @@ class PBXManager_PBXManager_Connector
 	 * @param <string> $number (Customer)
 	 * @param <string> $recordid
 	 */
-	function call($number, $record)
+	public function call($number, $record)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		$extension = $user->phone_crm_extension;

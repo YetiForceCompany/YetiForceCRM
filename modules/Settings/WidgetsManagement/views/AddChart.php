@@ -23,7 +23,7 @@ class Settings_WidgetsManagement_AddChart_View extends Settings_Vtiger_BasicModa
 		return $recordsReport;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule(false);

@@ -11,7 +11,7 @@
 class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('add');
 		$this->exposeMethod('save');

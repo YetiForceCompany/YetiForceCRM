@@ -15,7 +15,7 @@ class PBXManager_Detail_View extends Vtiger_Detail_View
 	 * Overrided to disable Ajax Edit option in Detail View of
 	 * PBXManager Record
 	 */
-	function isAjaxEnabled($recordModel)
+	public function isAjaxEnabled($recordModel)
 	{
 		return false;
 	}
@@ -23,7 +23,7 @@ class PBXManager_Detail_View extends Vtiger_Detail_View
 	 * Overided to convert totalduration to minutes
 	 */
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

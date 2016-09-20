@@ -20,7 +20,7 @@ class Field extends FieldBasic
 	 * Get unique picklist id to use
 	 * @access private
 	 */
-	function __getPicklistUniqueId()
+	public function __getPicklistUniqueId()
 	{
 		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_picklist');
@@ -29,7 +29,7 @@ class Field extends FieldBasic
 	/**
 	 * Get picklist values from table
 	 */
-	function getPicklistValues()
+	public function getPicklistValues()
 	{
 		$adb = \PearDatabase::getInstance();
 		$picklist_table = 'vtiger_' . $this->name;
@@ -47,7 +47,7 @@ class Field extends FieldBasic
 	 *
 	 * @internal Creates picklist base if it does not exists
 	 */
-	function setPicklistValues($values)
+	public function setPicklistValues($values)
 	{
 		// Non-Role based picklist values
 		if ($this->uitype == '16') {
@@ -114,7 +114,7 @@ class Field extends FieldBasic
 	 * @internal Creates picklist base if it does not exists
 	 * @access private
 	 */
-	function setNoRolePicklistValues($values)
+	public function setNoRolePicklistValues($values)
 	{
 		$adb = \PearDatabase::getInstance();
 		$pickListNameIDs = array('recurring_frequency', 'payment_duration');
@@ -160,7 +160,7 @@ class Field extends FieldBasic
 	 *
 	 * @internal Creates table vtiger_fieldmodulerel if it does not exists
 	 */
-	function setRelatedModules($moduleNames)
+	public function setRelatedModules($moduleNames)
 	{
 		if (count($moduleNames) == 0) {
 			self::log("Setting $this->name relation with $relmodule ... ERROR: No module names");
@@ -193,7 +193,7 @@ class Field extends FieldBasic
 	 * Remove relation between the field and modules (UIType 10)
 	 * @param Array List of module names
 	 */
-	function unsetRelatedModules($moduleNames)
+	public function unsetRelatedModules($moduleNames)
 	{
 		$adb = \PearDatabase::getInstance();
 		foreach ($moduleNames as $relmodule) {
@@ -294,7 +294,7 @@ class Field extends FieldBasic
 		self::log("Deleting fields of the module ... DONE");
 	}
 
-	function setTreeTemplate($tree, $moduleInstance)
+	public function setTreeTemplate($tree, $moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 		$adb->pquery('INSERT INTO vtiger_trees_templates(name, module, access) VALUES (?,?,?)', Array($tree->name, $moduleInstance->id, $tree->access));

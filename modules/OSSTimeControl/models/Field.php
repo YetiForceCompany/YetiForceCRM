@@ -38,7 +38,7 @@ class OSSTimeControl_Field_Model extends Vtiger_Field_Model
 	 * Function returns special validator for fields
 	 * @return <Array>
 	 */
-	function getValidator()
+	public function getValidator()
 	{
 		$validator = array();
 		$fieldName = $this->getName();

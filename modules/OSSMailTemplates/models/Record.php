@@ -12,7 +12,7 @@
 class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 {
 
-	function getTempleteList($module)
+	public function getTempleteList($module)
 	{
 		$db = PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_ossmailtemplates WHERE oss_module_list = ?";
@@ -24,7 +24,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		return $list;
 	}
 
-	function getTemplete($id = false, $sysname = false)
+	public function getTemplete($id = false, $sysname = false)
 	{
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_ossmailtemplates WHERE ';
@@ -54,7 +54,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		return $output;
 	}
 
-	function sendMailFromTemplate($data)
+	public function sendMailFromTemplate($data)
 	{
 		require_once('modules/Emails/mail.php');
 
@@ -109,7 +109,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		return $mailStatus;
 	}
 
-	function findVar(&$tpl, $offset, $recordId, $module, $type, $request)
+	public function findVar(&$tpl, $offset, $recordId, $module, $type, $request)
 	{
 		$startType = "#" . $type . '#';
 		$endType = '#' . $type . 'End#';
@@ -181,7 +181,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	function replaceVar($fieldId, $tpl, $recordId, $module, $start, $positionLength, $allLength)
+	public function replaceVar($fieldId, $tpl, $recordId, $module, $start, $positionLength, $allLength)
 	{
 		$db = PearDatabase::getInstance();
 		$getFieldInfoSql = "SELECT * FROM vtiger_field WHERE fieldid = $fieldId";
@@ -229,7 +229,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 	}
 
 	//Funkcja podmieniająca pola z modułów powiązanych - Funkcja do wymiany
-	function replaceRelVar($fieldId, $tpl, $recordId, $module, $start, $positionLength, $allLength)
+	public function replaceRelVar($fieldId, $tpl, $recordId, $module, $start, $positionLength, $allLength)
 	{
 		$db = PearDatabase::getInstance();
 		vimport("~~modules/$module/$module.php");
@@ -263,7 +263,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		return $tpl;
 	}
 
-	function replaceLabel($fieldId, $tpl, $module, $start, $positionLength, $allLength, $rel = false)
+	public function replaceLabel($fieldId, $tpl, $module, $start, $positionLength, $allLength, $rel = false)
 	{
 		$db = PearDatabase::getInstance();
 		$getFieldInfoSql = "SELECT * FROM vtiger_field WHERE fieldid = ?";
@@ -281,7 +281,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		return $tpl;
 	}
 
-	function replaceSpecialFunction($className, $tpl, $recordId, $module, $start, $positionLength, $allLength, $request)
+	public function replaceSpecialFunction($className, $tpl, $recordId, $module, $start, $positionLength, $allLength, $request)
 	{
 		$fullPath = 'modules' . DIRECTORY_SEPARATOR . 'OSSMailTemplates' .
 			DIRECTORY_SEPARATOR . 'special_functions' . DIRECTORY_SEPARATOR . $className . '.php';
@@ -295,7 +295,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		return $tpl;
 	}
 
-	function replaceTranslation($label, $tpl, $recordId, $module, $start, $positionLength, $allLength, $request)
+	public function replaceTranslation($label, $tpl, $recordId, $module, $start, $positionLength, $allLength, $request)
 	{
 		$translatedLabel = vtranslate($label, $module);
 		$tpl = substr_replace($tpl, $translatedLabel, $start, $allLength + $positionLength);

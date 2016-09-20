@@ -96,7 +96,7 @@ class Project extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectname', 'assigned_user_id');
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}
@@ -105,7 +105,7 @@ class Project extends CRMEntity
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord)
+	public function getQueryByModuleField($module, $fieldname, $srcrecord)
 	{
 		// $srcrecord could be empty
 	}
@@ -113,7 +113,7 @@ class Project extends CRMEntity
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
 	 */
-	function getListQuery($module, $usewhere = '')
+	public function getListQuery($module, $usewhere = '')
 	{
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
@@ -171,7 +171,7 @@ class Project extends CRMEntity
 	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	function getListViewSecurityParameter($module)
+	public function getListViewSecurityParameter($module)
 	{
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -216,7 +216,7 @@ class Project extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -268,7 +268,7 @@ class Project extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	function transform_export_value($key, $value)
+	public function transform_export_value($key, $value)
 	{
 		return parent::transform_export_value($key, $value);
 	}
@@ -276,7 +276,7 @@ class Project extends CRMEntity
 	/**
 	 * Function which will give the basic query to find duplicates
 	 */
-	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
 		$select_clause = sprintf('SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s', $this->table_name, $this->table_index, $table_cols);
 
@@ -326,7 +326,7 @@ class Project extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
 			$adb = PearDatabase::getInstance();
@@ -434,7 +434,7 @@ class Project extends CRMEntity
 	 *
 	 * @see data/CRMEntity#delete_related_module($module, $crmid, $with_module, $with_crmid)
 	 */
-	function delete_related_module($module, $crmid, $with_module, $with_crmid)
+	public function delete_related_module($module, $crmid, $with_module, $with_crmid)
 	{
 		if (!in_array($with_module, array('ProjectMilestone', 'ProjectTask'))) {
 			parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
@@ -468,7 +468,7 @@ class Project extends CRMEntity
 	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 
 
-	function get_gantt_chart($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_gantt_chart($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		require_once("BURAK_Gantt.class.php");
 
@@ -548,7 +548,7 @@ class Project extends CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		global $currentModule;
 		$log = LoggerManager::getInstance();
@@ -593,7 +593,7 @@ class Project extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');

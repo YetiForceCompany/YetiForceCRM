@@ -14,7 +14,7 @@ class ChangesList
 
 	private $moduleList = array('all');
 
-	function process($data)
+	public function process($data)
 	{
 		$adb = PearDatabase::getInstance();
 		$html = '';
@@ -61,7 +61,7 @@ class ChangesList
 		}
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

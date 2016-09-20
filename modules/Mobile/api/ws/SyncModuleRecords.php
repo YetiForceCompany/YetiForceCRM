@@ -17,12 +17,12 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord
 	static $SYNC_MODE_PUBLIC = "PUBLIC";
 	static $SYNC_MODE_PRIVATE = "PRIVATE";
 
-	function isModePrivate(Mobile_API_Request $request, $defmode = "PRIVATE")
+	public function isModePrivate(Mobile_API_Request $request, $defmode = "PRIVATE")
 	{
 		return (strcasecmp($request->get('mode', $defmode), self::$SYNC_MODE_PRIVATE) === 0);
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$current_user = $this->getActiveUser();
 		$current_user_wsid = sprintf("%sx%s", Mobile_WS_Utils::getEntityModuleWSId("Users"), $current_user->id);

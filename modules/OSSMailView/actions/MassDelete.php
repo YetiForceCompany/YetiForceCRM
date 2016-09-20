@@ -17,12 +17,12 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return true;
 	}

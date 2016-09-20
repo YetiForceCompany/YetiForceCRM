@@ -11,13 +11,13 @@
 class Vtiger_ShowTagCloud_View extends Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showTags');
 	}
 
-	function showTags(Vtiger_Request $request)
+	public function showTags(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');

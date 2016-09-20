@@ -32,12 +32,12 @@ class ReportRunQueryDependencyMatrix
 	protected $matrix = array();
 	protected $computedMatrix = null;
 
-	function setDependency($table, array $dependents)
+	public function setDependency($table, array $dependents)
 	{
 		$this->matrix[$table] = $dependents;
 	}
 
-	function addDependency($table, $dependent)
+	public function addDependency($table, $dependent)
 	{
 		if (isset($this->matrix[$table]) && !in_array($dependent, $this->matrix[$table])) {
 			$this->matrix[$table][] = $dependent;
@@ -46,7 +46,7 @@ class ReportRunQueryDependencyMatrix
 		}
 	}
 
-	function getDependents($table)
+	public function getDependents($table)
 	{
 		$this->computeDependencies();
 		return isset($this->computedMatrix[$table]) ? $this->computedMatrix[$table] : array();
@@ -92,18 +92,18 @@ class ReportRunQueryPlanner
 	protected $registeredCleanup = false;
 	public static $existTables = [];
 
-	function addTable($table)
+	public function addTable($table)
 	{
 		if (!empty($table))
 			$this->tables[$table] = $table;
 	}
 
-	function addCustomTable($table)
+	public function addCustomTable($table)
 	{
 		$this->customTables[] = $table;
 	}
 
-	function requireTable($table, $dependencies = null)
+	public function requireTable($table, $dependencies = null)
 	{
 
 		if ($this->disablePlanner) {
@@ -128,22 +128,22 @@ class ReportRunQueryPlanner
 		return false;
 	}
 
-	function getTables()
+	public function getTables()
 	{
 		return $this->tables;
 	}
 
-	function getCustomTables()
+	public function getCustomTables()
 	{
 		return $this->customTables;
 	}
 
-	function newDependencyMatrix()
+	public function newDependencyMatrix()
 	{
 		return new ReportRunQueryDependencyMatrix();
 	}
 
-	function registerTempTable($query, $keyColumns)
+	public function registerTempTable($query, $keyColumns)
 	{
 		if ($this->allowTempTables && !$this->disablePlanner) {
 			$current_user = vglobal('current_user');
@@ -179,7 +179,7 @@ class ReportRunQueryPlanner
 		return "($query)";
 	}
 
-	function initializeTempTables()
+	public function initializeTempTables()
 	{
 		$adb = PearDatabase::getInstance();
 		foreach ($this->tempTables as $uniqueName => $tempTableInfo) {
@@ -211,7 +211,7 @@ class ReportRunQueryPlanner
 		}
 	}
 
-	function cleanup()
+	public function cleanup()
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -266,7 +266,7 @@ class ReportRun extends CRMEntity
 	 *  To ensure single-instance is present for $reportid
 	 *  as we optimize using ReportRunPlanner and setup temporary tables.
 	 */
-	function ReportRun($reportid)
+	public function ReportRun($reportid)
 	{
 		$oReport = new Reports($reportid);
 		$this->reportid = $reportid;
@@ -294,7 +294,7 @@ class ReportRun extends CRMEntity
 	 * 				      	     )
 	 *
 	 */
-	function getQueryColumnsList($reportid, $outputformat = '')
+	public function getQueryColumnsList($reportid, $outputformat = '')
 	{
 		// Have we initialized information already?
 		if ($this->_columnslist !== false) {
@@ -395,7 +395,7 @@ class ReportRun extends CRMEntity
 		return $columnslist;
 	}
 
-	function getColumnSQL($selectedfields)
+	public function getColumnSQL($selectedfields)
 	{
 		$adb = PearDatabase::getInstance();
 		$header_label = $selectedfields[2]; // Header label to be displayed in the reports table
@@ -567,7 +567,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $module : Type string
 	 *  returns permitted fields in array format
 	 */
-	function getaccesfield($module)
+	public function getaccesfield($module)
 	{
 		$current_user = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
@@ -611,7 +611,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $selectedfields : Type Array
 	 *  returns the case query for the escaped columns
 	 */
-	function getEscapedColumns($selectedfields)
+	public function getEscapedColumns($selectedfields)
 	{
 
 		$tableName = $selectedfields[0];
@@ -646,7 +646,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $reportid : Type Integer
 	 *  returns the query of columnlist for the selected columns
 	 */
-	function getSelectedColumnsList($reportid)
+	public function getSelectedColumnsList($reportid)
 	{
 
 		$adb = PearDatabase::getInstance();
@@ -695,7 +695,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $value : Type String
 	 *  returns the check query for the comparator
 	 */
-	function getAdvComparator($comparator, $value, $datatype = "", $columnName = '')
+	public function getAdvComparator($comparator, $value, $datatype = "", $columnName = '')
 	{
 
 		global $ogReport;
@@ -783,7 +783,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $field : field
 	 *  returns the value for the comparator
 	 */
-	function getFilterComparedField($field)
+	public function getFilterComparedField($field)
 	{
 		global $ogReport;
 		$adb = PearDatabase::getInstance();
@@ -843,7 +843,7 @@ class ReportRun extends CRMEntity
 	 * 				      	     )
 	 *
 	 */
-	function getAdvFilterList($reportid)
+	public function getAdvFilterList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -897,7 +897,7 @@ class ReportRun extends CRMEntity
 		return $advft_criteria;
 	}
 
-	function generateAdvFilterSql($advfilterlist)
+	public function generateAdvFilterSql($advfilterlist)
 	{
 
 		$adb = PearDatabase::getInstance();
@@ -1252,7 +1252,7 @@ class ReportRun extends CRMEntity
 		return $advfiltersql;
 	}
 
-	function getAdvFilterSql($reportid)
+	public function getAdvFilterSql($reportid)
 	{
 		// Have we initialized information already?
 		if ($this->_advfiltersql !== false) {
@@ -1277,7 +1277,7 @@ class ReportRun extends CRMEntity
 	 * 				      	     )
 	 *
 	 */
-	function getStdFilterList($reportid)
+	public function getStdFilterList($reportid)
 	{
 		// Have we initialized information already?
 		if ($this->_stdfilterlist !== false) {
@@ -1368,7 +1368,7 @@ class ReportRun extends CRMEntity
 	 *  This function returns  $stdfilterlist Array($columnname => $tablename:$columnname:$fieldlabel=>$tablename.$columnname 'between' $startdate 'and' $enddate)
 	 *
 	 */
-	function RunTimeFilter($filtercolumn, $filter, $startdate, $enddate)
+	public function RunTimeFilter($filtercolumn, $filter, $startdate, $enddate)
 	{
 		if ($filtercolumn != "none") {
 			$selectedfields = explode(":", $filtercolumn);
@@ -1397,7 +1397,7 @@ class ReportRun extends CRMEntity
 	 *  This function returns  $advfiltersql
 	 *
 	 */
-	function RunTimeAdvFilter($advft_criteria, $advft_criteria_groups)
+	public function RunTimeAdvFilter($advft_criteria, $advft_criteria_groups)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -1487,7 +1487,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $reportid : Type Integer
 	 *  returns the query of columnlist for the selected columns
 	 */
-	function getStandardCriterialSql($reportid)
+	public function getStandardCriterialSql($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
@@ -1545,12 +1545,12 @@ class ReportRun extends CRMEntity
 	 *  returns the $datevalue Array in the given format
 	 * 		$datevalue = Array(0=>$startdate,1=>$enddate)
 	 */
-	function getStandarFiltersStartAndEndDate($type)
+	public function getStandarFiltersStartAndEndDate($type)
 	{
 		return DateTimeRange::getDateRangeByType($type);
 	}
 
-	function hasGroupingList()
+	public function hasGroupingList()
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT 1 FROM vtiger_reportsortcol WHERE reportid=? and columnname <> "none"', array($this->reportid));
@@ -1565,7 +1565,7 @@ class ReportRun extends CRMEntity
 	 * 				   $tablename2:$columnname2:$fieldlabel2:fieldname2:typeofdata2=>$tablename2:$columnname2 $sorder)
 	 * This function also sets the return value in the class variable $this->groupbylist
 	 */
-	function getGroupingList($reportid)
+	public function getGroupingList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
@@ -1645,7 +1645,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $selectedfield : type string
 	 *  this returns the string for grouplist
 	 */
-	function replaceSpecialChar($selectedfield)
+	public function replaceSpecialChar($selectedfield)
 	{
 		$selectedfield = decode_html(decode_html($selectedfield));
 		preg_match('/&/', $selectedfield, $matches);
@@ -1660,7 +1660,7 @@ class ReportRun extends CRMEntity
 	 *  this returns the columns query for the sortorder columns
 	 *  this function also sets the return value in the class variable $this->orderbylistsql
 	 */
-	function getSelectedOrderbyList($reportid)
+	public function getSelectedOrderbyList($reportid)
 	{
 
 		$adb = PearDatabase::getInstance();
@@ -1707,7 +1707,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $secmodule : type String
 	 *  this returns join query for the given secondary module
 	 */
-	function getRelatedModulesQuery($module, $secmodule)
+	public function getRelatedModulesQuery($module, $secmodule)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -1747,7 +1747,7 @@ class ReportRun extends CRMEntity
 	 * @param type $scope
 	 * @return $query
 	 */
-	function getReportsNonAdminAccessControlQuery($module, $user, $scope = '')
+	public function getReportsNonAdminAccessControlQuery($module, $user, $scope = '')
 	{
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
@@ -1794,7 +1794,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $module : type String
 	 *  this returns join query for the given module
 	 */
-	function getReportsQuery($module, $type = '')
+	public function getReportsQuery($module, $type = '')
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -2167,7 +2167,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $module : Type String
 	 *  this returns join query for the report
 	 */
-	function sGetSQLforReport($reportid, $filtersql, $type = '', $chartReport = false, $startLimit = false, $endLimit = false)
+	public function sGetSQLforReport($reportid, $filtersql, $type = '', $chartReport = false, $startLimit = false, $endLimit = false)
 	{
 		$log = vglobal('log');
 
@@ -2265,7 +2265,7 @@ class ReportRun extends CRMEntity
 		return $reportquery;
 	}
 
-	function getHeaderToRaport($adb, $fld, $modules_selected)
+	public function getHeaderToRaport($adb, $fld, $modules_selected)
 	{
 		list($module, $fieldLabel) = explode('__', $fld->name, 2);
 		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
@@ -2308,7 +2308,7 @@ class ReportRun extends CRMEntity
 	 * 		HTML strings for
 	 */
 	// Performance Optimization: Added parameter directOutput to avoid building big-string!
-	function GenerateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
+	public function GenerateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -3036,7 +3036,7 @@ class ReportRun extends CRMEntity
 	}
 
 	//<<<<<<<new>>>>>>>>>>
-	function getColumnsTotal($reportid)
+	public function getColumnsTotal($reportid)
 	{
 		// Have we initialized it already?
 		if ($this->_columnstotallist !== false) {
@@ -3141,7 +3141,7 @@ class ReportRun extends CRMEntity
 	//<<<<<<new>>>>>>>>>
 
 
-	function getColumnsTotalSQL($fieldlist, $premod)
+	public function getColumnsTotalSQL($fieldlist, $premod)
 	{
 		// Added condition to support detail report calculations
 		if ($fieldlist[0] == 'cb') {
@@ -3185,7 +3185,7 @@ class ReportRun extends CRMEntity
 	 *  @ param $reportid : Type integer
 	 *  This returns columnstoTotal query for the reportid
 	 */
-	function getColumnsToTotalColumns($reportid)
+	public function getColumnsToTotalColumns($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
@@ -3228,7 +3228,7 @@ class ReportRun extends CRMEntity
 	 *  @param $fldname: Type Varchar
 	 *  Returns Language Converted Header Strings
 	 * */
-	function getLstringforReportHeaders($fldname)
+	public function getLstringforReportHeaders($fldname)
 	{
 		global $modules;
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -3261,7 +3261,7 @@ class ReportRun extends CRMEntity
 	/** Function to get picklist value array based on profile
 	 *          *  returns permitted fields in array format
 	 * */
-	function getAccessPickListValues()
+	public function getAccessPickListValues()
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -3344,7 +3344,7 @@ class ReportRun extends CRMEntity
 		return PHPExcel_Cell_DataType::TYPE_STRING;
 	}
 
-	function writeReportToExcelFile($fileName, $filterlist = '')
+	public function writeReportToExcelFile($fileName, $filterlist = '')
 	{
 
 		$currentModule = vglobal('currentModule');
@@ -3430,7 +3430,7 @@ class ReportRun extends CRMEntity
 		$workbookWriter->save($fileName);
 	}
 
-	function writeReportToCSVFile($fileName, $filterlist = '')
+	public function writeReportToCSVFile($fileName, $filterlist = '')
 	{
 		$reportData = $this->GenerateReport("PDF", $filterlist);
 		$arr_val = $reportData['data'];
@@ -3451,7 +3451,7 @@ class ReportRun extends CRMEntity
 		fclose($fp);
 	}
 
-	function getGroupByTimeList($reportId)
+	public function getGroupByTimeList($reportId)
 	{
 		$adb = PearDatabase::getInstance();
 		$groupByTimeQuery = "SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=?";
@@ -3474,7 +3474,7 @@ class ReportRun extends CRMEntity
 		return $groupByCondition;
 	}
 
-	function GetTimeCriteriaCondition($criteria, $dateField)
+	public function GetTimeCriteriaCondition($criteria, $dateField)
 	{
 		$condition = "";
 		if (strtolower($criteria) == 'year') {
@@ -3487,7 +3487,7 @@ class ReportRun extends CRMEntity
 		return $condition;
 	}
 
-	function GetFirstSortByField($reportid)
+	public function GetFirstSortByField($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		$groupByField = "";
@@ -3522,7 +3522,7 @@ class ReportRun extends CRMEntity
 		return $groupByField;
 	}
 
-	function getReferenceFieldColumnList($moduleName, $fieldInfo)
+	public function getReferenceFieldColumnList($moduleName, $fieldInfo)
 	{
 		$adb = PearDatabase::getInstance();
 

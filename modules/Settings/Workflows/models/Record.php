@@ -222,7 +222,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return $workflowModel;
 	}
 
-	function executionConditionAsLabel($executionCondition = null)
+	public function executionConditionAsLabel($executionCondition = null)
 	{
 		if ($executionCondition == null) {
 			$executionCondition = $this->get('execution_condition');
@@ -274,7 +274,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return count($examinedIdList);
 	}
 
-	function isFilterSavedInNew()
+	public function isFilterSavedInNew()
 	{
 		$wf = $this->getWorkflowObject();
 		if ($wf->filtersavedinnew == '6') {
@@ -287,7 +287,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 * Functions transforms workflow filter to advanced filter
 	 * @return <Array>
 	 */
-	function transformToAdvancedFilterCondition($conditions = false)
+	public function transformToAdvancedFilterCondition($conditions = false)
 	{
 		if (!$conditions)
 			$conditions = $this->get('conditions');
@@ -313,7 +313,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 * Function returns valuetype of the field filter
 	 * @return <String>
 	 */
-	function getFieldFilterValueType($fieldname)
+	public function getFieldFilterValueType($fieldname)
 	{
 		$conditions = $this->get('conditions');
 		if (!empty($conditions) && is_array($conditions)) {
@@ -329,7 +329,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function transforms Advance filter to workflow conditions
 	 */
-	function transformAdvanceFilterToWorkFlowFilter()
+	public function transformAdvanceFilterToWorkFlowFilter()
 	{
 		$conditions = $this->get('conditions');
 		$wfCondition = array();

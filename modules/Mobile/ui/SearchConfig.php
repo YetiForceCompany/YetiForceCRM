@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . '/../api/ws/FetchRecordWithGrouping.php';
 class Mobile_UI_SearchConfig extends Mobile_WS_FetchRecordWithGrouping
 {
 
-	function cachedModule($moduleName)
+	public function cachedModule($moduleName)
 	{
 		$modules = $this->sessionGet('_MODULES'); // Should be available post login
 		foreach ($modules as $module) {
@@ -23,18 +23,18 @@ class Mobile_UI_SearchConfig extends Mobile_WS_FetchRecordWithGrouping
 		return false;
 	}
 
-	function cacheSearchFields($module, $fieldnames)
+	public function cacheSearchFields($module, $fieldnames)
 	{
 		$this->sessionSet("_MODULE.{$module}.SEARCHFIELDS", $fieldnames);
 	}
 
-	function cachedSearchFields($module)
+	public function cachedSearchFields($module)
 	{
 		$cachekey = "_MODULE.{$module}.SEARCHFIELDS";
 		return $this->sessionGet($cachekey, array());
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		$mode = $request->get('mode');
 		$module = $this->cachedModule($request->get('module'));

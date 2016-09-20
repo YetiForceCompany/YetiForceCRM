@@ -105,7 +105,7 @@ class Products_Module_Model extends Vtiger_Module_Model
 	 * @param <Vtiger_Record_Model> $relatedModuleModel
 	 * @return <String>
 	 */
-	function get_product_pricebooks($recordModel, $relatedModuleModel)
+	public function get_product_pricebooks($recordModel, $relatedModuleModel)
 	{
 		$query = 'SELECT vtiger_pricebook.pricebookid, vtiger_pricebook.bookname, vtiger_pricebook.active, vtiger_crmentity.crmid, 
 						vtiger_crmentity.smownerid, vtiger_pricebookproductrel.listprice, vtiger_products.unit_price

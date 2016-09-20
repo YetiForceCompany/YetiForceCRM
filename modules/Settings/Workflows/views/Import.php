@@ -72,7 +72,7 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
-	function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

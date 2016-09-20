@@ -16,7 +16,7 @@ class Mobile_UI_BlockModel
 	private $_label;
 	private $_fields = array();
 
-	function initData($blockData)
+	public function initData($blockData)
 	{
 		$this->_label = $blockData['label'];
 		if (isset($blockData['fields'])) {
@@ -24,12 +24,12 @@ class Mobile_UI_BlockModel
 		}
 	}
 
-	function label()
+	public function label()
 	{
 		return $this->_label;
 	}
 
-	function fields()
+	public function fields()
 	{
 		return $this->_fields;
 	}

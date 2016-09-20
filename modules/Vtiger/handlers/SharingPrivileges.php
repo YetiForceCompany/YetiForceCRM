@@ -10,7 +10,7 @@ require_once 'include/events/VTEventHandler.inc';
 class Vtiger_SharingPrivileges_Handler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		if ($eventName == 'vtiger.entity.aftersave.final' && \AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 			$moduleName = $entityData->getModuleName();

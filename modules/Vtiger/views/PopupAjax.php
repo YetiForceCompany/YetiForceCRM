@@ -12,7 +12,7 @@
 class Vtiger_PopupAjax_View extends Vtiger_Popup_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getListViewCount');
@@ -20,17 +20,17 @@ class Vtiger_PopupAjax_View extends Vtiger_Popup_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

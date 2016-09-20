@@ -11,7 +11,7 @@
 class Project_Detail_View extends Vtiger_Detail_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showRelatedRecords');
@@ -19,7 +19,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$this->exposeMethod('showGantt');
 	}
 
-	function showCharts(Vtiger_Request $request)
+	public function showCharts(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -33,7 +33,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$viewer->view('charts/ShowTimeProjectUsers.tpl', $moduleName);
 	}
 
-	function showGantt(Vtiger_Request $request)
+	public function showGantt(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -57,7 +57,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		return $headerCssInstances;
 	}
 
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

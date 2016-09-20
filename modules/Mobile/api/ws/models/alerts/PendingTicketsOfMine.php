@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . '/../Alert.php';
 class Mobile_WS_AlertModel_PendingTicketsOfMine extends Mobile_WS_AlertModel
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->name = 'Pending Ticket Alert';
@@ -22,7 +22,7 @@ class Mobile_WS_AlertModel_PendingTicketsOfMine extends Mobile_WS_AlertModel
 		$this->description = 'Alert sent when ticket assigned is not yet closed';
 	}
 
-	function query()
+	public function query()
 	{
 		$sql = "SELECT crmid FROM vtiger_troubletickets INNER JOIN 
 				vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_troubletickets.ticketid 
@@ -31,7 +31,7 @@ class Mobile_WS_AlertModel_PendingTicketsOfMine extends Mobile_WS_AlertModel
 		return $sql;
 	}
 
-	function queryParameters()
+	public function queryParameters()
 	{
 		return array($this->getUser()->id);
 	}

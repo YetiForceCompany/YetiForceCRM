@@ -14,7 +14,7 @@ require_once 'include/events/VTEntityDelta.php';
 class ModTrackerHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $data)
+	public function handleEvent($eventName, $data)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();

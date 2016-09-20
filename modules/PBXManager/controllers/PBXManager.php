@@ -11,7 +11,7 @@
 class PBXManager_PBXManager_Controller
 {
 
-	function getConnector()
+	public function getConnector()
 	{
 		return new PBXManager_PBXManager_Connector;
 	}
@@ -21,7 +21,7 @@ class PBXManager_PBXManager_Controller
 	 * @params <array> call details
 	 * return Response object
 	 */
-	function process($request)
+	public function process($request)
 	{
 		$mode = $request->get('callstatus');
 
@@ -53,7 +53,7 @@ class PBXManager_PBXManager_Controller
 	 * @params <array> incoming call details
 	 * return Response object
 	 */
-	function processStartupCall($request)
+	public function processStartupCall($request)
 	{
 		$connector = $this->getConnector();
 
@@ -100,7 +100,7 @@ class PBXManager_PBXManager_Controller
 	 * @params <array> Dial call details
 	 * return Response object
 	 */
-	function processDialCall($request)
+	public function processDialCall($request)
 	{
 		$connector = $this->getConnector();
 		$connector->handleDialCall($request);
@@ -111,7 +111,7 @@ class PBXManager_PBXManager_Controller
 	 * @params <array> Dial call details
 	 * return Response object
 	 */
-	function processEndCall($request)
+	public function processEndCall($request)
 	{
 		$connector = $this->getConnector();
 		$connector->handleEndCall($request);
@@ -122,7 +122,7 @@ class PBXManager_PBXManager_Controller
 	 * @params <array> Hangup call details
 	 * return Response object
 	 */
-	function processHangupCall($request)
+	public function processHangupCall($request)
 	{
 		$connector = $this->getConnector();
 		$connector->handleHangupCall($request);
@@ -133,7 +133,7 @@ class PBXManager_PBXManager_Controller
 	 * @params <array> recording details
 	 * return Response object
 	 */
-	function processRecording($request)
+	public function processRecording($request)
 	{
 		$connector = $this->getConnector();
 		$connector->handleRecording($request);

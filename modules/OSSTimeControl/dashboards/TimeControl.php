@@ -12,7 +12,7 @@
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	function getSearchParams($assignedto = '', $date)
+	public function getSearchParams($assignedto = '', $date)
 	{
 		$conditions = array();
 		$listSearchParams = array();

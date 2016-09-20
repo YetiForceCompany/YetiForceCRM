@@ -14,28 +14,28 @@ include_once dirname(__FILE__) . '/models/Paging.php';
 class Mobile_WS_ListModuleRecords extends Mobile_WS_Controller
 {
 
-	function isCalendarModule($module)
+	public function isCalendarModule($module)
 	{
 		return ($module == 'Events' || $module == 'Calendar');
 	}
 
-	function getSearchFilterModel($module, $search)
+	public function getSearchFilterModel($module, $search)
 	{
 		return Mobile_WS_SearchFilterModel::modelWithCriterias($module, \includes\utils\Json::decode($search));
 	}
 
-	function getPagingModel(Mobile_API_Request $request)
+	public function getPagingModel(Mobile_API_Request $request)
 	{
 		$page = $request->get('page', 0);
 		return Mobile_WS_PagingModel::modelWithPageStart($page);
 	}
 
-	function process(Mobile_API_Request $request)
+	public function process(Mobile_API_Request $request)
 	{
 		return $this->processSearchRecordLabel($request);
 	}
 
-	function processSearchRecordLabel(Mobile_API_Request $request)
+	public function processSearchRecordLabel(Mobile_API_Request $request)
 	{
 		$current_user = vglobal('current_user'); // Few core API assumes this variable availability
 
@@ -110,7 +110,7 @@ class Mobile_WS_ListModuleRecords extends Mobile_WS_Controller
 		return $response;
 	}
 
-	function processSearchRecordLabelForCalendar(Mobile_API_Request $request, $pagingModel = false)
+	public function processSearchRecordLabelForCalendar(Mobile_API_Request $request, $pagingModel = false)
 	{
 		$current_user = $this->getActiveUser();
 
@@ -147,7 +147,7 @@ class Mobile_WS_ListModuleRecords extends Mobile_WS_Controller
 		return $response;
 	}
 
-	function fetchRecordLabelsForModule($module, $user, $morefields = array(), $filterOrAlertInstance = false, $pagingModel = false)
+	public function fetchRecordLabelsForModule($module, $user, $morefields = array(), $filterOrAlertInstance = false, $pagingModel = false)
 	{
 		if ($this->isCalendarModule($module)) {
 			$fieldnames = Mobile_WS_Utils::getEntityFieldnames('Calendar');
@@ -168,7 +168,7 @@ class Mobile_WS_ListModuleRecords extends Mobile_WS_Controller
 		return $this->queryToSelectFilteredRecords($module, $fieldnames, $filterOrAlertInstance, $pagingModel);
 	}
 
-	function queryToSelectFilteredRecords($module, $fieldnames, $filterOrAlertInstance, $pagingModel)
+	public function queryToSelectFilteredRecords($module, $fieldnames, $filterOrAlertInstance, $pagingModel)
 	{
 
 		if ($filterOrAlertInstance instanceof Mobile_WS_SearchFilterModel) {

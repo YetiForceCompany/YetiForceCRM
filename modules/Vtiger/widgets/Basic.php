@@ -19,7 +19,7 @@ class Vtiger_Basic_Widget
 	var $dbParams = [];
 	var $allowedModules = [];
 
-	function __construct($Module = false, $moduleModel = false, $Record = false, $widget = [])
+	public function __construct($Module = false, $moduleModel = false, $Record = false, $widget = [])
 	{
 		$this->Module = $Module;
 		$this->Record = $Record;

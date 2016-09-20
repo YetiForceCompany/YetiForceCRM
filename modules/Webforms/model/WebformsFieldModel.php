@@ -15,27 +15,27 @@ class Webforms_Field_Model
 
 	protected $data;
 
-	function __construct($data = array())
+	public function __construct($data = array())
 	{
 		$this->data = $data;
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->data["id"] = $id;
 	}
 
-	function setWebformId($webformid)
+	public function setWebformId($webformid)
 	{
 		$this->data["webformid"] = $webformid;
 	}
 
-	function setFieldName($fieldname)
+	public function setFieldName($fieldname)
 	{
 		$this->data["fieldname"] = $fieldname;
 	}
 
-	function setNeutralizedField($fieldname, $fieldlabel = false)
+	public function setNeutralizedField($fieldname, $fieldlabel = false)
 	{
 		$fieldlabel = str_replace(" ", "_", $fieldlabel);
 		if (Webforms_Model::isCustomField($fieldname)) {
@@ -45,12 +45,12 @@ class Webforms_Field_Model
 		}
 	}
 
-	function setEnabled($enabled)
+	public function setEnabled($enabled)
 	{
 		$this->data["enabled"] = $enabled;
 	}
 
-	function setDefaultValue($defaultvalue)
+	public function setDefaultValue($defaultvalue)
 	{
 		if (is_array($defaultvalue)) {
 			$defaultvalue = implode(" |##| ", $defaultvalue);
@@ -58,44 +58,44 @@ class Webforms_Field_Model
 		$this->data["defaultvalue"] = $defaultvalue;
 	}
 
-	function setRequired($required)
+	public function setRequired($required)
 	{
 		$this->data["required"] = $required;
 	}
 
-	function getId()
+	public function getId()
 	{
 		return $this->data["id"];
 	}
 
-	function getWebformId()
+	public function getWebformId()
 	{
 		return $this->data["webformid"];
 	}
 
-	function getFieldName()
+	public function getFieldName()
 	{
 		return $this->data["fieldname"];
 	}
 
-	function getNeutralizedField()
+	public function getNeutralizedField()
 	{
 		$neutralizedfield = str_replace(" ", "_", $this->data['neutralizedfield']);
 		return $neutralizedfield;
 	}
 
-	function getEnabled()
+	public function getEnabled()
 	{
 		return $this->data["enabled"];
 	}
 
-	function getDefaultValue()
+	public function getDefaultValue()
 	{
 		$data = $this->data["defaultvalue"];
 		return $data;
 	}
 
-	function getRequired()
+	public function getRequired()
 	{
 		return $this->data["required"];
 	}

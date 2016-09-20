@@ -35,7 +35,7 @@ class Filter
 	 * Get unique id for this instance
 	 * @access private
 	 */
-	function __getUniqueId()
+	public function __getUniqueId()
 	{
 		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_customview');
@@ -46,7 +46,7 @@ class Filter
 	 * @param Module Instance of the module to which this filter is associated.
 	 * @access private
 	 */
-	function initialize($valuemap, $moduleInstance = false)
+	public function initialize($valuemap, $moduleInstance = false)
 	{
 		$this->id = $valuemap[cvid];
 		$this->name = $valuemap[viewname];
@@ -58,7 +58,7 @@ class Filter
 	 * @param Module Instance of the module to which this filter should be associated with
 	 * @access private
 	 */
-	function __create($moduleInstance)
+	public function __create($moduleInstance)
 	{
 		$db = \PearDatabase::getInstance();
 		$this->module = $moduleInstance;
@@ -99,7 +99,7 @@ class Filter
 	 * @access private
 	 * @internal TODO
 	 */
-	function __update()
+	public function __update()
 	{
 		self::log("Updating Filter $this->name ... DONE");
 	}
@@ -108,7 +108,7 @@ class Filter
 	 * Delete this instance
 	 * @access private
 	 */
-	function __delete()
+	public function __delete()
 	{
 		$adb = \PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_cvadvfilter WHERE cvid=?", Array($this->id));
@@ -120,7 +120,7 @@ class Filter
 	 * Save this instance
 	 * @param Module Instance of the module to use
 	 */
-	function save($moduleInstance = false)
+	public function save($moduleInstance = false)
 	{
 		if ($this->id)
 			$this->__update();
@@ -133,7 +133,7 @@ class Filter
 	 * Delete this instance
 	 * @access private
 	 */
-	function delete()
+	public function delete()
 	{
 		$this->__delete();
 	}
@@ -143,7 +143,7 @@ class Filter
 	 * @param Field Instance of the field
 	 * @access private
 	 */
-	function __getColumnValue($fieldInstance)
+	public function __getColumnValue($fieldInstance)
 	{
 		$tod = explode('~', $fieldInstance->typeofdata);
 		$displayinfo = $fieldInstance->getModuleName() . '_' . str_replace(' ', '_', $fieldInstance->label) . ':' . $tod[0];
@@ -156,7 +156,7 @@ class Filter
 	 * @param Field Instance of the field
 	 * @param Integer Index count to use
 	 */
-	function addField($fieldInstance, $index = 0)
+	public function addField($fieldInstance, $index = 0)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -177,7 +177,7 @@ class Filter
 	 * @param String Value to use for comparision
 	 * @param Integer Index count to use
 	 */
-	function addRule($fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
+	public function addRule($fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
 	{
 		$adb = \PearDatabase::getInstance();
 

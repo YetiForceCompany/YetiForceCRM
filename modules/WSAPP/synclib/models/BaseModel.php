@@ -13,7 +13,7 @@ class WSAPP_BaseModel
 
 	protected $data;
 
-	function __construct($values = array())
+	public function __construct($values = array())
 	{
 		$this->data = $values;
 	}

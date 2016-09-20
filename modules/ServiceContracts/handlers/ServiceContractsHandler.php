@@ -9,7 +9,7 @@
 class ServiceContractsHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		$adb = PearDatabase::getInstance();
 

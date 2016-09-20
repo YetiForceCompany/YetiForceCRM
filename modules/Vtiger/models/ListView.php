@@ -389,7 +389,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		return $db->getSingleValue($listResult);
 	}
 
-	function getQuery()
+	public function getQuery()
 	{
 		return $this->get('query_generator')->getQuery();
 	}

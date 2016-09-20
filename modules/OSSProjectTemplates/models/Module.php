@@ -12,7 +12,7 @@
 class OSSProjectTemplates_Module_Model extends Vtiger_Module_Model
 {
 
-	function getBasicConfig()
+	public function getBasicConfig()
 	{
 		$path = 'modules/OSSProjectTemplates/config/config.json';
 

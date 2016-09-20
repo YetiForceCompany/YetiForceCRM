@@ -27,7 +27,7 @@ class Menu
 	 * @param Array Map 
 	 * @access private
 	 */
-	function initialize($valuemap)
+	public function initialize($valuemap)
 	{
 		$this->id = $valuemap[parenttabid];
 		$this->label = $valuemap[parenttab_label];

@@ -12,7 +12,7 @@ include_once dirname(__FILE__) . '/Login.php';
 class Mobile_WS_LoginAndFetchModules extends Mobile_WS_Login
 {
 
-	function postProcess(Mobile_API_Response $response)
+	public function postProcess(Mobile_API_Response $response)
 	{
 		$current_user = $this->getActiveUser();
 
@@ -23,7 +23,7 @@ class Mobile_WS_LoginAndFetchModules extends Mobile_WS_Login
 		}
 	}
 
-	function getListing($user)
+	public function getListing($user)
 	{
 		$modulewsids = Mobile_WS_Utils::getEntityModuleWSIds();
 

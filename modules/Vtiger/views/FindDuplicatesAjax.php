@@ -11,7 +11,7 @@
 class Vtiger_FindDuplicatesAjax_View extends Vtiger_FindDuplicates_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && method_exists($this, $mode)) {

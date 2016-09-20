@@ -12,7 +12,7 @@ include_once dirname(__FILE__) . '/../../api/ws/models/SearchFilter.php';
 class Mobile_UI_SearchFilterModel extends Mobile_WS_SearchFilterModel
 {
 
-	function prepareWhereClause($fieldnames = false)
+	public function prepareWhereClause($fieldnames = false)
 	{
 		$whereClause = '';
 
@@ -56,7 +56,7 @@ class Mobile_UI_SearchFilterModel extends Mobile_WS_SearchFilterModel
 		return $whereClause;
 	}
 
-	function execute($fieldnames, $pagingModel = false)
+	public function execute($fieldnames, $pagingModel = false)
 	{
 		$selectClause = sprintf("SELECT %s", implode(',', $fieldnames));
 		$fromClause = sprintf("FROM %s", $this->moduleName);

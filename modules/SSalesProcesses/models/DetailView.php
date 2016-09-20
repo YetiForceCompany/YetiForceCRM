@@ -10,7 +10,7 @@
 class SSalesProcesses_DetailView_Model extends Vtiger_DetailView_Model
 {
 
-	function getDetailViewRelatedLinks()
+	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();

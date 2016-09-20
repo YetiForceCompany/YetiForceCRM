@@ -74,7 +74,7 @@ class SMSNotifier extends SMSNotifierBase
 	/**
 	 * Detect the related modules based on the entity relation information for this instance.
 	 */
-	function detectRelatedModules()
+	public function detectRelatedModules()
 	{
 
 		$adb = PearDatabase::getInstance();

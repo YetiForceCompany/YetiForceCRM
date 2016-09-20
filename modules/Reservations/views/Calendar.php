@@ -14,7 +14,7 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 		}
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

@@ -326,7 +326,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return 'Off';
 	}
 
-	function error2string($value)
+	public function error2string($value)
 	{
 		$level_names = array(
 			E_ERROR => 'E_ERROR', E_WARNING => 'E_WARNING',

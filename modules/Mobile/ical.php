@@ -28,7 +28,7 @@ class Mobile_ICAL
 	/**
 	 * Default constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->db = PearDatabase::getInstance();
 	}
@@ -40,7 +40,7 @@ class Mobile_ICAL
 	 * @param String $password
 	 * @return True if authenticated, false otherwise
 	 */
-	function authenticate($username, $password)
+	public function authenticate($username, $password)
 	{
 
 		$this->userfocus = CRMEntity::getInstance('Users');
@@ -62,7 +62,7 @@ class Mobile_ICAL
 	 * @param String $date yyyy-mm-dd format
 	 * @return yyyymmdd
 	 */
-	function formatDate($date)
+	public function formatDate($date)
 	{
 		if (empty($date))
 			$date = date('Y-m-d');
@@ -76,7 +76,7 @@ class Mobile_ICAL
 	 * @param String $time hh:ii:ss format
 	 * @return yyyymmddThhiissZ
 	 */
-	function formatDateTime($date, $time)
+	public function formatDateTime($date, $time)
 	{
 		if (empty($date) || preg_match("/0000-00-00/", $date)) {
 			$date = date('Y-m-d');
@@ -105,7 +105,7 @@ class Mobile_ICAL
 	 * @param String $value yyyy-mm-dd hh:ii:ss format
 	 * @return yyyymmddThhiissZ
 	 */
-	function formatDateTimestamp($value)
+	public function formatDateTimestamp($value)
 	{
 		return str_replace(array('-', ':', ' '), array('', '', 'T'), trim($value)) . 'Z';
 	}
@@ -117,7 +117,7 @@ class Mobile_ICAL
 	 * @param String $defvalue
 	 * @return unknown|unknown
 	 */
-	function formatValue($value, $defvalue = '')
+	public function formatValue($value, $defvalue = '')
 	{
 		if (is_null($value) || empty($value))
 			return $defvalue;
@@ -129,7 +129,7 @@ class Mobile_ICAL
 	 *
 	 * @return String
 	 */
-	function generate()
+	public function generate()
 	{
 
 		$properties = array();

@@ -32,7 +32,7 @@ class OSSPasswords_Detail_View extends Vtiger_Detail_View
 	 * @param Vtiger_Record_Model record model
 	 * @return <boolean> true/false
 	 */
-	function isAjaxEnabled($recordModel)
+	public function isAjaxEnabled($recordModel)
 	{
 		return false;
 	}

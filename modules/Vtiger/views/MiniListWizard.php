@@ -11,7 +11,7 @@
 class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

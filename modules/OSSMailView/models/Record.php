@@ -14,7 +14,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	protected $modules_email_actions_widgets = [];
 
-	function __construct()
+	public function __construct()
 	{
 		$this->modules_email_actions_widgets['Accounts'] = true;
 		$this->modules_email_actions_widgets['Contacts'] = true;
@@ -25,7 +25,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		parent::__construct();
 	}
 
-	function get($key)
+	public function get($key)
 	{
 		$value = parent::get($key);
 		if ($key === 'content' && AppRequest::get('view') == 'Detail') {

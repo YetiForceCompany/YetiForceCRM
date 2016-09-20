@@ -12,7 +12,7 @@
 class ProjectTaskHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $data)
+	public function handleEvent($eventName, $data)
 	{
 		$moduleName = $data->getModuleName();
 		if ($eventName == 'vtiger.entity.aftersave.final' && $moduleName == 'ProjectTask') {
