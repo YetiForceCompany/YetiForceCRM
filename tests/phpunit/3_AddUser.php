@@ -1,6 +1,6 @@
 <?php
 /**
- * Cron test class
+ * AddUser test class
  * @package YetiForce.Tests
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>

@@ -51,7 +51,7 @@ class WebUI extends TestCase
 
 		$webUI = new Vtiger_WebUI();
 		$webUI->process($request);
-		$response = ob_get_contents();
+
 		file_put_contents('tests/EditView.txt', ob_get_contents());
 		ob_end_clean();
 	}

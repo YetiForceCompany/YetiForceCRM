@@ -1,6 +1,6 @@
 <?php
 /**
- * Cron test class
+ * LogIn test class
  * @package YetiForce.Tests
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 class LogIn extends TestCase
 {
 
-	public function loginPage()
+	public function testLoginPage()
 	{
 		ob_start();
 
@@ -24,7 +24,7 @@ class LogIn extends TestCase
 		ob_end_clean();
 	}
 
-	public function loginInToCrm()
+	public function testLoginInToCrm()
 	{
 		$userName = 'demo';
 		$user = CRMEntity::getInstance('Users');
