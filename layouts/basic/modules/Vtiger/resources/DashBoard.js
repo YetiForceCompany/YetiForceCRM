@@ -568,6 +568,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var params = {
 				module: currentTarget.data('module'),
 				view: app.getViewName(),
+				sourceModule: app.getModuleName()
 			};
 			AppConnector.request(params).then(function (data) {
 				$('.dashboardViewContainer').html(data);

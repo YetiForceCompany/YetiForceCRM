@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Home_DashBoard_View extends Vtiger_DashBoard_View
@@ -14,9 +15,10 @@ class Home_DashBoard_View extends Vtiger_DashBoard_View
 	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
+		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$modulesWithwidget = Vtiger_DashBoard_Model::getModulesWithWidgets();
-		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithwidget);
+		$modulesWithWidget = Vtiger_DashBoard_Model::getModulesWithWidgets($moduleName);
+		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$this->preProcessDisplay($request);
 	}
 

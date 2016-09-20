@@ -12,7 +12,7 @@
 class Vtiger_DashBoard_View extends Vtiger_Index_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -20,10 +20,11 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		}
 	}
 
-	function preProcessAjax(\Vtiger_Request $request)
+	public function preProcessAjax(\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$sourceModule = $request->get('sourceModule');
 
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		//check profile permissions for Dashboards
@@ -36,8 +37,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		} else {
 			$widgets = [];
 		}
-		$modulesWithwidget = Vtiger_DashBoard_Model::getModulesWithWidgets();
-		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithwidget);
+		$modulesWithWidget = Vtiger_DashBoard_Model::getModulesWithWidgets($sourceModule);
+		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
 		$viewer->assign('WIDGETS', $widgets);
@@ -46,7 +47,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer->view('dashboards/DashBoardPreProcessAjax.tpl', $moduleName);
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -74,12 +75,12 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		}
 	}
 
-	function preProcessTplName(Vtiger_Request $request)
+	public function preProcessTplName(Vtiger_Request $request)
 	{
 		return 'dashboards/DashBoardPreProcess.tpl';
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
