@@ -8,7 +8,7 @@
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers WebUI::<public>
+ * @covers LogIn::<public>
  */
 class LogIn extends TestCase
 {

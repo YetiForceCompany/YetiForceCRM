@@ -22,9 +22,9 @@ class WebUI extends TestCase
 
 		$webUI = new Vtiger_WebUI();
 		$webUI->process($request);
-		$response = ob_get_contents();
+
+		file_put_contents('tests/ListView.txt', ob_get_contents());
 		ob_end_clean();
-		file_put_contents('tests/ListView.txt', $response);
 	}
 
 	public function testDetailView()
@@ -37,9 +37,8 @@ class WebUI extends TestCase
 
 		$webUI = new Vtiger_WebUI();
 		$webUI->process($request);
-		$response = ob_get_contents();
+		file_put_contents('tests/DetailView.txt', ob_get_contents());
 		ob_end_clean();
-		file_put_contents('tests/DetailView.txt', $response);
 	}
 
 	public function testEditView()
@@ -53,7 +52,7 @@ class WebUI extends TestCase
 		$webUI = new Vtiger_WebUI();
 		$webUI->process($request);
 		$response = ob_get_contents();
+		file_put_contents('tests/EditView.txt', ob_get_contents());
 		ob_end_clean();
-		file_put_contents('tests/EditView.txt', $response);
 	}
 }
