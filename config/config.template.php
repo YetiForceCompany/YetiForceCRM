@@ -73,9 +73,6 @@ $import_dir = 'cache/import/';
 // upload_dir default 
 $upload_dir = 'cache/upload/';
 
-// disable send files using KCFinder
-$upload_disabled = false;
-
 // maximum file size for uploaded files in bytes also used when uploading import files
 // upload_maxsize default value = 3000000
 $upload_maxsize = 52428800;  // 50MB

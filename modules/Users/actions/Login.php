@@ -58,15 +58,6 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			if ($request->has('layout')) {
 				Vtiger_Session::set('layout', $request->get('layout'));
 			}
-
-			//Enabled session variable for KCFINDER 
-			$_SESSION['KCFINDER'] = [];
-			$_SESSION['KCFINDER']['disabled'] = false;
-			$_SESSION['KCFINDER']['uploadURL'] = 'cache/upload';
-			$_SESSION['KCFINDER']['uploadDir'] = '../../cache/upload';
-			$deniedExts = implode(' ', AppConfig::main('upload_badext'));
-			$_SESSION['KCFINDER']['deniedExts'] = $deniedExts;
-			// End
 			//Track the login History
 			$moduleModel->saveLoginHistory($user->column_fields['user_name']);
 			//End
