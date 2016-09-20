@@ -1,4 +1,4 @@
-<?php
+eval<?php
 /**
  * Smarty Resource Plugin
  *
@@ -43,6 +43,7 @@ abstract class Smarty_Resource_Recompiled extends Smarty_Resource
 		// <--------   YetiForce Sp. z o.o.   -------->
 		throw new BadMethodCallException('Eval: Smarty_Resource_Recompiled');
 		// <--------   YetiForce Sp. z o.o.   -------->
+
 		$compiled = &$_smarty_tpl->compiled;
 		$compiled->file_dependency = array();
 		$compiled->includes = array();
@@ -53,7 +54,9 @@ abstract class Smarty_Resource_Recompiled extends Smarty_Resource
 		$_smarty_tpl->loadCompiler();
 		// call compiler
 		try {
-			eval("?>" . $_smarty_tpl->compiler->compileTemplate($_smarty_tpl));
+			/*
+			  eval("?>" . $_smarty_tpl->compiler->compileTemplate($_smarty_tpl));
+			 */
 		} catch (Exception $e) {
 			unset($_smarty_tpl->compiler);
 			while (ob_get_level() > $level) {
