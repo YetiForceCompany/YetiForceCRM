@@ -7,6 +7,9 @@
  */
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers WebUI::<public>
+ */
 class WebUI extends TestCase
 {
 
