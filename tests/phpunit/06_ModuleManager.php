@@ -36,13 +36,5 @@ class ModuleManager extends TestCase
 		$moduleInstance = \vtlib\Module::getInstance('Test');
 		$moduleInstance->delete();
 	}
-	
-	public function testToggleModuleAccess()
-	{
-		$tabs = \includes\Modules::getTabData('tabId');
-		foreach ($tabs as $moduleName => $value) {
-			Settings_ModuleManager_Module_Model::disableModule($moduleName);
-		}
-	}
 }
 
