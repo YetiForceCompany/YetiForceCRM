@@ -165,7 +165,7 @@ class PEAR
 	 * @access public
 	 * @return void
 	 */
-	function PEAR($error_class = null)
+	function __construct($error_class = null)
 	{
 		$classname = strtolower(get_class($this));
 		if ($this->_debug) {
@@ -772,7 +772,7 @@ function _PEAR_call_destructors()
 	}
 
 	// Now call the shutdown functions
-	if (is_array($GLOBALS['_PEAR_shutdown_funcs']) && ! empty($GLOBALS['_PEAR_shutdown_funcs'])) {
+	if (is_array($GLOBALS['_PEAR_shutdown_funcs']) && !empty($GLOBALS['_PEAR_shutdown_funcs'])) {
 		foreach ($GLOBALS['_PEAR_shutdown_funcs'] as $value) {
 			call_user_func_array($value[0], $value[1]);
 		}
@@ -888,7 +888,7 @@ class PEAR_Error
 		}
 		if ($this->mode & PEAR_ERROR_EXCEPTION) {
 			trigger_error("PEAR_ERROR_EXCEPTION is obsolete, use class PEAR_Exception for exceptions", E_USER_WARNING);
-			eval('$e = new Exception($this->message, $this->code);throw($e);');
+			throw new Exception($this->message, $this->code);
 		}
 	}
 	// }}}

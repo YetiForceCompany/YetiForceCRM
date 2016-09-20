@@ -113,7 +113,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$request_URL = (vtlib\Functions::getBrowserInfo()->https ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		if (AppConfig::main('forceRedirect') && stripos($request_URL, AppConfig::main('site_URL')) !== 0) {
 			header('Location: ' . AppConfig::main('site_URL'), true, 301);
-			exit;
+			throw new \Exception\AppException('Force Redirect');
 		}
 		Vtiger_Session::init();
 
@@ -244,7 +244,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 
-	public function exception_error_handler($errno, $errstr, $errfile, $errline)
+	function exception_error_handler($errno, $errstr, $errfile, $errline)
 	{
 		$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
 		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
