@@ -58,7 +58,7 @@ class Notifications
 			$conditions .= ' && reletedmodule IN ("' . implode('","', $modules) . '")';
 		}
 		if (!empty($data['endDate']) && !empty($data['startDate'])) {
-			$conditions .= ' && `time` BETWEEN ' . $db->sql_escape_string($data['startDate']) . ' && ' . $db->sql_escape_string($data['endDate']);
+			$conditions .= ' && `time` BETWEEN ' . $db->sql_escape_string($data['startDate']) . ' AND ' . $db->sql_escape_string($data['endDate']);
 		} elseif (!empty($data['endDate'])) {
 			$conditions .= ' && `time` <= ' . $db->sql_escape_string($data['endDate']);
 		}

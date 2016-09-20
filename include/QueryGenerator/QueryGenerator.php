@@ -1056,7 +1056,7 @@ class QueryGenerator
 			if ($field->getFieldName() == 'birthday') {
 				$valueArray[0] = getValidDBInsertDateTimeValue($valueArray[0]);
 				$valueArray[1] = getValidDBInsertDateTimeValue($valueArray[1]);
-				$sql[] = "BETWEEN DATE_FORMAT(" . $db->quote($valueArray[0]) . ", '%m%d') && " .
+				$sql[] = "BETWEEN DATE_FORMAT(" . $db->quote($valueArray[0]) . ", '%m%d') AND " .
 					"DATE_FORMAT(" . $db->quote($valueArray[1]) . ", '%m%d')";
 			} else {
 				if ($this->isDateType($field->getFieldDataType())) {

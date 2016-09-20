@@ -49,7 +49,7 @@ class Cron_Notification
 			$query .= ' && `time` <= ?';
 			$params[] = $endDate;
 		} else {
-			$query .= ' && `time` BETWEEN ? && ?';
+			$query .= ' && `time` BETWEEN ? AND ?';
 			array_push($params, $startDate, $endDate);
 		}
 		$query .= ' LIMIT 1';

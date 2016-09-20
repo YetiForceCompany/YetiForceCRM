@@ -53,7 +53,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 			$params[] = $owner;
 		}
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' && createdtime BETWEEN ? && ? ';
+			$dateFilterSql = ' && createdtime BETWEEN ? AND ? ';
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}

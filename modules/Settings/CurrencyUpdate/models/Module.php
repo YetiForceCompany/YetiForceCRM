@@ -213,7 +213,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		// filter by date - if not exists then display this months history
 		$filter = $request->get('duedate');
 		if ($filter == '' && $dateCur) {
-			$query .= 'AND `exchange_date` BETWEEN ? && ? ';
+			$query .= 'AND `exchange_date` BETWEEN ? AND ? ';
 			$params[] = date('Y-m-01');
 			$params[] = date('Y-m-t');
 		} else {

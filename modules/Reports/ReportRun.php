@@ -966,7 +966,7 @@ class ReportRun extends CRMEntity
 										$endDateTime = "'$endDateTime'";
 									}
 
-									$advfiltergroupsql .= "$tableColumnSql BETWEEN $startDateTime && $endDateTime";
+									$advfiltergroupsql .= "$tableColumnSql BETWEEN $startDateTime AND $endDateTime";
 									if (!empty($columncondition)) {
 										$advfiltergroupsql .= ' ' . $columncondition . ' ';
 									}
@@ -1004,9 +1004,9 @@ class ReportRun extends CRMEntity
 									$start = "'$start'";
 									$end = "'$end'";
 									if ($comparator == 'e')
-										$advfiltergroupsql .= "$tableColumnSql BETWEEN $start && $end";
+										$advfiltergroupsql .= "$tableColumnSql BETWEEN $start AND $end";
 									else
-										$advfiltergroupsql .= "$tableColumnSql NOT BETWEEN $start && $end";
+										$advfiltergroupsql .= "$tableColumnSql NOT BETWEEN $start AND $end";
 								}else if ($comparator == 'bw') {
 									$values = explode(',', $value);
 									$startDateTime = explode(' ', $values[0]);
@@ -1022,7 +1022,7 @@ class ReportRun extends CRMEntity
 									$userEndDate = $userEndDate . ' 23:59:59';
 									$end = getValidDBInsertDateTimeValue($userEndDate);
 
-									$advfiltergroupsql .= "$tableColumnSql BETWEEN '$start' && '$end'";
+									$advfiltergroupsql .= "$tableColumnSql BETWEEN '$start' AND '$end'";
 								} else if ($comparator == 'a' || $comparator == 'b') {
 									$value = explode(' ', $value);
 									$dateTime = new DateTime($value[0]);

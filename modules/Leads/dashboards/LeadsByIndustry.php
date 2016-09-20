@@ -46,7 +46,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$securityParameterSql = $securityParameter;
 
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' && createdtime BETWEEN ? && ? ';
+			$dateFilterSql = ' && createdtime BETWEEN ? AND ? ';
 			//client is not giving time frame so we are appending it
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';

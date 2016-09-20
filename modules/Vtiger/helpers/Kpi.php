@@ -69,7 +69,7 @@ class Vtiger_Kpi_Helper
 		$sql = "SELECT ordertime 
 			FROM vtiger_osssoldservices 
 			INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? && serviceid = ? && vtiger_crmentity.createdtime BETWEEN ? && ?;";
+			WHERE vtiger_crmentity.deleted = ? && serviceid = ? && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
@@ -106,7 +106,7 @@ class Vtiger_Kpi_Helper
 		$sql = "SELECT ordertime 
 			FROM vtiger_osssoldservices 
 			INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? && serviceid = ? && vtiger_crmentity.createdtime BETWEEN ? && ?;";
+			WHERE vtiger_crmentity.deleted = ? && serviceid = ? && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
@@ -142,7 +142,7 @@ class Vtiger_Kpi_Helper
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? && product_id = ? && vtiger_crmentity.createdtime BETWEEN ? && ?;";
+			WHERE vtiger_crmentity.deleted = ? && product_id = ? && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
@@ -180,7 +180,7 @@ class Vtiger_Kpi_Helper
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? && product_id = ? && priority IN ('High','Urgent') && vtiger_crmentity.createdtime BETWEEN ? && ?;";
+			WHERE vtiger_crmentity.deleted = ? && product_id = ? && priority IN ('High','Urgent') && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
@@ -215,7 +215,7 @@ class Vtiger_Kpi_Helper
 		$sql = "SELECT ordertime 
 			FROM vtiger_troubletickets 
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? && product_id = ? && priority IN ('Normal','Low') && vtiger_crmentity.createdtime BETWEEN ? && ?;";
+			WHERE vtiger_crmentity.deleted = ? && product_id = ? && priority IN ('Normal','Low') && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
@@ -254,7 +254,7 @@ class Vtiger_Kpi_Helper
 				(SELECT osssoldservicesid FROM vtiger_osssoldservices 
 				INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid 
 				WHERE vtiger_crmentity.deleted = ? && serviceid = ? ORDER BY vtiger_crmentity.createdtime DESC LIMIT 100) 
-			AND vtiger_crmentity.createdtime BETWEEN ? && ?;";
+			AND vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, 0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
