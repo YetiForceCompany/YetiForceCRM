@@ -383,7 +383,7 @@ class CurrencyField
 		if ($skipConversion == false) {
 			$value = self::convertToDollar($value, $this->conversionRate);
 		}
-		//$value = round($value, $this->maxNumberOfDecimals);
+		$value = preg_replace('/\s+/u', '', $value);
 
 		return $value;
 	}
