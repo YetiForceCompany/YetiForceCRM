@@ -8,10 +8,7 @@
 use PHPUnit\Framework\TestCase;
 
 /**
- * WebUI test class
- * @package YetiForce.Tests
- * @license licenses/License.html
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @covers WebUI::<public>
  */
 class LogIn extends TestCase
 {
