@@ -15,7 +15,7 @@ $languageStrings = [
 	'Analyst' => 'Analista',
 	'Competitor' => 'Concorrente',
 	'Customer' => 'Cliente',
-	'Email' => 'Email',
+	'Email' => 'E-mail',
 	'Employees' => 'Empregados',
 	'industry' => 'Atividade',
 	'Integrator' => 'Integrador',
@@ -44,7 +44,7 @@ $languageStrings = [
 	//OpenSaaS
 	'LBL_CREATING_NEW' => 'Novo',
 	'Fax' => 'Fax',
-	'LBL_PARENT_IS_CHILD' => 'The selected parent account cannot be secondary to current account',
+	'LBL_PARENT_IS_CHILD' => 'A organização pai selecionada não pode ser secundária à organização atual',
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Pessoa Física',
 	'PLL_BUSINESS_ACTIVITY' => 'Atividade empresarial',
@@ -83,13 +83,13 @@ $languageStrings = [
 	'Approval for phone calls' => 'Permissão Chamadas',
 	'LBL_CONVERTED_FROM_LEAD' => 'Convertido de Lead',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
-	'LBL_INVENTORY_BALANCE' => 'Balance',
-	'LBL_DISCOUNT' => 'Discount',
-	'LBL_CREDIT_LIMIT' => 'Credit limit',
+	'LBL_INVENTORY_BALANCE' => 'Saldo',
+	'LBL_DISCOUNT' => 'Desconto',
+	'LBL_CREDIT_LIMIT' => 'Limite de crédito',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
 	// OTHERS
-	'LBL_DEACTIVATED_BY' => 'Account deactivated by ',
+	'LBL_DEACTIVATED_BY' => 'Organização desativada por ',
 	'SINGLE_Vendors' => 'Fornecedor',
 ];
 $jsLanguageStrings = [
