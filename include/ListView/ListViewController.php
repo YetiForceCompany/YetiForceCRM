@@ -427,6 +427,8 @@ class ListViewController
 								$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&" .
 									"record=$rawValue' title='" . \includes\Language::translate($parentModule, $parentModule) . "'>$value</a>";
 							}
+						} else {
+							$value = vtlib\Functions::textLength($this->nameList[$fieldName][$ID], $fieldModel->get('maxlengthtext'));
 						}
 					} else {
 						$value = '--';
